@@ -6,88 +6,88 @@ X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 978B5C4361A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:31:13 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9E4C4361A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:37:07 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 11C6422A83
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:31:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 11C6422A83
+	by mail.kernel.org (Postfix) with ESMTPS id 87E4A225AB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:37:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87E4A225AB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 9ECB42E2E7;
-	Fri,  4 Dec 2020 10:31:12 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id D24E08783C;
+	Fri,  4 Dec 2020 10:37:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id glKA9k-sGovn; Fri,  4 Dec 2020 10:31:08 +0000 (UTC)
+	with ESMTP id cXt1WS6xzsNM; Fri,  4 Dec 2020 10:37:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9D78A2E2E9;
-	Fri,  4 Dec 2020 10:31:08 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 624F186EB9;
+	Fri,  4 Dec 2020 10:37:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9461CC0FA8;
-	Fri,  4 Dec 2020 10:31:08 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 23CACC013B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49311C0FA8;
+	Fri,  4 Dec 2020 10:37:05 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EA7C1C013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:31:08 +0000 (UTC)
+ Fri,  4 Dec 2020 10:37:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 13E9B2E2FD
+ by fraxinus.osuosl.org (Postfix) with ESMTP id D4977873EC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:31:08 +0000 (UTC)
+ Fri,  4 Dec 2020 10:37:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MIpL8gj87XiL
+ with ESMTP id q7aL_fYVbp0O
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:31:06 +0000 (UTC)
+ Fri,  4 Dec 2020 10:37:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
- [209.85.167.68])
- by silver.osuosl.org (Postfix) with ESMTPS id E68F82E2E8
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+ [209.85.167.67])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EB22E86EB9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:31:05 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id v14so6983931lfo.3
+ Fri,  4 Dec 2020 10:37:02 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id a9so7018304lfh.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 04 Dec 2020 02:31:05 -0800 (PST)
+ Fri, 04 Dec 2020 02:37:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=p7ZO64XFAqlynf54Tsh5NtxeNVFHw07zw3NM66Di12Y=;
- b=UQknj5l2kInHNc6Bh3jCK2vAHeExTbnKVJasvp/PHqyLwFt+O7gehO/zz2GT5wMT0K
- btnHE4SHb+28FSn5iUstbqmXyZG2SLtxGSi7sBetWENbxwvWyhpb8pJ4ZDfjK69B6Vcs
- e++fLxtYJRn2N2rt0GLn2pZt60LsvbIViBFEJJLNLngUx+EVrLD50aBVKLHUFkjEV6WQ
- E8u0EGEjK+qXAr8Lpwp2vpaavDo3eQo8DfwGeHnlFLAhVo+gqzTuP7aFLDWEwE0WOq5g
- iDUYUkQKJFYbj1/NtgDW0bzh+AVhDSo/ZiNXRyR3araHoPSHTgpY0Lzt+bnDVuiLuiCW
- 2kCA==
-X-Gm-Message-State: AOAM5307L4RlWkNWI5qX/nPoP8MCNZmiynxfGxK8FQpIOuPTYQraKeUn
- jtbLcm1oc3Rokj7qXMfjo8M=
-X-Google-Smtp-Source: ABdhPJxZlkAasnp0Gofo2Z64k1d8USZDkxteQ7WmXWfbNOb35uAB6yTX2tqQGa2/HNy76uA6RGIZYw==
-X-Received: by 2002:ac2:4da1:: with SMTP id h1mr2972715lfe.412.1607077864198; 
- Fri, 04 Dec 2020 02:31:04 -0800 (PST)
+ bh=Dnb2g8Upo0FOr6S0AYAIulpRk5vFPv7InqWLqIi5s84=;
+ b=QLSkI+KCC/PenfSCZQXGZjVEZwLYnjD7p3jkdwILxr1x6PKKA30IKpnqEdxgZcadTm
+ tDJ34q93Z9ShM2Cx6Ad14ceDzzWV3LiTuxQ2xlTs5R4oKWV60ERG/+Sl4AbACVjnjIWg
+ lAr7ovBjGcifjUHKQDRWPNsWK5Nj9q/qKMTt/gqOVR+bm57H8dW4VsxZCC9IjRlvAOQJ
+ 66XjHD5kWTkdzAfJjeYbsOR92FCyw8I7Qa1SdododrumZ8BLZQ/eTL2oLskPHrIT3C22
+ M29BsgPXIVo8cA8BCl7sYX8UB+93IPaqq7/KC6mPeoTXB0bQbcq1WNmAMKgSGQu0Fks9
+ p92w==
+X-Gm-Message-State: AOAM532gofj/MEyzupeixy944997om6IMypxpRI05Wungkdkq9E2Xipv
+ ocrVNVXc5ynixW4P/hf2hSQ=
+X-Google-Smtp-Source: ABdhPJyKpnuk/F7WOaI0Az5g7xR+VlkpKJieo8R7MQrmtuwfHLh7EGRuWYrxZ9eszx366qpVngQJnQ==
+X-Received: by 2002:ac2:4d94:: with SMTP id g20mr2829254lfe.512.1607078221220; 
+ Fri, 04 Dec 2020 02:37:01 -0800 (PST)
 Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se.
  [85.228.174.190])
- by smtp.gmail.com with ESMTPSA id h11sm1567111ljl.123.2020.12.04.02.31.03
+ by smtp.gmail.com with ESMTPSA id p15sm1539338lfk.111.2020.12.04.02.37.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 02:31:03 -0800 (PST)
+ Fri, 04 Dec 2020 02:37:00 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.93.0.4)
  (envelope-from <johan@kernel.org>)
- id 1kl8NF-0005X3-9A; Fri, 04 Dec 2020 11:31:37 +0100
-Date: Fri, 4 Dec 2020 11:31:37 +0100
+ id 1kl8Sz-0005Xp-MK; Fri, 04 Dec 2020 11:37:34 +0100
+Date: Fri, 4 Dec 2020 11:37:33 +0100
 From: Johan Hovold <johan@kernel.org>
 To: Himadri Pandya <himadrispandya@gmail.com>
-Message-ID: <X8oQCfGmITiKVvfI@localhost>
+Message-ID: <X8oRbaWuSoZSRAT8@localhost>
 References: <20201104064703.15123-1-himadrispandya@gmail.com>
- <20201104064703.15123-15-himadrispandya@gmail.com>
+ <20201104064703.15123-16-himadrispandya@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20201104064703.15123-15-himadrispandya@gmail.com>
+In-Reply-To: <20201104064703.15123-16-himadrispandya@gmail.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  johan@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 14/15] usb: serial: keyspan_pda:
+Subject: Re: [Linux-kernel-mentees] [PATCH 15/15] usb: serial: kl5kusb105:
  use usb_control_msg_recv() and usb_control_msg_send()
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -106,54 +106,85 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 04, 2020 at 12:17:02PM +0530, Himadri Pandya wrote:
+On Wed, Nov 04, 2020 at 12:17:03PM +0530, Himadri Pandya wrote:
 > The new usb_control_msg_recv() and usb_control_msg_send() nicely wraps
 > usb_control_msg() with proper error check. Hence use the wrappers
-> instead of calling usb_control_msg() directly.
+> instead of calling usb_control_msg() directly
 > 
 > Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
 > ---
->  drivers/usb/serial/keyspan_pda.c | 172 +++++++++++++------------------
->  1 file changed, 72 insertions(+), 100 deletions(-)
+>  drivers/usb/serial/kl5kusb105.c | 94 +++++++++++++++------------------
+>  1 file changed, 44 insertions(+), 50 deletions(-)
 > 
-> diff --git a/drivers/usb/serial/keyspan_pda.c b/drivers/usb/serial/keyspan_pda.c
-> index c1333919716b..44e1c4490fa9 100644
-> --- a/drivers/usb/serial/keyspan_pda.c
-> +++ b/drivers/usb/serial/keyspan_pda.c
-
-There were some changes done to this driver around the same time that
-you submitted these so this one needs to be rebased.
-
-> @@ -359,22 +361,11 @@ static int keyspan_pda_get_modem_info(struct usb_serial *serial,
->  				      unsigned char *value)
+> diff --git a/drivers/usb/serial/kl5kusb105.c b/drivers/usb/serial/kl5kusb105.c
+> index 5ee48b0650c4..75cfd1c907f3 100644
+> --- a/drivers/usb/serial/kl5kusb105.c
+> +++ b/drivers/usb/serial/kl5kusb105.c
+> @@ -124,16 +124,17 @@ static int klsi_105_chg_port_settings(struct usb_serial_port *port,
 >  {
 >  	int rc;
-> -	u8 *data;
-> -
-> -	data = kmalloc(1, GFP_KERNEL);
-> -	if (!data)
-> -		return -ENOMEM;
-> -
-> -	rc = usb_control_msg(serial->dev, usb_rcvctrlpipe(serial->dev, 0),
-> -			     3, /* get pins */
-> -			     USB_TYPE_VENDOR|USB_RECIP_INTERFACE|USB_DIR_IN,
-> -			     0, 0, data, 1, 2000);
-> -	if (rc == 1)
-> -		*value = *data;
-> -	else if (rc >= 0)
-> -		rc = -EIO;
-> -
-> -	kfree(data);
-> +	rc = usb_control_msg_recv(serial->dev, 0,
-> +				  3, /* get pins */
-> +				  USB_TYPE_VENDOR | USB_RECIP_INTERFACE |
-> +				  USB_DIR_IN, 0, 0, value, 1, 2000,
+>  
+> -	rc = usb_control_msg(port->serial->dev,
+> -			usb_sndctrlpipe(port->serial->dev, 0),
+> -			KL5KUSB105A_SIO_SET_DATA,
+> -			USB_TYPE_VENDOR | USB_DIR_OUT | USB_RECIP_INTERFACE,
+> -			0, /* value */
+> -			0, /* index */
+> -			settings,
+> -			sizeof(struct klsi_105_port_settings),
+> -			KLSI_TIMEOUT);
+> -	if (rc < 0)
+> +	rc = usb_control_msg_send(port->serial->dev, 0,
+> +				  KL5KUSB105A_SIO_SET_DATA,
+> +				  USB_TYPE_VENDOR | USB_DIR_OUT |
+> +				  USB_RECIP_INTERFACE,
+> +				  0, /* value */
+> +				  0, /* index */
+> +				  settings,
+> +				  sizeof(struct klsi_105_port_settings),
+> +				  KLSI_TIMEOUT,
 > +				  GFP_KERNEL);
->  	return rc;
->  }
+> +	if (rc)
+>  		dev_err(&port->dev,
+>  			"Change port settings failed (error = %d)\n", rc);
 
-Please only change the requests with a data stage like this one, but
-avoid breaking the request argument over multiple lines.
+The callers of this function already allocates a transfer-buffer which
+you should now remove to avoid introducing an additional memdup() per
+call.
+
+Note that there was a related bug in open() which failed to release it's
+transfer buffer on successful open. I CCed you on the fix which we
+should get merged and backported before converting to using the new
+helper.
+
+> @@ -283,16 +276,17 @@ static int  klsi_105_open(struct tty_struct *tty, struct usb_serial_port *port)
+>  		goto err_free_cfg;
+>  	}
+>  
+> -	rc = usb_control_msg(port->serial->dev,
+> -			     usb_sndctrlpipe(port->serial->dev, 0),
+> -			     KL5KUSB105A_SIO_CONFIGURE,
+> -			     USB_TYPE_VENDOR|USB_DIR_OUT|USB_RECIP_INTERFACE,
+> -			     KL5KUSB105A_SIO_CONFIGURE_READ_ON,
+> -			     0, /* index */
+> -			     NULL,
+> -			     0,
+> -			     KLSI_TIMEOUT);
+> -	if (rc < 0) {
+> +	rc  = usb_control_msg_send(port->serial->dev, 0,
+> +				   KL5KUSB105A_SIO_CONFIGURE,
+> +				   USB_TYPE_VENDOR | USB_DIR_OUT |
+> +				   USB_RECIP_INTERFACE,
+> +				   KL5KUSB105A_SIO_CONFIGURE_READ_ON,
+> +				   0, /* index */
+> +				   NULL,
+> +				   0,
+> +				   KLSI_TIMEOUT,
+> +				   GFP_KERNEL);
+> +	if (rc) {
+
+And again there's no need to change the control transfers without a data
+stage.
 
 Johan
 _______________________________________________
