@@ -2,93 +2,106 @@ Return-Path: <SRS0=7gRg=FI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14196C0018C
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:03:34 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68570C433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:06:49 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 94E32227C3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:03:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94E32227C3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id A9BFA22795
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Dec 2020 10:06:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A9BFA22795
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 11F558827E;
-	Fri,  4 Dec 2020 10:03:33 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 93292204B3;
+	Fri,  4 Dec 2020 10:06:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9XIQD3cU8CHh; Fri,  4 Dec 2020 10:03:31 +0000 (UTC)
+	with ESMTP id 2IQUd2+nCgdS; Fri,  4 Dec 2020 10:06:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0C5D588293;
-	Fri,  4 Dec 2020 10:03:31 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7B36020477;
+	Fri,  4 Dec 2020 10:06:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7B08C0FA8;
-	Fri,  4 Dec 2020 10:03:30 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7ECC1C013B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6AFAEC0FA8;
+	Fri,  4 Dec 2020 10:06:46 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3ABB0C013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:03:29 +0000 (UTC)
+ Fri,  4 Dec 2020 10:06:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 65EF98771F
+ by silver.osuosl.org (Postfix) with ESMTP id 18550204B3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:03:29 +0000 (UTC)
+ Fri,  4 Dec 2020 10:06:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7hvNQECgOpPP
+ with ESMTP id UNRjy2eCr8KC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:03:24 +0000 (UTC)
+ Fri,  4 Dec 2020 10:06:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
- [209.85.167.65])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1D0E687716
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+ [209.85.214.196])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0D6C520477
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Dec 2020 10:03:24 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id r24so6867911lfm.8
+ Fri,  4 Dec 2020 10:06:44 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id l11so2844942plt.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 04 Dec 2020 02:03:24 -0800 (PST)
+ Fri, 04 Dec 2020 02:06:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zzTrdNftutVe8hIRxXL9S4BM8nND3L+cvOiVEJjpe8g=;
+ b=bfqe7CWhDthYzEuXs8BihXx31kSv4NSUO79Q86hmE2q31eim1laoYbovCPmOintj+A
+ 58JQl3eN8z6gS53HmuoZmA9v0sAQkVfULiWwtcCukgyCEJDlMiEJSyEvN5oO/TzRlNHj
+ qraJlhRXH10W4zSPXXriH+2PW8TvZxGrFsrrmQJjHR8Gq0YCN8vDuKuPrZaDmRKfVCvo
+ Fqh+5qytRBp3qk/d1iemkYPH7NYH3kE7Pj1zbECnlb0ZvLC3IlPFoJIfLYZkjvuaHXGM
+ BJw+Ui/av8I4aTr+KaXJ/0nG7ql/VVFsckRseOWknxKvSqonpQlB5sM/Idr/C4qmehN7
+ XwLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xMrdek2B9lwcQxC9EmxKMrAzrWC0Z4gLKFIOEp3HsgI=;
- b=VymHpMVCwdjBaJkZpUuZ6OeUQJPcwkCjPON0ww460mHBLMQ0aSAblXhVSW16gwSZTo
- wHfitWIzA+/iqf5eIDj44yLon4vDEhB/IUwkzrJZrB3ZO042+tlD0JzPrcgKjXT5rR/K
- NCC45DLk8kzvcvV/AV9dm8IniCXDHr6W9gmeJ0naKnRgo/f6j5KExEt1lAzMJAQvFneB
- GDps2kcwd72VmY6Uzlk4THES5z/S7xVH2P+yQZMXg6focBqA7vx0wWQ0sOpRTSGiMOfd
- ytl92JlcmAoeFS+tgJt5f+6r4PyHllsCqdfZDS5uXszofljao2uzvEFhI4dUpELavcz2
- hF7A==
-X-Gm-Message-State: AOAM533+9rvmg3pBdzfamqI55OJsYeEJHSKeZvK0LItCF1xnUsZ0FFS1
- UbvwXbjGUu9e7SiBjUmUJWg=
-X-Google-Smtp-Source: ABdhPJwaAMR55VgpO0A8krOrHeXKRU655Zt25tnxro5IbmPsH541TkHzZbRwTkvMtwU+U2E2eTqUyw==
-X-Received: by 2002:a19:8c13:: with SMTP id o19mr2878240lfd.573.1607076202331; 
- Fri, 04 Dec 2020 02:03:22 -0800 (PST)
-Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se.
- [85.228.174.190])
- by smtp.gmail.com with ESMTPSA id s23sm1495539ljs.75.2020.12.04.02.03.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Dec 2020 02:03:21 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.93.0.4)
- (envelope-from <johan@kernel.org>)
- id 1kl7wQ-0005Rs-L1; Fri, 04 Dec 2020 11:03:55 +0100
-Date: Fri, 4 Dec 2020 11:03:54 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Himadri Pandya <himadrispandya@gmail.com>
-Message-ID: <X8oJimVHyGxGodZd@localhost>
-References: <20201104064703.15123-1-himadrispandya@gmail.com>
- <20201104064703.15123-9-himadrispandya@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zzTrdNftutVe8hIRxXL9S4BM8nND3L+cvOiVEJjpe8g=;
+ b=lRPWWCu4LtbMDnf60L9yqDKX8RXgIgEWQYLeaHrO65PfOS7e0mOOYQyatZzQz/vOOF
+ AUHgRtFlvnX813f/VxuRUCgk0Eh3Y0vbQy1v1JE4BjGJwJizmYh4kT+O6kmNzl1lh0BB
+ pXuqG51wvv6f0zj6nm8JkSiybiLpxsDQrUmopssRweg61j2OYH7RlJVMTch989lOvpyl
+ O+X+co4xznG6L/qefw4l/IRJxymuy+UYKRbhEU27cYnWL3Ltt4DZNEs7YH7rutHn0r2G
+ e+Y6hViGMqOdRKvANZ7IofPWHcWtzcc7C7/9vE5hPyyjrSfVcV1ZfhG4Sdsg8WTuDB7d
+ /lQQ==
+X-Gm-Message-State: AOAM532A9tZc4Aklan+Gbxzu8cHw2eY9f6S0mDoqmAX+XZJAA6xqT8l6
+ aCTs/Yq1cRdvmD5Z7fnaqrc=
+X-Google-Smtp-Source: ABdhPJw/S70m7nomAimJ8M79ghC22pyF0pvfNZl/Pkj5iBe5rqODI3qPaShISTHU9azza7zEJIQXaQ==
+X-Received: by 2002:a17:902:b182:b029:da:d0c:abac with SMTP id
+ s2-20020a170902b182b02900da0d0cabacmr3211602plr.40.1607076403410; 
+ Fri, 04 Dec 2020 02:06:43 -0800 (PST)
+Received: from ?IPv6:2402:3a80:414:1e71:d059:d26:c75b:b30a?
+ ([2402:3a80:414:1e71:d059:d26:c75b:b30a])
+ by smtp.gmail.com with ESMTPSA id w14sm4403542pfj.53.2020.12.04.02.06.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 04 Dec 2020 02:06:42 -0800 (PST)
+To: Joe Perches <joe@perches.com>
+References: <20201108134317.25400-1-yashsri421@gmail.com>
+ <e8fef5fbd71331b010988769b249af6a79048f48.camel@perches.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <c1d7168c-2bc0-7de6-6590-a1752b4918fd@gmail.com>
+Date: Fri, 4 Dec 2020 15:36:36 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201104064703.15123-9-himadrispandya@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- johan@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH 08/15] usb: serial: ftdi_sio: use
- usb_control_msg_recv() and usb_control_msg_send()
+In-Reply-To: <e8fef5fbd71331b010988769b249af6a79048f48.camel@perches.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dwaipayanray1@gmail.com
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix for
+	BAD_SIGN_OFF
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,82 +113,38 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 04, 2020 at 12:16:56PM +0530, Himadri Pandya wrote:
-> The new usb_control_msg_recv() and usb_control_msg_send() nicely wraps
-> usb_control_msg() with proper error check. Hence use the wrappers
-> instead of calling usb_control_msg() directly.
-> 
-> Signed-off-by: Himadri Pandya <himadrispandya@gmail.com>
-> ---
->  drivers/usb/serial/ftdi_sio.c | 182 +++++++++++++++-------------------
->  1 file changed, 78 insertions(+), 104 deletions(-)
-> 
-> diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-> index e0f4c3d9649c..37e9e75b90d0 100644
-> --- a/drivers/usb/serial/ftdi_sio.c
-> +++ b/drivers/usb/serial/ftdi_sio.c
-> @@ -1245,13 +1245,12 @@ static int update_mctrl(struct usb_serial_port *port, unsigned int set,
->  		value |= FTDI_SIO_SET_DTR_HIGH;
->  	if (set & TIOCM_RTS)
->  		value |= FTDI_SIO_SET_RTS_HIGH;
-> -	rv = usb_control_msg(port->serial->dev,
-> -			       usb_sndctrlpipe(port->serial->dev, 0),
-> -			       FTDI_SIO_SET_MODEM_CTRL_REQUEST,
-> -			       FTDI_SIO_SET_MODEM_CTRL_REQUEST_TYPE,
-> -			       value, priv->interface,
-> -			       NULL, 0, WDR_TIMEOUT);
-> -	if (rv < 0) {
-> +	rv = usb_control_msg_send(port->serial->dev, 0,
-> +				  FTDI_SIO_SET_MODEM_CTRL_REQUEST,
-> +				  FTDI_SIO_SET_MODEM_CTRL_REQUEST_TYPE,
-> +				  value, priv->interface,
-> +				  NULL, 0, WDR_TIMEOUT, GFP_KERNEL);
-> +	if (rv) {
->  		dev_dbg(dev, "%s Error from MODEM_CTRL urb: DTR %s, RTS %s\n",
->  			__func__,
->  			(set & TIOCM_DTR) ? "HIGH" : (clear & TIOCM_DTR) ? "LOW" : "unchanged",
-
-As I mentioned earlier there's no point in using these helper for
-control transfers without a data stage so please drop those conversions
-and only update _read_latency_timer() ftdi_read_cbus_pins().
-
-> @@ -2311,6 +2285,7 @@ static int ftdi_NDI_device_setup(struct usb_serial *serial)
->  {
->  	struct usb_device *udev = serial->dev;
->  	int latency = ndi_latency_timer;
-> +	int ret;
->  
->  	if (latency == 0)
->  		latency = 1;
-> @@ -2320,12 +2295,12 @@ static int ftdi_NDI_device_setup(struct usb_serial *serial)
->  	dev_dbg(&udev->dev, "%s setting NDI device latency to %d\n", __func__, latency);
->  	dev_info(&udev->dev, "NDI device with a latency value of %d\n", latency);
->  
-> -	/* FIXME: errors are not returned */
-> -	usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-> -				FTDI_SIO_SET_LATENCY_TIMER_REQUEST,
-> -				FTDI_SIO_SET_LATENCY_TIMER_REQUEST_TYPE,
-> -				latency, 0, NULL, 0, WDR_TIMEOUT);
-> -	return 0;
-> +	ret = usb_control_msg_send(udev, 0,
-> +				   FTDI_SIO_SET_LATENCY_TIMER_REQUEST,
-> +				   FTDI_SIO_SET_LATENCY_TIMER_REQUEST_TYPE,
-> +				   latency, 0, NULL, 0, WDR_TIMEOUT,
-> +				   GFP_KERNEL);
-> +	return ret;
-
-Also note that returning ret here is an unrelated change which could
-potentially break probing in case there are devices which do not support
-this request (and would need to be done in a separate patch if at all).
-
-Johan
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gOS8xMS8yMCAxOjI3IGFtLCBKb2UgUGVyY2hlcyB3cm90ZToKPiBPbiBTdW4sIDIwMjAtMTEt
+MDggYXQgMTk6MTMgKzA1MzAsIEFkaXR5YSBTcml2YXN0YXZhIHdyb3RlOgo+PiBDdXJyZW50bHks
+IGNoZWNrcGF0Y2ggd2FybnMgdXMgaWYgdGhlIGF1dGhvciBvZiB0aGUgY29tbWl0IHNpZ25zLW9m
+Zgo+PiBhcyBjby1kZXZlbG9wZWQtYnkuCj4gW10KPj4gQSBxdWljayBtYW51YWwgY2hlY2sgZm91
+bmQgb3V0IHRoYXQgYWxsIGZpeGVzIHdlcmUgY29ycmVjdCBpbiB0aG9zZQo+PiBjYXNlcy4KPiBb
+XQo+PiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9jaGVja3BhdGNoLnBsIGIvc2NyaXB0cy9jaGVja3Bh
+dGNoLnBsCj4gW10KPj4gQEAgLTI4MjcsOCArMjgyNywxMSBAQCBzdWIgcHJvY2VzcyB7Cj4+IMKg
+IyBDaGVjayBDby1kZXZlbG9wZWQtYnk6IGltbWVkaWF0ZWx5IGZvbGxvd2VkIGJ5IFNpZ25lZC1v
+ZmYtYnk6IHdpdGggc2FtZSBuYW1lIGFuZCBlbWFpbAo+PiDCoAkJCWlmICgkc2lnbl9vZmYgPX4g
+L15jby1kZXZlbG9wZWQtYnk6JC9pKSB7Cj4+IMKgCQkJCWlmICgkZW1haWwgZXEgJGF1dGhvcikg
+ewo+PiAtCQkJCQlXQVJOKCJCQURfU0lHTl9PRkYiLAo+PiAtCQkJCQkgICAgICAiQ28tZGV2ZWxv
+cGVkLWJ5OiBzaG91bGQgbm90IGJlIHVzZWQgdG8gYXR0cmlidXRlIG5vbWluYWwgcGF0Y2ggYXV0
+aG9yICckYXV0aG9yJ1xuIiAuICIkaGVyZVxuIiAuICRyYXdsaW5lKTsKPj4gKwkJCQkJaWYgKFdB
+Uk4oIkJBRF9TSUdOX09GRiIsCj4+ICsJCQkJCQkgIkNvLWRldmVsb3BlZC1ieTogc2hvdWxkIG5v
+dCBiZSB1c2VkIHRvIGF0dHJpYnV0ZSBub21pbmFsIHBhdGNoIGF1dGhvciAnJGF1dGhvcidcbiIg
+LiAiJGhlcmVcbiIgLiAkcmF3bGluZSkgJiYKPj4gKwkJCQkJICAgICRmaXgpIHsKPj4gKwkJCQkJ
+CWZpeF9kZWxldGVfbGluZSgkZml4bGluZW5yLCAkcmF3bGluZSk7Cj4+ICsJCQkJCX0KPj4gwqAJ
+CQkJfQo+PiDCoAkJCQlpZiAoIWRlZmluZWQgJGxpbmVzWyRsaW5lbnJdKSB7Cj4+IMKgCQkJCQlX
+QVJOKCJCQURfU0lHTl9PRkYiLAo+IAo+IExvb2tzIE9LIHRvIG1lLgo+IAo+IEFub3RoZXIgb3B0
+aW9uIG1pZ2h0IGJlIHRvIGFkZCBhIFNpZ25lZC1vZmYtYnk6IGxpbmUgZGVyaXZlZCBmcm9tCj4g
+YW55ICJGcm9tOiIgbGluZSB3aGVuOgo+IAo+IAlpZiAoJGlzX3BhdGNoICYmICRoYXNfY29tbWl0
+X2xvZyAmJiAkY2hrX3NpZ25vZmYpIHsKPiAJCWlmICgkc2lnbm9mZiA9PSAwKSB7Cj4gCQkJRVJS
+T1IoIk1JU1NJTkdfU0lHTl9PRkYiLAo+IAkJCSAgICAgICJNaXNzaW5nIFNpZ25lZC1vZmYtYnk6
+IGxpbmUocylcbiIpOwo+IAo+IGV0Yy4uLgo+IAoKSGkgSm9lCgpZb3UgcHJvYmFibHkgZm9yZ290
+IHRvIEFjayB0aGlzIHBhdGNoLgoKVGhhbmtzCkFkaXR5YQpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxp
+c3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczov
+L2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwt
+bWVudGVlcwo=
