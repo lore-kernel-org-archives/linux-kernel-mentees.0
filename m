@@ -1,4 +1,4 @@
-Return-Path: <SRS0=ZryW=FM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=JFU2=FN=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -8,90 +8,89 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88AAEC4361B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Dec 2020 21:07:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15372C433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Dec 2020 09:18:17 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0903923B04
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Dec 2020 21:07:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0903923B04
+	by mail.kernel.org (Postfix) with ESMTPS id 970E923A6C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Dec 2020 09:18:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 970E923A6C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A178E87666;
-	Tue,  8 Dec 2020 21:07:32 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 0BB488774C;
+	Wed,  9 Dec 2020 09:18:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UntlTOjllyOj; Tue,  8 Dec 2020 21:07:31 +0000 (UTC)
+	with ESMTP id m23b2ooYuAZk; Wed,  9 Dec 2020 09:18:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id C013E87600;
-	Tue,  8 Dec 2020 21:07:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3409787633;
+	Wed,  9 Dec 2020 09:18:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC074C0893;
-	Tue,  8 Dec 2020 21:07:31 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8464C013B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1811DC0893;
+	Wed,  9 Dec 2020 09:18:13 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 78723C013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Dec 2020 21:07:30 +0000 (UTC)
+ Wed,  9 Dec 2020 09:18:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 92CDB275C6
+ by whitealder.osuosl.org (Postfix) with ESMTP id 659EA86C82
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Dec 2020 21:07:30 +0000 (UTC)
+ Wed,  9 Dec 2020 09:18:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jvu1yfByzOa2
+ with ESMTP id p7eq3mGxwkfl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Dec 2020 21:07:29 +0000 (UTC)
+ Wed,  9 Dec 2020 09:18:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
- [209.85.166.68])
- by silver.osuosl.org (Postfix) with ESMTPS id 34B85275B0
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+ [209.85.166.195])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6DDFF8681D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Dec 2020 21:07:29 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id q137so18311922iod.9
+ Wed,  9 Dec 2020 09:18:11 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id b8so880466ila.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 08 Dec 2020 13:07:29 -0800 (PST)
+ Wed, 09 Dec 2020 01:18:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uuN+PIp24rGKg51s5iuT0Yd/K8T80qPu7oYLUULK6Xs=;
- b=oxfMyh3gn3CF4oOnQqZcuk9r4gxxjJVEXXYRRuN2BSIEVVL+NT1aN3jRs9YC7DFEbA
- nJU/3S+mRda8UMo08nXHZm+bGTAK5jAh1UbUfVKUZtj4/ZXqz3RIkUugqVEwf4lwEZif
- +Bhs/I4goZ7m24z/Wwh5irFuEPYMeqa6rIE2N8xJJ4bZtsraZmmVyJlrW9QIvAkyBDju
- oOiyF1OOtkbnXrTtXlMdeaCzbib/BTBaVVvn4e0oG+h8PjNLGygJoN4ckar9JUKb8WkU
- v8w2fjk0xlqk733rZDwwmxfpwqSR/J3AdinKYFlYj4ruKVzrW3nURAziXworRFleI/oQ
- tYsQ==
+ :cc; bh=7CkfJi6sc/FeD7aSF5fhUIMGNUBYFXWr8w4D6JpX9yk=;
+ b=s5+73UfrzC+gL+7fhdcbObb6Xg95cXP50hbwAsent4EkVkpTgshprfX9zIN4PDZ2cf
+ epa56Prb4eWSClYC6WfF2V3dTkAxlI+RlrOlJaDErKeW8svqnCtUz3hDA8yGFXtdyij5
+ ZgXIxJ4c38UnUpXxF/KTwdxd/BFLAzLctjYj6h0GhMbvqQHG2Xp7lxNByt3Qg0A5bSY1
+ dPIfyMwwUnZQxQtih652kHebss6lhfhLQ+1rqT0ZXvi9mGfJc9qTrYN/ofCEv9hm1F7l
+ Qq8QO56N0kwTHkV15CfkIZkRiAevx8TJyV4CBPAwXA8yXA/N6QWmNiZuZ6jA1l0Ce6b+
+ YRNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uuN+PIp24rGKg51s5iuT0Yd/K8T80qPu7oYLUULK6Xs=;
- b=Ci604Dck7QaXSIVw1Riv6WhNVZIle908KjFmEJvEMcWxSJpYtDnbwzQ8mmR3Cn3s8k
- Yv33E/Jg+2unx11hde/PPi0CanS5Nq7te0FuqwsDw645xwKZHJEILcJMcszXaMX6VgnQ
- DtSMOrdzNI8mTo/4866kDnyOOevyupiRjujUAY1lm6/ZEHVEw5UZNuOKqcNJYEROCod1
- uyOZIBAtTiEjcvG48xXD0SIeRdghle+nk2skRfTWe3Aah6ycXDMtpcdL4dKsS2DuRiNs
- uz9DGh+b1zXMTSex00NnvBI1HwrN28zK0TybFnxl2okJ6lDt13SEazYW/cy48MxCXI3m
- DsDg==
-X-Gm-Message-State: AOAM5316/Q7LSlk5jE/C53pSo+GpInlLdmBQmoqlrTFvNJZv0sB18vf+
- FfInEErB3gpLAXZH6M/nCyI1PyytkjmqMIDG+bnuHmMKNSY=
-X-Google-Smtp-Source: ABdhPJxqD5jF+O9CPxuRm4W4Px5+swwXVlMO8WEE5Eo1Ur0F4VmTzW0x6uciimXAjGomau/hLRPArRoL+/jlmmqAqfw=
-X-Received: by 2002:a5e:9906:: with SMTP id t6mr26130120ioj.183.1607461648413; 
- Tue, 08 Dec 2020 13:07:28 -0800 (PST)
+ bh=7CkfJi6sc/FeD7aSF5fhUIMGNUBYFXWr8w4D6JpX9yk=;
+ b=EoLndgOYt7DlTegWFhfGawwqsTyqJw2lgi5Kazytxw786CKRteQeTBrKL5R1KfSSgx
+ yYW4AsRbCkLtdvWo1nu2GWZeUTAxnuR+fC4zBX6xT2s3S19OW0r8fMYIxcSOsP8EnKoa
+ TDuspNVdqSVVsMnpMTpREv5M4XTxudHJ7SwjLbpg9aZARtdHFJZ5veOUmmni42tG1Hr4
+ nSt6sPdGeBwcc/iZzzRWiBQcs7bQWpGR2SU/pfP9xP8IMsTrAlW0ggmXE3J8kYGQMwKW
+ 1GKMaXBCxR039ImdaASN0IEE15YL7zoyOqBmRDQUkxPjqvh/n2qapcXpF+haj2i5XIhm
+ rIVA==
+X-Gm-Message-State: AOAM531KutwtNC3pafVQN20AHV6M1SsZm78RCXMufJisqL1PJR/B6NvW
+ NilMrAoQ0Sf/oAV+pa5mQGQWX1yU5S/WK+nYh0Q=
+X-Google-Smtp-Source: ABdhPJx0Eg8jg6IjzgqxFMP5Mmyij323C17Wn7vGbRaNsalDIezY3F6tehHKnPjYW7Ofr5n88uer6yOSsua7KWPy7t8=
+X-Received: by 2002:a92:8587:: with SMTP id f129mr1523030ilh.251.1607505490660; 
+ Wed, 09 Dec 2020 01:18:10 -0800 (PST)
 MIME-Version: 1.0
-References: <20201202183649.9773-1-yashsri421@gmail.com>
- <540be894-a369-160f-25cc-a22a06612c9f@gmail.com>
- <CAKXUXMyhw4rKNesshCdHT+mLJ9PEkA+ZJO7bFXZciNFDZKHtBA@mail.gmail.com>
- <9ee46b5d-d849-cd6c-39f4-11e6850edbd6@gmail.com>
-In-Reply-To: <9ee46b5d-d849-cd6c-39f4-11e6850edbd6@gmail.com>
+References: <20201206152352.35026-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201206152352.35026-1-dwaipayanray1@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 8 Dec 2020 22:07:24 +0100
-Message-ID: <CAKXUXMyT-t6wW_Fm42WY+59MxaR2-7HEcbro9WL-64YaCaNZHA@mail.gmail.com>
-To: Aditya <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option for
-	BAD_SIGN_OFF
+Date: Wed, 9 Dec 2020 10:17:59 +0100
+Message-ID: <CAKXUXMxD9wyaKf1TrZchOY1NBkFKSrHhFefQc9AK-bfH8fu8oA@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc: Joe Perches <joe@perches.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: add --fix option
+	to include linux checks
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,214 +108,67 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Dec 8, 2020 at 6:44 PM Aditya <yashsri421@gmail.com> wrote:
+On Sun, Dec 6, 2020 at 4:24 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> On 8/12/20 10:24 pm, Lukas Bulwahn wrote:
-> > On Tue, Dec 8, 2020 at 5:44 PM Aditya <yashsri421@gmail.com> wrote:
-> >>
-> >> On 3/12/20 12:06 am, Aditya Srivastava wrote:
-> >>> Currently checkpatch warns us if the Co-developed-by line for an author
-> >>> isn't immediately followed by the Signed-off-by line.
-> >>>
-> >>> Generally, this warning occurs because of:
-> >>> 1) Absence of Signed-off-by line for the author from the patch
-> >>> 2) Misplaced Signed-off-by line for the author in the patch
-> >>>
-> >>> Provide a simple fix by:
-> >>> 1) Inserting Signed-off-by line for the author immediately after the
-> >>> Co-developed-by line
-> >>>
-> >>> 2) Removing Signed-off-by line for the author (if it pre-existed on
-> >>> some other line)
-> >>>
-> >>> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> >>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> >>> ---
-> >>>  scripts/checkpatch.pl | 28 ++++++++++++++++++++++++----
-> >>>  1 file changed, 24 insertions(+), 4 deletions(-)
-> >>>
-> >>> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> >>> index 5c9f13a97c12..d8f9d4d8b13d 100755
-> >>> --- a/scripts/checkpatch.pl
-> >>> +++ b/scripts/checkpatch.pl
-> >>> @@ -2509,6 +2509,9 @@ sub process {
-> >>>       my @setup_docs = ();
-> >>>       my $setup_docs = 0;
-> >>>
-> >>> +     my %signed_off_by_lines;
-> >>> +     my %co_developed_by_lines;
-> >>> +
-> >>>       my $camelcase_file_seeded = 0;
-> >>>
-> >>>       my $checklicenseline = 1;
-> >>> @@ -2794,6 +2797,7 @@ sub process {
-> >>>                                       my $ctx = $1;
-> >>>                                       my ($email_name, $email_comment, $email_address, $comment1) = parse_email($ctx);
-> >>>                                       my ($author_name, $author_comment, $author_address, $comment2) = parse_email($author);
-> >>> +                                     $signed_off_by_lines{$ctx} = $fixlinenr;
-> >>>
-> >>>                                       if ($email_address eq $author_address && $email_name eq $author_name) {
-> >>>                                               $author_sob = $ctx;
-> >>> @@ -2989,11 +2993,17 @@ sub process {
-> >>>                                       }
-> >>>                               }
-> >>>                               if (!defined $lines[$linenr]) {
-> >>> -                                     WARN("BAD_SIGN_OFF",
-> >>> -                                             "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
-> >>> +                                     if (WARN("BAD_SIGN_OFF",
-> >>> +                                              "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline) &&
-> >>> +                                         $fix) {
-> >>> +                                             $co_developed_by_lines{$email} = $fixlinenr;
-> >>> +                                     }
-> >>>                               } elsif ($rawlines[$linenr] !~ /^\s*signed-off-by:\s*(.*)/i) {
-> >>> -                                     WARN("BAD_SIGN_OFF",
-> >>> -                                          "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
-> >>> +                                     if (WARN("BAD_SIGN_OFF",
-> >>> +                                              "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]) &&
-> >>> +                                         $fix) {
-> >>> +                                             $co_developed_by_lines{$email} = $fixlinenr;
-> >>> +                                     }
-> >>>                               } elsif ($1 ne $email) {
-> >>>                                       WARN("BAD_SIGN_OFF",
-> >>>                                            "Co-developed-by and Signed-off-by: name/email do not match \n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
-> >>> @@ -7203,6 +7213,16 @@ sub process {
-> >>>               ERROR("NOT_UNIFIED_DIFF",
-> >>>                     "Does not appear to be a unified-diff format patch\n");
-> >>>       }
-> >>> +
-> >>> +     if (%co_developed_by_lines) {
-> >>> +             foreach my $co_developer (keys %co_developed_by_lines) {
-> >>> +                     if (exists($signed_off_by_lines{$co_developer})) {
-> >>> +                             fix_delete_line($signed_off_by_lines{$co_developer}, "Signed-off-by: $co_developer");
-> >>> +                     }
-> >>> +                     fix_insert_line($co_developed_by_lines{$co_developer} + 1, "Signed-off-by: $co_developer");
-> >>> +             }
-> >>> +     }
-> >>> +
-> >>>       if ($is_patch && $has_commit_log && $chk_signoff) {
-> >>>               if ($signoff == 0) {
-> >>>                       ERROR("MISSING_SIGN_OFF",
-> >>>
-> >>
-> >
-> > Not a big fan of that. Especially because adding and removing
-> > Signed-off-by: from a trail has a specific meaning.
-> >
-> > So that fix can only be applied under very specific conditions. You
-> > cannot just sign a document in the name of another person, that is
-> > clearly fraud and identity theft.
-> >
+> Add fix option to INCLUDE_LINUX and ARCH_INCLUDE_LINUX
+> checks to replace asm includes.
 >
-> Hi Lukas
-> It is actually mentioned in the kernel docs that if a user is signing
-> off as a co-developer, they should also use Signed-off-by line
-> followed by their co-developed-by tag.
-> Link:
-> https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> Macros of type:
+>  #include <asm/percpu.h>
+>  #include <asm/processor.h>
 >
-> Please note this line: "Since Co-developed-by: denotes authorship,
-> every Co-developed-by: must be immediately followed by a
-> Signed-off-by: of the associated co-author."
+> are corrected to:
+>  #include <linux/percpu.h>
+>  #include <linux/processor.h>
 >
-> (Please note the usage of "must" in the above quoted sentence.)
->
-> So, what we are doing here is just the same, ie if a user is signing
-> off as a Co-developer, he should also include his Signed-off-by line. ie,
->
-> 1) If he has missed to add it, we will add it.
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 
-Only the person with that identity is allowed to do that. Nobody else.
+Dwaipayan, can you run this rule from checkpatch.pl on all files in
+the current linux-next tree and share all findings with me?
 
-How do you know who is running this script?
+Maybe, we can fix a few places and improve the rule.
 
-Nobody is allowed to add a Sign-off-by: for another person.
-The documentation should clearly state that as well.
+Lukas
 
-> 2) However, if he has added it, but in some other line than after his
-> Co-developed-by line, we are placing it in the preferred line, so we
-> aren't actually deleting his sign-off.
+> ---
+> Changes in v3:
+> - Add --fix option to ARCH_INCLUDE_LINUX check
 >
-
-That might be legitimate, but the order of Signed-off-by: has a
-meaning itself, so maybe you are breaking that then as well.
-
+> Changes in v2:
+> - Use \Q..\E quoting
+> - Use @ as regex delimiter
 >
-> > As a patch author, you would need to really carefully think if this
-> > fix is valid or not. Do we have examples of patches where this is
-> > wrong and where your fix can actually be run by a specific person?
-> >
+>  scripts/checkpatch.pl | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 >
-> Yes, there are 129 cases of this warning over v4.13..v5.8.
->
-> I have tried this fix over few patches where it gave desired result.
-> For eg,
->
-> E.g. 1) for Commit 951531691c4b ("mm/usercopy: use memory range to be
-> accessed for wraparound check"), the signed-off-by line is misplaced,
-> and is fixed using this fix option.
-> ie.
-> Signed-off-by: Prasad Sodagudi <psodagud@codeaurora.org>
-> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-> Co-developed-by: Prasad Sodagudi <psodagud@codeaurora.org>
-> Reviewed-by: William Kucharski <william.kucharski@oracle.com>
->
-> becomes:
-> Signed-off-by: Isaac J. Manjarres <isaacm@codeaurora.org>
-> Co-developed-by: Prasad Sodagudi <psodagud@codeaurora.org>
-> Signed-off-by: Prasad Sodagudi <psodagud@codeaurora.org>
-> Reviewed-by: William Kucharski <william.kucharski@oracle.com>
->
-> Please note that "Signed-off-by: Prasad Sodagudi
-> <psodagud@codeaurora.org>" line just gets moved after their
-> corresponding Co-developed-by line.
->
-
-Reordering might make sense.
-
->
-> E.g. 2) for Commit 31d851407f90 ("cpuidle: haltpoll: Take 'idle='
-> override into account"), the Signed-off-by line is missing, ie does
-> not exist for the author, so it is added.
->
-> ie,
-> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
-> Co-developed-by: Joao Martins <joao.m.martins@oracle.com>
-> [ rjw: Subject ]
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> becomes:
-> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@oracle.com>
-> Co-developed-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> [ rjw: Subject ]
-> Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
->
-> which I feel is the legitimate correction, as the doc states that
-> Co-developed-by tag denotes authorship, so the co-developer should
-> also sign-off.
-> It is maybe similar to any patch, where user has to take
-> responsibility of their changes by adding their Signed-off-by line,
-> otherwise the patches aren't accepted.
->
-
-Yes, but how do you check that only Joao Martins runs this script and
-nobody else?
-
-That is why this feature is ultimately broken, and I would be very
-careful if someone really just said I ran checkpatch --fix for that.
-
-> What do you think?
->
-> This patch has some conflicts with the recent next branch. I'll send
-> modified rebased patch.
->
-> Thanks
-> Aditya
->
->
->
-> > Lukas
-> >
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 7b086d1cd6c2..4aecc237ed38 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -5558,11 +5558,17 @@ sub process {
+>                                 my $asminclude = `grep -Ec "#include\\s+<asm/$file>" $root/$checkfile`;
+>                                 if ($asminclude > 0) {
+>                                         if ($realfile =~ m{^arch/}) {
+> -                                               CHK("ARCH_INCLUDE_LINUX",
+> -                                                   "Consider using #include <linux/$file> instead of <asm/$file>\n" . $herecurr);
+> +                                               if (CHK("ARCH_INCLUDE_LINUX",
+> +                                                       "Consider using #include <linux/$file> instead of <asm/$file>\n" . $herecurr) &&
+> +                                                   $fix) {
+> +                                                       $fixed[$fixlinenr] =~ s@\Q<asm/$file>\E@<linux/$file>@;
+> +                                               }
+>                                         } else {
+> -                                               WARN("INCLUDE_LINUX",
+> -                                                    "Use #include <linux/$file> instead of <asm/$file>\n" . $herecurr);
+> +                                               if (WARN("INCLUDE_LINUX",
+> +                                                        "Use #include <linux/$file> instead of <asm/$file>\n" . $herecurr) &&
+> +                                                   $fix) {
+> +                                                       $fixed[$fixlinenr] =~ s@\Q<asm/$file>\E@<linux/$file>@;
+> +                                               }
+>                                         }
+>                                 }
+>                         }
+> --
+> 2.27.0
 >
 _______________________________________________
 Linux-kernel-mentees mailing list
