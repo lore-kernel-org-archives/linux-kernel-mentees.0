@@ -2,93 +2,97 @@ Return-Path: <SRS0=t6EQ=FO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91FB9C4361B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Dec 2020 12:10:13 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9E1FC433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Dec 2020 14:19:30 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0D79239D1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Dec 2020 12:10:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0D79239D1
+	by mail.kernel.org (Postfix) with ESMTPS id 60E5F2311E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Dec 2020 14:19:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 60E5F2311E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 57C8C877AA;
-	Thu, 10 Dec 2020 12:10:12 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fMhv1ZH4XQGn; Thu, 10 Dec 2020 12:10:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3FEB28778C;
-	Thu, 10 Dec 2020 12:10:11 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 365A5C0FA7;
-	Thu, 10 Dec 2020 12:10:11 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7CBE8C013B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Dec 2020 12:10:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 6B1DA87319
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Dec 2020 12:10:09 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E2A0A872B2;
+	Thu, 10 Dec 2020 14:19:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4XbfrrMSVfFT; Thu, 10 Dec 2020 14:19:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7CA2F872AF;
+	Thu, 10 Dec 2020 14:19:29 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 731ECC0893;
+	Thu, 10 Dec 2020 14:19:29 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 70650C013B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 10 Dec 2020 14:19:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 6C0EB86991
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 10 Dec 2020 14:19:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xcYEB876lJcP
+ with ESMTP id VLZOqMqdTY6w
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Dec 2020 12:10:08 +0000 (UTC)
+ Thu, 10 Dec 2020 14:19:27 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
- [209.85.167.65])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 8CE6587316
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+ [209.85.210.193])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id CB7198690A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Dec 2020 12:10:08 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id 23so7834457lfg.10
+ Thu, 10 Dec 2020 14:19:27 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id p4so4219279pfg.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Dec 2020 04:10:08 -0800 (PST)
+ Thu, 10 Dec 2020 06:19:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pGi1NG8vsB2XbvG0Bx5vqlhWNBTxOthzxsMu89XbxyU=;
- b=WbknKO4NGHdsXC6gkiDlDllGchLLLOJR+dxxLG2tZtCk3oEgVjQk39UD2buR2iN+Kl
- 9pViAXAknNKuwZUYRv+nwv+7VZ0ZB1ffmm0l/EUr99Ec6C+yNXQuY51abPGJE9YlF8yd
- oTv2dyx7A24UKgDE0wkBawz+AIkGWS5I0lvRi680Rf/jHrw+3oi4uVEDS7AqGHdKEcjh
- 8QjccnRRRu99DRMqJGTh1Qcg6VSIykdISh34HP6JHJwPbaDIt/YDC+/TJJGVTPLOySGI
- QuUiYuzGiG2OnOc0W6fs7ikjIuyDrxyAaQgjeLMkZREB7DquD/ZSuQJtmw9VjMR8jARk
- /ERA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/N/xrIL/qZ8kXAOOwh9PJuTQPNefKxYIgxBhEc6/Fr8=;
+ b=V6MqVsjQ9RpFTpapEh2g7Y/yEAavHtL4sLgK0t8huY1ail3nVcrcWfpIhDoyzlvTFE
+ ilfB7udGzJ/dYy6mKL3tduWf7zeCNn7qIkiegSnVdE8/gWBSOxPJWDSNI5zoZpHCI2qs
+ B0AaA3JQZE3i3BnrNmwitMh7Yi5MqW3nR937PxSIHoAaLF147rO48a9+vcHqSxEkP1Mb
+ 5YpauCU6UlK4C/MRYTvEs25x28qUjiBLiALy/WPX/PX+E+J20bF+XED1PklZkzQvT1nu
+ FDjTVOA067l3tzMfmX0HKulou7jxmEwWT85pxu/ULGVvTYEUes8hLivBpNcdxCqB1qFE
+ ydTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pGi1NG8vsB2XbvG0Bx5vqlhWNBTxOthzxsMu89XbxyU=;
- b=hkpz3CdqcwxE/3vO6dQWdx8a/MDfbZVhrGPEuz/XFKznDGB1FR3mTIS3xiJYsrNDLT
- HkOaNRn8PPcRWQFs7Y0JdyOMQHx+bY1HljuRJThFiPyvgMx7hXP0FcbkhDrz0sLDWSxM
- fSN2r4WEqL4s8ygguYR42XHF6Sp4wVQ8R0Ib6DgEkNWJppgzZDr4roi5Ca+MJTv/qJQW
- jFoqyvrQaV1+xbBOu0D4j0wuqUknG8nkrtV/OsksJjb7M6Uwh+RCjlS8fY2Y7z6sbZKm
- BrpKBRFolGwQ0VCkh701cpjG6YuSLhqB7TObpwFft3bHfJOKRxOx6JG4PdV5KQQjyMqj
- 61kw==
-X-Gm-Message-State: AOAM531bH/xUaQZ+jdiv8Pn8aKeYs02qLMPUOpupwzrc180d+b89SZXy
- DyC486TRsGqZLdqvol2GT0zDXcHbjhitCgeJN/k=
-X-Google-Smtp-Source: ABdhPJxgH2/t10Tzvz3ds5fSK4AXQX+UZqLNdcvCzl4E1V0aVZEtah8cLMgDp9aodNjj1Ffhn7PG2G2Ek9helWDmfWY=
-X-Received: by 2002:ac2:418c:: with SMTP id z12mr747827lfh.206.1607602206481; 
- Thu, 10 Dec 2020 04:10:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20201207185747.132636-1-dwaipayanray1@gmail.com>
- <CABJPP5BcuBXZuS=eO+83h=mUrDFK3UK9m=AX3DbJx6yXv7m-PA@mail.gmail.com>
- <CAKXUXMxJvx69TJB9r4C7-hHDXpXifmfi2j_g=9+DpRyvJnqokg@mail.gmail.com>
-In-Reply-To: <CAKXUXMxJvx69TJB9r4C7-hHDXpXifmfi2j_g=9+DpRyvJnqokg@mail.gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/N/xrIL/qZ8kXAOOwh9PJuTQPNefKxYIgxBhEc6/Fr8=;
+ b=jRnKUKz7WlfZDF2B1LEKbp1G20qvGpa638RMpFX4xcYURUuIkB5DG7SlcyA/aEEykQ
+ rRK7nhFFpUaSJlL3Le8z+Q6bq1kfL8uu7eY1qjuuvJfjpuNWaTGoUaf0D9kZPWltI0R1
+ +eFenJ/sI50Brjonjimu4GwQzx1iLf60xkTaUUU5zi1po1qlLnbPmJ0/dtCM99qK5zw8
+ w7iA/zh6uw0SkId5PJuS1v/gvHRprUA+9GbrOSEUeYzbgTIKPSVO9x99uch1fAF+LMEV
+ /CTrfMm+o252yx88DBPxnnKHHbZYjInpZrZAXtgk1I7TbNr3iYTNLqDGiA1f4E9fVsfn
+ at7A==
+X-Gm-Message-State: AOAM5322XAYCkEqkdXeyGXrhGtl5bgwnl62DChtwQx5CkDt6XGUM+Z0Y
+ 5ohe4iCRDrRx5nxoAVEQGLo=
+X-Google-Smtp-Source: ABdhPJxs6SxvHaEuUlMtfsSppZKvcnr1ThQcH044478prOqOuyELkp9jt5/X5IgbFKtZX5//ftyqIA==
+X-Received: by 2002:a63:ec57:: with SMTP id r23mr6666865pgj.315.1607609967095; 
+ Thu, 10 Dec 2020 06:19:27 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:681b:efb7:be26:4d99:7d44])
+ by smtp.gmail.com with ESMTPSA id x12sm6579964pfj.25.2020.12.10.06.19.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Dec 2020 06:19:26 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Thu, 10 Dec 2020 17:39:41 +0530
-Message-ID: <CABJPP5BoXONV5qPF4Gr_Q7Bcrh_6fP_Nm3ODYAfkJZfi1h35Hw@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add --fix option to
+To: joe@perches.com
+Date: Thu, 10 Dec 2020 19:49:03 +0530
+Message-Id: <20201210141903.72327-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add --fix option to
 	IS_ENABLED_CONFIG check
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -107,25 +111,52 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> I ran as quick rough estimation: grep -e "\sIS_ENABLED" . -R | grep -v CONFIG
->
-> I think:
->
-> ./lib/crypto/chacha20poly1305-selftest.c: for (total_len =
-> POLY1305_DIGEST_SIZE;
-> IS_ENABLED(DEBUG_CHACHA20POLY1305_SLOW_CHUNK_TEST)
->
-> could be fixed, is that right?
->
+Documentation/process/coding-style.rst specifies the use of
+IS_ENABLED macro:
 
-Yes, I think so. There were patches of this kind to correct those uses.
-Evidently without CONFIG_ prefix the code could be skipped. But some of
-those cases might be intentional as pointed here:
+Within code, where possible, use the IS_ENABLED macro to convert a Kconfig
+symbol into a C boolean expression, and use it in a normal C conditional:
 
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2184352.html
+	if (IS_ENABLED(CONFIG_SOMETHING)) {
+		...
+	}
 
-Thank you,
-Dwaipayan.
+checkpatch correspondingly has a check for IS_ENABLED() without
+CONFIG_<FOO>.
+Add a --fix option to the check to automatically correct the argument.
+
+Macros like:
+ #if IS_ENABLED(THERMAL)
+
+is corrected to:
+ #if IS_ENABLED(CONFIG_THERMAL)
+
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 7b086d1cd6c2..751cd13622b9 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -6877,8 +6877,11 @@ sub process {
+ 
+ # check for IS_ENABLED() without CONFIG_<FOO> ($rawline for comments too)
+ 		if ($rawline =~ /\bIS_ENABLED\s*\(\s*(\w+)\s*\)/ && $1 !~ /^${CONFIG_}/) {
+-			WARN("IS_ENABLED_CONFIG",
+-			     "IS_ENABLED($1) is normally used as IS_ENABLED(${CONFIG_}$1)\n" . $herecurr);
++			if (WARN("IS_ENABLED_CONFIG",
++				 "IS_ENABLED($1) is normally used as IS_ENABLED(${CONFIG_}$1)\n" . $herecurr) &&
++			    $fix) {
++				$fixed[$fixlinenr] =~ s/\bIS_ENABLED\s*\(\s*(\w+)\s*\)/IS_ENABLED(${CONFIG_}$1)/;
++			}
+ 		}
+ 
+ # check for #if defined CONFIG_<FOO> || defined CONFIG_<FOO>_MODULE
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
