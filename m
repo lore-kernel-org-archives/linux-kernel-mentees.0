@@ -2,96 +2,96 @@ Return-Path: <SRS0=B2kz=FR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A4EC433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:01:06 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F55DC4361B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:04:10 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 30CC022D6F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:01:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 30CC022D6F
+	by mail.kernel.org (Postfix) with ESMTPS id DD0AD22D6F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:04:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD0AD22D6F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B43D3873CA;
-	Sun, 13 Dec 2020 08:01:03 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 5352C20434;
+	Sun, 13 Dec 2020 08:04:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SSbDr702WCjz; Sun, 13 Dec 2020 08:01:02 +0000 (UTC)
+	with ESMTP id tAPy62q2IaZN; Sun, 13 Dec 2020 08:04:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 64A29873BF;
-	Sun, 13 Dec 2020 08:01:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 05CEC20424;
+	Sun, 13 Dec 2020 08:03:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 53123C0FA7;
-	Sun, 13 Dec 2020 08:01:02 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D5EC5C013B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E16F9C0893;
+	Sun, 13 Dec 2020 08:03:59 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8B13C013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:01:01 +0000 (UTC)
+ Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id C387085FDB
+ by whitealder.osuosl.org (Postfix) with ESMTP id D46C086BF3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:01:01 +0000 (UTC)
+ Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HerQcIBR48mP
+ with ESMTP id KYWJXaSCmO13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:01:00 +0000 (UTC)
+ Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
  [209.85.166.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 1B7CA85FDE
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 1318286BEC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:01:00 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id g1so12916917ilk.7
+ Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id g1so12920742ilk.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 00:01:00 -0800 (PST)
+ Sun, 13 Dec 2020 00:03:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SptOwLmCUuWK4mUudyEVRWCBB5pTnk1I3n0w36lMi9g=;
- b=uuEYFa6HoV28cwjfy5wFMvdsb0auwEzNdOTfRNQhZJ90roavKRziOOCSwLwiQJu6tF
- A9Zhh4VJ3NNtE0ab0btNe9fsBBQZwDpiQBpwmq1+PSd2ty9m/8rgdUlkxEh1I6Xp3awX
- KZ6pijACs/pkePCxpfd+sjo4TnixiKvQRClnEpf2t8X5StHp09S80+D/QMMrxZWOdkWJ
- nOWveoYQY73DVsdNLBaDc4RkgknDJ5jIaaTbsffNoL9FuXdfndHny5EXHgevuJF/GL/q
- ynQc83cO8hvOVR2WMozjtJ+MNl46buen3zY9s39dkJGtldP/X4CRswUA4pqP35PFPqzD
- CqJQ==
+ :cc; bh=gwUyY3H0fXMUoo0WPLNRqvNyeqJ3Icfxp5RDofnD1fQ=;
+ b=R5/1aVVOszNb9cAyzcSZlzDr/NoPtw9KGJJTolVqa/g1oPTPEP19sX88QV9Z0Rb/ek
+ iMJtIAgLL9WSApEyiMeWopGzROmPiK1mH9yhcGPHngtWuAUDIuLwGGcfjTNj8Oviwixc
+ fyKRNJ+DDfnVTTpFFwiDloQ6SQZYAf5BDBAmQJCaHqLGocO1As6NTCjhyeXsnbEvN7g3
+ /mafcgRZXG0YRO6sWfGWmKFqXz8BuUREVSR+2KtjdiyyRx4SKdY47ZKe1HJALV3nP/tH
+ Zvq05AlU0A1O6FlC5d2M34cCUUcjVYvXOV+PKk7h+zRhrSt6A7ELzp8XZm8g1dX0uyZz
+ jRrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=SptOwLmCUuWK4mUudyEVRWCBB5pTnk1I3n0w36lMi9g=;
- b=LDfSyb2b1c0087n40/VpM0prb2hS00D1vJ4/N/QKVyrA8/Jd838yf8qB9n5ZL296xx
- 3iWPhXtKCKAza7ejE7UueIAuo2ehOyAKIEgPZIXhmeRi4ZbY0+wdVh2Ig2G9DMBXxaUR
- Mn1k2ppcsXkToPfd8J8UPW6bLS49QhiS9tdJHiMdiUCMU5K6G7S5Qhqw5ll6FMLVplwq
- YyBAG6Vo8tVAQ6324bgUfdFCItMDcrrZvK1D1IA6eBH0we1C9W+bJH87aM1duDbtj5Yg
- 0hX54k9kX9+G+J7+xIVGSUGcAkjCgZXyhP8aXOdCN1pmufVT1dIfMZ7MlHEaazhaFUOL
- +qSA==
-X-Gm-Message-State: AOAM533uAhdfP+bU4VQzyhDHYnyXBBQ4t8B2tIkBOB672vco81JLvZUy
- u4MRGpSwajnAFef24EwxOSWOr0HLT1CH3go1JDM=
-X-Google-Smtp-Source: ABdhPJyri/5+Z8dIb+Y+i2EW/Gy7oOaTCtvTml3CVnDQJMIsTYkZyUIBcvLiU7D5NAXn4eXaKtBsQsCIU6sAPe/KW+c=
-X-Received: by 2002:a92:8587:: with SMTP id
- f129mr26921257ilh.251.1607846459335; 
- Sun, 13 Dec 2020 00:00:59 -0800 (PST)
+ bh=gwUyY3H0fXMUoo0WPLNRqvNyeqJ3Icfxp5RDofnD1fQ=;
+ b=DGQsUVcW9EuYLyuwqi46FDVibLKQgLZsGZZC8M4Hc3oXYD3/Iq8Dq00co2IE22BK33
+ 0VEubD/AH1UghbBt/jX1PU/RKy9flgU1cptxJ5fYoRVNaf7FXK8RPINrxX4zmE30vSr1
+ GWOKFWxBFiXEv7Ng7C+EXi0ygN3h8b/OAoZQ399h4opaW77AabQGJrOfY2O3nfp4GAj9
+ 2QAzSXfAlISBYhrAosv6/EdHBbqcQ1+BgaQbxhtZnqb1407gmscyOLhhUJ83bF2niJgc
+ wDvP3oi+FDyFcCzcgRNx4xcpaJJRFU2Vtm91xL5d+hrohfSKD7UQaDz5Y6UcoQVO/Tr6
+ 6i0Q==
+X-Gm-Message-State: AOAM533DSHvGN7RhG0YoadMYsJra3SAb4xNBgsgq71fPAl98Nh3Lw/B8
+ L2aV113JMiyMwhgZk8VhW22dRm90YMnxI1PrzMQ=
+X-Google-Smtp-Source: ABdhPJxCJyKzdVuUJPF/mGbHouqeR0ZMcbntHFSeHNfBHRnK7F2n/1sH5hozJwtLg2Nnu9xShFCR1J/4vH18cEMNVD8=
+X-Received: by 2002:a92:cd8c:: with SMTP id r12mr26451389ilb.221.1607846637311; 
+ Sun, 13 Dec 2020 00:03:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20201212195548.231494-1-dwaipayanray1@gmail.com>
-In-Reply-To: <20201212195548.231494-1-dwaipayanray1@gmail.com>
+References: <20201209105833.9066-1-yashsri421@gmail.com>
+ <CAKXUXMx_ypzYSCHLzQKY0Uq=M35V4kSd6aivCYBa8coR6jM0yw@mail.gmail.com>
+ <bc8f9d46-1474-5470-aca4-c4470761efb6@gmail.com>
+ <CAKXUXMz=AwR+3gPprE6eSkPxuXgVVTpXBe5yKV7tQNuaTPP9mg@mail.gmail.com>
+ <0e52c716-25e8-398e-8269-27613d5775f8@gmail.com>
+In-Reply-To: <0e52c716-25e8-398e-8269-27613d5775f8@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sun, 13 Dec 2020 09:00:48 +0100
-Message-ID: <CAKXUXMx9EnhWhGAJf4ousAgkxDUrN=g2zGaPEk6ijJYse7VJaQ@mail.gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-leds@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] leds: Use DEVICE_ATTR_{RW, RO,
-	WO} macros
+Date: Sun, 13 Dec 2020 09:03:46 +0100
+Message-ID: <CAKXUXMytLeZ6czkg6Ezjp1BFV1NQM5rraJn76bxFN6N5CBDccA@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option and
+	improve msg for BOOL_COMPARISON
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,413 +109,105 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Dec 12, 2020 at 8:56 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+On Sat, Dec 12, 2020 at 10:13 AM Aditya <yashsri421@gmail.com> wrote:
 >
-> Instead of open coding DEVICE_ATTR() defines, use the
-> DEVICE_ATTR_RW(), DEVICE_ATTR_WO(), and DEVICE_ATTR_RO()
-> macros intead.
+> On 9/12/20 10:39 pm, Lukas Bulwahn wrote:
+> > On Wed, Dec 9, 2020 at 4:59 PM Aditya <yashsri421@gmail.com> wrote:
+> >>
+> >> On 9/12/20 5:17 pm, Lukas Bulwahn wrote:
+> >>> On Wed, Dec 9, 2020 at 11:58 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
+> >>>>
+> >>>> Currently, checkpatch warns if the user compares expression with boolean.
+> >>>>
+> >>>> E.g., running checkpatch on commit 3b3a1a0b7824 ("staging: rtl8723bs:
+> >>>> hal: Modify comparison to constant in rtl8723bs_xmit.c") reports:
+> >>>>
+> >>>> CHECK: Using comparison to true is error prone
+> >>>> +       if (ret == true)
+> >>>>
+> >>>> Provide a fix by replacing the expression with preferred expression. i.e.,
+> >>>>
+> >>>> 1) If the check is for a 'true' or 'not false' expression, the operand
+> >>>> will get replaced with empty string.
+> >>>>
+> >>>> 2) Else, the operand gets replaced with '!', and the arguments follow.
+> >>>>
+> >>>
+> >>> Can you show the test cases you used to test this?
+> >>>
+> >> Yes, I ran it over certain commits.
+> >>
+> >> Eg 1) commit 5c789e131cbb ("netfilter: nf_conncount: Add list lock and
+> >> gc worker, and RCU for init tree search"), where
+> >>
+> >> 1.i)
+> >> +       if (list->dead == true) {
+> >> gets changed to:
+> >> +       if (list->dead) {
+> >>
+> >> 1.ii)
+> >> +               if (rbconn->list.count == 0 && rbconn->list.dead == false) {
+> >> gets changed to:
+> >> +               if (rbconn->list.count == 0 && !rbconn->list.dead) {
+> >>
+> >> E.g. 2) commit 83ee6ec7740b75dc0db (Staging: rtl8723bs: os_dep: Fix
+> >> if-else coding style issues) where
+> >>
+> >> 2.i)
+> >> +       if (padapter->bDriverStopped == true) {
+> >> gets changed to:
+> >> +       if (padapter->bDriverStopped) {
+> >>
+> >> 2.ii)
+> >> +       if (pwrpriv->bInSuspend == true) {
+> >> gets changed to:
+> >> +       if (pwrpriv->bInSuspend) {
+> >>
+> >> 2.iii)
+> >> +       if (pwrpriv->bInSuspend == false) {
+> >> gets changed to:
+> >> +       if (!pwrpriv->bInSuspend) {
+> >>
+> >>> Can you show all findings of this rule on the current rc or linux-next?
+> >>>
+> >>
+> >> I have generated report on last 10k commits of latest next branch,
+> >> where the check was found to be reported 5 times.
+> >>
+> > 5 times in 10k commits? I am really wondering how you select the fix
+> > options you work on?
+> >
+> > Do you consider this relevant when the number is so low?
+> > Are there potentially other classes that are much more relevant instead?
+> >
+> > Can you run it over all files in the repository instead of git commits?
+> >
+> > Commits really do not help when we want to fix this in the current kernel.
+> >
+>
+> Hi
+> So, I ran  grep -e
+> "==\s*true\|==\s*false\|!=\s*true\|!=\s*false\|true\s*==\|false\s*==\|true\s*!=\|false\s*!="
+> . -R over the repo.
+> We currently have ~1630 such occurrences in different files.
+>
+> Detail findings can be found here:
+> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/bool_comparison/file_results.txt
+>
+> A large amount of these occurrences are found in drivers/, with
+> "drivers/gpu/drm/amd/display/dc/dml/" having most occurrences.
+>
+> What do you think?
+>
 
-typo: s/intead/instead/
+I suggest you submit a few patches correcting this style to a few
+driver maintainers to see if they are in favor of this checkpatch
+rule.
 
-No need to use the word "instead" twice in one sentence, though, we got it :)
+Lukas
 
->
-> This required a few functions to be renamed, but the functionality
-> itself is unchanged.
->
-> Note that this is compile tested only.
->
-
-This note does not go in the commit message. In the future, this will
-be simply not true anymore, but this below the "---" (see HERE! as
-marker).
-
-For testing, you can generate the objdump of the binary before and
-after and compare if that is as expected.
-
-Other than that, the change itself looks good to me, so:
-
-Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-Thanks, Dwaipayan, for fixing this up.
-
-Will you also add a checkpatch rule to identify other DEVICE_ATTR(...)
-that can be adjusted to the refined macros, so that checkpatch informs
-other submitters as well?
-
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Dan Murphy <dmurphy@ti.com>
-> Cc: Pavel Machek <pavel@ucw.cz>
-> Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Cc: linux-leds@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-kernel-mentees@lists.linuxfoundation.org
-
-As far as I know, the maintainers will add the Cc lines---if they like
-those---with script support.
-
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> ---
-
-HERE!
-
->  drivers/leds/leds-blinkm.c        | 24 ++++++++++++------------
->  drivers/leds/leds-lm3530.c        | 10 +++++-----
->  drivers/leds/leds-lm355x.c        |  8 ++++----
->  drivers/leds/leds-lm3642.c        | 16 ++++++++--------
->  drivers/leds/leds-max8997.c       | 12 ++++++------
->  drivers/leds/leds-netxbig.c       | 12 ++++++------
->  drivers/leds/leds-ss4200.c        | 12 ++++++------
->  drivers/leds/leds-wm831x-status.c | 12 ++++++------
->  8 files changed, 53 insertions(+), 53 deletions(-)
->
-> diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
-> index e11fe1788242..b4e1fdff4186 100644
-> --- a/drivers/leds/leds-blinkm.c
-> +++ b/drivers/leds/leds-blinkm.c
-> @@ -192,13 +192,13 @@ static int store_color_common(struct device *dev, const char *buf, int color)
->         return 0;
->  }
->
-> -static ssize_t show_red(struct device *dev, struct device_attribute *attr,
-> +static ssize_t red_show(struct device *dev, struct device_attribute *attr,
->                         char *buf)
->  {
->         return show_color_common(dev, buf, RED);
->  }
->
-> -static ssize_t store_red(struct device *dev, struct device_attribute *attr,
-> +static ssize_t red_store(struct device *dev, struct device_attribute *attr,
->                          const char *buf, size_t count)
->  {
->         int ret;
-> @@ -209,15 +209,15 @@ static ssize_t store_red(struct device *dev, struct device_attribute *attr,
->         return count;
->  }
->
-> -static DEVICE_ATTR(red, S_IRUGO | S_IWUSR, show_red, store_red);
-> +static DEVICE_ATTR_RW(red);
->
-> -static ssize_t show_green(struct device *dev, struct device_attribute *attr,
-> +static ssize_t green_show(struct device *dev, struct device_attribute *attr,
->                           char *buf)
->  {
->         return show_color_common(dev, buf, GREEN);
->  }
->
-> -static ssize_t store_green(struct device *dev, struct device_attribute *attr,
-> +static ssize_t green_store(struct device *dev, struct device_attribute *attr,
->                            const char *buf, size_t count)
->  {
->
-> @@ -229,15 +229,15 @@ static ssize_t store_green(struct device *dev, struct device_attribute *attr,
->         return count;
->  }
->
-> -static DEVICE_ATTR(green, S_IRUGO | S_IWUSR, show_green, store_green);
-> +static DEVICE_ATTR_RW(green);
->
-> -static ssize_t show_blue(struct device *dev, struct device_attribute *attr,
-> +static ssize_t blue_show(struct device *dev, struct device_attribute *attr,
->                          char *buf)
->  {
->         return show_color_common(dev, buf, BLUE);
->  }
->
-> -static ssize_t store_blue(struct device *dev, struct device_attribute *attr,
-> +static ssize_t blue_store(struct device *dev, struct device_attribute *attr,
->                           const char *buf, size_t count)
->  {
->         int ret;
-> @@ -248,16 +248,16 @@ static ssize_t store_blue(struct device *dev, struct device_attribute *attr,
->         return count;
->  }
->
-> -static DEVICE_ATTR(blue, S_IRUGO | S_IWUSR, show_blue, store_blue);
-> +static DEVICE_ATTR_RW(blue);
->
-> -static ssize_t show_test(struct device *dev, struct device_attribute *attr,
-> +static ssize_t test_show(struct device *dev, struct device_attribute *attr,
->                          char *buf)
->  {
->         return scnprintf(buf, PAGE_SIZE,
->                          "#Write into test to start test sequence!#\n");
->  }
->
-> -static ssize_t store_test(struct device *dev, struct device_attribute *attr,
-> +static ssize_t test_store(struct device *dev, struct device_attribute *attr,
->                           const char *buf, size_t count)
->  {
->
-> @@ -273,7 +273,7 @@ static ssize_t store_test(struct device *dev, struct device_attribute *attr,
->         return count;
->  }
->
-> -static DEVICE_ATTR(test, S_IRUGO | S_IWUSR, show_test, store_test);
-> +static DEVICE_ATTR_RW(test);
->
->  /* TODO: HSB, fade, timeadj, script ... */
->
-> diff --git a/drivers/leds/leds-lm3530.c b/drivers/leds/leds-lm3530.c
-> index 2f8362f6bf75..2db455efd4b1 100644
-> --- a/drivers/leds/leds-lm3530.c
-> +++ b/drivers/leds/leds-lm3530.c
-> @@ -346,8 +346,8 @@ static void lm3530_brightness_set(struct led_classdev *led_cdev,
->         }
->  }
->
-> -static ssize_t lm3530_mode_get(struct device *dev,
-> -               struct device_attribute *attr, char *buf)
-> +static ssize_t mode_show(struct device *dev,
-> +                        struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct lm3530_data *drvdata;
-> @@ -365,8 +365,8 @@ static ssize_t lm3530_mode_get(struct device *dev,
->         return len;
->  }
->
-> -static ssize_t lm3530_mode_set(struct device *dev, struct device_attribute
-> -                                  *attr, const char *buf, size_t size)
-> +static ssize_t mode_store(struct device *dev, struct device_attribute
-> +                         *attr, const char *buf, size_t size)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct lm3530_data *drvdata;
-> @@ -397,7 +397,7 @@ static ssize_t lm3530_mode_set(struct device *dev, struct device_attribute
->
->         return sizeof(drvdata->mode);
->  }
-> -static DEVICE_ATTR(mode, 0644, lm3530_mode_get, lm3530_mode_set);
-> +static DEVICE_ATTR_RW(mode);
->
->  static struct attribute *lm3530_attrs[] = {
->         &dev_attr_mode.attr,
-> diff --git a/drivers/leds/leds-lm355x.c b/drivers/leds/leds-lm355x.c
-> index 1505521249b5..2d3e11845ba5 100644
-> --- a/drivers/leds/leds-lm355x.c
-> +++ b/drivers/leds/leds-lm355x.c
-> @@ -349,9 +349,9 @@ static int lm355x_indicator_brightness_set(struct led_classdev *cdev,
->  }
->
->  /* indicator pattern only for lm3556*/
-> -static ssize_t lm3556_indicator_pattern_store(struct device *dev,
-> -                                             struct device_attribute *attr,
-> -                                             const char *buf, size_t size)
-> +static ssize_t pattern_store(struct device *dev,
-> +                            struct device_attribute *attr,
-> +                            const char *buf, size_t size)
->  {
->         ssize_t ret;
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> @@ -381,7 +381,7 @@ static ssize_t lm3556_indicator_pattern_store(struct device *dev,
->         return ret;
->  }
->
-> -static DEVICE_ATTR(pattern, S_IWUSR, NULL, lm3556_indicator_pattern_store);
-> +static DEVICE_ATTR_WO(pattern);
->
->  static struct attribute *lm355x_indicator_attrs[] = {
->         &dev_attr_pattern.attr,
-> diff --git a/drivers/leds/leds-lm3642.c b/drivers/leds/leds-lm3642.c
-> index 62c14872caf7..8007b82985a8 100644
-> --- a/drivers/leds/leds-lm3642.c
-> +++ b/drivers/leds/leds-lm3642.c
-> @@ -165,9 +165,9 @@ static int lm3642_control(struct lm3642_chip_data *chip,
->  /* torch */
->
->  /* torch pin config for lm3642 */
-> -static ssize_t lm3642_torch_pin_store(struct device *dev,
-> -                                     struct device_attribute *attr,
-> -                                     const char *buf, size_t size)
-> +static ssize_t torch_pin_store(struct device *dev,
-> +                              struct device_attribute *attr,
-> +                              const char *buf, size_t size)
->  {
->         ssize_t ret;
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> @@ -193,7 +193,7 @@ static ssize_t lm3642_torch_pin_store(struct device *dev,
->         return size;
->  }
->
-> -static DEVICE_ATTR(torch_pin, S_IWUSR, NULL, lm3642_torch_pin_store);
-> +static DEVICE_ATTR_WO(torch_pin);
->
->  static int lm3642_torch_brightness_set(struct led_classdev *cdev,
->                                         enum led_brightness brightness)
-> @@ -212,9 +212,9 @@ static int lm3642_torch_brightness_set(struct led_classdev *cdev,
->  /* flash */
->
->  /* strobe pin config for lm3642*/
-> -static ssize_t lm3642_strobe_pin_store(struct device *dev,
-> -                                      struct device_attribute *attr,
-> -                                      const char *buf, size_t size)
-> +static ssize_t strobe_pin_store(struct device *dev,
-> +                               struct device_attribute *attr,
-> +                               const char *buf, size_t size)
->  {
->         ssize_t ret;
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> @@ -240,7 +240,7 @@ static ssize_t lm3642_strobe_pin_store(struct device *dev,
->         return size;
->  }
->
-> -static DEVICE_ATTR(strobe_pin, S_IWUSR, NULL, lm3642_strobe_pin_store);
-> +static DEVICE_ATTR_WO(strobe_pin);
->
->  static int lm3642_strobe_brightness_set(struct led_classdev *cdev,
->                                          enum led_brightness brightness)
-> diff --git a/drivers/leds/leds-max8997.c b/drivers/leds/leds-max8997.c
-> index 512a11d142d0..c0bddb33888d 100644
-> --- a/drivers/leds/leds-max8997.c
-> +++ b/drivers/leds/leds-max8997.c
-> @@ -160,8 +160,8 @@ static void max8997_led_brightness_set(struct led_classdev *led_cdev,
->         }
->  }
->
-> -static ssize_t max8997_led_show_mode(struct device *dev,
-> -                               struct device_attribute *attr, char *buf)
-> +static ssize_t mode_show(struct device *dev,
-> +                        struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct max8997_led *led =
-> @@ -193,9 +193,9 @@ static ssize_t max8997_led_show_mode(struct device *dev,
->         return ret;
->  }
->
-> -static ssize_t max8997_led_store_mode(struct device *dev,
-> -                               struct device_attribute *attr,
-> -                               const char *buf, size_t size)
-> +static ssize_t mode_store(struct device *dev,
-> +                         struct device_attribute *attr,
-> +                         const char *buf, size_t size)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct max8997_led *led =
-> @@ -222,7 +222,7 @@ static ssize_t max8997_led_store_mode(struct device *dev,
->         return size;
->  }
->
-> -static DEVICE_ATTR(mode, 0644, max8997_led_show_mode, max8997_led_store_mode);
-> +static DEVICE_ATTR_RW(mode);
->
->  static struct attribute *max8997_attrs[] = {
->         &dev_attr_mode.attr,
-> diff --git a/drivers/leds/leds-netxbig.c b/drivers/leds/leds-netxbig.c
-> index 68fbf0b66fad..77213b79f84d 100644
-> --- a/drivers/leds/leds-netxbig.c
-> +++ b/drivers/leds/leds-netxbig.c
-> @@ -204,9 +204,9 @@ static void netxbig_led_set(struct led_classdev *led_cdev,
->         spin_unlock_irqrestore(&led_dat->lock, flags);
->  }
->
-> -static ssize_t netxbig_led_sata_store(struct device *dev,
-> -                                     struct device_attribute *attr,
-> -                                     const char *buff, size_t count)
-> +static ssize_t sata_store(struct device *dev,
-> +                         struct device_attribute *attr,
-> +                         const char *buff, size_t count)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct netxbig_led_data *led_dat =
-> @@ -255,8 +255,8 @@ static ssize_t netxbig_led_sata_store(struct device *dev,
->         return ret;
->  }
->
-> -static ssize_t netxbig_led_sata_show(struct device *dev,
-> -                                    struct device_attribute *attr, char *buf)
-> +static ssize_t sata_show(struct device *dev,
-> +                        struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct netxbig_led_data *led_dat =
-> @@ -265,7 +265,7 @@ static ssize_t netxbig_led_sata_show(struct device *dev,
->         return sprintf(buf, "%d\n", led_dat->sata);
->  }
->
-> -static DEVICE_ATTR(sata, 0644, netxbig_led_sata_show, netxbig_led_sata_store);
-> +static DEVICE_ATTR_RW(sata);
->
->  static struct attribute *netxbig_led_attrs[] = {
->         &dev_attr_sata.attr,
-> diff --git a/drivers/leds/leds-ss4200.c b/drivers/leds/leds-ss4200.c
-> index 245de443fe9c..a6992323d69d 100644
-> --- a/drivers/leds/leds-ss4200.c
-> +++ b/drivers/leds/leds-ss4200.c
-> @@ -441,8 +441,8 @@ static void set_power_light_amber_noblink(void)
->         nasgpio_led_set_brightness(&amber->led_cdev, LED_FULL);
->  }
->
-> -static ssize_t nas_led_blink_show(struct device *dev,
-> -                                 struct device_attribute *attr, char *buf)
-> +static ssize_t blink_show(struct device *dev,
-> +                         struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led = dev_get_drvdata(dev);
->         int blinking = 0;
-> @@ -451,9 +451,9 @@ static ssize_t nas_led_blink_show(struct device *dev,
->         return sprintf(buf, "%u\n", blinking);
->  }
->
-> -static ssize_t nas_led_blink_store(struct device *dev,
-> -                                  struct device_attribute *attr,
-> -                                  const char *buf, size_t size)
-> +static ssize_t blink_store(struct device *dev,
-> +                          struct device_attribute *attr,
-> +                          const char *buf, size_t size)
->  {
->         int ret;
->         struct led_classdev *led = dev_get_drvdata(dev);
-> @@ -468,7 +468,7 @@ static ssize_t nas_led_blink_store(struct device *dev,
->         return size;
->  }
->
-> -static DEVICE_ATTR(blink, 0644, nas_led_blink_show, nas_led_blink_store);
-> +static DEVICE_ATTR_RW(blink);
->
->  static struct attribute *nasgpio_led_attrs[] = {
->         &dev_attr_blink.attr,
-> diff --git a/drivers/leds/leds-wm831x-status.c b/drivers/leds/leds-wm831x-status.c
-> index 67f4235cb28a..c48b80574f02 100644
-> --- a/drivers/leds/leds-wm831x-status.c
-> +++ b/drivers/leds/leds-wm831x-status.c
-> @@ -155,8 +155,8 @@ static const char * const led_src_texts[] = {
->         "soft",
->  };
->
-> -static ssize_t wm831x_status_src_show(struct device *dev,
-> -                                     struct device_attribute *attr, char *buf)
-> +static ssize_t src_show(struct device *dev,
-> +                       struct device_attribute *attr, char *buf)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct wm831x_status *led = to_wm831x_status(led_cdev);
-> @@ -178,9 +178,9 @@ static ssize_t wm831x_status_src_show(struct device *dev,
->         return ret;
->  }
->
-> -static ssize_t wm831x_status_src_store(struct device *dev,
-> -                                      struct device_attribute *attr,
-> -                                      const char *buf, size_t size)
-> +static ssize_t src_store(struct device *dev,
-> +                        struct device_attribute *attr,
-> +                        const char *buf, size_t size)
->  {
->         struct led_classdev *led_cdev = dev_get_drvdata(dev);
->         struct wm831x_status *led = to_wm831x_status(led_cdev);
-> @@ -197,7 +197,7 @@ static ssize_t wm831x_status_src_store(struct device *dev,
->         return size;
->  }
->
-> -static DEVICE_ATTR(src, 0644, wm831x_status_src_show, wm831x_status_src_store);
-> +static DEVICE_ATTR_RW(src);
->
->  static struct attribute *wm831x_status_attrs[] = {
->         &dev_attr_src.attr,
-> --
-> 2.27.0
->
+> Thanks
+> Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
