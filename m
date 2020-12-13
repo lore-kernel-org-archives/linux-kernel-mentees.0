@@ -4,94 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F55DC4361B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:04:10 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8394CC4361B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:19:28 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DD0AD22D6F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:04:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DD0AD22D6F
+	by mail.kernel.org (Postfix) with ESMTPS id EFC9B23122
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Dec 2020 08:19:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EFC9B23122
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5352C20434;
-	Sun, 13 Dec 2020 08:04:09 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tAPy62q2IaZN; Sun, 13 Dec 2020 08:04:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 05CEC20424;
-	Sun, 13 Dec 2020 08:03:59 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E16F9C0893;
-	Sun, 13 Dec 2020 08:03:59 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D8B13C013B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id D46C086BF3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 64A57869F1;
+	Sun, 13 Dec 2020 08:19:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xBcvBVeNFgb8; Sun, 13 Dec 2020 08:19:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id C747B86BFA;
+	Sun, 13 Dec 2020 08:19:26 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B06B6C0893;
+	Sun, 13 Dec 2020 08:19:26 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7D8C4C013B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 13 Dec 2020 08:19:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 6BC7C873D0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 13 Dec 2020 08:19:25 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KYWJXaSCmO13
+ with ESMTP id Xt0Gxx-IgpMY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
+ Sun, 13 Dec 2020 08:19:25 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
- [209.85.166.193])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1318286BEC
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+ [209.85.167.67])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 984B087303
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 08:03:58 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id g1so12920742ilk.7
+ Sun, 13 Dec 2020 08:19:24 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id w13so22370301lfd.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 00:03:58 -0800 (PST)
+ Sun, 13 Dec 2020 00:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gwUyY3H0fXMUoo0WPLNRqvNyeqJ3Icfxp5RDofnD1fQ=;
- b=R5/1aVVOszNb9cAyzcSZlzDr/NoPtw9KGJJTolVqa/g1oPTPEP19sX88QV9Z0Rb/ek
- iMJtIAgLL9WSApEyiMeWopGzROmPiK1mH9yhcGPHngtWuAUDIuLwGGcfjTNj8Oviwixc
- fyKRNJ+DDfnVTTpFFwiDloQ6SQZYAf5BDBAmQJCaHqLGocO1As6NTCjhyeXsnbEvN7g3
- /mafcgRZXG0YRO6sWfGWmKFqXz8BuUREVSR+2KtjdiyyRx4SKdY47ZKe1HJALV3nP/tH
- Zvq05AlU0A1O6FlC5d2M34cCUUcjVYvXOV+PKk7h+zRhrSt6A7ELzp8XZm8g1dX0uyZz
- jRrw==
+ :cc; bh=gGpGJE117uuu0mrJjD3uk83rQznDbmUGhxCc2a6Owt0=;
+ b=VafUivgY/GTbQUK7U+t47larm9y1WZVXfFLko+4/fILf0w9h1+1YXiOrObZxalMVXv
+ 74DOYg6i7o+jDeCMR6MmeDgA6B3ITUEtILbcKgTTRFsRpoYXPJG8ZltVQoC0d83UW85+
+ 2ObAsi0WHefdn0gWwxnAPS8gUJ4LYL3B0ao9ikkrjvCzb7ucD8DOlnxXHehG05g8rTcL
+ DSMZUJQ+ZNkmIyklyaCG/zQipNGiNurpo4yerBfjYqk74YlOTvIW1wc46sZH36bAihJG
+ Ne7beno5RVLSMdZYUbj6FN1hAqM7Nlm3id88ysyNnQwHXKjWu14bKtb7oywSUf7hon0s
+ Kqgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gwUyY3H0fXMUoo0WPLNRqvNyeqJ3Icfxp5RDofnD1fQ=;
- b=DGQsUVcW9EuYLyuwqi46FDVibLKQgLZsGZZC8M4Hc3oXYD3/Iq8Dq00co2IE22BK33
- 0VEubD/AH1UghbBt/jX1PU/RKy9flgU1cptxJ5fYoRVNaf7FXK8RPINrxX4zmE30vSr1
- GWOKFWxBFiXEv7Ng7C+EXi0ygN3h8b/OAoZQ399h4opaW77AabQGJrOfY2O3nfp4GAj9
- 2QAzSXfAlISBYhrAosv6/EdHBbqcQ1+BgaQbxhtZnqb1407gmscyOLhhUJ83bF2niJgc
- wDvP3oi+FDyFcCzcgRNx4xcpaJJRFU2Vtm91xL5d+hrohfSKD7UQaDz5Y6UcoQVO/Tr6
- 6i0Q==
-X-Gm-Message-State: AOAM533DSHvGN7RhG0YoadMYsJra3SAb4xNBgsgq71fPAl98Nh3Lw/B8
- L2aV113JMiyMwhgZk8VhW22dRm90YMnxI1PrzMQ=
-X-Google-Smtp-Source: ABdhPJxCJyKzdVuUJPF/mGbHouqeR0ZMcbntHFSeHNfBHRnK7F2n/1sH5hozJwtLg2Nnu9xShFCR1J/4vH18cEMNVD8=
-X-Received: by 2002:a92:cd8c:: with SMTP id r12mr26451389ilb.221.1607846637311; 
- Sun, 13 Dec 2020 00:03:57 -0800 (PST)
+ bh=gGpGJE117uuu0mrJjD3uk83rQznDbmUGhxCc2a6Owt0=;
+ b=ldPelEFNymJePYinkRK2/AU8ZqhIM1U+dalTRG6lI3XL+8S9FaBNVlSBRYTxhPDq75
+ q+lvmgGC9s745CIvjcyfZRQgT1R2g8+7iSiSqqL5ffb6Y182LXdSZK+T3bOcAizvICOM
+ eJIdgNQES2qe8tGYPJBYE0mtlNuUCOfEjlwXoOnFLKhkLHM7YTVgJ2o5raD9S0dL4UYQ
+ eMQ4wZNDK8mWHO6Dbqx4go12sFJY6tts/SkJauZx6k4+lTF4S+0tDjaFX4pjroTTB4gA
+ ot6wJ2/FYO3SLPF8BUV4Eu+5GZA15smfCAYlxoQrEWdMgk/hsjBkzdbVDgksRR40vrF5
+ QM8w==
+X-Gm-Message-State: AOAM5311eWMjT19GbEAxptVvULhw2mPigsEmXRo40wqr0JWbEuvTSSXW
+ j02QRO3OqJ2j4dqyqg8bggTHyKuVTWELnk2CPPo=
+X-Google-Smtp-Source: ABdhPJzB1WJVmw6oioR+YnA3WOh0S77J//JsdipVKPwKjVz/MpcQscWUBzPJZk2Xs7h70pReIf9bMvQmtdxPEsLvjY4=
+X-Received: by 2002:a2e:3312:: with SMTP id d18mr7486964ljc.284.1607847562396; 
+ Sun, 13 Dec 2020 00:19:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20201209105833.9066-1-yashsri421@gmail.com>
- <CAKXUXMx_ypzYSCHLzQKY0Uq=M35V4kSd6aivCYBa8coR6jM0yw@mail.gmail.com>
- <bc8f9d46-1474-5470-aca4-c4470761efb6@gmail.com>
- <CAKXUXMz=AwR+3gPprE6eSkPxuXgVVTpXBe5yKV7tQNuaTPP9mg@mail.gmail.com>
- <0e52c716-25e8-398e-8269-27613d5775f8@gmail.com>
-In-Reply-To: <0e52c716-25e8-398e-8269-27613d5775f8@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sun, 13 Dec 2020 09:03:46 +0100
-Message-ID: <CAKXUXMytLeZ6czkg6Ezjp1BFV1NQM5rraJn76bxFN6N5CBDccA@mail.gmail.com>
-To: Aditya <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option and
-	improve msg for BOOL_COMPARISON
+References: <20201212195548.231494-1-dwaipayanray1@gmail.com>
+ <CAKXUXMx9EnhWhGAJf4ousAgkxDUrN=g2zGaPEk6ijJYse7VJaQ@mail.gmail.com>
+In-Reply-To: <CAKXUXMx9EnhWhGAJf4ousAgkxDUrN=g2zGaPEk6ijJYse7VJaQ@mail.gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Sun, 13 Dec 2020 13:48:58 +0530
+Message-ID: <CABJPP5BeB-aXDDk-8vy-8dOaNaM5jitx6QWKtV7Y3zXM5DgvUA@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dan Murphy <dmurphy@ti.com>, Pavel Machek <pavel@ucw.cz>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-leds@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] leds: Use DEVICE_ATTR_{RW, RO,
+	WO} macros
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,105 +108,74 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Dec 12, 2020 at 10:13 AM Aditya <yashsri421@gmail.com> wrote:
+On Sun, Dec 13, 2020 at 1:31 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
-> On 9/12/20 10:39 pm, Lukas Bulwahn wrote:
-> > On Wed, Dec 9, 2020 at 4:59 PM Aditya <yashsri421@gmail.com> wrote:
-> >>
-> >> On 9/12/20 5:17 pm, Lukas Bulwahn wrote:
-> >>> On Wed, Dec 9, 2020 at 11:58 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
-> >>>>
-> >>>> Currently, checkpatch warns if the user compares expression with boolean.
-> >>>>
-> >>>> E.g., running checkpatch on commit 3b3a1a0b7824 ("staging: rtl8723bs:
-> >>>> hal: Modify comparison to constant in rtl8723bs_xmit.c") reports:
-> >>>>
-> >>>> CHECK: Using comparison to true is error prone
-> >>>> +       if (ret == true)
-> >>>>
-> >>>> Provide a fix by replacing the expression with preferred expression. i.e.,
-> >>>>
-> >>>> 1) If the check is for a 'true' or 'not false' expression, the operand
-> >>>> will get replaced with empty string.
-> >>>>
-> >>>> 2) Else, the operand gets replaced with '!', and the arguments follow.
-> >>>>
-> >>>
-> >>> Can you show the test cases you used to test this?
-> >>>
-> >> Yes, I ran it over certain commits.
-> >>
-> >> Eg 1) commit 5c789e131cbb ("netfilter: nf_conncount: Add list lock and
-> >> gc worker, and RCU for init tree search"), where
-> >>
-> >> 1.i)
-> >> +       if (list->dead == true) {
-> >> gets changed to:
-> >> +       if (list->dead) {
-> >>
-> >> 1.ii)
-> >> +               if (rbconn->list.count == 0 && rbconn->list.dead == false) {
-> >> gets changed to:
-> >> +               if (rbconn->list.count == 0 && !rbconn->list.dead) {
-> >>
-> >> E.g. 2) commit 83ee6ec7740b75dc0db (Staging: rtl8723bs: os_dep: Fix
-> >> if-else coding style issues) where
-> >>
-> >> 2.i)
-> >> +       if (padapter->bDriverStopped == true) {
-> >> gets changed to:
-> >> +       if (padapter->bDriverStopped) {
-> >>
-> >> 2.ii)
-> >> +       if (pwrpriv->bInSuspend == true) {
-> >> gets changed to:
-> >> +       if (pwrpriv->bInSuspend) {
-> >>
-> >> 2.iii)
-> >> +       if (pwrpriv->bInSuspend == false) {
-> >> gets changed to:
-> >> +       if (!pwrpriv->bInSuspend) {
-> >>
-> >>> Can you show all findings of this rule on the current rc or linux-next?
-> >>>
-> >>
-> >> I have generated report on last 10k commits of latest next branch,
-> >> where the check was found to be reported 5 times.
-> >>
-> > 5 times in 10k commits? I am really wondering how you select the fix
-> > options you work on?
+> On Sat, Dec 12, 2020 at 8:56 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 > >
-> > Do you consider this relevant when the number is so low?
-> > Are there potentially other classes that are much more relevant instead?
+> > Instead of open coding DEVICE_ATTR() defines, use the
+> > DEVICE_ATTR_RW(), DEVICE_ATTR_WO(), and DEVICE_ATTR_RO()
+> > macros intead.
+>
+> typo: s/intead/instead/
+>
+> No need to use the word "instead" twice in one sentence, though, we got it :)
+>
 > >
-> > Can you run it over all files in the repository instead of git commits?
+> > This required a few functions to be renamed, but the functionality
+> > itself is unchanged.
 > >
-> > Commits really do not help when we want to fix this in the current kernel.
+> > Note that this is compile tested only.
 > >
 >
-> Hi
-> So, I ran  grep -e
-> "==\s*true\|==\s*false\|!=\s*true\|!=\s*false\|true\s*==\|false\s*==\|true\s*!=\|false\s*!="
-> . -R over the repo.
-> We currently have ~1630 such occurrences in different files.
+> This note does not go in the commit message. In the future, this will
+> be simply not true anymore, but this below the "---" (see HERE! as
+> marker).
 >
-> Detail findings can be found here:
-> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/bool_comparison/file_results.txt
+> For testing, you can generate the objdump of the binary before and
+> after and compare if that is as expected.
 >
-> A large amount of these occurrences are found in drivers/, with
-> "drivers/gpu/drm/amd/display/dc/dml/" having most occurrences.
+> Other than that, the change itself looks good to me, so:
 >
-> What do you think?
+> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+>
+> Thanks, Dwaipayan, for fixing this up.
+>
+> Will you also add a checkpatch rule to identify other DEVICE_ATTR(...)
+> that can be adjusted to the refined macros, so that checkpatch informs
+> other submitters as well?
 >
 
-I suggest you submit a few patches correcting this style to a few
-driver maintainers to see if they are in favor of this checkpatch
-rule.
+I think a checkpatch rule for this already exists. But it cannot automatically
+rename the function names. That might be the only drawback we got.
+Probably clang-format could fix these automatically.
 
-Lukas
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Dan Murphy <dmurphy@ti.com>
+> > Cc: Pavel Machek <pavel@ucw.cz>
+> > Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > Cc: linux-leds@vger.kernel.org
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-kernel-mentees@lists.linuxfoundation.org
+>
+> As far as I know, the maintainers will add the Cc lines---if they like
+> those---with script support.
+>
 
-> Thanks
-> Aditya
+I thought I might ease the work of maintainers to add those lines :(
+But nevertheless I will remove them.
+
+> > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> > ---
+>
+> HERE!
+>
+
+Thanks Lukas.
+I will be sending in a v2 if the led maintainers have no problem with
+this patch.
+
+Thank you,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
