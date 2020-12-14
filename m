@@ -8,92 +8,91 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0168C4361B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Dec 2020 07:59:00 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D3FC4361B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Dec 2020 08:02:32 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 604FA225AC
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Dec 2020 07:59:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 604FA225AC
+	by mail.kernel.org (Postfix) with ESMTPS id 0C89A225AC
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Dec 2020 08:02:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C89A225AC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E453C861B2;
-	Mon, 14 Dec 2020 07:58:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 8028120490;
+	Mon, 14 Dec 2020 08:02:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S8FE8CbT0jOv; Mon, 14 Dec 2020 07:58:59 +0000 (UTC)
+	with ESMTP id lCpNnYSxKXMT; Mon, 14 Dec 2020 08:02:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 6357F862C7;
-	Mon, 14 Dec 2020 07:58:59 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 47C8B203DF;
+	Mon, 14 Dec 2020 08:02:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20029C088E;
-	Mon, 14 Dec 2020 07:58:59 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6D0A6C013B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 357FFC088E;
+	Mon, 14 Dec 2020 08:02:25 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B33F3C013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 07:58:57 +0000 (UTC)
+ Mon, 14 Dec 2020 08:02:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 5361A8604A
+ by silver.osuosl.org (Postfix) with ESMTP id 9A54220481
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 07:58:57 +0000 (UTC)
+ Mon, 14 Dec 2020 08:02:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vnFOYyBNban4
+ with ESMTP id qbIa5iKPZ5AE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 07:58:56 +0000 (UTC)
+ Mon, 14 Dec 2020 08:02:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
- [209.85.210.193])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id CEBA185E51
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+ [209.85.210.195])
+ by silver.osuosl.org (Postfix) with ESMTPS id A525B203DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 07:58:56 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id t8so11564951pfg.8
+ Mon, 14 Dec 2020 08:02:18 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id q22so11558374pfk.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Dec 2020 23:58:56 -0800 (PST)
+ Mon, 14 Dec 2020 00:02:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6b+ZRS9DmsS/G5g6tIAbIZZ5jkvMPonBxDT5Cg03Glk=;
- b=Nalk0bAAuJ3WV19QHKjKi4zG8pypGhHMMREkEHawPxD2V7ZHzwtQv1+J46OjmOMrpS
- AaKdfU9aFRxwmIKyT3RchJwDuSInYGnvqrVI59Am0qlMkK1j3bqhV7BvCmre2azEtBUu
- N1aP2sU/qZYBXV9ZS7wG/R5Tgx/jUhPo+PIt29cd+Iaoegyx2g6u7q1kg26BQWbJlaPI
- rkNPRQkQcw+BdXDB3PbsAItyEPQSgs2vjcs26U4oPDi7dpUFsNx8WRiW62iD2vtfIt8/
- yQyFZUMzOQzCJAz4oBiY+fJbJpQgCLegYpqaZaHcJUzXhY3OZrzqKBpOpxpGTOl5jE4U
- sQYQ==
+ bh=GjJyoj6HEnn8S41rMLrhQESVG/OibfeqXfc4YY2wvNg=;
+ b=gmJFyvLRjkZKf5B4WcUqx9uRzIFrei+BT1jX95Tpg1FZIgOU+sz7v8vDxjVcvzwvrH
+ IJc4j85T4fOJhBlu9bfD+yNMYlBch3IB+0yU7oQrZnAIzc8JFMoa2XdlC65khbmvCrIg
+ B/P7QX1u2+74gz1ldeTzJTexKgpPiwCNz1HagQn5vtGypCV8j1j43ISuDpRpwToKxzSW
+ G41O4WC2kG/yxz164/nR9M+KqjKzE7pE6i3FJODjmmoWnu2WB9bcp8BxEaDhI8KVQTY1
+ ak5pB8tdZIZnSIpC1hnMsX4t0mIk5KRJAldrbXwOq3uWXPozah8ikuzhJQs4MQaYxwn+
+ yjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6b+ZRS9DmsS/G5g6tIAbIZZ5jkvMPonBxDT5Cg03Glk=;
- b=YLmVf0LeWDD8C/6Wil4GlJsde09dS3l/2VQLdtQKqF0qmz+1Rj41j7gSaBdMW6uOuP
- qD61XxubyYMl+5ypXE0I3su67qYsahO9N454HGx50ltUeA4dsqHk7B67WjUa3dv5A+N7
- z9DTBf8oRL/CruEUyQcBn+XaRiE0YIYb5GB+hoL5bDfE2IgooAwkCzpSEdHklH73WE1M
- 7jdUs2Knd2wDUQrFEjoK/RmW9V9NZK49xC1S4V/Z5+WbvgCFua3Cz+if2xy5ndHcLJie
- arp/ZOOu7uGk6kPNpCDcwtRgb+sW9ZYVQ7Av3o/eXllfQwjbpE98Ee+cfPFrehZAkfgF
- tQrQ==
-X-Gm-Message-State: AOAM530lFVJmfeqGvejqJ5M2va6yzhbwLuZUXA9+bhS+EZBT6EQzAKrX
- g+RB/G+lN6UhhsgliJEmLPM=
-X-Google-Smtp-Source: ABdhPJwIe9vEHKO3l1Ki6rafHiT1gaw6D6oR7GhGBUtwGoOfMcJiDSRxR01jZR8/A8FuAfpVjyfLBg==
-X-Received: by 2002:a05:6a00:1623:b029:1a4:e935:87a8 with SMTP id
- e3-20020a056a001623b02901a4e93587a8mr6056029pfc.26.1607932736312; 
- Sun, 13 Dec 2020 23:58:56 -0800 (PST)
+ bh=GjJyoj6HEnn8S41rMLrhQESVG/OibfeqXfc4YY2wvNg=;
+ b=QWg7UAqCRFZP2JQrJtEPM5XvR7bbFdqKdCajPcdoinkK1vJH2QuitheT5lrTbPL88n
+ VaKGkc6aHPPvpAaee1D9GfH8RBNRmLrMX7J5wPdfG/KDhdXZzYt5vIQRzfL6P2BGnWhi
+ FcfyqU2V9Zgxk3QogHJ9OdD+IvtN4nGd750/3Y5Pyz7Zn7SugB0aBX2Mr8VKiCDCPXiW
+ RWh57wkTLqK1l6f+rTtfTCl58yrHyFPfnWdWLJNQdpVJl2RLP+JnfJQto4HKuWPeS3xA
+ DGFLndloVUOQFIILNBBXS3F4Ex3HdlpiSvMezR4e5NnblToR5p//w27FsxohhqB0Msqw
+ oz4Q==
+X-Gm-Message-State: AOAM530EkQCvpJc+X+0eQ7ak8Sod6IqQENybyEuNxda/brd2wP0Vh9+t
+ ifLyVPwN1yykEBqMwSpdrAw=
+X-Google-Smtp-Source: ABdhPJxjA4Nmo5rAaQa/vV8917Z0AYXTrx37DzCtfWush8Yx6bCndQLfMbXs0NDiM1Y/ovPIGpcP3g==
+X-Received: by 2002:a63:65c5:: with SMTP id z188mr7863980pgb.332.1607932938079; 
+ Mon, 14 Dec 2020 00:02:18 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:9004:68f8:3c95:3c1d:64ce:bfb7])
- by smtp.gmail.com with ESMTPSA id s10sm19042278pgg.76.2020.12.13.23.58.53
+ by smtp.gmail.com with ESMTPSA id a142sm14396932pfa.188.2020.12.14.00.02.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Dec 2020 23:58:55 -0800 (PST)
+ Mon, 14 Dec 2020 00:02:17 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
 To: joe@perches.com
-Date: Mon, 14 Dec 2020 13:28:31 +0530
-Message-Id: <20201214075831.34282-1-dwaipayanray1@gmail.com>
+Date: Mon, 14 Dec 2020 13:31:56 +0530
+Message-Id: <20201214080156.35072-1-dwaipayanray1@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, dwaipayanray1@gmail.com
-Subject: [Linux-kernel-mentees] [PATCH] scripts: add more corrections to
+Subject: [Linux-kernel-mentees] [PATCH v2] scripts: add more corrections to
 	spelling.txt
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -117,6 +116,9 @@ a few more corrections are added to spelling.txt
 
 Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
+Changes in v2:
+- Fix additional whitespace before "up to"
+
  scripts/spelling.txt | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
@@ -216,7 +218,7 @@ index 953f4a2de1e5..cf2453ddb216 100644
  unvalid||invalid
  upate||update
  upsupported||unsupported
-+upto|| up to
++upto||up to
 +uptodate||up-to-date
  usefule||useful
  usefull||useful
