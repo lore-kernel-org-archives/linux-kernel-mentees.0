@@ -1,97 +1,102 @@
-Return-Path: <SRS0=WLyE=FS=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=4rFl=FT=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41B80C4361B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Dec 2020 13:27:32 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 377FEC4361B
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Dec 2020 06:47:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 76168224B1
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Dec 2020 13:27:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 76168224B1
+	by mail.kernel.org (Postfix) with ESMTPS id B069C22285
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Dec 2020 06:47:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B069C22285
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 04685860B0;
-	Mon, 14 Dec 2020 13:27:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8IOABHqtSsoj; Mon, 14 Dec 2020 13:27:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 54BA88604A;
-	Mon, 14 Dec 2020 13:27:30 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B439C088E;
-	Mon, 14 Dec 2020 13:27:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1C86C013B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 13:27:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 819F1204E8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 13:27:28 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 59BE22034C;
+	Tue, 15 Dec 2020 06:47:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wkfdFKB+L4sy; Tue, 15 Dec 2020 06:47:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id F187D2013C;
+	Tue, 15 Dec 2020 06:46:59 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D636FC0893;
+	Tue, 15 Dec 2020 06:46:59 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AABB3C013B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Dec 2020 06:46:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 99A8786FFC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Dec 2020 06:46:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YNgmPut2ILPz
+ with ESMTP id JNplQlUNrNNO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 13:27:27 +0000 (UTC)
+ Tue, 15 Dec 2020 06:46:57 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
- [209.85.214.195])
- by silver.osuosl.org (Postfix) with ESMTPS id 3AD23204C2
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+ [209.85.166.181])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 638C586FFA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 13:27:27 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id x18so2513613pln.6
+ Tue, 15 Dec 2020 06:46:57 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id u12so18145394ilv.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Dec 2020 05:27:27 -0800 (PST)
+ Mon, 14 Dec 2020 22:46:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=w/xga15fpvf223g1LToCcvKonyr8d0IUXYfgkxm6LLw=;
- b=ZgUK/nAiJkiLJ84hMO3nR/+Zdeh13SON+QUAe8TvyR2XZf0Gkk6hXFOMJkDnU5q1wL
- FxNYSItxNDx5D3mQ+tGcbS+fdygzMIT7Mp6z29mkOuBog1zssOoWRRPvIi4TGG7Jnkd+
- Yz8T1RWFxYn5gjiCS4Lv7VpNv8gnFS5UC21G0LUa7YZEO/BGK/VAj5w3DR1PW9SXmF28
- JZn9fycsK7tI0YztyTrS1FqgNM2kb+GTTzosZwpi3VazmFdS/al7n9cBqGN7MTrWs/s2
- g1v16/YPxFiFe5N39TtPKgBPNGFhkyRZ8dbImxUh3wPFxl7t7j+gCc102Cr63odka6Fp
- V3Eg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KJmGX8DUjsyDkS4IIQzNIpjdN3cF+uUcULONbP0J9i8=;
+ b=QgbANH7usQxqfh71A5PcsJTXSP5ll0BlJ/6I9ZwHNVHp+ECykcgiJq+oAjbAecGlDz
+ 3fU7IrrBHCyD3ow0AjjQe/kRIcuUmBC9IzXvtbgzdBPa49iZcW7OHlh0UsRJ9Nz3vLX5
+ 2PqzyTyAw0uO8igRPwz4LnqOmeXLwoFzzSjGznHqhXDM4BREqRlBxKKgvdexnKwQjiUv
+ FoA7AJZLJlDNtklOu808h5rBRHJiy/o3UuYZLbceG029hrFVgiBxSRu+FmBwnDAotQho
+ 1jjNEcK7Zou0OuUJlQn3Pp6YbKCRBDq7tVYv2uYSMGiusY3vtvXniYWP6LnbZdJSeOer
+ zNig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=w/xga15fpvf223g1LToCcvKonyr8d0IUXYfgkxm6LLw=;
- b=XjNe31KlZdN2CRcW5q6n+I77SAim/qc9gAsQH+iEFXEC2TDjTUMZdbR/7yy3oJUaEz
- lE/Wl5uDfOe4kFz86lRsdntHTwYXoCe7DVF/LCKnKtN/vm9Lefl+ypgD20uY2+8XWsda
- QdG8QhoDuspKH+CU+ntGCg8LhTVa0cwGTMWTFZkCgC7LrcL5BN59fO6Eyh2B6utwq3Fn
- G+cFbR7lattqh1X8xkxA84iv+26TuDdwKDY+a+qRo5uzVwMYmMlC/ynR5aD9FBydCHP1
- xBpCp761ukgc0OLW8C7K1IVwQ+x41m7wM9FB6vx/LuhLpL5r7jy01XQTS+BJes+/1Gl+
- BTlw==
-X-Gm-Message-State: AOAM5310HjxkPLpR/eoW0eg+M9cfRQ4Rt+EkWf1K8tupAhw4II0Bcf/7
- 6AcntFxtWpn6NARJpFzAfWM=
-X-Google-Smtp-Source: ABdhPJzJUWP2hEoBaWY4snpg8ej0W+HdCMlhzSjpebEX80m5j2fm+jelBbjtFAOEE8w9WmVShQeBZQ==
-X-Received: by 2002:a17:90a:cb8d:: with SMTP id
- a13mr25142870pju.155.1607952446672; 
- Mon, 14 Dec 2020 05:27:26 -0800 (PST)
-Received: from localhost.localdomain ([2402:3a80:434:48f9:6555:5055:78fe:89cf])
- by smtp.googlemail.com with ESMTPSA id k64sm19944081pfd.75.2020.12.14.05.27.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Dec 2020 05:27:26 -0800 (PST)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: linux-media@vger.kernel.org
-Date: Mon, 14 Dec 2020 18:57:16 +0530
-Message-Id: <20201214132716.28157-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: yashsri421@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KJmGX8DUjsyDkS4IIQzNIpjdN3cF+uUcULONbP0J9i8=;
+ b=mN/fxXI5ndHsnSOv/1lP2tE5CQfIkq68Mk8WnTKT5BFcKps0iMWceqIdAa42G33fN5
+ 2g2cMwodSVw98eDiA2DoW33C1+cZqzTaBXpLfVdSMtSWyZzNcMZ0320wjBloVxgE7ZT0
+ hfBMTOwj/rESBbzUbSh54RTWiFIqkVvX1WYSO7rDYMH58xldIB6ckYDekW2h4lN/JR1k
+ xWQgoXg/Dnz9WSqFrFoersEqLrbLQl4x6iXsnbv+DJu25XPpckcOkQcyNcmttvCeuN0z
+ WgPvQszcb2wMTUwzW6YTlgbGo9nEfI4uj/qBrVBTaSdHOmsoDeSY7o7yQY+fS9ecxd5H
+ hhOQ==
+X-Gm-Message-State: AOAM531ua6A12TmD3R2m6ip2Zj9zWiMEMGHfhHSOUqDKkLKGfuvHV0e1
+ iixDqOTQ8U62kd1Rpe6rcNl9aAIlpKqJdBuXlaw=
+X-Google-Smtp-Source: ABdhPJzSPGJgXv64/TNeKBh6gGXaY26ACCNoHowg7oJJ/KLF+VmNLHEYxvduaG3HzFvhlO11LGZsxFkyZmR3q/vFJuc=
+X-Received: by 2002:a92:d8cc:: with SMTP id l12mr39405799ilo.64.1608014816562; 
+ Mon, 14 Dec 2020 22:46:56 -0800 (PST)
+MIME-Version: 1.0
+References: <CABJPP5C6bxhxSp3FqE7zui=gOmNGe4VX__-qPtG_1bD16hoAFA@mail.gmail.com>
+ <dc09c6a2-dafd-c26e-19fb-ebd7eb212447@gmail.com>
+ <CABJPP5AP-gFJEY9D70+HeHUfQC=MnRzps1dOx+Ev+pf3rxBmug@mail.gmail.com>
+ <cffb4773-3396-6ebc-f556-2f5d2138b67e@gmail.com>
+ <CAKXUXMyD1c1iPEOvPksq_znqbhst=xbqpW5=peyD_+asFMznaA@mail.gmail.com>
+ <CABJPP5AOwoshncvbdooy1df4++5NKY-fUMVQUm8yze-w+6-Gmg@mail.gmail.com>
+ <CAKXUXMz4fBJ8a_vpYow14yiKoKhC_=bQHHd4WXfOcsxJxqbdcw@mail.gmail.com>
+ <660a4bb0-1ba4-acd4-e8bc-a53cccfbf10a@gmail.com>
+In-Reply-To: <660a4bb0-1ba4-acd4-e8bc-a53cccfbf10a@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Tue, 15 Dec 2020 07:46:45 +0100
+Message-ID: <CAKXUXMy7XbmWmj5HOrAJ-fYAdZmK0kd9NnP_i4cpOaS7eqCnrw@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] media: atomisp: replace boolean
-	comparison of values with bool variables
+Subject: Re: [Linux-kernel-mentees] POC script to apply patches into a
+	test-branch and run clang-format
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,161 +108,108 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are certain expressions in a condition in atomisp, where a boolean
-variable is compared with true/false in forms such as (foo == true)
-or (false != bar), which does not comply with the coding style rule by
-checkpatch.pl (CHK: BOOL_COMPARISON), according to which the boolean
-variables should be themselves used in the condition, rather than
-comparing with true or false.
+On Fri, Dec 11, 2020 at 10:16 AM Aditya <yashsri421@gmail.com> wrote:
+>
+> On 11/12/20 11:57 am, Lukas Bulwahn wrote:
+> > On Fri, Dec 11, 2020 at 7:24 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+> >>
+> >>>
+> >>> Aditya, Dwaipayan, can you set up a git repository that you use
+> >>> together to work on this script?
+> >>>
+> >>> And provide a short description of how to use the script with an
+> >>> example in that repository?
+> >>>
+> >>> Then, I am happy to try it out... and provide you more feedback.
+> >>>
+> >>> Lukas
+> >>
+> >> Hi Lukas,
+> >> Sure enough, if Aditya doesn't mind, I will put up a repo for the same.
+> >>
+> >
+> > Dwaipayan, just set up a repository with your latest state that you
+> > are currently happy with, then Aditya can fork that and put changes on
+> > top as he might see fit and open a pull request, so you integrate them
+> > back.
+> >
+>
+> Hi
+> I have added my changes in the repo and also provided steps to run the
+> script in readme.
+>
+> Repo Link: https://github.com/raydwaipayan/apply-patch
+>
+> You can use this patch for testing. It applies on next-20201204.
+>
 
-E.g. In drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:
+Okay, I downloaded and tried it:
 
-if (asd->stream_prepared == false) {
+perl ./scripts/applypatch.pl --clang-format test.patch
+--branch=test-clang-format-bfq-cgroup
 
-Can be replaced with:
-if (!asd->stream_prepared) {
+but it failed:
 
-Replace such expressions with boolean variables appropriately.
+git checkout test-clang-format-bfq-cgroup
+Already on 'test-clang-format-bfq-cgroup'
+git am $patchtest.patch
+fatal: could not open '.patch' for reading: No such file or directory
+Clang formatted patchfile generated at:
+test.patch.EXPERIMENTAL-clang_format-fixes
+git checkout test-clang-format-bfq-cgroup
+Already on 'test-clang-format-bfq-cgroup'
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
-* The changes made are compile tested
-* The patch applies perfectly over next-20201204
+How about setting up a minimal travis.ci check that runs this command
+on a small git repository with one file and one patch on top for
+testing purposes?
 
- .../staging/media/atomisp/pci/atomisp_compat_css20.c |  2 +-
- .../atomisp/pci/runtime/isys/src/virtual_isys.c      | 12 ++++++------
- drivers/staging/media/atomisp/pci/sh_css.c           | 12 ++++++------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+The script does not have error handling yet, so the next steps are
+just executed blindly even if the one before failed and is really
+required for the next one to do the right thing.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index faa0935e536a..6a80c676f668 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1142,7 +1142,7 @@ int atomisp_css_start(struct atomisp_sub_device *asd,
- 	 * Thus the stream created in set_fmt get destroyed and need to be
- 	 * recreated in the next stream on.
- 	 */
--	if (asd->stream_prepared == false) {
-+	if (!asd->stream_prepared) {
- 		if (__create_pipes(asd)) {
- 			dev_err(isp->dev, "create pipe error.\n");
- 			return -EINVAL;
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index 317ea30ede7a..82f3c19dc455 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -179,12 +179,12 @@ ia_css_isys_error_t ia_css_isys_stream_create(
- 	isys_stream->linked_isys_stream_id = isys_stream_descr->linked_isys_stream_id;
- 	rc = create_input_system_input_port(isys_stream_descr,
- 					    &isys_stream->input_port);
--	if (rc == false)
-+	if (!rc)
- 		return false;
- 
- 	rc = create_input_system_channel(isys_stream_descr, false,
- 					 &isys_stream->channel);
--	if (rc == false) {
-+	if (!rc) {
- 		destroy_input_system_input_port(&isys_stream->input_port);
- 		return false;
- 	}
-@@ -204,7 +204,7 @@ ia_css_isys_error_t ia_css_isys_stream_create(
- 	if (isys_stream_descr->metadata.enable) {
- 		rc = create_input_system_channel(isys_stream_descr, true,
- 						 &isys_stream->md_channel);
--		if (rc == false) {
-+		if (!rc) {
- 			destroy_input_system_input_port(&isys_stream->input_port);
- 			destroy_input_system_channel(&isys_stream->channel);
- 			return false;
-@@ -248,7 +248,7 @@ ia_css_isys_error_t ia_css_isys_stream_calculate_cfg(
- 		  isys_stream_descr,
- 		  &isys_stream_cfg->channel_cfg,
- 		  false);
--	if (rc == false)
-+	if (!rc)
- 		return false;
- 
- 	/* configure metadata channel */
-@@ -260,7 +260,7 @@ ia_css_isys_error_t ia_css_isys_stream_calculate_cfg(
- 			  isys_stream_descr,
- 			  &isys_stream_cfg->md_channel_cfg,
- 			  true);
--		if (rc == false)
-+		if (!rc)
- 			return false;
- 	}
- 
-@@ -269,7 +269,7 @@ ia_css_isys_error_t ia_css_isys_stream_calculate_cfg(
- 		 &isys_stream->input_port,
- 		 isys_stream_descr,
- 		 &isys_stream_cfg->input_port_cfg);
--	if (rc == false)
-+	if (!rc)
- 		return false;
- 
- 	isys_stream->valid = 1;
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index ddee04c8248d..a71c1bbd984b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -1063,7 +1063,7 @@ sh_css_config_input_network(struct ia_css_stream *stream) {
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 			    "sh_css_config_input_network() enter 0x%p:\n", stream);
- 
--	if (stream->config.continuous == true)
-+	if (stream->config.continuous)
- 	{
- 		if (stream->last_pipe->config.mode == IA_CSS_PIPE_MODE_CAPTURE) {
- 			pipe = stream->last_pipe;
-@@ -5626,7 +5626,7 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 		} else {
- 			/* output from main binary is not yuv line. currently this is
- 			 * possible only when bci is enabled on vfpp output */
--			assert(pipe->config.enable_vfpp_bci == true);
-+			assert(pipe->config.enable_vfpp_bci);
- 			ia_css_pipe_get_yuvscaler_binarydesc(pipe, &vf_pp_descr,
- 							     &mycs->video_binary.vf_frame_info,
- 							     pipe_vf_out_info, NULL, NULL);
-@@ -8072,7 +8072,7 @@ create_host_regular_capture_pipeline(struct ia_css_pipe *pipe) {
- 		struct ia_css_frame *tmp_out_frame = NULL;
- 
- 		for (i = 0; i < num_yuv_scaler; i++) {
--			if (is_output_stage[i] == true)
-+			if (is_output_stage[i])
- 				tmp_out_frame = out_frame;
- 			else
- 				tmp_out_frame = NULL;
-@@ -8464,7 +8464,7 @@ sh_css_pipeline_add_acc_stage(struct ia_css_pipeline *pipeline,
- 	/* In QoS case, load_extension already called, so skipping */
- 	int	err = 0;
- 
--	if (fw->loaded == false)
-+	if (!fw->loaded)
- 		err = acc_load_extension(fw);
- 
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
-@@ -9701,8 +9701,8 @@ ia_css_stream_destroy(struct ia_css_stream *stream) {
- 			assert(entry);
- 			if (entry) {
- 				/* get the SP thread id */
--				if (ia_css_pipeline_get_sp_thread_id(
--					ia_css_pipe_get_pipe_num(entry), &sp_thread_id) != true)
-+				if (!ia_css_pipeline_get_sp_thread_id(
-+					ia_css_pipe_get_pipe_num(entry), &sp_thread_id))
- 					return -EINVAL;
- 				/* get the target input terminal */
- 				sp_pipeline_input_terminal =
--- 
-2.17.1
+I generally like the script, let us work a bit on tuning it for proper
+error handling, add some basic tests and then discuss it with Miguel.
 
+Lukas
+
+> From c631c1b9c4c7e3cdbf0e41b21b8fa1d34ba20aef Mon Sep 17 00:00:00 2001
+> From: Aditya Srivastava <yashsri421@gmail.com>
+> Date: Fri, 11 Dec 2020 14:19:52 +0530
+> Subject: [PATCH] patch for testing
+>
+> This patch has been created for testing clang-format on c-file.
+> ---
+>  block/bfq-cgroup.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/bfq-cgroup.c b/block/bfq-cgroup.c
+> index b791e2041e49..8409ee064204 100644
+> --- a/block/bfq-cgroup.c
+> +++ b/block/bfq-cgroup.c
+> @@ -184,7 +184,8 @@ void bfqg_stats_set_start_empty_time(struct
+> bfq_group *bfqg)
+>                 return;
+>
+>         stats->start_empty_time = ktime_get_ns();
+> -       bfqg_stats_mark_empty(stats);
+> +
+> +bfqg_stats_mark_empty(stats);
+>  }
+>
+>  void bfqg_stats_update_idle_time(struct bfq_group *bfqg)
+> --
+> 2.17.1
+>
+>
+> Thanks
+> Aditya
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
