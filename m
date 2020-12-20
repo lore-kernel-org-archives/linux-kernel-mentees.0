@@ -2,101 +2,99 @@ Return-Path: <SRS0=Q7nG=FY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FCBC4361B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Dec 2020 15:53:47 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C54AC4361B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Dec 2020 18:33:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 19C8020578
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Dec 2020 15:53:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19C8020578
+	by mail.kernel.org (Postfix) with ESMTPS id AD8AE22D72
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Dec 2020 18:33:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD8AE22D72
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id C2C3A85CBB;
-	Sun, 20 Dec 2020 15:53:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 517E987401;
+	Sun, 20 Dec 2020 18:33:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YytgAkH7o9Cr; Sun, 20 Dec 2020 15:53:46 +0000 (UTC)
+	with ESMTP id FrrBCHrjovaP; Sun, 20 Dec 2020 18:33:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 21EC285C13;
-	Sun, 20 Dec 2020 15:53:46 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 768B5873DD;
+	Sun, 20 Dec 2020 18:33:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0FA1FC1825;
-	Sun, 20 Dec 2020 15:53:46 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 659B0C1825;
+	Sun, 20 Dec 2020 18:33:19 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0E033C0893
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 922B5C0893
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Dec 2020 15:53:45 +0000 (UTC)
+ Sun, 20 Dec 2020 18:33:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0972F85C13
+ by whitealder.osuosl.org (Postfix) with ESMTP id 86C8186D3A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Dec 2020 15:53:45 +0000 (UTC)
+ Sun, 20 Dec 2020 18:33:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PNkAFPPR-D+3
+ with ESMTP id lc30RUgg8YIW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Dec 2020 15:53:44 +0000 (UTC)
+ Sun, 20 Dec 2020 18:33:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by whitealder.osuosl.org (Postfix) with ESMTPS id D7DBA85BDF
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id E59E186D25
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Dec 2020 15:53:43 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id o19so17853166lfo.1
+ Sun, 20 Dec 2020 18:33:17 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id lj6so4922209pjb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Dec 2020 07:53:43 -0800 (PST)
+ Sun, 20 Dec 2020 10:33:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=w76pCbNy6dxzNTJV7uHayuF0nPAVCQYp3cgaHRN1pxg=;
- b=IWK1veCqkgZg0RfGQiV33qKujvUJIF+bvTfYUJjG5xtXku66UuxK4HiDdFvlrKhlav
- 3OpCMbE/9CpWEb6fTIzg7xCi6ftOq25maadCVjcnNh4dk5/Q8UDBxY8lHnE4K7A8hOlT
- SJB56Sy88Qjf4ixmoPGG13RooG5H4+YR5to5qNfm92V4gY0lLgef+CtGAZlr9vPPploF
- SoxD8qsxYBn0Al9+xKMVTLod9hnty09YxFr5JmowJ1O8rnzdCcx3CKTSJxr7oTM9ldbq
- LPiPgwpS2zG3cQnpZUq5FyxLiW9lswXEJ+1yeQA0XCfo/DPNe3EnuDHocDMQpO0zkhLI
- Yv6Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=JnYFewSA1ImupWo7GCP19NuiMyNAo92XUMh2bqadNVs=;
+ b=e5Ea67ha4r7IECAOa1WxONsEX/YUf/rmwBmpsXCjGJQ3SZ2eMxs1FGoOE//oSHruBe
+ xXd85mZznAQnfg5mSS1IKvJxJgfb+3LeUGCQZvdQ+xGwFvkQPIRLpV8Bdf10jJgHx54I
+ PhkJZi/ces0vuUoiXwMFaPuzyIpmJ7uzVQGxRg8QIO/9vEqJKEj6kkcTNJ+XIkMvDAPg
+ d12XD3qnePgD0C4ToLNDaBa0W4O+a2WV641h/NL9H68e8dfS5EABGlHlFFv0LWYtenXK
+ b77ofDrBA+zAriIh4uXjFZ0wV9D70peKjBww/CyR2AzOJOH1Ql2Ah65ahAuL+y4AtVpH
+ 62qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=w76pCbNy6dxzNTJV7uHayuF0nPAVCQYp3cgaHRN1pxg=;
- b=JDlrAlapNdC7hqPeu5E23aIDz0AZB03cskBZxMVG/0VTgO+jIs07M6sa8A52Xa0Tsi
- sPws7l9EMDnWFsb1VDrPza/M/s+Ks4obNcXf50fU64BCPqGlUiLWjYej3Smoe3L5yzyE
- llTBInA9ylCj2zkkIWlCb8py6x4Ywny1Zs3iBisFbP0JtVaerSo3tDDmXMlvi0FTKwed
- OqBVadEXf6NZ7gH1BAdgLR9lgZLrO51eve4azxqM+K2XGyNiWc7zvJC0FDcUtk0RW9qY
- kcZcUe79mkb8JWhyHKjirF3SrRRBV5FNmYmzuKlnYMKbRfE6GAAAVbSkmpImkZgBJGQh
- pRRA==
-X-Gm-Message-State: AOAM531Z2LtHoQvr0D3s1U/UWrGsxs677xuE0bUreQ2m68nDTi8yg7mW
- obeq9aoBfdoLJqY+yiZxfG4=
-X-Google-Smtp-Source: ABdhPJxk3EmTSSarCFyPET1I9pcrsaQ7+5lBrzGUboTUPa/xBJZ2oxFjq9QVuNDQlgrgX4m20qSOkg==
-X-Received: by 2002:a19:3f01:: with SMTP id m1mr4957152lfa.203.1608479621895; 
- Sun, 20 Dec 2020 07:53:41 -0800 (PST)
-Received: from kari-VirtualBox (87-95-193-210.bb.dnainternet.fi.
- [87.95.193.210])
- by smtp.gmail.com with ESMTPSA id t196sm1679738lff.195.2020.12.20.07.53.40
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=JnYFewSA1ImupWo7GCP19NuiMyNAo92XUMh2bqadNVs=;
+ b=tK1+InOW4tikLgSMabgysNqu1o01Wf9m1IQG2jcNJM1MBAqaNhC1R5tUbeBEmYcE0I
+ dhkg41C0DSIwvI+vUtbH2DAkE9Nx0Is6EB/pssI7VT8m5t/7lGyiWAJ+u1KwcTt+crwd
+ 4hlbNBnis1jV4B/h0xzcUhCFrlUddZCo9/XDWsAEFhWCM/cxxnsFihmABxVgZ412C9GH
+ xFOYOJJZdt2oMrtx9qvveyYIXCZE32Af+o6PFe1w0B9xStEA7mc+unOHO2UMrNiJt5VV
+ qJZyYH87A1hN9qWvM2l64wZuYS4OPScwh9hGg8v5xuTLiIuXq02Jipwo6hzj4BGhWsHX
+ Uy1Q==
+X-Gm-Message-State: AOAM5313zywwKiCI3RwuoqG9lsxynRMrHTwI6I7Yi7ErtpjVD9TT6wAs
+ x2FQmjsHvW5lSHBVem5SoXE=
+X-Google-Smtp-Source: ABdhPJxm0x5Mg2OrWRAxW/uE1TH6TKlEU23wW2XrE3KorXN4xEHzHE1HVKLn0Ry981rOzphg5VQFkw==
+X-Received: by 2002:a17:90a:4209:: with SMTP id
+ o9mr14144121pjg.75.1608489197403; 
+ Sun, 20 Dec 2020 10:33:17 -0800 (PST)
+Received: from localhost.localdomain ([2402:3a80:420:966f:e4a8:3fba:bee:da49])
+ by smtp.googlemail.com with ESMTPSA id
+ w22sm13887037pfu.33.2020.12.20.10.33.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Dec 2020 07:53:41 -0800 (PST)
-Date: Sun, 20 Dec 2020 17:53:39 +0200
-From: Kari Argillander <kari.argillander@gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Message-ID: <20201220155339.qove5haszqr7zggl@kari-VirtualBox>
-References: <20201217114204.12029-1-yashsri421@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20201217114204.12029-1-yashsri421@gmail.com>
-Cc: devel@driverdev.osuosl.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] staging: rtl8192e: fix bool
-	comparison in expressions
+ Sun, 20 Dec 2020 10:33:16 -0800 (PST)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Mon, 21 Dec 2020 00:03:07 +0530
+Message-Id: <20201220183307.8744-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAKXUXMz6TuYZkZJbgDBPiH4MmecUUbLjPct9XnZZu12VP+w4mw@mail.gmail.com>
+References: <CAKXUXMz6TuYZkZJbgDBPiH4MmecUUbLjPct9XnZZu12VP+w4mw@mail.gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, yashsri421@gmail.com
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: ignore files not
+	following NETWORKING_BLOCK_COMMENT_STYLE
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,160 +106,99 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Dec 17, 2020 at 05:12:04PM +0530, Aditya Srivastava wrote:
-> There are certain conditional expressions in rtl8192e, where a boolean
-> variable is compared with true/false, in forms such as (foo == true) or
-> (false != bar), which does not comply with checkpatch.pl (CHECK:
-> BOOL_COMPARISON), according to which boolean variables should be
-> themselves used in the condition, rather than comparing with true/false
-> 
-> E.g. in drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c,
-> "if (Type == true)" can be replaced with: "if (Type)"
-> 
-> Replace all such expressions with the bool variables appropriately
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> - the changes made are compile tested
-> - the patch applies perfectly over next-20201204
-> 
->  drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c | 4 ++--
->  drivers/staging/rtl8192e/rtl8192e/rtl_core.c   | 4 ++--
->  drivers/staging/rtl8192e/rtl8192e/rtl_dm.c     | 4 ++--
->  drivers/staging/rtl8192e/rtllib_rx.c           | 4 ++--
->  drivers/staging/rtl8192e/rtllib_tx.c           | 8 ++++----
->  5 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> index 9f869fb3eaa8..c4a3fc79fb40 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/r8192E_dev.c
-> @@ -129,9 +129,9 @@ void rtl92e_set_reg(struct net_device *dev, u8 variable, u8 *val)
->  		RegRCR = rtl92e_readl(dev, RCR);
->  		priv->ReceiveConfig = RegRCR;
->  
-> -		if (Type == true)
-> +		if (Type)
->  			RegRCR |= (RCR_CBSSID);
-> -		else if (Type == false)
-> +		else if (!Type)
+Currently checkpatch.pl gives warning for NETWORKING_BLOCK_COMMENT_STYLE
+for files in net/ and drivers/net which do not follow the networking
+comment style.
+But some of these files seem to follow the generic comment style instead
+of networking style and some rather mixed style of comment.
 
-Just else here?
+For e.g., drivers/net/wireless/ralink/rt2x00 largely follows generic
+kernel comment style in spite of being inside drivers/net.
 
->  			RegRCR &= (~RCR_CBSSID);
->  
->  		rtl92e_writel(dev, RCR, RegRCR);
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> index 663675efcfe4..9078fadd65f9 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-> @@ -1389,7 +1389,7 @@ static void _rtl92e_watchdog_wq_cb(void *data)
->  
->  	rtl92e_dm_watchdog(dev);
->  
-> -	if (rtllib_act_scanning(priv->rtllib, false) == false) {
-> +	if (!rtllib_act_scanning(priv->rtllib, false)) {
->  		if ((ieee->iw_mode == IW_MODE_INFRA) && (ieee->state ==
->  		     RTLLIB_NOLINK) &&
->  		     (ieee->eRFPowerState == eRfOn) && !ieee->is_set_key &&
-> @@ -2471,7 +2471,7 @@ static int _rtl92e_pci_probe(struct pci_dev *pdev,
->  
->  	priv->ops = ops;
->  
-> -	if (rtl92e_check_adapter(pdev, dev) == false)
-> +	if (!rtl92e_check_adapter(pdev, dev))
->  		goto err_unmap;
->  
->  	dev->irq = pdev->irq;
-> diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> index 462835684e8b..e340be3ebb97 100644
-> --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-> @@ -1765,7 +1765,7 @@ static void _rtl92e_dm_cts_to_self(struct net_device *dev)
->  	unsigned long curTxOkCnt = 0;
->  	unsigned long curRxOkCnt = 0;
->  
-> -	if (priv->rtllib->bCTSToSelfEnable != true) {
-> +	if (!priv->rtllib->bCTSToSelfEnable) {
->  		pHTInfo->IOTAction &= ~HT_IOT_ACT_FORCED_CTS2SELF;
->  		return;
->  	}
-> @@ -2447,7 +2447,7 @@ static void _rtl92e_dm_dynamic_tx_power(struct net_device *dev)
->  	unsigned int txhipower_threshold = 0;
->  	unsigned int txlowpower_threshold = 0;
->  
-> -	if (priv->rtllib->bdynamic_txpower_enable != true) {
-> +	if (!priv->rtllib->bdynamic_txpower_enable) {
->  		priv->bDynamicTxHighPower = false;
->  		priv->bDynamicTxLowPower = false;
->  		return;
-> diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
-> index d31b5e1c8df4..217557ac8d80 100644
-> --- a/drivers/staging/rtl8192e/rtllib_rx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_rx.c
-> @@ -924,7 +924,7 @@ static int rtllib_rx_check_duplicate(struct rtllib_device *ieee,
->  	sc = le16_to_cpu(hdr->seq_ctl);
->  	frag = WLAN_GET_SEQ_FRAG(sc);
->  
-> -	if ((ieee->pHTInfo->bCurRxReorderEnable == false) ||
-> +	if ((!ieee->pHTInfo->bCurRxReorderEnable) ||
+Provide an ignore file(".networking_block_comment_styles.ignore"), where
+users can add the files they want to ignore this warning.
 
-No need for brackets. Atleast after you remove check.
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ .gitignore                              |  1 +
+ .networking_block_comment_styles.ignore |  1 +
+ scripts/checkpatch.pl                   | 25 ++++++++++++++++++++++++-
+ 3 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 .networking_block_comment_styles.ignore
 
->  		!ieee->current_network.qos_data.active ||
->  		!IsDataFrame(skb->data) ||
->  		IsLegacyDataFrame(skb->data)) {
-> @@ -1442,7 +1442,7 @@ static int rtllib_rx_InfraAdhoc(struct rtllib_device *ieee, struct sk_buff *skb,
->  	}
->  
->  	/* Indicate packets to upper layer or Rx Reorder */
-> -	if (ieee->pHTInfo->bCurRxReorderEnable == false || pTS == NULL ||
-> +	if (!ieee->pHTInfo->bCurRxReorderEnable || pTS == NULL ||
->  	    bToOtherSTA)
+diff --git a/.gitignore b/.gitignore
+index d01cda8e1177..3cd6074d1fb0 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -94,6 +94,7 @@ modules.order
+ !.gitattributes
+ !.gitignore
+ !.mailmap
++!.networking_block_comment_styles.ignore
+ 
+ #
+ # Generated include files
+diff --git a/.networking_block_comment_styles.ignore b/.networking_block_comment_styles.ignore
+new file mode 100644
+index 000000000000..2022dd619901
+--- /dev/null
++++ b/.networking_block_comment_styles.ignore
+@@ -0,0 +1 @@
++drivers/net/wireless/ralink/rt2x00
+\ No newline at end of file
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 00085308ed9d..875e572df5dc 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -832,6 +832,28 @@ sub read_words {
+ 	return 0;
+ }
+ 
++my @files_ignoring_networking_comment;
++my $ignore_file = which_conf(".networking_block_comment_styles.ignore");
++if(-f $ignore_file) {
++	open(my $ignore, '<', "$ignore_file")
++	    or warn "$P: Can't find a readable .networking_block_comment_styles.ignore file $!\n";
++	while(<$ignore>) {
++		my $line = "$_";
++		$line = trim($line);
++		next if ($line =~ /^\s*$/);
++		push(@files_ignoring_networking_comment, $line);
++	}
++	close($ignore);
++}
++
++sub ignore_networking_comment_style {
++	my ($realfile) = "@_";
++	foreach my $file (@files_ignoring_networking_comment) {
++		return 1 if ($realfile =~ m@^$file@);
++	}
++	return 0;
++}
++
+ my $const_structs;
+ if (show_type("CONST_STRUCT")) {
+ 	read_words(\$const_structs, $conststructsfile)
+@@ -3701,7 +3723,8 @@ sub process {
+ 		if ($realfile =~ m@^(drivers/net/|net/)@ &&
+ 		    $prevrawline =~ /^\+[ \t]*\/\*[ \t]*$/ &&
+ 		    $rawline =~ /^\+[ \t]*\*/ &&
+-		    $realline > 3) { # Do not warn about the initial copyright comment block after SPDX-License-Identifier
++		    $realline > 3 &&  # Do not warn about the initial copyright comment block after SPDX-License-Identifier
++		    !ignore_networking_comment_style($realfile)) {
+ 			WARN("NETWORKING_BLOCK_COMMENT_STYLE",
+ 			     "networking block comments don't use an empty /* line, use /* Comment...\n" . $hereprev);
+ 		}
+-- 
+2.17.1
 
-Now bToOtherSTA would fit same line. It is ok to fix that also.
-
->  		rtllib_rx_indicate_pkt_legacy(ieee, rx_stats, rxb, dst, src);
->  	else
-> diff --git a/drivers/staging/rtl8192e/rtllib_tx.c b/drivers/staging/rtl8192e/rtllib_tx.c
-> index e0d79daca24a..8add17752eed 100644
-> --- a/drivers/staging/rtl8192e/rtllib_tx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_tx.c
-> @@ -297,7 +297,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
->  			netdev_info(ieee->dev, "%s: can't get TS\n", __func__);
->  			return;
->  		}
-> -		if (pTxTs->TxAdmittedBARecord.bValid == false) {
-> +		if (!pTxTs->TxAdmittedBARecord.bValid) {
->  			if (ieee->wpa_ie_len && (ieee->pairwise_key_type ==
->  			    KEY_TYPE_NA)) {
->  				;
-> @@ -307,7 +307,7 @@ static void rtllib_tx_query_agg_cap(struct rtllib_device *ieee,
->  				TsStartAddBaProcess(ieee, pTxTs);
->  			}
->  			goto FORCED_AGG_SETTING;
-> -		} else if (pTxTs->bUsingBa == false) {
-> +		} else if (!pTxTs->bUsingBa) {
->  			if (SN_LESS(pTxTs->TxAdmittedBARecord.BaStartSeqCtrl.field.SeqNum,
->  			   (pTxTs->TxCurSeq+1)%4096))
->  				pTxTs->bUsingBa = true;
-> @@ -365,9 +365,9 @@ static void rtllib_query_HTCapShortGI(struct rtllib_device *ieee,
->  		return;
->  	}
->  
-> -	if ((pHTInfo->bCurBW40MHz == true) && pHTInfo->bCurShortGI40MHz)
-> +	if (pHTInfo->bCurBW40MHz && pHTInfo->bCurShortGI40MHz)
->  		tcb_desc->bUseShortGI = true;
-> -	else if ((pHTInfo->bCurBW40MHz == false) && pHTInfo->bCurShortGI20MHz)
-> +	else if (!pHTInfo->bCurBW40MHz && pHTInfo->bCurShortGI20MHz)
->  		tcb_desc->bUseShortGI = true;
->  }
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
