@@ -8,90 +8,96 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A26DEC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Dec 2020 15:58:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13201C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Dec 2020 19:47:31 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 310A122B51
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Dec 2020 15:58:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 310A122B51
+	by mail.kernel.org (Postfix) with ESMTPS id 80F4A2251E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 21 Dec 2020 19:47:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 80F4A2251E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id E25A186687;
-	Mon, 21 Dec 2020 15:58:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 13B0886A36;
+	Mon, 21 Dec 2020 19:47:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NFaeW5WO3l8K; Mon, 21 Dec 2020 15:58:47 +0000 (UTC)
+	with ESMTP id y2yl82eqzSE9; Mon, 21 Dec 2020 19:47:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 0E5B986214;
-	Mon, 21 Dec 2020 15:58:47 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id AFFA986A16;
+	Mon, 21 Dec 2020 19:47:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EAE16C0893;
-	Mon, 21 Dec 2020 15:58:46 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EFB56C0893
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1FAEC1825;
+	Mon, 21 Dec 2020 19:47:28 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5C350C0893
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Dec 2020 15:58:45 +0000 (UTC)
+ Mon, 21 Dec 2020 19:47:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id EB4128789C
+ by silver.osuosl.org (Postfix) with ESMTP id 515262079A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Dec 2020 15:58:45 +0000 (UTC)
+ Mon, 21 Dec 2020 19:47:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CmQpwj-F4UJ6
+ with ESMTP id xDLOtofcbt2m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Dec 2020 15:58:45 +0000 (UTC)
+ Mon, 21 Dec 2020 19:47:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 04C9887440
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+ [209.85.167.52])
+ by silver.osuosl.org (Postfix) with ESMTPS id 06371203C2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Dec 2020 15:58:45 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id t8so9242443iov.8
+ Mon, 21 Dec 2020 19:47:26 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id o13so26515726lfr.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 21 Dec 2020 07:58:44 -0800 (PST)
+ Mon, 21 Dec 2020 11:47:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EwWijBnSltlgTEzJzqXGjVClYmKQHbHidRzLX1E8k80=;
- b=t627Ddhlu0OdAYuZ/2UnFa01ahwlEiaZJ0H0OprSJ+f2d25QTUeecdGlWfxMWGVzUc
- 02qyZta756LfExE+U2P0iJRKx1pTOWNwjw5CsHOfs1ITkNuwWNx93ZQ3WXmwNQ5pAh8F
- HILIUyJitkcCphPDmftyGFeWSoYNvN305AV83T14Cb79ZRCWnNbuvbJDm8IQEZbE9GIT
- EIp8zNi9gUzolq4I4eYLkRvY1IBG6bZtucw/Z9CtNR5qqXwH1UPN4LqudvwqCbhuN8ta
- zu8+Nw+dE2XBt7TS5whwFq3j8ueuPg4xNicPqEkuAzWQI2f7J19yQfAZqljcalmCk+w3
- f+Vw==
+ :cc; bh=jCaqywpip8Yn0I9wjnjl8p0JIPhtxhmhw1itEF9XD4I=;
+ b=lsZBbol6rMPwR63PVS21t8lHOPLAzfuBu0WvcFhYqLE5Qn9PfsiNTZHrU9OGgM5K8f
+ PD/Gkbjp2eNZq54pCl21LIPjQZirw67cMl4U1nv/Qy4BSKrRcMAqn+0s2C8hNlbKWwnj
+ KZ8+yCADWew2ccyJrehfsGyDhkJxPdgvYiSFQQgFCSAS69aJY/ggXIo57GS60tmgTUrz
+ TBgI6lkhD9bJbUFFrm9XLuhLtIakpkYpML8bUrlG1RswyToHKhUjaW80/fYc77d7Ckap
+ 59H0LSzxuxUWiBQMZdWzKKk1pGo3Oho+hPs+NVDG0H0SbFuHF2v2x/n3Yzi6yTMixzif
+ 9HSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EwWijBnSltlgTEzJzqXGjVClYmKQHbHidRzLX1E8k80=;
- b=lFd1ApYzsdDSQSrrtZawWw7oqsmE6d9rNp26bpmo4HECzbd8Yi4c3PBZ3ozcPqjM+W
- 25Z6qJbcdLbFKZlYY7JWOhVitYAxz1xEk37R4yLlnYOqf0HhssxAYQ4fMFdMJz7HAD5G
- QLkeE5BSSydLh3nE7ogjyGdK0hM1GKEQnqL1yOwBUhdj7pN4CGaRSjqmN7xlazrlSWfW
- vRcZzJwwk4J5FY/UxaEdCuqnkGHjC0rFZV+08vB7JfPlhcxricn/Mf+kD+1VGK2lft/z
- MIE5xQvbo1HMfYuBOlzKg8BvGzZ1h8DjEzbSnITXs8cPNw2pPD5zyAtxHHxMjpbZ2qqB
- mPaQ==
-X-Gm-Message-State: AOAM532rGWCZw64urwdnJf4DUwU3eDkZUSQg04Tnu7+twgRAH8sYRFYC
- uM+apPpdalPpUwCpVuhqVeD7fyhS4NPA+fRaveKY5yzweY0=
-X-Google-Smtp-Source: ABdhPJw4ce3stSiQKncN2J4aAv1q2AcvapQdijYzWMR/cSJtIizubQCNG1s7ls7m6zc5XCsuhl9uvu2b6X0tr910ltc=
-X-Received: by 2002:a6b:6d1a:: with SMTP id a26mr14762120iod.158.1608566324272; 
- Mon, 21 Dec 2020 07:58:44 -0800 (PST)
+ bh=jCaqywpip8Yn0I9wjnjl8p0JIPhtxhmhw1itEF9XD4I=;
+ b=NQ+MIgzzloTXWwza3VJoYsTRoCDbiDo/HH9VO9yNTvPgxA+TayIZAvyKHy04cRbww9
+ vhup1s7N51XVUFO5VGJ1Luc7nPnDDsjkQQg5gWqrzySZb1QgpGwI5Pj/O/W5KAtqOK+P
+ CJZOssbjzzvjFK5hKSrG0+RJ1AW8bBIwkANorktGbJU/dHYRQxXdUUek9+PsmBpMs2uE
+ r7AccsewhOPd1T9ofpoOeHy56eBxKXVdEM0WXVvMnOEuCG4XjSUqdPdI3nO745Su8lTC
+ +vK3Bx6w/Be2XrC2nKF8TC/ky6gWT9U0A/Kk2jmkQup+1EQuOsbH+V+wvfOkluouQGVv
+ ugtQ==
+X-Gm-Message-State: AOAM533jncgSoMCukONBX9dSLt7wbKWPvNTCm6vbmNsX/a3+GMV8w32z
+ tcDffFZLCYKW8ArQ66HlgWXOmE5ktjHQgWWtwJI=
+X-Google-Smtp-Source: ABdhPJzZHqcKLrLrQLtmwzo+ZWDx+zAZrM4Hkg8mHgNBFe4GZC3OPZE/2x4egc6kHMojPgK5DTmu/Mo0OFUv9j3LKv8=
+X-Received: by 2002:a2e:3312:: with SMTP id d18mr8503638ljc.284.1608580044040; 
+ Mon, 21 Dec 2020 11:47:24 -0800 (PST)
 MIME-Version: 1.0
-References: <CAKXUXMz6TuYZkZJbgDBPiH4MmecUUbLjPct9XnZZu12VP+w4mw@mail.gmail.com>
- <20201220183307.8744-1-yashsri421@gmail.com>
- <CAKXUXMw-AtthCG9y4_wYBKaF36BbxFmdHfzPi7FS+fSJqaK+3Q@mail.gmail.com>
- <b36da61d-fa2d-0ae1-1408-d89710162e56@gmail.com>
-In-Reply-To: <b36da61d-fa2d-0ae1-1408-d89710162e56@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 21 Dec 2020 16:58:37 +0100
-Message-ID: <CAKXUXMyf+Fs_MAkkFRzT7g0-7y7AKDnvNjng+tkQBp4ZRxFpCQ@mail.gmail.com>
-To: Aditya <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: ignore files not
-	following NETWORKING_BLOCK_COMMENT_STYLE
+References: <CABJPP5C6bxhxSp3FqE7zui=gOmNGe4VX__-qPtG_1bD16hoAFA@mail.gmail.com>
+ <dc09c6a2-dafd-c26e-19fb-ebd7eb212447@gmail.com>
+ <CABJPP5AP-gFJEY9D70+HeHUfQC=MnRzps1dOx+Ev+pf3rxBmug@mail.gmail.com>
+ <cffb4773-3396-6ebc-f556-2f5d2138b67e@gmail.com>
+ <CAKXUXMyD1c1iPEOvPksq_znqbhst=xbqpW5=peyD_+asFMznaA@mail.gmail.com>
+ <CABJPP5AOwoshncvbdooy1df4++5NKY-fUMVQUm8yze-w+6-Gmg@mail.gmail.com>
+ <CAKXUXMz4fBJ8a_vpYow14yiKoKhC_=bQHHd4WXfOcsxJxqbdcw@mail.gmail.com>
+ <660a4bb0-1ba4-acd4-e8bc-a53cccfbf10a@gmail.com>
+ <CAKXUXMy7XbmWmj5HOrAJ-fYAdZmK0kd9NnP_i4cpOaS7eqCnrw@mail.gmail.com>
+In-Reply-To: <CAKXUXMy7XbmWmj5HOrAJ-fYAdZmK0kd9NnP_i4cpOaS7eqCnrw@mail.gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Tue, 22 Dec 2020 01:17:03 +0530
+Message-ID: <CABJPP5At6mYOCDyQWLf72guKaWV1xJxyYPELk+_4WQ8E+f9jfg@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Aditya <yashsri421@gmail.com>
+Subject: Re: [Linux-kernel-mentees] POC script to apply patches into a
+	test-branch and run clang-format
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,138 +115,81 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Dec 21, 2020 at 4:29 PM Aditya <yashsri421@gmail.com> wrote:
+> Okay, I downloaded and tried it:
 >
-> On 21/12/20 10:57 am, Lukas Bulwahn wrote:
-> > On Sun, Dec 20, 2020 at 7:33 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
-> >>
-> >> Currently checkpatch.pl gives warning for NETWORKING_BLOCK_COMMENT_STYLE
-> >> for files in net/ and drivers/net which do not follow the networking
-> >> comment style.
-> >> But some of these files seem to follow the generic comment style instead
-> >> of networking style and some rather mixed style of comment.
-> >>
-> >> For e.g., drivers/net/wireless/ralink/rt2x00 largely follows generic
-> >> kernel comment style in spite of being inside drivers/net.
-> >>
-> >> Provide an ignore file(".networking_block_comment_styles.ignore"), where
-> >> users can add the files they want to ignore this warning.
-> >>
-> >
-> > I believe that is a really bad design decision here.
-> >
-> > Imagine that in one directory, the maintainer wants to adjust ten
-> > rules for checkpatch.
-> >
-> > Are we going to implement this logic for those ten rules individually?
+> perl ./scripts/applypatch.pl --clang-format test.patch
+> --branch=test-clang-format-bfq-cgroup
 >
-> No, only the files which are not following the networking comment
-> style, and are inside net/ or drivers/net should be added. The files
-> which are following the networking style already, need not add
-> themselves anywhere.
+> but it failed:
 >
-> I feel, normally maintainer will want entire directory to follow the
-> same style. So, they can just add their directory in the .ignore file
-> and it will be ignored from the warning.
+> git checkout test-clang-format-bfq-cgroup
+> Already on 'test-clang-format-bfq-cgroup'
+> git am $patchtest.patch
+> fatal: could not open '.patch' for reading: No such file or directory
+> Clang formatted patchfile generated at:
+> test.patch.EXPERIMENTAL-clang_format-fixes
+> git checkout test-clang-format-bfq-cgroup
+> Already on 'test-clang-format-bfq-cgroup'
+>
+> How about setting up a minimal travis.ci check that runs this command
+> on a small git repository with one file and one patch on top for
+> testing purposes?
+>
+> The script does not have error handling yet, so the next steps are
+> just executed blindly even if the one before failed and is really
+> required for the next one to do the right thing.
+>
+> I generally like the script, let us work a bit on tuning it for proper
+> error handling, add some basic tests and then discuss it with Miguel.
+>
+> Lukas
 >
 
-I understand that.
+Hello Lukas,
+Sorry for being late on this update. I have my college exams going on
+right now, so that caused a bit of delay.
 
-> > Is the maintainer going to add
-> >
-> > None of that is obviously acceptable: 1. because there are better
-> > design decisions; 2. because tailoring checkpatch would simply not be
-> > worth the cost of having all those individual files laying around in
-> > the repository and the complication throughout the whole script.
-> >
->
-> We have earlier used a similar approach with ".get_maintainer.ignore",
-> where the users add their signature to be ignored from being mentioned
-> by "get_maintainers.pl" script.
-> Link: https://lore.kernel.org/patchwork/patch/939769/
+Nevertheless I have applied some changes along with some error handling fixes.
+The script is available here:
+https://github.com/raydwaipayan/apply-patch
 
-Yeah, I know that. It is known to be called the "Christoph file in the
-root directory", because for years, it only contained Christoph as he
-was the only person that requested that feature. It is a good example
-of a terrible feature.
+The script has the following options now:
+usage: $P [options] patchfile(s)
+Options:
+--branch=<branch-name> => test branch name
+--format => Use clang format
+--clang-format-diff=<s> => clang-format-diff path
+--help => show this help information
+--root=<root_dir> => root dir location
 
->
-> We just need one file for our purpose (i.e., not necessarily .ignore
-> file).
-> Here I have used .ignore file in the root directory, so that it is
-> easier for the maintainer to edit it and add their directory in it.
->
+By default script searches for "clang-format-diff.py" in path. If it goes
+by any other name that should be supplied using
+--clang-format-diff="FULL_PATH_OF_EXECUTABLE"
 
-Do you know how many maintainers in this project exist?
-For the kernel, this what you suggest just does not make sense...
+I ran the script like this:
+$ ./scripts/applypatch.pl
+0001-scripts-mod-cleanup-a-few-checkpatch.pl-warnings.patch --format
 
-> If not in the root directory(as the files look scattered), perhaps we
-> can place it in script directory as .ignore or .txt file, or maybe
-> just place these directories in the form of a hash in the script
-> itself. But perhaps we'll need a list of directories to ignore and
-> then we'll be able to form the hash.
->
+Expected output:
+git checkout -b test-master
+Switched to a new branch 'test-master'
+git am 0001-scripts-mod-cleanup-a-few-checkpatch.pl-warnings.patch
+Patch applied successfully:
+0001-scripts-mod-cleanup-a-few-checkpatch.pl-warnings.patch
+Running clang-format
+Diff written to clang-format-fixes.diff
+git checkout master
+Switched to branch 'master
 
-Which problem are you trying to solve?
+Lukas, could you check if this script works on your system as expected?
 
-> > Also, you already recognized that there is already a feature to ignore
-> > or select rules through command-line parameters.
-> >
-> > So, how about coming up with a proper .checkpatch config file format
-> > and then use the already available feature to configure the checkpatch
-> > run?
-> >
->
-> The user can add "--ignore NETWORKING_BLOCK_COMMENT_STYLE" line in
-> their .checkpatch.conf file, and checkpatch will then ignore this
-> class of warning.
->
-> Somewhat similar to this repository here:
-> https://github.com/openil/u-boot/blob/master/.checkpatch.conf
->
-> But this file(".checkpatch.conf") is ignored by git and is not
-> committed (as different users may require different configurations).
-> So every user will have to add this line in their individual config files.
->
+Also Aditya, I think the latest clang-format-diff goes by the name
+'clang-format-diff-8' on debian based systems. While in my arch based one
+it goes by 'clang-format-diff.py'. Can you verify whether the script works
+directly or is the executable path flag needed?
 
-I do not get what you say. Isn't this just a configuration question?
-You configure it to be part of the configuration.
-
-> Also, if the user starts working on a different file, where the
-> networking comment style is followed, he will again have to delete
-> this configuration line from the config file, to get this warning.
->
-> I'm not sure, if we can add directory/file specific configuration in
-> .checkpatch.conf. But again, if it was possible, we'll be specifying
-> individual files, and telling them to be avoided, similar to the
-> current approach.
->
-
-A suitable feature can be implemented.
-
-Think about 100 people modifying the same file at the same time and
-the problem this brings during merging.
-
-Think about commits moving directories from one place to the other and
-the effort of keeping this file correct.
-
-I would suggest not to have any "checkpatch.config" at the root level
-mentioning all the different directories, as you are suggesting.
-
-I suggest instead:
-
-Have multiple ".checkpatch.conf" files in the different directories
-and let checkpatch determine the relevant rules that need to be
-applied to a specific file by traverse along the file hierarchy.
-Generalize the method to work for any checkpatch rule, not just the
-block_comment_style rule here.
-
-Feel free to submit your current proposal to Joe Perches and lkml if
-you are convinced of your idea and willing to get more feedback
-(probably just more rejection). I personally believe this will be
-rejected by others as well.
-
-Lukas
+Thank you,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
