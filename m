@@ -2,95 +2,106 @@ Return-Path: <SRS0=3GLs=F4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15735C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Dec 2020 10:02:16 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD23EC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Dec 2020 15:20:08 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8878E22517
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Dec 2020 10:02:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8878E22517
+	by mail.kernel.org (Postfix) with ESMTPS id 4B20622288
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Dec 2020 15:20:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B20622288
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1399786860;
-	Thu, 24 Dec 2020 10:02:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id F0200862FB;
+	Thu, 24 Dec 2020 15:20:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ViGVr3T2w0HG; Thu, 24 Dec 2020 10:02:14 +0000 (UTC)
+	with ESMTP id Yq1oeGbXVrpx; Thu, 24 Dec 2020 15:20:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 645C986755;
-	Thu, 24 Dec 2020 10:02:14 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 4F044862BE;
+	Thu, 24 Dec 2020 15:20:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 47FEDC1787;
-	Thu, 24 Dec 2020 10:02:14 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B0FBBC0893
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 600C8C1825;
+	Thu, 24 Dec 2020 15:20:04 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99D67C0893
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 10:02:12 +0000 (UTC)
+ Thu, 24 Dec 2020 15:20:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 9989820373
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7FCF8862BE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 10:02:12 +0000 (UTC)
+ Thu, 24 Dec 2020 15:20:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cX3p1S-7yjYD
+ with ESMTP id J8Euf_w1ZnNw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 10:02:10 +0000 (UTC)
+ Thu, 24 Dec 2020 15:20:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com
- [209.85.161.54])
- by silver.osuosl.org (Postfix) with ESMTPS id CED992014A
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+ [209.85.216.41])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 6AC08862BC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 10:02:09 +0000 (UTC)
-Received: by mail-oo1-f54.google.com with SMTP id y14so356578oom.10
+ Thu, 24 Dec 2020 15:20:02 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id w1so2508075pjc.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 02:02:09 -0800 (PST)
+ Thu, 24 Dec 2020 07:20:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9FdH9kHukbpEmlFgJThukrwd7alESrljVgzVGQtLzes=;
- b=Jh9iCKv3tpQnsnq/njrR4qcIR9jH+SwfR3DtYQrS7N83g1xQMf4ZrOl2OxBKkFk1da
- UmzO3jJXSSs2wpteQZArtXXrJywhn7kFxKbe2pKtghfgh8elYdgHHSGH3B5hO/J/qnqD
- 2mHB8JOPGIVKPdro8zF2fGlUj4p5CC5ZcA4G3lu9SUxQZHKtNh1HDewsDEA5D54JaogW
- +2aY7CkHAwbCQ9U3Uku5db/7dIswUKUrHDaoCFcaLlJ9JsrFsShmYehqo2iLd8bIVXMQ
- HhWn7kbzYAVLJoCwKedPXCJ/JjJXnw+AJH/shYwccogan8VpwqYaghcpmPP6lyNxS6c0
- 35Mg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ca4T5x2YBVwc3xGoJaMp1mpR1SgmL54F1JA2Sm/PSms=;
+ b=UleZZf0Op+eYF5TErvSm7TLIikCFSdd1U+0OKwqHFteUOaOWRrU8KFt/A/5I+LCXex
+ W32a3S96Zjt3NgC+f+7PhkdnaLGira988oA7Tybb7km20bd3qtFKGyb5Jdb73/Togh/F
+ uInXoXfB7B5IfzairuKFTW3xhuZCz2BOvlI5tgcRBrfTcDiQBTHeyIzTAkXHSyD69uWL
+ IK7q86HlpazS/qjfWbxcUnK3wzpRsOAFc/xAsOQgyWXUzfoq+gY0Dn8JOgKzwyZ40Qsd
+ iPZ8+Y+1h+6AyzmjiWZlN57+GpAndcSpvw/OM/D4cUbIruMgrGwVFJLwUJSrNQtuZbJj
+ vWDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9FdH9kHukbpEmlFgJThukrwd7alESrljVgzVGQtLzes=;
- b=Dd1bsCTzTcJcdgigpTIBD5Mhigi5WYnw41y8LtGa+zkSDSKsRQfDfsPrn2pj4Q8D5m
- 9aMJPVmuPjTCJnomYb55+evFjaXpCiKi94yMNit9ROLyv6IpAi1NtC04puB7ZepgJrgY
- jfD1rsWMaDYXVaahnUVAZ/IpQAFWrBrsvpQhiJDAkAN0RYgmg0m700Jwg8H93innhbxV
- tICQ9xkGEHzd6UcNLOAQbbopWVnoT+RUsMAjSRSNAIXegbMQiHq6uhvLE/QBuL0McmRb
- sUi7k3QOloARJb2acFUks7K7iWfDodPyMBrsQoXqs3HrVZsHRhF1tX1Lwkpf2HzE/qwo
- ZDvg==
-X-Gm-Message-State: AOAM530BllFpA0e6SV9cOjiYSeUyO5V6EtLl7+pvx2W9Ws+uE0NOkRQV
- rN8f5bE0IfHnFqh+nd+RXQP7gVmvqWgBUww47BE=
-X-Google-Smtp-Source: ABdhPJwBBv1fYfwKN7MW5t0f5xCBW3D3C4A1NT3yVjluA/PFPJneiDCTfz2Evu0QGwasq19Fp8zW+lNqhyTGRVuaAyg=
-X-Received: by 2002:a4a:e14f:: with SMTP id p15mr21032818oot.25.1608804128909; 
- Thu, 24 Dec 2020 02:02:08 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ca4T5x2YBVwc3xGoJaMp1mpR1SgmL54F1JA2Sm/PSms=;
+ b=SsQqR0BJsDSDxAxMJLEkGH7QVu8WzKtOZ2uZdN430pDllrs6sXi4fidz1omWR9MnOD
+ tIzXXoVsKBMZlO8R2GXxhFCD+KPcQfokzoOf/Z4ZDYR7myfA139wajWl6csUsZ33tpxa
+ vd2z7BjvnbqSd0tGfHul4R1ufVQn+WA9hBJ8jHKDv+6W0tpdCcz6eOBm/MDeB6GZBgQ6
+ N62QsSPeGruBHUQ6Cofh5TsAYfuw8JGp03rw60glXmk/Lyh52ugayIfk+L/A9wzQI/el
+ UnVoZBK0H9BGszUkGTTRkiL2vxQLcJnW1TOuJP+9qoNqDLIgO8v5AXzBdDiZvcyBBZ/c
+ /8Pg==
+X-Gm-Message-State: AOAM530NDiIjDPbbHy49lx5ZtEUw7/KRaajYJwEbjYJ4ArBNNP+ouE8D
+ SpsOXmMy1nzXnY/Angi1bes=
+X-Google-Smtp-Source: ABdhPJzYus71jdfVs9Y87XtUOcQyYwfKsxleTZcccosnwQi+iCxJFWbHQ/6pnAJarom+3UlSBGsGig==
+X-Received: by 2002:a17:90a:708b:: with SMTP id
+ g11mr4715049pjk.23.1608823201803; 
+ Thu, 24 Dec 2020 07:20:01 -0800 (PST)
+Received: from ?IPv6:2402:3a80:40d:9f6c:f9de:b7a7:21af:4983?
+ ([2402:3a80:40d:9f6c:f9de:b7a7:21af:4983])
+ by smtp.gmail.com with ESMTPSA id q15sm15448974pgk.11.2020.12.24.07.19.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 24 Dec 2020 07:20:01 -0800 (PST)
+To: joe@perches.com
+References: <1ce4502a-d75a-7e27-5844-f195607c4c99@gmail.com>
+ <20201218121133.18614-1-yashsri421@gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <84492ae9-7452-d296-49ab-4d37eed3b968@gmail.com>
+Date: Thu, 24 Dec 2020 20:49:55 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201104064703.15123-1-himadrispandya@gmail.com>
- <X8n8yR5At1ptPkQ4@localhost>
-In-Reply-To: <X8n8yR5At1ptPkQ4@localhost>
-From: Himadri Pandya <himadrispandya@gmail.com>
-Date: Thu, 24 Dec 2020 15:31:57 +0530
-Message-ID: <CAOY-YVmDW0E9Wfs-K2w5+DP4qJgn6_j_OWnGu_zSK_qGqoiXvw@mail.gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: USB list <linux-usb@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH 00/15] usb: serial: avoid using
-	usb_control_msg() directly
+In-Reply-To: <20201218121133.18614-1-yashsri421@gmail.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: fix false
+ positive for COMMIT_LOG_LONG_LINE with URLs
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,96 +119,63 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Dec 4, 2020 at 2:38 PM Johan Hovold <johan@kernel.org> wrote:
->
-> Hi Himadri,
->
-> and sorry about the late feedback on this one. I'm still trying to dig
-> myself out of some backlog.
->
-> On Wed, Nov 04, 2020 at 12:16:48PM +0530, Himadri Pandya wrote:
-> > There are many usages of usb_control_msg() that can use the new wrapper
-> > functions usb_contro_msg_send() & usb_control_msg_recv() for better
-> > error checks on short reads and writes. Hence use them whenever possible
-> > and avoid using usb_control_msg() directly.
->
-> Replacing working code with shiny new helpers unfortunately often ends
-> up introducing new bugs and I'm afraid there are a few examples of that
-> in this series as well.
->
-> I'll comment on the patches individually, but my impression is that we
-> should primarily use these helpers to replace code which allocates a
-> temporary buffer for each transfer as otherwise there's no clear gain
-> from using them.
->
-> Some of your patches contains unrelated changes which needs to go in
-> separate patches if they're to be included at all.
->
-> Please also try to write dedicated commit messages rater than reusing
-> more or less the same stock message since not everything in these
-> messages apply to each patch. You never mention that these helpers
-> nicely hides the allocation of temporary transfer buffers in some cases
-> for examples. In other places they instead introduce additional
-> allocations which at least should have been highlighted.
->
-> > Himadri Pandya (15):
-> >   usb: serial: ark3116: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
->
-> Nit: please also use an uppercase "USB" prefix.
+On 18/12/20 5:41 pm, Aditya Srivastava wrote:
+> Currently checkpatch warns for long line in commit messages even for
+> URL lines.
+> 
+> An evaluation over v4.13..v5.8 showed that out of 11729 warnings for
+> this class, around 299 are due to line starting with URL.
+> 
+> E.g., running checkpatch on commit 3cde818cd02b ("ASoC: topology:
+> Consolidate how dtexts and dvalues are freed") reports this warning:
+> 
+> WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+> https://mailman.alsa-project.org/pipermail/alsa-devel/2019-January/144761.html
+> 
+> Avoid giving users warning for character limit for such cases, instead
+> suggest them to prefix the URLs with "Link:"
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+> changes in v2:
+> - Fix coding style ('} else {')
+> - Make the URL check follow RFC 3986 style
+> - Give warning only if the URL is first non-whitespace of the line
+> - Set $commit_log_long_line only for else case
+> - Fix the warning count with exact figures and according to first non-space char as URL
+> 
+>  scripts/checkpatch.pl | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index abd5a3d2e913..bf77bd0b22cf 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3032,9 +3032,14 @@ sub process {
+>  		      $line =~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
+>  					# A Fixes: or Link: line or signature tag line
+>  		      $commit_log_possible_stack_dump)) {
+> -			WARN("COMMIT_LOG_LONG_LINE",
+> -			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
+> -			$commit_log_long_line = 1;
+> +			if ($line =~ /^\s*\b[a-z][\w\.\+\-]*:\/\/\S+/i) {
+> +				WARN("COMMIT_LOG_LONG_LINE",
+> +				     "Consider prefixing the URL with 'Link:'\n" . $herecurr);
+> +			} else {
+> +				WARN("COMMIT_LOG_LONG_LINE",
+> +				     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
+> +				$commit_log_long_line = 1;
+> +			}
+>  		}
+>  
+>  # Reset possible stack dump if a blank line is found
+> 
 
-Hi Johan,
+Hi Joe
+You probably missed this patch. Please review :)
 
-Thanks for reviewing this series and sorry for the late reply. I'll
-soon send a v2 according to your comments.
-
-Best regards,
-Himadri
-
->
-> >   usb: serial: belkin_sa: use usb_control_msg_send()
-> >   usb: serial: ch314: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: cp210x: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: cypress_m8: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: f81232: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: f81534: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: ftdi_sio: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: io_edgeport: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: io_ti: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: ipaq: use usb_control_msg_send()
-> >   usb: serial: ipw: use usb_control_msg_send()
-> >   usb: serial: iuu_phoenix: use usb_control_msg_send()
-> >   usb: serial: keyspan_pda: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >   usb: serial: kl5kusb105: use usb_control_msg_recv() and
-> >     usb_control_msg_send()
-> >
-> >  drivers/usb/serial/ark3116.c     |  29 +----
-> >  drivers/usb/serial/belkin_sa.c   |  35 +++---
-> >  drivers/usb/serial/ch341.c       |  45 +++-----
-> >  drivers/usb/serial/cp210x.c      | 148 +++++++------------------
-> >  drivers/usb/serial/cypress_m8.c  |  38 ++++---
-> >  drivers/usb/serial/f81232.c      |  88 +++------------
-> >  drivers/usb/serial/f81534.c      |  63 +++--------
-> >  drivers/usb/serial/ftdi_sio.c    | 182 +++++++++++++------------------
-> >  drivers/usb/serial/io_edgeport.c |  73 +++++--------
-> >  drivers/usb/serial/io_ti.c       |  28 ++---
-> >  drivers/usb/serial/ipaq.c        |   9 +-
-> >  drivers/usb/serial/ipw.c         | 107 ++++++------------
-> >  drivers/usb/serial/iuu_phoenix.c |   5 +-
-> >  drivers/usb/serial/keyspan_pda.c | 172 ++++++++++++-----------------
-> >  drivers/usb/serial/kl5kusb105.c  |  94 ++++++++--------
-> >  15 files changed, 406 insertions(+), 710 deletions(-)
->
-> Johan
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
