@@ -1,107 +1,98 @@
-Return-Path: <SRS0=3GLs=F4=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=dgxJ=GF=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD23EC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Dec 2020 15:20:08 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA23BC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Jan 2021 04:40:21 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B20622288
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Dec 2020 15:20:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B20622288
+	by mail.kernel.org (Postfix) with ESMTPS id 3E85C2137B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Jan 2021 04:40:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E85C2137B
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id F0200862FB;
-	Thu, 24 Dec 2020 15:20:07 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id BCC40204EC;
+	Sat,  2 Jan 2021 04:40:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Yq1oeGbXVrpx; Thu, 24 Dec 2020 15:20:05 +0000 (UTC)
+	with ESMTP id j27zA0pOs3nS; Sat,  2 Jan 2021 04:40:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4F044862BE;
-	Thu, 24 Dec 2020 15:20:04 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 6B920204E9;
+	Sat,  2 Jan 2021 04:40:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 600C8C1825;
-	Thu, 24 Dec 2020 15:20:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E23EC088B;
+	Sat,  2 Jan 2021 04:40:19 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 99D67C0893
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 931FEC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 15:20:03 +0000 (UTC)
+ Sat,  2 Jan 2021 04:40:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7FCF8862BE
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 7A12686237
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 15:20:03 +0000 (UTC)
+ Sat,  2 Jan 2021 04:40:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J8Euf_w1ZnNw
+ with ESMTP id GBzE4BhmSzP0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 15:20:02 +0000 (UTC)
+ Sat,  2 Jan 2021 04:40:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6AC08862BC
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 95A8F85092
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 15:20:02 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id w1so2508075pjc.0
+ Sat,  2 Jan 2021 04:40:16 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id 30so10674820pgr.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Dec 2020 07:20:02 -0800 (PST)
+ Fri, 01 Jan 2021 20:40:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ca4T5x2YBVwc3xGoJaMp1mpR1SgmL54F1JA2Sm/PSms=;
- b=UleZZf0Op+eYF5TErvSm7TLIikCFSdd1U+0OKwqHFteUOaOWRrU8KFt/A/5I+LCXex
- W32a3S96Zjt3NgC+f+7PhkdnaLGira988oA7Tybb7km20bd3qtFKGyb5Jdb73/Togh/F
- uInXoXfB7B5IfzairuKFTW3xhuZCz2BOvlI5tgcRBrfTcDiQBTHeyIzTAkXHSyD69uWL
- IK7q86HlpazS/qjfWbxcUnK3wzpRsOAFc/xAsOQgyWXUzfoq+gY0Dn8JOgKzwyZ40Qsd
- iPZ8+Y+1h+6AyzmjiWZlN57+GpAndcSpvw/OM/D4cUbIruMgrGwVFJLwUJSrNQtuZbJj
- vWDQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FHnsJ2/xITTt6sic8bwwoBbm+GiOwrvEjflQ9FMtb1o=;
+ b=cZKLquG7m6q13jleFOBv97U+tN9jtZ/5lTgKsXvRjfj6WC5hjTGSMGcLpbUSsIsSDL
+ f0O/3DrcZcvvlz8nOXAM5SCR+6nWFnIHjT5MQyzDPAF4P8CLo3NOquFvMbJJxL7EbMUx
+ ILgSdzKLe/IjVMTYKJPrNl+WftpjlvNFsM8jnqtGkCPwO6OEbAP3HPl3U7MQV7PoYVm/
+ ORUAYZIRgt5foxjWN4rhxGKnFgqoQFRghAlu64GQv8sSB3ynfoY2PgS1stfP5Y10dHgI
+ 2h7MGTFJLQtSD324vP6cUgkFms7FcbvmQfqsFNh7qc47O99dgpu9EkcAyp1Vc19NEUVq
+ RFrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ca4T5x2YBVwc3xGoJaMp1mpR1SgmL54F1JA2Sm/PSms=;
- b=SsQqR0BJsDSDxAxMJLEkGH7QVu8WzKtOZ2uZdN430pDllrs6sXi4fidz1omWR9MnOD
- tIzXXoVsKBMZlO8R2GXxhFCD+KPcQfokzoOf/Z4ZDYR7myfA139wajWl6csUsZ33tpxa
- vd2z7BjvnbqSd0tGfHul4R1ufVQn+WA9hBJ8jHKDv+6W0tpdCcz6eOBm/MDeB6GZBgQ6
- N62QsSPeGruBHUQ6Cofh5TsAYfuw8JGp03rw60glXmk/Lyh52ugayIfk+L/A9wzQI/el
- UnVoZBK0H9BGszUkGTTRkiL2vxQLcJnW1TOuJP+9qoNqDLIgO8v5AXzBdDiZvcyBBZ/c
- /8Pg==
-X-Gm-Message-State: AOAM530NDiIjDPbbHy49lx5ZtEUw7/KRaajYJwEbjYJ4ArBNNP+ouE8D
- SpsOXmMy1nzXnY/Angi1bes=
-X-Google-Smtp-Source: ABdhPJzYus71jdfVs9Y87XtUOcQyYwfKsxleTZcccosnwQi+iCxJFWbHQ/6pnAJarom+3UlSBGsGig==
-X-Received: by 2002:a17:90a:708b:: with SMTP id
- g11mr4715049pjk.23.1608823201803; 
- Thu, 24 Dec 2020 07:20:01 -0800 (PST)
-Received: from ?IPv6:2402:3a80:40d:9f6c:f9de:b7a7:21af:4983?
- ([2402:3a80:40d:9f6c:f9de:b7a7:21af:4983])
- by smtp.gmail.com with ESMTPSA id q15sm15448974pgk.11.2020.12.24.07.19.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 24 Dec 2020 07:20:01 -0800 (PST)
-To: joe@perches.com
-References: <1ce4502a-d75a-7e27-5844-f195607c4c99@gmail.com>
- <20201218121133.18614-1-yashsri421@gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <84492ae9-7452-d296-49ab-4d37eed3b968@gmail.com>
-Date: Thu, 24 Dec 2020 20:49:55 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=FHnsJ2/xITTt6sic8bwwoBbm+GiOwrvEjflQ9FMtb1o=;
+ b=GNx7fHSPBR7zRqp9zCeRPUqA5PWcjfT+/vRGrhWxDVngnUsgb4bvlZXF7+dYdLnkVw
+ hdhZwrj41VBOiVef/gtG5atptmTndUrYvEMbQiSKv5O6EfIxNoNPFSMWODSXL1DaVlQ3
+ CCqwUEAdiZOLBF4b5a9iiu3YRyTEyKLuOUye4u+otmUzoeuPAJ/LcInXKZvBMbLgOIxu
+ eA8ITckorPQdPFA0SPg0t5vhWWL0O7RRGpb3JEMsqJsI1AwX2q5ofkImhrXVhBjInYZS
+ kBNKGch+FvsbbidQ9gknVkTG2Hey/DuH5YnHLfH57wDuBKGnxLXekyAZzA+cZsSD+0Kt
+ DwQA==
+X-Gm-Message-State: AOAM53154WdybMUso5AmCkv1fXYCQ3QjQcze7+iI+I3BuevG0AowqtDF
+ w9Sluy4NaCwgN0C87Wlp/gY=
+X-Google-Smtp-Source: ABdhPJx+/MatKpT6VdImiBKtt80l2g32Jwro7OiSmNKb2IJ0kLhI5UGsMVyOy7NNCFzkBb7sSRCRsQ==
+X-Received: by 2002:a63:1a48:: with SMTP id a8mr21208120pgm.257.1609562416062; 
+ Fri, 01 Jan 2021 20:40:16 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:699e:6758:fe49:c6f5:125a])
+ by smtp.gmail.com with ESMTPSA id c10sm50835374pfj.54.2021.01.01.20.40.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Jan 2021 20:40:15 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: lukas.bulwahn@gmail.com
+Date: Sat,  2 Jan 2021 10:09:58 +0530
+Message-Id: <20210102043958.4589-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20201218121133.18614-1-yashsri421@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v2] checkpatch: fix false
- positive for COMMIT_LOG_LONG_LINE with URLs
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: fix unescaped left braces
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,63 +110,150 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 18/12/20 5:41 pm, Aditya Srivastava wrote:
-> Currently checkpatch warns for long line in commit messages even for
-> URL lines.
-> 
-> An evaluation over v4.13..v5.8 showed that out of 11729 warnings for
-> this class, around 299 are due to line starting with URL.
-> 
-> E.g., running checkpatch on commit 3cde818cd02b ("ASoC: topology:
-> Consolidate how dtexts and dvalues are freed") reports this warning:
-> 
-> WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-> https://mailman.alsa-project.org/pipermail/alsa-devel/2019-January/144761.html
-> 
-> Avoid giving users warning for character limit for such cases, instead
-> suggest them to prefix the URLs with "Link:"
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> changes in v2:
-> - Fix coding style ('} else {')
-> - Make the URL check follow RFC 3986 style
-> - Give warning only if the URL is first non-whitespace of the line
-> - Set $commit_log_long_line only for else case
-> - Fix the warning count with exact figures and according to first non-space char as URL
-> 
->  scripts/checkpatch.pl | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index abd5a3d2e913..bf77bd0b22cf 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3032,9 +3032,14 @@ sub process {
->  		      $line =~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
->  					# A Fixes: or Link: line or signature tag line
->  		      $commit_log_possible_stack_dump)) {
-> -			WARN("COMMIT_LOG_LONG_LINE",
-> -			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-> -			$commit_log_long_line = 1;
-> +			if ($line =~ /^\s*\b[a-z][\w\.\+\-]*:\/\/\S+/i) {
-> +				WARN("COMMIT_LOG_LONG_LINE",
-> +				     "Consider prefixing the URL with 'Link:'\n" . $herecurr);
-> +			} else {
-> +				WARN("COMMIT_LOG_LONG_LINE",
-> +				     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-> +				$commit_log_long_line = 1;
-> +			}
->  		}
->  
->  # Reset possible stack dump if a blank line is found
-> 
+Perl 5.22 onwards require that "A literal "{" should now be
+escaped in a pattern".
 
-Hi Joe
-You probably missed this patch. Please review :)
+checkpatch contains several literal "{". Fix such instances
+by preceding them with a backslash.
 
-Thanks
-Aditya
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 00085308ed9d..8e80a158bf5a 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -1652,7 +1652,7 @@ sub statement_block_size {
+ 	my ($stmt) = @_;
+ 
+ 	$stmt =~ s/(^|\n)./$1/g;
+-	$stmt =~ s/^\s*{//;
++	$stmt =~ s/^\s*\{//;
+ 	$stmt =~ s/}\s*$//;
+ 	$stmt =~ s/^\s*//;
+ 	$stmt =~ s/\s*$//;
+@@ -2036,7 +2036,7 @@ sub annotate_values {
+ 			print "ASSIGN($1)\n" if ($dbg_values > 1);
+ 			$type = 'N';
+ 
+-		} elsif ($cur =~/^(;|{|})/) {
++		} elsif ($cur =~ /^(;|\{|\})/) {
+ 			print "END($1)\n" if ($dbg_values > 1);
+ 			$type = 'E';
+ 			$av_pend_colon = 'O';
+@@ -3913,7 +3913,7 @@ sub process {
+ 			# it there is no point in retrying a statement scan
+ 			# until we hit end of it.
+ 			my $frag = $stat; $frag =~ s/;+\s*$//;
+-			if ($frag !~ /(?:{|;)/) {
++			if ($frag !~ /(?:\{|;)/) {
+ #print "skip<$line_nr_next>\n";
+ 				$suppress_statement = $line_nr_next;
+ 			}
+@@ -4029,7 +4029,7 @@ sub process {
+ 			#print "realcnt<$realcnt> ctx_cnt<$ctx_cnt>\n";
+ 			#print "pre<$pre_ctx>\nline<$line>\nctx<$ctx>\nnext<$lines[$ctx_ln - 1]>\n";
+ 
+-			if ($ctx !~ /{\s*/ && defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*{/) {
++			if ($ctx !~ /\{\s*/ && defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*\{/) {
+ 				ERROR("OPEN_BRACE",
+ 				      "that open brace { should be on the previous line\n" .
+ 					"$here\n$ctx\n$rawlines[$ctx_ln - 1]\n");
+@@ -4080,7 +4080,7 @@ sub process {
+ 			my $continuation = 0;
+ 			my $check = 0;
+ 			$s =~ s/^.*\bdo\b//;
+-			$s =~ s/^\s*{//;
++			$s =~ s/^\s*\{//;
+ 			if ($s =~ s/^\s*\\//) {
+ 				$continuation = 1;
+ 			}
+@@ -4235,7 +4235,7 @@ sub process {
+ 		}
+ 
+ # check for initialisation to aggregates open brace on the next line
+-		if ($line =~ /^.\s*{/ &&
++		if ($line =~ /^.\s*\{/ &&
+ 		    $prevline =~ /(?:^|[^=])=\s*$/) {
+ 			if (ERROR("OPEN_BRACE",
+ 				  "that open brace { should be on the previous line\n" . $hereprev) &&
+@@ -4243,7 +4243,7 @@ sub process {
+ 				fix_delete_line($fixlinenr - 1, $prevrawline);
+ 				fix_delete_line($fixlinenr, $rawline);
+ 				my $fixedline = $prevrawline;
+-				$fixedline =~ s/\s*=\s*$/ = {/;
++				$fixedline =~ s/\s*=\s*$/ = \{/;
+ 				fix_insert_line($fixlinenr, $fixedline);
+ 				$fixedline = $line;
+ 				$fixedline =~ s/^(.\s*)\{\s*/$1/;
+@@ -4617,7 +4617,7 @@ sub process {
+ 		}
+ 
+ # open braces for enum, union and struct go on the same line.
+-		if ($line =~ /^.\s*{/ &&
++		if ($line =~ /^.\s*\{/ &&
+ 		    $prevline =~ /^.\s*(?:typedef\s+)?(enum|union|struct)(?:\s+$Ident)?\s*$/) {
+ 			if (ERROR("OPEN_BRACE",
+ 				  "open brace '{' following $1 go on the same line\n" . $hereprev) &&
+@@ -5345,7 +5345,7 @@ sub process {
+ 
+ # Check for illegal assignment in if conditional -- and check for trailing
+ # statements after the conditional.
+-		if ($line =~ /do\s*(?!{)/) {
++		if ($line =~ /do\s*(?!\{)/) {
+ 			($stat, $cond, $line_nr_next, $remain_next, $off_next) =
+ 				ctx_statement_block($linenr, $realcnt, 0)
+ 					if (!defined $stat);
+@@ -5403,7 +5403,7 @@ sub process {
+ 			substr($s, 0, length($c), '');
+ 			$s =~ s/\n.*//g;
+ 			$s =~ s/$;//g;	# Remove any comments
+-			if (length($c) && $s !~ /^\s*{?\s*\\*\s*$/ &&
++			if (length($c) && $s !~ /^\s*\{?\s*\\*\s*$/ &&
+ 			    $c !~ /}\s*while\s*/)
+ 			{
+ 				# Find out how long the conditional actually is.
+@@ -5442,7 +5442,7 @@ sub process {
+ 		if ($line =~ /^.\s*(?:}\s*)?else\b(.*)/) {
+ 			my $s = $1;
+ 			$s =~ s/$;//g;	# Remove any comments
+-			if ($s !~ /^\s*(?:\sif|(?:{|)\s*\\?\s*$)/) {
++			if ($s !~ /^\s*(?:\sif|(?:\{|)\s*\\?\s*$)/) {
+ 				ERROR("TRAILING_STATEMENTS",
+ 				      "trailing statements should be on next line\n" . $herecurr);
+ 			}
+@@ -5659,7 +5659,7 @@ sub process {
+ 			    $dstat !~ /^while\s*$Constant\s*$Constant\s*$/ &&		# while (...) {...}
+ 			    $dstat !~ /^for\s*$Constant$/ &&				# for (...)
+ 			    $dstat !~ /^for\s*$Constant\s+(?:$Ident|-?$Constant)$/ &&	# for (...) bar()
+-			    $dstat !~ /^do\s*{/ &&					# do {...
++			    $dstat !~ /^do\s*\{/ &&					# do {...
+ 			    $dstat !~ /^\(\{/ &&						# ({...
+ 			    $ctx !~ /^.\s*#\s*define\s+TRACE_(?:SYSTEM|INCLUDE_FILE|INCLUDE_PATH)\b/)
+ 			{
+@@ -5811,7 +5811,7 @@ sub process {
+ 
+ 					substr($block, 0, length($cond), '');
+ 
+-					$seen++ if ($block =~ /^\s*{/);
++					$seen++ if ($block =~ /^\s*\{/);
+ 
+ 					#print "cond<$cond> block<$block> allowed<$allowed[$allow]>\n";
+ 					if (statement_lines($cond) > 1) {
+@@ -5909,7 +5909,7 @@ sub process {
+ 				fix_delete_line($fixlinenr - 1, $prevrawline);
+ 			}
+ 		}
+-		if (($rawline =~ /^.\s*$/ && $prevline =~ /^..*{\s*$/)) {
++		if (($rawline =~ /^.\s*$/ && $prevline =~ /^..*\{\s*$/)) {
+ 			if (CHK("BRACES",
+ 				"Blank lines aren't necessary after an open brace '{'\n" . $hereprev) &&
+ 			    $fix) {
+-- 
+2.27.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
