@@ -8,91 +8,94 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 748A4C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Jan 2021 13:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A6AC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Jan 2021 13:26:01 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 01C07207AE
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Jan 2021 13:25:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01C07207AE
+	by mail.kernel.org (Postfix) with ESMTPS id 2121C207AE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Jan 2021 13:26:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2121C207AE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C46E85F71;
-	Mon,  4 Jan 2021 13:25:52 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id EB0A885F71;
+	Mon,  4 Jan 2021 13:26:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UK1n-NVs88-d; Mon,  4 Jan 2021 13:25:51 +0000 (UTC)
+	with ESMTP id 04x0LC1VNuJ0; Mon,  4 Jan 2021 13:25:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id A57A685D3D;
-	Mon,  4 Jan 2021 13:25:51 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id BE75785D3D;
+	Mon,  4 Jan 2021 13:25:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9ED10C088B;
-	Mon,  4 Jan 2021 13:25:51 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BB182C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BB0C1C088B;
+	Mon,  4 Jan 2021 13:25:59 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6E77BC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Jan 2021 13:25:50 +0000 (UTC)
+ Mon,  4 Jan 2021 13:25:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id A9E3F870EA
+ by whitealder.osuosl.org (Postfix) with ESMTP id 5D2C886885
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Jan 2021 13:25:50 +0000 (UTC)
+ Mon,  4 Jan 2021 13:25:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AFnFExoc5if1
+ with ESMTP id 0M0oTm9P2O02
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Jan 2021 13:25:50 +0000 (UTC)
+ Mon,  4 Jan 2021 13:25:56 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 00E1B870DE
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 6B6C786881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Jan 2021 13:25:49 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id b8so14551229plx.0
+ Mon,  4 Jan 2021 13:25:56 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id b8so14551361plx.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 04 Jan 2021 05:25:49 -0800 (PST)
+ Mon, 04 Jan 2021 05:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wd6v6NV3QH+choqFacBY5QqMB1xLnvsemq4BBaXi04A=;
- b=pfEQhSwIH5b9Ox6JdZ57ycB4C1F/coqHVrLwtmpr6FOaUFfdhWT4VPHycztzB2Abg3
- bCXfF7ZWbSRhIpcDLw2l0siamOb8rnN7OvSMTwh16a/WhMEfPQqp2/J2S6xeytfXtxMh
- 7M+4SUYW8831WMcXFTcJos17zbJlRuxHp21VzzxXiX6r5R0vpFnpq+WFuKE6qWw9YUKj
- C/guy/HZOGbgsgQr5f0oGUUp6yFJWiyaT3h+lqS2zdEuNbPgld1rAZavjyf0hYiLlQaG
- 9AXSWf0Sx5o02deyi5NC2If9iGo1Z16n+Ap8A3t1sIi7+rjuVTsUYWxXOYsK8iDT9wJW
- LNcQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=q2Ns+KjaRZiIsqBfJstvkjNabzsP3wbjh23QJIKvTaQ=;
+ b=STliCOHi+BniAN4CW92qMeW9sEIcA6vcok1EnJrRyBL/4kgENH+LM10rO8BFViAWJ2
+ APbsUfs7c4I88HUC3+Av6kJlLlsbkGssFhlXmjaCbBCdMQomCj3Dy4TfyP6qtQOdbA07
+ j4w3xGIQe5Gl+b6FDSe7iPvtcXJHYoxQ3km5ZP3h7DvxX1Qb6CRfmUsh8e0sXH6OLcwH
+ BzUgFrmVXB3O1pd7Tg80FV07Eq6QBgFPa4uYBpuGC6/vWNyfUXLDLgoPliPPLGgrEtnK
+ quf0diaKbM9jIO2zJ3yNQe9SyKA1e360lXh+daiSkTju3NZxqmArCyrKowyqGPNct8Mh
+ NGtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wd6v6NV3QH+choqFacBY5QqMB1xLnvsemq4BBaXi04A=;
- b=scIV+DywCKQEnU50/otiaYIeP496tyQZKumthdxH4C266GswD4cWtf5F/DE7Z1OsZx
- rTlE/H7+2GJki9k6A5ASTiDi6XiOvVXqchqEqC9PSvPGOETeSSl6YNnLG8FORQpztpiW
- RxEGzTwoLUr9pSUeQ4gdjAOrjGvXQnvpkC9bHiNj2as+bfM/Dv4B9G/4vgkD2mZs+yAW
- NDwKvClL+yVVI0SHrhIXvkefeLrBkJrqcTkZQEXeuqyOG+oJmSMAO7oiSyI1cFry9Mk9
- j7Y4gJ5tY1e+H4KEqztAZCtMecOMFt1+iXMgHmF8FlbMJ1AalPl0OulgMxT6V7ihTpSy
- S48g==
-X-Gm-Message-State: AOAM532XXL7P8oCBqE+PzSViRFl4xA3a80A95HKZQwerUb80LAwdINmt
- RNkQwvtziep9RW4HaEzoOgs=
-X-Google-Smtp-Source: ABdhPJzKCxE9lXY0sYFlj/F045/V/bIJ27d8sXYC2pZ0h69N22udoiRlR0JYOtKehuGl14G+n5NOug==
-X-Received: by 2002:a17:902:59d0:b029:da:69a8:11a8 with SMTP id
- d16-20020a17090259d0b02900da69a811a8mr73401210plj.63.1609766749265; 
- Mon, 04 Jan 2021 05:25:49 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=q2Ns+KjaRZiIsqBfJstvkjNabzsP3wbjh23QJIKvTaQ=;
+ b=Nnda16qp7Av0WxhOEK8wfGmBwSagXj8rBKFrosjiXMjce2B+HczTcPrh3AClM8cumF
+ RujfxXc4n8VuyP3m/zvI+YxIfR86yAx31fNaZif6ZW+eLq/MZHTslgLPnYkV6aMYic/x
+ /gHCmMLPp68g/K8MHfA3mQYWstnDHyvksC3meEKJ2f9+Nnzl6f6EDbfa8jdF8ElUJ0XN
+ pUDqoHJEsdP0dK4kQB/V1BQHdM8J9GTxA0Q85LOlL1+oLeatRs2w9OpTlCIahwhOpDAb
+ HrOSXaQVhk9ungdo6Dn9t61cxUfzD14AsuRraOFvprrYO9rO25+CIYrIKTZLLfdHKt8T
+ Sf8Q==
+X-Gm-Message-State: AOAM530cCC5wS+7VB3ji2+DXz7e/3OiLgM5Dv8lr2Fx3nI3/IesiJlxT
+ kGOGpYA+YqVDH632CdijHHs=
+X-Google-Smtp-Source: ABdhPJxgZ+NczQrO9cSetESw9/UyWN/mIfIT2DG9nazS5hC9/lMO81MQvJzaAtt+AL0ZhVWJceZxrw==
+X-Received: by 2002:a17:90a:3d0b:: with SMTP id
+ h11mr29185809pjc.188.1609766755896; 
+ Mon, 04 Jan 2021 05:25:55 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:9004:68a1:dd5e:15ee:643c:b4db])
- by smtp.gmail.com with ESMTPSA id c10sm21479605pjn.22.2021.01.04.05.25.46
+ by smtp.gmail.com with ESMTPSA id c10sm21479605pjn.22.2021.01.04.05.25.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Jan 2021 05:25:48 -0800 (PST)
+ Mon, 04 Jan 2021 05:25:55 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
 To: lukas.bulwahn@gmail.com
-Date: Mon,  4 Jan 2021 18:55:35 +0530
-Message-Id: <20210104132536.38016-1-dwaipayanray1@gmail.com>
+Date: Mon,  4 Jan 2021 18:55:36 +0530
+Message-Id: <20210104132536.38016-2-dwaipayanray1@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210104132536.38016-1-dwaipayanray1@gmail.com>
+References: <20210104132536.38016-1-dwaipayanray1@gmail.com>
 MIME-Version: 1.0
 Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] checkpatch: trivial style fixes
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: add a new check for
+	strcpy/strlcpy uses
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,71 +113,40 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Indentations should use tabs wherever possible.
-Replace spaces by tabs for indents.
+strcpy() performs no bounds checking on the destination buffer.
+This could result in linear overflows beyond the end of the buffer.
+
+strlcpy() reads the entire source buffer first. This read
+may exceed the destination size limit. This can be both inefficient
+and lead to linear read overflows.
+
+The safe replacement to both of these is to use strscpy() instead.
+Add a new checkpatch warning which alerts the user on finding usage of
+strcpy() or strlcpy().
 
 Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
- scripts/checkpatch.pl | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ scripts/checkpatch.pl | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index b212f5f12ca6..d6a4d25b0972 100755
+index d6a4d25b0972..0003fd9de62c 100755
 --- a/scripts/checkpatch.pl
 +++ b/scripts/checkpatch.pl
-@@ -2973,7 +2973,7 @@ sub process {
- 				}
- 				if (!defined $lines[$linenr]) {
- 					WARN("BAD_SIGN_OFF",
--                                             "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
-+					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
- 				} elsif ($rawlines[$linenr] !~ /^\s*signed-off-by:\s*(.*)/i) {
- 					WARN("BAD_SIGN_OFF",
- 					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
-@@ -2996,8 +2996,8 @@ sub process {
- 			if (ERROR("GERRIT_CHANGE_ID",
- 			          "Remove Gerrit Change-Id's before submitting upstream\n" . $herecurr) &&
- 			    $fix) {
--                                fix_delete_line($fixlinenr, $rawline);
--                        }
-+				fix_delete_line($fixlinenr, $rawline);
-+			}
+@@ -6604,6 +6604,13 @@ sub process {
+ 			}
  		}
  
- # Check if the commit log is in a possible stack dump
-@@ -3239,10 +3239,10 @@ sub process {
- 				next if ($start_char =~ /^\S$/);
- 				next if (index(" \t.,;?!", $end_char) == -1);
- 
--                                # avoid repeating hex occurrences like 'ff ff fe 09 ...'
--                                if ($first =~ /\b[0-9a-f]{2,}\b/i) {
--                                        next if (!exists($allow_repeated_words{lc($first)}));
--                                }
-+				# avoid repeating hex occurrences like 'ff ff fe 09 ...'
-+				if ($first =~ /\b[0-9a-f]{2,}\b/i) {
-+					next if (!exists($allow_repeated_words{lc($first)}));
-+				}
- 
- 				if (WARN("REPEATED_WORD",
- 					 "Possible repeated word: '$first'\n" . $herecurr) &&
-@@ -4426,7 +4426,7 @@ sub process {
- 			WARN("STATIC_CONST_CHAR_ARRAY",
- 			     "char * array declaration might be better as static const\n" .
- 				$herecurr);
--               }
++# Check for strcpy/strlcpy uses
++		if (defined($stat) &&
++		    $stat =~ /^\+(?:.*?)\b(str[l]?cpy)\s*\(/) {
++			WARN("PREFER_STRSCPY",
++			     "Prefer strscpy() over $1()\n" . "$here\n$stat\n");
 +		}
- 
- # check for sizeof(foo)/sizeof(foo[0]) that could be ARRAY_SIZE(foo)
- 		if ($line =~ m@\bsizeof\s*\(\s*($Lval)\s*\)@) {
-@@ -5279,7 +5279,7 @@ sub process {
- 		    $lines[$linenr - 3] !~ /^[ +]\s*$Ident\s*:/) {
- 			WARN("RETURN_VOID",
- 			     "void function return statements are not generally useful\n" . $hereprev);
--               }
-+		}
- 
- # if statements using unnecessary parentheses - ie: if ((foo == bar))
- 		if ($perl_version_ok &&
++
+ # Check for memcpy(foo, bar, ETH_ALEN) that could be ether_addr_copy(foo, bar)
+ #		if ($perl_version_ok &&
+ #		    defined $stat &&
 -- 
 2.27.0
 
