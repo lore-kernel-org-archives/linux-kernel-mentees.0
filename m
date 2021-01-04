@@ -1,4 +1,4 @@
-Return-Path: <SRS0=dgxJ=GF=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=5+BN=GH=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -8,91 +8,91 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA23BC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Jan 2021 04:40:21 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 748A4C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Jan 2021 13:25:53 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E85C2137B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Jan 2021 04:40:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E85C2137B
+	by mail.kernel.org (Postfix) with ESMTPS id 01C07207AE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Jan 2021 13:25:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 01C07207AE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id BCC40204EC;
-	Sat,  2 Jan 2021 04:40:20 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j27zA0pOs3nS; Sat,  2 Jan 2021 04:40:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 6B920204E9;
-	Sat,  2 Jan 2021 04:40:19 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E23EC088B;
-	Sat,  2 Jan 2021 04:40:19 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 931FEC013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jan 2021 04:40:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7A12686237
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jan 2021 04:40:18 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7C46E85F71;
+	Mon,  4 Jan 2021 13:25:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UK1n-NVs88-d; Mon,  4 Jan 2021 13:25:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A57A685D3D;
+	Mon,  4 Jan 2021 13:25:51 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9ED10C088B;
+	Mon,  4 Jan 2021 13:25:51 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB182C013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  4 Jan 2021 13:25:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id A9E3F870EA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  4 Jan 2021 13:25:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GBzE4BhmSzP0
+ with ESMTP id AFnFExoc5if1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jan 2021 04:40:16 +0000 (UTC)
+ Mon,  4 Jan 2021 13:25:50 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 95A8F85092
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 00E1B870DE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jan 2021 04:40:16 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id 30so10674820pgr.6
+ Mon,  4 Jan 2021 13:25:49 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id b8so14551229plx.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 01 Jan 2021 20:40:16 -0800 (PST)
+ Mon, 04 Jan 2021 05:25:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FHnsJ2/xITTt6sic8bwwoBbm+GiOwrvEjflQ9FMtb1o=;
- b=cZKLquG7m6q13jleFOBv97U+tN9jtZ/5lTgKsXvRjfj6WC5hjTGSMGcLpbUSsIsSDL
- f0O/3DrcZcvvlz8nOXAM5SCR+6nWFnIHjT5MQyzDPAF4P8CLo3NOquFvMbJJxL7EbMUx
- ILgSdzKLe/IjVMTYKJPrNl+WftpjlvNFsM8jnqtGkCPwO6OEbAP3HPl3U7MQV7PoYVm/
- ORUAYZIRgt5foxjWN4rhxGKnFgqoQFRghAlu64GQv8sSB3ynfoY2PgS1stfP5Y10dHgI
- 2h7MGTFJLQtSD324vP6cUgkFms7FcbvmQfqsFNh7qc47O99dgpu9EkcAyp1Vc19NEUVq
- RFrQ==
+ bh=wd6v6NV3QH+choqFacBY5QqMB1xLnvsemq4BBaXi04A=;
+ b=pfEQhSwIH5b9Ox6JdZ57ycB4C1F/coqHVrLwtmpr6FOaUFfdhWT4VPHycztzB2Abg3
+ bCXfF7ZWbSRhIpcDLw2l0siamOb8rnN7OvSMTwh16a/WhMEfPQqp2/J2S6xeytfXtxMh
+ 7M+4SUYW8831WMcXFTcJos17zbJlRuxHp21VzzxXiX6r5R0vpFnpq+WFuKE6qWw9YUKj
+ C/guy/HZOGbgsgQr5f0oGUUp6yFJWiyaT3h+lqS2zdEuNbPgld1rAZavjyf0hYiLlQaG
+ 9AXSWf0Sx5o02deyi5NC2If9iGo1Z16n+Ap8A3t1sIi7+rjuVTsUYWxXOYsK8iDT9wJW
+ LNcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FHnsJ2/xITTt6sic8bwwoBbm+GiOwrvEjflQ9FMtb1o=;
- b=GNx7fHSPBR7zRqp9zCeRPUqA5PWcjfT+/vRGrhWxDVngnUsgb4bvlZXF7+dYdLnkVw
- hdhZwrj41VBOiVef/gtG5atptmTndUrYvEMbQiSKv5O6EfIxNoNPFSMWODSXL1DaVlQ3
- CCqwUEAdiZOLBF4b5a9iiu3YRyTEyKLuOUye4u+otmUzoeuPAJ/LcInXKZvBMbLgOIxu
- eA8ITckorPQdPFA0SPg0t5vhWWL0O7RRGpb3JEMsqJsI1AwX2q5ofkImhrXVhBjInYZS
- kBNKGch+FvsbbidQ9gknVkTG2Hey/DuH5YnHLfH57wDuBKGnxLXekyAZzA+cZsSD+0Kt
- DwQA==
-X-Gm-Message-State: AOAM53154WdybMUso5AmCkv1fXYCQ3QjQcze7+iI+I3BuevG0AowqtDF
- w9Sluy4NaCwgN0C87Wlp/gY=
-X-Google-Smtp-Source: ABdhPJx+/MatKpT6VdImiBKtt80l2g32Jwro7OiSmNKb2IJ0kLhI5UGsMVyOy7NNCFzkBb7sSRCRsQ==
-X-Received: by 2002:a63:1a48:: with SMTP id a8mr21208120pgm.257.1609562416062; 
- Fri, 01 Jan 2021 20:40:16 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:9004:699e:6758:fe49:c6f5:125a])
- by smtp.gmail.com with ESMTPSA id c10sm50835374pfj.54.2021.01.01.20.40.13
+ bh=wd6v6NV3QH+choqFacBY5QqMB1xLnvsemq4BBaXi04A=;
+ b=scIV+DywCKQEnU50/otiaYIeP496tyQZKumthdxH4C266GswD4cWtf5F/DE7Z1OsZx
+ rTlE/H7+2GJki9k6A5ASTiDi6XiOvVXqchqEqC9PSvPGOETeSSl6YNnLG8FORQpztpiW
+ RxEGzTwoLUr9pSUeQ4gdjAOrjGvXQnvpkC9bHiNj2as+bfM/Dv4B9G/4vgkD2mZs+yAW
+ NDwKvClL+yVVI0SHrhIXvkefeLrBkJrqcTkZQEXeuqyOG+oJmSMAO7oiSyI1cFry9Mk9
+ j7Y4gJ5tY1e+H4KEqztAZCtMecOMFt1+iXMgHmF8FlbMJ1AalPl0OulgMxT6V7ihTpSy
+ S48g==
+X-Gm-Message-State: AOAM532XXL7P8oCBqE+PzSViRFl4xA3a80A95HKZQwerUb80LAwdINmt
+ RNkQwvtziep9RW4HaEzoOgs=
+X-Google-Smtp-Source: ABdhPJzKCxE9lXY0sYFlj/F045/V/bIJ27d8sXYC2pZ0h69N22udoiRlR0JYOtKehuGl14G+n5NOug==
+X-Received: by 2002:a17:902:59d0:b029:da:69a8:11a8 with SMTP id
+ d16-20020a17090259d0b02900da69a811a8mr73401210plj.63.1609766749265; 
+ Mon, 04 Jan 2021 05:25:49 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:68a1:dd5e:15ee:643c:b4db])
+ by smtp.gmail.com with ESMTPSA id c10sm21479605pjn.22.2021.01.04.05.25.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Jan 2021 20:40:15 -0800 (PST)
+ Mon, 04 Jan 2021 05:25:48 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
 To: lukas.bulwahn@gmail.com
-Date: Sat,  2 Jan 2021 10:09:58 +0530
-Message-Id: <20210102043958.4589-1-dwaipayanray1@gmail.com>
+Date: Mon,  4 Jan 2021 18:55:35 +0530
+Message-Id: <20210104132536.38016-1-dwaipayanray1@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH] checkpatch: fix unescaped left braces
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: trivial style fixes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,147 +110,71 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Perl 5.22 onwards require that "A literal "{" should now be
-escaped in a pattern".
-
-checkpatch contains several literal "{". Fix such instances
-by preceding them with a backslash.
+Indentations should use tabs wherever possible.
+Replace spaces by tabs for indents.
 
 Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
- scripts/checkpatch.pl | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ scripts/checkpatch.pl | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 00085308ed9d..8e80a158bf5a 100755
+index b212f5f12ca6..d6a4d25b0972 100755
 --- a/scripts/checkpatch.pl
 +++ b/scripts/checkpatch.pl
-@@ -1652,7 +1652,7 @@ sub statement_block_size {
- 	my ($stmt) = @_;
- 
- 	$stmt =~ s/(^|\n)./$1/g;
--	$stmt =~ s/^\s*{//;
-+	$stmt =~ s/^\s*\{//;
- 	$stmt =~ s/}\s*$//;
- 	$stmt =~ s/^\s*//;
- 	$stmt =~ s/\s*$//;
-@@ -2036,7 +2036,7 @@ sub annotate_values {
- 			print "ASSIGN($1)\n" if ($dbg_values > 1);
- 			$type = 'N';
- 
--		} elsif ($cur =~/^(;|{|})/) {
-+		} elsif ($cur =~ /^(;|\{|\})/) {
- 			print "END($1)\n" if ($dbg_values > 1);
- 			$type = 'E';
- 			$av_pend_colon = 'O';
-@@ -3913,7 +3913,7 @@ sub process {
- 			# it there is no point in retrying a statement scan
- 			# until we hit end of it.
- 			my $frag = $stat; $frag =~ s/;+\s*$//;
--			if ($frag !~ /(?:{|;)/) {
-+			if ($frag !~ /(?:\{|;)/) {
- #print "skip<$line_nr_next>\n";
- 				$suppress_statement = $line_nr_next;
- 			}
-@@ -4029,7 +4029,7 @@ sub process {
- 			#print "realcnt<$realcnt> ctx_cnt<$ctx_cnt>\n";
- 			#print "pre<$pre_ctx>\nline<$line>\nctx<$ctx>\nnext<$lines[$ctx_ln - 1]>\n";
- 
--			if ($ctx !~ /{\s*/ && defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*{/) {
-+			if ($ctx !~ /\{\s*/ && defined($lines[$ctx_ln - 1]) && $lines[$ctx_ln - 1] =~ /^\+\s*\{/) {
- 				ERROR("OPEN_BRACE",
- 				      "that open brace { should be on the previous line\n" .
- 					"$here\n$ctx\n$rawlines[$ctx_ln - 1]\n");
-@@ -4080,7 +4080,7 @@ sub process {
- 			my $continuation = 0;
- 			my $check = 0;
- 			$s =~ s/^.*\bdo\b//;
--			$s =~ s/^\s*{//;
-+			$s =~ s/^\s*\{//;
- 			if ($s =~ s/^\s*\\//) {
- 				$continuation = 1;
- 			}
-@@ -4235,7 +4235,7 @@ sub process {
- 		}
- 
- # check for initialisation to aggregates open brace on the next line
--		if ($line =~ /^.\s*{/ &&
-+		if ($line =~ /^.\s*\{/ &&
- 		    $prevline =~ /(?:^|[^=])=\s*$/) {
- 			if (ERROR("OPEN_BRACE",
- 				  "that open brace { should be on the previous line\n" . $hereprev) &&
-@@ -4243,7 +4243,7 @@ sub process {
- 				fix_delete_line($fixlinenr - 1, $prevrawline);
- 				fix_delete_line($fixlinenr, $rawline);
- 				my $fixedline = $prevrawline;
--				$fixedline =~ s/\s*=\s*$/ = {/;
-+				$fixedline =~ s/\s*=\s*$/ = \{/;
- 				fix_insert_line($fixlinenr, $fixedline);
- 				$fixedline = $line;
- 				$fixedline =~ s/^(.\s*)\{\s*/$1/;
-@@ -4617,7 +4617,7 @@ sub process {
- 		}
- 
- # open braces for enum, union and struct go on the same line.
--		if ($line =~ /^.\s*{/ &&
-+		if ($line =~ /^.\s*\{/ &&
- 		    $prevline =~ /^.\s*(?:typedef\s+)?(enum|union|struct)(?:\s+$Ident)?\s*$/) {
- 			if (ERROR("OPEN_BRACE",
- 				  "open brace '{' following $1 go on the same line\n" . $hereprev) &&
-@@ -5345,7 +5345,7 @@ sub process {
- 
- # Check for illegal assignment in if conditional -- and check for trailing
- # statements after the conditional.
--		if ($line =~ /do\s*(?!{)/) {
-+		if ($line =~ /do\s*(?!\{)/) {
- 			($stat, $cond, $line_nr_next, $remain_next, $off_next) =
- 				ctx_statement_block($linenr, $realcnt, 0)
- 					if (!defined $stat);
-@@ -5403,7 +5403,7 @@ sub process {
- 			substr($s, 0, length($c), '');
- 			$s =~ s/\n.*//g;
- 			$s =~ s/$;//g;	# Remove any comments
--			if (length($c) && $s !~ /^\s*{?\s*\\*\s*$/ &&
-+			if (length($c) && $s !~ /^\s*\{?\s*\\*\s*$/ &&
- 			    $c !~ /}\s*while\s*/)
- 			{
- 				# Find out how long the conditional actually is.
-@@ -5442,7 +5442,7 @@ sub process {
- 		if ($line =~ /^.\s*(?:}\s*)?else\b(.*)/) {
- 			my $s = $1;
- 			$s =~ s/$;//g;	# Remove any comments
--			if ($s !~ /^\s*(?:\sif|(?:{|)\s*\\?\s*$)/) {
-+			if ($s !~ /^\s*(?:\sif|(?:\{|)\s*\\?\s*$)/) {
- 				ERROR("TRAILING_STATEMENTS",
- 				      "trailing statements should be on next line\n" . $herecurr);
- 			}
-@@ -5659,7 +5659,7 @@ sub process {
- 			    $dstat !~ /^while\s*$Constant\s*$Constant\s*$/ &&		# while (...) {...}
- 			    $dstat !~ /^for\s*$Constant$/ &&				# for (...)
- 			    $dstat !~ /^for\s*$Constant\s+(?:$Ident|-?$Constant)$/ &&	# for (...) bar()
--			    $dstat !~ /^do\s*{/ &&					# do {...
-+			    $dstat !~ /^do\s*\{/ &&					# do {...
- 			    $dstat !~ /^\(\{/ &&						# ({...
- 			    $ctx !~ /^.\s*#\s*define\s+TRACE_(?:SYSTEM|INCLUDE_FILE|INCLUDE_PATH)\b/)
- 			{
-@@ -5811,7 +5811,7 @@ sub process {
- 
- 					substr($block, 0, length($cond), '');
- 
--					$seen++ if ($block =~ /^\s*{/);
-+					$seen++ if ($block =~ /^\s*\{/);
- 
- 					#print "cond<$cond> block<$block> allowed<$allowed[$allow]>\n";
- 					if (statement_lines($cond) > 1) {
-@@ -5909,7 +5909,7 @@ sub process {
- 				fix_delete_line($fixlinenr - 1, $prevrawline);
- 			}
- 		}
--		if (($rawline =~ /^.\s*$/ && $prevline =~ /^..*{\s*$/)) {
-+		if (($rawline =~ /^.\s*$/ && $prevline =~ /^..*\{\s*$/)) {
- 			if (CHK("BRACES",
- 				"Blank lines aren't necessary after an open brace '{'\n" . $hereprev) &&
+@@ -2973,7 +2973,7 @@ sub process {
+ 				}
+ 				if (!defined $lines[$linenr]) {
+ 					WARN("BAD_SIGN_OFF",
+-                                             "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
++					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
+ 				} elsif ($rawlines[$linenr] !~ /^\s*signed-off-by:\s*(.*)/i) {
+ 					WARN("BAD_SIGN_OFF",
+ 					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
+@@ -2996,8 +2996,8 @@ sub process {
+ 			if (ERROR("GERRIT_CHANGE_ID",
+ 			          "Remove Gerrit Change-Id's before submitting upstream\n" . $herecurr) &&
  			    $fix) {
+-                                fix_delete_line($fixlinenr, $rawline);
+-                        }
++				fix_delete_line($fixlinenr, $rawline);
++			}
+ 		}
+ 
+ # Check if the commit log is in a possible stack dump
+@@ -3239,10 +3239,10 @@ sub process {
+ 				next if ($start_char =~ /^\S$/);
+ 				next if (index(" \t.,;?!", $end_char) == -1);
+ 
+-                                # avoid repeating hex occurrences like 'ff ff fe 09 ...'
+-                                if ($first =~ /\b[0-9a-f]{2,}\b/i) {
+-                                        next if (!exists($allow_repeated_words{lc($first)}));
+-                                }
++				# avoid repeating hex occurrences like 'ff ff fe 09 ...'
++				if ($first =~ /\b[0-9a-f]{2,}\b/i) {
++					next if (!exists($allow_repeated_words{lc($first)}));
++				}
+ 
+ 				if (WARN("REPEATED_WORD",
+ 					 "Possible repeated word: '$first'\n" . $herecurr) &&
+@@ -4426,7 +4426,7 @@ sub process {
+ 			WARN("STATIC_CONST_CHAR_ARRAY",
+ 			     "char * array declaration might be better as static const\n" .
+ 				$herecurr);
+-               }
++		}
+ 
+ # check for sizeof(foo)/sizeof(foo[0]) that could be ARRAY_SIZE(foo)
+ 		if ($line =~ m@\bsizeof\s*\(\s*($Lval)\s*\)@) {
+@@ -5279,7 +5279,7 @@ sub process {
+ 		    $lines[$linenr - 3] !~ /^[ +]\s*$Ident\s*:/) {
+ 			WARN("RETURN_VOID",
+ 			     "void function return statements are not generally useful\n" . $hereprev);
+-               }
++		}
+ 
+ # if statements using unnecessary parentheses - ie: if ((foo == bar))
+ 		if ($perl_version_ok &&
 -- 
 2.27.0
 
