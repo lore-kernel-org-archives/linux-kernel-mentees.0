@@ -2,88 +2,99 @@ Return-Path: <SRS0=j5Lk=GI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B7D6C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 10:22:08 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0479EC433E6
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 10:31:00 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9E65422288
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 10:22:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9E65422288
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=ACULAB.COM
+	by mail.kernel.org (Postfix) with ESMTPS id 7D3B022510
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 10:30:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D3B022510
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 1C212214EC;
-	Tue,  5 Jan 2021 10:22:07 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id E2CFF870AA;
+	Tue,  5 Jan 2021 10:30:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1sO59GvJLW33; Tue,  5 Jan 2021 10:30:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id 3738287021;
+	Tue,  5 Jan 2021 10:30:58 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 233C7C088B;
+	Tue,  5 Jan 2021 10:30:58 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D33EAC013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  5 Jan 2021 10:30:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 75C7820C92
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  5 Jan 2021 10:30:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rddB8I1i1xCN; Tue,  5 Jan 2021 10:22:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id C81BA203AB;
-	Tue,  5 Jan 2021 10:22:05 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B2318C088B;
-	Tue,  5 Jan 2021 10:22:05 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CC020C013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 10:22:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id BA18385D68
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 10:22:04 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rpBV8ut171ku
+ with ESMTP id 6k5F2ClFHmAL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 10:22:03 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from eu-smtp-delivery-151.mimecast.com
- (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 3310285D52
+ Tue,  5 Jan 2021 10:30:55 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by silver.osuosl.org (Postfix) with ESMTPS id BDF0B203AB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 10:22:03 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-30-uoFF9HGNMyeCKOzMT-0d8g-1; Tue, 05 Jan 2021 10:20:07 +0000
-X-MC-Unique: uoFF9HGNMyeCKOzMT-0d8g-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Tue, 5 Jan 2021 10:20:07 +0000
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000; 
- Tue, 5 Jan 2021 10:20:07 +0000
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Joe Perches' <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>
-Thread-Topic: [PATCH] checkpatch: add a new check for strcpy/strlcpy uses
-Thread-Index: AQHW4z9Q88VHmIJ6eEaZbDSrKKOd0aoY0EBw
-Date: Tue, 5 Jan 2021 10:20:07 +0000
-Message-ID: <d081ca22bbd44f969fa45a8abc543606@AcuMS.aculab.com>
-References: <20210105082303.15310-1-dwaipayanray1@gmail.com>
- <50cc861121b62b3c1518222f24f679c3f72b868d.camel@perches.com>
-In-Reply-To: <50cc861121b62b3c1518222f24f679c3f72b868d.camel@perches.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+ Tue,  5 Jan 2021 10:30:55 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id h10so17185091pfo.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 05 Jan 2021 02:30:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SOojekCLE+4Atuf8MN71Y5EpXTyBJ2znW4hlDZL8IH4=;
+ b=bKm0vL6L1Ve9NQJdR7LY/I+t1icUkSlPpuDCJ68FFziNnxO3wL5KGt1oHSpr9/NvhK
+ EuCp1xDs9/8i5XvMCY4PXlqwMFdKmM5g4wJMu9WykpzGbla6Th+Duh0GnKP5FGHrGT/A
+ L/MX/ft3iIQIuvytT6O5uGRSKnsJ2oHFQ4fyLFyfJTa6P6Qc7B33nKUXXSXDb1SYz6Rg
+ 2uhILMYWi6XzeEfCMdAaCmpn5FtY9lgWGr09youhHJ/mrbwMlas9oNPqcSzsmTrjUiN/
+ EVQckCuc0hSxSSxbZI1KrD9VtNg03GF5PPWMa282c8rxFQfw7Br0we2h2uezCcFJ06w8
+ BwOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SOojekCLE+4Atuf8MN71Y5EpXTyBJ2znW4hlDZL8IH4=;
+ b=NtFVMjymbEvjV04DTYZNn03uPzUIgk+wQYzknhu/c1JBIqXhIBZicACcSDCf4A3mr6
+ foIpqit/ROKi2GVgOfjPEgcS4vRHRFj9CIh4vlinmaGrVYLaK4RYWSKsSKWXd5c4/Woa
+ CBREseuST8Jgl+YsSoh0enGyPfHczUtKHfmNG77oy09jqeeVrt/TbOMrswTvHxhDgB6P
+ xSIMpTtnuSbAtadKnDp1QkwKn8tqdSBbmdf5c05u9kombDahhQENeXFB3DmCngD4cmrm
+ 1kiELFnw1mlSSIT2svP4+1DK9h1BVupwM6tOXEiqyS8mtGhbguOfBgMnNkvd6gMIK3Qj
+ p/ww==
+X-Gm-Message-State: AOAM532W24wsWpR7t5zELrdgrXnb+6EsDYfEB72lix+c57/aZuHM6UkR
+ l/mOXZuzLt2M8nbU91Cjlic=
+X-Google-Smtp-Source: ABdhPJwRcUvo+0ys1WB5CPikSOVzKFkWviWPT9C4p/hsmhIVroDtu2zJNL8mMsCwgUtnS0YboZRiqw==
+X-Received: by 2002:aa7:8811:0:b029:1ab:9e4f:b8ea with SMTP id
+ c17-20020aa788110000b02901ab9e4fb8eamr65734067pfo.78.1609842655141; 
+ Tue, 05 Jan 2021 02:30:55 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:6064:97d:44da:5ae4:7c76])
+ by smtp.gmail.com with ESMTPSA id
+ w1sm2284345pjt.23.2021.01.05.02.30.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 02:30:54 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Tue,  5 Jan 2021 16:00:44 +0530
+Message-Id: <20210105103044.40282-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Cc: "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add a new check for
-	strcpy/strlcpy uses
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] checkpatch: trivial style fixes
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,54 +112,73 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Joe Perches
-> Sent: 05 January 2021 08:44
-> 
-> On Tue, 2021-01-05 at 13:53 +0530, Dwaipayan Ray wrote:
-> > strcpy() performs no bounds checking on the destination buffer.
-> > This could result in linear overflows beyond the end of the buffer.
-> >
-> > strlcpy() reads the entire source buffer first. This read
-> > may exceed the destination size limit. This can be both inefficient
-> > and lead to linear read overflows.
-> >
-> > The safe replacement to both of these is to use strscpy() instead.
-> > Add a new checkpatch warning which alerts the user on finding usage of
-> > strcpy() or strlcpy().
-> 
-> I do not believe that strscpy is preferred over strcpy.
-> 
-> When the size of the output buffer is known to be larger
-> than the input, strcpy is faster.
-> 
-> There are about 2k uses of strcpy.
-> Is there a use where strcpy use actually matters?
-> I don't know offhand...
-> 
-> But I believe compilers do not optimize away the uses of strscpy
-> to a simple memcpy like they do for strcpy with a const from
-> 
-> 	strcpy(foo, "bar");
+Indentations should use tabs wherever possible.
+Replace spaces by tabs for indents.
 
-It ought to be possible to convert:
-	strscpy(foo, "bar", constant_sz)
-to a memcpy() within the .h file.
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ scripts/checkpatch.pl | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Similarly it should be possible to error
-	strcpy(foo, "bar")
-Unless foo is large enough and "bar" is constant.
-
-After all with a length check
-	strcpy(foo, "bar")
-is actually safer than
-	strspy(foo, "bar", sizeof foo)
-because there is less room for error.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e6857bdfcb2d..7a323ca8a177 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2974,7 +2974,7 @@ sub process {
+ 				}
+ 				if (!defined $lines[$linenr]) {
+ 					WARN("BAD_SIGN_OFF",
+-                                             "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
++					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
+ 				} elsif ($rawlines[$linenr] !~ /^\s*signed-off-by:\s*(.*)/i) {
+ 					WARN("BAD_SIGN_OFF",
+ 					     "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
+@@ -2997,8 +2997,8 @@ sub process {
+ 			if (ERROR("GERRIT_CHANGE_ID",
+ 			          "Remove Gerrit Change-Id's before submitting upstream\n" . $herecurr) &&
+ 			    $fix) {
+-                                fix_delete_line($fixlinenr, $rawline);
+-                        }
++				fix_delete_line($fixlinenr, $rawline);
++			}
+ 		}
+ 
+ # Check if the commit log is in a possible stack dump
+@@ -3240,10 +3240,10 @@ sub process {
+ 				next if ($start_char =~ /^\S$/);
+ 				next if (index(" \t.,;?!", $end_char) == -1);
+ 
+-                                # avoid repeating hex occurrences like 'ff ff fe 09 ...'
+-                                if ($first =~ /\b[0-9a-f]{2,}\b/i) {
+-                                        next if (!exists($allow_repeated_words{lc($first)}));
+-                                }
++				# avoid repeating hex occurrences like 'ff ff fe 09 ...'
++				if ($first =~ /\b[0-9a-f]{2,}\b/i) {
++					next if (!exists($allow_repeated_words{lc($first)}));
++				}
+ 
+ 				if (WARN("REPEATED_WORD",
+ 					 "Possible repeated word: '$first'\n" . $herecurr) &&
+@@ -4432,7 +4432,7 @@ sub process {
+ 			WARN("STATIC_CONST_CHAR_ARRAY",
+ 			     "char * array declaration might be better as static const\n" .
+ 				$herecurr);
+-               }
++		}
+ 
+ # check for sizeof(foo)/sizeof(foo[0]) that could be ARRAY_SIZE(foo)
+ 		if ($line =~ m@\bsizeof\s*\(\s*($Lval)\s*\)@) {
+@@ -5285,7 +5285,7 @@ sub process {
+ 		    $lines[$linenr - 3] !~ /^[ +]\s*$Ident\s*:/) {
+ 			WARN("RETURN_VOID",
+ 			     "void function return statements are not generally useful\n" . $hereprev);
+-               }
++		}
+ 
+ # if statements using unnecessary parentheses - ie: if ((foo == bar))
+ 		if ($perl_version_ok &&
+-- 
+2.27.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
