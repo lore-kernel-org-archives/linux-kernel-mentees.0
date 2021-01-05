@@ -2,92 +2,94 @@ Return-Path: <SRS0=j5Lk=GI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17245C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 08:04:23 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA03FC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 08:19:48 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7F1AB2222A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 08:04:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7F1AB2222A
+	by mail.kernel.org (Postfix) with ESMTPS id 45F4F22240
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Jan 2021 08:19:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45F4F22240
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 01ECA85137;
-	Tue,  5 Jan 2021 08:04:22 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id B4A3E867D2;
+	Tue,  5 Jan 2021 08:19:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GHN84bA_QraY; Tue,  5 Jan 2021 08:04:21 +0000 (UTC)
+	with ESMTP id r0q7qRFcA2xz; Tue,  5 Jan 2021 08:19:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 7A9EB8508A;
-	Tue,  5 Jan 2021 08:04:21 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 55E4F867CF;
+	Tue,  5 Jan 2021 08:19:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 721E3C0891;
-	Tue,  5 Jan 2021 08:04:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 39EFDC088B;
+	Tue,  5 Jan 2021 08:19:47 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74793C013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7E422C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 08:04:19 +0000 (UTC)
+ Tue,  5 Jan 2021 08:19:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 6D80386146
+ by whitealder.osuosl.org (Postfix) with ESMTP id 70D1D867D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 08:04:19 +0000 (UTC)
+ Tue,  5 Jan 2021 08:19:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RpaUB1zl2ipz
+ with ESMTP id qBA07aDHqAur
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 08:04:18 +0000 (UTC)
+ Tue,  5 Jan 2021 08:19:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
- [209.85.166.52])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 1126E86138
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+ [209.85.167.43])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 8CDD6867CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Jan 2021 08:04:17 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id u26so24720742iof.3
+ Tue,  5 Jan 2021 08:19:44 +0000 (UTC)
+Received: by mail-lf1-f43.google.com with SMTP id a12so70670896lfl.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 05 Jan 2021 00:04:17 -0800 (PST)
+ Tue, 05 Jan 2021 00:19:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uca7cxD9m6/wvCfFxoR99KV0nX2QzNXnUvuup2hrXYc=;
- b=G8R47V/RApHRhopZboWpBWOQ900ZyDi+ehz1oZ9v+PfYa6xOQPgxmzPkkFLA5ShsoI
- c75N+/FGah3tS7k2hBfJZfLRHNohMVj+kTTXikChVgW+8Ne/zocDGmEtZ7Fl2gXjzbbV
- 9DG20fVgMT4PQW56i9R0PKfKadYYqxX46l0JdxJyoMppd4EYMufPNiIenxF8l35CIKNe
- MlDd8j4SRWwlrQUo4PeQhnoHqurGIvAJ1nHEzRwNQ0HwYZSObQQNUq+4dZgM0DXwT8EU
- 9PTnLEGrly5CQh1MDD3OW6roR4GRCChbg0mlIW2CvyYJD02h4EGV8geNBWfNZlFUSSC5
- TJIA==
+ :cc; bh=BlMavcCXYpcFAtAw9u6YAmQf9cbAt0JKfC/kOJ+P2bs=;
+ b=AHv5cuJI/oVWzAFb23pogTLs9xEJeDbyR7/gOYxW5rAUa/D1NMuG2+XMbYvx72dGor
+ etWVBCwj9OJyL51X7WcIzLznOMMihdQHO8Xt2jDilN4jMuc9wL0EbHlJuE3oV5Jmzf/N
+ I/3M7zcU6IpCoWL9/7HTgXXnuPsGHa1tgqyTtbY5tdW4qvkl7u4CY+S3vyUeLR85OCVI
+ KBEJuqUZAPZ+4v5VPe7bIxpgHCisV22Mt78QXrcaa/C27PiOHj2yYNiVeEEavHNT+aXe
+ hdiuFCDfX9ngTs9elNHMxwwXp466qlY0PscwqDNRf+T3JgLl4+f2jF3AMhMq0DByr9Eh
+ ++Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uca7cxD9m6/wvCfFxoR99KV0nX2QzNXnUvuup2hrXYc=;
- b=jQUtOU6fnICCaZfalHPS6jOhIIlydJygcbxj5rSILXawOzabKbUOet9yLPZZIekww9
- m8NdbZfHi9dFClzSvWvHzDaxyWYjvoOpAXNXFGm1Zvqwq0TUO8zrZT5UgGZyA3dq6YXK
- m3gakuawt9liz9UBFQ3ZvUbQg+tidR7FJ/09IrLKJB5NY3OR1d1EZWFaDDoGznJg4eS9
- cJ0odkp5U70ueUE+rd8MMVtuQ0rcPneeK1W8ygfSf7BjO61qe7wtUUVoE46Q/E2T/DTU
- 4mf23wPbrKXQ0kxpWh4l8VcMyZHXM0KXFqssXR85G9mx7nagBppRB/+UuVXOtHEv/L6q
- bL2Q==
-X-Gm-Message-State: AOAM533v84RUuo9gCkAvFx2VAqEhrJ98KB761m4t7LKmaGq9eSGTK2dl
- l0v/mRYYAzgPwgxUxxrVTZ+TS2zKRFuiZmoKVo/Y3if1jf4=
-X-Google-Smtp-Source: ABdhPJy+3eY2JviG9yZfrbftus8ub3ilfVtxy98UJcvXzXQP//hPWJdgf2YeDP2EoeP5VBnlvTWS5awC1MrrH+rJCwY=
-X-Received: by 2002:a6b:e704:: with SMTP id b4mr38771675ioh.114.1609833857298; 
- Tue, 05 Jan 2021 00:04:17 -0800 (PST)
+ bh=BlMavcCXYpcFAtAw9u6YAmQf9cbAt0JKfC/kOJ+P2bs=;
+ b=IvQeLzgr6igJ2pflljMeCzTtPJQMj5fAiyuiw6Y2Iyzqbo7R9SGaYhv5AsFm4wxhPH
+ EyTrizF0hr3klNh/QhmuXuf/sbdxMMzzotvJUdT/M/x9hgFOAk6Ji4NtFpgBJ9lbhhXR
+ YoBTEsh8KIZVilCOmmV+lIy+piXaK0OrPRUwPDJmtegDkP2Zzr3MR+VTV4JbaR+YmTaX
+ pDKqgBSOyjsdzcvbJ+CtBeMKfvLh3im30nqW2wbktb1EVbdYkulFfeNnyOPsfQOKhwYo
+ 9BDGeaSICwXPsIg4KuBl5crw0amJqwBEYZl2i4Owfpc/YMJEdE9Rf0p7g8G+srIIg81l
+ 5K8A==
+X-Gm-Message-State: AOAM532YptyMjvqdxrVJmU1C4t0tKl8CBXr9DYgrYMd+S01tjrIX6XA0
+ QEEGdb60FHlTObX63/NVLwS3Yqd0zbP85dHWXFU=
+X-Google-Smtp-Source: ABdhPJwsp8cvC1XCdiW63N491GxVHnYTxMlEouaepSaLGrlzx8Aw/nqXRWWKuhN1l/cUWl9zcfoi2uPDSh9E7YaawwE=
+X-Received: by 2002:ac2:4e92:: with SMTP id o18mr31718797lfr.576.1609834782528; 
+ Tue, 05 Jan 2021 00:19:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20210104132536.38016-1-dwaipayanray1@gmail.com>
-In-Reply-To: <20210104132536.38016-1-dwaipayanray1@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 5 Jan 2021 09:04:06 +0100
-Message-ID: <CAKXUXMxFRU=1V+dRGX8MkK329VoSH_gUVDOxscwh1K4OeQhs=w@mail.gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+ <20210104132536.38016-2-dwaipayanray1@gmail.com>
+ <CAKXUXMy3XPsfUW80PyQR7KhYL=SOhncgdDzxmgZrOHQnZrfwVw@mail.gmail.com>
+In-Reply-To: <CAKXUXMy3XPsfUW80PyQR7KhYL=SOhncgdDzxmgZrOHQnZrfwVw@mail.gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Tue, 5 Jan 2021 13:49:30 +0530
+Message-ID: <CABJPP5Bsny-tZjxDni098erqAr6D_+KpsBU9zBSu234GP5raiw@mail.gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: trivial style fixes
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add a new check for
+	strcpy/strlcpy uses
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,87 +107,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jan 4, 2021 at 2:25 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+On Tue, Jan 5, 2021 at 1:32 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
-> Indentations should use tabs wherever possible.
-> Replace spaces by tabs for indents.
+> On Mon, Jan 4, 2021 at 2:25 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+> >
+> > strcpy() performs no bounds checking on the destination buffer.
+> > This could result in linear overflows beyond the end of the buffer.
+> >
+> > strlcpy() reads the entire source buffer first. This read
+> > may exceed the destination size limit. This can be both inefficient
+> > and lead to linear read overflows.
+> >
+> > The safe replacement to both of these is to use strscpy() instead.
+> > Add a new checkpatch warning which alerts the user on finding usage of
+> > strcpy() or strlcpy().
+> >
+> > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> > ---
 >
-> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> I remember Joe has already created a patch for that over Christmas
+> break; check lkml before sending this.
+>
+> Other than that, looks good.
+>
+> Lukas
 
-Looks good.
+Yes I found it:
+https://lore.kernel.org/lkml/22b393d1790bb268769d0bab7bacf0866dcb0c14.camel@perches.com/
 
-Find out who is to blame for this stylistic mess up. (use git blame).
+He has converted the uses in code. But I don't think he has created
+the checkpatch rule yet. I will try sending it out to him.
 
-If it is Aditya, let him know to check better and how you discovered
-this mess-up.
-
-
-Lukas
-
-> ---
->  scripts/checkpatch.pl | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index b212f5f12ca6..d6a4d25b0972 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -2973,7 +2973,7 @@ sub process {
->                                 }
->                                 if (!defined $lines[$linenr]) {
->                                         WARN("BAD_SIGN_OFF",
-> -                                             "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
-> +                                            "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline);
->                                 } elsif ($rawlines[$linenr] !~ /^\s*signed-off-by:\s*(.*)/i) {
->                                         WARN("BAD_SIGN_OFF",
->                                              "Co-developed-by: must be immediately followed by Signed-off-by:\n" . "$here\n" . $rawline . "\n" .$rawlines[$linenr]);
-> @@ -2996,8 +2996,8 @@ sub process {
->                         if (ERROR("GERRIT_CHANGE_ID",
->                                   "Remove Gerrit Change-Id's before submitting upstream\n" . $herecurr) &&
->                             $fix) {
-> -                                fix_delete_line($fixlinenr, $rawline);
-> -                        }
-> +                               fix_delete_line($fixlinenr, $rawline);
-> +                       }
->                 }
->
->  # Check if the commit log is in a possible stack dump
-> @@ -3239,10 +3239,10 @@ sub process {
->                                 next if ($start_char =~ /^\S$/);
->                                 next if (index(" \t.,;?!", $end_char) == -1);
->
-> -                                # avoid repeating hex occurrences like 'ff ff fe 09 ...'
-> -                                if ($first =~ /\b[0-9a-f]{2,}\b/i) {
-> -                                        next if (!exists($allow_repeated_words{lc($first)}));
-> -                                }
-> +                               # avoid repeating hex occurrences like 'ff ff fe 09 ...'
-> +                               if ($first =~ /\b[0-9a-f]{2,}\b/i) {
-> +                                       next if (!exists($allow_repeated_words{lc($first)}));
-> +                               }
->
->                                 if (WARN("REPEATED_WORD",
->                                          "Possible repeated word: '$first'\n" . $herecurr) &&
-> @@ -4426,7 +4426,7 @@ sub process {
->                         WARN("STATIC_CONST_CHAR_ARRAY",
->                              "char * array declaration might be better as static const\n" .
->                                 $herecurr);
-> -               }
-> +               }
->
->  # check for sizeof(foo)/sizeof(foo[0]) that could be ARRAY_SIZE(foo)
->                 if ($line =~ m@\bsizeof\s*\(\s*($Lval)\s*\)@) {
-> @@ -5279,7 +5279,7 @@ sub process {
->                     $lines[$linenr - 3] !~ /^[ +]\s*$Ident\s*:/) {
->                         WARN("RETURN_VOID",
->                              "void function return statements are not generally useful\n" . $hereprev);
-> -               }
-> +               }
->
->  # if statements using unnecessary parentheses - ie: if ((foo == bar))
->                 if ($perl_version_ok &&
-> --
-> 2.27.0
->
+Thank you,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
