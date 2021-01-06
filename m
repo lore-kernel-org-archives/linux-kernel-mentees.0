@@ -2,101 +2,103 @@ Return-Path: <SRS0=nWhl=GJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6271C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Jan 2021 03:05:03 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98292C433E6
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Jan 2021 03:05:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4BD0722D6F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Jan 2021 03:05:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4BD0722D6F
+	by mail.kernel.org (Postfix) with ESMTPS id 36F5522D6E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Jan 2021 03:05:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36F5522D6E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id DE76D86AF9;
-	Wed,  6 Jan 2021 03:05:02 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7369322D22;
+	Wed,  6 Jan 2021 03:05:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ljb6829uiqrE; Wed,  6 Jan 2021 03:05:02 +0000 (UTC)
+	with ESMTP id V7+thil28cW7; Wed,  6 Jan 2021 03:05:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5B9D384FC0;
+	by silver.osuosl.org (Postfix) with ESMTP id 220FF2049F;
 	Wed,  6 Jan 2021 03:05:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 454BDC013A;
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0EC6CC088B;
 	Wed,  6 Jan 2021 03:05:02 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7B978C013A
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00BBAC088B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Jan 2021 03:04:59 +0000 (UTC)
+ Wed,  6 Jan 2021 03:05:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 7039C85308
+ by hemlock.osuosl.org (Postfix) with ESMTP id E36BE86D73
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Jan 2021 03:04:59 +0000 (UTC)
+ Wed,  6 Jan 2021 03:05:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Yc-Y3VFLUeTL
+ with ESMTP id DiBCDCvLm5Lh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Jan 2021 03:04:57 +0000 (UTC)
+ Wed,  6 Jan 2021 03:05:00 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com
- [209.85.222.181])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 6BC168511C
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 34CA58621D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Jan 2021 03:04:57 +0000 (UTC)
-Received: by mail-qk1-f181.google.com with SMTP id 22so1429609qkf.9
+ Wed,  6 Jan 2021 03:05:00 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id z3so1272085qtw.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 05 Jan 2021 19:04:57 -0800 (PST)
+ Tue, 05 Jan 2021 19:05:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s6kPsdrQGFtRIW15gnjfxayTfIR6vKrZhwi28iuMhA0=;
- b=dzwj0vmBYlMtkdxj6zzOPVRBCaUVvyHQ7MXQj4ItQJ6V1nI4vb8NJwfksMbPpvFVak
- nEGOhe0LjlPvvHH1CPMLCV5fM1P3KDYLUBS8qOQzmeR1h27v7Qg9E+yer0seApXtWOQY
- IA4Y7dyB+n/6LXPSDYl832rLDx2d2fGj4Hg8jUyTR1lxIddgc+B4frfQSvpa43d9N2fX
- Ugz3BFg3TOaxKByvkrtrzx+kfXKfXK6LE/R+c+uPZ61m4MBx/nepftaVQ/nYQgltzCjE
- 5hXBftcAG+TfBuGT/lxEq5h80q4hUaKje/Pm30jgC77tolZX/fpF4IZUsyvZLItF6Kk/
- mwqA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=nietjLUQJU/zJ/brz+Xm6cxAQwETU/f3MDRbRdqivaY=;
+ b=FgZe9rJ0EbdtbrW6IfSOoZjsTSRBbFO17agIWlrEioMAK8j9pqrasM6XTg5KTYwDun
+ rZetIXS91Zd2WszjxWNrfi2aAL2AvdZDTjpXBPfCEnS/Z4lywjFCp/rCkcHDJJPHs3/0
+ kzU7/4G40xhcX85gNb169iKbeDBxIcir6+QonIe9TU0yHkAicZUcPwkFJCokQ4Fz9gpJ
+ f5nBrvxvjeEBotjBwdaukw/YFU75D56ajb77Ai7gVWxgGOz5G3b68nYiX7T+16Sm8xar
+ XlVCaCcXFpYm77afvq4QaIMrh+q5INKGRosnsnU6o9+gWY6ePx2tb0yraVNoVBqfqnfg
+ NTmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=s6kPsdrQGFtRIW15gnjfxayTfIR6vKrZhwi28iuMhA0=;
- b=L+GQ52EVK+sSusnC1SxkTbnEeTmb5aGv8yMl0KTyWAzudIFs9EZu/njD+BVhe9W0xn
- MMbbdgrKiAd+KEayoMDP3G1W/M1XTo5imov3vDoJ5wxsHpPy3paz7eh9WtsLrgRtoYSm
- wOMfyOV/R+503KNzZCyN1FQ4UD6x+C8p7b5kQBJMX3eJbabCiRi030rw0cJQH2DhZsPS
- 6KTIY9YWGsY8dmlsp0U9bDbswu+X7/T6rKVBlZKggozk6lOVpvc1fyaZXuNNM7jH2G0C
- OL65RHkfM9/E1aAt/de0Gn5w358BDT2U9WJJP2NBo+qkfufaFi2+bCooOkS7ss0zuZkA
- nGoQ==
-X-Gm-Message-State: AOAM531gFaORB3509UYs+09azEIIfa7sGZvm0GH6zO1LPFBGOIxyjqVh
- xLp8ChuMGUZqcqslZtAVYvg=
-X-Google-Smtp-Source: ABdhPJyF4RtXgEU36C8YgcHsJ2JHyUGpVT62dayZsGYyv3EN3ffcQBVbB1GZWw7K6UYtY2KrRnhhCA==
-X-Received: by 2002:a05:620a:13c2:: with SMTP id
- g2mr2532569qkl.174.1609902296433; 
- Tue, 05 Jan 2021 19:04:56 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nietjLUQJU/zJ/brz+Xm6cxAQwETU/f3MDRbRdqivaY=;
+ b=ulqzzUpF8EU6t7YT2tneUsI7JLYCTmQfCtESPb+OdlLunwwr93+k9avGbFx5tlVJAb
+ yiVl5Xw1qlV3+cnQG+JAejIHiehiQfjbCe25v57NT+Agfzq2kmS0San13dJF7kBYhP/l
+ hu6F2QQ7wx3yGHze459vi7eNiHP/wWyzVgZIzreQlIlT4dTVOpsZyyBHL6eeoQAxVGXR
+ 4F+/i3hlYpfrBWkESmJdfJsWajO0ud8VLRIFH2Gx38tDhp/UW1W6JYLZkOtvIDEtnrKC
+ nG/MJjc04U1sqlbcuege3QDgVLdRmsHExNISRZHYG4OuRA6WjMDXg4HB8OlaSU4g2J0s
+ dDqQ==
+X-Gm-Message-State: AOAM533aYnVKIDWkFztDE0xvdrFgwu2p6NjaqUtvv/O9Y7gGTtUfVSKr
+ d1yT5Lr2WBpVUGLAPC0LZXk=
+X-Google-Smtp-Source: ABdhPJwgB/I/Do35yimDpUpsv9P5HlI9YjYF1LUBSCekxSR7anI6XhdM6KiKkEAEYOBaDzuIXrIV8g==
+X-Received: by 2002:a05:622a:303:: with SMTP id
+ q3mr2464654qtw.24.1609902299187; 
+ Tue, 05 Jan 2021 19:04:59 -0800 (PST)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:77d4:6fb0:85b3:b6f7])
- by smtp.gmail.com with ESMTPSA id n195sm730019qke.20.2021.01.05.19.04.53
+ by smtp.gmail.com with ESMTPSA id n195sm730019qke.20.2021.01.05.19.04.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 19:04:55 -0800 (PST)
+ Tue, 05 Jan 2021 19:04:58 -0800 (PST)
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl
-Date: Wed,  6 Jan 2021 00:04:45 -0300
-Message-Id: <20210106030449.3223172-1-dwlsalmeida@gmail.com>
+Date: Wed,  6 Jan 2021 00:04:46 -0300
+Message-Id: <20210106030449.3223172-2-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210106030449.3223172-1-dwlsalmeida@gmail.com>
+References: <20210106030449.3223172-1-dwlsalmeida@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, linux-media@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2 0/4] media: vidtv: add media
+Subject: [Linux-kernel-mentees] [PATCH v2 1/4] media: vidtv: Add media
 	controller support
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -117,26 +119,103 @@ Sender: "Linux-kernel-mentees"
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-This series adds media controller support for vidtv so that we can
-support this driver at the test-media script in v4l-utils.
+Add media controller support when CONFIG_MEDIA_CONTROLLER_DVB is set
+so that, in the future, a test sequence in v4l-utils can be written
+without having to know which /dev/fooX device should be used.
 
-I based my implementation on vim2m's.
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+---
+ .../media/test-drivers/vidtv/vidtv_bridge.c   | 28 +++++++++++++++++++
+ .../media/test-drivers/vidtv/vidtv_bridge.h   |  6 ++++
+ 2 files changed, 34 insertions(+)
 
-changes in v2:
-	added missing #ifdef that otherwise prevented this
-	code from compilling if CONFIG_MEDIA_CONTROLLER_DVB 
-	was not set.
-
-Daniel W. S. Almeida (4):
-  media: vidtv: Add media controller support
-  media: vidtv: reinstate sysfs bind attrs
-  media: vidtv: use a simpler name in platform_{device|driver}
-  media: vidtv: print message when driver is removed
-
- .../media/test-drivers/vidtv/vidtv_bridge.c   | 34 +++++++++++++++++--
- .../media/test-drivers/vidtv/vidtv_bridge.h   |  7 ++++
- 2 files changed, 38 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+index fc64d0c8492a..a2fa9b58174d 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
+@@ -17,6 +17,8 @@
+ #include <linux/time.h>
+ #include <linux/types.h>
+ #include <linux/workqueue.h>
++#include <media/dvbdev.h>
++#include <media/media-device.h>
+ 
+ #include "vidtv_bridge.h"
+ #include "vidtv_common.h"
+@@ -501,9 +503,30 @@ static int vidtv_bridge_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, dvb);
+ 
++#ifdef CONFIG_MEDIA_CONTROLLER_DVB
++	dvb->mdev.dev = &pdev->dev;
++
++	strscpy(dvb->mdev.model, "vidtv", sizeof(dvb->mdev.model));
++	strscpy(dvb->mdev.bus_info, "platform:vidtv", sizeof(dvb->mdev.bus_info));
++
++	media_device_init(&dvb->mdev);
++	ret = media_device_register(&dvb->mdev);
++	if (ret) {
++		dev_err(dvb->mdev.dev,
++			"media device register failed (err=%d)\n", ret);
++		goto err_media_device_register;
++	}
++
++	dvb_register_media_controller(&dvb->adapter, &dvb->mdev);
++#endif //CONFIG_MEDIA_CONTROLLER_DVB
++
+ 	dev_info(&pdev->dev, "Successfully initialized vidtv!\n");
+ 	return ret;
+ 
++#ifdef CONFIG_MEDIA_CONTROLLER_DVB
++err_media_device_register:
++	media_device_cleanup(&dvb->mdev);
++#endif //CONFIG_MEDIA_CONTROLLER_DVB
+ err_dvb:
+ 	kfree(dvb);
+ 	return ret;
+@@ -516,6 +539,11 @@ static int vidtv_bridge_remove(struct platform_device *pdev)
+ 
+ 	dvb = platform_get_drvdata(pdev);
+ 
++#ifdef CONFIG_MEDIA_CONTROLLER_DVB
++	media_device_unregister(&dvb->mdev);
++	media_device_cleanup(&dvb->mdev);
++#endif //CONFIG_MEDIA_CONTROLLER_DVB
++
+ 	mutex_destroy(&dvb->feed_lock);
+ 
+ 	for (i = 0; i < NUM_FE; ++i) {
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.h b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
+index 2528adaee27d..d42899a31295 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_bridge.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
+@@ -24,6 +24,7 @@
+ #include <media/dmxdev.h>
+ #include <media/dvb_demux.h>
+ #include <media/dvb_frontend.h>
++#include <media/media-device.h>
+ 
+ #include "vidtv_mux.h"
+ 
+@@ -42,6 +43,7 @@
+  * @feed_lock: Protects access to the start/stop stream logic/data.
+  * @streaming: Whether we are streaming now.
+  * @mux: The abstraction responsible for delivering MPEG TS packets to the bridge.
++ * @mdev: The media_device struct for media controller support.
+  */
+ struct vidtv_dvb {
+ 	struct platform_device *pdev;
+@@ -60,6 +62,10 @@ struct vidtv_dvb {
+ 	bool streaming;
+ 
+ 	struct vidtv_mux *mux;
++
++#ifdef CONFIG_MEDIA_CONTROLLER_DVB
++	struct media_device mdev;
++#endif //CONFIG_MEDIA_CONTROLLER_DVB
+ };
+ 
+ #endif // VIDTV_BRIDG_H
 -- 
 2.30.0
 
