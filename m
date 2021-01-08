@@ -2,99 +2,104 @@ Return-Path: <SRS0=oxYf=GL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EECCC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Jan 2021 15:32:24 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED000C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Jan 2021 19:41:28 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 196BA23A04
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Jan 2021 15:32:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 196BA23A04
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2C22223A79
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  8 Jan 2021 19:41:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2C22223A79
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwfinger.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C618086DE1;
-	Fri,  8 Jan 2021 15:32:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 7BFB887238;
+	Fri,  8 Jan 2021 19:41:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MUaDs5M5DexM; Fri,  8 Jan 2021 15:32:23 +0000 (UTC)
+	with ESMTP id MUbhWl7okV1O; Fri,  8 Jan 2021 19:41:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 2716386DDB;
-	Fri,  8 Jan 2021 15:32:23 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 8177987236;
+	Fri,  8 Jan 2021 19:41:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 12767C088B;
-	Fri,  8 Jan 2021 15:32:23 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 81D3FC013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B9D6C088B;
+	Fri,  8 Jan 2021 19:41:26 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5816AC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 Jan 2021 15:32:21 +0000 (UTC)
+ Fri,  8 Jan 2021 19:41:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 78AA986DDB
+ by whitealder.osuosl.org (Postfix) with ESMTP id 3AB898745D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 Jan 2021 15:32:21 +0000 (UTC)
+ Fri,  8 Jan 2021 19:41:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bY1L5iIo6p8A
+ with ESMTP id HbmirWGv4am5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 Jan 2021 15:32:20 +0000 (UTC)
+ Fri,  8 Jan 2021 19:41:23 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C159586DDA
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
+ [209.85.167.180])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 0FCA88745C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  8 Jan 2021 15:32:20 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id s15so5814553plr.9
+ Fri,  8 Jan 2021 19:41:23 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id 15so12605649oix.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 08 Jan 2021 07:32:20 -0800 (PST)
+ Fri, 08 Jan 2021 11:41:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=spFCEPnVm9qff+fH1Wbln13XJIpHbyb+5Fw9GfNHu/4=;
- b=VgPpzcQ4hoBpx9OQaVDkhRHyJEBfJl53Ds4R/whOhJ/ugwxFoHOTMA3N0WLtrzLMMi
- YSyAQuVCi2eW2AXNc2LtH0oqWiJ8a95tcXZnoaMwQwhVPrlh1PXK8mmC55n68gUWIfax
- /28Ji49xo14MuuVldvwl3FjuGR5WkDxmkJ+m/NYaccaJvaVcgACLIDRMx5QpHXkrPzRm
- xOhoP4IisH7kF5qJZ1Aa/EyiGSmKN7pKvVU5Kjkx4Z+I7TCqnuiuPd9ZPgelc20t1WRO
- z3IKIm4TE4q5YWds8dWz9tm9pkHHMSKI9x4Q6l9Whw/SxMQoalXqiffNoU4ESEuOM0EK
- CG9A==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bloxaOqCPwKMlXiotLGhy7r42MyPMqUNsVDO+0panUs=;
+ b=Q2DzmpC6G2Ho+ySgesuMl1NfH6wgvOBvMZMqDPTmWwZwzJaVdGXpVMAhro6CX4tRcq
+ S9Uvu5qVrQ/H86tGDUh4OAoxNSYhEsNukqWtRGZ9R8aHSiXu8VIMWeFoTRXGow6ffZYO
+ H3ydzODDh6Llg7GAsQqLjX8Ad7ShyJo8bDPR87i47yAiQ+TdVEkjKn97oWC++DecWqjD
+ WZdSuHbhf1HRiVX1as76/AbKbRp67ExuQ29fvyeoRJW9+W/qUyy3Xy/HFDCedjQ7HZEb
+ e87xvAR18pSwDwvbalm6HE8whTUkkO7n5G5aTYj4nBichdWM9DZ2m6NuJiaBPTHMNIgb
+ Q6Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=spFCEPnVm9qff+fH1Wbln13XJIpHbyb+5Fw9GfNHu/4=;
- b=l4XbfwJCa4UBISZrMr9H7dwWwpu0F4s4nRDuziBzG4VZ4e/TNEYw4iWt/+0kpqSvsK
- fclMWpWyyoYhjBIzxKHmM3Vrmr7iVWENm46imnVAPj8FxxAf0ptoardSjasN5sF3Fw26
- YrETBy9csT1HrGAFOfWtFOzDFXTeX4yncin3jjlxZMtxe4MMAilB0SRI6W9yCnCfaGSM
- 9S09FjtnBJdoD+6Z9ITxfbOEO97eW7HfjzjUBVxy8fviGRrislYE2cy1ATaZjOZ63Qhm
- kBsIiCALxpLLMCV9w11p9NT9D+SYCXWoCpb/FqDISB7YPJI402+hj/VO9wOkpO3o06+N
- qPZA==
-X-Gm-Message-State: AOAM532+Qs0d0Kk6JmNRzQQ9XQpK554ySjqj6j4Q5Un6rvwaT7Gdt9yS
- +2h/H45VTbXJz6BpwZ0ceNk=
-X-Google-Smtp-Source: ABdhPJwC2wTfVVR8u5R/Lw33ammfmy4vuPocjr63UnBeehn8Nq4AYnbFGi9IriLCRavN4e/4FcNbvA==
-X-Received: by 2002:a17:90a:c592:: with SMTP id
- l18mr4400319pjt.212.1610119940149; 
- Fri, 08 Jan 2021 07:32:20 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:9d25:60e2:6f4:74f8])
- by smtp.googlemail.com with ESMTPSA id
- 129sm9048265pfw.86.2021.01.08.07.32.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:32:19 -0800 (PST)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: linux-wireless@vger.kernel.org
-Date: Fri,  8 Jan 2021 21:02:08 +0530
-Message-Id: <20210108153208.24065-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: pkshih@realtek.com, yashsri421@gmail.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
- kvalo@codeaurora.org
-Subject: [Linux-kernel-mentees] [PATCH] drivers: net: wireless: rtlwifi: fix
-	bool comparison in expressions
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bloxaOqCPwKMlXiotLGhy7r42MyPMqUNsVDO+0panUs=;
+ b=JmZ5I4n55lf97RMM1oQIjh2CSox4wLRQEJ4Yhwr+2WVtM8OJagsTc2uBrLzWibH4Bn
+ kgcntmopKlAcHanHdFyiIgXTV+G5oJH5ZLLO6i97aQSCH7rlbtKK7EtQEd2si0x1pOtk
+ q0wrM8IwT6ua87oabvQdyR+YZNzNHKO2GnmvHTB0cWCToyZmKUiqOlggWINe3yZEO7oZ
+ Ktv1yn8U+Paiu4/X/w18FbUUohaYVYPV5gLPWeUjSYsA91RLCerMjbKqWso14N3LHmYR
+ hQkRuJ9YAYmCgvMuWUTrT3G5g5k4zhIwqumXpuuGZSNchIeHQM+PU1+/mi5MUfhMZeLX
+ YbEA==
+X-Gm-Message-State: AOAM531aRrbTQTucMJkSNAqvPO21SSnLMbOPL265MDvxmSS2MgZ6+hn9
+ +kpWsQA2KgZFQcIztVn00Xw=
+X-Google-Smtp-Source: ABdhPJxbMX6pytlq+5CKW1fXJu7TJe79uCuJJ3Ws0aKgQt7kTLqX8B6mwICmkpDxQwsivSHS4Qg0dg==
+X-Received: by 2002:aca:3784:: with SMTP id e126mr3332568oia.170.1610134882338; 
+ Fri, 08 Jan 2021 11:41:22 -0800 (PST)
+Received: from localhost.localdomain (cpe-24-31-245-230.kc.res.rr.com.
+ [24.31.245.230])
+ by smtp.gmail.com with ESMTPSA id t72sm2130001oie.47.2021.01.08.11.41.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jan 2021 11:41:21 -0800 (PST)
+To: Aditya Srivastava <yashsri421@gmail.com>, linux-wireless@vger.kernel.org
+References: <20210108153208.24065-1-yashsri421@gmail.com>
+From: Larry Finger <Larry.Finger@lwfinger.net>
+Message-ID: <3c121981-1468-fc9d-7813-483246066cc4@lwfinger.net>
+Date: Fri, 8 Jan 2021 13:41:20 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <20210108153208.24065-1-yashsri421@gmail.com>
+Content-Language: en-US
+Cc: pkshih@realtek.com, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kuba@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net, kvalo@codeaurora.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] drivers: net: wireless: rtlwifi:
+ fix bool comparison in expressions
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,186 +111,47 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are certain conditional expressions in rtlwifi, where a boolean
-variable is compared with true/false, in forms such as (foo == true) or
-(false != bar), which does not comply with checkpatch.pl (CHECK:
-BOOL_COMPARISON), according to which boolean variables should be
-themselves used in the condition, rather than comparing with true/false
+On 1/8/21 9:32 AM, Aditya Srivastava wrote:
+> There are certain conditional expressions in rtlwifi, where a boolean
+> variable is compared with true/false, in forms such as (foo == true) or
+> (false != bar), which does not comply with checkpatch.pl (CHECK:
+> BOOL_COMPARISON), according to which boolean variables should be
+> themselves used in the condition, rather than comparing with true/false
+> 
+> E.g., in drivers/net/wireless/realtek/rtlwifi/ps.c,
+> "if (find_p2p_ie == true)" can be replaced with "if (find_p2p_ie)"
+> 
+> Replace all such expressions with the bool variables appropriately
+> 
+> Signed-off-by: Aditya Srivastava<yashsri421@gmail.com>
+> ---
+> - The changes made are compile tested
+> - Applies perfecly on next-20210108
+> 
+>   drivers/net/wireless/realtek/rtlwifi/ps.c                 | 4 ++--
+>   drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c       | 8 ++++----
+>   drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c       | 4 ++--
+>   drivers/net/wireless/realtek/rtlwifi/rtl8192c/dm_common.c | 4 ++--
+>   drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c       | 4 ++--
+>   drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c      | 8 ++++----
+>   6 files changed, 16 insertions(+), 16 deletions(-)
 
-E.g., in drivers/net/wireless/realtek/rtlwifi/ps.c,
-"if (find_p2p_ie == true)" can be replaced with "if (find_p2p_ie)"
+As has been stated several times, this form of the subject is incorrect. It 
+should be: "rtlwifi: <driver_name>: <subject>
 
-Replace all such expressions with the bool variables appropriately
+I would prefer that there be separate patches for each driver, not that the 
+changes be lumped into a single patch as was done here. Such organization makes 
+it a lot easier to find the patches for a given driver in case something goes 
+wrong.Note: The driver for ps is rtl_pci, and that for rtl8192c is 
+rtl8192c-common. The other driver names match their directory.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
-- The changes made are compile tested
-- Applies perfecly on next-20210108
-
- drivers/net/wireless/realtek/rtlwifi/ps.c                 | 4 ++--
- drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c       | 8 ++++----
- drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c       | 4 ++--
- drivers/net/wireless/realtek/rtlwifi/rtl8192c/dm_common.c | 4 ++--
- drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c       | 4 ++--
- drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c      | 8 ++++----
- 6 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/net/wireless/realtek/rtlwifi/ps.c b/drivers/net/wireless/realtek/rtlwifi/ps.c
-index f99882255d48..629c03271bde 100644
---- a/drivers/net/wireless/realtek/rtlwifi/ps.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/ps.c
-@@ -798,9 +798,9 @@ static void rtl_p2p_noa_ie(struct ieee80211_hw *hw, void *data,
- 		ie += 3 + noa_len;
- 	}
- 
--	if (find_p2p_ie == true) {
-+	if (find_p2p_ie) {
- 		if ((p2pinfo->p2p_ps_mode > P2P_PS_NONE) &&
--		    (find_p2p_ps_ie == false))
-+		    (!find_p2p_ps_ie))
- 			rtl_p2p_ps_cmd(hw, P2P_PS_DISABLE);
- 	}
- }
-diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c b/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c
-index d10c14c694da..6f61d6a10627 100644
---- a/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/dm.c
-@@ -474,11 +474,11 @@ static void rtl88e_dm_dig(struct ieee80211_hw *hw)
- 	u8 dm_dig_max, dm_dig_min;
- 	u8 current_igi = dm_dig->cur_igvalue;
- 
--	if (rtlpriv->dm.dm_initialgain_enable == false)
-+	if (!rtlpriv->dm.dm_initialgain_enable)
- 		return;
--	if (dm_dig->dig_enable_flag == false)
-+	if (!dm_dig->dig_enable_flag)
- 		return;
--	if (mac->act_scanning == true)
-+	if (mac->act_scanning)
- 		return;
- 
- 	if (mac->link_state >= MAC80211_LINKED)
-@@ -1637,7 +1637,7 @@ static void rtl88e_dm_fast_ant_training(struct ieee80211_hw *hw)
- 			}
- 		}
- 
--		if (bpkt_filter_match == false) {
-+		if (!bpkt_filter_match) {
- 			rtl_set_bbreg(hw, DM_REG_TXAGC_A_1_MCS32_11N,
- 				      BIT(16), 0);
- 			rtl_set_bbreg(hw, DM_REG_IGI_A_11N, BIT(7), 0);
-diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c b/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c
-index bd9160b166c5..861cc663ca93 100644
---- a/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/rtl8188ee/hw.c
-@@ -1269,12 +1269,12 @@ void rtl88ee_set_check_bssid(struct ieee80211_hw *hw, bool check_bssid)
- 	if (rtlpriv->psc.rfpwr_state != ERFON)
- 		return;
- 
--	if (check_bssid == true) {
-+	if (check_bssid) {
- 		reg_rcr |= (RCR_CBSSID_DATA | RCR_CBSSID_BCN);
- 		rtlpriv->cfg->ops->set_hw_reg(hw, HW_VAR_RCR,
- 					      (u8 *)(&reg_rcr));
- 		_rtl88ee_set_bcn_ctrl_reg(hw, 0, BIT(4));
--	} else if (check_bssid == false) {
-+	} else if (!check_bssid) {
- 		reg_rcr &= (~(RCR_CBSSID_DATA | RCR_CBSSID_BCN));
- 		_rtl88ee_set_bcn_ctrl_reg(hw, BIT(4), 0);
- 		rtlpriv->cfg->ops->set_hw_reg(hw,
-diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8192c/dm_common.c b/drivers/net/wireless/realtek/rtlwifi/rtl8192c/dm_common.c
-index 265a1a336304..0b6a15c2e5cc 100644
---- a/drivers/net/wireless/realtek/rtlwifi/rtl8192c/dm_common.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/rtl8192c/dm_common.c
-@@ -380,7 +380,7 @@ static void rtl92c_dm_initial_gain_multi_sta(struct ieee80211_hw *hw)
- 		initialized = false;
- 		dm_digtable->dig_ext_port_stage = DIG_EXT_PORT_STAGE_MAX;
- 		return;
--	} else if (initialized == false) {
-+	} else if (!initialized) {
- 		initialized = true;
- 		dm_digtable->dig_ext_port_stage = DIG_EXT_PORT_STAGE_0;
- 		dm_digtable->cur_igvalue = 0x20;
-@@ -509,7 +509,7 @@ static void rtl92c_dm_dig(struct ieee80211_hw *hw)
- {
- 	struct rtl_priv *rtlpriv = rtl_priv(hw);
- 
--	if (rtlpriv->dm.dm_initialgain_enable == false)
-+	if (!rtlpriv->dm.dm_initialgain_enable)
- 		return;
- 	if (!(rtlpriv->dm.dm_flag & DYNAMIC_FUNC_DIG))
- 		return;
-diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c b/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
-index 47fabce5c235..73a5d8a068fc 100644
---- a/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/rtl8192se/hw.c
-@@ -458,7 +458,7 @@ static u8 _rtl92se_halset_sysclk(struct ieee80211_hw *hw, u8 data)
- 	tmpvalue = rtl_read_byte(rtlpriv, SYS_CLKR + 1);
- 	bresult = ((tmpvalue & BIT(7)) == (data & BIT(7)));
- 
--	if ((data & (BIT(6) | BIT(7))) == false) {
-+	if (!(data & (BIT(6) | BIT(7)))) {
- 		waitcount = 100;
- 		tmpvalue = 0;
- 
-@@ -1268,7 +1268,7 @@ static u8 _rtl92s_set_sysclk(struct ieee80211_hw *hw, u8 data)
- 	tmp = rtl_read_byte(rtlpriv, SYS_CLKR + 1);
- 	result = ((tmp & BIT(7)) == (data & BIT(7)));
- 
--	if ((data & (BIT(6) | BIT(7))) == false) {
-+	if (!(data & (BIT(6) | BIT(7)))) {
- 		waitcnt = 100;
- 		tmp = 0;
- 
-diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c b/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c
-index 372d6f8caf06..e214b9062cc1 100644
---- a/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c
-@@ -1812,7 +1812,7 @@ static bool _rtl8821ae_phy_bb8821a_config_parafile(struct ieee80211_hw *hw)
- 		return false;
- 	}
- 	_rtl8821ae_phy_init_tx_power_by_rate(hw);
--	if (rtlefuse->autoload_failflag == false) {
-+	if (!rtlefuse->autoload_failflag) {
- 		rtstatus = _rtl8821ae_phy_config_bb_with_pgheaderfile(hw,
- 						    BASEBAND_CONFIG_PHY_REG);
- 	}
-@@ -3980,7 +3980,7 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
- 				}
- 			}
- 
--			if (tx0iqkok == false)
-+			if (!tx0iqkok)
- 				break;				/* TXK fail, Don't do RXK */
- 
- 			if (vdf_enable == 1) {
-@@ -4090,7 +4090,7 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
- 						}
- 					}
- 
--					if (tx0iqkok == false) {   /* If RX mode TXK fail, then take TXK Result */
-+					if (!tx0iqkok) {   /* If RX mode TXK fail, then take TXK Result */
- 						tx_x0_rxk[cal] = tx_x0[cal];
- 						tx_y0_rxk[cal] = tx_y0[cal];
- 						tx0iqkok = true;
-@@ -4249,7 +4249,7 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
- 					}
- 				}
- 
--				if (tx0iqkok == false) {   /* If RX mode TXK fail, then take TXK Result */
-+				if (!tx0iqkok) {   /* If RX mode TXK fail, then take TXK Result */
- 					tx_x0_rxk[cal] = tx_x0[cal];
- 					tx_y0_rxk[cal] = tx_y0[cal];
- 					tx0iqkok = true;
--- 
-2.17.1
+Larry
 
 _______________________________________________
 Linux-kernel-mentees mailing list
