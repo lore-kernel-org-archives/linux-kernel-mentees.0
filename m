@@ -8,96 +8,95 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9778FC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 10 Jan 2021 12:16:00 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C61DC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 10 Jan 2021 18:57:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D781206C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 10 Jan 2021 12:16:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D781206C1
+	by mail.kernel.org (Postfix) with ESMTPS id 00504227BF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 10 Jan 2021 18:57:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00504227BF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2FEDE20492;
-	Sun, 10 Jan 2021 12:16:00 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 1E8AE87000;
+	Sun, 10 Jan 2021 18:57:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SbuXAUxuNdtq; Sun, 10 Jan 2021 12:15:59 +0000 (UTC)
+	with ESMTP id NFjcS8CAZCT4; Sun, 10 Jan 2021 18:57:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9E5F220381;
-	Sun, 10 Jan 2021 12:15:59 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id AB87986FEB;
+	Sun, 10 Jan 2021 18:57:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 874DDC0893;
-	Sun, 10 Jan 2021 12:15:59 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54874C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 88CB1C0893;
+	Sun, 10 Jan 2021 18:57:35 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2ADEFC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 10 Jan 2021 12:15:58 +0000 (UTC)
+ Sun, 10 Jan 2021 18:57:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 372C32047E
+ by hemlock.osuosl.org (Postfix) with ESMTP id 11C6A86FEF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 10 Jan 2021 12:15:58 +0000 (UTC)
+ Sun, 10 Jan 2021 18:57:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 958W1o9wnY1T
+ with ESMTP id eyj0cDr0zocM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 10 Jan 2021 12:15:56 +0000 (UTC)
+ Sun, 10 Jan 2021 18:57:31 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by silver.osuosl.org (Postfix) with ESMTPS id 58D6420381
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9B12286FEB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 10 Jan 2021 12:15:56 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id j13so8760182pjz.3
+ Sun, 10 Jan 2021 18:57:31 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id a188so9626525pfa.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 10 Jan 2021 04:15:56 -0800 (PST)
+ Sun, 10 Jan 2021 10:57:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=T7ThywqXuhxC8F6Hh3LDj1yvDqMYokNpJlLIGbeNsvg=;
- b=RJNN5BgGe8mKnEWypJ7UYPnfrK6Jxoaz8eUBmO+P/O89GAkqfT1ln2VZIiVO2f8AXR
- bhqozprqbGV9Mg/ZisW9ECc8jP/mk+nqS89Qnr/DRD88jkss5HEz2HfSx7AEn0ycLRq8
- 4hG3cAX+L5XMyK58ByN8Bq4Jx9965rX7jPr59WKW3hJecoeWEck83icdNU7NEqtcCnnD
- MiR34KsXkRGX+jrHvt9stgwoqGIcQI+WMBIahCmFsuBT3TLpSzgaXzgn1wkofsKpqLkf
- tcGZbrtuyd9FCx8XYlBBXTf2Z9vflnJIN5b7Jpzr9zSYvzKCjPd3qWhafuqVw5qOig/y
- fw0A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hz12eRQ1ncP5q1yR9brNtOiip0+YhfgMssDtdfgaZlc=;
+ b=rRczwC99PHfpOkkDM0x6hsAxu+0L+sKPsiInTu20LCEF6cnGe5xCQEmCC0AdVnI7nC
+ nBLYKTxF7A9KZAfuXpNXD02ay28e/UP+l1PkLAaNIfjNT0rAqV1YZgO+n3BM/MeJpfd9
+ 1GNfS1eG8IV/zmNdRXes24Q5fIz9Aw3zgroej4ZktdWLlT0cu3TA/34rRceuURtgdA69
+ ZQ+O6VG1wQ+0d2lX8AGyoRnbwdfmruE+F/khqAXMeVnZCCWQGvhPtegrau3n5nBqJLo6
+ dkfIJUA/qhoOV+CcCG+gCETwwtbQUZw28MAbfjPqFxILS1UuthgVH1KNWfKvxBXN5xUd
+ Txtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=T7ThywqXuhxC8F6Hh3LDj1yvDqMYokNpJlLIGbeNsvg=;
- b=OkGiPc6PDqcCzbhiad6lsdDpq3KkDU3rkcTWQuH8QKAHaVcJ8pHjYDEBmsZVsRXIuO
- s/K70pCO0maiJ0M8/SBpEIg1G/w82vyTaGlHDTodOu2L+2kj8Q9RzZ0ajCdG/nLflu5M
- F9MhgHd3RN67wOUIcr+YILMR+dVCPn7vw4650yycFK1WHBUpY9jhZRrjPEAXNv6NiVPk
- 8Aily0ZdkyQWcClOlCKvsvHPJ61PWn0maWSOVPRsJbZltCafe1sGLVl/NhLCNPNgEoEO
- YPUByBPRa38Mzi6QDSfD/4pM+MfTqV6930ajJrJiNV1q9roc//HqDzU3PFe2Jcp7ujwm
- kCXw==
-X-Gm-Message-State: AOAM533TfzRpGA++0C5P191qJlBtMfncPdYKInBtJkQCzMH/7WLDnV6/
- IwLeng3w9WhIAiQknM8P17E=
-X-Google-Smtp-Source: ABdhPJys2QAtK2nStXpmMUaaqsBFY49SSm7RfqzrRy2zOk36qHLcn1ATn8LKYR/FYtmW8MIDE65AIQ==
-X-Received: by 2002:a17:90a:5303:: with SMTP id
- x3mr13072178pjh.54.1610280955942; 
- Sun, 10 Jan 2021 04:15:55 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:381d:ba42:3c3c:81ce])
- by smtp.googlemail.com with ESMTPSA id y5sm10959791pjt.42.2021.01.10.04.15.52
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hz12eRQ1ncP5q1yR9brNtOiip0+YhfgMssDtdfgaZlc=;
+ b=Wtg7q+RaickNe3ub+ElTWP8cK6+JkshTlff3ytG7QX0/N/IZ8zG/puv4BEnbkVdiLG
+ fZA0XvvnY1ZT09Bm/Z6cslhP5p1JuKrjwTHD5qXAR4JphXGDKmGYpvlSqNdxDh7EQq4C
+ vcZId7gdbWvVwz1YwyoFBVRDfJojLIyLIVP88/jfw1ZB0YEcEkK/bBYHqvomDBr2WX4a
+ i8DGWvlaj6L07Nm90KBoziR2aZ88sKaVEeag8HOWzeAPzZXF1Y3rfVAHYXcu8xX7IhMQ
+ /k/8bQocJVBOntv2t/9M9ydgJkhVmmyKeAK0u21RL0NJ5D6c2CSFa106NzFhYeVKK0rz
+ LsWQ==
+X-Gm-Message-State: AOAM530wqupSPC+avoza2G5037XESzdlwfiPxfQMjXHx26Wvq8Af0R5U
+ EE4hfiFL3apCxN4nRIxWc9c=
+X-Google-Smtp-Source: ABdhPJzikUbsz/nkdswQ/vOUiLo5IDszfLs95hgnZ4ml9G2BNeAvT5Y+cLbxK2BYVfzYgHziXZSKQA==
+X-Received: by 2002:a63:78ca:: with SMTP id
+ t193mr16838876pgc.391.1610305050786; 
+ Sun, 10 Jan 2021 10:57:30 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:6a98:80b1:5e6:44e7:4cff])
+ by smtp.gmail.com with ESMTPSA id
+ x1sm18101091pgj.37.2021.01.10.10.57.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jan 2021 04:15:55 -0800 (PST)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: linux-wireless@vger.kernel.org
-Date: Sun, 10 Jan 2021 17:45:25 +0530
-Message-Id: <20210110121525.2407-6-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210110121525.2407-1-yashsri421@gmail.com>
-References: <3c121981-1468-fc9d-7813-483246066cc4@lwfinger.net>
- <20210110121525.2407-1-yashsri421@gmail.com>
-Cc: pkshih@realtek.com, yashsri421@gmail.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
- kvalo@codeaurora.org
-Subject: [Linux-kernel-mentees] [PATCH 5/5] rtlwifi: rtl8821ae: fix bool
-	comparison in expressions
+ Sun, 10 Jan 2021 10:57:29 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: masahiroy@kernel.org,
+	michal.lkml@markovi.net
+Date: Mon, 11 Jan 2021 00:27:02 +0530
+Message-Id: <20210110185702.111538-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] scripts: mod: fix checkpatch.pl
+	warnings
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,72 +108,507 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are certain conditional expressions in rtl8821ae, where a boolean
-variable is compared with true/false, in forms such as (foo == true) or
-(false != bar), which does not comply with checkpatch.pl (CHECK:
-BOOL_COMPARISON), according to which boolean variables should be
-themselves used in the condition, rather than comparing with true/false
+Fix the following warnings in file2alias reported by
+checkpatch:
 
-E.g., in drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c,
-"if (rtlefuse->autoload_failflag == false)" can be replaced with
-"if (!rtlefuse->autoload_failflag)"
+CHECK: spaces preferred around that '*' (ctx:WxV)
+CHECK: spaces preferred around that '+' (ctx:VxV)
+CHECK: spaces preferred around that '-' (ctx:VxV)
+CHECK: spaces preferred around that '&' (ctx:VxV)
+CHECK: braces {} should be used on all arms of this statement
+CHECK: Unbalanced braces around else statement
+CHECK: Alignment should match open parenthesis
+CHECK: Logical continuations should be on the previous line
+WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+WARNING: Missing a blank line after declarations
+WARNING: please, no spaces at the start of a line
+WARNING: Block comments use a trailing */ on a separate line
+ERROR: spaces required around that '<' (ctx:VxV)
+ERROR: spaces required around that '=' (ctx:VxV)
+ERROR: space required after that ',' (ctx:VxV)
+ERROR: space prohibited before that close parenthesis ')'
+ERROR: code indent should use tabs where possible
+ERROR: "(foo*)" should be "(foo *)"
 
-Replace all such expressions with the bool variables appropriately
-
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
- drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c b/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c
-index 372d6f8caf06..e214b9062cc1 100644
---- a/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c
-+++ b/drivers/net/wireless/realtek/rtlwifi/rtl8821ae/phy.c
-@@ -1812,7 +1812,7 @@ static bool _rtl8821ae_phy_bb8821a_config_parafile(struct ieee80211_hw *hw)
+Note: The patch is compile tested only
+
+ scripts/mod/file2alias.c | 156 +++++++++++++++++++++------------------
+ 1 file changed, 83 insertions(+), 73 deletions(-)
+
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index fb4827027536..4a87c5f42339 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -14,7 +14,8 @@
+ #include "devicetable-offsets.h"
+ 
+ /* We use the ELF typedefs for kernel_ulong_t but bite the bullet and
+- * use either stdint.h or inttypes.h for the rest. */
++ * use either stdint.h or inttypes.h for the rest.
++ */
+ #if KERNEL_ELFCLASS == ELFCLASS32
+ typedef Elf32_Addr	kernel_ulong_t;
+ #define BITS_PER_LONG 32
+@@ -49,7 +50,8 @@ typedef struct {
+ 
+ /* Big exception to the "don't include kernel headers into userspace, which
+  * even potentially has different endianness and word sizes, since
+- * we handle those differences explicitly below */
++ * we handle those differences explicitly below
++ */
+ #include "../../include/linux/mod_devicetable.h"
+ 
+ /* This array collects all instances that use the generic do_table */
+@@ -84,16 +86,16 @@ struct devtable {
+ 
+ #define ADD(str, sep, cond, field)                              \
+ do {                                                            \
+-        strcat(str, sep);                                       \
+-        if (cond)                                               \
+-                sprintf(str + strlen(str),                      \
+-                        sizeof(field) == 1 ? "%02X" :           \
+-                        sizeof(field) == 2 ? "%04X" :           \
+-                        sizeof(field) == 4 ? "%08X" : "",       \
+-                        field);                                 \
+-        else                                                    \
+-                sprintf(str + strlen(str), "*");                \
+-} while(0)
++	strcat(str, sep);                                       \
++	if (cond)                                               \
++		sprintf(str + strlen(str),                      \
++			sizeof(field) == 1 ? "%02X" :           \
++			sizeof(field) == 2 ? "%04X" :           \
++			sizeof(field) == 4 ? "%08X" : "",       \
++			field);                                 \
++	else                                                    \
++		sprintf(str + strlen(str), "*");                \
++} while (0)
+ 
+ /* End in a wildcard, for future extension */
+ static inline void add_wildcard(char *str)
+@@ -137,15 +139,15 @@ static void device_id_check(const char *modname, const char *device_id,
+ 		      modname, device_id, id_size, device_id, size, device_id);
+ 	}
+ 	/* Verify last one is a terminator */
+-	for (i = 0; i < id_size; i++ ) {
+-		if (*(uint8_t*)(symval+size-id_size+i)) {
+-			fprintf(stderr,"%s: struct %s_device_id is %lu bytes.  "
++	for (i = 0; i < id_size; i++) {
++		if (*(uint8_t *)(symval + size - id_size + i)) {
++			fprintf(stderr, "%s: struct %s_device_id is %lu bytes.  "
+ 				"The last of %lu is:\n",
+ 				modname, device_id, id_size, size / id_size);
+-			for (i = 0; i < id_size; i++ )
+-				fprintf(stderr,"0x%02x ",
+-					*(uint8_t*)(symval+size-id_size+i) );
+-			fprintf(stderr,"\n");
++			for (i = 0; i < id_size; i++)
++				fprintf(stderr, "0x%02x ",
++					*(uint8_t *)(symval + size - id_size + i));
++			fprintf(stderr, "\n");
+ 			fatal("%s: struct %s_device_id is not terminated "
+ 				"with a NULL entry!\n", modname, device_id);
+ 		}
+@@ -160,6 +162,7 @@ static void do_usb_entry(void *symval,
+ 			 unsigned char max, struct module *mod)
+ {
+ 	char alias[500];
++
+ 	DEF_FIELD(symval, usb_device_id, match_flags);
+ 	DEF_FIELD(symval, usb_device_id, idVendor);
+ 	DEF_FIELD(symval, usb_device_id, idProduct);
+@@ -173,24 +176,24 @@ static void do_usb_entry(void *symval,
+ 	DEF_FIELD(symval, usb_device_id, bInterfaceNumber);
+ 
+ 	strcpy(alias, "usb:");
+-	ADD(alias, "v", match_flags&USB_DEVICE_ID_MATCH_VENDOR,
++	ADD(alias, "v", match_flags & USB_DEVICE_ID_MATCH_VENDOR,
+ 	    idVendor);
+-	ADD(alias, "p", match_flags&USB_DEVICE_ID_MATCH_PRODUCT,
++	ADD(alias, "p", match_flags & USB_DEVICE_ID_MATCH_PRODUCT,
+ 	    idProduct);
+ 
+ 	strcat(alias, "d");
+ 	if (bcdDevice_initial_digits)
+ 		sprintf(alias + strlen(alias), "%0*X",
+ 			bcdDevice_initial_digits, bcdDevice_initial);
+-	if (range_lo == range_hi)
++	if (range_lo == range_hi) {
+ 		sprintf(alias + strlen(alias), "%X", range_lo);
+-	else if (range_lo > 0 || range_hi < max) {
+-		if (range_lo > 0x9 || range_hi < 0xA)
++	} else if (range_lo > 0 || range_hi < max) {
++		if (range_lo > 0x9 || range_hi < 0xA) {
+ 			sprintf(alias + strlen(alias),
+ 				"[%X-%X]",
+ 				range_lo,
+ 				range_hi);
+-		else {
++		} else {
+ 			sprintf(alias + strlen(alias),
+ 				range_lo < 0x9 ? "[%X-9" : "[%X",
+ 				range_lo);
+@@ -202,19 +205,19 @@ static void do_usb_entry(void *symval,
+ 	if (bcdDevice_initial_digits < (sizeof(bcdDevice_lo) * 2 - 1))
+ 		strcat(alias, "*");
+ 
+-	ADD(alias, "dc", match_flags&USB_DEVICE_ID_MATCH_DEV_CLASS,
++	ADD(alias, "dc", match_flags & USB_DEVICE_ID_MATCH_DEV_CLASS,
+ 	    bDeviceClass);
+-	ADD(alias, "dsc", match_flags&USB_DEVICE_ID_MATCH_DEV_SUBCLASS,
++	ADD(alias, "dsc", match_flags & USB_DEVICE_ID_MATCH_DEV_SUBCLASS,
+ 	    bDeviceSubClass);
+-	ADD(alias, "dp", match_flags&USB_DEVICE_ID_MATCH_DEV_PROTOCOL,
++	ADD(alias, "dp", match_flags & USB_DEVICE_ID_MATCH_DEV_PROTOCOL,
+ 	    bDeviceProtocol);
+-	ADD(alias, "ic", match_flags&USB_DEVICE_ID_MATCH_INT_CLASS,
++	ADD(alias, "ic", match_flags & USB_DEVICE_ID_MATCH_INT_CLASS,
+ 	    bInterfaceClass);
+-	ADD(alias, "isc", match_flags&USB_DEVICE_ID_MATCH_INT_SUBCLASS,
++	ADD(alias, "isc", match_flags & USB_DEVICE_ID_MATCH_INT_SUBCLASS,
+ 	    bInterfaceSubClass);
+-	ADD(alias, "ip", match_flags&USB_DEVICE_ID_MATCH_INT_PROTOCOL,
++	ADD(alias, "ip", match_flags & USB_DEVICE_ID_MATCH_INT_PROTOCOL,
+ 	    bInterfaceProtocol);
+-	ADD(alias, "in", match_flags&USB_DEVICE_ID_MATCH_INT_NUMBER,
++	ADD(alias, "in", match_flags & USB_DEVICE_ID_MATCH_INT_NUMBER,
+ 	    bInterfaceNumber);
+ 
+ 	add_wildcard(alias);
+@@ -239,10 +242,10 @@ static unsigned int incbcd(unsigned int *bcd,
+ 	}
+ 
+ 	/* Convert BCD to Decimal */
+-	for (i=0 ; i < chars ; i++) {
++	for (i = 0 ; i < chars ; i++) {
+ 		c = (*bcd >> (i << 2)) & 0xf;
+ 		c = c > 9 ? 9 : c; /* force to bcd just in case */
+-		for (j=0 ; j < i ; j++)
++		for (j = 0 ; j < i ; j++)
+ 			c = c * 10;
+ 		dec += c;
+ 	}
+@@ -252,8 +255,8 @@ static unsigned int incbcd(unsigned int *bcd,
+ 	*bcd  = 0;
+ 
+ 	/* Convert back to BCD */
+-	for (i=0 ; i < chars ; i++) {
+-		for (c=1,j=0 ; j < i ; j++)
++	for (i = 0 ; i < chars ; i++) {
++		for (c = 1, j = 0 ; j < i ; j++)
+ 			c = c * 10;
+ 		c = (dec / c) % 10;
+ 		*bcd += c << (i << 2);
+@@ -386,7 +389,7 @@ static void do_of_table(void *symval, unsigned long size,
+ 
+ /* Looks like: hid:bNvNpN */
+ static int do_hid_entry(const char *filename,
+-			     void *symval, char *alias)
++			void *symval, char *alias)
+ {
+ 	DEF_FIELD(symval, hid_device_id, bus);
+ 	DEF_FIELD(symval, hid_device_id, group);
+@@ -454,9 +457,9 @@ static int do_pci_entry(const char *filename,
+ 	interface = class;
+ 	interface_mask = class_mask;
+ 
+-	if ((baseclass_mask != 0 && baseclass_mask != 0xFF)
+-	    || (subclass_mask != 0 && subclass_mask != 0xFF)
+-	    || (interface_mask != 0 && interface_mask != 0xFF)) {
++	if ((baseclass_mask != 0 && baseclass_mask != 0xFF) ||
++	    (subclass_mask != 0 && subclass_mask != 0xFF) ||
++	    (interface_mask != 0 && interface_mask != 0xFF)) {
+ 		warn("Can't handle masks in %s:%04X\n",
+ 		     filename, class_mask);
+ 		return 0;
+@@ -480,13 +483,13 @@ static int do_ccw_entry(const char *filename,
+ 	DEF_FIELD(symval, ccw_device_id, dev_model);
+ 
+ 	strcpy(alias, "ccw:");
+-	ADD(alias, "t", match_flags&CCW_DEVICE_ID_MATCH_CU_TYPE,
++	ADD(alias, "t", match_flags & CCW_DEVICE_ID_MATCH_CU_TYPE,
+ 	    cu_type);
+-	ADD(alias, "m", match_flags&CCW_DEVICE_ID_MATCH_CU_MODEL,
++	ADD(alias, "m", match_flags & CCW_DEVICE_ID_MATCH_CU_MODEL,
+ 	    cu_model);
+-	ADD(alias, "dt", match_flags&CCW_DEVICE_ID_MATCH_DEVICE_TYPE,
++	ADD(alias, "dt", match_flags & CCW_DEVICE_ID_MATCH_DEVICE_TYPE,
+ 	    dev_type);
+-	ADD(alias, "dm", match_flags&CCW_DEVICE_ID_MATCH_DEVICE_MODEL,
++	ADD(alias, "dm", match_flags & CCW_DEVICE_ID_MATCH_DEVICE_MODEL,
+ 	    dev_model);
+ 	add_wildcard(alias);
+ 	return 1;
+@@ -539,22 +542,22 @@ static int do_serio_entry(const char *filename,
+  *       as don't care byte.
+  */
+ static int do_acpi_entry(const char *filename,
+-			void *symval, char *alias)
++			 void *symval, char *alias)
+ {
+ 	DEF_FIELD_ADDR(symval, acpi_device_id, id);
+ 	DEF_FIELD_ADDR(symval, acpi_device_id, cls);
+ 	DEF_FIELD_ADDR(symval, acpi_device_id, cls_msk);
+ 
+-	if (id && strlen((const char *)*id))
++	if (id && strlen((const char *)*id)) {
+ 		sprintf(alias, "acpi*:%s:*", *id);
+-	else if (cls) {
++	} else if (cls) {
+ 		int i, byte_shift, cnt = 0;
+ 		unsigned int msk;
+ 
+ 		sprintf(&alias[cnt], "acpi*:");
+ 		cnt = 6;
+ 		for (i = 1; i <= 3; i++) {
+-			byte_shift = 8 * (3-i);
++			byte_shift = 8 * (3 - i);
+ 			msk = (*cls_msk >> byte_shift) & 0xFF;
+ 			if (msk)
+ 				sprintf(&alias[cnt], "%02x",
+@@ -573,13 +576,13 @@ static void do_pnp_device_entry(void *symval, unsigned long size,
+ 				struct module *mod)
+ {
+ 	const unsigned long id_size = SIZE_pnp_device_id;
+-	const unsigned int count = (size / id_size)-1;
++	const unsigned int count = (size / id_size) - 1;
+ 	unsigned int i;
+ 
+ 	device_id_check(mod->name, "pnp", size, id_size, symval);
+ 
+ 	for (i = 0; i < count; i++) {
+-		DEF_FIELD_ADDR(symval + i*id_size, pnp_device_id, id);
++		DEF_FIELD_ADDR(symval + i * id_size, pnp_device_id, id);
+ 		char acpi_id[sizeof(*id)];
+ 		int j;
+ 
+@@ -599,13 +602,14 @@ static void do_pnp_card_entries(void *symval, unsigned long size,
+ 				struct module *mod)
+ {
+ 	const unsigned long id_size = SIZE_pnp_card_device_id;
+-	const unsigned int count = (size / id_size)-1;
++	const unsigned int count = (size / id_size) - 1;
+ 	unsigned int i;
+ 
+ 	device_id_check(mod->name, "pnp", size, id_size, symval);
+ 
+ 	for (i = 0; i < count; i++) {
+ 		unsigned int j;
++
+ 		DEF_FIELD_ADDR(symval + i * id_size, pnp_card_device_id, devs);
+ 
+ 		for (j = 0; j < PNP_MAX_DEVICES; j++) {
+@@ -659,6 +663,7 @@ static int do_pcmcia_entry(const char *filename,
+ 			   void *symval, char *alias)
+ {
+ 	unsigned int i;
++
+ 	DEF_FIELD(symval, pcmcia_device_id, match_flags);
+ 	DEF_FIELD(symval, pcmcia_device_id, manf_id);
+ 	DEF_FIELD(symval, pcmcia_device_id, card_id);
+@@ -667,9 +672,8 @@ static int do_pcmcia_entry(const char *filename,
+ 	DEF_FIELD(symval, pcmcia_device_id, device_no);
+ 	DEF_FIELD_ADDR(symval, pcmcia_device_id, prod_id_hash);
+ 
+-	for (i=0; i<4; i++) {
++	for (i = 0; i < 4; i++)
+ 		(*prod_id_hash)[i] = TO_NATIVE((*prod_id_hash)[i]);
+-	}
+ 
+ 	strcpy(alias, "pcmcia:");
+ 	ADD(alias, "m", match_flags & PCMCIA_DEV_ID_MATCH_MANF_ID,
+@@ -692,18 +696,19 @@ static int do_pcmcia_entry(const char *filename,
+ }
+ 
+ static int do_vio_entry(const char *filename, void *symval,
+-		char *alias)
++			char *alias)
+ {
+ 	char *tmp;
++
+ 	DEF_FIELD_ADDR(symval, vio_device_id, type);
+ 	DEF_FIELD_ADDR(symval, vio_device_id, compat);
+ 
+ 	sprintf(alias, "vio:T%sS%s", (*type)[0] ? *type : "*",
+-			(*compat)[0] ? *compat : "*");
++		(*compat)[0] ? *compat : "*");
+ 
+ 	/* Replace all whitespace with underscores */
+ 	for (tmp = alias; tmp && *tmp; tmp++)
+-		if (isspace (*tmp))
++		if (isspace(*tmp))
+ 			*tmp = '_';
+ 
+ 	add_wildcard(alias);
+@@ -720,7 +725,7 @@ static void do_input(char *alias,
+ 	for (i = min / BITS_PER_LONG; i < max / BITS_PER_LONG + 1; i++)
+ 		arr[i] = TO_NATIVE(arr[i]);
+ 	for (i = min; i < max; i++)
+-		if (arr[i / BITS_PER_LONG] & (1L << (i%BITS_PER_LONG)))
++		if (arr[i / BITS_PER_LONG] & (1L << (i % BITS_PER_LONG)))
+ 			sprintf(alias + strlen(alias), "%X,*", i);
+ }
+ 
+@@ -783,7 +788,7 @@ static int do_input_entry(const char *filename, void *symval,
+ }
+ 
+ static int do_eisa_entry(const char *filename, void *symval,
+-		char *alias)
++			 char *alias)
+ {
+ 	DEF_FIELD_ADDR(symval, eisa_device_id, sig);
+ 	if (sig[0])
+@@ -795,7 +800,7 @@ static int do_eisa_entry(const char *filename, void *symval,
+ 
+ /* Looks like: parisc:tNhvNrevNsvN */
+ static int do_parisc_entry(const char *filename, void *symval,
+-		char *alias)
++			   char *alias)
+ {
+ 	DEF_FIELD(symval, parisc_device_id, hw_type);
+ 	DEF_FIELD(symval, parisc_device_id, hversion);
+@@ -814,7 +819,7 @@ static int do_parisc_entry(const char *filename, void *symval,
+ 
+ /* Looks like: sdio:cNvNdN. */
+ static int do_sdio_entry(const char *filename,
+-			void *symval, char *alias)
++			 void *symval, char *alias)
+ {
+ 	DEF_FIELD(symval, sdio_device_id, class);
+ 	DEF_FIELD(symval, sdio_device_id, vendor);
+@@ -887,11 +892,12 @@ static int do_vmbus_entry(const char *filename, void *symval,
+ 			  char *alias)
+ {
+ 	int i;
++
+ 	DEF_FIELD_ADDR(symval, hv_vmbus_device_id, guid);
+ 	char guid_name[(sizeof(*guid) + 1) * 2];
+ 
+ 	for (i = 0; i < (sizeof(*guid) * 2); i += 2)
+-		sprintf(&guid_name[i], "%02x", TO_NATIVE((guid->b)[i/2]));
++		sprintf(&guid_name[i], "%02x", TO_NATIVE((guid->b)[i / 2]));
+ 
+ 	strcpy(alias, "vmbus:");
+ 	strcat(alias, guid_name);
+@@ -978,11 +984,11 @@ static void dmi_ascii_filter(char *d, const char *s)
+ 	*d = 0;
+ }
+ 
+-
+ static int do_dmi_entry(const char *filename, void *symval,
+ 			char *alias)
+ {
+ 	int i, j;
++
+ 	DEF_FIELD_ADDR(symval, dmi_system_id, matches);
+ 	sprintf(alias, "dmi*");
+ 
+@@ -1015,15 +1021,16 @@ static int do_mdio_entry(const char *filename,
+ 			 void *symval, char *alias)
+ {
+ 	int i;
++
+ 	DEF_FIELD(symval, mdio_device_id, phy_id);
+ 	DEF_FIELD(symval, mdio_device_id, phy_id_mask);
+ 
+ 	alias += sprintf(alias, MDIO_MODULE_PREFIX);
+ 
+ 	for (i = 0; i < 32; i++) {
+-		if (!((phy_id_mask >> (31-i)) & 1))
++		if (!((phy_id_mask >> (31 - i)) & 1))
+ 			*(alias++) = '?';
+-		else if ((phy_id >> (31-i)) & 1)
++		else if ((phy_id >> (31 - i)) & 1)
+ 			*(alias++) = '1';
+ 		else
+ 			*(alias++) = '0';
+@@ -1128,6 +1135,7 @@ static int do_amba_entry(const char *filename,
+ {
+ 	unsigned int digit;
+ 	char *p = alias;
++
+ 	DEF_FIELD(symval, amba_id, id);
+ 	DEF_FIELD(symval, amba_id, mask);
+ 
+@@ -1342,18 +1350,19 @@ static int do_tee_entry(const char *filename, void *symval, char *alias)
+ static int do_wmi_entry(const char *filename, void *symval, char *alias)
+ {
+ 	int len;
++
+ 	DEF_FIELD_ADDR(symval, wmi_device_id, guid_string);
+ 
+ 	if (strlen(*guid_string) != UUID_STRING_LEN) {
+ 		warn("Invalid WMI device id 'wmi:%s' in '%s'\n",
+-				*guid_string, filename);
++		     *guid_string, filename);
+ 		return 0;
+ 	}
+ 
+ 	len = snprintf(alias, ALIAS_SIZE, WMI_MODULE_PREFIX "%s", *guid_string);
+ 	if (len < 0 || len >= ALIAS_SIZE) {
+ 		warn("Could not generate all MODULE_ALIAS's in '%s'\n",
+-				filename);
++		     filename);
+ 		return 0;
+ 	}
+ 	return 1;
+@@ -1376,7 +1385,7 @@ static int do_auxiliary_entry(const char *filename, void *symval, char *alias)
+ }
+ 
+ /* Does namelen bytes of name exactly match the symbol? */
+-static bool sym_is(const char *name, unsigned namelen, const char *symbol)
++static bool sym_is(const char *name, unsigned int namelen, const char *symbol)
+ {
+ 	if (namelen != strlen(symbol))
  		return false;
- 	}
- 	_rtl8821ae_phy_init_tx_power_by_rate(hw);
--	if (rtlefuse->autoload_failflag == false) {
-+	if (!rtlefuse->autoload_failflag) {
- 		rtstatus = _rtl8821ae_phy_config_bb_with_pgheaderfile(hw,
- 						    BASEBAND_CONFIG_PHY_REG);
- 	}
-@@ -3980,7 +3980,7 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
- 				}
- 			}
+@@ -1398,7 +1407,7 @@ static void do_table(void *symval, unsigned long size,
+ 	size -= id_size;
  
--			if (tx0iqkok == false)
-+			if (!tx0iqkok)
- 				break;				/* TXK fail, Don't do RXK */
+ 	for (i = 0; i < size; i += id_size) {
+-		if (do_entry(mod->name, symval+i, alias)) {
++		if (do_entry(mod->name, symval + i, alias)) {
+ 			buf_printf(&mod->dev_table_buf,
+ 				   "MODULE_ALIAS(\"%s\");\n", alias);
+ 		}
+@@ -1454,7 +1463,8 @@ static const struct devtable devtable[] = {
  
- 			if (vdf_enable == 1) {
-@@ -4090,7 +4090,7 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
- 						}
- 					}
+ /* Create MODULE_ALIAS() statements.
+  * At this time, we cannot write the actual output C source yet,
+- * so we write into the mod->dev_table_buf buffer. */
++ * so we write into the mod->dev_table_buf buffer.
++ */
+ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 			Elf_Sym *sym, const char *symname)
+ {
+@@ -1498,13 +1508,13 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 	/* First handle the "special" cases */
+ 	if (sym_is(name, namelen, "usb"))
+ 		do_usb_table(symval, sym->st_size, mod);
+-	if (sym_is(name, namelen, "of"))
++	if (sym_is(name, namelen, "of")) {
+ 		do_of_table(symval, sym->st_size, mod);
+-	else if (sym_is(name, namelen, "pnp"))
++	} else if (sym_is(name, namelen, "pnp")) {
+ 		do_pnp_device_entry(symval, sym->st_size, mod);
+-	else if (sym_is(name, namelen, "pnp_card"))
++	} else if (sym_is(name, namelen, "pnp_card")) {
+ 		do_pnp_card_entries(symval, sym->st_size, mod);
+-	else {
++	} else {
+ 		int i;
  
--					if (tx0iqkok == false) {   /* If RX mode TXK fail, then take TXK Result */
-+					if (!tx0iqkok) {   /* If RX mode TXK fail, then take TXK Result */
- 						tx_x0_rxk[cal] = tx_x0[cal];
- 						tx_y0_rxk[cal] = tx_y0[cal];
- 						tx0iqkok = true;
-@@ -4249,7 +4249,7 @@ static void _rtl8821ae_iqk_tx(struct ieee80211_hw *hw, enum radio_path path)
- 					}
- 				}
- 
--				if (tx0iqkok == false) {   /* If RX mode TXK fail, then take TXK Result */
-+				if (!tx0iqkok) {   /* If RX mode TXK fail, then take TXK Result */
- 					tx_x0_rxk[cal] = tx_x0[cal];
- 					tx_y0_rxk[cal] = tx_y0[cal];
- 					tx0iqkok = true;
+ 		for (i = 0; i < ARRAY_SIZE(devtable); i++) {
 -- 
-2.17.1
+2.27.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
