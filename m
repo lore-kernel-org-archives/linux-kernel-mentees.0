@@ -5,92 +5,91 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52FE5C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 08:13:03 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6422CC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 08:13:07 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C074C22D2C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 08:13:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C074C22D2C
+	by mail.kernel.org (Postfix) with ESMTPS id EE8BA22D2C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 08:13:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EE8BA22D2C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3207385A5A;
-	Tue, 12 Jan 2021 08:13:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FcEsUjUe0BYg; Tue, 12 Jan 2021 08:13:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C5F4F85A49;
-	Tue, 12 Jan 2021 08:13:01 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BEEEFC088B;
-	Tue, 12 Jan 2021 08:13:01 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 82FD8C013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 08:13:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 7241286845
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 08:13:00 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 5210D8685C;
+	Tue, 12 Jan 2021 08:13:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yn79vBYaPUd7; Tue, 12 Jan 2021 08:13:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id DCBFB86841;
+	Tue, 12 Jan 2021 08:13:05 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D68AEC088B;
+	Tue, 12 Jan 2021 08:13:05 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E01AFC013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 12 Jan 2021 08:13:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id CEEFC86C3A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 12 Jan 2021 08:13:04 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IYlN6I9o2QgC
+ with ESMTP id ioJ8CT8JzUoE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 08:12:59 +0000 (UTC)
+ Tue, 12 Jan 2021 08:13:04 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 569C786841
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 6A28286587
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 08:12:59 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id iq13so1124375pjb.3
+ Tue, 12 Jan 2021 08:13:04 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id x126so930996pfc.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 00:12:59 -0800 (PST)
+ Tue, 12 Jan 2021 00:13:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=m+5AY09mfGyaAgyXWDCF4dcfRL6QuYPJBXH3t6/wgY4=;
- b=tgoWzJQEWSCrjTpWAuH+eOFGUIx0zm8xNscUoWzeut2TGtSyxXnZLizlperYZgt8D2
- LiqVZWsBCBZtA1hE2qf9EoEGSNBQxGaizlDTweAFYpG+8eIaCdhNlF/iTzZjsAUAaAqm
- 4u7iCrCBPbV/1llWf97rBO0MCgvvMJNf1H8Cetl3kwVG/vU3HB+Aj31KMnb6/DuZKUZQ
- 6X6dtrS0Jxa35L5aJGTlF+w5FzUgTCdT/ttRwEopMrB8k9vyqdCZdhN/FVcc39PUhgGM
- QLsPeCw6/WUfY2vXq2ird3hRJDUFb1JZ+oDvmKyT7dwMo5gTwUQrUPQJsGNC4yECz6wF
- BBUQ==
+ bh=vcxzFRC3QqajwKXtnr3rvlSJkzsApn1wGE9frhGONmw=;
+ b=OMtpx1iBgoebcdpgyFngx+rFvAZPV3UlPMZ8+mDwIrm9vmkoZPigaoYI5f7xCgaFtl
+ ZFOLQzCmfkmPv2NNtq5Qc86n9qA28IoR5EcgGiCGW3fEwUb4YgbqfIAwn8zjxAAVRgEZ
+ +d1ake4m/7s7sk3G5Q5rUVQzCIKDeH4uM5yiiK2PEGtIaI4kbdGQjq8/DH06yVoRpGux
+ /wBzhf64lRgw2r/9YzRsl+9AceBsVbLsKDSUpUcX5pS/CUCWSfn5IcSCb9BX8KAGk9d6
+ z7qWqkZGCuwaRqTmFWxm06NHvSHD0IthKrHzxGvFpXJHKRwQjmxqsu0A4u6crCioGVwK
+ BcwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m+5AY09mfGyaAgyXWDCF4dcfRL6QuYPJBXH3t6/wgY4=;
- b=F6jmYGyh1s8c24O4ntdSqPGgEV+soKvOETKD80beuGUico1cnpE2ad6evs2RJPwNvN
- WRvXpLGKqHzIa/3DBpkuJsiw5/bn7s0l+D2IT3O4AwU9AjUtsFTGUFraHK+yxve+ZNGs
- PE/3MuuG3H7DKSXhwo82zoTk/r21f8umfE/zVAfpTZBKxoO/YK74d7FFe8MxuYGaobhI
- +Dq+0Qu4EMHFNYVOkhZp6k5lOELM1rzk1lCYrNPwb+J3Kc7h5/lTnEtl9ChFb/f21ZCO
- IfmG54cw5L28zjmJt5N8kFzNR5WaWi6xeQAgy8G/zhRe1+b+3AnKcpiit1/S2VuVn6ep
- HmoQ==
-X-Gm-Message-State: AOAM533EiYkt3NzgN8CYUGN+Ey764cHb8eG+3pYDB/wKAwX7Cf3iKnBm
- Pms3NB5Gw/VBzN3XcIG587w=
-X-Google-Smtp-Source: ABdhPJz+kOsfexRaeZVC+/bOVCCXJVkFRicDzfL/dEPH8TbaccLDVNeWfxZoAfb4dOkfjxZXvsuBBg==
-X-Received: by 2002:a17:902:d694:b029:dc:9820:12fb with SMTP id
- v20-20020a170902d694b02900dc982012fbmr3643095ply.19.1610439178993; 
- Tue, 12 Jan 2021 00:12:58 -0800 (PST)
+ bh=vcxzFRC3QqajwKXtnr3rvlSJkzsApn1wGE9frhGONmw=;
+ b=cMKCgLhQwNjE/MZJDAwoMpYBLcBB1RC5weM3B2N1kuKb3I7cGqy3Mhmcw9TvObBKpe
+ 98oPbZAHohhd6s+n71W2fhlE5Fx3B+L7XYRMnkyDsl4eKF6jQuUj5DoeScBNKVVsRIFM
+ jQQ7izMSDwLzWG95zEnP2RelRHenAfysj5DCsAw82AldzWeRD7qD/YDUgWotRaK8UiJJ
+ Aab0izmk/dcvCgVwn+Zmb1hlYo2/uxhMo22qbaRtyrzn+eTh/LixeeUjeoNcuyejECEJ
+ 8B1mhu9Fy3EwM+iO47hHkIvXPsEliIrXtOrHPeWfX+u3CSPADdNC8jkhq9dfllyvSXN6
+ /8DQ==
+X-Gm-Message-State: AOAM532OS8SzOmR2q7eZlMa+8RFF/NKdcq0kyBhmlmxRANJ/RgrrN1YP
+ CDbBKINi66Q102Ge71vsfbk=
+X-Google-Smtp-Source: ABdhPJzODkjLmfPHA9H28EQj2qkm045cv/RwvIoFnC2ZEUdVTE0O7l/kJHA/rd1PopHEhJ3LfhDJPA==
+X-Received: by 2002:a63:c64a:: with SMTP id x10mr3715467pgg.14.1610439184002; 
+ Tue, 12 Jan 2021 00:13:04 -0800 (PST)
 Received: from varodek.localdomain ([106.215.30.102])
- by smtp.gmail.com with ESMTPSA id l2sm2152381pjz.27.2021.01.12.00.12.55
+ by smtp.gmail.com with ESMTPSA id l2sm2152381pjz.27.2021.01.12.00.13.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 00:12:58 -0800 (PST)
+ Tue, 12 Jan 2021 00:13:03 -0800 (PST)
 From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Bjorn Helgaas <bjorn@helgaas.com>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>, David Airlie <airlied@linux.ie>
-Date: Tue, 12 Jan 2021 13:39:22 +0530
-Message-Id: <20210112080924.1038907-2-vaibhavgupta40@gmail.com>
+Date: Tue, 12 Jan 2021 13:39:23 +0530
+Message-Id: <20210112080924.1038907-3-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210112080924.1038907-1-vaibhavgupta40@gmail.com>
 References: <20200717074937.296192-1-vaibhavgupta40@gmail.com>
@@ -98,7 +97,7 @@ References: <20200717074937.296192-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH v2 1/3] amd64-agp: use generic power
+Subject: [Linux-kernel-mentees] [PATCH v2 2/3] sis-agp: use generic power
 	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -133,22 +132,23 @@ NULL.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/char/agp/amd64-agp.c | 24 ++++++------------------
- 1 file changed, 6 insertions(+), 18 deletions(-)
+ drivers/char/agp/sis-agp.c | 25 ++++++-------------------
+ 1 file changed, 6 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
-index b40edae32817..dc78a4fb879e 100644
---- a/drivers/char/agp/amd64-agp.c
-+++ b/drivers/char/agp/amd64-agp.c
-@@ -588,20 +588,11 @@ static void agp_amd64_remove(struct pci_dev *pdev)
- 	agp_bridges_found--;
+diff --git a/drivers/char/agp/sis-agp.c b/drivers/char/agp/sis-agp.c
+index 14909fc5d767..f8a02f4bef1b 100644
+--- a/drivers/char/agp/sis-agp.c
++++ b/drivers/char/agp/sis-agp.c
+@@ -217,26 +217,14 @@ static void agp_sis_remove(struct pci_dev *pdev)
+ 	agp_put_bridge(bridge);
  }
  
 -#ifdef CONFIG_PM
-+#define agp_amd64_suspend NULL
++#define agp_sis_suspend NULL
  
--static int agp_amd64_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused agp_amd64_resume(struct device *dev)
+-static int agp_sis_suspend(struct pci_dev *pdev, pm_message_t state)
++static int __maybe_unused agp_sis_resume(
++	__attribute__((unused)) struct device *dev)
  {
 -	pci_save_state(pdev);
 -	pci_set_power_state(pdev, pci_choose_state(pdev, state));
@@ -156,42 +156,38 @@ index b40edae32817..dc78a4fb879e 100644
 -	return 0;
 -}
 -
--static int agp_amd64_resume(struct pci_dev *pdev)
+-static int agp_sis_resume(struct pci_dev *pdev)
 -{
 -	pci_set_power_state(pdev, PCI_D0);
 -	pci_restore_state(pdev);
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 
- 	if (pdev->vendor == PCI_VENDOR_ID_NVIDIA)
- 		nforce3_agp_init(pdev);
-@@ -609,8 +600,6 @@ static int agp_amd64_resume(struct pci_dev *pdev)
- 	return amd_8151_configure();
+-
+ 	return sis_driver.configure();
  }
  
 -#endif /* CONFIG_PM */
 -
- static const struct pci_device_id agp_amd64_pci_table[] = {
+ static const struct pci_device_id agp_sis_pci_table[] = {
  	{
- 	.class		= (PCI_CLASS_BRIDGE_HOST << 8),
-@@ -738,15 +727,14 @@ static const struct pci_device_id agp_amd64_pci_promisc_table[] = {
- 	{ }
- };
+ 		.class		= (PCI_CLASS_BRIDGE_HOST << 8),
+@@ -419,15 +407,14 @@ static const struct pci_device_id agp_sis_pci_table[] = {
  
-+static SIMPLE_DEV_PM_OPS(agp_amd64_pm_ops, agp_amd64_suspend, agp_amd64_resume);
+ MODULE_DEVICE_TABLE(pci, agp_sis_pci_table);
+ 
++static SIMPLE_DEV_PM_OPS(agp_sis_pm_ops, agp_sis_suspend, agp_sis_resume);
 +
- static struct pci_driver agp_amd64_pci_driver = {
- 	.name		= "agpgart-amd64",
- 	.id_table	= agp_amd64_pci_table,
- 	.probe		= agp_amd64_probe,
- 	.remove		= agp_amd64_remove,
+ static struct pci_driver agp_sis_pci_driver = {
+ 	.name		= "agpgart-sis",
+ 	.id_table	= agp_sis_pci_table,
+ 	.probe		= agp_sis_probe,
+ 	.remove		= agp_sis_remove,
 -#ifdef CONFIG_PM
--	.suspend	= agp_amd64_suspend,
--	.resume		= agp_amd64_resume,
+-	.suspend	= agp_sis_suspend,
+-	.resume		= agp_sis_resume,
 -#endif
-+	.driver.pm  = &agp_amd64_pm_ops,
++	.driver.pm      = &agp_sis_pm_ops,
  };
  
- 
+ static int __init agp_sis_init(void)
 -- 
 2.30.0
 
