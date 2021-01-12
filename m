@@ -6,78 +6,76 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E400EC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 06:33:30 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D09C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 06:41:07 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F18A229CA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 06:33:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F18A229CA
+	by mail.kernel.org (Postfix) with ESMTPS id 1BAAF22CA1
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Jan 2021 06:41:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1BAAF22CA1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id B1AF287094;
-	Tue, 12 Jan 2021 06:33:29 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 8B80D8683C;
+	Tue, 12 Jan 2021 06:41:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v+oRgDoEOiD7; Tue, 12 Jan 2021 06:33:26 +0000 (UTC)
+	with ESMTP id D4Q+avvVKkGa; Tue, 12 Jan 2021 06:41:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 688A987068;
-	Tue, 12 Jan 2021 06:33:26 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 85974867F2;
+	Tue, 12 Jan 2021 06:41:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 05800C0893;
-	Tue, 12 Jan 2021 06:33:26 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 80703C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 74D6FC0893;
+	Tue, 12 Jan 2021 06:41:05 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8103AC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 06:33:24 +0000 (UTC)
+ Tue, 12 Jan 2021 06:41:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 788B685F7F
+ by silver.osuosl.org (Postfix) with ESMTP id 63A5B204B4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 06:33:24 +0000 (UTC)
+ Tue, 12 Jan 2021 06:41:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nrmfRo_x2KC6
+ with ESMTP id BG2QcJrSsjdR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 06:33:23 +0000 (UTC)
-X-Greylist: delayed 00:09:59 by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0061.hostedemail.com
- [216.40.44.61])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 862D48494E
+ Tue, 12 Jan 2021 06:41:03 +0000 (UTC)
+X-Greylist: delayed 00:20:02 by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0208.hostedemail.com
+ [216.40.44.208])
+ by silver.osuosl.org (Postfix) with ESMTPS id 2A2B82002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 06:33:23 +0000 (UTC)
+ Tue, 12 Jan 2021 06:41:03 +0000 (UTC)
 Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
  [10.5.19.251])
- by smtpgrave03.hostedemail.com (Postfix) with ESMTP id DF63B180220D3
+ by smtpgrave08.hostedemail.com (Postfix) with ESMTP id 7AE0B18018055
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Jan 2021 06:15:42 +0000 (UTC)
+ Tue, 12 Jan 2021 06:02:42 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay02.hostedemail.com (Postfix) with ESMTP id 9E06612FD;
- Tue, 12 Jan 2021 06:15:40 +0000 (UTC)
+ by smtprelay08.hostedemail.com (Postfix) with ESMTP id 056B7182CED34;
+ Tue, 12 Jan 2021 06:02:40 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: knee20_430998e27513
-X-Filterd-Recvd-Size: 2396
+X-HE-Tag: snow87_3011fb027513
+X-Filterd-Recvd-Size: 1865
 Received: from [192.168.1.159] (unknown [47.151.137.21])
  (Authenticated sender: joe@perches.com)
- by omf11.hostedemail.com (Postfix) with ESMTPA;
- Tue, 12 Jan 2021 06:15:38 +0000 (UTC)
-Message-ID: <eae8d65681f363bd1c5c027b089193d50f014e0c.camel@perches.com>
+ by omf12.hostedemail.com (Postfix) with ESMTPA;
+ Tue, 12 Jan 2021 06:02:38 +0000 (UTC)
+Message-ID: <81fda9fc9abde72cde4965d84effc358bee565cf.camel@perches.com>
 From: Joe Perches <joe@perches.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 11 Jan 2021 22:15:37 -0800
-In-Reply-To: <CAKXUXMzuu7BwKB0SGnT-kqbh-abKeoWpaqWHiPyRMYq7i=43gA@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
+ <lukas.bulwahn@gmail.com>
+Date: Mon, 11 Jan 2021 22:02:36 -0800
+In-Reply-To: <CABJPP5DH1YfT2aQ5ejK4_VJZy-XJG8Jib+FJjHq3PD3XagP=+Q@mail.gmail.com>
 References: <CAKXUXMzydtFqJ_ZRoF0HQugTBYHZZ56ws9AdUq6TmGL-m5JP3Q@mail.gmail.com>
  <CABJPP5DH1YfT2aQ5ejK4_VJZy-XJG8Jib+FJjHq3PD3XagP=+Q@mail.gmail.com>
- <81fda9fc9abde72cde4965d84effc358bee565cf.camel@perches.com>
- <CAKXUXMzuu7BwKB0SGnT-kqbh-abKeoWpaqWHiPyRMYq7i=43gA@mail.gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  Aditya Srivastava <yashsri421@gmail.com>
 Subject: Re: [Linux-kernel-mentees] comment on checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -97,54 +95,38 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, 2021-01-12 at 07:08 +0100, Lukas Bulwahn wrote:
-> On Tue, Jan 12, 2021 at 7:02 AM Joe Perches <joe@perches.com> wrote:
+On Tue, 2021-01-12 at 11:05 +0530, Dwaipayan Ray wrote:
+> On Tue, Jan 12, 2021 at 10:38 AM Lukas Bulwahn <lukas.bulwahn@gmail.com> =
+wrote:
 > > =
 
-> > On Tue, 2021-01-12 at 11:05 +0530, Dwaipayan Ray wrote:
-> > > On Tue, Jan 12, 2021 at 10:38 AM Lukas Bulwahn <lukas.bulwahn@gmail.c=
-om> wrote:
-> > > > =
-
-> > > > https://lore.kernel.org/linux-next/20210111230029.GM4728@sirena.org=
-.uk/T/#m355576186555c4b6e85dbb9a1b3fe3d5e80f6e9f
-> > > > =
-
-> > > > Aditya, Dwaipayan, Have a look. checkpatch already handles this, ri=
-ght?
-> > > > =
-
-> > > Hi
-> > > The following Fixes line in commit log emits no warning:
-> > > =A0=A0=A0Fixes: Use packed mode for 32 bits per word transfers to inc=
-rease
-> > > =
-
-> > > Neither does a fixes with mismatched commit description:
-> > > =A0=A0=A0Fixes: e4da63cda51f ("networking: packet_mmap: fix old confi=
-g reference")
-> > > =
-
-> > > which should have been infact:
-> > > =A0=A0=A0Fixes: e4da63cda51f ("docs: networking: packet_mmap: fix old=
- config
-> > > reference")
-> > > =
-
-> > > I could work on this if Lukas and Joe are okay with it.
+> > https://lore.kernel.org/linux-next/20210111230029.GM4728@sirena.org.uk/=
+T/#m355576186555c4b6e85dbb9a1b3fe3d5e80f6e9f
 > > =
 
-> > It's not really a solvable problem as the SHA1 probably exists in an
-> > individual local tree.
+> > Aditya, Dwaipayan, Have a look. checkpatch already handles this, right?
 > > =
 
+> Hi
+> The following Fixes line in commit log emits no warning:
+> =A0=A0=A0Fixes: Use packed mode for 32 bits per word transfers to increase
 > =
 
-> Joe, so did you deactivate checking Fixes: at some point?
+> Neither does a fixes with mismatched commit description:
+> =A0=A0=A0Fixes: e4da63cda51f ("networking: packet_mmap: fix old config re=
+ference")
+> =
 
-No, Fixes: lines were always just skipped if it matched:
+> which should have been infact:
+> =A0=A0=A0Fixes: e4da63cda51f ("docs: networking: packet_mmap: fix old con=
+fig
+> reference")
+> =
 
-$line =3D~ /^\s*Fixes:\s*[0-9a-z]{12,40}/i
+> I could work on this if Lukas and Joe are okay with it.
+
+It's not really a solvable problem as the SHA1 probably exists in an
+individual local tree.
 
 
 _______________________________________________
