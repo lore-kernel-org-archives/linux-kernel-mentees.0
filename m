@@ -8,94 +8,93 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71249C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 07:35:32 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ECA1C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 07:35:35 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6A06238EC
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 07:35:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6A06238EC
+	by mail.kernel.org (Postfix) with ESMTPS id 9D538238EC
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 07:35:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D538238EC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5ACD886901;
-	Thu, 14 Jan 2021 07:35:31 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 20FC687388;
+	Thu, 14 Jan 2021 07:35:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JKPlBpi7nrIj; Thu, 14 Jan 2021 07:35:30 +0000 (UTC)
+	with ESMTP id CJMWOiCnZ5VG; Thu, 14 Jan 2021 07:35:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 9BB39868F3;
-	Thu, 14 Jan 2021 07:35:30 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id B241387337;
+	Thu, 14 Jan 2021 07:35:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8AB75C088B;
-	Thu, 14 Jan 2021 07:35:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A172DC088B;
+	Thu, 14 Jan 2021 07:35:33 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2C14C013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DF86CC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 07:35:28 +0000 (UTC)
+ Thu, 14 Jan 2021 07:35:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id D22198737A
+ by hemlock.osuosl.org (Postfix) with ESMTP id C6DC08737E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 07:35:28 +0000 (UTC)
+ Thu, 14 Jan 2021 07:35:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q7EsRXPRXn8M
+ with ESMTP id bgFATgCQo8Hw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 07:35:28 +0000 (UTC)
+ Thu, 14 Jan 2021 07:35:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
- [209.85.215.172])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 51BCB87337
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 655E487337
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 07:35:28 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id c132so3211679pga.3
+ Thu, 14 Jan 2021 07:35:32 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id m6so2859985pfk.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Jan 2021 23:35:28 -0800 (PST)
+ Wed, 13 Jan 2021 23:35:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Eze22wqcpsTWbd1NuHKH1Yw11vYjsb5gy7SRhvZr/P4=;
- b=kqkKOaXkiBCJ6zNgIrer5E0F+51dO/snWGNUUQJhlBQQhExQRArBcImjl6USts8KVN
- R9lXyn9X9dy9YWL98MgXmbH//eKKb9bjWoggNrtQZg6e8J0Qw6envQJ4CrgCadQuzs4v
- vDfCvM0dd624GU2UBuxqer32lOsO4D2sXgxkJEi1cHcer7UcBo5WZ9tSQnKNaWZS4r6f
- 49YP4tiRE20CS5L1+HdgCQLBOOERkDgaQH4aQU+90KgvFeeZo0mgTBHP9g70n90NHdy4
- bOv7fP2AZ7OB0Vb0+C/1nZkhO/UtBKQmkiUQ3N+areQI2ErvcOgGIMitiWuNnFRHke08
- hemA==
+ bh=owDSUfxjCGNV7feym8SWdxYVebJhgpkhx2YM4l3iFLA=;
+ b=qHVtSpQGZutLPHTqE7h7h3Uc/79S/uPr3YwZQ0YQpMyIx/GLpPYu8JoLg6/IEMvIlP
+ mExDcVq2K3/JyXfYoGQR6XhhC3uT8Ym903BsZydRsbfdqio1ChI/xE1BAUB1wenye/fr
+ 4W7x9VhrxfpsvebuHFbHHy798FSilY+WIn5roDrm3TKM6uwOJefznt6JXYBT6e0yt6ga
+ OXNF2OLlTigs7SlEKCzTkNpq3lbZCN3kwVlO/E541kKsJshD9gV7kc1jVEuaV2oZYWdZ
+ tXXLFnjpQE8o7HRoNjk0xbEv68bYZhR7SKeRiGcM7lIo7fwE2YnG30eiJVzcGk8lKzC4
+ qeDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Eze22wqcpsTWbd1NuHKH1Yw11vYjsb5gy7SRhvZr/P4=;
- b=p73+X1FAv/cV3doq8poI686+x50MBN8jR9Jh0X/UNTwTjMyS6OHHFDJJr8fHLiXODK
- ROJFr/us+pWpHBP8Wd1UjH/lZMb7Chs6wzk9Go7lxc1Ey1fMXCxqIoBF2UCOz2QQBrl5
- l3u2CVq1uCo/n/r3GT8wHdACHwxe9Jkib6xiuRcGm1oflKsCk4Hfi29ahXD0XrLyKCAI
- 98/0SDgRvb97jQ0X+8DYuv+QhfA/tw1YypwVMQBymHXh6JeyW9wWe9QRJtbDkjUnhTq9
- y6q2xIinaQqOHF/aptgOzJen9P6/2SfGbPYagg0b5LGx6Ici8Spnap6hSXBXwU1nXA0Y
- 9CEA==
-X-Gm-Message-State: AOAM533PuUf3TrhoZcOLoQo99e4m70s4hPpI6tsb9kPXDUJfqjQkRRid
- DmYAYxeySguK9mfy0fGE2UQ=
-X-Google-Smtp-Source: ABdhPJzltz7TUsfamMjWZb42Eg905F+9IU8AQxpguZCcD7hZCoUinsYvWUQu7dTjW+zWJ1wRYr/lyg==
-X-Received: by 2002:a62:7bcd:0:b029:19e:9bb7:6db3 with SMTP id
- w196-20020a627bcd0000b029019e9bb76db3mr6370186pfc.34.1610609727872; 
- Wed, 13 Jan 2021 23:35:27 -0800 (PST)
+ bh=owDSUfxjCGNV7feym8SWdxYVebJhgpkhx2YM4l3iFLA=;
+ b=G1aioXwpf+0pbbjvF1xzFaKqiHoSQfODTgkj5zyxG7AUvaU1x1+dWz7Cbd2jims/bk
+ nk/rSWgoWKXmJn+NXhtT9VKAB4goPGv0b6ZlKuWVQU/g8bhe+79WRuqN84pJmAOigi1H
+ 9O+3NRFTu9INmZ3rgnOpB26NDFljVQhTmsTN74gK9zDG0LrluKDbTKC5H6WWIQ6HyOfV
+ h1x2UcN7STixC1JmYJnoy6Ax+fm5Cy/MAoAN23aK4MkNk1AYhlefY4kHpbo5IDw65CUY
+ QKjwZQQHBR+iQU/7dkGlaxZacnZ6okXXwAzEafdJ4RtruNPPAKeCQtx+GJsVGVB3mZUW
+ o4+g==
+X-Gm-Message-State: AOAM531KaDglNBf187mdni/hS1zrx22ZlU6dS6eY2gpzy8JONP/4BD2h
+ XQb4bzyR2y3h0ceDTgzAe74=
+X-Google-Smtp-Source: ABdhPJztSKcPGxNuYd6U4KMEQbw94p6VkgElcmgov+fS5kEHTspA5yLgor11wltFXOwjtLL8TyTa7A==
+X-Received: by 2002:a63:1142:: with SMTP id 2mr6230072pgr.263.1610609731903;
+ Wed, 13 Jan 2021 23:35:31 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:600d:a089:b1fd:acc0:2bb9:df96])
- by smtp.googlemail.com with ESMTPSA id x20sm4442145pfc.3.2021.01.13.23.35.24
+ by smtp.googlemail.com with ESMTPSA id x20sm4442145pfc.3.2021.01.13.23.35.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 23:35:27 -0800 (PST)
+ Wed, 13 Jan 2021 23:35:31 -0800 (PST)
 From: Aditya Srivastava <yashsri421@gmail.com>
 To: joe@perches.com
-Date: Thu, 14 Jan 2021 13:05:12 +0530
-Message-Id: <20210114073513.15773-2-yashsri421@gmail.com>
+Date: Thu, 14 Jan 2021 13:05:13 +0530
+Message-Id: <20210114073513.15773-3-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210114073513.15773-1-yashsri421@gmail.com>
 References: <84492ae9-7452-d296-49ab-4d37eed3b968@gmail.com>
  <20210114073513.15773-1-yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, yashsri421@gmail.com
-Subject: [Linux-kernel-mentees] [PATCH v3 1/2] checkpatch: fix false
-	positive for COMMIT_LOG_LONG_LINE with URLs
+Subject: [Linux-kernel-mentees] [PATCH v3 2/2] checkpatch: add fix option
+	for COMMIT_LOG_LONG_LINE with URLs
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,36 +127,34 @@ Consolidate how dtexts and dvalues are freed") reports this warning:
 WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 https://mailman.alsa-project.org/pipermail/alsa-devel/2019-January/144761.html
 
-Avoid giving users warning for character limit for such cases, instead
-suggest them to prefix the URLs with "Link:"
+Provide a simple fix option by prefixing the first non-whitespace
+character of the line with "Link:"
 
 Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
- scripts/checkpatch.pl | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ scripts/checkpatch.pl | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index e6857bdfcb2d..e8851ce73149 100755
+index e8851ce73149..7030c4d6d126 100755
 --- a/scripts/checkpatch.pl
 +++ b/scripts/checkpatch.pl
-@@ -3023,9 +3023,14 @@ sub process {
+@@ -3023,9 +3023,12 @@ sub process {
  		      $line =~ /^\s*(?:Fixes:|Link:|$signature_tags)/i ||
  					# A Fixes: or Link: line or signature tag line
  		      $commit_log_possible_stack_dump)) {
--			WARN("COMMIT_LOG_LONG_LINE",
--			     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
--			$commit_log_long_line = 1;
-+			if ($line =~ /^\s*[a-z][\w\.\+\-]*:\/\/\S+/i) {
-+				WARN("COMMIT_LOG_LONG_LINE",
-+				     "Consider prefixing the URL with 'Link:'\n" . $herecurr);
-+			} else {
-+				WARN("COMMIT_LOG_LONG_LINE",
-+				     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
-+				$commit_log_long_line = 1;
-+			}
- 		}
- 
- # Reset possible stack dump if a blank line is found
+-			if ($line =~ /^\s*[a-z][\w\.\+\-]*:\/\/\S+/i) {
+-				WARN("COMMIT_LOG_LONG_LINE",
+-				     "Consider prefixing the URL with 'Link:'\n" . $herecurr);
++			if ($line =~ /^\s*([a-z][\w\.\+\-]*:\/\/\S+)/i) {
++				if (WARN("COMMIT_LOG_LONG_LINE",
++					 "Consider prefixing the URL with 'Link:'\n" . $herecurr) &&
++				    $fix) {
++					$fixed[$fixlinenr] = "Link: $1";
++				}
+ 			} else {
+ 				WARN("COMMIT_LOG_LONG_LINE",
+ 				     "Possible unwrapped commit description (prefer a maximum 75 chars per line)\n" . $herecurr);
 -- 
 2.17.1
 
