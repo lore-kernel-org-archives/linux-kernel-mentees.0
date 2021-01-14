@@ -2,106 +2,108 @@ Return-Path: <SRS0=ZZOl=GR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC1BC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 11:57:50 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE96C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 14:21:49 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F012D23A50
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 11:57:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F012D23A50
+	by mail.kernel.org (Postfix) with ESMTPS id 6D99B23A69
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 14:21:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6D99B23A69
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 831C88730B;
-	Thu, 14 Jan 2021 11:57:49 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 08AD686BD3;
+	Thu, 14 Jan 2021 14:21:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ynZwkdH0rlyR; Thu, 14 Jan 2021 11:57:49 +0000 (UTC)
+	with ESMTP id LlF3eplGpqKn; Thu, 14 Jan 2021 14:21:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id F3C37873B3;
-	Thu, 14 Jan 2021 11:57:48 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C8DC486BA2;
+	Thu, 14 Jan 2021 14:21:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E3458C088B;
-	Thu, 14 Jan 2021 11:57:48 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A890AC0893;
+	Thu, 14 Jan 2021 14:21:47 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2ADCBC013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D8304C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:57:48 +0000 (UTC)
+ Thu, 14 Jan 2021 14:21:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 180B020428
+ by silver.osuosl.org (Postfix) with ESMTP id BB6212048C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:57:48 +0000 (UTC)
+ Thu, 14 Jan 2021 14:21:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id L7YEg3PQNT0g
+ with ESMTP id Glppb2K-pebX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:57:47 +0000 (UTC)
+ Thu, 14 Jan 2021 14:21:45 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
- [209.85.215.177])
- by silver.osuosl.org (Postfix) with ESMTPS id 79905203DE
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by silver.osuosl.org (Postfix) with ESMTPS id 13F882042E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:57:47 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id i5so3648132pgo.1
+ Thu, 14 Jan 2021 14:21:45 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id c22so3852785pgg.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 03:57:47 -0800 (PST)
+ Thu, 14 Jan 2021 06:21:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tcZE8BRAv/NJVfB5M18fw0NCIqwov/ZYMzn1kuA4UBY=;
- b=VNTOAti0MWyEZzCYS4lan3mExDIRYFRkmh5EWl3SLsnfp06oVI7rScejhpigUxS4rI
- rEKsDsOuFriN066twd2Nrs9Wv0MYT+EKh3ybqUEf0V4BeGXFQEs3pw73HsvofJ1NlE9d
- PliYu9UA0vrPX38xaUJSR4NaLw7LpyaAuQDti1y32RdjsYRs3OMj5332r4KR5AHlQQjK
- 1ZMwJeYZh+ljp2Bj8IEfPo65J2lgig9iUBu3t2/gk8csxRKL874VJ72cTkr8xsGYeJ55
- NC20GMW6aKqZIfSphAn+yA1f7FRS18ONaowNIwaojOdJsIC1vDhFavWNAI2XOxqQXso7
- dcwg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jV1t/u5EPauRtoTZMBLFnOtjaG/RlRRgHMlhw/Bt+3c=;
+ b=kN/ac0sYHK4SprjHE3yv0x5065egnQCcKax/QpE21vqwPdPjNA16uolRHseQtGS6xW
+ 5CzylJG8pLZJqEqfqpXjv4r/uD2XswhJWN/uAup1QsyF++z/fAPpSoKXTytgTgB6vezS
+ Q/W6yxtU4RGB9TQHp3bKFURcAes+2A5vG9ufUJq+5RSuAVByfSrHb7nR5KlLR8Froq5c
+ Oi/oTrAmExmgDnjw0qX6BEuZxAx3qpSyGa/RZAStpxef4kN5txWmgjbfakvnPgUzTPpj
+ H2cDoW1VmmjBmdxSLoDRB6SZ5trK1TgX5lY8d86MO200bMZD2y2LU1f9x72oGn6+BigA
+ yckA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tcZE8BRAv/NJVfB5M18fw0NCIqwov/ZYMzn1kuA4UBY=;
- b=HazlOVy6J+1VtFsBGCeIU41EnH7whbnxJTGIFQWhks1MIzkdWpunwQWvqNqiBXXJ3O
- RguzwVPflTkubkcjH3ldUDtJohJJsC08wwaranja5CdlJL5fEYHNTYWD2IFSnC8r2UHp
- bPg91JviPtB4pNUKvWno3zogAmEvyg6dd5Pn2cCOnbXLva4WysBlnMINFXmsvBIGbmi0
- 1l2uUHm2qbEuA/+nYhA1sXuIicJOi0h0wfn5YS/5bHwlfkD/9T8jSQjOXy5v75+s3vgB
- O/TguHL++yFsfyr8bffaJd3Lw7ang75Rcjkfi4KtnxaFBy5U1t/DNKEtlCLY7dRdPHmP
- qEnA==
-X-Gm-Message-State: AOAM533CdvltpeHtiIsep3PtVChKjkwCZKx5l9aEXk9HgNzuOpAz4DBd
- nV+yxtjmBhFNqmwx9ogMPag=
-X-Google-Smtp-Source: ABdhPJzJ4Q6s3S1My5Bqh+pXNgNLR75+S7Aw69Tio7wJkf74lSkcGqaHNCSVvWzYz16ZoggW9EsBZA==
-X-Received: by 2002:a65:689a:: with SMTP id e26mr7191253pgt.413.1610625467131; 
- Thu, 14 Jan 2021 03:57:47 -0800 (PST)
-Received: from varodek.localdomain ([223.190.37.127])
- by smtp.gmail.com with ESMTPSA id t4sm5107914pfe.212.2021.01.14.03.57.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 03:57:46 -0800 (PST)
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Bjorn Helgaas <bjorn@helgaas.com>,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Jens Axboe <axboe@kernel.dk>,
- Joshua Morris <josh.h.morris@us.ibm.com>,
- Philip Kelleher <pjk1939@linux.ibm.com>,
- Damien Le Moal <Damien.LeMoal@wdc.com>
-Date: Thu, 14 Jan 2021 17:24:23 +0530
-Message-Id: <20210114115423.52414-4-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210114115423.52414-1-vaibhavgupta40@gmail.com>
-References: <20200722083335.50068-1-vaibhavgupta40@gmail.com>
- <20210114115423.52414-1-vaibhavgupta40@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jV1t/u5EPauRtoTZMBLFnOtjaG/RlRRgHMlhw/Bt+3c=;
+ b=dhxVgW69nJ1Ak2JxvyOLVigHm9krx25uCbX9BEpww0ejaEqWaHNUw2dntBlXeDJl+t
+ SjfRTnW5I2MXX/HkDHhmBdsbAamK8zvywofH2JcFTeutGYL/0Fblgqrd46E/OTQDAZQo
+ JzKhHoJg8uQ57LyQSpIExKwj1PrvjV7vg6ScYVUCoXKOxFQUhEyyt4njnVApGsFRbo2j
+ Ws5GJ0n3loza59r9G9Btnu65hIX/GzVopknHrcj5dP6ISGje8+Db8zmshpc5mR1GedzW
+ PmxgSLElsQ+oOfNrnQ5dtnf0UZv9t9TjEOnSvJFIJl03BIYeG82QtEoj/N+NczzuYwan
+ VEDw==
+X-Gm-Message-State: AOAM530TiVz3ii+sCZLH5B03RkJC/e8isPtCG4zoImxPj1CoQLZjtgWx
+ 702jjC8dl9QxxcB3nELV82w=
+X-Google-Smtp-Source: ABdhPJz6akHo4bMW5dHy3UIp9d+dM+RJ3GzsBPMeIOUeW0pQXbeTYWjTLO/Gv1aY8RPcIUETVW/SiQ==
+X-Received: by 2002:a63:ef14:: with SMTP id u20mr7845224pgh.93.1610634104425; 
+ Thu, 14 Jan 2021 06:21:44 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:b1fd:acc0:2bb9:df96?
+ ([2405:201:600d:a089:b1fd:acc0:2bb9:df96])
+ by smtp.gmail.com with ESMTPSA id w18sm5452454pfj.120.2021.01.14.06.21.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 06:21:44 -0800 (PST)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>
+References: <20210112115421.GB13086@zn.tnic>
+ <20210112194625.4181814-1-ndesaulniers@google.com>
+ <20210112210154.GI4646@sirena.org.uk>
+ <CAKXUXMwoY+__Xrg3uKtz3AzgDorVTKtgtQnisoSWO8Wh0tmDNQ@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <43a325aa-aa8a-7170-46ab-3353f1ac86a8@gmail.com>
+Date: Thu, 14 Jan 2021 19:51:38 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: Damien Le Moal <damien.lemoal@wdc.com>, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] [PATCH v4 3/3] skd: use generic power
-	management
+In-Reply-To: <CAKXUXMwoY+__Xrg3uKtz3AzgDorVTKtgtQnisoSWO8Wh0tmDNQ@mail.gmail.com>
+Content-Language: en-US
+Cc: Joe Perches <joe@perches.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] Fwd: [PATCH v4] x86/entry: emit a symbol
+ for register restoring thunk
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,118 +121,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Drivers using legacy power management .suspen()/.resume() callbacks
-have to manage PCI states and device's PM states themselves. They also
-need to take care of standard configuration registers.
+On 14/1/21 5:19 pm, Lukas Bulwahn wrote:
+> Dwaipayan and Aditya, here is another candidate for a checkpatch rule.
+> 
+> Lukas
+> 
+> ---------- Forwarded message ---------
+> From: Mark Brown <broonie@kernel.org>
+> Date: Tue, Jan 12, 2021 at 10:02 PM
+> Subject: Re: [PATCH v4] x86/entry: emit a symbol for register restoring thunk
+> To: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner
+> <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+> <bp@alien8.de>, Fangrui Song <maskray@google.com>, Arnd Bergmann
+> <arnd@arndb.de>, Josh Poimboeuf <jpoimboe@redhat.com>, Jonathan Corbet
+> <corbet@lwn.net>, <x86@kernel.org>, H. Peter Anvin <hpa@zytor.com>,
+> Nathan Chancellor <natechancellor@gmail.com>, Miguel Ojeda
+> <ojeda@kernel.org>, Jiri Slaby <jirislaby@kernel.org>, Joe Perches
+> <joe@perches.com>, <linux-doc@vger.kernel.org>,
+> <linux-kernel@vger.kernel.org>, <clang-built-linux@googlegroups.com>
+> 
+> 
+> On Tue, Jan 12, 2021 at 11:46:24AM -0800, Nick Desaulniers wrote:
+> 
+> This:
+> 
+>> when building with LLVM_IAS=1 (Clang's integrated assembler). Josh
+>> notes:
+> 
+>>   So basically, you can use an .L symbol *inside* a function or a code
+>>   segment, you just can't use the .L symbol to contain the code using a
+>>   SYM_*_START/END annotation pair.
+> 
+> is a stronger statement than this:
+> 
+>> +  Developers should avoid using local symbol names that are prefixed with
+>> +  ``.L``, as this has special meaning for the assembler; a symbol entry will
+>> +  not be emitted into the symbol table. This can prevent ``objtool`` from
+>> +  generating correct unwind info. Symbols with STB_LOCAL binding may still be
+>> +  used, and ``.L`` prefixed local symbol names are still generally useable
+>> +  within a function, but ``.L`` prefixed local symbol names should not be used
+>> +  to denote the beginning or end of code regions via
+>> +  ``SYM_CODE_START_LOCAL``/``SYM_CODE_END``.
+> 
+> and seems more what I'd expect - SYM_FUNC* is also affected for example.
+> Even though other usages are probably not very likely it seems better to
+> keep the stronger statement in case someone comes up with one, and to
+> stop anyone spending time wondering why only SYM_CODE_START_LOCAL is
+> affected.
+> 
+> This also looks like a good candiate for a checkpatch rule, but that can
+> be done separately of course.
+> 
 
-Switch to generic power management framework using a single
-"struct dev_pm_ops" variable to take the unnecessary load from the driver.
-This also avoids the need for the driver to directly call most of the PCI
-helper functions and device power state control functions, as through
-the generic framework PCI Core takes care of the necessary operations,
-and drivers are required to do only device-specific jobs.
+Thanks Lukas!
+I'd like to take a shot at it. This is what I have understood from the
+discussion:
+Introduce a new warning rule for .S files, where ".L" prefixes are
+used in the code, if it is occurring between any kind of START/END pair.
+This is what I am planning to do:
+- Check if the file is ".S" file.
+- If the line contains ".L" prefixed symbol, give user a
+warning/check, so that they can ensure that the line is not inside
+START/END block. (As we may not be able to make sure about the same,
+if the START/END line is not in the patch; otherwise we could run a
+while loop)
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Tested-by: Damien Le Moal <damien.lemoal@wdc.com>
----
- drivers/block/skd_main.c | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+What do you think?
 
-diff --git a/drivers/block/skd_main.c b/drivers/block/skd_main.c
-index a962b4551bed..8194b58525e2 100644
---- a/drivers/block/skd_main.c
-+++ b/drivers/block/skd_main.c
-@@ -3317,10 +3317,11 @@ static void skd_pci_remove(struct pci_dev *pdev)
- 	return;
- }
- 
--static int skd_pci_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused skd_pci_suspend(struct device *dev)
- {
- 	int i;
- 	struct skd_device *skdev;
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 
- 	skdev = pci_get_drvdata(pdev);
- 	if (!skdev) {
-@@ -3339,18 +3340,15 @@ static int skd_pci_suspend(struct pci_dev *pdev, pm_message_t state)
- 	if (skdev->pcie_error_reporting_is_enabled)
- 		pci_disable_pcie_error_reporting(pdev);
- 
--	pci_release_regions(pdev);
--	pci_save_state(pdev);
--	pci_disable_device(pdev);
--	pci_set_power_state(pdev, pci_choose_state(pdev, state));
- 	return 0;
- }
- 
--static int skd_pci_resume(struct pci_dev *pdev)
-+static int __maybe_unused skd_pci_resume(struct device *dev)
- {
- 	int i;
- 	int rc = 0;
- 	struct skd_device *skdev;
-+	struct pci_dev *pdev = to_pci_dev(dev);
- 
- 	skdev = pci_get_drvdata(pdev);
- 	if (!skdev) {
-@@ -3358,16 +3356,8 @@ static int skd_pci_resume(struct pci_dev *pdev)
- 		return -1;
- 	}
- 
--	pci_set_power_state(pdev, PCI_D0);
--	pci_enable_wake(pdev, PCI_D0, 0);
--	pci_restore_state(pdev);
-+	device_wakeup_disable(dev);
- 
--	rc = pci_enable_device(pdev);
--	if (rc)
--		return rc;
--	rc = pci_request_regions(pdev, DRV_NAME);
--	if (rc)
--		goto err_out;
- 	rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
- 	if (rc)
- 		rc = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-@@ -3376,7 +3366,6 @@ static int skd_pci_resume(struct pci_dev *pdev)
- 		goto err_out_regions;
- 	}
- 
--	pci_set_master(pdev);
- 	rc = pci_enable_pcie_error_reporting(pdev);
- 	if (rc) {
- 		dev_err(&pdev->dev,
-@@ -3429,10 +3418,6 @@ static int skd_pci_resume(struct pci_dev *pdev)
- 		pci_disable_pcie_error_reporting(pdev);
- 
- err_out_regions:
--	pci_release_regions(pdev);
--
--err_out:
--	pci_disable_device(pdev);
- 	return rc;
- }
- 
-@@ -3452,13 +3437,14 @@ static void skd_pci_shutdown(struct pci_dev *pdev)
- 	skd_stop_device(skdev);
- }
- 
-+static SIMPLE_DEV_PM_OPS(skd_pci_pm_ops, skd_pci_suspend, skd_pci_resume);
-+
- static struct pci_driver skd_driver = {
- 	.name		= DRV_NAME,
- 	.id_table	= skd_pci_tbl,
- 	.probe		= skd_pci_probe,
- 	.remove		= skd_pci_remove,
--	.suspend	= skd_pci_suspend,
--	.resume		= skd_pci_resume,
-+	.driver.pm	= &skd_pci_pm_ops,
- 	.shutdown	= skd_pci_shutdown,
- };
- 
--- 
-2.30.0
-
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
