@@ -2,97 +2,105 @@ Return-Path: <SRS0=ZZOl=GR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D035C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 11:49:28 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 259B4C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 11:57:33 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 051DB23741
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 11:49:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 051DB23741
+	by mail.kernel.org (Postfix) with ESMTPS id 7EF4B2310E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 14 Jan 2021 11:57:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7EF4B2310E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 91C948685C;
-	Thu, 14 Jan 2021 11:49:27 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 0A4AD868E8;
+	Thu, 14 Jan 2021 11:57:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NUxqwxNNjr9l; Thu, 14 Jan 2021 11:49:26 +0000 (UTC)
+	with ESMTP id eyArefaT_oMw; Thu, 14 Jan 2021 11:57:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 79031866DA;
-	Thu, 14 Jan 2021 11:49:26 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id A2E4E864F4;
+	Thu, 14 Jan 2021 11:57:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 641A1C088B;
-	Thu, 14 Jan 2021 11:49:26 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9573BC088B;
+	Thu, 14 Jan 2021 11:57:31 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EF8AAC013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 999C9C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:49:24 +0000 (UTC)
+ Thu, 14 Jan 2021 11:57:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id D6408868EF
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 8741D86880
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:49:24 +0000 (UTC)
+ Thu, 14 Jan 2021 11:57:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rEuDDN_axmes
+ with ESMTP id QMUx-nN3r1KW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:49:23 +0000 (UTC)
+ Thu, 14 Jan 2021 11:57:30 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
- [209.85.166.43])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C27E0868E8
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 2066B864F4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 11:49:23 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id q2so8857145iow.13
+ Thu, 14 Jan 2021 11:57:30 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id x18so2787054pln.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 14 Jan 2021 03:49:23 -0800 (PST)
+ Thu, 14 Jan 2021 03:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4RgehOiYuLwTJG4mx4zEuvbGGm2iliS/pscxK+Ohf1c=;
- b=nmoccuIjk1QE+JBydiUdujUtfB4NcOz2O/czE29ZNc1ECsw0NFR5Byph4wEBpd6W4H
- 59+IzLzTxDS4/k+l9OS52zP1xL7/8yWJAXrK8x5tXSJ1Pjqqc5mhpK/HJs8aWzAYg9/Z
- 6ApEFmp/1ABH6THpb9QU5ShwEtzTBr/QBXloUIXx77jSPoQ0QdCaEBbM9/SiT72GJvYx
- B489d/iR5bmANQNv8qehwUc/fi3Ag0JPJZlX3o69BXhHAL+YaUaUR9V6ThVW00rjqP6O
- Cd7r8Vd0chW7NFZkuYoIvtXmDmm5dRKhFBas5mJKBR8EkmaWVkWy1i0RK3d8qGLxAzcV
- +8Sg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jHUPfjQqKMD93C2nYw1vw4UVeUNBSie9Mh/QCa5nMGg=;
+ b=aRuAkVjlBZpQRiP365Rzhp0V18psq+LDAa+b9USHkEOaGZFonZdF3JeTsAfwY/2zjx
+ YoHWBwHQ5hvYnXQObLhblU3beZnBG+dRZqGninvvzztV4ib48lmtaLbXANr/RUOuOvl9
+ IRGxFlMIkHXZFRzcxzwHA9NDMvMTziNv+K1ICAPQZxrpZKFbKanCzchId8stODFt6TIJ
+ 1+BDsqJwhDCigyrt2g+QBUXhA27/m8g+VFfrEwYvTRO3SS/rIhwiNelL6gLfpE2iuShC
+ v2QvtsUjzK46AQwqJ5uhYf8z10Bct8KhvYEX7t0GsYg1qefC9QxPRaXIIgSKsfzE3wn4
+ G97A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4RgehOiYuLwTJG4mx4zEuvbGGm2iliS/pscxK+Ohf1c=;
- b=Wa56N7BTm+XXkphcI/ks9bbBDfjAUMdfBMRJtlGDRqAYhoF2zff0UtTA5JS+Zx1ZC8
- 5DZrRXtnNtm+qJ7fV0yXtPtqaTYBhRc/Rq6Xa6CpJkpZXrS1B9IDQ1Mjpce8XoN5EJOX
- vLZmqGIeLB84nuvijVs1EtPIDhjyhiwmM+vO6WvH1r/vmsJA5lTq8X7EEMYiWhB11qbE
- RzX5KMF3EYHm+QTfSIGNImOdyliJgEuANbgJu1Pj1IS2SMqWxspj8HffointSZTwiwDT
- XlVvDC9aEQo62RC7OADb92Mq10uDQ5yj3WigaU5X3nwK7onAsg7GxJg9ymCd7wgOYnfe
- cP/w==
-X-Gm-Message-State: AOAM531a2wmQq/g46UXmKL7BTylmqiOQw1Jh6nqlAebQUHNP8GKZitLK
- USuarDgSfCxqWvVet0ChUXPqQTARPjDy35U5a1I=
-X-Google-Smtp-Source: ABdhPJz9K1iiR0Fhwtasx2BLebuPTy24A4jJxisxQ9VGDqlW6xD9PwM2d72QpLEUHqzCKDCO6/AD5ZinLIcmzsVeLeY=
-X-Received: by 2002:a6b:8b84:: with SMTP id n126mr4020253iod.189.1610624963095; 
- Thu, 14 Jan 2021 03:49:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jHUPfjQqKMD93C2nYw1vw4UVeUNBSie9Mh/QCa5nMGg=;
+ b=p9h9ZUX4lg1pwyvZoX3HFHbbEC6Am8gfBR+RGBZX+O14uvd7ikADLFxlJN4ezCau/e
+ eojmYSoY0sPd8BuaZ72gSwhUGmZz6+w6kbcCu/QHp/9z0bBgSye/cjFH8LcG9ieF2MMa
+ OBh0AkcU0u3JA9sE7iqGZbtiZXqq301Esddm2i4ojxdVjs7SlG2jBbGHOPie0ITjKXt8
+ vQI9mHHEkQuJeAEPcLmoMOY9f6SPYb+nmn6dj4dRrYXp1CiPw1a6L45ZBtiTrOv3QBAx
+ rSF9ZOGFmOkVvGbwnJb5nPY0LC0gsbG0JLWeTbE+0aUAU6SYroPNrnVME6DOSa5u+yew
+ Xl4Q==
+X-Gm-Message-State: AOAM532hyKiIcnV37av9pHw2SQNIvrVtgxmqW/YtWI5whg7xVALqdUoR
+ vjsCLmz/vr0a8jz6Et/QY9M=
+X-Google-Smtp-Source: ABdhPJzeYztrpCXiHywG2ZTAttYRrRp9yNdrdbCC8YIHCmBUWqTvbB9Osshx3R9FbSxrct7Tsmvesw==
+X-Received: by 2002:a17:90a:4107:: with SMTP id
+ u7mr4618078pjf.163.1610625449668; 
+ Thu, 14 Jan 2021 03:57:29 -0800 (PST)
+Received: from varodek.localdomain ([223.190.37.127])
+ by smtp.gmail.com with ESMTPSA id t4sm5107914pfe.212.2021.01.14.03.57.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 03:57:29 -0800 (PST)
+From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Bjorn Helgaas <bjorn@helgaas.com>,
+ Vaibhav Gupta <vaibhav.varodek@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+ Joshua Morris <josh.h.morris@us.ibm.com>,
+ Philip Kelleher <pjk1939@linux.ibm.com>,
+ Damien Le Moal <Damien.LeMoal@wdc.com>
+Date: Thu, 14 Jan 2021 17:24:20 +0530
+Message-Id: <20210114115423.52414-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20200722083335.50068-1-vaibhavgupta40@gmail.com>
+References: <20200722083335.50068-1-vaibhavgupta40@gmail.com>
 MIME-Version: 1.0
-References: <20210112115421.GB13086@zn.tnic>
- <20210112194625.4181814-1-ndesaulniers@google.com>
- <20210112210154.GI4646@sirena.org.uk>
-In-Reply-To: <20210112210154.GI4646@sirena.org.uk>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Thu, 14 Jan 2021 12:49:20 +0100
-Message-ID: <CAKXUXMwoY+__Xrg3uKtz3AzgDorVTKtgtQnisoSWO8Wh0tmDNQ@mail.gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Aditya Srivastava <yashsri421@gmail.com>
-Content-Type: multipart/mixed; boundary="000000000000cac82a05b8dad8b3"
-Cc: Joe Perches <joe@perches.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] Fwd: [PATCH v4] x86/entry: emit a symbol for
-	register restoring thunk
+Cc: linux-block@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH v4 0/3] block: use generic power
+	management
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,97 +112,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---000000000000cac82a05b8dad8b3
-Content-Type: text/plain; charset="UTF-8"
+Linux Kernel Mentee: Remove Legacy Power Management.
 
-Dwaipayan and Aditya, here is another candidate for a checkpatch rule.
+The purpose of this patch series is to upgrade power management in block
+drivers. This has been done by upgrading .suspend() and .resume() callbacks.
 
-Lukas
+The upgrade makes sure that the involvement of PCI Core does not change the
+order of operations executed in a driver. Thus, does not change its behavior.
 
----------- Forwarded message ---------
-From: Mark Brown <broonie@kernel.org>
-Date: Tue, Jan 12, 2021 at 10:02 PM
-Subject: Re: [PATCH v4] x86/entry: emit a symbol for register restoring thunk
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Andy Lutomirski <luto@kernel.org>, Thomas Gleixner
-<tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-<bp@alien8.de>, Fangrui Song <maskray@google.com>, Arnd Bergmann
-<arnd@arndb.de>, Josh Poimboeuf <jpoimboe@redhat.com>, Jonathan Corbet
-<corbet@lwn.net>, <x86@kernel.org>, H. Peter Anvin <hpa@zytor.com>,
-Nathan Chancellor <natechancellor@gmail.com>, Miguel Ojeda
-<ojeda@kernel.org>, Jiri Slaby <jirislaby@kernel.org>, Joe Perches
-<joe@perches.com>, <linux-doc@vger.kernel.org>,
-<linux-kernel@vger.kernel.org>, <clang-built-linux@googlegroups.com>
+In general, drivers with legacy PM, .suspend() and .resume() make use of PCI
+helper functions like pci_enable/disable_device_mem(), pci_set_power_state(),
+pci_save/restore_state(), pci_enable/disable_device(), etc. to complete
+their job.
 
+The conversion requires the removal of those function calls, change the
+callbacks' definition accordingly and make use of dev_pm_ops structure.
 
-On Tue, Jan 12, 2021 at 11:46:24AM -0800, Nick Desaulniers wrote:
+All patches are compile-tested only.
 
-This:
+Test tools:
+    - Compiler: gcc (GCC) 10.2.0
+    - allmodconfig build: make -j$(nproc) W=1 all
 
-> when building with LLVM_IAS=1 (Clang's integrated assembler). Josh
-> notes:
+v4: patch-set rebased.
 
->   So basically, you can use an .L symbol *inside* a function or a code
->   segment, you just can't use the .L symbol to contain the code using a
->   SYM_*_START/END annotation pair.
+Vaibhav Gupta (3):
+  mtip32xx: use generic power management
+  rsxx: use generic power management
+  skd: use generic power management
 
-is a stronger statement than this:
+ drivers/block/mtip32xx/mtip32xx.c | 54 +++++++------------------------
+ drivers/block/rsxx/core.c         |  9 ++++--
+ drivers/block/skd_main.c          | 30 +++++------------
+ 3 files changed, 27 insertions(+), 66 deletions(-)
 
-> +  Developers should avoid using local symbol names that are prefixed with
-> +  ``.L``, as this has special meaning for the assembler; a symbol entry will
-> +  not be emitted into the symbol table. This can prevent ``objtool`` from
-> +  generating correct unwind info. Symbols with STB_LOCAL binding may still be
-> +  used, and ``.L`` prefixed local symbol names are still generally useable
-> +  within a function, but ``.L`` prefixed local symbol names should not be used
-> +  to denote the beginning or end of code regions via
-> +  ``SYM_CODE_START_LOCAL``/``SYM_CODE_END``.
-
-and seems more what I'd expect - SYM_FUNC* is also affected for example.
-Even though other usages are probably not very likely it seems better to
-keep the stronger statement in case someone comes up with one, and to
-stop anyone spending time wondering why only SYM_CODE_START_LOCAL is
-affected.
-
-This also looks like a good candiate for a checkpatch rule, but that can
-be done separately of course.
-
---
-You received this message because you are subscribed to the Google
-Groups "Clang Built Linux" group.
-To unsubscribe from this group and stop receiving emails from it, send
-an email to clang-built-linux+unsubscribe@googlegroups.com.
-To view this discussion on the web visit
-https://groups.google.com/d/msgid/clang-built-linux/20210112210154.GI4646%40sirena.org.uk.
-
---000000000000cac82a05b8dad8b3
-Content-Type: text/plain; charset="US-ASCII"; name="signature.asc"
-Content-Disposition: attachment; filename="signature.asc"
-Content-Transfer-Encoding: base64
-Content-ID: <17700b9a59561a8e03b1>
-X-Attachment-Id: 17700b9a59561a8e03b1
-
-LS0tLS1CRUdJTiBQR1AgU0lHTkFUVVJFLS0tLS0NCg0KaVFFekJBQUJDZ0FkRmlFRXJlWm9xbWRY
-R0xXZjRwL3FKTmFMY2wxVWg5QUZBbC8rRGtFQUNna1FKTmFMY2wxVQ0KaDlDcTd3Zi9UMjVGWGlR
-UVoxdnFRdXZ1U3M5eTdVaWRJVGpObjAwb3IyQW4vOUFadmpkN2ZOU0lHaXRFNkpaRg0KdWxMYTNE
-bm02RG5KOElIeENvbS9mOUhBMEJocWR1b3R0dW4wMGdQcFJFNHlZbmM2STZyczQrakQzRDN5YU0r
-ZQ0KUDQ4S1l5MnphTkY2WGd1ZDN3ZE1kQldyTzZ3SGJway9GdHJHdTlteXhLWGJQb2FXWENjLzJK
-TytsUUdIeTJMZA0Kc3RSb1BMenVOSEdzcWlpUXlRVkZVQ0pjdmE2eTJxNVVUWXFXRzIxbG9GaXJR
-MGtoRUkxYUh3VnVpZmVkZHBqRQ0KSmFtaFJxUWhtbFREOHFScm5mOGM0aVZqNm9leFFzS3pqT0tr
-YUtYMnFweVloSzhieGRndkc4cjBrd0pmbnVaTQ0KTE9iZW90TXN5blI4Nk1GMksvZlZGVHc3cjRm
-WE13PT0NCj1IOWRTDQotLS0tLUVORCBQR1AgU0lHTkFUVVJFLS0tLS0NCg==
---000000000000cac82a05b8dad8b3
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+-- 
+2.30.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---000000000000cac82a05b8dad8b3--
