@@ -2,102 +2,92 @@ Return-Path: <SRS0=IZhi=GT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92AFAC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 16 Jan 2021 13:18:30 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62C5AC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 16 Jan 2021 13:38:23 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1164E235DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 16 Jan 2021 13:18:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1164E235DD
+	by mail.kernel.org (Postfix) with ESMTPS id E649222CAD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 16 Jan 2021 13:38:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E649222CAD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id AE56B2035D;
-	Sat, 16 Jan 2021 13:18:29 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 85E2285B99;
+	Sat, 16 Jan 2021 13:38:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GjN5LB6z6-pK; Sat, 16 Jan 2021 13:18:28 +0000 (UTC)
+	with ESMTP id Dkt3zanSbcWW; Sat, 16 Jan 2021 13:38:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 807162033F;
-	Sat, 16 Jan 2021 13:18:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id E3B0885D40;
+	Sat, 16 Jan 2021 13:38:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 687AAC0893;
-	Sat, 16 Jan 2021 13:18:28 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7ADE1C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC50EC0893;
+	Sat, 16 Jan 2021 13:38:21 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6DDEC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Jan 2021 13:18:27 +0000 (UTC)
+ Sat, 16 Jan 2021 13:38:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 669C88721E
+ by whitealder.osuosl.org (Postfix) with ESMTP id DD47F869D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Jan 2021 13:18:27 +0000 (UTC)
+ Sat, 16 Jan 2021 13:38:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WCnmoqu56h8f
+ with ESMTP id zzcqr5JC-sSy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Jan 2021 13:18:26 +0000 (UTC)
+ Sat, 16 Jan 2021 13:38:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
- [209.85.216.42])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4880E87202
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id BEF7386799
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Jan 2021 13:18:26 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id v1so6631309pjr.2
+ Sat, 16 Jan 2021 13:38:19 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id m10so13401278lji.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 16 Jan 2021 05:18:26 -0800 (PST)
+ Sat, 16 Jan 2021 05:38:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Lntjq/i7EY3mqqi6Yvv6grSMPn7nsWgy0z51+Pdnc5s=;
- b=MO6UVZSZGw/+9uEN0On5xnTAIhecm//P0+lcUbCJ3rVS2D3YI4JUWEKzK+6AH6gT8l
- jr3KdyWWgHvIBUjzidsi8sNG4XHFNu+yac9xD22vOOAOx4e87yibF6IJZh1+jCbKHjC/
- 7CCG2Lm4uBMo0QVH7YkEQupy7ElhQTiisNUaHgpsqEv1RGsgcCt35hMcPB/em6GXXyrG
- brDp012Ol9DPRHQHb37PWOb3mvZo5hK3s5DK1HVAy3xMLwcLKIkYnAX0awrbMLdB4AMh
- GoU3o1E3Y0/5261GnrfOXyptQfo891zQFxDMBC2Q3c4Qtq3n5AZyCea9N9D/V3s6Pj15
- cPKg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ugue5OOcqOi+S0gjP4rvxHy9Talpfrhx/5fb6DuLfKY=;
+ b=cv7ukjHzYY1mXWeofuRa2PvbZxYWwWE1dGaPG2O5uWTwfRguuNB1jRUyNt4a9a506i
+ GW9RobKqAT9A39tMjbf1X1TzJbbo4Flr1jHd+qSZPLn5HgCX4VNJ7xm7Hw9Qr+codK1T
+ HwF4pVLQaqHZ3zQ3D0zHlHNKHptbeYPqg3YiFuUmggyrYXGfuLGwD9OkOcATQFe3ZLp6
+ IDRvqR2ASCa0XXiRM+u9/HCRIvDxN76fVUZaCjEa04dZ7q05fabCrPGi+AhbYzEGwHZj
+ Tq2/NqtUqLOLZwJOTtI7OsbkTS3GSd7/+4BOUpw/OXFjJaoN4xOXcPhy5pXZU14iROp9
+ OiXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Lntjq/i7EY3mqqi6Yvv6grSMPn7nsWgy0z51+Pdnc5s=;
- b=fOejF2Usxs8ZXGgr5xmNcxxjJoIsF0xilP8lPOt+1GyelUWdIo44GK3ze2KJLvglw7
- YNC5f5ht8hfzhcVJPNdCc7K36BwmHDLNflBlDvRSN4ina4K0F4r4NGwjOsLgaPZbO7NB
- MzJnVUQDYgzgCyk2HF8fBBYz0hQKpex+z5BfuyhX09GqXJlGD0wqEx3x1HuNPdiwnU3N
- ZnbTjEIW3Ezu9W7CWakBLR0+GmB9Yx8TIM+8LSiQeJyZHMOui9TbnQTNlt6giGDMYoKp
- MUUs1pQ8B/I9Yf8cfD3WQixW5boxyZl0Cawtt1pVzjLRNNztTZBIetGBJxpf2S7bzEZn
- gz8A==
-X-Gm-Message-State: AOAM532DFyV5aQjrYr+bt9luHF7I8qSJz8lWnEoMF7YVSalVfAyPUSMt
- ahSkkqqi/6pxYplilF4tPv8OE+DmNRQiuA==
-X-Google-Smtp-Source: ABdhPJwg680CrhoW9W9cFwgxGKfuiJmrEi53oX/1VN05WR99TxgMwjbT0T9HndFo8TZHa7nZ2ypBrg==
-X-Received: by 2002:a17:90a:430b:: with SMTP id
- q11mr16085192pjg.51.1610803105466; 
- Sat, 16 Jan 2021 05:18:25 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:d5f1:b937:d897:55ba?
- ([2405:201:600d:a089:d5f1:b937:d897:55ba])
- by smtp.gmail.com with ESMTPSA id o32sm12458068pgm.10.2021.01.16.05.18.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 Jan 2021 05:18:24 -0800 (PST)
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ugue5OOcqOi+S0gjP4rvxHy9Talpfrhx/5fb6DuLfKY=;
+ b=ic4sjIkin2hu5O8AUjdJLmgXA4sgOO8n1r/be7GRi58W2eqnDyV5VSeGrW68Abn9Dn
+ fJY7Zm+HiyXMIkRhHebw9zU79rpLgqEVnJMzoMpKm7p4f7Dx/GubjulOHJ+rBFd0aQX2
+ EICKY0RtWVv3QybZRKkmQQA833AJpxMXMKq2PGqxgb20fLu/FbpMzASrjQ/skzUvwdFK
+ 2zXN4ovwghRxWCD5Zy0i8dytEV/1Wv0kDHwPT593daN/fFVG9Z4R1PzW2IEosoYhFee3
+ /Rg1fJ7KspFONODXyP46Xrm5/Bdrv35CzI49aF9rDB0BFUaVAf2k1DaH3meeiK4FwVn/
+ OaxA==
+X-Gm-Message-State: AOAM533jbVh7ytj5DpVPAUbqh6vhyU4HYxh/0LkXej0IvRhNCxBuPSZ7
+ EFqjJGK/mJFhvE2KsUmiljwE/D/Je2C1PXsgW8A=
+X-Google-Smtp-Source: ABdhPJxqb7LfvOJW9KhuJYiXbffO/JS7IHc5D3JqSLstMhSzH7YJhGWmlyF5AimI82EymsscpejkR1FfBDK2VCNwXY0=
+X-Received: by 2002:a2e:164e:: with SMTP id 14mr7143971ljw.482.1610804297645; 
+ Sat, 16 Jan 2021 05:38:17 -0800 (PST)
+MIME-Version: 1.0
 References: <20210116122220.27261-1-yashsri421@gmail.com>
  <CABJPP5CxhBreFsM_YZvr3V4_jOdrRVkUX22E2bEwnL+Wf=nYJQ@mail.gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <86deb3fe-0b48-da0c-5f95-448fe9d97c19@gmail.com>
-Date: Sat, 16 Jan 2021 18:48:20 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CABJPP5CxhBreFsM_YZvr3V4_jOdrRVkUX22E2bEwnL+Wf=nYJQ@mail.gmail.com>
-Content-Language: en-US
+ <86deb3fe-0b48-da0c-5f95-448fe9d97c19@gmail.com>
+In-Reply-To: <86deb3fe-0b48-da0c-5f95-448fe9d97c19@gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Sat, 16 Jan 2021 19:08:08 +0530
+Message-ID: <CABJPP5D3NNUbEPrdAT0LkHzKcigc1N3TJ+q+pL6YnCCvxFKgNg@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add warning for
  avoiding .L prefix symbols in assembly files
@@ -118,70 +108,96 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 16/1/21 6:13 pm, Dwaipayan Ray wrote:
-> On Sat, Jan 16, 2021 at 5:52 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
->>
->> Local symbols prefixed with '.L' do not emit symbol table entries, as
->> they have special meaning for the assembler.
->>
->> '.L' prefixed symbols can be used within a code region, but should be
->> avoided for denoting a range of code via 'SYM_*_START/END' annotations.
->>
->> Add a new check to emit warning on finding the usage of '.L' symbols
->> in '.S' files.
->>
->> Suggested-by: Mark Brown <broonie@kernel.org>
->> Link: https://lore.kernel.org/lkml/20210112210154.GI4646@sirena.org.uk/
->> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->> ---
->>  scripts/checkpatch.pl | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
->> index 7030c4d6d126..87d96a039e64 100755
->> --- a/scripts/checkpatch.pl
->> +++ b/scripts/checkpatch.pl
->> @@ -3590,6 +3590,12 @@ sub process {
->>                         }
->>                 }
->>
->> +# check for .L prefix local symbols in .S files
->> +               if ($realfile =~ /\.S$/ && $line =~ /\.L\S+/) {
->> +                       WARN("AVOID_L_PREFIX",
->> +                            "Avoid using '.L' prefixed local symbol names for denoting a range of code via 'SYM_*_START/END' annotations; see Documentation/asm-annotations.rst\n" . $herecurr);
->> +               }
->> +
->>  # check we are in a valid source file C or perl if not then ignore this hunk
->>                 next if ($realfile !~ /\.(h|c|pl|dtsi|dts)$/);
->>
->> --
->> 2.17.1
-> 
-> From an earlier conversation:
->>   So basically, you can use an .L symbol *inside* a function or a code
->>   segment, you just can't use the .L symbol to contain the code using a
->>   SYM_*_START/END annotation pair.
-> 
-> So this check warns on all uses of the .L prefix
-> I think that might be incorrect.
-> 
+On Sat, Jan 16, 2021 at 6:48 PM Aditya <yashsri421@gmail.com> wrote:
+>
+> On 16/1/21 6:13 pm, Dwaipayan Ray wrote:
+> > On Sat, Jan 16, 2021 at 5:52 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+> >>
+> >> Local symbols prefixed with '.L' do not emit symbol table entries, as
+> >> they have special meaning for the assembler.
+> >>
+> >> '.L' prefixed symbols can be used within a code region, but should be
+> >> avoided for denoting a range of code via 'SYM_*_START/END' annotations.
+> >>
+> >> Add a new check to emit warning on finding the usage of '.L' symbols
+> >> in '.S' files.
+> >>
+> >> Suggested-by: Mark Brown <broonie@kernel.org>
+> >> Link: https://lore.kernel.org/lkml/20210112210154.GI4646@sirena.org.uk/
+> >> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> >> ---
+> >>  scripts/checkpatch.pl | 6 ++++++
+> >>  1 file changed, 6 insertions(+)
+> >>
+> >> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> >> index 7030c4d6d126..87d96a039e64 100755
+> >> --- a/scripts/checkpatch.pl
+> >> +++ b/scripts/checkpatch.pl
+> >> @@ -3590,6 +3590,12 @@ sub process {
+> >>                         }
+> >>                 }
+> >>
+> >> +# check for .L prefix local symbols in .S files
+> >> +               if ($realfile =~ /\.S$/ && $line =~ /\.L\S+/) {
+> >> +                       WARN("AVOID_L_PREFIX",
+> >> +                            "Avoid using '.L' prefixed local symbol names for denoting a range of code via 'SYM_*_START/END' annotations; see Documentation/asm-annotations.rst\n" . $herecurr);
+> >> +               }
+> >> +
+> >>  # check we are in a valid source file C or perl if not then ignore this hunk
+> >>                 next if ($realfile !~ /\.(h|c|pl|dtsi|dts)$/);
+> >>
+> >> --
+> >> 2.17.1
+> >
+> > From an earlier conversation:
+> >>   So basically, you can use an .L symbol *inside* a function or a code
+> >>   segment, you just can't use the .L symbol to contain the code using a
+> >>   SYM_*_START/END annotation pair.
+> >
+> > So this check warns on all uses of the .L prefix
+> > I think that might be incorrect.
+> >
+>
+> Hey Dwaipayan,
+> I think you missed this:
+>
+> > - If the line contains ".L" prefixed symbol, give user a
+> > warning/check, so that they can ensure that the line is not inside
+> > START/END block. (As we may not be able to make sure about the same,
+> > if the START/END line is not in the patch; otherwise we could run a
+> > while loop)
+>
 
-Hey Dwaipayan,
-I think you missed this:
+Then again what percentage of users actually intended to use
+it in a local scope? That is actually a correct usage and checkpatch will
+keep complaining - there will be no way to remove the warning.
 
-> - If the line contains ".L" prefixed symbol, give user a
-> warning/check, so that they can ensure that the line is not inside
-> START/END block. (As we may not be able to make sure about the same,
-> if the START/END line is not in the patch; otherwise we could run a
-> while loop)
+> At best, I think, we could use $context_function, which should work
+> for patches, but again, this will not work for files.
+>
+> Do you have any suggestions?
+>
 
-At best, I think, we could use $context_function, which should work
-for patches, but again, this will not work for files.
+Does $context_function work for .S files? Am not sure.
+But again that will not help much.
 
-Do you have any suggestions?
+The main concern is not to allow .L prefix within a
+SYM_*_START...SYM_*_END annotation pair.
 
-Thanks
-Aditya
+That means something like this will be disallowed:
+
+SYM_FUNC_START(memset)
+    .L ... etc
+SYM_FUNC_END(memset)
+
+One possible way can be to extract the context after getting
+a SYM_*_START. Following which the lines could be checked
+for a .L preifx.
+
+But complexity wise I dont know if it would be worth it.
+
+Thanks & Regards,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
