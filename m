@@ -6,87 +6,84 @@ X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9F4BC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Jan 2021 19:05:28 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BACC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Jan 2021 23:00:04 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 39859233F6
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Jan 2021 19:05:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 39859233F6
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 54F7E23441
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Jan 2021 23:00:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 54F7E23441
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=redhat.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 991DC85C04;
-	Wed, 20 Jan 2021 19:05:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id B00602036E;
+	Wed, 20 Jan 2021 23:00:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kri2jprsz7ry; Wed, 20 Jan 2021 19:05:26 +0000 (UTC)
+	with ESMTP id CDkgxZ72KKbP; Wed, 20 Jan 2021 23:00:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id CEAAE855D3;
-	Wed, 20 Jan 2021 19:05:26 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id A04AE20352;
+	Wed, 20 Jan 2021 23:00:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AC190C088B;
-	Wed, 20 Jan 2021 19:05:26 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 81AFCC013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EDE4C08A1;
+	Wed, 20 Jan 2021 23:00:01 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6CFE4C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Jan 2021 19:05:24 +0000 (UTC)
+ Wed, 20 Jan 2021 23:00:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 274018712F
+ by silver.osuosl.org (Postfix) with ESMTP id 4A4A22036E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Jan 2021 19:05:24 +0000 (UTC)
+ Wed, 20 Jan 2021 23:00:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yflL9sTe8g6W
+ with ESMTP id djXyh9TCjIrn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Jan 2021 19:05:23 +0000 (UTC)
+ Wed, 20 Jan 2021 22:59:58 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
- [209.85.167.175])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 4578D8712B
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by silver.osuosl.org (Postfix) with ESMTPS id 9120C20352
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Jan 2021 19:05:23 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id x71so10365877oia.9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Jan 2021 11:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2IjT5vM0wwpC9kpod4C2W/rvy6n2du1gFGDH7SeVYpA=;
- b=FnEQe4NdFtLMCzMpWBm01f0nkqCIXmpGnyv1Isu2e3YosASvuZSZMrYjbK4n8SXMKA
- 11bXc0VkJx6niIVERe7ZEenE3e3K51Vv3ClAmmpkWCIHiy5yqtGOEHMojs46e1tudcx4
- +KIkD1vhoSe630IfWDZSi2/JMI5WF+PLk6lbpa61juWxsWRAprfL7r48gLTGHQakJ7YD
- GpY7BfvBRZOrAG4SP79XUJjH/qy1fxHu/YqL/qQLu+kUC2UJ8z64e5jwz8JI222O5pAf
- 5k8r0BQXnUgeTXrba1KWIDUD6WLARPQD57kBKzC5P3LoMyPDpd4Tn0qooee6liLjXLjl
- GwHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2IjT5vM0wwpC9kpod4C2W/rvy6n2du1gFGDH7SeVYpA=;
- b=pdybyfj3tKbj4NwMs5s8IZRFLmjMzs3kAy0N+NNPrYZTktJaIkTpPcZ6iWkAoBkIb8
- HBRjLEbt9szDuEgSA5c1UHloLdw4cPf3juvLokelI/44mzTuhUBHe3cjqLw/wglIcizD
- mEWyYAQmL5j9wIgl3Rk666sQaIGjaCYSuBEocu9taLGr0u5gnmY5kMCYPheersMnoL95
- O3aCWtSnjb/bSNFJ9y1wcFpHXHymXa2/kKniR6pWpb7vNaemmoav2nMoj9salIrjeWj/
- ym0NVQ8VzDNAVvYATw9dy0GxNTr9jp08AUKaSYGxTTn7UtlUYJTfGQDYscWltdvZrmD5
- Lspg==
-X-Gm-Message-State: AOAM531sYiJXy382v/n/sXQnhUvdn8O4B0lcQf+tGzrfsTZWGzqkLzfN
- sYEpIHgDFnxK+Yg8w2BD2QyT/hBGcCBCgIMd2emUt8MFTYI=
-X-Google-Smtp-Source: ABdhPJwVH5hPIt+TGvLTxRBBzGs/IugUmzu+q+OXrVRQdS4VsRDDJ4BtXntxOzCvUMCUXt5VtXebFAiD2WbdPyv7dOM=
-X-Received: by 2002:a17:90b:228f:: with SMTP id
- kx15mr733291pjb.32.1611169033913; 
- Wed, 20 Jan 2021 10:57:13 -0800 (PST)
-MIME-Version: 1.0
+ Wed, 20 Jan 2021 22:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611183597;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Om7VwHKhcnxl7GarBDwRVzXmPEeOP48pbHGghTabBUQ=;
+ b=AobkxXfwsfm7IHaCD9XqCu+PuMhzarKHyrGFFo3qv7WyrTuZ+yOFQMov5V11WxiRzfYPxy
+ BSUsm4cPcGbwWXpCNHlyhcT4RvbH0GYzIlDkiIyo9GggDaiv/3XbdNjE5BJiMdG1mjHcim
+ o380m9lrK9fY2Liv41ne8xLPibvDvDo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-SHMIIL66OSu14XH1DwGo3w-1; Wed, 20 Jan 2021 17:59:53 -0500
+X-MC-Unique: SHMIIL66OSu14XH1DwGo3w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96227107ACE3;
+ Wed, 20 Jan 2021 22:59:51 +0000 (UTC)
+Received: from treble (ovpn-116-102.rdu2.redhat.com [10.10.116.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89D5060C6D;
+ Wed, 20 Jan 2021 22:59:50 +0000 (UTC)
+Date: Wed, 20 Jan 2021 16:59:48 -0600
+From: Josh Poimboeuf <jpoimboe@redhat.com>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Message-ID: <20210120225948.lgbfhy5s265we6jn@treble>
 References: <20210120072547.10221-1-yashsri421@gmail.com>
  <e5c5f8495fbdd063f4272f02a259bbf28b199bdd.camel@perches.com>
  <14707ab9-1872-4f8c-3ed8-e77b663c3adb@gmail.com>
  <fb1b511d71761c99a9bece803f508b674fce9962.camel@perches.com>
-In-Reply-To: <fb1b511d71761c99a9bece803f508b674fce9962.camel@perches.com>
-Date: Wed, 20 Jan 2021 10:57:03 -0800
-Message-ID: <CAKwvOd=HNuB8bqJvXEjvYWorika99QX=jKSfHy2hf0NOKrrc8w@mail.gmail.com>
-To: Josh Poimboeuf <jpoimboe@redhat.com>
+ <CAKwvOd=HNuB8bqJvXEjvYWorika99QX=jKSfHy2hf0NOKrrc8w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=HNuB8bqJvXEjvYWorika99QX=jKSfHy2hf0NOKrrc8w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Cc: Aditya <yashsri421@gmail.com>, dwaipayanray1@gmail.com,
  LKML <linux-kernel@vger.kernel.org>,
  clang-built-linux <clang-built-linux@googlegroups.com>,
@@ -105,97 +102,53 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Nick Desaulniers via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jan 20, 2021 at 10:43 AM Joe Perches <joe@perches.com> wrote:
->
-> On Wed, 2021-01-20 at 18:23 +0530, Aditya wrote:
-> > On 20/1/21 2:51 pm, Joe Perches wrote:
-> > > On Wed, 2021-01-20 at 12:55 +0530, Aditya Srivastava wrote:
-> > > > Local symbols prefixed with '.L' do not emit symbol table entries, as
-> > > > they have special meaning for the assembler.
-> > > >
-> > > > '.L' prefixed symbols can be used within a code region, but should be
-> > > > avoided for denoting a range of code via 'SYM_*_START/END' annotations.
-> > > >
-> > > > Add a new check to emit a warning on finding the usage of '.L' symbols
-> > > > in '.S' files, if it lies within SYM_*_START/END annotation pair.
-> > >
-> > > I believe this needs a test for $file as it won't work well on
-> > > patches as the SYM_*_START/END may not be in the patch context.
-> > >
-> > Okay.
-> >
-> > > Also, is this supposed to work for local labels like '.L<foo>:'?
-> > > I don't think a warning should be generated for those.
-> > >
-> > Yes, currently it will generate warning for all symbols which start
-> > with .L and have non- white character symbol following it, if it is
-> > lying within SYM_*_START/END annotation pair.
-> >
-> > Should I reduce the check to \.L_\S+ instead? (please note "_"
-> > following ".L")
->
-> Use grep first.  That would still match several existing labels.
->
-> > Pardon me, I'm not good with assembly :/
->
-> Spending time reading docs can help with that.
->
-> Mark?  Can you please comment about the below?
->
-> I believe the test should be:
->
->         if ($realfile =~ /\.S$/ &&
->             $line =~ /^\+\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
->                 WARN(...);
->         }
->
-> so that only this code currently matches:
->
-> $ git grep -P '^\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L' -- '*.S'
-> arch/x86/boot/compressed/head_32.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
-> arch/x86/boot/compressed/head_32.S:SYM_FUNC_END(.Lrelocated)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lrelocated)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lpaging_enabled)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lpaging_enabled)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lno_longmode)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lno_longmode)
-> arch/x86/boot/pmjump.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lin_pm32)
-> arch/x86/boot/pmjump.S:SYM_FUNC_END(.Lin_pm32)
-> arch/x86/entry/entry_64.S:SYM_CODE_START_LOCAL_NOALIGN(.Lbad_gs)
-> arch/x86/entry/entry_64.S:SYM_CODE_END(.Lbad_gs)
-> arch/x86/lib/copy_user_64.S:SYM_CODE_START_LOCAL(.Lcopy_user_handle_tail)
-> arch/x86/lib/copy_user_64.S:SYM_CODE_END(.Lcopy_user_handle_tail)
-> arch/x86/lib/getuser.S:SYM_CODE_START_LOCAL(.Lbad_get_user_clac)
-> arch/x86/lib/getuser.S:SYM_CODE_END(.Lbad_get_user_clac)
-> arch/x86/lib/getuser.S:SYM_CODE_START_LOCAL(.Lbad_get_user_8_clac)
-> arch/x86/lib/getuser.S:SYM_CODE_END(.Lbad_get_user_8_clac)
-> arch/x86/lib/putuser.S:SYM_CODE_START_LOCAL(.Lbad_put_user_clac)
-> arch/x86/lib/putuser.S:SYM_CODE_END(.Lbad_put_user_clac)
-> arch/x86/realmode/rm/wakeup_asm.S:SYM_DATA_START_LOCAL(.Lwakeup_idt)
-> arch/x86/realmode/rm/wakeup_asm.S:SYM_DATA_END(.Lwakeup_idt)
+On Wed, Jan 20, 2021 at 10:57:03AM -0800, Nick Desaulniers wrote:
+> > $ git grep -P '^\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L' -- '*.S'
+> > arch/x86/boot/compressed/head_32.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
+> > arch/x86/boot/compressed/head_32.S:SYM_FUNC_END(.Lrelocated)
+> > arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
+> > arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lrelocated)
+> > arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lpaging_enabled)
+> > arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lpaging_enabled)
+> > arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lno_longmode)
+> > arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lno_longmode)
+> > arch/x86/boot/pmjump.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lin_pm32)
+> > arch/x86/boot/pmjump.S:SYM_FUNC_END(.Lin_pm32)
+> > arch/x86/entry/entry_64.S:SYM_CODE_START_LOCAL_NOALIGN(.Lbad_gs)
+> > arch/x86/entry/entry_64.S:SYM_CODE_END(.Lbad_gs)
+> > arch/x86/lib/copy_user_64.S:SYM_CODE_START_LOCAL(.Lcopy_user_handle_tail)
+> > arch/x86/lib/copy_user_64.S:SYM_CODE_END(.Lcopy_user_handle_tail)
+> > arch/x86/lib/getuser.S:SYM_CODE_START_LOCAL(.Lbad_get_user_clac)
+> > arch/x86/lib/getuser.S:SYM_CODE_END(.Lbad_get_user_clac)
+> > arch/x86/lib/getuser.S:SYM_CODE_START_LOCAL(.Lbad_get_user_8_clac)
+> > arch/x86/lib/getuser.S:SYM_CODE_END(.Lbad_get_user_8_clac)
+> > arch/x86/lib/putuser.S:SYM_CODE_START_LOCAL(.Lbad_put_user_clac)
+> > arch/x86/lib/putuser.S:SYM_CODE_END(.Lbad_put_user_clac)
+> > arch/x86/realmode/rm/wakeup_asm.S:SYM_DATA_START_LOCAL(.Lwakeup_idt)
+> > arch/x86/realmode/rm/wakeup_asm.S:SYM_DATA_END(.Lwakeup_idt)
+> 
+> Josh, I assume objtool does not annotate code under:
+> arch/x86/boot/
+> arch/x86/entry/
+> arch/x86/realmode/
+> ?
+> 
+> The rest, ie
+> arch/x86/lib/
+> seem potentially relevant?
 
-Josh, I assume objtool does not annotate code under:
-arch/x86/boot/
-arch/x86/entry/
-arch/x86/realmode/
-?
+Both arch/x86/entry/* and arch/x86/lib/* are read by objtool and should
+probably be fixed up.
 
-The rest, ie
-arch/x86/lib/
-seem potentially relevant?
 -- 
-Thanks,
-~Nick Desaulniers
+Josh
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
