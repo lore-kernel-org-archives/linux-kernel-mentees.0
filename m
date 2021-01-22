@@ -2,108 +2,85 @@ Return-Path: <SRS0=cwSI=GZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78428C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Jan 2021 13:19:00 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F03BC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Jan 2021 15:19:01 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0F86623428
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Jan 2021 13:18:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0F86623428
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3483C23A84
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Jan 2021 15:19:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3483C23A84
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id A08EA85BD8;
-	Fri, 22 Jan 2021 13:18:59 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C19058609C;
+	Fri, 22 Jan 2021 15:19:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id B2NeSuQWdV8d; Fri, 22 Jan 2021 13:18:58 +0000 (UTC)
+	with ESMTP id pHrh6th1Fkwj; Fri, 22 Jan 2021 15:18:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 70CC681BA0;
-	Fri, 22 Jan 2021 13:18:58 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 16A9E86CE1;
+	Fri, 22 Jan 2021 15:18:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 58F66C08A1;
-	Fri, 22 Jan 2021 13:18:58 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 011FAC08A1;
+	Fri, 22 Jan 2021 15:18:56 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76B8DC013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6A24BC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Jan 2021 13:18:57 +0000 (UTC)
+ Fri, 22 Jan 2021 15:18:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 5AB882DE22
+ by silver.osuosl.org (Postfix) with ESMTP id 5767C274FC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Jan 2021 13:18:57 +0000 (UTC)
+ Fri, 22 Jan 2021 15:18:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VM2-dXp3Wk+K
+ with ESMTP id Ka57TMaGCjUj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Jan 2021 13:18:52 +0000 (UTC)
+ Fri, 22 Jan 2021 15:18:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by silver.osuosl.org (Postfix) with ESMTPS id 1F9BD2049D
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by silver.osuosl.org (Postfix) with ESMTPS id 93C4E226F3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Jan 2021 13:18:52 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id p15so3705784pjv.3
+ Fri, 22 Jan 2021 15:18:52 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id i30so5367336ota.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Jan 2021 05:18:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2IuYY7Ptttp60mCGRmohDF14eaicEWNySULlVw9pTIE=;
- b=qex1eud/YCF92qwJywdZihwqDlX3vnjuAP2CB4UurkPrU4eO32mUAdJIy6GM2biaVd
- 0Ia2yHwucoOxWBzwJLITKb/6ktswnxKEeoUobJB6SVLU4/YBy6PJUGmQeDxQjoqr+C3G
- IPTArAJSgh8uUuv2ml8Ei6uwMKzAGiqiO89FuEWLM7teCgu2ZhTgGYAAol82uiiQmomw
- jUYzm95zyjwrLOxZg7yVcbUW0N6tzcsrLY2gNWE++HtQTfZ+HzqK2miS5wZGzADL1lem
- HcbHGr9HmZPSHE14M+vmGwI3lhYD7pPShrAbpsToGs3I6DIVYeftFy6vEwu8deGNslbP
- 6v8g==
+ Fri, 22 Jan 2021 07:18:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2IuYY7Ptttp60mCGRmohDF14eaicEWNySULlVw9pTIE=;
- b=DLdCF+wnZTafF4CCqKjrBStL9PI5W3Hxc0y1TlYU0XTIiut//jgIo6D+10szGeXdnm
- V/wuQuAM2HMB8swQMGPD9SAWMH4lyx1juZdgIB/Aj1U4BrBcWmB71fxGfkH+mYJMabbm
- lF73sJ+kK1VvFwmZk6dy/9A/cCGd1CxqUIbfZD3ZevIuVXP7+YRysPN7iszrBqgkOGsZ
- HU+o28JF4SsDf39Mj3DhyCvYkny/7w9elVkxOC0luB3/bTabuoR5qf+GyNyy5XcFozaX
- 27/ftWw1B8HP8ByVmXjcmSOIpFsZ6TpdnGE7N03HQMdHf+b9kDeeJFJxkCD0FngKqb7H
- FETQ==
-X-Gm-Message-State: AOAM532FKgQyyrD/lkoGTGcywHFMz+Hi3xEg6k+KWgU2Fu4UNL2ANrgg
- r4XBE7xLuMs8dd8ly4Om2uk=
-X-Google-Smtp-Source: ABdhPJxoEW6GFoFDxwtzzlLOAR4hkWxhUM/CRwSMZqHFI3qj4GMAJcLqLhtFhl13ljtuLoMyQAZALA==
-X-Received: by 2002:a17:902:e54e:b029:de:8c70:2ed0 with SMTP id
- n14-20020a170902e54eb02900de8c702ed0mr4946054plf.3.1611321531356; 
- Fri, 22 Jan 2021 05:18:51 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:5548:7837:8dcd:a8?
- ([2405:201:600d:a089:5548:7837:8dcd:a8])
- by smtp.gmail.com with ESMTPSA id b206sm8608751pfb.73.2021.01.22.05.18.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jan 2021 05:18:50 -0800 (PST)
-To: Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
-References: <20210120072547.10221-1-yashsri421@gmail.com>
- <e5c5f8495fbdd063f4272f02a259bbf28b199bdd.camel@perches.com>
- <14707ab9-1872-4f8c-3ed8-e77b663c3adb@gmail.com>
- <fb1b511d71761c99a9bece803f508b674fce9962.camel@perches.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <98d40817-1f80-c772-eb9e-a6c3c04625b3@gmail.com>
-Date: Fri, 22 Jan 2021 18:48:43 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ru9SqLDalSol6ab84w3ZSZycnq+w3gNRzUFlTK6l04E=;
+ b=WEXX7+v3ev9Q0IPZCAAqerQHxBafE8CjsyZAY7JwCsr6ytky7cW2XQTDHB2tRVkCIx
+ s569Sw9hkkxQeliz007XadzBxRGb144TBM8bU8LjOXb3A4HCjA+zUC+BzH8GUgUAWfiI
+ yIujJpAQbYeKXzAl3z3rufwJkXlk75bsaCSYSvBxvQb7666hBNlzLHe4lpXTBtbxD0zr
+ Bh9EgEOR9eRFxjfPE8oHWt+7XJF/pSymfX9NrSWSHD1DEBXKaxpnDQGFXpDyoGECjlhs
+ GrPHIIBlnq2AEGMsxnm3HxyoFB+btdw1ESqaKOEVhYLBULDu4w0zH2XPDS85HIIC4vyU
+ Kafg==
+X-Gm-Message-State: AOAM530ZCnOESt3N/+sLv3TZM33v4BypJUD3GhIkaJrI5QPFH7b2s+L4
+ hLUKqOcxKL5xQ1PYUiPNKB7zKC8j+MNWuzQnWLQ=
+X-Google-Smtp-Source: ABdhPJz0loV+yYVafmhFPpKiuaGh2qJJ5YARsH5THv+/tBwBjBw8K9wW5GJ4n/RGr3c/OiELmg1Zfj/xVDmZFF0Cirk=
+X-Received: by 2002:a9d:745a:: with SMTP id p26mr3793778otk.206.1611328731667; 
+ Fri, 22 Jan 2021 07:18:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <fb1b511d71761c99a9bece803f508b674fce9962.camel@perches.com>
-Content-Language: en-US
-Cc: broonie@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- clang-built-linux@googlegroups.com, dwaipayanray1@gmail.com
-Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add warning for
- avoiding .L prefix symbols in assembly files
+References: <20201217124536.26812-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20201217124536.26812-1-dwaipayanray1@gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 22 Jan 2021 16:18:40 +0100
+Message-ID: <CAJZ5v0h0G2zRX-JCpOAZj7DwuYe1MGTSK5S+mTDg00LZktKwjw@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc: ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+ Len Brown <lenb@kernel.org>, linux-kernel-mentees@lists.linuxfoundation.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: [Linux-kernel-mentees] [PATCH] acpi: Use DEVICE_ATTR_<RW|RO|WO>
+	macros
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,97 +98,459 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 21/1/21 12:13 am, Joe Perches wrote:
-> On Wed, 2021-01-20 at 18:23 +0530, Aditya wrote:
->> On 20/1/21 2:51 pm, Joe Perches wrote:
->>> On Wed, 2021-01-20 at 12:55 +0530, Aditya Srivastava wrote:
->>>> Local symbols prefixed with '.L' do not emit symbol table entries, as
->>>> they have special meaning for the assembler.
->>>>
->>>> '.L' prefixed symbols can be used within a code region, but should be
->>>> avoided for denoting a range of code via 'SYM_*_START/END' annotations.
->>>>
->>>> Add a new check to emit a warning on finding the usage of '.L' symbols
->>>> in '.S' files, if it lies within SYM_*_START/END annotation pair.
->>>
->>> I believe this needs a test for $file as it won't work well on
->>> patches as the SYM_*_START/END may not be in the patch context.
->>>
->> Okay.
->>
->>> Also, is this supposed to work for local labels like '.L<foo>:'?
->>> I don't think a warning should be generated for those.
->>>
->> Yes, currently it will generate warning for all symbols which start
->> with .L and have non- white character symbol following it, if it is
->> lying within SYM_*_START/END annotation pair.
->>
->> Should I reduce the check to \.L_\S+ instead? (please note "_"
->> following ".L")
-> 
-> Use grep first.  That would still match several existing labels.
-> 
->> Pardon me, I'm not good with assembly :/
-> 
-> Spending time reading docs can help with that.
-> 
-> Mark?  Can you please comment about the below?
-> 
-> I believe the test should be:
-> 
-> 	if ($realfile =~ /\.S$/ &&
-> 	    $line =~ /^\+\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
+On Thu, Dec 17, 2020 at 1:47 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+>
+> Instead of open coding DEVICE_ATTR(), use the
+> DEVICE_ATTR_RW(), DEVICE_ATTR_RO() and DEVICE_ATTR_WO()
+> macros wherever possible.
+>
+> This required a few functions to be renamed but the
+> functionality itself is unchanged.
+>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 
-Joe, with this regex, we won't be able to match
-"jmp  .L_restore
-SYM_FUNC_END(\name)"
+Applied as 5.12 material, thanks!
 
-which was replaced in this patch in the discussion:
-https://groups.google.com/g/clang-built-linux/c/-drkmLgu-cU/m/phKe-Tb6CgAJ
-
-Here, "jmp  .L_restore" was also replaced to fix the error.
-
-However, if this
-regex(/^\+\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) is
-correct, maybe we don't need to check for $file as we are now checking
-for just one line.
-
-What do you think?
-
-Thanks
-Aditya
-
-> 		WARN(...);
-> 	}
-> 
-> so that only this code currently matches:
-> 
-> $ git grep -P '^\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L' -- '*.S'
-> arch/x86/boot/compressed/head_32.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
-> arch/x86/boot/compressed/head_32.S:SYM_FUNC_END(.Lrelocated)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lrelocated)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lrelocated)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lpaging_enabled)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lpaging_enabled)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lno_longmode)
-> arch/x86/boot/compressed/head_64.S:SYM_FUNC_END(.Lno_longmode)
-> arch/x86/boot/pmjump.S:SYM_FUNC_START_LOCAL_NOALIGN(.Lin_pm32)
-> arch/x86/boot/pmjump.S:SYM_FUNC_END(.Lin_pm32)
-> arch/x86/entry/entry_64.S:SYM_CODE_START_LOCAL_NOALIGN(.Lbad_gs)
-> arch/x86/entry/entry_64.S:SYM_CODE_END(.Lbad_gs)
-> arch/x86/lib/copy_user_64.S:SYM_CODE_START_LOCAL(.Lcopy_user_handle_tail)
-> arch/x86/lib/copy_user_64.S:SYM_CODE_END(.Lcopy_user_handle_tail)
-> arch/x86/lib/getuser.S:SYM_CODE_START_LOCAL(.Lbad_get_user_clac)
-> arch/x86/lib/getuser.S:SYM_CODE_END(.Lbad_get_user_clac)
-> arch/x86/lib/getuser.S:SYM_CODE_START_LOCAL(.Lbad_get_user_8_clac)
-> arch/x86/lib/getuser.S:SYM_CODE_END(.Lbad_get_user_8_clac)
-> arch/x86/lib/putuser.S:SYM_CODE_START_LOCAL(.Lbad_put_user_clac)
-> arch/x86/lib/putuser.S:SYM_CODE_END(.Lbad_put_user_clac)
-> arch/x86/realmode/rm/wakeup_asm.S:SYM_DATA_START_LOCAL(.Lwakeup_idt)
-> arch/x86/realmode/rm/wakeup_asm.S:SYM_DATA_END(.Lwakeup_idt)
-> 
-> 
-
+> ---
+> Note: The patch is compiled tested only.
+> Merges cleanly with next-20201210
+>
+>  drivers/acpi/acpi_pad.c     | 24 ++++++++------------
+>  drivers/acpi/acpi_tad.c     | 14 ++++++------
+>  drivers/acpi/bgrt.c         | 20 ++++++++---------
+>  drivers/acpi/device_sysfs.c | 44 ++++++++++++++++++-------------------
+>  drivers/acpi/dock.c         | 26 +++++++++++-----------
+>  drivers/acpi/power.c        |  9 ++++----
+>  6 files changed, 66 insertions(+), 71 deletions(-)
+>
+> diff --git a/drivers/acpi/acpi_pad.c b/drivers/acpi/acpi_pad.c
+> index b8745ce48a47..b84ab722feb4 100644
+> --- a/drivers/acpi/acpi_pad.c
+> +++ b/drivers/acpi/acpi_pad.c
+> @@ -261,7 +261,7 @@ static uint32_t acpi_pad_idle_cpus_num(void)
+>         return ps_tsk_num;
+>  }
+>
+> -static ssize_t acpi_pad_rrtime_store(struct device *dev,
+> +static ssize_t rrtime_store(struct device *dev,
+>         struct device_attribute *attr, const char *buf, size_t count)
+>  {
+>         unsigned long num;
+> @@ -275,16 +275,14 @@ static ssize_t acpi_pad_rrtime_store(struct device *dev,
+>         return count;
+>  }
+>
+> -static ssize_t acpi_pad_rrtime_show(struct device *dev,
+> +static ssize_t rrtime_show(struct device *dev,
+>         struct device_attribute *attr, char *buf)
+>  {
+>         return scnprintf(buf, PAGE_SIZE, "%d\n", round_robin_time);
+>  }
+> -static DEVICE_ATTR(rrtime, S_IRUGO|S_IWUSR,
+> -       acpi_pad_rrtime_show,
+> -       acpi_pad_rrtime_store);
+> +static DEVICE_ATTR_RW(rrtime);
+>
+> -static ssize_t acpi_pad_idlepct_store(struct device *dev,
+> +static ssize_t idlepct_store(struct device *dev,
+>         struct device_attribute *attr, const char *buf, size_t count)
+>  {
+>         unsigned long num;
+> @@ -298,16 +296,14 @@ static ssize_t acpi_pad_idlepct_store(struct device *dev,
+>         return count;
+>  }
+>
+> -static ssize_t acpi_pad_idlepct_show(struct device *dev,
+> +static ssize_t idlepct_show(struct device *dev,
+>         struct device_attribute *attr, char *buf)
+>  {
+>         return scnprintf(buf, PAGE_SIZE, "%d\n", idle_pct);
+>  }
+> -static DEVICE_ATTR(idlepct, S_IRUGO|S_IWUSR,
+> -       acpi_pad_idlepct_show,
+> -       acpi_pad_idlepct_store);
+> +static DEVICE_ATTR_RW(idlepct);
+>
+> -static ssize_t acpi_pad_idlecpus_store(struct device *dev,
+> +static ssize_t idlecpus_store(struct device *dev,
+>         struct device_attribute *attr, const char *buf, size_t count)
+>  {
+>         unsigned long num;
+> @@ -319,16 +315,14 @@ static ssize_t acpi_pad_idlecpus_store(struct device *dev,
+>         return count;
+>  }
+>
+> -static ssize_t acpi_pad_idlecpus_show(struct device *dev,
+> +static ssize_t idlecpus_show(struct device *dev,
+>         struct device_attribute *attr, char *buf)
+>  {
+>         return cpumap_print_to_pagebuf(false, buf,
+>                                        to_cpumask(pad_busy_cpus_bits));
+>  }
+>
+> -static DEVICE_ATTR(idlecpus, S_IRUGO|S_IWUSR,
+> -       acpi_pad_idlecpus_show,
+> -       acpi_pad_idlecpus_store);
+> +static DEVICE_ATTR_RW(idlecpus);
+>
+>  static int acpi_pad_add_sysfs(struct acpi_device *device)
+>  {
+> diff --git a/drivers/acpi/acpi_tad.c b/drivers/acpi/acpi_tad.c
+> index 7d45cce0c3c1..e9b8e8305e23 100644
+> --- a/drivers/acpi/acpi_tad.c
+> +++ b/drivers/acpi/acpi_tad.c
+> @@ -237,7 +237,7 @@ static ssize_t time_show(struct device *dev, struct device_attribute *attr,
+>                        rt.tz, rt.daylight);
+>  }
+>
+> -static DEVICE_ATTR(time, S_IRUSR | S_IWUSR, time_show, time_store);
+> +static DEVICE_ATTR_RW(time);
+>
+>  static struct attribute *acpi_tad_time_attrs[] = {
+>         &dev_attr_time.attr,
+> @@ -446,7 +446,7 @@ static ssize_t ac_alarm_show(struct device *dev, struct device_attribute *attr,
+>         return acpi_tad_alarm_read(dev, buf, ACPI_TAD_AC_TIMER);
+>  }
+>
+> -static DEVICE_ATTR(ac_alarm, S_IRUSR | S_IWUSR, ac_alarm_show, ac_alarm_store);
+> +static DEVICE_ATTR_RW(ac_alarm);
+>
+>  static ssize_t ac_policy_store(struct device *dev, struct device_attribute *attr,
+>                                const char *buf, size_t count)
+> @@ -462,7 +462,7 @@ static ssize_t ac_policy_show(struct device *dev, struct device_attribute *attr,
+>         return acpi_tad_policy_read(dev, buf, ACPI_TAD_AC_TIMER);
+>  }
+>
+> -static DEVICE_ATTR(ac_policy, S_IRUSR | S_IWUSR, ac_policy_show, ac_policy_store);
+> +static DEVICE_ATTR_RW(ac_policy);
+>
+>  static ssize_t ac_status_store(struct device *dev, struct device_attribute *attr,
+>                                const char *buf, size_t count)
+> @@ -478,7 +478,7 @@ static ssize_t ac_status_show(struct device *dev, struct device_attribute *attr,
+>         return acpi_tad_status_read(dev, buf, ACPI_TAD_AC_TIMER);
+>  }
+>
+> -static DEVICE_ATTR(ac_status, S_IRUSR | S_IWUSR, ac_status_show, ac_status_store);
+> +static DEVICE_ATTR_RW(ac_status);
+>
+>  static struct attribute *acpi_tad_attrs[] = {
+>         &dev_attr_caps.attr,
+> @@ -505,7 +505,7 @@ static ssize_t dc_alarm_show(struct device *dev, struct device_attribute *attr,
+>         return acpi_tad_alarm_read(dev, buf, ACPI_TAD_DC_TIMER);
+>  }
+>
+> -static DEVICE_ATTR(dc_alarm, S_IRUSR | S_IWUSR, dc_alarm_show, dc_alarm_store);
+> +static DEVICE_ATTR_RW(dc_alarm);
+>
+>  static ssize_t dc_policy_store(struct device *dev, struct device_attribute *attr,
+>                                const char *buf, size_t count)
+> @@ -521,7 +521,7 @@ static ssize_t dc_policy_show(struct device *dev, struct device_attribute *attr,
+>         return acpi_tad_policy_read(dev, buf, ACPI_TAD_DC_TIMER);
+>  }
+>
+> -static DEVICE_ATTR(dc_policy, S_IRUSR | S_IWUSR, dc_policy_show, dc_policy_store);
+> +static DEVICE_ATTR_RW(dc_policy);
+>
+>  static ssize_t dc_status_store(struct device *dev, struct device_attribute *attr,
+>                                const char *buf, size_t count)
+> @@ -537,7 +537,7 @@ static ssize_t dc_status_show(struct device *dev, struct device_attribute *attr,
+>         return acpi_tad_status_read(dev, buf, ACPI_TAD_DC_TIMER);
+>  }
+>
+> -static DEVICE_ATTR(dc_status, S_IRUSR | S_IWUSR, dc_status_show, dc_status_store);
+> +static DEVICE_ATTR_RW(dc_status);
+>
+>  static struct attribute *acpi_tad_dc_attrs[] = {
+>         &dev_attr_dc_alarm.attr,
+> diff --git a/drivers/acpi/bgrt.c b/drivers/acpi/bgrt.c
+> index 251f961c28cc..19bb7f870204 100644
+> --- a/drivers/acpi/bgrt.c
+> +++ b/drivers/acpi/bgrt.c
+> @@ -15,40 +15,40 @@
+>  static void *bgrt_image;
+>  static struct kobject *bgrt_kobj;
+>
+> -static ssize_t show_version(struct device *dev,
+> +static ssize_t version_show(struct device *dev,
+>                             struct device_attribute *attr, char *buf)
+>  {
+>         return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.version);
+>  }
+> -static DEVICE_ATTR(version, S_IRUGO, show_version, NULL);
+> +static DEVICE_ATTR_RO(version);
+>
+> -static ssize_t show_status(struct device *dev,
+> +static ssize_t status_show(struct device *dev,
+>                            struct device_attribute *attr, char *buf)
+>  {
+>         return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.status);
+>  }
+> -static DEVICE_ATTR(status, S_IRUGO, show_status, NULL);
+> +static DEVICE_ATTR_RO(status);
+>
+> -static ssize_t show_type(struct device *dev,
+> +static ssize_t type_show(struct device *dev,
+>                          struct device_attribute *attr, char *buf)
+>  {
+>         return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.image_type);
+>  }
+> -static DEVICE_ATTR(type, S_IRUGO, show_type, NULL);
+> +static DEVICE_ATTR_RO(type);
+>
+> -static ssize_t show_xoffset(struct device *dev,
+> +static ssize_t xoffset_show(struct device *dev,
+>                             struct device_attribute *attr, char *buf)
+>  {
+>         return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.image_offset_x);
+>  }
+> -static DEVICE_ATTR(xoffset, S_IRUGO, show_xoffset, NULL);
+> +static DEVICE_ATTR_RO(xoffset);
+>
+> -static ssize_t show_yoffset(struct device *dev,
+> +static ssize_t yoffset_show(struct device *dev,
+>                             struct device_attribute *attr, char *buf)
+>  {
+>         return snprintf(buf, PAGE_SIZE, "%d\n", bgrt_tab.image_offset_y);
+>  }
+> -static DEVICE_ATTR(yoffset, S_IRUGO, show_yoffset, NULL);
+> +static DEVICE_ATTR_RO(yoffset);
+>
+>  static ssize_t image_read(struct file *file, struct kobject *kobj,
+>                struct bin_attribute *attr, char *buf, loff_t off, size_t count)
+> diff --git a/drivers/acpi/device_sysfs.c b/drivers/acpi/device_sysfs.c
+> index 96869f1538b9..a25f108240e4 100644
+> --- a/drivers/acpi/device_sysfs.c
+> +++ b/drivers/acpi/device_sysfs.c
+> @@ -333,11 +333,11 @@ int acpi_device_modalias(struct device *dev, char *buf, int size)
+>  EXPORT_SYMBOL_GPL(acpi_device_modalias);
+>
+>  static ssize_t
+> -acpi_device_modalias_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +modalias_show(struct device *dev, struct device_attribute *attr, char *buf)
+>  {
+>         return __acpi_device_modalias(to_acpi_device(dev), buf, 1024);
+>  }
+> -static DEVICE_ATTR(modalias, 0444, acpi_device_modalias_show, NULL);
+> +static DEVICE_ATTR_RO(modalias);
+>
+>  static ssize_t real_power_state_show(struct device *dev,
+>                                      struct device_attribute *attr, char *buf)
+> @@ -366,8 +366,8 @@ static ssize_t power_state_show(struct device *dev,
+>  static DEVICE_ATTR_RO(power_state);
+>
+>  static ssize_t
+> -acpi_eject_store(struct device *d, struct device_attribute *attr,
+> -               const char *buf, size_t count)
+> +eject_store(struct device *d, struct device_attribute *attr,
+> +           const char *buf, size_t count)
+>  {
+>         struct acpi_device *acpi_device = to_acpi_device(d);
+>         acpi_object_type not_used;
+> @@ -395,28 +395,28 @@ acpi_eject_store(struct device *d, struct device_attribute *attr,
+>         return status == AE_NO_MEMORY ? -ENOMEM : -EAGAIN;
+>  }
+>
+> -static DEVICE_ATTR(eject, 0200, NULL, acpi_eject_store);
+> +static DEVICE_ATTR_WO(eject);
+>
+>  static ssize_t
+> -acpi_device_hid_show(struct device *dev, struct device_attribute *attr, char *buf)
+> +hid_show(struct device *dev, struct device_attribute *attr, char *buf)
+>  {
+>         struct acpi_device *acpi_dev = to_acpi_device(dev);
+>
+>         return sprintf(buf, "%s\n", acpi_device_hid(acpi_dev));
+>  }
+> -static DEVICE_ATTR(hid, 0444, acpi_device_hid_show, NULL);
+> +static DEVICE_ATTR_RO(hid);
+>
+> -static ssize_t acpi_device_uid_show(struct device *dev,
+> -                                   struct device_attribute *attr, char *buf)
+> +static ssize_t uid_show(struct device *dev,
+> +                       struct device_attribute *attr, char *buf)
+>  {
+>         struct acpi_device *acpi_dev = to_acpi_device(dev);
+>
+>         return sprintf(buf, "%s\n", acpi_dev->pnp.unique_id);
+>  }
+> -static DEVICE_ATTR(uid, 0444, acpi_device_uid_show, NULL);
+> +static DEVICE_ATTR_RO(uid);
+>
+> -static ssize_t acpi_device_adr_show(struct device *dev,
+> -                                   struct device_attribute *attr, char *buf)
+> +static ssize_t adr_show(struct device *dev,
+> +                       struct device_attribute *attr, char *buf)
+>  {
+>         struct acpi_device *acpi_dev = to_acpi_device(dev);
+>
+> @@ -425,16 +425,16 @@ static ssize_t acpi_device_adr_show(struct device *dev,
+>         else
+>                 return sprintf(buf, "0x%08llx\n", acpi_dev->pnp.bus_address);
+>  }
+> -static DEVICE_ATTR(adr, 0444, acpi_device_adr_show, NULL);
+> +static DEVICE_ATTR_RO(adr);
+>
+> -static ssize_t acpi_device_path_show(struct device *dev,
+> -                                    struct device_attribute *attr, char *buf)
+> +static ssize_t path_show(struct device *dev,
+> +                        struct device_attribute *attr, char *buf)
+>  {
+>         struct acpi_device *acpi_dev = to_acpi_device(dev);
+>
+>         return acpi_object_path(acpi_dev->handle, buf);
+>  }
+> -static DEVICE_ATTR(path, 0444, acpi_device_path_show, NULL);
+> +static DEVICE_ATTR_RO(path);
+>
+>  /* sysfs file that shows description text from the ACPI _STR method */
+>  static ssize_t description_show(struct device *dev,
+> @@ -463,8 +463,8 @@ static ssize_t description_show(struct device *dev,
+>  static DEVICE_ATTR_RO(description);
+>
+>  static ssize_t
+> -acpi_device_sun_show(struct device *dev, struct device_attribute *attr,
+> -                    char *buf) {
+> +sun_show(struct device *dev, struct device_attribute *attr,
+> +        char *buf) {
+>         struct acpi_device *acpi_dev = to_acpi_device(dev);
+>         acpi_status status;
+>         unsigned long long sun;
+> @@ -475,11 +475,11 @@ acpi_device_sun_show(struct device *dev, struct device_attribute *attr,
+>
+>         return sprintf(buf, "%llu\n", sun);
+>  }
+> -static DEVICE_ATTR(sun, 0444, acpi_device_sun_show, NULL);
+> +static DEVICE_ATTR_RO(sun);
+>
+>  static ssize_t
+> -acpi_device_hrv_show(struct device *dev, struct device_attribute *attr,
+> -                    char *buf) {
+> +hrv_show(struct device *dev, struct device_attribute *attr,
+> +        char *buf) {
+>         struct acpi_device *acpi_dev = to_acpi_device(dev);
+>         acpi_status status;
+>         unsigned long long hrv;
+> @@ -490,7 +490,7 @@ acpi_device_hrv_show(struct device *dev, struct device_attribute *attr,
+>
+>         return sprintf(buf, "%llu\n", hrv);
+>  }
+> -static DEVICE_ATTR(hrv, 0444, acpi_device_hrv_show, NULL);
+> +static DEVICE_ATTR_RO(hrv);
+>
+>  static ssize_t status_show(struct device *dev, struct device_attribute *attr,
+>                                 char *buf) {
+> diff --git a/drivers/acpi/dock.c b/drivers/acpi/dock.c
+> index 24e076f44d23..0937ceab052e 100644
+> --- a/drivers/acpi/dock.c
+> +++ b/drivers/acpi/dock.c
+> @@ -484,7 +484,7 @@ int dock_notify(struct acpi_device *adev, u32 event)
+>  /*
+>   * show_docked - read method for "docked" file in sysfs
+>   */
+> -static ssize_t show_docked(struct device *dev,
+> +static ssize_t docked_show(struct device *dev,
+>                            struct device_attribute *attr, char *buf)
+>  {
+>         struct dock_station *dock_station = dev->platform_data;
+> @@ -493,25 +493,25 @@ static ssize_t show_docked(struct device *dev,
+>         acpi_bus_get_device(dock_station->handle, &adev);
+>         return snprintf(buf, PAGE_SIZE, "%u\n", acpi_device_enumerated(adev));
+>  }
+> -static DEVICE_ATTR(docked, S_IRUGO, show_docked, NULL);
+> +static DEVICE_ATTR_RO(docked);
+>
+>  /*
+>   * show_flags - read method for flags file in sysfs
+>   */
+> -static ssize_t show_flags(struct device *dev,
+> +static ssize_t flags_show(struct device *dev,
+>                           struct device_attribute *attr, char *buf)
+>  {
+>         struct dock_station *dock_station = dev->platform_data;
+>         return snprintf(buf, PAGE_SIZE, "%d\n", dock_station->flags);
+>
+>  }
+> -static DEVICE_ATTR(flags, S_IRUGO, show_flags, NULL);
+> +static DEVICE_ATTR_RO(flags);
+>
+>  /*
+>   * write_undock - write method for "undock" file in sysfs
+>   */
+> -static ssize_t write_undock(struct device *dev, struct device_attribute *attr,
+> -                          const char *buf, size_t count)
+> +static ssize_t undock_store(struct device *dev, struct device_attribute *attr,
+> +                           const char *buf, size_t count)
+>  {
+>         int ret;
+>         struct dock_station *dock_station = dev->platform_data;
+> @@ -525,13 +525,13 @@ static ssize_t write_undock(struct device *dev, struct device_attribute *attr,
+>         acpi_scan_lock_release();
+>         return ret ? ret: count;
+>  }
+> -static DEVICE_ATTR(undock, S_IWUSR, NULL, write_undock);
+> +static DEVICE_ATTR_WO(undock);
+>
+>  /*
+>   * show_dock_uid - read method for "uid" file in sysfs
+>   */
+> -static ssize_t show_dock_uid(struct device *dev,
+> -                            struct device_attribute *attr, char *buf)
+> +static ssize_t uid_show(struct device *dev,
+> +                       struct device_attribute *attr, char *buf)
+>  {
+>         unsigned long long lbuf;
+>         struct dock_station *dock_station = dev->platform_data;
+> @@ -542,10 +542,10 @@ static ssize_t show_dock_uid(struct device *dev,
+>
+>         return snprintf(buf, PAGE_SIZE, "%llx\n", lbuf);
+>  }
+> -static DEVICE_ATTR(uid, S_IRUGO, show_dock_uid, NULL);
+> +static DEVICE_ATTR_RO(uid);
+>
+> -static ssize_t show_dock_type(struct device *dev,
+> -               struct device_attribute *attr, char *buf)
+> +static ssize_t type_show(struct device *dev,
+> +                        struct device_attribute *attr, char *buf)
+>  {
+>         struct dock_station *dock_station = dev->platform_data;
+>         char *type;
+> @@ -561,7 +561,7 @@ static ssize_t show_dock_type(struct device *dev,
+>
+>         return snprintf(buf, PAGE_SIZE, "%s\n", type);
+>  }
+> -static DEVICE_ATTR(type, S_IRUGO, show_dock_type, NULL);
+> +static DEVICE_ATTR_RO(type);
+>
+>  static struct attribute *dock_attributes[] = {
+>         &dev_attr_docked.attr,
+> diff --git a/drivers/acpi/power.c b/drivers/acpi/power.c
+> index 189a0d4c6d06..3a7d0d703059 100644
+> --- a/drivers/acpi/power.c
+> +++ b/drivers/acpi/power.c
+> @@ -886,15 +886,16 @@ static void acpi_release_power_resource(struct device *dev)
+>         kfree(resource);
+>  }
+>
+> -static ssize_t acpi_power_in_use_show(struct device *dev,
+> -                                     struct device_attribute *attr,
+> -                                     char *buf) {
+> +static ssize_t resource_in_use_show(struct device *dev,
+> +                                   struct device_attribute *attr,
+> +                                   char *buf)
+> +{
+>         struct acpi_power_resource *resource;
+>
+>         resource = to_power_resource(to_acpi_device(dev));
+>         return sprintf(buf, "%u\n", !!resource->ref_count);
+>  }
+> -static DEVICE_ATTR(resource_in_use, 0444, acpi_power_in_use_show, NULL);
+> +static DEVICE_ATTR_RO(resource_in_use);
+>
+>  static void acpi_power_sysfs_remove(struct acpi_device *device)
+>  {
+> --
+> 2.27.0
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
