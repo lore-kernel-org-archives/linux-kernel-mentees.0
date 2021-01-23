@@ -2,74 +2,101 @@ Return-Path: <SRS0=Gcau=G2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39744C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Jan 2021 17:21:14 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDA82C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Jan 2021 18:25:46 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7950922D75
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Jan 2021 17:21:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7950922D75
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 45DB822D50
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Jan 2021 18:25:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 45DB822D50
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 08AAD2034C;
-	Sat, 23 Jan 2021 17:21:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CwOz0t5rjSKw; Sat, 23 Jan 2021 17:21:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id A9BA620346;
-	Sat, 23 Jan 2021 17:21:11 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CA65C088B;
-	Sat, 23 Jan 2021 17:21:11 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 23488C013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Jan 2021 17:21:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0FF59867B9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Jan 2021 17:21:10 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id C154586DAB;
+	Sat, 23 Jan 2021 18:25:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id A+OT041bO1pj; Sat, 23 Jan 2021 18:25:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id E80A186D19;
+	Sat, 23 Jan 2021 18:25:44 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DAA84C08A1;
+	Sat, 23 Jan 2021 18:25:44 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 22002C013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 23 Jan 2021 18:25:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 0624487260
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 23 Jan 2021 18:25:44 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yOiglfkQRsvS
+ with ESMTP id LkeUSq5ZeS6Y
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Jan 2021 17:21:07 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0242.hostedemail.com
- [216.40.44.242])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C24B9866E3
+ Sat, 23 Jan 2021 18:25:43 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+ [209.85.215.169])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 466D587243
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Jan 2021 17:21:07 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay03.hostedemail.com (Postfix) with ESMTP id 95799837F24F;
- Sat, 23 Jan 2021 17:21:05 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: sheet19_41034fd27576
-X-Filterd-Recvd-Size: 3077
-Received: from [192.168.1.159] (unknown [47.151.137.21])
- (Authenticated sender: joe@perches.com)
- by omf15.hostedemail.com (Postfix) with ESMTPA;
- Sat, 23 Jan 2021 17:21:04 +0000 (UTC)
-Message-ID: <d5eacb78bd354d26725c34d887a75bf1e8f27a04.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Aditya Srivastava <yashsri421@gmail.com>, linux-kernel@vger.kernel.org
-Date: Sat, 23 Jan 2021 09:21:02 -0800
-In-Reply-To: <20210123151405.26267-1-yashsri421@gmail.com>
+ Sat, 23 Jan 2021 18:25:43 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id n25so6142413pgb.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 23 Jan 2021 10:25:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IgsmJxNhjM6n7JOSepgWyLYU2D0ed5MSeP1SAOXnnP8=;
+ b=E0Be+SNKLKxeZp1olAA15doSY0b2e6N3oQCN5iJ07sOIZUCGohvOwrfj2LzAaW5TUD
+ WMOU1Gtfis9fTfYMQfkfZeMj1mU3lvMm1CDGovVBg642EssNONQDGhRYbRwtUSr8hnJy
+ uZhOlnHfgrmXZfcskPREbKzLoy9W8HleVFErPyFeWevSefoxdbzg/bLSBArWwWYjeVkm
+ V1rXAZOmnxEcpds3ctdGtm/WJHqLvSMJoVZvBUS7CIY8W9/2kk7rdvqeFVKYz8F6RwEJ
+ l5MbdKJXV3ZVoxZu2721vqNn0I19lJjGTecavBfLTvnKwVKt2VBBhDJKKgW3WlyC936Y
+ HRFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IgsmJxNhjM6n7JOSepgWyLYU2D0ed5MSeP1SAOXnnP8=;
+ b=PTIjhONkZCR345fA1DZIPQQv4cZUsAFpi+R/TlwtwoHaXU32XIBSI2PbTOqUkbUtlw
+ i8Dq9z5BVMhZoOCEwT5jhBGudkJl5bcTlX2bL4ev8TkEE3B8+9ulCdpc7p4Mu2jPOaGX
+ gvR+lxO2rV/wm2zpuU/9ouKaSL8WtYzuB4ZwBU4HqeI/oLyJ3/d6Hg6KwmPNdm4nCBlD
+ QzMBmuwgTFn3hqvUpYjdOVKKFeAsTw4HBHQ5eGsJH5poRO4dy99xOBm/sfgiOAkiI+1J
+ 1N/ysopzYO4XRGI0ysFzNUT9KnGt9O/jMO+lSpE+D51JMLml0sG1I2VfORULk5jayADw
+ 0X5Q==
+X-Gm-Message-State: AOAM5331YgSmJg4hZqMWeyi8XfFXFJgyo5tqxNN4hbOV80zDiPjFFcpm
+ 8t8QHJFrMh5B2Cnw/MLYx40=
+X-Google-Smtp-Source: ABdhPJxYZHAMZK8r1avLZqQyT+NhvO35Mi3DXrBP+wvlmArlvV7owuYyb2TVHHOzbKA3bEkXakVO1A==
+X-Received: by 2002:a65:458d:: with SMTP id o13mr10574362pgq.450.1611426342838; 
+ Sat, 23 Jan 2021 10:25:42 -0800 (PST)
+Received: from [192.168.29.245] ([49.36.171.181])
+ by smtp.gmail.com with ESMTPSA id a22sm8777677pjh.5.2021.01.23.10.25.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Jan 2021 10:25:42 -0800 (PST)
+To: Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
 References: <bd560a8e-7949-933a-e4a9-508cb42c2570@gmail.com>
  <20210123151405.26267-1-yashsri421@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ <d5eacb78bd354d26725c34d887a75bf1e8f27a04.camel@perches.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <f23f4003-0017-d52a-39b9-2737e60182bb@gmail.com>
+Date: Sat, 23 Jan 2021 23:53:26 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <d5eacb78bd354d26725c34d887a75bf1e8f27a04.camel@perches.com>
+Content-Language: en-US
 Cc: dwaipayanray1@gmail.com, ndesaulniers@google.com,
  clang-built-linux@googlegroups.com, broonie@kernel.org, jpoimboe@redhat.com,
  linux-kernel-mentees@lists.linuxfoundation.org
@@ -86,81 +113,52 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 2021-01-23 at 20:44 +0530, Aditya Srivastava wrote:
-> objtool requires that all code must be contained in an ELF symbol.
-> Symbol names that have a '.L' prefix do not emit symbol table entries, as
-> they have special meaning for the assembler.
-> =
-
-> '.L' prefixed symbols can be used within a code region, but should be
-> avoided for denoting a range of code via 'SYM_*_START/END' annotations.
-> =
-
-> Add a new check to emit a warning on finding the usage of '.L' symbols
-> for '.S' files in arch/x86/entry/* and arch/x86/lib/*, if it denotes
-> range of code via SYM_*_START/END annotation pair.
-> =
-
-> Suggested-by: Mark Brown <broonie@kernel.org>
-> Link: https://groups.google.com/g/clang-built-linux/c/-drkmLgu-cU/m/4staO=
-lf-CgAJ
-
-Please do not use groups.google.com links, or if you must, please
-use links that are readable.
-
-For instance, this is a better link as it shows the context without
-struggling with the poor interface:
-
-https://groups.google.com/g/clang-built-linux/c/E-naBMt_1SM
-
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> * Applies perfectly on next-20210122
-> =
-
-> Changes in v2:
-> - Reduce the check to only SYM_*_START/END lines
-> - Reduce the check for only .S files in arch/x86/entry/* and arch/x86/lib=
-/* as suggested by Josh and Nick
-
-I think that's unnecessary.
-
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -3590,6 +3590,13 @@ sub process {
-> =A0			}
-> =A0		}
-> =A0
-> =
-
-> +# check for .L prefix local symbols in .S files
-> +		if ($realfile =3D~ m@^arch/x86/(?:entry|lib)/.*\.S$@ &&
-
-Using /.S$/ should be enough
-
-> +		    $line =3D~ /^\+\s*SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L=
-/) {
-
-This might need to be
-
-+		    $line =3D~ /^\+\s*(?:[A-Z]+_)?SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\=
-s*\(\s*\.L/) {
-
-> +			WARN("AVOID_L_PREFIX",
-> +			     "Avoid using '.L' prefixed local symbol names for denoting a ran=
-ge of code via 'SYM_*_START/END' annotations; see Documentation/asm-annotat=
-ions.rst\n" . $herecurr);
-> +		}
-> +
-
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMjMvMS8yMSAxMDo1MSBwbSwgSm9lIFBlcmNoZXMgd3JvdGU6Cj4gT24gU2F0LCAyMDIxLTAx
+LTIzIGF0IDIwOjQ0ICswNTMwLCBBZGl0eWEgU3JpdmFzdGF2YSB3cm90ZToKPj4gb2JqdG9vbCBy
+ZXF1aXJlcyB0aGF0IGFsbCBjb2RlIG11c3QgYmUgY29udGFpbmVkIGluIGFuIEVMRiBzeW1ib2wu
+Cj4+IFN5bWJvbCBuYW1lcyB0aGF0IGhhdmUgYSAnLkwnIHByZWZpeCBkbyBub3QgZW1pdCBzeW1i
+b2wgdGFibGUgZW50cmllcywgYXMKPj4gdGhleSBoYXZlIHNwZWNpYWwgbWVhbmluZyBmb3IgdGhl
+IGFzc2VtYmxlci4KPj4KPj4gJy5MJyBwcmVmaXhlZCBzeW1ib2xzIGNhbiBiZSB1c2VkIHdpdGhp
+biBhIGNvZGUgcmVnaW9uLCBidXQgc2hvdWxkIGJlCj4+IGF2b2lkZWQgZm9yIGRlbm90aW5nIGEg
+cmFuZ2Ugb2YgY29kZSB2aWEgJ1NZTV8qX1NUQVJUL0VORCcgYW5ub3RhdGlvbnMuCj4+Cj4+IEFk
+ZCBhIG5ldyBjaGVjayB0byBlbWl0IGEgd2FybmluZyBvbiBmaW5kaW5nIHRoZSB1c2FnZSBvZiAn
+LkwnIHN5bWJvbHMKPj4gZm9yICcuUycgZmlsZXMgaW4gYXJjaC94ODYvZW50cnkvKiBhbmQgYXJj
+aC94ODYvbGliLyosIGlmIGl0IGRlbm90ZXMKPj4gcmFuZ2Ugb2YgY29kZSB2aWEgU1lNXypfU1RB
+UlQvRU5EIGFubm90YXRpb24gcGFpci4KPj4KPj4gU3VnZ2VzdGVkLWJ5OiBNYXJrIEJyb3duIDxi
+cm9vbmllQGtlcm5lbC5vcmc+Cj4+IExpbms6IGh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZy9j
+bGFuZy1idWlsdC1saW51eC9jLy1kcmttTGd1LWNVL20vNHN0YU9sZi1DZ0FKCj4gCj4gUGxlYXNl
+IGRvIG5vdCB1c2UgZ3JvdXBzLmdvb2dsZS5jb20gbGlua3MsIG9yIGlmIHlvdSBtdXN0LCBwbGVh
+c2UKPiB1c2UgbGlua3MgdGhhdCBhcmUgcmVhZGFibGUuCj4gCj4gRm9yIGluc3RhbmNlLCB0aGlz
+IGlzIGEgYmV0dGVyIGxpbmsgYXMgaXQgc2hvd3MgdGhlIGNvbnRleHQgd2l0aG91dAo+IHN0cnVn
+Z2xpbmcgd2l0aCB0aGUgcG9vciBpbnRlcmZhY2U6Cj4gCj4gaHR0cHM6Ly9ncm91cHMuZ29vZ2xl
+LmNvbS9nL2NsYW5nLWJ1aWx0LWxpbnV4L2MvRS1uYUJNdF8xU00KPiAKCk9rYXksIEdvdCBpdC4u
+IEknbGwgdXNlIGxrbWwgbGluayBmb3IgdGhlIGJlc3QuCgo+PiBTaWduZWQtb2ZmLWJ5OiBBZGl0
+eWEgU3JpdmFzdGF2YSA8eWFzaHNyaTQyMUBnbWFpbC5jb20+Cj4+IC0tLQo+PiAqIEFwcGxpZXMg
+cGVyZmVjdGx5IG9uIG5leHQtMjAyMTAxMjIKPj4KPj4gQ2hhbmdlcyBpbiB2MjoKPj4gLSBSZWR1
+Y2UgdGhlIGNoZWNrIHRvIG9ubHkgU1lNXypfU1RBUlQvRU5EIGxpbmVzCj4+IC0gUmVkdWNlIHRo
+ZSBjaGVjayBmb3Igb25seSAuUyBmaWxlcyBpbiBhcmNoL3g4Ni9lbnRyeS8qIGFuZCBhcmNoL3g4
+Ni9saWIvKiBhcyBzdWdnZXN0ZWQgYnkgSm9zaCBhbmQgTmljawo+IAo+IEkgdGhpbmsgdGhhdCdz
+IHVubmVjZXNzYXJ5Lgo+IAo+PiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9jaGVja3BhdGNoLnBsIGIv
+c2NyaXB0cy9jaGVja3BhdGNoLnBsCj4gW10KPj4gQEAgLTM1OTAsNiArMzU5MCwxMyBAQCBzdWIg
+cHJvY2VzcyB7Cj4+IMKgCQkJfQo+PiDCoAkJfQo+PiDCoAo+Pgo+PiArIyBjaGVjayBmb3IgLkwg
+cHJlZml4IGxvY2FsIHN5bWJvbHMgaW4gLlMgZmlsZXMKPj4gKwkJaWYgKCRyZWFsZmlsZSA9fiBt
+QF5hcmNoL3g4Ni8oPzplbnRyeXxsaWIpLy4qXC5TJEAgJiYKPiAKPiBVc2luZyAvLlMkLyBzaG91
+bGQgYmUgZW5vdWdoCj4gCj4+ICsJCSAgICAkbGluZSA9fiAvXlwrXHMqU1lNX1tBLVpdK18oPzpT
+VEFSVHxFTkQpKD86X1tBLVpfXSspP1xzKlwoXHMqXC5MLykgewo+IAo+IFRoaXMgbWlnaHQgbmVl
+ZCB0byBiZQo+IAo+ICsJCSAgICAkbGluZSA9fiAvXlwrXHMqKD86W0EtWl0rXyk/U1lNX1tBLVpd
+K18oPzpTVEFSVHxFTkQpKD86X1tBLVpfXSspP1xzKlwoXHMqXC5MLykgewo+IAoKT2theS4uIFRo
+YW5rcy4gSSdsbCBtb2RpZnkgdGhlIHBhdGNoIGFjY29yZGluZ2x5LgoKVGhhbmtzCkFkaXR5YQo+
+PiArCQkJV0FSTigiQVZPSURfTF9QUkVGSVgiLAo+PiArCQkJICAgICAiQXZvaWQgdXNpbmcgJy5M
+JyBwcmVmaXhlZCBsb2NhbCBzeW1ib2wgbmFtZXMgZm9yIGRlbm90aW5nIGEgcmFuZ2Ugb2YgY29k
+ZSB2aWEgJ1NZTV8qX1NUQVJUL0VORCcgYW5ub3RhdGlvbnM7IHNlZSBEb2N1bWVudGF0aW9uL2Fz
+bS1hbm5vdGF0aW9ucy5yc3RcbiIgLiAkaGVyZWN1cnIpOwo+PiArCQl9Cj4+ICsKPiAKPiAKCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5l
+bC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZv
+dW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
