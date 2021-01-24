@@ -8,87 +8,88 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1746DC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:38:17 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 264E8C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:41:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B25BC21D79
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:38:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B25BC21D79
+	by mail.kernel.org (Postfix) with ESMTPS id AD17B22AAA
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:41:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AD17B22AAA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5D36A868E4;
-	Sun, 24 Jan 2021 16:38:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 32C4885E6F;
+	Sun, 24 Jan 2021 16:41:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bJDM9m9K-6-1; Sun, 24 Jan 2021 16:38:16 +0000 (UTC)
+	with ESMTP id B3XrX-CUxTjc; Sun, 24 Jan 2021 16:41:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id EA095868E3;
-	Sun, 24 Jan 2021 16:38:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 58FA385E7D;
+	Sun, 24 Jan 2021 16:41:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D0542C0FA7;
-	Sun, 24 Jan 2021 16:38:15 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 524FAC0FA7;
+	Sun, 24 Jan 2021 16:41:38 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 43D0CC013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 19D24C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:38:14 +0000 (UTC)
+ Sun, 24 Jan 2021 16:41:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 32DFB85E0B
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 01E2385E6F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:38:14 +0000 (UTC)
+ Sun, 24 Jan 2021 16:41:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Z1AKfzcFG9Yn
+ with ESMTP id H2ix7WFXCjcg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:38:12 +0000 (UTC)
+ Sun, 24 Jan 2021 16:41:36 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 44DCD85E09
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+ [209.85.166.42])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id EE5D485E27
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:38:12 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id n2so21676397iom.7
+ Sun, 24 Jan 2021 16:41:35 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id z22so21672654ioh.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 08:38:12 -0800 (PST)
+ Sun, 24 Jan 2021 08:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nHaBdOSCS5fisMfew4ROifh/wH9+5f9pfnnksC/kWrY=;
- b=rUF1Tk/df7jNJ33BTlAvifwISW85We5jmpupaty0Vz91XayLGwnUvIQrknSzxMMiuA
- W8xzqghfF0qo/3tG0DUjrQhQMaHlIPjlwyJXuDDU21Pl5lXqg/GADvZ9CArNaBhOvEhU
- azhOJjyssAb1Df5roXaBP81diYCGe3lsDEx6ABbdV88UCncG/9LIyqNWzslKIDhlyFru
- k2X6WPXxTTtIsaiPUz7kd/lUwHJcqeKhTorvjO++BBisMXm72zu5UZaBFXXceCMAMWxC
- 7t62BKrwFrhPOkQglPulpc5ooz9Q9qIeUsEX+shM5+xs4UoSdPVTIP8JnBy0cDa+OZfS
- mT6Q==
+ :cc; bh=QQx1VlagJmVkCMGOfQb+IRrwNgX+fKCk+7yuNmqHBgo=;
+ b=hGm0U7rB30Ef/BQSlVmrI6gM5nOuOyuLABBXJCHn3d+jZemjP6ykXon+SBrVbJOmCb
+ 3cR7IaMzIZkWulq4X1kFOpBm2HRfpSW7y5ChPbZ4LpAEXLl0/8XlypeBA1c8Fu8VBbO0
+ GecZZU/1lWGaIBslJstTm+JhiY4fpoV4e2qpRS3+9Js7+fH/0O3VEtGo8KEtAFj6VyZa
+ Q6e9+KpC+uTIIJnp6VT8lLJJqBkS052VSBobqUjSl+FTKoRbEf6LVymUBgWmJZonnnUn
+ Xr0/QrIZ9LwsCHOf3QaNUQoyqQlFUZfXcAifQ5Bv1kr5BqnbcpNYjkcp6xBKs8EjO7FV
+ JOIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nHaBdOSCS5fisMfew4ROifh/wH9+5f9pfnnksC/kWrY=;
- b=JFRtPv/eT4IhnQFZzWCEVRoyjU52yvV8s88HaNB7Ozn+hjS06RF6h5T/YsVsCA1GJV
- wz6OdFVavEIXZZvIVJS9x6+WCumuWiDM+7WAlUzwgp0b28urT4JjY7uQ8ns5s3NZ4Tr9
- PZInWcvhQyhmTv66daSmvvoRTmh4gZg0h2l7OKz4D4tibbMcIC7gq1mHoTRi+Djc0P/E
- 4FOKMkZXgeUeQ5nVqCYOt2K/2B3HUmucbA7aFrYAATjrmZ+QRYKxChSepRsLL9P7XK5B
- iX6O93KVhLxQtGUOfKnP3CJnNq2FdFuC/5z9MbDjnRpq91eZtQGkS8eXTz5j7vNExi9R
- t++A==
-X-Gm-Message-State: AOAM532XZMw6OXK/nkZ8hG+Q/aLEQJ38qr6vIft2RxoSfhnv3m0Etc1p
- vuU8/wwDGHpnPg5ssJ5qb04JCUGryfL4POYEhPE=
-X-Google-Smtp-Source: ABdhPJzMqv4r8LsYDWGRiqFOmb3QZokmoU+S91jNACszETLerQ9WRrTtTCfkpxRn2GhOYTKHlSd5c6RE3lsTNLoV+WY=
-X-Received: by 2002:a92:c986:: with SMTP id y6mr1189497iln.125.1611506291506; 
- Sun, 24 Jan 2021 08:38:11 -0800 (PST)
+ bh=QQx1VlagJmVkCMGOfQb+IRrwNgX+fKCk+7yuNmqHBgo=;
+ b=qZwy7VeCFkk9cnPbwQOJxtKbpbB6NcwkrJzv28xoi8Ly1p4dlIxWt4B6v3HV12w3eP
+ I5WE18LYMrsFu3NRPhy++W64fXJ5yyxIkYLPGQWbjrGdAEXbN+V18TJgRYSzAUtnRoJe
+ qH9BAJeDQ9dBEJloQezdx4v8Hs9Q1fEZXFS03yg9SlPNFoBJLHfLVFeVMnaSQp3jm8L6
+ 6Lodhq50Xwz/CUV+kFHNFu1sciQeniDZp/qs8Qu14nSpfT2+SCRatxzgew42+QQQbfGi
+ DG5G3eBCbV4c1RZ5h68rJIQz5or+t49EhrN0CGH0s49+/2n9c9ppEABYSv//PI8LjNWp
+ KBuQ==
+X-Gm-Message-State: AOAM532gWNqpHP0pkJRFOk8uQY533JDS2xiHcG4PYNdAfWQinP3j1w6g
+ dJLGjC6rCSxUiAJeFjmzst1Sr/Wwv6aFM75rktbrShfgKO4=
+X-Google-Smtp-Source: ABdhPJzv+8yT4yzIaMBmtmrDL6Nh/ZwlOtrquCNJZgX9FpJ8N+GSXBLewrmXCcZWl4nHrExiDFbuQT0iy9N2u3HPymg=
+X-Received: by 2002:a05:6638:388e:: with SMTP id
+ b14mr1104796jav.96.1611506495193; 
+ Sun, 24 Jan 2021 08:41:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20210124151933.19696-1-dwaipayanray1@gmail.com>
- <20210124151933.19696-4-dwaipayanray1@gmail.com>
-In-Reply-To: <20210124151933.19696-4-dwaipayanray1@gmail.com>
+ <20210124151933.19696-2-dwaipayanray1@gmail.com>
+In-Reply-To: <20210124151933.19696-2-dwaipayanray1@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sun, 24 Jan 2021 17:38:00 +0100
-Message-ID: <CAKXUXMyCU=QLtoXAtvzsa4WjU0Pnw4iezcgja9bSPZJyEPa5qA@mail.gmail.com>
+Date: Sun, 24 Jan 2021 17:41:24 +0100
+Message-ID: <CAKXUXMzeOfjcu-KkBKqM5odsau+v6iQ6DFDDyNY9hZmZSdi0kQ@mail.gmail.com>
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC 3/3] docs: add documentation
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 1/3] docs: add documentation
 	for checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -109,47 +110,306 @@ Sender: "Linux-kernel-mentees"
 
 On Sun, Jan 24, 2021 at 4:19 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> Link the tools directory to the document root for Sphinx.
+> Add documentation for style checker script checkpatch.pl
+> (scripts/checkpatch.pl).
 >
-
-Sorry, I did not mean "Documentation/tools/checkpatch.rst"
-_literally_; I only remembered that there is a subdirectory for
-"tools" in Documentation; and quickly wrote the mail without checking
-the actual name of the directory... assuming you would find the
-directory I meant.
-
-The directory is called "Documentation/dev-tools", it already has an
-index file and the checkpatch.pl documentation fits nicely there.
-
-Luksa
-
+> The documentation performs a dual function. At the surface it
+> serves as a documentation for checkpatch and describes the options
+> as well as the messages emitted by checkpatch.
+>
+> The type description messages will be parsed to enable a verbose
+> mode in checkpatch.
+>
 > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 > ---
->  Documentation/index.rst | 11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  Documentation/tools/checkpatch.rst | 271 +++++++++++++++++++++++++++++
+>  1 file changed, 271 insertions(+)
+>  create mode 100644 Documentation/tools/checkpatch.rst
 >
-> diff --git a/Documentation/index.rst b/Documentation/index.rst
-> index 5888e8a7272f..ddd30e08a440 100644
-> --- a/Documentation/index.rst
-> +++ b/Documentation/index.rst
-> @@ -182,6 +182,17 @@ subprojects.
->
->     filesystems/ext4/index
->
-> +Tools Documentation
+> diff --git a/Documentation/tools/checkpatch.rst b/Documentation/tools/checkpatch.rst
+> new file mode 100644
+> index 000000000000..cbf153040de1
+> --- /dev/null
+> +++ b/Documentation/tools/checkpatch.rst
+> @@ -0,0 +1,271 @@
+> +==========
+> +Checkpatch
+> +==========
+> +
+> +This document describes the kernel script checkpatch.pl.
+> +
+> +.. Table of Contents
+> +
+> +       === 1 Introduction
+> +       === 2 Options
+> +       === 3 Message Levels
+> +    === 4 Type Descriptions
+> +
+> +1 Introduction
+> +--------------
+> +
+> +Checkpatch (scripts/checkpatch.pl) is a perl script which checks for trivial style
+> +violations in patches and optionally corrects them.  Checkpatch can also be run on
+> +file contexts and without the kernel tree.
+> +
+> +It should be noted that checkpatch may not be always right.  At times the human
+> +judgement should take preference over what checkpatch has to say.  If your code looks
+> +better with the violations, then its probably best left alone.
+> +
+> +
+> +2 Options
+> +---------
+> +
+> +This section will describe the options checkpatch can be run with.
+> +
+> +Usage::
+> +
+> +  ./scripts/checkpatch.pl [OPTION]... [FILE]...
+> +
+> +Available options:
+> +
+> + - -q,  --quiet
+> +
+> +   Enable quiet mode.  All information messages are disabled.  Only the
+> +   messages and a summary report is output.
+> +
+> + - --no-tree
+> +
+> +   Run checkpatch without the kernel tree.
+> +
+> + - --no-signoff
+> +
+> +   Disable the 'Signed-off-by' line check.  The sign-off is a simple line at
+> +   the end of the explanation for the patch, which certifies that you wrote it
+> +   or otherwise have the right to pass it on as an open-source patch.
+> +
+> +   Example::
+> +
+> +        Signed-off-by: Random J Developer <random@developer.example.org>
+> +
+> +   Setting this flag effectively stops a message for a missing signed-off-by line
+> +   in a patch context.
+> +
+> + - --patch
+> +
+> +   Treat FILE as a patch.  This is the default option and need not be
+> +   explicitly specified.
+> +
+> + - --emacs
+> +
+> +   Set output to emacs compile window format.  This allows emacs users to jump
+> +   from the error in the compile window directly to the offending line in the patch.
+> +
+> + - --terse
+> +
+> +   Output only one line per report.
+> +
+> + - --showfile
+> +
+> +   Show the diffed file position instead of the input file position.
+> +
+> + - -g,  --git
+> +
+> +   Treat FILE as a single commit or a git revision range.
+> +
+> +   Single commit with:
+> +
+> +   - <rev>
+> +   - <rev>^
+> +   - <rev>~n
+> +
+> +   Multiple commits with:
+> +
+> +   - <rev1>..<rev2>
+> +   - <rev1>...<rev2>
+> +   - <rev>-<count>
+> +
+> + - -f,  --file
+> +
+> +   Treat FILE as a regular source file.  This option must be used when running
+> +   checkpatch on source files in the kernel.
+> +
+> + - --subjective,  --strict
+> +
+> +   Enable stricter tests in checkpatch.  By default the tests emitted as CHECK
+> +   do not activate by default.  Use this flag to activate the CHECK tests.
+> +
+> + - --list-types
+> +
+> +   Every message emitted by checkpatch has an associated TYPE.  Add this flag to
+> +   display all the types in checkpatch.
+> +
+> +   Note that when this flag is active, checkpatch does not read the input FILE, and
+> +   no message is emitted.  Only a list of types in checkpatch is output.
+> +
+> + - --types TYPE(,TYPE2...)
+> +
+> +   Only display messages with the given types.
+> +
+> +   Example::
+> +
+> +     ./scripts/checkpatch.pl mypatch.patch --types EMAIL_SUBJECT,NO_AUTHOR_SIGN_OFF
+> +
+> + - --ignore TYPE(,TYPE2...)
+> +
+> +   Strip off messages with the given types.
+> +
+> +   Example::
+> +
+> +     ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,NO_AUTHOR_SIGN_OFF
+> +
+> + - --show-types
+> +
+> +   By default checkpatch doesn't display the type associated with the messages.
+> +   Set this flag to show the message type in the output.
+> +
+> + - --max-line-length=n
+> +
+> +   Set the max line length (default 100).  On exceeding the given length, a message
+> +   is emitted.
+> +
+> +   The message level is different for patch and file contexts.  For patches, a WARNING is
+> +   emitted.  While a milder CHECK is emitted for files.  So for file contexts, the --strict
+> +   flag must also be enabled.
+> +
+> + - --min-conf-desc-length=n
+> +
+> +   Set the min description length, if shorter, warn.
+> +
+> + - --tab-size=n
+> +
+> +   Set the number of spaces for tab (default 8).
+> +
+> + - --root=PATH
+> +
+> +   PATH to the kernel tree root.
+> +
+> +   This option must be specified when invoking checkpatch from outside
+> +   the kernel root.
+> +
+> + - --no-summary
+> +
+> +   Suppress the per file summary.
+> +
+> + - --mailback
+> +
+> +   Only produce a report in case of Warnings or Errors.  Milder Checks are
+> +   excluded from this.
+> +
+> + - --summary-file
+> +
+> +   Include the filename in summary.
+> +
+> + - --debug KEY=[0|1]
+> +
+> +   Turn on/off debugging of KEY, where KEY is one of 'values', 'possible',
+> +   'type', and 'attr' (default is all off).
+> +
+> + - --fix
+> +
+> +   This is an EXPERIMENTAL feature.  If correctable errors exists, a file
+> +   <inputfile>.EXPERIMENTAL-checkpatch-fixes is created which has the
+> +   automatically fixable errors corrected.
+> +
+> + - --fix-inplace
+> +
+> +   EXPERIMENTAL - Similar to --fix but the input file is overwritten with fixes.
+> +
+> +   DO NOT USE this flag unless you are absolutely sure and you have a backup in place.
+> +
+> + - --ignore-perl-version
+> +
+> +   Override checking of perl version.  Runtime errors maybe encountered after
+> +   enabling this flag if the perl version does not meet the minimum specified.
+> +
+> + - --codespell
+> +
+> +   Use the codespell dictionary for checking spelling errors.
+> +
+> + - --codespellfile
+> +
+> +   Use the specified codespell file.  Default is '/usr/share/codespell/dictionary.txt'.
+> +
+> + - --typedefsfile
+> +
+> +   Read additional types from this file.
+> +
+> + - --color[=WHEN]
+> +
+> +   Use colors 'always', 'never', or only when output is a terminal ('auto').
+> +   Default is 'auto'.
+> +
+> + - --kconfig-prefix=WORD
+> +
+> +   Use WORD as a prefix for Kconfig symbols (default is `CONFIG_`).
+> +
+> + - -h, --help, --version
+> +
+> +   Display the help text.
+> +
+
+Did you copy this from the current checkpatch.pl --help?
+
+Probably it is best to then refactor checkpatch.pl to just print the
+help text by parsing from the Documentation file or have the
+Documentation just include the output from checkpatch.pl --help here.
+
+> +3 Message Levels
+> +----------------
+> +
+> +Messages in checkpatch are divided into three levels. The levels of messages in
+> +checkpatch denote the severity of the error. They are:
+> +
+> + - ERROR
+> +
+> +   This is the most strict level.  Messages of type ERROR must be taken
+> +   seriously as they denote things that are very likely to be wrong.
+> +
+> + - WARNING
+> +
+> +   This is the next stricter level.  Messages of type WARNING requires a
+> +   more careful review.  But it is milder than an ERROR.
+> +
+> + - CHECK
+> +
+> +   This is the mildest level.  These are things which may require some thought.
+> +
+> +4 Type Descriptions
 > +-------------------
 > +
-> +The documentation in this section provides details about the kernel tools
-> +and scripts.
+> +This section contains a description of all the message types in checkpatch.
 > +
-> +.. toctree::
-> +   :maxdepth: 2
+> +.. Types in this section are also parsed by checkpatch.
+> +.. Please keep the types sorted alphabetically.
+> +.. CHECKPATCH_START
 > +
-> +   tools/index
+> +MISSING_SIGN_OFF
 > +
->  Other documentation
->  -------------------
->
+> +  The patch is missing a Signed-off-by line.  This error must be taken care of
+> +  and a Signed-off-by line should be added according to Developer's certificate of
+> +  Origin.
+> +
+> +NO_AUTHOR_SIGN_OFF
+> +
+> +  The author of the patch has not signed off the patch.  It is required that
+> +  a simple sign off line should be present at the end of explanation of the patch
+> +  to denote that the author has written it or otherwise has the rights to pass it on
+> +  as an open source patch.
+> +
+> +  Sometimes this particular warning can also occur when both email address and name of
+> +  the author do not match the sign off line because checkpatch has no mechanism to say
+> +  if it is the same person.
+> +
+> +  Consider::
+> +
+> +    From: John Doe <john.doe@example.com>
+> +    ...
+> +    Signed-off-by: J. Doe <john@example2.com>
+> +
+> +  While these may point that both the persons are same, checkpatch cannot
+> +  understand that and in such cases this warning can be ignored.
+> +
+> +.. CHECKPATCH_END
 > --
 > 2.30.0
 >
