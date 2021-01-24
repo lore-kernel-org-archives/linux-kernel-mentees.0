@@ -2,94 +2,91 @@ Return-Path: <SRS0=cPcG=G3=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FB17C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:47:10 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 396AEC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:51:57 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2F65922AAA
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:47:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2F65922AAA
+	by mail.kernel.org (Postfix) with ESMTPS id E4FED22CA2
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:51:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4FED22CA2
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id F0C5F868BB;
-	Sun, 24 Jan 2021 16:47:09 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RqzWUVyw75IQ; Sun, 24 Jan 2021 16:47:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 10A9F86913;
-	Sun, 24 Jan 2021 16:47:08 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F04DBC0FA7;
-	Sun, 24 Jan 2021 16:47:07 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0867C013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:47:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id BA3542042D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:47:06 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 7F72820465;
+	Sun, 24 Jan 2021 16:51:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nQJZsf2UhiS5; Sun, 24 Jan 2021 16:51:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by silver.osuosl.org (Postfix) with ESMTP id 9D88820407;
+	Sun, 24 Jan 2021 16:51:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8D213C0FA7;
+	Sun, 24 Jan 2021 16:51:53 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D492C013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 Jan 2021 16:51:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7C5F4870AA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 Jan 2021 16:51:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VswT9CaL7ssn
+ with ESMTP id miRxHELajd4h
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:47:04 +0000 (UTC)
+ Sun, 24 Jan 2021 16:51:51 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
- [209.85.208.175])
- by silver.osuosl.org (Postfix) with ESMTPS id 78E812034B
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+ [209.85.166.43])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 682258708C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 16:47:04 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id l12so9830378ljc.3
+ Sun, 24 Jan 2021 16:51:51 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id q1so21727860ion.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 08:47:04 -0800 (PST)
+ Sun, 24 Jan 2021 08:51:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d9NIS6Ud3qDNLiPYZEyQHP2TMK0Z6bt1uyc35KdYk/s=;
- b=FppXdg8qC1ODKhZSCj2zjrCpnTIrMyr2Ea7bZfueOW1SJtLT7U2UPLRf5HnHEP1OIs
- wGdAMKahrpKHZXf1HbN6qSHJZqoggU+LeaGHZODA2TNSDRlYeS0Q5qSaNQF7OiuMabOo
- i9Ot+xfimWtFbGF9kqotSTpsDvxTuN/PeBYhdpEPIQWdpMvcEB7g4mitjki/6CCicC+0
- DrQQMTijqxBUzaUYbg6GVmvlDQ6MnDoTlr1dHetk7xaVNGB85i5Blaruxrue7HRkU5fT
- 4znIBTFxiazBk9AjanEHCVzhsyqMnbJCxcokorDYKaiWwRFUinGOhbOcGOb3HmOrl6do
- tiMQ==
+ :cc; bh=SQ4aZ+k3kRQ7UZ5Mb09S8K0NfyOVyQRdelQPUkyNbcw=;
+ b=o7uh6lY3gLksguSycFzwt+aQIi9Lx7vXV+Elhf7xOdNHk4hy4Hxr8/05GoIGLOe9Uv
+ GqS8RR7pUDn4012eJyLs+mwhPCN97l5CpRKTYi5ra+ldlEU7NUIgIQGsHNBrkEM6Pwcy
+ swZv8fjqb3g3NcN0H4Mi5uRUOm8qYfZzEnsshQS1Q3XY87Vn03NJR3gsFmt81Yp98fmj
+ ErqVGE6kamk1jTbKsNMj8IBSZtH/WidCFVeknX65M/UvTrQj7aM1ZweIonTvw+jkJ1gB
+ JFaRzxLAQDoc7loCSZIjspbe4CKIhXxHDqG0OmKS4+bl2rHqmqxOiecWpBNWNePxKaUl
+ e3uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=d9NIS6Ud3qDNLiPYZEyQHP2TMK0Z6bt1uyc35KdYk/s=;
- b=EdOcPwIYGjRivVm8WmlkXSFwuUbj7axnQdSsiMGlNvNFcw0ef5wf12hDmHbma35ML+
- qUJh4OnxDRjNVMa9CWnGCr8O7gC8xSKuDOb/eptEZj2QFnbroohB5iqA9oQUtBelquCG
- GyVxgegtbj5kBaWpyv0YM1s8y5OHqupOLjbzuaBLTpVRi/jpCIfPJ60EpaT2I+KLzaXp
- e09HyVp5hfPPRiuTlCQ/Q0hop7b8FdW9MewIwe5NjQWhU/rJ/tQNtdvW4IbGx3+EWdTl
- aE4Lw76di8VaGOjE08rRFS51rsiZE7zSAe2EX/4jAZpTWqFDDL/UazKizRm7TUtVmjk3
- 0Xow==
-X-Gm-Message-State: AOAM531Cq9EwuenWYYmjqKMV1YwRx3dmUcW8biEOOIkNDibt3//eZTQ0
- 7sF3oMHQP82K2ohg1sbAgyUvJn2XOxUehCwEL/o=
-X-Google-Smtp-Source: ABdhPJwwsIdjnF70Ofww6mvJ4WQtVhX6udRo5HgycZAK7P3l9g2SKyWAIbPNC4e3XVveSKKGCe6Utbt5DwqIrfqASf4=
-X-Received: by 2002:a2e:960d:: with SMTP id v13mr1545712ljh.370.1611506822515; 
- Sun, 24 Jan 2021 08:47:02 -0800 (PST)
+ bh=SQ4aZ+k3kRQ7UZ5Mb09S8K0NfyOVyQRdelQPUkyNbcw=;
+ b=NEINEyVsI+QJYTp70QmOnuVSDnkQNmOnyqeGWL/pqZGsA9HS+4G6vb0XC3lFlgzBL3
+ qaO2ngLfc/jG9jxG2Qy6+ps3/XpamaqwerLinWpnrj+OHwjtKA1civgqKHkPE/6zuSF9
+ /6AYUmI8rOiBmwL8vjPa28j8S9ARALT+CEawf2xzCi+6F6nj9SH7/92FNhkAZ5Uj67a0
+ 5alyaX5uINU4btH7RTIcvl68jKdcDILflGKpNxNFoWqrPNaNVOaP3nCAIflsb5xG3+o+
+ PtvwRvr0kPuqP5kkRRWV9v880KdnPyNYW9acitIEoJomE2XHwwdXqUlMoI2JONnA5VBj
+ 47rw==
+X-Gm-Message-State: AOAM530eQWgnYKned1hFjQYw61g51fVOYUcs/QE2KEBATnQgMug4tsW4
+ uwMlkns1f5dgHNB7DdtvDfh27hcE8WlNHsBzgj4=
+X-Google-Smtp-Source: ABdhPJwD8fQkaskbHhVnUiAM7CSnvyfVMeJ3SUndQu5ErAvjpro4swsA1lGDwQN0YJvShK47xEfCZOPodOQPsu8xgLI=
+X-Received: by 2002:a6b:8b84:: with SMTP id n126mr438406iod.189.1611507110654; 
+ Sun, 24 Jan 2021 08:51:50 -0800 (PST)
 MIME-Version: 1.0
 References: <20210124151933.19696-1-dwaipayanray1@gmail.com>
- <20210124151933.19696-4-dwaipayanray1@gmail.com>
- <CAKXUXMyCU=QLtoXAtvzsa4WjU0Pnw4iezcgja9bSPZJyEPa5qA@mail.gmail.com>
-In-Reply-To: <CAKXUXMyCU=QLtoXAtvzsa4WjU0Pnw4iezcgja9bSPZJyEPa5qA@mail.gmail.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Sun, 24 Jan 2021 22:16:58 +0530
-Message-ID: <CABJPP5BegcYznJ0wTBDoUg2b+wKeVrUxMnCQLowbOjMBDZkztQ@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+In-Reply-To: <20210124151933.19696-1-dwaipayanray1@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 24 Jan 2021 17:51:39 +0100
+Message-ID: <CAKXUXMx5YZAfd7Qo+s3jHaXjGqw5OK0Ua_qhzJvMhdr+mvdH7Q@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC 3/3] docs: add documentation
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC 0/3] docs: add documentation
 	for checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -108,60 +105,51 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jan 24, 2021 at 10:08 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Sun, Jan 24, 2021 at 4:19 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> On Sun, Jan 24, 2021 at 4:19 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
-> >
-> > Link the tools directory to the document root for Sphinx.
-> >
+> This patch series serves to introduce a documentation for kernel script
+> checkpatch.pl (scripts/checkpatch.pl).
 >
-> Sorry, I did not mean "Documentation/tools/checkpatch.rst"
-> _literally_; I only remembered that there is a subdirectory for
-> "tools" in Documentation; and quickly wrote the mail without checking
-> the actual name of the directory... assuming you would find the
-> directory I meant.
+> A top level tools directory has been created in docs which shall contain
+> the documentation related to the kernel tools and scripts.
+>
+> This documentation shall be progressively updated by future patches to
+> document all the message types in checkpatch. Consecutively this
+> documentation itself will be parsed by checkpatch to generate verbose
+> messages.
 >
 
-Oh my bad! I actually searched for a while for a directory which contained
-the scripts documentations actually and this totally slipped through my eyes.
+Just a quick pointer:
 
-I will correct the linkage.
+I know there was once some documentation at:
 
-> The directory is called "Documentation/dev-tools", it already has an
-> index file and the checkpatch.pl documentation fits nicely there.
+https://folk.universitetetioslo.no/knuto/kernel/4.14/dev-tools/run-checkpatch.html
+
+... but now I just checked and it is gone... Knut Omang (the author)
+probably left the university.
+
+I could not find it anywhere else;  Maybe you can reach out to him and
+ask if he still has those Documentation files around?
+
+It could be useful to reuse his documentation, although it was never merged.
+
+Lukas
+
+> Dwaipayan Ray (3):
+>   docs: add documentation for checkpatch
+>   docs: add documentation for checkpatch
+>   docs: add documentation for checkpatch
 >
-> Luksa
+>  Documentation/index.rst            |  11 ++
+>  Documentation/tools/checkpatch.rst | 271 +++++++++++++++++++++++++++++
+>  Documentation/tools/index.rst      |  10 ++
+>  3 files changed, 292 insertions(+)
+>  create mode 100644 Documentation/tools/checkpatch.rst
+>  create mode 100644 Documentation/tools/index.rst
 >
-> > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> > ---
-> >  Documentation/index.rst | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/Documentation/index.rst b/Documentation/index.rst
-> > index 5888e8a7272f..ddd30e08a440 100644
-> > --- a/Documentation/index.rst
-> > +++ b/Documentation/index.rst
-> > @@ -182,6 +182,17 @@ subprojects.
-> >
-> >     filesystems/ext4/index
-> >
-> > +Tools Documentation
-> > +-------------------
-> > +
-> > +The documentation in this section provides details about the kernel tools
-> > +and scripts.
-> > +
-> > +.. toctree::
-> > +   :maxdepth: 2
-> > +
-> > +   tools/index
-> > +
-> >  Other documentation
-> >  -------------------
-> >
-> > --
-> > 2.30.0
-> >
+> --
+> 2.30.0
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
