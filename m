@@ -7,84 +7,86 @@ X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27784C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 15:29:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A823C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:20:15 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 27AC022DFA
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 15:29:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27AC022DFA
+	by mail.kernel.org (Postfix) with ESMTPS id F217F229F0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Jan 2021 16:20:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F217F229F0
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E177587031;
-	Sun, 24 Jan 2021 15:29:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C437B871BF;
+	Sun, 24 Jan 2021 16:20:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zoOHcknFfgxl; Sun, 24 Jan 2021 15:29:29 +0000 (UTC)
+	with ESMTP id fHwv3SF8V1hN; Sun, 24 Jan 2021 16:20:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 5802E87028;
-	Sun, 24 Jan 2021 15:29:29 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 216DC871A9;
+	Sun, 24 Jan 2021 16:20:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A63CC08A1;
-	Sun, 24 Jan 2021 15:29:29 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C0FAC013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E214C0FA7;
+	Sun, 24 Jan 2021 16:20:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C7888C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 15:29:27 +0000 (UTC)
+ Sun, 24 Jan 2021 16:20:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 4E23B855BE
+ by whitealder.osuosl.org (Postfix) with ESMTP id B6BD2868BB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 15:29:27 +0000 (UTC)
+ Sun, 24 Jan 2021 16:20:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4KeJdy-3v1vt
+ with ESMTP id Q7E4VIIAsedu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 15:29:26 +0000 (UTC)
+ Sun, 24 Jan 2021 16:20:11 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id C835E85313
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+ [209.85.166.41])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id C079B868B2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 15:29:25 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id 3so12237053ljc.4
+ Sun, 24 Jan 2021 16:20:11 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id x21so21606769iog.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Jan 2021 07:29:25 -0800 (PST)
+ Sun, 24 Jan 2021 08:20:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uMOlpJWMp7PfUtiC0d40xFJ5JxEz+YfUuPW46n6RKy0=;
- b=k1rggKJb46IvKC8x9oI+d8T5uPF5EPygM0XaMex20yQXKB2pFtF2BvNDse+6IFDD7C
- RXO13x+2VJe4598NHRRNDweIV4xZzdc/NhJVsZ76UX0+e+SWwGniVooSX/EBRZZ1UNeo
- 1bkY0/JDLuSAYF0j7dS+YrTmwityNeLL/0v2LmvRJ5/ECsyVw3R1sA+MbaJlRcSsMhBD
- wmYnX33Y6mSuK7hA+dz7UuonNEhDd30SipHOiTg66Ml3pmUgNsRBZUwimiTL/vY9aQiq
- O97xIPtL2MaVrQG8/imBvgjkZNojELQlSWCl1FQ144YfDDvbBSbeEPaZl5DSRxqfAC/R
- 0ZJg==
+ :cc; bh=KnnQnqCVdB2y4NAxIIjTl94EE9gPtVCCOUsx0yuFqH0=;
+ b=lZghOekrn9CFNkOKdT67zhDIhwJSznUlk6yi2wFNx2/XZbd+xu7e+66KK+51xZbfFM
+ BL9h2PbO8SHbOWwbt933qPbk+CVSSkm/MfDp7bBpioO6ywFvgzhNfzcnBL+R0GhVRART
+ JDyfSpcUEA+nxLO/DX1M2ZEmFK4GUGKKRi1DlcCgwtstvqCGsT7zWX+VNM+pXjzmngS7
+ dnGwpZgu+brH3Wwce51JOhrH/0IZFX/bGkZuMxak9zbNP1HhLM1fPwgVjwckIrRqV0wf
+ 2xnC0S42L/GnW3CW4s8YSzNyAKeCboKrhmZeaAEnIlZhnXewQMV1TPvAuO7ge2Gwb0o8
+ Yc1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=uMOlpJWMp7PfUtiC0d40xFJ5JxEz+YfUuPW46n6RKy0=;
- b=jo7m6DhWLay+OtlZQSISIi2afdzZqe6soHSWySsvDKevoaR5IQ9QQ/1A+Wd8dDhlmF
- INWfQqIJ5zEFhlfaygACcjPp6nps8mfetTUTuiKnA6YDIxp7CgJ2WXY12Ra+7WKi4Y4Y
- uYmEI/TMCqsLp38N9wVZkkYi7chERKSh/tXPk96+FwVjq7MchVJjGl72HOdCt/2vKC54
- NiJeNbfW0OKVyu7eeA5S08UDIzsAI4LNiN5zuCctR+/X3wqfxe50iCWryyxfAkaDUreX
- gueBjVVMX0rnWMa85TVwfMYsLbpLRQlwwYghoNXZH9gqf29o6p0HG8ARvI2lMHd5mDN6
- 3sYQ==
-X-Gm-Message-State: AOAM531pXdevqbxfTYau3CVRlDtSMuPmCwV497kR5k+E96a0jojqMTGU
- iaTpAyRu0CR1XrQCKeY8aCk3TWcisjfLKwv5/dI=
-X-Google-Smtp-Source: ABdhPJyJ1685v90QjyJTfl27/x5Stj4lSHe6W63JLSx4oXj7wSeWy6JmeL/guDTcDud/L/s2zQQcBPQtqoZFDcIT3J4=
-X-Received: by 2002:a2e:b4d1:: with SMTP id r17mr3618ljm.466.1611502163777;
- Sun, 24 Jan 2021 07:29:23 -0800 (PST)
+ bh=KnnQnqCVdB2y4NAxIIjTl94EE9gPtVCCOUsx0yuFqH0=;
+ b=Kbfz8+2tnP7K0NvKAcFGJ7GKpKVivQJPVikj2O33GwwkEFIrZz8kPD9KoeJ54tqkgB
+ c5DwTia/MwXg5bK8cfavJJ9LUb75kewgfXnRVGkBFAAPdV7o9MVZpNGPTE/gd90Pw1xh
+ LCzO1p6lK/tXDeVR1ssmLwN36HK4/5wkUMJtz2fzW8NSLVpGTfH7tNLQGlh27YIkslvo
+ I584QD7UJKaG27XYnd0kHxb11q4jQTZ+nfdmI4i/ayHqL9S2VoP68SqavR4BRVTTnHQP
+ eKSDuTxkz21gWByt3+QKD6tKtOI7Wvy0Z4gFdNI57A6fITqzIdLpx4ONqoc3dXfX5ByK
+ i/rg==
+X-Gm-Message-State: AOAM5315lPltOeCOimONUUtqh9otHRFRtHmsLvomOtRLR00sIxQ4D+FX
+ PJHE8eVD3QUa4yawxUXUoqjSi9JwnYfn33HXE5U=
+X-Google-Smtp-Source: ABdhPJxLgR7QZPDB4s5CiIhekB5N+sxJELg4LvgkUEvL0PjyygtIWolxXQUJVkBShzz5ki076Eo7EqUQRWSoW6f7GGg=
+X-Received: by 2002:a05:6e02:20c4:: with SMTP id
+ 4mr124714ilq.221.1611505210937; 
+ Sun, 24 Jan 2021 08:20:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20210124151933.19696-1-dwaipayanray1@gmail.com>
-In-Reply-To: <20210124151933.19696-1-dwaipayanray1@gmail.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Sun, 24 Jan 2021 20:59:19 +0530
-Message-ID: <CABJPP5C8U-nmrqggR=Ea3drNF9VxqfisG49sVcNQfufTYejp+g@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+ <CABJPP5C8U-nmrqggR=Ea3drNF9VxqfisG49sVcNQfufTYejp+g@mail.gmail.com>
+In-Reply-To: <CABJPP5C8U-nmrqggR=Ea3drNF9VxqfisG49sVcNQfufTYejp+g@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sun, 24 Jan 2021 17:20:00 +0100
+Message-ID: <CAKXUXMzvQVud9qiZby3rznLS=JGd+6MKkC8Yrj7X_Bec9YZmmQ@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [Linux-kernel-mentees] [PATCH RFC 0/3] docs: add documentation
 	for checkpatch
@@ -105,49 +107,64 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jan 24, 2021 at 8:49 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+On Sun, Jan 24, 2021 at 4:29 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 >
-> This patch series serves to introduce a documentation for kernel script
-> checkpatch.pl (scripts/checkpatch.pl).
+> On Sun, Jan 24, 2021 at 8:49 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+> >
+> > This patch series serves to introduce a documentation for kernel script
+> > checkpatch.pl (scripts/checkpatch.pl).
+> >
+> > A top level tools directory has been created in docs which shall contain
+> > the documentation related to the kernel tools and scripts.
+> >
+> > This documentation shall be progressively updated by future patches to
+> > document all the message types in checkpatch. Consecutively this
+> > documentation itself will be parsed by checkpatch to generate verbose
+> > messages.
+> >
+> > Dwaipayan Ray (3):
+> >   docs: add documentation for checkpatch
+> >   docs: add documentation for checkpatch
+> >   docs: add documentation for checkpatch
+> >
+> >  Documentation/index.rst            |  11 ++
+> >  Documentation/tools/checkpatch.rst | 271 +++++++++++++++++++++++++++++
+> >  Documentation/tools/index.rst      |  10 ++
+> >  3 files changed, 292 insertions(+)
+> >  create mode 100644 Documentation/tools/checkpatch.rst
+> >  create mode 100644 Documentation/tools/index.rst
+> >
+> > --
+> > 2.30.0
+> >
 >
-> A top level tools directory has been created in docs which shall contain
-> the documentation related to the kernel tools and scripts.
+> Hey Lukas,
+> This patch series serves to introduce the checkpatch documentation.
+> A part of this documentation will be used by checkpatch, I am working
+> on that right now. Subsequently all the message types can be documented
+> slowly.
 >
-> This documentation shall be progressively updated by future patches to
-> document all the message types in checkpatch. Consecutively this
-> documentation itself will be parsed by checkpatch to generate verbose
-> messages.
->
-> Dwaipayan Ray (3):
->   docs: add documentation for checkpatch
->   docs: add documentation for checkpatch
->   docs: add documentation for checkpatch
->
->  Documentation/index.rst            |  11 ++
->  Documentation/tools/checkpatch.rst | 271 +++++++++++++++++++++++++++++
->  Documentation/tools/index.rst      |  10 ++
->  3 files changed, 292 insertions(+)
->  create mode 100644 Documentation/tools/checkpatch.rst
->  create mode 100644 Documentation/tools/index.rst
->
-> --
-> 2.30.0
+> The initial plan is to parse the part between
+> .. CHECKPATCH_START and .. CHECKPATCH_END.
 >
 
-Hey Lukas,
-This patch series serves to introduce the checkpatch documentation.
-A part of this documentation will be used by checkpatch, I am working
-on that right now. Subsequently all the message types can be documented
-slowly.
+Plan sounds reasonable, we will refine as we go.
 
-The initial plan is to parse the part between
-.. CHECKPATCH_START and .. CHECKPATCH_END.
+Go ahead and implement the checkpatch.pl feature to parse this file
+and output the description, and send it as RFC to Joe as well, but
+point out what is important to you for his opinion (I think you care
+if the checkpatch.pl implementation can be done that way) and what
+will we refine and completely rewrite as we move forward (the
+documentation is really much more work in progress).
 
-As for the documentation itself, it would be great to have your review on it!
-I could send the pdfdocs as well if you need it.
+> As for the documentation itself, it would be great to have your review on it!
+> I could send the pdfdocs as well if you need it.
+>
 
-Thank you,
-Dwaipayan.
+All fine, I can pick this patch series and generate the documentation
+locally myself.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
