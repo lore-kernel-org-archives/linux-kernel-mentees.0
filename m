@@ -1,99 +1,99 @@
-Return-Path: <SRS0=F5qy=G4=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=tq4P=G5=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF48FC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Jan 2021 18:22:33 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D91D3C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Jan 2021 18:35:23 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED5EE22D50
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Jan 2021 18:22:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ED5EE22D50
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 87D0B2223D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Jan 2021 18:35:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 87D0B2223D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 4F66485DC4;
-	Mon, 25 Jan 2021 18:22:32 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 18F76866F0;
+	Tue, 26 Jan 2021 18:35:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aRqe3khz5rAF; Mon, 25 Jan 2021 18:22:31 +0000 (UTC)
+	with ESMTP id H326mYn1Joft; Tue, 26 Jan 2021 18:35:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 528A885785;
-	Mon, 25 Jan 2021 18:22:31 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id A4DB88666F;
+	Tue, 26 Jan 2021 18:35:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 22E9DC08A1;
-	Mon, 25 Jan 2021 18:22:31 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 86FAFC0FA7;
+	Tue, 26 Jan 2021 18:35:22 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 19178C013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DD33BC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Jan 2021 18:22:30 +0000 (UTC)
+ Tue, 26 Jan 2021 18:35:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 0594C86FDB
+ by whitealder.osuosl.org (Postfix) with ESMTP id D868286672
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Jan 2021 18:22:30 +0000 (UTC)
+ Tue, 26 Jan 2021 18:35:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q4frrLhavvrL
+ with ESMTP id UnoJh1xxmcas
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Jan 2021 18:22:29 +0000 (UTC)
+ Tue, 26 Jan 2021 18:35:21 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
- [209.85.166.41])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 30B5586E9F
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 2A3AE8666F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Jan 2021 18:22:29 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id x21so28498443iog.10
+ Tue, 26 Jan 2021 18:35:21 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id b17so3713466plz.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Jan 2021 10:22:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZCe2/FF+DvZDaRPvAZh3BnHgq5iKGe4t/Q1fBpszZFI=;
- b=Gi+ZKU1fgDCC43LVWcDLZi1V+dwx/rGL4iwHTgjDq1/GzDKWVBq6+7M102wga4p9gm
- cUwDbRj2TBu4MeTHxmEQKFYLadgFOXz2euunjPwMOz/RPdraM6RFRyCQiRh0Brzlz9Tw
- FN/axQhY4MULtWEHP32q6YfgdwNPq5ytkQ+6oHFmwae9MqDVo1+eIbugfHC51vLDeqnK
- hyay/bTK2QwtHHdhEKN5sysPYR/pmw0tRrXerU59neaWXaamTJY52lLTvPGMlBEOJJS0
- dNz6h76WyO+Fwq3T8K8HK1P4BizLK/8S6xHqfYOy/I1s1juPAyzkDbnyUmL89t6W0WFL
- ellw==
+ Tue, 26 Jan 2021 10:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=52fk0kbTrSyL0AV53feeXDmkSTW51BS9ESJn2yxoUuM=;
+ b=BXnVKBBewzcmU+iInQU6fc2SRb1zGGDmJYV7q/3MuDLdwJOU29DFVx3acEOV8hTGmM
+ 7JlY+CBo3+V/aBej5Sv9kWso4Uyj/+NpTWoNudQw/1uvF+Pzym5KeQMvoD0OtWBGEuN9
+ HkVxGuHu+SbfoxTR39spoz6B78B9VUUEvTR2ULAJnwnKeST9hjcjyCy/vQ9hfIqJtuBF
+ Ptn6YNlj8DgAGEH6QjYecrtXf6nnQWaIp2GSmRBsm03XyOHhQK1BqNbSWY9rlUvx4OT6
+ 0lWRTKEq9RBxbTLWWN/5hSe/Tuw7URFdgFe48IIrYBy9z5HuDERH0vlLcOHP+Pid5aCM
+ OJYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZCe2/FF+DvZDaRPvAZh3BnHgq5iKGe4t/Q1fBpszZFI=;
- b=ITxr53ug+9zGvTHjmrhg2btnxd9tFaz7rM7gcxtbdZTILvuI/4xtKRQAgGWRzQ0eME
- unlVmcqVkLrwafIt4JAjQWGekuFUfWkoeD2/QUJDu2UFklcOmyhDBWN8hCMP1GGBOkE0
- 3q78d0BbjvJnXqevWORTqMp2SlojvA6qCdv4/X+QOGt8t1Toue6V4+ckz0iYkaGSmCiO
- 2V8u2QS1UyEWaOfpvlJXXRHtCHSvsZmkCRyOnEjXS4O8LogYKt9ubSJAQIhkY9G0fBuT
- vqftbzBVlwz7/9ne2ibmrmUb0pVvSyl/hPzn2/jx0Scon+P5LuhUjZLjMrHlsk5lmwJL
- FlUA==
-X-Gm-Message-State: AOAM533JXrCjt02Fb4gRuEnbhKmqyQs2VpzgDh2ZIMPg/4nfYUyaPWab
- oOK0dh3RhFCztL0SMrf1A6hkiCbBL0pgV+yTVr/rWKI4PZg=
-X-Google-Smtp-Source: ABdhPJwM4jcYIy9qZyhngA4TyoNbXq1yWRIwl283sE9sMGQlNDftJP0R9B92LOZv2Y/jakyTdjE67K5jac7l8BuJckw=
-X-Received: by 2002:a63:1f47:: with SMTP id q7mr1786622pgm.10.1611598560014;
- Mon, 25 Jan 2021 10:16:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=52fk0kbTrSyL0AV53feeXDmkSTW51BS9ESJn2yxoUuM=;
+ b=K7sfUmVuK0ARKy0qabmeCUDId5WniY1cVJ1sKetPLwH67/KnIaYttKbATrJGqNW+JO
+ 19Un2OqB5EswQ4hQPAk7UOKJJf7cVuw7LejvfaEDcyNhmVjLHSvZ3Xq8Drukr5WPVqs4
+ 2J6VSeU9KHgfx+nTutrQ0/4zXC7MoLzOj53LMi5LhICvWRNeOWmkmfNuO7Sxl+pOho2S
+ 2MUsioKxPCYz9dRdTT4dD0ZN0n/pofCSqjU0dJ7a1f5sVPrrnElE4l3PzOYE+zGto8dp
+ 4fa7Fua6HfuK8oyw8jG7EAUBQs3zapD/JRpe1CSnd7eYuL4y8wfsYNNTWBkC0bIRsULb
+ KtKQ==
+X-Gm-Message-State: AOAM531I5pSe6f1XVjLnDfGSQjRQZ32gtctVbF/VWa8QuWVi8ByaTIjs
+ 5rk2KYS5OEnliaTvdMZmGTw=
+X-Google-Smtp-Source: ABdhPJzj/wTR+p6KFUxo/iXhBe+SKn79OGD4mI7OeiNEsMrK7LnfYumb2eGNfQ8MfKUikPNJQos0tw==
+X-Received: by 2002:a17:902:ac87:b029:e0:17b:68d2 with SMTP id
+ h7-20020a170902ac87b02900e0017b68d2mr7404713plr.0.1611686120618; 
+ Tue, 26 Jan 2021 10:35:20 -0800 (PST)
+Received: from localhost.localdomain ([49.37.2.129])
+ by smtp.gmail.com with ESMTPSA id a31sm19713654pgb.93.2021.01.26.10.35.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 10:35:19 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Wed, 27 Jan 2021 00:05:18 +0530
+Message-Id: <20210126183521.26535-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <f23f4003-0017-d52a-39b9-2737e60182bb@gmail.com>
- <20210123190459.9701-1-yashsri421@gmail.com>
- <a7329e5d5661ed6478a7eb33db854a6357447c16.camel@perches.com>
-In-Reply-To: <a7329e5d5661ed6478a7eb33db854a6357447c16.camel@perches.com>
-Date: Mon, 25 Jan 2021 10:15:49 -0800
-Message-ID: <CAKwvOdm+qyD-ycaP=x+JGEtFDvoW7SGwB0HJ1UJXm5cwqkR9PQ@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: Aditya Srivastava <yashsri421@gmail.com>, dwaipayanray1@gmail.com,
- LKML <linux-kernel@vger.kernel.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Mark Brown <broonie@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v3] checkpatch: add warning for
- avoiding .L prefix symbols in assembly files
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH RFC 0/3] checkpatch: add verbose mode
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,84 +105,41 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Nick Desaulniers via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Jan 23, 2021 at 1:01 PM Joe Perches <joe@perches.com> wrote:
->
-> On Sun, 2021-01-24 at 00:34 +0530, Aditya Srivastava wrote:
-> > objtool requires that all code must be contained in an ELF symbol.
-> > Symbol names that have a '.L' prefix do not emit symbol table entries, as
-> > they have special meaning for the assembler.
-> >
-> > '.L' prefixed symbols can be used within a code region, but should be
-> > avoided for denoting a range of code via 'SYM_*_START/END' annotations.
-> >
-> > Add a new check to emit a warning on finding the usage of '.L' symbols
-> > for '.S' files, if it denotes range of code via SYM_*_START/END
-> > annotation pair.
-> >
-> > Suggested-by: Mark Brown <broonie@kernel.org>
-> > Link: https://lore.kernel.org/lkml/20210112210154.GI4646@sirena.org.uk
-> > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->
-> Acked-by: Joe Perches <joe@perches.com>
+This patch series adds a verbose mode to checkpatch.
+The verbose test descriptions are loaded from the
+checkpatch documentation and parsed by checkpatch.
 
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+The documentation itself needs more work. More input
+on the usage and test descriptions are needed.
 
-Thanks for the patch Aditya!
+Also the visual aspects of the verbose mode needs
+some work put into. The usual printing of verbose
+descriptions can cause confusion and maybe hard to
+distinguish from the actual warnings.
 
->
-> > ---
-> > * Applies perfectly on next-20210122
-> >
-> > Changes in v3:
-> > - Modify regex for SYM_*_START/END pair
-> > - remove check for arch/x86/entry/* and arch/x86/lib/*
-> > - change 'Link:' in commit message to lkml
-> > - Modify commit description accordingly
-> >
-> > Changes in v2:
-> > - Reduce the check to only SYM_*_START/END lines
-> > - Reduce the check for only .S files in arch/x86/entry/* and arch/x86/lib/* as suggested by Josh and Nick
-> > - Modify commit message
-> >
-> >  scripts/checkpatch.pl | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >
-> > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> > index 7030c4d6d126..4a03326c87b6 100755
-> > --- a/scripts/checkpatch.pl
-> > +++ b/scripts/checkpatch.pl
-> > @@ -3590,6 +3590,13 @@ sub process {
-> >                       }
-> >               }
-> >
-> >
-> > +# check for .L prefix local symbols in .S files
-> > +             if ($realfile =~ /\.S$/ &&
-> > +                 $line =~ /^\+\s*(?:[A-Z]+_)?SYM_[A-Z]+_(?:START|END)(?:_[A-Z_]+)?\s*\(\s*\.L/) {
-> > +                     WARN("AVOID_L_PREFIX",
-> > +                          "Avoid using '.L' prefixed local symbol names for denoting a range of code via 'SYM_*_START/END' annotations; see Documentation/asm-annotations.rst\n" . $herecurr);
-> > +             }
-> > +
-> >  # check we are in a valid source file C or perl if not then ignore this hunk
-> >               next if ($realfile !~ /\.(h|c|pl|dtsi|dts)$/);
-> >
-> >
->
->
+Please note that this is only an initial attempt
+and any comments are welcome.
 
+Dwaipayan Ray (3):
+  checkpatch: add verbose mode
+  docs: add documentation for checkpatch
+  docs: add documentation for checkpatch
+
+ Documentation/dev-tools/checkpatch.rst | 283 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ scripts/checkpatch.pl                  |  55 +++++
+ 3 files changed, 339 insertions(+)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
 
 -- 
-Thanks,
-~Nick Desaulniers
+2.30.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
