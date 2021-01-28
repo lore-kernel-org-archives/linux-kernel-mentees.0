@@ -2,85 +2,97 @@ Return-Path: <SRS0=VniB=G7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3964FC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:36:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14529C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:07 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 62CC564DD9
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:36:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62CC564DD9
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xs4all.nl
+	by mail.kernel.org (Postfix) with ESMTPS id 86EFA64DDC
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 86EFA64DDC
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id D6D9C2036B;
-	Thu, 28 Jan 2021 14:36:34 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id EF4262DEC9;
+	Thu, 28 Jan 2021 14:38:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GdN+hkU6H+5u; Thu, 28 Jan 2021 14:36:32 +0000 (UTC)
+	with ESMTP id UMje94BgjeNk; Thu, 28 Jan 2021 14:38:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 3F9792DE6B;
-	Thu, 28 Jan 2021 14:36:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 904832044C;
+	Thu, 28 Jan 2021 14:38:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 31986C0FA8;
-	Thu, 28 Jan 2021 14:36:32 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7360FC08A1
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 73EB2C0FA8;
+	Thu, 28 Jan 2021 14:38:04 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 05027C08A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:36:31 +0000 (UTC)
+ Thu, 28 Jan 2021 14:38:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 50B0B20449
+ by hemlock.osuosl.org (Postfix) with ESMTP id E5259873B2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:36:31 +0000 (UTC)
+ Thu, 28 Jan 2021 14:38:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rUOt8tkBaaQX
+ with ESMTP id DrafAXJM+sIV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:36:29 +0000 (UTC)
+ Thu, 28 Jan 2021 14:38:02 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net
- [194.109.24.22])
- by silver.osuosl.org (Postfix) with ESMTPS id 0B02C2036B
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id F01AD8738E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:36:28 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud9.xs4all.net with ESMTPA
- id 58PGlEyASE1Ic58PKlxLUc; Thu, 28 Jan 2021 15:36:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1611844587; bh=qtRz0odOLdwb8vOMzkND6Rqy1duafP13UBxmDm7df/8=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=s9wMYPhz6Yzqbc/IykD7zqJM1UIPMmvUTVZbFTJJtZ1rTRMk76qn6ez7VVF0GAZ/3
- QvaysUNC/IXyW4J1IQjemsxmx+NIr8a2yDwUjUI5W8omn4utaEzizmXvmVliZQ+YnV
- m6VyfsqCKQj5W5GhB+SnCzOhikzF3TR/e2wLU1UDWBEFSZS/CZJlcPN2JHkAxrbdVr
- gGl4EQQ65cr/OsX88aFHEZ/gby0YIFVu2VJ+NdpJ6jHkHcJOH26sZsEzAxVwlCkGz1
- QCJZA8MH04kJLqtMjmKEUGp1FJP1XF3TlEC7n8WMaJvd20WsKI4NR6I1CtDcAlj3KT
- DdIAikepEn0Mg==
-To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org
-References: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b92398de-3c01-8be8-1cc7-887c645f6951@xs4all.nl>
-Date: Thu, 28 Jan 2021 15:36:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thu, 28 Jan 2021 14:38:01 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id g15so4410506pgu.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 28 Jan 2021 06:38:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4LE73ezSwns7mEEZC3LY3BMjP0QBXPnuGOU777vzw2g=;
+ b=BX04WOkZExv7TRAaFZplmpDGyMPNryK6W9ScA55GjN24CYHEv46zvvWDw7mYkFjInF
+ 2FFVf4WQRMdpvaPU2s0TM2YBmOgUuXLOPtmSq8MxedzbvHnlMoJra6bJhFVnUycRuLdL
+ k7cV+e1raSTGnILRW3G8nidhDBEdJo+LTEeSHWsyAl+cPzSb0CJjXloaPhdxkxVKEZKu
+ pKVOQOIP5tLQwlA232B+k4LY3nBBDdIrZjSXoIvA8SSxMVNB31Xp6dIUT7n31KT+V5bJ
+ 5pWvZRaW5/cfuXcU2I1NOIHQzt/oyDdLGqRRUE2Si4JZ4wltVRs9eZ/+bQAcOGCEGtLH
+ ALVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4LE73ezSwns7mEEZC3LY3BMjP0QBXPnuGOU777vzw2g=;
+ b=ZmacZQjDD9/uXCYqz/0yL4V1ZKarSHsfJwbZus/CLc2TuNYe+rgUX19RZFrf4y1yHE
+ SdL1cnl2+pFzIGOifHDkTTOAVPC96ib7PYWYqped5taU6I3n1C0PLtk/4Oi1vy55Q2+S
+ Gg3ur49mpbzT1OGpptZi5AaIUNBJtKM3TxfKJMybUKdpOsqDndZMYSaCCAhy1jexXJDK
+ i2QoDvDE+U5qi8pKRu5da+rlbi1iABtZhvw4k1zL8A4V5jvEMsaGW2Y8JUqwOgJYoxk+
+ uvcJWSJG/xoR82/vLA1zbQkuZ27/GWDgfs4BgQ/bGp17ljCg2TyOBMJoliTJH+Tu1+9J
+ tH1w==
+X-Gm-Message-State: AOAM53079+WDIcUkPSqh3CGKVtUjrnhExOu9Xd7cj6gFE+LYzdQfLH0r
+ MBJ84dfSZbr0Kq+8ibBWqgM=
+X-Google-Smtp-Source: ABdhPJz7LsUNiV8L2CnVB6SELDXnNVbeXfy0SfbPEc/djrRgCQejYLvvqqlN4zgzebatDaEjkTaxbQ==
+X-Received: by 2002:a63:1a48:: with SMTP id a8mr16869291pgm.257.1611844681350; 
+ Thu, 28 Jan 2021 06:38:01 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:686d:e9f6:a78b:e60e:9585])
+ by smtp.gmail.com with ESMTPSA id w14sm5358621pjl.38.2021.01.28.06.37.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 06:38:00 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Thu, 28 Jan 2021 20:07:59 +0530
+Message-Id: <20210128143802.15888-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
-Content-Language: en-US
-X-CMAE-Envelope: MS4xfGvIECnHSkRT9Rfda5SSU5Xy0nLpCFk82lf89TR6wLtylkJWXNF+dfuClSI1mwdzzQwqM/yY6/PXl3kkHoOopz2vQi2B9xh6ldiph+6njFAB3GvKICbl
- LPJlLDhQVFi0ebB1XTpWqlvulZUwx11CvxyxqxwmXznDFMpRyPFGv9qUN0J+zmku3M+bfwuUDF6dGDnDqhhN7FjyrXsfqdiiE0TjexkWbGfLaBtbN6ASrlw3
- g4H12VGZj8WF9O/MEyw18E36F+jEK4kSUXYOWjPskomCicwn+6dc6Uu2NaVmRkMqbNyDzEP8OlUDMtC+W8aCpLdTnVy5t4CMBEpJSjc4ybgSE2JdSmcS73Dz
- N+DHAUt6B7beMEhTwgkAXagnKrieng==
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v4l-utils] test-media: add
-	support for vidtv
+ linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v2 0/3] checkpatch: add verbose mode
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,147 +110,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Daniel,
+Add a new verbose mode to checkpatch. The verbose test 
+descriptions are read from the checkpatch documentation
+file at `Documentation/dev-tools/checkpatch.rst`.
 
-On 05/01/2021 14:17, Daniel W. S. Almeida wrote:
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-> 
-> Add support for vidtv at the test-media script so that automated testing
-> is possible. Proper compliance tests are still pending.
+The verbose mode is optional and can be enabled by the
+flag -v or --verbose.
 
-I've tried this, but something is wrong: 'media-ctl -p' shows an empty
-topology, ditto with contrib/test/mc_nextgen_test.
+The documentation file is only parsed by checkpatch.pl
+if the verbose mode is enabled. The verbose mode is also
+suppressed when the --terse option is specified.
 
-For the same reason 'v4l2-compliance -M0' fails with:
+Changes in v2:
+- Use .rst Field Lists to specify the type descriptions.
+- Add a few more type descriptions to documentation.
 
- fail: v4l2-test-media.cpp(120): !topology.num_entities
 
-I'm not sure what's going on here, but it needs some more work.
+Dwaipayan Ray (3):
+  checkpatch: add verbose mode
+  docs: add documentation for checkpatch
+  docs: add documentation for checkpatch
 
-In the meantime I'll merge this patch since it doesn't hurt.
+ Documentation/dev-tools/checkpatch.rst | 269 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ scripts/checkpatch.pl                  |  54 ++++-
+ 3 files changed, 323 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
 
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> ---
->  contrib/test/test-media | 72 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 72 insertions(+)
-> 
-> diff --git a/contrib/test/test-media b/contrib/test/test-media
-> index 1c1d2e37b..86a2e081a 100755
-> --- a/contrib/test/test-media
-> +++ b/contrib/test/test-media
-> @@ -4,6 +4,7 @@
->  #
->  # Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
->  
-> +vidtv=0
->  vivid=0
->  vim2m=0
->  vimc=0
-> @@ -51,6 +52,7 @@ if [ -z "$1" ]; then
->  	echo "-32: use v4l2-ctl-32 and v4l2-compliance-32 to test the 32 bit compat layer"
->  	echo
->  	echo Test Targets:
-> +	echo "vidtv: test the vidtv driver"
->  	echo "vivid: test the vivid driver"
->  	echo "vim2m: test the vim2m driver"
->  	echo "vimc: test the vimc driver"
-> @@ -96,6 +98,7 @@ while [ ! -z "$1" ]; do
->  		fi
->  		;;
->  	all)
-> +		vidtv=1
->  		vivid=1
->  		vim2m=1
->  		vimc=1
-> @@ -109,6 +112,9 @@ while [ ! -z "$1" ]; do
->  		vimc=1
->  		vicodec=1
->  		;;
-> +	vidtv)
-> +		vidtv=1
-> +		;;
->  	vivid)
->  		vivid=1
->  		;;
-> @@ -162,6 +168,72 @@ $v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-out -o1 -x width=3840,height=21
->  
->  echo
->  
-> +if [ $vidtv -eq 1 ]; then
-> +	rmmod vidtv 2&>/dev/null
-> +	modprobe vidtv
-> +	sleep 2
-> +	dmesg -n notice
-> +	echo
-> +
-> +	if ! media-ctl -d platform:vidtv -p ; then
-> +		echo "FAIL: the vidtv module failed to load" | tee -a $tmp
-> +		echo "Grand Total for vidtv: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
-> +		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
-> +		rmmod vidtv
-> +		exit 0
-> +	fi
-> +
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo unbind vidtv
-> +	echo
-> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
-> +	sleep $unbind_time
-> +	echo
-> +	echo rebind vidtv
-> +	echo
-> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/bind
-> +	sleep 1
-> +	echo
-> +	echo second unbind vidtv
-> +	echo
-> +	sleep 1
-> +	echo
-> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
-> +	sleep $reunbind_time
-> +	echo
-> +	echo rmmod vidtv
-> +	echo
-> +	rmmod vidtv
-> +	sleep $rmmod_time
-> +	if [ $kmemleak -eq 1 ]; then
-> +		echo
-> +		echo kmemleak results for vidtv:
-> +		echo
-> +		echo scan >/sys/kernel/debug/kmemleak
-> +		cat /sys/kernel/debug/kmemleak
-> +		echo
-> +		echo end of kmemleak results
-> +		echo clear >/sys/kernel/debug/kmemleak
-> +	fi
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +	echo
-> +
-> +fi
-> +
->  if [ $vivid -eq 1 ]; then
->  	dmesg -n notice
->  	echo
-> 
+-- 
+2.30.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
