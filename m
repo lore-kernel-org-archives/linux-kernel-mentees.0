@@ -1,80 +1,86 @@
-Return-Path: <SRS0=tq4P=G5=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=VniB=G7=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3797BC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Jan 2021 22:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3964FC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:36:36 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9CEE0205CA
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Jan 2021 22:44:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9CEE0205CA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 62CC564DD9
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:36:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 62CC564DD9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xs4all.nl
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 42B85204D6;
-	Tue, 26 Jan 2021 22:44:29 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id D6D9C2036B;
+	Thu, 28 Jan 2021 14:36:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1s7vXjOb+Us5; Tue, 26 Jan 2021 22:44:27 +0000 (UTC)
+	with ESMTP id GdN+hkU6H+5u; Thu, 28 Jan 2021 14:36:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 9053D204AB;
-	Tue, 26 Jan 2021 22:44:27 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 3F9792DE6B;
+	Thu, 28 Jan 2021 14:36:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 838F3C0FA7;
-	Tue, 26 Jan 2021 22:44:27 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2205DC013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 31986C0FA8;
+	Thu, 28 Jan 2021 14:36:32 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7360FC08A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Jan 2021 22:44:26 +0000 (UTC)
+ Thu, 28 Jan 2021 14:36:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 08D0186397
+ by silver.osuosl.org (Postfix) with ESMTP id 50B0B20449
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Jan 2021 22:44:26 +0000 (UTC)
+ Thu, 28 Jan 2021 14:36:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i28DN88vyeJj
+ with ESMTP id rUOt8tkBaaQX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Jan 2021 22:44:24 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0084.hostedemail.com
- [216.40.44.84])
- by whitealder.osuosl.org (Postfix) with ESMTPS id C1C2C861F4
+ Thu, 28 Jan 2021 14:36:29 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from lb1-smtp-cloud9.xs4all.net (lb1-smtp-cloud9.xs4all.net
+ [194.109.24.22])
+ by silver.osuosl.org (Postfix) with ESMTPS id 0B02C2036B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Jan 2021 22:44:24 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
- [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id 50796100E7B43;
- Tue, 26 Jan 2021 22:44:22 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: dolls97_4f0dac027592
-X-Filterd-Recvd-Size: 2959
-Received: from [192.168.1.159] (unknown [47.151.137.21])
- (Authenticated sender: joe@perches.com)
- by omf14.hostedemail.com (Postfix) with ESMTPA;
- Tue, 26 Jan 2021 22:44:21 +0000 (UTC)
-Message-ID: <e5fcdc9ff8b165ed142340135e2124d013b79ac9.camel@perches.com>
-From: Joe Perches <joe@perches.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Tue, 26 Jan 2021 14:44:20 -0800
-In-Reply-To: <CABJPP5Ap2=-suEZv+6OVONBPZjLEJEszG=O5ikDxHPiCcBRbFA@mail.gmail.com>
-References: <20210126183521.26535-1-dwaipayanray1@gmail.com>
- <20210126183521.26535-2-dwaipayanray1@gmail.com>
- <9bfc9c21d93bb55419954114ed3a7e5cbdc84ddb.camel@perches.com>
- <CABJPP5Ap2=-suEZv+6OVONBPZjLEJEszG=O5ikDxHPiCcBRbFA@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ Thu, 28 Jan 2021 14:36:28 +0000 (UTC)
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+ by smtp-cloud9.xs4all.net with ESMTPA
+ id 58PGlEyASE1Ic58PKlxLUc; Thu, 28 Jan 2021 15:36:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+ t=1611844587; bh=qtRz0odOLdwb8vOMzkND6Rqy1duafP13UBxmDm7df/8=;
+ h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+ Subject;
+ b=s9wMYPhz6Yzqbc/IykD7zqJM1UIPMmvUTVZbFTJJtZ1rTRMk76qn6ez7VVF0GAZ/3
+ QvaysUNC/IXyW4J1IQjemsxmx+NIr8a2yDwUjUI5W8omn4utaEzizmXvmVliZQ+YnV
+ m6VyfsqCKQj5W5GhB+SnCzOhikzF3TR/e2wLU1UDWBEFSZS/CZJlcPN2JHkAxrbdVr
+ gGl4EQQ65cr/OsX88aFHEZ/gby0YIFVu2VJ+NdpJ6jHkHcJOH26sZsEzAxVwlCkGz1
+ QCJZA8MH04kJLqtMjmKEUGp1FJP1XF3TlEC7n8WMaJvd20WsKI4NR6I1CtDcAlj3KT
+ DdIAikepEn0Mg==
+To: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>, mchehab@kernel.org
+References: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <b92398de-3c01-8be8-1cc7-887c645f6951@xs4all.nl>
+Date: Thu, 28 Jan 2021 15:36:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210105131725.1191046-1-dwlsalmeida@gmail.com>
+Content-Language: en-US
+X-CMAE-Envelope: MS4xfGvIECnHSkRT9Rfda5SSU5Xy0nLpCFk82lf89TR6wLtylkJWXNF+dfuClSI1mwdzzQwqM/yY6/PXl3kkHoOopz2vQi2B9xh6ldiph+6njFAB3GvKICbl
+ LPJlLDhQVFi0ebB1XTpWqlvulZUwx11CvxyxqxwmXznDFMpRyPFGv9qUN0J+zmku3M+bfwuUDF6dGDnDqhhN7FjyrXsfqdiiE0TjexkWbGfLaBtbN6ASrlw3
+ g4H12VGZj8WF9O/MEyw18E36F+jEK4kSUXYOWjPskomCicwn+6dc6Uu2NaVmRkMqbNyDzEP8OlUDMtC+W8aCpLdTnVy5t4CMBEpJSjc4ybgSE2JdSmcS73Dz
+ N+DHAUt6B7beMEhTwgkAXagnKrieng==
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH RFC 1/3] checkpatch: add verbose
-	mode
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v4l-utils] test-media: add
+	support for vidtv
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,85 +92,153 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2021-01-27 at 01:57 +0530, Dwaipayan Ray wrote:
-> On Wed, Jan 27, 2021 at 1:41 AM Joe Perches <joe@perches.com> wrote:
-> > On Wed, 2021-01-27 at 00:05 +0530, Dwaipayan Ray wrote:
-> > > Add a new verbose mode to checkpatch.pl to emit additional verbose
-> > > test descriptions.
-> > > =
+Hi Daniel,
 
-> > > The verbose mode is optional and can be enabled by the flag
-> > > --verbose.
-[]
-> > > Documentation/dev-tools/checkpatch.rst:
-> > > =
+On 05/01/2021 14:17, Daniel W. S. Almeida wrote:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Add support for vidtv at the test-media script so that automated testing
+> is possible. Proper compliance tests are still pending.
 
-> > > .. CHECKPATCH_START
-> > =
+I've tried this, but something is wrong: 'media-ctl -p' shows an empty
+topology, ditto with contrib/test/mc_nextgen_test.
 
-> > Nak on the keyword uses.
-> > =
+For the same reason 'v4l2-compliance -M0' fails with:
 
-> > This should really just parse the input file whenever TYPE is found
-> > via some fixed format and save the verbose description after that.
-> > =
+ fail: v4l2-test-media.cpp(120): !topology.num_entities
 
-> > Use .rst Field Lists instead, and ideally, keep the list in alphabetic
-> > order or group by similar use.
-> > =
+I'm not sure what's going on here, but it needs some more work.
 
-> > https://docutils.sourceforge.io/docs/user/rst/quickref.html#field-lists
-> > =
+In the meantime I'll merge this patch since it doesn't hurt.
 
-> > e.g.:
-> > =
+Regards,
 
-> > :LINE_SPACING:
-> > =A0=A0=A0=A0=A0=A0=A0=A0Vertical space is wasted given the limited numb=
-er of lines an
-> > =A0=A0=A0=A0=A0=A0=A0=A0editor window can display when multiple blank l=
-ines are used.
-> > =
+	Hans
 
-> > :SPACING:
-> > =A0=A0=A0=A0=A0=A0=A0=A0Whitespace style used in the kernel sources is =
-described in
-> > =A0=A0=A0=A0=A0=A0=A0=A0ref:`Documentation/process/Coding-Style.rst sec=
-tion 3.1.
-> > =
-
-> > :TRAILING_WHITESPACE:
-> > =A0=A0=A0=A0=A0=A0=A0=A0Trailing whitespace should always be removed.
-> > =A0=A0=A0=A0=A0=A0=A0=A0Some editors highlight the trailing whitespace =
-and cause visual
-> > =A0=A0=A0=A0=A0=A0=A0=A0distractions when editing files.
-> > =
-
-> > etc...
-[]
-> for the output part can we do something to make the text
-> look a bit more nice? I think some of the verbose descriptions
-> can go a bit long.
-
-Which is why verbose should be optional.
-
-> Also will the verbose descriptions be limited to say single
-> paragraphs?
-
-Ideally, no.
-
-> If there are multiple paragraphs then the output
-> does appear a bit messy.
-
-I fail to see how that's a problem but play with it and see what
-you can do.
-
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  contrib/test/test-media | 72 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+> 
+> diff --git a/contrib/test/test-media b/contrib/test/test-media
+> index 1c1d2e37b..86a2e081a 100755
+> --- a/contrib/test/test-media
+> +++ b/contrib/test/test-media
+> @@ -4,6 +4,7 @@
+>  #
+>  # Copyright 2019 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
+>  
+> +vidtv=0
+>  vivid=0
+>  vim2m=0
+>  vimc=0
+> @@ -51,6 +52,7 @@ if [ -z "$1" ]; then
+>  	echo "-32: use v4l2-ctl-32 and v4l2-compliance-32 to test the 32 bit compat layer"
+>  	echo
+>  	echo Test Targets:
+> +	echo "vidtv: test the vidtv driver"
+>  	echo "vivid: test the vivid driver"
+>  	echo "vim2m: test the vim2m driver"
+>  	echo "vimc: test the vimc driver"
+> @@ -96,6 +98,7 @@ while [ ! -z "$1" ]; do
+>  		fi
+>  		;;
+>  	all)
+> +		vidtv=1
+>  		vivid=1
+>  		vim2m=1
+>  		vimc=1
+> @@ -109,6 +112,9 @@ while [ ! -z "$1" ]; do
+>  		vimc=1
+>  		vicodec=1
+>  		;;
+> +	vidtv)
+> +		vidtv=1
+> +		;;
+>  	vivid)
+>  		vivid=1
+>  		;;
+> @@ -162,6 +168,72 @@ $v4l2_ctl -z platform:vivid-002 -d vivid-002-vid-out -o1 -x width=3840,height=21
+>  
+>  echo
+>  
+> +if [ $vidtv -eq 1 ]; then
+> +	rmmod vidtv 2&>/dev/null
+> +	modprobe vidtv
+> +	sleep 2
+> +	dmesg -n notice
+> +	echo
+> +
+> +	if ! media-ctl -d platform:vidtv -p ; then
+> +		echo "FAIL: the vidtv module failed to load" | tee -a $tmp
+> +		echo "Grand Total for vidtv: Succeeded: 0, Failed: 1, Warnings: 0" | tee -a $tmp
+> +		echo "Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0"
+> +		rmmod vidtv
+> +		exit 0
+> +	fi
+> +
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo unbind vidtv
+> +	echo
+> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
+> +	sleep $unbind_time
+> +	echo
+> +	echo rebind vidtv
+> +	echo
+> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/bind
+> +	sleep 1
+> +	echo
+> +	echo second unbind vidtv
+> +	echo
+> +	sleep 1
+> +	echo
+> +	echo -n vidtv.0 >/sys/bus/platform/drivers/vidtv/unbind
+> +	sleep $reunbind_time
+> +	echo
+> +	echo rmmod vidtv
+> +	echo
+> +	rmmod vidtv
+> +	sleep $rmmod_time
+> +	if [ $kmemleak -eq 1 ]; then
+> +		echo
+> +		echo kmemleak results for vidtv:
+> +		echo
+> +		echo scan >/sys/kernel/debug/kmemleak
+> +		cat /sys/kernel/debug/kmemleak
+> +		echo
+> +		echo end of kmemleak results
+> +		echo clear >/sys/kernel/debug/kmemleak
+> +	fi
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +	echo
+> +
+> +fi
+> +
+>  if [ $vivid -eq 1 ]; then
+>  	dmesg -n notice
+>  	echo
+> 
 
 _______________________________________________
 Linux-kernel-mentees mailing list
