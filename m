@@ -2,101 +2,82 @@ Return-Path: <SRS0=VniB=G7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E01B5C433E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:17 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A30C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 19:18:56 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 71ADD64DD9
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 71ADD64DD9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5C9B864E3A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 19:18:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C9B864E3A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 26B742043A;
-	Thu, 28 Jan 2021 14:38:17 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id BC2BB8730F;
+	Thu, 28 Jan 2021 19:18:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4N3Z1SlsD+6n; Thu, 28 Jan 2021 14:38:15 +0000 (UTC)
+	with ESMTP id cwklIpUqTf0E; Thu, 28 Jan 2021 19:18:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id E12562044C;
-	Thu, 28 Jan 2021 14:38:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 4A9F087283;
+	Thu, 28 Jan 2021 19:18:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CD21BC0FA8;
-	Thu, 28 Jan 2021 14:38:15 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 61634C08A1
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 34A32C0FA7;
+	Thu, 28 Jan 2021 19:18:54 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35E3EC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:14 +0000 (UTC)
+ Thu, 28 Jan 2021 19:18:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 51BAC8679E
+ by hemlock.osuosl.org (Postfix) with ESMTP id 318518730A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:14 +0000 (UTC)
+ Thu, 28 Jan 2021 19:18:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o5Dzxg4Gy-0z
+ with ESMTP id 1AzOW02O5Cdh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:13 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
- [209.85.216.48])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 5163986722
+ Thu, 28 Jan 2021 19:18:45 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from smtprelay.hostedemail.com (smtprelay0076.hostedemail.com
+ [216.40.44.76])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id ABA0B87283
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:13 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id l18so4420976pji.3
+ Thu, 28 Jan 2021 19:18:45 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave05.hostedemail.com (Postfix) with ESMTP id 7866918024A65
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 06:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=T5UYTaCWBB2+LL3/tlIpAWg8VNUjtbCiU5GIunU3FQA=;
- b=lemjJsVNz4QAZ71wmvSd0jyU2J+KV3q5/B81uKegT1yGLXYN8f4OL+FliTvFamYXd8
- bI0dymcugaSilUiCDNWyEPL8BgEgXLRNKWfvqt3ztrrWmJPhc7X9kiqLRw10kisDrikn
- iGurBG42JLZFDuFF0BOs9Un8AQAXcp3u5e9MLB6xiiLWQ3UxTH+uEgTq+FtRtk9Nzl8w
- 1d5VZ35CapxRz5vEdYcYp1++YbqMuL10b9aDdjyrGM+URjZexNgVKYilXCfp3GMjD9Zd
- gsCQTlxsJ/+iqNqIsO2AyU1FpqhG8VVqhaFvI3mW72qCaI/+V65sx2xja9JHxFO4tSI2
- i+Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=T5UYTaCWBB2+LL3/tlIpAWg8VNUjtbCiU5GIunU3FQA=;
- b=gahkWXWda5yY2o2Y/EFgABO8GhpiUnvjVEUpfG/p+83UNk7AfVjPQeABrQ+aFtmJQ9
- MrDy78EC9OjS/5CuOr0az2A3BumcQVdQ/7iZVzdicIu+yWRzED+N+EZDja13LPdXkxvI
- qbvJLcOhoWaaC0QlgSsWSlU/YgGnJ6j8t0SMsuwQhy1yoaKG2ckmmFaT/UC80gnaU7se
- gilvb3b85qeTylnZ1k1ZCVavxI/HP4sspSn6Cs7VvcZamD2tEPHuF5vg3OCmJ5gabWR+
- q94h+1sCwu6UfbcIGpkuKFrURYDG8ltI+g5DqQB6F0dBi5wa2JhDq62tOqNph1qXIEmE
- S2Kw==
-X-Gm-Message-State: AOAM53167tiT293tS8UTUawCx0ZX7DtRctr8+fxM0ujtAEGAJKJjRPP1
- SJU0ydFbIEyOrr8ohWeAtx4=
-X-Google-Smtp-Source: ABdhPJykgH4q/QELQvYtHb6mhN9lqck+TapgGDJ4p0HAktUkCukRaxf4o4j0g2xa47nLvcnTqcPdkw==
-X-Received: by 2002:a17:90a:db4c:: with SMTP id
- u12mr11196677pjx.14.1611844692826; 
- Thu, 28 Jan 2021 06:38:12 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:9004:686d:e9f6:a78b:e60e:9585])
- by smtp.gmail.com with ESMTPSA id w14sm5358621pjl.38.2021.01.28.06.38.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 06:38:12 -0800 (PST)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: joe@perches.com
-Date: Thu, 28 Jan 2021 20:08:02 +0530
-Message-Id: <20210128143802.15888-4-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210128143802.15888-1-dwaipayanray1@gmail.com>
+ Thu, 28 Jan 2021 19:11:10 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay07.hostedemail.com (Postfix) with ESMTP id D34D3181D3042;
+ Thu, 28 Jan 2021 19:11:07 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: patch09_4108f99275a2
+X-Filterd-Recvd-Size: 2214
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf18.hostedemail.com (Postfix) with ESMTPA;
+ Thu, 28 Jan 2021 19:11:06 +0000 (UTC)
+Message-ID: <37535426fad04587289023e3dcc705a438c59ef6.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Thu, 28 Jan 2021 11:11:05 -0800
+In-Reply-To: <20210128143802.15888-2-dwaipayanray1@gmail.com>
 References: <20210128143802.15888-1-dwaipayanray1@gmail.com>
+ <20210128143802.15888-2-dwaipayanray1@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 3/3] docs: add documentation for
-	checkpatch
+ linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 1/3] checkpatch: add verbose
+	mode
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,28 +95,60 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Link the checkpatch documentation to the dev-tools index
-for sphinx.
+On Thu, 2021-01-28 at 20:08 +0530, Dwaipayan Ray wrote:
+> Add a new verbose mode to checkpatch.pl to emit additional verbose
+> test descriptions. The verbose mode is optional and can be enabled
+> by the flag -v or --verbose.
+[]
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[] 
+> +sub load_docs {
+> +	open(my $docs, '<', "$docsfile")
+> +	    or warn "$P: Can't read the documentation file $docsfile $!\n";
+> +
+> +	my @lines = ();
+> +	while (<$docs>) {
+> +		my $line = $_;
+> +
+> +		$line =~ s/\s*\n?$//g;
 
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- Documentation/dev-tools/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+chomp
 
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-index 1b1cf4f5c9d9..43d28998118b 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -14,6 +14,7 @@ whole; patches welcome!
- .. toctree::
-    :maxdepth: 2
- 
-+   checkpatch
-    coccinelle
-    sparse
-    kcov
--- 
-2.30.0
+> +		push (@lines, $line);
+> +	}
+> +	close($docs);
+> +
+> +	my $linenr = 0;
+> +	my $cnt = scalar @lines;
+> +	while ($linenr < $cnt) {
+> +		while ($linenr < $cnt &&
+> +		       $lines[$linenr++] !~ /^\:(.+)\:$/)
+> +		{
+> +		}
+> +
+> +		last if ($linenr >= $cnt);
+> +
+> +		my $type = $lines[$linenr - 1];
+> +		$type =~ s/^\:(.+)\:$/$1/;
+> +		my $message = '';
+> +
+> +		while ($linenr < $cnt &&
+> +		       $lines[$linenr] =~ /^(?:\s+(.+)$|$)/) {
+> +			$message .= $1 if (defined $1);
+> +			$message .= "\n";
+> +			$linenr++;
+> +		}
+> +
+> +		$message = trim($message);
+> +		$verbose_messages{$type} = $message;
+> +	}
+> +}
+
+I think this is overly complicated.
+
+There's no need to read and store the entire file and then
+parse it.  Just parse it line by line as its read.
+
 
 _______________________________________________
 Linux-kernel-mentees mailing list
