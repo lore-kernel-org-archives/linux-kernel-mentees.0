@@ -8,93 +8,94 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49C5AC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CAAC433DB
 	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:16 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D383964DDC
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D383964DDC
+	by mail.kernel.org (Postfix) with ESMTPS id 204F164DD9
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 14:38:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 204F164DD9
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 5EF2A20414;
+	by silver.osuosl.org (Postfix) with ESMTP id D46002036B;
 	Thu, 28 Jan 2021 14:38:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id w2SRamlnGF2c; Thu, 28 Jan 2021 14:38:12 +0000 (UTC)
+	with ESMTP id i1X4J2F2rBAK; Thu, 28 Jan 2021 14:38:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id B5D4421503;
-	Thu, 28 Jan 2021 14:38:12 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 9345E2E0E6;
+	Thu, 28 Jan 2021 14:38:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A42BEC0FA8;
-	Thu, 28 Jan 2021 14:38:12 +0000 (UTC)
-Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4310AC08A1
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 904EBC0FA8;
+	Thu, 28 Jan 2021 14:38:11 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 830C9C08A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:11 +0000 (UTC)
+ Thu, 28 Jan 2021 14:38:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by silver.osuosl.org (Postfix) with ESMTP id 2B5A92E0DF
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7D6548738E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:11 +0000 (UTC)
+ Thu, 28 Jan 2021 14:38:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from silver.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jXBuPpds9rYF
+ with ESMTP id AGU4sNybHBP8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:06 +0000 (UTC)
+ Thu, 28 Jan 2021 14:38:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by silver.osuosl.org (Postfix) with ESMTPS id 0FFB121503
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+ [209.85.215.178])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id B9A1F873D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 14:38:06 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id kx7so3968289pjb.2
+ Thu, 28 Jan 2021 14:38:09 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id t25so4430755pga.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 06:38:06 -0800 (PST)
+ Thu, 28 Jan 2021 06:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e+eyDPRdJhZxxJdOiumoXFsr/6qKDBUjP/60ZOGxnOc=;
- b=ii36kCLCHnt3TutN31jHxg/8gwjcze3fPnuGU41Ln+1G0N5aGVKlRoaKuSGiLP/FIr
- kegSEbtPASb0w7dxTY8+WmtQ7k1q3oUfbnx2qdZeu5AygjJ6ShHSwjaKV/S1aP9h+ccS
- y5Cm3cQWpIohCASeZhTi009mv4mRUOVpWqEJw/zu1jTiaNBXuhWjcYK6gWFt1dmNzkU0
- R7dZxuCZK6Urci4lQ9GxwTjJdV+iVye9KG2UG5avW8zOpVEktaOOUjVKmK1w1nLum26G
- M1ezQlmsyIzmj1IqQ7Q0MJgZ5YZ1diBxEnHlQ1ZEVx2EVo7BXxL/GicKyPwhaOc+R6cz
- QYLg==
+ bh=EDdxocjLESUoQzH4ykE01V0K/R1a4JtrnLAxdtWyf3Q=;
+ b=R2iodUO0QUdVkWFnsoiYHe0tNcW9ghSIlK32J3ERmEhwjp1Y0ML0WpWBGzKO/1oDIt
+ Qh4W54Goya1oguS6A/tJUhGS8VLLH75ikCyYQwbPOR19leN62xERIgCaus3ofVsuioi4
+ eiuEB+uAhI1k93cWpVLRr764FKUoohXQLIK1KQfUnBZBJfqo+YcGNlVQ2Dhaq0MJWn6H
+ zNkjC6kmdYgZqOyl15YNWdd6uqHfhitDEbEezDVRcHOCnHugecXMcXyVpGEbO4yZWpuG
+ sod/SWzJbJsJKvizZqLGsLFkZ4imO8b32BXFvx5PVXPPL2O2E39818bBrX+JYxJeogi2
+ MgzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e+eyDPRdJhZxxJdOiumoXFsr/6qKDBUjP/60ZOGxnOc=;
- b=cLoGl5nWUjFWcRAoiDdYkhikuscTGvqpmLxIF0SKchKeCM9USMpvyVtz0SpGwRCEHa
- BAHHUHRFPfp4WCkfCCfmDNnqZ2wxR3ZyH2OCnFk91DHBP6eHC99uw3ZZhZNmDU9pSWcK
- wDZb6PKMaiZNNJh3DioguMxG3l/+Xq308d7lr4Guqi72IdfV16kow8Al8aO1n9q8W6xF
- gOEd9xeQTd3vy7TOPAZ0i1k/7ifqBeQUm5UeX/kU47Wr9TaK278JauOkq0DvRrTI7r0K
- MDNU7LaEoRDztuR13Pu54xWcxC/uMJebF1kvfoM8P2dFl5CtfeNeeDmcuFENVvoXmhzP
- tHIA==
-X-Gm-Message-State: AOAM53030lYlOsnwOWk/33RWvszC3qDpHJxwL+mMs8SKtbaoGpFqE4m3
- 1KkMDJSXs6cCY5xTJjywCS8=
-X-Google-Smtp-Source: ABdhPJx9QBqHgCNIDl+wrmU8+QMyW9ZXDw+TyC23ZBXoAwZ1DqT8LU/YDsZd730DjT8jmGR3WM7Thw==
-X-Received: by 2002:a17:90a:b398:: with SMTP id e24mr67344pjr.45.1611844685505; 
- Thu, 28 Jan 2021 06:38:05 -0800 (PST)
+ bh=EDdxocjLESUoQzH4ykE01V0K/R1a4JtrnLAxdtWyf3Q=;
+ b=hL6JxfUdai8CiMs/j6/aIp7+4MRkiP12GnmaXRCcHKph6cPW4hPfWmJ9D2qe8vo/Rz
+ f4ggHNkYQmQS0pqszBWkWhw/883CL7KMXQ4rTTrqL1rSfYTqILuhps4I2a39lg1Y84dE
+ fVLv8MqRxk7PpS3RmGHqyENuKEljl3rT9q/1WV4temiNVWR4vbHjK4juykOoozMd9dLw
+ eTdeyQxkYq1atK20Wf1Ax9vksfDI6ikgr3bHIRGC0Sl+p/VeGh/xz22hIrjnF5tjv5xm
+ yzU9+Yq6mrmBrTYTBjfu1IITNw7/GCs9XiKkqvlOXtMHx65UoHOiClB6YsGvhpsTtxIl
+ vT2Q==
+X-Gm-Message-State: AOAM530aMwmHhlCQmaocs+ful2tBBBiJ+zaqXNPmk2d78GYOwz9TqLhT
+ XVMS0kIEr5sw2lOVY6YxUDc=
+X-Google-Smtp-Source: ABdhPJyVmBhLY0P5WRIv/g4ybGcMwjZMhP6tSQJd9LRkV9Mt98xMtp30Jzfy3J0ajuF2hD5PT1zvWA==
+X-Received: by 2002:a63:b550:: with SMTP id u16mr16696873pgo.448.1611844689184; 
+ Thu, 28 Jan 2021 06:38:09 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:9004:686d:e9f6:a78b:e60e:9585])
- by smtp.gmail.com with ESMTPSA id w14sm5358621pjl.38.2021.01.28.06.38.02
+ by smtp.gmail.com with ESMTPSA id w14sm5358621pjl.38.2021.01.28.06.38.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 06:38:04 -0800 (PST)
+ Thu, 28 Jan 2021 06:38:08 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
 To: joe@perches.com
-Date: Thu, 28 Jan 2021 20:08:00 +0530
-Message-Id: <20210128143802.15888-2-dwaipayanray1@gmail.com>
+Date: Thu, 28 Jan 2021 20:08:01 +0530
+Message-Id: <20210128143802.15888-3-dwaipayanray1@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210128143802.15888-1-dwaipayanray1@gmail.com>
 References: <20210128143802.15888-1-dwaipayanray1@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v2 1/3] checkpatch: add verbose mode
+Subject: [Linux-kernel-mentees] [PATCH v2 2/3] docs: add documentation for
+	checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,140 +113,295 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new verbose mode to checkpatch.pl to emit additional verbose
-test descriptions. The verbose mode is optional and can be enabled
-by the flag -v or --verbose.
+Add documentation for kernel script checkpatch.pl.
+This documentation is also parsed by checkpatch to
+enable a verbose mode.
 
-The test descriptions are parsed from the checkpatch documentation
-file at `Documentation/dev-tools/checkpatch.rst`. The test
-descriptions in the docs are kept in a fixed format, an example
-of which is as follows:
-
-:LINE_SPACING:
-  Vertical space is wasted given the limited number of lines an
-  editor window can display when multiple blank lines are used.
-
-:MISSING_SIGN_OFF:
-  The patch is missing a Signed-off-by line.  A signed-off-by
-  line should be added according to Developer's certificate of
-  Origin.
-  ref: `Documentation/process/submitting-patches.rst`
-
-The verbose descriptions are not shown when the --terse option
-is enabled.
+Only a few test descriptions are added and the rest
+will be added later over time to document all the
+message types emitted by checkpatch.
 
 Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
- scripts/checkpatch.pl | 54 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 53 insertions(+), 1 deletion(-)
+ Documentation/dev-tools/checkpatch.rst | 269 +++++++++++++++++++++++++
+ 1 file changed, 269 insertions(+)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 05e908dcf0a0..2011d90c3e97 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -23,6 +23,8 @@ my $V = '0.32';
- use Getopt::Long qw(:config no_auto_abbrev);
- 
- my $quiet = 0;
-+my $verbose = 0;
-+my %verbose_messages = ();
- my $tree = 1;
- my $chk_signoff = 1;
- my $chk_patch = 1;
-@@ -61,6 +63,7 @@ my $spelling_file = "$D/spelling.txt";
- my $codespell = 0;
- my $codespellfile = "/usr/share/codespell/dictionary.txt";
- my $conststructsfile = "$D/const_structs.checkpatch";
-+my $docsfile = "$D/../Documentation/dev-tools/checkpatch.rst";
- my $typedefsfile;
- my $color = "auto";
- my $allow_c99_comments = 1; # Can be overridden by --ignore C99_COMMENT_TOLERANCE
-@@ -78,6 +81,7 @@ Version: $V
- 
- Options:
-   -q, --quiet                quiet
-+  -v, --verbose              verbose mode
-   --no-tree                  run without a kernel tree
-   --no-signoff               do not check for 'Signed-off-by' line
-   --patch                    treat FILE as patchfile (default)
-@@ -198,6 +202,45 @@ if (-f $conf) {
- 	unshift(@ARGV, @conf_args) if @conf_args;
- }
- 
-+sub load_docs {
-+	open(my $docs, '<', "$docsfile")
-+	    or warn "$P: Can't read the documentation file $docsfile $!\n";
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+new file mode 100644
+index 000000000000..bb23f4dad11e
+--- /dev/null
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -0,0 +1,269 @@
++.. SPDX-License-Identifier: GPL-2.0-only
 +
-+	my @lines = ();
-+	while (<$docs>) {
-+		my $line = $_;
++==========
++Checkpatch
++==========
 +
-+		$line =~ s/\s*\n?$//g;
-+		push (@lines, $line);
-+	}
-+	close($docs);
++This document describes the kernel script checkpatch.pl.
 +
-+	my $linenr = 0;
-+	my $cnt = scalar @lines;
-+	while ($linenr < $cnt) {
-+		while ($linenr < $cnt &&
-+		       $lines[$linenr++] !~ /^\:(.+)\:$/)
-+		{
-+		}
++.. Table of Contents
 +
-+		last if ($linenr >= $cnt);
++	=== 1 Introduction
++	=== 2 Options
++	=== 3 Message Levels
++	=== 4 Type Descriptions
 +
-+		my $type = $lines[$linenr - 1];
-+		$type =~ s/^\:(.+)\:$/$1/;
-+		my $message = '';
++1 Introduction
++--------------
 +
-+		while ($linenr < $cnt &&
-+		       $lines[$linenr] =~ /^(?:\s+(.+)$|$)/) {
-+			$message .= $1 if (defined $1);
-+			$message .= "\n";
-+			$linenr++;
-+		}
++Checkpatch (scripts/checkpatch.pl) is a perl script which checks for trivial style
++violations in patches and optionally corrects them.  Checkpatch can also be run on
++file contexts and without the kernel tree.
 +
-+		$message = trim($message);
-+		$verbose_messages{$type} = $message;
-+	}
-+}
++It should be noted that checkpatch may not be always right.  At times the human
++judgement should take preference over what checkpatch has to say.  If your code looks
++better with the violations, then its probably best left alone.
 +
- # Perl's Getopt::Long allows options to take optional arguments after a space.
- # Prevent --color by itself from consuming other arguments
- foreach (@ARGV) {
-@@ -208,6 +251,7 @@ foreach (@ARGV) {
- 
- GetOptions(
- 	'q|quiet+'	=> \$quiet,
-+	'v|verbose!'	=> \$verbose,
- 	'tree!'		=> \$tree,
- 	'signoff!'	=> \$chk_signoff,
- 	'patch!'	=> \$chk_patch,
-@@ -249,6 +293,8 @@ help(0) if ($help);
- 
- list_types(0) if ($list_types);
- 
-+load_docs() if ($verbose && !$terse);
 +
- $fix = 1 if ($fix_inplace);
- $check_orig = $check;
- 
-@@ -2209,7 +2255,13 @@ sub report {
- 		splice(@lines, 1, 1);
- 		$output = join("\n", @lines);
- 	}
--	$output = (split('\n', $output))[0] . "\n" if ($terse);
++2 Options
++---------
 +
-+	if ($terse) {
-+		$output = (split('\n', $output))[0] . "\n";
-+	} elsif ($verbose &&
-+		 exists $verbose_messages{$type}) {
-+		$output .= $verbose_messages{$type} . "\n\n";
-+	}
- 
- 	push(our @report, $output);
- 
++This section will describe the options checkpatch can be run with.
++
++Usage::
++
++  ./scripts/checkpatch.pl [OPTION]... [FILE]...
++
++Available options:
++
++ - -q,  --quiet
++
++   Enable quiet mode.
++
++ - -v,  --verbose
++   Enable verbose mode.  Additional verbose test descriptions are output
++   so as to provide information on why that particular message is shown.
++
++ - --no-tree
++
++   Run checkpatch without the kernel tree.
++
++ - --no-signoff
++
++   Disable the 'Signed-off-by' line check.  The sign-off is a simple line at
++   the end of the explanation for the patch, which certifies that you wrote it
++   or otherwise have the right to pass it on as an open-source patch.
++
++   Example::
++
++	 Signed-off-by: Random J Developer <random@developer.example.org>
++
++   Setting this flag effectively stops a message for a missing signed-off-by line
++   in a patch context.
++
++ - --patch
++
++   Treat FILE as a patch.  This is the default option and need not be
++   explicitly specified.
++
++ - --emacs
++
++   Set output to emacs compile window format.  This allows emacs users to jump
++   from the error in the compile window directly to the offending line in the patch.
++
++ - --terse
++
++   Output only one line per report.
++
++ - --showfile
++
++   Show the diffed file position instead of the input file position.
++
++ - -g,  --git
++
++   Treat FILE as a single commit or a git revision range.
++
++   Single commit with:
++
++   - <rev>
++   - <rev>^
++   - <rev>~n
++
++   Multiple commits with:
++
++   - <rev1>..<rev2>
++   - <rev1>...<rev2>
++   - <rev>-<count>
++
++ - -f,  --file
++
++   Treat FILE as a regular source file.  This option must be used when running
++   checkpatch on source files in the kernel.
++
++ - --subjective,  --strict
++
++   Enable stricter tests in checkpatch.  By default the tests emitted as CHECK
++   do not activate by default.  Use this flag to activate the CHECK tests.
++
++ - --list-types
++
++   Every message emitted by checkpatch has an associated TYPE.  Add this flag to
++   display all the types in checkpatch.
++
++   Note that when this flag is active, checkpatch does not read the input FILE, and
++   no message is emitted.  Only a list of types in checkpatch is output.
++
++ - --types TYPE(,TYPE2...)
++
++   Only display messages with the given types.
++
++   Example::
++
++     ./scripts/checkpatch.pl mypatch.patch --types EMAIL_SUBJECT,NO_AUTHOR_SIGN_OFF
++
++ - --ignore TYPE(,TYPE2...)
++
++   Strip off messages with the given types.
++
++   Example::
++
++     ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,NO_AUTHOR_SIGN_OFF
++
++ - --show-types
++
++   By default checkpatch doesn't display the type associated with the messages.
++   Set this flag to show the message type in the output.
++
++ - --max-line-length=n
++
++   Set the max line length (default 100).  On exceeding the given length, a message
++   is emitted.
++
++   The message level is different for patch and file contexts.  For patches, a WARNING is
++   emitted.  While a milder CHECK is emitted for files.  So for file contexts, the --strict
++   flag must also be enabled.
++
++ - --min-conf-desc-length=n
++
++   Set the min description length, if shorter, warn.
++
++ - --tab-size=n
++
++   Set the number of spaces for tab (default 8).
++
++ - --root=PATH
++
++   PATH to the kernel tree root.
++
++   This option must be specified when invoking checkpatch from outside
++   the kernel root.
++
++ - --no-summary
++
++   Suppress the per file summary.
++
++ - --mailback
++
++   Only produce a report in case of Warnings or Errors.  Milder Checks are
++   excluded from this.
++
++ - --summary-file
++
++   Include the filename in summary.
++
++ - --debug KEY=[0|1]
++
++   Turn on/off debugging of KEY, where KEY is one of 'values', 'possible',
++   'type', and 'attr' (default is all off).
++
++ - --fix
++
++   This is an EXPERIMENTAL feature.  If correctable errors exists, a file
++   <inputfile>.EXPERIMENTAL-checkpatch-fixes is created which has the
++   automatically fixable errors corrected.
++
++ - --fix-inplace
++
++   EXPERIMENTAL - Similar to --fix but the input file is overwritten with fixes.
++
++   DO NOT USE this flag unless you are absolutely sure and you have a backup in place.
++
++ - --ignore-perl-version
++
++   Override checking of perl version.  Runtime errors maybe encountered after
++   enabling this flag if the perl version does not meet the minimum specified.
++
++ - --codespell
++
++   Use the codespell dictionary for checking spelling errors.
++
++ - --codespellfile
++
++   Use the specified codespell file.  Default is '/usr/share/codespell/dictionary.txt'.
++
++ - --typedefsfile
++
++   Read additional types from this file.
++
++ - --color[=WHEN]
++
++   Use colors 'always', 'never', or only when output is a terminal ('auto').
++   Default is 'auto'.
++
++ - --kconfig-prefix=WORD
++
++   Use WORD as a prefix for Kconfig symbols (default is `CONFIG_`).
++
++ - -h, --help, --version
++
++   Display the help text.
++
++3 Message Levels
++----------------
++
++Messages in checkpatch are divided into three levels. The levels of messages in
++checkpatch denote the severity of the error. They are:
++
++ - ERROR
++
++   This is the most strict level.  Messages of type ERROR must be taken
++   seriously as they denote things that are very likely to be wrong.
++
++ - WARNING
++
++   This is the next stricter level.  Messages of type WARNING requires a
++   more careful review.  But it is milder than an ERROR.
++
++ - CHECK
++
++   This is the mildest level.  These are things which may require some thought.
++
++4 Type Descriptions
++-------------------
++
++This section contains a description of all the message types in checkpatch.
++
++.. Types in this section are also parsed by checkpatch.
++.. Please keep the types sorted alphabetically.
++
++:LINE_SPACING:
++  Vertical space is wasted given the limited number of lines an
++  editor window can display when multiple blank lines are used.
++
++:MISSING_SIGN_OFF:
++  The patch is missing a Signed-off-by line.  A signed-off-by
++  line should be added according to Developer's certificate of
++  Origin.
++  ref: `Documentation/process/submitting-patches.rst`
++
++:NO_AUTHOR_SIGN_OFF:
++  The author of the patch has not signed off the patch.  It is
++  required that a simple sign off line should be present at the
++  end of explanation of the patch to denote that the author has
++  written it or otherwise has the rights to pass it on as an open
++  source patch.
++
++:TRAILING_WHITESPACE:
++  Trailing whitespace should always be removed.
++  Some editors highlight the trailing whitespace and cause visual
++  distractions when editing files.
 -- 
 2.30.0
 
