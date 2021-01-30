@@ -1,97 +1,103 @@
-Return-Path: <SRS0=VniB=G7=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=tcnQ=HB=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=1.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,UPPERCASE_50_75,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0481EC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 20:09:31 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7205C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 30 Jan 2021 12:36:14 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6355564DFF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 28 Jan 2021 20:09:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6355564DFF
+	by mail.kernel.org (Postfix) with ESMTPS id 3A95664DDC
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 30 Jan 2021 12:36:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A95664DDC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id BF10B8736F;
-	Thu, 28 Jan 2021 20:09:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CbBjjoarzMWw; Thu, 28 Jan 2021 20:09:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id E50938735D;
-	Thu, 28 Jan 2021 20:09:28 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5886C0FA7;
-	Thu, 28 Jan 2021 20:09:28 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C62B4C013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 20:09:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id AE53686156
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 20:09:27 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id DFB9686B06;
+	Sat, 30 Jan 2021 12:36:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id s424BAx79pSw; Sat, 30 Jan 2021 12:36:12 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id CD07C86AFF;
+	Sat, 30 Jan 2021 12:36:12 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B131BC0FA7;
+	Sat, 30 Jan 2021 12:36:12 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 558B8C013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 30 Jan 2021 12:36:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by silver.osuosl.org (Postfix) with ESMTP id 1A04120112
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 30 Jan 2021 12:36:11 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from silver.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LGVb-p0N7uwD
+ with ESMTP id pRzBi5NXeI21
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 20:09:26 +0000 (UTC)
+ Sat, 30 Jan 2021 12:36:10 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 84D1B853C5
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
+ [209.85.222.171])
+ by silver.osuosl.org (Postfix) with ESMTPS id 10D0D2010A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 20:09:26 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id a12so9320034lfb.1
+ Sat, 30 Jan 2021 12:36:10 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id n7so11510729qkc.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 28 Jan 2021 12:09:26 -0800 (PST)
+ Sat, 30 Jan 2021 04:36:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pbLyXrC1k9FZUoqcNNFZRIj5HwoK9Y0SywPqi5fY9Mw=;
- b=HaMIYUKZDxCMRmzAT2hb3SOCX5nRl8mwdoT7wx7YGzBAtmRsp+fq0dZuqadOylkR4p
- VG9B0J0J1eswn3ix6AZ8wsc5wvq93+FNchubVQJJa+jprtNue/5tlRexuBi3irdxy5/Z
- Z4Vcw2NbT4GEMdHKXo/nuxJsZv+tDg1Oy2NTcSANchxmw8Tqk5sKveVJ5ebJmxnSgQNq
- Lm66GfJlWKa2jYEAUnJ1wrHngtPYafd7iGRm3NM8+Fj99WHEtilaT+rbPelc5TVFGXyA
- 6V+2oka6ME+FjJNrZPtbRqPlXkCepTNe4ZzE8ApXFamrjFHGWuDI77+DcGoatDgsJkZi
- qDcA==
+ h=subject:to:references:from:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language;
+ bh=4AhkauCxhTK4aXQ6uQz0IUsq29eoXNJhb0MQlmp7OIM=;
+ b=XG6oug6NSPHkVtdjH7XSCQpaKGd1ecoanylIOkgcwPvf0qnhVhy1ZX5CCPVUTdj6SW
+ AvV9wEsvMcI0y2W9oZmHSR0OLm1iJHJOSv9Tgm8xkMMZg1wH6llaDowCCjAj2Ps65nwj
+ Uu13IPoxXGg5Cz6KFoQjODh3gMAOZR6gG2aoVrSziz1IxvhrZJHf9+QMh2kMnXyE6DKX
+ GYY6lSfNePYgPl6kwAyDFBAyDh1aQvYflQXrgxggjSdKlDsok8ON3JGFSeRHam+Tj1gF
+ hBZUnQbNZH5TMOisLGUAqQlBe0ad2X6e7U3h/G/hFPd6mMVodGaTYnQsAXEi7vTZ8Ccm
+ iO3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pbLyXrC1k9FZUoqcNNFZRIj5HwoK9Y0SywPqi5fY9Mw=;
- b=PfvrGAIdYAOo0FmadNZyL9jvHo5IASoNsDLYXLW/52fnNtm3/UHKvnzm2Wml+ESzwd
- 4jj1aoic2Ov6IWswhYojlibeeUULpdt3uj0UNzIlQqVebzvT4a07N3ddNQkaDR7GWnJG
- FudLdKufGldNPJ9pZrLnxHlw1LoW7RCKpyjsrdtdlHzIY7MdhZv0FI+QQFac+0UNO8tt
- 2Erb7a+lW0f6BO138i6qXSoL358D2VfcnzBzwk4rYp8Imu8cBVBvWc4KdEl9ndsMnX+x
- 7b9wgDbFrhD6UYkgKL6RQtG9kEVqosD9EH1gOd85vDuuP0lNaPcf0F8fvcc2baJTFjPB
- IJMw==
-X-Gm-Message-State: AOAM533tIG40MgilnW5obzSUnyDU6NsJ/fV07B9X9ngLl69N3Jlmf+wj
- yIpDqjjR/Kz65mS/b9Cd/RbSYzZCRg0e+ru3pBo=
-X-Google-Smtp-Source: ABdhPJy/TzdQsySFsNcHg/4wk5BDS+CkS6gcNp+S9my6iG6m+Nxz2F/kNZmOGe2FmkAr/wGG2+GayBLG1kSU3GO4X5Y=
-X-Received: by 2002:a19:6447:: with SMTP id b7mr349635lfj.206.1611864564446;
- Thu, 28 Jan 2021 12:09:24 -0800 (PST)
+ h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language;
+ bh=4AhkauCxhTK4aXQ6uQz0IUsq29eoXNJhb0MQlmp7OIM=;
+ b=WreXvWCrN2BiG66e1m9jY0PC+SJ44z+/ny0UcLaflY4bvs0v6QuksbDqPaNrMMmAyp
+ gOe21u3bYUlzvLmqR5jvE6tLqRtYcVddUcDtb4425QIrh5Y6x2i4J1sw2s+r0vvUuXoU
+ JNqjXeupPOVv0NKv97eVJqUVxk9hinRDmgWlsEPISekl6fuvm7Ikw42RjwiCxQ66LtHb
+ Tvmnktso+bUrOtB5xlndRzVzOPpGe36Ex1P/uQnw8u97jnPmzbzGZAIMa6OgDrdhf0ND
+ MA0vZFcgQ7INXOPjFUZevKhtxcIfKSHZHxyEX0k6UsTtpteSHacZ6by0pcrQ4smDDPzA
+ WvXw==
+X-Gm-Message-State: AOAM531rVQ4hsxGi8xYVZPfhvSsnKwPzZ4+eDYyjjnPTcpcc7v8O/id/
+ lcTQhqIYuOlQ44CSzaYnnnc=
+X-Google-Smtp-Source: ABdhPJyYN8m/IlvIKFlzPiPptrKLiN2LoiVGN7ak+hBaSTQ+8trGpsqooc743LpHKaIvzE5nRJhkHQ==
+X-Received: by 2002:a37:65d3:: with SMTP id z202mr8210709qkb.118.1612010169023; 
+ Sat, 30 Jan 2021 04:36:09 -0800 (PST)
+Received: from ?IPv6:2804:14d:72b1:8920:9d72:75bc:e42b:f19e?
+ ([2804:14d:72b1:8920:9d72:75bc:e42b:f19e])
+ by smtp.gmail.com with ESMTPSA id p12sm8456282qtw.27.2021.01.30.04.36.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Jan 2021 04:36:08 -0800 (PST)
+To: Hans Verkuil <hverkuil@xs4all.nl>
+References: <bb8ae9fe-a03f-9fbb-f8ad-6c24f8cbad86@xs4all.nl>
+From: Daniel Almeida <dwlsalmeida@gmail.com>
+Message-ID: <64ab8e8b-ff40-8c95-ba62-55d8c59c31c7@gmail.com>
+Date: Sat, 30 Jan 2021 09:36:05 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210128143802.15888-1-dwaipayanray1@gmail.com>
- <20210128143802.15888-3-dwaipayanray1@gmail.com>
- <1f8eb861fd74e530eeda9cb587e7cb3dc655c124.camel@perches.com>
-In-Reply-To: <1f8eb861fd74e530eeda9cb587e7cb3dc655c124.camel@perches.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Fri, 29 Jan 2021 01:39:21 +0530
-Message-ID: <CABJPP5Bd1sqNwxBcubRJte9dWSkheeABSMizO1ZKNUYw9gOEDQ@mail.gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [Linux-kernel-mentees] [PATCH v2 2/3] docs: add documentation
-	for checkpatch
+In-Reply-To: <bb8ae9fe-a03f-9fbb-f8ad-6c24f8cbad86@xs4all.nl>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [RFC PATCH resend] vidtv: adapter->mdev
+	was set too late
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,302 +109,118 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8778550429103632052=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jan 29, 2021 at 12:53 AM Joe Perches <joe@perches.com> wrote:
->
-> On Thu, 2021-01-28 at 20:08 +0530, Dwaipayan Ray wrote:
-> > Add documentation for kernel script checkpatch.pl.
-> > This documentation is also parsed by checkpatch to
-> > enable a verbose mode.
-> >
-> > Only a few test descriptions are added and the rest
-> > will be added later over time to document all the
-> > message types emitted by checkpatch.
->
-> Better to document them all rather than partially.
-> $ git grep -ohP '(?:\w+|\})\s*\(\s*\"[A-Z_]+"' scripts/checkpatch.pl | \
->  cut -f2 -d'"' | sort | uniq
-> ALLOC_ARRAY_ARGS
-> ALLOC_SIZEOF_STRUCT
-> ALLOC_WITH_MULTIPLY
-> ARCH_DEFINES
-> ARCH_INCLUDE_LINUX
-> ARRAY_SIZE
-> ASSIGN_IN_IF
-> ASSIGNMENT_CONTINUATIONS
-> AVOID_BUG
-> AVOID_EXTERNS
-> AVOID_L_PREFIX
-> BAD_SIGN_OFF
-> BAD_STABLE_ADDRESS_STYLE
-> BIT_MACRO
-> BLOCK_COMMENT_STYLE
-> BOOL_COMPARISON
-> BRACES
-> BRACKET_SPACE
-> CAMELCASE
-> CHECK
-> CODE_INDENT
-> COMMIT_COMMENT_SYMBOL
-> COMMIT_LOG_LONG_LINE
-> COMMIT_MESSAGE
-> COMPARISON_TO_NULL
-> COMPLEX_MACRO
-> CONCATENATED_STRING
-> CONFIG_DESCRIPTION
-> CONFIG_TYPE_BOOLEAN
-> CONSIDER_COMPLETION
-> CONSIDER_KSTRTO
-> CONSTANT_COMPARISON
-> CONSTANT_CONVERSION
-> CONST_CONST
-> CONST_READ_MOSTLY
-> CONST_STRUCT
-> CORRUPTED_PATCH
-> CVS_KEYWORD
-> DATA_RACE
-> DATE_TIME
-> DEEP_INDENTATION
-> DEFAULT_NO_BREAK
-> DEFINE_ARCH_HAS
-> DEPRECATED_API
-> DEPRECATED_VARIABLE
-> DEVICE_ATTR_FUNCTIONS
-> DEVICE_ATTR_PERMS
-> DEVICE_ATTR_RO
-> DEVICE_ATTR_RW
-> DEVICE_ATTR_WO
-> DIFF_IN_COMMIT_MSG
-> DOS_LINE_ENDINGS
-> DO_WHILE_MACRO_WITH_TRAILING_SEMICOLON
-> DT_SCHEMA_BINDING_PATCH
-> DT_SPLIT_BINDING_PATCH
-> DUPLICATED_SYSCTL_CONST
-> ELSE_AFTER_BRACE
-> EMAIL_SUBJECT
-> EMBEDDED_FILENAME
-> EMBEDDED_FUNCTION_NAME
-> ENOSYS
-> ENOTSUPP
-> ERROR
-> EXECUTE_PERMISSIONS
-> EXPORTED_WORLD_WRITABLE
-> EXPORT_SYMBOL
-> FILE_PATH_CHANGES
-> FROM_SIGN_OFF_MISMATCH
-> FSF_MAILING_ADDRESS
-> FUNCTION_ARGUMENTS
-> FUNCTION_WITHOUT_ARGS
-> GERRIT_CHANGE_ID
-> GIT_COMMIT_ID
-> GLOBAL_INITIALISERS
-> HEXADECIMAL_BOOLEAN_TEST
-> HOTPLUG_SECTION
-> IN_ATOMIC
-> INCLUDE_LINUX
-> INDENTED_LABEL
-> INIT_ATTRIBUTE
-> INITIALISED_STATIC
-> INLINE
-> INLINE_LOCATION
-> IS_ENABLED_CONFIG
-> JIFFIES_COMPARISON
-> KREALLOC_ARG_REUSE
-> LEADING_SPACE
-> LIKELY_MISUSE
-> LINE_CONTINUATIONS
-> LINE_SPACING
-> LINUX_VERSION_CODE
-> LOCKDEP
-> LOCKING
-> LOGGING_CONTINUATION
-> LOGICAL_CONTINUATIONS
-> LONG_LINE
-> LONG_UDELAY
-> MACRO_ARG_PRECEDENCE
-> MACRO_ARG_REUSE
-> MACRO_WITH_FLOW_CONTROL
-> MAINTAINERS_STYLE
-> MALFORMED_INCLUDE
-> MASK_THEN_SHIFT
-> MEMORY_BARRIER
-> MEMSET
-> MINMAX
-> MISORDERED_TYPE
-> MISPLACED_INIT
-> MISSING_EOF_NEWLINE
-> MISSING_SIGN_OFF
-> MODIFIED_INCLUDE_ASM
-> MODULE_LICENSE
-> MSLEEP
-> MULTILINE_DEREFERENCE
-> MULTIPLE_ASSIGNMENTS
-> MULTIPLE_DECLARATION
-> MULTISTATEMENT_MACRO_USE_DO_WHILE
-> NAKED_SSCANF
-> NETWORKING_BLOCK_COMMENT_STYLE
-> NEW_TYPEDEFS
-> NO_AUTHOR_SIGN_OFF
-> NON_OCTAL_PERMISSIONS
-> NOT_UNIFIED_DIFF
-> NR_CPUS
-> OBSOLETE
-> ONE_SEMICOLON
-> OOM_MESSAGE
-> OPEN_BRACE
-> OPEN_ENDED_LINE
-> PARENTHESIS_ALIGNMENT
-> PATCH_PREFIX
-> POINTER_LOCATION
-> PREFER_DEFINED_ATTRIBUTE_MACRO
-> PREFER_DEV_LEVEL
-> PREFER_ETH_BROADCAST_ADDR
-> PREFER_ETHER_ADDR_COPY
-> PREFER_ETHER_ADDR_EQUAL
-> PREFER_ETH_ZERO_ADDR
-> PREFER_FALLTHROUGH
-> PREFER_IS_ENABLED
-> PREFER_KERNEL_TYPES
-> PREFER_PR_LEVEL
-> PREFER_SEQ_PUTS
-> PRINTF_L
-> PRINTF_Z
-> PRINTK_RATELIMITED
-> PRINTK_WITHOUT_KERN_LEVEL
-> QUOTED_WHITESPACE_BEFORE_NEWLINE
-> REPEATED_WORD
-> RETURN_PARENTHESES
-> RETURN_VOID
-> SELF_ASSIGNMENT
-> SINGLE_STATEMENT_DO_WHILE_MACRO
-> SIZEOF_ADDRESS
-> SIZEOF_PARENTHESIS
-> SPACE_BEFORE_TAB
-> SPACING
-> SPDX_LICENSE_TAG
-> SPLIT_STRING
-> SSCANF_TO_KSTRTO
-> STATIC_CONST
-> STATIC_CONST_CHAR_ARRAY
-> STORAGE_CLASS
-> STRING_FRAGMENTS
-> STRLCPY
-> SUSPECT_CODE_INDENT
-> SUSPECT_COMMA_SEMICOLON
-> SWITCH_CASE_INDENT_LEVEL
-> SYMBOLIC_PERMS
-> TABSTOP
-> TEST_ATTR
-> TEST_NOT_ATTR
-> TEST_NOT_TYPE
-> TEST_TYPE
-> TRACE_PRINTK
-> TRACING_LOGGING
-> TRAILING_SEMICOLON
-> TRAILING_STATEMENTS
-> TRAILING_WHITESPACE
-> TYPECAST_INT_CONSTANT
-> TYPO_SPELLING
-> UAPI_INCLUDE
-> UNCOMMENTED_DEFINITION
-> UNDOCUMENTED_DT_STRING
-> UNDOCUMENTED_SETUP
-> UNKNOWN_COMMIT_ID
-> UNNECESSARY_BREAK
-> UNNECESSARY_CASTS
-> UNNECESSARY_ELSE
-> UNNECESSARY_INT
-> UNNECESSARY_KERN_LEVEL
-> UNNECESSARY_MODIFIER
-> UNNECESSARY_PARENTHESES
-> UNSPECIFIED_INT
-> USE_DEVICE_INITCALL
-> USE_FUNC
-> USE_LOCKDEP
-> USE_NEGATIVE_ERRNO
-> USE_RELATIVE_PATH
-> USE_SPINLOCK_T
-> USLEEP_RANGE
-> VOLATILE
-> VSPRINTF_POINTER_EXTENSION
-> VSPRINTF_SPECIFIER_PX
-> WAITQUEUE_ACTIVE
-> WARNING
-> WEAK_DECLARATION
-> WHILE_AFTER_BRACE
-> WHITESPACE_AFTER_LINE_CONTINUATION
-> YIELD
->
+This is a multi-part message in MIME format.
+--===============8778550429103632052==
+Content-Type: multipart/alternative;
+ boundary="------------702B9753D906C7685E9B3038"
+Content-Language: en-US
 
-The amount looks a bit scary at a first glance!
-But sure I will try to get them all documented, although it might take
-a bit of time.
+This is a multi-part message in MIME format.
+--------------702B9753D906C7685E9B3038
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> []
-> > +Checkpatch (scripts/checkpatch.pl) is a perl script which checks for trivial style
-> > +violations in patches and optionally corrects them.  Checkpatch can also be run on
-> > +file contexts and without the kernel tree.
-> > +
-> > +It should be noted that checkpatch may not be always right.  At times the human
->
-> checkpatch is not always right.
-> Your judgement takes precedence over checkpatch messages.
->
->
-> > +
-> > + - --types TYPE(,TYPE2...)
-> > +
-> > +   Only display messages with the given types.
-> > +
-> > +   Example::
-> > +
-> > +     ./scripts/checkpatch.pl mypatch.patch --types EMAIL_SUBJECT,NO_AUTHOR_SIGN_OFF
-> > +
-> > + - --ignore TYPE(,TYPE2...)
-> > +
-> > +   Strip off messages with the given types.
->
-> checkpatch will not emit messages for the specified types,
->
-> > +
-> > +   Example::
-> > +
-> > +     ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,NO_AUTHOR_SIGN_OFF
-> > +
-> > + - --show-types
-> > +
-> > +   By default checkpatch doesn't display the type associated with the messages.
-> > +   Set this flag to show the message type in the output.
-> > +
-> > + - --max-line-length=n
-> > +
-> > +   Set the max line length (default 100).  On exceeding the given length, a message
-> > +   is emitted.
->
-> If a line exceeds the specified length, a LONG_LINE message is emitted.
-> > +
-> > +   The message level is different for patch and file contexts.  For patches, a WARNING is
-> > +   emitted.  While a milder CHECK is emitted for files.  So for file contexts, the --strict
-> > +   flag must also be enabled.
-> > +
-> > + - --min-conf-desc-length=n
-> > +
-> > +   Set the min description length, if shorter, warn.
->
-> Kconfig entry minimum description
->
+Hi Hans
 
-Thanks for the review Joe!
+> (resend again, looks like the previous two attempts never reached the ML)
+>
+> Daniel, how did you test the media controller feature? I don't really
+> understand how your merged patch for MC support could ever work. It's
+> the reason I've marked my patch as an RFC since I wonder if something
+> accidentally got messed up along the way.
+>
+> Regards,
+>
+> 	Hans
 
-With best regards,
-Dwaipayan.
+I still have much to learn on the subsystem.. what I did to test it was 
+trying out this command:
+
+media-ctl -d platform:vidtv -p
+Media controller API version 5.11.0
+
+Media device information
+------------------------
+driver          vidtv
+model           vidtv
+serial
+bus info        platform:vidtv
+hw revision     0x0
+driver version  5.11.0
+
+
+I was under the impression that this was enough to show everything was 
+in order with the patch.
+
+-- Daniel
+
+
+
+--------------702B9753D906C7685E9B3038
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Hans</p>
+    <p>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">(resend again, looks like the previous two attempts never reached the ML)
+
+Daniel, how did you test the media controller feature? I don't really
+understand how your merged patch for MC support could ever work. It's
+the reason I've marked my patch as an RFC since I wonder if something
+accidentally got messed up along the way.
+
+Regards,
+
+	Hans</pre>
+      </blockquote>
+      <br>
+    </p>
+    <p>I still have much to learn on the subsystem.. what I did to test
+      it was trying out this command:</p>
+    media-ctl -d platform:vidtv -p <br>
+    Media controller API version 5.11.0<br>
+    <br>
+    Media device information<br>
+    ------------------------<br>
+    driver          vidtv<br>
+    model           vidtv<br>
+    serial          <br>
+    bus info        platform:vidtv<br>
+    hw revision     0x0<br>
+    driver version  5.11.0<br>
+    <p><br>
+    </p>
+    <p>I was under the impression that this was enough to show
+      everything was in order with the patch.<br>
+    </p>
+    <p><span style="color: #b3b1ad;">-- Daniel<br>
+      </span></p>
+    <br>
+  </body>
+</html>
+
+--------------702B9753D906C7685E9B3038--
+
+--===============8778550429103632052==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8778550429103632052==--
