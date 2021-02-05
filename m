@@ -2,93 +2,126 @@ Return-Path: <SRS0=NdEt=HH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67481C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Feb 2021 09:11:51 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD75C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Feb 2021 09:27:41 +0000 (UTC)
+Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BAB2764F70
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Feb 2021 09:11:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BAB2764F70
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id D96DD64F95
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Feb 2021 09:27:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D96DD64F95
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=live.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 62D6A86AE9;
-	Fri,  5 Feb 2021 09:11:50 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 64B892E10A;
+	Fri,  5 Feb 2021 09:27:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id k_Npp4h26ywI; Fri,  5 Feb 2021 09:11:49 +0000 (UTC)
+	with ESMTP id HbK8ip5KbcFf; Fri,  5 Feb 2021 09:27:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id B4A0686AB1;
-	Fri,  5 Feb 2021 09:11:49 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id E591320384;
+	Fri,  5 Feb 2021 09:27:38 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F294C08A1;
-	Fri,  5 Feb 2021 09:11:49 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8CBF6C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CB422C08A1;
+	Fri,  5 Feb 2021 09:27:38 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62FEEC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Feb 2021 09:11:47 +0000 (UTC)
+ Fri,  5 Feb 2021 09:27:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 72D5686AB1
+ by hemlock.osuosl.org (Postfix) with ESMTP id 469C78731B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Feb 2021 09:11:47 +0000 (UTC)
+ Fri,  5 Feb 2021 09:27:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KhlZ1B8vP0eN
+ with ESMTP id JSImV-4KxTC1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Feb 2021 09:11:46 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id 79E8C86A22
+ Fri,  5 Feb 2021 09:27:36 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+ (mail-oln040092253060.outbound.protection.outlook.com [40.92.253.60])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 9380B8731A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Feb 2021 09:11:46 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id q9so5235164ilo.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 05 Feb 2021 01:11:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WqbEWawoqYhsuJCxi2Tdceg8yFIc8QeSSPBU+pORiH0=;
- b=CJ02Mq0v3BveW/hmfyh7TlUiQUuBkq2kBr7XkLsJkbsdWR6ivsLKq5HUq36mFHutRj
- P/lpZBjJfTmJEwSDyRkExQBDQkkE4ygVN3hs/ACAQRXGKdxVrd4jA6arYu6Sj8FBA3Ax
- iRpNXpQPHgl/yquwbaHJuBBeqH/Y+uWCB+jqg6OjyLkUPRWia1LYfF5IV+sWWUbhsEbw
- UGnGpMjZkrlhYSY9968DGO7o+HmGmDdj1LmE4qxCEiJdOCgSggXPB5ACmFb92FtRKnBa
- /W3dvmr8jYV0U4FjbkTsky1/qOTsL8YaLmas2YxLwiu1ZcNVAi3dBsMODxmThcsc9LF7
- mOMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WqbEWawoqYhsuJCxi2Tdceg8yFIc8QeSSPBU+pORiH0=;
- b=GhJC8plx31eMeae08cKbCq/BH1vvYzrh/3lRyj9x7x1i8LmqutJ2/Kd7PjA9Pwomn6
- FWZ8u2LKG0eBRiI/3dZ9iu4R51tCUmVDVhbCVqRahkvcRCw0Y2ybe2msO/Vb5NS5aYXq
- cI9H9bEW9yh5j0czW6om+ruHPhZjP/8q4eMlFw6w2ZafoXTae5yESaGSwDYZObV00SkN
- MreZ6Zl7f+GoBYOmvQ/+ye2E2j6fI0pevZ7QtQk4xGaiiqS2uJJLkBOFMUx9BGAGEYx4
- jhVbDjPgSqUyBFhRK7CSZG6GqxoUTtKBkT9rOBlle/UVkyv9NuidAObnBKDjgjimmL8H
- R9XQ==
-X-Gm-Message-State: AOAM533pP5oNryF6//h5aQ4il7IiDX+t6O4xvl5BkurlG0jHXTdHXiNm
- 1/5FRA8inWQtbmnyywM0yQi2YBWmsJzN48J4ir8=
-X-Google-Smtp-Source: ABdhPJw4J8yoA7oY4l53cMraxynXVeQm43sxT+J8Obl9rBOrK9Np+lbzC4Gt4mK3QqzEWKBhfdj8lQpCYI0iCONkVQQ=
-X-Received: by 2002:a92:d1c9:: with SMTP id u9mr3180720ilg.125.1612516305715; 
- Fri, 05 Feb 2021 01:11:45 -0800 (PST)
+ Fri,  5 Feb 2021 09:27:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f6O8aZukv7rMdHBdqpaLPvtEBCCmmO9voB5r88P/rdu2lBNGjSprRlfqYFJZ8TYx5S1Ko5gsB3uaWeOaV9pz7sQHlgzRr+e/0UwCrqL41+UVo7a++hn4hBjXvO92/Nuwxog9LZk1TuBrkJvwIMWns+mlY54vWm6PiNDziK7SLfNpVne+kY41PeQDLB9VzAG8gxtwVhoho3ZR26gAA1R9MJlgfU8HqkfmDNx5nvmEzdcfaqmn4+vEyUO7eVCY9adeatQ8DVZis+29B0AGUrzBoJEUCO0vvaWTlwzDiKHiW7B8u4eLHi5N4KE5u7zYJiTHuRxEy8cy9JaQcK2Fh0pgZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lyAaggpKXlqNBVpH7HCuTwA7xTLbNf9sNSFgWaX3M1w=;
+ b=DvFlwhfxQYvWEHg1/pwoonxsgZGj8jYCy8rX8z9+lbE/gsQY9StZJbf5r4bqMogrhqVTiEwyfeSujXy+soE5uapFMmqD6JqR0Is/5CW67z/6CcWcpiMSTdG7VTw8k846Te1Q5XPkYIXK/gZr7soy/Esh/xBwcUQXBY27Nyz7TJlzhw7rF1UWI2hQiHvP9Y3wfG012FflpQws+rxsrVZInuUSnIofLJBiluX4zVjQ3PEo+84ukFolyMCb+/9M4p3iguM6O043z06RuXjhRvE8UIWyDUGyh4K1Y+VGI0r6VxzE+ItW8gN/TYbvrID7VW0I2L6DoGmpHF4D0KXAJhBt+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lyAaggpKXlqNBVpH7HCuTwA7xTLbNf9sNSFgWaX3M1w=;
+ b=bWj/e6L55IyK7c8elCtWKMpckhuVbFk92t1cF0DTUE4o2sESlCwY3TGbO6TWbdvshI3zlJA897BDTpyzWBS8pDBeuBweFWU6FEA1UJDPZXTCfdZpwxEANlhRHtaM2eHWqut/ghllPj1wFO0tq1aRv8av3+zgkvfOA2cFzKaOg16oLN+Vm78vApqtPHCXStR0HpvsELdJI4HMmfg9VLLIkyiFoKRNkDPqrJ2nXDPgcQYgdM6t0LIfoGnus2wlW1BDazx1Hi+hGasBhEH9rxrrAnJZkk9ywz6ZrHUBEkQ+PBTgNBf4kdtumaU749IEPjJD11IY7tyhc3JtPzu17M/pJA==
+Received: from PU1APC01FT043.eop-APC01.prod.protection.outlook.com
+ (2a01:111:e400:7ebe::41) by
+ PU1APC01HT183.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebe::454)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Fri, 5 Feb
+ 2021 09:11:33 +0000
+Received: from PS1PR04MB2934.apcprd04.prod.outlook.com
+ (2a01:111:e400:7ebe::52) by PU1APC01FT043.mail.protection.outlook.com
+ (2a01:111:e400:7ebe::262) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11 via Frontend
+ Transport; Fri, 5 Feb 2021 09:11:33 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:AE3A65ED5B137D831F8B145509833EB02648F8D350B6735A64DE31A300941FD0;
+ UpperCasedChecksum:3CC019D8A067AD27104857B5766A34BCC26B85E9C8BE3EB6F9E5BC7CED926006;
+ SizeAsReceived:7485; Count:44
+Received: from PS1PR04MB2934.apcprd04.prod.outlook.com
+ ([fe80::55d8:45ac:a6c8:b297]) by PS1PR04MB2934.apcprd04.prod.outlook.com
+ ([fe80::55d8:45ac:a6c8:b297%3]) with mapi id 15.20.3825.019; Fri, 5 Feb 2021
+ 09:11:33 +0000
+From: Mayank Suman <mayanksuman@live.com>
+To: gregkh@linuxfoundation.org, sfr@canb.auug.org.au, mayanksuman@live.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Date: Fri,  5 Feb 2021 14:41:13 +0530
+Message-ID: <PS1PR04MB29341C7117657B1F312444FBD6B29@PS1PR04MB2934.apcprd04.prod.outlook.com>
+X-Mailer: git-send-email 2.30.0
+X-TMN: [fNC3v8HBfu/BQltsmUk1UYAYOsqFhc/TJmLgRs+VoKw=]
+X-ClientProxiedBy: BMXPR01CA0052.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::16) To PS1PR04MB2934.apcprd04.prod.outlook.com
+ (2603:1096:803:3e::21)
+X-Microsoft-Original-Message-ID: <20210205091113.1183466-1-mayanksuman@live.com>
 MIME-Version: 1.0
-References: <CABJPP5AZG-zyiY96oik0jLdcfZK=ApsHwcYpZHK3O9WdgJ=tcw@mail.gmail.com>
- <CAKXUXMxhjR1MMeHT5oDmy9=7qTNO7xmRemcVN8LsM56RGcuXhQ@mail.gmail.com>
- <CABJPP5BuQ_5D6n0w7AERi+q5bvmeEH23kyeARo0zOtC4MhM5fQ@mail.gmail.com>
-In-Reply-To: <CABJPP5BuQ_5D6n0w7AERi+q5bvmeEH23kyeARo0zOtC4MhM5fQ@mail.gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 5 Feb 2021 10:11:34 +0100
-Message-ID: <CAKXUXMzL6LfKahMwHBzWM9dSvCpbYjGK4+taiGj9WDeb6+bXfQ@mail.gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Regarding checkpatch docs
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (103.127.101.171) by
+ BMXPR01CA0052.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2c::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.19 via Frontend Transport; Fri, 5 Feb 2021 09:11:30 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 44
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 35973a73-eab1-4187-ffb7-08d8c9b60814
+X-MS-Exchange-SLBlob-MailProps: 7MJMDUNTCtxonY1sqs0A+FAVLkVdFa61r9V4wI1z8pop/cLlFsUo+0lms4aKY9zdvKeNre9lBufoi0hI7sb8t3jSIzLb70TE5pfj5nenzSakctR4luC74xYXVuMTEI6HjtuzhliwdYFqSwB5E3F2dYVcVwtNzfbI6I9fcaletIWGZ6qa58Lwl84eZSyxM9QRjweV/s7eN9qXryydzLkKqqiXs3inbplZfoFmQMMli/WlkGbszUIuU+0gVzgqOEzsvtS6ybUg5cMCwEiUWeQjDCbxQnipTqUcoaV9L4Ed2ysSz9NNVbW7zEQ/Oa1CLXVIpLqQr0ZALz06jXwHa/YNWgXm68jLsOyPUCBhjwK0cfrtNpkJs9S2ZGZiHetSkQprD/CVeq8tJEr8qdL4vWWXIVprfE8dCUiz9gvs6xPQwq1yZrgFhdi9dbY1kOYJTCXQE3qeuaSrvbt/lK/cwaeUXZC281e+5jz++2YWaj3OjLQUcXzJU5Q0mWR5UY/zO3saMfmmYUxvrC0BiEWt302oHcNdP8ojGKPN4blOs6YiHUCyV7lblbxU/BVbLASic/FUJrAWuX+D/1zBGblCOa1uOGRwxtAxzXFKzUBxAcqWyZSWOx298cXx1OmUtXv3D7xhI6JST2h08hxaw4H/10Dzzp54jDXjHYeNpRCRBF6KjJKE+LN9ckZRLLLxoAXkm6vsdXktiXtNiUTwz92CWvRKgox266A8nyMQi1nZw5wiHBCEC/Xd33/kVQ==
+X-MS-TrafficTypeDiagnostic: PU1APC01HT183:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B5dUEFrNUo1URNA5SG6kJWtOG1LUbnNy1IPkpDnMvmeghH9IXh6SXP6Szu8yn+ka/XdhTgkv0Vf0gi+t07DUqOuUeDqtL1vp6JBCSeUWaXvvoeNWY9sf5kwwY7PuBrVDfL4Hg0ySzb583HvHD8Pr2hyOyVywCPyVCVNQXRcn6SKLEUE+gycFApGRTiRFB1mWArv8PiR3E+unZ3JUtQwwMPYaERbGAcxOsm4pgNFinZaZpxuFGIVBwT4JCS7bWAW9TvfTCQGvnhmbGz1qU8j5p05aVxk3hG8Cec3SPG6p2s/SC2PFltbxz7s/llphXQTLkEhQ5X6Z39ArfiZ7fqAyczvWGen07Es1h1y3TCsn5Qvg9h8Vdq58vQvtr5G8fX1bBKGXRnQqrG3vfY4CKBudyw==
+X-MS-Exchange-AntiSpam-MessageData: fli3bkGsiW3isVSCAwTVyn1YSOiZje+yNR3uY3KUj7BE96Y16vB9978+uGIS6srSrMdbd/fqt7V5BSYOMQdpHpa92WdeLoJNxWK6ZgbzuFLJFDWWd5l00zOmztGVB1mJKAJpruiIuPUgiunaM3XPIA==
+X-OriginatorOrg: live.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35973a73-eab1-4187-ffb7-08d8c9b60814
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2021 09:11:33.4371 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: PU1APC01FT043.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT183
+Subject: [Linux-kernel-mentees] [PATCH] staging: fbtft replaced udelay with
+	usleep_range
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,91 +139,144 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Feb 4, 2021 at 9:46 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
->
-> On Thu, Feb 4, 2021 at 12:43 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> >
-> > On Thu, Feb 4, 2021 at 7:25 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
-> > >
-> > > Hi,
-> > > I have been writing the checkpatch docs for a while now. As Joe mentioned,
-> > > I am trying to write verbose descriptions for all the 214 types in checkpatch.
-> > >
-> >
-> > In which order are you trying to create them?
-> >
-> > I would like to be involved in writing as well.
-> >
-> > E.g., how do we structure the 214 rules in the document? What are the
-> > top-level chapters, sub-level sections for all different rules?
-> >
-> > Which should we start with? (Again, I think the checkpatch evaluation
-> > can guide us to document the most important rules first.)
-> >
->
-> So I was trying to document all the types alphabetically. And arranging them
-> in that format in the docs file.
->
-> Basically, all these types come under the section Type descriptions, and all
-> the entries (which are rst field lists), are sorted in alphabetical order.
->
-> So the entries are something like:
-> :ALLOC_ARRAY_ARGS:
->   The first argument for kcalloc or kmalloc_array should be the
->   number of elements. sizeof() as the first argument is generally
->   wrong.
->
-> :ALLOC_SIZEOF_STRUCT:
->   The allocation style is bad.  In general for family of
->   allocation functions using sizeof() to get memory size,
->   p = alloc(sizeof(struct foo), ...)
->   should be:
->   p = alloc(sizeof(*p), ...)
->
-> and so on...
->
-> I haven't ordered them into sub sections yet. Do we write all the rules
-> first so that the verbose mode is enabled, and then structure it later on?
->
+According to Documentation/timers/timers-howto.rst, usleep_range is
+preffered over udelay for >=10us delay.
 
-Sure, you can do it that way as well. I just fear that you might get
-stuck on a set of unimportant rules.
+Signed-off-by: Mayank Suman <mayanksuman@live.com>
+---
+ drivers/staging/fbtft/fb_agm1264k-fl.c |  2 +-
+ drivers/staging/fbtft/fb_ra8875.c      |  4 ++--
+ drivers/staging/fbtft/fb_tinylcd.c     |  4 ++--
+ drivers/staging/fbtft/fb_upd161704.c   | 18 +++++++++---------
+ drivers/staging/fbtft/fb_watterott.c   |  4 ++--
+ 5 files changed, 16 insertions(+), 16 deletions(-)
 
-Try going through alphabetically, but do not be afraid to skip a rule
-if you get stuck.
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index eeeeec97a..9ac523511 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -85,7 +85,7 @@ static void reset(struct fbtft_par *par)
+ 	dev_dbg(par->info->device, "%s()\n", __func__);
+ 
+ 	gpiod_set_value(par->gpio.reset, 0);
+-	udelay(20);
++	usleep_range(20);
+ 	gpiod_set_value(par->gpio.reset, 1);
+ 	mdelay(120);
+ }
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+index 398bdbf53..61d58efab 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -217,7 +217,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 	}
+ 	len--;
+ 
+-	udelay(100);
++	usleep_range(100);
+ 
+ 	if (len) {
+ 		buf = (u8 *)par->buf;
+@@ -238,7 +238,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 
+ 	/* restore user spi-speed */
+ 	par->fbtftops.write = fbtft_write_spi;
+-	udelay(100);
++	usleep_range(100);
+ }
+ 
+ static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
+diff --git a/drivers/staging/fbtft/fb_tinylcd.c b/drivers/staging/fbtft/fb_tinylcd.c
+index 9469248f2..fffd39d96 100644
+--- a/drivers/staging/fbtft/fb_tinylcd.c
++++ b/drivers/staging/fbtft/fb_tinylcd.c
+@@ -38,10 +38,10 @@ static int init_display(struct fbtft_par *par)
+ 	write_reg(par, 0xE5, 0x00);
+ 	write_reg(par, 0xF0, 0x36, 0xA5, 0x53);
+ 	write_reg(par, 0xE0, 0x00, 0x35, 0x33, 0x00, 0x00, 0x00,
+-		       0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
++			0x00, 0x35, 0x33, 0x00, 0x00, 0x00);
+ 	write_reg(par, MIPI_DCS_SET_PIXEL_FORMAT, 0x55);
+ 	write_reg(par, MIPI_DCS_EXIT_SLEEP_MODE);
+-	udelay(250);
++	usleep_range(250);
+ 	write_reg(par, MIPI_DCS_SET_DISPLAY_ON);
+ 
+ 	return 0;
+diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
+index c77832ae5..bdcfda868 100644
+--- a/drivers/staging/fbtft/fb_upd161704.c
++++ b/drivers/staging/fbtft/fb_upd161704.c
+@@ -36,27 +36,27 @@ static int init_display(struct fbtft_par *par)
+ 
+ 	/* oscillator start */
+ 	write_reg(par, 0x003A, 0x0001);	/*Oscillator 0: stop, 1: operation */
+-	udelay(100);
++	usleep_range(100);
+ 
+ 	/* y-setting */
+ 	write_reg(par, 0x0024, 0x007B);	/* amplitude setting */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0025, 0x003B);	/* amplitude setting */
+ 	write_reg(par, 0x0026, 0x0034);	/* amplitude setting */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0027, 0x0004);	/* amplitude setting */
+ 	write_reg(par, 0x0052, 0x0025);	/* circuit setting 1 */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0053, 0x0033);	/* circuit setting 2 */
+ 	write_reg(par, 0x0061, 0x001C);	/* adjustment V10 positive polarity */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0062, 0x002C);	/* adjustment V9 negative polarity */
+ 	write_reg(par, 0x0063, 0x0022);	/* adjustment V34 positive polarity */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0064, 0x0027);	/* adjustment V31 negative polarity */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0065, 0x0014);	/* adjustment V61 negative polarity */
+-	udelay(10);
++	usleep_range(10);
+ 	write_reg(par, 0x0066, 0x0010);	/* adjustment V61 negative polarity */
+ 
+ 	/* Basical clock for 1 line (BASECOUNT[7:0]) number specified */
+@@ -64,7 +64,7 @@ static int init_display(struct fbtft_par *par)
+ 
+ 	/* Power supply setting */
+ 	write_reg(par, 0x0019, 0x0000);	/* DC/DC output setting */
+-	udelay(200);
++	usleep_range(200);
+ 	write_reg(par, 0x001A, 0x1000);	/* DC/DC frequency setting */
+ 	write_reg(par, 0x001B, 0x0023);	/* DC/DC rising setting */
+ 	write_reg(par, 0x001C, 0x0C01);	/* Regulator voltage setting */
+diff --git a/drivers/staging/fbtft/fb_watterott.c b/drivers/staging/fbtft/fb_watterott.c
+index 76b25df37..580d5329e 100644
+--- a/drivers/staging/fbtft/fb_watterott.c
++++ b/drivers/staging/fbtft/fb_watterott.c
+@@ -84,7 +84,7 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
+ 			par->txbuf.buf, 10 + par->info->fix.line_length);
+ 		if (ret < 0)
+ 			return ret;
+-		udelay(300);
++		usleep_range(300);
+ 	}
+ 
+ 	return 0;
+@@ -124,7 +124,7 @@ static int write_vmem_8bit(struct fbtft_par *par, size_t offset, size_t len)
+ 			par->txbuf.buf, 10 + par->info->var.xres);
+ 		if (ret < 0)
+ 			return ret;
+-		udelay(700);
++		usleep_range(700);
+ 	}
+ 
+ 	return 0;
+-- 
+2.30.0
 
-> Or do you prefer partitioning it into subsections first, and then writing
-> the entries for that subsection? I haven't yet have a robust classification
-> as I haven't gone through all the rules yet. Could you suggest something?
->
-
-All good. Do it as you do.
-
-I have an early (not yet robust) classification as well, but when you
-do it independently once you are through all the rules, we have two
-independent classifications.
-
-Then, we can really compare and build one "perfect" classification by
-combining the best from both. This will make the classification really
-good to defend, because it is not just "a one-person initial
-decision".
-
-> > > How do I send it to you for review? Will a google docs file for the same work?
-> > >
-> >
-> > Sure that works for me; you can also just send me a work-in-progress
-> > patch queue (and I will apply it and add more patches on top) or
-> > simply share a git repository on github.
-> >
-> > You can decide, I am perfectly fine with any way you choose.
-> >
->
-> Sure, then I will be uploading my repository onto github and we can work
-> on a separate branch like "checkpatch"
-
-Just send me the link and I pull it.
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
