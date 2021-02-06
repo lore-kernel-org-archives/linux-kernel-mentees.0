@@ -8,112 +8,103 @@ X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB5FC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  6 Feb 2021 09:21:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC85C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  6 Feb 2021 14:05:35 +0000 (UTC)
 Received: from silver.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B0FC64E3D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  6 Feb 2021 09:21:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7B0FC64E3D
+	by mail.kernel.org (Postfix) with ESMTPS id 6031364E24
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  6 Feb 2021 14:05:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6031364E24
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by silver.osuosl.org (Postfix) with ESMTP id 2A8A520396;
-	Sat,  6 Feb 2021 09:21:39 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id 21D5B20133;
+	Sat,  6 Feb 2021 14:05:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from silver.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Abx192cih1Uv; Sat,  6 Feb 2021 09:21:33 +0000 (UTC)
+	with ESMTP id FHH7ASFkg4ds; Sat,  6 Feb 2021 14:05:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by silver.osuosl.org (Postfix) with ESMTP id 15E6F2035B;
-	Sat,  6 Feb 2021 09:21:32 +0000 (UTC)
+	by silver.osuosl.org (Postfix) with ESMTP id AEB5F2042E;
+	Sat,  6 Feb 2021 14:05:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC5EBC0174;
-	Sat,  6 Feb 2021 09:21:32 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 73C88C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A55A4C0174;
+	Sat,  6 Feb 2021 14:05:28 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC7F4C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Feb 2021 09:21:31 +0000 (UTC)
+ Sat,  6 Feb 2021 14:05:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 47FAB8720D
+ by hemlock.osuosl.org (Postfix) with ESMTP id B0F678715F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Feb 2021 09:21:31 +0000 (UTC)
+ Sat,  6 Feb 2021 14:05:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y5j98n3w2CKv
+ with ESMTP id skvBzk4lg1QM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Feb 2021 09:21:25 +0000 (UTC)
+ Sat,  6 Feb 2021 14:05:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
- [209.85.215.171])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 2346987019
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 050FE87158
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Feb 2021 09:21:25 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id b21so6293797pgk.7
+ Sat,  6 Feb 2021 14:05:26 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id my11so7734578pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 06 Feb 2021 01:21:25 -0800 (PST)
+ Sat, 06 Feb 2021 06:05:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:from:to:cc:references:message-id:date:user-agent
+ h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pAxH0uVt+1z73NtASVOPNgKCoKuvthaqeDpyniSj/Xo=;
- b=IMT0r+ZcLhxkTrpYlLMen3dIUk8fuDk3rBDkCF5xXQ4rDEHcdxidhcbmcyCG8DDOk8
- 96KE5ujBpvB90W0xX6SY7suR8TXrmcMoTYCaEdOmPjX5kmpMPd7MxbXKABzVECcXhAqr
- mnKZSWWA4cCNStubCVdZLj1pC+LlHXHWA96FAisEtEpNiVTPwiwFFIW3UU5QfZMbQsK6
- 0ciRt9H+Zo3AwfvecMUCpnp8C3mKuOST1NteKTRFiRPfq9IuIpwWJivcafFg8TLGLo0z
- PTXT15EaQNkTv+j3n00cFVEGo2C7q0GEGAPqVEHPqqDbie4Fwd4AysYo0fv1Z7Fn2LV5
- Ocrw==
+ bh=vHtJ4epU8ukJ6dsFRySzGH7TXjloMIWGB/KMNAbUyuU=;
+ b=r5V32Y0URZdyvEA1bQHJ9uA7XROebAwmaIgR4K/Q9xpEgXNnDKbmVjBczgbOjPdRZI
+ uaa5inx19I/5IoKoMh+hioCLn0FzO5ez9Jxbg9+T0sCfrWDNozouez9i9HKAI4WNoHKD
+ +5Q5Ko6nOlqhv50MkuFflegfu+bW24YANVDMDD/aaFZfUFHnUExE73sQAcY/4Et3OGr7
+ YL67xXMFlQBu5PqWvsEMU6UrAx4LEJQb2gO3qYZZxKEl8ISaIT/7ibbLxg7ajx6VNgy4
+ /G+pBS2gkIb3MNazxSaxIn3tx5bWc9FYKMu3Ca1X/4e5hW028NQsgZnQ7lvUsLMLJLrW
+ PLuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pAxH0uVt+1z73NtASVOPNgKCoKuvthaqeDpyniSj/Xo=;
- b=PzdQS0VJyUPPkAJuiUJ1oDA2OAHW02YOVgy03NX9CXlZRzee4CgbVod6jXxS545NCV
- TXFzhVWiW+DURcNuVAXcx92Eyhe7mrT/qTG8mIOSr/1oTqRizjkFaYSGrbtacZJkOmWk
- +aK083rd0nDNGQGlKMHq14J9moQ0/Wc8iU2HJjT+xugP8xbFNDI2R9vdEiU4FOb92Z3S
- exMWfcaOjjyN+BkOlA3Vaklxof4VEqQG/8vtPOcMk926v+YsAZz1kbI8xCMP3NrCE/VM
- jdMURubMeZMHrg1OZyvplsoTONHnp3fl7yVcFW/xPMeufE+aIg/2JQjvD9Tx5TLWYFhB
- yF6g==
-X-Gm-Message-State: AOAM532lL7c/6ECNCgRlwWaC8P9sO4QBNwO2NVjOVwQl2buMT0HH3a9H
- 5PXoK7eWZyO65RG/IzOcksd7Jj2K1PtUeg==
-X-Google-Smtp-Source: ABdhPJxVmYUa4GysUUnJqh5ITrbI117rQ8Q7dXvshcEaBQgHxtMBx3XITNsnBVJzpOyRjjuaL3HWyQ==
-X-Received: by 2002:a63:7f09:: with SMTP id a9mr8376596pgd.63.1612603284239;
- Sat, 06 Feb 2021 01:21:24 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:f007:45fa:79ee:59f2?
- ([2405:201:600d:a089:f007:45fa:79ee:59f2])
- by smtp.gmail.com with ESMTPSA id z12sm4389538pfn.150.2021.02.06.01.21.21
+ bh=vHtJ4epU8ukJ6dsFRySzGH7TXjloMIWGB/KMNAbUyuU=;
+ b=D/btzWdTs3EZThK/DfRcaWQmtwvmxzBBQQbPUeRphNEhK4SvjqOikCnvK8edU4/z6f
+ roc1MN8FJtBN/H4BQCS20Wi/5IzeDbvdwyMJwfRs1y2X1FDcQurdW8/nBFaeEgaYpWWq
+ a3gJu4TzYGuHh0kFQqR4fiM5jb2cJQdcIjm/jkRUujNv55Ve33NJ9P0wfN5Hv1HTZ1rS
+ Xy9ltKulU+FeBftOhD3Ik4oXM/kCfSS8qrGgoI3YakSilXjd9qs+uCKpMX7OA60B/Mwo
+ zTySX9PyAx1AmlZ6i1CWMw4TvB6vzaMRbDQkeQB3JVjc86IvBZVWtU96grF8M56e5w23
+ BdpA==
+X-Gm-Message-State: AOAM533Z5V48jLOrnitbuV4zqI3JyN8ruHP0g1LIbPZ7dMbuNKMdyfTe
+ 1SmWL89+sNL9LNvpPwApCqu4Ityt28/CSA==
+X-Google-Smtp-Source: ABdhPJxeSuAUQCuQht1gHYkp3oGIjFE6hM5vTsT3ZbngVEKty2H9wraay1fViZHLL748HhcUN2AZVQ==
+X-Received: by 2002:a17:90b:70b:: with SMTP id
+ s11mr9137625pjz.20.1612620325171; 
+ Sat, 06 Feb 2021 06:05:25 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:c813:cd8d:a2cd:e741?
+ ([2405:201:600d:a089:c813:cd8d:a2cd:e741])
+ by smtp.gmail.com with ESMTPSA id x81sm13345939pfc.46.2021.02.06.06.05.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 06 Feb 2021 01:21:23 -0800 (PST)
-From: Aditya <yashsri421@gmail.com>
+ Sat, 06 Feb 2021 06:05:24 -0800 (PST)
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-References: <CABJPP5C6bxhxSp3FqE7zui=gOmNGe4VX__-qPtG_1bD16hoAFA@mail.gmail.com>
- <dc09c6a2-dafd-c26e-19fb-ebd7eb212447@gmail.com>
- <CABJPP5AP-gFJEY9D70+HeHUfQC=MnRzps1dOx+Ev+pf3rxBmug@mail.gmail.com>
- <cffb4773-3396-6ebc-f556-2f5d2138b67e@gmail.com>
- <CAKXUXMyD1c1iPEOvPksq_znqbhst=xbqpW5=peyD_+asFMznaA@mail.gmail.com>
- <CABJPP5AOwoshncvbdooy1df4++5NKY-fUMVQUm8yze-w+6-Gmg@mail.gmail.com>
- <CAKXUXMz4fBJ8a_vpYow14yiKoKhC_=bQHHd4WXfOcsxJxqbdcw@mail.gmail.com>
- <660a4bb0-1ba4-acd4-e8bc-a53cccfbf10a@gmail.com>
- <CAKXUXMy7XbmWmj5HOrAJ-fYAdZmK0kd9NnP_i4cpOaS7eqCnrw@mail.gmail.com>
- <CABJPP5At6mYOCDyQWLf72guKaWV1xJxyYPELk+_4WQ8E+f9jfg@mail.gmail.com>
- <fea0e147-4016-b039-f8d0-0ab88ef60484@gmail.com>
- <CABJPP5BbNdHibThixX0H4m_CF-RWpSwesZ2QpK+it_h7Xe9XfA@mail.gmail.com>
- <CAKXUXMxK8szuXv0Zj4M-htBQYKt-X9N=VUrkwQj-j9q5Kz9msA@mail.gmail.com>
- <e68c3e52-4a89-2df6-6910-a6dbb0829281@gmail.com>
- <af1fa463-3938-d8b8-4426-135877600fab@gmail.com>
-Message-ID: <835977a0-ea64-515b-4f67-f436c89fbca0@gmail.com>
-Date: Sat, 6 Feb 2021 14:51:18 +0530
+References: <20201209105833.9066-1-yashsri421@gmail.com>
+ <CAKXUXMx_ypzYSCHLzQKY0Uq=M35V4kSd6aivCYBa8coR6jM0yw@mail.gmail.com>
+ <bc8f9d46-1474-5470-aca4-c4470761efb6@gmail.com>
+ <CAKXUXMz=AwR+3gPprE6eSkPxuXgVVTpXBe5yKV7tQNuaTPP9mg@mail.gmail.com>
+ <0e52c716-25e8-398e-8269-27613d5775f8@gmail.com>
+ <CAKXUXMytLeZ6czkg6Ezjp1BFV1NQM5rraJn76bxFN6N5CBDccA@mail.gmail.com>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <2424de4f-8219-5d70-f282-adea7e278f4e@gmail.com>
+Date: Sat, 6 Feb 2021 19:35:21 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <af1fa463-3938-d8b8-4426-135877600fab@gmail.com>
+In-Reply-To: <CAKXUXMytLeZ6czkg6Ezjp1BFV1NQM5rraJn76bxFN6N5CBDccA@mail.gmail.com>
 Content-Language: en-US
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] POC script to apply patches into a
- test-branch and run clang-format
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] checkpatch: add fix option and
+ improve msg for BOOL_COMPARISON
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -131,199 +122,109 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 6/2/21 1:26 am, Aditya wrote:
-> On 23/12/20 6:46 pm, Aditya wrote:
->> On 22/12/20 4:23 pm, Lukas Bulwahn wrote:
->>> On Tue, Dec 22, 2020 at 11:34 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+On 13/12/20 1:33 pm, Lukas Bulwahn wrote:
+> On Sat, Dec 12, 2020 at 10:13 AM Aditya <yashsri421@gmail.com> wrote:
+>>
+>> On 9/12/20 10:39 pm, Lukas Bulwahn wrote:
+>>> On Wed, Dec 9, 2020 at 4:59 PM Aditya <yashsri421@gmail.com> wrote:
 >>>>
->>>> On Tue, Dec 22, 2020 at 3:55 PM Aditya <yashsri421@gmail.com> wrote:
->>>>>
->>>>> On 22/12/20 1:17 am, Dwaipayan Ray wrote:
->>>>>>> Okay, I downloaded and tried it:
->>>>>>>
->>>>>>> perl ./scripts/applypatch.pl --clang-format test.patch
->>>>>>> --branch=test-clang-format-bfq-cgroup
->>>>>>>
->>>>>>> but it failed:
->>>>>>>
->>>>>>> git checkout test-clang-format-bfq-cgroup
->>>>>>> Already on 'test-clang-format-bfq-cgroup'
->>>>>>> git am $patchtest.patch
->>>>>>> fatal: could not open '.patch' for reading: No such file or directory
->>>>>>> Clang formatted patchfile generated at:
->>>>>>> test.patch.EXPERIMENTAL-clang_format-fixes
->>>>>>> git checkout test-clang-format-bfq-cgroup
->>>>>>> Already on 'test-clang-format-bfq-cgroup'
->>>>>>>
->>>>>>> How about setting up a minimal travis.ci check that runs this command
->>>>>>> on a small git repository with one file and one patch on top for
->>>>>>> testing purposes?
->>>>>>>
->>>>>>> The script does not have error handling yet, so the next steps are
->>>>>>> just executed blindly even if the one before failed and is really
->>>>>>> required for the next one to do the right thing.
->>>>>>>
->>>>>>> I generally like the script, let us work a bit on tuning it for proper
->>>>>>> error handling, add some basic tests and then discuss it with Miguel.
->>>>>>>
->>>>>>> Lukas
->>>>>>>
+>>>> On 9/12/20 5:17 pm, Lukas Bulwahn wrote:
+>>>>> On Wed, Dec 9, 2020 at 11:58 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
 >>>>>>
->>>>>> Hello Lukas,
->>>>>> Sorry for being late on this update. I have my college exams going on
->>>>>> right now, so that caused a bit of delay.
+>>>>>> Currently, checkpatch warns if the user compares expression with boolean.
 >>>>>>
->>>>>> Nevertheless I have applied some changes along with some error handling fixes.
->>>>>> The script is available here:
->>>>>> https://github.com/raydwaipayan/apply-patch
+>>>>>> E.g., running checkpatch on commit 3b3a1a0b7824 ("staging: rtl8723bs:
+>>>>>> hal: Modify comparison to constant in rtl8723bs_xmit.c") reports:
 >>>>>>
->>>>>> The script has the following options now:
->>>>>> usage: $P [options] patchfile(s)
->>>>>> Options:
->>>>>> --branch=<branch-name> => test branch name
->>>>>> --format => Use clang format
->>>>>> --clang-format-diff=<s> => clang-format-diff path
->>>>>> --help => show this help information
->>>>>> --root=<root_dir> => root dir location
+>>>>>> CHECK: Using comparison to true is error prone
+>>>>>> +       if (ret == true)
 >>>>>>
->>>>>> By default script searches for "clang-format-diff.py" in path. If it goes
->>>>>> by any other name that should be supplied using
->>>>>> --clang-format-diff="FULL_PATH_OF_EXECUTABLE"
+>>>>>> Provide a fix by replacing the expression with preferred expression. i.e.,
 >>>>>>
->>>>>> I ran the script like this:
->>>>>> $ ./scripts/applypatch.pl
->>>>>> 0001-scripts-mod-cleanup-a-few-checkpatch.pl-warnings.patch --format
+>>>>>> 1) If the check is for a 'true' or 'not false' expression, the operand
+>>>>>> will get replaced with empty string.
 >>>>>>
->>>>>> Expected output:
->>>>>> git checkout -b test-master
->>>>>> Switched to a new branch 'test-master'
->>>>>> git am 0001-scripts-mod-cleanup-a-few-checkpatch.pl-warnings.patch
->>>>>> Patch applied successfully:
->>>>>> 0001-scripts-mod-cleanup-a-few-checkpatch.pl-warnings.patch
->>>>>> Running clang-format
->>>>>> Diff written to clang-format-fixes.diff
->>>>>> git checkout master
->>>>>> Switched to branch 'master
->>>>>>
->>>>>> Lukas, could you check if this script works on your system as expected?
->>>>>>
->>>>>> Also Aditya, I think the latest clang-format-diff goes by the name
->>>>>> 'clang-format-diff-8' on debian based systems. While in my arch based one
->>>>>> it goes by 'clang-format-diff.py'. Can you verify whether the script works
->>>>>> directly or is the executable path flag needed?
+>>>>>> 2) Else, the operand gets replaced with '!', and the arguments follow.
 >>>>>>
 >>>>>
->>>>> For debian based system, the user will have to add
->>>>> --clang-format-diff="/usr/bin/clang-format-diff-8".
+>>>>> Can you show the test cases you used to test this?
 >>>>>
->>>> I think that is currently an extra step for the user. Maybe we can
->>>> target most used flavours and fill the binary location automatically.
+>>>> Yes, I ran it over certain commits.
 >>>>
->>>>> A few more improvements can be made. For eg., the script should exit
->>>>> if the patch isn't applying. Currently, it continues a step further
->>>>> and stops after giving error: "Error: This script requires
->>>>> clang-format-diff to be installed.".
->>>>> Also, this puts the git status in mid of git am, which needs to be reset.
+>>>> Eg 1) commit 5c789e131cbb ("netfilter: nf_conncount: Add list lock and
+>>>> gc worker, and RCU for init tree search"), where
+>>>>
+>>>> 1.i)
+>>>> +       if (list->dead == true) {
+>>>> gets changed to:
+>>>> +       if (list->dead) {
+>>>>
+>>>> 1.ii)
+>>>> +               if (rbconn->list.count == 0 && rbconn->list.dead == false) {
+>>>> gets changed to:
+>>>> +               if (rbconn->list.count == 0 && !rbconn->list.dead) {
+>>>>
+>>>> E.g. 2) commit 83ee6ec7740b75dc0db (Staging: rtl8723bs: os_dep: Fix
+>>>> if-else coding style issues) where
+>>>>
+>>>> 2.i)
+>>>> +       if (padapter->bDriverStopped == true) {
+>>>> gets changed to:
+>>>> +       if (padapter->bDriverStopped) {
+>>>>
+>>>> 2.ii)
+>>>> +       if (pwrpriv->bInSuspend == true) {
+>>>> gets changed to:
+>>>> +       if (pwrpriv->bInSuspend) {
+>>>>
+>>>> 2.iii)
+>>>> +       if (pwrpriv->bInSuspend == false) {
+>>>> gets changed to:
+>>>> +       if (!pwrpriv->bInSuspend) {
+>>>>
+>>>>> Can you show all findings of this rule on the current rc or linux-next?
 >>>>>
->>>> Yeah maybe instead of die we can just return by saying "clang-format won't
->>>> apply".
 >>>>
->>>>> Maybe we can improve the error message by displaying them about
->>>>> "--clang-format-diff" option and giving install options in the error
->>>>> message. This should make the script easier to be used.
->>>>>
+>>>> I have generated report on last 10k commits of latest next branch,
+>>>> where the check was found to be reported 5 times.
 >>>>
->>>> In that case we may have to give instructions for all the available
->>>> distributions. Maybe we can point them to the LLVM page?
->>>>
+>>> 5 times in 10k commits? I am really wondering how you select the fix
+>>> options you work on?
 >>>
->>> Good discussion. Consider that the first users will fight with the installation.
->>> So, the tool should carefully check if the environment is set up
->>> before trying to do any steps; otherwise, it might be in some strange
->>> intermediate stage and it requires a lot of scripting to roll back
->>> operations etc.
+>>> Do you consider this relevant when the number is so low?
+>>> Are there potentially other classes that are much more relevant instead?
 >>>
->>> Also, developers do read README; so, any hints there are always helpful.
+>>> Can you run it over all files in the repository instead of git commits?
 >>>
->>>>> One more improvement I guess we can make with the .diff file, by
->>>>> renaming .diff after patchfile name. This way it won't be overwritten
->>>>> each time and also be in consistency with checkpatch.pl --fix.
->>>>>
->>>>
->>>> About this I was thinking we should avoid creating individual diffs.
->>>> Since in the future the script may apply a patch series too, we can
->>>> just generate a single diff and name accordingly. That way in a single
->>>> step the committer can apply all fixes.
->>>>
->>>
->>> Well, the developer that has a patch series would want to have the
->>> stylistic patches to just fold into their original patch order.
->>>
->>> So, you have two reasonable alternatives:
->>>
->>> 1. You simply create some diff commits on top of the patch series,
->>> i.e., one diff commit for each patch in the series. That allows the
->>> developer to review the format change for each patch and then, the
->>> developer can simply squash the stylistic cleanup on the appropriate
->>> patch in the series.
->>> 2. You simply "automate" that workflow in option 1, where you generate
->>> new patches with the format patch applied, just as Aditya suggested.
->>>
->>> For now, as we are still experimenting, I am in favor of 1; simply
->>> because it is easier to review for now, when somebody applies it for
->>> testing. Option 2 is probably good once it works reliably and we have
->>> trust in the formatting setup.
+>>> Commits really do not help when we want to fix this in the current kernel.
 >>>
 >>
+>> Hi
+>> So, I ran  grep -e
+>> "==\s*true\|==\s*false\|!=\s*true\|!=\s*false\|true\s*==\|false\s*==\|true\s*!=\|false\s*!="
+>> . -R over the repo.
+>> We currently have ~1630 such occurrences in different files.
+>>
+>> Detail findings can be found here:
+>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/bool_comparison/file_results.txt
+>>
+>> A large amount of these occurrences are found in drivers/, with
+>> "drivers/gpu/drm/amd/display/dc/dml/" having most occurrences.
+>>
+>> What do you think?
+>>
 > 
-> Hi Lukas
+> I suggest you submit a few patches correcting this style to a few
+> driver maintainers to see if they are in favor of this checkpatch
+> rule.
 > 
-> I and Dwaipayan have been working on clang-format script. We have
-> refined it to a great extent. Now it is not dependent on version
-> specific clang-format-diff as well, as was the case earlier.
-> I have also tested it with patch series, and it works fine.
-> 
-> All the formatted changes(with patch commits) are made to the test
-> branch, while the original branch is left untouched.
-> We have also managed to handle command errors and break the script
-> execution at relevant places.
-> 
-> The file and the steps to be followed can be found here:
-> https://github.com/raydwaipayan/apply-patch/tree/dev
-> 
-> I have also added test patches for easier testing.
-> You can follow these steps for quicker testing of script:
-> https://github.com/raydwaipayan/apply-patch/tree/dev#steps-to-test-the-script
-> 
-> The readme has also been updated correspondingly.
-> 
-> Please test it and let us know your views on it :)
-> 
-> I think one of the limitations currently is that
-> clang-format-fixes.diff gets overwritten and just tells the diff wrt
-> last patch.
-> I am working on it. Probably, I'll be able to fix this by tomorrow.
 
 Hi Lukas
-I have made necessary changes for this feature as well.
-Now, for all the patches in patch series, a diff file is getting
-created, and it will be stored alongside the patchfile, as
-"patchfile.clang-format-fixes.diff"
+I tried submitting the patches correcting this style, in various
+subsystems as you suggested. Except staging/atomisp, every other
+subsystem accepted the correction.
 
-This is in compliance with your suggestion here:
-
->>> 1. You simply create some diff commits on top of the patch series,
->>> i.e., one diff commit for each patch in the series. That allows the
->>> developer to review the format change for each patch and then, the
->>> developer can simply squash the stylistic cleanup on the appropriate
->>> patch in the series.
->>> 2. You simply "automate" that workflow in option 1, where you generate
->>> new patches with the format patch applied, just as Aditya suggested.
->>>
->>> For now, as we are still experimenting, I am in favor of 1; simply
->>> because it is easier to review for now, when somebody applies it for
->>> testing. Option 2 is probably good once it works reliably and we have
->>> trust in the formatting setup.
+Do you think I should proceed with it?
 
 Thanks
 Aditya
