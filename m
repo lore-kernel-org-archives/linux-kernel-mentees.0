@@ -1,91 +1,99 @@
-Return-Path: <SRS0=4kCg=HL=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=uyzn=HM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AB3C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  9 Feb 2021 04:14:16 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 715B3C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Feb 2021 12:04:25 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E475A64EA4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  9 Feb 2021 04:14:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E475A64EA4
+	by mail.kernel.org (Postfix) with ESMTPS id 00B0164DE1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Feb 2021 12:04:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 00B0164DE1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A4BCD86BB2;
-	Tue,  9 Feb 2021 04:14:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 9FD6A872AA;
+	Wed, 10 Feb 2021 12:04:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from hemlock.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id feqmOzlxZSab; Tue,  9 Feb 2021 04:14:15 +0000 (UTC)
+	with ESMTP id 37LmmPnPEZ3M; Wed, 10 Feb 2021 12:04:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 1C1AC86BAB;
-	Tue,  9 Feb 2021 04:14:15 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id C21A887285;
+	Wed, 10 Feb 2021 12:04:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 01FC8C0174;
-	Tue,  9 Feb 2021 04:14:15 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B6D13C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BDB46C0174;
+	Wed, 10 Feb 2021 12:04:22 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 701C1C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Feb 2021 04:14:13 +0000 (UTC)
+ Wed, 10 Feb 2021 12:04:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 9B4CB86BC0
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 6B90684439
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Feb 2021 04:14:13 +0000 (UTC)
+ Wed, 10 Feb 2021 12:04:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3U3RwO3NQ0il
+ with ESMTP id 0f_DyK2a_FyE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Feb 2021 04:14:11 +0000 (UTC)
+ Wed, 10 Feb 2021 12:04:18 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
- [209.85.160.175])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 6D4AC86BAB
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id A20F0845DC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Feb 2021 04:14:11 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id o21so3213047qtr.3
+ Wed, 10 Feb 2021 12:04:18 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id h12so2201232wrw.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 08 Feb 2021 20:14:11 -0800 (PST)
+ Wed, 10 Feb 2021 04:04:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=qNUQIupD3GGLBey1/X5gmVGVkVA7U1s8MGMqjyHWErs=;
- b=EHinha8XUX5Z+3Kr1WENVDD6ag542fYjU7VJLsIQjf5KKzvucAGFBd5aLRqyvDSGGL
- FLmfNZJ5Icsa0z3LuIrTib3J81OA3Jss5FEN7SqA/kAoPhjCDTSauLY8vf5F38zIBIeS
- 9o1DOxv58KUS7AkCsMqhwveiGxwnQ+jEixXyLjf9dEoZHIY1oqJr1cnOl6oqNFStNOkE
- VMhuoRrHMQPJ0I2c79UjHi61l5gDHZC7gEr/ivWBHkEojanAV8GUJtWDuMI943W6kCBv
- Xlpg4AQbfR3AcM9o/WpWyomsUiBSZz80MKPie0AovUfa6vEeuBNyuvnbNsOPgxFd7T2n
- IvFA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rJ/fTja9mKD4KGroCmj04WxehP7kOKRd+7I/05Mbq4M=;
+ b=eJNnrdbROY/AGjV55wNNaknvjSt8hJpicfMFtrcXgdTyFJmqpIaHusDBb6lLW31/CZ
+ ZmxfvmYvy/ApYALBZnb4vj4x2QRgYoJXpl/v/cBecrscBqCs3RkqaM06Bqfvap61XIvk
+ T8Ce8CL68S4E71Oi6EpucQ/oNuWHaeNJHzf7yzo+aZUOzIS2oYIujpS3u9TWHRKX3wtV
+ ilh5fn9C40JBv1O7sklmbN5iRBTrvdoHAK5qSGvYuvr/avyhTXQ45hQevJXK5cJ8dEXi
+ y3uweFvSazUr3ynpR6vPjAgNqpx+Un2eNco96FBxNTKmAMq1Xv6u7FkmDgsAt7ToOSPl
+ 8OPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=qNUQIupD3GGLBey1/X5gmVGVkVA7U1s8MGMqjyHWErs=;
- b=XSd/H7zrKoK3NdvzoAX412nId3XlM9MHp++tup9Xt93K0SvytW1lcno5MVpc62R3in
- Qxid+j8bAAXAr9qnonlJATzLQSO940b+kuPjuUB77CwdPA3zi+/PXXvvFDC1zwYtoupF
- e4fx+yaY1prs8UQ1hnK60YA4WN+VSm0kSU2RVrF/CskvJ9nn4ZbEWAlK4JYi+hRMeSXa
- Kgkg5ldfVwFOzBsQ13Pm17Vig4LisrJhtAhX/8FkufOpxuCJ5IhqF91pHRW6LXgC5tGs
- 42Th6sPLMJJKApmAKsLTB7Wpv5fcUSDFSBDefp8wmqo/20gFkkR8Og71I3d8jGsZZs+N
- eDJQ==
-X-Gm-Message-State: AOAM533RT6L4AeQcVpforHcRsS/PCu5v71SA713k5zpgo0Y2M+ls8oVX
- BYBppW6lcCN+HAt8y2RVQA6BPa/1q3j7uo984bc=
-X-Google-Smtp-Source: ABdhPJw4hSlY3x9H25VdauskB2zRD7i0NBRkAj/2fvfTLzaazIegKU+pR9/T94IME7mmOSuw81O4WbRZ8IzGAlE+fXU=
-X-Received: by 2002:a05:622a:453:: with SMTP id
- o19mr18313103qtx.344.1612844050262; 
- Mon, 08 Feb 2021 20:14:10 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rJ/fTja9mKD4KGroCmj04WxehP7kOKRd+7I/05Mbq4M=;
+ b=jE3P2WTaGN8sGAtJL6s9cTsM0QdzOcXpWjzHSdvu0Yrm9w0YFj4JlhTDvUiHAjtaop
+ 0mYAxyYJr4IFyYV29lsJjJfNLYejCQJVU5xm9sGc5MmEQ1tuJTRxtSNkPNnS+kDc7Tmv
+ DeYD91PKi8ijoJqKwMHSaY1SUOkS9YJ/eECwrK0Iuqt6/rkzlptrT0Xp1dcPTgdPj5cm
+ TnsSe07K/2UWeXHvY5bGltXdBP29MOwoXSGCzUEvOyNLkPKEEuYESsCLvM4d8DTConTG
+ pxVqNYu4Pqsx79Os72pG6VQqHpEmNKmcAErqCW0LMN+h1bdcIa41Ra1FJIc17TVwwQDu
+ znzQ==
+X-Gm-Message-State: AOAM530YUG07fYIJjr8EL5gdqfMGW/60jxGf5Jd+AilHwV7qkOra9sAs
+ SNOR4QyO2btw1lZkLIL2UI8=
+X-Google-Smtp-Source: ABdhPJwIkpRJMNidPY7E8t77YNkSjglI/0+vLjMQRtxMoAor2nPGNhM0AYpSxXSb6En7s3W2Jn8oGA==
+X-Received: by 2002:adf:97d3:: with SMTP id t19mr2308218wrb.164.1612958657043; 
+ Wed, 10 Feb 2021 04:04:17 -0800 (PST)
+Received: from xps.yggdrail ([2409:4072:301:1438:3689:6d67:ef18:b9a7])
+ by smtp.gmail.com with ESMTPSA id f7sm2822529wre.78.2021.02.10.04.04.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 10 Feb 2021 04:04:16 -0800 (PST)
+From: Aakash Hemadri <aakashhemadri123@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Date: Wed, 10 Feb 2021 17:33:48 +0530
+Message-Id: <20210210120348.262328-1-aakashhemadri123@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Tue, 9 Feb 2021 05:13:59 +0100
-Message-ID: <CAKXUXMzje=kiC5NwdWuFT4sO8d8WXXx3TQkT6HdybrgMU7NBFw@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [Linux-kernel-mentees] Investigating ./scripts/kernel-doc for third
-	phase of mentorship
+Cc: devel@driverdev.osuosl.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [Linux-kernel-mentees] [PATCH] staging: ralink-gdma: Fix
+	checkpatch.pl CHECK
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,74 +111,77 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Aditya,
+Remove CHECK: Lines should not end with a '('
 
+Signed-off-by: Aakash Hemadri <aakashhemadri123@gmail.com>
+---
 
-I have been using ./scripts/kernel-doc lately and noticed a few issues
-with this script.
-For the third phase, I expect you to investigate the issues on
-./scripts/kernel-doc below, describe the issue to the kernel-doc
-maintainer, and work on proper support for this parser in kernel-doc.
+ drivers/staging/ralink-gdma/ralink-gdma.c | 28 ++++++++++++-----------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-When running kernel-doc on these files below, you should observe these errors:
+diff --git a/drivers/staging/ralink-gdma/ralink-gdma.c b/drivers/staging/ralink-gdma/ralink-gdma.c
+index 655df317d0ee..a11f915f3308 100644
+--- a/drivers/staging/ralink-gdma/ralink-gdma.c
++++ b/drivers/staging/ralink-gdma/ralink-gdma.c
+@@ -135,8 +135,7 @@ struct gdma_data {
+ 	int (*start_transfer)(struct gdma_dmaengine_chan *chan);
+ };
 
-./scripts/kernel-doc -none kernel/gcov/gcc_4_7.c
+-static struct gdma_dma_dev *gdma_dma_chan_get_dev(
+-	struct gdma_dmaengine_chan *chan)
++static struct gdma_dma_dev *gdma_dma_chan_get_dev(struct gdma_dmaengine_chan *chan)
+ {
+ 	return container_of(chan->vchan.chan.device, struct gdma_dma_dev,
+ 		ddev);
+@@ -510,10 +509,11 @@ static void gdma_dma_issue_pending(struct dma_chan *c)
+ 	spin_unlock_irqrestore(&chan->vchan.lock, flags);
+ }
 
-Use of uninitialized value $param in regexp compilation at
-./scripts/kernel-doc line 1559, <IN_FILE> line 95.
-Use of uninitialized value $actual in substitution (s///) at
-./scripts/kernel-doc line 1523, <IN_FILE> line 95.
-Use of uninitialized value $actual in substitution (s///) at
-./scripts/kernel-doc line 1523, <IN_FILE> line 95.
-Use of uninitialized value $param in substitution (s///) at
-./scripts/kernel-doc line 1617, <IN_FILE> line 95.
-Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1651, <IN_FILE> line 95.
-Use of uninitialized value $param in pattern match (m//) at
-./scripts/kernel-doc line 1651, <IN_FILE> line 95.
-Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1652, <IN_FILE> line 95.
-Use of uninitialized value $param in pattern match (m//) at
-./scripts/kernel-doc line 1654, <IN_FILE> line 95.
-Use of uninitialized value $param in concatenation (.) or string at
-./scripts/kernel-doc line 1655, <IN_FILE> line 95.
-Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1672, <IN_FILE> line 95.
+-static struct dma_async_tx_descriptor *gdma_dma_prep_slave_sg(
+-		struct dma_chan *c, struct scatterlist *sgl,
+-		unsigned int sg_len, enum dma_transfer_direction direction,
+-		unsigned long flags, void *context)
++static struct dma_async_tx_descriptor
++	*gdma_dma_prep_slave_sg(struct dma_chan *c, struct scatterlist *sgl,
++				unsigned int sg_len,
++				enum dma_transfer_direction direction,
++				unsigned long flags, void *context)
+ {
+ 	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
+ 	struct gdma_dma_desc *desc;
+@@ -558,9 +558,10 @@ static struct dma_async_tx_descriptor *gdma_dma_prep_slave_sg(
+ 	return NULL;
+ }
 
+-static struct dma_async_tx_descriptor *gdma_dma_prep_dma_memcpy(
+-		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
+-		size_t len, unsigned long flags)
++static struct dma_async_tx_descriptor
++	*gdma_dma_prep_dma_memcpy(struct dma_chan *c,
++				  dma_addr_t dest, dma_addr_t src,
++				  size_t len, unsigned long flags)
+ {
+ 	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
+ 	struct gdma_dma_desc *desc;
+@@ -601,10 +602,11 @@ static struct dma_async_tx_descriptor *gdma_dma_prep_dma_memcpy(
+ 	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
+ }
 
-./scripts/kernel-doc -none include/linux/zstd.h
+-static struct dma_async_tx_descriptor *gdma_dma_prep_dma_cyclic(
+-	struct dma_chan *c, dma_addr_t buf_addr, size_t buf_len,
+-	size_t period_len, enum dma_transfer_direction direction,
+-	unsigned long flags)
++static struct dma_async_tx_descriptor
++	*gdma_dma_prep_dma_cyclic(struct dma_chan *c, dma_addr_t buf_addr,
++				  size_t buf_len, size_t period_len,
++				  enum dma_transfer_direction direction,
++				  unsigned long flags)
+ {
+ 	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
+ 	struct gdma_dma_desc *desc;
+--
+2.30.0
 
-include/linux/zstd.h:153: error: Cannot parse struct or union!
-include/linux/zstd.h:170: error: Cannot parse struct or union!
-include/linux/zstd.h:180: error: Cannot parse struct or union!
-include/linux/zstd.h:230: error: Cannot parse struct or union!
-include/linux/zstd.h:273: error: Cannot parse struct or union!
-include/linux/zstd.h:365: error: Cannot parse struct or union!
-
-include/linux/zstd.h:421: error: Cannot parse struct or union!
-
-include/linux/zstd.h:537: error: Cannot parse struct or union!
-include/linux/zstd.h:682: error: Cannot parse struct or union!
-
-include/linux/zstd.h:935: error: Cannot parse struct or union!
-
-Can you reproduce these issues?
-
-
-Further, I would see that you can create two new features for kernel-doc:
-
-- Support for warning types and configuration of build warning flags,
-i.e., with -W command-line arguments and output as known for compilers
-- Support of default arguments
-
-Let us start with investigation of those issues in the files, though.
-Then, we see how complicated it is to resolve those and discuss that
-with the maintainer.
-
-
-Best regards,
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
