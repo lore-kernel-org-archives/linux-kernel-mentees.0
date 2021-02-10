@@ -2,70 +2,107 @@ Return-Path: <SRS0=uyzn=HM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25DB8C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Feb 2021 12:07:29 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8975BC433E6
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Feb 2021 12:19:36 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 907DE64E0D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Feb 2021 12:07:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 907DE64E0D
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id E6B8D64E31
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 Feb 2021 12:19:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E6B8D64E31
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 49589866C3;
-	Wed, 10 Feb 2021 12:07:28 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 89BDA8452E;
+	Wed, 10 Feb 2021 12:19:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DuJ+AnWScgxs; Wed, 10 Feb 2021 12:07:24 +0000 (UTC)
+	with ESMTP id jepa02SkgXla; Wed, 10 Feb 2021 12:19:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 5FA98866EF;
-	Wed, 10 Feb 2021 12:07:24 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 25F7C8361A;
+	Wed, 10 Feb 2021 12:19:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C912C0174;
-	Wed, 10 Feb 2021 12:07:24 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 09910C0174;
+	Wed, 10 Feb 2021 12:19:35 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 18F06C013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7DCC4C013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Feb 2021 12:07:23 +0000 (UTC)
+ Wed, 10 Feb 2021 12:19:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 0510D86F65
+ by hemlock.osuosl.org (Postfix) with ESMTP id 7A02686F64
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Feb 2021 12:07:23 +0000 (UTC)
+ Wed, 10 Feb 2021 12:19:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2+zt4s6nhh+R
+ with ESMTP id cO0f1O-t1jAf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Feb 2021 12:07:21 +0000 (UTC)
+ Wed, 10 Feb 2021 12:19:32 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 582E087016
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 5C84A86D5A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 Feb 2021 12:07:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A39564E2A;
- Wed, 10 Feb 2021 12:07:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1612958841;
- bh=/KLTm1jFc8aXXde0ovdili+Cy21fYSRVYi8DZDefxl4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=1ZVEWowsT/o+KOg1boDtZd+gXVOUPIu+5U/1tGH7wSUGLdldOVmsFgxovlD/d4vc8
- tNStQQPTWniAm8j550IbhgiXRGB8ThTj9qXn0eKQhK5ni5snmBQPpB1kFqDSNuj29u
- 96l0gpjj6ZEWv8fU/PXw5qP0m98MsrgotaFt1gjI=
-Date: Wed, 10 Feb 2021 13:07:18 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ Wed, 10 Feb 2021 12:19:32 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11ACFIJj117957;
+ Wed, 10 Feb 2021 12:19:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=RSSYx5ZKyLwSH2WY20S360SzVHoate5hhIssdRM7i4w=;
+ b=PePQVMmURpS+XLsy2yNWWMLPwxopuGErm8HDwg+7rysPqfu+Fc3eNsM8ba93ZfXUzTWT
+ WOdg00F3KBIBf/arngjQ+PXREcvrC15p2xfBkJClXR8UhfqKO+CLCLQYiDmquMUjsura
+ jNZkX+O8nQfmB49VMuvDch6E/irvkCBxe2s6HmS6SsEshzPpz2xerlNsq+5Y56VZNnMc
+ 2P//T/MIqf/Oy9y6x4qYPgKP5eVcheLS3hWAn56D+k9PrzYB5xkDVbPug0c/bO/HBNbe
+ DszITgMQe2V0NAVJNpapEiGNrxQaXQD2CPCjACbJ6GBXGFbmH2y8GZeWcJzA00tx7YMN fg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 36m4upsnum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Feb 2021 12:19:26 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11ACEg1c074049;
+ Wed, 10 Feb 2021 12:19:24 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 36j4vsqyj9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 10 Feb 2021 12:19:24 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 11ACJNjJ008895;
+ Wed, 10 Feb 2021 12:19:23 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 10 Feb 2021 04:19:22 -0800
+Date: Wed, 10 Feb 2021 15:19:16 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Aakash Hemadri <aakashhemadri123@gmail.com>
-Message-ID: <YCPMdv1K2kcfbfZM@kroah.com>
+Message-ID: <20210210121915.GX2696@kadam>
 References: <20210210120348.262328-1-aakashhemadri123@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20210210120348.262328-1-aakashhemadri123@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9890
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ adultscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102100120
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9890
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 mlxscore=0
+ mlxlogscore=999 spamscore=0 impostorscore=0 malwarescore=0 clxscore=1011
+ suspectscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102100120
 Cc: devel@driverdev.osuosl.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] [PATCH] staging: ralink-gdma: Fix
@@ -120,72 +157,26 @@ On Wed, Feb 10, 2021 at 05:33:48PM +0530, Aakash Hemadri wrote:
 > -		unsigned long flags, void *context)
 > +static struct dma_async_tx_descriptor
 > +	*gdma_dma_prep_slave_sg(struct dma_chan *c, struct scatterlist *sgl,
-> +				unsigned int sg_len,
-> +				enum dma_transfer_direction direction,
-> +				unsigned long flags, void *context)
->  {
->  	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
->  	struct gdma_dma_desc *desc;
-> @@ -558,9 +558,10 @@ static struct dma_async_tx_descriptor *gdma_dma_prep_slave_sg(
->  	return NULL;
->  }
-> 
-> -static struct dma_async_tx_descriptor *gdma_dma_prep_dma_memcpy(
-> -		struct dma_chan *c, dma_addr_t dest, dma_addr_t src,
-> -		size_t len, unsigned long flags)
-> +static struct dma_async_tx_descriptor
-> +	*gdma_dma_prep_dma_memcpy(struct dma_chan *c,
-> +				  dma_addr_t dest, dma_addr_t src,
-> +				  size_t len, unsigned long flags)
->  {
->  	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
->  	struct gdma_dma_desc *desc;
-> @@ -601,10 +602,11 @@ static struct dma_async_tx_descriptor *gdma_dma_prep_dma_memcpy(
->  	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
->  }
-> 
-> -static struct dma_async_tx_descriptor *gdma_dma_prep_dma_cyclic(
-> -	struct dma_chan *c, dma_addr_t buf_addr, size_t buf_len,
-> -	size_t period_len, enum dma_transfer_direction direction,
-> -	unsigned long flags)
-> +static struct dma_async_tx_descriptor
-> +	*gdma_dma_prep_dma_cyclic(struct dma_chan *c, dma_addr_t buf_addr,
-> +				  size_t buf_len, size_t period_len,
-> +				  enum dma_transfer_direction direction,
-> +				  unsigned long flags)
->  {
->  	struct gdma_dmaengine_chan *chan = to_gdma_dma_chan(c);
->  	struct gdma_dma_desc *desc;
-> --
-> 2.30.0
 
-Hi,
+Don't do it like this...  The original code is better so, I guess, lets
+leave it as is.  There are two accepted ways to start a function in the
+kernel:
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ONE:
+static type
+function_name(paramenters)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+TWO
+static type function_name(paramenters)
 
-- You did not write a descriptive Subject: for the patch, allowing Greg,
-  and everyone else, to know what this patch is all about.  Please read
-  the section entitled "The canonical patch format" in the kernel file,
-  Documentation/SubmittingPatches for what a proper Subject: line should
-  look like.
+Either option will let you grep for the names of the functions:
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+	egrep "^[a-zA-Z]" dir/file.c | grep '('
 
-thanks,
+regards,
+dan carpenter
 
-greg k-h's patch email bot
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
