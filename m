@@ -1,102 +1,98 @@
-Return-Path: <SRS0=q8LZ=HR=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=TF4G=HP=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4461C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Feb 2021 10:26:04 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 799BBC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 Feb 2021 07:40:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E539664E00
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Feb 2021 10:26:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E539664E00
+	by mail.kernel.org (Postfix) with ESMTPS id EC47564E72
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 Feb 2021 07:40:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC47564E72
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 81C5F85CBC;
-	Mon, 15 Feb 2021 10:26:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A3B146F8CA
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 Feb 2021 07:40:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9OfJTj8xgnWO; Mon, 15 Feb 2021 10:26:01 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4CIBcMvcpHeV
+	for <linux-kernel-mentees@archiver.kernel.org>;
+	Sat, 13 Feb 2021 07:40:38 +0000 (UTC)
+Received: by smtp3.osuosl.org (Postfix, from userid 1001)
+	id 2664A6F7C7; Sat, 13 Feb 2021 07:40:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 5D3E785C95;
-	Mon, 15 Feb 2021 10:26:01 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B70396F505;
+	Sat, 13 Feb 2021 07:40:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3FBA1C0174;
-	Mon, 15 Feb 2021 10:26:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A4D6BC0891;
+	Sat, 13 Feb 2021 07:40:34 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B199C013A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 23E5FC0891
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 10:26:00 +0000 (UTC)
+ Sat, 13 Feb 2021 07:40:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id E7CD38683B
+ by whitealder.osuosl.org (Postfix) with ESMTP id 0FA8C87869
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 10:25:59 +0000 (UTC)
+ Sat, 13 Feb 2021 07:40:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rjkVonuzL7fG
+ with ESMTP id CHL4FMKA8WGp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 10:25:59 +0000 (UTC)
+ Sat, 13 Feb 2021 07:40:33 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by whitealder.osuosl.org (Postfix) with ESMTPS id E2E0F8683A
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+ [209.85.166.179])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 51DC187865
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 10:25:58 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id n8so8191224wrm.10
+ Sat, 13 Feb 2021 07:40:33 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id e7so1313383ile.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 02:25:58 -0800 (PST)
+ Fri, 12 Feb 2021 23:40:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=z9SliCCRum/3A2E2ZMNlI9m+hPoUUx4IbBiUL26CGt4=;
- b=XmYapkqPECCZQ2urP7izpjxwLyQJGPa8zDUV3C5e8uDSsQB6IFaZE8Ld7RFtvmEdLC
- +IMr0tT7+eve+w26+I/NErozvBO8U3PwdPvpmvtwN+cTaHKUf/meRJCmnnTR9KPXD4Bc
- vvJQkfqcvu4L02plGHnXIrzbgRqs9zQ/UaUyZBlfFrDIKY9lwFOrQrzhFw3Xk+c8tEua
- LSRDeoTQPz4vQTjTydCHi3x7CuaISpuj+M9OsOOvz/MslR6G5deopedI4gqFxSvVP2+f
- /zzrE4G30+pdmtJlL1L3l+ebqai06+Y4Sjhu1YBwK3vfnVS16n0u4fGCE4RYX+KAjOEc
- jG4Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=vFa5p+rqJTnUaPLfPC8bktOo+S1Qca0P1nVjPD/MoX8=;
+ b=j8STzw/2/pJArp+Jowyod9xDJcTGJRlsr8O1BFiasEn/OZHkw5kvely9S3eWPCMkIx
+ FMAQwRO3cuHrjsH8gBN0d1NoLfRT+0JemU6fFvo3dyg+QKyYGON4MxduYypWJ3BBsw3K
+ 6s1scBzgiEJ9Htkmvc1/Sm0gJDkBjrTLrNlyyKeMqhc0WeIinOHmIXnxd9Bq5o8ZL2P5
+ MdrtVdfMnYJAsoo6APdhuIMyq9KNFVuiu8lAdTD1qVjcMp0c69cqcuSBKmJ45s5BvStY
+ TMi0/XV3JWWFSqeUCIwg2TG+vVqIRw6i4n7BS//JlstzldHdmPM5tPJD3gcqF/h6G7a3
+ cWGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=z9SliCCRum/3A2E2ZMNlI9m+hPoUUx4IbBiUL26CGt4=;
- b=B/TeJd1OPz6wkPpCcwtYOMcd3Xhgflbt2uY/Sz2a2vjQnJgLrxK0/unUzTjIde0oxR
- tShttLr1tlzc1TLPgzsB2OqcFRc8C3lsTdVR5SSivdoAB6a91I0n3p8wAKa5lzFsVLbi
- cVO2Nxny+C2yf4ihGbMNe54elyOWu+4VzWumV1t+ZQaR08zU7fbdnvmViA1bCdR2kbNM
- qJtlA30TrLvCtVT6gp4wblG/hXRQUNHeBuF9siRXgiQAFtSz5tIcVh2mkEJuiaTpeivQ
- hdF89tP3rxb42K5J7y7iNVa+uzuO5dfLXtHNnaVSH/g7Erq3OJVIrTLOp/DjQ46Eo9X3
- h25g==
-X-Gm-Message-State: AOAM533LSqwHHfIoRuWlkZAnXoA7Nx6hOZS3K2pXr2SufrEzwL1O8j9O
- YzwijTTXBIiKyDhclCz+wPI=
-X-Google-Smtp-Source: ABdhPJxjPOB8Gm2aMkGNZx+mNq7QWQir4NmLrHP2dOTubysE7eypcREIqAJZbaCXxS9zmJnTV7aZtw==
-X-Received: by 2002:adf:f7c5:: with SMTP id a5mr18324488wrq.243.1613384757517; 
- Mon, 15 Feb 2021 02:25:57 -0800 (PST)
-Received: from localhost ([62.96.65.119])
- by smtp.gmail.com with ESMTPSA id g136sm10467906wme.10.2021.02.15.02.25.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 02:25:56 -0800 (PST)
-Date: Mon, 15 Feb 2021 11:25:55 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Fatih Yildirim <yildirim.fatih@gmail.com>
-Message-ID: <YCpMM4HhAGkpHIX7@ulmo.localdomain>
-References: <20210212073423.20562-1-yildirim.fatih@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=vFa5p+rqJTnUaPLfPC8bktOo+S1Qca0P1nVjPD/MoX8=;
+ b=InuNMH6NeV/uSUWGrjW0+Kav2GwcirARJdXUzucO39rX8yXSUBY2gwXy8hFeq3PPKa
+ FP7VLdkidkxnsx3+06SeP+mcaUpYWEY4U9J2j2Oz4xVUCNglJAQoWsvkH6PP94OcZLmH
+ UJHuTFN36Cr4Gfmmtex5/iL5q7YeK5I0CQPylJi6F+4g+d2EoCnrzTDvB9XwzlWhbNQ3
+ mSBJW3z8TctzfaNS2tBWldV5kwDo4bZ7+nXKy+RcdFdEjQQ6g/aVlihoPr7VueocxRr4
+ I0TPRcSQyOXw1KWUe7M7VhOCsbTWvyzQOdSYRk3kMH8oLWLLfWNa0DcnkFfO6UJk9pSk
+ hILw==
+X-Gm-Message-State: AOAM5301Cx6+1Ne1nUH864MT1YAmaSZ3IPXRqclMAaLwwtHrNq0yCv3y
+ 4xZosmZidC/gR33D9ONOd85X2y+NiWIYOSSxc6s=
+X-Google-Smtp-Source: ABdhPJwqEbA/9Gqn+/yukg3Yw6wV6JegrSS1dpIpplzjHPfZGOgczBawcyEn3O2m4priMD0Q6/orfyeFEoY2GeqUZKo=
+X-Received: by 2002:a05:6e02:1aa8:: with SMTP id
+ l8mr5418561ilv.251.1613202032721; 
+ Fri, 12 Feb 2021 23:40:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210212073423.20562-1-yildirim.fatih@gmail.com>
-User-Agent: Mutt/2.0.5 (da5e3282) (2021-01-21)
-Cc: devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, marvin24@gmx.de,
- linux-tegra@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- ac100@lists.launchpad.net
-Subject: Re: [Linux-kernel-mentees] [PATCH -next] staging: nvec: minor
-	coding style fix
+References: <CABJPP5APW9xEXO-gTnY99gUJH9+Mza0kxhHA-b7eEjBGQmu69w@mail.gmail.com>
+In-Reply-To: <CABJPP5APW9xEXO-gTnY99gUJH9+Mza0kxhHA-b7eEjBGQmu69w@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 13 Feb 2021 08:40:20 +0100
+Message-ID: <CAKXUXMz5KEJ=R4yBXGKN-ELSi=gXg7paKrKmqWjtrp_-Uo90iQ@mail.gmail.com>
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Subject: Re: [Linux-kernel-mentees] checkpatch docs: quick update
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,57 +104,66 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============0167738910538372723=="
+Content-Type: multipart/mixed; boundary="===============4195950954091291435=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+--===============4195950954091291435==
+Content-Type: multipart/alternative; boundary="0000000000001c850605bb32dece"
 
---===============0167738910538372723==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Umw6Y6994BHCIjmo"
-Content-Disposition: inline
+--0000000000001c850605bb32dece
+Content-Type: text/plain; charset="UTF-8"
+
+On Fr., 12. Feb. 2021 at 22:48, Dwaipayan Ray <dwaipayanray1@gmail.com>
+wrote:
+
+> Hi,
+> Uptil today, a total of 31 checkpatch types have been documented.
+> How many more do you think should be done before sending it
+> out again?
+>
 
 
---Umw6Y6994BHCIjmo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Please always CC linux-kernel-mentees.
+
+Let us send out a RFC v2 with what you created to Joe, linux-doc and lkml.
+
+I am still in strong favor to go through the rules and document them by
+"priority", e.g., by occurance they showed up on the last 100,000 commits.
+
+No need to delete the current documentation, just one thought on how to
+continue.
+
+
+Lukas
+
+--0000000000001c850605bb32dece
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 12, 2021 at 10:34:23AM +0300, Fatih Yildirim wrote:
-> Fix for the below coding style warning.
-> Warning: Move const after static - use 'static const int'
->=20
-> Signed-off-by: Fatih Yildirim <yildirim.fatih@gmail.com>
-> ---
->  drivers/staging/nvec/nvec_power.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+<div><div dir=3D"auto"><br></div></div><div><br><div class=3D"gmail_quote">=
+<div dir=3D"auto">On Fr., 12. Feb. 2021 at 22:48, Dwaipayan Ray &lt;<a href=
+=3D"mailto:dwaipayanray1@gmail.com">dwaipayanray1@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Hi,<br>
+Uptil today, a total of 31 checkpatch types have been documented.<br>
+How many more do you think should be done before sending it<br>
+out again?<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto">Please always CC linux-kernel-mentees.</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">Let us send out a RFC v2 with what you created t=
+o Joe, linux-doc and lkml.</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">I am still in strong favor to go through the rules and document them by =
+&quot;priority&quot;, e.g., by occurance they showed up on the last 100,000=
+ commits.</div><div dir=3D"auto"><br></div><div dir=3D"auto">No need to del=
+ete the current documentation, just one thought on how to continue.</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Luk=
+as</div></div></div>
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+--0000000000001c850605bb32dece--
 
---Umw6Y6994BHCIjmo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmAqTDIACgkQ3SOs138+
-s6GukQ//RtPgmq0gdQENuJQ8oYCYYuLbk/GyI6GciGBnKVAXRMaj1d0TmhVmEF0s
-aB871tDOVfpuQwCl4wyCKSdcKR0ABq2mS0S04KHqP6vP7yQJTAjLLqzQLy7oLjAJ
-R8un8u9upWqK8xGdL9nCiD5CRWCRX9TZ6CG6IV8Xw6mTefz3zrBwmwc3hmXJjLlQ
-AyM8nGUU0FZVPa4Pvzu6d2oIPoZNdbIJSduz8Qo3yI7Cwhr3+9Qhrl0WgHSCWHKU
-QOnr8SPmw+zEegpOJFCfpg7TlxR8EDvnrPLVCOQLMznkyIws8uVv/kLjoSmHDIEv
-2WHthxJtyis/TxLlbbpE4tUHiJ5bg0JZdx50ssweJmtxBYp9FI97S3UTPXBViGZ1
-PxrfIdFyW6zO5npGKP80Es0S/HnhznbVUljucwWk5vquDWQERDffkIDGD3ApBHxc
-OVb6DaKHboha3YgQnqnFaJ+q1oHJ0Tu4k0unOjz8KKkTkSLNsfJfW/jxnsr491Fl
-9VEqo7LpquJyqwcr0/Fto0YBPhC90uJKM2do1tuDb2m1k0QeFf4gg2dLwR9uYDGk
-E8PfgH34Uyqomytd3cNuge60VO5U1Af3Drzm661cHkjtlX9HC1cnbavzrKiRbw8t
-OtnuZv0dGkQQPWO/A154IUXZVAwZRFJTN4vvLThW8y6J6ia7f90=
-=XqYj
------END PGP SIGNATURE-----
-
---Umw6Y6994BHCIjmo--
-
---===============0167738910538372723==
+--===============4195950954091291435==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -169,4 +174,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============0167738910538372723==--
+--===============4195950954091291435==--
