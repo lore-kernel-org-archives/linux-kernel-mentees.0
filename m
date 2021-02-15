@@ -6,73 +6,76 @@ X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D38C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Feb 2021 18:24:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C6DC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Feb 2021 19:12:46 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 34F6C64DFD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Feb 2021 18:24:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 34F6C64DFD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id 44C35600EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Feb 2021 19:12:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44C35600EF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 023C286A01;
-	Mon, 15 Feb 2021 18:24:17 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 201BD86838;
+	Mon, 15 Feb 2021 19:12:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tb5W36NJXHPE; Mon, 15 Feb 2021 18:24:16 +0000 (UTC)
+	with ESMTP id aKrtanxzMZAf; Mon, 15 Feb 2021 19:12:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id A271F869DF;
-	Mon, 15 Feb 2021 18:24:16 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 9F28E867BB;
+	Mon, 15 Feb 2021 19:12:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B066C0893;
-	Mon, 15 Feb 2021 18:24:16 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 48738C013A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81C81C0174;
+	Mon, 15 Feb 2021 19:12:45 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CF5FDC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 18:24:15 +0000 (UTC)
+ Mon, 15 Feb 2021 19:12:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 383E7869DF
+ by fraxinus.osuosl.org (Postfix) with ESMTP id BE5F8850A8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 18:24:15 +0000 (UTC)
+ Mon, 15 Feb 2021 19:12:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id R7HNgU-UGn4t
+ with ESMTP id 4_QFyCAj1JtK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 18:24:14 +0000 (UTC)
+ Mon, 15 Feb 2021 19:12:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by whitealder.osuosl.org (Postfix) with ESMTPS id A96C7867CF
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 777FD8501A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Feb 2021 18:24:14 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::e2d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id C272B2A0;
- Mon, 15 Feb 2021 18:24:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C272B2A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1613413453; bh=DUnfItWJCN14J1yb4OPWjTaD3Z5ocs557C6vmLrHVKk=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=qak9vLUnqMq8bLcu7aQLHKkOnZtkwA4I4FP8pOl9kKJjToKwUvC5WLlhbiadkzw0q
- IuTZxtkfqHT5mggsIKvNvhlgg0LvC0bXkHWlmeOpyBxm6OAvlTdTNq2Sl+GmfgYNKK
- 5UsVJzUKmjqkFpmF6lOlsy4kkdXeWY+e3tMTAwhCzsRUgFgviQL6A1WWMJApuselbz
- Dj7SQ2HS2rzEGmw5RbvJlIX8xZeCPPkWOBTHXAWdc/DxyYIyaPHo6EW47kF+3d7LGo
- aVizhT+u1o4Mrat6PoF1HMwFcmPWzCcM170aoE0fuX+S+fez9bGbGrBmEtKssL2Gme
- rG3DFl2Y5muUA==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Aditya <yashsri421@gmail.com>
-In-Reply-To: <5d519211-987e-3367-2ce9-9d1300445bc4@gmail.com>
-References: <5d519211-987e-3367-2ce9-9d1300445bc4@gmail.com>
-Date: Mon, 15 Feb 2021 11:24:13 -0700
-Message-ID: <87v9at42b6.fsf@meer.lwn.net>
+ Mon, 15 Feb 2021 19:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=ahBtQ8EQ5jE1I8cSnduD9btkwOgYPHWG4aIuM6PsRWw=; b=fmH7G8QhdVJz+kKx8cQOk4tWIz
+ s0ic5Sbo5HA4TEQYNiYJxGtnyLhz1lJfFVc945yY6GQAb9XKNeViIzg8PYNImzKJKpfDkyEo+Qnu5
+ o0rUtGu0Wh8TAFZK52W4SLPxAkUaqqmkhkd//wnZNx9ONsgroBfz/m/6lh3Xf/f5SuLKrfkUJBIxQ
+ s7qubCBT6YWdQLo/qUrzcjodk0R4WjOdkw/AHbS7BPwsVHCjoBlsu4LsxSJHBoU3O14I4rYgcMEGU
+ 5u+jb9upjdLpEqyE+Jckwvz2U6qoLeyB2kXd8DcIGbdQNZ6xvngW36ElFHapmwAb1p/P526I115B1
+ pmURke2w==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat
+ Linux)) id 1lBjIP-00FxIn-8m; Mon, 15 Feb 2021 19:12:33 +0000
+Date: Mon, 15 Feb 2021 19:12:33 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Joe Perches <joe@perches.com>
+Message-ID: <20210215191233.GF2858050@casper.infradead.org>
+References: <20210213131513.51386-1-dwaipayanray1@gmail.com>
+ <20210213131513.51386-3-dwaipayanray1@gmail.com>
+ <20210214121501.GC2858050@casper.infradead.org>
+ <2162334bdf4d635f1414ffef52378c0f423366a7.camel@perches.com>
 MIME-Version: 1.0
-Cc: yashsri421@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+Content-Disposition: inline
+In-Reply-To: <2162334bdf4d635f1414ffef52378c0f423366a7.camel@perches.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] Issues with kernel-doc
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC v3 2/3] docs: add
+	documentation for checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,23 +93,18 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Aditya <yashsri421@gmail.com> writes:
+On Mon, Feb 15, 2021 at 10:11:03AM -0800, Joe Perches wrote:
+> On Sun, 2021-02-14 at 12:15 +0000, Matthew Wilcox wrote:
+> > On Sat, Feb 13, 2021 at 06:45:12PM +0530, Dwaipayan Ray wrote:
+> > > +Checkpatch (scripts/checkpatch.pl) is a perl script which checks for trivial style
+> > 
+> > It's quite amusing that this patch contains lines > 80 columns.
+> 
+> Then you could amuse yourself further by looking at the existing
+> line lengths of .rst files.
 
-> Here, although the compiler may not cause any error, kernel-doc emits
-> the error as it probably expects "struct struct_name" to occur together.
->
-> What do you think about these issues?
-> I want to fix these issues, if you agree that they need to be fixed.
->
-> There are a few more issues as well, apart from these two. But for the
-> start, I want to begin with Uninitialized $param errors.
-
-There is no need to ask permission before sending bug fixes!  I would be
-more than happy to receive them.
-
-Thanks,
-
-jon
+There are good reasons for rst lines to be longer than 80 columns,
+but there weren't any in this case.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
