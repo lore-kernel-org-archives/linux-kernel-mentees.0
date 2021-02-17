@@ -2,100 +2,101 @@ Return-Path: <SRS0=uW6w=HT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D863C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA327C433E6
 	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 16:54:36 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BF42464E33
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 16:54:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BF42464E33
+	by mail.kernel.org (Postfix) with ESMTPS id 26FFB64E3E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 16:54:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 26FFB64E3E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8C06086483;
-	Wed, 17 Feb 2021 16:54:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D67286F53C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 16:54:35 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EY58lB7NNjyI
+	for <linux-kernel-mentees@archiver.kernel.org>;
+	Wed, 17 Feb 2021 16:54:34 +0000 (UTC)
+Received: by smtp3.osuosl.org (Postfix, from userid 1001)
+	id 08CEB6E4CB; Wed, 17 Feb 2021 16:54:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id CA3336E4CB;
+	Wed, 17 Feb 2021 16:54:31 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0F35C0893;
+	Wed, 17 Feb 2021 16:54:31 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 92B0BC013A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Feb 2021 16:54:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by whitealder.osuosl.org (Postfix) with ESMTP id 87F3F86439
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Feb 2021 16:54:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WczcBH125FRx; Wed, 17 Feb 2021 16:54:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id D664A8630A;
-	Wed, 17 Feb 2021 16:54:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BFD13C0893;
-	Wed, 17 Feb 2021 16:54:34 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 377E6C013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 16:54:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 26B8B87278
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 16:54:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EVBXFA8sih5G
+ with ESMTP id xZ54Ch1063ja
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 16:54:32 +0000 (UTC)
+ Wed, 17 Feb 2021 16:54:29 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 96D7687281
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 19D688630A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 16:54:32 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id cl8so1814301pjb.0
+ Wed, 17 Feb 2021 16:54:29 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id l18so2012946pji.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 08:54:32 -0800 (PST)
+ Wed, 17 Feb 2021 08:54:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zYoK/Tw5oB77I374vAKWgvMSSaE63sx1dFoY33I3OsM=;
- b=QLUf6QH4t8JQ9w7H0cVt8SOghs0OyQGkdC8dToWvHQi9RfhrF5wu50MKe0hJXgjWP7
- cCYl3gZL7M+7MmYW+YSs6P0LUxCTvRMnhWQDSAxUvLpQlv6FNizzKiQDMI0xB1t5p8fb
- 6FNYEKfwui7mQZ2OYKqocbPCOa21auCB7rxIxQ2OA7qO5vzZwluDJ7FLKpuxBuid3yJO
- k1L2uIULi8TG1+TBZUv0hKb0RnN89iOOOl2sY3kp5xJc+kGdSj2VAetl8JDleRvWX0Ge
- wVNEOBdfgtsTMPWQeSHQDo9vYENn/Du+lG0ZM8LByXP5N9pH53YTp+GBiYgOtg6Z6DKx
- hcKw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bweBA//jaU5FvEQj4YLm3O5Xa+iWylyOBiGh4/hwgr8=;
+ b=NXBCPz8P6qSWS/xS1gARF8RsLiLWsDgj+mFlx77DiGrvHHT8TvGDEWiFZkSmfB1wDE
+ NnV6ker/7+k1wowVIY6zc+FW9LWcoJTyGErDhJh6vyA9vtQ+RgFUmPGQ4d5DuWcOe+CA
+ VG12qrQhbc7a3nkiOPYajkd9ud8rGyoFDXMDYM/VS+HR5PFZAU6PyFE7hXqjvZsvR3IC
+ LP8/Ghy9+xacq8T7X9Sz5EvbH6OzL2WtIrZFdkQmEX3BwDgzX5NUv8WLdRt2HI8TxI/I
+ O9c5Or+KgZWqQyGW76r7QbRMP12KK8Wd+xauBPeGQ4DuCvJ/g/bjQcimRcKeVqbNGkeg
+ +DhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zYoK/Tw5oB77I374vAKWgvMSSaE63sx1dFoY33I3OsM=;
- b=ZhICzQhkQplDloH2BH3mIQgyMpNU8dewMaBJbftk4DUMvrGJoR/ZsYJERjwpPaMHWO
- iGAa4Awn+z+Wd/eweuer9l1Hyqm88lgDwqSuJtDon7qx0RMf/QjV6THeHNT+Ivpz0PKi
- cdjTcBe1qRs8EGnMq2U/95fyB5X1DHAdl9T2Xel5xDvi6CKPKT0IJwRf+bP515LiKi6c
- TvilScRYlAVWo2Z1yFcz+f339S+s4Fqi36m48O0VlgZDGnP9PYNN2o49J3WCPOF5NaA0
- 0Ki7P+mZzomcT7UNN5g6MSqTiFoFir0PLMaRF0VYk4bOTqfO1Nzugij6rIrixnWFRAuD
- Zq/A==
-X-Gm-Message-State: AOAM5339GkwrajiwzYvkwemJf1FA+Dtbwj3ur4LlYia8DyQW+SG4so0d
- 3s2zcBaBab1XfZt0BwyLzW4=
-X-Google-Smtp-Source: ABdhPJxNBwIGp2QuYb2d2tQBMy6iqTJc9Fnxlt6GzUWN/uzClu3MOT950J2/+73hhTdPeHkrb22vxA==
-X-Received: by 2002:a17:902:8697:b029:e3:9724:e260 with SMTP id
- g23-20020a1709028697b02900e39724e260mr2250832plo.31.1613580872092; 
- Wed, 17 Feb 2021 08:54:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bweBA//jaU5FvEQj4YLm3O5Xa+iWylyOBiGh4/hwgr8=;
+ b=GN5f/59/TNQZaFESo2SSAp4aZrCpyFxWrvNxe4SEuLPpqhkEIckLvmR16cniSHdozY
+ 5boxyJmxK25wSr6tGsuOQY28x6WIbAF/Zyq2SyiMrhaClOtKWc2J7qjgubtySSwBOkCk
+ JBtZylBNHzHbvOd8n3pzuH83BNfOw5kPjTQDF8/WZ6rbegKiujnJrVVO7Bgg0WsK//Gd
+ Oh2Ao9gf1JvZvrq3MBOvo47VWRIjrSsvcVPLDjKj3coQM8o9rch7jmyAPVWogxzDkToZ
+ aUtS43pzr+nXfihfYhwqime6Q8225zY98S4VOp2FM52S2orcPQE3I8HYi0xD7VjJNo5n
+ Safw==
+X-Gm-Message-State: AOAM533GWeKnriLhon3Iq1MAsegv9aiA6tFiZR2LQ/GbCixPpFXqhVmb
+ 7w7DjQgDZjvKhvCGN9rUjzs=
+X-Google-Smtp-Source: ABdhPJw9/luIxIYytOSebjA9zZpEP+SGuAjxOeSgZrYX09NrPfLFvwK/rJlb+9dJ4tQg+KDchceI1A==
+X-Received: by 2002:a17:90a:e7cd:: with SMTP id
+ kb13mr9901806pjb.10.1613580868549; 
+ Wed, 17 Feb 2021 08:54:28 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:9004:69b4:3f63:7c5a:6972:6781])
- by smtp.gmail.com with ESMTPSA id t21sm3063897pfe.174.2021.02.17.08.54.29
+ by smtp.gmail.com with ESMTPSA id t21sm3063897pfe.174.2021.02.17.08.54.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 08:54:31 -0800 (PST)
+ Wed, 17 Feb 2021 08:54:28 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
 To: joe@perches.com
-Date: Wed, 17 Feb 2021 22:24:33 +0530
-Message-Id: <20210217165434.69298-2-dwaipayanray1@gmail.com>
+Date: Wed, 17 Feb 2021 22:24:32 +0530
+Message-Id: <20210217165434.69298-1-dwaipayanray1@gmail.com>
 X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210217165434.69298-1-dwaipayanray1@gmail.com>
-References: <20210217165434.69298-1-dwaipayanray1@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v4 1/2] checkpatch: add verbose mode
+Subject: [Linux-kernel-mentees] [PATCH v4 0/2] checkpatch: add verbose mode
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,152 +114,40 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new verbose mode to checkpatch.pl to emit additional verbose
-test descriptions. The verbose mode is optional and can be enabled
-by the flag -v or --verbose.
+Add a new verbose mode to checkpatch. The verbose test
+descriptions are read from the checkpatch documentation
+file at `Documentation/dev-tools/checkpatch.rst`.
 
-The test descriptions are parsed from the checkpatch documentation
-file at `Documentation/dev-tools/checkpatch.rst`. The test
-descriptions in the docs are kept in a fixed format grouped by
-usage. Some examples of the descriptions are:
+The verbose mode is optional and can be enabled by the
+flag -v or --verbose.
 
-  **LINE_SPACING**
-    Vertical space is wasted given the limited number of lines an
-    editor window can display when multiple blank lines are used.
+The documentation file is only parsed by checkpatch.pl
+if the verbose mode is enabled. The verbose mode can
+not be used together with the --terse option.
 
-  **MISSING_SIGN_OFF**
-    The patch is missing a Signed-off-by line.  A signed-off-by
-    line should be added according to Developer's certificate of
-    Origin.
-    ref: `Documentation/process/submitting-patches.rst`
+Changes in v4:
+- Change the type description format
+- Group the message types by usage
+- Make handling of --terse with --verbose simpler
 
-The verbose descriptions are not shown when the --terse option
-is enabled.
+Changes in v3:
+- Simplify documentation file parsing in checkpatch
+- Document a total of 33 message types for checkpatch
 
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- scripts/checkpatch.pl | 61 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 58 insertions(+), 3 deletions(-)
+Changes in v2:
+- Use .rst Field Lists to specify the type descriptions.
+- Add a few more type descriptions to documentation.
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9a549b009d2f..eeec412610d8 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -23,6 +23,8 @@ my $V = '0.32';
- use Getopt::Long qw(:config no_auto_abbrev);
- 
- my $quiet = 0;
-+my $verbose = 0;
-+my %verbose_messages = ();
- my $tree = 1;
- my $chk_signoff = 1;
- my $chk_patch = 1;
-@@ -61,6 +63,7 @@ my $spelling_file = "$D/spelling.txt";
- my $codespell = 0;
- my $codespellfile = "/usr/share/codespell/dictionary.txt";
- my $conststructsfile = "$D/const_structs.checkpatch";
-+my $docsfile = "$D/../Documentation/dev-tools/checkpatch.rst";
- my $typedefsfile;
- my $color = "auto";
- my $allow_c99_comments = 1; # Can be overridden by --ignore C99_COMMENT_TOLERANCE
-@@ -78,6 +81,7 @@ Version: $V
- 
- Options:
-   -q, --quiet                quiet
-+  -v, --verbose              verbose mode
-   --no-tree                  run without a kernel tree
-   --no-signoff               do not check for 'Signed-off-by' line
-   --patch                    treat FILE as patchfile (default)
-@@ -198,6 +202,46 @@ if (-f $conf) {
- 	unshift(@ARGV, @conf_args) if @conf_args;
- }
- 
-+sub load_docs {
-+	open(my $docs, '<', "$docsfile")
-+	    or warn "$P: Can't read the documentation file $docsfile $!\n";
-+
-+	my $type = '';
-+	my $desc = '';
-+	my $in_desc = 0;
-+
-+	while (<$docs>) {
-+		chomp;
-+		my $line = $_;
-+		$line =~ s/\s+$//;
-+
-+		if ($line =~ /^\s*\*\*(.+)\*\*$/) {
-+			if ($desc ne '') {
-+				$verbose_messages{$type} = trim($desc);
-+			}
-+			$type = $1;
-+			$desc = '';
-+			$in_desc = 1;
-+		} elsif ($in_desc) {
-+			if ($line =~ /^(?:\s{4,}|$)/) {
-+				$line =~ s/^\s{4}//;
-+				$desc .= $line;
-+				$desc .= "\n";
-+			} else {
-+				$verbose_messages{$type} = trim($desc);
-+				$type = '';
-+				$desc = '';
-+				$in_desc = 0;
-+			}
-+		}
-+	}
-+
-+	if ($desc ne '') {
-+		$verbose_messages{$type} = trim($desc);
-+	}
-+	close($docs);
-+}
-+
- # Perl's Getopt::Long allows options to take optional arguments after a space.
- # Prevent --color by itself from consuming other arguments
- foreach (@ARGV) {
-@@ -208,6 +252,7 @@ foreach (@ARGV) {
- 
- GetOptions(
- 	'q|quiet+'	=> \$quiet,
-+	'v|verbose!'	=> \$verbose,
- 	'tree!'		=> \$tree,
- 	'signoff!'	=> \$chk_signoff,
- 	'patch!'	=> \$chk_patch,
-@@ -247,13 +292,15 @@ GetOptions(
- 
- help(0) if ($help);
- 
-+die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
-+die "$P: --verbose cannot be used with --terse\n" if ($verbose && $terse);
-+
- list_types(0) if ($list_types);
-+load_docs() if ($verbose);
- 
- $fix = 1 if ($fix_inplace);
- $check_orig = $check;
- 
--die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
--
- my $exit = 0;
- 
- my $perl_version_ok = 1;
-@@ -2209,7 +2256,15 @@ sub report {
- 		splice(@lines, 1, 1);
- 		$output = join("\n", @lines);
- 	}
--	$output = (split('\n', $output))[0] . "\n" if ($terse);
-+
-+	if ($terse) {
-+		$output = (split('\n', $output))[0] . "\n";
-+	}
-+
-+	if ($verbose &&
-+	    exists $verbose_messages{$type}) {
-+		$output .= $verbose_messages{$type} . "\n\n";
-+	}
- 
- 	push(our @report, $output);
- 
+Dwaipayan Ray (2):
+  checkpatch: add verbose mode
+  docs: add documentation for checkpatch
+
+ Documentation/dev-tools/checkpatch.rst | 525 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ scripts/checkpatch.pl                  |  61 ++-
+ 3 files changed, 584 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
+
 -- 
 2.30.0
 
