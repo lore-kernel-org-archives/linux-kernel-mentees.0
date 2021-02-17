@@ -2,106 +2,99 @@ Return-Path: <SRS0=uW6w=HT=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12547C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 15:30:50 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 042F6C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 15:46:16 +0000 (UTC)
+Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9944264E0F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 15:30:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9944264E0F
+	by mail.kernel.org (Postfix) with ESMTPS id A0CF964DF3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 15:46:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A0CF964DF3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 61DA56F52C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Feb 2021 15:30:49 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oUDaCXI5D4Cy
-	for <linux-kernel-mentees@archiver.kernel.org>;
-	Wed, 17 Feb 2021 15:30:46 +0000 (UTC)
-Received: by smtp3.osuosl.org (Postfix, from userid 1001)
-	id 940E26005E; Wed, 17 Feb 2021 15:30:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 47EF46005E;
-	Wed, 17 Feb 2021 15:30:44 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A8E2C0174;
-	Wed, 17 Feb 2021 15:30:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 44CCEC013A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 15:30:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 263B486B5C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 15:30:43 +0000 (UTC)
+	by whitealder.osuosl.org (Postfix) with ESMTP id 75D62869F8;
+	Wed, 17 Feb 2021 15:46:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4Te9Zc8fBur1
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NHISt6ILvsdx; Wed, 17 Feb 2021 15:46:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by whitealder.osuosl.org (Postfix) with ESMTP id 65356866AE;
+	Wed, 17 Feb 2021 15:46:14 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3ED7EC0174;
+	Wed, 17 Feb 2021 15:46:14 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E29EFC013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 15:30:42 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 00FD886B03
+ Wed, 17 Feb 2021 15:46:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id C1408600CC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 15:30:41 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id a17so16717230ljq.2
+ Wed, 17 Feb 2021 15:46:12 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ipXUGuiFsJMK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Feb 2021 07:30:41 -0800 (PST)
+ Wed, 17 Feb 2021 15:46:11 +0000 (UTC)
+Received: by smtp3.osuosl.org (Postfix, from userid 1001)
+ id DDA846EE12; Wed, 17 Feb 2021 15:46:11 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+ [209.85.208.177])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B5D9B600CC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Feb 2021 15:46:09 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id k22so16115490ljg.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Feb 2021 07:46:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i1qzvVzrQwwYGpel92eCPwKLh4W8iFTtggWP3I+JyGY=;
- b=quctUjb2y55wHkJfLhQXLGkAqgHW+RU/NSeHOCjAA5BZ2yonBuxlkL5ql5fbuPFOlX
- A/3m+xC/1Aa8+FZh8/ViZ1n+FJS20VgT0w1CN+2DbSqbdyALH9KFYC4zxvP9cNvB5fPC
- NqEEZoSYNK0BQxhm1DJuRC/3/MkxZhsTiv97gDS5xbRU2ZkrvAHx9A1AoLdY9ARJtW0I
- ftly/k5ghcaZMdvnXvQRDOjDl4qiaDE7YIzFsOR9W1x5ij8GMe/hsc75mrxCQsFOrk4q
- CacyIyJqYtZ7AaXzsu6nUj1Q6q2r+YrO+kduNqwldj6sXLP9ugvtVRtH/3gvqzc/1QlE
- 8IUw==
+ :cc; bh=+g26s0aSTGaLnN/gduWXkSeKUiKej72AeVs+y0HyD/Y=;
+ b=t2VoafJleFp20lwXCFmM5iSb5m9wFPosnlyI5nerNlgLygDZDt0/5pzDjixNoyQ8SD
+ 0bah+i2BhxdfCvc6kPDbRXRxo5ZROLJ8KAU8V102wpo92ia5noLZtfHDItdrQmTGGsoI
+ 8s/HCmiNUaavVCdAPyuCRkDPXPLrJUMC0Wd0EGVTgP9JD0H6WLTzCj/cu0lH4A4v3Nta
+ 1EnyoMcbVAzE7eKJcL0CsHAngq53cJPaBZGSO7kG1AZ78+MdqCClD6n5QQrzZJYqfP3Z
+ bxCpOX/vdPO2vdfte0B/7ynwyJR5Oh4VdDbJX8JIjeuMRZAp1aq7wTQcwc4Pele7LgRM
+ 3KxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=i1qzvVzrQwwYGpel92eCPwKLh4W8iFTtggWP3I+JyGY=;
- b=mlMSKq3dZsh4RTnfHGwasXKq9+/Si2jcAKQmMc8Eu6Z4QTZQ1WmtUFR+Ws2dFJpgp1
- 4AttqJkcXpWGdg2LTBwHG4+7iVP7naQGWnPgh0vppoMDVq/Ny5JUNauLtT3yoq/tTH9+
- FzTS7gaR3VLDmNAsQAWMjV+LcjoqyATPwNRvv0RUz7HqU7XINjdmYrIfdyF9MNNLPifu
- etX2UjIk+7wpHjUPxO/H/blrTwgLGl2MLa3I4Q0c7d2D0obdwFuC+/uHILqpJGktVdUQ
- K1yhToKNR0xcbWu3VXlV+SkVkkdm5BwHf7gzkcRWa9kd2nN/tUAuI19wIouJIIRHJZcT
- S8XA==
-X-Gm-Message-State: AOAM5310BnTA0z8YznQuZwwg3OvkPffD32yloieGKspoowOJyaU7M1aW
- bRe9Tm70V1icFvB4mjf1AUl0jEzdkcGZ+ts0+EY=
-X-Google-Smtp-Source: ABdhPJxLG/Q+xla9KQKIOq9Yj22XnyXrOVvgyAUwruU0gjCfGH/0K9rv/Bkmyy9mg5uJ1yFM3zEVBG/sudZjOqHvPUY=
-X-Received: by 2002:a05:651c:1051:: with SMTP id
- x17mr16311642ljm.310.1613575840207; 
- Wed, 17 Feb 2021 07:30:40 -0800 (PST)
+ bh=+g26s0aSTGaLnN/gduWXkSeKUiKej72AeVs+y0HyD/Y=;
+ b=GisdyiiXAV+C8jPf7U6j0R53QGDg5gHP8XBtme/1hWFDL0ea8hYjes1aMLy6KI68Wn
+ Fc1Z7kp41eg5Z93o+r5gCh/twAipQmHp5nE7oJzQp3s10F71bE+KaQ59BdMxf1pmS34G
+ zBDJN9oZ7Ps1hAe4hjnGLrT1Q5Wqw4txU6bYyvyESUwsrKuAOfVaP79LsXha+DABcxpk
+ JlLdrADmJ0RX9BcPLVIFMmr8sPaEcTGiLu102SrSI0lXOT5Bb2Lhs253TTnAob34vsk7
+ lPG9C4t8smpWvSQVuyq8l39TH3CQyGgWjLjBo7rSow0mTyMpKShC9KC+Nz6j9HKmqx8i
+ IjVw==
+X-Gm-Message-State: AOAM530z+vDYC/2OKeEgJyfX0AOyUQkpKUprD4eopV+BykGilEk5W4sw
+ g0LsyifPuZW4orN+aQ/CstYjMxTu7CxsqXEQjaE=
+X-Google-Smtp-Source: ABdhPJwkxjQwo9r5TcgZguEoGBqCrOTVBwSTpuJDf5PTRuTXglNtaaPdorCmbJ35G1PXZB2gjM2gn864+Jn3yUBSHlc=
+X-Received: by 2002:a2e:985a:: with SMTP id e26mr7402280ljj.370.1613576767331; 
+ Wed, 17 Feb 2021 07:46:07 -0800 (PST)
 MIME-Version: 1.0
-References: <CANDtkxs5eJ3Rc1pxBfTnvHZbxpAFmZH97dxchbSqtHSb0hey4Q@mail.gmail.com>
- <CAKXUXMySAPVA+gHQvg0nUQyKXHOOMtYwmEr1rGn=8C+DbNo+5Q@mail.gmail.com>
- <CANDtkxv+u75ZL3s5K5Q8kns4aNhW3e50V36_u6C_Anma3Od-Uw@mail.gmail.com>
- <CAKXUXMyu5aNSojudH+7rBPOShtisPjXG9T9rzhm60ORmai35pw@mail.gmail.com>
- <CANDtkxtKncpeN5FVgEdGfavXy87MYdCW+-4wUjKuQ3BPOwwUnA@mail.gmail.com>
- <CANDtkxstAvTg-pma6PFXRZcFC6nQwXffKpr4cwdrZg2hOBrHag@mail.gmail.com>
- <CAKXUXMy+3C_nBd2_3g=wNgRWNEPD5UzOU5KgY4qL1=KvfRn-vg@mail.gmail.com>
- <CANDtkxvn_Xgwr+vKbiHC+bisFv860myKN5g9VZ8YiwJ_wt7zfw@mail.gmail.com>
- <CAKXUXMyboDdddS7artMNo4YRVbabRVt8z4QcbBwa5af64fkU3w@mail.gmail.com>
-In-Reply-To: <CAKXUXMyboDdddS7artMNo4YRVbabRVt8z4QcbBwa5af64fkU3w@mail.gmail.com>
-From: Divya Goswami <divyadeepti2000@gmail.com>
-Date: Wed, 17 Feb 2021 21:00:06 +0530
-Message-ID: <CANDtkxuytMv9mBEcS-KTzm77hx5XuDOMe-Q5+O9-=rtPnZh++g@mail.gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [Linux-kernel-mentees] Linux Kernel: Evaluate and Improve
-	checkpatch.pl Mentorship Program
+References: <20210213131513.51386-1-dwaipayanray1@gmail.com>
+ <20210213131513.51386-3-dwaipayanray1@gmail.com>
+ <b2e25e683a3e2f31d4dc2d666e082634e30643b3.camel@perches.com>
+ <CABJPP5CaAavDMWy8xmQ8Bxpf5549v8fqOz8Zi=g7g6ZGnCAVmg@mail.gmail.com>
+ <4d6856b33cc870ac655d801d066f04af6ebadcd7.camel@perches.com>
+In-Reply-To: <4d6856b33cc870ac655d801d066f04af6ebadcd7.camel@perches.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Wed, 17 Feb 2021 21:16:08 +0530
+Message-ID: <CABJPP5A+g1_jCLPPgSc4wu8O7birW4yBE_9+HJusLFHOsS3Eug@mail.gmail.com>
+To: Joe Perches <joe@perches.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [Linux-kernel-mentees] [PATCH RFC v3 2/3] docs: add
+	documentation for checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,163 +106,98 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8276850581838851607=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============8276850581838851607==
-Content-Type: multipart/alternative; boundary="000000000000c6161305bb89e652"
-
---000000000000c6161305bb89e652
-Content-Type: text/plain; charset="UTF-8"
-
-On Sun, Feb 14, 2021 at 10:20 PM Lukas Bulwahn <lukas.bulwahn@gmail.com>
-wrote:
-
-> On Sun, Feb 14, 2021 at 2:03 PM Divya Goswami <divyadeepti2000@gmail.com>
-> wrote:
-> >
-> >
-> >
-> > On Sat, Feb 13, 2021 at 1:02 PM Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> wrote:
-> >>
-> >>
-> >>
-> >> On Sa., 13. Feb. 2021 at 00:34, Divya Goswami <
-> divyadeepti2000@gmail.com> wrote:
-> >>>
-> >>> Hello Lukas,
-> >>>                    I have been studying the checkpatch.pl script for
-> a while now. And as the first task was assigned, I have successfully run a
-> lot of patches through it. Most of them gave no errors/warnings. Those who
-> did so far, have been collected (and more to be collected) on my github
-> repo: checkpatch.pl-results
-> >>> Before I proceed further, I wanted to make sure whether I am uploading
-> the files/outputs in the desired way you wanted. If the file naming or the
-> hierarchy or anything that should be worked upon, do let me know.
-> >>> Till then, I continue to work on the given tasks.
-> >>
-> >>
-> >> All good. It could be that you observe different results when you run
-> checkpatch in the kernel git root directory compared to the setup you have
-> now by just copying it into a different directory.
-> >>
-> >> But the task for now is to just run it over the last release, so e.g.,
-> from v5.10 to v5.11 (which probably comes out tomorrow afternoon Pacific
-> Time) and create statistics on these results. If you got that, we can start
-> finetuning.
-> >>
-> >> Please continue.
-> >>
-> >> Lukas
-> >>
-> >  Hello Lukas,
-> > I have analyzed commits and got the lists alright. Also I have analyzed
-> the errors and warnings generated by them.
-> > Please do check my repo: checkpatch.pl-results
-> >
+On Wed, Feb 17, 2021 at 4:07 PM Joe Perches <joe@perches.com> wrote:
 >
-> Looks good. Too bad that you cannot run on a large dataset.
+> On Tue, 2021-02-16 at 19:48 +0530, Dwaipayan Ray wrote:
+> > On Sun, Feb 14, 2021 at 10:27 PM Joe Perches <joe@perches.com> wrote:
+> > > On Sat, 2021-02-13 at 18:45 +0530, Dwaipayan Ray wrote:
+> > > > Add documentation for kernel script checkpatch.pl.
+> > > > This documentation is also parsed by checkpatch to
+> > > > enable a verbose mode.
+> > > >
+> > > > The message types in checkpatch are documented with rst
+> > > > field lists. A total of 33 checkpatch type descriptions
+> > > > are added.
+> > >
+> > > Alphabetic ordering isn't that great for these entries.
+> > > Please group them by use:
+> > >
+> > > whitespace/code layout style:
+> > > SPACING, TRAILING_WHITESPACE, LINE_SPACING
+> []
+> > Could I get some comment on this grouping for types:
+> >
+> > Allocation Style: ALLOC_ARRAY_ARGS, ALLOC_SIZEOF_STRUCT, ALLOC_WITH_MULTIPLY
+> >
+> > API Usage: ARCH_DEFINES, ARCH_INCLUDE_LINUX, ARRAY_SIZE, AVOID_BUG,
+> >                     AVOID_EXTERNS, AVOID_L_PREFIX, BIT_MACRO, CONSIDER_KSTRTO
+> >
+> > Comment Style: BLOCK_COMMENT_STYLE, C99_COMMENTS
+> >
+> > Commit Message: BAD_SIGN_OFF, BAD_STABLE_ADDRESS_STYLE, COMMIT_COMMENT_SYMBOL,
+> >                               COMMIT_MESSAGE, MISSING_SIGN_OFF,
+> > NO_AUTHOR_SIGN_OFF
+> >
+> > Comparison Style: ASSIGN_IN_IF, BOOL_COMPARISON, COMPARISON_TO_NULL,
+> >                                CONSTANT_COMPARISON
+> >
+> > Spacing & Brackets: ASSIGNMENT_CONTINUATIONS, BRACES, BRACKET_SPACE,
+> >                                   CODE_INDENT, CONCATENATED_STRING,
+> > LINE_SPACING,
+> >                                   TRAILING_WHITESPACE
+> >
+> > Others: CAMELCASE, CONFIG_DESCRIPTION
+> >
+> > This is what I have done till now. Any suggestions would be nice and if it looks
+> > okay I would like to send the v4 in.
 >
-> The next task is to look at three types of warnings you encounter and
-> describe the purpose of the check.
+> Looks OK.
 >
-> Lukas
+> Please make sure you at least include SPACING in the spacing & brackets
+> descriptions.
 >
-Hello Lukas,
-I have added step3 in my analysis.
-I have tried it a bit differently to get ALL the non merge commits between
-5.10 to 5.11. Now I can work on a large dataset :) Do check:
-checkpatch.pl-results
-<https://github.com/rachejazz/checkpatch.pl-results/tree/master/step3>
+> It also seems like ref links to Documentation/process/coding-style.rst
+> <section> (3.1 in the SPACING case) should be used more frequently.
+>
+> It'd be 'nice' to somehow use sortable tables with some grouping
+> attribute for these groups, but I have no idea if that's feasible with
+> .rst restrutured text files.
+>
 
-Regards,
-Divya
+I too didn't find anything like that. Seems like static tables are the most
+that's feasible with sphynx. But here it might not look well.
 
---000000000000c6161305bb89e652
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Perhaps simplify the checkpatch code a bit for the --terse and --verbose
+> output.
+>
+> Maybe something like:
+> ---
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 869d80397f9f..07566cb3b3f8 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+>
+> @@ -292,15 +292,16 @@ GetOptions(
+>
+>  help(0) if ($help);
+>
+> +die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
+> +die "$P: --verbose canot be used with --terse\n" if ($verbose && $terse);
+> +
+>  list_types(0) if ($list_types);
+>
 
-<div dir=3D"ltr"><div dir=3D"ltr"></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Sun, Feb 14, 2021 at 10:20 PM Lukas Bu=
-lwahn &lt;<a href=3D"mailto:lukas.bulwahn@gmail.com">lukas.bulwahn@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On Sun, Feb 14, 2021 at 2:03 PM Divya Goswami &lt;<a href=3D"mailto:divyad=
-eepti2000@gmail.com" target=3D"_blank">divyadeepti2000@gmail.com</a>&gt; wr=
-ote:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Sat, Feb 13, 2021 at 1:02 PM Lukas Bulwahn &lt;<a href=3D"mailto:lu=
-kas.bulwahn@gmail.com" target=3D"_blank">lukas.bulwahn@gmail.com</a>&gt; wr=
-ote:<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On Sa., 13. Feb. 2021 at 00:34, Divya Goswami &lt;<a href=3D"mailt=
-o:divyadeepti2000@gmail.com" target=3D"_blank">divyadeepti2000@gmail.com</a=
->&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Hello Lukas,<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 I have been studying the <a href=3D"http://checkpatch.pl" rel=3D"nor=
-eferrer" target=3D"_blank">checkpatch.pl</a> script for a while now. And as=
- the first task was assigned, I have successfully run a lot of patches thro=
-ugh it. Most of them gave no errors/warnings. Those who did so far, have be=
-en collected (and more to be collected) on my github repo: checkpatch.pl-re=
-sults<br>
-&gt;&gt;&gt; Before I proceed further, I wanted to make sure whether I am u=
-ploading the files/outputs in the desired way you wanted. If the file namin=
-g or the hierarchy or anything that should be worked upon, do let me know.<=
-br>
-&gt;&gt;&gt; Till then, I continue to work on the given tasks.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; All good. It could be that you observe different results when you =
-run checkpatch in the kernel git root directory compared to the setup you h=
-ave now by just copying it into a different directory.<br>
-&gt;&gt;<br>
-&gt;&gt; But the task for now is to just run it over the last release, so e=
-.g., from v5.10 to v5.11 (which probably comes out tomorrow afternoon Pacif=
-ic Time) and create statistics on these results. If you got that, we can st=
-art finetuning.<br>
-&gt;&gt;<br>
-&gt;&gt; Please continue.<br>
-&gt;&gt;<br>
-&gt;&gt; Lukas<br>
-&gt;&gt;<br>
-&gt;=C2=A0 Hello Lukas,<br>
-&gt; I have analyzed commits and got the lists alright. Also I have analyze=
-d the errors and warnings generated by them.<br>
-&gt; Please do check my repo: checkpatch.pl-results<br>
-&gt;<br>
-<br>
-Looks good. Too bad that you cannot run on a large dataset.<br>
-<br>
-The next task is to look at three types of warnings you encounter and<br>
-describe the purpose of the check.<br>
-<br>
-Lukas<br></blockquote><div><div>Hello Lukas, <br>I have added step3 in my a=
-nalysis. <br></div><div>I have tried it a bit differently to get ALL the no=
-n merge commits between 5.10 to 5.11. Now I can work on a large dataset :) =
-Do check: <a href=3D"https://github.com/rachejazz/checkpatch.pl-results/tre=
-e/master/step3"> checkpatch.pl-results </a><br><br></div><div>Regards,<br><=
-/div><div>Divya<br></div>=C2=A0</div></div></div>
+Sure will do this. Sending you the updated patch in a while.
 
---000000000000c6161305bb89e652--
-
---===============8276850581838851607==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+Thanks!
+--Dwaipayan
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8276850581838851607==--
