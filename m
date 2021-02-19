@@ -2,70 +2,109 @@ Return-Path: <SRS0=gXAh=HV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2E6C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 10:40:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E276C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 12:12:49 +0000 (UTC)
 Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 93E5064EBD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 10:40:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93E5064EBD
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 6FFC964EB7
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 12:12:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6FFC964EB7
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3912A86B9D;
-	Fri, 19 Feb 2021 10:40:16 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 27B7386B19;
+	Fri, 19 Feb 2021 12:12:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CR6pZoGQDa3i; Fri, 19 Feb 2021 10:40:15 +0000 (UTC)
+	with ESMTP id zZK6WaQ7H7Q8; Fri, 19 Feb 2021 12:12:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 840A186A79;
-	Fri, 19 Feb 2021 10:40:15 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 7FFCE86B02;
+	Fri, 19 Feb 2021 12:12:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F1BDC000E;
-	Fri, 19 Feb 2021 10:40:15 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A6D08C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E775C000E;
+	Fri, 19 Feb 2021 12:12:44 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 10EEAC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
+ Fri, 19 Feb 2021 12:12:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id 955D0872F3
+ by smtp3.osuosl.org (Postfix) with ESMTP id 049526068A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
+ Fri, 19 Feb 2021 12:12:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2jgmXOfAs6q6
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2aICH_eW-GJw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 1FE58872D2
+ Fri, 19 Feb 2021 12:12:42 +0000 (UTC)
+Received: by smtp3.osuosl.org (Postfix, from userid 1001)
+ id 3BEEC606D8; Fri, 19 Feb 2021 12:12:42 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E8F4C6068A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A173264EB7;
- Fri, 19 Feb 2021 10:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1613731213;
- bh=RErC9QubHxzQe6XsyUGu3rb6BZK6OYuteFLCp8HvQek=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vGK43yxv3kz5h9SA9UZG1tcj6GOBLFZeMtjfjuCFnDzFpb440fVwmDdNpouB9mXHv
- s+c6SMKum2sA6x1Y97jcipBUrupBIMNL6Sp2gZC5vI19/ZWsFE/dxlouxKr7dxATFL
- E2pKQNs/XNptXI9blNNzv3OY8wdQDrm6c1UZ63wY=
-Date: Fri, 19 Feb 2021 11:40:10 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
+ Fri, 19 Feb 2021 12:12:40 +0000 (UTC)
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11JC9s9N061889;
+ Fri, 19 Feb 2021 12:12:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=seAu6hg07cIlZfvQDfSyx2dnNqdr2n5wbaEVfoJZhRY=;
+ b=L9FpuGVSc2Z8+0gsbfmX0LVLN42Ifr/TKggD1k39cwL8CLF7Hz5Fi1WxE8Xta2ZTnusi
+ M+sJIzfnaW4Rvuj0Rih4i/X8i6rBeOYnRNK+cfLCLj3hf3nUbZeSDyHX/kEn5Pr9eBaH
+ 4ofv002iT58846F6ZNXzVciXjOiOuY2RbGjZ4MCiSEGbzriEYq9Uy2hJFPAS+wpUpw+Q
+ e0V2APTRyJtiz+OxksMlHq9KOBlMoMu6iluNYs9QeEtDKR2izhPDuSMYBYjBlOuwkuom
+ 39pudXaxolmeTBu9MB1ISb2Ki7XxqkqxcPk8kei277hERVpMMqSVB4bYbTPdkQR/gsD1 aw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 36pd9agt00-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Feb 2021 12:12:34 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11JCAE8f119071;
+ Fri, 19 Feb 2021 12:12:31 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 36prq1u49b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Feb 2021 12:12:31 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 11JCCUkN010043;
+ Fri, 19 Feb 2021 12:12:30 GMT
+Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 19 Feb 2021 04:12:29 -0800
+Date: Fri, 19 Feb 2021 15:12:19 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
 To: Selvakumar Elangovan <selvakumar16197@gmail.com>
-Message-ID: <YC+Vii75qR3Mz48k@kroah.com>
+Message-ID: <20210219121219.GZ2087@kadam>
 References: <20210219095835.9687-1-selvakumar16197@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20210219095835.9687-1-selvakumar16197@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9899
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999
+ phishscore=0 adultscore=0 mlxscore=0 suspectscore=0 malwarescore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102190100
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9899
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1011
+ impostorscore=0
+ mlxscore=0 phishscore=0 mlxlogscore=999 spamscore=0 bulkscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102190100
 Cc: devel@driverdev.osuosl.org, oscar.carter@gmx.com, tvboxspy@gmail.com,
  linux-kernel@vger.kernel.org, forest@alittletooquiet.net,
  linux-kernel-mentees@lists.linuxfoundation.org
@@ -88,10 +127,15 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+You're not asking the right questions.
+
 On Fri, Feb 19, 2021 at 03:28:35PM +0530, Selvakumar Elangovan wrote:
 > This patch renames CamelCase macros uVar and uModulo into u_var and
 > u_module in device.h
 > 
+
+Is "u_var" a good name?  What does the "u_" even mean?
+
 > This issue was reported by checkpatch.pl
 > 
 > Signed-off-by: Selvakumar Elangovan <selvakumar16197@gmail.com>
@@ -111,17 +155,25 @@ On Fri, Feb 19, 2021 at 03:28:35PM +0530, Selvakumar Elangovan wrote:
 > -	if ((uVar) >= ((uModulo) - 1))			\
 > -		(uVar) = 0;				\
 > +#define ADD_ONE_WITH_WRAP_AROUND(u_var, u_modulo) {	\
+> +	if ((u_var) >= ((u_modulo) - 1))			\
 
-"u_" does not really make any sense, right?
+The \ is not aligned any more.
 
-Just use "var" and "modulo" please.
+> +		(u_var) = 0;				\
+>  	else						\
+> -		(uVar)++;				\
+> +		(u_var)++;				\
+>  }
 
-But first, why is this needed at all?  Isn't there an in-kernel function
-that should be used instead?
 
-thanks,
+This macro is rubbish.  How does the wrap around even make sense?
+I hope that if you review the code a bit I think you will find that the
+wrap around is impossible?  Just fix the two callers and delete this
+macro.
 
-greg k-h
+regards,
+dan carpenter
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
