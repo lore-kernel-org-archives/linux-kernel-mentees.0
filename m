@@ -6,78 +6,77 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0254DC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 17:55:31 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B29D0C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 17:55:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4D30764DEC
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 17:55:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4D30764DEC
+	by mail.kernel.org (Postfix) with ESMTPS id 0CAEC64DEC
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 17:55:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0CAEC64DEC
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 081698714B;
-	Fri, 19 Feb 2021 17:55:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A8A3C606FD
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 17:55:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tus7jJ--HIHa; Fri, 19 Feb 2021 17:55:29 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gDygNGs92Q3X
+	for <linux-kernel-mentees@archiver.kernel.org>;
+	Fri, 19 Feb 2021 17:55:46 +0000 (UTC)
+Received: by smtp3.osuosl.org (Postfix, from userid 1001)
+	id 9551B60700; Fri, 19 Feb 2021 17:55:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 8A9FD8713A;
-	Fri, 19 Feb 2021 17:55:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A88CE606FB;
+	Fri, 19 Feb 2021 17:55:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DE4FC000F;
-	Fri, 19 Feb 2021 17:55:29 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93CC6C000F;
+	Fri, 19 Feb 2021 17:55:44 +0000 (UTC)
 Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFA9BC000D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16345C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 17:55:28 +0000 (UTC)
+ Fri, 19 Feb 2021 17:55:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by whitealder.osuosl.org (Postfix) with ESMTP id 97AE08713A
+ by whitealder.osuosl.org (Postfix) with ESMTP id 125918714D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 17:55:28 +0000 (UTC)
+ Fri, 19 Feb 2021 17:55:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from whitealder.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DqIe6nG5iii4
+ with ESMTP id ThNTId3hDNJ7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 17:55:27 +0000 (UTC)
+ Fri, 19 Feb 2021 17:55:43 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.7.6
-Received: from smtprelay.hostedemail.com (smtprelay0011.hostedemail.com
- [216.40.44.11])
- by whitealder.osuosl.org (Postfix) with ESMTPS id 7637086A93
+Received: from smtprelay.hostedemail.com (smtprelay0247.hostedemail.com
+ [216.40.44.247])
+ by whitealder.osuosl.org (Postfix) with ESMTPS id 878118714B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 17:55:27 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave01.hostedemail.com (Postfix) with ESMTP id 3B793180F68DA
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 17:55:26 +0000 (UTC)
+ Fri, 19 Feb 2021 17:55:43 +0000 (UTC)
 Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
  [216.40.38.60])
- by smtprelay01.hostedemail.com (Postfix) with ESMTP id 834F8100E7B47;
- Fri, 19 Feb 2021 17:55:23 +0000 (UTC)
+ by smtprelay01.hostedemail.com (Postfix) with ESMTP id 75D58100E7B40;
+ Fri, 19 Feb 2021 17:55:42 +0000 (UTC)
 X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: food09_3c097ed2765f
-X-Filterd-Recvd-Size: 1969
+X-HE-Tag: tail44_090e71c2765f
+X-Filterd-Recvd-Size: 2427
 Received: from [192.168.1.159] (unknown [47.151.137.21])
  (Authenticated sender: joe@perches.com)
- by omf13.hostedemail.com (Postfix) with ESMTPA;
- Fri, 19 Feb 2021 17:55:22 +0000 (UTC)
-Message-ID: <a30afcb59bd441d90d6bba9936125c2773d830fb.camel@perches.com>
+ by omf16.hostedemail.com (Postfix) with ESMTPA;
+ Fri, 19 Feb 2021 17:55:41 +0000 (UTC)
+Message-ID: <02966e73a288d49372746d61547084e13a2fac29.camel@perches.com>
 From: Joe Perches <joe@perches.com>
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Fri, 19 Feb 2021 09:55:21 -0800
-In-Reply-To: <20210217165434.69298-2-dwaipayanray1@gmail.com>
+Date: Fri, 19 Feb 2021 09:55:40 -0800
+In-Reply-To: <20210217165434.69298-3-dwaipayanray1@gmail.com>
 References: <20210217165434.69298-1-dwaipayanray1@gmail.com>
- <20210217165434.69298-2-dwaipayanray1@gmail.com>
+ <20210217165434.69298-3-dwaipayanray1@gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v4 1/2] checkpatch: add verbose
-	mode
+Subject: Re: [Linux-kernel-mentees] [PATCH v4 2/2] docs: add documentation
+	for checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,48 +88,54 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 On Wed, 2021-02-17 at 22:24 +0530, Dwaipayan Ray wrote:
-> Add a new verbose mode to checkpatch.pl to emit additional verbose
-> test descriptions. The verbose mode is optional and can be enabled
-> by the flag -v or --verbose.
+> Add documentation for kernel script checkpatch.pl.
+> This documentation is also parsed by checkpatch to
+> enable a verbose mode.
+> 
+> The checkpatch message types are grouped by usage. Under
+> each group the types are described briefly. 34 of such
+> types are documented.
+
+Of course with more to come as you are work on them... ;)
+
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
 []
-> The verbose descriptions are not shown when the --terse option
-> is enabled.
-[]
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -2209,7 +2256,15 @@ sub report {
-> =A0		splice(@lines, 1, 1);
-> =A0		$output =3D join("\n", @lines);
-> =A0	}
-> -	$output =3D (split('\n', $output))[0] . "\n" if ($terse);
+> +    This applies for all non-functional blocks.
+> +    However, there is one special case, namely functions: they have the
+> +    opening brace at the beginning of the next line, thus::
 > +
-> +	if ($terse) {
-> +		$output =3D (split('\n', $output))[0] . "\n";
-> +	}
+> +      int function(int x)
+> +      {
+> +        body of function
+> +      }
 > +
-> +	if ($verbose &&
-> +	    exists $verbose_messages{$type}) {
-> +		$output .=3D $verbose_messages{$type} . "\n\n";
-> +	}
+> +    Ref: `Documentation/process/coding-style.rst section 3`
 
-verbose output can be silly long if repeated multiple times.
-Perhaps the verbose content should only be printed once when
-first emitted with a flag set for that type.
+Ideally, these Ref: entries should use a form with the specific section
+to jump to.  For example:
 
-Something like:
+	Ref: `https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces`
 
-	if ($verbose && exists($verbose_messages{$type}) &&
-	    !$verbose_emitted{$type}) {
-		$output .=3D ...
-		$verbose_emitted{$type} =3D 1;
-	}
+Perhaps "See: " might be better than "Ref: "
+
+	See: `https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces`
+
+> +  **CODE_INDENT**
+> +    Code indent should use tabs instead of spaces.
+> +    Outside of comments, documentation and Kconfig,
+> +    spaces are never used for indentation.
+> +    Ref: `Documentation/process/coding-style.rst section 1`
+
+	See: `https://www.kernel.org/doc/html/latest/process/coding-style.html#indentation`
+
+etc...
 
 
 _______________________________________________
