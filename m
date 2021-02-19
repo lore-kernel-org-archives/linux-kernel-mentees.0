@@ -2,96 +2,75 @@ Return-Path: <SRS0=gXAh=HV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C84E6C433E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 09:58:44 +0000 (UTC)
-Received: from whitealder.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A2E6C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 10:40:17 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 373B864E92
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 09:58:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 373B864E92
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 93E5064EBD
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Feb 2021 10:40:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 93E5064EBD
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by whitealder.osuosl.org (Postfix) with ESMTP id BEBE9805D4;
-	Fri, 19 Feb 2021 09:58:43 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 3912A86B9D;
+	Fri, 19 Feb 2021 10:40:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from whitealder.osuosl.org ([127.0.0.1])
+Received: from fraxinus.osuosl.org ([127.0.0.1])
 	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WB5MrTPv9HCt; Fri, 19 Feb 2021 09:58:42 +0000 (UTC)
+	with ESMTP id CR6pZoGQDa3i; Fri, 19 Feb 2021 10:40:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by whitealder.osuosl.org (Postfix) with ESMTP id 9DECE8306B;
-	Fri, 19 Feb 2021 09:58:42 +0000 (UTC)
+	by fraxinus.osuosl.org (Postfix) with ESMTP id 840A186A79;
+	Fri, 19 Feb 2021 10:40:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95CA8C000F;
-	Fri, 19 Feb 2021 09:58:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F1BDC000E;
+	Fri, 19 Feb 2021 10:40:15 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C9E76C000D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6D08C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 09:58:41 +0000 (UTC)
+ Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id C154887422
+ by hemlock.osuosl.org (Postfix) with ESMTP id 955D0872F3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 09:58:41 +0000 (UTC)
+ Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2LqwLwcsP43s
+ with ESMTP id 2jgmXOfAs6q6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 09:58:41 +0000 (UTC)
+ Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
- [209.85.215.169])
- by hemlock.osuosl.org (Postfix) with ESMTPS id 184338741E
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 1FE58872D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 09:58:41 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id o38so3605609pgm.9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 01:58:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=9R7TqZBC+3ku7IayrARzfjApMcK4UJZfz3xwuRBDZoU=;
- b=rhErhTWx/rsHtg84Tlq7Cl7aiIuZldMn3rlvsQySywuE5mIExqh/EcuMe/5uWqrWPc
- X0ZH3JU4Zo89eG/pq638CmZlwvdgC38EOLXdEtxuq3yTiqJ6FhNQl0KTe1NGTrcYr3GA
- /wwmNNzHuMUfldh5rACGTQAsR6CvtAq9BghUN3CkLx4HSHLB/Ht8lFAuRFFxaOpUrwuK
- KnPC5notjGtMan8Yi6EBaU7TU8ZPFd4cBkVROLlOJUlPimpuszdwRbzb82yVSd/Ob/DG
- bbD8pqcc2ZcT1ZGyyCCsmzG7JJmpi6fFfnhamrD+7bgdAatTQFYSDKuFGillgc14GMOP
- rBHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=9R7TqZBC+3ku7IayrARzfjApMcK4UJZfz3xwuRBDZoU=;
- b=K4V/kGuO3m8SoQuUlR5KAq5E56K0X3R1eIMEmHP1O0k3hvQvzUK+YJvQHF4Apy/FUg
- ATfTG+hyQiksDpK85PYVAwywqySzsIgIu1VZpLmokgxlhJ1z+M9Bv0kRjp5L0BL9m5wS
- XGQjh9f41zzICSk6smLyyujHElVZwJyj2d8uGC7nKxeC5nUqUDe3GTKZVNjiMNQN95Fo
- QmG71Q43AsWHAV56Jji4WhPUwCRoT0XoxGrqLyySuhkHcLQUHG7+SnysKpM0Xqds5dy+
- md/bidUuTgWvipWB/FDlT+B+WMft4Btz9rryrA2kgUtGu1XcEhL///FS7w2UPiQr0j23
- G8Lg==
-X-Gm-Message-State: AOAM533tKdCBU5EPZA5sX3BMUcoABZ4z2SZzkwoZUGp5illUppuU6Y/j
- C5cr6MgugvzrEl2LOiUyn+k=
-X-Google-Smtp-Source: ABdhPJwfXKl74BMTlb9TrVSg1BpPcW2GcKyq81oK/YUci3i9Db+JCllTh0I19NhAodM+qs1oBsVSDA==
-X-Received: by 2002:a63:4e44:: with SMTP id o4mr7970778pgl.46.1613728720586;
- Fri, 19 Feb 2021 01:58:40 -0800 (PST)
-Received: from localhost.localdomain ([116.73.181.117])
- by smtp.gmail.com with ESMTPSA id i15sm3980371pjl.54.2021.02.19.01.58.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 01:58:40 -0800 (PST)
-From: Selvakumar Elangovan <selvakumar16197@gmail.com>
-To: forest@alittletooquiet.net, gregkh@linuxfoundation.org, tvboxspy@gmail.com,
- oscar.carter@gmx.com
-Date: Fri, 19 Feb 2021 15:28:35 +0530
-Message-Id: <20210219095835.9687-1-selvakumar16197@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: devel@driverdev.osuosl.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] staging: vt6656: fixed a CamelCase
-	coding style issue.
+ Fri, 19 Feb 2021 10:40:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A173264EB7;
+ Fri, 19 Feb 2021 10:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1613731213;
+ bh=RErC9QubHxzQe6XsyUGu3rb6BZK6OYuteFLCp8HvQek=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vGK43yxv3kz5h9SA9UZG1tcj6GOBLFZeMtjfjuCFnDzFpb440fVwmDdNpouB9mXHv
+ s+c6SMKum2sA6x1Y97jcipBUrupBIMNL6Sp2gZC5vI19/ZWsFE/dxlouxKr7dxATFL
+ E2pKQNs/XNptXI9blNNzv3OY8wdQDrm6c1UZ63wY=
+Date: Fri, 19 Feb 2021 11:40:10 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Selvakumar Elangovan <selvakumar16197@gmail.com>
+Message-ID: <YC+Vii75qR3Mz48k@kroah.com>
+References: <20210219095835.9687-1-selvakumar16197@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210219095835.9687-1-selvakumar16197@gmail.com>
+Cc: devel@driverdev.osuosl.org, oscar.carter@gmx.com, tvboxspy@gmail.com,
+ linux-kernel@vger.kernel.org, forest@alittletooquiet.net,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [Linux-kernel-mentees] [PATCH] staging: vt6656: fixed a
+	CamelCase coding style issue.
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,46 +82,46 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch renames CamelCase macros uVar and uModulo into u_var and
-u_module in device.h
+On Fri, Feb 19, 2021 at 03:28:35PM +0530, Selvakumar Elangovan wrote:
+> This patch renames CamelCase macros uVar and uModulo into u_var and
+> u_module in device.h
+> 
+> This issue was reported by checkpatch.pl
+> 
+> Signed-off-by: Selvakumar Elangovan <selvakumar16197@gmail.com>
+> ---
+>  drivers/staging/vt6656/device.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/vt6656/device.h b/drivers/staging/vt6656/device.h
+> index 947530fefe94..6615d356f74a 100644
+> --- a/drivers/staging/vt6656/device.h
+> +++ b/drivers/staging/vt6656/device.h
+> @@ -385,11 +385,11 @@ struct vnt_private {
+>  	struct ieee80211_low_level_stats low_stats;
+>  };
+>  
+> -#define ADD_ONE_WITH_WRAP_AROUND(uVar, uModulo) {	\
+> -	if ((uVar) >= ((uModulo) - 1))			\
+> -		(uVar) = 0;				\
+> +#define ADD_ONE_WITH_WRAP_AROUND(u_var, u_modulo) {	\
 
-This issue was reported by checkpatch.pl
+"u_" does not really make any sense, right?
 
-Signed-off-by: Selvakumar Elangovan <selvakumar16197@gmail.com>
----
- drivers/staging/vt6656/device.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Just use "var" and "modulo" please.
 
-diff --git a/drivers/staging/vt6656/device.h b/drivers/staging/vt6656/device.h
-index 947530fefe94..6615d356f74a 100644
---- a/drivers/staging/vt6656/device.h
-+++ b/drivers/staging/vt6656/device.h
-@@ -385,11 +385,11 @@ struct vnt_private {
- 	struct ieee80211_low_level_stats low_stats;
- };
- 
--#define ADD_ONE_WITH_WRAP_AROUND(uVar, uModulo) {	\
--	if ((uVar) >= ((uModulo) - 1))			\
--		(uVar) = 0;				\
-+#define ADD_ONE_WITH_WRAP_AROUND(u_var, u_modulo) {	\
-+	if ((u_var) >= ((u_modulo) - 1))			\
-+		(u_var) = 0;				\
- 	else						\
--		(uVar)++;				\
-+		(u_var)++;				\
- }
- 
- int vnt_init(struct vnt_private *priv);
--- 
-2.17.1
+But first, why is this needed at all?  Isn't there an in-kernel function
+that should be used instead?
 
+thanks,
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
