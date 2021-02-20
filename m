@@ -2,100 +2,100 @@ Return-Path: <SRS0=XQRh=HW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9E7C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Feb 2021 06:28:01 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 107C5C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Feb 2021 12:02:21 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E805864E92
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Feb 2021 06:28:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E805864E92
+	by mail.kernel.org (Postfix) with ESMTPS id 94ED264EDB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Feb 2021 12:02:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94ED264EDB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 783486F619
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Feb 2021 06:28:00 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 6A69E874DC;
+	Sat, 20 Feb 2021 12:02:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5vmoyJs57x25; Sat, 20 Feb 2021 12:02:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by hemlock.osuosl.org (Postfix) with ESMTP id A3562874C7;
+	Sat, 20 Feb 2021 12:02:19 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 907B5C000A;
+	Sat, 20 Feb 2021 12:02:19 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7E54FC0001
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 20 Feb 2021 12:02:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6A09D6F55F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 20 Feb 2021 12:02:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id E5OjN66nf-HA
-	for <linux-kernel-mentees@archiver.kernel.org>;
-	Sat, 20 Feb 2021 06:27:59 +0000 (UTC)
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Gei6PENUTYxJ
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 20 Feb 2021 12:02:17 +0000 (UTC)
 Received: by smtp3.osuosl.org (Postfix, from userid 1001)
-	id E9FBF6F4B8; Sat, 20 Feb 2021 06:27:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CB3716F4B8;
-	Sat, 20 Feb 2021 06:27:56 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C50FC000B;
-	Sat, 20 Feb 2021 06:27:56 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2189DC0001
+ id B208E6F500; Sat, 20 Feb 2021 12:02:17 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E34496F60A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Feb 2021 06:27:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by fraxinus.osuosl.org (Postfix) with ESMTP id 0707886BB2
+ Sat, 20 Feb 2021 12:02:16 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id 17so1560560pli.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Feb 2021 06:27:54 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
- by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7LnOpU7UaJeB
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Feb 2021 06:27:53 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
- [209.85.166.46])
- by fraxinus.osuosl.org (Postfix) with ESMTPS id EDBA786BA8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Feb 2021 06:27:52 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id k17so161557ioc.5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Feb 2021 22:27:52 -0800 (PST)
+ Sat, 20 Feb 2021 04:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cbhfHHRIUaZy8yAJGu8fLFh9WOmxHPl60f50bXM7zwo=;
- b=HRXdEKtvf9vgz47G1cFkpU6z5Ea5Es/FYQdYNgksGTbBybgWgmNmEkp4rUNyeQZCoF
- j6O3IUwc75w4wBH7Mh1bZt9eDpgg2aqGR6cesxUI0p9xbwSq/zffQ8GHbt2PuYoJrk6I
- W7yvIBxQ3dSb7b1UItfnH1RnIHgJZDWLvBXP30LSV+PFE8SGhHTTyCS+JISfl4fC/79b
- EV3286239qCeESz+SfqysFOcyp5r7GCJw1NOaS/cl0qQnsmI/MoScMoTyO6SqpgiQLmT
- rscaBLSg2JhOjzaTEn4t++VDAds0L0ho3+jeNtiVleoC8BVL+AmKMc/vp6GCrX+urqBl
- PPVg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PYn75oOTsCK1wv+wG6RJjEvw1yuvJVUno/JpN+AI5ys=;
+ b=OI4MHEvQ/wRgHvcO2KzDnyInh0WB1yDezlJN10IBMm9fnata2or1Xv4bqd6JAg15h0
+ 68psk5RI8qSNFNuCkb5hnOKPoQz0l73QfZEDy1XfjI8xfaFiVI7bO6hHGQgXvV0hi6A0
+ bnatR5EuH8N95/qQQP7/t6GuGId+vm93r7qVWhO9wnVskJ3PN2us5DQRwoaJRL4TM/2u
+ 6+QDJss+qSr+0Lb6emHTwB4hooNKoKCvshQ3i0o5pnEgTvIbH1749nhDEpi4Zbp+In0h
+ 0LXLPacJEyjADei5Ii+zn+mlGN8EbF+PszFcw7bfZgAGSleGqbd7IOzRrOlAy9XWHBv3
+ O1CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cbhfHHRIUaZy8yAJGu8fLFh9WOmxHPl60f50bXM7zwo=;
- b=cTYQYZB607NY7Hga+klrTfL52MuNtSLzqiSAfm4mrCjHn49OTNfbJ8YVyr9UXzjOO5
- y1337AFnguvDNHUjmhz33PdrVwCwQFuE6KdeV5rxHMQHOVUPtedraG2g5Cd6T9Axhfwx
- IJxaqyz5S0coo65CFSGpwKdHs/b9IbA8idE1nNdr7K8GkJDXhfMCrJyGogKEHvyOWu5B
- 9sx3t45+1D6I8Y8kQu0Hx5FpAYMPkYyM0vTvruh9LhGeMN6X3gmTB6WSKl9s5U+MzqXw
- ZiKpmGG/zoRkGCAGEMh6O27p+wk75Cqs+S+EVO5+Kn+2yZ/PpvtaIs74Z2/ObsLxzycd
- Y1yw==
-X-Gm-Message-State: AOAM530jdXghDT0vQ9x4RNWBXejI1NW0J6WE4i8R2YjyosNO6zqzt4qr
- 0Tf/WB0B+AwewnSG3SyvSYT/09coX4TlidS1+kY=
-X-Google-Smtp-Source: ABdhPJx1RfWuVeA2Vy5Otxd772m3nvFKCMmiiHWZ/qHRV3FMId+h+cZs0K/hWTNXSAQ3KtWeZysSnHoTexLEyyMZJc8=
-X-Received: by 2002:a5e:8f49:: with SMTP id x9mr7220367iop.189.1613802472221; 
- Fri, 19 Feb 2021 22:27:52 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PYn75oOTsCK1wv+wG6RJjEvw1yuvJVUno/JpN+AI5ys=;
+ b=tfWQh1/LaI52kFg034WxgaiBI0XN6SELb7lwNcanTS0M3ZlUi9Bqul53omDchyc8TL
+ sZX4QlpEyGwg5z50dGZf1CB/r7JCZsICzHlleBBECltTsGvAVTkidYusdTofkMBYQH1g
+ Iq3Rwfgv9NgXK8GXYkDawFu7YPFNRCa6nVwBhx0YNWS/3u7L8DTyKFG1Sgkh3u94iGdN
+ JDEYbNDQBJHKfLUQ4em2qdXYctYyaygVwPA/YB+UoIJR+GiTmgSI5/vKuuHkEOdQNUn2
+ Tm6gYuWwn2uCN3pM47YfZrvYV2rdP15qf2VL+iJz3Vptux+rYQCwFxb1wPxo6qzKc/Hz
+ 9p9A==
+X-Gm-Message-State: AOAM530ru+BMVPWj2Ed7VGDdrW6RPkqaGwX0Y0qYEZgHIzE4iA6p6jcr
+ RweQVLA7gQFZIHhek9/5phA=
+X-Google-Smtp-Source: ABdhPJw8Ulbtwws1WMMTR78vSG9oRFTWz5Ft7TjAAkbmFL4NTAgGjmgHHU90xqXMQ8/8G/Ivg8/+Rg==
+X-Received: by 2002:a17:90b:ec5:: with SMTP id
+ gz5mr13909019pjb.34.1613822536222; 
+ Sat, 20 Feb 2021 04:02:16 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:6b3c:bf56:7f84:6ce5:cf93])
+ by smtp.gmail.com with ESMTPSA id ml7sm6567046pjb.28.2021.02.20.04.02.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Feb 2021 04:02:15 -0800 (PST)
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+To: joe@perches.com
+Date: Sat, 20 Feb 2021 17:32:18 +0530
+Message-Id: <20210220120220.32585-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <20210217145625.14006-1-yashsri421@gmail.com>
-In-Reply-To: <20210217145625.14006-1-yashsri421@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sat, 20 Feb 2021 07:27:41 +0100
-Message-ID: <CAKXUXMx+DEh6Mso_dxA1-NbYZaugUQ9JBfjb4+yyouw2AFPdfA@mail.gmail.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [Linux-kernel-mentees] [RFC] scripts: kernel-doc: fix array
- element capture in pointer-to-func parsing
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
+Subject: [Linux-kernel-mentees] [PATCH v5 0/2] checkpatch: add verbose mode
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,106 +113,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Feb 17, 2021 at 3:56 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
->
-> Currently, kernel-doc causes an unexpected error when array element (i.e.,
-> "type (*foo[bar])(args)") is present as pointer parameter in
-> pointer-to-function parsing.
->
-> For e.g., running kernel-doc -none on kernel/gcov/gcc_4_7.c causes this
-> error:
-> "Use of uninitialized value $param in regexp compilation at ...", in
-> combination with:
-> "warning: Function parameter or member '' not described in 'gcov_info'"
->
-> Here, the parameter parsing does not take into account the presence of
-> array element (i.e. square brackets) in $param.
->
-> Provide a simple fix by adding square brackets in the regex, responsible
-> for capturing $param.
->
-> A quick evaluation, by running 'kernel-doc -none' on entire kernel-tree,
-> reveals that no additional warning or error has been added or removed by
-> the fix.
->
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> * Applies perfectly over next-20210217
->
+Add a new verbose mode to checkpatch. The verbose test
+descriptions are read from the checkpatch documentation
+file at `Documentation/dev-tools/checkpatch.rst`.
 
-Aditya, Jonathan,
+The verbose mode is optional and can be enabled by the
+flag -v or --verbose.
 
-I have tested this change with:
+The documentation file is only parsed by checkpatch.pl
+if the verbose mode is enabled. The verbose mode can
+not be used together with the --terse option.
 
-git ls-files | xargs ./scripts/kernel-doc -none 2>&1 | tee kernel-doc-output
+Changes in v5:
+- Change the reference format to use absolute links.
+- Print verbose descriptions only for the first time
+  a message type is encountered.
 
-Applied the patch, and re-ran that command and compared the diff.
+Changes in v4:
+- Change the type description format
+- Group the message types by usage
+- Make handling of --terse with --verbose simpler
 
-First, I observed that ./scripts/kernel-doc is not fully deterministic
-on my machine, although I could not really pinpoint it to the exact
-reason where that comes in.
+Changes in v3:
+- Simplify documentation file parsing in checkpatch
+- Document a total of 33 message types for checkpatch
 
-Secondly, more importantly, the relevant diff affected by this patch is:
+Changes in v2:
+- Use .rst Field Lists to specify the type descriptions.
+- Add a few more type descriptions to documentation.
 
-< Use of uninitialized value $param in regexp compilation at
-./scripts/kernel-doc line 1559, <IN_FILE> line 308.
-< Use of uninitialized value $actual in substitution (s///) at
-./scripts/kernel-doc line 1523, <IN_FILE> line 308.
-< Use of uninitialized value $actual in substitution (s///) at
-./scripts/kernel-doc line 1523, <IN_FILE> line 308.
-< Use of uninitialized value $param in substitution (s///) at
-./scripts/kernel-doc line 1617, <IN_FILE> line 308.
-< Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1651, <IN_FILE> line 308.
-< Use of uninitialized value $param in pattern match (m//) at
-./scripts/kernel-doc line 1651, <IN_FILE> line 308.
-< Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1652, <IN_FILE> line 308.
-< Use of uninitialized value $param in pattern match (m//) at
-./scripts/kernel-doc line 1654, <IN_FILE> line 308.
-< Use of uninitialized value $param in concatenation (.) or string at
-./scripts/kernel-doc line 1655, <IN_FILE> line 308.
-< drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.h:308:
-warning: Function parameter or member '' not described in
-'brcmf_fweh_info'
-< Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1672, <IN_FILE> line 308.
+Dwaipayan Ray (2):
+  checkpatch: add verbose mode
+  docs: add documentation for checkpatch
 
+ Documentation/dev-tools/checkpatch.rst | 526 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ scripts/checkpatch.pl                  |  63 ++-
+ 3 files changed, 587 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
 
-< Use of uninitialized value $param in regexp compilation at
-./scripts/kernel-doc line 1559, <IN_FILE> line 96.
-< Use of uninitialized value $actual in substitution (s///) at
-./scripts/kernel-doc line 1523, <IN_FILE> line 96.
-< Use of uninitialized value $actual in substitution (s///) at
-./scripts/kernel-doc line 1523, <IN_FILE> line 96.
-< Use of uninitialized value $param in substitution (s///) at
-./scripts/kernel-doc line 1617, <IN_FILE> line 96.
-< Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1651, <IN_FILE> line 96.
-< Use of uninitialized value $param in pattern match (m//) at
-./scripts/kernel-doc line 1651, <IN_FILE> line 96.
-< Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1652, <IN_FILE> line 96.
-< Use of uninitialized value $param in pattern match (m//) at
-./scripts/kernel-doc line 1654, <IN_FILE> line 96.
-< Use of uninitialized value $param in concatenation (.) or string at
-./scripts/kernel-doc line 1655, <IN_FILE> line 96.
-< kernel/gcov/gcc_4_7.c:96: warning: Function parameter or member ''
-not described in 'gcov_info'
-< Use of uninitialized value $param in hash element at
-./scripts/kernel-doc line 1672, <IN_FILE> line 96.
+-- 
+2.30.0
 
-So, I can confirm that the mentioned issue is really resolved with
-this patch, and that deserves a tag:
-
-Tested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-Thanks, Aditya. When can we expect the next patch for ./scripts/kernel-doc?
-
-Looking forward to running the next test :)
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
