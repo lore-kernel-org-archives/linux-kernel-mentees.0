@@ -2,95 +2,79 @@ Return-Path: <SRS0=c16L=HY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B6BBC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 18:09:55 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D98C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:33:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CC15A64E25
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 18:09:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CC15A64E25
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5EA8364E25
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:33:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5EA8364E25
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 159936EB4D;
-	Mon, 22 Feb 2021 18:09:54 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0D55B83A8E;
+	Mon, 22 Feb 2021 21:33:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Auj3GsGOALYg; Mon, 22 Feb 2021 18:09:53 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 85cGOdD6dN8x; Mon, 22 Feb 2021 21:33:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7FE5A6001E;
-	Mon, 22 Feb 2021 18:09:51 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A57D183A8C;
+	Mon, 22 Feb 2021 21:33:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5CAD2C000A;
-	Mon, 22 Feb 2021 18:09:51 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CC629C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 86768C000A;
+	Mon, 22 Feb 2021 21:33:40 +0000 (UTC)
+Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85152C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 18:09:49 +0000 (UTC)
+ Mon, 22 Feb 2021 21:33:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3002D6EB4D
+ by fraxinus.osuosl.org (Postfix) with ESMTP id 749798539A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 18:09:48 +0000 (UTC)
+ Mon, 22 Feb 2021 21:33:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NS-8SbI6aQzq
+Received: from fraxinus.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VxNFBJ4csfE7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 18:09:45 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
- [209.85.166.44])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C7FAE6001E
+ Mon, 22 Feb 2021 21:33:34 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by fraxinus.osuosl.org (Postfix) with ESMTPS id 220CD851C2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 18:09:43 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id u20so14207930iot.9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 10:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+giKpRbegYYfbOyat5lyHFg99I4++GstldCObu1z82w=;
- b=GaaRmKxeR67OQoVmLXevbUUsL9qxK17fXoTFCZ3PIEa+MXI9+9xXs7/8pwsf3YpVTv
- tB2y/vkcDrZZpGKHyDG3XqsxEC97QJwO8ite2CqH+c9q3z1PINPHRE4nhjoqx7lM7/yd
- S+t+5ZQrpKOZ7e3xESmEs213W11mdN+LZiej9iZufgiOXlgW3x9Gqs34YbuisGQmO2uW
- 5xbs/BgCxHFIq9O+vB3O4Uu9d4s5PxzaR52IK8Ooh8y0DWn2a7S9s9qjxG4TrxeaBfGB
- 3M5PEQvSeelfNwZOCWbo7aqgei24aQio3GY4bFQRrEv9CtQbwhpvrHsZiuYwuo1DlY3v
- dMyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+giKpRbegYYfbOyat5lyHFg99I4++GstldCObu1z82w=;
- b=LgDsEc+p2pa0SV5PVpSGwWh/rYe/wS2Z3rqqjAxgF3FAXhGFsyUU0H6F87SGvonrj4
- 08KR/O0iDWD3Uavg0ejesBeOKCRMcw0h+ei6OELjLZ2QZ4EehnoXA0MEKkDF8ZNhhRTi
- a2Cepoh5+9kjk/nRgyrrGlQB0l4ntc3RHtq+sRYUvhWFZ2zdYRLoPZcl162AEmHHiWvN
- A5TJYvwCvK7haYQb8QoLWTKooWdgWfdt5EsU3KH59ec9mKo1TJ2A2XVxW4DDwoV6MNQJ
- PYfuOTAV1LJGj8ecBNs1RGfkU/ERnCqmeQcKNEJ1+JL695fJwbvZhL/lwAcBv8pZEd+I
- jqcA==
-X-Gm-Message-State: AOAM532/Vy9os0njyDzBb6Ne+OYRF176ZuyOrJnDH77XK2pKNQNWE46w
- NH9MvoLEjspN1LDXLvrEWPEB8k7eE5mqIjMsb5E=
-X-Google-Smtp-Source: ABdhPJwu/x3We4/pQ4Y4FXmVZq+ZxyPHRck/C5c6TTZLxn+mTRU0uSshu5w3Vt5KSr+xiwXgT883A/jM2ipmN0cmvYk=
-X-Received: by 2002:a05:6602:314b:: with SMTP id
- m11mr2852611ioy.158.1614017381531; 
- Mon, 22 Feb 2021 10:09:41 -0800 (PST)
+ Mon, 22 Feb 2021 21:33:33 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 0FB7B2B7;
+ Mon, 22 Feb 2021 21:33:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0FB7B2B7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1614029613; bh=bL4sbefqoOVp9OCqDyDEVtsiOHFV5JJR/crNNp2k3pM=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=VKmOuPKu3fJG5P5HH+PnRU/+xrc8DgTCfef6J3Gozkc/h7IU1qRRHZRQ86K3faEae
+ XK02k7S+AJnH69MywGMCq5CPy91M+pW7TsNc6Wf1CWC3d+CM/uyoMaQo+hOM+nKG1q
+ sLvELn44CiV5xcL04T6edwL5I2ANJ3TGAM+BpYbut3h7l+Sbk9FLBjzgw766QNH5BS
+ iuXCncnezFRYMJM4BpunAwJ8cZVeqRSSoMIb3i4506nsvfSHBA65ZKs10sNmEnzHMj
+ JsY2R7g7R5+RGcg+1xrqygBkSX8fR/TR3Jv8rggMpzLzwG4ULlhV1HdBQHSJaZoRvY
+ PhwwVmINpkNqg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aditya Srivastava <yashsri421@gmail.com>
+In-Reply-To: <20210217145625.14006-1-yashsri421@gmail.com>
+References: <20210217145625.14006-1-yashsri421@gmail.com>
+Date: Mon, 22 Feb 2021 14:33:32 -0700
+Message-ID: <878s7flrdf.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
-In-Reply-To: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 22 Feb 2021 19:09:30 +0100
-Message-ID: <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
-To: Aditya <yashsri421@gmail.com>
-Cc: "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [Linux-kernel-mentees] Investigating parsing error for
-	struct/union
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, yashsri421@gmail.com
+Subject: Re: [Linux-kernel-mentees] [RFC] scripts: kernel-doc: fix array
+ element capture in pointer-to-func parsing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,119 +92,60 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Feb 22, 2021 at 6:27 PM Aditya <yashsri421@gmail.com> wrote:
->
-> Hi Jonathan, Lukas
->
-> While investigating "error: Cannot parse struct or union!", I
-> discovered few more patterns causing this error:
-> 1) A large part of this error(~80%) occurs due to the presence of one
-> or more lines(such as '#define' lines) between commented code and
-> struct declaration.
->
-> For e.g., in include/linux/platform_data/apds990x.h:
->
-> /**
->  * struct apds990x_chip_factors - defines effect of the cover window
->  * @ga: Total glass attenuation
->  * @cf1: clear channel factor 1 for raw to lux conversion
->  * @irf1: IR channel factor 1 for raw to lux conversion
->  * @cf2: clear channel factor 2 for raw to lux conversion
->  * @irf2: IR channel factor 2 for raw to lux conversion
->  * @df: device factor for conversion formulas
->  *
->  * Structure for tuning ALS calculation to match with environment.
->  * Values depend on the material above the sensor and the sensor
->  * itself. If the GA is zero, driver will use uncovered sensor default
-> values
->  * format: decimal value * APDS_PARAM_SCALE except df which is plain
-> integer.
->  */
-> #define APDS_PARAM_SCALE 4096
-> struct apds990x_chip_factors {
->         int ga;
->         int cf1;
->         int irf1;
->         int cf2;
->         int irf2;
->         int df;
-> };
->
->
+Aditya Srivastava <yashsri421@gmail.com> writes:
 
-Aditya, I independently made a similar observation and noted this
-issue in my personal notes, which will serve for a cleanup patch
-series, as follows:
-
-"SKIP DEFINITIONS" Feature:
-
-The kernel-doc should proceed the code, and the required definition of
-data structures should stay close to the function in between the
-kernel-doc comment and the function definition.
-
-Let kernel-doc know to skip certain definitions; the actual definition
-documented will follow directly after the skipped definitions.
-
-E.g.,
-
-include/linux/cgroup.h:450: task_css_set_check: SKIP DEFINITIONS
-(struct mutex cgroup_mutex; spinlock_t css_set_lock)
-include/linux/hid-sensor-hub.h:174:
-sensor_hub_input_attr_get_raw_value: SKIP DEFINITIONS (enum
-sensor_hub_read_flags)
-
-I have not thought about a good syntax for that:
-
-maybe something like:
-/**
-* foo - description
-*
-* @arg: description
-*
-* ::skip: struct bar, enum blub, define MACRO
-*/
-
-where "::" serves as some annotation to instruct kernel-doc
-
-> 2) If struct does not contain any members, for e.g., in
-> include/linux/xz.h:
+> Currently, kernel-doc causes an unexpected error when array element (i.e.,
+> "type (*foo[bar])(args)") is present as pointer parameter in
+> pointer-to-function parsing.
 >
-> /**
->  * struct xz_dec - Opaque type to hold the XZ decoder state
->  */
-> struct xz_dec;
->
-> Here, it causes error as the curly braces and members expected by the
-> regex, are absent.
-> This kind of use has also been made in include/linux/zstd.h:
->
-> /**
->  * struct ZSTD_DDict - a digested dictionary to be used for decompression
->  */
-> typedef struct ZSTD_DDict_s ZSTD_DDict;
->
->
-> 3) Different Syntax than expected. For e.g.:
->     a) struct xyz struct_name {} syntax. This syntax has been used in
-> arch/arm/mach-omap2/omap_hwmod_common_data.c file
->     b) "static __maybe_unused const struct st_sensors_platform_data
-> default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
-> This kind of syntax has also been used in
-> drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
->
-> I wanted to take your opinion if we should extend support for any of
-> these syntax, causing the error. If not, perhaps we can make the
-> documentation a bit clear, atleast for (1), which causes most of these
-> errors; so as to not include any lines between comment and struct
-> declaration.
->
-> What do you think?
->
+> For e.g., running kernel-doc -none on kernel/gcov/gcc_4_7.c causes this
+> error:
+> "Use of uninitialized value $param in regexp compilation at ...", in
+> combination with:
+> "warning: Function parameter or member '' not described in 'gcov_info'"
 
-I certainly appreciate it if you could work on that SKIP_DEFINITION
-feature, once we agreed on some first syntax for this feature.
+In the future, please quote error messages from the kernel verbatim.
+You can trim irrelevant stuff before or after, but please do not edit
+them in this way.  That helps me to understand what you are fixing, and
+is also useful for anybody else who might be searching for a solution to
+the same problem.
 
-Lukas
+> Here, the parameter parsing does not take into account the presence of
+> array element (i.e. square brackets) in $param.
+>
+> Provide a simple fix by adding square brackets in the regex, responsible
+> for capturing $param.
+>
+> A quick evaluation, by running 'kernel-doc -none' on entire kernel-tree,
+> reveals that no additional warning or error has been added or removed by
+> the fix.
+>
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+> * Applies perfectly over next-20210217
+>
+>  scripts/kernel-doc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index e046e16e4411..8b5bc7bf4bb8 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1553,7 +1553,7 @@ sub create_parameterlist($$$$) {
+>  	} elsif ($arg =~ m/\(.+\)\s*\(/) {
+>  	    # pointer-to-function
+>  	    $arg =~ tr/#/,/;
+> -	    $arg =~ m/[^\(]+\(\*?\s*([\w\.]*)\s*\)/;
+> +	    $arg =~ m/[^\(]+\(\*?\s*([\w\[\]\.]*)\s*\)/;
+>  	    $param = $1;
+>  	    $type = $arg;
+>  	    $type =~ s/([^\(]+\(\*?)\s*$param/$1/;
+> -- 
+
+...meanwhile, I have applied this one, thanks.
+
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
