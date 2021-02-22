@@ -2,96 +2,99 @@ Return-Path: <SRS0=c16L=HY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A6F8C433E6
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 16:03:59 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA7DC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 17:27:29 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CADC564D73
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 16:03:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CADC564D73
+	by mail.kernel.org (Postfix) with ESMTPS id 8D0B364EEC
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 17:27:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D0B364EEC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 87DBB6F591;
-	Mon, 22 Feb 2021 16:03:58 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id 585988701E;
+	Mon, 22 Feb 2021 17:27:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qqsYrWJX22JO; Mon, 22 Feb 2021 16:03:57 +0000 (UTC)
+Received: from hemlock.osuosl.org ([127.0.0.1])
+	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id shFKmVRvT2pG; Mon, 22 Feb 2021 17:27:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9ACB96F56D;
-	Mon, 22 Feb 2021 16:03:57 +0000 (UTC)
+	by hemlock.osuosl.org (Postfix) with ESMTP id D2F3286DEA;
+	Mon, 22 Feb 2021 17:27:27 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8843BC000B;
-	Mon, 22 Feb 2021 16:03:57 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AD75EC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C56A4C000A;
+	Mon, 22 Feb 2021 17:27:27 +0000 (UTC)
+Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 38B38C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 16:03:56 +0000 (UTC)
+ Mon, 22 Feb 2021 17:27:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 8B8B183A55
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2310586E5B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 16:03:56 +0000 (UTC)
+ Mon, 22 Feb 2021 17:27:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id w70Lfu6jk3GO
+Received: from hemlock.osuosl.org ([127.0.0.1])
+ by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id eSij-3KaZ8ba
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 16:03:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+ Mon, 22 Feb 2021 17:27:26 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
 Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
  [209.85.214.173])
- by smtp1.osuosl.org (Postfix) with ESMTPS id CE34C83A51
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 944C486DEA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 16:03:55 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id k22so8009965pll.6
+ Mon, 22 Feb 2021 17:27:26 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id e9so8163696plh.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 08:03:55 -0800 (PST)
+ Mon, 22 Feb 2021 09:27:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=g/df7huNH6MfWEYwBa1KL4hvVPRnxd7sYN0b7qrS+Eo=;
- b=YP9xzY8apNP3InqG+PM1WTiqx1/NMTiW4Hjvdj2gSAg9FlQ8zEwFWKnqERvnc5D267
- eB3iLEJYcvnfae/4iFq6m9bZpvBfg2nFHXDZzIGNkWp7nFxrZm66AJVldpKP/Rn2G+CF
- z5nbRNt/5Sh6XRXpq56MxX0Vnl5/6+v5S5QBL7k3kWamaW8TcDRxcwU2n3QJmFkMFwiM
- 3XE+nR2lW9wTN6306HphrG78dAExYFAv8nzY3GkeyBLVuem0Fahpzn/ryDcQmb/Vdo8+
- uDhGPvIf6hTom85/o7UMA4EFIdoYLupLV0yyPA97EShNNOm7iOqOxNWG0FLj1PRmGYyw
- aSfA==
+ h=to:cc:from:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=edcfb6u/1BZN0KQqup+/d7AkLC2yW/srYObkME7xBZw=;
+ b=WQVEROLZ/gB3RzKmDk5qFHfwaGxNwkrLQN0J/bFqnSSFzhuAy7x3pFQ8jlpZ7ZD3ll
+ TYTuE+x07gkfKrYoip61kR6eR3uu4Wxb25u2EgUU3KjsdJSo81W0gkD89mH3YV0QN6c5
+ BDPzjqP8LWC1LAHsgBOtphwnuEYAeOG6voZZZid1mVyW5WO5pRWCu8Sk1cz4Qnli7JiC
+ BDojUO+Y8W4HB0HJZ3uyfo+V6wm5dLemqjwcOUW810l/I1BuckNRdziovy4rAf4fSy70
+ W3n+G06fQd+woOgHozPIl14hD98+AV/5hmbzfRtdPpzF/yiOzLff6qLXLYLrBFEQbqEK
+ 4+3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=g/df7huNH6MfWEYwBa1KL4hvVPRnxd7sYN0b7qrS+Eo=;
- b=tgau6BniHZmUiHL8Gm26ioHxtmcxMTmYDrgeRo8ujAyxnX5Bl5X+YON/ZR2qy2i1gc
- 8cxoG0O8jvBMj3mNVkocATBzWE7CJUKIuACsBCMF8TIyUWCvS0xCPmJaxbbqlKwSKzB8
- dsQG7dqZUsVysv52t8jT38AmX5QiAFs9GBWBxP2BwgQ0rq7y9CzN9tkuaXhYLAEBZBeo
- jpUcO2s+qsBBK0Wx56pGFoKnoB8p99YTxj5u97VdbVNfXxlyWdVKFBDQaMoMxdf8dcoi
- kHChCy6c/73/rc53mab6hPg0j3NVnQ1U6mx9QwwARNYEmjhz435wk0sKx1G0RgtTC4u1
- P73A==
-X-Gm-Message-State: AOAM5309p9fhiWqUj8JXw+xQJusBHaQCgeuWvstDAVXOLMFvwxu/hr8+
- 1GfNt9//T940GwJw5BkoM/Q=
-X-Google-Smtp-Source: ABdhPJwVZA8/60TITCfjuud2smvskuBah0kv6QccJazhIC+JGnxqinDyG7ls9VFb59+lMsi/UtNr/A==
-X-Received: by 2002:a17:902:6949:b029:e3:1ee9:6bfd with SMTP id
- k9-20020a1709026949b02900e31ee96bfdmr23241817plt.66.1614009835024; 
- Mon, 22 Feb 2021 08:03:55 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:d92b:2fcb:b6a3:bcc0])
- by smtp.googlemail.com with ESMTPSA id s18sm18541728pjr.14.2021.02.22.08.03.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 08:03:54 -0800 (PST)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: corbet@lwn.net
-Date: Mon, 22 Feb 2021 21:33:47 +0530
-Message-Id: <20210222160347.23410-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, yashsri421@gmail.com
-Subject: [Linux-kernel-mentees] [RFC] scripts: kernel-doc: fix typedef
-	support for struct parsing
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=edcfb6u/1BZN0KQqup+/d7AkLC2yW/srYObkME7xBZw=;
+ b=ouSZE/yk+Ie4qnKDba3YfGKZ7xgAIHyGqAr/m9o+j2KJQvnMxi55hgwsRnPc96LctD
+ TGd9caJfYo/H2AhHiA1gLjRcYrbw+Cj+yxT8lyE16DgAC0a5z/ovZIcz/AgxVTFFNEil
+ ePZ3HxKl1oPp3+uj8ChMWWDIiASdYOF1qAN4T5hElwwq0B67cj389/Di442IHUOGlkfA
+ EmFRzug0hDokTjQLINtD8KGccNe/zr2J1P4XdYCDViFHGJmNycd209WOl3N4SICh5R9Z
+ u9Ku5oeYt4I+tdbZ+dbT85YcMEOB6YDZhJzUux1bi3r7WDpfWqumUt5DU5OdDdAsqgAT
+ IqCw==
+X-Gm-Message-State: AOAM531GMhteiXZAL9YObQQBr8ZGuf4txhYKNg4HPlQAuTMB0RV9/+xs
+ PBmxfjbH7MayIUBc7JCynPk=
+X-Google-Smtp-Source: ABdhPJw1d2qboOMWAmrZuuWgFSfoPCLXsgUVeus6Kk6uLUbaq1hUf8xWFoLVJw58F2c0YmFPKhm8kw==
+X-Received: by 2002:a17:902:b48b:b029:e3:7808:aab4 with SMTP id
+ y11-20020a170902b48bb02900e37808aab4mr23021419plr.54.1614014845604; 
+ Mon, 22 Feb 2021 09:27:25 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:d92b:2fcb:b6a3:bcc0?
+ ([2405:201:600d:a089:d92b:2fcb:b6a3:bcc0])
+ by smtp.gmail.com with ESMTPSA id n1sm18662545pgn.94.2021.02.22.09.27.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 09:27:25 -0800 (PST)
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, corbet@lwn.net
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
+Date: Mon, 22 Feb 2021 22:57:18 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org
+Subject: [Linux-kernel-mentees] Investigating parsing error for struct/union
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,58 +106,85 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are files in kernel, which use 'typedef struct' syntax for defining
-struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
-etc.
-However, kernel-doc still does not support it, causing a parsing error.
+Hi Jonathan, Lukas
 
-For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
-"error: Cannot parse struct or union!"
+While investigating "error: Cannot parse struct or union!", I
+discovered few more patterns causing this error:
+1) A large part of this error(~80%) occurs due to the presence of one
+or more lines(such as '#define' lines) between commented code and
+struct declaration.
 
-Add support for parsing it.
+For e.g., in include/linux/platform_data/apds990x.h:
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- scripts/kernel-doc | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+/**
+ * struct apds990x_chip_factors - defines effect of the cover window
+ * @ga: Total glass attenuation
+ * @cf1: clear channel factor 1 for raw to lux conversion
+ * @irf1: IR channel factor 1 for raw to lux conversion
+ * @cf2: clear channel factor 2 for raw to lux conversion
+ * @irf2: IR channel factor 2 for raw to lux conversion
+ * @df: device factor for conversion formulas
+ *
+ * Structure for tuning ALS calculation to match with environment.
+ * Values depend on the material above the sensor and the sensor
+ * itself. If the GA is zero, driver will use uncovered sensor default
+values
+ * format: decimal value * APDS_PARAM_SCALE except df which is plain
+integer.
+ */
+#define APDS_PARAM_SCALE 4096
+struct apds990x_chip_factors {
+	int ga;
+	int cf1;
+	int irf1;
+	int cf2;
+	int irf2;
+	int df;
+};
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 8b5bc7bf4bb8..46e904dc3f87 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1201,12 +1201,20 @@ sub dump_union($$) {
- sub dump_struct($$) {
-     my $x = shift;
-     my $file = shift;
-+    my $decl_type;
-+    my $members;
- 
-     if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
--	my $decl_type = $1;
-+	$decl_type = $1;
- 	$declaration_name = $2;
--	my $members = $3;
-+	$members = $3;
-+    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
-+	$decl_type = $1;
-+	$declaration_name = $3;
-+	$members = $2;
-+    }
- 
-+    if ($members) {
- 	if ($identifier ne $declaration_name) {
- 	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
- 	    return;
--- 
-2.17.1
 
+2) If struct does not contain any members, for e.g., in
+include/linux/xz.h:
+
+/**
+ * struct xz_dec - Opaque type to hold the XZ decoder state
+ */
+struct xz_dec;
+
+Here, it causes error as the curly braces and members expected by the
+regex, are absent.
+This kind of use has also been made in include/linux/zstd.h:
+
+/**
+ * struct ZSTD_DDict - a digested dictionary to be used for decompression
+ */
+typedef struct ZSTD_DDict_s ZSTD_DDict;
+
+
+3) Different Syntax than expected. For e.g.:
+    a) struct xyz struct_name {} syntax. This syntax has been used in
+arch/arm/mach-omap2/omap_hwmod_common_data.c file
+    b) "static __maybe_unused const struct st_sensors_platform_data
+default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
+This kind of syntax has also been used in
+drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
+
+I wanted to take your opinion if we should extend support for any of
+these syntax, causing the error. If not, perhaps we can make the
+documentation a bit clear, atleast for (1), which causes most of these
+errors; so as to not include any lines between comment and struct
+declaration.
+
+What do you think?
+
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
