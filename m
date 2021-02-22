@@ -2,80 +2,79 @@ Return-Path: <SRS0=c16L=HY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A94C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:37:26 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE9BAC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:40:10 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1556660234
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:37:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1556660234
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id 4448560234
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:40:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4448560234
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id C2A5185546;
-	Mon, 22 Feb 2021 21:37:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0D7B783A94;
+	Mon, 22 Feb 2021 21:40:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bLFtWtpLYiXU; Mon, 22 Feb 2021 21:37:25 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id tFqX3PyU4gF1; Mon, 22 Feb 2021 21:40:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 444AD8543E;
-	Mon, 22 Feb 2021 21:37:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C797083A8E;
+	Mon, 22 Feb 2021 21:40:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 29946C000A;
-	Mon, 22 Feb 2021 21:37:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9C2E8C000A;
+	Mon, 22 Feb 2021 21:40:08 +0000 (UTC)
 Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C8150C0001
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3E16DC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:37:22 +0000 (UTC)
+ Mon, 22 Feb 2021 21:40:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by hemlock.osuosl.org (Postfix) with ESMTP id B6AB186FED
+ by hemlock.osuosl.org (Postfix) with ESMTP id 2C46987000
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:37:22 +0000 (UTC)
+ Mon, 22 Feb 2021 21:40:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from hemlock.osuosl.org ([127.0.0.1])
  by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DsgPjFqfqI-n
+ with ESMTP id O--PXHViKVj7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:37:22 +0000 (UTC)
+ Mon, 22 Feb 2021 21:40:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.7.6
-Received: from merlin.infradead.org (merlin.infradead.org [205.233.59.134])
- by hemlock.osuosl.org (Postfix) with ESMTPS id E494986FB2
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by hemlock.osuosl.org (Postfix) with ESMTPS id 0FE4286FF1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=3tXKMv1qPRXz2dzcmFGVzG1cw6XD0lrxGszcpPkSkyY=; b=SEGNuEYrfpgzuhA6XEFDFfDbvW
- 96zdkUekPu0VHJSvWFSkUUOIwo2p71fUwiPvV6gLc9ElMz7wJFFCKIvx2iCuUEDO02AH7MusLKllE
- bMSfEwk55DGcwXxRI6CCcjDYQivgptyewCCPWB4nRy2aSmwdmGsHScm9VxArlLDzqsNCpF+uTksAh
- LWqtYaXldK7cBeLkHr9jZCLFr0OfipICKG3yUbJqkzJQOSv0y0F3My7tlfH3/vyEQFWgoxXMqth8q
- mM3Smd5keBfAvRNgna9skx1Voe3kYrM2F48oNoy2N2eT1DWJaCaXhcQgk+ig7IrYdTl/3byBtRqni
- OYupkQLw==;
-Received: from [2601:1c0:6280:3f0::d05b]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1lEItM-0003lz-It; Mon, 22 Feb 2021 21:37:20 +0000
-To: Aditya <yashsri421@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- corbet@lwn.net
-References: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <93cbf6e1-093a-7399-43c9-422fd8423544@infradead.org>
-Date: Mon, 22 Feb 2021 13:37:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Mon, 22 Feb 2021 21:40:06 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 875E930D;
+ Mon, 22 Feb 2021 21:40:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 875E930D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1614030005; bh=EFM1k3V9bO7Y53Xdrp5AG/ja+u+SEr6m8EZGNNYAocA=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=LblIRwbmGR0JwwL06ujLz65nEyig0pcLcQSCTe5cXiD8cpjKM+if4EwV8W/FVrR5K
+ 9Nzcgfwh0+r3yGzfWLj3zxVMqll1x8GDwzoXJfMNWmVRzszh1WWryqvEkkTGcxW58t
+ xa7F8hXK+ZGNCvA28hSV+9njhkCUz1PoOwv06AWH6D5ujZqg7s41JIdzmlmDCScFvx
+ cJ+zvVxkXttFBr1lPttyBv2Sp8DgrzjCsjboHmDSTCpvqsAtLLf4yBZJd4EPRaCpAx
+ /CkdcPHJ0qWFONaTSyceBKFacD8ZEbFfY2wytr1xJ/f2DNQ5kzwV08wynccIkoL+0y
+ WJwPfa/z7Eavw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aditya Srivastava <yashsri421@gmail.com>
+In-Reply-To: <20210222160347.23410-1-yashsri421@gmail.com>
+References: <20210222160347.23410-1-yashsri421@gmail.com>
+Date: Mon, 22 Feb 2021 14:40:04 -0700
+Message-ID: <875z2jlr2j.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] Investigating parsing error for
-	struct/union
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, yashsri421@gmail.com
+Subject: Re: [Linux-kernel-mentees] [RFC] scripts: kernel-doc: fix typedef
+	support for struct parsing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,101 +92,61 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2/22/21 9:27 AM, Aditya wrote:
-> Hi Jonathan, Lukas
-> 
-> While investigating "error: Cannot parse struct or union!", I
-> discovered few more patterns causing this error:
-> 1) A large part of this error(~80%) occurs due to the presence of one
-> or more lines(such as '#define' lines) between commented code and
-> struct declaration.
-> 
-> For e.g., in include/linux/platform_data/apds990x.h:
-> 
-> /**
->  * struct apds990x_chip_factors - defines effect of the cover window
->  * @ga: Total glass attenuation
->  * @cf1: clear channel factor 1 for raw to lux conversion
->  * @irf1: IR channel factor 1 for raw to lux conversion
->  * @cf2: clear channel factor 2 for raw to lux conversion
->  * @irf2: IR channel factor 2 for raw to lux conversion
->  * @df: device factor for conversion formulas
->  *
->  * Structure for tuning ALS calculation to match with environment.
->  * Values depend on the material above the sensor and the sensor
->  * itself. If the GA is zero, driver will use uncovered sensor default
-> values
->  * format: decimal value * APDS_PARAM_SCALE except df which is plain
-> integer.
->  */
-> #define APDS_PARAM_SCALE 4096
-> struct apds990x_chip_factors {
-> 	int ga;
-> 	int cf1;
-> 	int irf1;
-> 	int cf2;
-> 	int irf2;
-> 	int df;
-> };
+Aditya Srivastava <yashsri421@gmail.com> writes:
 
-I have been known to move a few of macros such as this one.
-OTOH, if you can coax kernel-doc to skip macros and find a
-struct/union/function, that would be OK IMO.
+> There are files in kernel, which use 'typedef struct' syntax for defining
+> struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
+> etc.
+> However, kernel-doc still does not support it, causing a parsing error.
+>
+> For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
+> "error: Cannot parse struct or union!"
+>
+> Add support for parsing it.
+>
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+>  scripts/kernel-doc | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 8b5bc7bf4bb8..46e904dc3f87 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -1201,12 +1201,20 @@ sub dump_union($$) {
+>  sub dump_struct($$) {
+>      my $x = shift;
+>      my $file = shift;
+> +    my $decl_type;
+> +    my $members;
+>  
+>      if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+> -	my $decl_type = $1;
+> +	$decl_type = $1;
+>  	$declaration_name = $2;
+> -	my $members = $3;
+> +	$members = $3;
+> +    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
 
-> 
-> 
-> 2) If struct does not contain any members, for e.g., in
-> include/linux/xz.h:
-> 
-> /**
->  * struct xz_dec - Opaque type to hold the XZ decoder state
->  */
-> struct xz_dec;
-> 
-> Here, it causes error as the curly braces and members expected by the
-> regex, are absent.
+So this isn't your fault, but these regexes are really getting out of
+hand.  I would *really* like to see some effort made into making this
+code more understandable / maintainable as we tweak this stuff.  So:
 
-I.e., there is no kernel-doc description there at all.
+ - Splitting out the common part, as suggested by Lukas, would be really
+   useful.  That would also avoid the problem of only occurrence being
+   edited the next tine we add a new qualifier.
 
-Then in lib/xz/xz_dec_stream.c, the struct is defined with no
-kernel-doc at all.
+ - Splitting out other subsections of the regex and giving them symbolic
+   names would also help.
 
-IMO the struct in lib/xz/xz_dec_stream.c should be marked as
-kernel-doc and then all of the fields in it marked as
-  /* private: */
-since the author(s) seem to want this struct to be private/opaque.
+ - We really could use some comments before these branches saying what
+   they are doing; it is *not* obvious from the code.
 
-> This kind of use has also been made in include/linux/zstd.h:
-> 
-> /**
->  * struct ZSTD_DDict - a digested dictionary to be used for decompression
->  */
-> typedef struct ZSTD_DDict_s ZSTD_DDict;
-> 
-> 
-> 3) Different Syntax than expected. For e.g.:
->     a) struct xyz struct_name {} syntax. This syntax has been used in
-> arch/arm/mach-omap2/omap_hwmod_common_data.c file
->     b) "static __maybe_unused const struct st_sensors_platform_data
-> default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
-> This kind of syntax has also been used in
-> drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
+See what I'm getting at here?
 
-kernel-doc should just ignore/skip/drop __maybe_unused.
+Thanks,
 
-> 
-> I wanted to take your opinion if we should extend support for any of
-> these syntax, causing the error. If not, perhaps we can make the
-> documentation a bit clear, atleast for (1), which causes most of these
-> errors; so as to not include any lines between comment and struct
-> declaration.
-> 
-> What do you think?
-
-
--- 
-~Randy
-
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
