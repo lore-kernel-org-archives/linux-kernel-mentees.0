@@ -6,73 +6,71 @@ X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FFEC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 177F8C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:57:04 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CB90A64DFD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:49:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CB90A64DFD
+	by mail.kernel.org (Postfix) with ESMTPS id 97EAD600CF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 21:57:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97EAD600CF
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 823C68289B;
-	Mon, 22 Feb 2021 21:49:27 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4A5A58319F;
+	Mon, 22 Feb 2021 21:57:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2ZBBAGhXsyoG; Mon, 22 Feb 2021 21:49:26 +0000 (UTC)
+	with ESMTP id dm0klA6iz9r8; Mon, 22 Feb 2021 21:57:02 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 20A1482896;
-	Mon, 22 Feb 2021 21:49:26 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id F205882E46;
+	Mon, 22 Feb 2021 21:57:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5EEFC000A;
-	Mon, 22 Feb 2021 21:49:25 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A6E95C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C2164C000A;
+	Mon, 22 Feb 2021 21:57:01 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9B51AC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:49:24 +0000 (UTC)
+ Mon, 22 Feb 2021 21:57:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 803326F477
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7B94B83187
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:49:24 +0000 (UTC)
+ Mon, 22 Feb 2021 21:57:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NbcNnq9AjVFP
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qyHdNr-CuH0S
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:49:23 +0000 (UTC)
+ Mon, 22 Feb 2021 21:56:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 699E1605AB
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9C80A82E46
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 21:49:23 +0000 (UTC)
+ Mon, 22 Feb 2021 21:56:59 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id C2E6E2B7;
- Mon, 22 Feb 2021 21:49:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C2E6E2B7
+ by ms.lwn.net (Postfix) with ESMTPSA id 06AA630D;
+ Mon, 22 Feb 2021 21:56:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06AA630D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1614030562; bh=LI0igz6UiDc/29dq3FBY3h2eeJZSsHGdbEzGXRqvy48=;
+ t=1614031019; bh=9lS+NZu9sgjxT9FHaeuSRfHl+5NsQdvEOiPc+WxLzQA=;
  h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Fc2xp0ZMrKMRKm4vboOuKamjVFkoQZbwKDiwa7XAwRqXjXg6PEERQhujpKg8t6/ZK
- iwLGcwSqd6cSuDAYavpFZwCQiUV1IEcjHu/3B9lqsCmkR7SDNxAChr/C9hKb7xRGU0
- h8uJuyUyKuD6YurZiXmp3Uk0MyepiOjTzP//r9ksEGc2/nVV2YfSUNpgSLiHdcisBS
- cwtlarf8zPk0fHcWoaYpBDLDkvNGmtXwsD/qH8WavqRH1aqH/DosO+rKU4Abdc9sbg
- vnUumT8Dyjr+P3J3CPB3dafuGarbcrU9v1L4e8U395d59pjgIEXA0grqR1eN8VjCE6
- rTvrl1fzFGEwQ==
+ b=W49wvn6mwhJczzebg0kWDLHaGvi+OQtGpze5LDx1LTAPCHT8B0FRAhYX/ZAxbC+ki
+ g4Ug9sMVBXpUT6KAdG8hmJqEv5HlSoL3IQl/mXZ1OoeIEX0kE7NzITPeY2w6l69dSb
+ PAHRrJS5ZDeHzFUZ4nLlAyTgLgz+G7IADHb26cNaEGZZysbAgQ10JGOWxk/SGFvHSp
+ Ot81fiWs/Uepk3W3VQ/4EZBthoISl9cf4f2pfly8CPhapp54XowWUvPIrr3S8OJmqp
+ sjwjk3w0HaNBZegb9dr7LwqofzO5Roh9cprY/MBeu4rbuqIdSCLuRQ03j0fUTmEbbd
+ EdUqxlCE01wXQ==
 From: Jonathan Corbet <corbet@lwn.net>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Aditya <yashsri421@gmail.com>
-In-Reply-To: <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
+To: Aditya <yashsri421@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>
+In-Reply-To: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
 References: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
- <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
-Date: Mon, 22 Feb 2021 14:49:22 -0700
-Message-ID: <8735xnlqn1.fsf@meer.lwn.net>
+Date: Mon, 22 Feb 2021 14:56:58 -0700
+Message-ID: <87zgzvkbpx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, linux-doc@vger.kernel.org
 Subject: Re: [Linux-kernel-mentees] Investigating parsing error for
 	struct/union
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -92,55 +90,70 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Aditya <yashsri421@gmail.com> writes:
 
-> Aditya, I independently made a similar observation and noted this
-> issue in my personal notes, which will serve for a cleanup patch
-> series, as follows:
+> 1) A large part of this error(~80%) occurs due to the presence of one
+> or more lines(such as '#define' lines) between commented code and
+> struct declaration.
+
+See my other email for this one.
+
+> 2) If struct does not contain any members, for e.g., in
+> include/linux/xz.h:
 >
-> "SKIP DEFINITIONS" Feature:
->
-> The kernel-doc should proceed the code, and the required definition of
-> data structures should stay close to the function in between the
-> kernel-doc comment and the function definition.
->
-> Let kernel-doc know to skip certain definitions; the actual definition
-> documented will follow directly after the skipped definitions.
->
-> E.g.,
->
-> include/linux/cgroup.h:450: task_css_set_check: SKIP DEFINITIONS
-> (struct mutex cgroup_mutex; spinlock_t css_set_lock)
-> include/linux/hid-sensor-hub.h:174:
-> sensor_hub_input_attr_get_raw_value: SKIP DEFINITIONS (enum
-> sensor_hub_read_flags)
->
-> I have not thought about a good syntax for that:
->
-> maybe something like:
 > /**
-> * foo - description
-> *
-> * @arg: description
-> *
-> * ::skip: struct bar, enum blub, define MACRO
-> */
+>  * struct xz_dec - Opaque type to hold the XZ decoder state
+>  */
+> struct xz_dec;
 >
-> where "::" serves as some annotation to instruct kernel-doc
+> Here, it causes error as the curly braces and members expected by the
+> regex, are absent.
 
-Honestly, we will never get that sort of annotation into the source
-without encountering substantial pushback, and it will also be hard to
-keep them up to date.  I don't see that as being the right path forward.
+Here, too, the real problem is that the kerneldoc comment is in the
+wrong place.  There will be a real declaration for that structure
+somewhere; in this case it's lib/xz/xz_dec_stream.c.  *That* is where
+the kerneldoc comment should be.
 
-The better solution, for now, would be to just insist that the kerneldoc
-comments be next to the thing they are describing, and to submit patches
-fixing these issues to the appropriate maintainers.  Mauro and others
-have been doing a fair amount of that already.
+That said, the above isn't a kerneldoc comment anyway; it doesn't really
+describe anything useful and would generate lots of warnings if it were
+in the right place.  The right solution is either (1) write a proper
+comment describing this structure, or (2) delete the extra "*" at the
+beginning of this comment.
 
-It might also be nice to make scripts/kernel-doc smarter so that it can
-handle any degree of separation between the comment and the
-declaration.  But that would complicate an already gnarly script for
-(IMO) relatively little gain.
+> 3) Different Syntax than expected. For e.g.:
+>     a) struct xyz struct_name {} syntax. This syntax has been used in
+> arch/arm/mach-omap2/omap_hwmod_common_data.c file
+
+*Please* give an actual example, from the source, of what you are
+talking about for cases like this; I spent a while looking at that file
+trying to figure out what you were talking about.  I assume you're
+referring to silliness like this:
+
+/**
+ * struct omap_hwmod_sysc_type2 - TYPE2 sysconfig scheme.
+ *
+ * To be used by hwmod structure to specify the sysconfig offsets if the
+ * device ip is compliant with the new PRCM protocol defined for new
+ * OMAP4 IPs.
+ */
+struct sysc_regbits omap_hwmod_sysc_type2 = {
+	.midle_shift	= SYSC_TYPE2_MIDLEMODE_SHIFT,
+	.sidle_shift	= SYSC_TYPE2_SIDLEMODE_SHIFT,
+	.srst_shift	= SYSC_TYPE2_SOFTRESET_SHIFT,
+	.dmadisable_shift = SYSC_TYPE2_DMADISABLE_SHIFT,
+};
+
+...right?  Again, the problem here is that these are not proper
+kerneldoc comments.  We're not describing the structure, this is just a
+comment describing a specific variable.  The right fix, once again, is
+s%/**%/*%
+
+>     b) "static __maybe_unused const struct st_sensors_platform_data
+> default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
+> This kind of syntax has also been used in
+> drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
+
+Same problem here; the fix is not in the docs build system.
 
 Thanks,
 
