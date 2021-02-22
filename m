@@ -8,94 +8,95 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3AEC433E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 07:52:09 +0000 (UTC)
-Received: from fraxinus.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34FA6C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 07:52:16 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 282CB64EC3
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 07:52:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 282CB64EC3
+	by mail.kernel.org (Postfix) with ESMTPS id 9AFEF64DDC
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Feb 2021 07:52:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AFEF64DDC
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id DC40685AA1;
-	Mon, 22 Feb 2021 07:52:08 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 33ABE6F53A;
+	Mon, 22 Feb 2021 07:52:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from fraxinus.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id efq7v3wWOGmH; Mon, 22 Feb 2021 07:52:08 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id C6E-Oe_bpOWK; Mon, 22 Feb 2021 07:52:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by fraxinus.osuosl.org (Postfix) with ESMTP id 3848B859FC;
-	Mon, 22 Feb 2021 07:52:08 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 684856F532;
+	Mon, 22 Feb 2021 07:52:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 274DAC000A;
-	Mon, 22 Feb 2021 07:52:08 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C4BFFC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4364FC000A;
+	Mon, 22 Feb 2021 07:52:13 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 013A1C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 07:52:06 +0000 (UTC)
+ Mon, 22 Feb 2021 07:52:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A4CA68381F
+ by smtp3.osuosl.org (Postfix) with ESMTP id E44446F532
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 07:52:06 +0000 (UTC)
+ Mon, 22 Feb 2021 07:52:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pQxkmxq6Gmwm
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vy5IWTa-vqVv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 07:52:05 +0000 (UTC)
+ Mon, 22 Feb 2021 07:52:09 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7126B83842
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+ [209.85.215.180])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E8C1E6F536
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 07:52:05 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id b21so9725031pgk.7
+ Mon, 22 Feb 2021 07:52:08 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id z68so9747844pgz.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Feb 2021 23:52:05 -0800 (PST)
+ Sun, 21 Feb 2021 23:52:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Jr0mt4jPY4mVBszyU+NAN8Dp3wpugBrt9AhFDSvHJYE=;
- b=M2MBCGVvrH+igWRO90BoHuvbKgHSYstMifUdH98kjQjHIQRaNOW5/HxzFUlfFPurHJ
- qwmogescYVLidFzUw+/t40tpBSJnbScwZLJ2AtsqXFVPVjqGFK/z6bARRFS6fgHUNT8t
- 77cjC1bU+cvzxZwt9hFWwX8p3ffdmPCCROGfbw1tWWwRnDGJEOdY+Rmg97rVr37l+dNN
- kr9M7CCD1Bn3St9w8DDrwfnWI3IfP4jtVIANm+lAqMgztj4GJe+xtFoqGk711mo01WJw
- oxlLpC8UtN7MtEIfBRmcPqcVawMmH/giKECfS2yWEqfT9AKXVGTuznv6Q72I/q9KxN4H
- kfBg==
+ bh=cDIq/G0Pd3Jg0P1ylqH7O+RYsOe5oiMQvwqVDBBWxkI=;
+ b=RzhrDJJ5stXyDXozdz+bCmwVFOqKMo6JuC29T7GWYuCtcpPnVvDkQToibvQQL/pqXp
+ b3dmghcvZeDSQncrC0ECQhcRkXWbUblRMUN/pg3Ra4i3oLiZl6ZLCwkug2vD84SRQm6Z
+ krD/wIIgoWGfBr2RReZgZzRt+4WZumLDj6K/d7J+pxJwr081AP7che3ZYHNMXQPIKlbq
+ j+yFs/ReHeh5nE3zoS/cHsoDnn7oKSosdNYIFEem13p4hCPAR36D4wzAGwSCi100sa9+
+ 67e+w6X/kNLfAOHMxV7mtA0I6NFiW/WSGc3j2wm8RYumKySqRdv8OoceSZBiwK9XB615
+ y/Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Jr0mt4jPY4mVBszyU+NAN8Dp3wpugBrt9AhFDSvHJYE=;
- b=nQKo8Vt0azzYrAUTkCOCk8dZqqH0+cG+c7bULxTWzVFhyo/D/zIXwbhRBljWditifb
- 5gRd76XcBRBSFUXqhpzY7VCGGmLu+53eSb3XG/fftyBSdKCjgS/2Kz9+77+Y5qOhQqEp
- BFMcCX2T7VefEJJGV0mOFpQtBoZqxBT/VB0cPs2hjhZzY9prmfFP44ZlRt2Qc1Xi8jA4
- dnLe0I1h4p0PNwjyao1/+HA5m2w6eySR+sk52AferKoCSKnPX/Dpgnt8AsS+2zzNspdE
- gb3HO42XPSCnKEO58Rrp4X5VXw1keiE5JhAGlpdXPvQ2DxNG2rdbhwgOws+6GGj9pnAQ
- jHpA==
-X-Gm-Message-State: AOAM532GhTqf3z2qXaPnkuYlNTAwYXtrjl5FVpqMZ/6BzQVoNQwK2YNH
- gk8QNmJdiqYUFlEBSGbfrVE=
-X-Google-Smtp-Source: ABdhPJzJ3PeI1/lVLuJsX1Qgcnb9PHxU1viFypPzXD7vLtB/kTP3zNC2FSVTRjgjfuX1pLsjvt3ZRg==
-X-Received: by 2002:a62:a108:0:b029:1c1:119b:8713 with SMTP id
- b8-20020a62a1080000b02901c1119b8713mr13309699pff.74.1613980324736; 
- Sun, 21 Feb 2021 23:52:04 -0800 (PST)
+ bh=cDIq/G0Pd3Jg0P1ylqH7O+RYsOe5oiMQvwqVDBBWxkI=;
+ b=IgeMfFrqTRsNflwTfYMkbEx71H8giBufL2C2MM6LzVmplYGNQsYL5GgKMz5vkdGza5
+ F+FzsMddjRjTrYjSu6/RVC+WfpiDUwcgiQL6DwjZAj3vGd9x5WvHcALnqOn2KV2RGB9Q
+ 0dWmRkB+NH3qsmy1K9aKkDIldD6owCFH6JDDJAjSWmyeICGaU2ciZ7eJaRDPma86uaRL
+ phTi1poqe6KHz3Luu/TurVn3x88xZZRK06AockBUhTWKQBQRtvnOtw7LwPOjipDDjUpD
+ p6F+60xY/8K9ztULr+Y1Md+G6B3/2pNTRM70DBRHT/93ghqhvR6Yk1lXHRsbmB6LZDtY
+ uSXA==
+X-Gm-Message-State: AOAM533kTrutHfGdkAGWaUJKVB68GyVzgYbx2KVGUwoyOv3zCxjB1+pD
+ fz2OozUKBWPTwHrzs/koztDGyeteU5nExg==
+X-Google-Smtp-Source: ABdhPJyGHoumao6q1YFcj8hae3XlYshmrfauzPbyZu/Dls26DE+nnIuP0UpyB4vfKrGzU4B+b7CWxw==
+X-Received: by 2002:aa7:9ec5:0:b029:1e7:a1c:8f8a with SMTP id
+ r5-20020aa79ec50000b02901e70a1c8f8amr21274797pfq.41.1613980328142; 
+ Sun, 21 Feb 2021 23:52:08 -0800 (PST)
 Received: from localhost.localdomain ([2405:201:9004:6a36:aa32:eebb:1da7:c90b])
- by smtp.gmail.com with ESMTPSA id br2sm2651665pjb.40.2021.02.21.23.52.02
+ by smtp.gmail.com with ESMTPSA id br2sm2651665pjb.40.2021.02.21.23.52.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 23:52:04 -0800 (PST)
+ Sun, 21 Feb 2021 23:52:07 -0800 (PST)
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
 To: joe@perches.com
-Date: Mon, 22 Feb 2021 13:22:04 +0530
-Message-Id: <20210222075205.19834-2-dwaipayanray1@gmail.com>
+Date: Mon, 22 Feb 2021 13:22:05 +0530
+Message-Id: <20210222075205.19834-3-dwaipayanray1@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210222075205.19834-1-dwaipayanray1@gmail.com>
 References: <20210222075205.19834-1-dwaipayanray1@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: [Linux-kernel-mentees] [PATCH v7 1/2] checkpatch: add verbose mode
+Subject: [Linux-kernel-mentees] [PATCH v7 2/2] docs: add documentation for
+	checkpatch
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,246 +114,564 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new verbose mode to checkpatch.pl to emit additional verbose
-test descriptions. The verbose mode is optional and can be enabled
-by the flag -v or --verbose.
+Add documentation for kernel script checkpatch.pl.
+This documentation is also parsed by checkpatch to
+enable a verbose mode.
 
-The test descriptions are parsed from the checkpatch documentation
-file at `Documentation/dev-tools/checkpatch.rst`. The test
-descriptions in the docs are kept in a fixed format grouped by
-usage. Some examples of this format are:
-
-  **LINE_SPACING**
-    Vertical space is wasted given the limited number of lines an
-    editor window can display when multiple blank lines are used.
-
-  **MISSING_SIGN_OFF**
-    The patch is missing a Signed-off-by line.  A signed-off-by
-    line should be added according to Developer's certificate of
-    Origin.
-
-To avoid lengthy output, the verbose description is printed only
-for the first instance of a particular message type.
-
-The --verbose option cannot be used along with the --terse option.
-
-Verbose mode can be used with the --list-types option.
-The --list-types output also supports color coding now.
+The checkpatch message types are grouped by usage. Under
+each group the types are described briefly. 34 of such
+types are documented.
 
 Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 ---
- scripts/checkpatch.pl | 133 +++++++++++++++++++++++++++++++++++-------
- 1 file changed, 113 insertions(+), 20 deletions(-)
+ Documentation/dev-tools/checkpatch.rst | 525 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ 2 files changed, 526 insertions(+)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9a549b009d2f..7bc3f02fc543 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -23,6 +23,9 @@ my $V = '0.32';
- use Getopt::Long qw(:config no_auto_abbrev);
- 
- my $quiet = 0;
-+my $verbose = 0;
-+my %verbose_messages = ();
-+my %verbose_emitted = ();
- my $tree = 1;
- my $chk_signoff = 1;
- my $chk_patch = 1;
-@@ -61,6 +64,7 @@ my $spelling_file = "$D/spelling.txt";
- my $codespell = 0;
- my $codespellfile = "/usr/share/codespell/dictionary.txt";
- my $conststructsfile = "$D/const_structs.checkpatch";
-+my $docsfile = "$D/../Documentation/dev-tools/checkpatch.rst";
- my $typedefsfile;
- my $color = "auto";
- my $allow_c99_comments = 1; # Can be overridden by --ignore C99_COMMENT_TOLERANCE
-@@ -78,6 +82,7 @@ Version: $V
- 
- Options:
-   -q, --quiet                quiet
-+  -v, --verbose              verbose mode
-   --no-tree                  run without a kernel tree
-   --no-signoff               do not check for 'Signed-off-by' line
-   --patch                    treat FILE as patchfile (default)
-@@ -158,15 +163,51 @@ sub list_types {
- 	my $text = <$script>;
- 	close($script);
- 
--	my @types = ();
-+	my %types = ();
- 	# Also catch when type or level is passed through a variable
--	for ($text =~ /(?:(?:\bCHK|\bWARN|\bERROR|&\{\$msg_level})\s*\(|\$msg_type\s*=)\s*"([^"]+)"/g) {
--		push (@types, $_);
-+	while ($text =~ /(?:(\bCHK|\bWARN|\bERROR|&\{\$msg_level})\s*\(|\$msg_type\s*=)\s*"([^"]+)"/g) {
-+		if (defined($1)) {
-+			if (exists($types{$2})) {
-+				$types{$2} .= ",$1" if ($types{$2} ne $1);
-+			} else {
-+				$types{$2} = $1;
-+			}
-+		} else {
-+			$types{$2} = "UNDETERMINED";
-+		}
- 	}
--	@types = sort(uniq(@types));
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+new file mode 100644
+index 000000000000..ffb8f66be887
+--- /dev/null
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -0,0 +1,525 @@
++.. SPDX-License-Identifier: GPL-2.0-only
 +
- 	print("#\tMessage type\n\n");
--	foreach my $type (@types) {
-+	if ($color) {
-+		print(" ( Color coding: ");
-+		print(RED . "ERROR" . RESET);
-+		print(" | ");
-+		print(YELLOW . "WARNING" . RESET);
-+		print(" | ");
-+		print(GREEN . "CHECK" . RESET);
-+		print(" | ");
-+		print("Multiple levels / Undetermined");
-+		print(" )\n\n");
-+	}
++==========
++Checkpatch
++==========
 +
-+	foreach my $type (sort keys %types) {
-+		my $orig_type = $type;
-+		if ($color) {
-+			my $level = $types{$type};
-+			if ($level eq "ERROR") {
-+				$type = RED . $type . RESET;
-+			} elsif ($level eq "WARN") {
-+				$type = YELLOW . $type . RESET;
-+			} elsif ($level eq "CHK") {
-+				$type = GREEN . $type . RESET;
-+			}
-+		}
- 		print(++$count . "\t" . $type . "\n");
-+		if ($verbose && exists($verbose_messages{$orig_type})) {
-+			my $message = $verbose_messages{$orig_type};
-+			$message =~ s/\n/\n\t/g;
-+			print("\t" . $message . "\n\n");
-+		}
- 	}
- 
- 	exit($exitcode);
-@@ -198,6 +239,46 @@ if (-f $conf) {
- 	unshift(@ARGV, @conf_args) if @conf_args;
- }
- 
-+sub load_docs {
-+	open(my $docs, '<', "$docsfile")
-+	    or warn "$P: Can't read the documentation file $docsfile $!\n";
++This document describes the kernel script checkpatch.pl.
 +
-+	my $type = '';
-+	my $desc = '';
-+	my $in_desc = 0;
++.. Table of Contents
 +
-+	while (<$docs>) {
-+		chomp;
-+		my $line = $_;
-+		$line =~ s/\s+$//;
++	=== Introduction
++	=== Options
++	=== Message Levels
++	=== Type Descriptions
 +
-+		if ($line =~ /^\s*\*\*(.+)\*\*$/) {
-+			if ($desc ne '') {
-+				$verbose_messages{$type} = trim($desc);
-+			}
-+			$type = $1;
-+			$desc = '';
-+			$in_desc = 1;
-+		} elsif ($in_desc) {
-+			if ($line =~ /^(?:\s{4,}|$)/) {
-+				$line =~ s/^\s{4}//;
-+				$desc .= $line;
-+				$desc .= "\n";
-+			} else {
-+				$verbose_messages{$type} = trim($desc);
-+				$type = '';
-+				$desc = '';
-+				$in_desc = 0;
-+			}
-+		}
-+	}
++Introduction
++============
 +
-+	if ($desc ne '') {
-+		$verbose_messages{$type} = trim($desc);
-+	}
-+	close($docs);
-+}
++Checkpatch (scripts/checkpatch.pl) is a perl script which checks for trivial
++style violations in patches and optionally corrects them.  Checkpatch can
++also be run on file contexts and without the kernel tree.
 +
- # Perl's Getopt::Long allows options to take optional arguments after a space.
- # Prevent --color by itself from consuming other arguments
- foreach (@ARGV) {
-@@ -208,6 +289,7 @@ foreach (@ARGV) {
- 
- GetOptions(
- 	'q|quiet+'	=> \$quiet,
-+	'v|verbose!'	=> \$verbose,
- 	'tree!'		=> \$tree,
- 	'signoff!'	=> \$chk_signoff,
- 	'patch!'	=> \$chk_patch,
-@@ -247,13 +329,27 @@ GetOptions(
- 
- help(0) if ($help);
- 
-+die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
-+die "$P: --verbose cannot be used with --terse\n" if ($verbose && $terse);
++Checkpatch is not always right. Your judgement takes precedence over checkpatch
++messages.  If your code looks better with the violations, then its probably
++best left alone.
 +
-+if ($color =~ /^[01]$/) {
-+	$color = !$color;
-+} elsif ($color =~ /^always$/i) {
-+	$color = 1;
-+} elsif ($color =~ /^never$/i) {
-+	$color = 0;
-+} elsif ($color =~ /^auto$/i) {
-+	$color = (-t STDOUT);
-+} else {
-+	die "$P: Invalid color mode: $color\n";
-+}
 +
-+load_docs() if ($verbose);
- list_types(0) if ($list_types);
- 
- $fix = 1 if ($fix_inplace);
- $check_orig = $check;
- 
--die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
--
- my $exit = 0;
- 
- my $perl_version_ok = 1;
-@@ -268,18 +364,6 @@ if ($#ARGV < 0) {
- 	push(@ARGV, '-');
- }
- 
--if ($color =~ /^[01]$/) {
--	$color = !$color;
--} elsif ($color =~ /^always$/i) {
--	$color = 1;
--} elsif ($color =~ /^never$/i) {
--	$color = 0;
--} elsif ($color =~ /^auto$/i) {
--	$color = (-t STDOUT);
--} else {
--	die "$P: Invalid color mode: $color\n";
--}
--
- # skip TAB size 1 to avoid additional checks on $tabsize - 1
- die "$P: Invalid TAB size: $tabsize\n" if ($tabsize < 2);
- 
-@@ -2209,7 +2293,16 @@ sub report {
- 		splice(@lines, 1, 1);
- 		$output = join("\n", @lines);
- 	}
--	$output = (split('\n', $output))[0] . "\n" if ($terse);
++Options
++=======
 +
-+	if ($terse) {
-+		$output = (split('\n', $output))[0] . "\n";
-+	}
++This section will describe the options checkpatch can be run with.
 +
-+	if ($verbose && exists($verbose_messages{$type}) &&
-+	    !exists($verbose_emitted{$type})) {
-+		$output .= $verbose_messages{$type} . "\n\n";
-+		$verbose_emitted{$type} = 1;
-+	}
++Usage::
++
++  ./scripts/checkpatch.pl [OPTION]... [FILE]...
++
++Available options:
++
++ - -q,  --quiet
++
++   Enable quiet mode.
++
++ - -v,  --verbose
++   Enable verbose mode.  Additional verbose test descriptions are output
++   so as to provide information on why that particular message is shown.
++
++ - --no-tree
++
++   Run checkpatch without the kernel tree.
++
++ - --no-signoff
++
++   Disable the 'Signed-off-by' line check.  The sign-off is a simple line at
++   the end of the explanation for the patch, which certifies that you wrote it
++   or otherwise have the right to pass it on as an open-source patch.
++
++   Example::
++
++	 Signed-off-by: Random J Developer <random@developer.example.org>
++
++   Setting this flag effectively stops a message for a missing signed-off-by
++   line in a patch context.
++
++ - --patch
++
++   Treat FILE as a patch.  This is the default option and need not be
++   explicitly specified.
++
++ - --emacs
++
++   Set output to emacs compile window format.  This allows emacs users to jump
++   from the error in the compile window directly to the offending line in the
++   patch.
++
++ - --terse
++
++   Output only one line per report.
++
++ - --showfile
++
++   Show the diffed file position instead of the input file position.
++
++ - -g,  --git
++
++   Treat FILE as a single commit or a git revision range.
++
++   Single commit with:
++
++   - <rev>
++   - <rev>^
++   - <rev>~n
++
++   Multiple commits with:
++
++   - <rev1>..<rev2>
++   - <rev1>...<rev2>
++   - <rev>-<count>
++
++ - -f,  --file
++
++   Treat FILE as a regular source file.  This option must be used when running
++   checkpatch on source files in the kernel.
++
++ - --subjective,  --strict
++
++   Enable stricter tests in checkpatch.  By default the tests emitted as CHECK
++   do not activate by default.  Use this flag to activate the CHECK tests.
++
++ - --list-types
++
++   Every message emitted by checkpatch has an associated TYPE.  Add this flag
++   to display all the types in checkpatch.
++
++   Note that when this flag is active, checkpatch does not read the input FILE,
++   and no message is emitted.  Only a list of types in checkpatch is output.
++
++ - --types TYPE(,TYPE2...)
++
++   Only display messages with the given types.
++
++   Example::
++
++     ./scripts/checkpatch.pl mypatch.patch --types EMAIL_SUBJECT,BRACES
++
++ - --ignore TYPE(,TYPE2...)
++
++   Checkpatch will not emit messages for the specified types.
++
++   Example::
++
++     ./scripts/checkpatch.pl mypatch.patch --ignore EMAIL_SUBJECT,BRACES
++
++ - --show-types
++
++   By default checkpatch doesn't display the type associated with the messages.
++   Set this flag to show the message type in the output.
++
++ - --max-line-length=n
++
++   Set the max line length (default 100).  If a line exceeds the specified
++   length, a LONG_LINE message is emitted.
++
++
++   The message level is different for patch and file contexts.  For patches,
++   a WARNING is emitted.  While a milder CHECK is emitted for files.  So for
++   file contexts, the --strict flag must also be enabled.
++
++ - --min-conf-desc-length=n
++
++   Set the Kconfig entry minimum description length, if shorter, warn.
++
++ - --tab-size=n
++
++   Set the number of spaces for tab (default 8).
++
++ - --root=PATH
++
++   PATH to the kernel tree root.
++
++   This option must be specified when invoking checkpatch from outside
++   the kernel root.
++
++ - --no-summary
++
++   Suppress the per file summary.
++
++ - --mailback
++
++   Only produce a report in case of Warnings or Errors.  Milder Checks are
++   excluded from this.
++
++ - --summary-file
++
++   Include the filename in summary.
++
++ - --debug KEY=[0|1]
++
++   Turn on/off debugging of KEY, where KEY is one of 'values', 'possible',
++   'type', and 'attr' (default is all off).
++
++ - --fix
++
++   This is an EXPERIMENTAL feature.  If correctable errors exists, a file
++   <inputfile>.EXPERIMENTAL-checkpatch-fixes is created which has the
++   automatically fixable errors corrected.
++
++ - --fix-inplace
++
++   EXPERIMENTAL - Similar to --fix but input file is overwritten with fixes.
++
++   DO NOT USE this flag unless you are absolutely sure and you have a backup
++   in place.
++
++ - --ignore-perl-version
++
++   Override checking of perl version.  Runtime errors maybe encountered after
++   enabling this flag if the perl version does not meet the minimum specified.
++
++ - --codespell
++
++   Use the codespell dictionary for checking spelling errors.
++
++ - --codespellfile
++
++   Use the specified codespell file.
++   Default is '/usr/share/codespell/dictionary.txt'.
++
++ - --typedefsfile
++
++   Read additional types from this file.
++
++ - --color[=WHEN]
++
++   Use colors 'always', 'never', or only when output is a terminal ('auto').
++   Default is 'auto'.
++
++ - --kconfig-prefix=WORD
++
++   Use WORD as a prefix for Kconfig symbols (default is `CONFIG_`).
++
++ - -h, --help, --version
++
++   Display the help text.
++
++Message Levels
++==============
++
++Messages in checkpatch are divided into three levels. The levels of messages
++in checkpatch denote the severity of the error. They are:
++
++ - ERROR
++
++   This is the most strict level.  Messages of type ERROR must be taken
++   seriously as they denote things that are very likely to be wrong.
++
++ - WARNING
++
++   This is the next stricter level.  Messages of type WARNING requires a
++   more careful review.  But it is milder than an ERROR.
++
++ - CHECK
++
++   This is the mildest level.  These are things which may require some thought.
++
++Type Descriptions
++=================
++
++This section contains a description of all the message types in checkpatch.
++
++.. Types in this section are also parsed by checkpatch.
++.. The types are grouped into subsections based on use.
++
++
++Allocation style
++----------------
++
++  **ALLOC_ARRAY_ARGS**
++    The first argument for kcalloc or kmalloc_array should be the
++    number of elements.  sizeof() as the first argument is generally
++    wrong.
++    See: https://www.kernel.org/doc/html/latest/core-api/memory-allocation.html
++
++  **ALLOC_SIZEOF_STRUCT**
++    The allocation style is bad.  In general for family of
++    allocation functions using sizeof() to get memory size,
++    constructs like::
++
++      p = alloc(sizeof(struct foo), ...)
++
++    should be::
++
++      p = alloc(sizeof(*p), ...)
++
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#allocating-memory
++
++  **ALLOC_WITH_MULTIPLY**
++    Prefer kmalloc_array/kcalloc over kmalloc/kzalloc with a
++    sizeof multiply.
++    See: https://www.kernel.org/doc/html/latest/core-api/memory-allocation.html
++
++
++API usage
++---------
++
++  **ARCH_DEFINES**
++    Architecture specific defines should be avoided wherever
++    possible.
++
++  **ARCH_INCLUDE_LINUX**
++    Whenever asm/file.h is included and linux/file.h exists, a
++    conversion can be made when linux/file.h includes asm/file.h.
++    However this is not always the case (See signal.h).
++    This message type is emitted only for includes from arch/.
++
++  **ARRAY_SIZE**
++    The ARRAY_SIZE(foo) macro should be preferred over
++    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
++    array.
++
++    The macro is defined in include/linux/kernel.h::
++
++      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
++
++  **AVOID_BUG**
++    BUG() or BUG_ON() should be avoided totally.
++    Use WARN() and WARN_ON() instead, and handle the "impossible"
++    error condition as gracefully as possible.
++    See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
++
++  **AVOID_EXTERNS**
++    Function prototypes don't need to be declared extern in .h
++    files.  It's assumed by the compiler and is unnecessary.
++
++  **AVOID_L_PREFIX**
++    Local symbol names that are prefixed with `.L` should be avoided,
++    as this has special meaning for the assembler; a symbol entry will
++    not be emitted into the symbol table.  This can prevent `objtool`
++    from generating correct unwind info.
++
++    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
++    local symbol names are still generally usable within a function,
++    but `.L` prefixed local symbol names should not be used to denote
++    the beginning or end of code regions via
++    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
++
++  **BIT_MACRO**
++    Defines like: 1 << <digit> could be BIT(digit).
++    The BIT() macro is defined in include/linux/bitops.h::
++
++      #define BIT(nr)         (1UL << (nr))
++
++  **CONSIDER_KSTRTO**
++    The simple_strtol(), simple_strtoll(), simple_strtoul(), and
++    simple_strtoull() functions explicitly ignore overflows, which
++    may lead to unexpected results in callers.  The respective kstrtol(),
++    kstrtoll(), kstrtoul(), and kstrtoull() functions tend to be the
++    correct replacements.
++    See: https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
++
++
++Comment style
++-------------
++
++  **BLOCK_COMMENT_STYLE**
++    The comment style is incorrect.  The preferred style for multi-
++    line comments is::
++
++      /*
++      * This is the preferred style
++      * for multi line comments.
++      */
++
++    The networking comment style is a bit different, with the first line
++    not empty like the former::
++
++      /* This is the preferred comment style
++      * for files in net/ and drivers/net/
++      */
++
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
++
++  **C99_COMMENTS**
++    C99 style single line comments (//) should not be used.
++    Prefer the block comment style instead.
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
++
++
++
++Commit message
++--------------
++
++  **BAD_SIGN_OFF**
++    The signed-off-by line does not fall in line with the standards
++    specified by the community.
++    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#developer-s-certificate-of-origin-1-1
++
++  **BAD_STABLE_ADDRESS_STYLE**
++    The email format for stable is incorrect.
++    Some valid options for stable address are::
++
++      1. stable@vger.kernel.org
++      2. stable@kernel.org
++
++    For adding version info, the following comment style should be used::
++
++      stable@vger.kernel.org # version info
++
++  **COMMIT_COMMENT_SYMBOL**
++    Commit log lines starting with a '#' are ignored by git as
++    comments.  To solve this problem addition of a single space
++    infront of the log line is enough.
++
++  **COMMIT_MESSAGE**
++    The patch is missing a commit description.  A brief
++    description of the changes made by the patch should be added.
++    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
++
++  **MISSING_SIGN_OFF**
++    The patch is missing a Signed-off-by line.  A signed-off-by
++    line should be added according to Developer's certificate of
++    Origin.
++    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
++
++  **NO_AUTHOR_SIGN_OFF**
++    The author of the patch has not signed off the patch.  It is
++    required that a simple sign off line should be present at the
++    end of explanation of the patch to denote that the author has
++    written it or otherwise has the rights to pass it on as an open
++    source patch.
++    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
++
++
++Comparison style
++----------------
++
++  **ASSIGN_IN_IF**
++    Do not use assignments in if condition.
++    Example::
++
++      if ((foo = bar(...)) < BAZ) {
++
++    should be written as::
++
++      foo = bar(...);
++      if (foo < BAZ) {
++
++  **BOOL_COMPARISON**
++    Comparisons of A to true and false are better written
++    as A and !A.
++    See: https://lore.kernel.org/lkml/1365563834.27174.12.camel@joe-AO722/
++
++  **COMPARISON_TO_NULL**
++    Comparisons to NULL in the form (foo == NULL) or (foo != NULL)
++    are better written as (!foo) and (foo).
++
++  **CONSTANT_COMPARISON**
++    Comparisons with a constant or upper case identifier on the left
++    side of the test should be avoided.
++
++
++Spacing and Brackets
++--------------------
++
++  **ASSIGNMENT_CONTINUATIONS**
++    Assignment operators should not be written at the start of a
++    line but should follow the operand at the previous line.
++
++  **BRACES**
++    The placement of braces is stylistically incorrect.
++    The preferred way is to put the opening brace last on the line,
++    and put the closing brace first::
++
++      if (x is true) {
++        we do y
++      }
++
++    This applies for all non-functional blocks.
++    However, there is one special case, namely functions: they have the
++    opening brace at the beginning of the next line, thus::
++
++      int function(int x)
++      {
++        body of function
++      }
++
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
++
++  **BRACKET_SPACE**
++    Whitespace before opening bracket '[' is prohibited.
++    There are some exceptions:
++
++    1. With a type on the left::
++
++        ;int [] a;
++
++    2. At the beginning of a line for slice initialisers::
++
++        [0...10] = 5,
++
++    3. Inside a curly brace::
++
++        = { [0...10] = 5 }
++
++  **CODE_INDENT**
++    Code indent should use tabs instead of spaces.
++    Outside of comments, documentation and Kconfig,
++    spaces are never used for indentation.
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#indentation
++
++  **CONCATENATED_STRING**
++    Concatenated elements should have a space in between.
++    Example::
++
++      printk(KERN_INFO"bar");
++
++    should be::
++
++      printk(KERN_INFO "bar");
++
++  **LINE_SPACING**
++    Vertical space is wasted given the limited number of lines an
++    editor window can display when multiple blank lines are used.
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
++
++  **SPACING**
++    Whitespace style used in the kernel sources is described in kernel docs.
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
++
++  **TRAILING_WHITESPACE**
++    Trailing whitespace should always be removed.
++    Some editors highlight the trailing whitespace and cause visual
++    distractions when editing files.
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
++
++
++Others
++------
++
++  **CAMELCASE**
++    Avoid CamelCase Identifiers.
++    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
++
++  **CONFIG_DESCRIPTION**
++    Kconfig symbols should have a help text which fully describes
++    it.
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
+index 1b1cf4f5c9d9..43d28998118b 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -14,6 +14,7 @@ whole; patches welcome!
+ .. toctree::
+    :maxdepth: 2
  
- 	push(our @report, $output);
- 
++   checkpatch
+    coccinelle
+    sparse
+    kcov
 -- 
 2.30.0
 
