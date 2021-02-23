@@ -2,99 +2,105 @@ Return-Path: <SRS0=pe2G=HZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 297E6C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Feb 2021 06:43:50 +0000 (UTC)
-Received: from hemlock.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21F4DC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Feb 2021 11:35:46 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8CD8B64E21
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Feb 2021 06:43:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8CD8B64E21
+	by mail.kernel.org (Postfix) with ESMTPS id 4FF9264D8F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Feb 2021 11:35:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4FF9264D8F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 3F12687146;
-	Tue, 23 Feb 2021 06:43:49 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C8F81605EA;
+	Tue, 23 Feb 2021 11:35:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from hemlock.osuosl.org ([127.0.0.1])
-	by localhost (.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eUR458VLacRq; Tue, 23 Feb 2021 06:43:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id W3_DKZqn9cOw; Tue, 23 Feb 2021 11:35:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by hemlock.osuosl.org (Postfix) with ESMTP id 6DF4787144;
-	Tue, 23 Feb 2021 06:43:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C24AE605DC;
+	Tue, 23 Feb 2021 11:35:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 529E4C000B;
-	Tue, 23 Feb 2021 06:43:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 963B7C000B;
+	Tue, 23 Feb 2021 11:35:43 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F22B1C0001
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4286C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Feb 2021 06:43:45 +0000 (UTC)
+ Tue, 23 Feb 2021 11:35:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D76E883118
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7D57583438
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Feb 2021 06:43:45 +0000 (UTC)
+ Tue, 23 Feb 2021 11:35:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9j65YNkv9Is0
+ with ESMTP id N2ecVAc-o7g8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Feb 2021 06:43:44 +0000 (UTC)
+ Tue, 23 Feb 2021 11:35:40 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2DD1983103
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+ [209.85.210.173])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id A30A68321B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Feb 2021 06:43:44 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id p21so9503978lfu.11
+ Tue, 23 Feb 2021 11:35:40 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id c11so8584139pfp.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Feb 2021 22:43:44 -0800 (PST)
+ Tue, 23 Feb 2021 03:35:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+TzOCAdEwWA3QxxBM+Z2WR+5WQ3jj+pgReYpklWmgk8=;
- b=Y0S3XTcLq+EFh5ihi+XrK4RzccttbfIVXNtXH/2cxLWWxX6JpdP62cyzgo4NDBI1E+
- 58mqgj/22I7yzUH3M4/Z4lymlgR22mPNuDBvMtkD+EIqIyGRMJeDRt0nQyf4fS9BEnPJ
- CySFJ9c1XQIj+7PO/kMs6e8ul6aUk7VehpObnTmrJ0dIEr6hSr18Z6+Ytlizsk81cFiX
- cB7ICQmvNZBVzSz5h6zqGr285kRnxdfkH6KaIuogx2jDKV13xqK2/viZlE830pyQAi5e
- IdlUd87XKYE9j7U0aiJF9qMkTk4IqnuM2ToiyQXucAKrSMfWuCZax4gsml9qgX6JykpS
- m0nw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZXknYZa22rU4H1Kyhm91bekSW7PvKMTDIpqNkOqobg0=;
+ b=CVmm/41qEVa8VkqYO/9hoDhX1BID2L/663fz5V7U+F4AZkVdnGavR376wsVaYXywWv
+ GwaxEEG7ONNBS3a2yM1x56LTm3nuDPq1uFXJjz0zHD7LJfVpMhzcT/0am1a+pSHHe8fp
+ DMdjnmnXYq/+FU0IzTGSoyNWULwftomnuO9VsI7U2rVxA8toBCTlAb/uEHd2CHyVKwdy
+ yAF6dHL5Tz+nkNM+q84Fg82BhD42/Q6znMcw1086F25m89CGXK5YgSGhwwpzwIqGJLs9
+ HBg/GBQ4EU49gd5yXsMj3njGJKQrWmLmha8gigkWuwTDoxh9iAUlhW91D7SmlKhP//CT
+ 3C6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+TzOCAdEwWA3QxxBM+Z2WR+5WQ3jj+pgReYpklWmgk8=;
- b=m7vnXtMrVArBfi1HlyvytWqqBL7sh9izzrjB+p2nMmHCIeJZp5K52fyBZlHUDfof2d
- D6TZ7OVnLl74ILp0/FnWMB4Bn39lwKuLqY367Itu4LMjT3my9YIhz+fRImq55oxriDg/
- fCth/OZQ0wfmziFjKRRETZJAd/6YFDoK+t2DmwvrKGqhLVmw5gB3vSy082QZBtlFQCX8
- U4toeXk4TsH7oqOWY/cUrHaX0NwN7BWMwqSvCqk3OsWJxlT5gv3RfcR0LXzuYFF5/j3o
- OqVyhj+JkCgbfLVhRsoeue0G/V2msyqCqwUAlx6U+STx7bhRbCizoEXoLkEnnkLRFklF
- 6qqw==
-X-Gm-Message-State: AOAM533SnZBcC3BvkjjfqbyE4Fr7VUMAjOar7/B8ggmpiSyST+w7asPE
- HoP5B3gIMv56iVp1fVAfoAE=
-X-Google-Smtp-Source: ABdhPJxRL1hRSxTPI+v0Fvh2bhJ9gzXMjm4xZjdZj02NMNox916xjKwB5LSZz0dgxfIjYZK5/PSaMg==
-X-Received: by 2002:ac2:4561:: with SMTP id k1mr701601lfm.544.1614062621805;
- Mon, 22 Feb 2021 22:43:41 -0800 (PST)
-Received: from localhost.localdomain (cable-hki-50dc98-67.dhcp.inet.fi.
- [80.220.152.67])
- by smtp.gmail.com with ESMTPSA id c9sm1574876lfc.208.2021.02.22.22.43.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 22:43:41 -0800 (PST)
-From: Hassan Shahbazi <h.shahbazi.git@gmail.com>
-To: gregkh@linuxfoundation.org
-Date: Tue, 23 Feb 2021 08:42:29 +0200
-Message-Id: <20210223064227.62631-1-h.shahbazi.git@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ bh=ZXknYZa22rU4H1Kyhm91bekSW7PvKMTDIpqNkOqobg0=;
+ b=uZknpQVAADs8lJFLSiXlKQMQhdPBuZ/qrc5ubvb/oeVuwBbkawbodTMcUDONLaxPVH
+ vV7rdrNd4OJpD8VcRIm9NfIQIgyLUEYy6O6Oa+UfkoLNcIpYpPJQbk1wTGfdAxvnBTSw
+ IEy7Iftz+JhRFnaI8rhEnhLvroZ4+dZaRSlJg/eK6P65X/65LlVe9PRxotez99hgwcqp
+ WujVb41cUasS3UCaqPfplhSlQttNQSf8s97hN9r4PQeNch/G3/lHH0pk+p57pZegsGKj
+ 1nGzLGbJzz6ek7GFf/pwFaAffdu417BVg1/TojI2hesteJks/JhKOZbty0gEITs7yhKz
+ uYfQ==
+X-Gm-Message-State: AOAM530JzFKJNf49KVlNolBJfeWGWUe48Rebwpo4U/KiLhchTAHCc5Z5
+ HjZi+AVvSB2DFcRuCMqESpI=
+X-Google-Smtp-Source: ABdhPJx9a0hukooQl+z13/uQEycH7Ffx7KnAqyXf1sCpbyl4sm/4sgSImvbkUxroEOUNSBqVplDsIw==
+X-Received: by 2002:a63:f953:: with SMTP id q19mr3171093pgk.125.1614080139936; 
+ Tue, 23 Feb 2021 03:35:39 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:71c8:9c21:1a6d:84ab?
+ ([2405:201:600d:a089:71c8:9c21:1a6d:84ab])
+ by smtp.gmail.com with ESMTPSA id b7sm21630037pfp.139.2021.02.23.03.35.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 03:35:39 -0800 (PST)
+To: Jonathan Corbet <corbet@lwn.net>
+References: <20210217145625.14006-1-yashsri421@gmail.com>
+ <878s7flrdf.fsf@meer.lwn.net>
+From: Aditya <yashsri421@gmail.com>
+Message-ID: <1e4c4108-feb4-9ab6-7c1c-13200658470c@gmail.com>
+Date: Tue, 23 Feb 2021 17:05:34 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: devel@driverdev.osuosl.org, Hassan Shahbazi <h.shahbazi.git@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: [Linux-kernel-mentees] [PATCH] drivers: staging: wimax: fix code
-	style issues
+In-Reply-To: <878s7flrdf.fsf@meer.lwn.net>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [RFC] scripts: kernel-doc: fix array
+ element capture in pointer-to-func parsing
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,37 +118,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fixes 'WARNING: Missing a blank line after declarations' generated by
-checkpatch.pl script.
+On 23/2/21 3:03 am, Jonathan Corbet wrote:
+> Aditya Srivastava <yashsri421@gmail.com> writes:
+> 
+>> Currently, kernel-doc causes an unexpected error when array element (i.e.,
+>> "type (*foo[bar])(args)") is present as pointer parameter in
+>> pointer-to-function parsing.
+>>
+>> For e.g., running kernel-doc -none on kernel/gcov/gcc_4_7.c causes this
+>> error:
+>> "Use of uninitialized value $param in regexp compilation at ...", in
+>> combination with:
+>> "warning: Function parameter or member '' not described in 'gcov_info'"
+> 
+> In the future, please quote error messages from the kernel verbatim.
+> You can trim irrelevant stuff before or after, but please do not edit
+> them in this way.  That helps me to understand what you are fixing, and
+> is also useful for anybody else who might be searching for a solution to
+> the same problem.
+> 
+>> Here, the parameter parsing does not take into account the presence of
+>> array element (i.e. square brackets) in $param.
+>>
+>> Provide a simple fix by adding square brackets in the regex, responsible
+[]
+>> -- 
+> 
+> ...meanwhile, I have applied this one, thanks.
+> 
 
-Signed-off-by: Hassan Shahbazi <h.shahbazi.git@gmail.com>
----
- drivers/staging/wimax/stack.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks Jonathan! Will keep this in mind..
 
-diff --git a/drivers/staging/wimax/stack.c b/drivers/staging/wimax/stack.c
-index ace24a6dfd2d..0d0f6ab79bf5 100644
---- a/drivers/staging/wimax/stack.c
-+++ b/drivers/staging/wimax/stack.c
-@@ -156,6 +156,7 @@ int wimax_gnl_re_state_change_send(
- {
- 	int result = 0;
- 	struct device *dev = wimax_dev_to_dev(wimax_dev);
-+
- 	d_fnstart(3, dev, "(wimax_dev %p report_skb %p)\n",
- 		  wimax_dev, report_skb);
- 	if (report_skb == NULL) {
-@@ -362,6 +363,7 @@ EXPORT_SYMBOL_GPL(wimax_state_change);
- enum wimax_st wimax_state_get(struct wimax_dev *wimax_dev)
- {
- 	enum wimax_st state;
-+
- 	mutex_lock(&wimax_dev->mutex);
- 	state = wimax_dev->state;
- 	mutex_unlock(&wimax_dev->mutex);
--- 
-2.26.2
-
+Thanks
+Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
