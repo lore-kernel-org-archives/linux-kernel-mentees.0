@@ -2,104 +2,89 @@ Return-Path: <SRS0=B4mk=H4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBFFC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Feb 2021 09:38:52 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85356C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Feb 2021 10:22:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BA6EE64EB7
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Feb 2021 09:38:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BA6EE64EB7
+	by mail.kernel.org (Postfix) with ESMTPS id D5BBF64EC4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Feb 2021 10:22:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D5BBF64EC4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6E1ED8417C;
-	Fri, 26 Feb 2021 09:38:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6BB794330A;
+	Fri, 26 Feb 2021 10:22:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tas2CXs5MZIm; Fri, 26 Feb 2021 09:38:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M-_yyVONONQB; Fri, 26 Feb 2021 10:22:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8540484165;
-	Fri, 26 Feb 2021 09:38:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9E56543310;
+	Fri, 26 Feb 2021 10:22:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 72BF2C000B;
-	Fri, 26 Feb 2021 09:38:50 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EF741C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 767FFC000A;
+	Fri, 26 Feb 2021 10:22:01 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BFBA1C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Feb 2021 09:38:48 +0000 (UTC)
+ Fri, 26 Feb 2021 10:21:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id DF15A8417C
+ by smtp2.osuosl.org (Postfix) with ESMTP id AED1D43310
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Feb 2021 09:38:48 +0000 (UTC)
+ Fri, 26 Feb 2021 10:21:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id elrSifkPGeXT
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Gp6oGixtmAkb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Feb 2021 09:38:48 +0000 (UTC)
+ Fri, 26 Feb 2021 10:21:59 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
- [209.85.215.180])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1894784165
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
+ [209.85.166.46])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 274384330A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Feb 2021 09:38:48 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id o63so5891354pgo.6
+ Fri, 26 Feb 2021 10:21:59 +0000 (UTC)
+Received: by mail-io1-f46.google.com with SMTP id o11so1189849iob.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Feb 2021 01:38:48 -0800 (PST)
+ Fri, 26 Feb 2021 02:21:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=J0JCxRwK/cVF01edZZLT5Wj+Rr/9cd4HuWjSUBop7vU=;
- b=Q5H0AZJTL1NSQGD7LnRILO+s/R0FFXQzHQBSHMRLI6O9gW2U5wMXdyQtJWYmEP6Vtw
- UOgyAb6NQz6CFU12TsYsfJ5T+fXSjZULazZfmx8DVPXi32RUHeKpmKY81aYQzubmnGtv
- wwmaK1dNv2CDfPxTqz1WgKar9J3bKWYUuKGztfKNB5WdQu+38JrdfRZQjrVG6hCv6MgZ
- 6QZyn9jLMvUddMF9deJAwcLDIgdX/4XaUo5NXaDhg5Z8sPjgFbIklodv9hM25g7qOh1F
- M/UQZ4QOz/6w0NHS2vdWM/vAKVI4Cogzqx8S+DxhJCWDny5BHPstxIF36NFatGtFdAGH
- 7cJg==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=BXuN/OhxLOmuaTvPo1WVoYs9rPWwpwpRK9bD5YtTbxw=;
+ b=sVoNMIIsZ776rwWAnr8L8GdvZDCzUg03yC42iOm0Z6DeoOlP0NB36bLz/RzHXbdGlF
+ YnDNujXlXA4UKCUXumklH2ADESPGAlS/dmSl/7tN+etJZjTqgxeTkfM6dR2x7agNThCv
+ rWpIx//iN7rnjn1R8A688uHAR9wqno8poMG33exGhHNaJ9jJMOfZDEo6DH/NDA6Gr88u
+ sP+2USWyYC+O1ydYU2Q+nw0KONLfiLXuvnSMmHQt9kdTRx160klMuNCm+N5W1t0/z8CM
+ U8vFlgYZQ3ZMLSTcyoGmqhbZiY1KdkmhIvC6/HU93nCSCZYQF/px3rb0UDznNRPy531U
+ aTFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=J0JCxRwK/cVF01edZZLT5Wj+Rr/9cd4HuWjSUBop7vU=;
- b=gz95eQLRqcf4W9gAChueH9FlQkgCpc5dMGZS0Jvc+tjm5elLu7RCEYyO1enlFySYey
- N+R3hs26mN/VTDK3YR+afCM0Z9PXED4tIkC18F9EFBmaJkgfHYGWrFZCQaJ/eMXXCu8m
- LXKeyvNE1ACHp5Be7UX3WV5ZNpsunBYS886vAv5COC14gW8XlwTYmwaW4Ge0fL37gwUZ
- fwvnLK4LN7EEt3A66X0iHUAJnLXjtobSsB53yL+ky/x8grCzRhEQyZCI97hfB3USFzT4
- P7RJJEyMe49n4ShzvPY3uhrWSvcOOh66kp9dwSXNVKOn0FNyqX/SuDFZ/s1vFBHlyKyE
- FtJA==
-X-Gm-Message-State: AOAM532ujqc8NK8JIROVzgTz+V+A0k1bRQ8GrxnCYrBZ7DZUcLRTumq/
- Av6UaesAAd8vOqvJdj/f5kc=
-X-Google-Smtp-Source: ABdhPJxQtiuvKwP1IU33GuRG5bLiQh02WQ5ZBlGfKG82cdoz0yv2PpI0englQ2YmAzvh/Nww++M9NA==
-X-Received: by 2002:a62:bd05:0:b029:1ab:6d2:5edf with SMTP id
- a5-20020a62bd050000b02901ab06d25edfmr2347975pff.32.1614332327499; 
- Fri, 26 Feb 2021 01:38:47 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:9004:6adb:2468:cd7e:b0b6:7857])
- by smtp.gmail.com with ESMTPSA id n1sm8548833pgi.78.2021.02.26.01.38.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 01:38:47 -0800 (PST)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: joe@perches.com,
-	corbet@lwn.net,
-	mchehab@kernel.org
-Subject: [PATCH v8 3/3] MAINTAINERS: clarify responsibility for checkpatch
- documentation
-Date: Fri, 26 Feb 2021 15:08:27 +0530
-Message-Id: <20210226093827.12700-4-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210226093827.12700-1-dwaipayanray1@gmail.com>
-References: <20210226093827.12700-1-dwaipayanray1@gmail.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=BXuN/OhxLOmuaTvPo1WVoYs9rPWwpwpRK9bD5YtTbxw=;
+ b=NoMqeU/YMruGzZkaZTamS5H1J12+bL37LUQh+987q4/7M0K4irboL/s+esoPDNtzoR
+ 72JSGslJVvnyCIpuibsJSIxLj96zShg9OcmcwOv7aXIhiP+T65SvMTdUhJ0Xt4es//3n
+ FX0Wft34JkgKP3ciPZ0StbTpfEhR9wieD9478zZ7SGXP9iMGdao5fWJTWJpZaHWw78T3
+ xLNB1nI4/K26nIjburE672p07+TazkqEd92IZao/qZmHz4y1Hmf72YAjdmCpMS+3RLeU
+ P9JURIYTTsUyrfoeuvZSQf6WzMtSbixAnuFFA1F5fLMKn2Ru6BgYC9P+HnbDP7telhra
+ +X7A==
+X-Gm-Message-State: AOAM532OP4EBDZbrQd0ZzOG5fUQRZTFTB1aeQnnM/y2ozaIJzmX4mbcU
+ U3A49k4ZUAnX+47CbTFrOEgVYAPuB97BJ13yYdE=
+X-Google-Smtp-Source: ABdhPJxHg/mCi+jiPGWb2f9Y4GoIjLJjCng9e51bf04oXLvrgft9yXBzLnHgEXmvmYXGGx0Xq1rjsXtlj+QRqfUnuyk=
+X-Received: by 2002:a02:866d:: with SMTP id e100mr2140392jai.139.1614334918103; 
+ Fri, 26 Feb 2021 02:21:58 -0800 (PST)
 MIME-Version: 1.0
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 26 Feb 2021 11:21:47 +0100
+Message-ID: <CAKXUXMzstVLAj7KBHxOdW4BYBg_paDOdJfutx4rPYxU+jfcKUg@mail.gmail.com>
+Subject: Yet another kernel-doc parsing issue
+To: Aditya Srivastava <yashsri421@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,48 +102,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Aditya,
 
-As discussed, Dwaipayan and Lukas take the responsibility for maintaining
-the checkpatch documentation that is currently being built up.
+here is another example of expressions that kernel-doc cannot properly parse:
 
-To be sure that the checkpatch maintainers and the corresponding
-documentation maintainers can keep the content synchronized, add them as
-reviewers to the counterpart.
+include/rdma/ib_cm.h:571: warning: cannot understand function
+prototype: 'const char *__attribute_const__ ibcm_reject_msg(int
+reason); '
+include/rdma/iw_cm.h:224: warning: cannot understand function
+prototype: 'const char *__attribute_const__ iwcm_reject_msg(int
+reason); '
+include/rdma/rdma_cm.h:348: warning: cannot understand function
+prototype: 'const char *__attribute_const__ rdma_reject_msg(struct
+rdma_cm_id *id,                                                 int
+reason); '
 
-Link: https://lore.kernel.org/lkml/bcee822d1934772f47702ee257bc735c8f467088.camel@perches.com/
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+It is probably easy to extend the current patterns of attributes in
+kernel-doc by just __attribute_const__, but that is of course only a
+quick hotfix for kernel-doc. You can start with that.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 16ada1a4b751..6b48b79ba284 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4181,9 +4181,18 @@ X:	drivers/char/tpm/
- CHECKPATCH
- M:	Andy Whitcroft <apw@canonical.com>
- M:	Joe Perches <joe@perches.com>
-+R:	Dwaipayan Ray <dwaipayanray1@gmail.com>
-+R:	Lukas Bulwahn <lukas.bulwahn@gmail.com>
- S:	Maintained
- F:	scripts/checkpatch.pl
- 
-+CHECKPATCH DOCUMENTATION
-+M:	Dwaipayan Ray <dwaipayanray1@gmail.com>
-+M:	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-+R:	Joe Perches <joe@perches.com>
-+S:	Maintained
-+F:	Documentation/dev-tools/checkpatch.rst
-+
- CHINESE DOCUMENTATION
- M:	Harry Wei <harryxiyou@gmail.com>
- M:	Alex Shi <alex.shi@linux.alibaba.com>
--- 
-2.30.0
+But maybe you can come up with a better general solution? I see that
+there are multiple tools in the kernel that need to maintain a list of
+attributes for their internal C parsers, maybe you find a way to
+refactor them that they share a common file for recording the valid
+and supported attributes.
 
+
+Best regards,
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
