@@ -2,79 +2,79 @@ Return-Path: <SRS0=9x8T=H7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF747C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Mar 2021 21:57:44 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD602C4361A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Mar 2021 22:11:02 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DAADC60232
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Mar 2021 21:57:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DAADC60232
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id 6FB7A6024A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Mar 2021 22:11:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6FB7A6024A
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 96EAA4F1C7;
-	Mon,  1 Mar 2021 21:57:43 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3D5E3843EC;
+	Mon,  1 Mar 2021 22:11:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kfp8Q_fVcS3g; Mon,  1 Mar 2021 21:57:42 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ru0PWJx3eipl; Mon,  1 Mar 2021 22:11:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 75FE04F0F3;
-	Mon,  1 Mar 2021 21:57:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 694B7843EB;
+	Mon,  1 Mar 2021 22:11:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5A0A6C000B;
-	Mon,  1 Mar 2021 21:57:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4141AC000A;
+	Mon,  1 Mar 2021 22:11:01 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 814FEC0001
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1E77C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Mar 2021 21:57:41 +0000 (UTC)
+ Mon,  1 Mar 2021 22:10:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 67A64843CA
+ by smtp1.osuosl.org (Postfix) with ESMTP id D898C843EC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Mar 2021 21:57:41 +0000 (UTC)
+ Mon,  1 Mar 2021 22:10:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=lwn.net
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DfIb6T868Jhb
+ with ESMTP id EUp6-ED3Cfs3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Mar 2021 21:57:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
- by smtp1.osuosl.org (Postfix) with ESMTPS id DF63F843C6
+ Mon,  1 Mar 2021 22:10:59 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from smtprelay.hostedemail.com (smtprelay0004.hostedemail.com
+ [216.40.44.4])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1FBA2843EB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Mar 2021 21:57:40 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 3EEB22B8;
- Mon,  1 Mar 2021 21:57:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3EEB22B8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1614635860; bh=i6jQL2vEgTZpDiPscbXFNSE/AGEJG68OoQFCzcs14eY=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=m5sBTavMke52rPDsk6aPF9PVFu/38tbTbHO05WGk4Yxo2KFTQSKKW+4HchgwPXhZ2
- AiNq0lrvJhr6ZD3ClJtjAsAMPB+D/gvmnZBEOHN2Gqo/sS4nX2p8NrX2Kra541iyLe
- 7APV/lFPjTnh3CvcptaIGCGTCeGvifyCY7arlJgzUfUkux4gOBrNEtbvLLF2A4xptP
- 3M8jwv3thGIdhu5HGz95SQsB0M4C6VsiRhqW/SqrIRO4ivW+tSCcHaUTW0qT3PPUOA
- a+p6Hi7m3CKGtdVtw0AtdNY5EWaa7JMOqXaygxmiFcMYhcxVTDFocH2VqwoP/JxdYz
- iYWm5kTF3P/Ww==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>,
- mchehab@kernel.org
+ Mon,  1 Mar 2021 22:10:58 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave02.hostedemail.com (Postfix) with ESMTP id 659B8180498A8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  1 Mar 2021 21:53:42 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net
+ [216.40.38.60])
+ by smtprelay01.hostedemail.com (Postfix) with ESMTP id 60027100E7B40;
+ Mon,  1 Mar 2021 21:53:39 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: wind31_2101327276b7
+X-Filterd-Recvd-Size: 1518
+Received: from [192.168.1.159] (unknown [47.151.137.21])
+ (Authenticated sender: joe@perches.com)
+ by omf12.hostedemail.com (Postfix) with ESMTPA;
+ Mon,  1 Mar 2021 21:53:38 +0000 (UTC)
+Message-ID: <70877984ec78d837159dc643e3ae2b05fd91561c.camel@perches.com>
 Subject: Re: [PATCH v8 0/3] checkpatch: add verbose mode
-In-Reply-To: <70877984ec78d837159dc643e3ae2b05fd91561c.camel@perches.com>
+From: Joe Perches <joe@perches.com>
+To: Jonathan Corbet <corbet@lwn.net>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>,  mchehab@kernel.org
+Date: Mon, 01 Mar 2021 13:53:35 -0800
+In-Reply-To: <87tupu36xi.fsf@meer.lwn.net>
 References: <20210226093827.12700-1-dwaipayanray1@gmail.com>
  <87tupu36xi.fsf@meer.lwn.net>
- <70877984ec78d837159dc643e3ae2b05fd91561c.camel@perches.com>
-Date: Mon, 01 Mar 2021 14:57:39 -0700
-Message-ID: <87czwi35bg.fsf@meer.lwn.net>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
@@ -95,28 +95,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Joe Perches <joe@perches.com> writes:
+On Mon, 2021-03-01 at 14:22 -0700, Jonathan Corbet wrote:
+> Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
+> 
+> > Add a new verbose mode to checkpatch. The verbose test
+> > descriptions are read from the new checkpatch documentation
+> > file at `Documentation/dev-tools/checkpatch.rst`, which
+> > is also added by this series.
+> 
+> So I can certainly take the doc change, as requested.  Remind me,
+> though...should I apply the whole set, or will the checkpatch changes go
+> via another path?
 
-> On Mon, 2021-03-01 at 14:22 -0700, Jonathan Corbet wrote:
->> Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
->> 
->> > Add a new verbose mode to checkpatch. The verbose test
->> > descriptions are read from the new checkpatch documentation
->> > file at `Documentation/dev-tools/checkpatch.rst`, which
->> > is also added by this series.
->> 
->> So I can certainly take the doc change, as requested.  Remind me,
->> though...should I apply the whole set, or will the checkpatch changes go
->> via another path?
->
-> There's no dedicated upstream path for checkpatch.
-> So please take the checkpatch changes too.
+There's no dedicated upstream path for checkpatch.
+So please take the checkpatch changes too.
 
-OK, I have just done that.
 
-Thanks,
-
-jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
