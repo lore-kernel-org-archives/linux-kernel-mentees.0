@@ -1,108 +1,100 @@
-Return-Path: <SRS0=Jn8L=IJ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=KfMm=IK=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B0C9C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 11 Mar 2021 21:04:06 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E6DC433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 Mar 2021 07:00:56 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0575C64E44
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 11 Mar 2021 21:04:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0575C64E44
+	by mail.kernel.org (Postfix) with ESMTPS id DCE8E64F29
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 Mar 2021 07:00:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DCE8E64F29
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 911BB4ED0E;
-	Thu, 11 Mar 2021 21:04:05 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9C52842D1B;
+	Fri, 12 Mar 2021 07:00:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XRrTKE4cU-f0; Thu, 11 Mar 2021 21:04:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7A9604ED0D;
-	Thu, 11 Mar 2021 21:04:04 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MJEWFjoqiznX; Fri, 12 Mar 2021 07:00:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 93C8142C27;
+	Fri, 12 Mar 2021 07:00:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 637AFC000A;
-	Thu, 11 Mar 2021 21:04:04 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 67992C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7415CC0013;
+	Fri, 12 Mar 2021 07:00:54 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ADD69C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Mar 2021 21:04:03 +0000 (UTC)
+ Fri, 12 Mar 2021 07:00:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 552BC6F9C5
+ by smtp1.osuosl.org (Postfix) with ESMTP id A6BA984504
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Mar 2021 21:04:03 +0000 (UTC)
+ Fri, 12 Mar 2021 07:00:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9yRscbnGWoAd
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8VGSDw4vbqLP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Mar 2021 21:04:02 +0000 (UTC)
+ Fri, 12 Mar 2021 07:00:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 61AFD6F9A8
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
+ [IPv6:2607:f8b0:4864:20::12c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 60BE4844F5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Mar 2021 21:04:02 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id o38so14450151pgm.9
+ Fri, 12 Mar 2021 07:00:52 +0000 (UTC)
+Received: by mail-il1-x12c.google.com with SMTP id r7so1709543ilb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Mar 2021 13:04:02 -0800 (PST)
+ Thu, 11 Mar 2021 23:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ALluUOsoSqK4P+is/Y65pRMrQ+pvKVSisjX8vHlvv0Y=;
- b=L+SgzsufpGKpowTezzieLVjENQonW5ufjAo6UGxYlvwEYAI4R3Qj8ejfabUzZ/E35o
- eP9qU2CcWjrsiUp0VsPN31ep4vrG2ZKq3HcgPOxDBjbUXCYSXAWaZ+pmUCv+heU0V5oW
- /N+1KeI7yCDxPza1UrJh8a7SkpoEKLDHq4B+3hXsZXbrxyg/dy+zV98l3aAz6sMVOA3s
- Hjit8bp39EJkvN5r58j4op+3TcIFxih28ZAKczlzbdGAvz2SPAuwELFxIL8tExshpE0O
- NiOLjc2mc0mkMvJuD1RhE5BztpkbE4VkrEIxUTb2+BzrwzAHTdIVr3aSp3zFY9z7YoB6
- XjNg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8E99Zfd2Mf/hwCot5q1fILbMB3CtDrbC/Ip5gYh/Z/0=;
+ b=TGKYTHizKqsGrQpO/TU9IX/03j7/ZLBzRS1n5Lh2M0F0Yb0Pu8IrWr28jlPSnFzqNb
+ BitZowvws3i6Vcq7GaLHVAKv8FiKEsDrmdQkQrL+8kbxqz4QKmhfPbfinF5TOb1ns3bH
+ imvDx+8nqOyvLou9YSPCGFm+gyjUXNNB7udxWwNYhNDmxXMWLE/pxvsrPZQBz8g9SZg/
+ csMH09562v+RRpvrj9PCYHddVzl2nZzscQbYTz7lRAA7WeB5xbFmMIiLJ0wlxVQLdyxS
+ p1KB+c7XfAq/HvWm3nj6R4hdCUgQGCHlM+u5N8BCYe0FHsui56fbPaivnio/dQI/L0M9
+ +xew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ALluUOsoSqK4P+is/Y65pRMrQ+pvKVSisjX8vHlvv0Y=;
- b=nvhlD7RxAqzy2fX2j2uQxQpjK9CtWi16eitJeFdsJQSI4G3xjFkvBa/yW1HhOODoT8
- zCFVTplfKG3Z7UZDFMcr5wCV95iPLDe3vWLmzBAoK3TrjSs+WANNROAEPxPmm3ZNz2dj
- 8DLzg5gKdLquN/4QxK8hxUGzNRNshpw0MJD27ckYl3AaZkUA6sAhf4UmFuqjOjTkZFkF
- Amu3rsWgUk+27ZFR3BnXDTwvxPX9VBX0w/wSIo62XbH15nb3HYndNt+MiZ621l8SC/2Y
- 8F1/uoD7tXerx2nnD0mV3PD9LIlVQ4w66hu2MgqZTyTxvHHN55QOcGl1/mRhsR/A/3JT
- 6rgQ==
-X-Gm-Message-State: AOAM5313LEHUaq71bXXVysXl3hd5u9iUMEi1yuvOih5N7vFy9CeT7ggr
- FnyY7UPTvTmMG5YB/rZJvq7Ne1p6Ja/jHoUi
-X-Google-Smtp-Source: ABdhPJwkBvX01oEU2foX84xttZrz/R4IafR2gkTb0wcgibS6UEN6hIYEQ+Oza7/LP/IS8mv91M7qkQ==
-X-Received: by 2002:a63:161c:: with SMTP id w28mr8872540pgl.341.1615496641519; 
- Thu, 11 Mar 2021 13:04:01 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:c1b4:679a:535a:d260?
- ([2405:201:600d:a089:c1b4:679a:535a:d260])
- by smtp.gmail.com with ESMTPSA id s28sm3336112pfd.155.2021.03.11.13.03.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Mar 2021 13:04:01 -0800 (PST)
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8E99Zfd2Mf/hwCot5q1fILbMB3CtDrbC/Ip5gYh/Z/0=;
+ b=HRBblsrUzHW8/XYm3n6GGBjw/BRiaVJZ31Ms89QviYmHCnUCtIsR9qaEa/KYydnXnQ
+ 1OB7V07FL5fnWvcC2x8kc0CveM5AhP8WjZOxdpvFe5F9jp/mqoXxdicPCMdkrBYIZYHX
+ zfJ37bHCe5Tbht/D4isV+qe5wgdTDJMLmvvloOCOKHNK/CN4WQZytQhqIOMl53ZptbxK
+ eRanB1hlTFLwilfT0kHNvB/rEXsCbAxr765eN2n6VGDqGRhHR3gxjj5Qo166Cwrps5c4
+ RZmvl9pmcey+yTlwva/+RBmC5TpCsaa3E61Dv4MGrSR1g9Tmdiwyptut2NQajHYZRmuP
+ lgLw==
+X-Gm-Message-State: AOAM533a6dyV0AWHDvbWiGKdQjMw2ySHxUsdjaFgJy+9278xgMZuVZWK
+ Cq89Au3WbPkUEYWM+pwU9eLX84Qr0U8bdJr+pAc=
+X-Google-Smtp-Source: ABdhPJwLExrMo8wDJt1HPXiyvI5heC6Dp8wP9tSCOIe+64pzlnT1e3vU7Ga8S/OE3Y+PxWhoWtJ1dTkJAa1XZnR+wH0=
+X-Received: by 2002:a05:6e02:1049:: with SMTP id
+ p9mr1772509ilj.125.1615532451415; 
+ Thu, 11 Mar 2021 23:00:51 -0800 (PST)
+MIME-Version: 1.0
 References: <20210309125324.4456-1-yashsri421@gmail.com>
  <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
  <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
  <CAKXUXMwg7Vs5hm_X3ZHJj9309w5VYbnNeqXaajHBHS1oAKQydw@mail.gmail.com>
-From: Aditya <yashsri421@gmail.com>
-Message-ID: <838a823b-f3fd-ed1b-70d1-82611f9f4ada@gmail.com>
-Date: Fri, 12 Mar 2021 02:33:55 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAKXUXMwg7Vs5hm_X3ZHJj9309w5VYbnNeqXaajHBHS1oAKQydw@mail.gmail.com>
-Content-Language: en-US
+ <838a823b-f3fd-ed1b-70d1-82611f9f4ada@gmail.com>
+In-Reply-To: <838a823b-f3fd-ed1b-70d1-82611f9f4ada@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 12 Mar 2021 08:00:40 +0100
+Message-ID: <CAKXUXMyJKU2ayx6KPFU50JA+t+X6-hhQwo0woNC18T6FTK60rw@mail.gmail.com>
+Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
+ commented lines in file
+To: Aditya <yashsri421@gmail.com>
 Cc: Markus Heiser <markus.heiser@darmarit.de>,
  "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
@@ -125,70 +117,74 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 10/3/21 11:49 am, Lukas Bulwahn wrote:
-> On Tue, Mar 9, 2021 at 10:24 PM Aditya <yashsri421@gmail.com> wrote:
->>
->> On 9/3/21 7:00 pm, Markus Heiser wrote:
->>>
->>> Am 09.03.21 um 13:53 schrieb Aditya Srivastava:
->>>> Starting commented lines in a file mostly contains comments describing
->>>> license, copyright or general information about the file.
->>>>
->>>> E.g., in sound/pci/ctxfi/ctresource.c, initial comment lines describe
->>>> its copyright and other related file informations.
->>>
->>> The opening comment mark /** is used for kernel-doc comments [1]
->>>
->>> [1]
->>> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
->>>
->>
->> Hi Markus!
->> That's true. But the content inside the comment does not follow
->> kernel-doc format.
->> For e.g., try running kernel-doc -none/man/rst on the above file in
->> the example("sound/pci/ctxfi/ctresource.c").
->> The starting 2-3 lines in files generally do not contain any
->> struct/enum/function, etc. declaration.
->>
-> 
-> Aditya, can you provide a diff of the warnings over the whole kernel tree?
-> 
-> At the moment, your patch just implements ignoring the initial
-> comment, which probably is good for experimentation.
-> 
-> Alternatively, we could simply have a dedicated warning and then
-> ignore it or even warn and then parse it as-if.
-> 
-> In the "long run", we would probably want to fix all current files in
-> the repository by just replacing '/**' by '/*' and have kernel-doc
-> warn about this suspicious pattern, when new files appear (maybe even
-> configurable, but that is another feature to enable or disable certain
-> kernel-doc checks and warnings). I would certainly assist and
-> contribute to such a clean-up task.
-> 
-> I think the first step is to look at the diff, and see how many cases
-> really appear in the tree... then check how many patches throughout
-> the whole tree are required and if they are generally accepted.
-> 
+On Thu, Mar 11, 2021 at 10:04 PM Aditya <yashsri421@gmail.com> wrote:
+>
+> On 10/3/21 11:49 am, Lukas Bulwahn wrote:
+> > On Tue, Mar 9, 2021 at 10:24 PM Aditya <yashsri421@gmail.com> wrote:
+> >>
+> >> On 9/3/21 7:00 pm, Markus Heiser wrote:
+> >>>
+> >>> Am 09.03.21 um 13:53 schrieb Aditya Srivastava:
+> >>>> Starting commented lines in a file mostly contains comments describing
+> >>>> license, copyright or general information about the file.
+> >>>>
+> >>>> E.g., in sound/pci/ctxfi/ctresource.c, initial comment lines describe
+> >>>> its copyright and other related file informations.
+> >>>
+> >>> The opening comment mark /** is used for kernel-doc comments [1]
+> >>>
+> >>> [1]
+> >>> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
+> >>>
+> >>
+> >> Hi Markus!
+> >> That's true. But the content inside the comment does not follow
+> >> kernel-doc format.
+> >> For e.g., try running kernel-doc -none/man/rst on the above file in
+> >> the example("sound/pci/ctxfi/ctresource.c").
+> >> The starting 2-3 lines in files generally do not contain any
+> >> struct/enum/function, etc. declaration.
+> >>
+> >
+> > Aditya, can you provide a diff of the warnings over the whole kernel tree?
+> >
+> > At the moment, your patch just implements ignoring the initial
+> > comment, which probably is good for experimentation.
+> >
+> > Alternatively, we could simply have a dedicated warning and then
+> > ignore it or even warn and then parse it as-if.
+> >
+> > In the "long run", we would probably want to fix all current files in
+> > the repository by just replacing '/**' by '/*' and have kernel-doc
+> > warn about this suspicious pattern, when new files appear (maybe even
+> > configurable, but that is another feature to enable or disable certain
+> > kernel-doc checks and warnings). I would certainly assist and
+> > contribute to such a clean-up task.
+> >
+> > I think the first step is to look at the diff, and see how many cases
+> > really appear in the tree... then check how many patches throughout
+> > the whole tree are required and if they are generally accepted.
+> >
+>
+> Hi Lukas!
+> This is the diff of the warnings over kernel tree before and after
+> applying these changes.
+> There are 2 sections in this report:
+> 1) for the warnings present before, but not after, and;
+> 2) after but not before
+>
+> The part (2) contains, for some cases, where the warning for "warning:
+> Incorrect use of kernel-doc format:" type has changed to "warning:
+> wrong kernel-doc identifier on line:" type.
+>
+> The diff file can be found at:
+> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/avoid_init_line_diff.txt
+>
 
-Hi Lukas!
-This is the diff of the warnings over kernel tree before and after
-applying these changes.
-There are 2 sections in this report:
-1) for the warnings present before, but not after, and;
-2) after but not before
+Thanks, let us check if we can use this diff to create a patch set
+that cleans up those header comments for those files.
 
-The part (2) contains, for some cases, where the warning for "warning:
-Incorrect use of kernel-doc format:" type has changed to "warning:
-wrong kernel-doc identifier on line:" type.
-
-The diff file can be found at:
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/avoid_init_line_diff.txt
-
-
-Thanks
-Aditya
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
