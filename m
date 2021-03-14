@@ -2,92 +2,99 @@ Return-Path: <SRS0=ODNG=IM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C29C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Mar 2021 20:18:32 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52922C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Mar 2021 20:18:37 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9AF9E64EB3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Mar 2021 20:18:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9AF9E64EB3
+	by mail.kernel.org (Postfix) with ESMTPS id DFA6B64EBD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Mar 2021 20:18:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFA6B64EBD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6273A4016B;
-	Sun, 14 Mar 2021 20:18:31 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id AF3BD83A42;
+	Sun, 14 Mar 2021 20:18:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ex8qLg9QhKRM; Sun, 14 Mar 2021 20:18:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8ECEE40166;
-	Sun, 14 Mar 2021 20:18:30 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cIGq3g9VuFFU; Sun, 14 Mar 2021 20:18:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTP id A3C5F83A41;
+	Sun, 14 Mar 2021 20:18:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 743F7C000B;
-	Sun, 14 Mar 2021 20:18:30 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A113C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9156DC000B;
+	Sun, 14 Mar 2021 20:18:35 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4256BC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:18:29 +0000 (UTC)
+ Sun, 14 Mar 2021 20:18:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3887940169
+ by smtp4.osuosl.org (Postfix) with ESMTP id 31A4F48F6D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:18:29 +0000 (UTC)
+ Sun, 14 Mar 2021 20:18:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id epAhqA0hxnf0
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jOgHp7yP0ITb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:18:28 +0000 (UTC)
+ Sun, 14 Mar 2021 20:18:33 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp2.osuosl.org (Postfix) with ESMTPS id ACAE040166
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7CF2548CE3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:18:28 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id v14so12305308pgq.2
+ Sun, 14 Mar 2021 20:18:33 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ x7-20020a17090a2b07b02900c0ea793940so13240499pjc.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 13:18:28 -0700 (PDT)
+ Sun, 14 Mar 2021 13:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=2KWRxAevKiF/nnG0NBxKJ90p3c03jicsIIQLN81D4+4=;
- b=dlSZJM5E6KEIz/mQPWyAmpVaYyjY3Rvy8gwGV7saPomtCAC9wAxu23SSOTxQM+POld
- ApylWsy7XPCz/TjtLEzCQv9zfE9jW1h/lTmg/uIErdsFFSy2YpnQd8u+mkdYtpS4wACw
- 0wMYw4qwMosyOfd3IGfJNYdLTrEdOZ3c3EDofPW8xb8VkyFpreYce8+qX8JENLEV9qp7
- hqkQDfZUABRmzYeUiIcSWaRs3ro97zRhkuFP3iDFS7oyiEtO9UIFW6+eFCm/MPPIP4ig
- mDiCcMq4XJJ9ybVwuOlPMGYhLj/tPjwInHbp+6mIVJ8pWp7zw8RQlvk55VfZkkOY8/cx
- uQAw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=YrpQBSr3kmqQ05MMAiX8qxeVEUbScERimugGDOEtrfU=;
+ b=FUPCX3YGCDqysk8JERy1dE/s9n94COU7vOLJgoZpY4/5PswdZXkz9AShO4t9xuIKgt
+ 83rouZaINUwdZ/wDpufz1x1usekK0QJI1ia4WbDf/TCGRdzsOCt0KUCe99/PnqS9osCH
+ 3dRiXQuOpyd4Nq7re1Hb19Hcl4b/q4D7Gz385dHQCwhqnLCMJHIrMgo3PrNb9yNnDav+
+ 7Pi5S+nkO/MYqKjqe9JdBzuhFLIFDLrE/zS9Q0mBrnCtuc+cSRT0xSzhFTKHKqPqDcP6
+ zem3CDhdgrM7nC8U7XY4cAHOBXyF+inQBA2cY2cx0aRn32ealfZN41P4WYBAtfNfZGj/
+ JcKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=2KWRxAevKiF/nnG0NBxKJ90p3c03jicsIIQLN81D4+4=;
- b=YOy/iJMLbJ+y6ysbINFU552gd9CBMtQ+/80rs3Netkuc+jt2Al0jz7jRvKukjt5VvX
- jQfLo3ZoWCfAZ0DLpmT+fJPMJcBxUspKohCTx4O5yGvU/qPaCQLxSAhCBHNJAJGnF0nM
- PW1/i0WyyrgWrKsS81dlkZc0NAvSIeRlNlfJXqF8k5dOb7jSows3N6ed03oKCff+3lAF
- uQA5ljqD+c8xnChIOl4CZZ3ubWxTJQB7klDidFncLsMqNMP6Tspd2fqsg+hTpWL2OFTU
- rXemWnmx61uS+sNTbuPW1F80ALKL2ijzmppTYlU2MIRAiz1/YCsZeH+z75wHCj01dCYF
- A9Zg==
-X-Gm-Message-State: AOAM531V3TAjXN4APisoPQWhZYTuvPZDq/2JxbJKqWMxxhR+Y/okurf2
- nCXrl7sa9it83gDouU2y7+w=
-X-Google-Smtp-Source: ABdhPJy4ATZPIIwNAbFc1z03hT4a4prxYKmXxZ6RJ/mIp0hm+z5kHuivT2nYjXm2XQv/addtA2M5KQ==
-X-Received: by 2002:a63:2c8f:: with SMTP id s137mr4061238pgs.51.1615753108099; 
- Sun, 14 Mar 2021 13:18:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=YrpQBSr3kmqQ05MMAiX8qxeVEUbScERimugGDOEtrfU=;
+ b=YiOOmQHXGIQhGhErpVXZknjw8zb5bCK4/+GxmWHJi1KI6FUbk2vIlKGEi0J/1IqXdK
+ nJY5CwJjJN7qWAjbCNc/lJe9wZTstiY12nA8nYyXagyuMlyAr+mMzQymZIy2hqcLPCz9
+ 1ccICvtyXs8BJEfDlWaJEF1G/d7m9Ap4HOImpJxpvmJip4/Lh9nviOLn3IdbPMEkNhIW
+ ubJm3MEDcSQqDshs1247RTgqeWiEVu+875kN14DIq4DpUmhT8jV9PwWyK7syLMogXDYY
+ /bd4ufEustg1ib38tLCD+kyzeKMJxCMXcFGdLKzo5Kmc8eEFCcAlmyV3ZHeDn44KyPJY
+ yliA==
+X-Gm-Message-State: AOAM533w2UmogfLjLL1+y93uXqzefUsCMRr/InyP1SKafuqOYCYs1iCG
+ x90MNYtsS6K4RxM9KwpPS3Q=
+X-Google-Smtp-Source: ABdhPJx+7SRyE/cHoNhgRUBi7/YwXDg+veeI3kf8cxZGinWvggxJ7eLjp2NkQ3wbZFa5TbOrTuChXw==
+X-Received: by 2002:a17:902:f702:b029:e3:5e25:85bb with SMTP id
+ h2-20020a170902f702b02900e35e2585bbmr8849848plo.56.1615753112944; 
+ Sun, 14 Mar 2021 13:18:32 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:600d:a089:acdc:a5a5:c438:c1e3])
- by smtp.googlemail.com with ESMTPSA id n10sm10943793pgk.91.2021.03.14.13.18.23
+ by smtp.googlemail.com with ESMTPSA id n10sm10943793pgk.91.2021.03.14.13.18.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 13:18:27 -0700 (PDT)
+ Sun, 14 Mar 2021 13:18:32 -0700 (PDT)
 From: Aditya Srivastava <yashsri421@gmail.com>
 To: siva8118@gmail.com
-Subject: [PATCH 00/10] rsi: fix comment syntax in file headers
-Date: Mon, 15 Mar 2021 01:48:08 +0530
-Message-Id: <20210314201818.27380-1-yashsri421@gmail.com>
+Subject: [PATCH 01/10] rsi: rsi_boot_params: fix file header comment syntax
+Date: Mon, 15 Mar 2021 01:48:09 +0530
+Message-Id: <20210314201818.27380-2-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210314201818.27380-1-yashsri421@gmail.com>
+References: <20210314201818.27380-1-yashsri421@gmail.com>
 Cc: yashsri421@gmail.com, netdev@vger.kernel.org,
  linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
  amitkarwar@gmail.com, kuba@kernel.org,
@@ -113,46 +120,34 @@ Sender: "Linux-kernel-mentees"
 
 The opening comment mark '/**' is used for highlighting the beginning of
 kernel-doc comments.
-There are files in drivers/net/wireless/rsi which follow this syntax in
-their file headers, i.e. start with '/**' like comments, which causes
-unexpected warnings from kernel-doc.
 
-E.g., running scripts/kernel-doc -none on drivers/net/wireless/rsi/rsi_coex.h
-causes this warning:
+The header comment used in drivers/net/wireless/rsi/rsi_boot_params.h
+follows kernel-doc syntax, i.e. starts with '/**'. But the content
+inside the comment does not comply with kernel-doc specifications (i.e.,
+function, struct, etc).
+
+This causes unwelcomed warning from kernel-doc:
 "warning: wrong kernel-doc identifier on line:
- * Copyright (c) 2018 Redpine Signals Inc."
+ * Copyright (c) 2014 Redpine Signals Inc."
 
-Similarly for other files too.
+Replace this comment syntax with general comment format, i.e. '/*' to
+prevent kernel-doc from parsing these
 
-Provide a simple fix by replacing the kernel-doc like comment syntax with
-general format, i.e. "/*", to prevent kernel-doc from parsing it.
-
-* The patch series applies perfectly on next-20210312
-
-Aditya Srivastava (10):
-  rsi: rsi_boot_params: fix file header comment syntax
-  rsi: rsi_coex: fix file header comment syntax
-  rsi: rsi_ps: fix file header comment syntax
-  rsi: rsi_common: fix file header comment syntax
-  rsi: rsi_mgmt: fix file header comment syntax
-  rsi: rsi_main: fix file header comment syntax
-  rsi: rsi_hal: fix file header comment syntax
-  rsi: rsi_debugfs: fix file header comment syntax
-  rsi: rsi_sdio: fix file header comment syntax
-  rsi: rsi_usb: fix file header comment syntax
-
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
  drivers/net/wireless/rsi/rsi_boot_params.h | 2 +-
- drivers/net/wireless/rsi/rsi_coex.h        | 2 +-
- drivers/net/wireless/rsi/rsi_common.h      | 2 +-
- drivers/net/wireless/rsi/rsi_debugfs.h     | 2 +-
- drivers/net/wireless/rsi/rsi_hal.h         | 2 +-
- drivers/net/wireless/rsi/rsi_main.h        | 2 +-
- drivers/net/wireless/rsi/rsi_mgmt.h        | 2 +-
- drivers/net/wireless/rsi/rsi_ps.h          | 2 +-
- drivers/net/wireless/rsi/rsi_sdio.h        | 2 +-
- drivers/net/wireless/rsi/rsi_usb.h         | 2 +-
- 10 files changed, 10 insertions(+), 10 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/net/wireless/rsi/rsi_boot_params.h b/drivers/net/wireless/rsi/rsi_boot_params.h
+index c1cf19d1e376..30e03aa6a529 100644
+--- a/drivers/net/wireless/rsi/rsi_boot_params.h
++++ b/drivers/net/wireless/rsi/rsi_boot_params.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2014 Redpine Signals Inc.
+  *
+  * Permission to use, copy, modify, and/or distribute this software for any
 -- 
 2.17.1
 
