@@ -2,90 +2,82 @@ Return-Path: <SRS0=ha8c=IN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 801FFC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Mar 2021 19:07:40 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C337C433E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Mar 2021 19:26:00 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 10A8664E27
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Mar 2021 19:07:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 10A8664E27
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+	by mail.kernel.org (Postfix) with ESMTPS id A6F2764F43
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Mar 2021 19:25:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A6F2764F43
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A6AB043101;
-	Mon, 15 Mar 2021 19:07:39 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4787E4AAB4;
+	Mon, 15 Mar 2021 19:25:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bAo4d26KrJeG; Mon, 15 Mar 2021 19:07:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D413243087;
-	Mon, 15 Mar 2021 19:07:38 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FPzXglhCV8-U; Mon, 15 Mar 2021 19:25:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 38ADC471E6;
+	Mon, 15 Mar 2021 19:25:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B47BFC000A;
-	Mon, 15 Mar 2021 19:07:38 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 19B7AC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0F255C000A;
+	Mon, 15 Mar 2021 19:25:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03CA1C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Mar 2021 19:07:38 +0000 (UTC)
+ Mon, 15 Mar 2021 19:25:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 08DE660767
+ by smtp1.osuosl.org (Postfix) with ESMTP id E64E183563
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Mar 2021 19:07:38 +0000 (UTC)
+ Mon, 15 Mar 2021 19:25:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=anirudhrb.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id C6mH5HS5x0T0
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=lwn.net
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RoTcWtRNRCvE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Mar 2021 19:07:37 +0000 (UTC)
+ Mon, 15 Mar 2021 19:25:52 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 55E996058A
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9401083410
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Mar 2021 19:07:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1615835255; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=HAkH51heumbQwdNzsjPdBupsUuBZUhiZBqEOPY9qjCTw0h+jT6qDKTSl5cPPyG9mfzGKEzm9envje0R/hXnWr2zeNVOt2kIT/H1IMfEJqYOEO8Eycu9QZ4RypLZo/y+5iRbyP/B+RBoqe3atbwH2efqHbaHNfxw8QRBcpO5QtD4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1615835255;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
- bh=qXkPKXLIdi3YS2QxskiB00F5rS0qkdSxQYzMcJTjnMo=; 
- b=VskweQsyJ0O92QukL95je+EvRd84ESYR5M1oeDmMdFr0gYywAJP2jep1VQ5xQnqsLVMu0JQ7mI/uGRCv+x99rt/94FsmQeTZ7uqlg74pDPWGwFiteH0H8+M5AvrdXfUAVnvIOWIGYTj7rA8MrDhhe3b3vCzjHlSNSRY5I/oR6oY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1615835255; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=From:To:Cc:Message-ID:Subject:Date:MIME-Version:Content-Transfer-Encoding:Content-Type;
- bh=qXkPKXLIdi3YS2QxskiB00F5rS0qkdSxQYzMcJTjnMo=;
- b=ZePJWn+dogfxbUGEc8UgaRZdlIKn2mO6hobca/LZYecW6nM2vzotDxQpe/9Gxf//
- d+WJ4E2nPmcAwjDeFyTu3QRo+fEx+sW6euZHBvKeRP3lAtIo5rQH42gLxzBABZAJ2iq
- QfE+YdK30/JEhdcD20QzMMI3pX2fJXz2QNFH8+pk=
-Received: from localhost.localdomain (106.51.111.227 [106.51.111.227]) by
- mx.zohomail.com with SMTPS id 1615835252947113.0549001989333;
- Mon, 15 Mar 2021 12:07:32 -0700 (PDT)
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: shaggy@kernel.org
-Message-ID: <20210315190727.21576-1-mail@anirudhrb.com>
-Subject: [PATCH] jfs: fix use-after-free in lbmIODone
-Date: Tue, 16 Mar 2021 00:37:27 +0530
-X-Mailer: git-send-email 2.26.2
+ Mon, 15 Mar 2021 19:25:52 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id A38B72C4;
+ Mon, 15 Mar 2021 19:25:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A38B72C4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1615836351; bh=P6fZS9Ge8p5a2gEMWcTKjltBgeGGppmH6MaIdBUw2gY=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=fhmvWeKci/KsWAejS6d+VbNvx9GG6w47Mzfz6k7KSP53roiSpLmeitw6Vr4TXOdCh
+ qMf7IMnK+6yWgxjiWT3C3eOnF9tUMKDbIcVOdBTYQVoJCivxejbjS/rc/1hNtU4AAd
+ pxuOA54i/g2pTypnkBysyGtCwLJGHyRId896zcOmm7Ant68/Dk+QIYcnIrZ1krkYMV
+ 3hgr/HL5o8MOlYK0d9URDKZnKXIbGh8bnD1xSXQK9pjo8iLWVWeY3Wk/2z071n7c1p
+ tUsX2P+SdgZQpHCA8l/xMHFj5wz6hvPDLXv4RJjR4VI0VcSUvd0mixbYdcsBogp0TG
+ F3N3EG+NKYV+g==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aditya <yashsri421@gmail.com>, Markus Heiser <markus.heiser@darmarit.de>
+Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
+ commented lines in file
+In-Reply-To: <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
+References: <20210309125324.4456-1-yashsri421@gmail.com>
+ <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
+ <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
+Date: Mon, 15 Mar 2021 13:25:51 -0600
+Message-ID: <871rcg2p8g.fsf@meer.lwn.net>
 MIME-Version: 1.0
-X-ZohoMailClient: External
-Cc: jfs-discussion@lists.sourceforge.net,
- syzbot+5d2008bd1f1b722ba94e@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, hdanton@sina.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,118 +95,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fix use-after-free by waiting for ongoing IO to complete before freeing
-lbufs in lbmLogShutdown. Add a counter in struct jfs_log to keep track
-of the number of in-flight IO operations and a wait queue to wait on for
-the IO operations to complete.
+Aditya <yashsri421@gmail.com> writes:
 
-Reported-by: syzbot+5d2008bd1f1b722ba94e@syzkaller.appspotmail.com
-Suggested-by: Hillf Danton <hdanton@sina.com>
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
----
- fs/jfs/jfs_logmgr.c | 17 ++++++++++++++---
- fs/jfs/jfs_logmgr.h |  2 ++
- 2 files changed, 16 insertions(+), 3 deletions(-)
+>> The opening comment mark /** is used for kernel-doc comments [1]
+>> 
+>> [1]
+>> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
+>> 
+>
+> Hi Markus!
+> That's true. But the content inside the comment does not follow
+> kernel-doc format.
+> For e.g., try running kernel-doc -none/man/rst on the above file in
+> the example("sound/pci/ctxfi/ctresource.c").
+> The starting 2-3 lines in files generally do not contain any
+> struct/enum/function, etc. declaration.
 
-diff --git a/fs/jfs/jfs_logmgr.c b/fs/jfs/jfs_logmgr.c
-index 9330eff210e0..82d20c4687aa 100644
---- a/fs/jfs/jfs_logmgr.c
-+++ b/fs/jfs/jfs_logmgr.c
-@@ -1815,6 +1815,8 @@ static int lbmLogInit(struct jfs_log * log)
- 	 */
- 	init_waitqueue_head(&log->free_wait);
- 
-+	init_waitqueue_head(&log->io_waitq);
-+
- 	log->lbuf_free = NULL;
- 
- 	for (i = 0; i < LOGPAGES;) {
-@@ -1864,6 +1866,7 @@ static void lbmLogShutdown(struct jfs_log * log)
- 	struct lbuf *lbuf;
- 
- 	jfs_info("lbmLogShutdown: log:0x%p", log);
-+	wait_event(log->io_waitq, !atomic_read(&log->io_inflight));
- 
- 	lbuf = log->lbuf_free;
- 	while (lbuf) {
-@@ -1990,6 +1993,8 @@ static int lbmRead(struct jfs_log * log, int pn, struct lbuf ** bpp)
- 	bio->bi_end_io = lbmIODone;
- 	bio->bi_private = bp;
- 	bio->bi_opf = REQ_OP_READ;
-+
-+	atomic_inc(&log->io_inflight);
- 	/*check if journaling to disk has been disabled*/
- 	if (log->no_integrity) {
- 		bio->bi_iter.bi_size = 0;
-@@ -2135,6 +2140,7 @@ static void lbmStartIO(struct lbuf * bp)
- 	bio->bi_private = bp;
- 	bio->bi_opf = REQ_OP_WRITE | REQ_SYNC;
- 
-+	atomic_inc(&log->io_inflight);
- 	/* check if journaling to disk has been disabled */
- 	if (log->no_integrity) {
- 		bio->bi_iter.bi_size = 0;
-@@ -2200,6 +2206,8 @@ static void lbmIODone(struct bio *bio)
- 
- 	bio_put(bio);
- 
-+	log = bp->l_log;
-+
- 	/*
- 	 *	pagein completion
- 	 */
-@@ -2211,7 +2219,7 @@ static void lbmIODone(struct bio *bio)
- 		/* wakeup I/O initiator */
- 		LCACHE_WAKEUP(&bp->l_ioevent);
- 
--		return;
-+		goto out;
- 	}
- 
- 	/*
-@@ -2230,13 +2238,12 @@ static void lbmIODone(struct bio *bio)
- 	INCREMENT(lmStat.pagedone);
- 
- 	/* update committed lsn */
--	log = bp->l_log;
- 	log->clsn = (bp->l_pn << L2LOGPSIZE) + bp->l_ceor;
- 
- 	if (bp->l_flag & lbmDIRECT) {
- 		LCACHE_WAKEUP(&bp->l_ioevent);
- 		LCACHE_UNLOCK(flags);
--		return;
-+		goto out;
- 	}
- 
- 	tail = log->wqueue;
-@@ -2315,6 +2322,10 @@ static void lbmIODone(struct bio *bio)
- 
- 		LCACHE_UNLOCK(flags);	/* unlock+enable */
- 	}
-+
-+out:
-+	if (atomic_dec_and_test(&log->io_inflight))
-+		wake_up(&log->io_waitq);
- }
- 
- int jfsIOWait(void *arg)
-diff --git a/fs/jfs/jfs_logmgr.h b/fs/jfs/jfs_logmgr.h
-index 805877ce5020..3e92fe251f28 100644
---- a/fs/jfs/jfs_logmgr.h
-+++ b/fs/jfs/jfs_logmgr.h
-@@ -400,6 +400,8 @@ struct jfs_log {
- 	uuid_t uuid;		/* 16: 128-bit uuid of log device */
- 
- 	int no_integrity;	/* 3: flag to disable journaling to disk */
-+	atomic_t io_inflight;
-+	wait_queue_head_t io_waitq;
- };
- 
- /*
--- 
-2.26.2
+The problem is that it's marked as a kerneldoc comment without actually
+being one; it looks like somebody's internal corporate formatting.  The
+fix is not to put a hack into kernel-doc - we have more than enough of
+those in the file already!  The right thing to do is to remove the extra
+"*" so that the comment doesn't look like a kerneldoc comment anymore.
 
+Thanks,
 
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
