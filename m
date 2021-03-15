@@ -1,105 +1,99 @@
-Return-Path: <SRS0=ODNG=IM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=ha8c=IN=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FFEDC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Mar 2021 20:19:21 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4DA3C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Mar 2021 08:02:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E3B7764EB7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Mar 2021 20:19:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E3B7764EB7
+	by mail.kernel.org (Postfix) with ESMTPS id 84F3464E49
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Mar 2021 08:02:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 84F3464E49
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C34EF836C3;
-	Sun, 14 Mar 2021 20:19:20 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 50D5A4954E;
+	Mon, 15 Mar 2021 08:02:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gabmEUZnjYca; Sun, 14 Mar 2021 20:19:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CC2F6839F9;
-	Sun, 14 Mar 2021 20:19:19 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BAD8EC000B;
-	Sun, 14 Mar 2021 20:19:19 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40FF5C0001
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:19:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2FE65454B4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:19:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aEE0nA_r6Vpu
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id psexgmCl--sD; Mon, 15 Mar 2021 08:02:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4600249B64;
+	Mon, 15 Mar 2021 08:02:09 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 25342C000A;
+	Mon, 15 Mar 2021 08:02:09 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9E174C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:19:17 +0000 (UTC)
+ Mon, 15 Mar 2021 08:02:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 8BE6640146
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 15 Mar 2021 08:02:08 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hJiMS05cahGw
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 15 Mar 2021 08:02:08 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7ED674AD3F
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com
+ [IPv6:2607:f8b0:4864:20::d2f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 0140D4016C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 20:19:17 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- cl21-20020a17090af695b02900c61ac0f0e9so992126pjb.1
+ Mon, 15 Mar 2021 08:02:07 +0000 (UTC)
+Received: by mail-io1-xd2f.google.com with SMTP id a7so32354766iok.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Mar 2021 13:19:17 -0700 (PDT)
+ Mon, 15 Mar 2021 01:02:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=SYWbeDIMHmSJqbrX6B4NaMZZl7Va6n9FxO9uDLunw2g=;
- b=qr18IxLN85Xobab2HxpXtvDDlgD20g0HkgcdY2jqYGRT1pQIVD52LtuFYqBei438iL
- TLRx7dK5nsdCCl3UkJzyaqkidoZ6gldIAG58tOa4P22a8P0/sqMPJPfcyGEjNlJE7LFu
- s1YNwDuHscGi9/8wPXLDVzJYj0TOEc6qYIdcDQS4Jb9yiVx8DPaiX6BWFJ6Ml+W5K2Wq
- R2HYk4YbVLheA2PIOI2mYJPTlfu3J2DBEYfswNDUmIKNOyxAEp9PlYkKc4abScrcm2Op
- pg48FvbmDDW9qkJl4ncdxImyW8hK3jnYL7QW7s3Ge4laRjYstUycNpyPU6I8eIHk3W4O
- kEJw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tqMwSsxE8mSsOZPr95VkNebuiZwi7tRKMS9S8b6s9Z4=;
+ b=XaFtGW31ERcEkEBmeuxVBQMgfDZzcM7jLzZ2lxTuy48U6hIHhrgaBBXd/9RZ5ZyLHE
+ m7uDowuJ1+i9fVsBYUvzPkSOxrHjS8pO+sIIN4YZHkErzAAMalREgcaVDKq+i8D4zWZR
+ a/yH+Z2RpMsOMih5g41EzlrbFKjZ4oXMOFXQxzLuKZHUNkGD1faHt3GCuCXKnCnvKobQ
+ Pjl5Fl0FBHw8fZsN1cW14dVc3ELjvGhBoX9Q5qM+C3+A2zqa7sPmF3F96vzsRP8Zko5o
+ OOm1cjB7i8WzzWqnWZUHtAowiURhqlsBN+oTYhrR0tKTcmKsdbUn3ezhy8mQw6x7fOzd
+ aC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=SYWbeDIMHmSJqbrX6B4NaMZZl7Va6n9FxO9uDLunw2g=;
- b=kZsPPZWTk7m9rm5cpcSL/PtPelme94r8Zcv+N7Yy3fyvLTVoMspkHHIOzulTKncvOM
- yat5/cOxB52QbSJB3b7YFg/m1qREuy1sCnavg+rJA9jT4zPjwoWRIU2Ffwi5029A9P9O
- 3WpeydZEdnO0F6e4G07SXrKf9uPpefzAfLKkFVp1QQ2T4ugCVQmmo6eFtGvEyTFbcBhz
- osM2Wz46GUY7XfiiwwxjnfshBajkiXpi+POEpS24tGf9R9To0GHAexTwCl8UZB6XuVmt
- jjAg16vXhtlNpGdb9M2WI9thDpBIWOYE2baqOpDnAaSB+iUH9ae0rPLDHoMkFZf9e+pR
- LRHw==
-X-Gm-Message-State: AOAM532FC8p+9geLMre+71Rh9q3x3XAgRGmZiff7+c/e5lQQnUubcBqd
- T4VNSlg8Q3jDr2zTv1X2t9s=
-X-Google-Smtp-Source: ABdhPJxu/yErDHUnL/5hN2IBDSYhoRwlweW7VqAFnzlmqkdeUDWYnYxnpcWF5rtU+Pov57c7hANKUw==
-X-Received: by 2002:a17:902:d684:b029:e6:27a5:839e with SMTP id
- v4-20020a170902d684b02900e627a5839emr8088909ply.79.1615753156915; 
- Sun, 14 Mar 2021 13:19:16 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a089:acdc:a5a5:c438:c1e3])
- by smtp.googlemail.com with ESMTPSA id n10sm10943793pgk.91.2021.03.14.13.19.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Mar 2021 13:19:16 -0700 (PDT)
-From: Aditya Srivastava <yashsri421@gmail.com>
-To: siva8118@gmail.com
-Subject: [PATCH 10/10] rsi: rsi_usb: fix file header comment syntax
-Date: Mon, 15 Mar 2021 01:48:18 +0530
-Message-Id: <20210314201818.27380-11-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210314201818.27380-1-yashsri421@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tqMwSsxE8mSsOZPr95VkNebuiZwi7tRKMS9S8b6s9Z4=;
+ b=XxFP7vvVtyZaDAUYz045Z+WuR8Hs3PUOmMHBXV0tHfqiso4Li8MZ4XaRq30ALZpZgZ
+ zr+nqdZxHCbZZQIX1nH3ID8YVLoNZQUIDTlXq8AWs0AfLwFNHMpVCJJfM+S5R3EvD2Wz
+ 4Cd0CMOVGU16MlOkRigLRPasTfos7CRzQ1j95S1qFfYuIXXYcr3niLUUKpowgYXlsc+S
+ yZqiLG7s+8ePxleNU0EbVPmy4bVvLr8r2yeBmjSGNkYUMF/ro55o6+nJIq3yJ1QTU73P
+ j3bYK1FgdquQbhVtF3yAU8s0MTFqZeK0tkREMjnR3KoPBUBTmuXfJgBAspMEI7fRafhL
+ zAsA==
+X-Gm-Message-State: AOAM5307T1/WweKNFKbYaWIBEgs2z4nOYZcyRulYPSbH5oRUoZ8nL16r
+ 874oWeR24yC2tx55PX3aGSd1AcSkCy0igzUIrkg=
+X-Google-Smtp-Source: ABdhPJwQiYkuELW/9smSceH+H6tbTZaziR6zdehTzqcKsNFxphJsP1z9Jk3ej+O9RkGa5WpzAuPeRZ0ptaBZXwPlggY=
+X-Received: by 2002:a02:6a14:: with SMTP id l20mr8693220jac.12.1615795327125; 
+ Mon, 15 Mar 2021 01:02:07 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210314201818.27380-1-yashsri421@gmail.com>
-Cc: yashsri421@gmail.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- amitkarwar@gmail.com, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
- kvalo@codeaurora.org
+In-Reply-To: <20210314201818.27380-1-yashsri421@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 15 Mar 2021 09:01:56 +0100
+Message-ID: <CAKXUXMzH-cUVeuCT6eM_0iHzgKpzvZUPO6pKNpD0yUp2td09Ug@mail.gmail.com>
+Subject: Re: [PATCH 00/10] rsi: fix comment syntax in file headers
+To: Aditya Srivastava <yashsri421@gmail.com>
+Cc: Netdev <netdev@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, amitkarwar@gmail.com,
+ siva8118@gmail.com, Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ David Miller <davem@davemloft.net>, kvalo@codeaurora.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,46 +105,51 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
+On Sun, Mar 14, 2021 at 9:18 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> There are files in drivers/net/wireless/rsi which follow this syntax in
+> their file headers, i.e. start with '/**' like comments, which causes
+> unexpected warnings from kernel-doc.
+>
+> E.g., running scripts/kernel-doc -none on drivers/net/wireless/rsi/rsi_coex.h
+> causes this warning:
+> "warning: wrong kernel-doc identifier on line:
+>  * Copyright (c) 2018 Redpine Signals Inc."
+>
+> Similarly for other files too.
+>
+> Provide a simple fix by replacing the kernel-doc like comment syntax with
+> general format, i.e. "/*", to prevent kernel-doc from parsing it.
+>
 
-The header comment used in drivers/net/wireless/rsi/rsi_usb.h
-follows kernel-doc syntax, i.e. starts with '/**'. But the content
-inside the comment does not comply with kernel-doc specifications (i.e.,
-function, struct, etc).
+Aditya, thanks for starting to clean up the repository following your
+investigation on kernel-doc warnings.
 
-This causes unwelcomed warning from kernel-doc:
-"warning: Cannot understand  * @section LICENSE
- on line 2 - I thought it was a doc line"
+The changes to all those files look sound.
 
-Replace this comment syntax with general comment format, i.e. '/*' to
-prevent kernel-doc from parsing it.
+However I think these ten patches are really just _one change_, and
+hence, all can be put into a single commit.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- drivers/net/wireless/rsi/rsi_usb.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hints that suggest it is one change:
 
-diff --git a/drivers/net/wireless/rsi/rsi_usb.h b/drivers/net/wireless/rsi/rsi_usb.h
-index 8702f434b569..254d19b66412 100644
---- a/drivers/net/wireless/rsi/rsi_usb.h
-+++ b/drivers/net/wireless/rsi/rsi_usb.h
-@@ -1,4 +1,4 @@
--/**
-+/*
-  * @section LICENSE
-  * Copyright (c) 2014 Redpine Signals Inc.
-  *
--- 
-2.17.1
+- The commit message is pretty much the same (same motivation, same
+explanation, same design decisions)
+- The change is basically the same (same resulting change in different files)
+- All patches are sent to the same responsible people, all of the
+patches would be reviewed and accepted by the same people.
+- All ten patches can be reviewed at once.
 
+How about merging all ten patches into one patch and sending out a v2.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
