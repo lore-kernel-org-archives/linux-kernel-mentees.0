@@ -7,65 +7,66 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A20C433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 09:13:47 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC075C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 09:14:29 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5D47B64E98
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 09:13:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5D47B64E98
+	by mail.kernel.org (Postfix) with ESMTPS id 6978F64E45
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 09:14:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6978F64E45
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 050938405D;
-	Thu, 18 Mar 2021 09:13:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 37F3960667;
+	Thu, 18 Mar 2021 09:14:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id I6Yc5qBhw8Nu; Thu, 18 Mar 2021 09:13:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1F11F8405C;
-	Thu, 18 Mar 2021 09:13:46 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xs-NnZuO0uKt; Thu, 18 Mar 2021 09:14:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 58EFD60633;
+	Thu, 18 Mar 2021 09:14:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F40ABC000A;
-	Thu, 18 Mar 2021 09:13:45 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 51842C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 365C1C000A;
+	Thu, 18 Mar 2021 09:14:28 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 10B68C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 09:13:44 +0000 (UTC)
+ Thu, 18 Mar 2021 09:14:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3349A8405C
+ by smtp3.osuosl.org (Postfix) with ESMTP id E60BB60667
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 09:13:44 +0000 (UTC)
+ Thu, 18 Mar 2021 09:14:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Sbm8ARLqAYzF
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iWq9JmbPFcSb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 09:13:43 +0000 (UTC)
+ Thu, 18 Mar 2021 09:14:26 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mx2.suse.de (mx2.suse.de [195.135.220.15])
- by smtp1.osuosl.org (Postfix) with ESMTPS id DBB97840CB
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 582CA60633
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 09:13:42 +0000 (UTC)
+ Thu, 18 Mar 2021 09:14:26 +0000 (UTC)
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AE5DDADC5;
- Thu, 18 Mar 2021 09:13:40 +0000 (UTC)
-Date: Thu, 18 Mar 2021 10:13:40 +0100
-Message-ID: <s5hwnu4j03f.wl-tiwai@suse.de>
+ by mx2.suse.de (Postfix) with ESMTP id D218BAC17;
+ Thu, 18 Mar 2021 09:14:24 +0000 (UTC)
+Date: Thu, 18 Mar 2021 10:14:24 +0100
+Message-ID: <s5hv99oj027.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [PATCH] ALSA: asihpi: fix comment syntax in file headers
-In-Reply-To: <20210317202144.20290-1-yashsri421@gmail.com>
-References: <20210317202144.20290-1-yashsri421@gmail.com>
+Subject: Re: [PATCH] ALSA: ctxfi: fix comment syntax in file headers
+In-Reply-To: <20210317203932.23993-1-yashsri421@gmail.com>
+References: <20210317203932.23993-1-yashsri421@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
  FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
  (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
-Cc: alsa-devel@alsa-project.org, tiwai@suse.com, linux-kernel@vger.kernel.org,
- perex@perex.cz, linux-kernel-mentees@lists.linuxfoundation.org
+Cc: alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+ pierre-louis.bossart@linux.intel.com, tiwai@suse.com, perex@perex.cz,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,19 +84,21 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 17 Mar 2021 21:21:44 +0100,
+On Wed, 17 Mar 2021 21:39:32 +0100,
 Aditya Srivastava wrote:
 > 
 > The opening comment mark '/**' is used for highlighting the beginning of
 > kernel-doc comments.
-> There are files in sound/pci/asihpi which follow this syntax in their file
+> There are files in sound/pci/ctxfi which follow this syntax in their file
 > headers, i.e. start with '/**' like comments, which causes unexpected
 > warnings from kernel-doc.
 > 
-> E.g., running scripts/kernel-doc -none on sound/pci/asihpi/hpidspcd.h
+> E.g., running scripts/kernel-doc -none on sound/pci/ctxfi/ctresource.c
 > causes this warning:
-> "warning: Cannot understand
->  on line 4 - I thought it was a doc line"
+> "warning: wrong kernel-doc identifier on line:
+>  * Copyright (C) 2008, Creative Technology Ltd. All Rights Reserved."
+> 
+> Similarly for other files too.
 > 
 > Provide a simple fix by replacing the kernel-doc like comment syntax with
 > general format, i.e. "/*", to prevent kernel-doc from parsing it.
