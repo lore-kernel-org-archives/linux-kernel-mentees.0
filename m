@@ -2,87 +2,89 @@ Return-Path: <SRS0=jPrV=IQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 046F6C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 16:37:29 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83976C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 16:47:49 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8F31364E20
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 16:37:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8F31364E20
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id 0C56164EED
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Mar 2021 16:47:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0C56164EED
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5AC4F8354B;
-	Thu, 18 Mar 2021 16:37:28 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id BB5B44EDF0;
+	Thu, 18 Mar 2021 16:47:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Lcdmw-alhKh8; Thu, 18 Mar 2021 16:37:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8D1268341E;
-	Thu, 18 Mar 2021 16:37:27 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id O3NBDw5XIq_1; Thu, 18 Mar 2021 16:47:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id D2B234ECD1;
+	Thu, 18 Mar 2021 16:47:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 66889C000A;
-	Thu, 18 Mar 2021 16:37:27 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13F89C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0D67C000A;
+	Thu, 18 Mar 2021 16:47:47 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3B32EC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 16:37:26 +0000 (UTC)
+ Thu, 18 Mar 2021 16:47:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id DBD02400B5
+ by smtp4.osuosl.org (Postfix) with ESMTP id 356C54EDEC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 16:37:25 +0000 (UTC)
+ Thu, 18 Mar 2021 16:47:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=lwn.net
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Abaz3xnldlLI
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id rNdzrlqdN4H1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 16:37:24 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by smtp2.osuosl.org (Postfix) with ESMTPS id C8E04400AB
+ Thu, 18 Mar 2021 16:47:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 636F94ECD1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Mar 2021 16:37:24 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id E2D732E5;
- Thu, 18 Mar 2021 16:37:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E2D732E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1616085444; bh=pWbzF1wgIUiO8lLs6lJoTFe088GpnU5XVDRIVFq/5Ok=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=e48pDaT9fmQ8ixzvsSt301dPeftXj1BshL6H+kPC2MY4a6u0bbOAMG4LNpdSgJstY
- sFXGk34Yr/N8e6t3VUsM2rCY5hxqBaF3gQvBXQuhcv85gVG2FrmwttrZH6LnONjHq2
- 9xezEugy1o4JuPHcj4sCcFyhFrcbwWunDddU/QtI7jsyCx4+xgU5Y1oydtDO37lxD1
- E9oMvfouS4woufuQya2qosW04wCJITiQprm/D9jlbmtBT2GwPUswd+E8N8ZJY1CJ2g
- z6qLze5ecujERovNo3M3BgdgQSYVeJLsEPUXN/0vN/vKCzKgg0zm2I5OLyhoKMfIDe
- u3WwinKUwyxiA==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-In-Reply-To: <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
-References: <20210309125324.4456-1-yashsri421@gmail.com>
- <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
- <871rcg2p8g.fsf@meer.lwn.net>
- <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
-Date: Thu, 18 Mar 2021 10:37:23 -0600
-Message-ID: <878s6kto3g.fsf@meer.lwn.net>
+ Thu, 18 Mar 2021 16:47:45 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id j7so6273276wrd.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 18 Mar 2021 09:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=rYt0I16oRFS0NsPEP100JsgSME0aNFfmHdNQ1qKQYCs=;
+ b=dYYXDOw6Q9BjYoaAX2YdXn7Z6R8S6kiULth/Ap8qFOG/JDB77ngt4agPDCsZhvSdtq
+ ZDD7E2amOPHuwj7sXHu1OvgXhUmEOIY+4DdVvdhnG6Wo7mRWfYOxC4euCEYTWQ/MdVc3
+ ym9WtDUmZOCayt0s14mxlXlKyED9UtFuO+pC+rE13aEsTBoI0tFDdoIVkGBHSFnt5Ed5
+ c2cdPvrqr8ucmXv8++YvRv6vpHpGYFTfH3aC8sR62MNEobvWOAz3FXEDxLMDOZhgnxwN
+ t0K8PISG4/bEb5jaL7qf8c0/dXBg5ps3HW23uEkX+kwqICS5OH0RQGCVGqfyASsPOeP0
+ 3GTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=rYt0I16oRFS0NsPEP100JsgSME0aNFfmHdNQ1qKQYCs=;
+ b=Rfkh6HOBqiZvEzSIq4eqce1ja3v2Cg1B4J5t+x7Z6hFn+Sa8t4WwekB1teq2TG/1FT
+ sdrel8USCGnOUA1Inf415ZXuFq2aTpOe5EvLF8tmi2ohVdMuYiOMUEPkDd7sVPPpehu+
+ NX+EJ0kTdXJuT48t4q8eRz5eXK+klnnJZhvNJYZU1EMwnR2PbqLLSYHI93BIbhsglig3
+ RH4ZwLvj59UZ02P48kFVfFEmdgLw3cOXmQI8NKd9vm57caJs76wyQzclUS1/zG0hb+sE
+ G97o/QcJAX3G5fpuQMLsNhqITfzBHN2cNJ7lDuusnhv9pcvZ+vknELYJPmmAHhBrgVzJ
+ UvMg==
+X-Gm-Message-State: AOAM530fUu+UNm15KiTtIriVHJSg9kvPciduNuuC2bBl/NMiLgCQ90Nt
+ wXoHbKGz6TtYxqFwBbJ6ssE2AQpretv0KnGJvLc=
+X-Google-Smtp-Source: ABdhPJzyDf4QYBpHs/UZ49O8ZFftU0mlWXLHYLVk9EZalplUiBAvjXd/BIKDZ5EX/t97SPLyNwYt6HMJMgBbUh0m8bw=
+X-Received: by 2002:adf:828e:: with SMTP id 14mr167634wrc.123.1616086063527;
+ Thu, 18 Mar 2021 09:47:43 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Markus Heiser <markus.heiser@darmarit.de>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Aditya <yashsri421@gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Thu, 18 Mar 2021 22:17:32 +0530
+Message-ID: <CABJPP5AjUJ+OWqUy7cR1Ar2zcs6QuLizciGf64WVQ-027rS=bA@mail.gmail.com>
+Subject: Checkpatch still worries about include/asm/ ?
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ linux-kernel <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,28 +102,20 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Hello,
+include/asm/ got removed a long time back (probably v1.1.45).
+Checkpatch still worries about that:
 
-> I wonder if we could extend kernel-doc (not your preferred option as
-> it seems) for a new dedicated warning message or maintain a separate
-> kernel-doc sanity checking script to emit a dedicated warning based on
-> some heuristics that suggests when a "header comment" is probably
-> unintentionally declared as a "kernel-doc comment" when it really
-> should not be.
->
-> Jonathan, would you then prefer to have a separate kernel-doc sanity
-> checking script that then allows us to maintain checking for patterns
-> we already cleaned up?
+if ($realfile =~ m@^include/asm/@) {
+ERROR("MODIFIED_INCLUDE_ASM",
+"do not modify files in include/asm, change architecture specific
+files in include/asm-<architecture>\n" . "$here$rawline\n");
+}
 
-Having a warning in kernel-doc for "This comment starts with /** but
-isn't a kerneldoc comment" could be useful, I guess.  That is the real
-problem, not the fact that it appears at the top of the file.  I'm all
-for tools that help us to clean things up, but let's not add
-line-counting hacks to try to paper it over.
+Can we remove this check?
 
 Thanks,
-
-jon
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
