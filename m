@@ -2,87 +2,97 @@ Return-Path: <SRS0=sDOq=IS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7697EC433C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 16:36:02 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5836EC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 20:21:09 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0E8E60231
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 16:36:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F0E8E60231
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=bombadil.infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id C88166193A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 20:21:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C88166193A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BDDD16071F;
-	Sat, 20 Mar 2021 16:36:01 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8042D401A4;
+	Sat, 20 Mar 2021 20:21:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0N25dTp4g6Ii; Sat, 20 Mar 2021 16:36:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 13A136075F;
-	Sat, 20 Mar 2021 16:36:01 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NejuEZ5-DLAY; Sat, 20 Mar 2021 20:21:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 81F3F401E9;
+	Sat, 20 Mar 2021 20:21:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5F70C000A;
-	Sat, 20 Mar 2021 16:36:00 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AEE4CC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 64807C000A;
+	Sat, 20 Mar 2021 20:21:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C2999C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 16:35:58 +0000 (UTC)
+ Sat, 20 Mar 2021 20:21:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 96D3083409
+ by smtp3.osuosl.org (Postfix) with ESMTP id A9C996077E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 16:35:58 +0000 (UTC)
+ Sat, 20 Mar 2021 20:21:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-X-Amavis-Alert: BAD HEADER SECTION, Improper folded header field made up
- entirely of whitespace (char 20 hex): X-Spam-Report: ...that system
- for details.  Content previ[...]
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UFy2oMmZICBk
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6vZXJY6tbBGT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 16:35:57 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3BEB082E15
+ Sat, 20 Mar 2021 20:21:05 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id EBD0760767
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 16:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Sender:Content-Type:MIME-Version:
- References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=Y6ev/S60/HNebOaHyGgfUCQe+A2W0+aqw6QjjL6rHiI=; b=V9/+VJy40SYLUA9lxHDjTtaoWm
- 51s+AiknwRUhKVkLlyX/mjHwB1emhYm7p+6yHYXtLcr/d4VmYh1u+iEthlH2nb8QV3yFqFvtw3ru3
- JMaPLZjOHPZdYr1uS2Bk9LSNyH7pi/Po2LREx4QuAOtjMK0XxQ95UmB+qjROqFX669p0hNlho8piv
- 7yzHo4x09XfexhTd2/79CDt11wlXjGxT/CPeZ4rFiZfYgaBJ/fz9IWY+8PPvBzkcwBbw6Wi1BhScY
- Fqw+kChcdO5NSiyYRDcfI5s0ONdi2lqaOuzgi1hVGRDr8+ru3kp6CjkgxIoV1BrOprfqwSNzRd5CS
- DvQFVHlg==;
-Received: from rdunlap (helo=localhost)
- by bombadil.infradead.org with local-esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lNeZs-001wGD-4D; Sat, 20 Mar 2021 16:35:53 +0000
-Date: Sat, 20 Mar 2021 09:35:52 -0700 (PDT)
-From: Randy Dunlap <rdunlap@bombadil.infradead.org>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [PATCH] ntfs: fix incorrect kernel-doc comment syntax in files
-In-Reply-To: <20210320162939.32707-1-yashsri421@gmail.com>
-Message-ID: <e583cfe6-6b79-c35f-3bf7-2b47f7ee52be@bombadil.infradead.org>
-References: <20210320162939.32707-1-yashsri421@gmail.com>
-MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210320_093552_188116_09A1E9CA 
-X-CRM114-Status: UNSURE (   2.10  )
-X-CRM114-Notice: Please train this message.
-Cc: corbet@lwn.net, linux-ntfs-dev@lists.sourceforge.net,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- anton@tuxera.com
+ Sat, 20 Mar 2021 20:21:04 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id t18so6333338pjs.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 20 Mar 2021 13:21:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=vgEHWfJxSnMvNGltZK35bv4lE0nxYTmBjGCCpSZ2qwE=;
+ b=A6jCgjzDzZGPllCSquyhilT1WGDRapiPGlwib5xwiBlsigWamUPMjGsG5Ok1qFVQg3
+ D2FzDP2fXXVdoFxHL3MkJ0LSsCIhkvicqDAVNT1kxwASSo0pWK9tmUMTHLxixjsPgK7E
+ /urzGE6kqkKUFhpQ+oZZj/s3JxQxgZEyPj9L6zWdlCGrGhe2StlkjZH5P5h/eUfWFl3M
+ YVjOcp+cKBBg0FX7YZ89AG7tDx4U+bylgW8L4/FZSXF5A87XurA46ZCSHPJBCqjS3u7w
+ TR6DHJh4qV+0ap0hsAfK/LHFFID/q5Hp7gjiC0gHOfaibLBTbGC3PZcfMMBqD/KL3TG9
+ 7OyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=vgEHWfJxSnMvNGltZK35bv4lE0nxYTmBjGCCpSZ2qwE=;
+ b=sZHSlUWt10s2pJceJ2ZZR6coqf6NhEV6/+R/6b8wa4u2ihcc5VrGwgEC/r8i7rB96I
+ LPOh3Br83gyHf89S6KxLz0oSOE0vnautR+bCdlpBnKANmXiv63chsJKem/m3I0qLbGNP
+ spLvlZ/a8/XtE8bfz00mWWP/XhrD5EXXLTI68HfOn+s35YKXcJw+hbfh52LTlyZBOJ6N
+ 1ZzHGMSonlmo5hbcq4X+C3PzhnMQhhGIfwLGdulMIIAwR8FFVOi6/PX/dhLHExUU1Uz8
+ wK8zBf367adHxR+3Lz11Z2yXDpJM62SpGiWYnmAQIu+ze5PP7swO38k/lXDUSat5IW/i
+ hkJw==
+X-Gm-Message-State: AOAM530Fo/r2wXSoiB6ek7QVh2Vz2fses7J2dJ0gwF6lFtptQ70qCZvs
+ VLhy5yVku2m86sYh0HJzOco=
+X-Google-Smtp-Source: ABdhPJxbDKvLeAghv3vxL7u17jH+d6XfjVWMxKueD6RvIQ8/NRZ1flBwpjK/75RjYf7n6gKJCTK+xg==
+X-Received: by 2002:a17:90a:9b18:: with SMTP id
+ f24mr4842156pjp.96.1616271664265; 
+ Sat, 20 Mar 2021 13:21:04 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:1ce8:18d9:6e3d:8c29])
+ by smtp.googlemail.com with ESMTPSA id v3sm8794894pff.217.2021.03.20.13.21.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Mar 2021 13:21:03 -0700 (PDT)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: leitao@debian.org
+Subject: [PATCH] crypto: vmx: fix incorrect kernel-doc comment syntax in files
+Date: Sun, 21 Mar 2021 01:50:53 +0530
+Message-Id: <20210320202053.12328-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: corbet@lwn.net, linux-kernel-mentees@lists.linuxfoundation.org,
+ rdunlap@infradead.org, yashsri421@gmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,17 +104,111 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+The opening comment mark '/**' is used for highlighting the beginning of
+kernel-doc comments.
+There are certain files in drivers/crypto/vmx, which follow this syntax,
+but the content inside does not comply with kernel-doc.
+Such lines were probably not meant for kernel-doc parsing, but are parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes unexpected warnings from kernel-doc.
 
-LGTM. Thanks.
+E.g., presence of kernel-doc like comment in the header line for
+drivers/crypto/vmx/vmx.c causes this warning by kernel-doc:
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+"warning: expecting prototype for Routines supporting VMX instructions on the Power 8(). Prototype was for p8_init() instead"
 
+Similarly for other files too.
+
+Provide a simple fix by replacing such occurrences with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
+
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+* Applies perfectly on next-20210319
+
+ drivers/crypto/vmx/aes.c     | 2 +-
+ drivers/crypto/vmx/aes_cbc.c | 2 +-
+ drivers/crypto/vmx/aes_ctr.c | 2 +-
+ drivers/crypto/vmx/aes_xts.c | 2 +-
+ drivers/crypto/vmx/ghash.c   | 2 +-
+ drivers/crypto/vmx/vmx.c     | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/crypto/vmx/aes.c b/drivers/crypto/vmx/aes.c
+index d05c02baebcf..ec06189fbf99 100644
+--- a/drivers/crypto/vmx/aes.c
++++ b/drivers/crypto/vmx/aes.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * AES routines supporting VMX instructions on the Power 8
+  *
+  * Copyright (C) 2015 International Business Machines Inc.
+diff --git a/drivers/crypto/vmx/aes_cbc.c b/drivers/crypto/vmx/aes_cbc.c
+index d88084447f1c..ed0debc7acb5 100644
+--- a/drivers/crypto/vmx/aes_cbc.c
++++ b/drivers/crypto/vmx/aes_cbc.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * AES CBC routines supporting VMX instructions on the Power 8
+  *
+  * Copyright (C) 2015 International Business Machines Inc.
+diff --git a/drivers/crypto/vmx/aes_ctr.c b/drivers/crypto/vmx/aes_ctr.c
+index 79ba062ee1c1..9a3da8cd62f3 100644
+--- a/drivers/crypto/vmx/aes_ctr.c
++++ b/drivers/crypto/vmx/aes_ctr.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * AES CTR routines supporting VMX instructions on the Power 8
+  *
+  * Copyright (C) 2015 International Business Machines Inc.
+diff --git a/drivers/crypto/vmx/aes_xts.c b/drivers/crypto/vmx/aes_xts.c
+index 9fee1b1532a4..dabbccb41550 100644
+--- a/drivers/crypto/vmx/aes_xts.c
++++ b/drivers/crypto/vmx/aes_xts.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * AES XTS routines supporting VMX In-core instructions on Power 8
+  *
+  * Copyright (C) 2015 International Business Machines Inc.
+diff --git a/drivers/crypto/vmx/ghash.c b/drivers/crypto/vmx/ghash.c
+index 14807ac2e3b9..5bc5710a6de0 100644
+--- a/drivers/crypto/vmx/ghash.c
++++ b/drivers/crypto/vmx/ghash.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * GHASH routines supporting VMX instructions on the Power 8
+  *
+  * Copyright (C) 2015, 2019 International Business Machines Inc.
+diff --git a/drivers/crypto/vmx/vmx.c b/drivers/crypto/vmx/vmx.c
+index a40d08e75fc0..7eb713cc87c8 100644
+--- a/drivers/crypto/vmx/vmx.c
++++ b/drivers/crypto/vmx/vmx.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * Routines supporting VMX instructions on the Power 8
+  *
+  * Copyright (C) 2015 International Business Machines Inc.
+-- 
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
