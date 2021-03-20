@@ -2,93 +2,91 @@ Return-Path: <SRS0=sDOq=IS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C4EC433C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 14:03:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4800DC433C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 14:44:22 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 046B26196D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 14:03:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 046B26196D
+	by mail.kernel.org (Postfix) with ESMTPS id D566461966
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Mar 2021 14:44:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D566461966
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B8E176075C;
-	Sat, 20 Mar 2021 14:03:25 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9F34960768;
+	Sat, 20 Mar 2021 14:44:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yGrqd6qUN9Gh; Sat, 20 Mar 2021 14:03:24 +0000 (UTC)
+	with ESMTP id ZPeYyf8Bm81f; Sat, 20 Mar 2021 14:44:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 99CA960726;
-	Sat, 20 Mar 2021 14:03:24 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 450ED60763;
+	Sat, 20 Mar 2021 14:44:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 66756C000B;
-	Sat, 20 Mar 2021 14:03:24 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5984CC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2FCD3C000A;
+	Sat, 20 Mar 2021 14:44:20 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4CCEBC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 14:03:21 +0000 (UTC)
+ Sat, 20 Mar 2021 14:44:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2F2FE40345
+ by smtp3.osuosl.org (Postfix) with ESMTP id 26CF260768
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 14:03:21 +0000 (UTC)
+ Sat, 20 Mar 2021 14:44:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YMD9VlXdXTlg
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cFkqiFd-ucAK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 14:03:19 +0000 (UTC)
+ Sat, 20 Mar 2021 14:44:17 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id ACBB74032E
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com
+ [IPv6:2607:f8b0:4864:20::12c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id AB4B260763
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 14:03:19 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id z3so9161849ioc.8
+ Sat, 20 Mar 2021 14:44:17 +0000 (UTC)
+Received: by mail-il1-x12c.google.com with SMTP id j11so10718865ilu.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Mar 2021 07:03:19 -0700 (PDT)
+ Sat, 20 Mar 2021 07:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qmyjUSq1kd4ZdrOSc0sb4wea8RXVreGJrAD4Lbx+Nr8=;
- b=ZrivhPBlTGeonxnLYZSG8jeuezq04r4JVeOfBNmlpQ5Z3TEhqZkION4zpzfX9LVglc
- fpTJAmOdeF6zZ+j1KWE9YjaJh9ONn4S5nUH0zy9ZaRlLlQyW3+1Z7ej6Qq1pTQc2867D
- RckVmt7hgTDNm+i90x9yrTzqKntle6NRlY7CtLKN4hyTDol3wOCJTvatX5VqOMQqA6ZC
- 0XlljgBtmlFEeG1V+JnUioTOYZMei8Lwi42MK4fNjYi4pjfmSGxc/I3/kyt9Tcuptxit
- iNGh4022hZ761iwQ22k5+ZubqiaPxGxNACmuRHZWJ4ohGJ8KVSGME9I2m7fzTUkNS5u4
- 45ag==
+ :cc; bh=zEhJdkHCeuoQZBTNYIOpcfPkgmuXzmu3x0lA1oWlWY4=;
+ b=AgK3AHDZHs096DGl0qRhgQv+OBNYfbdgl2yVPnfKYL9M5yKBYGFyBAEj0NEVsnI7hj
+ 9Ph5pCmcVhkaloc9b0k0sch1d7NNX/H3QSg00kIJD4TskhmPzvzN+i7SYNBYwrAFTKiP
+ S/HiBfYUQ2vKpN1STxa+aUFRuPop7EIrbcy6dApyAgaZxIN8sY9UbTjrmz45wWUW2N0L
+ a3sUJer6IeDqvmPtUO14cNRy8uEKuaKJYbLfrAYsXg9pIhbYyTmouaIpS7RJU/8nma5S
+ b5ItXGY7zxhWYyZuANsa0IUU/wmbqGezHeVh0GQgKp8WaHlVRys09++ODAasoTidJaKp
+ cLFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qmyjUSq1kd4ZdrOSc0sb4wea8RXVreGJrAD4Lbx+Nr8=;
- b=o+CcEjHduWCBCgWbUA6E/qedUX06G0kXPUTroxWgJYQCvXkW7ZHtgTA879YB3nMdNA
- eZeeFMIAse7IX6P0jkKwq5A5NoWt+jJecgU53DjJrReARgX4+7tuy22GxGUfEPaAgKSB
- AX5JS5jGPvnfMZ2xmZJ/zTfyr/1pa8DT9FeDow38/6BJXHYWL2QFBVczXTz8Bh8MbRyj
- 3wTODvkOwZjgqBIbJsUPvk6Qjp3IodhyjR4AbSZWtB/85dpTRf9Opue2rRniidurgSVK
- /FL/5533wLmDZPzfl33RTE6VcJsfI4K6Z/K2uMYrOUJr94IOvJddUxHAJLF0WxE52nwW
- /9Jw==
-X-Gm-Message-State: AOAM531KGOIqNNafEd5eCndU/gtX2TFsu7hYRvIv+lDgrNoiHaqh5iVN
- pAGqy8Z4pghufHKkXRPAzyPibRvAHSTybfKF8aDWr5RseGpArA==
-X-Google-Smtp-Source: ABdhPJwLWZFreyiOfGopuGzE+QpMlTpOVO9/J1so7t47nfu1Eh/nQ33v0EE8clx8h8IjCKdfJV6S3g9/q8+vIdOGCFo=
-X-Received: by 2002:a05:6602:314b:: with SMTP id
- m11mr6176991ioy.158.1616248998608; 
- Sat, 20 Mar 2021 07:03:18 -0700 (PDT)
+ bh=zEhJdkHCeuoQZBTNYIOpcfPkgmuXzmu3x0lA1oWlWY4=;
+ b=tO7qjfdMNsaq8ZDfLGG5fwTMxrnXxvGtQDEGBy168LWhKq154mwBTqS7gG04jhC3aL
+ gJxFs4K4hQlYBMGkQ+6VYZ2D/GAObAAnS/usrgmp7dbRgEvWXhQSAhcQp3v/8iGzBLcW
+ kIXLwfrXlrw8gb/O/Mn4X3dAQh9THs5eBF0qQCzDyYrg7HpgJ6mtX9CceK3I0JDC2jsU
+ pSOr+wkhrRcXwHQlMBhm7VgPXdYYtuAQp+7yviZkmYp8xEtg1QSsbQnZbwyc5Lw0mgyj
+ qb4tIhKdOk57Fmci24YgscTf/fral0Ukc5et0nAcXLuZIKjs+ZPT91fbxrqeYf64kHBT
+ tGTw==
+X-Gm-Message-State: AOAM532SbGvD4x3vH94dSSyleRugBZ+5UO5IH6/ANhqv5aeNMoCj+9vE
+ qBKMbg5RWoLVI19U6bPZxoqPadzv3GmZp6vwFm8=
+X-Google-Smtp-Source: ABdhPJzYL4jpuHe2LGwhnKYaY1yo6JvSOQiBBpLPyAIs79IIpvo9HMw6a3Ky46Su/32mzUOPqPfLWlpKYyuubS2J7HE=
+X-Received: by 2002:a05:6e02:104a:: with SMTP id
+ p10mr6228312ilj.147.1616251456733; 
+ Sat, 20 Mar 2021 07:44:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <CABJPP5Amu7dr=i1moc4eK2+WEhQky5V5HsweiOPzxaxGTitZdg@mail.gmail.com>
-In-Reply-To: <CABJPP5Amu7dr=i1moc4eK2+WEhQky5V5HsweiOPzxaxGTitZdg@mail.gmail.com>
+References: <20210318190303.4454-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20210318190303.4454-1-dwaipayanray1@gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sat, 20 Mar 2021 15:03:07 +0100
-Message-ID: <CAKXUXMwiFQc+A0A+FCu7c1_i3EW_CezRv_0oNu=9Fm8SMbhxnw@mail.gmail.com>
-Subject: Re: Mentorship report first draft
+Date: Sat, 20 Mar 2021 15:44:05 +0100
+Message-ID: <CAKXUXMwPNPkufGpeR7tSd_F2nJc8Lb95CfC2BTCWY=mLtGb2rg@mail.gmail.com>
+Subject: Re: [PATCH v2] docs: document all error message types in checkpatch
 To: Dwaipayan Ray <dwaipayanray1@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -108,205 +106,459 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Dwaipayan, see my comments below inline.
-
-Fix those minor issues, give the report to somebody else for another
-review (and get some more comments), and then I think we are all good
-to publish this.
-
-Lukas
-
+On Thu, Mar 18, 2021 at 8:03 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+>
+> All the error message types now have a verbose description.
+>
+> Also there are two new groups of message types:
+>
+> - Macros, Attributes and Symbols
+> - Functions and Variables
+>
+> Rearrange the message types to fit these new groups as needed.
+>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 > ---
-> title: "Linux Kernel checkpatch.pl mentorship"
-> date: 2021-03-06T02:05:17+05:30
-> draft: false
-> ---
 >
-> ## Checkpatch - What is it?
-> [checkpatch.pl](https://github.com/torvalds/linux/blob/master/scripts/checkpatch.pl) is a trivial style checker for patches sent to the linux kernel.
->
-> Why is it needed you say?</br>
-> I did an analysis on checkpatch warnings on about 50k commits from v5.4.</br>
-> (Find the full report {{% link checkpatch_out_50k.txt %}}here{{% /link %}})
->
-> The top errors were then generated via the following shell command:
-> ```/bin/bash
-> cat checkpatch_out_50k.txt | grep -oP "(?:WARNING|ERROR|CHECK):(\w+)" \
-> | sort | uniq -c | sort -nr  | head -n6
-> ```
->
-> Count of errors | Error Types | Error
-> ----------------|-------------|------
-> 41999 | <span style="color:green">CHECK</span> | CAMELCASE
-> 13629 | <span style="color:green">CHECK</span> | PARENTHESIS_ALIGNMENT
-> 11491 | <span style="color:orange">WARNING</span> | LONG_LINE
-> 8106 | <span style="color:green">CHECK</span> | SPACING
-> 6825 | <span style="color:orange">WARNING</span> | LEADING_SPACE
-> 4394 | <span style="color:green">CHECK</span> | OPEN_ENDED_LINE
->
-> Hmm...The no. of stylistically incorrect bits still continue to exist and
-
-Drop the Hmm... or replace it by "As we can see,"
-
-Replace no. by number. (It is not good to abbreviate here.)
-
-> are still merged into the kernel code. To make the kernel code more
-> stylistically coherent, we can:
->
-> > - Create cleanup patches for the existing code
-> > - Make sure new patches are stylistically consistent
->
-> Both of these are where checkpatch comes handy.
->
-> ## Checkpatch in the patch submission process
->
-> Before sending out the patches to the mailing list, it is recommended to
-> run checkpatch over the patches.
->
-> In general, a Kernel developer would:
->
-> > - Create the patch with his proposed changes.
-> > - Build check the patch, run additional tools like checkstack, sparse etc.
-
-maybe add "check for compiler warnings",
-checkstack does not exist anymore.
-
-such as sparse and coccinelle
-
-> > - Run checkpatch.pl over the patches to eliminate all trivial style violations.
-> > - Send out the patch to the maintainers and mailing list.
->
->
-> The only catch here is that checkpatch is not always right. It is just a dumb
-> perl script. If the code looks better with checkpatch errors, let it be.
+> Changes in v2:
+> - Replace 4.10 kernel doc links by latest
 >
 
-This is fine to say for the author or as direct advice to a developer, here
-I would phrase more neutral.
+All good, see some further comments below.
 
-> ## Drawbacks of checkpatch
->
-> Checkpatch is only a static trivial style checker. It does not have the
-> capabilities of a full c based parser like [clang-format](https://www.kernel.org/doc/html/latest/process/clang-format.html). In this sense it is limited in
+I am generally wondering if having kernel.org Links is right, though.
 
-write instead
-"a tool using a full-fledged C parser, such as clang-format"
+Can you not use "doc:" or "ref:" in the documentation, so that sphinx
+would check those references and create those links automatically?
 
-> what it can do. Still, it is highly valuable as a style checker tool and can
-> ease the work of maintainers and increase the chances of the patch being accepted
-> by the community.
->
-> ## What did we do to improve it?
->
-> Over the first 3 months of my mentorship period, I primarily focused on
+E.g., in a few releases, documentation might be reorganized and by
+referring to latest, all documentation of previous releases would then
+contain broken links because pages were reorganized in latest.
 
-s/3/three/
+>  Documentation/dev-tools/checkpatch.rst | 316 ++++++++++++++++++++++---
+>  1 file changed, 278 insertions(+), 38 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 2671e54c8320..8ccd63a18e10 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -280,43 +280,12 @@ API usage
+>      However this is not always the case (See signal.h).
+>      This message type is emitted only for includes from arch/.
+>
+> -  **ARRAY_SIZE**
+> -    The ARRAY_SIZE(foo) macro should be preferred over
+> -    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+> -    array.
+> -
+> -    The macro is defined in include/linux/kernel.h::
+> -
+> -      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> -
+>    **AVOID_BUG**
+>      BUG() or BUG_ON() should be avoided totally.
+>      Use WARN() and WARN_ON() instead, and handle the "impossible"
+>      error condition as gracefully as possible.
+>      See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
+>
+> -  **AVOID_EXTERNS**
+> -    Function prototypes don't need to be declared extern in .h
+> -    files.  It's assumed by the compiler and is unnecessary.
+> -
+> -  **AVOID_L_PREFIX**
+> -    Local symbol names that are prefixed with `.L` should be avoided,
+> -    as this has special meaning for the assembler; a symbol entry will
+> -    not be emitted into the symbol table.  This can prevent `objtool`
+> -    from generating correct unwind info.
+> -
+> -    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
+> -    local symbol names are still generally usable within a function,
+> -    but `.L` prefixed local symbol names should not be used to denote
+> -    the beginning or end of code regions via
+> -    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
+> -
+> -  **BIT_MACRO**
+> -    Defines like: 1 << <digit> could be BIT(digit).
+> -    The BIT() macro is defined in include/linux/bitops.h::
+> -
+> -      #define BIT(nr)         (1UL << (nr))
+> -
+>    **CONSIDER_KSTRTO**
+>      The simple_strtol(), simple_strtoll(), simple_strtoul(), and
+>      simple_strtoull() functions explicitly ignore overflows, which
+> @@ -325,6 +294,22 @@ API usage
+>      correct replacements.
+>      See: https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+>
+> +  **LOCKDEP**
+> +    lockdep_no_validate class is reserved for device->mutex.
 
-(write out numbers up to twelve).
+I do not understand this one.
 
-> eliminating false-positives from checkpatch as well as adding new rules.
+> +
+> +  **MALFORMED_INCLUDE**
+> +    The #include statement has a malformed path.  This has happened
+> +    because the author has included a double slash "//" in the pathname
+> +    accidentally.
+> +
+> +  **USE_LOCKDEP**
+> +    lockdep_assert_held() annotations should be preferred over
+> +    assertions based on spin_is_locked()
+> +    See: https://www.kernel.org/doc/html/latest/locking/lockdep-design.html#annotations
+> +
+> +  **UAPI_INCLUDE**
+> +    No #include statements in include/uapi should use a uapi/ path.
+> +
 >
-s/false-positives/false positives/
-> Consider the following patch commit log:
+>  Comment style
+>  -------------
+> @@ -353,7 +338,6 @@ Comment style
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
 >
-> ```diff
-> #include asm/bitsperlong.h avoid further potential userspace pollution
-> by moving the #define of SHIFT_PER_LONG to bitops.h which is not
-> exported to userspace.
-> ```
 >
-> A kernel developer in 2020 would not see any checkpatch warning.
+> -
+>  Commit message
+>  --------------
 >
-> A kernel developer in 2021 would see the following warning:
-> ```\bin\bash
-> WARNING: Commit log lines starting with '#' are dropped by git as comments
-> #82:
-> #include asm/bitsperlong.h avoid further potential userspace pollution
-> ```
+> @@ -397,6 +381,35 @@ Commit message
+>      source patch.
+>      See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 >
-> During the last 3 months I worked on two major features:
+> +  **DIFF_IN_COMMIT_MSG**
+> +    Avoid having diff content in commit message.
+> +    This causes problems when one tries to apply a file containing both
+> +    the changelog and the diff because patch(1) tries to apply the diff
+> +    which it found in the changelog.
+> +    See: https://lore.kernel.org/lkml/20150611134006.9df79a893e3636019ad2759e@linux-foundation.org/
+> +
+> +  **GERRIT_CHANGE_ID**
+> +    To be picked up by gerrit, the footer of the commit message might
+> +    have a Change-Id like::
+> +
+> +      Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+> +      Signed-off-by: A. U. Thor <author@example.com>
+> +
+> +    The Change-Id line must be removed before submitting.
+> +
+> +  **GIT_COMMIT_ID**
+> +    The proper way to reference a commit id is:
+> +    commit <12+ chars of sha1> ("<title line>")
+> +
+> +    An example may be::
+> +
+> +      Commit e21d2170f36602ae2708 ("video: remove unnecessary
+> +      platform_set_drvdata()") removed the unnecessary
+> +      platform_set_drvdata(), but left the variable "dev" unused,
+> +      delete it.
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+> +
 >
+>  Comparison style
+>  ----------------
+> @@ -426,6 +439,148 @@ Comparison style
+>      side of the test should be avoided.
+>
+>
+> +Macros, Attributes and Symbols
+> +------------------------------
+> +
+> +  **ARRAY_SIZE**
+> +    The ARRAY_SIZE(foo) macro should be preferred over
+> +    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+> +    array.
+> +
+> +    The macro is defined in include/linux/kernel.h::
+> +
+> +      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> +
+> +  **AVOID_EXTERNS**
+> +    Function prototypes don't need to be declared extern in .h
+> +    files.  It's assumed by the compiler and is unnecessary.
+> +
+> +  **AVOID_L_PREFIX**
+> +    Local symbol names that are prefixed with `.L` should be avoided,
+> +    as this has special meaning for the assembler; a symbol entry will
+> +    not be emitted into the symbol table.  This can prevent `objtool`
+> +    from generating correct unwind info.
+> +
+> +    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
+> +    local symbol names are still generally usable within a function,
+> +    but `.L` prefixed local symbol names should not be used to denote
+> +    the beginning or end of code regions via
+> +    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
+> +
+> +  **BIT_MACRO**
+> +    Defines like: 1 << <digit> could be BIT(digit).
+> +    The BIT() macro is defined in include/linux/bitops.h::
+> +
+> +      #define BIT(nr)         (1UL << (nr))
+> +
+> +  **CONST_READ_MOSTLY**
+> +    When a variable is tagged with the __read_mostly annotation, it is a
+> +    signal to the compiler that accesses to the variable will be mostly
+> +    reads and rarely(but NOT never) a write.
+> +
+> +    const __read_mostly does not make any sense as const data is already
+> +    read-only.  The __read_mostly annotation thus should be removed.
+> +
+> +  **DATE_TIME**
+> +    It is generally desirable that building the same source code with
+> +    the same set of tools is reproducible, i.e. the output is always
+> +    exactly the same.
+> +
+> +    The kernel does *not* use the ``__DATE__`` and ``__TIME__`` macros,
+> +    and enables warnings if they are used as they can lead to
+> +    non-deterministic builds.
+> +    See: https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html#timestamps
+> +
+> +  **DEFINE_ARCH_HAS**
+> +    The ARCH_HAS_xyz or ARCH_HAVE_xyz patterns are totally wrong.
+> +
+> +    For big conceptual features use Kconfig symbols instead.  And for
+> +    smaller things where we have compatibility fallback functions but
+> +    want architectures able to override them with optimized ones one
+> +    function at a time, we should either use weak functions (appropriate
+> +    for some cases), or the symbol that protects them should the
+> +    SAME SYMBOL WE USE.
+> +    See: http://lkml.iu.edu/hypermail/linux/kernel/1309.3/01646.html
+> +
+> +  **INIT_ATTRIBUTE**
+> +    Const init definitions should use __initconst instead of
+> +    __initdata.
+> +
+> +    Similarly init definitions without const require a separate
+> +    use of const.
+> +
+> +  **INLINE_LOCATION**
+> +    The inline keyword should sit between storage class and type.
+> +
+> +    For example, the following segment::
+> +
+> +      inline static int example_function(void)
+> +      {
+> +              ...
+> +      }
+> +
+> +    should be::
+> +
+> +      static inline int example_function(void)
+> +      {
+> +              ...
+> +      }
+> +
+> +  **MULTISTATEMENT_MACRO_USE_DO_WHILE**
+> +    Macros with multiple statements should be enclosed in a
+> +    do - while block.  Same should also be the case for macros
+> +    starting with `if` to avoid logic defects::
+> +
+> +      #define macrofun(a, b, c)                 \
+> +        do {                                    \
+> +                if (a == 5)                     \
+> +                        do_this(b, c);          \
+> +        } while (0)
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
+> +
+> +  **WEAK_DECLARATION**
+> +    Using weak declarations like __attribute__((weak)) or __weak
+> +    can have unintended link defects.  Avoid using them.
+> +
+> +
+> +Functions and Variables
+> +-----------------------
+> +
+> +  **CAMELCASE**
+> +    Avoid CamelCase Identifiers.
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
+> +
+> +  **FUNCTION_WITHOUT_ARGS**
+> +    Function declarations without arguments like::
+> +
+> +      int foo()
+> +
+> +    should be::
+> +
+> +      int foo(void)
+> +
+> +  **GLOBAL_INITIALISERS**
+> +    Global variables should not be initialized explicitly to
+> +    0 (or NULL, false, etc.).  Your compiler (or rather your
+> +    loader, which is responsible for zeroing out the relevant
+> +    sections) automatically does it for you.
+> +
+> +  **INITIALISED_STATIC**
+> +    Static variables should not be initialized explicitly to zero.
+> +    Your compiler (or rather your loader) automatically does
+> +    it for you.
+> +
+> +  **RETURN_PARENTHESES**
+> +    return is not a function and as such doesn't need parentheses::
+> +
+> +      return (bar);
+> +
+> +    can simply be::
+> +
+> +      return bar;
+> +
+> +
+>  Spacing and Brackets
+>  --------------------
+>
+> @@ -439,7 +594,7 @@ Spacing and Brackets
+>      and put the closing brace first::
+>
+>        if (x is true) {
+> -        we do y
+> +              we do y
+>        }
+>
+>      This applies for all non-functional blocks.
+> @@ -448,7 +603,7 @@ Spacing and Brackets
+>
+>        int function(int x)
+>        {
+> -        body of function
+> +              body of function
+>        }
+>
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> @@ -485,29 +640,114 @@ Spacing and Brackets
+>
+>        printk(KERN_INFO "bar");
+>
+> +  **ELSE_AFTER_BRACE**
+> +    `else {` should follow the closing block `}` on the same line.
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> +
+>    **LINE_SPACING**
+>      Vertical space is wasted given the limited number of lines an
+>      editor window can display when multiple blank lines are used.
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+>
+> +  **OPEN_BRACE**
+> +    The opening brace should be following the function definitions on the
+> +    next line.  For any non functional block it should be on the same line
 
-s/3/three/
+s/non functional/non-functional/
 
-> > - Addition of a verbose mode to checkpatch
-> > - Addition of an external documentation to checkpatch
->
-> For the documentation we decided to document all checkpatch message types,
-> their meanings and how to resolve them. This is still a work in progress.
-> Contributions are definitely welcome :-P.
->
+But is non-functional block really a good wording?
 
-Drop the :-P ; you are serious, we want to see contributions from others.
+> +    as the last construct.
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> +
+> +  **POINTER_LOCATION**
+> +    When using pointer data or a function that returns a pointer type,
+> +    the preferred use of * is adjacent to the data name or function name
+> +    and not adjacent to the type name.
+> +    Examples::
+> +
+> +      char *linux_banner;
+> +      unsigned long long memparse(char *ptr, char **retptr);
+> +      char *match_strdup(substring_t *s);
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+> +
+>    **SPACING**
+>      Whitespace style used in the kernel sources is described in kernel docs.
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+>
+> +  **SWITCH_CASE_INDENT_LEVEL**
+> +    switch should be at the same indent as case.
+> +    Example::
+> +
+> +      switch (suffix) {
+> +      case 'G':
+> +      case 'g':
+> +              mem <<= 30;
+> +              break;
+> +      case 'M':
+> +      case 'm':
+> +              mem <<= 20;
+> +              break;
+> +      case 'K':
+> +      case 'k':
+> +              mem <<= 10;
+> +              /* fall through */
+> +      default:
+> +              break;
+> +      }
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#indentation
+> +
+>    **TRAILING_WHITESPACE**
+>      Trailing whitespace should always be removed.
+>      Some editors highlight the trailing whitespace and cause visual
+>      distractions when editing files.
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+>
+> +  **WHILE_AFTER_BRACE**
+> +    while should follow the closing bracket on the same line::
+> +
+> +      do {
+> +              ...
+> +      } while(something);
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> +
+>
+>  Others
+>  ------
+>
+> -  **CAMELCASE**
+> -    Avoid CamelCase Identifiers.
+> -    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
+> -
+>    **CONFIG_DESCRIPTION**
+>      Kconfig symbols should have a help text which fully describes
+>      it.
+> +
+> +  **CORRUPTED_PATCH**
+> +    The patch seems to be corrupted or lines are wrapped.
+> +    Please regenerate the patch file before sending to the maintainer.
+> +
 
-> ### Verbose Mode
->
-> This was one of the new additions we did to checkpatch.
->
-> One can run checkpatch like this:
->
-> ```/bin/bash
-> ./scripts/checkpatch.pl -v test.patch
-> ```
->
-> All verbose descriptions can be seen by pairing the verbose option
-> with --list-types:
->
-> ```/bin/bash
-> ./scripts/checkpatch.pl --list-types -v
-> ```
->
-> ### Checkpatch Documentation
->
-> The checkpatch documentation can be viewed from the kernel root
-> at `Documentation/dev-tools/checkpatch.rst`.
->
+s/sending to/sending it to/
 
-simply:
- The checkpatch documentation is at `Documentation/dev-tools/checkpatch.rst`
- in the kernel repository.
+> +  **DOS_LINE_ENDINGS**
+> +    For DOS-formatted patches, there are extra ^M symbols at the end of
+> +    the line.  These should be removed.
+> +
+> +  **EXECUTE_PERMISSIONS**
+> +    There is no reason for source files to be executable.  The executable
+> +    bit can be removed safely.
+> +
+> +  **NON_OCTAL_PERMISSIONS**
+> +    Permission bits should use 4 digit octal permissions (like 0700 or 0444).
+> +    Avoid using any other base like decimal.
+> +
+> +  **NOT_UNIFIED_DIFF**
+> +    The patchfile does not appear to be in unified-diff format.  Please
+> +    regenerate the patch before sending to the maintainer.
+> +
 
-> To build the documentation make sure you have configured sphynx
-> either in the system or in a python virtualenv. Next the kernel
-> doc can be built using:
->
-> ```/bin/bash
-> make htmldocs
-> ```
->
-> ## How to contribute to the documentation?
->
-> The documentation is still a work in progress. Feel free to send
-> the patches to the kernel-doc mailing list, and add me (Dwaipayan
-> Ray <dwaipayanray1@gmail.com>) and Lukas (Lukas Bulwahn <lukas.bulwahn@gmail.com>) for reviewing it.
->
-> The documentation is writted in rst syntax. Refer
-> [here](http://openalea.gforge.inria.fr/doc/openalea/doc/_build/html/source/sphinx/rest_syntax.html) for a quick guide.
->
-> Before sending out the mail, please always:
->
+s/patch file/patch
 
-s/writted/written/
-s/mail/patch/
+> +  **PRINTF_0XDECIMAL**
+> +    Prefixing Ox with decimal output is defective and should be corrected.
+> +
 
-> > - checkpatch.pl your changes
-> > - build check your patch (in this case check the generated html docs)
-> > - spell check your patch (this can be easily done through checkpatch
-> >   using --codespell flag if you already have the codespell dictionary)
->
-> ## Acknowledgements
->
-> During my mentorship period I learned a lot from my mentors.
-> I would like to thank Lukas for his constant support as my mentor,
-> Joe for his guidance with checkpatch and everyone in the community for being such
-> amazing people.
->
+s/O/0/ ?
 
-> The kernel contribution process may look old but it works. This is due to the dedication of everyone in the community, which I am glad to be a part of.
-
-I think you need to explain that this is something you learned in this
-mentorship, and that newcomers might think at first, but where you
-have been surprised.
+> +  **TRAILING_STATEMENTS**
+> +    Trailing statements (for example after any conditional) should be
+> +    on the next line.
+> +    Like::
+> +
+> +      if (x == y) break;
+> +
+> +    should be::
+> +
+> +      if (x == y)
+> +              break;
+> --
+> 2.30.0
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
