@@ -8,96 +8,93 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB127C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 11:26:58 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A57C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 12:08:47 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 14B1B61930
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 11:26:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 14B1B61930
+	by mail.kernel.org (Postfix) with ESMTPS id 7164E61931
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 12:08:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7164E61931
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B3C3B606B8;
-	Sun, 21 Mar 2021 11:26:57 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 3C10140266;
+	Sun, 21 Mar 2021 12:08:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FgRLzyha8mGV; Sun, 21 Mar 2021 11:26:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 57E1260648;
-	Sun, 21 Mar 2021 11:26:56 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iVdpdffVNuS4; Sun, 21 Mar 2021 12:08:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1D2BE400D6;
+	Sun, 21 Mar 2021 12:08:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3150FC000A;
-	Sun, 21 Mar 2021 11:26:56 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 533DDC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F19EFC000A;
+	Sun, 21 Mar 2021 12:08:45 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DA45AC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 11:26:54 +0000 (UTC)
+ Sun, 21 Mar 2021 12:08:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 390B1403E4
+ by smtp3.osuosl.org (Postfix) with ESMTP id C7BEF60648
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 11:26:54 +0000 (UTC)
+ Sun, 21 Mar 2021 12:08:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hWqo0p7Tkja6
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YTrB0sRtlXHT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 11:26:52 +0000 (UTC)
+ Sun, 21 Mar 2021 12:08:43 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 771F9403CA
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C6F3560631
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 11:26:52 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- mz6-20020a17090b3786b02900c16cb41d63so7078244pjb.2
+ Sun, 21 Mar 2021 12:08:43 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ a22-20020a17090aa516b02900c1215e9b33so8966072pjq.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 04:26:52 -0700 (PDT)
+ Sun, 21 Mar 2021 05:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5eaDaROvqts4jwDDQJhAT3LrkISBBVu4JEIcngJNS28=;
- b=JHNxazvLTsA87AMXJ+oomMzYi4APCFux1MNsUjfDRsXrtkcVopVsF6zMi0UYqCdDFU
- oumIMV2Bfg3QAxKwlK8AaI8UrECHXYIy8p/uXTIp+o+JDv4TCX06vXxdBSoTVh21PRm0
- PbaVmPqitDMARLP7/wCM/XlRgAGkr/kRfs2JOUfJU97ocEEHoc6cY3bUv4NwawH0HucD
- B5Eiyi1LtLkDvdN/o2diAoPz9xvFV89oI+632kSbmfaaNYoZQmMf3GSRRvU6/GNIF5JI
- jMYHzH06csX4gkXQ8zL3xeCbeOgX+7ThLAETAhRENeuPHnG/7QHqlNi0Du4lntmQEI/u
- 7DtQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=HSSxmK0cuYym1ybatHcy4VDPR1/GI7z2xQ4QQD17/2E=;
+ b=Neb8wtf2p//f3Otyc2TbcDU+ldeRf0C6iOO8DJCuZE41gFObRc7+PgE5xkMQ9uQaAy
+ g2/rUzMMdlAVaSUrTpwhodDRAyTq9CVYuEGK1SSyTWz5uFcMACoDhNzGP/ZiVa3Cptla
+ VpUdXxlXgAuFtblc9qg/UL7C7qGGork2vp0gnL8UsPkFxz191fNZ7adV3zR3XLSPfW30
+ 7vlodxxaYg5VkemD/IxpIQx8Ljb+yMU0wmswBp6V/P21fLIl07MuNElj1Uibsr3VrjkB
+ ByaA768cVPb4NW9g5egzhtxZeNlU8chQtOuisipAav4d6xQNDiZdLdpuVksl9+uE/J+k
+ gc/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5eaDaROvqts4jwDDQJhAT3LrkISBBVu4JEIcngJNS28=;
- b=mmLFF/4qhHLC+9VJ4lwhb7klw6lUprvZnMCHR0xN/MZp3xl0mDYkFvPUxZGZRVCCp0
- /j3eT15kM0pIu2RxcEarpa+fE/N1KuumLBzQ8pcaxtVOgXVCsig6xlw4oMJTtv42GQl5
- 1F+VNnnOTzfKnQdtKehE6cBVE4rKoQANYvEFEvQnUF/4bg0LoRcRti714z5duy49qPAe
- 1ltMmBgT+/KAz6vHVlpRAAe1EaV7nGOQOMe/WRJh2KaUUEFoFgXh49TIRoXV4+VRTTE3
- wxqJmyqiQRn1g6G7ALOONiJ0jYpifeVArFadikdwsZo2Rhj7yMRlTdB+p18Jo1LIRmmd
- kSjg==
-X-Gm-Message-State: AOAM5308IyL8u0s84BrEew5BsXIt2zjRLgwfti3YqlImtdxgieArVNQ2
- eW204sKVmCGtUdXkNlmDm0U=
-X-Google-Smtp-Source: ABdhPJyhiUFnCdu76e9WYjEGT7psV1jrC6XbjTpr+R6rLjnbXey0qd2qdmCOSTeDVpOtIXD/k5Y85w==
-X-Received: by 2002:a17:902:bd41:b029:e6:933a:f3ef with SMTP id
- b1-20020a170902bd41b02900e6933af3efmr22061056plx.19.1616326011636; 
- Sun, 21 Mar 2021 04:26:51 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:9004:69fc:dbf:7c92:3e84:f53])
- by smtp.gmail.com with ESMTPSA id
- z8sm10509535pjr.57.2021.03.21.04.26.49
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=HSSxmK0cuYym1ybatHcy4VDPR1/GI7z2xQ4QQD17/2E=;
+ b=tCg7SGrXp4xEb1EyPk+/CGU0yUXsRe9n5rgXbvRgUzndhmkzPruyJvNHphH1562zs4
+ 2NDYOxuTG3BnMnn3BrGw7P0VYlOUnDhQQ1DclIhf5PcFyzdAGEmNho/26lRYL3TthzxX
+ TEOuJLe9TXOeTmoSSTCH94XQe2YKqrrgUCFAaxE/XlEkkKkQthgV0jqOa1cBYtqyI9uy
+ J0JlcmnEuLPv2LUVhGd74sauHTxJecVH8XgOpD3sRyng2bDuEKzdUTLdoskf92TYyWO9
+ pIOLWvEvsA7a16oW6kNOaWbuS/magCkJCrSzilJT6PQ5EQ0A6blnTicPrMIUZsXwM4Fd
+ 1TYg==
+X-Gm-Message-State: AOAM533lRUM4C+4mwXz7TRrrVQThsXnfgGzhkePJdl93/PJhXRYdUR7d
+ f4k5Hmw2w2ap4gbuilq0acg=
+X-Google-Smtp-Source: ABdhPJxXEOiDyKvrZhYHlXQHR2Nq21Enp8+krSaKOI5PBk9iFqnMgxEwQ0Q1sdr7/QsNJThJxNT4eg==
+X-Received: by 2002:a17:90b:1296:: with SMTP id
+ fw22mr7971426pjb.93.1616328522829; 
+ Sun, 21 Mar 2021 05:08:42 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:4cb7:d0cb:1241:5cf8])
+ by smtp.googlemail.com with ESMTPSA id mp1sm10460317pjb.48.2021.03.21.05.08.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Mar 2021 04:26:51 -0700 (PDT)
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-To: lukas.bulwahn@gmail.com
-Subject: [PATCH -next v3] docs: document all error message types in checkpatch
-Date: Sun, 21 Mar 2021 16:56:45 +0530
-Message-Id: <20210321112645.60823-1-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.30.0
-MIME-Version: 1.0
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Sun, 21 Mar 2021 05:08:42 -0700 (PDT)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: herbert@gondor.apana.org.au
+Subject: [PATCH] crypto: amcc: fix incorrect kernel-doc comment syntax in files
+Date: Sun, 21 Mar 2021 17:38:32 +0530
+Message-Id: <20210321120832.12837-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: corbet@lwn.net, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ yashsri421@gmail.com, linux-crypto@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,440 +106,335 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-All the error message types now have a verbose description.
+The opening comment mark '/**' is used for highlighting the beginning of
+kernel-doc comments.
+There are certain files in drivers/crypto/amcc, which follow this syntax,
+but the content inside does not comply with kernel-doc.
+Such lines were probably not meant for kernel-doc parsing, but are parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes unexpected warnings from kernel-doc.
 
-Also there are two new groups of message types:
+E.g., presence of kernel-doc like comment in
+drivers/crypto/amcc/crypto4xx_alg.c at header, and some other lines,
+causes these warnings by kernel-doc:
 
-- Macros, Attributes and Symbols
-- Functions and Variables
+"warning: expecting prototype for AMCC SoC PPC4xx Crypto Driver(). Prototype was for set_dynamic_sa_command_0() instead"
+"warning: Function parameter or member 'dir' not described in 'set_dynamic_sa_command_0'"
+etc..
 
-Rearrange the message types to fit these new groups as needed.
+Provide a simple fix by replacing such occurrences with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
+ drivers/crypto/amcc/crypto4xx_alg.c     | 12 ++++++------
+ drivers/crypto/amcc/crypto4xx_core.c    | 18 +++++++++---------
+ drivers/crypto/amcc/crypto4xx_core.h    |  4 ++--
+ drivers/crypto/amcc/crypto4xx_reg_def.h |  8 ++++----
+ drivers/crypto/amcc/crypto4xx_sa.h      | 18 +++++++++---------
+ drivers/crypto/amcc/crypto4xx_trng.h    |  2 +-
+ 6 files changed, 31 insertions(+), 31 deletions(-)
 
-Changes in v3:
-- Add more explanation for LOCKDEP
-- Minor grammar fixes
-
-Changes in v2:
-- Replace 4.10 kernel doc links by latest
-
- Documentation/dev-tools/checkpatch.rst | 319 ++++++++++++++++++++++---
- 1 file changed, 281 insertions(+), 38 deletions(-)
-
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 2671e54c8320..904fd5fe2484 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -280,43 +280,12 @@ API usage
-     However this is not always the case (See signal.h).
-     This message type is emitted only for includes from arch/.
+diff --git a/drivers/crypto/amcc/crypto4xx_alg.c b/drivers/crypto/amcc/crypto4xx_alg.c
+index a3fa849b139a..ded732242732 100644
+--- a/drivers/crypto/amcc/crypto4xx_alg.c
++++ b/drivers/crypto/amcc/crypto4xx_alg.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+-/**
++/*
+  * AMCC SoC PPC4xx Crypto Driver
+  *
+  * Copyright (c) 2008 Applied Micro Circuits Corporation.
+@@ -115,7 +115,7 @@ int crypto4xx_decrypt_iv_block(struct skcipher_request *req)
+ 	return crypto4xx_crypt(req, AES_IV_SIZE, true, true);
+ }
  
--  **ARRAY_SIZE**
--    The ARRAY_SIZE(foo) macro should be preferred over
--    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
--    array.
--
--    The macro is defined in include/linux/kernel.h::
--
--      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
--
-   **AVOID_BUG**
-     BUG() or BUG_ON() should be avoided totally.
-     Use WARN() and WARN_ON() instead, and handle the "impossible"
-     error condition as gracefully as possible.
-     See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
+-/**
++/*
+  * AES Functions
+  */
+ static int crypto4xx_setkey_aes(struct crypto_skcipher *cipher,
+@@ -374,7 +374,7 @@ static int crypto4xx_aead_setup_fallback(struct crypto4xx_ctx *ctx,
+ 	return crypto_aead_setkey(ctx->sw_cipher.aead, key, keylen);
+ }
  
--  **AVOID_EXTERNS**
--    Function prototypes don't need to be declared extern in .h
--    files.  It's assumed by the compiler and is unnecessary.
--
--  **AVOID_L_PREFIX**
--    Local symbol names that are prefixed with `.L` should be avoided,
--    as this has special meaning for the assembler; a symbol entry will
--    not be emitted into the symbol table.  This can prevent `objtool`
--    from generating correct unwind info.
--
--    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
--    local symbol names are still generally usable within a function,
--    but `.L` prefixed local symbol names should not be used to denote
--    the beginning or end of code regions via
--    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
--
--  **BIT_MACRO**
--    Defines like: 1 << <digit> could be BIT(digit).
--    The BIT() macro is defined in include/linux/bitops.h::
--
--      #define BIT(nr)         (1UL << (nr))
--
-   **CONSIDER_KSTRTO**
-     The simple_strtol(), simple_strtoll(), simple_strtoul(), and
-     simple_strtoull() functions explicitly ignore overflows, which
-@@ -325,6 +294,25 @@ API usage
-     correct replacements.
-     See: https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+-/**
++/*
+  * AES-CCM Functions
+  */
  
-+  **LOCKDEP**
-+    The lockdep_no_validate class was added as a temporary measure to
-+    prevent warnings on conversion of device->sem to device->mutex.
-+    It should not be used for any other purpose.
-+    See: https://lore.kernel.org/lkml/1268959062.9440.467.camel@laptop/
-+
-+  **MALFORMED_INCLUDE**
-+    The #include statement has a malformed path.  This has happened
-+    because the author has included a double slash "//" in the pathname
-+    accidentally.
-+
-+  **USE_LOCKDEP**
-+    lockdep_assert_held() annotations should be preferred over
-+    assertions based on spin_is_locked()
-+    See: https://www.kernel.org/doc/html/latest/locking/lockdep-design.html#annotations
-+
-+  **UAPI_INCLUDE**
-+    No #include statements in include/uapi should use a uapi/ path.
-+
+@@ -489,7 +489,7 @@ int crypto4xx_setauthsize_aead(struct crypto_aead *cipher,
+ 	return crypto_aead_setauthsize(ctx->sw_cipher.aead, authsize);
+ }
  
- Comment style
- -------------
-@@ -353,7 +341,6 @@ Comment style
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+-/**
++/*
+  * AES-GCM Functions
+  */
  
+@@ -617,7 +617,7 @@ int crypto4xx_decrypt_aes_gcm(struct aead_request *req)
+ 	return crypto4xx_crypt_aes_gcm(req, true);
+ }
  
--
- Commit message
- --------------
+-/**
++/*
+  * HASH SHA1 Functions
+  */
+ static int crypto4xx_hash_alg_init(struct crypto_tfm *tfm,
+@@ -711,7 +711,7 @@ int crypto4xx_hash_digest(struct ahash_request *req)
+ 				  ctx->sa_len, 0, NULL);
+ }
  
-@@ -397,6 +384,35 @@ Commit message
-     source patch.
-     See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+-/**
++/*
+  * SHA1 Algorithm
+  */
+ int crypto4xx_sha1_alg_init(struct crypto_tfm *tfm)
+diff --git a/drivers/crypto/amcc/crypto4xx_core.c b/drivers/crypto/amcc/crypto4xx_core.c
+index 8d1b918a0533..8278d98074e9 100644
+--- a/drivers/crypto/amcc/crypto4xx_core.c
++++ b/drivers/crypto/amcc/crypto4xx_core.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+-/**
++/*
+  * AMCC SoC PPC4xx Crypto Driver
+  *
+  * Copyright (c) 2008 Applied Micro Circuits Corporation.
+@@ -44,7 +44,7 @@
  
-+  **DIFF_IN_COMMIT_MSG**
-+    Avoid having diff content in commit message.
-+    This causes problems when one tries to apply a file containing both
-+    the changelog and the diff because patch(1) tries to apply the diff
-+    which it found in the changelog.
-+    See: https://lore.kernel.org/lkml/20150611134006.9df79a893e3636019ad2759e@linux-foundation.org/
-+
-+  **GERRIT_CHANGE_ID**
-+    To be picked up by gerrit, the footer of the commit message might
-+    have a Change-Id like::
-+
-+      Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
-+      Signed-off-by: A. U. Thor <author@example.com>
-+
-+    The Change-Id line must be removed before submitting.
-+
-+  **GIT_COMMIT_ID**
-+    The proper way to reference a commit id is:
-+    commit <12+ chars of sha1> ("<title line>")
-+
-+    An example may be::
-+
-+      Commit e21d2170f36602ae2708 ("video: remove unnecessary
-+      platform_set_drvdata()") removed the unnecessary
-+      platform_set_drvdata(), but left the variable "dev" unused,
-+      delete it.
-+
-+    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
-+
+ #define PPC4XX_SEC_VERSION_STR			"0.5"
  
- Comparison style
- ----------------
-@@ -426,6 +442,148 @@ Comparison style
-     side of the test should be avoided.
+-/**
++/*
+  * PPC4xx Crypto Engine Initialization Routine
+  */
+ static void crypto4xx_hw_init(struct crypto4xx_device *dev)
+@@ -159,7 +159,7 @@ void crypto4xx_free_sa(struct crypto4xx_ctx *ctx)
+ 	ctx->sa_len = 0;
+ }
  
+-/**
++/*
+  * alloc memory for the gather ring
+  * no need to alloc buf for the ring
+  * gdr_tail, gdr_head and gdr_count are initialized by this function
+@@ -268,7 +268,7 @@ static u32 crypto4xx_put_pd_to_pdr(struct crypto4xx_device *dev, u32 idx)
+ 	return tail;
+ }
  
-+Macros, Attributes and Symbols
-+------------------------------
-+
-+  **ARRAY_SIZE**
-+    The ARRAY_SIZE(foo) macro should be preferred over
-+    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
-+    array.
-+
-+    The macro is defined in include/linux/kernel.h::
-+
-+      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
-+
-+  **AVOID_EXTERNS**
-+    Function prototypes don't need to be declared extern in .h
-+    files.  It's assumed by the compiler and is unnecessary.
-+
-+  **AVOID_L_PREFIX**
-+    Local symbol names that are prefixed with `.L` should be avoided,
-+    as this has special meaning for the assembler; a symbol entry will
-+    not be emitted into the symbol table.  This can prevent `objtool`
-+    from generating correct unwind info.
-+
-+    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
-+    local symbol names are still generally usable within a function,
-+    but `.L` prefixed local symbol names should not be used to denote
-+    the beginning or end of code regions via
-+    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
-+
-+  **BIT_MACRO**
-+    Defines like: 1 << <digit> could be BIT(digit).
-+    The BIT() macro is defined in include/linux/bitops.h::
-+
-+      #define BIT(nr)         (1UL << (nr))
-+
-+  **CONST_READ_MOSTLY**
-+    When a variable is tagged with the __read_mostly annotation, it is a
-+    signal to the compiler that accesses to the variable will be mostly
-+    reads and rarely(but NOT never) a write.
-+
-+    const __read_mostly does not make any sense as const data is already
-+    read-only.  The __read_mostly annotation thus should be removed.
-+
-+  **DATE_TIME**
-+    It is generally desirable that building the same source code with
-+    the same set of tools is reproducible, i.e. the output is always
-+    exactly the same.
-+
-+    The kernel does *not* use the ``__DATE__`` and ``__TIME__`` macros,
-+    and enables warnings if they are used as they can lead to
-+    non-deterministic builds.
-+    See: https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html#timestamps
-+
-+  **DEFINE_ARCH_HAS**
-+    The ARCH_HAS_xyz or ARCH_HAVE_xyz patterns are totally wrong.
-+
-+    For big conceptual features use Kconfig symbols instead.  And for
-+    smaller things where we have compatibility fallback functions but
-+    want architectures able to override them with optimized ones one
-+    function at a time, we should either use weak functions (appropriate
-+    for some cases), or the symbol that protects them should the
-+    SAME SYMBOL WE USE.
-+    See: http://lkml.iu.edu/hypermail/linux/kernel/1309.3/01646.html
-+
-+  **INIT_ATTRIBUTE**
-+    Const init definitions should use __initconst instead of
-+    __initdata.
-+
-+    Similarly init definitions without const require a separate
-+    use of const.
-+
-+  **INLINE_LOCATION**
-+    The inline keyword should sit between storage class and type.
-+
-+    For example, the following segment::
-+
-+      inline static int example_function(void)
-+      {
-+              ...
-+      }
-+
-+    should be::
-+
-+      static inline int example_function(void)
-+      {
-+              ...
-+      }
-+
-+  **MULTISTATEMENT_MACRO_USE_DO_WHILE**
-+    Macros with multiple statements should be enclosed in a
-+    do - while block.  Same should also be the case for macros
-+    starting with `if` to avoid logic defects::
-+
-+      #define macrofun(a, b, c)                 \
-+        do {                                    \
-+                if (a == 5)                     \
-+                        do_this(b, c);          \
-+        } while (0)
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
-+
-+  **WEAK_DECLARATION**
-+    Using weak declarations like __attribute__((weak)) or __weak
-+    can have unintended link defects.  Avoid using them.
-+
-+
-+Functions and Variables
-+-----------------------
-+
-+  **CAMELCASE**
-+    Avoid CamelCase Identifiers.
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
-+
-+  **FUNCTION_WITHOUT_ARGS**
-+    Function declarations without arguments like::
-+
-+      int foo()
-+
-+    should be::
-+
-+      int foo(void)
-+
-+  **GLOBAL_INITIALISERS**
-+    Global variables should not be initialized explicitly to
-+    0 (or NULL, false, etc.).  Your compiler (or rather your
-+    loader, which is responsible for zeroing out the relevant
-+    sections) automatically does it for you.
-+
-+  **INITIALISED_STATIC**
-+    Static variables should not be initialized explicitly to zero.
-+    Your compiler (or rather your loader) automatically does
-+    it for you.
-+
-+  **RETURN_PARENTHESES**
-+    return is not a function and as such doesn't need parentheses::
-+
-+      return (bar);
-+
-+    can simply be::
-+
-+      return bar;
-+
-+
- Spacing and Brackets
- --------------------
+-/**
++/*
+  * alloc memory for the gather ring
+  * no need to alloc buf for the ring
+  * gdr_tail, gdr_head and gdr_count are initialized by this function
+@@ -346,7 +346,7 @@ static inline struct ce_gd *crypto4xx_get_gdp(struct crypto4xx_device *dev,
+ 	return &dev->gdr[idx];
+ }
  
-@@ -439,7 +597,7 @@ Spacing and Brackets
-     and put the closing brace first::
+-/**
++/*
+  * alloc memory for the scatter ring
+  * need to alloc buf for the ring
+  * sdr_tail, sdr_head and sdr_count are initialized by this function
+@@ -930,7 +930,7 @@ int crypto4xx_build_pd(struct crypto_async_request *req,
+ 	return is_busy ? -EBUSY : -EINPROGRESS;
+ }
  
-       if (x is true) {
--        we do y
-+              we do y
-       }
+-/**
++/*
+  * Algorithm Registration Functions
+  */
+ static void crypto4xx_ctx_init(struct crypto4xx_alg *amcc_alg,
+@@ -1097,7 +1097,7 @@ static void crypto4xx_bh_tasklet_cb(unsigned long data)
+ 	} while (head != tail);
+ }
  
-     This applies for all non-functional blocks.
-@@ -448,7 +606,7 @@ Spacing and Brackets
+-/**
++/*
+  * Top Half of isr.
+  */
+ static inline irqreturn_t crypto4xx_interrupt_handler(int irq, void *data,
+@@ -1186,7 +1186,7 @@ static int crypto4xx_prng_seed(struct crypto_rng *tfm, const u8 *seed,
+ 	return 0;
+ }
  
-       int function(int x)
-       {
--        body of function
-+              body of function
-       }
+-/**
++/*
+  * Supported Crypto Algorithms
+  */
+ static struct crypto4xx_alg_common crypto4xx_alg[] = {
+@@ -1369,7 +1369,7 @@ static struct crypto4xx_alg_common crypto4xx_alg[] = {
+ 	} },
+ };
  
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
-@@ -485,29 +643,114 @@ Spacing and Brackets
+-/**
++/*
+  * Module Initialization Routine
+  */
+ static int crypto4xx_probe(struct platform_device *ofdev)
+diff --git a/drivers/crypto/amcc/crypto4xx_core.h b/drivers/crypto/amcc/crypto4xx_core.h
+index a4e25b46cd0a..56c10668c0ab 100644
+--- a/drivers/crypto/amcc/crypto4xx_core.h
++++ b/drivers/crypto/amcc/crypto4xx_core.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+-/**
++/*
+  * AMCC SoC PPC4xx Crypto Driver
+  *
+  * Copyright (c) 2008 Applied Micro Circuits Corporation.
+@@ -188,7 +188,7 @@ int crypto4xx_hash_final(struct ahash_request *req);
+ int crypto4xx_hash_update(struct ahash_request *req);
+ int crypto4xx_hash_init(struct ahash_request *req);
  
-       printk(KERN_INFO "bar");
+-/**
++/*
+  * Note: Only use this function to copy items that is word aligned.
+  */
+ static inline void crypto4xx_memcpy_swab32(u32 *dst, const void *buf,
+diff --git a/drivers/crypto/amcc/crypto4xx_reg_def.h b/drivers/crypto/amcc/crypto4xx_reg_def.h
+index c4c0a1a75941..1038061224da 100644
+--- a/drivers/crypto/amcc/crypto4xx_reg_def.h
++++ b/drivers/crypto/amcc/crypto4xx_reg_def.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+-/**
++/*
+  * AMCC SoC PPC4xx Crypto Driver
+  *
+  * Copyright (c) 2008 Applied Micro Circuits Corporation.
+@@ -104,7 +104,7 @@
+ #define CRYPTO4XX_PRNG_LFSR_L			0x00070030
+ #define CRYPTO4XX_PRNG_LFSR_H			0x00070034
  
-+  **ELSE_AFTER_BRACE**
-+    `else {` should follow the closing block `}` on the same line.
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
-+
-   **LINE_SPACING**
-     Vertical space is wasted given the limited number of lines an
-     editor window can display when multiple blank lines are used.
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+-/**
++/*
+  * Initialize CRYPTO ENGINE registers, and memory bases.
+  */
+ #define PPC4XX_PDR_POLL				0x3ff
+@@ -123,7 +123,7 @@
+ #define PPC4XX_INT_TIMEOUT_CNT			0
+ #define PPC4XX_INT_TIMEOUT_CNT_REVB		0x3FF
+ #define PPC4XX_INT_CFG				1
+-/**
++/*
+  * all follow define are ad hoc
+  */
+ #define PPC4XX_RING_RETRY			100
+@@ -131,7 +131,7 @@
+ #define PPC4XX_SDR_SIZE				PPC4XX_NUM_SD
+ #define PPC4XX_GDR_SIZE				PPC4XX_NUM_GD
  
-+  **OPEN_BRACE**
-+    The opening brace should be following the function definitions on the
-+    next line.  For any non-functional block it should be on the same line
-+    as the last construct.
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
-+
-+  **POINTER_LOCATION**
-+    When using pointer data or a function that returns a pointer type,
-+    the preferred use of * is adjacent to the data name or function name
-+    and not adjacent to the type name.
-+    Examples::
-+
-+      char *linux_banner;
-+      unsigned long long memparse(char *ptr, char **retptr);
-+      char *match_strdup(substring_t *s);
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
-+
-   **SPACING**
-     Whitespace style used in the kernel sources is described in kernel docs.
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+-/**
++/*
+   * Generic Security Association (SA) with all possible fields. These will
+  * never likely used except for reference purpose. These structure format
+  * can be not changed as the hardware expects them to be layout as defined.
+diff --git a/drivers/crypto/amcc/crypto4xx_sa.h b/drivers/crypto/amcc/crypto4xx_sa.h
+index fe756abfc19f..e98e4e7abbad 100644
+--- a/drivers/crypto/amcc/crypto4xx_sa.h
++++ b/drivers/crypto/amcc/crypto4xx_sa.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+-/**
++/*
+  * AMCC SoC PPC4xx Crypto Driver
+  *
+  * Copyright (c) 2008 Applied Micro Circuits Corporation.
+@@ -14,7 +14,7 @@
  
-+  **SWITCH_CASE_INDENT_LEVEL**
-+    switch should be at the same indent as case.
-+    Example::
-+
-+      switch (suffix) {
-+      case 'G':
-+      case 'g':
-+              mem <<= 30;
-+              break;
-+      case 'M':
-+      case 'm':
-+              mem <<= 20;
-+              break;
-+      case 'K':
-+      case 'k':
-+              mem <<= 10;
-+              /* fall through */
-+      default:
-+              break;
-+      }
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#indentation
-+
-   **TRAILING_WHITESPACE**
-     Trailing whitespace should always be removed.
-     Some editors highlight the trailing whitespace and cause visual
-     distractions when editing files.
-     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+ #define AES_IV_SIZE				16
  
-+  **WHILE_AFTER_BRACE**
-+    while should follow the closing bracket on the same line::
-+
-+      do {
-+              ...
-+      } while(something);
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
-+
+-/**
++/*
+  * Contents of Dynamic Security Association (SA) with all possible fields
+  */
+ union dynamic_sa_contents {
+@@ -122,7 +122,7 @@ union sa_command_0 {
+ #define SA_AES_KEY_LEN_256			4
  
- Others
- ------
+ #define SA_REV2					1
+-/**
++/*
+  * The follow defines bits sa_command_1
+  * In Basic hash mode  this bit define simple hash or hmac.
+  * In IPsec mode, this bit define muting control.
+@@ -172,7 +172,7 @@ struct dynamic_sa_ctl {
+ 	union sa_command_1 sa_command_1;
+ } __attribute__((packed));
  
--  **CAMELCASE**
--    Avoid CamelCase Identifiers.
--    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
--
-   **CONFIG_DESCRIPTION**
-     Kconfig symbols should have a help text which fully describes
-     it.
-+
-+  **CORRUPTED_PATCH**
-+    The patch seems to be corrupted or lines are wrapped.
-+    Please regenerate the patch file before sending it to the maintainer.
-+
-+  **DOS_LINE_ENDINGS**
-+    For DOS-formatted patches, there are extra ^M symbols at the end of
-+    the line.  These should be removed.
-+
-+  **EXECUTE_PERMISSIONS**
-+    There is no reason for source files to be executable.  The executable
-+    bit can be removed safely.
-+
-+  **NON_OCTAL_PERMISSIONS**
-+    Permission bits should use 4 digit octal permissions (like 0700 or 0444).
-+    Avoid using any other base like decimal.
-+
-+  **NOT_UNIFIED_DIFF**
-+    The patch file does not appear to be in unified-diff format.  Please
-+    regenerate the patch file before sending it to the maintainer.
-+
-+  **PRINTF_0XDECIMAL**
-+    Prefixing 0x with decimal output is defective and should be corrected.
-+
-+  **TRAILING_STATEMENTS**
-+    Trailing statements (for example after any conditional) should be
-+    on the next line.
-+    Like::
-+
-+      if (x == y) break;
-+
-+    should be::
-+
-+      if (x == y)
-+              break;
+-/**
++/*
+  * State Record for Security Association (SA)
+  */
+ struct  sa_state_record {
+@@ -184,7 +184,7 @@ struct  sa_state_record {
+ 	};
+ } __attribute__((packed));
+ 
+-/**
++/*
+  * Security Association (SA) for AES128
+  *
+  */
+@@ -213,7 +213,7 @@ struct dynamic_sa_aes192 {
+ #define SA_AES192_LEN		(sizeof(struct dynamic_sa_aes192)/4)
+ #define SA_AES192_CONTENTS	0x3e000062
+ 
+-/**
++/*
+  * Security Association (SA) for AES256
+  */
+ struct dynamic_sa_aes256 {
+@@ -228,7 +228,7 @@ struct dynamic_sa_aes256 {
+ #define SA_AES256_CONTENTS	0x3e000082
+ #define SA_AES_CONTENTS		0x3e000002
+ 
+-/**
++/*
+  * Security Association (SA) for AES128 CCM
+  */
+ struct dynamic_sa_aes128_ccm {
+@@ -242,7 +242,7 @@ struct dynamic_sa_aes128_ccm {
+ #define SA_AES128_CCM_CONTENTS	0x3e000042
+ #define SA_AES_CCM_CONTENTS	0x3e000002
+ 
+-/**
++/*
+  * Security Association (SA) for AES128_GCM
+  */
+ struct dynamic_sa_aes128_gcm {
+@@ -258,7 +258,7 @@ struct dynamic_sa_aes128_gcm {
+ #define SA_AES128_GCM_CONTENTS	0x3e000442
+ #define SA_AES_GCM_CONTENTS	0x3e000402
+ 
+-/**
++/*
+  * Security Association (SA) for HASH160: HMAC-SHA1
+  */
+ struct dynamic_sa_hash160 {
+diff --git a/drivers/crypto/amcc/crypto4xx_trng.h b/drivers/crypto/amcc/crypto4xx_trng.h
+index 3af732f25c1c..7356716274cb 100644
+--- a/drivers/crypto/amcc/crypto4xx_trng.h
++++ b/drivers/crypto/amcc/crypto4xx_trng.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-or-later */
+-/**
++/*
+  * AMCC SoC PPC4xx Crypto Driver
+  *
+  * Copyright (c) 2008 Applied Micro Circuits Corporation.
 -- 
-2.30.0
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
