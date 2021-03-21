@@ -8,89 +8,88 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2A57C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 12:08:47 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE104C433C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 12:09:26 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7164E61931
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 12:08:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7164E61931
+	by mail.kernel.org (Postfix) with ESMTPS id 9246761941
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 12:09:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9246761941
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3C10140266;
-	Sun, 21 Mar 2021 12:08:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4999560631;
+	Sun, 21 Mar 2021 12:09:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iVdpdffVNuS4; Sun, 21 Mar 2021 12:08:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1D2BE400D6;
-	Sun, 21 Mar 2021 12:08:46 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F19EFC000A;
-	Sun, 21 Mar 2021 12:08:45 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA45AC0001
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 12:08:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C7BEF60648
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 12:08:44 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YTrB0sRtlXHT
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wMHaTwvWeHtO; Sun, 21 Mar 2021 12:09:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 49C03605E1;
+	Sun, 21 Mar 2021 12:09:25 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2AB46C000A;
+	Sun, 21 Mar 2021 12:09:25 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 866EEC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 12:08:43 +0000 (UTC)
+ Sun, 21 Mar 2021 12:09:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 68E3E83498
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 21 Mar 2021 12:09:23 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Hpf8fl-bfoUF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 21 Mar 2021 12:09:21 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C6F3560631
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 8FEBD8329A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 12:08:43 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id
- a22-20020a17090aa516b02900c1215e9b33so8966072pjq.5
+ Sun, 21 Mar 2021 12:09:21 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id w8so6929281pjf.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 05:08:43 -0700 (PDT)
+ Sun, 21 Mar 2021 05:09:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=HSSxmK0cuYym1ybatHcy4VDPR1/GI7z2xQ4QQD17/2E=;
- b=Neb8wtf2p//f3Otyc2TbcDU+ldeRf0C6iOO8DJCuZE41gFObRc7+PgE5xkMQ9uQaAy
- g2/rUzMMdlAVaSUrTpwhodDRAyTq9CVYuEGK1SSyTWz5uFcMACoDhNzGP/ZiVa3Cptla
- VpUdXxlXgAuFtblc9qg/UL7C7qGGork2vp0gnL8UsPkFxz191fNZ7adV3zR3XLSPfW30
- 7vlodxxaYg5VkemD/IxpIQx8Ljb+yMU0wmswBp6V/P21fLIl07MuNElj1Uibsr3VrjkB
- ByaA768cVPb4NW9g5egzhtxZeNlU8chQtOuisipAav4d6xQNDiZdLdpuVksl9+uE/J+k
- gc/g==
+ bh=65xS++HGiZkujdsZR4AQVb+3YXoj/1io84bOdJMhmhE=;
+ b=bX3lXOrO99s+3URCG1rF3xz08Ldc7x+dIV0nXOWv60xnvaHBCA2XKu/37JqTJAS4Eb
+ o9Y7s5NB/uVox+SOei06QbwVEbdkLsvAt8pDUTMwZ2zvMIuO42JO2b0LmokFl/oWSQCi
+ TlYOUENU67DT/L/AvN6g994qx8C6k/9vP/HjhaFOdEDrZtu2ui7F3Fofi6iCb80PAl50
+ CMp+zjL7/K3HegSe8iU4V+DfJkN+qX/JDKge1Bw2JuBMkMwDizMGb8DF0NWsZRCaUzWD
+ oULps5sVbquDI+slsmrOx5kMiPMMRGOGhSp24togDpNGhHzCwJVhK2LhurGH/mxmu+t9
+ 0X8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=HSSxmK0cuYym1ybatHcy4VDPR1/GI7z2xQ4QQD17/2E=;
- b=tCg7SGrXp4xEb1EyPk+/CGU0yUXsRe9n5rgXbvRgUzndhmkzPruyJvNHphH1562zs4
- 2NDYOxuTG3BnMnn3BrGw7P0VYlOUnDhQQ1DclIhf5PcFyzdAGEmNho/26lRYL3TthzxX
- TEOuJLe9TXOeTmoSSTCH94XQe2YKqrrgUCFAaxE/XlEkkKkQthgV0jqOa1cBYtqyI9uy
- J0JlcmnEuLPv2LUVhGd74sauHTxJecVH8XgOpD3sRyng2bDuEKzdUTLdoskf92TYyWO9
- pIOLWvEvsA7a16oW6kNOaWbuS/magCkJCrSzilJT6PQ5EQ0A6blnTicPrMIUZsXwM4Fd
- 1TYg==
-X-Gm-Message-State: AOAM533lRUM4C+4mwXz7TRrrVQThsXnfgGzhkePJdl93/PJhXRYdUR7d
- f4k5Hmw2w2ap4gbuilq0acg=
-X-Google-Smtp-Source: ABdhPJxXEOiDyKvrZhYHlXQHR2Nq21Enp8+krSaKOI5PBk9iFqnMgxEwQ0Q1sdr7/QsNJThJxNT4eg==
-X-Received: by 2002:a17:90b:1296:: with SMTP id
- fw22mr7971426pjb.93.1616328522829; 
- Sun, 21 Mar 2021 05:08:42 -0700 (PDT)
+ bh=65xS++HGiZkujdsZR4AQVb+3YXoj/1io84bOdJMhmhE=;
+ b=L+SPGwywe+7ohVu9XC0CHNsczjvVPh68reIxZjfXz3mZjA52sWPfnGuVXjvQlABPE0
+ anCZXiK2+/skTiALm2fyQNKR6xnaVl//NrwWQVjU9huSyGWLBQcUiLdi15yI+13CN/n9
+ Cg906gptS5iFLJ7Akcmj1oRpct3RYyCPUds4LQ84sPBS5/dRLsAogEOLB8QC+GWodnON
+ a7c6GztqRuo5JrsN4kLD9lBOk9kst7UvFysmfm8FgznJiDTc556TZwVK33wYEk/Upsmt
+ cstkCoBLrwLbiFfFqVA3mjPYLoa7gKGllcTs14zdUQug6GBhXT5CtCCBbq5v/CoVPsyG
+ A1QQ==
+X-Gm-Message-State: AOAM532uieHWnhpPwtUXX4jkjo5hnk+fBi8mQLp83vLXjTZbtRsxLPRr
+ uFXq6HWAXGOzJP6SYbki9KFrSgBQKBypB/tZ
+X-Google-Smtp-Source: ABdhPJyWQ0F9qunwou6ZDyiMMtoHuyGgMdWrBXh1xagauBYeVvDzAz3d4QbAnuNvcal40z3iFpqWFw==
+X-Received: by 2002:a17:90b:33c7:: with SMTP id
+ lk7mr8038357pjb.95.1616328560906; 
+ Sun, 21 Mar 2021 05:09:20 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:600d:a089:4cb7:d0cb:1241:5cf8])
- by smtp.googlemail.com with ESMTPSA id mp1sm10460317pjb.48.2021.03.21.05.08.38
+ by smtp.googlemail.com with ESMTPSA id f11sm10080642pga.34.2021.03.21.05.09.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Mar 2021 05:08:42 -0700 (PDT)
+ Sun, 21 Mar 2021 05:09:20 -0700 (PDT)
 From: Aditya Srivastava <yashsri421@gmail.com>
 To: herbert@gondor.apana.org.au
-Subject: [PATCH] crypto: amcc: fix incorrect kernel-doc comment syntax in files
-Date: Sun, 21 Mar 2021 17:38:32 +0530
-Message-Id: <20210321120832.12837-1-yashsri421@gmail.com>
+Subject: [PATCH] crypto: ux500: fix incorrect kernel-doc comment syntax
+Date: Sun, 21 Mar 2021 17:39:12 +0530
+Message-Id: <20210321120912.12905-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: corbet@lwn.net, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
  yashsri421@gmail.com, linux-crypto@vger.kernel.org,
@@ -115,324 +114,182 @@ Sender: "Linux-kernel-mentees"
 
 The opening comment mark '/**' is used for highlighting the beginning of
 kernel-doc comments.
-There are certain files in drivers/crypto/amcc, which follow this syntax,
+There are certain files in drivers/crypto/ux500, which follow this syntax,
 but the content inside does not comply with kernel-doc.
 Such lines were probably not meant for kernel-doc parsing, but are parsed
 due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
 causes unexpected warnings from kernel-doc.
 
-E.g., presence of kernel-doc like comment in
-drivers/crypto/amcc/crypto4xx_alg.c at header, and some other lines,
-causes these warnings by kernel-doc:
+E.g., presence of kernel-doc like comment in the header lines for
+drivers/crypto/ux500/cryp/cryp.h at header causes this warning:
 
-"warning: expecting prototype for AMCC SoC PPC4xx Crypto Driver(). Prototype was for set_dynamic_sa_command_0() instead"
-"warning: Function parameter or member 'dir' not described in 'set_dynamic_sa_command_0'"
-etc..
+"warning: expecting prototype for ST(). Prototype was for _CRYP_H_() instead"
+
+Similarly for other files too.
 
 Provide a simple fix by replacing such occurrences with general comment
 format, i.e. '/*', to prevent kernel-doc from parsing it.
 
 Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
- drivers/crypto/amcc/crypto4xx_alg.c     | 12 ++++++------
- drivers/crypto/amcc/crypto4xx_core.c    | 18 +++++++++---------
- drivers/crypto/amcc/crypto4xx_core.h    |  4 ++--
- drivers/crypto/amcc/crypto4xx_reg_def.h |  8 ++++----
- drivers/crypto/amcc/crypto4xx_sa.h      | 18 +++++++++---------
- drivers/crypto/amcc/crypto4xx_trng.h    |  2 +-
- 6 files changed, 31 insertions(+), 31 deletions(-)
+ drivers/crypto/ux500/cryp/cryp.c      |  2 +-
+ drivers/crypto/ux500/cryp/cryp.h      |  2 +-
+ drivers/crypto/ux500/cryp/cryp_core.c |  2 +-
+ drivers/crypto/ux500/cryp/cryp_irq.c  |  2 +-
+ drivers/crypto/ux500/cryp/cryp_irq.h  |  4 ++--
+ drivers/crypto/ux500/cryp/cryp_irqp.h |  4 ++--
+ drivers/crypto/ux500/cryp/cryp_p.h    | 14 +++++++-------
+ 7 files changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/crypto/amcc/crypto4xx_alg.c b/drivers/crypto/amcc/crypto4xx_alg.c
-index a3fa849b139a..ded732242732 100644
---- a/drivers/crypto/amcc/crypto4xx_alg.c
-+++ b/drivers/crypto/amcc/crypto4xx_alg.c
+diff --git a/drivers/crypto/ux500/cryp/cryp.c b/drivers/crypto/ux500/cryp/cryp.c
+index 9866c2a5e9a7..2b9436723d57 100644
+--- a/drivers/crypto/ux500/cryp/cryp.c
++++ b/drivers/crypto/ux500/cryp/cryp.c
 @@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
+ // SPDX-License-Identifier: GPL-2.0-only
 -/**
 +/*
-  * AMCC SoC PPC4xx Crypto Driver
-  *
-  * Copyright (c) 2008 Applied Micro Circuits Corporation.
-@@ -115,7 +115,7 @@ int crypto4xx_decrypt_iv_block(struct skcipher_request *req)
- 	return crypto4xx_crypt(req, AES_IV_SIZE, true, true);
- }
- 
--/**
-+/*
-  * AES Functions
-  */
- static int crypto4xx_setkey_aes(struct crypto_skcipher *cipher,
-@@ -374,7 +374,7 @@ static int crypto4xx_aead_setup_fallback(struct crypto4xx_ctx *ctx,
- 	return crypto_aead_setkey(ctx->sw_cipher.aead, key, keylen);
- }
- 
--/**
-+/*
-  * AES-CCM Functions
-  */
- 
-@@ -489,7 +489,7 @@ int crypto4xx_setauthsize_aead(struct crypto_aead *cipher,
- 	return crypto_aead_setauthsize(ctx->sw_cipher.aead, authsize);
- }
- 
--/**
-+/*
-  * AES-GCM Functions
-  */
- 
-@@ -617,7 +617,7 @@ int crypto4xx_decrypt_aes_gcm(struct aead_request *req)
- 	return crypto4xx_crypt_aes_gcm(req, true);
- }
- 
--/**
-+/*
-  * HASH SHA1 Functions
-  */
- static int crypto4xx_hash_alg_init(struct crypto_tfm *tfm,
-@@ -711,7 +711,7 @@ int crypto4xx_hash_digest(struct ahash_request *req)
- 				  ctx->sa_len, 0, NULL);
- }
- 
--/**
-+/*
-  * SHA1 Algorithm
-  */
- int crypto4xx_sha1_alg_init(struct crypto_tfm *tfm)
-diff --git a/drivers/crypto/amcc/crypto4xx_core.c b/drivers/crypto/amcc/crypto4xx_core.c
-index 8d1b918a0533..8278d98074e9 100644
---- a/drivers/crypto/amcc/crypto4xx_core.c
-+++ b/drivers/crypto/amcc/crypto4xx_core.c
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Jonas Linde <jonas.linde@stericsson.com> for ST-Ericsson.
+diff --git a/drivers/crypto/ux500/cryp/cryp.h b/drivers/crypto/ux500/cryp/cryp.h
+index 8da7f87b339b..db5713d7c940 100644
+--- a/drivers/crypto/ux500/cryp/cryp.h
++++ b/drivers/crypto/ux500/cryp/cryp.h
 @@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-or-later
+ /* SPDX-License-Identifier: GPL-2.0-only */
 -/**
 +/*
-  * AMCC SoC PPC4xx Crypto Driver
-  *
-  * Copyright (c) 2008 Applied Micro Circuits Corporation.
-@@ -44,7 +44,7 @@
- 
- #define PPC4XX_SEC_VERSION_STR			"0.5"
- 
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Jonas Linde <jonas.linde@stericsson.com> for ST-Ericsson.
+diff --git a/drivers/crypto/ux500/cryp/cryp_core.c b/drivers/crypto/ux500/cryp/cryp_core.c
+index c3adeb2e5823..df68b7bd0a7a 100644
+--- a/drivers/crypto/ux500/cryp/cryp_core.c
++++ b/drivers/crypto/ux500/cryp/cryp_core.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
 -/**
 +/*
-  * PPC4xx Crypto Engine Initialization Routine
-  */
- static void crypto4xx_hw_init(struct crypto4xx_device *dev)
-@@ -159,7 +159,7 @@ void crypto4xx_free_sa(struct crypto4xx_ctx *ctx)
- 	ctx->sa_len = 0;
- }
- 
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Joakim Bech <joakim.xx.bech@stericsson.com> for ST-Ericsson.
+diff --git a/drivers/crypto/ux500/cryp/cryp_irq.c b/drivers/crypto/ux500/cryp/cryp_irq.c
+index 7ebde69e8c76..6d2f07bec98a 100644
+--- a/drivers/crypto/ux500/cryp/cryp_irq.c
++++ b/drivers/crypto/ux500/cryp/cryp_irq.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
 -/**
 +/*
-  * alloc memory for the gather ring
-  * no need to alloc buf for the ring
-  * gdr_tail, gdr_head and gdr_count are initialized by this function
-@@ -268,7 +268,7 @@ static u32 crypto4xx_put_pd_to_pdr(struct crypto4xx_device *dev, u32 idx)
- 	return tail;
- }
- 
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Jonas Linde <jonas.linde@stericsson.com> for ST-Ericsson.
+diff --git a/drivers/crypto/ux500/cryp/cryp_irq.h b/drivers/crypto/ux500/cryp/cryp_irq.h
+index 1984f30100ff..da90029ea141 100644
+--- a/drivers/crypto/ux500/cryp/cryp_irq.h
++++ b/drivers/crypto/ux500/cryp/cryp_irq.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0-only */
 -/**
 +/*
-  * alloc memory for the gather ring
-  * no need to alloc buf for the ring
-  * gdr_tail, gdr_head and gdr_count are initialized by this function
-@@ -346,7 +346,7 @@ static inline struct ce_gd *crypto4xx_get_gdp(struct crypto4xx_device *dev,
- 	return &dev->gdr[idx];
- }
- 
--/**
-+/*
-  * alloc memory for the scatter ring
-  * need to alloc buf for the ring
-  * sdr_tail, sdr_head and sdr_count are initialized by this function
-@@ -930,7 +930,7 @@ int crypto4xx_build_pd(struct crypto_async_request *req,
- 	return is_busy ? -EBUSY : -EINPROGRESS;
- }
- 
--/**
-+/*
-  * Algorithm Registration Functions
-  */
- static void crypto4xx_ctx_init(struct crypto4xx_alg *amcc_alg,
-@@ -1097,7 +1097,7 @@ static void crypto4xx_bh_tasklet_cb(unsigned long data)
- 	} while (head != tail);
- }
- 
--/**
-+/*
-  * Top Half of isr.
-  */
- static inline irqreturn_t crypto4xx_interrupt_handler(int irq, void *data,
-@@ -1186,7 +1186,7 @@ static int crypto4xx_prng_seed(struct crypto_rng *tfm, const u8 *seed,
- 	return 0;
- }
- 
--/**
-+/*
-  * Supported Crypto Algorithms
-  */
- static struct crypto4xx_alg_common crypto4xx_alg[] = {
-@@ -1369,7 +1369,7 @@ static struct crypto4xx_alg_common crypto4xx_alg[] = {
- 	} },
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Jonas Linde <jonas.linde@stericsson.com> for ST-Ericsson.
+@@ -19,7 +19,7 @@ enum cryp_irq_src_id {
+ 	CRYP_IRQ_SRC_ALL = 0x3
  };
  
 -/**
 +/*
-  * Module Initialization Routine
+  * M0 Funtions
   */
- static int crypto4xx_probe(struct platform_device *ofdev)
-diff --git a/drivers/crypto/amcc/crypto4xx_core.h b/drivers/crypto/amcc/crypto4xx_core.h
-index a4e25b46cd0a..56c10668c0ab 100644
---- a/drivers/crypto/amcc/crypto4xx_core.h
-+++ b/drivers/crypto/amcc/crypto4xx_core.h
+ void cryp_enable_irq_src(struct cryp_device_data *device_data, u32 irq_src);
+diff --git a/drivers/crypto/ux500/cryp/cryp_irqp.h b/drivers/crypto/ux500/cryp/cryp_irqp.h
+index 879ed68a12d7..4981a3f461e5 100644
+--- a/drivers/crypto/ux500/cryp/cryp_irqp.h
++++ b/drivers/crypto/ux500/cryp/cryp_irqp.h
 @@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /* SPDX-License-Identifier: GPL-2.0-only */
 -/**
 +/*
-  * AMCC SoC PPC4xx Crypto Driver
-  *
-  * Copyright (c) 2008 Applied Micro Circuits Corporation.
-@@ -188,7 +188,7 @@ int crypto4xx_hash_final(struct ahash_request *req);
- int crypto4xx_hash_update(struct ahash_request *req);
- int crypto4xx_hash_init(struct ahash_request *req);
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Jonas Linde <jonas.linde@stericsson.com> for ST-Ericsson.
+@@ -13,7 +13,7 @@
+ 
+ #include "cryp_irq.h"
  
 -/**
 +/*
-  * Note: Only use this function to copy items that is word aligned.
-  */
- static inline void crypto4xx_memcpy_swab32(u32 *dst, const void *buf,
-diff --git a/drivers/crypto/amcc/crypto4xx_reg_def.h b/drivers/crypto/amcc/crypto4xx_reg_def.h
-index c4c0a1a75941..1038061224da 100644
---- a/drivers/crypto/amcc/crypto4xx_reg_def.h
-+++ b/drivers/crypto/amcc/crypto4xx_reg_def.h
+  *
+  * CRYP Registers - Offset mapping
+  *     +-----------------+
+diff --git a/drivers/crypto/ux500/cryp/cryp_p.h b/drivers/crypto/ux500/cryp/cryp_p.h
+index 0df84eaa8531..ba17b1ffd94d 100644
+--- a/drivers/crypto/ux500/cryp/cryp_p.h
++++ b/drivers/crypto/ux500/cryp/cryp_p.h
 @@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
+ /* SPDX-License-Identifier: GPL-2.0-only */
 -/**
 +/*
-  * AMCC SoC PPC4xx Crypto Driver
-  *
-  * Copyright (c) 2008 Applied Micro Circuits Corporation.
-@@ -104,7 +104,7 @@
- #define CRYPTO4XX_PRNG_LFSR_L			0x00070030
- #define CRYPTO4XX_PRNG_LFSR_H			0x00070034
+  * Copyright (C) ST-Ericsson SA 2010
+  * Author: Shujuan Chen <shujuan.chen@stericsson.com> for ST-Ericsson.
+  * Author: Jonas Linde <jonas.linde@stericsson.com> for ST-Ericsson.
+@@ -17,7 +17,7 @@
+ #include "cryp.h"
+ #include "cryp_irqp.h"
  
 -/**
 +/*
-  * Initialize CRYPTO ENGINE registers, and memory bases.
+  * Generic Macros
   */
- #define PPC4XX_PDR_POLL				0x3ff
-@@ -123,7 +123,7 @@
- #define PPC4XX_INT_TIMEOUT_CNT			0
- #define PPC4XX_INT_TIMEOUT_CNT_REVB		0x3FF
- #define PPC4XX_INT_CFG				1
+ #define CRYP_SET_BITS(reg_name, mask) \
+@@ -34,7 +34,7 @@
+ 	writel_relaxed(((readl_relaxed(reg) & ~(mask)) | \
+ 		(((u32)val << shift) & (mask))), reg)
+ 
 -/**
 +/*
-  * all follow define are ad hoc
+  * CRYP specific Macros
   */
- #define PPC4XX_RING_RETRY			100
-@@ -131,7 +131,7 @@
- #define PPC4XX_SDR_SIZE				PPC4XX_NUM_SD
- #define PPC4XX_GDR_SIZE				PPC4XX_NUM_GD
+ #define CRYP_PERIPHERAL_ID0		0xE3
+@@ -48,7 +48,7 @@
+ #define CRYP_PCELL_ID2			0x05
+ #define CRYP_PCELL_ID3			0xB1
  
 -/**
 +/*
-   * Generic Security Association (SA) with all possible fields. These will
-  * never likely used except for reference purpose. These structure format
-  * can be not changed as the hardware expects them to be layout as defined.
-diff --git a/drivers/crypto/amcc/crypto4xx_sa.h b/drivers/crypto/amcc/crypto4xx_sa.h
-index fe756abfc19f..e98e4e7abbad 100644
---- a/drivers/crypto/amcc/crypto4xx_sa.h
-+++ b/drivers/crypto/amcc/crypto4xx_sa.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
--/**
-+/*
-  * AMCC SoC PPC4xx Crypto Driver
-  *
-  * Copyright (c) 2008 Applied Micro Circuits Corporation.
-@@ -14,7 +14,7 @@
- 
- #define AES_IV_SIZE				16
- 
--/**
-+/*
-  * Contents of Dynamic Security Association (SA) with all possible fields
+  * CRYP register default values
   */
- union dynamic_sa_contents {
-@@ -122,7 +122,7 @@ union sa_command_0 {
- #define SA_AES_KEY_LEN_256			4
- 
- #define SA_REV2					1
--/**
-+/*
-  * The follow defines bits sa_command_1
-  * In Basic hash mode  this bit define simple hash or hmac.
-  * In IPsec mode, this bit define muting control.
-@@ -172,7 +172,7 @@ struct dynamic_sa_ctl {
- 	union sa_command_1 sa_command_1;
- } __attribute__((packed));
+ #define MAX_DEVICE_SUPPORT		2
+@@ -62,7 +62,7 @@
+ #define CRYP_KEY_DEFAULT		0x0
+ #define CRYP_INIT_VECT_DEFAULT		0x0
  
 -/**
 +/*
-  * State Record for Security Association (SA)
+  * CRYP Control register specific mask
   */
- struct  sa_state_record {
-@@ -184,7 +184,7 @@ struct  sa_state_record {
- 	};
- } __attribute__((packed));
+ #define CRYP_CR_SECURE_MASK		BIT(0)
+@@ -91,7 +91,7 @@
+ #define CRYP_SR_IFEM_MASK		BIT(0)
+ #define CRYP_SR_BUSY_MASK		BIT(4)
  
 -/**
 +/*
-  * Security Association (SA) for AES128
-  *
+  * Bit position used while setting bits in register
   */
-@@ -213,7 +213,7 @@ struct dynamic_sa_aes192 {
- #define SA_AES192_LEN		(sizeof(struct dynamic_sa_aes192)/4)
- #define SA_AES192_CONTENTS	0x3e000062
+ #define CRYP_CR_PRLG_POS		1
+@@ -107,7 +107,7 @@
+ 
+ #define CRYP_SR_BUSY_POS		4
  
 -/**
 +/*
-  * Security Association (SA) for AES256
+  * CRYP PCRs------PC_NAND control register
+  * BIT_MASK
   */
- struct dynamic_sa_aes256 {
-@@ -228,7 +228,7 @@ struct dynamic_sa_aes256 {
- #define SA_AES256_CONTENTS	0x3e000082
- #define SA_AES_CONTENTS		0x3e000002
- 
--/**
-+/*
-  * Security Association (SA) for AES128 CCM
-  */
- struct dynamic_sa_aes128_ccm {
-@@ -242,7 +242,7 @@ struct dynamic_sa_aes128_ccm {
- #define SA_AES128_CCM_CONTENTS	0x3e000042
- #define SA_AES_CCM_CONTENTS	0x3e000002
- 
--/**
-+/*
-  * Security Association (SA) for AES128_GCM
-  */
- struct dynamic_sa_aes128_gcm {
-@@ -258,7 +258,7 @@ struct dynamic_sa_aes128_gcm {
- #define SA_AES128_GCM_CONTENTS	0x3e000442
- #define SA_AES_GCM_CONTENTS	0x3e000402
- 
--/**
-+/*
-  * Security Association (SA) for HASH160: HMAC-SHA1
-  */
- struct dynamic_sa_hash160 {
-diff --git a/drivers/crypto/amcc/crypto4xx_trng.h b/drivers/crypto/amcc/crypto4xx_trng.h
-index 3af732f25c1c..7356716274cb 100644
---- a/drivers/crypto/amcc/crypto4xx_trng.h
-+++ b/drivers/crypto/amcc/crypto4xx_trng.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-or-later */
--/**
-+/*
-  * AMCC SoC PPC4xx Crypto Driver
-  *
-  * Copyright (c) 2008 Applied Micro Circuits Corporation.
 -- 
 2.17.1
 
