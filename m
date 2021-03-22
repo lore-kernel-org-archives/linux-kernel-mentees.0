@@ -1,91 +1,97 @@
-Return-Path: <SRS0=OT4g=IT=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=kSKC=IU=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D398DC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 17:34:25 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A72DC433C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Mar 2021 07:33:18 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7252761931
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Mar 2021 17:34:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7252761931
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id D15106192B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Mar 2021 07:33:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D15106192B
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 434A082EC7;
-	Sun, 21 Mar 2021 17:34:25 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6D626402B3;
+	Mon, 22 Mar 2021 07:33:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jMRWTsLH4Ko1; Sun, 21 Mar 2021 17:34:24 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AEAymQHHo3mk; Mon, 22 Mar 2021 07:33:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 771CA82F0F;
-	Sun, 21 Mar 2021 17:34:24 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1396D40299;
+	Mon, 22 Mar 2021 07:33:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5568FC000A;
-	Sun, 21 Mar 2021 17:34:24 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CECC3C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D3BE0C000B;
+	Mon, 22 Mar 2021 07:33:15 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D94CBC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 17:34:22 +0000 (UTC)
+ Mon, 22 Mar 2021 07:33:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C9D74605E1
+ by smtp4.osuosl.org (Postfix) with ESMTP id B470D402C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 17:34:22 +0000 (UTC)
+ Mon, 22 Mar 2021 07:33:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-X-Amavis-Alert: BAD HEADER SECTION, Improper folded header field made up
- entirely of whitespace (char 20 hex): X-Spam-Report: ...that system
- for details.  Content previ[...]
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cxZu1KS0rzLa
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IhICrGrQ5JUJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 17:34:22 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 61F6D605D1
+ Mon, 22 Mar 2021 07:33:12 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-il1-x134.google.com (mail-il1-x134.google.com
+ [IPv6:2607:f8b0:4864:20::134])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2A20340147
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Mar 2021 17:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Type:MIME-Version:References:
- Message-ID:In-Reply-To:Subject:cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=b6kxlAh3fIabeLvigmFVk68R8rwvjb2NK7Orm1rRGAo=; b=zoso+9PaOZXk0kOw2FuTs66wdp
- 6ZCwzxl4MbPIgWQNj2SM8rozWv5lm+S1GMySmBVrt3b01r9s335TsV8OW/OsXJi8UV6j6PUHUWDwS
- Qw7UVEJstdbnuL++Qz2UpOfUc8m6D6bjSGE4S/MeUMcEMLj/NrrUbwPPzjKRVcln74+eAh+C5kY9j
- r0sOQqvDKR2rkyhueQH9QgNAQTPCjp3xzMUWSsdVY7SqYdU5pEOB8jJx0pY86V4MrIuIpjtZFBW2f
- 8H5cgzZw9b9x83VRXdYwwyIFNiexRHx5KyPuRG1EwLkHIG9xM7b9AdewQTr2fSlzE6gVNlCPNo6Dl
- ktoLcXGQ==;
-Received: from rdunlap (helo=localhost)
- by bombadil.infradead.org with local-esmtp (Exim 4.94 #2 (Red Hat Linux))
- id 1lO1xw-002QSK-VC; Sun, 21 Mar 2021 17:34:17 +0000
-Date: Sun, 21 Mar 2021 10:34:16 -0700 (PDT)
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [PATCH] crypto: nx: fix incorrect kernel-doc comment syntax in
- files
-In-Reply-To: <20210321123007.15505-1-yashsri421@gmail.com>
-Message-ID: <84443584-2cbf-5945-2b6-b7a057a72540@infradead.org>
-References: <20210321123007.15505-1-yashsri421@gmail.com>
+ Mon, 22 Mar 2021 07:33:11 +0000 (UTC)
+Received: by mail-il1-x134.google.com with SMTP id d10so7144536ils.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 22 Mar 2021 00:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TpDhkNH5Tjby89+ptrvAWAUY0awxGtMhFkZMcrLk6Yg=;
+ b=NxIqNacknkCPRRAPhidECl2Oxnyr6Jwijli48+q61JoZHjhPk6g4BdyOibuT877ZJL
+ abr9IKMuLSQKqokqNVXgQIQ16rUUizeiV8GBjhmqJ2TuOtQzcWemR6KUcR6dCw3wGN9I
+ WiqWqYq4PFdGhWrPeELUafU8kxSfTCcq5Ct7ee1cUzfy7gSLT2CwJbSQJMFHOBk3THUd
+ MH8anmr/H97XYwI3ySP79rpKXf4onVpdVnaHn85OLBQFCGSoMSa236AuN9Uq8vDimW2V
+ YADMf4YxOuGS3yC2RV5/C/YvS01XgSPYWeSo584zgkc/KLv57eZtVl27uaTTCqF5NaUr
+ Gfrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TpDhkNH5Tjby89+ptrvAWAUY0awxGtMhFkZMcrLk6Yg=;
+ b=NY/zl1KrXRAM/VAd6pa+O3QsTZgxLO252tQkKOBNfvI2HkSN/L/xXb8EuJnnpbrfOe
+ FDtBlwIRuwkG4uURPTd2Lz9sGEBmlhKMLqJs54xalcHCvYHWeom9FZZl37yVARnY6BqG
+ 7nykQ32T/NIg2Hm3Jz9pwF0BVEaaD3nJwws3xNUq1Iiyt1KZkBR8aFjBhsmg5hvTaG86
+ S2U73N/qppddHCXf5yGtInhDs8mG48fMSKHNGRccbQyj4/bmVrTGf6vOn8OWmbXam49f
+ r64zZF9+w7fJDJGkEZbRtBkM+GDZwV0pEoGMRlaPEcAhYtyVfu8/SR80A3S9NmcGBEB+
+ GSVw==
+X-Gm-Message-State: AOAM532TA7ZcpjaIgx8ojXn0gwc+cejXDQ0fQTZ9zZhiQQxDSU5yuMZC
+ cjRITspMZxzPMta8UM1L36R/Pbjd9/cO1c9VY5Q=
+X-Google-Smtp-Source: ABdhPJw8Z/sTQNHPB1SjXM19cSNR7mvhASrRWuXxSJWF/yCT83P2t056AHVU0imZbQwoeDRaHzDpkHI9EPVcxfohcOM=
+X-Received: by 2002:a05:6e02:1393:: with SMTP id
+ d19mr10310482ilo.221.1616398391255; 
+ Mon, 22 Mar 2021 00:33:11 -0700 (PDT)
 MIME-Version: 1.0
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
-X-CRM114-CacheID: sfid-20210321_103417_013224_F9F210D0 
-X-CRM114-Status: UNSURE (   1.45  )
-X-CRM114-Notice: Please train this message.
-Cc: linuxppc-dev@lists.ozlabs.org, herbert@gondor.apana.org.au, corbet@lwn.net,
- mpe@ellerman.id.au, nayna@linux.ibm.com, linux-kernel@vger.kernel.org,
- pfsmorigo@gmail.com, linux-crypto@vger.kernel.org, benh@kernel.crashing.org,
- leitao@debian.org, linux-kernel-mentees@lists.linuxfoundation.org,
- davem@davemloft.net, paulus@samba.org
+References: <20210321112645.60823-1-dwaipayanray1@gmail.com>
+In-Reply-To: <20210321112645.60823-1-dwaipayanray1@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 22 Mar 2021 08:33:00 +0100
+Message-ID: <CAKXUXMzPmU0DN7CCU_Gyuag3EwuGZHjkwbZdGwAhCOqKvUNhuw@mail.gmail.com>
+Subject: Re: [PATCH -next v3] docs: document all error message types in
+ checkpatch
+To: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,17 +103,456 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Looks good. Thanks.
+On Sun, Mar 21, 2021 at 12:26 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+>
+> All the error message types now have a verbose description.
+>
+> Also there are two new groups of message types:
+>
+> - Macros, Attributes and Symbols
+> - Functions and Variables
+>
+> Rearrange the message types to fit these new groups as needed.
+>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Let us go for a wider review on linux-doc and lkml...
+
+Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
 
+> ---
+>
+> Changes in v3:
+> - Add more explanation for LOCKDEP
+> - Minor grammar fixes
+>
+> Changes in v2:
+> - Replace 4.10 kernel doc links by latest
+>
+>  Documentation/dev-tools/checkpatch.rst | 319 ++++++++++++++++++++++---
+>  1 file changed, 281 insertions(+), 38 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index 2671e54c8320..904fd5fe2484 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -280,43 +280,12 @@ API usage
+>      However this is not always the case (See signal.h).
+>      This message type is emitted only for includes from arch/.
+>
+> -  **ARRAY_SIZE**
+> -    The ARRAY_SIZE(foo) macro should be preferred over
+> -    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+> -    array.
+> -
+> -    The macro is defined in include/linux/kernel.h::
+> -
+> -      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> -
+>    **AVOID_BUG**
+>      BUG() or BUG_ON() should be avoided totally.
+>      Use WARN() and WARN_ON() instead, and handle the "impossible"
+>      error condition as gracefully as possible.
+>      See: https://www.kernel.org/doc/html/latest/process/deprecated.html#bug-and-bug-on
+>
+> -  **AVOID_EXTERNS**
+> -    Function prototypes don't need to be declared extern in .h
+> -    files.  It's assumed by the compiler and is unnecessary.
+> -
+> -  **AVOID_L_PREFIX**
+> -    Local symbol names that are prefixed with `.L` should be avoided,
+> -    as this has special meaning for the assembler; a symbol entry will
+> -    not be emitted into the symbol table.  This can prevent `objtool`
+> -    from generating correct unwind info.
+> -
+> -    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
+> -    local symbol names are still generally usable within a function,
+> -    but `.L` prefixed local symbol names should not be used to denote
+> -    the beginning or end of code regions via
+> -    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
+> -
+> -  **BIT_MACRO**
+> -    Defines like: 1 << <digit> could be BIT(digit).
+> -    The BIT() macro is defined in include/linux/bitops.h::
+> -
+> -      #define BIT(nr)         (1UL << (nr))
+> -
+>    **CONSIDER_KSTRTO**
+>      The simple_strtol(), simple_strtoll(), simple_strtoul(), and
+>      simple_strtoull() functions explicitly ignore overflows, which
+> @@ -325,6 +294,25 @@ API usage
+>      correct replacements.
+>      See: https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+>
+> +  **LOCKDEP**
+> +    The lockdep_no_validate class was added as a temporary measure to
+> +    prevent warnings on conversion of device->sem to device->mutex.
+> +    It should not be used for any other purpose.
+> +    See: https://lore.kernel.org/lkml/1268959062.9440.467.camel@laptop/
+> +
+> +  **MALFORMED_INCLUDE**
+> +    The #include statement has a malformed path.  This has happened
+> +    because the author has included a double slash "//" in the pathname
+> +    accidentally.
+> +
+> +  **USE_LOCKDEP**
+> +    lockdep_assert_held() annotations should be preferred over
+> +    assertions based on spin_is_locked()
+> +    See: https://www.kernel.org/doc/html/latest/locking/lockdep-design.html#annotations
+> +
+> +  **UAPI_INCLUDE**
+> +    No #include statements in include/uapi should use a uapi/ path.
+> +
+>
+>  Comment style
+>  -------------
+> @@ -353,7 +341,6 @@ Comment style
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#commenting
+>
+>
+> -
+>  Commit message
+>  --------------
+>
+> @@ -397,6 +384,35 @@ Commit message
+>      source patch.
+>      See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+>
+> +  **DIFF_IN_COMMIT_MSG**
+> +    Avoid having diff content in commit message.
+> +    This causes problems when one tries to apply a file containing both
+> +    the changelog and the diff because patch(1) tries to apply the diff
+> +    which it found in the changelog.
+> +    See: https://lore.kernel.org/lkml/20150611134006.9df79a893e3636019ad2759e@linux-foundation.org/
+> +
+> +  **GERRIT_CHANGE_ID**
+> +    To be picked up by gerrit, the footer of the commit message might
+> +    have a Change-Id like::
+> +
+> +      Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+> +      Signed-off-by: A. U. Thor <author@example.com>
+> +
+> +    The Change-Id line must be removed before submitting.
+> +
+> +  **GIT_COMMIT_ID**
+> +    The proper way to reference a commit id is:
+> +    commit <12+ chars of sha1> ("<title line>")
+> +
+> +    An example may be::
+> +
+> +      Commit e21d2170f36602ae2708 ("video: remove unnecessary
+> +      platform_set_drvdata()") removed the unnecessary
+> +      platform_set_drvdata(), but left the variable "dev" unused,
+> +      delete it.
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+> +
+>
+>  Comparison style
+>  ----------------
+> @@ -426,6 +442,148 @@ Comparison style
+>      side of the test should be avoided.
+>
+>
+> +Macros, Attributes and Symbols
+> +------------------------------
+> +
+> +  **ARRAY_SIZE**
+> +    The ARRAY_SIZE(foo) macro should be preferred over
+> +    sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+> +    array.
+> +
+> +    The macro is defined in include/linux/kernel.h::
+> +
+> +      #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
+> +
+> +  **AVOID_EXTERNS**
+> +    Function prototypes don't need to be declared extern in .h
+> +    files.  It's assumed by the compiler and is unnecessary.
+> +
+> +  **AVOID_L_PREFIX**
+> +    Local symbol names that are prefixed with `.L` should be avoided,
+> +    as this has special meaning for the assembler; a symbol entry will
+> +    not be emitted into the symbol table.  This can prevent `objtool`
+> +    from generating correct unwind info.
+> +
+> +    Symbols with STB_LOCAL binding may still be used, and `.L` prefixed
+> +    local symbol names are still generally usable within a function,
+> +    but `.L` prefixed local symbol names should not be used to denote
+> +    the beginning or end of code regions via
+> +    `SYM_CODE_START_LOCAL`/`SYM_CODE_END`
+> +
+> +  **BIT_MACRO**
+> +    Defines like: 1 << <digit> could be BIT(digit).
+> +    The BIT() macro is defined in include/linux/bitops.h::
+> +
+> +      #define BIT(nr)         (1UL << (nr))
+> +
+> +  **CONST_READ_MOSTLY**
+> +    When a variable is tagged with the __read_mostly annotation, it is a
+> +    signal to the compiler that accesses to the variable will be mostly
+> +    reads and rarely(but NOT never) a write.
+> +
+> +    const __read_mostly does not make any sense as const data is already
+> +    read-only.  The __read_mostly annotation thus should be removed.
+> +
+> +  **DATE_TIME**
+> +    It is generally desirable that building the same source code with
+> +    the same set of tools is reproducible, i.e. the output is always
+> +    exactly the same.
+> +
+> +    The kernel does *not* use the ``__DATE__`` and ``__TIME__`` macros,
+> +    and enables warnings if they are used as they can lead to
+> +    non-deterministic builds.
+> +    See: https://www.kernel.org/doc/html/latest/kbuild/reproducible-builds.html#timestamps
+> +
+> +  **DEFINE_ARCH_HAS**
+> +    The ARCH_HAS_xyz or ARCH_HAVE_xyz patterns are totally wrong.
+> +
+> +    For big conceptual features use Kconfig symbols instead.  And for
+> +    smaller things where we have compatibility fallback functions but
+> +    want architectures able to override them with optimized ones one
+> +    function at a time, we should either use weak functions (appropriate
+> +    for some cases), or the symbol that protects them should the
+> +    SAME SYMBOL WE USE.
+
+Capital letter means SHOUTING. I do not see the need to shout here...
+
+Maybe that was needed in the original mail... in the documentation, we
+are happy that the reader reads it at all...
+
+
+> +    See: http://lkml.iu.edu/hypermail/linux/kernel/1309.3/01646.html
+> +
+> +  **INIT_ATTRIBUTE**
+> +    Const init definitions should use __initconst instead of
+> +    __initdata.
+> +
+> +    Similarly init definitions without const require a separate
+> +    use of const.
+> +
+> +  **INLINE_LOCATION**
+> +    The inline keyword should sit between storage class and type.
+> +
+> +    For example, the following segment::
+> +
+> +      inline static int example_function(void)
+> +      {
+> +              ...
+> +      }
+> +
+> +    should be::
+> +
+> +      static inline int example_function(void)
+> +      {
+> +              ...
+> +      }
+> +
+> +  **MULTISTATEMENT_MACRO_USE_DO_WHILE**
+> +    Macros with multiple statements should be enclosed in a
+> +    do - while block.  Same should also be the case for macros
+> +    starting with `if` to avoid logic defects::
+> +
+> +      #define macrofun(a, b, c)                 \
+> +        do {                                    \
+> +                if (a == 5)                     \
+> +                        do_this(b, c);          \
+> +        } while (0)
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
+> +
+> +  **WEAK_DECLARATION**
+> +    Using weak declarations like __attribute__((weak)) or __weak
+> +    can have unintended link defects.  Avoid using them.
+> +
+> +
+> +Functions and Variables
+> +-----------------------
+> +
+> +  **CAMELCASE**
+> +    Avoid CamelCase Identifiers.
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
+> +
+> +  **FUNCTION_WITHOUT_ARGS**
+> +    Function declarations without arguments like::
+> +
+> +      int foo()
+> +
+> +    should be::
+> +
+> +      int foo(void)
+> +
+> +  **GLOBAL_INITIALISERS**
+> +    Global variables should not be initialized explicitly to
+> +    0 (or NULL, false, etc.).  Your compiler (or rather your
+> +    loader, which is responsible for zeroing out the relevant
+> +    sections) automatically does it for you.
+> +
+> +  **INITIALISED_STATIC**
+> +    Static variables should not be initialized explicitly to zero.
+> +    Your compiler (or rather your loader) automatically does
+> +    it for you.
+> +
+> +  **RETURN_PARENTHESES**
+> +    return is not a function and as such doesn't need parentheses::
+> +
+> +      return (bar);
+> +
+> +    can simply be::
+> +
+> +      return bar;
+> +
+> +
+>  Spacing and Brackets
+>  --------------------
+>
+> @@ -439,7 +597,7 @@ Spacing and Brackets
+>      and put the closing brace first::
+>
+>        if (x is true) {
+> -        we do y
+> +              we do y
+>        }
+>
+>      This applies for all non-functional blocks.
+> @@ -448,7 +606,7 @@ Spacing and Brackets
+>
+>        int function(int x)
+>        {
+> -        body of function
+> +              body of function
+>        }
+>
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> @@ -485,29 +643,114 @@ Spacing and Brackets
+>
+>        printk(KERN_INFO "bar");
+>
+> +  **ELSE_AFTER_BRACE**
+> +    `else {` should follow the closing block `}` on the same line.
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> +
+>    **LINE_SPACING**
+>      Vertical space is wasted given the limited number of lines an
+>      editor window can display when multiple blank lines are used.
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+>
+> +  **OPEN_BRACE**
+> +    The opening brace should be following the function definitions on the
+> +    next line.  For any non-functional block it should be on the same line
+> +    as the last construct.
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> +
+> +  **POINTER_LOCATION**
+> +    When using pointer data or a function that returns a pointer type,
+> +    the preferred use of * is adjacent to the data name or function name
+> +    and not adjacent to the type name.
+> +    Examples::
+> +
+> +      char *linux_banner;
+> +      unsigned long long memparse(char *ptr, char **retptr);
+> +      char *match_strdup(substring_t *s);
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+> +
+>    **SPACING**
+>      Whitespace style used in the kernel sources is described in kernel docs.
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+>
+> +  **SWITCH_CASE_INDENT_LEVEL**
+> +    switch should be at the same indent as case.
+> +    Example::
+> +
+> +      switch (suffix) {
+> +      case 'G':
+> +      case 'g':
+> +              mem <<= 30;
+> +              break;
+> +      case 'M':
+> +      case 'm':
+> +              mem <<= 20;
+> +              break;
+> +      case 'K':
+> +      case 'k':
+> +              mem <<= 10;
+> +              /* fall through */
+> +      default:
+> +              break;
+> +      }
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#indentation
+> +
+>    **TRAILING_WHITESPACE**
+>      Trailing whitespace should always be removed.
+>      Some editors highlight the trailing whitespace and cause visual
+>      distractions when editing files.
+>      See: https://www.kernel.org/doc/html/latest/process/coding-style.html#spaces
+>
+> +  **WHILE_AFTER_BRACE**
+> +    while should follow the closing bracket on the same line::
+> +
+> +      do {
+> +              ...
+> +      } while(something);
+> +
+> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#placing-braces-and-spaces
+> +
+>
+>  Others
+>  ------
+>
+> -  **CAMELCASE**
+> -    Avoid CamelCase Identifiers.
+> -    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#naming
+> -
+>    **CONFIG_DESCRIPTION**
+>      Kconfig symbols should have a help text which fully describes
+>      it.
+> +
+> +  **CORRUPTED_PATCH**
+> +    The patch seems to be corrupted or lines are wrapped.
+> +    Please regenerate the patch file before sending it to the maintainer.
+> +
+> +  **DOS_LINE_ENDINGS**
+> +    For DOS-formatted patches, there are extra ^M symbols at the end of
+> +    the line.  These should be removed.
+> +
+> +  **EXECUTE_PERMISSIONS**
+> +    There is no reason for source files to be executable.  The executable
+> +    bit can be removed safely.
+> +
+> +  **NON_OCTAL_PERMISSIONS**
+> +    Permission bits should use 4 digit octal permissions (like 0700 or 0444).
+> +    Avoid using any other base like decimal.
+> +
+> +  **NOT_UNIFIED_DIFF**
+> +    The patch file does not appear to be in unified-diff format.  Please
+> +    regenerate the patch file before sending it to the maintainer.
+> +
+> +  **PRINTF_0XDECIMAL**
+> +    Prefixing 0x with decimal output is defective and should be corrected.
+> +
+> +  **TRAILING_STATEMENTS**
+> +    Trailing statements (for example after any conditional) should be
+> +    on the next line.
+> +    Like::
+> +
+> +      if (x == y) break;
+> +
+> +    should be::
+> +
+> +      if (x == y)
+> +              break;
+> --
+> 2.30.0
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
