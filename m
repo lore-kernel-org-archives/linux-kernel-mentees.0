@@ -8,86 +8,84 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67B59C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Mar 2021 07:43:31 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEDD9C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Mar 2021 07:48:10 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CDBCE61930
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Mar 2021 07:43:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CDBCE61930
+	by mail.kernel.org (Postfix) with ESMTPS id 55EFE61930
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Mar 2021 07:48:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 55EFE61930
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7E904402A7;
-	Mon, 22 Mar 2021 07:43:30 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D972582E29;
+	Mon, 22 Mar 2021 07:48:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KztskcrFkTIY; Mon, 22 Mar 2021 07:43:29 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lByn2PlnInQo; Mon, 22 Mar 2021 07:48:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 768CF40299;
-	Mon, 22 Mar 2021 07:43:29 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id AF95682E19;
+	Mon, 22 Mar 2021 07:48:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64A6FC000B;
-	Mon, 22 Mar 2021 07:43:29 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8201CC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9879EC000B;
+	Mon, 22 Mar 2021 07:48:08 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3CA9AC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Mar 2021 07:43:28 +0000 (UTC)
+ Mon, 22 Mar 2021 07:48:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 63D866065D
+ by smtp1.osuosl.org (Postfix) with ESMTP id 390DC82E29
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Mar 2021 07:43:28 +0000 (UTC)
+ Mon, 22 Mar 2021 07:48:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yGQW9favhy_P
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7CxgZUo0NgoS
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Mar 2021 07:43:27 +0000 (UTC)
+ Mon, 22 Mar 2021 07:48:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
- [IPv6:2a00:1450:4864:20::230])
- by smtp3.osuosl.org (Postfix) with ESMTPS id EBB0160647
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DEE1282E19
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Mar 2021 07:43:26 +0000 (UTC)
-Received: by mail-lj1-x230.google.com with SMTP id u10so19835003lju.7
+ Mon, 22 Mar 2021 07:48:05 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id i26so3867055lfl.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Mar 2021 00:43:26 -0700 (PDT)
+ Mon, 22 Mar 2021 00:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GW6MrLpzlCtSZ5zQbDRcLYVywXdIJSldF1aB16Ol+84=;
- b=Vy202KPfws4rHXl852Gu/CvwlbL3X+vS2z9WBBOhFnnE7s3QNjzDY3kOkLB8UqmApE
- Ap8m5gGfOZ+RChoMLSc3m89Xc8MNJdevxbAAHANKylzg9Ck3UDtq5WV0xX7tKZiNaieR
- kGJv7m4yfS8WN1NKdS1zTwnbc95y7OYvBffjQWtH0nvqfaCNQ6U36bTdP4GJ/y5DqvL1
- WvN4wqXeYd+VHh1TVxTpkk6xXbxp+E5/5NOoiDyUoM5dHOA239/VtL6WATtVOX5kymmY
- w/qKJXVjlCgPo/RqGitqw25J+jLb5O/gITRs+ZSKOpU1JIag68ZGI06ailiXPUDcD0FZ
- +sLw==
+ :cc; bh=AchGrvRwQGEodx7tAVWv+ip2jNDEtxHA7sXmBPOB9wA=;
+ b=tflize4TOnGVOc5rkf5bURKYBNsrWOTcKf21m0WU+lt1vjE1RM+PsaHf5UwEXaU5H9
+ EQoq1hRB6uEHMIWDaJF/gQeNq4mZ9ylpxOThgpSPa+fkUke+CZtyYvl0xIt5AKNmBWhY
+ bprMOCCklaZT5W8jh++mxsi6W1A/49nrHxvpoKCVT0PVOWtUta5BlOg4WWPlzrxfPdwU
+ hdhlABAdsPjVoctrjlqtjgcrFhDCfAW1P3wAe4e4ufN3T6IB9bLZi6H/d82x0YA21Sf0
+ PNXf+JFD41r996EJNrnyiP9hKcYJlwh9/9dpV/xr4cWCMHKoSrejoqbXXDSIl9NXeFZO
+ H/og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GW6MrLpzlCtSZ5zQbDRcLYVywXdIJSldF1aB16Ol+84=;
- b=sfrt5AgMM/zyzJeY8tKqtKkspLIi+ht71s47Qiid6nYpbdwfsh4tdMTcA0jdEOYi2n
- HqbMtz75jCkrO87V0c6CqmFGY0K9dJ7LMy26r9VMuZCZXxN+HTbt/97Xdri+jORGwKQR
- u0c14yRwZRkNUss0cDClHBHM51w0wG2/mVQsJj6P4KEYp5/mcko3f/lNLySZv7j9MmcA
- IixulR6uomGuWPjM82r4yN+nxHS2cmUqZ+qybuGTAzCULAqos8vzFT28h3EWNS6AhYRG
- dYtnif7Wlm1ly+CAUhpImp5k2GP1n2yO21l5GyPnS1ujVzTgZhWXf1hcdbIuJK819QbZ
- 0SgQ==
-X-Gm-Message-State: AOAM532y3uHVECrgxAdNIHs+xJ4wrg1b38yOZOnFeAotiv5y2PmtL3m5
- 7d7z0IgD0NUT5bl0A1v+LltRKLwH71Zts1sxcPo=
-X-Google-Smtp-Source: ABdhPJzbh6liZjsXM2HrML96ENOyzm+1PglzfLVxbi9P1qlc7AhVZEAkaR7s48/vlx+zA//FkZ7Ve+o94bHKW7f1IDs=
-X-Received: by 2002:a2e:96c3:: with SMTP id d3mr9195267ljj.284.1616399004743; 
- Mon, 22 Mar 2021 00:43:24 -0700 (PDT)
+ bh=AchGrvRwQGEodx7tAVWv+ip2jNDEtxHA7sXmBPOB9wA=;
+ b=Ple0sXH62Cllv4xq54A3617l/N987r2GEorESKHxYlmyOO7rOkV/uLaCnW7shAxCi2
+ beMw4414e3RakwQyG/+md2HOxAQJanGhK89o+2eh0+8XS3jyXTsD4xvWLNC4yT0KwiPR
+ Wh69pA4s4f9lW6k/S0vcZYrqvEEpThqa/aPKveBLwytRp4AgpVlPfWAEc2a4taPQu8Vv
+ 9by5kHSzn1ho/wQH7vwU9UtdLzzWjImsVKBm4epB5dwzx04oKP7WedDYKlgjg8H+Ab02
+ hXXfvzvQn8LpFkDnmcQIO2V0Ushn7MedabtZBteDIQl/JEdplGa6xxVzqOCMZI9aGLYC
+ szLQ==
+X-Gm-Message-State: AOAM531TC5BMDLbvhyRvmvQyjswW2Ha5OfXjFQr0mAS5ShWyD4l5svLq
+ PQeToq+1eP4fJv9G5SA9UWoFrL1eDSe/H8JAHFs=
+X-Google-Smtp-Source: ABdhPJwnbFc3iSEUMcIMQE4YxxZSxxILVr7epSrX1iuTydxLzd7qMEICr5wgg4yxCWMByxB+9fHQsraZfCnB4slvTgY=
+X-Received: by 2002:a19:b49:: with SMTP id 70mr8768394lfl.342.1616399283561;
+ Mon, 22 Mar 2021 00:48:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210321112645.60823-1-dwaipayanray1@gmail.com>
- <CAKXUXMzPmU0DN7CCU_Gyuag3EwuGZHjkwbZdGwAhCOqKvUNhuw@mail.gmail.com>
-In-Reply-To: <CAKXUXMzPmU0DN7CCU_Gyuag3EwuGZHjkwbZdGwAhCOqKvUNhuw@mail.gmail.com>
+ <CAKXUXMyye_xKQseT7p-iq81cWKV0_GOunwb=OZ67qJwUnrKRMA@mail.gmail.com>
+In-Reply-To: <CAKXUXMyye_xKQseT7p-iq81cWKV0_GOunwb=OZ67qJwUnrKRMA@mail.gmail.com>
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Mon, 22 Mar 2021 13:13:13 +0530
-Message-ID: <CABJPP5ArFdRYBtsbD9dheqBqqx15mGKjfiQSkgW4LwBu60ijaQ@mail.gmail.com>
+Date: Mon, 22 Mar 2021 13:17:52 +0530
+Message-ID: <CABJPP5DE7sUEW_E+vERizS4cJLEWYfZD9deDagt4S7k7V2KwgA@mail.gmail.com>
 Subject: Re: [PATCH -next v3] docs: document all error message types in
  checkpatch
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
@@ -109,7 +107,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Mar 22, 2021 at 1:03 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Mon, Mar 22, 2021 at 1:12 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
 > On Sun, Mar 21, 2021 at 12:26 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
 > >
@@ -123,14 +121,6 @@ On Mon, Mar 22, 2021 at 1:03 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 > > Rearrange the message types to fit these new groups as needed.
 > >
 > > Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
->
-> Let us go for a wider review on linux-doc and lkml...
->
-Sure will do
-
-> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->
->
 > > ---
 > >
 > > Changes in v3:
@@ -326,18 +316,16 @@ Sure will do
 > > +    function at a time, we should either use weak functions (appropriate
 > > +    for some cases), or the symbol that protects them should the
 > > +    SAME SYMBOL WE USE.
+> > +    See: http://lkml.iu.edu/hypermail/linux/kernel/1309.3/01646.html
 >
-> Capital letter means SHOUTING. I do not see the need to shout here...
+> In general, use lore.kernel.org Links for emails.
 >
-> Maybe that was needed in the original mail... in the documentation, we
-> are happy that the reader reads it at all...
+> In this case:
 >
+> https://lore.kernel.org/lkml/CA+55aFycQ9XJvEOsiM3txHL5bjUc8CeKWJNR_H+MiicaddB42Q@mail.gmail.com/
 
-Yes that makes sense. We don't wanna scare our readers too. So i will
-correct this.
-
-Thanks!
-Dwaipayan.
+Thanks. For some reason, I didn't get that thread link by searching on
+lkml. Did you use something else to search for this?
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
