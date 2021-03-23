@@ -2,110 +2,100 @@ Return-Path: <SRS0=2Cfq=IV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91856C433C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Mar 2021 14:08:55 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 307D8C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Mar 2021 17:29:16 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 12971619B9
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Mar 2021 14:08:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 12971619B9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id BDFA8619AE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Mar 2021 17:29:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org BDFA8619AE
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 99FDC402D1;
-	Tue, 23 Mar 2021 14:08:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 898676085B;
+	Tue, 23 Mar 2021 17:29:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1XE_QWb3wtPv; Tue, 23 Mar 2021 14:08:53 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LWaI3YNLluXR; Tue, 23 Mar 2021 17:29:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BFC5C400AC;
-	Tue, 23 Mar 2021 14:08:53 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id AF4F96059E;
+	Tue, 23 Mar 2021 17:29:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A0077C000B;
-	Tue, 23 Mar 2021 14:08:53 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4371BC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 94B2BC000A;
+	Tue, 23 Mar 2021 17:29:14 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 643A1C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Mar 2021 14:08:53 +0000 (UTC)
+ Tue, 23 Mar 2021 17:29:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3F2C0402C3
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4684782974
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Mar 2021 14:08:53 +0000 (UTC)
+ Tue, 23 Mar 2021 17:29:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9jF22C5p3Div
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oPwxRxY8r7QI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Mar 2021 14:08:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from aserp2120.oracle.com (aserp2120.oracle.com [141.146.126.78])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9FCCE400AC
+ Tue, 23 Mar 2021 17:29:12 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B3CC38295A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Mar 2021 14:08:52 +0000 (UTC)
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12NE5XAJ168349;
- Tue, 23 Mar 2021 14:08:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=t/xaaVqoQ/f/LgZxiyUJNJ/HPdDx97I+V6UPT7T73Zw=;
- b=KDTLGk9W5O1Wz0M8EshdZwTkQr3W6wwWgZUf4ygIuJ6QnZKpoPDIyPbH08BFEb9K74CB
- 45UhNaoHWAe7us81QLdpKmJzU6J9Ln02ZuxMXupDhjhhhz49lhUUmmDvrMySqVUj3sfj
- 7aAsviyDcz7uinCpOFURfqslfsyoMb+GbS/5JEBFcE5ADMhsTemxsMjCdCrFOrx269Ee
- o/DcfVYQalcUCcV3pzQIdamjK6bByUJKd4gSoJHVMhuqEHmd3HHmbItwM9WmhDzfeFqY
- 6ocuqZo51WZ9c+wpA0QTF8auBrZ+W5YGvqzOcf641LqhlcxRBbZlxj5C4ahTd8p5wHLu Ug== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 37d90mf4y6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Mar 2021 14:08:39 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12NE69h1048265;
- Tue, 23 Mar 2021 14:08:37 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 37dttryu6v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 23 Mar 2021 14:08:37 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 12NE8abE026048;
- Tue, 23 Mar 2021 14:08:36 GMT
-Received: from kadam (/102.36.221.92) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 23 Mar 2021 07:08:35 -0700
-Date: Tue, 23 Mar 2021 17:08:28 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Atul Gopinathan <atulgopinathan@gmail.com>
-Subject: Re: [PATCH v2 2/2] staging: rtl8192e: Change state information from
- u16 to u8
-Message-ID: <20210323140828.GJ1717@kadam>
+ Tue, 23 Mar 2021 17:29:12 +0000 (UTC)
+Received: by mail-pg1-x531.google.com with SMTP id e33so12428808pgm.13
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 23 Mar 2021 10:29:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Wi4LJHw5jfEvsk7wZ9OkrUtU3aXuAPjNOhKa1Fc/yDg=;
+ b=N6CofipRIMKcvqeE8tzhfWegNuhV3wp/ZE5mQDT+o/Gl9Sed65kludEkrkz6O/RMIk
+ S2KHPRfM1Jbr+4fQpjr2BcPm+/K5dPvMiNWPeb+foeWRhjyWEm/2fOR2otjI++xx5Bid
+ 9sYScbwwVBQ4fxjJd9IWJmJ2k/zIBl8BTDjkBdnZbObjcQGF7Ho/D2TqcT4yUdrb0SN0
+ eWOOF74MAjNzenT1XefOeurdoRstXYYY3b1Y8rYMlQQ6mPoeQMQo+F49LNe+/3ZlSLPd
+ F2k5ZmW7Q/OjkvnEr9AtnZMHl1wFHWsn8Ou6L48puWDLcDlKMcKbA5BZ53N/ON3xwS5U
+ HLZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Wi4LJHw5jfEvsk7wZ9OkrUtU3aXuAPjNOhKa1Fc/yDg=;
+ b=sJQRTsA0r7IUZs2mnACQWEEPv7DMbsHTg9nRCo+cJvKt0UF5EJiP0IGt7zpU57Eykn
+ 3qb1VlAtNjM62xIISsEhtHY65SI9OBgzjWhWk1SYDppMdPQGq065lb/C1PE8ghH4vDAR
+ gnRqnkiBIR9j5hjHzhQppcBx8lIohCdNKgdUrYxYjV3/jyP1jMgL5KE7SNxDe44y7cMY
+ 79MrBatzH+8wqPua1AnH45wNC/9aOob5eCpJbuPRF+ySg4PnubAc9wF197SHa5oHhOkU
+ MfhB3xj6Dd2gPxEgU52TeN8dT+yd9owNzmXEOFs1GDjNZUipL9sqFW6foeqqenR/rZuy
+ WO2A==
+X-Gm-Message-State: AOAM531g/MB0LwJV2Rtk4CXRnYc+2pLaFsbdYXs++76+gb+LGtetvu9M
+ T/3rFnVlb+vRYazRqjMc7bw=
+X-Google-Smtp-Source: ABdhPJyDfOInpSkfi+8RTFT36FMcMpYAJCNMk4gBB2byJ9jSBhhNHGkFmSZhYPos0xTUriOooKLyUg==
+X-Received: by 2002:a17:902:bd82:b029:e6:1ef0:82dd with SMTP id
+ q2-20020a170902bd82b02900e61ef082ddmr6810849pls.43.1616520552179; 
+ Tue, 23 Mar 2021 10:29:12 -0700 (PDT)
+Received: from atulu-nitro ([122.174.244.83])
+ by smtp.gmail.com with ESMTPSA id 6sm19050446pfv.179.2021.03.23.10.29.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Mar 2021 10:29:11 -0700 (PDT)
+Date: Tue, 23 Mar 2021 22:59:07 +0530
+From: Atul Gopinathan <atulgopinathan@gmail.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH v2 1/2] staging: rtl8192e: Fix incorrect source in memcpy()
+Message-ID: <20210323172907.GB21444@atulu-nitro>
 References: <20210323113413.29179-1-atulgopinathan@gmail.com>
- <20210323113413.29179-2-atulgopinathan@gmail.com>
+ <20210323135811.GI1717@kadam>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210323113413.29179-2-atulgopinathan@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9931
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0 spamscore=0
- mlxscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103230105
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9931
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0 mlxscore=0
- priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- phishscore=0 mlxlogscore=999 suspectscore=0 clxscore=1015 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103230105
+In-Reply-To: <20210323135811.GI1717@kadam>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -125,11 +115,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+On Tue, Mar 23, 2021 at 04:58:11PM +0300, Dan Carpenter wrote:
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> 
+> This is very clever detective work.  How did you spot the bug?
 
-regards,
-dan carpenter
+I remember trying to investigate a sparse warning couple of weeks ago in
+the same file and went through the code when my eyes caught a struct
+pointer being indexed, which looked wierd. On further reading of the
+code and trying to make sense of what was happening (especially after
+calculating the size of the pointer) I became sure that it wasn't
+correct.
 
+The first patch led me to the second patch as they were related,
+"CcxRmState" was used in the same memcpy() of the first patch. I caught
+the error in it's type while trying to fix the first.
+
+Thank you for your encouraging words :D
+
+Regards,
+Atul
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
