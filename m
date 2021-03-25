@@ -6,102 +6,64 @@ X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B2CDC433C1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 25 Mar 2021 13:09:00 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31BF5C433C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 25 Mar 2021 13:09:07 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA37F619EE
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 25 Mar 2021 13:08:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA37F619EE
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kroah.com
+	by mail.kernel.org (Postfix) with ESMTPS id CF3F1619BF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 25 Mar 2021 13:09:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CF3F1619BF
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 97C0F606DA;
-	Thu, 25 Mar 2021 13:08:59 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A3936401B9;
+	Thu, 25 Mar 2021 13:09:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TONqT0D6mQJI; Thu, 25 Mar 2021 13:08:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BE442600B8;
-	Thu, 25 Mar 2021 13:08:58 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fOw0f4rldn8R; Thu, 25 Mar 2021 13:09:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id CA56E401B8;
+	Thu, 25 Mar 2021 13:09:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98A05C000D;
-	Thu, 25 Mar 2021 13:08:58 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05619C000A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6CABC000D;
+	Thu, 25 Mar 2021 13:09:05 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AA0F7C000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Mar 2021 13:08:57 +0000 (UTC)
+ Thu, 25 Mar 2021 13:09:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id EFF88405A3
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8BBCC606DA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Mar 2021 13:08:56 +0000 (UTC)
+ Thu, 25 Mar 2021 13:09:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kroah.com header.b="Vxv1weEO";
- dkim=pass (2048-bit key) header.d=messagingengine.com
- header.b="g/Sns9Hw"
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OCPxvH3U1AG6
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MCO1Fckb2X9p
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Mar 2021 13:08:56 +0000 (UTC)
+ Thu, 25 Mar 2021 13:09:04 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E5E05404FE
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 0B07D600D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Mar 2021 13:08:55 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 70FFB5C00AC;
- Thu, 25 Mar 2021 09:08:54 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 25 Mar 2021 09:08:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=fNuJnoXvwHIMDmciCv4WIdjmmRC
- Bd+UkQMHYTF1N5mM=; b=Vxv1weEOrFvgJxPcx65XaPzKfmmTfpI7fyIOVeud+Rp
- uksFbMY6fJ3Po73NTiHow984NVAWtnuFUUXYWRR8Mg6CXvL6yXjGDdkGZ3RCXDGF
- z6vxl2Pis6VoxwbHuMXAwIyAJMNxEiT0fHVxBupWdlFWydl0ikKCRUjY32gvuvfc
- MLcEH1muIvX65iLmwi4FBGo5HKPbM+jOzigmeWbOOqgu60PKgu5iB/1YnrtDwn+e
- +LFeA7ZCb+UAQP/r23UVsTn2VN3+wVT2bGUsqw7lg+wSdXtRfMTNXz0bm2VzhThx
- 0Hv2tGrhKGVx6+ztPwPf87SiOIlANaWrxpuSasEcvTQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=fNuJno
- XvwHIMDmciCv4WIdjmmRCBd+UkQMHYTF1N5mM=; b=g/Sns9HwxAI6A/buBkZ1MU
- ED9ilGULhkmbSH12thERUklvbiqD4CryJ7FgUcqpjY/ioQ6XCmuIGYOZA9AglKio
- VZMnELHrJxuC+5lnnXyza6xCoQh88Ggb1FsK1avb0Phf4Mw4eGY7CQF1RuLJ5fhx
- BEgp4WZpuu9cr7vZEuko/KjdaIVwznuA/TzDUNLUkkbonLYVelYKZR1UGqT3H1sv
- w8nRWeHhbekwFPhXa1Ts3R4k/QOcqO0o5OZ3p+Kmz6Hxt4KIExsr9sOifbh9qeQ2
- w+uRKhjhHvNTK82N4EfAF57cTGFEC2TEn06iX/cNjK2yAfEmoQ7Vh5IYsQWQCYjg
- ==
-X-ME-Sender: <xms:ZotcYIQi-ymPZ7ur-vBt5MmHhkbmkAx1ubP2bEk7tFDo6uLuW8vzaQ>
- <xme:ZotcYFxmlhLigxYR-C8x9Pi0W7r5kdCovQHnTUJ3MZRg4WjPiq_7lnm2_ltD-7YSX
- 3mOwFP-X2S0tw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudehtddggeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
- mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeejheeiue
- dugfeffeeffeevteeugfehffejfffgjeduffetieeigeduvdeutedvteenucffohhmrghi
- nheplhhinhhugihfohhunhgurghtihhonhdrohhrghenucfkphepkeefrdekiedrjeegrd
- eigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehg
- rhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:ZotcYF2VMCayfZWfDA8AZvT9Qhmu8dj39wj7Jds9DNsKOnQBWOM0cQ>
- <xmx:ZotcYMCSgIU6Mt13BxJGoMkx8vwT2S_qg3dwfFbwKVWJ9hjOgN-fzw>
- <xmx:ZotcYBjA2mC7r78V4oLaOe8cYuLgOkaQ3cR3HAb68gX4Wl6RXIctSw>
- <xmx:ZotcYLeIBi5Y61YCdIuAgNxqkAs0I4Dz9scoPtBH5vx8x_agm-E36Q>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9B457240057;
- Thu, 25 Mar 2021 09:08:53 -0400 (EDT)
-Date: Thu, 25 Mar 2021 14:08:51 +0100
-From: Greg KH <greg@kroah.com>
+ Thu, 25 Mar 2021 13:09:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 25E6E619BF;
+ Thu, 25 Mar 2021 13:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1616677743;
+ bh=fNuJnoXvwHIMDmciCv4WIdjmmRCBd+UkQMHYTF1N5mM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vLnwSwNDGjQOEwHCDJNPie5sZpJAyNzW1i/lBTR9va67oDcwx8VeSE3PVDlxccACq
+ A2SiS8PYTNwxc6ogJDzkui17VwXLWgrSKtlSsMC/nPCupy9HTMkAt1xHWR3hXAT4FB
+ RePbrCNcU933YPTrc2AH4JM7Wz+/ZWwxuEGhmDDc=
+Date: Thu, 25 Mar 2021 14:09:00 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Lauren Harris <lharris@slateberry.com>
 Subject: Re: Redirected link on lists.linuxfoundation.org
-Message-ID: <YFyLY94hZf4NUZBP@kroah.com>
+Message-ID: <YFyLbEMlyBfMbbOt@kroah.com>
 References: <CA+B_sTDeZ_Ae=hBwpSowDOEoAZKTfkt1APtzDSFnDFqCQGvY3w@mail.gmail.com>
  <CA+B_sTD0yHzKX82HVSuFkHcQXzHBVc31aF0nd_dOTLOO=uVY1g@mail.gmail.com>
 MIME-Version: 1.0
