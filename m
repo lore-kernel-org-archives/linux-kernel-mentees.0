@@ -7,66 +7,70 @@ X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2540CC433E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Mar 2021 10:00:39 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F417C433C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Mar 2021 10:00:41 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 70FEA61A42
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Mar 2021 10:00:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 70FEA61A42
+	by mail.kernel.org (Postfix) with ESMTPS id 5A996601FB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Mar 2021 10:00:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5A996601FB
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=gondor.apana.org.au
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 214A960C15;
-	Fri, 26 Mar 2021 10:00:38 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id X_kjx4CyIK2E; Fri, 26 Mar 2021 10:00:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id EC6F460715;
-	Fri, 26 Mar 2021 10:00:36 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CDC0FC000E;
-	Fri, 26 Mar 2021 10:00:36 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE9D4C000A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Mar 2021 10:00:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B0269404F6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Mar 2021 10:00:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 007D340F8E;
+	Fri, 26 Mar 2021 10:00:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UKi7IWO-Brbk
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9b6OJjjpXKDl; Fri, 26 Mar 2021 10:00:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 08D81404F6;
+	Fri, 26 Mar 2021 10:00:39 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EB02BC000E;
+	Fri, 26 Mar 2021 10:00:38 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0E5DC000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Mar 2021 10:00:34 +0000 (UTC)
+ Fri, 26 Mar 2021 10:00:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id B0FBE40261
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 26 Mar 2021 10:00:37 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id EhBrlZMsUAEy
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 26 Mar 2021 10:00:36 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 93047403C2
+ by smtp2.osuosl.org (Postfix) with ESMTPS id BE44140257
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 26 Mar 2021 10:00:34 +0000 (UTC)
+ Fri, 26 Mar 2021 10:00:36 +0000 (UTC)
 Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
  by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
- id 1lPirc-0003eH-CF; Fri, 26 Mar 2021 20:34:45 +1100
+ id 1lPiro-0003ea-N5; Fri, 26 Mar 2021 20:34:57 +1100
 Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation);
- Fri, 26 Mar 2021 20:34:44 +1100
-Date: Fri, 26 Mar 2021 20:34:44 +1100
+ Fri, 26 Mar 2021 20:34:56 +1100
+Date: Fri, 26 Mar 2021 20:34:56 +1100
 From: Herbert Xu <herbert@gondor.apana.org.au>
 To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [PATCH] crypto: ux500: fix incorrect kernel-doc comment syntax
-Message-ID: <20210326093444.GR12658@gondor.apana.org.au>
-References: <20210321120912.12905-1-yashsri421@gmail.com>
+Subject: Re: [PATCH] crypto: nx: fix incorrect kernel-doc comment syntax in
+ files
+Message-ID: <20210326093456.GS12658@gondor.apana.org.au>
+References: <20210321123007.15505-1-yashsri421@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210321120912.12905-1-yashsri421@gmail.com>
+In-Reply-To: <20210321123007.15505-1-yashsri421@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: corbet@lwn.net, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- davem@davemloft.net
+Cc: nayna@linux.ibm.com, corbet@lwn.net, mpe@ellerman.id.au,
+ rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, pfsmorigo@gmail.com,
+ linux-crypto@vger.kernel.org, benh@kernel.crashing.org, leitao@debian.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
+ paulus@samba.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -84,19 +88,19 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Mar 21, 2021 at 05:39:12PM +0530, Aditya Srivastava wrote:
+On Sun, Mar 21, 2021 at 06:00:07PM +0530, Aditya Srivastava wrote:
 > The opening comment mark '/**' is used for highlighting the beginning of
 > kernel-doc comments.
-> There are certain files in drivers/crypto/ux500, which follow this syntax,
+> There are certain files in drivers/crypto/nx, which follow this syntax,
 > but the content inside does not comply with kernel-doc.
 > Such lines were probably not meant for kernel-doc parsing, but are parsed
 > due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
 > causes unexpected warnings from kernel-doc.
 > 
 > E.g., presence of kernel-doc like comment in the header lines for
-> drivers/crypto/ux500/cryp/cryp.h at header causes this warning:
-> 
-> "warning: expecting prototype for ST(). Prototype was for _CRYP_H_() instead"
+> drivers/crypto/nx/nx-sha256.c at header causes these warnings:
+> "warning: Function parameter or member 'tfm' not described in 'nx_crypto_ctx_sha256_init'"
+> "warning: expecting prototype for SHA(). Prototype was for nx_crypto_ctx_sha256_init() instead"
 > 
 > Similarly for other files too.
 > 
@@ -105,14 +109,19 @@ On Sun, Mar 21, 2021 at 05:39:12PM +0530, Aditya Srivastava wrote:
 > 
 > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 > ---
->  drivers/crypto/ux500/cryp/cryp.c      |  2 +-
->  drivers/crypto/ux500/cryp/cryp.h      |  2 +-
->  drivers/crypto/ux500/cryp/cryp_core.c |  2 +-
->  drivers/crypto/ux500/cryp/cryp_irq.c  |  2 +-
->  drivers/crypto/ux500/cryp/cryp_irq.h  |  4 ++--
->  drivers/crypto/ux500/cryp/cryp_irqp.h |  4 ++--
->  drivers/crypto/ux500/cryp/cryp_p.h    | 14 +++++++-------
->  7 files changed, 15 insertions(+), 15 deletions(-)
+> * Applies perfectly on next-20210319
+> 
+>  drivers/crypto/nx/nx-aes-cbc.c  | 2 +-
+>  drivers/crypto/nx/nx-aes-ccm.c  | 2 +-
+>  drivers/crypto/nx/nx-aes-ctr.c  | 2 +-
+>  drivers/crypto/nx/nx-aes-ecb.c  | 2 +-
+>  drivers/crypto/nx/nx-aes-gcm.c  | 2 +-
+>  drivers/crypto/nx/nx-aes-xcbc.c | 2 +-
+>  drivers/crypto/nx/nx-sha256.c   | 2 +-
+>  drivers/crypto/nx/nx-sha512.c   | 2 +-
+>  drivers/crypto/nx/nx.c          | 2 +-
+>  drivers/crypto/nx/nx_debugfs.c  | 2 +-
+>  10 files changed, 10 insertions(+), 10 deletions(-)
 
 Patch applied.  Thanks.
 -- 
