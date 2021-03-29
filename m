@@ -8,96 +8,93 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB5B8C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 10:45:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADFBC433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 12:11:07 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 302F461934
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 10:45:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 302F461934
+	by mail.kernel.org (Postfix) with ESMTPS id D587160235
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 12:11:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D587160235
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D354B606BB;
-	Mon, 29 Mar 2021 10:45:32 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8919C607AF;
+	Mon, 29 Mar 2021 12:11:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pI0-xZRXf7N8; Mon, 29 Mar 2021 10:45:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F2801607A1;
-	Mon, 29 Mar 2021 10:45:31 +0000 (UTC)
+	with ESMTP id KYuAikGGXMTq; Mon, 29 Mar 2021 12:11:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9D329607A9;
+	Mon, 29 Mar 2021 12:11:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CEE14C000C;
-	Mon, 29 Mar 2021 10:45:31 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A78B3C000A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 78670C000C;
+	Mon, 29 Mar 2021 12:11:05 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C515EC000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 10:45:30 +0000 (UTC)
+ Mon, 29 Mar 2021 12:11:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 81EF982EF1
+ by smtp2.osuosl.org (Postfix) with ESMTP id B1E6A40105
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 10:45:30 +0000 (UTC)
+ Mon, 29 Mar 2021 12:11:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XDo4RMxx_wRJ
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id V7Tc17BqZX-h
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 10:45:30 +0000 (UTC)
+ Mon, 29 Mar 2021 12:11:02 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0045082D47
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com
+ [IPv6:2607:f8b0:4864:20::532])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7C8D8400E4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 10:45:29 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- kr3-20020a17090b4903b02900c096fc01deso5713856pjb.4
+ Mon, 29 Mar 2021 12:11:02 +0000 (UTC)
+Received: by mail-pg1-x532.google.com with SMTP id w10so4950723pgh.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 03:45:29 -0700 (PDT)
+ Mon, 29 Mar 2021 05:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=g2efpXc6CiG6QCMpvbYQLueL6cg1gKbJK+Z6dWI/3SA=;
- b=lwrDNhydGj21KJbXpi1nfvXIHfwqMDKggqjgFJYmJiFhS1w2zAilBYILA2Pf+jhLBG
- LXTuSExnbOeyAt1TLjatsaF78h+UIn//EmEKd32UB2TkEZhxCI9cul7wvRSgJB9n7WKm
- Aj0/x94Ok2ChTDRpA0+S5TVIqRDTE62HZZaHxiwMsRCiwGTxvmCNDnJsmRHPLIWGJ+1P
- 7Zcqu7Re8dbRg7GRLyUXr8tsvODQTGElId3XjqrWCfW068mkTC2k8i22UiVONQHg5mk2
- wb7T7DfcU6OnPUmGUUZRDApveoszKOJ46JaIRA82UPEVSZj4CU/h26KAuvbA7D2BsYlz
- alrw==
+ bh=8rbrNA2DMWFVv62Fqnm4Yc2a4037zO3cB4baJDc6bEc=;
+ b=qoSs0FMzNCVEbDg6NUQJg9n4d/xYpPF1W9NejWfJWh5K5dR0NxrUnigbJ+U98eVlvR
+ q5Dh3O48xlqs9MgLbEmJXjPWj/p14/tfSchx6hwM8WUuRhI8d8dbv0capAwaXsnR94EZ
+ KPt/1YKrybPEOjUuC0/4m1ddq9zrn7Sk8FgRoEr8UVHkCB1WK3Ro+5jAZnB8hjwaXopt
+ jMGebC/DQn17C+vvObyNkOKMxzgXoFWj079sCBpgsrMgF3ra9AslzTM/TeVLJ7vSGDuE
+ uThCqlWqAMSz+7jdLq60GagsIA0suOGRG/mVDw1KRJyP5m9FWZwHo3lhP6+61opllTi+
+ cgPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=g2efpXc6CiG6QCMpvbYQLueL6cg1gKbJK+Z6dWI/3SA=;
- b=jdtEjHleOgHdf7/2E+L2GTxQ3+8We+loWKQChO6YLHezYBeLNHiybakIMXkhbYgG7i
- VzowPcuXm8E8Y9G2Y5uqZ9Lusp142KSQ5L61txZOE5ER5m4KPqdleMK0n4tnKcFxxIn8
- v06KyKOQYmnYmn/E33omta7TjgjLtt5KdyYPSPInnRhs9CzAoOFV4pbUPk/993xjilO2
- TjFzFTPAxbEIihtpI/46BgVUiP+5lM1hyEFct7+IDv9KhxswqaZ73JMES95M6z3X9WtZ
- IZDA4o1H/+7wZ1wYXfkymka6kP6Pppxtm1Bm+GYjM3j67H1RfNwzZoPxcllGUF0f/bV2
- mg/A==
-X-Gm-Message-State: AOAM533grD9imACo8iLzek5e4jkEpouiq0IpGCNRcfwVfNZIOnUopLuL
- +raHtwHAAgujC6HBy03Qxpvvbnz2viAw8A==
-X-Google-Smtp-Source: ABdhPJxZSy88aUJ6nv1FSCn7vFcyjln/WZWwIqUth7Zbwp+cTyNUvACjs0umhKfvpfaQ+TFdNkjGHg==
-X-Received: by 2002:a17:902:9a0a:b029:e6:bf00:8a36 with SMTP id
- v10-20020a1709029a0ab02900e6bf008a36mr28128496plp.51.1617014729311; 
- Mon, 29 Mar 2021 03:45:29 -0700 (PDT)
+ bh=8rbrNA2DMWFVv62Fqnm4Yc2a4037zO3cB4baJDc6bEc=;
+ b=JBrwhcsPap4bLQNjEmwJSfCB2O+7CSYDU0DpCblXBcCbSQXtiAGglDAQ6loUpbmSHU
+ DPr/3X3JCNVfyRDRF1O5e9qypII98YncocoKlMRtYlMqdeZt4kb8h+mf9U9I8jPLIyv4
+ aTBiHLSEvnS4bOAab2TwMRES3DLiHfTLHrS352GAsZ3yqh5gdA28A+vlhcnwCGUXm2bo
+ a0fcAcjtjXKQfdcBHw0AGGfwqHgJqfNLyceU4hR8lS8asQVBOx/3jtUqVvlL+RgwkB1U
+ DJATuwL8aq2DOJClEgew5LIds53AyaB7p4Rj9nH2G8R6U3hz7mfVQZYhaZr5sIJ6uINq
+ j6xw==
+X-Gm-Message-State: AOAM530f/zvlYpQgkKk+h5/LWHl5hVvgBmbNHH6dyxH/EVjDEwASiK5A
+ KrmNRWnlyWSImlhI5xMgTso=
+X-Google-Smtp-Source: ABdhPJyl85VK5ySg2j2c2AXwiguB6VVIepe85EWSVIu8DMrHzDo6vXI0+CLG6GUwDa7E1cR7IUUnSQ==
+X-Received: by 2002:a05:6a00:7c5:b029:21d:2ea5:a684 with SMTP id
+ n5-20020a056a0007c5b029021d2ea5a684mr24431242pfu.36.1617019861811; 
+ Mon, 29 Mar 2021 05:11:01 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
  by smtp.googlemail.com with ESMTPSA id
- bb24sm14881555pjb.5.2021.03.29.03.45.23
+ s17sm15012322pjn.44.2021.03.29.05.10.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Mar 2021 03:45:29 -0700 (PDT)
+ Mon, 29 Mar 2021 05:11:01 -0700 (PDT)
 From: Aditya Srivastava <yashsri421@gmail.com>
-To: herbert@gondor.apana.org.au
-Subject: [PATCH] crypto: chelsio: fix incorrect kernel-doc comment syntax in
- file
-Date: Mon, 29 Mar 2021 16:15:14 +0530
-Message-Id: <20210329104514.16950-1-yashsri421@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] lib: fix incorrect kernel-doc comment syntax in file
+Date: Mon, 29 Mar 2021 17:40:54 +0530
+Message-Id: <20210329121054.20474-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Cc: vinay.yadav@chelsio.com, linux-doc@vger.kernel.org, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, yashsri421@gmail.com, rohitm@chelsio.com,
- linux-crypto@vger.kernel.org, ayush.sawal@chelsio.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Cc: linux-doc@vger.kernel.org, rdunlap@infradead.org, gustavoars@kernel.org,
+ yashsri421@gmail.com, ojeda@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,33 +115,116 @@ Sender: "Linux-kernel-mentees"
 
 The opening comment mark '/**' is used for highlighting the beginning of
 kernel-doc comments.
-The header for drivers/crypto/chelsio/chcr_core.c follows this syntax, but
-the content inside does not comply with kernel-doc.
-
-This line was probably not meant for kernel-doc parsing, but is parsed
+There are certain files in lib and lib/zstd, which follow this syntax,
+but the content inside does not comply with kernel-doc.
+Such lines were probably not meant for kernel-doc parsing, but are parsed
 due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warning from kernel-doc:
-"warning: wrong kernel-doc identifier on line:
- * This file is part of the Chelsio T4/T5/T6 Ethernet driver for Linux."
+causes unexpected warnings from kernel-doc.
 
-Provide a simple fix by replacing this occurrence with general comment
+E.g., presence of kernel-doc like comment in lib/zstd/compress.c at
+header causes these warnings by kernel-doc:
+"warning: cannot understand function prototype: 'const U32 g_searchStrength = 8;  '"
+
+Similarly for other files too.
+
+Provide a simple fix by replacing such occurrences with general comment
 format, i.e. '/*', to prevent kernel-doc from parsing it.
 
 Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
- drivers/crypto/chelsio/chcr_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+* Applies perfectly on next-20210326
 
-diff --git a/drivers/crypto/chelsio/chcr_core.c b/drivers/crypto/chelsio/chcr_core.c
-index f91f9d762a45..f03ef4a23f96 100644
---- a/drivers/crypto/chelsio/chcr_core.c
-+++ b/drivers/crypto/chelsio/chcr_core.c
+ lib/win_minmax.c         | 2 +-
+ lib/zstd/compress.c      | 2 +-
+ lib/zstd/decompress.c    | 2 +-
+ lib/zstd/error_private.h | 2 +-
+ lib/zstd/mem.h           | 2 +-
+ lib/zstd/zstd_common.c   | 2 +-
+ lib/zstd/zstd_internal.h | 2 +-
+ lib/zstd/zstd_opt.h      | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/lib/win_minmax.c b/lib/win_minmax.c
+index 6bdc1cd15f76..ec10506834b6 100644
+--- a/lib/win_minmax.c
++++ b/lib/win_minmax.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * lib/minmax.c: windowed min/max tracker
+  *
+  * Kathleen Nichols' algorithm for tracking the minimum (or maximum)
+diff --git a/lib/zstd/compress.c b/lib/zstd/compress.c
+index b080264ed3ad..42604785c4f2 100644
+--- a/lib/zstd/compress.c
++++ b/lib/zstd/compress.c
 @@ -1,4 +1,4 @@
 -/**
 +/*
-  * This file is part of the Chelsio T4/T5/T6 Ethernet driver for Linux.
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
   *
-  * Copyright (C) 2011-2016 Chelsio Communications.  All rights reserved.
+diff --git a/lib/zstd/decompress.c b/lib/zstd/decompress.c
+index 66cd487a326a..b28f10f21a6c 100644
+--- a/lib/zstd/decompress.c
++++ b/lib/zstd/decompress.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/error_private.h b/lib/zstd/error_private.h
+index 1a60b31f706c..f7dfa4a18f27 100644
+--- a/lib/zstd/error_private.h
++++ b/lib/zstd/error_private.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/mem.h b/lib/zstd/mem.h
+index 93d7a2c377fe..97d92eb431a5 100644
+--- a/lib/zstd/mem.h
++++ b/lib/zstd/mem.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/zstd_common.c b/lib/zstd/zstd_common.c
+index a282624ee155..ebf848c1f348 100644
+--- a/lib/zstd/zstd_common.c
++++ b/lib/zstd/zstd_common.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/zstd_internal.h b/lib/zstd/zstd_internal.h
+index dac753397f86..5f02411bded1 100644
+--- a/lib/zstd/zstd_internal.h
++++ b/lib/zstd/zstd_internal.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/zstd_opt.h b/lib/zstd/zstd_opt.h
+index 55e1b4cba808..b4a02b9f76d8 100644
+--- a/lib/zstd/zstd_opt.h
++++ b/lib/zstd/zstd_opt.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Przemyslaw Skibinski, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
 -- 
 2.17.1
 
