@@ -1,106 +1,101 @@
-Return-Path: <SRS0=QUeb=I2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=0o+h=I3=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA9FEC433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 28 Mar 2021 18:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 967E4C433C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 09:30:03 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 42A9B6197E
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 28 Mar 2021 18:45:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 42A9B6197E
+	by mail.kernel.org (Postfix) with ESMTPS id 27AA26193C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 09:30:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 27AA26193C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 07F8A8392C;
-	Sun, 28 Mar 2021 18:45:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D118F8348C;
+	Mon, 29 Mar 2021 09:30:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p-V38rzgOyHx; Sun, 28 Mar 2021 18:45:40 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2A4E283926;
-	Sun, 28 Mar 2021 18:45:40 +0000 (UTC)
+	with ESMTP id phXJe2qiBhnn; Mon, 29 Mar 2021 09:30:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTP id E0D11831F2;
+	Mon, 29 Mar 2021 09:30:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06549C000B;
-	Sun, 28 Mar 2021 18:45:40 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B18AAC000B;
+	Mon, 29 Mar 2021 09:30:01 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 47977C000A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4DF46C000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 28 Mar 2021 18:45:38 +0000 (UTC)
+ Mon, 29 Mar 2021 09:30:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 27CDD4026F
+ by smtp2.osuosl.org (Postfix) with ESMTP id 23DFD400E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 28 Mar 2021 18:45:38 +0000 (UTC)
+ Mon, 29 Mar 2021 09:30:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ANy-IXQxMap6
+ with ESMTP id E5B9iQs8mIz0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 28 Mar 2021 18:45:37 +0000 (UTC)
+ Mon, 29 Mar 2021 09:29:59 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by smtp2.osuosl.org (Postfix) with ESMTPS id AD1DE400BD
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8DCE7400E4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 28 Mar 2021 18:45:36 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id b83so15079749lfd.11
+ Mon, 29 Mar 2021 09:29:59 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ x21-20020a17090a5315b029012c4a622e4aso4888742pjh.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 28 Mar 2021 11:45:36 -0700 (PDT)
+ Mon, 29 Mar 2021 02:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i9QQ/MF1ty4petQ8Mzj557Qsdpc6PlWXTrpnIGrdc1I=;
- b=NhDB0IlKoU2Ml/a3sPvGp0Crpjjt4RD9fT0DwDDIJKKOepL2o5xMWdUpfhNZ4Aq+SS
- K7O9hNMGydC+rV9vzUWi+axUDaAk1ZrgJDS+0y4L3W4XClEo+MONdjHATrtATDM/Zd9h
- 0xYYlT+FeERDFVCz+0MNJs/61116YwEesWgJxy2xcQKP1xMxpnwgoFABGU1Dayv8z2S9
- mig5YXw8vTj5kQHzIfufWUWuXpd1AbZdqyg/+qNr7VhD8AOHDVkyqVotn/G1h/Iz1l47
- 5DGq7njoI2tQpA1svaDArh5sGNsIkeZdQgRWG2TJXy5WoXqFnPzErBXxt79Yw9CBAziG
- yAcQ==
+ h=from:to:cc:subject:date:message-id;
+ bh=I2rYcnAf0ifNkAwBrdzfC3Hucp+PdY95Y1i5iXCzcs4=;
+ b=DWp35A6ITBgFsPERJoKrnD9oIp9n4wapfaTcGC2EG6YLrSB5O3Nq0M0kcN7pV4Xk6z
+ fDyfD26eVfv9+wOhmh7PcmI8AUF7tDgYEYMviw+lg1KX9MV3Dt/k/GkB+pj6+tPI5R7W
+ KkylbAr0Hy83xpbgXRhZSJKC7Pw/yTFB2O2pIVAkGr5DsyvOLDRYcZQfAE7lpRPPhO2P
+ S8/2WUwaxBCscvR4kRpbfY342rTnsJRIgEdxUxxtmD25Nbprj593WvV9jFmkaVhB94WY
+ BKkBC0NkbfHU+CMNx3IuhvKltB9rx+6NZkpuOlT2H5wdmQCyI3zRt5P3Toe6QTX8ZtsS
+ iDsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i9QQ/MF1ty4petQ8Mzj557Qsdpc6PlWXTrpnIGrdc1I=;
- b=ej5ZXb6Wh9T//a44aokCFvn+GIzsh4Hs65sRRVChOf/lejmbMr7Vf/7yKaN+BAaUkW
- SPpPUUkjP64YmRZnPSs72s9+8Pw3MUxDp5JNDp+64gG/mDL9a+sLXNOhueY/aYdVfjwt
- M7XVOyB4N1K7TLtsyN1WnCRsp1pFEBy16vv1HoELpA2o4Ifh+k35ai8dGzK9DIVP3T75
- dWNsMmgnpeT1U11J1ShgAkQJVj1eu+t2V01fM9mLec3lh4Jn3aDliQUPylwomes66Z87
- yakUonDxssno/4kESiimii1MBMRRq786ueGBah2wLpfI0xg9jURG9dxu+TjayrC7550e
- w2WQ==
-X-Gm-Message-State: AOAM531dGqoh3LlNB1qZU4LxswPMEt8SEbHCsptitz2QUEHJKFYfeTUe
- o3ViHkR2gLNeFaf7jSvDio5WQw4z611Rz+1zEYA=
-X-Google-Smtp-Source: ABdhPJwJKTWAyIuYhPL+xFHJMLhxdvP7TB/oMboiFVneYtgMXKcAJH+0IEE+Xk2Bc6I0f7ozJxROKatMYfKDfZINmyQ=
-X-Received: by 2002:a19:ee0d:: with SMTP id g13mr14677327lfb.38.1616957134452; 
- Sun, 28 Mar 2021 11:45:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210328120515.113895-1-atulgopinathan@gmail.com>
-In-Reply-To: <20210328120515.113895-1-atulgopinathan@gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Sun, 28 Mar 2021 11:45:23 -0700
-Message-ID: <CAADnVQ+PyPtcNagDDFE8cOOZCg9cAv_xJerBSY9BPziKEpai0g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next] bpf: tcp: Remove comma which is causing build
- error
-To: Atul Gopinathan <atulgopinathan@gmail.com>
-Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
- Network Development <netdev@vger.kernel.org>, David Ahern <dsahern@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
- Andrii Nakryiko <andrii@kernel.org>,
- syzbot+0b74d8ec3bf0cc4e4209@syzkaller.appspotmail.com,
- Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, bpf <bpf@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>, LKML <linux-kernel@vger.kernel.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=I2rYcnAf0ifNkAwBrdzfC3Hucp+PdY95Y1i5iXCzcs4=;
+ b=OquG4IGho9h/duK6/Ee/x2cgi9ZujXKNtPYIqqYSkeq4pE8t/l6E3NFAM+9tpaBl5j
+ bioFPILKH1WiVCQMghAX+a1tD9QrX36k4+Ue9G4c342dthqihLHS27T33BrBQRpFXDhr
+ 9kawbcAG9UGBravoo9hv0vbs6+LpxMEsI50RLQZmKGrh6foUuXSQ2wtu3do/gEAaPHtu
+ zwAWvp8ONyKxmf+8rQRux62Ybd0A7OwJp99gUWwWdJYNKaBgEyj1dSH07QPwpI3p9vx/
+ CRee57AiBVF5cdnKIkt4Ia92jGt2QZ9qjmpwLI+Lkf/uMHtazq+KzGNyIU3x59Dxh3Iw
+ oQDQ==
+X-Gm-Message-State: AOAM532xULaLDbjx+Iyy+LbUOn9xjyZQ/XdijyNyvrFVOmeK/GkD1Rro
+ RBEdLn6Tzj8IiH+c6YUnRrw=
+X-Google-Smtp-Source: ABdhPJx8yZaadvCrbGyAu8R22UEr9i0Qzbzpk5yBbA8vuFl5QZLV1SahL4l40JzN+KlSnvGEOUdKcw==
+X-Received: by 2002:a17:90b:16cd:: with SMTP id
+ iy13mr26404121pjb.46.1617010199064; 
+ Mon, 29 Mar 2021 02:29:59 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
+ by smtp.googlemail.com with ESMTPSA id
+ z1sm16581419pfn.127.2021.03.29.02.29.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 29 Mar 2021 02:29:58 -0700 (PDT)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: corbet@lwn.net
+Subject: [PATCH] scripts: kernel-doc: add warning for comment not following
+ kernel-doc syntax
+Date: Mon, 29 Mar 2021 14:59:45 +0530
+Message-Id: <20210329092945.13152-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, yashsri421@gmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,28 +107,76 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Mar 28, 2021 at 5:05 AM Atul Gopinathan
-<atulgopinathan@gmail.com> wrote:
->
-> Currently, building the bpf-next source with the CONFIG_BPF_SYSCALL
-> enabled is causing a compilation error:
->
-> "net/ipv4/bpf_tcp_ca.c:209:28: error: expected identifier or '(' before
-> ',' token"
->
-> Fix this by removing an unnecessary comma.
->
-> Reported-by: syzbot+0b74d8ec3bf0cc4e4209@syzkaller.appspotmail.com
-> Fixes: e78aea8b2170 ("bpf: tcp: Put some tcp cong functions in allowlist for bpf-tcp-cc")
-> Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
+Currently, kernel-doc start parsing the comment as a kernel-doc comment if
+it starts with '/**', but does not take into account if the content inside
+the comment too, adheres with the expected format.
+This results in unexpected and unclear warnings for the user.
 
-Thanks for the quick fix. Applied.
+E.g., running scripts/kernel-doc -none mm/memcontrol.c emits:
+"mm/memcontrol.c:961: warning: expecting prototype for do not fallback to current(). Prototype was for get_mem_cgroup_from_current() instead"
+
+Here kernel-doc parses the corresponding comment as a kernel-doc comment
+and expects prototype for it in the next lines, and as a result causing
+this warning.
+
+Provide a clearer warning message to the users regarding the same, if the
+content inside the comment does not follow the kernel-doc expected format.
+
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ scripts/kernel-doc | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index cb92d0e1e932..b1d71a7b721f 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -2103,15 +2103,17 @@ sub process_name($$) {
+ 	}
+     } elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+-	if (/\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
++	my $is_kernel_comment = 0;
++	if (/^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
+ 	    $identifier = $1;
++	    $decl_type = 'function';
++	    $identifier =~ s/^define\s+//;
++	    $is_kernel_comment = 1;
+ 	}
+ 	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
+ 	    $decl_type = $1;
+ 	    $identifier = $2;
+-	} else {
+-	    $decl_type = 'function';
+-	    $identifier =~ s/^define\s+//;
++	    $is_kernel_comment = 1;
+ 	}
+ 	$identifier =~ s/\s+$//;
+ 
+@@ -2133,6 +2135,13 @@ sub process_name($$) {
+ 	    $declaration_purpose = "";
+ 	}
+ 
++	if (!$is_kernel_comment) {
++	    print STDERR "${file}:$.: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst\n";
++	    print STDERR $_;
++	    ++$warnings;
++	    $state = STATE_NORMAL;
++	}
++
+ 	if (($declaration_purpose eq "") && $verbose) {
+ 	    print STDERR "${file}:$.: warning: missing initial short description on line:\n";
+ 	    print STDERR $_;
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
