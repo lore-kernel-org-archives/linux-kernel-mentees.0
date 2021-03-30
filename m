@@ -1,99 +1,105 @@
-Return-Path: <SRS0=0o+h=I3=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=Bfkk=I4=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3A31C433DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 19:12:32 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1566C433DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Mar 2021 08:51:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3E99161989
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Mar 2021 19:12:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3E99161989
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 9124961954
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Mar 2021 08:51:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9124961954
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=canonical.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D0C70402A6;
-	Mon, 29 Mar 2021 19:12:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5799B4042F;
+	Tue, 30 Mar 2021 08:51:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LIH_z4BeErpH; Mon, 29 Mar 2021 19:12:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1001740152;
-	Mon, 29 Mar 2021 19:12:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DB42AC000B;
-	Mon, 29 Mar 2021 19:12:30 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7211BC000A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 19:12:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5A62C40380
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 19:12:29 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xnlUR_2t1qVT
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id q_qE5jG_VRh9; Tue, 30 Mar 2021 08:51:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 53EE1402BB;
+	Tue, 30 Mar 2021 08:51:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 308A5C000B;
+	Tue, 30 Mar 2021 08:51:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ACCD5C000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 19:12:28 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com
- [IPv6:2607:f8b0:4864:20::b35])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 836A0402B8
+ Tue, 30 Mar 2021 08:51:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8E1936073A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 19:12:28 +0000 (UTC)
-Received: by mail-yb1-xb35.google.com with SMTP id z1so14866735ybf.6
+ Tue, 30 Mar 2021 08:51:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kxqeAhvb_9Hm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Mar 2021 12:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HKmYLaEk43CYTxU5svn8oc1fILpHmvISVJqZG9ciT94=;
- b=glkaGcAkaW6c9C9lNHLJh/6XL9XUssMG00pOAbm81S5bzhukitbWs4oSCgyE0SDOKY
- aEk9SLcQkb/Fsy4UncKK8g13CpFOiK2al1OmALUUHnhLccshR2ESSxR09512PSMm9lTD
- CbImhRw/EY0QyBAdvwPtIDI1WM8T28qa405+nJ8y1TA+BYM5EFZbSJb3gSVGRqbz0sbX
- NhrwgJWtbreFCGyLCGXgft/pTRmqA26a5udUKIw6XHZcQgqS6O0x7CgW1NnwD3M8aBgQ
- 8Vg7VYPPH6ujoZ3SuAto3a7Qlf5Lis4po5PtH1VQ8k8PoZ55uZdd61Cbj0aJyO1LvaC4
- NaKg==
+ Tue, 30 Mar 2021 08:51:18 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from youngberry.canonical.com (youngberry.canonical.com
+ [91.189.89.112])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9406F60725
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Mar 2021 08:51:18 +0000 (UTC)
+Received: from mail-wr1-f71.google.com ([209.85.221.71])
+ by youngberry.canonical.com with esmtps
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <krzysztof.kozlowski@canonical.com>)
+ id 1lRA5k-0004tZ-NW
+ for linux-kernel-mentees@lists.linuxfoundation.org;
+ Tue, 30 Mar 2021 08:51:16 +0000
+Received: by mail-wr1-f71.google.com with SMTP id t14so10078362wrx.12
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HKmYLaEk43CYTxU5svn8oc1fILpHmvISVJqZG9ciT94=;
- b=mXVWx5ZMbDtQYoHxDDE2YiSEp5yvEnc+2l1vFFkvF0S4bG8EYXNcjmBTD+JUQxQLVB
- 9ql7quoCT/7JWYDRC+nUdQSjMVtw2a+FFHGA4v8rTZgNbC0Uuca+HM4t2vgXU842F8qR
- j/lnAYif9P7sxGaCPLyewzsmMg53ImGr4AjkLZTa5zQHApc335RyO+cjiWeq8oh52Pc8
- 4zw5VSny0hrapl4AJwI1oasP4uxZdFKIH2cFWz4LiMD5aN1koczKVZyiqGfDFtOw1JhK
- JNfaVS7oEQYXMxgJccZIvq4/NlUbsFxeUUhsJJ4/w72VuV284j72bLBXkkSlkJiFLpdi
- jT9w==
-X-Gm-Message-State: AOAM533waWFDKsy2DM+VmPUmtjPzotG4hNCIg2mFJsjsMCRRE0GpwKEn
- DH4NuG3esyg4SKERBez2V9RCROKSbbc54dphiKY=
-X-Google-Smtp-Source: ABdhPJx6awGKtvZYWTCAaFfb/psgHVBPq9Uis53zOwOW3G8m1WNj3B6YanbsbiMxIj0rmuybo2xNeQ4jUH9ro6ISg9I=
-X-Received: by 2002:a25:3b55:: with SMTP id i82mr42784655yba.422.1617045147596; 
- Mon, 29 Mar 2021 12:12:27 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=djVlT/RAmq6AwtihToV3c2qx0PjKLnFe2UuBJ80EzkM=;
+ b=F+FSVsMt65s0jFqboC3tCe0TSIdud++crBUnVflknrMThSgPeK+z01k4bf3EQI/KaO
+ KSrE6kCEoukQQpdX29N9sEs8vy1y1jy6ITEPsT4U8Kdy+jHYqD+G6q6gGdT38y5+re+8
+ 5IC9H3onY7MHFGFPwWsu3G4RTQnCOlEEzY/Z96AXQAUUHltfPPHVfTojuKW4QJuuQDOd
+ bASWJm0CnciWVnTaItSmg5lfLrTGfjf5pv89m6lVq+wkaUAfAZqGrtGgJ3sI96o7Wg+X
+ bXKltWPK++pTVAqbZ0CvK5aFEZLE387oinBgt/WoZVrhY/0vX7BrdNbxNkkKwgWUiupy
+ N7pw==
+X-Gm-Message-State: AOAM533Smw5h08WNBjCviLSD1T7WwyuWKvL6hNQH8eVffoRgxIGkl1G1
+ EP+mRK9kBjvsEhLGAVsPZzRiGWk+fxXaPEOdfyzf1LD/Phr5KSj+pxclLHwdX/0uU4ur0Dt7oNG
+ jC4NPxNPfUBkhml4cPfTKcWirMu5JdsRAmRm4s7oR0+zh6kc719BaaStTEwYjP1cV5A==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr2898603wmc.90.1617094276538; 
+ Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMM+kQaqpCWb0b7OW+orw77+hmaUElyaV7pasIVj3HsWg6jELlm0lBduYBq4l8/WLCYe23Ww==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr2898587wmc.90.1617094276417; 
+ Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch.
+ [84.226.167.205])
+ by smtp.gmail.com with ESMTPSA id l6sm34969120wrn.3.2021.03.30.01.51.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+Subject: Re: [PATCH] usb: dwc3: exynos: fix incorrect kernel-doc comment syntax
+To: Aditya Srivastava <yashsri421@gmail.com>, balbi@kernel.org
+References: <20210329140318.27742-1-yashsri421@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <b341b0a5-4f78-d986-d038-8e067bf5d34e@canonical.com>
+Date: Tue, 30 Mar 2021 10:51:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210329121054.20474-1-yashsri421@gmail.com>
-In-Reply-To: <20210329121054.20474-1-yashsri421@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 29 Mar 2021 21:12:16 +0200
-Message-ID: <CANiq72=-ahHeOJY66OjVF1A0WZfGyepWs4K7QvY7Tyk1Y6Uw_g@mail.gmail.com>
-Subject: Re: [PATCH] lib: fix incorrect kernel-doc comment syntax in file
-To: Aditya Srivastava <yashsri421@gmail.com>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- "Gustavo A . R . Silva" <gustavoars@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <20210329140318.27742-1-yashsri421@gmail.com>
+Content-Language: en-US
+Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,18 +117,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Mar 29, 2021 at 2:11 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
->
-> Provide a simple fix by replacing such occurrences with general comment
+On 29/03/2021 16:03, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for drivers/usb/dwc3/dwc3-exynos.c follows this syntax, but the
+> content inside does not comply with kernel-doc.
+> 
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc:
+> "warning: expecting prototype for dwc3(). Prototype was for DWC3_EXYNOS_MAX_CLOCKS() instead"
+> 
+> Provide a simple fix by replacing this occurrence with general comment
 > format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-I assumed these come from the original sources and were not adapted,
-but they aren't there, at least in the current version in GitHub.
+One sentence with error log would be enough for such trivial change. Anyway:
 
-    Acked-by: Miguel Ojeda <ojeda@kernel.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 
-Cheers,
-Miguel
+Best regards,
+Krzysztof
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
