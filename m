@@ -1,114 +1,104 @@
-Return-Path: <SRS0=w/H4=JA=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=3EMO=JF=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C752AC43460
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Apr 2021 12:43:49 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E54FC43460
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Apr 2021 12:11:51 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 655146121F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Apr 2021 12:43:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 655146121F
+	by mail.kernel.org (Postfix) with ESMTPS id B52BE61178
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Apr 2021 12:11:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B52BE61178
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 316F184EE0;
-	Sat,  3 Apr 2021 12:43:49 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6580C40555;
+	Thu,  8 Apr 2021 12:11:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iafXG7nn24GS; Sat,  3 Apr 2021 12:43:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2FAE384EDA;
-	Sat,  3 Apr 2021 12:43:48 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 15174C000C;
-	Sat,  3 Apr 2021 12:43:48 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7DE59C000A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Apr 2021 12:43:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5753B403DE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Apr 2021 12:43:46 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id S0d0jIhXF_D5
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ilY33OQDl5S6; Thu,  8 Apr 2021 12:11:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 99A6F40389;
+	Thu,  8 Apr 2021 12:11:48 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80694C000C;
+	Thu,  8 Apr 2021 12:11:48 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5A858C000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Apr 2021 12:43:45 +0000 (UTC)
+ Thu,  8 Apr 2021 12:11:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 48437400FA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  8 Apr 2021 12:11:47 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ak44Hpg1pnsJ
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  8 Apr 2021 12:11:46 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 094B3403D5
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D86EC400F5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Apr 2021 12:43:44 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- x7-20020a17090a2b07b02900c0ea793940so5752929pjc.2
+ Thu,  8 Apr 2021 12:11:45 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id q26so1852185qkm.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 03 Apr 2021 05:43:44 -0700 (PDT)
+ Thu, 08 Apr 2021 05:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l9J7Rrtr5vX5sTUcC2BnLF28M3UYe4/pHrGKjFh6MSM=;
- b=rAvyolEtINNdsn5rcy3zoxvT4KgaWso521j7kK32Tou5ahiOGCzNYoJ/C4JX+3MyMz
- RuO8HtjcUj6jQbZ0zPkrFOvwSHYK7c4sFBj0SALgClqXcSnkc625rREamCwz8icGWz8B
- HdRZDnhHJ1gD6QFeGH17t+PXvSbMnVkJ5S6a6avakA5oVvrCmjXiEr2t0l6gzarNTf/v
- lkqakN/ko91X4kdjY+DifBrSEwT74Hfi4Br6zngZ55TRS5PfVtAqWtouvQxlQqqOL/5g
- 01ZPIjSK4reAESN0t6s8FrUTYvIqqBhBflJQC3U9LL8HOYkMbRBHGVhY1VUJXYBe3J0R
- T19w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U37JWFW8zUjYArP9Sk/Di35ULFyL07ZDm52EW6Wni2Y=;
+ b=CgdVLCASl1e+Yrp46yaHMjZPZ3n+cn1xcfEbwAEQFJ/tOqX2BUmjgewvsx28DI4izI
+ tuRBxNRFd4OdHjOP3rA/PDODbS1c8AEtSXYNwaOcqfzmLUuXpv6A5sfAg6RqXI4aqD65
+ HbWYNF3HIg8/S9u/DWCtd+BsTY3aRbOo6tzrq2U0zZ5QtBYNz0wbEUUjt5lKwxvy/7Rz
+ VX44eQYdvXDWkTpsnCKWtCUEdgNLph5Cq8KFWMr4Gt0LsATaUrTFnUitGezLVX6EHlha
+ sn3d91LcH505utLTxDlyAKfwLfTQoNpeBNiZmcdZJJF0fbPxIFOfS2UxVpry6IPwJcvl
+ 2fzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=l9J7Rrtr5vX5sTUcC2BnLF28M3UYe4/pHrGKjFh6MSM=;
- b=PllY6DtXofNjkQjnH/uQhWn/nQot4217VstuDQaWtr6pZ5IP+SLHcszfv2bNcMpF0h
- MqKh5XXjl3AcOzmjAL1VuWzl7NmNW57nsZUaiPkUzy1VN5Z1KW1fnUrMdKqWCcWHipeg
- pC0pbCHjGrTqwGAt3jExnfvOaZoUXljP22O+qcfB6cVkTi/jBFY3Rv2hviItwJeJ5y91
- Vs0iGtwRiEbWlmBWNhxn8cK5Tg2P8cy24LcFywZYKZrBZDIk+vKkNy4NIfp0Z00L8zAU
- 5MeuReua8DhV3w3D3cFQG6Kb09flrzKXzDey04uyaFSoV0Y1rmwTM38tgS/COCtBlEEN
- rHVg==
-X-Gm-Message-State: AOAM532RimmjkSmAsfwfut+lbM5OGlXdn6pzHgqZym79T3tu0pUuK/4H
- Gomg1u5GuH4UXdFELpZXAvo=
-X-Google-Smtp-Source: ABdhPJw9MyAP3c9lzuu0qApDj+cYYiZVnB1RR6reKtnceMO8i0UaIlAmY2rHQmXQ9cZHZD59gERA2Q==
-X-Received: by 2002:a17:90a:1b0e:: with SMTP id
- q14mr17620107pjq.41.1617453824146; 
- Sat, 03 Apr 2021 05:43:44 -0700 (PDT)
-Received: from ?IPv6:2405:201:600d:a089:150c:a6c7:d4:6d35?
- ([2405:201:600d:a089:150c:a6c7:d4:6d35])
- by smtp.gmail.com with ESMTPSA id g4sm11158310pgu.46.2021.04.03.05.43.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 03 Apr 2021 05:43:43 -0700 (PDT)
-From: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [PATCH] scripts: kernel-doc: add warning for comment not
- following kernel-doc syntax
-To: Jonathan Corbet <corbet@lwn.net>
-References: <20210329092945.13152-1-yashsri421@gmail.com>
- <87czvit65m.fsf@meer.lwn.net>
- <a35096d5-99e7-6b69-c959-1136d511a0ff@gmail.com>
- <87mtujktl2.fsf@meer.lwn.net>
-Message-ID: <0b5cedae-d89e-e558-906d-846ed01f27ca@gmail.com>
-Date: Sat, 3 Apr 2021 18:13:36 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=U37JWFW8zUjYArP9Sk/Di35ULFyL07ZDm52EW6Wni2Y=;
+ b=FIO9AjlwKGZ/EQ53aKlMGIh7z2rvjQ2HhhZWm8nnhN5LMk9m/jV/7mfU9HlcQLDpWj
+ Pl8F9K7E5yq0MVvCSsn0eOn2wzcr9TPKLNwsomORO286JLherpFbTbQAKX/WJLKyM0Bn
+ 1D0x5HDg5WepG651ehBwMVO2nR8Kj//3VacWe0LZyPMh8NGuhojp69Sv6tGZojeYPyxJ
+ uUJWy5LzKvqWyw56+UksgaiHROeVIxpWGZF1rL8I4AGnGufJ5qF9azJeZaS1Wgz9jgO8
+ YP9QIHDr+tJAqB1ZDKvWoOmOmcqWsiXQAqDx0n5CPzjgYBE9mUiKo7vMOvqeD+iOzvW4
+ LYBQ==
+X-Gm-Message-State: AOAM531reW9Q8TftIgwSWP9EPGkM1oBEOrSdniU4NHMOkoYCJapmmMyZ
+ H68bNjskaa6QPy7EZUmGvJ0=
+X-Google-Smtp-Source: ABdhPJyI1Fz0Z+/9MrugGgapbrkZDr4JkI7N6/r2rt7lgBISdX0B+/yHQmcohMrBwpxNlMakmdMvZg==
+X-Received: by 2002:a37:692:: with SMTP id 140mr51186qkg.266.1617883904572;
+ Thu, 08 Apr 2021 05:11:44 -0700 (PDT)
+Received: from localhost.localdomain ([189.120.76.30])
+ by smtp.googlemail.com with ESMTPSA id
+ b198sm20572458qkg.10.2021.04.08.05.11.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Apr 2021 05:11:44 -0700 (PDT)
+From: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+To: mchehab@kernel.org
+Subject: [PATCH] media: em28xx: Fix race condition between open and init
+ function
+Date: Thu,  8 Apr 2021 09:10:42 -0300
+Message-Id: <20210408121041.6655-1-igormtorrente@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <87mtujktl2.fsf@meer.lwn.net>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Cc: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com,
+ linux-media@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org,
+ Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,105 +116,592 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 1/4/21 1:02 am, Jonathan Corbet wrote:
-> Aditya Srivastava <yashsri421@gmail.com> writes:
->
->> On 29/3/21 7:26 pm, Jonathan Corbet wrote:
->>> Aditya Srivastava <yashsri421@gmail.com> writes:
->>>
->>>> Currently, kernel-doc start parsing the comment as a kernel-doc comment if
->>>> it starts with '/**', but does not take into account if the content inside
->>>> the comment too, adheres with the expected format.
->>>> This results in unexpected and unclear warnings for the user.
->>>>
->>>> E.g., running scripts/kernel-doc -none mm/memcontrol.c emits:
->>>> "mm/memcontrol.c:961: warning: expecting prototype for do not fallback to current(). Prototype was for get_mem_cgroup_from_current() instead"
->>>>
->>>> Here kernel-doc parses the corresponding comment as a kernel-doc comment
->>>> and expects prototype for it in the next lines, and as a result causing
->>>> this warning.
->>>>
->>>> Provide a clearer warning message to the users regarding the same, if the
->>>> content inside the comment does not follow the kernel-doc expected format.
->>>>
->>>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->>>> ---
->>>>  scripts/kernel-doc | 17 +++++++++++++----
->>>>  1 file changed, 13 insertions(+), 4 deletions(-)
->>>
->>> This is definitely a capability we want, but I really don't think that
->>> we can turn it on by default - for now.  Experience shows that if you
->>> create a blizzard of warnings, nobody sees any of them.  How many
->>> warnings does this add to a full docs build?
->>>
->>
->> Hi Jonathan, here's the diff I have created for the warnings before
->> and after the changes:
->> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/kernel_doc_comment_syntax.txt
->>
->> Around ~1320 new warnings of this type are added to the kernel tree,
->> and around ~1580 warnings are removed.
->
-> So I finally got around to looking at this again...  How did you
-> generate that file?
->
+Fixes a race condition - for lack of a more precise term - between
+em28xx_v4l2_open and em28xx_v4l2_init, by detaching the v4l2_dev,
+media_pad and vdev structs from the em28xx_v4l2, and managing the
+lifetime of those objects more dynamicaly.
 
-I ran scripts/kernel-doc -none on all the files in the kernel tree
-before and after appying the changes, and then generated their diff to
-find the warnings removed and added.
+The race happens when a thread[1] - containing the em28xx_v4l2_init()
+code - calls the v4l2_mc_create_media_graph(), and it return a error,
+if a thread[2] - running v4l2_open() - pass the verification point
+and reaches the em28xx_v4l2_open() before the thread[1] finishes
+the v4l2 subsystem deregistration, thread[1] will free all resources
+before the em28xx_v4l2_open() can process their things,
+because the em28xx_v4l2_init() has the dev->lock. And all this lead
+the thread[2] to cause a user-after-free.
 
-> I tried applying the patch and doing a normal full htmldocs build and
-> got all of four warnings:
->
->   ./include/linux/seqlock.h:829: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->    * DEFINE_SEQLOCK(sl) - Define a statically allocated seqlock_t
->   ./fs/jbd2/journal.c:1391: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->    *  journal_t * jbd2_journal_init_dev() - creates and initialises a journal structure
->   ./fs/jbd2/journal.c:1422: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->    *  journal_t * jbd2_journal_init_inode () - creates a journal which maps to a inode.
->   ./include/linux/dcache.h:309: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->    *      dget, dget_dlock -      get a reference to a dentry
->
+Reported-and-tested-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
+Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
+---
+ drivers/media/usb/em28xx/em28xx-camera.c |   4 +-
+ drivers/media/usb/em28xx/em28xx-video.c  | 188 ++++++++++++++---------
+ drivers/media/usb/em28xx/em28xx.h        |   6 +-
+ 3 files changed, 123 insertions(+), 75 deletions(-)
 
-I think there should be more warnings. For e.g., running kernel-doc
--none ./drivers/usb/mtu3/mtu3.h gives these warnings:
+diff --git a/drivers/media/usb/em28xx/em28xx-camera.c b/drivers/media/usb/em28xx/em28xx-camera.c
+index d1e66b503f4d..436c5a8cbbb6 100644
+--- a/drivers/media/usb/em28xx/em28xx-camera.c
++++ b/drivers/media/usb/em28xx/em28xx-camera.c
+@@ -340,7 +340,7 @@ int em28xx_init_camera(struct em28xx *dev)
+ 		v4l2->sensor_xtal = 4300000;
+ 		pdata.xtal = v4l2->sensor_xtal;
+ 		if (NULL ==
+-		    v4l2_i2c_new_subdev_board(&v4l2->v4l2_dev, adap,
++		    v4l2_i2c_new_subdev_board(v4l2->v4l2_dev, adap,
+ 					      &mt9v011_info, NULL))
+ 			return -ENODEV;
+ 		v4l2->vinmode = EM28XX_VINMODE_RGB8_GRBG;
+@@ -394,7 +394,7 @@ int em28xx_init_camera(struct em28xx *dev)
+ 		v4l2->sensor_yres = 480;
+ 
+ 		subdev =
+-		     v4l2_i2c_new_subdev_board(&v4l2->v4l2_dev, adap,
++		     v4l2_i2c_new_subdev_board(v4l2->v4l2_dev, adap,
+ 					       &ov2640_info, NULL);
+ 		if (!subdev)
+ 			return -ENODEV;
+diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+index 6b84c3413e83..e1febb2bf06b 100644
+--- a/drivers/media/usb/em28xx/em28xx-video.c
++++ b/drivers/media/usb/em28xx/em28xx-video.c
+@@ -184,7 +184,7 @@ static int em28xx_vbi_supported(struct em28xx *dev)
+  */
+ static void em28xx_wake_i2c(struct em28xx *dev)
+ {
+-	struct v4l2_device *v4l2_dev = &dev->v4l2->v4l2_dev;
++	struct v4l2_device *v4l2_dev = dev->v4l2->v4l2_dev;
+ 
+ 	v4l2_device_call_all(v4l2_dev, 0, core,  reset, 0);
+ 	v4l2_device_call_all(v4l2_dev, 0, video, s_routing,
+@@ -974,9 +974,17 @@ static void em28xx_v4l2_create_entities(struct em28xx *dev)
+ 	struct em28xx_v4l2 *v4l2 = dev->v4l2;
+ 	int ret, i;
+ 
++	v4l2->video_pad = kzalloc(sizeof(*v4l2->video_pad), GFP_KERNEL);
++	if (!v4l2->video_pad) {
++		dev_err(&dev->intf->dev,
++			"failed to allocate video pad memory!\n");
++		v4l2->vdev->entity.num_pads = 0;
++		return;
++	}
++
+ 	/* Initialize Video, VBI and Radio pads */
+-	v4l2->video_pad.flags = MEDIA_PAD_FL_SINK;
+-	ret = media_entity_pads_init(&v4l2->vdev.entity, 1, &v4l2->video_pad);
++	v4l2->video_pad->flags = MEDIA_PAD_FL_SINK;
++	ret = media_entity_pads_init(&v4l2->vdev->entity, 1, v4l2->video_pad);
+ 	if (ret < 0)
+ 		dev_err(&dev->intf->dev,
+ 			"failed to initialize video media entity!\n");
+@@ -1132,11 +1140,11 @@ int em28xx_start_analog_streaming(struct vb2_queue *vq, unsigned int count)
+ 			f.type = V4L2_TUNER_RADIO;
+ 		else
+ 			f.type = V4L2_TUNER_ANALOG_TV;
+-		v4l2_device_call_all(&v4l2->v4l2_dev,
++		v4l2_device_call_all(v4l2->v4l2_dev,
+ 				     0, tuner, s_frequency, &f);
+ 
+ 		/* Enable video stream at TV decoder */
+-		v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_stream, 1);
++		v4l2_device_call_all(v4l2->v4l2_dev, 0, video, s_stream, 1);
+ 	}
+ 
+ 	v4l2->streaming_users++;
+@@ -1157,7 +1165,7 @@ static void em28xx_stop_streaming(struct vb2_queue *vq)
+ 
+ 	if (v4l2->streaming_users-- == 1) {
+ 		/* Disable video stream at TV decoder */
+-		v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_stream, 0);
++		v4l2_device_call_all(v4l2->v4l2_dev, 0, video, s_stream, 0);
+ 
+ 		/* Last active user, so shutdown all the URBS */
+ 		em28xx_uninit_usb_xfer(dev, EM28XX_ANALOG_MODE);
+@@ -1192,7 +1200,7 @@ void em28xx_stop_vbi_streaming(struct vb2_queue *vq)
+ 
+ 	if (v4l2->streaming_users-- == 1) {
+ 		/* Disable video stream at TV decoder */
+-		v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_stream, 0);
++		v4l2_device_call_all(v4l2->v4l2_dev, 0, video, s_stream, 0);
+ 
+ 		/* Last active user, so shutdown all the URBS */
+ 		em28xx_uninit_usb_xfer(dev, EM28XX_ANALOG_MODE);
+@@ -1286,7 +1294,7 @@ static int em28xx_vb2_setup(struct em28xx *dev)
+ 
+ static void video_mux(struct em28xx *dev, int index)
+ {
+-	struct v4l2_device *v4l2_dev = &dev->v4l2->v4l2_dev;
++	struct v4l2_device *v4l2_dev = dev->v4l2->v4l2_dev;
+ 
+ 	dev->ctl_input = index;
+ 	dev->ctl_ainput = INPUT(index)->amux;
+@@ -1565,7 +1573,7 @@ static int vidioc_querystd(struct file *file, void *priv, v4l2_std_id *norm)
+ {
+ 	struct em28xx *dev = video_drvdata(file);
+ 
+-	v4l2_device_call_all(&dev->v4l2->v4l2_dev, 0, video, querystd, norm);
++	v4l2_device_call_all(dev->v4l2->v4l2_dev, 0, video, querystd, norm);
+ 
+ 	return 0;
+ }
+@@ -1596,7 +1604,7 @@ static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id norm)
+ 		      &v4l2->hscale, &v4l2->vscale);
+ 
+ 	em28xx_resolution_set(dev);
+-	v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_std, v4l2->norm);
++	v4l2_device_call_all(v4l2->v4l2_dev, 0, video, s_std, v4l2->norm);
+ 
+ 	return 0;
+ }
+@@ -1616,7 +1624,7 @@ static int vidioc_g_parm(struct file *file, void *priv,
+ 	p->parm.capture.readbuffers = EM28XX_MIN_BUF;
+ 	p->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
+ 	if (dev->is_webcam) {
+-		rc = v4l2_device_call_until_err(&v4l2->v4l2_dev, 0,
++		rc = v4l2_device_call_until_err(v4l2->v4l2_dev, 0,
+ 						video, g_frame_interval, &ival);
+ 		if (!rc)
+ 			p->parm.capture.timeperframe = ival.interval;
+@@ -1648,7 +1656,7 @@ static int vidioc_s_parm(struct file *file, void *priv,
+ 	memset(&p->parm, 0, sizeof(p->parm));
+ 	p->parm.capture.readbuffers = EM28XX_MIN_BUF;
+ 	p->parm.capture.capability = V4L2_CAP_TIMEPERFRAME;
+-	rc = v4l2_device_call_until_err(&dev->v4l2->v4l2_dev, 0,
++	rc = v4l2_device_call_until_err(dev->v4l2->v4l2_dev, 0,
+ 					video, s_frame_interval, &ival);
+ 	if (!rc)
+ 		p->parm.capture.timeperframe = ival.interval;
+@@ -1675,7 +1683,7 @@ static int vidioc_enum_input(struct file *file, void *priv,
+ 	if (INPUT(n)->type == EM28XX_VMUX_TELEVISION)
+ 		i->type = V4L2_INPUT_TYPE_TUNER;
+ 
+-	i->std = dev->v4l2->vdev.tvnorms;
++	i->std = dev->v4l2->vdev->tvnorms;
+ 	/* webcams do not have the STD API */
+ 	if (dev->is_webcam)
+ 		i->capabilities = 0;
+@@ -1839,7 +1847,7 @@ static int vidioc_g_tuner(struct file *file, void *priv,
+ 
+ 	strscpy(t->name, "Tuner", sizeof(t->name));
+ 
+-	v4l2_device_call_all(&dev->v4l2->v4l2_dev, 0, tuner, g_tuner, t);
++	v4l2_device_call_all(dev->v4l2->v4l2_dev, 0, tuner, g_tuner, t);
+ 	return 0;
+ }
+ 
+@@ -1851,7 +1859,7 @@ static int vidioc_s_tuner(struct file *file, void *priv,
+ 	if (t->index != 0)
+ 		return -EINVAL;
+ 
+-	v4l2_device_call_all(&dev->v4l2->v4l2_dev, 0, tuner, s_tuner, t);
++	v4l2_device_call_all(dev->v4l2->v4l2_dev, 0, tuner, s_tuner, t);
+ 	return 0;
+ }
+ 
+@@ -1878,8 +1886,8 @@ static int vidioc_s_frequency(struct file *file, void *priv,
+ 	if (f->tuner != 0)
+ 		return -EINVAL;
+ 
+-	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_frequency, f);
+-	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, g_frequency, &new_freq);
++	v4l2_device_call_all(v4l2->v4l2_dev, 0, tuner, s_frequency, f);
++	v4l2_device_call_all(v4l2->v4l2_dev, 0, tuner, g_frequency, &new_freq);
+ 	v4l2->frequency = new_freq.frequency;
+ 
+ 	return 0;
+@@ -1897,7 +1905,7 @@ static int vidioc_g_chip_info(struct file *file, void *priv,
+ 		strscpy(chip->name, "ac97", sizeof(chip->name));
+ 	else
+ 		strscpy(chip->name,
+-			dev->v4l2->v4l2_dev.name, sizeof(chip->name));
++			dev->v4l2->v4l2_dev->name, sizeof(chip->name));
+ 	return 0;
+ }
+ 
+@@ -2095,7 +2103,7 @@ static int radio_g_tuner(struct file *file, void *priv,
+ 
+ 	strscpy(t->name, "Radio", sizeof(t->name));
+ 
+-	v4l2_device_call_all(&dev->v4l2->v4l2_dev, 0, tuner, g_tuner, t);
++	v4l2_device_call_all(dev->v4l2->v4l2_dev, 0, tuner, g_tuner, t);
+ 
+ 	return 0;
+ }
+@@ -2108,7 +2116,7 @@ static int radio_s_tuner(struct file *file, void *priv,
+ 	if (t->index != 0)
+ 		return -EINVAL;
+ 
+-	v4l2_device_call_all(&dev->v4l2->v4l2_dev, 0, tuner, s_tuner, t);
++	v4l2_device_call_all(dev->v4l2->v4l2_dev, 0, tuner, s_tuner, t);
+ 
+ 	return 0;
+ }
+@@ -2160,6 +2168,11 @@ static int em28xx_v4l2_open(struct file *filp)
+ 	if (mutex_lock_interruptible(&dev->lock))
+ 		return -ERESTARTSYS;
+ 
++	if (!dev->v4l2) {
++		mutex_unlock(&dev->lock);
++		return -ENODEV;
++	}
++
+ 	ret = v4l2_fh_open(filp);
+ 	if (ret) {
+ 		dev_err(&dev->intf->dev,
+@@ -2184,7 +2197,7 @@ static int em28xx_v4l2_open(struct file *filp)
+ 
+ 	if (vdev->vfl_type == VFL_TYPE_RADIO) {
+ 		em28xx_videodbg("video_open: setting radio device\n");
+-		v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_radio);
++		v4l2_device_call_all(v4l2->v4l2_dev, 0, tuner, s_radio);
+ 	}
+ 
+ 	kref_get(&dev->ref);
+@@ -2222,7 +2235,7 @@ static int em28xx_v4l2_fini(struct em28xx *dev)
+ 
+ 	mutex_lock(&dev->lock);
+ 
+-	v4l2_device_disconnect(&v4l2->v4l2_dev);
++	v4l2_device_disconnect(v4l2->v4l2_dev);
+ 
+ 	em28xx_uninit_usb_xfer(dev, EM28XX_ANALOG_MODE);
+ 
+@@ -2238,14 +2251,15 @@ static int em28xx_v4l2_fini(struct em28xx *dev)
+ 			 video_device_node_name(&v4l2->vbi_dev));
+ 		video_unregister_device(&v4l2->vbi_dev);
+ 	}
+-	if (video_is_registered(&v4l2->vdev)) {
++	if (video_is_registered(v4l2->vdev)) {
+ 		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+-			 video_device_node_name(&v4l2->vdev));
+-		video_unregister_device(&v4l2->vdev);
++			 video_device_node_name(v4l2->vdev));
++		video_unregister_device(v4l2->vdev);
+ 	}
+ 
+ 	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
+-	v4l2_device_unregister(&v4l2->v4l2_dev);
++	v4l2_device_unregister(v4l2->v4l2_dev);
++	v4l2_device_put(v4l2->v4l2_dev);
+ 
+ 	kref_put(&v4l2->ref, em28xx_free_v4l2);
+ 
+@@ -2305,7 +2319,7 @@ static int em28xx_v4l2_close(struct file *filp)
+ 			goto exit;
+ 
+ 		/* Save some power by putting tuner to sleep */
+-		v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, standby);
++		v4l2_device_call_all(v4l2->v4l2_dev, 0, tuner, standby);
+ 
+ 		/* do this before setting alternate! */
+ 		em28xx_set_mode(dev, EM28XX_SUSPEND);
+@@ -2330,6 +2344,17 @@ static int em28xx_v4l2_close(struct file *filp)
+ 	return 0;
+ }
+ 
++void em28xx_vdev_release(struct video_device *vdev)
++{
++#ifdef CONFIG_MEDIA_CONTROLLER
++	int i;
++
++	for (i = 0; i < vdev->entity.num_pads; i++)
++		kfree(&vdev->entity.pads[i]);
++#endif
++	kfree(vdev);
++}
++
+ static const struct v4l2_file_operations em28xx_v4l_fops = {
+ 	.owner         = THIS_MODULE,
+ 	.open          = em28xx_v4l2_open,
+@@ -2387,7 +2412,7 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+ static const struct video_device em28xx_video_template = {
+ 	.fops		= &em28xx_v4l_fops,
+ 	.ioctl_ops	= &video_ioctl_ops,
+-	.release	= video_device_release_empty,
++	.release	= em28xx_vdev_release,
+ 	.tvnorms	= V4L2_STD_ALL,
+ };
+ 
+@@ -2445,7 +2470,7 @@ static void em28xx_vdev_init(struct em28xx *dev,
+ 			     const char *type_name)
+ {
+ 	*vfd		= *template;
+-	vfd->v4l2_dev	= &dev->v4l2->v4l2_dev;
++	vfd->v4l2_dev	= dev->v4l2->v4l2_dev;
+ 	vfd->lock	= &dev->lock;
+ 	if (dev->is_webcam)
+ 		vfd->tvnorms = 0;
+@@ -2459,7 +2484,7 @@ static void em28xx_vdev_init(struct em28xx *dev,
+ static void em28xx_tuner_setup(struct em28xx *dev, unsigned short tuner_addr)
+ {
+ 	struct em28xx_v4l2      *v4l2 = dev->v4l2;
+-	struct v4l2_device      *v4l2_dev = &v4l2->v4l2_dev;
++	struct v4l2_device      *v4l2_dev = v4l2->v4l2_dev;
+ 	struct tuner_setup      tun_setup;
+ 	struct v4l2_frequency   f;
+ 
+@@ -2517,6 +2542,11 @@ static void em28xx_tuner_setup(struct em28xx *dev, unsigned short tuner_addr)
+ 	v4l2_device_call_all(v4l2_dev, 0, tuner, s_frequency, &f);
+ }
+ 
++void em28xx_v4l2_dev_release(struct v4l2_device *v4l2_dev)
++{
++	kfree(v4l2_dev);
++}
++
+ static int em28xx_v4l2_init(struct em28xx *dev)
+ {
+ 	u8 val;
+@@ -2541,26 +2571,35 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 
+ 	v4l2 = kzalloc(sizeof(*v4l2), GFP_KERNEL);
+ 	if (!v4l2) {
+-		mutex_unlock(&dev->lock);
+-		return -ENOMEM;
++		ret = -ENOMEM;
++		goto v4l2_error;
+ 	}
++
+ 	kref_init(&v4l2->ref);
+ 	v4l2->dev = dev;
+ 	dev->v4l2 = v4l2;
+ 
++	v4l2->v4l2_dev = kzalloc(sizeof(*v4l2->v4l2_dev), GFP_KERNEL);
++	if (!v4l2->v4l2_dev) {
++		ret = -ENOMEM;
++		goto v4l2_dev_error;
++	}
++
++	v4l2->v4l2_dev->release = em28xx_v4l2_dev_release;
++
+ #ifdef CONFIG_MEDIA_CONTROLLER
+-	v4l2->v4l2_dev.mdev = dev->media_dev;
++	v4l2->v4l2_dev->mdev = dev->media_dev;
+ #endif
+-	ret = v4l2_device_register(&dev->intf->dev, &v4l2->v4l2_dev);
++	ret = v4l2_device_register(&dev->intf->dev, v4l2->v4l2_dev);
+ 	if (ret < 0) {
+ 		dev_err(&dev->intf->dev,
+ 			"Call to v4l2_device_register() failed!\n");
+-		goto err;
++		goto v4l2_device_register_error;
+ 	}
+ 
+ 	hdl = &v4l2->ctrl_handler;
+ 	v4l2_ctrl_handler_init(hdl, 8);
+-	v4l2->v4l2_dev.ctrl_handler = hdl;
++	v4l2->v4l2_dev->ctrl_handler = hdl;
+ 
+ 	if (dev->is_webcam)
+ 		v4l2->progressive = true;
+@@ -2575,22 +2614,22 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 	/* request some modules */
+ 
+ 	if (dev->has_msp34xx)
+-		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++		v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 				    &dev->i2c_adap[dev->def_i2c_bus],
+ 				    "msp3400", 0, msp3400_addrs);
+ 
+ 	if (dev->board.decoder == EM28XX_SAA711X)
+-		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++		v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 				    &dev->i2c_adap[dev->def_i2c_bus],
+ 				    "saa7115_auto", 0, saa711x_addrs);
+ 
+ 	if (dev->board.decoder == EM28XX_TVP5150)
+-		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++		v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 				    &dev->i2c_adap[dev->def_i2c_bus],
+ 				    "tvp5150", 0, tvp5150_addrs);
+ 
+ 	if (dev->board.adecoder == EM28XX_TVAUDIO)
+-		v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++		v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 				    &dev->i2c_adap[dev->def_i2c_bus],
+ 				    "tvaudio", dev->board.tvaudio_addr, NULL);
+ 
+@@ -2601,13 +2640,13 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 		int has_demod = (dev->board.tda9887_conf & TDA9887_PRESENT);
+ 
+ 		if (dev->board.radio.type)
+-			v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++			v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 					    &dev->i2c_adap[dev->def_i2c_bus],
+ 					    "tuner", dev->board.radio_addr,
+ 					    NULL);
+ 
+ 		if (has_demod)
+-			v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++			v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 					    &dev->i2c_adap[dev->def_i2c_bus],
+ 					    "tuner", 0,
+ 					    v4l2_i2c_tuner_addrs(ADDRS_DEMOD));
+@@ -2616,7 +2655,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 				has_demod ? ADDRS_TV_WITH_DEMOD : ADDRS_TV;
+ 			struct v4l2_subdev *sd;
+ 
+-			sd = v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++			sd = v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 						 &dev->i2c_adap[dev->def_i2c_bus],
+ 						 "tuner", 0,
+ 						 v4l2_i2c_tuner_addrs(type));
+@@ -2624,7 +2663,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 			if (sd)
+ 				tuner_addr = v4l2_i2c_subdev_addr(sd);
+ 		} else {
+-			v4l2_i2c_new_subdev(&v4l2->v4l2_dev,
++			v4l2_i2c_new_subdev(v4l2->v4l2_dev,
+ 					    &dev->i2c_adap[dev->def_i2c_bus],
+ 					    "tuner", tuner_addr, NULL);
+ 		}
+@@ -2686,7 +2725,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 
+ 	/* set default norm */
+ 	v4l2->norm = V4L2_STD_PAL;
+-	v4l2_device_call_all(&v4l2->v4l2_dev, 0, video, s_std, v4l2->norm);
++	v4l2_device_call_all(v4l2->v4l2_dev, 0, video, s_std, v4l2->norm);
+ 	v4l2->interlaced_fieldmode = EM28XX_INTERLACED_DEFAULT;
+ 
+ 	/* Analog specific initialization */
+@@ -2756,40 +2795,45 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 		goto unregister_dev;
+ 
+ 	/* allocate and fill video video_device struct */
+-	em28xx_vdev_init(dev, &v4l2->vdev, &em28xx_video_template, "video");
++	v4l2->vdev = kzalloc(sizeof(*v4l2->vdev), GFP_KERNEL);
++	if (!v4l2->vdev) {
++		ret = -ENOMEM;
++		goto unregister_dev;
++	}
++
++	em28xx_vdev_init(dev, v4l2->vdev, &em28xx_video_template, "video");
+ 	mutex_init(&v4l2->vb_queue_lock);
+ 	mutex_init(&v4l2->vb_vbi_queue_lock);
+-	v4l2->vdev.queue = &v4l2->vb_vidq;
+-	v4l2->vdev.queue->lock = &v4l2->vb_queue_lock;
+-	v4l2->vdev.device_caps = V4L2_CAP_READWRITE | V4L2_CAP_VIDEO_CAPTURE |
++	v4l2->vdev->queue = &v4l2->vb_vidq;
++	v4l2->vdev->queue->lock = &v4l2->vb_queue_lock;
++	v4l2->vdev->device_caps = V4L2_CAP_READWRITE | V4L2_CAP_VIDEO_CAPTURE |
+ 				 V4L2_CAP_STREAMING;
+ 	if (dev->int_audio_type != EM28XX_INT_AUDIO_NONE)
+-		v4l2->vdev.device_caps |= V4L2_CAP_AUDIO;
++		v4l2->vdev->device_caps |= V4L2_CAP_AUDIO;
+ 	if (dev->tuner_type != TUNER_ABSENT)
+-		v4l2->vdev.device_caps |= V4L2_CAP_TUNER;
+-
++		v4l2->vdev->device_caps |= V4L2_CAP_TUNER;
+ 
+ 	/* disable inapplicable ioctls */
+ 	if (dev->is_webcam) {
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_QUERYSTD);
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_G_STD);
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_STD);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_QUERYSTD);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_G_STD);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_S_STD);
+ 	} else {
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_PARM);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_S_PARM);
+ 	}
+ 	if (dev->tuner_type == TUNER_ABSENT) {
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_G_TUNER);
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_TUNER);
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_G_FREQUENCY);
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_FREQUENCY);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_G_TUNER);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_S_TUNER);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_G_FREQUENCY);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_S_FREQUENCY);
+ 	}
+ 	if (dev->int_audio_type == EM28XX_INT_AUDIO_NONE) {
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_G_AUDIO);
+-		v4l2_disable_ioctl(&v4l2->vdev, VIDIOC_S_AUDIO);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_G_AUDIO);
++		v4l2_disable_ioctl(v4l2->vdev, VIDIOC_S_AUDIO);
+ 	}
+ 
+ 	/* register v4l2 video video_device */
+-	ret = video_register_device(&v4l2->vdev, VFL_TYPE_VIDEO,
++	ret = video_register_device(v4l2->vdev, VFL_TYPE_VIDEO,
+ 				    video_nr[dev->devno]);
+ 	if (ret) {
+ 		dev_err(&dev->intf->dev,
+@@ -2863,7 +2907,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 
+ 	dev_info(&dev->intf->dev,
+ 		 "V4L2 video device registered as %s\n",
+-		 video_device_node_name(&v4l2->vdev));
++		 video_device_node_name(v4l2->vdev));
+ 
+ 	if (video_is_registered(&v4l2->vbi_dev))
+ 		dev_info(&dev->intf->dev,
+@@ -2871,7 +2915,7 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 			 video_device_node_name(&v4l2->vbi_dev));
+ 
+ 	/* Save some power by putting tuner to sleep */
+-	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, standby);
++	v4l2_device_call_all(v4l2->v4l2_dev, 0, tuner, standby);
+ 
+ 	/* initialize videobuf2 stuff */
+ 	em28xx_vb2_setup(dev);
+@@ -2897,18 +2941,22 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 			 video_device_node_name(&v4l2->vbi_dev));
+ 		video_unregister_device(&v4l2->vbi_dev);
+ 	}
+-	if (video_is_registered(&v4l2->vdev)) {
++	if (video_is_registered(v4l2->vdev)) {
+ 		dev_info(&dev->intf->dev,
+ 			 "V4L2 device %s deregistered\n",
+-			 video_device_node_name(&v4l2->vdev));
+-		video_unregister_device(&v4l2->vdev);
++			 video_device_node_name(v4l2->vdev));
++		video_unregister_device(v4l2->vdev);
+ 	}
+ 
+ 	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
+-	v4l2_device_unregister(&v4l2->v4l2_dev);
+-err:
++	v4l2_device_unregister(v4l2->v4l2_dev);
++
++v4l2_device_register_error:
++	v4l2_device_put(v4l2->v4l2_dev);
++v4l2_dev_error:
+ 	dev->v4l2 = NULL;
+ 	kref_put(&v4l2->ref, em28xx_free_v4l2);
++v4l2_error:
+ 	mutex_unlock(&dev->lock);
+ 	return ret;
+ }
+diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
+index 6648e11f1271..dbcc297b5a0d 100644
+--- a/drivers/media/usb/em28xx/em28xx.h
++++ b/drivers/media/usb/em28xx/em28xx.h
+@@ -552,10 +552,10 @@ struct em28xx_v4l2 {
+ 	struct kref ref;
+ 	struct em28xx *dev;
+ 
+-	struct v4l2_device v4l2_dev;
++	struct v4l2_device *v4l2_dev;
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 
+-	struct video_device vdev;
++	struct video_device *vdev;
+ 	struct video_device vbi_dev;
+ 	struct video_device radio_dev;
+ 
+@@ -601,7 +601,7 @@ struct em28xx_v4l2 {
+ 	unsigned int field_count;
+ 
+ #ifdef CONFIG_MEDIA_CONTROLLER
+-	struct media_pad video_pad, vbi_pad;
++	struct media_pad *video_pad, vbi_pad;
+ 	struct media_entity *decoder;
+ #endif
+ };
+-- 
+2.20.1
 
-./drivers/usb/mtu3/mtu3.h:75: warning: This comment starts with '/**',
-but isn't a kernel-doc comment. Refer
-Documentation/doc-guide/kernel-doc.rst
-./drivers/usb/mtu3/mtu3.h:86: warning: This comment starts with '/**',
-but isn't a kernel-doc comment. Refer
-Documentation/doc-guide/kernel-doc.rst
-./drivers/usb/mtu3/mtu3.h:143: warning: This comment starts with
-'/**', but isn't a kernel-doc comment. Refer
-Documentation/doc-guide/kernel-doc.rst
-
-> Two observations:
->
->  - This is not an awful lot of warnings - not the blizzard I had
->    feared.  At this level, I think we can just merge the patch and
->    then, hopefully, fix those cases.
->
->  - All of the warned-about places are *attempts* to write real kerneldoc
->    comments, they just got the syntax wrong in one way or another.  It's
->    probably not worth the effort to try to detect this case - the
->    warning is enough to draw attention to the comment in question.
->
-
-I agree. Above are some of the cases which are not getting detected by
-this patch.
-This may be so as I am only allowing the function syntax as mentioned
-in the rst file, i.e., "^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$" or
-("* foo(\(\))? - description")
-
-I probably need to check for pointers as well and other similar case(s).
-Maybe I should design a separate check for functions than assigning
-$decl_type = 'function' in the first check.
-
-What do you think?
-
-Thanks
-Aditya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
