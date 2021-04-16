@@ -1,82 +1,110 @@
-Return-Path: <SRS0=fLed=JM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=Pnpg=JN=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33330C43460
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Apr 2021 21:29:54 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DBDBC433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 16 Apr 2021 19:34:13 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B993761004
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Apr 2021 21:29:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B993761004
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id 161B56137D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 16 Apr 2021 19:34:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 161B56137D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7E2CF84341;
-	Thu, 15 Apr 2021 21:29:53 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B9D9540E94;
+	Fri, 16 Apr 2021 19:34:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id csC1KPONY4Nv; Thu, 15 Apr 2021 21:29:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 963A5840FE;
-	Thu, 15 Apr 2021 21:29:52 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 71959C000B;
-	Thu, 15 Apr 2021 21:29:52 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A242DC000A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Apr 2021 21:29:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 88F494028E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Apr 2021 21:29:50 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=lwn.net
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NZV7fntScbpv
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yQBXABhmoVQW; Fri, 16 Apr 2021 19:34:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 49D9C40E92;
+	Fri, 16 Apr 2021 19:34:09 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BC25C000C;
+	Fri, 16 Apr 2021 19:34:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 940CCC000A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Apr 2021 21:29:49 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BA07A40242
+ Fri, 16 Apr 2021 19:34:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 81FA940419
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Apr 2021 21:29:49 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id AE58180F;
- Thu, 15 Apr 2021 21:29:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AE58180F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1618522188; bh=t67+k546gBIsT9XMy+RiKFoHmpRAnf+zrnYpN23A658=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=qCgLddaaKzlYEgUW7CqQ/6SBb65eOp9XNBTVKE1iVE6xxFvFni03RbE4P4n3TiuRy
- QUTdLo0nyU0cJaI7G+VZy29Io1laPGte88fA/Zr+D3fSV9er440lMD5plm3R0riP0L
- 5LFCzft7q0Ww86FmO+nEGUdo8aEdbWZ/rE/JcanuIlAhVvmcBn6/HS4sfzp96jOB6B
- H9RFGNFcmPwO7OFeZVb5s5ULsc9eZ3wDpqdabjIr6V4/J4K+sC7uMyxrC/2QMtm1xZ
- +CR4tNzlZgsfoaLKrGmM6xVj3cX9m5TOUxqGd7QL7Xtbhd81cMSitd4OFuH+hmco5n
- 307Z1ytvm8BHQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: improve parsing for kernel-doc
- comments syntax
-In-Reply-To: <20210414192529.9080-1-yashsri421@gmail.com>
-References: <20210414192529.9080-1-yashsri421@gmail.com>
-Date: Thu, 15 Apr 2021 15:29:47 -0600
-Message-ID: <87y2djgrsk.fsf@meer.lwn.net>
+ Fri, 16 Apr 2021 19:34:07 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id hc6l3h3MYjcp
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 16 Apr 2021 19:34:03 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id A5A97403D0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 16 Apr 2021 19:34:03 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id c6so21623703qtc.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 16 Apr 2021 12:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ETyLeWgC4ldlxgX9gOjNJ7AnWjdh0/ZzmImW1zL5RMI=;
+ b=CX2G+YIGIh2yuN8MjkbHjYrLpXn5LJpkHcuCoR5kK8ziPenqrpnPBohfBcbZJV0Y4E
+ gbp2BmAjvMQtVcE5Ndki1O6haSyon6RHZ9TuavMRYtLWd8uT73TIa16lrSppTDHlEp6y
+ nBciopNar97QzrsbisXtZpTSc2wGNJ3+4Fvc9R0tc0kSAN4vrGfMQZgAUZOphV/9H33V
+ A6hY80u0x14Ek2ZdV+4RZ/8k5eI8EGK6J4f9qtZQW9EDGVWIMAFaFl2/bSTvrYi09cb2
+ FkmL1Zhw/t7jkXsH1czgX6yP5vZ1uJ4j/tilEVuPdCYJYIntPW+nqeL/li0A5NiYWym3
+ DWSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ETyLeWgC4ldlxgX9gOjNJ7AnWjdh0/ZzmImW1zL5RMI=;
+ b=rfNozjFVK2iUeqmEWiObiHUgS6pKj7jYECeO3ZxqFwMcrQldjiTTfW1DKiiU5KevwG
+ ZBh4NkwjYCrk3ingtQiZzLFoquiO536Mj5lvD1b7i2Yzm7/WaJuOJwbil9W0LayEAX88
+ YeksY7HEnUUu5+tPMw6wkPMmzMFrZRVxopAP9j4UsEzsNg0LhnVkxSbdieLyV2vmdiSm
+ ZHuOcicInsd932QHPc5gqKP58aE+bEn/NwKRqvS7eGhs4UVSBfeBX1ruIHShSu6t00Ud
+ THUgeB3W/WNXz41HCXdhuDJVuJp7tNiQgFSu097Cl5YOJ/gH9mn7qqaom3fzpMoTUD0L
+ m8fA==
+X-Gm-Message-State: AOAM5302bxOmeV1n6Us0jqIFYr9XcHR9vTTXVooqPyPnc9tXtQh9IZNt
+ kYByIohsCl3jXZQdPJ9+N4Y=
+X-Google-Smtp-Source: ABdhPJxk50y+ZCriLsVXKTHn1xmUJk8V3P7VDGQKdrW4uDMW35tXLWJ299pTEwT8ZvdCevie6YDiow==
+X-Received: by 2002:a05:622a:46:: with SMTP id y6mr670494qtw.44.1618601642482; 
+ Fri, 16 Apr 2021 12:34:02 -0700 (PDT)
+Received: from ?IPv6:2804:14c:125:811b:fbbc:3360:40c4:fb64?
+ ([2804:14c:125:811b:fbbc:3360:40c4:fb64])
+ by smtp.gmail.com with ESMTPSA id o25sm679073qtl.37.2021.04.16.12.34.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Apr 2021 12:34:02 -0700 (PDT)
+Subject: Re: [PATCH RFC v3] media: em28xx: Fix race condition between open and
+ init function
+To: Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org
+References: <20210415140724.15398-1-igormtorrente@gmail.com>
+ <d254bf85-5185-6b21-afc6-fb00a9278186@linuxfoundation.org>
+From: Igor Torrente <igormtorrente@gmail.com>
+Message-ID: <c18180b5-52b9-e787-654c-6967ecb81dce@gmail.com>
+Date: Fri, 16 Apr 2021 16:33:59 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, yashsri421@gmail.com
+In-Reply-To: <d254bf85-5185-6b21-afc6-fb00a9278186@linuxfoundation.org>
+Content-Language: en-US
+Cc: kernel test robot <lkp@intel.com>,
+ syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,77 +116,44 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Aditya Srivastava <yashsri421@gmail.com> writes:
-
-> Currently kernel-doc does not identify some cases of probable kernel
-> doc comments, for e.g. pointer used as declaration type for identifier,
-> space separated identifier, etc.
->
-> Some example of these cases in files can be:
-> i)" *  journal_t * jbd2_journal_init_dev() - creates and initialises a journal structure"
-> in fs/jbd2/journal.c
->
-> ii) "*      dget, dget_dlock -      get a reference to a dentry" in
-> include/linux/dcache.h
->
-> iii) "  * DEFINE_SEQLOCK(sl) - Define a statically allocated seqlock_t"
-> in include/linux/seqlock.h
->
-> Also improve identification for non-kerneldoc comments. For e.g.,
->
-> i) " *	The following functions allow us to read data using a swap map"
-> in kernel/power/swap.c does follow the kernel-doc like syntax, but the
-> content inside does not adheres to the expected format.
->
-> Improve parsing by adding support for these probable attempts to write
-> kernel-doc comment.
->
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Link: https://lore.kernel.org/lkml/87mtujktl2.fsf@meer.lwn.net
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/kernel-doc | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
-
-OK, I've applied this, but I have a couple of comments...
-
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 888913528185..37665aa41e6b 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -2110,17 +2110,25 @@ sub process_name($$) {
->      } elsif (/$doc_decl/o) {
->  	$identifier = $1;
->  	my $is_kernel_comment = 0;
-> -	if (/^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
-> +	my $decl_start = qr{\s*\*};
-
-I appreciate the attempt to make the regexes a bit more comprehensible,
-but we can do better yet, methinks.  This $decl_start is very much like
-$doc_com defined globally.
-
-It would really help a lot if we could at least take the incredible mass
-of regexes in this program and boil them down to a smaller, unique set
-that is used throughout.  kernel-doc might still make brains explode,
-but perhaps the blast radius would be a bit smaller.
-
-> +	my $fn_type = qr{\w+\s*\*\s*}; # i.e. pointer declaration type, foo * bar() - desc
-
-Some of the lines in this change go waaaaay beyond the 80-character
-limit; please try not to do that.  I fixed up the offending comments
-this time around.
-
-Thanks,
-
-jon
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+CgpPbiA0LzE1LzIxIDI6MjUgUE0sIFNodWFoIEtoYW4gd3JvdGU6Cj4gT24gNC8xNS8yMSA4OjA3
+IEFNLCBJZ29yIE1hdGhldXMgQW5kcmFkZSBUb3JyZW50ZSB3cm90ZToKPj4gRml4ZXMgYSByYWNl
+IGNvbmRpdGlvbiAtIGZvciBsYWNrIG9mIGEgbW9yZSBwcmVjaXNlIHRlcm0gLSBiZXR3ZWVuCj4+
+IGVtMjh4eF92NGwyX29wZW4gYW5kIGVtMjh4eF92NGwyX2luaXQsIGJ5IGRldGFjaGluZyB0aGUg
+djRsMl9kZXYsCj4+IG1lZGlhX3BhZCBhbmQgdmRldiBzdHJ1Y3RzIGZyb20gdGhlIGVtMjh4eF92
+NGwyLCBhbmQgbWFuYWdpbmcgdGhlCj4+IGxpZmV0aW1lIG9mIHRob3NlIG9iamVjdHMgbW9yZSBk
+eW5hbWljYWx5Lgo+Pgo+PiBUaGUgcmFjZSBoYXBwZW5zIHdoZW4gYSB0aHJlYWRbMV0gLSBjb250
+YWluaW5nIHRoZSBlbTI4eHhfdjRsMl9pbml0KCkKPj4gY29kZSAtIGNhbGxzIHRoZSB2NGwyX21j
+X2NyZWF0ZV9tZWRpYV9ncmFwaCgpLCBhbmQgaXQgcmV0dXJuIGEgZXJyb3IsCj4+IGlmIGEgdGhy
+ZWFkWzJdIC0gcnVubmluZyB2NGwyX29wZW4oKSAtIHBhc3MgdGhlIHZlcmlmaWNhdGlvbiBwb2lu
+dAo+PiBhbmQgcmVhY2hlcyB0aGUgZW0yOHh4X3Y0bDJfb3BlbigpIGJlZm9yZSB0aGUgdGhyZWFk
+WzFdIGZpbmlzaGVzCj4+IHRoZSBkZXJlZ2lzdHJhdGlvbiBvZiB2NGwyIHN1YnN5c3RlbSwgdGhl
+IHRocmVhZFsxXSB3aWxsIGZyZWUgYWxsCj4+IHJlc291cmNlcyBiZWZvcmUgdGhlIGVtMjh4eF92
+NGwyX29wZW4oKSBjYW4gcHJvY2VzcyB0aGVpciB0aGluZ3MsCj4+IGJlY2F1c2UgdGhlIGVtMjh4
+eF92NGwyX2luaXQoKSBoYXMgdGhlIGRldi0+bG9jay4gQW5kIGFsbCB0aGlzIGxlYWQKPj4gdGhl
+IHRocmVhZFsyXSB0byBjYXVzZSBhIHVzZXItYWZ0ZXItZnJlZS4KPj4KPj4gUmVwb3J0ZWQtYnk6
+IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPgo+PiBSZXBvcnRlZC1hbmQtdGVzdGVk
+LWJ5OiAKPj4gc3l6Ym90K2IyMzkxODk1NTE0ZWQ5ZWY0YThlQHN5emthbGxlci5hcHBzcG90bWFp
+bC5jb20KPj4gU2lnbmVkLW9mZi1ieTogSWdvciBNYXRoZXVzIEFuZHJhZGUgVG9ycmVudGUgPGln
+b3JtdG9ycmVudGVAZ21haWwuY29tPgo+PiAtLS0KPj4KPj4gVjI6IEFkZCB2NGwyX2kyY19uZXdf
+c3ViZGV2IG51bGwgY2hlY2sKPj4gwqDCoMKgwqAgRGVhbCB3aXRoIHY0bDIgc3ViZGV2cyBkZXBl
+bmRlbmNpZXMKPj4KPj4gVjM6IEZpeCBsaW5rIGVycm9yIHdoZW4gY29tcGlsZWQgYXMgYSBtb2R1
+bGUKPj4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvbWVkaWEvdXNiL2VtMjh4eC9lbTI4eHgtY2FtZXJh
+LmMgfMKgwqAgNCArLQo+PiDCoCBkcml2ZXJzL21lZGlhL3VzYi9lbTI4eHgvZW0yOHh4LXZpZGVv
+LmPCoCB8IDMwMCArKysrKysrKysrKysrKystLS0tLS0tLQo+PiDCoCBkcml2ZXJzL21lZGlhL3Vz
+Yi9lbTI4eHgvZW0yOHh4LmjCoMKgwqDCoMKgwqDCoCB8wqDCoCA2ICstCj4+IMKgIDMgZmlsZXMg
+Y2hhbmdlZCwgMjA5IGluc2VydGlvbnMoKyksIDEwMSBkZWxldGlvbnMoLSkKPj4KPiAKPiBUaGUg
+Y2hhbmdlcyBsb29rcyBnb29kIHRvIG1lLiBIYXZlIHlvdSB0cmllZCBidWlsZGluZyBhcyBhIG1v
+ZHVsZXMgYW5kCj4gcnVubmluZyBtb2Rwcm9iZXMgYW5kIHJtbW9kcz8gWW91IGNhbiBkbyB0aGF0
+IHdpdGhvdXQgYSBkZXZpY2UuCj4gCgpJIHRyaWVkIGFuZCBldmVyeXRoaW5nIHdvcmtlZCBmaW5l
+LgoKPiB0aGFua3MsCj4gLS0gU2h1YWgKPiAKClRoYW5rcywKLS0tCklnb3IgTWF0aGV1cyBBbmRy
+YWRlIFRvcnJlbnRlCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVl
+c0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9u
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
