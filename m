@@ -2,97 +2,105 @@ Return-Path: <SRS0=eVi0=JP=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE626C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Apr 2021 06:28:22 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E870AC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Apr 2021 17:24:19 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 381B66121D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Apr 2021 06:28:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 381B66121D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+	by mail.kernel.org (Postfix) with ESMTPS id 8129D61008
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Apr 2021 17:24:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8129D61008
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E117B403F7;
-	Sun, 18 Apr 2021 06:28:21 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 34F3C400EE;
+	Sun, 18 Apr 2021 17:24:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GRdsvVHg6I1V; Sun, 18 Apr 2021 06:28:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D4683403F2;
-	Sun, 18 Apr 2021 06:28:20 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oRCfh-zpyJao; Sun, 18 Apr 2021 17:24:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0906B400DB;
+	Sun, 18 Apr 2021 17:24:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BE50DC000F;
-	Sun, 18 Apr 2021 06:28:20 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C364EC000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E16E7C000E;
+	Sun, 18 Apr 2021 17:24:17 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C6A5C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 06:28:18 +0000 (UTC)
+ Sun, 18 Apr 2021 17:24:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with UTF8SMTP id 9B83C83BA7
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8A8D66079D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 06:28:18 +0000 (UTC)
+ Sun, 18 Apr 2021 17:24:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=mg.codeaurora.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with UTF8SMTP id 8W3vpq1Gfbey
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=tyhicks-com.20150623.gappssmtp.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bCagnl4T_3uF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 06:28:14 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by smtp1.osuosl.org (Postfix) with UTF8SMTPS id 6134483B9A
+ Sun, 18 Apr 2021 17:24:14 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 62C70605C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 06:28:13 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1618727294; h=Date: Message-Id: Cc: To: References:
- In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=bm+tkpQ53HLk1k9+6qSXhjzzG6TPcgOuJEz3b8pjvqs=;
- b=feRWxLT94D/YXIJ6Pnq0Z174/FoyF3AyowvQnhsioMKEvoqou/1d3L7b+PLHIMaFdHJrSdRU
- fdbeuToXfXHRY9oeP0rnhFTGFn/t2VI3NPqhSlWSi0cFQKpzT3DcWfXZyUZ5qg8u57CjYR9O
- oMWriExXmTH4fy33jYaMWb+qV74=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI1ODQyZiIsICJsaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 607bd1772cc44d3aeadea1d4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sun, 18 Apr 2021 06:28:07
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 44818C433D3; Sun, 18 Apr 2021 06:28:07 +0000 (UTC)
-Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi
- [88.114.240.156])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: kvalo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 76F01C433D3;
- Sun, 18 Apr 2021 06:28:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 76F01C433D3
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=kvalo@codeaurora.org
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] rsi: fix comment syntax in file headers
-From: Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20210315173259.8757-1-yashsri421@gmail.com>
-References: <20210315173259.8757-1-yashsri421@gmail.com>
+ Sun, 18 Apr 2021 17:24:14 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ v19-20020a0568300913b029028423b78c2dso21807175ott.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 18 Apr 2021 10:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tyhicks-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=QjsnJKZmARmZlWkN7y36NL5XuyIJZ+hNq3K45ObLzro=;
+ b=rnUsrJkbdAttKvS34iLkbzU/OQRIcff7LgFU84jvlF54YWPAdH+87oGNa+gw24R3IS
+ E8vwDxE4tktNHWrIIC6PGJBYrClmmCfAZ0LPoApLyA4WZCdW+2pVNPdp39kjCIc7fqpg
+ IFvCLypmASqWd8xo2EYqWgCUhMJCYfN/UsuiAMMVAm8e73dT9wGP7gpAo1HfPrCgwRGz
+ /hxKqNTzkBJaKgFhRUfNbKTj4frGJGtpuwfEu/NVgZB05GgwQhFhBU58ejUz1TOfDS3Y
+ VzCb6dMsgYlXtwT9HmlvL/V3PbPD4091ubk4rh+XCxWaKGk13DiHm0TNgKZLe3kNsL1V
+ s8tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QjsnJKZmARmZlWkN7y36NL5XuyIJZ+hNq3K45ObLzro=;
+ b=OTuzKZDJYTJTo3MtRirKdU5/23yAMY9J/rldoDa6NCgvJGXsm6xf3Qql+m+qGKc+PC
+ bvarJUcSHtv8PpRFdLHDgd/6A1OArQ78rQQt5DsuYiVnfohwbw7fKTxmv1S2ik9E+fNM
+ NQYGB6mzoq9kgTa8a7Jzt+DXzwFg/fY8Z0tdP3oVhg54XIg9vgsfwxvlQ6Z8rJXBPq6j
+ Hj3cDtY2aCO+PjmwjHAU7nYJA9nLMwrkaY+eUz1NO4WX6O9uG7AQAq7oueTw7/dc1pYw
+ I12cTHACPWpSBfnfKkC3FLq1yZ4R5kr9IcKJT/R0JSXDpJmjdWp+4I9ALQ1JBbNNMSJO
+ OFRA==
+X-Gm-Message-State: AOAM532gosgSd84JVjd/54UlEwgqlWawE1vtdArOAVMG6r+kp51YGanV
+ 4PGpeexICe8GE9yH6MiwPyuovg==
+X-Google-Smtp-Source: ABdhPJxw4YKNTsxjM47tG3YAHQ8rf0dV4qV8S6+F574KX1fVNoH1lslVy4+S4dzw28bGQ98s0YXQCA==
+X-Received: by 2002:a05:6830:1d49:: with SMTP id
+ p9mr11850651oth.300.1618766653292; 
+ Sun, 18 Apr 2021 10:24:13 -0700 (PDT)
+Received: from elm (162-237-133-238.lightspeed.rcsntx.sbcglobal.net.
+ [162.237.133.238])
+ by smtp.gmail.com with ESMTPSA id k8sm2692088oig.6.2021.04.18.10.24.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 18 Apr 2021 10:24:12 -0700 (PDT)
+Date: Sun, 18 Apr 2021 12:24:11 -0500
+From: Tyler Hicks <code@tyhicks.com>
 To: Aditya Srivastava <yashsri421@gmail.com>
-User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.5.2
-Message-Id: <20210418062807.44818C433D3@smtp.codeaurora.org>
-Date: Sun, 18 Apr 2021 06:28:07 +0000 (UTC)
-Cc: yashsri421@gmail.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
- amitkarwar@gmail.com, siva8118@gmail.com, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Subject: Re: [PATCH] ecryptfs: fix incorrect kernel-doc comment syntax in files
+Message-ID: <20210418172411.GC398325@elm>
+References: <20210320081551.13954-1-yashsri421@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210320081551.13954-1-yashsri421@gmail.com>
+Cc: rdunlap@infradead.org, corbet@lwn.net, ecryptfs@vger.kernel.org,
+ linux-kernel@vger.kernel.org, christian.brauner@ubuntu.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,36 +118,288 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Aditya Srivastava <yashsri421@gmail.com> wrote:
-
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> There are some files in drivers/net/wireless/rsi which follow this syntax
-> in their file headers, i.e. start with '/**' like comments, which causes
-> unexpected warnings from kernel-doc.
+On 2021-03-20 13:45:51, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for kernel-doc comments.
+> There are files in fs/encrypts which follows this syntax, but the content
+> inside does not comply with kernel-doc.
+> This causes unexpected warnings from kernel-doc.
 > 
-> E.g., running scripts/kernel-doc -none on drivers/net/wireless/rsi/rsi_coex.h
-> causes this warning:
-> "warning: wrong kernel-doc identifier on line:
->  * Copyright (c) 2018 Redpine Signals Inc."
+> E.g., header comment for fs/ecryptfs/dentry.c follows kernel-doc syntax
+> for comments(i.e., '/**'), but the content inside does not.
+> 
+> Running kernel-doc -none on fs/ecryptfs/dentry.c causes these
+> unexpected warnings:
+> "warning: Incorrect use of kernel-doc format:  * ecryptfs_d_revalidate - revalidate an ecryptfs dentry"
+> "warning: Function parameter or member 'dentry' not described in 'ecryptfs_d_revalidate'"
+> "warning: Function parameter or member 'flags' not described in 'ecryptfs_d_revalidate'"
+> "warning: expecting prototype for eCryptfs(). Prototype was for ecryptfs_d_revalidate() instead"
 > 
 > Similarly for other files too.
 > 
 > Provide a simple fix by replacing such occurrences with general comment
-> format, i.e., "/*", to prevent kernel-doc from parsing it.
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
 > 
 > Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
-Patch applied to wireless-drivers-next.git, thanks.
+Hello Aditya - Thank you for this fix. In the time it took me to review
+this patch, someone else submitted a series that fixed all W=1 warnings
+under fs/ecryptfs/:
 
-3051946056c3 rsi: fix comment syntax in file headers
+ https://lore.kernel.org/lkml/20210330164458.1625478-1-lee.jones@linaro.org/
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/patch/20210315173259.8757-1-yashsri421@gmail.com/
+I'm going to take Lee's series for simplicity's sake. Thank you again
+for taking time to submit your patch.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Tyler
 
+> ---
+> * Applies perfectly on next-20210312
+> 
+>  fs/ecryptfs/crypto.c          |  2 +-
+>  fs/ecryptfs/debug.c           |  2 +-
+>  fs/ecryptfs/dentry.c          |  2 +-
+>  fs/ecryptfs/ecryptfs_kernel.h |  2 +-
+>  fs/ecryptfs/file.c            |  2 +-
+>  fs/ecryptfs/inode.c           |  2 +-
+>  fs/ecryptfs/keystore.c        |  6 +++---
+>  fs/ecryptfs/kthread.c         |  2 +-
+>  fs/ecryptfs/main.c            | 10 +++++-----
+>  fs/ecryptfs/messaging.c       |  2 +-
+>  fs/ecryptfs/miscdev.c         |  2 +-
+>  fs/ecryptfs/mmap.c            |  6 +++---
+>  fs/ecryptfs/read_write.c      |  2 +-
+>  fs/ecryptfs/super.c           |  2 +-
+>  14 files changed, 22 insertions(+), 22 deletions(-)
+> 
+> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
+> index 7671412b8f0b..48184ff65f90 100644
+> --- a/fs/ecryptfs/crypto.c
+> +++ b/fs/ecryptfs/crypto.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 1997-2004 Erez Zadok
+> diff --git a/fs/ecryptfs/debug.c b/fs/ecryptfs/debug.c
+> index 1f65e99f9a41..65702d7fc4b9 100644
+> --- a/fs/ecryptfs/debug.c
+> +++ b/fs/ecryptfs/debug.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   * Functions only useful for debugging.
+>   *
+> diff --git a/fs/ecryptfs/dentry.c b/fs/ecryptfs/dentry.c
+> index 44606f079efb..acaa0825e9bb 100644
+> --- a/fs/ecryptfs/dentry.c
+> +++ b/fs/ecryptfs/dentry.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 1997-2003 Erez Zadok
+> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
+> index 4a62a7dcc4f5..f8aa99e41c48 100644
+> --- a/fs/ecryptfs/ecryptfs_kernel.h
+> +++ b/fs/ecryptfs/ecryptfs_kernel.h
+> @@ -1,5 +1,5 @@
+>  /* SPDX-License-Identifier: GPL-2.0-or-later */
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   * Kernel declarations.
+>   *
+> diff --git a/fs/ecryptfs/file.c b/fs/ecryptfs/file.c
+> index 5fb45d865ce5..2d8344774885 100644
+> --- a/fs/ecryptfs/file.c
+> +++ b/fs/ecryptfs/file.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 1997-2004 Erez Zadok
+> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
+> index 18e9285fbb4c..541b46d76f89 100644
+> --- a/fs/ecryptfs/inode.c
+> +++ b/fs/ecryptfs/inode.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 1997-2004 Erez Zadok
+> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
+> index 2abd219cfeec..475d939ff695 100644
+> --- a/fs/ecryptfs/keystore.c
+> +++ b/fs/ecryptfs/keystore.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   * In-kernel key management code.  Includes functions to parse and
+>   * write authentication token-related packets with the underlying
+> @@ -21,7 +21,7 @@
+>  #include <linux/slab.h>
+>  #include "ecryptfs_kernel.h"
+>  
+> -/**
+> +/*
+>   * request_key returned an error instead of a valid key address;
+>   * determine the type of error, make appropriate log entries, and
+>   * return an error code.
+> @@ -576,7 +576,7 @@ ecryptfs_find_auth_tok_for_sig(
+>  	return rc;
+>  }
+>  
+> -/**
+> +/*
+>   * write_tag_70_packet can gobble a lot of stack space. We stuff most
+>   * of the function's parameters in a kmalloc'd struct to help reduce
+>   * eCryptfs' overall stack usage.
+> diff --git a/fs/ecryptfs/kthread.c b/fs/ecryptfs/kthread.c
+> index a7c903cb01a0..d1b1c3546972 100644
+> --- a/fs/ecryptfs/kthread.c
+> +++ b/fs/ecryptfs/kthread.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 2008 International Business Machines Corp.
+> diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
+> index cdf40a54a35d..9bc19a092917 100644
+> --- a/fs/ecryptfs/main.c
+> +++ b/fs/ecryptfs/main.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 1997-2003 Erez Zadok
+> @@ -24,7 +24,7 @@
+>  #include <linux/magic.h>
+>  #include "ecryptfs_kernel.h"
+>  
+> -/**
+> +/*
+>   * Module parameter that defines the ecryptfs_verbosity level.
+>   */
+>  int ecryptfs_verbosity = 0;
+> @@ -34,7 +34,7 @@ MODULE_PARM_DESC(ecryptfs_verbosity,
+>  		 "Initial verbosity level (0 or 1; defaults to "
+>  		 "0, which is Quiet)");
+>  
+> -/**
+> +/*
+>   * Module parameter that defines the number of message buffer elements
+>   */
+>  unsigned int ecryptfs_message_buf_len = ECRYPTFS_DEFAULT_MSG_CTX_ELEMS;
+> @@ -43,7 +43,7 @@ module_param(ecryptfs_message_buf_len, uint, 0);
+>  MODULE_PARM_DESC(ecryptfs_message_buf_len,
+>  		 "Number of message buffer elements");
+>  
+> -/**
+> +/*
+>   * Module parameter that defines the maximum guaranteed amount of time to wait
+>   * for a response from ecryptfsd.  The actual sleep time will be, more than
+>   * likely, a small amount greater than this specified value, but only less if
+> @@ -57,7 +57,7 @@ MODULE_PARM_DESC(ecryptfs_message_wait_timeout,
+>  		 "sleep while waiting for a message response from "
+>  		 "userspace");
+>  
+> -/**
+> +/*
+>   * Module parameter that is an estimate of the maximum number of users
+>   * that will be concurrently using eCryptfs. Set this to the right
+>   * value to balance performance and memory use.
+> diff --git a/fs/ecryptfs/messaging.c b/fs/ecryptfs/messaging.c
+> index c0dfd9647627..9f42fca7fc36 100644
+> --- a/fs/ecryptfs/messaging.c
+> +++ b/fs/ecryptfs/messaging.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 2004-2008 International Business Machines Corp.
+> diff --git a/fs/ecryptfs/miscdev.c b/fs/ecryptfs/miscdev.c
+> index 742ece22c1d4..7e741e36dfe7 100644
+> --- a/fs/ecryptfs/miscdev.c
+> +++ b/fs/ecryptfs/miscdev.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 2008 International Business Machines Corp.
+> diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
+> index 2f333a40ff4d..485f6c1e19b5 100644
+> --- a/fs/ecryptfs/mmap.c
+> +++ b/fs/ecryptfs/mmap.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   * This is where eCryptfs coordinates the symmetric encryption and
+>   * decryption of the file data as it passes between the lower
+> @@ -78,7 +78,7 @@ static void strip_xattr_flag(char *page_virt,
+>  	}
+>  }
+>  
+> -/**
+> +/*
+>   *   Header Extent:
+>   *     Octets 0-7:        Unencrypted file size (big-endian)
+>   *     Octets 8-15:       eCryptfs special marker
+> @@ -229,7 +229,7 @@ static int ecryptfs_readpage(struct file *file, struct page *page)
+>  	return rc;
+>  }
+>  
+> -/**
+> +/*
+>   * Called with lower inode mutex held.
+>   */
+>  static int fill_zeros_to_end_of_page(struct page *page, unsigned int to)
+> diff --git a/fs/ecryptfs/read_write.c b/fs/ecryptfs/read_write.c
+> index 0438997ac9d8..384b383b4a48 100644
+> --- a/fs/ecryptfs/read_write.c
+> +++ b/fs/ecryptfs/read_write.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 2007 International Business Machines Corp.
+> diff --git a/fs/ecryptfs/super.c b/fs/ecryptfs/super.c
+> index 6b1853f1c06a..cc16d044165d 100644
+> --- a/fs/ecryptfs/super.c
+> +++ b/fs/ecryptfs/super.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+> -/**
+> +/*
+>   * eCryptfs: Linux filesystem encryption layer
+>   *
+>   * Copyright (C) 1997-2003 Erez Zadok
+> -- 
+> 2.17.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
