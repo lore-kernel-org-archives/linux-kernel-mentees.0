@@ -1,106 +1,98 @@
-Return-Path: <SRS0=eVi0=JP=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=tx6I=JQ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E870AC433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Apr 2021 17:24:19 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 024FFC433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 19 Apr 2021 03:38:04 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8129D61008
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Apr 2021 17:24:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8129D61008
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=tyhicks.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8418B61090
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 19 Apr 2021 03:38:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8418B61090
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 34F3C400EE;
-	Sun, 18 Apr 2021 17:24:19 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4A53B6072C;
+	Mon, 19 Apr 2021 03:38:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oRCfh-zpyJao; Sun, 18 Apr 2021 17:24:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0906B400DB;
-	Sun, 18 Apr 2021 17:24:18 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E16E7C000E;
-	Sun, 18 Apr 2021 17:24:17 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9C6A5C000B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 17:24:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 8A8D66079D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 17:24:16 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=tyhicks-com.20150623.gappssmtp.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bCagnl4T_3uF
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TiPve7AYXZIg; Mon, 19 Apr 2021 03:38:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5DB10606D6;
+	Mon, 19 Apr 2021 03:38:02 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A204C000E;
+	Mon, 19 Apr 2021 03:38:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 53BB2C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 17:24:14 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 62C70605C9
+ Mon, 19 Apr 2021 03:38:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3A525402B3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 17:24:14 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- v19-20020a0568300913b029028423b78c2dso21807175ott.8
+ Mon, 19 Apr 2021 03:38:01 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=anirudhrb.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ix1mTy1mYRB4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Apr 2021 10:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tyhicks-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=QjsnJKZmARmZlWkN7y36NL5XuyIJZ+hNq3K45ObLzro=;
- b=rnUsrJkbdAttKvS34iLkbzU/OQRIcff7LgFU84jvlF54YWPAdH+87oGNa+gw24R3IS
- E8vwDxE4tktNHWrIIC6PGJBYrClmmCfAZ0LPoApLyA4WZCdW+2pVNPdp39kjCIc7fqpg
- IFvCLypmASqWd8xo2EYqWgCUhMJCYfN/UsuiAMMVAm8e73dT9wGP7gpAo1HfPrCgwRGz
- /hxKqNTzkBJaKgFhRUfNbKTj4frGJGtpuwfEu/NVgZB05GgwQhFhBU58ejUz1TOfDS3Y
- VzCb6dMsgYlXtwT9HmlvL/V3PbPD4091ubk4rh+XCxWaKGk13DiHm0TNgKZLe3kNsL1V
- s8tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QjsnJKZmARmZlWkN7y36NL5XuyIJZ+hNq3K45ObLzro=;
- b=OTuzKZDJYTJTo3MtRirKdU5/23yAMY9J/rldoDa6NCgvJGXsm6xf3Qql+m+qGKc+PC
- bvarJUcSHtv8PpRFdLHDgd/6A1OArQ78rQQt5DsuYiVnfohwbw7fKTxmv1S2ik9E+fNM
- NQYGB6mzoq9kgTa8a7Jzt+DXzwFg/fY8Z0tdP3oVhg54XIg9vgsfwxvlQ6Z8rJXBPq6j
- Hj3cDtY2aCO+PjmwjHAU7nYJA9nLMwrkaY+eUz1NO4WX6O9uG7AQAq7oueTw7/dc1pYw
- I12cTHACPWpSBfnfKkC3FLq1yZ4R5kr9IcKJT/R0JSXDpJmjdWp+4I9ALQ1JBbNNMSJO
- OFRA==
-X-Gm-Message-State: AOAM532gosgSd84JVjd/54UlEwgqlWawE1vtdArOAVMG6r+kp51YGanV
- 4PGpeexICe8GE9yH6MiwPyuovg==
-X-Google-Smtp-Source: ABdhPJxw4YKNTsxjM47tG3YAHQ8rf0dV4qV8S6+F574KX1fVNoH1lslVy4+S4dzw28bGQ98s0YXQCA==
-X-Received: by 2002:a05:6830:1d49:: with SMTP id
- p9mr11850651oth.300.1618766653292; 
- Sun, 18 Apr 2021 10:24:13 -0700 (PDT)
-Received: from elm (162-237-133-238.lightspeed.rcsntx.sbcglobal.net.
- [162.237.133.238])
- by smtp.gmail.com with ESMTPSA id k8sm2692088oig.6.2021.04.18.10.24.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Apr 2021 10:24:12 -0700 (PDT)
-Date: Sun, 18 Apr 2021 12:24:11 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [PATCH] ecryptfs: fix incorrect kernel-doc comment syntax in files
-Message-ID: <20210418172411.GC398325@elm>
-References: <20210320081551.13954-1-yashsri421@gmail.com>
+ Mon, 19 Apr 2021 03:37:57 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
+ [136.143.188.53])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 83F32402AF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 19 Apr 2021 03:37:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1618803469; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RI0Uk+zESVya/wuuzytXA0pDsL16ksilhs9cDufYoXso8jBk1qFFaBa+sS8SP0UKrdQ/Nu+wQuks3U7ll4LwOd6KaeIcth73LhfJgbZ+wXOOhcgolUy0bT+Fd4AO0s6k8zCQf1/SxirSZk2QljREXQNZCbYSJKDz6Dd0MstB7zQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1618803469;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=YnCdv7AAProKmkZa307kJK+CEziv1AFNL+Zdo7moFS8=; 
+ b=K86FT328X7Lv+6gDIwS30j8QoW5WEI2Bo3ZN2me8FrkJ5Egnh+y3P+5hO6l83Dhjw7p23FZ0aF+f/XyFf5+gw1dBoWc3YvQVx5ObCq4SUH/c8aXUKmEo8cZ+V6FNADs+Xe5q72SfoKsMwkQ40K1cwGTCpTuFqXdN3oMf8G8Y9Dg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=anirudhrb.com;
+ spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+ dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1618803469; 
+ s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+ bh=YnCdv7AAProKmkZa307kJK+CEziv1AFNL+Zdo7moFS8=;
+ b=oo3xJV2ga/e9QQTxjmr5kpmRbd8pO5Ek97Slg9U2EXtltDA6jf50eHh8QAH0ijNJ
+ Snr3tPPArIna3V8DGn1poS4icQSy7IYX7z+i5TCza4ew6Fk1EanWmrRp2XfmzzYnCAm
+ ll1X5lco7u0Kv+ibosXT4IsCYNEqIIE6qZUqQ00E=
+Received: from localhost.localdomain (49.207.216.151 [49.207.216.151]) by
+ mx.zohomail.com with SMTPS id 1618803466573950.1264699537642;
+ Sun, 18 Apr 2021 20:37:46 -0700 (PDT)
+From: Anirudh Rayabharam <mail@anirudhrb.com>
+To: Felipe Balbi <balbi@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Colin Ian King <colin.king@canonical.com>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Jules Irenge <jbi.octave@gmail.com>,
+ Bui Quang Minh <minhquangbui99@gmail.com>,
+ Anirudh Rayabharam <mail@anirudhrb.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>
+Subject: [PATCH v2] usb: gadget: dummy_hcd: fix gpf in gadget_setup
+Date: Mon, 19 Apr 2021 09:07:08 +0530
+Message-Id: <20210419033713.3021-1-mail@anirudhrb.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210320081551.13954-1-yashsri421@gmail.com>
-Cc: rdunlap@infradead.org, corbet@lwn.net, ecryptfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, christian.brauner@ubuntu.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-ZohoMailClient: External
+Cc: syzbot+eb4674092e6cc8d9e0bd@syzkaller.appspotmail.com,
+ linux-usb@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,288 +110,96 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2021-03-20 13:45:51, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for kernel-doc comments.
-> There are files in fs/encrypts which follows this syntax, but the content
-> inside does not comply with kernel-doc.
-> This causes unexpected warnings from kernel-doc.
-> 
-> E.g., header comment for fs/ecryptfs/dentry.c follows kernel-doc syntax
-> for comments(i.e., '/**'), but the content inside does not.
-> 
-> Running kernel-doc -none on fs/ecryptfs/dentry.c causes these
-> unexpected warnings:
-> "warning: Incorrect use of kernel-doc format:  * ecryptfs_d_revalidate - revalidate an ecryptfs dentry"
-> "warning: Function parameter or member 'dentry' not described in 'ecryptfs_d_revalidate'"
-> "warning: Function parameter or member 'flags' not described in 'ecryptfs_d_revalidate'"
-> "warning: expecting prototype for eCryptfs(). Prototype was for ecryptfs_d_revalidate() instead"
-> 
-> Similarly for other files too.
-> 
-> Provide a simple fix by replacing such occurrences with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+Fix a general protection fault reported by syzbot due to a race between
+gadget_setup() and gadget_unbind() in raw_gadget.
 
-Hello Aditya - Thank you for this fix. In the time it took me to review
-this patch, someone else submitted a series that fixed all W=1 warnings
-under fs/ecryptfs/:
+The gadget core is supposed to guarantee that there won't be any more
+callbacks to the gadget driver once the driver's unbind routine is
+called. That guarantee is enforced in usb_gadget_remove_driver as
+follows:
 
- https://lore.kernel.org/lkml/20210330164458.1625478-1-lee.jones@linaro.org/
+        usb_gadget_disconnect(udc->gadget);
+        if (udc->gadget->irq)
+                synchronize_irq(udc->gadget->irq);
+        udc->driver->unbind(udc->gadget);
+        usb_gadget_udc_stop(udc);
 
-I'm going to take Lee's series for simplicity's sake. Thank you again
-for taking time to submit your patch.
+usb_gadget_disconnect turns off the pullup resistor, telling the host
+that the gadget is no longer connected and preventing the transmission
+of any more USB packets. Any packets that have already been received
+are sure to processed by the UDC driver's interrupt handler by the time
+synchronize_irq returns.
 
-Tyler
+But this doesn't work with dummy_hcd, because dummy_hcd doesn't use
+interrupts; it uses a timer instead. It does have code to emulate the
+effect of synchronize_irq, but that code doesn't get invoked at the
+right time -- it currently runs in usb_gadget_udc_stop, after the unbind
+callback instead of before. Indeed, there's no way for
+usb_gadget_remove_driver to invoke this code before the unbind callback.
 
-> ---
-> * Applies perfectly on next-20210312
-> 
->  fs/ecryptfs/crypto.c          |  2 +-
->  fs/ecryptfs/debug.c           |  2 +-
->  fs/ecryptfs/dentry.c          |  2 +-
->  fs/ecryptfs/ecryptfs_kernel.h |  2 +-
->  fs/ecryptfs/file.c            |  2 +-
->  fs/ecryptfs/inode.c           |  2 +-
->  fs/ecryptfs/keystore.c        |  6 +++---
->  fs/ecryptfs/kthread.c         |  2 +-
->  fs/ecryptfs/main.c            | 10 +++++-----
->  fs/ecryptfs/messaging.c       |  2 +-
->  fs/ecryptfs/miscdev.c         |  2 +-
->  fs/ecryptfs/mmap.c            |  6 +++---
->  fs/ecryptfs/read_write.c      |  2 +-
->  fs/ecryptfs/super.c           |  2 +-
->  14 files changed, 22 insertions(+), 22 deletions(-)
-> 
-> diff --git a/fs/ecryptfs/crypto.c b/fs/ecryptfs/crypto.c
-> index 7671412b8f0b..48184ff65f90 100644
-> --- a/fs/ecryptfs/crypto.c
-> +++ b/fs/ecryptfs/crypto.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 1997-2004 Erez Zadok
-> diff --git a/fs/ecryptfs/debug.c b/fs/ecryptfs/debug.c
-> index 1f65e99f9a41..65702d7fc4b9 100644
-> --- a/fs/ecryptfs/debug.c
-> +++ b/fs/ecryptfs/debug.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   * Functions only useful for debugging.
->   *
-> diff --git a/fs/ecryptfs/dentry.c b/fs/ecryptfs/dentry.c
-> index 44606f079efb..acaa0825e9bb 100644
-> --- a/fs/ecryptfs/dentry.c
-> +++ b/fs/ecryptfs/dentry.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 1997-2003 Erez Zadok
-> diff --git a/fs/ecryptfs/ecryptfs_kernel.h b/fs/ecryptfs/ecryptfs_kernel.h
-> index 4a62a7dcc4f5..f8aa99e41c48 100644
-> --- a/fs/ecryptfs/ecryptfs_kernel.h
-> +++ b/fs/ecryptfs/ecryptfs_kernel.h
-> @@ -1,5 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0-or-later */
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   * Kernel declarations.
->   *
-> diff --git a/fs/ecryptfs/file.c b/fs/ecryptfs/file.c
-> index 5fb45d865ce5..2d8344774885 100644
-> --- a/fs/ecryptfs/file.c
-> +++ b/fs/ecryptfs/file.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 1997-2004 Erez Zadok
-> diff --git a/fs/ecryptfs/inode.c b/fs/ecryptfs/inode.c
-> index 18e9285fbb4c..541b46d76f89 100644
-> --- a/fs/ecryptfs/inode.c
-> +++ b/fs/ecryptfs/inode.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 1997-2004 Erez Zadok
-> diff --git a/fs/ecryptfs/keystore.c b/fs/ecryptfs/keystore.c
-> index 2abd219cfeec..475d939ff695 100644
-> --- a/fs/ecryptfs/keystore.c
-> +++ b/fs/ecryptfs/keystore.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   * In-kernel key management code.  Includes functions to parse and
->   * write authentication token-related packets with the underlying
-> @@ -21,7 +21,7 @@
->  #include <linux/slab.h>
->  #include "ecryptfs_kernel.h"
->  
-> -/**
-> +/*
->   * request_key returned an error instead of a valid key address;
->   * determine the type of error, make appropriate log entries, and
->   * return an error code.
-> @@ -576,7 +576,7 @@ ecryptfs_find_auth_tok_for_sig(
->  	return rc;
->  }
->  
-> -/**
-> +/*
->   * write_tag_70_packet can gobble a lot of stack space. We stuff most
->   * of the function's parameters in a kmalloc'd struct to help reduce
->   * eCryptfs' overall stack usage.
-> diff --git a/fs/ecryptfs/kthread.c b/fs/ecryptfs/kthread.c
-> index a7c903cb01a0..d1b1c3546972 100644
-> --- a/fs/ecryptfs/kthread.c
-> +++ b/fs/ecryptfs/kthread.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 2008 International Business Machines Corp.
-> diff --git a/fs/ecryptfs/main.c b/fs/ecryptfs/main.c
-> index cdf40a54a35d..9bc19a092917 100644
-> --- a/fs/ecryptfs/main.c
-> +++ b/fs/ecryptfs/main.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 1997-2003 Erez Zadok
-> @@ -24,7 +24,7 @@
->  #include <linux/magic.h>
->  #include "ecryptfs_kernel.h"
->  
-> -/**
-> +/*
->   * Module parameter that defines the ecryptfs_verbosity level.
->   */
->  int ecryptfs_verbosity = 0;
-> @@ -34,7 +34,7 @@ MODULE_PARM_DESC(ecryptfs_verbosity,
->  		 "Initial verbosity level (0 or 1; defaults to "
->  		 "0, which is Quiet)");
->  
-> -/**
-> +/*
->   * Module parameter that defines the number of message buffer elements
->   */
->  unsigned int ecryptfs_message_buf_len = ECRYPTFS_DEFAULT_MSG_CTX_ELEMS;
-> @@ -43,7 +43,7 @@ module_param(ecryptfs_message_buf_len, uint, 0);
->  MODULE_PARM_DESC(ecryptfs_message_buf_len,
->  		 "Number of message buffer elements");
->  
-> -/**
-> +/*
->   * Module parameter that defines the maximum guaranteed amount of time to wait
->   * for a response from ecryptfsd.  The actual sleep time will be, more than
->   * likely, a small amount greater than this specified value, but only less if
-> @@ -57,7 +57,7 @@ MODULE_PARM_DESC(ecryptfs_message_wait_timeout,
->  		 "sleep while waiting for a message response from "
->  		 "userspace");
->  
-> -/**
-> +/*
->   * Module parameter that is an estimate of the maximum number of users
->   * that will be concurrently using eCryptfs. Set this to the right
->   * value to balance performance and memory use.
-> diff --git a/fs/ecryptfs/messaging.c b/fs/ecryptfs/messaging.c
-> index c0dfd9647627..9f42fca7fc36 100644
-> --- a/fs/ecryptfs/messaging.c
-> +++ b/fs/ecryptfs/messaging.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-only
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 2004-2008 International Business Machines Corp.
-> diff --git a/fs/ecryptfs/miscdev.c b/fs/ecryptfs/miscdev.c
-> index 742ece22c1d4..7e741e36dfe7 100644
-> --- a/fs/ecryptfs/miscdev.c
-> +++ b/fs/ecryptfs/miscdev.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-only
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 2008 International Business Machines Corp.
-> diff --git a/fs/ecryptfs/mmap.c b/fs/ecryptfs/mmap.c
-> index 2f333a40ff4d..485f6c1e19b5 100644
-> --- a/fs/ecryptfs/mmap.c
-> +++ b/fs/ecryptfs/mmap.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   * This is where eCryptfs coordinates the symmetric encryption and
->   * decryption of the file data as it passes between the lower
-> @@ -78,7 +78,7 @@ static void strip_xattr_flag(char *page_virt,
->  	}
->  }
->  
-> -/**
-> +/*
->   *   Header Extent:
->   *     Octets 0-7:        Unencrypted file size (big-endian)
->   *     Octets 8-15:       eCryptfs special marker
-> @@ -229,7 +229,7 @@ static int ecryptfs_readpage(struct file *file, struct page *page)
->  	return rc;
->  }
->  
-> -/**
-> +/*
->   * Called with lower inode mutex held.
->   */
->  static int fill_zeros_to_end_of_page(struct page *page, unsigned int to)
-> diff --git a/fs/ecryptfs/read_write.c b/fs/ecryptfs/read_write.c
-> index 0438997ac9d8..384b383b4a48 100644
-> --- a/fs/ecryptfs/read_write.c
-> +++ b/fs/ecryptfs/read_write.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 2007 International Business Machines Corp.
-> diff --git a/fs/ecryptfs/super.c b/fs/ecryptfs/super.c
-> index 6b1853f1c06a..cc16d044165d 100644
-> --- a/fs/ecryptfs/super.c
-> +++ b/fs/ecryptfs/super.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
-> -/**
-> +/*
->   * eCryptfs: Linux filesystem encryption layer
->   *
->   * Copyright (C) 1997-2003 Erez Zadok
-> -- 
-> 2.17.1
-> 
+To fix this, move the synchronize_irq() emulation code to dummy_pullup
+so that it runs before unbind. Also, add a comment explaining why it is
+necessary to have it there.
+
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Reported-by: syzbot+eb4674092e6cc8d9e0bd@syzkaller.appspotmail.com
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+---
+
+Changes in v2:
+Improvements in the comment as suggested by Alan Stern.	
+
+v1: https://lore.kernel.org/lkml/20210417125212.6274-1-mail@anirudhrb.com/
+
+---
+ drivers/usb/gadget/udc/dummy_hcd.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+index ce24d4f28f2a..7db773c87379 100644
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -903,6 +903,21 @@ static int dummy_pullup(struct usb_gadget *_gadget, int value)
+ 	spin_lock_irqsave(&dum->lock, flags);
+ 	dum->pullup = (value != 0);
+ 	set_link_state(dum_hcd);
++	if (value == 0) {
++		/*
++		 * Emulate synchronize_irq(): wait for callbacks to finish.
++		 * This seems to be the best place to emulate the call to
++		 * synchronize_irq() that's in usb_gadget_remove_driver().
++		 * Doing it in dummy_udc_stop() would be too late since it
++		 * is called after the unbind callback and unbind shouldn't
++		 * be invoked until all the other callbacks are finished.
++		 */
++		while (dum->callback_usage > 0) {
++			spin_unlock_irqrestore(&dum->lock, flags);
++			usleep_range(1000, 2000);
++			spin_lock_irqsave(&dum->lock, flags);
++		}
++	}
+ 	spin_unlock_irqrestore(&dum->lock, flags);
+ 
+ 	usb_hcd_poll_rh_status(dummy_hcd_to_hcd(dum_hcd));
+@@ -1004,14 +1019,6 @@ static int dummy_udc_stop(struct usb_gadget *g)
+ 	spin_lock_irq(&dum->lock);
+ 	dum->ints_enabled = 0;
+ 	stop_activity(dum);
+-
+-	/* emulate synchronize_irq(): wait for callbacks to finish */
+-	while (dum->callback_usage > 0) {
+-		spin_unlock_irq(&dum->lock);
+-		usleep_range(1000, 2000);
+-		spin_lock_irq(&dum->lock);
+-	}
+-
+ 	dum->driver = NULL;
+ 	spin_unlock_irq(&dum->lock);
+ 
+-- 
+2.26.2
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
