@@ -1,168 +1,98 @@
-Return-Path: <SRS0=tx6I=JQ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=dyi2=JR=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B99C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 19 Apr 2021 16:58:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161DEC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Apr 2021 18:05:36 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4AD5961104
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 19 Apr 2021 16:58:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4AD5961104
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=hammerspace.com
+	by mail.kernel.org (Postfix) with ESMTPS id 786C6613D2
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Apr 2021 18:05:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 786C6613D2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 174416078F;
-	Mon, 19 Apr 2021 16:58:19 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1533F6088A;
+	Tue, 20 Apr 2021 18:05:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6i3SKVHbw0wl; Mon, 19 Apr 2021 16:58:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 78F7860608;
-	Mon, 19 Apr 2021 16:58:15 +0000 (UTC)
+	with ESMTP id hOSvzgUa2JmO; Tue, 20 Apr 2021 18:05:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2C02C6071D;
+	Tue, 20 Apr 2021 18:05:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 67562C000E;
-	Mon, 19 Apr 2021 16:58:15 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AECA7C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 146A9C000E;
+	Tue, 20 Apr 2021 18:05:32 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DCCEEC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Apr 2021 16:58:13 +0000 (UTC)
+ Tue, 20 Apr 2021 18:05:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8F8BD4038C
+ by smtp2.osuosl.org (Postfix) with ESMTP id BF6514024A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Apr 2021 16:58:13 +0000 (UTC)
+ Tue, 20 Apr 2021 18:05:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=hammerspace.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6mW6QlEniEdt
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CJd1y5zNXDXR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Apr 2021 16:58:08 +0000 (UTC)
+ Tue, 20 Apr 2021 18:05:29 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on20707.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe59::707])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E262440377
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 67A2B400CA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Apr 2021 16:58:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DBK+WsEXoseDJ+mbMf8H29+S1ysPC1ba4VmyL/HWpRciup0GfQNhYCwK/6J1sqZwwF6LWhG6/AZV8wGPU3xKh/L+pEReBRdlQHduHzjkWcNyVrUwoxTIawuhVUJKweOSfmZ+uihFzoP1h97/lTbTsC3jx7btWzS3xhOKfXr49ojmbz2XqRJKOIhzGBTAj12DIabTRctuokcj5ZAHqx3Lijxn4PX5ry55/H5D2df+3E0Dos8ayb/ugt21Fqldqo+dNbPJPahQGuI/xMERhFZLcb/WEOi0MolWzdMKM+grVFdaQB/6lZojSePFBZdQC1Q+gaKcJDlKcyR6Y6sY5c7fJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V3g5pyv/zx0VwlOZVX4Q+pAhGxYb+6xs3wOv3LAQ+xU=;
- b=MK8D0jN0FTfVKhJvUXDA+y14Dx6VwqSoBpWfSL5H2ZxiKS9Z35k659fuI9UN2dyO4nYq9w1HZU5kSeYvz2KlZFifWuKprLL1uLqcDAmZKd+8LxwN1eJq8wx48qP0d8YCVx3q0V3lpI0cDR/8OLQ4VcwfRz8x2CbkqvH89oUUyLCDYMRIQpPe0h/bAjjg/HKE4XpOOnT+w0Ie4WjNBDsbZqCP8fVPHA8YRwTW8y3HOwMrtdTSU0xTJhedfUTbf1wLFznfd3jHMEcs7srhVmIzrgA3bb9/z1HIggHxm0jewNVz68Jox0RMX8WbPw5VCbzAvYA6mZs3/MQwr5Ws00ePxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=hammerspace.com; dmarc=pass action=none
- header.from=hammerspace.com; dkim=pass header.d=hammerspace.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hammerspace.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V3g5pyv/zx0VwlOZVX4Q+pAhGxYb+6xs3wOv3LAQ+xU=;
- b=OeOX29PYXlQ8XfOQXyXjE4eWE3M3hx+Iimy6QAkvj6t6RkcumHzmePtVaP7y4ZtUtiT/2pjEHuJC0xVeEO1mDgYIE5qZhXfIJ1h2LdO1w+rKcxenEUMTxCd+Xx3D93JkC2W//3mczQKZE3DWdqOk+Z45yBlmNuhsrmpT1hQS/I8=
-Received: from DS7PR13MB4733.namprd13.prod.outlook.com (2603:10b6:5:3b1::24)
- by DM6PR13MB3274.namprd13.prod.outlook.com (2603:10b6:5:193::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4065.8; Mon, 19 Apr
- 2021 16:58:05 +0000
-Received: from DS7PR13MB4733.namprd13.prod.outlook.com
- ([fe80::f414:a9a:6686:f7e0]) by DS7PR13MB4733.namprd13.prod.outlook.com
- ([fe80::f414:a9a:6686:f7e0%4]) with mapi id 15.20.4065.019; Mon, 19 Apr 2021
- 16:58:05 +0000
-From: Trond Myklebust <trondmy@hammerspace.com>
-To: "bfields@fieldses.org" <bfields@fieldses.org>, "fuzzybritches0@gmail.com"
- <fuzzybritches0@gmail.com>, "skhan@linuxfoundation.org"
- <skhan@linuxfoundation.org>, "anna.schumaker@netapp.com"
- <anna.schumaker@netapp.com>, "davem@davemloft.net" <davem@davemloft.net>,
- "chuck.lever@oracle.com" <chuck.lever@oracle.com>, "kuba@kernel.org"
- <kuba@kernel.org>
-Subject: Re: [PATCH] net: sunrpc: xprt.c: fix shift-out-of-bounds in
- xprt_calc_majortimeo
-Thread-Topic: [PATCH] net: sunrpc: xprt.c: fix shift-out-of-bounds in
- xprt_calc_majortimeo
-Thread-Index: AQHXNTo9jFavk/To2EeOoe/7QqIJfaq8D94A
-Date: Mon, 19 Apr 2021 16:58:05 +0000
-Message-ID: <5850f8a65c59436b607c9d1ac088402d14873577.camel@hammerspace.com>
-References: <20210419163603.7-1-fuzzybritches0@gmail.com>
-In-Reply-To: <20210419163603.7-1-fuzzybritches0@gmail.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: fieldses.org; dkim=none (message not signed)
- header.d=none;fieldses.org; dmarc=none action=none
- header.from=hammerspace.com;
-x-originating-ip: [68.36.133.222]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2c17fb2a-112b-45c4-698b-08d903544d2f
-x-ms-traffictypediagnostic: DM6PR13MB3274:
-x-microsoft-antispam-prvs: <DM6PR13MB3274440C3DB7EFB4E5D78F30B8499@DM6PR13MB3274.namprd13.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:765;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fOwZ8Dtlrvqvzjopy1aLrQgbW5EOTlSNruLgVaI38ZIBGITqtt41J7A+7dTPGd2PYd2QPj+AU6NRFS/KyaGT6muPj01sgjbXf5br7YC+RADwsHcxupLm4KoXVqfaPbyZR3yk/IuhuF0H7PAozHwMmJWnQQ7mcAQqR/R+3lgch5XDvNrWnXOBYK5F+oL+yXoBXPoXxdYJvjds7CfY1xkTpSSLo4EYJio8AYONH1Hs628Uz+eVstX7/heBH+3UHjQFskOaxRUMoifBXIPYZoaDhNna/Mk2fpUNEbfbOVkv5XwPHRGj9KSI8iQbwWl4tbuv35m3iRjLTDFa7lHuFOqWXYyTfcn3OdeOmwy/+/pay6UCHSl8Rgy1uyfCxtk1f8eUhOFcJ3z6MEEG5mSyrHOly1vP8U04vA5/hEJUHSvBOUnPculkIxCFWCH9TT+CwR1VCCevF1JRJdW45g4G5UojSYGZNpi4U23GfztSULno0kW+1/reGUKOskbnTzU0AA7vZENI5iWsFb2d2+WamjyxfGFSoG/jFnbxd9+YYacJWfUtWwpjJKowFDwRvxAbfqxH6JxTACYi7R4Glp37pGrW6meOAIbutNprto9TFaqQki8=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR13MB4733.namprd13.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(136003)(366004)(39840400004)(346002)(396003)(6512007)(86362001)(36756003)(186003)(478600001)(6506007)(7416002)(316002)(26005)(54906003)(110136005)(38100700002)(4326008)(122000001)(71200400001)(83380400001)(2616005)(2906002)(8936002)(5660300002)(8676002)(66476007)(6486002)(66946007)(91956017)(76116006)(64756008)(66556008)(66446008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?SWNoaFBDUHY4U09mTXk1cXZxZFdrV0V5RmtEUGRYOVFMb0pqOURpaTFRd1ho?=
- =?utf-8?B?bkFZWGNNdVc1dGI0N1NQOFRoamRwYXVxMkpCdTFHQ3NFTHp1SUx4RERsQVVh?=
- =?utf-8?B?SEY3cXhFd29GQTYwV3NBZzFJUEdXSlB6TFNIMW52dkQvUWgyM243VWV1NjZ4?=
- =?utf-8?B?anJYaG9FM2U2Q2VRUlhpVFR2TE9tUHBZQnJEK3B3UEI5TS9MR1pNS2pOYTZX?=
- =?utf-8?B?N0RpZm1BRDZLNnVvNXo0aTVkLys4bzYwTC9JVHNERnhwMEZyMlRZaGYvTDhB?=
- =?utf-8?B?dURwbCtJUDMranlWc0QvQVIxUmZHNFZzVGg0cktJMlArcWVKMm9NNTZ0eCt3?=
- =?utf-8?B?MGlBd2lXdXM2WWgrWThjU3NPUld1WVNEM3IxdEljMU5iWVI3Qnh0K1VtTlNV?=
- =?utf-8?B?Q1dack1PVXJjWTBaNUxlZlcyUGxicUNUeGVuV0c1K3BqN1hBZjAzdW10T3lH?=
- =?utf-8?B?YUE0aTRMd2Q4eVlEZzREYWY5djFvMDk5MEhpcnBldHhUemZaaXJuajFoNlZs?=
- =?utf-8?B?MUd1ZWRKb2lrck8zVVFKYnVFQk0wekxSMnlBL0FoT1orY1VZeXZxVWJFSVlt?=
- =?utf-8?B?MlIva05jV3RjTGlJV3NRSldHbVNtNE8zdWc5bm1NUjkwajB3ZDZUZkZrdlV0?=
- =?utf-8?B?TlFBOUt3aHhWMjhOYTNPR3NZQnI0bjZSY3UzU1M4WGx3aDQ1NURObm9WMUpw?=
- =?utf-8?B?V0EvbTNzT0RkbldxWGdDbnpYWGt4YVJBamdxU2MyQU5YeGRmam1Bdi9QUDNr?=
- =?utf-8?B?S3J3UE9xLzVZc1BEUzRxL202YWVjbzBWSlZzQ1IxQ2tLT2IrMVVXd2VRTGwz?=
- =?utf-8?B?NkxKVmN5eE8reHNob0U2VnQ2SGdTUUJWSGg5ZkR5OE8xbkVQQkN0bVE4Y2kr?=
- =?utf-8?B?OWNmUVcrUDRRNCs2d2pVZmlXTnBKejd2VHRFbVcxRk4ycXl6S212cDlweTh5?=
- =?utf-8?B?QTcvaHo0QjRteWNybTBiQWtXNkFpbGRZSDM3T2FqZ3N6eWdrZzZtK1dDK0d0?=
- =?utf-8?B?SkFMc2xJQWpIM3dWMjE5cmdHZGVlQ0lNUGhINmtzbGVvOVNCcmxLZ3NiSzJn?=
- =?utf-8?B?a1VyR0wwTXZ0MWRocnptd040TVVsSlVlN045WDJoVUU5SnZPU29EQUFvRmVU?=
- =?utf-8?B?TGFIWEkxS1h0YU4xNlN0ODJlSFlaQTlrTk1jVmdqbEQwVEdtRWJvUTBocDJo?=
- =?utf-8?B?aGRvSExuOHBDV00rYW9kbTQxeThzUmx6ZFNrTmR5Uy9IVndic2NEMDNNVU1L?=
- =?utf-8?B?Mmh3OVp1ZWRPZzRJTVVmek8xQmE5N09kcTRwQjlXTEk5c2QybDhVcm80d2Z5?=
- =?utf-8?B?ZENNRmU4aHgxb2FSVzlkT0w3U1FBTWNlK3BkRGFsU2x1K1lZdUdXMnpiZ1J3?=
- =?utf-8?B?dkx4dnZiaWN3ak9sN1Y3NFpIbC9QemZUUFk3OVZEek14RGpwcHpIeXpBaUJ1?=
- =?utf-8?B?Q1Q3Zkh2RzNBTDhsT09ZYVpMRk9TeEtRaFQxMDdESWlLblJyMzRwVGo0NlRr?=
- =?utf-8?B?Y1NMNUptTUREY1NHdnJiUTdXL1VLNW9PZ053d3ZrcWgwSnRXMGhSQUlFVVc0?=
- =?utf-8?B?QWh5MnBZVE5tSlM0TnEwbG9kOFZ6UitjSDZlUmZTcXo3YzhCbEZHbXdmYmlm?=
- =?utf-8?B?WWJpREQ0QXJKUzJGWm80MURPcG5mamtZSUh1MmhycUlTdUR2eVArN0tsdjdl?=
- =?utf-8?B?ZVk5b08xZjlETUxqVVpYUDMvM0tXVGVVUTJtUVdHZGNXUDZRMzZEU2E3NU9S?=
- =?utf-8?Q?MRwY++/Jv8XyOMny6wjW2mveK7V3RLk91U7Ju5e?=
-x-ms-exchange-transport-forked: True
-Content-ID: <299834F6FE2E2C43883C741694F2B88F@namprd13.prod.outlook.com>
+ Tue, 20 Apr 2021 18:05:29 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ f6-20020a17090a6546b029015088cf4a1eso5050229pjs.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 20 Apr 2021 11:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+ bh=JA8qx0EbDvTtVFEz/kOy72b7rpmg3UOaKQCzUKfbJDY=;
+ b=TbVAb6bT3CbLpH3SQ1jafqX+cJkdPMvDlazZzcBgdVx6qC5OPrRWwrxGCkVbOyobhR
+ c2/DJzKtSlT+LHmqfa5OSbQyrAMLLBXTEtZw34UTKwqq7l0UovQxlrstXNsV3XulF5nU
+ UV7bxSis6NbPTuucYu/vnkqlnbFxWtzdzXOHQORYu22uvgHRaW93npL8AOm6+/9gPA0V
+ HLhsaXD0+AmGhfvqvJJ9qpJkQCjy2Pl+hVpP8dqypLL3AfKn84ybJtcUasM2Psuu74o0
+ tHdr8UHEev9cLQ56+ppyVL6vfGexVQBYsI8uuwM19SvAnG3HolEKL8kpt/zlAkGRux/l
+ B+aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=JA8qx0EbDvTtVFEz/kOy72b7rpmg3UOaKQCzUKfbJDY=;
+ b=cqY27iWboDaLsEr8uPReS5qAc5hZEWiMPxI9qFq9p4b8BQH7OUoxeq5N0v0/witIPU
+ +BC54+oBUZdHs5UyJVKejbMK75ZG7Bvrx3MryG4jSWjVnmy/CWEv/VJbi972b8Bk/J3S
+ M+zPGh9MZZ9CsiXcQCklotoERw/UXU7Sx9tLsiMQDEannMUc3xtvqyT6kYZU9wbgxzaD
+ pgBzk+Yvj/jfWyN9vfE6F2QNPrrm/PeZI9XeIv1Z/XRek1MXfGDKFwK54b1PBVrjhuWB
+ VUZUONk1of3MRUckY/eB5M8vSv64Cx+tzlNOhoBu3SnhGeJc7E9c6ZGSEqXakrOiSquN
+ d0Tg==
+X-Gm-Message-State: AOAM532M91bfMbeKEfQpQcPiQIUMVoIwym6OEulZ7nMOMGQ+HjaSRjBA
+ DoVgRVz05pKT/zNXCqUg+N4=
+X-Google-Smtp-Source: ABdhPJylmkMBKZM7KX5qKlnXCjZy9+dLKa+aKsB1tA8f+rnzubaDWEXPpcyIgql0VjpQkU1eR8t5Ew==
+X-Received: by 2002:a17:903:304b:b029:eb:4cf:8321 with SMTP id
+ u11-20020a170903304bb02900eb04cf8321mr30125875pla.40.1618941928776; 
+ Tue, 20 Apr 2021 11:05:28 -0700 (PDT)
+Received: from localhost ([122.172.230.93])
+ by smtp.gmail.com with ESMTPSA id a27sm3705045pfl.64.2021.04.20.11.05.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Apr 2021 11:05:28 -0700 (PDT)
+Date: Tue, 20 Apr 2021 23:35:25 +0530
+From: anupamakpatil123 <anupamakpatil123@gmail.com>
+To: kernelnewbies@kernelnewbies.org
+Subject: [QUERY]drivers: pnp: isapnp:proc.c: assignment inside if statement
+Message-ID: <20210420180525.m2fckb2iowrzo2c4@ubuntu>
 MIME-Version: 1.0
-X-OriginatorOrg: hammerspace.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR13MB4733.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c17fb2a-112b-45c4-698b-08d903544d2f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2021 16:58:05.5311 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0d4fed5c-3a70-46fe-9430-ece41741f59e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LIqlumy+CYoZFlb1Ok1VQ0eOJU2gIK/eCxuZXmCw4p8NYihoe7wm96NqQT+2+iBWiAbqitmx0lm9n3ZQgvhopg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR13MB3274
-Cc: "linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "syzbot+ba2e91df8f74809417fa@syzkaller.appspotmail.com"
- <syzbot+ba2e91df8f74809417fa@syzkaller.appspotmail.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
+Cc: bkkarthik@pesu.pes.edu, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -174,43 +104,72 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============3542524646321010595=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gTW9uLCAyMDIxLTA0LTE5IGF0IDE2OjM2ICswMDAwLCBLdXJ0IE1hbnVjcmVkbyB3cm90ZToN
-Cj4gRml4IHNoaWZ0LW91dC1vZi1ib3VuZHMgaW4geHBydF9jYWxjX21ham9ydGltZW8oKS4NCj4g
-DQo+IFVCU0FOOiBzaGlmdC1vdXQtb2YtYm91bmRzIGluIG5ldC9zdW5ycGMveHBydC5jOjY1ODox
-NA0KPiBzaGlmdCBleHBvbmVudCA1MzY4NzEyMzIgaXMgdG9vIGxhcmdlIGZvciA2NC1iaXQgdHlw
-ZSAnbG9uZyB1DQo+IA0KPiBSZXBvcnRlZC1ieTogc3l6Ym90K2JhMmU5MWRmOGY3NDgwOTQxN2Zh
-QHN5emthbGxlci5hcHBzcG90bWFpbC5jb20NCj4gU2lnbmVkLW9mZi1ieTogS3VydCBNYW51Y3Jl
-ZG8gPGZ1enp5YnJpdGNoZXMwQGdtYWlsLmNvbT4NCj4gLS0tDQo+IMKgbmV0L3N1bnJwYy94cHJ0
-LmMgfCA1ICsrKystDQo+IMKgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL25ldC9zdW5ycGMveHBydC5jIGIvbmV0L3N1bnJw
-Yy94cHJ0LmMNCj4gaW5kZXggNjkxY2NmODA0OWE0Li4wNzEyOGFjM2Q1MWQgMTAwNjQ0DQo+IC0t
-LSBhL25ldC9zdW5ycGMveHBydC5jDQo+ICsrKyBiL25ldC9zdW5ycGMveHBydC5jDQo+IEBAIC02
-NTUsNyArNjU1LDEwIEBAIHN0YXRpYyB1bnNpZ25lZCBsb25nIHhwcnRfY2FsY19tYWpvcnRpbWVv
-KHN0cnVjdA0KPiBycGNfcnFzdCAqcmVxKQ0KPiDCoMKgwqDCoMKgwqDCoMKgdW5zaWduZWQgbG9u
-ZyBtYWpvcnRpbWVvID0gcmVxLT5ycV90aW1lb3V0Ow0KPiDCoA0KPiDCoMKgwqDCoMKgwqDCoMKg
-aWYgKHRvLT50b19leHBvbmVudGlhbCkNCj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oG1ham9ydGltZW8gPDw9IHRvLT50b19yZXRyaWVzOw0KPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgaWYgKHRvLT50b19yZXRyaWVzID49IHNpemVvZihtYWpvcnRpbWVvKSAqIDgpDQo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWFqb3J0aW1l
-byA9IHRvLT50b19tYXh2YWw7DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBlbHNl
-DQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWFqb3J0
-aW1lbyA8PD0gdG8tPnRvX3JldHJpZXM7DQo+IMKgwqDCoMKgwqDCoMKgwqBlbHNlDQo+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgbWFqb3J0aW1lbyArPSB0by0+dG9faW5jcmVtZW50
-ICogdG8tPnRvX3JldHJpZXM7DQo+IMKgwqDCoMKgwqDCoMKgwqBpZiAobWFqb3J0aW1lbyA+IHRv
-LT50b19tYXh2YWwgfHwgbWFqb3J0aW1lbyA9PSAwKQ0KDQpJJ3ZlIGFscmVhZHkgc3RhdGVkIG9u
-IHRoZSBtYWlsaW5nIGxpc3QgdGhhdCBJJ20gbm90IGFjY2VwdGluZyBhbnkNCmNoYW5nZXMgdG8g
-eHBydF9jYWxjX21ham9ydGltZW8oKSBmb3IgdGhpcyBwcm9ibGVtLiBUaGVyZSBpcyBhIGZpeCB0
-bw0KdGhlIE5GUyBtb3VudCBjb2RlIHRoYXQgYWRkcmVzc2VzIHRoaXMgYm91bmRzIGlzc3VlLCBh
-bmQgdGhhdCBjb21taXQgaXMNCmFscmVhZHkgYmVpbmcgdGVzdGVkIGluIGxpbnV4LW5leHQuDQoN
-Ci0tIA0KVHJvbmQgTXlrbGVidXN0DQpMaW51eCBORlMgY2xpZW50IG1haW50YWluZXIsIEhhbW1l
-cnNwYWNlDQp0cm9uZC5teWtsZWJ1c3RAaGFtbWVyc3BhY2UuY29tDQoNCg0KX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMg
-bWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5v
-cmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
-dXgta2VybmVsLW1lbnRlZXMK
+
+--===============3542524646321010595==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="y53hp5xgijjigtte"
+Content-Disposition: inline
+
+
+--y53hp5xgijjigtte
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+This is a code snippet from line 63 of drivers: pnp: isapnp: proc.c
+This is an error I came across while looking through some checkpatch
+errors.
+
+if (!(de = bus->procdir)) {
+                sprintf(name, "%02x", bus->number);
+                de = bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
+                if (!de)
+                        return -ENOMEM;
+        }
+
+In the above code snippet is assignment inside the if statement
+necessary? Can the assignment be done outside the if statement as it is
+a good coding style practice?
+Is that change sufficient? I dont want to just shut checkpatch errors as I
+really want to improve the code.
+
+Thankyou for taking your time to go through this.
+
+Anupama K Patil
+
+--y53hp5xgijjigtte
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEDSQZGCDcREXgcOjQtGmOOZV75b4FAmB/F94ACgkQtGmOOZV7
+5b7MzwwAoFJ6Dc/WitRHTU4nCPS3iYARdimbGeTIo21JXyMQ0bfH4NIFiRe+PmIo
+o0oa/+nFrngz7by3DywNd9yAtuJAI7Nn2srqbmbSordvfDF8gL8pRGnSoKJYN7fJ
+GMWdKNy8VxpcdbNQ8csWAaYsWIwJmdzVVvegyqCFJsllhYNMcSjxZ7GG1Sjy/K4Y
+w2IvFbDqrJ1IXeSO7C5SBNfgCsH6h258LFCr9cVqYqv0/wjCAisvqqvmnvF9o37u
+mAcgbAcQxUbGljEwJ1d/oc5IGs6ndr/q0e6rX5s9jRD4Ab0Y7rsgcy7XhzfTlAF+
+JDu+RVX04LHvi7eoA7VsyQkREsHR7dyTGCNc6djft/p9eimOaCnlfw8UZYGT+PiC
+Uu93QV0n/ca3Mx623YS5dKqCOvK5+4aFM4GWS0xaWSzF2Ckh9CXulxN7Yyt5aIJS
+M5fVU1Uig5cSjfyAntGYOiL0qaGOKAdMyIHBn9tRm8ZxO0LbayS6fOmxp5CdhZuB
+DZfg6h7f
+=ee1y
+-----END PGP SIGNATURE-----
+
+--y53hp5xgijjigtte--
+
+--===============3542524646321010595==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============3542524646321010595==--
