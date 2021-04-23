@@ -3,105 +3,107 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC985C43460
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Apr 2021 20:56:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A6DC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Apr 2021 21:08:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C2F761075
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Apr 2021 20:56:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C2F761075
+	by mail.kernel.org (Postfix) with ESMTPS id 821EB613CB
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 23 Apr 2021 21:08:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 821EB613CB
 Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E877D6064F;
-	Fri, 23 Apr 2021 20:56:31 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 4E3CD4055D;
+	Fri, 23 Apr 2021 21:08:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gqjRj3hxfqjs; Fri, 23 Apr 2021 20:56:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DD847605EF;
-	Fri, 23 Apr 2021 20:56:30 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zONK1hRAQagB; Fri, 23 Apr 2021 21:08:08 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 419444055C;
+	Fri, 23 Apr 2021 21:08:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BDE94C000E;
-	Fri, 23 Apr 2021 20:56:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 28BACC000E;
+	Fri, 23 Apr 2021 21:08:08 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27904C000B
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AAF6BC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Apr 2021 20:56:30 +0000 (UTC)
+ Fri, 23 Apr 2021 21:08:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 086386064F
+ by smtp3.osuosl.org (Postfix) with ESMTP id 817FB6064F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Apr 2021 20:56:30 +0000 (UTC)
+ Fri, 23 Apr 2021 21:08:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oSyOV_67omcO
+ with ESMTP id E78E9Kb5q3Ps
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Apr 2021 20:56:28 +0000 (UTC)
+ Fri, 23 Apr 2021 21:08:05 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C5DA8605EF
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com
+ [IPv6:2607:f8b0:4864:20::c35])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BFFDB60603
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Apr 2021 20:56:28 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id h141so973188iof.2
+ Fri, 23 Apr 2021 21:08:05 +0000 (UTC)
+Received: by mail-oo1-xc35.google.com with SMTP id
+ e12-20020a056820060cb02901e94efc049dso6007023oow.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 23 Apr 2021 13:56:28 -0700 (PDT)
+ Fri, 23 Apr 2021 14:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linuxfoundation.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JwpEMfsFJcI5faK7sa42v6n59XW+1jdGvUyeeBhOqjo=;
- b=DRV0si9bOzUTGGgpFw81OQNtdjhTfuUuEd36od41RbPd0935mr0YEfMgMVBeBXwrgh
- Vr0p82y6/uujl53uFleN8IzDiDtQDnhNdTEET3ubWalfMmFxNQA/htqAllppkgTm2v1i
- 1QSZj65QwbqgtwdqPu6RzY98fiEpTxH3VMbdU=
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=A22TFll9Blm6PfGJntS755LasWSXUim+ApdH7q9KXpA=;
+ b=R5TEIv7r4kLuU5GuMWuxRcVR6NDvYx2skoH8US3RTsgU/Fbp/2PVhgI2qB1oIuefno
+ 7jxT4w0OVfBtyKsNLQx3nU/NuBSntlMycnPfjjUb59ce/gDpthHN9M7whlXmWdynzzV4
+ mE5U3vaTyTDVk98Qw56lnGFYnGuEwSIbthXUM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JwpEMfsFJcI5faK7sa42v6n59XW+1jdGvUyeeBhOqjo=;
- b=ea4fFIXmmJL5Cdek0OWIbyUSNByg3U1Xgmsl0o+C10/W2hiMpKpJ1/CCXf7WRuLiRs
- Kxq6Wli5GstF/C4KyTfhfru2fCk9jTnOZyKVbnAt0Wrg+BHQrbG2UhRt5rx2xL1+R9Mt
- +ycogDXaJSq40wg/xrJNnV3OXAno2VVCI8I0+CxcHNmkEmpjxbEMEdAQPq9peSiFMAxP
- 6WQsa8UR95aWMY2uZL8yWlkRafyw6CXh8I79BrvyKJ7ZiSA819GJxNH0C1p1CeVuYvJe
- rArzDyXwW3BxAh/GIfEnriFxyPwjU1QDasEzqCVZHQhXyo6405V6i8f+NP2QrATL56Us
- AD9w==
-X-Gm-Message-State: AOAM530/iWCQZqt76hOgXIOVYykwg2dT82TpxOZTStsrhCa/dJF2Px37
- Y+8PCI28AnEa+P/+2AFtr+4B4seu
-X-Google-Smtp-Source: ABdhPJwPFhOZfkLgpA2WhkYn60vEUYJlEOndpDA/3CaVxIsGBexe2up5WTxKUVSDSOyP3qIRUYCKIA==
-X-Received: by 2002:a02:a69a:: with SMTP id j26mr5343989jam.5.1619211387969;
- Fri, 23 Apr 2021 13:56:27 -0700 (PDT)
+ bh=A22TFll9Blm6PfGJntS755LasWSXUim+ApdH7q9KXpA=;
+ b=T1Nw+sM+AUXhUSp7sQ4F7hvFp8weLSSJc8+3S3Vr0QLbn4uRbMTLx4dql3UUYXBFzZ
+ 7FLY6GlL+1pkdEUiOp4OOlt8P6NzOzn+iMR7+zrD71C1EaNv0J5kvmeWikfamgAg+Tjz
+ bWMGr5lEgQH9toBdBL1JPb3oLqOZJgiAz6a5UIsOc46gC67R9GEUbl73Z6aVEweXSUe/
+ NJJCmC9n6FVqjAm1ib36NbfYvqv7cxGfu7oV0ByvRP0SNTQGqws1bPCX5Zt20A5RSSpX
+ HDfUXL14tm4hbOAS1yklKxxU3MXrURzq4OtbUGitPSjG6h+Yqzm8q2KCwYLNzSdDN24m
+ uVlw==
+X-Gm-Message-State: AOAM532Zez21MRt4uWBwV4FDekeuNbWU+w5GWI/LnztX1C84Pbos75MG
+ sWdWRv/RPPmAtM/mu5iyI5oFZ9Qu
+X-Google-Smtp-Source: ABdhPJzmW7K55h27yHhlG31k1T2j2EBi0KXXkEuGIYledi+3ZceYb0qhnae+2xECf/+H2U4zaV+zUA==
+X-Received: by 2002:a4a:2f09:: with SMTP id p9mr4337857oop.70.1619212084733;
+ Fri, 23 Apr 2021 14:08:04 -0700 (PDT)
 Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
  [24.9.64.241])
- by smtp.gmail.com with ESMTPSA id m8sm3056064ilc.13.2021.04.23.13.56.27
+ by smtp.gmail.com with ESMTPSA id r19sm1482819oie.58.2021.04.23.14.08.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Apr 2021 13:56:27 -0700 (PDT)
-Subject: Re: [PATCH] media: gspca: stv06xx: Fix memleak in stv06xx subdrivers
-To: Pavel Skripkin <paskripkin@gmail.com>, hverkuil-cisco@xs4all.nl
-References: <20210422160742.7166-1-atulgopinathan@gmail.com>
- <20210422215511.01489adb@gmail.com>
- <36f126fc-6a5e-a078-4cf0-c73d6795a111@linuxfoundation.org>
- <20210423234458.3f754de2@gmail.com>
+ Fri, 23 Apr 2021 14:08:04 -0700 (PDT)
+Subject: Re: [PATCH] drivers: pnp: proc.c: Removed unnecessary varibles
+To: Anupama K Patil <anupamakpatil123@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Adam <developer@arusty.dev>, bkkarthik@pesu.pes.edu,
+ gregkh@linuxfoundation.org, kernelnewbies@kernelnewbies.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20210422180322.7wlyg63kv3n2k6id@ubuntu>
 From: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <4c22cfa5-5702-6181-0f9a-d1d8d4041156@linuxfoundation.org>
-Date: Fri, 23 Apr 2021 14:56:26 -0600
+Message-ID: <ea09f455-a00f-a13d-29d8-e3f9790dba56@linuxfoundation.org>
+Date: Fri, 23 Apr 2021 15:08:03 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210423234458.3f754de2@gmail.com>
+In-Reply-To: <20210422180322.7wlyg63kv3n2k6id@ubuntu>
 Content-Language: en-US
-Cc: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Atul Gopinathan <atulgopinathan@gmail.com>, mchehab@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,117 +121,70 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 4/23/21 2:44 PM, Pavel Skripkin wrote:
-> Hi!
-> 
-> On Fri, 23 Apr 2021 14:19:15 -0600
-> Shuah Khan <skhan@linuxfoundation.org> wrote:
->> On 4/22/21 12:55 PM, Pavel Skripkin wrote:
->>> Hi!
->>>
->>> On Thu, 22 Apr 2021 21:37:42 +0530
->>> Atul Gopinathan <atulgopinathan@gmail.com> wrote:
->>>> During probing phase of a gspca driver in "gspca_dev_probe2()", the
->>>> stv06xx subdrivers have certain sensor variants (namely, hdcs_1x00,
->>>> hdcs_1020 and pb_0100) that allocate memory for their respective
->>>> sensor which is passed to the "sd->sensor_priv" field. During the
->>>> same probe routine, after "sensor_priv" allocation, there are
->>>> chances of later functions invoked to fail which result in the
->>>> probing routine to end immediately via "goto out" path. While
->>>> doing so, the memory allocated earlier for the sensor isn't taken
->>>> care of resulting in memory leak.
->>>>
->>>> Fix this by adding operations to the gspca, stv06xx and down to the
->>>> sensor levels to free this allocated memory during gspca probe
->>>> failure.
->>>>
->>>> -
->>>> The current level of hierarchy looks something like this:
->>>>
->>>> 	gspca (main driver) represented by struct gspca_dev
->>>> 	   |
->>>> ___________|_____________________________________
->>>> |	|	|	|	|		| (subdrivers)
->>>> 			|			  represented
->>>>    			stv06xx			  by
->>>> "struct sd" |
->>>>    	 _______________|_______________
->>>>    	 |	|	|	|	|  (sensors)
->>>> 	 	|			|
->>>>    		hdcs_1x00/1020		pb01000
->>>> 			|_________________|
->>>> 				|
->>>> 			These three sensor variants
->>>> 			allocate memory for
->>>> 			"sd->sensor_priv" field.
->>>>
->>>> Here, "struct gspca_dev" is the representation used in the top
->>>> level. In the sub-driver levels, "gspca_dev" pointer is cast to
->>>> "struct sd*", something like this:
->>>>
->>>> 	struct sd *sd = (struct sd *)gspca_dev;
->>>>
->>>> This is possible because the first field of "struct sd" is
->>>> "gspca_dev":
->>>>
->>>> 	struct sd {
->>>> 		struct gspca_dev;
->>>> 		.
->>>> 		.
->>>> 	}
->>>>
->>>> Therefore, to deallocate the "sd->sensor_priv" fields from
->>>> "gspca_dev_probe2()" which is at the top level, the patch creates
->>>> operations for the subdrivers and sensors to be invoked from the
->>>> gspca driver levels. These operations essentially free the
->>>> "sd->sensor_priv" which were allocated by the "config" and
->>>> "init_controls" operations in the case of stv06xx sub-drivers and
->>>> the sensor levels.
->>>>
->>>> This patch doesn't affect other sub-drivers or even sensors who
->>>> never allocate memory to "sensor_priv". It has also been tested by
->>>> syzbot and it returned an "OK" result.
->>>>
->>>> https://syzkaller.appspot.com/bug?id=ab69427f2911374e5f0b347d0d7795bfe384016c
->>>> -
->>>>
->>>> Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New
->>>> subdriver.") Cc: stable@vger.kernel.org
->>>> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
->>>> Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
->>>> Tested-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
->>>> Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
->>>
->>> AFAIK, something similar is already applied to linux-media tree
->>> https://git.linuxtv.org/media_tree.git/commit/?id=4f4e6644cd876c844cdb3bea2dd7051787d5ae25
->>>
->>
->> Pavel,
->>
->> Does the above handle the other drivers hdcs_1x00/1020 and pb01000?
->>
->> Atul's patch handles those cases. If thoese code paths need to be
->> fixes, Atul could do a patch on top of yours perhaps?
->>
->> thanks,
->> -- Shuah
->>
->>
-> 
-> It's not my patch. I've sent a patch sometime ago, but it was reject
-> by Mauro (we had a small discussion on linux-media mailing-list), then
-> Hans wrote the patch based on my leak discoverage.
+On 4/22/21 12:03 PM, Anupama K Patil wrote:
+> de, e are two variables of the type 'struct proc_dir_entry'
+> which can be removed to save memory. This also fixes a coding style
+> issue reported by checkpatch where we are suggested to make assignment
+> outside the if statement.
 > 
 
-Yes my bad. :)
+Sounds like a reasonable change.
 
-> I added Hans to CC, maybe, he will help :)
+> Signed-off-by: Anupama K Patil <anupamakpatil123@gmail.com>
+> ---
+>   drivers/pnp/isapnp/proc.c | 13 ++++++-------
+>   1 file changed, 6 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/pnp/isapnp/proc.c b/drivers/pnp/isapnp/proc.c
+> index 785a796430fa..1ae458c02656 100644
+> --- a/drivers/pnp/isapnp/proc.c
+> +++ b/drivers/pnp/isapnp/proc.c
+> @@ -57,21 +57,20 @@ static const struct proc_ops isapnp_proc_bus_proc_ops = {
+>   static int isapnp_proc_attach_device(struct pnp_dev *dev)
+>   {
+>   	struct pnp_card *bus = dev->card;
+> -	struct proc_dir_entry *de, *e;
+>   	char name[16];
+>   
+> -	if (!(de = bus->procdir)) {
+> +	if (!bus->procdir) {
+>   		sprintf(name, "%02x", bus->number);
+
+It would make sense to change this to scnprintf()
+
+> -		de = bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
+> -		if (!de)
+> +		bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
+> +		if (!bus->procdir)
+>   			return -ENOMEM;
+>   	}
+>   	sprintf(name, "%02x", dev->number);
+
+It would make sense to change this to scnprintf()
+
+> -	e = dev->procent = proc_create_data(name, S_IFREG | S_IRUGO, de,
+> +	dev->procent = proc_create_data(name, S_IFREG | S_IRUGO, bus->procdir,
+>   					    &isapnp_proc_bus_proc_ops, dev);
+> -	if (!e)
+> +	if (!dev->procent)
+>   		return -ENOMEM;
+
+Shouldn't the procdir be deleted when proc_create_data() fails?
+
+> -	proc_set_size(e, 256);
+> +	proc_set_size(dev->procent, 256);
+>   	return 0;
+>   }
+>   
 > 
 
-Will wait for Hans to take a look.
+Note that isapnp_proc_init() doesn't check isapnp_proc_attach_device()
+return and handle errors and cleanup.
 
 thanks,
 -- Shuah
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
