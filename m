@@ -1,91 +1,80 @@
-Return-Path: <SRS0=tbrM=JW=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=JFG5=JX=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C9AC43460
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Apr 2021 17:37:53 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7884FC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Apr 2021 04:57:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E4778610FA
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Apr 2021 17:37:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E4778610FA
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+	by mail.kernel.org (Postfix) with ESMTPS id 09D2161263
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Apr 2021 04:57:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09D2161263
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9699F605BF;
-	Sun, 25 Apr 2021 17:37:52 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id BD9D6403D0;
+	Mon, 26 Apr 2021 04:57:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0UeLJSIyBE-n; Sun, 25 Apr 2021 17:37:51 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mRpGXvO4PdqN; Mon, 26 Apr 2021 04:57:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9309960592;
-	Sun, 25 Apr 2021 17:37:51 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 90F29403CE;
+	Mon, 26 Apr 2021 04:57:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6DE6DC000E;
-	Sun, 25 Apr 2021 17:37:51 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9222FC000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 714A7C000F;
+	Mon, 26 Apr 2021 04:57:08 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E30D1C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Apr 2021 17:37:50 +0000 (UTC)
+ Mon, 26 Apr 2021 04:57:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 76FC9403A1
+ by smtp4.osuosl.org (Postfix) with ESMTP id BBBCC403CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Apr 2021 17:37:50 +0000 (UTC)
+ Mon, 26 Apr 2021 04:57:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=anirudhrb.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cKM3tCt7v-8b
+ with ESMTP id 3xzULa6SJnKn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Apr 2021 17:37:49 +0000 (UTC)
+ Mon, 26 Apr 2021 04:57:06 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 997B440394
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 4DE30403CE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Apr 2021 17:37:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1619372265; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=fywXrVS5FDz6iU2UMI38X0Fikxn98aH2GUygN9jtSMHGaQcRFey+e8nCvWZRYNSfrcC0DgH3afaGzw/PdOTJXUCjWDPj9+UhJOnq2OMBgSpU7fpz8j2kdn6DAMoVFAaJsiVBaXKEWKMmv1XVJWiX8vci4rSqCQI5+OAZZdOAud0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619372265;
- h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=k/EGKXFAZVuJOd2JkD/RJjW4fi/tHKJRxr2RkqQG2Do=; 
- b=UXRWi7MJ3YF0d33lLIIRegelrktSJhhi6qRGWm7+xK1UPeAQaKZS7mIgkiLBaW/PKi5gTFauYgeBHbSK7xaMX2Km7RFZpxBm3eiHsxame0qkyN87MyoLxGh9pQU2Dh6YaibJsUzM7VOikhFO8FT7cHW3uoKiPnejzYG+k7inKRo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1619372265; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
- bh=k/EGKXFAZVuJOd2JkD/RJjW4fi/tHKJRxr2RkqQG2Do=;
- b=MQeLg+DkcwiBucf3gKN4zHpugUU+ZfFm44TS+mQL0Ckm9C+2cPNv025i49WXlwxK
- 3L26ZXqb5K88mqgNN50g0ViwD+JvHD/ag1O3xll0MiVaVg7VqdpcPAURcz3ajZD2aqI
- VovkqqKulT0PClkW/qRPhWaVTULat/J7gvlMG3Jw=
-Received: from localhost.localdomain (49.207.208.26 [49.207.208.26]) by
- mx.zohomail.com with SMTPS id 1619372262325930.7778518171191;
- Sun, 25 Apr 2021 10:37:42 -0700 (PDT)
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Jiri Kosina <jikos@kernel.org>,
- Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH] usbhid: fix info leak in hid_submit_ctrl
-Date: Sun, 25 Apr 2021 23:03:53 +0530
-Message-Id: <20210425173353.10231-1-mail@anirudhrb.com>
-X-Mailer: git-send-email 2.26.2
+ Mon, 26 Apr 2021 04:57:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E3C861360;
+ Mon, 26 Apr 2021 04:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1619413025;
+ bh=oF5wTcVUbe3ITjsBTum2WMqyBNYZSs4s3HRFniDzF6I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gI1tY4u0dkEsqk7lL/9IJ+cSkvkBf7k+buPby21z5W+FJ88Et37I0dl4f3EPUDuY2
+ yUbkiFZeXThhswjtaYrhM3GhJZuhODBqpQ33pGgjIWsnRWU6BB0jDXATgA+ks7Rk/Q
+ Pk6P+qxevkaCaY5eUpvP5PHH/RAtH2v+1pUqDXJ9ncyXzDS8dAG0V8UXyVscg6iblp
+ Ed28Bx219ANuJYhPvfmhHL3V+WOU8tHXD4YwNmsBBKJSK/7r4WPO4YtPvjLmVi/G6k
+ uTd7IDE1oVNhReVEKp/m8xpI7v30iRsQRMcsVimJOmXHSJGhQ1iMRvYlKPJAcknDRi
+ HMlgwGB1eeCyA==
+Date: Mon, 26 Apr 2021 07:57:01 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH] drivers: pnp: proc.c: Removed unnecessary varibles
+Message-ID: <YIZIHR0ZQPXFkOH1@unreal>
+References: <20210422180322.7wlyg63kv3n2k6id@ubuntu>
+ <ea09f455-a00f-a13d-29d8-e3f9790dba56@linuxfoundation.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
- linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <ea09f455-a00f-a13d-29d8-e3f9790dba56@linuxfoundation.org>
+Cc: kernelnewbies@kernelnewbies.org,
+ Anupama K Patil <anupamakpatil123@gmail.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, bkkarthik@pesu.pes.edu,
+ linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+ linux-acpi@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,53 +92,84 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In hid_submit_ctrl(), the way of calculating the report length doesn't
-take into account that report->size can be zero. When running the
-syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
-calculate transfer_buffer_length as 16384. When this urb is passed to
-the usb core layer, KMSAN reports an info leak of 16384 bytes.
+On Fri, Apr 23, 2021 at 03:08:03PM -0600, Shuah Khan wrote:
+> On 4/22/21 12:03 PM, Anupama K Patil wrote:
+> > de, e are two variables of the type 'struct proc_dir_entry'
+> > which can be removed to save memory. This also fixes a coding style
+> > issue reported by checkpatch where we are suggested to make assignment
+> > outside the if statement.
+> > 
+> 
+> Sounds like a reasonable change.
 
-To fix this, first modify hid_report_len() to account for the zero
-report size case by using DIV_ROUND_UP for the division. Then, call it
-from hid_submit_ctrl().
+It is unclear how much changes to ISA code are welcomed.
+According to the Wikipedia, even Windows Vista disabled ISA PnP by default.
+https://en.wikipedia.org/wiki/Legacy_Plug_and_Play#Specifications
 
-Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
----
- drivers/hid/usbhid/hid-core.c | 2 +-
- include/linux/hid.h           | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+> 
+> > Signed-off-by: Anupama K Patil <anupamakpatil123@gmail.com>
+> > ---
+> >   drivers/pnp/isapnp/proc.c | 13 ++++++-------
+> >   1 file changed, 6 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/pnp/isapnp/proc.c b/drivers/pnp/isapnp/proc.c
+> > index 785a796430fa..1ae458c02656 100644
+> > --- a/drivers/pnp/isapnp/proc.c
+> > +++ b/drivers/pnp/isapnp/proc.c
+> > @@ -57,21 +57,20 @@ static const struct proc_ops isapnp_proc_bus_proc_ops = {
+> >   static int isapnp_proc_attach_device(struct pnp_dev *dev)
+> >   {
+> >   	struct pnp_card *bus = dev->card;
+> > -	struct proc_dir_entry *de, *e;
+> >   	char name[16];
+> > -	if (!(de = bus->procdir)) {
+> > +	if (!bus->procdir) {
+> >   		sprintf(name, "%02x", bus->number);
+> 
+> It would make sense to change this to scnprintf()
+> 
+> > -		de = bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
+> > -		if (!de)
+> > +		bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
+> > +		if (!bus->procdir)
+> >   			return -ENOMEM;
+> >   	}
+> >   	sprintf(name, "%02x", dev->number);
+> 
+> It would make sense to change this to scnprintf()
+> 
+> > -	e = dev->procent = proc_create_data(name, S_IFREG | S_IRUGO, de,
+> > +	dev->procent = proc_create_data(name, S_IFREG | S_IRUGO, bus->procdir,
+> >   					    &isapnp_proc_bus_proc_ops, dev);
+> > -	if (!e)
+> > +	if (!dev->procent)
+> >   		return -ENOMEM;
+> 
+> Shouldn't the procdir be deleted when proc_create_data() fails?
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 86257ce6d619..4e9077363c96 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -374,7 +374,7 @@ static int hid_submit_ctrl(struct hid_device *hid)
- 	raw_report = usbhid->ctrl[usbhid->ctrltail].raw_report;
- 	dir = usbhid->ctrl[usbhid->ctrltail].dir;
- 
--	len = ((report->size - 1) >> 3) + 1 + (report->id > 0);
-+	len = hid_report_len(report);
- 	if (dir == USB_DIR_OUT) {
- 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
- 		usbhid->urbctrl->transfer_buffer_length = len;
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 271021e20a3f..10e922cee4eb 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1167,8 +1167,7 @@ static inline void hid_hw_wait(struct hid_device *hdev)
-  */
- static inline u32 hid_report_len(struct hid_report *report)
- {
--	/* equivalent to DIV_ROUND_UP(report->size, 8) + !!(report->id > 0) */
--	return ((report->size - 1) >> 3) + 1 + (report->id > 0);
-+	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
- }
- 
- int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
--- 
-2.26.2
+It needs but only if proc_mkdir() was called in this function.
 
+Thanks
+
+> 
+> > -	proc_set_size(e, 256);
+> > +	proc_set_size(dev->procent, 256);
+> >   	return 0;
+> >   }
+> > 
+> 
+> Note that isapnp_proc_init() doesn't check isapnp_proc_attach_device()
+> return and handle errors and cleanup.
+> 
+> thanks,
+> -- Shuah
+> 
+> 
+> 
+> _______________________________________________
+> Kernelnewbies mailing list
+> Kernelnewbies@kernelnewbies.org
+> https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
