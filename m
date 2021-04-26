@@ -2,79 +2,94 @@ Return-Path: <SRS0=JFG5=JX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7884FC433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Apr 2021 04:57:10 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30286C433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Apr 2021 07:12:19 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09D2161263
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Apr 2021 04:57:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09D2161263
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id A64E6611BD
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Apr 2021 07:12:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A64E6611BD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BD9D6403D0;
-	Mon, 26 Apr 2021 04:57:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 59EBC83841;
+	Mon, 26 Apr 2021 07:12:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mRpGXvO4PdqN; Mon, 26 Apr 2021 04:57:08 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TJrnK45YcJKy; Mon, 26 Apr 2021 07:12:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 90F29403CE;
-	Mon, 26 Apr 2021 04:57:08 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4620C8380B;
+	Mon, 26 Apr 2021 07:12:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 714A7C000F;
-	Mon, 26 Apr 2021 04:57:08 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E30D1C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EF4BC000E;
+	Mon, 26 Apr 2021 07:12:17 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B570FC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Apr 2021 04:57:07 +0000 (UTC)
+ Mon, 26 Apr 2021 07:12:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id BBBCC403CF
+ by smtp4.osuosl.org (Postfix) with ESMTP id A8ECC403B1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Apr 2021 04:57:07 +0000 (UTC)
+ Mon, 26 Apr 2021 07:12:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3xzULa6SJnKn
+ with ESMTP id IkP2476SA2ij
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Apr 2021 04:57:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4DE30403CE
+ Mon, 26 Apr 2021 07:12:15 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
+ [IPv6:2607:f8b0:4864:20::12d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5A66E403A9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Apr 2021 04:57:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9E3C861360;
- Mon, 26 Apr 2021 04:57:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619413025;
- bh=oF5wTcVUbe3ITjsBTum2WMqyBNYZSs4s3HRFniDzF6I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gI1tY4u0dkEsqk7lL/9IJ+cSkvkBf7k+buPby21z5W+FJ88Et37I0dl4f3EPUDuY2
- yUbkiFZeXThhswjtaYrhM3GhJZuhODBqpQ33pGgjIWsnRWU6BB0jDXATgA+ks7Rk/Q
- Pk6P+qxevkaCaY5eUpvP5PHH/RAtH2v+1pUqDXJ9ncyXzDS8dAG0V8UXyVscg6iblp
- Ed28Bx219ANuJYhPvfmhHL3V+WOU8tHXD4YwNmsBBKJSK/7r4WPO4YtPvjLmVi/G6k
- uTd7IDE1oVNhReVEKp/m8xpI7v30iRsQRMcsVimJOmXHSJGhQ1iMRvYlKPJAcknDRi
- HMlgwGB1eeCyA==
-Date: Mon, 26 Apr 2021 07:57:01 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] drivers: pnp: proc.c: Removed unnecessary varibles
-Message-ID: <YIZIHR0ZQPXFkOH1@unreal>
-References: <20210422180322.7wlyg63kv3n2k6id@ubuntu>
- <ea09f455-a00f-a13d-29d8-e3f9790dba56@linuxfoundation.org>
+ Mon, 26 Apr 2021 07:12:15 +0000 (UTC)
+Received: by mail-il1-x12d.google.com with SMTP id l19so5251797ilk.13
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Apr 2021 00:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XJ5pyb6o9I5gG/9qmNTuM5GvBFjd6lzYEIaCMKT0FRg=;
+ b=ZoBz5RDew+rReH2NujB0fYJ8jUhHg3Qs7EDdtNtU5/RQ+yD86RAWnQq0M/1Ip4nyGO
+ sKToGiZ9XvLTIWVVKAXVyfPxa2w7TYttOIJWDQCTgAGvujP01R9JtJER4EzzME8EFEMm
+ 7P8TxTtlmohaPqyIEXa7QdV+hK9H4da2WMuqpzA4YnlU4FbEOvqKOofh++E4hyHCc0vC
+ aZ9TGFo2quR768mpXEaEkSX5EU3ZjiqJBukLYqmPayXkLqBO60aWwRAHAp6nULgDfn/N
+ 2GYKX6CerFk01Aoqm30ynNqThgRHEpdR8LJpztuGILzoPnWSZdPdncNCp+q6nvRTzBzC
+ IJvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XJ5pyb6o9I5gG/9qmNTuM5GvBFjd6lzYEIaCMKT0FRg=;
+ b=bydzF75AKJuamhLw22uzNnROUW38jmrxk8VxYy36G7ojt5rHxTxDzHl9fOEoJgUN+n
+ oM6s2MfN4EBknf7DZRyi8RO88cbDHhALalqM85s8gFRDs92juegW0QWP6zu1EQEIjbsD
+ vwY5s7G8ugHyOpMqlSgclLBFwTVufE++GDABWtOfaTY3b9FXoMw94FwhsOHFlwT8dxQn
+ Iem5UPzm0YwAg5+R2e2TIiowGJdX2mKByI+FbW3P4irzT109xZH2/Vq3dzB/pExRE0sG
+ PZp3DgpkymWlpXNqAbuD/Z3Srwnvdr1zJ9hRZTYdbS/D2Ke4UDzJNewtWHrhSDfl5xaq
+ 9Y/Q==
+X-Gm-Message-State: AOAM5305nf47m3C1PbSBLHprlLZ/7cabuGUGRf7AFD8BeHzgRBpQ7O8e
+ Tz9znoqhvYNFWD5QGwKHdrEHk0UmntjT7QURzRU=
+X-Google-Smtp-Source: ABdhPJz0FXr+CEReLaJFUW6fP+yZLAti+jXXbdCe7jJEXmEFistSES/0uXjaO+HVECaKBNCj0yCWbE1V3bxIqkit/h4=
+X-Received: by 2002:a05:6e02:1c83:: with SMTP id
+ w3mr12720982ill.125.1619421134317; 
+ Mon, 26 Apr 2021 00:12:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ea09f455-a00f-a13d-29d8-e3f9790dba56@linuxfoundation.org>
-Cc: kernelnewbies@kernelnewbies.org,
- Anupama K Patil <anupamakpatil123@gmail.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, bkkarthik@pesu.pes.edu,
- linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
- linux-acpi@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <MN2PR02MB631763A2B44549BBC9A8939DA5479@MN2PR02MB6317.namprd02.prod.outlook.com>
+In-Reply-To: <MN2PR02MB631763A2B44549BBC9A8939DA5479@MN2PR02MB6317.namprd02.prod.outlook.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 26 Apr 2021 09:12:03 +0200
+Message-ID: <CAKXUXMxJRthAWVsDR+m7OsJ_2O0UMv7SOLoAPE=spgSGZ741Eg@mail.gmail.com>
+Subject: Re: LFX Mentorship summer intership
+To: "Wang, Haizhou" <hjw5074@psu.edu>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,84 +107,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Apr 23, 2021 at 03:08:03PM -0600, Shuah Khan wrote:
-> On 4/22/21 12:03 PM, Anupama K Patil wrote:
-> > de, e are two variables of the type 'struct proc_dir_entry'
-> > which can be removed to save memory. This also fixes a coding style
-> > issue reported by checkpatch where we are suggested to make assignment
-> > outside the if statement.
-> > 
-> 
-> Sounds like a reasonable change.
+Haizhou,
 
-It is unclear how much changes to ISA code are welcomed.
-According to the Wikipedia, even Windows Vista disabled ISA PnP by default.
-https://en.wikipedia.org/wiki/Legacy_Plug_and_Play#Specifications
+please register on the LFX mentorship site
+(https://mentorship.lfx.linuxfoundation.org/project/8f69e012-08d0-4e2b-baa7-9143b5f98823)
+for this project and provide all required information there.
 
-> 
-> > Signed-off-by: Anupama K Patil <anupamakpatil123@gmail.com>
-> > ---
-> >   drivers/pnp/isapnp/proc.c | 13 ++++++-------
-> >   1 file changed, 6 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/pnp/isapnp/proc.c b/drivers/pnp/isapnp/proc.c
-> > index 785a796430fa..1ae458c02656 100644
-> > --- a/drivers/pnp/isapnp/proc.c
-> > +++ b/drivers/pnp/isapnp/proc.c
-> > @@ -57,21 +57,20 @@ static const struct proc_ops isapnp_proc_bus_proc_ops = {
-> >   static int isapnp_proc_attach_device(struct pnp_dev *dev)
-> >   {
-> >   	struct pnp_card *bus = dev->card;
-> > -	struct proc_dir_entry *de, *e;
-> >   	char name[16];
-> > -	if (!(de = bus->procdir)) {
-> > +	if (!bus->procdir) {
-> >   		sprintf(name, "%02x", bus->number);
-> 
-> It would make sense to change this to scnprintf()
-> 
-> > -		de = bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
-> > -		if (!de)
-> > +		bus->procdir = proc_mkdir(name, isapnp_proc_bus_dir);
-> > +		if (!bus->procdir)
-> >   			return -ENOMEM;
-> >   	}
-> >   	sprintf(name, "%02x", dev->number);
-> 
-> It would make sense to change this to scnprintf()
-> 
-> > -	e = dev->procent = proc_create_data(name, S_IFREG | S_IRUGO, de,
-> > +	dev->procent = proc_create_data(name, S_IFREG | S_IRUGO, bus->procdir,
-> >   					    &isapnp_proc_bus_proc_ops, dev);
-> > -	if (!e)
-> > +	if (!dev->procent)
-> >   		return -ENOMEM;
-> 
-> Shouldn't the procdir be deleted when proc_create_data() fails?
+Then subscribe to the linux-kernel-mentees mailing list (see CC), our
+main channel for communication, and send an email with the following
+subject and message in plain-text (not HTML):
 
-It needs but only if proc_mkdir() was called in this function.
+subject: [Mining for Maintainers] Interest in Mentorship: <your name>
+message:
 
-Thanks
-
-> 
-> > -	proc_set_size(e, 256);
-> > +	proc_set_size(dev->procent, 256);
-> >   	return 0;
-> >   }
-> > 
-> 
-> Note that isapnp_proc_init() doesn't check isapnp_proc_attach_device()
-> return and handle errors and cleanup.
-> 
-> thanks,
-> -- Shuah
-> 
-> 
-> 
-> _______________________________________________
-> Kernelnewbies mailing list
-> Kernelnewbies@kernelnewbies.org
-> https://lists.kernelnewbies.org/mailman/listinfo/kernelnewbies
+Lukas, I am interested in the mentorship Mining for Maintainers.
+Please provide me with the required technical tasks for the mentee
+selection.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
