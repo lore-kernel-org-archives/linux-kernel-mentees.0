@@ -2,88 +2,83 @@ Return-Path: <SRS0=0WDs=JY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34837C43460
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 04:19:05 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56988C43460
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 15:55:41 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AAC6A610FC
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 04:19:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AAC6A610FC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id C070961164
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 15:55:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C070961164
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 65297403A3;
-	Tue, 27 Apr 2021 04:19:04 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7DFF86074E;
+	Tue, 27 Apr 2021 15:55:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Wg2ZO3MwOREU; Tue, 27 Apr 2021 04:19:03 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Fg23aDA6oisF; Tue, 27 Apr 2021 15:55:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3A7A7403A2;
-	Tue, 27 Apr 2021 04:19:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4BA3360623;
+	Tue, 27 Apr 2021 15:55:39 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1571BC000F;
-	Tue, 27 Apr 2021 04:19:03 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B3C5AC000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35D0BC000F;
+	Tue, 27 Apr 2021 15:55:39 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 756CFC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 04:19:01 +0000 (UTC)
+ Tue, 27 Apr 2021 15:55:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9AEF183BF2
+ by smtp1.osuosl.org (Postfix) with ESMTP id 64A2283C09
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 04:19:01 +0000 (UTC)
+ Tue, 27 Apr 2021 15:55:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
+ dkim=pass (2048-bit key) header.d=lwn.net
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jYaxMKDemgYb
+ with ESMTP id Yd0sfgFUeBp5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 04:19:00 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7274083BD5
+ Tue, 27 Apr 2021 15:55:37 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3546183BE3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 04:19:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F5376101B;
- Tue, 27 Apr 2021 04:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1619497139;
- bh=phUkD5R4YFn2qjCnUc+u7gzmJYeDBiXnaqgZgTqXPYM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=U0J2hDcxul1U/sSEqJyjFGSLmz4KOQbE8gfSaGI18Dsu+tWFV3A9oSKYQq/g08wwq
- 0YEDnkRNRrdNfcSY0Py71mjqODV6OoaO/mjrbcjWGFZg4mYYGS/omLN1CNyKfKqkjv
- uGhbjeWIZ9s5mj0/wtDt6COtTQtlpztKZJQ/P3gHtPtoF0vJcZ0b7C+Th3M6eSAd0K
- TDqcQWC9bC54/gCPteSYDfGoOYU5ZJgaNHf4hUmRC/uHZhjv458JeS6jTdSu0vaQA2
- dAZf1Ms17hHhduEpVPV4CiuRF380KA44g3eEdRKH96J84x1jg2yK9fvZFNycnDgIDU
- NX/5cY3ofz1Kg==
-Date: Tue, 27 Apr 2021 07:18:55 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: bkkarthik <bkkarthik@pesu.pes.edu>
-Subject: Re: [PATCH] drivers: pnp: proc.c: Removed unnecessary varibles
-Message-ID: <YIeQrwnAYMh2SV3g@unreal>
-References: <20210422180322.7wlyg63kv3n2k6id@ubuntu>
- <ea09f455-a00f-a13d-29d8-e3f9790dba56@linuxfoundation.org>
- <YIZIHR0ZQPXFkOH1@unreal>
- <CAJZ5v0gRv-1qYiN8EXx12iOiJvX7ORzqQfHvtWDnZLtpg6Aijg@mail.gmail.com>
- <YIa3H6kGFXiqWRtg@unreal>
- <20210426175254.g63l272o4hnagcs2@burgerking>
+ Tue, 27 Apr 2021 15:55:37 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id C23512C8;
+ Tue, 27 Apr 2021 15:55:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C23512C8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1619538935; bh=o0JR5xJhMHegHhsx1/RCkGISK0OfDmkdQm+nmJlYYiU=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=i0qZkdCkut82stVUYAQuy+zbaQU5wGaL9a4PWRuFz2DC0IMgpL3ae6v4jCjMPA1oY
+ 3Pu8nJVcb/Kr/vcVIaU1WvbrkpYDOGll+aL4RqyBpO8HdBOfaLgdv4jOceSgYfJC5o
+ wf54MEB2dfteHtyol9sgXOGBnE0ekpfsLNZGFT7eX/goaLAfMvF8T6DjVqnb9jiNn0
+ hEMrnQ/pxnwK1pKg000wcFhAUQ6Umzhd8yIlIBW8Fow6H1zm0D8NanemaLZSzUAgtx
+ rwVKW+GEIKjvLj1w5mZfG4SWjrx1sjnXUdHl9zRVoe1tvCMpfMq5aP9iKF6DLyeEwl
+ VZM6lhDxjS8Cg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aditya Srivastava <yashsri421@gmail.com>
+Subject: Re: [RFC v2] scripts: kernel-doc: reduce repeated regex expressions
+ into variables
+In-Reply-To: <20210424124731.29905-1-yashsri421@gmail.com>
+References: <6f76ddcb-7076-4c91-9c4c-995002c4cb91@gmail.com>
+ <20210424124731.29905-1-yashsri421@gmail.com>
+Date: Tue, 27 Apr 2021 09:55:35 -0600
+Message-ID: <87wnsnd8nc.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210426175254.g63l272o4hnagcs2@burgerking>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Anupama K Patil <anupamakpatil123@gmail.com>,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jaroslav Kysela <perex@perex.cz>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- kernelnewbies@kernelnewbies.org
+Cc: linux-doc@vger.kernel.org, yashsri421@gmail.com,
+ linux-kernel@vger.kernel.org, willy@infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,28 +96,210 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Apr 26, 2021 at 11:22:54PM +0530, bkkarthik wrote:
-> On 21/04/26 03:50PM, Leon Romanovsky wrote:
-> > On Mon, Apr 26, 2021 at 02:00:58PM +0200, Rafael J. Wysocki wrote:
-> > > On Mon, Apr 26, 2021 at 6:57 AM Leon Romanovsky <leon@kernel.org> wrote:
-> > > >
-> > > > On Fri, Apr 23, 2021 at 03:08:03PM -0600, Shuah Khan wrote:
-> > > > > On 4/22/21 12:03 PM, Anupama K Patil wrote:
-> > > > > > de, e are two variables of the type 'struct proc_dir_entry'
-> > > > > > which can be removed to save memory. This also fixes a coding style
-> > > > > > issue reported by checkpatch where we are suggested to make assignment
-> > > > > > outside the if statement.
-> > > > > >
-> > > > >
-> > > > > Sounds like a reasonable change.
-> > > >
-> > > > It is unclear how much changes to ISA code are welcomed.
-> 
-> If changes to ISA code aren't welcomed, should these be marked obsolete in the MAINTIANERS file?
+Aditya Srivastava <yashsri421@gmail.com> writes:
 
-I think so, but think that "Odd Fixes" better describes that Rafael wrote.
+> There are some regex expressions in the kernel-doc script, which are used
+> repeatedly in the script.
+>
+> Reduce such expressions into variables, which can be used everywhere.
+>
+> A quick manual check found that no errors and warnings were added/removed
+> in this process.
+>
+> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-Thanks
+So my comments pretty much mirror Willy's ...  there is a lot to really
+like here mixed with some stuff that's not as helpful.
+
+> Changes in v2:
+> - Rename $pointer_function to $function_pointer
+> - Combine elsif-block expressions at "sub dump_function" into lesser regex expressions
+> - Combine $prototype_end1,$prototype_end2 expressions into a common $prototype_end
+>
+>  scripts/kernel-doc | 80 +++++++++++++++++++++++-----------------------
+>  1 file changed, 40 insertions(+), 40 deletions(-)
+>
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 2a85d34fdcd0..fe7f51be44e0 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -406,6 +406,7 @@ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
+>  my $doc_inline_end = '^\s*\*/\s*$';
+>  my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
+>  my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
+> +my $function_pointer = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
+>  
+>  my %parameterdescs;
+>  my %parameterdesc_start_lines;
+> @@ -694,7 +695,7 @@ sub output_function_man(%) {
+>  	    $post = ");";
+>  	}
+>  	$type = $args{'parametertypes'}{$parameter};
+> -	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
+> +	if ($type =~ m/$function_pointer/) {
+
+This kind of change is wonderful.  The more that we can coalesce this
+regex mess and reuse it throughout the script, the more maintainable it
+will be.
+
+>  	    # pointer-to-function
+>  	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
+>  	} else {
+> @@ -974,7 +975,7 @@ sub output_function_rst(%) {
+>  	$count++;
+>  	$type = $args{'parametertypes'}{$parameter};
+>  
+> -	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
+> +	if ($type =~ m/$function_pointer/) {
+>  	    # pointer-to-function
+>  	    print $1 . $parameter . ") (" . $2 . ")";
+>  	} else {
+> @@ -1210,8 +1211,14 @@ sub dump_struct($$) {
+>      my $decl_type;
+>      my $members;
+>      my $type = qr{struct|union};
+> +    my $packed = qr{__packed};
+> +    my $aligned = qr{__aligned};
+> +    my $cacheline_aligned_in_smp = qr{____cacheline_aligned_in_smp};
+> +    my $cacheline_aligned = qr{____cacheline_aligned};
+> +    my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
+>      # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
+> -    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
+> +    my $definition_body = qr{\{(.*)\}(?:\s*(?:$packed|$aligned|$cacheline_aligned_in_smp|$cacheline_aligned|$attribute))*};
+> +    my $struct_members = qr{($type)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;};
+
+This is a bit less helpful - variables like $aligned don't do much for
+us.  That can be seen just below:
+
+>  
+>      if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
+>  	$decl_type = $1;
+> @@ -1235,27 +1242,27 @@ sub dump_struct($$) {
+>  	# strip comments:
+>  	$members =~ s/\/\*.*?\*\///gos;
+>  	# strip attributes
+> -	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
+> -	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
+> -	$members =~ s/\s*__packed\s*/ /gos;
+> +	$members =~ s/\s*$attribute/ /gi;
+> +	$members =~ s/\s*$aligned\s*\([^;]*\)/ /gos;
+> +	$members =~ s/\s*$packed\s*/ /gos;
+
+The use of the variables here doesn't really make those expressions more
+readable.  
+
+>  	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+> -	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
+> -	$members =~ s/\s*____cacheline_aligned/ /gos;
+> +	$members =~ s/\s*$cacheline_aligned_in_smp/ /gos;
+> +	$members =~ s/\s*$cacheline_aligned/ /gos;
+>  
+> +	my $args = qr{([^,)]+)};
+>  	# replace DECLARE_BITMAP
+>  	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
+> -	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+> +	$members =~ s/DECLARE_BITMAP\s*\($args,\s*$args\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+
+Here too ... this is the kind of stuff that makes me glad that Colorado
+is a legal-weed state, and the new version, while better, doesn't change
+that basic fact.
+
+>  	# replace DECLARE_HASHTABLE
+> -	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
+> +	$members =~ s/DECLARE_HASHTABLE\s*\($args,\s*$args\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
+>  	# replace DECLARE_KFIFO
+> -	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+> +	$members =~ s/DECLARE_KFIFO\s*\($args,\s*$args,\s*$args\)/$2 \*$1/gos;
+>  	# replace DECLARE_KFIFO_PTR
+> -	$members =~ s/DECLARE_KFIFO_PTR\s*\(([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+> -
+> +	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
+>  	my $declaration = $members;
+>  
+>  	# Split nested struct/union elements as newer ones
+> -	while ($members =~ m/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/) {
+> +	while ($members =~ m/$struct_members/) {
+
+...but this is great.
+
+>  		my $newmember;
+>  		my $maintype = $1;
+>  		my $ids = $4;
+> @@ -1315,7 +1322,7 @@ sub dump_struct($$) {
+>  				}
+>  			}
+>  		}
+> -		$members =~ s/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/$newmember/;
+> +		$members =~ s/$struct_members/$newmember/;
+>  	}
+>  
+>  	# Ignore other nested elements, like enums
+> @@ -1555,8 +1562,9 @@ sub create_parameterlist($$$$) {
+>      my $param;
+>  
+>      # temporarily replace commas inside function pointer definition
+> -    while ($args =~ /(\([^\),]+),/) {
+> -	$args =~ s/(\([^\),]+),/$1#/g;
+> +    my $arg_expr = qr{\([^\),]+};
+> +    while ($args =~ /$arg_expr,/) {
+> +	$args =~ s/($arg_expr),/$1#/g;
+>      }
+>  
+>      foreach my $arg (split($splitter, $args)) {
+> @@ -1808,8 +1816,14 @@ sub dump_function($$) {
+>      # - parport_register_device (function pointer parameters)
+>      # - atomic_set (macro)
+>      # - pci_match_device, __copy_to_user (long return type)
+> -
+> -    if ($define && $prototype =~ m/^()([a-zA-Z0-9_~:]+)\s+/) {
+> +    my $name = qr{[a-zA-Z0-9_~:]+};
+> +    my $prototype_end1 = qr{[^\(]*};
+> +    my $prototype_end2 = qr{[^\{]*};
+> +    my $prototype_end = qr{\(($prototype_end1|$prototype_end2)\)};
+> +    my $type1 = qr{[\w\s]+};
+> +    my $type2 = qr{$type1\*+};
+> +
+> +    if ($define && $prototype =~ m/^()($name)\s+/) {
+>          # This is an object-like macro, it has no return type and no parameter
+>          # list.
+>          # Function-like macros are not allowed to have spaces between
+> @@ -1817,23 +1831,9 @@ sub dump_function($$) {
+>          $return_type = $1;
+>          $declaration_name = $2;
+>          $noret = 1;
+> -    } elsif ($prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+> -	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+> -	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
+> +    } elsif ($prototype =~ m/^()($name)\s*$prototype_end/ ||
+> +	$prototype =~ m/^($type1)\s+($name)\s*$prototype_end/ ||
+> +	$prototype =~ m/^($type2)+\s*($name)\s*$prototype_end/)  {
+
+It's hard not to be happy about something like that - this is a definite
+step toward clarifying this code.
+
+I think I'll stop here; hopefully I've gotten my point across.  I really
+like where this work is heading; focusing just a bit more on pulling the
+regexes together and making the whole thing more readable would be
+wonderful.
+
+Thanks,
+
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
