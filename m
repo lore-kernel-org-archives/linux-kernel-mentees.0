@@ -5,100 +5,121 @@ X-Spam-Level:
 X-Spam-Status: No, score=-2.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCF5C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 20:32:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39163C433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 20:50:28 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3B167613B0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 20:32:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3B167613B0
+	by mail.kernel.org (Postfix) with ESMTPS id B7E2261006
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 27 Apr 2021 20:50:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7E2261006
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F20F6405D9;
-	Tue, 27 Apr 2021 20:32:10 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8285D405DF;
+	Tue, 27 Apr 2021 20:50:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tZXCLO5HfxRu; Tue, 27 Apr 2021 20:32:10 +0000 (UTC)
+	with ESMTP id CZD1cQ7M4GKQ; Tue, 27 Apr 2021 20:50:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DE653404CC;
-	Tue, 27 Apr 2021 20:32:09 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8B2CB4039F;
+	Tue, 27 Apr 2021 20:50:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BE679C001C;
-	Tue, 27 Apr 2021 20:32:09 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7C0A1C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 66854C001C;
+	Tue, 27 Apr 2021 20:50:25 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 48B4AC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 20:32:08 +0000 (UTC)
+ Tue, 27 Apr 2021 20:50:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5B2EC40599
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2A57783CE4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 20:32:08 +0000 (UTC)
+ Tue, 27 Apr 2021 20:50:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IEpcUmREbJyQ
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id uGZ-A7UsqHtM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 20:32:07 +0000 (UTC)
+ Tue, 27 Apr 2021 20:50:23 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
- [IPv6:2a00:1450:4864:20::22a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id BFEA1404CC
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
+ [IPv6:2607:f8b0:4864:20::435])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 190B583CA6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 20:32:06 +0000 (UTC)
-Received: by mail-lj1-x22a.google.com with SMTP id o5so36617287ljc.1
+ Tue, 27 Apr 2021 20:50:22 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id c19so6326486pfv.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 27 Apr 2021 13:32:06 -0700 (PDT)
+ Tue, 27 Apr 2021 13:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=NPV8KzD4Id7fO8Ex+2dMRwWfRxbvKPR4uEdbJrm/80s=;
- b=WQ2mGzScEBypXLbBKg2h71WNtB9nX0hYPKLpF5JJPobZ44UiotRYVflDB2voLRHtEf
- feJ3xQK2w9ZTU1QEst0bV3bH8iW3R7O4uGFR5MKCww3B2fBs1Qb3gcJZ9Ez9/kEH0MNT
- e7vssvcySyilsWi0L1H3YvIkchXuC6l7VuCZ0U3Xr0o6CaS8yoGK0jyzaqkQlFTIrLt6
- AuX/0y+hLo9OawYNvTS4npqqGHETJNp5qpyWe5K5BiJdqdcGbuFK376Vf7JpcFh54Kc6
- 96V5wnXW+/+QO48/zku0tiZt1kIAnCU+BVmUpXKIaJI+8S53T1bOr3doCS+rel9Mo7Rt
- 0JmA==
+ h=to:from:subject:autocrypt:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=MqJ2Fsu2qxzU2KA4WKTMaAjQSbNm6eWwnwOWW+FZ2U4=;
+ b=JZ3Ip3EOQmRMQsyKwGv21Q2gbo1VkBX+VKVto/0bcZvEcqvfWmuX+zePKo9FVwBDdu
+ QCaJrZsvWZ6p+FIlY71gWgmJx7N9spCkwpRIh6Sr/cRyN1Fx/a+5NcRRYMIRnrMXYBK5
+ dFZjzMC3Qe1+qp6b/AckDS1hRAHCu9nirpi21j2gIw75XtZYOQvlveeOQtj0tdoCKnff
+ p+2UeXZc3eOuYNlDC4D641Ork3pLfvunZ4VEwdjDT5bJJRbQFmpAREdC5/mal1022j26
+ sBZ//w+JgpnNvzN7uIu66YgYOCjfJxk9ZkBwVP1KY1HFGfm6rp+AHLjrTsGUg5k27Hun
+ 5lTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=NPV8KzD4Id7fO8Ex+2dMRwWfRxbvKPR4uEdbJrm/80s=;
- b=Z4t9i96fP/z3hLnr1NcwAMMIS+lpzEpK3NbxgUVVuj3k6czmKnOrDghJMuvjT+cIvN
- JK4+oA6XN0BQcFlA+hCaPMTgClBDNgXiEHIXtfDnvVFo4YI3m171X4Haauh/crLwcmDV
- h87xc9cB6KisDXLhUDAFyN+hPThg3OyIfiGZtDHmIj+T8BAKxhcL7ekfz+NcLZ7LDkG1
- 2kjMe3ZTo5DH7ReaYkiwU6L8iIW1AVUsITwGoJ+IpxdHqVIzQ4tktLRmjI3Qu+Rxz+SW
- YEnpevx++U6dinUIjuW2eh+k+IdjpqMIq8t7mxbdTBcsW/eyOEV2xWhoixAmdGnaA73r
- 4+GA==
-X-Gm-Message-State: AOAM532sAdScdEdJSYElmXxPdnNNluPwLHWioZQWscxAn99tFc1q+PQ4
- nYnIS1R/O82nOGrTyi+GoT8=
-X-Google-Smtp-Source: ABdhPJzlnWg2aN0Ty4wspe9+UY+WC1+2Chwr/dGECElPQbRLvbOxyuLSbEcInQ2dZ+FqyEdXEXDCDw==
-X-Received: by 2002:a05:651c:105c:: with SMTP id
- x28mr18805943ljm.474.1619555524697; 
- Tue, 27 Apr 2021 13:32:04 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.229.147])
- by smtp.gmail.com with ESMTPSA id j17sm195882lfm.263.2021.04.27.13.32.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Apr 2021 13:32:04 -0700 (PDT)
-Date: Tue, 27 Apr 2021 23:32:02 +0300
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: Esme Xuan Lim <esmethedev@gmail.com>
-Subject: Re: kernel-debugging discord channel
-Message-ID: <20210427233202.32ceea03@gmail.com>
-In-Reply-To: <SL2PR01MB258670B9EECCC0B85DF52D88A1419@SL2PR01MB2586.apcprd01.prod.exchangelabs.com>
-References: <CACT4Y+YC0SRFC=AEzj7cte7zCL_X1U941T25Yia5hpncrJxTcg@mail.gmail.com>
- <SL2PR01MB258670B9EECCC0B85DF52D88A1419@SL2PR01MB2586.apcprd01.prod.exchangelabs.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-suse-linux-gnu)
+ h=x-gm-message-state:to:from:subject:autocrypt:message-id:date
+ :user-agent:mime-version:content-transfer-encoding:content-language;
+ bh=MqJ2Fsu2qxzU2KA4WKTMaAjQSbNm6eWwnwOWW+FZ2U4=;
+ b=brHKjTvhzGLrctpR9xTbijY3exkCf1iATA57UXRWc8evr3YsfPvLMcotDlpvQUHJKt
+ d+glHEr8+19ZiuLR4NpR1UYzW8XMXl7TO2m/YzDvUWOmcDBx5n6ixX9rDMhJsSZA3ox8
+ myedNfgwFUEl+Rg3yQuUUTZmAh+9hN4K/pnXOfCP/fUGCnXvWxzjVkPzqWEv1sgw6JXM
+ bDxLCprpmlrqQ4iutYh7RsLZNYwlG7phmZc3wMwQ5MlF87bF6g0dQNojkztJGWdJ8Ils
+ 1aSR0Pn1NSmjBlPRqBiKkEo9iPp8tTkvhW3HNT+9vFnK/tY62bVAMPGht6oXk7do6QQS
+ 8jTQ==
+X-Gm-Message-State: AOAM533NBDpDZwUU6wkd6Mri1mFrrZwmyHRYCCQ80KaYQFdkan+dX94K
+ OYxwZFOhe/UImm6PnH+3NLU=
+X-Google-Smtp-Source: ABdhPJwksyI7MlJKwNTLJMmb9PXstjt0ZsXoznGh06Mq3l4VzDzv9kviJH2paBY2Rranm7Xz0tncdQ==
+X-Received: by 2002:a62:7ace:0:b029:25e:fcfc:4873 with SMTP id
+ v197-20020a627ace0000b029025efcfc4873mr24810625pfc.4.1619556622541; 
+ Tue, 27 Apr 2021 13:50:22 -0700 (PDT)
+Received: from [192.168.0.12] ([101.127.227.182])
+ by smtp.gmail.com with ESMTPSA id b1sm560754pgf.84.2021.04.27.13.50.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Apr 2021 13:50:21 -0700 (PDT)
+To: linux-kernel-mentees@lists.linuxfoundation.org, syzkaller@googlegroups.com
+From: Esme Xuan Lim <esmethedev@gmail.com>
+Subject: Starting a Wiki for Syzkaller Bug Fixing Resources
+Autocrypt: addr=esmethedev@gmail.com; keydata=
+ mQENBF80GGEBCACx2XC87vwwQ50OMDHkUyTq7GBG6hcDMfqplONHcUowFicsI8H02WFmJWJh
+ nwT+lCimt2s4+zGsAOnJInQsHJwqU0rnYgt/MLuTbv3N3bmMHwx/lGrhP97DukVwKLItaIFI
+ PO6kN0/amfT/O1nmTlcg+OvTU4duiBJCdDQHkxUkxU9WJaWjLhIcPAUhpKMoT1CGoxWyzOQC
+ cwA8dCaHtNGDi5ko9HvF5A4X4t6gEc7qthW4nW5+pZTmqU2C11lh3CRAxLPTZb4unlSQUeLO
+ ZgVo4qcU+hKYeRF9rchgt3qc8ZdN3VDwzwS7nnzj7Jfnw9Zi2L0idw626Vi5YJKpxKyJABEB
+ AAG0N0VzbWUgWHVhbiBMaW0gKFVidW50dSBMYXVuY2hwYWQpIDxlc21ldGhlZGV2QGdtYWls
+ LmNvbT6JAU4EEwEKADgWIQSSVkpJyy7emC6Yxf1P5w0EpsndNwUCXzQYYQIbAwULCQgHAgYV
+ CgkICwIEFgIDAQIeAQIXgAAKCRBP5w0EpsndN70PB/47m+NJ6XFOkCb4zFo/8+C3T7ZbbNX8
+ /W/h8Z3Zm/zyPra9kYm3JaWCKrJfFDbp6iuw80C+dX2n665L22xgvxLQlZ0i+APa/LXuNzoh
+ OJ9VWiXquCUCdkX6KzeTM/aDIHlgUH71/8c6nTSkbfn5xRdEdD7tcj+WNCBIIfWvg4BGrt5L
+ HVeZ6wg0SydhQIhHrTxQjYeJrU0SVH2c9ic4lKx/KnPVDUYsxDpue9a+nLz6UUNZIYkR84LQ
+ 9KlxvLBWZM5Nst5MW4ti2LeUjilTgZSuv1ybAW30FGCds+/pctQhNW7Ns/wV53OR6LI8gyyI
+ SMePqKIPdeG5bAk0YitlMpTBuQENBF80GGEBCADF7iD1ito1ssFWaljnA33ODkTjYbMxPblS
+ zH4s3qxj40GpK+DVs2p+deYkl2sMGFypHVCA2OyiBbB3y7d3PJBGbqaAYERUGBam66DXiyLm
+ Mf96LdsxGA1YuBYAWni1ZSC4OjKu2KMUu3GYN/Ad8WSgUx9CVspgh0WAn8FJR3xm0HIBn178
+ VQTC3fbCzpHT+yGx8wwG8SZ1apWq4EG6Gh1pdXJSOEuYf+wROjQ01/2f0JFaD2WcArfvOrUO
+ ejnoYDlnHkjdPdFp6RX5PHM10Sv7qBw7riSBugSAhlna4wTvTbNrYtnD4dki7gMz3OmrLVsN
+ yNqD7nZsUN32biOEzh3VABEBAAGJATYEGAEKACAWIQSSVkpJyy7emC6Yxf1P5w0EpsndNwUC
+ XzQYYQIbDAAKCRBP5w0EpsndNwCxCACTMYmmIhy195/BNIDuUtNuPN7EQaSFaZcHaatfNTVR
+ VsnyW7rHtzKde8/HPrsFaiaZEz6BbUxa3Nb45QJtwX7ZhZHhdlY7YLYTd7Ztbl5pdItaBg3U
+ E5d1/eoQaC4mtWV4t2Pg3tqYT5ZT4MKTL7j9hAqQ1RjwutKEYKBqMaINdYfVOuSygX81GwK5
+ cUsYQFKHSFufwwxEjim39AMAaZLdGDRY0SL6QSnMhHfjMe0FvT0XDdr+tY6g1VVhqsHpXKpC
+ cstEFgKQBahJlSCWRJDGZ31U6iVPy4lFARt8gfLFxo9iV2VU0XZ8uVnMPJBekTmCuskdpBG7
+ C3sYFlv6BVYL
+Message-ID: <e486aee7-993c-e50f-f14f-aac7f701b752@gmail.com>
+Date: Wed, 28 Apr 2021 04:50:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Cc: Vegard Nossum <vegard.nossum@gmail.com>,
- syzkaller <syzkaller@googlegroups.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- Dmitry Vyukov <dvyukov@google.com>
+Content-Language: en-US
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,38 +131,45 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-SGkhCgpPbiBUdWUsIDI3IEFwciAyMDIxIDIwOjMwOjQ2ICswMDAwCkVzbWUgWHVhbiBMaW0gPGVz
-bWV0aGVkZXZAZ21haWwuY29tPiB3cm90ZToKPiBIaSBEbWl0cnksCj4gCj4gVGhhbmtzIGZvciBz
-ZXR0aW5nIHRoaXMgdXAhCj4gCj4gVGhlIGxpbmsgZG9lc27igJl0IHNlZW0gdG8gYmUgd29ya2lu
-ZyB0aG91Z2ggOiggSSB0aGluayB3ZSBtaWdodCBuZWVkCj4gYW4gaW52aXRlIGxpbmsgbm90IGEg
-Y2hhbm5lbCBsaW5rCj4gCgpodHRwczovL2Rpc2NvcmQuY29tL2ludml0ZS93d0dQYUFVdGttCgpG
-b3VuZCBvbiB0d2l0dGVyIDopCgpXaXRoIHJlZ2FyZHMsClBhdmVsIFNrcmlwa2luCgoKPiBUaGFu
-a3MKPiBFc21lCj4gCj4gR2V0IE91dGxvb2sgZm9yIGlPUzxodHRwczovL2FrYS5tcy9vMHVrZWY+
-Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBGcm9tOiBMaW51eC1rZXJuZWwt
-bWVudGVlcwo+IDxsaW51eC1rZXJuZWwtbWVudGVlcy1ib3VuY2VzQGxpc3RzLmxpbnV4Zm91bmRh
-dGlvbi5vcmc+IG9uIGJlaGFsZiBvZgo+IERtaXRyeSBWeXVrb3YgdmlhIExpbnV4LWtlcm5lbC1t
-ZW50ZWVzCj4gPGxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmc+
-IFNlbnQ6IFdlZG5lc2RheSwKPiBBcHJpbCAyOCwgMjAyMSA0OjE5OjU3IEFNIFRvOiBzeXprYWxs
-ZXIgPHN5emthbGxlckBnb29nbGVncm91cHMuY29tPjsKPiBsaW51eC1rZXJuZWwtbWVudGVlc0Bs
-aXN0cy5saW51eGZvdW5kYXRpb24ub3JnCj4gPGxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxp
-bnV4Zm91bmRhdGlvbi5vcmc+IENjOiBWZWdhcmQgTm9zc3VtCj4gPHZlZ2FyZC5ub3NzdW1AZ21h
-aWwuY29tPiBTdWJqZWN0OiBrZXJuZWwtZGVidWdnaW5nIGRpc2NvcmQgY2hhbm5lbAo+IAo+IEZZ
-SSwgVmVnYXJkIGNyZWF0ZWQgYSBrZXJuZWwtZGVidWdnaW5nIGRpc2NvcmQgY2hhbm5lbCwgZGVk
-aWNhdGVkIGluCj4gcGFydGljdWxhciB0byBkZWJ1Z2dpbmcvZml4aW5nIG9mIHN5emJvdCBidWdz
-Ogo+IGh0dHBzOi8vZGlzY29yZC5jb20vY2hhbm5lbHMvODM1OTE1NzU2NjYyOTQ3ODcwLzgzNjEw
-Nzc4NDI1MjY4NjM1Ngo+IEl0IGV2ZW4gaGFzIHN5emJvdC1mZWVkIHdpdGggbm90aWNhdGlvbnMg
-YWJvdXQgbmV3IHN5emJvdCBidWdzIQo+IGh0dHBzOi8vdHdpdHRlci5jb20vdmVnYXJkX25vL3N0
-YXR1cy8xMzg2Mzc0Mzc4MzY0MDE0NTk5Cj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18KPiBMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKPiBM
-aW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCj4gaHR0cHM6Ly9s
-aXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1l
-bnRlZXMKPiAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18K
-TGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxp
-c3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+Hi there,
+
+Having been on the bug fixing mentorship, I've been collating a bunch of
+resources that helped me as I was going. I've been thinking that there
+might be a big gap in resources in where interns might be looking and
+was keen on trying to put one together. Given the current conversation
+Greg has brought up about syzkaller bugs needing more attention, I
+figured this could help fix it if interns are the only ones available
+for this task.
+
+I think it'd help the kernel mentees current and future sink their teeth
+quicker into fixing bugs, and less into helping themselves learn what is
+needed. This appears to be a big gap that would really help if it were
+filled. Resources are heavily abundant for the Linux kernel, but a good
+level of curation and maintained resources could help with bug fixing.
+Resources look old, but are incredibly insightful. I would have skipped
+looking at these resources given my experience with more modern
+frameworks and toolkits (which is that it would be best to avoid
+outdated ones as APIs change very quickly - but this is not the case
+with the kernel)
+
+I've got links and things but I've been wondering if it made sense to
+build on the Kernel Mentees or to build a wiki (and host it) on
+something more modern like github.
+
+I'd love to hear suggestions for how best to go about this, and if
+anyone would like to contribute to it too.
+
+Thanks,
+Esme
+
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
