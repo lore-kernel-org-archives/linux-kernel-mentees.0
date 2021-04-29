@@ -1,95 +1,105 @@
-Return-Path: <SRS0=jYeA=JZ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=Wcf1=J2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2846C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Apr 2021 14:21:53 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE418C433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Apr 2021 06:37:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4EF3861139
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Apr 2021 14:21:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4EF3861139
+	by mail.kernel.org (Postfix) with ESMTPS id 3A11D61446
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Apr 2021 06:37:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A11D61446
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CF6CE60B9E;
-	Wed, 28 Apr 2021 14:21:52 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id D15B041946;
+	Thu, 29 Apr 2021 06:37:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M_3bZPOqSzLb; Wed, 28 Apr 2021 14:21:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A4A9E60673;
-	Wed, 28 Apr 2021 14:21:51 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id A9l9GMT014fY; Thu, 29 Apr 2021 06:37:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6469D41942;
+	Thu, 29 Apr 2021 06:37:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8200BC0022;
-	Wed, 28 Apr 2021 14:21:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32A90C000F;
+	Thu, 29 Apr 2021 06:37:43 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13692C0001
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9605CC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Apr 2021 14:21:50 +0000 (UTC)
+ Thu, 29 Apr 2021 06:37:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 020D260A52
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6E60660A89
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Apr 2021 14:21:50 +0000 (UTC)
+ Thu, 29 Apr 2021 06:37:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xwn9aQLuP0yX
+ with ESMTP id UYVFOhJH7zPk
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Apr 2021 14:21:48 +0000 (UTC)
+ Thu, 29 Apr 2021 06:37:40 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 96F7360673
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 13FB960906
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Apr 2021 14:21:48 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id l4so94873218ejc.10
+ Thu, 29 Apr 2021 06:37:39 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ f6-20020a17090a6546b029015088cf4a1eso10428264pjs.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Apr 2021 07:21:48 -0700 (PDT)
+ Wed, 28 Apr 2021 23:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:cc:in-reply-to:message-id:date;
- bh=B0oHdP1qt7DjxDmtusxbvrHI0SunvRrrfB3A86s6gRA=;
- b=TK5UNXSlLpa/zo8RtbohCRJHMo6UitVVzIgn+hk+joceZrAppOIGuAbULdZlGRuFuk
- 7yyPsNXve49a/1FYyvD8lNVva1PTZkkdTkmOagq6U9LEnFHtxXQaWVQ0b8J3Gi7HOB3y
- 8gVc/B6kv4b1uDEVa+ratEfXz29undFbGUcq9NFB/cVSHecCCbAiyPPbK+cvbWmogizG
- WEmP17Y5qfOq0r/waARfQYkiFhi8bzfSedKsZBTBh37HH1aBQpiL0+4F4sCbn/x79sii
- noTIYXRDMizkM5MkllGEnwEFmdiRFKOFMGG2xAQ9gS0H0Hg4hdPwgaRAdZzy1+QbM5/f
- ohSA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=DWvEqPxo5quJ67cNZw5T846UEoXgYHse2SDYouWmS8g=;
+ b=LWdylvemY/bsXptkS0JHBD0BVlJFgNs0PPHw4P/qWND/kR6wPAUbdV18IXjW5XhKsp
+ hOzHjR84p80bl5mEw/zPm/Qn9fxD/rgykA4IPtEPlF44lY9piNtXpeOBpjkCmSAc+0Wr
+ ZtHghNfZAFYJaAQckyhGbzbhU8VAwUPGdmAaIUWkZVIV7j7PZWzMu71UgF8D3CCUtYp1
+ 3wr4771nTPMMmxXcFYt35KOkamgnPXvxEhDJf6MrH7mW1rSQLryHY4wKa3XK7+8exbLR
+ Ivo5zpji6TWEgDj8a2c824S8q4+nCYTPbLx/7ctxIMFt3WvdUk/j/AeEFflvPF+U2IUf
+ 0lFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:cc:in-reply-to:message-id:date;
- bh=B0oHdP1qt7DjxDmtusxbvrHI0SunvRrrfB3A86s6gRA=;
- b=TLUMzweD/FmqNuSe6SMA6N/aMxHUrAgyv2SspiM/1hr35RfOOXU9Tipb26P9wdBW8d
- ibYzdnlI9QWZsCteNeMN5tJNxatl5Mp6SWdhkK8U20/qL7Z8QdVx9Gc06JC+Ce6piY9B
- TIJObtyu6p8096aInp3eXVMAHh/mJkwpZXhdM1pLxMPeibng6ag/64uBXZgXiEYQzbQZ
- wYkmhEPZG9AQsY7wxRz2ymg177tR0Xl739GDVWIS5OlaXlh3EXsu2OCCgONT0nCqESUE
- lKtjJzC/iMelAvaUQVIv8QR7azURa66JHT6234ml2psk2HYov8GtAoxTd5vYMb8xPT1K
- T+nw==
-X-Gm-Message-State: AOAM530+GKa/2U7zyyf+e4qPAeT1bwPTc26Io1XdUzhTyWRNCuOqVFdZ
- 78ydbjeNkG/9K2oOWZvUeGw=
-X-Google-Smtp-Source: ABdhPJzNHriwCmIXJM1JAqeBNJgh/bSmTgY8SQ3Wnk4ODDtBic/ncsHoLa9Zbz8cpIoMYqHXvMoXQg==
-X-Received: by 2002:a17:906:1519:: with SMTP id
- b25mr29418902ejd.254.1619619706810; 
- Wed, 28 Apr 2021 07:21:46 -0700 (PDT)
-Received: from localhost ([83.218.172.57])
- by smtp.gmail.com with ESMTPSA id j7sm5048556edv.40.2021.04.28.07.21.46
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=DWvEqPxo5quJ67cNZw5T846UEoXgYHse2SDYouWmS8g=;
+ b=d0vj+1hSiriwaWKCaFPXtHOqF+jlX0mIL2N4BtPqZoUZCg7OKLmZkMDwMGUW+MQeuc
+ 44Fg4BfiPA9NHX+6XJkEzGEX9LLo8GhxfPxjDhoWHnZl6Kj2HAiDTIK/g2zcOzTlIF+K
+ ijGwWo4UHnqa/nMZny8vHG5eH+WBvk+RFy4A2UhCE+sdP1q4wM4AF13U+rYmw2TnuR12
+ /Z0KSfJtuKPN9xn439ggGAHXAICs83rd8ZFxdlvkrV2A3Qtle3LOxiPRRdg0+xWZB+kR
+ DIWjEaXkQqSmVUl/wV2cVcWUT/ZT1RWFQdW+h5e4x1m8TabwldRa+6AXjFXTwDc4aNxk
+ SPqQ==
+X-Gm-Message-State: AOAM533KhPMfBX8LUpixIrYVVg0hb2iyDasrlV2lkn5RsCBAluW4A5nO
+ Tu8BPv41s0kSDmetfUqtcAw=
+X-Google-Smtp-Source: ABdhPJymbtsAxpkU843VHh5l1oAGwRNO6wiPW751bAvcs1M+W79Lh8KKrxAVE67pHGkWA1bS9yu/Wg==
+X-Received: by 2002:a17:90b:3b43:: with SMTP id
+ ot3mr36306030pjb.100.1619678259362; 
+ Wed, 28 Apr 2021 23:37:39 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:292c:376:689b:476d])
+ by smtp.googlemail.com with ESMTPSA id
+ o9sm1573331pfh.217.2021.04.28.23.37.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Apr 2021 07:21:46 -0700 (PDT)
-From: Kurt Manucredo <fuzzybritches0@gmail.com>
-X-Google-Original-From: "Kurt Manucredo" <fuzzybritches0@gmail.com
-Subject: Re: Starting a Wiki for Syzkaller Bug Fixing Resources
-To: esmethedev@gmail.com
-In-Reply-To: <9e7e0cda-a078-d550-c4d5-bb5ca8702bd4@gmail.com>
-Message-Id: <14592-28742-curtm@phaethon>
-Date: Wed, 28 Apr 2021 16:15:00 +0200
-Cc: syzkaller@googlegroups.com, linux-kernel-mentees@lists.linuxfoundation.org
+ Wed, 28 Apr 2021 23:37:38 -0700 (PDT)
+From: Aditya Srivastava <yashsri421@gmail.com>
+To: corbet@lwn.net
+Subject: [RFC v3] scripts: kernel-doc: reduce repeated regex expressions into
+ variables
+Date: Thu, 29 Apr 2021 12:07:29 +0530
+Message-Id: <20210429063729.8144-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210427165633.GA235567@casper.infradead.org>
+References: <20210427165633.GA235567@casper.infradead.org>
+Cc: linux-doc@vger.kernel.org, yashsri421@gmail.com,
+ linux-kernel@vger.kernel.org, willy@infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,65 +118,210 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+There are some regex expressions in the kernel-doc script, which are used
+repeatedly in the script.
 
-On  Wed, 28 Apr 2021 21:55:06 +0800  Esme Xuan Lim <esmethedev@gmail.com> wrote:
-> 
-> On 28/04/2021 21:13, Kurt Manucredo wrote:
-> > On  Wed, 28 Apr 2021 04:50:18 +0800  Esme Xuan Lim <esmethedev@gmail.com> wrote:
-> >> Hi there,
-> >>
-> >> Having been on the bug fixing mentorship, I've been collating a bunch of
-> >> resources that helped me as I was going. I've been thinking that there
-> >> might be a big gap in resources in where interns might be looking and
-> >> was keen on trying to put one together. Given the current conversation
-> >> Greg has brought up about syzkaller bugs needing more attention, I
-> >> figured this could help fix it if interns are the only ones available
-> >> for this task.
-> >>
-> >> I think it'd help the kernel mentees current and future sink their teeth
-> >> quicker into fixing bugs, and less into helping themselves learn what is
-> >> needed. This appears to be a big gap that would really help if it were
-> >> filled. Resources are heavily abundant for the Linux kernel, but a good
-> >> level of curation and maintained resources could help with bug fixing.
-> >> Resources look old, but are incredibly insightful. I would have skipped
-> >> looking at these resources given my experience with more modern
-> >> frameworks and toolkits (which is that it would be best to avoid
-> >> outdated ones as APIs change very quickly - but this is not the case
-> >> with the kernel)
-> >>
-> >> I've got links and things but I've been wondering if it made sense to
-> >> build on the Kernel Mentees or to build a wiki (and host it) on
-> >> something more modern like github.
-> >>
-> >> I'd love to hear suggestions for how best to go about this, and if
-> >> anyone would like to contribute to it too.
-> >>
-> > I would love to contribute. I've started my blog on:
-> >
-> > https://fuzzybritches0.github.io/
-> >
-> > If any of these entries I made are helpful, I'd love to help you
-> > incorporate them into your wiki. I'd also love to get feedback on these
-> > entries. Count me in.
-> >
-> > thanks and kind regards
-> >
-> > Kurt Manucredo
-> >
-> (Resent to the mailing list; first email went only to Kurt - that was a mistake)
-> 
-> Hey Kurt,
-> 
-> If you join the discord, I guess we're having a fairly casual
-> conversation of how things should go. I'm writing up the structure of
-> the wiki at the moment and I'll have it up for pull requests in a bit:)
-> 
-I've joined discord and the dedicated channel, my username is
-fuzzybritches. I hope I'm doing everything right, I'm new to discord.
+Reduce such expressions into variables, which can be used everywhere.
 
-kind regards
+A quick manual check found that no errors and warnings were added/removed
+in this process.
 
-Kurt Manucredo
+Suggested-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+Changes in v3:
+- Remove variables for separate qualifiers in "sub dump_struct"
+- Make a common variable for all the qualifiers
+- Make $attribute global variable to use it at "sub check_sections" as well
+
+Changes in v2:
+- Rename $pointer_function to $function_pointer
+- Combine elsif-block expressions at "sub dump_function" into lesser regex expressions
+- Combine $prototype_end1,$prototype_end2 expressions into a common $prototype_end
+
+ scripts/kernel-doc | 71 ++++++++++++++++++++++------------------------
+ 1 file changed, 34 insertions(+), 37 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 2a85d34fdcd0..721005a02e64 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -406,6 +406,8 @@ my $doc_inline_sect = '\s*\*\s*(@\s*[\w][\w\.]*\s*):(.*)';
+ my $doc_inline_end = '^\s*\*/\s*$';
+ my $doc_inline_oneline = '^\s*/\*\*\s*(@[\w\s]+):\s*(.*)\s*\*/\s*$';
+ my $export_symbol = '^\s*EXPORT_SYMBOL(_GPL)?\s*\(\s*(\w+)\s*\)\s*;';
++my $function_pointer = qr{([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)};
++my $attribute = qr{__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)}i;
+ 
+ my %parameterdescs;
+ my %parameterdesc_start_lines;
+@@ -694,7 +696,7 @@ sub output_function_man(%) {
+ 	    $post = ");";
+ 	}
+ 	$type = $args{'parametertypes'}{$parameter};
+-	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
++	if ($type =~ m/$function_pointer/) {
+ 	    # pointer-to-function
+ 	    print ".BI \"" . $parenth . $1 . "\" " . " \") (" . $2 . ")" . $post . "\"\n";
+ 	} else {
+@@ -974,7 +976,7 @@ sub output_function_rst(%) {
+ 	$count++;
+ 	$type = $args{'parametertypes'}{$parameter};
+ 
+-	if ($type =~ m/([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)/) {
++	if ($type =~ m/$function_pointer/) {
+ 	    # pointer-to-function
+ 	    print $1 . $parameter . ") (" . $2 . ")";
+ 	} else {
+@@ -1211,7 +1213,9 @@ sub dump_struct($$) {
+     my $members;
+     my $type = qr{struct|union};
+     # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
+-    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
++    my $qualifiers = qr{$attribute|__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned};
++    my $definition_body = qr{\{(.*)\}\s*$qualifiers*};
++    my $struct_members = qr{($type)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;};
+ 
+     if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
+ 	$decl_type = $1;
+@@ -1235,27 +1239,27 @@ sub dump_struct($$) {
+ 	# strip comments:
+ 	$members =~ s/\/\*.*?\*\///gos;
+ 	# strip attributes
+-	$members =~ s/\s*__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)/ /gi;
++	$members =~ s/\s*$attribute/ /gi;
+ 	$members =~ s/\s*__aligned\s*\([^;]*\)/ /gos;
+ 	$members =~ s/\s*__packed\s*/ /gos;
+ 	$members =~ s/\s*CRYPTO_MINALIGN_ATTR/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned_in_smp/ /gos;
+ 	$members =~ s/\s*____cacheline_aligned/ /gos;
+ 
++	my $args = qr{([^,)]+)};
+ 	# replace DECLARE_BITMAP
+ 	$members =~ s/__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)/DECLARE_BITMAP($1, __ETHTOOL_LINK_MODE_MASK_NBITS)/gos;
+-	$members =~ s/DECLARE_BITMAP\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
++	$members =~ s/DECLARE_BITMAP\s*\($args,\s*$args\)/unsigned long $1\[BITS_TO_LONGS($2)\]/gos;
+ 	# replace DECLARE_HASHTABLE
+-	$members =~ s/DECLARE_HASHTABLE\s*\(([^,)]+),\s*([^,)]+)\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
++	$members =~ s/DECLARE_HASHTABLE\s*\($args,\s*$args\)/unsigned long $1\[1 << (($2) - 1)\]/gos;
+ 	# replace DECLARE_KFIFO
+-	$members =~ s/DECLARE_KFIFO\s*\(([^,)]+),\s*([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
++	$members =~ s/DECLARE_KFIFO\s*\($args,\s*$args,\s*$args\)/$2 \*$1/gos;
+ 	# replace DECLARE_KFIFO_PTR
+-	$members =~ s/DECLARE_KFIFO_PTR\s*\(([^,)]+),\s*([^,)]+)\)/$2 \*$1/gos;
+-
++	$members =~ s/DECLARE_KFIFO_PTR\s*\($args,\s*$args\)/$2 \*$1/gos;
+ 	my $declaration = $members;
+ 
+ 	# Split nested struct/union elements as newer ones
+-	while ($members =~ m/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/) {
++	while ($members =~ m/$struct_members/) {
+ 		my $newmember;
+ 		my $maintype = $1;
+ 		my $ids = $4;
+@@ -1315,7 +1319,7 @@ sub dump_struct($$) {
+ 				}
+ 			}
+ 		}
+-		$members =~ s/(struct|union)([^\{\};]+)\{([^\{\}]*)\}([^\{\}\;]*)\;/$newmember/;
++		$members =~ s/$struct_members/$newmember/;
+ 	}
+ 
+ 	# Ignore other nested elements, like enums
+@@ -1555,8 +1559,9 @@ sub create_parameterlist($$$$) {
+     my $param;
+ 
+     # temporarily replace commas inside function pointer definition
+-    while ($args =~ /(\([^\),]+),/) {
+-	$args =~ s/(\([^\),]+),/$1#/g;
++    my $arg_expr = qr{\([^\),]+};
++    while ($args =~ /$arg_expr,/) {
++	$args =~ s/($arg_expr),/$1#/g;
+     }
+ 
+     foreach my $arg (split($splitter, $args)) {
+@@ -1707,7 +1712,7 @@ sub check_sections($$$$$) {
+ 		foreach $px (0 .. $#prms) {
+ 			$prm_clean = $prms[$px];
+ 			$prm_clean =~ s/\[.*\]//;
+-			$prm_clean =~ s/__attribute__\s*\(\([a-z,_\*\s\(\)]*\)\)//i;
++			$prm_clean =~ s/$attribute//i;
+ 			# ignore array size in a parameter string;
+ 			# however, the original param string may contain
+ 			# spaces, e.g.:  addr[6 + 2]
+@@ -1808,8 +1813,14 @@ sub dump_function($$) {
+     # - parport_register_device (function pointer parameters)
+     # - atomic_set (macro)
+     # - pci_match_device, __copy_to_user (long return type)
+-
+-    if ($define && $prototype =~ m/^()([a-zA-Z0-9_~:]+)\s+/) {
++    my $name = qr{[a-zA-Z0-9_~:]+};
++    my $prototype_end1 = qr{[^\(]*};
++    my $prototype_end2 = qr{[^\{]*};
++    my $prototype_end = qr{\(($prototype_end1|$prototype_end2)\)};
++    my $type1 = qr{[\w\s]+};
++    my $type2 = qr{$type1\*+};
++
++    if ($define && $prototype =~ m/^()($name)\s+/) {
+         # This is an object-like macro, it has no return type and no parameter
+         # list.
+         # Function-like macros are not allowed to have spaces between
+@@ -1817,23 +1828,9 @@ sub dump_function($$) {
+         $return_type = $1;
+         $declaration_name = $2;
+         $noret = 1;
+-    } elsif ($prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
+-	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+-	$prototype =~ m/^(\w+\s+\w+\s*\*+\s*\w+\s*\*+\s*)\s*([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/)  {
++    } elsif ($prototype =~ m/^()($name)\s*$prototype_end/ ||
++	$prototype =~ m/^($type1)\s+($name)\s*$prototype_end/ ||
++	$prototype =~ m/^($type2)+\s*($name)\s*$prototype_end/)  {
+ 	$return_type = $1;
+ 	$declaration_name = $2;
+ 	my $args = $3;
+@@ -2110,12 +2107,12 @@ sub process_name($$) {
+     } elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+ 	my $is_kernel_comment = 0;
+-	my $decl_start = qr{\s*\*};
++	my $decl_start = qr{$doc_com};
+ 	# test for pointer declaration type, foo * bar() - desc
+ 	my $fn_type = qr{\w+\s*\*\s*}; 
+ 	my $parenthesis = qr{\(\w*\)};
+ 	my $decl_end = qr{[-:].*};
+-	if (/^$decl_start\s*([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
++	if (/^$decl_start([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
+ 	    $identifier = $1;
+ 	}
+ 	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
+@@ -2125,8 +2122,8 @@ sub process_name($$) {
+ 	}
+ 	# Look for foo() or static void foo() - description; or misspelt
+ 	# identifier
+-	elsif (/^$decl_start\s*$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
+-	    /^$decl_start\s*$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
++	elsif (/^$decl_start$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
++	    /^$decl_start$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
+ 	    $identifier = $1;
+ 	    $decl_type = 'function';
+ 	    $identifier =~ s/^define\s+//;
+-- 
+2.17.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
