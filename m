@@ -2,87 +2,107 @@ Return-Path: <SRS0=C2G1=J4=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B40EDC433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 05:50:38 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C79E8C433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 09:30:36 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 51DA2613F0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 05:50:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 51DA2613F0
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+	by mail.kernel.org (Postfix) with ESMTPS id 5C26E6141E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 09:30:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5C26E6141E
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1C9C4606EA;
-	Sat,  1 May 2021 05:50:38 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1FDB141C59;
+	Sat,  1 May 2021 09:30:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5XWhxJn2uD41; Sat,  1 May 2021 05:50:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 44D1E606BB;
-	Sat,  1 May 2021 05:50:37 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wiAHOtH0vPjn; Sat,  1 May 2021 09:30:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id EE70841C5B;
+	Sat,  1 May 2021 09:30:33 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21F47C000D;
-	Sat,  1 May 2021 05:50:37 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4D116C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CA8BDC000E;
+	Sat,  1 May 2021 09:30:33 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0C4BFC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 05:50:35 +0000 (UTC)
+ Sat,  1 May 2021 09:30:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 34586606BB
+ by smtp4.osuosl.org (Postfix) with ESMTP id C80D841C5A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 05:50:35 +0000 (UTC)
+ Sat,  1 May 2021 09:30:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7qXiYlUpN4TM
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FAmpY2vWdoNi
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 05:50:34 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A42C3606B8
+ Sat,  1 May 2021 09:30:31 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id F363A41C59
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 05:50:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1619848231; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=MEuaBE865UaMq2cEXsOrNCuINnEI2NKO5mtAPluD0Xm16H/M9yx/NSyBCvB6WiHIKqZr1QK4JK7OLSqbRJlJ/OWays7iMGF5mMAMHk9YC8Pfu0DT0XfYJirahZ7IulVJ/FYNgfd/+C9r8SeUbHCkyJKRUK3ONZSpL5gQF0KVHT0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1619848231;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
- bh=6A9yXCsgHIpBF4gz2/JnwOLwuTHlW112ZF9OkzGdxaU=; 
- b=BAtEHIRvtgzrf75FxzoFbTDT7s1XehXHDry/yN1AcLcl5YLVHmwtJSlBDAYmwpXY+1rANDM5p7KichOnT7+vgqUQzSWEi8ss0mPj0sqZumCF3jeVC6UeDShQLTwhd+I2iPNZJSdjJsw7VjP43wScKfuXeeOTm6uZMYIUol1/J90=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1619848231; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=6A9yXCsgHIpBF4gz2/JnwOLwuTHlW112ZF9OkzGdxaU=;
- b=qsNTF+jjZ695CrjqHkWwIVmWCFbdW0L0fPwzoUh2ZD79N7ogD028wV063HI9JjPs
- m9Johr7bvhGhJpMaZlmhXj4R1rReH/rV9vqNQnRA3/uZfNy5/VUREk90bgxgGIbrb5M
- nb+Sqc0LwxbUMgGXcsYimTfnzuY1Gf1WfLfb1Dq4=
-Received: from localhost.localdomain (49.207.211.62 [49.207.211.62]) by
- mx.zohomail.com with SMTPS id 1619848228732115.49195201466569;
- Fri, 30 Apr 2021 22:50:28 -0700 (PDT)
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Matt Porter <mporter@kernel.crashing.org>,
- Alexandre Bounine <alex.bou9@gmail.com>
-Subject: [PATCH] rapidio: remove unused variable in rio_cm.c
-Date: Sat,  1 May 2021 11:20:17 +0530
-Message-Id: <20210501055018.9244-1-mail@anirudhrb.com>
-X-Mailer: git-send-email 2.26.2
+ Sat,  1 May 2021 09:30:30 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ t2-20020a17090a0242b0290155433387beso7805835pje.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 01 May 2021 02:30:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ozGWR7HUiB8PmJLBAJ188PKLUOh7dBweE/9zGbN2Zp0=;
+ b=D/0vPlgJu5jfqBOMQb50lihexlAJcQUP3pR3XMPv4HFKDZYb0SJapZVJ/gkmpAY8TG
+ PyqPT9PUsuY5+PRiuEIMkfFVa21wyRDP2Pzb+NcG0GI7fQ7JOom2ex00qPbddZLHsoXL
+ ckoFnKo9WAj563lpWcxYGf3SXQcLZUuOvRHmH8t5DnnODQ6ZIdpQ+2qJcm2KPuEjPR0n
+ AI2ghO+t6CLTwfnhl7EDL5y5FyzjED2pRzPgEgSjBxJ8wgk2QpG07MnVQ6KI20afJ4VK
+ o5Iq7bSCzkKekZFiGm8fYsq8aro5AtmnUKVvR2SDcx1kIOc6eqkw4CvoEyy3jBP9d/Sv
+ vRqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ozGWR7HUiB8PmJLBAJ188PKLUOh7dBweE/9zGbN2Zp0=;
+ b=X+5xhZ1ol7DV6AEeUn2iVZgUl0frfbVzq1L0yCVQyqDHZr7kBLEGfuE/QHf6vpG69/
+ LqbhY8XO1l86duR45wOX9iP2nM0ORGnS+LiAF9iDgBrcW2kxAKKYvrNZ/DIei7amZHSy
+ MgIb29nwm/Y7YuWCjuRLiEdHOTAW58IScMN/KW/y/ZMUY8k9yyR3v3sYPyG/IcEQrxjw
+ WYvHZTDnFK/K/NfUQ9FCdCqK1xGUCzvVLLbxHD3XOGIcl2tCZQuLuqHmB9GzghWLZ3WK
+ IyD221Qe4jyCJez8SP4HoldRweoCW8oKX4m7phktIjItmWzYXkIHmqynBkSWap5G/jeA
+ xonA==
+X-Gm-Message-State: AOAM530b+AGL3HcWLB/h6807SmiC4jpBUAHtNHA+ER+kiYCafQbkgxCi
+ n2cmDlA8agV4LuaHXSV9syU=
+X-Google-Smtp-Source: ABdhPJwpm/0pMCfrGPM5UL4PfA3nBMBiph5MjUiyi4zHNxdxrqGxDn+fiDlj+fil1VWEFSLBopugoA==
+X-Received: by 2002:a17:90a:b292:: with SMTP id
+ c18mr20434639pjr.179.1619861430361; 
+ Sat, 01 May 2021 02:30:30 -0700 (PDT)
+Received: from ?IPv6:2405:201:600d:a089:4bc:4b06:bb39:6fa2?
+ ([2405:201:600d:a089:4bc:4b06:bb39:6fa2])
+ by smtp.gmail.com with ESMTPSA id ms2sm453915pjb.8.2021.05.01.02.30.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 01 May 2021 02:30:30 -0700 (PDT)
+Subject: Re: [RFC v3] scripts: kernel-doc: reduce repeated regex expressions
+ into variables
+To: Jonathan Corbet <corbet@lwn.net>
+References: <20210427165633.GA235567@casper.infradead.org>
+ <20210429063729.8144-1-yashsri421@gmail.com> <8735v8d5ja.fsf@meer.lwn.net>
+From: Aditya Srivastava <yashsri421@gmail.com>
+Message-ID: <99186604-8ed6-ff72-0308-9ca788db3a51@gmail.com>
+Date: Sat, 1 May 2021 15:00:24 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-ZohoMailClient: External
+In-Reply-To: <8735v8d5ja.fsf@meer.lwn.net>
+Content-Language: en-US
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, willy@infradead.org, linux-doc@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,32 +114,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-UmVtb3ZlIHVudXNlZCB2YXJpYWJsZSAncmMnIHRvIGZpeCBnY2Mgd2FybmluZzoKCglkcml2ZXJz
-L3JhcGlkaW8vcmlvX2NtLmM6IEluIGZ1bmN0aW9uIOKAmHJpb190eGNxX2hhbmRsZXLigJk6Cglk
-cml2ZXJzL3JhcGlkaW8vcmlvX2NtLmM6NjczOjc6IHdhcm5pbmc6IHZhcmlhYmxlIOKAmHJj4oCZ
-IHNldCBidXQKCW5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQoKU2lnbmVkLW9m
-Zi1ieTogQW5pcnVkaCBSYXlhYmhhcmFtIDxtYWlsQGFuaXJ1ZGhyYi5jb20+Ci0tLQogZHJpdmVy
-cy9yYXBpZGlvL3Jpb19jbS5jIHwgMyArLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
-KSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3JhcGlkaW8vcmlvX2NtLmMg
-Yi9kcml2ZXJzL3JhcGlkaW8vcmlvX2NtLmMKaW5kZXggNTBlYzUzZDY3YTRjLi41NDU2OTNiZDg2
-YTMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcmFwaWRpby9yaW9fY20uYworKysgYi9kcml2ZXJzL3Jh
-cGlkaW8vcmlvX2NtLmMKQEAgLTY3MCwxMiArNjcwLDExIEBAIHN0YXRpYyB2b2lkIHJpb190eGNx
-X2hhbmRsZXIoc3RydWN0IGNtX2RldiAqY20sIGludCBzbG90KQogCSAqLwogCWlmICghbGlzdF9l
-bXB0eSgmY20tPnR4X3JlcXMpICYmIChjbS0+dHhfY250IDwgUklPQ01fVFhfUklOR19TSVpFKSkg
-ewogCQlzdHJ1Y3QgdHhfcmVxICpyZXEsICpfcmVxOwotCQlpbnQgcmM7CiAKIAkJbGlzdF9mb3Jf
-ZWFjaF9lbnRyeV9zYWZlKHJlcSwgX3JlcSwgJmNtLT50eF9yZXFzLCBub2RlKSB7CiAJCQlsaXN0
-X2RlbCgmcmVxLT5ub2RlKTsKIAkJCWNtLT50eF9idWZbY20tPnR4X3Nsb3RdID0gcmVxLT5idWZm
-ZXI7Ci0JCQlyYyA9IHJpb19hZGRfb3V0Yl9tZXNzYWdlKGNtLT5tcG9ydCwgcmVxLT5yZGV2LCBj
-bWJveCwKKwkJCXJpb19hZGRfb3V0Yl9tZXNzYWdlKGNtLT5tcG9ydCwgcmVxLT5yZGV2LCBjbWJv
-eCwKIAkJCQkJCSAgcmVxLT5idWZmZXIsIHJlcS0+bGVuKTsKIAkJCWtmcmVlKHJlcS0+YnVmZmVy
-KTsKIAkJCWtmcmVlKHJlcSk7Ci0tIAoyLjI2LjIKCl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApM
-aW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
-dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50
-ZWVzCg==
+On 30/4/21 5:09 am, Jonathan Corbet wrote:
+> Aditya Srivastava <yashsri421@gmail.com> writes:
+> 
+>> There are some regex expressions in the kernel-doc script, which are used
+>> repeatedly in the script.
+>>
+>> Reduce such expressions into variables, which can be used everywhere.
+>>
+>> A quick manual check found that no errors and warnings were added/removed
+>> in this process.
+>>
+>> Suggested-by: Jonathan Corbet <corbet@lwn.net>
+>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+>> ---
+>> Changes in v3:
+>> - Remove variables for separate qualifiers in "sub dump_struct"
+>> - Make a common variable for all the qualifiers
+>> - Make $attribute global variable to use it at "sub check_sections" as well
+>>
+>> Changes in v2:
+>> - Rename $pointer_function to $function_pointer
+>> - Combine elsif-block expressions at "sub dump_function" into lesser regex expressions
+>> - Combine $prototype_end1,$prototype_end2 expressions into a common $prototype_end
+>>
+>>  scripts/kernel-doc | 71 ++++++++++++++++++++++------------------------
+>>  1 file changed, 34 insertions(+), 37 deletions(-)
+> 
+> So this looks good but ... it adds a warning to the build:
+> 
+> /stuff/k/git/kernel/Documentation/driver-api/media/v4l2-controls:823: ./include/media/v4l2-ctrls.h:964: WARNING: Invalid C declaration: Expected identifier in nested name. [error at 6]
+>   const * v4l2_ctrl_get_menu (u32 id)
+>   ------^
+> 
+> So it looks like something isn't being parsed quite identically?
+>
+
+Hi Jonathan!
+I could not reproduce this error..
+Can you suggest me how can I reproduce this error?
+I ran kernel-doc -none {$file} over the tree.
+
+Probably, this is not a kernel-doc error
+
+Thanks
+Aditya
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
