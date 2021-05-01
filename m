@@ -7,68 +7,84 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74D83C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 10:23:36 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFD33C433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 13:10:19 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0B404613C6
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 10:23:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0B404613C6
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 797BE61462
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 May 2021 13:10:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 797BE61462
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CA73E85387;
-	Sat,  1 May 2021 10:23:35 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4AFF14028A;
+	Sat,  1 May 2021 13:10:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ylh4d1CHjuh6; Sat,  1 May 2021 10:23:35 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cExoXgToXl6Y; Sat,  1 May 2021 13:10:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E907885385;
-	Sat,  1 May 2021 10:23:34 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6744B40264;
+	Sat,  1 May 2021 13:10:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C4A4CC000D;
-	Sat,  1 May 2021 10:23:34 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7469C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E9BCC000E;
+	Sat,  1 May 2021 13:10:18 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 41E4BC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 10:23:33 +0000 (UTC)
+ Sat,  1 May 2021 13:10:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9945A6075D
+ by smtp1.osuosl.org (Postfix) with ESMTP id 30E3884EC5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 10:23:33 +0000 (UTC)
+ Sat,  1 May 2021 13:10:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m3neQ7iY1FJz
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=anirudhrb.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qFTu2hgsdXk4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 10:23:33 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1315D606CF
+ Sat,  1 May 2021 13:10:16 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
+ [136.143.188.53])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 518E884E60
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 May 2021 10:23:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D0E4613C6;
- Sat,  1 May 2021 10:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1619864612;
- bh=ZQ5/Bd9dgaWBN1kInWuLHSCQJfYNRchdvGct/JB3d3U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=n7OtcFmn7uZbMMZgIoz71UxbAOtt1ZlsZyTtBaRbiHUcMSACrg3Y0aH1KQ/7XTbXj
- ZU5N2gQ5WVzR70B0qq79PD9xZVUYG/MbQjr2RHiineUfACMcSOtcL3Yl93x8kQrLeG
- AJISZopmfGvCq8I681FMERnyZcgJ+oym+OyqZEzE=
-Date: Sat, 1 May 2021 12:23:30 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Anirudh Rayabharam <mail@anirudhrb.com>
+ Sat,  1 May 2021 13:10:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1619874614; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=G0fLoottJfClpiGHND3lXJB5oSzfIOTtRAieLbHQHVU8pRdjNRMzsv8CDo2HnN0JKdh2HgTEbe2DaIwiF/PJDYRx1qminEUh/4h81vU9IwF+POaBdrv6Z6ANLbB85GMLENg1QmdLTlkimw/EUxGMDNafTope5Qgq2Fz6kLnA3LI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1619874614;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=aeVb9tMtN8VP+qEMHO0j4WwukXcb48yCZRdEb9bMQYU=; 
+ b=eb8SDlX02QzYFdxZCQ7HxT1BXAA912qnTO7kS/0fihv4lzIXMpFGhhpjmqWqtcOeHrW12H2MqMy+Jccmx1uYRLQF3Jv5Szhz84dy7ZOKoY/tWT6lgPoY9EGQdcZFCFTQg7uazv4decjcygLumf0mfQOolR9Yd/uBYB/UCkcGjhY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=anirudhrb.com;
+ spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+ dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1619874614; 
+ s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+ h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ bh=aeVb9tMtN8VP+qEMHO0j4WwukXcb48yCZRdEb9bMQYU=;
+ b=oyoMkL+eiS8SxK/h+JHxBeyZF4UM/bPruSmjD+vR7sO8TIhpgLl/sLO4PBQWmHkz
+ chlSSTPWM4S45ENS+6Tc9+cODRrHG5oigHYokwci2jj2n3mZf64yElnPjUdrfThhV35
+ fIQ4vjAP/a1bmbyNyV4FP13AIdqCU1HI94QNRpUU=
+Received: from anirudhrb.com (49.207.211.62 [49.207.211.62]) by mx.zohomail.com
+ with SMTPS id 1619874611701231.35758212814903;
+ Sat, 1 May 2021 06:10:11 -0700 (PDT)
+Date: Sat, 1 May 2021 18:40:04 +0530
+From: Anirudh Rayabharam <mail@anirudhrb.com>
+To: Greg KH <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH] rapidio: remove unused variable in rio_cm.c
-Message-ID: <YI0sIoDv6H+aSyNE@kroah.com>
+Message-ID: <YI1TLAOXoQozBa1M@anirudhrb.com>
 References: <20210501055018.9244-1-mail@anirudhrb.com>
+ <YI0sIoDv6H+aSyNE@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210501055018.9244-1-mail@anirudhrb.com>
+In-Reply-To: <YI0sIoDv6H+aSyNE@kroah.com>
+X-ZohoMailClient: External
 Cc: Alexandre Bounine <alex.bou9@gmail.com>,
  Matt Porter <mporter@kernel.crashing.org>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
@@ -89,28 +105,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gU2F0LCBNYXkgMDEsIDIwMjEgYXQgMTE6MjA6MTdBTSArMDUzMCwgQW5pcnVkaCBSYXlhYmhh
-cmFtIHdyb3RlOgo+IFJlbW92ZSB1bnVzZWQgdmFyaWFibGUgJ3JjJyB0byBmaXggZ2NjIHdhcm5p
-bmc6Cj4gCj4gCWRyaXZlcnMvcmFwaWRpby9yaW9fY20uYzogSW4gZnVuY3Rpb24g4oCYcmlvX3R4
-Y3FfaGFuZGxlcuKAmToKPiAJZHJpdmVycy9yYXBpZGlvL3Jpb19jbS5jOjY3Mzo3OiB3YXJuaW5n
-OiB2YXJpYWJsZSDigJhyY+KAmSBzZXQgYnV0Cj4gCW5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0
-LXZhcmlhYmxlXQo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuaXJ1ZGggUmF5YWJoYXJhbSA8bWFpbEBh
-bmlydWRocmIuY29tPgo+IC0tLQo+ICBkcml2ZXJzL3JhcGlkaW8vcmlvX2NtLmMgfCAzICstLQo+
-ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvcmFwaWRpby9yaW9fY20uYyBiL2RyaXZlcnMvcmFwaWRpby9yaW9f
-Y20uYwo+IGluZGV4IDUwZWM1M2Q2N2E0Yy4uNTQ1NjkzYmQ4NmEzIDEwMDY0NAo+IC0tLSBhL2Ry
-aXZlcnMvcmFwaWRpby9yaW9fY20uYwo+ICsrKyBiL2RyaXZlcnMvcmFwaWRpby9yaW9fY20uYwo+
-IEBAIC02NzAsMTIgKzY3MCwxMSBAQCBzdGF0aWMgdm9pZCByaW9fdHhjcV9oYW5kbGVyKHN0cnVj
-dCBjbV9kZXYgKmNtLCBpbnQgc2xvdCkKPiAgCSAqLwo+ICAJaWYgKCFsaXN0X2VtcHR5KCZjbS0+
-dHhfcmVxcykgJiYgKGNtLT50eF9jbnQgPCBSSU9DTV9UWF9SSU5HX1NJWkUpKSB7Cj4gIAkJc3Ry
-dWN0IHR4X3JlcSAqcmVxLCAqX3JlcTsKPiAtCQlpbnQgcmM7Cj4gIAo+ICAJCWxpc3RfZm9yX2Vh
-Y2hfZW50cnlfc2FmZShyZXEsIF9yZXEsICZjbS0+dHhfcmVxcywgbm9kZSkgewo+ICAJCQlsaXN0
-X2RlbCgmcmVxLT5ub2RlKTsKPiAgCQkJY20tPnR4X2J1ZltjbS0+dHhfc2xvdF0gPSByZXEtPmJ1
-ZmZlcjsKPiAtCQkJcmMgPSByaW9fYWRkX291dGJfbWVzc2FnZShjbS0+bXBvcnQsIHJlcS0+cmRl
-diwgY21ib3gsCj4gKwkJCXJpb19hZGRfb3V0Yl9tZXNzYWdlKGNtLT5tcG9ydCwgcmVxLT5yZGV2
-LCBjbWJveCwKPiAgCQkJCQkJICByZXEtPmJ1ZmZlciwgcmVxLT5sZW4pOwoKV2h5IG5vdCBoYW5k
-bGUgdGhlIHBvdGVudGlhbCBlcnJvciBzZW50IGhlcmU/Cgp0aGFua3MsCgpncmVnIGstaApfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwt
-bWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3Vu
-ZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0
-aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+T24gU2F0LCBNYXkgMDEsIDIwMjEgYXQgMTI6MjM6MzBQTSArMDIwMCwgR3JlZyBLSCB3cm90ZToK
+PiBPbiBTYXQsIE1heSAwMSwgMjAyMSBhdCAxMToyMDoxN0FNICswNTMwLCBBbmlydWRoIFJheWFi
+aGFyYW0gd3JvdGU6Cj4gPiBSZW1vdmUgdW51c2VkIHZhcmlhYmxlICdyYycgdG8gZml4IGdjYyB3
+YXJuaW5nOgo+ID4gCj4gPiAJZHJpdmVycy9yYXBpZGlvL3Jpb19jbS5jOiBJbiBmdW5jdGlvbiDi
+gJhyaW9fdHhjcV9oYW5kbGVy4oCZOgo+ID4gCWRyaXZlcnMvcmFwaWRpby9yaW9fY20uYzo2NzM6
+Nzogd2FybmluZzogdmFyaWFibGUg4oCYcmPigJkgc2V0IGJ1dAo+ID4gCW5vdCB1c2VkIFstV3Vu
+dXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBBbmlydWRoIFJh
+eWFiaGFyYW0gPG1haWxAYW5pcnVkaHJiLmNvbT4KPiA+IC0tLQo+ID4gIGRyaXZlcnMvcmFwaWRp
+by9yaW9fY20uYyB8IDMgKy0tCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAy
+IGRlbGV0aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9yYXBpZGlvL3Jpb19j
+bS5jIGIvZHJpdmVycy9yYXBpZGlvL3Jpb19jbS5jCj4gPiBpbmRleCA1MGVjNTNkNjdhNGMuLjU0
+NTY5M2JkODZhMyAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvcmFwaWRpby9yaW9fY20uYwo+ID4g
+KysrIGIvZHJpdmVycy9yYXBpZGlvL3Jpb19jbS5jCj4gPiBAQCAtNjcwLDEyICs2NzAsMTEgQEAg
+c3RhdGljIHZvaWQgcmlvX3R4Y3FfaGFuZGxlcihzdHJ1Y3QgY21fZGV2ICpjbSwgaW50IHNsb3Qp
+Cj4gPiAgCSAqLwo+ID4gIAlpZiAoIWxpc3RfZW1wdHkoJmNtLT50eF9yZXFzKSAmJiAoY20tPnR4
+X2NudCA8IFJJT0NNX1RYX1JJTkdfU0laRSkpIHsKPiA+ICAJCXN0cnVjdCB0eF9yZXEgKnJlcSwg
+Kl9yZXE7Cj4gPiAtCQlpbnQgcmM7Cj4gPiAgCj4gPiAgCQlsaXN0X2Zvcl9lYWNoX2VudHJ5X3Nh
+ZmUocmVxLCBfcmVxLCAmY20tPnR4X3JlcXMsIG5vZGUpIHsKPiA+ICAJCQlsaXN0X2RlbCgmcmVx
+LT5ub2RlKTsKPiA+ICAJCQljbS0+dHhfYnVmW2NtLT50eF9zbG90XSA9IHJlcS0+YnVmZmVyOwo+
+ID4gLQkJCXJjID0gcmlvX2FkZF9vdXRiX21lc3NhZ2UoY20tPm1wb3J0LCByZXEtPnJkZXYsIGNt
+Ym94LAo+ID4gKwkJCXJpb19hZGRfb3V0Yl9tZXNzYWdlKGNtLT5tcG9ydCwgcmVxLT5yZGV2LCBj
+bWJveCwKPiA+ICAJCQkJCQkgIHJlcS0+YnVmZmVyLCByZXEtPmxlbik7Cj4gCj4gV2h5IG5vdCBo
+YW5kbGUgdGhlIHBvdGVudGlhbCBlcnJvciBzZW50IGhlcmU/CgpJIGRvbid0IGtub3cgaG93IGl0
+IHNob3VsZCBiZSBoYW5kbGVkICh0aGVzZSBmdW5jdGlvbnMgZG9uJ3QgcmV0dXJuIGFueXRoaW5n
+KS4KSSBhc3N1bWVkIHRoYXQgc2luY2UgaXQgaXMgbm90IGN1cnJlbnRseSBiZWluZyBoYW5kbGVk
+LCBpdCdzIHByb2JhYmx5IG5vdAp1c2VmdWwuCgpJJ2xsIGxvb2sgaW50byBpdCB0aG91Z2guIEkg
+Z3Vlc3Mgd2UgY291bGQgc2ltcGx5IGxvZyBpdCBhdCB0aGUgdmVyeSBsZWFzdC4KClRoYW5rcyEK
+CgktIEFuaXJ1ZGguCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVl
+c0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9u
+Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
