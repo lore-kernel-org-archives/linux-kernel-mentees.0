@@ -2,93 +2,79 @@ Return-Path: <SRS0=XiGY=KA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,URIBL_RED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F00C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 May 2021 09:11:16 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9F1AC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 May 2021 12:42:47 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CBC10613CD
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 May 2021 09:11:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CBC10613CD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=xs4all.nl
+	by mail.kernel.org (Postfix) with ESMTPS id 7478F61132
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 May 2021 12:42:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7478F61132
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 72894401FD;
-	Wed,  5 May 2021 09:11:15 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 29DDB40F51;
+	Wed,  5 May 2021 12:42:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KpFlg4WSnqao; Wed,  5 May 2021 09:11:14 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qSq8BRVoIiOI; Wed,  5 May 2021 12:42:46 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7A1F9400CC;
-	Wed,  5 May 2021 09:11:14 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 10F2640EFA;
+	Wed,  5 May 2021 12:42:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 62848C000E;
-	Wed,  5 May 2021 09:11:14 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0280DC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EF181C000D;
+	Wed,  5 May 2021 12:42:45 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 33C55C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 May 2021 09:11:13 +0000 (UTC)
+ Wed,  5 May 2021 12:42:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D7BC2400CC
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0DF5783EC9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 May 2021 09:11:12 +0000 (UTC)
+ Wed,  5 May 2021 12:42:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UehzJvMJA5kT
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FnPC9O8zK9Ch
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 May 2021 09:11:10 +0000 (UTC)
+ Wed,  5 May 2021 12:42:44 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from lb1-smtp-cloud7.xs4all.net (lb1-smtp-cloud7.xs4all.net
- [194.109.24.24])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E3151401FD
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 8FE9F83EBF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 May 2021 09:11:09 +0000 (UTC)
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
- by smtp-cloud7.xs4all.net with ESMTPA
- id eDYdlkXMLyEWweDYglukBU; Wed, 05 May 2021 11:11:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
- t=1620205867; bh=SxgYb14ClndkCKGy9k2rbObXxdvwXYY3UatDeaUJVuw=;
- h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
- Subject;
- b=mSSx2oI+rD14wX/Qm6rXHTkbZp5E6KVIr2v7Y/ARJ9/bxeGyNAt3qZNG6PBVLxRsf
- fG5H2T9rJpWtfHd1VFE/uKd0NSeGCMz0+9x+g+gv8lAZt8ZnjNNfOxrcQgGeOx1fuw
- RNnWON/vSNQZeq4X2vyx9avs7EOSlFMWLXUSsXuJeI5XaLRfVLPnsNqZQyY5piObAO
- nk94E3VeJQSHsFEXlFvfz74VPHlOOUeWnpU0ZqfZ23uVxlApg0Q1NdcMpSl2tKSv4V
- tUy+hNQEhKilLBH1Lv08GD46tuAcNTIHwt9b0lVq8jvZAr8P5vhCoTUw2aVZ/hdh6H
- aK5+WurgJdJMg==
-Subject: Re: [PATCH] media: gspca: stv06xx: Fix memleak in stv06xx subdrivers
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Pavel Skripkin <paskripkin@gmail.com>
-References: <20210422160742.7166-1-atulgopinathan@gmail.com>
- <20210422215511.01489adb@gmail.com>
- <36f126fc-6a5e-a078-4cf0-c73d6795a111@linuxfoundation.org>
- <20210423234458.3f754de2@gmail.com>
- <4c22cfa5-5702-6181-0f9a-d1d8d4041156@linuxfoundation.org>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e8f45770-76c1-22d3-0960-03e2965b79ab@xs4all.nl>
-Date: Wed, 5 May 2021 11:11:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.9.0
+ Wed,  5 May 2021 12:42:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36D9961132;
+ Wed,  5 May 2021 12:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1620218563;
+ bh=j5tgY7P6UNnRgnZwcKAWN+v013/tjXzDMOOa52v8hj0=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=mc/IuCu2Pq6OzFcuAyZMNnqZZRpLxI98AEaW+RhjjNP9s0ypSX22cyZKHka2UXzp8
+ RDuOVBCrEDB3O0c+NdE3VVG95tkWkZfmWzGvrh4iL84BoqpoW+TltKoSGK0+l9Pqhl
+ O2q0Sg3kPP1IBWtXLp7QEn5jB9JzOBVNuz4cMzX/Z3qtyveL+Ke+LvuLTI1+38Vrtr
+ +3mynjLXY+FFm3YjF1xj4Oe9lxjzi+MZLnqfghvrjeb9a8l1KZtGt8aPy9vfCM2evb
+ 0pj4/Y3p38j6I76Y/3gukTYVfBbCH7DSUB4l1nYN6g4n9c+fRAbdOf3Elajq4unGeE
+ nvRxGtJeY7jkw==
+Date: Wed, 5 May 2021 14:42:40 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Anirudh Rayabharam <mail@anirudhrb.com>
+Subject: Re: [PATCH] usbhid: fix info leak in hid_submit_ctrl
+In-Reply-To: <20210425173353.10231-1-mail@anirudhrb.com>
+Message-ID: <nycvar.YFH.7.76.2105051442120.28378@cbobk.fhfr.pm>
+References: <20210425173353.10231-1-mail@anirudhrb.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <4c22cfa5-5702-6181-0f9a-d1d8d4041156@linuxfoundation.org>
-Content-Language: en-US
-X-CMAE-Envelope: MS4xfFtNF0AOKSec5MD9by5lOuaECiQ8FyLuep91fSEXbKDbjWNqLjdt+YfLJqNpk4I2vpTyPL+BEJhlJFJP2zENP6njY4zsa9WhIGnl0E0wMO6+xockKQ31
- l0eFT5/KSYtNLGbxbrGT8hsPsmF6gy73tvnMmLF8sB5wnskYrUnEBQp/BxRZh5Dwcfk7y2RpbZZNAiqC2o1hCt9G6QkOCXn7XjRUJjtKi+kqMf8THm1zMxwy
- HLeH4GrOrTbL5Vn4xloy1EYTv3eSwgn7o+Sdl5aAH0cwH4dtovT7fKAaVRaOZLNb0I7pvGYFcWAoUalLwMYgOxCjOykN/Q3fY7zirisR+9lQJ9Xqw3q3XJgU
- wsNw8glPWYBZLwaVkCDxMt34p0g29FIScneBLNy+Vtv5ZPcGZhCRS+2NdPZYGLZAiOrgN+6GHM2evp5FMF3YW/Xf32DDBPMRQpY1r5qxVePeyn9tNL9q1QIn
- 4kbJtxEkUgqJH044RDjQRI8USpOkp/f27qQ40HH/c0ixKupd9ZibALBlpIJ5Imy1wWxF3CVZ4SFugnCDV/yusCjVLhd7xl7ulH3kLg==
-Cc: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Atul Gopinathan <atulgopinathan@gmail.com>, mchehab@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+ syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
+ linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,128 +92,29 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 23/04/2021 22:56, Shuah Khan wrote:
-> On 4/23/21 2:44 PM, Pavel Skripkin wrote:
->> Hi!
->>
->> On Fri, 23 Apr 2021 14:19:15 -0600
->> Shuah Khan <skhan@linuxfoundation.org> wrote:
->>> On 4/22/21 12:55 PM, Pavel Skripkin wrote:
->>>> Hi!
->>>>
->>>> On Thu, 22 Apr 2021 21:37:42 +0530
->>>> Atul Gopinathan <atulgopinathan@gmail.com> wrote:
->>>>> During probing phase of a gspca driver in "gspca_dev_probe2()", the
->>>>> stv06xx subdrivers have certain sensor variants (namely, hdcs_1x00,
->>>>> hdcs_1020 and pb_0100) that allocate memory for their respective
->>>>> sensor which is passed to the "sd->sensor_priv" field. During the
->>>>> same probe routine, after "sensor_priv" allocation, there are
->>>>> chances of later functions invoked to fail which result in the
->>>>> probing routine to end immediately via "goto out" path. While
->>>>> doing so, the memory allocated earlier for the sensor isn't taken
->>>>> care of resulting in memory leak.
->>>>>
->>>>> Fix this by adding operations to the gspca, stv06xx and down to the
->>>>> sensor levels to free this allocated memory during gspca probe
->>>>> failure.
->>>>>
->>>>> -
->>>>> The current level of hierarchy looks something like this:
->>>>>
->>>>> 	gspca (main driver) represented by struct gspca_dev
->>>>> 	   |
->>>>> ___________|_____________________________________
->>>>> |	|	|	|	|		| (subdrivers)
->>>>> 			|			  represented
->>>>>    			stv06xx			  by
->>>>> "struct sd" |
->>>>>    	 _______________|_______________
->>>>>    	 |	|	|	|	|  (sensors)
->>>>> 	 	|			|
->>>>>    		hdcs_1x00/1020		pb01000
->>>>> 			|_________________|
->>>>> 				|
->>>>> 			These three sensor variants
->>>>> 			allocate memory for
->>>>> 			"sd->sensor_priv" field.
->>>>>
->>>>> Here, "struct gspca_dev" is the representation used in the top
->>>>> level. In the sub-driver levels, "gspca_dev" pointer is cast to
->>>>> "struct sd*", something like this:
->>>>>
->>>>> 	struct sd *sd = (struct sd *)gspca_dev;
->>>>>
->>>>> This is possible because the first field of "struct sd" is
->>>>> "gspca_dev":
->>>>>
->>>>> 	struct sd {
->>>>> 		struct gspca_dev;
->>>>> 		.
->>>>> 		.
->>>>> 	}
->>>>>
->>>>> Therefore, to deallocate the "sd->sensor_priv" fields from
->>>>> "gspca_dev_probe2()" which is at the top level, the patch creates
->>>>> operations for the subdrivers and sensors to be invoked from the
->>>>> gspca driver levels. These operations essentially free the
->>>>> "sd->sensor_priv" which were allocated by the "config" and
->>>>> "init_controls" operations in the case of stv06xx sub-drivers and
->>>>> the sensor levels.
->>>>>
->>>>> This patch doesn't affect other sub-drivers or even sensors who
->>>>> never allocate memory to "sensor_priv". It has also been tested by
->>>>> syzbot and it returned an "OK" result.
->>>>>
->>>>> https://syzkaller.appspot.com/bug?id=ab69427f2911374e5f0b347d0d7795bfe384016c
->>>>> -
->>>>>
->>>>> Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New
->>>>> subdriver.") Cc: stable@vger.kernel.org
->>>>> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
->>>>> Reported-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
->>>>> Tested-by: syzbot+990626a4ef6f043ed4cd@syzkaller.appspotmail.com
->>>>> Signed-off-by: Atul Gopinathan <atulgopinathan@gmail.com>
->>>>
->>>> AFAIK, something similar is already applied to linux-media tree
->>>> https://git.linuxtv.org/media_tree.git/commit/?id=4f4e6644cd876c844cdb3bea2dd7051787d5ae25
->>>>
->>>
->>> Pavel,
->>>
->>> Does the above handle the other drivers hdcs_1x00/1020 and pb01000?
->>>
->>> Atul's patch handles those cases. If thoese code paths need to be
->>> fixes, Atul could do a patch on top of yours perhaps?
->>>
->>> thanks,
->>> -- Shuah
->>>
->>>
->>
->> It's not my patch. I've sent a patch sometime ago, but it was reject
->> by Mauro (we had a small discussion on linux-media mailing-list), then
->> Hans wrote the patch based on my leak discoverage.
->>
-> 
-> Yes my bad. :)
-> 
->> I added Hans to CC, maybe, he will help :)
->>
-> 
-> Will wait for Hans to take a look.
+On Sun, 25 Apr 2021, Anirudh Rayabharam wrote:
 
-Yes, my patch does the same as this patch, just a bit more concise.
-
-I'll drop this one.
-
-Regards,
-
-	Hans
-
+> In hid_submit_ctrl(), the way of calculating the report length doesn't
+> take into account that report->size can be zero. When running the
+> syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
+> calculate transfer_buffer_length as 16384. When this urb is passed to
+> the usb core layer, KMSAN reports an info leak of 16384 bytes.
 > 
-> thanks,
-> -- Shuah
+> To fix this, first modify hid_report_len() to account for the zero
+> report size case by using DIV_ROUND_UP for the division. Then, call it
+> from hid_submit_ctrl().
 > 
+> Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
+> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+
+Benjamin, could you please run this one through your regression testing 
+machinery before we send it upstream?
+
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
 
 _______________________________________________
 Linux-kernel-mentees mailing list
