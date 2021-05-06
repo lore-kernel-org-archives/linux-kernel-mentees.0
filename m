@@ -7,84 +7,86 @@ X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B532C43460
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 May 2021 18:19:24 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AB29C43461
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 May 2021 18:57:25 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 97A076103E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 May 2021 18:19:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97A076103E
+	by mail.kernel.org (Postfix) with ESMTPS id 9B2B9610D2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 May 2021 18:57:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9B2B9610D2
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 4B95360E1B;
-	Thu,  6 May 2021 18:19:23 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2F8A6414D9;
+	Thu,  6 May 2021 18:57:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N5R6alNfQJ1e; Thu,  6 May 2021 18:19:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6AA7160732;
-	Thu,  6 May 2021 18:19:22 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A47BC000E;
-	Thu,  6 May 2021 18:19:22 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15837C0001
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 May 2021 18:19:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 02EFF40524
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 May 2021 18:19:21 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=anirudhrb.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ljnZeihuSsCJ
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id l7Ax7vxnQIix; Thu,  6 May 2021 18:57:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0847041462;
+	Thu,  6 May 2021 18:57:23 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C8001C000E;
+	Thu,  6 May 2021 18:57:22 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AD608C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 May 2021 18:19:19 +0000 (UTC)
+ Thu,  6 May 2021 18:57:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 85BA7402CF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  6 May 2021 18:57:21 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=anirudhrb.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Yd719tMSPy0h
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  6 May 2021 18:57:20 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
  [136.143.188.53])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4A8E84051A
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A0406402B3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 May 2021 18:19:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1620325155; cv=none; 
+ Thu,  6 May 2021 18:57:20 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1620327428; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=KXH6ODj9YZy7EfbkPcfjkM+XlsXfwz397wyKPn9GPHskq/9XSgXxLvskAh7b3IuNp5BqWQEkoF4I/t7OL+TlxVlcjilx9Th88F6LdlJcmd7EXPsfUviIf7YrfWwz2tGzUMflzUguq7t0hRs/0vJgNAKEzCVoqfzUKT+kEpdKPmI=
+ b=eJ238D6x+o3ynAwkMV3GeeHv6PCL/f0XeLNbqD8QwcyEIS0jDEZ81rWyKp0io6Om4f7b+OHFr3QJvDI4xJzElMGkR7yaV47HYZhZCvAWp9/jpocm2KJz/pOfufV8WsRe+Kf8AfZWXaHEyuCqY0Tk7SlppuQR3vYNmE1IlrORl+w=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1620325155;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
- bh=6DDF2B6OrMM0QxGNsdtFui4c6DfEyuwe9HcAxJ1ve7M=; 
- b=PUCjhE+eFwCtUUjTN/rtTnyQ7FxPmXF7d/N+lNlmfryd8L5Jz2fNcMzSKaH4LV3zqYG34co5g0OqIjw7MjZb4Gyw6h8+rvIs6HTEu6sfLXtX9P3/i9KvGr5X/Ive84FOM0z2p9UYvdAd7sbFvub8wgxwZO9vLCs8dPgurutCBNQ=
+ s=zohoarc; t=1620327428;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=S+/94991o1BPiFbH+TJfvpYPY1OSzgLbNS+l1MvqNzI=; 
+ b=eD4Zsi28flpyz1s1RcH+Gg3NRLkOdkoCMP/OsZPPI7MX+mvuj6BhM5ykUiJOwAzaZZWhLa6vpZhgQlQ7QHDNjqqwaOz0Gy/UjUn3fKZh9KoNzONQCZRRICKnP7FySHsgwn9/hxwEen72A3LttceWjbLb7C92IEtqYxndly0+Rkk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=anirudhrb.com;
  spf=pass  smtp.mailfrom=mail@anirudhrb.com;
  dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1620325155; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1620327428; 
  s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=6DDF2B6OrMM0QxGNsdtFui4c6DfEyuwe9HcAxJ1ve7M=;
- b=MIDzm1rtNT6eSuKiaT8tBDlIfhXPuM2GqIjk3hiech6UoIkTP7VFnfw6AdbgKkqm
- QuXqS72qjniH5CaWVJmQYOLE1rf/dcd5rB5veGYyM5hoo07JdqhjTq/t2JCIEPvtcxE
- BXHZBpyY/2TR/2tCoUmHJLZhWsoPKgDyQS9kq8y8=
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+ bh=S+/94991o1BPiFbH+TJfvpYPY1OSzgLbNS+l1MvqNzI=;
+ b=Nh8+nb5lG3a0wqCTMX6dAe2KpiIu1tdCJx4BP7wZlIXXTvP3s2mYprewlfacOEq5
+ zZbr/IIRN7r/+EkEnq0PWKcbZSelD6ZkoWPy1LyrCLNbUjWnBRt0/RT7gPFWhfQETTZ
+ V9k+OBJR6beL8BA5jR6i5+lRalJWb9Ive1Xj3J/I=
 Received: from localhost.localdomain (49.207.210.243 [49.207.210.243]) by
- mx.zohomail.com with SMTPS id 1620325151474625.7325176070485;
- Thu, 6 May 2021 11:19:11 -0700 (PDT)
+ mx.zohomail.com with SMTPS id 1620327425374247.44938551593918;
+ Thu, 6 May 2021 11:57:05 -0700 (PDT)
 From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Matt Porter <mporter@kernel.crashing.org>,
- Alexandre Bounine <alex.bou9@gmail.com>
-Subject: [PATCH v2] rapidio: fix unused variable warning in rio_cm.c
-Date: Thu,  6 May 2021 23:48:36 +0530
-Message-Id: <20210506181837.4758-1-mail@anirudhrb.com>
+To: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
+ Dave Kleikamp <shaggy@austin.ibm.com>, Alex Tomas <alex@clusterfs.com>,
+ Andrew Morton <akpm@osdl.org>
+Subject: [PATCH v2] ext4: fix kernel infoleak via ext4_extent_header
+Date: Fri,  7 May 2021 00:26:54 +0530
+Message-Id: <20210506185655.7118-1-mail@anirudhrb.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-ZohoMailClient: External
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+ syzbot+2dcfeaf8cb49b05e8f1a@syzkaller.appspotmail.com,
+ linux-ext4@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,33 +98,62 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-R0NDIHByb2R1Y2VzIGFuIHVudXNlZCB2YXJpYWJsZSB3YXJuaW5nIGZvciAncmMnOgoKCWRyaXZl
-cnMvcmFwaWRpby9yaW9fY20uYzogSW4gZnVuY3Rpb24g4oCYcmlvX3R4Y3FfaGFuZGxlcuKAmToK
-CWRyaXZlcnMvcmFwaWRpby9yaW9fY20uYzo2NzM6Nzogd2FybmluZzogdmFyaWFibGUg4oCYcmPi
-gJkgc2V0IGJ1dAoJbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCgpUaGUgcmV0
-dXJuIHZhbHVlIG9mIHJpb19hZGRfb3V0Yl9tZXNzYWdlKCkgaXMgYXNzaWduZWQgdG8gJ3JjJyBi
-dXQgaXQKaXMgbmV2ZXIgdXNlZC4gRml4IHRoaXMgd2FybmluZyBieSBsb2dnaW5nIGFuIGVycm9y
-IGlmICdyYycgaXMgbm9uLXplcm8uCgpTaWduZWQtb2ZmLWJ5OiBBbmlydWRoIFJheWFiaGFyYW0g
-PG1haWxAYW5pcnVkaHJiLmNvbT4KLS0tCgpDaGFuZ2VzIGluIHYyOgpMb2cgYW4gZXJyb3IgaW5z
-dGVhZCBvZiBqdXN0IHJlbW92aW5nICdyYycuCgp2MTogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcv
-bGttbC8yMDIxMDUwMTA1NTAxOC45MjQ0LTEtbWFpbEBhbmlydWRocmIuY29tLwoKLS0tCiBkcml2
-ZXJzL3JhcGlkaW8vcmlvX2NtLmMgfCA1ICsrKysrCiAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRp
-b25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9yYXBpZGlvL3Jpb19jbS5jIGIvZHJpdmVycy9y
-YXBpZGlvL3Jpb19jbS5jCmluZGV4IDUwZWM1M2Q2N2E0Yy4uOTcxYTM2ZjFhMjNhIDEwMDY0NAot
-LS0gYS9kcml2ZXJzL3JhcGlkaW8vcmlvX2NtLmMKKysrIGIvZHJpdmVycy9yYXBpZGlvL3Jpb19j
-bS5jCkBAIC02NzcsNiArNjc3LDExIEBAIHN0YXRpYyB2b2lkIHJpb190eGNxX2hhbmRsZXIoc3Ry
-dWN0IGNtX2RldiAqY20sIGludCBzbG90KQogCQkJY20tPnR4X2J1ZltjbS0+dHhfc2xvdF0gPSBy
-ZXEtPmJ1ZmZlcjsKIAkJCXJjID0gcmlvX2FkZF9vdXRiX21lc3NhZ2UoY20tPm1wb3J0LCByZXEt
-PnJkZXYsIGNtYm94LAogCQkJCQkJICByZXEtPmJ1ZmZlciwgcmVxLT5sZW4pOworCQkJaWYgKHJj
-KSB7CisJCQkJcmlvY21fZXJyb3IoIkZhaWxlZCB0byBhZGQgbXNnIHRvIHR4IHF1ZXVlIChlcnI9
-JWQpIiwKKwkJCQkJCXJjKTsKKwkJCX0KKwogCQkJa2ZyZWUocmVxLT5idWZmZXIpOwogCQkJa2Zy
-ZWUocmVxKTsKIAotLSAKMi4yNi4yCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2Vy
-bmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
-Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+Initialize eh_generation of struct ext4_extent_header to prevent leaking
+info to userspace. Fixes KMSAN kernel-infoleak bug reported by syzbot at:
+http://syzkaller.appspot.com/bug?id=78e9ad0e6952a3ca16e8234724b2fa92d041b9b8
+
+Reported-by: syzbot+2dcfeaf8cb49b05e8f1a@syzkaller.appspotmail.com
+Fixes: a86c61812637 ("[PATCH] ext3: add extent map support")
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+---
+
+Changes in v2:
+Added a "Fixes:" tag.
+
+v1: https://lore.kernel.org/lkml/20210505133011.32484-1-mail@anirudhrb.com/
+
+---
+ fs/ext4/extents.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
+index 77c84d6f1af6..677d4821bcc1 100644
+--- a/fs/ext4/extents.c
++++ b/fs/ext4/extents.c
+@@ -825,6 +825,7 @@ void ext4_ext_tree_init(handle_t *handle, struct inode *inode)
+ 	eh->eh_entries = 0;
+ 	eh->eh_magic = EXT4_EXT_MAGIC;
+ 	eh->eh_max = cpu_to_le16(ext4_ext_space_root(inode, 0));
++	eh->eh_generation = 0;
+ 	ext4_mark_inode_dirty(handle, inode);
+ }
+ 
+@@ -1090,6 +1091,7 @@ static int ext4_ext_split(handle_t *handle, struct inode *inode,
+ 	neh->eh_max = cpu_to_le16(ext4_ext_space_block(inode, 0));
+ 	neh->eh_magic = EXT4_EXT_MAGIC;
+ 	neh->eh_depth = 0;
++	neh->eh_generation = 0;
+ 
+ 	/* move remainder of path[depth] to the new leaf */
+ 	if (unlikely(path[depth].p_hdr->eh_entries !=
+@@ -1167,6 +1169,7 @@ static int ext4_ext_split(handle_t *handle, struct inode *inode,
+ 		neh->eh_magic = EXT4_EXT_MAGIC;
+ 		neh->eh_max = cpu_to_le16(ext4_ext_space_block_idx(inode, 0));
+ 		neh->eh_depth = cpu_to_le16(depth - i);
++		neh->eh_generation = 0;
+ 		fidx = EXT_FIRST_INDEX(neh);
+ 		fidx->ei_block = border;
+ 		ext4_idx_store_pblock(fidx, oldblock);
+-- 
+2.26.2
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
