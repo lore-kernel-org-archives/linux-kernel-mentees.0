@@ -2,99 +2,79 @@ Return-Path: <SRS0=DPz5=KG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C449DC433B4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 May 2021 13:51:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D67B2C433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 May 2021 17:04:04 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 28B47610F8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 May 2021 13:51:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 28B47610F8
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id A2C0061159
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 May 2021 17:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A2C0061159
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AE4FA83F21;
-	Tue, 11 May 2021 13:51:13 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3FC2983C6C;
+	Tue, 11 May 2021 17:04:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aZNUsZ8cZu8z; Tue, 11 May 2021 13:51:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EB66883EF9;
-	Tue, 11 May 2021 13:51:12 +0000 (UTC)
+	with ESMTP id a9yaXz6ulrGG; Tue, 11 May 2021 17:04:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6E19A83C0E;
+	Tue, 11 May 2021 17:04:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D35F9C000D;
-	Tue, 11 May 2021 13:51:12 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 79EECC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 42B9FC000E;
+	Tue, 11 May 2021 17:04:02 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 05730C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 May 2021 13:51:11 +0000 (UTC)
+ Tue, 11 May 2021 17:04:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5194E60AF9
+ by smtp2.osuosl.org (Postfix) with ESMTP id DFC56401F3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 May 2021 13:51:11 +0000 (UTC)
+ Tue, 11 May 2021 17:04:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EY7PgJpJHgNF
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=lwn.net
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zJ-KVqrAgPyK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 May 2021 13:51:09 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 61FAA60661
+ Tue, 11 May 2021 17:04:00 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 5302E4011A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 May 2021 13:51:09 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id b21so9024169pft.10
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 May 2021 06:51:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LGbrTnG017iKJQPX5tTGAJAGa5rEnsm9gxB0y9eldqM=;
- b=GKK0tRzTrRY+0cxV01p3/Y6xFH5FqJwCY/kmncFOTcxvCj9Q3vch08BoLxPCiEHFwh
- f6Wm+3kP2xwVGZgDzhi4JuGEKU+CSJ4HUDzr+HG0LJAqHaIwzyodH+/+UKIt+SYumYzf
- ID8hryk2MLTTj4o7O9zYaLjuB2HlspUeo148D9SvyGIOvzOHJHgnQGChwBUGt0/56+iH
- blsLXsgHlUpbzv6YFcN6qzyAZS3Qbuag0cyljT68pkRXSm9BBj5y6rR3Bha75eL2ItgK
- 8rRUPu4evkGxVeCw56x+sHiv2OIBrUs1tMm1VZ9sZPp4K8vuMM6VqsFW/FIiTgDnLOK6
- UkvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LGbrTnG017iKJQPX5tTGAJAGa5rEnsm9gxB0y9eldqM=;
- b=t+17wKMMS/4R5CgTTX3GWXmqA4hY1JxT/e1KZtfo3rkSehQRbTFEBF46d5hvME3ZbW
- vvVPzhK7pGlgrLDhIMl+clnR/s1tnt4u+K5oShrpPrIEktR0LTFv4Mqrksov/W2uC8ul
- irHOY40gfwvsOFIbFeJnP5DVvXJx4II//Z/xeWm6tNMznCeWG9ClqNnrSvykGq/f+TSr
- ekry9llBm3Ytui6KAyA2WGwWh81TSdyBC/WfMy3z24CojYIA78Jn2oUQaaRKeZ9gGzUq
- vfNhEyegaE4G/cMFwrSBn6GRxYenV+DWCjsSRAPk3O4dXdmjmH/6lqwh3x+ONkN90Pdp
- YqDg==
-X-Gm-Message-State: AOAM530Cpdkaw841DpUOm+duE55/fg4Wa/9sGrfAFOsupRdtEEehIC7f
- lMmzr7b2EqCSlqE4RctMTZc=
-X-Google-Smtp-Source: ABdhPJxVtfjS4c7o+1/HaB7uOPcnPB1skyETDuUD7JjscREPsT9p/mlclzeYpixqjxMEzSD5Jzu9TA==
-X-Received: by 2002:a62:92d7:0:b029:2c7:faf1:b1bd with SMTP id
- o206-20020a6292d70000b02902c7faf1b1bdmr5150327pfd.41.1620741068797; 
- Tue, 11 May 2021 06:51:08 -0700 (PDT)
-Received: from localhost.localdomain ([111.223.96.126])
- by smtp.gmail.com with ESMTPSA id a7sm7035607pfg.76.2021.05.11.06.51.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 11 May 2021 06:51:08 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	corbet@lwn.net
-Subject: [PATCH] Remove link to nonexistent rocket driver docs
-Date: Tue, 11 May 2021 09:49:37 -0400
-Message-Id: <20210511134937.2442291-1-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Tue, 11 May 2021 17:04:00 +0000 (UTC)
+Received: from localhost (unknown
+ [IPv6:2601:281:8300:104d:444a:d152:279d:1dbb])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 7D7EF4BF;
+ Tue, 11 May 2021 17:03:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7D7EF4BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1620752639; bh=jhHj1OrFaSajf+GTqsAGMNP6qfJhYZW7T49Hk6PMTfI=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=tiWuI7ZoTQf2NDCjVjX7gggToVewaeq5yTHC+YQPCecOg8rau6cEA2/wD/BkSl289
+ wGwpp1zN+2ldrduwpB6WErhw7mYq+mW8mZnOlhWvuC0IOr5HaR3sHSVZ592zh5qHcf
+ D0fSx/GgsE25H0DK75A4NyeP+6lHHwH/Z+CTGSIuDP+gLe3V7AxtSP6mjTDpbci79p
+ 2bh0sz6K1tQbusLhBiRbz37fPSOVIbfOy947zGKtG7ctUypVBPgAQQHQlBL883URHL
+ kYZnN8PvdbNlJ7sJb8DDQgsvBLSkGR1+Dg062xF/QTeWUzAzUxEsRYXNAz4JGTY9K6
+ zOPWTVPN5eZZw==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org
+Subject: Re: [PATCH] Remove link to nonexistent rocket driver docs
+In-Reply-To: <20210511134937.2442291-1-desmondcheongzx@gmail.com>
+References: <20210511134937.2442291-1-desmondcheongzx@gmail.com>
+Date: Tue, 11 May 2021 11:03:58 -0600
+Message-ID: <87bl9hdwxt.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
@@ -116,30 +96,36 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fixes: 3b00b6af7a5b ("tty: rocket, remove the driver")
-The rocket driver and documentation were removed in this commit, but
-the corresponding entry in index.rst was not removed.
+Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com> writes:
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- Documentation/driver-api/serial/index.rst | 1 -
- 1 file changed, 1 deletion(-)
+> Fixes: 3b00b6af7a5b ("tty: rocket, remove the driver")
+> The rocket driver and documentation were removed in this commit, but
+> the corresponding entry in index.rst was not removed.
+>
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 
-diff --git a/Documentation/driver-api/serial/index.rst b/Documentation/driver-api/serial/index.rst
-index 21351b8c95a4..8f7d7af3b90b 100644
---- a/Documentation/driver-api/serial/index.rst
-+++ b/Documentation/driver-api/serial/index.rst
-@@ -19,7 +19,6 @@ Serial drivers
- 
-     moxa-smartio
-     n_gsm
--    rocket
-     serial-iso7816
-     serial-rs485
- 
--- 
-2.25.1
+Please note: the "Fixes" tag should be down at the end with your
+signoff. 
 
+>  Documentation/driver-api/serial/index.rst | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/serial/index.rst b/Documentation/driver-api/serial/index.rst
+> index 21351b8c95a4..8f7d7af3b90b 100644
+> --- a/Documentation/driver-api/serial/index.rst
+> +++ b/Documentation/driver-api/serial/index.rst
+> @@ -19,7 +19,6 @@ Serial drivers
+>  
+>      moxa-smartio
+>      n_gsm
+> -    rocket
+>      serial-iso7816
+>      serial-rs485
+
+Otherwise this looks like a good fix.  I've applied it (with Fixes in
+the right place), thanks.
+
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
