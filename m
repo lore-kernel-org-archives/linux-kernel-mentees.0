@@ -8,93 +8,93 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F042C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:31:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1898DC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:31:18 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E2D06100A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:31:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4E2D06100A
+	by mail.kernel.org (Postfix) with ESMTPS id C65D961155
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:31:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C65D961155
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2D33683A71;
-	Sun, 16 May 2021 12:31:10 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A1BDF83A49;
+	Sun, 16 May 2021 12:31:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id exIiyQo_T0WZ; Sun, 16 May 2021 12:31:09 +0000 (UTC)
+	with ESMTP id cou9us5Pd6zZ; Sun, 16 May 2021 12:31:16 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0DE0F83A49;
-	Sun, 16 May 2021 12:31:09 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 44EAD81CA5;
+	Sun, 16 May 2021 12:31:16 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E3DE6C000E;
-	Sun, 16 May 2021 12:31:08 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98893C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 242C2C000E;
+	Sun, 16 May 2021 12:31:16 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DFCDAC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:31:07 +0000 (UTC)
+ Sun, 16 May 2021 12:31:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9473A60703
+ by smtp2.osuosl.org (Postfix) with ESMTP id C204440214
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:31:07 +0000 (UTC)
+ Sun, 16 May 2021 12:31:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vems3oM3Xxl5
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cQ3HOJjA3Rd1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:31:04 +0000 (UTC)
+ Sun, 16 May 2021 12:31:12 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2725C605F6
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 07218400CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:31:04 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id i5so2846991pgm.0
+ Sun, 16 May 2021 12:31:11 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id t193so2814722pgb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 05:31:04 -0700 (PDT)
+ Sun, 16 May 2021 05:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ds28R/7vwYP+GELrd+7TuWueNiMvgRdKm3879jAJ7HQ=;
- b=rEEgJv5BYec+b4lztI67bvFhhdOJx/o7DPkxi3xSciQzsPHrMn7o7fdMnNvwZ7ZGAY
- WOCJQR8xqdqDU+w5jG33FtR4jxlFzAvXKEHglc6zohI8xClEiFjlyagVZpSeF3EuZd/M
- RFfLX8BO3wTOTtsex+R+YwFHDxlma+esLgVVM6LYF5wSp76JVQ2Vl8+YCgAw5TimZeON
- F/JN1+TBCdpClM2bh1NNJmuLeRchwIC9JwFztRQUNXQa8fRcr1uHgPO6uZ9KQsrYFO5g
- t8tYngE8YzZQbtdGeNoKAatV9bc5RCKloez+XkmVBUcY6w7NkLZmScQMcdsY/TDc4KBT
- MZiQ==
+ bh=pdUQZzXIz36ctJ/KQ7/qh97R6DqY7r5h4cwvHh56rPY=;
+ b=nFdG8KJJLcTxaZxzMA92oK//mU3enSscO3zj9bm5COvK+3fgITkoV3WHRVXOo2UcX7
+ lfz1jXzhZVqtG9K0KGFkGTZw6EjzX9FDBH+fV78SMiOng0zxcdWx4kp5cTdJ5uhH/VG1
+ E1EVyW5yA2DffifE11ccRXN761GRybst+JPN6y7sfEnAPrazlH9tbhheeBqMD7dIxJa/
+ dAADcHN6smPYJDh5v16RXVVA7nYQelMwoG8lez3ir0RLF2aBC8TWRoK43rSN1NFFrqCu
+ SUbdYyr8l1tKajQsBHvhaUc5Byz/SwCQgu0sg2tXVcwnZMAUt7TaMAwgNGRGFd8WMvUd
+ Q0bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ds28R/7vwYP+GELrd+7TuWueNiMvgRdKm3879jAJ7HQ=;
- b=bz07UuCIKulYDtg/IjV78xU9E7VbpEboiWbm6kJZHi/AY3C6l4MJeJY3pTjU5XX30d
- h/+Du9ACAlcwQOtZIIMp+y/JbU9eSS/lhsHVsyCTvu+8eu071Xpgc2J7Tx+kErKQnUuw
- sz+qtema7Gp+uk3HdcEVMPbSwfYfi0i8lsU2RMpsZ7JOnw0Gp72YfvRfk9Njz/D40Lp+
- WA/bjYl0OKwomEqioeAyX+7FChkuzwL0svS9O5aTOSjdab0M2Jz2gPcPlfjgxd1WT1gC
- mRoplF2z+bs2XXRj/J6U6HF8Ng8muxZIrmbNxRbgr8J1RoSul7n9TZJEdwN5cLjox7Nk
- 6lAg==
-X-Gm-Message-State: AOAM531eY2T8aF1t5jhTO2XBsGYX/XFbUWyDBzKecx7751BgeITPwIJh
- 288a2M5DjD8jtFx6MrpK+eg=
-X-Google-Smtp-Source: ABdhPJyUnk4tZhpoLh6hARcUhy8fFfv9TcSYa1G973qaWL3zCQrGzeEq+CvnQUB7zeVaCqBWLeFviw==
-X-Received: by 2002:a62:7652:0:b029:2d9:4602:7292 with SMTP id
- r79-20020a6276520000b02902d946027292mr6031215pfc.52.1621168263632; 
- Sun, 16 May 2021 05:31:03 -0700 (PDT)
+ bh=pdUQZzXIz36ctJ/KQ7/qh97R6DqY7r5h4cwvHh56rPY=;
+ b=tY+9hBdBb9XvrVyxb980PKHaqoOuEKhjB7D5YJYs9C04ll1uAM74I+XHwghncnLCLT
+ oCFXTbJdNrKcyxRG+OEx5/VxKCKzx+vTXQCE6gwKqpdy84lDCxWhFdPhK2EuceiZla8H
+ CrTODnhOwY1zZB1L4C7xqDG2S6Vm28jIfvXdjrDwV7FsrfuW+o+k35RARMn5Cqjo314p
+ KRu86EqWeJNO2JIt0zcyizzZCAdBhUo8hSbfbOYwEPV+sxF6SMUpJ0RNf0K+8QOgqFgE
+ 4C7rWIwQFdZnX0lHElJfR9mQlVmqndEDFgLV9m/vH881FMzIKZbG+bzwQr0r0L6q12Tq
+ twYA==
+X-Gm-Message-State: AOAM532ohrSJgquKW6mNtiHoLpgEVf6NvoSD9dzoxivxtJJR7/7lKZMF
+ S7RxAI9VTviAL2CeMRSntgE=
+X-Google-Smtp-Source: ABdhPJzZuo2JjGp3HsyAe3aF14n2mY2N3NFfKT7DfVBoZHfHoT4Cm53Gm7CHZlvdOl+a9m7eh7RJAg==
+X-Received: by 2002:a63:2686:: with SMTP id
+ m128mr55982394pgm.406.1621168271337; 
+ Sun, 16 May 2021 05:31:11 -0700 (PDT)
 Received: from localhost.localdomain ([111.223.96.126])
- by smtp.gmail.com with ESMTPSA id k186sm8004318pgk.82.2021.05.16.05.30.57
+ by smtp.gmail.com with ESMTPSA id k186sm8004318pgk.82.2021.05.16.05.31.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:31:03 -0700 (PDT)
+ Sun, 16 May 2021 05:31:10 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: gregkh@linuxfoundation.org, marcocesati@gmail.com,
  dan.carpenter@oracle.com, fabioaiuto83@gmail.com, fmdefrancesco@gmail.com,
  eantoranz@gmail.com, hdegoede@redhat.com, Larry.Finger@lwfinger.net
-Subject: [PATCH 5/7] Staging: rtl8723bs: add missing blank line in
+Subject: [PATCH 6/7] Staging: rtl8723bs: fix line continuations in
  HalBtc8723b1Ant.c
-Date: Sun, 16 May 2021 08:29:25 -0400
-Message-Id: <20210516122927.1132356-6-desmondcheongzx@gmail.com>
+Date: Sun, 16 May 2021 08:29:26 -0400
+Message-Id: <20210516122927.1132356-7-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
 References: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
@@ -119,29 +119,456 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This commit fixes the following checkpatch.pl warning:
+In addition to removing line continuations, the indentation of some
+lines were fixed. This was done to avoid the introduction of new
+warnings because removing the line continuations caused checkpatch.pl
+to emit "CHECK: Alignment should match open parenthesis".
 
-WARNING: Missing a blank line after declarations
-+	struct btc_bt_link_info *pBtLinkInfo = &pBtCoexist->btLinkInfo;
-+	halbtc8723b1ant_BtRssiState(2, 28, 0);
+This commit fixes the following checkpatch.pl warnings:
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d/ %d", "Ant PG Num/ Ant Mech/ Ant Pos:", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %s / %d", "BT stack/ hci ext ver", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d_%x/ 0x%x/ 0x%x(%d)", "CoexVer/ FwVer/ PatchVer", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d / %d(%d)", "Dot11 channel / HsChnl(HsMode)", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %02x %02x %02x ", "H2C Wifi inform bt chnl Info", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d", "Wifi rssi/ HS rssi", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d/ %d/ %s", "Wifi bLink/ bRoam/ bScan/ bHi-Pri", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %s / %s/ %s/ AP =%d/ %s ", "Wifi status", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d/ %d/ %d/ %d", "sta/vwifi/hs/p2pGo/p2pGc", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = [%s/ %d/ %d/ %d] ", "BT [status/ rssi/ retryCnt/ popCnt]", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d / %d / %d / %d", "SCO/HID/PAN/A2DP", \
+
+WARNING: Avoid unnecessary line continuations
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s", "BT Role", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %s", "BT Info A2DP rate", \
+
+WARNING: Avoid unnecessary line continuations
++				"\r\n %-35s = %02x %02x %02x %02x %02x %02x %02x(%d)", GLBtInfoSrc8723b1Ant[i], \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %s/%s, (0x%x/0x%x)", "PS state, IPS/LPS, (lps/rpwm)", \
+
+WARNING: Avoid unnecessary line continuations
++			"\r\n %-35s = %d", "SM[LowPenaltyRA]", \
+
+WARNING: Avoid unnecessary line continuations
++			"\r\n %-35s = %s/ %s/ %d ", "DelBA/ BtCtrlAgg/ AggSize", \
+
+WARNING: Avoid unnecessary line continuations
++			"\r\n %-35s = 0x%x ", "Rate Mask", \
+
+WARNING: Avoid unnecessary line continuations
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %02x %02x %02x %02x %02x case-%d (auto:%d)", "PS TDMA", \
+
+WARNING: Avoid unnecessary line continuations
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "Coex Table Type", \
+
+WARNING: Avoid unnecessary line continuations
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "IgnWlanAct", \
+
+WARNING: Avoid unnecessary line continuations
++	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/0x%x/0x%x/0x%x", "backup ARFR1/ARFR2/RL/AMaxTime", \
+
+WARNING: Avoid unnecessary line continuations
++	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/0x%x/0x%x/0x%x", "0x430/0x434/0x42a/0x456", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x778/0x6cc/0x880[29:25]", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x948/ 0x67[5] / 0x764 / 0x76e", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x92c[1:0]/ 0x930[7:0]/0x944[1:0]", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x38[11]/0x40/0x4c[24:23]/0x64[0]", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x", "0x550(bcn ctrl)/0x522", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x", "0xc50(dig)/0x49c(null-drop)", \
+
+WARNING: Avoid unnecessary line continuations
++		(u4Tmp[1] & 0xffff) +  (u4Tmp[2] & 0xffff) + \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "OFDM-CCA/OFDM-FA/CCK-FA", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d/ %d/ %d", "CRC_OK CCK/11g/11n/11n-Agg", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d/ %d/ %d", "CRC_Err CCK/11g/11n/11n-Agg", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x6c0/0x6c4/0x6c8(coexTable)", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d", "0x770(high-pri rx/tx)", \
+
+WARNING: Avoid unnecessary line continuations
++		"\r\n %-35s = %d/ %d", "0x774(low-pri rx/tx)", \
 
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 88 +++++++++----------
+ 1 file changed, 44 insertions(+), 44 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index 97831d04959b..cf36a7de4735 100644
+index cf36a7de4735..cc7f558903ac 100644
 --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
 +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -1664,6 +1664,7 @@ static void halbtc8723b1ant_ActionWifiConnectedBtAclBusy(
- )
- {
- 	struct btc_bt_link_info *pBtLinkInfo = &pBtCoexist->btLinkInfo;
-+
- 	halbtc8723b1ant_BtRssiState(2, 28, 0);
+@@ -2273,7 +2273,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d/ %d", "Ant PG Num/ Ant Mech/ Ant Pos:", \
++		"\r\n %-35s = %d/ %d/ %d", "Ant PG Num/ Ant Mech/ Ant Pos:",
+ 		pBoardInfo->pgAntNum,
+ 		pBoardInfo->btdmAntNum,
+ 		pBoardInfo->btdmAntPos
+@@ -2283,7 +2283,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %s / %d", "BT stack/ hci ext ver", \
++		"\r\n %-35s = %s / %d", "BT stack/ hci ext ver",
+ 		((pStackInfo->bProfileNotified) ? "Yes" : "No"),
+ 		pStackInfo->hciVersion
+ 	);
+@@ -2294,7 +2294,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d_%x/ 0x%x/ 0x%x(%d)", "CoexVer/ FwVer/ PatchVer", \
++		"\r\n %-35s = %d_%x/ 0x%x/ 0x%x(%d)", "CoexVer/ FwVer/ PatchVer",
+ 		GLCoexVerDate8723b1Ant,
+ 		GLCoexVer8723b1Ant,
+ 		fwVer,
+@@ -2309,7 +2309,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d / %d(%d)", "Dot11 channel / HsChnl(HsMode)", \
++		"\r\n %-35s = %d / %d(%d)", "Dot11 channel / HsChnl(HsMode)",
+ 		wifiDot11Chnl,
+ 		wifiHsChnl,
+ 		bBtHsOn
+@@ -2319,7 +2319,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %02x %02x %02x ", "H2C Wifi inform bt chnl Info", \
++		"\r\n %-35s = %02x %02x %02x ", "H2C Wifi inform bt chnl Info",
+ 		pCoexDm->wifiChnlInfo[0],
+ 		pCoexDm->wifiChnlInfo[1],
+ 		pCoexDm->wifiChnlInfo[2]
+@@ -2331,7 +2331,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d", "Wifi rssi/ HS rssi", \
++		"\r\n %-35s = %d/ %d", "Wifi rssi/ HS rssi",
+ 		wifiRssi - 100, btHsRssi - 100
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2342,7 +2342,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d/ %d/ %s", "Wifi bLink/ bRoam/ bScan/ bHi-Pri", \
++		"\r\n %-35s = %d/ %d/ %d/ %s", "Wifi bLink/ bRoam/ bScan/ bHi-Pri",
+ 		bLink, bRoam, bScan, ((pCoexSta->bWiFiIsHighPriTask) ? "1" : "0")
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2360,7 +2360,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %s / %s/ %s/ AP =%d/ %s ", "Wifi status", \
++		"\r\n %-35s = %s / %s/ %s/ AP =%d/ %s ", "Wifi status",
+ 		(bWifiUnder5G ? "5G" : "2.4G"),
+ 		((bWifiUnderBMode) ? "11b" : ((wifiBw == BTC_WIFI_BW_LEGACY) ? "11bg" : (((wifiBw == BTC_WIFI_BW_HT40) ? "HT40" : "HT20")))),
+ 		((!bWifiBusy) ? "idle" : ((wifiTrafficDir == BTC_WIFI_TRAFFIC_TX) ? "uplink" : "downlink")),
+@@ -2375,7 +2375,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d/ %d/ %d/ %d", "sta/vwifi/hs/p2pGo/p2pGc", \
++		"\r\n %-35s = %d/ %d/ %d/ %d/ %d", "sta/vwifi/hs/p2pGo/p2pGc",
+ 		((wifiLinkStatus & WIFI_STA_CONNECTED) ? 1 : 0),
+ 		((wifiLinkStatus & WIFI_AP_CONNECTED) ? 1 : 0),
+ 		((wifiLinkStatus & WIFI_HS_CONNECTED) ? 1 : 0),
+@@ -2389,7 +2389,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = [%s/ %d/ %d/ %d] ", "BT [status/ rssi/ retryCnt/ popCnt]", \
++		"\r\n %-35s = [%s/ %d/ %d/ %d] ", "BT [status/ rssi/ retryCnt/ popCnt]",
+ 		((pBtCoexist->btInfo.bBtDisabled) ? ("disabled") : ((pCoexSta->bC2hBtInquiryPage) ? ("inquiry/page scan") : ((pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE) ? "non-connected idle" :
+ 																					((pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE) ? "connected-idle" : "busy")))),
+ 		pCoexSta->btRssi, pCoexSta->btRetryCnt, pCoexSta->popEventCnt
+@@ -2405,7 +2405,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d / %d / %d / %d", "SCO/HID/PAN/A2DP", \
++		"\r\n %-35s = %d / %d / %d / %d", "SCO/HID/PAN/A2DP",
+ 		pBtLinkInfo->bScoExist,
+ 		pBtLinkInfo->bHidExist,
+ 		pBtLinkInfo->bPanExist,
+@@ -2416,8 +2416,8 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	if (pStackInfo->bProfileNotified) {
+ 		pBtCoexist->fBtcDispDbgMsg(pBtCoexist, BTC_DBG_DISP_BT_LINK_INFO);
+ 	} else {
+-		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s", "BT Role", \
+-		(pBtLinkInfo->bSlaveRole) ? "Slave" : "Master");
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %s", "BT Role",
++			   (pBtLinkInfo->bSlaveRole) ? "Slave" : "Master");
+ 		CL_PRINTF(cliBuf);
+ 	}
  
- 	if ((pCoexSta->lowPriorityRx >= 1000) && (pCoexSta->lowPriorityRx != 65535))
+@@ -2426,7 +2426,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %s", "BT Info A2DP rate", \
++		"\r\n %-35s = %s", "BT Info A2DP rate",
+ 		(btInfoExt & BIT0) ? "Basic rate" : "EDR rate"
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2436,7 +2436,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 			CL_SPRINTF(
+ 				cliBuf,
+ 				BT_TMP_BUF_SIZE,
+-				"\r\n %-35s = %02x %02x %02x %02x %02x %02x %02x(%d)", GLBtInfoSrc8723b1Ant[i], \
++				"\r\n %-35s = %02x %02x %02x %02x %02x %02x %02x(%d)", GLBtInfoSrc8723b1Ant[i],
+ 				pCoexSta->btInfoC2h[i][0], pCoexSta->btInfoC2h[i][1],
+ 				pCoexSta->btInfoC2h[i][2], pCoexSta->btInfoC2h[i][3],
+ 				pCoexSta->btInfoC2h[i][4], pCoexSta->btInfoC2h[i][5],
+@@ -2448,7 +2448,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %s/%s, (0x%x/0x%x)", "PS state, IPS/LPS, (lps/rpwm)", \
++		"\r\n %-35s = %s/%s, (0x%x/0x%x)", "PS state, IPS/LPS, (lps/rpwm)",
+ 		(pCoexSta->bUnderIps ? "IPS ON" : "IPS OFF"),
+ 		(pCoexSta->bUnderLps ? "LPS ON" : "LPS OFF"),
+ 		pBtCoexist->btInfo.lpsVal,
+@@ -2469,7 +2469,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 		CL_SPRINTF(
+ 			cliBuf,
+ 			BT_TMP_BUF_SIZE,
+-			"\r\n %-35s = %d", "SM[LowPenaltyRA]", \
++			"\r\n %-35s = %d", "SM[LowPenaltyRA]",
+ 			pCoexDm->bCurLowPenaltyRa
+ 		);
+ 		CL_PRINTF(cliBuf);
+@@ -2477,7 +2477,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 		CL_SPRINTF(
+ 			cliBuf,
+ 			BT_TMP_BUF_SIZE,
+-			"\r\n %-35s = %s/ %s/ %d ", "DelBA/ BtCtrlAgg/ AggSize", \
++			"\r\n %-35s = %s/ %s/ %d ", "DelBA/ BtCtrlAgg/ AggSize",
+ 			(pBtCoexist->btInfo.bRejectAggPkt ? "Yes" : "No"),
+ 			(pBtCoexist->btInfo.bBtCtrlAggBufSize ? "Yes" : "No"),
+ 			pBtCoexist->btInfo.aggBufSize
+@@ -2486,7 +2486,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 		CL_SPRINTF(
+ 			cliBuf,
+ 			BT_TMP_BUF_SIZE,
+-			"\r\n %-35s = 0x%x ", "Rate Mask", \
++			"\r\n %-35s = 0x%x ", "Rate Mask",
+ 			pBtCoexist->btInfo.raMask
+ 		);
+ 		CL_PRINTF(cliBuf);
+@@ -2496,18 +2496,18 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 		CL_PRINTF(cliBuf);
+ 
+ 		psTdmaCase = pCoexDm->curPsTdma;
+-		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %02x %02x %02x %02x %02x case-%d (auto:%d)", "PS TDMA", \
+-			pCoexDm->psTdmaPara[0], pCoexDm->psTdmaPara[1],
+-			pCoexDm->psTdmaPara[2], pCoexDm->psTdmaPara[3],
+-			pCoexDm->psTdmaPara[4], psTdmaCase, pCoexDm->bAutoTdmaAdjust);
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %02x %02x %02x %02x %02x case-%d (auto:%d)", "PS TDMA",
++			   pCoexDm->psTdmaPara[0], pCoexDm->psTdmaPara[1],
++			   pCoexDm->psTdmaPara[2], pCoexDm->psTdmaPara[3],
++			   pCoexDm->psTdmaPara[4], psTdmaCase, pCoexDm->bAutoTdmaAdjust);
+ 		CL_PRINTF(cliBuf);
+ 
+-		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "Coex Table Type", \
+-			pCoexSta->nCoexTableType);
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "Coex Table Type",
++			   pCoexSta->nCoexTableType);
+ 		CL_PRINTF(cliBuf);
+ 
+-		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "IgnWlanAct", \
+-			pCoexDm->bCurIgnoreWlanAct);
++		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "IgnWlanAct",
++			   pCoexDm->bCurIgnoreWlanAct);
+ 		CL_PRINTF(cliBuf);
+ 
+ 		/*
+@@ -2521,16 +2521,16 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s", "============[Hw setting]============");
+ 	CL_PRINTF(cliBuf);
+ 
+-	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/0x%x/0x%x/0x%x", "backup ARFR1/ARFR2/RL/AMaxTime", \
+-		pCoexDm->backupArfrCnt1, pCoexDm->backupArfrCnt2, pCoexDm->backupRetryLimit, pCoexDm->backupAmpduMaxTime);
++	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/0x%x/0x%x/0x%x", "backup ARFR1/ARFR2/RL/AMaxTime",
++		   pCoexDm->backupArfrCnt1, pCoexDm->backupArfrCnt2, pCoexDm->backupRetryLimit, pCoexDm->backupAmpduMaxTime);
+ 	CL_PRINTF(cliBuf);
+ 
+ 	u4Tmp[0] = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x430);
+ 	u4Tmp[1] = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x434);
+ 	u2Tmp[0] = pBtCoexist->fBtcRead2Byte(pBtCoexist, 0x42a);
+ 	u1Tmp[0] = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x456);
+-	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/0x%x/0x%x/0x%x", "0x430/0x434/0x42a/0x456", \
+-		u4Tmp[0], u4Tmp[1], u2Tmp[0], u1Tmp[0]);
++	CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x/0x%x/0x%x/0x%x", "0x430/0x434/0x42a/0x456",
++		   u4Tmp[0], u4Tmp[1], u2Tmp[0], u1Tmp[0]);
+ 	CL_PRINTF(cliBuf);
+ 
+ 	u1Tmp[0] = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x778);
+@@ -2538,7 +2538,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	u4Tmp[1] = pBtCoexist->fBtcRead4Byte(pBtCoexist, 0x880);
+ 	CL_SPRINTF(
+ 		cliBuf, BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x778/0x6cc/0x880[29:25]", \
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x778/0x6cc/0x880[29:25]",
+ 		u1Tmp[0], u4Tmp[0],  (u4Tmp[1] & 0x3e000000) >> 25
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2550,7 +2550,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x948/ 0x67[5] / 0x764 / 0x76e", \
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x948/ 0x67[5] / 0x764 / 0x76e",
+ 		u4Tmp[0], ((u1Tmp[0] & 0x20) >> 5), (u4Tmp[1] & 0xffff), u1Tmp[1]
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2561,7 +2561,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x92c[1:0]/ 0x930[7:0]/0x944[1:0]", \
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x92c[1:0]/ 0x930[7:0]/0x944[1:0]",
+ 		u4Tmp[0] & 0x3, u4Tmp[1] & 0xff, u4Tmp[2] & 0x3
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2573,7 +2573,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x38[11]/0x40/0x4c[24:23]/0x64[0]", \
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x/ 0x%x", "0x38[11]/0x40/0x4c[24:23]/0x64[0]",
+ 		((u1Tmp[0] & 0x8) >> 3),
+ 		u1Tmp[1],
+ 		((u4Tmp[0] & 0x01800000) >> 23),
+@@ -2586,7 +2586,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x", "0x550(bcn ctrl)/0x522", \
++		"\r\n %-35s = 0x%x/ 0x%x", "0x550(bcn ctrl)/0x522",
+ 		u4Tmp[0], u1Tmp[0]
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2596,7 +2596,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x", "0xc50(dig)/0x49c(null-drop)", \
++		"\r\n %-35s = 0x%x/ 0x%x", "0xc50(dig)/0x49c(null-drop)",
+ 		u4Tmp[0] & 0xff, u1Tmp[0]
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2612,14 +2612,14 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	faOfdm =
+ 		((u4Tmp[0] & 0xffff0000) >> 16) +
+ 		((u4Tmp[1] & 0xffff0000) >> 16) +
+-		(u4Tmp[1] & 0xffff) +  (u4Tmp[2] & 0xffff) + \
++		(u4Tmp[1] & 0xffff) +  (u4Tmp[2] & 0xffff) +
+ 		((u4Tmp[3] & 0xffff0000) >> 16) + (u4Tmp[3] & 0xffff);
+ 	faCck = (u1Tmp[0] << 8) + u1Tmp[1];
+ 
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "OFDM-CCA/OFDM-FA/CCK-FA", \
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "OFDM-CCA/OFDM-FA/CCK-FA",
+ 		u4Tmp[0] & 0xffff, faOfdm, faCck
+ 	);
+ 	CL_PRINTF(cliBuf);
+@@ -2628,7 +2628,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d/ %d/ %d", "CRC_OK CCK/11g/11n/11n-Agg", \
++		"\r\n %-35s = %d/ %d/ %d/ %d", "CRC_OK CCK/11g/11n/11n-Agg",
+ 		pCoexSta->nCRCOK_CCK,
+ 		pCoexSta->nCRCOK_11g,
+ 		pCoexSta->nCRCOK_11n,
+@@ -2639,7 +2639,7 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d/ %d/ %d", "CRC_Err CCK/11g/11n/11n-Agg", \
++		"\r\n %-35s = %d/ %d/ %d/ %d", "CRC_Err CCK/11g/11n/11n-Agg",
+ 		pCoexSta->nCRCErr_CCK,
+ 		pCoexSta->nCRCErr_11g,
+ 		pCoexSta->nCRCErr_11n,
+@@ -2653,21 +2653,21 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x6c0/0x6c4/0x6c8(coexTable)", \
++		"\r\n %-35s = 0x%x/ 0x%x/ 0x%x", "0x6c0/0x6c4/0x6c8(coexTable)",
+ 		u4Tmp[0], u4Tmp[1], u4Tmp[2]);
+ 	CL_PRINTF(cliBuf);
+ 
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d", "0x770(high-pri rx/tx)", \
++		"\r\n %-35s = %d/ %d", "0x770(high-pri rx/tx)",
+ 		pCoexSta->highPriorityRx, pCoexSta->highPriorityTx
+ 	);
+ 	CL_PRINTF(cliBuf);
+ 	CL_SPRINTF(
+ 		cliBuf,
+ 		BT_TMP_BUF_SIZE,
+-		"\r\n %-35s = %d/ %d", "0x774(low-pri rx/tx)", \
++		"\r\n %-35s = %d/ %d", "0x774(low-pri rx/tx)",
+ 		pCoexSta->lowPriorityRx, pCoexSta->lowPriorityTx
+ 	);
+ 	CL_PRINTF(cliBuf);
 -- 
 2.25.1
 
