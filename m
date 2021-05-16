@@ -5,93 +5,95 @@ X-Spam-Level:
 X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE62C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:30:29 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B12DC433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:30:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D6E8C61155
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:30:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D6E8C61155
+	by mail.kernel.org (Postfix) with ESMTPS id D436161185
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 May 2021 12:30:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D436161185
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8F86E607CB;
-	Sun, 16 May 2021 12:30:28 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9FD4283A64;
+	Sun, 16 May 2021 12:30:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rHYe9Vg47WBe; Sun, 16 May 2021 12:30:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5611060703;
-	Sun, 16 May 2021 12:30:27 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id P07hjYcnffqH; Sun, 16 May 2021 12:30:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8042B81CA5;
+	Sun, 16 May 2021 12:30:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 332E2C000E;
-	Sun, 16 May 2021 12:30:27 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54F68C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 60D33C000E;
+	Sun, 16 May 2021 12:30:41 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 717B0C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:30:26 +0000 (UTC)
+ Sun, 16 May 2021 12:30:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 36DDE60703
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5F96A403CA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:30:26 +0000 (UTC)
+ Sun, 16 May 2021 12:30:40 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GzNCvq9yT1Qt
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id N0r7nKFyFvZB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:30:25 +0000 (UTC)
+ Sun, 16 May 2021 12:30:37 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 58F69605F6
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 960F2403B8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 12:30:25 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id s19so878565pfe.8
+ Sun, 16 May 2021 12:30:37 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id t4so1720189plc.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 May 2021 05:30:25 -0700 (PDT)
+ Sun, 16 May 2021 05:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v6/Rho8TmYFKlfRGaJ1gUUbZ0GhH8HY750ITGcGEJbQ=;
- b=IdoLeuPUpirykiZih9M5Qe9bdrboecUgrFfLDpHR962ClzrVk6AUz19c+8UZRS61yC
- ET5LtmeDX2Pla+ivhcv7osrO/KtUuONSP9YkFD+jkZs/Il9i0PZltn0JoBsl/AAPwGXE
- z5AU0zkD2HtyekFE1s3H+YQVmHm+drGYEkOPPPY6GDDbbUu0aTP3Hx5jyKdL4eR5hSJZ
- mwdAlrLXkCGnmTq8jen8scU0pDzWADMdLoAy5SuHboS145WYMBz+E5ysxzk3XpEnQDIm
- AGSCImrf2w3GAq3MH7WXjJcHNihdDivhqCV/OgyKCtwYkwvDqClsIWvhtfEv4imQV09i
- A/Zg==
+ bh=I6WhL1PpTCyWACZgwSEwTO4odDW7Vfe+3XlFCiuIyHg=;
+ b=Itrqwyv9Q1NKvkvTocagH9e2hB520j0pJ1FyNmOBE0NzIZlB1W+of/x9pap6N07dOB
+ bsxMulGPIeDKDXw3VajxKof6zyNoaqyijoQrL+lOn3PHogn3WrgiZ2OG8Cd6rHdrR8WG
+ XLbVItMeN2ZPxOgqlekn4AfVJpbrOkZqWtcW/Ghn3NKTCQnbvMANHKnWuk77KLR2dWNO
+ K551e43oRgygXTIUGeEWmSXUdxRGT7IsOY/w1n+Ps+Tp17XgDtfjEND96Lbgaq07NQIQ
+ LIX4Kdkur0wQsBCA6kzQ2DoXKsZyk0XDf39FvK6VeiJde06bcqJIHFPuA6eqKDoolYEG
+ iVYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v6/Rho8TmYFKlfRGaJ1gUUbZ0GhH8HY750ITGcGEJbQ=;
- b=E6YHC4fCoE8mNcymZoZItcgKFCvpZv9IltcJXwLHim0dw0pfoRgEekNUNoMAiqbLKH
- 1t6n3c0mjMePH6fH1JoSWUkB35qow4TFJNSnX8GvasCZFvtDR/guG4+VUdnP3zfpJJ3N
- pknM8agU0F7ef1RDWQsOo4Boim0fci9YCYnqPXcee8S0PWIS0RRhuFrHAgzAfKaiBkk9
- o41kOEb85Vl+1SOQzslOOJzhM9yqeN/sX9I5a71yPdJkSuWMrshNUJAo7PP2Ekwj+FHQ
- KuqRZ3nbVBv11RIrIxo7a34skCtEH3oCyHJoNo7A5L3YiFzk5fXGxUda01urOOyx+50T
- ZS1g==
-X-Gm-Message-State: AOAM532uVFhxVhK9eB3e6oPz+FpfuHZwQ9JK1LZrY4CFNnNpQS38e6gL
- reeosIucZ8BC+kuS5FMY87w=
-X-Google-Smtp-Source: ABdhPJyflv6pZ8fTilF0drecMpY4vUnqXNJkII1REaaMMwmslSq8qUO47eYOeVSdGAdAMAmv7HTkfw==
-X-Received: by 2002:a63:4547:: with SMTP id u7mr10064952pgk.250.1621168224775; 
- Sun, 16 May 2021 05:30:24 -0700 (PDT)
+ bh=I6WhL1PpTCyWACZgwSEwTO4odDW7Vfe+3XlFCiuIyHg=;
+ b=MWJXaFWcoBJA+3VHczhbYMRYNN6ReUMvpMhFaxgdo62njzuUmPMcKnOry3j5ZZxVb/
+ 3EkHJ4mNkaQ3y8LLRIMO+StmcXF9ZUVKN0BeYorx2sUFqTMpFx51d9kvIS0IkfXQaG0M
+ tRpGstEV7Jr2spMaUsanXowoWt7kXc/rHB4fpRYfKFH8+vdO+slZrxQDVpNIN1jyLh35
+ wDTOpnWhJ/QDxosThMAwUePn++nlhUYilMjyle8tpTqmbL3ritfGVYPq+S903p1niyQZ
+ ZWbKAonl3x4AD2mGwueEbr/FcO5ajt4nqQFsYJnxA4NufN7gx+agE3ZlHpFl/ZzAX9fn
+ DfDg==
+X-Gm-Message-State: AOAM531qEC2XxDIM8a9l5wepvGTtKDVIoqWuJ/evk+MLfcVbrDiDMkWR
+ NXivs2jNh7CcS6B2vIPYcP4=
+X-Google-Smtp-Source: ABdhPJwfOir+XjFUxEPh6ep0IE4kU926wBpVZVC/DvuQ+YXcjnTrWiaVFLktDjSoNi73DalIhuQ9CA==
+X-Received: by 2002:a17:90a:d909:: with SMTP id
+ c9mr12647509pjv.190.1621168237068; 
+ Sun, 16 May 2021 05:30:37 -0700 (PDT)
 Received: from localhost.localdomain ([111.223.96.126])
- by smtp.gmail.com with ESMTPSA id k186sm8004318pgk.82.2021.05.16.05.30.20
+ by smtp.gmail.com with ESMTPSA id k186sm8004318pgk.82.2021.05.16.05.30.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 May 2021 05:30:24 -0700 (PDT)
+ Sun, 16 May 2021 05:30:36 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: gregkh@linuxfoundation.org, marcocesati@gmail.com,
  dan.carpenter@oracle.com, fabioaiuto83@gmail.com, fmdefrancesco@gmail.com,
  eantoranz@gmail.com, hdegoede@redhat.com, Larry.Finger@lwfinger.net
-Subject: [PATCH 1/7] Staging: rtl8723bs: remove unnecessary braces in
- HalBtc8723b1Ant.c
-Date: Sun, 16 May 2021 08:29:21 -0400
-Message-Id: <20210516122927.1132356-2-desmondcheongzx@gmail.com>
+Subject: [PATCH 2/7] Staging: rtl8723bs: fix spaces in HalBtc8723b1Ant.c
+Date: Sun, 16 May 2021 08:29:22 -0400
+Message-Id: <20210516122927.1132356-3-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
 References: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
@@ -116,369 +118,109 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This commit fixes the following checkpatch.pl warnings:
+This commit fixes the following checkpatch.pl errors:
 
-WARNING: braces {} are not necessary for any arm of this statement
-+			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-[...]
-+			} else {
-[...]
+WARNING: please, no space before tabs
++^I/* ^IRx Aggregation related setting */$
 
-WARNING: braces {} are not necessary for any arm of this statement
-+			if (btRssi < rssiThresh) {
-[...]
-+			} else {
-[...]
+WARNING: please, no space before tabs
++^Iu8 ^IH2C_Parameter[1] = {0};$
 
-WARNING: braces {} are not necessary for single statement blocks
-+		if (rssiThresh > rssiThresh1) {
-+			return pCoexSta->preBtRssiState;
-+		}
+WARNING: please, no space before tabs
++^Iu8 ^IH2C_Parameter[6] = {0};$
 
-WARNING: braces {} are not necessary for any arm of this statement
-+			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-[...]
-+			} else {
-[...]
+WARNING: please, no space before tabs
++^I/* u32 ^I^IfwVer = 0; */$
 
-WARNING: braces {} are not necessary for any arm of this statement
-+			if (btRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-[...]
-+			} else if (btRssi < rssiThresh) {
-[...]
-+			} else {
-[...]
+WARNING: please, no space before tabs
++/* ^ISoftware Coex Mechanism start */$
 
-WARNING: braces {} are not necessary for any arm of this statement
-+			if (btRssi < rssiThresh1) {
-[...]
-+			} else {
-[...]
+WARNING: please, no space before tabs
++/* ^INon-Software Coex Mechanism start */$
 
-WARNING: braces {} are not necessary for single statement blocks
-+	if (!pBtLinkInfo->bBtLinkExist) {
-+		return algorithm;
-+	}
+WARNING: please, no space before tabs
++^I/* ^IBIT0: "0" for no antenna inverse; "1" for antenna inverse */$
 
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
+WARNING: please, no space before tabs
++^I/* ^IBIT1: "0" for internal switch; "1" for external switch */$
 
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (bBtHsOn) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+				if (u1Tmp & BIT0) {
-[...]
-+				} else {
-[...]
-
-WARNING: braces {} are not necessary for single statement blocks
-+	if (pBtCoexist->bManualControl) {
-+		return;
-+	}
-
-WARNING: braces {} are not necessary for single statement blocks
-+	if (pBtCoexist->bStopCoexDm) {
-+		return;
-+	}
-
-WARNING: braces {} are not necessary for single statement blocks
-+	if (pCoexSta->bUnderIps) {
-+		return;
-+	}
-
-WARNING: braces {} are not necessary for any arm of this statement
-+		if ((pBtLinkInfo->bA2dpExist) && (pCoexSta->bC2hBtInquiryPage)) {
-[...]
-+		} else
-[...]
-
-WARNING: braces {} are not necessary for any arm of this statement
-+	if (BTC_LPS_ENABLE == type) {
-[...]
-+	} else if (BTC_LPS_DISABLE == type) {
-[...]
-
-WARNING: braces {} are not necessary for single statement blocks
-+			if (!pBtCoexist->bManualControl && !pBtCoexist->bStopCoexDm) {
-+				halbtc8723b1ant_IgnoreWlanAct(pBtCoexist, FORCE_EXEC, false);
-+			}
+WARNING: please, no space before tabs
++^I/* ^IBIT2: "0" for one antenna; "1" for two antenna */$
 
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 94 ++++++++-----------
- 1 file changed, 37 insertions(+), 57 deletions(-)
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c    | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index 300327f8706c..85bf45cabecd 100644
+index 85bf45cabecd..49f37aa16cc4 100644
 --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
 +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -38,50 +38,44 @@ static u8 halbtc8723b1ant_BtRssiState(
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
- 		) {
--			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-+			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT))
+@@ -231,7 +231,7 @@ static void halbtc8723b1ant_LimitedRx(
+ 	u8 rxAggSize = aggBufSize;
  
- 				btRssiState = BTC_RSSI_STATE_HIGH;
--			} else {
-+			else
- 				btRssiState = BTC_RSSI_STATE_STAY_LOW;
--			}
- 		} else {
--			if (btRssi < rssiThresh) {
-+			if (btRssi < rssiThresh)
- 				btRssiState = BTC_RSSI_STATE_LOW;
--			} else {
-+			else
- 				btRssiState = BTC_RSSI_STATE_STAY_HIGH;
--			}
- 		}
- 	} else if (levelNum == 3) {
--		if (rssiThresh > rssiThresh1) {
-+		if (rssiThresh > rssiThresh1)
- 			return pCoexSta->preBtRssiState;
--		}
+ 	/*  */
+-	/* 	Rx Aggregation related setting */
++	/*	Rx Aggregation related setting */
+ 	/*  */
+ 	pBtCoexist->fBtcSet(
+ 		pBtCoexist, BTC_SET_BL_TO_REJ_AP_AGG_PKT, &bRejectRxAgg
+@@ -250,7 +250,7 @@ static void halbtc8723b1ant_LimitedRx(
  
- 		if (
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_LOW) ||
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_LOW)
- 		) {
--			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-+			if (btRssi >= (rssiThresh + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT))
- 				btRssiState = BTC_RSSI_STATE_MEDIUM;
--			} else {
-+			else
- 				btRssiState = BTC_RSSI_STATE_STAY_LOW;
--			}
- 		} else if (
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_MEDIUM) ||
- 			(pCoexSta->preBtRssiState == BTC_RSSI_STATE_STAY_MEDIUM)
- 		) {
--			if (btRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT)) {
-+			if (btRssi >= (rssiThresh1 + BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT))
- 				btRssiState = BTC_RSSI_STATE_HIGH;
--			} else if (btRssi < rssiThresh) {
-+			else if (btRssi < rssiThresh)
- 				btRssiState = BTC_RSSI_STATE_LOW;
--			} else {
-+			else
- 				btRssiState = BTC_RSSI_STATE_STAY_MEDIUM;
--			}
- 		} else {
--			if (btRssi < rssiThresh1) {
-+			if (btRssi < rssiThresh1)
- 				btRssiState = BTC_RSSI_STATE_MEDIUM;
--			} else {
-+			else
- 				btRssiState = BTC_RSSI_STATE_STAY_HIGH;
--			}
- 		}
- 	}
+ static void halbtc8723b1ant_QueryBtInfo(struct btc_coexist *pBtCoexist)
+ {
+-	u8 	H2C_Parameter[1] = {0};
++	u8 H2C_Parameter[1] = {0};
  
-@@ -508,9 +502,8 @@ static u8 halbtc8723b1ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
+ 	pCoexSta->bC2hBtInfoReqSent = true;
  
- 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_HS_OPERATION, &bBtHsOn);
+@@ -606,7 +606,7 @@ static void halbtc8723b1ant_SetSwPenaltyTxRateAdaptive(
+ 	struct btc_coexist *pBtCoexist, bool bLowPenaltyRa
+ )
+ {
+-	u8 	H2C_Parameter[6] = {0};
++	u8 H2C_Parameter[6] = {0};
  
--	if (!pBtLinkInfo->bBtLinkExist) {
-+	if (!pBtLinkInfo->bBtLinkExist)
- 		return algorithm;
--	}
+ 	H2C_Parameter[0] = 0x6;	/*  opCode, 0x6 = Retry_Penalty */
  
- 	if (pBtLinkInfo->bScoExist)
- 		numOfDiffProfile++;
-@@ -530,11 +523,10 @@ static u8 halbtc8723b1ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
- 			} else if (pBtLinkInfo->bA2dpExist) {
- 				algorithm = BT_8723B_1ANT_COEX_ALGO_A2DP;
- 			} else if (pBtLinkInfo->bPanExist) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANHS;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANEDR;
--				}
- 			}
- 		}
- 	} else if (numOfDiffProfile == 2) {
-@@ -544,27 +536,24 @@ static u8 halbtc8723b1ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
- 			} else if (pBtLinkInfo->bA2dpExist) {
- 				algorithm = BT_8723B_1ANT_COEX_ALGO_SCO;
- 			} else if (pBtLinkInfo->bPanExist) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_SCO;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANEDR_HID;
--				}
- 			}
- 		} else {
- 			if (pBtLinkInfo->bHidExist && pBtLinkInfo->bA2dpExist) {
- 				algorithm = BT_8723B_1ANT_COEX_ALGO_HID_A2DP;
- 			} else if (pBtLinkInfo->bHidExist && pBtLinkInfo->bPanExist) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_HID_A2DP;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANEDR_HID;
--				}
- 			} else if (pBtLinkInfo->bPanExist && pBtLinkInfo->bA2dpExist) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_A2DP_PANHS;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANEDR_A2DP;
--				}
- 			}
- 		}
- 	} else if (numOfDiffProfile == 3) {
-@@ -574,17 +563,15 @@ static u8 halbtc8723b1ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
- 			} else if (
- 				pBtLinkInfo->bHidExist && pBtLinkInfo->bPanExist
- 			) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_HID_A2DP;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANEDR_HID;
--				}
- 			} else if (pBtLinkInfo->bPanExist && pBtLinkInfo->bA2dpExist) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_SCO;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_PANEDR_HID;
--				}
- 			}
- 		} else {
- 			if (
-@@ -592,11 +579,10 @@ static u8 halbtc8723b1ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
- 				pBtLinkInfo->bPanExist &&
- 				pBtLinkInfo->bA2dpExist
- 			) {
--				if (bBtHsOn) {
-+				if (bBtHsOn)
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_HID_A2DP;
--				} else {
-+				else
- 					algorithm = BT_8723B_1ANT_COEX_ALGO_HID_A2DP_PANEDR;
--				}
- 			}
- 		}
- 	} else if (numOfDiffProfile >= 3) {
-@@ -893,11 +879,10 @@ static void halbtc8723b1ant_SetAntPath(
- 				u1Tmp = pBtCoexist->fBtcRead1Byte(pBtCoexist, 0x49d);
- 				cntBtCalChk++;
+@@ -1038,7 +1038,7 @@ static void halbtc8723b1ant_PsTdma(
+ 	u8 rssiAdjustVal = 0;
+ 	u8 psTdmaByte4Val = 0x50, psTdmaByte0Val = 0x51, psTdmaByte3Val =  0x10;
+ 	s8 nWiFiDurationAdjust = 0x0;
+-	/* u32 		fwVer = 0; */
++	/* u32 fwVer = 0; */
  
--				if (u1Tmp & BIT0) {
-+				if (u1Tmp & BIT0)
- 					mdelay(50);
--				} else {
-+				else
- 					break;
--				}
- 			}
+ 	pCoexDm->bCurPsTdmaOn = bTurnOn;
+ 	pCoexDm->curPsTdma = type;
+@@ -1575,13 +1575,13 @@ static void halbtc8723b1ant_PowerSaveState(
  
- 			/*  set grant_bt to PTA */
-@@ -2015,17 +2000,14 @@ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
- 	u32 wifiLinkStatus = 0;
- 	u32 numOfWifiLink = 0;
+ /*  */
+ /*  */
+-/* 	Software Coex Mechanism start */
++/*	Software Coex Mechanism start */
+ /*  */
+ /*  */
  
--	if (pBtCoexist->bManualControl) {
-+	if (pBtCoexist->bManualControl)
- 		return;
--	}
- 
--	if (pBtCoexist->bStopCoexDm) {
-+	if (pBtCoexist->bStopCoexDm)
- 		return;
--	}
- 
--	if (pCoexSta->bUnderIps) {
-+	if (pCoexSta->bUnderIps)
- 		return;
--	}
- 
- 	if (
- 		(BT_8723B_1ANT_BT_STATUS_ACL_BUSY == pCoexDm->btStatus) ||
-@@ -2057,9 +2039,9 @@ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
- 		halbtc8723b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 0, 0, 0, 0);
- 		halbtc8723b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, false, bBtCtrlAggBufSize, aggBufSize);
- 
--		if ((pBtLinkInfo->bA2dpExist) && (pCoexSta->bC2hBtInquiryPage)) {
-+		if ((pBtLinkInfo->bA2dpExist) && (pCoexSta->bC2hBtInquiryPage))
- 			halbtc8723b1ant_ActionBtInquiry(pBtCoexist);
--		} else
-+		else
- 			halbtc8723b1ant_ActionWifiMultiPort(pBtCoexist);
- 
- 		return;
-@@ -2718,11 +2700,10 @@ void EXhalbtc8723b1ant_LpsNotify(struct btc_coexist *pBtCoexist, u8 type)
- 	if (pBtCoexist->bManualControl || pBtCoexist->bStopCoexDm)
- 		return;
- 
--	if (BTC_LPS_ENABLE == type) {
-+	if (BTC_LPS_ENABLE == type)
- 		pCoexSta->bUnderLps = true;
--	} else if (BTC_LPS_DISABLE == type) {
-+	else if (BTC_LPS_DISABLE == type)
- 		pCoexSta->bUnderLps = false;
--	}
- }
- 
- void EXhalbtc8723b1ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type)
-@@ -3029,9 +3010,8 @@ void EXhalbtc8723b1ant_BtInfoNotify(
- 		}
- 
- 		if (pCoexSta->btInfoExt & BIT3) {
--			if (!pBtCoexist->bManualControl && !pBtCoexist->bStopCoexDm) {
-+			if (!pBtCoexist->bManualControl && !pBtCoexist->bStopCoexDm)
- 				halbtc8723b1ant_IgnoreWlanAct(pBtCoexist, FORCE_EXEC, false);
--			}
- 		} else {
- 			/*  BT already NOT ignore Wlan active, do nothing here. */
- 		}
+ /*  */
+ /*  */
+-/* 	Non-Software Coex Mechanism start */
++/*	Non-Software Coex Mechanism start */
+ /*  */
+ /*  */
+ static void halbtc8723b1ant_ActionWifiMultiPort(struct btc_coexist *pBtCoexist)
+@@ -2166,9 +2166,9 @@ void EXhalbtc8723b1ant_PowerOnSetting(struct btc_coexist *pBtCoexist)
+ 	/*  */
+ 	/*  S0 or S1 setting and Local register setting(By the setting fw can get ant number, S0/S1, ... info) */
+ 	/*  Local setting bit define */
+-	/* 	BIT0: "0" for no antenna inverse; "1" for antenna inverse */
+-	/* 	BIT1: "0" for internal switch; "1" for external switch */
+-	/* 	BIT2: "0" for one antenna; "1" for two antenna */
++	/*	BIT0: "0" for no antenna inverse; "1" for antenna inverse */
++	/*	BIT1: "0" for internal switch; "1" for external switch */
++	/*	BIT2: "0" for one antenna; "1" for two antenna */
+ 	/*  NOTE: here default all internal switch and 1-antenna ==> BIT1 = 0 and BIT2 = 0 */
+ 	if (pBtCoexist->chipInterface == BTC_INTF_USB) {
+ 		/*  fixed at S0 for USB interface */
 -- 
 2.25.1
 
