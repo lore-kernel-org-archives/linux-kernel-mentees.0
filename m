@@ -1,84 +1,109 @@
-Return-Path: <SRS0=5laK=KM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=n6YR=KN=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84395C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 May 2021 17:49:16 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E18E9C43460
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 May 2021 04:00:37 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 044AA6109E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 May 2021 17:49:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 044AA6109E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=lwn.net
+	by mail.kernel.org (Postfix) with ESMTPS id 82B986124C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 May 2021 04:00:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 82B986124C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BF7004013A;
-	Mon, 17 May 2021 17:49:15 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 293DE83E1A;
+	Tue, 18 May 2021 04:00:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DZl6FcpTWHPC; Mon, 17 May 2021 17:49:15 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PghIBRsZKc2M; Tue, 18 May 2021 04:00:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F085B4039B;
-	Mon, 17 May 2021 17:49:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4817D83E13;
+	Tue, 18 May 2021 04:00:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C948DC000E;
-	Mon, 17 May 2021 17:49:14 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E549C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1D7BEC000E;
+	Tue, 18 May 2021 04:00:36 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E22A0C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 May 2021 17:49:13 +0000 (UTC)
+ Tue, 18 May 2021 04:00:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id F2493608B5
+ by smtp1.osuosl.org (Postfix) with ESMTP id B5F4C83E13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 May 2021 17:49:12 +0000 (UTC)
+ Tue, 18 May 2021 04:00:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=lwn.net
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id M8jRTcSY6aaP
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vGwpRUbbKLva
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 May 2021 17:49:10 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 534496075E
+ Tue, 18 May 2021 04:00:32 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
+ [IPv6:2607:f8b0:4864:20::52b])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 735CC83E1A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 May 2021 17:49:10 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ms.lwn.net (Postfix) with ESMTPSA id 3614F2E7;
- Mon, 17 May 2021 17:49:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3614F2E7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
- t=1621273749; bh=iWmm4hnq2CtqA3pXgnL0gun99p0HjfnwoUQ5bnL5xUw=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=Dh6l9slO5Rjlx2Alqras6Ho1QBga++8vMcOzhoQq+BQYowEF3ttjETzhETTjfdVmQ
- z0UxwlG29pu7+czVO5o40Airn26gLaKCDwcCOfHtUMPh75ZoQ30WvmKu8xB1X064tf
- MGTqEPO4GK0YVwV7Ril2VTX3kyaVRFgPD0wVVKMIbYSNnuGGFLEMpskVswlDQ0EhfX
- DW2E6tbY2VfINtDO4FIjpYs500ukh0XkVb4NXfcmHrLe9NjgkclljQuDiVfc2Cnekk
- eOiuU3zgf7sN8CqdSD9gEgURb6Q1V2Xr2PkaW6KFhhWuzu+cT9XePDAPhwrnNVMXsX
- X/2KK8OeVnODQ==
-From: Jonathan Corbet <corbet@lwn.net>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Subject: Re: [RFC v4] scripts: kernel-doc: reduce repeated regex expressions
- into variables
-In-Reply-To: <20210514144244.25341-1-yashsri421@gmail.com>
-References: <87bl9ujy2r.fsf@meer.lwn.net>
- <20210514144244.25341-1-yashsri421@gmail.com>
-Date: Mon, 17 May 2021 11:49:08 -0600
-Message-ID: <878s4d45ez.fsf@meer.lwn.net>
+ Tue, 18 May 2021 04:00:32 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id t30so6071020pgl.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 17 May 2021 21:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=i3POdstfkt+dZTR4OIcnuNy8s2PWHNkzuJgiQuuTgAQ=;
+ b=KS1e8JpG2CnFawuDNSvvKKQUfQMW1Q6fDV4/tOM2M+VNKTUmdwpVHCtL94rRPUxT5x
+ BwFmCm+m4kgbn+glU8S7n/JOr9RPbau2vSLv8bNFyvJevoFQ6J5bif/nM5qu6dRjzaFj
+ FtsjMMnbvwnGImjh3KMrGgT0Vg8FFC90sBZowIDDdka/Wib0HAMZEkG1LPc06v8JVonx
+ xO7cJ082vJF5WL1LuAFQirgogZoFi6mH8L3uc9Hjx+6+Zbdhpsp3p6m6C65fEYYKuakA
+ djQcgJE+0xrpeVjtfPnLILdlc8Etf+Ho0bswHVY6Q+H/3AULtyH9JGBE9FYuApnb1n1L
+ 48lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=i3POdstfkt+dZTR4OIcnuNy8s2PWHNkzuJgiQuuTgAQ=;
+ b=tS2s60x1KTeXCdYo1Jr6pdd50x93aIQvE97hB75rbR11RuqMaKkLVh415h9IVWAj/+
+ d64dWy1OCCxGmbWbVehCX5fNZFHhIqNI+2Lw1Q0cRkncE3jIaMVZ8ampFrVWiGcw2/mg
+ HJUfMySaOqiTeV8KRIQAbGkh52qrPuMkO13t2PnpNT/Aj9LG/XCMs4Eh/BpWnV2K1nv9
+ uI08qUU6a/pm0mabbkezcx+FoSSmmSZMP0Rv7EJSXKGQlcQoYQa6DiWoTANW1YqbDZkm
+ 6yGOSerp8prHNUC+Y9pA0CYG6avbH7lssLse2yV9EoH6gBQ2RfHnD078ZJ9b+G6sH4tQ
+ TxnQ==
+X-Gm-Message-State: AOAM533idAdQ14LpBuh8f2AGqxdYJaKubVoLmXJ1PLSxrFUMwMKnlUGZ
+ zSQSSvf8r37geY7k5F+ucordlPU2q97TLjOQtbtP5w==
+X-Google-Smtp-Source: ABdhPJwQWx4oTSaAqUlBwAQjgE4KgZqzb3+auhP7v9j+gC5Dm7V3K4AxQGfbZAClrVmLrLJ+ss6pDQ==
+X-Received: by 2002:aa7:8d5a:0:b029:227:7b07:7d8b with SMTP id
+ s26-20020aa78d5a0000b02902277b077d8bmr3130429pfe.26.1621310431545; 
+ Mon, 17 May 2021 21:00:31 -0700 (PDT)
+Received: from [10.71.15.213] ([203.126.139.254])
+ by smtp.gmail.com with ESMTPSA id f6sm10795529pfe.74.2021.05.17.21.00.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 May 2021 21:00:30 -0700 (PDT)
+To: Dan Carpenter <dan.carpenter@oracle.com>
+References: <20210516122927.1132356-1-desmondcheongzx@gmail.com>
+ <20210516122927.1132356-8-desmondcheongzx@gmail.com>
+ <20210517101302.GF1955@kadam>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH 7/7] Staging: rtl8723bs: fix block comment in
+ HalBtc8723b1Ant.c
+Message-ID: <197c91ac-5db2-f439-0f88-0f3da04842f6@gmail.com>
+Date: Tue, 18 May 2021 00:00:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, yashsri421@gmail.com,
- linux-kernel@vger.kernel.org, willy@infradead.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <20210517101302.GF1955@kadam>
+Content-Language: en-US
+Cc: eantoranz@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, fabioaiuto83@gmail.com, hdegoede@redhat.com,
+ fmdefrancesco@gmail.com, marcocesati@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, Larry.Finger@lwfinger.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,32 +115,53 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Aditya Srivastava <yashsri421@gmail.com> writes:
+On 17/5/21 6:13 am, Dan Carpenter wrote:
+> On Sun, May 16, 2021 at 08:29:27AM -0400, Desmond Cheong Zhi Xi wrote:
+>> This commit fixes the following checkpatch.pl warning:
+>>
+>> WARNING: Block comments use * on subsequent lines
+>> +		/*
+>> +		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
+>>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>> ---
+>>   drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+>> index cc7f558903ac..87156b2cd1f0 100644
+>> --- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+>> +++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+>> @@ -2511,10 +2511,10 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
+>>   		CL_PRINTF(cliBuf);
+>>   
+>>   		/*
+>> -		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
+>> -			pCoexDm->errorCondition);
+>> -		CL_PRINTF(cliBuf);
+>> -		*/
+>> +		 *CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)",
+>> +		 *	pCoexDm->errorCondition);
+>> +		 *CL_PRINTF(cliBuf);
+>> +		 */
+>>   	}
+> 
+> Always just delete dead code.  Otherwise the patchset seems good.
+> 
+> regards,
+> dan carpenter
+> 
 
-> There are some regex expressions in the kernel-doc script, which are used
-> repeatedly in the script.
->
-> Reduce such expressions into variables, which can be used everywhere.
->
-> A quick manual check found that no errors and warnings were added/removed
-> in this process.
->
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> Changes in v4:
-> - Fix htmldocs warning at function parsing, involving repeated $type2 identifiers capture
-> - Re-tested against all files in kernel tree
+Thanks for the feedback, Dan. I'll remove the dead code in a v2 patchset.
 
-Applied, thanks for stickint with this.
-
-jon
+Best wishes,
+Desmond
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
