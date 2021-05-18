@@ -2,107 +2,109 @@ Return-Path: <SRS0=n6YR=KN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C433C433B4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 May 2021 04:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACAFC433ED
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 May 2021 08:20:47 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04B5F610E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 May 2021 04:44:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 04B5F610E9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id E20C961040
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 May 2021 08:20:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E20C961040
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D9695606D0;
-	Tue, 18 May 2021 04:44:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A5DD96089C;
+	Tue, 18 May 2021 08:20:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oSJSw0cvc0Su; Tue, 18 May 2021 04:44:30 +0000 (UTC)
+	with ESMTP id hQy6KMgizOO4; Tue, 18 May 2021 08:20:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1931760671;
-	Tue, 18 May 2021 04:44:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C25B7606DB;
+	Tue, 18 May 2021 08:20:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 066A8C000D;
-	Tue, 18 May 2021 04:44:30 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A4696C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0A1FC000E;
+	Tue, 18 May 2021 08:20:45 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5C30DC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 May 2021 04:44:28 +0000 (UTC)
+ Tue, 18 May 2021 08:20:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 928EA40493
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3DF934027F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 May 2021 04:44:28 +0000 (UTC)
+ Tue, 18 May 2021 08:20:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z7jfBhYzufNW
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=oracle.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id m987q56_NACt
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 May 2021 04:44:27 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DE10940494
+ Tue, 18 May 2021 08:20:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 3E033400D1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 May 2021 04:44:27 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- b13-20020a17090a8c8db029015cd97baea9so1093098pjo.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 May 2021 21:44:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XZRMdbjxMxB4jilOYqB66sZPAREoVkPe1v6Lee0oUs4=;
- b=iLWsrAi1bzNb6Ny1SZ+EqLbTmvGKxgXbnO87xCBUV/SioaE7lWKJNfclmiiMll3RVe
- GBT2lZ4zljRObXp/WM/KqkRMM/1tBoc8QegQj10NJ/pH8k6qV15q4rV0wntQxU6CzVTy
- 8GCQCvxHzrT8jiGo2QEbirbgRXFaJIDvlT9R8EXJoYm31jw/SJSknfwcEo/6tT1AKrzO
- lhkvPVrzb8KwOBkZz5QoVhxm7WW02QowLJFqpXk0K/LQyYFpCoydwLaike0G9Mlgerfx
- CFx3SwRWUQBelG1nHuhmuxPxBEPBJQJ0h4kk1gB+HWujjhw7+pr8kVyAf11v2V9ko/gD
- asTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XZRMdbjxMxB4jilOYqB66sZPAREoVkPe1v6Lee0oUs4=;
- b=Hlat49q1ITlY0H18XjBHHEBkzn2PSaimUv0wDkLopgtkhFB0rJODNQAQP+KTOOt5ug
- GTnZd3enOn4QhnNvun71iM2gfR0Wmd+wpv1myLvhUTb4Va8PM++IsHxoINPDlHoTV20w
- WZNHtO9spcw3yatXXk2Oz7Gvg66Y33Db8BY3/PTHrLe8oHJWq2Z9xoNrKt1R/eobrnPq
- 5yiXZUr1s3pn+PpVSW7C/hmOfPbusBDfYYcVe489w55AzGecAd/0/JvjMNbHECY4zJ5I
- 4IbXUHRkLrXSz7d99H12UQAzv3BWUReNdWQL0p0KD3MOmqVpqUuBqmwqpzcud5K+gs6H
- YQpQ==
-X-Gm-Message-State: AOAM532VZL0nYDQT84Jc5Gp3nIQzyTu5YbQxlDFwqWdfglq67/DioLav
- GhyyeIOx/zUXK1c2GN4qvqI=
-X-Google-Smtp-Source: ABdhPJwrEPev0BjXHphGbKgGWulX1v4SAk+tUih50mHbMnYF0UvN0YbbrrzOmiAec3MkuJoGz9CJDQ==
-X-Received: by 2002:a17:90a:f18e:: with SMTP id
- bv14mr3341739pjb.234.1621313067403; 
- Mon, 17 May 2021 21:44:27 -0700 (PDT)
-Received: from localhost.localdomain ([203.126.139.7])
- by smtp.gmail.com with ESMTPSA id t15sm357538pjh.0.2021.05.17.21.44.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 May 2021 21:44:27 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: gregkh@linuxfoundation.org, marcocesati@gmail.com,
- dan.carpenter@oracle.com, fabioaiuto83@gmail.com, fmdefrancesco@gmail.com,
- eantoranz@gmail.com, hdegoede@redhat.com, Larry.Finger@lwfinger.net
-Subject: [PATCH v2 7/7] Staging: rtl8723bs: remove dead code in
+ Tue, 18 May 2021 08:20:42 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 14I8Je8Q003670; Tue, 18 May 2021 08:20:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=bMV0mYfWrGTmWmklGxv/dauj8hgDcMCo2pl7+fXMCws=;
+ b=rEaFfvu2doUIozyV5kNw5H3s9KEXaQ19h5EuF4Ln7SsBLhDdsVaZwe6FPe/Eem2CBntX
+ jmdssOnh8jKRBV02ZroyfNoC6nPJbVd8qHlyQmwX2QUOiZKcjN6GaGdamWy6y5Whsx38
+ uz9XMcQ7CYrClsmZ9f0iCdEG44wvmWwXxZc4ibw+68+X5KSZP+E87nJF5MCtUT6HD8oX
+ YND2v8WNXRW3QDrbe9eJ4eIJGvq/XEzogMvpPUzmVOj6E7ZBtqPvYZAAKUUz+9/EcK2f
+ BFMiYKGpnm+aCiKfipF14TnfyKSkrnWMlVsepEP6BPaLAugSpShubvhvuX8uzqWmHiZ2 IQ== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 38m9bgg0ev-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 08:20:38 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14I8KbEm182208;
+ Tue, 18 May 2021 08:20:37 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by userp3030.oracle.com with ESMTP id 38j3du54vc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 08:20:37 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14I8KaCA182186;
+ Tue, 18 May 2021 08:20:36 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3030.oracle.com with ESMTP id 38j3du54v1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 May 2021 08:20:36 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14I8KXLf003686;
+ Tue, 18 May 2021 08:20:35 GMT
+Received: from kadam (/62.8.83.26) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 18 May 2021 01:20:33 -0700
+Date: Tue, 18 May 2021 11:20:25 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v2 0/7] Staging: rtl8723bs: fix warnings in
  HalBtc8723b1Ant.c
-Date: Tue, 18 May 2021 00:41:19 -0400
-Message-Id: <20210518044119.2960494-8-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
+Message-ID: <20210518082025.GA32682@kadam>
 References: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20210518044119.2960494-1-desmondcheongzx@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-ORIG-GUID: AQla1Mh4Tp_yZL_hCweeFrLOdPQCe5JE
+X-Proofpoint-GUID: AQla1Mh4Tp_yZL_hCweeFrLOdPQCe5JE
+Cc: eantoranz@gmail.com, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, fabioaiuto83@gmail.com, hdegoede@redhat.com,
+ fmdefrancesco@gmail.com, marcocesati@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, Larry.Finger@lwfinger.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,37 +122,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This commit removes dead code to resolve the following checkpatch.pl
-warning:
+On Tue, May 18, 2021 at 12:41:12AM -0400, Desmond Cheong Zhi Xi wrote:
+> This patchset fixes 134 checkpatch.pl warnings in the file drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+> 
+> Although checkpatch.pl reports a large number of checks, these are for issues that were present in the original code. In fact, in the process of fixing warnings, the total number of checks decreased from 548 to 545.
+> 
+> All patches are syntax fixes and no logic is changed. As there are a lot of different warnings, to make things easier to review, each patch addresses a different set of warnings in the following order:
+> 
+> - braces {} are not necessary for any arm of this statement
+> - please, no space before tabs
+> - suspect code indent for conditional statements
+> - Statements should start on a tabstop (this type of warning is solved alongside the previous warning type in the same patch because the fix for one warning addresses the other)
+> - Comparisons should place the constant on the right side of the test
+> - Missing a blank line after declarations
+> - Avoid unnecessary line continuations
+> - Block comments use * on subsequent lines
+> 
+> Change in v2:
+> - Patch 7: Remove dead code inside block comment instead of changing the comment formatting, as suggested by Dan Carpenter
 
-WARNING: Block comments use * on subsequent lines
-+		/*
-+		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
+Thanks!
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 6 ------
- 1 file changed, 6 deletions(-)
+Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-index cc7f558903ac..e5464a27c052 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
-@@ -2509,12 +2509,6 @@ void EXhalbtc8723b1ant_DisplayCoexInfo(struct btc_coexist *pBtCoexist)
- 		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = %d", "IgnWlanAct",
- 			   pCoexDm->bCurIgnoreWlanAct);
- 		CL_PRINTF(cliBuf);
--
--		/*
--		CL_SPRINTF(cliBuf, BT_TMP_BUF_SIZE, "\r\n %-35s = 0x%x ", "Latest error condition(should be 0)", \
--			pCoexDm->errorCondition);
--		CL_PRINTF(cliBuf);
--		*/
- 	}
- 
- 	/*  Hw setting */
--- 
-2.25.1
+regards,
+dan carpenter
 
 _______________________________________________
 Linux-kernel-mentees mailing list
