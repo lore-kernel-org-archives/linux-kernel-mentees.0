@@ -2,102 +2,76 @@ Return-Path: <SRS0=yYPO=KQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A33C0C433ED
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 May 2021 05:48:27 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 461FFC433B4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 May 2021 06:49:04 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4687E613BB
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 May 2021 05:48:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4687E613BB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id F1BB6613D4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 May 2021 06:49:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1BB6613D4
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0665D84573;
-	Fri, 21 May 2021 05:48:27 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C158E605ED;
+	Fri, 21 May 2021 06:49:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DYV9ayFqw6ru; Fri, 21 May 2021 05:48:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 421D684572;
-	Fri, 21 May 2021 05:48:24 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M_01DkZethWr; Fri, 21 May 2021 06:49:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id C124D605A6;
+	Fri, 21 May 2021 06:49:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CF10C000E;
-	Fri, 21 May 2021 05:48:24 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7FAEFC0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA699C000D;
+	Fri, 21 May 2021 06:49:02 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D4C4C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 May 2021 05:48:22 +0000 (UTC)
+ Fri, 21 May 2021 06:49:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6646541506
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7B08F605BF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 May 2021 05:48:22 +0000 (UTC)
+ Fri, 21 May 2021 06:49:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c12BpzeIBJ67
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iwERYXF-zCWQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 May 2021 05:48:20 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 58EDE4145F
+ Fri, 21 May 2021 06:49:00 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 49A47605A6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 May 2021 05:48:20 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id d16so14111108pfn.12
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 20 May 2021 22:48:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WyzWGEeYzzvpqZN1QCFWv+jHG4VPcbJh+9cEDFW/gA0=;
- b=WbWWyNeTBBJm/+5k8GgdUmiGsoClJIZYRin0hwdlUL97wYZ/h180ci/TVg/pnsvtxp
- YNSLRwWGPPKWCQaGoaAirGXWhd9rS/++6VaKEYLMfE20yGWdPp6DBjuf+ETade9qXwLA
- HU+KKNWZEc8F6Juso5nMSeg5kurIro+wdTfzysLLHJLprpulJSsVs2IfVC+sKzSrxA2r
- E/4LWrTgYf1I6r5xYcRGGJb9Lv85lix0Ml7K0E3HedexoIP4AYmrXofy3P+HMSUzSO5h
- eJYpfm7207xXCnVkeOfIwOz0nbtexi9AEtl6RJTb9U4M8SSsQIs9fRYmxRigTzwwevFG
- mJLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=WyzWGEeYzzvpqZN1QCFWv+jHG4VPcbJh+9cEDFW/gA0=;
- b=U7qHCz7pFDTcaF9ehnYBu/U7J1bIpcGprHX4/zUral2OPiZfLZeIBMEa9iN08UP0PX
- FKepaAu+nsc3z9q42uV8VLtdNe0wxu5vN+x3JZG3lqFF+DzRdqfN20Ouakl7Rb9XViZe
- 9xeJ8kapRyQdOSC1j8IE0ilHdN0pytpztSdjKOVuKWXwMwPuZHuwIJ8PzpyZxytGy0pQ
- 7VirGo5Ggl2gAecGZTk+t8VR2xdLJlxnVD/QnWlWM08+fUGTzx6rCEmRK2rAIMQDSQF1
- 28YSoskUFZkjo3Xet/t8kzNTxk+bLaSPtnE7zUBIlnJ+s82Lfy/IKWHwZeHkuAMeraLE
- O5xQ==
-X-Gm-Message-State: AOAM533h26DSznCY2soSwG5nyiz87YKrAbKqSNIlZdzHZm0Xwp6+/eRz
- Ltw3jkDOl5JkJfwRZxYbm08=
-X-Google-Smtp-Source: ABdhPJxPhENPmi/M0XXzNOPEvXgAS7q3LOPaCUQMONMv5rx/nJILGjuJfrzlm7gpXYslq5i4rh46WA==
-X-Received: by 2002:a63:aa48:: with SMTP id x8mr7933150pgo.359.1621576099711; 
- Thu, 20 May 2021 22:48:19 -0700 (PDT)
-Received: from localhost.localdomain ([139.167.194.135])
- by smtp.gmail.com with ESMTPSA id 5sm7847234pjo.17.2021.05.20.22.48.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 May 2021 22:48:19 -0700 (PDT)
-From: aviral14112001 <shiv14112001@gmail.com>
-To: viro@zeniv.linux.org.uk,
-	shuah@kernal.org
-Subject: [PATCH] This commit fixes the following checkpatch.pl errors and
- warnings : >>ERROR: switch and case should be at the same indent +	switch
- (whence) { +		case 1: [...] +		case 0: [...] +	 default:
-Date: Fri, 21 May 2021 11:18:57 +0530
-Message-Id: <20210521054857.7784-1-shiv14112001@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Fri, 21 May 2021 06:49:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 082B660724;
+ Fri, 21 May 2021 06:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1621579739;
+ bh=wdYmfwdm4nzmPrxFS2YNbnS85Aq+b2coK+5qodudhVE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=I8k5NsQjBtZEB1VUmQrF9eBLUNFT+5AhYaJBK9tXorNi1FFT/CSZDXcaYFCT4SfVW
+ lSs9KoWtwF2oFXL1Nmqq8vy/3B0mOLhGdmj2YuVNEXX87ofG2B/bbroESp82R7yBxa
+ 1k0fI7JTRdl7WZjke/bfPQ5axrfBEF/sWKsVD4wQ=
+Date: Fri, 21 May 2021 08:48:56 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: aviral14112001 <shiv14112001@gmail.com>
+Subject: Re: [PATCH] This commit fixes the following checkpatch.pl errors and
+ warnings : >>ERROR: switch and case should be at the same indent +
+ switch (whence) { +		case 1: [...] +		case 0: [...] + default:
+Message-ID: <YKdX2FEsuyBkmqki@kroah.com>
+References: <20210521054857.7784-1-shiv14112001@gmail.com>
 MIME-Version: 1.0
-Cc: linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20210521054857.7784-1-shiv14112001@gmail.com>
+Cc: shuah@kernal.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, viro@zeniv.linux.org.uk,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,243 +89,89 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
->>ERROR: code indent should use tabs where possible
-+                              void (*callback)(struct dentry *))$
+On Fri, May 21, 2021 at 11:18:57AM +0530, aviral14112001 wrote:
+> >>ERROR: code indent should use tabs where possible
+> +                              void (*callback)(struct dentry *))$
+> 
+> >>WARNING: Prefer [subsystem eg: netdev]_warn([subsystem]dev, ... then dev_warn(dev, ... then pr_warn(...  to printk(KERN_WARNING ...
+> +			printk(KERN_WARNING "%s: %s passed in a files array"
+> 
+> >>WARNING: break quoted strings at a space character
+> +			printk(KERN_WARNING "%s: %s passed in a files array"
+> +				"with an index of 1!\n", __func__,
+> 
+> >>WARNING: Symbolic permissions 'S_IRUSR | S_IWUSR' are not preferred. Consider using octal permissions '0600'.
+> +	root->i_mode = S_IFDIR | S_IRUSR | S_IWUSR;
+> 
+> >>WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+> +			loff_t pos, unsigned len, unsigned flags,
+> 
+> >>WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+> +			loff_t pos, unsigned len, unsigned flags,
+> 
+> >>WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
+> +		unsigned from = pos & (PAGE_SIZE - 1);
+> 
+> >>WARNING: Block comments use a trailing */ on a separate line
+> + * to set the attribute specific access operations. */
+> 
+> >>WARNING: Symbolic permissions 'S_IRUGO | S_IXUGO' are not preferred. Consider using octal permissions '0555'.
+> +	inode->i_mode = S_IFDIR | S_IRUGO | S_IXUGO;
+> 
+> >>Several other warnings (WARNING: Missing a blank line after declarations)
+> 
+> Signed-off-by: aviral14112001 <shiv14112001@gmail.com>
+> ---
+>  fs/libfs.c | 66 ++++++++++++++++++++++++++++++------------------------
+>  1 file changed, 37 insertions(+), 29 deletions(-)
+> 
 
->>WARNING: Prefer [subsystem eg: netdev]_warn([subsystem]dev, ... then dev_warn(dev, ... then pr_warn(...  to printk(KERN_WARNING ...
-+			printk(KERN_WARNING "%s: %s passed in a files array"
+Hi,
 
->>WARNING: break quoted strings at a space character
-+			printk(KERN_WARNING "%s: %s passed in a files array"
-+				"with an index of 1!\n", __func__,
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
->>WARNING: Symbolic permissions 'S_IRUSR | S_IWUSR' are not preferred. Consider using octal permissions '0600'.
-+	root->i_mode = S_IFDIR | S_IRUSR | S_IWUSR;
+You are receiving this message because of the following common error(s)
+as indicated below:
 
->>WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
-+			loff_t pos, unsigned len, unsigned flags,
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
 
->>WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
-+			loff_t pos, unsigned len, unsigned flags,
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what is needed in order to
+  properly describe the change.
 
->>WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
-+		unsigned from = pos & (PAGE_SIZE - 1);
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/SubmittingPatches for what a proper Subject: line should
+  look like.
 
->>WARNING: Block comments use a trailing */ on a separate line
-+ * to set the attribute specific access operations. */
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file, Documentation/SubmittingPatches
+  for how to do this correctly.
 
->>WARNING: Symbolic permissions 'S_IRUGO | S_IXUGO' are not preferred. Consider using octal permissions '0555'.
-+	inode->i_mode = S_IFDIR | S_IRUGO | S_IXUGO;
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
->>Several other warnings (WARNING: Missing a blank line after declarations)
+thanks,
 
-Signed-off-by: aviral14112001 <shiv14112001@gmail.com>
----
- fs/libfs.c | 66 ++++++++++++++++++++++++++++++------------------------
- 1 file changed, 37 insertions(+), 29 deletions(-)
-
-diff --git a/fs/libfs.c b/fs/libfs.c
-index e9b29c6ffccb..a3b6bd803b7d 100644
---- a/fs/libfs.c
-+++ b/fs/libfs.c
-@@ -32,6 +32,7 @@ int simple_getattr(struct user_namespace *mnt_userns, const struct path *path,
- 		   unsigned int query_flags)
- {
- 	struct inode *inode = d_inode(path->dentry);
-+
- 	generic_fillattr(&init_user_ns, inode, stat);
- 	stat->blocks = inode->i_mapping->nrpages << (PAGE_SHIFT - 9);
- 	return 0;
-@@ -137,16 +138,17 @@ static struct dentry *scan_positives(struct dentry *cursor,
- loff_t dcache_dir_lseek(struct file *file, loff_t offset, int whence)
- {
- 	struct dentry *dentry = file->f_path.dentry;
-+
- 	switch (whence) {
--		case 1:
--			offset += file->f_pos;
--			fallthrough;
--		case 0:
--			if (offset >= 0)
--				break;
--			fallthrough;
--		default:
--			return -EINVAL;
-+	case 1:
-+		offset += file->f_pos;
-+		fallthrough;
-+	case 0:
-+		if (offset >= 0)
-+			break;
-+		fallthrough;
-+	default:
-+		return -EINVAL;
- 	}
- 	if (offset != file->f_pos) {
- 		struct dentry *cursor = file->private_data;
-@@ -251,6 +253,7 @@ static struct dentry *find_next_child(struct dentry *parent, struct dentry *prev
- 	spin_lock(&parent->d_lock);
- 	while ((p = p->next) != &parent->d_subdirs) {
- 		struct dentry *d = container_of(p, struct dentry, d_child);
-+
- 		if (simple_positive(d)) {
- 			spin_lock_nested(&d->d_lock, DENTRY_D_LOCK_NESTED);
- 			if (simple_positive(d))
-@@ -266,9 +269,10 @@ static struct dentry *find_next_child(struct dentry *parent, struct dentry *prev
- }
- 
- void simple_recursive_removal(struct dentry *dentry,
--                              void (*callback)(struct dentry *))
-+			void (*callback)(struct dentry *))
- {
- 	struct dentry *this = dget(dentry);
-+
- 	while (true) {
- 		struct dentry *victim = NULL, *child;
- 		struct inode *inode = this->d_inode;
-@@ -338,7 +342,7 @@ static int pseudo_fs_fill_super(struct super_block *s, struct fs_context *fc)
- 	 * max_reserved of 1 to iunique).
- 	 */
- 	root->i_ino = 1;
--	root->i_mode = S_IFDIR | S_IRUSR | S_IWUSR;
-+	root->i_mode = S_IFDIR | 0600;
- 	root->i_atime = root->i_mtime = root->i_ctime = current_time(root);
- 	s->s_root = d_make_root(root);
- 	if (!s->s_root)
-@@ -523,7 +527,7 @@ int simple_readpage(struct file *file, struct page *page)
- EXPORT_SYMBOL(simple_readpage);
- 
- int simple_write_begin(struct file *file, struct address_space *mapping,
--			loff_t pos, unsigned len, unsigned flags,
-+			loff_t pos, unsigned int len, unsigned int flags,
- 			struct page **pagep, void **fsdata)
- {
- 	struct page *page;
-@@ -538,7 +542,7 @@ int simple_write_begin(struct file *file, struct address_space *mapping,
- 	*pagep = page;
- 
- 	if (!PageUptodate(page) && (len != PAGE_SIZE)) {
--		unsigned from = pos & (PAGE_SIZE - 1);
-+		unsigned int from = pos & (PAGE_SIZE - 1);
- 
- 		zero_user_segments(page, 0, from, from + len, PAGE_SIZE);
- 	}
-@@ -549,12 +553,12 @@ EXPORT_SYMBOL(simple_write_begin);
- /**
-  * simple_write_end - .write_end helper for non-block-device FSes
-  * @file: See .write_end of address_space_operations
-- * @mapping: 		"
-- * @pos: 		"
-- * @len: 		"
-- * @copied: 		"
-- * @page: 		"
-- * @fsdata: 		"
-+ * @mapping:		"
-+ * @pos:		"
-+ * @len:		"
-+ * @copied:		"
-+ * @page:		"
-+ * @fsdata:		"
-  *
-  * simple_write_end does the minimum needed for updating a page after writing is
-  * done. It has the same API signature as the .write_end of
-@@ -569,7 +573,7 @@ EXPORT_SYMBOL(simple_write_begin);
-  * Use *ONLY* with simple_readpage()
-  */
- int simple_write_end(struct file *file, struct address_space *mapping,
--			loff_t pos, unsigned len, unsigned copied,
-+			loff_t pos, unsigned int len, unsigned int copied,
- 			struct page *page, void *fsdata)
- {
- 	struct inode *inode = page->mapping->host;
-@@ -578,7 +582,7 @@ int simple_write_end(struct file *file, struct address_space *mapping,
- 	/* zero the stale part of the page if we did a short copy */
- 	if (!PageUptodate(page)) {
- 		if (copied < len) {
--			unsigned from = pos & (PAGE_SIZE - 1);
-+			unsigned int from = pos & (PAGE_SIZE - 1);
- 
- 			zero_user(page, from + copied, len - copied);
- 		}
-@@ -640,9 +644,8 @@ int simple_fill_super(struct super_block *s, unsigned long magic,
- 
- 		/* warn if it tries to conflict with the root inode */
- 		if (unlikely(i == 1))
--			printk(KERN_WARNING "%s: %s passed in a files array"
--				"with an index of 1!\n", __func__,
--				s->s_type->name);
-+			pr_warn("%s: %s passed in a files array with an index of 1!\n"
-+			, __func__, s->s_type->name);
- 
- 		dentry = d_alloc_name(root, files->name);
- 		if (!dentry)
-@@ -673,6 +676,7 @@ static DEFINE_SPINLOCK(pin_fs_lock);
- int simple_pin_fs(struct file_system_type *type, struct vfsmount **mount, int *count)
- {
- 	struct vfsmount *mnt = NULL;
-+
- 	spin_lock(&pin_fs_lock);
- 	if (unlikely(!*mount)) {
- 		spin_unlock(&pin_fs_lock);
-@@ -694,6 +698,7 @@ EXPORT_SYMBOL(simple_pin_fs);
- void simple_release_fs(struct vfsmount **mount, int *count)
- {
- 	struct vfsmount *mnt;
-+
- 	spin_lock(&pin_fs_lock);
- 	mnt = *mount;
- 	if (!--*count)
-@@ -888,8 +893,10 @@ struct simple_attr {
- 	struct mutex mutex;	/* protects access to these buffers */
- };
- 
--/* simple_attr_open is called by an actual attribute open file operation
-- * to set the attribute specific access operations. */
-+/*
-+ * simple_attr_open is called by an actual attribute open file operation
-+ * to set the attribute specific access operations.
-+ */
- int simple_attr_open(struct inode *inode, struct file *file,
- 		     int (*get)(void *, u64 *), int (*set)(void *, u64),
- 		     const char *fmt)
-@@ -1133,7 +1140,7 @@ EXPORT_SYMBOL(generic_file_fsync);
-  * block size of 2**@blocksize_bits) is addressable by the sector_t
-  * and page cache of the system.  Return 0 if so and -EFBIG otherwise.
-  */
--int generic_check_addressable(unsigned blocksize_bits, u64 num_blocks)
-+int generic_check_addressable(unsigned int blocksize_bits, u64 num_blocks)
- {
- 	u64 last_fs_block = num_blocks - 1;
- 	u64 last_fs_page =
-@@ -1237,7 +1244,7 @@ struct inode *alloc_anon_inode(struct super_block *s)
- 	 * that it already _is_ on the dirty list.
- 	 */
- 	inode->i_state = I_DIRTY;
--	inode->i_mode = S_IRUSR | S_IWUSR;
-+	inode->i_mode = 0600;
- 	inode->i_uid = current_fsuid();
- 	inode->i_gid = current_fsgid();
- 	inode->i_flags |= S_PRIVATE;
-@@ -1303,6 +1310,7 @@ static int empty_dir_getattr(struct user_namespace *mnt_userns,
- 			     u32 request_mask, unsigned int query_flags)
- {
- 	struct inode *inode = d_inode(path->dentry);
-+
- 	generic_fillattr(&init_user_ns, inode, stat);
- 	return 0;
- }
-@@ -1349,7 +1357,7 @@ static const struct file_operations empty_dir_operations = {
- void make_empty_dir_inode(struct inode *inode)
- {
- 	set_nlink(inode, 2);
--	inode->i_mode = S_IFDIR | S_IRUGO | S_IXUGO;
-+	inode->i_mode = S_IFDIR | 0555;
- 	inode->i_uid = GLOBAL_ROOT_UID;
- 	inode->i_gid = GLOBAL_ROOT_GID;
- 	inode->i_rdev = 0;
--- 
-2.25.1
-
+greg k-h's patch email bot
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
