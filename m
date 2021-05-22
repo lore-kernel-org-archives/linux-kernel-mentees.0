@@ -8,95 +8,92 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F5BBC2B9F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 May 2021 11:44:11 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BCF6C2B9F2
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 May 2021 11:52:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A85D61183
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 May 2021 11:44:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A85D61183
+	by mail.kernel.org (Postfix) with ESMTPS id 23044611CB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 May 2021 11:52:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 23044611CB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0086B4029A;
-	Sat, 22 May 2021 11:44:11 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C9C1540422;
+	Sat, 22 May 2021 11:52:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Rvjh2YpY9qMH; Sat, 22 May 2021 11:44:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BA5C7402D2;
-	Sat, 22 May 2021 11:44:09 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8F980C000E;
-	Sat, 22 May 2021 11:44:09 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1FC3C0001
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 May 2021 11:44:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D353840385
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 May 2021 11:44:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id r_USBvxLeaaB
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AZIf881BSxV5; Sat, 22 May 2021 11:52:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTP id BAAEE4056F;
+	Sat, 22 May 2021 11:52:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 95311C000E;
+	Sat, 22 May 2021 11:52:47 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0A1AC0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 May 2021 11:44:04 +0000 (UTC)
+ Sat, 22 May 2021 11:52:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 99D5A6065F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 May 2021 11:52:45 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id O9U6_YMjIH4m
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 May 2021 11:52:40 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
- [IPv6:2607:f8b0:4864:20::52e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 514694036E
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3DDCD60656
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 May 2021 11:44:04 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id i5so16369736pgm.0
+ Sat, 22 May 2021 11:52:40 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ cu11-20020a17090afa8bb029015d5d5d2175so8706722pjb.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 May 2021 04:44:04 -0700 (PDT)
+ Sat, 22 May 2021 04:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NYrmw5RMTV2aEThz0kjImVo1vw9pbKW0fAr4kqrkC5U=;
- b=FS/Gl1Fewy5oyhiSGr7ZZMYAGTWOr5VtIkUwhWPkdngRV0eRo6u71ya9tTqQ+pUXu8
- UgoAvaBYxbLuC0ZBWgOoqQqbm5YcYd0yvIDOO1rLIVkXqHAnpTk5nXZ7aCaYEoKn5eHZ
- AxrK5332IAVsKQQ2df7TDEyyy0bv1WPfUvc2H1URset8B9nvGIX36gxyHLt1K0k4W9VT
- lM391jrsV+edzNtMvqBqhFqigNLS6n5kwvHcvE0/WL8TAA7mLpLy8uPi0+zZkFDK5ItT
- OHpeWx2Nz+Mttz8kRrkB0D+hMnZOpX6pXR2Pk3dxsL2xGl+HAuwkYKWd7oMv+5osN+qc
- SfCg==
+ h=from:to:cc:subject:date:message-id;
+ bh=52w1nKRxofCzX5SRZgG/obCfCwe0ck/dt1IKXt95vIk=;
+ b=GsZe8mzZSi1aOKcxTzn+4sh/ULmoYyjEiO4ljmi9YBfDQXX8bAWPiIEph73rmrwFvP
+ /tAnFPyeC2srYXifqO33574v+5tY+HzS3PuE8w3gzRHjJbuVZWmOuMhWfOQ8ud3O/Yal
+ PWISbI7/1gjluDMBmIcc6mekZE5R+EmqXUSer3xljY/FCVM2POCJqo3sxq+wmUSzvn6/
+ 5v5q4PxtEinL7s0+qexx7ecqqVjy7N4hQSyDYGHXqoehbgAEGKCmBgoM5UZ4tJ5vhVO5
+ jEVicYI9tGJHdBP2HejSnFUJzJOs7ku1Zm36DBtyuaTiH5O7H4Mu+6bxzKB94nGBmGPn
+ pX3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=NYrmw5RMTV2aEThz0kjImVo1vw9pbKW0fAr4kqrkC5U=;
- b=umY6Vc8CeMuYK2D7OH63ngq9PCg58MGZfDFjAD1Wzvi0HgFykTIYMwU5XlguyuY5zG
- gtg3ctBZdjliqhPQSi3pT1F4h/u2/p9IYC0LdwlvtRshzOkFHOsno20fbvL4tvk6ID8u
- bp1jcAbJ3bgNpx+6Ho7mpwF3sN685wCRvxCDNyVGmAAN37vrhv6oJPCPnhRacybAZ0S0
- FoQzPY9VoU7yu6df+d/ZGZoJPtCGkUFUZSrCqSEe1JBHSIdikAOPyXWoqWSMpvCtuTr7
- em5JZtnIwG38H5TynOfkjC+41SNkXv8e6YbfvYopRXhGL3HQq1dRRaAhzwcqeCIdfly+
- 0veQ==
-X-Gm-Message-State: AOAM531MFmztstdwMLgFpDui0qHdfFBwT3v1p2yhebrwAA0Sh2rKE2Ub
- B8bHMM8wtuyvRlw/LKt9Gk8=
-X-Google-Smtp-Source: ABdhPJwoGHtGQ7e19/ifanrSR37U7sgfx1ePhQ9yHTJ5Quj/3sn448HDDTa5HMl5L8sl0Wza5fDXkQ==
-X-Received: by 2002:a63:4b52:: with SMTP id k18mr3790275pgl.190.1621683843669; 
- Sat, 22 May 2021 04:44:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=52w1nKRxofCzX5SRZgG/obCfCwe0ck/dt1IKXt95vIk=;
+ b=V26sAxm/kEeWrS2wkqDzki1PKi6smXM8T7vbRkm5ar+3FIArLmOrSRjj8xYHBh/cNl
+ xGLawZ2diIqbkjHQY813ZMXd8QWb2jO2+fO1ANdWJ1XcHpwsZIW0yvbmwE1moao7nzv+
+ Sapw3HQfyAPJYOpeZAEC0OqL6KQr1XLC5LMvYWNjYzu1+e2LD2zZM87ulbS0h2y88Obv
+ UPsUzrc6T+uzfhWDVFlifTRuh5NeELZw/Wa2MraPZ+F5GbbL0wdbDNglOyiWQP/DokQX
+ ATKabIo9ntVvI3pPtvQ7gVx/M3cS4o+R3wpXfVa/sgjrVaiWfm44MfMbvKcCbGSoSiNl
+ OscQ==
+X-Gm-Message-State: AOAM530j7TfJEQj7w3j3e4mF24Sn5+GyEtd867X/Mb7EIZtn/lHqpyMn
+ ecH5e7/Dq6Vyf/GnZor9fbc=
+X-Google-Smtp-Source: ABdhPJxFFfyGvd2lXag1q0u/oQOUE4PevFZVDv7hrOReZ7HC14fXNlE6iwwnRYb+Gz/21eoF3LSnAw==
+X-Received: by 2002:a17:90b:3905:: with SMTP id
+ ob5mr15594611pjb.94.1621684359571; 
+ Sat, 22 May 2021 04:52:39 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:600d:a93f:d9c2:4477:9177:8c76])
- by smtp.googlemail.com with ESMTPSA id t25sm6459270pfl.68.2021.05.22.04.43.58
+ by smtp.googlemail.com with ESMTPSA id n6sm7144007pgm.79.2021.05.22.04.52.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 May 2021 04:44:03 -0700 (PDT)
+ Sat, 22 May 2021 04:52:39 -0700 (PDT)
 From: Aditya Srivastava <yashsri421@gmail.com>
-To: jaegeuk@kernel.org
-Subject: [PATCH v2] f2fs: fix kernel-doc syntax and remove file name from file
- header
-Date: Sat, 22 May 2021 17:13:51 +0530
-Message-Id: <20210522114351.9538-1-yashsri421@gmail.com>
+To: balbi@kernel.org
+Subject: [PATCH] USB: gadget: udc: fix kernel-doc syntax in file headers
+Date: Sat, 22 May 2021 17:22:27 +0530
+Message-Id: <20210522115227.9977-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <d1e7aaa1-4f59-2480-003d-5a5a37443c75@infradead.org>
-References: <d1e7aaa1-4f59-2480-003d-5a5a37443c75@infradead.org>
-Cc: chao@kernel.org, yashsri421@gmail.com, rdunlap@infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-f2fs-devel@lists.sourceforge.net,
+Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, rdunlap@infradead.org,
+ linux-kernel@vger.kernel.org, yashsri421@gmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -118,41 +115,47 @@ Sender: "Linux-kernel-mentees"
 
 The opening comment mark '/**' is used for highlighting the beginning of
 kernel-doc comments.
-The header for include/linux/f2fs_fs.h follows this syntax, but the
-content inside does not comply with kernel-doc.
+The header for drivers/usb/gadget/udc/trace files follows this syntax, but
+the content inside does not comply with kernel-doc.
 
 This line was probably not meant for kernel-doc parsing, but is parsed
 due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warning from kernel-doc:
-warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
- * include/linux/f2fs_fs.h
+causes unexpected warning from kernel-doc.
+For e.g., running scripts/kernel-doc -none drivers/usb/gadget/udc/trace.h
+emits:
+warning: expecting prototype for udc.c(). Prototype was for TRACE_SYSTEM() instead
 
 Provide a simple fix by replacing this occurrence with general comment
 format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-Also remove the redundant file name from the comment headers.
-
 Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
-Changes in v2:
-- Remove file name information from header comments, as suggested by Randy
+ drivers/usb/gadget/udc/trace.c | 2 +-
+ drivers/usb/gadget/udc/trace.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
- include/linux/f2fs_fs.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/include/linux/f2fs_fs.h b/include/linux/f2fs_fs.h
-index 5487a80617a3..b5a081aa86c4 100644
---- a/include/linux/f2fs_fs.h
-+++ b/include/linux/f2fs_fs.h
-@@ -1,7 +1,5 @@
+diff --git a/drivers/usb/gadget/udc/trace.c b/drivers/usb/gadget/udc/trace.c
+index 7430624c0bd7..19e837de2a20 100644
+--- a/drivers/usb/gadget/udc/trace.c
++++ b/drivers/usb/gadget/udc/trace.c
+@@ -1,5 +1,5 @@
  // SPDX-License-Identifier: GPL-2.0
 -/**
-- * include/linux/f2fs_fs.h
-- *
 +/*
-  * Copyright (c) 2012 Samsung Electronics Co., Ltd.
-  *             http://www.samsung.com/
-  */
+  * trace.c - USB Gadget Framework Trace Support
+  *
+  * Copyright (C) 2016 Intel Corporation
+diff --git a/drivers/usb/gadget/udc/trace.h b/drivers/usb/gadget/udc/trace.h
+index 2d1f68b5ea76..98584f6b6c66 100644
+--- a/drivers/usb/gadget/udc/trace.h
++++ b/drivers/usb/gadget/udc/trace.h
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * udc.c - Core UDC Framework
+  *
+  * Copyright (C) 2016 Intel Corporation
 -- 
 2.17.1
 
