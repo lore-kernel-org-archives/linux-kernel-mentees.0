@@ -6,92 +6,96 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28164C47082
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 May 2021 15:01:37 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13EF5C47082
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 May 2021 15:09:37 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7541611CB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 May 2021 15:01:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B7541611CB
+	by mail.kernel.org (Postfix) with ESMTPS id 9D8CF611CB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 May 2021 15:09:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D8CF611CB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 802B0837A1;
-	Sun, 23 May 2021 15:01:36 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 52EC960684;
+	Sun, 23 May 2021 15:09:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Cmvjo3xDk-VN; Sun, 23 May 2021 15:01:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6ED7D83760;
-	Sun, 23 May 2021 15:01:35 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IztmjAkdM25X; Sun, 23 May 2021 15:09:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7419060596;
+	Sun, 23 May 2021 15:09:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5360FC000E;
-	Sun, 23 May 2021 15:01:35 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 257D3C0001
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 49515C000E;
+	Sun, 23 May 2021 15:09:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC909C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 May 2021 15:01:34 +0000 (UTC)
+ Sun, 23 May 2021 15:09:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id F2B3B60684
+ by smtp3.osuosl.org (Postfix) with ESMTP id B2E44605BF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 May 2021 15:01:33 +0000 (UTC)
+ Sun, 23 May 2021 15:09:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X17CigZdeHkp
+ with ESMTP id VzmC4X0k3kWG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 May 2021 15:01:33 +0000 (UTC)
+ Sun, 23 May 2021 15:09:32 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 09655605BF
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 080F260596
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 May 2021 15:01:32 +0000 (UTC)
-Received: by mail-pf1-x433.google.com with SMTP id d16so18723839pfn.12
+ Sun, 23 May 2021 15:09:31 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ b15-20020a17090a550fb029015dad75163dso9725154pji.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 May 2021 08:01:32 -0700 (PDT)
+ Sun, 23 May 2021 08:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id;
- bh=nhqjrshLKf5vCSQxvzmXio+WBsrmrBlK+T8AYwqfU9o=;
- b=ctWlbxhqr4MlNnIVxzdQ9qiSFbPLPIqvo8BKPGj0px5TCS6h7oJG6sCxFeqGO5ZpjA
- cHGmF13fLhayCX3IJMCPhQFR0chF/xeVLfDH/GLtoWDAqTZ1zkNK7N1pFrx3VBeWhm1P
- j3iO+J5+JZX0DUGEf1PvFd05dsY0gORMHhkEEOTnnxt9bT5LMDpM8GX4/UVzmL+a27yL
- oiBRyVOtM2ziSSsxZX2WthQE8IHdupss6w/2/YNTpSKrWYAIGnLJl295NYmesVVZwC9x
- C+gvF3JMcPFe7VIqYZgAkgzGuZ5yuFXBXhVpjSBU/NFk3AGRWrsADFuYptz0TTkbzroH
- GG6w==
+ bh=Mc7yOhrqVtGGsvyRmdX2MsPwB1LLZVrbl9jBESxilQ0=;
+ b=CfJwiQppds25Ljl+i2BlgRJ9Iv7M4b50bCacM4p/aCYP+cxywS3w3MH7W6T1IkZkAK
+ /lDgQhaMsJx/64Nk+T7KmQUdrDHkYkn05loST+KkOcmKLqxiXaUy7KNCzCRMF2GFKkEq
+ FpJ0AR1Ui6ElHupyFweYu39lIF+LfsobvzAJon1Sr9biqBHh377QlAhATtQmGCf5G+qZ
+ nTOFsgZOzfyqOtiOShMLmFDJnViBHRW+R6AYhS/eKMusM7HPnT56IKv86ap1KwfJ35M8
+ DYHpf7zPh1ghFjr0QeVsJjifkGT7Nd7JDBVCTOj2gs7Ag1oVH9tyFXb46eMsSLN70qGa
+ AY0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=nhqjrshLKf5vCSQxvzmXio+WBsrmrBlK+T8AYwqfU9o=;
- b=S17kpwMTOYBwMfOjvny13ImMmO4mOmbaE43gPXtZ1qX/VumO+n0bOnQj/nOWSgjxdz
- xKDLcFtn14WSQoTNdM70Uk8uzR5IsoUnet6TgJzv7qAhIjOG3cH+aKl6nbAWBF9y0QeD
- +8fb9aPNv5HxuOiWvcQtP9dnrk3qc6PT3z7izER+dDBH/6ieG+GeUCC6zyhl6yUbdfue
- tfyI5NFRRGbpu9o6BOG54e8FBuO1dU+Em+LCBGR0AhdDGhHafGrcQgMpGyvg0TreOxrQ
- WpHt9QbGgBgU40mv4qP82eaMRCruDPzx5zVWZpiGlY3QKHeRTpE3raIuKj68gqYWKSB1
- 86Kw==
-X-Gm-Message-State: AOAM533Bl2Ij09/eeVUGtg1tYDOupBrhF712eBaWEKFoMHwPXEH5EIj+
- ZrMM45b4E3QIJaJZNXDIx5M=
-X-Google-Smtp-Source: ABdhPJzFLk1BmzkDZUYS73KrtMj4NDq3qSf6VvGejItY1hyXrYRFk+r9lQkq+cGG8X7BZ3bhYj4tDw==
-X-Received: by 2002:a63:338c:: with SMTP id z134mr9058975pgz.167.1621782092134; 
- Sun, 23 May 2021 08:01:32 -0700 (PDT)
+ bh=Mc7yOhrqVtGGsvyRmdX2MsPwB1LLZVrbl9jBESxilQ0=;
+ b=joMdeXkU0n1pf8LZqfmbalmjh+Hd6Rri2Emse9pGoYyYYLzgg1gdfmUFgdcAfbGpx1
+ YwdJvYAHMeXfBWbyJomvWFocRJN12KfGCzhkRtq6tyHQj0yBa8TF2urIkGVqhGSvhiHL
+ n6+R1xSq9WNZuiQJOoGkJnmaE+C0Q4n8N2m4zJ7lcor+ekQGdSWRLi55glUA6b0HSAX5
+ ggezn3ifGEDirdoMJY0dUehBN8RoWpjAP1WGcPeJaFWqapBFs0ZL/U70IYZRy+fl6jHr
+ +b/fJDTjCJL7Cko6nSi3JPWT9+oAqC0bqn5ux9FDIdRRUVfhP7rU2Njbb3+d1KL/n4mg
+ W4bg==
+X-Gm-Message-State: AOAM530vWb9rea0eIhEj4ycxtc7JBDpcQPffYNFbC0lJZIci6m6iYVgQ
+ id0gT4DwdGP4gr+JNy6kF14=
+X-Google-Smtp-Source: ABdhPJzZimt3u5Tj6ZV1xI7hQaedlcZpkQ7FtdkSvjwe8Jf+vozgbKLkQpIafNKt037IFMgKbcpIVw==
+X-Received: by 2002:a17:90a:4493:: with SMTP id
+ t19mr20118821pjg.217.1621782571290; 
+ Sun, 23 May 2021 08:09:31 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:600d:a93f:c492:941f:bc2a:cc89])
- by smtp.googlemail.com with ESMTPSA id l64sm9690973pgd.20.2021.05.23.08.01.28
+ by smtp.googlemail.com with ESMTPSA id
+ ch24sm13191072pjb.18.2021.05.23.08.09.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 May 2021 08:01:31 -0700 (PDT)
+ Sun, 23 May 2021 08:09:30 -0700 (PDT)
 From: Aditya Srivastava <yashsri421@gmail.com>
-To: zbr@ioremap.net
-Subject: [PATCH] w1: ds2482: fix kernel-doc syntax in file
-Date: Sun, 23 May 2021 20:31:22 +0530
-Message-Id: <20210523150122.21160-1-yashsri421@gmail.com>
+To: kafai@fb.com
+Subject: [PATCH] samples: bpf: ix kernel-doc syntax in file header
+Date: Sun, 23 May 2021 20:39:17 +0530
+Message-Id: <20210523150917.21748-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Cc: linux-doc@vger.kernel.org, rdunlap@infradead.org,
- linux-kernel@vger.kernel.org, yashsri421@gmail.com,
+Cc: jgg@ziepe.ca, songliubraving@fb.com, daniel@iogearbox.net,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ rdunlap@infradead.org, john.fastabend@gmail.com, linux-kernel@vger.kernel.org,
+ ast@kernel.org, yashsri421@gmail.com, dledford@redhat.com, yhs@fb.com,
+ andrii@kernel.org, bpf@vger.kernel.org, kpsingh@kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -113,255 +117,35 @@ Sender: "Linux-kernel-mentees"
 
 The opening comment mark '/**' is used for highlighting the beginning of
 kernel-doc comments.
-The comments for drivers/w1/masters/ds2482.c follows this syntax, but
+The header for samples/bpf/ibumad_kern.c follows this syntax, but
 the content inside does not comply with kernel-doc.
 
-Similarly, the syntax for function and arguments declaration as well.
+This line was probably not meant for kernel-doc parsing, but is parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes unexpected warnings from kernel-doc:
+warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+ * ibumad BPF sample kernel side
 
-Fix all such occurrences appropriately.
+Provide a simple fix by replacing this occurrence with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
 
 Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
- drivers/w1/masters/ds2482.c | 94 ++++++++++++++++++-------------------
- 1 file changed, 47 insertions(+), 47 deletions(-)
+ samples/bpf/ibumad_kern.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/w1/masters/ds2482.c b/drivers/w1/masters/ds2482.c
-index b471779c3e2c..6c962e88501c 100644
---- a/drivers/w1/masters/ds2482.c
-+++ b/drivers/w1/masters/ds2482.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
--/**
-+/*
-  * ds2482.c - provides i2c to w1-master bridge(s)
-  * Copyright (C) 2005  Ben Gardner <bgardner@wabtec.com>
-  *
-@@ -19,7 +19,7 @@
- 
- #include <linux/w1.h>
+diff --git a/samples/bpf/ibumad_kern.c b/samples/bpf/ibumad_kern.c
+index 26dcd4dde946..9b193231024a 100644
+--- a/samples/bpf/ibumad_kern.c
++++ b/samples/bpf/ibumad_kern.c
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
  
 -/**
 +/*
-  * Allow the active pullup to be disabled, default is enabled.
+  * ibumad BPF sample kernel side
   *
-  * Note from the DS2482 datasheet:
-@@ -39,7 +39,7 @@ static int extra_config;
- module_param(extra_config, int, S_IRUGO | S_IWUSR);
- MODULE_PARM_DESC(extra_config, "Extra Configuration settings 1=APU,2=PPM,3=SPU,8=1WS");
- 
--/**
-+/*
-  * The DS2482 registers - there are 3 registers that are addressed by a read
-  * pointer. The read pointer is set by the last command executed.
-  *
-@@ -62,7 +62,7 @@ MODULE_PARM_DESC(extra_config, "Extra Configuration settings 1=APU,2=PPM,3=SPU,8
- #define DS2482_PTR_CODE_CHANNEL		0xD2	/* DS2482-800 only */
- #define DS2482_PTR_CODE_CONFIG		0xC3
- 
--/**
-+/*
-  * Configure Register bit definitions
-  * The top 4 bits always read 0.
-  * To write, the top nibble must be the 1's compl. of the low nibble.
-@@ -73,7 +73,7 @@ MODULE_PARM_DESC(extra_config, "Extra Configuration settings 1=APU,2=PPM,3=SPU,8
- #define DS2482_REG_CFG_APU		0x01	/* active pull-up */
- 
- 
--/**
-+/*
-  * Write and verify codes for the CHANNEL_SELECT command (DS2482-800 only).
-  * To set the channel, write the value at the index of the channel.
-  * Read and compare against the corresponding value to verify the change.
-@@ -84,7 +84,7 @@ static const u8 ds2482_chan_rd[8] =
- 	{ 0xB8, 0xB1, 0xAA, 0xA3, 0x9C, 0x95, 0x8E, 0x87 };
- 
- 
--/**
-+/*
-  * Status Register bit definitions (read only)
-  */
- #define DS2482_REG_STS_DIR		0x80
-@@ -124,9 +124,9 @@ struct ds2482_data {
- 
- 
- /**
-- * Helper to calculate values for configuration register
-- * @param conf the raw config value
-- * @return the value w/ complements that can be written to register
-+ * ds2482_calculate_config - Helper to calculate values for configuration register
-+ * @conf: the raw config value
-+ * Return: the value w/ complements that can be written to register
-  */
- static inline u8 ds2482_calculate_config(u8 conf)
- {
-@@ -140,10 +140,10 @@ static inline u8 ds2482_calculate_config(u8 conf)
- 
- 
- /**
-- * Sets the read pointer.
-- * @param pdev		The ds2482 client pointer
-- * @param read_ptr	see DS2482_PTR_CODE_xxx above
-- * @return -1 on failure, 0 on success
-+ * ds2482_select_register - Sets the read pointer.
-+ * @pdev:		The ds2482 client pointer
-+ * @read_ptr:	see DS2482_PTR_CODE_xxx above
-+ * Return: -1 on failure, 0 on success
-  */
- static inline int ds2482_select_register(struct ds2482_data *pdev, u8 read_ptr)
- {
-@@ -159,12 +159,12 @@ static inline int ds2482_select_register(struct ds2482_data *pdev, u8 read_ptr)
- }
- 
- /**
-- * Sends a command without a parameter
-- * @param pdev	The ds2482 client pointer
-- * @param cmd	DS2482_CMD_RESET,
-+ * ds2482_send_cmd - Sends a command without a parameter
-+ * @pdev:	The ds2482 client pointer
-+ * @cmd:	DS2482_CMD_RESET,
-  *		DS2482_CMD_1WIRE_RESET,
-  *		DS2482_CMD_1WIRE_READ_BYTE
-- * @return -1 on failure, 0 on success
-+ * Return: -1 on failure, 0 on success
-  */
- static inline int ds2482_send_cmd(struct ds2482_data *pdev, u8 cmd)
- {
-@@ -176,14 +176,14 @@ static inline int ds2482_send_cmd(struct ds2482_data *pdev, u8 cmd)
- }
- 
- /**
-- * Sends a command with a parameter
-- * @param pdev	The ds2482 client pointer
-- * @param cmd	DS2482_CMD_WRITE_CONFIG,
-+ * ds2482_send_cmd_data - Sends a command with a parameter
-+ * @pdev:	The ds2482 client pointer
-+ * @cmd:	DS2482_CMD_WRITE_CONFIG,
-  *		DS2482_CMD_1WIRE_SINGLE_BIT,
-  *		DS2482_CMD_1WIRE_WRITE_BYTE,
-  *		DS2482_CMD_1WIRE_TRIPLET
-- * @param byte	The data to send
-- * @return -1 on failure, 0 on success
-+ * @byte:	The data to send
-+ * Return: -1 on failure, 0 on success
-  */
- static inline int ds2482_send_cmd_data(struct ds2482_data *pdev,
- 				       u8 cmd, u8 byte)
-@@ -205,10 +205,10 @@ static inline int ds2482_send_cmd_data(struct ds2482_data *pdev,
- #define DS2482_WAIT_IDLE_TIMEOUT	100
- 
- /**
-- * Waits until the 1-wire interface is idle (not busy)
-+ * ds2482_wait_1wire_idle - Waits until the 1-wire interface is idle (not busy)
-  *
-- * @param pdev Pointer to the device structure
-- * @return the last value read from status or -1 (failure)
-+ * @pdev: Pointer to the device structure
-+ * Return: the last value read from status or -1 (failure)
-  */
- static int ds2482_wait_1wire_idle(struct ds2482_data *pdev)
- {
-@@ -230,12 +230,12 @@ static int ds2482_wait_1wire_idle(struct ds2482_data *pdev)
- }
- 
- /**
-- * Selects a w1 channel.
-+ * ds2482_set_channel - Selects a w1 channel.
-  * The 1-wire interface must be idle before calling this function.
-  *
-- * @param pdev		The ds2482 client pointer
-- * @param channel	0-7
-- * @return		-1 (failure) or 0 (success)
-+ * @pdev:		The ds2482 client pointer
-+ * @channel:		0-7
-+ * Return:		-1 (failure) or 0 (success)
-  */
- static int ds2482_set_channel(struct ds2482_data *pdev, u8 channel)
- {
-@@ -254,11 +254,11 @@ static int ds2482_set_channel(struct ds2482_data *pdev, u8 channel)
- 
- 
- /**
-- * Performs the touch-bit function, which writes a 0 or 1 and reads the level.
-+ * ds2482_w1_touch_bit - Performs the touch-bit function, which writes a 0 or 1 and reads the level.
-  *
-- * @param data	The ds2482 channel pointer
-- * @param bit	The level to write: 0 or non-zero
-- * @return	The level read: 0 or 1
-+ * @data:	The ds2482 channel pointer
-+ * @bit:	The level to write: 0 or non-zero
-+ * Return:	The level read: 0 or 1
-  */
- static u8 ds2482_w1_touch_bit(void *data, u8 bit)
- {
-@@ -284,13 +284,13 @@ static u8 ds2482_w1_touch_bit(void *data, u8 bit)
- }
- 
- /**
-- * Performs the triplet function, which reads two bits and writes a bit.
-+ * ds2482_w1_triplet - Performs the triplet function, which reads two bits and writes a bit.
-  * The bit written is determined by the two reads:
-  *   00 => dbit, 01 => 0, 10 => 1
-  *
-- * @param data	The ds2482 channel pointer
-- * @param dbit	The direction to choose if both branches are valid
-- * @return	b0=read1 b1=read2 b3=bit written
-+ * @data:	The ds2482 channel pointer
-+ * @dbit:	The direction to choose if both branches are valid
-+ * Return:	b0=read1 b1=read2 b3=bit written
-  */
- static u8 ds2482_w1_triplet(void *data, u8 dbit)
- {
-@@ -317,10 +317,10 @@ static u8 ds2482_w1_triplet(void *data, u8 dbit)
- }
- 
- /**
-- * Performs the write byte function.
-+ * ds2482_w1_write_byte - Performs the write byte function.
-  *
-- * @param data	The ds2482 channel pointer
-- * @param byte	The value to write
-+ * @data:	The ds2482 channel pointer
-+ * @byte:	The value to write
-  */
- static void ds2482_w1_write_byte(void *data, u8 byte)
- {
-@@ -341,10 +341,10 @@ static void ds2482_w1_write_byte(void *data, u8 byte)
- }
- 
- /**
-- * Performs the read byte function.
-+ * ds2482_w1_read_byte - Performs the read byte function.
-  *
-- * @param data	The ds2482 channel pointer
-- * @return	The value read
-+ * @data:	The ds2482 channel pointer
-+ * Return:	The value read
-  */
- static u8 ds2482_w1_read_byte(void *data)
- {
-@@ -378,10 +378,10 @@ static u8 ds2482_w1_read_byte(void *data)
- 
- 
- /**
-- * Sends a reset on the 1-wire interface
-+ * ds2482_w1_reset_bus - Sends a reset on the 1-wire interface
-  *
-- * @param data	The ds2482 channel pointer
-- * @return	0=Device present, 1=No device present or error
-+ * @data:	The ds2482 channel pointer
-+ * Return:	0=Device present, 1=No device present or error
-  */
- static u8 ds2482_w1_reset_bus(void *data)
- {
-@@ -541,7 +541,7 @@ static int ds2482_remove(struct i2c_client *client)
- 	return 0;
- }
- 
--/**
-+/*
-  * Driver data (common to all clients)
-  */
- static const struct i2c_device_id ds2482_id[] = {
+  * This program is free software; you can redistribute it and/or
 -- 
 2.17.1
 
