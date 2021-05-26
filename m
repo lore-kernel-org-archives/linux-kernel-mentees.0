@@ -2,78 +2,95 @@ Return-Path: <SRS0=DCdj=KV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_RED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B803C47089
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 26 May 2021 10:07:07 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2736BC47088
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 26 May 2021 21:41:31 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4B3076124C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 26 May 2021 10:07:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4B3076124C
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
+	by mail.kernel.org (Postfix) with ESMTPS id B9C94613F0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 26 May 2021 21:41:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B9C94613F0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 19EAF83C49;
-	Wed, 26 May 2021 10:07:07 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 794664011A;
+	Wed, 26 May 2021 21:41:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id spzhWuRRKw3a; Wed, 26 May 2021 10:07:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 685F982ECF;
-	Wed, 26 May 2021 10:07:04 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 481A0C000E;
-	Wed, 26 May 2021 10:07:04 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AD913C0001
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 May 2021 10:07:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8D9CC4040D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 May 2021 10:07:02 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=igalia.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9rEaBXWak5h2
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SLIi0Gi4MFoQ; Wed, 26 May 2021 21:41:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id A7F7B400C5;
+	Wed, 26 May 2021 21:41:29 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80B0BC000D;
+	Wed, 26 May 2021 21:41:29 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BA427C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 May 2021 10:07:01 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9B6AD40208
+ Wed, 26 May 2021 21:41:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id A10296074F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 26 May 2021 10:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=+/YJ/WEHoAhNR9jjGARfV2K3rbovariynAgNjvTSGvY=; 
- b=MXApUS5JNozr7uyNBgT4c38W0dA+0POQTzR2QX/terafuWCP+DR+KG8Fak6jbuxwqDPBli8xF2rBhBh2+WxypDJ5odPUfuA9EAB01+dzHEUDavp40mFURj4hIQyQ+Wh44lJKrYtGktaOWp59qy1AE3HkhkvAgBDYwvLEIXuU5gbAqjIsdJwQELIE4ABcphiicvJAMaJGDmcQwWX3c4qDtcCr8Xb2dZ8LrgIU628qzsVDWVFICTo6g7cBZ2AfrKJeEhk5REzSDKMtm09cs863Srm3gvHJw6xvpQm3ZBfiLvAF6l5ted2kK+Bin2u9RzW6JdS9dnxznJUoEcSuKxTIiw==;
-Received: from 1.pool85-50-22.dynamic.orange.es ([85.50.22.1]
- helo=[192.168.1.120]) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1llqRF-0003DR-JQ; Wed, 26 May 2021 12:06:58 +0200
-Message-ID: <6d9175eb7ac9c4c1278b65f7f6c272910498eca4.camel@igalia.com>
-Subject: Re: [PATCH] ipac: tpci200: fix kernel-doc syntax and remove
- filename from file header
-From: Samuel Iglesias =?ISO-8859-1?Q?Gons=E1lvez?= <siglesias@igalia.com>
-To: Aditya Srivastava <yashsri421@gmail.com>
-Date: Wed, 26 May 2021 12:05:44 +0200
-In-Reply-To: <20210522124051.12540-1-yashsri421@gmail.com>
-References: <20210522124051.12540-1-yashsri421@gmail.com>
-User-Agent: Evolution 3.38.3-1 
-MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, rdunlap@infradead.org,
- jens.taprogge@taprogge.org, linux-kernel@vger.kernel.org,
- industrypack-devel@lists.sourceforge.net,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Wed, 26 May 2021 21:41:28 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4zR-2vVHCkVC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 26 May 2021 21:41:27 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3F3E660733
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 26 May 2021 21:41:27 +0000 (UTC)
+Received: by mail-ej1-x62f.google.com with SMTP id lg14so4743126ejb.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 26 May 2021 14:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:cc:to:from:date:subject;
+ bh=GTyT/UWK9g7SyIVH5438XPolj+EJOu/gs9KQnFzYp+A=;
+ b=TmJtONa7j2IREFR4XyzQbS3OESNtTcEVqXpEdBx+UbzAEUzFH/CarZTC8uYhQJnVdt
+ LI+oh5OC5sOMH3u0Fc7z1tSR6Ma1CONDkjj/ydQIZJZmhg9VqUT2Eg60o2PbEs6OhVDK
+ GAUGv5m+8phMJ5+qxe15sbCMF5FFbGcsitxtkMKNRQgGkZO2Q/82Og+Vv6HZq0t6sLNi
+ 0HTLURVJAT6ilhz84rLPL9eZi1c4pFWvS53gA6T7drQ3VZ/ACHmZ/93KS+kTQ8l5zQQj
+ lANFgUsVRbu/SawOXrhy/K2nNU6+kDgb7mF0ihKFHPW2w2mxTE1KtEeN6kkcx5fYTJ0X
+ 0PFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:cc:to:from:date:subject;
+ bh=GTyT/UWK9g7SyIVH5438XPolj+EJOu/gs9KQnFzYp+A=;
+ b=aSWbkG4e8Vi0BYtp9Hv7yPSibhjWSwXVEHsqqeVylB+dQ1Sm9ZiBx6oqST7Bh7qnjP
+ O9WassnRmgQVnhVE46M5KP4v/fTfAFYZgZhmkploIqEIZd910LGlS8cK0rjsATkt6Iyh
+ I1rGIMOTLFxAbtZOPhpdElIwI+uc7DjjrFimmIZUuc8S+EFNPHQGdFaN/Je94EoOI6Gq
+ sYfKMrhHZutJvCOr4pNjKlOAp6NugnTVL79mliYQeJPJKAaFvCnA1CloISuNnW8dcBQN
+ L7cxd5zIAz+qxImwPY69BbNwV1XFWhSuDIPEv39GU+8NDCoJ25sPnNqAsv3NybbSqMSb
+ 2Scg==
+X-Gm-Message-State: AOAM533laRL2BC4sKH2pSJyvFE4FN9fOfuza8qg3+jtRCaCBca22sxpZ
+ 3pLpn6hdhAu+aGpI9KnaZbD/Af9l1yQ=
+X-Google-Smtp-Source: ABdhPJzl1tmkHh+Xv0u8TriGgV1AZeqDw/ek19e1O1If3f2qDidZQPFox3ByOSTYHS4kZx5EKlho8A==
+X-Received: by 2002:a17:906:9155:: with SMTP id
+ y21mr351620ejw.148.1622065285543; 
+ Wed, 26 May 2021 14:41:25 -0700 (PDT)
+Received: from localhost ([185.199.80.151])
+ by smtp.gmail.com with ESMTPSA id g19sm121763ejw.79.2021.05.26.14.41.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 May 2021 14:41:25 -0700 (PDT)
+Message-ID: <60aec085.1c69fb81.972cc.0bfb@mx.google.com>
+To: gregkh@linuxfoundation.org
+From: Kurt Manucredo <fuzzybritches0@gmail.com>
+Date: Wed, 26 May 2021 23:40:27 +0200
+Subject: [PATCH] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,124 +102,74 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============6514941886629357799=="
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+Fix shift-out-of-bounds in ___bpf_prog_run().
 
---===============6514941886629357799==
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-gi5bHNGvoa4ucqi1PAyk"
+UBSAN: shift-out-of-bounds in kernel/bpf/core.c:1414:2
+shift exponent 248 is too large for 32-bit type 'unsigned int'
+https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
 
+Reported-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
+Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
+---
+ kernel/bpf/core.c | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
---=-gi5bHNGvoa4ucqi1PAyk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Acked-by: Samuel Iglesias Gonsalvez <siglesias@igalia.com>
-
-Thanks,
-
-Sam
-
-On Sat, 2021-05-22 at 18:10 +0530, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning
-> of
-> kernel-doc comments.
-> The header for drivers/ipack/carriers/tpci200 follows this syntax,
-> but the
-> content inside does not comply with kernel-doc.
->=20
-> This line was probably not meant for kernel-doc parsing, but is
-> parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'),
-> which
-> causes unexpected warning from kernel-doc.
->=20
-> For e.g., running scripts/kernel-doc -none on
-> drivers/ipack/carriers/tpci200.c emits:
-> warning: This comment starts with '/**', but isn't a kernel-doc
-> comment. Refer Documentation/doc-guide/kernel-doc.rst
-> =C2=A0* tpci200.c
->=20
-> Provide a simple fix by replacing this occurrence with general
-> comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
->=20
-> Also remove the redundant file name from the comment headers.
->=20
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
-> =C2=A0drivers/ipack/carriers/tpci200.c | 4 +---
-> =C2=A0drivers/ipack/carriers/tpci200.h | 4 +---
-> =C2=A02 files changed, 2 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/ipack/carriers/tpci200.c
-> b/drivers/ipack/carriers/tpci200.c
-> index ec71063fff76..a867906777bd 100644
-> --- a/drivers/ipack/carriers/tpci200.c
-> +++ b/drivers/ipack/carriers/tpci200.c
-> @@ -1,7 +1,5 @@
-> =C2=A0// SPDX-License-Identifier: GPL-2.0-only
-> -/**
-> - * tpci200.c
-> - *
-> +/*
-> =C2=A0 * driver for the TEWS TPCI-200 device
-> =C2=A0 *
-> =C2=A0 * Copyright (C) 2009-2012 CERN (www.cern.ch)
-> diff --git a/drivers/ipack/carriers/tpci200.h
-> b/drivers/ipack/carriers/tpci200.h
-> index 2619f827e33f..e79ac64abcff 100644
-> --- a/drivers/ipack/carriers/tpci200.h
-> +++ b/drivers/ipack/carriers/tpci200.h
-> @@ -1,7 +1,5 @@
-> =C2=A0/* SPDX-License-Identifier: GPL-2.0-only */
-> -/**
-> - * tpci200.h
-> - *
-> +/*
-> =C2=A0 * driver for the carrier TEWS TPCI-200
-> =C2=A0 *
-> =C2=A0 * Copyright (C) 2009-2012 CERN (www.cern.ch)
-
-
---=-gi5bHNGvoa4ucqi1PAyk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEQP+ZAvaXWkfuKXiEf/S6MvF9w0MFAmCuHXgACgkQf/S6MvF9
-w0N3fA/+LD+Bn2pyb2u7ibeLxX9w1PGMgdsccbhgvmLycYhT2uaxvXQDzCOqT2rd
-NX5T4IIaXnbX4rnbqLzK8HWP3kBxXdg4M3hjyi+9j4Iihqj0tlyRWFFbSOKnizE1
-klQo+khxIPxDVszHMPXM2BAjVvi1oXpgIQjhxs+7MLUgItKtJAgNf1dJj7/mgSOz
-NUnFW3lAKD/Ox/MCwxCFE6Rv/o5dCWTtLLQnzHrW8pxfDxS94lsd3wjrIWNrYqYh
-M7Yj817wpTueKhLmn/ZndTO6Tfd6QgDVVH7go8Ljh4Uwy4k0425UlAXrgaNqjmny
-X/+Gu0FijEL9RHy7GnosnjuF6hIPakz4cbktXF+xOvT1W/0DG/Pei4zcuo6zPo64
-HNfjvjGdM1zzzlp9WaZkreIj9Z5eICvJjEgDjIaJhWcX2v/dCq6mskzIFtid+pu4
-3RKtdZyB3Mhsb2H5mh7Vbr+svbvSZXDenmHJ7RYd3C4ZMcjYwdnLlCvxF43xqQfw
-69fxFnWesg94H1X/S/3mLNpWPMDMIFgWpnVW0Y9bvVyosCY6yszK9W3qVSV+1+ak
-8QUXlAIOFHut3UoXW0PvOIn+OjiauxVPnqoKa+6ZBv8Os0VZ82M7QZI9AhXpun0V
-CYxm4GAlCfFRUVE8CicLHKh2gIuakakEOJ4eLg+LGupaSruC8dc=
-=qDYf
------END PGP SIGNATURE-----
-
---=-gi5bHNGvoa4ucqi1PAyk--
-
-
---===============6514941886629357799==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/kernel/bpf/core.c b/kernel/bpf/core.c
+index 5e31ee9f7512..35cba247c531 100644
+--- a/kernel/bpf/core.c
++++ b/kernel/bpf/core.c
+@@ -1411,11 +1411,38 @@ static u64 ___bpf_prog_run(u64 *regs, const struct bpf_insn *insn)
+ 	ALU(SUB,  -)
+ 	ALU(AND,  &)
+ 	ALU(OR,   |)
+-	ALU(LSH, <<)
+-	ALU(RSH, >>)
+ 	ALU(XOR,  ^)
+ 	ALU(MUL,  *)
+ #undef ALU
++#define ALU(OPCODE, OP)		\
++	ALU64_##OPCODE##_X:		\
++		if (SRC >= 64)		\
++			DST = 0;	\
++		else			\
++			DST = DST OP SRC;	\
++		CONT;			\
++	ALU_##OPCODE##_X:		\
++		if (SRC >= 32)		\
++			DST = 0;	\
++		else			\
++			DST = (u32) DST OP (u32) SRC;	\
++		CONT;			\
++	ALU64_##OPCODE##_K:		\
++		if (IMM >= 64)		\
++			DST = 0;	\
++		else			\
++			DST = DST OP IMM;	\
++		CONT;			\
++	ALU_##OPCODE##_K:		\
++		if (IMM >= 32)		\
++			DST = 0;	\
++		else			\
++			DST = (u32) DST OP (u32) IMM;	\
++		CONT;
++
++	ALU(LSH, <<)
++	ALU(RSH, >>)
++#undef ALU
+ 	ALU_NEG:
+ 		DST = (u32) -DST;
+ 		CONT;
+-- 
+2.30.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============6514941886629357799==--
-
