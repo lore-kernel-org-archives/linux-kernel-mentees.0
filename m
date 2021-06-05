@@ -2,196 +2,112 @@ Return-Path: <SRS0=ph3B=K7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_RED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E636C4743D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  5 Jun 2021 17:56:03 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C70C3C47082
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  5 Jun 2021 19:10:45 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DFC8E613B4
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  5 Jun 2021 17:56:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DFC8E613B4
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 4FE6E6136D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  5 Jun 2021 19:10:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4FE6E6136D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A120B403EC;
-	Sat,  5 Jun 2021 17:56:02 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id EEA08403EE;
+	Sat,  5 Jun 2021 19:10:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5IytLcryx7gY; Sat,  5 Jun 2021 17:56:01 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1ECAC403E6;
-	Sat,  5 Jun 2021 17:56:01 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4v5xuQdITuuV; Sat,  5 Jun 2021 19:10:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 139AD401B1;
+	Sat,  5 Jun 2021 19:10:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03AF3C000E;
-	Sat,  5 Jun 2021 17:56:01 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4364C000E;
+	Sat,  5 Jun 2021 19:10:43 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E93CC0001
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CBF60C0001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  5 Jun 2021 17:56:00 +0000 (UTC)
+ Sat,  5 Jun 2021 19:10:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4743F83AA4
+ by smtp1.osuosl.org (Postfix) with ESMTP id C868383868
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  5 Jun 2021 17:56:00 +0000 (UTC)
+ Sat,  5 Jun 2021 19:10:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=fb.com
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a_y-R5Pmr21h
+ with ESMTP id e_59aWVAS-SG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  5 Jun 2021 17:55:59 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
- [67.231.145.42])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2D87083AA1
+ Sat,  5 Jun 2021 19:10:41 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id B0BD68243B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  5 Jun 2021 17:55:59 +0000 (UTC)
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 155HtaNo029541; Sat, 5 Jun 2021 10:55:38 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=lpXnB1mdaG6Kps54uMygNTIYT+mQ5e/DowpE6oFhjeQ=;
- b=UjhsI8fDVaCpwHcZGDsuV89S9SQsJ/FbwHQY4m7cPo7XaDn1hereJEJyv5rHsvCL4WDn
- kW12HWd3A3I5sVMxjjDdwGkV8Pve0ORriWiFEUeYTc+7J7r+hlbw1XT+xFtEm4S6ALYt
- XpkCoFbb9DRdeihYgzqst0zhe9gRs2O7aIo= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 3906ym1g59-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Sat, 05 Jun 2021 10:55:38 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.36.102) with Microsoft SMTP
- Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Sat, 5 Jun 2021 10:55:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jeMILDwF8BTadNmrcDYsl/5IDibQhuu9ih/Sw462BnQs2iChvsTlTWY4mwi0LHHRoObovXqV2Fjx7paXZ3KNaWv9LsDR5ZCpLTEIJ23NmxShHYGTUWiXq9iTbKWAakH8aZ41ISQToKXGeegQuiA/fN37fXOOHSuGvh0t0tc0Qy6coTFLuwlCwIQn/i/g0DVNRPxKkrsYcgpWTqyDRDpZ017XnVcrdWIxHbgdfsAXn/i0cMSWmNkxWBUKpWzs+Qg+unzmpvxIxEGl2rNwzFF8e8TZTLkHt0XJoubr3yZ/Kd0Y3qbKkiFmJgLwZHc/qyWQylddf2uiQnUwyT9kt1MkDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/yESyUHqextMhjf13phnhUwzuU3SOWj8kyeX3a3SAhk=;
- b=oRIHp3YjhFFvsArWEVQeHkM13TGjOoD7Mpw+ga6CjDoJI2rUVm00L8Kn8lLvg+IFETQrh4aLmvHigp5F3rn+Qh33+vMDSGeCqhErY+91vMuDy/Wk/j0UVmlq1wxincstPjjfUKeVisky50lopSql9vALTHuhIio7tH49fjbqHPKVFbhrvcJDTb/z/t2c4ypOoO8R1r3iMyasqpoQfD7ZXlI1Rx0QLQY4D0yZoQpFu53eG6l4jvB603tVU1BGy5INBSJz8EPh7K3rjvItA/0jS20adpG2qhAEmA5mL/JhU/hJ3lgRzssnuGQb4D0wQzxCoUq8lzMZwLkp5IFIIHWxzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none; linuxfoundation.org; dmarc=none action=none header.from=fb.com; 
-Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
- by SN6PR15MB2336.namprd15.prod.outlook.com (2603:10b6:805:26::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4195.22; Sat, 5 Jun
- 2021 17:55:28 +0000
-Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
- ([fe80::d886:b658:e2eb:a906]) by SN6PR1501MB2064.namprd15.prod.outlook.com
- ([fe80::d886:b658:e2eb:a906%5]) with mapi id 15.20.4195.026; Sat, 5 Jun 2021
- 17:55:28 +0000
-Subject: Re: [PATCH v4] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
-To: Kurt Manucredo <fuzzybritches0@gmail.com>,
- <syzbot+bed360704c521841c85d@syzkaller.appspotmail.com>
-References: <000000000000c2987605be907e41@google.com>
- <20210602212726.7-1-fuzzybritches0@gmail.com> <YLhd8BL3HGItbXmx@kroah.com>
- <87609-531187-curtm@phaethon>
-Message-ID: <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com>
-Date: Sat, 5 Jun 2021 10:55:25 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
-In-Reply-To: <87609-531187-curtm@phaethon>
-Content-Language: en-US
-X-Originating-IP: [2620:10d:c090:400::5:80b3]
-X-ClientProxiedBy: SJ0PR13CA0077.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::22) To SN6PR1501MB2064.namprd15.prod.outlook.com
- (2603:10b6:805:d::27)
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2620:10d:c085:21c1::1a79] (2620:10d:c090:400::5:80b3) by
- SJ0PR13CA0077.namprd13.prod.outlook.com (2603:10b6:a03:2c4::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.10 via Frontend
- Transport; Sat, 5 Jun 2021 17:55:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3c308d3f-51d7-4cc4-1a39-08d9284b1aa3
-X-MS-TrafficTypeDiagnostic: SN6PR15MB2336:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR15MB233634E970F8DEE1A933681CD33A9@SN6PR15MB2336.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uLHoAxorF9+anzhzuSowV2GWbtOGKUvMSrU9dr0QQVEzG2PvaHXxI/jov5AyUo+AJMa86etCj/9dbcbFQh8lewOK5blfp4RsNpRf2pMrEOzLk2PHqMGrXl5iEcEpVFFoWAgv3PY9QNGadzyEULYWqd5c6ZNq3Gd4nMVogDJ6XFPcAEAbrJh1hIwlvb9K1/Pei9PE2iugHBLSNc9kH0QYsmqtvlbtk8Hgl0OAq15TI2QUdfAT6qfaqRZYSaCFzuHbJibQMOlZqkAFdphnhmpc6X5ZOxgqyF12sUuFqLKDDeEPlR0+kYToxiaoVsXtyFZ1CJ47LbqN5XtaLp76zM31f6HOahCJXkM9h2dLjbajMnXbs6GSVQOPNSFRan/agr/YHzBNjynFMc8et0OYMRFdJGShLLwYT/Gxu3NL7v1L5iKgOJrt8aZrqCWc0ngWDT9uJ1cyhoufdoR4raMGO053UvWPWuKS9+KWAkle+l9SJBLhJZsR5LyB3HFbzSe79pslprDUH5BYKpzeJ191U4BrJEpaNnMByZu1t1FYtRU/Pg6Qbj2SVM2XUDfvk44e267QDC3zsuDqIzvWwHdYgg1G717hdwFaqFTbUaB0xHeJ+n7nB/Iv4Jw/D4LTffOKIF3RRo7mdRwCd6MqrgJjkp2S7nPYXWCPlnwMEJP2liGDG9DUoTs0KfGy8dp9Uz8pUGriHIxpWQmw+YejJTlXZJ75aAjkc9HKLf5Spo21yhHhITUKqWzcX5vegMEWdSfG4dULhwz0zLvwLbdUZTmBDxF1zDpawbfsSmA2KrJMfHClQhNsAn61Dbw1Jxb2+RQJ/5WBumQu5Kzw02VjTQzdXEIl5iSFxzlpFyfb5803my3NvXs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR1501MB2064.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(366004)(39860400002)(376002)(346002)(966005)(478600001)(38100700002)(36756003)(316002)(8676002)(7416002)(186003)(4326008)(86362001)(53546011)(8936002)(2906002)(2616005)(31696002)(83380400001)(66556008)(66946007)(66476007)(52116002)(5660300002)(16526019)(6486002)(31686004)(101420200003)(99710200001)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?c0F3akZRaSszZUhyUkU1MjVzaEVRMXMxNFJvakZZODI3OXhRMlBjQndiRjFt?=
- =?utf-8?B?WmRPWFhJbHRJSzBpTmQrTk9PeTkzZU05NVZCdEg5MnFZN1NjbkdCeXFDZlNX?=
- =?utf-8?B?d2dBRFlLeE5NcWVtN3dpU0hhN0M2cDhBd0w5ZG9DTEkwOW5mNzhJbTZ1QWxV?=
- =?utf-8?B?OGJHTkNLT1k2ekFGNzkxay80Vkk4ZDhqNXlmZXJ3VWl6dlhQMGU3Z0hoRUhB?=
- =?utf-8?B?emhKUTRjRThVay9TV0Z4cUQ3MUZnUStvZkljVStzbFBXSWVEc0VtRTdnaTNQ?=
- =?utf-8?B?QnZxdzdRQ3JQY3Q1UTRDMk5pSUh4N0FoS3NodmdHeXlURDlHRVkrUGRISGZw?=
- =?utf-8?B?Y1pXN0FwTEtFNmcxR2c1d2Y2UnZneUFENUovNi9TMTJCZWJUWUJnQ1F5cDQx?=
- =?utf-8?B?Q3hvZk85bU5nNTRMYkpDN1RHa3FBKzNJYlZtc09VUmZnOXpSUHVqVjJDR09X?=
- =?utf-8?B?WkFTYWlPdHJZODhyTVRuaGljbm9JWS9EbVpEbFN3c0R4RGp4L2EwVGJENm8r?=
- =?utf-8?B?SzQ1WXgrRTlJRkZvY3RuMW5IOXo0U01BL3RCYVh0YVluUFV2bTl5d3Vza1Vu?=
- =?utf-8?B?WVM4RTZmaVB5UXpkSTlPVzFhKy9aZ1ZMdXFLQjB0ZUYwT2poemlMMThIMHUw?=
- =?utf-8?B?T0ZlQWlVQ0t1UzRxRXNVN0dKMUdmS2hrUkxPYWVMQk01OWxQNE1MUXFMS0ZM?=
- =?utf-8?B?aU1WSnNhaTBYMnBqT09Nc1lTY2ZsY28vU2hadUVWZmdEOVdPNkhYT3NSNkQ4?=
- =?utf-8?B?d2lMSXliNmtGVHNUb3Z0Z2NObGlmNXh5V1A0ZW9lK1N0NjlucDU1aVVHR3oy?=
- =?utf-8?B?b3dtQnJMV1Zzc0h6aHByTCtqM3FmQWN5MTMvTTM5bDV6YUVycjB0aC9vdDdN?=
- =?utf-8?B?Vzh1ME1Uc2s0cE9NaVJyMTB4VGV6ckVwaVpjbW9tdEs5ZTFBTEtqWGszT1dw?=
- =?utf-8?B?Rmp6ZHhnUWI3VE5jL0YrU3ROZmo3cStrU0l2a25QMEFlUTllYzhhcDRGcU5n?=
- =?utf-8?B?dDdmMEdVZGZQWDJpcE1OeFZmSk5QYlZlQXlEOWI5V0lNMk95QXVBQ2xZZXN6?=
- =?utf-8?B?eUVVUkdTcmJscVRHZTVQYU8yY2NTaTV0WllDQndkR1U1aWNIdXc2bDdUbDk2?=
- =?utf-8?B?ODBCK2NJVGo2RUpXbUhxUEZZS2l3RVRDYmZsaElvN1JRcHF6RFBNN0ViYklj?=
- =?utf-8?B?V3duTDgwVVZaTEdBeHVzMUptSTkrT2laVHhLZEFrL3VodVA5ZXBEdU94WTlp?=
- =?utf-8?B?MFVDU21idmF4VlBqQktUeVFiTjlIL2pBdXpVbGhHRWFRMHBSS0E2TnRoYTc0?=
- =?utf-8?B?QWs0dXBQK2ZKQ25xOVZNNHN3Y3VHOWFLcmQxamhGR1NHWVpTQlNVVWxqTjY0?=
- =?utf-8?B?eWVCaWoyak9XeHdrbFpjdm9qV3Q0VWhJMlNTbTl0ZmNrQWtUVjVDbnppNXEx?=
- =?utf-8?B?cFVjTnZCalZESTdRZ25LVVcvQXFKNkxGNk5qQmV5aC9HTGkvYXN1YU40bEQ1?=
- =?utf-8?B?cm1hZkNNTWF6VndOOU1vUDFYWGNIeW9XVE5UZzVzY0gyQzJmYjZpUURXSFZy?=
- =?utf-8?B?L0tZY0Fka0M5cXlseWl3eUdoc1VKRTZOZHBSalN4SU1IdTdCR3IzdmIvSDdI?=
- =?utf-8?B?VnNyckxhQ1lka0licm80QmxZNkRPSnU3SHFPeExRWmtQNHBRTWloQ29MNWRO?=
- =?utf-8?B?TEtLY1VhRkRUZitjcStHV1o4MzAvUzFyeHhVbzdYb0pSVjRxb0hxYWYwOGMy?=
- =?utf-8?B?WGJRbjN5bk5RWkRXeVQ4VjFic1JyU3pNZVVwQWMwdi9lZi9qVHJOb2Ezd3Fh?=
- =?utf-8?Q?IFOAii9v5A35ODIiO+C988HKvhD4daVakCzEU=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c308d3f-51d7-4cc4-1a39-08d9284b1aa3
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2021 17:55:28.5839 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y8FjyzWEki3XuoRbLmQqTGZD3AT895mzmST/jHKvMPddvsx0Aq/VJL6H1clHNxYy
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR15MB2336
-X-OriginatorOrg: fb.com
-X-Proofpoint-ORIG-GUID: ZT7ZsTvVozpnJ51ooHPU1tr5PAuuPRNX
-X-Proofpoint-GUID: ZT7ZsTvVozpnJ51ooHPU1tr5PAuuPRNX
-X-Proofpoint-UnRewURL: 1 URL was un-rewritten
+ Sat,  5 Jun 2021 19:10:40 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id a2so19183193lfc.9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 05 Jun 2021 12:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bi0pwEi0pQ/oYx7SVz3LT6qWBi6qRoYFdBg0PjjtkiU=;
+ b=LuXg4DkraiESutoTGMgFWtNaz/vXvFOcBH/rRyEA8MkW6FvWC7kW37LoUs75OFaVGk
+ y//mqBrjlcZ/SmtFqs6n2tgyMGvdNczJlR586At142OeIxXINk2wnuAjo5flaxHqe2oN
+ V+ROfCEaSuOUCKOtjF5iFK0SW+RPFMswCGkddaiXBvImx3VMDNhT8O5JJ/oq2UA9adQb
+ EsHaTJvHNyycot71/VHlUzNR893T2H9nSUO85iph/BXbeiUjcSkZH4hA0A4oKUvz+di3
+ zUvvwB35QRYUqcxy1vtZaHY2zS9Joe5MvEfCo1B6qVZVa5/t5fRqBErEro5W10YYZJ6L
+ Ewng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bi0pwEi0pQ/oYx7SVz3LT6qWBi6qRoYFdBg0PjjtkiU=;
+ b=Zba9SjESRn7/AccBwfw2zoX7MbN/jLsNKm7E6sQZf0WnN85ejkGmVtwAnkobXFY7r3
+ AMwsBDxNnY5PUqgNFxLL6lxOCBodpXKQ7F49G6WktJ4IdCpdHrgvLJz/d4P2T89ex8J+
+ ewVkeRzifdNCSsilhwiZ0PDoJv2hoS3tWSHKwUZOsa0BAjLPj911YOWcjqWlOMufGHQp
+ xZ/+NRfR2iVc2MXUlRtAz22g5QOYHs87NnciiAbHunz38glhx2a7s7yFknj1QeuMM7ki
+ Vo0WGrq0L8/EDKNL/snYfElBhfyQ9lSRqum1vYybSJdWnhlsB/mVCFL4VpebhRah3MLH
+ EhGw==
+X-Gm-Message-State: AOAM531EbMpr9tDs+M+ZxCaGq+FGYwoPMnZWkokLe8fnos4dR2z4Vcsv
+ XoLIHTxhhjc5Mx5Sg2Uy6LQaV6Xw7wbiwYmIAYM=
+X-Google-Smtp-Source: ABdhPJxkGuWFy365VSP1rud7bkI+QSPlqLX2IOttcHb7321Z43JZOgQDYk9TcAqdmKPMWykGTZgGvbVJNE4GoJz1uJM=
+X-Received: by 2002:a05:6512:2010:: with SMTP id
+ a16mr4002379lfb.38.1622920238423; 
+ Sat, 05 Jun 2021 12:10:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.761
- definitions=2021-06-05_11:2021-06-04,
- 2021-06-05 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- adultscore=0 spamscore=0
- lowpriorityscore=0 bulkscore=0 clxscore=1011 impostorscore=0
- mlxlogscore=999 mlxscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106050131
-X-FB-Internal: deliver
-Cc: nathan@kernel.org, songliubraving@fb.com, kafai@fb.com, hawk@kernel.org,
- daniel@iogearbox.net, linux-kernel@vger.kernel.org, john.fastabend@gmail.com,
- andrii@kernel.org, ast@kernel.org, syzkaller-bugs@googlegroups.com,
- clang-built-linux@googlegroups.com, ndesaulniers@google.com,
- netdev@vger.kernel.org, kpsingh@kernel.org, kuba@kernel.org,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- davem@davemloft.net
+References: <000000000000c2987605be907e41@google.com>
+ <20210602212726.7-1-fuzzybritches0@gmail.com>
+ <YLhd8BL3HGItbXmx@kroah.com> <87609-531187-curtm@phaethon>
+ <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com>
+In-Reply-To: <6a392b66-6f26-4532-d25f-6b09770ce366@fb.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Sat, 5 Jun 2021 12:10:26 -0700
+Message-ID: <CAADnVQKexxZQw0yK_7rmFOdaYabaFpi2EmF6RGs5bXvFHtUQaA@mail.gmail.com>
+Subject: Re: [PATCH v4] bpf: core: fix shift-out-of-bounds in ___bpf_prog_run
+To: Yonghong Song <yhs@fb.com>
+Cc: Song Liu <songliubraving@fb.com>, Alexei Starovoitov <ast@kernel.org>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ syzbot+bed360704c521841c85d@syzkaller.appspotmail.com,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+ KP Singh <kpsingh@kernel.org>, nathan@kernel.org,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ LKML <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Network Development <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ Martin KaFai Lau <kafai@fb.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -203,135 +119,106 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Yonghong Song via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On Sat, Jun 5, 2021 at 10:55 AM Yonghong Song <yhs@fb.com> wrote:
+>
+>
+>
+> On 6/5/21 8:01 AM, Kurt Manucredo wrote:
+> > Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
+> > kernel/bpf/core.c:1414:2.
+>
+> This is not enough. We need more information on why this happens
+> so we can judge whether the patch indeed fixed the issue.
+>
+> >
+> > I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
+> > missing them and return with error when detected.
+> >
+> > Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
+> > Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
+> > ---
+> >
+> > https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
+> >
+> > Changelog:
+> > ----------
+> > v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
+> >       Fix commit message.
+> > v3 - Make it clearer what the fix is for.
+> > v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+> >       check in check_alu_op() in verifier.c.
+> > v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
+> >       check in ___bpf_prog_run().
+> >
+> > thanks
+> >
+> > kind regards
+> >
+> > Kurt
+> >
+> >   kernel/bpf/verifier.c | 30 +++++++++---------------------
+> >   1 file changed, 9 insertions(+), 21 deletions(-)
+> >
+> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > index 94ba5163d4c5..ed0eecf20de5 100644
+> > --- a/kernel/bpf/verifier.c
+> > +++ b/kernel/bpf/verifier.c
+> > @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+> >       u32_min_val = src_reg.u32_min_value;
+> >       u32_max_val = src_reg.u32_max_value;
+> >
+> > +     if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
+> > +                     umax_val >= insn_bitness) {
+> > +             /* Shifts greater than 31 or 63 are undefined.
+> > +              * This includes shifts by a negative number.
+> > +              */
+> > +             verbose(env, "invalid shift %lld\n", umax_val);
+> > +             return -EINVAL;
+> > +     }
+>
+> I think your fix is good. I would like to move after
 
+I suspect such change will break valid programs that do shift by register.
 
-On 6/5/21 8:01 AM, Kurt Manucredo wrote:
-> Syzbot detects a shift-out-of-bounds in ___bpf_prog_run()
-> kernel/bpf/core.c:1414:2.
+> the following code though:
+>
+>          if (!src_known &&
+>              opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
+>                  __mark_reg_unknown(env, dst_reg);
+>                  return 0;
+>          }
+>
+> > +
+> >       if (alu32) {
+> >               src_known = tnum_subreg_is_const(src_reg.var_off);
+> >               if ((src_known &&
+> > @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
+> >               scalar_min_max_xor(dst_reg, &src_reg);
+> >               break;
+> >       case BPF_LSH:
+> > -             if (umax_val >= insn_bitness) {
+> > -                     /* Shifts greater than 31 or 63 are undefined.
+> > -                      * This includes shifts by a negative number.
+> > -                      */
+> > -                     mark_reg_unknown(env, regs, insn->dst_reg);
+> > -                     break;
+> > -             }
+>
+> I think this is what happens. For the above case, we simply
+> marks the dst reg as unknown and didn't fail verification.
+> So later on at runtime, the shift optimization will have wrong
+> shift value (> 31/64). Please correct me if this is not right
+> analysis. As I mentioned in the early please write detailed
+> analysis in commit log.
 
-This is not enough. We need more information on why this happens
-so we can judge whether the patch indeed fixed the issue.
-
-> 
-> I propose: In adjust_scalar_min_max_vals() move boundary check up to avoid
-> missing them and return with error when detected.
-> 
-> Reported-and-tested-by: syzbot+bed360704c521841c85d@syzkaller.appspotmail.com
-> Signed-off-by: Kurt Manucredo <fuzzybritches0@gmail.com>
-> ---
-> 
-> https://syzkaller.appspot.com/bug?id=edb51be4c9a320186328893287bb30d5eed09231
-> 
-> Changelog:
-> ----------
-> v4 - Fix shift-out-of-bounds in adjust_scalar_min_max_vals.
->       Fix commit message.
-> v3 - Make it clearer what the fix is for.
-> v2 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
->       check in check_alu_op() in verifier.c.
-> v1 - Fix shift-out-of-bounds in ___bpf_prog_run() by adding boundary
->       check in ___bpf_prog_run().
-> 
-> thanks
-> 
-> kind regards
-> 
-> Kurt
-> 
->   kernel/bpf/verifier.c | 30 +++++++++---------------------
->   1 file changed, 9 insertions(+), 21 deletions(-)
-> 
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> index 94ba5163d4c5..ed0eecf20de5 100644
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-> @@ -7510,6 +7510,15 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
->   	u32_min_val = src_reg.u32_min_value;
->   	u32_max_val = src_reg.u32_max_value;
->   
-> +	if ((opcode == BPF_LSH || opcode == BPF_RSH || opcode == BPF_ARSH) &&
-> +			umax_val >= insn_bitness) {
-> +		/* Shifts greater than 31 or 63 are undefined.
-> +		 * This includes shifts by a negative number.
-> +		 */
-> +		verbose(env, "invalid shift %lld\n", umax_val);
-> +		return -EINVAL;
-> +	}
-
-I think your fix is good. I would like to move after
-the following code though:
-
-         if (!src_known &&
-             opcode != BPF_ADD && opcode != BPF_SUB && opcode != BPF_AND) {
-                 __mark_reg_unknown(env, dst_reg);
-                 return 0;
-         }
-
-> +
->   	if (alu32) {
->   		src_known = tnum_subreg_is_const(src_reg.var_off);
->   		if ((src_known &&
-> @@ -7592,39 +7601,18 @@ static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
->   		scalar_min_max_xor(dst_reg, &src_reg);
->   		break;
->   	case BPF_LSH:
-> -		if (umax_val >= insn_bitness) {
-> -			/* Shifts greater than 31 or 63 are undefined.
-> -			 * This includes shifts by a negative number.
-> -			 */
-> -			mark_reg_unknown(env, regs, insn->dst_reg);
-> -			break;
-> -		}
-
-I think this is what happens. For the above case, we simply
-marks the dst reg as unknown and didn't fail verification.
-So later on at runtime, the shift optimization will have wrong
-shift value (> 31/64). Please correct me if this is not right
-analysis. As I mentioned in the early please write detailed
-analysis in commit log.
-
-Please also add a test at tools/testing/selftests/bpf/verifier/.
-
-
->   		if (alu32)
->   			scalar32_min_max_lsh(dst_reg, &src_reg);
->   		else
->   			scalar_min_max_lsh(dst_reg, &src_reg);
->   		break;
->   	case BPF_RSH:
-> -		if (umax_val >= insn_bitness) {
-> -			/* Shifts greater than 31 or 63 are undefined.
-> -			 * This includes shifts by a negative number.
-> -			 */
-> -			mark_reg_unknown(env, regs, insn->dst_reg);
-> -			break;
-> -		}
->   		if (alu32)
->   			scalar32_min_max_rsh(dst_reg, &src_reg);
->   		else
->   			scalar_min_max_rsh(dst_reg, &src_reg);
->   		break;
->   	case BPF_ARSH:
-> -		if (umax_val >= insn_bitness) {
-> -			/* Shifts greater than 31 or 63 are undefined.
-> -			 * This includes shifts by a negative number.
-> -			 */
-> -			mark_reg_unknown(env, regs, insn->dst_reg);
-> -			break;
-> -		}
->   		if (alu32)
->   			scalar32_min_max_arsh(dst_reg, &src_reg);
->   		else
-> 
+The large shift is not wrong. It's just undefined.
+syzbot has to ignore such cases.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
