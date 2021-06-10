@@ -2,89 +2,91 @@ Return-Path: <SRS0=bMK4=LE=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 842E7C47094
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Jun 2021 15:47:03 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BD5C47094
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Jun 2021 16:19:46 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 235CD60FE5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Jun 2021 15:47:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 235CD60FE5
+	by mail.kernel.org (Postfix) with ESMTPS id 7D98B613E1
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Jun 2021 16:19:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7D98B613E1
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E460940375;
-	Thu, 10 Jun 2021 15:47:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4A7C460AA2;
+	Thu, 10 Jun 2021 16:19:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kluh3LFvHiqm; Thu, 10 Jun 2021 15:47:02 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id a53lgAKjnSNo; Thu, 10 Jun 2021 16:19:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 19E2D4010B;
-	Thu, 10 Jun 2021 15:47:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 68B9C60A69;
+	Thu, 10 Jun 2021 16:19:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EDDB8C000D;
-	Thu, 10 Jun 2021 15:47:01 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9F488C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 42FB6C000E;
+	Thu, 10 Jun 2021 16:19:45 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CDC5FC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 15:47:00 +0000 (UTC)
+ Thu, 10 Jun 2021 16:19:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 785D240192
+ by smtp1.osuosl.org (Postfix) with ESMTP id AFCCE83D99
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 15:47:00 +0000 (UTC)
+ Thu, 10 Jun 2021 16:19:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JfQuIb9zSKJL
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=anirudhrb.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JySALZNf4F5O
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 15:46:59 +0000 (UTC)
+ Thu, 10 Jun 2021 16:19:43 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
  [136.143.188.53])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A28A04010B
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 123AE83D73
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 15:46:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1623340003; cv=none; 
+ Thu, 10 Jun 2021 16:19:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1623341975; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=IgiM8ISSZ2YS3LSKUXVHNJy2D3C95YmSRs/hUUExlQlCZ3YgbvMadbx8rdZOy8F/lSGuuiBMUSUsQY1YQxkZ4xRFVYuLJ3lEmBbbj2SyetL5sRwTBiRUEjGEm6WUFGi3GDOBqSPmROkUYVzMJC0rsTG2kY707Hwc6WOIcaRMghw=
+ b=coZG9heMNMaVtmLhvzg39WQj9ttAHjAVR4Xin5Tl++EWjGNVjHgc6AeSB+Vk1smMrxq5KpkFXzOKp/Em7YDDMc7mglty70BFURFtxlQWlsY76wyMP4j8MIrciVkVy1rLqIKLkYN6XoE+Uy4x149sALB9uRbG6WeWyKlkGoX7PGA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1623340003;
+ s=zohoarc; t=1623341975;
  h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=S+/94991o1BPiFbH+TJfvpYPY1OSzgLbNS+l1MvqNzI=; 
- b=Ww8JMb1QorZGUx09/ZIyGOfUg3SZaocOv2pduUgiUgVOzKK3VnjSVEHnYZZyE8fJmqMgLowttcanDnZcZ/OqKe5XWWK3NZB+a3c2/7+kAtu7KI8rxq5PTOI7AXO777RsNmdSjEUfivpVd6hYpeBmAbrTUYNrd43+z34b6ZUkCBc=
+ bh=HAKm0vB87VfcW2UTN+pnBdBfKxvZ/KF9QbxznGuDeHk=; 
+ b=YJNMlInwHU9N8ys4lH9xuXLkGPlV7lqA1FhRB9HDJBeHmR0q5UAa3qNV2UFdpX6iRTxkIjBK8L03kVnbvAVWFmSpUATF6aBnkmZRnzAXkpYa8rHD97MT6ukk/A2cwsdA1R7LV1xqatg+e3xEju/BvEnGC3EfsreBzO20gs5PC5k=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=anirudhrb.com;
  spf=pass  smtp.mailfrom=mail@anirudhrb.com;
  dmarc=pass header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1623340003; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1623341975; 
  s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
  h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
- bh=S+/94991o1BPiFbH+TJfvpYPY1OSzgLbNS+l1MvqNzI=;
- b=Xr3UP7ZyBerFxIEDqYZZEI+9VSghy5xl/t/OV5XYMhNv9JbVJ7heqHNH4rMBdi4n
- I9V2MYndPwLfMG3r2wFncp541UDZ2XKw1YXbKYolQGFkmL53LuBfRCKehqTrceUTR1c
- JkFoETmS7djuvuYv5Vqkdz5hBxfqc/HhMTP7ROGg=
+ bh=HAKm0vB87VfcW2UTN+pnBdBfKxvZ/KF9QbxznGuDeHk=;
+ b=BA8qi6XYZGlPo9t9larjyIpSYdNf/1i1q1n064Y/76Q8WS1IPvtnMV7JBTz+EN4v
+ REcxm2tTb2BXvkiP5tjgYm7OLxbD25WFMjFMhXjhdPzAkmaUJDiVVT7zJM9vrB9LeP6
+ Da7A1TLPNKuLHyOjwsiIHR1WweIArmmdFx8Eys3k=
 Received: from localhost.localdomain (106.51.105.43 [106.51.105.43]) by
- mx.zohomail.com with SMTPS id 1623340000838986.2840483348111;
- Thu, 10 Jun 2021 08:46:40 -0700 (PDT)
+ mx.zohomail.com with SMTPS id 1623341973610765.8442819280449;
+ Thu, 10 Jun 2021 09:19:33 -0700 (PDT)
 From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: "Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>,
- Dave Kleikamp <shaggy@austin.ibm.com>, Alex Tomas <alex@clusterfs.com>,
- Andrew Morton <akpm@osdl.org>
-Subject: [PATCH v2 resend] ext4: fix kernel infoleak via ext4_extent_header
-Date: Thu, 10 Jun 2021 21:16:24 +0530
-Message-Id: <20210610154625.6827-1-mail@anirudhrb.com>
+To: Johannes Berg <johannes@sipsolutions.net>,
+ Kalle Valo <kvalo@codeaurora.org>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH] mac80211_hwsim: correctly handle zero length frames
+Date: Thu, 10 Jun 2021 21:49:16 +0530
+Message-Id: <20210610161916.9307-1-mail@anirudhrb.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 X-ZohoMailClient: External
-Cc: linux-kernel@vger.kernel.org,
- syzbot+2dcfeaf8cb49b05e8f1a@syzkaller.appspotmail.com,
- linux-ext4@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+b2645b5bf1512b81fa22@syzkaller.appspotmail.com, netdev@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,52 +104,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Initialize eh_generation of struct ext4_extent_header to prevent leaking
-info to userspace. Fixes KMSAN kernel-infoleak bug reported by syzbot at:
-http://syzkaller.appspot.com/bug?id=78e9ad0e6952a3ca16e8234724b2fa92d041b9b8
+syzbot, using KMSAN, has reported an uninit-value access in
+hwsim_cloned_frame_received_nl(). This is happening because frame_data_len
+is 0. The code doesn't detect this case and blindly tries to read the
+frame's header.
 
-Reported-by: syzbot+2dcfeaf8cb49b05e8f1a@syzkaller.appspotmail.com
-Fixes: a86c61812637 ("[PATCH] ext3: add extent map support")
+Fix this by bailing out in case frame_data_len is 0.
+
+Reported-by: syzbot+b2645b5bf1512b81fa22@syzkaller.appspotmail.com
+Tested-by: syzbot+b2645b5bf1512b81fa22@syzkaller.appspotmail.com
 Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
 ---
+ drivers/net/wireless/mac80211_hwsim.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changes in v2:
-Added a "Fixes:" tag.
-
-v1: https://lore.kernel.org/lkml/20210505133011.32484-1-mail@anirudhrb.com/
-
----
- fs/ext4/extents.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/fs/ext4/extents.c b/fs/ext4/extents.c
-index 77c84d6f1af6..677d4821bcc1 100644
---- a/fs/ext4/extents.c
-+++ b/fs/ext4/extents.c
-@@ -825,6 +825,7 @@ void ext4_ext_tree_init(handle_t *handle, struct inode *inode)
- 	eh->eh_entries = 0;
- 	eh->eh_magic = EXT4_EXT_MAGIC;
- 	eh->eh_max = cpu_to_le16(ext4_ext_space_root(inode, 0));
-+	eh->eh_generation = 0;
- 	ext4_mark_inode_dirty(handle, inode);
- }
+diff --git a/drivers/net/wireless/mac80211_hwsim.c b/drivers/net/wireless/mac80211_hwsim.c
+index 51ce767eaf88..ccfe40313109 100644
+--- a/drivers/net/wireless/mac80211_hwsim.c
++++ b/drivers/net/wireless/mac80211_hwsim.c
+@@ -3649,7 +3649,7 @@ static int hwsim_cloned_frame_received_nl(struct sk_buff *skb_2,
+ 	if (skb == NULL)
+ 		goto err;
  
-@@ -1090,6 +1091,7 @@ static int ext4_ext_split(handle_t *handle, struct inode *inode,
- 	neh->eh_max = cpu_to_le16(ext4_ext_space_block(inode, 0));
- 	neh->eh_magic = EXT4_EXT_MAGIC;
- 	neh->eh_depth = 0;
-+	neh->eh_generation = 0;
+-	if (frame_data_len > IEEE80211_MAX_DATA_LEN)
++	if (frame_data_len == 0 || frame_data_len > IEEE80211_MAX_DATA_LEN)
+ 		goto err;
  
- 	/* move remainder of path[depth] to the new leaf */
- 	if (unlikely(path[depth].p_hdr->eh_entries !=
-@@ -1167,6 +1169,7 @@ static int ext4_ext_split(handle_t *handle, struct inode *inode,
- 		neh->eh_magic = EXT4_EXT_MAGIC;
- 		neh->eh_max = cpu_to_le16(ext4_ext_space_block_idx(inode, 0));
- 		neh->eh_depth = cpu_to_le16(depth - i);
-+		neh->eh_generation = 0;
- 		fidx = EXT_FIRST_INDEX(neh);
- 		fidx->ei_block = border;
- 		ext4_idx_store_pblock(fidx, oldblock);
+ 	/* Copy the data */
 -- 
 2.26.2
 
