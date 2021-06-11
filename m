@@ -1,93 +1,111 @@
-Return-Path: <SRS0=bMK4=LE=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=OZPh=LF=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF160C48BE0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Jun 2021 22:33:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DDE3C48BD1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Jun 2021 02:18:32 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7497F60231
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Jun 2021 22:33:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7497F60231
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 203F96124C
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 11 Jun 2021 02:18:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 203F96124C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 39D154022D;
-	Thu, 10 Jun 2021 22:33:10 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C21BA401B9;
+	Fri, 11 Jun 2021 02:18:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2450hoJEYcjA; Thu, 10 Jun 2021 22:33:09 +0000 (UTC)
+	with ESMTP id Q-aaB1Rd9FE1; Fri, 11 Jun 2021 02:18:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1CCA0400C8;
-	Thu, 10 Jun 2021 22:33:09 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D3CFE400BF;
+	Fri, 11 Jun 2021 02:18:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC096C000E;
-	Thu, 10 Jun 2021 22:33:08 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A1C80C000E;
+	Fri, 11 Jun 2021 02:18:30 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5F2CC000B
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A09A1C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 22:33:07 +0000 (UTC)
+ Fri, 11 Jun 2021 02:18:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7BE956FBC9
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7A32A606C8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 22:33:07 +0000 (UTC)
+ Fri, 11 Jun 2021 02:18:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HS2uougcIRHG
+ with ESMTP id NSM0V0GGmWzC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 22:33:06 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7CB396FBC6
+ Fri, 11 Jun 2021 02:18:28 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3FE6D6064B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 22:33:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 02C5860231
+ Fri, 11 Jun 2021 02:18:28 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id e22so1227716pgv.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 22:33:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1623364386;
- bh=05+TvLpD8afqmEIB/fCJvbcqSr4HEeRL5MwUkTDAZOI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=i8D1npTDntFQ+aIM3jJ0KQXd4BrdlNLQA0d3cdsv5aUWt2SPVJTQ3ntvbLbII0Yo6
- MbvsBRXJeArqMDW+TYxSN8ciCZHde0ijeb5PWgB2bHX3DPL4ne/c1HUNf75sqg5Vz2
- SQVcrHpfmNzCaA518ymmED1H8NQmI6atx5Zbm0z11QP9tbmm1pQ1UJLDTv1Th7LAGU
- 5m2TLSID7Qdc1UAQbrEOdddi/MgI3T9nfzYWBw68fSAg9VK56dWF2oIrn6iLmvSDWl
- fWFAMSd8AjXI2jknvJd3PhJKiOfFBP0Y1SSiG5l6cdssDlfxD9VynPQug0XvXndsrD
- b/ulaSc47aVRg==
-Received: by mail-qv1-f43.google.com with SMTP id if15so4740172qvb.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Jun 2021 15:33:05 -0700 (PDT)
-X-Gm-Message-State: AOAM533GIiNh7r3++7iZTjt7ghPoQvBRfxbPgFfYh6ceJ/uYrpQ/GKft
- TX/ucWHBTmOtvPJYexMo1EhlF80/f3giL1le2d8=
-X-Google-Smtp-Source: ABdhPJySFwlIudB4HaMUCIShInVYybm6kjEiekSvo4XR3iGQOvYw6VTcoXLchJNkx6BsMfsqZLmH63Ibp1m1DeqpOnM=
-X-Received: by 2002:ad4:5343:: with SMTP id v3mr1897161qvs.45.1623364385190;
- Thu, 10 Jun 2021 15:33:05 -0700 (PDT)
+ Thu, 10 Jun 2021 19:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=CxgTlwmogoHhOULSFq3GJiDbsRi88PXUgGnGmm64QIk=;
+ b=aPH2Rj6GwUHE43OWEfQPUaa1wYw6SyzIomh4HiyRwux/MIJA/vVXxze7aXwz3HUt+H
+ 9pB7OWEbdwAoXrga89jq2Y4jSIdaGgx1FyMjJ7F85COtVOd553YmR2DHyaTmAyLRAvIb
+ A+XLas/CxN6Yw/j7uCYPmHxOJ148N18bS1sgfV8gN8zOCxH6ZX2uFFj1iCpZGFbiqiR1
+ IKkh3chxuGJg5fN4jNohvhjFajK02UxfrBPG28fSwEoJKbWdi2kzyi8Lyqx/bxWKqsIQ
+ rJJqszvCD6WZMLR/RRnuAdTFiGF47FwWxeWjLru9Kg+hhIbwqtioVe9yFxKavSOgnvyu
+ RyPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CxgTlwmogoHhOULSFq3GJiDbsRi88PXUgGnGmm64QIk=;
+ b=jg0uRgENuJEbvKW3/Q0bSs6wty9xOQaOMgFsI81OBLiuAlMNFH2JnyrbpxnD+iNVEY
+ iBXfU9TjaNRCt2b/c8Zu6q7GY4pxJtFca5FccopslCAtcvbFVv4OR7OGg64siWLV8d9o
+ Q8vKc2vYGAqSh/d10Z5EIisGnMfEU94xAlV8qLjaW4dkcsCUgs7brfJyC5mi2asKTORz
+ 1NO5byZ6w5dGhTsaMU7MeFcmKIOtnKtw9YPphJyBy8r3Jzpnf0SgxHyHEja2oA/DBse1
+ MpTCDpH9K8dTJWmGkMGt9I1DSUElHxCLKNUYi+ucvvFF18i6euaefnlcYbp5RG4ay3+1
+ gjvg==
+X-Gm-Message-State: AOAM532LHcOUBfgHLqh/WQ4egloUCcjpnUwVNDEpR65dI7Azn9SkV+mw
+ 10iHR/YrLKVf4ZtC13/m+eM=
+X-Google-Smtp-Source: ABdhPJzD6Rfn7Da741MQ5mLIAeix7PdUK5MlNUqEkxRnucYkYh6IJqCQQ5CHd+OUpP90WUCkWnW8YA==
+X-Received: by 2002:a62:bd14:0:b029:2de:8bf7:2df8 with SMTP id
+ a20-20020a62bd140000b02902de8bf72df8mr5856590pff.60.1623377907516; 
+ Thu, 10 Jun 2021 19:18:27 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id o16sm3439636pfu.75.2021.06.10.19.18.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jun 2021 19:18:27 -0700 (PDT)
+Subject: Re: [PATCH] drm: Lock pointer access in drm_master_release()
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Dan Carpenter <dan.carpenter@oracle.com>
+References: <20210609092119.173590-1-desmondcheongzx@gmail.com>
+ <YMHlLQHRLWgWlXTs@phenom.ffwll.local>
+ <f16f4123-bd0b-f09c-ddf1-7197c841b588@gmail.com>
+ <YMJCdG7k5sNaiHen@phenom.ffwll.local>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <d8150fdb-3a59-e491-f148-1c528fe3c824@gmail.com>
+Date: Fri, 11 Jun 2021 10:18:22 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210518155921.4181-1-mail@anirudhrb.com>
- <20210519032014.GS4332@42.do-not-panic.com>
-In-Reply-To: <20210519032014.GS4332@42.do-not-panic.com>
-From: Luis Chamberlain <mcgrof@kernel.org>
-Date: Thu, 10 Jun 2021 15:32:53 -0700
-X-Gmail-Original-Message-ID: <CAB=NE6Uq_t9Mbs8zN30QQrwH190p5Oz4M7OwDxmQgUeRRWS_6g@mail.gmail.com>
-Message-ID: <CAB=NE6Uq_t9Mbs8zN30QQrwH190p5Oz4M7OwDxmQgUeRRWS_6g@mail.gmail.com>
-Subject: Re: [PATCH v4] firmware_loader: fix use-after-free in
- firmware_fallback_sysfs
-To: Anirudh Rayabharam <mail@anirudhrb.com>
-Cc: syzbot+de271708674e2093097b@syzkaller.appspotmail.com,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Junyong Sun <sunjy516@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <YMJCdG7k5sNaiHen@phenom.ffwll.local>
+Content-Language: en-US
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -99,115 +117,103 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, May 18, 2021 at 8:20 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Tue, May 18, 2021 at 09:29:20PM +0530, Anirudh Rayabharam wrote:
-> > This use-after-free happens when a fw_priv object has been freed but
-> > hasn't been removed from the pending list (pending_fw_head). The next
-> > time fw_load_sysfs_fallback tries to insert into the list, it ends up
-> > accessing the pending_list member of the previoiusly freed fw_priv.
-> >
-> > The root cause here is that all code paths that abort the fw load
-> > don't delete it from the pending list. For example:
-> >
-> >       _request_firmware()
-> >         -> fw_abort_batch_reqs()
-> >             -> fw_state_aborted()
-> >
-> > To fix this, delete the fw_priv from the list in __fw_set_state() if
-> > the new state is DONE or ABORTED. This way, all aborts will remove
-> > the fw_priv from the list. Accordingly, remove calls to list_del_init
-> > that were being made before calling fw_state_(aborted|done)().
-> >
-> > Also, in fw_load_sysfs_fallback, don't add the fw_priv to the list
-> > if it is already aborted. Instead, just jump out and return early.
-> >
-> > Fixes: bcfbd3523f3c ("firmware: fix a double abort case with fw_load_sysfs_fallback")
-> > Reported-by: syzbot+de271708674e2093097b@syzkaller.appspotmail.com
-> > Tested-by: syzbot+de271708674e2093097b@syzkaller.appspotmail.com
-> > Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
-> > ---
-> >
-> > Changes in v4:
-> > Documented the reasons behind the error codes returned from
-> > fw_sysfs_wait_timeout() as suggested by Luis Chamberlain.
-> >
-> > Changes in v3:
-> > Modified the patch to incorporate suggestions by Luis Chamberlain in
-> > order to fix the root cause instead of applying a "band-aid" kind of
-> > fix.
-> > https://lore.kernel.org/lkml/20210403013143.GV4332@42.do-not-panic.com/
-> >
-> > Changes in v2:
-> > 1. Fixed 1 error and 1 warning (in the commit message) reported by
-> > checkpatch.pl. The error was regarding the format for referring to
-> > another commit "commit <sha> ("oneline")". The warning was for line
-> > longer than 75 chars.
-> >
-> > ---
-> >  drivers/base/firmware_loader/fallback.c | 46 ++++++++++++++++++-------
-> >  drivers/base/firmware_loader/firmware.h |  6 +++-
-> >  drivers/base/firmware_loader/main.c     |  2 ++
-> >  3 files changed, 40 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmware_loader/fallback.c
-> > index 91899d185e31..f244c7b89ba5 100644
-> > --- a/drivers/base/firmware_loader/fallback.c
-> > +++ b/drivers/base/firmware_loader/fallback.c
-> > @@ -70,7 +70,31 @@ static inline bool fw_sysfs_loading(struct fw_priv *fw_priv)
-> >
-> >  static inline int fw_sysfs_wait_timeout(struct fw_priv *fw_priv,  long timeout)
-> >  {
-> > -     return __fw_state_wait_common(fw_priv, timeout);
-> > +     int ret = __fw_state_wait_common(fw_priv, timeout);
-> > +
-> > +     /*
-> > +      * A signal could be sent to abort a wait. Consider Android's init
-> > +      * gettting a SIGCHLD, which in turn was the same process issuing the
-> > +      * sysfs store call for the fallback. In such cases we want to be able
-> > +      * to tell apart in userspace when a signal caused a failure on the
-> > +      * wait. In such cases we'd get -ERESTARTSYS.
-> > +      *
-> > +      * Likewise though another race can happen and abort the load earlier.
-> > +      *
-> > +      * In either case the situation is interrupted so we just inform
-> > +      * userspace of that and we end things right away.
-> > +      *
-> > +      * When we really time out just tell userspace it should try again,
-> > +      * perhaps later.
-> > +      */
-> > +     if (ret == -ERESTARTSYS || fw_state_is_aborted(fw_priv))
-> > +             ret = -EINTR;
-> > +     else if (ret == -ETIMEDOUT)
-> > +             ret = -EAGAIN;
->
->
-> Shuah has explained to me that the only motivation on her part with
-> using -EAGAIN on commit 0542ad88fbdd81bb ("firmware loader: Fix
-> _request_firmware_load() return val for fw load abort") was to
-> distinguish the error from -ENOMEM, and so there was no real
-> reason to stick to -EAGAIN. Given -EAGAIN is used typically to
-> ask user to retry, but it makes no sense in this case since the
-> sysfs interface is ephemeral, I think we should do away with it
-> and document this rationale.
->
-> I think we should stick to use -ETIMEDOUT. Its more telling of what
-> happened. And so I think just removing the check should do it, but
-> augmenting the comment should suffice.
->
-> Since this change is already big, it would be good for this other
-> change to go in as a separate change. If you can test to ensure the
-> -ETIMEDOUT does indeed get propagated that'd be appreciated.
->
-> Otherwise looks good. Thanks for your patience!
+On 11/6/21 12:48 am, Daniel Vetter wrote:
+> On Thu, Jun 10, 2021 at 11:21:39PM +0800, Desmond Cheong Zhi Xi wrote:
+>> On 10/6/21 6:10 pm, Daniel Vetter wrote:
+>>> On Wed, Jun 09, 2021 at 05:21:19PM +0800, Desmond Cheong Zhi Xi wrote:
+>>>> This patch eliminates the following smatch warning:
+>>>> drivers/gpu/drm/drm_auth.c:320 drm_master_release() warn: unlocked access 'master' (line 318) expected lock '&dev->master_mutex'
+>>>>
+>>>> The 'file_priv->master' field should be protected by the mutex lock to
+>>>> '&dev->master_mutex'. This is because other processes can concurrently
+>>>> modify this field and free the current 'file_priv->master'
+>>>> pointer. This could result in a use-after-free error when 'master' is
+>>>> dereferenced in subsequent function calls to
+>>>> 'drm_legacy_lock_master_cleanup()' or to 'drm_lease_revoke()'.
+>>>>
+>>>> An example of a scenario that would produce this error can be seen
+>>>> from a similar bug in 'drm_getunique()' that was reported by Syzbot:
+>>>> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+>>>>
+>>>> In the Syzbot report, another process concurrently acquired the
+>>>> device's master mutex in 'drm_setmaster_ioctl()', then overwrote
+>>>> 'fpriv->master' in 'drm_new_set_master()'. The old value of
+>>>> 'fpriv->master' was subsequently freed before the mutex was unlocked.
+>>>>
+>>>> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+>>>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>>>
+>>> Thanks a lot. I've done an audit of this code, and I found another
+>>> potential problem in drm_is_current_master. The callers from drm_auth.c
+>>> hold the dev->master_mutex, but all the external ones dont. I think we
+>>> need to split this into a _locked function for use within drm_auth.c, and
+>>> the exported one needs to grab the dev->master_mutex while it's checking
+>>> master status. Ofc there will still be races, those are ok, but right now
+>>> we run the risk of use-after free problems in drm_lease_owner.
+>>>
+>>> Are you up to do that fix too?
+>>>
+>>
+>> Hi Daniel,
+>>
+>> Thanks for the pointer, I'm definitely up for it!
+>>
+>>> I think the drm_lease.c code also needs an audit, there we'd need to make
+>>> sure that we hold hold either the lock or a full master reference to avoid
+>>> the use-after-free issues here.
+>>>
+>>
+>> I'd be happy to look into drm_lease.c as well.
+>>
+>>> Patch merged to drm-misc-fixes with cc: stable.
+>>> -Daniel
+>>>
+>>>> ---
+>>>>    drivers/gpu/drm/drm_auth.c | 3 ++-
+>>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>>>> index f00e5abdbbf4..b59b26a71ad5 100644
+>>>> --- a/drivers/gpu/drm/drm_auth.c
+>>>> +++ b/drivers/gpu/drm/drm_auth.c
+>>>> @@ -315,9 +315,10 @@ int drm_master_open(struct drm_file *file_priv)
+>>>>    void drm_master_release(struct drm_file *file_priv)
+>>>>    {
+>>>>    	struct drm_device *dev = file_priv->minor->dev;
+>>>> -	struct drm_master *master = file_priv->master;
+>>>> +	struct drm_master *master;
+>>>>
+>>>>    	mutex_lock(&dev->master_mutex);
+>>>> +	master = file_priv->master;
+>>>>    	if (file_priv->magic)
+>>>>    		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+>>>> -- 
+>>>> 2.25.1
+>>>>
+>>>
+>>
+>>  From what I can see, there are other places in the kernel that could use the
+>> _locked version of drm_is_current_master as well, such as drm_mode_getfb in
+>> drm_framebuffer.c. I'll take a closer look, and if the changes make sense
+>> I'll prepare a patch series for them.
+> 
+> Oh maybe we have a naming confusion: the _locked is the one where the
+> caller must grab the lock already, whereas drm_is_current_master would
+> grab the master_mutex internally to do the check. The one in
+> drm_framebuffer.c looks like it'd need the internal one since there's no
+> other need to grab the master_mutex.
+> -Daniel
+> 
 
-Anirudh, did you get a chance to test?
+Ah ok got it, I think I confused myself earlier.
+
+Just to check, may I include you in a Reported-by: tag?
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
