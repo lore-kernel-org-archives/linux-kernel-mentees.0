@@ -2,100 +2,103 @@ Return-Path: <SRS0=fq4Z=LG=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFFDAC48BCF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Jun 2021 12:55:17 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0667C48BE8
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Jun 2021 12:55:27 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 581CE6108E
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Jun 2021 12:55:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 581CE6108E
+	by mail.kernel.org (Postfix) with ESMTPS id 5E3C46108E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 12 Jun 2021 12:55:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5E3C46108E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 16FE883984;
-	Sat, 12 Jun 2021 12:55:17 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2B3FC605F9;
+	Sat, 12 Jun 2021 12:55:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OcBXy-vUPDux; Sat, 12 Jun 2021 12:55:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 2756183926;
-	Sat, 12 Jun 2021 12:55:16 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E9FFEC000E;
-	Sat, 12 Jun 2021 12:55:15 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E09EC000B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Jun 2021 12:55:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 493EE605E5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Jun 2021 12:55:14 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id d8Bd31e01sPL
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YEGXHVcjesnH; Sat, 12 Jun 2021 12:55:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 42122605ED;
+	Sat, 12 Jun 2021 12:55:26 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1ED20C000E;
+	Sat, 12 Jun 2021 12:55:26 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3F46EC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Jun 2021 12:55:13 +0000 (UTC)
+ Sat, 12 Jun 2021 12:55:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2E58B839E9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 12 Jun 2021 12:55:23 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id E6kJcOdtInA9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 12 Jun 2021 12:55:22 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 97693605ED
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9727E83926
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Jun 2021 12:55:13 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id y15so6745247pfl.4
+ Sat, 12 Jun 2021 12:55:22 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id o9so4776367pgd.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 12 Jun 2021 05:55:13 -0700 (PDT)
+ Sat, 12 Jun 2021 05:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eb2MpznI1FrI/fGbqqgN7+yj2amKt0XEdrNNlykJC5k=;
- b=TfXfu0bfH9YUnOeSFGMVLTZYIRcJVfZT2oHpbhX/QW7VDi36f6jsqCzp/e4Z3muh7W
- JloSXUKgWczFceQ6BZzmStBQJzGtBc5nUAVo+vFaFyqKvuUFdDpvxjH90QUM8henXy/m
- 8dNjf3MTi1LeU/87XF9fi3Tu6mk2hG9Hn97Ux13KlPrWMaVrgSfruzoJkETXmtn6cIxE
- cNaUwOozGVWmycnhAjns1O6SMkmf4KNgzhHhNr57cwlo7ELMQDHAo8bxVw+oYWLSdKVL
- vofDJveXshvsMMhj53rsHxtQ74Tdl4sYY7G6w5qv8HdB+ZYm4molOxO52nTN5B4ytcBg
- mLjg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1hTuY7U1R+ySW1pBhYnqPXW/iY7lo4A0jpCZdHDRERo=;
+ b=OHqcytAxEtLThghXPcTSEi53Ohzx6AgIjzBIhVcGvJReCNgvxY9AnjobCmUU4mdJVE
+ pcf9tVP9Asz4EH9lh1l/mD9UX6t4unHIs7mNX8y1wB86fbPwEdHMgemFtR/9JMoiPMmZ
+ yQZbYibwsJ7Odwcabf7KfwmtpkKfIBHc5Rf0bjJJh5IpVuJ3kTuQsB2wC2hGCjm7tmE5
+ FPNtVx05YnNjDVpggnYZFjbNf6qIK0/TE+M8q4YnBH2d1apsP3eNXz91KCbCcqcwhfgO
+ ANJDl5bowY1QyLXlUUtglUgkJWC4qlhFDE/8c3nngAUv5rwZMiIYRLi53Q+PT0hxQTTS
+ y+IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=eb2MpznI1FrI/fGbqqgN7+yj2amKt0XEdrNNlykJC5k=;
- b=HoiDGcO6hTo+h1ufhQTcdLmb53Am1SmJfQqcNw+cxsMU28UQjY/zPcVgUpcSSb94dH
- VA7YSdjabDBO0IN4NLdYH+BbHre8uPrLOtzsmqU+/O3d2dc89IgrCKKN0ExE7usaJ489
- GUVaOOxgSIRJv1qadwBzkf6fQtNrSOtnoSA3JWWKi/fwFG0DO1oH6t2puW2J49x11MJR
- 8LowP4xFJPyZbqTtebWCLCHik98/gQNU7VJOJ2CpyDz+3oezZKG2owvUo2FdZpIcGC0u
- etHU+bBjcr0RFVJ2LX9AuWolR3R8O5qWtdrwgav9Ce0ZVoD2tgCB3tzg5bg1nCyI9pTU
- U0Lw==
-X-Gm-Message-State: AOAM5310cUgZhNjp3d+SM/nbgNDFjm9tO6ljrxClFSo0yonVRslgawCg
- PBugxtrCT62jtJszqraJYCc=
-X-Google-Smtp-Source: ABdhPJyQcLlhoZsHoGgitL1Yik3SCMrENZucQuSz7Oa97wztfdRZjB+cRh2q9PHjcpLYOQ30hzuZ1g==
-X-Received: by 2002:aa7:8a58:0:b029:2ee:2da3:746d with SMTP id
- n24-20020aa78a580000b02902ee2da3746dmr13250190pfa.75.1623502513030; 
- Sat, 12 Jun 2021 05:55:13 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1hTuY7U1R+ySW1pBhYnqPXW/iY7lo4A0jpCZdHDRERo=;
+ b=RY8yaejJtv+D16Ye1uS14wZDHsU+ZBe0qcluyYdF4v2cto2Ng3aCG7O7q9yknEYvX7
+ vEOPC9pwctGH8dRrGQlOI3R30qNzrun+it0JgUXtTuWoN3sDE9uqaw/RFLSCope9fE7c
+ Jd9VgvaC0q/N91zlNjmNvwvLgZ+lJCY6DyH8tdKgRbO1LC7WAFZNSxKYx88mL2pqk8Lj
+ FvvwVVI/wopX0mulSv7HPwZecHkvk8lrcD4cZbKiTun5TaUq3lK3ay4MnLgK/0kXbebH
+ CzmvMtS/Cl/B8PDFCj/jdU8EhOstkfkX6hzS128oUhunTvWLxRswVoiOc8tChuol9RkY
+ 9sIg==
+X-Gm-Message-State: AOAM532ynGmJbJThSPIfNoFCkpWdKJGDBDmolFNEJRUwztHQxvR/aqkG
+ dh0o4bEV01AuOJKSZ/Q+hoM=
+X-Google-Smtp-Source: ABdhPJxcPLkxJPfGeQDXgL6AeZKlPhDG/fM9lxRpRH8ptyrfytCsDXnGBvQV2fQLW2IWza2dLfQUug==
+X-Received: by 2002:a62:7705:0:b029:2f0:94d6:78c9 with SMTP id
+ s5-20020a6277050000b02902f094d678c9mr10155406pfc.25.1623502522053; 
+ Sat, 12 Jun 2021 05:55:22 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id c7sm8015498pgh.72.2021.06.12.05.55.09
+ by smtp.gmail.com with ESMTPSA id c7sm8015498pgh.72.2021.06.12.05.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Jun 2021 05:55:12 -0700 (PDT)
+ Sat, 12 Jun 2021 05:55:21 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch
-Subject: [PATCH 0/2] drm: Address potential UAF bugs with drm_master ptrs
-Date: Sat, 12 Jun 2021 20:54:24 +0800
-Message-Id: <20210612125426.6451-1-desmondcheongzx@gmail.com>
+Subject: [PATCH 1/2] drm: Add a locked version of drm_is_current_master
+Date: Sat, 12 Jun 2021 20:54:25 +0800
+Message-Id: <20210612125426.6451-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210612125426.6451-1-desmondcheongzx@gmail.com>
+References: <20210612125426.6451-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -115,23 +118,94 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
-https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+While checking the master status of the DRM file in
+drm_is_current_master(), the device's master mutex should be
+held. Without the mutex, the pointer fpriv->master may be freed
+concurrently by another process calling drm_setmaster_ioctl(). This
+could lead to use-after-free errors when the pointer is subsequently
+dereferenced in drm_lease_owner().
 
-The series is broken up into two patches:
+The callers of drm_is_current_master() from drm_auth.c hold the
+device's master mutex, but external callers do not. Hence, we implement
+drm_is_current_master_locked() to be used within drm_auth.c, and
+modify drm_is_current_master() to grab the device's master mutex
+before checking the master status.
 
-1. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c
+Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+---
+ drivers/gpu/drm/drm_auth.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-2. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are protected by a mutex
-
-Desmond Cheong Zhi Xi (2):
-  drm: Add a locked version of drm_is_current_master
-  drm: Protect drm_master pointers in drm_lease.c
-
- drivers/gpu/drm/drm_auth.c  | 23 ++++++++++++---
- drivers/gpu/drm/drm_lease.c | 58 +++++++++++++++++++++++++++----------
- 2 files changed, 62 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index 232abbba3686..c6bf52c310a9 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -61,6 +61,8 @@
+  * trusted clients.
+  */
+ 
++static bool drm_is_current_master_locked(struct drm_file *fpriv);
++
+ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ {
+ 	struct drm_auth *auth = data;
+@@ -223,7 +225,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (drm_is_current_master(file_priv))
++	if (drm_is_current_master_locked(file_priv))
+ 		goto out_unlock;
+ 
+ 	if (dev->master) {
+@@ -272,7 +274,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (!drm_is_current_master(file_priv)) {
++	if (!drm_is_current_master_locked(file_priv)) {
+ 		ret = -EINVAL;
+ 		goto out_unlock;
+ 	}
+@@ -321,7 +323,7 @@ void drm_master_release(struct drm_file *file_priv)
+ 	if (file_priv->magic)
+ 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+ 
+-	if (!drm_is_current_master(file_priv))
++	if (!drm_is_current_master_locked(file_priv))
+ 		goto out;
+ 
+ 	drm_legacy_lock_master_cleanup(dev, master);
+@@ -342,6 +344,13 @@ void drm_master_release(struct drm_file *file_priv)
+ 	mutex_unlock(&dev->master_mutex);
+ }
+ 
++static bool drm_is_current_master_locked(struct drm_file *fpriv)
++{
++	lockdep_assert_held_once(&fpriv->master->dev->master_mutex);
++
++	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
++}
++
+ /**
+  * drm_is_current_master - checks whether @priv is the current master
+  * @fpriv: DRM file private
+@@ -354,7 +363,13 @@ void drm_master_release(struct drm_file *file_priv)
+  */
+ bool drm_is_current_master(struct drm_file *fpriv)
+ {
+-	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
++	bool ret;
++
++	mutex_lock(&fpriv->master->dev->master_mutex);
++	ret = drm_is_current_master_locked(fpriv);
++	mutex_unlock(&fpriv->master->dev->master_mutex);
++
++	return ret;
+ }
+ EXPORT_SYMBOL(drm_is_current_master);
+ 
 -- 
 2.25.1
 
