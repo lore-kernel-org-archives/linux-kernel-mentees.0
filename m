@@ -2,108 +2,100 @@ Return-Path: <SRS0=6pMY=LJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE9CC2B9F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Jun 2021 02:15:39 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4F8C48BE6
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Jun 2021 02:37:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0A6636141E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Jun 2021 02:15:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0A6636141E
+	by mail.kernel.org (Postfix) with ESMTPS id 4257461166
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Jun 2021 02:37:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4257461166
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C660683A73;
-	Tue, 15 Jun 2021 02:15:38 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0AAFF6081A;
+	Tue, 15 Jun 2021 02:37:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AZbKm-yFFjUy; Tue, 15 Jun 2021 02:15:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EB99E83A72;
-	Tue, 15 Jun 2021 02:15:37 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UpbhXYEHqttf; Tue, 15 Jun 2021 02:37:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3D34F607B9;
+	Tue, 15 Jun 2021 02:37:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C35B5C000E;
-	Tue, 15 Jun 2021 02:15:37 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4F397C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1DE99C000E;
+	Tue, 15 Jun 2021 02:37:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A5191C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Jun 2021 02:15:36 +0000 (UTC)
+ Tue, 15 Jun 2021 02:37:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 368D583A73
+ by smtp4.osuosl.org (Postfix) with ESMTP id 8A94D4053B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Jun 2021 02:15:36 +0000 (UTC)
+ Tue, 15 Jun 2021 02:37:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WSuKIc_1Eut8
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MxhE8GZL5e1M
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Jun 2021 02:15:35 +0000 (UTC)
+ Tue, 15 Jun 2021 02:37:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9321D83A72
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 9B35D40525
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Jun 2021 02:15:35 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id e20so10227552pgg.0
+ Tue, 15 Jun 2021 02:37:31 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id e20so10265058pgg.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Jun 2021 19:15:35 -0700 (PDT)
+ Mon, 14 Jun 2021 19:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bb+UZyvF103OTFB+0oPWDOXa4REu4kZb3WG5Dmt+tLs=;
- b=djhNl/bpEcNYfgOtTfUrpPCUBgvF5eX69I7/ZWGqOVvSpEWM6gcZ0URW4tIVQQnhWC
- 6SVFL5enr0JvmIqakrJWdsfNkQFFp9mlZ1pgp2NWAz/R+gIdABlQkbKe9MBtNV6hO7Tz
- tny8vYeBX8DFxcRNA71AlLIKkm8+F3IEAw9JnxyX1pdZcplCm6J3r0/jJjvh/wQXWoQL
- EVQoWohGLrQRT4xc2bv3StU7lOYi71HGdQo3OkAU90H3NnGvrp9hPZv2kuEFubIHOEZL
- gi5FxCspuhjq3QTuLxAbzwQJdI1BO4n4G2OZ9wu4yDzhTcfpQXGtNi4irnwT3r8+sZHm
- qerA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XZngOmx3QZGSGE9q4/ABb06fw8+v1CSMYNte3U/V958=;
+ b=j8BK1QDugcRXfg29Tqm6PhfSwlMgaC9EAqEaNluYMNCwd1ZYqElpq+kpbUktZ/urN4
+ MVFmsPENeAISNrJygUJCEH0UF3af93a34tumnmJViTDG/YGE/wodIWkh6IlvmCndB6+C
+ dhDr528Ave7TwpBKkGjCQI5PK87kyPYmJvipI4DE38MSn+6feAKYNBkQV19h8yNjhNDr
+ UYugo4buc+C0+WvrHfvDhza6lHEJ+JjmM2oqHjcwqmDbG1d19wnfbfgHbu/EGX3jc2Tu
+ jTh8f5lXw1t0Dqjad76TQQ7B/0slKvtYlcdMqP/585LM2WdakYuYfAYdSziFLM0+kJIK
+ /K5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=bb+UZyvF103OTFB+0oPWDOXa4REu4kZb3WG5Dmt+tLs=;
- b=TPGrHliRuP9m09+ruwtsGpR88PlPD2W56xJ3U3hYrBSWC7Y444EIiYvTPiLFxw+BN2
- I8aR/SJyRsHg5/y78QG/HjOSVukxq60RRDpw4oXFY0M+yPHTIwpte3iHc5CsT/0j6jMf
- tcRdE2/g0olTcpEGDEK86PVB1gk3BsTuMzwHL8RVW39pjWx6zk37pBdkCWl/fLtUkret
- +Dg8UKQveRLpRfK8pcRNBNXXzWdqqu4oChMMeVs7MFapz2KZIV2tZg+V9vXGtvLxYXJV
- sk5EA1gIYnhvHYdB3VwiaZNEry6PjZVACo6wnvF3g8nd+xW6J28VZKk/Zf1vKTsu6b+Z
- 7iIw==
-X-Gm-Message-State: AOAM532HACrS8L7Uz7yZ9f94J1nOP/3f35Xj5Bxxj/FGzerNiYv7qCay
- cYvVDxCil3Mz+aDsTxnL2uYJqBhS/N8OFhQp2mE=
-X-Google-Smtp-Source: ABdhPJzbMNp+OJh6qTIIxfA2u8gNSm96l1xJmy6ecfpAeYhxlOm0wk0kQKK7cE5allybroyVbt6jag==
-X-Received: by 2002:a63:d511:: with SMTP id c17mr1255540pgg.219.1623723334490; 
- Mon, 14 Jun 2021 19:15:34 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id a9sm628494pjm.51.2021.06.14.19.15.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jun 2021 19:15:33 -0700 (PDT)
-Subject: Re: [PATCH 2/2] drm: Protect drm_master pointers in drm_lease.c
-To: Emil Velikov <emil.l.velikov@gmail.com>
-References: <20210612125426.6451-1-desmondcheongzx@gmail.com>
- <20210612125426.6451-3-desmondcheongzx@gmail.com>
- <CACvgo51r3NK_ddQPPD9vBzkJq7A4CcYS4nawxZqqDB8FXK5gcA@mail.gmail.com>
+ bh=XZngOmx3QZGSGE9q4/ABb06fw8+v1CSMYNte3U/V958=;
+ b=YRDYqNuQbvafPjwTPTlHUtWOl7vZaeK8rGMJjh7CUuo6DPS1CernPyAUi/xnX3+WGU
+ ejmg/OuWld2P8cRIRjvnCziXCckr3Y4XLDznZ539zv8ukE70XrCaiIhAqtbVZZUo1+Wl
+ 6dDafKdyxhonEE53m3nSIDt7FTmDbxI2gm6vRNp5uB7wPKSOh0xY1t22d8FG/Hjjgd4b
+ 0dQeGNzJwJHZNl0BcHj5060hhHVyAWBLGynAOTZkl94mr3nhwNDc01yLEOkn2tG85ai8
+ dsEqTeV7FMIWyAtRGAStU/iuUBcYTOGhvDYh1H+diDl4U6Sr5NErMIR2exqMS/bpB6ZV
+ 86VA==
+X-Gm-Message-State: AOAM533KyYUx0aPadB9a1jwxGnCGNuttCFs4a7yA2XJWCNJbhevtJ1Xq
+ api13U/xZZ61rFbgg+UeZpg=
+X-Google-Smtp-Source: ABdhPJwkiRcyYOeOqxFuMqJ+7O0OK1G86N3d9NPQLqADbQgmmfevSGkqOf0Dpo41Ig68e77DvD7ZZA==
+X-Received: by 2002:a63:ce07:: with SMTP id y7mr3664904pgf.249.1623724650822; 
+ Mon, 14 Jun 2021 19:37:30 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id b133sm14102623pfb.36.2021.06.14.19.37.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jun 2021 19:37:30 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <7bd0d514-efc6-8118-0b28-dfa0bcf5d842@gmail.com>
-Date: Tue, 15 Jun 2021 10:15:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch
+Subject: [PATCH v2 0/2] drm: Address potential UAF bugs with drm_master ptrs
+Date: Tue, 15 Jun 2021 10:36:43 +0800
+Message-Id: <20210615023645.6535-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CACvgo51r3NK_ddQPPD9vBzkJq7A4CcYS4nawxZqqDB8FXK5gcA@mail.gmail.com>
-Content-Language: en-US
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Dave Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+Cc: emil.l.velikov@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,70 +108,36 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 15/6/21 3:41 am, Emil Velikov wrote:
-> On Sat, 12 Jun 2021 at 13:55, Desmond Cheong Zhi Xi
-> <desmondcheongzx@gmail.com> wrote:
->>
->> This patch ensures that the device's master mutex is acquired before
->> accessing pointers to struct drm_master that are subsequently
->> dereferenced. Without the mutex, the struct drm_master may be freed
->> concurrently by another process calling drm_setmaster_ioctl(). This
->> could then lead to use-after-free errors.
->>
->> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
-> 
-> <snip>
-> 
->> @@ -578,6 +594,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->>          /* Hook up the fd */
->>          fd_install(fd, lessee_file);
->>
->> +       mutex_unlock(&dev->master_mutex);
-> 
-> I was going to suggest pushing the unlock call further up - after the
-> drm_lease_create call. Although that would make the error path rather
-> messy, so let's keep it as-is.
-> 
-> <snip>
-> 
->> @@ -662,7 +684,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->>          struct drm_mode_get_lease *arg = data;
->>          __u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
->>          __u32 count_objects = arg->count_objects;
->> -       struct drm_master *lessee = lessee_priv->master;
->> +       struct drm_master *lessee;
->>          struct idr *object_idr;
->>          int count;
->>          void *entry;
->> @@ -678,8 +700,10 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->>
->>          DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
->>
->> +       mutex_lock(&dev->master_mutex);
-> 
-> As-is we're dereferencing an uninitialised pointer in DRM_DEBUG_LEASE.
-> Move the lock and assignment before the DRM_DEBUG_LEASE, just like
-> you've done in the list ioctl.
-> 
-> With this fix, the patch is;
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> 
-> -Emil
-> 
+This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+
+The series is broken up into two patches:
+
+1. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c
+
+2. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are protected by a mutex
 
 
-Good catch, thanks for the feedback Emil. I'll fix this up in a v2 patchset.
+Change in v2:
+- Patch 2: Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov
 
-Best wishes,
-Desmond
+Desmond Cheong Zhi Xi (2):
+  drm: Add a locked version of drm_is_current_master
+  drm: Protect drm_master pointers in drm_lease.c
+
+ drivers/gpu/drm/drm_auth.c  | 23 ++++++++++++---
+ drivers/gpu/drm/drm_lease.c | 58 +++++++++++++++++++++++++++----------
+ 2 files changed, 62 insertions(+), 19 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
