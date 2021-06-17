@@ -2,79 +2,105 @@ Return-Path: <SRS0=8Gt8=LL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_RED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 630E9C2B9F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 11:52:15 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8FBC49361
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 15:23:46 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F1B2C613BF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 11:52:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org F1B2C613BF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+	by mail.kernel.org (Postfix) with ESMTPS id C16E561245
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 15:23:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C16E561245
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B3E3C60736;
-	Thu, 17 Jun 2021 11:52:14 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8418E40499;
+	Thu, 17 Jun 2021 15:23:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ysn6_gT_3F6t; Thu, 17 Jun 2021 11:52:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5A833606F9;
-	Thu, 17 Jun 2021 11:52:13 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lZU4QCw--6HU; Thu, 17 Jun 2021 15:23:44 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6F2D3402AF;
+	Thu, 17 Jun 2021 15:23:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4687EC000E;
-	Thu, 17 Jun 2021 11:52:13 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 22526C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 48617C000E;
+	Thu, 17 Jun 2021 15:23:44 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A2E5CC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 11:52:12 +0000 (UTC)
+ Thu, 17 Jun 2021 15:23:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 10F2B40103
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8A30660710
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 11:52:12 +0000 (UTC)
+ Thu, 17 Jun 2021 15:23:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=infradead.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dGOpS9zlYSex
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id J4XDZQ7eWbdn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 11:52:10 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 428E6400D2
+ Thu, 17 Jun 2021 15:23:42 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 640466066A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 11:52:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=eWfLpTUm88WigYNAtGgk0puveZH4s8vjCO/lhD+KZFA=; b=Ksd9U+/hjhk7n5mA5nDGHYSxdq
- ZjKymSIxqpChMzh0uIjvW46GqzQIAUbUkc2KgZ9iAtw8Occ48KXpEdrwhf1V/SOTILfcoq15YzLe3
- pd2CTMHOibHCqPeQRFeJ+4BC4ILcOzzZlwMQ2XJdFSZSJQvxqsSIiiB86v16VD2X6LhGwWc2G4m1t
- uFkCcygCch96mtPisbW0Rcu8S0F+xiZ7w0iBJigWj0LIkJiT4+ftv1HKs+Gl2mWC+/9jGuRXczqQu
- giuqpDjJl4ppLa1xG1/FiE+jjtHCtzBVDRSSiR/xwcuf8YQMDOUoC40mvQmMTWu7Ez0sr24mI8Vhz
- GU+A0e7g==;
-Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat
- Linux)) id 1ltqYN-0095Tm-BZ; Thu, 17 Jun 2021 11:51:30 +0000
-Date: Thu, 17 Jun 2021 12:51:23 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+ Thu, 17 Jun 2021 15:23:42 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id k15so101937pfp.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 17 Jun 2021 08:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BGbeP7ZnDkY2DJidMpRViqieliUtB17GFMkW1zVFjRU=;
+ b=Oa3ubTr0Q6/AN8zuP9Ab/2Kl+m1AAVUY/MDQf2YhYJMxoR2QNRnHh/uPRS4KEd8FwY
+ 7lYpYXWtliofo4M15KX6kB/FCkMTAvkAF5RyYzkFKpXKvFcmdbiszr2IFGVTZVh653X0
+ JlXGmk/4/4qPnXOO/m3zhD3PlhS2nlPXPnbBDrYB95ZdveGJ8MePV/9NK38Q1rNXPizi
+ QKad2ZO6qF2xPjJ6PWs5ki8uHBBzjnc1piJNAtBZfryD4TVocKpZsNdt08Prz2cW6xPh
+ dwpLwl/ECtvKrpW71zqf6I/ocCQRj1JzvqPxhMJBmEKXb5ymNHU6ksoRABqmBJzbHy7l
+ YMpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BGbeP7ZnDkY2DJidMpRViqieliUtB17GFMkW1zVFjRU=;
+ b=SUCZGomiO66VZkc2YHkawsJOdzYpl1aZdtM7cy47DhzZExaWROkTMTRfiU5Pi6pJZA
+ sZm92ImcceDhV9qVfDDPm3MH9lU+rVUEgN1HjZYR0XgAPXBgK963mIs2n8Z/OxPVAprs
+ uDPwMkpQMY9DFuwl7M5l3ghvnWYOPTR/7z4JPiFiAoqklx9FGu5lZYzKEUt3VafDM0xR
+ L9Xm6E/QLPrM3nWI00t+61GcRRnUyLOrActK+6oWca1TRQL3AQK1i6HmGAWj8dzymId9
+ Y/pJSoy/gT+iufkV2ictT8d/Kudg0cs10hs8I3tk1BIQ5Yh3LXzaXPQZYswbgE4nJvj0
+ fluQ==
+X-Gm-Message-State: AOAM5336/vF7Xrar/UEqHHKr7hsgrKLbAj+Cve4WlYzxDJ1Zf7Hj745I
+ JJxc5in4H9bxCIgn5bHQ/Xc=
+X-Google-Smtp-Source: ABdhPJx/5easlY7XHWhEyK556EoCIVPAIfLRotdyXcjQ6+Cu9D7hlZkBnahXppkI8S5hMejMrFyBwQ==
+X-Received: by 2002:aa7:905a:0:b029:2f6:d759:6c2d with SMTP id
+ n26-20020aa7905a0000b02902f6d7596c2dmr249155pfo.33.1623943421659; 
+ Thu, 17 Jun 2021 08:23:41 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id v6sm6434212pgk.33.2021.06.17.08.23.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 17 Jun 2021 08:23:41 -0700 (PDT)
 Subject: Re: [PATCH] block: break circular locks in blk_request_module
-Message-ID: <YMs3O/cg4V7ywlVq@infradead.org>
+To: Christoph Hellwig <hch@infradead.org>
 References: <20210617092016.522985-1-desmondcheongzx@gmail.com>
+ <YMs3O/cg4V7ywlVq@infradead.org>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Message-ID: <ce1567cf-bc94-790c-cfc0-e4e429e1a86a@gmail.com>
+Date: Thu, 17 Jun 2021 23:23:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210617092016.522985-1-desmondcheongzx@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <YMs3O/cg4V7ywlVq@infradead.org>
+Content-Language: en-US
 Cc: axboe@kernel.dk, syzbot+6a8a0d93c91e8fbf2e80@syzkaller.appspotmail.com,
  vigneshr@ti.com, miquel.raynal@bootlin.com, linux-kernel@vger.kernel.org,
  linux-block@vger.kernel.org, richard@nod.at, linux-mtd@lists.infradead.org,
@@ -90,58 +116,74 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jun 17, 2021 at 05:20:16PM +0800, Desmond Cheong Zhi Xi wrote:
->  	mutex_lock(&major_names_lock);
->  	for (n = &major_names[major_to_index(major)]; *n; n = &(*n)->next) {
->  		if ((*n)->major == major && (*n)->probe) {
-> -			(*n)->probe(devt);
-> +			probe = (*n)->probe;
->  			mutex_unlock(&major_names_lock);
-> +			probe(devt);
+On 17/6/21 7:51 pm, Christoph Hellwig wrote:
+> On Thu, Jun 17, 2021 at 05:20:16PM +0800, Desmond Cheong Zhi Xi wrote:
+>>   	mutex_lock(&major_names_lock);
+>>   	for (n = &major_names[major_to_index(major)]; *n; n = &(*n)->next) {
+>>   		if ((*n)->major == major && (*n)->probe) {
+>> -			(*n)->probe(devt);
+>> +			probe = (*n)->probe;
+>>   			mutex_unlock(&major_names_lock);
+>> +			probe(devt);
+> 
+> And now you can all probe after it has been freed and/or the module has
+> been unloaded. The obviously correct fix is to only hold mtd_table_mutex
+> for the actually required critical section:
+> 
 
-And now you can all probe after it has been freed and/or the module has
-been unloaded. The obviously correct fix is to only hold mtd_table_mutex
-for the actually required critical section:
+Thank you for the correction, Christoph. I hadn't thought of the 
+scenario where the module is unloaded. I'll be more conscientious in the 
+future.
 
-diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
-index fb8e12d590a1..065d94f9b1fb 100644
---- a/drivers/mtd/mtd_blkdevs.c
-+++ b/drivers/mtd/mtd_blkdevs.c
-@@ -529,13 +529,11 @@ int register_mtd_blktrans(struct mtd_blktrans_ops *tr)
- 		register_mtd_user(&blktrans_notifier);
- 
- 
--	mutex_lock(&mtd_table_mutex);
- 
- 	ret = register_blkdev(tr->major, tr->name);
- 	if (ret < 0) {
- 		printk(KERN_WARNING "Unable to register %s block device on major %d: %d\n",
- 		       tr->name, tr->major, ret);
--		mutex_unlock(&mtd_table_mutex);
- 		return ret;
- 	}
- 
-@@ -545,12 +543,12 @@ int register_mtd_blktrans(struct mtd_blktrans_ops *tr)
- 	tr->blkshift = ffs(tr->blksize) - 1;
- 
- 	INIT_LIST_HEAD(&tr->devs);
--	list_add(&tr->list, &blktrans_majors);
- 
-+	mutex_lock(&mtd_table_mutex);
-+	list_add(&tr->list, &blktrans_majors);
- 	mtd_for_each_device(mtd)
- 		if (mtd->type != MTD_ABSENT)
- 			tr->add_mtd(tr, mtd);
--
- 	mutex_unlock(&mtd_table_mutex);
- 	return 0;
- }
+> diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
+> index fb8e12d590a1..065d94f9b1fb 100644
+> --- a/drivers/mtd/mtd_blkdevs.c
+> +++ b/drivers/mtd/mtd_blkdevs.c
+> @@ -529,13 +529,11 @@ int register_mtd_blktrans(struct mtd_blktrans_ops *tr)
+>   		register_mtd_user(&blktrans_notifier);
+>   
+>   
+> -	mutex_lock(&mtd_table_mutex);
+>   
+>   	ret = register_blkdev(tr->major, tr->name);
+>   	if (ret < 0) {
+>   		printk(KERN_WARNING "Unable to register %s block device on major %d: %d\n",
+>   		       tr->name, tr->major, ret);
+> -		mutex_unlock(&mtd_table_mutex);
+>   		return ret;
+>   	}
+>   
+> @@ -545,12 +543,12 @@ int register_mtd_blktrans(struct mtd_blktrans_ops *tr)
+>   	tr->blkshift = ffs(tr->blksize) - 1;
+>   
+>   	INIT_LIST_HEAD(&tr->devs);
+> -	list_add(&tr->list, &blktrans_majors);
+>   
+> +	mutex_lock(&mtd_table_mutex);
+> +	list_add(&tr->list, &blktrans_majors);
+>   	mtd_for_each_device(mtd)
+>   		if (mtd->type != MTD_ABSENT)
+>   			tr->add_mtd(tr, mtd);
+> -
+>   	mutex_unlock(&mtd_table_mutex);
+>   	return 0;
+>   }
+> 
+
+This fix passes the Syzkaller repro test on my local machine and on 
+Syzbot. I can prepare a v2 patch for this. May I include you with the 
+Co-developed-by: and Signed-off-by: tags? If another tag would be more 
+appropriate, or if you want to submit the patch yourself, please let me 
+know.
+
+Best wishes,
+Desmond
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
