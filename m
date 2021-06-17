@@ -2,111 +2,101 @@ Return-Path: <SRS0=8Gt8=LL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0BEC2B9F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 17:12:25 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 146E5C48BE5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 18:52:01 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3444C613BF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 17:12:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3444C613BF
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+	by mail.kernel.org (Postfix) with ESMTPS id A7F7B60C3D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Jun 2021 18:52:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A7F7B60C3D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F318883EF5;
-	Thu, 17 Jun 2021 17:12:24 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 709D94223D;
+	Thu, 17 Jun 2021 18:52:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dzmHBNy9SLsw; Thu, 17 Jun 2021 17:12:24 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7XdhO1TLZvk2; Thu, 17 Jun 2021 18:51:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E47A683ECE;
-	Thu, 17 Jun 2021 17:12:23 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 55AC1421DE;
+	Thu, 17 Jun 2021 18:51:59 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B91DFC000E;
-	Thu, 17 Jun 2021 17:12:23 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4C451C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C1CFC000D;
+	Thu, 17 Jun 2021 18:51:59 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A1B8C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 17:12:22 +0000 (UTC)
+ Thu, 17 Jun 2021 18:51:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 32AC860E67
+ by smtp1.osuosl.org (Postfix) with ESMTP id 31E29842DC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 17:12:22 +0000 (UTC)
+ Thu, 17 Jun 2021 18:51:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=ffwll.ch
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jF45imaupNV4
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tFiiviFyajAV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 17:12:21 +0000 (UTC)
+ Thu, 17 Jun 2021 18:51:56 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DFBCD60E5D
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 16692842D9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 17:12:20 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id c5so7597565wrq.9
+ Thu, 17 Jun 2021 18:51:56 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id m21so12133333lfg.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 10:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=DSxV25jNuC8bMklajaQy85foJZxKyLDGx7XcG+qcPGE=;
- b=bTaG5jb4m8r/EsPv2Vlun/axFb4g20DC1YTproNDbKwn2ZSobnWF+up5RVOHZiBNcX
- 7xwnDJWhZ4vgdhamJI77mkMZabqP7Q+CHIytdDqjb3LwQkfXuJwknbKg8YZGbRoxqTB0
- /TmH9hFDrDDG0fI/Fyr+Zav/mzP5h7XyS7VdQ=
+ Thu, 17 Jun 2021 11:51:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=40iSRLWtvPNc31eMVSQCNXCOo1P/U4f/2ame7W8s7LA=;
+ b=rsxaC1znzCn7fziXWptJz1qN5MODcSouxR5lI+u78WoyFsSgt3dsGIF5Tv44ipxQv6
+ kemni53G002ljSgD21taefI9UNC1Yl7M7R4+qVdy+RBLWlayR3c0ovbFqzU+rq1dReE0
+ lHNahHTvby841ZMPr/rNIrzJj6klsQMbCh0mVbpGclEZ72IeBmHO3+BjP+MY8xfP/8mv
+ uFhLWqW9/WtLcbShF3YxfE3G3NeayGKkIFZGyEfmd+TF+P9wiFsKQhbSMue5CNRUfzLi
+ 2bvHsgkDWLIADU5pn48jsGYd7xhP078ZpP6u0El9alolLXxEnA+rXUN08/L9CLA5i2xx
+ JEnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=DSxV25jNuC8bMklajaQy85foJZxKyLDGx7XcG+qcPGE=;
- b=c7DKKEb4ee/ET7ZEZGGT7/HuiriUjDYJOZ48A7E6VXpOWRoU+vaOgcMpuarg7+iLRl
- s5YuZi5HQ2lJ9X187b6093jqxCRtuPFh0ljpYu2ZGQHwowRmloV4/AjpvSkbEgGrLAuM
- Ievpl5iv2ytzTTy705L/kZSI/xwgNHFdzdSpT4aqg02/Myxw14ijQd/Mx7WsrQmM0M+b
- 50g+q7nI6R0Kqrls9SvgkO323YosWBvcX/dNGfUvivjiZTYXEOg3SC7yzpPXi1oxaJff
- d0a/YPPGEgRSohqIfwjPfSHoICcWDQDbwWDJuzm1KTiFNkhtLlgcvEBrlH9ICUJyZIWA
- YW0Q==
-X-Gm-Message-State: AOAM531AlRmfBRd1oMmMA7fTVTBHu63uwYP66vzlUvuEfm+Q8bpKz+mK
- O7Mve5nkWFn7O6bcwi5cf9wMpQ==
-X-Google-Smtp-Source: ABdhPJwv3vZFJ5wt80/sGXceS5DGQsW7p2ArAoUoDzhMRB3/NCMWWMNMYFLe1Dhrl2pG0DjuGboevw==
-X-Received: by 2002:a05:6000:1864:: with SMTP id
- d4mr6942028wri.369.1623949938842; 
- Thu, 17 Jun 2021 10:12:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id h15sm5713745wrq.88.2021.06.17.10.12.17
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=40iSRLWtvPNc31eMVSQCNXCOo1P/U4f/2ame7W8s7LA=;
+ b=dNVrf8YQBS1q5Oec97FN6to+jSes4whgg4DdvIhUnXArlzEphCQAY/ikhWtQr3WWdq
+ OAOWZy1Gq0ODZ0KIhJ9VCE5eTDv+FTaMdn5ehIx/WByEjl4R1MPdVcE/uj+5P1iazXBp
+ /9b9ZLbLsa5SImU0voACSBFfobV4oFSw6B5FcVlxe5f503dd2e9wsI6RAqo5WL84chsE
+ rGIgsHS8/Zf//ONOkZkysEbsjtNbmdZ9NClNr5GaB02U005J7e+t5Wph6kGgLih+6lo9
+ WervN8k8ByVgN1tHC+ufbqoU6DhqaW1Kcnzm5c4np7dggU0iUiYFihGwz2/Sr2khNKW+
+ oEpA==
+X-Gm-Message-State: AOAM533w7tSF8pg0jj7mxMOO2rCI5eUlfyvPaAaQ4DrqT/AMVvi4cj4m
+ ONDmh+r671+AqL9bhBXc510=
+X-Google-Smtp-Source: ABdhPJxSIdVAbppcnUgVPWZU81UNJMf0YO8KayLnXtSZpBuvMAVk8l2cBRtQr9dzR26muqB+cJO9Tw==
+X-Received: by 2002:a19:c10:: with SMTP id 16mr5184114lfm.54.1623955913761;
+ Thu, 17 Jun 2021 11:51:53 -0700 (PDT)
+Received: from localhost.localdomain ([94.103.229.24])
+ by smtp.gmail.com with ESMTPSA id i130sm655175lfd.304.2021.06.17.11.51.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jun 2021 10:12:18 -0700 (PDT)
-Date: Thu, 17 Jun 2021 19:12:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH v2 2/2] drm: Protect drm_master pointers in drm_lease.c
-Message-ID: <YMuCYqLafn5sGcFo@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- emil.l.velikov@gmail.com
-References: <20210615023645.6535-1-desmondcheongzx@gmail.com>
- <20210615023645.6535-3-desmondcheongzx@gmail.com>
+ Thu, 17 Jun 2021 11:51:53 -0700 (PDT)
+From: Pavel Skripkin <paskripkin@gmail.com>
+To: wg@grandegger.com,
+	mkl@pengutronix.de,
+	davem@davemloft.net
+Subject: [PATCH] net: can: fix use-after-free in ems_usb_disconnect
+Date: Thu, 17 Jun 2021 21:51:30 +0300
+Message-Id: <20210617185130.5834-1-paskripkin@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210615023645.6535-3-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
-Cc: tzimmermann@suse.de, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>, emil.l.velikov@gmail.com,
- mripard@kernel.org, daniel@ffwll.ch,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-can@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -124,256 +114,67 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jun 15, 2021 at 10:36:45AM +0800, Desmond Cheong Zhi Xi wrote:
-> This patch ensures that the device's master mutex is acquired before
-> accessing pointers to struct drm_master that are subsequently
-> dereferenced. Without the mutex, the struct drm_master may be freed
-> concurrently by another process calling drm_setmaster_ioctl(). This
-> could then lead to use-after-free errors.
-> 
-> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> ---
->  drivers/gpu/drm/drm_lease.c | 58 +++++++++++++++++++++++++++----------
->  1 file changed, 43 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-> index da4f085fc09e..3e6f689236e5 100644
-> --- a/drivers/gpu/drm/drm_lease.c
-> +++ b/drivers/gpu/drm/drm_lease.c
-> @@ -107,10 +107,16 @@ static bool _drm_has_leased(struct drm_master *master, int id)
->   */
->  bool _drm_lease_held(struct drm_file *file_priv, int id)
->  {
-> +	bool ret;
-> +
->  	if (!file_priv || !file_priv->master)
->  		return true;
->  
-> -	return _drm_lease_held_master(file_priv->master, id);
-> +	mutex_lock(&file_priv->master->dev->master_mutex);
+In ems_usb_disconnect() dev pointer, which is
+netdev private data, is used after free_candev() call:
 
-So maybe we have a bug somewhere, and the kerneldoc isn't 100% clear, but
-I thought file_priv->master is invariant over the lifetime of file_priv.
-So we don't need a lock to check anything here.
+	if (dev) {
+		unregister_netdev(dev->netdev);
+		free_candev(dev->netdev);
 
-It's the drm_device->master derefence that gets us into trouble. Well also
-file_priv->is_owner is protected by dev->master_mutex.
+		unlink_all_urbs(dev);
 
-So I think with your previous patch all the access here in drm_lease.c is
-ok and already protected? Or am I missing something?
+		usb_free_urb(dev->intr_urb);
 
-Thanks, Daniel
+		kfree(dev->intr_in_buffer);
+		kfree(dev->tx_msg_buffer);
+	}
 
+Fix it by simply moving free_candev() at the end of
+the block.
 
-> +	ret = _drm_lease_held_master(file_priv->master, id);
-> +	mutex_unlock(&file_priv->master->dev->master_mutex);
-> +
-> +	return ret;
->  }
->  
->  /**
-> @@ -132,10 +138,12 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
->  	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
->  		return true;
->  
-> +	mutex_lock(&file_priv->master->dev->master_mutex);
->  	master = file_priv->master;
->  	mutex_lock(&master->dev->mode_config.idr_mutex);
->  	ret = _drm_lease_held_master(master, id);
->  	mutex_unlock(&master->dev->mode_config.idr_mutex);
-> +	mutex_unlock(&file_priv->master->dev->master_mutex);
->  	return ret;
->  }
->  
-> @@ -158,6 +166,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->  	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
->  		return crtcs_in;
->  
-> +	mutex_lock(&file_priv->master->dev->master_mutex);
->  	master = file_priv->master;
->  	dev = master->dev;
->  
-> @@ -177,6 +186,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
->  		count_in++;
->  	}
->  	mutex_unlock(&master->dev->mode_config.idr_mutex);
-> +	mutex_unlock(&file_priv->master->dev->master_mutex);
->  	return crtcs_out;
->  }
->  
-> @@ -490,7 +500,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	size_t object_count;
->  	int ret = 0;
->  	struct idr leases;
-> -	struct drm_master *lessor = lessor_priv->master;
-> +	struct drm_master *lessor;
->  	struct drm_master *lessee = NULL;
->  	struct file *lessee_file = NULL;
->  	struct file *lessor_file = lessor_priv->filp;
-> @@ -502,12 +512,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> -	/* Do not allow sub-leases */
-> -	if (lessor->lessor) {
-> -		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-> -		return -EINVAL;
-> -	}
-> -
->  	/* need some objects */
->  	if (cl->object_count == 0) {
->  		DRM_DEBUG_LEASE("no objects in lease\n");
-> @@ -519,12 +523,23 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  		return -EINVAL;
->  	}
->  
-> +	mutex_lock(&dev->master_mutex);
-> +	lessor = lessor_priv->master;
-> +	/* Do not allow sub-leases */
-> +	if (lessor->lessor) {
-> +		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-> +		ret = -EINVAL;
-> +		goto unlock;
-> +	}
-> +
->  	object_count = cl->object_count;
->  
->  	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
->  			array_size(object_count, sizeof(__u32)));
-> -	if (IS_ERR(object_ids))
-> -		return PTR_ERR(object_ids);
-> +	if (IS_ERR(object_ids)) {
-> +		ret = PTR_ERR(object_ids);
-> +		goto unlock;
-> +	}
->  
->  	idr_init(&leases);
->  
-> @@ -535,14 +550,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	if (ret) {
->  		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
->  		idr_destroy(&leases);
-> -		return ret;
-> +		goto unlock;
->  	}
->  
->  	/* Allocate a file descriptor for the lease */
->  	fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
->  	if (fd < 0) {
->  		idr_destroy(&leases);
-> -		return fd;
-> +		ret = fd;
-> +		goto unlock;
->  	}
->  
->  	DRM_DEBUG_LEASE("Creating lease\n");
-> @@ -578,6 +594,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  	/* Hook up the fd */
->  	fd_install(fd, lessee_file);
->  
-> +	mutex_unlock(&dev->master_mutex);
->  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
->  	return 0;
->  
-> @@ -587,6 +604,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
->  out_leases:
->  	put_unused_fd(fd);
->  
-> +unlock:
-> +	mutex_unlock(&dev->master_mutex);
->  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
->  	return ret;
->  }
-> @@ -609,7 +628,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  	struct drm_mode_list_lessees *arg = data;
->  	__u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
->  	__u32 count_lessees = arg->count_lessees;
-> -	struct drm_master *lessor = lessor_priv->master, *lessee;
-> +	struct drm_master *lessor, *lessee;
->  	int count;
->  	int ret = 0;
->  
-> @@ -620,6 +639,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	mutex_lock(&dev->master_mutex);
-> +	lessor = lessor_priv->master;
->  	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
-> @@ -643,6 +664,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
->  		arg->count_lessees = count;
->  
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> +	mutex_unlock(&dev->master_mutex);
->  
->  	return ret;
->  }
-> @@ -662,7 +684,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  	struct drm_mode_get_lease *arg = data;
->  	__u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
->  	__u32 count_objects = arg->count_objects;
-> -	struct drm_master *lessee = lessee_priv->master;
-> +	struct drm_master *lessee;
->  	struct idr *object_idr;
->  	int count;
->  	void *entry;
-> @@ -676,6 +698,8 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	mutex_lock(&dev->master_mutex);
-> +	lessee = lessee_priv->master;
->  	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
->  
->  	mutex_lock(&dev->mode_config.idr_mutex);
-> @@ -703,6 +727,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
->  		arg->count_objects = count;
->  
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> +	mutex_unlock(&dev->master_mutex);
->  
->  	return ret;
->  }
-> @@ -721,7 +746,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  				void *data, struct drm_file *lessor_priv)
->  {
->  	struct drm_mode_revoke_lease *arg = data;
-> -	struct drm_master *lessor = lessor_priv->master;
-> +	struct drm_master *lessor;
->  	struct drm_master *lessee;
->  	int ret = 0;
->  
-> @@ -731,8 +756,10 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->  		return -EOPNOTSUPP;
->  
-> +	mutex_lock(&dev->master_mutex);
->  	mutex_lock(&dev->mode_config.idr_mutex);
->  
-> +	lessor = lessor_priv->master;
->  	lessee = _drm_find_lessee(lessor, arg->lessee_id);
->  
->  	/* No such lessee */
-> @@ -751,6 +778,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
->  
->  fail:
->  	mutex_unlock(&dev->mode_config.idr_mutex);
-> +	mutex_unlock(&dev->master_mutex);
->  
->  	return ret;
->  }
-> -- 
-> 2.25.1
-> 
+Fail log:
+ BUG: KASAN: use-after-free in ems_usb_disconnect
+ Read of size 8 at addr ffff88804e041008 by task kworker/1:2/2895
 
+ CPU: 1 PID: 2895 Comm: kworker/1:2 Not tainted 5.13.0-rc5+ #164
+ Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0-g155821a-rebuilt.opensuse.4
+ Workqueue: usb_hub_wq hub_event
+ Call Trace:
+     dump_stack (lib/dump_stack.c:122)
+     print_address_description.constprop.0.cold (mm/kasan/report.c:234)
+     kasan_report.cold (mm/kasan/report.c:420 mm/kasan/report.c:436)
+     ems_usb_disconnect (drivers/net/can/usb/ems_usb.c:683 drivers/net/can/usb/ems_usb.c:1058)
+
+Fixes: 702171adeed3 ("ems_usb: Added support for EMS CPC-USB/ARM7 CAN/USB interface")
+Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+---
+ drivers/net/can/usb/ems_usb.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/can/usb/ems_usb.c b/drivers/net/can/usb/ems_usb.c
+index 5af69787d9d5..0a37af4a3fa4 100644
+--- a/drivers/net/can/usb/ems_usb.c
++++ b/drivers/net/can/usb/ems_usb.c
+@@ -1053,7 +1053,6 @@ static void ems_usb_disconnect(struct usb_interface *intf)
+ 
+ 	if (dev) {
+ 		unregister_netdev(dev->netdev);
+-		free_candev(dev->netdev);
+ 
+ 		unlink_all_urbs(dev);
+ 
+@@ -1061,6 +1060,8 @@ static void ems_usb_disconnect(struct usb_interface *intf)
+ 
+ 		kfree(dev->intr_in_buffer);
+ 		kfree(dev->tx_msg_buffer);
++
++		free_candev(dev->netdev);
+ 	}
+ }
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
