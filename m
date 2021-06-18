@@ -8,91 +8,89 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6CEBC49EA3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 16:14:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14931C48BE8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 16:14:56 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8D9E6613BA
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 16:14:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8D9E6613BA
+	by mail.kernel.org (Postfix) with ESMTPS id CD52361139
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 16:14:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CD52361139
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6E5B4607FB;
-	Fri, 18 Jun 2021 16:14:46 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A30B0607AD;
+	Fri, 18 Jun 2021 16:14:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e1CTPUmqLp2i; Fri, 18 Jun 2021 16:14:44 +0000 (UTC)
+	with ESMTP id aOpJSQ5PoGKv; Fri, 18 Jun 2021 16:14:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8BE11607AD;
-	Fri, 18 Jun 2021 16:14:44 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B98AB605DD;
+	Fri, 18 Jun 2021 16:14:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 76405C000D;
-	Fri, 18 Jun 2021 16:14:44 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8B503C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 98B52C000D;
+	Fri, 18 Jun 2021 16:14:54 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52815C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 16:14:43 +0000 (UTC)
+ Fri, 18 Jun 2021 16:14:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 78D5440478
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4EB32607AD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 16:14:43 +0000 (UTC)
+ Fri, 18 Jun 2021 16:14:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vj1KahF8wxzc
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id n_NB_Cglvz24
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 16:14:42 +0000 (UTC)
+ Fri, 18 Jun 2021 16:14:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A355D40411
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 904C5605DD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 16:14:42 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id h4so17542469lfu.8
+ Fri, 18 Jun 2021 16:14:52 +0000 (UTC)
+Received: by mail-lj1-x231.google.com with SMTP id a21so9786536ljj.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 09:14:42 -0700 (PDT)
+ Fri, 18 Jun 2021 09:14:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T9okz+M2qPAYpLlhHUmFyKIgqTEHlJ9zAXaCBBl6R2o=;
- b=X/TRDAfHqp3Emi7hNQXLhA/9qb+JxRk9Rtl2H3LK43EM2L9YfbVie+MJq+TOUGNFw6
- gf23cC5NcQn2v2Y3OPMGQFi+XeypenTMBZOAN8fG/Tb231Hp1uq5J6/8Le0HiSF+giRa
- bcjepACjH16YQVOqeIPEF7R5+9UAMCUa3+hKmRP5/xnzgYWUypzjoqa/+oHEM98RjHLv
- myGRQixYozdlQjtutZBwBwX9TCYdRNRVCtKDPPELlAaAtxOBQdAPN35jaPEUQ6vx5DZ5
- FQqiw6fVuFlHI2wCUZ867XdECszBSonAO6cfO7hDhiY4wGZsKH9PWm0hUwM39GdBNVnZ
- 2KfA==
+ bh=pmmBYlRHWMosP77C0Ii9Ste9VmkpwQxWPopXChKoX8U=;
+ b=MiWyikh06egv+CM+dP0DpbAtt8nVnjcXBSwZfudsgaHkFKpVWZdO1XgMC8Vfqv87yF
+ kXEDIHkcjUwTI3NI9TFzFxLPuqWp0a0Zizi60a09ip1Fse/VqAclrZd685Gtc+gFfEMh
+ gd8XYo8ZB+Wq7C4e1mB0k53cCnvLWXZHV/hTYCuhPj+j674yehtwuJah9zH3TYCqY/21
+ jMDkvaf6/wOEd+3cFQRNJsTDAXgeg++xj+y6mj+uzQwo0UttB/pAaStzyqKAgWHYcLHu
+ hZp1buRIco2EGghQKo4zLSdT4HQhOVOxrbCgqGkZ9pcVs6sBUZbQVSlQ0Ys8t5paX6tb
+ JvdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T9okz+M2qPAYpLlhHUmFyKIgqTEHlJ9zAXaCBBl6R2o=;
- b=Zbwl1AZEbcz2sRzcqsbDX4uhPubpx4QeT16SV6Pq+zLRipU5rboZ4E+OW3BPsHhobD
- CLRZ9eIr/FYM/m4K22j3qj9iB04pl25Ro96m29xoRUK4DxCVSN0PDB7l9NKWyndaOPO6
- d28Weji5CpEeI/36duvMc++hl9fkcPGAzIsoCyl36Bdh6iXM9oy2BiVrZ7pskQDcrsmk
- 13PRrAuw2FUc4UNJXBCbYVMng/KiyQRLyTZ6A2Nlo9MSro37kDGb5F9MByuymoMx3QIT
- KAptkONmAC7TyHxZMQmapgKiKaebfCMTJyn+3QJr8apXKHh4Sc1ywrWKQy/6X8/l41YI
- K8Mg==
-X-Gm-Message-State: AOAM532jSknxkKGiF1mlB8L1WElbnRXcDhZ0ZixpdrbsNjb3k+Oy9GB0
- yg3Rhq28gRv7bdFxyS0SUlU=
-X-Google-Smtp-Source: ABdhPJxJG+NvjpvDGi1JSzcI+V468eSj7LvLu0XhxSejd6slJ6oF4AuurfyYp3vNP69765Xj7qW31Q==
-X-Received: by 2002:a05:6512:15a2:: with SMTP id
- bp34mr3673389lfb.40.1624032880483; 
- Fri, 18 Jun 2021 09:14:40 -0700 (PDT)
+ bh=pmmBYlRHWMosP77C0Ii9Ste9VmkpwQxWPopXChKoX8U=;
+ b=T29zRJPN7jbVzRI6+43eZLVqvHSqRCJfnlY13B9O7DjQEIGyBR4YcfCn+uCTjDqRLa
+ 17pzwJU+rBtZZ+7Tyt8JFa5H2MxQj36dFCWcSQdK+n4DmZlbrku4E5xa+3/WL6fWljhp
+ QyxLlRBUPXq9EklXR4dhfIcExrXmWGx6mKtldwmALDTRfULnLbOLdsD+V+axz60yj7Yo
+ NHs7qVSskL7rNqYLbs58XlgbjcXTey/PAXA36FvCti0ggeV/tX4Wkg7mSUi2hsYke2YV
+ SMFw8EdHqHWl8bgdhBHNwB0LhymUnSq32uleT38zUE/PLcJlBN+qF0ADRZGVcUzOjkI9
+ MWfg==
+X-Gm-Message-State: AOAM530oqSVLkMmMPV69s4ZzrLPvS0Q7QkqS7t7hjpuVYQ/hjpyMIUYD
+ NWUTdNPBvdnkaOFoa4/2E0E=
+X-Google-Smtp-Source: ABdhPJxfdpCMQB64fi+Tq38fP/1PEKy84mwF7jCmbBdPM+AUz90aStt4Wp6ix1eYPrqW3yEixSjXqg==
+X-Received: by 2002:a05:651c:201d:: with SMTP id
+ s29mr10262196ljo.258.1624032890195; 
+ Fri, 18 Jun 2021 09:14:50 -0700 (PDT)
 Received: from localhost.localdomain ([94.103.229.24])
- by smtp.gmail.com with ESMTPSA id t1sm947623lfg.252.2021.06.18.09.14.39
+ by smtp.gmail.com with ESMTPSA id h19sm951025lfc.225.2021.06.18.09.14.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 09:14:40 -0700 (PDT)
+ Fri, 18 Jun 2021 09:14:49 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
 To: davem@davemloft.net, kuba@kernel.org, andrew@lunn.ch, michael@walle.cc,
  abrodkin@synopsys.com, talz@ezchip.com, noamc@ezchip.com
-Subject: [PATCH 2/3] net: ethernet: ezchip: remove redundant check
-Date: Fri, 18 Jun 2021 19:14:37 +0300
-Message-Id: <38bf1b24e45d652242318803fa746ab27a9def23.1624032669.git.paskripkin@gmail.com>
+Subject: [PATCH 3/3] net: ethernet: ezchip: fix error handling
+Date: Fri, 18 Jun 2021 19:14:47 +0300
+Message-Id: <422b1921ce3ff8f29da93d9a2c99e1d34cf66c77.1624032669.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1624032669.git.paskripkin@gmail.com>
 References: <cover.1624032669.git.paskripkin@gmail.com>
@@ -116,30 +114,36 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-err varibale will be set everytime, when code gets
-into this path. This check will just slowdown the execution
-and that's all.
+As documented at drivers/base/platform.c for platform_get_irq:
+
+ * Gets an IRQ for a platform device and prints an error message if finding the
+ * IRQ fails. Device drivers should check the return value for errors so as to
+ * not pass a negative integer value to the request_irq() APIs.
+
+So, the driver should check that platform_get_irq() return value
+is _negative_, not that it's equal to zero, because -ENXIO (return
+value from request_irq() if irq was not found) will
+pass this check and it leads to passing negative irq to request_irq()
 
 Fixes: 0dd077093636 ("NET: Add ezchip ethernet driver")
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/net/ethernet/ezchip/nps_enet.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/net/ethernet/ezchip/nps_enet.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/ezchip/nps_enet.c b/drivers/net/ethernet/ezchip/nps_enet.c
-index 20d2c2bb26e4..c562a1e83913 100644
+index c562a1e83913..f9a288a6ec8c 100644
 --- a/drivers/net/ethernet/ezchip/nps_enet.c
 +++ b/drivers/net/ethernet/ezchip/nps_enet.c
-@@ -630,8 +630,7 @@ static s32 nps_enet_probe(struct platform_device *pdev)
- out_netif_api:
- 	netif_napi_del(&priv->napi);
- out_netdev:
--	if (err)
--		free_netdev(ndev);
-+	free_netdev(ndev);
+@@ -607,7 +607,7 @@ static s32 nps_enet_probe(struct platform_device *pdev)
  
- 	return err;
- }
+ 	/* Get IRQ number */
+ 	priv->irq = platform_get_irq(pdev, 0);
+-	if (!priv->irq) {
++	if (priv->irq < 0) {
+ 		dev_err(dev, "failed to retrieve <irq Rx-Tx> value from device tree\n");
+ 		err = -ENODEV;
+ 		goto out_netdev;
 -- 
 2.32.0
 
