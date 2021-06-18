@@ -8,91 +8,88 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B2CC48BDF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 13:50:32 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F68C48BE8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 14:58:10 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3C73A61248
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 13:50:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3C73A61248
+	by mail.kernel.org (Postfix) with ESMTPS id 2E43B61159
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 14:58:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2E43B61159
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0E9C2401EE;
-	Fri, 18 Jun 2021 13:50:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id F1914838F7;
+	Fri, 18 Jun 2021 14:58:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OC4i6mGNPwtm; Fri, 18 Jun 2021 13:50:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id EA6CB4014A;
-	Fri, 18 Jun 2021 13:50:30 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gnnjnHNhAuUS; Fri, 18 Jun 2021 14:58:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 289AC83508;
+	Fri, 18 Jun 2021 14:58:09 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C4C63C000D;
-	Fri, 18 Jun 2021 13:50:30 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EAA73C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1143C000D;
+	Fri, 18 Jun 2021 14:58:08 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1FDADC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 13:50:28 +0000 (UTC)
+ Fri, 18 Jun 2021 14:58:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E705583B2E
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0B54683CB7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 13:50:28 +0000 (UTC)
+ Fri, 18 Jun 2021 14:58:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6ZdabnzyE76v
+ with ESMTP id CIfsFcpzhEBi
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 13:50:27 +0000 (UTC)
+ Fri, 18 Jun 2021 14:58:07 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C4F9C83508
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
+ [IPv6:2a00:1450:4864:20::229])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 19BA783AF1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 13:50:26 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id 131so14162467ljj.3
+ Fri, 18 Jun 2021 14:58:07 +0000 (UTC)
+Received: by mail-lj1-x229.google.com with SMTP id c11so14422670ljd.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 06:50:26 -0700 (PDT)
+ Fri, 18 Jun 2021 07:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=PF1lwVLZjO0TaZRIPSE+RYDa9z8BPF1tUWPYliWRKnc=;
- b=HNXfeSlEg8BXH11sQ4vpGj1n8hXO2g66OnPe8iX33KoxwRFq3Xw2r4ZMhqDyQUNttq
- 55BcvKOnz8mw9DYDTCzab4t3h3LOi//dCYSbUst9nWsRkVxGIaPdV+7sLC4j/n+vXovo
- B4oa9Rq34Q/FqSz/S9AtSl2rlUj8CTkk87aULV5oZ+p8j0CgkhP7ZQ5LDFQ8GbazkpxT
- Hjx/U0d6o3tDfH6RsitHSwfIUaocAZrSCijVmUmNXvzkXOxiW6tmQiwPfjKgyLbM0YST
- +nN0JMwjrHlCaDBg3j8YhqR3Ti2KDaddq1o+Wmo8ZVwbieTCtlnSetjOzF1McbrbnAzg
- TIgg==
+ bh=/qj/DCC40E5M+kCTzyQzmzT+i3lfMX82yvvAMuTPy2U=;
+ b=cFQE0qieACEbE3MXNtJXVtJVIphvFTDMgjWLhBis+vgXG8x+Y/vg4nO6n3EwvTDbdR
+ 4Fwv9v+8wdFgt6+AxGYaUqdOQ3R9OVVVrSNOmrVOX0UZUFvdARQKN7iNEnjhmulBOlni
+ XrwHdjkEwUQEceZdgzKr0PX+adT6Dk9GHXw4T0dN6WRWy4q1Zs2g5klt1JzAYq+g5XQa
+ jz2PbbN34JJDr3k0Kphhh6oG4WPl27bMQbqdg6xxuPR89grUFzs9UF44USt7Z2Q5ltpi
+ C1xc9MHMk36XQmF6atHscxja8Wqm7ZCTbNYlPKrhrdtkraG9RTueD1dyLyEnOFcn2bWb
+ yB1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=PF1lwVLZjO0TaZRIPSE+RYDa9z8BPF1tUWPYliWRKnc=;
- b=sQOyeYVvIyaCbMA9RSLMFhzs7659LS8j3tkcScCtOuvFS8Dt9ExtOSkddCRYv8z8j6
- iAJcJM+/kueFWEHMX/WIXL40EWEqjBzIeLrwjzw8mvlxpPHOfLS+pm4UUVAJlTE8JbY0
- HvUqd5yGDObw0YgtSfUTcnq78HmxpBgYqLBjdP+77TNgmkZRoXzVyey5DUA82bOgkoMd
- 00lOLQsXQvM+bsH4KX8F/B1dXel+FP1LJbmkSW+z1XhKEeHGdD7ClQ6V530aBX00QDaT
- DJnhlD9InICjEXhl7dYzQoiA67EMJfQR7jChueo35WWgfdZm3qLv0T360qZ4E8ky8DfK
- Ay4w==
-X-Gm-Message-State: AOAM530PLkiqSpQ6LAaBOtj9syVyM2+IxsqjQN8BM/CCQuPB5mb9Uwln
- uFGK5o3hjolHkWm4K09C+Nw=
-X-Google-Smtp-Source: ABdhPJxrJ9TDOw/Wl4DcvgjPxkQjBduGj9Lc2qQ214ODXqD3Tm33ax8AK4edkHfd/5Z3WlnEQR+5Ig==
-X-Received: by 2002:a2e:580e:: with SMTP id m14mr9599947ljb.197.1624024224596; 
- Fri, 18 Jun 2021 06:50:24 -0700 (PDT)
+ bh=/qj/DCC40E5M+kCTzyQzmzT+i3lfMX82yvvAMuTPy2U=;
+ b=Hbbe+ftUfiO7Fjj7h/iwFifYb9lr0eFKz6oWiCODzn9eb9jVYiWCwEdH9zBzYhvNZm
+ LNfnn+8hbpqbp2ZgIrhAT87Ied35U74IRzgzXmaBzW+hXg9zJrLskWHdnVwzJqC1BTfm
+ Fet+BuydIqg1geqfF10jsIm0IT4403cE2BB5j35Bg8gvENgAS/4wNKi4HcnY7zFa1Cpi
+ PVn7hFXeYQdIKWH6kamVcQVKcReS0m22hOCHJZ5gC559MSUPHyEGoX+P6gRV5wFow9wP
+ rID7+YvbyXKMKXSGopI5dSQMNKllS/eyKqlXgAEMiTk8itjIwr/Njq8e9cTomoWu4r1F
+ 0yLA==
+X-Gm-Message-State: AOAM531jBR73LdLYPXQuOc+CTiyz++iassaH7uCOTVTmB9FymRAGmvdM
+ wKYQfdnvg35HndUNGBdkhIY=
+X-Google-Smtp-Source: ABdhPJw7f+3Y9SP91OWBd+PShL4pBiEpOayUISaL5/8ItN1P8uUmgIFeUG4tv7ywNIQjXVfXdSWK3w==
+X-Received: by 2002:a2e:a7c9:: with SMTP id x9mr10076282ljp.333.1624028284877; 
+ Fri, 18 Jun 2021 07:58:04 -0700 (PDT)
 Received: from localhost.localdomain ([94.103.229.24])
- by smtp.gmail.com with ESMTPSA id r9sm918112lfm.158.2021.06.18.06.50.23
+ by smtp.gmail.com with ESMTPSA id b16sm1020471lff.210.2021.06.18.07.58.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jun 2021 06:50:23 -0700 (PDT)
+ Fri, 18 Jun 2021 07:58:04 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
-To: reksio@newterm.pl,
-	davem@davemloft.net,
-	kuba@kernel.org
-Subject: [PATCH] net: ethernet: fix potential use-after-free in ec_bhf_remove
-Date: Fri, 18 Jun 2021 16:49:02 +0300
-Message-Id: <20210618134902.9793-1-paskripkin@gmail.com>
+To: andreas@gaisler.com, davem@davemloft.net, kuba@kernel.org,
+ kristoffer@gaisler.com
+Subject: [PATCH] net: ethernet: aeroflex: fix UAF in greth_of_remove
+Date: Fri, 18 Jun 2021 17:57:31 +0300
+Message-Id: <20210618145731.32194-1-paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
@@ -114,48 +111,46 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-static void ec_bhf_remove(struct pci_dev *dev)
+static int greth_of_remove(struct platform_device *of_dev)
 {
 ...
-	struct ec_bhf_priv *priv = netdev_priv(net_dev);
+	struct greth_private *greth = netdev_priv(ndev);
+...
+	unregister_netdev(ndev);
+	free_netdev(ndev);
 
-	unregister_netdev(net_dev);
-	free_netdev(net_dev);
-
-	pci_iounmap(dev, priv->dma_io);
-	pci_iounmap(dev, priv->io);
+	of_iounmap(&of_dev->resource[0], greth->regs, resource_size(&of_dev->resource[0]));
 ...
 }
 
-priv is netdev private data, but it is used
-after free_netdev(). It can cause use-after-free when accessing priv
-pointer. So, fix it by moving free_netdev() after pci_iounmap()
-calls.
+greth is netdev private data, but it is used
+after free_netdev(). It can cause use-after-free when accessing greth
+pointer. So, fix it by moving free_netdev() after of_iounmap()
+call.
 
-Fixes: 6af55ff52b02 ("Driver for Beckhoff CX5020 EtherCAT master module.")
+Fixes: d4c41139df6e ("net: Add Aeroflex Gaisler 10/100/1G Ethernet MAC driver")
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/net/ethernet/ec_bhf.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/aeroflex/greth.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/ec_bhf.c b/drivers/net/ethernet/ec_bhf.c
-index 46b0dbab8aad..7c992172933b 100644
---- a/drivers/net/ethernet/ec_bhf.c
-+++ b/drivers/net/ethernet/ec_bhf.c
-@@ -576,10 +576,12 @@ static void ec_bhf_remove(struct pci_dev *dev)
- 	struct ec_bhf_priv *priv = netdev_priv(net_dev);
+diff --git a/drivers/net/ethernet/aeroflex/greth.c b/drivers/net/ethernet/aeroflex/greth.c
+index d77fafbc1530..c560ad06f0be 100644
+--- a/drivers/net/ethernet/aeroflex/greth.c
++++ b/drivers/net/ethernet/aeroflex/greth.c
+@@ -1539,10 +1539,11 @@ static int greth_of_remove(struct platform_device *of_dev)
+ 	mdiobus_unregister(greth->mdio);
  
- 	unregister_netdev(net_dev);
--	free_netdev(net_dev);
+ 	unregister_netdev(ndev);
+-	free_netdev(ndev);
  
- 	pci_iounmap(dev, priv->dma_io);
- 	pci_iounmap(dev, priv->io);
+ 	of_iounmap(&of_dev->resource[0], greth->regs, resource_size(&of_dev->resource[0]));
+ 
++	free_netdev(ndev);
 +
-+	free_netdev(net_dev);
-+
- 	pci_release_regions(dev);
- 	pci_clear_master(dev);
- 	pci_disable_device(dev);
+ 	return 0;
+ }
+ 
 -- 
 2.32.0
 
