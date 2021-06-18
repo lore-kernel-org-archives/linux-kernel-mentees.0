@@ -2,84 +2,100 @@ Return-Path: <SRS0=f3wf=LM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90438C49EA3
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 07:17:32 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5219FC48BE8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 09:13:13 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EC131613BD
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 07:17:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC131613BD
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+	by mail.kernel.org (Postfix) with ESMTPS id 09B6060FD8
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 09:13:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 09B6060FD8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A2CE882D03;
-	Fri, 18 Jun 2021 07:17:31 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YUY7Ug058R85; Fri, 18 Jun 2021 07:17:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5838482C9C;
-	Fri, 18 Jun 2021 07:17:30 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 30179C000D;
-	Fri, 18 Jun 2021 07:17:30 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98E1BC000B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 07:17:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 85DB0414BD
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 07:17:28 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C8D5A41582;
+	Fri, 18 Jun 2021 09:13:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5yZQKHLOcEWq
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eQdinJBjzTn3; Fri, 18 Jun 2021 09:13:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 95042414C0;
+	Fri, 18 Jun 2021 09:13:11 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B152C000D;
+	Fri, 18 Jun 2021 09:13:11 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83C80C000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 07:17:27 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E6E8241480
+ Fri, 18 Jun 2021 09:13:10 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 64C2D6073A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 07:17:26 +0000 (UTC)
-Received: from gallifrey.ext.pengutronix.de
- ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mkl@pengutronix.de>)
- id 1lu8km-0003gp-5p; Fri, 18 Jun 2021 09:17:24 +0200
-Received: from pengutronix.de (unknown
- [IPv6:2a03:f580:87bc:d400:e7d0:b47e:7728:2b24])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (Client did not present a certificate)
- (Authenticated sender: mkl-all@blackshift.org)
- by smtp.blackshift.org (Postfix) with ESMTPSA id A8CA463EA3C;
- Fri, 18 Jun 2021 07:04:52 +0000 (UTC)
-Date: Fri, 18 Jun 2021 09:04:52 +0200
-From: Marc Kleine-Budde <mkl@pengutronix.de>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH] net: can: fix use-after-free in ems_usb_disconnect
-Message-ID: <20210618070452.cjt7f5hzlfikztwz@pengutronix.de>
-References: <20210617185130.5834-1-paskripkin@gmail.com>
+ Fri, 18 Jun 2021 09:13:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ffwll.ch
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fBYud23QhVNN
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 18 Jun 2021 09:13:09 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6E3F560718
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 18 Jun 2021 09:13:09 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ 66-20020a9d02c80000b02903615edf7c1aso8995127otl.13
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 18 Jun 2021 02:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=naLHEsuCCs4Fcb1r5mYO3/AVmqvBmoebiHpV20smRWA=;
+ b=GHd7IR2qJU3StSL8QB47NRhFSsRGnHy4mieFnZDwqtAklNf7YBRKDvm/IGy9KBjnS1
+ eWpMhv4Sg51xeG4ZfRuiPbZXWh2KWgD/LetEgJ0ZwB8NBngmTRHyiGkntSfaHEZAMRwe
+ sqzEQ6yR0Zn4RU38m44TBbeJhAdr2ERNYV3BI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=naLHEsuCCs4Fcb1r5mYO3/AVmqvBmoebiHpV20smRWA=;
+ b=GLsTzT0BQOgs1gWDxf2YmhFb/BnmpM63fDqQTYuKxRsyHwVz0WydwkF10FDctSGhMT
+ joqd8a+S5vMOJySnu/lB3GBQ8S8OBZML28OqvLDerAdRai9c8TCaX6Ox4iYbQ4U1kQGd
+ 94cUTqsQGchUtcDAaKIQgeeiMMocoPuAVBbm2+QRRq3OBuGvchBrJtxOumKEle1WiM0C
+ ECD14Hu1VK+WluD1MaHOHSPOFBJgCY0TjRvbSbZS3/gxnLcBblFd6YSWU1semvQTSq7F
+ /jthisGZg2Nk8kRn67vogLcj++L4paN1iHGbsGfg6xGFZWtLl5EV+kyzxHf66t7QrUx/
+ w+hw==
+X-Gm-Message-State: AOAM531XcyCE+kGpPdft3iQq0DAXcqCfxlxZKvnf3OtrKXfkpPrh3MpJ
+ tgvMvKLqOwHb7fCAUPB4X6nIF6Zz9FMd0ahZS/o14w==
+X-Google-Smtp-Source: ABdhPJxgpitxyVtOLxsFHGCQMUCu/rZqASW5/KbUvmThXsKPZTwp9fwtH9L3/bRNWE5tLQeLoP0eBWfvljngPPaBFEo=
+X-Received: by 2002:a9d:27a4:: with SMTP id c33mr8438414otb.281.1624007588286; 
+ Fri, 18 Jun 2021 02:13:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210617185130.5834-1-paskripkin@gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: mkl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-kernel-mentees@lists.linuxfoundation.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-can@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- davem@davemloft.net, wg@grandegger.com
+References: <20210615023645.6535-1-desmondcheongzx@gmail.com>
+ <20210615023645.6535-3-desmondcheongzx@gmail.com>
+ <YMuCYqLafn5sGcFo@phenom.ffwll.local>
+ <c384d835-d910-5b04-e88c-a7878ce6d37d@gmail.com>
+In-Reply-To: <c384d835-d910-5b04-e88c-a7878ce6d37d@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Fri, 18 Jun 2021 11:12:57 +0200
+Message-ID: <CAKMK7uE-3S_vOm7DsqFyvHngSTwoc5ibzt46-9FcC550Qd9+jw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] drm: Protect drm_master pointers in drm_lease.c
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: Dave Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -91,98 +107,111 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8185595315842177813=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On Fri, Jun 18, 2021 at 5:05 AM Desmond Cheong Zhi Xi
+<desmondcheongzx@gmail.com> wrote:
+> On 18/6/21 1:12 am, Daniel Vetter wrote:
+> > On Tue, Jun 15, 2021 at 10:36:45AM +0800, Desmond Cheong Zhi Xi wrote:
+> >> This patch ensures that the device's master mutex is acquired before
+> >> accessing pointers to struct drm_master that are subsequently
+> >> dereferenced. Without the mutex, the struct drm_master may be freed
+> >> concurrently by another process calling drm_setmaster_ioctl(). This
+> >> could then lead to use-after-free errors.
+> >>
+> >> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> >> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_lease.c | 58 +++++++++++++++++++++++++++----------
+> >>   1 file changed, 43 insertions(+), 15 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> >> index da4f085fc09e..3e6f689236e5 100644
+> >> --- a/drivers/gpu/drm/drm_lease.c
+> >> +++ b/drivers/gpu/drm/drm_lease.c
+> >> @@ -107,10 +107,16 @@ static bool _drm_has_leased(struct drm_master *master, int id)
+> >>    */
+> >>   bool _drm_lease_held(struct drm_file *file_priv, int id)
+> >>   {
+> >> +    bool ret;
+> >> +
+> >>      if (!file_priv || !file_priv->master)
+> >>              return true;
+> >>
+> >> -    return _drm_lease_held_master(file_priv->master, id);
+> >> +    mutex_lock(&file_priv->master->dev->master_mutex);
+> >
+> > So maybe we have a bug somewhere, and the kerneldoc isn't 100% clear, but
+> > I thought file_priv->master is invariant over the lifetime of file_priv.
+> > So we don't need a lock to check anything here.
+> >
+> > It's the drm_device->master derefence that gets us into trouble. Well also
+> > file_priv->is_owner is protected by dev->master_mutex.
+> >
+> > So I think with your previous patch all the access here in drm_lease.c is
+> > ok and already protected? Or am I missing something?
+> >
+> > Thanks, Daniel
+> >
+>
+> My thinking was that file_priv->master is invariant only if it is the
+> creator of master. If file_priv->is_master is false, then a call to
+> drm_setmaster_ioctl will invoke drm_new_set_master, which then allocates
+> a new master for file_priv, and puts the old master.
+>
+> This could be an issue in _drm_lease_held_master, because we dereference
+> master to get master->dev, master->lessor, and master->leases.
+>
+> With the same reasoning, in other parts of drm_lease.c, if there's an
+> access to drm_file->master that's subsequently dereferenced, I added a
+> lock around them.
+>
+> I could definitely be mistaken on this, so apologies if this scenario
+> doesn't arise.
 
---===============8185595315842177813==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6tq7svrpdp6b2uth"
-Content-Disposition: inline
+You're right, I totally missed that setmaster can create a new master
+instance. And the kerneldoc for drm_file->master doesn't explain this
+and mention that we must hold drm_device.master_mutex while looking at
+that pointer. Can you pls do a patch which improves the documentation
+for that?
+
+Now for the patch itself I'm not entirely sure what we should do.
+Leaking the dev->master_mutex into drm_lease.c just because of the
+setmaster ioctl is kinda unsightly. And we don't really care about the
+fpriv->master changing under us, we only need to make sure it doesn't
+get freed. And drm_master is refcounted already.
+
+So alternative solution: We add a drm_file_get_master() function which
+calls drm_master_get under the lock, and we use that instead of
+directly derefencing drm_file->master? Ofc then needs drm_master_put
+instead of mutex_unlock. Kerneldoc should then also point at this new
+function as the correct way to look at drm_file->master state.
+
+This way it's 100% clear we're dealing with a lifetime issue and not a
+consistency issues.
+
+What do you think?
+-Daniel
 
 
---6tq7svrpdp6b2uth
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>
+> Best wishes,
+> Desmond
+>
+>
+>
 
-On 17.06.2021 21:51:30, Pavel Skripkin wrote:
-> In ems_usb_disconnect() dev pointer, which is
-> netdev private data, is used after free_candev() call:
->=20
-> 	if (dev) {
-> 		unregister_netdev(dev->netdev);
-> 		free_candev(dev->netdev);
->=20
-> 		unlink_all_urbs(dev);
->=20
-> 		usb_free_urb(dev->intr_urb);
->=20
-> 		kfree(dev->intr_in_buffer);
-> 		kfree(dev->tx_msg_buffer);
-> 	}
->=20
-> Fix it by simply moving free_candev() at the end of
-> the block.
->=20
-> Fail log:
->  BUG: KASAN: use-after-free in ems_usb_disconnect
->  Read of size 8 at addr ffff88804e041008 by task kworker/1:2/2895
->=20
->  CPU: 1 PID: 2895 Comm: kworker/1:2 Not tainted 5.13.0-rc5+ #164
->  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0=
--g155821a-rebuilt.opensuse.4
->  Workqueue: usb_hub_wq hub_event
->  Call Trace:
->      dump_stack (lib/dump_stack.c:122)
->      print_address_description.constprop.0.cold (mm/kasan/report.c:234)
->      kasan_report.cold (mm/kasan/report.c:420 mm/kasan/report.c:436)
->      ems_usb_disconnect (drivers/net/can/usb/ems_usb.c:683 drivers/net/ca=
-n/usb/ems_usb.c:1058)
->=20
-> Fixes: 702171adeed3 ("ems_usb: Added support for EMS CPC-USB/ARM7 CAN/USB=
- interface")
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 
-Applied to linux-can/testing and added stable on Cc.
-
-Thanks,
-Marc
-
---=20
-Pengutronix e.K.                 | Marc Kleine-Budde           |
-Embedded Linux                   | https://www.pengutronix.de  |
-Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
-Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
-
---6tq7svrpdp6b2uth
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmDMRZEACgkQqclaivrt
-76mnqgf/aSKQviylfEMXNmblnBD4eGq3CMjiugvH+K4jof1OJ72ztvdUzP2DAfd/
-9CA0EE0UWEVpqhcUteGMMgM7F0+AqJF4PvgqiR5YT2qqnWg40xDcC2+NtdRYNBqt
-fQt+mzbXNj5J39v8l8FJGPo5Ip7E561khpGG9jA5BFgIT70jegTdNPho+uUV+CKV
-1co2LUuDCPtnN/GZHOI3bLflWqr2p1V60RimGZK9QbOLYuf5ZynHkB4+GrwVO+MV
-Sryao3eO/JR06Ty6vo4RVh0SqWOFx549SGsl+O9pn7W5U4Sw+5eklu5UVW6OyL52
-pWNIVhvfae9qHdITE3ZftnG0OPd1gQ==
-=n50B
------END PGP SIGNATURE-----
-
---6tq7svrpdp6b2uth--
-
---===============8185595315842177813==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8185595315842177813==--
