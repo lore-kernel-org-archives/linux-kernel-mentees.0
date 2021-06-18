@@ -2,108 +2,84 @@ Return-Path: <SRS0=f3wf=LM=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D494C2B9F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 03:05:15 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90438C49EA3
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 07:17:32 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B4849611AC
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 03:05:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B4849611AC
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id EC131613BD
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 18 Jun 2021 07:17:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org EC131613BD
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 71BBE60644;
-	Fri, 18 Jun 2021 03:05:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A2CE882D03;
+	Fri, 18 Jun 2021 07:17:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WjV0uISZA4Hz; Fri, 18 Jun 2021 03:05:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7F79260633;
-	Fri, 18 Jun 2021 03:05:13 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YUY7Ug058R85; Fri, 18 Jun 2021 07:17:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 5838482C9C;
+	Fri, 18 Jun 2021 07:17:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 557ADC000D;
-	Fri, 18 Jun 2021 03:05:13 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EA299C000B
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 30179C000D;
+	Fri, 18 Jun 2021 07:17:30 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 98E1BC000B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 03:05:11 +0000 (UTC)
+ Fri, 18 Jun 2021 07:17:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id CBF1D60633
+ by smtp4.osuosl.org (Postfix) with ESMTP id 85DB0414BD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 03:05:11 +0000 (UTC)
+ Fri, 18 Jun 2021 07:17:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lDnvvFCyz_80
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5yZQKHLOcEWq
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 03:05:10 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9845660644
+ Fri, 18 Jun 2021 07:17:27 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E6E8241480
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 18 Jun 2021 03:05:10 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id g22so6618345pgk.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Jun 2021 20:05:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=5Hkc1Bod9XeIHJJRLDjduZE/jHZcAso4vB+S4dzyd3A=;
- b=Kjcy42HJCHBpM0LWBplRFsAQd1+Iv2qTJwbxsL8oRWoeFc8dRWnP4bqO/lpX1qny5F
- sAhnvJfXBj6HJZW4FfXRvjgLnbF5zVp5xZhsr2PBm7LkEjC3KRKBfXeBRPARTIbNxPQK
- 631lLr0VPBj93bHbIJAxQXohxwtVcmRNkCm6KZXJYi0DI4A+xCpVasF/MZwj9GlqynW4
- drbP9t1nRR2qR7C8b6lf9ltMdU2g4SeMzj+0DHhk7oe87BsTWRoHVCHrfUITNulDHbME
- g0GrxFjSgWjNW5eDdoMJo0o5tWg/gwxRG+GFJajXe97oqrWMAHognSTMKJJRAFv/Mvv4
- OHwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5Hkc1Bod9XeIHJJRLDjduZE/jHZcAso4vB+S4dzyd3A=;
- b=rfVV/39gsrGLwqfa8PENXB7FRM+DDRgThB3fyUJlK7/O8VC8D97xKdvKM0TWSM8kcb
- qpspdKEe4r3Hi3VgoC8Ul0mAu8brFUfddqI0mBnhprqhhECc0XmIVzECLhGDa+M7DyxU
- ipmfB+oBdHiMs9Ao7xQpkhxPnudFa2Szdbwmg9uJ2SjASr0oDOq+gjBNhG4bsYaiwqct
- 3p2XuU0ySpDNYHeovwi4O+A/Qxfwun+0bqlPaioO2GDKIZv3CjZH3IaI7YT+qzIvM5Gi
- 2niB1I1jceXjarn9xIiNr0ykKJ/PknH6lyWsHZKWHlzlj1kCLdVI8tJ2mTDH15Yenl4s
- 3cfA==
-X-Gm-Message-State: AOAM530AqbgpGmh+mYbJ7G7AUfaXBGjzc7hV3JuZNXNi/jRnazZhPlAH
- wmEtnSOn/+QfRdjhc09kZ7c=
-X-Google-Smtp-Source: ABdhPJz26NHLGsvOBOgNmuPd/Y3RYtrJrpgvkQ3rEBaVG3zDw9JBCXksBI2LY66YF6ehmRCXpKL2ew==
-X-Received: by 2002:a62:7b4c:0:b029:2e9:cec2:e252 with SMTP id
- w73-20020a627b4c0000b02902e9cec2e252mr2802617pfc.56.1623985509826; 
- Thu, 17 Jun 2021 20:05:09 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id w18sm6798863pjg.50.2021.06.17.20.05.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jun 2021 20:05:09 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] drm: Protect drm_master pointers in drm_lease.c
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- emil.l.velikov@gmail.com
-References: <20210615023645.6535-1-desmondcheongzx@gmail.com>
- <20210615023645.6535-3-desmondcheongzx@gmail.com>
- <YMuCYqLafn5sGcFo@phenom.ffwll.local>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <c384d835-d910-5b04-e88c-a7878ce6d37d@gmail.com>
-Date: Fri, 18 Jun 2021 11:05:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Fri, 18 Jun 2021 07:17:26 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de
+ ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mkl@pengutronix.de>)
+ id 1lu8km-0003gp-5p; Fri, 18 Jun 2021 09:17:24 +0200
+Received: from pengutronix.de (unknown
+ [IPv6:2a03:f580:87bc:d400:e7d0:b47e:7728:2b24])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (Client did not present a certificate)
+ (Authenticated sender: mkl-all@blackshift.org)
+ by smtp.blackshift.org (Postfix) with ESMTPSA id A8CA463EA3C;
+ Fri, 18 Jun 2021 07:04:52 +0000 (UTC)
+Date: Fri, 18 Jun 2021 09:04:52 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Pavel Skripkin <paskripkin@gmail.com>
+Subject: Re: [PATCH] net: can: fix use-after-free in ems_usb_disconnect
+Message-ID: <20210618070452.cjt7f5hzlfikztwz@pengutronix.de>
+References: <20210617185130.5834-1-paskripkin@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YMuCYqLafn5sGcFo@phenom.ffwll.local>
-Content-Language: en-US
+In-Reply-To: <20210617185130.5834-1-paskripkin@gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net, wg@grandegger.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,77 +91,98 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============8185595315842177813=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 18/6/21 1:12 am, Daniel Vetter wrote:
-> On Tue, Jun 15, 2021 at 10:36:45AM +0800, Desmond Cheong Zhi Xi wrote:
->> This patch ensures that the device's master mutex is acquired before
->> accessing pointers to struct drm_master that are subsequently
->> dereferenced. Without the mutex, the struct drm_master may be freed
->> concurrently by another process calling drm_setmaster_ioctl(). This
->> could then lead to use-after-free errors.
->>
->> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
->> ---
->>   drivers/gpu/drm/drm_lease.c | 58 +++++++++++++++++++++++++++----------
->>   1 file changed, 43 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
->> index da4f085fc09e..3e6f689236e5 100644
->> --- a/drivers/gpu/drm/drm_lease.c
->> +++ b/drivers/gpu/drm/drm_lease.c
->> @@ -107,10 +107,16 @@ static bool _drm_has_leased(struct drm_master *master, int id)
->>    */
->>   bool _drm_lease_held(struct drm_file *file_priv, int id)
->>   {
->> +	bool ret;
->> +
->>   	if (!file_priv || !file_priv->master)
->>   		return true;
->>   
->> -	return _drm_lease_held_master(file_priv->master, id);
->> +	mutex_lock(&file_priv->master->dev->master_mutex);
-> 
-> So maybe we have a bug somewhere, and the kerneldoc isn't 100% clear, but
-> I thought file_priv->master is invariant over the lifetime of file_priv.
-> So we don't need a lock to check anything here.
-> 
-> It's the drm_device->master derefence that gets us into trouble. Well also
-> file_priv->is_owner is protected by dev->master_mutex.
-> 
-> So I think with your previous patch all the access here in drm_lease.c is
-> ok and already protected? Or am I missing something?
-> 
-> Thanks, Daniel
-> 
 
-My thinking was that file_priv->master is invariant only if it is the 
-creator of master. If file_priv->is_master is false, then a call to 
-drm_setmaster_ioctl will invoke drm_new_set_master, which then allocates 
-a new master for file_priv, and puts the old master.
-
-This could be an issue in _drm_lease_held_master, because we dereference 
-master to get master->dev, master->lessor, and master->leases.
-
-With the same reasoning, in other parts of drm_lease.c, if there's an 
-access to drm_file->master that's subsequently dereferenced, I added a 
-lock around them.
-
-I could definitely be mistaken on this, so apologies if this scenario 
-doesn't arise.
-
-Best wishes,
-Desmond
+--===============8185595315842177813==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6tq7svrpdp6b2uth"
+Content-Disposition: inline
 
 
+--6tq7svrpdp6b2uth
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 17.06.2021 21:51:30, Pavel Skripkin wrote:
+> In ems_usb_disconnect() dev pointer, which is
+> netdev private data, is used after free_candev() call:
+>=20
+> 	if (dev) {
+> 		unregister_netdev(dev->netdev);
+> 		free_candev(dev->netdev);
+>=20
+> 		unlink_all_urbs(dev);
+>=20
+> 		usb_free_urb(dev->intr_urb);
+>=20
+> 		kfree(dev->intr_in_buffer);
+> 		kfree(dev->tx_msg_buffer);
+> 	}
+>=20
+> Fix it by simply moving free_candev() at the end of
+> the block.
+>=20
+> Fail log:
+>  BUG: KASAN: use-after-free in ems_usb_disconnect
+>  Read of size 8 at addr ffff88804e041008 by task kworker/1:2/2895
+>=20
+>  CPU: 1 PID: 2895 Comm: kworker/1:2 Not tainted 5.13.0-rc5+ #164
+>  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0=
+-g155821a-rebuilt.opensuse.4
+>  Workqueue: usb_hub_wq hub_event
+>  Call Trace:
+>      dump_stack (lib/dump_stack.c:122)
+>      print_address_description.constprop.0.cold (mm/kasan/report.c:234)
+>      kasan_report.cold (mm/kasan/report.c:420 mm/kasan/report.c:436)
+>      ems_usb_disconnect (drivers/net/can/usb/ems_usb.c:683 drivers/net/ca=
+n/usb/ems_usb.c:1058)
+>=20
+> Fixes: 702171adeed3 ("ems_usb: Added support for EMS CPC-USB/ARM7 CAN/USB=
+ interface")
+> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+
+Applied to linux-can/testing and added stable on Cc.
+
+Thanks,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--6tq7svrpdp6b2uth
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmDMRZEACgkQqclaivrt
+76mnqgf/aSKQviylfEMXNmblnBD4eGq3CMjiugvH+K4jof1OJ72ztvdUzP2DAfd/
+9CA0EE0UWEVpqhcUteGMMgM7F0+AqJF4PvgqiR5YT2qqnWg40xDcC2+NtdRYNBqt
+fQt+mzbXNj5J39v8l8FJGPo5Ip7E561khpGG9jA5BFgIT70jegTdNPho+uUV+CKV
+1co2LUuDCPtnN/GZHOI3bLflWqr2p1V60RimGZK9QbOLYuf5ZynHkB4+GrwVO+MV
+Sryao3eO/JR06Ty6vo4RVh0SqWOFx549SGsl+O9pn7W5U4Sw+5eklu5UVW6OyL52
+pWNIVhvfae9qHdITE3ZftnG0OPd1gQ==
+=n50B
+-----END PGP SIGNATURE-----
+
+--6tq7svrpdp6b2uth--
+
+--===============8185595315842177813==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8185595315842177813==--
