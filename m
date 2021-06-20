@@ -2,106 +2,85 @@ Return-Path: <SRS0=+n2V=LO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F92CC49361
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 11:05:28 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07303C48BDF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 13:55:17 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5172260FEE
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 11:05:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5172260FEE
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 8B4DE60FDB
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 13:55:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8B4DE60FDB
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=i-love.sakura.ne.jp
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 280B783638;
-	Sun, 20 Jun 2021 11:05:28 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 56ACE60823;
+	Sun, 20 Jun 2021 13:55:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d9gS7W81IjTR; Sun, 20 Jun 2021 11:05:27 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7iqlX_j_IhJs; Sun, 20 Jun 2021 13:55:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id F2BFD833FB;
-	Sun, 20 Jun 2021 11:05:26 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2D07D60814;
+	Sun, 20 Jun 2021 13:55:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD2F4C000E;
-	Sun, 20 Jun 2021 11:05:26 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 96F9FC000C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E673FC000E;
+	Sun, 20 Jun 2021 13:55:14 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 63447C000C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 11:05:25 +0000 (UTC)
+ Sun, 20 Jun 2021 13:55:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6F90E4037E
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3C66B4037C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 11:05:25 +0000 (UTC)
+ Sun, 20 Jun 2021 13:55:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4HoT65gElkpM
+ with ESMTP id uSWpMNL75zgI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 11:05:24 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 20E4C4039F
+ Sun, 20 Jun 2021 13:55:11 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 83A5D4037A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 11:05:24 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id e22so5538272pgv.10
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 04:05:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=eT3lZU58x4O0PBOXBHBGgXO2NKrB2uxcocZvQ1AgWcw=;
- b=HkHaepvhx5LaNpYHCR+btPAQXEFwMFgoL+9TZlJhvlIi6DT/k+fyZhmi19MliLFjL+
- f/A2eU52sFNMb7MOSF54TryXa5ulBTNVYJwVWwUG35Di0Cuv4gCXHBCrFnXm0wDZ//9o
- QNBVFPD67fG3H9tlmalwyuxt0DBiHetKwz37cDjQItd6Pa6WbNaRqVfRRzo0Z6Et0sQs
- /qkJQWWplK2xnXGYxK0StoNADhk8JHMfj/mQ802cKHXxRK5SzouCcWEmsthfmAYGpD7w
- MtFVOlavW2uPZsVEjoG9qXaECdNmSWKULHgJDziWa8R0+SRMGPqeqrxwBXLnJkQ0/P/6
- c8Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=eT3lZU58x4O0PBOXBHBGgXO2NKrB2uxcocZvQ1AgWcw=;
- b=okRyQxmOBWf8c0PetjnUB4g3pXYMySQ20wQBocwfOs/Z52oCIaZggxow+dh+c7Prlt
- jcBCXaXT7eNLEP28StMVa84oqGUW6UMoIwHumLgEyyVLTYgXdELp+YcmIxon9dUeDt/z
- yECODhIQhK6xH/HsyRMj2s+pm8Xw+v2r74XhAb9VHSEAmfqk8wMo3SGFHa0WMoRWmHrp
- 35Up6AjwM43W6EGnBUHQcXrntGcM2T3w1jyXhbzkepESw17kn4E6KG8+lUkhUv+mlaD6
- PYkunVGJYd2Z8aB3dFRhs/Wl+q+Aa+3Dr9MNUKCWaGiHariSHWCnvMzvcF8PpEnPgehy
- 7T+g==
-X-Gm-Message-State: AOAM531QtPHmCTC/Gx9M3Q4SCFuYK8tiKYid+K9gnWeVTnKvzgSGJ0h+
- g6XEq8KLJci6SuCDjUPECrI=
-X-Google-Smtp-Source: ABdhPJy/CVyTTr8Ls0f1te3fs3v46yeELeSPfaV4xOjfygTP7P8jQ7HUv1bcAsPlnbNvwnJ+tj5+FA==
-X-Received: by 2002:a63:530a:: with SMTP id h10mr18971987pgb.98.1624187123496; 
- Sun, 20 Jun 2021 04:05:23 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id h22sm2644876pfc.21.2021.06.20.04.05.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jun 2021 04:05:23 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH v3 2/2] drm: protect drm_master pointers in drm_lease.c
-Date: Sun, 20 Jun 2021 19:03:27 +0800
-Message-Id: <20210620110327.4964-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210620110327.4964-1-desmondcheongzx@gmail.com>
-References: <20210620110327.4964-1-desmondcheongzx@gmail.com>
+ Sun, 20 Jun 2021 13:55:11 +0000 (UTC)
+Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 15KDsXeT045516;
+ Sun, 20 Jun 2021 22:54:33 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
+ Sun, 20 Jun 2021 22:54:33 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+ (authenticated bits=0)
+ by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 15KDsXLG045511
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sun, 20 Jun 2021 22:54:33 +0900 (JST)
+ (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH v2] block: genhd: don't call probe function with
+ major_names_lock held
+To: Hillf Danton <hdanton@sina.com>
+References: <f790f8fb-5758-ea4e-a527-0ee4af82dd44@i-love.sakura.ne.jp>
+ <YM2STfTN5AupWlSa@kroah.com> <20210620024403.820-1-hdanton@sina.com>
+From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <24b7c3a9-e10a-f983-9fde-1ae66b0bc6b0@i-love.sakura.ne.jp>
+Date: Sun, 20 Jun 2021 22:54:20 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, emil.l.velikov@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+In-Reply-To: <20210620024403.820-1-hdanton@sina.com>
+Content-Language: en-US
+Cc: axboe@kernel.dk, linux-block@vger.kernel.org, vigneshr@ti.com,
+ syzbot+6a8a0d93c91e8fbf2e80@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, hch@infradead.org, richard@nod.at,
+ linux-mtd@lists.infradead.org, miquel.raynal@bootlin.com,
+ desmondcheongzx@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,330 +98,274 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently, direct copies of drm_file->master pointers should be
-protected by drm_device.master_mutex when being dereferenced. This is
-because drm_file->master is not invariant for the lifetime of
-drm_file. If drm_file is not the creator of master, then
-drm_file->is_master is false, and a call to drm_setmaster_ioctl will
-invoke drm_new_set_master, which then allocates a new master for
-drm_file and puts the old master.
+On 2021/06/20 11:44, Hillf Danton wrote:
+> Good craft in regard to triggering the ABBA deadlock, but curious why not
+> move unregister_blkdev out of and before loop_ctl_mutex, given it will also
+> serialise with the prober.
+> 
 
-Thus, without holding drm_device.master_mutex, the old value of
-drm_file->master could be freed while it is being used by another
-concurrent process.
+Well, something like this untested diff?
 
-In drm_lease.c, there are multiple instances where drm_file->master is
-accessed and dereferenced while drm_device.master_mutex is not
-held. This makes drm_lease.c vulnerable to use-after-free bugs.
+Call unregister_blkdev() as soon as __exit function starts, for calling
+probe function after cleanup started will be unexpected for __exit function.
 
-We address this issue as follows:
+Keep probe function no-op until __init function ends, for probe function
+might be called as soon as __register_blkdev() succeeded but calling probe
+function before setup completes will be unexpected for __init function.
 
-1. Clarify in the kerneldoc that drm_file->master is protected by
-drm_device.master_mutex.
+ drivers/block/ataflop.c |    6 +++++-
+ drivers/block/brd.c     |    8 ++++++--
+ drivers/block/floppy.c  |    4 ++++
+ drivers/block/loop.c    |    4 ++--
+ drivers/ide/ide-probe.c |    8 +++++++-
+ drivers/md/md.c         |    5 +++++
+ drivers/scsi/sd.c       |   10 +---------
+ 7 files changed, 30 insertions(+), 15 deletions(-)
 
-2. Add a new drm_file_get_master() function that calls drm_master_get
-on drm_file->master while holding on to drm_device.master_mutex. Since
-drm_master_get increments the reference count of master, this
-prevents master from being freed until we unreference it with
-drm_master_put.
-
-3. In each case where drm_file->master is directly accessed and
-eventually dereferenced in drm_lease.c, we wrap the access in a call
-to the new drm_file_get_master function, then unreference the master
-pointer once we are done using it.
-
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/drm_auth.c  | 22 ++++++++++++++
- drivers/gpu/drm/drm_lease.c | 57 ++++++++++++++++++++++++++-----------
- include/drm/drm_auth.h      |  1 +
- include/drm/drm_file.h      | 15 ++++++++--
- 4 files changed, 75 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 86d4b72e95cb..0c64a77c67a6 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -384,6 +384,28 @@ struct drm_master *drm_master_get(struct drm_master *master)
+diff --git a/drivers/block/ataflop.c b/drivers/block/ataflop.c
+index d601e49f80e0..3681e8c493b1 100644
+--- a/drivers/block/ataflop.c
++++ b/drivers/block/ataflop.c
+@@ -1995,6 +1995,7 @@ static int ataflop_alloc_disk(unsigned int drive, unsigned int type)
  }
- EXPORT_SYMBOL(drm_master_get);
  
-+/**
-+ * drm_file_get_master - reference @file_priv->master
-+ * @file_priv: DRM file private
-+ *
-+ * Increments the reference count of @file_priv->master and returns
-+ * @file_priv->master.
-+ *
-+ * Master pointers returned from this function should be unreferenced using
-+ * drm_master_put().
-+ */
-+struct drm_master *drm_file_get_master(struct drm_file *file_priv)
-+{
-+	struct drm_master *master;
-+
-+	mutex_lock(&file_priv->master->dev->master_mutex);
-+	master = drm_master_get(file_priv->master);
-+	mutex_unlock(&file_priv->master->dev->master_mutex);
-+
-+	return master;
-+}
-+EXPORT_SYMBOL(drm_file_get_master);
-+
- static void drm_master_destroy(struct kref *kref)
+ static DEFINE_MUTEX(ataflop_probe_lock);
++static bool module_initialize_completed;
+ 
+ static void ataflop_probe(dev_t dev)
  {
- 	struct drm_master *master = container_of(kref, struct drm_master, refcount);
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index da4f085fc09e..65eab82f8acc 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -107,10 +107,17 @@ static bool _drm_has_leased(struct drm_master *master, int id)
-  */
- bool _drm_lease_held(struct drm_file *file_priv, int id)
- {
-+	bool ret;
-+	struct drm_master *master;
-+
- 	if (!file_priv || !file_priv->master)
- 		return true;
+@@ -2006,6 +2007,8 @@ static void ataflop_probe(dev_t dev)
  
--	return _drm_lease_held_master(file_priv->master, id);
-+	master = drm_file_get_master(file_priv);
-+	ret = _drm_lease_held_master(master, id);
-+	drm_master_put(&master);
-+
-+	return ret;
- }
+ 	if (drive >= FD_MAX_UNITS || type >= NUM_DISK_MINORS)
+ 		return;
++	if (!module_initialize_completed)
++		return;
+ 	mutex_lock(&ataflop_probe_lock);
+ 	if (!unit[drive].disk[type]) {
+ 		if (ataflop_alloc_disk(drive, type) == 0)
+@@ -2080,6 +2083,7 @@ static int __init atari_floppy_init (void)
+ 	       UseTrackbuffer ? "" : "no ");
+ 	config_types();
  
- /**
-@@ -132,10 +139,11 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
- 	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
- 		return true;
- 
--	master = file_priv->master;
-+	master = drm_file_get_master(file_priv);
- 	mutex_lock(&master->dev->mode_config.idr_mutex);
- 	ret = _drm_lease_held_master(master, id);
- 	mutex_unlock(&master->dev->mode_config.idr_mutex);
-+	drm_master_put(&master);
- 	return ret;
- }
- 
-@@ -158,7 +166,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
- 	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
- 		return crtcs_in;
- 
--	master = file_priv->master;
-+	master = drm_file_get_master(file_priv);
- 	dev = master->dev;
- 
- 	count_in = count_out = 0;
-@@ -177,6 +185,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
- 		count_in++;
- 	}
- 	mutex_unlock(&master->dev->mode_config.idr_mutex);
-+	drm_master_put(&master);
- 	return crtcs_out;
- }
- 
-@@ -490,7 +499,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	size_t object_count;
- 	int ret = 0;
- 	struct idr leases;
--	struct drm_master *lessor = lessor_priv->master;
-+	struct drm_master *lessor;
- 	struct drm_master *lessee = NULL;
- 	struct file *lessee_file = NULL;
- 	struct file *lessor_file = lessor_priv->filp;
-@@ -502,12 +511,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
--	/* Do not allow sub-leases */
--	if (lessor->lessor) {
--		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
--		return -EINVAL;
--	}
--
- 	/* need some objects */
- 	if (cl->object_count == 0) {
- 		DRM_DEBUG_LEASE("no objects in lease\n");
-@@ -519,12 +522,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		return -EINVAL;
- 	}
- 
-+	lessor = drm_file_get_master(lessor_priv);
-+	/* Do not allow sub-leases */
-+	if (lessor->lessor) {
-+		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-+		ret = -EINVAL;
-+		goto out_lessor;
-+	}
-+
- 	object_count = cl->object_count;
- 
- 	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
- 			array_size(object_count, sizeof(__u32)));
--	if (IS_ERR(object_ids))
--		return PTR_ERR(object_ids);
-+	if (IS_ERR(object_ids)) {
-+		ret = PTR_ERR(object_ids);
-+		goto out_lessor;
-+	}
- 
- 	idr_init(&leases);
- 
-@@ -535,14 +548,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	if (ret) {
- 		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
- 		idr_destroy(&leases);
--		return ret;
-+		goto out_lessor;
- 	}
- 
- 	/* Allocate a file descriptor for the lease */
- 	fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
- 	if (fd < 0) {
- 		idr_destroy(&leases);
--		return fd;
-+		ret = fd;
-+		goto out_lessor;
- 	}
- 
- 	DRM_DEBUG_LEASE("Creating lease\n");
-@@ -578,6 +592,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	/* Hook up the fd */
- 	fd_install(fd, lessee_file);
- 
-+	drm_master_put(&lessor);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
++	module_initialize_completed = true;
  	return 0;
  
-@@ -587,6 +602,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- out_leases:
- 	put_unused_fd(fd);
- 
-+out_lessor:
-+	drm_master_put(&lessor);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
- 	return ret;
- }
-@@ -609,7 +626,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 	struct drm_mode_list_lessees *arg = data;
- 	__u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
- 	__u32 count_lessees = arg->count_lessees;
--	struct drm_master *lessor = lessor_priv->master, *lessee;
-+	struct drm_master *lessor, *lessee;
- 	int count;
- 	int ret = 0;
- 
-@@ -620,6 +637,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	lessor = drm_file_get_master(lessor_priv);
- 	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -643,6 +661,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 		arg->count_lessees = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-+	drm_master_put(&lessor);
- 
- 	return ret;
- }
-@@ -662,7 +681,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 	struct drm_mode_get_lease *arg = data;
- 	__u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
- 	__u32 count_objects = arg->count_objects;
--	struct drm_master *lessee = lessee_priv->master;
-+	struct drm_master *lessee;
- 	struct idr *object_idr;
- 	int count;
- 	void *entry;
-@@ -676,6 +695,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	lessee = drm_file_get_master(lessee_priv);
- 	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -703,6 +723,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 		arg->count_objects = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-+	drm_master_put(&lessee);
- 
- 	return ret;
- }
-@@ -721,7 +742,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 				void *data, struct drm_file *lessor_priv)
+ err:
+@@ -2138,6 +2142,7 @@ static void __exit atari_floppy_exit(void)
  {
- 	struct drm_mode_revoke_lease *arg = data;
--	struct drm_master *lessor = lessor_priv->master;
-+	struct drm_master *lessor;
- 	struct drm_master *lessee;
- 	int ret = 0;
+ 	int i, type;
  
-@@ -731,6 +752,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
++	unregister_blkdev(FLOPPY_MAJOR, "fd");
+ 	for (i = 0; i < FD_MAX_UNITS; i++) {
+ 		for (type = 0; type < NUM_DISK_MINORS; type++) {
+ 			if (!unit[i].disk[type])
+@@ -2148,7 +2153,6 @@ static void __exit atari_floppy_exit(void)
+ 		}
+ 		blk_mq_free_tag_set(&unit[i].tag_set);
+ 	}
+-	unregister_blkdev(FLOPPY_MAJOR, "fd");
  
-+	lessor = drm_file_get_master(lessor_priv);
- 	mutex_lock(&dev->mode_config.idr_mutex);
+ 	del_timer_sync(&fd_timer);
+ 	atari_stram_free( DMABuffer );
+diff --git a/drivers/block/brd.c b/drivers/block/brd.c
+index 7562cf30b14e..91a10c938e65 100644
+--- a/drivers/block/brd.c
++++ b/drivers/block/brd.c
+@@ -371,6 +371,7 @@ __setup("ramdisk_size=", ramdisk_size);
+ static LIST_HEAD(brd_devices);
+ static DEFINE_MUTEX(brd_devices_mutex);
+ static struct dentry *brd_debugfs_dir;
++static bool module_initialize_completed;
  
- 	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-@@ -751,6 +773,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+ static struct brd_device *brd_alloc(int i)
+ {
+@@ -439,6 +440,8 @@ static void brd_probe(dev_t dev)
+ 	struct brd_device *brd;
+ 	int i = MINOR(dev) / max_part;
  
- fail:
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-+	drm_master_put(&lessor);
++	if (!module_initialize_completed)
++		return;
+ 	mutex_lock(&brd_devices_mutex);
+ 	list_for_each_entry(brd, &brd_devices, brd_list) {
+ 		if (brd->brd_number == i)
+@@ -530,6 +533,7 @@ static int __init brd_init(void)
+ 	mutex_unlock(&brd_devices_mutex);
  
- 	return ret;
+ 	pr_info("brd: module loaded\n");
++	module_initialize_completed = true;
+ 	return 0;
+ 
+ out_free:
+@@ -550,13 +554,13 @@ static void __exit brd_exit(void)
+ {
+ 	struct brd_device *brd, *next;
+ 
++	unregister_blkdev(RAMDISK_MAJOR, "ramdisk");
++
+ 	debugfs_remove_recursive(brd_debugfs_dir);
+ 
+ 	list_for_each_entry_safe(brd, next, &brd_devices, brd_list)
+ 		brd_del_one(brd);
+ 
+-	unregister_blkdev(RAMDISK_MAJOR, "ramdisk");
+-
+ 	pr_info("brd: module unloaded\n");
  }
-diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-index 6bf8b2b78991..f99d3417f304 100644
---- a/include/drm/drm_auth.h
-+++ b/include/drm/drm_auth.h
-@@ -107,6 +107,7 @@ struct drm_master {
+ 
+diff --git a/drivers/block/floppy.c b/drivers/block/floppy.c
+index 8a9d22207c59..37b8e53c183d 100644
+--- a/drivers/block/floppy.c
++++ b/drivers/block/floppy.c
+@@ -4523,6 +4523,7 @@ static int floppy_alloc_disk(unsigned int drive, unsigned int type)
+ }
+ 
+ static DEFINE_MUTEX(floppy_probe_lock);
++static bool module_initialize_completed;
+ 
+ static void floppy_probe(dev_t dev)
+ {
+@@ -4533,6 +4534,8 @@ static void floppy_probe(dev_t dev)
+ 	    type >= ARRAY_SIZE(floppy_type))
+ 		return;
+ 
++	if (!module_initialize_completed)
++		return;
+ 	mutex_lock(&floppy_probe_lock);
+ 	if (!disks[drive][type]) {
+ 		if (floppy_alloc_disk(drive, type) == 0)
+@@ -4705,6 +4708,7 @@ static int __init do_floppy_init(void)
+ 				NULL);
+ 	}
+ 
++	module_initialize_completed = true;
+ 	return 0;
+ 
+ out_remove_drives:
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 76e12f3482a9..08aef61ab791 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -2386,13 +2386,13 @@ static int loop_exit_cb(int id, void *ptr, void *data)
+ 
+ static void __exit loop_exit(void)
+ {
++	unregister_blkdev(LOOP_MAJOR, "loop");
++
+ 	mutex_lock(&loop_ctl_mutex);
+ 
+ 	idr_for_each(&loop_index_idr, &loop_exit_cb, NULL);
+ 	idr_destroy(&loop_index_idr);
+ 
+-	unregister_blkdev(LOOP_MAJOR, "loop");
+-
+ 	misc_deregister(&loop_misc);
+ 
+ 	mutex_unlock(&loop_ctl_mutex);
+diff --git a/drivers/ide/ide-probe.c b/drivers/ide/ide-probe.c
+index aefd74c0d862..8c71356cdcfe 100644
+--- a/drivers/ide/ide-probe.c
++++ b/drivers/ide/ide-probe.c
+@@ -40,6 +40,8 @@
+ #include <linux/uaccess.h>
+ #include <asm/io.h>
+ 
++static bool module_initialize_completed;
++
+ /**
+  *	generic_id		-	add a generic drive id
+  *	@drive:	drive to make an ID block for
+@@ -904,6 +906,8 @@ static int init_irq (ide_hwif_t *hwif)
+ 
+ static void ata_probe(dev_t dev)
+ {
++	if (!module_initialize_completed)
++		return;
+ 	request_module("ide-disk");
+ 	request_module("ide-cd");
+ 	request_module("ide-tape");
+@@ -1475,6 +1479,8 @@ int ide_host_register(struct ide_host *host, const struct ide_port_info *d,
+ 		}
+ 	}
+ 
++	if (j)
++		module_initialize_completed = true;
+ 	return j ? 0 : -1;
+ }
+ EXPORT_SYMBOL_GPL(ide_host_register);
+@@ -1539,6 +1545,7 @@ EXPORT_SYMBOL_GPL(ide_port_unregister_devices);
+ 
+ static void ide_unregister(ide_hwif_t *hwif)
+ {
++	unregister_blkdev(hwif->major, hwif->name);
+ 	mutex_lock(&ide_cfg_mtx);
+ 
+ 	if (hwif->present) {
+@@ -1559,7 +1566,6 @@ static void ide_unregister(ide_hwif_t *hwif)
+ 	 * Remove us from the kernel's knowledge
+ 	 */
+ 	kfree(hwif->sg_table);
+-	unregister_blkdev(hwif->major, hwif->name);
+ 
+ 	ide_release_dma_engine(hwif);
+ 
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 49f897fbb89b..6603900062bc 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -68,6 +68,8 @@
+ #include "md-bitmap.h"
+ #include "md-cluster.h"
+ 
++static bool module_initialize_completed;
++
+ /* pers_list is a list of registered personalities protected
+  * by pers_lock.
+  * pers_lock does extra service to protect accesses to
+@@ -5776,6 +5778,8 @@ static void md_probe(dev_t dev)
+ {
+ 	if (MAJOR(dev) == MD_MAJOR && MINOR(dev) >= 512)
+ 		return;
++	if (!module_initialize_completed)
++		return;
+ 	if (create_on_open)
+ 		md_alloc(dev, NULL);
+ }
+@@ -9590,6 +9594,7 @@ static int __init md_init(void)
+ 	raid_table_header = register_sysctl_table(raid_root_table);
+ 
+ 	md_geninit();
++	module_initialize_completed = true;
+ 	return 0;
+ 
+ err_mdp:
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index cb3c37d1e009..4fc8f4db2ccf 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -629,14 +629,6 @@ static struct scsi_driver sd_template = {
+ 	.eh_reset		= sd_eh_reset,
  };
  
- struct drm_master *drm_master_get(struct drm_master *master);
-+struct drm_master *drm_file_get_master(struct drm_file *file_priv);
- void drm_master_put(struct drm_master **master);
- bool drm_is_current_master(struct drm_file *fpriv);
+-/*
+- * Don't request a new module, as that could deadlock in multipath
+- * environment.
+- */
+-static void sd_default_probe(dev_t devt)
+-{
+-}
+-
+ /*
+  * Device no to disk mapping:
+  * 
+@@ -3715,7 +3707,7 @@ static int __init init_sd(void)
+ 	SCSI_LOG_HLQUEUE(3, printk("init_sd: sd driver entry point\n"));
  
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index b81b3bfb08c8..e9931fca4ab7 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -226,9 +226,18 @@ struct drm_file {
- 	/**
- 	 * @master:
- 	 *
--	 * Master this node is currently associated with. Only relevant if
--	 * drm_is_primary_client() returns true. Note that this only
--	 * matches &drm_device.master if the master is the currently active one.
-+	 * Master this node is currently associated with. Protected by struct
-+	 * &drm_device.master_mutex.
-+	 *
-+	 * Only relevant if drm_is_primary_client() returns true. Note that
-+	 * this only matches &drm_device.master if the master is the currently
-+	 * active one.
-+	 *
-+	 * When obtaining a copy of this pointer, it is recommended to either
-+	 * hold struct &drm_device.master_mutex for the duration of the
-+	 * pointer's use, or to use drm_file_get_master() if struct
-+	 * &drm_device.master_mutex is not currently held and there is no other
-+	 * need to hold it. This prevents @master from being freed during use.
- 	 *
- 	 * See also @authentication and @is_master and the :ref:`section on
- 	 * primary nodes and authentication <drm_primary_node>`.
--- 
-2.25.1
+ 	for (i = 0; i < SD_MAJORS; i++) {
+-		if (__register_blkdev(sd_major(i), "sd", sd_default_probe))
++		if (register_blkdev(sd_major(i), "sd"))
+ 			continue;
+ 		majors++;
+ 	}
 
 _______________________________________________
 Linux-kernel-mentees mailing list
