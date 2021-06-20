@@ -8,90 +8,91 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B4CCC48BDF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 19:45:44 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78577C49EA3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 19:47:05 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D01C61001
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 19:45:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2D01C61001
+	by mail.kernel.org (Postfix) with ESMTPS id 2C89961001
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 20 Jun 2021 19:47:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2C89961001
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EE62340370;
-	Sun, 20 Jun 2021 19:45:43 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E6AF0834F4;
+	Sun, 20 Jun 2021 19:47:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lMZNKKRk1fSy; Sun, 20 Jun 2021 19:45:43 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2mWiblSmD1Zu; Sun, 20 Jun 2021 19:47:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CE44F40369;
-	Sun, 20 Jun 2021 19:45:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 28BF88356C;
+	Sun, 20 Jun 2021 19:47:04 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B7950C000E;
-	Sun, 20 Jun 2021 19:45:42 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D43ECC000C
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 05D19C000E;
+	Sun, 20 Jun 2021 19:47:04 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6B86DC000C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 19:45:40 +0000 (UTC)
+ Sun, 20 Jun 2021 19:47:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B4DC6400C9
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4D12D400C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 19:45:40 +0000 (UTC)
+ Sun, 20 Jun 2021 19:47:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UyzilIYmJtK4
+ with ESMTP id LEn5BP64Du01
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 19:45:40 +0000 (UTC)
+ Sun, 20 Jun 2021 19:47:01 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D002040025
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 57B8040025
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 19:45:39 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id x24so26435678lfr.10
+ Sun, 20 Jun 2021 19:47:01 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id d16so18999485lfn.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 20 Jun 2021 12:45:39 -0700 (PDT)
+ Sun, 20 Jun 2021 12:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+W/O6gOP6IW6u1NkP1013U+G2XvQ//6bD4DQBNJYUMU=;
- b=tUz4xde1JRGigviwrH3tb3lX2Ricb55oLB+6TE6UCbW235XiKNhsH/LZyKtclCGPK3
- Dr8hfK5rWAZGzdEjtm7gVKbEEmxYFhxK246MN1CmSFuGaziDINBipKXnX0mdz/0BtI/D
- dj7IXWX6EI9iODePoDwNQrbH2VZeXo3YIDnigt1am7Ur2XdsvP583KFrznmlxySW3c1U
- 4ltSEXw9nF6d9SAKM+D/zjUUjUFazCVY/gIgGedbeYm9uJisc1zrgt9Bzf12A3CMoxtP
- /+1ST49RA4fdtSmWqlYF6M4m/lX6ayYGh+uzSgVVpkrDLXAWtiddDesSmtX9O4iFw+h3
- +ipA==
+ bh=QJJTRUSYjIQLxUFD4qYl8I2m6+/94h3/V5V1FUIXn7g=;
+ b=b8acL7uZ5TxeRsArHX8WqS6j0/RXMgOHE91CxKAydAh8kONnLql2O6OxzNYeiq+r2d
+ GWgNUWVrGpBeJE1dSX4gXBpo1zJHTkg//m2hWzxFx9+G7PLZFz/OeeSCoEkF6vjp++fM
+ fP/gldhOLvEkONnEFKJAPoQ0zDmlXrEEFHyiT6OqSzYoBx3V+J91tikhXItSd2oAMsMR
+ xeEK4OdNfCEu97KiT3HgALveb++g7gUauRVaQLtybw4AyxKTI9EGH6pW4BC5yb/mTAwQ
+ jRy7FccBZrIsMlAeLAI012bexOTDE8WXJDHWKvD/IEt+Jphd7ASgoSL9TPoudN2xogLZ
+ gWSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+W/O6gOP6IW6u1NkP1013U+G2XvQ//6bD4DQBNJYUMU=;
- b=rkcwaH9QIXYyqzZ9lfdXOFvY2JbjutqyKDQzvJKlEaZLAh/WymGFEccANfQxDTgZP0
- B5Pf5P6+12q9TmlEG0I4rpDmGqy7jEpgGaN5lZ8eXaNUP6+dqzzU960QZHpc6jECfn6W
- HGr826jlYRebxr9DxZ1HXGsyhPS2KIG2loTJKFs0Gx2lHrpQS7fWFY8D8WpzsIGgB2iz
- qQwnZdDdzTFir6hPkj9PE0BsPrletWDffXInHb85kcWJEVyIggQd2HDvcAWBmQCVdTpQ
- SMsUhlblm1e4LF21iNX+18iVt9CanL8F0faGXKfDufazTeJIb8g6Dg4g1CmRZUFB5Kfr
- R01w==
-X-Gm-Message-State: AOAM533ZRflhYx9rIFyYjnlAgwoThcsQLBEYE1jVPw4NTiwI0h1o6f8N
- OxFKETHacflVM9B80nbcomM=
-X-Google-Smtp-Source: ABdhPJxMf0lULcoAzc5DdX2YIKkaMEj1RP7S5PCazPu7TPz+KtwbMVAtsfmdHip+xoPolH8NnDtbKw==
-X-Received: by 2002:ac2:46c2:: with SMTP id p2mr2008492lfo.125.1624218337822; 
- Sun, 20 Jun 2021 12:45:37 -0700 (PDT)
+ bh=QJJTRUSYjIQLxUFD4qYl8I2m6+/94h3/V5V1FUIXn7g=;
+ b=jaIqzZGIv7Rd89+zCalLhIhA85rb15ONPrkfGO3rqtxPyrqrC2DFohVfggKnJxZ9F+
+ 8DBtDitNQtVNVeLVHl6cAIiXcTMWTyq7yJXWqk0Xk8EuUB02xS+gVBvpNFUnbHAAo2PV
+ JFPOBZdlFqFmMbbhYEVkMHfamglogdF1WQqUCBek47zLyl4g7WT5LbuwuxQP/AbrZBAJ
+ r3SL88fqTr+VpL552W8M2bK2SFfg/AHgYCPaa1/TIIciXmbJ+Xprjci9WOgbl3P0+QBu
+ KuG5D5Bp+6jJngFrIvpQCMz6NiPq6ks4LaPoXZS8/7wjZZw9xKGahP8jlCwhqSB230SC
+ 4epg==
+X-Gm-Message-State: AOAM530AhIOO8hqb1GHTkyrjFBX8gVDIHFXcHbWDHSRQuGPiD6Ns/jD9
+ AFIIRySJnwpcfzDGozwXGhE=
+X-Google-Smtp-Source: ABdhPJwzYshMhSsoaGotMT/TySkoxzGc91M+bm7SwyHt2W60/WTUbBMK0DVzN2UO49EI9B7madp+GA==
+X-Received: by 2002:a05:6512:1326:: with SMTP id
+ x38mr11199748lfu.62.1624218419263; 
+ Sun, 20 Jun 2021 12:46:59 -0700 (PDT)
 Received: from localhost.localdomain ([94.103.229.24])
- by smtp.gmail.com with ESMTPSA id f8sm1928330ljj.110.2021.06.20.12.45.34
+ by smtp.gmail.com with ESMTPSA id z13sm1031271ljn.92.2021.06.20.12.46.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 20 Jun 2021 12:45:37 -0700 (PDT)
+ Sun, 20 Jun 2021 12:46:58 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
 To: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, oneukum@suse.com,
  gregkh@suse.de
-Subject: [PATCH 1/2] media: go7007: fix memory leak in go7007_usb_probe
-Date: Sun, 20 Jun 2021 22:45:02 +0300
-Message-Id: <fd632c9a289eb28ded37b573e999a8f4e7402ca3.1624217907.git.paskripkin@gmail.com>
+Subject: [PATCH 2/2] media: go7007: remove redundant initialization
+Date: Sun, 20 Jun 2021 22:45:42 +0300
+Message-Id: <dc1bd4f8df4e07263e7c3ff7e1853ee3dec95df8.1624217907.git.paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1624217907.git.paskripkin@gmail.com>
 References: <cover.1624217907.git.paskripkin@gmail.com>
@@ -115,58 +116,78 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In commit 137641287eb4 ("go7007: add sanity checking for endpoints")
-endpoint sanity check was introduced, but if check fails it simply
-returns with leaked pointers.
+In go7007_alloc() kzalloc() is used for struct go7007
+allocation. It means that there is no need in zeroing
+any members, because kzalloc will take care of it.
 
-Cutted log from my local syzbot instance:
+Removing these reduntant initialization steps increases
+execution speed a lot:
 
-BUG: memory leak
-unreferenced object 0xffff8880209f0000 (size 8192):
-  comm "kworker/0:4", pid 4916, jiffies 4295263583 (age 29.310s)
-  hex dump (first 32 bytes):
-    30 b0 27 22 80 88 ff ff 75 73 62 2d 64 75 6d 6d  0.'"....usb-dumm
-    79 5f 68 63 64 2e 33 2d 31 00 00 00 00 00 00 00  y_hcd.3-1.......
-  backtrace:
-    [<ffffffff860ca856>] kmalloc include/linux/slab.h:556 [inline]
-    [<ffffffff860ca856>] kzalloc include/linux/slab.h:686 [inline]
-    [<ffffffff860ca856>] go7007_alloc+0x46/0xb40 drivers/media/usb/go7007/go7007-driver.c:696
-    [<ffffffff860de74e>] go7007_usb_probe+0x13e/0x2200 drivers/media/usb/go7007/go7007-usb.c:1114
-    [<ffffffff854a5f74>] usb_probe_interface+0x314/0x7f0 drivers/usb/core/driver.c:396
-    [<ffffffff845a7151>] really_probe+0x291/0xf60 drivers/base/dd.c:576
+	Before:
+		+ 86.802 us   |    go7007_alloc();
+	After:
+		+ 29.595 us   |    go7007_alloc();
 
-BUG: memory leak
-unreferenced object 0xffff88801e2f2800 (size 512):
-  comm "kworker/0:4", pid 4916, jiffies 4295263583 (age 29.310s)
-  hex dump (first 32 bytes):
-    00 87 40 8a ff ff ff ff 00 00 00 00 00 00 00 00  ..@.............
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff860de794>] kmalloc include/linux/slab.h:556 [inline]
-    [<ffffffff860de794>] kzalloc include/linux/slab.h:686 [inline]
-    [<ffffffff860de794>] go7007_usb_probe+0x184/0x2200 drivers/media/usb/go7007/go7007-usb.c:1118
-    [<ffffffff854a5f74>] usb_probe_interface+0x314/0x7f0 drivers/usb/core/driver.c:396
-    [<ffffffff845a7151>] really_probe+0x291/0xf60 drivers/base/dd.c:576
-
-Fixes: 137641287eb4 ("go7007: add sanity checking for endpoints")
+Fixes: 866b8695d67e8 ("Staging: add the go7007 video driver")
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/media/usb/go7007/go7007-usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/go7007/go7007-driver.c | 26 ------------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/media/usb/go7007/go7007-usb.c b/drivers/media/usb/go7007/go7007-usb.c
-index dbf0455d5d50..eeb85981e02b 100644
---- a/drivers/media/usb/go7007/go7007-usb.c
-+++ b/drivers/media/usb/go7007/go7007-usb.c
-@@ -1134,7 +1134,7 @@ static int go7007_usb_probe(struct usb_interface *intf,
+diff --git a/drivers/media/usb/go7007/go7007-driver.c b/drivers/media/usb/go7007/go7007-driver.c
+index f1767be9d868..6650eab913d8 100644
+--- a/drivers/media/usb/go7007/go7007-driver.c
++++ b/drivers/media/usb/go7007/go7007-driver.c
+@@ -691,49 +691,23 @@ struct go7007 *go7007_alloc(const struct go7007_board_info *board,
+ 						struct device *dev)
+ {
+ 	struct go7007 *go;
+-	int i;
  
- 	ep = usb->usbdev->ep_in[4];
- 	if (!ep)
--		return -ENODEV;
-+		goto allocfail;
+ 	go = kzalloc(sizeof(struct go7007), GFP_KERNEL);
+ 	if (go == NULL)
+ 		return NULL;
+ 	go->dev = dev;
+ 	go->board_info = board;
+-	go->board_id = 0;
+ 	go->tuner_type = -1;
+-	go->channel_number = 0;
+-	go->name[0] = 0;
+ 	mutex_init(&go->hw_lock);
+ 	init_waitqueue_head(&go->frame_waitq);
+ 	spin_lock_init(&go->spinlock);
+ 	go->status = STATUS_INIT;
+-	memset(&go->i2c_adapter, 0, sizeof(go->i2c_adapter));
+-	go->i2c_adapter_online = 0;
+-	go->interrupt_available = 0;
+ 	init_waitqueue_head(&go->interrupt_waitq);
+-	go->input = 0;
+ 	go7007_update_board(go);
+-	go->encoder_h_halve = 0;
+-	go->encoder_v_halve = 0;
+-	go->encoder_subsample = 0;
+ 	go->format = V4L2_PIX_FMT_MJPEG;
+ 	go->bitrate = 1500000;
+ 	go->fps_scale = 1;
+-	go->pali = 0;
+ 	go->aspect_ratio = GO7007_RATIO_1_1;
+-	go->gop_size = 0;
+-	go->ipb = 0;
+-	go->closed_gop = 0;
+-	go->repeat_seqhead = 0;
+-	go->seq_header_enable = 0;
+-	go->gop_header_enable = 0;
+-	go->dvd_mode = 0;
+-	go->interlace_coding = 0;
+-	for (i = 0; i < 4; ++i)
+-		go->modet[i].enable = 0;
+-	for (i = 0; i < 1624; ++i)
+-		go->modet_map[i] = 0;
+-	go->audio_deliver = NULL;
+-	go->audio_enabled = 0;
  
- 	/* Allocate the URB and buffer for receiving incoming interrupts */
- 	usb->intr_urb = usb_alloc_urb(0, GFP_KERNEL);
+ 	return go;
+ }
 -- 
 2.32.0
 
