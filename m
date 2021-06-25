@@ -8,92 +8,96 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 857C2C2B9F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Jun 2021 21:26:38 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 840FAC2B9F4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Jun 2021 22:33:55 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 15360616EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Jun 2021 21:26:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 15360616EA
+	by mail.kernel.org (Postfix) with ESMTPS id 19A4061952
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Jun 2021 22:33:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19A4061952
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CDFE342263;
-	Fri, 25 Jun 2021 21:26:37 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id CD6BA605E0;
+	Fri, 25 Jun 2021 22:33:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZjOBZcZdG_Eh; Fri, 25 Jun 2021 21:26:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9ED26421FD;
-	Fri, 25 Jun 2021 21:26:36 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sqpf3bdVG9Wb; Fri, 25 Jun 2021 22:33:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E3534605DD;
+	Fri, 25 Jun 2021 22:33:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 78201C001A;
-	Fri, 25 Jun 2021 21:26:36 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3081CC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BCADEC0010;
+	Fri, 25 Jun 2021 22:33:53 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5CB04C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 21:26:35 +0000 (UTC)
+ Fri, 25 Jun 2021 22:33:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0DA7942247
+ by smtp1.osuosl.org (Postfix) with ESMTP id 3540B83716
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 21:26:35 +0000 (UTC)
+ Fri, 25 Jun 2021 22:33:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cHD73KZk3sq9
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wpmt0AapZGJh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 21:26:33 +0000 (UTC)
+ Fri, 25 Jun 2021 22:33:51 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A25E5421FD
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 07C9283705
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 21:26:33 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id t17so18598987lfq.0
+ Fri, 25 Jun 2021 22:33:42 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id a15so11004808lfr.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 14:26:33 -0700 (PDT)
+ Fri, 25 Jun 2021 15:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7t7D/1J/bOKgBQ+E9q4Uy0N2GZHjAbWkoMyygvcYg8Y=;
- b=X7p8RIA2xPal9jCN6NmRKzdl1VHHJFNPhLAFX0APZphiwG/aMwD704fy688xj/3cUm
- ae/VP1vEl4Uxh1Z0R+27u31XVSGL1dSYDyR1vecv2hnLmxHTocNYVUblMBaCZitENkC9
- ODliPZAmuUesicpdUPmRt1FL12g+y7BOVzw7jla1JjeY7BVNJb13oB88mMoeSxRwEWS/
- fhCOm8U5PLn10k7L/CxUE/xBgS+Xol707SQHcj5Fi+cOi6vX3k9jBXHhgTTRnoVtNlQu
- 133/sAJkefCob8PomQIq8STX24PxKNAt9XlGUUb36XQvphmsMoKGzyZ0kDEogz6n3JHw
- rQbA==
+ bh=9NMDPaGNwo9dp++pt7dEDvz6yBvTGcBoymI++g12NOc=;
+ b=XxeooSIoZSkGhXTTLzsaf8YXlV0sKShLzgUbVXnUr+3uwjIxtVEAvtn/nLYxqjjS+E
+ 645gOFtwDu27Q2bAAHc1zQcxXFbXxzSxfIZhsikD9NAkQtowjvqVchR1yrMRrcr3yaGc
+ oG89m+lOmnnzs6JW0urF1QbP5OqI5hZg/9Jnz9Zs7O8csPTsI0+1T/sF8vRN4F34ulaO
+ jN0E5IiFX+v3fHdTikeXUT+tPYBiENiOPFZ5MEntFVJJ1mx9Fin/wN/atCa6UNVG1s34
+ HbD7SNrvdHKSxq1DP43W6eGaSw8NRSBhDXqdrJpu6uhntRQPxAqupsG5Ep8oRmof/4P4
+ qiPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7t7D/1J/bOKgBQ+E9q4Uy0N2GZHjAbWkoMyygvcYg8Y=;
- b=jbtga12jamcqgxCmeZDs4WvaJd0EkNXpQ/Q1ikPON+xPX7jRAmyKXTOhK8Xul5IFvy
- l1zzWIs3mUVH1K4v4ObtDsm3BheddPf7OmB20MkYRiiaojm3cwVeGUlhtjqGoh4YZEKF
- 8lNU80nIOrSySDJ5Iw847fjnFi/oofAM3gKyZegEqCsyLwFkagr2FwI3r5cGv3G9eRRH
- b4sJmJTjsWUB83ZhYC45SNoOjxN9E+cFfQtW8XN0s9yfij4FUQPeC2qVW+stJY/EwanO
- /zhjkl2Pwfl1tqu6ylXNQNjr6o1LsvNmjTGMNDBRrBEFHt/DPg+iZjkEHYLyZWmO01oy
- Z/YQ==
-X-Gm-Message-State: AOAM533ZPGqZGxWwVQOxPsItCZgAsbth4VOVCafmM9UDirZ1F4f5xSw4
- IY6n2IHDhDXGAlv29qPZZRM=
-X-Google-Smtp-Source: ABdhPJzyJsmvcyRKSkjbbb0IYNhkZj+n4BR7pYe1DCLl6o1t/q+vPZOxQ7EOWGKdCGqRpU/qWKl72A==
-X-Received: by 2002:ac2:48b1:: with SMTP id u17mr9549252lfg.646.1624656391311; 
- Fri, 25 Jun 2021 14:26:31 -0700 (PDT)
+ bh=9NMDPaGNwo9dp++pt7dEDvz6yBvTGcBoymI++g12NOc=;
+ b=TluG7EmaNx0I0ommx6+eyW6xAkcnHy5/N7i3Pd2S+MXtKSku0OqkNsLM3bqJCZTa05
+ ac4J1QKvpVmIwmueRAKG5T50MRFHiNw+yuhwztoah9avJeSHG4AKEzdOmrhLYUR+P8cB
+ SFkBYqMlX1UEQRq/wmnwVCHNlMHPz9P610OtshxycfLqMTg5h43JdTK0E45tw3lAGKK6
+ lPJtldKaxF4xoVrj52WmFNRCwYU4bwx2+PBwmXvKx0+1Xi0cizDgn9USfPadxVrhElkz
+ tDbOOG0lhm/i/1UEGiEviERW/vgXNPDRY2mqgKHqYFSo6D3uXoAQmohZpOPKzhsXdI1+
+ eQvw==
+X-Gm-Message-State: AOAM5319Kb4R+JaDaoQ0nJtQurwTaNPDYWGgvkoYPoDnbjzRyQGS8Ho2
+ D8A+kBMdh5l2RUwEaMKmCa0=
+X-Google-Smtp-Source: ABdhPJxw0w49mOJH8eZ2E+fmYpRltbdOf6mNxIn28I5KywQCjMRXPg6FGSFpgOtx0JdQRn+GFIukdA==
+X-Received: by 2002:ac2:4281:: with SMTP id m1mr9344466lfh.164.1624660420338; 
+ Fri, 25 Jun 2021 15:33:40 -0700 (PDT)
 Received: from localhost.localdomain ([94.103.225.155])
- by smtp.gmail.com with ESMTPSA id t30sm605776lfg.289.2021.06.25.14.26.30
+ by smtp.gmail.com with ESMTPSA id p26sm707610ljn.94.2021.06.25.15.33.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 14:26:30 -0700 (PDT)
+ Fri, 25 Jun 2021 15:33:39 -0700 (PDT)
 From: Pavel Skripkin <paskripkin@gmail.com>
-To: davem@davemloft.net,
-	kuba@kernel.org
-Subject: [PATCH] net: ethernet: fix UAF in ltq_etop_init
-Date: Sat, 26 Jun 2021 00:26:28 +0300
-Message-Id: <20210625212628.14514-1-paskripkin@gmail.com>
+To: gustavoars@kernel.org,
+	sam@ravnborg.org,
+	tomi.valkeinen@ti.com
+Subject: [PATCH] OMAP: DSS2: OMAPFB: fix potential GPF
+Date: Sat, 26 Jun 2021 01:33:23 +0300
+Message-Id: <20210625223323.13930-1-paskripkin@gmail.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,51 +115,81 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In ltq_etop_init() netdev was used after free_netdev():
+In case of allocation failures, all code paths was jumping
+to this code:
 
-err_netdev:
-	unregister_netdev(dev);
-	free_netdev(dev);
-err_hw:
-	ltq_etop_hw_exit(dev);
-	return err;
+err:
+	kfree(fbi);
+	kfree(var);
+	kfree(fbops);
 
-It causes use-after-free read/write in ltq_etop_hw_exit().
-Fix it by rewriting error handling path in this function. No logic
-changes, only small refactoring.
+	return r;
 
-Fixes: ("MIPS: Lantiq: Add ethernet driver")
+Since all 3 pointers placed on stack and don't initialized, they
+will be filled with some random values, which leads to
+deferencing random pointers in kfree(). Fix it by rewriting
+error handling path.
+
+Fixes: 897044e99e43 ("OMAP: DSS2: OMAPFB: Reduce stack usage")
 Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
 ---
- drivers/net/ethernet/lantiq_etop.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../video/fbdev/omap2/omapfb/omapfb-main.c    | 21 +++++++++----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/net/ethernet/lantiq_etop.c b/drivers/net/ethernet/lantiq_etop.c
-index 2d0c52f7106b..807a671ebcf8 100644
---- a/drivers/net/ethernet/lantiq_etop.c
-+++ b/drivers/net/ethernet/lantiq_etop.c
-@@ -553,8 +553,10 @@ ltq_etop_init(struct net_device *dev)
+diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
+index a3decc7fadde..6a302138ebeb 100644
+--- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
++++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
+@@ -2025,21 +2025,19 @@ static int omapfb_mode_to_timings(const char *mode_str,
+ 	fbops = NULL;
  
- 	dev->watchdog_timeo = 10 * HZ;
- 	err = ltq_etop_hw_init(dev);
--	if (err)
--		goto err_hw;
-+	if (err) {
-+		ltq_etop_hw_exit(dev);
-+		return err;
-+	}
- 	ltq_etop_change_mtu(dev, 1500);
+ 	fbi = kzalloc(sizeof(*fbi), GFP_KERNEL);
+-	if (fbi == NULL) {
+-		r = -ENOMEM;
+-		goto err;
+-	}
++	if (fbi == NULL)
++		return -ENOMEM;
  
- 	memcpy(&mac, &priv->pldata->mac, sizeof(struct sockaddr));
-@@ -580,9 +582,8 @@ ltq_etop_init(struct net_device *dev)
+ 	var = kzalloc(sizeof(*var), GFP_KERNEL);
+ 	if (var == NULL) {
+ 		r = -ENOMEM;
+-		goto err;
++		goto err_var;
+ 	}
  
- err_netdev:
- 	unregister_netdev(dev);
--	free_netdev(dev);
--err_hw:
- 	ltq_etop_hw_exit(dev);
-+	free_netdev(dev);
- 	return err;
+ 	fbops = kzalloc(sizeof(*fbops), GFP_KERNEL);
+ 	if (fbops == NULL) {
+ 		r = -ENOMEM;
+-		goto err;
++		goto err_fbops;
+ 	}
+ 
+ 	fbi->fbops = fbops;
+@@ -2047,7 +2045,7 @@ static int omapfb_mode_to_timings(const char *mode_str,
+ 	r = fb_find_mode(var, fbi, mode_str, NULL, 0, NULL, 24);
+ 	if (r == 0) {
+ 		r = -EINVAL;
+-		goto err;
++		goto err_find;
+ 	}
+ 
+ 	if (display->driver->get_timings) {
+@@ -2088,11 +2086,12 @@ static int omapfb_mode_to_timings(const char *mode_str,
+ 
+ 	r = 0;
+ 
+-err:
+-	kfree(fbi);
+-	kfree(var);
++err_find:
+ 	kfree(fbops);
+-
++err_fbops:
++	kfree(var);
++err_var:
++	kfree(fbi);
+ 	return r;
  }
  
 -- 
