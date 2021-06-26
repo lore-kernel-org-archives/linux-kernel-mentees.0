@@ -1,103 +1,104 @@
-Return-Path: <SRS0=pv0Q=LT=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=HxGY=LU=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 840FAC2B9F4
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Jun 2021 22:33:55 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E7B5C49EA6
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Jun 2021 20:58:00 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 19A4061952
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Jun 2021 22:33:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19A4061952
+	by mail.kernel.org (Postfix) with ESMTPS id 1ECE161C32
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 26 Jun 2021 20:58:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1ECE161C32
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CD6BA605E0;
-	Fri, 25 Jun 2021 22:33:54 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D92B0400C1;
+	Sat, 26 Jun 2021 20:57:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sqpf3bdVG9Wb; Fri, 25 Jun 2021 22:33:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E3534605DD;
-	Fri, 25 Jun 2021 22:33:53 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2k1F_0OmF46U; Sat, 26 Jun 2021 20:57:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0FED8400C2;
+	Sat, 26 Jun 2021 20:57:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BCADEC0010;
-	Fri, 25 Jun 2021 22:33:53 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5CB04C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D8160C001A;
+	Sat, 26 Jun 2021 20:57:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7BC9DC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 22:33:52 +0000 (UTC)
+ Sat, 26 Jun 2021 20:57:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3540B83716
+ by smtp1.osuosl.org (Postfix) with ESMTP id 55E9583168
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 22:33:52 +0000 (UTC)
+ Sat, 26 Jun 2021 20:57:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wpmt0AapZGJh
+ with ESMTP id NtqBTJ2Pi2Je
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 22:33:51 +0000 (UTC)
+ Sat, 26 Jun 2021 20:57:56 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 07C9283705
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id D449983134
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 22:33:42 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id a15so11004808lfr.6
+ Sat, 26 Jun 2021 20:57:56 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id t9so11481305pgn.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Jun 2021 15:33:42 -0700 (PDT)
+ Sat, 26 Jun 2021 13:57:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9NMDPaGNwo9dp++pt7dEDvz6yBvTGcBoymI++g12NOc=;
- b=XxeooSIoZSkGhXTTLzsaf8YXlV0sKShLzgUbVXnUr+3uwjIxtVEAvtn/nLYxqjjS+E
- 645gOFtwDu27Q2bAAHc1zQcxXFbXxzSxfIZhsikD9NAkQtowjvqVchR1yrMRrcr3yaGc
- oG89m+lOmnnzs6JW0urF1QbP5OqI5hZg/9Jnz9Zs7O8csPTsI0+1T/sF8vRN4F34ulaO
- jN0E5IiFX+v3fHdTikeXUT+tPYBiENiOPFZ5MEntFVJJ1mx9Fin/wN/atCa6UNVG1s34
- HbD7SNrvdHKSxq1DP43W6eGaSw8NRSBhDXqdrJpu6uhntRQPxAqupsG5Ep8oRmof/4P4
- qiPw==
+ bh=kL8a5X8847gaiK8cm1v6YoBD+G5PGJOSZdwZTVAMOac=;
+ b=Im8KCO09dnHkgi6D5ICIB9NGGQaLMkJx9+10Ko9+HHPEyCs3qx2WbDkz0qKxy8Xk7R
+ ASslWM2cLEkC61O8gX7XU8LAwNF123aZC5/0XhhSalv8d3kISNUctvRH/K5k8N1j5gO7
+ HRZ+kcPdf43jU+XNN9SKvfxMUHRY2Z8NYS1RnmJDwRYQ/+GNXnaPNratj48K0apw1jr5
+ PUuqamElD7ioHzOc8gBvYykv64AjvnC5DClNJGa2hSaAm3Zx9XVQE1DbW56JIIPWicH/
+ kPmIMmDr1FSNxeh8lZNaYQ+UoyZQiojsPGnswtwgiOmIRGMeFRCGfBystTaAZ+xr06Ea
+ 258w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=9NMDPaGNwo9dp++pt7dEDvz6yBvTGcBoymI++g12NOc=;
- b=TluG7EmaNx0I0ommx6+eyW6xAkcnHy5/N7i3Pd2S+MXtKSku0OqkNsLM3bqJCZTa05
- ac4J1QKvpVmIwmueRAKG5T50MRFHiNw+yuhwztoah9avJeSHG4AKEzdOmrhLYUR+P8cB
- SFkBYqMlX1UEQRq/wmnwVCHNlMHPz9P610OtshxycfLqMTg5h43JdTK0E45tw3lAGKK6
- lPJtldKaxF4xoVrj52WmFNRCwYU4bwx2+PBwmXvKx0+1Xi0cizDgn9USfPadxVrhElkz
- tDbOOG0lhm/i/1UEGiEviERW/vgXNPDRY2mqgKHqYFSo6D3uXoAQmohZpOPKzhsXdI1+
- eQvw==
-X-Gm-Message-State: AOAM5319Kb4R+JaDaoQ0nJtQurwTaNPDYWGgvkoYPoDnbjzRyQGS8Ho2
- D8A+kBMdh5l2RUwEaMKmCa0=
-X-Google-Smtp-Source: ABdhPJxw0w49mOJH8eZ2E+fmYpRltbdOf6mNxIn28I5KywQCjMRXPg6FGSFpgOtx0JdQRn+GFIukdA==
-X-Received: by 2002:ac2:4281:: with SMTP id m1mr9344466lfh.164.1624660420338; 
- Fri, 25 Jun 2021 15:33:40 -0700 (PDT)
-Received: from localhost.localdomain ([94.103.225.155])
- by smtp.gmail.com with ESMTPSA id p26sm707610ljn.94.2021.06.25.15.33.39
+ bh=kL8a5X8847gaiK8cm1v6YoBD+G5PGJOSZdwZTVAMOac=;
+ b=XOAtqdJPfHOPGCcgTWfte3L6VEEHETQ2QwVu8RE6puU1AqTHACGgRlaHRDal2/+Lt5
+ J2viwWZ7uHHyFRUxoucWFod+15jzjqWrA1k1jqjRk11zMbIfZVgVU9uujOlx4HdakByR
+ A+SmrVFl48nFeop4iQpLS/HJHdR0scP6Ma4Fw9bqZpteEJEdRzNKewmziNYO+GcwTdYo
+ fwhIFdGcy+yTLSxfpvSRnB/cAm/nDXPgipRehWZXI32GhSrtrj8tstuWqAAPIdm7HlH2
+ ZP4CARPhQXvmFDKWOveScPK7Z67Bt2PW47WMFk48NWrm58UPdA8z5Srp9IOovOj/OVV0
+ zUAQ==
+X-Gm-Message-State: AOAM531/p1aYElmvxHs1mgy3MCrtU/Bn0ioY9hWVhdu9B/iwTkD64HhS
+ t54zipQuFE+PfI0g24FTP1Y=
+X-Google-Smtp-Source: ABdhPJz8gtEda/evPb5lW8OwWUD9DR8xplBbIiB6agd+6iY32dPxGWzlsjWgiVAmxYAhrQgLhGwoMw==
+X-Received: by 2002:a62:ea18:0:b029:307:6f4:ee98 with SMTP id
+ t24-20020a62ea180000b029030706f4ee98mr17054720pfh.29.1624741076276; 
+ Sat, 26 Jun 2021 13:57:56 -0700 (PDT)
+Received: from pn-hyperv.lan (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
+ by smtp.gmail.com with ESMTPSA id
+ e1sm9616539pfd.16.2021.06.26.13.57.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 25 Jun 2021 15:33:39 -0700 (PDT)
-From: Pavel Skripkin <paskripkin@gmail.com>
-To: gustavoars@kernel.org,
-	sam@ravnborg.org,
-	tomi.valkeinen@ti.com
-Subject: [PATCH] OMAP: DSS2: OMAPFB: fix potential GPF
-Date: Sat, 26 Jun 2021 01:33:23 +0300
-Message-Id: <20210625223323.13930-1-paskripkin@gmail.com>
-X-Mailer: git-send-email 2.32.0
+ Sat, 26 Jun 2021 13:57:55 -0700 (PDT)
+From: Nguyen Dinh Phi <phind.uet@gmail.com>
+To: johannes@sipsolutions.net,
+	davem@davemloft.net,
+	kuba@kernel.org
+Subject: [PATCH] Fix possible memory leak in function cfg80211_bss_update
+Date: Sun, 27 Jun 2021 04:57:51 +0800
+Message-Id: <20210626205751.454201-1-phind.uet@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-omap@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,85 +116,36 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In case of allocation failures, all code paths was jumping
-to this code:
+When we exceed the limit of BSS entries, this function will free the
+new entry, however, at this time, it is the last door to access the
+inputed ies, so these ies will be unreferenced objects and cause memory
+leak.
+Therefore we should free its ies before deallocating the new entry, beside
+of dropping it from hidden_list.
+These stuffs could be done by using bss_free function.
 
-err:
-	kfree(fbi);
-	kfree(var);
-	kfree(fbops);
-
-	return r;
-
-Since all 3 pointers placed on stack and don't initialized, they
-will be filled with some random values, which leads to
-deferencing random pointers in kfree(). Fix it by rewriting
-error handling path.
-
-Fixes: 897044e99e43 ("OMAP: DSS2: OMAPFB: Reduce stack usage")
-Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
 ---
- .../video/fbdev/omap2/omapfb/omapfb-main.c    | 21 +++++++++----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ net/wireless/scan.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-index a3decc7fadde..6a302138ebeb 100644
---- a/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-+++ b/drivers/video/fbdev/omap2/omapfb/omapfb-main.c
-@@ -2025,21 +2025,19 @@ static int omapfb_mode_to_timings(const char *mode_str,
- 	fbops = NULL;
+diff --git a/net/wireless/scan.c b/net/wireless/scan.c
+index f03c7ac8e184..b5f62bbe539a 100644
+--- a/net/wireless/scan.c
++++ b/net/wireless/scan.c
+@@ -1761,9 +1761,7 @@ cfg80211_bss_update(struct cfg80211_registered_device *rdev,
  
- 	fbi = kzalloc(sizeof(*fbi), GFP_KERNEL);
--	if (fbi == NULL) {
--		r = -ENOMEM;
--		goto err;
--	}
-+	if (fbi == NULL)
-+		return -ENOMEM;
- 
- 	var = kzalloc(sizeof(*var), GFP_KERNEL);
- 	if (var == NULL) {
- 		r = -ENOMEM;
--		goto err;
-+		goto err_var;
- 	}
- 
- 	fbops = kzalloc(sizeof(*fbops), GFP_KERNEL);
- 	if (fbops == NULL) {
- 		r = -ENOMEM;
--		goto err;
-+		goto err_fbops;
- 	}
- 
- 	fbi->fbops = fbops;
-@@ -2047,7 +2045,7 @@ static int omapfb_mode_to_timings(const char *mode_str,
- 	r = fb_find_mode(var, fbi, mode_str, NULL, 0, NULL, 24);
- 	if (r == 0) {
- 		r = -EINVAL;
--		goto err;
-+		goto err_find;
- 	}
- 
- 	if (display->driver->get_timings) {
-@@ -2088,11 +2086,12 @@ static int omapfb_mode_to_timings(const char *mode_str,
- 
- 	r = 0;
- 
--err:
--	kfree(fbi);
--	kfree(var);
-+err_find:
- 	kfree(fbops);
--
-+err_fbops:
-+	kfree(var);
-+err_var:
-+	kfree(fbi);
- 	return r;
- }
+ 		if (rdev->bss_entries >= bss_entries_limit &&
+ 		    !cfg80211_bss_expire_oldest(rdev)) {
+-			if (!list_empty(&new->hidden_list))
+-				list_del(&new->hidden_list);
+-			kfree(new);
++			bss_free(new);
+ 			goto drop;
+ 		}
  
 -- 
-2.32.0
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
