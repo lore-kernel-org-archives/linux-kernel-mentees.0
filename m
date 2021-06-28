@@ -2,102 +2,104 @@ Return-Path: <SRS0=s8/Q=LW=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E1CBC49EAB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Jun 2021 09:43:35 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC160C49361
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Jun 2021 13:24:18 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D2DE361C49
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Jun 2021 09:43:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D2DE361C49
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=tuxera.com
+	by mail.kernel.org (Postfix) with ESMTPS id 97BB161A1D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Jun 2021 13:24:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 97BB161A1D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 97C4F40221;
-	Mon, 28 Jun 2021 09:43:34 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 723AF833AE;
+	Mon, 28 Jun 2021 13:24:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cGZMggFbyR4o; Mon, 28 Jun 2021 09:43:33 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HDu_DV0qWJkv; Mon, 28 Jun 2021 13:24:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id AFA89400B9;
-	Mon, 28 Jun 2021 09:43:33 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 898018338B;
+	Mon, 28 Jun 2021 13:24:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8966BC0010;
-	Mon, 28 Jun 2021 09:43:33 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 662ACC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6EB5DC0010;
+	Mon, 28 Jun 2021 13:24:17 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A1FCC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 09:43:32 +0000 (UTC)
+ Mon, 28 Jun 2021 13:24:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 40D68402A0
+ by smtp3.osuosl.org (Postfix) with ESMTP id 183A360724
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 09:43:32 +0000 (UTC)
+ Mon, 28 Jun 2021 13:24:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id J3H06cpVyWEk
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fcx2kRiiay6G
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 09:43:31 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mgw-02.mpynet.fi (mgw-02.mpynet.fi [82.197.21.91])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E6A6F40198
+ Mon, 28 Jun 2021 13:24:15 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6A6236060E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 09:43:30 +0000 (UTC)
-Received: from pps.filterd (mgw-02.mpynet.fi [127.0.0.1])
- by mgw-02.mpynet.fi (8.16.0.43/8.16.0.43) with SMTP id 15S9MlX9115831;
- Mon, 28 Jun 2021 12:22:55 +0300
-Received: from ex13.tuxera.com (ex13.tuxera.com [178.16.184.72])
- by mgw-02.mpynet.fi with ESMTP id 39f9xh82u4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
- Mon, 28 Jun 2021 12:22:55 +0300
-Received: from tuxera-exch.ad.tuxera.com (10.20.48.11) by
- tuxera-exch.ad.tuxera.com (10.20.48.11) with Microsoft SMTP Server (TLS) id
- 15.0.1497.18; Mon, 28 Jun 2021 12:22:54 +0300
-Received: from tuxera-exch.ad.tuxera.com ([fe80::552a:f9f0:68c3:d789]) by
- tuxera-exch.ad.tuxera.com ([fe80::552a:f9f0:68c3:d789%12]) with mapi id
- 15.00.1497.018; Mon, 28 Jun 2021 12:22:54 +0300
-From: Anton Altaparmakov <anton@tuxera.com>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH] ntfs: Fix validity check for file name attribute
-Thread-Topic: [PATCH] ntfs: Fix validity check for file name attribute
-Thread-Index: AQHXYNr9xtdXtYfpBEGmty8mpcDGlasom2mAgABu7oA=
-Date: Mon, 28 Jun 2021 09:22:53 +0000
-Message-ID: <A2D2BB3D-8C89-40D7-B0CF-F1D2B5176152@tuxera.com>
-References: <20210614050540.289494-1-desmondcheongzx@gmail.com>
- <ea63e5af-6ac4-08fe-4261-904d55392b10@gmail.com>
-In-Reply-To: <ea63e5af-6ac4-08fe-4261-904d55392b10@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [86.134.197.70]
-Content-ID: <E46CF24098D589409656063DFF65A21C@ex13.tuxera.com>
+ Mon, 28 Jun 2021 13:24:15 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id o3so3837412plg.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 28 Jun 2021 06:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QDHeI0eWYReS8YY9gGFnBiWrL9nGbp9CaS3tGTpgWPY=;
+ b=tDbFTge6qf17tfEg5ZBR1GUf5B5LigcdxkXl8zhCnzpY5UmGfii5jeYzCy+JIuOgaK
+ w6xmQJTqvBlmEzJ371uOXvH8rhLd9/0bdPiRpSod5JNujJ7p6om0vhdcCf+bM1MEFDy8
+ YaDoYcnlSWaXFvxwHt6I0NgYIfhwIzXCfUN+y+inuIE0DK7wdRXvrqe3a7okTfNaSee3
+ /rG/hQzhURZEEfQgKKTQyDCUQXrC6mkLG3qCnTgcaJKOQksKx4y57EbGPINl28ztyqAX
+ UEdNpVJ0ugPtdtguiEbpUGSkS0cXX5lTkXIcKIDSdux+oRk0zFfk89RJbiQGokIYwtUC
+ Xx6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QDHeI0eWYReS8YY9gGFnBiWrL9nGbp9CaS3tGTpgWPY=;
+ b=M5ejjU8u9sJvzs/CK9CB2S7RsXXwRlaUqUtC8cXY5YUcBxsvY9Sm5l43YeROMY122U
+ apiTmLAUXS9uJBRPkdWULpMM6sCa0invR8KqpJ0Ls6IFMq8RKPcjMCKrwnOhqq2SqKZb
+ otqeEYnZRPPhC9L7tZBcO+Vrbg8WcMMy5KdADze2kT6a+OeWenGQjC5fmQ3SNAFZSOKk
+ JXfAFRVtojcrxWyHPZmPdJuIDfJWzoNl1PeymzA5wvoJHQMaDWQ/e8Qq10A0giGrKhjt
+ A3IpOpGd8dNWRvl9sXyrRepy0IGHJJoNhLiFdS6NmOODrYbMk8OCG1/1qoAfC1qitiOF
+ fSTA==
+X-Gm-Message-State: AOAM530XwKkB9O1cy0QIjTSdXwRdgKk8x7bn4gpgK9BgmNfg5V5QnkgO
+ JLJ4zneVXKTZ88WhAASdjLk=
+X-Google-Smtp-Source: ABdhPJyEtBkT4U1E1c9TE1NUy5w+z2T4i2Fn9JFuaijGI3lm8CCha1Sn2Gjr4SEhAJ+fNJdQ/XmVeA==
+X-Received: by 2002:a17:90a:c8b:: with SMTP id
+ v11mr36896213pja.114.1624886654848; 
+ Mon, 28 Jun 2021 06:24:14 -0700 (PDT)
+Received: from pn-hyperv.lan (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
+ by smtp.gmail.com with ESMTPSA id
+ i18sm2738268pfa.37.2021.06.28.06.24.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 06:24:14 -0700 (PDT)
+From: Nguyen Dinh Phi <phind.uet@gmail.com>
+To: johannes@sipsolutions.net,
+	davem@davemloft.net,
+	kuba@kernel.org
+Subject: [PATCH V2] cfg80211: Fix possible memory leak in function
+ cfg80211_bss_update
+Date: Mon, 28 Jun 2021 21:23:34 +0800
+Message-Id: <20210628132334.851095-1-phind.uet@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-GUID: bS1-7ry4khBlczmL-2VT3CuiwRDQWvHJ
-X-Proofpoint-ORIG-GUID: bS1-7ry4khBlczmL-2VT3CuiwRDQWvHJ
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-28_07:2021-06-25,
- 2021-06-28 signatures=0
-X-Proofpoint-Spam-Details: rule=mpy_notspam policy=mpy score=0 phishscore=0
- bulkscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 suspectscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106280065
-Cc: "linux-ntfs-dev@lists.sourceforge.net"
- <linux-ntfs-dev@lists.sourceforge.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "syzbot+213ac8bb98f7f4420840@syzkaller.appspotmail.com"
- <syzbot+213ac8bb98f7f4420840@syzkaller.appspotmail.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,62 +117,47 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
+When we exceed the limit of BSS entries, this function will free the
+new entry, however, at this time, it is the last door to access the
+inputed ies, so these ies will be unreferenced objects and cause memory
+leak.
+Therefore we should free its ies before deallocating the new entry, beside
+of dropping it from hidden_list.
 
-Thanks for the patch!  Have asked Andrew to merge it.
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+---
+V2:	- Add subsystem to the subject line.
+	- Use bss_ref_put function for better clean-up dynamically allocated
+	cfg80211_internal_bss objects. It helps to clean relative hidden_bss.
 
-Best regards,
+ net/wireless/scan.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-	Anton
+diff --git a/net/wireless/scan.c b/net/wireless/scan.c
+index f03c7ac8e184..7897b1478c3c 100644
+--- a/net/wireless/scan.c
++++ b/net/wireless/scan.c
+@@ -1754,16 +1754,14 @@ cfg80211_bss_update(struct cfg80211_registered_device *rdev,
+ 			 * be grouped with this beacon for updates ...
+ 			 */
+ 			if (!cfg80211_combine_bsses(rdev, new)) {
+-				kfree(new);
++				bss_ref_put(rdev, new);
+ 				goto drop;
+ 			}
+ 		}
 
-> On 28 Jun 2021, at 03:45, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com> wrote:
-> 
-> On 14/6/21 1:05 pm, Desmond Cheong Zhi Xi wrote:
->> When checking the file name attribute, we want to ensure that it fits
->> within the bounds of ATTR_RECORD. To do this, we should check
->> that (attr record + file name offset + file name length) < (attr
->> record + attr record length).
->> However, the original check did not include the file name offset in
->> the calculation. This means that corrupted on-disk metadata might not
->> caught by the incorrect file name check, and lead to an invalid memory
->> access.
->> An example can be seen in the crash report of a memory corruption
->> error found by Syzbot:
->> https://syzkaller.appspot.com/bug?id=a1a1e379b225812688566745c3e2f7242bffc246
->> Adding the file name offset to the validity check fixes this error and
->> passes the Syzbot reproducer test.
->> Reported-by: syzbot+213ac8bb98f7f4420840@syzkaller.appspotmail.com
->> Tested-by: syzbot+213ac8bb98f7f4420840@syzkaller.appspotmail.com
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
->>  fs/ntfs/inode.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
->> index f5c058b3192c..4474adb393ca 100644
->> --- a/fs/ntfs/inode.c
->> +++ b/fs/ntfs/inode.c
->> @@ -477,7 +477,7 @@ static int ntfs_is_extended_system_file(ntfs_attr_search_ctx *ctx)
->>  		}
->>  		file_name_attr = (FILE_NAME_ATTR*)((u8*)attr +
->>  				le16_to_cpu(attr->data.resident.value_offset));
->> -		p2 = (u8*)attr + le32_to_cpu(attr->data.resident.value_length);
->> +		p2 = (u8 *)file_name_attr + le32_to_cpu(attr->data.resident.value_length);
->>  		if (p2 < (u8*)attr || p2 > p)
->>  			goto err_corrupt_attr;
->>  		/* This attribute is ok, but is it in the $Extend directory? */
-> 
-> Hi Anton,
-> 
-> Any chance to review this patch?
-> 
-> Best wishes,
-> Desmond
+ 		if (rdev->bss_entries >= bss_entries_limit &&
+ 		    !cfg80211_bss_expire_oldest(rdev)) {
+-			if (!list_empty(&new->hidden_list))
+-				list_del(&new->hidden_list);
+-			kfree(new);
++			bss_ref_put(rdev, new);
+ 			goto drop;
+ 		}
 
-
--- 
-Anton Altaparmakov <anton at tuxera.com> (replace at with @)
-Lead in File System Development, Tuxera Inc., http://www.tuxera.com/
-Linux NTFS maintainer
+--
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
