@@ -1,192 +1,104 @@
-Return-Path: <SRS0=s8/Q=LW=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=TDrl=LX=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56994C11F64
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Jun 2021 23:41:56 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 334ACC11F67
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 03:37:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DA49B61CBA
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Jun 2021 23:41:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA49B61CBA
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id D675A61D38
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 03:37:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D675A61D38
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9F85981C67;
-	Mon, 28 Jun 2021 23:41:55 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 970806058D;
+	Tue, 29 Jun 2021 03:37:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KFjzvlWVKOxd; Mon, 28 Jun 2021 23:41:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A64DF81AA7;
-	Mon, 28 Jun 2021 23:41:54 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Gz4E_P3pdyoa; Tue, 29 Jun 2021 03:37:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9BA086001B;
+	Tue, 29 Jun 2021 03:37:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8B9F2C0010;
-	Mon, 28 Jun 2021 23:41:54 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4324DC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7E36AC0010;
+	Tue, 29 Jun 2021 03:37:47 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8057DC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 23:41:53 +0000 (UTC)
+ Tue, 29 Jun 2021 03:37:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 34FDB402A6
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5A7A782548
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 23:41:53 +0000 (UTC)
+ Tue, 29 Jun 2021 03:37:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=fb.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XrFvHCsikdJp
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id S3ckH8IEqh1x
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 23:41:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
- by smtp4.osuosl.org (Postfix) with ESMTPS id EB131402A4
+ Tue, 29 Jun 2021 03:37:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 46ADE82540
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Jun 2021 23:41:51 +0000 (UTC)
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 15SNY6mj006286; Mon, 28 Jun 2021 16:41:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=facebook; bh=9+NFJ9KtblpDl0TPoiMRuiYxTyOh4kP3KIMdS+KNgUI=;
- b=g4aV46fUyou+2UioTy46VpcdfPlN51qy6bqvL2oowEKqcnHszPY97ehLjBs480gpby7s
- 9hnJNbgGoml1ASXUJkHcDNvGOWHDi2hAsC+g+e1aANQWvFMpxKZ6t39ssFilCIuBvjWS
- lt4FqYR2nn16QhPPHtj6GnjbSwD6a2rG238= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 39embt1ufr-17
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Mon, 28 Jun 2021 16:41:31 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.36.101) with Microsoft SMTP
- Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 28 Jun 2021 16:41:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S2OsXsQBmql4xVV8rAsvkW3f4JJril0UHSojB99kcexOpHlbO+GHIw/SaRYCDHvhilMLg6y64+FnzIZnPjnGA4yXeoAc4amwYdyQK9Nexk10Wue9BPy3K2L8Ton3YGqW3KgeL5q5l6o+MCRJ7oCYeczEsSkhQ76JueI/wt8VD55DmgbqAUJgTatOjUXAaM3R7+Lu9792PAZNPUy645632DDvCKE4oGiXHOLg6Z8fRl1tuPdPT5MCLu1Ss+qWirphFqi8KIxw/dptynyqWTx20d5UpG877j8JQGuTyMfWa+06pdDAsMfHNp0yRhgARve+kErsVatdjMbPfMDEcoOj0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cHPLXyHY3DXbpCNG9AE1DqGbXQ9H8aaczBtXPcdT5Cg=;
- b=Y2fnf23EwZb/ekFglNn75DG2tZfJFSWO0ooEBzdhj3OpDQz6qeSTPgI6wVu8GwjG7xJh8WPsswm9haN2qRtgTahKXPYfOlQauqxcW5umltUJhx2ILE7ANkgvt/abTGvt+X9RZb2G6xvFYXAWDxiFvCwvJ0FVuAgzJ0baQ3/CYEawsWvgBXvhf+wBFtuZR1RkRrFk+YWLXtyK9ATcT7+suRbXtTKL3ZxruEyHW++jvZtYDP3/6hAXGq2CW3omAPDcRr27fzjdrSXg1Fzg+YTXiHI1anidcQOk35KCno7h1zhBrJJdv4BmbIWWIpD7ta4WoJ7AEhqxGmxdP5pdjkWiOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=fb.com;
-Received: from SA1PR15MB5016.namprd15.prod.outlook.com (2603:10b6:806:1db::19)
- by SA0PR15MB4013.namprd15.prod.outlook.com (2603:10b6:806:8b::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.19; Mon, 28 Jun
- 2021 23:41:29 +0000
-Received: from SA1PR15MB5016.namprd15.prod.outlook.com
- ([fe80::803d:ce17:853f:6ba6]) by SA1PR15MB5016.namprd15.prod.outlook.com
- ([fe80::803d:ce17:853f:6ba6%7]) with mapi id 15.20.4264.026; Mon, 28 Jun 2021
- 23:41:29 +0000
-Date: Mon, 28 Jun 2021 16:41:26 -0700
-To: Phi Nguyen <phind.uet@gmail.com>
-Subject: Re: [PATCH] tcp: Do not reset the icsk_ca_initialized in
- tcp_init_transfer.
-Message-ID: <20210628234126.ijdbstfmlsycbqbp@kafai-mbp.dhcp.thefacebook.com>
-References: <20210628144908.881499-1-phind.uet@gmail.com>
- <CANn89iJ6M2WFS3B+sSOysekScUFmO9q5YHxgHGsbozbvkW9ivg@mail.gmail.com>
- <79490158-e6d1-aabf-64aa-154b71205c74@gmail.com>
- <CADVnQy=Q9W=Vxu81ctPLx08D=ALnHBXGr0c4BLtQGxwQE+yjRg@mail.gmail.com>
- <ee5ef69e-ee3f-1df0-2033-5adc06a46b9c@gmail.com>
- <CADVnQynqMQhO4cBON=xUCkne9-E1hze3naMZZ8tQ-a0k71kh8g@mail.gmail.com>
-Content-Disposition: inline
-In-Reply-To: <CADVnQynqMQhO4cBON=xUCkne9-E1hze3naMZZ8tQ-a0k71kh8g@mail.gmail.com>
-X-Originating-IP: [2620:10d:c090:400::5:170c]
-X-ClientProxiedBy: SJ0PR03CA0361.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::6) To SA1PR15MB5016.namprd15.prod.outlook.com
- (2603:10b6:806:1db::19)
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kafai-mbp.dhcp.thefacebook.com (2620:10d:c090:400::5:170c) by
- SJ0PR03CA0361.namprd03.prod.outlook.com (2603:10b6:a03:3a1::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4264.18 via Frontend Transport; Mon, 28 Jun 2021 23:41:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4a8215db-7c06-4627-1ab1-08d93a8e4046
-X-MS-TrafficTypeDiagnostic: SA0PR15MB4013:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR15MB40134DE9B6D3A15301EDA47FD5039@SA0PR15MB4013.namprd15.prod.outlook.com>
-X-FB-Source: Internal
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: C4Mj9RkI/ImIhx6G4Nb2t6P1gZGdi4Md3Bnt+sVn8TM9QfReKS/DTmu5TimXoiP86nlUHqeJESpE7yWWxHuGXoj9gkNGWGzBSNcXKHYcLn4PLbqqJ6ZlJO6AGd/FDcWrwXmPk3ubXZPHMQCD+jL/VC9KYg7FCIl+AL6SSac5WqvZqpv6TZ6Z9NSguYQmSvmJde/awek74ntFhj/8YEbAL5ONnWHV09JgStCxnfN7QxyVK9TMhTYNFz0s9t5hkJkBbkAZiUDWuPCJuD4WCO3V0Z3NeSYSDTC4p73TlpxshN6TOPG7Kz+Cr7TcF9K/dUnXBoIYHf05YW/Lea1Y5mj2ROQ7+iIuhbJrefVZx4JOUxYnVfEloNIQJ8eFJsvB+dNJsMe89sLJJ/6vhnkFZkgdZlY0WuTOY+j717G3SGvQ3+0MWmjLyLIXG25M7Hsd7hKC00f4HjBsF/0o7Ux3Zwl+RYcIkvCACniPxdRfsuXeCxFh+uElo4SZ9vqR9Hz5u3+VHtJn49ZPKUVu9aSPQ+9pZCXArolZxW2y/1E5P7B0p0ofRT9NnzpKb8Sstb88AFH//OhRxcVEITvOVNDisxAFoVSBzbHfY6RNmjvWZtpE+1pXXoUg0PTZYFGr/WtModwpuIuMDKb/J+R61BRph+yVPYTsbaaXd/mloFWTBq6ekV2A1ARYv6JbuG1B/9J8NYFGHPA/Aaa0OfsyeTTAsY9aBeD/BxEWxaKuYnAv1/y/Vhr56xqD++RQORE44GwL0YH2
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR15MB5016.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(376002)(346002)(39860400002)(396003)(8676002)(66476007)(66556008)(66946007)(966005)(3716004)(5660300002)(1076003)(8936002)(38100700002)(6506007)(55016002)(4326008)(478600001)(52116002)(316002)(6916009)(7416002)(86362001)(54906003)(2906002)(7696005)(16526019)(186003)(53546011)(9686003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yN8Sj+nceTgtuGZ0q698ecYj54IMUYEjNo1cprENttpmPSGYAtcRYEOWt8tJ?=
- =?us-ascii?Q?I9jSTGYP5LN7ORw1OmaZsSqp7TBzqOg+H3R3X5nf5wa8RuYTkGMNWQa99+oM?=
- =?us-ascii?Q?YiO8u8M8uRXzqh3+XZ/2NwKXDiqC8Tz8vFNgA4W6ptC9IWpQQwzGllI9VAxD?=
- =?us-ascii?Q?G18beyXr3S5ntxilsI8xIRSnqdJWthCnIrpNj6G673yye0jCTssd0dzeOF01?=
- =?us-ascii?Q?psKez+DhD3kztRjxbeJC7JWa9Tx2ahngDwM3YgeMWgeRBxFm/C+voZA2V9jb?=
- =?us-ascii?Q?nvZifeheLrVOZ+7e1YIDJNOs8CfmMSt+SrGrOElc1MxDDry30My8m5HUHnMh?=
- =?us-ascii?Q?jdrOH30Y3U8CKuwDH96VhoFQY/PXLgTtJPGD9F/Fo5YX2sTo9P/zQhGfaCM7?=
- =?us-ascii?Q?83uN7pfOoNTesrI3nCJcMRqJl/S7T7Dkb6ZRFvpFN1Pkqrck5sNA/+liqQxH?=
- =?us-ascii?Q?C5sjYP7aCUqjmvc60f4g1sUkupFs0MwZoD9G9E7ltLpeoCDOSJlfhICFBINR?=
- =?us-ascii?Q?UMvxY/lnTn563ZN+K0Kz/la3ZmkRtkQEdi9+igauph1Y4c1TAuxmkJzFvnL9?=
- =?us-ascii?Q?+wRgFDB68OVbp++bPJ/wQG1Nht7v/Vx1saKSnruFAgI5NLWpPY4w8mCTSYn7?=
- =?us-ascii?Q?FYeg4Pb0o2LyBIwvENIfX/qWJHFk0CNrFoMM6pS5XDMdrgqX3y/hKJgqKvqA?=
- =?us-ascii?Q?Uul1YFJw4K02rKYYfsfEsdSoD3Ai0aadO+u42aN9S57msFSl3nE1oJlmj7tu?=
- =?us-ascii?Q?KRYySpys7Tf2v41zlO5eGldDqpAEx6Cm41eijqMf2z27BdLvJefef0LDD7V9?=
- =?us-ascii?Q?9O8ZbBWr93Z11bLTYd0dfoZHHKIpGpPYnqiucOUvCFhlvf6n+Do9TNcry6Aw?=
- =?us-ascii?Q?gHGoCAdn7F+uVKQBgbcFOHGXkKHoCRk3hybLXsvrycuUQCdoUmhhgq7ICnn/?=
- =?us-ascii?Q?X4C5uFECv4TEhYoHks2ifUCZHm4GWgrv2jB0Em2pMNvrh0d+VaL1ZvlzbdKN?=
- =?us-ascii?Q?r08Rse3l2o09Qi3c7O2n0mK28Cam225v4+HcxqN/ZBLtik+ODFrzz8b5fdNI?=
- =?us-ascii?Q?tzZyKliRvQzbuS46OPfEAiH2THceeQmZYGKqswjCloZ+AxWOxJi20fUCHtBN?=
- =?us-ascii?Q?IkzFOE9zXqvJaXGF/Dyns3AugBQlhwgZ4jHEB7ffU/I0lpOnk7tZCNUSXxAW?=
- =?us-ascii?Q?5Bp48MlpofmkHrdckO1aESsYuKmY+Xh9ldWKx/l3TU3XUkKy9thHMq2g914Y?=
- =?us-ascii?Q?zxklmuyr9Eaa9yFZKgWeJkiwDrmLNJYUBYXfSFQOF8BNOJV0Pz2XUbM7UbV6?=
- =?us-ascii?Q?WsO5Oi1aUiMmycOvRaSJHJZl6SU0Hk9dRqX/3hKO7PbYDw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a8215db-7c06-4627-1ab1-08d93a8e4046
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB5016.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jun 2021 23:41:28.9760 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WlPPFf6kx2TLbbC6UZ3SmvW+02r4F4om4U5PEXoZRPcq5BrwmXkH4HY00h003IyB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR15MB4013
-X-OriginatorOrg: fb.com
-X-Proofpoint-ORIG-GUID: WygZp_tpxBGjIcSB5Auj0fuhRkBJADPH
-X-Proofpoint-GUID: WygZp_tpxBGjIcSB5Auj0fuhRkBJADPH
-X-Proofpoint-UnRewURL: 1 URL was un-rewritten
+ Tue, 29 Jun 2021 03:37:45 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id u190so17283548pgd.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 28 Jun 2021 20:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SoUId37plhKw69YuEI1Cyszujv1NEWznJi6ghGYjFbs=;
+ b=Q4pwMkmBbBzJVT1b3P8AnBDL/42B3X9A/D7gU1OejM4J42zknwsi8d8eqBPCMkZmKy
+ sJaYrk0JWaxJuyUnUgSgD190Jw32kUbkkVU2NQAn5RJqcrnAtofREJnjkc93GG+YyUwi
+ 7anbK5WCVBIta0VcFWtpDL9c8Q1rG8Zwv4aPYbSEPC7RzRrKFnYzmRirgaGRkAO9YCMV
+ eATVF1Q4VbR1RJCaYPy245+oFDC8vCwtf5TEn08HcMWcnLSve1xWUu1ayvY1mgTj7uft
+ TWMlDWWIFY04yug8VS0tJfiIpjWCUMIqBpMuvrnPvYkmkPHjG2li2tt3mWyPwf+ikgov
+ TFvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SoUId37plhKw69YuEI1Cyszujv1NEWznJi6ghGYjFbs=;
+ b=TV7b/4TEe4J4asFqtPlJldNu6wZwxOZEMMm8er4rT55geBB4UrL2bl44LmT4CX8+Dm
+ gMXzP64eXBRy3PYoxeRBZxCtlHOn0R+BKCU16zGGHIVkc3ZM5HIwgtSo+NiT/wfHenGa
+ RVR3aEVOXGxfJhyok652qqhKMstggt82VfVUSwQB9/KH44l7t6PvjYWHhs/5nQZuImxf
+ iP4vvUxRyc4fOV3p/6exmaU53c3F734GrFkQLABuTrm85rm7DZ4EdPHtqkiYE8yB2C+8
+ HBmUq4IbXh2aUsz9S5GGSCeBtrZCOEOuqjrN+3XvBFUb2pBcn97508GgOXb0TdkBUZJ7
+ XoBg==
+X-Gm-Message-State: AOAM532doTqtq3fj42rndZKcHCrpTARZoNtt+OTIs7Cejo3JQNAeT5PL
+ ur9e7ZeQvfXR9xzgdZ2Gv1M=
+X-Google-Smtp-Source: ABdhPJwFJhheFSuURJB5kAmryl0dhXEgyKu/by0XqicUBch09iWKXxKKvew71OSVBC4SmALzEjppVg==
+X-Received: by 2002:a63:e841:: with SMTP id a1mr26038010pgk.197.1624937864620; 
+ Mon, 28 Jun 2021 20:37:44 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id d129sm14769076pfd.218.2021.06.28.20.37.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 28 Jun 2021 20:37:44 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH v5 0/3] drm: address potential UAF bugs with drm_master ptrs
+Date: Tue, 29 Jun 2021 11:37:03 +0800
+Message-Id: <20210629033706.20537-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-06-28_14:2021-06-25,
- 2021-06-28 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- mlxscore=0 suspectscore=0
- impostorscore=0 spamscore=0 malwarescore=0 phishscore=0 adultscore=0
- mlxlogscore=999 priorityscore=1501 bulkscore=0 clxscore=1011
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2106280153
-X-FB-Internal: deliver
-Cc: Song Liu <songliubraving@fb.com>,
- syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com,
- Daniel Borkmann <daniel@iogearbox.net>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev <netdev@vger.kernel.org>,
- David Ahern <dsahern@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Yuchung Cheng <ycheng@google.com>,
- kpsingh@kernel.org, Jakub Kicinski <kuba@kernel.org>,
- bpf <bpf@vger.kernel.org>, Neal Cardwell <ncardwell@google.com>,
- David Miller <davem@davemloft.net>, LKML <linux-kernel@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -198,57 +110,69 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Martin KaFai Lau via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Martin KaFai Lau <kafai@fb.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Jun 28, 2021 at 01:20:19PM -0400, Neal Cardwell wrote:
-> )
-> 
-> On Mon, Jun 28, 2021 at 1:15 PM Phi Nguyen <phind.uet@gmail.com> wrote:
-> >
-> > On 6/29/2021 12:24 AM, Neal Cardwell wrote:
-> >
-> > > Thanks.
-> > >
-> > > Can you also please provide a summary of the event sequence that
-> > > triggers the bug? Based on your Reported-by tag, I guess this is based
-> > > on the syzbot reproducer:
-> > >
-> > >   https://groups.google.com/g/syzkaller-bugs/c/VbHoSsBz0hk/m/cOxOoTgPCAAJ 
-> > >
-> > > but perhaps you can give a summary of the event sequence that causes
-> > > the bug? Is it that the call:
-> > >
-> > > setsockopt$inet_tcp_TCP_CONGESTION(r0, 0x6, 0xd,
-> > > &(0x7f0000000000)='cdg\x00', 0x4)
-> > >
-> > > initializes the CC and happens before the connection is established,
-> > > and then when the connection is established, the line that sets:
-> > >    icsk->icsk_ca_initialized = 0;
-> > > is incorrect, causing the CC to be initialized again without first
-> > > calling the cleanup code that deallocates the CDG-allocated memory?
-> > >
-> > > thanks,
-> > > neal
-> > >
-> >
-> > Hi Neal,
-> >
-> > The gdb stack trace that lead to init_transfer_input() is as bellow, the
-> > current sock state is TCP_SYN_RECV.
-> 
-> Thanks. That makes sense as a snapshot of time for
-> tcp_init_transfer(), but I think what would be more useful would be a
-> description of the sequence of events, including when the CC was
-> initialized previous to that point (as noted above, was it that the
-> setsockopt(TCP_CONGESTION) completed before that point?).
-+1.  It needs to first explain when was the very first CC initialized.
+This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+
+The series is broken up into three patches:
+
+1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+
+2. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+
+3. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+
+Changes in v4 -> v5:
+- Patch 1:
+Add patch 1 to the series. The changes in patch 1 do not apply to stable because they apply to new changes in the drm-misc-next branch. This patch moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+
+Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+
+- Patch 2:
+Move changes to drm_connector.c into patch 1.
+
+Changes in v3 -> v4:
+- Patch 2:
+Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+
+Additionally, inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+
+- Patch 3:
+Modify kerneldoc formatting.
+
+Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+
+Changes in v2 -> v3:
+- Patch 2:
+Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+
+- Patch 3:
+Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+
+Changes in v1 -> v2:
+- Patch 3:
+Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+
+Desmond Cheong Zhi Xi (3):
+  drm: avoid circular locks in drm_mode_getconnector
+  drm: add a locked version of drm_is_current_master
+  drm: protect drm_master pointers in drm_lease.c
+
+ drivers/gpu/drm/drm_auth.c      | 76 ++++++++++++++++++++++++--------
+ drivers/gpu/drm/drm_connector.c |  5 ++-
+ drivers/gpu/drm/drm_lease.c     | 77 ++++++++++++++++++++++++---------
+ include/drm/drm_auth.h          |  1 +
+ include/drm/drm_file.h          | 15 +++++--
+ 5 files changed, 131 insertions(+), 43 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
