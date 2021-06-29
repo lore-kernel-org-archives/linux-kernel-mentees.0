@@ -2,110 +2,100 @@ Return-Path: <SRS0=TDrl=LX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0355AC11F69
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 12:58:34 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E620CC11F68
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 14:48:53 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 720FD61DE3
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 12:58:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 720FD61DE3
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 92C4761DD1
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 14:48:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 92C4761DD1
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3BAF0401C3;
-	Tue, 29 Jun 2021 12:58:33 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 55FE083638;
+	Tue, 29 Jun 2021 14:48:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Y_NypU1ofCYz; Tue, 29 Jun 2021 12:58:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id DFCE340190;
-	Tue, 29 Jun 2021 12:58:31 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C6083C0010;
-	Tue, 29 Jun 2021 12:58:31 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8FFA2C000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 12:58:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6B01683641
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 12:58:30 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=google.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7OG-2Rga43C8
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id wN6GtIjnfu6k; Tue, 29 Jun 2021 14:48:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 89BF98361C;
+	Tue, 29 Jun 2021 14:48:52 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6FCE0C0010;
+	Tue, 29 Jun 2021 14:48:52 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1C578C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 12:58:29 +0000 (UTC)
+ Tue, 29 Jun 2021 14:48:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0A1FE4023D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 29 Jun 2021 14:48:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ta4ejs8HE_Jn
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 29 Jun 2021 14:48:51 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com
- [IPv6:2607:f8b0:4864:20::b2b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2158F83640
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2A9BD40230
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 12:58:29 +0000 (UTC)
-Received: by mail-yb1-xb2b.google.com with SMTP id r135so1956434ybc.0
+ Tue, 29 Jun 2021 14:48:51 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id h1so11062087plt.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 05:58:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1Ixc1yg9az9B0t1cymNZSTN2Zbg+u86yZpoOKVTjo0E=;
- b=Wicg5j6Czkzx0aBfwLjleCGbinRhL8+0w31l9FEZowcaMUpWvwBFPkRpcYqAIq9Uhn
- E/eMTTWZeI+EKOhf4H++Inrj3nLMtGcbPRthOpIWvPU9ZmoRh54CInF1TPBq8qaOcML3
- tv+eMU6hdKk3RSimSdiuYz3fuVFIXc5LrHNGoNn0v5la4fA5NQIzcBmQhbFzSBmoQfcw
- Srg8l463/0H/NQh/0SnvrHEwFqijLF0lSv6Mgh99EyZCG2ATAywcksdxC5avjcBuwa/M
- 9ALnQkHDCcsr7Z8AZJsCIMqeB1MArs/LWT6uP+QARJjnyjCjwGkbEXFii77kkOS3lXtT
- h19A==
+ Tue, 29 Jun 2021 07:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=koZtRUNjw4bYNAZV6JWLxfBDPL3I14Zph7TjpLy0UpA=;
+ b=TooWxCAcuEemzgn3EAdG7nTJRrAJ8QghigYKwSlw5aodIB+yRqTVWNb/aydNu/NtXX
+ tu5CsEXgtXvvZV1mTv5tLDhZhzxxBYkrIfWauY9PlVKerJkwfNJLGYVmbJ1BMoA4QwPj
+ x5OoXpSGahS4Wmyn9czcbO4JsI99DKFlIulK5f+SOhjBVwj8FWw7BfUUen6rtI5JjTXK
+ ECQKFrDI9SmThzfvtmkTzBZOLUpo5FCnqjGlzeAl7yCMGmf3shsYVkjBbzT27M+ZSTPg
+ IZvieyGuaM4YLphD+xmvrd4UMjO5QoyGLGyBezfQqdJQoqEtu73vnv+Z3LMuBYgzknBy
+ qX0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1Ixc1yg9az9B0t1cymNZSTN2Zbg+u86yZpoOKVTjo0E=;
- b=e4gzuBxaHZhA7JbnwhnFu5juncwoxzGJq5p529zT6ytHNfcwhNFzjZ/L2HbnK/Zv03
- ADULlj1btNE+dLHkYtwK4gTeQP9FQmOe2+LSTKn15T4XABB9Jo0G9OPfGWejTx95dat+
- dT6kGGuORMG00X3MPtPfhQIaN5PZHoxabV5RZNQqxc6TRggv99u9lana71IxMhMbolW6
- qLbHFlyRazT5UsrhBxoMcbIfPB24AInHkO21SVeCGV/V7fUVKc7pANPA6yhW4dtqx4L8
- 96Zb4HTecnFDvNhcpOI1Hxp8w9/n8bsiaRB9CUQHIHogoyj9Ofv65z7HMFsVt+q+vmP7
- 43pw==
-X-Gm-Message-State: AOAM530QboFrMl6HVX80wCqKw3XEUEksL3DpmbVlQY2lvbuIVaFa+o8M
- dIpYluerVbqKW9oLE2SKtVEhgznfL+dogUDwutmoag==
-X-Google-Smtp-Source: ABdhPJzzoslHpNOjPtnVYKAzjGWGsIH245MtaS0SvFM7raV9Sntz6KxmD/giFXDhp6Zk1NFGv/oaa+Fhm006+0DYpUI=
-X-Received: by 2002:a05:6902:544:: with SMTP id
- z4mr39530633ybs.452.1624971507741; 
- Tue, 29 Jun 2021 05:58:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=koZtRUNjw4bYNAZV6JWLxfBDPL3I14Zph7TjpLy0UpA=;
+ b=lGrD85BFPgIFWfPlS1mWdGXkZuUMAsENIYxl/e5/gRvBPPe+i0OIGQOQkOdA4qxKHB
+ mCzZ2VmwRvZFMC2QokrK6Lo4B+KWI2cUt37JpYV/kbpVjHBSMbCz7paLQp/wn6513YVQ
+ PcZ3tcpcCTPXbdA9MTwZliIAyrTWURaYDY/1vfvNtNU9fQX/DLyq/7/G+Bu67xt/N2+h
+ 56OFtBv1jKmMUeFo7trsbzX8EKdLWsXpn4u94VbMTU647J2JIFCgqad6qpnWAi6LGqwX
+ Aug8ZWdE6aiom51f4LmYJy3xg5DcgSZMScoSjf7HlFF/x7cTYrOoDcK57iiBR6CawQng
+ MapQ==
+X-Gm-Message-State: AOAM530BNoP0csLI/t8vpfNaPV6c/wXuSZZnMLZOJs7El0Mz35K7dgqw
+ VK9ovKnp6efAuS1EdpF1eUY=
+X-Google-Smtp-Source: ABdhPJzDOltMmEszV+HSvCrb8aMX9wydlrmi1DRwuaxNyG5WZixOQVcnzzn9OUmGR98tanV2a4V+uQ==
+X-Received: by 2002:a17:902:bc4a:b029:129:ef:3c35 with SMTP id
+ t10-20020a170902bc4ab029012900ef3c35mr2788828plz.46.1624978130555; 
+ Tue, 29 Jun 2021 07:48:50 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id i2sm3417262pjj.25.2021.06.29.07.48.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jun 2021 07:48:50 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: gustavoars@kernel.org,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH 0/3] hfs: fix various errors
+Date: Tue, 29 Jun 2021 22:48:00 +0800
+Message-Id: <20210629144803.62541-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210628144908.881499-1-phind.uet@gmail.com>
- <CANn89iJ6M2WFS3B+sSOysekScUFmO9q5YHxgHGsbozbvkW9ivg@mail.gmail.com>
- <79490158-e6d1-aabf-64aa-154b71205c74@gmail.com>
- <CADVnQy=Q9W=Vxu81ctPLx08D=ALnHBXGr0c4BLtQGxwQE+yjRg@mail.gmail.com>
- <ee5ef69e-ee3f-1df0-2033-5adc06a46b9c@gmail.com>
- <CADVnQynqMQhO4cBON=xUCkne9-E1hze3naMZZ8tQ-a0k71kh8g@mail.gmail.com>
- <205F52AB-4A5B-4953-B97E-17E7CACBBCD8@gmail.com>
- <CANn89iJbquZ=tVBRg7JNR8pB106UY4Xvi7zkPVn0Uov9sj8akg@mail.gmail.com>
- <1786BBEE-9C7B-45B2-B451-F535ABB804EF@gmail.com>
-In-Reply-To: <1786BBEE-9C7B-45B2-B451-F535ABB804EF@gmail.com>
-Date: Tue, 29 Jun 2021 14:58:16 +0200
-Message-ID: <CANn89iK4Qwf0ezWac3Cn1xWN_Hw+-QL-+H8YmDm4cZP=FH+MTQ@mail.gmail.com>
-Subject: Re: [PATCH] tcp: Do not reset the icsk_ca_initialized in
- tcp_init_transfer.
-To: Nguyen Dinh Phi <phind.uet@gmail.com>
-Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
- syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com,
- Daniel Borkmann <daniel@iogearbox.net>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev <netdev@vger.kernel.org>,
- David Ahern <dsahern@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Yuchung Cheng <ycheng@google.com>, kpsingh@kernel.org,
- Jakub Kicinski <kuba@kernel.org>, bpf <bpf@vger.kernel.org>,
- Neal Cardwell <ncardwell@google.com>, David Miller <davem@davemloft.net>,
- LKML <linux-kernel@vger.kernel.org>,
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -118,140 +108,39 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Eric Dumazet via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Eric Dumazet <edumazet@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jun 29, 2021 at 2:28 PM Nguyen Dinh Phi <phind.uet@gmail.com> wrote:
->
-> On June 29, 2021 4:21:59 PM GMT+08:00, Eric Dumazet <edumazet@google.com> wrote:
-> >On Tue, Jun 29, 2021 at 9:17 AM Nguyen Dinh Phi <phind.uet@gmail.com>
-> >wrote:
-> >>
-> >> On June 29, 2021 1:20:19 AM GMT+08:00, Neal Cardwell
-> ><ncardwell@google.com> wrote:
-> >> >)
-> >> >
-> >> >On Mon, Jun 28, 2021 at 1:15 PM Phi Nguyen <phind.uet@gmail.com>
-> >wrote:
-> >> >>
-> >> >> On 6/29/2021 12:24 AM, Neal Cardwell wrote:
-> >> >>
-> >> >> > Thanks.
-> >> >> >
-> >> >> > Can you also please provide a summary of the event sequence that
-> >> >> > triggers the bug? Based on your Reported-by tag, I guess this is
-> >> >based
-> >> >> > on the syzbot reproducer:
-> >> >> >
-> >> >> >
-> >>
-> >>https://groups.google.com/g/syzkaller-bugs/c/VbHoSsBz0hk/m/cOxOoTgPCAAJ
-> >> >> >
-> >> >> > but perhaps you can give a summary of the event sequence that
-> >> >causes
-> >> >> > the bug? Is it that the call:
-> >> >> >
-> >> >> > setsockopt$inet_tcp_TCP_CONGESTION(r0, 0x6, 0xd,
-> >> >> > &(0x7f0000000000)='cdg\x00', 0x4)
-> >> >> >
-> >> >> > initializes the CC and happens before the connection is
-> >> >established,
-> >> >> > and then when the connection is established, the line that sets:
-> >> >> >    icsk->icsk_ca_initialized = 0;
-> >> >> > is incorrect, causing the CC to be initialized again without
-> >first
-> >> >> > calling the cleanup code that deallocates the CDG-allocated
-> >memory?
-> >> >> >
-> >> >> > thanks,
-> >> >> > neal
-> >> >> >
-> >> >>
-> >> >> Hi Neal,
-> >> >>
-> >> >> The gdb stack trace that lead to init_transfer_input() is as
-> >bellow,
-> >> >the
-> >> >> current sock state is TCP_SYN_RECV.
-> >> >
-> >> >Thanks. That makes sense as a snapshot of time for
-> >> >tcp_init_transfer(), but I think what would be more useful would be
-> >a
-> >> >description of the sequence of events, including when the CC was
-> >> >initialized previous to that point (as noted above, was it that the
-> >> >setsockopt(TCP_CONGESTION) completed before that point?).
-> >> >
-> >> >thanks,
-> >> >neal
-> >>
-> >> I resend my message because I accidently used html format in last
-> >one. I am very sorry for the inconvenience caused.
-> >> ---
-> >> Yes, the CC had been initialized by the setsockopt, after that, it
-> >was initialized again in function tcp_init_transfer() because of
-> >setting isck_ca_initialized to 0.
-> >
-> >"the setsockopt" is rather vague, sorry.
-> >
-> >
-> >The hard part is that all scenarios have to be considered.
-> >
-> >TCP flows can either be passive and active.
-> >
-> >CC can be set :
-> >
-> >1) Before the connect() or accept()
-> >2) After the connect() or accept()
-> >3) after the connect() but before 3WHS is completed.
-> >
-> >So we need to make sure all cases will still work with any combination
-> >of CDG CC (before/after) in the picture.
-> >
-> >Note that a memory leak for a restricted CC (CDG can only be used by
-> >CAP_NET_ADMIN privileged user)
-> > is a small problem compared to more serious bug that could be added
-> >by an incomplete fix.
-> >
-> >I also note that if icsk_ca_priv] was increased from 104 to 120 bytes,
-> >tcp_cdg would no longer need a dynamic memory allocation.
-> >
-> >Thank you.
->
-> Hi,
-> I will try to see whether I am able to get the full sequence. I am also affraid of making a change that could affect big part of the kernel.
-> About CDG, how we can get rid of dynamic allocation by increasing icsk_priv_data to 120? because I see that the window size is a module parameter, so I guess it is not a fixed value.
+Hi,
 
-Given this module parameter is constant, I doubt anyone really uses a
-bigger window.
-If researchers want to experiment bigger window, they could adjust a
-macro and recompile (#define TCP_CDG_WINDOW 8 -> X)
+This series ultimately aims to address a lockdep warning in hfs_find_init reported by Syzbot:
+https://syzkaller.appspot.com/bug?id=f007ef1d7a31a469e3be7aeb0fde0769b18585db
 
-> Because the problem only happens with CDG, is adding check in its tcp_cdg_init() function Ok? And about  icsk_ca_initialized, Could I expect it to be 0 in CC's init functions?
+The work done for this led to the discovery of another bug, and the Syzkaller repro test also reveals an invalid memory access error after clearing the lockdep warning. Hence, this series is broken up into three patches:
 
-I think icsk_ca_initialized  lost its strong meaning when CDG was
-introduced (since this is the only CC allocating memory)
+1. Add a missing call to hfs_find_exit an error path in hfs_fill_super
 
-The bug really is that before clearing icsk_ca_initialized we should
-call cc->release()
+2. Fix memory mapping in hfs_bnode_read by fixing calls to kmap
 
-Maybe we missed this cleanup in commit
-8919a9b31eb4fb4c0a93e5fb350a626924302aa6 ("tcp: Only init congestion
-control if not initialized already")
+3. Add lock nesting notation to tell lockdep that the observed locking hierarchy is safe
 
-Although I am not sure what happens at accept() time when the listener
-socket is cloned.
+Desmond Cheong Zhi Xi (3):
+  hfs: add missing clean-up in hfs_fill_super
+  hfs: fix high memory mapping in hfs_bnode_read
+  hfs: add lock nesting notation to hfs_find_init
 
-If we make any hypothesis, we need to check all CC modules to make
-sure they respect it.
+ fs/hfs/bfind.c | 14 +++++++++++++-
+ fs/hfs/bnode.c | 18 ++++++++++++++----
+ fs/hfs/btree.h |  7 +++++++
+ fs/hfs/super.c |  1 +
+ 4 files changed, 35 insertions(+), 5 deletions(-)
 
->
-> Thank you.
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
