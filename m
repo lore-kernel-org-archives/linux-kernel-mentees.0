@@ -2,110 +2,113 @@ Return-Path: <SRS0=TDrl=LX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E9CC11F68
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 16:00:06 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59FA8C11F69
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 16:07:12 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9A78861DC8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 16:00:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9A78861DC8
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 05CBE61DC8
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 29 Jun 2021 16:07:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 05CBE61DC8
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 662B660829;
-	Tue, 29 Jun 2021 16:00:05 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BB318403D3;
+	Tue, 29 Jun 2021 16:07:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id h_4OdHkJ72O4; Tue, 29 Jun 2021 16:00:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6C8F0607E5;
-	Tue, 29 Jun 2021 16:00:04 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EkaXY886Gmrb; Tue, 29 Jun 2021 16:07:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 800BF40163;
+	Tue, 29 Jun 2021 16:07:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4BCDCC001A;
-	Tue, 29 Jun 2021 16:00:04 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B4EF8C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59E28C0010;
+	Tue, 29 Jun 2021 16:07:10 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1419BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 16:00:02 +0000 (UTC)
+ Tue, 29 Jun 2021 16:07:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 96AF560818
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0199540163
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 16:00:02 +0000 (UTC)
+ Tue, 29 Jun 2021 16:07:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pnNUfRO9pua1
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5C65q6ZQ7nO2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 16:00:01 +0000 (UTC)
+ Tue, 29 Jun 2021 16:07:07 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com
- [IPv6:2607:f8b0:4864:20::e2d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B253D607E5
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 73120403D3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 16:00:01 +0000 (UTC)
-Received: by mail-vs1-xe2d.google.com with SMTP id u10so12387286vsu.12
+ Tue, 29 Jun 2021 16:07:07 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id j1so26441428wrn.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 29 Jun 2021 09:00:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XhBLIZ8SeN0Q4YkyREg3OHNcuvIGJYM1mFWikBEBPjU=;
- b=FNLQ9Y+Fv5j4B6qlfvyZe82uBP23klCkWrC+zqTQCsIKE9CExq5Wu3RYv92l0WWnuX
- OZOi5q2iZAlkBZZONRziR9DxhUBzG9qRJIWj+85GGmVWGjSJESzhulPiLgA8E1cOS7gi
- Q6ybHlbpK/8HeKc4zyiPQXwNfl4mWqhmi0pJz3az+GiZzWjUqgAjXPbrZvmZTkkeFA9j
- MyzyZWHf2KRP14eJYRtPRi0l6A5wzUfiu689G7caqSon0tLYoLxQn9T9/7PbERYJ8Ysi
- Pb2WtmowmxRgENSjeCtuNeE/oir4tnyMBUjVkCwlvP+9tVCdhRe3IE3znOORbBtwhHn0
- 7DsQ==
+ Tue, 29 Jun 2021 09:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=8Qqg2kHKap9tEq2fr8LzwiEtJhjPZLmt3+WFM7MygfM=;
+ b=ZUXDHQDO1+8U0LdnMNBVwDh/9+SJg5oqfBdysdYL2jsWUpcML4Cs2icAeZxcynEiVK
+ isP3D4mZYKSnMK2NLx5Y6JIgRJJJpZrXI7ZVzPizayJl/az40JXoYhZXpM97vDf/Y+2M
+ 5EAhnM3cjtztaZTP3e1GS6hHvDPFF9Dyo3upw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XhBLIZ8SeN0Q4YkyREg3OHNcuvIGJYM1mFWikBEBPjU=;
- b=tIjo4WmesN0A8mOlAi7FvUAYuya/tcg/9zi1J+xUQXsLLeq6FMmMk1a5CmQ38YW2tW
- So/urLkl7o9g+vcz2cCyp9W8R/el62SbbNdRe7dxKcmUK44ybaQF3TGFvB3Hdjpvri8q
- /YnJxiKv51JtTBsUHfTeod8Bd8s8/c3ivTBkGUONJAaYBGljcNv2NGf7kxqiJA6J6Ixa
- Hxj34yQEStIvdr22ngm7L46Es0OSXeud6Jr0ywJkIAzN6Jldxo+ldUO7dJD0+VVMwn1b
- MpqhIm6vyvwlSvY39onJFEBlmufy7TQ/j9SuSYcVfn/nTWWWSK5OIKULFL9q0S+YlX6g
- Roow==
-X-Gm-Message-State: AOAM530ZsKxha/ykWve6yy/3Eamvov4vrwzfK30jpN4S6iitugw5JHzw
- Lb1liLh9AHvYYB9nWvoi/Mf1EgJccbxR/udSRW8a+g==
-X-Google-Smtp-Source: ABdhPJwobUDC1855lf1exKUJy1yWcCxV2mM/hLHb8peV3rSrtPvrKzHsicCp5dWdk4WZMrWLD9E2gkICoF7r5fVgRlY=
-X-Received: by 2002:a05:6102:a33:: with SMTP id
- 19mr24990687vsb.54.1624982400345; 
- Tue, 29 Jun 2021 09:00:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210628144908.881499-1-phind.uet@gmail.com>
- <CANn89iJ6M2WFS3B+sSOysekScUFmO9q5YHxgHGsbozbvkW9ivg@mail.gmail.com>
- <79490158-e6d1-aabf-64aa-154b71205c74@gmail.com>
- <CADVnQy=Q9W=Vxu81ctPLx08D=ALnHBXGr0c4BLtQGxwQE+yjRg@mail.gmail.com>
- <ee5ef69e-ee3f-1df0-2033-5adc06a46b9c@gmail.com>
- <CADVnQynqMQhO4cBON=xUCkne9-E1hze3naMZZ8tQ-a0k71kh8g@mail.gmail.com>
- <205F52AB-4A5B-4953-B97E-17E7CACBBCD8@gmail.com>
- <CANn89iJbquZ=tVBRg7JNR8pB106UY4Xvi7zkPVn0Uov9sj8akg@mail.gmail.com>
- <1786BBEE-9C7B-45B2-B451-F535ABB804EF@gmail.com>
- <CANn89iK4Qwf0ezWac3Cn1xWN_Hw+-QL-+H8YmDm4cZP=FH+MTQ@mail.gmail.com>
-In-Reply-To: <CANn89iK4Qwf0ezWac3Cn1xWN_Hw+-QL-+H8YmDm4cZP=FH+MTQ@mail.gmail.com>
-Date: Tue, 29 Jun 2021 11:59:43 -0400
-Message-ID: <CADVnQyk9maCc+tJ4-b6kufcBES9+Y2KpHPZadXssoVWX=Xr1Vw@mail.gmail.com>
-Subject: Re: [PATCH] tcp: Do not reset the icsk_ca_initialized in
- tcp_init_transfer.
-To: Eric Dumazet <edumazet@google.com>
-Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
- syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com,
- Daniel Borkmann <daniel@iogearbox.net>,
- Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev <netdev@vger.kernel.org>,
- David Ahern <dsahern@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Yuchung Cheng <ycheng@google.com>, kpsingh@kernel.org,
- Jakub Kicinski <kuba@kernel.org>, bpf <bpf@vger.kernel.org>,
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=8Qqg2kHKap9tEq2fr8LzwiEtJhjPZLmt3+WFM7MygfM=;
+ b=AZ/br003VxQa4AuuEHOpGxbwrPPW/WYlTvVHrdglSCLugbv+7kgY0M0OaxpjvPRH5T
+ I0JpoYRNujTQvqq0FZmW0ino1AED6x6/SKSDw4zWlSlaKNPyV6n/UW8RTotDXDycZZeK
+ XLTjrxMdBphpCSSElPEDQeBcI1mQvvOqI4QnO5KIiBXBSAfJ2kK1wmlTcwbQ0ylo1eX4
+ Yw8N9Fh0ShzvZfDl9SWAjvDzqIcHm+RIvafR39cxKaQBHBruOI60ayp8S2emyyW9KhYV
+ HhzjtRU8ogePRrMqbLLQTCNTiK5zm7a3XLosEkCdFC5QHALd1lDKrUOiyLdAnx7QRdD4
+ N4cA==
+X-Gm-Message-State: AOAM532wVsfkTJDtJ4GI8LY24kquXFW8l0vnJOiwGXQCmOz7t1/zOtI1
+ Z1FjzJtFhDZ00n4xGfxy7gOFVw==
+X-Google-Smtp-Source: ABdhPJy1jqAR0YE1o9PaSsvkYs5Fll1ev502/8tirW6C4kdO3/xxnsEo067Zc8h+ebgtHs/2cyRIMw==
+X-Received: by 2002:a05:6000:10:: with SMTP id
+ h16mr809726wrx.367.1624982825474; 
+ Tue, 29 Jun 2021 09:07:05 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id p9sm2086612wmm.17.2021.06.29.09.07.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 29 Jun 2021 09:07:04 -0700 (PDT)
+Date: Tue, 29 Jun 2021 18:07:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v5 3/3] drm: protect drm_master pointers in drm_lease.c
+Message-ID: <YNtFJhUw0U2s1TW0@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
- David Miller <davem@davemloft.net>, LKML <linux-kernel@vger.kernel.org>
+ emil.l.velikov@gmail.com
+References: <20210629033706.20537-1-desmondcheongzx@gmail.com>
+ <20210629033706.20537-4-desmondcheongzx@gmail.com>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20210629033706.20537-4-desmondcheongzx@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Cc: tzimmermann@suse.de, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ maarten.lankhorst@linux.intel.com, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
+ emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ linux-kernel-mentees@lists.linuxfoundation.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,109 +120,389 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Neal Cardwell via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Neal Cardwell <ncardwell@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-  On Tue, Jun 29, 2021 at 8:58 AM Eric Dumazet <edumazet@google.com> wrote:
-> > Because the problem only happens with CDG, is adding check in its tcp_cdg_init() function Ok? And about  icsk_ca_initialized, Could I expect it to be 0 in CC's init functions?
->
-> I think icsk_ca_initialized  lost its strong meaning when CDG was
-> introduced (since this is the only CC allocating memory)
->
-> The bug really is that before clearing icsk_ca_initialized we should
-> call cc->release()
->
-> Maybe we missed this cleanup in commit
-> 8919a9b31eb4fb4c0a93e5fb350a626924302aa6 ("tcp: Only init congestion
-> control if not initialized already")
+On Tue, Jun 29, 2021 at 11:37:06AM +0800, Desmond Cheong Zhi Xi wrote:
+> Currently, direct copies of drm_file->master pointers should be
+> protected by drm_device.master_mutex when being dereferenced. This is
+> because drm_file->master is not invariant for the lifetime of
+> drm_file. If drm_file is not the creator of master, then
+> drm_file->is_master is false, and a call to drm_setmaster_ioctl will
+> invoke drm_new_set_master, which then allocates a new master for
+> drm_file and puts the old master.
+> 
+> Thus, without holding drm_device.master_mutex, the old value of
+> drm_file->master could be freed while it is being used by another
+> concurrent process.
+> 
+> In drm_lease.c, there are multiple instances where drm_file->master is
+> accessed and dereferenced while drm_device.master_mutex is not
+> held. This makes drm_lease.c vulnerable to use-after-free bugs.
+> 
+> We address this issue in 3 ways:
+> 
+> 1. Clarify in the kerneldoc that drm_file->master is protected by
+> drm_device.master_mutex.
+> 
+> 2. Add a new drm_file_get_master() function that calls drm_master_get
+> on drm_file->master while holding on to drm_device.master_mutex. Since
+> drm_master_get increments the reference count of master, this
+> prevents master from being freed until we unreference it with
+> drm_master_put.
+> 
+> 3. In each case where drm_file->master is directly accessed and
+> eventually dereferenced in drm_lease.c, we wrap the access in a call
+> to the new drm_file_get_master function, then unreference the master
+> pointer once we are done using it.
+> 
+> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 
-From my perspective, the bug was introduced when that 8919a9b31eb4
-commit introduced icsk_ca_initialized and set icsk_ca_initialized to 0
-in tcp_init_transfer(), missing the possibility that a process could
-call setsockopt(TCP_CONGESTION)  in state TCP_SYN_SENT (i.e. after the
-connect() or TFO open sendmsg()), which would call
-tcp_init_congestion_control(). The 8919a9b31eb4 commit did not intend
-to reset any initialization that the user had already explicitly made;
-it just missed the possibility of that particular sequence (which
-syzkaller managed to find!).
+Series looks very nice, let's see what intel-gfx-ci says. You should get a
+mail, but results are also here:
 
-> Although I am not sure what happens at accept() time when the listener
-> socket is cloned.
+https://patchwork.freedesktop.org/series/91969/#rev2
 
-It seems that for listener sockets, they cannot initialize their CC
-module state, because there is no way for them to reach
-tcp_init_congestion_control(), since:
+One tiny comment below.
 
-(a) tcp_set_congestion_control() -> tcp_reinit_congestion_control()
-will not call tcp_init_congestion_control() on a socket in CLOSE or
-LISTEN
+> ---
+>  drivers/gpu/drm/drm_auth.c  | 25 ++++++++++++
+>  drivers/gpu/drm/drm_lease.c | 77 +++++++++++++++++++++++++++----------
+>  include/drm/drm_auth.h      |  1 +
+>  include/drm/drm_file.h      | 15 ++++++--
+>  4 files changed, 95 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> index ab1863c5a5a0..c36a0b72be26 100644
+> --- a/drivers/gpu/drm/drm_auth.c
+> +++ b/drivers/gpu/drm/drm_auth.c
+> @@ -384,6 +384,31 @@ struct drm_master *drm_master_get(struct drm_master *master)
+>  }
+>  EXPORT_SYMBOL(drm_master_get);
+>  
+> +/**
+> + * drm_file_get_master - reference &drm_file.master of @file_priv
+> + * @file_priv: DRM file private
+> + *
+> + * Increments the reference count of @file_priv's &drm_file.master and returns
+> + * the &drm_file.master. If @file_priv has no &drm_file.master, returns NULL.
+> + *
+> + * Master pointers returned from this function should be unreferenced using
+> + * drm_master_put().
+> + */
+> +struct drm_master *drm_file_get_master(struct drm_file *file_priv)
+> +{
+> +	struct drm_master *master = NULL;
+> +
+> +	mutex_lock(&file_priv->minor->dev->master_mutex);
+> +	if (!file_priv->master)
+> +		goto unlock;
+> +	master = drm_master_get(file_priv->master);
+> +
+> +unlock:
+> +	mutex_unlock(&file_priv->minor->dev->master_mutex);
+> +	return master;
+> +}
+> +EXPORT_SYMBOL(drm_file_get_master);
+> +
+>  static void drm_master_destroy(struct kref *kref)
+>  {
+>  	struct drm_master *master = container_of(kref, struct drm_master, refcount);
+> diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
+> index 00fb433bcef1..cdcc87fa9685 100644
+> --- a/drivers/gpu/drm/drm_lease.c
+> +++ b/drivers/gpu/drm/drm_lease.c
+> @@ -106,10 +106,19 @@ static bool _drm_has_leased(struct drm_master *master, int id)
+>   */
+>  bool _drm_lease_held(struct drm_file *file_priv, int id)
+>  {
+> -	if (!file_priv || !file_priv->master)
+> +	bool ret;
+> +	struct drm_master *master;
+> +
+> +	if (!file_priv)
+>  		return true;
+>  
+> -	return _drm_lease_held_master(file_priv->master, id);
+> +	master = drm_file_get_master(file_priv);
+> +	if (master == NULL)
+> +		return true;
+> +	ret = _drm_lease_held_master(master, id);
+> +	drm_master_put(&master);
+> +
+> +	return ret;
+>  }
+>  
+>  /**
+> @@ -128,13 +137,20 @@ bool drm_lease_held(struct drm_file *file_priv, int id)
+>  	struct drm_master *master;
+>  	bool ret;
+>  
+> -	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+> +	if (!file_priv)
+>  		return true;
+>  
+> -	master = file_priv->master;
+> +	master = drm_file_get_master(file_priv);
+> +	if (master == NULL)
+> +		return true;
+> +	if (!master->lessor) {
+> +		drm_master_put(&master);
+> +		return true;
+> +	}
+>  	mutex_lock(&master->dev->mode_config.idr_mutex);
+>  	ret = _drm_lease_held_master(master, id);
+>  	mutex_unlock(&master->dev->mode_config.idr_mutex);
+> +	drm_master_put(&master);
+>  	return ret;
+>  }
+>  
+> @@ -154,10 +170,16 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+>  	int count_in, count_out;
+>  	uint32_t crtcs_out = 0;
+>  
+> -	if (!file_priv || !file_priv->master || !file_priv->master->lessor)
+> +	if (!file_priv)
+>  		return crtcs_in;
+>  
+> -	master = file_priv->master;
+> +	master = drm_file_get_master(file_priv);
+> +	if (master == NULL)
+> +		return crtcs_in;
+> +	if (!master->lessor) {
+> +		drm_master_put(&master);
+> +		return crtcs_in;
+> +	}
+>  	dev = master->dev;
+>  
+>  	count_in = count_out = 0;
+> @@ -176,6 +198,7 @@ uint32_t drm_lease_filter_crtcs(struct drm_file *file_priv, uint32_t crtcs_in)
+>  		count_in++;
+>  	}
+>  	mutex_unlock(&master->dev->mode_config.idr_mutex);
+> +	drm_master_put(&master);
+>  	return crtcs_out;
+>  }
+>  
+> @@ -489,7 +512,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  	size_t object_count;
+>  	int ret = 0;
+>  	struct idr leases;
+> -	struct drm_master *lessor = lessor_priv->master;
+> +	struct drm_master *lessor;
+>  	struct drm_master *lessee = NULL;
+>  	struct file *lessee_file = NULL;
+>  	struct file *lessor_file = lessor_priv->filp;
+> @@ -501,12 +524,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> -	/* Do not allow sub-leases */
+> -	if (lessor->lessor) {
+> -		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+> -		return -EINVAL;
+> -	}
+> -
+>  	/* need some objects */
+>  	if (cl->object_count == 0) {
+>  		DRM_DEBUG_LEASE("no objects in lease\n");
+> @@ -518,12 +535,22 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  		return -EINVAL;
+>  	}
+>  
+> +	lessor = drm_file_get_master(lessor_priv);
+> +	/* Do not allow sub-leases */
+> +	if (lessor->lessor) {
+> +		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
+> +		ret = -EINVAL;
+> +		goto out_lessor;
+> +	}
+> +
+>  	object_count = cl->object_count;
+>  
+>  	object_ids = memdup_user(u64_to_user_ptr(cl->object_ids),
+>  			array_size(object_count, sizeof(__u32)));
+> -	if (IS_ERR(object_ids))
+> -		return PTR_ERR(object_ids);
+> +	if (IS_ERR(object_ids)) {
+> +		ret = PTR_ERR(object_ids);
+> +		goto out_lessor;
+> +	}
+>  
+>  	idr_init(&leases);
+>  
+> @@ -534,14 +561,15 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  	if (ret) {
+>  		DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
+>  		idr_destroy(&leases);
+> -		return ret;
+> +		goto out_lessor;
+>  	}
+>  
+>  	/* Allocate a file descriptor for the lease */
+>  	fd = get_unused_fd_flags(cl->flags & (O_CLOEXEC | O_NONBLOCK));
+>  	if (fd < 0) {
+>  		idr_destroy(&leases);
+> -		return fd;
+> +		ret = fd;
+> +		goto out_lessor;
+>  	}
+>  
+>  	DRM_DEBUG_LEASE("Creating lease\n");
+> @@ -577,6 +605,7 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  	/* Hook up the fd */
+>  	fd_install(fd, lessee_file);
+>  
+> +	drm_master_put(&lessor);
+>  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
+>  	return 0;
+>  
+> @@ -586,6 +615,8 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+>  out_leases:
+>  	put_unused_fd(fd);
+>  
+> +out_lessor:
+> +	drm_master_put(&lessor);
+>  	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
+>  	return ret;
+>  }
+> @@ -608,7 +639,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>  	struct drm_mode_list_lessees *arg = data;
+>  	__u32 __user *lessee_ids = (__u32 __user *) (uintptr_t) (arg->lessees_ptr);
+>  	__u32 count_lessees = arg->count_lessees;
+> -	struct drm_master *lessor = lessor_priv->master, *lessee;
+> +	struct drm_master *lessor, *lessee;
+>  	int count;
+>  	int ret = 0;
+>  
+> @@ -619,6 +650,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> +	lessor = drm_file_get_master(lessor_priv);
+>  	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
+>  
+>  	mutex_lock(&dev->mode_config.idr_mutex);
+> @@ -642,6 +674,7 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
+>  		arg->count_lessees = count;
+>  
+>  	mutex_unlock(&dev->mode_config.idr_mutex);
+> +	drm_master_put(&lessor);
+>  
+>  	return ret;
+>  }
+> @@ -661,7 +694,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>  	struct drm_mode_get_lease *arg = data;
+>  	__u32 __user *object_ids = (__u32 __user *) (uintptr_t) (arg->objects_ptr);
+>  	__u32 count_objects = arg->count_objects;
+> -	struct drm_master *lessee = lessee_priv->master;
+> +	struct drm_master *lessee;
+>  	struct idr *object_idr;
+>  	int count;
+>  	void *entry;
+> @@ -675,6 +708,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> +	lessee = drm_file_get_master(lessee_priv);
+>  	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
+>  
+>  	mutex_lock(&dev->mode_config.idr_mutex);
+> @@ -702,6 +736,7 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
+>  		arg->count_objects = count;
+>  
+>  	mutex_unlock(&dev->mode_config.idr_mutex);
+> +	drm_master_put(&lessee);
+>  
+>  	return ret;
+>  }
+> @@ -720,7 +755,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>  				void *data, struct drm_file *lessor_priv)
+>  {
+>  	struct drm_mode_revoke_lease *arg = data;
+> -	struct drm_master *lessor = lessor_priv->master;
+> +	struct drm_master *lessor;
+>  	struct drm_master *lessee;
+>  	int ret = 0;
+>  
+> @@ -730,6 +765,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>  	if (!drm_core_check_feature(dev, DRIVER_MODESET))
+>  		return -EOPNOTSUPP;
+>  
+> +	lessor = drm_file_get_master(lessor_priv);
+>  	mutex_lock(&dev->mode_config.idr_mutex);
+>  
+>  	lessee = _drm_find_lessee(lessor, arg->lessee_id);
+> @@ -750,6 +786,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
+>  
+>  fail:
+>  	mutex_unlock(&dev->mode_config.idr_mutex);
+> +	drm_master_put(&lessor);
+>  
+>  	return ret;
+>  }
+> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+> index 6bf8b2b78991..f99d3417f304 100644
+> --- a/include/drm/drm_auth.h
+> +++ b/include/drm/drm_auth.h
+> @@ -107,6 +107,7 @@ struct drm_master {
+>  };
+>  
+>  struct drm_master *drm_master_get(struct drm_master *master);
+> +struct drm_master *drm_file_get_master(struct drm_file *file_priv);
+>  void drm_master_put(struct drm_master **master);
+>  bool drm_is_current_master(struct drm_file *fpriv);
+>  
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index b81b3bfb08c8..e9931fca4ab7 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -226,9 +226,18 @@ struct drm_file {
+>  	/**
+>  	 * @master:
+>  	 *
+> -	 * Master this node is currently associated with. Only relevant if
+> -	 * drm_is_primary_client() returns true. Note that this only
+> -	 * matches &drm_device.master if the master is the currently active one.
+> +	 * Master this node is currently associated with. Protected by struct
+> +	 * &drm_device.master_mutex.
+> +	 *
+> +	 * Only relevant if drm_is_primary_client() returns true. Note that
+> +	 * this only matches &drm_device.master if the master is the currently
+> +	 * active one.
+> +	 *
+> +	 * When obtaining a copy of this pointer, it is recommended to either
 
-(b) tcp_init_transfer() -> tcp_init_congestion_control() can only
-happen for established sockets and successful TFO SYN_RECV sockets
+I found this a bit confusing, since I generally don't think of
+dereferencing the pointer as "taking a copy". That's more for the entire
+datastructure when you have a memcpy() call, or kmemdup() or something
+like that. Also "it is recommended" is a bit weak if you get a
+use-after-free if you dont :-)
 
-So it seems my previously suggested change (yesterday in this thread)
-to add icsk_ca_initialized=0 in tcp_ca_openreq_child() is not needed.
+So instead "When dererencing this pointer either hold ... or use
+drm_file_get_master() ...."
 
-> If we make any hypothesis, we need to check all CC modules to make
-> sure they respect it.
+Cheers, Daniel
 
-AFAICT the fix is correct; it just needs a Fixes: tag and a more clear
-description in the commit message.
+> +	 * hold struct &drm_device.master_mutex for the duration of the
+> +	 * pointer's use, or to use drm_file_get_master() if struct
+> +	 * &drm_device.master_mutex is not currently held and there is no other
+> +	 * need to hold it. This prevents @master from being freed during use.
+>  	 *
+>  	 * See also @authentication and @is_master and the :ref:`section on
+>  	 * primary nodes and authentication <drm_primary_node>`.
+> -- 
+> 2.25.1
+> 
 
-I have cherry-picked the patch into our kernel and verified it passes
-all of our internal packetdrill tests.
-
-So the diff seems OK, but I would suggest a commit message something
-like the following:
-
---
-[PATCH] tcp: fix tcp_init_transfer() to not reset icsk_ca_initialized
-
-This commit fixes a bug (found by syzkaller) that could cause spurious
-double-initializations for congestion control modules, which could cause memory
-leaks orother problems for congestion control modules (like CDG) that allocate
-memory in their init functions.
-
-The buggy scenario constructed by syzkaller was something like:
-
-(1) create a TCP socket
-(2) initiate a TFO connect via sendto()
-(3) while socket is in TCP_SYN_SENT, call setsockopt(TCP_CONGESTION),
-    which calls:
-       tcp_set_congestion_control() ->
-         tcp_reinit_congestion_control() ->
-           tcp_init_congestion_control()
-(4) receive ACK, connection is established, call tcp_init_transfer(),
-    set icsk_ca_initialized=0 (without first calling cc->release()),
-    call tcp_init_congestion_control() again.
-
-Note that in this sequence tcp_init_congestion_control() is called twice
-without a cc->release() call in between. Thus, for CC modules that allocate
-memory in their init() function, e.g, CDG, a memory leak may occur. The
-syzkaller tool managed to find a reproducer that triggered such a leak in CDG.
-
-The bug was introduced when that 8919a9b31eb4 commit introduced
-icsk_ca_initialized and set icsk_ca_initialized to 0 in tcp_init_transfer(),
-missing the possibility for a sequence like the one above, where a process
-could call setsockopt(TCP_CONGESTION) in state TCP_SYN_SENT (i.e. after the
-connect() or TFO open sendmsg()), which would call
-tcp_init_congestion_control(). The 8919a9b31eb4 commit did not intend to reset
-any initialization that the user had already explicitly made; it just missed
-the possibility of that particular sequence (which syzkaller managed to find).
-
-Fixes: 8919a9b31eb4 ("tcp: Only init congestion control if not
-initialized already")
-Reported-by: syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com
-Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
---
-
-neal
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
