@@ -6,99 +6,100 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 970E2C11F6A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:55:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B09B2C11F6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:56:02 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4099061456
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:55:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4099061456
+	by mail.kernel.org (Postfix) with ESMTPS id 6F3F361456
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:56:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F3F361456
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1948340601;
-	Wed, 30 Jun 2021 14:55:56 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 521EB40608;
+	Wed, 30 Jun 2021 14:56:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4mVOIaNbSKMk; Wed, 30 Jun 2021 14:55:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 2946B405A1;
-	Wed, 30 Jun 2021 14:55:55 +0000 (UTC)
+	with ESMTP id 3dSDMDVbryDR; Wed, 30 Jun 2021 14:56:01 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 49081405A1;
+	Wed, 30 Jun 2021 14:56:01 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 139BDC001A;
-	Wed, 30 Jun 2021 14:55:55 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3576DC001A;
+	Wed, 30 Jun 2021 14:56:01 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2A224C000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1FA3AC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:53 +0000 (UTC)
+ Wed, 30 Jun 2021 14:56:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0979440601
+ by smtp2.osuosl.org (Postfix) with ESMTP id 00C4740601
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:53 +0000 (UTC)
+ Wed, 30 Jun 2021 14:56:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G3DjMmILCHW7
+ with ESMTP id dMFotbTI1M0T
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:52 +0000 (UTC)
+ Wed, 30 Jun 2021 14:55:59 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 782E6405A1
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 53C1B405A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:52 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id u19so1615537plc.3
+ Wed, 30 Jun 2021 14:55:59 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ x21-20020a17090aa395b029016e25313bfcso1553822pjp.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 07:55:52 -0700 (PDT)
+ Wed, 30 Jun 2021 07:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7TptsW5OQ3GR+u/tITdCBbefhDZ5KPjgj9kl0duGn/0=;
- b=jQMcYfmo4WOy762+XlXq7rREStvEn1K/QbSMcETHOaImZDMR6TV8ygdhXa4cDZQhA2
- SFEOD/Ken2OZVNKzwUGscD4H1Wn0L6dYPUVM3B+ON0AfnAhbAEeh8lb4Wu8C36bsnU59
- SA0z3caBP7tlt9vECTP+aPMUnQlX37E5u4gu0vG7NEn7J5zFwhqgVf+biiNr8aCnVBln
- bzCgj9RFB/v0jMtUFdOgjkhanDDI6HmeUoKdFqohEWrZKz8tf01y6CI/yXjVhp6OMaef
- 3CwRMFzak934JJTSNqZdrAnmp3iTkOHLfRpmQhpmffIbDOtF8LQgDL8nJdEHtAWdbQAb
- mXlg==
+ bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
+ b=PN6u8eiDV5DESHx+RsGe9Co74bFfrnP5XFh9U/KxoIUqISzrMtaU//FSpndLXYaEqO
+ OPpVb6Qnlf0NNoNtmSX04iiIdE/1duZpMXrBLDCHq3At7L7bmbsFZOpBkifbO05YhCmt
+ tDyhD3PUKSnBSIUZfOHjnrs9+QdlUdUjkStg4R+6kZmP+2F+auyDszxxwYOp3jg/VKXr
+ CsDay4+9a9xTXQDIa3mbw9h9WekB4bFnjHOk3Ks4doCy4dRagcNZQHPjKVlMAKuv7RJF
+ 2MORgECv93S+0LPXLTWkWQjzxTTHFqOoTC3x5zy4cVRTPLGEkRJSVjh7wiiftXVPs/5E
+ R7Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7TptsW5OQ3GR+u/tITdCBbefhDZ5KPjgj9kl0duGn/0=;
- b=sl4sxKoyvRtz/mnQFTq0sIquQSYvenyyNnBFmhgjz9BQtjh2ElX/NWaykKPxaXqnED
- jLu0RYJZZjwwCeKXJmDJZju5QFeX5LDXugNzqojdv2aWh4wvzthcvw/wb+Zf/FWiLXPN
- iIFmzvIwhclP98/oRhEc4Kaa8gigpz9TCeA4OyAe0tncVZbil8+1oXFTeRYWi3ryyujn
- X7+C1yIaWUaCNinWHLxBEogwQDRVHyOijOkfXJHlUsoh47MO9nfjVvkRfelJNvCb5eyS
- WWjjLppx1slkSbTLUEr6uPlJHYyyeO/SPyqo0dltatlbxEGKdQBfchuXryAUe92GXoFq
- BpCw==
-X-Gm-Message-State: AOAM531xGB6aEY9zrZfG6wtlw3sHsQN1BgX0DQg9f3dbYlTL/F0ynWoT
- Kwz++KjDNnf7ScfCrhyknCk=
-X-Google-Smtp-Source: ABdhPJzlakShd++NdtFkoi8/aMmEkS+Gpz+BqRr8GgeXQvHyNR1eldpRvcZf+RI+EEcYEAP/mljnpw==
-X-Received: by 2002:a17:90b:19d4:: with SMTP id
- nm20mr4798973pjb.134.1625064951982; 
- Wed, 30 Jun 2021 07:55:51 -0700 (PDT)
+ bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
+ b=l9jd/yM+KSR7J36Kn7PgKjfCp87T17bBUkfReIHulMdXLzzM5Vx6OYPDyWrMycYtQE
+ Tr6g2wqXmm9jiud2dYzCGyUmmv/gxJc8IWnSfHXL+6FpqUy1pw6SaQLHgRVPSvCfD8LX
+ 048o5i45esKDudo+q4BTCI+RtB3x9ZfsUMRC4LbgivNw9yKG++ukwCtQscvwikn/CRxK
+ prr6ijleDxNSgGlkvr0OTNbmYu/K93DvSWAK5kh0Z01euhC2kWdarClV1d+TzbqtSrsv
+ dTKaNQis3sV8J7uciY4Hr1mHh7mkBSRFw9w5zgxYKi3t/WXNOzsA4S+rlQ+lf0SgrANb
+ cjVQ==
+X-Gm-Message-State: AOAM533IOMSmVqjIpc6LWv4PNAbdU4gLvKOXeCPXXToZ4AGlCOgnA2Q/
+ J7yOuAlv+romLaNR3p+M2AQ=
+X-Google-Smtp-Source: ABdhPJw8QsA5Ov2ap/McNShIZ3+kvdZIh2SptPjBMN/D7nE5je4eczXEAJ8ur1RuJs5yWKKQVsAeDg==
+X-Received: by 2002:a17:902:b210:b029:11a:bf7b:1a83 with SMTP id
+ t16-20020a170902b210b029011abf7b1a83mr32636110plr.84.1625064958876; 
+ Wed, 30 Jun 2021 07:55:58 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id d13sm7157234pjr.49.2021.06.30.07.55.47
+ by smtp.gmail.com with ESMTPSA id d13sm7157234pjr.49.2021.06.30.07.55.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 07:55:51 -0700 (PDT)
+ Wed, 30 Jun 2021 07:55:58 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
  christian.koenig@amd.com
-Subject: [PATCH v6 2/4] drm: avoid circular locks in __drm_mode_object_find
-Date: Wed, 30 Jun 2021 22:54:02 +0800
-Message-Id: <20210630145404.5958-3-desmondcheongzx@gmail.com>
+Subject: [PATCH v6 3/4] drm: add a locked version of drm_is_current_master
+Date: Wed, 30 Jun 2021 22:54:03 +0800
+Message-Id: <20210630145404.5958-4-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630145404.5958-1-desmondcheongzx@gmail.com>
 References: <20210630145404.5958-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ emil.l.velikov@gmail.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -118,48 +119,116 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In a future patch, _drm_lease_held will dereference drm_file->master
-only after making a call to drm_file_get_master which increments the
-reference count of drm_file->master while holding a lock on
-drm_device.master_mutex.
+While checking the master status of the DRM file in
+drm_is_current_master(), the device's master mutex should be
+held. Without the mutex, the pointer fpriv->master may be freed
+concurrently by another process calling drm_setmaster_ioctl(). This
+could lead to use-after-free errors when the pointer is subsequently
+dereferenced in drm_lease_owner().
 
-In preparation for this, the call to _drm_lease_held should be moved
-out from the section locked by &dev->mode_config.idr_mutex. This
-avoids inverting the lock hierarchy for
-&dev->master_mutex --> &dev->mode_config.idr_mutex
+The callers of drm_is_current_master() from drm_auth.c hold the
+device's master mutex, but external callers do not. Hence, we implement
+drm_is_current_master_locked() to be used within drm_auth.c, and
+modify drm_is_current_master() to grab the device's master mutex
+before checking the master status.
 
+Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_auth.c | 51 ++++++++++++++++++++++++--------------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
-index b26588b52795..63d35f1f98dd 100644
---- a/drivers/gpu/drm/drm_mode_object.c
-+++ b/drivers/gpu/drm/drm_mode_object.c
-@@ -146,16 +146,18 @@ struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
- 	if (obj && obj->id != id)
- 		obj = NULL;
+diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+index f00e5abdbbf4..ab1863c5a5a0 100644
+--- a/drivers/gpu/drm/drm_auth.c
++++ b/drivers/gpu/drm/drm_auth.c
+@@ -61,6 +61,35 @@
+  * trusted clients.
+  */
  
--	if (obj && drm_mode_object_lease_required(obj->type) &&
--	    !_drm_lease_held(file_priv, obj->id))
--		obj = NULL;
--
- 	if (obj && obj->free_cb) {
- 		if (!kref_get_unless_zero(&obj->refcount))
- 			obj = NULL;
- 	}
- 	mutex_unlock(&dev->mode_config.idr_mutex);
- 
-+	if (obj && drm_mode_object_lease_required(obj->type) &&
-+		!_drm_lease_held(file_priv, obj->id)) {
-+		drm_mode_object_put(obj);
-+		obj = NULL;
-+	}
++static bool drm_is_current_master_locked(struct drm_file *fpriv)
++{
++	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
 +
- 	return obj;
++	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
++}
++
++/**
++ * drm_is_current_master - checks whether @priv is the current master
++ * @fpriv: DRM file private
++ *
++ * Checks whether @fpriv is current master on its device. This decides whether a
++ * client is allowed to run DRM_MASTER IOCTLs.
++ *
++ * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
++ * - the current master is assumed to own the non-shareable display hardware.
++ */
++bool drm_is_current_master(struct drm_file *fpriv)
++{
++	bool ret;
++
++	mutex_lock(&fpriv->minor->dev->master_mutex);
++	ret = drm_is_current_master_locked(fpriv);
++	mutex_unlock(&fpriv->minor->dev->master_mutex);
++
++	return ret;
++}
++EXPORT_SYMBOL(drm_is_current_master);
++
+ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+ {
+ 	struct drm_auth *auth = data;
+@@ -223,7 +252,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (drm_is_current_master(file_priv))
++	if (drm_is_current_master_locked(file_priv))
+ 		goto out_unlock;
+ 
+ 	if (dev->master) {
+@@ -272,7 +301,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+ 	if (ret)
+ 		goto out_unlock;
+ 
+-	if (!drm_is_current_master(file_priv)) {
++	if (!drm_is_current_master_locked(file_priv)) {
+ 		ret = -EINVAL;
+ 		goto out_unlock;
+ 	}
+@@ -321,7 +350,7 @@ void drm_master_release(struct drm_file *file_priv)
+ 	if (file_priv->magic)
+ 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
+ 
+-	if (!drm_is_current_master(file_priv))
++	if (!drm_is_current_master_locked(file_priv))
+ 		goto out;
+ 
+ 	drm_legacy_lock_master_cleanup(dev, master);
+@@ -342,22 +371,6 @@ void drm_master_release(struct drm_file *file_priv)
+ 	mutex_unlock(&dev->master_mutex);
  }
  
+-/**
+- * drm_is_current_master - checks whether @priv is the current master
+- * @fpriv: DRM file private
+- *
+- * Checks whether @fpriv is current master on its device. This decides whether a
+- * client is allowed to run DRM_MASTER IOCTLs.
+- *
+- * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
+- * - the current master is assumed to own the non-shareable display hardware.
+- */
+-bool drm_is_current_master(struct drm_file *fpriv)
+-{
+-	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
+-}
+-EXPORT_SYMBOL(drm_is_current_master);
+-
+ /**
+  * drm_master_get - reference a master pointer
+  * @master: &struct drm_master
 -- 
 2.25.1
 
