@@ -2,102 +2,69 @@ Return-Path: <SRS0=IXLA=LY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C98D2C11F65
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 08:04:28 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C28C11F68
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 08:44:04 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6F4D661C82
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 08:04:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6F4D661C82
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id DA3E861D05
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 08:44:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org DA3E861D05
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=bootlin.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 38EB940630;
-	Wed, 30 Jun 2021 08:04:28 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A2444608BE;
+	Wed, 30 Jun 2021 08:44:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jJDlp_mZGFSW; Wed, 30 Jun 2021 08:04:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 3194340602;
-	Wed, 30 Jun 2021 08:04:26 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id w8sEWAEmE8Vc; Wed, 30 Jun 2021 08:44:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C60C3608BA;
+	Wed, 30 Jun 2021 08:44:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 104D6C001A;
-	Wed, 30 Jun 2021 08:04:26 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DFF6EC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AB823C001A;
+	Wed, 30 Jun 2021 08:44:02 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7CA95C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 08:04:24 +0000 (UTC)
+ Wed, 30 Jun 2021 08:44:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id CD8FD40608
+ by smtp3.osuosl.org (Postfix) with ESMTP id 63D79608C0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 08:04:24 +0000 (UTC)
+ Wed, 30 Jun 2021 08:44:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id r6CrzqnfR9fg
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id buq7Itgqrez4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 08:04:23 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 8FB4D40602
+ Wed, 30 Jun 2021 08:44:00 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net
+ [217.70.183.198])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id ECEAD608BA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 08:04:22 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id i6so1706287pfq.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 01:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hbH/z7OhdU+iVEdzRBnCUZFHkiZm6uSMAwD77kW53EQ=;
- b=BU3Qv47LJ81s3KJ3CZ5YBfYg/zGxqG3yu7jvAU1zg+c4dyh4CHtk9+15weOuX+ekvR
- s5IR6Lc7yD9ogLG+sT0ClErracxfeatoIlo7LixKA+shMhWJ37eweKAx6IeZqmbem4E5
- y0/zaKpJ8qYYp08lmdIJ/wyT7RkHksR1W5PA2DPZul9i5EhhrAe0cJuhKfICraRe/FFl
- 5eZp2XvnEy3z9zDnTZYWAFYWPMuhIANMlm7joFeZnNVruXlnxzWrS8W7hI7OiuWl6nMQ
- 8+4ACl127VruEaP/flWaidFrolQ412tebQW6LDHQOJjqGmhS2FEPcqholPo/2jllLZR/
- E7fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hbH/z7OhdU+iVEdzRBnCUZFHkiZm6uSMAwD77kW53EQ=;
- b=s9DDWgvpNUqJBiXaie7JoZKT6oCp5khw2DzSteb/EoyX8ds1mDq/GsDvGxitFiSWeC
- 9YrKNJJx6zycrUwvuKnAFFo3bMTkuxJbebwCUNsGEYFDA75zVcblnYGpcLSo7toxYwu/
- 2s5vK5E+idp8mT7NdSynVtkMF18kI26npHiV4fhUiFWlKhlEG8QpmqnMpQNMJ92WvKag
- ++MLULKmrMmaLZt8V0s12j8rgSY9fLB2cUjqsNecosTVGTE5cyRr8oIwf8LzxcPXTps3
- Nvw9YBzFd7BLUkVhqWq3gWpgLe3yEq2n34g6C7+8utapcRooM3F4KfT2S5zzQ5PElxFr
- h09w==
-X-Gm-Message-State: AOAM533CJY8O0ZDC4PodQoxVQjr6V1lJyxbRb8HQcvH7y3CIQLAwmSIp
- qASCH+E7jhqXgwTn7PKsTvo=
-X-Google-Smtp-Source: ABdhPJwU7Js4B1W8/rGXy4VQ9j/bnj9+1GWTfaVi89y5ddU0/qI7UeO4aI37dst1hKTJofIDx5tAHg==
-X-Received: by 2002:aa7:9e0d:0:b029:30f:fb8b:2584 with SMTP id
- y13-20020aa79e0d0000b029030ffb8b2584mr1816966pfq.24.1625040262354; 
- Wed, 30 Jun 2021 01:04:22 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id z5sm20296398pfb.114.2021.06.30.01.04.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 30 Jun 2021 01:04:21 -0700 (PDT)
+ Wed, 30 Jun 2021 08:43:59 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+ by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id BF226C0009;
+ Wed, 30 Jun 2021 08:43:54 +0000 (UTC)
+Date: Wed, 30 Jun 2021 10:43:53 +0200
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 Subject: Re: [PATCH v2] mtd: break circular locks in register_mtd_blktrans
-To: miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com
+Message-ID: <20210630104353.7575e920@xps13>
+In-Reply-To: <03e19ec8-7479-9be2-3563-a2fcf9d0ec0c@gmail.com>
 References: <20210617160904.570111-1-desmondcheongzx@gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <03e19ec8-7479-9be2-3563-a2fcf9d0ec0c@gmail.com>
-Date: Wed, 30 Jun 2021 16:04:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <03e19ec8-7479-9be2-3563-a2fcf9d0ec0c@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210617160904.570111-1-desmondcheongzx@gmail.com>
-Content-Language: en-US
-Cc: linux-kernel@vger.kernel.org,
+Cc: vigneshr@ti.com, richard@nod.at, linux-kernel@vger.kernel.org,
  syzbot+6a8a0d93c91e8fbf2e80@syzkaller.appspotmail.com,
  linux-mtd@lists.infradead.org, linux-kernel-mentees@lists.linuxfoundation.org,
  Christoph Hellwig <hch@lst.de>
@@ -112,104 +79,74 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 18/6/21 12:09 am, Desmond Cheong Zhi Xi wrote:
-> Syzbot reported a circular locking dependency:
-> https://syzkaller.appspot.com/bug?id=7bd106c28e846d1023d4ca915718b1a0905444cb
-> 
-> This happens because of the following lock dependencies:
-> 
-> 1. loop_ctl_mutex -> bdev->bd_mutex (when loop_control_ioctl calls
-> loop_remove, which then calls del_gendisk; this also happens in
-> loop_exit which eventually calls loop_remove)
-> 
-> 2. bdev->bd_mutex -> mtd_table_mutex (when blkdev_get_by_dev calls
-> __blkdev_get, which then calls blktrans_open)
-> 
-> 3. mtd_table_mutex -> major_names_lock (when register_mtd_blktrans
-> calls __register_blkdev)
-> 
-> 4. major_names_lock -> loop_ctl_mutex (when blk_request_module calls
-> loop_probe)
-> 
-> Hence there's an overall dependency of:
-> 
-> loop_ctl_mutex   ----------> bdev->bd_mutex
->        ^                            |
->        |                            |
->        |                            v
-> major_names_lock <---------  mtd_table_mutex
-> 
-> We can break this circular dependency by holding mtd_table_mutex only
-> for the required critical section in register_mtd_blktrans. This
-> avoids the mtd_table_mutex -> major_names_lock dependency.
-> 
-> Reported-and-tested-by: syzbot+6a8a0d93c91e8fbf2e80@syzkaller.appspotmail.com
-> Co-developed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> ---
-> 
-> Changes in v1 -> v2:
-> 
-> Break the circular dependency in register_mtd_blktrans instead of blk_request_module, as suggested by Christoph Hellwig.
-> 
->   drivers/mtd/mtd_blkdevs.c | 8 ++------
->   1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
-> index fb8e12d590a1..7d26cfe24d05 100644
-> --- a/drivers/mtd/mtd_blkdevs.c
-> +++ b/drivers/mtd/mtd_blkdevs.c
-> @@ -528,14 +528,10 @@ int register_mtd_blktrans(struct mtd_blktrans_ops *tr)
->   	if (!blktrans_notifier.list.next)
->   		register_mtd_user(&blktrans_notifier);
->   
-> -
-> -	mutex_lock(&mtd_table_mutex);
-> -
->   	ret = register_blkdev(tr->major, tr->name);
->   	if (ret < 0) {
->   		printk(KERN_WARNING "Unable to register %s block device on major %d: %d\n",
->   		       tr->name, tr->major, ret);
-> -		mutex_unlock(&mtd_table_mutex);
->   		return ret;
->   	}
->   
-> @@ -545,12 +541,12 @@ int register_mtd_blktrans(struct mtd_blktrans_ops *tr)
->   	tr->blkshift = ffs(tr->blksize) - 1;
->   
->   	INIT_LIST_HEAD(&tr->devs);
-> -	list_add(&tr->list, &blktrans_majors);
->   
-> +	mutex_lock(&mtd_table_mutex);
-> +	list_add(&tr->list, &blktrans_majors);
->   	mtd_for_each_device(mtd)
->   		if (mtd->type != MTD_ABSENT)
->   			tr->add_mtd(tr, mtd);
-> -
->   	mutex_unlock(&mtd_table_mutex);
->   	return 0;
->   }
-> 
-
-Hi maintainers,
-
-Any chance to review this patch?
-
-For additional reference, the mtd_table_mutex --> major_names_lock 
-hierarchy that can be removed by this patch also appears in a different 
-lock chain:
-https://syzkaller.appspot.com/bug?id=cbf5fe846f14a90f05e10df200b08c57941dc750
-
-Best wishes,
-Desmond
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+SGVsbG8sCgpEZXNtb25kIENoZW9uZyBaaGkgWGkgPGRlc21vbmRjaGVvbmd6eEBnbWFpbC5jb20+
+IHdyb3RlIG9uIFdlZCwgMzAgSnVuCjIwMjEgMTY6MDQ6MTcgKzA4MDA6Cgo+IE9uIDE4LzYvMjEg
+MTI6MDkgYW0sIERlc21vbmQgQ2hlb25nIFpoaSBYaSB3cm90ZToKPiA+IFN5emJvdCByZXBvcnRl
+ZCBhIGNpcmN1bGFyIGxvY2tpbmcgZGVwZW5kZW5jeToKPiA+IGh0dHBzOi8vc3l6a2FsbGVyLmFw
+cHNwb3QuY29tL2J1Zz9pZD03YmQxMDZjMjhlODQ2ZDEwMjNkNGNhOTE1NzE4YjFhMDkwNTQ0NGNi
+Cj4gPiAKPiA+IFRoaXMgaGFwcGVucyBiZWNhdXNlIG9mIHRoZSBmb2xsb3dpbmcgbG9jayBkZXBl
+bmRlbmNpZXM6Cj4gPiAKPiA+IDEuIGxvb3BfY3RsX211dGV4IC0+IGJkZXYtPmJkX211dGV4ICh3
+aGVuIGxvb3BfY29udHJvbF9pb2N0bCBjYWxscwo+ID4gbG9vcF9yZW1vdmUsIHdoaWNoIHRoZW4g
+Y2FsbHMgZGVsX2dlbmRpc2s7IHRoaXMgYWxzbyBoYXBwZW5zIGluCj4gPiBsb29wX2V4aXQgd2hp
+Y2ggZXZlbnR1YWxseSBjYWxscyBsb29wX3JlbW92ZSkKPiA+IAo+ID4gMi4gYmRldi0+YmRfbXV0
+ZXggLT4gbXRkX3RhYmxlX211dGV4ICh3aGVuIGJsa2Rldl9nZXRfYnlfZGV2IGNhbGxzCj4gPiBf
+X2Jsa2Rldl9nZXQsIHdoaWNoIHRoZW4gY2FsbHMgYmxrdHJhbnNfb3BlbikKPiA+IAo+ID4gMy4g
+bXRkX3RhYmxlX211dGV4IC0+IG1ham9yX25hbWVzX2xvY2sgKHdoZW4gcmVnaXN0ZXJfbXRkX2Js
+a3RyYW5zCj4gPiBjYWxscyBfX3JlZ2lzdGVyX2Jsa2RldikKPiA+IAo+ID4gNC4gbWFqb3JfbmFt
+ZXNfbG9jayAtPiBsb29wX2N0bF9tdXRleCAod2hlbiBibGtfcmVxdWVzdF9tb2R1bGUgY2FsbHMK
+PiA+IGxvb3BfcHJvYmUpCj4gPiAKPiA+IEhlbmNlIHRoZXJlJ3MgYW4gb3ZlcmFsbCBkZXBlbmRl
+bmN5IG9mOgo+ID4gCj4gPiBsb29wX2N0bF9tdXRleCAgIC0tLS0tLS0tLS0+IGJkZXYtPmJkX211
+dGV4Cj4gPiAgICAgICAgXiAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiAgICAgICAg
+fCAgICAgICAgICAgICAgICAgICAgICAgICAgICB8Cj4gPiAgICAgICAgfCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB2Cj4gPiBtYWpvcl9uYW1lc19sb2NrIDwtLS0tLS0tLS0gIG10ZF90YWJs
+ZV9tdXRleAo+ID4gCj4gPiBXZSBjYW4gYnJlYWsgdGhpcyBjaXJjdWxhciBkZXBlbmRlbmN5IGJ5
+IGhvbGRpbmcgbXRkX3RhYmxlX211dGV4IG9ubHkKPiA+IGZvciB0aGUgcmVxdWlyZWQgY3JpdGlj
+YWwgc2VjdGlvbiBpbiByZWdpc3Rlcl9tdGRfYmxrdHJhbnMuIFRoaXMKPiA+IGF2b2lkcyB0aGUg
+bXRkX3RhYmxlX211dGV4IC0+IG1ham9yX25hbWVzX2xvY2sgZGVwZW5kZW5jeS4KPiA+IAo+ID4g
+UmVwb3J0ZWQtYW5kLXRlc3RlZC1ieTogc3l6Ym90KzZhOGEwZDkzYzkxZThmYmYyZTgwQHN5emth
+bGxlci5hcHBzcG90bWFpbC5jb20KPiA+IENvLWRldmVsb3BlZC1ieTogQ2hyaXN0b3BoIEhlbGx3
+aWcgPGhjaEBsc3QuZGU+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNo
+QGxzdC5kZT4KPiA+IFNpZ25lZC1vZmYtYnk6IERlc21vbmQgQ2hlb25nIFpoaSBYaSA8ZGVzbW9u
+ZGNoZW9uZ3p4QGdtYWlsLmNvbT4KPiA+IC0tLQo+ID4gCj4gPiBDaGFuZ2VzIGluIHYxIC0+IHYy
+Ogo+ID4gCj4gPiBCcmVhayB0aGUgY2lyY3VsYXIgZGVwZW5kZW5jeSBpbiByZWdpc3Rlcl9tdGRf
+YmxrdHJhbnMgaW5zdGVhZCBvZiBibGtfcmVxdWVzdF9tb2R1bGUsIGFzIHN1Z2dlc3RlZCBieSBD
+aHJpc3RvcGggSGVsbHdpZy4KPiA+IAo+ID4gICBkcml2ZXJzL210ZC9tdGRfYmxrZGV2cy5jIHwg
+OCArKy0tLS0tLQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA2IGRlbGV0
+aW9ucygtKQo+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tdGQvbXRkX2Jsa2RldnMuYyBi
+L2RyaXZlcnMvbXRkL210ZF9ibGtkZXZzLmMKPiA+IGluZGV4IGZiOGUxMmQ1OTBhMS4uN2QyNmNm
+ZTI0ZDA1IDEwMDY0NAo+ID4gLS0tIGEvZHJpdmVycy9tdGQvbXRkX2Jsa2RldnMuYwo+ID4gKysr
+IGIvZHJpdmVycy9tdGQvbXRkX2Jsa2RldnMuYwo+ID4gQEAgLTUyOCwxNCArNTI4LDEwIEBAIGlu
+dCByZWdpc3Rlcl9tdGRfYmxrdHJhbnMoc3RydWN0IG10ZF9ibGt0cmFuc19vcHMgKnRyKQo+ID4g
+ICAJaWYgKCFibGt0cmFuc19ub3RpZmllci5saXN0Lm5leHQpCj4gPiAgIAkJcmVnaXN0ZXJfbXRk
+X3VzZXIoJmJsa3RyYW5zX25vdGlmaWVyKTsKPiA+ICAgPiAtCj4gPiAtCW11dGV4X2xvY2soJm10
+ZF90YWJsZV9tdXRleCk7Cj4gPiAtCj4gPiAgIAlyZXQgPSByZWdpc3Rlcl9ibGtkZXYodHItPm1h
+am9yLCB0ci0+bmFtZSk7Cj4gPiAgIAlpZiAocmV0IDwgMCkgewo+ID4gICAJCXByaW50ayhLRVJO
+X1dBUk5JTkcgIlVuYWJsZSB0byByZWdpc3RlciAlcyBibG9jayBkZXZpY2Ugb24gbWFqb3IgJWQ6
+ICVkXG4iLAo+ID4gICAJCSAgICAgICB0ci0+bmFtZSwgdHItPm1ham9yLCByZXQpOwo+ID4gLQkJ
+bXV0ZXhfdW5sb2NrKCZtdGRfdGFibGVfbXV0ZXgpOwo+ID4gICAJCXJldHVybiByZXQ7Cj4gPiAg
+IAl9Cj4gPiAgID4gQEAgLTU0NSwxMiArNTQxLDEyIEBAIGludCByZWdpc3Rlcl9tdGRfYmxrdHJh
+bnMoc3RydWN0IG10ZF9ibGt0cmFuc19vcHMgKnRyKQo+ID4gICAJdHItPmJsa3NoaWZ0ID0gZmZz
+KHRyLT5ibGtzaXplKSAtIDE7Cj4gPiAgID4gICAJSU5JVF9MSVNUX0hFQUQoJnRyLT5kZXZzKTsK
+PiA+IC0JbGlzdF9hZGQoJnRyLT5saXN0LCAmYmxrdHJhbnNfbWFqb3JzKTsKPiA+ICAgPiArCW11
+dGV4X2xvY2soJm10ZF90YWJsZV9tdXRleCk7Cj4gPiArCWxpc3RfYWRkKCZ0ci0+bGlzdCwgJmJs
+a3RyYW5zX21ham9ycyk7Cj4gPiAgIAltdGRfZm9yX2VhY2hfZGV2aWNlKG10ZCkKPiA+ICAgCQlp
+ZiAobXRkLT50eXBlICE9IE1URF9BQlNFTlQpCj4gPiAgIAkJCXRyLT5hZGRfbXRkKHRyLCBtdGQp
+Owo+ID4gLQo+ID4gICAJbXV0ZXhfdW5sb2NrKCZtdGRfdGFibGVfbXV0ZXgpOwo+ID4gICAJcmV0
+dXJuIDA7Cj4gPiAgIH0KPiA+IAo+IAo+IEhpIG1haW50YWluZXJzLAo+IAo+IEFueSBjaGFuY2Ug
+dG8gcmV2aWV3IHRoaXMgcGF0Y2g/Cj4gCj4gRm9yIGFkZGl0aW9uYWwgcmVmZXJlbmNlLCB0aGUg
+bXRkX3RhYmxlX211dGV4IC0tPiBtYWpvcl9uYW1lc19sb2NrIGhpZXJhcmNoeSB0aGF0IGNhbiBi
+ZSByZW1vdmVkIGJ5IHRoaXMgcGF0Y2ggYWxzbyBhcHBlYXJzIGluIGEgZGlmZmVyZW50IGxvY2sg
+Y2hhaW46Cj4gaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20vYnVnP2lkPWNiZjVmZTg0NmYx
+NGE5MGYwNWUxMGRmMjAwYjA4YzU3OTQxZGM3NTAKCkknbSBmaW5lIHdpdGggdGhlIHBhdGNoLCBi
+dXQgaXQgY2FtZSB0b28gbGF0ZSBpbiB0aGUgcmVsZWFzZSBjeWNsZSBzbwpub3cgSSdtIHdhaXRp
+bmcgLXJjMSB0byBhcHBseSBpdC4KClRoYW5rcywKTWlxdcOobApfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
+IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
+czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
+ZWwtbWVudGVlcwo=
