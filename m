@@ -6,101 +6,99 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E4CDC11F6B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:55:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 970E2C11F6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:55:56 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 36EB161476
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:55:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 36EB161476
+	by mail.kernel.org (Postfix) with ESMTPS id 4099061456
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Jun 2021 14:55:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4099061456
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0566C40606;
-	Wed, 30 Jun 2021 14:55:48 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1948340601;
+	Wed, 30 Jun 2021 14:55:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fGJEisR-b4rq; Wed, 30 Jun 2021 14:55:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 05A38400C8;
-	Wed, 30 Jun 2021 14:55:47 +0000 (UTC)
+	with ESMTP id 4mVOIaNbSKMk; Wed, 30 Jun 2021 14:55:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2946B405A1;
+	Wed, 30 Jun 2021 14:55:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5470C001A;
-	Wed, 30 Jun 2021 14:55:46 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA5B8C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 139BDC001A;
+	Wed, 30 Jun 2021 14:55:55 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A224C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:45 +0000 (UTC)
+ Wed, 30 Jun 2021 14:55:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A4FD1415BD
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0979440601
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:45 +0000 (UTC)
+ Wed, 30 Jun 2021 14:55:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eQ-FSW-PjaWg
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id G3DjMmILCHW7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:44 +0000 (UTC)
+ Wed, 30 Jun 2021 14:55:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B4203415A7
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 782E6405A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 14:55:44 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id g24so1914796pji.4
+ Wed, 30 Jun 2021 14:55:52 +0000 (UTC)
+Received: by mail-pl1-x636.google.com with SMTP id u19so1615537plc.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 07:55:44 -0700 (PDT)
+ Wed, 30 Jun 2021 07:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vc5xi5ftWnxZlU1gt0+b48wT38LyZFngC4JD9PKuX7I=;
- b=AvhwICnmdonw1bNZNeUn7EnWxJS5200zM+tAJ6/v8P7mOv15MTfNRLCLcB8865zZZG
- ITwDAiGOFQR6pmUiwFDwo9XeL3aStlwQBQP/FEgeISvgRbStp3g9sOiTrnRPLrXYw7qJ
- hP2nbFBlH/CdE8IIxNsRdzQja5QEcVL8XgYCO/3icE/lltRt7epwoZhaacOe3T4tGP1B
- 9L4f8vWjia/QP8/9BbZiYh7AnKDl1+CwQ5L2UBkn6b2Z3+xHeEvjxbB3C/wYepnPolem
- FGXvhHQ1uYZ3WEwCoHOEyQ/S/Y+QP88RDmnQ1wTYEnSFu0an7NFEnyjeU5g7F5Loq5o+
- gYLw==
+ bh=7TptsW5OQ3GR+u/tITdCBbefhDZ5KPjgj9kl0duGn/0=;
+ b=jQMcYfmo4WOy762+XlXq7rREStvEn1K/QbSMcETHOaImZDMR6TV8ygdhXa4cDZQhA2
+ SFEOD/Ken2OZVNKzwUGscD4H1Wn0L6dYPUVM3B+ON0AfnAhbAEeh8lb4Wu8C36bsnU59
+ SA0z3caBP7tlt9vECTP+aPMUnQlX37E5u4gu0vG7NEn7J5zFwhqgVf+biiNr8aCnVBln
+ bzCgj9RFB/v0jMtUFdOgjkhanDDI6HmeUoKdFqohEWrZKz8tf01y6CI/yXjVhp6OMaef
+ 3CwRMFzak934JJTSNqZdrAnmp3iTkOHLfRpmQhpmffIbDOtF8LQgDL8nJdEHtAWdbQAb
+ mXlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vc5xi5ftWnxZlU1gt0+b48wT38LyZFngC4JD9PKuX7I=;
- b=sqyUERCixV6EK2ID0z+fOaNsoDEDrS3s0y5EfD69r6Vp7JMmiJWTT/yve7YXQCQn7u
- Xoo0jW/CjQ/8taQgRaqd6/W8CLDW3V/hEbubZ4i4pK5f2vzhG7uFR/P3sZcqjDlbrw5S
- EDnP4+8QLoZq2yGBBAGLeXdY65kLNekOwcHqnJ7SWXt6TQ0iQbt9wLIYXNV0cNNhHnOQ
- GPoX0K+YwI3Fxhww6otwrfhyPYiK6+KTrEqAowESAOz3lg9Cfu6PM9uiqO00eEmMIeUR
- cg2puvZYQUynm4M8azLfJ9VwNyjvDcZJ7d9w/MuN4GwaeTmBcZSYbMBHlJf5ZeW0tP4C
- cLng==
-X-Gm-Message-State: AOAM532sUylcEtQuv3TvF0eDkH952TkTMu3RF8quRtJQFfGyYmbxneal
- LXbrd5y7edzSWLW5Ak+++1w=
-X-Google-Smtp-Source: ABdhPJyr3bKJqd0zmkQh1aRFAd1o9EX0RmZHcrao5wJgbSUM7aHCSXSISB6Gp6WTiEvE4mMPi3JH7w==
-X-Received: by 2002:a17:90a:6404:: with SMTP id
- g4mr4807098pjj.155.1625064944080; 
- Wed, 30 Jun 2021 07:55:44 -0700 (PDT)
+ bh=7TptsW5OQ3GR+u/tITdCBbefhDZ5KPjgj9kl0duGn/0=;
+ b=sl4sxKoyvRtz/mnQFTq0sIquQSYvenyyNnBFmhgjz9BQtjh2ElX/NWaykKPxaXqnED
+ jLu0RYJZZjwwCeKXJmDJZju5QFeX5LDXugNzqojdv2aWh4wvzthcvw/wb+Zf/FWiLXPN
+ iIFmzvIwhclP98/oRhEc4Kaa8gigpz9TCeA4OyAe0tncVZbil8+1oXFTeRYWi3ryyujn
+ X7+C1yIaWUaCNinWHLxBEogwQDRVHyOijOkfXJHlUsoh47MO9nfjVvkRfelJNvCb5eyS
+ WWjjLppx1slkSbTLUEr6uPlJHYyyeO/SPyqo0dltatlbxEGKdQBfchuXryAUe92GXoFq
+ BpCw==
+X-Gm-Message-State: AOAM531xGB6aEY9zrZfG6wtlw3sHsQN1BgX0DQg9f3dbYlTL/F0ynWoT
+ Kwz++KjDNnf7ScfCrhyknCk=
+X-Google-Smtp-Source: ABdhPJzlakShd++NdtFkoi8/aMmEkS+Gpz+BqRr8GgeXQvHyNR1eldpRvcZf+RI+EEcYEAP/mljnpw==
+X-Received: by 2002:a17:90b:19d4:: with SMTP id
+ nm20mr4798973pjb.134.1625064951982; 
+ Wed, 30 Jun 2021 07:55:51 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id d13sm7157234pjr.49.2021.06.30.07.55.39
+ by smtp.gmail.com with ESMTPSA id d13sm7157234pjr.49.2021.06.30.07.55.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 07:55:43 -0700 (PDT)
+ Wed, 30 Jun 2021 07:55:51 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
  christian.koenig@amd.com
-Subject: [PATCH v6 1/4] drm: avoid circular locks in drm_mode_getconnector
-Date: Wed, 30 Jun 2021 22:54:01 +0800
-Message-Id: <20210630145404.5958-2-desmondcheongzx@gmail.com>
+Subject: [PATCH v6 2/4] drm: avoid circular locks in __drm_mode_object_find
+Date: Wed, 30 Jun 2021 22:54:02 +0800
+Message-Id: <20210630145404.5958-3-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210630145404.5958-1-desmondcheongzx@gmail.com>
 References: <20210630145404.5958-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- emil.l.velikov@gmail.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+Cc: intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -120,127 +118,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In preparation for a future patch to take a lock on
-drm_device.master_mutex inside drm_is_current_master(), we first move
-the call to drm_is_current_master() in drm_mode_getconnector out from the
-section locked by &dev->mode_config.mutex. This avoids creating a
-circular lock dependency.
+In a future patch, _drm_lease_held will dereference drm_file->master
+only after making a call to drm_file_get_master which increments the
+reference count of drm_file->master while holding a lock on
+drm_device.master_mutex.
 
-Failing to avoid this lock dependency produces the following lockdep
-splat:
+In preparation for this, the call to _drm_lease_held should be moved
+out from the section locked by &dev->mode_config.idr_mutex. This
+avoids inverting the lock hierarchy for
+&dev->master_mutex --> &dev->mode_config.idr_mutex
 
-======================================================
-WARNING: possible circular locking dependency detected
-5.13.0-rc7-CI-CI_DRM_10254+ #1 Not tainted
-------------------------------------------------------
-kms_frontbuffer/1087 is trying to acquire lock:
-ffff88810dcd01a8 (&dev->master_mutex){+.+.}-{3:3}, at: drm_is_current_master+0x1b/0x40
-but task is already holding lock:
-ffff88810dcd0488 (&dev->mode_config.mutex){+.+.}-{3:3}, at: drm_mode_getconnector+0x1c6/0x4a0
-which lock already depends on the new lock.
-the existing dependency chain (in reverse order) is:
--> #2 (&dev->mode_config.mutex){+.+.}-{3:3}:
-       __mutex_lock+0xab/0x970
-       drm_client_modeset_probe+0x22e/0xca0
-       __drm_fb_helper_initial_config_and_unlock+0x42/0x540
-       intel_fbdev_initial_config+0xf/0x20 [i915]
-       async_run_entry_fn+0x28/0x130
-       process_one_work+0x26d/0x5c0
-       worker_thread+0x37/0x380
-       kthread+0x144/0x170
-       ret_from_fork+0x1f/0x30
--> #1 (&client->modeset_mutex){+.+.}-{3:3}:
-       __mutex_lock+0xab/0x970
-       drm_client_modeset_commit_locked+0x1c/0x180
-       drm_client_modeset_commit+0x1c/0x40
-       __drm_fb_helper_restore_fbdev_mode_unlocked+0x88/0xb0
-       drm_fb_helper_set_par+0x34/0x40
-       intel_fbdev_set_par+0x11/0x40 [i915]
-       fbcon_init+0x270/0x4f0
-       visual_init+0xc6/0x130
-       do_bind_con_driver+0x1e5/0x2d0
-       do_take_over_console+0x10e/0x180
-       do_fbcon_takeover+0x53/0xb0
-       register_framebuffer+0x22d/0x310
-       __drm_fb_helper_initial_config_and_unlock+0x36c/0x540
-       intel_fbdev_initial_config+0xf/0x20 [i915]
-       async_run_entry_fn+0x28/0x130
-       process_one_work+0x26d/0x5c0
-       worker_thread+0x37/0x380
-       kthread+0x144/0x170
-       ret_from_fork+0x1f/0x30
--> #0 (&dev->master_mutex){+.+.}-{3:3}:
-       __lock_acquire+0x151e/0x2590
-       lock_acquire+0xd1/0x3d0
-       __mutex_lock+0xab/0x970
-       drm_is_current_master+0x1b/0x40
-       drm_mode_getconnector+0x37e/0x4a0
-       drm_ioctl_kernel+0xa8/0xf0
-       drm_ioctl+0x1e8/0x390
-       __x64_sys_ioctl+0x6a/0xa0
-       do_syscall_64+0x39/0xb0
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
-other info that might help us debug this:
-Chain exists of: &dev->master_mutex --> &client->modeset_mutex --> &dev->mode_config.mutex
- Possible unsafe locking scenario:
-       CPU0                    CPU1
-       ----                    ----
-  lock(&dev->mode_config.mutex);
-                               lock(&client->modeset_mutex);
-                               lock(&dev->mode_config.mutex);
-  lock(&dev->master_mutex);
-*** DEADLOCK ***
-1 lock held by kms_frontbuffer/1087:
- #0: ffff88810dcd0488 (&dev->mode_config.mutex){+.+.}-{3:3}, at: drm_mode_getconnector+0x1c6/0x4a0
-stack backtrace:
-CPU: 7 PID: 1087 Comm: kms_frontbuffer Not tainted 5.13.0-rc7-CI-CI_DRM_10254+ #1
-Hardware name: Intel Corporation Ice Lake Client Platform/IceLake U DDR4 SODIMM PD RVP TLC, BIOS ICLSFWR1.R00.3234.A01.1906141750 06/14/2019
-Call Trace:
- dump_stack+0x7f/0xad
- check_noncircular+0x12e/0x150
- __lock_acquire+0x151e/0x2590
- lock_acquire+0xd1/0x3d0
- __mutex_lock+0xab/0x970
- drm_is_current_master+0x1b/0x40
- drm_mode_getconnector+0x37e/0x4a0
- drm_ioctl_kernel+0xa8/0xf0
- drm_ioctl+0x1e8/0x390
- __x64_sys_ioctl+0x6a/0xa0
- do_syscall_64+0x39/0xb0
- entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/drm_connector.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_mode_object.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index da39e7ff6965..2ba257b1ae20 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -2414,6 +2414,7 @@ int drm_mode_getconnector(struct drm_device *dev, void *data,
- 	struct drm_mode_modeinfo u_mode;
- 	struct drm_mode_modeinfo __user *mode_ptr;
- 	uint32_t __user *encoder_ptr;
-+	bool is_current_master;
+diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+index b26588b52795..63d35f1f98dd 100644
+--- a/drivers/gpu/drm/drm_mode_object.c
++++ b/drivers/gpu/drm/drm_mode_object.c
+@@ -146,16 +146,18 @@ struct drm_mode_object *__drm_mode_object_find(struct drm_device *dev,
+ 	if (obj && obj->id != id)
+ 		obj = NULL;
  
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
-@@ -2444,9 +2445,11 @@ int drm_mode_getconnector(struct drm_device *dev, void *data,
- 	out_resp->connector_type = connector->connector_type;
- 	out_resp->connector_type_id = connector->connector_type_id;
+-	if (obj && drm_mode_object_lease_required(obj->type) &&
+-	    !_drm_lease_held(file_priv, obj->id))
+-		obj = NULL;
+-
+ 	if (obj && obj->free_cb) {
+ 		if (!kref_get_unless_zero(&obj->refcount))
+ 			obj = NULL;
+ 	}
+ 	mutex_unlock(&dev->mode_config.idr_mutex);
  
-+	is_current_master = drm_is_current_master(file_priv);
++	if (obj && drm_mode_object_lease_required(obj->type) &&
++		!_drm_lease_held(file_priv, obj->id)) {
++		drm_mode_object_put(obj);
++		obj = NULL;
++	}
 +
- 	mutex_lock(&dev->mode_config.mutex);
- 	if (out_resp->count_modes == 0) {
--		if (drm_is_current_master(file_priv))
-+		if (is_current_master)
- 			connector->funcs->fill_modes(connector,
- 						     dev->mode_config.max_width,
- 						     dev->mode_config.max_height);
+ 	return obj;
+ }
+ 
 -- 
 2.25.1
 
