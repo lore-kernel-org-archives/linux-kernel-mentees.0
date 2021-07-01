@@ -8,92 +8,89 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FCEBC11F6C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 16:54:51 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B044C11F67
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 16:54:57 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AA098613FB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 16:54:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AA098613FB
+	by mail.kernel.org (Postfix) with ESMTPS id E9919613FB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 16:54:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org E9919613FB
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7B1D783C2A;
-	Thu,  1 Jul 2021 16:54:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B62E84013A;
+	Thu,  1 Jul 2021 16:54:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Uwt1ScQFH8rL; Thu,  1 Jul 2021 16:54:49 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XLUzyKRyXPYb; Thu,  1 Jul 2021 16:54:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9F74483C29;
-	Thu,  1 Jul 2021 16:54:49 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C04DC400E1;
+	Thu,  1 Jul 2021 16:54:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BE40C0010;
-	Thu,  1 Jul 2021 16:54:49 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F390C0010;
+	Thu,  1 Jul 2021 16:54:55 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C576BC000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B7486C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 16:54:48 +0000 (UTC)
+ Thu,  1 Jul 2021 16:54:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id A68D5400F0
+ by smtp2.osuosl.org (Postfix) with ESMTP id B34C84013A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 16:54:48 +0000 (UTC)
+ Thu,  1 Jul 2021 16:54:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id A7fL6JfV0Btl
+ with ESMTP id T1uzDBEyGLQ3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 16:54:48 +0000 (UTC)
+ Thu,  1 Jul 2021 16:54:54 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 050B8400E1
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 18538400E1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 16:54:47 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id g21so6405439pfc.11
+ Thu,  1 Jul 2021 16:54:53 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id w22so2783229pff.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Jul 2021 09:54:47 -0700 (PDT)
+ Thu, 01 Jul 2021 09:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
- b=beHRMuc24lHXasbRdKRDNS6aTDyIugj8sUzTKr2eEW+qWKPqqi3KWacrdE0QS/QoG0
- uqEXXfqmxcMCBnDnffQC2FkpcxwXIBBxibZQOYhnOXncI5/Rc8FXjLz9l9PwPHH2iQ9l
- LpMhtimOJpvhODJbfnhRoicACZnkaF+y+9BK4kO+14Bw6WmZeVFmLLmN+Z4WSD3/lFeb
- 16dqF7RxxdReZLPDhBWlAv5HQ3fkbsAQFuSg0tkOtJdXM4o3zBziNk26dE+v85gBV8Au
- Zdcv2R70XOt4pjLJ1VPEnBoU9MiG6BEzgDGxUC5P08t80hhiPqsuC1bDTyckyEblS3Yd
- g5aA==
+ bh=a/frhO6FmtYyjDjb4pEipIaBwOJXfhDMByIQ78NnCHs=;
+ b=TCW+FmOiZG+i+Z/ZlOr4Z4hcJh9xukuhv0/R3u0l56bjD/mt47x8ru3BiFnaysVube
+ BOUcvz1JQgMxOHNt0IWw3jlnPvMxWXA1DfutI6KdoBQhgOpDF3ctqkcr+4i+xDB4xu5b
+ yYgdSENSWRrO1Auokd1gD8y1w94GkqMSBdWRsTXZuJqY3x9dtRRLYuZ5nCZBiN2LiT/w
+ 9Rfo9A9aw1K0zLKHVq5WupUS16wTSTwPpmesf8COEpqYZULJvGvTyrK1CnWv/V+OaPvC
+ mWaDw6zsuAuTEjutPfyaN3GDLdFd/GuWlGJ1zdqrLedQT3+rppzgkjbzWV+C+xPnWSL+
+ xZ/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CtdxbqSeV/2csKmNSvUS45gYT6/rPtvycxiemXQFqoE=;
- b=QWZtXqoQdcUMPSii8eiB9Rrkt+WgAg2TiSCf/YoX6a2dEeuiTYigSmpC1qhKXN7z+w
- dzET+65yAnDjYTbnxeEJxT2Qe24c0PpghNgPSP4LVlHHFTNtld5kDaBWMtgpRSSDbgwq
- CIACTqE7Jo/SXdp0T/XM9aEyuH2fVRbSYzVUglCaM4RMItLlDpHUoZWCxSqPIyiQzJWO
- NoyVYyk6scqz6hnyBdRe07CTEDi8XV6h33KmFYpKv5d1qkt3k6l2oHlCKQZYFoj4S8WY
- Bfcr4D6kA1cTrFlAVTRusa3dxQJvIWI2PTxjJCv4IlO3cn9WTAKMs8KxhupNdekght2I
- rY9Q==
-X-Gm-Message-State: AOAM53286wChfJW9RhIf350bF2nv//uMAV6iAxI+/bRCNQJSVLtDqdyP
- AUHChHhp3R2GLxNhjf5CiIc=
-X-Google-Smtp-Source: ABdhPJzMfvlwjsGsSNrV3D8bUwQtMWd3aUbOVXuVu70zAOCZMlf8NcIq+j9ejdz5XIkAecpW/kVAOA==
-X-Received: by 2002:a05:6a00:2162:b029:308:9346:2f55 with SMTP id
- r2-20020a056a002162b029030893462f55mr624241pff.49.1625158487473; 
- Thu, 01 Jul 2021 09:54:47 -0700 (PDT)
+ bh=a/frhO6FmtYyjDjb4pEipIaBwOJXfhDMByIQ78NnCHs=;
+ b=BSZxLrHucG9oK/2kl/yd04uqzrpxOAc1GxSVv6+++qLtcK63jD54SmBzOfrNuW/WG+
+ 07KndMuHi1AajEpexY6cG0Xtaj7oIuxkDghUrAdK3lIvrr+PeG3+vG2gbTdtlHFR4XP2
+ 3pgbcTsodaxPwjrUHPdiST/LzORIlqwKhoA1qt+Yqi8Lwec9wf80ex9BAmio1MHJIgrv
+ ikZd90uppNz4t3MwsPQftFTJ2SuU34b5Gc3w7SAiSCjzoZ0fU8f67zN6AaAeFz9OkL1o
+ 9pVFJ7uUnnG5mjgomSA1jWIXW4UG+3fPlt8P+11Q9O2i1Ms19cUV7w17cmgfgucKWgab
+ 5qSA==
+X-Gm-Message-State: AOAM533JFyIW5b2dIFkQcG0UZjfYrO2wxjPD4zUeeXegf+j76SvxvPqk
+ haGBA+lyzxsSQyXt84+dLXo=
+X-Google-Smtp-Source: ABdhPJwE3OxMy8uOFmjcS/bajY7yrTC64aL5hOZ8sTBWSSVzlSL/vKTNf2leR7iswBH2WOcYCpq88g==
+X-Received: by 2002:a63:65c5:: with SMTP id z188mr555583pgb.174.1625158493587; 
+ Thu, 01 Jul 2021 09:54:53 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id s20sm398738pgv.1.2021.07.01.09.54.42
+ by smtp.gmail.com with ESMTPSA id s20sm398738pgv.1.2021.07.01.09.54.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 09:54:47 -0700 (PDT)
+ Thu, 01 Jul 2021 09:54:53 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
  christian.koenig@amd.com
-Subject: [PATCH v7 3/5] drm: add a locked version of drm_is_current_master
-Date: Fri,  2 Jul 2021 00:53:56 +0800
-Message-Id: <20210701165358.19053-4-desmondcheongzx@gmail.com>
+Subject: [PATCH v7 4/5] drm: serialize drm_file.master with a master lock
+Date: Fri,  2 Jul 2021 00:53:57 +0800
+Message-Id: <20210701165358.19053-5-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210701165358.19053-1-desmondcheongzx@gmail.com>
 References: <20210701165358.19053-1-desmondcheongzx@gmail.com>
@@ -120,116 +117,125 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-While checking the master status of the DRM file in
-drm_is_current_master(), the device's master mutex should be
-held. Without the mutex, the pointer fpriv->master may be freed
-concurrently by another process calling drm_setmaster_ioctl(). This
-could lead to use-after-free errors when the pointer is subsequently
-dereferenced in drm_lease_owner().
+Currently, drm_file.master pointers should be protected by
+drm_device.master_mutex when being dereferenced. This is because
+drm_file.master is not invariant for the lifetime of drm_file. If
+drm_file is not the creator of master, then drm_file.is_master is
+false, and a call to drm_setmaster_ioctl will invoke
+drm_new_set_master, which then allocates a new master for drm_file and
+puts the old master.
 
-The callers of drm_is_current_master() from drm_auth.c hold the
-device's master mutex, but external callers do not. Hence, we implement
-drm_is_current_master_locked() to be used within drm_auth.c, and
-modify drm_is_current_master() to grab the device's master mutex
-before checking the master status.
+Thus, without holding drm_device.master_mutex, the old value of
+drm_file.master could be freed while it is being used by another
+concurrent process.
+
+However, it is not always possible to lock drm_device.master_mutex to
+dereference drm_file.master. Through the fbdev emulation code, this
+might occur in a deep nest of other locks. But drm_device.master_mutex
+is also the outermost lock in the nesting hierarchy, so this leads to
+potential deadlocks.
+
+To address this, we introduce a new mutex at the bottom of the lock
+hierarchy that only serializes drm_file.master. With this change, the
+value of drm_file.master changes only when both
+drm_device.master_mutex and drm_file.master_lock are held. Hence, any
+process holding either of those locks can ensure that the value of
+drm_file.master will not change concurrently.
+
+Since no lock depends on the new drm_file.master_lock, when
+drm_file.master is dereferenced, but drm_device.master_mutex cannot be
+held, we can safely protect the master pointer with
+drm_file.master_lock.
 
 Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 ---
- drivers/gpu/drm/drm_auth.c | 51 ++++++++++++++++++++++++--------------
- 1 file changed, 32 insertions(+), 19 deletions(-)
+
+Since our lock inversions were a result of dev->master_mutex being
+used to serialize many other things, perhaps a finer grained lock will
+solve the lockdep issues.
+
+ drivers/gpu/drm/drm_auth.c | 10 ++++++++--
+ drivers/gpu/drm/drm_file.c |  1 +
+ include/drm/drm_file.h     | 12 +++++++++---
+ 3 files changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index f00e5abdbbf4..ab1863c5a5a0 100644
+index ab1863c5a5a0..fe5b6adc6133 100644
 --- a/drivers/gpu/drm/drm_auth.c
 +++ b/drivers/gpu/drm/drm_auth.c
-@@ -61,6 +61,35 @@
-  * trusted clients.
-  */
+@@ -169,11 +169,14 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
  
-+static bool drm_is_current_master_locked(struct drm_file *fpriv)
-+{
-+	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
-+
-+	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
-+}
-+
-+/**
-+ * drm_is_current_master - checks whether @priv is the current master
-+ * @fpriv: DRM file private
-+ *
-+ * Checks whether @fpriv is current master on its device. This decides whether a
-+ * client is allowed to run DRM_MASTER IOCTLs.
-+ *
-+ * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
-+ * - the current master is assumed to own the non-shareable display hardware.
-+ */
-+bool drm_is_current_master(struct drm_file *fpriv)
-+{
-+	bool ret;
-+
-+	mutex_lock(&fpriv->minor->dev->master_mutex);
-+	ret = drm_is_current_master_locked(fpriv);
-+	mutex_unlock(&fpriv->minor->dev->master_mutex);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_is_current_master);
-+
- int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
- {
- 	struct drm_auth *auth = data;
-@@ -223,7 +252,7 @@ int drm_setmaster_ioctl(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out_unlock;
- 
--	if (drm_is_current_master(file_priv))
-+	if (drm_is_current_master_locked(file_priv))
- 		goto out_unlock;
- 
- 	if (dev->master) {
-@@ -272,7 +301,7 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
- 	if (ret)
- 		goto out_unlock;
- 
--	if (!drm_is_current_master(file_priv)) {
-+	if (!drm_is_current_master_locked(file_priv)) {
- 		ret = -EINVAL;
- 		goto out_unlock;
+ 	WARN_ON(fpriv->is_master);
+ 	old_master = fpriv->master;
++	mutex_lock(&fpriv->master_lock);
+ 	fpriv->master = drm_master_create(dev);
+ 	if (!fpriv->master) {
+ 		fpriv->master = old_master;
++		mutex_unlock(&fpriv->master_lock);
+ 		return -ENOMEM;
  	}
-@@ -321,7 +350,7 @@ void drm_master_release(struct drm_file *file_priv)
- 	if (file_priv->magic)
- 		idr_remove(&file_priv->master->magic_map, file_priv->magic);
++	mutex_unlock(&fpriv->master_lock);
  
--	if (!drm_is_current_master(file_priv))
-+	if (!drm_is_current_master_locked(file_priv))
- 		goto out;
- 
- 	drm_legacy_lock_master_cleanup(dev, master);
-@@ -342,22 +371,6 @@ void drm_master_release(struct drm_file *file_priv)
+ 	fpriv->is_master = 1;
+ 	fpriv->authenticated = 1;
+@@ -332,10 +335,13 @@ int drm_master_open(struct drm_file *file_priv)
+ 	 * any master object for render clients
+ 	 */
+ 	mutex_lock(&dev->master_mutex);
+-	if (!dev->master)
++	if (!dev->master) {
+ 		ret = drm_new_set_master(dev, file_priv);
+-	else
++	} else {
++		mutex_lock(&file_priv->master_lock);
+ 		file_priv->master = drm_master_get(dev->master);
++		mutex_unlock(&file_priv->master_lock);
++	}
  	mutex_unlock(&dev->master_mutex);
- }
  
--/**
-- * drm_is_current_master - checks whether @priv is the current master
-- * @fpriv: DRM file private
-- *
-- * Checks whether @fpriv is current master on its device. This decides whether a
-- * client is allowed to run DRM_MASTER IOCTLs.
-- *
-- * Most of the modern IOCTL which require DRM_MASTER are for kernel modesetting
-- * - the current master is assumed to own the non-shareable display hardware.
-- */
--bool drm_is_current_master(struct drm_file *fpriv)
--{
--	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
--}
--EXPORT_SYMBOL(drm_is_current_master);
--
- /**
-  * drm_master_get - reference a master pointer
-  * @master: &struct drm_master
+ 	return ret;
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index d4f0bac6f8f8..8ccadfa1c752 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -176,6 +176,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
+ 	init_waitqueue_head(&file->event_wait);
+ 	file->event_space = 4096; /* set aside 4k for event buffer */
+ 
++	mutex_init(&file->master_lock);
+ 	mutex_init(&file->event_read_lock);
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_GEM))
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index b81b3bfb08c8..88539f93fc8e 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -226,15 +226,21 @@ struct drm_file {
+ 	/**
+ 	 * @master:
+ 	 *
+-	 * Master this node is currently associated with. Only relevant if
+-	 * drm_is_primary_client() returns true. Note that this only
+-	 * matches &drm_device.master if the master is the currently active one.
++	 * Master this node is currently associated with. Protected by struct
++	 * &drm_device.master_mutex, and serialized by @master_lock.
++	 *
++	 * Only relevant if drm_is_primary_client() returns true. Note that
++	 * this only matches &drm_device.master if the master is the currently
++	 * active one.
+ 	 *
+ 	 * See also @authentication and @is_master and the :ref:`section on
+ 	 * primary nodes and authentication <drm_primary_node>`.
+ 	 */
+ 	struct drm_master *master;
+ 
++	/** @master_lock: Serializes @master. */
++	struct mutex master_lock;
++
+ 	/** @pid: Process that opened this file. */
+ 	struct pid *pid;
+ 
 -- 
 2.25.1
 
