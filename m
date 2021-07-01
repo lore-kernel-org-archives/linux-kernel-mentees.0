@@ -7,91 +7,94 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E22C11F64
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 17:03:49 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0912C11F67
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 17:03:55 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id AE316613FD
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 17:03:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org AE316613FD
+	by mail.kernel.org (Postfix) with ESMTPS id 8922361400
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 17:03:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 8922361400
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=dubeyko.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 765CB403DC;
-	Thu,  1 Jul 2021 17:03:48 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 55F4841D76;
+	Thu,  1 Jul 2021 17:03:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 87l5FgqrVziL; Thu,  1 Jul 2021 17:03:47 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ddYrHxAJ5G7u; Thu,  1 Jul 2021 17:03:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 55068403CE;
-	Thu,  1 Jul 2021 17:03:47 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 756524010D;
+	Thu,  1 Jul 2021 17:03:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33C8AC001A;
-	Thu,  1 Jul 2021 17:03:47 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BB201C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 53BEAC001A;
+	Thu,  1 Jul 2021 17:03:54 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62ABAC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 17:03:45 +0000 (UTC)
+ Thu,  1 Jul 2021 17:03:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8280E403CE
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5EE1D83C88
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 17:03:45 +0000 (UTC)
+ Thu,  1 Jul 2021 17:03:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZYU47l3nmSqp
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=dubeyko-com.20150623.gappssmtp.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id LddQEf6b8KK4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 17:03:44 +0000 (UTC)
+ Thu,  1 Jul 2021 17:03:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oo1-xc2d.google.com (mail-oo1-xc2d.google.com
- [IPv6:2607:f8b0:4864:20::c2d])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4E58E403A0
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com
+ [IPv6:2607:f8b0:4864:20::22e])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C24D783C3B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 17:03:44 +0000 (UTC)
-Received: by mail-oo1-xc2d.google.com with SMTP id
- g13-20020a4ac4cd0000b029024c717ed8aeso1741687ooq.13
+ Thu,  1 Jul 2021 17:03:52 +0000 (UTC)
+Received: by mail-oi1-x22e.google.com with SMTP id s17so8122924oij.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Jul 2021 10:03:44 -0700 (PDT)
+ Thu, 01 Jul 2021 10:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=dubeyko-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=zSv+GHdAokYpQGK8nxdK92ewIXmEkT7WAphnSIkQIV4=;
- b=P476woN2KrKArUT9PNczWqnwAR6+vGFDCD8QxZ33YkJQZACICstnYXjabV2DMCHAxj
- JwxhlEDAM3h9WprWiyoRbpEsIyd+yF88r4fZtRZXd2/3h0oN7pPgn88oda0YyX5FiMwt
- ysC5iKd7fYA7Eb4xXiA6tI0O1Pb/VjRNOJO0lnsHD4Spsq0+YActDeqPZKDGjyw7NEFV
- OQqGyZ+s9yVaTGw+hvHwZG9OS+z+RlnHq3bKeNaFZzuPsdgGB7D218WdACJgoUyLqzbe
- mQ5xv8y5jQZc+ayfh0SOOyir8wrjSwjYX0iuFMlA9KNIA+yRfd61RoiFlMeQJLWMrHuc
- +Jkg==
+ bh=M0Yqw0xxOZEekYTg3q3CvD7YLfizNegvaHh2b9l5Vmk=;
+ b=A0GIXMDUpYvWxru961gfAFBLi6EXhfck8ja0MyrGOoL7HUOgoWq4tsdGQVzLdVYxYj
+ mbJIrmLQwN2eLtby/ZSs1GYs3z6nAL2Csoj7vojKmmw2iJpi3391Jqe1T1pO5JuH6xP1
+ Ztw3iJ6/vzU6lnra/kmmax89ndkVyKC+AJmBZdy0Zubw0+3YLY+CWUnrKF1tQwhwlCOu
+ T6+/FDxJu3dwKHhNTt5epkLhGjgjnYsp+vhz2/cAPs3h+qoiO9mbhX2jQEaF056IpjVT
+ l78BNYNCOWG16pBz4B+hTsKg9TCHDZDBc9sbuDDUKzUiEpZEO3xxGHytjkhH6qDUxpS0
+ eOdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
  :content-transfer-encoding:message-id:references:to;
- bh=zSv+GHdAokYpQGK8nxdK92ewIXmEkT7WAphnSIkQIV4=;
- b=SF0qzI94ikWvgMKEEZ9RLY++cskfLWniwdpsSzlH6G9SFcupYGgflHzHSLxQX29AC3
- uH+Sg52Jo5UD4gFgjuv/s0LYgN1/vdFfJRhA5+qi1yNcoo8CWZBqsEqHxiKMjRypE/tY
- 7BRlwTM0Q36pI++Ank8eo8bx2/2lHsqHWR/kgQmiZ9vLGtFiQwV89jXWup0+gVpWsVFN
- gKeborqzwrIs3Vyk127B+2w+Im/rzfQSgK0to4bEQ+yRQ4WhaI3J+PRFlVb9GxIlLdK7
- fwD4H8YbItess9K8tGq4+tZPEqo6bB0NRXxqTbvA2nFwWHla9hVcaxuzKurYLJ4smxAo
- oZLg==
-X-Gm-Message-State: AOAM532KObWr3McrARmioxYlcJvWTEQzr+a0unyAE1DcZHnXmmywPRWZ
- JAkcX+SgMqbW55W22QM0oaDENA==
-X-Google-Smtp-Source: ABdhPJzafnMRTUFROSIdXg8fjyYMpDVsfCj5WHVLdk2Jh/wEhyDAnDWZODXBDVfg0toUUeB7LwozOw==
-X-Received: by 2002:a4a:6c0c:: with SMTP id q12mr698931ooc.81.1625159023154;
- Thu, 01 Jul 2021 10:03:43 -0700 (PDT)
+ bh=M0Yqw0xxOZEekYTg3q3CvD7YLfizNegvaHh2b9l5Vmk=;
+ b=o9rUvgeN4CmtLiDuiAwsQrdtm+j7UQRcBvQBqxBKOz+V211CKNmz+OlafGjU0VzQPD
+ qjMmh+sTvTSY8CjAVEXIrGpMZEEGZuxwyq0CWRo5eQj3rkWGuDd8NS6+ttbhL+sSDbtO
+ p8YSMRnSZs+A6rHnOtCw83pbJKD79BAhbZH707hG1oHefaL0UIBOO7KBZYZ0E9qUDEaH
+ LZpc92UYO8nLbBd5KQIo6hlP2NSrb8cZ3U/CIgM3TuionEcWMKuhtusEGwBx8uVe8YDW
+ M4ckpxrNnoQS+msLACXjdHKyjDOPRH8kPyIN+kJ5RQIrzRA+cCFxu4KYiHhP5VWuO4FA
+ AXgw==
+X-Gm-Message-State: AOAM532Aex0TJliTsnq19j8X4Esf8iaW/BkmLjFw47V576RuqdRP5byG
+ 3OH8lJB3ElqfelPCfXXh/frXOQ==
+X-Google-Smtp-Source: ABdhPJwhHT2pfB50RcE85YuEIDJOKFqmMwPxxC26S94fj9TqVYDaTl0XBXOspHFIsPFOPiixueZ+0A==
+X-Received: by 2002:a05:6808:1144:: with SMTP id
+ u4mr2133470oiu.133.1625159031856; 
+ Thu, 01 Jul 2021 10:03:51 -0700 (PDT)
 Received: from smtpclient.apple ([2600:1700:42f0:6600:4d57:e39e:c32f:13d2])
- by smtp.gmail.com with ESMTPSA id l10sm57404oti.9.2021.07.01.10.03.41
+ by smtp.gmail.com with ESMTPSA id l10sm57404oti.9.2021.07.01.10.03.50
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 01 Jul 2021 10:03:42 -0700 (PDT)
+ Thu, 01 Jul 2021 10:03:51 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.100.0.2.22\))
-Subject: Re: [PATCH v2 0/3] hfs: fix various errors
+Subject: Re: [PATCH v2 1/3] hfs: add missing clean-up in hfs_fill_super
 From: Viacheslav Dubeyko <slava@dubeyko.com>
-In-Reply-To: <20210701030756.58760-1-desmondcheongzx@gmail.com>
-Date: Thu, 1 Jul 2021 10:03:40 -0700
-Message-Id: <ECFAAAB7-2FAE-4049-9B20-081F5E6613B7@dubeyko.com>
+In-Reply-To: <20210701030756.58760-2-desmondcheongzx@gmail.com>
+Date: Thu, 1 Jul 2021 10:03:50 -0700
+Message-Id: <1A3F727E-8705-4164-951C-B2B99502998A@dubeyko.com>
 References: <20210701030756.58760-1-desmondcheongzx@gmail.com>
+ <20210701030756.58760-2-desmondcheongzx@gmail.com>
 To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 X-Mailer: Apple Mail (2.3654.100.0.2.22)
 Cc: LKML <linux-kernel@vger.kernel.org>, gustavoars@kernel.org,
@@ -120,34 +123,49 @@ Sender: "Linux-kernel-mentees"
 
 > On Jun 30, 2021, at 8:07 PM, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com> wrote:
 > 
-> Hi,
+> Before exiting hfs_fill_super, the struct hfs_find_data used in
+> hfs_find_init should be passed to hfs_find_exit to be cleaned up, and
+> to release the lock held on the btree.
 > 
-> This series ultimately aims to address a lockdep warning in hfs_find_init reported by Syzbot:
-> https://syzkaller.appspot.com/bug?id=f007ef1d7a31a469e3be7aeb0fde0769b18585db
+> The call to hfs_find_exit is missing from an error path. We add it
+> back in by consolidating calls to hfs_find_exit for error paths.
 > 
-> The work done for this led to the discovery of another bug, and the Syzkaller repro test also reveals an invalid memory access error after clearing the lockdep warning. Hence, this series is broken up into three patches:
-> 
-> 1. Add a missing call to hfs_find_exit for an error path in hfs_fill_super
-> 
-> 2. Fix memory mapping in hfs_bnode_read by fixing calls to kmap
-> 
-> 3. Add lock nesting notation to tell lockdep that the observed locking hierarchy is safe
-> 
-> v1 -> v2:
-> Patch 1: Consolidated calls to hfs_find_exit on error paths in hfs_fill_super, as suggested by Viacheslav Dubeyko.
-> Patch 2: Added safety checks, clarified code, and switched from kmap/kunmap to kmap_atomic/kunmap_atomic, as suggested by Viacheslav Dubeyko.
-> 
-> Desmond Cheong Zhi Xi (3):
->  hfs: add missing clean-up in hfs_fill_super
->  hfs: fix high memory mapping in hfs_bnode_read
->  hfs: add lock nesting notation to hfs_find_init
-> 
-> fs/hfs/bfind.c | 14 +++++++++++++-
-> fs/hfs/bnode.c | 25 ++++++++++++++++++++-----
-> fs/hfs/btree.h |  7 +++++++
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> ---
 > fs/hfs/super.c | 10 +++++-----
-> 4 files changed, 45 insertions(+), 11 deletions(-)
+> 1 file changed, 5 insertions(+), 5 deletions(-)
 > 
+> diff --git a/fs/hfs/super.c b/fs/hfs/super.c
+> index 44d07c9e3a7f..12d9bae39363 100644
+> --- a/fs/hfs/super.c
+> +++ b/fs/hfs/super.c
+> @@ -420,14 +420,12 @@ static int hfs_fill_super(struct super_block *sb, void *data, int silent)
+> 	if (!res) {
+> 		if (fd.entrylength > sizeof(rec) || fd.entrylength < 0) {
+> 			res =  -EIO;
+> -			goto bail;
+> +			goto bail_hfs_find;
+> 		}
+> 		hfs_bnode_read(fd.bnode, &rec, fd.entryoffset, fd.entrylength);
+> 	}
+> -	if (res) {
+> -		hfs_find_exit(&fd);
+> -		goto bail_no_root;
+> -	}
+> +	if (res)
+> +		goto bail_hfs_find;
+> 	res = -EINVAL;
+> 	root_inode = hfs_iget(sb, &fd.search_key->cat, &rec);
+> 	hfs_find_exit(&fd);
+> @@ -443,6 +441,8 @@ static int hfs_fill_super(struct super_block *sb, void *data, int silent)
+> 	/* everything's okay */
+> 	return 0;
+> 
+> +bail_hfs_find:
+> +	hfs_find_exit(&fd);
+> bail_no_root:
+> 	pr_err("get root inode failed\n");
+> bail:
 > -- 
 > 2.25.1
 > 
@@ -158,6 +176,7 @@ Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
 
 Thanks,
 Slava.
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
