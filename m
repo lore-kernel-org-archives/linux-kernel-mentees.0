@@ -2,105 +2,110 @@ Return-Path: <SRS0=5SPK=LZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B77BC11F64
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 03:09:15 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31DCFC11F6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 14:23:36 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4A0396145F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 03:09:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4A0396145F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id A53B9613FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 14:23:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A53B9613FE
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 12A80607E7;
-	Thu,  1 Jul 2021 03:09:15 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 711F2405BA;
+	Thu,  1 Jul 2021 14:23:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3q5Fh92ouUZc; Thu,  1 Jul 2021 03:09:12 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yh5vs-cVtY1g; Thu,  1 Jul 2021 14:23:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 528C9607B8;
-	Thu,  1 Jul 2021 03:09:12 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 60ACF4049F;
+	Thu,  1 Jul 2021 14:23:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 30FA6C0010;
-	Thu,  1 Jul 2021 03:09:12 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 810CEC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 481B3C0010;
+	Thu,  1 Jul 2021 14:23:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 963A1C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 03:09:11 +0000 (UTC)
+ Thu,  1 Jul 2021 14:23:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5BCD9400C3
+ by smtp4.osuosl.org (Postfix) with ESMTP id 835104049F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 03:09:11 +0000 (UTC)
+ Thu,  1 Jul 2021 14:23:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UPS-nrfz98TY
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id S6MQukbBeH5d
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 03:09:10 +0000 (UTC)
+ Thu,  1 Jul 2021 14:23:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
- [IPv6:2607:f8b0:4864:20::630])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7095140012
+Received: from mail-ua1-x936.google.com (mail-ua1-x936.google.com
+ [IPv6:2607:f8b0:4864:20::936])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 85C024048A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 03:09:10 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id b1so2848764pls.5
+ Thu,  1 Jul 2021 14:23:31 +0000 (UTC)
+Received: by mail-ua1-x936.google.com with SMTP id n61so2519461uan.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Jun 2021 20:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=if2bnw03Mu18gRjTYl4E6k8rtPnZizNZqXxBx0h9PIw=;
- b=HOtemOj4Mf15W/3DOjhKWvrtyjA3aZ+zMbAY7cK0r0hLoltzyF9Bv+xPjfHtsqzUQ1
- N2gohog5NbYXL0yRwKbNd4akreHkQwzN49Q07N2zGoQY+M0qhL8LU1gw6u8AqGFQtjSM
- 1EO0hGH4dmcwBrjz+zcHbI/lJUfi/FcdgODH41P8o1CLELgQP9cyqYAFx+/ESxO2P6hC
- S6vFNl2Nx6TLWF7+DvUSpEZW6d5w9g8iwKcBMhqmhGqk2AeXI1bd4s6/+N5AWz+2tTgj
- 1+lyXiFnK1NIiB0uzUUXOIHhOkHwSG8RyEkVGGXUBGYDrgdvW4Ue7tfj/LsZihKhovle
- aVxQ==
+ Thu, 01 Jul 2021 07:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8ZYZZPLtxm0D8wKCq6t4+Fy+RhxhZRnjK7G5sIibVAY=;
+ b=kBv9cdGrIayWfMzZazwxNI9/duBTp2RkiZ5RCpTGoMmI4sxwPfmxtyqijgoC6eFaHP
+ vuY6nQPmSg0rBx1F6AnU3iGjJXVrIv6hMPT5BDZnXtJ8kZ6ta2AKfwvSzsQiBoGDBLxe
+ Dmi2eQ+66de1aSZjyItIFwNWh1cy7b6EjIO393RJPGKNXebp3P4Yx/mAegF28z7zxu3H
+ LLjGSN1TkEEC2gynwHgOJdUg1KIDxVmNmxUfSOg+YNg1SDUVOYC9QVrLdvNk9oHHIut5
+ NEaw07sNcTuAQPUw2+IKV8UcC+TCiR2ZQmvtrZRt2mROer1FgbKX1f54BG6f/nPVo19B
+ +X5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=if2bnw03Mu18gRjTYl4E6k8rtPnZizNZqXxBx0h9PIw=;
- b=eY9iFskG4R7Gt78auLu+sMPGNtgVzCxx8od7IoJQqHggk4+7PIB34HRG5WNVj9kMi6
- ofQCTr6PvwvPgUd+A/xJ4LSlnQmyqPwuNLpa8dQw2Bf5GvJn2f8n0Sy7ATo1/MdAzWW1
- XdAtzS/qbhgLQJl0i9We53BUhSSMqAUohfUIluMRLhNN1VRnL5Zuvnvj3g0bS4RGr1lc
- 1rJXGnsdOJzb7Whm/FbcWDCt8pRnnku+xmmmKmME4pjq/Cz7vhN7wkH9LQ1FWTnC8fiX
- ztimqyXKz0MMeIhRzXqlBxRNl4UkFjUqXl8xAQ8gjfg3BVgZLcvfTX24Ogi8BUBFujF4
- Trzg==
-X-Gm-Message-State: AOAM53362EHU/3NYOvtrAV4Dmjw1/5rY6Mlj13ZqsRa6lvpt0XmNSa6H
- YqXYneUBjWWHwG7OydsJQLA=
-X-Google-Smtp-Source: ABdhPJxTByK+P+JhJSoMlHQ1WX8c2iVJgwDRLr2gdIKy8yj7rZGcShTonHm/9tHa2D6U6ZJKDQ4wcg==
-X-Received: by 2002:a17:90a:f02:: with SMTP id 2mr4225720pjy.75.1625108949793; 
- Wed, 30 Jun 2021 20:09:09 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id g10sm4568568pjv.46.2021.06.30.20.09.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Jun 2021 20:09:09 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: gustavoars@kernel.org,
-	viro@zeniv.linux.org.uk
-Subject: [PATCH v2 3/3] hfs: add lock nesting notation to hfs_find_init
-Date: Thu,  1 Jul 2021 11:07:56 +0800
-Message-Id: <20210701030756.58760-4-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210701030756.58760-1-desmondcheongzx@gmail.com>
-References: <20210701030756.58760-1-desmondcheongzx@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8ZYZZPLtxm0D8wKCq6t4+Fy+RhxhZRnjK7G5sIibVAY=;
+ b=jD2iIkiIwv3b4G+dhrkgostTldnqeg7q4MSWAGKhxKm9W2g60ZXgqzfzvA+h5WcWRJ
+ 1uGenC5MB6KDE49nAxQxWwY8lV2Xzf+RTQFn9Rr42qgVS7KmupJ0sI+GkBpUTK6uF8Sr
+ QoKFy1IdlUkK84qzHgZOVguADrD6XabLApjnvIsHXx963aif7woDCbkKr9CWaESkUPka
+ 7okv5uH7Ad7jK6ycRJoO8pbWJsc52xoPDAtn2Jhslbadi/an9qn6FoqL1hVaYPKshEnN
+ FQOHtiXn8bvccInDnZd9+M+HPaIaBzPp179rMeUT8IkI6OwwPbeRVGYxC5T1YrL6Vi4P
+ ZwIA==
+X-Gm-Message-State: AOAM533QyVKFMSfLzGaxIkJh50QckrRDmw1JsvQgv58hddpvwunB44t/
+ EmoTKJsRyVt+T9H924iDLSXwiETYal15cednLfs19A==
+X-Google-Smtp-Source: ABdhPJx2oBw+TeBECEm0/q5V+pChm69gVODCsQXZeTvzl9jaJ3WWW/V23J8lrJcxwiS1GyjoBORkKFEfajqRXSJj0AE=
+X-Received: by 2002:ab0:3ae:: with SMTP id 43mr211048uau.63.1625149409711;
+ Thu, 01 Jul 2021 07:23:29 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, slava@dubeyko.com,
- linux-fsdevel@vger.kernel.org,
- syzbot+b718ec84a87b7e73ade4@syzkaller.appspotmail.com,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210628144908.881499-1-phind.uet@gmail.com>
+ <CANn89iJ6M2WFS3B+sSOysekScUFmO9q5YHxgHGsbozbvkW9ivg@mail.gmail.com>
+ <79490158-e6d1-aabf-64aa-154b71205c74@gmail.com>
+ <CADVnQy=Q9W=Vxu81ctPLx08D=ALnHBXGr0c4BLtQGxwQE+yjRg@mail.gmail.com>
+ <ee5ef69e-ee3f-1df0-2033-5adc06a46b9c@gmail.com>
+ <CADVnQynqMQhO4cBON=xUCkne9-E1hze3naMZZ8tQ-a0k71kh8g@mail.gmail.com>
+ <205F52AB-4A5B-4953-B97E-17E7CACBBCD8@gmail.com>
+ <CANn89iJbquZ=tVBRg7JNR8pB106UY4Xvi7zkPVn0Uov9sj8akg@mail.gmail.com>
+ <1786BBEE-9C7B-45B2-B451-F535ABB804EF@gmail.com>
+ <CANn89iK4Qwf0ezWac3Cn1xWN_Hw+-QL-+H8YmDm4cZP=FH+MTQ@mail.gmail.com>
+ <CADVnQyk9maCc+tJ4-b6kufcBES9+Y2KpHPZadXssoVWX=Xr1Vw@mail.gmail.com>
+ <30527e25-dd66-da7a-7344-494b4539abf7@gmail.com>
+In-Reply-To: <30527e25-dd66-da7a-7344-494b4539abf7@gmail.com>
+Date: Thu, 1 Jul 2021 10:23:13 -0400
+Message-ID: <CADVnQyn_965EHdQke_S7FUySiamyyRx-3b8o+cm+=4jYxG_GOw@mail.gmail.com>
+Subject: Re: [PATCH] tcp: Do not reset the icsk_ca_initialized in
+ tcp_init_transfer.
+To: Phi Nguyen <phind.uet@gmail.com>
+Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
+ syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>, netdev <netdev@vger.kernel.org>,
+ David Ahern <dsahern@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Yuchung Cheng <ycheng@google.com>,
+ kpsingh@kernel.org, Jakub Kicinski <kuba@kernel.org>,
+ bpf <bpf@vger.kernel.org>, linux-kernel-mentees@lists.linuxfoundation.org,
+ David Miller <davem@davemloft.net>, LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,84 +117,88 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Neal Cardwell via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Neal Cardwell <ncardwell@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzbot reports a possible recursive lock:
-https://syzkaller.appspot.com/bug?id=f007ef1d7a31a469e3be7aeb0fde0769b18585db
+On Wed, Jun 30, 2021 at 2:25 PM Phi Nguyen <phind.uet@gmail.com> wrote:
+>
+> On 6/29/2021 11:59 PM, Neal Cardwell wrote:
+> >    On Tue, Jun 29, 2021 at 8:58 AM Eric Dumazet <edumazet@google.com> wrote:
+> >  From my perspective, the bug was introduced when that 8919a9b31eb4
+> > commit introduced icsk_ca_initialized and set icsk_ca_initialized to 0
+> > in tcp_init_transfer(), missing the possibility that a process could
+> > call setsockopt(TCP_CONGESTION)  in state TCP_SYN_SENT (i.e. after the
+> > connect() or TFO open sendmsg()), which would call
+> > tcp_init_congestion_control(). The 8919a9b31eb4 commit did not intend
+> > to reset any initialization that the user had already explicitly made;
+> > it just missed the possibility of that particular sequence (which
+> > syzkaller managed to find!).
+> >
+> >> Although I am not sure what happens at accept() time when the listener
+> >> socket is cloned.
+> >
+> > It seems that for listener sockets, they cannot initialize their CC
+> > module state, because there is no way for them to reach
+> > tcp_init_congestion_control(), since:
+> >
+> > (a) tcp_set_congestion_control() -> tcp_reinit_congestion_control()
+> > will not call tcp_init_congestion_control() on a socket in CLOSE or
+> > LISTEN
+> >
+> > (b) tcp_init_transfer() -> tcp_init_congestion_control() can only
+> > happen for established sockets and successful TFO SYN_RECV sockets
+> Is this what was mentioned in this commit ce69e563b325(tcp: make sure
+> listeners don't initialize congestion-control state)
 
-This happens due to missing lock nesting information. From the logs,
-we see that a call to hfs_fill_super is made to mount the hfs
-filesystem. While searching for the root inode, the lock on the
-catalog btree is grabbed. Then, when the parent of the root isn't
-found, a call to __hfs_bnode_create is made to create the parent of
-the root. This eventually leads to a call to hfs_ext_read_extent which
-grabs a lock on the extents btree.
+Yes, exactly.
 
-Since the order of locking is catalog btree -> extents btree, this
-lock hierarchy does not lead to a deadlock.
+> > --
+> > [PATCH] tcp: fix tcp_init_transfer() to not reset icsk_ca_initialized
+> >
+> > This commit fixes a bug (found by syzkaller) that could cause spurious
+> > double-initializations for congestion control modules, which could cause memory
+> > leaks orother problems for congestion control modules (like CDG) that allocate
+> > memory in their init functions.
+> >
+> > The buggy scenario constructed by syzkaller was something like:
+> >
+> > (1) create a TCP socket
+> > (2) initiate a TFO connect via sendto()
+> > (3) while socket is in TCP_SYN_SENT, call setsockopt(TCP_CONGESTION),
+> >      which calls:
+> >         tcp_set_congestion_control() ->
+> >           tcp_reinit_congestion_control() ->
+> >             tcp_init_congestion_control()
+> > (4) receive ACK, connection is established, call tcp_init_transfer(),
+> >      set icsk_ca_initialized=0 (without first calling cc->release()),
+> >      call tcp_init_congestion_control() again.
+> >
+> > Note that in this sequence tcp_init_congestion_control() is called twice
+> > without a cc->release() call in between. Thus, for CC modules that allocate
+> > memory in their init() function, e.g, CDG, a memory leak may occur. The
+> > syzkaller tool managed to find a reproducer that triggered such a leak in CDG.
+> >
+> > The bug was introduced when that 8919a9b31eb4 commit introduced
+> > icsk_ca_initialized and set icsk_ca_initialized to 0 in tcp_init_transfer(),
+> > missing the possibility for a sequence like the one above, where a process
+> > could call setsockopt(TCP_CONGESTION) in state TCP_SYN_SENT (i.e. after the
+> > connect() or TFO open sendmsg()), which would call
+> > tcp_init_congestion_control(). The 8919a9b31eb4 commit did not intend to reset
+> > any initialization that the user had already explicitly made; it just missed
+> > the possibility of that particular sequence (which syzkaller managed to find).
+>
+> Could I use your commit message when I resubmit patch?
 
-To tell lockdep that this locking is safe, we add nesting notation to
-distinguish between catalog btrees, extents btrees, and attributes
-btrees (for HFS+). This has already been done in hfsplus.
+Yes, feel free to use that commit message verbatim or modified.
 
-Reported-and-tested-by: syzbot+b718ec84a87b7e73ade4@syzkaller.appspotmail.com
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Viacheslav Dubeyko <slava@dubeyko.com>
----
- fs/hfs/bfind.c | 14 +++++++++++++-
- fs/hfs/btree.h |  7 +++++++
- 2 files changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/fs/hfs/bfind.c b/fs/hfs/bfind.c
-index 4af318fbda77..ef9498a6e88a 100644
---- a/fs/hfs/bfind.c
-+++ b/fs/hfs/bfind.c
-@@ -25,7 +25,19 @@ int hfs_find_init(struct hfs_btree *tree, struct hfs_find_data *fd)
- 	fd->key = ptr + tree->max_key_len + 2;
- 	hfs_dbg(BNODE_REFS, "find_init: %d (%p)\n",
- 		tree->cnid, __builtin_return_address(0));
--	mutex_lock(&tree->tree_lock);
-+	switch (tree->cnid) {
-+	case HFS_CAT_CNID:
-+		mutex_lock_nested(&tree->tree_lock, CATALOG_BTREE_MUTEX);
-+		break;
-+	case HFS_EXT_CNID:
-+		mutex_lock_nested(&tree->tree_lock, EXTENTS_BTREE_MUTEX);
-+		break;
-+	case HFS_ATTR_CNID:
-+		mutex_lock_nested(&tree->tree_lock, ATTR_BTREE_MUTEX);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
- 	return 0;
- }
- 
-diff --git a/fs/hfs/btree.h b/fs/hfs/btree.h
-index 4ba45caf5939..0e6baee93245 100644
---- a/fs/hfs/btree.h
-+++ b/fs/hfs/btree.h
-@@ -13,6 +13,13 @@ typedef int (*btree_keycmp)(const btree_key *, const btree_key *);
- 
- #define NODE_HASH_SIZE  256
- 
-+/* B-tree mutex nested subclasses */
-+enum hfs_btree_mutex_classes {
-+	CATALOG_BTREE_MUTEX,
-+	EXTENTS_BTREE_MUTEX,
-+	ATTR_BTREE_MUTEX,
-+};
-+
- /* A HFS BTree held in memory */
- struct hfs_btree {
- 	struct super_block *sb;
--- 
-2.25.1
-
+thanks,
+neal
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
