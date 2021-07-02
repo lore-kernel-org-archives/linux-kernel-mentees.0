@@ -1,108 +1,103 @@
-Return-Path: <SRS0=5SPK=LZ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=QgwC=L2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8D33C11F6B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 21:06:54 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1DFC11F68
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 09:18:57 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 635AF61402
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Jul 2021 21:06:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 635AF61402
+	by mail.kernel.org (Postfix) with ESMTPS id 846F061416
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 09:18:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 846F061416
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 223C760A51;
-	Thu,  1 Jul 2021 21:06:54 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4E6E84002B;
+	Fri,  2 Jul 2021 09:18:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rwsY3MpURWP6; Thu,  1 Jul 2021 21:06:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 342906065A;
-	Thu,  1 Jul 2021 21:06:53 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Te_lEaWFPQdM; Fri,  2 Jul 2021 09:18:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 810A44018B;
+	Fri,  2 Jul 2021 09:18:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AA7EC0010;
-	Thu,  1 Jul 2021 21:06:53 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FD4AC0010;
+	Fri,  2 Jul 2021 09:18:56 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 414AEC000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0F31BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 21:06:51 +0000 (UTC)
+ Fri,  2 Jul 2021 09:18:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2D71383D08
+ by smtp1.osuosl.org (Postfix) with ESMTP id EF4E683C0D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 21:06:51 +0000 (UTC)
+ Fri,  2 Jul 2021 09:18:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RpTWDbPmAy44
+ with ESMTP id 4TlI_HhhZjE9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 21:06:50 +0000 (UTC)
+ Fri,  2 Jul 2021 09:18:54 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
- [IPv6:2607:f8b0:4864:20::82c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9BE0B83D02
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 595EC83123
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Jul 2021 21:06:50 +0000 (UTC)
-Received: by mail-qt1-x82c.google.com with SMTP id f13so5158971qtb.6
+ Fri,  2 Jul 2021 09:18:53 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id x16so8392174pfa.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Jul 2021 14:06:50 -0700 (PDT)
+ Fri, 02 Jul 2021 02:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=JdZfhD8zS8Li7V1IWr5im/Ov0yGZJzdw3SFKa8tmvaA=;
- b=coFXzdn8+GFRVvzHgAyl5ya90JjlYSnS84Ena2i664mPYGWza2mLyEi8CqvbBO8QoK
- AMKqkrmx7AB/snglYTmG5VrGh4KFMVa7MmrarR+R6xWquwmAObVhKQrwP0YBpq0OWeXZ
- ffUGNPzJd2Q0pR2qmS8V2U7qHuxJPArIgljtleqjf3PwLu85WorQ4hrTVQoQLOCZ2fwb
- zk4mMVfXrcghfDxud6b6JG16Psnajj/rrjufSzS+N1gtQT6TfXL6qfak/ryp5/D0kWmv
- FB23x9kxBbkg4Gmi16pIJJ5sNRXbfXSlqkeMVKEeD9YZLh0MnFAwgshvw+7RY6IdV8Mt
- 1wFw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uJEaMh5QMIWKQSiW3NhFAWboQVAmMWKJTMsm2BnrKWA=;
+ b=b3Agk3pau1jzghfawlkN8c7Mdga3Nzlj5mQz3xpbz85WeyXNj6Gs54d14giwqX75H5
+ 2/iO0XgdoLFJBLkqOlQhhvM/a+j/UNWycRXpCosZ3mKhrSwvnnlt9cjIDIIEiAXXFj1A
+ i3MRRi1eV9LT+3SxSydMIET2w22HX1dFDfxfLK73wbc8ITyzucHWxXKLGt2rBLrgUXr3
+ Hi5p4TEE1FwGiD8tth8dAB3fbitiFQ/0iez44c5sf/YhBszhhorsAE1aSpgp57Wwm6hD
+ zR+SNI6cCUS+7F+0oiMJQEBhLDG07QhSEynK0a4gOpcwTDbfV1UpYirNtbrS5fUZ4t+o
+ 30XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JdZfhD8zS8Li7V1IWr5im/Ov0yGZJzdw3SFKa8tmvaA=;
- b=tykdzk4qcHqhJOuoIhLv95f8L4p9OmgMk0cW1r1b7rSWuRUoPP0kY7Qaf29Ubw9ago
- tCN5WOpRGWlLn52dXR0mkXsZCMalwXA3qWjrUpMhtrKWdMup8TJvDQ48I51VeLGekHwh
- iSehlSAHXy2vC5lKGrNUZXO3DzmWZBLgih3e2ctM1VwRcUdPvVDPxRCI7LubqPkW0FH7
- Ysaj97RAzMpK0aPQabg5GcY8h3ttV+5+wRFRFnIkLPD2AEnXrHYVJiiQWvAwJpq2mSv3
- RM0P2eY3jfucQvyYtmhowkyyLMAeo82dVnCOURuMs8DNz/DtWcQCksWMpyvfFa5fO5bn
- pIQg==
-X-Gm-Message-State: AOAM530bcxHMsimI3kCdwbFONH9O2qlfI4jU6OnVcxCGfjLEyGP15xGV
- aKG9opMuSitiB2DTw0JP+Q==
-X-Google-Smtp-Source: ABdhPJzJZm7Wwvj9JL2Rw3TI6kf2fUOVVJh1b0RQieFYgctpFerkJ6QWAsaYSREJxI0H7Uuwi4ovZg==
-X-Received: by 2002:a05:622a:453:: with SMTP id
- o19mr1903676qtx.122.1625173609396; 
- Thu, 01 Jul 2021 14:06:49 -0700 (PDT)
-Received: from PWN (104-9-124-193.lightspeed.sntcca.sbcglobal.net.
- [104.9.124.193])
- by smtp.gmail.com with ESMTPSA id t62sm431440qkc.26.2021.07.01.14.06.47
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uJEaMh5QMIWKQSiW3NhFAWboQVAmMWKJTMsm2BnrKWA=;
+ b=RDj7Yo8J/QMEUSpUjrhosIjsNwXiQufYpUyUHrKnfsBmGGidxfB3xKGqTApzw5cdO7
+ ZQmGp+NYw0QRm/kptmitFhAVXoGuP/Ab3m6O0X3m/hEXuK1/LYCKu0/1qF9N9WcCtMhU
+ ekItjt9CCOrRsDJmg1p4IZPhtV844cRZ3z6nMf/3OlJTK34ylQ9JC8rJayCrfm5iYXHy
+ zCjLRFHR+tN/rAlYjxwQ18TiwlMIvFitdYfuYcGZglNxIES0+9kju2ewUwJL9llJQGFh
+ hhpKtE8kIGHS4MMi6NEe2CYoT6/mB4Df6m8Hrni+MlD7deWmhcDKILWnwKQFUiRRpnJc
+ AOVg==
+X-Gm-Message-State: AOAM531gYFNpLgrbV1txdzdLdafYhGx/BV5/HJhFrO+gMnkuW/YdXSs3
+ I58vBCcsOEk4w5m93l9DpTQ=
+X-Google-Smtp-Source: ABdhPJxJOwoAcoKmZkfGso6jjy9hW28TXA4lMFBKPHpGF+EHRsgL/W14RrCs8aNA22yZAy3MllzMeQ==
+X-Received: by 2002:a63:4f11:: with SMTP id d17mr1260315pgb.20.1625217533419; 
+ Fri, 02 Jul 2021 02:18:53 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id y3sm3023918pga.72.2021.07.02.02.18.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 01 Jul 2021 14:06:49 -0700 (PDT)
-Date: Thu, 1 Jul 2021 17:06:45 -0400
-From: Peilin Ye <yepeilin.cs@gmail.com>
-To: Alexander Larkin <avlarkin82@gmail.com>
-Subject: Re: maybe similar bug exists for HCI_EV_INQUIRY_RESULT* like
- [Linux-kernel-mentees] [PATCH v2] net/bluetooth: slab-out-of-bounds read in
- hci_extended_inquiry_result_evt()
-Message-ID: <20210701210645.GA14471@PWN>
-References: <20200709130224.214204-1-yepeilin.cs@gmail.com>
- <20210701153936.2954886-1-avlarkin82@gmail.com>
+ Fri, 02 Jul 2021 02:18:53 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: jlayton@kernel.org,
+	bfields@fieldses.org,
+	viro@zeniv.linux.org.uk
+Subject: [PATCH 0/2] fcntl: fix potential deadlocks
+Date: Fri,  2 Jul 2021 17:18:29 +0800
+Message-Id: <20210702091831.615042-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210701153936.2954886-1-avlarkin82@gmail.com>
-Cc: johan.hedberg@gmail.com, netdev@vger.kernel.org, marcel@holtmann.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- linux@armlinux.org.uk, linux-bluetooth@vger.kernel.org, kuba@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,20 +115,29 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 01, 2021 at 06:39:36PM +0300, Alexander Larkin wrote:
-> For the net/bluetooth/hci_event.c , maybe similar bug could be inside
-> hci_inquiry_result_with_rssi_evt() that is HCI_EV_INQUIRY_RESULT_WITH_RSSI
-> and inside hci_inquiry_result_evt() that is HCI_EV_INQUIRY_RESULT. 
+Hi,
 
-Hi Alexander,
+Syzbot reports a possible irq lock inversion dependency:
+https://syzkaller.appspot.com/bug?id=923cfc6c6348963f99886a0176ef11dcc429547b
 
-Thanks for looking into this, I believe they were handled in commit
-629b49c848ee ("Bluetooth: Prevent out-of-bounds read in
-hci_inquiry_result_with_rssi_evt()") and commit 75bbd2ea50ba ("Bluetooth:
-Prevent out-of-bounds read in hci_inquiry_result_evt()").
+While investigating this error, I discovered that multiple similar lock inversion scenarios can occur. Hence, this series addresses potential deadlocks for two classes of locks, one in each patch:
 
-Thanks,
-Peilin Ye
+1. Fix potential deadlocks for &fown_struct.lock
+
+2. Fix potential deadlock for &fasync_struct.fa_lock
+
+Best wishes,
+Desmond
+
+Desmond Cheong Zhi Xi (2):
+  fcntl: fix potential deadlocks for &fown_struct.lock
+  fcntl: fix potential deadlock for &fasync_struct.fa_lock
+
+ fs/fcntl.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
