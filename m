@@ -2,100 +2,103 @@ Return-Path: <SRS0=QgwC=L2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1DFC11F68
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 09:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20059C11F68
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 09:19:12 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 846F061416
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 09:18:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 846F061416
+	by mail.kernel.org (Postfix) with ESMTPS id ADF0061413
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 09:19:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org ADF0061413
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4E6E84002B;
-	Fri,  2 Jul 2021 09:18:57 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 86DD84023D;
+	Fri,  2 Jul 2021 09:19:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Te_lEaWFPQdM; Fri,  2 Jul 2021 09:18:56 +0000 (UTC)
+	with ESMTP id uOKqgzxPdt7b; Fri,  2 Jul 2021 09:19:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 810A44018B;
-	Fri,  2 Jul 2021 09:18:56 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 95FC74002B;
+	Fri,  2 Jul 2021 09:19:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FD4AC0010;
-	Fri,  2 Jul 2021 09:18:56 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0F31BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 817B0C0010;
+	Fri,  2 Jul 2021 09:19:10 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BCB07C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 09:18:55 +0000 (UTC)
+ Fri,  2 Jul 2021 09:19:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EF4E683C0D
+ by smtp3.osuosl.org (Postfix) with ESMTP id AC20A60629
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 09:18:54 +0000 (UTC)
+ Fri,  2 Jul 2021 09:19:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4TlI_HhhZjE9
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DfO8lJO9F5jX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 09:18:54 +0000 (UTC)
+ Fri,  2 Jul 2021 09:19:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 595EC83123
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D0FA56061F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 09:18:53 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id x16so8392174pfa.13
+ Fri,  2 Jul 2021 09:19:06 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id y4so8412987pfi.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 02 Jul 2021 02:18:53 -0700 (PDT)
+ Fri, 02 Jul 2021 02:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uJEaMh5QMIWKQSiW3NhFAWboQVAmMWKJTMsm2BnrKWA=;
- b=b3Agk3pau1jzghfawlkN8c7Mdga3Nzlj5mQz3xpbz85WeyXNj6Gs54d14giwqX75H5
- 2/iO0XgdoLFJBLkqOlQhhvM/a+j/UNWycRXpCosZ3mKhrSwvnnlt9cjIDIIEiAXXFj1A
- i3MRRi1eV9LT+3SxSydMIET2w22HX1dFDfxfLK73wbc8ITyzucHWxXKLGt2rBLrgUXr3
- Hi5p4TEE1FwGiD8tth8dAB3fbitiFQ/0iez44c5sf/YhBszhhorsAE1aSpgp57Wwm6hD
- zR+SNI6cCUS+7F+0oiMJQEBhLDG07QhSEynK0a4gOpcwTDbfV1UpYirNtbrS5fUZ4t+o
- 30XQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dy1wiJWCUbzzuhF4ayH4yFxHIlEj9ymL/XTMpQPprYI=;
+ b=E2z6L2MQkh9yQU2Fs2u0eB41ZEhaYkoYJVT2vk/82L6ktkv2YiXQU1B+OLq1j1cSJp
+ 7Ww8QzmuEWd2nFtDgUfLuhf6w87904MrcHcERagKgpHa8PcEvnZCtxQjV44ZrdY3UYgo
+ 1VNgnXN3WlqhJI8Wxk6u3Q0lJXTdyEB7DGrzVLFhZN18byWdg8WdIzc4N12s2EyZ/TLx
+ sRHEaRRy+Ew6QP2BqEEgQ/C+VZOGQd0FOz5IvTfT5dgdCJ2hluBKXo6nutg1dz4b/vDE
+ oL5z30yqwb2jGiearr/vfUdD+QxBf8WVuOoBd+PZgqC2oEAKnd7r3+fvhv/eMG5E6ki+
+ Xy1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uJEaMh5QMIWKQSiW3NhFAWboQVAmMWKJTMsm2BnrKWA=;
- b=RDj7Yo8J/QMEUSpUjrhosIjsNwXiQufYpUyUHrKnfsBmGGidxfB3xKGqTApzw5cdO7
- ZQmGp+NYw0QRm/kptmitFhAVXoGuP/Ab3m6O0X3m/hEXuK1/LYCKu0/1qF9N9WcCtMhU
- ekItjt9CCOrRsDJmg1p4IZPhtV844cRZ3z6nMf/3OlJTK34ylQ9JC8rJayCrfm5iYXHy
- zCjLRFHR+tN/rAlYjxwQ18TiwlMIvFitdYfuYcGZglNxIES0+9kju2ewUwJL9llJQGFh
- hhpKtE8kIGHS4MMi6NEe2CYoT6/mB4Df6m8Hrni+MlD7deWmhcDKILWnwKQFUiRRpnJc
- AOVg==
-X-Gm-Message-State: AOAM531gYFNpLgrbV1txdzdLdafYhGx/BV5/HJhFrO+gMnkuW/YdXSs3
- I58vBCcsOEk4w5m93l9DpTQ=
-X-Google-Smtp-Source: ABdhPJxJOwoAcoKmZkfGso6jjy9hW28TXA4lMFBKPHpGF+EHRsgL/W14RrCs8aNA22yZAy3MllzMeQ==
-X-Received: by 2002:a63:4f11:: with SMTP id d17mr1260315pgb.20.1625217533419; 
- Fri, 02 Jul 2021 02:18:53 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dy1wiJWCUbzzuhF4ayH4yFxHIlEj9ymL/XTMpQPprYI=;
+ b=bPSRR3dQEBNJf9JP7XR+q6HQwCbJpqmisGw9+VDC5wOiAejxdufsKFgt7P8vqOMJp2
+ pVaE7oW/BiQ7my23/xNuTY7OkAxjl1i5YhpzPfgxE45UF6o8x7M4dz1H+kVnqURvQE/2
+ BuCvwyIcp31MkcxO12xihjQ8U7hsQh00veTRWa/G0bHsAMSBQ4u2x+wijf6BeKaFSj2j
+ A9V3V6sALAEeS6YT5aSmjCs91UTZ9dv0ldsqSiNt3mRiEmdjzRyGAIdrncFOIVPTv5II
+ ki3Psl8kHAtO6R8vjhBJJF1e6nrpWGo9bGvjWb//l2WeBai+kSq2azQKxJoiovplmPfp
+ 3vhg==
+X-Gm-Message-State: AOAM531KZjVrs2fso3FYGltaLkQ/OFWKytO4FaEANFfRI1S2XxZEfcby
+ 9Kd5dVo1YDRek8dgb97xPVA=
+X-Google-Smtp-Source: ABdhPJyqkq1cqysNRGDWKIxi7V8bbsjUMVEe72P4kL57YqOA9/DfditjSH4QED/veTfo3SPL0kZ73A==
+X-Received: by 2002:a63:1226:: with SMTP id h38mr4228823pgl.376.1625217546255; 
+ Fri, 02 Jul 2021 02:19:06 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id y3sm3023918pga.72.2021.07.02.02.18.50
+ by smtp.gmail.com with ESMTPSA id y3sm3023918pga.72.2021.07.02.02.19.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 02 Jul 2021 02:18:53 -0700 (PDT)
+ Fri, 02 Jul 2021 02:19:05 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: jlayton@kernel.org,
 	bfields@fieldses.org,
 	viro@zeniv.linux.org.uk
-Subject: [PATCH 0/2] fcntl: fix potential deadlocks
-Date: Fri,  2 Jul 2021 17:18:29 +0800
-Message-Id: <20210702091831.615042-1-desmondcheongzx@gmail.com>
+Subject: [PATCH 1/2] fcntl: fix potential deadlocks for &fown_struct.lock
+Date: Fri,  2 Jul 2021 17:18:30 +0800
+Message-Id: <20210702091831.615042-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210702091831.615042-1-desmondcheongzx@gmail.com>
+References: <20210702091831.615042-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+Cc: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -115,27 +118,123 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
+Syzbot reports a potential deadlock in do_fcntl:
 
-Syzbot reports a possible irq lock inversion dependency:
-https://syzkaller.appspot.com/bug?id=923cfc6c6348963f99886a0176ef11dcc429547b
+========================================================
+WARNING: possible irq lock inversion dependency detected
+5.12.0-syzkaller #0 Not tainted
+--------------------------------------------------------
+syz-executor132/8391 just changed the state of lock:
+ffff888015967bf8 (&f->f_owner.lock){.+..}-{2:2}, at: f_getown_ex fs/fcntl.c:211 [inline]
+ffff888015967bf8 (&f->f_owner.lock){.+..}-{2:2}, at: do_fcntl+0x8b4/0x1200 fs/fcntl.c:395
+but this lock was taken by another, HARDIRQ-safe lock in the past:
+ (&dev->event_lock){-...}-{2:2}
 
-While investigating this error, I discovered that multiple similar lock inversion scenarios can occur. Hence, this series addresses potential deadlocks for two classes of locks, one in each patch:
+and interrupts could create inverse lock ordering between them.
 
-1. Fix potential deadlocks for &fown_struct.lock
+other info that might help us debug this:
+Chain exists of:
+  &dev->event_lock --> &new->fa_lock --> &f->f_owner.lock
 
-2. Fix potential deadlock for &fasync_struct.fa_lock
+ Possible interrupt unsafe locking scenario:
 
-Best wishes,
-Desmond
+       CPU0                    CPU1
+       ----                    ----
+  lock(&f->f_owner.lock);
+                               local_irq_disable();
+                               lock(&dev->event_lock);
+                               lock(&new->fa_lock);
+  <Interrupt>
+    lock(&dev->event_lock);
 
-Desmond Cheong Zhi Xi (2):
-  fcntl: fix potential deadlocks for &fown_struct.lock
-  fcntl: fix potential deadlock for &fasync_struct.fa_lock
+ *** DEADLOCK ***
 
- fs/fcntl.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+This happens because there is a lock hierarchy of
+&dev->event_lock --> &new->fa_lock --> &f->f_owner.lock
+from the following call chain:
 
+  input_inject_event():
+    spin_lock_irqsave(&dev->event_lock,...);
+    input_handle_event():
+      input_pass_values():
+        input_to_handler():
+          evdev_events():
+            evdev_pass_values():
+              spin_lock(&client->buffer_lock);
+              __pass_event():
+                kill_fasync():
+                  kill_fasync_rcu():
+                    read_lock(&fa->fa_lock);
+                    send_sigio():
+                      read_lock_irqsave(&fown->lock,...);
+
+However, since &dev->event_lock is HARDIRQ-safe, interrupts have to be
+disabled while grabbing &f->f_owner.lock, otherwise we invert the lock
+hierarchy.
+
+Hence, we replace calls to read_lock/read_unlock on &f->f_owner.lock,
+with read_lock_irq/read_unlock_irq.
+
+Reported-and-tested-by: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+---
+ fs/fcntl.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index dfc72f15be7f..cf9e81dfa615 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -150,7 +150,8 @@ void f_delown(struct file *filp)
+ pid_t f_getown(struct file *filp)
+ {
+ 	pid_t pid = 0;
+-	read_lock(&filp->f_owner.lock);
++
++	read_lock_irq(&filp->f_owner.lock);
+ 	rcu_read_lock();
+ 	if (pid_task(filp->f_owner.pid, filp->f_owner.pid_type)) {
+ 		pid = pid_vnr(filp->f_owner.pid);
+@@ -158,7 +159,7 @@ pid_t f_getown(struct file *filp)
+ 			pid = -pid;
+ 	}
+ 	rcu_read_unlock();
+-	read_unlock(&filp->f_owner.lock);
++	read_unlock_irq(&filp->f_owner.lock);
+ 	return pid;
+ }
+ 
+@@ -208,7 +209,7 @@ static int f_getown_ex(struct file *filp, unsigned long arg)
+ 	struct f_owner_ex owner = {};
+ 	int ret = 0;
+ 
+-	read_lock(&filp->f_owner.lock);
++	read_lock_irq(&filp->f_owner.lock);
+ 	rcu_read_lock();
+ 	if (pid_task(filp->f_owner.pid, filp->f_owner.pid_type))
+ 		owner.pid = pid_vnr(filp->f_owner.pid);
+@@ -231,7 +232,7 @@ static int f_getown_ex(struct file *filp, unsigned long arg)
+ 		ret = -EINVAL;
+ 		break;
+ 	}
+-	read_unlock(&filp->f_owner.lock);
++	read_unlock_irq(&filp->f_owner.lock);
+ 
+ 	if (!ret) {
+ 		ret = copy_to_user(owner_p, &owner, sizeof(owner));
+@@ -249,10 +250,10 @@ static int f_getowner_uids(struct file *filp, unsigned long arg)
+ 	uid_t src[2];
+ 	int err;
+ 
+-	read_lock(&filp->f_owner.lock);
++	read_lock_irq(&filp->f_owner.lock);
+ 	src[0] = from_kuid(user_ns, filp->f_owner.uid);
+ 	src[1] = from_kuid(user_ns, filp->f_owner.euid);
+-	read_unlock(&filp->f_owner.lock);
++	read_unlock_irq(&filp->f_owner.lock);
+ 
+ 	err  = put_user(src[0], &dst[0]);
+ 	err |= put_user(src[1], &dst[1]);
 -- 
 2.25.1
 
