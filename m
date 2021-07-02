@@ -2,96 +2,104 @@ Return-Path: <SRS0=QgwC=L2=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 188EBC07E95
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 20:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 664AEC07E95
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 23:12:57 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A3BE0613BC
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 20:32:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A3BE0613BC
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 06CD361416
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  2 Jul 2021 23:12:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 06CD361416
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 70D6584343;
-	Fri,  2 Jul 2021 20:32:03 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BE51583260;
+	Fri,  2 Jul 2021 23:12:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UK2Ttn-wCYEx; Fri,  2 Jul 2021 20:32:02 +0000 (UTC)
+	with ESMTP id OYofdQ2OIHZn; Fri,  2 Jul 2021 23:12:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 847D784335;
-	Fri,  2 Jul 2021 20:32:02 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id A615E83163;
+	Fri,  2 Jul 2021 23:12:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F573C0010;
-	Fri,  2 Jul 2021 20:32:02 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05E73C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 79E5CC001A;
+	Fri,  2 Jul 2021 23:12:55 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 833B6C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 20:32:02 +0000 (UTC)
+ Fri,  2 Jul 2021 23:12:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E95AB84343
+ by smtp4.osuosl.org (Postfix) with ESMTP id 68B414229B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 20:32:01 +0000 (UTC)
+ Fri,  2 Jul 2021 23:12:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MRLErPjLzJpz
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9KOQHFi4cBIj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 20:32:01 +0000 (UTC)
+ Fri,  2 Jul 2021 23:12:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ua1-x933.google.com (mail-ua1-x933.google.com
- [IPv6:2607:f8b0:4864:20::933])
- by smtp1.osuosl.org (Postfix) with ESMTPS id F09A384335
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 4844342291
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Jul 2021 20:32:00 +0000 (UTC)
-Received: by mail-ua1-x933.google.com with SMTP id e20so4278878ual.9
+ Fri,  2 Jul 2021 23:12:52 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id s13so3490120plg.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 02 Jul 2021 13:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iGOVo0v3XCUiMjAb3ZKMCET9+F7mgGvVi8d4kWAB/nQ=;
- b=PIFD2PkAcBtdfGneD9rdOJGSbRlyUuSajHo5rEdUXjADsabsK9eaOyFu3SMjmK39Fs
- MYrFqCKI2Kd4ntd9AaXV8eU9jGb+yNTC9Ku5Qxr0uNu2sboax8qlfTjSn/Lmx+xndcXD
- WNQg85BnCQ55UBKyglFn2HSsvvbLEEozt5WIjhlPlFsgzopHUNiXv/A9mOlJZkJPwv5G
- fWGxW7MifwodbKAKIly274PrM3e2FWqdiz/YcZ644HkCHK88cGVrftnRUIe1tHBK8tUx
- ENvkbjIC3xpUgG5SZbZvGlS5n2oB19kmyL+Du1wgrdbBysCAj+KHsV9I+KrkT7JCM5LW
- Allg==
+ Fri, 02 Jul 2021 16:12:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jY+Z2YyKhtF3PNCdzDFu/6GyliQKTIVwJ/BKyrLM32U=;
+ b=Ir+c3bJBWlhZgHglJGD0HMWxwrLHYSkAOAcbHoE4b3ITnO0prn0Zr64LJp0rb/idY7
+ Z1Kjqq/LG+cgIa17iEyjiVPOldj+d/TMVXj0pe0beTLUQsP28SsOQRJePI9UBWlgurrQ
+ xM7VXU+xVPDjNkri4DBbEKhfMdizv+cQMpn3kl2vl/myeaRxYO7H8o8DbzabOf5jE7De
+ pm3QriMjKfgrdECxWMII9d6vdLDRYWewTHEKyjxFz5NLAVy5NRPjYVo0Ejcbjjrn/KI8
+ 5LGrQG0iPCv0BI+V5ITlKmFrwQ14lWp5aVY/ZtTr6GXihArEd4B0MmgMpCuIenkKC0v3
+ VIqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iGOVo0v3XCUiMjAb3ZKMCET9+F7mgGvVi8d4kWAB/nQ=;
- b=L7EdQCJpQPKra3O1qjPJQMxgJm5d3E5OPSpN/jFGxFD9hKzBaLGHeaUVvWf5x/sQtz
- +QQa7QBlG27qSJt5ynVKY2nFGzbpVXtpQvVGGzT5sbHELQBloOUHDQavK4YAMrmwZLj5
- czQObAqhLr3go/1lQSgR/xLO7UcFl8Jj45/045KWg6rPs13bwbk3qkJKTx4SWPzLQtwr
- BDjbPacC+Es3XWeSGYYYkj/wDgiqxb2tkJHwAyC06/oSdasCR0k5BOBvzvK8rVe0zcra
- YFe4zdb5GEC6g4gTiokq2WLvi5jE9JrylfNdfe3kq/izqoSPdYkQ3bivRosLL3pEPuRI
- d4QA==
-X-Gm-Message-State: AOAM530MCwpcpTUvGgtSefRKvgQ5bbr/DfESqfE5PZjDtK8fZdj+lfa+
- BZlOQajFzoVuj8qbJRC102ZMv7k4xFygkFH1VEVCYw==
-X-Google-Smtp-Source: ABdhPJz4axXxYgNaw6qv30zYaVckpnHi/S38bZVet4scjqfWTYa4pK51kVkcebfSQ3hnZ/OxwnV3PR1gwx3ni/HCqUw=
-X-Received: by 2002:ab0:77d0:: with SMTP id y16mr2408304uar.46.1625257919512; 
- Fri, 02 Jul 2021 13:31:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jY+Z2YyKhtF3PNCdzDFu/6GyliQKTIVwJ/BKyrLM32U=;
+ b=HiLlm3NgrO4VzatYyKQ+h/oWUI0agG8H/q6ryUiT8BKfeCFaBHNFbwtn3vS0kuLjXm
+ 8mK6+mRrr8IZhxt4JFAxTYXR6xWZjaMJiDcxMU+3JFyEC5yTjvm0bNTXTxJhPDrto7of
+ MbT/z+NLjE95hTPWdbioQ3BbFsroSicMV+2DiF2E5fXtdo1iu6MSSi0elFyOg48NRp+Q
+ +cBNKVWmdubqih4LVDrhyDiSFtvf0Q44z9QiytQTaejFpOihNss+f+ouI1fTh3z4dQtb
+ EfE6k87+z/qupf4pLmupyKkzQlFDGv0Xd30I+IN4B8F+SDsVidEMkfYj8NEnYcx5m0hS
+ sh9A==
+X-Gm-Message-State: AOAM532tNPjzWxvL4K9Xmnl4HNTtkbVEE4NZ0LPt7g/bw289XNcGBrqy
+ Y/UxxobdZb76zl5tX1DuEYg=
+X-Google-Smtp-Source: ABdhPJy0XV+iHxvy176r6zoC+htH6b1BUvuR/fZzRzC7Zgo9U72y8Q4+PIltQl7Krb+pradU6rZLNw==
+X-Received: by 2002:a17:90a:66c9:: with SMTP id
+ z9mr2020628pjl.122.1625267571554; 
+ Fri, 02 Jul 2021 16:12:51 -0700 (PDT)
+Received: from novachrono.domain.name ([122.163.170.78])
+ by smtp.gmail.com with ESMTPSA id w7sm4853645pgr.10.2021.07.02.16.12.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 02 Jul 2021 16:12:50 -0700 (PDT)
+From: Rajat Asthana <rajatasthana4@gmail.com>
+To: axboe@kernel.dk, hare@suse.de, ming.lei@redhat.com, damien.lemoal@wdc.com,
+ jack@suse.cz, gregkh@linuxfoundation.org, rafael@kernel.org
+Subject: [PATCH] block: Avoid accessing an already freed kobject in
+ delete_partition
+Date: Sat,  3 Jul 2021 04:42:28 +0530
+Message-Id: <20210702231228.261460-1-rajatasthana4@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210702194033.1370634-1-phind.uet@gmail.com>
-In-Reply-To: <20210702194033.1370634-1-phind.uet@gmail.com>
-Date: Fri, 2 Jul 2021 16:31:42 -0400
-Message-ID: <CADVnQynvWsD2qWfw4qJsNhyyPXbFGfhZmhMzaggfJ8JtUUt9VA@mail.gmail.com>
-Subject: Re: [PATCH v2] tcp: fix tcp_init_transfer() to not reset
- icsk_ca_initialized
-To: Nguyen Dinh Phi <phind.uet@gmail.com>
-Cc: songliubraving@fb.com, kafai@fb.com,
- syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com, daniel@iogearbox.net,
- yoshfuji@linux-ipv6.org, netdev@vger.kernel.org, dsahern@kernel.org,
- john.fastabend@gmail.com, ast@kernel.org, andrii@kernel.org,
- edumazet@google.com, kpsingh@kernel.org, kuba@kernel.org, bpf@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
- linux-kernel@vger.kernel.org
+Cc: linux-block@vger.kernel.org,
+ syzbot+7d6c5587ec9cff5be65c@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Rajat Asthana <rajatasthana4@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,79 +111,104 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Neal Cardwell via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Neal Cardwell <ncardwell@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jul 2, 2021 at 3:41 PM Nguyen Dinh Phi <phind.uet@gmail.com> wrote:
->
-> This commit fixes a bug (found by syzkaller) that could cause spurious
-> double-initializations for congestion control modules, which could cause
-> memory leaks orother problems for congestion control modules (like CDG)
-> that allocate memory in their init functions.
->
-> The buggy scenario constructed by syzkaller was something like:
->
-> (1) create a TCP socket
-> (2) initiate a TFO connect via sendto()
-> (3) while socket is in TCP_SYN_SENT, call setsockopt(TCP_CONGESTION),
->     which calls:
->        tcp_set_congestion_control() ->
->          tcp_reinit_congestion_control() ->
->            tcp_init_congestion_control()
-> (4) receive ACK, connection is established, call tcp_init_transfer(),
->     set icsk_ca_initialized=0 (without first calling cc->release()),
->     call tcp_init_congestion_control() again.
->
-> Note that in this sequence tcp_init_congestion_control() is called
-> twice without a cc->release() call in between. Thus, for CC modules
-> that allocate memory in their init() function, e.g, CDG, a memory leak
-> may occur. The syzkaller tool managed to find a reproducer that
-> triggered such a leak in CDG.
->
-> The bug was introduced when that commit 8919a9b31eb4 ("tcp: Only init
-> congestion control if not initialized already")
-> introduced icsk_ca_initialized and set icsk_ca_initialized to 0 in
-> tcp_init_transfer(), missing the possibility for a sequence like the
-> one above, where a process could call setsockopt(TCP_CONGESTION) in
-> state TCP_SYN_SENT (i.e. after the connect() or TFO open sendmsg()),
-> which would call tcp_init_congestion_control(). It did not intend to
-> reset any initialization that the user had already explicitly made;
-> it just missed the possibility of that particular sequence (which
-> syzkaller managed to find).
->
-> Fixes: commit 8919a9b31eb4 ("tcp: Only init congestion control if not
-> initialized already")
+When several processes, which interacts with block devices, are created
+and killed continuously, a case happens when the kobject freed by a
+process is accessed by another process in delete_partition.
 
-Please note that the patchwork tools have found a style/formatting
-issue with your Fixes tag:
+This causes a use-after-free bug and is being reported by syzbot here:
+https://syzkaller.appspot.com/bug?extid=7d6c5587ec9cff5be65c
 
-You can find them at:
-https://patchwork.kernel.org/project/netdevbpf/list/
- ->
- https://patchwork.kernel.org/project/netdevbpf/patch/20210702194033.1370634-1-phind.uet@gmail.com/
-  ->
-   https://patchwork.hopto.org/static/nipa/510221/12356435/verify_fixes/stdout
+Add a condition to check if the kobject for a device exists, if it
+does, then go ahead and refer the kobject, else avoid referencing it.
 
-The error is:
+In this scenario, when more than one processes are interacting with the
+block device, one process might have deleted the device from the system
+and the other process might try to delete an already deleted device,
+which will result in several null pointer dereference errors. So, check
+if device has a sysfs entry before calling functions to remove it from
+sysfs. We should also check if the knode belongs to any list before
+calling the function to remove it from the lists.
+
+Reported-and-tested-by: syzbot+7d6c5587ec9cff5be65c@syzkaller.appspotmail.com
+Signed-off-by: Rajat Asthana <rajatasthana4@gmail.com>
 ---
-Fixes tag: Fixes: commit 8919a9b31eb4 ("tcp: Only init congestion control if not
-Has these problem(s):
-- leading word 'commit' unexpected
-- Subject has leading but no trailing parentheses
-- Subject has leading but no trailing quotes
----
+ block/partitions/core.c |  6 +++++-
+ drivers/base/core.c     | 21 ++++++++++++++-------
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
-Basically, please omit the "commit" and don't wrap the text (it's OK
-if it's longer than 80 or 100 characters).
+diff --git a/block/partitions/core.c b/block/partitions/core.c
+index 347c56a51d87..3fc0364c1c35 100644
+--- a/block/partitions/core.c
++++ b/block/partitions/core.c
+@@ -291,7 +291,11 @@ static void delete_partition(struct block_device *part)
+ 	__invalidate_device(part, true);
+ 
+ 	xa_erase(&part->bd_disk->part_tbl, part->bd_partno);
+-	kobject_put(part->bd_holder_dir);
++
++	if (!part->bd_holder_dir) {
++		kobject_put(part->bd_holder_dir);
++	}
++
+ 	device_del(&part->bd_device);
+ 
+ 	/*
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 2a61003ea2c1..d4f43fd0d0ae 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -3486,16 +3486,20 @@ void device_del(struct device *dev)
+ 		blocking_notifier_call_chain(&dev->bus->p->bus_notifier,
+ 					     BUS_NOTIFY_DEL_DEVICE, dev);
+ 
+-	dpm_sysfs_remove(dev);
+-	if (parent)
++	if (dev->kobj.sd)
++		dpm_sysfs_remove(dev);
++	if (parent && klist_node_attached(&dev->p->knode_parent))
+ 		klist_del(&dev->p->knode_parent);
+ 	if (MAJOR(dev->devt)) {
+ 		devtmpfs_delete_node(dev);
+ 		device_remove_sys_dev_entry(dev);
+-		device_remove_file(dev, &dev_attr_dev);
++
++		if (dev->kobj.sd)
++			device_remove_file(dev, &dev_attr_dev);
+ 	}
+ 	if (dev->class) {
+-		device_remove_class_symlinks(dev);
++		if (dev->kobj.sd)
++			device_remove_class_symlinks(dev);
+ 
+ 		mutex_lock(&dev->class->p->mutex);
+ 		/* notify any interfaces that the device is now gone */
+@@ -3504,11 +3508,14 @@ void device_del(struct device *dev)
+ 			if (class_intf->remove_dev)
+ 				class_intf->remove_dev(dev, class_intf);
+ 		/* remove the device from the class list */
+-		klist_del(&dev->p->knode_class);
++		if (klist_node_attached(&dev->p->knode_class))
++			klist_del(&dev->p->knode_class);
+ 		mutex_unlock(&dev->class->p->mutex);
+ 	}
+-	device_remove_file(dev, &dev_attr_uevent);
+-	device_remove_attrs(dev);
++	if (dev->kobj.sd) {
++		device_remove_file(dev, &dev_attr_uevent);
++		device_remove_attrs(dev);
++	}
+ 	bus_remove_device(dev);
+ 	device_pm_remove(dev);
+ 	driver_deferred_probe_del(dev);
+-- 
+2.32.0
 
-thanks,
-neal
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
