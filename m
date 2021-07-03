@@ -8,93 +8,96 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6946BC07E98
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Jul 2021 08:47:17 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B58CAC07E9A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Jul 2021 09:34:30 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 19B8B613FB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Jul 2021 08:47:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 19B8B613FB
+	by mail.kernel.org (Postfix) with ESMTPS id 44789613CF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Jul 2021 09:34:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 44789613CF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D7C668436A;
-	Sat,  3 Jul 2021 08:47:16 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id F26E14020C;
+	Sat,  3 Jul 2021 09:34:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5Wxov7tuTxne; Sat,  3 Jul 2021 08:47:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 02E7E83E04;
-	Sat,  3 Jul 2021 08:47:16 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2Cp6MmypaW7E; Sat,  3 Jul 2021 09:34:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id DB7DA40171;
+	Sat,  3 Jul 2021 09:34:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C33ABC001A;
-	Sat,  3 Jul 2021 08:47:15 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59A6DC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B2E7DC0010;
+	Sat,  3 Jul 2021 09:34:28 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0ABFFC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Jul 2021 08:47:14 +0000 (UTC)
+ Sat,  3 Jul 2021 09:34:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 54FFB84366
+ by smtp3.osuosl.org (Postfix) with ESMTP id D7F1360615
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Jul 2021 08:47:14 +0000 (UTC)
+ Sat,  3 Jul 2021 09:34:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H1vTo7EHvaPp
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yee_twvRBYDJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Jul 2021 08:47:13 +0000 (UTC)
+ Sat,  3 Jul 2021 09:34:25 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C034A83E04
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
+ [IPv6:2607:f8b0:4864:20::52c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3A784605E3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Jul 2021 08:47:13 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id q91so8016404pjk.3
+ Sat,  3 Jul 2021 09:34:25 +0000 (UTC)
+Received: by mail-pg1-x52c.google.com with SMTP id d12so12442399pgd.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 03 Jul 2021 01:47:13 -0700 (PDT)
+ Sat, 03 Jul 2021 02:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=X5LqaHOTleUwEc8rezvK4+11SzDVWy9M2nq3QHqzO1A=;
- b=JmksDk+G/11lCWwdFtloFd5ErcfB70in1PJ8teXH827oRb1YG9b5QnMaMSA/l/3NwA
- VVYj5slobUkbtaJDdvQtd+OFd3BTpzfAtSpd9rSGgs0kODZqe5j5WyHbnNeBKb0mGemP
- 0Kin+cgjF/yw/vXYSqrGex5qH89vLWcKilbKVL6m4XHhQ4CS5EGtS7JlclGzraL0+SLf
- IM2k5af5hs6PGPe4ZigHWrzVB5/xNeQGvEsTBF94q0kBGuBDwBiTbZTUHJgYqXALFgUd
- e/eC6kNfH0fpe7eWOBn5x5UTeI5dOLO2/D4UYHKOZVmXV/8NLzRJeWKC4JgYa1sjhg1/
- dttg==
+ bh=NA2FyDBb7VVZ1//gW7vJlp4ZAiXUzh99M3RwT57vTIw=;
+ b=Az5UIhl/sRLYFP7/l98uaxO8255cP2jLQFPASm7wIL8pcr4SkuEctY2ZXYCRWe6PYE
+ Q8MKV/+5JjaVrkibRAlQVwwTbz287kc0JfkE0QG/Fpk7yGcZV9Xb0pAA8SdAf0hP+3BK
+ nAZuI+V9p5GvL4HhqZdarEMj7b+0IH3xJ/D1Li5xnjtXJSUjhKfblPJylh3IyZFPtBtd
+ 9rIiKYQaHcw73Osh/cFoCqva612gT1Yv3DcJmC3bDw1NcK6kcbmjUOKZzHn9kcwsdXeI
+ 4M3mafEiCNk6pxelGcMhseZmhGyTBwVW2PzJ61aQ22GfgO01682JTKHfS+ObcA+SYA0i
+ v1Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=X5LqaHOTleUwEc8rezvK4+11SzDVWy9M2nq3QHqzO1A=;
- b=R41PpGA+lIzenDb9e+Z4mn/EXj5R/gQJhkillHJ23BBSugSllk+ukFXD7d28oHLL9A
- yd+02e7YBqss7k6W5J3NgIt3cIqxsgZcPAkfxc+d4q5E3IvsM+3W4ynJTXp2YNCDRyji
- KSOHPdyIpSb1jaf0QoNTqzd92K+jimEv/ajgnrLO/kCoZie2MccBvARunjab/JxP33TR
- yaub9yUuHpbtLfI0ZigYbTb9ISxTiyD0maWMY9p6Hg5PFsKQhrSWeHw45N3SXiX1k/1W
- tx1Zo7Nmj/RXpROXFerQHCtER1OZOTSJRPIqw6KAOgTxV4Is563Nsi5hS4EP7VGhL3jJ
- /0yw==
-X-Gm-Message-State: AOAM532yqEhjwlE4jkvFs8LoFPeX4YZDE5NFwzkjRELRDEAvTrseLUhG
- iPyhvh0ri85jXCbW8MA7iAg=
-X-Google-Smtp-Source: ABdhPJy4kQ82sVIVkMMbUFzKmgZYCcgMjoMXW0PnOfLEgnWYrWhHK49npgVaZbBi1xJ2U3+Pt8IvIw==
-X-Received: by 2002:a17:90b:4d81:: with SMTP id
- oj1mr3609967pjb.153.1625302033236; 
- Sat, 03 Jul 2021 01:47:13 -0700 (PDT)
+ bh=NA2FyDBb7VVZ1//gW7vJlp4ZAiXUzh99M3RwT57vTIw=;
+ b=rXYTSjpfYfjcAWigvqu0W/xOiNrp21tQCBPgOU8UdSRNC07T+P7hSLFVjLixrEykq2
+ sXtbpBcTSFttyBVnKeZGgYOHjujZ5Ch4mBQcu977A1qP6WyjWyQ2SYacDLJOyTOZM4VB
+ xA9vWCa2VqJyuJBlMOHT++QrBViz/VrGo8nVxPgFzU8yeVbXwpovrDPtfFh5t8YBUyGl
+ gWis2UozQ+6ChDVChEXpTtOgIklzwwgXTkMYuDYU0U72qCLMwIuhv19dJBU1IHA5OjvY
+ pIlSIR6x04vLAdI17ySZFsIQ4h+ObLsi0olekFFfJV5mQfSGBv4gUOEP8DLPi7JvJMsr
+ qxHQ==
+X-Gm-Message-State: AOAM531yR3rxRNPIBOmivKZkd+0HW6R2MuE5VevbwlY1VeRZeFpLI8rC
+ 449rRFLUv+simXN31Dp/JJY=
+X-Google-Smtp-Source: ABdhPJxyffHwZGoXuXPFOyFpbw/YsOfSYAd3+uayOwhxVr3lCsxNRoB+lGmlEXPjCN7XJPH6dKOCmg==
+X-Received: by 2002:a62:8286:0:b029:2fc:812d:2e70 with SMTP id
+ w128-20020a6282860000b02902fc812d2e70mr3813374pfd.24.1625304864568; 
+ Sat, 03 Jul 2021 02:34:24 -0700 (PDT)
 Received: from pn-hyperv.lan (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
  by smtp.gmail.com with ESMTPSA id
- h27sm6557907pfr.171.2021.07.03.01.47.09
+ 144sm7200562pgg.4.2021.07.03.02.34.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Jul 2021 01:47:12 -0700 (PDT)
+ Sat, 03 Jul 2021 02:34:24 -0700 (PDT)
 From: Nguyen Dinh Phi <phind.uet@gmail.com>
 To: yhs@fb.com, edumazet@google.com, davem@davemloft.net,
  yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
  ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
- songliubraving@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org
-Subject: [PATCH v3] tcp: fix tcp_init_transfer() to not reset
+ songliubraving@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
+ ycheng@google.com, ncardwell@google.com, yyd@google.com
+Subject: [PATCH v4] tcp: fix tcp_init_transfer() to not reset
  icsk_ca_initialized
-Date: Sat,  3 Jul 2021 16:47:00 +0800
-Message-Id: <20210703084700.1546968-1-phind.uet@gmail.com>
+Date: Sat,  3 Jul 2021 17:34:17 +0800
+Message-Id: <20210703093417.1569943-1-phind.uet@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Cc: syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com,
@@ -160,6 +163,7 @@ V2:     - Modify the Subject line.
         - Adjust the commit message.
         - Add Fixes: tag.
 V3:	- Fix netdev/verify_fixes format error.
+V4:	- Add blamed authors to receiver list.
 
  net/ipv4/tcp_input.c | 1 -
  1 file changed, 1 deletion(-)
