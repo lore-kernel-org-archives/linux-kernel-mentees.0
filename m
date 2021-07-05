@@ -2,110 +2,114 @@ Return-Path: <SRS0=DYSW=L5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DABBC07E9B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 02:15:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 119A5C07E99
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 14:34:54 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0D1CD613BD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 02:15:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D1CD613BD
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id B09096141C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 14:34:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B09096141C
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CD6FE839CD;
-	Mon,  5 Jul 2021 02:15:55 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6FB9D8356C;
+	Mon,  5 Jul 2021 14:34:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uiUAbU8srhsJ; Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
+	with ESMTP id DGh5Nk6GISqY; Mon,  5 Jul 2021 14:34:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BC313839BB;
-	Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 26920833C9;
+	Mon,  5 Jul 2021 14:34:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8DFC4C0010;
-	Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 06270C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F16D7C001A;
+	Mon,  5 Jul 2021 14:34:51 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF9C8C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
+ Mon,  5 Jul 2021 14:34:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id CABC740382
+ by smtp3.osuosl.org (Postfix) with ESMTP id A064160869
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 02:15:53 +0000 (UTC)
+ Mon,  5 Jul 2021 14:34:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1CF_JKZVe_Ys
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ffwll.ch
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1zp3Jpvcr1aC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 02:15:52 +0000 (UTC)
+ Mon,  5 Jul 2021 14:34:48 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 43F6340358
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
+ [IPv6:2a00:1450:4864:20::431])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F10D36077D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 02:15:52 +0000 (UTC)
-Received: by mail-pl1-x62f.google.com with SMTP id u19so9449664plc.3
+ Mon,  5 Jul 2021 14:34:47 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id t6so12424125wrm.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 04 Jul 2021 19:15:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:references:cc:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eKPwU8ihKp6HURYY20YptZuredyiFO2NuPH2rYK+4fU=;
- b=YTl4pcTBzWdk72Lu326yORpYOsZxkr3uj5x2lL4SrGszYWqL2o5uImUjSlB3CxV7hd
- cI3CIF9VkSQ9eFRVM1TktsRZc23urJP8Gizsa9RVIlWfWRNMlBFtwNDM52WgdNw+mJFg
- v777/4wDiSIZFOL4KYRHXKyibbq8jOH2WH2Smufpu9tnYRjA/D88Bk2D7Vf2s0cZRi7p
- CvUr3NtWjLRKo4Gmx2an3CrAklQyfdsrIGzu/W/sicgftk+rr+2vFn9P8IpqjgFUI5w1
- 7OJxdtQjhg5jiI/q4J2oxSf1G319fWVIWOBvwhyBEAPg/4dO46zaTYr1nyZjoDMNADxV
- BHVw==
+ Mon, 05 Jul 2021 07:34:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OzJ8i4gPoH0dAmjwwaE547XWzKx5g6WMgCM5rvUbkbI=;
+ b=fQUXbXen5qaRrjJ29p/EC2tVoBuzsz8udWRmbLkcDDhigIHcy3dGZU6g9LEuJALUi6
+ nw4tTJFOie39V3+vdETTeSYpaDoIVxdnriKRHJm/zwmmtLFHH/aI/ej70YnewdiIlQcx
+ uZIoGglFdhpw6L7mwe1p7U8ZHu8TcSnOCEzJ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:references:cc:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eKPwU8ihKp6HURYY20YptZuredyiFO2NuPH2rYK+4fU=;
- b=qNHLlT1FWsGx1gL8s85qd+0/zaqhJxG06GS9diBYlJyrhQgNoVxPGyUORPzB+H9j8h
- MX/DldSkdAZjfl31b3tBXrIwSMd6w6yBrU1ec4wK8sCSTzsG1cMYSUZEFLClPazdmvzC
- LVTN2BQ4JCoeWCYlwblEmYuZ8QXhOPJKqZkzmqDHmMluUZqA+ltBkrq/E+cUaoMFNK/g
- hZMv4SmGQajj/ZawVymwFBhFWF2aCP9BREdS50ikYHre4ctc4AwrlhwHFbudX1IZhNcG
- jnEQFJfK4nBkHFr6vtvjN7iVCKrB0pbJK3En7O66yPjS8PtFmtLuale/B7uAXuxbUwsU
- Kpaw==
-X-Gm-Message-State: AOAM5325hJf509ymHwRuwtv5vvq/cxjnnBVDxBaZNjHl/oJ/5UvuBvGA
- ZIDVQMsVCuCBstTC1JlS1NQnpnXf/7C/j98+UNQ=
-X-Google-Smtp-Source: ABdhPJwSdsTvj6CM8VhKpPKghoJlPCCjZOcl5NF8Q/mmg3X9fczQ6cRFHWK4cZejwg/Euiy/Ojotyw==
-X-Received: by 2002:a17:902:d217:b029:105:e265:65c7 with SMTP id
- t23-20020a170902d217b0290105e26565c7mr10647502ply.16.1625451351297; 
- Sun, 04 Jul 2021 19:15:51 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id s63sm10440789pfb.195.2021.07.04.19.15.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 04 Jul 2021 19:15:50 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=OzJ8i4gPoH0dAmjwwaE547XWzKx5g6WMgCM5rvUbkbI=;
+ b=CxSelS8ja5OOpYfUzgYlYdeME6rqM+M/RXXZAr2ztr6Z8I07H2QagCQgx074mZmQPD
+ qZ/ST+QuQt860XJCOHRifvoks0koLW5ybWqiUt0l5hAJjsd5mRAbsao7on/Vq37GWigV
+ Fi1Zpka5rpU0UByddoEO8vd9Pgh0bzZfx8YoiDY/k+V7W1JY1cZjJW9OmD2mwHJeJyrm
+ iIAA35e6aSpIypeCLO2jxnVrv6j8hEz0YRiCJ0hsqE9DzSQ1qOPNZikdg7z5wguzCEfq
+ Jug8hhRRIGh+Gjp7mK565l5BkkdVP+DdaMTXdQYk4JV4vl8HowUQJ3/iCMjxO/qAUS4C
+ BrXg==
+X-Gm-Message-State: AOAM531gu1FzQM/FoWVs75R1YyjV8WVs3FkUSWFJvzsdlEuSZbI+YpFW
+ tt/kibP1ofHIGwVa6E2HWTy2Iw==
+X-Google-Smtp-Source: ABdhPJxHJtbnLxFoghCJmhtQ1zvT9/7dvksFg29oHl1HxU7bk/ZhmxDGmRfZMw4c249sZVU8zWMIzQ==
+X-Received: by 2002:a5d:4b88:: with SMTP id b8mr15925477wrt.95.1625495685806; 
+ Mon, 05 Jul 2021 07:34:45 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id n23sm12008913wmi.29.2021.07.05.07.34.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 05 Jul 2021 07:34:45 -0700 (PDT)
+Date: Mon, 5 Jul 2021 16:34:43 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 Subject: Re: [PATCH v7 0/5] drm: address potential UAF bugs with drm_master
  ptrs
-To: Daniel Vetter <daniel@ffwll.ch>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
- sumit.semwal@linaro.org, christian.koenig@amd.com
+Message-ID: <YOMYgytOSPM+D6eZ@phenom.ffwll.local>
+Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ emil.l.velikov@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 References: <20210701165358.19053-1-desmondcheongzx@gmail.com>
  <YN9kAFcfGoB13x7f@phenom.ffwll.local>
-Message-ID: <ae76290d-26e9-a011-dcdd-b5d48c80912e@gmail.com>
-Date: Mon, 5 Jul 2021 10:15:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <ae76290d-26e9-a011-dcdd-b5d48c80912e@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YN9kAFcfGoB13x7f@phenom.ffwll.local>
-Content-Language: en-US
-Cc: intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel-mentees@lists.linuxfoundation.org,
+Content-Disposition: inline
+In-Reply-To: <ae76290d-26e9-a011-dcdd-b5d48c80912e@gmail.com>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Cc: Daniel Vetter <daniel@ffwll.ch>, airlied@linux.ie,
+ intel-gfx@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, emil.l.velikov@gmail.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-kernel-mentees@lists.linuxfoundation.org, sumit.semwal@linaro.org,
  linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -118,211 +122,256 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 3/7/21 3:07 am, Daniel Vetter wrote:
-> On Fri, Jul 02, 2021 at 12:53:53AM +0800, Desmond Cheong Zhi Xi wrote:
->> This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
->> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
->>
->> The series is broken up into five patches:
->>
->> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
->>
->> 2. Move a call to _drm_lease_held() out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find().
->>
->> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
->>
->> 4. Serialize drm_file.master by introducing a new lock that's held whenever the value of drm_file.master changes.
->>
->> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
->>
->> Changes in v6 -> v7:
->> - Patch 2:
->> Modify code alignment as suggested by the intel-gfx CI.
->>
->> Update commit message based on the changes to patch 5.
->>
->> - Patch 4:
->> Add patch 4 to the series. This patch adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
->>
->> - Patch 5:
->> Move kerneldoc comment about protecting drm_file.master with drm_device.master_mutex into patch 4.
->>
->> Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+On Mon, Jul 05, 2021 at 10:15:45AM +0800, Desmond Cheong Zhi Xi wrote:
+> On 3/7/21 3:07 am, Daniel Vetter wrote:
+> > On Fri, Jul 02, 2021 at 12:53:53AM +0800, Desmond Cheong Zhi Xi wrote:
+> > > This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+> > > https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+> > > 
+> > > The series is broken up into five patches:
+> > > 
+> > > 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+> > > 
+> > > 2. Move a call to _drm_lease_held() out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find().
+> > > 
+> > > 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+> > > 
+> > > 4. Serialize drm_file.master by introducing a new lock that's held whenever the value of drm_file.master changes.
+> > > 
+> > > 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+> > > 
+> > > Changes in v6 -> v7:
+> > > - Patch 2:
+> > > Modify code alignment as suggested by the intel-gfx CI.
+> > > 
+> > > Update commit message based on the changes to patch 5.
+> > > 
+> > > - Patch 4:
+> > > Add patch 4 to the series. This patch adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+> > > 
+> > > - Patch 5:
+> > > Move kerneldoc comment about protecting drm_file.master with drm_device.master_mutex into patch 4.
+> > > 
+> > > Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+> > 
+> > So there's another one now because master->leases is protected by the
+> > mode_config.idr_mutex, and that's a bit awkward to untangle.
+> > 
+> > Also I'm really surprised that there was now lockdep through the atomic
+> > code anywhere. The reason seems to be that somehow CI reboot first before
+> > it managed to run any of the kms_atomic tests, and we can only hit this
+> > when we go through the atomic kms ioctl, the legacy kms ioctl don't have
+> > that specific issue.
+> > 
+> > Anyway I think this approach doesn't look too workable, and we need
+> > something new.
+> > 
+> > But first things first: Are you still on board working on this? You
+> > started with a simple patch to fix a UAF bug, now we're deep into
+> > reworking tricky locking ... If you feel like you want out I'm totally
+> > fine with that.
+> > 
 > 
-> So there's another one now because master->leases is protected by the
-> mode_config.idr_mutex, and that's a bit awkward to untangle.
+> Hi Daniel,
 > 
-> Also I'm really surprised that there was now lockdep through the atomic
-> code anywhere. The reason seems to be that somehow CI reboot first before
-> it managed to run any of the kms_atomic tests, and we can only hit this
-> when we go through the atomic kms ioctl, the legacy kms ioctl don't have
-> that specific issue.
+> Thanks for asking, but I'm committed to seeing this through :) In fact, I
+> really appreciate all your guidance and patience as the simple patch evolved
+> into the current state of things.
+
+Cool, it's definitely been fun trying to figure out a good solution for
+this tricky problem here :-)
+
+> > Anyway, I think we need to split drm_device->master_mutex up into two
+> > parts:
+> > 
+> > - One part that protects the actual access/changes, which I think for
+> >    simplicity we'll just leave as the current lock. That lock is a very
+> >    inner lock, since for the drm_lease.c stuff it has to nest within
+> >    mode_config.idr_mutex even.
+> > 
+> > - Now the issue with checking master status/leases/whatever as an
+> >    innermost lock is that you can race, it's a classic time of check vs
+> >    time of use race: By the time we actually use the thing we validate
+> >    we'er allowed to use, we might now have access anymore. There's two
+> >    reasons for that:
+> > 
+> >    * DROPMASTER ioctl could remove the master rights, which removes access
+> >      rights also for all leases
+> > 
+> >    * REVOKE_LEASE ioctl can do the same but only for a specific lease
+> > 
+> >    This is the thing we're trying to protect against in fbcon code, but
+> >    that's very spotty protection because all the ioctls by other users
+> >    aren't actually protected against this.
+> > 
+> >    So I think for this we need some kind of big reader lock.
+> > 
+> > Now for the implementation, there's a few things:
+> > 
+> > - I think best option for this big reader lock would be to just use srcu.
+> >    We only need to flush out all current readers when we drop master or
+> >    revoke a lease, so synchronize_srcu is perfectly good enough for this
+> >    purpose.
+> > 
+> > - The fbdev code would switch over to srcu in
+> >    drm_master_internal_acquire() and drm_master_internal_release(). Ofc
+> >    within drm_master_internal_acquire we'd still need to check master
+> >    status with the normal master_mutex.
+> > 
+> > - While we revamp all this we should fix the ioctl checks in drm_ioctl.c.
+> >    Just noticed that drm_ioctl_permit() could and should be unexported,
+> >    last user was removed.
+> > 
+> >    Within drm_ioctl_kernel we'd then replace the check for
+> >    drm_is_current_master with the drm_master_internal_acquire/release.
+> > 
+> > - This alone does nothing, we still need to make sure that dropmaster and
+> >    revoke_lease ioctl flush out all other access before they return to
+> >    userspace. We can't just call synchronize_srcu because due to the ioctl
+> >    code in drm_ioctl_kernel we're in that sruc section, we'd need to add a
+> >    DRM_MASTER_FLUSH ioctl flag which we'd check only when DRM_MASTER is
+> >    set, and use to call synchronize_srcu. Maybe wrap that in a
+> >    drm_master_flush or so, or perhaps a drm_master_internal_release_flush.
+> > 
+> > - Also maybe we should drop the _internal_ from that name. Feels a bit
+> >    wrong when we're also going to use this in the ioctl handler.
+> > 
+> > Thoughts? Totally silly and overkill?
+> > 
+> > Cheers, Daniel
+> > 
+> > 
 > 
-> Anyway I think this approach doesn't look too workable, and we need
-> something new.
+> Just some thoughts on the previous approach before we move on to something
+> new. Regarding the lockdep warning for mode_config.idr_mutex, I think that's
+> resolvable now by simply removing patch 2, which is no longer really
+> necessary with the introduction of a new mutex at the bottom of the lock
+> hierarchy in patch 4.
+
+Oh I missed that, this is essentially part-way to what I'm describing
+above.
+
+> I was hesitant to create a new mutex (especially since this means that
+> drm_file.master is now protected by either of two mutexes), but it's
+> probably the smallest fix in terms of code churn. Is that approach no good?
+
+That's the other approach I considered. It solves the use-after-free
+issue, but while I was musing all the different issues here I realized
+that we might as well use the opportunity to plug a few functional races
+around drm_device ownership rules.
+
+I do think it works. One thing I'd change is make it a spinlock - that
+wayy it's very clear that it's a tiny inner lock that's really only meant
+to protect the ->master pointer.
+
+> Otherwise, on a high level, I think using an srcu mechanism makes a lot of
+> sense to me to address the issue of data items being reclaimed while some
+> readers still have references to them.
 > 
-> But first things first: Are you still on board working on this? You
-> started with a simple patch to fix a UAF bug, now we're deep into
-> reworking tricky locking ... If you feel like you want out I'm totally
-> fine with that.
+> The implementation details seem sound to me too, but I'll need to code it up
+> a bit before I can comment further.
+
+So maybe this is complete overkill, but what about three locks :-)
+
+- innermost spinlock, just to protect against use-after-free until we
+  successfully got a reference. Essentially this is the lookup lock -
+  maybe we could call it master_lookup_lock for clarity?
+
+- mutex like we have right now to make sure master state is consistent
+  when someone races set/dropmaster in userspace. This would be the only
+  write lock we have.
+
+- new srcu to make sure that after a dropmaster/revoke-lease all previous
+  users calls are flushed out with synchronize_srcu(). Essentially this
+  wouldn't be a lock, but more a barrier. So maybe should call it
+  master_barrier_srcu or so? fbdev emulation in drm_client would use this,
+  and also drm_ioctl code to plug the race I've spotted.
+
+So maybe refresh your series with just the pieces you think we need for
+the master lookup spinlock, and we try to land that first?
+
+I do agree this should work against the use-after-free.
+
+Cheers, Daniel
+
+> 
+> Best wishes,
+> Desmond
+> 
+> > > Changes in v5 -> v6:
+> > > - Patch 2:
+> > > Add patch 2 to the series. This patch moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+> > > 
+> > > - Patch 5:
+> > > Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+> > > 
+> > > Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+> > > 
+> > > Modify comparison to NULL into "!master", as suggested by the intel-gfx CI.
+> > > 
+> > > Changes in v4 -> v5:
+> > > - Patch 1:
+> > > Add patch 1 to the series. The changes in patch 1 do not apply to stable because they apply to new changes in the drm-misc-next branch. This patch moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+> > > 
+> > > Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+> > > 
+> > > - Patch 3:
+> > > Move changes to drm_connector.c into patch 1.
+> > > 
+> > > Changes in v3 -> v4:
+> > > - Patch 3:
+> > > Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+> > > 
+> > > Additionally, inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+> > > 
+> > > - Patch 5:
+> > > Modify kerneldoc formatting.
+> > > 
+> > > Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+> > > 
+> > > Changes in v2 -> v3:
+> > > - Patch 3:
+> > > Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+> > > 
+> > > - Patch 5:
+> > > Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+> > > 
+> > > Changes in v1 -> v2:
+> > > - Patch 5:
+> > > Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+> > > 
+> > > Desmond Cheong Zhi Xi (5):
+> > >    drm: avoid circular locks in drm_mode_getconnector
+> > >    drm: separate locks in __drm_mode_object_find
+> > >    drm: add a locked version of drm_is_current_master
+> > >    drm: serialize drm_file.master with a master lock
+> > >    drm: protect drm_master pointers in drm_lease.c
+> > > 
+> > >   drivers/gpu/drm/drm_auth.c        | 86 +++++++++++++++++++++++--------
+> > >   drivers/gpu/drm/drm_connector.c   |  5 +-
+> > >   drivers/gpu/drm/drm_file.c        |  1 +
+> > >   drivers/gpu/drm/drm_lease.c       | 81 ++++++++++++++++++++++-------
+> > >   drivers/gpu/drm/drm_mode_object.c | 10 ++--
+> > >   include/drm/drm_auth.h            |  1 +
+> > >   include/drm/drm_file.h            | 18 +++++--
+> > >   7 files changed, 153 insertions(+), 49 deletions(-)
+> > > 
+> > > -- 
+> > > 2.25.1
+> > > 
+> > 
 > 
 
-Hi Daniel,
-
-Thanks for asking, but I'm committed to seeing this through :) In fact, 
-I really appreciate all your guidance and patience as the simple patch 
-evolved into the current state of things.
-
-> Anyway, I think we need to split drm_device->master_mutex up into two
-> parts:
-> 
-> - One part that protects the actual access/changes, which I think for
->    simplicity we'll just leave as the current lock. That lock is a very
->    inner lock, since for the drm_lease.c stuff it has to nest within
->    mode_config.idr_mutex even.
-> 
-> - Now the issue with checking master status/leases/whatever as an
->    innermost lock is that you can race, it's a classic time of check vs
->    time of use race: By the time we actually use the thing we validate
->    we'er allowed to use, we might now have access anymore. There's two
->    reasons for that:
-> 
->    * DROPMASTER ioctl could remove the master rights, which removes access
->      rights also for all leases
-> 
->    * REVOKE_LEASE ioctl can do the same but only for a specific lease
-> 
->    This is the thing we're trying to protect against in fbcon code, but
->    that's very spotty protection because all the ioctls by other users
->    aren't actually protected against this.
-> 
->    So I think for this we need some kind of big reader lock.
-> 
-> Now for the implementation, there's a few things:
-> 
-> - I think best option for this big reader lock would be to just use srcu.
->    We only need to flush out all current readers when we drop master or
->    revoke a lease, so synchronize_srcu is perfectly good enough for this
->    purpose.
-> 
-> - The fbdev code would switch over to srcu in
->    drm_master_internal_acquire() and drm_master_internal_release(). Ofc
->    within drm_master_internal_acquire we'd still need to check master
->    status with the normal master_mutex.
-> 
-> - While we revamp all this we should fix the ioctl checks in drm_ioctl.c.
->    Just noticed that drm_ioctl_permit() could and should be unexported,
->    last user was removed.
-> 
->    Within drm_ioctl_kernel we'd then replace the check for
->    drm_is_current_master with the drm_master_internal_acquire/release.
-> 
-> - This alone does nothing, we still need to make sure that dropmaster and
->    revoke_lease ioctl flush out all other access before they return to
->    userspace. We can't just call synchronize_srcu because due to the ioctl
->    code in drm_ioctl_kernel we're in that sruc section, we'd need to add a
->    DRM_MASTER_FLUSH ioctl flag which we'd check only when DRM_MASTER is
->    set, and use to call synchronize_srcu. Maybe wrap that in a
->    drm_master_flush or so, or perhaps a drm_master_internal_release_flush.
-> 
-> - Also maybe we should drop the _internal_ from that name. Feels a bit
->    wrong when we're also going to use this in the ioctl handler.
-> 
-> Thoughts? Totally silly and overkill?
-> 
-> Cheers, Daniel
-> 
-> 
-
-Just some thoughts on the previous approach before we move on to 
-something new. Regarding the lockdep warning for mode_config.idr_mutex, 
-I think that's resolvable now by simply removing patch 2, which is no 
-longer really necessary with the introduction of a new mutex at the 
-bottom of the lock hierarchy in patch 4.
-
-I was hesitant to create a new mutex (especially since this means that 
-drm_file.master is now protected by either of two mutexes), but it's 
-probably the smallest fix in terms of code churn. Is that approach no good?
-
-Otherwise, on a high level, I think using an srcu mechanism makes a lot 
-of sense to me to address the issue of data items being reclaimed while 
-some readers still have references to them.
-
-The implementation details seem sound to me too, but I'll need to code 
-it up a bit before I can comment further.
-
-Best wishes,
-Desmond
-
->> Changes in v5 -> v6:
->> - Patch 2:
->> Add patch 2 to the series. This patch moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
->>
->> - Patch 5:
->> Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
->>
->> Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
->>
->> Modify comparison to NULL into "!master", as suggested by the intel-gfx CI.
->>
->> Changes in v4 -> v5:
->> - Patch 1:
->> Add patch 1 to the series. The changes in patch 1 do not apply to stable because they apply to new changes in the drm-misc-next branch. This patch moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
->>
->> Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
->>
->> - Patch 3:
->> Move changes to drm_connector.c into patch 1.
->>
->> Changes in v3 -> v4:
->> - Patch 3:
->> Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
->>
->> Additionally, inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
->>
->> - Patch 5:
->> Modify kerneldoc formatting.
->>
->> Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
->>
->> Changes in v2 -> v3:
->> - Patch 3:
->> Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
->>
->> - Patch 5:
->> Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
->>
->> Changes in v1 -> v2:
->> - Patch 5:
->> Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
->>
->> Desmond Cheong Zhi Xi (5):
->>    drm: avoid circular locks in drm_mode_getconnector
->>    drm: separate locks in __drm_mode_object_find
->>    drm: add a locked version of drm_is_current_master
->>    drm: serialize drm_file.master with a master lock
->>    drm: protect drm_master pointers in drm_lease.c
->>
->>   drivers/gpu/drm/drm_auth.c        | 86 +++++++++++++++++++++++--------
->>   drivers/gpu/drm/drm_connector.c   |  5 +-
->>   drivers/gpu/drm/drm_file.c        |  1 +
->>   drivers/gpu/drm/drm_lease.c       | 81 ++++++++++++++++++++++-------
->>   drivers/gpu/drm/drm_mode_object.c | 10 ++--
->>   include/drm/drm_auth.h            |  1 +
->>   include/drm/drm_file.h            | 18 +++++--
->>   7 files changed, 153 insertions(+), 49 deletions(-)
->>
->> -- 
->> 2.25.1
->>
-> 
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
