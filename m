@@ -1,102 +1,112 @@
-Return-Path: <SRS0=J4w3=L4=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=DYSW=L5=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27E49C07E96
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  4 Jul 2021 14:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DABBC07E9B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 02:15:56 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C7BF4613E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  4 Jul 2021 14:03:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C7BF4613E0
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 0D1CD613BD
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 02:15:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0D1CD613BD
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 86DE983A56;
-	Sun,  4 Jul 2021 14:03:29 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id CD6FE839CD;
+	Mon,  5 Jul 2021 02:15:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ATi6TbTr5L_w; Sun,  4 Jul 2021 14:03:28 +0000 (UTC)
+	with ESMTP id uiUAbU8srhsJ; Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9B8D3834F1;
-	Sun,  4 Jul 2021 14:03:28 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id BC313839BB;
+	Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7138AC001A;
-	Sun,  4 Jul 2021 14:03:28 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6F9FBC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8DFC4C0010;
+	Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 06270C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Jul 2021 14:03:27 +0000 (UTC)
+ Mon,  5 Jul 2021 02:15:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5E50B4014F
+ by smtp4.osuosl.org (Postfix) with ESMTP id CABC740382
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Jul 2021 14:03:27 +0000 (UTC)
+ Mon,  5 Jul 2021 02:15:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=google.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KldMSstWaxTz
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1CF_JKZVe_Ys
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Jul 2021 14:03:26 +0000 (UTC)
+ Mon,  5 Jul 2021 02:15:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com
- [IPv6:2607:f8b0:4864:20::a2a])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9ADFA400FC
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 43F6340358
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  4 Jul 2021 14:03:26 +0000 (UTC)
-Received: by mail-vk1-xa2a.google.com with SMTP id i42so2512515vkr.11
+ Mon,  5 Jul 2021 02:15:52 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id u19so9449664plc.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 04 Jul 2021 07:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gBspm/BlVrYCvD2/PgUixtAdfPPqsF72ctK925L56Wc=;
- b=lc1LmfjctBzKJNjKLR7QVzRXzvkDICIDyMrYxrN6y5PwKmmAy6WJMPG5oIp+mrsbE3
- XQ2/F31H5tEilzpFWH+jZPPxkOLpsutS/DpuKwoUzY9qDxb2ipYStnabEPwNTNSwEVHz
- Ko9YLgIXfMIRjbRF4uOgoFZ7hZ+bJdcZMJ0urItEc619PEEx1ZAO0l3c+Bzdj0S1/SnM
- Qt98R3v/DaEi0/MPNkDbAWkmam24FQHrhUBsY9goYzCPST14diqxaFcm3b2yvRykULGZ
- oxFwXcxsoXIz+ia5Lk3MsPVxAGSquH9myTASmYxsdSEkGsa+1kalucIIT2GGU+swgI5A
- N99w==
+ Sun, 04 Jul 2021 19:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:subject:to:references:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eKPwU8ihKp6HURYY20YptZuredyiFO2NuPH2rYK+4fU=;
+ b=YTl4pcTBzWdk72Lu326yORpYOsZxkr3uj5x2lL4SrGszYWqL2o5uImUjSlB3CxV7hd
+ cI3CIF9VkSQ9eFRVM1TktsRZc23urJP8Gizsa9RVIlWfWRNMlBFtwNDM52WgdNw+mJFg
+ v777/4wDiSIZFOL4KYRHXKyibbq8jOH2WH2Smufpu9tnYRjA/D88Bk2D7Vf2s0cZRi7p
+ CvUr3NtWjLRKo4Gmx2an3CrAklQyfdsrIGzu/W/sicgftk+rr+2vFn9P8IpqjgFUI5w1
+ 7OJxdtQjhg5jiI/q4J2oxSf1G319fWVIWOBvwhyBEAPg/4dO46zaTYr1nyZjoDMNADxV
+ BHVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gBspm/BlVrYCvD2/PgUixtAdfPPqsF72ctK925L56Wc=;
- b=MLSuEQDDoVFhcHKXGZBbfTuVPK+7qHX8OvCagFsjfE+CbveoyDzikJxr8pg5dTXxTv
- swq23dHBiGVaEUltDPNKQ2beSl6nhqmQszeDSkIsRFM6klRnEyEYpPQman3NiGuKubR9
- SxMNqFS6fVitZYYKRxTxKie2CJ41vZ6Ztc0hLYBii03b4Zyr1SB3EMToV17XxZTzsEyd
- RLoJ8q1oKOr+3bi6arNQTqVkHp+9C0zSl1CiEnmkSVFrTxAapkVSA0JOkNshxeJeIpjA
- phuW/MXlySRNJWFq0pgSucF194uHZrL91xFtueluKSRGqA32V2I8oBPOOcnxxH6H1e/l
- MAbg==
-X-Gm-Message-State: AOAM532882V7YBbYeOn8Wk3MK+IcMApVLJaTaeCP5c66NaeadkViuGRK
- fFvdmzEnDUe+MNvzUjzbSRcXOdSjBito8fgvdT4H8g==
-X-Google-Smtp-Source: ABdhPJytYsHbTrFOlrsisLYRSoTTuDDGUpSkgbxQLUklvl9NvDcJPMoaAHHy6mtBNB9vJmqcpiJooThRYrXLq62DZ+o=
-X-Received: by 2002:a1f:dfc1:: with SMTP id w184mr5658047vkg.17.1625407404796; 
- Sun, 04 Jul 2021 07:03:24 -0700 (PDT)
+ h=x-gm-message-state:from:subject:to:references:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eKPwU8ihKp6HURYY20YptZuredyiFO2NuPH2rYK+4fU=;
+ b=qNHLlT1FWsGx1gL8s85qd+0/zaqhJxG06GS9diBYlJyrhQgNoVxPGyUORPzB+H9j8h
+ MX/DldSkdAZjfl31b3tBXrIwSMd6w6yBrU1ec4wK8sCSTzsG1cMYSUZEFLClPazdmvzC
+ LVTN2BQ4JCoeWCYlwblEmYuZ8QXhOPJKqZkzmqDHmMluUZqA+ltBkrq/E+cUaoMFNK/g
+ hZMv4SmGQajj/ZawVymwFBhFWF2aCP9BREdS50ikYHre4ctc4AwrlhwHFbudX1IZhNcG
+ jnEQFJfK4nBkHFr6vtvjN7iVCKrB0pbJK3En7O66yPjS8PtFmtLuale/B7uAXuxbUwsU
+ Kpaw==
+X-Gm-Message-State: AOAM5325hJf509ymHwRuwtv5vvq/cxjnnBVDxBaZNjHl/oJ/5UvuBvGA
+ ZIDVQMsVCuCBstTC1JlS1NQnpnXf/7C/j98+UNQ=
+X-Google-Smtp-Source: ABdhPJwSdsTvj6CM8VhKpPKghoJlPCCjZOcl5NF8Q/mmg3X9fczQ6cRFHWK4cZejwg/Euiy/Ojotyw==
+X-Received: by 2002:a17:902:d217:b029:105:e265:65c7 with SMTP id
+ t23-20020a170902d217b0290105e26565c7mr10647502ply.16.1625451351297; 
+ Sun, 04 Jul 2021 19:15:51 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id s63sm10440789pfb.195.2021.07.04.19.15.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 04 Jul 2021 19:15:50 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v7 0/5] drm: address potential UAF bugs with drm_master
+ ptrs
+To: Daniel Vetter <daniel@ffwll.ch>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie,
+ sumit.semwal@linaro.org, christian.koenig@amd.com
+References: <20210701165358.19053-1-desmondcheongzx@gmail.com>
+ <YN9kAFcfGoB13x7f@phenom.ffwll.local>
+Message-ID: <ae76290d-26e9-a011-dcdd-b5d48c80912e@gmail.com>
+Date: Mon, 5 Jul 2021 10:15:45 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210703093417.1569943-1-phind.uet@gmail.com>
- <20210703.144945.1327654903412498334.davem@davemloft.net>
-In-Reply-To: <20210703.144945.1327654903412498334.davem@davemloft.net>
-Date: Sun, 4 Jul 2021 10:03:08 -0400
-Message-ID: <CADVnQykHuUTw82Fu6XNXJaX-vmep3UN0kvxdwvqcE--2+xAs5A@mail.gmail.com>
-Subject: Re: [PATCH v4] tcp: fix tcp_init_transfer() to not reset
- icsk_ca_initialized
-To: David Miller <davem@davemloft.net>
-Cc: songliubraving@fb.com,
- syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com, daniel@iogearbox.net,
- yoshfuji@linux-ipv6.org, netdev@vger.kernel.org, dsahern@kernel.org,
- john.fastabend@gmail.com, ast@kernel.org, andrii@kernel.org,
- edumazet@google.com, yyd@google.com, ycheng@google.com, kuba@kernel.org,
- kpsingh@kernel.org, yhs@fb.com, bpf@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, kafai@fb.com,
- linux-kernel@vger.kernel.org
+In-Reply-To: <YN9kAFcfGoB13x7f@phenom.ffwll.local>
+Content-Language: en-US
+Cc: intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,48 +118,211 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Neal Cardwell via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Neal Cardwell <ncardwell@google.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Jul 3, 2021 at 5:49 PM David Miller <davem@davemloft.net> wrote:
->
-> From: Nguyen Dinh Phi <phind.uet@gmail.com>
-> Date: Sat,  3 Jul 2021 17:34:17 +0800
->
-> > diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-> > index 7d5e59f688de..855ada2be25e 100644
-> > --- a/net/ipv4/tcp_input.c
-> > +++ b/net/ipv4/tcp_input.c
-> > @@ -5922,7 +5922,6 @@ void tcp_init_transfer(struct sock *sk, int bpf_op, struct sk_buff *skb)
-> >               tp->snd_cwnd = tcp_init_cwnd(tp, __sk_dst_get(sk));
-> >       tp->snd_cwnd_stamp = tcp_jiffies32;
-> >
-> > -     icsk->icsk_ca_initialized = 0;
-> >       bpf_skops_established(sk, bpf_op, skb);
-> >       if (!icsk->icsk_ca_initialized)
-> >               tcp_init_congestion_control(sk);
->
-> Don't you have to make the tcp_init_congestion_control() call unconditional now?
+On 3/7/21 3:07 am, Daniel Vetter wrote:
+> On Fri, Jul 02, 2021 at 12:53:53AM +0800, Desmond Cheong Zhi Xi wrote:
+>> This patch series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+>> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+>>
+>> The series is broken up into five patches:
+>>
+>> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+>>
+>> 2. Move a call to _drm_lease_held() out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find().
+>>
+>> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+>>
+>> 4. Serialize drm_file.master by introducing a new lock that's held whenever the value of drm_file.master changes.
+>>
+>> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+>>
+>> Changes in v6 -> v7:
+>> - Patch 2:
+>> Modify code alignment as suggested by the intel-gfx CI.
+>>
+>> Update commit message based on the changes to patch 5.
+>>
+>> - Patch 4:
+>> Add patch 4 to the series. This patch adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+>>
+>> - Patch 5:
+>> Move kerneldoc comment about protecting drm_file.master with drm_device.master_mutex into patch 4.
+>>
+>> Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+> 
+> So there's another one now because master->leases is protected by the
+> mode_config.idr_mutex, and that's a bit awkward to untangle.
+> 
+> Also I'm really surprised that there was now lockdep through the atomic
+> code anywhere. The reason seems to be that somehow CI reboot first before
+> it managed to run any of the kms_atomic tests, and we can only hit this
+> when we go through the atomic kms ioctl, the legacy kms ioctl don't have
+> that specific issue.
+> 
+> Anyway I think this approach doesn't look too workable, and we need
+> something new.
+> 
+> But first things first: Are you still on board working on this? You
+> started with a simple patch to fix a UAF bug, now we're deep into
+> reworking tricky locking ... If you feel like you want out I'm totally
+> fine with that.
+> 
 
-I think we want to keep it conditional, to avoid double-initialization
-if the BPF code sets the congestion control algorithm and initializes
-it. But that's relatively new and subtle, so it might be nice for this
-patch to add a comment about that, since it's touching this part of
-the code anyway:
+Hi Daniel,
 
--       icsk->icsk_ca_initialized = 0;
-        bpf_skops_established(sk, bpf_op, skb);
-+       /* Initialize congestion control unless BPF initialized it already: */
-        if (!icsk->icsk_ca_initialized)
-                tcp_init_congestion_control(sk);
+Thanks for asking, but I'm committed to seeing this through :) In fact, 
+I really appreciate all your guidance and patience as the simple patch 
+evolved into the current state of things.
 
-neal
+> Anyway, I think we need to split drm_device->master_mutex up into two
+> parts:
+> 
+> - One part that protects the actual access/changes, which I think for
+>    simplicity we'll just leave as the current lock. That lock is a very
+>    inner lock, since for the drm_lease.c stuff it has to nest within
+>    mode_config.idr_mutex even.
+> 
+> - Now the issue with checking master status/leases/whatever as an
+>    innermost lock is that you can race, it's a classic time of check vs
+>    time of use race: By the time we actually use the thing we validate
+>    we'er allowed to use, we might now have access anymore. There's two
+>    reasons for that:
+> 
+>    * DROPMASTER ioctl could remove the master rights, which removes access
+>      rights also for all leases
+> 
+>    * REVOKE_LEASE ioctl can do the same but only for a specific lease
+> 
+>    This is the thing we're trying to protect against in fbcon code, but
+>    that's very spotty protection because all the ioctls by other users
+>    aren't actually protected against this.
+> 
+>    So I think for this we need some kind of big reader lock.
+> 
+> Now for the implementation, there's a few things:
+> 
+> - I think best option for this big reader lock would be to just use srcu.
+>    We only need to flush out all current readers when we drop master or
+>    revoke a lease, so synchronize_srcu is perfectly good enough for this
+>    purpose.
+> 
+> - The fbdev code would switch over to srcu in
+>    drm_master_internal_acquire() and drm_master_internal_release(). Ofc
+>    within drm_master_internal_acquire we'd still need to check master
+>    status with the normal master_mutex.
+> 
+> - While we revamp all this we should fix the ioctl checks in drm_ioctl.c.
+>    Just noticed that drm_ioctl_permit() could and should be unexported,
+>    last user was removed.
+> 
+>    Within drm_ioctl_kernel we'd then replace the check for
+>    drm_is_current_master with the drm_master_internal_acquire/release.
+> 
+> - This alone does nothing, we still need to make sure that dropmaster and
+>    revoke_lease ioctl flush out all other access before they return to
+>    userspace. We can't just call synchronize_srcu because due to the ioctl
+>    code in drm_ioctl_kernel we're in that sruc section, we'd need to add a
+>    DRM_MASTER_FLUSH ioctl flag which we'd check only when DRM_MASTER is
+>    set, and use to call synchronize_srcu. Maybe wrap that in a
+>    drm_master_flush or so, or perhaps a drm_master_internal_release_flush.
+> 
+> - Also maybe we should drop the _internal_ from that name. Feels a bit
+>    wrong when we're also going to use this in the ioctl handler.
+> 
+> Thoughts? Totally silly and overkill?
+> 
+> Cheers, Daniel
+> 
+> 
+
+Just some thoughts on the previous approach before we move on to 
+something new. Regarding the lockdep warning for mode_config.idr_mutex, 
+I think that's resolvable now by simply removing patch 2, which is no 
+longer really necessary with the introduction of a new mutex at the 
+bottom of the lock hierarchy in patch 4.
+
+I was hesitant to create a new mutex (especially since this means that 
+drm_file.master is now protected by either of two mutexes), but it's 
+probably the smallest fix in terms of code churn. Is that approach no good?
+
+Otherwise, on a high level, I think using an srcu mechanism makes a lot 
+of sense to me to address the issue of data items being reclaimed while 
+some readers still have references to them.
+
+The implementation details seem sound to me too, but I'll need to code 
+it up a bit before I can comment further.
+
+Best wishes,
+Desmond
+
+>> Changes in v5 -> v6:
+>> - Patch 2:
+>> Add patch 2 to the series. This patch moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+>>
+>> - Patch 5:
+>> Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+>>
+>> Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+>>
+>> Modify comparison to NULL into "!master", as suggested by the intel-gfx CI.
+>>
+>> Changes in v4 -> v5:
+>> - Patch 1:
+>> Add patch 1 to the series. The changes in patch 1 do not apply to stable because they apply to new changes in the drm-misc-next branch. This patch moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+>>
+>> Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+>>
+>> - Patch 3:
+>> Move changes to drm_connector.c into patch 1.
+>>
+>> Changes in v3 -> v4:
+>> - Patch 3:
+>> Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+>>
+>> Additionally, inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+>>
+>> - Patch 5:
+>> Modify kerneldoc formatting.
+>>
+>> Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+>>
+>> Changes in v2 -> v3:
+>> - Patch 3:
+>> Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+>>
+>> - Patch 5:
+>> Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+>>
+>> Changes in v1 -> v2:
+>> - Patch 5:
+>> Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+>>
+>> Desmond Cheong Zhi Xi (5):
+>>    drm: avoid circular locks in drm_mode_getconnector
+>>    drm: separate locks in __drm_mode_object_find
+>>    drm: add a locked version of drm_is_current_master
+>>    drm: serialize drm_file.master with a master lock
+>>    drm: protect drm_master pointers in drm_lease.c
+>>
+>>   drivers/gpu/drm/drm_auth.c        | 86 +++++++++++++++++++++++--------
+>>   drivers/gpu/drm/drm_connector.c   |  5 +-
+>>   drivers/gpu/drm/drm_file.c        |  1 +
+>>   drivers/gpu/drm/drm_lease.c       | 81 ++++++++++++++++++++++-------
+>>   drivers/gpu/drm/drm_mode_object.c | 10 ++--
+>>   include/drm/drm_auth.h            |  1 +
+>>   include/drm/drm_file.h            | 18 +++++--
+>>   7 files changed, 153 insertions(+), 49 deletions(-)
+>>
+>> -- 
+>> 2.25.1
+>>
+> 
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
