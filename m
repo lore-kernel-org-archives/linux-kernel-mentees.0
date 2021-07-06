@@ -1,107 +1,109 @@
-Return-Path: <SRS0=DYSW=L5=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=ODY0=L6=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_RED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BECDC07E99
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 23:19:26 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16C20C07E99
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  6 Jul 2021 01:01:23 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B261261961
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  5 Jul 2021 23:19:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B261261961
+	by mail.kernel.org (Postfix) with ESMTPS id B19B3608FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  6 Jul 2021 01:01:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B19B3608FE
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7AC1D40387;
-	Mon,  5 Jul 2021 23:19:24 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7967183503;
+	Tue,  6 Jul 2021 01:01:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id W6hdb4SV3Wmi; Mon,  5 Jul 2021 23:19:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 579704034B;
-	Mon,  5 Jul 2021 23:19:23 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bzoBAokQAKKY; Tue,  6 Jul 2021 01:01:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B8BCC83434;
+	Tue,  6 Jul 2021 01:01:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 29F42C001A;
-	Mon,  5 Jul 2021 23:19:23 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C001BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 922C8C0010;
+	Tue,  6 Jul 2021 01:01:21 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6091EC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 23:19:21 +0000 (UTC)
+ Tue,  6 Jul 2021 01:01:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id BAED740387
+ by smtp1.osuosl.org (Postfix) with ESMTP id 336818349A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 23:19:21 +0000 (UTC)
+ Tue,  6 Jul 2021 01:01:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3zuSQKPrsSyi
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pTjmYzn4ydrr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 23:19:21 +0000 (UTC)
+ Tue,  6 Jul 2021 01:01:19 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id EC7E84034B
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9691D83434
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  5 Jul 2021 23:19:20 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso636798pjx.1
+ Tue,  6 Jul 2021 01:01:19 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id a2so19845726pgi.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 05 Jul 2021 16:19:20 -0700 (PDT)
+ Mon, 05 Jul 2021 18:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=AwbRb3jpffDliQd5+ObWDoU7B1AAjNEgpgkFUzNvpnw=;
- b=pFesCE1VkR9SI4pdCrxbURHurlHIt4eRLJKC8LblTfpZ+XHwCZFE94HfRtesarR2c7
- P5k1nbLOJKFwJLf4a4y4M6wRcFb7zhs37sKOtNxAwiMvhJuNyzPZCOHZT4z/P/9qQBv1
- aC3lUFw++YSCh1PCm5Q5LFBVOsGOLQ44/N6nnKu2jO4hvfxSzw6IVvlHZCdx2lZtNacc
- C/3yT8MoCMkD/KaNVf9sEmyJ+2GlJpWybsTS83FI/edMdDU1v/nB0ivYvWfvWJ8+qX1b
- hB3aXw4wdmZQBQtQoKVhlfRNyrtbeXKpuYq92Ciq1XcAPxKbzVz6QrnZ/K8+A5HZfgk5
- j09Q==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=W2+AYYofJ+i/1cuwRg61KlRr9Zka6oqIudL2SUcZpBE=;
+ b=No6NE/548bzly3HYgmlVYu9tCB7/LM6hGfO04rBB75EJ15NDkWjcKzRbInlqQvei1D
+ VteBFJEIPqCH7k5z+KEgf3JNATEuHqKJedwM3wtt6O7xUiqWHMqwEWdFgh6Xz75AWeNP
+ 9CsVoT/sP5Wy76VKaFOOYJclrJLX/mBJp77wVna/ar2W9ohxVO2GoUdHmwSkWRm2hCv6
+ JVmSVhVx+z7+AG31it+rGbolw4tSE9bAK2UYtrIOHZtJ1vFYSVXrMLcyxJmuQe1E3otq
+ 37JlO6ggRL/+CilEFkSHD7lTGiR7sot2h2liHZ3/8j07gt1ML6J3Tayh1KXz1PZegGmI
+ aw5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AwbRb3jpffDliQd5+ObWDoU7B1AAjNEgpgkFUzNvpnw=;
- b=q5gJfLcLDbT/G27hKBo7n9AMX1vr/TCCDVI7Zr+B8hWzwlSsqoBJH58192xZB5eIG1
- 4cFHZTQOe2dH8psSYvpTbklLLkryc+9uEaQxfG+jIhAkoQX/hGCa9n+x6qG6z0CnHE89
- CZ4O40fg2oUlUfhjPZ5hE4X9RAs6SyLdfWARACHuJ/l9RSyTKY4jjprFjlgL/wCIcCAb
- SRTb40nitJcVdyYZHdphZKaptSQkXdkH+NwFesuT0JK+5JaX9VlgbMKoEWWWcd9NVPWL
- N5SP0ZwxDorPSvjyVj/pBp6Ud+ajyIQ06VGerqYOE+CKDsE9vZJrgCvc07s0jIuR0J7r
- 221w==
-X-Gm-Message-State: AOAM533TkHUbGMTgBOHHKuTr35YKO4motjPnknN11LE7M2jXmyte2A6C
- ixUcFVXdewWPTieCeq3DDJU=
-X-Google-Smtp-Source: ABdhPJzkoI7y2nCb4uw1FOobg+RUTq8genZo373bH67t9YA/FNNwL/28LTVHjjYnaLLreGColocYCA==
-X-Received: by 2002:a17:902:b210:b029:11a:bf7b:1a83 with SMTP id
- t16-20020a170902b210b029011abf7b1a83mr14306975plr.84.1625527160305; 
- Mon, 05 Jul 2021 16:19:20 -0700 (PDT)
-Received: from pn-hyperv.lan (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
- by smtp.gmail.com with ESMTPSA id
- h9sm6579067pgi.43.2021.07.05.16.19.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 16:19:19 -0700 (PDT)
-From: Nguyen Dinh Phi <phind.uet@gmail.com>
-To: yhs@fb.com, edumazet@google.com, davem@davemloft.net,
- yoshfuji@linux-ipv6.org, dsahern@kernel.org, kuba@kernel.org,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
- songliubraving@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
- ycheng@google.com, ncardwell@google.com, yyd@google.com
-Subject: [PATCH v6] tcp: fix tcp_init_transfer() to not reset
- icsk_ca_initialized
-Date: Tue,  6 Jul 2021 07:19:12 +0800
-Message-Id: <20210705231912.532186-1-phind.uet@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ bh=W2+AYYofJ+i/1cuwRg61KlRr9Zka6oqIudL2SUcZpBE=;
+ b=UDw48POffb8zF1zkuHh1MDIaIUB5YNA+ccvaUg1oCIw9kqTrzoBdm3Ch3o9r3o5J23
+ fwu9uRcTF0SwbJRyM1vzypIBdGqa6QvUuFoA1qZzcM6OJkMCM7TIIn2z9Jx55lr2z7Ve
+ hcyvm9FLOAdccjuepF/oQ7KhdVDaR49RtUhiyAmreQGD0+/RFrtE/I5mLjn7Yu+Mel+g
+ b0fWOwnH3PSKPE1YLnTS2KNJsXflgRapgKC8Uwp8xlekxcNyv5O+EIUh28P9Mnt/7tEJ
+ snxvB3elSOZCqeYCxRwvcUkukzfUkB1aVTCQssB+E0g5T371HGlY7/sKwiDL7hZS+R1+
+ MEbw==
+X-Gm-Message-State: AOAM532av6Lgmqw501bIwlNRoVtGuINjqTmQvutS6cCv8R4WBqpKK5li
+ YZ9GEj3vugpA85o/6d2AGkbi2KhAf6qtv+kG
+X-Google-Smtp-Source: ABdhPJyakDnYiSU123gmIaGGm2KFblaAwv8xMnHUd2dRdan+8hvomba5FWnMECWaEJ3UPdHxAZoZxA==
+X-Received: by 2002:a62:34c7:0:b029:28e:addf:f17a with SMTP id
+ b190-20020a6234c70000b029028eaddff17amr17864664pfa.62.1625533278750; 
+ Mon, 05 Jul 2021 18:01:18 -0700 (PDT)
+Received: from [192.168.1.18] ([122.163.155.135])
+ by smtp.gmail.com with ESMTPSA id g12sm664919pjk.25.2021.07.05.18.01.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Jul 2021 18:01:18 -0700 (PDT)
+Subject: Re: [PATCH] block: Avoid accessing an already freed kobject in
+ delete_partition
+To: Christoph Hellwig <hch@infradead.org>,
+ Rajat Asthana <rajatasthana4@gmail.com>
+References: <20210702231228.261460-1-rajatasthana4@gmail.com>
+ <YN/1DOeSA5ODf1AV@infradead.org>
+From: Rajat Asthana <thisisrast7@gmail.com>
+Message-ID: <0c623d71-6d99-2e0d-4d8b-63a1ff814dc1@gmail.com>
+Date: Tue, 6 Jul 2021 06:31:11 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Cc: syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <YN/1DOeSA5ODf1AV@infradead.org>
+Content-Language: en-US
+Cc: axboe@kernel.dk, damien.lemoal@wdc.com, jack@suse.cz, rafael@kernel.org,
+ syzbot+7d6c5587ec9cff5be65c@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, ming.lei@redhat.com, linux-block@vger.kernel.org,
+ hare@suse.de, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,78 +115,40 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This commit fixes a bug (found by syzkaller) that could cause spurious
-double-initializations for congestion control modules, which could cause
-memory leaks or other problems for congestion control modules (like CDG)
-that allocate memory in their init functions.
 
-The buggy scenario constructed by syzkaller was something like:
 
-(1) create a TCP socket
-(2) initiate a TFO connect via sendto()
-(3) while socket is in TCP_SYN_SENT, call setsockopt(TCP_CONGESTION),
-    which calls:
-       tcp_set_congestion_control() ->
-         tcp_reinit_congestion_control() ->
-           tcp_init_congestion_control()
-(4) receive ACK, connection is established, call tcp_init_transfer(),
-    set icsk_ca_initialized=0 (without first calling cc->release()),
-    call tcp_init_congestion_control() again.
+On 03/07/21 10:56 am, Christoph Hellwig wrote:
+> This should be fixed properly by:
+> 
+> "block: check disk exist before trying to add partition"
 
-Note that in this sequence tcp_init_congestion_control() is called
-twice without a cc->release() call in between. Thus, for CC modules
-that allocate memory in their init() function, e.g, CDG, a memory leak
-may occur. The syzkaller tool managed to find a reproducer that
-triggered such a leak in CDG.
+Hi Christoph, thanks a lot for suggesting this fix. I have been
+working on implementing this and have tried the following:
+- I checked if the the kobject of device structure embedded in
+   gendisk structure is not NULL, to add the partition.
+   This didn't work.
 
-The bug was introduced when that commit 8919a9b31eb4 ("tcp: Only init
-congestion control if not initialized already")
-introduced icsk_ca_initialized and set icsk_ca_initialized to 0 in
-tcp_init_transfer(), missing the possibility for a sequence like the
-one above, where a process could call setsockopt(TCP_CONGESTION) in
-state TCP_SYN_SENT (i.e. after the connect() or TFO open sendmsg()),
-which would call tcp_init_congestion_control(). It did not intend to
-reset any initialization that the user had already explicitly made;
-it just missed the possibility of that particular sequence (which
-syzkaller managed to find).
+- Then I checked the if kobject of the block_device struct (part0)
+   embedded in the gendisk struct is not NULL, to add the partition.
+   This also didn't work.
 
-Fixes: 8919a9b31eb4 ("tcp: Only init congestion control if not initialized already")
-Reported-by: syzbot+f1e24a0594d4e3a895d3@syzkaller.appspotmail.com
-Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
----
-V2:     - Modify the Subject line.
-        - Adjust the commit message.
-        - Add Fixes: tag.
-V3:     - Fix netdev/verify_fixes format error.
-V4:     - Add blamed authors to receiver list.
-V5:	- Add comment about the congestion control initialization.
-V6:	- Fix typo in commit message.
- net/ipv4/tcp_input.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Then I checked the i_state of the bd_inode field of block_device
+   struct embedded in the gendisk struct. I checked if the I_FREEING or
+   I_WILL_FREE fields are not set. The reason behind doing this was
+   to confirm that we only create partition on the disks which are not
+   being freed.
 
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index 7d5e59f688de..84c70843b404 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -5922,8 +5922,8 @@ void tcp_init_transfer(struct sock *sk, int bpf_op, struct sk_buff *skb)
- 		tp->snd_cwnd = tcp_init_cwnd(tp, __sk_dst_get(sk));
- 	tp->snd_cwnd_stamp = tcp_jiffies32;
+Am I going in the right direction? Can you point me to the correct
+direction if I am not?
 
--	icsk->icsk_ca_initialized = 0;
- 	bpf_skops_established(sk, bpf_op, skb);
-+	/* Initialize congestion control unless BPF initialized it already: */
- 	if (!icsk->icsk_ca_initialized)
- 		tcp_init_congestion_control(sk);
- 	tcp_init_buffer_space(sk);
---
-2.25.1
-
+thanks
+-- Rajat
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
