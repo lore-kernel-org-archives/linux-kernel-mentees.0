@@ -2,101 +2,103 @@ Return-Path: <SRS0=i5R+=L7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_RED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DDC3C07E95
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 07:44:42 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2FF4C07E95
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 07:44:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0FD5F61C9D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 07:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0FD5F61C9D
+	by mail.kernel.org (Postfix) with ESMTPS id 7669961C17
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 07:44:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 7669961C17
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CCA4D82ED2;
-	Wed,  7 Jul 2021 07:44:41 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3C47F607FE;
+	Wed,  7 Jul 2021 07:44:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bQJ855-KwuTw; Wed,  7 Jul 2021 07:44:41 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id H8CFuqGYUNy6; Wed,  7 Jul 2021 07:44:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0877C8271D;
-	Wed,  7 Jul 2021 07:44:40 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2EE9260665;
+	Wed,  7 Jul 2021 07:44:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D3552C0010;
-	Wed,  7 Jul 2021 07:44:40 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B0A98C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 096A9C0010;
+	Wed,  7 Jul 2021 07:44:47 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8C4A8C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 07:44:38 +0000 (UTC)
+ Wed,  7 Jul 2021 07:44:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9E80540299
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7B6BF607FE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 07:44:38 +0000 (UTC)
+ Wed,  7 Jul 2021 07:44:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aEMAI8Ezzrh6
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id g0eJdegUVUV6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 07:44:36 +0000 (UTC)
+ Wed,  7 Jul 2021 07:44:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 8D7B3403CA
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6766F60750
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 07:44:36 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id n11so1044629pjo.1
+ Wed,  7 Jul 2021 07:44:44 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ b14-20020a17090a7aceb029017261c7d206so3161403pjl.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 07 Jul 2021 00:44:36 -0700 (PDT)
+ Wed, 07 Jul 2021 00:44:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0e4qh6X8hZkaKgvTuHVOL+IOiL/w9aZMRgfdARHgzGg=;
- b=ipg1ciMSTf3kZZeE3mit0qFPsgj5zRjOR2AAwJfN5WZKv1ahL65eSQjZ569rW4XTeG
- vEuIZFmAjcpJWUNPmmjCm2dFKQK6+QJJtef09DFQg4r5aNVhXcSYjUm77flhsTdLPgzw
- OY6QRYdT6Xr33aSGymEhrAH2FhWO4/kgigTLsrNVV8wzV8WLoSEyTsAGzPFOnhT2npNk
- jZovhsjgSqh01v8Y9HVHTktl30cxZrGpuhva6wOJFJmRSWZOotJMkyxLp5MP4VLMgnxE
- yDLhd6I3S5QqwV7ncB/VFQBhOJob+KsYUFUpWK4YQrPS3q3D05xFlyBYB6C46XDGs6zZ
- ZaSw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mnaKooiXJs6zXYO5+MRv0r+1pvlB1aCOce0LmiWEYEQ=;
+ b=gV9bJFmoma8pntKDpIj40dn6InHYTtTt98wAIjVmMtj+3PAZQVAghhOixxM87Xai/e
+ xopDw7TLWc3rVWyJWXvWP652wWT2Z/y7yf3OLHtBGK+FRg/kih02RPBj3IdVnlMVhAPj
+ yUu7ebtwsMQfAtATIYFIlUrzmgJOOouydyF7VGzLImEENlUbRsa1zuw5RdJflesOvHjh
+ PlSdsJTvLDMf4yP3OyaI+oLbnhQBBsd1+W+ZqdFqhHz18MD7VC1SOdSynXMI+Hukpre4
+ IyGTi50k/co14g7Sk620psXXd3gzNv6Gz03C4fXm3qLzishZxMYbpn1pREvq0WLtwuQ8
+ 1D2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0e4qh6X8hZkaKgvTuHVOL+IOiL/w9aZMRgfdARHgzGg=;
- b=nV7syURsNHx/26WwsDFIijAEKwhXmhmU4DASIkujcWD5F5XfdECNpbKcH4/I/Nfdsc
- TSSpFommeYQxLm2Pnr5E2AmI6SafeCEoh5lykrhrnnN6wVvSliJxY1PGzhii3xvyxNY3
- Q1Vi7iib1GW2M6K9DB4ai10ZvNzz61oMox5+BkG50akmVum7EUuYKIkEZfK6XLfdeOJb
- RaSQ1afB2nfM23AAsx3Z9ocUUsWGh3Qt2KnsEBIsFfqwRCtbxYcVmSLWyeeYFXKtxX/I
- QDBom8wAanneNJhlMvNGZFebE84Bltmnb3beiCaWpz3e0kHQehieOdYHf6A//0UI50hi
- aAZQ==
-X-Gm-Message-State: AOAM532D1j4V4Qhbfkjt3KufM/VUdapOjC6dYNWwOeLft54eVVWsH9jA
- XADFryRFJsEHcE4lfG61sDQ=
-X-Google-Smtp-Source: ABdhPJxjcafVG9vCtOFem9f9EdWv9fquVaqtgUXMF5rhxabs65uETaTz0miKRCt5ZMpkLc7tKHGM5Q==
-X-Received: by 2002:a17:902:6b47:b029:129:ab4e:6407 with SMTP id
- g7-20020a1709026b47b0290129ab4e6407mr6345192plt.20.1625643876011; 
- Wed, 07 Jul 2021 00:44:36 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mnaKooiXJs6zXYO5+MRv0r+1pvlB1aCOce0LmiWEYEQ=;
+ b=BTkFrPF0gx9q+XQbrwDzEyVcR83mAFPXy2wJSYdAg6SSkiSQTdnjGdahWJtD7kY1sa
+ VVDvhETevocQQSH4Sb2MbQIoLg88vGXE+o/O+L9P7bPf+yB51VUpzCS0VsNw5Z/aD7Hz
+ 3uCMmp3ffZ4bcX/zq0KtxsUWXVF51Yf8UBBIDMhDRmHwoDJs/N4vYQL76BJWoOYzzTBq
+ q7kPVyd4ppeqGOpAAIDJswukU4S1jQXYH81lZUVm+SSfYC4gPGvctoYtQOnxSOSCl1pr
+ xkGd38OSTvJ08fD2mp+A7rKyEUrMcYdb5/loe2b2zcWBColqGb7XsVBHx3nmPYV4J+JW
+ FF3Q==
+X-Gm-Message-State: AOAM532hQcelX22X13rkijWAZcCWnjGuizlonbbsAZOvxZn8TM7nRnsd
+ wKJUHs1aCasqV4vVDOIWiO0=
+X-Google-Smtp-Source: ABdhPJzeDWM2Gk6BNldI1iz00CBhgRtOpmFH3MyLkzFrwILjwCiXlBgjkIPZNr1pkhd+RFIj13efWw==
+X-Received: by 2002:a17:902:8c83:b029:129:17e5:a1cc with SMTP id
+ t3-20020a1709028c83b029012917e5a1ccmr20378088plo.49.1625643883878; 
+ Wed, 07 Jul 2021 00:44:43 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id x39sm12958519pfu.81.2021.07.07.00.44.33
+ by smtp.gmail.com with ESMTPSA id x39sm12958519pfu.81.2021.07.07.00.44.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 00:44:35 -0700 (PDT)
+ Wed, 07 Jul 2021 00:44:43 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: jlayton@kernel.org,
 	bfields@fieldses.org,
 	viro@zeniv.linux.org.uk
-Subject: [PATCH v3 0/2] fcntl: fix potential deadlocks
-Date: Wed,  7 Jul 2021 15:43:59 +0800
-Message-Id: <20210707074401.447952-1-desmondcheongzx@gmail.com>
+Subject: [PATCH v3 1/2] fcntl: fix potential deadlocks for &fown_struct.lock
+Date: Wed,  7 Jul 2021 15:44:00 +0800
+Message-Id: <20210707074401.447952-2-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210707074401.447952-1-desmondcheongzx@gmail.com>
+References: <20210707074401.447952-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+Cc: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -116,35 +118,135 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
+Syzbot reports a potential deadlock in do_fcntl:
 
-Sorry for the delay between v1 and v2, there was an unrelated issue with Syzbot testing.
+========================================================
+WARNING: possible irq lock inversion dependency detected
+5.12.0-syzkaller #0 Not tainted
+--------------------------------------------------------
+syz-executor132/8391 just changed the state of lock:
+ffff888015967bf8 (&f->f_owner.lock){.+..}-{2:2}, at: f_getown_ex fs/fcntl.c:211 [inline]
+ffff888015967bf8 (&f->f_owner.lock){.+..}-{2:2}, at: do_fcntl+0x8b4/0x1200 fs/fcntl.c:395
+but this lock was taken by another, HARDIRQ-safe lock in the past:
+ (&dev->event_lock){-...}-{2:2}
 
-Syzbot reports a possible irq lock inversion dependency:
-https://syzkaller.appspot.com/bug?id=923cfc6c6348963f99886a0176ef11dcc429547b
+and interrupts could create inverse lock ordering between them.
 
-While investigating this error, I discovered that multiple similar lock inversion scenarios can occur. Hence, this series addresses potential deadlocks for two classes of locks, one in each patch:
+other info that might help us debug this:
+Chain exists of:
+  &dev->event_lock --> &new->fa_lock --> &f->f_owner.lock
 
-1. Fix potential deadlocks for &fown_struct.lock
+ Possible interrupt unsafe locking scenario:
 
-2. Fix potential deadlock for &fasync_struct.fa_lock
+       CPU0                    CPU1
+       ----                    ----
+  lock(&f->f_owner.lock);
+                               local_irq_disable();
+                               lock(&dev->event_lock);
+                               lock(&new->fa_lock);
+  <Interrupt>
+    lock(&dev->event_lock);
 
-v2 -> v3:
-- Removed WARN_ON_ONCE, keeping elaboration for why read_lock_irq is safe to use in the commit message. As suggested by Greg KH.
+ *** DEADLOCK ***
 
-v1 -> v2:
-- Added WARN_ON_ONCE(irqs_disabled()) before calls to read_lock_irq, and added elaboration in the commit message. As suggested by Jeff Layton.
+This happens because there is a lock hierarchy of
+&dev->event_lock --> &new->fa_lock --> &f->f_owner.lock
+from the following call chain:
 
-Best wishes,
-Desmond
+  input_inject_event():
+    spin_lock_irqsave(&dev->event_lock,...);
+    input_handle_event():
+      input_pass_values():
+        input_to_handler():
+          evdev_events():
+            evdev_pass_values():
+              spin_lock(&client->buffer_lock);
+              __pass_event():
+                kill_fasync():
+                  kill_fasync_rcu():
+                    read_lock(&fa->fa_lock);
+                    send_sigio():
+                      read_lock_irqsave(&fown->lock,...);
 
-Desmond Cheong Zhi Xi (2):
-  fcntl: fix potential deadlocks for &fown_struct.lock
-  fcntl: fix potential deadlock for &fasync_struct.fa_lock
+However, since &dev->event_lock is HARDIRQ-safe, interrupts have to be
+disabled while grabbing &f->f_owner.lock, otherwise we invert the lock
+hierarchy.
 
- fs/fcntl.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+Hence, we replace calls to read_lock/read_unlock on &f->f_owner.lock,
+with read_lock_irq/read_unlock_irq.
 
+Here read_lock_irq/read_unlock_irq are safe to use because the
+functions f_getown_ex and f_getowner_uids are only called from
+do_fcntl, and f_getown is only called from do_fnctl and
+sock_ioctl. do_fnctl itself is only called from syscalls.
+
+For sock_ioctl, the chain is
+  compat_sock_ioctl():
+    compat_sock_ioctl_trans():
+      sock_ioctl()
+
+Interrupts are not disabled on either path.
+
+Reported-and-tested-by: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+---
+ fs/fcntl.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/fs/fcntl.c b/fs/fcntl.c
+index dfc72f15be7f..cf9e81dfa615 100644
+--- a/fs/fcntl.c
++++ b/fs/fcntl.c
+@@ -150,7 +150,8 @@ void f_delown(struct file *filp)
+ pid_t f_getown(struct file *filp)
+ {
+ 	pid_t pid = 0;
+-	read_lock(&filp->f_owner.lock);
++
++	read_lock_irq(&filp->f_owner.lock);
+ 	rcu_read_lock();
+ 	if (pid_task(filp->f_owner.pid, filp->f_owner.pid_type)) {
+ 		pid = pid_vnr(filp->f_owner.pid);
+@@ -158,7 +159,7 @@ pid_t f_getown(struct file *filp)
+ 			pid = -pid;
+ 	}
+ 	rcu_read_unlock();
+-	read_unlock(&filp->f_owner.lock);
++	read_unlock_irq(&filp->f_owner.lock);
+ 	return pid;
+ }
+ 
+@@ -208,7 +209,7 @@ static int f_getown_ex(struct file *filp, unsigned long arg)
+ 	struct f_owner_ex owner = {};
+ 	int ret = 0;
+ 
+-	read_lock(&filp->f_owner.lock);
++	read_lock_irq(&filp->f_owner.lock);
+ 	rcu_read_lock();
+ 	if (pid_task(filp->f_owner.pid, filp->f_owner.pid_type))
+ 		owner.pid = pid_vnr(filp->f_owner.pid);
+@@ -231,7 +232,7 @@ static int f_getown_ex(struct file *filp, unsigned long arg)
+ 		ret = -EINVAL;
+ 		break;
+ 	}
+-	read_unlock(&filp->f_owner.lock);
++	read_unlock_irq(&filp->f_owner.lock);
+ 
+ 	if (!ret) {
+ 		ret = copy_to_user(owner_p, &owner, sizeof(owner));
+@@ -249,10 +250,10 @@ static int f_getowner_uids(struct file *filp, unsigned long arg)
+ 	uid_t src[2];
+ 	int err;
+ 
+-	read_lock(&filp->f_owner.lock);
++	read_lock_irq(&filp->f_owner.lock);
+ 	src[0] = from_kuid(user_ns, filp->f_owner.uid);
+ 	src[1] = from_kuid(user_ns, filp->f_owner.euid);
+-	read_unlock(&filp->f_owner.lock);
++	read_unlock_irq(&filp->f_owner.lock);
+ 
+ 	err  = put_user(src[0], &dst[0]);
+ 	err |= put_user(src[1], &dst[1]);
 -- 
 2.25.1
 
