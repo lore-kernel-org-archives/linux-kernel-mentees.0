@@ -6,84 +6,84 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B011AC07E9E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 17:52:45 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7626BC07E9B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 17:58:07 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6800A61CCA
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 17:52:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6800A61CCA
+	by mail.kernel.org (Postfix) with ESMTPS id 2452D61CCD
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 17:58:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2452D61CCD
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 3B7B360A59;
-	Wed,  7 Jul 2021 17:52:45 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D9B3540282;
+	Wed,  7 Jul 2021 17:58:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AMQ5uq0GCxcA; Wed,  7 Jul 2021 17:52:44 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1qGpPGuZGRqu; Wed,  7 Jul 2021 17:58:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2A1A860A41;
-	Wed,  7 Jul 2021 17:52:44 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D6766401D0;
+	Wed,  7 Jul 2021 17:58:05 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 07A07C001A;
-	Wed,  7 Jul 2021 17:52:44 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49AC5C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B8134C001A;
+	Wed,  7 Jul 2021 17:58:05 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D4A33C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 17:52:43 +0000 (UTC)
+ Wed,  7 Jul 2021 17:58:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 378684069E
+ by smtp1.osuosl.org (Postfix) with ESMTP id C3B9B82C33
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 17:52:43 +0000 (UTC)
+ Wed,  7 Jul 2021 17:58:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m6SizaOXoGR3
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id p7ptB_0VL0hj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 17:52:42 +0000 (UTC)
+ Wed,  7 Jul 2021 17:58:03 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4C71640692
+ by smtp1.osuosl.org (Postfix) with ESMTPS id AEFDD82BFD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 17:52:42 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 13F9C61CC9;
- Wed,  7 Jul 2021 17:52:41 +0000 (UTC)
+ Wed,  7 Jul 2021 17:58:03 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0046D61CCC;
+ Wed,  7 Jul 2021 17:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625680361;
- bh=0lR4729f9P/882zNtreLofGnn2m3FKaP0j19x9aMerQ=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=BSdQ8upaUDekKIhSIHJwTcAOONN3U4vZZrEUYCupt3+Fma4HpY3bM7WZ24BPSJVkw
- wEtMlfNN3/J29vyoOvTFSC7zQvDHkoKqIkry/t+vic1tjC4Q2MK723m+U/vYTS06aD
- ozzInOEQBjeV7dcrGLkLaFPwpib2tf4a06KgE6FgvoAtcUb4EHKHMK6D0fsfXptrc0
- HUiH5rvfip2yd51SK3CQ2HbHMMonmCvY3udbRcJwDaeZ006egNxiC1uk2AGznSCZaM
- 1KwRKXQySqgbT+ahoWpodEm1WKGnesxKuWZHodPN0ShmrJc3fG46+kvrTrVpaKPVPG
- IvmaK8TIXLg1Q==
-Message-ID: <9da1ba4e8fa2fc86ebb8676bbe7e68e4008476c5.camel@kernel.org>
+ s=k20201202; t=1625680683;
+ bh=2PkBSBkSHD0K+zZoRvYC+d540XqyMInd4eDo28svdQ0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UPcxgl12b+1ZNflKB0RyYBxJdXMP2FaSLZeco6eRT67BS97NeEOkztEvQssrKPG8t
+ J/LBcP5pEBTqFtg+GcQXvzcOH425n3Nk1xS7D+1b2wxgT+qSSy/KRl6jiy8x4Ys34G
+ kQ5LtihDhX0IMqGkX/2CuIAWnitcWM2nzxpfp3z3cboAmc1CgIGR8fjwRcW82RGF/8
+ ilhSx9MwFKFr2i0ZgPJJYfDV+qstK6hS+OkAoQ16nYyWf9FoD2CWBNPfHa7ny1fq5w
+ 93/r5shUtoyubWxoVMHSzZ797/eWOSkKBRqJLBgQxDvTp7hwTXgleSY/K8JXVvN4eb
+ 5IIezOhEXFvpg==
+Date: Wed, 7 Jul 2021 10:58:01 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Matthew Wilcox <willy@infradead.org>
 Subject: Re: [PATCH v2 1/2] fcntl: fix potential deadlocks for
  &fown_struct.lock
-From: Jeff Layton <jlayton@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Date: Wed, 07 Jul 2021 13:52:40 -0400
-In-Reply-To: <YOXVb5z3W+T9El+g@casper.infradead.org>
-References: <14633c3be87286d811263892375f2dfa9a8ed40a.camel@kernel.org>
- <YOWHKk6Nq8bazYjB@kroah.com>
+Message-ID: <YOXrKXJi3GaAxizw@gmail.com>
+References: <YOWHKk6Nq8bazYjB@kroah.com>
  <4dda1cad6348fced5fcfcb6140186795ed07d948.camel@kernel.org>
  <20210707135129.GA9446@fieldses.org> <YOXDBZR2RSfiM+A3@kroah.com>
  <20210707151936.GB9911@fieldses.org> <YOXIuhma++oMbbiH@kroah.com>
  <20210707153417.GA10570@fieldses.org> <YOXMcJAZPms7Gp8a@kroah.com>
  <03748f0bf038826f879b4429441d5a0fa8331969.camel@kernel.org>
  <YOXVb5z3W+T9El+g@casper.infradead.org>
-User-Agent: Evolution 3.40.2 (3.40.2-1.fc34) 
 MIME-Version: 1.0
-Cc: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, "J. Bruce Fields" <bfields@fieldses.org>,
- viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+Content-Disposition: inline
+In-Reply-To: <YOXVb5z3W+T9El+g@casper.infradead.org>
+Cc: Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ "J. Bruce Fields" <bfields@fieldses.org>, viro@zeniv.linux.org.uk,
+ linux-fsdevel@vger.kernel.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,7 +101,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 2021-07-07 at 17:25 +0100, Matthew Wilcox wrote:
+On Wed, Jul 07, 2021 at 05:25:19PM +0100, Matthew Wilcox wrote:
 > On Wed, Jul 07, 2021 at 12:18:45PM -0400, Jeff Layton wrote:
 > > On Wed, 2021-07-07 at 17:46 +0200, Greg KH wrote:
 > > > On Wed, Jul 07, 2021 at 11:34:17AM -0400, J. Bruce Fields wrote:
@@ -200,20 +200,23 @@ On Wed, 2021-07-07 at 17:25 +0100, Matthew Wilcox wrote:
 > 
 > so I think this particular warn is unnecessary.
 > 
-
-Good to know. I'm just going to leave Desmond's v1 patch (which didn't
-have this WARN_ON) in linux-next for now.
-
 > But I also disagree with Greg.  Normal users aren't setting panic-on-warn.
 > Various build bots are setting panic-on-warn -- and they should -- because
 > we shouldn't be able to trigger these kinds of warnings from userspace.
 > Those are bugs that should be fixed.  But there's no reason to shy away
 > from using a WARN when it's the right thing to do.
 
-Agreed.
--- 
-Jeff Layton <jlayton@kernel.org>
+Yes, WARN is the right choice for signaling a kernel bug that is "recoverable",
+e.g. by returning an error or simply ignoring it.  WARN is the wrong choice only
+when the condition is user-triggerable, e.g. via invalid inputs passed to system
+calls.  I don't understand why Greg is advocating against all use of WARN; that
+would make it harder for kernel bugs to be found and reported.  Users of
+panic_on_warn (which are usually test systems) *want* the kernel to panic if an
+assertion fails -- that's the whole point of it.  I'm not sure why we are still
+having this discussion, as the differences between and valid uses for WARN and
+BUG were documented in include/asm-generic/bug.h a long time ago...
 
+- Eric
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
