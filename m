@@ -2,84 +2,80 @@ Return-Path: <SRS0=i5R+=L7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_RED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_RED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B580DC07E95
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 14:01:37 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9281C07E9B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 15:06:52 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1EC9F61C73
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 14:01:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1EC9F61C73
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=fieldses.org
+	by mail.kernel.org (Postfix) with ESMTPS id 9D5C861CC1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 15:06:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D5C861CC1
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D25A94017C;
-	Wed,  7 Jul 2021 14:01:36 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6CD9F6059B;
+	Wed,  7 Jul 2021 15:06:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Yy0VGCBs-qa3; Wed,  7 Jul 2021 14:01:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1C4E44015B;
-	Wed,  7 Jul 2021 14:01:36 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xkyqyWVqJzYf; Wed,  7 Jul 2021 15:06:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 95679606B0;
+	Wed,  7 Jul 2021 15:06:51 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E479FC001A;
-	Wed,  7 Jul 2021 14:01:35 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DF3EAC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 819D3C001A;
+	Wed,  7 Jul 2021 15:06:51 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3C7D3C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 14:01:34 +0000 (UTC)
+ Wed,  7 Jul 2021 15:06:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id CDEE9605AF
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2B530606B0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 14:01:34 +0000 (UTC)
+ Wed,  7 Jul 2021 15:06:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=fieldses.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id zez5bDsDept4
+ with ESMTP id LKZApfoSsPr8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 14:01:34 +0000 (UTC)
-X-Greylist: delayed 00:10:03 by SQLgrey-1.8.0
-Received: from fieldses.org (fieldses.org [IPv6:2600:3c00:e000:2f7::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 159C760643
+ Wed,  7 Jul 2021 15:06:49 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9A5E66059B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 14:01:34 +0000 (UTC)
-Received: by fieldses.org (Postfix, from userid 2815)
- id B9C216830; Wed,  7 Jul 2021 09:51:29 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 fieldses.org B9C216830
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fieldses.org;
- s=default; t=1625665889;
- bh=gPeRkpFOKLgol1iXgNjO2sQ0E29J+JaZmTVNPoXkTRg=;
+ Wed,  7 Jul 2021 15:06:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6909F61CC0;
+ Wed,  7 Jul 2021 15:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1625670409;
+ bh=meAqswieIwvglWxHVG7o8tCUh+PaGXqIKM7610mdBRE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jod3VyGB4DhCJ+ICEBNzHaBiknO3C7zMEnZQxrc/ZyshSnI1azu8Jh3xQnRFlipuj
- eR+qgYiI0+vGTgH8Xb8eLUH4XMWmI/sN5jqPPlWTVKuDy5O0oOHIgQ8MD1naUe/Bes
- pbR2I2qCyVrFFtcEFK4qe4dIzAbxSHnGFEFhyTJw=
-Date: Wed, 7 Jul 2021 09:51:29 -0400
-From: "J. Bruce Fields" <bfields@fieldses.org>
-To: Jeff Layton <jlayton@kernel.org>
+ b=ifbyG30kR+elhqc/M7He0RvljFsanuwgzukhqgOpYhpFwIv6TlI3xLqSyR8zlzOhe
+ ikdopdgkXRGXAyM6+aoYSirbsi5uysEeK53V+65DvNbMd+Zr181AfBVyMJ8F5IbL33
+ oWCITkCkZT4ZbHdhBbxw7htM3HIjzS9QJ8mtY7ow=
+Date: Wed, 7 Jul 2021 17:06:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "J. Bruce Fields" <bfields@fieldses.org>
 Subject: Re: [PATCH v2 1/2] fcntl: fix potential deadlocks for
  &fown_struct.lock
-Message-ID: <20210707135129.GA9446@fieldses.org>
+Message-ID: <YOXDBZR2RSfiM+A3@kroah.com>
 References: <20210707023548.15872-1-desmondcheongzx@gmail.com>
  <20210707023548.15872-2-desmondcheongzx@gmail.com>
  <YOVENb3X/m/pNrYt@kroah.com>
  <14633c3be87286d811263892375f2dfa9a8ed40a.camel@kernel.org>
  <YOWHKk6Nq8bazYjB@kroah.com>
  <4dda1cad6348fced5fcfcb6140186795ed07d948.camel@kernel.org>
+ <20210707135129.GA9446@fieldses.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <4dda1cad6348fced5fcfcb6140186795ed07d948.camel@kernel.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+In-Reply-To: <20210707135129.GA9446@fieldses.org>
 Cc: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
- linux-fsdevel@vger.kernel.org,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -99,38 +95,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 07, 2021 at 07:40:47AM -0400, Jeff Layton wrote:
-> On Wed, 2021-07-07 at 12:51 +0200, Greg KH wrote:
-> > On Wed, Jul 07, 2021 at 06:44:42AM -0400, Jeff Layton wrote:
-> > > On Wed, 2021-07-07 at 08:05 +0200, Greg KH wrote:
-> > > > On Wed, Jul 07, 2021 at 10:35:47AM +0800, Desmond Cheong Zhi Xi wrote:
-> > > > > +	WARN_ON_ONCE(irqs_disabled());
+On Wed, Jul 07, 2021 at 09:51:29AM -0400, J. Bruce Fields wrote:
+> On Wed, Jul 07, 2021 at 07:40:47AM -0400, Jeff Layton wrote:
+> > On Wed, 2021-07-07 at 12:51 +0200, Greg KH wrote:
+> > > On Wed, Jul 07, 2021 at 06:44:42AM -0400, Jeff Layton wrote:
+> > > > On Wed, 2021-07-07 at 08:05 +0200, Greg KH wrote:
+> > > > > On Wed, Jul 07, 2021 at 10:35:47AM +0800, Desmond Cheong Zhi Xi wrote:
+> > > > > > +	WARN_ON_ONCE(irqs_disabled());
+> > > > > 
+> > > > > If this triggers, you just rebooted the box :(
+> > > > > 
+> > > > > Please never do this, either properly handle the problem and return an
+> > > > > error, or do not check for this.  It is not any type of "fix" at all,
+> > > > > and at most, a debugging aid while you work on the root problem.
+> > > > > 
+> > > > > thanks,
+> > > > > 
+> > > > > greg k-h
 > > > > 
-> > > > If this triggers, you just rebooted the box :(
-> > > > 
-> > > > Please never do this, either properly handle the problem and return an
-> > > > error, or do not check for this.  It is not any type of "fix" at all,
-> > > > and at most, a debugging aid while you work on the root problem.
-> > > > 
-> > > > thanks,
-> > > > 
-> > > > greg k-h
+> > > > Wait, what? Why would testing for irqs being disabled and throwing a
+> > > > WARN_ON in that case crash the box?
 > > > 
-> > > Wait, what? Why would testing for irqs being disabled and throwing a
-> > > WARN_ON in that case crash the box?
+> > > If panic-on-warn is enabled, which is a common setting for systems these
+> > > days.
 > > 
-> > If panic-on-warn is enabled, which is a common setting for systems these
-> > days.
+> > Ok, that makes some sense.
 > 
-> Ok, that makes some sense.
+> Wait, I don't get it.
+> 
+> How are we supposed to decide when to use WARN, when to use BUG, and
+> when to panic?  Do we really want to treat them all as equivalent?  And
+> who exactly is turning on panic-on-warn?
 
-Wait, I don't get it.
+You never use WARN or BUG, unless the system is so messed up that you
+can not possibly recover from the issue.  Don't be lazy, handle the
+error properly and report it upwards.
 
-How are we supposed to decide when to use WARN, when to use BUG, and
-when to panic?  Do we really want to treat them all as equivalent?  And
-who exactly is turning on panic-on-warn?
+thanks,
 
---b.
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
