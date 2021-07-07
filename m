@@ -2,69 +2,74 @@ Return-Path: <SRS0=i5R+=L7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_RED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66420C07E9E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 15:47:04 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32BB1C07E9E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 16:18:53 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 224D561CC0
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 15:47:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 224D561CC0
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id D317061CC5
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  7 Jul 2021 16:18:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org D317061CC5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F1EBD82EF0;
-	Wed,  7 Jul 2021 15:47:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A079760A4B;
+	Wed,  7 Jul 2021 16:18:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RODZbo1P0yac; Wed,  7 Jul 2021 15:47:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1707F82F14;
-	Wed,  7 Jul 2021 15:47:03 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Owu6PcJQ_KQ8; Wed,  7 Jul 2021 16:18:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9BDB260725;
+	Wed,  7 Jul 2021 16:18:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AD24AC0023;
-	Wed,  7 Jul 2021 15:47:02 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CEF08C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 79D3AC0010;
+	Wed,  7 Jul 2021 16:18:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8F4D2C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 15:47:00 +0000 (UTC)
+ Wed,  7 Jul 2021 16:18:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B124F4067B
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7032C402C1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 15:47:00 +0000 (UTC)
+ Wed,  7 Jul 2021 16:18:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
+ dkim=pass (2048-bit key) header.d=kernel.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6fpTGrebw2Vi
+ with ESMTP id zOYXyZ1NomzO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 15:46:59 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+ Wed,  7 Jul 2021 16:18:47 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DFEF84063D
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8F412402BF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Jul 2021 15:46:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C02D561CBF;
- Wed,  7 Jul 2021 15:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1625672819;
- bh=Y7ZD3HpwgKdJAhH7VqKAYoRj+2bXkgou/pC/tB/BHBw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ASr0NS4CZg0c0eGN/Pf9i3JGSNhun6iQU8pg8YCH+KT1ls3UFQQkT+MAdCWmagDtH
- P1UL7+FylG/ndkN5Peyt8ec1DwrTqaSFzSyzxwo5POGR4xeMU9yTDXhmuhaqtlxh7R
- v827qdjfkKfAN3KCRTHcutZG2t2cVSxVo+U3sbQo=
-Date: Wed, 7 Jul 2021 17:46:56 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: "J. Bruce Fields" <bfields@fieldses.org>
+ Wed,  7 Jul 2021 16:18:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5961B61C99;
+ Wed,  7 Jul 2021 16:18:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625674727;
+ bh=90iNmx/AkPH8fdgdLjCtbmY3qOUXv1LAHfCzVLGhZRU=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=AKCWt0W2GTf+Ns7AXc/Chy7zn9Z5bqoOWWcYa4EJC6UfCX3WSubUPrMm7mdi+vndQ
+ 5sDaYU5EhlwrH7qSCzJ+a9ToFmtAIb+Z6Hf1ieuPErH0lAhT+iWoqH7hyaxMfAxcTS
+ ZK2mTTnrf1uxhlIsOBZ2uPtvUyKv42pTZLD4SqYo3FNNNvCAqziV4QTptVhCM9MvU1
+ 3VnaonJnPcoIUft8bM+FU6xLlpGIqgBnc8Af7iMkptnrUKMNmglfRZR/gJ+YCeoz18
+ EFFSJTwBT+s66KkhpBjqQH5L/khTMLoVlxV4c8w5AtR7WpQeMMaPWajdrmhH+QpR5a
+ NPpIiooXjm1cw==
+Message-ID: <03748f0bf038826f879b4429441d5a0fa8331969.camel@kernel.org>
 Subject: Re: [PATCH v2 1/2] fcntl: fix potential deadlocks for
  &fown_struct.lock
-Message-ID: <YOXMcJAZPms7Gp8a@kroah.com>
+From: Jeff Layton <jlayton@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>, "J. Bruce Fields"
+ <bfields@fieldses.org>
+Date: Wed, 07 Jul 2021 12:18:45 -0400
+In-Reply-To: <YOXMcJAZPms7Gp8a@kroah.com>
 References: <20210707023548.15872-2-desmondcheongzx@gmail.com>
  <YOVENb3X/m/pNrYt@kroah.com>
  <14633c3be87286d811263892375f2dfa9a8ed40a.camel@kernel.org>
@@ -72,13 +77,12 @@ References: <20210707023548.15872-2-desmondcheongzx@gmail.com>
  <4dda1cad6348fced5fcfcb6140186795ed07d948.camel@kernel.org>
  <20210707135129.GA9446@fieldses.org> <YOXDBZR2RSfiM+A3@kroah.com>
  <20210707151936.GB9911@fieldses.org> <YOXIuhma++oMbbiH@kroah.com>
- <20210707153417.GA10570@fieldses.org>
+ <20210707153417.GA10570@fieldses.org> <YOXMcJAZPms7Gp8a@kroah.com>
+User-Agent: Evolution 3.40.2 (3.40.2-1.fc34) 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210707153417.GA10570@fieldses.org>
 Cc: syzbot+e6d5398a02c516ce5e70@syzkaller.appspotmail.com,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, viro@zeniv.linux.org.uk,
+ linux-fsdevel@vger.kernel.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -98,73 +102,94 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 07, 2021 at 11:34:17AM -0400, J. Bruce Fields wrote:
-> On Wed, Jul 07, 2021 at 05:31:06PM +0200, Greg KH wrote:
-> > On Wed, Jul 07, 2021 at 11:19:36AM -0400, J. Bruce Fields wrote:
-> > > On Wed, Jul 07, 2021 at 05:06:45PM +0200, Greg KH wrote:
-> > > > On Wed, Jul 07, 2021 at 09:51:29AM -0400, J. Bruce Fields wrote:
-> > > > > On Wed, Jul 07, 2021 at 07:40:47AM -0400, Jeff Layton wrote:
-> > > > > > On Wed, 2021-07-07 at 12:51 +0200, Greg KH wrote:
-> > > > > > > On Wed, Jul 07, 2021 at 06:44:42AM -0400, Jeff Layton wrote:
-> > > > > > > > On Wed, 2021-07-07 at 08:05 +0200, Greg KH wrote:
-> > > > > > > > > On Wed, Jul 07, 2021 at 10:35:47AM +0800, Desmond Cheong Zhi Xi wrote:
-> > > > > > > > > > +	WARN_ON_ONCE(irqs_disabled());
+On Wed, 2021-07-07 at 17:46 +0200, Greg KH wrote:
+> On Wed, Jul 07, 2021 at 11:34:17AM -0400, J. Bruce Fields wrote:
+> > On Wed, Jul 07, 2021 at 05:31:06PM +0200, Greg KH wrote:
+> > > On Wed, Jul 07, 2021 at 11:19:36AM -0400, J. Bruce Fields wrote:
+> > > > On Wed, Jul 07, 2021 at 05:06:45PM +0200, Greg KH wrote:
+> > > > > On Wed, Jul 07, 2021 at 09:51:29AM -0400, J. Bruce Fields wrote:
+> > > > > > On Wed, Jul 07, 2021 at 07:40:47AM -0400, Jeff Layton wrote:
+> > > > > > > On Wed, 2021-07-07 at 12:51 +0200, Greg KH wrote:
+> > > > > > > > On Wed, Jul 07, 2021 at 06:44:42AM -0400, Jeff Layton wrote:
+> > > > > > > > > On Wed, 2021-07-07 at 08:05 +0200, Greg KH wrote:
+> > > > > > > > > > On Wed, Jul 07, 2021 at 10:35:47AM +0800, Desmond Cheong Zhi Xi wrote:
+> > > > > > > > > > > +	WARN_ON_ONCE(irqs_disabled());
+> > > > > > > > > > 
+> > > > > > > > > > If this triggers, you just rebooted the box :(
+> > > > > > > > > > 
+> > > > > > > > > > Please never do this, either properly handle the problem and return an
+> > > > > > > > > > error, or do not check for this.  It is not any type of "fix" at all,
+> > > > > > > > > > and at most, a debugging aid while you work on the root problem.
+> > > > > > > > > > 
+> > > > > > > > > > thanks,
+> > > > > > > > > > 
+> > > > > > > > > > greg k-h
 > > > > > > > > > 
-> > > > > > > > > If this triggers, you just rebooted the box :(
-> > > > > > > > > 
-> > > > > > > > > Please never do this, either properly handle the problem and return an
-> > > > > > > > > error, or do not check for this.  It is not any type of "fix" at all,
-> > > > > > > > > and at most, a debugging aid while you work on the root problem.
-> > > > > > > > > 
-> > > > > > > > > thanks,
-> > > > > > > > > 
-> > > > > > > > > greg k-h
+> > > > > > > > > Wait, what? Why would testing for irqs being disabled and throwing a
+> > > > > > > > > WARN_ON in that case crash the box?
 > > > > > > > > 
-> > > > > > > > Wait, what? Why would testing for irqs being disabled and throwing a
-> > > > > > > > WARN_ON in that case crash the box?
+> > > > > > > > If panic-on-warn is enabled, which is a common setting for systems these
+> > > > > > > > days.
 > > > > > > > 
-> > > > > > > If panic-on-warn is enabled, which is a common setting for systems these
-> > > > > > > days.
+> > > > > > > Ok, that makes some sense.
 > > > > > > 
-> > > > > > Ok, that makes some sense.
+> > > > > > Wait, I don't get it.
+> > > > > > 
+> > > > > > How are we supposed to decide when to use WARN, when to use BUG, and
+> > > > > > when to panic?  Do we really want to treat them all as equivalent?  And
+> > > > > > who exactly is turning on panic-on-warn?
 > > > > > 
-> > > > > Wait, I don't get it.
-> > > > > 
-> > > > > How are we supposed to decide when to use WARN, when to use BUG, and
-> > > > > when to panic?  Do we really want to treat them all as equivalent?  And
-> > > > > who exactly is turning on panic-on-warn?
+> > > > > You never use WARN or BUG, unless the system is so messed up that you
+> > > > > can not possibly recover from the issue.
 > > > > 
-> > > > You never use WARN or BUG, unless the system is so messed up that you
-> > > > can not possibly recover from the issue.
+> > > > I've heard similar advice for BUG before, but this is the first I've
+> > > > heard it for WARN.  Do we have any guidelines for how to choose between
+> > > > WARN and BUG?
 > > > 
-> > > I've heard similar advice for BUG before, but this is the first I've
-> > > heard it for WARN.  Do we have any guidelines for how to choose between
-> > > WARN and BUG?
+> > > Never use either :)
 > > 
-> > Never use either :)
+> > I can't tell if you're kidding.
 > 
-> I can't tell if you're kidding.
+> I am not.
+> 
+> > Is there some plan to remove them?
+> 
+> Over time, yes.  And any WARN that userspace can ever hit should be
+> removed today.
+> 
+> > There are definitely cases where I've been able to resolve a problem
+> > more quickly because I got a backtrace from a WARN.
+> 
+> If you want a backtrace, ask for that, recover from the error, and move
+> on.  Do not allow userspace to reboot a machine for no good reason as
+> again, panic-on-warn is a common setting that people use now.
+> 
+> This is what all of the syzbot work has been doing, it triggers things
+> that cause WARN() to be hit and so we have to fix them.
+> 
 
-I am not.
+This seems really draconian. Clearly we do want to fix things that show
+a WARN (otherwise we wouldn't bother warning about it), but I don't
+think that's a reason to completely avoid them. My understanding has
+always been:
 
-> Is there some plan to remove them?
+BUG: for when you reach some condition where the kernel (probably) can't
+carry on
 
-Over time, yes.  And any WARN that userspace can ever hit should be
-removed today.
+WARN: for when you reach some condition that is problematic but where
+the machine can probably soldier on. 
 
-> There are definitely cases where I've been able to resolve a problem
-> more quickly because I got a backtrace from a WARN.
+Over the last several years, I've changed a lot of BUGs into WARNs to
+avoid crashing the box unnecessarily. If someone is setting
+panic_on_warn, then aren't they just getting what they asked for?
 
-If you want a backtrace, ask for that, recover from the error, and move
-on.  Do not allow userspace to reboot a machine for no good reason as
-again, panic-on-warn is a common setting that people use now.
+While I don't feel that strongly about this particular WARN in this
+patch, it seems like a reasonable thing to do. If someone calls these
+functions with IRQs disabled, then they might end up with some subtle
+problems that could be hard to detect otherwise.
+-- 
+Jeff Layton <jlayton@kernel.org>
 
-This is what all of the syzbot work has been doing, it triggers things
-that cause WARN() to be hit and so we have to fix them.
-
-thanks,
-
-greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
