@@ -2,108 +2,76 @@ Return-Path: <SRS0=J1f0=MA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B173C07E9B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Jul 2021 01:52:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D93AC07E9C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Jul 2021 08:20:24 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 38E5C61CB0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Jul 2021 01:52:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 38E5C61CB0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id C48AB61CE0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Jul 2021 08:20:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org C48AB61CE0
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=techsingularity.net
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F33F3400EF;
-	Thu,  8 Jul 2021 01:52:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9231D400E0;
+	Thu,  8 Jul 2021 08:20:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3zVWK7zr3s4L; Thu,  8 Jul 2021 01:52:26 +0000 (UTC)
+	with ESMTP id 04oRiI-4aJE7; Thu,  8 Jul 2021 08:20:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1812F401FB;
-	Thu,  8 Jul 2021 01:52:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9AD92400EF;
+	Thu,  8 Jul 2021 08:20:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5F04C001A;
-	Thu,  8 Jul 2021 01:52:25 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DEC3FC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75DA2C001A;
+	Thu,  8 Jul 2021 08:20:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 36D67C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 01:52:24 +0000 (UTC)
+ Thu,  8 Jul 2021 08:20:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id B871983640
+ by smtp4.osuosl.org (Postfix) with ESMTP id 2314A414B3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 01:52:24 +0000 (UTC)
+ Thu,  8 Jul 2021 08:20:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gesmSHOEgN69
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qnpZHAsotxcA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 01:52:24 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
- [IPv6:2607:f8b0:4864:20::1035])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0945F83294
+ Thu,  8 Jul 2021 08:20:19 +0000 (UTC)
+X-Greylist: delayed 00:05:40 by SQLgrey-1.8.0
+Received: from outbound-smtp32.blacknight.com (outbound-smtp32.blacknight.com
+ [81.17.249.64])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B31C84149A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 01:52:23 +0000 (UTC)
-Received: by mail-pj1-x1035.google.com with SMTP id
- b5-20020a17090a9905b029016fc06f6c5bso2796881pjp.5
+ Thu,  8 Jul 2021 08:20:19 +0000 (UTC)
+Received: from mail.blacknight.com (pemlinmail06.blacknight.ie [81.17.255.152])
+ by outbound-smtp32.blacknight.com (Postfix) with ESMTPS id E94E0D29C2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 07 Jul 2021 18:52:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LpL7qx90kO/NgJfcn2pzZvgiawADIWqcEOHPJQejQw0=;
- b=ED2uT3QB1HhsWxq1L45xwQou5AP4Y9WzFSN7zd9p3D1IF3z4fKaxHBfgzMtKaGl8kB
- wYCq5bstM1hSbqb0JUlCcIjSpFgugdwjJQ/YJFt5+lgApZCzYWAjkaryJTGM6w27n0uN
- TxT2ow0e00/iPygqFBfSESLftaH0KoyCj8Y+7AeANXFXHxwZfgiDqP1kr9kbV8z4AUEn
- dWOEIcoxRjuVj2KZ7PVn9BxSvF4gdsa7bSypTxCkLCrxGxG94neeAg6KE4XYWvkg6IdN
- 6CFjTqkgCQnmbCm4IaJ3CuX3wp6rjMGtvpz3Tmk+Rk/cu4dORuidAIcGq6lZ59eqHAWD
- KGmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LpL7qx90kO/NgJfcn2pzZvgiawADIWqcEOHPJQejQw0=;
- b=t/kMH1cgSKP5zc5qQ2yQDctGkwclTs/uxZ9Zqie1BxHfkfb+QsNHEEZXcsz6JE1paI
- lrMI85DKwXXLVdUYsH0ukb38Ot15c4+qbmK1wYZLYCjs/nlzwpTc+qOw1nP2TMy9qhaF
- hEC0Z0PnN2PQT4L5/AOtilLjSOoCw2jsxzlc9pMVd+xz++vx0xqn/KU8z+ShiujA/CI7
- euzKPUpX57rNAB3ymI/MCdq7sv6lG77JpvfiY+YIqhiGUPVWiLDcJFUOZj8NJJNTdw/u
- KJ44S8BWrv1/OjWBuC+BfXzEJsk4MYeCcKObJqhuatetLZqAZv8c7XTOyiv3YCoV71mI
- PO2A==
-X-Gm-Message-State: AOAM532SOhwbm5Hix09zSicEGbNJuNOtwQgzZNvUFoK0NVv0kqMkLKvl
- mvqMtKubrYrOe/1LtmKeSefKmdMnQHIBwC/xUqU=
-X-Google-Smtp-Source: ABdhPJyCISuCbgDROL/gqJ0JBv5xppQzbfXoTRY1Of4YmEnuf7J/NnVqeEWvz0Q6P6hvE1E01bB4JA==
-X-Received: by 2002:a17:90b:4b52:: with SMTP id
- mi18mr12177096pjb.37.1625709143189; 
- Wed, 07 Jul 2021 18:52:23 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id f2sm491957pfe.23.2021.07.07.18.52.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 18:52:22 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] fcntl: fix potential deadlocks
-To: Jeff Layton <jlayton@kernel.org>, bfields@fieldses.org,
- viro@zeniv.linux.org.uk
-References: <20210707074401.447952-1-desmondcheongzx@gmail.com>
- <15fbc55a3b983c4962e9ad2d96eeebd77aad3be6.camel@kernel.org>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <12c41697-e9ea-3326-b906-bf15a0a4dece@gmail.com>
-Date: Thu, 8 Jul 2021 09:52:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thu,  8 Jul 2021 09:14:35 +0100 (IST)
+Received: (qmail 3949 invoked from network); 8 Jul 2021 08:14:35 -0000
+Received: from unknown (HELO techsingularity.net)
+ (mgorman@techsingularity.net@[84.203.17.255])
+ by 81.17.254.9 with ESMTPSA (AES256-SHA encrypted, authenticated);
+ 8 Jul 2021 08:14:35 -0000
+Date: Thu, 8 Jul 2021 09:14:34 +0100
+From: Mel Gorman <mgorman@techsingularity.net>
+To: Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] mm/page_alloc: Avoid page allocator recursion with
+ pagesets.lock held
+Message-ID: <20210708081434.GV3840@techsingularity.net>
 MIME-Version: 1.0
-In-Reply-To: <15fbc55a3b983c4962e9ad2d96eeebd77aad3be6.camel@kernel.org>
-Content-Language: en-US
-Cc: linux-fsdevel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: syzbot+127fd7828d6eeb611703@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, Zqiang <qiang.zhang@windriver.com>,
+ linux-mm@kvack.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,55 +83,102 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 8/7/21 1:06 am, Jeff Layton wrote:
-> On Wed, 2021-07-07 at 15:43 +0800, Desmond Cheong Zhi Xi wrote:
->> Hi,
->>
->> Sorry for the delay between v1 and v2, there was an unrelated issue with Syzbot testing.
->>
->> Syzbot reports a possible irq lock inversion dependency:
->> https://syzkaller.appspot.com/bug?id=923cfc6c6348963f99886a0176ef11dcc429547b
->>
->> While investigating this error, I discovered that multiple similar lock inversion scenarios can occur. Hence, this series addresses potential deadlocks for two classes of locks, one in each patch:
->>
->> 1. Fix potential deadlocks for &fown_struct.lock
->>
->> 2. Fix potential deadlock for &fasync_struct.fa_lock
->>
->> v2 -> v3:
->> - Removed WARN_ON_ONCE, keeping elaboration for why read_lock_irq is safe to use in the commit message. As suggested by Greg KH.
->>
->> v1 -> v2:
->> - Added WARN_ON_ONCE(irqs_disabled()) before calls to read_lock_irq, and added elaboration in the commit message. As suggested by Jeff Layton.
->>
->> Best wishes,
->> Desmond
->>
->> Desmond Cheong Zhi Xi (2):
->>    fcntl: fix potential deadlocks for &fown_struct.lock
->>    fcntl: fix potential deadlock for &fasync_struct.fa_lock
->>
->>   fs/fcntl.c | 18 ++++++++++--------
->>   1 file changed, 10 insertions(+), 8 deletions(-)
->>
-> 
-> Looks like these patches are identical to the v1 set, so I'm just going
-> to leave those in place since linux-next already has them. Let me know
-> if I've missed something though.
-> 
-> Thanks!
-> 
+Syzbot is reporting potential deadlocks due to pagesets.lock when
+PAGE_OWNER is enabled. One example from Desmond Cheong Zhi Xi is
+as follows
 
-Yep, there's no change outside of the commit message. But I think after 
-the discussion and with config DEBUG_IRQFLAGS, that is fine.
+  __alloc_pages_bulk()
+    local_lock_irqsave(&pagesets.lock, flags) <---- outer lock here
+    prep_new_page():
+      post_alloc_hook():
+        set_page_owner():
+          __set_page_owner():
+            save_stack():
+              stack_depot_save():
+                alloc_pages():
+                  alloc_page_interleave():
+                    __alloc_pages():
+                      get_page_from_freelist():
+                        rm_queue():
+                          rm_queue_pcplist():
+                            local_lock_irqsave(&pagesets.lock, flags);
+                            *** DEADLOCK ***
 
-Thanks again, Jeff!
+Zhang, Qiang also reported
+
+  BUG: sleeping function called from invalid context at mm/page_alloc.c:5179
+  in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 1, name: swapper/0
+  .....
+  __dump_stack lib/dump_stack.c:79 [inline]
+  dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:96
+  ___might_sleep.cold+0x1f1/0x237 kernel/sched/core.c:9153
+  prepare_alloc_pages+0x3da/0x580 mm/page_alloc.c:5179
+  __alloc_pages+0x12f/0x500 mm/page_alloc.c:5375
+  alloc_page_interleave+0x1e/0x200 mm/mempolicy.c:2147
+  alloc_pages+0x238/0x2a0 mm/mempolicy.c:2270
+  stack_depot_save+0x39d/0x4e0 lib/stackdepot.c:303
+  save_stack+0x15e/0x1e0 mm/page_owner.c:120
+  __set_page_owner+0x50/0x290 mm/page_owner.c:181
+  prep_new_page mm/page_alloc.c:2445 [inline]
+  __alloc_pages_bulk+0x8b9/0x1870 mm/page_alloc.c:5313
+  alloc_pages_bulk_array_node include/linux/gfp.h:557 [inline]
+  vm_area_alloc_pages mm/vmalloc.c:2775 [inline]
+  __vmalloc_area_node mm/vmalloc.c:2845 [inline]
+  __vmalloc_node_range+0x39d/0x960 mm/vmalloc.c:2947
+  __vmalloc_node mm/vmalloc.c:2996 [inline]
+  vzalloc+0x67/0x80 mm/vmalloc.c:3066
+
+There are a number of ways it could be fixed. The page owner code could
+be audited to strip GFP flags that allow sleeping but it'll impair the
+functionality of PAGE_OWNER if allocations fail. The bulk allocator
+could add a special case to release/reacquire the lock for prep_new_page
+and lookup PCP after the lock is reacquired at the cost of performance.
+The patches requiring prep could be tracked using the least significant
+bit and looping through the array although it is more complicated for
+the list interface. The options are relatively complex and the second
+one still incurs a performance penalty when PAGE_OWNER is active so this
+patch takes the simple approach -- disable bulk allocation of PAGE_OWNER is
+active. The caller will be forced to allocate one page at a time incurring
+a performance penalty but PAGE_OWNER is already a performance penalty.
+
+Fixes: dbbee9d5cd83 ("mm/page_alloc: convert per-cpu list protection to local_lock")
+Reported-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Reported-by: "Zhang, Qiang" <Qiang.Zhang@windriver.com>
+Reported-and-tested-by: syzbot+127fd7828d6eeb611703@syzkaller.appspotmail.com
+Signed-off-by: Mel Gorman <mgorman@techsingularity.net>
+---
+ mm/page_alloc.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 3b97e17806be..6ef86f338151 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -5239,6 +5239,18 @@ unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
+ 	if (nr_pages - nr_populated == 1)
+ 		goto failed;
+ 
++#ifdef CONFIG_PAGE_OWNER
++	/*
++	 * PAGE_OWNER may recurse into the allocator to allocate space to
++	 * save the stack with pagesets.lock held. Releasing/reacquiring
++	 * removes much of the performance benefit of bulk allocation so
++	 * force the caller to allocate one page at a time as it'll have
++	 * similar performance to added complexity to the bulk allocator.
++	 */
++	if (static_branch_unlikely(&page_owner_inited))
++		goto failed;
++#endif
++
+ 	/* May set ALLOC_NOFRAGMENT, fragmentation will return 1 page. */
+ 	gfp &= gfp_allowed_mask;
+ 	alloc_gfp = gfp;
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
