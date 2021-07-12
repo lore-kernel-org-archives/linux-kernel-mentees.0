@@ -1,81 +1,106 @@
-Return-Path: <SRS0=J1f0=MA=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=bgCq=ME=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C12C07E96
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Jul 2021 21:47:12 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D31F1C07E9B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Jul 2021 04:35:54 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B743461607
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  8 Jul 2021 21:47:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org B743461607
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 5F0D9610D2
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 12 Jul 2021 04:35:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 5F0D9610D2
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7DB2C41CEC;
-	Thu,  8 Jul 2021 21:47:11 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CD18040455;
+	Mon, 12 Jul 2021 04:35:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RfUvV61yhT3f; Thu,  8 Jul 2021 21:47:10 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id izZMaNc9QBDP; Mon, 12 Jul 2021 04:35:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 922EC4022F;
-	Thu,  8 Jul 2021 21:47:10 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 835484045E;
+	Mon, 12 Jul 2021 04:35:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64774C0010;
-	Thu,  8 Jul 2021 21:47:10 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E9B57C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 414D3C0010;
+	Mon, 12 Jul 2021 04:35:52 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90400C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 21:47:08 +0000 (UTC)
+ Mon, 12 Jul 2021 04:35:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D848F60D7F
+ by smtp2.osuosl.org (Postfix) with ESMTP id 767A54026C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 21:47:08 +0000 (UTC)
+ Mon, 12 Jul 2021 04:35:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yuKx1RJK5ody
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ay1oNUqVdXeU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 21:47:08 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 4A3CF60D78
+ Mon, 12 Jul 2021 04:35:49 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 40C544011A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Jul 2021 21:47:08 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8E7F961606;
- Thu,  8 Jul 2021 21:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625780827;
- bh=mrhrj7r8a/qXiw0M9WJaa1DCHBkLNSRdzlM6SWlPTKE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=oXC1SpBo1ZihpDDEULeQAk6w2SDXIHgfxJgsYjq252DCnaUUT30xkukiAfUimCtXc
- BMR4woyeM+Rfd2iwqsrQBBHBN4Z9DEITqKxG6L73lW/gFVxxPEcUCT68YEpg2JXB+l
- 5VOi6QrEUCacBgxZl/id89uBAGiL0ocodTd01YmA5eLsrCJU/mNOyWJ0tLjMC7K1Pg
- 9dxITECxLSUyGGlO+GMCKNFMEtJZb4/frXQYucndDj9mSlw/INEpUX10Mial7LAX3D
- jDRTmyfx1pjrDE/DW8FBsDyLz4bh8FfIkmvrfhvCkDzvocl6CTHRc7bTglGlbBLbwF
- 5AJBC3yoMdehA==
-Date: Thu, 8 Jul 2021 16:47:06 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] gpio: ml: ioh: Convert to
- dev_pm_ops
-Message-ID: <20210708214706.GA1059661@bjorn-Precision-5520>
+ Mon, 12 Jul 2021 04:35:49 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id h1so8495598plf.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 11 Jul 2021 21:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4rLWxgvTxRO6/WnLGuPe5bx1yA3ZPfoXkYG4O0mj5Ag=;
+ b=Geoi+0MWpfFz4FPkrYi/nx4PnAtxpDewQhIbIJJEpdvLJd+zqBYat7d/uOq4bOLVmd
+ crQ/FoTUO9henHk0k11fQML6QMzkjWON0Bt18h+gJv2G/u9O9SDKTBmGaHB5IW53VE4S
+ dROuzbLroxbfZ+hAfVRA1sBJwY8qb8JowpBI+TITbGDJyvK+HYjHCaIUdC1xAyu7xKp5
+ IPR01Sq4YwLldIdNar4XcUj524b6nWeJauuyT1o61vKbGdw75fpaUfireHd2P6nG5SoU
+ h4Fpq9tBo8yTM42PgkUERGI5dzs6z4lPbvLONb4iO7jVKoeo3VkpxgjE/ca8jJ+PZKkL
+ 41/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4rLWxgvTxRO6/WnLGuPe5bx1yA3ZPfoXkYG4O0mj5Ag=;
+ b=O12XX4ZEAdCxPXn0/V45vwV35fJIDUlZ8nv7Ck6OwTiArbGFAwccbXkU+/8ossXJmy
+ CEUg8t61FF0fmqgHiOdVPchwWv8yO8tROhK6T6CSg2p9j4nb/DlG5dqj0A8mPSz+tc/9
+ KtDVVNIW4Ui+G/ZyJEyBIanOIHarN34MCyFHlBaB9E1hauJeyGo7MnlpEKKOFHPGo6yA
+ kFWBlhgYJGC+ZetJpSKvTMfxAHFhMwGn+h/eiAI4bRCP6O+UYD/zbmMtX+QlVhoHF3Ap
+ jXRvC+PCAWpl4Vp9hye8FNOenHJphE+6b+khNVhshw6TsSZeXKO0neUYO0EcIYF1Lu9W
+ 89Ew==
+X-Gm-Message-State: AOAM533XB0jIctaQE/rjXf1MYQ4l63yvB0Y0VNH+9Uo2VHMQ1BKCOUCj
+ T0zLdoPB13NKz8KuUZcBQes=
+X-Google-Smtp-Source: ABdhPJwl+CRq9QTeLobKLyJ6aOiBlK052/w9C9BYiZxarzwfe1F9ZnaLlpMcaNfVay5lzr4CjUJ4tQ==
+X-Received: by 2002:a17:90a:c484:: with SMTP id
+ j4mr48282588pjt.218.1626064548647; 
+ Sun, 11 Jul 2021 21:35:48 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id n3sm14242764pfn.216.2021.07.11.21.35.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Jul 2021 21:35:48 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master ptrs
+Date: Mon, 12 Jul 2021 12:35:03 +0800
+Message-Id: <20210712043508.11584-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vfpj+ENMe9u-SMKfvCsyFtOucUT9bD3qfWX+QjccZ9ZyQ@mail.gmail.com>
-Cc: andy@kernel.org, linux-pci@vger.kernel.org,
- Linus Walleij <linus.walleij@linaro.org>,
- "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-kernel@vger.kernel.org,
- Bartosz Golaszewski <bgolaszewski@baylibre.com>, linux-gpio@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: intel-gfx@lists.freedesktop.org, emil.l.velikov@gmail.com,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,64 +118,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-[+cc linux-pci]
+Hi,
 
-On Thu, Apr 02, 2020 at 11:23:27PM +0300, Andy Shevchenko wrote:
-> On Thu, Apr 2, 2020 at 11:16 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > On Thu, Apr 02, 2020 at 09:33:46PM +0300, Andy Shevchenko wrote:
-> > > On Thu, Apr 2, 2020 at 6:52 PM Vaibhav Gupta <vaibhavgupta40@gmail.com> wrote:
-> > > >
-> > > > Convert the legacy callback .suspend() and .resume()
-> > > > to the generic ones.
-> > >
-> > > Thank you for the patch.
-> > >
-> > > Rather then doing this I think the best approach is to unify gpio-pch
-> > > and gpio-ml-ioh together.
-> > > Under umbrella of the task, the clean ups like above are highly
-> > > appreciated.
-> >
-> > I'd be all in favor of that, but what Vaibhav is working toward is
-> > eliminating use of legacy PM in PCI drivers.  I think unifying drivers
-> > is really out of scope for that project.
-> >
-> > If you'd rather leave gpio-ml-ioh.c alone for now, I suggest that
-> > Vaibhav move on to other PCI drivers that use legacy PM.  If we
-> > convert all the others away from legacy PM and gpio-ml-ioh.c is the
-> > only one remaining, then I guess we can revisit this :)
-> 
-> Then skip this driver for good.
-> 
-> > Or, maybe converting gpio-ml-ioh.c now, along the lines of
-> > 226e6b866d74 ("gpio: pch: Convert to dev_pm_ops"), would be one small
-> > step towards the eventual unification, by making gpio-pch and
-> > gpio-ml-ioh a little more similar.
-> 
-> I think it will delay the real work here (very old code motivates
-> better to get rid of it then semi-fixed one).
+In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
 
-With respect, I think it is unreasonable to use the fact that
-gpio-ml-ioh and gpio-pch should be unified to hold up the conversion
-of gpio-ml-ioh to generic power management.
+Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
 
-I do not want to skip gpio-ml-ioh for good, because it is one of the
-few remaining drivers that use the legacy PCI PM interfaces.  We are
-very close to being able to remove a significant amount of ugly code
-from the PCI core.
+The series is broken up into five patches:
 
-gpio-ml-ioh and gpio-pch do look quite similar, and no doubt it would
-be great to unify them.  But without datasheets or hardware to test,
-that's not a trivial task, and I don't think that burden should fall
-on anyone who wants to make any improvements to these drivers.
+1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
 
-Another alternative would be to remove legacy PCI PM usage
-(ioh_gpio_suspend() and ioh_gpio_resume()) from gpio-ml-ioh.  That
-would mean gpio-ml-ioh wouldn't support power management at all, which
-isn't a good thing, but maybe it would be even more motivation to
-unify it with gpio-pch (which has already been converted by
-226e6b866d74 ("gpio: pch: Convert to dev_pm_ops"))?
+2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
 
-Bjorn
+3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+
+4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
+
+5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+
+v7 -> v8:
+- Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
+- Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
+
+v6 -> v7:
+- Modify code alignment as suggested by the intel-gfx CI.
+- Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+- Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+
+v5 -> v6:
+- Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+- Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+- Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+- Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
+
+v4 -> v5:
+- Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+- Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+
+v3 -> v4:
+- Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+- Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+- Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
+- Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+
+v2 -> v3:
+- Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+- Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+
+v1 -> v2:
+- Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+
+Desmond Cheong Zhi Xi (5):
+  drm: avoid circular locks in drm_mode_getconnector
+  drm: avoid blocking in drm_clients_info's rcu section
+  drm: add a locked version of drm_is_current_master
+  drm: serialize drm_file.master with a new spinlock
+  drm: protect drm_master pointers in drm_lease.c
+
+ drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
+ drivers/gpu/drm/drm_connector.c |  5 +-
+ drivers/gpu/drm/drm_debugfs.c   |  3 +-
+ drivers/gpu/drm/drm_file.c      |  1 +
+ drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
+ include/drm/drm_auth.h          |  1 +
+ include/drm/drm_file.h          | 18 +++++--
+ 7 files changed, 152 insertions(+), 50 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
