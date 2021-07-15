@@ -2,110 +2,105 @@ Return-Path: <SRS0=ZtpW=MH=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.1 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A58C1B08C
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Jul 2021 02:21:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEE1C47E4B
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Jul 2021 10:34:37 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 33150613CA
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Jul 2021 02:21:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 33150613CA
+	by mail.kernel.org (Postfix) with ESMTPS id CE3E760041
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 15 Jul 2021 10:34:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CE3E760041
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F07AF83CF7;
-	Thu, 15 Jul 2021 02:21:51 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9CA4583DA8;
+	Thu, 15 Jul 2021 10:34:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v_GfGCeM5eiB; Thu, 15 Jul 2021 02:21:51 +0000 (UTC)
+	with ESMTP id S8RZGj9VsEws; Thu, 15 Jul 2021 10:34:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id F3B1E83C92;
-	Thu, 15 Jul 2021 02:21:50 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D12A783DA4;
+	Thu, 15 Jul 2021 10:34:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D76D5C001A;
-	Thu, 15 Jul 2021 02:21:50 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DAF23C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8E75C0010;
+	Thu, 15 Jul 2021 10:34:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 90B52C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Jul 2021 02:21:49 +0000 (UTC)
+ Thu, 15 Jul 2021 10:34:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id BD6B383CC2
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8AB5B60B3F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Jul 2021 02:21:49 +0000 (UTC)
+ Thu, 15 Jul 2021 10:34:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4G8y4UhG7WN1
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZOGLScJD8pfG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Jul 2021 02:21:49 +0000 (UTC)
+ Thu, 15 Jul 2021 10:34:32 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 02E6F83C92
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 94F8F60B28
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Jul 2021 02:21:48 +0000 (UTC)
-Received: by mail-pf1-x42c.google.com with SMTP id p22so3703151pfh.8
+ Thu, 15 Jul 2021 10:34:32 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ p14-20020a17090ad30eb02901731c776526so5882003pju.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 14 Jul 2021 19:21:48 -0700 (PDT)
+ Thu, 15 Jul 2021 03:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Xk+bzsUUhRfnteb4np5wfFEQnczuTEkubtOo+6KG5f4=;
- b=uYskKqEKC8XeGxw/m7v84jSQx3EE7S8LAGhN8uMoRZB3tprwcfikayRiOO7r98jTO2
- FB3YSj9kJjb/IjQ4W2Ukd97zdzhUfVZ0AZjITvfMcSupgUmhcT/kdUd91wQjMIB0lIYq
- U2zm8XnDRIk/e8X8WV1xVA14z+JftfxgoS/hSHCHySVK++6Or82EmORMnS4ETtiGK8C6
- Ee8gWQO7HSfP+o1ydoi5pFZS+LBqQEnDb9+a5P24TbfEC4jW+aCGR5+ZvGBraoKdDl4U
- PVo3n6tjoSsSM1krrraIj4WQuSQUmUWlfbML3yDR7QVmXmSLfxKzCqvtEmA7kWxRNOVv
- ER2Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+oSd5AIwHXyRxmbXI7YN1Do3jrBN/ZwcUGcPjvgZeFk=;
+ b=AFHnbrvTfgXatGFDpeKuSk4yYxFCvxAArkKWMB2xhrzPriZ/ItDVwlf7rzN6cGdXKS
+ aMvgfdXg19XYmqFFhWHPqLHctEIDlFvgNxMAItXD8hJQNgnZMOHUiIcbjEzMmp9/+7Fy
+ xWD8qhbnLO+NFEyMxNiPj2PuX2wtqXQTTcmSx18tbeTcKkZBj8DJ9ZWe0DbhX/xavYan
+ LeBhysNvsvj3U/jrYtUvwi0Zj2D/vMWyI7hdstrBLS5uTMeYaOGNOUDM1EMRAtASVbgP
+ WvLSIXnwdZoHmrVNYWqAyk1bWRwcXU1XHdxAQO4Q8FhtLU52cdQL3c1z1Rt431Wg+a+L
+ ux2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Xk+bzsUUhRfnteb4np5wfFEQnczuTEkubtOo+6KG5f4=;
- b=DAhvIXOzuEOy5966uT4PGh7svWe9y1ZUfKMGStg7JxzefBifR4S/pdBJZgCNAp7SH9
- sE3ei36e+l+l45kAmdTQW5o+iK6UMnmnmtVwOZ5PKtg3tJfbvcHRzv0q7y83Dm1dQL60
- FqVRdzhHkLWuST2rvXQVjnaNxJvpK1rWQq1g/ss1ELd9qxYEYT0IXynlsVXgSVdayW6U
- wy/oVa0lbrUIjLr+klutsQd3IoPx4/OqV1D4R+hHGxmCipd/RrRNWaKIRgpngL1RAmqS
- pxMfX+f2oY+CdgHEhyorKrnA1tTbOXDmQOvc2ubsKYwWuNpBHrINQQ1GXrfhIeVYHPpo
- ming==
-X-Gm-Message-State: AOAM5322WoeURy1iiPqB96OosrGKEqb76kvJXf0rCfCLXrH9sZV4XUzG
- jsxLeEvnvqF7mSgRogc31bU=
-X-Google-Smtp-Source: ABdhPJwVicxeM6sLiW5I62juancSEsjb5cqhbqovYu8hHGmPkcGQDMQtm2t7s5tZ15wmKmjv7YeIrg==
-X-Received: by 2002:a63:4a43:: with SMTP id j3mr1424942pgl.367.1626315708299; 
- Wed, 14 Jul 2021 19:21:48 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id 20sm4288470pfi.170.2021.07.14.19.21.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 19:21:47 -0700 (PDT)
-Subject: Re: [PATCH v2] Bluetooth: fix inconsistent lock state in sco
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-References: <20210713162838.693266-1-desmondcheongzx@gmail.com>
- <CABBYNZLBfH+0=yhgcAK4XzizUKqpmAxjyxGpBACiFZpPsr0CEQ@mail.gmail.com>
+ bh=+oSd5AIwHXyRxmbXI7YN1Do3jrBN/ZwcUGcPjvgZeFk=;
+ b=NxYYm3DhJ9kglNhgvv+80D9hbPQvXi4+zm9TNIvpziezBYDsuD1UZlo0Df/0ZoxgqA
+ ihQDGMgkZThh7/uhBoWc1gAr1GBhffrVzBFR8TH9Fm0Hx+cPjI43nWrZSDAY6qV5pa2c
+ +Scui2eBhsClykUGWhceQY8ZHmh+hrEJO0UPSq1tK4CH5IeRmhSaoqeZHAEa/xRQ17EM
+ FPwml1ECXkiZ2hHiqBT6oyCU4E26BVI6XhxASwOqBcTxytJjpOkH033g7URVt8DyquQL
+ t6LaCMWwqbKO/bAskKckj9rMCuK5AuGdiegjV2B1NAHLclfMjq8ZDkd1Pm/7GKQtzDRh
+ AkTg==
+X-Gm-Message-State: AOAM533RK5SVTY7HrdRY5pyljEwOMyDkX3FoE1od6fWCExT4+E7SEbeO
+ 9+Z6vAlCy3O7LM9t/a4SC2U=
+X-Google-Smtp-Source: ABdhPJzsgVuM1EhE0Bt1tm9UkzYH3XoF5+771CCc0YfNyBorSFfKh1zma+esEJdf3zhFYWz2Y4Kgpw==
+X-Received: by 2002:a17:90a:8e82:: with SMTP id
+ f2mr9659205pjo.177.1626345272037; 
+ Thu, 15 Jul 2021 03:34:32 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id e18sm6059326pfc.85.2021.07.15.03.34.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jul 2021 03:34:31 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <a4e8c316-69d5-0a6f-5480-bfe077d9d032@gmail.com>
-Date: Thu, 15 Jul 2021 10:21:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+To: clm@fb.com,
+	josef@toxicpanda.com,
+	dsterba@suse.com
+Subject: [PATCH] btrfs: fix rw device counting in __btrfs_free_extra_devids
+Date: Thu, 15 Jul 2021 18:34:03 +0800
+Message-Id: <20210715103403.176695-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CABBYNZLBfH+0=yhgcAK4XzizUKqpmAxjyxGpBACiFZpPsr0CEQ@mail.gmail.com>
-Content-Language: en-US
-Cc: Johan Hedberg <johan.hedberg@gmail.com>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- Marcel Holtmann <marcel@holtmann.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
- syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com,
- Jakub Kicinski <kuba@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- David Miller <davem@davemloft.net>, stefan@datenfreihafen.org
+Cc: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, anand.jain@oracle.com,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,261 +112,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 15/7/21 3:12 am, Luiz Augusto von Dentz wrote:
-> Hi Desmond,
-> 
-> On Tue, Jul 13, 2021 at 9:29 AM Desmond Cheong Zhi Xi
-> <desmondcheongzx@gmail.com> wrote:
->>
->> Syzbot reported an inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} lock
->> usage in sco_conn_del and sco_sock_timeout that could lead to
->> deadlocks.
->>
->> This inconsistent lock state can also happen in sco_conn_ready,
->> rfcomm_connect_ind, and bt_accept_enqueue.
->>
->> The issue is that these functions take a spin lock on the socket with
->> interrupts enabled, but sco_sock_timeout takes the lock in an IRQ
->> context. This could lead to deadlocks:
->>
->>         CPU0
->>         ----
->>    lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
->>    <Interrupt>
->>      lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
->>
->>   *** DEADLOCK ***
->>
->> We fix this by ensuring that local bh is disabled before calling
->> bh_lock_sock.
->>
->> After doing this, we additionally need to protect sco_conn_lock by
->> disabling local bh.
->>
->> This is necessary because sco_conn_del makes a call to sco_chan_del
->> while holding on to the sock lock, and sco_chan_del itself makes a
->> call to sco_conn_lock. If sco_conn_lock is held elsewhere with
->> interrupts enabled, there could still be a
->> slock-AF_BLUETOOTH-BTPROTO_SCO --> &conn->lock#2 lock inversion as
->> follows:
->>
->>          CPU0                    CPU1
->>          ----                    ----
->>     lock(&conn->lock#2);
->>                                  local_irq_disable();
->>                                  lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
->>                                  lock(&conn->lock#2);
->>     <Interrupt>
->>       lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
->>
->>    *** DEADLOCK ***
->>
->> As sco_conn_del now disables local bh before calling sco_chan_del,
->> instead of disabling local bh for the calls to sco_conn_lock in
->> sco_chan_del, we instead wrap other calls to sco_chan_del with
->> local_bh_disable/enable.
->>
->> Reported-by: syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com
->> Tested-by: syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
->>
->> Hi,
->>
->> The previous version of this patch was a bit of a mess, so I made the
->> following changes.
->>
->> v1 -> v2:
->> - Instead of pulling out the clean-up code out from sco_chan_del and
->> using it directly in sco_conn_del, disable local irqs for relevant
->> sections.
->> - Disable local irqs more thoroughly for instances of
->> bh_lock_sock/bh_lock_sock_nested in the bluetooth subsystem.
->> Specifically, the calls in af_bluetooth.c and rfcomm/sock.c are now made
->> with local irqs disabled as well.
->>
->> Best wishes,
->> Desmond
->>
->>   net/bluetooth/rfcomm/sock.c |  2 ++
->>   net/bluetooth/sco.c         | 26 +++++++++++++++++++++++++-
->>   2 files changed, 27 insertions(+), 1 deletion(-)
->>
->> diff --git a/net/bluetooth/rfcomm/sock.c b/net/bluetooth/rfcomm/sock.c
->> index ae6f80730561..d8734abb2df4 100644
->> --- a/net/bluetooth/rfcomm/sock.c
->> +++ b/net/bluetooth/rfcomm/sock.c
->> @@ -974,6 +974,7 @@ int rfcomm_connect_ind(struct rfcomm_session *s, u8 channel, struct rfcomm_dlc *
->>          if (!parent)
->>                  return 0;
->>
->> +       local_bh_disable();
->>          bh_lock_sock(parent);
->>
->>          /* Check for backlog size */
->> @@ -1002,6 +1003,7 @@ int rfcomm_connect_ind(struct rfcomm_session *s, u8 channel, struct rfcomm_dlc *
->>
->>   done:
->>          bh_unlock_sock(parent);
->> +       local_bh_enable();
-> 
-> Looks like you are touching RFCOMM as well, perhaps you should have it
-> split, also how about other sockets like L2CAP and HCI are they
-> affected? There seems to be a lot of problem with the likes of
-> bh_lock_sock I wonder if going with local_bh_disable is overall a
-> better way to handle.
-> 
+Syzbot reports a warning in close_fs_devices that happens because
+fs_devices->rw_devices is not 0 after calling btrfs_close_one_device
+on each device.
 
-Thanks for the feedback, Luiz. I'll separate the SCO and RFCOMM code 
-changes.
+This happens when a writeable device is removed in
+__btrfs_free_extra_devids, but the rw device count is not decremented
+accordingly. So when close_fs_devices is called, the removed device is
+still counted and we get an off by 1 error.
 
-I believe other sockets should be fine. From what I see, they use 
-lock_sock, which acquires the spin lock via spin_lock_bh under the hood. 
-So only code that uses bh_lock_sock/bh_lock_sock_nested are affected.
+Here is one call trace that was observed:
+  btrfs_mount_root():
+    btrfs_scan_one_device():
+      device_list_add();   <---------------- device added
+    btrfs_open_devices():
+      open_fs_devices():
+        btrfs_open_one_device();   <-------- rw device count ++
+    btrfs_fill_super():
+      open_ctree():
+        btrfs_free_extra_devids():
+	  __btrfs_free_extra_devids();  <--- device removed
+	  fail_tree_roots:
+	    btrfs_close_devices():
+	      close_fs_devices();   <------- rw device count off by 1
 
-Also I'm not sure what you meant by going with local_bh_disable? I'm 
-probably missing context about Bluetooth protocols, but I think the spin 
-locks still have their place to protect concurrent accesses and to make 
-it clear about what's being protected.
+Fixes: cf89af146b7e ("btrfs: dev-replace: fail mount if we don't have replace item with target device")
+Reported-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+Tested-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+---
+ fs/btrfs/volumes.c | 1 +
+ 1 file changed, 1 insertion(+)
 
->>          if (test_bit(BT_SK_DEFER_SETUP, &bt_sk(parent)->flags))
->>                  parent->sk_state_change(parent);
->> diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
->> index 3bd41563f118..2548b8f81473 100644
->> --- a/net/bluetooth/sco.c
->> +++ b/net/bluetooth/sco.c
->> @@ -167,16 +167,22 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
->>          BT_DBG("hcon %p conn %p, err %d", hcon, conn, err);
->>
->>          /* Kill socket */
->> +       local_bh_disable();
->>          sco_conn_lock(conn);
->>          sk = conn->sk;
->>          sco_conn_unlock(conn);
->> +       local_bh_enable();
->>
->>          if (sk) {
->>                  sock_hold(sk);
->> +
->> +               local_bh_disable();
->>                  bh_lock_sock(sk);
->>                  sco_sock_clear_timer(sk);
->>                  sco_chan_del(sk, err);
->>                  bh_unlock_sock(sk);
->> +               local_bh_enable();
->> +
->>                  sco_sock_kill(sk);
->>                  sock_put(sk);
->>          }
->> @@ -202,6 +208,7 @@ static int sco_chan_add(struct sco_conn *conn, struct sock *sk,
->>   {
->>          int err = 0;
->>
->> +       local_bh_disable();
->>          sco_conn_lock(conn);
->>          if (conn->sk)
->>                  err = -EBUSY;
->> @@ -209,6 +216,7 @@ static int sco_chan_add(struct sco_conn *conn, struct sock *sk,
->>                  __sco_chan_add(conn, sk, parent);
->>
->>          sco_conn_unlock(conn);
->> +       local_bh_enable();
->>          return err;
->>   }
->>
->> @@ -303,9 +311,11 @@ static void sco_recv_frame(struct sco_conn *conn, struct sk_buff *skb)
->>   {
->>          struct sock *sk;
->>
->> +       local_bh_disable();
->>          sco_conn_lock(conn);
->>          sk = conn->sk;
->>          sco_conn_unlock(conn);
->> +       local_bh_enable();
->>
->>          if (!sk)
->>                  goto drop;
->> @@ -420,18 +430,25 @@ static void __sco_sock_close(struct sock *sk)
->>                  if (sco_pi(sk)->conn->hcon) {
->>                          sk->sk_state = BT_DISCONN;
->>                          sco_sock_set_timer(sk, SCO_DISCONN_TIMEOUT);
->> +                       local_bh_disable();
->>                          sco_conn_lock(sco_pi(sk)->conn);
->>                          hci_conn_drop(sco_pi(sk)->conn->hcon);
->>                          sco_pi(sk)->conn->hcon = NULL;
->>                          sco_conn_unlock(sco_pi(sk)->conn);
->> -               } else
->> +                       local_bh_enable();
->> +               } else {
->> +                       local_bh_disable();
->>                          sco_chan_del(sk, ECONNRESET);
->> +                       local_bh_enable();
->> +               }
->>                  break;
->>
->>          case BT_CONNECT2:
->>          case BT_CONNECT:
->>          case BT_DISCONN:
->> +               local_bh_disable();
->>                  sco_chan_del(sk, ECONNRESET);
->> +               local_bh_enable();
->>                  break;
->>
->>          default:
->> @@ -1084,21 +1101,26 @@ static void sco_conn_ready(struct sco_conn *conn)
->>
->>          if (sk) {
->>                  sco_sock_clear_timer(sk);
->> +               local_bh_disable();
->>                  bh_lock_sock(sk);
->>                  sk->sk_state = BT_CONNECTED;
->>                  sk->sk_state_change(sk);
->>                  bh_unlock_sock(sk);
->> +               local_bh_enable();
->>          } else {
->> +               local_bh_disable();
->>                  sco_conn_lock(conn);
->>
->>                  if (!conn->hcon) {
->>                          sco_conn_unlock(conn);
->> +                       local_bh_enable();
->>                          return;
->>                  }
->>
->>                  parent = sco_get_sock_listen(&conn->hcon->src);
->>                  if (!parent) {
->>                          sco_conn_unlock(conn);
->> +                       local_bh_enable();
->>                          return;
->>                  }
->>
->> @@ -1109,6 +1131,7 @@ static void sco_conn_ready(struct sco_conn *conn)
->>                  if (!sk) {
->>                          bh_unlock_sock(parent);
->>                          sco_conn_unlock(conn);
->> +                       local_bh_enable();
->>                          return;
->>                  }
->>
->> @@ -1131,6 +1154,7 @@ static void sco_conn_ready(struct sco_conn *conn)
->>                  bh_unlock_sock(parent);
->>
->>                  sco_conn_unlock(conn);
->> +               local_bh_enable();
->>          }
->>   }
->>
->> --
->> 2.25.1
->>
-> 
-> 
+diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
+index 807502cd6510..916c25371658 100644
+--- a/fs/btrfs/volumes.c
++++ b/fs/btrfs/volumes.c
+@@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
+ 		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
+ 			list_del_init(&device->dev_alloc_list);
+ 			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
++			fs_devices->rw_devices--;
+ 		}
+ 		list_del_init(&device->dev_list);
+ 		fs_devices->num_devices--;
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
