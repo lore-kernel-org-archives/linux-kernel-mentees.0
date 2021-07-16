@@ -7,85 +7,85 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3581C12002
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 16 Jul 2021 18:16:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0438C636CA
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 16 Jul 2021 20:33:59 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77F55613F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 16 Jul 2021 18:16:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 77F55613F2
+	by mail.kernel.org (Postfix) with ESMTPS id 564EC613D4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 16 Jul 2021 20:33:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 564EC613D4
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2A0A14256A;
-	Fri, 16 Jul 2021 18:16:08 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 13D56403EB;
+	Fri, 16 Jul 2021 20:33:59 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ky9uEGQVOIlt; Fri, 16 Jul 2021 18:16:06 +0000 (UTC)
+	with ESMTP id 0Zkc3y2Xrr0o; Fri, 16 Jul 2021 20:33:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A9D6D42568;
-	Fri, 16 Jul 2021 18:16:06 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id F3133403CA;
+	Fri, 16 Jul 2021 20:33:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ECBC3C0024;
-	Fri, 16 Jul 2021 18:16:04 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76154C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6DCCC001A;
+	Fri, 16 Jul 2021 20:33:57 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B7AE2C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 16 Jul 2021 18:16:03 +0000 (UTC)
+ Fri, 16 Jul 2021 20:33:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 56DFC4255E
+ by smtp4.osuosl.org (Postfix) with ESMTP id A5D63403CA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 16 Jul 2021 18:16:03 +0000 (UTC)
+ Fri, 16 Jul 2021 20:33:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uAUkYgeaE8ut
+ with ESMTP id 8hTbVKKyLRmf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 16 Jul 2021 18:16:02 +0000 (UTC)
+ Fri, 16 Jul 2021 20:33:56 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
- [IPv6:2607:f8b0:4864:20::b2a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 77B7A4255B
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
+ [IPv6:2607:f8b0:4864:20::b2d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id D23ED403AD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 16 Jul 2021 18:16:02 +0000 (UTC)
-Received: by mail-yb1-xb2a.google.com with SMTP id t186so16243832ybf.2
+ Fri, 16 Jul 2021 20:33:55 +0000 (UTC)
+Received: by mail-yb1-xb2d.google.com with SMTP id r132so16873737yba.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 16 Jul 2021 11:16:02 -0700 (PDT)
+ Fri, 16 Jul 2021 13:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iWAawrzfv66AoUs2JSARlO2qCEIlBS0czfzyeymt4wk=;
- b=VhNyVYou/0c88oyYeR5dUzY33hp+tAJw7viTsPLRuVxdpopNf9rqeUGW5VfEHAYUWW
- gwuUcTLGZ39rkGclrLyGAyqB8Ku31SWKpBPpRVDmBJdM/c8B/LxEiPlYwbJynomr2mH6
- dWMtPTgbdJ8WWZ9H6XePNFd2SHKIvcvHvdnvt+IUcPs9398W6mHRsUJKz8Skk2yl4JqO
- j2ssN/tEEIjs6ADukvqxMX5U/Jp5yc3ItBI1RVSAH4zwfdtfxuc9QJomB+dI9QuASnRN
- iSW4+uI8qvcmkJmRkkUjVsZPBYnerwRUArNtQl2RW0B087NeDAOiW52hOUkwfFCNQJvD
- HsqA==
+ :cc; bh=CASdABC4YogowTi4wgMPvYayjJdW7krty8HdtM50CCs=;
+ b=R4X5j0HvU8dVfIV3qClRsAinnTeQSOmjY7eqGRXEsqWljgUsUIIfPiT8I6eaPfgBvb
+ 15VxFWIFOPs/TIJcQSNq3FlGYHHq2VjU0/xhd+N8iXb32naXxdMN+vBjgbkJYlijyqPr
+ FBa3K+C7i1Crq/0/aHDj+OgWSTaOVwq6E87TQSztR4maHP9DSQwEVZdO5iVDqrfDTkM7
+ KCY3gNLcpaDyiZdN/rHhw3HawY7QTiQCQR9D8iGAjYt1crf9Ryt5jiemRWqXBp38h6ku
+ AsMep7tkqI6XouAlPknb8IyMzeSC0vgCGfbvD67zkvi8DyvwAj2dWb/Hh+poWW7Fh0R9
+ y6PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iWAawrzfv66AoUs2JSARlO2qCEIlBS0czfzyeymt4wk=;
- b=Pd7QaxmemwpDvAl2chrhbfGn3lwtwblN8VTO5FmpbKgUNoBVO/vNS4mxOODnKS4nW5
- 65MsTgZWsRg9pHXJ2IfuuWBB2Wy1tlp24V1IJTq4LrREIIlCUzDtUOpDB48wPdz+nEXF
- NreJoNhw9eaz3Bc/1Wqnpmy54LPFM2Dx8BhdAXMUqeB1JlNtduwbreDarUSyfrFF4k3H
- +eZRMJi+eXhdB8ld4nYWCija6yv3wsfP8ZBQOWUgBnFvifrqouk7T9JVbbO81M0XwVts
- T7hoSqyXqoD8P/5VqRKMZUrFuhKN3hHPrYNDHp8tcpV3exdzdJv59OUBxAnT0nZg97kT
- EJbA==
-X-Gm-Message-State: AOAM5337ESKoYriuZe52gKunE4RCnkXEh5c0flR9gwu03x0TwbIR2agH
- GOrGqG41tsnFytTgyNxMM1aay74XXTiCB8TfMSA=
-X-Google-Smtp-Source: ABdhPJwwo/EgppiaDkVY7QbKMYYE+G8EhczRzQhDRxdLRD9xxrtuBjqlVwMmOicCGiyrq6e1r7WZB/WnMfxFBkaVl64=
-X-Received: by 2002:a25:f30d:: with SMTP id c13mr14014674ybs.134.1626459361238; 
- Fri, 16 Jul 2021 11:16:01 -0700 (PDT)
+ bh=CASdABC4YogowTi4wgMPvYayjJdW7krty8HdtM50CCs=;
+ b=PZLX848a9YKB4EfFRYd2Le0fidB99UZTo4Ou9XbToSMvvrp2j3dSrdfbY3AxU0tPQR
+ muuIThuztdKpWRqdFE1fS6fM3wiFCSdgyWaTuW7PMntKhOWwDfGKXi9sYme83/cNplmT
+ XoXz9A/GT8IveMtd9S/OAjCksH26MKmJIo1MNv+p4+qxJNxLGXxaZYrO8C+uN7fmMsRw
+ B525LWl2MTEFnkKdxpbzq2r8gLiMYS0tchbQ45bSCPtdQiQ0wPW0oqA2AA1OKPFm1qfO
+ R0GocE5Om3u/GRhL7D+5adjv7lqRKqY5LFFGxX1c/qqop/q1eltvayDR80MBz4Hc6aW+
+ mDfA==
+X-Gm-Message-State: AOAM533EBOI6blM9ngUvnmAhMHlN4RLgPZqWP/C0xoia3PFWYKafz1pT
+ E/vT91eBJYpfE0ThZNrdczWXzVGhHF/xBfgPrNQ=
+X-Google-Smtp-Source: ABdhPJw0ZZ4DLEF5BKM+bwc+OmDUNvjRB32iE4bbR+L+LWfkf8t/+7R4OLhdnBnZHj367H7tQbnIgmT7sOdyl6VaElc=
+X-Received: by 2002:a25:f0b:: with SMTP id 11mr15196031ybp.518.1626467634722; 
+ Fri, 16 Jul 2021 13:33:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHLqCyqH6wrkH4cugVFinF40_-Q=NH7CGtiAj5cwXm=drWBVcA@mail.gmail.com>
-In-Reply-To: <CAHLqCyqH6wrkH4cugVFinF40_-Q=NH7CGtiAj5cwXm=drWBVcA@mail.gmail.com>
+References: <CAFn3W_kg-Xk9z0qFJVVuUxzyPGevOe1w7nnammn3LvXFQq3g7Q@mail.gmail.com>
+In-Reply-To: <CAFn3W_kg-Xk9z0qFJVVuUxzyPGevOe1w7nnammn3LvXFQq3g7Q@mail.gmail.com>
 From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 16 Jul 2021 20:15:50 +0200
-Message-ID: <CAKXUXMxrEgfDHYjuMpFer6gEhnnoOFUeMQosF22rzbYzh9o32w@mail.gmail.com>
-Subject: Re:
-To: Subhasmita Swain <subhasmitaofc@gmail.com>
+Date: Fri, 16 Jul 2021 22:33:43 +0200
+Message-ID: <CAKXUXMxz2FNo9DV5Yf5ReczVUfYLcrkzLrOMTM4eZq1scWJa2w@mail.gmail.com>
+Subject: Re: Mining Maintainers Mentorship program - Mentee Selection tasks
+To: Abhinav Dubey <abhinavbhardwaj510@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -104,10 +104,11 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jul 16, 2021 at 7:07 PM Subhasmita Swain
-<subhasmitaofc@gmail.com> wrote:
+On Fri, Jul 16, 2021 at 9:22 PM Abhinav Dubey
+<abhinavbhardwaj510@gmail.com> wrote:
 >
 > I am interested in the Mining Maintainers mentorship program and I would like to work on the tasks for the mentee selection.
+>
 
 Thanks for your interest.
 
@@ -125,22 +126,22 @@ Explain in your words: What is stored in the MAINTAINERS file?
 Now, search for specific MAINTAINER entries; Please answer: Who are
 the maintainers and reviewers of the following sections?
 
-AMD IOMMU (AMD-VI)
-DRIVER CORE, KOBJECTS, DEBUGFS AND SYSFS
-DRM DRIVERS
-FUTEX SUBSYSTEM
-I2C SUBSYSTEM
-JAILHOUSE HYPERVISOR INTERFACE
-KCOV
-KCSAN
-LINUX KERNEL MEMORY CONSISTENCY MODEL (LKMM)
-NAND FLASH SUBSYSTEM
-THE REST
+ACPI FAN DRIVER
+AF9013 MEDIA DRIVER
+BROADCOM BNXT_EN 50 GIGABIT ETHERNET DRIVER
+DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
+INTEL KEEM BAY DRM DRIVER
+LICENSES and SPDX stuff
+M68K ON APPLE MACINTOSH
+MEMBARRIER SUPPORT
+MICROBLAZE ARCHITECTURE
+RESET CONTROLLER FRAMEWORK
 
 Please let me know about your answers and always send your responses
 to the linux-kernel-mentees mailing list.
 
 After that first exercise, exercises 2 and 3 will follow.
+
 
 Lukas
 _______________________________________________
