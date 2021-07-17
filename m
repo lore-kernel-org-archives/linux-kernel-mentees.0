@@ -5,87 +5,92 @@ X-Spam-Level: **
 X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_RED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,T_KAM_HTML_FONT_INVALID,URIBL_RED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77B5EC636C9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 18:40:28 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1873CC636CA
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 19:11:20 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1693861001
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 18:40:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 1693861001
+	by mail.kernel.org (Postfix) with ESMTPS id 9D3BA61103
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 19:11:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 9D3BA61103
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CC9B84049C;
-	Sat, 17 Jul 2021 18:40:27 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 57F734002B;
+	Sat, 17 Jul 2021 19:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id itFwXMCamSKa; Sat, 17 Jul 2021 18:40:26 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id C6npFVTIWKsS; Sat, 17 Jul 2021 19:11:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 52DAD40494;
-	Sat, 17 Jul 2021 18:40:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id F0467400CE;
+	Sat, 17 Jul 2021 19:11:17 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 28EA3C0010;
-	Sat, 17 Jul 2021 18:40:26 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A407BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C25F1C001A;
+	Sat, 17 Jul 2021 19:11:17 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5649EC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 18:40:25 +0000 (UTC)
+ Sat, 17 Jul 2021 19:11:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 858D38378C
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3CAB340570
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 18:40:25 +0000 (UTC)
+ Sat, 17 Jul 2021 19:11:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YgcuHc_KOi3g
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0cWHEFXTqIUD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 18:40:24 +0000 (UTC)
+ Sat, 17 Jul 2021 19:11:15 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com
- [IPv6:2607:f8b0:4864:20::e35])
- by smtp1.osuosl.org (Postfix) with ESMTPS id BEAFB8376B
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com
+ [IPv6:2607:f8b0:4864:20::12f])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id D68C940526
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 18:40:24 +0000 (UTC)
-Received: by mail-vs1-xe35.google.com with SMTP id e9so6986805vsk.13
+ Sat, 17 Jul 2021 19:11:14 +0000 (UTC)
+Received: by mail-il1-x12f.google.com with SMTP id w1so11586092ilg.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 11:40:24 -0700 (PDT)
+ Sat, 17 Jul 2021 12:11:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=L78EegI2C9ZUMNXysV0eXWexToe95MRy8XpAmGSl9cY=;
- b=DsBpvhfqGdp0UQA3iv4TlS8H+JC5fiTAbCY0Fi7AKUa9WRz2AtUuhYme/AonpmZ0VW
- z2p/gUsnBs3iMNwDtKbreeow+AKN/BlvWmyxDy2Itia9+fCYiyfimpDMis985KcYl++A
- kSRY1eoUWhoxMfOCt/BhBU7vQhlKtGgJMf5w67D9+X8M9GmqqC92GZr5HidNWIG2dttG
- DrF9R8j7P7rgNBpZNmtTzQTv9jH+Osd40Yki8E+LcxLULAOC57BYj5hu5ASZBGuBgO7E
- l2CitHw53dRww2qutdrKSpsr7uKEzBORf61eIDNrwVodljaYnnYa2qZpi2QRHjsyn5vQ
- B9yA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LCgscRGQcnFOJbKtKncTZnoZ9Al2S5epSXlApU0eZ84=;
+ b=jvXRQlVPdEMricjY8mgm9ismV5u/5VMJ9PXjdf2fuaxrdslk1MozEJs+npaoILQD4T
+ yFwI9+jlhOJG3SDOTRlqxFLmnblvVBCOQ6mejKn/dNjzkur0p0qcLfmvTZ3qM5+fhKPr
+ rS1ZoAf0Dp4nKFt1ae8YdLIb1YzY2zFKhkKrgNoIqmsEU8YazriPvx9dDadTWpNwsyt0
+ eAj01ddWV5/SPaDCty12Mv7vN+dfPLp83FAAXe9LUACFix/pugrW28Pdd7kksr2i43ss
+ 6B3MwgF7SvMaxAvbjEUY93PIRgHheE2F/4gjkdITudGwLdEYIBv+/dFBbFgoq3JjTK9k
+ 9kLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=L78EegI2C9ZUMNXysV0eXWexToe95MRy8XpAmGSl9cY=;
- b=nWPR9xuAaGbxdNn17ijwZK3NtdR1SuFpZ9K5/OfsqBnO2FfCnm0UndY+D9eQndwyfB
- 5L1csNxgiwKOfCGZcuZ/Vk67Vg3kEPq639NfKL0XtdlUk4c/9HKJxDAPpsqrKUSmYPql
- 9OvYYn7T+1SW807mXEVJsxmXPGaLWtWBm7WeSHcXClW0VBL4k/+U3MJOAm5FaMLMjGhE
- 2Ur1fEgWPg5IMFYS3+4O+JtuMWIRk2ZIYzfQIWWD63t/uwabRtzMBEKk7GAVNNq+5Ebz
- sMF73bHxWzqXGAHPwuw/wHEYCMe154Yw+mP52h6C5pzJkRFPclb2ogUKb/iqG/QYGOIh
- 6Qig==
-X-Gm-Message-State: AOAM531mDTAB9ajNeOq9Zw4e1pGrz4K9UOJBH5HNil2DMLV4QgLVSto3
- W++tnNGbODfUJA4EG1Ah8YLXmUobKwQnhHrlf+5RGz5d
-X-Google-Smtp-Source: ABdhPJzCPSqEHQK6hITCcfTT6ArfTpk9AHyXGxs/3/CFFquMWJryKzsqcIZSuRNE8HSCnzJh39EVSbv8yOcaw5mUFQA=
-X-Received: by 2002:a67:3346:: with SMTP id z67mr9112032vsz.3.1626547223512;
- Sat, 17 Jul 2021 11:40:23 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LCgscRGQcnFOJbKtKncTZnoZ9Al2S5epSXlApU0eZ84=;
+ b=giECdm1sxeGLEUGXwD4XAW9SAeUxWtepThnQ0PYrRAlmQ1dNqUVQJpACRmQS2/j9gF
+ E0qN+OBbXKzfJkIYp21glW2iB16+qTPJpUmAepMSXynj2dNrX92okIXKsqpkCm65mFeD
+ GntFKfrUvsyXpXNdYW78KbPq29LJ4bB7swPsBjad3XcIBhHZfcARAzelIBoikOyaNYND
+ xHxca9z99oigIkXVBtcBjPXq79/xClcc6c2spx4f/0DaPjVaTnaDxCqa8+/w+3GJUy/m
+ y81T0VXw0j7fLp78sDdCFr3cdhR2IAiryTFskC4jRoaI3PFoWShVFl6GWDKUVHlaMVzA
+ GElg==
+X-Gm-Message-State: AOAM533DJDu93jE32DbyPGRrPxP0UqB4afa7VRP1wrsKvYhCfnmeigJe
+ FyDgjUxQo7mW5b5WnCBl2tKnh7cw7uq+QfPfXJCD9fnJ410=
+X-Google-Smtp-Source: ABdhPJxb7Nv+i2G8aNjogafSnLef++hIFpPqs+p/bM6GlTWhlhdRTublmErxA9iC6vQzOZiU2lb+/C2j9kKDU8pLeLg=
+X-Received: by 2002:a92:dc8e:: with SMTP id c14mr11068500iln.91.1626549073931; 
+ Sat, 17 Jul 2021 12:11:13 -0700 (PDT)
 MIME-Version: 1.0
-From: Subhasmita Swain <subhasmitaofc@gmail.com>
-Date: Sun, 18 Jul 2021 00:10:11 +0530
-Message-ID: <CAHLqCyqE_PdJd5ptDcoDsF72aDtpBpQ_+meUyBkrZJTDmt1==g@mail.gmail.com>
-Subject: Response to Exercise-1 for Mining Maintainers mentorship program, CNCF
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: multipart/mixed; boundary="00000000000077e69a05c7560979"
+References: <CAFn3W_kg-Xk9z0qFJVVuUxzyPGevOe1w7nnammn3LvXFQq3g7Q@mail.gmail.com>
+ <CAKXUXMxz2FNo9DV5Yf5ReczVUfYLcrkzLrOMTM4eZq1scWJa2w@mail.gmail.com>
+In-Reply-To: <CAKXUXMxz2FNo9DV5Yf5ReczVUfYLcrkzLrOMTM4eZq1scWJa2w@mail.gmail.com>
+From: Abhinav Dubey <abhinavbhardwaj510@gmail.com>
+Date: Sun, 18 Jul 2021 00:41:02 +0530
+Message-ID: <CAFn3W_n5awrYy1=UCVt+Ka52jzptnHRcrUEYtd3F7DjzCsUrCg@mail.gmail.com>
+Subject: Re: Mining Maintainers Mentorship program - Mentee Selection tasks
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,365 +102,366 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: multipart/mixed; boundary="===============5641472505064163151=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---00000000000077e69a05c7560979
-Content-Type: multipart/alternative; boundary="00000000000077e69805c7560977"
+--===============5641472505064163151==
+Content-Type: multipart/alternative; boundary="000000000000c2f48a05c756772b"
 
---00000000000077e69805c7560977
+--000000000000c2f48a05c756772b
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Updates:
+I have compiled the latest stable kernel version 5.13.2 with defconfig X86
+architecture on ubuntu 20.04 vagrant VM.
 
-I have successfully downloaded and compiled the Linux kernel version-
-5.13.2  with x86-defconfig build configuration, on my Ubuntu 20.4 system.
+The MAINTAINERS file can be divided into 3 sections to understand what it
+is.
 
-The response to the rest of the questions is attached as a document to this
-mail.
 
---00000000000077e69805c7560977
+   1.
+
+   The first section is providing instructions for people who want to
+   submit patches to the kernel. According to the instructions, thorough
+   testing of the patches should be done and all concerned people should be
+   CCed. Variable names and formatting should be according to the existing
+   coding style. There shouldn=E2=80=99t be any ambiguity as to who owns th=
+e patch
+   (employer or employee).
+
+
+
+   1.
+
+   The second section is a list of abbreviations used in the file. For
+   example, M for Maintainer, R for Reviewer, S for Status of the code, B f=
+or
+   the URI of the web page for bug-related things, F for file directory
+   pattern, L for the Mailing list, T for Tree type and location.
+
+
+
+   1.
+
+   The third section is the actual list of Maintainers of the different
+   parts of Kernel distinguished by their areas. This list should be in
+   Alphabetical order.
+
+
+There were no Reviewers mentioned for the sections given in the mail,
+Maintainers are mentioned below.
+
+ACPI FAN DRIVER
+
+Zhang Rui <rui.zhang@intel.com>
+
+AF9013 MEDIA DRIVER
+
+Antti Palosaari <crope@iki.fi>
+
+BROADCOM BNXT_EN 50 GIGABIT ETHERNET DRIVER
+
+Michael Chan <michael.chan@broadcom.com>
+
+DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU
+
+Hans de Goede <hdegoede@redhat.com>
+
+INTEL KEEM BAY DRM DRIVER
+
+Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+
+Edmund Dea <edmund.j.dea@intel.com>
+
+LICENSES and SPDX stuff
+
+Thomas Gleixner <tglx@linutronix.de>
+
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+M68K ON APPLE MACINTOSH
+
+Joshua Thompson <funaho@jurai.org>
+
+MEMBARRIER SUPPORT
+
+Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+
+Paul E. McKenney <paulmck@kernel.org>
+
+MICROBLAZE ARCHITECTURE
+
+Michal Simek <monstr@monstr.eu>
+
+RESET CONTROLLER FRAMEWORK
+
+Philipp Zabel <p.zabel@pengutronix.de>
+
+
+
+*Thanks & Regards*
+Abhinav Dubey
+Contact - abhinavbhardwaj510@gmail.com
+
+--000000000000c2f48a05c756772b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Updates:=C2=A0</div><div><br></div>I have successfull=
-y downloaded and compiled the Linux kernel version- 5.13.2=C2=A0 with x86-d=
-efconfig build configuration, on my Ubuntu 20.4 system.=C2=A0<div><br></div=
-><div>The response to the rest of the questions is attached as a document t=
-o this mail.=C2=A0</div></div>
+<div dir=3D"ltr"><div dir=3D"ltr"><span id=3D"m_298829808810169955gmail-doc=
+s-internal-guid-adbe56f8-7fff-da54-ce10-bc96cce1ed5f"><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-=
+size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;f=
+ont-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:ba=
+seline;white-space:pre-wrap">I have compiled the latest stable kernel versi=
+on 5.13.2 with defconfig X86 architecture on ubuntu 20.04 vagrant VM.=C2=A0=
+</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;marg=
+in-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,=
+0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;vertical-align:baseline;white-space:pre-wrap">The MAINTAI=
+NERS file can be divided into 3 sections to understand what it is.</span></=
+p><br><ol style=3D"margin-top:0px;margin-bottom:0px"><li dir=3D"ltr" style=
+=3D"list-style-type:decimal;font-size:11pt;font-family:Arial;color:rgb(0,0,=
+0);background-color:transparent;font-variant-numeric:normal;font-variant-ea=
+st-asian:normal;vertical-align:baseline;white-space:pre-wrap"><p dir=3D"ltr=
+" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"prese=
+ntation"><span style=3D"font-size:11pt;background-color:transparent;font-va=
+riant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline=
+;white-space:pre-wrap">The first section is providing instructions for peop=
+le who want to submit patches to the kernel. According to the instructions,=
+ thorough testing of the patches should be done and all concerned people sh=
+ould be CCed. Variable names and formatting should be according to the exis=
+ting coding style. There shouldn=E2=80=99t be any ambiguity as to who owns =
+the patch (employer or employee).</span></p></li></ol><br><ol style=3D"marg=
+in-top:0px;margin-bottom:0px" start=3D"2"><li dir=3D"ltr" style=3D"list-sty=
+le-type:decimal;font-size:11pt;font-family:Arial;color:rgb(0,0,0);backgroun=
+d-color:transparent;font-variant-numeric:normal;font-variant-east-asian:nor=
+mal;vertical-align:baseline;white-space:pre-wrap"><p dir=3D"ltr" style=3D"l=
+ine-height:1.38;margin-top:0pt;margin-bottom:0pt" role=3D"presentation"><sp=
+an style=3D"font-size:11pt;background-color:transparent;font-variant-numeri=
+c:normal;font-variant-east-asian:normal;vertical-align:baseline;white-space=
+:pre-wrap">The second section is a list of abbreviations used in the file. =
+For example, M for Maintainer, R for Reviewer, S for Status of the code, B =
+for the URI of the web page for bug-related things, F for file directory pa=
+ttern, L for the Mailing list, T for Tree type and location.</span></p></li=
+></ol><br><ol style=3D"margin-top:0px;margin-bottom:0px" start=3D"3"><li di=
+r=3D"ltr" style=3D"list-style-type:decimal;font-size:11pt;font-family:Arial=
+;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;=
+font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap=
+"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
+" role=3D"presentation"><span style=3D"font-size:11pt;background-color:tran=
+sparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical=
+-align:baseline;white-space:pre-wrap">The third section is the actual list =
+of Maintainers of the different parts of Kernel distinguished by their area=
+s. This list should be in Alphabetical order.</span></p></li></ol><br><p di=
+r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span=
+ style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-colo=
+r:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;ve=
+rtical-align:baseline;white-space:pre-wrap">There were no Reviewers mention=
+ed for the sections given in the mail, Maintainers are mentioned below.=C2=
+=A0</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
+argin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb=
+(0,0,0);background-color:transparent;font-variant-numeric:normal;font-varia=
+nt-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">ACPI FAN=
+ DRIVER</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
+argin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb=
+(0,0,0);background-color:transparent;font-variant-numeric:normal;font-varia=
+nt-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">Zhang Ru=
+i &lt;</span><a href=3D"mailto:rui.zhang@intel.com" style=3D"text-decoratio=
+n-line:none" target=3D"_blank"><span style=3D"font-size:11pt;font-family:Ar=
+ial;background-color:transparent;font-variant-numeric:normal;font-variant-e=
+ast-asian:normal;text-decoration-line:underline;vertical-align:baseline;whi=
+te-space:pre-wrap">rui.zhang@intel.com</span></a><span style=3D"font-size:1=
+1pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-va=
+riant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline=
+;white-space:pre-wrap">&gt;</span></p><br><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;fon=
+t-family:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-=
+space:pre-wrap">AF9013 MEDIA DRIVER</span></p><p dir=3D"ltr" style=3D"line-=
+height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt=
+;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-varia=
+nt-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;wh=
+ite-space:pre-wrap">Antti Palosaari &lt;</span><a href=3D"mailto:crope@iki.=
+fi" style=3D"text-decoration-line:none" target=3D"_blank"><span style=3D"fo=
+nt-size:11pt;font-family:Arial;background-color:transparent;font-variant-nu=
+meric:normal;font-variant-east-asian:normal;text-decoration-line:underline;=
+vertical-align:baseline;white-space:pre-wrap">crope@iki.fi</span></a><span =
+style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color=
+:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;ver=
+tical-align:baseline;white-space:pre-wrap">&gt;</span></p><br><p dir=3D"ltr=
+" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=
+=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:tran=
+sparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical=
+-align:baseline;white-space:pre-wrap">BROADCOM BNXT_EN 50 GIGABIT ETHERNET =
+DRIVER</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;ma=
+rgin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(=
+0,0,0);background-color:transparent;font-variant-numeric:normal;font-varian=
+t-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">Michael C=
+han &lt;</span><a href=3D"mailto:michael.chan@broadcom.com" style=3D"text-d=
+ecoration-line:none" target=3D"_blank"><span style=3D"font-size:11pt;font-f=
+amily:Arial;background-color:transparent;font-variant-numeric:normal;font-v=
+ariant-east-asian:normal;text-decoration-line:underline;vertical-align:base=
+line;white-space:pre-wrap">michael.chan@broadcom.com</span></a><span style=
+=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:tran=
+sparent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical=
+-align:baseline;white-space:pre-wrap">&gt;</span></p><br><p dir=3D"ltr" sty=
+le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"fon=
+t-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent=
+;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:=
+baseline;white-space:pre-wrap">DRM DRIVER FOR VIRTUALBOX VIRTUAL GPU</span>=
+</p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
+pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;vertical-align:baseline;white-space:pre-wrap">Hans de Goede &lt;</sp=
+an><a href=3D"mailto:hdegoede@redhat.com" style=3D"text-decoration-line:non=
+e" target=3D"_blank"><span style=3D"font-size:11pt;font-family:Arial;backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;text-decoration-line:underline;vertical-align:baseline;white-space:p=
+re-wrap">hdegoede@redhat.com</span></a><span style=3D"font-size:11pt;font-f=
+amily:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-nume=
+ric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-spa=
+ce:pre-wrap">&gt;</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;ma=
+rgin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:A=
+rial;color:rgb(0,0,0);background-color:transparent;font-variant-numeric:nor=
+mal;font-variant-east-asian:normal;vertical-align:baseline;white-space:pre-=
+wrap">INTEL KEEM BAY DRM DRIVER</span></p><p dir=3D"ltr" style=3D"line-heig=
+ht:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;fon=
+t-family:Arial;color:rgb(0,0,0);background-color:transparent;font-variant-n=
+umeric:normal;font-variant-east-asian:normal;vertical-align:baseline;white-=
+space:pre-wrap">Anitha Chrisanthus &lt;</span><a href=3D"mailto:anitha.chri=
+santhus@intel.com" style=3D"text-decoration-line:none" target=3D"_blank"><s=
+pan style=3D"font-size:11pt;font-family:Arial;background-color:transparent;=
+font-variant-numeric:normal;font-variant-east-asian:normal;text-decoration-=
+line:underline;vertical-align:baseline;white-space:pre-wrap">anitha.chrisan=
+thus@intel.com</span></a><span style=3D"font-size:11pt;font-family:Arial;co=
+lor:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;fon=
+t-variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">&=
+gt;</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margi=
+n-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0=
+,0);background-color:transparent;font-variant-numeric:normal;font-variant-e=
+ast-asian:normal;vertical-align:baseline;white-space:pre-wrap">Edmund Dea &=
+lt;</span><a href=3D"mailto:edmund.j.dea@intel.com" style=3D"text-decoratio=
+n-line:none" target=3D"_blank"><span style=3D"font-size:11pt;font-family:Ar=
+ial;background-color:transparent;font-variant-numeric:normal;font-variant-e=
+ast-asian:normal;text-decoration-line:underline;vertical-align:baseline;whi=
+te-space:pre-wrap">edmund.j.dea@intel.com</span></a><span style=3D"font-siz=
+e:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font=
+-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:basel=
+ine;white-space:pre-wrap">&gt;</span></p><br><p dir=3D"ltr" style=3D"line-h=
+eight:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;=
+font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-varian=
+t-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;whi=
+te-space:pre-wrap">LICENSES and SPDX stuff</span></p><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-=
+size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;f=
+ont-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:ba=
+seline;white-space:pre-wrap">Thomas Gleixner &lt;</span><a href=3D"mailto:t=
+glx@linutronix.de" style=3D"text-decoration-line:none" target=3D"_blank"><s=
+pan style=3D"font-size:11pt;font-family:Arial;background-color:transparent;=
+font-variant-numeric:normal;font-variant-east-asian:normal;text-decoration-=
+line:underline;vertical-align:baseline;white-space:pre-wrap">tglx@linutroni=
+x.de</span></a><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,=
+0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;vertical-align:baseline;white-space:pre-wrap">&gt;</span>=
+</p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
+pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);backgr=
+ound-color:transparent;font-variant-numeric:normal;font-variant-east-asian:=
+normal;vertical-align:baseline;white-space:pre-wrap">Greg Kroah-Hartman &lt=
+;</span><a href=3D"mailto:gregkh@linuxfoundation.org" style=3D"text-decorat=
+ion-line:none" target=3D"_blank"><span style=3D"font-size:11pt;font-family:=
+Arial;background-color:transparent;font-variant-numeric:normal;font-variant=
+-east-asian:normal;text-decoration-line:underline;vertical-align:baseline;w=
+hite-space:pre-wrap">gregkh@linuxfoundation.org</span></a><span style=3D"fo=
+nt-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-align=
+:baseline;white-space:pre-wrap">&gt;</span></p><br><p dir=3D"ltr" style=3D"=
+line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size=
+:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-=
+variant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseli=
+ne;white-space:pre-wrap">M68K ON APPLE MACINTOSH</span></p><p dir=3D"ltr" s=
+tyle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"f=
+ont-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transpare=
+nt;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-alig=
+n:baseline;white-space:pre-wrap">Joshua Thompson &lt;</span><a href=3D"mail=
+to:funaho@jurai.org" style=3D"text-decoration-line:none" target=3D"_blank">=
+<span style=3D"font-size:11pt;font-family:Arial;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;text-decoratio=
+n-line:underline;vertical-align:baseline;white-space:pre-wrap">funaho@jurai=
+.org</span></a><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,=
+0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;vertical-align:baseline;white-space:pre-wrap">&gt;</span>=
+</p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
+om:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);ba=
+ckground-color:transparent;font-variant-numeric:normal;font-variant-east-as=
+ian:normal;vertical-align:baseline;white-space:pre-wrap">MEMBARRIER SUPPORT=
+</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
+ottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0)=
+;background-color:transparent;font-variant-numeric:normal;font-variant-east=
+-asian:normal;vertical-align:baseline;white-space:pre-wrap">Mathieu Desnoye=
+rs &lt;</span><a href=3D"mailto:mathieu.desnoyers@efficios.com" style=3D"te=
+xt-decoration-line:none" target=3D"_blank"><span style=3D"font-size:11pt;fo=
+nt-family:Arial;background-color:transparent;font-variant-numeric:normal;fo=
+nt-variant-east-asian:normal;text-decoration-line:underline;vertical-align:=
+baseline;white-space:pre-wrap">mathieu.desnoyers@efficios.com</span></a><sp=
+an style=3D"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-co=
+lor:transparent;font-variant-numeric:normal;font-variant-east-asian:normal;=
+vertical-align:baseline;white-space:pre-wrap">&gt;</span></p><p dir=3D"ltr"=
+ style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D=
+"font-size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transpa=
+rent;font-variant-numeric:normal;font-variant-east-asian:normal;vertical-al=
+ign:baseline;white-space:pre-wrap">Paul E. McKenney &lt;</span><a href=3D"m=
+ailto:paulmck@kernel.org" style=3D"text-decoration-line:none" target=3D"_bl=
+ank"><span style=3D"font-size:11pt;font-family:Arial;background-color:trans=
+parent;font-variant-numeric:normal;font-variant-east-asian:normal;text-deco=
+ration-line:underline;vertical-align:baseline;white-space:pre-wrap">paulmck=
+@kernel.org</span></a><span style=3D"font-size:11pt;font-family:Arial;color=
+:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-v=
+ariant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">&gt;=
+</span></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;marg=
+in-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;color:rgb(0,=
+0,0);background-color:transparent;font-variant-numeric:normal;font-variant-=
+east-asian:normal;vertical-align:baseline;white-space:pre-wrap">MICROBLAZE =
+ARCHITECTURE</span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:=
+0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;font-family:Arial;colo=
+r:rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-=
+variant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">Mic=
+hal Simek &lt;</span><a href=3D"mailto:monstr@monstr.eu" style=3D"text-deco=
+ration-line:none" target=3D"_blank"><span style=3D"font-size:11pt;font-fami=
+ly:Arial;background-color:transparent;font-variant-numeric:normal;font-vari=
+ant-east-asian:normal;text-decoration-line:underline;vertical-align:baselin=
+e;white-space:pre-wrap">monstr@monstr.eu</span></a><span style=3D"font-size=
+:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;font-=
+variant-numeric:normal;font-variant-east-asian:normal;vertical-align:baseli=
+ne;white-space:pre-wrap">&gt;</span></p><br><p dir=3D"ltr" style=3D"line-he=
+ight:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-size:11pt;f=
+ont-family:Arial;color:rgb(0,0,0);background-color:transparent;font-variant=
+-numeric:normal;font-variant-east-asian:normal;vertical-align:baseline;whit=
+e-space:pre-wrap">RESET CONTROLLER FRAMEWORK</span></p><p dir=3D"ltr" style=
+=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt"><span style=3D"font-=
+size:11pt;font-family:Arial;color:rgb(0,0,0);background-color:transparent;f=
+ont-variant-numeric:normal;font-variant-east-asian:normal;vertical-align:ba=
+seline;white-space:pre-wrap">Philipp Zabel &lt;</span><a href=3D"mailto:p.z=
+abel@pengutronix.de" style=3D"text-decoration-line:none" target=3D"_blank">=
+<span style=3D"font-size:11pt;font-family:Arial;background-color:transparen=
+t;font-variant-numeric:normal;font-variant-east-asian:normal;text-decoratio=
+n-line:underline;vertical-align:baseline;white-space:pre-wrap">p.zabel@peng=
+utronix.de</span></a><span style=3D"font-size:11pt;font-family:Arial;color:=
+rgb(0,0,0);background-color:transparent;font-variant-numeric:normal;font-va=
+riant-east-asian:normal;vertical-align:baseline;white-space:pre-wrap">&gt;<=
+/span></p><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bo=
+ttom:0pt"><br></p></span><br></div><div><font face=3D"comic sans ms, sans-s=
+erif"><b>Thanks &amp; Regards</b></font></div><div><font face=3D"comic sans=
+ ms, sans-serif">Abhinav Dubey</font></div><div><font face=3D"comic sans ms=
+, sans-serif">Contact - <a href=3D"mailto:abhinavbhardwaj510@gmail.com" tar=
+get=3D"_blank" style=3D"">abhinavbhardwaj510@gmail.com</a></font></div><div=
+><br></div>
+</div>
 
---00000000000077e69805c7560977--
---00000000000077e69a05c7560979
-Content-Type: application/vnd.oasis.opendocument.text; name="Exercise-1.odt"
-Content-Disposition: attachment; filename="Exercise-1.odt"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kr84751b0>
-X-Attachment-Id: f_kr84751b0
+--000000000000c2f48a05c756772b--
 
-UEsDBBQAAAgAAC+U8VJexjIMJwAAACcAAAAIAAAAbWltZXR5cGVhcHBsaWNhdGlvbi92bmQub2Fz
-aXMub3BlbmRvY3VtZW50LnRleHRQSwMEFAAACAAAL5TxUgAAAAAAAAAAAAAAABgAAABDb25maWd1
-cmF0aW9uczIvdG9vbGJhci9QSwMEFAAACAAAL5TxUgAAAAAAAAAAAAAAABgAAABDb25maWd1cmF0
-aW9uczIvZmxvYXRlci9QSwMEFAAACAAAL5TxUgAAAAAAAAAAAAAAABgAAABDb25maWd1cmF0aW9u
-czIvbWVudWJhci9QSwMEFAAACAAAL5TxUgAAAAAAAAAAAAAAABoAAABDb25maWd1cmF0aW9uczIv
-cG9wdXBtZW51L1BLAwQUAAAIAAAvlPFSAAAAAAAAAAAAAAAAHAAAAENvbmZpZ3VyYXRpb25zMi9h
-Y2NlbGVyYXRvci9QSwMEFAAACAAAL5TxUgAAAAAAAAAAAAAAABoAAABDb25maWd1cmF0aW9uczIv
-dG9vbHBhbmVsL1BLAwQUAAAIAAAvlPFSAAAAAAAAAAAAAAAAHAAAAENvbmZpZ3VyYXRpb25zMi9w
-cm9ncmVzc2Jhci9QSwMEFAAACAAAL5TxUgAAAAAAAAAAAAAAABoAAABDb25maWd1cmF0aW9uczIv
-c3RhdHVzYmFyL1BLAwQUAAAIAAAvlPFSAAAAAAAAAAAAAAAAHwAAAENvbmZpZ3VyYXRpb25zMi9p
-bWFnZXMvQml0bWFwcy9QSwMEFAAICAgAL5TxUgAAAAAAAAAAAAAAAAwAAABtYW5pZmVzdC5yZGbN
-k81ugzAQhO88hWXO2EAvBQVyKMq5ap/ANYZYBS/ymhLevo6TVlGkquqf1OOuRjPfjrSb7WEcyIuy
-qMFUNGMpJcpIaLXpKzq7Lrml2zra2LYrH5od8WqDpZ8qunduKjlfloUtNwxsz7OiKHia8zxPvCLB
-1ThxSAzGtI4ICR6NQmn15HwaOc7iCWZXUXTroJB59yA9i906qaCyCmG2Ur2HtiCRgUCNCUzKhHSD
-HLpOS8UzlvNROcGh7eLHYL3Tg6I8YPArjs/Y3ogMpuVe4L2w7lyD33yVaHruY3p108Xx3yOUYJwy
-7k/quzt5/+f+Ls//GeKvtHZEbEDOo2f6kOe08h9VR69QSwcItPdo0gUBAACDAwAAUEsDBBQACAgI
-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
-+OCnFeuIL+Vdi2JfBY6ZuFmfbtvKwdvIDZT/Em4DnK8GOz7V9Mf/QmT8DsWc7b7akdE7rU7xaA2J
-/u2geEM1YcJELqWVGwoQ2r1QWl+S8chyHlTd6gdqSGz2jRTxs219BfMT2AQmgTuNWLVwFBXPAz7d
-lT2u/R3i2FNbT2cg3amkgu15FLraW1f6hOb1OxUDhYYyipLpO7w5+ftDJr/BOzR/Z9rwydJuQz9w
-M7tlMmPC1+Dzl+O74ajnS4Wb/XtyvjPbEDS4OVFgjNIU1uR7O2zzU4S6hqA/mZBOL22BC2c7cglk
-vIIC2pENiTYTUSZ8dQk9ZPGQ6mqUosgp9l6OarPUjijteRzhqe5LGxV+vPQDlOERE569dS8X5J0I
-foJC6k5+05iU6hZ7bAzPtY8fdhAwxPl3AB/Vjm0fhojbK3ctRP3kpHZ+VgJivnHqIqRlaz9nbxbm
-bRHlQfrL6bdFMDvH/d1xdclRwI/Vq5992RaofWTfLTOzFtGfpUjXxLwXsCVqQVv7EaLoAVACSkNQ
-cn7upRYUgrSAozE7PfRzdL0e4ttXiTzMaOTYFhHuBGdTF3k5iqJu0vhswUOzFKDv8AYmLBNFsj33
-danqm5egq3mvh1//B1BLBwjGXyu90AYAAGAuAABQSwMEFAAACAAAL5TxUp7bK0a2IAAAtiAAABgA
-AABUaHVtYm5haWxzL3RodW1ibmFpbC5wbmeJUE5HDQoaCgAAAA1JSERSAAAAtQAAAQAIAwAAAML9
-x+kAAAMAUExURSMkJSMsNiMwPjg1ODY7RT1CRzNCVkM8OlE/NEE/SFlHOkhHSEhNVUxSXVVKQltS
-SllWV0hXZltdZltibVtqemRYTGNdWGliWnhoV2hnaGZrdGtwbGdxe2tzdWxze3ZrZHFrc3hzbHl4
-eGt4hnJ2g3N7hXR9i3x9gXh8iX2Ae22FlnyCiXuHlHuNoXyRpYR1aIR8eYF+h4iCfJSHeqCPfqCQ
-fImIiIeMlI6RjoySlpOMiZCOkJaRjJOTk5OVmZWYlZSZnJqVkpmXmJyZlJubm4SPoIKSooOVqYeb
-rouVoo2Zo42bqYicsJeco56hm5ahppSgrZ2ho5yjq5qntKCPgKOWiqOcmKKeoa+gjKWgl6Sgnayh
-lqujnLKijrGjlbKlnLOol7OpnLqrnKOjpKKlqqWopKWprKqlo6mlqKyppKurq6ass6ywraWwtqWx
-uqe4uqyxs6yzuq24vrKmpLOrpLKuq7qtpLmuqrGusbeyq7Ozs7K1ubS5trW6vLm1srm3uLy4tLu7
-u5ytwaGuwKi1xKy+0bO1wbS7wrK9ybu+wbm+y7C/0L3AvbfAxLTAzLzBxLvDyr/Iw7jH1rnN4L3Q
-4Mi1n8CupsW3qcO8t9G9q9K+sMbAt8TBvMvBtMvDvM3IuNPArtPDtNLFutTIu9nFsNjHudzItNrL
-vNnQv+bSvcLDw8PGysTJxcTIzMrGwsjHyMzJxcvLy8fM0s/SzcPR3MbZ3szR1MvT2szZ3dHHw9PL
-xNHNytrNwtrPyNDO0dTRzNvRxNrTy93Yx9PT0tLV2tTZ1dTZ3NnV0tzZ1drb28rY5NDX4NTb4tTf
-6tnd4tzh3dTi49Th69zh5Nvj69zq49/p79ro9OfYyOLb1OLe2une0ujf2PDfzuHg1+Th3O3j1evj
-2+vp3vLn2uPj4+Pm6eTp7Orm4+zo5Orq6+Ps8uHt+eru8eXw9uTy/Ozx9Oz0+e34/fLt5vXw5fTx
-7Prx5fnz7P397/T09PP2+fX49fT5/Pn28/v59P7+/gAAAP///3VS+k4AAB1xSURBVHja7Z0PcNvW
-neezl97tzSXbepOeGyfbNmYucVW7G/3pgSBCMKQFp6tk2ZhUDPdkTrwOGDIEUw/lkkoAmqwQ22G4
-kws18t5J2kKcsT1bb6CQFVSX6kq+MD6oEumTlVq605+OT1ZN/aGiRorK6MhQ/M0cKMvxnzqpndqx
-2wVGenx4eO/hg8f3fX9+eATugD/G7Q6FWqFWqBVqhVqhVqgVaoVaoVaobyL1jJiS3RP9cK5f/uzO
-XSVR15DsJNKT7aGV3aXOS45lQnBioeipzxddCeLz6XFpYKxbHEgVRCkbF0VxsiABhGtZ+WRzN4j6
-x1/bYPQQu7aawyZiCNw8MbxkY/1Bn6emE+ycnwnWcI9udbXBNu1DyNqQQ1y3MPKaZbZAlRptcYLu
-dT8MbkFOWLHGmLLmCv8xdHfdl1uQLxi2rmO/eHrdfU+h96Dr7qnQDC+t2VoSDT775RtE/ea9e++q
-e/pLX1tT84D6FcB2oK/Ao/gjKlXJA3OAfXHdN1UPqJ69f1MSRv7dfa+UfH39pg0wol576tza9ffu
-RFX3lj+5EZ6pQauhoqRsfckpeOZuVfmaOjP6hVnVP697ooRUqddSX7k//JVTUFJSulbdcuAGUR/Z
-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
-AAAAAA==
---00000000000077e69a05c7560979
+--===============5641472505064163151==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -466,4 +472,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---00000000000077e69a05c7560979--
+--===============5641472505064163151==--
