@@ -7,97 +7,92 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_RED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D5FC636C9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 14:01:35 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 669EFC636CA
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 16:16:55 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A496611C0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 14:01:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3A496611C0
+	by mail.kernel.org (Postfix) with ESMTPS id 0BBD861159
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 17 Jul 2021 16:16:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 0BBD861159
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E3163415AF;
-	Sat, 17 Jul 2021 14:01:34 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C0C56606EF;
+	Sat, 17 Jul 2021 16:16:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rCaZkEGySxOX; Sat, 17 Jul 2021 14:01:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7B6B4414C7;
-	Sat, 17 Jul 2021 14:01:33 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RcPNu9hOyMof; Sat, 17 Jul 2021 16:16:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id A91ED606F8;
+	Sat, 17 Jul 2021 16:16:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5462FC001D;
-	Sat, 17 Jul 2021 14:01:33 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 97A40C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 81314C0010;
+	Sat, 17 Jul 2021 16:16:53 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A77BFC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 14:01:32 +0000 (UTC)
+ Sat, 17 Jul 2021 16:16:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 790A883E52
+ by smtp4.osuosl.org (Postfix) with ESMTP id 95957404A3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 14:01:32 +0000 (UTC)
+ Sat, 17 Jul 2021 16:16:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HETh-Ehka1hi
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wdoqdnyTwQm3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 14:01:31 +0000 (UTC)
+ Sat, 17 Jul 2021 16:16:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp1.osuosl.org (Postfix) with ESMTPS id DE5EE83E49
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 194B340108
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 14:01:31 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id d12so13059067pgd.9
+ Sat, 17 Jul 2021 16:16:49 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id r135so20063103ybc.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Jul 2021 07:01:31 -0700 (PDT)
+ Sat, 17 Jul 2021 09:16:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=sjs5BIuLJak6pm+yHi8hS0ZO0fg4x85PgrTYNSEt31M=;
- b=dL8r4RPHbzOXjbxT5ziaYK2+V6VQr0Ivq0f4+h2aN4M+Xf1+gGDQjbc5wvResbp2Pa
- Jq+/fnRKo8hZbl6QRg0WX9ScZR7Izq2Hm5YKVEnNIxXT341OwyzPBBnIWcJdmWKWgBDs
- 5yH8rE1VCmD/D4kSWaqfv8+lZR9/NKL6BUCNKoZ7JloldWL042+Vtzi5yEMaWMbsdGoi
- g6wF0i0vmvOvfYb+dwaepVxwCYYCtXpVCHfIb5xzEUSs2NYFbFwIQ/UZ2Mpucc9zYuF5
- DZpSX+8hz+iQ9KJ4yxxze/v66J80KlJ3xKceTvZ3JM4aaTAHBDXpseUJ8mHBjdqldcaj
- EP6w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=h7jpZi4WTab7PTLc9+gc0j+xGvn49ruXm7MftXb4oFk=;
+ b=Z3VUYJZagAkOexiFRbaQrow7grXduD4aNnaBzu/p6LTNk42bXwjPm33NoEV8ejlB1g
+ ALeuR9QwRFm29XWV/iV7SCu6al9tNxbWGzy8m6cbj6g8RTFWZPEJpwLCpF/bKljwJ4xp
+ vK3dRB7Lv4ZwG9yMagoFXFHPxlx6w3pW68YX9XkN6u7pKz+1b3ifvZAszm8hde8fTynJ
+ X9u5lTBeEGApW4QrqPINUtGcIjycii0Q97iWqmoBN+HjviwXEUwPy+yAywYQlTDMDBV6
+ PNPWEOESj5ia/oXjbE2KRka3KvRZ7/uQR8uegj1yeHX6KaRdwMo927JbixjcqBQYhShj
+ w0CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=sjs5BIuLJak6pm+yHi8hS0ZO0fg4x85PgrTYNSEt31M=;
- b=tas/hLqvEXwO0nT0ef0PTt+YBPYkCDXwuOiZHsmkcPNrZh5g0cMl8lhsKSyqqqyb5N
- gLekhajbc/bRhLhAqarY1j7gCGuQb60XrrUbK02fd6hlMALVR9Gju4WXv8dfM1NXs6Hp
- NtBeMeiHa/9akpSoJc7sps+DoZPdsh8uwFXqLnArkrYDdhEpEnxRCI1tYS8IJqX+Vpqi
- ue/HPJIENNueD0v7AMbja4W+wPUpm7E8vCmjjBS2npNdBpnvLMPBAjHMP1gwN8OnCjrB
- SHA6SJtnoiact6PMNSa7ZijeH2h9kSlFNDbdTN5wCJ/2+BEsNBPSbLBd3crjIePyCZXe
- EbqQ==
-X-Gm-Message-State: AOAM5311T7fJs8Zk+1XX3eGRLMmMNIxWQKtmD1M6foVpk53+2ixJcBta
- 4snS4dfFOoCKYAXOQxU0xng=
-X-Google-Smtp-Source: ABdhPJwmd2EKqOKKHufPWOH3l7yJlaEphpj3k7iIMDFBKArA/rTgBT9BHQMg8IHtZQ3gDqtm414kLA==
-X-Received: by 2002:a62:ed06:0:b029:32c:a800:ba47 with SMTP id
- u6-20020a62ed060000b029032ca800ba47mr15533218pfh.56.1626530491317; 
- Sat, 17 Jul 2021 07:01:31 -0700 (PDT)
-Received: from msi ([103.83.246.86])
- by smtp.gmail.com with ESMTPSA id f3sm14105736pfk.206.2021.07.17.07.01.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 07:01:30 -0700 (PDT)
-Date: Sat, 17 Jul 2021 19:31:26 +0530
-From: Parvathy H <parvathyhiyer@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: Mining Maintainers mentorship program - mentee Selection tasks
-Message-ID: <20210717140126.GA4378@msi>
-References: <20210717045910.GA4410@msi>
- <CAKXUXMyTGFP5X2r6=oqC0N-9va5O-2FbcYfaBYzH2Lb5dmWozA@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h7jpZi4WTab7PTLc9+gc0j+xGvn49ruXm7MftXb4oFk=;
+ b=TulamrdGCa05Yei1BuD0VPH/q3aHquEpAu/C34h+DgpAYM5YwcIcjys2OZGfXBirid
+ 8+cKf425HjlGO8Z3Usw462d/06IzDw7xH5p/zIbQUQOrH9kt7L5Vh+MTHjK28wzxQF15
+ aIvBeSvwYU59JX9pXigFaiCB78ErohpcJFWk7uJIWT0oSftmd7NhhPRuhli0ZrRtk2hP
+ T3L5NtO1U9z8hYW/Yf2VzMrmdW6di3OHVpoQHbqTI7n8VbEwiy1joIkYONIBQK76uKqN
+ W37Ig/96g/GL7Hz/lpx9oJttf5cbLA+Z6HG3DW2PP/ODaspNrFzGMe/ctaszVhvN7195
+ sA+w==
+X-Gm-Message-State: AOAM530jLNuA+XnPq+D9i8JskILLlZG3H3N1hi1Ex5TuGJ/3Ry+DqMV7
+ gRic7tBoHMQij+LgoCpxaHzIrqkFJAfD4wAe/8E=
+X-Google-Smtp-Source: ABdhPJw9RcLKLbYoJNwC9khT+/7CQzFctoC0k7Co871b7WFi8QGSnFP8PIuoCICrg/T3qe+rJ9pgCd3goqPbCJr4CdA=
+X-Received: by 2002:a25:8b86:: with SMTP id j6mr19096208ybl.470.1626538608999; 
+ Sat, 17 Jul 2021 09:16:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CAKXUXMyTGFP5X2r6=oqC0N-9va5O-2FbcYfaBYzH2Lb5dmWozA@mail.gmail.com>
+References: <CAEQwXtiEpzO_8T7VC8dFp3tieV+1JpW1O7m0MTgw4vvdy09gsg@mail.gmail.com>
+ <CABJPP5CgAFP8ejqjha62T9GEW2gau=-GC3CTO1s6eq=_ADsnOA@mail.gmail.com>
+ <CAEQwXthguwDuB19NMEkfuftxta+wNvsTVzD+UbB=Pa4CM9fK7A@mail.gmail.com>
+In-Reply-To: <CAEQwXthguwDuB19NMEkfuftxta+wNvsTVzD+UbB=Pa4CM9fK7A@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 17 Jul 2021 18:16:38 +0200
+Message-ID: <CAKXUXMy2djTKxXso_U-NVOJEU6XD-ZyfExyfB=pPJC-ws0sM4g@mail.gmail.com>
+Subject: Re: Regarding LFX Mentorship Project
+To: Ashutosh Sharma <b18010@students.iitmandi.ac.in>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,140 +104,121 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Jul 17, 2021 at 08:35:31AM +0200, Lukas Bulwahn wrote:
-> On Sat, Jul 17, 2021 at 6:59 AM Parvathy H <parvathyhiyer@gmail.com> wrot=
-e:
-> >
-> > I am interested in the Mining Maintainers mentorship program and I woul=
-d like towork on the tasks for the mentee selection.
-> >
-> =
+On Sat, Jul 17, 2021 at 6:02 PM Ashutosh Sharma
+<b18010@students.iitmandi.ac.in> wrote:
+>
+> Hello,
+> I am enclosing my submission for assignment 1. For this assignment I went through the checkpatch documentation which I found on https://www.kernel.org/doc/html/latest/dev-tools/checkpatch.html and then I looked at the implementation of checkpatch and tried to understand what is happening by the comments.
+> Thanks
+> Ashutosh
 
-> Thanks for your interest.
-> =
+Ashutosh, you unfortunately failed on step 0 to learn suitable
+netiquette for the communication with the kernel community. Sorry, we
+will not answer your email and not continue to exchange with you until
+the suitable netiquette for the communication with the kernel
+community is followed. Please go back to step 0, consider the rules
+for communication with the kernel, check what you did wrong and
+improve all those issues and try sending your email properly again.
 
-> For the mentee selection, please work on the following exercise:
-> =
+Our mentorship program is an offer to learn; so read the available
+documentation on communication with the kernel community, and give it
+another try. When you learn now at the beginning, your continued
+journey in the kernel community will be much more successful later on.
 
-> First, download the kernel git repository and compile the kernel with
-> the x86-defconfig build configuration.
-> =
+Good luck.
 
-> There is a file called MAINTAINERS in the root directory of the git
-> repository. Read the introduction at the beginning of the MAINTAINERS
-> file and understand the content in the file and its organisation.
-> =
+Lukas
 
-> Explain in your words: What is stored in the MAINTAINERS file?
-> =
-
-> Now, search for specific maintainer entries; Please answer: Who are
-> the maintainers and reviewers of the following sections?
-> =
-
-> DMA BUFFER SHARING FRAMEWORK
-> DRM DRIVER FOR ARM PL111 CLCD
-> HARMONY SOUND DRIVER
-> IOC3 ETHERNET DRIVER
-> KASAN
-> KFIFO
-> MAILBOX API
-> MAN-PAGES: MANUAL PAGES FOR LINUX -- Sections 2, 3, 4, 5, and 7
-> SQUASHFS FILE SYSTEM
-> THANKO'S RAREMONO AM/FM/SW RADIO RECEIVER USB DRIVER
-> TIPC NETWORK LAYER
-> =
-
-> Please let me know about your answers and always send your responses
-> to the linux-kernel-mentees mailing list.
-> =
-
-> After that first exercise, exercises 2 and 3 will follow.
-> =
-
-> =
-
-> Lukas
-
-
-Hi,
-
-WHAT is stored in the MAINTAINERS file
-_______________________________________
-
-MAINTAINERS file contains information about maintainers and some tips for t=
-hose who want to submit patches.
-
-First part of the file gives some general gudelines to follow while submitt=
-ing patches is provided in the MAINTAINERS file.
-
-In the next part, decriptions used and their meaning is given.
-
-In the next part, the list of maintainers corresponding to different sectio=
-ns are given. This part contains information like maintainer's mail ID, mai=
-ling-list, status (whether the area has a maintainer or not, or is it an ob=
-selte subsystem etc), files and directories wildcard patterns etc. This inf=
-ormation is listed under the relevant section name.
-
-Maintainers and reviewers of given sections
-___________________________________________
-
-DMA BUFFER SHARING FRAMEWORK
-        Maintainers:
-        1. Sumit Semwal <sumit.semwal@linaro.org>
-        2. Christian K=F6nig <christian.koenig@amd.com>
-
-DRM DRIVER FOR ARM PL111 CLCD
-        Maintainers:
-        1. Emma Anholt <emma@anholt.net>
-
-HARMONY SOUND DRIVER
-        Individual maintainer/reviewer detail not mentioned
-        Mailing List: linux-parisc@vger.kernel.org
-
-IOC3 ETHERNET DRIVER
-        Maintainers:
-        1. Ralf Baechle <ralf@linux-mips.org>
-KASAN
-        Maintainers:
-        1. Andrey Ryabinin <ryabinin.a.a@gmail.com>
-        Reviewers:
-        1. Alexander Potapenko <glider@google.com>
-        2. Andrey Konovalov <andreyknvl@gmail.com>
-        3. Dmitry Vyukov <dvyukov@google.com>
-
-KFIFO
-        Maintainers:
-        1. Stefani Seibold <stefani@seibold.net>
-
-MAILBOX API
-        Maintainer:
-        1. Jassi Brar <jassisinghbrar@gmail.com>
-
-MAN-PAGES: MANUAL PAGES FOR LINUX -- Sections 2, 3, 4, 5, and 7
-        Maintainers:
-        1. Michael Kerrisk <mtk.manpages@gmail.com>
-
-SQUASHFS FILE SYSTEM
-        Maintainers:
-        1. Phillip Lougher <phillip@squashfs.org.uk>
-THANKO'S RAREMONO AM/FM/SW RADIO RECEIVER USB DRIVER
-        Maintainers:
-        1. Hans Verkuil <hverkuil@xs4all.nl>
-
-TIPC NETWORK LAYER
-        Maintainers:
-        1. Jon Maloy <jmaloy@redhat.com>
-        2. Ying Xue <ying.xue@windriver.com>
-
-Thanks & Regards
-Parvathy
+>
+> On Sat, Jul 17, 2021 at 1:29 PM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+>>
+>> On Sat, Jul 17, 2021 at 1:09 PM Ashutosh Sharma
+>> <b18010@students.iitmandi.ac.in> wrote:
+>> >
+>> > Hello Dwaipayan,
+>> > I am writing this email to you regarding the Linux Kernel: Checkpatch Documentation project. I am interested in the Checkpatch Documentation mentorship program and I would like to work on the tasks for the mentee selection.
+>> > I have been a SDE intern at Amazon where I have worked on AWS, React and Java, Other than that I have also worked as a student developer in GSoC 2020 under The Mifos Initiative organisation. Currently, I am looking for opportunities to learn and grow my skill set. I am really excited about the project.
+>> > Hoping for a positive response.
+>> > Thank you
+>> > Ashutosh Sharma
+>>
+>> Dear Ashutosh,
+>> Thanks for your interest in working with the checkpatch documentation.
+>>
+>> The zeroth task is to learn suitable netiquette for the communication with
+>> the kernel community. Below are some basic rules and pointers for this
+>> mentorship. More information on kernel netiquette is also at
+>> https://people.kernel.org/tglx/notes-about-netiquette.
+>>
+>> First, please do not top-post.
+>>
+>>     A: Because we read from top to bottom, left to right.
+>>     Q: Why should I start my reply below the quoted text?
+>>
+>>     A: Because it messes up the order in which people normally read text.
+>>     Q: Why is top-posting such a bad thing?
+>>
+>>     A: The lost context.
+>>     Q: What makes top-posted replies harder to read than bottom-posted?
+>>
+>>     A: Yes.
+>>     Q: Should I trim down the quoted part of an email to which I'm replying?
+>>
+>> Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
+>>
+>> Third, set up your email client according to the kernel community
+>> rules. Here is some information to that:
+>>
+>> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
+>> https://www.kernel.org/doc/html/latest/process/email-clients.html
+>>
+>> Generally more information on submitting patches and responding on
+>> replies is at https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+>>
+>> Once the zeroth task is understood, you can now move on to the first
+>> task: Running checkpatch on a specific file.
+>>
+>> Get a clone of the Linux kernel repository.
+>> The script checkpatch.pl is under the scripts directory.
+>>
+>> Then, the first task is to run checkpatch.pl on a few files below
+>> andshare the results:
+>>
+>> drivers/scsi/bfa/bfad_bsg.c
+>> drivers/soc/fsl/dpio/dpio-service.c
+>>
+>> Which information on these rules that checkpatch warns about
+>> is available in the Checkpatch Documentation?
+>>
+>> If documentation of these rules is available, explain your
+>> understanding of the rules in your own words.
+>> If no information is available in the documentation,
+>> explain your understanding of the rule.
+>>
+>> In any case, explain the violation that is checked and raised in the
+>> checkpatch script, i.e., what is implemented in checkpatch to check
+>> the rule and possible violations. Which code in the checkpatch script
+>> is raising the warning? What does it check and how is that
+>> implemented?
+>>
+>> Explain how to possibly fix this code with regards to that violation.
+>>
+>> Once you succeed on this first task, we inform you about the further
+>> second and third task. If you fail on any of those tasks, you are out
+>> of the selection process.
+>>
+>> The selection of the mentee will happen according to schedule,
+>> at earliest on August 12th and at latest at the end of August.
+>> More information is available at
+>> https://docs.linuxfoundation.org/lfx/mentorship/mentorship-program-timelines.
+>>
+>> Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
