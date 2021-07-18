@@ -2,94 +2,103 @@ Return-Path: <SRS0=+xMb=MK=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1617C636CA
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Jul 2021 12:43:38 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 408F3C636C8
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Jul 2021 14:40:36 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6E65361166
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Jul 2021 12:43:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 6E65361166
+	by mail.kernel.org (Postfix) with ESMTPS id CD7C061183
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Jul 2021 14:40:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org CD7C061183
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0E5CB40415;
-	Sun, 18 Jul 2021 12:43:36 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8A49F40160;
+	Sun, 18 Jul 2021 14:40:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8U1JSSOrFjP6; Sun, 18 Jul 2021 12:43:34 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C848F4043B;
-	Sun, 18 Jul 2021 12:43:34 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 88820C001A;
-	Sun, 18 Jul 2021 12:43:34 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35B25C000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jul 2021 12:43:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 17048401DE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jul 2021 12:43:33 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ji0fXsAXG_1n
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8kVerzqbq2fI; Sun, 18 Jul 2021 14:40:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9C18B4012E;
+	Sun, 18 Jul 2021 14:40:34 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C80DC001A;
+	Sun, 18 Jul 2021 14:40:34 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C51A3C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jul 2021 12:43:32 +0000 (UTC)
+ Sun, 18 Jul 2021 14:40:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id A47CF6071A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 18 Jul 2021 14:40:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id A8G3QXoXbPta
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 18 Jul 2021 14:40:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 0F625401DB
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E574E606E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jul 2021 12:43:31 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id r16so21480819ljk.9
+ Sun, 18 Jul 2021 14:40:31 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id v14so8080798plg.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jul 2021 05:43:31 -0700 (PDT)
+ Sun, 18 Jul 2021 07:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ecWJ401suF5DWIgcyHdE5q1lprWQHPVaK3wQ0Xav3O8=;
- b=cDXHFHYgsR0M3golyWTXE6uUQFQ6h17ib9mRoMxqI/pfqQ2VyLwDuuLL9imqgz1nI5
- LbmYq2mRSxaLfCV8oykSOHbGiXaQMD8gAWUls+SCZkw0jfGvUeVVC3PeQxfKKh8mbMfv
- iNNu+a49ohmOo91hvHKXmD3yQpMqOcvL76oWpjRyaJGAEww1MZJ6BXYGQPCAqRUP35LO
- BF9Fk2+dfERnnjL4mK/3hMguEhokv+ok6/MxyvRmGb9JonuUPaFA0Mfe3f+i3B6pYp92
- zVqe+4G6NJmiv9axVnswoTNHtbe4chayrErdtQtVuNgHh/uCnXnL090FD9mXOA/l7X/g
- BK3Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5h/ouo57VgfmtTZNOxTlKh2p8kwjX4qlWDpeGeXNCSw=;
+ b=I9+3sBMGCL2qvqLsDeceKsdItH6nNFMc79nKsZ0pwFBLBwJD/DD3RL+oL1Ce9El/+s
+ qvU32SB4myxSHRnKqD6bafj8buTU5ezQtRy2Fyp+PeCsmguSpZCQLIrN/8qd99dnJ2K7
+ AOaYe2aWcd7wPsIAA5epz1Bh41TxllTtZJoz6aWYJlBqyz/Fx8mSdejrlGg0b4HoEhBT
+ MbJOEudVjEwZMNAjZ7l/6mjqP3GRnzriOdqLvbLR1+h/x4PpH79DtUtozA+S9sTJfhG1
+ 0ojhriragwCFkMaa1nEsOsOC/cH8JIb4tuYoNDsXe9ojYVcVeGZTGVtqnawVWVPC98kj
+ sNaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ecWJ401suF5DWIgcyHdE5q1lprWQHPVaK3wQ0Xav3O8=;
- b=VqndMbGDL19rEg1BRpOZjcKWKAyKhISaMlFbxzgljgpdzohqSuRmlgiDz5HsIF5qY1
- cV6AEs2RNa9EJ1ek8Kl5Fmx2pPaLYeWq7RGL0A1pSrLSyWBh3do45/mjl775KFg2adE3
- bnSowTyAcHqKtU+6Y18lHrzmN7excGwVDUVz0q5ROnSP4c13bymLPr28+IZOlHHUO9iF
- dLLlGCwQeolLCED3tKPKitZ8zFURb9zg4nr/VDfDhJelNWX0mo2vGlyG69mupfi3xos4
- IMHE9l1ph+x1Qab1xBmaO3ZnyMvN6lBSQV9Te30wAQz+JZs0FypJ4gLP9vfCHPxbJZtj
- g7yg==
-X-Gm-Message-State: AOAM530aZ58mAw1cIWNP8Kxqbwg++VHN0feezP5ktWdDEDJF3z1wR1xT
- IcR1JEp2Fqtfuezu0k3a+BBYadHLTxa6QkyK9/s=
-X-Google-Smtp-Source: ABdhPJz7fsQnA7jUWkGlMn0N5ES6D5VBJyKK5jgf0tCtb54B0E0acJsOBojHlzBvR3Dhj55v+lykELzF84yo5sQp88I=
-X-Received: by 2002:a05:651c:882:: with SMTP id
- d2mr8999806ljq.370.1626612209909; 
- Sun, 18 Jul 2021 05:43:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5h/ouo57VgfmtTZNOxTlKh2p8kwjX4qlWDpeGeXNCSw=;
+ b=dhoWzmZFt9GOjUbnygvRVs6dObnXj0ivsCEmCvD3RuHF7rK2CdTb9LQznePI9PFuF6
+ zC9bHQK9fMVVJZ0VUs+wwsT5eRRICY2efbfufkeDCARZ0EFU+4isX2/a6uGNHGs+cJMx
+ 3RuPSIhotlZZkGizcjykvHtZrQt0Zgb6vuRiJ9sYpVn8MsHC6W6qQHWQX0+f0hE2yhSi
+ i4W88tx0MSnJsEjUkkbk+UozUmJDzCyrnK46QoCaL90Cnr89+3Q/VT4Olqc0l6XRrjMf
+ Gpkz8St0ZuJU3zLtgKEUiB37XgGr07YLGSoT36/qPfeTSo1Ozq2b55ui8xdvAo8fmc7X
+ mgRA==
+X-Gm-Message-State: AOAM531xuyasH/InyLps7LkV/CbaJ3JUNpE+C5qTCUkPXwh0bslgWiOH
+ X/OypQ94oxpEG6LPRVU7g2g=
+X-Google-Smtp-Source: ABdhPJxAC6fn/DP+PNyKXtUIZlqSaYt9k7413pykYoIs1F02KyvnCjQEDOYB4qFjkob/vbIs+8QZyg==
+X-Received: by 2002:a17:90b:3652:: with SMTP id
+ nh18mr20777647pjb.127.1626619231296; 
+ Sun, 18 Jul 2021 07:40:31 -0700 (PDT)
+Received: from localhost.localdomain (bb42-60-144-185.singnet.com.sg.
+ [42.60.144.185])
+ by smtp.gmail.com with ESMTPSA id 144sm18740439pgg.4.2021.07.18.07.40.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 18 Jul 2021 07:40:30 -0700 (PDT)
+From: Nguyen Dinh Phi <phind.uet@gmail.com>
+To: ralf@linux-mips.org, davem@davemloft.net, kuba@kernel.org,
+ xiyou.wangcong@gmail.com
+Subject: [PATCH] netrom: Decrease sock refcount when sock timers expire
+Date: Sun, 18 Jul 2021 22:40:13 +0800
+Message-Id: <20210718144013.753774-1-phind.uet@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAKuLduzhBT_kgp1-za=w2FeD51xAo7=zj1dxvA07YSex2-r44g@mail.gmail.com>
-In-Reply-To: <CAKuLduzhBT_kgp1-za=w2FeD51xAo7=zj1dxvA07YSex2-r44g@mail.gmail.com>
-From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Sun, 18 Jul 2021 18:13:18 +0530
-Message-ID: <CABJPP5BaHEsbHJ=A5n-P31n1hi3MM5SQSamK=Go-Mwrdtk-smw@mail.gmail.com>
-Subject: Re: Mentorship Program
-To: Nitin Wartkar <nitinwartkar58@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+10f1194569953b72f1ae@syzkaller.appspotmail.com,
+ linux-hams@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,80 +116,113 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jul 18, 2021 at 4:43 PM Nitin Wartkar <nitinwartkar58@gmail.com> wrote:
->
-> I am interested in the Checkpatch Documentation mentorship program and I would like to work on the tasks for the mentee selection.
+Commit 63346650c1a9 ("netrom: switch to sock timer API") switched to use
+sock timer API. It replaces mod_timer() by sk_reset_timer(), and
+del_timer() by sk_stop_timer().
 
-Thanks for your interest in working with the checkpatch documentation.
+Function sk_reset_timer() will increase the refcount of sock if it is
+called on an inactive timer, hence, in case the timer expires, we need to
+decrease the refcount ourselves in the handler, otherwise, the sock
+refcount will be unbalanced and the sock will never be freed.
 
-The zeroth task is to learn suitable netiquette for the communication with
-the kernel community. Below are some basic rules and pointers for this
-mentorship. More information on kernel netiquette is also at
-https://people.kernel.org/tglx/notes-about-netiquette.
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+Reported-by: syzbot+10f1194569953b72f1ae@syzkaller.appspotmail.com
+Fixes: 63346650c1a9 ("netrom: switch to sock timer API")
+---
+ net/netrom/nr_timer.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-First, please do not top-post.
+diff --git a/net/netrom/nr_timer.c b/net/netrom/nr_timer.c
+index 9115f8a7dd45..a8da88db7893 100644
+--- a/net/netrom/nr_timer.c
++++ b/net/netrom/nr_timer.c
+@@ -121,11 +121,9 @@ static void nr_heartbeat_expiry(struct timer_list *t)
+ 		   is accepted() it isn't 'dead' so doesn't get removed. */
+ 		if (sock_flag(sk, SOCK_DESTROY) ||
+ 		    (sk->sk_state == TCP_LISTEN && sock_flag(sk, SOCK_DEAD))) {
+-			sock_hold(sk);
+ 			bh_unlock_sock(sk);
+ 			nr_destroy_socket(sk);
+-			sock_put(sk);
+-			return;
++			goto out;
+ 		}
+ 		break;
 
-    A: Because we read from top to bottom, left to right.
-    Q: Why should I start my reply below the quoted text?
+@@ -146,6 +144,8 @@ static void nr_heartbeat_expiry(struct timer_list *t)
 
-    A: Because it messes up the order in which people normally read text.
-    Q: Why is top-posting such a bad thing?
+ 	nr_start_heartbeat(sk);
+ 	bh_unlock_sock(sk);
++out:
++	sock_put(sk);
+ }
 
-    A: The lost context.
-    Q: What makes top-posted replies harder to read than bottom-posted?
+ static void nr_t2timer_expiry(struct timer_list *t)
+@@ -159,6 +159,7 @@ static void nr_t2timer_expiry(struct timer_list *t)
+ 		nr_enquiry_response(sk);
+ 	}
+ 	bh_unlock_sock(sk);
++	sock_put(sk);
+ }
 
-    A: Yes.
-    Q: Should I trim down the quoted part of an email to which I'm replying?
+ static void nr_t4timer_expiry(struct timer_list *t)
+@@ -169,6 +170,7 @@ static void nr_t4timer_expiry(struct timer_list *t)
+ 	bh_lock_sock(sk);
+ 	nr_sk(sk)->condition &= ~NR_COND_PEER_RX_BUSY;
+ 	bh_unlock_sock(sk);
++	sock_put(sk);
+ }
 
-Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
+ static void nr_idletimer_expiry(struct timer_list *t)
+@@ -197,6 +199,7 @@ static void nr_idletimer_expiry(struct timer_list *t)
+ 		sock_set_flag(sk, SOCK_DEAD);
+ 	}
+ 	bh_unlock_sock(sk);
++	sock_put(sk);
+ }
 
-Third, set up your email client according to the kernel community
-rules. Here is some information to that:
+ static void nr_t1timer_expiry(struct timer_list *t)
+@@ -209,8 +212,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
+ 	case NR_STATE_1:
+ 		if (nr->n2count == nr->n2) {
+ 			nr_disconnect(sk, ETIMEDOUT);
+-			bh_unlock_sock(sk);
+-			return;
++			goto out;
+ 		} else {
+ 			nr->n2count++;
+ 			nr_write_internal(sk, NR_CONNREQ);
+@@ -220,8 +222,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
+ 	case NR_STATE_2:
+ 		if (nr->n2count == nr->n2) {
+ 			nr_disconnect(sk, ETIMEDOUT);
+-			bh_unlock_sock(sk);
+-			return;
++			goto out;
+ 		} else {
+ 			nr->n2count++;
+ 			nr_write_internal(sk, NR_DISCREQ);
+@@ -231,8 +232,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
+ 	case NR_STATE_3:
+ 		if (nr->n2count == nr->n2) {
+ 			nr_disconnect(sk, ETIMEDOUT);
+-			bh_unlock_sock(sk);
+-			return;
++			goto out;
+ 		} else {
+ 			nr->n2count++;
+ 			nr_requeue_frames(sk);
+@@ -241,5 +241,7 @@ static void nr_t1timer_expiry(struct timer_list *t)
+ 	}
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
-https://www.kernel.org/doc/html/latest/process/email-clients.html
+ 	nr_start_t1timer(sk);
++out:
+ 	bh_unlock_sock(sk);
++	sock_put(sk);
+ }
+--
+2.25.1
 
-Generally more information on submitting patches and responding on
-replies is at https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-
-Once the zeroth task is understood, you can now move on to the first
-task: Running checkpatch on a specific file.
-
-Get a clone of the Linux kernel repository.
-The script checkpatch.pl is under the scripts directory.
-
-Then, the first task is to run checkpatch.pl on a few files below
-andshare the results:
-
-tools/perf/arch/arm/util/dwarf-regs.c
-drivers/scsi/libsas/sas_init.c
-
-Which information on these rules that checkpatch warns about
-is available in the Checkpatch Documentation?
-
-If documentation of these rules is available, explain your
-understanding of the rules in your own words.
-If no information is available in the documentation,
-explain your understanding of the rule.
-
-In any case, explain the violation that is checked and raised in the
-checkpatch script, i.e., what is implemented in checkpatch to check
-the rule and possible violations. Which code in the checkpatch script
-is raising the warning? What does it check and how is that
-implemented?
-
-Explain how to possibly fix this code with regards to that violation.
-
-Once you succeed on this first task, we inform you about the further
-second and third task. If you fail on any of those tasks, you are out
-of the selection process.
-
-The selection of the mentee will happen according to schedule,
-at earliest on August 12th and at latest at the end of August.
-More information is available at
-https://docs.linuxfoundation.org/lfx/mentorship/mentorship-program-timelines.
-
-Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
