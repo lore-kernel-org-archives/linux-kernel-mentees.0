@@ -2,103 +2,105 @@ Return-Path: <SRS0=/QuR=MN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BE7C07E9B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Jul 2021 10:17:34 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE4EC12002
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Jul 2021 10:29:23 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A548260C40
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Jul 2021 10:17:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org A548260C40
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 3DA1A61175
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Jul 2021 10:29:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 3DA1A61175
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6641A823EB;
-	Wed, 21 Jul 2021 10:17:33 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id F36DB40386;
+	Wed, 21 Jul 2021 10:29:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CkwFqx-gNG0n; Wed, 21 Jul 2021 10:17:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 544B081C71;
-	Wed, 21 Jul 2021 10:17:32 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id C-vehyuH7Hxc; Wed, 21 Jul 2021 10:29:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 47020402DD;
+	Wed, 21 Jul 2021 10:29:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24D52C0010;
-	Wed, 21 Jul 2021 10:17:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 448C5C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 25243C0010;
+	Wed, 21 Jul 2021 10:29:20 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 343AAC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Jul 2021 10:17:31 +0000 (UTC)
+ Wed, 21 Jul 2021 10:29:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 33C4560678
+ by smtp4.osuosl.org (Postfix) with ESMTP id 147704020A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Jul 2021 10:17:31 +0000 (UTC)
+ Wed, 21 Jul 2021 10:29:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id G6EFfdEQ2Rbc
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ffwll.ch
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ew57oxXjvO8I
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Jul 2021 10:17:29 +0000 (UTC)
+ Wed, 21 Jul 2021 10:29:16 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com
- [IPv6:2607:f8b0:4864:20::435])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 553946062A
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7DD72402B9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Jul 2021 10:17:29 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id j199so1861886pfd.7
+ Wed, 21 Jul 2021 10:29:16 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ j1-20020a0568302701b02904d1f8b9db81so1576295otu.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 21 Jul 2021 03:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GmFXEsAxbG8KZfMM+UsqBDrbJkHUFiGmqFsibv1XO4g=;
- b=Fx32sue3mQepTLN9Ttrt6nLPas35qhyRkAnEpea2Mouer4p+Cp6rthrsL0RXkc9o1M
- s4xuwkH74RNoERSESufIhVW5eNQj38mMmrHQXEDWSVGjLfLVy2TSkuvNab0maOwEyAmH
- vhtKcsVhXIv3VHE2dy7Bxv3e2XjJSjApiub4YZQWmmJ3hpaLjd4pxLNhfMeBjBfkFE6G
- wcs16zGFHsiqGI2ZwZeZ7hjkkP8Xgozod55VlGfbMi6U4GR0+/ul1sFKsHzpeZ/Mw/kQ
- 1RbnVd1EOtTJRIQcbHlan6TIBFQKtiHCYvWczkApNzkSqtUKeY9mFElQvgqpoxLK/XyU
- 8Mzw==
+ Wed, 21 Jul 2021 03:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=h417+5Nn2Pgd6WA/rkzrOB7f5qZl0K/oFZRySnon6fM=;
+ b=dP5y0SRwrB1hjw/MVYi14vnTeaxW3RWgNT4XKLVwLQTSLYGNhUM8B/5tUKn/AjmG/e
+ 87Dgni6usuZj0Gwd26LtGaiVnfb+Nb3LcfIks58zLNCluPjUgZ07/vDQPpH5UsVcLJnm
+ DUBHIuwtqCITyO6+jd9Nl3a1Uz9J2CkocvlKU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GmFXEsAxbG8KZfMM+UsqBDrbJkHUFiGmqFsibv1XO4g=;
- b=aKWAokFJbxcEbt+dh2PYof6nwhmlAONvuaTK8/6DvRRZ0H+fGnWdY2HScIXAL1vjZ/
- /KIL0kOdZF3/TIf27RYUtBmh2BBdssefiDecOu9YdJ9uCPRVX72PuIeX3m83xIohCw3n
- i9qev/VtPOiRpgapN1CatLa2D7N/tIKygGJQ+z1AVC+lUdJaMj6ZZ5AE97PN7lcNQjWa
- wbX5j+8j3iZV9OyQDKUA1WFIy2BDgYuQCidM24jtSfG/hm7ehvwT5KcGSsTUqO2h0d0o
- fVwVrPgoMyl4sG6VsXHJgA4joRuKm8fYTa/0Ruu8L+Jf2asuJrOcceU3Cq3HKqP6/kym
- OZQA==
-X-Gm-Message-State: AOAM532wv2mytwTiT+b47tIE8Aa079GeXF4NiW0j7OwhehZUQbCvRm66
- CCh7DqoJFL9bfrW/z1Qlf+Y=
-X-Google-Smtp-Source: ABdhPJxabd+8ymM2NRg2/JRi5E0kd2wtw9dI2cxAd5OZTNoNwxYd09wBP09f+o8F+RdDtGAnclFeIQ==
-X-Received: by 2002:a62:160a:0:b029:328:56b9:b1ee with SMTP id
- 10-20020a62160a0000b029032856b9b1eemr36090473pfw.52.1626862648751; 
- Wed, 21 Jul 2021 03:17:28 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id p33sm26481068pfw.40.2021.07.21.03.17.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 21 Jul 2021 03:17:28 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
- davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH] Bluetooth: skip invalid hci_sync_conn_complete_evt
-Date: Wed, 21 Jul 2021 18:17:10 +0800
-Message-Id: <20210721101710.82974-1-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=h417+5Nn2Pgd6WA/rkzrOB7f5qZl0K/oFZRySnon6fM=;
+ b=rsYNsGYK4BvP1KXBVM30i0iGOzgTq4Nu9g2Vk2GiYa1ardci6G9P6ELgO7NImMaC05
+ A9OvfqxLdpTNTFWOJovu+zp2WE0BjZQrrBOF7NnSHxoO6+GgkIImKW/HfliFqRZBne8R
+ liTSrChVAC7SPRHDI1fKcMMLydYnRnEDzGWVBkOaqsIM2wfVQTSuvJnXNYgl40pvPGtD
+ mTBaMzVn/gRHcaRk8SUTrApWkftP7S8n1rhmtXWfJ/zeO+1fIm9SqSlby4IvM8VbCNM+
+ 5Sx596AE/rCgNgT9Ajigyly8mW6WKYEdfanuuMfNul4bjMyckLHlq0i1rHb9HqPpZOi4
+ Mwvg==
+X-Gm-Message-State: AOAM531X036nx7kLAQT6Bgb+JaC8H2E++MFRYbqIRmT2eZ4yLrGFwSPv
+ Z3cXhMIVrMcziOZjHpMZshhQejx7NNFYJmFOZYiKtQ==
+X-Google-Smtp-Source: ABdhPJxnsfA3n87/jWpR0qUhPsWBSfRhmjyGwC0ANDR9tMSbPA64GLPwtsPMaBOTIwvd+I7FHsCQ2NOVZZiPWLN/Uko=
+X-Received: by 2002:a05:6830:2802:: with SMTP id
+ w2mr24416395otu.303.1626863355405; 
+ Wed, 21 Jul 2021 03:29:15 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- netdev@vger.kernel.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+References: <20210712043508.11584-1-desmondcheongzx@gmail.com>
+ <YPcU3wJK7kC5b7kv@phenom.ffwll.local>
+ <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
+In-Reply-To: <50c5582b-c674-4ef8-585f-7a3d78a49f85@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 21 Jul 2021 12:29:04 +0200
+Message-ID: <CAKMK7uGvb3O9Ypd73xZf6bdMcXJyGJw4C7GXGprkZLpN9Gx7qQ@mail.gmail.com>
+Subject: Re: [PATCH v8 0/5] drm: address potential UAF bugs with drm_master
+ ptrs
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: Dave Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+66264bf2fd0476be7e6c@syzkaller.appspotmail.com
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,40 +118,139 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzbot reported a corrupted list in kobject_add_internal [1]. This
-happens when multiple HCI_EV_SYNC_CONN_COMPLETE event packets with
-status 0 are sent for the same HCI connection. This causes us to
-register the device more than once which corrupts the kset list.
+On Wed, Jul 21, 2021 at 6:12 AM Desmond Cheong Zhi Xi
+<desmondcheongzx@gmail.com> wrote:
+> On 21/7/21 2:24 am, Daniel Vetter wrote:
+> > On Mon, Jul 12, 2021 at 12:35:03PM +0800, Desmond Cheong Zhi Xi wrote:
+> >> Hi,
+> >>
+> >> In the previous thread on this series we decided to remove a patch that was violating a lockdep requirement in drm_lease. In addition to this change, I took a closer look at the CI logs for the Basic Acceptance Tests and noticed that another regression was introduced. The new patch 2 is a response to this.
+> >>
+> >> Overall, this series addresses potential use-after-free errors when dereferencing pointers to struct drm_master. These were identified after one such bug was caught by Syzbot in drm_getunique():
+> >> https://syzkaller.appspot.com/bug?id=148d2f1dfac64af52ffd27b661981a540724f803
+> >>
+> >> The series is broken up into five patches:
+> >>
+> >> 1. Move a call to drm_is_current_master() out from a section locked by &dev->mode_config.mutex in drm_mode_getconnector(). This patch does not apply to stable.
+> >>
+> >> 2. Move a call to drm_is_current_master() out from the RCU read-side critical section in drm_clients_info().
+> >>
+> >> 3. Implement a locked version of drm_is_current_master() function that's used within drm_auth.c.
+> >>
+> >> 4. Serialize drm_file.master by introducing a new spinlock that's held whenever the value of drm_file.master changes.
+> >>
+> >> 5. Identify areas in drm_lease.c where pointers to struct drm_master are dereferenced, and ensure that the master pointers are not freed during use.
+> >>
+> >> v7 -> v8:
+> >> - Remove the patch that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find. This patch violated an existing lockdep requirement as reported by the intel-gfx CI.
+> >> - Added a new patch that moves a call to drm_is_current_master out from the RCU critical section in drm_clients_info. This was reported by the intel-gfx CI.
+> >>
+> >> v6 -> v7:
+> >> - Modify code alignment as suggested by the intel-gfx CI.
+> >> - Add a new patch to the series that adds a new lock to serialize drm_file.master, in response to the lockdep splat by the intel-gfx CI.
+> >> - Update drm_file_get_master to use the new drm_file.master_lock instead of drm_device.master_mutex, in response to the lockdep splat by the intel-gfx CI.
+> >>
+> >> v5 -> v6:
+> >> - Add a new patch to the series that moves the call to _drm_lease_held out from the section locked by &dev->mode_config.idr_mutex in __drm_mode_object_find.
+> >> - Clarify the kerneldoc for dereferencing drm_file.master, as suggested by Daniel Vetter.
+> >> - Refactor error paths with goto labels so that each function only has a single drm_master_put(), as suggested by Emil Velikov.
+> >> - Modify comparisons to NULL into "!master", as suggested by the intel-gfx CI.
+> >>
+> >> v4 -> v5:
+> >> - Add a new patch to the series that moves the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex.
+> >> - Additionally, added a missing semicolon to the patch, caught by the intel-gfx CI.
+> >>
+> >> v3 -> v4:
+> >> - Move the call to drm_is_current_master in drm_mode_getconnector out from the section locked by &dev->mode_config.mutex. As suggested by Daniel Vetter. This avoids a circular lock lock dependency as reported here https://patchwork.freedesktop.org/patch/440406/
+> >> - Inside drm_is_current_master, instead of grabbing &fpriv->master->dev->master_mutex, we grab &fpriv->minor->dev->master_mutex to avoid dereferencing a null ptr if fpriv->master is not set.
+> >> - Modify kerneldoc formatting for drm_file.master, as suggested by Daniel Vetter.
+> >> - Additionally, add a file_priv->master NULL check inside drm_file_get_master, and handle the NULL result accordingly in drm_lease.c. As suggested by Daniel Vetter.
+> >>
+> >> v2 -> v3:
+> >> - Move the definition of drm_is_current_master and the _locked version higher up in drm_auth.c to avoid needing a forward declaration of drm_is_current_master_locked. As suggested by Daniel Vetter.
+> >> - Instead of leaking drm_device.master_mutex into drm_lease.c to protect drm_master pointers, add a new drm_file_get_master() function that returns drm_file->master while increasing its reference count, to prevent drm_file->master from being freed. As suggested by Daniel Vetter.
+> >>
+> >> v1 -> v2:
+> >> - Move the lock and assignment before the DRM_DEBUG_LEASE in drm_mode_get_lease_ioctl, as suggested by Emil Velikov.
+> >
+> > Apologies for the delay, I missed your series. Maybe just ping next time
+> > around there's silence.
+> >
+> > Looks all great, merged to drm-misc-next. Given how complex this was I'm
+> > vary of just pushing this to -fixes without some solid testing.
+> >
+>
+> Hi Daniel,
+>
+> Thanks for merging, more testing definitely sounds good to me.
+>
+> > One thing I noticed is that drm_is_current_master could just use the
+> > spinlock, since it's only doing a read access. Care to type up that patch?
+> >
+>
+> I thought about this too, but I'm not sure if that's the best solution.
+>
+> drm_is_current_master calls drm_lease_owner which then walks up the tree
+> of master lessors. The spinlock protects the master of the current drm
+> file, but subsequent lessors aren't protected without holding the
+> device's master mutex.
 
-To fix this, in hci_sync_conn_complete_evt, we check whether we're
-trying to process the same HCI_EV_SYNC_CONN_COMPLETE event multiple
-times for one connection. If that's the case, the event is invalid, so
-we skip further processing and exit.
+But this isn't a fpriv->master pointer, but a master->lessor pointer.
+Which should never ever be able to change (we'd have tons of uaf bugs
+around drm_lease_owner otherwise). So I don't think there's anything
+that dev->master_lock protects here that fpriv->master_lookup_lock
+doesn't protect already?
 
-Link: https://syzkaller.appspot.com/bug?extid=66264bf2fd0476be7e6c [1]
-Reported-by: syzbot+66264bf2fd0476be7e6c@syzkaller.appspotmail.com
-Tested-by: syzbot+66264bf2fd0476be7e6c@syzkaller.appspotmail.com
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- net/bluetooth/hci_event.c | 2 ++
- 1 file changed, 2 insertions(+)
+Or am I missing something?
 
-diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-index 016b2999f219..091a92338492 100644
---- a/net/bluetooth/hci_event.c
-+++ b/net/bluetooth/hci_event.c
-@@ -4373,6 +4373,8 @@ static void hci_sync_conn_complete_evt(struct hci_dev *hdev,
- 
- 	switch (ev->status) {
- 	case 0x00:
-+		if (conn->state == BT_CONNECTED)
-+			goto unlock;  /* Already connected, event not valid */
- 		conn->handle = __le16_to_cpu(ev->handle);
- 		conn->state  = BT_CONNECTED;
- 		conn->type   = ev->link_type;
+The comment in the struct drm_master says it's protected by
+mode_config.idr_mutex, but that only applies to the idrs and lists I
+think.
+
+> > Also, do you plan to look into that idea we've discussed to flush pending
+> > access when we revoke a master or a lease? I think that would be really
+> > nice improvement here.
+> > -Daniel
+> >
+>
+> Yup, now that the potential UAFs are addressed (hopefully), I'll take a
+> closer look and propose a patch for this.
+
+Thanks a lot.
+-Daniel
+
+>
+> Best wishes,
+> Desmond
+>
+> >>
+> >> Desmond Cheong Zhi Xi (5):
+> >>    drm: avoid circular locks in drm_mode_getconnector
+> >>    drm: avoid blocking in drm_clients_info's rcu section
+> >>    drm: add a locked version of drm_is_current_master
+> >>    drm: serialize drm_file.master with a new spinlock
+> >>    drm: protect drm_master pointers in drm_lease.c
+> >>
+> >>   drivers/gpu/drm/drm_auth.c      | 93 ++++++++++++++++++++++++---------
+> >>   drivers/gpu/drm/drm_connector.c |  5 +-
+> >>   drivers/gpu/drm/drm_debugfs.c   |  3 +-
+> >>   drivers/gpu/drm/drm_file.c      |  1 +
+> >>   drivers/gpu/drm/drm_lease.c     | 81 +++++++++++++++++++++-------
+> >>   include/drm/drm_auth.h          |  1 +
+> >>   include/drm/drm_file.h          | 18 +++++--
+> >>   7 files changed, 152 insertions(+), 50 deletions(-)
+> >>
+> >> --
+> >> 2.25.1
+> >>
+> >
+>
+
+
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
