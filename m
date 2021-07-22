@@ -1,90 +1,102 @@
 Return-Path: <SRS0=qmss=MO=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99C31C6377D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 13:55:34 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDFBC6377D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 14:17:38 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4EE5561244
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 13:55:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 4EE5561244
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 2AA276128D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 14:17:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2AA276128D
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 199D74014A;
-	Thu, 22 Jul 2021 13:55:34 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E4924405BF;
+	Thu, 22 Jul 2021 14:17:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sl53BraIkiUQ; Thu, 22 Jul 2021 13:55:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 06B59400DF;
-	Thu, 22 Jul 2021 13:55:32 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E0FDDC0010;
-	Thu, 22 Jul 2021 13:55:31 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 77F30C000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 13:55:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 72BE14035B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 13:55:30 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id acRO8YSGPQdP
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id eXPa9hHrmUbb; Thu, 22 Jul 2021 14:17:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7B75D405B1;
+	Thu, 22 Jul 2021 14:17:35 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 593E7C001A;
+	Thu, 22 Jul 2021 14:17:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 09415C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 13:55:25 +0000 (UTC)
+ Thu, 22 Jul 2021 14:17:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id EAA26608BB
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 22 Jul 2021 14:17:32 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ffwll.ch
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id v-bx19mGVmRA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 22 Jul 2021 14:17:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7A56B40306
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
+ [IPv6:2607:f8b0:4864:20::230])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C6F8B608C3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 13:55:25 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id k16so6399921ios.10
+ Thu, 22 Jul 2021 14:17:31 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id t143so6713628oie.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 06:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=2yc+jdweVm4gQnbsD1UvfVv9y5oPU6cSfPHtEgBULIk=;
- b=KRYYqRtgDF5Jceu8YqFtih8KDUvXmYVYQjI/geU40NUg1WeeXcCPKB0n5voWSzDHYl
- AsnDKHIJMxSAHJNheoqmRQS6yQqpAPxVvLuYPk3CnkY+1W85t7Dc8/XyEYAV8y1SmfM9
- iUcQNO1Nzite3EvJ7BYuhi9SndcxgV/0CI7o4hQb5SRRbnRtbwwx8XEvvhxyrzWsjrPj
- bKYISuCLFCJvjPs7JgFSTP707goG8vPV/Na4DVTDZE5/cMV62D/WOn6R86pcJZ+DvgQL
- 9oe+dSgotkVJfXpLCTlmTV/fWANSxRxpYJfFWZ9TH6wqje2NIof6sq0gZ6iNy55s9hzp
- Ifqw==
+ Thu, 22 Jul 2021 07:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KOkTn1Mo3J70M4pI86xRHRtEhS/5VnuRa5a5gN9AGgg=;
+ b=LsVzVbt3s0KFfGDHXPhExLl0OU37cfjOF9hKSeAC0uzfH7noURB5hSgFZLTJNHM1Vu
+ PdYAOHxTDvALN390iroNSMPoAMsFh+9Ir2K4iEsCQr31z7SGvUuLxfa5MU8DV1htQC8T
+ vE88dKRZFdDpqpKrwysvc+Xcu0pVQTZx+E2+g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=2yc+jdweVm4gQnbsD1UvfVv9y5oPU6cSfPHtEgBULIk=;
- b=Jg4gFHpUJ4UHmEYHeJp3LBjupNXY50dNBA8BnHgx2D9EDUDi0FYpdTdcIX6335KV31
- 5Jb0zH3t2egEk6Lvi1EU8n7Mz/2kNrvIuGgwNeY+n4bBrf5+Uudjio5BocicdBPzfaeD
- XepXr1R+5+BDGwK6v1pjXm78dpvoXZvCIYKVOysBKOFygvBzFf+eT1iWT/i92kq/zZOz
- rRt3I49LxQ1JUN7JJ2cbEeeFDYxxlxlKxT4jp1KBd0hHOOQbDw17ad0NYIgrO4U8KBMu
- 5npqpYtEvfLJV3JHBuZkBgFlwSs2nD70sYB/j5gz0Sy3PeYgGSTpo8NXJJm0ZBREzWdQ
- 5K+w==
-X-Gm-Message-State: AOAM532nhxeILHE9gLF1SpYIa7ZccPmxINciVNVwoTwWDh72sM62y7uk
- lxKG1jG1TA4AJN2RWscPlB/jAjAF1GSX4cwO8gKT2JusyeKnSw==
-X-Google-Smtp-Source: ABdhPJxjRV8vAuXN0iiTs72DzyjBwEVwZx2/CeK6iskijIi4w26EXNLlPQ/EYsfKZATLZz9eFOAUYzA3lKM1YNiRl94=
-X-Received: by 2002:a6b:7702:: with SMTP id n2mr30937051iom.1.1626962124342;
- Thu, 22 Jul 2021 06:55:24 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KOkTn1Mo3J70M4pI86xRHRtEhS/5VnuRa5a5gN9AGgg=;
+ b=N8Hh9X+/+Rdy8f4e1ns1ght+6PxBlqKEVQIxjiz6SV6s9nXdboR3MO1j1fVq/C3o9z
+ zDsc0uEhoM5LjdnoF7yzDdyYw+B2l98MZ5mjuxGOkjxTLsyuZLgZTuV8YJ8RcQOBM+xb
+ zPlf4YSHxqZiHdYPniLhBBnof4yTmp9Op8iKEb1jq4w6BuimyHenlg7ibwsFdOBeVG2r
+ P1wKi6YJr0E3E0s/+M4ZSNhjH1c147Tcf/Sa+2W9E9u/2soY/pj4px+DIFThgQSFA5hr
+ 90cXemtCd2TH1ehjTCngfsZzluM1ZIbjim8mMAyv/CPYr2TrkIeui8IAIWtyrskACQCL
+ rpHw==
+X-Gm-Message-State: AOAM530JV2Hn7TCLXeimPH+MVqVbg6wScyRRkNaqu4xyIIfcivhSWjXe
+ j9syVRbs0MqaMkrcu/5cxlXQqMoJ+VzWEi6rMcoBrQ==
+X-Google-Smtp-Source: ABdhPJwqTklvotR9LbnbPWDna0E/3csMrWphC75ewwvNxmZ2rg11wkD8Dt31hlSAGFCDJOPSPPQUYSYIZd/CqiU4Roo=
+X-Received: by 2002:aca:d682:: with SMTP id n124mr174005oig.128.1626963450521; 
+ Thu, 22 Jul 2021 07:17:30 -0700 (PDT)
 MIME-Version: 1.0
-From: Saptarshi Patra <saptarshi.patra.22@gmail.com>
-Date: Thu, 22 Jul 2021 19:25:13 +0530
-Message-ID: <CAJKmYetquiV0LcNFNRRHiX0d=c9hXNtQ2oYvOEEpGZqZpxvphg@mail.gmail.com>
-Subject: Linux Kernel: Mining for Maintainers
-To: linux-kernel-mentees@lists.linuxfoundation.org, lukas.bulwahn@gmail.com
+References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+ <20210722092929.244629-3-desmondcheongzx@gmail.com>
+ <YPlKCc7Sep71xjBC@phenom.ffwll.local>
+ <5b8b3bd5-7519-e383-cb84-f354d898dc81@gmail.com>
+In-Reply-To: <5b8b3bd5-7519-e383-cb84-f354d898dc81@gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Thu, 22 Jul 2021 16:17:17 +0200
+Message-ID: <CAKMK7uGOFaC4+Avta5e4vVyhy3XWof=WbUcPmBKWVGo7PYNONA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm: clarify lifetime/locking for drm_master's lease
+ fields
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: Dave Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Zack Rusin <zackr@vmware.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,45 +108,198 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3232423054269223303=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============3232423054269223303==
-Content-Type: multipart/alternative; boundary="0000000000007c073405c7b6a348"
+On Thu, Jul 22, 2021 at 3:03 PM Desmond Cheong Zhi Xi
+<desmondcheongzx@gmail.com> wrote:
+>
+> On 22/7/21 6:35 pm, Daniel Vetter wrote:
+> > On Thu, Jul 22, 2021 at 05:29:28PM +0800, Desmond Cheong Zhi Xi wrote:
+> >> In particular, we make it clear that &drm_device.mode_config.idr_mutex
+> >> protects the lease idr and list structures for drm_master. The lessor
+> >> field itself doesn't need to be protected as it doesn't change after
+> >> it's set in drm_lease_create.
+> >>
+> >> Additionally, we add descriptions for the lifetime of lessors and
+> >> leases to make it easier to reason about them.
+> >>
+> >> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> >> ---
+> >>   include/drm/drm_auth.h | 62 ++++++++++++++++++++++++++++++++++--------
+> >>   1 file changed, 51 insertions(+), 11 deletions(-)
+> >>
+> >> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+> >> index f99d3417f304..c978c85464fa 100644
+> >> --- a/include/drm/drm_auth.h
+> >> +++ b/include/drm/drm_auth.h
+> >> @@ -58,12 +58,6 @@ struct drm_lock_data {
+> >>    * @refcount: Refcount for this master object.
+> >>    * @dev: Link back to the DRM device
+> >>    * @driver_priv: Pointer to driver-private information.
+> >> - * @lessor: Lease holder
+> >> - * @lessee_id: id for lessees. Owners always have id 0
+> >> - * @lessee_list: other lessees of the same master
+> >> - * @lessees: drm_masters leasing from this one
+> >> - * @leases: Objects leased to this drm_master.
+> >> - * @lessee_idr: All lessees under this owner (only used where lessor == NULL)
+> >>    *
+> >>    * Note that master structures are only relevant for the legacy/primary device
+> >>    * nodes, hence there can only be one per device, not one per drm_minor.
+> >> @@ -88,17 +82,63 @@ struct drm_master {
+> >>      struct idr magic_map;
+> >>      void *driver_priv;
+> >>
+> >> -    /* Tree of display resource leases, each of which is a drm_master struct
+> >> -     * All of these get activated simultaneously, so drm_device master points
+> >> -     * at the top of the tree (for which lessor is NULL). Protected by
+> >> -     * &drm_device.mode_config.idr_mutex.
+> >> +    /**
+> >> +     * @lessor:
+> >> +     *
+> >> +     * Lease holder. The lessor does not change once it's set in
+> >
+> > Lessor is the lease grantor, lessee is the one receiving the lease. Maybe
+> > clarify this with
+> >
+> > "Lease grantor, only set if this struct drm_master represents a lessee
+> > holding a lease of objects from @lessor. Full owners of the device have
+> > this set to NULL."
+> >
+> >> +     * drm_lease_create(). Each lessee holds a reference to its lessor that
+> >
+> > I also figured it'd be a good idea to link to the drm_lease docs here to
+> > explain the concepts, but alas we don't have those :-( Hence at least
+> > define what we mean with lessor, lessee, lease and owner.
+> >
+>
+> Thanks for the suggestions, Daniel. I'll incorporate them in a v2.
+>
+> Regarding the missing drm_lease docs... any reason we can't just add it
+> in? Seems like most of the comments in drm_lease.c are almost correctly
+> formatted too. I could clean them up, define the terms in a preamble,
+> then add it to the v2 patch.
 
---0000000000007c073405c7b6a348
-Content-Type: text/plain; charset="UTF-8"
+Sure if you want to do that, that would be great. Usual style tips:
+- We only document driver interfaces, so structs/inline functions in
+headers and exported symbols in .c files.
+- Anything else interesting just leave as normal C comments
+- An overview DOC: section that explains a bit how leases work and why
+(git blame on the commit that added it should help, otherwise I can
+type that up) would also be really great.
 
-Respected sir,
+I think the right place for this is in the drm-uapi.rst section after
+the section about primary nodes:
 
-I am very interested in the Mining Maintainers mentorship program and I
-would like to work on the tasks for the mentee selection.
-Sincerely,
+https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#modeset-base-object-abstraction
 
-Saptarshi Patra
+Cheers, Daniel
 
---0000000000007c073405c7b6a348
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Respected sir,</div><div><br></div><div>I am very int=
-erested in the Mining Maintainers mentorship program and I would like to wo=
-rk on the tasks for the mentee selection.</div><div>Sincerely,</div><div><b=
-r></div><div>Saptarshi Patra<br></div></div>
+>
+> >> +     * it releases upon being destroyed in drm_lease_destroy().
+> >> +     *
+> >> +     * Display resource leases form a tree of &struct drm_master. All of
+> >
+> > For now we've limited the tree to a depth of 1, you can't create another
+> > lease if yourself are a lease. I guess another reason to update the
+> > drm_lease.c docs.
+> >
+> > So maybe add "Currently the lease tree depth is limited to 1."
+> >
+> >> +     * these get activated simultaneously, so &drm_device.master
+> >> +     * points at the top of the tree (for which lessor is NULL).
+> >>       */
+> >> -
+> >>      struct drm_master *lessor;
+> >> +
+> >> +    /**
+> >> +     * @lessee_id:
+> >> +     *
+> >> +     * ID for lessees. Owners always have ID 0. Protected by
+> >
+> > Maybe clarify to "Owners (i.e. @lessor is NULL) ..."
+> >
+> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> >> +     */
+> >>      int     lessee_id;
+> >> +
+> >> +    /**
+> >> +     * @lessee_list:
+> >> +     *
+> >> +     * List of lessees of the same master. Protected by
+> >
+> > We try to distinguis between list entries and the list, even though it's
+> > the same struct. So maybe
+> >
+> > "List entry of lessees of @lessor, where they are linked to @lessee. Not
+> > use for owners."
+> >
+> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> >
+> >> +     */
+> >>      struct list_head lessee_list;
+> >> +
+> >> +    /**
+> >> +     * @lessees:
+> >> +     *
+> >> +     * List of drm_masters leasing from this one. Protected by
+> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> >> +     *
+> >> +     * This master cannot be destroyed unless this list is empty as lessors
+> >> +     * are referenced by all their lessees.
+> >
+> > Maybe add "this list is empty of no leases have been granted."
+> >
+> >> +     */
+> >>      struct list_head lessees;
+> >> +
+> >> +    /**
+> >> +     * @leases:
+> >> +     *
+> >> +     * Objects leased to this drm_master. Protected by
+> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> >> +     *
+> >> +     * Objects are leased all together in drm_lease_create(), and are
+> >> +     * removed all together when the lease is revoked.
+> >> +     */
+> >>      struct idr leases;
+> >> +
+> >> +    /**
+> >> +     * @lessee_idr:
+> >> +     *
+> >> +     * All lessees under this owner (only used where lessor is NULL).
+> >
+> > @lessor so it's highlighted correctly
+> >
+> >> +     * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
+> >> +     */
+> >>      struct idr lessee_idr;
+> >>      /* private: */
+> >
+> > With the nits addressed:
+> >
+> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> >
+> > Thanks for updating the docs!
+> > -Daniel
+> >
+> >>   #if IS_ENABLED(CONFIG_DRM_LEGACY)
+> >> --
+> >> 2.25.1
+> >>
+> >
+>
 
---0000000000007c073405c7b6a348--
 
---===============3232423054269223303==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============3232423054269223303==--
