@@ -2,165 +2,90 @@ Return-Path: <SRS0=qmss=MO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07C10C4320A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 19:17:27 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16CA2C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 19:59:32 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 885D660EBB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 19:17:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 885D660EBB
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=vmware.com
+	by mail.kernel.org (Postfix) with ESMTPS id AFB8860EB5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 19:59:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AFB8860EB5
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F3167405B5;
-	Thu, 22 Jul 2021 19:17:25 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 796CA8343B;
+	Thu, 22 Jul 2021 19:59:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6EpkTK7CkuMg; Thu, 22 Jul 2021 19:17:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D22CC405AD;
-	Thu, 22 Jul 2021 19:17:24 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1JOv6NO2BY-X; Thu, 22 Jul 2021 19:59:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8E2F183478;
+	Thu, 22 Jul 2021 19:59:30 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A8927C0010;
-	Thu, 22 Jul 2021 19:17:24 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 00114C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B676C0010;
+	Thu, 22 Jul 2021 19:59:30 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 267F6C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 19:17:23 +0000 (UTC)
+ Thu, 22 Jul 2021 19:59:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E214C60646
+ by smtp2.osuosl.org (Postfix) with ESMTP id 06D1A401AD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 19:17:23 +0000 (UTC)
+ Thu, 22 Jul 2021 19:59:29 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=vmware.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HS3zLBmR461E
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id DG8-w5J5eY9X
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 19:17:23 +0000 (UTC)
+ Thu, 22 Jul 2021 19:59:28 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on20621.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e89::621])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E463B60622
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 57F2C4002B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 19:17:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MozLo7GnRgocN9e0wteTXcXq44WTJVffl/Kbbr4mz0bVNH8KVstvwzunQm32lAtouqKMnx99xpveP8MzB6axB2dH0YGLMxqKXhMX2y7EAaKKYiuO/0YyFV/yWoKgWBA8HnwL644oVgan5aUX8ZDHDcNrJw9aWYFB/ZrFoJSZEKVwk7iiGPbRDVM5lExJF+FAtw8AnDzxj7I1kQuIuJfzuRKAQxe5IH2YS21DzS+9uoJ6HBwJ7FyO8Ym29ChJhb6yKqcRd7D9cE1ZtvCwNOwyznvAk+SVh36zaO0+3UKc/L8Id9Rl3/hHE2KqSn+gyPwXuDcXysZTB7FHD3aPnaWKlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2REzenTYSg9PCaQurwCehaLOlMSheR4pQ15YhJat5C4=;
- b=VQqVuXBNm7atkfxcWYAqiCh9E8xyYWzCFQ1VXo6xqBGhwKwsjsFQEtmGtvRW7Fe4AcudZ3YQZ0eztadLrUBc4y3z33VFKWBs8/tv3e5Jd8XZCCDI+udi7pg/Q0yR74faZPtjFoOSLbj/RG05iNBgZHFckrDztq4whZf4QR/025BsZs5FqJ984Mi/ATpD14RamHhRBpK1VtrcXCVoDw/0xf0zW0LQB3tDszs6a01mXnLTEgPxXWPxhhZVW+tSVa2ukr0v3rgCfVmhWRgHqIwA586mN2s8/Bg4ioBIqwh1MvqXewc6shDVHU05hMZPZm5K24PsmbuPi1q7cUoMQLCLtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
- dkim=pass header.d=vmware.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2REzenTYSg9PCaQurwCehaLOlMSheR4pQ15YhJat5C4=;
- b=aFDG4rWledNOb5dHz165abB6Q3QkeTvdOBTjy7fQp7KpG19PxDVoCk1+234niBK8IeR23qEfUK8Go+UvQt9lvJXGf8Lab9VWegLP+euKc/ZhVEvQPfRSVzf424XYaIWQgZw9Mzi66IfqgQn5f8/+DVSA6yKK+14obPSlfYJ3ktw=
-Authentication-Results: lists.linuxfoundation.org; dkim=none (message not
- signed) header.d=none;lists.linuxfoundation.org; dmarc=none action=none
- header.from=vmware.com;
-Received: from BN8PR05MB6611.namprd05.prod.outlook.com (2603:10b6:408:57::15)
- by BN7PR05MB3955.namprd05.prod.outlook.com (2603:10b6:406:8a::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.14; Thu, 22 Jul
- 2021 19:17:20 +0000
-Received: from BN8PR05MB6611.namprd05.prod.outlook.com
- ([fe80::b5c1:f355:fee4:c23c]) by BN8PR05MB6611.namprd05.prod.outlook.com
- ([fe80::b5c1:f355:fee4:c23c%5]) with mapi id 15.20.4373.009; Thu, 22 Jul 2021
- 19:17:20 +0000
-Subject: Re: [PATCH 3/3] drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-graphics-maintainer@vmware.com, airlied@linux.ie, daniel@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
-References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
- <20210722092929.244629-4-desmondcheongzx@gmail.com>
-From: Zack Rusin <zackr@vmware.com>
-Message-ID: <b27a2e80-c912-15eb-e78b-c8b6f3993930@vmware.com>
-Date: Thu, 22 Jul 2021 15:17:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210722092929.244629-4-desmondcheongzx@gmail.com>
-Content-Language: en-US
-X-ClientProxiedBy: MW4PR03CA0047.namprd03.prod.outlook.com
- (2603:10b6:303:8e::22) To BN8PR05MB6611.namprd05.prod.outlook.com
- (2603:10b6:408:57::15)
+ Thu, 22 Jul 2021 19:59:28 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id gx2so7642327pjb.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 22 Jul 2021 12:59:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=hzmNOJgHcRn2MiGozy1lBfawPHwtsA6A3uBHBd2a0hc=;
+ b=HpzTRYVgQ580B5XM8KBji8D8n6ahqMJ6iJOjLti3EFdbh2wRF5DzVQeZe9l1cvLC7T
+ ditFCwKcUd6hqJTmZEGrRgRHRm8B6Dk3bnaM1hFOCTKFX4Wci4EAdDXXemLF4B/vbeXM
+ shFur1a+265DBU81GGX17iNCS2mDNBwZW5VOOuVcoEJ0OVI0w3vdnSJM5LRv58QbmuIb
+ prbz9WoB3O+GmWmwMk/pvHQgKr/HIGGq7Wk/ghE4EuJoVagg7EpeGaEfAUe+exLtYjkH
+ AMDPDTsiCjDz8J10XQGLJooFtMbbCdmd6xT4sYo9IACb9hCy7DpqEAUB1mBxHt46NogN
+ zpsQ==
+X-Gm-Message-State: AOAM530nQbarRCQ1hDNr/JSigbDj+d/AbRhO+cZ2uWtk5n/mQS0vpRBf
+ 70EZAjwGGEf/Ctds+CMDq2Y=
+X-Google-Smtp-Source: ABdhPJx/Vqc4HyEpr1E1bQckHOiQFu0A8y7forK0Rri2gv86diD5A07b+RGp8bSqPiXGEcPrOzkUOg==
+X-Received: by 2002:a17:90a:ce18:: with SMTP id
+ f24mr1332166pju.82.1626983967603; 
+ Thu, 22 Jul 2021 12:59:27 -0700 (PDT)
+Received: from garbanzo ([191.96.121.239])
+ by smtp.gmail.com with ESMTPSA id w6sm35375831pgh.56.2021.07.22.12.59.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 22 Jul 2021 12:59:26 -0700 (PDT)
+Date: Thu, 22 Jul 2021 12:59:24 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Anirudh Rayabharam <mail@anirudhrb.com>
+Subject: Re: [PATCH v6 1/2] firmware_loader: use -ETIMEDOUT instead of
+ -EAGAIN in fw_load_sysfs_fallback
+Message-ID: <20210722195924.oezxwv3u3p5k737l@garbanzo>
+References: <20210722123229.8731-1-mail@anirudhrb.com>
+ <20210722123229.8731-2-mail@anirudhrb.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.193] (108.36.85.85) by
- MW4PR03CA0047.namprd03.prod.outlook.com (2603:10b6:303:8e::22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.26 via Frontend Transport; Thu, 22 Jul 2021 19:17:17 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6a66bffb-6ea9-4950-f098-08d94d455351
-X-MS-TrafficTypeDiagnostic: BN7PR05MB3955:
-X-LD-Processed: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN7PR05MB3955B655F165A20F83AC2686CEE49@BN7PR05MB3955.namprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HohuSOKLJGlViNfEP2jqBSX8y7PtEjQBVQzIff/rjHt2pBXNrKo0K8PFtZfaxHnaO/qze3colbwoZlVYOlw5uarfoFCgRdpc6oidWqbWN3q9Evofe8i4khcIAtpZ+QVw0kxAnXZ/Yh6/cD5vNv/Gv2Lu1dn20geTlsNiLd/2AAVmlrslzS0/hoL6oqumRzTT+lQr3tIs/KVAZ2ZvnDAqO3ZsOefqCMpuRhm3UWM4x4b4W6Up0vQAgay0Kh2lMnWVfZ0aSZ5tDOzSRAgUnIzxgJm1Bft/sCmu8g9yR1Ni5YmgDXpJFsKDEvq1gqT2p1GNG5azQoG0cWZh+7DwGJbZmwkHW8+K3H/srgQWINJg0Ofv4yDFnviE2JOq2OZfqq4UpF9W2Es9RKdrJBmrb0rYvKmkrhw0rm0dbyxIskJWweZ51eO119Yc78FAlTVGalre4XH0yAjNMi6rOv81zuVtN5nix6rvk1fgmyr1BwE9BwizWcSJ28QahyOC/dc38YtT5M1dp6X2MI2lqQH/MwD7OhS3PU24K6/w5Vkr7bX9wBeIspvdEaBKefIx9+AmeziKpkR8aRefj1E+OTGhb0qtAX7PuUX04Y0KBUEC/KeRed8XbKjmuzuzOHSwiBzp7KgdV8LpcuiArlbMu8hu9/c/bry7rkgZcj9oCETzuGyXnBd+/1uYtHEQ50voVKVmrKok9+mFQIlfV6UI+M9dkesI1m5S/1q2h/4FGeuB7Y0ujwQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN8PR05MB6611.namprd05.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6486002)(316002)(508600001)(66556008)(186003)(86362001)(4744005)(66946007)(53546011)(6666004)(7416002)(83380400001)(2906002)(8676002)(31696002)(16576012)(2616005)(5660300002)(956004)(4326008)(26005)(8936002)(31686004)(66476007)(36756003)(38100700002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y1Z1dWtYa1RwTWZtNEwyL3NWYWxnckgxMk5pY3dlVjQ4WHVuTVZGeDMxUGJp?=
- =?utf-8?B?YnQ2Yy80U04ramxsVmFzaFp0elNrOUdLdTV1RE40K2MyM2swZGxLSnEwQ3lm?=
- =?utf-8?B?MnhYbTFxY09QN3Faemt6NFdjSnBsdTQrZVF6Q0lndDZNeElaSWVMVmFZTW4z?=
- =?utf-8?B?QXVJOG5LaVlBTWttVW9zdzVXaElmQmk5WENrYXBmZnQrRk9XK29oeVJqcmdv?=
- =?utf-8?B?ZHgvV3EyckhaaE43dnQyRnpON0l1azZVL3FCUW9DT2dHRENDbU4rUzdxaWRu?=
- =?utf-8?B?UkVxSEJHaEFmUkhhb25FVVdGeVpPUGZmWXptcXMxam0xYXdkbkU0elMyU3Rj?=
- =?utf-8?B?TlVXM1hvRVI4T25Eb09KTkx5K212cmx1aStVL3A5elFqRmlBSHErVDloUVFo?=
- =?utf-8?B?U2tURGVITGo2b3BlU3VRQkNzZEh6V0oreFpObnVMNklGcFZvTHJTVkZwL0xP?=
- =?utf-8?B?TkUrNTgwZlJjMi8vWTNHU2JDZjd2empNTG9rNkdYZ3ZiaUVVWkx3TUx3UWFt?=
- =?utf-8?B?dzEra3dFTFd3aHFpN0ZYUlpZdkxUNGdXTFFqcWgyZGVuTTdoVEFQQmJQbkV4?=
- =?utf-8?B?MWhPTWQzQ0lFVVRQbk81MmI4ZSsvZUhaRnFNQjBSUVdxZm56ZkEvalhlOTQ0?=
- =?utf-8?B?TDI1ZDR4anVlNU5jR3RGZjZCaDA1VFc4a0s0aG5jVkxhU2NDTldUbmJOQ3Uw?=
- =?utf-8?B?SkJtSno2OWVua1NXOGgrc3lGSWZKZkQvdmF3SDZGaXM1eW1Qa3FTcW5xSldN?=
- =?utf-8?B?OXRONDF4SDRjbkpWc1V3cFE4R1RCLzhXL1RqbFR1c2pnaDZRQVJ5dVh2VVk4?=
- =?utf-8?B?YURpVFZsRmxsZU9EOHlmVmVMYlRtWmpobnlrcTAzTHhGbFloaElvRy9ESEtN?=
- =?utf-8?B?V3BBTm5zVEdLMmFXanpDeHVJMjhhRjQ4d3hFbHRzMG5GdDR3c1lLS0E5T1ZL?=
- =?utf-8?B?S0NhTnFwOUQxSmp3NnVOWGVJTFlvVkhFUG1lNUFuQXBDU2tlSEpKTUI2UE1Z?=
- =?utf-8?B?UkhPSFhPbG1xRWtkc1RicnN4Vk95NDZDY0hBemo2RUpvWXRUbVVFL2Z2NS84?=
- =?utf-8?B?NUdEeVNqa1BXS0hLTFo0WU1ZSjFnUTd4dHRlU0kvZnlnNVkxRHBka1cwdzFz?=
- =?utf-8?B?cUJIK2x3RjNhZm5ySnErTHpqd2hlZFEzQTBOSXB6NUlpQWN3MU9OM0wwQjdv?=
- =?utf-8?B?T3ZYZFpBcmY1Y2Q4YTRLZThndzR4QmFPbk9sT21KejczSUV2bjc0ZWZjZFhk?=
- =?utf-8?B?U1ptWldOcGMxajhDUFBxNElhOXR5dDB3SHNST2t1VEdvU2tTOTZrSXR1eG11?=
- =?utf-8?B?ZVhyY1d5d2RJYWZLVnZMKzBpVlZrMzM0Umdhc1FIUldlVkJNYllQWFpoaW11?=
- =?utf-8?B?RTVCZlZDTnhFTGQvYUhTVS9lLzBha0tXRWEvRVcvRGtselVRL2VydHJYME1J?=
- =?utf-8?B?T0F3RmRUT2ZKSFVsdk8zaEJWQWZpZWQ4eDN1UE9FWWN4WWp0YlBLWWk3SVlo?=
- =?utf-8?B?ZEI0dFVIZ1RuSzhSa1dRQk1OQ05GRlNKMGFhaEtwYThENDQ4MzI3N3R2Y3Zu?=
- =?utf-8?B?bE5pZ1doK2dJU1VNbEJjTEYxY1orM3lUTTFDQWpUUzV2eXQ3TmVxYlpNY29L?=
- =?utf-8?B?Y0kzZHM3R25peXRxb1lBM2MvLzhub2lFQ3Fkdkt2cUNDbkhTUnFHMjQyZk9t?=
- =?utf-8?B?REZKZVlCSTVVWlJXVE5peCtlVG9uSW1KUS9tS1ltM1VPWGZVVzJ6UUtlRVZn?=
- =?utf-8?Q?odNoNwM3OBPdr/0Y3CHxBLOUhC/x7UPf0MsAbEX?=
-X-OriginatorOrg: vmware.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a66bffb-6ea9-4950-f098-08d94d455351
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR05MB6611.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2021 19:17:20.2093 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JKbqVp7hO95kIRk1SjInER4GQVD9aSFjVA0Rp0aaDmh8REcxhMXGnSmkpZBtweFLfnIJ6aiMplzmH5pUoRJGPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR05MB3955
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20210722123229.8731-2-mail@anirudhrb.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, rafael@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -172,27 +97,135 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/22/21 5:29 AM, Desmond Cheong Zhi Xi wrote:
-> drm_file.master should be protected by either drm_device.master_mutex
-> or drm_file.master_lookup_lock when being dereferenced. However,
-> drm_master_get is called on unprotected file_priv->master pointers in
-> vmw_surface_define_ioctl and vmw_gb_surface_define_internal.
+On Thu, Jul 22, 2021 at 06:02:28PM +0530, Anirudh Rayabharam wrote:
+> The only motivation for using -EAGAIN in commit 0542ad88fbdd81bb
+> ("firmware loader: Fix _request_firmware_load() return val for fw load
+> abort") was to distinguish the error from -ENOMEM, and so there is no
+> real reason in keeping it. Keeping -ETIMEDOU is much telling of what the
+
+Since you'll have to respin, a missing here   ^, also add that the
+-ETIMEDOUT is what we'd get when we do time out on the wait, as its
+not clear from the conext being changed.
+
+> reason for a failure is, so just use that.
 > 
-> This is fixed by replacing drm_master_get with drm_file_get_master.
+> The rest is just trying to document a bit more of the motivations for the
+> error codes, as otherwise we'd lose this information easily.
+
+This is a separate change, and it actually does more than just that.
+Moving code around should be done separately. The idea is to
+first just remove the -EAGAIN so that the change is *easy* to review.
+A remove of a return code *and* a move of code around makes it less
+obvious for code review. And part of the comment is wrong now that we
+removed -EAGAIN. When breaking patches up please review each change
+going into each patch and consider if it makes sense, atomically.
+
+> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+> ---
+>  drivers/base/firmware_loader/fallback.c | 34 +++++++++++++++++--------
+>  1 file changed, 24 insertions(+), 10 deletions(-)
 > 
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> diff --git a/drivers/base/firmware_loader/fallback.c b/drivers/base/firmware_loader/fallback.c
+> index 91899d185e31..1db94165feaf 100644
+> --- a/drivers/base/firmware_loader/fallback.c
+> +++ b/drivers/base/firmware_loader/fallback.c
+> @@ -70,7 +70,29 @@ static inline bool fw_sysfs_loading(struct fw_priv *fw_priv)
+>  
+>  static inline int fw_sysfs_wait_timeout(struct fw_priv *fw_priv,  long timeout)
+>  {
+> -	return __fw_state_wait_common(fw_priv, timeout);
+> +	int ret = __fw_state_wait_common(fw_priv, timeout);
+> +
+> +	/*
+> +	 * A signal could be sent to abort a wait. Consider Android's init
+> +	 * gettting a SIGCHLD, which in turn was the same process issuing the
+> +	 * sysfs store call for the fallback. In such cases we want to be able
+> +	 * to tell apart in userspace when a signal caused a failure on the
+> +	 * wait. In such cases we'd get -ERESTARTSYS.
+> +	 *
+> +	 * Likewise though another race can happen and abort the load earlier.
 
-Reviewed-by: Zack Rusin <zackr@vmware.com>
+This comment is about the check for fw_load_abort() so since the move is
+not going to happen when you remove -EAGAIN just leave it out. It can be
+added once you do the move.
 
-Thanks for taking the time to fix this. Apart from the clear logic error, do you happen to know under what circumstances would this be hit? We have someone looking at writing some vmwgfx specific igt tests and I was wondering if I could add this to the list.
+> +	 *
+> +	 * In either case the situation is interrupted so we just inform
+> +	 * userspace of that and we end things right away.
 
-z
+Be mindful that this is in context of both cases when re-writing the
+patches.
+
+> +	 *
+> +	 * When we really time out just tell userspace it should try again,
+> +	 * perhaps later.
+
+That's the thing, we're getting rid of that -EAGAIN as it made no sense,
+the goal was to just distinguish the error from -ENOMEM. That's it.
+Since we are removing the -EAGAIN, this comment makes no sense as we
+have clarified with Shuah that the goal of her patch was just to
+distinguish the error.
+
+So "tell userspace to try again" makes no sense since if a timeout
+happened userspace can't really try again as we have aborted the whole
+operation to allow firmware to be uploaded.
+
+In fact, please add that to the commit log which removes the -EAGAIN,
+something like:
+
+"Using -EAGAIN is also not correct as this return code is typically used
+to tell userspace to try something again, in this case re-using the
+sysfs loading interface cannot be retried when a timeout happens, so
+the return value is also bogus."
+
+> +	 */
+> +	if (ret == -ERESTARTSYS || fw_state_is_aborted(fw_priv))
+> +		ret = -EINTR;
+> +	else if (fw_priv->is_paged_buf && !fw_priv->data)
+> +		ret = -ENOMEM;
+> +
+> +	return ret;
+>  }
+>  
+>  struct fw_sysfs {
+> @@ -526,20 +548,12 @@ static int fw_load_sysfs_fallback(struct fw_sysfs *fw_sysfs, long timeout)
+>  	}
+>  
+>  	retval = fw_sysfs_wait_timeout(fw_priv, timeout);
+> -	if (retval < 0 && retval != -ENOENT) {
+> +	if (retval < 0) {
+>  		mutex_lock(&fw_lock);
+>  		fw_load_abort(fw_sysfs);
+>  		mutex_unlock(&fw_lock);
+>  	}
+>  
+> -	if (fw_state_is_aborted(fw_priv)) {
+> -		if (retval == -ERESTARTSYS)
+> -			retval = -EINTR;
+> -		else
+> -			retval = -EAGAIN;
+
+All we want to do is remove this -EAGAIN line in one patch. We
+don't want to move code to another place. We do this to make code
+easier to review.
+
+We preserve the error code from the wait when a signal did not interrupt
+the process (-ERESTARTSYS), and so this can only be -ETIMEDOUT.
+
+> -	} else if (fw_priv->is_paged_buf && !fw_priv->data)
+> -		retval = -ENOMEM;
+> -
+
+Thanks for keeping up with the series!
+
+  Luis
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
