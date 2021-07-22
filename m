@@ -2,101 +2,74 @@ Return-Path: <SRS0=qmss=MO=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EDFBC6377D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 14:17:38 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 092FAC63793
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 14:47:42 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2AA276128D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 14:17:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 2AA276128D
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+	by mail.kernel.org (Postfix) with ESMTPS id 94B5E60FEE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 22 Jul 2021 14:47:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mail.kernel.org 94B5E60FEE
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E4924405BF;
-	Thu, 22 Jul 2021 14:17:36 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 540EA81B01;
+	Thu, 22 Jul 2021 14:47:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eXPa9hHrmUbb; Thu, 22 Jul 2021 14:17:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7B75D405B1;
-	Thu, 22 Jul 2021 14:17:35 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id N68m3aaNNFKn; Thu, 22 Jul 2021 14:47:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9BCC6819F8;
+	Thu, 22 Jul 2021 14:47:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 593E7C001A;
-	Thu, 22 Jul 2021 14:17:35 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 09415C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 772B4C001A;
+	Thu, 22 Jul 2021 14:47:40 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 681C2C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 14:17:34 +0000 (UTC)
+ Thu, 22 Jul 2021 14:47:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id EAA26608BB
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4A9A78198D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 14:17:32 +0000 (UTC)
+ Thu, 22 Jul 2021 14:47:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=ffwll.ch
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id v-bx19mGVmRA
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id L1ApOdO7hg4x
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 14:17:31 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com
- [IPv6:2607:f8b0:4864:20::230])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C6F8B608C3
+ Thu, 22 Jul 2021 14:47:35 +0000 (UTC)
+X-Greylist: delayed 00:08:20 by SQLgrey-1.8.0
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7EAD88190B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 14:17:31 +0000 (UTC)
-Received: by mail-oi1-x230.google.com with SMTP id t143so6713628oie.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 22 Jul 2021 07:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KOkTn1Mo3J70M4pI86xRHRtEhS/5VnuRa5a5gN9AGgg=;
- b=LsVzVbt3s0KFfGDHXPhExLl0OU37cfjOF9hKSeAC0uzfH7noURB5hSgFZLTJNHM1Vu
- PdYAOHxTDvALN390iroNSMPoAMsFh+9Ir2K4iEsCQr31z7SGvUuLxfa5MU8DV1htQC8T
- vE88dKRZFdDpqpKrwysvc+Xcu0pVQTZx+E2+g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KOkTn1Mo3J70M4pI86xRHRtEhS/5VnuRa5a5gN9AGgg=;
- b=N8Hh9X+/+Rdy8f4e1ns1ght+6PxBlqKEVQIxjiz6SV6s9nXdboR3MO1j1fVq/C3o9z
- zDsc0uEhoM5LjdnoF7yzDdyYw+B2l98MZ5mjuxGOkjxTLsyuZLgZTuV8YJ8RcQOBM+xb
- zPlf4YSHxqZiHdYPniLhBBnof4yTmp9Op8iKEb1jq4w6BuimyHenlg7ibwsFdOBeVG2r
- P1wKi6YJr0E3E0s/+M4ZSNhjH1c147Tcf/Sa+2W9E9u/2soY/pj4px+DIFThgQSFA5hr
- 90cXemtCd2TH1ehjTCngfsZzluM1ZIbjim8mMAyv/CPYr2TrkIeui8IAIWtyrskACQCL
- rpHw==
-X-Gm-Message-State: AOAM530JV2Hn7TCLXeimPH+MVqVbg6wScyRRkNaqu4xyIIfcivhSWjXe
- j9syVRbs0MqaMkrcu/5cxlXQqMoJ+VzWEi6rMcoBrQ==
-X-Google-Smtp-Source: ABdhPJwqTklvotR9LbnbPWDna0E/3csMrWphC75ewwvNxmZ2rg11wkD8Dt31hlSAGFCDJOPSPPQUYSYIZd/CqiU4Roo=
-X-Received: by 2002:aca:d682:: with SMTP id n124mr174005oig.128.1626963450521; 
- Thu, 22 Jul 2021 07:17:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
- <20210722092929.244629-3-desmondcheongzx@gmail.com>
- <YPlKCc7Sep71xjBC@phenom.ffwll.local>
- <5b8b3bd5-7519-e383-cb84-f354d898dc81@gmail.com>
-In-Reply-To: <5b8b3bd5-7519-e383-cb84-f354d898dc81@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Thu, 22 Jul 2021 16:17:17 +0200
-Message-ID: <CAKMK7uGOFaC4+Avta5e4vVyhy3XWof=WbUcPmBKWVGo7PYNONA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm: clarify lifetime/locking for drm_master's lease
- fields
+ Thu, 22 Jul 2021 14:47:34 +0000 (UTC)
+Received: from smtpclient.apple (p5b3d2eb8.dip0.t-ipconnect.de [91.61.46.184])
+ by mail.holtmann.org (Postfix) with ESMTPSA id E3DF1CECDF;
+ Thu, 22 Jul 2021 16:39:12 +0200 (CEST)
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.100.0.2.22\))
+Subject: Re: [PATCH] Bluetooth: skip invalid hci_sync_conn_complete_evt
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20210721101710.82974-1-desmondcheongzx@gmail.com>
+Date: Thu, 22 Jul 2021 16:39:12 +0200
+Message-Id: <A47B24AE-C807-4ADA-B0F7-8283ACC83BF7@holtmann.org>
+References: <20210721101710.82974-1-desmondcheongzx@gmail.com>
 To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc: Dave Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel-mentees@lists.linuxfoundation.org, Zack Rusin <zackr@vmware.com>
+X-Mailer: Apple Mail (2.3654.100.0.2.22)
+Cc: Johan Hedberg <johan.hedberg@gmail.com>,
+ "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
+ syzbot+66264bf2fd0476be7e6c@syzkaller.appspotmail.com,
+ open list <linux-kernel@vger.kernel.org>,
+ linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,191 +87,49 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 22, 2021 at 3:03 PM Desmond Cheong Zhi Xi
-<desmondcheongzx@gmail.com> wrote:
->
-> On 22/7/21 6:35 pm, Daniel Vetter wrote:
-> > On Thu, Jul 22, 2021 at 05:29:28PM +0800, Desmond Cheong Zhi Xi wrote:
-> >> In particular, we make it clear that &drm_device.mode_config.idr_mutex
-> >> protects the lease idr and list structures for drm_master. The lessor
-> >> field itself doesn't need to be protected as it doesn't change after
-> >> it's set in drm_lease_create.
-> >>
-> >> Additionally, we add descriptions for the lifetime of lessors and
-> >> leases to make it easier to reason about them.
-> >>
-> >> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> >> ---
-> >>   include/drm/drm_auth.h | 62 ++++++++++++++++++++++++++++++++++--------
-> >>   1 file changed, 51 insertions(+), 11 deletions(-)
-> >>
-> >> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-> >> index f99d3417f304..c978c85464fa 100644
-> >> --- a/include/drm/drm_auth.h
-> >> +++ b/include/drm/drm_auth.h
-> >> @@ -58,12 +58,6 @@ struct drm_lock_data {
-> >>    * @refcount: Refcount for this master object.
-> >>    * @dev: Link back to the DRM device
-> >>    * @driver_priv: Pointer to driver-private information.
-> >> - * @lessor: Lease holder
-> >> - * @lessee_id: id for lessees. Owners always have id 0
-> >> - * @lessee_list: other lessees of the same master
-> >> - * @lessees: drm_masters leasing from this one
-> >> - * @leases: Objects leased to this drm_master.
-> >> - * @lessee_idr: All lessees under this owner (only used where lessor == NULL)
-> >>    *
-> >>    * Note that master structures are only relevant for the legacy/primary device
-> >>    * nodes, hence there can only be one per device, not one per drm_minor.
-> >> @@ -88,17 +82,63 @@ struct drm_master {
-> >>      struct idr magic_map;
-> >>      void *driver_priv;
-> >>
-> >> -    /* Tree of display resource leases, each of which is a drm_master struct
-> >> -     * All of these get activated simultaneously, so drm_device master points
-> >> -     * at the top of the tree (for which lessor is NULL). Protected by
-> >> -     * &drm_device.mode_config.idr_mutex.
-> >> +    /**
-> >> +     * @lessor:
-> >> +     *
-> >> +     * Lease holder. The lessor does not change once it's set in
-> >
-> > Lessor is the lease grantor, lessee is the one receiving the lease. Maybe
-> > clarify this with
-> >
-> > "Lease grantor, only set if this struct drm_master represents a lessee
-> > holding a lease of objects from @lessor. Full owners of the device have
-> > this set to NULL."
-> >
-> >> +     * drm_lease_create(). Each lessee holds a reference to its lessor that
-> >
-> > I also figured it'd be a good idea to link to the drm_lease docs here to
-> > explain the concepts, but alas we don't have those :-( Hence at least
-> > define what we mean with lessor, lessee, lease and owner.
-> >
->
-> Thanks for the suggestions, Daniel. I'll incorporate them in a v2.
->
-> Regarding the missing drm_lease docs... any reason we can't just add it
-> in? Seems like most of the comments in drm_lease.c are almost correctly
-> formatted too. I could clean them up, define the terms in a preamble,
-> then add it to the v2 patch.
+Hi Desmond,
 
-Sure if you want to do that, that would be great. Usual style tips:
-- We only document driver interfaces, so structs/inline functions in
-headers and exported symbols in .c files.
-- Anything else interesting just leave as normal C comments
-- An overview DOC: section that explains a bit how leases work and why
-(git blame on the commit that added it should help, otherwise I can
-type that up) would also be really great.
+> Syzbot reported a corrupted list in kobject_add_internal [1]. This
+> happens when multiple HCI_EV_SYNC_CONN_COMPLETE event packets with
+> status 0 are sent for the same HCI connection. This causes us to
+> register the device more than once which corrupts the kset list.
 
-I think the right place for this is in the drm-uapi.rst section after
-the section about primary nodes:
+and that is actually forbidden by the spec. So we need to complain loudly that such a device is misbehaving.
 
-https://dri.freedesktop.org/docs/drm/gpu/drm-kms.html#modeset-base-object-abstraction
+> To fix this, in hci_sync_conn_complete_evt, we check whether we're
+> trying to process the same HCI_EV_SYNC_CONN_COMPLETE event multiple
+> times for one connection. If that's the case, the event is invalid, so
+> we skip further processing and exit.
+> 
+> Link: https://syzkaller.appspot.com/bug?extid=66264bf2fd0476be7e6c [1]
+> Reported-by: syzbot+66264bf2fd0476be7e6c@syzkaller.appspotmail.com
+> Tested-by: syzbot+66264bf2fd0476be7e6c@syzkaller.appspotmail.com
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> ---
+> net/bluetooth/hci_event.c | 2 ++
+> 1 file changed, 2 insertions(+)
+> 
+> diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
+> index 016b2999f219..091a92338492 100644
+> --- a/net/bluetooth/hci_event.c
+> +++ b/net/bluetooth/hci_event.c
+> @@ -4373,6 +4373,8 @@ static void hci_sync_conn_complete_evt(struct hci_dev *hdev,
+> 
+> 	switch (ev->status) {
+> 	case 0x00:
+> +		if (conn->state == BT_CONNECTED)
+> +			goto unlock;  /* Already connected, event not valid */
 
-Cheers, Daniel
+The comment has go above and be a lot more details since this is not expected behavior from valid hardware and we should add a bt_dev_err as well.
 
+> 		conn->handle = __le16_to_cpu(ev->handle);
+> 		conn->state  = BT_CONNECTED;
+> 		conn->type   = ev->link_type;
 
->
-> >> +     * it releases upon being destroyed in drm_lease_destroy().
-> >> +     *
-> >> +     * Display resource leases form a tree of &struct drm_master. All of
-> >
-> > For now we've limited the tree to a depth of 1, you can't create another
-> > lease if yourself are a lease. I guess another reason to update the
-> > drm_lease.c docs.
-> >
-> > So maybe add "Currently the lease tree depth is limited to 1."
-> >
-> >> +     * these get activated simultaneously, so &drm_device.master
-> >> +     * points at the top of the tree (for which lessor is NULL).
-> >>       */
-> >> -
-> >>      struct drm_master *lessor;
-> >> +
-> >> +    /**
-> >> +     * @lessee_id:
-> >> +     *
-> >> +     * ID for lessees. Owners always have ID 0. Protected by
-> >
-> > Maybe clarify to "Owners (i.e. @lessor is NULL) ..."
-> >
-> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-> >> +     */
-> >>      int     lessee_id;
-> >> +
-> >> +    /**
-> >> +     * @lessee_list:
-> >> +     *
-> >> +     * List of lessees of the same master. Protected by
-> >
-> > We try to distinguis between list entries and the list, even though it's
-> > the same struct. So maybe
-> >
-> > "List entry of lessees of @lessor, where they are linked to @lessee. Not
-> > use for owners."
-> >
-> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-> >
-> >> +     */
-> >>      struct list_head lessee_list;
-> >> +
-> >> +    /**
-> >> +     * @lessees:
-> >> +     *
-> >> +     * List of drm_masters leasing from this one. Protected by
-> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-> >> +     *
-> >> +     * This master cannot be destroyed unless this list is empty as lessors
-> >> +     * are referenced by all their lessees.
-> >
-> > Maybe add "this list is empty of no leases have been granted."
-> >
-> >> +     */
-> >>      struct list_head lessees;
-> >> +
-> >> +    /**
-> >> +     * @leases:
-> >> +     *
-> >> +     * Objects leased to this drm_master. Protected by
-> >> +     * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-> >> +     *
-> >> +     * Objects are leased all together in drm_lease_create(), and are
-> >> +     * removed all together when the lease is revoked.
-> >> +     */
-> >>      struct idr leases;
-> >> +
-> >> +    /**
-> >> +     * @lessee_idr:
-> >> +     *
-> >> +     * All lessees under this owner (only used where lessor is NULL).
-> >
-> > @lessor so it's highlighted correctly
-> >
-> >> +     * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
-> >> +     */
-> >>      struct idr lessee_idr;
-> >>      /* private: */
-> >
-> > With the nits addressed:
-> >
-> > Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
-> > Thanks for updating the docs!
-> > -Daniel
-> >
-> >>   #if IS_ENABLED(CONFIG_DRM_LEGACY)
-> >> --
-> >> 2.25.1
-> >>
-> >
->
+Regards
 
+Marcel
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
