@@ -2,105 +2,89 @@ Return-Path: <SRS0=Q5UI=MQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C59BC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Jul 2021 11:19:33 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF4AC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Jul 2021 12:12:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1B57A60BD3
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Jul 2021 11:19:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1B57A60BD3
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 19A7D60EB5
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 24 Jul 2021 12:12:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 19A7D60EB5
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CE1E9401F1;
-	Sat, 24 Jul 2021 11:19:32 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id CEED74067C;
+	Sat, 24 Jul 2021 12:12:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AHGrznPwN9cw; Sat, 24 Jul 2021 11:19:32 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3siSLdloVAVo; Sat, 24 Jul 2021 12:12:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 264F4401B2;
-	Sat, 24 Jul 2021 11:19:32 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id AD857414CD;
+	Sat, 24 Jul 2021 12:12:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 02D9BC001A;
-	Sat, 24 Jul 2021 11:19:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54A44C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 750D0C001A;
+	Sat, 24 Jul 2021 12:12:07 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C521C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Jul 2021 11:19:30 +0000 (UTC)
+ Sat, 24 Jul 2021 12:12:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3646E60768
+ by smtp1.osuosl.org (Postfix) with ESMTP id 70C0683852
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Jul 2021 11:19:30 +0000 (UTC)
+ Sat, 24 Jul 2021 12:12:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 838BKzvUNeBX
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=anirudhrb.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fbYwfEaP7me5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Jul 2021 11:19:29 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B55BD6071F
+ Sat, 24 Jul 2021 12:12:04 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
+ [136.143.188.53])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 7268D83490
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Jul 2021 11:19:29 +0000 (UTC)
-Received: by mail-pl1-x62a.google.com with SMTP id e10so6255442pls.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Jul 2021 04:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JtMk+ANh4DuxEoD3swFwLh1zqoMdf700cXOW5hW9VCs=;
- b=pjZCOOSFL9/1Jw3Kg+6QQe9VtN1niEfY89EHxMu2RoDJIEEM3GeExXQpN+6n0Xdh0n
- u3HHiSB0Pr2kaUCJAsdbnVgBec3Tj7lKVUqCJMkU4HmsiR/xQTTeTO7yt/NmDhREyB5E
- kBMMPhhuOaypHSgt3N7xROk3xAjJpTJK+cFdAi3zC4zBWsYEsmCrdr3nl4cTOTJpeA8D
- upOLTZFpnhjkCD/J+HNokKPkQVsLXM3wOnL+SoAZlEFXN4yMtc9mDrIUTkKqLOpvRUJ+
- Wb5ne6DvJONJAgV6jIQFjgvoPUE8R3VbBrGBu4zmY9D/gI68zp8/6ufehAu953/2wlNq
- 6oCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JtMk+ANh4DuxEoD3swFwLh1zqoMdf700cXOW5hW9VCs=;
- b=XBvuDusTwZqmWEgrB/rbuYdZxTytGamtZ8zWn1XX2GE+J7qZD6am6udw5qSJ20/+OA
- 1rGj3gJukhSFhjyBoXrLLKRy0rz3TK/axBSlp7CwVcJKKDd+agQgCF1LlraNIHe+3uEM
- ruVlp7pQQM4DD69VDZZlm9J5zOAa9NDetTtMxycKNA9QHTH1NP5Lv25YDajsjSM4E98+
- 6i474Wg3gJ09rKji2SqgnVkI/64vrasP6d+qEH50V6wLHA/c+ADb8+JyMTPMKClHepNS
- oG9ulovLsIvf00LsvSVXJL0cOfLw8RbtSpmCSnt3+eZ0m8l6xhRxT6O2UXapdMPAtlKc
- GRGQ==
-X-Gm-Message-State: AOAM532ehVR3UdyL4uEqXtYeN3q6M7dfAhZvbOlLZwCJe3q0Wxrdgopa
- 5H1ZNRo0l4qOTUcngrhJJR4=
-X-Google-Smtp-Source: ABdhPJwjecatOou2FojjS4Q5ivhQZzJu9dQ5hERPjw61bfMZF5fKRgk86NeYWnsy8MHcwdqY3PoxRg==
-X-Received: by 2002:a63:4d61:: with SMTP id n33mr9008079pgl.219.1627125569239; 
- Sat, 24 Jul 2021 04:19:29 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id v15sm21310057pff.105.2021.07.24.04.19.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Jul 2021 04:19:28 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: linux-graphics-maintainer@vmware.com, zackr@vmware.com, airlied@linux.ie,
- daniel@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net
-Subject: [PATCH v2 3/3] drm/vmwgfx: fix potential UAF in vmwgfx_surface.c
-Date: Sat, 24 Jul 2021 19:18:24 +0800
-Message-Id: <20210724111824.59266-4-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210724111824.59266-1-desmondcheongzx@gmail.com>
-References: <20210724111824.59266-1-desmondcheongzx@gmail.com>
+ Sat, 24 Jul 2021 12:12:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1627128719; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=kvLQRvEpQMElxZAbpLLTQwts/J8tNUM7zjxqSUnCWN3CB4NppZynu6IVjCzWovcZJ6h2liepY0ChUsZSFUm7/qEI9KCn2brCZyU9UieErewLyrHatbRm5Oztpnf1u8pyVpc5yd6BCcxlGjsDeZkE4QjVGJ4d9SMfviJB8ImwFnc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1627128719;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=Gwqi7qz2xySqwvKyeGIDtfL3RZb4Fe+2154Q1TOO/FU=; 
+ b=AA7fbXmzdTjxAlvISZMl2kGyYlhjwHG5OOrxdoXwwJ5nUJ7qiwAna5FlFQC9/3BVJMobIJwlXFnLWPuCOHbnr70RBOo57AmypWIBeG6bF20JlJzfz/jglJK344GL9QhWfBiFlwnOgSZg8ycWE9vchPJ9Z3IsXz5eo3KkA1HogpM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=anirudhrb.com;
+ spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+ dmarc=pass header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1627128719; 
+ s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+ bh=Gwqi7qz2xySqwvKyeGIDtfL3RZb4Fe+2154Q1TOO/FU=;
+ b=yg7ZueEKxKRe3SgPS7bLtiDP+tq+2PwQr62WBFrTlZOIlPrN+/wNkBgzd3QpyViX
+ Z2r0Jh6gRqkVXTq7U29hQCCH03RsVUEFsFUxkUydJWrLFlOMt3bx/ccmk5oPCznANrS
+ ypePK8Sy6xZrCHY6WiGdXaEIkc9grUtDSSUR1X0Y=
+Received: from localhost.localdomain (106.51.107.3 [106.51.107.3]) by
+ mx.zohomail.com with SMTPS id 1627128715051669.0032074506994;
+ Sat, 24 Jul 2021 05:11:55 -0700 (PDT)
+From: Anirudh Rayabharam <mail@anirudhrb.com>
+To: mcgrof@kernel.org, gregkh@linuxfoundation.org, rafael@kernel.org,
+ skhan@linuxfoundation.org
+Subject: [PATCH v7 0/2] firmware_loader: fix uaf in firmware_fallback_sysfs
+Date: Sat, 24 Jul 2021 17:41:32 +0530
+Message-Id: <20210724121134.6364-1-mail@anirudhrb.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-ZohoMailClient: External
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,44 +102,57 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-drm_file.master should be protected by either drm_device.master_mutex
-or drm_file.master_lookup_lock when being dereferenced. However,
-drm_master_get is called on unprotected file_priv->master pointers in
-vmw_surface_define_ioctl and vmw_gb_surface_define_internal.
+This series fixes the use after free in firmware_fallback_sysfs reported
+by syzbot at:
 
-This is fixed by replacing drm_master_get with drm_file_get_master.
+https://syzkaller.appspot.com/bug?extid=de271708674e2093097b
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Reviewed-by: Zack Rusin <zackr@vmware.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_surface.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The first patch gets rid of the -EAGAIN return since it doesn't make
+sense (see patch description for more info). The second patch goes on to
+actually fix the use after free issue.
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-index 0eba47762bed..5d53a5f9d123 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_surface.c
-@@ -865,7 +865,7 @@ int vmw_surface_define_ioctl(struct drm_device *dev, void *data,
- 	user_srf->prime.base.shareable = false;
- 	user_srf->prime.base.tfile = NULL;
- 	if (drm_is_primary_client(file_priv))
--		user_srf->master = drm_master_get(file_priv->master);
-+		user_srf->master = drm_file_get_master(file_priv);
- 
- 	/**
- 	 * From this point, the generic resource management functions
-@@ -1534,7 +1534,7 @@ vmw_gb_surface_define_internal(struct drm_device *dev,
- 
- 	user_srf = container_of(srf, struct vmw_user_surface, srf);
- 	if (drm_is_primary_client(file_priv))
--		user_srf->master = drm_master_get(file_priv->master);
-+		user_srf->master = drm_file_get_master(file_priv);
- 
- 	res = &user_srf->srf.res;
- 
+Changes in v7:
+1. Don't move the error handling code from fw_load_sysfs_fallback
+   to fw_sysfs_wait_timeout to simplify the patch. Also, the move
+   is unnecessary.
+
+2. Fix the commit log for the patch 1 as per Luis' suggestions.
+
+Changes in v6:
+1. v5 didn't actually remove -EAGAIN. So, fixed that.
+
+Changes in v5:
+1. Split the patch into two patches as discussed here:
+   https://lore.kernel.org/lkml/20210715232105.am4wsxfclj2ufjdw@garbanzo/
+
+Changes in v4:
+Documented the reasons behind the error codes returned from
+fw_sysfs_wait_timeout() as suggested by Luis Chamberlain.
+
+Changes in v3:
+Modified the patch to incorporate suggestions by Luis Chamberlain in
+order to fix the root cause instead of applying a "band-aid" kind of
+fix.
+https://lore.kernel.org/lkml/20210403013143.GV4332@42.do-not-panic.com/
+
+Changes in v2:
+1. Fixed 1 error and 1 warning (in the commit message) reported by
+checkpatch.pl. The error was regarding the format for referring to
+another commit "commit <sha> ("oneline")". The warning was for line
+longer than 75 chars.
+
+Anirudh Rayabharam (2):
+  firmware_loader: use -ETIMEDOUT instead of -EAGAIN in
+    fw_load_sysfs_fallback
+  firmware_loader: fix use-after-free in firmware_fallback_sysfs
+
+ drivers/base/firmware_loader/fallback.c | 12 +++++++-----
+ drivers/base/firmware_loader/firmware.h |  6 +++++-
+ drivers/base/firmware_loader/main.c     |  2 ++
+ 3 files changed, 14 insertions(+), 6 deletions(-)
+
 -- 
-2.25.1
+2.26.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
