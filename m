@@ -2,106 +2,208 @@ Return-Path: <SRS0=XAjZ=MR=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CAB4C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Jul 2021 06:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6B0C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Jul 2021 13:49:42 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B7A6560E09
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Jul 2021 06:20:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B7A6560E09
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 677CE60F37
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Jul 2021 13:49:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 677CE60F37
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 86302605D6;
-	Sun, 25 Jul 2021 06:20:01 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2523E6069B;
+	Sun, 25 Jul 2021 13:49:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M62gt6htMlI7; Sun, 25 Jul 2021 06:20:00 +0000 (UTC)
+	with ESMTP id VT-8nm2zSicu; Sun, 25 Jul 2021 13:49:41 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 85B56605D4;
-	Sun, 25 Jul 2021 06:20:00 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 30920605C3;
+	Sun, 25 Jul 2021 13:49:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BBA3C001A;
-	Sun, 25 Jul 2021 06:20:00 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 68CA0C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 062EAC0010;
+	Sun, 25 Jul 2021 13:49:41 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C5BD5C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 06:19:59 +0000 (UTC)
+ Sun, 25 Jul 2021 13:49:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 43C49605D6
+ by smtp1.osuosl.org (Postfix) with ESMTP id AE2EA8308A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 06:19:59 +0000 (UTC)
+ Sun, 25 Jul 2021 13:49:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XePWeRLkABGq
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=oracle.com header.b="MKag3+ak";
+ dkim=pass (2048-bit key) header.d=oracle.com header.b="SGTlNxj4";
+ dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com
+ header.b="eCBV5ZN/"
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dl72vl-Kyzul
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 06:19:58 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 5A150605D4
+ Sun, 25 Jul 2021 13:49:38 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 5068283096
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 06:19:58 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id d1so668217pll.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 24 Jul 2021 23:19:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:subject:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=5yDM229yNO4FMxdb7dwYLFirB4+FBvYJjOIDRQxk/Cc=;
- b=h3F0BeXYlOP4WTv6Kb5n6O+Jum9MOc5kZie2OxbkuO3iYS0QVBwrxPEdPXtQ8ABT7K
- HhmJkuonP1SN7NgHDpOWzFQYL9ZZ1IvFKFq9ipwYBcLZe7ewKPMnvbMc0DNYkMUZLobw
- CVkDvvsMncmoJRqOpBQoLlHvcKNd5GaS+QqDjQY/QTrY4x2WxrGlZ7qbZkK+qoLGdaDZ
- UqpgypA3ySCqNxgZD4tpM7bH/JACxcgMoYDSZx4+lsEVieMlFbQIK/1NNwS7uPlpmVF2
- unq8PAD8jz5T7Gt8c8p3o5AYuEp46ZcAY2kzVk0UWvJkTQJvwyistGm4hNXND5j0Na3s
- KaQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:subject:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5yDM229yNO4FMxdb7dwYLFirB4+FBvYJjOIDRQxk/Cc=;
- b=HYCxef56apFnWdZbxwS6GXE/5EAJW9aI2/HLePg/UHdB/AHaOr9FdEpBU7R3lW7da1
- g8Kfl7FV7OfevR91EtRKSh+AOyclfSVSfKwd/pvG9kSnuU6rSK9vy7WnjVtzGZ57YNlS
- C1+u86bBKcux2IsS6PQ4uml31PEGiOCKXHCo3EINsDfrZVUX9BxWbmmv3AscFy8XX0wj
- WoCpnxj3wGkGNfSjrBDzKA+QUK/bi1M4M5H66MombZa43HUzkuCwc/Ghak7jSf6ihPIi
- f0n7iqZEqw6sX4Ij7bvwsQQzbE8SUjPIYvLymbfWZ6KxHdvMqAqx6Qfu6TPGhvS/0A/j
- RdqA==
-X-Gm-Message-State: AOAM532MS9W50TQUkv0zv6ceJiwCnDX/kpXLNsRcsMw4YoGKP1KoYmf6
- 271f+X+mG2JQbVbAKM6YSIY=
-X-Google-Smtp-Source: ABdhPJwKpWDg+QUDLNjSAlISCC6Nynf1fAnEo7wHYEheWFlCKMokM7k6e8PbgtTg2hcxq5LodYjC5Q==
-X-Received: by 2002:aa7:8683:0:b029:32e:2a35:941e with SMTP id
- d3-20020aa786830000b029032e2a35941emr12113330pfo.44.1627193997717; 
- Sat, 24 Jul 2021 23:19:57 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id w18sm35874120pjg.50.2021.07.24.23.19.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Jul 2021 23:19:57 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+ Sun, 25 Jul 2021 13:49:38 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16PDmGlQ010137; Sun, 25 Jul 2021 13:49:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : from : cc : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
+ b=MKag3+akm1trlsuYlYli3q7cWJ6pPnJdmN8VIutTN0rlhZ/J4/yJDasypTJgbniVTxlO
+ s3MUvwJMRBSFaBdEdIYXBMIJmZVsLrPPiev3kaP6FCsxWVr2GKqqPAhZhewatg9CU+1T
+ qOQUd1+vCuhUuZvqZihzyYWOsGT0qw4Blb1dhgJYh07EgXTiO965RQ1Qxo3Vu/X7zefO
+ s7OVftq9vF3qj8DpFwtB/YsCearDLxk9ZfzqcltNXuQdy+0/acS6nXusJy1cTcU8P4au
+ haOg6Efr6LGyUudjtYHzXuhW+PtqpPZMzv7vAFdfN8M1U4KlGOfS5wfjRL5uu5qFM056 7w== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to :
+ references : from : cc : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
+ b=SGTlNxj4FlTZV/DrIUEswC233crAdn6MoKUNyIh3Unr6T5k0hhsHwweEZ/JN++gVrA96
+ +D17yaEEyHAOcHpG1qJXNKJ5I6xurdi0vDFW0l7C5ZzE0N5NLBw/GbU/LEQZWMaXd8lo
+ 1hirWiUHW+zke99Q1LyTG72G4X712zcuNgXQ8kXgoe6ZihowJvTFBKkpD/sOSYi7qSay
+ ewhsDJFCBvy35+WNLSGX2wskqtexF/lDgswmlYy344TnPTMxrZMdWj1UxYaLD00K7mM9
+ jSKfygeEipoQbKHhj6jtvuUtWSpi6daCQ/Ok4yRHNTkl1lfnDem4fJksc+uOQ+C8Ey1R Bw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3a099c1gxc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 25 Jul 2021 13:49:33 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16PDkc8f153689;
+ Sun, 25 Jul 2021 13:49:32 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
+ by userp3020.oracle.com with ESMTP id 3a0vmrakbg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 25 Jul 2021 13:49:32 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cfE22kadDoSq2l33SWvYeS5pQs/Ypx1yQcKqiyeWnK45gfvA5n8lyTJ9lESYuCUbqATV2JZUX8M90OGMV6HyJOD04wEqtqiEoj9hdrdPN0aU7saCE4NmRKxVrU58C9KqakPFMRcK0KcIr7L4AigPGhYepisBa2PacQSOcAJGqIGJArFdOuSrlS8jZpYwWr0M80XJyp3cOvSlSYzMzOwK9NhooS3bRQ5k17LgbWpVMadaOcCNQtBisDSjGyo5p4VNLQccHfdhSoRn08oARrktbnpXo9q20RFdq6tImwkOC2bedrCfP6KrMFiQmLoqzWWswpM1CAnzNPyH65Rb704R6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
+ b=S2sJZdejq9ihTE2aeQENFs8oJTiJ7DAHWjQ/1bht9L+HTnAl55jGI60pNXv/qqFRgkVdWooSyDIjcP1cFAcMgBNEBbr+vbBW6w8l595Q/Gyu94x2MpSDC7Q0Ec18ZJpN80muUb7QhG82bg+KhjHQBLfKeqjF9HJ+c/CbfrnS7b0NuX1KOESUsVPXRte89h5ZUd7cTBuvM5zTtL7Ucj1qHb6ZtYOxvHgcd5jMJSIuOCwbbh5wTPXvzT51Fc7enjxwNQ+0EJBBUOFF8Gkd3b6vVY8OrkIenXL70+NTAQwRS1g8pchCqY3ytJFIQs9n0fD+PSaDwvujYCjaYQSB/K5H5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
+ b=eCBV5ZN/HbxV32Vf6rkD9S4l4rVlAuw6V+XoHRHgK8N0+SI7jpNYOMdes2PPxbKNmrG20gb3XaVa9fVdg/U2Kem9yhUkitC/n62JRdmiAmWx2NZqH2af27xeoKcR2tPJq0dGjBew+xfiE1U6SQ1+Fbmi6CT29xrGkMtlBxoYtlM=
+Authentication-Results: syzkaller.appspotmail.com; dkim=none (message not
+ signed) header.d=none;syzkaller.appspotmail.com; dmarc=none action=none
+ header.from=oracle.com;
+Received: from MN2PR10MB4128.namprd10.prod.outlook.com (2603:10b6:208:1d2::24)
+ by BLAPR10MB4820.namprd10.prod.outlook.com (2603:10b6:208:30c::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Sun, 25 Jul
+ 2021 13:49:29 +0000
+Received: from MN2PR10MB4128.namprd10.prod.outlook.com
+ ([fe80::b10f:7144:1abb:4255]) by MN2PR10MB4128.namprd10.prod.outlook.com
+ ([fe80::b10f:7144:1abb:4255%3]) with mapi id 15.20.4352.031; Sun, 25 Jul 2021
+ 13:49:28 +0000
 Subject: Re: [PATCH] btrfs: fix rw device counting in __btrfs_free_extra_devids
-To: dsterba@suse.cz, clm@fb.com, josef@toxicpanda.com, dsterba@suse.com,
- anand.jain@oracle.com, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+To: dsterba@suse.cz, dsterba@suse.com
 References: <20210715103403.176695-1-desmondcheongzx@gmail.com>
  <20210721175938.GP19710@twin.jikos.cz>
-Message-ID: <9119934f-fb61-3b55-655c-9a7552e0b30b@gmail.com>
-Date: Sun, 25 Jul 2021 14:19:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
+From: Anand Jain <anand.jain@oracle.com>
+Message-ID: <24c7304c-9a38-278b-0ae5-78edb225cb4c@oracle.com>
+Date: Sun, 25 Jul 2021 21:49:17 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 In-Reply-To: <20210721175938.GP19710@twin.jikos.cz>
 Content-Language: en-US
+X-ClientProxiedBy: SG2PR06CA0108.apcprd06.prod.outlook.com
+ (2603:1096:3:14::34) To MN2PR10MB4128.namprd10.prod.outlook.com
+ (2603:10b6:208:1d2::24)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.10.109] (39.109.186.25) by
+ SG2PR06CA0108.apcprd06.prod.outlook.com (2603:1096:3:14::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4352.26 via Frontend Transport; Sun, 25 Jul 2021 13:49:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6ccc470c-e13f-4773-9091-08d94f7305b9
+X-MS-TrafficTypeDiagnostic: BLAPR10MB4820:
+X-Microsoft-Antispam-PRVS: <BLAPR10MB48200C565E1290A934F2AE1FE5E79@BLAPR10MB4820.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7amejw0nMR1zr1hBbjckWW6y9vWVpOY7LGQVjTa2ds/Ocp6RwbtVE3oEggMlhl1y0GEM0vs0iimpZN2z4HXe3CDTwGbW3ea0mLsUEd7KHUQiwPop0ljturmmU+HjX95YeSQHuKmHxkkgSsJS7mMEEWpzYgBj0pB8TCBRoF0FxeYpiGrvHhjQ8ld2kI6CHyezCXy2SpOC68aM7L9zgmFzJZUIcGt0DcaeXWM1VONydEg4nFoh/jKOgX6SZgeWkNnHbUaGrQhAhntMsJmb/3BHB5haigFJQJJIUBi5tVxYa2WuhylsKoI1+MTCmD9djBdCFRa/M/xVo/lfBGV6cDA2j4nX1cidqZnFVUqu4ikLv2XDxKAB5YCM2l7tlDiRoFuQepS+mjeV/TPkfxHvIaD2sFKzHCwECyNub5eV7DmWzfOVr/f4DSW0+0a2LFKTH26jxJdPFtSgKP2ahCYVS+X6B0t83eBc/ah7z/sAEZTYr79L2FIe6Slljpx70hgndpUtG8YU0lDhDfpN96hO+17MwG1vHcEBqeAoUUonGHzxBFY2ZpJ9WSCfUu/v6oO0rZg+nbaih+0dXPb9zDjMer42yfLVmH30srcZ7NxVRiF9HoKLaizKtmqcd1nAIC1hHy/nvMRf+vqzJr0/zloBHi0s42BJnlLG3AuNFbhBnqItaBmi1KkP2kmWPCeWe1bmX2ygROAEm2q2JmQBaaYfiiWAKOZiWLMVwwsKHYkwPuXTOXzXdfzsM391PrAYwbDI4KoRivmGSR42Pxh4MWUkvrQFSF1f+8VoleOKPD3KN3NjGtoyclnWasZPRK2e0hsV24v/
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(396003)(366004)(136003)(376002)(346002)(31686004)(7416002)(8936002)(6486002)(6666004)(83380400001)(36756003)(8676002)(16576012)(316002)(86362001)(66556008)(66946007)(66476007)(478600001)(31696002)(44832011)(4326008)(53546011)(2906002)(5660300002)(2616005)(956004)(186003)(26005)(38100700002)(966005)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NzVnN1dqb2VvTXl0bXVmOGFNUTVZWXlqRURDeEdNb0RzdStkRFhJbTN3NHAw?=
+ =?utf-8?B?blBMbEoyanBId1RUcnY1Wi9Uem5LOVFFOUhBRXAvK3ZmUGpmUXYvb20yYXBQ?=
+ =?utf-8?B?TlQ1RFNGSUJiZEdVMnZlMkc1QUNDd0xWdmlBdFZTTGV5VTBLYkNheHByOC83?=
+ =?utf-8?B?dWsxSktzeHdQcVZiRXBtQ3FqR2JRSnF5ZWp3aVlCN3RHc1B0Tm16R3BkTXdH?=
+ =?utf-8?B?Sk91TE9sQlFmcGZ3SWlqZ25sbWFmUFJuVUU4STBEbFZnbEJ2cGp2bWtXdElo?=
+ =?utf-8?B?RGgvMDd2a0F2eUZ3RUxINUh3bnlpdzdWczdRMUFqQUI1ZWdtVlVwSVAyZ09E?=
+ =?utf-8?B?bHRwbjNoZU5FM3UyL1phNitlU2dUdlliL0xoNFlWd3VzVDNDdlV6aFRqRTA4?=
+ =?utf-8?B?RUx2TkpvWHhTellxd1JhbFlaeGd1UmZwdTN1WWhzY0s0TEFIR1BsZU16RC9N?=
+ =?utf-8?B?VFFpQ0psSU0xUEF4czNNc2JGSzlFWkZsTHRxSUZtVEdXNHBZZWw1QmZFWjdM?=
+ =?utf-8?B?S1hYbHFtUTZrZlhrMm1zWWdEakFaUjRQN05QdnhUQlFQb2h4Qi9MMjJaclRV?=
+ =?utf-8?B?OGdURkN1Q3I0ZmQ3MUkrN091Rmt2UndXWFdYMTdRb05nOG1QeWFPcXpoMXUr?=
+ =?utf-8?B?eFhIUmxMOUFORTI2MGVKRmJyN3NTTkF0NXdkZm9iUHBKRTJUM3R6aVBTaEJE?=
+ =?utf-8?B?WjNKaE8zcHB4TzBBdUI4ejJDSklvS1hQSHkwNFZmT1l0YkltaUh6SEJmMVRl?=
+ =?utf-8?B?MzA2OVl6bklHM2llamRoNm9FbjFQVklSOXZlM0Y2aWVPVkw4dG9tS2pqdmJk?=
+ =?utf-8?B?RE1VUUFScnp5ZkkvU2tBQVk1YU16TnkwMDhvNzhVc3JqOGh2UHB4MTlJUGY1?=
+ =?utf-8?B?bVpBU2hWWUVwRGVYWXpXeTBZbm8weUNpbTJvd2VsYm90aG9BNFIxTWV2Ulhr?=
+ =?utf-8?B?dTNOT1EvZkcweGxzNmEva0Y5ZzJRWEJMdVN0RnljMWxINGd6THdIUnYyQ3lZ?=
+ =?utf-8?B?ZVdUSXQ4YTRLWk5JS3k2OW1na2hlUGhOSDB5SEN5dHlIZ3JQRllnK2NEQ0t6?=
+ =?utf-8?B?b1ViVUNsMWxIRWFvWGtOMmtXVnN0b2c1RlY0bW52M1VXVFdyeW5MamNBWkdF?=
+ =?utf-8?B?THRCTTI1RzRIaDZOQUVQcFBQWmgxMTBieTNucHFnOTNvSDVrNGE4bDlFNUhE?=
+ =?utf-8?B?Yy9Pc2hVNCtCMHlkUTdvdTkxd2ZHaHBVU0FZMUdvUUNpbjF0UEQvUG84bkhy?=
+ =?utf-8?B?UFRCelg5TDkrdFp6Tyt1dEYrRXNncGtEb2x0d3B1WFZqODZqL2pERkhDZmFC?=
+ =?utf-8?B?ZWFpVXJYcUluVGhoakNCTStaUlA4aEpzQ3dlWFIvWTlQblRGSldNNWdDSERU?=
+ =?utf-8?B?am9TWHZDMmxxRGVVY3h5OVhvUlI5YkplWnZhMGxGa3E3blVaT2NjUm94clp3?=
+ =?utf-8?B?b2ZjWWRxTEd2d1FvOVhYOGk0RzlyZU9RVUt5dkJqVFVSMlVidHAyS3ZyNzJj?=
+ =?utf-8?B?NEllbHNDL25rMGYwNnMxTVExaXdKN0dXa1Vsa0hQdGJkRCt4Si82dXcwS0tX?=
+ =?utf-8?B?b0VQQ1JDMi8xblNyOGNGNklZQWd2RDNBZ3g3SW11UUNVb0I2d1V5MmNvT0Ns?=
+ =?utf-8?B?SWJxemY2MEZGQmtNRGg4bmtycnl3SXhNVFViYzU5QnQwemlXTXJ2REUwZU9v?=
+ =?utf-8?B?SE42Y1hKLzZMcHhkMWNQK2s0aCtDOXFZYTdZWURIbXNVOXZhUjZCanVUb1Vt?=
+ =?utf-8?Q?i5YgAnCgyjQKNXh/Kk1GETzakZkvDEyfLOha01m?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ccc470c-e13f-4773-9091-08d94f7305b9
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4128.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2021 13:49:28.7059 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sc3Wr+hwnqHbofC/Y7ufoSJZ5Sp88m+6NwybLx6J6lmLsoHVcnJTaaOQdKQgp/3/mEQzLgll7DOYRApuHcjMPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4820
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10055
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107250099
+X-Proofpoint-GUID: CgwrumhTt-E6OMXFV83qloy1BwdU6L3h
+X-Proofpoint-ORIG-GUID: CgwrumhTt-E6OMXFV83qloy1BwdU6L3h
+Cc: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, josef@toxicpanda.com,
+ linux-kernel@vger.kernel.org, clm@fb.com,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,7 +221,9 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 22/7/21 1:59 am, David Sterba wrote:
+
+
+On 22/07/2021 01:59, David Sterba wrote:
 > On Thu, Jul 15, 2021 at 06:34:03PM +0800, Desmond Cheong Zhi Xi wrote:
 >> Syzbot reports a warning in close_fs_devices that happens because
 >> fs_devices->rw_devices is not 0 after calling btrfs_close_one_device
@@ -154,8 +258,28 @@ On 22/7/21 1:59 am, David Sterba wrote:
 >                  if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
 >                          list_del_init(&device->dev_alloc_list);
 >                          clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
+
+
+
 > -                       if (!test_bit(BTRFS_DEV_STATE_REPLACE_TGT,
 > -                                     &device->dev_state))
+
+This condition was wrong.
+The 1st roll of this patch which is here [1], has the details of why. As 
+shown below -
+
+[1]
+https://patchwork.kernel.org/project/linux-btrfs/patch/b3a0a629df98bd044a1fd5c4964f381ff6e7aa05.1600777827.git.anand.jain@oracle.com/#23640775
+
+----
+rw_devices is incremented in btrfs_open_one_device() for all write-able
+devices except for devid == BTRFS_DEV_REPLACE_DEVID.
+But while we clean up the extra devices in __btrfs_free_extra_devids()
+we used the BTRFS_DEV_STATE_REPLACE_TGT flag isn't set because
+there isn't the replace-item. So rw_devices went below zero.
+----
+
+
 > -                               fs_devices->rw_devices--;
 >                  }
 >                  list_del_init(&device->dev_list);
@@ -172,148 +296,29 @@ On 22/7/21 1:59 am, David Sterba wrote:
 >>   		list_del_init(&device->dev_list);
 >>   		fs_devices->num_devices--;
 > 
-> So should it be reinstated in the original form? The rest of
+> So should it be reinstated in the original form?
+
+No. The reason is the same as above.
+Only the rw_devices decrement line has to be restored.
+
+> The rest of
 > cf89af146b7e handles unexpected device replace item during mount.
-> 
+
 > Adding the decrement is correct, but right now I'm not sure about the
 > corner case when teh devcie has the BTRFS_DEV_STATE_REPLACE_TGT bit set.
+
+BTRFS_DEV_STATE_REPLACE_TGT is set (on BTRFS_DEV_REPLACE_DEVID) for two 
+reasons when we call replace through ioctl or during mount upon finding 
+a replace-device item.
+
 > The state machine of the device bits and counters is not trivial so
 > fixing it one way or the other could lead to further syzbot reports if
 > we don't understand the issue.
-> 
 
-Hi David,
+I agree. Also, a good idea to convert this sysbot test into an xfstests 
+case.
 
-Thanks for raising this issue. I took a closer look and I think we don't 
-have to reinstate the original form because it's a historical artifact.
-
-The short version of the story is that going by the intention of 
-__btrfs_free_extra_devids, we skip removing the replace target device. 
-Hence, by the time we've reached the decrement in question, the device 
-is not the replace target device and the BTRFS_DEV_STATE_REPLACE_TGT bit 
-should not be set.
-
-But we should also try to understand the original intention of the code. 
-The check in question was first introduced in commit 8dabb7420f01 
-("Btrfs: change core code of btrfs to support the device replace 
-operations"):
-> @@ -536,7 +553,8 @@ void btrfs_close_extra_devices(struct btrfs_fs_devices *fs_devices)
->                 if (device->writeable) {
->                         list_del_init(&device->dev_alloc_list);
->                         device->writeable = 0;
-> -                       fs_devices->rw_devices--;
-> +                       if (!device->is_tgtdev_for_dev_replace)
-> +                               fs_devices->rw_devices--;
->                 }
->                 list_del_init(&device->dev_list);
->                 fs_devices->num_devices--;
-
-If we take a trip back in time to this commit we see that 
-btrfs_dev_replace_finishing added the target device to the alloc list 
-without incrementing the rw_devices count. So this check was likely 
-originally meant to prevent under-counting of rw_devices.
-
-However, the situation has changed, following various fixes to 
-rw_devices counting. Commit 63dd86fa79db ("btrfs: fix rw_devices miss 
-match after seed replace") added an increment to rw_devices when 
-replacing a seed device with a writable one in btrfs_dev_replace_finishing:
-> diff --git a/fs/btrfs/dev-replace.c b/fs/btrfs/dev-replace.c
-> index eea26e1b2fda..fb0a7fa2f70c 100644
-> --- a/fs/btrfs/dev-replace.c
-> +++ b/fs/btrfs/dev-replace.c
-> @@ -562,6 +562,8 @@ static int btrfs_dev_replace_finishing(struct btrfs_fs_info *fs_info,
->         if (fs_info->fs_devices->latest_bdev == src_device->bdev)
->                 fs_info->fs_devices->latest_bdev = tgt_device->bdev;
->         list_add(&tgt_device->dev_alloc_list, &fs_info->fs_devices->alloc_list);
-> +       if (src_device->fs_devices->seeding)
-> +               fs_info->fs_devices->rw_devices++;
->  
->         /* replace the sysfs entry */
->         btrfs_kobj_rm_device(fs_info, src_device);
-
-This was later simplified in commit 82372bc816d7 ("Btrfs: make the logic 
-of source device removing more clear") that simply decremented 
-rw_devices in btrfs_rm_dev_replace_srcdev if the replaced device was 
-writable. This meant that the rw_devices count could be incremented in 
-btrfs_dev_replace_finishing without any checks:
-> diff --git a/fs/btrfs/dev-replace.c b/fs/btrfs/dev-replace.c
-> index e9cbbdb72978..6f662b34ba0e 100644
-> --- a/fs/btrfs/dev-replace.c
-> +++ b/fs/btrfs/dev-replace.c
-> @@ -569,8 +569,7 @@ static int btrfs_dev_replace_finishing(struct btrfs_fs_info *fs_info,
->         if (fs_info->fs_devices->latest_bdev == src_device->bdev)
->                 fs_info->fs_devices->latest_bdev = tgt_device->bdev;
->         list_add(&tgt_device->dev_alloc_list, &fs_info->fs_devices->alloc_list);
-> -       if (src_device->fs_devices->seeding)
-> -               fs_info->fs_devices->rw_devices++;
-> +       fs_info->fs_devices->rw_devices++;
->  
->         /* replace the sysfs entry */
->         btrfs_kobj_rm_device(fs_info, src_device);
-
-Thus, given the current state of the code base, the original check is 
-now incorrect, because we want to decrement rw_devices as long as the 
-device is being removed from the alloc list.
-
-To further convince ourselves of this, we can take a closer look at the 
-relation between the device with devid BTRFS_DEV_REPLACE_DEVID and the 
-BTRFS_DEV_STATE_REPLACE_TGT bit for devices.
-
-BTRFS_DEV_STATE_REPLACE_TGT is set in two places:
-- btrfs_init_dev_replace_tgtdev
-- btrfs_init_dev_replace
-
-In btrfs_init_dev_replace_tgtdev, the BTRFS_DEV_STATE_REPLACE_TGT bit is 
-set for a device allocated with devid BTRFS_DEV_REPLACE_DEVID.
-
-In btrfs_init_dev_replace, the BTRFS_DEV_STATE_REPLACE_TGT bit is set 
-for the target device found with devid BTRFS_DEV_REPLACE_DEVID.
-
- From both cases, we see that the BTRFS_DEV_STATE_REPLACE_TGT bit is set 
-only for the device with devid BTRFS_DEV_REPLACE_DEVID.
-
-It follows that if a device does not have devid BTRFS_DEV_REPLACE_DEVID, 
-then the BTRFS_DEV_STATE_REPLACE_TGT bit will not be set.
-
-With commit cf89af146b7e ("btrfs: dev-replace: fail mount if we don't 
-have replace item with target device"), we skip removing the device in 
-__btrfs_free_extra_devids as long as the devid is BTRFS_DEV_REPLACE_DEVID:
-> -               if (device->devid == BTRFS_DEV_REPLACE_DEVID) {
-> -                       /*
-> -                        * In the first step, keep the device which has
-> -                        * the correct fsid and the devid that is used
-> -                        * for the dev_replace procedure.
-> -                        * In the second step, the dev_replace state is
-> -                        * read from the device tree and it is known
-> -                        * whether the procedure is really active or
-> -                        * not, which means whether this device is
-> -                        * used or whether it should be removed.
-> -                        */
-> -                       if (step == 0 || test_bit(BTRFS_DEV_STATE_REPLACE_TGT,
-> -                                                 &device->dev_state)) {
-> -                               continue;
-> -                       }
-> -               }
-> +               /*
-> +                * We have already validated the presence of BTRFS_DEV_REPLACE_DEVID,
-> +                * in btrfs_init_dev_replace() so just continue.
-> +                */
-> +               if (device->devid == BTRFS_DEV_REPLACE_DEVID)
-> +                       continue;
-
-Given the discussion above, after we fail the check for device->devid == 
-BTRFS_DEV_REPLACE_DEVID, all devices from that point are not the replace 
-target device, and do not have the BTRFS_DEV_STATE_REPLACE_TGT bit set.
-
-So the original check for the BTRFS_DEV_STATE_REPLACE_TGT bit before 
-incrementing rw_devices is not just incorrect at this point, it's also 
-redundant.
-
-Of course, I would hate to introduce a hard-to-find bug with a bad 
-analysis, so any thoughts on this would be appreciated.
-
-Best wishes,
-Desmond
+Thanks, Anand
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
