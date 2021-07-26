@@ -2,105 +2,91 @@ Return-Path: <SRS0=f8HV=MS=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59362C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Jul 2021 17:55:23 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 238B0C4320A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Jul 2021 18:07:52 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C7D9260F6B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Jul 2021 17:55:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C7D9260F6B
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+	by mail.kernel.org (Postfix) with ESMTPS id BF88F60F90
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Jul 2021 18:07:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BF88F60F90
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8E5CA401D0;
-	Mon, 26 Jul 2021 17:55:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8FBE740264;
+	Mon, 26 Jul 2021 18:07:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ar3J9azGMSKK; Mon, 26 Jul 2021 17:55:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1F4A9401C3;
-	Mon, 26 Jul 2021 17:55:21 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id l6xYg4BWmQ2O; Mon, 26 Jul 2021 18:07:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id AC807400A9;
+	Mon, 26 Jul 2021 18:07:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ED4B8C001A;
-	Mon, 26 Jul 2021 17:55:20 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8796BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 856E4C001A;
+	Mon, 26 Jul 2021 18:07:50 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E189FC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Jul 2021 17:55:19 +0000 (UTC)
+ Mon, 26 Jul 2021 18:07:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 689DA605F7
+ by smtp1.osuosl.org (Postfix) with ESMTP id BB96A82AF8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Jul 2021 17:55:19 +0000 (UTC)
+ Mon, 26 Jul 2021 18:07:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=suse.cz header.b="sOgUfw8x";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=suse.cz header.b="Phjh5UoV"
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ub6Hro7Qu7QR
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1XRKCE9dqAw4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Jul 2021 17:55:18 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 4C72C600CA
+ Mon, 26 Jul 2021 18:07:49 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 55EB782861
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Jul 2021 17:55:18 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 8D8321FD4C;
- Mon, 26 Jul 2021 17:55:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1627322115;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GiAUuRCIK8YoHaDGXQL+7hFDjT5BNNPCMjip4/yKDHw=;
- b=sOgUfw8xnMVv/32/CFW2kROW4WK9xlfoYGPWNwCqTPxXXUh3uucpOmvJuxE3Sf0a/N7rSJ
- FLtax77vXBNdhugO/csP1xDYm+lfeFtigRB0mchxvqU02Y+uX1zwFKoWnNN9LPrncHc+KW
- g1U3FrEwZ3/85roSQ8+p4Lc+xajpd8E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1627322115;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GiAUuRCIK8YoHaDGXQL+7hFDjT5BNNPCMjip4/yKDHw=;
- b=Phjh5UoVcKgi6aKj85Yqhl9TdyQIGVD6RR/CJoC847SyW+lXy+fwfDznO0Asz8W4DfXMx7
- vtQhpmpWymPtNGAQ==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id 7A1F7A3B89;
- Mon, 26 Jul 2021 17:55:15 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id 92B6FDA8D8; Mon, 26 Jul 2021 19:52:31 +0200 (CEST)
-Date: Mon, 26 Jul 2021 19:52:31 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH] btrfs: fix rw device counting in __btrfs_free_extra_devids
-Message-ID: <20210726175230.GH5047@twin.jikos.cz>
-Mail-Followup-To: dsterba@suse.cz,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
- josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
- linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
-References: <20210715103403.176695-1-desmondcheongzx@gmail.com>
- <20210721175938.GP19710@twin.jikos.cz>
- <9119934f-fb61-3b55-655c-9a7552e0b30b@gmail.com>
+ Mon, 26 Jul 2021 18:07:49 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ k4-20020a17090a5144b02901731c776526so79405pjm.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Jul 2021 11:07:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=YkBNZMV+7n5H8gA9IlZ5jcPyGMcNQaSbW83IfLj3EX0=;
+ b=raW/gHMZLoVMQPXAxV4gHZERbRIGbcoezqGHLALTMBxtp8fXD0jsX2MA7yEswUmmO/
+ A7gw9xFTNLYE0UppvokBZ/R2j7CvDpaljoNEB8HApYuTTHViZi0vREgiF21v0EvjuPG/
+ 9gaWGcE8A1JzpwZwyr3F81ROacQWqiLOu0TGWFQeedFWFxWB9yfaTk0qYXVnmbw1LtRY
+ zTr0S7/jRXTlHulV7r+coJfANMGqDd0ySXBnKei/7we68KlPoz1cFRbqFNwdVo76cOUM
+ 0JckA1HFZE75+3ouZ4FJqcTj/mPR0JA/iSJKhIVLaw8z2VvNTa40fkQBPFx33HYRKkoI
+ SfZA==
+X-Gm-Message-State: AOAM532tUggmK7uibu5Tz0mg9RQzWJOm6hPBjhub3kpqkil/r2yeao4w
+ d0I2M1jMQuLQsevPIMRzLww=
+X-Google-Smtp-Source: ABdhPJyquPVeuk0fKONglPfRwZGtA5UjaNmEq/isQ+hwhuQ97ZzUfbz9t4tx9l7tplkg9W15sdpUIQ==
+X-Received: by 2002:a05:6a00:aca:b029:392:9c79:3a39 with SMTP id
+ c10-20020a056a000acab02903929c793a39mr10103932pfl.57.1627322868624; 
+ Mon, 26 Jul 2021 11:07:48 -0700 (PDT)
+Received: from garbanzo ([191.96.121.228])
+ by smtp.gmail.com with ESMTPSA id c17sm674361pfv.68.2021.07.26.11.07.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Jul 2021 11:07:46 -0700 (PDT)
+Date: Mon, 26 Jul 2021 11:07:44 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Anirudh Rayabharam <mail@anirudhrb.com>
+Subject: Re: [PATCH v7 1/2] firmware_loader: use -ETIMEDOUT instead of
+ -EAGAIN in fw_load_sysfs_fallback
+Message-ID: <20210726180744.crfvxbuyz2bjw2o2@garbanzo>
+References: <20210724121134.6364-1-mail@anirudhrb.com>
+ <20210724121134.6364-2-mail@anirudhrb.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <9119934f-fb61-3b55-655c-9a7552e0b30b@gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: linux-kernel@vger.kernel.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, dsterba@suse.cz,
- anand.jain@oracle.com, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
+In-Reply-To: <20210724121134.6364-2-mail@anirudhrb.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, rafael@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,207 +98,39 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jul 25, 2021 at 02:19:52PM +0800, Desmond Cheong Zhi Xi wrote:
-> On 22/7/21 1:59 am, David Sterba wrote:
-> > On Thu, Jul 15, 2021 at 06:34:03PM +0800, Desmond Cheong Zhi Xi wrote:
-> >> Syzbot reports a warning in close_fs_devices that happens because
-> >> fs_devices->rw_devices is not 0 after calling btrfs_close_one_device
-> >> on each device.
-> >>
-> >> This happens when a writeable device is removed in
-> >> __btrfs_free_extra_devids, but the rw device count is not decremented
-> >> accordingly. So when close_fs_devices is called, the removed device is
-> >> still counted and we get an off by 1 error.
-> >>
-> >> Here is one call trace that was observed:
-> >>    btrfs_mount_root():
-> >>      btrfs_scan_one_device():
-> >>        device_list_add();   <---------------- device added
-> >>      btrfs_open_devices():
-> >>        open_fs_devices():
-> >>          btrfs_open_one_device();   <-------- rw device count ++
-> >>      btrfs_fill_super():
-> >>        open_ctree():
-> >>          btrfs_free_extra_devids():
-> >> 	  __btrfs_free_extra_devids();  <--- device removed
-> >> 	  fail_tree_roots:
-> >> 	    btrfs_close_devices():
-> >> 	      close_fs_devices();   <------- rw device count off by 1
-> >>
-> >> Fixes: cf89af146b7e ("btrfs: dev-replace: fail mount if we don't have replace item with target device")
-> > 
-> > What this patch did in the last hunk was the rw_devices decrement, but
-> > conditional:
-> > 
-> > @@ -1080,9 +1071,6 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
-> >                  if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
-> >                          list_del_init(&device->dev_alloc_list);
-> >                          clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
-> > -                       if (!test_bit(BTRFS_DEV_STATE_REPLACE_TGT,
-> > -                                     &device->dev_state))
-> > -                               fs_devices->rw_devices--;
-> >                  }
-> >                  list_del_init(&device->dev_list);
-> >                  fs_devices->num_devices--;
-> > ---
-> > 
-> > 
-> >> @@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
-> >>   		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
-> >>   			list_del_init(&device->dev_alloc_list);
-> >>   			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
-> >> +			fs_devices->rw_devices--;
-> >>   		}
-> >>   		list_del_init(&device->dev_list);
-> >>   		fs_devices->num_devices--;
-> > 
-> > So should it be reinstated in the original form? The rest of
-> > cf89af146b7e handles unexpected device replace item during mount.
-> > 
-> > Adding the decrement is correct, but right now I'm not sure about the
-> > corner case when teh devcie has the BTRFS_DEV_STATE_REPLACE_TGT bit set.
-> > The state machine of the device bits and counters is not trivial so
-> > fixing it one way or the other could lead to further syzbot reports if
-> > we don't understand the issue.
-> > 
+On Sat, Jul 24, 2021 at 05:41:33PM +0530, Anirudh Rayabharam wrote:
+> The only motivation for using -EAGAIN in commit 0542ad88fbdd81bb
+> ("firmware loader: Fix _request_firmware_load() return val for fw load
+> abort") was to distinguish the error from -ENOMEM, and so there is no
+> real reason in keeping it. -EAGAIN is typically used to tell the
+> userspace to try something again and in this case re-using the sysfs
+> loading interface cannot be retried when a timeout happens, so the
+> return value is also bogus.
 > 
-> Hi David,
+> -ETIMEDOUT is received when the wait times out and returning that
+> is much more telling of what the reason for the failure was. So, just
+> propagate that instead of returning -EAGAIN.
 > 
-> Thanks for raising this issue. I took a closer look and I think we don't 
-> have to reinstate the original form because it's a historical artifact.
-> 
-> The short version of the story is that going by the intention of 
-> __btrfs_free_extra_devids, we skip removing the replace target device. 
-> Hence, by the time we've reached the decrement in question, the device 
-> is not the replace target device and the BTRFS_DEV_STATE_REPLACE_TGT bit 
-> should not be set.
-> 
-> But we should also try to understand the original intention of the code. 
-> The check in question was first introduced in commit 8dabb7420f01 
-> ("Btrfs: change core code of btrfs to support the device replace 
-> operations"):
-> > @@ -536,7 +553,8 @@ void btrfs_close_extra_devices(struct btrfs_fs_devices *fs_devices)
-> >                 if (device->writeable) {
-> >                         list_del_init(&device->dev_alloc_list);
-> >                         device->writeable = 0;
-> > -                       fs_devices->rw_devices--;
-> > +                       if (!device->is_tgtdev_for_dev_replace)
-> > +                               fs_devices->rw_devices--;
-> >                 }
-> >                 list_del_init(&device->dev_list);
-> >                 fs_devices->num_devices--;
-> 
-> If we take a trip back in time to this commit we see that 
-> btrfs_dev_replace_finishing added the target device to the alloc list 
-> without incrementing the rw_devices count. So this check was likely 
-> originally meant to prevent under-counting of rw_devices.
-> 
-> However, the situation has changed, following various fixes to 
-> rw_devices counting. Commit 63dd86fa79db ("btrfs: fix rw_devices miss 
-> match after seed replace") added an increment to rw_devices when 
-> replacing a seed device with a writable one in btrfs_dev_replace_finishing:
-> > diff --git a/fs/btrfs/dev-replace.c b/fs/btrfs/dev-replace.c
-> > index eea26e1b2fda..fb0a7fa2f70c 100644
-> > --- a/fs/btrfs/dev-replace.c
-> > +++ b/fs/btrfs/dev-replace.c
-> > @@ -562,6 +562,8 @@ static int btrfs_dev_replace_finishing(struct btrfs_fs_info *fs_info,
-> >         if (fs_info->fs_devices->latest_bdev == src_device->bdev)
-> >                 fs_info->fs_devices->latest_bdev = tgt_device->bdev;
-> >         list_add(&tgt_device->dev_alloc_list, &fs_info->fs_devices->alloc_list);
-> > +       if (src_device->fs_devices->seeding)
-> > +               fs_info->fs_devices->rw_devices++;
-> >  
-> >         /* replace the sysfs entry */
-> >         btrfs_kobj_rm_device(fs_info, src_device);
-> 
-> This was later simplified in commit 82372bc816d7 ("Btrfs: make the logic 
-> of source device removing more clear") that simply decremented 
-> rw_devices in btrfs_rm_dev_replace_srcdev if the replaced device was 
-> writable. This meant that the rw_devices count could be incremented in 
-> btrfs_dev_replace_finishing without any checks:
-> > diff --git a/fs/btrfs/dev-replace.c b/fs/btrfs/dev-replace.c
-> > index e9cbbdb72978..6f662b34ba0e 100644
-> > --- a/fs/btrfs/dev-replace.c
-> > +++ b/fs/btrfs/dev-replace.c
-> > @@ -569,8 +569,7 @@ static int btrfs_dev_replace_finishing(struct btrfs_fs_info *fs_info,
-> >         if (fs_info->fs_devices->latest_bdev == src_device->bdev)
-> >                 fs_info->fs_devices->latest_bdev = tgt_device->bdev;
-> >         list_add(&tgt_device->dev_alloc_list, &fs_info->fs_devices->alloc_list);
-> > -       if (src_device->fs_devices->seeding)
-> > -               fs_info->fs_devices->rw_devices++;
-> > +       fs_info->fs_devices->rw_devices++;
-> >  
-> >         /* replace the sysfs entry */
-> >         btrfs_kobj_rm_device(fs_info, src_device);
-> 
-> Thus, given the current state of the code base, the original check is 
-> now incorrect, because we want to decrement rw_devices as long as the 
-> device is being removed from the alloc list.
-> 
-> To further convince ourselves of this, we can take a closer look at the 
-> relation between the device with devid BTRFS_DEV_REPLACE_DEVID and the 
-> BTRFS_DEV_STATE_REPLACE_TGT bit for devices.
-> 
-> BTRFS_DEV_STATE_REPLACE_TGT is set in two places:
-> - btrfs_init_dev_replace_tgtdev
-> - btrfs_init_dev_replace
-> 
-> In btrfs_init_dev_replace_tgtdev, the BTRFS_DEV_STATE_REPLACE_TGT bit is 
-> set for a device allocated with devid BTRFS_DEV_REPLACE_DEVID.
-> 
-> In btrfs_init_dev_replace, the BTRFS_DEV_STATE_REPLACE_TGT bit is set 
-> for the target device found with devid BTRFS_DEV_REPLACE_DEVID.
-> 
->  From both cases, we see that the BTRFS_DEV_STATE_REPLACE_TGT bit is set 
-> only for the device with devid BTRFS_DEV_REPLACE_DEVID.
-> 
-> It follows that if a device does not have devid BTRFS_DEV_REPLACE_DEVID, 
-> then the BTRFS_DEV_STATE_REPLACE_TGT bit will not be set.
-> 
-> With commit cf89af146b7e ("btrfs: dev-replace: fail mount if we don't 
-> have replace item with target device"), we skip removing the device in 
-> __btrfs_free_extra_devids as long as the devid is BTRFS_DEV_REPLACE_DEVID:
-> > -               if (device->devid == BTRFS_DEV_REPLACE_DEVID) {
-> > -                       /*
-> > -                        * In the first step, keep the device which has
-> > -                        * the correct fsid and the devid that is used
-> > -                        * for the dev_replace procedure.
-> > -                        * In the second step, the dev_replace state is
-> > -                        * read from the device tree and it is known
-> > -                        * whether the procedure is really active or
-> > -                        * not, which means whether this device is
-> > -                        * used or whether it should be removed.
-> > -                        */
-> > -                       if (step == 0 || test_bit(BTRFS_DEV_STATE_REPLACE_TGT,
-> > -                                                 &device->dev_state)) {
-> > -                               continue;
-> > -                       }
-> > -               }
-> > +               /*
-> > +                * We have already validated the presence of BTRFS_DEV_REPLACE_DEVID,
-> > +                * in btrfs_init_dev_replace() so just continue.
-> > +                */
-> > +               if (device->devid == BTRFS_DEV_REPLACE_DEVID)
-> > +                       continue;
-> 
-> Given the discussion above, after we fail the check for device->devid == 
-> BTRFS_DEV_REPLACE_DEVID, all devices from that point are not the replace 
-> target device, and do not have the BTRFS_DEV_STATE_REPLACE_TGT bit set.
-> 
-> So the original check for the BTRFS_DEV_STATE_REPLACE_TGT bit before 
-> incrementing rw_devices is not just incorrect at this point, it's also 
-> redundant.
+> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
 
-Could you please write some condensed version of the above and resend?
-The original changelog says what happends and how, the analysis here
-is the actual explanation and I'd like to have that recorded. Thanks.
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+
+Beautiful.
+
+As you see, without any of this documented in a commit log, the change
+would have been very obscure. Now we cleary document a userspace
+changing return value clearly.
+
+Thanks!
+
+  Luis
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
