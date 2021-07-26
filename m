@@ -1,209 +1,97 @@
-Return-Path: <SRS0=XAjZ=MR=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=f8HV=MS=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6B0C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Jul 2021 13:49:42 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FEF8C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Jul 2021 10:41:10 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 677CE60F37
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 25 Jul 2021 13:49:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 677CE60F37
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=oracle.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0A7C160F22
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 26 Jul 2021 10:41:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0A7C160F22
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2523E6069B;
-	Sun, 25 Jul 2021 13:49:42 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C9CE8401F2;
+	Mon, 26 Jul 2021 10:41:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VT-8nm2zSicu; Sun, 25 Jul 2021 13:49:41 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2Zim2P3Ud9dJ; Mon, 26 Jul 2021 10:41:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 30920605C3;
-	Sun, 25 Jul 2021 13:49:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2A1764010E;
+	Mon, 26 Jul 2021 10:41:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 062EAC0010;
-	Sun, 25 Jul 2021 13:49:41 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5BD5C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DF322C0010;
+	Mon, 26 Jul 2021 10:41:05 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 17111C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 13:49:39 +0000 (UTC)
+ Mon, 26 Jul 2021 10:41:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id AE2EA8308A
+ by smtp4.osuosl.org (Postfix) with ESMTP id E4F20401EA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 13:49:39 +0000 (UTC)
+ Mon, 26 Jul 2021 10:41:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=oracle.com header.b="MKag3+ak";
- dkim=pass (2048-bit key) header.d=oracle.com header.b="SGTlNxj4";
- dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com
- header.b="eCBV5ZN/"
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dl72vl-Kyzul
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7Cc0j_FUu9sI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 13:49:38 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
- [205.220.177.32])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5068283096
+ Mon, 26 Jul 2021 10:41:01 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com
+ [IPv6:2607:f8b0:4864:20::b2a])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CB8FF401E5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Jul 2021 13:49:38 +0000 (UTC)
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16PDmGlQ010137; Sun, 25 Jul 2021 13:49:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : from : cc : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
- b=MKag3+akm1trlsuYlYli3q7cWJ6pPnJdmN8VIutTN0rlhZ/J4/yJDasypTJgbniVTxlO
- s3MUvwJMRBSFaBdEdIYXBMIJmZVsLrPPiev3kaP6FCsxWVr2GKqqPAhZhewatg9CU+1T
- qOQUd1+vCuhUuZvqZihzyYWOsGT0qw4Blb1dhgJYh07EgXTiO965RQ1Qxo3Vu/X7zefO
- s7OVftq9vF3qj8DpFwtB/YsCearDLxk9ZfzqcltNXuQdy+0/acS6nXusJy1cTcU8P4au
- haOg6Efr6LGyUudjtYHzXuhW+PtqpPZMzv7vAFdfN8M1U4KlGOfS5wfjRL5uu5qFM056 7w== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to :
- references : from : cc : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
- b=SGTlNxj4FlTZV/DrIUEswC233crAdn6MoKUNyIh3Unr6T5k0hhsHwweEZ/JN++gVrA96
- +D17yaEEyHAOcHpG1qJXNKJ5I6xurdi0vDFW0l7C5ZzE0N5NLBw/GbU/LEQZWMaXd8lo
- 1hirWiUHW+zke99Q1LyTG72G4X712zcuNgXQ8kXgoe6ZihowJvTFBKkpD/sOSYi7qSay
- ewhsDJFCBvy35+WNLSGX2wskqtexF/lDgswmlYy344TnPTMxrZMdWj1UxYaLD00K7mM9
- jSKfygeEipoQbKHhj6jtvuUtWSpi6daCQ/Ok4yRHNTkl1lfnDem4fJksc+uOQ+C8Ey1R Bw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3a099c1gxc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 25 Jul 2021 13:49:33 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16PDkc8f153689;
- Sun, 25 Jul 2021 13:49:32 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
- by userp3020.oracle.com with ESMTP id 3a0vmrakbg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 25 Jul 2021 13:49:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cfE22kadDoSq2l33SWvYeS5pQs/Ypx1yQcKqiyeWnK45gfvA5n8lyTJ9lESYuCUbqATV2JZUX8M90OGMV6HyJOD04wEqtqiEoj9hdrdPN0aU7saCE4NmRKxVrU58C9KqakPFMRcK0KcIr7L4AigPGhYepisBa2PacQSOcAJGqIGJArFdOuSrlS8jZpYwWr0M80XJyp3cOvSlSYzMzOwK9NhooS3bRQ5k17LgbWpVMadaOcCNQtBisDSjGyo5p4VNLQccHfdhSoRn08oARrktbnpXo9q20RFdq6tImwkOC2bedrCfP6KrMFiQmLoqzWWswpM1CAnzNPyH65Rb704R6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
- b=S2sJZdejq9ihTE2aeQENFs8oJTiJ7DAHWjQ/1bht9L+HTnAl55jGI60pNXv/qqFRgkVdWooSyDIjcP1cFAcMgBNEBbr+vbBW6w8l595Q/Gyu94x2MpSDC7Q0Ec18ZJpN80muUb7QhG82bg+KhjHQBLfKeqjF9HJ+c/CbfrnS7b0NuX1KOESUsVPXRte89h5ZUd7cTBuvM5zTtL7Ucj1qHb6ZtYOxvHgcd5jMJSIuOCwbbh5wTPXvzT51Fc7enjxwNQ+0EJBBUOFF8Gkd3b6vVY8OrkIenXL70+NTAQwRS1g8pchCqY3ytJFIQs9n0fD+PSaDwvujYCjaYQSB/K5H5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f7+w3XP/tlxVhhDhiui6e0y4OTls5edv3NN7d81SkZ4=;
- b=eCBV5ZN/HbxV32Vf6rkD9S4l4rVlAuw6V+XoHRHgK8N0+SI7jpNYOMdes2PPxbKNmrG20gb3XaVa9fVdg/U2Kem9yhUkitC/n62JRdmiAmWx2NZqH2af27xeoKcR2tPJq0dGjBew+xfiE1U6SQ1+Fbmi6CT29xrGkMtlBxoYtlM=
-Authentication-Results: syzkaller.appspotmail.com; dkim=none (message not
- signed) header.d=none;syzkaller.appspotmail.com; dmarc=none action=none
- header.from=oracle.com;
-Received: from MN2PR10MB4128.namprd10.prod.outlook.com (2603:10b6:208:1d2::24)
- by BLAPR10MB4820.namprd10.prod.outlook.com (2603:10b6:208:30c::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.26; Sun, 25 Jul
- 2021 13:49:29 +0000
-Received: from MN2PR10MB4128.namprd10.prod.outlook.com
- ([fe80::b10f:7144:1abb:4255]) by MN2PR10MB4128.namprd10.prod.outlook.com
- ([fe80::b10f:7144:1abb:4255%3]) with mapi id 15.20.4352.031; Sun, 25 Jul 2021
- 13:49:28 +0000
-Subject: Re: [PATCH] btrfs: fix rw device counting in __btrfs_free_extra_devids
-To: dsterba@suse.cz, dsterba@suse.com
-References: <20210715103403.176695-1-desmondcheongzx@gmail.com>
- <20210721175938.GP19710@twin.jikos.cz>
-From: Anand Jain <anand.jain@oracle.com>
-Message-ID: <24c7304c-9a38-278b-0ae5-78edb225cb4c@oracle.com>
-Date: Sun, 25 Jul 2021 21:49:17 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
-In-Reply-To: <20210721175938.GP19710@twin.jikos.cz>
-Content-Language: en-US
-X-ClientProxiedBy: SG2PR06CA0108.apcprd06.prod.outlook.com
- (2603:1096:3:14::34) To MN2PR10MB4128.namprd10.prod.outlook.com
- (2603:10b6:208:1d2::24)
+ Mon, 26 Jul 2021 10:41:00 +0000 (UTC)
+Received: by mail-yb1-xb2a.google.com with SMTP id x192so14144868ybe.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Jul 2021 03:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/BY0mcjiV9qhKqB6/+jGLmOcn7PesrCXdkGRSyP9yso=;
+ b=i3UhBiQ5kJWBY6uHfrd6tvUNbEbxwMfOqrS04n3y6cf3Cp5Qm8Z6XuEuCyA25AmV5z
+ KWbF+R8PvH8aO8/iA8OmYBALw8sTjZ78hdYgfvc+qOkXBzYr3NdiFSv+BQsc8jVx6Fc7
+ AADnw/7J62hulH0OM5gyt56OrjVoVilzfQMI9dr2o1yefQFpyYASf6uRJue4RXVSuJlp
+ G7Px+FNKRGk7FVhY7mFqPgdGZmf5hBdGRBWQZeqaMwClV+px/nV0Us3758neG/gXAmP8
+ oCD3iApUT3+E5/StcUJsCJks8FLqRnpWnNSojQ8Fa7S99NowoF9nPJfJBKvvhKFOjNzJ
+ +SXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/BY0mcjiV9qhKqB6/+jGLmOcn7PesrCXdkGRSyP9yso=;
+ b=I0ZflVV2edehf04zrFI9PQTOKuL1P4eSXFl5mFfGJGhwPnELm1vSXXdRaVMhIiPUlA
+ 4frVV0gQYi8AWZPYFUO6hmUxQr+uTPekXXES/rgmhvS18S+goDGgz4/cg06JKnreQSXv
+ m4jArR5Sx+O7S4QbyHvRAxRLJpxaA91l6y01RWWP6RuWpDdrCGhT8+jMYSlXPyY4JQPa
+ e45m5sE2YoFrkJW5/SW9XkWWRMvgygvsaovksDhMl+lEVFWVz0/p7TcZw2Z9RDa6BTlZ
+ N24zKIc61wZZ2cp0kYI4NTmST4SQ6+em+bKT3zuGUwF1zT/gwQKWNoyobPUA5AhZa30z
+ 615w==
+X-Gm-Message-State: AOAM530jmtAog+sGTiOYvE9cLcQ7xnnWHHmaaDRpinKGvtcTN3aF0uJb
+ 8hlMawdCCL+d617Y48fIGbkVrklGr3ZJlOQ3Vuc=
+X-Google-Smtp-Source: ABdhPJy5PewDi064X7pKqyk4FmjLN4TMLPEBe2z6rmGCUt574MnM8LeuIZAV3CC4HVxSVOUCeiGfQtjl96Gr/xZ3Nr8=
+X-Received: by 2002:a25:842:: with SMTP id 63mr22390966ybi.518.1627296059570; 
+ Mon, 26 Jul 2021 03:40:59 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.10.109] (39.109.186.25) by
- SG2PR06CA0108.apcprd06.prod.outlook.com (2603:1096:3:14::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4352.26 via Frontend Transport; Sun, 25 Jul 2021 13:49:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6ccc470c-e13f-4773-9091-08d94f7305b9
-X-MS-TrafficTypeDiagnostic: BLAPR10MB4820:
-X-Microsoft-Antispam-PRVS: <BLAPR10MB48200C565E1290A934F2AE1FE5E79@BLAPR10MB4820.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7amejw0nMR1zr1hBbjckWW6y9vWVpOY7LGQVjTa2ds/Ocp6RwbtVE3oEggMlhl1y0GEM0vs0iimpZN2z4HXe3CDTwGbW3ea0mLsUEd7KHUQiwPop0ljturmmU+HjX95YeSQHuKmHxkkgSsJS7mMEEWpzYgBj0pB8TCBRoF0FxeYpiGrvHhjQ8ld2kI6CHyezCXy2SpOC68aM7L9zgmFzJZUIcGt0DcaeXWM1VONydEg4nFoh/jKOgX6SZgeWkNnHbUaGrQhAhntMsJmb/3BHB5haigFJQJJIUBi5tVxYa2WuhylsKoI1+MTCmD9djBdCFRa/M/xVo/lfBGV6cDA2j4nX1cidqZnFVUqu4ikLv2XDxKAB5YCM2l7tlDiRoFuQepS+mjeV/TPkfxHvIaD2sFKzHCwECyNub5eV7DmWzfOVr/f4DSW0+0a2LFKTH26jxJdPFtSgKP2ahCYVS+X6B0t83eBc/ah7z/sAEZTYr79L2FIe6Slljpx70hgndpUtG8YU0lDhDfpN96hO+17MwG1vHcEBqeAoUUonGHzxBFY2ZpJ9WSCfUu/v6oO0rZg+nbaih+0dXPb9zDjMer42yfLVmH30srcZ7NxVRiF9HoKLaizKtmqcd1nAIC1hHy/nvMRf+vqzJr0/zloBHi0s42BJnlLG3AuNFbhBnqItaBmi1KkP2kmWPCeWe1bmX2ygROAEm2q2JmQBaaYfiiWAKOZiWLMVwwsKHYkwPuXTOXzXdfzsM391PrAYwbDI4KoRivmGSR42Pxh4MWUkvrQFSF1f+8VoleOKPD3KN3NjGtoyclnWasZPRK2e0hsV24v/
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR10MB4128.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(366004)(136003)(376002)(346002)(31686004)(7416002)(8936002)(6486002)(6666004)(83380400001)(36756003)(8676002)(16576012)(316002)(86362001)(66556008)(66946007)(66476007)(478600001)(31696002)(44832011)(4326008)(53546011)(2906002)(5660300002)(2616005)(956004)(186003)(26005)(38100700002)(966005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NzVnN1dqb2VvTXl0bXVmOGFNUTVZWXlqRURDeEdNb0RzdStkRFhJbTN3NHAw?=
- =?utf-8?B?blBMbEoyanBId1RUcnY1Wi9Uem5LOVFFOUhBRXAvK3ZmUGpmUXYvb20yYXBQ?=
- =?utf-8?B?TlQ1RFNGSUJiZEdVMnZlMkc1QUNDd0xWdmlBdFZTTGV5VTBLYkNheHByOC83?=
- =?utf-8?B?dWsxSktzeHdQcVZiRXBtQ3FqR2JRSnF5ZWp3aVlCN3RHc1B0Tm16R3BkTXdH?=
- =?utf-8?B?Sk91TE9sQlFmcGZ3SWlqZ25sbWFmUFJuVUU4STBEbFZnbEJ2cGp2bWtXdElo?=
- =?utf-8?B?RGgvMDd2a0F2eUZ3RUxINUh3bnlpdzdWczdRMUFqQUI1ZWdtVlVwSVAyZ09E?=
- =?utf-8?B?bHRwbjNoZU5FM3UyL1phNitlU2dUdlliL0xoNFlWd3VzVDNDdlV6aFRqRTA4?=
- =?utf-8?B?RUx2TkpvWHhTellxd1JhbFlaeGd1UmZwdTN1WWhzY0s0TEFIR1BsZU16RC9N?=
- =?utf-8?B?VFFpQ0psSU0xUEF4czNNc2JGSzlFWkZsTHRxSUZtVEdXNHBZZWw1QmZFWjdM?=
- =?utf-8?B?S1hYbHFtUTZrZlhrMm1zWWdEakFaUjRQN05QdnhUQlFQb2h4Qi9MMjJaclRV?=
- =?utf-8?B?OGdURkN1Q3I0ZmQ3MUkrN091Rmt2UndXWFdYMTdRb05nOG1QeWFPcXpoMXUr?=
- =?utf-8?B?eFhIUmxMOUFORTI2MGVKRmJyN3NTTkF0NXdkZm9iUHBKRTJUM3R6aVBTaEJE?=
- =?utf-8?B?WjNKaE8zcHB4TzBBdUI4ejJDSklvS1hQSHkwNFZmT1l0YkltaUh6SEJmMVRl?=
- =?utf-8?B?MzA2OVl6bklHM2llamRoNm9FbjFQVklSOXZlM0Y2aWVPVkw4dG9tS2pqdmJk?=
- =?utf-8?B?RE1VUUFScnp5ZkkvU2tBQVk1YU16TnkwMDhvNzhVc3JqOGh2UHB4MTlJUGY1?=
- =?utf-8?B?bVpBU2hWWUVwRGVYWXpXeTBZbm8weUNpbTJvd2VsYm90aG9BNFIxTWV2Ulhr?=
- =?utf-8?B?dTNOT1EvZkcweGxzNmEva0Y5ZzJRWEJMdVN0RnljMWxINGd6THdIUnYyQ3lZ?=
- =?utf-8?B?ZVdUSXQ4YTRLWk5JS3k2OW1na2hlUGhOSDB5SEN5dHlIZ3JQRllnK2NEQ0t6?=
- =?utf-8?B?b1ViVUNsMWxIRWFvWGtOMmtXVnN0b2c1RlY0bW52M1VXVFdyeW5MamNBWkdF?=
- =?utf-8?B?THRCTTI1RzRIaDZOQUVQcFBQWmgxMTBieTNucHFnOTNvSDVrNGE4bDlFNUhE?=
- =?utf-8?B?Yy9Pc2hVNCtCMHlkUTdvdTkxd2ZHaHBVU0FZMUdvUUNpbjF0UEQvUG84bkhy?=
- =?utf-8?B?UFRCelg5TDkrdFp6Tyt1dEYrRXNncGtEb2x0d3B1WFZqODZqL2pERkhDZmFC?=
- =?utf-8?B?ZWFpVXJYcUluVGhoakNCTStaUlA4aEpzQ3dlWFIvWTlQblRGSldNNWdDSERU?=
- =?utf-8?B?am9TWHZDMmxxRGVVY3h5OVhvUlI5YkplWnZhMGxGa3E3blVaT2NjUm94clp3?=
- =?utf-8?B?b2ZjWWRxTEd2d1FvOVhYOGk0RzlyZU9RVUt5dkJqVFVSMlVidHAyS3ZyNzJj?=
- =?utf-8?B?NEllbHNDL25rMGYwNnMxTVExaXdKN0dXa1Vsa0hQdGJkRCt4Si82dXcwS0tX?=
- =?utf-8?B?b0VQQ1JDMi8xblNyOGNGNklZQWd2RDNBZ3g3SW11UUNVb0I2d1V5MmNvT0Ns?=
- =?utf-8?B?SWJxemY2MEZGQmtNRGg4bmtycnl3SXhNVFViYzU5QnQwemlXTXJ2REUwZU9v?=
- =?utf-8?B?SE42Y1hKLzZMcHhkMWNQK2s0aCtDOXFZYTdZWURIbXNVOXZhUjZCanVUb1Vt?=
- =?utf-8?Q?i5YgAnCgyjQKNXh/Kk1GETzakZkvDEyfLOha01m?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ccc470c-e13f-4773-9091-08d94f7305b9
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4128.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2021 13:49:28.7059 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sc3Wr+hwnqHbofC/Y7ufoSJZ5Sp88m+6NwybLx6J6lmLsoHVcnJTaaOQdKQgp/3/mEQzLgll7DOYRApuHcjMPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4820
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10055
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 suspectscore=0
- adultscore=0 malwarescore=0 spamscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107250099
-X-Proofpoint-GUID: CgwrumhTt-E6OMXFV83qloy1BwdU6L3h
-X-Proofpoint-ORIG-GUID: CgwrumhTt-E6OMXFV83qloy1BwdU6L3h
-Cc: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, josef@toxicpanda.com,
- linux-kernel@vger.kernel.org, clm@fb.com,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
+References: <20210717064653.GA4873@uver-laptop>
+ <CAKXUXMwTs=JoMUFaigLsUmnG3XTs3B1NF+VTsYcQYgTSygWXVA@mail.gmail.com>
+ <20210724220630.GA11748@uver-laptop>
+In-Reply-To: <20210724220630.GA11748@uver-laptop>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 26 Jul 2021 12:40:48 +0200
+Message-ID: <CAKXUXMymBWUcy53a38hA9b3VYL0af2vpDW0=xsCEWuiiUQQn-w@mail.gmail.com>
+Subject: Re: Linux Kernel: Checkpatch Documentation Mentorship Tasks
+To: Utkarsh Verma <utkarshverma294@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -215,110 +103,292 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+On Sun, Jul 25, 2021 at 12:06 AM Utkarsh Verma
+<utkarshverma294@gmail.com> wrote:
+>
+> On Sat, Jul 17, 2021 at 09:23:19AM +0200, Lukas Bulwahn wrote:
+> > Get a clone of the Linux kernel repository. The script checkpatch.pl
+> > is under the scripts directory.
+> >
+> > Then, the first task is to run checkpatch.pl on a few files below and
+> > share the results:
+> >
+> > drivers/acpi/acpica/acapps.h
+> > drivers/usb/serial/iuu_phoenix.c
+>
 
+Utkarsh, the next task is to prepare some commits to the kernel
+repository. You can find various hints on how to create your first
+kernel patches on
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html.
 
-On 22/07/2021 01:59, David Sterba wrote:
-> On Thu, Jul 15, 2021 at 06:34:03PM +0800, Desmond Cheong Zhi Xi wrote:
->> Syzbot reports a warning in close_fs_devices that happens because
->> fs_devices->rw_devices is not 0 after calling btrfs_close_one_device
->> on each device.
->>
->> This happens when a writeable device is removed in
->> __btrfs_free_extra_devids, but the rw device count is not decremented
->> accordingly. So when close_fs_devices is called, the removed device is
->> still counted and we get an off by 1 error.
->>
->> Here is one call trace that was observed:
->>    btrfs_mount_root():
->>      btrfs_scan_one_device():
->>        device_list_add();   <---------------- device added
->>      btrfs_open_devices():
->>        open_fs_devices():
->>          btrfs_open_one_device();   <-------- rw device count ++
->>      btrfs_fill_super():
->>        open_ctree():
->>          btrfs_free_extra_devids():
->> 	  __btrfs_free_extra_devids();  <--- device removed
->> 	  fail_tree_roots:
->> 	    btrfs_close_devices():
->> 	      close_fs_devices();   <------- rw device count off by 1
->>
->> Fixes: cf89af146b7e ("btrfs: dev-replace: fail mount if we don't have replace item with target device")
-> 
-> What this patch did in the last hunk was the rw_devices decrement, but
-> conditional:
-> 
-> @@ -1080,9 +1071,6 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
->                  if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
->                          list_del_init(&device->dev_alloc_list);
->                          clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
+Please first only send your first patches only to the
+linux-kernel-mentees list, Dwaipayan and me, NOT to the official linux
+kernel mailing lists that get_maintainers.pl suggests.
 
+More instructions on which commits we would like to see first are below.
 
+(snip)
 
-> -                       if (!test_bit(BTRFS_DEV_STATE_REPLACE_TGT,
-> -                                     &device->dev_state))
+>
+>
+> drivers/acpi/acpica/acapps.h:54: WARNING: macros should not use a trailing semicolon
+> drivers/acpi/acpica/acapps.h:57: WARNING: macros should not use a trailing semicolon
+> drivers/acpi/acpica/acapps.h:60: WARNING: macros should not use a trailing semicolon
+> drivers/acpi/acpica/acapps.h:74: WARNING: macros should not use a trailing semicolon
+>
+> Macro defintions should never conclude with a semicolon. It is because
+> when the macro is invoked and expanded the semicolon can unexpectedly
+> change the control flow of the program. Also to be consistent with the
+> ordinary function calls, macros defintion should not conclude with a
+> semicolon.
+>
+> Explanation for this warning message is not in the Checkpatch
+> documentation. But the message is self explanatory.
+>
 
-This condition was wrong.
-The 1st roll of this patch which is here [1], has the details of why. As 
-shown below -
+Please provide some checkpatch documentation on this rule. Please
+include an example of what could go wrong if a trailing semicolon is
+used.
 
-[1]
-https://patchwork.kernel.org/project/linux-btrfs/patch/b3a0a629df98bd044a1fd5c4964f381ff6e7aa05.1600777827.git.anand.jain@oracle.com/#23640775
+> In the checkpatch.pl file, these lines check for the usage of define
+> keyword
+>
+> scripts/checkpatch.pl:5878
+>                 if ($perl_version_ok &&
+>                     $realfile !~ m@/vmlinux.lds.h$@ &&
+>                     $line =~ /^.\s*\#\s*define\s+$Ident(\()?/) {
+>
+> If it evaluates to true, then it further checks if the lines start with
+> a define keyword and end with a semicolon.
+>
+> scripts/checkpatch.pl:5909
+>                         } elsif ($dstat =~ /^\+\s*#\s*define\s+$Ident.*;\s*$/) {
+>
+> If this also evaluates to true, then a trailing semicolon is used by the
+> macro, so it prints the appropriate warning message.
+>
+> scripts/checkpatch.pl:5914
+>                                 WARN("TRAILING_SEMICOLON",
+>                                      "macros should not use a trailing semicolon\n" . "$herectx");
+>
+> To fix the warning message, simply remove the semicolon present at the end
+> of the macro defintion.
+>
 
-----
-rw_devices is incremented in btrfs_open_one_device() for all write-able
-devices except for devid == BTRFS_DEV_REPLACE_DEVID.
-But while we clean up the extra devices in __btrfs_free_extra_devids()
-we used the BTRFS_DEV_STATE_REPLACE_TGT flag isn't set because
-there isn't the replace-item. So rw_devices went below zero.
-----
+(snip)
 
+>
+> ================================
+> drivers/usb/serial/iuu_phoenix.c
+> ================================
+>
+>
+>
+> drivers/usb/serial/iuu_phoenix.c:256: WARNING: single byte memset is suspicious. Swapped 2nd/3rd argument?
+> drivers/usb/serial/iuu_phoenix.c:1059: WARNING: single byte memset is suspicious. Swapped 2nd/3rd argument?
+>
+> memset is a function defined in include/linux/string.h file.
+>
+> void *memset(void *s, int c, size_t n);
+>
+> The memset() function fills the first n bytes of the memory area pointed
+> to by s with the constant byte c. It returns a pointer to the memory area
+> s.
+> Calling the memset with n value of 1, is likely to be unintended and maybe
+> by mistake (swapped with the int c value). It is more likely to fill a
+> memory region with all ones, than to only fill a single byte in a
+> memory region.
+> So this message warns about the calling of memset with n value equal to 1
+> and also hints about the swapping of c and n values.
+>
+> The checkpatch documentation explains about this warning.
+>
+> The checkpatch.pl first scans for the usage of memset, by searching for
+> the "memset" keyword.
+>
+> scripts/checkpatch.pl:6738
+>                 if ($perl_version_ok &&
+>                     defined $stat &&
+>                     $stat =~ /^\+(?:.*?)\bmemset\s*\(\s*$FuncArg\s*,\s*$FuncArg\s*\,\s*$FuncArg\s*\)/) {
+>
+> Then it extracts the arguments passed inside the memset function call.
+>
+> scripts/checkpatch.pl:6742
+>                         my $ms_addr = $2;
+>                         my $ms_val = $7;
+>                         my $ms_size = $12;
+>
+> Then it finally checks the third argument, if it is either 0 or 1.
+> If that happens to be true then it finally prints the warning message.
+>
+> scripts/checkpatch.pl:6749
+>                         } elsif ($ms_size =~ /^(0x|)1$/i) {
+>                                 WARN("MEMSET",
+>                                      "single byte memset is suspicious. Swapped 2nd/3rd argument?\n" . "$here\n$stat\n");
+>
+> At both the places in drivers/usb/serial/iuu_phoenix.c file, when this
+> warning appears, the module author intentionally called the memset with
+> 3rd argument equal to 1. So this warning can be safely ignored.
+>
 
-> -                               fs_devices->rw_devices--;
->                  }
->                  list_del_init(&device->dev_list);
->                  fs_devices->num_devices--;
-> ---
-> 
-> 
->> @@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
->>   		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
->>   			list_del_init(&device->dev_alloc_list);
->>   			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
->> +			fs_devices->rw_devices--;
->>   		}
->>   		list_del_init(&device->dev_list);
->>   		fs_devices->num_devices--;
-> 
-> So should it be reinstated in the original form?
+But: is memset required if only one byte is to be set? Is there a more
+standard way in C to express setting one byte?
 
-No. The reason is the same as above.
-Only the rw_devices decrement line has to be restored.
+If so, please create a patch that uses that more standard way of
+setting one byte instead of memset.
 
-> The rest of
-> cf89af146b7e handles unexpected device replace item during mount.
+(snip)
 
-> Adding the decrement is correct, but right now I'm not sure about the
-> corner case when teh devcie has the BTRFS_DEV_STATE_REPLACE_TGT bit set.
+>
+>
+> drivers/usb/serial/iuu_phoenix.c:1191: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
+> drivers/usb/serial/iuu_phoenix.c:1194: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
+> drivers/usb/serial/iuu_phoenix.c:1197: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
+> drivers/usb/serial/iuu_phoenix.c:1201: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
+> drivers/usb/serial/iuu_phoenix.c:1205: WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred. Consider using octal permissions '0644'.
+>
+> The file permission macros used in the kernel code are defined in
+> <linux/stat.h> like S_IRUGO and friends. But it is better to use their
+> octal equivalent instead, because it easier for Linux users to
+> understand 0444 instead of S_IRUGO.
+>
+> There is no checkpatch documentation for this warning message, but the
+> message is self explanatory.
+>
 
-BTRFS_DEV_STATE_REPLACE_TGT is set (on BTRFS_DEV_REPLACE_DEVID) for two 
-reasons when we call replace through ioctl or during mount upon finding 
-a replace-device item.
+Please provide a patch for the checkpatch documentation here. Do you
+find a reference to some coding style guide in the kernel or some
+discussion on the mailing list that stated the preference you wrote
+here?
 
-> The state machine of the device bits and counters is not trivial so
-> fixing it one way or the other could lead to further syzbot reports if
-> we don't understand the issue.
+Also create a patch for this file for this type of warning.
 
-I agree. Also, a good idea to convert this sysbot test into an xfstests 
-case.
+> The checkpatch.pl file checks for the usage of "S_<file_permissions>" like
+> S_IRUGO and friends.
+>
+> scripts/checkpatch.pl:7348
+>                 while ($line =~ m{\b($multi_mode_perms_string_search)\b}g) {
+>
+> if it finds one, then it prints the appropriate message,
+>
+> scripts.checkpatch.pl:7351
+>                         if (WARN("SYMBOLIC_PERMS",
+>                                  "Symbolic permissions '$oval' are not preferred. Consider using octal permissions '$octal'.\n" . $herecurr) &&
+>
+> To fix the warning message, simply use the octal equivalent instead of
+> the macros, as mentioned in the warning message.
+>
+> diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
+> index 19753611e..0be3b5e1e 100644
+> --- a/drivers/usb/serial/iuu_phoenix.c
+> +++ b/drivers/usb/serial/iuu_phoenix.c
+> @@ -1188,20 +1188,20 @@ MODULE_AUTHOR("Alain Degreffe eczema@ecze.com");
+>  MODULE_DESCRIPTION(DRIVER_DESC);
+>  MODULE_LICENSE("GPL");
+>
+> -module_param(xmas, bool, S_IRUGO | S_IWUSR);
+> +module_param(xmas, bool, 0644);
+>  MODULE_PARM_DESC(xmas, "Xmas colors enabled or not");
+>
+> -module_param(boost, int, S_IRUGO | S_IWUSR);
+> +module_param(boost, int, 0644);
+>  MODULE_PARM_DESC(boost, "Card overclock boost (in percent 100-500)");
+>
+> -module_param(clockmode, int, S_IRUGO | S_IWUSR);
+> +module_param(clockmode, int, 0644);
+>  MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, "
+>                 "3=6 Mhz)");
+>
+> -module_param(cdmode, int, S_IRUGO | S_IWUSR);
+> +module_param(cdmode, int, 0644);
+>  MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, "
+>                  "4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
+>
+> -module_param(vcc_default, int, S_IRUGO | S_IWUSR);
+> +module_param(vcc_default, int, 0644);
+>  MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 "
+>                 "for 5V). Default to 5.");
+>
+>
 
-Thanks, Anand
+(snip)
+
+>
+> drivers/usb/serial/iuu_phoenix.c:1199: WARNING: quoted string split across lines
+> drivers/usb/serial/iuu_phoenix.c:1203: WARNING: quoted string split across lines
+> drivers/usb/serial/iuu_phoenix.c:1207: WARNING: quoted string split across lines
+>
+> Quoted strings should not be splitted across multiple lines, this is done
+> so that the strings that appear as messages in the userspace can be
+> grepped.
+>
+> The checkpatch documentation has no information about this warning.
+>
+
+Please provide a patch for the checkpatch documentation here.
+
+Also create a patch for this file for this type of warning.
+
+> The checkpatch.pl checks for the usage of strings, if the previous line
+> used a double quotes, and this line is also inside the quotes, then the
+> string is split across multiple lines. But it makes exceptions when the
+> previous string ends in a newline or '\t', '\r', ';', or '{' or is a octal
+> or hexadecimal value.
+>
+> scripts/checkpatch.pl:6066
+>                 if ($line =~ /^\+\s*$String/ &&
+>                     $prevline =~ /"\s*$/ &&
+>                     $prevrawline !~ /(?:\\(?:[ntr]|[0-7]{1,3}|x[0-9a-fA-F]{1,2})|;\s*|\{\s*)"\s*$/) {
+>
+> If the condition is true it prints the appropriate message,
+>
+> scripts/checkpatch.pl:6069
+>                         if (WARN("SPLIT_STRING",
+>                                  "quoted string split across lines\n" . $hereprev) &&
+>
+> To resolve the warning, make the whole string fit in a single line only.
+>
+> diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
+> index 19753611e..f2c0dad91 100644
+> --- a/drivers/usb/serial/iuu_phoenix.c
+> +++ b/drivers/usb/serial/iuu_phoenix.c
+> @@ -1195,13 +1195,10 @@ module_param(boost, int, S_IRUGO | S_IWUSR);
+>  MODULE_PARM_DESC(boost, "Card overclock boost (in percent 100-500)");
+>
+>  module_param(clockmode, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, "
+> -               "3=6 Mhz)");
+> +MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, 3=6 Mhz)");
+>
+>  module_param(cdmode, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, "
+> -                "4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
+> +MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, 4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
+>
+>  module_param(vcc_default, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 "
+> -               "for 5V). Default to 5.");
+> +MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 for 5V). Default to 5.");
+>
+
+Overall, we expect you to provide a patch series that adds some more
+checkpatch Documentation and some first changes to the file you
+investigated. Remember each patch should do one thing.
+
+We will review your patch, provide you feedback and once we are all
+happy about the patches, we will let you know to send it to the
+larger-audience kernel lists.
+
+Good luck; we are looking forward to your patch series.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
