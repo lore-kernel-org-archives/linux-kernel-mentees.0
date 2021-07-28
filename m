@@ -2,104 +2,104 @@ Return-Path: <SRS0=b7VJ=MU=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A88D9C4320E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Jul 2021 10:29:19 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B26AC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Jul 2021 13:00:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C44460F93
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Jul 2021 10:29:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4C44460F93
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 940E860C41
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 28 Jul 2021 13:00:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 940E860C41
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F17A583133;
-	Wed, 28 Jul 2021 10:29:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 517DC40379;
+	Wed, 28 Jul 2021 13:00:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4MplK9fLalVb; Wed, 28 Jul 2021 10:29:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CA9F6830AB;
-	Wed, 28 Jul 2021 10:29:17 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DE22C0010;
-	Wed, 28 Jul 2021 10:29:17 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 141F9C000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 10:29:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E9AE0405AB
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 10:29:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SPZZRL5jzm5w
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YbMdAvKYclPm; Wed, 28 Jul 2021 13:00:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6B44240358;
+	Wed, 28 Jul 2021 13:00:56 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 381EDC0010;
+	Wed, 28 Jul 2021 13:00:56 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0277C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 10:29:15 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0E77440315
+ Wed, 28 Jul 2021 13:00:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id BAF9E400FA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 10:29:14 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- ds11-20020a17090b08cbb0290172f971883bso9294769pjb.1
+ Wed, 28 Jul 2021 13:00:54 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=suse.cz header.b="v9G2MRBI";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=suse.cz header.b="+dVFHCK5"
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CGpb7AjCS7WR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 03:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ajh3nG10UjXvJlzVI6uC9cucgvEZGkFC9GLNm2+GjJM=;
- b=oR02hxAgZVEp6RRR9SoRCwnUrjRcCwzmApLQF5HLBT9UnYDgJC7FW5dMnvPBbAN7vD
- aa4IJ+1vUIJxUHFOzzLfYGufaFJXUDKMFfqww5XyegcB/JMLmY3Gjq+toHQNiPK0xGFo
- Jaq6QrMBveQDszMhsHtxDUdOf/DTsBhPzujFAMI92HVtlOIRGanauj5xPOvECg2G7kHz
- +U1WCtTnpmWjxaL/UolX6t5bheor3o4D6eplVYSC/IfDICEOU0PyKBxCuCArmXsYwrBi
- yjQaDYKZAiO+Ox0lZFMPPUn2RDoEpLYvtE9X6Pu0FAPrrPZj+5LEa5EmG42CE9kOOeH4
- b0fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ajh3nG10UjXvJlzVI6uC9cucgvEZGkFC9GLNm2+GjJM=;
- b=REK1P3pKpH0QmW+u4JfJscpQZIy1CEABzq9k+AQjS2+5G6WhG+eFnVMmiazYqSIEG+
- kzVlbirF9+yUoPRHEJZmU4QY0Glg8YvUba2ji/uI+PG/OfHhNJmWu59vfg6uLf7/8Aix
- 0niop7P/phhXAf95ilU0EGNSRaUfw9LOia/f5S4xOK1hd0vhCH8fSbifwHlFcck+fpXZ
- hAEntgDqSYydnJsqnp0UjfvoJx7GJMh690vL5hMqYa3ruaiyVb6+JAepWQKnysXiCn58
- 7AyQBYrmIrRkpucXr64e/+XnvLpwDq0d+X6t3Bsr68bBDCzbVgqsl+egm7/d6tJZubsT
- /0LA==
-X-Gm-Message-State: AOAM530To976+HPOlXrUpDaRH2HCYrdgWvFi65ahYh9Nphu4pAGE5IMz
- 9p+kzJEbTGKLbSxdyrP28LE=
-X-Google-Smtp-Source: ABdhPJzL3Mp5PPoomFs352O0RNKZvd0RT07l7cvWlcuPgneRfZsAFhiwS9yuNemvNdxe7zlC7mW0UQ==
-X-Received: by 2002:a17:90a:4d49:: with SMTP id
- l9mr9265069pjh.179.1627468154432; 
- Wed, 28 Jul 2021 03:29:14 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id t19sm7550510pfg.216.2021.07.28.03.29.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Jul 2021 03:29:13 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net
-Subject: [PATCH v3] drm: clarify usage of drm leases
-Date: Wed, 28 Jul 2021 18:27:39 +0800
-Message-Id: <20210728102739.441543-1-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Wed, 28 Jul 2021 13:00:53 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 510CE400C5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 28 Jul 2021 13:00:53 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 351D91FFAB;
+ Wed, 28 Jul 2021 13:00:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1627477250;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qBVxtrSmWVlOscO72s3n1kpnLDIq1UYxTJT1qArgmmQ=;
+ b=v9G2MRBI9ZC4oh0wXp76nkFZulbeIh/X9Kl1ZGYf/vBtLRwjYZPKCWMjGaRiT7QKYSZ90s
+ i2rYnube6FOkbpHqj9DPbp0cx+VKOZb1YjHEpJqCBf25YPC8FoasiJ5BPJ1X7OLwnWRPBA
+ sU8h+anD6jFn6PPXXnDbdwGz2vDQy+M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1627477250;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qBVxtrSmWVlOscO72s3n1kpnLDIq1UYxTJT1qArgmmQ=;
+ b=+dVFHCK5TxbazeQB9uIkp8YvmgS+oT8ugRDKduJ54Ig3smLynu17XhzYkBjIKnruYW57R2
+ r6oB1pCP3NPKd9Bg==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+ by relay2.suse.de (Postfix) with ESMTP id 1D3ACA3B93;
+ Wed, 28 Jul 2021 13:00:50 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+ id 49595DA8A7; Wed, 28 Jul 2021 14:58:05 +0200 (CEST)
+Date: Wed, 28 Jul 2021 14:58:05 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v2] btrfs: fix rw device counting in
+ __btrfs_free_extra_devids
+Message-ID: <20210728125805.GE5047@twin.jikos.cz>
+Mail-Followup-To: dsterba@suse.cz,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
+ josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
+ linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+References: <20210727071303.113876-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20210727071303.113876-1-desmondcheongzx@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, josef@toxicpanda.com,
+ anand.jain@oracle.com, linux-kernel@vger.kernel.org, clm@fb.com,
+ dsterba@suse.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-btrfs@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,223 +111,65 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-We make the following changes to the documentation of drm leases to
-make it easier to reason about their usage. In particular, we clarify
-the lifetime and locking rules of lease fields in drm_master:
+On Tue, Jul 27, 2021 at 03:13:03PM +0800, Desmond Cheong Zhi Xi wrote:
+> When removing a writeable device in __btrfs_free_extra_devids, the rw
+> device count should be decremented.
+> 
+> This error was caught by Syzbot which reported a warning in
+> close_fs_devices because fs_devices->rw_devices was not 0 after
+> closing all devices. Here is the call trace that was observed:
+> 
+>   btrfs_mount_root():
+>     btrfs_scan_one_device():
+>       device_list_add();   <---------------- device added
+>     btrfs_open_devices():
+>       open_fs_devices():
+>         btrfs_open_one_device();   <-------- writable device opened,
+> 	                                     rw device count ++
+>     btrfs_fill_super():
+>       open_ctree():
+>         btrfs_free_extra_devids():
+> 	  __btrfs_free_extra_devids();  <--- writable device removed,
+> 	                              rw device count not decremented
+> 	  fail_tree_roots:
+> 	    btrfs_close_devices():
+> 	      close_fs_devices();   <------- rw device count off by 1
+> 
+> As a note, prior to commit cf89af146b7e ("btrfs: dev-replace: fail
+> mount if we don't have replace item with target device"), rw_devices
+> was decremented on removing a writable device in
+> __btrfs_free_extra_devids only if the BTRFS_DEV_STATE_REPLACE_TGT bit
+> was not set for the device. However, this check does not need to be
+> reinstated as it is now redundant and incorrect.
+> 
+> In __btrfs_free_extra_devids, we skip removing the device if it is the
+> target for replacement. This is done by checking whether device->devid
+> == BTRFS_DEV_REPLACE_DEVID. Since BTRFS_DEV_STATE_REPLACE_TGT is set
+> only on the device with devid BTRFS_DEV_REPLACE_DEVID, no devices
+> should have the BTRFS_DEV_STATE_REPLACE_TGT bit set after the check,
+> and so it's redundant to test for that bit.
+> 
+> Additionally, following commit 82372bc816d7 ("Btrfs: make
+> the logic of source device removing more clear"), rw_devices is
+> incremented whenever a writeable device is added to the alloc
+> list (including the target device in btrfs_dev_replace_finishing), so
+> all removals of writable devices from the alloc list should also be
+> accompanied by a decrement to rw_devices.
+> 
+> Fixes: cf89af146b7e ("btrfs: dev-replace: fail mount if we don't have replace item with target device")
+> Reported-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+> Tested-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> Reviewed-by: Anand Jain <anand.jain@oracle.com>
 
-1. Make it clear that &drm_device.mode_config.idr_mutex protects the
-lease idr and list structures for drm_master. The lessor field itself
-doesn't need to be protected as it doesn't change after it's set in
-drm_lease_create.
-
-2. Add descriptions for the lifetime of lessors and leases.
-
-3. Add an overview DOC: section in drm-uapi.rst that defines the
-terminology for drm leasing, and explains how leases work and why
-they're used.
-
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
-
-v2 -> v3 (suggestions from Daniel Vetter):
-- Clarified that device owners are changed through SETMASTER or
-DROPMASTER IOCTL.
-- Removed unneccessary includes for drm_lease.[hc] and kerneldoc
-formatting changes.
-
-v1 -> v2 (suggestions from Daniel Vetter):
-- Clarified description of lease fields in drm_master.
-- Added an overview DOC: section for drm leases in drm-uapi.rst.
-- Cleaned up function documentation in drm_lease.c to use kernel-doc formatting.
-
- Documentation/gpu/drm-uapi.rst |  9 +++++
- drivers/gpu/drm/drm_lease.c    | 51 ++++++++++++++++++++++++++
- include/drm/drm_auth.h         | 67 ++++++++++++++++++++++++++++------
- 3 files changed, 116 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 7e51dd40bf6e..199afb503ab1 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -37,6 +37,15 @@ Primary Nodes, DRM Master and Authentication
- .. kernel-doc:: include/drm/drm_auth.h
-    :internal:
- 
-+
-+.. _drm_leasing:
-+
-+DRM Display Resource Leasing
-+============================
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_lease.c
-+   :doc: drm leasing
-+
- Open-Source Userspace Requirements
- ==================================
- 
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 92eac73d9001..79be797e8689 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -15,6 +15,57 @@
- #include "drm_crtc_internal.h"
- #include "drm_internal.h"
- 
-+/**
-+ * DOC: drm leasing
-+ *
-+ * DRM leases provide information about whether a DRM master may control a DRM
-+ * mode setting object. This enables the creation of multiple DRM masters that
-+ * manage subsets of display resources.
-+ *
-+ * The original DRM master of a device 'owns' the available drm resources. It
-+ * may create additional DRM masters and 'lease' resources which it controls
-+ * to the new DRM master. This gives the new DRM master control over the
-+ * leased resources until the owner revokes the lease, or the new DRM master
-+ * is closed. Some helpful terminology:
-+ *
-+ * - An 'owner' is a &struct drm_master that is not leasing objects from
-+ *   another &struct drm_master, and hence 'owns' the objects. The owner can be
-+ *   identified as the &struct drm_master for which &drm_master.lessor is NULL.
-+ *
-+ * - A 'lessor' is a &struct drm_master which is leasing objects to one or more
-+ *   other &struct drm_master. Currently, lessees are not allowed to
-+ *   create sub-leases, hence the lessor is the same as the owner.
-+ *
-+ * - A 'lessee' is a &struct drm_master which is leasing objects from some
-+ *   other &struct drm_master. Each lessee only leases resources from a single
-+ *   lessor recorded in &drm_master.lessor, and holds the set of objects that
-+ *   it is leasing in &drm_master.leases.
-+ *
-+ * - A 'lease' is a contract between the lessor and lessee that identifies
-+ *   which resources may be controlled by the lessee. All of the resources
-+ *   that are leased must be owned by or leased to the lessor, and lessors are
-+ *   not permitted to lease the same object to multiple lessees.
-+ *
-+ * The set of objects any &struct drm_master 'controls' is limited to the set
-+ * of objects it leases (for lessees) or all objects (for owners).
-+ *
-+ * Objects not controlled by a &struct drm_master cannot be modified through
-+ * the various state manipulating ioctls, and any state reported back to user
-+ * space will be edited to make them appear idle and/or unusable. For
-+ * instance, connectors always report 'disconnected', while encoders
-+ * report no possible crtcs or clones.
-+ *
-+ * Since each lessee may lease objects from a single lessor, display resource
-+ * leases form a tree of &struct drm_master. As lessees are currently not
-+ * allowed to create sub-leases, the tree depth is limited to 1. All of
-+ * these get activated simultaneously when the top level device owner changes
-+ * through the SETMASTER or DROPMASTER IOCTL, so &drm_device.master points to
-+ * the owner at the top of the lease tree (i.e. the &struct drm_master for which
-+ * &drm_master.lessor is NULL). The full list of lessees that are leasing
-+ * objects from the owner can be searched via the owner's
-+ * &drm_master.lessee_idr.
-+ */
-+
- #define drm_for_each_lessee(lessee, lessor) \
- 	list_for_each_entry((lessee), &(lessor)->lessees, lessee_list)
- 
-diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
-index f99d3417f304..ba248ca8866f 100644
---- a/include/drm/drm_auth.h
-+++ b/include/drm/drm_auth.h
-@@ -58,12 +58,6 @@ struct drm_lock_data {
-  * @refcount: Refcount for this master object.
-  * @dev: Link back to the DRM device
-  * @driver_priv: Pointer to driver-private information.
-- * @lessor: Lease holder
-- * @lessee_id: id for lessees. Owners always have id 0
-- * @lessee_list: other lessees of the same master
-- * @lessees: drm_masters leasing from this one
-- * @leases: Objects leased to this drm_master.
-- * @lessee_idr: All lessees under this owner (only used where lessor == NULL)
-  *
-  * Note that master structures are only relevant for the legacy/primary device
-  * nodes, hence there can only be one per device, not one per drm_minor.
-@@ -88,17 +82,68 @@ struct drm_master {
- 	struct idr magic_map;
- 	void *driver_priv;
- 
--	/* Tree of display resource leases, each of which is a drm_master struct
--	 * All of these get activated simultaneously, so drm_device master points
--	 * at the top of the tree (for which lessor is NULL). Protected by
--	 * &drm_device.mode_config.idr_mutex.
-+	/**
-+	 * @lessor:
-+	 *
-+	 * Lease grantor, only set if this &struct drm_master represents a
-+	 * lessee holding a lease of objects from @lessor. Full owners of the
-+	 * device have this set to NULL.
-+	 *
-+	 * The lessor does not change once it's set in drm_lease_create(), and
-+	 * each lessee holds a reference to its lessor that it releases upon
-+	 * being destroyed in drm_lease_destroy().
-+	 *
-+	 * See also the :ref:`section on display resource leasing
-+	 * <drm_leasing>`.
- 	 */
--
- 	struct drm_master *lessor;
-+
-+	/**
-+	 * @lessee_id:
-+	 *
-+	 * ID for lessees. Owners (i.e. @lessor is NULL) always have ID 0.
-+	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 */
- 	int	lessee_id;
-+
-+	/**
-+	 * @lessee_list:
-+	 *
-+	 * List entry of lessees of @lessor, where they are linked to @lessees.
-+	 * Not used for owners. Protected by &drm_device.mode_config's
-+	 * &drm_mode_config.idr_mutex.
-+	 */
- 	struct list_head lessee_list;
-+
-+	/**
-+	 * @lessees:
-+	 *
-+	 * List of drm_masters leasing from this one. Protected by
-+	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 *
-+	 * This list is empty if no leases have been granted, or if all lessees
-+	 * have been destroyed. Since lessors are referenced by all their
-+	 * lessees, this master cannot be destroyed unless the list is empty.
-+	 */
- 	struct list_head lessees;
-+
-+	/**
-+	 * @leases:
-+	 *
-+	 * Objects leased to this drm_master. Protected by
-+	 * &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 *
-+	 * Objects are leased all together in drm_lease_create(), and are
-+	 * removed all together when the lease is revoked.
-+	 */
- 	struct idr leases;
-+
-+	/**
-+	 * @lessee_idr:
-+	 *
-+	 * All lessees under this owner (only used where @lessor is NULL).
-+	 * Protected by &drm_device.mode_config's &drm_mode_config.idr_mutex.
-+	 */
- 	struct idr lessee_idr;
- 	/* private: */
- #if IS_ENABLED(CONFIG_DRM_LEGACY)
--- 
-2.25.1
-
+Added to misc-next, thanks.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
