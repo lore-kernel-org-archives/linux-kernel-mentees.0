@@ -6,109 +6,110 @@ X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD9FDC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 14:02:18 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FBFAC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 14:32:24 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 66D5E60EB2
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 14:02:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 66D5E60EB2
+	by mail.kernel.org (Postfix) with ESMTPS id BE2B760D07
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 14:32:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BE2B760D07
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3279B401FA;
-	Thu, 29 Jul 2021 14:02:18 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8AA6B60669;
+	Thu, 29 Jul 2021 14:32:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Jrn9_cmmv4eD; Thu, 29 Jul 2021 14:02:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9027C40131;
-	Thu, 29 Jul 2021 14:02:16 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 635A1C0010;
-	Thu, 29 Jul 2021 14:02:16 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 186A2C000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 14:02:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E87826077C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 14:02:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MDSQFlFQ_wEp
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OdQzhjPC53I1; Thu, 29 Jul 2021 14:32:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id EBC5B6064D;
+	Thu, 29 Jul 2021 14:32:21 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C1302C001A;
+	Thu, 29 Jul 2021 14:32:21 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BDB0BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 14:02:12 +0000 (UTC)
+ Thu, 29 Jul 2021 14:32:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id BA74C838C0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 29 Jul 2021 14:32:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bdKk3KRvYocO
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 29 Jul 2021 14:32:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A73C8606EE
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 122E88387D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 14:02:12 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- u9-20020a17090a1f09b029017554809f35so15737189pja.5
+ Thu, 29 Jul 2021 14:32:19 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id d1so7239067pll.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 07:02:12 -0700 (PDT)
+ Thu, 29 Jul 2021 07:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:to:references:cc:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sC0RxXaBHF8bVVFQScILDosn557UeHIRNJqc1N05wY0=;
- b=s8cBYF+OaNkTtZszeh88AESli5UFUYhuH9jgv8uhgSSv37d/02MjOKKv5HdRn6zCGT
- MKk9cgj+ANjYjh3E4RalKiWJjbKKuwSPJuFtTvdVcY6pq2K7xQ8F3TgTNZ4HXccOTIG4
- /nq1fB/c1OJS+AdexjqfB7Rat1i6xut++TZRWE34XiEgV6taWwn2SzveP9GDK1EAMrna
- AUlkoEt/hMSfpED4DpgIdPJo/cCB+TQiP1Fdp5OH4YPlCUo7DxHhp3rjnecMlp6+tp8h
- rgbtl6Y8ENLOmEBtxb7+ubfkz2RpbBrkei0IVyELVNAv5jemUVzxa6anZCrBGrrmuOya
- dBcA==
+ bh=TCqiZ9emwIn3DT8Qsqk3JokMy2CspMehkepsJ5X2OwI=;
+ b=pYmciwP358P4iHb5J1kUSRLLsujMHUNOs6IfYo1L3SmlG0rWOcGEzMCxc6qjBXTyJn
+ DDH6pWCrYwzFt/vPl1abGPC0Gs3TTe4cny88etZlimyWd3AzxTdNyZ6QT45d0F38B96L
+ V3yPQ41hpebZlq4SIo8ju9Ews+sSLWL85P6yV7D7+DFOKY7hOKT6Pu9v1Omqchz7ZFCG
+ +raQzzTRYZs0RtB647vonPTl3GiFFZhtHcoeuNPd4AmLtrWpp/mMFkDV8/Wtb0hcgsQc
+ qSMdAnaj+p05tP9CUTmeyEAb48oDtTdVzIsg/hvB6ViMPfyniuTVSgK9KrJQf3PrYqZC
+ yVyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sC0RxXaBHF8bVVFQScILDosn557UeHIRNJqc1N05wY0=;
- b=GEsU5B7JRNWa3T4R9z4ibWO4WMz2FMgXu1eSGXyRPCihLg0UoWrkHuDTF/53wodJt8
- pk58CuXQ9aeXvU9Ch8vRbpGDWqMoiox4icvZYYHBW1HEDME6mf49Nsn76V/p2LqbtezF
- FSgus85h+uMYQ+tTPoopl7PF0TQ9DxevI/62kCQR1tDuaC4XM7w6VeMBiPRdfsUsqZhY
- fcuIZyEm5pNuDFxCoLRv0Ic+5ldlpT5ZhGeRHjF1ZkyivbBdGA7rOIu9Qlg27x874kUV
- mvryQCJ8Rtv94jXpJRxtvBW5ttgoNYKoxWPzC6p2pVEUr+i5my4PMO1RhAjBbidZYsrl
- s3nA==
-X-Gm-Message-State: AOAM532+1WA+cU/i06Of+qIZjyBCzh7cOc8z9vh4Z1lcYpb5vtTtMCRG
- oANS+M5ZE+4FwVsZezObQlM=
-X-Google-Smtp-Source: ABdhPJzB/FbzO+7bV94OfSl/6NiWIooTKaeoOoi0TVD8u1h5RkyvCzkMOGJCxC31R783LE+0iFwgOA==
-X-Received: by 2002:a65:5a83:: with SMTP id c3mr2226286pgt.321.1627567332086; 
- Thu, 29 Jul 2021 07:02:12 -0700 (PDT)
+ bh=TCqiZ9emwIn3DT8Qsqk3JokMy2CspMehkepsJ5X2OwI=;
+ b=ZTJ6xuXGcS+THK671xnM7rW8biZ1Nmu5Pn8EcPrb9ZhTLia9E2ol7RhvE6nKUNZCna
+ TH4ZGpNL9PsQskjvyF9SIM+zVX65ER8n5TLnZy0Upni3u3EY3Me2P2rk4K335qvFoCTE
+ O8u8K31IF/VolDAg1FC0p/OXljMq7rFvSS+EErWvnh34SoSLI27ab/qbKyO9RBu7UO/+
+ VvgZIqeB4ep85T6GmOeJpCYbVti3kmULvE2RP0IehMQHs4tKyNTy32k9IBZZQpTz7sIi
+ 52kCp38uGhpG+VKOj1GRzplMYNBCMS+gf+uE44t/XQ7CVGhEw6I4kFmO353niAm39Bsg
+ W8qw==
+X-Gm-Message-State: AOAM5326t0l3i7AAwxJye7nwoHP2bxkm7/hWc8sl5CB8gniP0mWwzAGp
+ 1V2Y9934YyhU0oe2dUZRn1a3AktUg0DF+E/4UJU=
+X-Google-Smtp-Source: ABdhPJy0u0+T52Mob4Ito6crR05tVv7wP86/2LEo3TbMmbfDVRZIhzxPK9wjz9JsmCtRtqAI46W+/Q==
+X-Received: by 2002:a17:90b:609:: with SMTP id
+ gb9mr5714173pjb.156.1627569138906; 
+ Thu, 29 Jul 2021 07:32:18 -0700 (PDT)
 Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id w11sm3501921pjr.44.2021.07.29.07.02.07
+ by smtp.gmail.com with ESMTPSA id n56sm3801845pfv.65.2021.07.29.07.32.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Jul 2021 07:02:11 -0700 (PDT)
-Subject: Re: [PATCH v4] Bluetooth: schedule SCO timeouts with delayed_work
-To: Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-References: <20210728071721.411669-1-desmondcheongzx@gmail.com>
- <565F72A4-F9B6-430F-A35D-8EAC7545C141@holtmann.org>
+ Thu, 29 Jul 2021 07:32:18 -0700 (PDT)
+Subject: Re: [PATCH 1/3] drm: use the lookup lock in drm_is_current_master
+To: Daniel Vetter <daniel@ffwll.ch>, Peter Zijlstra <peterz@infradead.org>,
+ Boqun Feng <boqun.feng@gmail.com>, LKML <linux-kernel@vger.kernel.org>,
+ linux-graphics-maintainer@vmware.com, zackr@vmware.com, airlied@linux.ie,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+ <20210722092929.244629-2-desmondcheongzx@gmail.com>
+ <YPlKkvelm/mcnCj0@phenom.ffwll.local>
+ <YQAaIrNUXa6i2gxD@hirez.programming.kicks-ass.net>
+ <YQJSE3TMRydDNhqT@phenom.ffwll.local>
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <3d665eac-2262-a618-2729-850de317c8ea@gmail.com>
-Date: Thu, 29 Jul 2021 22:02:06 +0800
+Message-ID: <fbf2ec46-5ef5-7108-450a-13a7c48c30ce@gmail.com>
+Date: Thu, 29 Jul 2021 22:32:13 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <565F72A4-F9B6-430F-A35D-8EAC7545C141@holtmann.org>
+In-Reply-To: <YQJSE3TMRydDNhqT@phenom.ffwll.local>
 Content-Language: en-US
-Cc: Johan Hedberg <johan.hedberg@gmail.com>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- linux-bluetooth <linux-bluetooth@vger.kernel.org>,
- syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com,
- Jakub Kicinski <kuba@kernel.org>,
+Cc: intel-gfx@lists.freedesktop.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
+ dri-devel@lists.freedesktop.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,181 +121,159 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-SGkgTWFyY2VsLAoKT24gMjkvNy8yMSA3OjMwIHBtLCBNYXJjZWwgSG9sdG1hbm4gd3JvdGU6Cj4g
-SGkgRGVzbW9uZCwKPiAKPj4gc3RydWN0IHNvY2suc2tfdGltZXIgc2hvdWxkIGJlIHVzZWQgYXMg
-YSBzb2NrIGNsZWFudXAgdGltZXIuIEhvd2V2ZXIsCj4+IFNDTyB1c2VzIGl0IHRvIGltcGxlbWVu
-dCBzb2NrIHRpbWVvdXRzLgo+Pgo+PiBUaGlzIGNhdXNlcyBpc3N1ZXMgYmVjYXVzZSBzdHJ1Y3Qg
-c29jay5za190aW1lcidzIGNhbGxiYWNrIGlzIHJ1biBpbgo+PiBhbiBJUlEgY29udGV4dCwgYW5k
-IHRoZSB0aW1lciBjYWxsYmFjayBmdW5jdGlvbiBzY29fc29ja190aW1lb3V0IHRha2VzCj4+IGEg
-c3BpbiBsb2NrIG9uIHRoZSBzb2NrZXQuIEhvd2V2ZXIsIG90aGVyIGZ1bmN0aW9ucyBzdWNoIGFz
-Cj4+IHNjb19jb25uX2RlbCwgc2NvX2Nvbm5fcmVhZHksIHJmY29tbV9jb25uZWN0X2luZCwgYW5k
-Cj4+IGJ0X2FjY2VwdF9lbnF1ZXVlIGFsc28gdGFrZSB0aGUgc3BpbiBsb2NrIHdpdGggaW50ZXJy
-dXB0cyBlbmFibGVkLgo+Pgo+PiBUaGlzIGluY29uc2lzdGVudCB7U09GVElSUS1PTi1XfSAtPiB7
-SU4tU09GVElSUS1XfSBsb2NrIHVzYWdlIGNvdWxkCj4+IGxlYWQgdG8gZGVhZGxvY2tzIGFzIHJl
-cG9ydGVkIGJ5IFN5emJvdCBbMV06Cj4+ICAgICAgICBDUFUwCj4+ICAgICAgICAtLS0tCj4+ICAg
-bG9jayhzbG9jay1BRl9CTFVFVE9PVEgtQlRQUk9UT19TQ08pOwo+PiAgIDxJbnRlcnJ1cHQ+Cj4+
-ICAgICBsb2NrKHNsb2NrLUFGX0JMVUVUT09USC1CVFBST1RPX1NDTyk7Cj4+Cj4+IFRvIGZpeCB0
-aGlzLCB3ZSB1c2UgZGVsYXllZCB3b3JrIHRvIGltcGxlbWVudCBTQ08gc29jayB0aW1vdXRzCj4+
-IGluc3RlYWQuIFRoaXMgYWxsb3dzIHVzIHRvIGF2b2lkIHRha2luZyB0aGUgc3BpbiBsb2NrIG9u
-IHRoZSBzb2NrZXQgaW4KPj4gYW4gSVJRIGNvbnRleHQsIGFuZCBjb3JyZWN0cyB0aGUgbWlzdXNl
-IG9mIHN0cnVjdCBzb2NrLnNrX3RpbWVyLgo+Pgo+PiBMaW5rOiBodHRwczovL3N5emthbGxlci5h
-cHBzcG90LmNvbS9idWc/aWQ9OTA4OWQ4OWRlMDUwMmUxMjBmMjM0Y2EwZmM4YTcwM2Y3MzY4YjMx
-ZSBbMV0KPj4gUmVwb3J0ZWQtYnk6IHN5emJvdCsyZjZkN2MyOGJiNGJmN2U4MjA2MEBzeXprYWxs
-ZXIuYXBwc3BvdG1haWwuY29tCj4+IFNpZ25lZC1vZmYtYnk6IERlc21vbmQgQ2hlb25nIFpoaSBY
-aSA8ZGVzbW9uZGNoZW9uZ3p4QGdtYWlsLmNvbT4KPj4gLS0tCj4+Cj4+IEhpLAo+Pgo+PiBBcyBz
-dWdnZXN0ZWQsIHRoaXMgcGF0Y2ggYWRkcmVzc2VzIHRoZSBpbmNvbnNpc3RlbnQgbG9jayBzdGF0
-ZSB3aGlsZQo+PiBhdm9pZGluZyBoYXZpbmcgdG8gZGVhbCB3aXRoIGxvY2FsX2JoX2Rpc2FibGUu
-Cj4+Cj4+IE5vdyB0aGF0IHNjb19zb2NrX3RpbWVvdXQgaXMgbm8gbG9uZ2VyIHJ1biBpbiBJUlEg
-Y29udGV4dCwgaXQgbWlnaHQKPj4gYmUgdGhlIGNhc2UgdGhhdCBiaF9sb2NrX3NvY2sgaXMgbm8g
-bG9uZ2VyIG5lZWRlZCB0byBzeW5jIGJldHdlZW4KPj4gU09GVElSUSBhbmQgdXNlciBjb250ZXh0
-cywgc28gd2UgY2FuIHN3aXRjaCB0byBsb2NrX3NvY2suCj4+Cj4+IEknbSBub3QgdG9vIGNlcnRh
-aW4gYWJvdXQgdGhpcywgb3IgaWYgdGhlcmUncyBhbnkgYmVuZWZpdCB0byB1c2luZwo+PiBsb2Nr
-X3NvY2sgaW5zdGVhZCwgc28gSSd2ZSBsZWZ0IHRoYXQgb3V0IG9mIHRoaXMgcGF0Y2guCj4gCj4g
-SSBkb27igJl0IHNlZSBhIHJlYXNvbiB3aHkgd2UgY2Fu4oCZdCBzd2l0Y2ggdG8gbG9ja19zb2Nr
-LCBidXQgbGV0cyBkbyB0aGF0IGluIGEgc2VwYXJhdGUgcGF0Y2ggaW4gY2FzZSBJIG1pc3NlZCBz
-b21ldGhpbmcgaXQgaXMgZWFzaWVyIHRvIHJldmVydC4KPiAKClNvdW5kcyBnb29kIHRvIG1lLgoK
-QWZ0ZXIgZnVydGhlciBpbnZlc3RpZ2F0aW9uLCBJIGJlbGlldmUgdGhlIHN3aXRjaCB0byBsb2Nr
-X3NvY2sgaXMgbmVlZGVkIAp0byBwcmV2ZW50IGNhbGxzIHRvIHNjb19zb2NrX3NldF90aW1lciB3
-aGlsZSB3ZSdyZSB0cnlpbmcgdG8gcmVtb3ZlIGEgCmNvbm5lY3Rpb24gb3Igc29ja2V0LgoKUmln
-aHQgbm93IF9zZXRfdGltZXIgaXMgY2FsbGVkIHVuZGVyIGxvY2tfc29jaywgd2hlcmVhcyBfY2xl
-YXJfdGltZXIgaXMgCnNvbWV0aW1lcyBjYWxsZWQgdW5kZXIgbG9ja19zb2NrLCBzb21ldGltZXMg
-dW5kZXIgYmhfbG9ja19zb2NrLCBhbmQgCnNvbWV0aW1lcyB1bmRlciBubyBsb2NrLiBJdCBzZWVt
-cyB0byBtZSB0aGF0IHRoZXJlJ3MgcG90ZW50aWFsIHJhY2VzIApoZXJlLiBGb3IgZXhhbXBsZToK
-CiAgICAgICAgIENQVTAgICAgICAgICAgICAgICAgICAgIENQVTEKICAgICAgICAgLS0tLSAgICAg
-ICAgICAgICAgICAgICAgLS0tLQogICAgbG9ja19zb2NrKCk7CiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGJoX2xvY2tfc29jaygpOwogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBzY29fc29ja19jbGVhcl90aW1lcigpOwogICAgc2NvX3NvY2tfc2V0X3RpbWVyKCk7CiAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNjb19jaGFuX2RlbCgpOwoKU28gY2FsbHMg
-dG8gX2NsZWFyX3RpbWVyIGFuZCBfc2V0X3RpbWVyIG5lZWQgdG8gYmUgY29uc29saWRhdGVkIHVu
-ZGVyIApsb2NrX3NvY2suCgpCdXQgYmVmb3JlIHRoYXQgdGhlcmUncyBhIGNpcmN1bGFyIGxvY2sg
-ZGVwZW5kZW5jeSB0aGF0J3MgY3VycmVudGx5IApoaWRkZW4uIFdoZW4gY2hhbmdpbmcgYmhfbG9j
-a19zb2NrIHRvIGxvY2tfc29jayBpbiBzY28uYywgd2UgZ2V0IGEgY2hhaW4gCm9mIHNrX2xvY2st
-QUZfQkxVRVRPT1RILUJUUFJPVE9fU0NPIC0tPiAmaGRldi0+bG9jayAtLT4gaGNpX2NiX2xpc3Rf
-bG9jawoKQXNzdW1pbmcgdGhhdCB0aGUgcHJvcGVyIGxvY2sgaGllcmFyY2h5IChmcm9tIG91dGVy
-IHRvIGlubmVyKSBzaG91bGQgYmUgCiZoZGV2LT5sb2NrIC0tPiBoY2lfY2JfbGlzdF9sb2NrIC0t
-PiBza19sb2NrLUFGX0JMVUVUT09USC1CVFBST1RPX1NDTywKdGhlbiB0aGUgaW52ZXJzaW9uIGhh
-cHBlbnMgaW4gc2NvX3NvY2tfY29ubmVjdCB3aGVyZSB3ZSBjYWxsIGxvY2tfc29jayAKYmVmb3Jl
-IGhjaV9kZXZfbG9jay4KClNvIHByb2JhYmx5IHRoaXMgZml4IG5lZWRzIHRvIGhhcHBlbiBpbiBh
-IHNlcmllcyBsaWtlIHNvOgotIHNjaGVkdWxlIFNDTyB0aW1lb3V0cyB3aXRoIGRlbGF5ZWRfd29y
-ayAod2hpY2ggcmVtb3ZlcyB0aGUgU09GVElSUSkKLSBicmVhayB0aGUgY2lyY3VsYXIgZGVwZW5k
-ZW5jeSAod2hpY2ggZW5hYmxlcyB0aGUgc3dpdGNoIHRvIGxvY2tfc29jaykKLSBzd2l0Y2ggdG8g
-bG9ja19zb2NrIHdoaWxlIG1vdmluZyBjYWxscyB0byBfY2xlYXJfdGltZXIgdW5kZXIgdGhlIGxv
-Y2sKClRob3VnaHRzPwoKPj4KPj4gdjMgLT4gdjQ6Cj4+IC0gU3dpdGNoIHRvIHVzaW5nIGRlbGF5
-ZWRfd29yayB0byBzY2hlZHVsZSBTQ08gc29jayB0aW1lb3V0cyBpbnN0ZWFkCj4+IG9mIHVzaW5n
-IGxvY2FsX2JoX2Rpc2FibGUuIEFzIHN1Z2dlc3RlZCBieSBMdWl6IEF1Z3VzdG8gdm9uIERlbnR6
-Lgo+Pgo+PiB2MiAtPiB2MzoKPj4gLSBTcGxpdCBTQ08gYW5kIFJGQ09NTSBjb2RlIGNoYW5nZXMs
-IGFzIHN1Z2dlc3RlZCBieSBMdWl6IEF1Z3VzdG8gdm9uCj4+IERlbnR6Lgo+PiAtIFNpbXBsaWZ5
-IGxvY2FsIGJoIGRpc2FibGluZyBpbiBTQ08gYnkgdXNpbmcgbG9jYWxfYmhfZGlzYWJsZS9lbmFi
-bGUKPj4gaW5zaWRlIHNjb19jaGFuX2RlbCBzaW5jZSBsb2NhbF9iaF9kaXNhYmxlL2VuYWJsZSBw
-YWlycyBhcmUgcmVlbnRyYW50Lgo+Pgo+PiB2MSAtPiB2MjoKPj4gLSBJbnN0ZWFkIG9mIHB1bGxp
-bmcgb3V0IHRoZSBjbGVhbi11cCBjb2RlIG91dCBmcm9tIHNjb19jaGFuX2RlbCBhbmQKPj4gdXNp
-bmcgaXQgZGlyZWN0bHkgaW4gc2NvX2Nvbm5fZGVsLCBkaXNhYmxlIGxvY2FsIHNvZnRpcnFzIGZv
-ciByZWxldmFudAo+PiBzZWN0aW9ucy4KPj4gLSBEaXNhYmxlIGxvY2FsIHNvZnRpcnFzIG1vcmUg
-dGhvcm91Z2hseSBmb3IgaW5zdGFuY2VzIG9mCj4+IGJoX2xvY2tfc29jay9iaF9sb2NrX3NvY2tf
-bmVzdGVkIGluIHRoZSBibHVldG9vdGggc3Vic3lzdGVtLgo+PiBTcGVjaWZpY2FsbHksIHRoZSBj
-YWxscyBpbiBhZl9ibHVldG9vdGguYyBhbmQgcmZjb21tL3NvY2suYyBhcmUgbm93IG1hZGUKPj4g
-d2l0aCBsb2NhbCBzb2Z0aXJxcyBkaXNhYmxlZCBhcyB3ZWxsLgo+Pgo+PiBCZXN0IHdpc2hlcywK
-Pj4gRGVzbW9uZAo+Pgo+PiBuZXQvYmx1ZXRvb3RoL3Njby5jIHwgMzkgKysrKysrKysrKysrKysr
-KysrKysrKysrLS0tLS0tLS0tLS0tLS0tCj4+IDEgZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25z
-KCspLCAxNSBkZWxldGlvbnMoLSkKPj4KPj4gZGlmZiAtLWdpdCBhL25ldC9ibHVldG9vdGgvc2Nv
-LmMgYi9uZXQvYmx1ZXRvb3RoL3Njby5jCj4+IGluZGV4IDNiZDQxNTYzZjExOC4uYjZkZDE2MTUz
-ZDM4IDEwMDY0NAo+PiAtLS0gYS9uZXQvYmx1ZXRvb3RoL3Njby5jCj4+ICsrKyBiL25ldC9ibHVl
-dG9vdGgvc2NvLmMKPj4gQEAgLTQ4LDYgKzQ4LDggQEAgc3RydWN0IHNjb19jb25uIHsKPj4gCXNw
-aW5sb2NrX3QJbG9jazsKPj4gCXN0cnVjdCBzb2NrCSpzazsKPj4KPj4gKwlzdHJ1Y3QgZGVsYXll
-ZF93b3JrCXNrX3RpbWVyOwo+PiArCj4gCj4gSSBkb27igJl0IGxpa2UgdGhlIHNrX3RpbWVyIG5h
-bWUuIFRoYXQgaXMgY29uZnVzaW5nLiBNYXliZSBiZXR0ZXIgdXNlIHRpbWVvdXRfd29yayBvciB0
-b193b3JrLiBUaGUgc2tfKiBhcmUgcmVhbGx5IG1vcmUgc3RydWN0IHNvY2sgZmllbGRzIChoZW5j
-ZSB0aGUgc2stPnNrX3h5eiBuYW1pbmcgc2NoZW1hKS4KPiAKClRoYW5rcyBmb3IgdGhlIGZlZWRi
-YWNrLiB0aW1lb3V0X3dvcmsgc291bmRzIGdvb2QgdG8gbWUsIEknbGwgbWFrZSB0aGUgCnVwZGF0
-ZS4KCj4+IAl1bnNpZ25lZCBpbnQgICAgbXR1Owo+PiB9Owo+Pgo+PiBAQCAtNzQsOSArNzYsMTEg
-QEAgc3RydWN0IHNjb19waW5mbyB7Cj4+ICNkZWZpbmUgU0NPX0NPTk5fVElNRU9VVAkoSFogKiA0
-MCkKPj4gI2RlZmluZSBTQ09fRElTQ09OTl9USU1FT1VUCShIWiAqIDIpCj4+Cj4+IC1zdGF0aWMg
-dm9pZCBzY29fc29ja190aW1lb3V0KHN0cnVjdCB0aW1lcl9saXN0ICp0KQo+PiArc3RhdGljIHZv
-aWQgc2NvX3NvY2tfdGltZW91dChzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCj4+IHsKPj4gLQlz
-dHJ1Y3Qgc29jayAqc2sgPSBmcm9tX3RpbWVyKHNrLCB0LCBza190aW1lcik7Cj4+ICsJc3RydWN0
-IHNjb19jb25uICpjb25uID0gY29udGFpbmVyX29mKHdvcmssIHN0cnVjdCBzY29fY29ubiwKPj4g
-KwkJCQkJICAgICBza190aW1lci53b3JrKTsKPj4gKwlzdHJ1Y3Qgc29jayAqc2sgPSBjb25uLT5z
-azsKPj4KPj4gCUJUX0RCRygic29jayAlcCBzdGF0ZSAlZCIsIHNrLCBzay0+c2tfc3RhdGUpOwo+
-Pgo+PiBAQCAtODksMTYgKzkzLDE4IEBAIHN0YXRpYyB2b2lkIHNjb19zb2NrX3RpbWVvdXQoc3Ry
-dWN0IHRpbWVyX2xpc3QgKnQpCj4+IAlzb2NrX3B1dChzayk7Cj4+IH0KPj4KPj4gLXN0YXRpYyB2
-b2lkIHNjb19zb2NrX3NldF90aW1lcihzdHJ1Y3Qgc29jayAqc2ssIGxvbmcgdGltZW91dCkKPj4g
-K3N0YXRpYyB2b2lkIHNjb19zb2NrX3NldF90aW1lcihzdHJ1Y3Qgc29jayAqc2ssIHN0cnVjdCBk
-ZWxheWVkX3dvcmsgKndvcmssCj4+ICsJCQkgICAgICAgbG9uZyB0aW1lb3V0KQo+PiB7Cj4gCj4g
-SSBkb27igJl0IGdldCB0aGUgZXh0cmEgdmFyaWFibGUgaGVyZS4gQ2FuIHdlIG5vdCBqdXN0IHBh
-c3MgaW4gc3RydWN0IGhjaV9jb25uLgo+IAo+IAoKUmlnaHQsIHRoZSBleHRyYSB2YXJpYWJsZSBp
-c24ndCBuZWVkZWQuCgpJIHRoaW5rIGVpdGhlciBzdHJ1Y3QgaGNpX2Nvbm4gb3Igc3RydWN0IHNv
-Y2sgc2hvdWxkIGdvIGluIHRoZXJlLiBCdXQgYXMgCkx1aXogc3VnZ2VzdGVkIGluIGFub3RoZXIg
-ZW1haWwsIHBlcmhhcHMgc3RydWN0IHNvY2sgd291bGQgYmUgYSBiZXR0ZXIgCmNhbmRpZGF0ZS4K
-ClRoaXMgaXMgYmVjYXVzZSBzb21ldGltZXMgd2UgbmVlZCB0byBjaGVjayB3aGV0aGVyIHNvY2sg
-aGFzIGJlZW4gYWRkZWQgCnRvIGEgY29ubmVjdGlvbiBiZWZvcmUgY2FsbGluZyBzY29fc29ja19j
-bGVhcl90aW1lciwgZS5nLiBpbiAKc2NvX3NvY2tfc2h1dGRvd24gb3Igc2NvX3NvY2tfY2xvc2Uu
-IFNvIG1pZ2h0IGFzIHdlbGwgY29uc29saWRhdGUgYWxsIAp0aGUgY2hlY2tzIGFuZCBkZXJlZmVy
-ZW5jZXMgaW50byBzY29fc29ja197c2V0L2NsZWFyfV90aW1lci4KCj4+IAlCVF9EQkcoInNvY2sg
-JXAgc3RhdGUgJWQgdGltZW91dCAlbGQiLCBzaywgc2stPnNrX3N0YXRlLCB0aW1lb3V0KTsKPj4g
-LQlza19yZXNldF90aW1lcihzaywgJnNrLT5za190aW1lciwgamlmZmllcyArIHRpbWVvdXQpOwo+
-PiArCWNhbmNlbF9kZWxheWVkX3dvcmsod29yayk7Cj4+ICsJc2NoZWR1bGVfZGVsYXllZF93b3Jr
-KHdvcmssIHRpbWVvdXQpOwo+PiB9Cj4+Cj4+IC1zdGF0aWMgdm9pZCBzY29fc29ja19jbGVhcl90
-aW1lcihzdHJ1Y3Qgc29jayAqc2spCj4+ICtzdGF0aWMgdm9pZCBzY29fc29ja19jbGVhcl90aW1l
-cihzdHJ1Y3Qgc29jayAqc2ssIHN0cnVjdCBkZWxheWVkX3dvcmsgKndvcmspCj4+IHsKPj4gCUJU
-X0RCRygic29jayAlcCBzdGF0ZSAlZCIsIHNrLCBzay0+c2tfc3RhdGUpOwo+PiAtCXNrX3N0b3Bf
-dGltZXIoc2ssICZzay0+c2tfdGltZXIpOwo+PiArCWNhbmNlbF9kZWxheWVkX3dvcmsod29yayk7
-Cj4gCj4gU2FtZSBhcyBhYm92ZSwgd2UgcGFzcyBpbiBzdHJ1Y3Qgc29jayBqdXN0IGZvciB0aGUg
-ZGVidWcgbWVzc2FnZS4KPiAKPj4gfQo+Pgo+PiAvKiAtLS0tIFNDTyBjb25uZWN0aW9ucyAtLS0t
-ICovCj4+IEBAIC0xNzQsNyArMTgwLDcgQEAgc3RhdGljIHZvaWQgc2NvX2Nvbm5fZGVsKHN0cnVj
-dCBoY2lfY29ubiAqaGNvbiwgaW50IGVycikKPj4gCWlmIChzaykgewo+PiAJCXNvY2tfaG9sZChz
-ayk7Cj4+IAkJYmhfbG9ja19zb2NrKHNrKTsKPj4gLQkJc2NvX3NvY2tfY2xlYXJfdGltZXIoc2sp
-Owo+PiArCQlzY29fc29ja19jbGVhcl90aW1lcihzaywgJmNvbm4tPnNrX3RpbWVyKTsKPj4gCQlz
-Y29fY2hhbl9kZWwoc2ssIGVycik7Cj4+IAkJYmhfdW5sb2NrX3NvY2soc2spOwo+PiAJCXNjb19z
-b2NrX2tpbGwoc2spOwo+PiBAQCAtMTkzLDYgKzE5OSw4IEBAIHN0YXRpYyB2b2lkIF9fc2NvX2No
-YW5fYWRkKHN0cnVjdCBzY29fY29ubiAqY29ubiwgc3RydWN0IHNvY2sgKnNrLAo+PiAJc2NvX3Bp
-KHNrKS0+Y29ubiA9IGNvbm47Cj4+IAljb25uLT5zayA9IHNrOwo+Pgo+PiArCUlOSVRfREVMQVlF
-RF9XT1JLKCZjb25uLT5za190aW1lciwgc2NvX3NvY2tfdGltZW91dCk7Cj4+ICsKPj4gCWlmIChw
-YXJlbnQpCj4+IAkJYnRfYWNjZXB0X2VucXVldWUocGFyZW50LCBzaywgdHJ1ZSk7Cj4+IH0KPj4g
-QEAgLTI2MCwxMSArMjY4LDExIEBAIHN0YXRpYyBpbnQgc2NvX2Nvbm5lY3Qoc3RydWN0IHNvY2sg
-KnNrKQo+PiAJCWdvdG8gZG9uZTsKPj4KPj4gCWlmIChoY29uLT5zdGF0ZSA9PSBCVF9DT05ORUNU
-RUQpIHsKPj4gLQkJc2NvX3NvY2tfY2xlYXJfdGltZXIoc2spOwo+PiArCQlzY29fc29ja19jbGVh
-cl90aW1lcihzaywgJmNvbm4tPnNrX3RpbWVyKTsKPj4gCQlzay0+c2tfc3RhdGUgPSBCVF9DT05O
-RUNURUQ7Cj4+IAl9IGVsc2Ugewo+PiAJCXNrLT5za19zdGF0ZSA9IEJUX0NPTk5FQ1Q7Cj4+IC0J
-CXNjb19zb2NrX3NldF90aW1lcihzaywgc2stPnNrX3NuZHRpbWVvKTsKPj4gKwkJc2NvX3NvY2tf
-c2V0X3RpbWVyKHNrLCAmY29ubi0+c2tfdGltZXIsIHNrLT5za19zbmR0aW1lbyk7Cj4+IAl9Cj4+
-Cj4+IGRvbmU6Cj4+IEBAIC00MTksNyArNDI3LDggQEAgc3RhdGljIHZvaWQgX19zY29fc29ja19j
-bG9zZShzdHJ1Y3Qgc29jayAqc2spCj4+IAljYXNlIEJUX0NPTkZJRzoKPj4gCQlpZiAoc2NvX3Bp
-KHNrKS0+Y29ubi0+aGNvbikgewo+PiAJCQlzay0+c2tfc3RhdGUgPSBCVF9ESVNDT05OOwo+PiAt
-CQkJc2NvX3NvY2tfc2V0X3RpbWVyKHNrLCBTQ09fRElTQ09OTl9USU1FT1VUKTsKPj4gKwkJCXNj
-b19zb2NrX3NldF90aW1lcihzaywgJnNjb19waShzayktPmNvbm4tPnNrX3RpbWVyLAo+PiArCQkJ
-CQkgICBTQ09fRElTQ09OTl9USU1FT1VUKTsKPj4gCQkJc2NvX2Nvbm5fbG9jayhzY29fcGkoc2sp
-LT5jb25uKTsKPj4gCQkJaGNpX2Nvbm5fZHJvcChzY29fcGkoc2spLT5jb25uLT5oY29uKTsKPj4g
-CQkJc2NvX3BpKHNrKS0+Y29ubi0+aGNvbiA9IE5VTEw7Cj4+IEBAIC00NDMsNyArNDUyLDggQEAg
-c3RhdGljIHZvaWQgX19zY29fc29ja19jbG9zZShzdHJ1Y3Qgc29jayAqc2spCj4+IC8qIE11c3Qg
-YmUgY2FsbGVkIG9uIHVubG9ja2VkIHNvY2tldC4gKi8KPj4gc3RhdGljIHZvaWQgc2NvX3NvY2tf
-Y2xvc2Uoc3RydWN0IHNvY2sgKnNrKQo+PiB7Cj4+IC0Jc2NvX3NvY2tfY2xlYXJfdGltZXIoc2sp
-Owo+PiArCWlmIChzY29fcGkoc2spLT5jb25uKQo+PiArCQlzY29fc29ja19jbGVhcl90aW1lcihz
-aywgJnNjb19waShzayktPmNvbm4tPnNrX3RpbWVyKTsKPj4gCWxvY2tfc29jayhzayk7Cj4+IAlf
-X3Njb19zb2NrX2Nsb3NlKHNrKTsKPj4gCXJlbGVhc2Vfc29jayhzayk7Cj4+IEBAIC01MDAsOCAr
-NTEwLDYgQEAgc3RhdGljIHN0cnVjdCBzb2NrICpzY29fc29ja19hbGxvYyhzdHJ1Y3QgbmV0ICpu
-ZXQsIHN0cnVjdCBzb2NrZXQgKnNvY2ssCj4+Cj4+IAlzY29fcGkoc2spLT5zZXR0aW5nID0gQlRf
-Vk9JQ0VfQ1ZTRF8xNkJJVDsKPj4KPj4gLQl0aW1lcl9zZXR1cCgmc2stPnNrX3RpbWVyLCBzY29f
-c29ja190aW1lb3V0LCAwKTsKPj4gLQo+PiAJYnRfc29ja19saW5rKCZzY29fc2tfbGlzdCwgc2sp
-Owo+PiAJcmV0dXJuIHNrOwo+PiB9Cj4+IEBAIC0xMDM2LDcgKzEwNDQsOCBAQCBzdGF0aWMgaW50
-IHNjb19zb2NrX3NodXRkb3duKHN0cnVjdCBzb2NrZXQgKnNvY2ssIGludCBob3cpCj4+Cj4+IAlp
-ZiAoIXNrLT5za19zaHV0ZG93bikgewo+PiAJCXNrLT5za19zaHV0ZG93biA9IFNIVVRET1dOX01B
-U0s7Cj4+IC0JCXNjb19zb2NrX2NsZWFyX3RpbWVyKHNrKTsKPj4gKwkJaWYgKHNjb19waShzaykt
-PmNvbm4pCj4+ICsJCQlzY29fc29ja19jbGVhcl90aW1lcihzaywgJnNjb19waShzayktPmNvbm4t
-PnNrX3RpbWVyKTsKPj4gCQlfX3Njb19zb2NrX2Nsb3NlKHNrKTsKPj4KPj4gCQlpZiAoc29ja19m
-bGFnKHNrLCBTT0NLX0xJTkdFUikgJiYgc2stPnNrX2xpbmdlcnRpbWUgJiYKPj4gQEAgLTEwODMs
-NyArMTA5Miw3IEBAIHN0YXRpYyB2b2lkIHNjb19jb25uX3JlYWR5KHN0cnVjdCBzY29fY29ubiAq
-Y29ubikKPj4gCUJUX0RCRygiY29ubiAlcCIsIGNvbm4pOwo+Pgo+PiAJaWYgKHNrKSB7Cj4+IC0J
-CXNjb19zb2NrX2NsZWFyX3RpbWVyKHNrKTsKPj4gKwkJc2NvX3NvY2tfY2xlYXJfdGltZXIoc2ss
-ICZjb25uLT5za190aW1lcik7Cj4+IAkJYmhfbG9ja19zb2NrKHNrKTsKPj4gCQlzay0+c2tfc3Rh
-dGUgPSBCVF9DT05ORUNURUQ7Cj4+IAkJc2stPnNrX3N0YXRlX2NoYW5nZShzayk7Cj4gCj4gT3Ro
-ZXIgdGhhbiB0aGVzZSBtaW5vciBjbGVhbnVwcywgdGhpcyBsb29rcyBncmVhdC4KPiAKPiBSZWdh
-cmRzCj4gCj4gTWFyY2VsCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVs
-LW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91
-bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+On 29/7/21 3:00 pm, Daniel Vetter wrote:
+> On Tue, Jul 27, 2021 at 04:37:22PM +0200, Peter Zijlstra wrote:
+>> On Thu, Jul 22, 2021 at 12:38:10PM +0200, Daniel Vetter wrote:
+>>> On Thu, Jul 22, 2021 at 05:29:27PM +0800, Desmond Cheong Zhi Xi wrote:
+>>>> Inside drm_is_current_master, using the outer drm_device.master_mutex
+>>>> to protect reads of drm_file.master makes the function prone to creating
+>>>> lock hierarchy inversions. Instead, we can use the
+>>>> drm_file.master_lookup_lock that sits at the bottom of the lock
+>>>> hierarchy.
+>>>>
+>>>> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+>>>> ---
+>>>>   drivers/gpu/drm/drm_auth.c | 9 +++++----
+>>>>   1 file changed, 5 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>>>> index f00354bec3fb..9c24b8cc8e36 100644
+>>>> --- a/drivers/gpu/drm/drm_auth.c
+>>>> +++ b/drivers/gpu/drm/drm_auth.c
+>>>> @@ -63,8 +63,9 @@
+>>>>   
+>>>>   static bool drm_is_current_master_locked(struct drm_file *fpriv)
+>>>>   {
+>>>> -	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
+>>>> -
+>>>> +	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
+>>>> +	 * should be held here.
+>>>> +	 */
+>>>
+>>> Disappointing that lockdep can't check or conditions for us, a
+>>> lockdep_assert_held_either would be really neat in some cases.
+>>>
+>>> Adding lockdep folks, maybe they have ideas.
+>>
+>> #ifdef CONFIG_LOCKDEP
+>> 	WARN_ON_ONCE(debug_locks && !(lockdep_is_held(&drm_device.master_mutex) ||
+>> 				      lockdep_is_held(&drm_file.master_lookup_lock)));
+>> #endif
+>>
+>> doesn't exactly roll off the tongue, but should do as you want I
+>> suppose.
+>>
+>> Would something like:
+>>
+>> #define lockdep_assert(cond)	WARN_ON_ONCE(debug_locks && !(cond))
+>>
+>> Such that we can write:
+>>
+>> 	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+>> 		       lockdep_is_held(&drm_file.master_lookup_lock));
+>>
+>> make it better ?
+> 
+> Yeah I think that's pretty tidy and flexible.
+> 
+> Desmond, can you pls give this a shot with Peter's patch below?
+> -Daniel
+
+Sounds good, will do. Thanks for the patch, Peter.
+
+Just going to make a small edit:
+s/LOCK_STAT_NOT_HELD/LOCK_STATE_NOT_HELD/
+
+Best wishes,
+Desmond
+
+>>
+>> ---
+>> Subject: locking/lockdep: Provide lockdep_assert{,_once}() helpers
+>>
+>> Extract lockdep_assert{,_once}() helpers to more easily write composite
+>> assertions like, for example:
+>>
+>> 	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+>> 		       lockdep_is_held(&drm_file.master_lookup_lock));
+>>
+>> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+>> ---
+>> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+>> index 5cf387813754..0da67341c1fb 100644
+>> --- a/include/linux/lockdep.h
+>> +++ b/include/linux/lockdep.h
+>> @@ -306,31 +306,29 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+>>   
+>>   #define lockdep_depth(tsk)	(debug_locks ? (tsk)->lockdep_depth : 0)
+>>   
+>> -#define lockdep_assert_held(l)	do {					\
+>> -		WARN_ON(debug_locks &&					\
+>> -			lockdep_is_held(l) == LOCK_STATE_NOT_HELD);	\
+>> -	} while (0)
+>> +#define lockdep_assert(cond)		\
+>> +	do { WARN_ON(debug_locks && !(cond)); } while (0)
+>>   
+>> -#define lockdep_assert_not_held(l)	do {				\
+>> -		WARN_ON(debug_locks &&					\
+>> -			lockdep_is_held(l) == LOCK_STATE_HELD);		\
+>> -	} while (0)
+>> +#define lockdep_assert_once(cond)	\
+>> +	do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
+>>   
+>> -#define lockdep_assert_held_write(l)	do {			\
+>> -		WARN_ON(debug_locks && !lockdep_is_held_type(l, 0));	\
+>> -	} while (0)
+>> +#define lockdep_assert_held(l)		\
+>> +	lockdep_assert(lockdep_is_held(l) != LOCK_STAT_NOT_HELD)
+>>   
+>> -#define lockdep_assert_held_read(l)	do {				\
+>> -		WARN_ON(debug_locks && !lockdep_is_held_type(l, 1));	\
+>> -	} while (0)
+>> +#define lockdep_assert_not_held(l)	\
+>> +	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+>>   
+>> -#define lockdep_assert_held_once(l)	do {				\
+>> -		WARN_ON_ONCE(debug_locks && !lockdep_is_held(l));	\
+>> -	} while (0)
+>> +#define lockdep_assert_held_write(l)	\
+>> +	lockdep_assert(lockdep_is_held_type(l, 0))
+>>   
+>> -#define lockdep_assert_none_held_once()	do {				\
+>> -		WARN_ON_ONCE(debug_locks && current->lockdep_depth);	\
+>> -	} while (0)
+>> +#define lockdep_assert_held_read(l)	\
+>> +	lockdep_assert(lockdep_is_held_type(l, 1))
+>> +
+>> +#define lockdep_assert_held_once(l)		\
+>> +	lockdep_assert_once(lockdep_is_held(l) != LOCK_STAT_NOT_HELD)
+>> +
+>> +#define lockdep_assert_none_held_once()		\
+>> +	lockdep_assert_once(!current->lockdep_depth)
+>>   
+>>   #define lockdep_recursing(tsk)	((tsk)->lockdep_recursion)
+>>   
+>> @@ -407,6 +405,9 @@ extern int lock_is_held(const void *);
+>>   extern int lockdep_is_held(const void *);
+>>   #define lockdep_is_held_type(l, r)		(1)
+>>   
+>> +#define lockdep_assert(c)			do { } while (0)
+>> +#define lockdep_assert_once(c)			do { } while (0)
+>> +
+>>   #define lockdep_assert_held(l)			do { (void)(l); } while (0)
+>>   #define lockdep_assert_not_held(l)		do { (void)(l); } while (0)
+>>   #define lockdep_assert_held_write(l)		do { (void)(l); } while (0)
+>>
+> 
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
