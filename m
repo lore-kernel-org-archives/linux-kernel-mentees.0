@@ -2,85 +2,90 @@ Return-Path: <SRS0=Pn+h=MV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F18C432BE
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 01:06:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC34BC432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 02:08:26 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D8A2360F91
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 01:06:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D8A2360F91
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+	by mail.kernel.org (Postfix) with ESMTPS id 7B7296056C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 02:08:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7B7296056C
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8AF89606E0;
-	Thu, 29 Jul 2021 01:06:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3DCB0606E2;
+	Thu, 29 Jul 2021 02:08:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q-gkKyrHf0qF; Thu, 29 Jul 2021 01:06:13 +0000 (UTC)
+	with ESMTP id c22uWe1W-Uxo; Thu, 29 Jul 2021 02:08:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 70D11606C2;
-	Thu, 29 Jul 2021 01:06:13 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 74E3B606CF;
+	Thu, 29 Jul 2021 02:08:25 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4C42AC001A;
-	Thu, 29 Jul 2021 01:06:13 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4B732C001A;
+	Thu, 29 Jul 2021 02:08:25 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3449DC000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2106EC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 01:06:12 +0000 (UTC)
+ Thu, 29 Jul 2021 02:08:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2AB39606CF
+ by smtp3.osuosl.org (Postfix) with ESMTP id EB274606E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 01:06:12 +0000 (UTC)
+ Thu, 29 Jul 2021 02:08:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JdEwylBd1qLu
+ with ESMTP id ZWJUGEsJCvei
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 01:06:11 +0000 (UTC)
-X-Greylist: delayed 09:28:40 by SQLgrey-1.8.0
-Received: from smtprelay.hostedemail.com (smtprelay0110.hostedemail.com
- [216.40.44.110])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 72ABA606C2
+ Thu, 29 Jul 2021 02:08:23 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 57E76606CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 01:06:10 +0000 (UTC)
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
- [10.5.19.251])
- by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 62CA91803322A
+ Thu, 29 Jul 2021 02:08:23 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ e2-20020a17090a4a02b029016f3020d867so6938463pjh.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 21:30:58 +0000 (UTC)
-Received: from omf03.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
- by smtprelay05.hostedemail.com (Postfix) with ESMTP id B560E180D0797;
- Wed, 28 Jul 2021 21:30:55 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
- omf03.hostedemail.com (Postfix) with ESMTPA id 640A113D99; 
- Wed, 28 Jul 2021 21:30:55 +0000 (UTC)
+ Wed, 28 Jul 2021 19:08:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=cJ2YAzvV2grxpblefxRH5sWxBwV+LXH1cBTuYwH02aA=;
+ b=GG5fH252mJoK2CmmR4s5MPNmxzHP+20K+BnuhE9cQJ1cjem18pspd6qSt/b3adxdYX
+ pykQHtdCpon3f1aOI/zS9M+YU1RVypegezcK/oo29cugzVhb5qSSRjgcM9zGF7KW+YV9
+ zhKSa0e4WWeWdgeqM2yHmVB0ka/BPdQPFYuaqYremTQWYuw5uz/JF30n5TaZL+IrvOR/
+ /nXWuv5hu/oMrXJA2w4jaOCdbtIuJkqMcClxk2TSGP2l4a/lENPu2wBAeebTe99nvofa
+ TtFDsPyvwTlaRneikwGwRNw70CtRGcQyhsd1x1YcAGOrfxD66IiLdg0wuqzRaxonVVyl
+ EKWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=cJ2YAzvV2grxpblefxRH5sWxBwV+LXH1cBTuYwH02aA=;
+ b=iF9jQJzULo9ImyK9WQCLEXiGAEz7HWKQaI4czpgp34/Kjv1nflko7f0Qxv4wxeIJta
+ XlSZkCRiTGgaWf644YY3xOLjXkNYbCUhsqVD9kSJfQqQaBCaP2GNg+LoBLa8+dH0g1cY
+ rN994SLo1x8c6IVxi3ZZMyBn/uS60xHLAoTbs/h4RVSy+gMo2Un0K6Ad0tHVTfyQRleh
+ 1va/fwNX2e4ZHr+ARsgFaPw6MEflZYNP6epVIfcHngK3w4qNrvvtYa0q5iVkQdUgDUBN
+ qrsh8Exq+iPyE8w02Ll5sI+6pCzR/fLYyeFxjw4Jm32kGkoAuRsS8yqCRCONGN11kvEf
+ BvLw==
+X-Gm-Message-State: AOAM533GGOXOqT+HNeb8jfAk6SGpK5kF4tJDogt8678HGFVxr9MN+Al0
+ SS8Frsy9kvS0aAI2H3RAgw+v7lHWa5fsIEjkxNc=
+X-Google-Smtp-Source: ABdhPJwbjNW4n1iE3SY+LJ55iRtjwPcpTH2ZMLAGafN3VVCSBjXftZxr9har3rDzUMdhrAgAfxUBk8mH7wR0Sd6JIdg=
+X-Received: by 2002:a17:90a:154e:: with SMTP id
+ y14mr2732532pja.184.1627524502671; 
+ Wed, 28 Jul 2021 19:08:22 -0700 (PDT)
 MIME-Version: 1.0
-Date: Wed, 28 Jul 2021 14:30:54 -0700
-From: Joe Perches <joe@perches.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: patch suggestion: Kconfig symbols
-In-Reply-To: <09db53b9-7edf-44fc-c6b7-7c4e9198a2d4@infradead.org>
-References: <295b8f8c-4264-9f32-6723-9d2d574021ac@infradead.org>
- <e77e2329bdafdbea538be0d7edb8a9d7d3e45990.camel@perches.com>
- <09db53b9-7edf-44fc-c6b7-7c4e9198a2d4@infradead.org>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <733d2747b67a8a172333b51bacbf77fe@perches.com>
-X-Sender: joe@perches.com
-X-Stat-Signature: 1rkzgomx86n88r4rw5msropwwmhpsboi
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 640A113D99
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/hNJ9eNNNyc+Lzlm6mkIzHlx1pO20mbns=
-X-HE-Tag: 1627507855-712796
-Cc: kernel-janitors <kernel-janitors@vger.kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- LKML <linux-kernel@vger.kernel.org>
+From: Amit Kumar Yadav <amit.ydv055@gmail.com>
+Date: Thu, 29 Jul 2021 07:38:11 +0530
+Message-ID: <CAP87k--WtYX6_niVaYJvdJPC3XjUgta3XZxrEssLUx9_ubDiZA@mail.gmail.com>
+Subject: Request for mentee selection tasks (Checkpatch Documentation)
+To: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,47 +97,15 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2021-07-28 12:41, Randy Dunlap wrote:
-> On 7/28/21 8:37 AM, Joe Perches wrote:
->> On Mon, 2021-07-26 at 17:21 -0700, Randy Dunlap wrote:
->>> Running scripts/checkkconfigsymbols.py reports several hundred (maybe 
->>> thousand)
->>> Kconfig symbols that are used questionably. Lots of these are false 
->>> positives
->>> but lots of the remainder could use some cleaning up.
->> []
->>> False positive example:
->>> 
->>> XCHOFFLD_MEM
->>> Referencing files: drivers/scsi/qla2xxx/qla_mbx.c
->>> Similar symbols: OF_PMEM, CXL_MEM, CXL_PMEM
->>> 
->>> The Referencing source file does this:
->>> #define CONFIG_XCHOFFLD_MEM	0x3
->>> 
->>> which is legitimate, so no change is needed.
->> 
->> Legitimate is perhaps dubious.
->> 
->> It might be better if Kconfig has exclusive use of CONFIG_<foo> naming 
->> so
->> renaming all the other existing CONFIG_<foo> defines might be 
->> appropriate.
-> 
-> I would prefer that as well -- maybe 15 years ago.
-> But I think it's too invasive to make that change now.
-
-I do not think it's that invasive.
-
-It's something that doesn't have to be done immediately either.
-
-It's not too many macro defines and not too many uses of those defines.
+I am interested in the Checkpatch Documentation mentorship program and
+I would like to work on the tasks for the mentee selection.
+Thanks.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
