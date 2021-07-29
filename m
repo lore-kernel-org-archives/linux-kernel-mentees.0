@@ -2,90 +2,76 @@ Return-Path: <SRS0=Pn+h=MV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82874C4320A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 16:52:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C18C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 19:53:31 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 220B260F23
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 16:52:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 220B260F23
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+	by mail.kernel.org (Postfix) with ESMTPS id E8D1F60EFF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 19:53:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E8D1F60EFF
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=holtmann.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E27A583474;
-	Thu, 29 Jul 2021 16:52:45 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A78C583B3D;
+	Thu, 29 Jul 2021 19:53:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v46b4Mxs8tcy; Thu, 29 Jul 2021 16:52:45 +0000 (UTC)
+	with ESMTP id MJe2Ti42NMXA; Thu, 29 Jul 2021 19:53:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 126F283216;
-	Thu, 29 Jul 2021 16:52:45 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D146F83B3A;
+	Thu, 29 Jul 2021 19:53:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1D3BC001A;
-	Thu, 29 Jul 2021 16:52:44 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3273BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B4AC5C0010;
+	Thu, 29 Jul 2021 19:53:29 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 16640C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 16:52:44 +0000 (UTC)
+ Thu, 29 Jul 2021 19:53:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 1AD5C405C1
+ by smtp1.osuosl.org (Postfix) with ESMTP id EBB5D83B3C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 16:52:44 +0000 (UTC)
+ Thu, 29 Jul 2021 19:53:26 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=anirudhrb.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MJ9JbCifMA9z
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id v58XjDyWKiKy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 16:52:43 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5D014404F0
+ Thu, 29 Jul 2021 19:53:23 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.holtmann.org (coyote.holtmann.net [212.227.132.17])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 708BA83B3A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 16:52:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1627577560; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=BsmWKq+5VCr2FsOe8rEynZpMqKTPxQLhfSREK11YYKMkFq9pj5wkUEmcuwOPynAJswpjVlDMcgXs82u07obaoqUcVpEnlYSqV1IBvP3uPLkbFDETsobI02tkAipushBqVObz10men0AOjCPYp3pwASo09SEWGF6a2gA1OJGsgfk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1627577560;
- h=Content-Type:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=CeMIoMGJKi5xWxjzK0BqJB0xLd4uAWj2QZ+Ixq0EaEc=; 
- b=RYULpI+KVCdXpIFdXZPWo3KeB4Ov7g41ch+tB3g3WPDJD4t+/EOM6VMhvO1HYFNz1FsOwnbOa1k+uvccALRP+WXaA5ylGxJINnFfKhomj7qnNcDwHcxwh4zu30rMEqpqqurOu5DhXkM+nEO1UQoA3vPPZco4/X3+Y5esBt/la6w=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1627577560; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To;
- bh=CeMIoMGJKi5xWxjzK0BqJB0xLd4uAWj2QZ+Ixq0EaEc=;
- b=RuShqD9poBj0Om5UXYEtnjIndUCzvUuDnBa0AytduYlMm++/+Py0on5fgfFvaH+w
- jRsy5K36G0nFiD8Ly6yx4gMikuEkBCC7mml+GnVPPqkEHrnwAVz2cBeIERAePZsnpZ7
- +vUFzG9o/MtDhQEBs/RgGANhSKGn2bKqazSwJuyE=
-Received: from anirudhrb.com (106.51.105.90 [106.51.105.90]) by mx.zohomail.com
- with SMTPS id 162757755916951.49160872968753;
- Thu, 29 Jul 2021 09:52:39 -0700 (PDT)
-Date: Thu, 29 Jul 2021 22:22:33 +0530
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH v8 0/2] firmware_loader: fix uaf in firmware_fallback_sysfs
-Message-ID: <YQLc0UYXSjqbARAJ@anirudhrb.com>
-References: <20210728085107.4141-1-mail@anirudhrb.com>
- <YQG/9RPgETxF08Vz@bombadil.infradead.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YQG/9RPgETxF08Vz@bombadil.infradead.org>
-X-ZohoMailClient: External
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, rafael@kernel.org
+ Thu, 29 Jul 2021 19:53:22 +0000 (UTC)
+Received: from smtpclient.apple (p5b3d23f8.dip0.t-ipconnect.de [91.61.35.248])
+ by mail.holtmann.org (Postfix) with ESMTPSA id 994FFCED1E;
+ Thu, 29 Jul 2021 21:53:19 +0200 (CEST)
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.100.0.2.22\))
+Subject: Re: [PATCH v3 2/2] Bluetooth: fix inconsistent lock state in
+ rfcomm_connect_ind
+From: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20210721093832.78081-3-desmondcheongzx@gmail.com>
+Date: Thu, 29 Jul 2021 21:53:19 +0200
+Message-Id: <06E57598-5723-459D-9CE3-4DD8D3145D86@holtmann.org>
+References: <20210721093832.78081-1-desmondcheongzx@gmail.com>
+ <20210721093832.78081-3-desmondcheongzx@gmail.com>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+X-Mailer: Apple Mail (2.3654.100.0.2.22)
+Cc: Johan Hedberg <johan.hedberg@gmail.com>,
+ "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ linux-bluetooth <linux-bluetooth@vger.kernel.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Matthieu Baerts <matthieu.baerts@tessares.net>,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>,
+ Stefan Schmidt <stefan@datenfreihafen.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,28 +83,29 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Jul 28, 2021 at 01:37:09PM -0700, Luis Chamberlain wrote:
-> On Wed, Jul 28, 2021 at 02:21:05PM +0530, Anirudh Rayabharam wrote:
-> > This series fixes the use after free in firmware_fallback_sysfs reported by
-> > syzbot at: 
-> > https://syzkaller.appspot.com/bug?extid=de271708674e2093097b
-> 
-> Greg,
-> 
-> With Shua's review ammeded, this series is ready to be queued up, finally.
-> 
-> Anirudh, thanks for following up on all these iterations!
-
-Thank you for your guidance throughout this series!
-
-	- Anirudh.
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+SGkgRGVzbW9uZCwKCj4gQ29tbWl0IGZhZDAwM2I2YzhlM2QgKCJCbHVldG9vdGg6IEZpeCBpbmNv
+bnNpc3RlbnQgbG9jayBzdGF0ZSB3aXRoCj4gUkZDT01NIikgZml4ZWQgYSBsb2NrZGVwIHdhcm5p
+bmcgZHVlIHRvIHNrLT5za19sb2NrLnNsb2NrIGJlaW5nCj4gYWNxdWlyZWQgd2l0aG91dCBkaXNh
+Ymxpbmcgc29mdGlycSB3aGlsZSB0aGUgbG9jayBpcyBhbHNvIHVzZWQgaW4KPiBzb2Z0aXJxIGNv
+bnRleHQuIFRoaXMgd2FzIGRvbmUgYnkgZGlzYWJsaW5nIGludGVycnVwdHMgYmVmb3JlIGNhbGxp
+bmcKPiBiaF9sb2NrX3NvY2sgaW4gcmZjb21tX3NrX3N0YXRlX2NoYW5nZS4KPiAKPiBMYXRlciwg
+dGhpcyB3YXMgY2hhbmdlZCBpbiBjb21taXQgZTZkYTBlZGMyNGVlICgiQmx1ZXRvb3RoOiBBY3F1
+aXJlCj4gc2tfbG9jay5zbG9jayB3aXRob3V0IGRpc2FibGluZyBpbnRlcnJ1cHRzIikgdG8gZGlz
+YWJsZSBzb2Z0aXJxcwo+IG9ubHkuCj4gCj4gSG93ZXZlciwgdGhlcmUgaXMgYW5vdGhlciBpbnN0
+YW5jZSBvZiBzay0+c2tfbG9jay5zbG9jayBiZWluZyBhY3F1aXJlZAo+IHdpdGhvdXQgZGlzYWJs
+aW5nIHNvZnRpcnEgaW4gcmZjb21tX2Nvbm5lY3RfaW5kLiBUaGlzIHBhdGNoIGZpeGVzIHRoaXMK
+PiBieSBkaXNhYmxpbmcgbG9jYWwgYmggYmVmb3JlIHRoZSBjYWxsIHRvIGJoX2xvY2tfc29jay4K
+CmJhY2sgaW4gdGhlIGRheXMsIHRoZSBwYWNrZXQgcHJvY2Vzc2luZyB3YXMgZG9uZSBpbiBhIHRh
+c2tsZXQsIGJ1dCB0aGVzZSBkYXlzIGl0IGlzIGRvbmUgaW4gYSB3b3JrcXVldWUuIFNvIHNob3Vs
+ZG7igJl0IHRoaXMgYmUganVzdCBjb252ZXJ0ZWQgaW50byBhIGxvY2tfc29jaygpLiBBbSBJIG1p
+c3Npbmcgc29tZXRoaW5nPwoKUmVnYXJkcwoKTWFyY2VsCgpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxp
+c3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczov
+L2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwt
+bWVudGVlcwo=
