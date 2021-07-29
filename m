@@ -2,112 +2,117 @@ Return-Path: <SRS0=Pn+h=MV=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 290F0C432BE
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 04:28:45 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25445C432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 07:00:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A72B66103B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 04:28:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A72B66103B
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id AEDA761058
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 29 Jul 2021 07:00:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AEDA761058
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7117E605A5;
-	Thu, 29 Jul 2021 04:28:44 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6999B40507;
+	Thu, 29 Jul 2021 07:00:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8KzwRgdr7QFp; Thu, 29 Jul 2021 04:28:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6F017605CB;
-	Thu, 29 Jul 2021 04:28:43 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id u6uQOtxFbAKE; Thu, 29 Jul 2021 07:00:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 614AC404F0;
+	Thu, 29 Jul 2021 07:00:43 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2331BC0010;
-	Thu, 29 Jul 2021 04:28:43 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 25B61C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E177C001A;
+	Thu, 29 Jul 2021 07:00:43 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6ABDC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 04:28:42 +0000 (UTC)
+ Thu, 29 Jul 2021 07:00:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 017B7605CB
+ by smtp2.osuosl.org (Postfix) with ESMTP id 84FCF400EB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 04:28:42 +0000 (UTC)
+ Thu, 29 Jul 2021 07:00:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3PiCBAQgRmh7
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=ffwll.ch
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qNyhiKAGGgam
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 04:28:41 +0000 (UTC)
+ Thu, 29 Jul 2021 07:00:40 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by smtp3.osuosl.org (Postfix) with ESMTPS id EDED7605A5
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C0BE1400E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 29 Jul 2021 04:28:40 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id b6so8406051pji.4
+ Thu, 29 Jul 2021 07:00:39 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id z4so5507005wrv.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 28 Jul 2021 21:28:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tW4DIBxR80i4BJo02U0SxUluh+ki4NFjLgvAshr0xxA=;
- b=l4ZOGC66Ljc1csQjbpoEwnSp1sFzgtXS3Q7rjGMrE40E69jSYsY7nVqM3kyc8M3haz
- wLso0RS7wRUStsSKxFjafxATDFQzY72LNDfunK21zfA3FTts1ObmZJr87CuF1j6rrmap
- 4iL+U875tmUarppfdGaYq+IHqyvAoxuvzheMyG/mYWxGZzJUz66ge3ZsyNVH48ElmJXW
- +ABYYA4taxaa2yswqwlAB/HajNt/7SHEMoX3BRLHjmrmFx+URDHVTlJul57IbnFZCIIG
- eL2o58qpM0xUCYKns13y75YW2uig+XgY3Q44W/DjhpUyNOc3lN5SmsnF5TqDux2oPiwN
- bM1g==
+ Thu, 29 Jul 2021 00:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D42htALMiwE4ICut41D5vsBQfBCeDEae3tqYpmKv8jk=;
+ b=OBAlPYmFEMjLIsQidQskf+lnTNHx3ViYTxgqKf4O8loi2k8YlK8JK+7lqEWNj9D4Zs
+ O3x76HK/w4TARBfEoxJg2AmDqouGm0u8e8Ku8kv5Hvn3ObYAuDRJ9gr69zqlVTFsA8V8
+ BMRfvga/i5W6OVagzBgzYq+FLZYXeor9ILVh0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tW4DIBxR80i4BJo02U0SxUluh+ki4NFjLgvAshr0xxA=;
- b=gyk2cb/wIQy3Z/7tVyQPtomCBEhx2Gksv5yGTCDo8wuz47gZQCqCirA+iojL8KDX9d
- XkYQXJJUSPZj2Y2ryejy/NwX5fQv2SV/GmIM1zowDB4cTDJbyUg+5ZOdoO4ZxvmkbwLn
- o7QCVc3uMcBTyWltjUTkh2lMeqgX7hQY32xszb9bCnYnmWzbC2kp8yIH+TcnDYXtWAv+
- B6Vi+9dFFVjlXpKPYN79SmOLToY/slY0zQs/RlKehfFqJLTKuw1aR84RHXwHHBje1yDM
- hjC1ux8luZp73w1nwlNO2HHJ5PogXApuI0rgEaIQdYtyHCRUw/shNl/7UTrC2R2Lp7Sm
- YbNw==
-X-Gm-Message-State: AOAM532TlrNKsIMvElj14WobKiR7tle4yyNz+3RIbxALyuqmx5klzRvE
- CbKfq9eVlTAwuiZbVy3FqX4=
-X-Google-Smtp-Source: ABdhPJzJrK4273rjTXGt/mNhlac2/bk86XjPDCdBLZ7pWU6F2N22Wczrf2f17PGXudgdoSB7e7iQmg==
-X-Received: by 2002:a17:903:2c2:b029:101:9c88:d928 with SMTP id
- s2-20020a17090302c2b02901019c88d928mr2848193plk.62.1627532920344; 
- Wed, 28 Jul 2021 21:28:40 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id b6sm7813162pjl.17.2021.07.28.21.28.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Jul 2021 21:28:39 -0700 (PDT)
-Subject: Re: [PATCH v4] Bluetooth: schedule SCO timeouts with delayed_work
-To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-References: <20210728071721.411669-1-desmondcheongzx@gmail.com>
- <CABBYNZ+_mYB=r3B-f0Pu214ZmKVAM2EmpSFYQksTDbdm61Q4Bw@mail.gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <6c152b1f-fe15-6ea3-cb96-1d87f0f7dea7@gmail.com>
-Date: Thu, 29 Jul 2021 12:28:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=D42htALMiwE4ICut41D5vsBQfBCeDEae3tqYpmKv8jk=;
+ b=ZUbGPlrah3FTY3KcEWWTGbwcmIWe1T3YE57oK0PuE3HbE3Yen6EfbvoJQEDaX3OAOF
+ KVxvxAsSkPKii8QnsNqxovPqsSKcidQ/9VXppcY/dDY4woATjoOLsTZJqBQj71VH3m55
+ ORuv25x/SpSH5w1u3Z7NtkzMBHavLu4FqJoutCVkD0R5ci7XEWMXjd0L1cN/7q8wDxt/
+ odrMMV8UCTZITWEnKkfKzwT2KwzuKkEkQh+9QKIvF8DRWHGmH/sP9uxiabTzkg8ku1sn
+ qw8ikRscU9Q5lunsNIcU9CsVfUJhqlGgCh/S7KQwezPN+ho27mvjqIiTq3vg7kOzMVvd
+ 6mHw==
+X-Gm-Message-State: AOAM533shTFF8vMSRlx0/M3PtnacgpTrLmLVEsVJKjdMmwacMYKqSC7h
+ m7KlPP3Jte0EkF+WnJUfsJtzEQ==
+X-Google-Smtp-Source: ABdhPJwsaDiG7vN34aTOe+72G4Pb7gWtL4ldUYgv5ToL6oF5GwhKKiRbM5Gn5XQbuB0yAdNhhwKvlg==
+X-Received: by 2002:adf:ef4b:: with SMTP id c11mr3047231wrp.35.1627542037754; 
+ Thu, 29 Jul 2021 00:00:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id g138sm2707357wmg.32.2021.07.29.00.00.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Jul 2021 00:00:37 -0700 (PDT)
+Date: Thu, 29 Jul 2021 09:00:35 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH 1/3] drm: use the lookup lock in drm_is_current_master
+Message-ID: <YQJSE3TMRydDNhqT@phenom.ffwll.local>
+Mail-Followup-To: Peter Zijlstra <peterz@infradead.org>,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>,
+ linux-graphics-maintainer@vmware.com, zackr@vmware.com,
+ airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210722092929.244629-1-desmondcheongzx@gmail.com>
+ <20210722092929.244629-2-desmondcheongzx@gmail.com>
+ <YPlKkvelm/mcnCj0@phenom.ffwll.local>
+ <YQAaIrNUXa6i2gxD@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-In-Reply-To: <CABBYNZ+_mYB=r3B-f0Pu214ZmKVAM2EmpSFYQksTDbdm61Q4Bw@mail.gmail.com>
-Content-Language: en-US
-Cc: Johan Hedberg <johan.hedberg@gmail.com>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- Marcel Holtmann <marcel@holtmann.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
- syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com,
- Jakub Kicinski <kuba@kernel.org>,
+Content-Disposition: inline
+In-Reply-To: <YQAaIrNUXa6i2gxD@hirez.programming.kicks-ass.net>
+X-Operating-System: Linux phenom 5.10.0-7-amd64 
+Cc: airlied@linux.ie, Boqun Feng <boqun.feng@gmail.com>,
+ maarten.lankhorst@linux.intel.com, LKML <linux-kernel@vger.kernel.org>,
+ mripard@kernel.org, linux-graphics-maintainer@vmware.com,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- David Miller <davem@davemloft.net>
+ intel-gfx@lists.freedesktop.org, zackr@vmware.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,241 +124,151 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Luiz,
+On Tue, Jul 27, 2021 at 04:37:22PM +0200, Peter Zijlstra wrote:
+> On Thu, Jul 22, 2021 at 12:38:10PM +0200, Daniel Vetter wrote:
+> > On Thu, Jul 22, 2021 at 05:29:27PM +0800, Desmond Cheong Zhi Xi wrote:
+> > > Inside drm_is_current_master, using the outer drm_device.master_mutex
+> > > to protect reads of drm_file.master makes the function prone to creating
+> > > lock hierarchy inversions. Instead, we can use the
+> > > drm_file.master_lookup_lock that sits at the bottom of the lock
+> > > hierarchy.
+> > > 
+> > > Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/drm_auth.c | 9 +++++----
+> > >  1 file changed, 5 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+> > > index f00354bec3fb..9c24b8cc8e36 100644
+> > > --- a/drivers/gpu/drm/drm_auth.c
+> > > +++ b/drivers/gpu/drm/drm_auth.c
+> > > @@ -63,8 +63,9 @@
+> > >  
+> > >  static bool drm_is_current_master_locked(struct drm_file *fpriv)
+> > >  {
+> > > -	lockdep_assert_held_once(&fpriv->minor->dev->master_mutex);
+> > > -
+> > > +	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
+> > > +	 * should be held here.
+> > > +	 */
+> > 
+> > Disappointing that lockdep can't check or conditions for us, a
+> > lockdep_assert_held_either would be really neat in some cases.
+> > 
+> > Adding lockdep folks, maybe they have ideas.
+> 
+> #ifdef CONFIG_LOCKDEP
+> 	WARN_ON_ONCE(debug_locks && !(lockdep_is_held(&drm_device.master_mutex) ||
+> 				      lockdep_is_held(&drm_file.master_lookup_lock)));
+> #endif
+> 
+> doesn't exactly roll off the tongue, but should do as you want I
+> suppose.
+> 
+> Would something like:
+> 
+> #define lockdep_assert(cond)	WARN_ON_ONCE(debug_locks && !(cond))
+> 
+> Such that we can write:
+> 
+> 	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+> 		       lockdep_is_held(&drm_file.master_lookup_lock));
+> 
+> make it better ?
 
-On 29/7/21 7:07 am, Luiz Augusto von Dentz wrote:
-> Hi Desmond,
-> 
-> On Wed, Jul 28, 2021 at 12:17 AM Desmond Cheong Zhi Xi
-> <desmondcheongzx@gmail.com> wrote:
->>
->> struct sock.sk_timer should be used as a sock cleanup timer. However,
->> SCO uses it to implement sock timeouts.
->>
->> This causes issues because struct sock.sk_timer's callback is run in
->> an IRQ context, and the timer callback function sco_sock_timeout takes
->> a spin lock on the socket. However, other functions such as
->> sco_conn_del, sco_conn_ready, rfcomm_connect_ind, and
->> bt_accept_enqueue also take the spin lock with interrupts enabled.
->>
->> This inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} lock usage could
->> lead to deadlocks as reported by Syzbot [1]:
->>         CPU0
->>         ----
->>    lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
->>    <Interrupt>
->>      lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
->>
->> To fix this, we use delayed work to implement SCO sock timouts
->> instead. This allows us to avoid taking the spin lock on the socket in
->> an IRQ context, and corrects the misuse of struct sock.sk_timer.
->>
->> Link: https://syzkaller.appspot.com/bug?id=9089d89de0502e120f234ca0fc8a703f7368b31e [1]
->> Reported-by: syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com
->> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
->> ---
->>
->> Hi,
->>
->> As suggested, this patch addresses the inconsistent lock state while
->> avoiding having to deal with local_bh_disable.
->>
->> Now that sco_sock_timeout is no longer run in IRQ context, it might
->> be the case that bh_lock_sock is no longer needed to sync between
->> SOFTIRQ and user contexts, so we can switch to lock_sock.
->>
->> I'm not too certain about this, or if there's any benefit to using
->> lock_sock instead, so I've left that out of this patch.
->>
->> v3 -> v4:
->> - Switch to using delayed_work to schedule SCO sock timeouts instead
->> of using local_bh_disable. As suggested by Luiz Augusto von Dentz.
->>
->> v2 -> v3:
->> - Split SCO and RFCOMM code changes, as suggested by Luiz Augusto von
->> Dentz.
->> - Simplify local bh disabling in SCO by using local_bh_disable/enable
->> inside sco_chan_del since local_bh_disable/enable pairs are reentrant.
->>
->> v1 -> v2:
->> - Instead of pulling out the clean-up code out from sco_chan_del and
->> using it directly in sco_conn_del, disable local softirqs for relevant
->> sections.
->> - Disable local softirqs more thoroughly for instances of
->> bh_lock_sock/bh_lock_sock_nested in the bluetooth subsystem.
->> Specifically, the calls in af_bluetooth.c and rfcomm/sock.c are now made
->> with local softirqs disabled as well.
->>
->> Best wishes,
->> Desmond
->>
->>   net/bluetooth/sco.c | 39 ++++++++++++++++++++++++---------------
->>   1 file changed, 24 insertions(+), 15 deletions(-)
->>
->> diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
->> index 3bd41563f118..b6dd16153d38 100644
->> --- a/net/bluetooth/sco.c
->> +++ b/net/bluetooth/sco.c
->> @@ -48,6 +48,8 @@ struct sco_conn {
->>          spinlock_t      lock;
->>          struct sock     *sk;
->>
->> +       struct delayed_work     sk_timer;
->> +
->>          unsigned int    mtu;
->>   };
->>
->> @@ -74,9 +76,11 @@ struct sco_pinfo {
->>   #define SCO_CONN_TIMEOUT       (HZ * 40)
->>   #define SCO_DISCONN_TIMEOUT    (HZ * 2)
->>
->> -static void sco_sock_timeout(struct timer_list *t)
->> +static void sco_sock_timeout(struct work_struct *work)
->>   {
->> -       struct sock *sk = from_timer(sk, t, sk_timer);
->> +       struct sco_conn *conn = container_of(work, struct sco_conn,
->> +                                            sk_timer.work);
->> +       struct sock *sk = conn->sk;
->>
->>          BT_DBG("sock %p state %d", sk, sk->sk_state);
->>
->> @@ -89,16 +93,18 @@ static void sco_sock_timeout(struct timer_list *t)
->>          sock_put(sk);
->>   }
->>
->> -static void sco_sock_set_timer(struct sock *sk, long timeout)
->> +static void sco_sock_set_timer(struct sock *sk, struct delayed_work *work,
->> +                              long timeout)
->>   {
->>          BT_DBG("sock %p state %d timeout %ld", sk, sk->sk_state, timeout);
->> -       sk_reset_timer(sk, &sk->sk_timer, jiffies + timeout);
->> +       cancel_delayed_work(work);
->> +       schedule_delayed_work(work, timeout);
-> 
-> I guess if you want to really guarantee cancel takes effect you must
-> call cancel_delayed_work_sync
-> 
+Yeah I think that's pretty tidy and flexible.
 
-Got it, thanks for catching that.
-
->>   }
->>
->> -static void sco_sock_clear_timer(struct sock *sk)
->> +static void sco_sock_clear_timer(struct sock *sk, struct delayed_work *work)
->>   {
->>          BT_DBG("sock %p state %d", sk, sk->sk_state);
->> -       sk_stop_timer(sk, &sk->sk_timer);
->> +       cancel_delayed_work(work);
->>   }
->>
->>   /* ---- SCO connections ---- */
->> @@ -174,7 +180,7 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
->>          if (sk) {
->>                  sock_hold(sk);
->>                  bh_lock_sock(sk);
->> -               sco_sock_clear_timer(sk);
->> +               sco_sock_clear_timer(sk, &conn->sk_timer);
->>                  sco_chan_del(sk, err);
->>                  bh_unlock_sock(sk);
->>                  sco_sock_kill(sk);
->> @@ -193,6 +199,8 @@ static void __sco_chan_add(struct sco_conn *conn, struct sock *sk,
->>          sco_pi(sk)->conn = conn;
->>          conn->sk = sk;
->>
->> +       INIT_DELAYED_WORK(&conn->sk_timer, sco_sock_timeout);
->> +
->>          if (parent)
->>                  bt_accept_enqueue(parent, sk, true);
->>   }
->> @@ -260,11 +268,11 @@ static int sco_connect(struct sock *sk)
->>                  goto done;
->>
->>          if (hcon->state == BT_CONNECTED) {
->> -               sco_sock_clear_timer(sk);
->> +               sco_sock_clear_timer(sk, &conn->sk_timer);
->>                  sk->sk_state = BT_CONNECTED;
->>          } else {
->>                  sk->sk_state = BT_CONNECT;
->> -               sco_sock_set_timer(sk, sk->sk_sndtimeo);
->> +               sco_sock_set_timer(sk, &conn->sk_timer, sk->sk_sndtimeo);
->>          }
->>
->>   done:
->> @@ -419,7 +427,8 @@ static void __sco_sock_close(struct sock *sk)
->>          case BT_CONFIG:
->>                  if (sco_pi(sk)->conn->hcon) {
->>                          sk->sk_state = BT_DISCONN;
->> -                       sco_sock_set_timer(sk, SCO_DISCONN_TIMEOUT);
->> +                       sco_sock_set_timer(sk, &sco_pi(sk)->conn->sk_timer,
->> +                                          SCO_DISCONN_TIMEOUT);
->>                          sco_conn_lock(sco_pi(sk)->conn);
->>                          hci_conn_drop(sco_pi(sk)->conn->hcon);
->>                          sco_pi(sk)->conn->hcon = NULL;
->> @@ -443,7 +452,8 @@ static void __sco_sock_close(struct sock *sk)
->>   /* Must be called on unlocked socket. */
->>   static void sco_sock_close(struct sock *sk)
->>   {
->> -       sco_sock_clear_timer(sk);
->> +       if (sco_pi(sk)->conn)
->> +               sco_sock_clear_timer(sk, &sco_pi(sk)->conn->sk_timer);
->>          lock_sock(sk);
->>          __sco_sock_close(sk);
->>          release_sock(sk);
->> @@ -500,8 +510,6 @@ static struct sock *sco_sock_alloc(struct net *net, struct socket *sock,
->>
->>          sco_pi(sk)->setting = BT_VOICE_CVSD_16BIT;
->>
->> -       timer_setup(&sk->sk_timer, sco_sock_timeout, 0);
->> -
->>          bt_sock_link(&sco_sk_list, sk);
->>          return sk;
->>   }
->> @@ -1036,7 +1044,8 @@ static int sco_sock_shutdown(struct socket *sock, int how)
->>
->>          if (!sk->sk_shutdown) {
->>                  sk->sk_shutdown = SHUTDOWN_MASK;
->> -               sco_sock_clear_timer(sk);
->> +               if (sco_pi(sk)->conn)
->> +                       sco_sock_clear_timer(sk, &sco_pi(sk)->conn->sk_timer);
+Desmond, can you pls give this a shot with Peter's patch below?
+-Daniel
 > 
-> It probably makes it simpler if we can have the check for
-> sco_pi(sk)->conn inside sco_sock_{clear,set}_timer, that way we don't
-> need to keep checking like in the code above.
+> ---
+> Subject: locking/lockdep: Provide lockdep_assert{,_once}() helpers
+> 
+> Extract lockdep_assert{,_once}() helpers to more easily write composite
+> assertions like, for example:
+> 
+> 	lockdep_assert(lockdep_is_held(&drm_device.master_mutex) ||
+> 		       lockdep_is_held(&drm_file.master_lookup_lock));
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> ---
+> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+> index 5cf387813754..0da67341c1fb 100644
+> --- a/include/linux/lockdep.h
+> +++ b/include/linux/lockdep.h
+> @@ -306,31 +306,29 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+>  
+>  #define lockdep_depth(tsk)	(debug_locks ? (tsk)->lockdep_depth : 0)
+>  
+> -#define lockdep_assert_held(l)	do {					\
+> -		WARN_ON(debug_locks &&					\
+> -			lockdep_is_held(l) == LOCK_STATE_NOT_HELD);	\
+> -	} while (0)
+> +#define lockdep_assert(cond)		\
+> +	do { WARN_ON(debug_locks && !(cond)); } while (0)
+>  
+> -#define lockdep_assert_not_held(l)	do {				\
+> -		WARN_ON(debug_locks &&					\
+> -			lockdep_is_held(l) == LOCK_STATE_HELD);		\
+> -	} while (0)
+> +#define lockdep_assert_once(cond)	\
+> +	do { WARN_ON_ONCE(debug_locks && !(cond)); } while (0)
+>  
+> -#define lockdep_assert_held_write(l)	do {			\
+> -		WARN_ON(debug_locks && !lockdep_is_held_type(l, 0));	\
+> -	} while (0)
+> +#define lockdep_assert_held(l)		\
+> +	lockdep_assert(lockdep_is_held(l) != LOCK_STAT_NOT_HELD)
+>  
+> -#define lockdep_assert_held_read(l)	do {				\
+> -		WARN_ON(debug_locks && !lockdep_is_held_type(l, 1));	\
+> -	} while (0)
+> +#define lockdep_assert_not_held(l)	\
+> +	lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+>  
+> -#define lockdep_assert_held_once(l)	do {				\
+> -		WARN_ON_ONCE(debug_locks && !lockdep_is_held(l));	\
+> -	} while (0)
+> +#define lockdep_assert_held_write(l)	\
+> +	lockdep_assert(lockdep_is_held_type(l, 0))
+>  
+> -#define lockdep_assert_none_held_once()	do {				\
+> -		WARN_ON_ONCE(debug_locks && current->lockdep_depth);	\
+> -	} while (0)
+> +#define lockdep_assert_held_read(l)	\
+> +	lockdep_assert(lockdep_is_held_type(l, 1))
+> +
+> +#define lockdep_assert_held_once(l)		\
+> +	lockdep_assert_once(lockdep_is_held(l) != LOCK_STAT_NOT_HELD)
+> +
+> +#define lockdep_assert_none_held_once()		\
+> +	lockdep_assert_once(!current->lockdep_depth)
+>  
+>  #define lockdep_recursing(tsk)	((tsk)->lockdep_recursion)
+>  
+> @@ -407,6 +405,9 @@ extern int lock_is_held(const void *);
+>  extern int lockdep_is_held(const void *);
+>  #define lockdep_is_held_type(l, r)		(1)
+>  
+> +#define lockdep_assert(c)			do { } while (0)
+> +#define lockdep_assert_once(c)			do { } while (0)
+> +
+>  #define lockdep_assert_held(l)			do { (void)(l); } while (0)
+>  #define lockdep_assert_not_held(l)		do { (void)(l); } while (0)
+>  #define lockdep_assert_held_write(l)		do { (void)(l); } while (0)
 > 
 
-Makes sense, I'll make the change.
-
-Re: testing, this patch passes some local tests I set up to trigger the 
-lockdep warning, but I'll run the updated patch through Syzbot again to 
-double-check.
-
-Best wishes,
-Desmond
-
->>                  __sco_sock_close(sk);
->>
->>                  if (sock_flag(sk, SOCK_LINGER) && sk->sk_lingertime &&
->> @@ -1083,7 +1092,7 @@ static void sco_conn_ready(struct sco_conn *conn)
->>          BT_DBG("conn %p", conn);
->>
->>          if (sk) {
->> -               sco_sock_clear_timer(sk);
->> +               sco_sock_clear_timer(sk, &conn->sk_timer);
->>                  bh_lock_sock(sk);
->>                  sk->sk_state = BT_CONNECTED;
->>                  sk->sk_state_change(sk);
->> --
->> 2.25.1
->>
-> 
-> 
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
