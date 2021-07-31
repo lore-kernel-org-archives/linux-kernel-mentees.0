@@ -7,86 +7,87 @@ X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D310C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 14:28:21 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53501C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 17:57:55 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 304F960F3A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 14:28:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 304F960F3A
+	by mail.kernel.org (Postfix) with ESMTPS id E300261042
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 17:57:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E300261042
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EACE382BC3;
-	Sat, 31 Jul 2021 14:28:20 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A178040208;
+	Sat, 31 Jul 2021 17:57:54 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S7zeINBt9p1V; Sat, 31 Jul 2021 14:28:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3B42E82B51;
-	Sat, 31 Jul 2021 14:28:20 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 169BAC0010;
-	Sat, 31 Jul 2021 14:28:20 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2C7EC000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 14:28:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7E70140106
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 14:28:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pdXQWgpdrnjO
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 47vYBKsWwD8s; Sat, 31 Jul 2021 17:57:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9F2A6400C3;
+	Sat, 31 Jul 2021 17:57:53 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7582CC001B;
+	Sat, 31 Jul 2021 17:57:53 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 498E5C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 14:28:17 +0000 (UTC)
+ Sat, 31 Jul 2021 17:57:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 24ECD403B9
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 31 Jul 2021 17:57:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4TxvrmDMZwvw
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 31 Jul 2021 17:57:51 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
- [IPv6:2607:f8b0:4864:20::32d])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 4B718400D7
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E8E0B40369
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 14:28:17 +0000 (UTC)
-Received: by mail-ot1-x32d.google.com with SMTP id
- 61-20020a9d0d430000b02903eabfc221a9so12842096oti.0
+ Sat, 31 Jul 2021 17:57:50 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id o13so12702134qkk.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 07:28:17 -0700 (PDT)
+ Sat, 31 Jul 2021 10:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=ddGstpzru8neNp0WFaxF5OUQZU0WK/Koaw0pDvwCeZw=;
- b=Yb3kqfIVzr/Nx0fcPHf+3Nkj/j53KBde70lMisXiFfQQ+bY8xjHTJwh18KXOLsfInN
- oYuy2IurL1wYv/ZfBOplpfY29q7znRBj2n1YYVuYkMcbDzu1o76ZQ5MdkufqJlvSDUDY
- iUvM+zJwfZZrEGDqNUo5quVpWjb8+TEmurSABVQLOeBIDZBNXzN14otNw0Jtwp7qzHp1
- +Ioy2TLeQtZZK1wEJg+xvQjhXk+DsBilQVYI1PCC9J+tkDXDFgMc5gmI7mk/sYsWAN/V
- zmuGY9t27uNzlqHvaQap6GHwQVe7EIHB1mBfm3CTTpjcqwr1qixj0qgB/pdc25MERjiC
- opxg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=8lLsWsFBTk5GX+EePXyRXfmeiCt75qGJmNPOXfJYnVM=;
+ b=HTk88SW14kPg7adD417jhcXA2W8lzBRVlfS4BJMvZSz0brrdQhNLVvQpjqcFqH3AhY
+ QlpU5fFn4A1EF5B+ZQ6l7+NaO1sT630Wthby9T2ttP0BxgM3dq+7GXGVMcpcWXnzzzeq
+ CKWeO+KrZCdk5pTrQh9M2ZmAeINXPb11eJ3lvOPnAAvP+fsnM0pXUY1/kg5ZJ8sQGARj
+ Or+Tg+QM4HPS5akzf8FFPCHQrzD4wICqVYLwGyCPUkuFDyiGeUaSo4WDvLCBv9FN7ra/
+ PHOb/7BK/EF4rs133pzrBFFvisxsvqkDO2k22HQKsJI1CM+8gEX/lQauUNnB0zKaKPO/
+ 05gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=ddGstpzru8neNp0WFaxF5OUQZU0WK/Koaw0pDvwCeZw=;
- b=BW5rLpHQscMfTntsIS75XsxusFjdLNpaTIkRicaIoO/wOHwc+UzTDclFZ6wBxK7LC/
- E3ZA1umUchAP4w0aMuxFVfoDTyAL2nidkSzNptaXyRBCImFqogvw1FA/ItcMuhRbpU3p
- K01repmReoC80GMFeJ1mlJkGDlX0aVa/uZNzhN+lfww3XBd1ZDUlgmlyrDuLfbJzYpSO
- qJMJinhvbNVj1txv1wbq5xo/SQjbrOXBzEI5moj2QR+E9gPr5f+Fsxci3wx9bx5vIsPn
- zKzSJzLmZ7gP5Nvfh9RUGboPPR9Dwmuz8wYHK1B9PTJ6nGMX2UPuXOUASzAsGu8QFkYe
- l8kw==
-X-Gm-Message-State: AOAM532Ib3vr0U7qFx/bjiNBL2N2Xv22rl7YVcKiLmW81pdgPIBUAF8+
- McpYX6UIFaK+fHhWxT6Ze2CRTJrxVqkQwEhE2pk=
-X-Google-Smtp-Source: ABdhPJwU89Y0VO1s23A5Xljbeu2an9/71F2LrUc56kQtMYiHlfbcrUZbkUqTTJru4cI64wdf6Pa5Ko+qU3BwuaTVGO8=
-X-Received: by 2002:a05:6830:22d0:: with SMTP id
- q16mr5913124otc.105.1627741696340; 
- Sat, 31 Jul 2021 07:28:16 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=8lLsWsFBTk5GX+EePXyRXfmeiCt75qGJmNPOXfJYnVM=;
+ b=YFJYoWYkRX+0bY7axi8fx8cThdujKf7AWRC35mPZ4R0biPDip+YVzzWd/s+kV2CeTm
+ 62EH3tgzyq1FofXP77ssflVtgG6OD6awFC7b9SYNUB/uUemJVWxa2HDPRXURFjYlDC3j
+ my/qOpnZ2tK1oz8LFepb3hlpT4lfuxEfFfb7MsezxDjawK1cbX8hCXDH8bj8Qvhh3dOZ
+ HkFJO5Y6sVxMcPBE44tEv6d1eCjFuBXOVEogOxnAIGHVzHWi2AP+od4TsMUeTcCRBm4l
+ aHf8BFxJsTTKXF4q7hU3c2IF5Yl/aL9elEhBFFKbk+gi7HWH60AHGvMFoCs1I9mqKWuA
+ RejQ==
+X-Gm-Message-State: AOAM533A/+MjmArXdMYSs9SUaZk6l7FSKocspgNv2QJMxIifoeiPPvY4
+ PB9AwGlgBM9hIptz3Mg/vKYBMFsjQ1YhcywlKkTMqBcn
+X-Google-Smtp-Source: ABdhPJyq/q7jWjVZyssGgihlbwbo4lvzvE6BX18HTeN0/LVUndPoe/NnXnNFFjuoMG6A4D2drVS9rKhD92Ad3xFNLfM=
+X-Received: by 2002:a37:a5c9:: with SMTP id o192mr7961518qke.58.1627754269509; 
+ Sat, 31 Jul 2021 10:57:49 -0700 (PDT)
 MIME-Version: 1.0
-From: Kirti Palve <kirtipalve284@gmail.com>
-Date: Sat, 31 Jul 2021 19:58:05 +0530
-Message-ID: <CALdTm2xBMaXArqWnT+v-mGifn+qGaxhNTzaPxDFmSTcTXMyYjQ@mail.gmail.com>
-Subject: Mining Maintainers mentorship program
-To: lukas.bulwahn@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+References: <CAMVeQT7u0LdFc8hjDWk5L4AognGDidw7VT=av4RQrsUbEMtDNg@mail.gmail.com>
+In-Reply-To: <CAMVeQT7u0LdFc8hjDWk5L4AognGDidw7VT=av4RQrsUbEMtDNg@mail.gmail.com>
+From: TANVI SAXENA <tanvisaxena19010@gmail.com>
+Date: Sat, 31 Jul 2021 23:27:37 +0530
+Message-ID: <CAMVeQT5TYhaW02T8+Z2ytvJY8JF1q83_X9KmyuSw5BizQRi_Xg@mail.gmail.com>
+Subject: Fwd: interested in the Mining Maintainers
+To: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,28 +99,36 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8454802800133958659=="
+Content-Type: multipart/mixed; boundary="===============1052840890307810997=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============8454802800133958659==
-Content-Type: multipart/alternative; boundary="00000000000098b64805c86c2556"
+--===============1052840890307810997==
+Content-Type: multipart/alternative; boundary="000000000000040a9105c86f13d0"
 
---00000000000098b64805c86c2556
+--000000000000040a9105c86f13d0
 Content-Type: text/plain; charset="UTF-8"
 
-I am interested in the Mining Maintainers mentorship program and I would
+I am interested in the Mining Maintainers mentorship program and i would
 like to work on the tasks for the mentee selection.
+Thanks and regards
+Tanvi Saxena
 
---00000000000098b64805c86c2556
+--000000000000040a9105c86f13d0
 Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-<div dir="ltr">I am interested in the Mining Maintainers mentorship program and I would like to work on the tasks for the mentee selection.</div>
+<div dir=3D"auto"><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"ltr" =
+class=3D"gmail_attr"><br></div><br><div dir=3D"auto">I am interested in the=
+ Mining Maintainers mentorship program and i would like to work on the task=
+s for the mentee selection.=C2=A0<div dir=3D"auto">Thanks and=C2=A0regards<=
+/div><div dir=3D"auto">Tanvi Saxena</div></div>
+</div></div>
 
---00000000000098b64805c86c2556--
+--000000000000040a9105c86f13d0--
 
---===============8454802800133958659==
+--===============1052840890307810997==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -130,4 +139,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============8454802800133958659==--
+--===============1052840890307810997==--
