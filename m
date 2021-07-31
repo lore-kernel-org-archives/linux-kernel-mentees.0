@@ -2,104 +2,94 @@ Return-Path: <SRS0=pOiW=MX=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD6F0C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 08:27:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C23C4320A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 08:27:22 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 919D860F39
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 08:27:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 919D860F39
+	by mail.kernel.org (Postfix) with ESMTPS id C8C5561077
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 08:27:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C8C5561077
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 506214028F;
-	Sat, 31 Jul 2021 08:27:09 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9138240286;
+	Sat, 31 Jul 2021 08:27:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Z9BJyw8LaX1d; Sat, 31 Jul 2021 08:27:08 +0000 (UTC)
+	with ESMTP id dlwMcAbIKjgP; Sat, 31 Jul 2021 08:27:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3B6324026D;
-	Sat, 31 Jul 2021 08:27:08 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 5A5F7401C8;
+	Sat, 31 Jul 2021 08:27:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 19D7DC0010;
-	Sat, 31 Jul 2021 08:27:08 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 13B7FC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 38A3CC0010;
+	Sat, 31 Jul 2021 08:27:20 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F0ECFC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:06 +0000 (UTC)
+ Sat, 31 Jul 2021 08:27:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EAE8583231
+ by smtp3.osuosl.org (Postfix) with ESMTP id DFCEE605BF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:05 +0000 (UTC)
+ Sat, 31 Jul 2021 08:27:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Lkm80JOns32g
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pdN8-HWmWhIE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:05 +0000 (UTC)
+ Sat, 31 Jul 2021 08:27:17 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 65E8183267
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
+ [IPv6:2607:f8b0:4864:20::b36])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B9A9F606A0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:05 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id j1so18561433pjv.3
+ Sat, 31 Jul 2021 08:27:17 +0000 (UTC)
+Received: by mail-yb1-xb36.google.com with SMTP id x192so20081582ybe.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 01:27:05 -0700 (PDT)
+ Sat, 31 Jul 2021 01:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y7LF0TOJBi8g9oPoxvzY/IMHVXJRvIokqXJgW7n6wWU=;
- b=RJZ+rGSe9MjdSJpshgn6FdDtxzCLxvmvsad50TODML9WAleAKQiueuhET8/vduh88F
- S3Xqko1C4QRjj8UG4Wji5ctfC1UfiIV6IuBkUa5GVC4yIbAN60i2NkHaPW4XoZPQFS65
- 4wCuYy5XdHd1w9ZYa+56L8c2ofiod/VTV1cZEhZYPokwnz/Q2slvJjtd+JnfbTNdC56v
- P9L35LIukKhPtFZLpaHXBWYCrD5hBpoQ+I7DZnlBVasE9yHb0zuJyTQeLEMrU/wbfaxy
- baMBSXRZ4aOnXooLgYsykXafJY5MUEZkh5g9EZ+m5U0yN9CCpWoRLru57HYs6wf6U7/E
- ERrQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yb0r+jublcaTIwk9GtLEG2LXqptIE5yKzUM3Fbdlaq4=;
+ b=HiDfBIVaSOfemBklcUpBMzn0ZU+GG1EVFSZZ/ah2be2Wpo8gsWtDIIrtT2q8Y/MA46
+ 2A2paUWQOmZuBd1jCr0oUkRzpC5dJlRD+dWPXNH7X40nZ8wOx00y5jsZszE2jMs0iyA3
+ kfpW9cZvBDQ6jPEaWgqGm2ACvkG7abzaESXKX+955V718whXOpPXqi8EZ5O5leOpWFQ6
+ pOVZLX5WGpQnASpofWbIdswGHciExWGTSsXrsGOmGBEHiEz8dQvVxC47ylBSQlOsaRbF
+ Gn4tBKEDZkzy4zId9bYV71yQLMREtsI5hgHCQfgfbflyLmDrF8aYbRSg6NINtng0La1c
+ mQHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y7LF0TOJBi8g9oPoxvzY/IMHVXJRvIokqXJgW7n6wWU=;
- b=aCpdGoMlef+Quc1LDLFlSamg6ZIQa/ni0NpAUcFsKf9VHK7ZITgXtodrUmrLJSHXzw
- oxwMVfSCRXGLiL0Ve27I2CDHLT0RKOwNpoVCBK6/01sx+3vlL0lvHDeYGHMllqc+pz4p
- rFHQKxty2LZadVBmhsGCL0dCT+W5Yk65JoRANv71k9lOasCbfBR4lcWAoyhoB9BaixEB
- 9DbflH1yMX2gUV3HKDoVg3ZnVPEQR4YgoCIPKvdSSSsodAfWa7MaoJFhUqHkssR24DlO
- LG7jtJI8ypQ3oPFQO0RAnbiTb7PPlZKEDCpY8QPBluJk72KN1mkvcN5eQdOSioKSh5ri
- zY/A==
-X-Gm-Message-State: AOAM533r+6wAp6PgI194A4wsiFn2fF2825qbmyfloaYC6EA4HS0Gu6DJ
- j5JRLQh+yOIYbwESZmrx7T3Dy3c2tDio5juoHms=
-X-Google-Smtp-Source: ABdhPJzd5bUpeB5fpe0qkJXVTRCMKBesE410MgSb6QJZrGqvamH8Z/gVzFKaP0OmfXbgFlYSkhMzWg==
-X-Received: by 2002:a17:902:d293:b029:12c:8bb3:7997 with SMTP id
- t19-20020a170902d293b029012c8bb37997mr6015717plc.36.1627720024937; 
- Sat, 31 Jul 2021 01:27:04 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id mq7sm3182124pjb.50.2021.07.31.01.27.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Jul 2021 01:27:04 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, peterz@infradead.org, mingo@redhat.com,
- will@kernel.org, longman@redhat.com, boqun.feng@gmail.com
-Subject: [PATCH v2 2/2] drm: add lockdep assert to drm_is_current_master_locked
-Date: Sat, 31 Jul 2021 16:24:58 +0800
-Message-Id: <20210731082458.1962043-3-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210731082458.1962043-1-desmondcheongzx@gmail.com>
-References: <20210731082458.1962043-1-desmondcheongzx@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yb0r+jublcaTIwk9GtLEG2LXqptIE5yKzUM3Fbdlaq4=;
+ b=bFqxS1Cftsq+J2JjKGu9PTfCptabyn0ktBhrLI2SnRfqvA3PKAslz2r/7tL0qrvpvC
+ TEnPO1ZIKZvlQFyPB3FFxUP0OcvA6YubXbC0BGSRW3ZGdb+vOfrYbq/sXEwihGbGZtMR
+ x/yHpkHBcDuX2skj9TspmDxp9L2eq49iz32kYrH64aGQ7hcIAcmWpR22HLuEx09I1VEP
+ XItswebWEy0XN3aechMmJSGiLtaL5rwTwGclG3+TE7UFNpB2alFcBKn/XwTR9x2UvmYo
+ STI5XoFAgDQycOw+GUxIYncfkPuXNLcgFsrsCIz6iubcpEEg6ylWYjYM7Ryn1aGk9MvR
+ 0VNw==
+X-Gm-Message-State: AOAM531wTZC+y76cPhUQgAB0li61576V5Zx9aErFynDyYu6P6dAg1ZNi
+ fSBUSiHuPA9PF1mmN7f9WpZ63BiCggqYfZHbY5g=
+X-Google-Smtp-Source: ABdhPJzyKmRaADkVW1sHnsUE8BLlUF5di7jOehg2rdY0z2xofi4QU+sh5w6qSv0fTM09mlVVhp6obbWLSRN3s8oZzQU=
+X-Received: by 2002:a25:7409:: with SMTP id p9mr7701310ybc.22.1627720036502;
+ Sat, 31 Jul 2021 01:27:16 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+References: <CADywMdqcPV5TaB64TbujGdRFL0WiGUqJLi-pOSpf81_ZLMg+iA@mail.gmail.com>
+In-Reply-To: <CADywMdqcPV5TaB64TbujGdRFL0WiGUqJLi-pOSpf81_ZLMg+iA@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Sat, 31 Jul 2021 10:27:07 +0200
+Message-ID: <CAKXUXMzjPLKpLW7VsyaWPjgAHmyQ1==cgO5dAxv=gFvOsJU0DA@mail.gmail.com>
+Subject: Re: Request for tasks regarding Checkpatch Documentation mentorship
+ program (LFX)
+To: Rahul Balaji <rahulbalaji78@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -118,58 +108,85 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In drm_is_current_master_locked, accessing drm_file.master should be
-protected by either drm_file.master_lookup_lock or
-drm_device.master_mutex. This was previously awkward to assert with
-lockdep.
+On Sat, Jul 31, 2021 at 10:14 AM Rahul Balaji <rahulbalaji78@gmail.com> wrote:
+>
+> Respected sir,
+>
+> I am interested in working on the checkpath documentation project under your mentorship and would like to work on tasks for the selection process.
+>
 
-Following patch ("locking/lockdep: Provide lockdep_assert{,_once}()
-helpers"), this assertion is now convenient. So we add in the
-assertion and explain this lock design in the kerneldoc.
+Rahul,
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Acked-by: Boqun Feng <boqun.feng@gmail.com>
-Acked-by: Waiman Long <longman@redhat.com>
----
- drivers/gpu/drm/drm_auth.c | 6 +++---
- include/drm/drm_file.h     | 4 ++++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+The zeroth task is to learn suitable netiquette for the communication
+with the kernel community. Below are some basic rules and pointers for
+this mentorship. More information on kernel netiquette is also at
+https://people.kernel.org/tglx/notes-about-netiquette.
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 9c24b8cc8e36..6f4d7ff23c80 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -63,9 +63,9 @@
- 
- static bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	/* Either drm_device.master_mutex or drm_file.master_lookup_lock
--	 * should be held here.
--	 */
-+	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
-+			    lockdep_is_held(&fpriv->minor->dev->master_mutex));
-+
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
- 
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 726cfe0ff5f5..a3acb7ac3550 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -233,6 +233,10 @@ struct drm_file {
- 	 * this only matches &drm_device.master if the master is the currently
- 	 * active one.
- 	 *
-+	 * To update @master, both &drm_device.master_mutex and
-+	 * @master_lookup_lock need to be held, therefore holding either of
-+	 * them is safe and enough for the read side.
-+	 *
- 	 * When dereferencing this pointer, either hold struct
- 	 * &drm_device.master_mutex for the duration of the pointer's use, or
- 	 * use drm_file_get_master() if struct &drm_device.master_mutex is not
--- 
-2.25.1
+First, please do not top-post.
 
+    A: Because we read from top to bottom, left to right.
+    Q: Why should I start my reply below the quoted text?
+
+    A: Because it messes up the order in which people normally read text.
+    Q: Why is top-posting such a bad thing?
+
+    A: The lost context.
+    Q: What makes top-posted replies harder to read than bottom-posted?
+
+    A: Yes.
+    Q: Should I trim down the quoted part of an email to which I'm replying?
+
+Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
+
+Third, set up your email client according to the kernel community rules.
+Here is some information to that:
+
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
+https://www.kernel.org/doc/html/latest/process/email-clients.html
+
+Generally more information on submitting patches and responding on
+replies is at https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+
+Once the zeroth task is understood, you can now move on to the first
+task: Running checkpatch on a specific file
+
+Get a clone of the Linux kernel repository. The script checkpatch.pl
+is under the scripts directory.
+
+Then, the first task is to run checkpatch.pl on a few files below and
+share the results:
+
+drivers/mtd/ubi/block.c
+drivers/net/ethernet/amazon/ena/ena_netdev.c
+
+Which information on these rules that checkpatch warns about is
+available in the Checkpatch Documentation?
+
+If documentation of these rules is available, explain your
+understanding of the rules in your own words.
+
+If no information is available in the documentation, explain your
+understanding of the rule.
+
+In any case, explain the violation that is checked and raised in the
+checkpatch script, i.e., what is implemented in checkpatch to check
+the rule and possible violations. Explain how to possibly fix this
+code with regards to that violation.
+
+Once you succeed on this first task, we inform you about the further
+second and third task.
+
+If you fail on any of those tasks, you are out of the selection process.
+
+The selection of the mentee will happen according to schedule, at
+earliest on August 12th and at latest at the end of August. More
+information is available at
+https://docs.linuxfoundation.org/lfx/mentorship/mentorship-program-timelines.
+
+
+Good luck,
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
