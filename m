@@ -1,96 +1,93 @@
 Return-Path: <SRS0=pOiW=MX=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C23C4320A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 08:27:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94613C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 10:17:17 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C8C5561077
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 08:27:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C8C5561077
+	by mail.kernel.org (Postfix) with ESMTPS id 20B3A60F46
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 31 Jul 2021 10:17:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 20B3A60F46
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9138240286;
-	Sat, 31 Jul 2021 08:27:21 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D586D4026D;
+	Sat, 31 Jul 2021 10:17:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dlwMcAbIKjgP; Sat, 31 Jul 2021 08:27:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5A5F7401C8;
-	Sat, 31 Jul 2021 08:27:20 +0000 (UTC)
+	with ESMTP id oyDY-m8n-6KD; Sat, 31 Jul 2021 10:17:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 979FC40295;
+	Sat, 31 Jul 2021 10:17:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 38A3CC0010;
-	Sat, 31 Jul 2021 08:27:20 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F0ECFC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 706D0C0010;
+	Sat, 31 Jul 2021 10:17:15 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 08E55C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:18 +0000 (UTC)
+ Sat, 31 Jul 2021 10:17:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id DFCEE605BF
+ by smtp1.osuosl.org (Postfix) with ESMTP id F367C83B34
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:18 +0000 (UTC)
+ Sat, 31 Jul 2021 10:17:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pdN8-HWmWhIE
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HT9449IiDGHE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:17 +0000 (UTC)
+ Sat, 31 Jul 2021 10:17:13 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com
- [IPv6:2607:f8b0:4864:20::b36])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B9A9F606A0
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 612FA83B2C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 08:27:17 +0000 (UTC)
-Received: by mail-yb1-xb36.google.com with SMTP id x192so20081582ybe.0
+ Sat, 31 Jul 2021 10:17:13 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ 68-20020a9d0f4a0000b02904b1f1d7c5f4so12315911ott.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 31 Jul 2021 01:27:17 -0700 (PDT)
+ Sat, 31 Jul 2021 03:17:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yb0r+jublcaTIwk9GtLEG2LXqptIE5yKzUM3Fbdlaq4=;
- b=HiDfBIVaSOfemBklcUpBMzn0ZU+GG1EVFSZZ/ah2be2Wpo8gsWtDIIrtT2q8Y/MA46
- 2A2paUWQOmZuBd1jCr0oUkRzpC5dJlRD+dWPXNH7X40nZ8wOx00y5jsZszE2jMs0iyA3
- kfpW9cZvBDQ6jPEaWgqGm2ACvkG7abzaESXKX+955V718whXOpPXqi8EZ5O5leOpWFQ6
- pOVZLX5WGpQnASpofWbIdswGHciExWGTSsXrsGOmGBEHiEz8dQvVxC47ylBSQlOsaRbF
- Gn4tBKEDZkzy4zId9bYV71yQLMREtsI5hgHCQfgfbflyLmDrF8aYbRSg6NINtng0La1c
- mQHg==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=f8L/dbO9vucV3TJqsyGnTsh0kcrcjCM8h0ETj4WZRLc=;
+ b=sLyCR4I8kxGXvTkxkSiy6yHkkmBJsvFQXRw6YEZyPQUZKQn50StTHzVLLjcHXsXkhM
+ 6HoV2zwWKnSfTPdK14M2y+/JB2oo1nnFV1kZ/uVYpOLb6Gmr3rhiMcdsscmyNDPM4s1P
+ Am9UL7nUVkq+kzvWlwSNqRQquyGCKhvUQTbs+cMjAAoJQAOiERzXC4nIjIKpe5Bu2/fl
+ 1rwFZ+RC32lpvpHx/zj7yX1PZiODqYjkeCVL5bNHuCAHhQmswG7B1y1kUPCUPuHTLVj/
+ L+uYofpsnGgq2wEa4/Hmxi4oX+AOPM+gKbM5vXIE4o21oQcnpu+aJ/nYHMUXCIUicKWL
+ iFhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yb0r+jublcaTIwk9GtLEG2LXqptIE5yKzUM3Fbdlaq4=;
- b=bFqxS1Cftsq+J2JjKGu9PTfCptabyn0ktBhrLI2SnRfqvA3PKAslz2r/7tL0qrvpvC
- TEnPO1ZIKZvlQFyPB3FFxUP0OcvA6YubXbC0BGSRW3ZGdb+vOfrYbq/sXEwihGbGZtMR
- x/yHpkHBcDuX2skj9TspmDxp9L2eq49iz32kYrH64aGQ7hcIAcmWpR22HLuEx09I1VEP
- XItswebWEy0XN3aechMmJSGiLtaL5rwTwGclG3+TE7UFNpB2alFcBKn/XwTR9x2UvmYo
- STI5XoFAgDQycOw+GUxIYncfkPuXNLcgFsrsCIz6iubcpEEg6ylWYjYM7Ryn1aGk9MvR
- 0VNw==
-X-Gm-Message-State: AOAM531wTZC+y76cPhUQgAB0li61576V5Zx9aErFynDyYu6P6dAg1ZNi
- fSBUSiHuPA9PF1mmN7f9WpZ63BiCggqYfZHbY5g=
-X-Google-Smtp-Source: ABdhPJzyKmRaADkVW1sHnsUE8BLlUF5di7jOehg2rdY0z2xofi4QU+sh5w6qSv0fTM09mlVVhp6obbWLSRN3s8oZzQU=
-X-Received: by 2002:a25:7409:: with SMTP id p9mr7701310ybc.22.1627720036502;
- Sat, 31 Jul 2021 01:27:16 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=f8L/dbO9vucV3TJqsyGnTsh0kcrcjCM8h0ETj4WZRLc=;
+ b=dMlAcxgbcXZpOCnLxxZPwe1YcadbIZJbjQpDlxX25FvN1FEg3r63Y1ToKASpVbMcX4
+ yuUG0p9CU+jCNw8IXpWG/leVLi+GVuyjUGlx/WugLXKcajRe2409w0vhHi4Uh7IzMD47
+ AtLnB646ICKC7t/67dJ6rkYeZy8BvTUGeGn4FDNVr1ZVTwIJiBnKUPtEfQuzTVdly4GB
+ t7gK8cy6auoo5jQDxAej6zRlXmi/BDuIJJXbzNqveKpnv+LvS4OGQ1b/UQ0quPpPQy+H
+ R1+vEuon4xZxZPqLNDsfcU5o17ujfRk4qVvK0zvh+5Ol5te3/RlsLPoNPUXF6VSLnEjA
+ 9gxQ==
+X-Gm-Message-State: AOAM5324lnidSpt3AFdlmqzWXDOsIxTVJ+ZvE/Ljwe2tylH9+EfaRv/D
+ HBiBJvXd+VqqmZ9+fw3t26BMHCBdrofRb0tse0g=
+X-Google-Smtp-Source: ABdhPJwNcbD/Frur4nFGeR0x7fLerlihT/0vWAt/1YcSgM7zJevnfFTc4TVwkPcIIKBZL8v7/dzWYdoloJvpZlJa2yc=
+X-Received: by 2002:a05:6830:544:: with SMTP id
+ l4mr5256907otb.164.1627726632405; 
+ Sat, 31 Jul 2021 03:17:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADywMdqcPV5TaB64TbujGdRFL0WiGUqJLi-pOSpf81_ZLMg+iA@mail.gmail.com>
-In-Reply-To: <CADywMdqcPV5TaB64TbujGdRFL0WiGUqJLi-pOSpf81_ZLMg+iA@mail.gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sat, 31 Jul 2021 10:27:07 +0200
-Message-ID: <CAKXUXMzjPLKpLW7VsyaWPjgAHmyQ1==cgO5dAxv=gFvOsJU0DA@mail.gmail.com>
-Subject: Re: Request for tasks regarding Checkpatch Documentation mentorship
- program (LFX)
-To: Rahul Balaji <rahulbalaji78@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+From: varun khatri <varunkhatri122@gmail.com>
+Date: Sat, 31 Jul 2021 15:47:01 +0530
+Message-ID: <CAJPTKA8N5B2B2403JsF+0MpG4Q=GnAwVn77CHD3iS9dFDyn+Qw@mail.gmail.com>
+Subject: Request for tasks regarding Linux Kernel: Mining for Maintainers
+ mentorship program (LFX)
+To: lukas.bulwahn@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,92 +99,57 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============6322369936505750765=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Jul 31, 2021 at 10:14 AM Rahul Balaji <rahulbalaji78@gmail.com> wrote:
->
-> Respected sir,
->
-> I am interested in working on the checkpath documentation project under your mentorship and would like to work on tasks for the selection process.
->
+--===============6322369936505750765==
+Content-Type: multipart/alternative; boundary="000000000000b74d3005c868a32f"
 
-Rahul,
+--000000000000b74d3005c868a32f
+Content-Type: text/plain; charset="UTF-8"
 
-The zeroth task is to learn suitable netiquette for the communication
-with the kernel community. Below are some basic rules and pointers for
-this mentorship. More information on kernel netiquette is also at
-https://people.kernel.org/tglx/notes-about-netiquette.
+Respected Mentor,
 
-First, please do not top-post.
+I am interested in the Mining Maintainers mentorship program and I would
+like to work on the tasks for the mentee selection.
 
-    A: Because we read from top to bottom, left to right.
-    Q: Why should I start my reply below the quoted text?
+Sincerely,
+Varun Khatri
 
-    A: Because it messes up the order in which people normally read text.
-    Q: Why is top-posting such a bad thing?
+--000000000000b74d3005c868a32f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-    A: The lost context.
-    Q: What makes top-posted replies harder to read than bottom-posted?
+<div dir=3D"ltr"><div><span style=3D"color:rgb(33,37,41);font-family:Poppin=
+s,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-serif;font-size:12.8px;white=
+-space:pre-line">Respected Mentor,</span></div><span style=3D"color:rgb(33,=
+37,41);font-family:Poppins,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-ser=
+if;font-size:12.8px;white-space:pre-line"><div><span style=3D"color:rgb(33,=
+37,41);font-family:Poppins,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-ser=
+if;font-size:12.8px;white-space:pre-line"><br></span></div>I am interested =
+in the Mining Maintainers mentorship program and I would like to work on th=
+e tasks for the mentee selection.</span><br><div><span style=3D"color:rgb(3=
+3,37,41);font-family:Poppins,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-s=
+erif;font-size:12.8px;white-space:pre-line"><br></span></div><div><font col=
+or=3D"#212529" face=3D"Poppins, Roboto, Helvetica Neue, Arial, sans-serif">=
+<span style=3D"font-size:12.8px;white-space:pre-line">Sincerely,</span></fo=
+nt></div><div><font color=3D"#212529" face=3D"Poppins, Roboto, Helvetica Ne=
+ue, Arial, sans-serif"><span style=3D"font-size:12.8px;white-space:pre-line=
+">Varun Khatri</span></font></div></div>
 
-    A: Yes.
-    Q: Should I trim down the quoted part of an email to which I'm replying?
+--000000000000b74d3005c868a32f--
 
-Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
+--===============6322369936505750765==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Third, set up your email client according to the kernel community rules.
-Here is some information to that:
-
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
-https://www.kernel.org/doc/html/latest/process/email-clients.html
-
-Generally more information on submitting patches and responding on
-replies is at https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-
-Once the zeroth task is understood, you can now move on to the first
-task: Running checkpatch on a specific file
-
-Get a clone of the Linux kernel repository. The script checkpatch.pl
-is under the scripts directory.
-
-Then, the first task is to run checkpatch.pl on a few files below and
-share the results:
-
-drivers/mtd/ubi/block.c
-drivers/net/ethernet/amazon/ena/ena_netdev.c
-
-Which information on these rules that checkpatch warns about is
-available in the Checkpatch Documentation?
-
-If documentation of these rules is available, explain your
-understanding of the rules in your own words.
-
-If no information is available in the documentation, explain your
-understanding of the rule.
-
-In any case, explain the violation that is checked and raised in the
-checkpatch script, i.e., what is implemented in checkpatch to check
-the rule and possible violations. Explain how to possibly fix this
-code with regards to that violation.
-
-Once you succeed on this first task, we inform you about the further
-second and third task.
-
-If you fail on any of those tasks, you are out of the selection process.
-
-The selection of the mentee will happen according to schedule, at
-earliest on August 12th and at latest at the end of August. More
-information is available at
-https://docs.linuxfoundation.org/lfx/mentorship/mentorship-program-timelines.
-
-
-Good luck,
-
-Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============6322369936505750765==--
