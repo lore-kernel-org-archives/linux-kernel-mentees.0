@@ -7,90 +7,89 @@ X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D0F0C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Aug 2021 08:37:20 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B9BC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Aug 2021 21:03:52 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1ACDA60F59
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Aug 2021 08:37:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1ACDA60F59
+	by mail.kernel.org (Postfix) with ESMTPS id 5C89660F55
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Aug 2021 21:03:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5C89660F55
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E18DE4036A;
-	Sun,  1 Aug 2021 08:37:19 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2E57A83704;
+	Sun,  1 Aug 2021 21:03:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bhXEzuE_POQ0; Sun,  1 Aug 2021 08:37:18 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4yk0hcGIbz1g; Sun,  1 Aug 2021 21:03:51 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 06B174021C;
-	Sun,  1 Aug 2021 08:37:17 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7B2F483863;
+	Sun,  1 Aug 2021 21:03:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D2094C0010;
-	Sun,  1 Aug 2021 08:37:17 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 21B30C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4F415C0010;
+	Sun,  1 Aug 2021 21:03:50 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1990EC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Aug 2021 08:37:17 +0000 (UTC)
+ Sun,  1 Aug 2021 21:03:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 14BFB605F0
+ by smtp3.osuosl.org (Postfix) with ESMTP id EA479605BC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Aug 2021 08:37:17 +0000 (UTC)
+ Sun,  1 Aug 2021 21:03:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id glmp1flu0cq2
+ with ESMTP id zjJpaUxMiQ0u
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Aug 2021 08:37:15 +0000 (UTC)
+ Sun,  1 Aug 2021 21:03:47 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 87744605EF
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com
+ [IPv6:2a00:1450:4864:20::235])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9314760596
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Aug 2021 08:37:15 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id a201so7195491ybg.12
+ Sun,  1 Aug 2021 21:03:47 +0000 (UTC)
+Received: by mail-lj1-x235.google.com with SMTP id m9so21286191ljp.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Aug 2021 01:37:15 -0700 (PDT)
+ Sun, 01 Aug 2021 14:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UBElcmpWAVNnFA5dSIhBmWTa4qt/dqfR6gMjnlfq4XY=;
- b=PwJ0oLwgwrOXgqr/TG0aftqv0PHqCjeiT1fkDcvmhn0zWOrVfwhYEe5y7rdlMhB3pE
- 4JU4pfHrRTDnTGVW7rMclhuaah+1DUo96+Im9NTUXKDnQLFSEcM+FnD73dzKMPkE94wS
- q/PSfxL8al4CoG3tSPRskr4dpe+u/QRxhxDwfq3EmjG1KYTd7ZdbYAA/dpuzZudw1uCM
- BOIcz+BFTbxj2BgNha9HjQOAXivxN29JY0IFfriwFe7ETDbFlX+IpG3XlNgJx3wJq3eF
- aTNGp5AVb7hWPaqR8o2Www4xFewXIn1XWzig0Vo9Qsg7af5EO7YWlvXnZ/b/57liNmIB
- qjcw==
+ :cc; bh=5xveRON2uusbs+MXcIuGHDvoLGbGkvYV2TtIX/fe5OE=;
+ b=thsF/RnqH/ZBXwIqhT+WL5uvssWwROwdK2J4KO88AIFNDTcMHX2h3bI5KcBkkJmjJD
+ U9KT59BIg15EQ1c/rRooXWyJhfhyxxsXWQThb2Jnzl0izG/1MxENqikK57Hz85ym5Yia
+ JRENo0xoG4f7WYM8QgEGyA7x/pZM96vVFg4WwQ29bpnjMUpm4nkRyIXr4Do48JUXyJWH
+ /TIdw5wl3blx/TVWmxy1Bq/1L37ccnbb1nX6iDhfLV99RJ9mBiOHIJ5e1AjDSv4Kx67A
+ 6lDdYaY5gHWXP44QHGt42gYykIAtndou3yYWrXfYiIW2HinuFlO1L7I+vWLIxHzxZ2KC
+ akGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UBElcmpWAVNnFA5dSIhBmWTa4qt/dqfR6gMjnlfq4XY=;
- b=ORYJeZW4gO8EdKGKlz8Y02TD+/SsXByc0NejEJIEtRw53Z1UhusnvjlNiTC5o7Zn5D
- 5l3FBj7xAH7ZF8ff88MhKLCi3of50JO5gP6f9isxtIgBpjIWusxQGdyAndYyhZSR4WWq
- DV8NdVDD+hMkACfdhdZ3QTVuipgVTwJdCDF7NSylDC+h0HN8n2L4p5zKr17qEvni9u0W
- r6tDbQf2/Ihb9clsiz7c+cvEBIWuaHY6wqPJI/R90yzFWFY4XfBhn8TKNn1JtHacXPgq
- 1PDMkW8XFaEHuYoF+VxuYuYaCXZuUUvRJWrmKw4PqOuzMXEwj6ysW7pyRdaBEQACXA5O
- 4spA==
-X-Gm-Message-State: AOAM532rehXKfvc5GNg1FR/8gz5hwWGGqd05Me9D0i9BGbPX/fjAERnV
- axLHm+WvLH79FFFVpr+qI4k43TIQY1XgJiSfApM=
-X-Google-Smtp-Source: ABdhPJybugE/gfwmrPD9DxlB9udMhPPwsxmnOoIfl6+HsYz+WEPQ7A0kCv0SxMTkYum+0rBnvYfFbdH+fJI2bM3N2Qo=
-X-Received: by 2002:a25:8b86:: with SMTP id j6mr13154643ybl.470.1627807034265; 
- Sun, 01 Aug 2021 01:37:14 -0700 (PDT)
+ bh=5xveRON2uusbs+MXcIuGHDvoLGbGkvYV2TtIX/fe5OE=;
+ b=G1Hobw+Nfg6kPu3LD1Ijgo4dNo0NCNxDJiLDEyeK/hyxHH+AAgJkyMsrtf4Gxjb0Cc
+ Uk0HltC9SGNCYaVzbysjO98fphr5bkYKB01oFcODXwW9AioqiN8NQx+4HJ57eVOMYihz
+ 3h+G2VtyGUaEqegVpVvIF69plbcbDs6uzOT7jSy7oYTiHAivPgPEPM4RQYpwTlzeCKIE
+ RRnbnBmvtmwTpOR/vUHD0Ktzg2uEiFKyjLMGYfl9G9v9RfgXuyAE1pU4L/9dw/zEnpUp
+ T0SmLJRHQBDoj+GqN1jgZIaN1NIqLjQB3o9JJEYD+ULCbczlFx/JXiMMzLIJPmnmpgeg
+ FRmQ==
+X-Gm-Message-State: AOAM531uQDDcwRzHqlCVd/vJRo1bUdfqzYoKSg1KobMwUEDbpc6YXxI3
+ 6bA7abjTw4VO4T3q8dKlAtDsdVLiXbHmSLzxOtw=
+X-Google-Smtp-Source: ABdhPJxIEqZjVa42pFu2jQTkJz0OQI0mx6BlUxDCFmAsZ0N8i4c08HZFEWTifPN/RqGEo+qGfdflE8SyZ6Il/HTOqoM=
+X-Received: by 2002:a2e:8618:: with SMTP id a24mr9074709lji.246.1627851825237; 
+ Sun, 01 Aug 2021 14:03:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADywMdo5PQQv563Ziir_uTaDFEqQDkjkEERfsSVN23AFvV7m-w@mail.gmail.com>
-In-Reply-To: <CADywMdo5PQQv563Ziir_uTaDFEqQDkjkEERfsSVN23AFvV7m-w@mail.gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Sun, 1 Aug 2021 10:39:41 +0200
-Message-ID: <CAKXUXMz9S2pL1RNHkPUX+jm__+qU2dYzgGMyHLRoW6Oav+MbDA@mail.gmail.com>
-Subject: Re: Submission of task 1 for checkpatch documentation mentorship
- program
+References: <CADywMdoz9NMyEcx+Rd5_ne9eR4HZCTEc5yvKP3JuHAnfnnD0Yg@mail.gmail.com>
+In-Reply-To: <CADywMdoz9NMyEcx+Rd5_ne9eR4HZCTEc5yvKP3JuHAnfnnD0Yg@mail.gmail.com>
+From: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Date: Mon, 2 Aug 2021 02:33:33 +0530
+Message-ID: <CABJPP5DXD_gpaZs13MthNMf-cn=YTYtDSTw056UqRysu70-5ag@mail.gmail.com>
+Subject: Re: Request for tasks regarding Checkpatch Documentation mentorship
+ program (LFX)
 To: Rahul Balaji <rahulbalaji78@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,380 +107,92 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Rahul, please see below the further tasks to continue.
-
-On Sat, Jul 31, 2021 at 10:38 PM Rahul Balaji <rahulbalaji78@gmail.com> wrote:
+On Sat, Jul 31, 2021 at 12:26 AM Rahul Balaji <rahulbalaji78@gmail.com> wrote:
 >
-> Respected mentor,
+> Respected sir,
 >
-> Thank you for giving me the first task.
+> I am interested in working on the checkpath documentation project under your mentorship and would like to work on tasks for the selection process.
 >
-> The results after running checkpatch.pl on each of the files given is as below.
-> I will do my best to explain each of the information presented in the result.
->
-> https://www.kernel.org/doc/html/latest/dev-tools/checkpatch.html -- link to documentation used.
->
-> As per my understanding, there are 3 different levels for the information generated.
-> They are explained below from highest to lowest level of strictness.
->
-> ERROR : requires immediate attention. They are most likely wrong.
-> WARNING : requires careful review, but not as serious issue compared to ERROR.
-> CHECK : requires a look, but it is of the mildest level.
-> -----------------------------------------------------------------------------
-> RESULT (1):
->
-> ./scripts/checkpatch.pl drivers/mtd/ubi/block.c
->
-> WARNING: quoted string split across lines
-> #354: FILE: drivers/mtd/ubi/block.c:354:
-> + pr_warn("UBI: block: volume size is not a multiple of 512, "
-> + "last %llu bytes are ignored!\n",
->
-> > message not present in documentation.
-> > this warning, as stated, is generated because of the quoted strings being split across lines.
-> > we can solve this by just keeping them in a single line.
-> > if the last line ends with a quote and the next line also begins with a quote, then this issue will arise.
->
-> WARNING: braces {} are not necessary for single statement blocks
-> #374: FILE: drivers/mtd/ubi/block.c:374:
-> + if (ret) {
-> + return ret;
-> + }
->
-> > proper way to use braces is explained in the documentation, which is related to the message here.
-> > single statement blocks don't require brackets, removing them will solve the issue.
-> > proper way to use braces is explained in the documentation.
-> > I believe it checks whether there is only one statement written between the braces. if condition is true, then warn the user.
->
-> WARNING: Statements terminations use 1 semicolon
-> #408: FILE: drivers/mtd/ubi/block.c:408:
-> + goto out_free_dev;;
->
-> > message not present in documentation.
-> > using two semicolons resulted in this warning, can be solved by [ goto out_free_dev; ].
-> > it checks if there is another semicolon (;) immediately after one, so if there is a ";;" anywhere, then it issues a warning.
+> Sincerely,
+> Rahul Balaji
 >
 
-We identified 13 violations of this rule (ONE_SEMICOLON) in the kernel
-source code:
+On Sat, Jul 24, 2021 at 6:41 PM Yash Singhal <ramusinghal112@gmail.com> wrote:
+>
+> Hello Mentors,
+> I am interested in the Checkpatch Documentation mentorship program and I would like to work on the tasks for the mentee selection.
 
-drivers/mtd/ubi/block.c:408: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
+Thanks for your interest in working with the checkpatch documentation.
 
-drivers/gpu/drm/nouveau/nouveau_gem.c:342: WARNING:ONE_SEMICOLON:
-Statements terminations use 1 semicolon
+The zeroth task is to learn suitable netiquette for the communication with
+the kernel community. Below are some basic rules and pointers for this
+mentorship. More information on kernel netiquette is also at
+https://people.kernel.org/tglx/notes-about-netiquette.
 
-fs/block_dev.c:1269: WARNING:ONE_SEMICOLON: Statements terminations
-use 1 semicolon
+First, please do not top-post.
 
-include/trace/events/iocost.h:163: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
+    A: Because we read from top to bottom, left to right.
+    Q: Why should I start my reply below the quoted text?
 
-net/sched/cls_rsvp.h:231: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
-net/sched/cls_u32.c:782: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
-drivers/net/ethernet/mediatek/mtk_star_emac.c:1089:
-WARNING:ONE_SEMICOLON: Statements terminations use 1 semicolon
+    A: Because it messes up the order in which people normally read text.
+    Q: Why is top-posting such a bad thing?
 
-arch/ia64/include/asm/mca_asm.h:139: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
-arch/ia64/include/asm/mca_asm.h:213: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
-arch/ia64/include/asm/native/inst.h:79: WARNING:ONE_SEMICOLON:
-Statements terminations use 1 semicolon
-arch/ia64/kernel/minstate.h:14: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
-arch/ia64/kernel/minstate.h:151: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
-arch/ia64/kernel/minstate.h:213: WARNING:ONE_SEMICOLON: Statements
-terminations use 1 semicolon
+    A: The lost context.
+    Q: What makes top-posted replies harder to read than bottom-posted?
 
-Your task is:
-  - to identify if these violations are true positives and can be
-fixed as you suggested or not.
-  - if they can be fixed as you suggested, provide a patch fixing this
-issue to the corresponding maintainer.
+    A: Yes.
+    Q: Should I trim down the quoted part of an email to which I'm replying?
 
-You can find various hints on how to create your first kernel patches on
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html.
+Second, please always CC: linux-kernel-mentees@lists.linuxfoundation.org.
 
-Please first only send your first patches only to the
-linux-kernel-mentees list, Dwaipayan and me, NOT to the official linux
-kernel mailing lists that get_maintainers.pl suggests.
+Third, set up your email client according to the kernel community
+rules. Here is some information to that:
 
-I suggest you start with a patch to drivers/mtd/ubi/block.c, and then
-we see how to continue with the next patch.
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
+https://www.kernel.org/doc/html/latest/process/email-clients.html
 
+Generally more information on submitting patches and responding on
+replies is at https://www.kernel.org/doc/html/latest/process/submitting-patches.html
 
-Lukas
+Once the zeroth task is understood, you can now move on to the first
+task: Running checkpatch on a specific file.
 
-> total: 0 errors, 3 warnings, 697 lines checked
->
-> NOTE: For some of the reported defects, checkpatch may be able to
->       mechanically convert to the typical style using --fix or --fix-inplace.
->
-> drivers/mtd/ubi/block.c has style problems, please review.
->
-> NOTE: If any of the errors are false positives, please report
->       them to the maintainer, see CHECKPATCH in MAINTAINERS.
->
-> -----------------------------------------------------------------
->
-> RESULT (2):
->
-> ./scripts/checkpatch.pl drivers/net/ethernet/amazon/ena/ena_netdev.c
->
-> CHECK: multiple assignments should be avoided
-> #282: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:282:
-> + ena_tx_ctx->num_bufs = tx_info->num_of_bufs = 1;
->
-> > message not in documentation.
-> > this warning was triggered because it devtected the assigning of values to multiple variables in same statement using "=".
-> > this can be solved by changing it to this instead,
-> >
-> > ena_tx_ctx->num_bufs = 1;
-> > tx_info->num_of_bufs = 1;
->
-> WARNING: nested (un)?likely() calls, IS_ERR already uses unlikely() internally
-> #1025: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1025:
-> + if (unlikely(IS_ERR(page)))
->
-> > message not in documentation.
-> > the error could have been caused because the "IS_ERR" function already
-> > calls the "unlikely" function internally, and we pass the "IS_ERR" function through
-> > "unlikely" function again, resulting in nested calls of the "unlikely" function.
-> > this warning can be removed if the nested calls can be avoided.
->
-> CHECK: Alignment should match open parenthesis
-> #1533: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1533:
-> +static void ena_rx_checksum(struct ena_ring *rx_ring,
-> +   struct ena_com_rx_ctx *ena_rx_ctx,
->
-> > message not in documentation.
-> > this was caused because the 2nd line "struct ena_com_rx_ctx *ena_rx_ctx,"
-> > was not aligned with the opening parenthesis of the first line "(".
-> > aligning it should remove the message.
->
-> CHECK: Unnecessary parentheses around 'ena_rx_ctx->l3_proto == ENA_ETH_IO_L3_PROTO_IPV4'
-> #1549: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1549:
-> + if (unlikely((ena_rx_ctx->l3_proto == ENA_ETH_IO_L3_PROTO_IPV4) &&
-> +     (ena_rx_ctx->l3_csum_err))) {
->
-> CHECK: Unnecessary parentheses around 'ena_rx_ctx->l3_csum_err'
-> #1549: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1549:
-> + if (unlikely((ena_rx_ctx->l3_proto == ENA_ETH_IO_L3_PROTO_IPV4) &&
-> +     (ena_rx_ctx->l3_csum_err))) {
->
-> > message explained in documentation.
-> > caused by unnecessary parentheses.
-> > message can be removed by changing to,
-> >
-> >if (unlikely(ena_rx_ctx->l3_proto == ENA_ETH_IO_L3_PROTO_IPV4 &&
-> >     ena_rx_ctx->l3_csum_err)) {
->
-> CHECK: Unnecessary parentheses around 'ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_TCP'
-> #1561: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1561:
-> + if (likely((ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_TCP) ||
-> +   (ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_UDP))) {
->
-> CHECK: Unnecessary parentheses around 'ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_UDP'
-> #1561: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1561:
-> + if (likely((ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_TCP) ||
-> +   (ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_UDP))) {
->
-> > unnecessary parentheses, as explained in the previous example.
->
-> CHECK: Blank lines aren't necessary before a close brace '}'
-> #1587: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1587:
-> +
-> +}
->
-> > proper usage of braces is explained in the documentation, which is related to this message.
-> > as stated, it is caused due to the blank line before the closing brace.
-> > removing the blank line should close the message.
->
-> CHECK: Unnecessary parentheses around 'ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_TCP'
-> #1596: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1596:
-> + if (likely((ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_TCP) ||
-> +   (ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_UDP)))
->
-> > unnecessary parentheses, as explained in the previous example.
->
-> CHECK: Unnecessary parentheses around 'ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_UDP'
-> #1596: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1596:
-> + if (likely((ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_TCP) ||
-> +   (ena_rx_ctx->l4_proto == ENA_ETH_IO_L4_PROTO_UDP)))
->
-> > unnecessary parentheses, as explained in the previous example.
->
-> CHECK: Please use a blank line after function/struct/union/enum declarations
-> #1636: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1636:
-> +}
-> +/* ena_clean_rx_irq - Cleanup RX irq
->
-> > message not present in docs for checkpatch.
-> > we should use a blank line after declaring a function/struct/enum.
-> > adding a blank line after the closing brace should remove the message.
->
-> CHECK: Alignment should match open parenthesis
-> #1820: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1820:
-> +static void ena_unmask_interrupt(struct ena_ring *tx_ring,
-> + struct ena_ring *rx_ring)
->
-> > the 2nd line not aligned properly with the opening parenthesis of the first.
-> > explained in a previous example.
->
-> CHECK: Alignment should match open parenthesis
-> #1852: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:1852:
-> +static void ena_update_ring_numa_node(struct ena_ring *tx_ring,
-> +     struct ena_ring *rx_ring)
->
-> > the 2nd line not aligned properly with the opening parenthesis of the first.
-> > explained in a previous example.
->
-> WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-> #2621: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:2621:
-> + netif_dbg(adapter, ifup, adapter->netdev, "%s\n", __func__);
->
-> WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-> #2683: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:2683:
-> + netif_info(adapter, ifdown, adapter->netdev, "%s\n", __func__);
->
-> WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-> #2771: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:2771:
-> + netif_dbg(adapter, ifdown, netdev, "%s\n", __func__);
->
-> > no explanation for this message was available in the documentation for checkpatch.
-> > To my understanding, ftrace is a function that is used in development of
-> > linux kernel to understand and analyse any function that takes place out of user-space.
-> > so here, i believe that netif_dbg, netif_info, and netif_dbg are functions that
-> > carry out a task that can also be done by ftrace, which could be even more efficient.
-> > so usage of ftrace is preferred so that we get better information of that function which is analysed.
->
-> CHECK: Unnecessary parentheses around 'skb->ip_summed == CHECKSUM_PARTIAL'
-> #2855: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:2855:
-> + if ((skb->ip_summed == CHECKSUM_PARTIAL) || mss) {
->
-> > unnecessary parentheses, as explained in the previous example.
->
-> CHECK: Unnecessary parentheses around 'num_frags == tx_ring->sgl_size'
-> #2912: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:2912:
-> + if ((num_frags == tx_ring->sgl_size) &&
-> +    (header_len < tx_ring->tx_max_header_size))
->
-> > unnecessary parentheses, as explained in the previous example.
->
-> CHECK: Unnecessary parentheses around 'header_len < tx_ring->tx_max_header_size'
-> #2912: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:2912:
-> + if ((num_frags == tx_ring->sgl_size) &&
-> +    (header_len < tx_ring->tx_max_header_size))
->
-> > unnecessary parentheses, as explained in the previous example.
->
-> WARNING: LINUX_VERSION_CODE should be avoided, code should be for the version to which it is merged
-> #3168: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3168:
-> + host_info->kernel_ver = LINUX_VERSION_CODE;
->
-> > an exact number of the kernel version to which it will be merged
-> > should be assigned to host_info->kernel_ver rather than another variable.
->
-> WARNING: Prefer strscpy over strlcpy - see: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
-> #3169: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3169:
-> + strlcpy(host_info->kernel_ver_str, utsname()->version,
->
-> > strlcpy() function limits the destination size, and is depreciated.
-> > using strscpy() should remove the warning.
->
-> CHECK: line length of 101 exceeds 100 columns
-> #3365: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3365:
-> +   struct ena_llq_configurations *llq_default_configurations)
->
-> > line length exceeds 100 columns. message will be removed if it is split to multiple lines.
-> > explained in the docs.
->
-> CHECK: Alignment should match open parenthesis
-> #3373: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3373:
-> + dev_warn(&pdev->dev,
-> + "LLQ is not supported Fallback to host mode policy.\n");
->
-> > the 2nd line not aligned properly with the opening parenthesis of the first.
-> > explained in a previous example.
->
-> WARNING: memory barrier without comment
-> #3698: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3698:
-> + smp_mb__before_atomic();
->
-> WARNING: memory barrier without comment
-> #3737: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3737:
-> + smp_mb__before_atomic();
->
-> > no documentation is given for this message in checkpatch.
-> > to my understanding, this is caused because there is no
-> > proper comment to this function call giving the context on why it is called in that line.
-> > adding a comment that gives proper context should remove the message.
->
-> CHECK: line length of 119 exceeds 100 columns
-> #3747: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3747:
-> + time_since_last_napi = jiffies_to_usecs(jiffies - tx_ring->tx_stats.last_napi_jiffies);
->
-> CHECK: line length of 105 exceeds 100 columns
-> #3748: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3748:
-> + missing_tx_comp_to = jiffies_to_msecs(adapter->missing_tx_completion_to);
->
-> CHECK: line length of 104 exceeds 100 columns
-> #3751: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:3751:
-> +     tx_ring->qid, i, time_since_last_napi, missing_tx_comp_to);
->
-> > line length exceeds 100 columns. message will be removed if it is split to multiple lines.
->
-> CHECK: Please don't use multiple blank lines
-> #4139: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:4139:
-> +
-> +
->
-> > multiple blank lines caused the message. removing them should do it.
->
-> WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-> #4228: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:4228:
-> + dev_dbg(&pdev->dev, "%s\n", __func__);
->
-> > using ftrace is encouraged instead of the above fn. explained in an example before.
->
-> CHECK: Unnecessary parentheses around 'adapter->msix_vecs >= 1'
-> #4464: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:4464:
-> + if ((adapter->msix_vecs >= 1) && (netdev->rx_cpu_rmap)) {
->
-> CHECK: Unnecessary parentheses around 'netdev->rx_cpu_rmap'
-> #4464: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:4464:
-> + if ((adapter->msix_vecs >= 1) && (netdev->rx_cpu_rmap)) {
->
-> > discussed in a previous example.
->
-> WARNING: Unnecessary ftrace-like logging - prefer using ftrace
-> #4612: FILE: drivers/net/ethernet/amazon/ena/ena_netdev.c:4612:
-> + netif_dbg(adapter, ifup, adapter->netdev, "%s\n", __func__);
->
-> > discussed in a previous example.
->
-> total: 0 errors, 10 warnings, 23 checks, 4689 lines checked
->
-> NOTE: For some of the reported defects, checkpatch may be able to
->       mechanically convert to the typical style using --fix or --fix-inplace.
->
-> drivers/net/ethernet/amazon/ena/ena_netdev.c has style problems, please review.
->
-> NOTE: If any of the errors are false positives, please report
->       them to the maintainer, see CHECKPATCH in MAINTAINERS
->
-> --------------------------------------------------------------------------------------------------------------
->
-> I hope I have answered all the questions asked as per the first task. If there is any clarification or further explanation required,
-> please do let me know so that i can expand further on this answer. Thank you for this opportunity. I eagerly await my second task.
->
-> sincerely,
-> Rahul.
->
+Get a clone of the Linux kernel repository.
+The script checkpatch.pl is under the scripts directory.
+
+Then, the first task is to run checkpatch.pl on a few files below
+and share the results:
+
+drivers/pinctrl/renesas/pinctrl.c
+drivers/clk/tegra/clk-tegra124-emc.c
+
+Which information on these rules that checkpatch warns about
+is available in the Checkpatch Documentation?
+
+If documentation of these rules is available, explain your
+understanding of the rules in your own words.
+If no information is available in the documentation,
+explain your understanding of the rule.
+
+In any case, explain the violation that is checked and raised in the
+checkpatch script, i.e., what is implemented in checkpatch to check
+the rule and possible violations. Which code in the checkpatch script
+is raising the warning? What does it check and how is that
+implemented?
+
+Explain how to possibly fix this code with regards to that violation.
+
+Once you succeed on this first task, we inform you about the further
+second and third task. If you fail on any of those tasks, you are out
+of the selection process.
+
+The selection of the mentee will happen according to schedule,
+at earliest on August 12th and at latest at the end of August.
+More information is available at
+https://docs.linuxfoundation.org/lfx/mentorship/mentorship-program-timelines.
+
+All the best,
+Dwaipayan.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
