@@ -2,106 +2,96 @@ Return-Path: <SRS0=D/cX=MZ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.0 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87AA1C4320A
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Aug 2021 11:16:49 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B8CC4320A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Aug 2021 12:21:47 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1BB6060F36
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Aug 2021 11:16:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1BB6060F36
+	by mail.kernel.org (Postfix) with ESMTPS id DAF6B60F4C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Aug 2021 12:21:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DAF6B60F4C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C09E34033A;
-	Mon,  2 Aug 2021 11:16:48 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A00BE83077;
+	Mon,  2 Aug 2021 12:21:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id duGapRXBagUN; Mon,  2 Aug 2021 11:16:48 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UUJGCGBe86Xc; Mon,  2 Aug 2021 12:21:45 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0BDB640337;
-	Mon,  2 Aug 2021 11:16:48 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C1DD78300C;
+	Mon,  2 Aug 2021 12:21:45 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA732C0010;
-	Mon,  2 Aug 2021 11:16:47 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9A999C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FD78C001B;
+	Mon,  2 Aug 2021 12:21:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 666D7C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 11:16:46 +0000 (UTC)
+ Mon,  2 Aug 2021 12:21:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 896FC607F6
+ by smtp4.osuosl.org (Postfix) with ESMTP id 42C314032C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 11:16:46 +0000 (UTC)
+ Mon,  2 Aug 2021 12:21:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iI8xAzwnRCdI
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OTqQuiyn28NP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 11:16:44 +0000 (UTC)
+ Mon,  2 Aug 2021 12:21:43 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9884560657
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 746A440328
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 11:16:44 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- u13-20020a17090abb0db0290177e1d9b3f7so2026608pjr.1
+ Mon,  2 Aug 2021 12:21:43 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id m193so13504304ybf.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Aug 2021 04:16:44 -0700 (PDT)
+ Mon, 02 Aug 2021 05:21:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R6GXUz7kzvPzppSdt3z4/dwHpwHS0zM/rSsMW9Edp1o=;
- b=IB3AOEneq/zsq6WG+K9Dx+tGjfWRzwSos4X1zR4PK+YOdHjaXNYL+0d057isGuH2bp
- U1W2OX/daOjme+rPee8zQnzgqRJAaGgxNrWL0BzDRHlIRLSoBhqcfSAbhSGu9/V/5ZGX
- pNXt5U9rcLjZaMOLU5H4hquh/+M0URu80NcCEFuDGcn/C6XhLUpotKnW6HWdgmRsr7i5
- YdLHgFQcEcMvs9YG3QjLXQwRP3jCFCoIewoczCg5c3CpsUT9AGa5ZJqy/aDQdLiVANFk
- iS3wKFtJaCr2GGVr7SSUY99Te33U+xpiBOFLChL37z3CgkwBq+XxxT0cm3YNiAnUGEps
- nhcg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AQ/oJqoqJAckgD1PcT+WeXcoongZPmAgp1wXGhBaCDI=;
+ b=t7HoHgW7QKatrGcFgLh9oy3DsGrKex2E+pLgsGK1/iAft8423b0SSmIkymNDF4KLPW
+ P/L9FeVdE/1fJrKg8pxj3AJbed11a7+NirtnamIE+5lYnF7sbEI02A6ZfQzW7tAvaQsc
+ sfaz11RJife5ahy7+8nmnfqNbpzWZXqg165s9sr4xHg/i0xcObGoNI/RMuqNjtPgCGmX
+ rDfYH7Ac7OqxBfzrW6gZVlDhJfzuRF3ZwDWjJx7YZcSa08uVSODUZV6+q9uVzBrRHJKf
+ HA/0Jr3e+Nuv6fKu+WoaX3njE4aW/imuKAPLehbLztuR0n/NKuAhf5KJfDKYnuyA6bVu
+ TAsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R6GXUz7kzvPzppSdt3z4/dwHpwHS0zM/rSsMW9Edp1o=;
- b=UpHZEi+vGYFjBCqIQY52B1tXIFLYcAVIi4garnDcI9tyVbm299N2kCHMXSwuqMcWEC
- DxgvsaUy1rH7P6Xg95MBwJCn1hs6uSBqiO2C0Y03S5+YU14EnexQvrXMUqZlfAgZehY9
- T2uK3V+0tF1i+UV9gq817ZXt2EemwuOgHOU+YVY1dLVekNOHKsxRIF5GgTOptaZ9eSU2
- N9gKF2cp4s6AD8ssx/lupLbB1+O5ttRQvsKMYPDrk6buAFN9hQEstha0hSOwoibZQ2pN
- 7H9fdlKLyf9AcJ7CN8XkcctiLyoRTjP8Z9CAGAcmXqd8QdTaPuGT9EsTiKk3v3cTDFpE
- 8QSw==
-X-Gm-Message-State: AOAM533WAMt143mb7wbFhzueN28OmJJfnbiL+SiSAQDsXKzewPPW5zAi
- yLip8zPm3RPg4DoDmQlASM4=
-X-Google-Smtp-Source: ABdhPJwfTXmmpUNkLpa4I7JfKlBw46SS76hdMpnno6UD5NxuaRk4EFtZTA3ZOXumH8zJRoqx6KSJCw==
-X-Received: by 2002:a17:90a:e2c8:: with SMTP id
- fr8mr16316205pjb.131.1627903004035; 
- Mon, 02 Aug 2021 04:16:44 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id p11sm10231087pju.20.2021.08.02.04.16.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Aug 2021 04:16:43 -0700 (PDT)
-Subject: Re: [PATCH] mtd: fix lock hierarchy in deregister_mtd_blktrans
-To: miquel.raynal@bootlin.com
-References: <20210717100719.728829-1-desmondcheongzx@gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <999b1450-949e-fd90-6bf2-7fd4452158bb@gmail.com>
-Date: Mon, 2 Aug 2021 19:16:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AQ/oJqoqJAckgD1PcT+WeXcoongZPmAgp1wXGhBaCDI=;
+ b=ll+pMUtrQMZAuKWyh8lfDvwPeIpNlA4VmZa+NaS6kRnEumfQLxs4h+QhrLLBL3nmWF
+ zqi8uiwVjPlVtFH0KopZI9qp4ZZ7/ujjqBN3PAWZLcMZ9tqOpioRJxKSpBJXDxixoQbu
+ HL5ZUn+tXZNV7oP91/iD9WFBocMGQgEIBilliryqLiLAJkRPZzvrHwaG5vP708xW6WR/
+ AMiHNpMhz07CrfbXUmFy4/47J/+Y0x/zPmhtRud0NsTy8oLYUiYS4zVG9bWkaSOU/YWN
+ RtU8rhBt+oQDoRxN4lp3p1G2TqssVU5oZApQ6ff5IkjE3/lPuKzwSZKLaN/uL/lW7sRQ
+ 9pjg==
+X-Gm-Message-State: AOAM533yW4Vo5ASP0stcdUQF2QHisd0unfXen+IbrZmqQGdcUmHPzJUS
+ 1gD2NRC19ly1HzwfC4rXeT5K0y3P362aDl3XRf8=
+X-Google-Smtp-Source: ABdhPJxzfip8D2NPNauP347IRG3OX9Cxu4xkwRj1Sr9cssY0dpdpAcGpoyRmDv807YBcCMP1H54PfEdncrh/ZVUfHA4=
+X-Received: by 2002:a25:d290:: with SMTP id
+ j138mr22276550ybg.151.1627906901956; 
+ Mon, 02 Aug 2021 05:21:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210717100719.728829-1-desmondcheongzx@gmail.com>
-Content-Language: en-US
-Cc: Hillf Danton <hdanton@sina.com>, vigneshr@ti.com, richard@nod.at,
- linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org,
+References: <CANx6jmdBVOPVEWMnZyreYGaKc_Unf30V2eVCucOCkbgu1mN1-A@mail.gmail.com>
+ <CABJPP5CpnsWWkd=geXmX4986_E6yNq=J57cDfpu3RKwKPwnXgA@mail.gmail.com>
+ <CANx6jmdwOpEgPV9fo2ETtmuKccNFszB0nRjmjppE6BgFK_AAmg@mail.gmail.com>
+In-Reply-To: <CANx6jmdwOpEgPV9fo2ETtmuKccNFszB0nRjmjppE6BgFK_AAmg@mail.gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Mon, 2 Aug 2021 14:23:15 +0200
+Message-ID: <CAKXUXMzT6dy-RmoH-g2v7vyGLUxY0nYQvtgU2EoksEvRDfiWBA@mail.gmail.com>
+Subject: Re: Request for mentee selection tasks (Checkpatch Documentation)
+To: sri vathsa <srivathsa729.8@gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -114,71 +104,94 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="windows-1252"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 17/7/21 6:07 pm, Desmond Cheong Zhi Xi wrote:
-> There is a lock hierarchy of major_names_lock --> mtd_table_mutex. One
-> existing chain is as follows:
-> =
+Dear Sri,
 
-> 1. major_names_lock --> loop_ctl_mutex (when blk_request_module calls
-> loop_probe)
-> =
+> > Then, the first task is to run checkpatch.pl on a few files below
+> > and share the results:
+> >
+> > drivers/usb/gadget/legacy/raw_gadget.c
+>
+> Result:
+>
+> ./drivers/usb/gadget/legacy/raw_gadget.c:52: WARNING: consider using a
+> completion
 
-> 2. loop_ctl_mutex --> bdev->bd_mutex (when loop_control_ioctl calls
-> loop_remove, which then calls del_gendisk)
-> =
+(snip)
 
-> 3. bdev->bd_mutex --> mtd_table_mutex (when blkdev_get_by_dev calls
-> __blkdev_get, which then calls blktrans_open)
-> =
+>
+> WARNING: consider using a completion
+> (Not Documented)
+> This warning suggests to use completion instead of semaphore.
+>
+> checkpatch.pl checks for iniialized semaphores, by checking
+> for sema_init, if semaphores is initialized warns to use completion
+> instead of semaphore.
+>
+> if ($line =~ /^.\s*sema_init.+,\W?0\W?\)/) {
+>        WARN("CONSIDER_COMPLETION",
+>             "consider using a completion\n" . $herecurr);
+> }
+>
+> fix: completion has to be used instead of semaphore.
+>
 
-> Since unregister_blkdev grabs the major_names_lock, we need to call it
-> outside the critical section for mtd_table_mutex, otherwise we invert
-> the lock hierarchy.
-> =
+Can you do some further investigation and research what this warning is about?
 
-> Reported-by: Hillf Danton <hdanton@sina.com>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> ---
->   drivers/mtd/mtd_blkdevs.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> =
+E.g., Look at the commit and its commit message that introduced this
+rule in checkpatch. Look in the kernel documentation for relevant
+information on semaphores and completions, the difference and the
+reasons to use one or the other synchonisation mechanism.
 
-> diff --git a/drivers/mtd/mtd_blkdevs.c b/drivers/mtd/mtd_blkdevs.c
-> index 7d26cfe24d05..87e26788ef60 100644
-> --- a/drivers/mtd/mtd_blkdevs.c
-> +++ b/drivers/mtd/mtd_blkdevs.c
-> @@ -563,8 +563,8 @@ int deregister_mtd_blktrans(struct mtd_blktrans_ops *=
-tr)
->   	list_for_each_entry_safe(dev, next, &tr->devs, list)
->   		tr->remove_dev(dev);
->   =
+Summarize this information and provide some documentation on this
+warning with various pointers for further reading and share that with
+us.
 
-> -	unregister_blkdev(tr->major, tr->name);
->   	mutex_unlock(&mtd_table_mutex);
-> +	unregister_blkdev(tr->major, tr->name);
->   =
+We found 16 cases in the kernel tree:
 
->   	BUG_ON(!list_empty(&tr->devs));
->   	return 0;
-> =
+drivers/crypto/ux500/cryp/cryp_core.c:1593:
+WARNING:CONSIDER_COMPLETION: consider using a completion
+drivers/crypto/ux500/hash/hash_core.c:1946:
+WARNING:CONSIDER_COMPLETION: consider using a completion
+drivers/gpu/drm/udl/udl_main.c:213: WARNING:CONSIDER_COMPLETION:
+consider using a completion
+drivers/infiniband/ulp/isert/ib_isert.c:2275:
+WARNING:CONSIDER_COMPLETION: consider using a completion
+drivers/input/misc/hp_sdc_rtc.c:88: WARNING:CONSIDER_COMPLETION:
+consider using a completion
+drivers/input/serio/hil_mlc.c:934: WARNING:CONSIDER_COMPLETION:
+consider using a completion
+drivers/input/serio/hp_sdc.c:904: WARNING:CONSIDER_COMPLETION:
+consider using a completion
+drivers/input/serio/hp_sdc.c:1033: WARNING:CONSIDER_COMPLETION:
+consider using a completion
+drivers/md/dm-region-hash.c:217: WARNING:CONSIDER_COMPLETION: consider
+using a completion
+drivers/parport/share.c:465: WARNING:CONSIDER_COMPLETION: consider
+using a completion
+drivers/usb/gadget/legacy/raw_gadget.c:52:
+WARNING:CONSIDER_COMPLETION: consider using a completion
+drivers/video/fbdev/udlfb.c:1888: WARNING:CONSIDER_COMPLETION:
+consider using a completion
+fs/xfs/xfs_buf.c:237: WARNING:CONSIDER_COMPLETION: consider using a completion
+include/drm/task_barrier.h:59: WARNING:CONSIDER_COMPLETION: consider
+using a completion
+include/drm/task_barrier.h:60: WARNING:CONSIDER_COMPLETION: consider
+using a completion
+kernel/seccomp.c:1769: WARNING:CONSIDER_COMPLETION: consider using a completion
 
+Can you please check which of these cases should be refactored (so the
+checkpatch warning points to a valid suggestion to refactor the code)
+or if checkpatch is wrong with its suggestion and why?
 
-Hi Miqu=E8l,
+Thanks,
 
-Just a friendly ping, this patch is part 2 of fixing the lock hierarchy =
-
-inversion between major_names_lock and mtd_table_mutex that was =
-
-identified by Hillf Danton.
-
-Best wishes,
-Desmond
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
