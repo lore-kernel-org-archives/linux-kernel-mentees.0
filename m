@@ -8,91 +8,91 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35236C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 21:20:19 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32957C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 21:37:59 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CFBBC60F41
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 21:20:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CFBBC60F41
+	by mail.kernel.org (Postfix) with ESMTPS id D140460F8F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 21:37:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D140460F8F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A29CB6061A;
-	Tue,  3 Aug 2021 21:20:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A53BE40390;
+	Tue,  3 Aug 2021 21:37:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f8qJiC5HtJ0m; Tue,  3 Aug 2021 21:20:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B6B2C60590;
-	Tue,  3 Aug 2021 21:20:17 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id n27zxjSfihsZ; Tue,  3 Aug 2021 21:37:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E8EB9401F7;
+	Tue,  3 Aug 2021 21:37:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F854C001A;
-	Tue,  3 Aug 2021 21:20:17 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C0CFC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CB2D5C001A;
+	Tue,  3 Aug 2021 21:37:57 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD562C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 21:20:16 +0000 (UTC)
+ Tue,  3 Aug 2021 21:37:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 48221605E0
+ by smtp1.osuosl.org (Postfix) with ESMTP id 9F47D83777
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 21:20:16 +0000 (UTC)
+ Tue,  3 Aug 2021 21:37:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UON2TFvRgmUI
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iAitu2tRN-dx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 21:20:15 +0000 (UTC)
+ Tue,  3 Aug 2021 21:37:56 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 8774560590
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0213C83806
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 21:20:15 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- t7-20020a17090a5d87b029017807007f23so2565820pji.5
+ Tue,  3 Aug 2021 21:37:55 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id ca5so29334pjb.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Aug 2021 14:20:15 -0700 (PDT)
+ Tue, 03 Aug 2021 14:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=M/M1OI82++wDMxHst+Lp3XlOX/hAUMXD6p/ipUV4ml4=;
- b=l/qfJnsyTiPvU11wsLMorzW4m/OzcPx+oJDgzozM448F8LweaS7C4FnfVo6rcmH95O
- wdr+g/zMP6Wo+42HodMItBdGk/t4ag9FUNCm1NtQvRg4OCUMDNGo+n/CXw6xYRM2r8cY
- SyBXAQFjKUqEiukw+GbsM/ELuRoZKjJhJZdjHQDvbC79rrwuTfwM2gvPJeAqYPaPDWgZ
- 3s9PiHcNtRgFld3MtLzBWD9DRs4bqu6d9+b3meIsqo62wxMxY19fPnENiW1nyP+Oroqw
- BdaaPy6A1CcWFwwZ+0irKp9dNn1jPVHXWgqugiF8kcM5c+Fw4rIobjlik8+eL+xSuhJF
- TF5Q==
+ bh=JQP/SRJ8zXrHVoek+drscJ3oEF60XPvWnWm92RSsOm8=;
+ b=txur015ozeo5FtxINzpXy64tF7WQNx978VsCL6Fucw9OdYu22oT6ZQn9mE2bNo1F3j
+ pVJKXZMABzVX/dqMq2P6yCn1XrKHmhlrn3hPFPXKxKXUaKKHAKcJXNhLvLUqIR4Vc4Qx
+ 5xrlJRTK03OBO8uDH5wm8jTa1ecAbhyMYYtzZS2qI9+mhxGk5gDhR2150kP8RttGxVOD
+ Q9HegKTHyjSEw65HC9zP9TeCFOUcBoqRKoJ8zEU9nawEI3zJ97dvl6/Pei/MTaBr2zzE
+ 8iBkisUwLChd4uaKgkBKcMB+Q3Tam579d94FkCWob8w8fW+3RrWDrfEwWfhmaYV1iuT8
+ 2x8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=M/M1OI82++wDMxHst+Lp3XlOX/hAUMXD6p/ipUV4ml4=;
- b=O0bs3ozx7DCVj4NBu9zO0GafCbVOzXh24YarwyPVHH4MOm0nOkCmjQrZUsHMKPuX8P
- +xDqKPC9fUNMRPYA1zNhwgFulu4z2YkXkdOl/08DGoUGY/RMjw1cggDRsmP2BUeEzBIR
- T/jQgJyOf5/wflKwDmppaBvqUlxk5u1+WERhhVrmmBoOt0WPTv+20BUCrR5K6YAa9j+7
- CBDlz67qIO3rbl6IMCBUq0VF5O23Zx8+peFsAnJiGww1sjbV4eqBOiGoSI2fHulYqe+B
- goN6Xwx3pT8tbG5gMg/OHfpp/WrhalAG0u9z2mwTqtDQt0NpZEgALVAZ9rPKyIPLcou0
- hMhg==
-X-Gm-Message-State: AOAM5309dp2N3vtgnCvFUeC12MA+I0xUvMX0Fuj3NulV5U/Rhdpjh6IS
- PcI6csKJBkDhwsAzY+uQtRU=
-X-Google-Smtp-Source: ABdhPJwkq/KEYqR74CIZKUmxnR/VmPbxUccu3Ad6mcI7zIw5egnU2yPFTwazWj5xSL26Kjl3J/yoZw==
-X-Received: by 2002:a17:903:192:b029:12c:bf13:ab28 with SMTP id
- z18-20020a1709030192b029012cbf13ab28mr7869225plg.17.1628025614724; 
- Tue, 03 Aug 2021 14:20:14 -0700 (PDT)
+ bh=JQP/SRJ8zXrHVoek+drscJ3oEF60XPvWnWm92RSsOm8=;
+ b=p62C8TW4CreQB3bUFqTVtu0x+uMt2H6arhGpMHXDvsI1I3mkG9JcMPJ7VfIuhAI6pK
+ S/VZ7h/K1LkEVWG5xbsiXcdXzT8Z6OJ9gTRp0ZmWYK93mHU7xswPOCJsamq8SAxolrr9
+ G50LtWbdSJyMustZGsRAjdCud0j9sJES9aIQl61kYVi7hJxmeg10RlMaWVvdvqCEty2b
+ 8LUsggr1mULkW7LZs0i2Da7WxQiZnd7qVF4EogpLOrLTLikWwt7ra3ndmghz0bCEtGrx
+ So/OaKqiaVvQ6MqES1ewoPaE9DfreLUvswYCvWt4diGh8WMBP4xEnpxuRPQpdWxPllAT
+ lnPw==
+X-Gm-Message-State: AOAM532xYJ4OBCRTZ4Y1+hG1vHMiBqG+LmtExexGKZMpi2oaLqzIgfIn
+ HYDHTW2v1icYBFd0KESSjNs=
+X-Google-Smtp-Source: ABdhPJwtI0Ak6uLmMAlfvx5KLNiF81wV47XO6pKR2VNRCBkKVJGX3qhu3aTvPkbQgsGWdliN6W2rlw==
+X-Received: by 2002:a65:4785:: with SMTP id e5mr639936pgs.186.1628026675269;
+ Tue, 03 Aug 2021 14:37:55 -0700 (PDT)
 Received: from localhost.localdomain ([47.9.154.212])
- by smtp.googlemail.com with ESMTPSA id b15sm12594pgj.60.2021.08.03.14.20.10
+ by smtp.googlemail.com with ESMTPSA id r10sm161184pff.7.2021.08.03.14.37.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 14:20:14 -0700 (PDT)
+ Tue, 03 Aug 2021 14:37:54 -0700 (PDT)
 From: Utkarsh Verma <utkarshverma294@gmail.com>
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v2] Documentation: checkpatch: Add TRAILING_SEMICOLON message
-Date: Wed,  4 Aug 2021 02:49:41 +0530
-Message-Id: <20210803211941.3646-1-utkarshverma294@gmail.com>
+Subject: [PATCH v2] Documentation: checkpatch: Add SYMBOLIC_PERMS message
+Date: Wed,  4 Aug 2021 03:07:16 +0530
+Message-Id: <20210803213716.4484-1-utkarshverma294@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CABJPP5CpoFXgZ0WkCJSd-6oiS5D1zyw4irEP049Wr5ANTUgHCA@mail.gmail.com>
-References: <CABJPP5CpoFXgZ0WkCJSd-6oiS5D1zyw4irEP049Wr5ANTUgHCA@mail.gmail.com>
+In-Reply-To: <CAKXUXMy2V9GJM+h1cEeHSTUsKQ3b=MfXY_jba3FRDNKKo12iRA@mail.gmail.com>
+References: <CAKXUXMy2V9GJM+h1cEeHSTUsKQ3b=MfXY_jba3FRDNKKo12iRA@mail.gmail.com>
 Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -113,47 +113,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new message type TRAILING_SEMICOLON for the macro definitions
-that conclude with a semicolon.
+Add a new message type SYMBOLIC_PERMS under the 'Permissions'
+subsection. Checkpatch documentation that recommends the user to use
+the octal permission bits instead of their symbolic macro names.
 
 Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
 ---
- Documentation/dev-tools/checkpatch.rst | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ Documentation/dev-tools/checkpatch.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea..f2ef998ba 100644
+index f0956e9ea..0d60f8e5e 100644
 --- a/Documentation/dev-tools/checkpatch.rst
 +++ b/Documentation/dev-tools/checkpatch.rst
-@@ -845,6 +845,27 @@ Macros, Attributes and Symbols
-     Use the `fallthrough;` pseudo keyword instead of
-     `/* fallthrough */` like comments.
+@@ -957,6 +957,12 @@ Permissions
+     Permission bits should use 4 digit octal permissions (like 0700 or 0444).
+     Avoid using any other base like decimal.
  
-+  **TRAILING_SEMICOLON**
-+    Macro definition should not conclude with a semicolon. The macro
-+    invocation should be consistent with the function call. So the macro
-+    invocation must conclude with a semicolon. Suppose if a macro MAC is
-+    defined::
++  **SYMBOLIC_PERMS**
++    Permission bits in the octal form are more readable and easier to
++    understand than their symbolic counterparts.
 +
-+      #define MAC do_something;
++    See: https://lwn.net/Articles/696229/
 +
-+    If this macro is used within a if else statement, like::
-+
-+      if (some_condition)
-+              MAC;
-+      else
-+              do_something;
-+
-+    Then there would be a compilation error, because when the macro is
-+    expanded there are two trailing semicolons, so the else branch gets
-+    orphaned.
-+
-+    See: https://lore.kernel.org/lkml/1399671106.2912.21.camel@joe-AO725/
-+
-   **WEAK_DECLARATION**
-     Using weak declarations like __attribute__((weak)) or __weak
-     can have unintended link defects.  Avoid using them.
+ 
+ Spacing and Brackets
+ --------------------
 -- 
 2.17.1
 
