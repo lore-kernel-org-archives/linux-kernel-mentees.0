@@ -8,87 +8,90 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57E3FC4320A
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 14:20:27 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CEDBC432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 14:21:05 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 141C360FA0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 14:20:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 141C360FA0
+	by mail.kernel.org (Postfix) with ESMTPS id A9D026105A
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 14:21:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A9D026105A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D8DBA82BA1;
-	Tue,  3 Aug 2021 14:20:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7EBB0402CD;
+	Tue,  3 Aug 2021 14:21:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xoUP25awJZ9p; Tue,  3 Aug 2021 14:20:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 17DB082B84;
-	Tue,  3 Aug 2021 14:20:26 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M9KaL8ejBU10; Tue,  3 Aug 2021 14:21:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4D27B400F2;
+	Tue,  3 Aug 2021 14:21:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 03AD1C0010;
-	Tue,  3 Aug 2021 14:20:26 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D6124C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BD2CC0010;
+	Tue,  3 Aug 2021 14:21:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6E2FCC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 14:20:24 +0000 (UTC)
+ Tue,  3 Aug 2021 14:21:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C63B882B94
+ by smtp4.osuosl.org (Postfix) with ESMTP id 508A3404CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 14:20:24 +0000 (UTC)
+ Tue,  3 Aug 2021 14:21:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uxcBakrgE8U3
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id v2xV_77ONAZH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 14:20:24 +0000 (UTC)
+ Tue,  3 Aug 2021 14:21:00 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 438EE82B84
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C3790404BC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Aug 2021 14:20:24 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- dw2-20020a17090b0942b0290177cb475142so4071326pjb.2
+ Tue,  3 Aug 2021 14:21:00 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ mz5-20020a17090b3785b0290176ecf64922so4047563pjb.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Aug 2021 07:20:24 -0700 (PDT)
+ Tue, 03 Aug 2021 07:21:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=uUz1GJ4UMZtESqOH3Iv0HC2onnOwVwctq0r47BVKDPQ=;
- b=SDGn417J2pG+ccdcocBsajmR7geyPNjKtmoAMJQxKCRWSx4AOrjMhU7NunDVVEYp9/
- 5xKdBjka2Ga9rD/xXQHrE/3K7ToIbIaX3ajv0J4Trluneg3yk6vntvOaLwEbVs2Kh62r
- iIDui6uXEbx/ktw8+uwil6+KsEoO/Pn3aywbFiExu+tnqIrTo95GncgOgiCUNyDFANpB
- +16ai98DjcXEHnsT/fwfVDon1h0PXsCoJfU5E4ZNxWUiNM4v6uUozYNLl6w+kgyGL6Vi
- 5q5iN4goKZ+wkg7PWURlCTxJsWZdt6EHkydM46vrp+UXB78gASxwTWdM63Drrd3dC+K7
- /81g==
+ bh=cjJcYm6ukuHvF1VeTN7Im6jNgf92bM82AxQ4ySv6jgU=;
+ b=BoKIGgaW8x47E4wei36R5h9/iXEJv0y6gH/g06O+ngsmMtFQUpqZ/vdr+iaYF0gUIk
+ qJQt1Zr3F6FZEPhfHkagxeH8k+VGVY6Ax3eeHMYTJuxMTl6B9sSmua2bU1PQyFlROTUs
+ kTJCWQXSrnQ7gMar7FeMcSUlUSG0ZPY58QaFE6MPl5uAhU48XqDY6B0xMcDQk1JnWyuC
+ xxEQVbEVITysjCe8io61bFq7Vr9TOmdtZXDij0nfaqRV4WzcUL9z2XIUowjx2PYG3zHC
+ s4LsVTT1PAShvGqrLzEHZZvQ4yGOtLxqKQPAkLDfZcEW7b3Bsf+iGdIZcBzZqQl30mf9
+ THWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=uUz1GJ4UMZtESqOH3Iv0HC2onnOwVwctq0r47BVKDPQ=;
- b=K8e583OFf7KVMYcE+G9z+m+U8CzbDtXhi8Y3gPy2KczkqVJeqUSY3NJBeTPCzb7u7U
- LokP8MuhSPpdKqPY/Z7qnJuVEAgKYt/TBiPHwNt94HhDmubb9VoPYxCVusC3lmNXbsL8
- nUsU8JGJBENQ1N208bh2APufUUQu7/WTbetlNhlqkdBFxZhlE3xrpp2Icj8EAinV/2C4
- jeZ49rAELrIiqSkA1aVuXVIDAO+yrtgkQEyjk1pjiPPnWBS7+N8ruxe8H2rVvkrIfr0q
- vsU9wyewTMU2Vfw1wnOxmA86XFJEUx77QSQ4KSUOGiFCaiG7HhFI8lwvNzMPxBzLuI5E
- Er1w==
-X-Gm-Message-State: AOAM533MW7qHH9P0qdNPgOEJ2yh2rofgZt2MCX/Mt2CssJNCQVHNgaj7
- olZdUuT9dondWwMou4BZgv4=
-X-Google-Smtp-Source: ABdhPJyvGWoW29oJjZk7NLyPevuzrLC9xPcaQWGYkHP2kBI/TAawD5jjnUoxaTRfWW2xG8SY1qeLOw==
-X-Received: by 2002:a65:42c3:: with SMTP id l3mr215227pgp.377.1628000423619;
- Tue, 03 Aug 2021 07:20:23 -0700 (PDT)
+ bh=cjJcYm6ukuHvF1VeTN7Im6jNgf92bM82AxQ4ySv6jgU=;
+ b=CupS10DdXxmC9xrCuzu+fhXSBcSAuf1QKbPsiFX9ARM7byijZQXpL3HQqBGoistOs6
+ 12agGsBhII0Mw44P3f42uTl3T9dAfgrEvRFFeCk0VfZ2YgEM5HsRXnkF1MrrqID+G1ge
+ KwWdI8yfRsX6gBuAbLBM8mjKzXkcsqrFnTlFyFry9sQyDXGOd6dkbLrGfthjcA+9uGgr
+ JGC9RQRAvJyR88tFpKy+CsXLy0h0K1aqkMoRB6ezsZdX57sG4+Rl2NFeo970aUwR6NfP
+ tvuuA876vHN965iTWdOiEw2BkCTdy6a8agAXCghYBPNK4s5jgQ13QRHgWTGFYODCp4xS
+ yvIw==
+X-Gm-Message-State: AOAM530I85cVac1tWC/PJRFiEk7QpdP632cqmKyTfqW6p42z2Gobalby
+ QD6/KjghYDbgyIRKBhgcdrM=
+X-Google-Smtp-Source: ABdhPJwErR0hjibjn8e6hmkqlyyceD+f5+LUyKBL8OeVUAVMdXyJ65DHYTT9auIitIAOopEpqFvkiw==
+X-Received: by 2002:a17:902:d682:b029:12c:13e9:adaf with SMTP id
+ v2-20020a170902d682b029012c13e9adafmr18700101ply.74.1628000460080; 
+ Tue, 03 Aug 2021 07:21:00 -0700 (PDT)
 Received: from localhost.localdomain ([47.9.137.220])
- by smtp.googlemail.com with ESMTPSA id i18sm17786246pgb.83.2021.08.03.07.20.20
+ by smtp.googlemail.com with ESMTPSA id z33sm11490738pga.20.2021.08.03.07.20.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Aug 2021 07:20:23 -0700 (PDT)
+ Tue, 03 Aug 2021 07:20:59 -0700 (PDT)
 From: Utkarsh Verma <utkarshverma294@gmail.com>
 To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] Documentation: checkpatch: Add TRAILING_SEMICOLON message
-Date: Tue,  3 Aug 2021 19:50:10 +0530
-Message-Id: <20210803142010.17015-1-utkarshverma294@gmail.com>
+Subject: [PATCH] USB: serial: iuu_phoenix: fix checkpatch memset warning
+Date: Tue,  3 Aug 2021 19:50:45 +0530
+Message-Id: <20210803142045.17082-1-utkarshverma294@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <CAKXUXMymBWUcy53a38hA9b3VYL0af2vpDW0=xsCEWuiiUQQn-w@mail.gmail.com>
 References: <CAKXUXMymBWUcy53a38hA9b3VYL0af2vpDW0=xsCEWuiiUQQn-w@mail.gmail.com>
@@ -112,46 +115,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new message type TRAILING_SEMICOLON for the macro definitions
-that conclude with a semicolon.
+This fixed the below checkpatch issue:
+WARNING: single byte memset is suspicious. Swapped 2nd/3rd argument?
+
+Logically the code is correct, but it is unusual to use memset for a
+single byte only. The same can be achieved by using a simple
+assignment.
 
 Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
 Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 ---
- Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/usb/serial/iuu_phoenix.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea..504edd961 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -845,6 +845,26 @@ Macros, Attributes and Symbols
-     Use the `fallthrough;` pseudo keyword instead of
-     `/* fallthrough */` like comments.
+diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
+index 19753611e..6bab12f4f 100644
+--- a/drivers/usb/serial/iuu_phoenix.c
++++ b/drivers/usb/serial/iuu_phoenix.c
+@@ -253,7 +253,7 @@ static int iuu_status(struct usb_serial_port *port)
+ {
+ 	int result;
  
-+  **TRAILING_SEMICOLON**
-+    Macro definition should not conclude with a semicolon. The macro
-+    invocation should be consistent with the function call. A function
-+    call concludes with a semicolon, so the macro invocation must also
-+    conclude with a semicolon. Suppose if a macro MAC is defined::
-+
-+      #define MAC       \
-+        do_something;
-+
-+    If this macro is used within a if else statement, like::
-+
-+      if(some_condition)
-+              MAC;
-+      else
-+              do_something;
-+
-+    Then there would be a compilation error, because when the macro is
-+    expanded there are two trailing semicolons, so the else branch gets
-+    orphaned.
-+
-   **WEAK_DECLARATION**
-     Using weak declarations like __attribute__((weak)) or __weak
-     can have unintended link defects.  Avoid using them.
+-	memset(port->write_urb->transfer_buffer, IUU_GET_STATE_REGISTER, 1);
++	*(char *)port->write_urb->transfer_buffer = IUU_GET_STATE_REGISTER;
+ 	usb_fill_bulk_urb(port->write_urb, port->serial->dev,
+ 			  usb_sndbulkpipe(port->serial->dev,
+ 					  port->bulk_out_endpointAddress),
+@@ -1056,7 +1056,7 @@ static int iuu_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 
+ 	dev_dbg(dev, "%s - initialization done\n", __func__);
+ 
+-	memset(port->write_urb->transfer_buffer, IUU_UART_RX, 1);
++	*(char *)port->write_urb->transfer_buffer = IUU_UART_RX;
+ 	usb_fill_bulk_urb(port->write_urb, port->serial->dev,
+ 			  usb_sndbulkpipe(port->serial->dev,
+ 					  port->bulk_out_endpointAddress),
 -- 
 2.17.1
 
