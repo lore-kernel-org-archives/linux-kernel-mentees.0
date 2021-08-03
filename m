@@ -1,95 +1,101 @@
-Return-Path: <SRS0=D/cX=MZ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=/NdJ=M2=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0820C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Aug 2021 17:20:32 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B406C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 14:11:26 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 81F8761103
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Aug 2021 17:20:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 81F8761103
+	by mail.kernel.org (Postfix) with ESMTPS id A621A60560
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Aug 2021 14:11:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A621A60560
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4AD6E403F7;
-	Mon,  2 Aug 2021 17:20:32 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5DD1B83794;
+	Tue,  3 Aug 2021 14:11:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 14THCUOw7LoJ; Mon,  2 Aug 2021 17:20:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0777C40190;
-	Mon,  2 Aug 2021 17:20:31 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id J8ahZjOdPwdZ; Tue,  3 Aug 2021 14:11:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 88D8083777;
+	Tue,  3 Aug 2021 14:11:21 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DA3A8C0010;
-	Mon,  2 Aug 2021 17:20:30 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F2060C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6004BC001A;
+	Tue,  3 Aug 2021 14:11:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95019C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 17:20:29 +0000 (UTC)
+ Tue,  3 Aug 2021 14:11:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D36D3403E9
+ by smtp3.osuosl.org (Postfix) with ESMTP id 87981605E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 17:20:29 +0000 (UTC)
+ Tue,  3 Aug 2021 14:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SXWfW-ssWd9s
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id V2mmSg73nG_m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 17:20:28 +0000 (UTC)
+ Tue,  3 Aug 2021 14:11:17 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
- [IPv6:2607:f8b0:4864:20::b32])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 8D75C40190
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
+ [IPv6:2a00:1450:4864:20::529])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 654F460011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Aug 2021 17:20:28 +0000 (UTC)
-Received: by mail-yb1-xb32.google.com with SMTP id z128so3157347ybc.10
+ Tue,  3 Aug 2021 14:11:17 +0000 (UTC)
+Received: by mail-ed1-x529.google.com with SMTP id x90so29115971ede.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Aug 2021 10:20:28 -0700 (PDT)
+ Tue, 03 Aug 2021 07:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=skXRhjVoeVXq9z9dilMd1zzLyvzBQ0LVNqIbMGGng50=;
- b=FcjtshWMsDyEkMLGBCW14UThrG9ZXnP2criirbovyNamThQ+fwwEljgJDsftUAgyWF
- P3YoAtJ9aJnQIgHCn8CW9sMh1ADuL3tXyeCViokOh/K1KE/nIgTKRNM2BESNBZW6kYOe
- oo8cwX3ZDiSiNmKBw3qo/VXrZ1D3nllftEuu3hpyVLO5os5DdT9T+xArnH3FuoSCtPon
- 9TnjiuuwQEGkg1caKN4sNbKjTAhX0dxB9F4rIMU8f3+EoaOfnEnz7YakYxgLUFqKSAJu
- hROl7NsQ2/gUn16LPN3iMJ01tlTN2+rA9cmLGKnpv2uNTBwSdhoO34MZ7GJuj8egNc+U
- mcFA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0edNul+aQn8j+yLV7TUmWzxpvD1zvGMk5pA8Yrnc93o=;
+ b=aasVIeP/9sOBwX4+xrVzZ2Y4jY9vI3Sz90652qYqJUgb+DU80j2uHD++b4Og9GIMhO
+ 5xzruSaG7EU2/p3WsDmsSniBJtlj1ulPRPvawRpMhn51qJyAhe78os6HNa24htSo/dFx
+ DDQNcU24udeUnAyn5kdRGxq4CnZCDE3F81rGZtSYUq1qwpeoS7lKB7gtHjdLg7cFKRte
+ 5CTPVmYbLEi2g4eM8b6mLC5Ikwu8I5zetRvfLAbxCIiUK7ImN5q7xosTVOUyZumCvsyS
+ 6cxr2ic3inhmbSHylVI3MdVVbGT+zUfKU/hOuPsE1fi9qfFe3ekOWYruyzYtS8SmVoqZ
+ wvnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=skXRhjVoeVXq9z9dilMd1zzLyvzBQ0LVNqIbMGGng50=;
- b=Crfn9ZyfbAnDC6qwNkKIXAS5+JKikiypq6hSgQhRbYzekPODNrrg/gS3IHkcirIZzO
- MCemPxq+EhEQAQ/gz8E6oFgLyAV0eMCnYw7TINZHn5jsi1evnERIGwRMXjp/HrKUCm6w
- TevOICprZ60/UogY9yzcFEdBJdiNDnwOqZV9ViGL4RnqD4++yUMSSZETbEXbnBWeWrDC
- M6GL1e0qPGHvgpa/GbCZ/0kjmjUlOdBvL5awB/cLgdAwzh4gqhZQoLbINBOE+MOW0b7P
- J/XysYgf9xr6oRgjFNRGmt82o7QAL705ruxKG6nC/dXC4+tAyNKAbxAt0hI6o1/k+1Ga
- YPmA==
-X-Gm-Message-State: AOAM530u+Pm4uYGjuEPTqYfCwFZI8TGs56veaAk697w5jVE3A0FPM2t7
- aZoOZ9jFtLdsDLt2qd+cjVXWg+zIzsi7SbAxKz0=
-X-Google-Smtp-Source: ABdhPJwWPZwVOl+YNhppX/ZPWu018lSfw88dYfCNs7HeC7nlxpyk8/nogtXnXVtspqy8iyFUctIytb9urVqfWRU25Zc=
-X-Received: by 2002:a25:3046:: with SMTP id w67mr22785894ybw.134.1627924827395; 
- Mon, 02 Aug 2021 10:20:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0edNul+aQn8j+yLV7TUmWzxpvD1zvGMk5pA8Yrnc93o=;
+ b=ZDBZE9tq9fFvZW/HohWjbT/Bs7MDeUFwr/Aau2VQyd75RXi+6hsTGSkYDkyzYWDydn
+ Bp7mmBTW5ZK7NoSbNZ4GPYA+1e8rEJOcE5QXfr4OAAAsHq0zJa97eeMIdZ+ZuBZDUpX7
+ EOgBrLikG0gNHayu9Xvh8XRtXraZDFeeEx39v3cr/je70msF7J2UmbpZr2YSBrkjvICf
+ /Du+UK8IATOz92RVnFQL5rNR0f6kVPj4t6+v+p/++Xc/drdRxar5AIfSCT1znpjr0RAk
+ qM7qd6ko5ZFPTp6B0O+BMwqL9YiI7S/LedpTnRiyVK1yWAuvsmyl2yZVqSfG2wQcyusO
+ vv8Q==
+X-Gm-Message-State: AOAM5326Z+npFEUqrnVvjJB4zSm3gU8lytaE0/DHXd8l0R2ucTHVa0Gc
+ 1Dul+bdjIgDhk4CKW5V5l2o=
+X-Google-Smtp-Source: ABdhPJxarEVomuwBio+TGjo8dLN51NryUiEMUV18x6WD3e+pXtUUqMYhS0isFOqCkoyaYdBQsDNV+A==
+X-Received: by 2002:a05:6402:278d:: with SMTP id
+ b13mr26503150ede.20.1627999875355; 
+ Tue, 03 Aug 2021 07:11:15 -0700 (PDT)
+Received: from localhost.localdomain ([85.154.106.253])
+ by smtp.gmail.com with ESMTPSA id i11sm8114623edu.97.2021.08.03.07.11.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Aug 2021 07:11:14 -0700 (PDT)
+From: Rahul Balaji <rahulbalaji78@gmail.com>
+To: lukas.bulwahn@gmail.com
+Subject: [PATCH v2] Task2: checkpatch.pl documentation mentorship: Remove
+ semicolon warnings
+Date: Tue,  3 Aug 2021 18:10:49 +0400
+Message-Id: <20210803141049.80422-1-rahulbalaji78@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <CAMqN5U6TDXVsJy3YEw-QOY9saktrWpNELtNKnBW9VegdQG2x3Q@mail.gmail.com>
- <CABJPP5AUm4fmiNPem3S1pw-S89E70H4UoVyGRq_vmCef1B4Qvw@mail.gmail.com>
- <CAMqN5U5Dwd8Jya8ETOffHFtRxaecSHAqJCUjyi+hygjPuSzOFw@mail.gmail.com>
-In-Reply-To: <CAMqN5U5Dwd8Jya8ETOffHFtRxaecSHAqJCUjyi+hygjPuSzOFw@mail.gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 2 Aug 2021 19:20:21 +0200
-Message-ID: <CAKXUXMzWSAjPfA70rJhuLkcEL5zJTrcJy2NL=OsoGu7bjabX1Q@mail.gmail.com>
-Subject: Re: LFX Mentorship application
-To: Vinesh Vilas Raut <vineshraut2017@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,102 +113,70 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Aug 2, 2021 at 5:46 PM Vinesh Vilas Raut
-<vineshraut2017@gmail.com> wrote:
->
+Signed-off-by: Rahul Balaji <rahulbalaji78@gmail.com>
 
-(snip)
+no functional changes.  
+---
+ drivers/gpu/drm/nouveau/nouveau_gem.c | 2 +-
+ drivers/mtd/ubi/block.c               | 2 +-
+ fs/block_dev.c                        | 2 +-
+ include/trace/events/iocost.h         | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
->
-> Unnecessary cast may hide bugs, see http://c-faq.com/malloc/mallocnocast.html
-> casting is not require in this situation. It could be difficult to
-> trace bug if any in
-> there.Because compiler would  suppress the warning due to casting.
-> Remove the extra casting syntax before the function call to fix this warning.
->
-> {scripts/checkpatch.pl code}
-> ...
-> # check for pointless casting of alloc functions
->         if ($line =~ /\*\s*\)\s*$allocFunctions\b/) {
->             WARN("UNNECESSARY_CASTS",
->                  "unnecessary cast may hide bugs, see
-> http://c-faq.com/malloc/mallocnocast.html\n" . $herecurr);
->         }
-> ...
->
-> WARNING: unnecessary cast may hide bugs, see
-> http://c-faq.com/malloc/mallocnocast.html
-> #1009: FILE: drivers/message/fusion/mptlan.c:1009:
-> +       skb = (struct sk_buff *)dev_alloc_skb(len);
->
-> WARNING: unnecessary cast may hide bugs, see
-> http://c-faq.com/malloc/mallocnocast.html
-> #1051: FILE: drivers/message/fusion/mptlan.c:1051:
-> +       skb = (struct sk_buff *)dev_alloc_skb(len);
->
-> WARNING: unnecessary cast may hide bugs, see
-> http://c-faq.com/malloc/mallocnocast.html
-> #863: FILE: drivers/message/fusion/mptlan.c:863:
-> +       skb = (struct sk_buff *)dev_alloc_skb(len);
->
-
-Can you do some further investigation and research what this warning is about?
-
-E.g., Look at the commit and its commit message that introduced this
-rule in checkpatch. Look in the kernel documentation for relevant
-information on unnecessary casts. Possibly you also find some
-discussion on the mailing list.
-
-Summarize this information and provide some documentation on this
-warning with various pointers for further reading and share that with
-us.
-
-We found 9 cases in the kernel tree:
-
-drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c:355:
-WARNING:UNNECESSARY_CASTS: unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/message/fusion/mptlan.c:863: WARNING:UNNECESSARY_CASTS:
-unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/message/fusion/mptlan.c:1009: WARNING:UNNECESSARY_CASTS:
-unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/message/fusion/mptlan.c:1051: WARNING:UNNECESSARY_CASTS:
-unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/net/ethernet/freescale/fs_enet/mac-fcc.c:150:
-WARNING:UNNECESSARY_CASTS: unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/net/ethernet/freescale/fs_enet/mac-fec.c:134:
-WARNING:UNNECESSARY_CASTS: unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/net/ethernet/qlogic/qlcnic/qlcnic_ctx.c:572:
-WARNING:UNNECESSARY_CASTS: unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-drivers/video/fbdev/goldfishfb.c:241: WARNING:UNNECESSARY_CASTS:
-unnecessary cast may hide bugs, see
-http://c-faq.com/malloc/mallocnocast.html
-include/rdma/ib_verbs.h:2272: WARNING:UNNECESSARY_CASTS: unnecessary
-cast may hide bugs, see http://c-faq.com/malloc/mallocnocast.html
-
-Can you please check which of these cases should be refactored (so the
-checkpatch warning points to a valid suggestion to refactor the code)
-or if checkpatch is wrong with its suggestion and why?
-
-If the code in drivers/message/fusion/mptlan.c shall be refactored:
-Can you provide a patch that addresses this issue?
-
-You can find various hints on how to create your first kernel patches on
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html.
-
-Please first only send your first patches only to the
-linux-kernel-mentees list, Dwaipayan and me, NOT to the official linux
-kernel mailing lists that get_maintainers.pl suggests.
-
-Thanks,
-
-Lukas
+diff --git a/drivers/gpu/drm/nouveau/nouveau_gem.c b/drivers/gpu/drm/nouveau/nouveau_gem.c
+index 5b27845075a1..d476940ee97c 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_gem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_gem.c
+@@ -339,7 +339,7 @@ nouveau_gem_set_domain(struct drm_gem_object *gem, uint32_t read_domains,
+ 	struct ttm_buffer_object *bo = &nvbo->bo;
+ 	uint32_t domains = valid_domains & nvbo->valid_domains &
+ 		(write_domains ? write_domains : read_domains);
+-	uint32_t pref_domains = 0;;
++	uint32_t pref_domains = 0;
+ 
+ 	if (!domains)
+ 		return -EINVAL;
+diff --git a/drivers/mtd/ubi/block.c b/drivers/mtd/ubi/block.c
+index e003b4b44ffa..e0402c2f8959 100644
+--- a/drivers/mtd/ubi/block.c
++++ b/drivers/mtd/ubi/block.c
+@@ -405,7 +405,7 @@ int ubiblock_create(struct ubi_volume_info *vi)
+ 	ret = blk_mq_alloc_tag_set(&dev->tag_set);
+ 	if (ret) {
+ 		dev_err(disk_to_dev(dev->gd), "blk_mq_alloc_tag_set failed");
+-		goto out_free_dev;;
++		goto out_free_dev;
+ 	}
+ 
+ 
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 9ef4f1fc2cb0..61b938fa5d5b 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -1268,7 +1268,7 @@ static int blkdev_get_whole(struct block_device *bdev, fmode_t mode)
+ 	if (test_bit(GD_NEED_PART_SCAN, &disk->state))
+ 		bdev_disk_changed(disk, false);
+ 	bdev->bd_openers++;
+-	return 0;;
++	return 0;
+ }
+ 
+ static void blkdev_put_whole(struct block_device *bdev, fmode_t mode)
+diff --git a/include/trace/events/iocost.h b/include/trace/events/iocost.h
+index e282ce02fa2d..6d1626e7a4ce 100644
+--- a/include/trace/events/iocost.h
++++ b/include/trace/events/iocost.h
+@@ -160,7 +160,7 @@ TRACE_EVENT(iocost_ioc_vrate_adj,
+ 
+ 	TP_fast_assign(
+ 		__assign_str(devname, ioc_name(ioc));
+-		__entry->old_vrate = atomic64_read(&ioc->vtime_rate);;
++		__entry->old_vrate = atomic64_read(&ioc->vtime_rate);
+ 		__entry->new_vrate = new_vrate;
+ 		__entry->busy_level = ioc->busy_level;
+ 		__entry->read_missed_ppm = missed_ppm[READ];
+-- 
+2.25.1
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
