@@ -8,97 +8,91 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1208C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 15:49:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4736FC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 18:10:21 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6B46F60F14
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 15:49:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6B46F60F14
+	by mail.kernel.org (Postfix) with ESMTPS id E759060C3E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 18:10:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E759060C3E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 388C960751;
-	Wed,  4 Aug 2021 15:49:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id BB28B60A8F;
+	Wed,  4 Aug 2021 18:10:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id J5FJhjgPMIhT; Wed,  4 Aug 2021 15:49:02 +0000 (UTC)
+	with ESMTP id d4IHhG4FcMzK; Wed,  4 Aug 2021 18:10:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 4BA516069C;
-	Wed,  4 Aug 2021 15:49:02 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2CFB860A71;
+	Wed,  4 Aug 2021 18:10:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 36D0AC0010;
-	Wed,  4 Aug 2021 15:49:02 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 24BC1C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 19F05C001A;
+	Wed,  4 Aug 2021 18:10:19 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1FE1C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:49:00 +0000 (UTC)
+ Wed,  4 Aug 2021 18:10:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0893D83BA7
+ by smtp3.osuosl.org (Postfix) with ESMTP id A1C0860A71
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:49:00 +0000 (UTC)
+ Wed,  4 Aug 2021 18:10:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id LH1wQg8DJBjf
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BpivqTkdpcPW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:48:59 +0000 (UTC)
+ Wed,  4 Aug 2021 18:10:17 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 6EE1E83AD9
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id EC9A260A63
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:48:59 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id nh14so3602626pjb.2
+ Wed,  4 Aug 2021 18:10:16 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id d17so3861798plr.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Aug 2021 08:48:59 -0700 (PDT)
+ Wed, 04 Aug 2021 11:10:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zIRbv5ZXxIid872Ol8a8JiBpz6JG4aviAWXZnPlaMDM=;
- b=rdJHyKNkVdzEDu+i17BA0ESSeSHw7WdgDcmPzNzHC5dNA/1Da4om9QYVZAQ4eTNOjp
- nE7CuugZzapfrdXloo+i/YUsSvvhPFb8bL/XF5p6FrBQ0OqA2vxwuuZ2sM5q1vxRpRue
- n0O0otg/gigaHc2qifkS2eW1v/eG19WJXQ/iS+t6g1Esnq/NqkYKxcYuQjkLbTq/6COt
- CAuJtvNvD3qolCfKL0fDxxGKxq6BLmjxxVeIP6P1H1GHP9ukH7cFRBxdeCgh2Iv4T8tC
- ukT5oftekjWfwOTmCOFM6YyyGyTXX/3a8wSbvliCRkgp6dtFCLUCCTzM5CrqfO7m9XU5
- Do0A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ggdFFc+oqKVKgzFuejDnIdmQz8ebxzYo9Tpan1lBacw=;
+ b=Mkmtt3Hpe8NnPktiwRMKPmeqyGXkPx5/idkqj93cYgLxQ2nHQAsco4dpIUPgMyFSu1
+ xFdPjT/TmKEMKx0p6E2/Etxif1DsZAgkomRbwwduAwciROHqlYzo5AfPmqeoL4/WQfJi
+ nXohnAgq8R995gF7P5absEWDnua98ap9pl78hnxEaeEP2wqDE6iOZY/xDKrMiziLC2+y
+ xlo+JLJ5mmFSIl717TIZtIylSbAPz3nBqfwuoxFuBRhBLnsEIVvo6BRMum8A2ZuJnEyc
+ AW67f1kncDP24y47iPO48Wcdyyea/oQbf5ZawPv0QPwBzyGGkh1Pl8iLGz2ucwHNS11R
+ FoCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zIRbv5ZXxIid872Ol8a8JiBpz6JG4aviAWXZnPlaMDM=;
- b=LLr+odCl/eEwS0MTWccG9dXQDfmfysyzoBrQX7meVOSX4mVezlnqqHeDkUXnV9B3SR
- THm2eZiBnpsk/l5hSoc1J/u8m0RHZwb57kECxqUnyY5AteVKvPsmWxIckZA6Tz3U4hry
- gMBHfD4yYlwRhAE/gAkzUgm7GKccxo3+6lZPBy53jYUoTGj9PZLZ0b2qN8iwNZ+DkXrX
- SDf+oEwOnCwdZd1EwWy/+6ezIQ9vHkU6DUI7O57Qegi1UfdhUj2uY05s3FexAuEXMtCo
- t7Knm7dQdP5V3O7qtcef095t6ps/lrxxMTXYN9+4zNlT38M1VWnk6CEPTK0/COmEVW0w
- uH4w==
-X-Gm-Message-State: AOAM530GbNmvyo6XGKNLwqgPtF4GM5Pa+BXbEvFORo08MtYvt2mpngz0
- KViWEoeAKUMGLW9Z8c4x86A=
-X-Google-Smtp-Source: ABdhPJwP+rVDzJk6NLCQWzc1MhjnFtm/lsX/BNe/Q5+lIAcE/FyZ6bVOH1EuWhB8m67xqjLUaSJHpA==
-X-Received: by 2002:a17:90a:bd18:: with SMTP id
- y24mr10513325pjr.83.1628092138838; 
- Wed, 04 Aug 2021 08:48:58 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id b15sm4007274pgj.60.2021.08.04.08.48.55
+ :references;
+ bh=ggdFFc+oqKVKgzFuejDnIdmQz8ebxzYo9Tpan1lBacw=;
+ b=UXwlify6dAl1JJqjNRUGsuuvyMIsb1Sy+FbG24+m6Pe0RVeihZzy9WGNPUURMPkB+R
+ j0rVeBtBvU7DTPogMRPJU+MRRno/omIwsIFtHBFpUby5EHKwGmrafle6DeodFvtTxmBP
+ /TZB6B+ZFZXrrp49vwGPxf9UDf2U0LSPlYslGk4HeHXNO+ZROk84raSJFi1TR90y1BX2
+ Pmb+jqYAGNbxywpP0q56C1FfpXQ57qVX9SoMbYoXcMiviTHbY8/S1HJzk5lzBkwQEjv5
+ B+eF9Q9eUYvNI2robwTVD489g6qUeRJi43x26f40XxzgfnWq/fI0XljXaEdB8+8ktxoT
+ x4JQ==
+X-Gm-Message-State: AOAM532wxQ8SFcZ0iHixz8rX2mp6eYAOzYLb8dJSQ0+rPZCMh81VBTDA
+ 45dTD7ohE99I9TScpv5GcVM=
+X-Google-Smtp-Source: ABdhPJwI70uamgs0UyZajlVpGbpjxX2Kyg1MqfmF/zkKBeOTgnalLw0+nyu5B9OCJSCYuhucEpFIBg==
+X-Received: by 2002:a62:5c6:0:b029:341:e0b1:a72c with SMTP id
+ 189-20020a6205c60000b0290341e0b1a72cmr793409pff.71.1628100616157; 
+ Wed, 04 Aug 2021 11:10:16 -0700 (PDT)
+Received: from localhost.localdomain ([49.36.211.165])
+ by smtp.googlemail.com with ESMTPSA id r18sm4724461pgk.54.2021.08.04.11.10.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 08:48:58 -0700 (PDT)
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
- davem@davemloft.net, kuba@kernel.org, sudipm.mukherjee@gmail.com
-Subject: [RESEND PATCH v5 6/6] Bluetooth: fix repeated calls to sco_sock_kill
-Date: Wed,  4 Aug 2021 23:47:12 +0800
-Message-Id: <20210804154712.929986-7-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210804154712.929986-1-desmondcheongzx@gmail.com>
-References: <20210804154712.929986-1-desmondcheongzx@gmail.com>
-MIME-Version: 1.0
-Cc: linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- netdev@vger.kernel.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ Wed, 04 Aug 2021 11:10:15 -0700 (PDT)
+From: Utkarsh Verma <utkarshverma294@gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH v2] Documentation: checkpatch: Add SPLIT_STRING message
+Date: Wed,  4 Aug 2021 23:39:15 +0530
+Message-Id: <20210804180915.3234-1-utkarshverma294@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAKXUXMwp+mNPcZNUjNqShY_9my_iBp=oojy7EGpgbu6OpE-bMQ@mail.gmail.com>
+References: <CAKXUXMwp+mNPcZNUjNqShY_9my_iBp=oojy7EGpgbu6OpE-bMQ@mail.gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -111,87 +105,42 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In commit 4e1a720d0312 ("Bluetooth: avoid killing an already killed
-socket"), a check was added to sco_sock_kill to skip killing a socket
-if the SOCK_DEAD flag was set.
+Add a new message type SPLIT_STRING under the 'Indentation and Line
+Breaks' subsection. Checkpatch documentation for the splitting of
+quoted strings that appear in userspace, across multiple lines.
 
-This was done after a trace for a use-after-free bug showed that the
-same sock pointer was being killed twice.
-
-Unfortunately, this check prevents sco_sock_kill from running on any
-socket. sco_sock_kill kills a socket only if it's zapped and orphaned,
-however sock_orphan announces that the socket is dead before detaching
-it. i.e., orphaned sockets have the SOCK_DEAD flag set.
-
-To fix this, we remove the check for SOCK_DEAD, and avoid repeated
-calls to sco_sock_kill by removing incorrect calls in:
-
-1. sco_sock_timeout. The socket should not be killed on timeout as
-further processing is expected to be done. For example,
-sco_sock_connect sets the timer then waits for the socket to be
-connected or for an error to be returned.
-
-2. sco_conn_del. This function should clean up resources for the
-connection, but the socket itself should be cleaned up in
-sco_sock_release.
-
-3. sco_sock_close. Calls to sco_sock_close in sco_sock_cleanup_listen
-and sco_sock_release are followed by sco_sock_kill. Hence the
-duplicated call should be removed.
-
-Fixes: 4e1a720d0312 ("Bluetooth: avoid killing an already killed socket")
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
 ---
- net/bluetooth/sco.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ Documentation/dev-tools/checkpatch.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
-index 418543c390b3..cf43ccb50573 100644
---- a/net/bluetooth/sco.c
-+++ b/net/bluetooth/sco.c
-@@ -97,8 +97,6 @@ static void sco_sock_timeout(struct work_struct *work)
- 	sk->sk_err = ETIMEDOUT;
- 	sk->sk_state_change(sk);
- 	release_sock(sk);
--
--	sco_sock_kill(sk);
- 	sock_put(sk);
- }
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index f0956e9ea..b7a1288e9 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -710,6 +710,12 @@ Indentation and Line Breaks
  
-@@ -203,7 +201,6 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
- 		sco_sock_clear_timer(sk);
- 		sco_chan_del(sk, err);
- 		release_sock(sk);
--		sco_sock_kill(sk);
- 		sock_put(sk);
+     See: https://www.kernel.org/doc/html/latest/process/coding-style.html#breaking-long-lines-and-strings
  
- 		/* Ensure no more work items will run before freeing conn. */
-@@ -410,8 +407,7 @@ static void sco_sock_cleanup_listen(struct sock *parent)
-  */
- static void sco_sock_kill(struct sock *sk)
- {
--	if (!sock_flag(sk, SOCK_ZAPPED) || sk->sk_socket ||
--	    sock_flag(sk, SOCK_DEAD))
-+	if (!sock_flag(sk, SOCK_ZAPPED) || sk->sk_socket)
- 		return;
- 
- 	BT_DBG("sk %p state %d", sk, sk->sk_state);
-@@ -463,7 +459,6 @@ static void sco_sock_close(struct sock *sk)
- 	sco_sock_clear_timer(sk);
- 	__sco_sock_close(sk);
- 	release_sock(sk);
--	sco_sock_kill(sk);
- }
- 
- static void sco_skb_put_cmsg(struct sk_buff *skb, struct msghdr *msg,
++  **SPLIT_STRING**
++    Quoted strings that appear as messages in userspace and can be
++    grepped, should not be split across multiple lines.
++
++    See: https://lore.kernel.org/lkml/20120203052727.GA15035@leaf/
++
+   **TRAILING_STATEMENTS**
+     Trailing statements (for example after any conditional) should be
+     on the next line.
 -- 
-2.25.1
+2.17.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
