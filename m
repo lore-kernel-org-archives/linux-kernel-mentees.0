@@ -8,92 +8,92 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8701CC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 11:04:13 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45572C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 11:04:20 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 35C7760F43
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 11:04:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 35C7760F43
+	by mail.kernel.org (Postfix) with ESMTPS id ED9EF61029
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 11:04:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org ED9EF61029
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 00A5E403F0;
-	Wed,  4 Aug 2021 11:04:13 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id CB82160650;
+	Wed,  4 Aug 2021 11:04:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nhRpx1R6pzHP; Wed,  4 Aug 2021 11:04:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E9FDD403EF;
-	Wed,  4 Aug 2021 11:04:11 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uX6ToBMhSfTF; Wed,  4 Aug 2021 11:04:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1656660667;
+	Wed,  4 Aug 2021 11:04:19 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D4BBAC001A;
-	Wed,  4 Aug 2021 11:04:11 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6B8AFC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02F40C001A;
+	Wed,  4 Aug 2021 11:04:19 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 76A8BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 11:04:10 +0000 (UTC)
+ Wed,  4 Aug 2021 11:04:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4E23E83C5B
+ by smtp2.osuosl.org (Postfix) with ESMTP id 6025E403EF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 11:04:10 +0000 (UTC)
+ Wed,  4 Aug 2021 11:04:17 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GQdXaOoMQbIn
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id LSWcT_mjagO7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 11:04:09 +0000 (UTC)
+ Wed,  4 Aug 2021 11:04:16 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
- [IPv6:2607:f8b0:4864:20::1032])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B90CE83C3D
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id AA5B740241
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 11:04:09 +0000 (UTC)
-Received: by mail-pj1-x1032.google.com with SMTP id
- e2-20020a17090a4a02b029016f3020d867so2987432pjh.3
+ Wed,  4 Aug 2021 11:04:16 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id i10so2611500pla.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Aug 2021 04:04:09 -0700 (PDT)
+ Wed, 04 Aug 2021 04:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TRKYkdOIgWJ5EiGOGovL7BoCL888xKaE/ywEpPEztaE=;
- b=Nnd8twf4rEgY2TlB+F0iTD+c7owlni5fLgZW89siB3upvnIKQhe1SVLxBm6ttpBBKQ
- zYMGghl8Dr6byrvyPW/fGv9Mz8OeXmaE0eux/tauYcYCPVcNUTP5z+Kc7kPM/9pCU4EU
- 7aIJVDH4IC/egfbrCULR7SNLwJZaQqlFQjAnxNBE24KOsGSydQ8uftEs8A157SgvMfRC
- 9XYoRlA2Mv2Zkc3lmQSRKjo7KjZsFnRcSk6hJGEGkJWzq9iLY/xr8xUteH0HzQ4cJkNt
- oLcYfUZpO8KAdwPA7n3pE8lkaLjzNMVFtT9yvEoXjOltgPiqSxE/r7At3QGWGISwcdp9
- laaw==
+ bh=wuePCI4FbrrQHwWiYSThmxmEPxR9cgsWrPSKODj9+7k=;
+ b=ZeyQaebz+I8qQT4Ub6+aQ5HL2PbtkM9sacpF80+Jy0H271i/JeWa/dDeOv10raNNGj
+ AQrWEBvfXjqQKBlptoFQ/AskMbzPCIGXHxHEaKtsfmWzHE4LKFMoA9EWLirBZgdfvNyG
+ klhLqfChZFDcLVl5F/JK3IY/PqUevXvLL02X+29OTWs5j9jnPeZX6tz+K9wkKvDkbiX7
+ wPZjZ6K2E+10FGA5ofXJ7EJtdYHm5qdIRAXjpSXR3Ec+r0axCxkH0KGTdZHyGRzg5ZCr
+ uOLz/ncGQyGSPIoA90c22XumSeSxWzqGnhYsExyWXTVFDqELt4ZCq0/T9Y5O+F2yzfUf
+ q1RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TRKYkdOIgWJ5EiGOGovL7BoCL888xKaE/ywEpPEztaE=;
- b=S52iO5+cvPuQ/yJmINDR/qSqr4QwFmXhQbgd0G221s74qFg+orjEfWk6Fva1VFwtTr
- pbSTD4liNb0AFXBu+BGSrNUnArBvkZ2cvsk2cXu7HJjEWKa8LWnm1h0Bu33HuDLtbcbJ
- +qjHCZeUXidkss+tLerHlX7qpjh0DGMFyYvDXCFXE7isGb5+CCTAo831tQUEOOAdsAoO
- 2WyTfd7kHyAvTIunzYLqMqJAUCQfkk+e9HroZ+iCmfYxPfN8Ejcg1zgdSl8Iaago9iLk
- vNwclxPZ0QbWI/fpTMfsQNcJ8rXPHv4ldZCDgfftCr5yKWEfFQIk7j7yKmjz77rpX//L
- QxZQ==
-X-Gm-Message-State: AOAM530kaBMmEUdd2HUVtSFUo62w6MXGOnzvsgrpwvA/M8XWJaZ5FpuF
- jcWFJYx3PvN+eBw1RqcqiF8=
-X-Google-Smtp-Source: ABdhPJyyxVGnR/0AchNWivoqpbLq+TyM45ed7PlSNndLnq22S/qQ5HnA87pIpqEOgWKXrrN+gBtL0Q==
-X-Received: by 2002:a62:17d8:0:b029:3b1:c2b0:287c with SMTP id
- 207-20020a6217d80000b02903b1c2b0287cmr23906446pfx.23.1628075049278; 
- Wed, 04 Aug 2021 04:04:09 -0700 (PDT)
+ bh=wuePCI4FbrrQHwWiYSThmxmEPxR9cgsWrPSKODj9+7k=;
+ b=GvRZ6gyWmJHqUSAESlNiHiqEAMM0yuILNzr/Gie35iS/ePZYeHJMNNicaozmBw5Cw9
+ 98dvlfTazem1xk0FfW2bXEx7eUYN+ZaGZvyPLC7BjQGWVhBFKM/ytQXfzIf/v4gmPFuO
+ WgEIckBJLA2idwF5Jhs5Ce2ABv59xDaRH6QFcuymsctvnRi5Rccb8ZGfVeojl6bhE/+A
+ MHkbYU5x78rO1zrzQY40wwZr8I48dV8tYXltxo8f2Gd/4uvvHGXU+6mcA+gGsMCnCnBi
+ dqmfXxjWrnCIzPGXcZkEJxOMI1bGbwUhwH0RLKaMubB1e64RErvRZeO+rLbDZlmyii2d
+ l0FQ==
+X-Gm-Message-State: AOAM531/F8clwd2sVl1VWbN9jkAbJIya3ZvMcmitTqDDcjn8BoKR8b78
+ pOhb8oMxqtMjV1ptwiVEsHA=
+X-Google-Smtp-Source: ABdhPJzUKNNoQeqTm8yohHsjU8iT18AjzrgmdBaUfF7PHoha5iGqKI206C2n/5zO8ebm2SRAk8NvzA==
+X-Received: by 2002:a17:90a:2c05:: with SMTP id
+ m5mr3335774pjd.32.1628075055960; 
+ Wed, 04 Aug 2021 04:04:15 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id k4sm2206147pjs.55.2021.08.04.04.04.05
+ by smtp.gmail.com with ESMTPSA id k4sm2206147pjs.55.2021.08.04.04.04.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 04:04:08 -0700 (PDT)
+ Wed, 04 Aug 2021 04:04:15 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
  davem@davemloft.net, kuba@kernel.org, sudipm.mukherjee@gmail.com
-Subject: [PATCH v5 3/6] Bluetooth: switch to lock_sock in SCO
-Date: Wed,  4 Aug 2021 19:03:05 +0800
-Message-Id: <20210804110308.910744-4-desmondcheongzx@gmail.com>
+Subject: [PATCH v5 4/6] Bluetooth: serialize calls to sco_sock_{set,
+ clear}_timer
+Date: Wed,  4 Aug 2021 19:03:06 +0800
+Message-Id: <20210804110308.910744-5-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210804110308.910744-1-desmondcheongzx@gmail.com>
 References: <20210804110308.910744-1-desmondcheongzx@gmail.com>
@@ -118,86 +118,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Since sco_sock_timeout is now scheduled using delayed work, it is no
-longer run in SOFTIRQ context. Hence bh_lock_sock is no longer
-necessary in SCO to synchronise between user contexts and SOFTIRQ
-processing.
+Currently, calls to sco_sock_set_timer are made under the locked
+socket, but this does not apply to all calls to sco_sock_clear_timer.
 
-As such, calls to bh_lock_sock should be replaced with lock_sock to
-synchronize with other concurrent processes that use lock_sock.
+Both sco_sock_{set,clear}_timer should be serialized by lock_sock to
+prevent unexpected concurrent clearing/setting of timers.
+
+Additionally, since sco_pi(sk)->conn is only cleared under the locked
+socket, this change allows us to avoid races between
+sco_sock_clear_timer and the call to kfree(conn) in sco_conn_del.
 
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- net/bluetooth/sco.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ net/bluetooth/sco.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
-index 558f8874b65e..1246e6bc09fe 100644
+index 1246e6bc09fe..418543c390b3 100644
 --- a/net/bluetooth/sco.c
 +++ b/net/bluetooth/sco.c
-@@ -93,10 +93,10 @@ static void sco_sock_timeout(struct work_struct *work)
- 
- 	BT_DBG("sock %p state %d", sk, sk->sk_state);
- 
--	bh_lock_sock(sk);
-+	lock_sock(sk);
- 	sk->sk_err = ETIMEDOUT;
- 	sk->sk_state_change(sk);
--	bh_unlock_sock(sk);
-+	release_sock(sk);
- 
+@@ -459,8 +459,8 @@ static void __sco_sock_close(struct sock *sk)
+ /* Must be called on unlocked socket. */
+ static void sco_sock_close(struct sock *sk)
+ {
+-	sco_sock_clear_timer(sk);
+ 	lock_sock(sk);
++	sco_sock_clear_timer(sk);
+ 	__sco_sock_close(sk);
+ 	release_sock(sk);
  	sco_sock_kill(sk);
- 	sock_put(sk);
-@@ -199,10 +199,10 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
+@@ -1110,8 +1110,8 @@ static void sco_conn_ready(struct sco_conn *conn)
+ 	BT_DBG("conn %p", conn);
  
  	if (sk) {
- 		sock_hold(sk);
--		bh_lock_sock(sk);
-+		lock_sock(sk);
- 		sco_sock_clear_timer(sk);
- 		sco_chan_del(sk, err);
--		bh_unlock_sock(sk);
-+		release_sock(sk);
- 		sco_sock_kill(sk);
- 		sock_put(sk);
- 
-@@ -1111,10 +1111,10 @@ static void sco_conn_ready(struct sco_conn *conn)
- 
- 	if (sk) {
- 		sco_sock_clear_timer(sk);
--		bh_lock_sock(sk);
-+		lock_sock(sk);
+-		sco_sock_clear_timer(sk);
+ 		lock_sock(sk);
++		sco_sock_clear_timer(sk);
  		sk->sk_state = BT_CONNECTED;
  		sk->sk_state_change(sk);
--		bh_unlock_sock(sk);
-+		release_sock(sk);
- 	} else {
- 		sco_conn_lock(conn);
- 
-@@ -1129,12 +1129,12 @@ static void sco_conn_ready(struct sco_conn *conn)
- 			return;
- 		}
- 
--		bh_lock_sock(parent);
-+		lock_sock(parent);
- 
- 		sk = sco_sock_alloc(sock_net(parent), NULL,
- 				    BTPROTO_SCO, GFP_ATOMIC, 0);
- 		if (!sk) {
--			bh_unlock_sock(parent);
-+			release_sock(parent);
- 			sco_conn_unlock(conn);
- 			return;
- 		}
-@@ -1155,7 +1155,7 @@ static void sco_conn_ready(struct sco_conn *conn)
- 		/* Wake up parent */
- 		parent->sk_data_ready(parent);
- 
--		bh_unlock_sock(parent);
-+		release_sock(parent);
- 
- 		sco_conn_unlock(conn);
- 	}
+ 		release_sock(sk);
 -- 
 2.25.1
 
