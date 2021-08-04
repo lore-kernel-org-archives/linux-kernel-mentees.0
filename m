@@ -8,89 +8,91 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62D2EC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 15:48:58 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1208C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 15:49:03 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 2D3BC60F14
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 15:48:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2D3BC60F14
+	by mail.kernel.org (Postfix) with ESMTPS id 6B46F60F14
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  4 Aug 2021 15:49:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6B46F60F14
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0621683BA3;
-	Wed,  4 Aug 2021 15:48:58 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 388C960751;
+	Wed,  4 Aug 2021 15:49:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 05z0UKOt2XO1; Wed,  4 Aug 2021 15:48:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 31C1483926;
-	Wed,  4 Aug 2021 15:48:57 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id J5FJhjgPMIhT; Wed,  4 Aug 2021 15:49:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 4BA516069C;
+	Wed,  4 Aug 2021 15:49:02 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 114D1C0010;
-	Wed,  4 Aug 2021 15:48:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 36D0AC0010;
+	Wed,  4 Aug 2021 15:49:02 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1DA37C000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24BC1C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:48:55 +0000 (UTC)
+ Wed,  4 Aug 2021 15:49:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 0D9EA83BA3
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0893D83BA7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:48:55 +0000 (UTC)
+ Wed,  4 Aug 2021 15:49:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AEZbkS9DEi_c
+ with ESMTP id LH1wQg8DJBjf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:48:54 +0000 (UTC)
+ Wed,  4 Aug 2021 15:48:59 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 73E6183926
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 6EE1E83AD9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  4 Aug 2021 15:48:54 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- dw2-20020a17090b0942b0290177cb475142so9345535pjb.2
+ Wed,  4 Aug 2021 15:48:59 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id nh14so3602626pjb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Aug 2021 08:48:54 -0700 (PDT)
+ Wed, 04 Aug 2021 08:48:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UwpAuyr31gkKRzWsz22ieldVxq1Gat0ivFQ8uoQ/1c0=;
- b=tEUlbrGx7uWgTk+Yiuzx3PF5upDZnEKvMC7rC8etWlR9ez5J/YDtuPhjqo4v2GebzO
- VLI3xt14nJAIKyLSCDqvNQwd1FYMjV2tlv/6PW3aqrIe5f4gpFIHZGZkDQuZkJZ8puKl
- XoMFqpLQy2XENACDC1UY0nf3A70oZt4JwbhUCdMhejjpwDX7FqcLe/o262ewwjaUVxsC
- iQHBMWJ0UQh7ocqbt5sOKd/Q5rcrB6jOD+XqZueye8QZ8wLWSRWtVdV1Exxq3KHn0ge1
- bcagkhmas9zQxiHT7DBSeIyrmlATtbdAcWEl+pemT6dJLiWmDz054ehJ6fsKYF/ShCdX
- wdeA==
+ bh=zIRbv5ZXxIid872Ol8a8JiBpz6JG4aviAWXZnPlaMDM=;
+ b=rdJHyKNkVdzEDu+i17BA0ESSeSHw7WdgDcmPzNzHC5dNA/1Da4om9QYVZAQ4eTNOjp
+ nE7CuugZzapfrdXloo+i/YUsSvvhPFb8bL/XF5p6FrBQ0OqA2vxwuuZ2sM5q1vxRpRue
+ n0O0otg/gigaHc2qifkS2eW1v/eG19WJXQ/iS+t6g1Esnq/NqkYKxcYuQjkLbTq/6COt
+ CAuJtvNvD3qolCfKL0fDxxGKxq6BLmjxxVeIP6P1H1GHP9ukH7cFRBxdeCgh2Iv4T8tC
+ ukT5oftekjWfwOTmCOFM6YyyGyTXX/3a8wSbvliCRkgp6dtFCLUCCTzM5CrqfO7m9XU5
+ Do0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UwpAuyr31gkKRzWsz22ieldVxq1Gat0ivFQ8uoQ/1c0=;
- b=MK9luW01sfr9LbM3jCuLwzABnu3GePOL2sEz0825x5Pyp9SiKI/dkJFz1OZQvNjtMD
- XTOOVBQR7c45KKHdEKNZbpXk7MW819SdyNhNbrZZNev6zvIiw1H5NyBW7r1JC1V1gb1C
- jlw2KhAaDnOJcxCz/h1uemmQoA25SmlzvQp8TzHXgjOxpghxa8W5reibKy4y/o78oMED
- MJT2fVuYIWykObXQHP95X6oS+t6eA8Yr389Zu/wmaHVIGWCIGPcpJ+pKxHhG+dO7ClzS
- 5lKJz3MwFMSesr7HuIaUn8IK3rJ8YEZJgpA/FR9qw1pJHJYxNux6bsX2WlTuL2AO97Ub
- MRng==
-X-Gm-Message-State: AOAM532QErwfRduL0p7YHqJ9NiamGYsfkpJgePn7dVIydZBpx1qvJVhb
- h4lT/eVST68Ub7xfEdvhBD4=
-X-Google-Smtp-Source: ABdhPJy53E2/k6DHqfUA8ASbwd2KosGoA+p9Idp0D8kBhX/RdBw3l0POikQNvzDaf8W3swv+zT9rwQ==
-X-Received: by 2002:a63:950a:: with SMTP id p10mr76260pgd.362.1628092133695;
- Wed, 04 Aug 2021 08:48:53 -0700 (PDT)
+ bh=zIRbv5ZXxIid872Ol8a8JiBpz6JG4aviAWXZnPlaMDM=;
+ b=LLr+odCl/eEwS0MTWccG9dXQDfmfysyzoBrQX7meVOSX4mVezlnqqHeDkUXnV9B3SR
+ THm2eZiBnpsk/l5hSoc1J/u8m0RHZwb57kECxqUnyY5AteVKvPsmWxIckZA6Tz3U4hry
+ gMBHfD4yYlwRhAE/gAkzUgm7GKccxo3+6lZPBy53jYUoTGj9PZLZ0b2qN8iwNZ+DkXrX
+ SDf+oEwOnCwdZd1EwWy/+6ezIQ9vHkU6DUI7O57Qegi1UfdhUj2uY05s3FexAuEXMtCo
+ t7Knm7dQdP5V3O7qtcef095t6ps/lrxxMTXYN9+4zNlT38M1VWnk6CEPTK0/COmEVW0w
+ uH4w==
+X-Gm-Message-State: AOAM530GbNmvyo6XGKNLwqgPtF4GM5Pa+BXbEvFORo08MtYvt2mpngz0
+ KViWEoeAKUMGLW9Z8c4x86A=
+X-Google-Smtp-Source: ABdhPJwP+rVDzJk6NLCQWzc1MhjnFtm/lsX/BNe/Q5+lIAcE/FyZ6bVOH1EuWhB8m67xqjLUaSJHpA==
+X-Received: by 2002:a17:90a:bd18:: with SMTP id
+ y24mr10513325pjr.83.1628092138838; 
+ Wed, 04 Aug 2021 08:48:58 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id b15sm4007274pgj.60.2021.08.04.08.48.49
+ by smtp.gmail.com with ESMTPSA id b15sm4007274pgj.60.2021.08.04.08.48.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Aug 2021 08:48:53 -0700 (PDT)
+ Wed, 04 Aug 2021 08:48:58 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
  davem@davemloft.net, kuba@kernel.org, sudipm.mukherjee@gmail.com
-Subject: [RESEND PATCH v5 5/6] Bluetooth: switch to lock_sock in RFCOMM
-Date: Wed,  4 Aug 2021 23:47:11 +0800
-Message-Id: <20210804154712.929986-6-desmondcheongzx@gmail.com>
+Subject: [RESEND PATCH v5 6/6] Bluetooth: fix repeated calls to sco_sock_kill
+Date: Wed,  4 Aug 2021 23:47:12 +0800
+Message-Id: <20210804154712.929986-7-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210804154712.929986-1-desmondcheongzx@gmail.com>
 References: <20210804154712.929986-1-desmondcheongzx@gmail.com>
@@ -115,62 +117,79 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Other than rfcomm_sk_state_change and rfcomm_connect_ind, functions in
-RFCOMM use lock_sock to lock the socket.
+In commit 4e1a720d0312 ("Bluetooth: avoid killing an already killed
+socket"), a check was added to sco_sock_kill to skip killing a socket
+if the SOCK_DEAD flag was set.
 
-Since bh_lock_sock and spin_lock_bh do not provide synchronization
-with lock_sock, these calls should be changed to lock_sock.
+This was done after a trace for a use-after-free bug showed that the
+same sock pointer was being killed twice.
 
-This is now safe to do because packet processing is now done in a
-workqueue instead of a tasklet, so bh_lock_sock/spin_lock_bh are no
-longer necessary to synchronise between user contexts and SOFTIRQ
-processing.
+Unfortunately, this check prevents sco_sock_kill from running on any
+socket. sco_sock_kill kills a socket only if it's zapped and orphaned,
+however sock_orphan announces that the socket is dead before detaching
+it. i.e., orphaned sockets have the SOCK_DEAD flag set.
 
+To fix this, we remove the check for SOCK_DEAD, and avoid repeated
+calls to sco_sock_kill by removing incorrect calls in:
+
+1. sco_sock_timeout. The socket should not be killed on timeout as
+further processing is expected to be done. For example,
+sco_sock_connect sets the timer then waits for the socket to be
+connected or for an error to be returned.
+
+2. sco_conn_del. This function should clean up resources for the
+connection, but the socket itself should be cleaned up in
+sco_sock_release.
+
+3. sco_sock_close. Calls to sco_sock_close in sco_sock_cleanup_listen
+and sco_sock_release are followed by sco_sock_kill. Hence the
+duplicated call should be removed.
+
+Fixes: 4e1a720d0312 ("Bluetooth: avoid killing an already killed socket")
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- net/bluetooth/rfcomm/sock.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ net/bluetooth/sco.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/net/bluetooth/rfcomm/sock.c b/net/bluetooth/rfcomm/sock.c
-index ae6f80730561..2c95bb58f901 100644
---- a/net/bluetooth/rfcomm/sock.c
-+++ b/net/bluetooth/rfcomm/sock.c
-@@ -70,7 +70,7 @@ static void rfcomm_sk_state_change(struct rfcomm_dlc *d, int err)
+diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
+index 418543c390b3..cf43ccb50573 100644
+--- a/net/bluetooth/sco.c
++++ b/net/bluetooth/sco.c
+@@ -97,8 +97,6 @@ static void sco_sock_timeout(struct work_struct *work)
+ 	sk->sk_err = ETIMEDOUT;
+ 	sk->sk_state_change(sk);
+ 	release_sock(sk);
+-
+-	sco_sock_kill(sk);
+ 	sock_put(sk);
+ }
  
- 	BT_DBG("dlc %p state %ld err %d", d, d->state, err);
+@@ -203,7 +201,6 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
+ 		sco_sock_clear_timer(sk);
+ 		sco_chan_del(sk, err);
+ 		release_sock(sk);
+-		sco_sock_kill(sk);
+ 		sock_put(sk);
  
--	spin_lock_bh(&sk->sk_lock.slock);
-+	lock_sock(sk);
+ 		/* Ensure no more work items will run before freeing conn. */
+@@ -410,8 +407,7 @@ static void sco_sock_cleanup_listen(struct sock *parent)
+  */
+ static void sco_sock_kill(struct sock *sk)
+ {
+-	if (!sock_flag(sk, SOCK_ZAPPED) || sk->sk_socket ||
+-	    sock_flag(sk, SOCK_DEAD))
++	if (!sock_flag(sk, SOCK_ZAPPED) || sk->sk_socket)
+ 		return;
  
- 	if (err)
- 		sk->sk_err = err;
-@@ -91,7 +91,7 @@ static void rfcomm_sk_state_change(struct rfcomm_dlc *d, int err)
- 		sk->sk_state_change(sk);
- 	}
+ 	BT_DBG("sk %p state %d", sk, sk->sk_state);
+@@ -463,7 +459,6 @@ static void sco_sock_close(struct sock *sk)
+ 	sco_sock_clear_timer(sk);
+ 	__sco_sock_close(sk);
+ 	release_sock(sk);
+-	sco_sock_kill(sk);
+ }
  
--	spin_unlock_bh(&sk->sk_lock.slock);
-+	release_sock(sk);
- 
- 	if (parent && sock_flag(sk, SOCK_ZAPPED)) {
- 		/* We have to drop DLC lock here, otherwise
-@@ -974,7 +974,7 @@ int rfcomm_connect_ind(struct rfcomm_session *s, u8 channel, struct rfcomm_dlc *
- 	if (!parent)
- 		return 0;
- 
--	bh_lock_sock(parent);
-+	lock_sock(parent);
- 
- 	/* Check for backlog size */
- 	if (sk_acceptq_is_full(parent)) {
-@@ -1001,7 +1001,7 @@ int rfcomm_connect_ind(struct rfcomm_session *s, u8 channel, struct rfcomm_dlc *
- 	result = 1;
- 
- done:
--	bh_unlock_sock(parent);
-+	release_sock(parent);
- 
- 	if (test_bit(BT_SK_DEFER_SETUP, &bt_sk(parent)->flags))
- 		parent->sk_state_change(parent);
+ static void sco_skb_put_cmsg(struct sk_buff *skb, struct msghdr *msg,
 -- 
 2.25.1
 
