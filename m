@@ -8,87 +8,89 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9B0CC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Aug 2021 13:52:10 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D3AC4320A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Aug 2021 13:53:12 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 575FA61158
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Aug 2021 13:52:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 575FA61158
+	by mail.kernel.org (Postfix) with ESMTPS id 0B5C561157
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Aug 2021 13:53:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0B5C561157
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0EFD0402F0;
-	Thu,  5 Aug 2021 13:52:10 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C866060767;
+	Thu,  5 Aug 2021 13:53:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lDhpIpYpIA3X; Thu,  5 Aug 2021 13:52:09 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 03329403B2;
-	Thu,  5 Aug 2021 13:52:09 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id DfcBZ77XDhpt; Thu,  5 Aug 2021 13:53:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 28D6D60763;
+	Thu,  5 Aug 2021 13:53:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B80BFC001A;
-	Thu,  5 Aug 2021 13:52:08 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 64B9FC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 07C16C001A;
+	Thu,  5 Aug 2021 13:53:10 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B3B01C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Aug 2021 13:52:07 +0000 (UTC)
+ Thu,  5 Aug 2021 13:53:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4E6A2839CD
+ by smtp2.osuosl.org (Postfix) with ESMTP id A25C840372
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Aug 2021 13:52:07 +0000 (UTC)
+ Thu,  5 Aug 2021 13:53:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 761Id0U0YY1M
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QidMqA5FOsb1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Aug 2021 13:52:04 +0000 (UTC)
+ Thu,  5 Aug 2021 13:53:08 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 7C7C0829AF
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id B801B4041A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Aug 2021 13:52:04 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id g30so6975638lfv.4
+ Thu,  5 Aug 2021 13:53:08 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id n17so8567119lft.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 05 Aug 2021 06:52:04 -0700 (PDT)
+ Thu, 05 Aug 2021 06:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=T91zpFw4U4qpUpC6t8uiFmdt7CHuNfCgWZFrYGcM+n4=;
- b=N8B8qJd04yAl9Il3r9mYEWbMSGD+ARFaFPVoIXOcGZsPViboXKPbCUHosOJ+Yl02i3
- Qbrr8KNoUKAeY90E8i9l6DUehqOxcBTYU6azyTKMhuVVpeUZbFYsj7g2Xw7zWW7isSDn
- glfdI1uuepVwkPvWieJviNa5NDRadzKGBt8matoNZ6nTzDqqz5FHF0wKO/Qphf3G5n0p
- XQixYAfrGTQYNwlHt4abCPKYb0ik+rwm9fD8ZGYLYmhhjmnmAAveq413L5zGawAXnl/I
- bAMlWmvAhHYR4b+HfL1NlzVpaNHOcY9N7eZi4H9gDqq1qYHGkXgeSkH3uYZiY3vCKfWp
- GBvA==
+ :cc; bh=ZDqK2yEiWSOVCP1fsKTVf8sBPeIuILokeDMx91PUApg=;
+ b=TK76m+T0M+0iKDRuQKrVNnOo3zmgOcxtmTbhJCqHVOtnfSrqWbTCiU7swnUw/zq92N
+ Ev/3yygHY9rgpa+vubmIhwFucOakBeFMyqRRPHnzfP8fm7A1C1pRkWw2PHHxvCoHuOBE
+ ZL/FAs3wfZE7mtnBGUvH0NeDNmaQrjANzRejVwjEm1DBtHGuk8Szu7UM+N+f7bko3oKE
+ uF8cFJGt+ETmV0Rhv61sDwrH+dG89VpUXbhvlDtIh4OcUBA1aMGll09fnv1nZut0W95j
+ kp7LJ2idJaLCgmKwktZsM9K/Ij8tXSCyL+rFEVbd7LAvQjSt5Zv5i5ZuzyCj8ngOUHRb
+ AYeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=T91zpFw4U4qpUpC6t8uiFmdt7CHuNfCgWZFrYGcM+n4=;
- b=ntwBYa3QrVwv/DXXgD1GSHKXlHqTnkdusFVtDeV3F2nNtHs+IbkRNUsdswj7SSgRnW
- yAeJb+wTPzq/sWJMHEs1nOlkkG+6aoZ7R49RLDFFj94Is2r/RabCHuEoLTCFPaE2Z9Em
- jYZwATbFlWDIB5anhTKdstRni2jfLq3JczJ7cLkgEBUgO1JSdQtdhrj62XakiuIDAuPw
- Fvf0j4Z5IqclNZLtch7shDjHRodgoV+ed6J2C31BfGmy/TRG78eWfCT8y6fMsTf3bqak
- 8CFf+cND9RtJR0dxYuzYevwYo64QQcMUF4XW7No6G4wauEZ6Mj6c1M8XgRkcmALpswrB
- 3FhA==
-X-Gm-Message-State: AOAM531fav85BuZNUJ8DXKIMWCjjPZTIRW3SceE0JPgzAlH9LlGDNXJj
- F3Xx9g3SuMiW6PBe5rkR09XJEFP++5LUmlkPnQk=
-X-Google-Smtp-Source: ABdhPJxRqwVDy49BPRSWqOfGJjaT4UsMxscO+u9DHWjrdy/ICNKSouznearKL8Z4s8hfv31rv4CDEHkDY5KQ8chpXLs=
-X-Received: by 2002:a19:ac01:: with SMTP id g1mr3936526lfc.301.1628171522371; 
- Thu, 05 Aug 2021 06:52:02 -0700 (PDT)
+ bh=ZDqK2yEiWSOVCP1fsKTVf8sBPeIuILokeDMx91PUApg=;
+ b=sc8sw6oKo1JSVix3D5LgB+EYhcXNj1d7yDEGUL0wYxvvXIpHAeeF2Ma3lzDojs9/96
+ YgAHvR52V+4tpBhVofVbvXbehbX+K20h5+4x36vemZF8loIXF6dRLG3UQBYbObH+5hYa
+ DESF/U4yr7fCxKe/+j74b5sT3n5T89U1rzyV/VZPS9Iox8PoS0HLzXWbKyDvmwgC2dql
+ RDqwMMQAgWIDKxO7EgZ1JW/bf4v3kOusjRzgRJ+dZlhRDxDgSTBzJlVRphmW+ajO7DHY
+ GPu9qGECn5l4c69IZ5xPwG9uM88J5sy89s+/X04LYWd+VUkuBKQA5Cb61wDygWVk1+Np
+ l3IA==
+X-Gm-Message-State: AOAM530xUw1z8yJNu+iCyWSEqG4ilU9mZzG3K6nDSA3eepfXqzC8OioZ
+ /9S1IfJLTb+rdqWYx14nJnrI9QXB3IgUUR4YlS0=
+X-Google-Smtp-Source: ABdhPJxQTCTRD8AVDbKu+aEBoGfBtcQkuurPFXZx4+xV/B6z/8Zbag9sJ4tkmzip2bT+seiB1pnUeIMJLSMi7fnHhhM=
+X-Received: by 2002:a05:6512:a8b:: with SMTP id
+ m11mr3935590lfu.20.1628171586456; 
+ Thu, 05 Aug 2021 06:53:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <CABJPP5Ba4D40OKVDk4RopcX5zx3SFWvOBKLOCfhc1gjw4-4JMA@mail.gmail.com>
- <20210804153134.2794-1-utkarshverma294@gmail.com>
-In-Reply-To: <20210804153134.2794-1-utkarshverma294@gmail.com>
+References: <CAKXUXMymBWUcy53a38hA9b3VYL0af2vpDW0=xsCEWuiiUQQn-w@mail.gmail.com>
+ <20210803142109.17137-1-utkarshverma294@gmail.com>
+In-Reply-To: <20210803142109.17137-1-utkarshverma294@gmail.com>
 From: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Date: Thu, 5 Aug 2021 19:21:50 +0530
-Message-ID: <CABJPP5C42kH19aMt6dtK0auypE0HWen4YWMZDdC1xgVdFOGc-w@mail.gmail.com>
-Subject: Re: [PATCH v3] Documentation: checkpatch: Add SYMBOLIC_PERMS message
+Date: Thu, 5 Aug 2021 19:22:54 +0530
+Message-ID: <CABJPP5A9wjSpoYfX3j2v1dUGWv17hE6mNztuk5z2d5hyFuwohA@mail.gmail.com>
+Subject: Re: [PATCH] USB: serial: iuu_phoenix: fix quoted string split across
+ lines
 To: Utkarsh Verma <utkarshverma294@gmail.com>
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -108,41 +110,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 4, 2021 at 9:02 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
+On Tue, Aug 3, 2021 at 7:51 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
 >
-> Add a new message type SYMBOLIC_PERMS under the 'Permissions'
-> subsection. Checkpatch documentation that recommends the user to use
-
-Did you mean: Checkpatch recommends the user to use octal
-permission bits...?
-
-Other than that the change itself looks fine to me.
-
-> the octal permission bits instead of their symbolic macro names.
+> Fix checkpatch warning "quoted string split across lines".
 >
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+
+You could write a line about why this change is required.
+And that there are no functional changes.
+
 > Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
->  Documentation/dev-tools/checkpatch.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/usb/serial/iuu_phoenix.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 >
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index f0956e9ea..009957cda 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -957,6 +957,12 @@ Permissions
->      Permission bits should use 4 digit octal permissions (like 0700 or 0444).
->      Avoid using any other base like decimal.
+> diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
+> index 19753611e..f2c0dad91 100644
+> --- a/drivers/usb/serial/iuu_phoenix.c
+> +++ b/drivers/usb/serial/iuu_phoenix.c
+> @@ -1195,13 +1195,10 @@ module_param(boost, int, S_IRUGO | S_IWUSR);
+>  MODULE_PARM_DESC(boost, "Card overclock boost (in percent 100-500)");
 >
-> +  **SYMBOLIC_PERMS**
-> +    Permission bits in the octal form are more readable and easier to
-> +    understand than their symbolic counterparts.
-> +
-> +    See: https://lore.kernel.org/lkml/CA+55aFw5v23T-zvDZp-MmD_EYxF8WbafwwB59934FV7g21uMGQ@mail.gmail.com/
-> +
+>  module_param(clockmode, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, "
+> -               "3=6 Mhz)");
+> +MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, 3=6 Mhz)");
 >
->  Spacing and Brackets
->  --------------------
+>  module_param(cdmode, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, "
+> -                "4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
+> +MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, 4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
+>
+>  module_param(vcc_default, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 "
+> -               "for 5V). Default to 5.");
+> +MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 for 5V). Default to 5.");
 > --
 > 2.17.1
 >
