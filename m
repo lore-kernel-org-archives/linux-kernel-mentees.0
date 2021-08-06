@@ -2,104 +2,98 @@ Return-Path: <SRS0=Fc4Z=M5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_RED
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF05C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 13:46:42 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B778AC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 15:19:16 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 05F306115C
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 13:46:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 05F306115C
+	by mail.kernel.org (Postfix) with ESMTPS id 386846113C
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 15:19:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 386846113C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id ACC7C40380;
-	Fri,  6 Aug 2021 13:46:41 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E2CA781B25;
+	Fri,  6 Aug 2021 15:19:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id t1Iw5C-KccHD; Fri,  6 Aug 2021 13:46:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8EBBB400D5;
-	Fri,  6 Aug 2021 13:46:39 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6D9CAC0010;
-	Fri,  6 Aug 2021 13:46:39 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 02F96C000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 13:46:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E707083A6D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 13:46:37 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 28Z_FlCPgK4M
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SgDj9Z8JSEah; Fri,  6 Aug 2021 15:19:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 20CFC8109C;
+	Fri,  6 Aug 2021 15:19:15 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 03250C0010;
+	Fri,  6 Aug 2021 15:19:15 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B05D5C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 13:46:36 +0000 (UTC)
+ Fri,  6 Aug 2021 15:19:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 91A6A40109
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  6 Aug 2021 15:19:13 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xwTLXBMyDikD
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  6 Aug 2021 15:19:09 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
- [IPv6:2607:f8b0:4864:20::102a])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 13FE1831BD
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 136CE400D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 13:46:35 +0000 (UTC)
-Received: by mail-pj1-x102a.google.com with SMTP id
- u21-20020a17090a8915b02901782c36f543so13935334pjn.4
+ Fri,  6 Aug 2021 15:19:08 +0000 (UTC)
+Received: by mail-pl1-x631.google.com with SMTP id e21so7522212pla.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Aug 2021 06:46:35 -0700 (PDT)
+ Fri, 06 Aug 2021 08:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=5lkmI4z7jiubMmtKXrbyc73dcU4KyvRkJwwhWwwiz94=;
- b=Up9FTrgLEIHfnEgnl2AoRejULSjvA5n2Ne1kUEVh5hKiz6km0lkzy0RQBrsxZl+tUA
- qewzqjqqqsSlqtLI45kvWeVU5gyoCmThTVPNhxJtr5nKbK859njVJHTbE4XABfoex2Xr
- Ki0HNstOGfFQSK4cqoqi1bRPBOFj4/2HqbFQqb/79GAaKnegP0SdctqU5gBL9dNTzGNj
- MhWWpqgH4IXE4DTnyp2CXzPawxJs2rsJcgVDblNy+TqVvyIknJMjq4ZneXappgsqBfWX
- ohrOQya5+6QipSmKoc8Hb9YjiqYAn7pBLH58pUIWy4J8G2RdUvrkWcs52P8RYu5uXjW8
- 7R8w==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HO6Q3XwwniKzS+2tsl0S9oaLZLhI1jJ6q0XjbW7gkwY=;
+ b=MinM2s8DyAyZp33kZ8umcTf9NVozOQEiqQ3L+05Pw1ettbVv5s6k9t/IXXBsrfcD8T
+ t9xic3mQ81QAuc1XfvEI7xCj8EOPVNUgVHXjSwsbQjkToIUW0sr592hhiHyBM3mUEgW8
+ zwigkpEubEsfWmy7R2wZ3j5REmhRtvSjuOJHkM1fcdVVEzuRNC0j7vs4t9KgPTrwjma2
+ A9b12utHMI0ipZD/sR26dzMzjJ49L/d1vLhUxNFCHESYKiZdg/KHSzTZnTYQvMcTDiik
+ 7r55GOGv0ZYBOkhD0YhFIcD0dwL5FxtPp4PnrfUNGxfnOTPLdmsr/tPYL4D4FL3i72RD
+ 49VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5lkmI4z7jiubMmtKXrbyc73dcU4KyvRkJwwhWwwiz94=;
- b=cCePqx+GcsgUMSQFNuf5BUWl7ea2SIwquHGgd9KTe1wf4ywHc8kbNEfQoGvvzhGKlv
- qVWydNhHQGPsuJ+HPbb05wlFJVTBR8TxTkCmTKEwYY9EtYfSlWHDcPLHl/SU/uAIzKv6
- 6btgG0Aoz4afFqgPgKcT8fBmsEQeGwT4DZUrepK/vPQmXeZA19wOvsSYW4+3WklPf3vK
- pzSo/yVGhmmEvdInsFp30XaImT07EJ9LgxbdDbRZdczxhVp+RcXZ8jrLU/S24QOZL5Gz
- RKI/Jne0AzQK4JiU4J5tOYFswB02ermjLPkKy9oYFb0laMKR6y2ndDQhfNbY5Tn5v4Bm
- 6jtw==
-X-Gm-Message-State: AOAM530bwkhtPZ+vhk4PK+gHlbbPIFGthfWWx/9JiBaQElkThzgJ7ORK
- 69MAKfMTbn9RBnAWPbftzgg=
-X-Google-Smtp-Source: ABdhPJx0Fl3eWPQrUhSTYhqlfMgdbaLtPERBLpoZDi8XqPb9OHvfyQW61c2xsa/WYPgXYCW+wckPdA==
-X-Received: by 2002:a17:902:740b:b029:12c:403b:7fae with SMTP id
- g11-20020a170902740bb029012c403b7faemr8598833pll.19.1628257595389; 
- Fri, 06 Aug 2021 06:46:35 -0700 (PDT)
-Received: from uver-laptop ([2405:201:6006:a148:daf1:7357:b291:d057])
- by smtp.gmail.com with ESMTPSA id s7sm8943587pjk.40.2021.08.06.06.46.33
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HO6Q3XwwniKzS+2tsl0S9oaLZLhI1jJ6q0XjbW7gkwY=;
+ b=um9rFpNWIJ9P3mfQWFUPaZWgk0UFF9K2l93/CBKVMm1egqOsmXVIDL/wEg6ajg6cNQ
+ 3BKRAfF1/xDu8gNMeelX+jKftJGJzqnZ+RS5Aazd0e75WJG98e10m77YNREYZAFI3mrK
+ rTeLvNRprzbtvqoH+psoDD3wKcMHqBizvueVolrIK2CUiFF5ms13iGc2XgT7PmampsKL
+ /gh4v5Nb/gpExmnSfu957F14GUM4BuaqjNZA4/qWmNQ2V+Xf/xXiZXkJ83LZZ8fhreow
+ qmigMX/WS3niCwu3lw254gwYAa7qQEbwzEHwRU2QIxeYiexNfe0XqjATCkt8nS7Mi9VX
+ CWLg==
+X-Gm-Message-State: AOAM531UTMFAmIUhfStoIGt/5RLeTHCQid7Lt04QNomn6mVx+Qy7m108
+ j596m+jZcmlYhXGcymSOQYA=
+X-Google-Smtp-Source: ABdhPJxvWKJbDhwj7AO8I3yXsXBEZmxBs+QDU5dz2GGzj9DR7Hl/cDq8ZPL256lx1MQusWTsOPPa7g==
+X-Received: by 2002:a63:6d3:: with SMTP id 202mr1084764pgg.420.1628263148408; 
+ Fri, 06 Aug 2021 08:19:08 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4042:4e12:2045:d99:6446:1967:c534])
+ by smtp.gmail.com with ESMTPSA id c14sm12417731pgv.86.2021.08.06.08.18.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Aug 2021 06:46:34 -0700 (PDT)
-Date: Fri, 6 Aug 2021 19:16:24 +0530
-From: Utkarsh Verma <utkarshverma294@gmail.com>
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: Re: [PATCH v3] Documentation: checkpatch: Add SYMBOLIC_PERMS message
-Message-ID: <20210806134617.GA6736@uver-laptop>
-References: <CABJPP5Ba4D40OKVDk4RopcX5zx3SFWvOBKLOCfhc1gjw4-4JMA@mail.gmail.com>
- <20210804153134.2794-1-utkarshverma294@gmail.com>
- <CABJPP5C42kH19aMt6dtK0auypE0HWen4YWMZDdC1xgVdFOGc-w@mail.gmail.com>
+ Fri, 06 Aug 2021 08:19:08 -0700 (PDT)
+From: Vinesh Raut <vineshraut2017@gmail.com>
+To: lukas.bulwahn@gmail.com
+Subject: [PATCH v2] Documentation: checkpatch: add UNNECESSARY_CASTS message.
+Date: Fri,  6 Aug 2021 20:48:41 +0530
+Message-Id: <20210806151841.13940-1-vineshraut2017@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CABJPP5C42kH19aMt6dtK0auypE0HWen4YWMZDdC1xgVdFOGc-w@mail.gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: dwaipayanray1@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,57 +111,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Aug 05, 2021 at 07:21:50PM +0530, Dwaipayan Ray wrote:
-> On Wed, Aug 4, 2021 at 9:02 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
-> >
-> > Add a new message type SYMBOLIC_PERMS under the 'Permissions'
-> > subsection. Checkpatch documentation that recommends the user to use
-> 
-> Did you mean: Checkpatch recommends the user to use octal
-> permission bits...?
-> 
+Add verbose description for UNNECESSARY_CASTS message type.
 
-No.
-This patch adds documentation that explains to the user why octal
-permission should be used. So in the commit description, which explains
-my patch I wrote, "Checkpatch documentation that recommends the user ...."
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Vinesh Raut <vineshraut2017@gmail.com>
+---
+ Documentation/dev-tools/checkpatch.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-If it's sounding vague, then should I change the commit description to:
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index f0956e9ea2d8..9cb6b9059fc6 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -268,6 +268,15 @@ Allocation style
+ 
+     See: https://www.kernel.org/doc/html/latest/core-api/memory-allocation.html
+ 
++   **UNNECESSAR_CASTS**
++   Cast should not be done to any alloc functions.
++   Appropriate type of pointer is pick by compiler at run time
++   Cast may hide bugs, as compiler suppress the warning after cast.
++
++   See:
++   1] https://lore.kernel.org/lkml/20070808024321.GA6316@redhat.com/
++   2] https://lore.kernel.org/lkml/a5e60a2b93e10baf84af063f6c8e56402273105d.camel@perches.com/
++
+ 
+ API usage
+ ---------
+-- 
+2.30.2
 
-"Add a new message type SYMBOLIC_PERMS under the 'Permissions'
- subsection. Users should use octal permission bits instead of their
- symbolic macro names."
-
-> Other than that the change itself looks fine to me.
-> 
-> > the octal permission bits instead of their symbolic macro names.
-> >
-> > Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> > ---
-> >  Documentation/dev-tools/checkpatch.rst | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> > index f0956e9ea..009957cda 100644
-> > --- a/Documentation/dev-tools/checkpatch.rst
-> > +++ b/Documentation/dev-tools/checkpatch.rst
-> > @@ -957,6 +957,12 @@ Permissions
-> >      Permission bits should use 4 digit octal permissions (like 0700 or 0444).
-> >      Avoid using any other base like decimal.
-> >
-> > +  **SYMBOLIC_PERMS**
-> > +    Permission bits in the octal form are more readable and easier to
-> > +    understand than their symbolic counterparts.
-> > +
-> > +    See: https://lore.kernel.org/lkml/CA+55aFw5v23T-zvDZp-MmD_EYxF8WbafwwB59934FV7g21uMGQ@mail.gmail.com/
-> > +
-> >
-> >  Spacing and Brackets
-> >  --------------------
-> > --
-> > 2.17.1
-> >
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
