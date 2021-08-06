@@ -2,92 +2,107 @@ Return-Path: <SRS0=Fc4Z=M5=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06B63C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 18:17:28 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9117BC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 19:12:13 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9612C61179
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 18:17:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9612C61179
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
+	by mail.kernel.org (Postfix) with ESMTPS id 0FB0E60F70
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 19:12:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0FB0E60F70
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5CEDD83BDD;
-	Fri,  6 Aug 2021 18:17:27 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C0CD740697;
+	Fri,  6 Aug 2021 19:12:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3YgeG2ZQrn8O; Fri,  6 Aug 2021 18:17:26 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id B2pRY2NgJFq5; Fri,  6 Aug 2021 19:12:11 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 780E183BC7;
-	Fri,  6 Aug 2021 18:17:26 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A593340687;
+	Fri,  6 Aug 2021 19:12:11 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 57440C001A;
-	Fri,  6 Aug 2021 18:17:26 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A5553C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B462C0010;
+	Fri,  6 Aug 2021 19:12:11 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D59F6C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 18:17:25 +0000 (UTC)
+ Fri,  6 Aug 2021 19:12:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 87B46607BF
+ by smtp1.osuosl.org (Postfix) with ESMTP id C008083870
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 18:17:25 +0000 (UTC)
+ Fri,  6 Aug 2021 19:12:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=anirudhrb.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id U_SdrnLerNHW
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Z3UO8nnKtgej
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 18:17:24 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
- [136.143.188.53])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B14836060A
+ Fri,  6 Aug 2021 19:12:10 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id EC9D28382D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 18:17:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1628273841; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=j1uYsaOnVwADfra9cAnq1vMPUty/IN1OdWi/u2netOYaVLS8WfP2KBJFo7UQx0siKzSsjrC1MVlQtcWyML/2OgFhdswroFpl27xbkn82wgyyFBbce9kGsZEfEQJFMjlz4rtSGdlTIQ8kh/6oXjDfrHL/sRBUHPJ/3Bfz21eW1yU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1628273841;
- h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
- bh=wIZHSlWXbrNe2rwmZf7eFgX/iCxTUKxDTVlcmAcr1Ag=; 
- b=nma5a8PyUCS3ocmPm6C/WjSTrHhl2XXHDTstVYNVUz4ZBbG5S4/MznzmlYXk6ro99EBaUtCoDVQIO8RCCS8XXO9vVuD+5qDb2UCk47B2ja0YN1XEu7NRk8XTkxN7RbRxvg1PvS9GqlLBSzjQl3e9F/cnKHHEB4EENuo5IhYzY3E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=anirudhrb.com;
- spf=pass  smtp.mailfrom=mail@anirudhrb.com;
- dmarc=pass header.from=<mail@anirudhrb.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1628273841; 
- s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
- bh=wIZHSlWXbrNe2rwmZf7eFgX/iCxTUKxDTVlcmAcr1Ag=;
- b=QsuCH48BF/59cBuyk0eqrt3VnhHOPFggMFrkZ/m+GdQyW8kffBK7azmr5vwQsEoV
- KrmZ5+LuCws00vtGJXqfC4c9c6hsSEIgeqyxXO3u5MBs3T/h33++/W8Oy2y2NITKi5T
- nWGcokZKzxdo4Dw3adojlSj4K/5oJ8Wu6T1DSyMU=
-Received: from localhost.localdomain (106.51.104.154 [106.51.104.154]) by
- mx.zohomail.com with SMTPS id 16282738279641019.1462176919549;
- Fri, 6 Aug 2021 11:17:07 -0700 (PDT)
-From: Anirudh Rayabharam <mail@anirudhrb.com>
-To: Valentina Manea <valentina.manea.m@gmail.com>,
- Shuah Khan <shuah@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2] usbip: give back URBs for unsent unlink requests during
- cleanup
-Date: Fri,  6 Aug 2021 23:43:35 +0530
-Message-Id: <20210806181335.2078-1-mail@anirudhrb.com>
-X-Mailer: git-send-email 2.26.2
+ Fri,  6 Aug 2021 19:12:09 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ u5-20020a17090ae005b029017842fe8f82so10105042pjy.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 06 Aug 2021 12:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=enKVtfy+bGCUlHGxN1S81nqMrqDXDDI8zRXHj7c4Uy4=;
+ b=ajFW7vQ07hnvFhdryVONTLk6d9cEgwZ72Q9pjLbwyaAeNL/kpVbduZSbLCwSpGFlet
+ gJ73iYSj+2DBwfcS+Gcqdd1ZBGxTadoAJMnnV2UXuizZYPmLFFfpgsFD/rZWeo7FEVTE
+ FSEG2a59NIy/xX4KHzLX5rjTM3+72iw/2/dTGGIesjwRGrQjinG+xo8HEtk1RLdve4Vn
+ 2JHa1FizRfN0u77+RvTcNZfZgfI8kTyHtyayVNSsQOae2pq79RLM6ES3+/V8kqu9XpdQ
+ Q1TGfWlFjbyN9meEAxeY09z4Oz/GZNQjY7SgtENnBHposYnxbQUgfS045SieR5wSFBDu
+ wCPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=enKVtfy+bGCUlHGxN1S81nqMrqDXDDI8zRXHj7c4Uy4=;
+ b=fYAedLLszlkJSMKI+/zW8XKNA4byfD08o9K/jK6SKkd3Y4BL8TiPBHIZzsTAtc2JXJ
+ xa80zbKR6EZlYKNkt/IdjjCv3WzjdNwDcLBdSdIQX6RA1t5ygoVZ+arYLRKduc8Dz8KA
+ Vs4hlctF4DMWyv1dIgd/RYK+hI1szOBMPPGoKhNO6Xrex5RF/0kjGcagJrJ6fY/Iv3Fc
+ D2cDZjwJyWtxZDYtYev56jbFdOn17An9IhWOvZHpyA6ckydfaakRec4TWdnMdYAP5hRv
+ X02uJMYRX3hfHbnDzdqGOr6bLcuH7Es032oXaTu3RRph/bViYAetmQhHchFtgS9EzbhX
+ 2PAg==
+X-Gm-Message-State: AOAM530DFjuxVNh77j8uQR3Xz2qOHBxeC0rsgYpE7m1x3XrlBppfsWlF
+ hfGmXHdJZkDRa+40dljR3ok=
+X-Google-Smtp-Source: ABdhPJypyR/z3cvepph6dDulWNpwYJV5VjhHu7iV9x3NUVodtKeXgTM6f2BUIYFXAT1jzOtHvoxFkw==
+X-Received: by 2002:a63:ef12:: with SMTP id u18mr601608pgh.331.1628277129191; 
+ Fri, 06 Aug 2021 12:12:09 -0700 (PDT)
+Received: from uver-laptop ([2405:201:6006:a148:daf1:7357:b291:d057])
+ by smtp.gmail.com with ESMTPSA id m21sm11360503pfo.159.2021.08.06.12.12.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 06 Aug 2021 12:12:08 -0700 (PDT)
+Date: Sat, 7 Aug 2021 00:42:04 +0530
+From: Utkarsh Verma <utkarshverma294@gmail.com>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] USB: serial: iuu_phoenix: Replace symbolic permissions
+ by octal permissions
+Message-ID: <20210806191204.GB6736@uver-laptop>
+References: <CAKXUXMymBWUcy53a38hA9b3VYL0af2vpDW0=xsCEWuiiUQQn-w@mail.gmail.com>
+ <20210803142131.17192-1-utkarshverma294@gmail.com>
+ <CAKXUXMxJ9CKP1nftTWmP-UTaMMyuOtoNYz4SQYrDPP9PdaRp4A@mail.gmail.com>
+ <20210804191242.GA4956@uver-laptop>
+ <CAKXUXMyPWbP1zQWOg6o2jGcE0tOMBvTXfWw0Bk3edy2s_WY+Ug@mail.gmail.com>
 MIME-Version: 1.0
-X-ZohoMailClient: External
-Cc: linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-usb@vger.kernel.org,
- syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
+Content-Disposition: inline
+In-Reply-To: <CAKXUXMyPWbP1zQWOg6o2jGcE0tOMBvTXfWw0Bk3edy2s_WY+Ug@mail.gmail.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,112 +120,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In vhci_device_unlink_cleanup(), the URBs for unsent unlink requests are
-not given back. This sometimes causes usb_kill_urb to wait indefinitely
-for that urb to be given back. syzbot has reported a hung task issue [1]
-for this.
+On Thu, Aug 05, 2021 at 11:26:49AM +0200, Lukas Bulwahn wrote:
+> On Wed, Aug 4, 2021 at 9:12 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
+> >
+> > On Tue, Aug 03, 2021 at 08:11:28PM +0200, Lukas Bulwahn wrote:
+> > > On Tue, Aug 3, 2021 at 4:21 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
+> > > >
+> > > > This fixed the below checkpatch issue:
+> > >
+> > > Use imperative; you can drop "below" here.
+> > >
+> > > > WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred.
+> > > > Consider using octal permissions '0644'.
+> > > >
+> > > > Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> > > > Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> > >
+> > > Usually it is Suggested-by first, then Signed-off-by at the end.
+> > >
+> > > Do you find a pointer for this order of tags on the commit message in
+> > > the documentation, e.g., in
+> > > Documentation/process/submitting-patches.rst?
+> >
+> > No, I didn't found any such rule in the Documentation files.
+> >
+> 
+> I think you could try to create a patch to add that information on the
+> ordering of these tags here:
+> 
+> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
+> 
+> You will find the source of that documentation at
+> Documentation/process/submitting-patches.rst.
+> 
+> Do you want to give that a quick try?
+> 
 
-To fix this, give back the urbs corresponding to unsent unlink requests
-(unlink_tx list) similar to how urbs corresponding to unanswered unlink
-requests (unlink_rx list) are given back. Since the code is almost the
-same, extract it into a new function and call it for both unlink_rx and
-unlink_tx lists.
+Unfortunately, I didn't find any rule for the sequence of the tags.
+Tried searching for discussions on the mailing lists but to no avail.
 
-[1]: https://syzkaller.appspot.com/bug?id=08f12df95ae7da69814e64eb5515d5a85ed06b76
+Generally, Suggested-by is first, then Signed-off-by is used, but it is
+not a hard and fast rule. Many patches do not follow this order, and the
+tags can be put in any sequence. For example:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=39652741c80bb0006214cf81ba9707d2dc372292
+https://lore.kernel.org/linux-devicetree/20210221174930.27324-10-nramas@linux.microsoft.com/
 
-Reported-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
-Tested-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
----
 
-Changes in v2:
-Use WARN_ON() instead of BUG() when unlink_list is neither unlink_tx nor
-unlink_rx.
-
-v1: https://lore.kernel.org/lkml/20210806164015.25263-1-mail@anirudhrb.com/
-
----
- drivers/usb/usbip/vhci_hcd.c | 45 +++++++++++++++++++++++++-----------
- 1 file changed, 32 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 4ba6bcdaa8e9..67e638f4c455 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -945,7 +945,8 @@ static int vhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
- 	return 0;
- }
- 
--static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
-+static void __vhci_cleanup_unlink_list(struct vhci_device *vdev,
-+		struct list_head *unlink_list)
- {
- 	struct vhci_hcd *vhci_hcd = vdev_to_vhci_hcd(vdev);
- 	struct usb_hcd *hcd = vhci_hcd_to_hcd(vhci_hcd);
-@@ -953,23 +954,23 @@ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
- 	struct vhci_unlink *unlink, *tmp;
- 	unsigned long flags;
- 
-+	if (WARN(unlink_list != &vdev->unlink_tx
-+				&& unlink_list != &vdev->unlink_rx,
-+			"Invalid list passed to __vhci_cleanup_unlink_list\n"))
-+		return;
-+
- 	spin_lock_irqsave(&vhci->lock, flags);
- 	spin_lock(&vdev->priv_lock);
- 
--	list_for_each_entry_safe(unlink, tmp, &vdev->unlink_tx, list) {
--		pr_info("unlink cleanup tx %lu\n", unlink->unlink_seqnum);
--		list_del(&unlink->list);
--		kfree(unlink);
--	}
--
--	while (!list_empty(&vdev->unlink_rx)) {
-+	list_for_each_entry_safe(unlink, tmp, unlink_list, list) {
- 		struct urb *urb;
- 
--		unlink = list_first_entry(&vdev->unlink_rx, struct vhci_unlink,
--			list);
--
--		/* give back URB of unanswered unlink request */
--		pr_info("unlink cleanup rx %lu\n", unlink->unlink_seqnum);
-+		if (unlink_list == &vdev->unlink_tx)
-+			pr_info("unlink cleanup tx %lu\n",
-+					unlink->unlink_seqnum);
-+		else
-+			pr_info("unlink cleanup rx %lu\n",
-+					unlink->unlink_seqnum);
- 
- 		urb = pickup_urb_and_free_priv(vdev, unlink->unlink_seqnum);
- 		if (!urb) {
-@@ -1001,6 +1002,24 @@ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
- 	spin_unlock_irqrestore(&vhci->lock, flags);
- }
- 
-+static inline void vhci_cleanup_unlink_tx(struct vhci_device *vdev)
-+{
-+	__vhci_cleanup_unlink_list(vdev, &vdev->unlink_tx);
-+}
-+
-+static inline void vhci_cleanup_unlink_rx(struct vhci_device *vdev)
-+{
-+	__vhci_cleanup_unlink_list(vdev, &vdev->unlink_rx);
-+}
-+
-+static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
-+{
-+	/* give back URBs of unsent unlink requests */
-+	vhci_cleanup_unlink_tx(vdev);
-+	/* give back URBs of unanswered unlink requests */
-+	vhci_cleanup_unlink_rx(vdev);
-+}
-+
- /*
-  * The important thing is that only one context begins cleanup.
-  * This is why error handling and cleanup become simple.
--- 
-2.26.2
-
+Regards,
+Utkarsh Verma
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
