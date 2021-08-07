@@ -1,4 +1,4 @@
-Return-Path: <SRS0=Fc4Z=M5=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=6//p=M6=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
@@ -8,94 +8,97 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB463C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 20:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67FEAC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Aug 2021 19:05:26 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5B58560EAF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Aug 2021 20:11:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5B58560EAF
+	by mail.kernel.org (Postfix) with ESMTPS id C043061042
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Aug 2021 19:05:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C043061042
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 25C58406A0;
-	Fri,  6 Aug 2021 20:11:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6CDEB402EC;
+	Sat,  7 Aug 2021 19:05:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QM6AJ3vVSgFe; Fri,  6 Aug 2021 20:11:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 60DE040538;
-	Fri,  6 Aug 2021 20:11:12 +0000 (UTC)
+	with ESMTP id BzxnEpZMa9TJ; Sat,  7 Aug 2021 19:05:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6E9EC402D1;
+	Sat,  7 Aug 2021 19:05:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 35F64C0010;
-	Fri,  6 Aug 2021 20:11:12 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AF8E6C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44E5CC001A;
+	Sat,  7 Aug 2021 19:05:23 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D514C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 20:11:10 +0000 (UTC)
+ Sat,  7 Aug 2021 19:05:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 98FF1835A6
+ by smtp3.osuosl.org (Postfix) with ESMTP id 002D760586
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 20:11:10 +0000 (UTC)
+ Sat,  7 Aug 2021 19:05:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rZSewx3KU8xT
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6rJQKBwfEcSq
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 20:11:09 +0000 (UTC)
+ Sat,  7 Aug 2021 19:05:19 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id DE31883518
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 51A1A60640
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Aug 2021 20:11:09 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id e5so8559174pld.6
+ Sat,  7 Aug 2021 19:05:19 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id
+ u21-20020a17090a8915b02901782c36f543so18868475pjn.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Aug 2021 13:11:09 -0700 (PDT)
+ Sat, 07 Aug 2021 12:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9DSbyhLqmcC93Ch0i+MPjJN9m2v2DAlApWH9Dmn9YAg=;
- b=llQOEK4B7A0QgwYwAc3w0zQcil6/fqvk+Jho1hTnJYUrxq2c1ZZrkwDDoStrdtK8q9
- NFlSnBa8ptBgKa1r4yzqWLCm78hARNhvHhOMo4HJqwZGhRERU2w7uPBA+WTf+yay/G31
- 6bb30of4gMc46AQaogN+eGeBYGLoFjeeHWzLPtYmJd90wYKuwLToZXPVa44QT93Ou2Aa
- OpGVmoHBMLL4c9LyMaNFwgzn3ReSkvh9SBAV3mgcKHBTfGz1/+22IH97m+2XsUnbZXAx
- /SyqhOHf+o0xZE4/tU0IoLH3gvSBOffBE5+TM6V7eWxvufPZSJ9mgqA51fDcccCn1Qjh
- Dsdg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LDzr9j6jDQymvAZrQvh0mEZMgeOS0DQq/WzD3far9AM=;
+ b=J2fkjjsuWNeHerOTcP8G/YG86fcP61VGCTe67t+htJCPDhbK4SpXkO8uXCozE3UU8z
+ pZ/y/GDU1jdoV+vx3geGIb4nwo+yUe9S5Y+jlzxN46DUb/Wx9m/mqJ40h61hYUEnDWOG
+ 5rLAhFNVsOH0mrGF8/0ztqDQeMi3urRXLQsQokYzNDYs9FqkgAiELj/+zNRIYxXF0FRS
+ x0Kb5rtMpUsegprUY0SWWuhBUA8IGwlzDYJdcPmZaBmf9uQq1MR+WXr5RplKS9EXhL+F
+ gU0zvgOEE25YwjsjveGRNtktbH7RGCZd1L3BNYv4OsThvYQWNM4w5ZZnOoPUKj284dpy
+ l9xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=9DSbyhLqmcC93Ch0i+MPjJN9m2v2DAlApWH9Dmn9YAg=;
- b=j6NqGNAp06ftkErsrjfquYf3AfSK3ZdzF2HgL0ceZ1HjQor/jOtZb9aiynzeZruJpd
- i+MxBlya/BvMAvDxJIlIisWYGYGBZJRq+Q6Zp8K6+AunbKB1+Nl4Nk6ox3vLf5/7jvn5
- RUtQ5x/sPNc3SnlTUfmU97ch2sMPGtjKOI+cAcH8QHpqNwfuV0tpkTOVj7OjoGEUtfFm
- O+QZ8MuZfBFzSUgJuITbGB5ZUOJj8jrX6I7yhC6pjxShCC1zKrQC/0FbmI3hik+44Vxo
- FvjX0TEyubsy6MDJBoGExtkNCIRUAT5Bg7B/l81GMCkOcRU3s83kjd9SQCufqVT/Joyv
- y//w==
-X-Gm-Message-State: AOAM530WS4VRb8wPclWPfmjVtTCD2A/nzQht6Z8xT1Fr3th9eKjilb0b
- LLKa9oCf7IAvg3WKBW+LzY8=
-X-Google-Smtp-Source: ABdhPJxwNGRC5QKo+HHVpSHOBRwRsKNpWDzubbCXY74tPg3B8dm4hszle67y9VBQhp4PUQvK/kb8TA==
-X-Received: by 2002:a17:90a:d590:: with SMTP id
- v16mr11872895pju.205.1628280669155; 
- Fri, 06 Aug 2021 13:11:09 -0700 (PDT)
-Received: from localhost.localdomain ([49.36.209.115])
- by smtp.googlemail.com with ESMTPSA id c15sm9281980pjr.22.2021.08.06.13.11.06
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LDzr9j6jDQymvAZrQvh0mEZMgeOS0DQq/WzD3far9AM=;
+ b=QgpXdL0E1AUYVHrGkSpX64Nq3v8m+a50OeVrKpnD2bwY/xjkR9N/T+MJgj2c839ID3
+ cU9xBwtk4i21pbUL4dUEJyYTAcOrEKbU/OttgAokleNloZkx2A5KLzdB44IcczT4Ij5f
+ Arwh90uQd0CLew5rWzwsfefEsIpSa7b2ZnoeRsbrtuG+eODG93EAjYYGXB9wVfwVPHws
+ 0KBPv/bR1jNkbJKxv9btO/vTx39E6cdKx9SwWj5YU8AHzWSzIfrUV0zOPhv/0ioUljIu
+ vvFQVPcq6PYFixmcaO41a8TA3ln88bHw89gJierAhvwjBpNhM5YB1bm10hb5377ciyHl
+ alCw==
+X-Gm-Message-State: AOAM5316mjLaDkdkal6zbpslcDta5efhUfj1tXC5FwY2Lb680NM5ninl
+ FHdUIe90yf/CHJ8QCFBCpgY=
+X-Google-Smtp-Source: ABdhPJwLpYFtek7YvpqTwxl/4Qq+Nuz2NdUl0gVBdSJPakAfLwkU4B3FHdFl7I8X6nr0bt8E4YLdHA==
+X-Received: by 2002:a17:90a:ce05:: with SMTP id
+ f5mr27351733pju.93.1628363118743; 
+ Sat, 07 Aug 2021 12:05:18 -0700 (PDT)
+Received: from localhost.localdomain (bb42-60-144-185.singnet.com.sg.
+ [42.60.144.185])
+ by smtp.gmail.com with ESMTPSA id i13sm14859090pfr.79.2021.08.07.12.05.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Aug 2021 13:11:08 -0700 (PDT)
-From: Utkarsh Verma <utkarshverma294@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: [PATCH v4] Documentation: checkpatch: Add SYMBOLIC_PERMS message
-Date: Sat,  7 Aug 2021 01:40:26 +0530
-Message-Id: <20210806201026.2537-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CABJPP5BCdB7CdV4q9vw7tz=8ZOWry+aoyiqpzoXqriY2-ONEhw@mail.gmail.com>
-References: <CABJPP5BCdB7CdV4q9vw7tz=8ZOWry+aoyiqpzoXqriY2-ONEhw@mail.gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+ Sat, 07 Aug 2021 12:05:18 -0700 (PDT)
+From: Nguyen Dinh Phi <phind.uet@gmail.com>
+To: gregkh@linuxfoundation.org,
+	jirislaby@kernel.org
+Subject: [PATCH] tty: Fix data race between tiocsti() and flush_to_ldisc()
+Date: Sun,  8 Aug 2021 03:05:13 +0800
+Message-Id: <20210807190513.3810821-1-phind.uet@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,42 +110,53 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a new message type SYMBOLIC_PERMS under the 'Permissions'
-subsection. Users should use octal permission bits instead of their
-symbolic macro names.
+The ops->receive_buf() may be accessed concurrently from these two
+functions.  If the driver flushes data to the line discipline
+receive_buf() method while tiocsti() is using the ops->receive_buf(),
+the data race will happen.
 
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+For example:
+tty_ioctl                       |tty_ldisc_receive_buf
+ ->tioctsi                      | ->tty_port_default_receive_buf
+                                |  ->tty_ldisc_receive_buf
+   ->hci_uart_tty_receive       |   ->hci_uart_tty_receive
+    ->h4_recv                   |    ->h4_recv
+
+In this case, the h4 receive buffer will be overwritten by the
+latecomer, and it cause a memory leak.
+
+Hence, change tioctsi() function to use the exclusive lock interface
+from tty_buffer to avoid the data race.
+
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+Reported-by: syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com
 ---
- Documentation/dev-tools/checkpatch.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/tty/tty_io.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index f0956e9ea..009957cda 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -957,6 +957,12 @@ Permissions
-     Permission bits should use 4 digit octal permissions (like 0700 or 0444).
-     Avoid using any other base like decimal.
- 
-+  **SYMBOLIC_PERMS**
-+    Permission bits in the octal form are more readable and easier to
-+    understand than their symbolic counterparts.
-+
-+    See: https://lore.kernel.org/lkml/CA+55aFw5v23T-zvDZp-MmD_EYxF8WbafwwB59934FV7g21uMGQ@mail.gmail.com/
-+
- 
- Spacing and Brackets
- --------------------
--- 
-2.17.1
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index e8532006e960..746fe13a2054 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -2307,8 +2307,10 @@ static int tiocsti(struct tty_struct *tty, char __user *p)
+ 	ld = tty_ldisc_ref_wait(tty);
+ 	if (!ld)
+ 		return -EIO;
++	tty_buffer_lock_exclusive(tty->port);
+ 	if (ld->ops->receive_buf)
+ 		ld->ops->receive_buf(tty, &ch, &mbz, 1);
++	tty_buffer_unlock_exclusive(tty->port);
+ 	tty_ldisc_deref(ld);
+ 	return 0;
+ }
+--
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
