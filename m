@@ -6,92 +6,100 @@ X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87AA9C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Aug 2021 13:32:59 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 153DAC4320E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Aug 2021 16:42:31 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1BAF060EBC
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Aug 2021 13:32:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1BAF060EBC
+	by mail.kernel.org (Postfix) with ESMTPS id AE9506101E
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  9 Aug 2021 16:42:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AE9506101E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D152482433;
-	Mon,  9 Aug 2021 13:32:58 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7418B60685;
+	Mon,  9 Aug 2021 16:42:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V3D12uentYpG; Mon,  9 Aug 2021 13:32:58 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EWOrL2J7T9un; Mon,  9 Aug 2021 16:42:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EF9DE82B34;
-	Mon,  9 Aug 2021 13:32:57 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7A63960632;
+	Mon,  9 Aug 2021 16:42:29 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B6ED7C001A;
-	Mon,  9 Aug 2021 13:32:57 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 117EFC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 60525C0010;
+	Mon,  9 Aug 2021 16:42:29 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 25EAAC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Aug 2021 13:32:57 +0000 (UTC)
+ Mon,  9 Aug 2021 16:42:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E1BF06071E
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0E86F6067B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Aug 2021 13:32:56 +0000 (UTC)
+ Mon,  9 Aug 2021 16:42:28 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yhZEXtgg3I1r
+ with ESMTP id 0VcEuJnSuBip
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Aug 2021 13:32:56 +0000 (UTC)
+ Mon,  9 Aug 2021 16:42:27 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com
- [IPv6:2607:f8b0:4864:20::72c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DB39960647
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com
+ [IPv6:2607:f8b0:4864:20::b32])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id F166960632
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  9 Aug 2021 13:32:55 +0000 (UTC)
-Received: by mail-qk1-x72c.google.com with SMTP id y130so5644654qkb.6
+ Mon,  9 Aug 2021 16:42:26 +0000 (UTC)
+Received: by mail-yb1-xb32.google.com with SMTP id s48so30651836ybi.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 09 Aug 2021 06:32:55 -0700 (PDT)
+ Mon, 09 Aug 2021 09:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kDc+zEFlNfSRNqWBIihxaIKiRuWuKU5lfZI0WUrgOo4=;
- b=Z7wIq/Ehq6ekbDhqbI1F1TCo7ar61zSJs14wnsQTnODz6TbFy79M+YtoCSsnE+lp7o
- BQnLgJMHidQ47Y66cS+Xd8KM+nvLEvUXzX/gXeCwu0/GocMU6Ps9lRYEtJGwnQdvJKVE
- MkvSFNVAEgsKrkAoJN5LSZpvV9BT5/Xp5bQ2TQCd5JFamaQo6ULe0A81mB9yM19ZmtnT
- yYTK4ouOLoAK0YkHtBXLr3sQldh2S3mIwx2UtQS31lgsGNVr/rl9BKdFevdoZKCjKgS+
- jSADkp8LlWQzWpDq8z5B3lAYBQwoJrBHY7ZvReRgNY2oJsLkXB/+tQfahl/nVg2XWbO9
- Jnhw==
+ :cc; bh=4UD967RcjbxyD35Ue9BbSVa+PVHU86PK1T77CUN9OWc=;
+ b=siw2kCOOntvOHok2OZvJ3cP0wQ5FUaNTsZZ0JdXNIrcGUjPO7ZZgojwSA/mfGlqFZ/
+ esYG89m+I6+mXKXM7Wvp+tOResfzbCDWRN0tja1qv0dwunAJ+Wgp1oqoH/X2Srjm/2io
+ 2D5RRHIcBk9UolXuAZxFpCbeZ7S90c2ljg9nqgP650XQTHeP2bTmWYsNRNgB9ftzfYk4
+ g5RUBIp4RgtyLtDkGm+Zz8rxpyFfKASu2jLrNEjovg5lqgBH0UM7N4CyeroLeUQo/uCM
+ 9tPpNiLErY0kLBs85AV9QBJCxQ6hR9GEWkqylS58+By4dwBobamWrcPyJANZhOQiyTrF
+ p7qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kDc+zEFlNfSRNqWBIihxaIKiRuWuKU5lfZI0WUrgOo4=;
- b=NspdkSF3jdv5cHC2SZpd/ty4HyxxiLA6PgYf6XWMgImPbjgWc5R91Eej7Kwy9X53RL
- 2JB1jTa/h1Q0QtEPWG9YfJ9iGZOunLH1UODWbiYhFtfXnLUZVDyU3JA8fx+A1mRyCMZq
- xBv0EkNt9CXnQsqrH+IOaEPAoUg2Y+HLpo3pGtc7llPFEcgk2zvBddDQcKYgx6riaJHV
- XjcEyJHjKaY2Nc+bmKSc7IGYDJeSm9rOPKA8POfJBhGwT6Urn/ivTcIMYgSJ74hqqOL1
- vIzYxxzg6DU00tOQEzfe197UuwvjpfiMZd0Rq8OZ5F7UEEl8nVKXg2nLN3tp9VEwgLvF
- CteA==
-X-Gm-Message-State: AOAM533qpKQPQVTdGNZtEZCC+kKyKC4jW56EaO4RWkhOfm8qyw0V1ZtO
- mhQkCaPyTfGHIuS9YwLGpKnSPOWxQJAmgevgeXI=
-X-Google-Smtp-Source: ABdhPJxfzi73VTf8rk0kAS6xjbRkchw17CnK7TfKdlgoFuNAiyK5FaXhIUTq0LVpyagXF5InTFKo7er+Qe2OwYaDFtQ=
-X-Received: by 2002:ae9:e213:: with SMTP id c19mr22821608qkc.451.1628515974555; 
- Mon, 09 Aug 2021 06:32:54 -0700 (PDT)
+ bh=4UD967RcjbxyD35Ue9BbSVa+PVHU86PK1T77CUN9OWc=;
+ b=Won301Qx7NURQZeakTiT8b+/WUiofDJzsY77+ATl1rOxHai4v89ZTn45ZWOqu+Ma9M
+ YqDHMnRGGPzpvG8X7Bpitv4ntgQ0rDriyuGfQdkcamCr6XYuGF/kNr9AKD7IaBnP8NNf
+ Mqg4BQ5sqOkAvtRc7OCZVEJnnTPk2JraSZyx2T1VIANo2ulIRASBXK6mycKm3zCS49ke
+ r+tfqVTUuXP0WnLt8JnYDyUxD/suUZSr6noUq7mdJpDtUmHqOIzbafnH/r39jL+Tfr2n
+ +Imx6kMdKoPuwkJ5DsT1U7edm2zShH/BT1TgolOmDPnvqBPc1PRJQVKoP+oaUCdFR0MD
+ ULXw==
+X-Gm-Message-State: AOAM531RW8jAKMF5jQKIlFlw+ttAfDRNu7v/iJ+JplkYPRQIpibtpW8E
+ RYiZDyIoo8iin+OVroUX192/6u9VcZc6hSwz5CE=
+X-Google-Smtp-Source: ABdhPJxyXf9BPtX7V36e3R1B7Vlb5SL2jCeCA+q8HG99AmGOBhK704STyMNnRdJ/RoVI4jjMlu8JCEePheYE3Ze8t6Y=
+X-Received: by 2002:a25:9b03:: with SMTP id y3mr30133017ybn.264.1628527345735; 
+ Mon, 09 Aug 2021 09:42:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210806151841.13940-1-vineshraut2017@gmail.com>
- <CABJPP5Byjb+xz3QZMo38bHu02rqwOfwuPjdzsyiHRUpr_zyhDA@mail.gmail.com>
-In-Reply-To: <CABJPP5Byjb+xz3QZMo38bHu02rqwOfwuPjdzsyiHRUpr_zyhDA@mail.gmail.com>
-From: Vinesh Vilas Raut <vineshraut2017@gmail.com>
-Date: Mon, 9 Aug 2021 19:02:42 +0530
-Message-ID: <CAMqN5U7xVZ2zjGT1upR9XxThR6RMk4J8LTB69CnkY0igxdKdFA@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: checkpatch: add UNNECESSARY_CASTS
- message.
-To: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210804154712.929986-1-desmondcheongzx@gmail.com>
+ <20210804154712.929986-2-desmondcheongzx@gmail.com>
+ <CABBYNZ+5-wEyLJDUU0fC3fogAkJiXD+8np_8c_M0yfYZVUYbww@mail.gmail.com>
+ <0fc64ddd-45f0-667f-b8cb-bd958280586f@gmail.com>
+In-Reply-To: <0fc64ddd-45f0-667f-b8cb-bd958280586f@gmail.com>
+From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date: Mon, 9 Aug 2021 09:42:14 -0700
+Message-ID: <CABBYNZ+21nHQ5j+B2WBgJoZRiZckhKhbiQ8y=-MGqojtO_p47Q@mail.gmail.com>
+Subject: Re: [RESEND PATCH v5 1/6] Bluetooth: schedule SCO timeouts with
+ delayed_work
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Cc: Johan Hedberg <johan.hedberg@gmail.com>,
+ "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ David Miller <davem@davemloft.net>,
+ "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
+ syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com,
+ Jakub Kicinski <kuba@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, sudipm.mukherjee@gmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,77 +117,183 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Aug 7, 2021 at 1:36 AM Dwaipayan Ray <dwaipayanray1@gmail.com> wrote:
+Hi Desmond,
+
+On Sun, Aug 8, 2021 at 9:04 PM Desmond Cheong Zhi Xi
+<desmondcheongzx@gmail.com> wrote:
 >
-> On Fri, Aug 6, 2021 at 8:49 PM Vinesh Raut <vineshraut2017@gmail.com> wrote:
+> On 6/8/21 3:06 am, Luiz Augusto von Dentz wrote:
+> > Hi Desmond,
 > >
-> > Add verbose description for UNNECESSARY_CASTS message type.
+> > On Wed, Aug 4, 2021 at 8:48 AM Desmond Cheong Zhi Xi
+> > <desmondcheongzx@gmail.com> wrote:
+> >>
+> >> struct sock.sk_timer should be used as a sock cleanup timer. However,
+> >> SCO uses it to implement sock timeouts.
+> >>
+> >> This causes issues because struct sock.sk_timer's callback is run in
+> >> an IRQ context, and the timer callback function sco_sock_timeout takes
+> >> a spin lock on the socket. However, other functions such as
+> >> sco_conn_del and sco_conn_ready take the spin lock with interrupts
+> >> enabled.
+> >>
+> >> This inconsistent {SOFTIRQ-ON-W} -> {IN-SOFTIRQ-W} lock usage could
+> >> lead to deadlocks as reported by Syzbot [1]:
+> >>         CPU0
+> >>         ----
+> >>    lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
+> >>    <Interrupt>
+> >>      lock(slock-AF_BLUETOOTH-BTPROTO_SCO);
+> >>
+> >> To fix this, we use delayed work to implement SCO sock timouts
+> >> instead. This allows us to avoid taking the spin lock on the socket in
+> >> an IRQ context, and corrects the misuse of struct sock.sk_timer.
+> >>
+> >> As a note, cancel_delayed_work is used instead of
+> >> cancel_delayed_work_sync in sco_sock_set_timer and
+> >> sco_sock_clear_timer to avoid a deadlock. In the future, the call to
+> >> bh_lock_sock inside sco_sock_timeout should be changed to lock_sock to
+> >> synchronize with other functions using lock_sock. However, since
+> >> sco_sock_set_timer and sco_sock_clear_timer are sometimes called under
+> >> the locked socket (in sco_connect and __sco_sock_close),
+> >> cancel_delayed_work_sync might cause them to sleep until an
+> >> sco_sock_timeout that has started finishes running. But
+> >> sco_sock_timeout would also sleep until it can grab the lock_sock.
+> >>
+> >> Using cancel_delayed_work is fine because sco_sock_timeout does not
+> >> change from run to run, hence there is no functional difference
+> >> between:
+> >> 1. waiting for a timeout to finish running before scheduling another
+> >> timeout
+> >> 2. scheduling another timeout while a timeout is running.
+> >>
+> >> Link: https://syzkaller.appspot.com/bug?id=9089d89de0502e120f234ca0fc8a703f7368b31e [1]
+> >> Reported-by: syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com
+> >> Tested-by: syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com
+> >> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> >> ---
+> >>   net/bluetooth/sco.c | 41 +++++++++++++++++++++++++++++++++++------
+> >>   1 file changed, 35 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
+> >> index ffa2a77a3e4c..89cb987ca9eb 100644
+> >> --- a/net/bluetooth/sco.c
+> >> +++ b/net/bluetooth/sco.c
+> >> @@ -48,6 +48,8 @@ struct sco_conn {
+> >>          spinlock_t      lock;
+> >>          struct sock     *sk;
+> >>
+> >> +       struct delayed_work     timeout_work;
+> >> +
+> >>          unsigned int    mtu;
+> >>   };
+> >>
+> >> @@ -74,9 +76,20 @@ struct sco_pinfo {
+> >>   #define SCO_CONN_TIMEOUT       (HZ * 40)
+> >>   #define SCO_DISCONN_TIMEOUT    (HZ * 2)
+> >>
+> >> -static void sco_sock_timeout(struct timer_list *t)
+> >> +static void sco_sock_timeout(struct work_struct *work)
+> >>   {
+> >> -       struct sock *sk = from_timer(sk, t, sk_timer);
+> >> +       struct sco_conn *conn = container_of(work, struct sco_conn,
+> >> +                                            timeout_work.work);
+> >> +       struct sock *sk;
+> >> +
+> >> +       sco_conn_lock(conn);
+> >> +       sk = conn->sk;
+> >> +       if (sk)
+> >> +               sock_hold(sk);
+> >> +       sco_conn_unlock(conn);
+> >> +
+> >> +       if (!sk)
+> >> +               return;
+> >>
+> >>          BT_DBG("sock %p state %d", sk, sk->sk_state);
+> >>
+> >> @@ -91,14 +104,27 @@ static void sco_sock_timeout(struct timer_list *t)
+> >>
+> >>   static void sco_sock_set_timer(struct sock *sk, long timeout)
+> >>   {
+> >> +       struct delayed_work *work;
 > >
-> > Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > Signed-off-by: Vinesh Raut <vineshraut2017@gmail.com>
-> > ---
-> >  Documentation/dev-tools/checkpatch.rst | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
+> > Minor nitpick but I don't think using a dedicated variable here makes
+> > much sense.
 > >
-> > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> > index f0956e9ea2d8..9cb6b9059fc6 100644
-> > --- a/Documentation/dev-tools/checkpatch.rst
-> > +++ b/Documentation/dev-tools/checkpatch.rst
-> > @@ -268,6 +268,15 @@ Allocation style
+>
+> Thanks for the feedback, Luiz. Agreed, I can make the change in the next
+> version of the series after the other patches are reviewed.
+
+Others look good, so please go ahead and send the new version once you
+address these comments.
+
+> Best wishes,
+> Desmond
+>
+> >> +       if (!sco_pi(sk)->conn)
+> >> +               return;
+> >> +       work = &sco_pi(sk)->conn->timeout_work;
+> >> +
+> >>          BT_DBG("sock %p state %d timeout %ld", sk, sk->sk_state, timeout);
+> >> -       sk_reset_timer(sk, &sk->sk_timer, jiffies + timeout);
+> >> +       cancel_delayed_work(work);
+> >> +       schedule_delayed_work(work, timeout);
+> >>   }
+> >>
+> >>   static void sco_sock_clear_timer(struct sock *sk)
+> >>   {
+> >> +       struct delayed_work *work;
 > >
-> >      See: https://www.kernel.org/doc/html/latest/core-api/memory-allocation.html
+> > Ditto.
 > >
-> > +   **UNNECESSAR_CASTS**
-
-+   **UNNECESSARY_CASTS**
-
-> > +   Cast should not be done to any alloc functions.
-> > +   Appropriate type of pointer is pick by compiler at run time
-
-+   Appropriate type of pointer is pick by compiler at runtime
-
-> s/run time/runtime
+> >> +       if (!sco_pi(sk)->conn)
+> >> +               return;
+> >> +       work = &sco_pi(sk)->conn->timeout_work;
+> >> +
+> >>          BT_DBG("sock %p state %d", sk, sk->sk_state);
+> >> -       sk_stop_timer(sk, &sk->sk_timer);
+> >> +       cancel_delayed_work(work);
+> >>   }
+> >>
+> >>   /* ---- SCO connections ---- */
+> >> @@ -179,6 +205,9 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
+> >>                  bh_unlock_sock(sk);
+> >>                  sco_sock_kill(sk);
+> >>                  sock_put(sk);
+> >> +
+> >> +               /* Ensure no more work items will run before freeing conn. */
+> >> +               cancel_delayed_work_sync(&conn->timeout_work);
+> >>          }
+> >>
+> >>          hcon->sco_data = NULL;
+> >> @@ -193,6 +222,8 @@ static void __sco_chan_add(struct sco_conn *conn, struct sock *sk,
+> >>          sco_pi(sk)->conn = conn;
+> >>          conn->sk = sk;
+> >>
+> >> +       INIT_DELAYED_WORK(&conn->timeout_work, sco_sock_timeout);
+> >> +
+> >>          if (parent)
+> >>                  bt_accept_enqueue(parent, sk, true);
+> >>   }
+> >> @@ -500,8 +531,6 @@ static struct sock *sco_sock_alloc(struct net *net, struct socket *sock,
+> >>
+> >>          sco_pi(sk)->setting = BT_VOICE_CVSD_16BIT;
+> >>
+> >> -       timer_setup(&sk->sk_timer, sco_sock_timeout, 0);
+> >> -
+> >>          bt_sock_link(&sco_sk_list, sk);
+> >>          return sk;
+> >>   }
+> >> --
+> >> 2.25.1
+> >>
+> >
+> >
 >
-> > +   Cast may hide bugs, as compiler suppresses the warning after cast.
 
 
-+   If a pointer is cast (wrongly), bugs like memory corruption,
-segmentation faults can occur.
-+   Also, It can affect functionality of the program.
-
-
->
-> The question which arises here is what kind of bug is suppressed.
-> Maybe follow http://c-faq.com/malloc/mallocnocast.html as checkpatch
-> says to write up a paragraph on why it is bad.
->
-> > +
-> > +   See:
-> > +   1] https://lore.kernel.org/lkml/20070808024321.GA6316@redhat.com/
-> > +   2] https://lore.kernel.org/lkml/a5e60a2b93e10baf84af063f6c8e56402273105d.camel@perches.com/
->
-> These links are just patches that introduced the test. There is not much
-> information about "why" they were introduced.
-
-Should I remove it?
-And I didnt found any discussion on LKML regarding  UNNECESSARY_CASTS issue,
-other than this patches.
-
->
-> Other than that change the enumeration type to be
-> uniform with the rest of the documentation maybe?
-> The thing followed till now is:
->
-> See:
->   1. link_1
->   2. link_2
-
-+   See:
-+   1. https://lore.kernel.org/lkml/20070808024321.GA6316@redhat.com/
-+   2. https://lore.kernel.org/lkml/a5e60a2b93e10baf84af063f6c8e56402273105d.camel@perches.com/
-
->
-> Dwaipayan.
+-- 
+Luiz Augusto von Dentz
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
