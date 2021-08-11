@@ -2,80 +2,100 @@ Return-Path: <SRS0=y1cr=NC=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7C42C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Aug 2021 22:12:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F8BEC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Aug 2021 23:46:53 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04D4261019
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Aug 2021 22:12:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 04D4261019
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=mess.org
+	by mail.kernel.org (Postfix) with ESMTPS id D6B9D6101D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Aug 2021 23:46:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D6B9D6101D
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A216F40205;
-	Wed, 11 Aug 2021 22:12:46 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9456C40254;
+	Wed, 11 Aug 2021 23:46:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5Bx93i7IP9Of; Wed, 11 Aug 2021 22:12:42 +0000 (UTC)
+	with ESMTP id qzsMz7VexJm8; Wed, 11 Aug 2021 23:46:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 60313402D5;
-	Wed, 11 Aug 2021 22:12:42 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A123B401E8;
+	Wed, 11 Aug 2021 23:46:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 43836C0010;
-	Wed, 11 Aug 2021 22:12:42 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 831B6C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 82055C0010;
+	Wed, 11 Aug 2021 23:46:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 160EDC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 22:12:40 +0000 (UTC)
+ Wed, 11 Aug 2021 23:46:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7270C83AC4
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0AF0A607FC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 22:12:40 +0000 (UTC)
+ Wed, 11 Aug 2021 23:46:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=mess.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sC19TdEkIqcg
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id qRDFr-bL7vix
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 22:12:36 +0000 (UTC)
-X-Greylist: delayed 00:10:00 by SQLgrey-1.8.0
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 23B3683AB4
+ Wed, 11 Aug 2021 23:46:43 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A34E1606E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 22:12:36 +0000 (UTC)
-Received: by gofer.mess.org (Postfix, from userid 1000)
- id B55E7C63FA; Wed, 11 Aug 2021 22:54:21 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
- t=1628718861; bh=wP+KfV1K5Aheg65Q3eew3Tf/ttId206mNOCxpxd/k14=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sKpPyjT6eyd2CJkNT1y9K7fKiIq7U/WLse0MX6NRuaZAoz+3xpcz4JBVeSXVF2lQA
- d+qJ2KORoXRKNndWJYgD/5g6FyQeZhH7NOOhtbufBwJBaGpg9Nb41ncS0vh/Ljxv7k
- adzmvkG91v95tnboW2LNJZLLgnylkfyozCcupoUK1jQm+yHSTHI75Imh+AVpRD3oiP
- 1RXjrqz91/UHbWoiVYnGfzOR6+L5NwAWNlEJ5TYSnUgwlSPB6pLZy1hDXOr0TrtQeX
- ZgbSYmd1ptiI4+7HbeLMCK13ZbGxCatGLxYgi9u8qzGk2ZEU6+LZM39PHH/GfHi+Ys
- MC6LZDYhDb4uA==
-Date: Wed, 11 Aug 2021 22:54:21 +0100
-From: Sean Young <sean@mess.org>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [PATCH] media: dvb-usb: fix memory leak in
- cinergyt2_frontend_attach
-Message-ID: <20210811215421.GA28513@gofer.mess.org>
-References: <20210620202317.4338-1-paskripkin@gmail.com>
+ Wed, 11 Aug 2021 23:46:43 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id oa17so6283513pjb.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Aug 2021 16:46:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nYwCxQJ9/49X2zOi88wvf0V9m4gUqdeY1chCL4IkZO4=;
+ b=aOatYWRwElPP6ZXSdCZSyUhtbaghDH/JrKjaLWQsDElEiJWHm4XQP7WBs4ISYqHB7J
+ Hf4o1W+HM5Yl8Lx5fj0WXPdJxQ8oyFF67Nbx2oz/h1yHnvdXiSZRDi3A/mphMSazT0az
+ DPD4H2Da7MNg6GufC5JFZ3rzZpGTdLvvcuBE7oZ89jNFVq6X+ier9kloRmcMooJTCYbf
+ 1Vc2PwBwz63/I5dQTe/TBgfHumS1Neyhk89cTewrfWT4moFuZF3qYBhCN0B8xnLw+H5Z
+ HiGiSBWhpg3nii0cQonrzlk+yqAPW6viczAEhQLlXcC3IsRbHWi3aXNGg0d5JZ7XK1MT
+ i0ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nYwCxQJ9/49X2zOi88wvf0V9m4gUqdeY1chCL4IkZO4=;
+ b=JoOkuzfK9Va9Zdphd4yREzWAgSriAuhV60oblDTnMRiNCQuLFtPCULS0vPf75NyvBz
+ vDEKK/xlUQyM8Q840KkzjZR7z3vWYAEV3plG6c3sfeAkffcWk4HWiwlaxKRypqCtn4Zx
+ B5/xdVxhXxqpL9q2zusm3wZNp8tjUaxDs8LanxFvp+Z0FkZLo6NR1BtT4eQyibsKAJ/Q
+ 9tjQ42eBGyWQhUadws8HoHj+W5JqDIE1g/QZeX5iG70qVJF5HjX4iOpGc2udnB4QHB7n
+ Y5Ivl5WiWoZeSotZou1cRZSVuqXx7MF2/43FVOc6PWk2SNgn+3by77MvNyFBrmZWKEuk
+ ZJrA==
+X-Gm-Message-State: AOAM532qhP1yeqQEDscLbai/Ofg2Pz5GMEAbiWFeM3JRoZ2Z+Kkw30uy
+ KoLIwOncNsJntofEnNG0zzA=
+X-Google-Smtp-Source: ABdhPJymMZJQEXJ6i/YvE3tP05Tin9dZz072nwdOhv1eKu+lLq8CDjMLVcMxDlOBiXsCtGy0ACkb+w==
+X-Received: by 2002:a17:90a:df14:: with SMTP id
+ gp20mr11043265pjb.33.1628725602917; 
+ Wed, 11 Aug 2021 16:46:42 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:6006:a148:ab4a:57a2:9e36:2395])
+ by smtp.googlemail.com with ESMTPSA id v20sm734361pgi.39.2021.08.11.16.46.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 11 Aug 2021 16:46:42 -0700 (PDT)
+From: Utkarsh Verma <utkarshverma294@gmail.com>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Subject: [PATCH] PCI: Remove duplicate #ifdef in pci_try_set_mwi()
+Date: Thu, 12 Aug 2021 05:16:01 +0530
+Message-Id: <20210811234601.341947-1-utkarshverma294@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20210620202317.4338-1-paskripkin@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: thierry.merle@free.fr, linux-kernel@vger.kernel.org,
- tomimo@ncircle.nullnet.fi, mchehab@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,63 +113,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jun 20, 2021 at 11:23:17PM +0300, Pavel Skripkin wrote:
-> My local syzbot instance hit a memory leak in
-> cinergyt2_frontend_attach() [1].
-> 
-> The problem was in non-freed dvb_frontend in case of error.
-> If dvb_usb_generic_rw() call fails, an error will be returned from
-> cinergyt2_frontend_attach() [1] and num_adapters_initialized of
-> dvb_usb_device won't be incremented. That means dvb usb library
-> won't take care of freeing allocated frontend.
+Remove the unnecessary #ifdef PCI_DISABLE_MWI, because pci_set_mwi()
+performs the same check.
 
-This issue is already fixed by:
+Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+---
+ drivers/pci/pci.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-9ad1efee086e0 media: dvd_usb: memory leak in cinergyt2_fe_attach
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index aacf575c15cf..7d4c7c294ef2 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -4456,11 +4456,7 @@ EXPORT_SYMBOL(pcim_set_mwi);
+  */
+ int pci_try_set_mwi(struct pci_dev *dev)
+ {
+-#ifdef PCI_DISABLE_MWI
+-	return 0;
+-#else
+ 	return pci_set_mwi(dev);
+-#endif
+ }
+ EXPORT_SYMBOL(pci_try_set_mwi);
+ 
+-- 
+2.25.1
 
-Thanks for reporting and making a patch though.
-
-
-Sean
-
-> 
-> Fail log:
-> BUG: memory leak
-> unreferenced object 0xffff88801d9c6000 (size 2048):
->   comm "kworker/1:3", pid 2960, jiffies 4295150569 (age 17.150s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 54 65 72 72 61 54 65 63  ........TerraTec
->     2f 71 61 6e 75 20 55 53 42 32 2e 30 20 48 69 67  /qanu USB2.0 Hig
->   backtrace:
->     [<ffffffff85e169f0>] kmalloc include/linux/slab.h:556 [inline]
->     [<ffffffff85e169f0>] kzalloc include/linux/slab.h:686 [inline]
->     [<ffffffff85e169f0>] cinergyt2_fe_attach+0x40/0x110 drivers/media/usb/dvb-usb/cinergyT2-fe.c:271
->     [<ffffffff85e15b31>] cinergyt2_frontend_attach+0x61/0x140 drivers/media/usb/dvb-usb/cinergyT2-core.c:74 [1]
->     [<ffffffff85dcd71e>] dvb_usb_adapter_frontend_init+0x35e/0x5b0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:290
->     [<ffffffff88f98e83>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:90 [inline]
->     [<ffffffff88f98e83>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
-> 
-> Fixes: 986bd1e58b18 ("V4L/DVB (9107): Alternative version of Terratec Cinergy T2
-> driver")
-> Signed-off-by: Pavel Skripkin <paskripkin@gmail.com>
-> ---
->  drivers/media/usb/dvb-usb/cinergyT2-core.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/usb/dvb-usb/cinergyT2-core.c b/drivers/media/usb/dvb-usb/cinergyT2-core.c
-> index 969a7ec71dff..fb60af097535 100644
-> --- a/drivers/media/usb/dvb-usb/cinergyT2-core.c
-> +++ b/drivers/media/usb/dvb-usb/cinergyT2-core.c
-> @@ -79,6 +79,7 @@ static int cinergyt2_frontend_attach(struct dvb_usb_adapter *adap)
->  	ret = dvb_usb_generic_rw(d, st->data, 1, st->data, 3, 0);
->  	if (ret < 0) {
->  		deb_rc("cinergyt2_power_ctrl() Failed to retrieve sleep state info\n");
-> +		kfree(adap->fe_adap[0].fe);
->  	}
->  	mutex_unlock(&d->data_mutex);
->  
-> -- 
-> 2.32.0
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
