@@ -2,85 +2,108 @@ Return-Path: <SRS0=gjYE=ND=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F8DC4320A
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 05:19:22 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C5FC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 06:49:37 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id BEA6360FD7
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 05:19:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BEA6360FD7
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id E05D060EB9
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 06:49:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E05D060EB9
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=kroah.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 72C10402AB;
-	Thu, 12 Aug 2021 05:19:21 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id ABC384048C;
+	Thu, 12 Aug 2021 06:49:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uPHq7IrqwL9A; Thu, 12 Aug 2021 05:19:17 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QHQ2ueMNit77; Thu, 12 Aug 2021 06:49:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0DC2E4002B;
-	Thu, 12 Aug 2021 05:19:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id F0CBC40016;
+	Thu, 12 Aug 2021 06:49:32 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4DC3C0010;
-	Thu, 12 Aug 2021 05:19:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D1247C0010;
+	Thu, 12 Aug 2021 06:49:32 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3B75C000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 042E9C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 05:19:15 +0000 (UTC)
+ Thu, 12 Aug 2021 06:49:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8C9DC40609
+ by smtp4.osuosl.org (Postfix) with ESMTP id D41F14016D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 05:19:15 +0000 (UTC)
+ Thu, 12 Aug 2021 06:49:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id W1GvpVOreTEz
+ with ESMTP id iB-8hPLoZvJ8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 05:19:11 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 3F1E440608
+ Thu, 12 Aug 2021 06:49:26 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
+ [66.111.4.26])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 345D440016
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 05:19:11 +0000 (UTC)
-Received: by mail-io1-f70.google.com with SMTP id
- x13-20020a5eda0d0000b02905976d643e4cso2859524ioj.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 22:19:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
- :from:to;
- bh=vAYClqij0nGxn6pQX2zV5X7oi626A4U9/u4hsAbCSsk=;
- b=hWIoX1PDOoo1NIVtrmdwb4uX5gkGddsGuSVu4Zv2kH6xnD2eCLpBBWfD51VZ/O9ePn
- jTc4dGyb1IEGQJnpDoyPnYgtO5bWj99fDl3kyRhCy/Xl4Geho/56xX98b0kWHNdfYneJ
- PFUGG6dvnzL0KLGPNT6Do/wNEZ1OTrQzXaZ4wKYqifNQNU1g37anYqQQRjuhRVvweE19
- BwQAGUl7qwU4+YY/Kugz35u0urQ/ztyoGpG8ZVaS2UGVUuFFNVb8sHNSsiK4HU6zVWMw
- bzo+S4n982rEIv6/k9moZhlwza7HBcITirpHKbB6qDZeM6muwJSaY/WuXTnfktBXM7rg
- EPAg==
-X-Gm-Message-State: AOAM5312w/F5gC0Knl3qhwZraklGl2xBCDA8k7Q0V34x8/eTvurSywr/
- 7jA28RXTEgWrEMAlKQwR20WEgRaW/Vlbcl/5ky0qbgDRQXpK
-X-Google-Smtp-Source: ABdhPJwKnImalox7HdHKi7x9YHaW3z1Q/MyGYUO2gKpwVxsARpknotR0UEuiqgT7eCH1tXhs/b0QjX8Urm5c+ETchZAr4asAvYIr
+ Thu, 12 Aug 2021 06:49:26 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id DF8255C00EB;
+ Thu, 12 Aug 2021 02:49:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Thu, 12 Aug 2021 02:49:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=7tumxtnlUFmqcDNOcJ47r7kQUco
+ YA0a+Ye8p8V4K8f4=; b=g/5E8jn8FWxiDYkpiYRmkneKF9SN4WjUCz7ct7j0OQT
+ sEXB3cQ6CqMTn75GHh+X0oG5r7A9gYK2/dqC1rn0Nhy5ayMild9xn1wXIBsLgd8y
+ anuNOwQnpynWmuUy8c+Uo1GcsIEdvUhAVPM8Mx+VMUkqNaodprxX3PAUkgJsEz3a
+ mz9+b36kumggPgFKxL75s7i7FMlIQ2YFfBtcs+a8hQa0jWiiloqdMhQ1hRhfbRAs
+ lZUao9xbGY56Qwk/h6kpU7YBR+uF2j5K9s14BPS5yJ45VK2bqHUq3AMGzpVj4bDA
+ uj/SvD8hQ9D0XZyNgcoBugEoec9QdZWkXwaOsAaAOQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7tumxt
+ nlUFmqcDNOcJ47r7kQUcoYA0a+Ye8p8V4K8f4=; b=nRfbpaXW0mrcWyOUxOA3Dp
+ cLQn9yUvRtuuhFejrpsoWoP8QCjyaEepM0FjKqIEprRgB5U9V942gJsPhbA5OnPt
+ VnvI5pq3ubX+9mg1mJUX/yA8kI1Nzw75+hFLKjMwYstjiwgr9SnMYyfpB35O5TJ2
+ U13ZSiqPajZGRXJhsp7h4rFjz9tT6Tt7eaDYVNSNO8cNjGsXYTD9c9+psFnApu/p
+ ehMKEsTBOZMVnIKYzLCAjgafiJTntwNyJOE6dGrgOUkU1saSU/AUPlFf2NrAbDPg
+ 7JRmHqoSzVRyZ0iaY+Ys9/Suhq2wDCJK36K0sJuKTve8kF2BgmKkZjMXOZlQbSXg
+ ==
+X-ME-Sender: <xms:dMQUYQphzqRkZ2HiEbkss8afgKmhm_y0dfSSShNW0FupZyOq83qoUg>
+ <xme:dMQUYWppPADCfRGeS6-EHieeq9pKD4rpBBaDwM_DMEeTfMpqHKPDq3gR7C8AnLDHe
+ gWn37lFWx2YVw>
+X-ME-Received: <xmr:dMQUYVN2hnHJSi9WE7WZV8RFmB1-M34hLiBrtyhXBo0o3WY_U02oM4gANZEGTIHTGfmxmVLUzCEZDxmnHvPNfJC2uAM56Gst>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrkedvgddutdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
+ mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
+ fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucevlhhushht
+ vghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhh
+ drtghomh
+X-ME-Proxy: <xmx:dMQUYX5f9ndG9qfz2Dl1Wm0Q6kbMiSyCMYapAkijLh-DuqIhQ2-B7g>
+ <xmx:dMQUYf6gHfaqoEV9-qyF49xF2elM8TvK0Ilom7aNjgZ5eAyk8_dbjg>
+ <xmx:dMQUYXhcUJjcEuM-RdCfZ_oiCzbaGRstggucEvkekK88_PWXBpMtHg>
+ <xmx:dMQUYZuZW9V_OZNExTQ16o9gYwhPkcat1JpG_lf29AM9NMK8WEon5A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 12 Aug 2021 02:49:24 -0400 (EDT)
+Date: Thu, 12 Aug 2021 08:49:21 +0200
+From: Greg KH <greg@kroah.com>
+To: Utkarsh Verma <utkarshverma294@gmail.com>
+Subject: Re: [PATCH] PCI: Remove duplicate #ifdef in pci_try_set_mwi()
+Message-ID: <YRTEcd0S2/2XlL7p@kroah.com>
+References: <20210811234601.341947-1-utkarshverma294@gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a92:b308:: with SMTP id p8mr1541359ilh.296.1628745550454; 
- Wed, 11 Aug 2021 22:19:10 -0700 (PDT)
-Date: Wed, 11 Aug 2021 22:19:10 -0700
-In-Reply-To: <20210812045047.2548-1-hdanton@sina.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f6e6b305c955dff5@google.com>
-Subject: Re: [syzbot] memory leak in packet_sendmsg
-From: syzbot <syzbot+989efe781c74de1ddb54@syzkaller.appspotmail.com>
-To: hdanton@sina.com, linux-kernel-mentees@lists.linuxfoundation.org, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, phind.uet@gmail.com, 
- syzkaller-bugs@googlegroups.com
+Content-Disposition: inline
+In-Reply-To: <20210811234601.341947-1-utkarshverma294@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,24 +121,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello,
+On Thu, Aug 12, 2021 at 05:16:01AM +0530, Utkarsh Verma wrote:
+> Remove the unnecessary #ifdef PCI_DISABLE_MWI, because pci_set_mwi()
+> performs the same check.
+> 
+> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> ---
+>  drivers/pci/pci.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index aacf575c15cf..7d4c7c294ef2 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4456,11 +4456,7 @@ EXPORT_SYMBOL(pcim_set_mwi);
+>   */
+>  int pci_try_set_mwi(struct pci_dev *dev)
+>  {
+> -#ifdef PCI_DISABLE_MWI
+> -	return 0;
+> -#else
+>  	return pci_set_mwi(dev);
+> -#endif
+>  }
+>  EXPORT_SYMBOL(pci_try_set_mwi);
 
-syzbot tried to test the proposed patch but the build/boot failed:
+If this is the case, why do we even need pci_try_set_mwi()?  Why not
+just replace it with calls to pci_set_mwi() and then delete this one?
 
-failed to apply patch:
-checking file net/core/dev.c
-patch: **** unexpected end of file in patch
+thanks,
 
-
-
-Tested on:
-
-commit:         761c6d7e Merge tag 'arc-5.14-rc6' of git://git.kernel...
-git tree:       upstream
-dashboard link: https://syzkaller.appspot.com/bug?extid=989efe781c74de1ddb54
-compiler:       
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=147a5779300000
-
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
