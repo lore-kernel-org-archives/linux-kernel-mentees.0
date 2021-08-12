@@ -2,102 +2,104 @@ Return-Path: <SRS0=gjYE=ND=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75C3C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 07:07:45 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EB3C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 10:41:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 7B8DD6103E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 07:07:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 7B8DD6103E
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=lists.linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id 3D12360FD7
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 10:41:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3D12360FD7
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 44DFF80B39;
-	Thu, 12 Aug 2021 07:07:45 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E6A0F40623;
+	Thu, 12 Aug 2021 10:41:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9EbjthuWkEi8; Thu, 12 Aug 2021 07:07:41 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5884980B3A;
-	Thu, 12 Aug 2021 07:07:41 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oNV4mw2tfoYd; Thu, 12 Aug 2021 10:41:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id BECB4405F5;
+	Thu, 12 Aug 2021 10:41:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3209EC0010;
-	Thu, 12 Aug 2021 07:07:41 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D712C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A093C0010;
+	Thu, 12 Aug 2021 10:41:53 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1EF1CC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 07:07:39 +0000 (UTC)
+ Thu, 12 Aug 2021 10:41:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EA01880B3A
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0744560B83
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 07:07:38 +0000 (UTC)
+ Thu, 12 Aug 2021 10:41:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sj3OTWUoGwJE
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=suse.cz header.b="J6twbbsa";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=suse.cz header.b="GWCVhMT+"
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YL1s5KbOHqBT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 07:07:38 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
- [IPv6:2607:f8b0:4864:20::b2f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3E18F80B39
+ Thu, 12 Aug 2021 10:41:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9B5C3605D9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 07:07:38 +0000 (UTC)
-Received: by mail-yb1-xb2f.google.com with SMTP id p4so9809192yba.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 00:07:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qNbadYpEdJVuH8IgME6HLnqMP9VEAKKImPC7HomiMdE=;
- b=EZh5Vi7dnJV+CsZFIWmVlgH8ElUJ+2gtNAZh5NOT7HwuyPBTzLSN1M5eX/k0PSey87
- E3sObwmwcGZaXoaW1c8/RW7SUPRYJbu6iL6EwjeP0wTiE24/siJnc7Lhj5CF/KeZVCtP
- fBaG66NmQ6h6FTRheBv+pz1Tu0n1reibJy9QdvO4uOxnrwxf2AO/MMafwAJNWVT/ocxX
- 2Tiz3AWP8qeJ8JlFry8IvgiW1h2wTtZl4Bp3qULM2EbcWtU7EHOfVtnPuoeaVNe988l6
- 4LXMPCrCBPTynZFuDZf6q03wNx+20itUZrEcihJ9TQNSkaq/GIDEyeeoy0+90D3egGDn
- 6Nhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qNbadYpEdJVuH8IgME6HLnqMP9VEAKKImPC7HomiMdE=;
- b=c5Mt5XMebD7UP+z/c6Kjc6JsxsXmdVgCe28X064wOY9v0jt/Qnj2KnR2/1FKrZUnd0
- zoJjVdzkkkd/NLT314xoU5P4H6NO2qhtOlWmnj2YFDsA18mGa1yOJSuEslUvb773tgRI
- LsYZC5ylLtw8dLWbEjlmgjx3lRn4okII28A23F0J+p688mqxuutFE6H4VFdxewYHtXm2
- EcblOWUsqUkW+lBfsHyR5ZqSGinT6l/g+c9LRbdatRyesflBtWAsoLbaBdn3t6NSA2Hw
- pdAd9uz6clKB1E7jUUVynBVCF2ABLiVX+HxKm9YyIEz/vJMZFjwQq5g+ZBhtggmAIWKx
- ukOQ==
-X-Gm-Message-State: AOAM533zwBexfwLBkkcr7w4TjTUcrtUli5vQuzKDVPol4eBns8+r/nBd
- 53SwVXMjAPcHdpzje1nLQ3o6FyW+UNw3ivMpf4nbzA==
-X-Google-Smtp-Source: ABdhPJz4R9WwiWRLBaxIdLeSpTQe1Orbq+PuyORfqX/1JHJwCICUFP6LIBDpoLgZ9L+Z5WysNNJSVOWKhNAHK6H7dZo=
-X-Received: by 2002:a25:ea51:: with SMTP id o17mr2748444ybe.253.1628752056761; 
- Thu, 12 Aug 2021 00:07:36 -0700 (PDT)
+ Thu, 12 Aug 2021 10:41:47 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out1.suse.de (Postfix) with ESMTP id A46AD22268;
+ Thu, 12 Aug 2021 10:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1628764904;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WLaDCGpLgaD0uedP6SFyCk6Ki6nEduqBk8ElNDyTxhQ=;
+ b=J6twbbsaOTo7Lkl3c0ZHTYlP3y6pBfORenklXCr/1RZsljM3NkkI2KihowQqTW2F+UCRy1
+ fSRMa6c2CHIi2QfvSr8TVeowE+1CAmvvBZfJqdOr9EXq/e/iO1irNN8WsCNqC3VLxhdTKH
+ Xakx8oGZSdFdK2UU4mLmrhv04jny0v4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1628764904;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WLaDCGpLgaD0uedP6SFyCk6Ki6nEduqBk8ElNDyTxhQ=;
+ b=GWCVhMT+df21pSNaxBg2B9NW00p3GClvwR6jmNgBi9ETh0pyV54RSk7OSpTwE33o5bI8pw
+ t9mNi0/gU/m8e5Dw==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+ by relay2.suse.de (Postfix) with ESMTP id 81987A3ED3;
+ Thu, 12 Aug 2021 10:41:44 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+ id 35D2FDA733; Thu, 12 Aug 2021 12:38:51 +0200 (CEST)
+Date: Thu, 12 Aug 2021 12:38:51 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v2] btrfs: fix rw device counting in
+ __btrfs_free_extra_devids
+Message-ID: <20210812103851.GC5047@twin.jikos.cz>
+Mail-Followup-To: dsterba@suse.cz,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
+ josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
+ linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+References: <20210727071303.113876-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-References: <20210811235959.1099333-1-phind.uet@gmail.com>
-In-Reply-To: <20210811235959.1099333-1-phind.uet@gmail.com>
-Date: Thu, 12 Aug 2021 09:07:25 +0200
-Message-ID: <CANn89iLQj4Xm-6Bcygtkd5QqDzmJBDALznL8mEJrF1Fh_W32iQ@mail.gmail.com>
-Subject: Re: [PATCH] net: drop skbs in napi->rx_list when removing the napi
- context.
-To: Nguyen Dinh Phi <phind.uet@gmail.com>
-Cc: Song Liu <songliubraving@fb.com>, Alexander Lobakin <alobakin@pm.me>,
- syzbot+989efe781c74de1ddb54@syzkaller.appspotmail.com,
- Alexei Starovoitov <ast@kernel.org>, Wei Wang <weiwan@google.com>,
- Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>, Andrii Nakryiko <andrii@kernel.org>,
- Yonghong Song <yhs@fb.com>, linux-kernel-mentees@lists.linuxfoundation.org,
- Jesper Dangaard Brouer <hawk@kernel.org>, kpsingh@kernel.org, memxor@gmail.com,
- Jakub Kicinski <kuba@kernel.org>, netdev <netdev@vger.kernel.org>,
- Antoine Tenart <atenart@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- David Miller <davem@davemloft.net>,
- =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, bpf <bpf@vger.kernel.org>,
- Martin KaFai Lau <kafai@fb.com>, Taehee Yoo <ap420073@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20210727071303.113876-1-desmondcheongzx@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, josef@toxicpanda.com,
+ anand.jain@oracle.com, linux-kernel@vger.kernel.org, clm@fb.com,
+ dsterba@suse.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-btrfs@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,74 +111,124 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Eric Dumazet via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Eric Dumazet <edumazet@google.com>
+Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Aug 12, 2021 at 2:00 AM Nguyen Dinh Phi <phind.uet@gmail.com> wrote:
->
-> The napi->rx_list is used to hold the GRO_NORMAL skbs before passing
-> them to the stack, these skbs only passed to stack at the flush time or
-> when the list's weight matches the predefined condition. In case the
-> rx_list contains pending skbs when we remove the napi context, we need
-> to clean out this list, otherwise, a memory leak will happen.
->
-> Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
-> Reported-by: syzbot+989efe781c74de1ddb54@syzkaller.appspotmail.com
-
-Thank you for working on this.
-
-Please add a Fixes: tag, otherwise you are asking maintainers and
-stable teams to find the original bug,
-while you are in a much better position, since you spent time on
-fixing the issue.
-
-Also I object to this fix.
-
-If packets have been stored temporarily in GRO, they should be
-released at some point,
-normally at the end of a napi poll.
-
-By released, I mean that these packets should reach the upper stack,
-instead of being dropped without
-any notification.
-
-It seems a call to gro_normal_list() is missing somewhere.
-
-Can you find where ?
-
-Thanks !
-
+On Tue, Jul 27, 2021 at 03:13:03PM +0800, Desmond Cheong Zhi Xi wrote:
+> When removing a writeable device in __btrfs_free_extra_devids, the rw
+> device count should be decremented.
+> 
+> This error was caught by Syzbot which reported a warning in
+> close_fs_devices because fs_devices->rw_devices was not 0 after
+> closing all devices. Here is the call trace that was observed:
+> 
+>   btrfs_mount_root():
+>     btrfs_scan_one_device():
+>       device_list_add();   <---------------- device added
+>     btrfs_open_devices():
+>       open_fs_devices():
+>         btrfs_open_one_device();   <-------- writable device opened,
+> 	                                     rw device count ++
+>     btrfs_fill_super():
+>       open_ctree():
+>         btrfs_free_extra_devids():
+> 	  __btrfs_free_extra_devids();  <--- writable device removed,
+> 	                              rw device count not decremented
+> 	  fail_tree_roots:
+> 	    btrfs_close_devices():
+> 	      close_fs_devices();   <------- rw device count off by 1
+> 
+> As a note, prior to commit cf89af146b7e ("btrfs: dev-replace: fail
+> mount if we don't have replace item with target device"), rw_devices
+> was decremented on removing a writable device in
+> __btrfs_free_extra_devids only if the BTRFS_DEV_STATE_REPLACE_TGT bit
+> was not set for the device. However, this check does not need to be
+> reinstated as it is now redundant and incorrect.
+> 
+> In __btrfs_free_extra_devids, we skip removing the device if it is the
+> target for replacement. This is done by checking whether device->devid
+> == BTRFS_DEV_REPLACE_DEVID. Since BTRFS_DEV_STATE_REPLACE_TGT is set
+> only on the device with devid BTRFS_DEV_REPLACE_DEVID, no devices
+> should have the BTRFS_DEV_STATE_REPLACE_TGT bit set after the check,
+> and so it's redundant to test for that bit.
+> 
+> Additionally, following commit 82372bc816d7 ("Btrfs: make
+> the logic of source device removing more clear"), rw_devices is
+> incremented whenever a writeable device is added to the alloc
+> list (including the target device in btrfs_dev_replace_finishing), so
+> all removals of writable devices from the alloc list should also be
+> accompanied by a decrement to rw_devices.
+> 
+> Fixes: cf89af146b7e ("btrfs: dev-replace: fail mount if we don't have replace item with target device")
+> Reported-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+> Tested-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> Reviewed-by: Anand Jain <anand.jain@oracle.com>
 > ---
->  net/core/dev.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index b51e41d0a7fe..319fffc62ce6 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -7038,6 +7038,13 @@ void __netif_napi_del(struct napi_struct *napi)
->         list_del_rcu(&napi->dev_list);
->         napi_free_frags(napi);
->
-> +       if (napi->rx_count) {
-> +               struct sk_buff *skb, *n;
-> +
-> +               list_for_each_entry_safe(skb, n, &napi->rx_list, list)
-> +                       kfree_skb(skb);
-> +       }
-> +
->         flush_gro_hash(napi);
->         napi->gro_bitmask = 0;
->
-> --
-> 2.25.1
->
+>  fs/btrfs/volumes.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
+> index 807502cd6510..916c25371658 100644
+> --- a/fs/btrfs/volumes.c
+> +++ b/fs/btrfs/volumes.c
+> @@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
+>  		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
+>  			list_del_init(&device->dev_alloc_list);
+>  			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
+> +			fs_devices->rw_devices--;
+>  		}
+>  		list_del_init(&device->dev_list);
+>  		fs_devices->num_devices--;
+
+I've hit a crash on master branch with stacktrace very similar to one
+this bug was supposed to fix. It's a failed assertion on device close.
+This patch was the last one to touch it and it matches some of the
+keywords, namely the BTRFS_DEV_STATE_REPLACE_TGT bit that used to be in
+the original patch but was not reinstated in your fix.
+
+I'm not sure how reproducible it is, right now I have only one instance
+and am hunting another strange problem. They could be related.
+
+assertion failed: !test_bit(BTRFS_DEV_STATE_REPLACE_TGT, &device->dev_state), in fs/btrfs/volumes.c:1150
+
+https://susepaste.org/view/raw/18223056 full log with other stacktraces,
+possibly relatedg
+
+[ 3310.383268] kernel BUG at fs/btrfs/ctree.h:3431!
+[ 3310.384586] invalid opcode: 0000 [#1] PREEMPT SMP
+[ 3310.385848] CPU: 1 PID: 3982 Comm: umount Tainted: G        W         5.14.0-rc5-default+ #1532
+[ 3310.388216] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
+[ 3310.391054] RIP: 0010:assertfail.constprop.0+0x18/0x1a [btrfs]
+[ 3310.397628] RSP: 0018:ffffb7a5454c7db8 EFLAGS: 00010246
+[ 3310.399079] RAX: 0000000000000068 RBX: ffff978364b91c00 RCX: 0000000000000000
+[ 3310.400990] RDX: 0000000000000000 RSI: ffffffffabee13c4 RDI: 00000000ffffffff
+[ 3310.402504] RBP: ffff9783523a4c00 R08: 0000000000000001 R09: 0000000000000001
+[ 3310.404025] R10: 0000000000000000 R11: 0000000000000001 R12: ffff9783523a4d18
+[ 3310.405074] R13: 0000000000000000 R14: 0000000000000004 R15: 0000000000000003
+[ 3310.406130] FS:  00007f61c8f42800(0000) GS:ffff9783bd800000(0000) knlGS:0000000000000000
+[ 3310.407649] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 3310.409022] CR2: 000056190cffa810 CR3: 0000000030b96002 CR4: 0000000000170ea0
+[ 3310.410111] Call Trace:
+[ 3310.410561]  btrfs_close_one_device.cold+0x11/0x55 [btrfs]
+[ 3310.411788]  close_fs_devices+0x44/0xb0 [btrfs]
+[ 3310.412654]  btrfs_close_devices+0x48/0x160 [btrfs]
+[ 3310.413449]  generic_shutdown_super+0x69/0x100
+[ 3310.414155]  kill_anon_super+0x14/0x30
+[ 3310.414802]  btrfs_kill_super+0x12/0x20 [btrfs]
+[ 3310.415767]  deactivate_locked_super+0x2c/0xa0
+[ 3310.416562]  cleanup_mnt+0x144/0x1b0
+[ 3310.417153]  task_work_run+0x59/0xa0
+[ 3310.417744]  exit_to_user_mode_loop+0xe7/0xf0
+[ 3310.418440]  exit_to_user_mode_prepare+0xaf/0xf0
+[ 3310.419425]  syscall_exit_to_user_mode+0x19/0x50
+[ 3310.420281]  do_syscall_64+0x4a/0x90
+[ 3310.420934]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[ 3310.421718] RIP: 0033:0x7f61c91654db
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
