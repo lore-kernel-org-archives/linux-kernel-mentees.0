@@ -2,104 +2,103 @@ Return-Path: <SRS0=gjYE=ND=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9EB3C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 10:41:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC16C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 10:55:56 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3D12360FD7
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 10:41:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3D12360FD7
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+	by mail.kernel.org (Postfix) with ESMTPS id 767D560F11
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Aug 2021 10:55:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 767D560F11
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E6A0F40623;
-	Thu, 12 Aug 2021 10:41:57 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 35136404D8;
+	Thu, 12 Aug 2021 10:55:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oNV4mw2tfoYd; Thu, 12 Aug 2021 10:41:53 +0000 (UTC)
+	with ESMTP id DylQsrRLd3Aj; Thu, 12 Aug 2021 10:55:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id BECB4405F5;
-	Thu, 12 Aug 2021 10:41:53 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3452B40538;
+	Thu, 12 Aug 2021 10:55:52 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A093C0010;
-	Thu, 12 Aug 2021 10:41:53 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1EF1CC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0503CC0010;
+	Thu, 12 Aug 2021 10:55:52 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E361BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 10:41:52 +0000 (UTC)
+ Thu, 12 Aug 2021 10:55:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 0744560B83
+ by smtp1.osuosl.org (Postfix) with ESMTP id CD3EE80C79
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 10:41:52 +0000 (UTC)
+ Thu, 12 Aug 2021 10:55:50 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=suse.cz header.b="J6twbbsa";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=suse.cz header.b="GWCVhMT+"
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id YL1s5KbOHqBT
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ccvna3fdpAT3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 10:41:47 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9B5C3605D9
+ Thu, 12 Aug 2021 10:55:50 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1070580C77
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Aug 2021 10:41:47 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out1.suse.de (Postfix) with ESMTP id A46AD22268;
- Thu, 12 Aug 2021 10:41:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1628764904;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WLaDCGpLgaD0uedP6SFyCk6Ki6nEduqBk8ElNDyTxhQ=;
- b=J6twbbsaOTo7Lkl3c0ZHTYlP3y6pBfORenklXCr/1RZsljM3NkkI2KihowQqTW2F+UCRy1
- fSRMa6c2CHIi2QfvSr8TVeowE+1CAmvvBZfJqdOr9EXq/e/iO1irNN8WsCNqC3VLxhdTKH
- Xakx8oGZSdFdK2UU4mLmrhv04jny0v4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1628764904;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WLaDCGpLgaD0uedP6SFyCk6Ki6nEduqBk8ElNDyTxhQ=;
- b=GWCVhMT+df21pSNaxBg2B9NW00p3GClvwR6jmNgBi9ETh0pyV54RSk7OSpTwE33o5bI8pw
- t9mNi0/gU/m8e5Dw==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id 81987A3ED3;
- Thu, 12 Aug 2021 10:41:44 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id 35D2FDA733; Thu, 12 Aug 2021 12:38:51 +0200 (CEST)
-Date: Thu, 12 Aug 2021 12:38:51 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH v2] btrfs: fix rw device counting in
- __btrfs_free_extra_devids
-Message-ID: <20210812103851.GC5047@twin.jikos.cz>
-Mail-Followup-To: dsterba@suse.cz,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
- josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
- linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
-References: <20210727071303.113876-1-desmondcheongzx@gmail.com>
+ Thu, 12 Aug 2021 10:55:49 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id q2so6742438plr.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 12 Aug 2021 03:55:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=eq9Xh1F7xdY3qhY4IzprUVHF5yW7bLehYY5/rO8uEeA=;
+ b=GJOkBGonE+ybwwOlKpANl+y0qg5PXXeou55G7E5sGB25X97XoOQ54LoA0xAFS2XrFC
+ kY2LA0BtFa1QII2X6O8kmiuleMpLKt7ZG+ABldp3wLqx7gDKO+IOg+TwxZ5fz9zm2GU/
+ rpGNu1dVjC115xDXeTe3zAKYLpHiySWQod3s4pcIBxvaeoq/DB7rjcgVcDhsFAuFk4UA
+ ix0yacAO1vOLUllzUvR4aRHLEgW9bFxzz6tYtqRrEpQXizwYkW+/uw+ygQvsC6W7Mkd6
+ ACo1KAebCYYIcgxHraY6s1qTf8mhVDcroXpkRvK2EwWTNJzdYPXYVcEbtbYxlge/7dsJ
+ LdYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=eq9Xh1F7xdY3qhY4IzprUVHF5yW7bLehYY5/rO8uEeA=;
+ b=Z4YW0Avuxuegl/xCco15OX+UPsW4pZu6PP+D71LUnXIlHn65uwjKkL93noPn7M6xXy
+ vu0v89ifFShTvdL3kJKjqUkgIH50kagw5P4X9pOEBgdyXlKdl5BGgnVhP72hBgs0ihkO
+ gQrn1dFc/9lxvGCpsrtZfmo3vL32VAJ7EDgzydWHzK028w8fM1NltnoPJr7LiXbdbm9o
+ jsT9R7LssZIrn34BIjr5SAgwfduhW2JYX9zLOSc7BD88jmqeFLw8hmMtFASb7/R+D16l
+ ZkV/KfFPocrJFhW3mxkr87ZvCLHTM2S+bH8pNq8hVoOCVoPgpZuWEdZJ5ulN0AbYMvJj
+ A+HA==
+X-Gm-Message-State: AOAM531+1a6tD7RAISgJA0/8nvganFfczyU+Ea7k4Mvwhqqirq1cHVIf
+ ot+4hWoTvdYN2Da8n4XnLIM=
+X-Google-Smtp-Source: ABdhPJyb+lVLZvTwmpYzxubeLGi3KVZEZfje3QngJArxyahIJNOVk58p4KTNvs4FIxI9O7eornU8xA==
+X-Received: by 2002:a17:902:bf48:b0:12d:8409:48ca with SMTP id
+ u8-20020a170902bf4800b0012d840948camr680721pls.9.1628765749254; 
+ Thu, 12 Aug 2021 03:55:49 -0700 (PDT)
+Received: from uver-laptop ([2405:201:6006:a148:da50:248a:1651:e22d])
+ by smtp.gmail.com with ESMTPSA id j5sm3219757pgg.41.2021.08.12.03.55.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 12 Aug 2021 03:55:48 -0700 (PDT)
+Date: Thu, 12 Aug 2021 16:25:37 +0530
+From: Utkarsh Verma <utkarshverma294@gmail.com>
+To: Greg KH <greg@kroah.com>
+Subject: Re: [PATCH] PCI: Remove duplicate #ifdef in pci_try_set_mwi()
+Message-ID: <20210812105537.GA9541@uver-laptop>
+References: <20210811234601.341947-1-utkarshverma294@gmail.com>
+ <YRTEcd0S2/2XlL7p@kroah.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210727071303.113876-1-desmondcheongzx@gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, josef@toxicpanda.com,
- anand.jain@oracle.com, linux-kernel@vger.kernel.org, clm@fb.com,
- dsterba@suse.com, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-btrfs@vger.kernel.org
+In-Reply-To: <YRTEcd0S2/2XlL7p@kroah.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,124 +110,72 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 27, 2021 at 03:13:03PM +0800, Desmond Cheong Zhi Xi wrote:
-> When removing a writeable device in __btrfs_free_extra_devids, the rw
-> device count should be decremented.
+On Thu, Aug 12, 2021 at 08:49:21AM +0200, Greg KH wrote:
+> On Thu, Aug 12, 2021 at 05:16:01AM +0530, Utkarsh Verma wrote:
+> > Remove the unnecessary #ifdef PCI_DISABLE_MWI, because pci_set_mwi()
+> > performs the same check.
+> > 
+> > Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
+> > ---
+> >  drivers/pci/pci.c | 4 ----
+> >  1 file changed, 4 deletions(-)
+> > 
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> > index aacf575c15cf..7d4c7c294ef2 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -4456,11 +4456,7 @@ EXPORT_SYMBOL(pcim_set_mwi);
+> >   */
+> >  int pci_try_set_mwi(struct pci_dev *dev)
+> >  {
+> > -#ifdef PCI_DISABLE_MWI
+> > -	return 0;
+> > -#else
+> >  	return pci_set_mwi(dev);
+> > -#endif
+> >  }
+> >  EXPORT_SYMBOL(pci_try_set_mwi);
 > 
-> This error was caught by Syzbot which reported a warning in
-> close_fs_devices because fs_devices->rw_devices was not 0 after
-> closing all devices. Here is the call trace that was observed:
-> 
->   btrfs_mount_root():
->     btrfs_scan_one_device():
->       device_list_add();   <---------------- device added
->     btrfs_open_devices():
->       open_fs_devices():
->         btrfs_open_one_device();   <-------- writable device opened,
-> 	                                     rw device count ++
->     btrfs_fill_super():
->       open_ctree():
->         btrfs_free_extra_devids():
-> 	  __btrfs_free_extra_devids();  <--- writable device removed,
-> 	                              rw device count not decremented
-> 	  fail_tree_roots:
-> 	    btrfs_close_devices():
-> 	      close_fs_devices();   <------- rw device count off by 1
-> 
-> As a note, prior to commit cf89af146b7e ("btrfs: dev-replace: fail
-> mount if we don't have replace item with target device"), rw_devices
-> was decremented on removing a writable device in
-> __btrfs_free_extra_devids only if the BTRFS_DEV_STATE_REPLACE_TGT bit
-> was not set for the device. However, this check does not need to be
-> reinstated as it is now redundant and incorrect.
-> 
-> In __btrfs_free_extra_devids, we skip removing the device if it is the
-> target for replacement. This is done by checking whether device->devid
-> == BTRFS_DEV_REPLACE_DEVID. Since BTRFS_DEV_STATE_REPLACE_TGT is set
-> only on the device with devid BTRFS_DEV_REPLACE_DEVID, no devices
-> should have the BTRFS_DEV_STATE_REPLACE_TGT bit set after the check,
-> and so it's redundant to test for that bit.
-> 
-> Additionally, following commit 82372bc816d7 ("Btrfs: make
-> the logic of source device removing more clear"), rw_devices is
-> incremented whenever a writeable device is added to the alloc
-> list (including the target device in btrfs_dev_replace_finishing), so
-> all removals of writable devices from the alloc list should also be
-> accompanied by a decrement to rw_devices.
-> 
-> Fixes: cf89af146b7e ("btrfs: dev-replace: fail mount if we don't have replace item with target device")
-> Reported-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
-> Tested-by: syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> Reviewed-by: Anand Jain <anand.jain@oracle.com>
-> ---
->  fs/btrfs/volumes.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
-> index 807502cd6510..916c25371658 100644
-> --- a/fs/btrfs/volumes.c
-> +++ b/fs/btrfs/volumes.c
-> @@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
->  		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
->  			list_del_init(&device->dev_alloc_list);
->  			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
-> +			fs_devices->rw_devices--;
->  		}
->  		list_del_init(&device->dev_list);
->  		fs_devices->num_devices--;
+> If this is the case, why do we even need pci_try_set_mwi()?  Why not
+> just replace it with calls to pci_set_mwi() and then delete this one?
 
-I've hit a crash on master branch with stacktrace very similar to one
-this bug was supposed to fix. It's a failed assertion on device close.
-This patch was the last one to touch it and it matches some of the
-keywords, namely the BTRFS_DEV_STATE_REPLACE_TGT bit that used to be in
-the original patch but was not reinstated in your fix.
+The only difference between the pci_set_mwi() and pci_try_set_mwi() is
+that, pci_set_mwi() is declared as __must_check which forces return
+value checking.
 
-I'm not sure how reproducible it is, right now I have only one instance
-and am hunting another strange problem. They could be related.
+The reason why pci_try_set_mwi() was introduced in the first place was
+because it gives the drivers both options:
+(1) most of the drivers don't require checking the return value, and
+they can safely ignore the errors values returned if any, so
+pci_try_set_mwi() can be used.
+(2) But for some of the drivers it is nice to check the return values,
+and generate proper warnings for error handling. By using the
+pci_set_mwi(), we force the driver for proper error checking.
 
-assertion failed: !test_bit(BTRFS_DEV_STATE_REPLACE_TGT, &device->dev_state), in fs/btrfs/volumes.c:1150
+So both the functions are similar but have different purposes, and it
+seems a more appropriate design.
+The whole argument about adding this function:
+https://lore.kernel.org/linux-ide/20070404213704.224128ec.randy.dunlap@oracle.com/
 
-https://susepaste.org/view/raw/18223056 full log with other stacktraces,
-possibly relatedg
+Also earlier there was a patch that removed the pci_try_set_mwi() and
+__must_check attribute from pci_set_mwi(), just like you wanted,
+https://lore.kernel.org/linux-pci/4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com/
+But it was not accepted because Bjorn wasn't convinced and he also gave
+the above argument and that we should not break something in the name of
+cleaning it up.
 
-[ 3310.383268] kernel BUG at fs/btrfs/ctree.h:3431!
-[ 3310.384586] invalid opcode: 0000 [#1] PREEMPT SMP
-[ 3310.385848] CPU: 1 PID: 3982 Comm: umount Tainted: G        W         5.14.0-rc5-default+ #1532
-[ 3310.388216] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
-[ 3310.391054] RIP: 0010:assertfail.constprop.0+0x18/0x1a [btrfs]
-[ 3310.397628] RSP: 0018:ffffb7a5454c7db8 EFLAGS: 00010246
-[ 3310.399079] RAX: 0000000000000068 RBX: ffff978364b91c00 RCX: 0000000000000000
-[ 3310.400990] RDX: 0000000000000000 RSI: ffffffffabee13c4 RDI: 00000000ffffffff
-[ 3310.402504] RBP: ffff9783523a4c00 R08: 0000000000000001 R09: 0000000000000001
-[ 3310.404025] R10: 0000000000000000 R11: 0000000000000001 R12: ffff9783523a4d18
-[ 3310.405074] R13: 0000000000000000 R14: 0000000000000004 R15: 0000000000000003
-[ 3310.406130] FS:  00007f61c8f42800(0000) GS:ffff9783bd800000(0000) knlGS:0000000000000000
-[ 3310.407649] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 3310.409022] CR2: 000056190cffa810 CR3: 0000000030b96002 CR4: 0000000000170ea0
-[ 3310.410111] Call Trace:
-[ 3310.410561]  btrfs_close_one_device.cold+0x11/0x55 [btrfs]
-[ 3310.411788]  close_fs_devices+0x44/0xb0 [btrfs]
-[ 3310.412654]  btrfs_close_devices+0x48/0x160 [btrfs]
-[ 3310.413449]  generic_shutdown_super+0x69/0x100
-[ 3310.414155]  kill_anon_super+0x14/0x30
-[ 3310.414802]  btrfs_kill_super+0x12/0x20 [btrfs]
-[ 3310.415767]  deactivate_locked_super+0x2c/0xa0
-[ 3310.416562]  cleanup_mnt+0x144/0x1b0
-[ 3310.417153]  task_work_run+0x59/0xa0
-[ 3310.417744]  exit_to_user_mode_loop+0xe7/0xf0
-[ 3310.418440]  exit_to_user_mode_prepare+0xaf/0xf0
-[ 3310.419425]  syscall_exit_to_user_mode+0x19/0x50
-[ 3310.420281]  do_syscall_64+0x4a/0x90
-[ 3310.420934]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[ 3310.421718] RIP: 0033:0x7f61c91654db
+But it is safe to only remove the duplicate #ifdef block inside the
+pci_try_set_mwi().
+
+
+Best Regards,
+Utkarsh Verma
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
