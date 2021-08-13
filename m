@@ -1,4 +1,4 @@
-Return-Path: <SRS0=y1cr=NC=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=TljZ=NE=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: **
@@ -7,84 +7,86 @@ X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44FE2C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Aug 2021 10:12:23 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B1BC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 03:25:15 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id E6AFF604AC
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Aug 2021 10:12:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E6AFF604AC
+	by mail.kernel.org (Postfix) with ESMTPS id 988C2610A7
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 03:25:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 988C2610A7
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id ADB95833A3;
-	Wed, 11 Aug 2021 10:12:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4B22540379;
+	Fri, 13 Aug 2021 03:25:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Uz1X4hc-iYKI; Wed, 11 Aug 2021 10:12:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id ABCE883216;
-	Wed, 11 Aug 2021 10:12:18 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nKmpIDXoCpsE; Fri, 13 Aug 2021 03:25:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 46A774035C;
+	Fri, 13 Aug 2021 03:25:10 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 81DFAC001A;
-	Wed, 11 Aug 2021 10:12:18 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 59305C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 20160C001A;
+	Fri, 13 Aug 2021 03:25:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5CB34C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 10:12:17 +0000 (UTC)
+ Fri, 13 Aug 2021 03:25:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3601A83437
+ by smtp4.osuosl.org (Postfix) with ESMTP id 47E8D40763
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 10:12:17 +0000 (UTC)
+ Fri, 13 Aug 2021 03:25:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KwdkiTuQXfSI
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id btDr8lkDNZwX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 10:12:16 +0000 (UTC)
+ Fri, 13 Aug 2021 03:25:08 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 839F783216
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
+ [IPv6:2a00:1450:4864:20::52b])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8E9524048E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 10:12:16 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id z20so4608110lfd.2
+ Fri, 13 Aug 2021 03:25:08 +0000 (UTC)
+Received: by mail-ed1-x52b.google.com with SMTP id d6so13237658edt.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Aug 2021 03:12:16 -0700 (PDT)
+ Thu, 12 Aug 2021 20:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=BE712d7UNZkq+DzDkP7T9k0a0NFD/cEaXnzdqZfX3lA=;
- b=qtFx7i6HUkbKyKnGCjLsXyEMcUM82MW2Y3cxy9LS57AQ8ofdYa50i7Uyd9BbHrm59Q
- oGUmgr1idB61N//MVgWjkzTOGX8XyHYo3fOIDCxA2PmKCxBrdy0lN6ebvKZxF0eyE2A6
- pBhBgB8OvF99DN2hYh/kdo20g0FR+veFHYwCgAVmt//Z67aHnjFE4f8uIYtwDR89txXR
- P0SPBDvx9/kEmjCb3oenVA9TmArQolUHZvsh1PhsH1q4c3l1OOJRPnJBdq2BoW+rNAJ8
- 7QFrBa1cFNYRjjTM5VvMjEyoB+Zwhl8W0ngACJF52dCaVDvxuaqnpr0Gz15qqopzvOm1
- luqQ==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=xakWRMNjSfkdX/JE/wAJM2AMcD9yMJasJ2Q3okJVugk=;
+ b=aVGyy10lGy6a8ZiXpF1iKDDJHd0e0n23CLB8NYp+cfuZO7CUXJpt95lOJ+Y1tZljSb
+ w6VFzJJZf7sNs8qWSBtGLNo08KuvwcP7XkwjF2kycz3LIRAj14DuF+d8jS1e3hEHN2Sw
+ eyDeVO4O6yJusNZc0PapqnM5vt14NgZzAiOnxJUyY0rSntqU/P/bsyV2al4ESN06kY0F
+ dBjQ7CZKtU3u/EJfkAXSY0aTDNU5qjCHAmffNJog9fdbt6GFRbzpc0GGFuWTA8HlzF3M
+ w/CWzZI/kxogo6mxQYkAfl6m+4Y28HRVAJGcZvGP8tdRfnDZm/LKet1tshCL2k+BkRVF
+ pcAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=BE712d7UNZkq+DzDkP7T9k0a0NFD/cEaXnzdqZfX3lA=;
- b=B8FVbMVGck9JByyno6DpawWskoyQGCp4zh3DZusdg70JjY+88aO01KeaCK30mWajoQ
- hRSGSc4B0foKh0R6a056LVhjm6DL2NR7ohKIDJowONlUAAlGlJ/eRJ2d6weE+eAlxiOW
- 5eyq2zlBKPTlNZnWQh0G+r6NhHpJYPGXt7gtFfcVnVJUBlXO2Jh2qbZHqgPD6/QUrVGJ
- 42b31J8iG2KjWEw9aRf9B//o4Sj4o6cVcIWykjykbw1jAGs+qqEQhJQziifrrrJRg8W3
- Yvi82TwAK1iEoNGfyCYOft3WxebIawgb972LYxwi4iHdRH/fQpaPogLqnzXZTAEWOV5c
- dZnA==
-X-Gm-Message-State: AOAM532kwOIRR4fFTglYGhqHB/6d0kgd0UXMRdRnK8YJiFpSZ6z6nkQ8
- EC2RmDVmYVmI7nK3LMBV09/TP6cqNb2jAKPB0gI=
-X-Google-Smtp-Source: ABdhPJyjApR6aJE3Yam0Wl/FYrjkMg7Gt66pN1UcIKfanMDWOzZ9j5tuO+J9QyxRtXen5q8OzpYA9xAnYykfo9afRiY=
-X-Received: by 2002:a05:6512:6cf:: with SMTP id
- u15mr13865761lff.402.1628676734169; 
- Wed, 11 Aug 2021 03:12:14 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=xakWRMNjSfkdX/JE/wAJM2AMcD9yMJasJ2Q3okJVugk=;
+ b=moyBifowHCmm0GcEGHyO94otUUQVs/3GfSl0mjpORXn2zcQaPDcxfke5+VYB5aZ9os
+ ku4xcZBknUKk6sbO5WXbEwtMHlsdNQP+UjrUkFPVfWJzGMFWRK2+l7h5+x6rN/2A9ZVA
+ DmPAa1JDmfRSn4d5AI9YrLZNdvaYQb/UVh0tJ1hTBY2FsCnNiqajbnJrVmqkyD1ALVhV
+ /2Cckfi+/AIFvB/9U6beBzrdLEw9DvZDYqLILCyz35120CjtTVQaZNPK7FF8hVgTTWj/
+ 3Gjmc/MclfNhXYsFQg/lZjPmCuLpZyUnOWAYSAz1g6UubN/ZziZGmDeNJpJDP+vDF3TI
+ UChQ==
+X-Gm-Message-State: AOAM531plx8+x3S67lGKoVrs0u7kzMjpzW4DHLZO4Iin8Z8tc+etABpc
+ TCMum+LRTBk/aJoft2p5AP9Jl77+6J27Q6N/2Ig=
+X-Google-Smtp-Source: ABdhPJwWk8gSJh2qseEAH2A9JoNlKelyzpBS8go40hWNzlzFnjQGfD8sZNbKJhp3CwgLYpn3N3FE3crpeZQPHNTiVyg=
+X-Received: by 2002:a05:6402:5251:: with SMTP id
+ t17mr275464edd.157.1628825106616; 
+ Thu, 12 Aug 2021 20:25:06 -0700 (PDT)
 MIME-Version: 1.0
-From: Avinesh Tripathi <avineshtripathi1@gmail.com>
-Date: Wed, 11 Aug 2021 15:42:01 +0530
-Message-ID: <CAPaG8Ty7EJRPV_ujcrLGE9WCKg4r9KZdj-sv_9Fpnzc88V_wvg@mail.gmail.com>
-Subject: 
-To: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, 
- linux-kernel-mentees@lists.linuxfoundation.org
+From: Yanbo Liang <liangyanbo00@gmail.com>
+Date: Fri, 13 Aug 2021 11:25:01 +0800
+Message-ID: <CAM5BWn_BXtuW6GjC=EL-CRnjQ8MA+=NSYDRsgnZMJ29+kfiVkQ@mail.gmail.com>
+Subject: Mining Maintainers mentorship program Inquiry
+To: lukas.bulwahn@gmail.com
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,35 +98,42 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5950478012100356401=="
+Content-Type: multipart/mixed; boundary="===============6140336381640921099=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============5950478012100356401==
-Content-Type: multipart/alternative; boundary="00000000000031b65305c945da65"
+--===============6140336381640921099==
+Content-Type: multipart/alternative; boundary="000000000000e194f305c9686516"
 
---00000000000031b65305c945da65
+--000000000000e194f305c9686516
 Content-Type: text/plain; charset="UTF-8"
 
-I am interested in the Checkpatch Documentation mentorship program and I
-would like to work on the tasks for the mentee selection. Work and finish
-the tasks for the mentee selection.
+I am interested in the Mining Maintainers mentorship program and I would
+like to work on the tasks for the mentee selection.
 
---00000000000031b65305c945da65
+Best,
+Yanbo Liang
+
+--000000000000e194f305c9686516
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><span style=3D"color:rgb(33,37,41);font-family:Poppins,Rob=
-oto,&quot;Helvetica Neue&quot;,Arial,sans-serif;font-size:12.8px;white-spac=
-e:pre-line">I am interested in the Checkpatch Documentation mentorship prog=
-ram and I would like to work on the tasks for the mentee selection.
+<div dir=3D"ltr"><div><span style=3D"color:rgb(33,37,41);font-family:Poppin=
+s,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-serif;font-size:16px;white-s=
+pace:pre-line">I am interested in the Mining Maintainers mentorship program=
+ and I would like to work on the tasks for the mentee selection.</span><br>=
+</div><div><span style=3D"color:rgb(33,37,41);font-family:Poppins,Roboto,&q=
+uot;Helvetica Neue&quot;,Arial,sans-serif;font-size:16px;white-space:pre-li=
+ne"><br></span></div><div><span style=3D"color:rgb(33,37,41);font-family:Po=
+ppins,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-serif;font-size:16px;whi=
+te-space:pre-line">Best,</span></div><div><span style=3D"color:rgb(33,37,41=
+);font-family:Poppins,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-serif;fo=
+nt-size:16px;white-space:pre-line">Yanbo Liang</span></div></div>
 
-Work and finish the tasks for the mentee selection.</span><br></div>
+--000000000000e194f305c9686516--
 
---00000000000031b65305c945da65--
-
---===============5950478012100356401==
+--===============6140336381640921099==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -135,4 +144,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============5950478012100356401==--
+--===============6140336381640921099==--
