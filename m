@@ -2,76 +2,108 @@ Return-Path: <SRS0=TljZ=NE=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 813B3C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 07:33:42 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1744C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 08:54:45 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 245AE6103E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 07:33:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 245AE6103E
-Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+	by mail.kernel.org (Postfix) with ESMTPS id A94A96103E
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 08:54:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A94A96103E
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E11F780C2A;
-	Fri, 13 Aug 2021 07:33:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7C6B7400BB;
+	Fri, 13 Aug 2021 08:54:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TXoMPf8kCIjz; Fri, 13 Aug 2021 07:33:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E8AF180C3E;
-	Fri, 13 Aug 2021 07:33:37 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pytXadmvjDCz; Fri, 13 Aug 2021 08:54:41 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7BF464012E;
+	Fri, 13 Aug 2021 08:54:41 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C3160C001A;
-	Fri, 13 Aug 2021 07:33:37 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6FFCBC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C72AC001A;
+	Fri, 13 Aug 2021 08:54:41 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74735C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 07:33:36 +0000 (UTC)
+ Fri, 13 Aug 2021 08:54:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 56F6B605C6
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5D34F401F8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 07:33:36 +0000 (UTC)
+ Fri, 13 Aug 2021 08:54:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VaFVVoS2kWUZ
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=suse.cz header.b="TMdpIcb9";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=suse.cz header.b="Q+UMEs0h"
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ol2BfUcFnr_3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 07:33:32 +0000 (UTC)
+ Fri, 13 Aug 2021 08:54:35 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 63D09606EA
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id F314940192
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 07:33:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 86E4960720;
- Fri, 13 Aug 2021 07:33:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1628840012;
- bh=/Ez7HIp0+x6gkQ+AXt7EEyRoY2iUgGHXpwEagk1RKCA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=UzTtsDLO6hrRf1Kjf1f+mnW0PKeqBbHHUQDaGx/+IcI7qjKN63ucgw3OZw+qeNTdr
- eAiF7XUSphEMaUqwI24TgogVna/wL0nWwDNYbH5ggprJAovLp1MH/4m4GtlDz7jv1S
- CA/wuFx+U6ggIhw5FH5h0WjviZknlKjFn2NeAlQc=
-Date: Fri, 13 Aug 2021 09:33:29 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nguyen Dinh Phi <phind.uet@gmail.com>
-Subject: Re: [PATCH] tty: Fix data race between tiocsti() and flush_to_ldisc()
-Message-ID: <YRYgSZwivcPPMhrS@kroah.com>
-References: <20210807190513.3810821-1-phind.uet@gmail.com>
+ Fri, 13 Aug 2021 08:54:34 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 05A5A1FF9C;
+ Fri, 13 Aug 2021 08:54:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1628844872;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zKztcLf2d4k8bDI38Cu5+a60cMYobZpnVwo1seklPVQ=;
+ b=TMdpIcb9FxXvAwqdRfPVurKmRsmvcfXAi5ngnIm7RbS7CEKx5dCk7XYHQHpjvxwX8Rl+k9
+ GhyeBAoD8Ieu/Jx9UJNYIySdnGtiIoCXDKnjt1lLsZ2/rttf103qub7/LaLXFwmiE+oQNo
+ +QScgjxgpU7XJvhcX0jLP5aAji6w8ts=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1628844872;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zKztcLf2d4k8bDI38Cu5+a60cMYobZpnVwo1seklPVQ=;
+ b=Q+UMEs0h51TUdPzzuTchpKv2LFtAE3W/PXPPNRkfqDW4GwZoB7RI4ojkXpBhhOX5ruJb1O
+ 8jE2biAU70DAs+CA==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+ by relay2.suse.de (Postfix) with ESMTP id DE421A3B84;
+ Fri, 13 Aug 2021 08:54:31 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+ id 1E9E6DA733; Fri, 13 Aug 2021 10:51:38 +0200 (CEST)
+Date: Fri, 13 Aug 2021 10:51:38 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v2] btrfs: fix rw device counting in
+ __btrfs_free_extra_devids
+Message-ID: <20210813085137.GQ5047@twin.jikos.cz>
+Mail-Followup-To: dsterba@suse.cz,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
+ josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
+ linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+References: <20210727071303.113876-1-desmondcheongzx@gmail.com>
+ <20210812103851.GC5047@twin.jikos.cz>
+ <3c48eec9-590c-4974-4026-f74cafa5ac48@gmail.com>
+ <20210812155032.GL5047@twin.jikos.cz>
+ <1e0aafb2-9e55-5f64-d347-1765de0560c5@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210807190513.3810821-1-phind.uet@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com, jirislaby@kernel.org,
- linux-kernel@vger.kernel.org
+In-Reply-To: <1e0aafb2-9e55-5f64-d347-1765de0560c5@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: linux-kernel@vger.kernel.org,
+ syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, dsterba@suse.cz,
+ anand.jain@oracle.com, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,62 +115,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Aug 08, 2021 at 03:05:13AM +0800, Nguyen Dinh Phi wrote:
-> The ops->receive_buf() may be accessed concurrently from these two
-> functions.  If the driver flushes data to the line discipline
-> receive_buf() method while tiocsti() is using the ops->receive_buf(),
-> the data race will happen.
+On Fri, Aug 13, 2021 at 01:31:25AM +0800, Desmond Cheong Zhi Xi wrote:
+> On 12/8/21 11:50 pm, David Sterba wrote:
+> > On Thu, Aug 12, 2021 at 11:43:16PM +0800, Desmond Cheong Zhi Xi wrote:
+> >> On 12/8/21 6:38 pm, David Sterba wrote:
+> >>> On Tue, Jul 27, 2021 at 03:13:03PM +0800, Desmond Cheong Zhi Xi wrote:
+> >>>> --- a/fs/btrfs/volumes.c
+> >>>> +++ b/fs/btrfs/volumes.c
+> >>>> @@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
+> >>>>    		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
+> >>>>    			list_del_init(&device->dev_alloc_list);
+> >>>>    			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
+> >>>> +			fs_devices->rw_devices--;
+> >>>>    		}
+> >>>>    		list_del_init(&device->dev_list);
+> >>>>    		fs_devices->num_devices--;
+> >>>
+> >>> I've hit a crash on master branch with stacktrace very similar to one
+> >>> this bug was supposed to fix. It's a failed assertion on device close.
+> >>> This patch was the last one to touch it and it matches some of the
+> >>> keywords, namely the BTRFS_DEV_STATE_REPLACE_TGT bit that used to be in
+> >>> the original patch but was not reinstated in your fix.
+> >>>
+> >>> I'm not sure how reproducible it is, right now I have only one instance
+> >>> and am hunting another strange problem. They could be related.
+> >>>
+> >>> assertion failed: !test_bit(BTRFS_DEV_STATE_REPLACE_TGT, &device->dev_state), in fs/btrfs/volumes.c:1150
+> >>>
+> >>> https://susepaste.org/view/raw/18223056 full log with other stacktraces,
+> >>> possibly relatedg
+> >>>
+> >>
+> >> Looking at the logs, it seems that a dev_replace was started, then
+> >> suspended. But it wasn't canceled or resumed before the fs devices were
+> >> closed.
+> >>
+> >> I'll investigate further, just throwing some observations out there.
+> > 
+> > Thanks. I'm testing the patch revert, no crash after first loop, I'll
+> > run a few more to be sure as it's not entirely reliable.
+> > 
+> > Sending the revert is option of last resort as we're approaching end of
+> > 5.14 dev cycle and the crash prevents testing (unlike the fuzzer
+> > warning).
+> > 
 > 
-> For example:
-> tty_ioctl                       |tty_ldisc_receive_buf
->  ->tioctsi                      | ->tty_port_default_receive_buf
->                                 |  ->tty_ldisc_receive_buf
->    ->hci_uart_tty_receive       |   ->hci_uart_tty_receive
->     ->h4_recv                   |    ->h4_recv
+> I might be missing something, so any thoughts would be appreciated. But 
+> I don't think the assertion in btrfs_close_one_device is correct.
 > 
-> In this case, the h4 receive buffer will be overwritten by the
-> latecomer, and it cause a memory leak.
-
-That looks to be a bug in the h4 code, if the receive_buf() call can not
-be run at the same time, it should have a lock in it, right?
-
-> Hence, change tioctsi() function to use the exclusive lock interface
-> from tty_buffer to avoid the data race.
-
-Where is the lock being grabbed from the other receive_buf() call path
-to ensure that the lock is always needed here?
-
+>  From what I see, this crash happens when close_ctree is called while a 
+> dev_replace hasn't completed. In close_ctree, we suspend the 
+> dev_replace, but keep the replace target around so that we can resume 
+> the dev_replace procedure when we mount the root again. This is the call 
+> trace:
 > 
-> Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
-> Reported-by: syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com
-> ---
->  drivers/tty/tty_io.c | 2 ++
->  1 file changed, 2 insertions(+)
+>    close_ctree():
+>      btrfs_dev_replace_suspend_for_unmount();
+>      btrfs_close_devices():
+>        btrfs_close_fs_devices():
+>          btrfs_close_one_device():
+>            ASSERT(!test_bit(BTRFS_DEV_STATE_REPLACE_TGT, 
+> &device->dev_state));
 > 
-> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
-> index e8532006e960..746fe13a2054 100644
-> --- a/drivers/tty/tty_io.c
-> +++ b/drivers/tty/tty_io.c
-> @@ -2307,8 +2307,10 @@ static int tiocsti(struct tty_struct *tty, char __user *p)
->  	ld = tty_ldisc_ref_wait(tty);
->  	if (!ld)
->  		return -EIO;
-> +	tty_buffer_lock_exclusive(tty->port);
->  	if (ld->ops->receive_buf)
->  		ld->ops->receive_buf(tty, &ch, &mbz, 1);
-> +	tty_buffer_unlock_exclusive(tty->port);
+> However, since the replace target sticks around, there is a device with 
+> BTRFS_DEV_STATE_REPLACE_TGT set, and we fail the assertion in 
+> btrfs_close_one_device.
+> 
+> Two options I can think of:
+> 
+> - We could remove the assertion.
+> 
+> - Or we could clear the BTRFS_DEV_STATE_REPLACE_TGT bit in 
+> btrfs_dev_replace_suspend_for_unmount. This is fine since the bit is set 
+> again in btrfs_init_dev_replace if the dev_replace->replace_state is 
+> BTRFS_IOCTL_DEV_REPLACE_STATE_SUSPENDED. But this approach strikes me as 
+> a little odd because the device is still the replace target when 
+> mounting in the future.
 
-Did this fix the syzbot reported issue?
+The option #2 does not sound safe because the TGT bit is checked in
+several places where device list is queried for various reasons, even
+without a mounted filesystem.
 
-thanks,
-
-greg k-h
+Removing the assertion makes more sense but I'm still not convinced that
+the this is expected/allowed state of a closed device.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
