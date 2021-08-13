@@ -2,108 +2,104 @@ Return-Path: <SRS0=TljZ=NE=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1744C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 08:54:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A733C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 09:02:33 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A94A96103E
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 08:54:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A94A96103E
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+	by mail.kernel.org (Postfix) with ESMTPS id DF5996024A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 13 Aug 2021 09:02:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DF5996024A
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7C6B7400BB;
-	Fri, 13 Aug 2021 08:54:45 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A14E34015F;
+	Fri, 13 Aug 2021 09:02:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pytXadmvjDCz; Fri, 13 Aug 2021 08:54:41 +0000 (UTC)
+	with ESMTP id 7Q38um_x7shp; Fri, 13 Aug 2021 09:02:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7BF464012E;
-	Fri, 13 Aug 2021 08:54:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id BBACE400BB;
+	Fri, 13 Aug 2021 09:02:28 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C72AC001A;
-	Fri, 13 Aug 2021 08:54:41 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74735C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 764C2C0010;
+	Fri, 13 Aug 2021 09:02:28 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6D025C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 08:54:39 +0000 (UTC)
+ Fri, 13 Aug 2021 09:02:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5D34F401F8
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5C97C607D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 08:54:39 +0000 (UTC)
+ Fri, 13 Aug 2021 09:02:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=suse.cz header.b="TMdpIcb9";
- dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
- header.d=suse.cz header.b="Q+UMEs0h"
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Ol2BfUcFnr_3
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id MBHgZafQ6Xm5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 08:54:35 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by smtp4.osuosl.org (Postfix) with ESMTPS id F314940192
+ Fri, 13 Aug 2021 09:02:26 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B18A560770
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 13 Aug 2021 08:54:34 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
- by smtp-out2.suse.de (Postfix) with ESMTP id 05A5A1FF9C;
- Fri, 13 Aug 2021 08:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1628844872;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zKztcLf2d4k8bDI38Cu5+a60cMYobZpnVwo1seklPVQ=;
- b=TMdpIcb9FxXvAwqdRfPVurKmRsmvcfXAi5ngnIm7RbS7CEKx5dCk7XYHQHpjvxwX8Rl+k9
- GhyeBAoD8Ieu/Jx9UJNYIySdnGtiIoCXDKnjt1lLsZ2/rttf103qub7/LaLXFwmiE+oQNo
- +QScgjxgpU7XJvhcX0jLP5aAji6w8ts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1628844872;
- h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
- cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zKztcLf2d4k8bDI38Cu5+a60cMYobZpnVwo1seklPVQ=;
- b=Q+UMEs0h51TUdPzzuTchpKv2LFtAE3W/PXPPNRkfqDW4GwZoB7RI4ojkXpBhhOX5ruJb1O
- 8jE2biAU70DAs+CA==
-Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
- by relay2.suse.de (Postfix) with ESMTP id DE421A3B84;
- Fri, 13 Aug 2021 08:54:31 +0000 (UTC)
-Received: by ds.suse.cz (Postfix, from userid 10065)
- id 1E9E6DA733; Fri, 13 Aug 2021 10:51:38 +0200 (CEST)
-Date: Fri, 13 Aug 2021 10:51:38 +0200
-From: David Sterba <dsterba@suse.cz>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH v2] btrfs: fix rw device counting in
- __btrfs_free_extra_devids
-Message-ID: <20210813085137.GQ5047@twin.jikos.cz>
-Mail-Followup-To: dsterba@suse.cz,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
- josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
- linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
-References: <20210727071303.113876-1-desmondcheongzx@gmail.com>
- <20210812103851.GC5047@twin.jikos.cz>
- <3c48eec9-590c-4974-4026-f74cafa5ac48@gmail.com>
- <20210812155032.GL5047@twin.jikos.cz>
- <1e0aafb2-9e55-5f64-d347-1765de0560c5@gmail.com>
+ Fri, 13 Aug 2021 09:02:26 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ hv22-20020a17090ae416b0290178c579e424so15068376pjb.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 13 Aug 2021 02:02:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QyadB7FpuNKWDpEAZ8pIq2q37loKngbMavtVP6UOn6M=;
+ b=otuX9qtW7oO7slcAr8Qx9A7t9+t16sjcuBTl0Nz1CiCb/f+XIczvOF3wPAf72bjlA0
+ eh9bVUdU+CbC57B3GtKBbNP5C3gC9FbLyiunBYxysyO+TmTxoXWr+pR8FqLuKMqy7ndv
+ X42dGivelzNOJPCYdAKl5b9GYZGUPQJhA9z3g5boJaeMcB+MJCqDza6JXTKzu5V+i4Je
+ pDYKKtsBFnyJ+68KHYwtwFf8z774UFQYQu8cPjX3Iuzcbas3mGrsFkhyzJ/dcN2WwrT+
+ aDca6bW8UBPIF0QqZXCnPVSh4gJB4cThZ/dK+FzKoXsr7HOu+vRrnKGK3IKk8sQVZS0s
+ lLXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QyadB7FpuNKWDpEAZ8pIq2q37loKngbMavtVP6UOn6M=;
+ b=ouDWIUBqBj7deVHUoJD4NW9X5vAsdDfWIGeWOqhgrCSTqE2hZ9bwKJphvzr+bcSwvJ
+ iezy78/V3TS4M965QSG2iMHorrMU7AJgZBnZQqH+joWeh6+ZFTnXRy7OkHZvto5cx/6L
+ hmiOVIkGF2heIXLBt+yALQhSPWeIo1zPIZ7ZB9qKJgeSkGtTZH9kgAcBGvhHp2MNOggF
+ drrA+xtF/hXVkuINcE61Y/d4dATBjAKOfn/09gpV0UOXd6nXfqEBDnr19GFA5QDewpqM
+ mTOth+U0DwzFxafbNwhuNp5HwgUzmJ+VPVuV2l3mUZZegj4SSER8uL/nu8eNATYwFJuz
+ F9sw==
+X-Gm-Message-State: AOAM533BnGBAzrODmtE7yTGXVTb08XgautGJ2QWri2z3aJf246iDY5w0
+ jwyHZD9qIdZZJMI4R2i19Yw=
+X-Google-Smtp-Source: ABdhPJzwOPIahHcMzCFDYaA2ZSWs+PyhnrGetdTzb2NAmo63L/38ue6X0HTkv/G8tJ/ZUe0l9S34hA==
+X-Received: by 2002:a65:468c:: with SMTP id h12mr1473806pgr.423.1628845346151; 
+ Fri, 13 Aug 2021 02:02:26 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id 31sm1818428pgy.26.2021.08.13.02.02.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 13 Aug 2021 02:02:25 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com
+Subject: [PATCH 0/2] drm: update the ioctl handler
+Date: Fri, 13 Aug 2021 16:54:48 +0800
+Message-Id: <20210813085450.32494-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <1e0aafb2-9e55-5f64-d347-1765de0560c5@gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-Cc: linux-kernel@vger.kernel.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, dsterba@suse.cz,
- anand.jain@oracle.com, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,96 +111,46 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Aug 13, 2021 at 01:31:25AM +0800, Desmond Cheong Zhi Xi wrote:
-> On 12/8/21 11:50 pm, David Sterba wrote:
-> > On Thu, Aug 12, 2021 at 11:43:16PM +0800, Desmond Cheong Zhi Xi wrote:
-> >> On 12/8/21 6:38 pm, David Sterba wrote:
-> >>> On Tue, Jul 27, 2021 at 03:13:03PM +0800, Desmond Cheong Zhi Xi wrote:
-> >>>> --- a/fs/btrfs/volumes.c
-> >>>> +++ b/fs/btrfs/volumes.c
-> >>>> @@ -1078,6 +1078,7 @@ static void __btrfs_free_extra_devids(struct btrfs_fs_devices *fs_devices,
-> >>>>    		if (test_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state)) {
-> >>>>    			list_del_init(&device->dev_alloc_list);
-> >>>>    			clear_bit(BTRFS_DEV_STATE_WRITEABLE, &device->dev_state);
-> >>>> +			fs_devices->rw_devices--;
-> >>>>    		}
-> >>>>    		list_del_init(&device->dev_list);
-> >>>>    		fs_devices->num_devices--;
-> >>>
-> >>> I've hit a crash on master branch with stacktrace very similar to one
-> >>> this bug was supposed to fix. It's a failed assertion on device close.
-> >>> This patch was the last one to touch it and it matches some of the
-> >>> keywords, namely the BTRFS_DEV_STATE_REPLACE_TGT bit that used to be in
-> >>> the original patch but was not reinstated in your fix.
-> >>>
-> >>> I'm not sure how reproducible it is, right now I have only one instance
-> >>> and am hunting another strange problem. They could be related.
-> >>>
-> >>> assertion failed: !test_bit(BTRFS_DEV_STATE_REPLACE_TGT, &device->dev_state), in fs/btrfs/volumes.c:1150
-> >>>
-> >>> https://susepaste.org/view/raw/18223056 full log with other stacktraces,
-> >>> possibly relatedg
-> >>>
-> >>
-> >> Looking at the logs, it seems that a dev_replace was started, then
-> >> suspended. But it wasn't canceled or resumed before the fs devices were
-> >> closed.
-> >>
-> >> I'll investigate further, just throwing some observations out there.
-> > 
-> > Thanks. I'm testing the patch revert, no crash after first loop, I'll
-> > run a few more to be sure as it's not entirely reliable.
-> > 
-> > Sending the revert is option of last resort as we're approaching end of
-> > 5.14 dev cycle and the crash prevents testing (unlike the fuzzer
-> > warning).
-> > 
-> 
-> I might be missing something, so any thoughts would be appreciated. But 
-> I don't think the assertion in btrfs_close_one_device is correct.
-> 
->  From what I see, this crash happens when close_ctree is called while a 
-> dev_replace hasn't completed. In close_ctree, we suspend the 
-> dev_replace, but keep the replace target around so that we can resume 
-> the dev_replace procedure when we mount the root again. This is the call 
-> trace:
-> 
->    close_ctree():
->      btrfs_dev_replace_suspend_for_unmount();
->      btrfs_close_devices():
->        btrfs_close_fs_devices():
->          btrfs_close_one_device():
->            ASSERT(!test_bit(BTRFS_DEV_STATE_REPLACE_TGT, 
-> &device->dev_state));
-> 
-> However, since the replace target sticks around, there is a device with 
-> BTRFS_DEV_STATE_REPLACE_TGT set, and we fail the assertion in 
-> btrfs_close_one_device.
-> 
-> Two options I can think of:
-> 
-> - We could remove the assertion.
-> 
-> - Or we could clear the BTRFS_DEV_STATE_REPLACE_TGT bit in 
-> btrfs_dev_replace_suspend_for_unmount. This is fine since the bit is set 
-> again in btrfs_init_dev_replace if the dev_replace->replace_state is 
-> BTRFS_IOCTL_DEV_REPLACE_STATE_SUSPENDED. But this approach strikes me as 
-> a little odd because the device is still the replace target when 
-> mounting in the future.
+Hi,
 
-The option #2 does not sound safe because the TGT bit is checked in
-several places where device list is queried for various reasons, even
-without a mounted filesystem.
+Finally got around to it. This patchset implements some updates to the
+drm ioctl handler that were first raised by Daniel Vetter in [1].
+Namely:
 
-Removing the assertion makes more sense but I'm still not convinced that
-the this is expected/allowed state of a closed device.
+- Flush concurrent processes that can change the modeset when
+DRM masters are set/dropped or a lease is revoked
+- Unexport drm_ioctl_permit()
+
+Thoughts and comments would be very appreciated.
+
+Link: https://lore.kernel.org/lkml/YN9kAFcfGoB13x7f@phenom.ffwll.local/ [1]
+
+Best wishes,
+Desmond
+
+Desmond Cheong Zhi Xi (2):
+  drm: avoid races with modesetting rights
+  drm: unexport drm_ioctl_permit
+
+ drivers/gpu/drm/drm_auth.c           | 17 +++++++++---
+ drivers/gpu/drm/drm_client_modeset.c | 10 ++++---
+ drivers/gpu/drm/drm_drv.c            |  2 ++
+ drivers/gpu/drm/drm_fb_helper.c      | 20 ++++++++------
+ drivers/gpu/drm/drm_internal.h       |  5 ++--
+ drivers/gpu/drm/drm_ioctl.c          | 40 +++++++++++++++-------------
+ include/drm/drm_device.h             | 11 ++++++++
+ include/drm/drm_ioctl.h              |  8 +++++-
+ 8 files changed, 77 insertions(+), 36 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
