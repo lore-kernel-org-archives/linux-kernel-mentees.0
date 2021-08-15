@@ -1,91 +1,111 @@
-Return-Path: <SRS0=qR1B=NF=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=zLiq=NG=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: **
-X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Level: 
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D16C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 14 Aug 2021 23:55:35 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C64F1C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Aug 2021 07:10:31 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F2BE860F4B
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 14 Aug 2021 23:55:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F2BE860F4B
+	by mail.kernel.org (Postfix) with ESMTPS id 74AAC61038
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 15 Aug 2021 07:10:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 74AAC61038
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B8C4340314;
-	Sat, 14 Aug 2021 23:55:34 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3555F80DD9;
+	Sun, 15 Aug 2021 07:10:31 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Wa81yBWFXiS2; Sat, 14 Aug 2021 23:55:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B75BC402C4;
-	Sat, 14 Aug 2021 23:55:30 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WAqNxAK57R69; Sun, 15 Aug 2021 07:10:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8B0C680DEE;
+	Sun, 15 Aug 2021 07:10:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CE44C001A;
-	Sat, 14 Aug 2021 23:55:30 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D821FC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D868C0010;
+	Sun, 15 Aug 2021 07:10:26 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0A4DAC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Aug 2021 23:55:28 +0000 (UTC)
+ Sun, 15 Aug 2021 07:10:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B3947400E5
+ by smtp3.osuosl.org (Postfix) with ESMTP id ED8D0605E2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Aug 2021 23:55:28 +0000 (UTC)
+ Sun, 15 Aug 2021 07:10:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id z8IQHLHJlfzR
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QihDb-271M_m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Aug 2021 23:55:28 +0000 (UTC)
+ Sun, 15 Aug 2021 07:10:23 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E4B494010F
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C07E8605C6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Aug 2021 23:55:27 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- h63-20020a9d14450000b02904ce97efee36so16633221oth.7
+ Sun, 15 Aug 2021 07:10:23 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id n5so1241067pjt.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Aug 2021 16:55:27 -0700 (PDT)
+ Sun, 15 Aug 2021 00:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=eqz3iHLoaTBov8XMNlx3iJTC3PQLCht5AuN6RyoaOg8=;
- b=Py0TvXUrxcJnQHNpk9wbO9fR44suKBpBwzAwm4/oSYLGzwzaVG4IES6bcSMxid0mWD
- ogy8zfZcIbYxnQ1c4EBZd2Ds/+tGiqTWyuVlxUT4cPIqGpbtwlcoGAAvAtxDN3XTwtqE
- Z0mes3zTp2o2tfrRFYGZzuYPXFFfnbE5duufCPubAAMSWKbL2Eh26dzoeJbzGWfBCS0p
- 5P4b533cUIaokHoBnqPcMEik6t4Ytf/xwH3l67ycYXdDF8aIYrcKtVKwJ5pBWYIYGrVm
- dmVQSwxrX7JfTnizvLzly3gX68OVjbQVtRpeXmSZk4D1gs2gA7j9BWpNYCAlEVMC6uh2
- mr7w==
+ h=from:subject:to:references:cc:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DZlBN09sx+gq4Xv1ZK/2Nhj0nCpAtanNF90jl33DvHU=;
+ b=KnzsSnIB0WzLJgD+0AY3ByPyenOAd4Avl+PMl32cfHCFo3+0w3+0H7y1ZEnnU1Hmdt
+ MiuNhsL7/QFXW6ZnKwqtSXjudOcY8wp8haH/NrD0HBXTyB1s3+58/v1bzHv2aMiuIcQa
+ /5FoaEhD6c5vBpmX/aKbFXHq2m0mKNZSvTYv/8DqIKfAYvgk5GDs9mCLOScAQBWLRfZQ
+ DzkDVkN1u6vkJKrjC7L/X5/4A6WLy6fG7SonmAXDU673lLMMz82/6kAdAGJOKLN6SNlr
+ faiO4ihfzr2XYC0AWvAhvzDA6PBejrkeBySSGWSTaX0XWR4m8re+3zh0nnZjtq5lq+2N
+ 0Wvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=eqz3iHLoaTBov8XMNlx3iJTC3PQLCht5AuN6RyoaOg8=;
- b=ngZAh5Z72KvvTAgrceytE3spxnvkvVcjWq9xWn7hgtPbt6zH8tjlcPnNy3Cd+83DCd
- hd4/s9yatYlYmxD/L5KDijvsSJW9W/dqKO4ZTrMsQd7KcKDsXX/F8GijXrmkynNsZ1sR
- JSKD35VzPFz20FSDK65vGKBv2JkfDFsaqVju6rTApsjgcl4ci3vvZcc0c31XOMGplMKO
- dsq1k1lRLSc7enrex5gztTSc2bWR05qFv3l5SnJWg8LBwwmoSgPYybT7dT4hJXIBBdsi
- YMAP8Th8r4EyeOzE07QBmx/MnvrgnaOqH1A3dwwD98iJcd89oahKt0atpgvpO26FXymV
- JM9Q==
-X-Gm-Message-State: AOAM5336MidLpCcXertaUXIwP0yz9To6aebLAautQOwg/koyRc1zIHaw
- n+lUAonyogpoxM5473qypuvUak4QbfcOe0HlG70=
-X-Google-Smtp-Source: ABdhPJy+zF7LvSvCelf7D0g9094pzZHUFVdvBWvDvH3vofFWToHYhEksfr41SCa0BRmxEkzYeEXD6iB5VJvzo072PZE=
-X-Received: by 2002:a9d:6306:: with SMTP id q6mr7454077otk.290.1628985326975; 
- Sat, 14 Aug 2021 16:55:26 -0700 (PDT)
+ h=x-gm-message-state:from:subject:to:references:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DZlBN09sx+gq4Xv1ZK/2Nhj0nCpAtanNF90jl33DvHU=;
+ b=AvFD7+MyUeTudk0bzk7BhS1yza4/pcIFTNbmtwUSOKbomHfZaXYFiZuic0ZREDE8xB
+ kB0xHGWZv3KuUPd2OSBoUfDjRF36esyUXcSzAsjMlMER9HgvFjh6b+EYfV2b0671K0ud
+ iAlCu8dK6UIQQm4NU2If4Ixrtl6f05ROM6AML6Lu8YinEbDasfSLqlMW5KbYjdysrVGS
+ llKhpjcFCtan/NVkaUQJkKhXoLv2zuQukstKHthVJZ7u7LowJ/b07HsgvSV8SrfG7Y5e
+ GoDYiul5bHYBk2GdbKUWwFLXiElKIqy2jbtiFaQJ4cv1T5yOvLg1YGg8MOMJ6GNSOwWR
+ OJwg==
+X-Gm-Message-State: AOAM531QFUB5fB1oWXyQNa9TdfxWd4SBZbpMJyyAuoyshRK3JWmYxVbz
+ +JA+okpUUSi2Erdr3l+G7+20+cOcraz3i0diyXw=
+X-Google-Smtp-Source: ABdhPJwNfM7DKZwK7tu3EHvXNIjH04V1yStzRg9FbM0AYB6SkO/vt0TMCtnqOG1RfJIdytzsjelBdw==
+X-Received: by 2002:a17:90a:44:: with SMTP id 4mr10463481pjb.130.1629011422639; 
+ Sun, 15 Aug 2021 00:10:22 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id t10sm6036370pji.30.2021.08.15.00.10.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 15 Aug 2021 00:10:21 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH 1/2] drm: avoid races with modesetting rights
+To: Daniel Vetter <daniel@ffwll.ch>
+References: <20210813085450.32494-1-desmondcheongzx@gmail.com>
+ <20210813085450.32494-2-desmondcheongzx@gmail.com>
+ <YRaUetPzT5EKaZkf@phenom.ffwll.local>
+Message-ID: <2d5290a0-b3ad-1719-c862-c004fe2342de@gmail.com>
+Date: Sun, 15 Aug 2021 15:10:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-From: Khalid Mohammed <lightlord323@gmail.com>
-Date: Sun, 15 Aug 2021 01:55:16 +0200
-Message-ID: <CAPaDB6eTgEixHjU8P7RP8-NVLRALb8izdGc1nw=iQfBpfDTd3A@mail.gmail.com>
-Subject: Mining Maintainers Mentorship
-To: lukas.bulwahn@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <YRaUetPzT5EKaZkf@phenom.ffwll.local>
+Content-Language: en-US
+Cc: airlied@linux.ie, intel-gfx@lists.freedesktop.org,
+ maarten.lankhorst@linux.intel.com, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+ dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+ linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com,
+ linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,36 +117,449 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3343526942292965231=="
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============3343526942292965231==
-Content-Type: multipart/alternative; boundary="000000000000c2409605c98db3e7"
+On 13/8/21 11:49 pm, Daniel Vetter wrote:
+> On Fri, Aug 13, 2021 at 04:54:49PM +0800, Desmond Cheong Zhi Xi wrote:
+>> In drm_client_modeset.c and drm_fb_helper.c,
+>> drm_master_internal_{acquire,release} are used to avoid races with DRM
+>> userspace. These functions hold onto drm_device.master_mutex while
+>> committing, and bail if there's already a master.
+>>
+>> However, ioctls can still race between themselves. A
+>> time-of-check-to-time-of-use error can occur if an ioctl that changes
+>> the modeset has its rights revoked after it validates its permissions,
+>> but before it completes.
+>>
+>> There are three ioctls that can affect modesetting permissions:
+>>
+>> - DROP_MASTER ioctl removes rights for a master and its leases
+>>
+>> - REVOKE_LEASE ioctl revokes rights for a specific lease
+>>
+>> - SET_MASTER ioctl sets the device master if the master role hasn't
+>> been acquired yet
+>>
+>> All these races can be avoided by introducing an SRCU that acts as a
+>> barrier for ioctls that can change modesetting permissions. Processes
+>> that perform modesetting should hold a read lock on the new
+>> drm_device.master_barrier_srcu, and ioctls that change these
+>> permissions should call synchronize_srcu before returning.
+>>
+>> This ensures that any process that might have seen old permissions are
+>> flushed out before DROP_MASTER/REVOKE_LEASE/SET_MASTER ioctls return
+>> to userspace.
+>>
+>> Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> 
+> This looks pretty solid, but I think there's one gap where we can still
+> race. Scenario.
+> 
+> Process A has a drm fd with master rights and two threads:
+> - thread 1 does a long-running display operation (like a modeset or
+>    whatever)
+> - thread 2 does a drop-master
+> 
+> Then we start a new process B, which acquires master in drm_open (there is
+> no other one left). This is like setmaster ioctl, but your
+> DRM_MASTER_FLUSH bit doesn't work there.
+> 
 
---000000000000c2409605c98db3e7
-Content-Type: text/plain; charset="UTF-8"
+Ah, I see the race. I think a good place to plug this would be in 
+drm_master_open using the drm_master_flush (or 
+drm_master_unlock_and_flush) that you suggested below.
 
-I am interested in the Mining Maintainers mentorship program and I would
-like to work on the tasks for the mentee selection.
+> The other thing is that for modeset stuff (which this all is) srcu is
+> probably massive overkill, and a simple rwsem should be good enough too.
+> Maybe even better, since the rwsem guarantees that no new reader can start
+> once you try to acquire the write side.
+> 
 
---000000000000c2409605c98db3e7
-Content-Type: text/html; charset="UTF-8"
+Makes sense, I'll switch to a rwsem then.
 
-<div dir="ltr">I am interested in the Mining Maintainers mentorship program and I would like to work on the tasks for the mentee selection.</div>
+> Finally, and this is a bit a bikeshed: I don't like much how
+> DRM_MASTER_FLUSH leaks the need of these very few places into the very
+> core drm_ioctl function. One idea I had was to use task_work in a special
+> function, roughly
+> 
+> void master_flush()
+> {
+> 	down_write(master_rwsem);
+> 	up_write(master_rwms);
+> }
+> void drm_master_flush()
+> {
+> 	init_task_work(fpriv->master_flush_work, master_flush)
+> 	task_work_add(fpriv->master_flush_work);
+> 	/* if task_work_add fails we're exiting, at which point the lack
+> 	 * of master flush doesn't matter);
+> }
+> 
+> And maybe put a comment above the function explaining why and how this
+> works.
+> 
+> We could even do a drm_master_unlock_and_flush helper, since that's really
+> what everyone wants, and it would make it very clear which master state
+> changes need this flush. Instead of setting a flag bit in an ioctl table
+> very far away ...
+> 
+> Thoughts?
+> -Daniel
+> 
 
---000000000000c2409605c98db3e7--
+Sounds good. I wasn't aware of the task_work_add mechanism to queue work 
+before the task returns to usermode, but this seems like a more explicit 
+way to flush.
 
---===============3343526942292965231==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Thanks for the feedback, Daniel. I'll fix this up in a v2.
+
+>> ---
+>>   drivers/gpu/drm/drm_auth.c           | 17 ++++++++++++++---
+>>   drivers/gpu/drm/drm_client_modeset.c | 10 ++++++----
+>>   drivers/gpu/drm/drm_drv.c            |  2 ++
+>>   drivers/gpu/drm/drm_fb_helper.c      | 20 ++++++++++++--------
+>>   drivers/gpu/drm/drm_internal.h       |  5 +++--
+>>   drivers/gpu/drm/drm_ioctl.c          | 25 +++++++++++++++++++++----
+>>   include/drm/drm_device.h             | 11 +++++++++++
+>>   include/drm/drm_ioctl.h              |  7 +++++++
+>>   8 files changed, 76 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
+>> index 60a6b21474b1..004506608e76 100644
+>> --- a/drivers/gpu/drm/drm_auth.c
+>> +++ b/drivers/gpu/drm/drm_auth.c
+>> @@ -29,6 +29,7 @@
+>>    */
+>>   
+>>   #include <linux/slab.h>
+>> +#include <linux/srcu.h>
+>>   
+>>   #include <drm/drm_auth.h>
+>>   #include <drm/drm_drv.h>
+>> @@ -448,21 +449,31 @@ void drm_master_put(struct drm_master **master)
+>>   EXPORT_SYMBOL(drm_master_put);
+>>   
+>>   /* Used by drm_client and drm_fb_helper */
+>> -bool drm_master_internal_acquire(struct drm_device *dev)
+>> +bool drm_master_internal_acquire(struct drm_device *dev, int *idx)
+>>   {
+>> +	*idx = srcu_read_lock(&dev->master_barrier_srcu);
+>> +
+>>   	mutex_lock(&dev->master_mutex);
+>>   	if (dev->master) {
+>>   		mutex_unlock(&dev->master_mutex);
+>> +		srcu_read_unlock(&dev->master_barrier_srcu, *idx);
+>>   		return false;
+>>   	}
+>> +	mutex_unlock(&dev->master_mutex);
+>>   
+>>   	return true;
+>>   }
+>>   EXPORT_SYMBOL(drm_master_internal_acquire);
+>>   
+>>   /* Used by drm_client and drm_fb_helper */
+>> -void drm_master_internal_release(struct drm_device *dev)
+>> +void drm_master_internal_release(struct drm_device *dev, int idx)
+>>   {
+>> -	mutex_unlock(&dev->master_mutex);
+>> +	srcu_read_unlock(&dev->master_barrier_srcu, idx);
+>>   }
+>>   EXPORT_SYMBOL(drm_master_internal_release);
+>> +
+>> +/* Used by drm_ioctl */
+>> +void drm_master_flush(struct drm_device *dev)
+>> +{
+>> +	synchronize_srcu(&dev->master_barrier_srcu);
+>> +}
+>> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+>> index ced09c7c06f9..9885f36f71b7 100644
+>> --- a/drivers/gpu/drm/drm_client_modeset.c
+>> +++ b/drivers/gpu/drm/drm_client_modeset.c
+>> @@ -1165,13 +1165,14 @@ int drm_client_modeset_commit(struct drm_client_dev *client)
+>>   {
+>>   	struct drm_device *dev = client->dev;
+>>   	int ret;
+>> +	int idx;
+>>   
+>> -	if (!drm_master_internal_acquire(dev))
+>> +	if (!drm_master_internal_acquire(dev, &idx))
+>>   		return -EBUSY;
+>>   
+>>   	ret = drm_client_modeset_commit_locked(client);
+>>   
+>> -	drm_master_internal_release(dev);
+>> +	drm_master_internal_release(dev, idx);
+>>   
+>>   	return ret;
+>>   }
+>> @@ -1215,8 +1216,9 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+>>   {
+>>   	struct drm_device *dev = client->dev;
+>>   	int ret = 0;
+>> +	int idx;
+>>   
+>> -	if (!drm_master_internal_acquire(dev))
+>> +	if (!drm_master_internal_acquire(dev, &idx))
+>>   		return -EBUSY;
+>>   
+>>   	mutex_lock(&client->modeset_mutex);
+>> @@ -1226,7 +1228,7 @@ int drm_client_modeset_dpms(struct drm_client_dev *client, int mode)
+>>   		drm_client_modeset_dpms_legacy(client, mode);
+>>   	mutex_unlock(&client->modeset_mutex);
+>>   
+>> -	drm_master_internal_release(dev);
+>> +	drm_master_internal_release(dev, idx);
+>>   
+>>   	return ret;
+>>   }
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 7a5097467ba5..c313f0674db3 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -574,6 +574,7 @@ static void drm_dev_init_release(struct drm_device *dev, void *res)
+>>   	mutex_destroy(&dev->clientlist_mutex);
+>>   	mutex_destroy(&dev->filelist_mutex);
+>>   	mutex_destroy(&dev->struct_mutex);
+>> +	cleanup_srcu_struct(&dev->master_barrier_srcu);
+>>   	drm_legacy_destroy_members(dev);
+>>   }
+>>   
+>> @@ -612,6 +613,7 @@ static int drm_dev_init(struct drm_device *dev,
+>>   	mutex_init(&dev->filelist_mutex);
+>>   	mutex_init(&dev->clientlist_mutex);
+>>   	mutex_init(&dev->master_mutex);
+>> +	init_srcu_struct(&dev->master_barrier_srcu);
+>>   
+>>   	ret = drmm_add_action(dev, drm_dev_init_release, NULL);
+>>   	if (ret)
+>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+>> index 3ab078321045..0d594bc15f18 100644
+>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>> @@ -1116,13 +1116,14 @@ int drm_fb_helper_setcmap(struct fb_cmap *cmap, struct fb_info *info)
+>>   	struct drm_fb_helper *fb_helper = info->par;
+>>   	struct drm_device *dev = fb_helper->dev;
+>>   	int ret;
+>> +	int idx;
+>>   
+>>   	if (oops_in_progress)
+>>   		return -EBUSY;
+>>   
+>>   	mutex_lock(&fb_helper->lock);
+>>   
+>> -	if (!drm_master_internal_acquire(dev)) {
+>> +	if (!drm_master_internal_acquire(dev, &idx)) {
+>>   		ret = -EBUSY;
+>>   		goto unlock;
+>>   	}
+>> @@ -1136,7 +1137,7 @@ int drm_fb_helper_setcmap(struct fb_cmap *cmap, struct fb_info *info)
+>>   		ret = setcmap_legacy(cmap, info);
+>>   	mutex_unlock(&fb_helper->client.modeset_mutex);
+>>   
+>> -	drm_master_internal_release(dev);
+>> +	drm_master_internal_release(dev, idx);
+>>   unlock:
+>>   	mutex_unlock(&fb_helper->lock);
+>>   
+>> @@ -1160,9 +1161,10 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
+>>   	struct drm_device *dev = fb_helper->dev;
+>>   	struct drm_crtc *crtc;
+>>   	int ret = 0;
+>> +	int idx;
+>>   
+>>   	mutex_lock(&fb_helper->lock);
+>> -	if (!drm_master_internal_acquire(dev)) {
+>> +	if (!drm_master_internal_acquire(dev, &idx)) {
+>>   		ret = -EBUSY;
+>>   		goto unlock;
+>>   	}
+>> @@ -1204,7 +1206,7 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
+>>   		ret = -ENOTTY;
+>>   	}
+>>   
+>> -	drm_master_internal_release(dev);
+>> +	drm_master_internal_release(dev, idx);
+>>   unlock:
+>>   	mutex_unlock(&fb_helper->lock);
+>>   	return ret;
+>> @@ -1474,12 +1476,13 @@ int drm_fb_helper_pan_display(struct fb_var_screeninfo *var,
+>>   	struct drm_fb_helper *fb_helper = info->par;
+>>   	struct drm_device *dev = fb_helper->dev;
+>>   	int ret;
+>> +	int idx;
+>>   
+>>   	if (oops_in_progress)
+>>   		return -EBUSY;
+>>   
+>>   	mutex_lock(&fb_helper->lock);
+>> -	if (!drm_master_internal_acquire(dev)) {
+>> +	if (!drm_master_internal_acquire(dev, &idx)) {
+>>   		ret = -EBUSY;
+>>   		goto unlock;
+>>   	}
+>> @@ -1489,7 +1492,7 @@ int drm_fb_helper_pan_display(struct fb_var_screeninfo *var,
+>>   	else
+>>   		ret = pan_display_legacy(var, info);
+>>   
+>> -	drm_master_internal_release(dev);
+>> +	drm_master_internal_release(dev, idx);
+>>   unlock:
+>>   	mutex_unlock(&fb_helper->lock);
+>>   
+>> @@ -1948,6 +1951,7 @@ EXPORT_SYMBOL(drm_fb_helper_initial_config);
+>>   int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
+>>   {
+>>   	int err = 0;
+>> +	int idx;
+>>   
+>>   	if (!drm_fbdev_emulation || !fb_helper)
+>>   		return 0;
+>> @@ -1959,13 +1963,13 @@ int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper)
+>>   		return err;
+>>   	}
+>>   
+>> -	if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev)) {
+>> +	if (!fb_helper->fb || !drm_master_internal_acquire(fb_helper->dev, &idx)) {
+>>   		fb_helper->delayed_hotplug = true;
+>>   		mutex_unlock(&fb_helper->lock);
+>>   		return err;
+>>   	}
+>>   
+>> -	drm_master_internal_release(fb_helper->dev);
+>> +	drm_master_internal_release(fb_helper->dev, idx);
+>>   
+>>   	drm_dbg_kms(fb_helper->dev, "\n");
+>>   
+>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+>> index 17f3548c8ed2..578fd2769913 100644
+>> --- a/drivers/gpu/drm/drm_internal.h
+>> +++ b/drivers/gpu/drm/drm_internal.h
+>> @@ -142,8 +142,9 @@ int drm_dropmaster_ioctl(struct drm_device *dev, void *data,
+>>   			 struct drm_file *file_priv);
+>>   int drm_master_open(struct drm_file *file_priv);
+>>   void drm_master_release(struct drm_file *file_priv);
+>> -bool drm_master_internal_acquire(struct drm_device *dev);
+>> -void drm_master_internal_release(struct drm_device *dev);
+>> +bool drm_master_internal_acquire(struct drm_device *dev, int *idx);
+>> +void drm_master_internal_release(struct drm_device *dev, int idx);
+>> +void drm_master_flush(struct drm_device *dev);
+>>   
+>>   /* drm_sysfs.c */
+>>   extern struct class *drm_class;
+>> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+>> index be4a52dc4d6f..eb4ec3fab7d1 100644
+>> --- a/drivers/gpu/drm/drm_ioctl.c
+>> +++ b/drivers/gpu/drm/drm_ioctl.c
+>> @@ -600,8 +600,10 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>>   	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_SET_SAREA_CTX, drm_legacy_setsareactx, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>>   	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_GET_SAREA_CTX, drm_legacy_getsareactx, DRM_AUTH),
+>>   
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_SET_MASTER, drm_setmaster_ioctl, 0),
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_DROP_MASTER, drm_dropmaster_ioctl, 0),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_SET_MASTER, drm_setmaster_ioctl,
+>> +		      DRM_MASTER_FLUSH),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_DROP_MASTER, drm_dropmaster_ioctl,
+>> +		      DRM_MASTER_FLUSH),
+>>   
+>>   	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_ADD_CTX, drm_legacy_addctx, DRM_AUTH|DRM_ROOT_ONLY),
+>>   	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_RM_CTX, drm_legacy_rmctx, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
+>> @@ -722,7 +724,8 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, DRM_MASTER),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
+>>   	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
+>> -	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
+>> +	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl,
+>> +		      DRM_MASTER | DRM_MASTER_FLUSH),
+>>   };
+>>   
+>>   #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE( drm_ioctls )
+>> @@ -781,13 +784,17 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>>   	struct drm_file *file_priv = file->private_data;
+>>   	struct drm_device *dev = file_priv->minor->dev;
+>>   	int retcode;
+>> +	int idx;
+>>   
+>>   	if (drm_dev_is_unplugged(dev))
+>>   		return -ENODEV;
+>>   
+>> +	if (unlikely(flags & DRM_MASTER))
+>> +		idx = srcu_read_lock(&dev->master_barrier_srcu);
+>> +
+>>   	retcode = drm_ioctl_permit(flags, file_priv);
+>>   	if (unlikely(retcode))
+>> -		return retcode;
+>> +		goto release_master;
+>>   
+>>   	/* Enforce sane locking for modern driver ioctls. */
+>>   	if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
+>> @@ -798,6 +805,16 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
+>>   		retcode = func(dev, kdata, file_priv);
+>>   		mutex_unlock(&drm_global_mutex);
+>>   	}
+>> +
+>> +release_master:
+>> +	if (unlikely(flags & DRM_MASTER))
+>> +		srcu_read_unlock(&dev->master_barrier_srcu, idx);
+>> +	/* After flushing, processes are guaranteed to see the new master/lease
+>> +	 * permissions, and any process which might have seen the old
+>> +	 * permissions is guaranteed to have finished.
+>> +	 */
+>> +	if (unlikely(flags & DRM_MASTER_FLUSH))
+>> +		drm_master_flush(dev);
+>>   	return retcode;
+>>   }
+>>   EXPORT_SYMBOL(drm_ioctl_kernel);
+>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>> index 604b1d1b2d72..0ac5fdb375f8 100644
+>> --- a/include/drm/drm_device.h
+>> +++ b/include/drm/drm_device.h
+>> @@ -111,6 +111,17 @@ struct drm_device {
+>>   	 */
+>>   	struct drm_master *master;
+>>   
+>> +	/**
+>> +	 * @master_barrier_srcu:
+>> +	 *
+>> +	 * Used to synchronize modesetting rights between multiple users. Users
+>> +	 * that can change the modeset or display state must hold an
+>> +	 * srcu_read_lock() on @master_barrier_srcu, and ioctls that can change
+>> +	 * modesetting rights should call synchronize_srcu() before returning
+>> +	 * to userspace.
+>> +	 */
+>> +	struct srcu_struct master_barrier_srcu;
+>> +
+>>   	/**
+>>   	 * @driver_features: per-device driver features
+>>   	 *
+>> diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
+>> index afb27cb6a7bd..13a68cdcea36 100644
+>> --- a/include/drm/drm_ioctl.h
+>> +++ b/include/drm/drm_ioctl.h
+>> @@ -130,6 +130,13 @@ enum drm_ioctl_flags {
+>>   	 * not set DRM_AUTH because they do not require authentication.
+>>   	 */
+>>   	DRM_RENDER_ALLOW	= BIT(5),
+>> +	/**
+>> +	 * @DRM_MASTER_FLUSH:
+>> +	 *
+>> +	 * This must be set for any ioctl which can change the modesetting
+>> +	 * permissions for DRM users.
+>> +	 */
+>> +	DRM_MASTER_FLUSH	= BIT(6),
+>>   };
+>>   
+>>   /**
+>> -- 
+>> 2.25.1
+>>
+> 
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============3343526942292965231==--
