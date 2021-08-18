@@ -2,106 +2,103 @@ Return-Path: <SRS0=1Ivo=NJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.4 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FAKE_REPLY_A1,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 124C9C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 07:41:36 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48DC6C4320A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 09:35:54 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id CADD06054E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 07:41:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CADD06054E
+	by mail.kernel.org (Postfix) with ESMTPS id E01EE60462
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 09:35:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org E01EE60462
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A43AB40475;
-	Wed, 18 Aug 2021 07:41:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A2175606F2;
+	Wed, 18 Aug 2021 09:35:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Fg3g52jNutu3; Wed, 18 Aug 2021 07:41:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B451840222;
-	Wed, 18 Aug 2021 07:41:31 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6BMkOVbsI80m; Wed, 18 Aug 2021 09:35:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5CA60605F6;
+	Wed, 18 Aug 2021 09:35:49 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 91EFAC001A;
-	Wed, 18 Aug 2021 07:41:31 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2ABAFC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4363CC001A;
+	Wed, 18 Aug 2021 09:35:49 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B843CC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:30 +0000 (UTC)
+ Wed, 18 Aug 2021 09:35:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0B6E140222
+ by smtp2.osuosl.org (Postfix) with ESMTP id A385B401B4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:30 +0000 (UTC)
+ Wed, 18 Aug 2021 09:35:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CUTl4o2DJeke
+ with ESMTP id WM4cRysHSGmK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:28 +0000 (UTC)
+ Wed, 18 Aug 2021 09:35:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E4FE140019
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 70D564015C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:28 +0000 (UTC)
-Received: by mail-pf1-x434.google.com with SMTP id y11so1270889pfl.13
+ Wed, 18 Aug 2021 09:35:44 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id
+ 28-20020a17090a031cb0290178dcd8a4d1so4916825pje.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 00:41:28 -0700 (PDT)
+ Wed, 18 Aug 2021 02:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1bkLMEw2t/totCFLQIzrVHXO8lyHlY0O9pr/RZGsdI0=;
- b=bLirg/ekc0It+7MhEmdqeKW1uskct7uSLEYEWb5Ts5xbzkUlwtt0MXY+lJk9DGWH0b
- Uqv9IwaVom6h+9HWW2VpWO/ZrDFqJx917Te1eyb59FUAVKaVVQ6cIDAYwQZGA/SqTxQ3
- okt1jnoVvDtYswWK6eXPFUwy4mbZ41c62jY+cFma3PrODfQ6olrM1dkWU8e+fnUdhuA6
- LcRvdhF2laqs5TgwKBgnqpmuons9CZfNplWWsgdfHzRXRlDU4/zxRj0MD2cYdlg/kgz6
- uQy/f3qvZI+gA9UJxHE+io77IuzIlxyEJuKlHcVdF3i4FEKKISV1yS+JwxrBszCcmW6+
- ed/Q==
+ h=from:to:cc:subject:message-id:date:user-agent:mime-version
+ :content-language:content-transfer-encoding;
+ bh=KiAVkJm8yedWuSRYoNSKYqF2ar+US6oMlUNo9BAqWgc=;
+ b=FIXmYUjGSX3o1YVWouA1Y7gfSaD1UG8iTlsfjIqqO6MKxNH8bO83rFEZ1OZIEloJAP
+ cJH9e8lLAHRxfxMEsmBZaeAP6aO+A657cxqg7r5L59xjwNApnt9XE4gXAzvZ9rCOL0fO
+ dM3dWx3rgqPBjqfxNWCffmrsoLXealD4cwRqp4QO6fmbE7USwV69W6Ca8vYx/KJm4mCF
+ LgD24hspIuc2mXzo8G+LiUVHRrmH8jppa9ulxjtfIRiquiCNn/crlbtd0Igj5f3Hi4qB
+ OEna/6WUXQYLg6ok/hMakEQS6xVT+6/UdhEjBSxzXN0SMIZqdmIYXM2vRgrzLCmWSy9i
+ WevA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1bkLMEw2t/totCFLQIzrVHXO8lyHlY0O9pr/RZGsdI0=;
- b=MpTpdOpjATD+J4Pb9+D5d4293ligBTDLyPn57RuMNdNa1DEqYSrd4ZbFrL6A2MW74C
- RpCaobzfjqhJ0eC3wd23kMLAnKMDyQ7cNjZC9HWlBQdHt9JK12NTcRkkdpXuTmkLya27
- eVhuyFsdke+mnq7iWD7Pp1NteMSsr4ocBu1FUS4BeJxz3bWRLSrZ+jvH2+xvuDbfuwdC
- H+8+GLSHfTI5gozizWc9qgNdyP2pAsw33Jl0/SeF87szudIFlELVma279w908fzUZBNu
- pnQXkrBsUN8dRqMp51uZ8q7R1eFQrrCfxiWc6Dd/Kn0jDKsmGKigGW8uL1vF+7L6qwi+
- I68Q==
-X-Gm-Message-State: AOAM530WryLFo5vek5kkYIM4EEacKfuuaB9TNByG4uKk8gIoi00Hp09x
- y+eCQIiarbf8jBFsWXFASzs=
-X-Google-Smtp-Source: ABdhPJys3HPHWTRsAjT+5YnD6rJNYZL136LiYwwEF8beumJZ6hVGWSIIaE7eeFYyLYOhAlW2I2XuJQ==
-X-Received: by 2002:a05:6a00:181c:b029:3c6:2258:a844 with SMTP id
- y28-20020a056a00181cb02903c62258a844mr8044761pfa.6.1629272488381; 
- Wed, 18 Aug 2021 00:41:28 -0700 (PDT)
-Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.41.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 00:41:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=KiAVkJm8yedWuSRYoNSKYqF2ar+US6oMlUNo9BAqWgc=;
+ b=lRUqSbH806qdY5ZeX8DH44FMV59i+kvz4fRTy65LHMI6+VlXOPoMEkAfHK34uHAOOr
+ m1eBeghgdGEQY4DeiROXwzERGd50+IAdvaDjNXPl9KTs7nf2kq+Pjd9IlkyGbJ8cQ75u
+ ZthCrAXDHWWLRIYJkvpd09AG4PucqSEc53C9T5WKIBRnLCt237NcUKtIkOwO8e0aPiER
+ nYStE5Cx5cJa8L8uMLwQwIAlbnEkmF5tarOgyE2VvPqRXm027QABWJxZAjSo9MIfMQ3h
+ XXibC7oyHwHsHtAvSswceG3VzuTNU2XxVchEgh3Pmjredxwqau5S4hn9cjz2pQ1HEeVE
+ M3kQ==
+X-Gm-Message-State: AOAM530LqEQEhIbUyBYC91fwRrTLGsOf4O/xLGafl3R3cD+cS7CRklCG
+ b/nBIJfHdXZL35d3iqDVFSzypdThL5SK2XAJ
+X-Google-Smtp-Source: ABdhPJwMVbYhpp1VxDZastMUJBFk1h1kv8wSXCuOlVTN6w9KCKxPYav5BlHbm5lCnfeCswV/Bt7IRg==
+X-Received: by 2002:a17:90a:c7cc:: with SMTP id
+ gf12mr8354445pjb.152.1629279343645; 
+ Wed, 18 Aug 2021 02:35:43 -0700 (PDT)
+Received: from [192.168.1.237] ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id u16sm6563484pgh.53.2021.08.18.02.35.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 02:35:43 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
- tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com
-Subject: [PATCH v3 9/9] drm: avoid races with modesetting rights
-Date: Wed, 18 Aug 2021 15:38:24 +0800
-Message-Id: <20210818073824.1560124-10-desmondcheongzx@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
-References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
+To: syzbot+1aec08e752387f55c449@syzkaller.appspotmail.com
+Subject: Re: general protection fault in drm_atomic_set_crtc_for_connector
+Message-ID: <e1375344-82aa-1a38-e51a-2989c4ee7858@gmail.com>
+Date: Wed, 18 Aug 2021 17:35:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Content-Language: en-US
+Cc: syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,192 +110,56 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In drm_client_modeset.c and drm_fb_helper.c,
-drm_master_internal_{acquire,release} are used to avoid races with DRM
-userspace. These functions hold onto drm_device.master_rwsem while
-committing, and bail if there's already a master.
+#syz fix: drm: fix oops in drm_atomic_set_crtc_for_connector
 
-However, there are other places where modesetting rights can race. A
-time-of-check-to-time-of-use error can occur if an ioctl that changes
-the modeset has its rights revoked after it validates its permissions,
-but before it completes.
+At the time of the bug report [1], there was the following call in 
+update_output_state:
+> 			ret = drm_atomic_set_crtc_for_connector(new_conn_state,
+> 								NULL);
 
-There are four places where modesetting permissions can change:
+This was followed by
+> 	if (crtc) {
+> 		crtc_state = drm_atomic_get_crtc_state(conn_state->state, crtc);
+> 		if (IS_ERR(crtc_state))
+> 			return PTR_ERR(crtc_state);
+> 
+> 		crtc_state->connector_mask |=
+> 			drm_connector_mask(conn_state->connector);
+> 
+> 		drm_connector_get(conn_state->connector);
+> 		conn_state->crtc = crtc;
+> 
+> 		drm_dbg_atomic(crtc->dev,
+> 			       "Link [CONNECTOR:%d:%s] state %p to [CRTC:%d:%s]\n",
+> 			       connector->base.id, connector->name,
+> 			       conn_state, crtc->base.id, crtc->name);
+> 	} else {
+> 		drm_dbg_atomic(crtc->dev,
+> 			       "Link [CONNECTOR:%d:%s] state %p to [NOCRTC]\n",
+> 			       connector->base.id, connector->name,
+> 			       conn_state);
+> 	}
 
-- DROP_MASTER ioctl removes rights for a master and its leases
+in drm_atomic_set_crtc_for_connector, which clearly dereferences a null 
+pointer in the else block. This led to the reported general protection 
+fault.
 
-- REVOKE_LEASE ioctl revokes rights for a specific lease
+commit 0003b687ee6d("drm: fix oops in 
+drm_atomic_set_crtc_for_connector") fixes this by getting the device 
+from connector, which can't be NULL.
 
-- SET_MASTER ioctl sets the device master if the master role hasn't
-been acquired yet
+Link: 
+https://syzkaller.appspot.com/bug?id=768a24e51bd111e0c1d6b6f4e1f09fac3c54c05d 
+[1]
 
-- drm_open which can create a new master for a device if one does not
-currently exist
-
-These races can be avoided using drm_device.master_rwsem: users that
-perform modesetting should hold a read lock on the new
-drm_device.master_rwsem, and users that change these permissions
-should either hold a write lock, or should flush readers before
-returning to userspace.
-
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/drm_auth.c     | 29 +++++++++++++++++++++++++++++
- drivers/gpu/drm/drm_internal.h |  1 +
- drivers/gpu/drm/drm_ioctl.c    |  8 ++++++--
- drivers/gpu/drm/drm_lease.c    |  1 +
- include/drm/drm_device.h       | 10 +++++++++-
- 5 files changed, 46 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index b65681ff42fc..84d00275ff8a 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -29,6 +29,7 @@
-  */
- 
- #include <linux/slab.h>
-+#include <linux/task_work.h>
- 
- #include <drm/drm_auth.h>
- #include <drm/drm_drv.h>
-@@ -127,6 +128,7 @@ int drm_authmagic(struct drm_device *dev, void *data,
- 
- 	DRM_DEBUG("%u\n", auth->magic);
- 
-+	lockdep_assert_held_once(&dev->master_rwsem);
- 	spin_lock(&dev->master_lookup_lock);
- 	file = idr_find(&file_priv->master->magic_map, auth->magic);
- 	if (file) {
-@@ -485,3 +487,30 @@ void drm_master_internal_release(struct drm_device *dev)
- 	up_read(&dev->master_rwsem);
- }
- EXPORT_SYMBOL(drm_master_internal_release);
-+
-+/* After flushing, all readers that might have seen old master/lease
-+ * permissions are guaranteed to have completed.
-+ */
-+static void master_flush(struct callback_head *cb)
-+{
-+	struct drm_device *dev = container_of(cb, struct drm_device,
-+					      master_flush_work);
-+
-+	down_write(&dev->master_rwsem);
-+	up_write(&dev->master_rwsem);
-+}
-+
-+/* Queues up work to flush all readers of master/lease permissions. This work
-+ * is run before this task returns to user mode. Calling this function when a
-+ * task changes modesetting rights ensures that other processes that perform
-+ * modesetting do not race with userspace.
-+ */
-+void drm_master_flush(struct drm_device *dev)
-+{
-+	init_task_work(&dev->master_flush_work, master_flush);
-+	task_work_add(current, &dev->master_flush_work, TWA_RESUME);
-+	/* If task_work_add fails, then the task is exiting. In this case, it
-+	 * doesn't matter if master_flush is run, so we don't need an
-+	 * alternative mechanism for flushing.
-+	 */
-+}
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 17f3548c8ed2..b1cd39338756 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -144,6 +144,7 @@ int drm_master_open(struct drm_file *file_priv);
- void drm_master_release(struct drm_file *file_priv);
- bool drm_master_internal_acquire(struct drm_device *dev);
- void drm_master_internal_release(struct drm_device *dev);
-+void drm_master_flush(struct drm_device *dev);
- 
- /* drm_sysfs.c */
- extern struct class *drm_class;
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 2cb57378a787..7f523e1c5650 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -390,7 +390,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	struct drm_set_version *sv = data;
- 	int if_version, retcode = 0;
- 
--	down_read(&dev->master_rwsem);
-+	lockdep_assert_held_once(&dev->master_rwsem);
- 	if (sv->drm_di_major != -1) {
- 		if (sv->drm_di_major != DRM_IF_MAJOR ||
- 		    sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MINOR) {
-@@ -427,7 +427,6 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	sv->drm_di_minor = DRM_IF_MINOR;
- 	sv->drm_dd_major = dev->driver->major;
- 	sv->drm_dd_minor = dev->driver->minor;
--	up_read(&dev->master_rwsem);
- 
- 	return retcode;
- }
-@@ -783,6 +782,9 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	if (unlikely(drm_dev_needs_global_mutex(dev)) && !(flags & DRM_UNLOCKED))
- 		mutex_lock(&drm_global_mutex);
- 
-+	if (unlikely(flags & DRM_MASTER))
-+		down_read(&dev->master_rwsem);
-+
- 	retcode = drm_ioctl_permit(flags, file_priv);
- 	if (unlikely(retcode))
- 		goto out;
-@@ -790,6 +792,8 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	retcode = func(dev, kdata, file_priv);
- 
- out:
-+	if (unlikely(flags & DRM_MASTER))
-+		up_read(&dev->master_rwsem);
- 	if (unlikely(drm_dev_needs_global_mutex(dev)) && !(flags & DRM_UNLOCKED))
- 		mutex_unlock(&drm_global_mutex);
- 	return retcode;
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index dee4f24a1808..983701198ffd 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -723,6 +723,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	}
- 
- 	_drm_lease_revoke(lessee);
-+	drm_master_flush(dev);
- 
- fail:
- 	mutex_unlock(&dev->mode_config.idr_mutex);
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index f1ae4570a20a..617f7fe1d3bf 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -151,10 +151,18 @@ struct drm_device {
- 	 * Synchronizes modesetting rights between multiple users. Users that
- 	 * can change the modeset or display state must hold a read lock on
- 	 * @master_rwsem, and users that change modesetting rights should hold
--	 * a write lock.
-+	 * a write lock or flush readers before returning to userspace.
- 	 */
- 	struct rw_semaphore master_rwsem;
- 
-+	/**
-+	 * @master_flush_work:
-+	 *
-+	 * Callback structure used internally to queue work to flush readers of
-+	 * master/lease permissions.
-+	 */
-+	struct callback_head master_flush_work;
-+
- 	/**
- 	 * @master_lookup_lock:
- 	 *
--- 
-2.25.1
-
+Best wishes,
+Desmond
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
