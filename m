@@ -7,110 +7,73 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3CEC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 11:06:51 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066AFC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 14:04:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 35EE661056
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 11:06:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 35EE661056
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+	by mail.kernel.org (Postfix) with ESMTPS id B52CD61051
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 14:04:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B52CD61051
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F3CC94028A;
-	Wed, 18 Aug 2021 11:06:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 80C9C40495;
+	Wed, 18 Aug 2021 14:04:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a-Ajp_qWRcWX; Wed, 18 Aug 2021 11:06:46 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xnbKT2kuSseN; Wed, 18 Aug 2021 14:03:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CE5AE40283;
-	Wed, 18 Aug 2021 11:06:46 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7778A40487;
+	Wed, 18 Aug 2021 14:03:58 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93EE7C001C;
-	Wed, 18 Aug 2021 11:06:46 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 53E0BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BA62C0010;
+	Wed, 18 Aug 2021 14:03:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC100C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 11:06:45 +0000 (UTC)
+ Wed, 18 Aug 2021 14:03:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3F05740283
+ by smtp1.osuosl.org (Postfix) with ESMTP id A761780ECF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 11:06:45 +0000 (UTC)
+ Wed, 18 Aug 2021 14:03:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wk3tztQLoolQ
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id wQzU4WsB1jiR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 11:06:41 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1C91D40281
+ Wed, 18 Aug 2021 14:03:53 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 5087F80E79
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 11:06:41 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id q6so2873003wrv.6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 04:06:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=NPOr3Gsm++Jn+YbgaVuAdXWQs+lGHRq4aVwKxZvTaSw=;
- b=Gb+bX/DMqPhU/Gs13lF8AY1wqU95YsbV5W+CDvEpOSq0hnHYwwvnW6d/lNA9UADnZX
- 09wq+/BL4admOxeXXY4T1RPPuMJyOhLwUN6623S+X/BbKTRUPVQ4UIq69HbzA1KcPZ+B
- Hjsq2uYLK6ZiY0UjkL8U9aT8QL0lkk0TXVXCo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=NPOr3Gsm++Jn+YbgaVuAdXWQs+lGHRq4aVwKxZvTaSw=;
- b=lmKDSQJ8tKVIpEPrw7I0HRIYihzfGknFcsPoA5W3PEm4kSD9AFN6QivoYYoMFeeFoJ
- 34dP0EVvQH1g4UktLDF+hSOBRh+ACmD4vhBR2aYuNfAlBjkLDzY/MBgineHXoIEcwxZA
- 1J78LpKcBM2ISQxQmeopqR/N76wXy0cYAIblvB6EroPOOhckbWBmzwTc7MashljxrwxK
- 9h7HWvs80GFSb21RZJ9x3ZkqQ3l0lD8lvkGbo03kd0c88s1fUn0GEY0/SQ9hIxE07bHV
- iukbJkgvUufIecvbp4F58Dz5G9K1CPLvQLcutY8s/Cq707lKfFSduEzIfsckevldIh1p
- E2fA==
-X-Gm-Message-State: AOAM531J41OXHP8m2qtJRvGjNobAt1SZUmJneR5G4EE9WK+6Twg3ztmU
- nKtpVdo8JrXpLsVJz12t6UVEFQ==
-X-Google-Smtp-Source: ABdhPJy3direa3AYQ9AORP/zJ+ru6FCIsPvkYBAl/d0IdWCjpdrItlf4YzM0hadmH90C6qm9MQnNjg==
-X-Received: by 2002:adf:f282:: with SMTP id k2mr9819865wro.255.1629284799276; 
- Wed, 18 Aug 2021 04:06:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d8sm5575127wrx.12.2021.08.18.04.06.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 04:06:38 -0700 (PDT)
-Date: Wed, 18 Aug 2021 13:06:36 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH v3 8/9] kernel: export task_work_add
-Message-ID: <YRzpvHBQuq0kFtzH@phenom.ffwll.local>
-Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
- christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
- tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- kernel test robot <lkp@intel.com>
-References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
- <20210818073824.1560124-9-desmondcheongzx@gmail.com>
+ Wed, 18 Aug 2021 14:03:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3590B61051;
+ Wed, 18 Aug 2021 14:03:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1629295431;
+ bh=OtHThCXmHDiPy0w6lt1fEL2vmZQbCKRBjm4W84idpsI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Rx5TKLHCisM/jt55skOkrCVNfntYjFdCbIbtDzpTNmpkAOX3ImgebHL812XZe9ulp
+ H3rzMUDDOc7Hn90T6JvADqe0HfCHjXI1gELcST56HOlqVKFtco9drONZmebFDHtXrC
+ LLoRvnCDGEj6p6Z8VRpRN06sCWJhksk9xWclybp8=
+Date: Wed, 18 Aug 2021 16:03:49 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Phi Nguyen <phind.uet@gmail.com>
+Subject: Re: [PATCH] tty: Fix data race between tiocsti() and flush_to_ldisc()
+Message-ID: <YR0TRf+283ujBxbv@kroah.com>
+References: <20210807190513.3810821-1-phind.uet@gmail.com>
+ <YRYgSZwivcPPMhrS@kroah.com>
+ <7323d825-f596-223b-a063-7539a6a57107@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210818073824.1560124-9-desmondcheongzx@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-7-amd64 
-Cc: axboe@kernel.dk, walter-zh.wu@mediatek.com, tzimmermann@suse.de,
- airlied@linux.ie, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, maarten.lankhorst@linux.intel.com,
- oleg@redhat.com, mripard@kernel.org, christian.koenig@amd.com,
- linaro-mm-sig@lists.linaro.org, kernel test robot <lkp@intel.com>,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, tglx@linutronix.de,
- linux-kernel-mentees@lists.linuxfoundation.org, sumit.semwal@linaro.org,
- dvyukov@google.com, linux-media@vger.kernel.org
+In-Reply-To: <7323d825-f596-223b-a063-7539a6a57107@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com, jirislaby@kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -128,55 +91,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 18, 2021 at 03:38:23PM +0800, Desmond Cheong Zhi Xi wrote:
-> The task_work_add function is needed to prevent userspace races with
-> DRM modesetting rights.
+On Sat, Aug 14, 2021 at 02:35:53AM +0800, Phi Nguyen wrote:
+> On 8/13/2021 3:33 PM, Greg KH wrote:
+> > > 
+> > > Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+> > > Reported-by: syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com
+> > > ---
+> > >   drivers/tty/tty_io.c | 2 ++
+> > >   1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+> > > index e8532006e960..746fe13a2054 100644
+> > > --- a/drivers/tty/tty_io.c
+> > > +++ b/drivers/tty/tty_io.c
+> > > @@ -2307,8 +2307,10 @@ static int tiocsti(struct tty_struct *tty, char __user *p)
+> > >   	ld = tty_ldisc_ref_wait(tty);
+> > >   	if (!ld)
+> > >   		return -EIO;
+> > > +	tty_buffer_lock_exclusive(tty->port);
+> > >   	if (ld->ops->receive_buf)
+> > >   		ld->ops->receive_buf(tty, &ch, &mbz, 1);
+> > > +	tty_buffer_unlock_exclusive(tty->port);
+> > 
+> > Did this fix the syzbot reported issue?
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> > Yes, this fixed the syzbot reported issue.
 > 
-> Some DRM ioctls can change modesetting permissions while other
-> concurrent users are performing modesetting. To prevent races with
-> userspace, such functions should flush readers of old permissions
-> before returning to user mode. As the function that changes
-> permissions might itself be a reader of the old permissions, we intend
-> to schedule this flush using task_work_add.
+> The lock is grabbed in flush_to_ldisc() and paste_selection().
+> Actually, I follow the document in tty_buffer.c, where it say the callers to
+> receive_buff() other than flush_to_ldisc() need to exclude the kworker from
+> concurrent use of the line discipline.
 > 
-> However, when DRM is compiled as a loadable kernel module without
-> exporting task_work_add, we get the following compilation error:
-> 
-> ERROR: modpost: "task_work_add" [drivers/gpu/drm/drm.ko] undefined!
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+> And function tiocsti() has the following comment:
+> /* FIXME: may race normal receive processing */
+> that why I add lock in this function.
 
-Just realized another benefit of pushing the dev->master_rwsem write
-locks down into ioctls that need them: We wouldn't need this function here
-exported for use in drm. But also I'm not sure that works any better than
-the design in your current patch set ...
--Daniel
+As you are fixing this FIXME, please remove it in this patch, otherwise
+we will not know it is resolved :)
 
-> ---
->  kernel/task_work.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/kernel/task_work.c b/kernel/task_work.c
-> index 1698fbe6f0e1..90000404af2b 100644
-> --- a/kernel/task_work.c
-> +++ b/kernel/task_work.c
-> @@ -60,6 +60,7 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
->  
->  	return 0;
->  }
-> +EXPORT_SYMBOL(task_work_add);
->  
->  /**
->   * task_work_cancel_match - cancel a pending work added by task_work_add()
-> -- 
-> 2.25.1
-> 
+Can you add that to the change and submit a new version?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Also, this should go to stable kernels, right?  Any idea how far back?
+
+thanks,
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
