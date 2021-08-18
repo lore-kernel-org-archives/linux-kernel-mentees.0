@@ -2,108 +2,105 @@ Return-Path: <SRS0=1Ivo=NJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A39FC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 16:33:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43F3AC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 18:36:25 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 6B24F6104F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 16:33:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6B24F6104F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+	by mail.kernel.org (Postfix) with ESMTPS id CC73060F39
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 18:36:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org CC73060F39
+Authentication-Results: mail.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3924440761;
-	Wed, 18 Aug 2021 16:33:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 86AA840293;
+	Wed, 18 Aug 2021 18:36:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hnd-oZ3sJ1vd; Wed, 18 Aug 2021 16:33:43 +0000 (UTC)
+	with ESMTP id P0H-mgXR8K0q; Wed, 18 Aug 2021 18:36:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E62FB40767;
-	Wed, 18 Aug 2021 16:33:42 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id AF31F40271;
+	Wed, 18 Aug 2021 18:36:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A92C2C0010;
-	Wed, 18 Aug 2021 16:33:42 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6C181C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 853DFC0010;
+	Wed, 18 Aug 2021 18:36:20 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DFA54C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 16:33:41 +0000 (UTC)
+ Wed, 18 Aug 2021 18:36:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 47A7040276
+ by smtp4.osuosl.org (Postfix) with ESMTP id C772A40271
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 16:33:41 +0000 (UTC)
+ Wed, 18 Aug 2021 18:36:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=ffwll.ch
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QBuIA1BKIV4k
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tm7RuHy8HwMs
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 16:33:37 +0000 (UTC)
+ Wed, 18 Aug 2021 18:36:14 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
- [IPv6:2607:f8b0:4864:20::32c])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 17D8440168
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 477C940027
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 16:33:36 +0000 (UTC)
-Received: by mail-ot1-x32c.google.com with SMTP id
- r38-20020a05683044a600b0051a2c6dd421so4813408otv.3
+ Wed, 18 Aug 2021 18:36:14 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id w6so4650437oiv.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 09:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eCXA2zyPQAHS4vo82QVOH0nIRnuHikfTX6KZzHmuKg8=;
- b=QjC5m39FFqS5LCTw1JjDcl5B6GEqE4J6pQQCAqHO0dIZPp0kFChKdVrcqgX4J7k2iN
- 0W461aQvEEZJ/77xOGhMtNPK37ArAb6nSZnXdeFen/mBS7y8blIxPeDo6/iH9Jv7dxjG
- XYx0/mcOxznQU7DqJ23C8B9nlMbTUOgVqLoX4=
+ Wed, 18 Aug 2021 11:36:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=B0HrW3j8Fnyw72AqWx3TFUtOK4uhUpvaY9gIMxzxuIU=;
+ b=hfBxFw/TnfJ8Q74TdotNtucJRO5iThq4zbBYJNQvrSt9UJbNIvSi7KPr3ZLBoVcvTf
+ Ja2MQggiRk+lmcrQjPrvC/gqgcGl2hziLZToc5mYMndIs0TWkfxteNRYponSEg3o/4Qj
+ U3x1CN3O0z+4mO/ehfurr3u2f17gcc6uAVMQE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eCXA2zyPQAHS4vo82QVOH0nIRnuHikfTX6KZzHmuKg8=;
- b=qhFuwJwfkkgNE1U0wc3oxUTTL+AAaCBGOCcKqRfxu0a2ksw2V50/NxwPkp2zvBgD/Q
- x2iTZoLSzDitjheekNHosa+XYLvg2Q7zqyltYrhBYqrlV1OwbTrmnBsp/0eTWBYjnuhy
- 2JY/znYbQPdGzNOVRDq1FVtiCzZ+XmNGjeOKniEKipGyRP/+6ce3Hm+zJdYaEZL5yFLK
- iyvrVzkVXb3/g2+haQrSgPDHdqaC76kFvyBateE9YHrOVE5TVjN6s4kqoUMmps7iEYSD
- oZegWunaVp8cNwR9MFZOxqPLoIsyH0G5c1JINNZWYfWL+DRq3YkoqBtbYoTqupcl3bIk
- Wm+g==
-X-Gm-Message-State: AOAM530ytF9K/wvIGE8daOLQ2EWT1hmewcdfBXj73SJrqsFRXK9mUvYG
- grAAQCItMdIxnhpfHRHbYliodVHw8k/EHN9HhIhJSA==
-X-Google-Smtp-Source: ABdhPJxWStQd2lhV6/8pAdrwTDTsMPhhFVB2e1gL192lZFqb5+22njoozSqbDmc46xhVjO9OiXZ5h3OsAHALgZyXtck=
-X-Received: by 2002:a9d:4785:: with SMTP id b5mr7756337otf.188.1629304415812; 
- Wed, 18 Aug 2021 09:33:35 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B0HrW3j8Fnyw72AqWx3TFUtOK4uhUpvaY9gIMxzxuIU=;
+ b=eHztu3nQG64lUzzt6G+Ee9eyu9M+izMnpEZxyLM0xoTkRagLDQG231jSpJlhNdj/Oj
+ zk1MPaU42bfvhiBV/LZfHa/W+y1ht7jScCHkdiMbcwEtRJZ2bLpFPXmYeq+Ojak1WWDW
+ VKgAqayfl6kVl8R065h9XxrCWpQkykXxGgKQJHa75R7porZ1dzkDi+4R9PRqso/29+e9
+ ObfmT5akCp5VAS85ay0Yp6Bi3NZCHfS60dHy/W5rxdU0kIq6uADAb0FquueODrOdrkni
+ eEEbcc05UT/aCSk+ucNX+1W6aovRIhiP8QlsITXTcXc+wF/wAhIZRZHpHVVeWSWwLbP8
+ M8lA==
+X-Gm-Message-State: AOAM532EMdguwqqjUq34Fmm5gDI+zxeQ0rUBVp2nfs++TW/0eXdh4OMC
+ dB1Ipq2A7lvKpI33IoZ3WuMmB+Q4
+X-Google-Smtp-Source: ABdhPJzv/vbVL6GJH4+87n+W0NlAqUCmVyKVjAYZEem9rXkxFaZSyPC2dgpiXaHDSbcM9qFY7BsluQ==
+X-Received: by 2002:aca:1703:: with SMTP id j3mr8277516oii.116.1629311773372; 
+ Wed, 18 Aug 2021 11:36:13 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net.
+ [24.9.64.241])
+ by smtp.gmail.com with ESMTPSA id j6sm113586ooj.11.2021.08.18.11.36.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 11:36:12 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] usbip: give back URBs for unsent unlink requests
+ during cleanup
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20210813182508.28127-1-mail@anirudhrb.com>
+ <20210813182508.28127-2-mail@anirudhrb.com>
+ <13450a85-bbfe-09c5-d614-1a944c2600c2@linuxfoundation.org>
+ <YRydGRdPmOaiMWaY@kroah.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <cb36604b-37f1-c12e-3ebb-cdafd7798dc1@linuxfoundation.org>
+Date: Wed, 18 Aug 2021 12:36:11 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
- <20210818073824.1560124-5-desmondcheongzx@gmail.com>
- <YRzcuiQrLFsWowas@phenom.ffwll.local>
- <53a63ac8-f2de-91f7-4e0f-20b0f3f61d52@gmail.com>
-In-Reply-To: <53a63ac8-f2de-91f7-4e0f-20b0f3f61d52@gmail.com>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 18 Aug 2021 18:33:24 +0200
-Message-ID: <CAKMK7uG+nqnkNd56WPhze3V=e1ioL0PTLQxveBofQT3gNPB9HA@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v3 4/9] drm: fix potential null ptr
- dereferences in drm_{auth, ioctl}
-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, walter-zh.wu@mediatek.com,
- Dave Airlie <airlied@linux.ie>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Oleg Nesterov <oleg@redhat.com>, Maxime Ripard <mripard@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Vyukov <dvyukov@google.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+In-Reply-To: <YRydGRdPmOaiMWaY@kroah.com>
+Content-Language: en-US
+Cc: shuah@kernel.org, linux-usb@vger.kernel.org, valentina.manea.m@gmail.com,
+ syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,156 +112,64 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 18, 2021 at 5:37 PM Desmond Cheong Zhi Xi
-<desmondcheongzx@gmail.com> wrote:
->
-> On 18/8/21 6:11 pm, Daniel Vetter wrote:
-> > On Wed, Aug 18, 2021 at 03:38:19PM +0800, Desmond Cheong Zhi Xi wrote:
-> >> There are three areas where we dereference struct drm_master without
-> >> checking if the pointer is non-NULL.
-> >>
-> >> 1. drm_getmagic is called from the ioctl_handler. Since
-> >> DRM_IOCTL_GET_MAGIC has no ioctl flags, drm_getmagic is run without
-> >> any check that drm_file.master has been set.
-> >>
-> >> 2. Similarly, drm_getunique is called from the ioctl_handler, but
-> >> DRM_IOCTL_GET_UNIQUE has no ioctl flags. So there is no guarantee that
-> >> drm_file.master has been set.
-> >
-> > I think the above two are impossible, due to the refcounting rules for
-> > struct file.
-> >
->
-> Right, will drop those two parts from the patch.
->
-> >> 3. drm_master_release can also be called without having a
-> >> drm_file.master set. Here is one error path:
-> >>    drm_open():
-> >>      drm_open_helper():
-> >>        drm_master_open():
-> >>          drm_new_set_master(); <--- returns -ENOMEM,
-> >>                                     drm_file.master not set
-> >>        drm_file_free():
-> >>          drm_master_release(); <--- NULL ptr dereference
-> >>                                     (file_priv->master->magic_map)
-> >>
-> >> Fix these by checking if the master pointers are NULL before use.
-> >>
-> >> Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-> >> ---
-> >>   drivers/gpu/drm/drm_auth.c  | 16 ++++++++++++++--
-> >>   drivers/gpu/drm/drm_ioctl.c |  5 +++++
-> >>   2 files changed, 19 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> >> index f9267b21556e..b7230604496b 100644
-> >> --- a/drivers/gpu/drm/drm_auth.c
-> >> +++ b/drivers/gpu/drm/drm_auth.c
-> >> @@ -95,11 +95,18 @@ EXPORT_SYMBOL(drm_is_current_master);
-> >>   int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> >>   {
-> >>      struct drm_auth *auth = data;
-> >> +    struct drm_master *master;
-> >>      int ret = 0;
-> >>
-> >>      mutex_lock(&dev->master_mutex);
-> >> +    master = file_priv->master;
-> >> +    if (!master) {
-> >> +            mutex_unlock(&dev->master_mutex);
-> >> +            return -EINVAL;
-> >> +    }
-> >> +
-> >>      if (!file_priv->magic) {
-> >> -            ret = idr_alloc(&file_priv->master->magic_map, file_priv,
-> >> +            ret = idr_alloc(&master->magic_map, file_priv,
-> >>                              1, 0, GFP_KERNEL);
-> >>              if (ret >= 0)
-> >>                      file_priv->magic = ret;
-> >> @@ -355,8 +362,12 @@ void drm_master_release(struct drm_file *file_priv)
-> >>
-> >>      mutex_lock(&dev->master_mutex);
-> >>      master = file_priv->master;
-> >> +
-> >> +    if (!master)
-> >> +            goto unlock;
-> >
-> > This is a bit convoluted, since we're in the single-threaded release path
-> > we don't need any locking for file_priv related things. Therefore we can
-> > pull the master check out and just directly return.
-> >
-> > But since it's a bit surprising maybe a comment that this can happen when
-> > drm_master_open in drm_open_helper fails?
-> >
->
-> Sounds good. This can actually also happen in the failure path of
-> mock_drm_getfile if anon_inode_getfile fails. I'll leave a short note
-> about both of them.
->
-> > Another option, and maybe cleaner, would be to move the drm_master_release
-> > from drm_file_free into drm_close_helper. That would be fully symmetrical
-> > and should also fix the bug here?
-> > -Daniel
-> >
-> Hmmm maybe the first option to move the check out of the lock might be
-> better. If I'm not wrong, we would otherwise also need to move
-> drm_master_release into drm_client_close.
+On 8/17/21 11:39 PM, Greg KH wrote:
+> On Tue, Aug 17, 2021 at 05:16:51PM -0600, Shuah Khan wrote:
+>> On 8/13/21 12:25 PM, Anirudh Rayabharam wrote:
+>>> In vhci_device_unlink_cleanup(), the URBs for unsent unlink requests are
+>>> not given back. This sometimes causes usb_kill_urb to wait indefinitely
+>>> for that urb to be given back. syzbot has reported a hung task issue [1]
+>>> for this.
+>>>
+>>> To fix this, give back the urbs corresponding to unsent unlink requests
+>>> (unlink_tx list) similar to how urbs corresponding to unanswered unlink
+>>> requests (unlink_rx list) are given back.
+>>>
+>>> [1]: https://syzkaller.appspot.com/bug?id=08f12df95ae7da69814e64eb5515d5a85ed06b76
+>>>
+>>> Reported-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
+>>> Tested-by: syzbot+74d6ef051d3d2eacf428@syzkaller.appspotmail.com
+>>> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+>>> ---
+>>>    drivers/usb/usbip/vhci_hcd.c | 26 ++++++++++++++++++++++++++
+>>>    1 file changed, 26 insertions(+)
+>>>
+>>> diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+>>> index 4ba6bcdaa8e9..6f3f374d4bbc 100644
+>>> --- a/drivers/usb/usbip/vhci_hcd.c
+>>> +++ b/drivers/usb/usbip/vhci_hcd.c
+>>> @@ -957,8 +957,34 @@ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
+>>>    	spin_lock(&vdev->priv_lock);
+>>>    	list_for_each_entry_safe(unlink, tmp, &vdev->unlink_tx, list) {
+>>> +		struct urb *urb;
+>>> +
+>>> +		/* give back URB of unsent unlink request */
+>>>    		pr_info("unlink cleanup tx %lu\n", unlink->unlink_seqnum);
+>>
+>> I know this is an exiting one.
+>> Let's make this pr_debug or remove it all together.
+>>
+>>> +
+>>> +		urb = pickup_urb_and_free_priv(vdev, unlink->unlink_seqnum);
+>>> +		if (!urb) {
+>>> +			pr_info("the urb (seqnum %lu) was already given back\n",
+>>> +				unlink->unlink_seqnum);
+>>
+>> Let's make this pr_debug or remove it all together.
+> 
+> As you have a struct device for all of these, please use dev_dbg() and
+> friends, not pr_*(), for all of these.
+> 
 
-Do we have to?
+Yes. Makes perfect sense.
 
-If I haven't missed anything, the drm_client stuff only calls
-drm_file_alloc and doesn't set up a master. So this should work?
--Daniel
-
->
-> >
-> >> +
-> >>      if (file_priv->magic)
-> >> -            idr_remove(&file_priv->master->magic_map, file_priv->magic);
-> >> +            idr_remove(&master->magic_map, file_priv->magic);
-> >>
-> >>      if (!drm_is_current_master_locked(file_priv))
-> >>              goto out;
-> >> @@ -379,6 +390,7 @@ void drm_master_release(struct drm_file *file_priv)
-> >>              drm_master_put(&file_priv->master);
-> >>              spin_unlock(&dev->master_lookup_lock);
-> >>      }
-> >> +unlock:
-> >>      mutex_unlock(&dev->master_mutex);
-> >>   }
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> >> index 26f3a9ede8fe..4d029d3061d9 100644
-> >> --- a/drivers/gpu/drm/drm_ioctl.c
-> >> +++ b/drivers/gpu/drm/drm_ioctl.c
-> >> @@ -121,6 +121,11 @@ int drm_getunique(struct drm_device *dev, void *data,
-> >>
-> >>      mutex_lock(&dev->master_mutex);
-> >>      master = file_priv->master;
-> >> +    if (!master) {
-> >> +            mutex_unlock(&dev->master_mutex);
-> >> +            return -EINVAL;
-> >> +    }
-> >> +
-> >>      if (u->unique_len >= master->unique_len) {
-> >>              if (copy_to_user(u->unique, master->unique, master->unique_len)) {
-> >>                      mutex_unlock(&dev->master_mutex);
-> >> --
-> >> 2.25.1
-> >>
-> >
->
-
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+thanks,
+-- Shuah
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
