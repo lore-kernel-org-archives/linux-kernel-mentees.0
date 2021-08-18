@@ -6,99 +6,101 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4498C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 07:41:20 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 979EBC432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 07:41:25 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 77B0360FDA
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 07:41:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 77B0360FDA
+	by mail.kernel.org (Postfix) with ESMTPS id 629AA60FDA
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 07:41:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 629AA60FDA
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 58A8C4023F;
-	Wed, 18 Aug 2021 07:41:20 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3C8E980D37;
+	Wed, 18 Aug 2021 07:41:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vBBCLxnxdRBy; Wed, 18 Aug 2021 07:41:16 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1typCmHwuwn3; Wed, 18 Aug 2021 07:41:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 707594032C;
-	Wed, 18 Aug 2021 07:41:16 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9595780D2D;
+	Wed, 18 Aug 2021 07:41:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50DAFC001A;
-	Wed, 18 Aug 2021 07:41:16 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B3F01C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 71A9AC001A;
+	Wed, 18 Aug 2021 07:41:23 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6CA16C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:14 +0000 (UTC)
+ Wed, 18 Aug 2021 07:41:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A2FE440315
+ by smtp1.osuosl.org (Postfix) with ESMTP id 69AE180D2D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:14 +0000 (UTC)
+ Wed, 18 Aug 2021 07:41:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aSd5_0yqCm_n
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OAWR0yO3D--4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:14 +0000 (UTC)
+ Wed, 18 Aug 2021 07:41:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0A2204032C
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E1C3A80D1C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 07:41:13 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id bo18so2149387pjb.0
+ Wed, 18 Aug 2021 07:41:20 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ fa24-20020a17090af0d8b0290178bfa69d97so1835546pjb.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 00:41:13 -0700 (PDT)
+ Wed, 18 Aug 2021 00:41:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6qsW0sYS+QWl9YqcEcKPcEnVn6HLCKGFheZ9UsQK7Pw=;
- b=UOFTIL4BlsedoXnh4zHxO1Ey3z7ZulzCS5A0HofF4Pdc6KSOphdAQfUboSXTigN3QJ
- KV9GWvBIpiqXwe2DDYu2nmNE8CrFkYYFXVATDHFQup4d7oi9AssfF8qYtWT9XhKXgvqV
- hI0Q1Gq8wgxyphDTnoroV9F5koJtJ59wKMcWiCPDa1Bkq6RqPGY9N3aa8EV6KItNemMa
- gP5HwtFGnKuqLIsbCWkrhhrBrq+ZV++p+8hZ1RmRx/QEg7TYVGg0v9wiGESj2m60zwuM
- E0/lsPiZhzcN7BbB6TNJh84nkcOUcRh6VEIOKIcuc4++u7nT6silUQXPZR4R/jFnhWG0
- eMWA==
+ bh=E3tKLo4xSINmwLRhCWFdK6hj3HPWsZp310jfHIOH2bI=;
+ b=eYlqI7+uh+RIUCvEG+ElTKQ65oYiO/7b9n5s4gD+lLB6dI3+1tBTrfM+E9gHq8+ghC
+ pG+mnIdCtT+Qw/TcAMOTN1jsKNfeHJwUKNjPciJDepeHxgQuMRRs7kyHxyN3OR70HFEk
+ fH+FOFElAQ4Gsek+UHpdno02wP1O8QQA6kKroGAfCuSk73VvPdce0uYe68NM9b0/lhWN
+ +ViMb30Poox2EIE3XtkHQvZtKdTkqedODzSILqubxYNdgynB3qc8Ix+Nz5Uqdi4f6qGm
+ 3QkmjB9cvkubT2qFaKfHNev6sn1lvzQ9lLvI0mmtvOsFiagT4KeuiRaSXnwiqAQmm3v2
+ i6Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6qsW0sYS+QWl9YqcEcKPcEnVn6HLCKGFheZ9UsQK7Pw=;
- b=IxyzgCYPtSh61hbuYRi1sb81yNOSNjLlf6dChO5Hn1zc3cb2078ozHUrqcZ4y5aOSZ
- SpC/f5RTtGe60iM5dBOP6FBblgSNFbDpqMgw2z1A9eyTRlmmfVkwksi47Ng+SXKUPwoS
- reH+JLM6tIdFjWvIjTnBbKoft1IR6/Rd0Gdiy58QlzkGLkaw2l1H2fWs+Ck59d3o1+//
- +zvHRjWmsc+6Bjiu/XDuN3iEeQv8RDZhomXB/tsmv47UySVMzUEWDqiRNaNCEQU7YPZq
- AURXr/NygLp8db8IQpg7VAT23tzUxkNfJyL87r0DcxrvXaLTqPdO6QabZmtpYT/0iWpm
- /oOQ==
-X-Gm-Message-State: AOAM533OByZ/pj8682SvH02Oc4y9r1LXeDmgzEahpdws6Z4CwBWZiJC6
- VarA2nNCTqRMCEfLQ14FF+M=
-X-Google-Smtp-Source: ABdhPJyoRQikktAIIYzk2SdRrsIHolgC6+oIsd/deH794I59G6Uc3YKKU+oqVIrW58xvLjcm506Y1A==
-X-Received: by 2002:a17:902:d713:b029:12d:5b1a:c49 with SMTP id
- w19-20020a170902d713b029012d5b1a0c49mr6051047ply.70.1629272473538; 
- Wed, 18 Aug 2021 00:41:13 -0700 (PDT)
+ bh=E3tKLo4xSINmwLRhCWFdK6hj3HPWsZp310jfHIOH2bI=;
+ b=g9IyUCwo7T2Jz3Lf/DyA1UFrmXNUvx9o1yAq6GkD5i1nRU1W9+gtIV+FaUAqMlvl22
+ ZwP8WVfI37tQiVqoQmOPEASTyYYGncASe8BLlcBH1XeYigDMPLaXE9wrLYc09oaWVDBe
+ zJv8zG2mjuVNB5WBQS7rSLW+IZXLdLqfWW5xwo5Mr1SZ7DG+nCJAtlUctFa3LRoWTFp1
+ voZBbuEYXsX9gEhAgGLH9pfGL5LlLKMSKxfzuvHJZmf4t+9nmeDNSGcJ6l0/rH1V5v51
+ he2Rl9cVw3fAGsnFEB0s6tWIK36SeSMTWbl6VZZmiXan/1kqDLUb4EWdlA91ouaAe5zD
+ kaUg==
+X-Gm-Message-State: AOAM531z4euKuElj/ZwtCGEsFbn4Zk+lcBlk8CO/8scJZZbvkQG7YkeV
+ wJKdbY0ursB5YmSvt8U/RTM=
+X-Google-Smtp-Source: ABdhPJyntCa9RBP+wiR85wtfYtfjM9dTewB7E46OvMfEVp35CNo8y0LFchz5LQwPRQnlto9UE/Tv5g==
+X-Received: by 2002:a17:902:a406:b029:12b:c50a:4289 with SMTP id
+ p6-20020a170902a406b029012bc50a4289mr6303191plq.56.1629272480446; 
+ Wed, 18 Aug 2021 00:41:20 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.41.08
+ by smtp.gmail.com with ESMTPSA id u3sm3886729pjr.2.2021.08.18.00.41.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 00:41:13 -0700 (PDT)
+ Wed, 18 Aug 2021 00:41:20 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
  christian.koenig@amd.com, axboe@kernel.dk, oleg@redhat.com,
  tglx@linutronix.de, dvyukov@google.com, walter-zh.wu@mediatek.com
-Subject: [PATCH v3 7/9] drm: update global mutex lock in the ioctl handler
-Date: Wed, 18 Aug 2021 15:38:22 +0800
-Message-Id: <20210818073824.1560124-8-desmondcheongzx@gmail.com>
+Subject: [PATCH v3 8/9] kernel: export task_work_add
+Date: Wed, 18 Aug 2021 15:38:23 +0800
+Message-Id: <20210818073824.1560124-9-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
 References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+Cc: kernel test robot <lkp@intel.com>, intel-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org,
  Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -118,137 +120,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In a future patch, a read lock on drm_device.master_rwsem is
-held in the ioctl handler before the check for ioctl
-permissions. However, this produces the following lockdep splat:
+The task_work_add function is needed to prevent userspace races with
+DRM modesetting rights.
 
-======================================================
-WARNING: possible circular locking dependency detected
-5.14.0-rc6-CI-Patchwork_20831+ #1 Tainted: G     U
-------------------------------------------------------
-kms_lease/1752 is trying to acquire lock:
-ffffffff827bad88 (drm_global_mutex){+.+.}-{3:3}, at: drm_open+0x64/0x280
+Some DRM ioctls can change modesetting permissions while other
+concurrent users are performing modesetting. To prevent races with
+userspace, such functions should flush readers of old permissions
+before returning to user mode. As the function that changes
+permissions might itself be a reader of the old permissions, we intend
+to schedule this flush using task_work_add.
 
-but task is already holding lock:
-ffff88812e350108 (&dev->master_rwsem){++++}-{3:3}, at:
-drm_ioctl_kernel+0xfb/0x1a0
+However, when DRM is compiled as a loadable kernel module without
+exporting task_work_add, we get the following compilation error:
 
-which lock already depends on the new lock.
+ERROR: modpost: "task_work_add" [drivers/gpu/drm/drm.ko] undefined!
 
-the existing dependency chain (in reverse order) is:
-
--> #2 (&dev->master_rwsem){++++}-{3:3}:
-       lock_acquire+0xd3/0x310
-       down_read+0x3b/0x140
-       drm_master_internal_acquire+0x1d/0x60
-       drm_client_modeset_commit+0x10/0x40
-       __drm_fb_helper_restore_fbdev_mode_unlocked+0x88/0xb0
-       drm_fb_helper_set_par+0x34/0x40
-       intel_fbdev_set_par+0x11/0x40 [i915]
-       fbcon_init+0x270/0x4f0
-       visual_init+0xc6/0x130
-       do_bind_con_driver+0x1de/0x2c0
-       do_take_over_console+0x10e/0x180
-       do_fbcon_takeover+0x53/0xb0
-       register_framebuffer+0x22d/0x310
-       __drm_fb_helper_initial_config_and_unlock+0x36c/0x540
-       intel_fbdev_initial_config+0xf/0x20 [i915]
-       async_run_entry_fn+0x28/0x130
-       process_one_work+0x26d/0x5c0
-       worker_thread+0x37/0x390
-       kthread+0x13b/0x170
-       ret_from_fork+0x1f/0x30
-
--> #1 (&helper->lock){+.+.}-{3:3}:
-       lock_acquire+0xd3/0x310
-       __mutex_lock+0xa8/0x930
-       __drm_fb_helper_restore_fbdev_mode_unlocked+0x44/0xb0
-       intel_fbdev_restore_mode+0x2b/0x50 [i915]
-       drm_lastclose+0x27/0x50
-       drm_release_noglobal+0x42/0x60
-       __fput+0x9e/0x250
-       task_work_run+0x6b/0xb0
-       exit_to_user_mode_prepare+0x1c5/0x1d0
-       syscall_exit_to_user_mode+0x19/0x50
-       do_syscall_64+0x46/0xb0
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
-
--> #0 (drm_global_mutex){+.+.}-{3:3}:
-       validate_chain+0xb39/0x1e70
-       __lock_acquire+0x5a1/0xb70
-       lock_acquire+0xd3/0x310
-       __mutex_lock+0xa8/0x930
-       drm_open+0x64/0x280
-       drm_stub_open+0x9f/0x100
-       chrdev_open+0x9f/0x1d0
-       do_dentry_open+0x14a/0x3a0
-       dentry_open+0x53/0x70
-       drm_mode_create_lease_ioctl+0x3cb/0x970
-       drm_ioctl_kernel+0xc9/0x1a0
-       drm_ioctl+0x201/0x3d0
-       __x64_sys_ioctl+0x6a/0xa0
-       do_syscall_64+0x37/0xb0
-       entry_SYSCALL_64_after_hwframe+0x44/0xae
-
-other info that might help us debug this:
-Chain exists of:
-  drm_global_mutex --> &helper->lock --> &dev->master_rwsem
- Possible unsafe locking scenario:
-       CPU0                    CPU1
-       ----                    ----
-  lock(&dev->master_rwsem);
-                               lock(&helper->lock);
-                               lock(&dev->master_rwsem);
-  lock(drm_global_mutex);
-
- *** DEADLOCK ***
-
-The lock hierarchy inversion happens because we grab the
-drm_global_mutex while already holding on to master_rwsem. To avoid
-this, we do some prep work to grab the drm_global_mutex before
-checking for ioctl permissions.
-
-At the same time, we update the check for the global mutex to use the
-drm_dev_needs_global_mutex helper function.
-
+Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 ---
- drivers/gpu/drm/drm_ioctl.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ kernel/task_work.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 880fc565d599..2cb57378a787 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -779,19 +779,19 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	if (drm_dev_is_unplugged(dev))
- 		return -ENODEV;
+diff --git a/kernel/task_work.c b/kernel/task_work.c
+index 1698fbe6f0e1..90000404af2b 100644
+--- a/kernel/task_work.c
++++ b/kernel/task_work.c
+@@ -60,6 +60,7 @@ int task_work_add(struct task_struct *task, struct callback_head *work,
  
-+	/* Enforce sane locking for modern driver ioctls. */
-+	if (unlikely(drm_dev_needs_global_mutex(dev)) && !(flags & DRM_UNLOCKED))
-+		mutex_lock(&drm_global_mutex);
-+
- 	retcode = drm_ioctl_permit(flags, file_priv);
- 	if (unlikely(retcode))
--		return retcode;
-+		goto out;
- 
--	/* Enforce sane locking for modern driver ioctls. */
--	if (likely(!drm_core_check_feature(dev, DRIVER_LEGACY)) ||
--	    (flags & DRM_UNLOCKED))
--		retcode = func(dev, kdata, file_priv);
--	else {
--		mutex_lock(&drm_global_mutex);
--		retcode = func(dev, kdata, file_priv);
-+	retcode = func(dev, kdata, file_priv);
-+
-+out:
-+	if (unlikely(drm_dev_needs_global_mutex(dev)) && !(flags & DRM_UNLOCKED))
- 		mutex_unlock(&drm_global_mutex);
--	}
- 	return retcode;
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_ioctl_kernel);
++EXPORT_SYMBOL(task_work_add);
+ 
+ /**
+  * task_work_cancel_match - cancel a pending work added by task_work_add()
 -- 
 2.25.1
 
