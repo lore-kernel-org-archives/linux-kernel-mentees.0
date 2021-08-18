@@ -7,89 +7,89 @@ X-Spam-Status: No, score=-13.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67C48C432BE
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 10:11:21 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 470F5C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 10:44:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 17C2F60524
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 10:11:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 17C2F60524
+	by mail.kernel.org (Postfix) with ESMTPS id AFE7460F58
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 18 Aug 2021 10:44:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org AFE7460F58
 Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CFF7980E19;
-	Wed, 18 Aug 2021 10:11:20 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 710A340597;
+	Wed, 18 Aug 2021 10:44:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UMDpTOJvDvUO; Wed, 18 Aug 2021 10:11:16 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VvCAHmnec68v; Wed, 18 Aug 2021 10:43:57 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A076080DF0;
-	Wed, 18 Aug 2021 10:11:16 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4322C4025A;
+	Wed, 18 Aug 2021 10:43:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 807F2C001A;
-	Wed, 18 Aug 2021 10:11:16 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 13AEBC001C;
+	Wed, 18 Aug 2021 10:43:57 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2EFD1C000E
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 52B2BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 10:11:15 +0000 (UTC)
+ Wed, 18 Aug 2021 10:43:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0E8DF402D5
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3F04E40132
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 10:11:15 +0000 (UTC)
+ Wed, 18 Aug 2021 10:43:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (1024-bit key) header.d=ffwll.ch
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZBqTYXdiMxiv
+ with ESMTP id VAuDNO89EjX6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 10:11:11 +0000 (UTC)
+ Wed, 18 Aug 2021 10:43:51 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by smtp2.osuosl.org (Postfix) with ESMTPS id D3D4640186
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id F221D40188
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 10:11:10 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id r19so2244587eds.13
+ Wed, 18 Aug 2021 10:43:50 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id q10so2797337wro.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 18 Aug 2021 03:11:10 -0700 (PDT)
+ Wed, 18 Aug 2021 03:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=H6PUEJyT8yWFOs/eHUeXPFvL6SwbW/T0LWe0T2e8WmE=;
- b=GKjpI8oonPri08s2r40yIS07xBV5kd2Qcb0M+wEuCc48wKNdDQIcz1gsIg0w4AFPZH
- fTpmm7yg9dJmucZ4YwxqzV+MpHC7nNcfaQkUUDSl0ws5L1i10t9UlUGKJQLYp2Mrjnr1
- vXTDxTOZGh7Zh9xS2H8s1TXo6uM0qU+/eBKhc=
+ bh=N8rQWm3ZF/mcELR9LAmNZOvgjRRDsTH5ajAZC1IBXNQ=;
+ b=WzmYl5nKcFWK7r0irlC1OMzWbB+JXXitKPtEBcJkSXxT535KszNly9W9PeNU2AwuBu
+ 95uQPdRFraErnEgzStdTwvVHeoouORlt5jJ+pTXAxjjvd1lUHFOD/KMkoXK/bmzj3dq4
+ igsH43mTLkjWM44YdvHDEthVcCZH2vCTj1L30=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=H6PUEJyT8yWFOs/eHUeXPFvL6SwbW/T0LWe0T2e8WmE=;
- b=d2BPVyPCgdfmf3wlm5Fse4RhM6LC11wxp+ieSKBoO8ZyhmBgybTaBuple0iLRnk3Q3
- ItV/KZI/svpfnAA5ZjyJYYLuyYlMbHPQ19LI31LPv2T6raUW6rkWG2Z98Gm1K4WhreQ5
- ALvxMVwHwaHupeYIhy8GuLr4UR5zoJwLCHLkPU9vDd6+TDSemlPg1JhdA2Sgacju5zvO
- /xozYMeEw/OOhAlxkj/zChC8McFreHGk/IHcRaSc5gg9J5A3Ddv3s58MKZ99xJq+5cpE
- Oc2gQ77VMcd/jiuLBZOBdbEBbZJqsmUsjhSV1lvEoADKCzuFcEuo0zuV+f5qG+cbk9DP
- N05g==
-X-Gm-Message-State: AOAM532uW2oVHm+h3zPkB8z8lElxyYx0RVTmDDjBNaulb8hkIZZvEwj4
- k9bLo5muZ2XG7QMT6kRgU1CnGA==
-X-Google-Smtp-Source: ABdhPJxpWiWQ18UJm+hCSjJLPLxbcWNd9HkyUYKyAPssMAGCuTk1/N1o8a5V6hH6cJCPXAjYQUffNg==
-X-Received: by 2002:a05:6402:b88:: with SMTP id
- cf8mr9311655edb.281.1629281469070; 
- Wed, 18 Aug 2021 03:11:09 -0700 (PDT)
+ bh=N8rQWm3ZF/mcELR9LAmNZOvgjRRDsTH5ajAZC1IBXNQ=;
+ b=kUVVkMb+y0gR9gXBpL5wRH4Lis4VezJ+QRTvh5EZENWznpYq95uzk5/AHNLH/dKd3k
+ p8FrdwBX6B/Uwk3wYZWXRdMx2LXNBkCsVuCOt7vqccQZ3aOH9Pv/QR6F8tiZPZnlkjqi
+ CpKouBOGSOUGLOXpY6S692TYuXE7f4gCAJ7HLeNhy9ixTqAAYC88p+FvRCDWz0CZoZU/
+ 1Zt5OH9wRZbt6qI4z3ROoFpCN73HV5EIqKnQjTFVWV3FiGrmrw42wCRSspsFmqnffAk4
+ gkcUvLiso+FX8S8BTtlLFTPQL7LPzr39lFHbveAUZLBt/67PkkBssq51hKo9wUC25Esj
+ pvuA==
+X-Gm-Message-State: AOAM5337KkBVkfq3B5J8v3AtXUIHvt3xdAx59K2yHM8vBKJz0hKacKAn
+ JpYZfbhtP5RfqtSh3+Bg6QMKgQ==
+X-Google-Smtp-Source: ABdhPJzL26D2Xlf6x9Qn1216x8lsoF11MQEMcnhU8xpHFbqaQ2u4AZ7DwheabZAVQ+Ui1z6n9CKfKg==
+X-Received: by 2002:a05:6000:128e:: with SMTP id
+ f14mr9685601wrx.167.1629283429079; 
+ Wed, 18 Aug 2021 03:43:49 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j22sm1805495ejt.11.2021.08.18.03.11.08
+ by smtp.gmail.com with ESMTPSA id c9sm5451125wrm.43.2021.08.18.03.43.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 03:11:08 -0700 (PDT)
-Date: Wed, 18 Aug 2021 12:11:06 +0200
+ Wed, 18 Aug 2021 03:43:48 -0700 (PDT)
+Date: Wed, 18 Aug 2021 12:43:46 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Subject: Re: [PATCH v3 4/9] drm: fix potential null ptr dereferences in
- drm_{auth,ioctl}
-Message-ID: <YRzcuiQrLFsWowas@phenom.ffwll.local>
+Subject: Re: [PATCH v3 5/9] drm: protect magic_map,unique{_len} with
+ master_lookup_lock
+Message-ID: <YRzkYlcDDgrwDT81@phenom.ffwll.local>
 Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@linux.ie, sumit.semwal@linaro.org,
@@ -101,10 +101,10 @@ Mail-Followup-To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
  gregkh@linuxfoundation.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 References: <20210818073824.1560124-1-desmondcheongzx@gmail.com>
- <20210818073824.1560124-5-desmondcheongzx@gmail.com>
+ <20210818073824.1560124-6-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20210818073824.1560124-5-desmondcheongzx@gmail.com>
+In-Reply-To: <20210818073824.1560124-6-desmondcheongzx@gmail.com>
 X-Operating-System: Linux phenom 5.10.0-7-amd64 
 Cc: axboe@kernel.dk, walter-zh.wu@mediatek.com, tzimmermann@suse.de,
  airlied@linux.ie, linux-kernel@vger.kernel.org,
@@ -131,116 +131,186 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 18, 2021 at 03:38:19PM +0800, Desmond Cheong Zhi Xi wrote:
-> There are three areas where we dereference struct drm_master without
-> checking if the pointer is non-NULL.
+On Wed, Aug 18, 2021 at 03:38:20PM +0800, Desmond Cheong Zhi Xi wrote:
+> Currently, drm_device.master_mutex is used to serialize writes to the
+> drm_master.magic_map idr and to protect drm_master.unique{_len}.
 > 
-> 1. drm_getmagic is called from the ioctl_handler. Since
-> DRM_IOCTL_GET_MAGIC has no ioctl flags, drm_getmagic is run without
-> any check that drm_file.master has been set.
-> 
-> 2. Similarly, drm_getunique is called from the ioctl_handler, but
-> DRM_IOCTL_GET_UNIQUE has no ioctl flags. So there is no guarantee that
-> drm_file.master has been set.
-
-I think the above two are impossible, due to the refcounting rules for
-struct file.
-
-> 3. drm_master_release can also be called without having a
-> drm_file.master set. Here is one error path:
->   drm_open():
->     drm_open_helper():
->       drm_master_open():
->         drm_new_set_master(); <--- returns -ENOMEM,
->                                    drm_file.master not set
->       drm_file_free():
->         drm_master_release(); <--- NULL ptr dereference
->                                    (file_priv->master->magic_map)
-> 
-> Fix these by checking if the master pointers are NULL before use.
+> In preparation for converting drm_device.master_mutex into an outer
+> rwsem that might be read locked before entering some of these
+> functions, we can instead serialize access to drm_master.magic_map and
+> drm_master.unique{_len} using drm_device.master_lookup_lock which is
+> an inner lock.
 > 
 > Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 > ---
->  drivers/gpu/drm/drm_auth.c  | 16 ++++++++++++++--
->  drivers/gpu/drm/drm_ioctl.c |  5 +++++
->  2 files changed, 19 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/drm_auth.c  | 12 +++++++-----
+>  drivers/gpu/drm/drm_ioctl.c | 10 ++++++----
+>  include/drm/drm_auth.h      |  6 +++---
+>  include/drm/drm_device.h    |  7 ++++++-
+>  4 files changed, 22 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-> index f9267b21556e..b7230604496b 100644
+> index b7230604496b..0acb444fbbac 100644
 > --- a/drivers/gpu/drm/drm_auth.c
 > +++ b/drivers/gpu/drm/drm_auth.c
-> @@ -95,11 +95,18 @@ EXPORT_SYMBOL(drm_is_current_master);
->  int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
->  {
->  	struct drm_auth *auth = data;
-> +	struct drm_master *master;
+> @@ -98,10 +98,10 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+>  	struct drm_master *master;
 >  	int ret = 0;
 >  
->  	mutex_lock(&dev->master_mutex);
-> +	master = file_priv->master;
-> +	if (!master) {
-> +		mutex_unlock(&dev->master_mutex);
-> +		return -EINVAL;
-> +	}
-> +
->  	if (!file_priv->magic) {
-> -		ret = idr_alloc(&file_priv->master->magic_map, file_priv,
-> +		ret = idr_alloc(&master->magic_map, file_priv,
->  				1, 0, GFP_KERNEL);
->  		if (ret >= 0)
->  			file_priv->magic = ret;
-> @@ -355,8 +362,12 @@ void drm_master_release(struct drm_file *file_priv)
->  
->  	mutex_lock(&dev->master_mutex);
+> -	mutex_lock(&dev->master_mutex);
+> +	spin_lock(&dev->master_lookup_lock);
 >  	master = file_priv->master;
-> +
-> +	if (!master)
-> +		goto unlock;
-
-This is a bit convoluted, since we're in the single-threaded release path
-we don't need any locking for file_priv related things. Therefore we can
-pull the master check out and just directly return.
-
-But since it's a bit surprising maybe a comment that this can happen when
-drm_master_open in drm_open_helper fails?
-
-Another option, and maybe cleaner, would be to move the drm_master_release
-from drm_file_free into drm_close_helper. That would be fully symmetrical
-and should also fix the bug here?
--Daniel
-
-
-> +
+>  	if (!master) {
+> -		mutex_unlock(&dev->master_mutex);
+> +		spin_unlock(&dev->master_lookup_lock);
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -112,7 +112,7 @@ int drm_getmagic(struct drm_device *dev, void *data, struct drm_file *file_priv)
+>  			file_priv->magic = ret;
+>  	}
+>  	auth->magic = file_priv->magic;
+> -	mutex_unlock(&dev->master_mutex);
+> +	spin_unlock(&dev->master_lookup_lock);
+>  
+>  	DRM_DEBUG("%u\n", auth->magic);
+>  
+> @@ -127,13 +127,13 @@ int drm_authmagic(struct drm_device *dev, void *data,
+>  
+>  	DRM_DEBUG("%u\n", auth->magic);
+>  
+> -	mutex_lock(&dev->master_mutex);
+> +	spin_lock(&dev->master_lookup_lock);
+>  	file = idr_find(&file_priv->master->magic_map, auth->magic);
+>  	if (file) {
+>  		file->authenticated = 1;
+>  		idr_replace(&file_priv->master->magic_map, NULL, auth->magic);
+>  	}
+> -	mutex_unlock(&dev->master_mutex);
+> +	spin_unlock(&dev->master_lookup_lock);
+>  
+>  	return file ? 0 : -EINVAL;
+>  }
+> @@ -366,8 +366,10 @@ void drm_master_release(struct drm_file *file_priv)
+>  	if (!master)
+>  		goto unlock;
+>  
+> +	spin_lock(&dev->master_lookup_lock);
 >  	if (file_priv->magic)
-> -		idr_remove(&file_priv->master->magic_map, file_priv->magic);
-> +		idr_remove(&master->magic_map, file_priv->magic);
+>  		idr_remove(&master->magic_map, file_priv->magic);
+> +	spin_unlock(&dev->master_lookup_lock);
 >  
 >  	if (!drm_is_current_master_locked(file_priv))
 >  		goto out;
-> @@ -379,6 +390,7 @@ void drm_master_release(struct drm_file *file_priv)
->  		drm_master_put(&file_priv->master);
->  		spin_unlock(&dev->master_lookup_lock);
->  	}
-> +unlock:
->  	mutex_unlock(&dev->master_mutex);
->  }
->  
 > diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-> index 26f3a9ede8fe..4d029d3061d9 100644
+> index 4d029d3061d9..e5c3845b6e62 100644
 > --- a/drivers/gpu/drm/drm_ioctl.c
 > +++ b/drivers/gpu/drm/drm_ioctl.c
-> @@ -121,6 +121,11 @@ int drm_getunique(struct drm_device *dev, void *data,
+> @@ -119,21 +119,21 @@ int drm_getunique(struct drm_device *dev, void *data,
+>  	struct drm_unique *u = data;
+>  	struct drm_master *master;
 >  
->  	mutex_lock(&dev->master_mutex);
+> -	mutex_lock(&dev->master_mutex);
+> +	spin_lock(&dev->master_lookup_lock);
 >  	master = file_priv->master;
-> +	if (!master) {
-> +		mutex_unlock(&dev->master_mutex);
-> +		return -EINVAL;
-> +	}
-> +
+>  	if (!master) {
+> -		mutex_unlock(&dev->master_mutex);
+> +		spin_unlock(&dev->master_lookup_lock);
+>  		return -EINVAL;
+>  	}
+>  
 >  	if (u->unique_len >= master->unique_len) {
 >  		if (copy_to_user(u->unique, master->unique, master->unique_len)) {
->  			mutex_unlock(&dev->master_mutex);
+> -			mutex_unlock(&dev->master_mutex);
+> +			spin_unlock(&dev->master_lookup_lock);
+
+copy_to_user while holding a spinlock isn't going to work well, at least
+when we take a fault. The might_fault() annotations (if enabled) should
+catch that.
+
+Which is really annoying, because it kinda puts a wrench into this neat
+plan here :-/
+
+>  			return -EFAULT;
+>  		}
+>  	}
+>  	u->unique_len = master->unique_len;
+> -	mutex_unlock(&dev->master_mutex);
+> +	spin_unlock(&dev->master_lookup_lock);
+>  
+>  	return 0;
+>  }
+> @@ -405,7 +405,9 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
+>  			 * Version 1.1 includes tying of DRM to specific device
+>  			 * Version 1.4 has proper PCI domain support
+>  			 */
+> +			spin_lock(&dev->master_lookup_lock);
+>  			retcode = drm_set_busid(dev, file_priv);
+> +			spin_unlock(&dev->master_lookup_lock);
+
+Similar issue with drm_set_busid, calling kmalloc under a spinlock isn't a
+good idea. This one here is at least much easier to fix by pushing the
+locking down a lot.
+
+I'm wondering a bit whether a better fix for these ioctls wouldn't be to
+- drop the DRM_MASTER flag from the ioctl table
+- take the rwsem in write mode (which would replace our current
+  dev->master_lock) and check for master status while holding that lock
+
+I think that would result in simpler locking or am I missing something?
+Maybe this could even work as a replacment for the lookup spinlock, since
+we're untangling the nesting quite a bit?
+
+Really just tossing ideas around since I feel like we don't have the best
+one yet ...
+-Daniel
+
+>  			if (retcode)
+>  				goto done;
+>  		}
+> diff --git a/include/drm/drm_auth.h b/include/drm/drm_auth.h
+> index ba248ca8866f..f5be73153798 100644
+> --- a/include/drm/drm_auth.h
+> +++ b/include/drm/drm_auth.h
+> @@ -67,17 +67,17 @@ struct drm_master {
+>  	struct drm_device *dev;
+>  	/**
+>  	 * @unique: Unique identifier: e.g. busid. Protected by
+> -	 * &drm_device.master_mutex.
+> +	 * &drm_device.master_lookup_lock.
+>  	 */
+>  	char *unique;
+>  	/**
+>  	 * @unique_len: Length of unique field. Protected by
+> -	 * &drm_device.master_mutex.
+> +	 * &drm_device.master_lookup_lock.
+>  	 */
+>  	int unique_len;
+>  	/**
+>  	 * @magic_map: Map of used authentication tokens. Protected by
+> -	 * &drm_device.master_mutex.
+> +	 * &drm_device.master_lookup_lock.
+>  	 */
+>  	struct idr magic_map;
+>  	void *driver_priv;
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 506eb2784819..cf5d15aeb25f 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -152,7 +152,12 @@ struct drm_device {
+>  	 */
+>  	struct mutex master_mutex;
+>  
+> -	/** @master_lookup_lock: Serializes &drm_file.master. */
+> +	/**
+> +	 * @master_lookup_lock:
+> +	 *
+> +	 * Serializes &drm_file.master, &drm_master.magic_map,
+> +	 * &drm_master.unique, and &drm_master.unique_len.
+> +	 */
+>  	spinlock_t master_lookup_lock;
+>  
+>  	/**
 > -- 
 > 2.25.1
 > 
