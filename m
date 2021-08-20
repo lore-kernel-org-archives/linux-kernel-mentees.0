@@ -2,95 +2,113 @@ Return-Path: <SRS0=59bo=NL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CD7C4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 10:09:33 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA62CC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 11:01:39 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5AF94610F9
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 10:09:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5AF94610F9
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 585BD60FDC
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 11:01:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 585BD60FDC
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2A64080B6F;
-	Fri, 20 Aug 2021 10:09:33 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1F20A613DF;
+	Fri, 20 Aug 2021 11:01:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 94TJzEikuOM1; Fri, 20 Aug 2021 10:09:29 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9i4GTtrCztSN; Fri, 20 Aug 2021 11:01:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3776780B02;
-	Fri, 20 Aug 2021 10:09:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DFAF260658;
+	Fri, 20 Aug 2021 11:01:34 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D375C001A;
-	Fri, 20 Aug 2021 10:09:29 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 79701C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AAE15C0010;
+	Fri, 20 Aug 2021 11:01:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9410AC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 10:09:28 +0000 (UTC)
+ Fri, 20 Aug 2021 11:01:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5C5C380B23
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6F50B4028A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 10:09:28 +0000 (UTC)
+ Fri, 20 Aug 2021 11:01:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k5VnolBiao61
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=suse.cz header.b="RJ/Hdaoi";
+ dkim=neutral reason="invalid (unsupported algorithm ed25519-sha256)"
+ header.d=suse.cz header.b="wjYdJtwh"
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6QDi3S8RkWWI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 10:09:27 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com
- [IPv6:2607:f8b0:4864:20::b2d])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 21E3280B02
+ Fri, 20 Aug 2021 11:01:29 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 57D4B4043F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 10:09:27 +0000 (UTC)
-Received: by mail-yb1-xb2d.google.com with SMTP id n126so4541827ybf.6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 03:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=94k1PdMmYikLz9Q95XfHip9uvfu5U6bbVzQUGSsAIt4=;
- b=VDdBYGmDiMrqQaqn3sGTqUT+A7EuyCpou7ImG1bbo6syJmc7a4H6zOIGa0w+Y83jIM
- wa2CXfyOgVbhrMgwfBkrQz3j2TE/ie5G1L/D7zar0hFUJb6t06AJRS9eq72A1CoOnbEs
- 8T23oqWRBPju4qHnvFS+f0XXWjxN2X48dwsj0AOSHOUOn0O//MM7qpHgqsv18xlcEgwO
- m8LO2gZG7y1RYASonR3c4h/D5/+68zH7DtB0dYXh/pG9LMQvyw3rUnxSS//SNPoZzvfQ
- ZAMLgO2vz0FsafySXaNqJ67uT944ZDHBdLgAoRw8zb1GZO+iI+gF3g6SlUaXs3IrsMs2
- QQbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=94k1PdMmYikLz9Q95XfHip9uvfu5U6bbVzQUGSsAIt4=;
- b=N40ssz8NlzqBjjZTAbVodBWY50uoWfaebZGVl7y6MEwc6rRHA/OXyOclT1zoyN+W95
- oua/b0N/eazUsODPi4w0lPtg8lr0EvxEXmMKHyE0l35/jaPxqvQ/Ov1HG9XyHshtTAFU
- 7FqrVotQwYxXl9YCrmZn/GmMacHRvU31fXBh+riGM5rWMUVzTSGWpf3nClGhQnY3l2m9
- hi/iERJPG9g0IzO51fZo71ByPoj+N02szX4gVfnzfk0k3JrJwgUAXRhkpJE3JCjhaDxN
- Sxtwll4/ohnXorpgbhNswsu1ZoBaBxZFcQjtE6sKFWJbK3rWGuAd1hgYYGE//f4t1cgl
- hTmw==
-X-Gm-Message-State: AOAM532hGwfSwQidk6hvp8I+kGprheUtFStFj9ff7v3ThGTKTXs158Qy
- CdG8w3WIoR7y5ai9Jk0xRb+EjFo/5MHEcWggkcQ=
-X-Google-Smtp-Source: ABdhPJx9PwNE3baNg4TxTnS3x/QGIFdB+BlTGOm6k49lVelOHGajUbPRSuC2UL2Odo/d8qUc4Yduf1V1LEAGx8ScQaY=
-X-Received: by 2002:a25:b08d:: with SMTP id f13mr24832206ybj.518.1629454166046; 
- Fri, 20 Aug 2021 03:09:26 -0700 (PDT)
+ Fri, 20 Aug 2021 11:01:28 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id 1FB401FE03;
+ Fri, 20 Aug 2021 11:01:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1629457286;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JeRjLjwQhRqYl9HoHzlGb6oujq7wKFT0mdf81J1lNx0=;
+ b=RJ/Hdaoib0dDB4d1GdtcW3qfzpK/CLYIfXn/gYFFw/BOqbGEXvVYcw6zb0xJ5WfmrON8lP
+ ALPaiXPE1LmXFmvWNDkQG1Gvs3wFZWAAHk3IFkzg+0RPEKaaRRBW3S29EuEoK8dm064LT9
+ JYwyXAIZKqBlzMUEwOUWgfzz3/jnfKQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1629457286;
+ h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
+ cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=JeRjLjwQhRqYl9HoHzlGb6oujq7wKFT0mdf81J1lNx0=;
+ b=wjYdJtwhWia0lEM7XI7U7xBXdE0VTkqjL1/bBxurEXO9O9dseihR+h9snGQoIB94sWqnNM
+ 98QpeQF4fI+aUDDA==
+Received: from ds.suse.cz (ds.suse.cz [10.100.12.205])
+ by relay2.suse.de (Postfix) with ESMTP id 0C561A3B8B;
+ Fri, 20 Aug 2021 11:01:26 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+ id 5FDECDA730; Fri, 20 Aug 2021 12:58:28 +0200 (CEST)
+Date: Fri, 20 Aug 2021 12:58:28 +0200
+From: David Sterba <dsterba@suse.cz>
+To: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Subject: Re: [PATCH v2] btrfs: fix rw device counting in
+ __btrfs_free_extra_devids
+Message-ID: <20210820105828.GN5047@twin.jikos.cz>
+Mail-Followup-To: dsterba@suse.cz,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>, clm@fb.com,
+ josef@toxicpanda.com, dsterba@suse.com, anand.jain@oracle.com,
+ linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, gregkh@linuxfoundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
+References: <20210812103851.GC5047@twin.jikos.cz>
+ <3c48eec9-590c-4974-4026-f74cafa5ac48@gmail.com>
+ <20210812155032.GL5047@twin.jikos.cz>
+ <1e0aafb2-9e55-5f64-d347-1765de0560c5@gmail.com>
+ <20210813085137.GQ5047@twin.jikos.cz>
+ <a5690ae1-28ba-a933-6473-e9c1e5480f0c@gmail.com>
+ <20210813103032.GR5047@twin.jikos.cz>
+ <89172356-335f-1ca3-d3a2-78fac7ef93fb@gmail.com>
+ <20210819173403.GI5047@twin.jikos.cz>
+ <e9c5bb00-b609-aff9-fc95-ca1c5b9c2899@gmail.com>
 MIME-Version: 1.0
-References: <CAKXUXMxJ9CKP1nftTWmP-UTaMMyuOtoNYz4SQYrDPP9PdaRp4A@mail.gmail.com>
- <20210803183735.2525-1-utkarshverma294@gmail.com>
-In-Reply-To: <20210803183735.2525-1-utkarshverma294@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 20 Aug 2021 12:09:22 +0200
-Message-ID: <CAKXUXMy2eXLT9HOa2zgR08bXvNcVHH_BssLsOcUC==CGxU5OFw@mail.gmail.com>
-Subject: Re: [PATCH v2] USB: serial: iuu_phoenix: Replace symbolic permissions
- by octal permissions
-To: Utkarsh Verma <utkarshverma294@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <e9c5bb00-b609-aff9-fc95-ca1c5b9c2899@gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
+Cc: linux-kernel@vger.kernel.org,
+ syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com, dsterba@suse.cz,
+ anand.jain@oracle.com, josef@toxicpanda.com, clm@fb.com, dsterba@suse.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-btrfs@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,68 +120,62 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Reply-To: dsterba@suse.cz
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Concerning the subject line (commit message header prefix), check with
-git log --oneline drivers/usb/serial/iuu_phoenix.c for the common
-style of the prefix here. The prefix "USB: serial: iuu_phoenix:" looks
-reasonable; did you check that before or is this just a coincidence
-that it matches?
+On Fri, Aug 20, 2021 at 11:09:05AM +0800, Desmond Cheong Zhi Xi wrote:
+> On 20/8/21 1:34 am, David Sterba wrote:
+> > On Fri, Aug 20, 2021 at 01:11:58AM +0800, Desmond Cheong Zhi Xi wrote:
+> >>>>> The option #2 does not sound safe because the TGT bit is checked in
+> >>>>> several places where device list is queried for various reasons, even
+> >>>>> without a mounted filesystem.
+> >>>>>
+> >>>>> Removing the assertion makes more sense but I'm still not convinced that
+> >>>>> the this is expected/allowed state of a closed device.
+> >>>>>
+> >>>>
+> >>>> Would it be better if we cleared the REPLACE_TGT bit only when closing
+> >>>> the device where device->devid == BTRFS_DEV_REPLACE_DEVID?
+> >>>>
+> >>>> The first conditional in btrfs_close_one_device assumes that we can come
+> >>>> across such a device. If we come across it, we should properly reset it.
+> >>>>
+> >>>> If other devices has this bit set, the ASSERT will still catch it and
+> >>>> let us know something is wrong.
+> >>>
+> >>> That sounds great.
+> >>>
+> >>>> diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
+> >>>> index 70f94b75f25a..a5afebb78ecf 100644
+> >>>> --- a/fs/btrfs/volumes.c
+> >>>> +++ b/fs/btrfs/volumes.c
+> >>>> @@ -1130,6 +1130,9 @@ static void btrfs_close_one_device(struct btrfs_device *device)
+> >>>>                    fs_devices->rw_devices--;
+> >>>>            }
+> >>>>     
+> >>>> +       if (device->devid == BTRFS_DEV_REPLACE_DEVID)
+> >>>> +               clear_bit(BTRFS_DEV_STATE_REPLACE_TGT, &device->dev_state);
+> >>>> +
+> >>>>            if (test_bit(BTRFS_DEV_STATE_MISSING, &device->dev_state))
+> >>>>                    fs_devices->missing_devices--;
+> >>>
+> >>> I'll do a few test rounds, thanks.
+> >>
+> >> Just following up. Did that resolve the issue or is further
+> >> investigation needed?
+> > 
+> > The fix seems to work, I haven't seen the assertion fail anymore,
+> > incidentally the crash also stopped to show up on an unpatched branch.
+> > 
+> 
+> Sounds good, thanks for the update. If there's anything else I can help 
+> with, please let me know.
 
-The patch looks good so far. Utkarsh, will you send this now to the
-appropriate recipients according to ./scripts/get_maintainer.pl?
-
-Lukas
-
-On Tue, Aug 3, 2021 at 8:38 PM Utkarsh Verma <utkarshverma294@gmail.com> wrote:
->
-> Fix checkpatch warnings:
-> WARNING: Symbolic permissions 'S_IRUGO | S_IWUSR' are not preferred.
-> Consider using octal permissions '0644'.
->
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
-> ---
->  drivers/usb/serial/iuu_phoenix.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
-> index 19753611e..0be3b5e1e 100644
-> --- a/drivers/usb/serial/iuu_phoenix.c
-> +++ b/drivers/usb/serial/iuu_phoenix.c
-> @@ -1188,20 +1188,20 @@ MODULE_AUTHOR("Alain Degreffe eczema@ecze.com");
->  MODULE_DESCRIPTION(DRIVER_DESC);
->  MODULE_LICENSE("GPL");
->
-> -module_param(xmas, bool, S_IRUGO | S_IWUSR);
-> +module_param(xmas, bool, 0644);
->  MODULE_PARM_DESC(xmas, "Xmas colors enabled or not");
->
-> -module_param(boost, int, S_IRUGO | S_IWUSR);
-> +module_param(boost, int, 0644);
->  MODULE_PARM_DESC(boost, "Card overclock boost (in percent 100-500)");
->
-> -module_param(clockmode, int, S_IRUGO | S_IWUSR);
-> +module_param(clockmode, int, 0644);
->  MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, "
->                 "3=6 Mhz)");
->
-> -module_param(cdmode, int, S_IRUGO | S_IWUSR);
-> +module_param(cdmode, int, 0644);
->  MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, "
->                  "4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
->
-> -module_param(vcc_default, int, S_IRUGO | S_IWUSR);
-> +module_param(vcc_default, int, 0644);
->  MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 "
->                 "for 5V). Default to 5.");
-> --
-> 2.17.1
->
+So are you going to send the patch with the fix?
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
