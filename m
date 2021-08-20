@@ -2,118 +2,88 @@ Return-Path: <SRS0=59bo=NL=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-11.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E133CC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 17:54:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B535FC432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 19:01:45 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8B7A960F58
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 17:54:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8B7A960F58
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id 548E761057
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 20 Aug 2021 19:01:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 548E761057
+Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=anirudhrb.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4C55140113;
-	Fri, 20 Aug 2021 17:54:00 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 11B0940714;
+	Fri, 20 Aug 2021 19:01:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uEa6xiAELdUh; Fri, 20 Aug 2021 17:53:56 +0000 (UTC)
+	with ESMTP id 1qVXP9N5JBDy; Fri, 20 Aug 2021 19:01:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5574840253;
-	Fri, 20 Aug 2021 17:53:56 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id AC55940117;
+	Fri, 20 Aug 2021 19:01:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 401D7C001A;
-	Fri, 20 Aug 2021 17:53:56 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98103C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8A611C0010;
+	Fri, 20 Aug 2021 19:01:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5FF0AC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 17:53:54 +0000 (UTC)
+ Fri, 20 Aug 2021 19:01:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 79A5B4021B
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5C00040405
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 17:53:54 +0000 (UTC)
+ Fri, 20 Aug 2021 19:01:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
+ dkim=pass (1024-bit key) header.d=anirudhrb.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ExKgCmZhATIZ
+ with ESMTP id Mg8SorXXpQoj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 17:53:53 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 522EA40219
+ Fri, 20 Aug 2021 19:01:34 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from sender4-of-o53.zoho.com (sender4-of-o53.zoho.com
+ [136.143.188.53])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CBA6840338
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 17:53:53 +0000 (UTC)
-Received: by mail-pl1-x632.google.com with SMTP id e15so6370692plh.8
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 20 Aug 2021 10:53:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=wGEmsQipr5gzuljiPseq2A0Fn1otMeloCg6zZW6nEZM=;
- b=Z7iolNUcZI7SC3hr+wJwvmRBysaz9H/26a5BtromWHnFojn2eMmJX7iO+ARXKVgNRo
- P26oAv6NLCeH2FS7F5rk3ovdhh5nOJbsgoXdt8y0ZwoWM5Z7dS+ObBGpySxUuO9/mPM2
- +kVF4Cd0On7pNvyIv58CBmKNMGvOl2/fypV67NpUYt9p2bvHbAdBb/ypvTs9n2QHozJY
- zXGIZo7Wq082AqdIqvmKIaUEXad6z114VT+WUYOJ7z6SNuDMDz4BbF99h2eFE3IIefyg
- 8xfH34vDfYbbeBC3VzQu+pB1x1svtypQql7yl7dvjNC7GCFDTtpyLWo2UA7qHVqZZJSn
- jDKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wGEmsQipr5gzuljiPseq2A0Fn1otMeloCg6zZW6nEZM=;
- b=ovnq9IdTnnQoOgd/ISIGEbfUmmxepwX54EieHTphUPNPYJC0E87umGUFIUbDN++BZ4
- xiFn0+SR2t/2aWCVbvflvbJHj9Ni7yqwtvHRD5lU+YkELaemvBQmYriO8mrvcJtRm2xC
- NOHNkz10REtghwe+muXd2Ntja9rNLn0qu1LCdyweH9HKgd+oQVHxCfoPuFXfWTILBbBV
- 776EmfHEGVgGJBAmCCXbtXBHpvqToLrE0oQH58nZ0U489bU5sj3PyMOoibNSZl4JVgRf
- vfJTIMhTI18qmTm0pC30Y0vqsdSkVu3xEusOcgf+s2unEaWdkzh27td2n7/s6/kAS0B7
- F3qQ==
-X-Gm-Message-State: AOAM532q9VYMYDBfd706I7EdWWfIkkHbbZNr/aElHG5XmfMpO/TGIeXL
- pBNBTFBMmWS0vJjf+3hYE5A=
-X-Google-Smtp-Source: ABdhPJycAHJDcAUXZIxndEcPoSl619LFgLTgEMLLDpnLHIsB4NecSA18q3/B2VgxNkvcnM5UX5E4uQ==
-X-Received: by 2002:a17:902:8506:b029:12c:76a8:d1b8 with SMTP id
- bj6-20020a1709028506b029012c76a8d1b8mr17413188plb.14.1629482032699; 
- Fri, 20 Aug 2021 10:53:52 -0700 (PDT)
-Received: from [192.168.1.237] ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id m2sm8883434pgu.15.2021.08.20.10.53.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 10:53:52 -0700 (PDT)
-Subject: Re: [PATCH v2] btrfs: fix rw device counting in
- __btrfs_free_extra_devids
-To: dsterba@suse.cz, clm@fb.com, josef@toxicpanda.com, dsterba@suse.com,
- anand.jain@oracle.com, linux-btrfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+a70e2ad0879f160b9217@syzkaller.appspotmail.com
-References: <20210812103851.GC5047@twin.jikos.cz>
- <3c48eec9-590c-4974-4026-f74cafa5ac48@gmail.com>
- <20210812155032.GL5047@twin.jikos.cz>
- <1e0aafb2-9e55-5f64-d347-1765de0560c5@gmail.com>
- <20210813085137.GQ5047@twin.jikos.cz>
- <a5690ae1-28ba-a933-6473-e9c1e5480f0c@gmail.com>
- <20210813103032.GR5047@twin.jikos.cz>
- <89172356-335f-1ca3-d3a2-78fac7ef93fb@gmail.com>
- <20210819173403.GI5047@twin.jikos.cz>
- <e9c5bb00-b609-aff9-fc95-ca1c5b9c2899@gmail.com>
- <20210820105828.GN5047@twin.jikos.cz>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <e1bce692-b233-2d74-f366-dc0ec43ead84@gmail.com>
-Date: Sat, 21 Aug 2021 01:53:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Fri, 20 Aug 2021 19:01:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1629486091; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=JTUDp6Rbo0JtCPGZCz8dRy549EBqYLHq+o1SdTAv6vi5Oep7XDn5TbGIqaSE7mveNL1ioqGzJsRlnNeSU72ojPQ9IhtrBtM2XWhb0WElpRDwIZzV2VYpqlBl821J1Ga+HNjnFHOuFvwAW2yWJP2yS+0Fe4ngvkMb0/zaEA9s57Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1629486091;
+ h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+ bh=+8HoWNe3h5WTtvNvUVVUKYYO+3ldDsTW5LsjKb7EUVE=; 
+ b=XcAI4+ynpZA/qSu+x6sXA85WPn+2MjqC8OwnD1ag3JCozWzplmoNmDF0dwI7PQxWT6ZFjL3vEv9QeZ1/LBfQbR6RgUxW+9ZXV721KOklfzEu5wJa5/qudpr9OXh59YzlwKfHnzlJ+ZdTjMWlDa4glfV99oXH1QgHFUyB67n4M2g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=anirudhrb.com;
+ spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+ dmarc=pass header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1629486091; 
+ s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+ bh=+8HoWNe3h5WTtvNvUVVUKYYO+3ldDsTW5LsjKb7EUVE=;
+ b=QrMP5eDi97a9cQGeZSQV2Xzij92iwkWO3o1nK/zobB4BP9+dcrdskv5IXhHnvM+L
+ +RTlmzAdgofDkQ0Tmy08cWozsA6Kg+4Eo9m9Tcf6ZPcwgemfnZDgGHT7voN1w7/DdAQ
+ lrlZNDtWCEldD6DKeoV+llWV0Vo3caiQ2IDzq5sM=
+Received: from localhost.localdomain (106.51.111.164 [106.51.111.164]) by
+ mx.zohomail.com with SMTPS id 1629486088755312.1448548868018;
+ Fri, 20 Aug 2021 12:01:28 -0700 (PDT)
+From: Anirudh Rayabharam <mail@anirudhrb.com>
+To: valentina.manea.m@gmail.com, shuah@kernel.org, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] Fix syzkaller bug: hung task in hub_port_init
+Date: Sat, 21 Aug 2021 00:31:20 +0530
+Message-Id: <20210820190122.16379-1-mail@anirudhrb.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210820105828.GN5047@twin.jikos.cz>
-Content-Language: en-US
+X-ZohoMailClient: External
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -125,65 +95,74 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 20/8/21 6:58 pm, David Sterba wrote:
-> On Fri, Aug 20, 2021 at 11:09:05AM +0800, Desmond Cheong Zhi Xi wrote:
->> On 20/8/21 1:34 am, David Sterba wrote:
->>> On Fri, Aug 20, 2021 at 01:11:58AM +0800, Desmond Cheong Zhi Xi wrote:
->>>>>>> The option #2 does not sound safe because the TGT bit is checked in
->>>>>>> several places where device list is queried for various reasons, even
->>>>>>> without a mounted filesystem.
->>>>>>>
->>>>>>> Removing the assertion makes more sense but I'm still not convinced that
->>>>>>> the this is expected/allowed state of a closed device.
->>>>>>>
->>>>>>
->>>>>> Would it be better if we cleared the REPLACE_TGT bit only when closing
->>>>>> the device where device->devid == BTRFS_DEV_REPLACE_DEVID?
->>>>>>
->>>>>> The first conditional in btrfs_close_one_device assumes that we can come
->>>>>> across such a device. If we come across it, we should properly reset it.
->>>>>>
->>>>>> If other devices has this bit set, the ASSERT will still catch it and
->>>>>> let us know something is wrong.
->>>>>
->>>>> That sounds great.
->>>>>
->>>>>> diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
->>>>>> index 70f94b75f25a..a5afebb78ecf 100644
->>>>>> --- a/fs/btrfs/volumes.c
->>>>>> +++ b/fs/btrfs/volumes.c
->>>>>> @@ -1130,6 +1130,9 @@ static void btrfs_close_one_device(struct btrfs_device *device)
->>>>>>                     fs_devices->rw_devices--;
->>>>>>             }
->>>>>>      
->>>>>> +       if (device->devid == BTRFS_DEV_REPLACE_DEVID)
->>>>>> +               clear_bit(BTRFS_DEV_STATE_REPLACE_TGT, &device->dev_state);
->>>>>> +
->>>>>>             if (test_bit(BTRFS_DEV_STATE_MISSING, &device->dev_state))
->>>>>>                     fs_devices->missing_devices--;
->>>>>
->>>>> I'll do a few test rounds, thanks.
->>>>
->>>> Just following up. Did that resolve the issue or is further
->>>> investigation needed?
->>>
->>> The fix seems to work, I haven't seen the assertion fail anymore,
->>> incidentally the crash also stopped to show up on an unpatched branch.
->>>
->>
->> Sounds good, thanks for the update. If there's anything else I can help
->> with, please let me know.
-> 
-> So are you going to send the patch with the fix?
-> 
+This series fixes the hung task bug in hub_port_init reported by
+syzkaller at:
 
-Right, just sent. For some reason I thought it was already patched.
+https://syzkaller.appspot.com/bug?id=08f12df95ae7da69814e64eb5515d5a85ed06b76
+
+Stack:
+
+INFO: task kworker/0:0:5 blocked for more than 143 seconds.
+      Not tainted 5.13.0-rc7-syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/0:0     state:D
+ stack:27392 pid:    5 ppid:     2 flags:0x00004000
+Workqueue: usb_hub_wq hub_event
+
+Call Trace:
+ context_switch kernel/sched/core.c:4339 [inline]
+ __schedule+0x916/0x23e0 kernel/sched/core.c:5147
+ schedule+0xcf/0x270 kernel/sched/core.c:5226
+ usb_kill_urb.part.0+0x19c/0x220 drivers/usb/core/urb.c:711
+ usb_kill_urb+0x81/0xa0 drivers/usb/core/urb.c:706
+ usb_start_wait_urb+0x24a/0x4c0 drivers/usb/core/message.c:64
+ usb_internal_control_msg drivers/usb/core/message.c:102 [inline]
+ usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:153
+ hub_port_init+0x82e/0x2db0 drivers/usb/core/hub.c:4759
+ hub_port_connect drivers/usb/core/hub.c:5210 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5418 [inline]
+ port_event drivers/usb/core/hub.c:5564 [inline]
+ hub_event+0x2190/0x4330 drivers/usb/core/hub.c:5646
+ process_one_work+0x98d/0x1600 kernel/workqueue.c:2276
+ worker_thread+0x64c/0x1120 kernel/workqueue.c:2422
+ kthread+0x3b1/0x4a0 kernel/kthread.c:313
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+The first patch in the series fixes the issue and the second patch does
+some refactoring to avoid duplicate code.
+
+Changes in v4:
+- Got rid of the log messages as suggested by Shuah.
+
+Changes in v3:
+- Split the patch into two patches
+- Remove the convenience wrappers as suggested by Shuah
+- Remove the WARN as suggested by Greg
+Link: https://lore.kernel.org/lkml/20210813182508.28127-1-mail@anirudhrb.com/
+
+Changes in v2:
+Use WARN_ON() instead of BUG() when unlink_list is neither unlink_tx nor
+unlink_rx.
+Link: https://lore.kernel.org/lkml/20210806181335.2078-1-mail@anirudhrb.com/
+
+v1: https://lore.kernel.org/lkml/20210806164015.25263-1-mail@anirudhrb.com/
+
+Anirudh Rayabharam (2):
+  usbip: give back URBs for unsent unlink requests during cleanup
+  usbip: clean up code in vhci_device_unlink_cleanup
+
+ drivers/usb/usbip/vhci_hcd.c | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
+
+-- 
+2.26.2
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
