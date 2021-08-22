@@ -1,97 +1,108 @@
-Return-Path: <SRS0=6OiN=NM=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=zqa/=NN=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
-	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.0 required=3.0 tests=BAYES_00,
+	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39BABC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Aug 2021 17:34:19 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCE45C4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Aug 2021 16:09:18 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C419061242
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 Aug 2021 17:34:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C419061242
+	by mail.kernel.org (Postfix) with ESMTPS id 4BB3F61247
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 Aug 2021 16:09:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4BB3F61247
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6355B40226;
-	Sat, 21 Aug 2021 17:34:18 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 031464035F;
+	Sun, 22 Aug 2021 16:09:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DAbeqcIk6IPJ; Sat, 21 Aug 2021 17:34:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 493284020C;
-	Sat, 21 Aug 2021 17:34:14 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YVjvsb3Zhoki; Sun, 22 Aug 2021 16:09:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1B2AF4034E;
+	Sun, 22 Aug 2021 16:09:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1634EC0010;
-	Sat, 21 Aug 2021 17:34:14 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D499C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6490C001A;
+	Sun, 22 Aug 2021 16:09:13 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 15D26C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Aug 2021 17:34:12 +0000 (UTC)
+ Sun, 22 Aug 2021 16:09:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1AD3280EF8
+ by smtp4.osuosl.org (Postfix) with ESMTP id EC08F4034E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Aug 2021 17:34:12 +0000 (UTC)
+ Sun, 22 Aug 2021 16:09:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cwZdK0daAfxO
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GJV2-llQnYGY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Aug 2021 17:34:11 +0000 (UTC)
+ Sun, 22 Aug 2021 16:09:11 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 601D180EF3
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 681C1402C8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Aug 2021 17:34:11 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id 14so14419902qkc.4
+ Sun, 22 Aug 2021 16:09:11 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ ml14-20020a17090b360e00b0018de39d40bcso328283pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 Aug 2021 10:34:11 -0700 (PDT)
+ Sun, 22 Aug 2021 09:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=beWCGVp9K9hf3HzPZDhk0BVjk4UtEufcqzRoDSlmhV4=;
- b=Uo1iiIhMP8fPJzkJtil8Db/qG6OPeJGTDhrHqFlnie6IiLAj/h5Jwd34vLw1pneGWd
- e9ggncbQqcniHkIYitjYDS3mnpo10UcrVrteylUXTHNcqDcTOb5uW8AyGAj1stjj6l7A
- lx9oDVWY21aZNa3gcl/jRYVXIotthFebrdHcAAlu64AcjBuUVOvOPiI6q2yWVhFNqQYD
- wNXVWC7od7b/kZCnWRSQP6HiK1Xbsn4WYtnhaMZ13TxAEy61fPYcuVDC4RqwnDO8CAii
- 5xR8E6xgoRy9p9W5GnLS+PXy0SSOaqH5FGh8OL9zttL6XpfYcXPQC+xDAQU0ty7G4+nu
- SbAQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EKq4J+P9WdN9gMgFhOs0qE7BZf4JXJm9ADFF4uvbtIM=;
+ b=df1833izIAIWxi1JwycL0Jvq5q/U9e7NkDVnmLknVuXMfSJU6UQ9VrY9Phv9YwgMGE
+ tl6nvyThFWCALHLROVTqjviMjBToCg2Vl8t7LzAc8F3VwdLX+OgGo+EOmbfuXi9H4fE1
+ bt+h5IBCW8tNO+k9ZFoXG9v42st4u8X6rIbiHl6/uMiBFT5p8cq9gKxH7zApbKU/IkJT
+ c19GM/k725/T4V+vj2fh3SXRerw6cjPtXqGMQa0XbE5W4daofvxlweNPqr2XYro4nWes
+ ArxZjXc+u/O+bgrE9WFCS+BfzV1DQIr9edyKp2dB+PaLIjfUrAs3kc68HaVJhuHcDrkA
+ 81EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=beWCGVp9K9hf3HzPZDhk0BVjk4UtEufcqzRoDSlmhV4=;
- b=sX2gcnOILIrnjJ2elJJEBWBeVgb74scEdR3hn6MjFkqsxEtxOy1jCuD1KuSdbwnKqm
- BJTFO2qhxoNp8g8bJn1syWI3uZTj1vsklhw2KFP7A6BipSEEpaRlMXtuV2PUdFGp7SPu
- p0Bu9xzTV7EwuJtxrN68Zelmz527Yf7mY+KpwiZtVHehFuYp0CWHIo/Rpk6utuIbQogK
- Xo4c+9oEr02cTvTkfExbgC6EAnFOPANK+rxu4XNo9aQwK99+RAis+sdq1656DEYrzqWp
- AwO+xbkLH8elfaiHyvoB3KS3qgnfIsTxJ88tjqRWdAstACjKkp+VbAXfIn4w/uQHENcq
- DzUQ==
-X-Gm-Message-State: AOAM532I9WkrRpSI8/Yv/aOfw/TheeuWShDEjjCfxspRehLxNFHjjyAn
- 4jBhO1xNmHp2cnhkEWwkqEioIymOoeKrnfGhDOA=
-X-Google-Smtp-Source: ABdhPJwQF8QaciEjRdRUJbvqqLyCNJVxZLVJI5PTAhB6LvHLhgcyEK+yUV1qhFfHxgj8rBqaFQ+ankMKKHmyLLjYPos=
-X-Received: by 2002:a05:620a:89b:: with SMTP id
- b27mr14068898qka.429.1629567250088; 
- Sat, 21 Aug 2021 10:34:10 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EKq4J+P9WdN9gMgFhOs0qE7BZf4JXJm9ADFF4uvbtIM=;
+ b=qgH34FCnnucZTN38aM3MkTlELDAWgm1dxAycLcxvq+HPMQWqANfLg6FxFVZOZZfeAK
+ v7A108xBr4A0IbHPvEhJmb0KO3+7YjIa1NU3cGc/tkGYVGBphoHZWIOg7uJrfv0whcYx
+ 5tuW4u2w5jkFjXVAs2d2S7qN6OQAJWUqGDH1N3cSU2rwp3NZVwcWVip7LXbEAJle2f+W
+ OtAfeOfOhjC7t0ObjGkTMQgrN23XhomiCnaf2NsK6GGleG9CzMnZreO6/JtOsZ7LCom+
+ ykqh8/tZJIj3/6tGXjPp/0W/Wb2Y8E/Li5tJkY6DwVP2KJ3FJMienqL9x2YF1PXy1fMQ
+ 671g==
+X-Gm-Message-State: AOAM532TKHI7zdwJvOwIf6SKUsyJT8U+8yiAiKceOfb0YKW3JUp+NM5r
+ Qfe020NfcmA72VUF+iu81K8=
+X-Google-Smtp-Source: ABdhPJxySxEOSeAfZ12QOApOT4B9osrMWf3NX3pJwrHzw1hKexEfltD/3Srjv8WWLtLES0esr/7rgg==
+X-Received: by 2002:a17:90a:9f91:: with SMTP id
+ o17mr15239894pjp.29.1629648550898; 
+ Sun, 22 Aug 2021 09:09:10 -0700 (PDT)
+Received: from [192.168.1.38] (bb42-60-144-185.singnet.com.sg. [42.60.144.185])
+ by smtp.gmail.com with ESMTPSA id j68sm15928962pgc.44.2021.08.22.09.09.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 22 Aug 2021 09:09:10 -0700 (PDT)
+Subject: Re: [PATCH] tty: Fix data race between tiocsti() and flush_to_ldisc()
+To: Greg KH <gregkh@linuxfoundation.org>
+References: <20210807190513.3810821-1-phind.uet@gmail.com>
+ <YRYgSZwivcPPMhrS@kroah.com> <7323d825-f596-223b-a063-7539a6a57107@gmail.com>
+ <YR0TRf+283ujBxbv@kroah.com>
+From: Phi Nguyen <phind.uet@gmail.com>
+Message-ID: <dd30778d-2b12-f784-d00e-3b977358e5da@gmail.com>
+Date: Mon, 23 Aug 2021 00:09:05 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210805111207.19171-1-vineshraut2017@gmail.com>
- <CAKXUXMzOugdVkzHJVALZq+NXrk-BKLWtPorDtcJBoPuFU+dpoQ@mail.gmail.com>
-In-Reply-To: <CAKXUXMzOugdVkzHJVALZq+NXrk-BKLWtPorDtcJBoPuFU+dpoQ@mail.gmail.com>
-From: Vinesh Vilas Raut <vineshraut2017@gmail.com>
-Date: Sat, 21 Aug 2021 23:03:57 +0530
-Message-ID: <CAMqN5U5oh8pGkokX9srVSqZQckWpGqwYnaUZHth4hycSH=Tg2g@mail.gmail.com>
-Subject: Re: [PATCH] mptlan.c: fixed UNNECESSARY_CASTS warning
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <YR0TRf+283ujBxbv@kroah.com>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com, jirislaby@kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,35 +114,65 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Aug 20, 2021 at 3:30 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On 8/18/2021 10:03 PM, Greg KH wrote:
+> On Sat, Aug 14, 2021 at 02:35:53AM +0800, Phi Nguyen wrote:
+>> On 8/13/2021 3:33 PM, Greg KH wrote:
+>>>>
+>>>> Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+>>>> Reported-by: syzbot+97388eb9d31b997fe1d0@syzkaller.appspotmail.com
+>>>> ---
+>>>>    drivers/tty/tty_io.c | 2 ++
+>>>>    1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+>>>> index e8532006e960..746fe13a2054 100644
+>>>> --- a/drivers/tty/tty_io.c
+>>>> +++ b/drivers/tty/tty_io.c
+>>>> @@ -2307,8 +2307,10 @@ static int tiocsti(struct tty_struct *tty, char __user *p)
+>>>>    	ld = tty_ldisc_ref_wait(tty);
+>>>>    	if (!ld)
+>>>>    		return -EIO;
+>>>> +	tty_buffer_lock_exclusive(tty->port);
+>>>>    	if (ld->ops->receive_buf)
+>>>>    		ld->ops->receive_buf(tty, &ch, &mbz, 1);
+>>>> +	tty_buffer_unlock_exclusive(tty->port);
+>>>
+>>> Did this fix the syzbot reported issue?
+>>>
+>>> thanks,
+>>>
+>>> greg k-h
+>>> Yes, this fixed the syzbot reported issue.
+>>
+>> The lock is grabbed in flush_to_ldisc() and paste_selection().
+>> Actually, I follow the document in tty_buffer.c, where it say the callers to
+>> receive_buff() other than flush_to_ldisc() need to exclude the kworker from
+>> concurrent use of the line discipline.
+>>
+>> And function tiocsti() has the following comment:
+>> /* FIXME: may race normal receive processing */
+>> that why I add lock in this function.
+> 
+> As you are fixing this FIXME, please remove it in this patch, otherwise
+> we will not know it is resolved :)
+> 
+> Can you add that to the change and submit a new version?
+> 
+Yes, I will submit a new version.
+
+> Also, this should go to stable kernels, right?  Any idea how far back?
 >
-> On Thu, Aug 5, 2021 at 1:12 PM Vinesh Raut <vineshraut2017@gmail.com> wrote:
-> >
-> > multiple UNNECESSARY_CASTS warnings fixed from mptlan.c
+I have no idea about this question, but I see it meets specified 
+requirements in stable-kernel-rules.rst
 
-> So what is casted here? from which type to which type?
-From void pointer to struct sk_buff  pointer.
-
-> Explain which type of bug here specifically would be hidden.
-If a pointer is cast (wrongly), bugs like memory corruption,
-segmentation faults can occur.
-Also, It can affect functionality of the program.
-
-> If you do that, it is much more comprehensible and clearer why this
-> deserves to be addressed (or not).
-First , it is redundant. It will be difficult to debug. May hide Bugs
-if any due to
-(wrongly) explicit casting
-
-
-Regards,
--Vinesh Raut
+BR,
+Phi.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
