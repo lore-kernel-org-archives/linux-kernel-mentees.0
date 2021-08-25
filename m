@@ -2,91 +2,88 @@ Return-Path: <SRS0=ojZq=NQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94307C4320E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 10:27:14 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32B3EC43216
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 14:22:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4E146611EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 10:27:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4E146611EF
+	by mail.kernel.org (Postfix) with ESMTPS id C82BA610C8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 14:22:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C82BA610C8
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2323A402B7;
-	Wed, 25 Aug 2021 10:27:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 7F58882538;
+	Wed, 25 Aug 2021 14:22:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j0NRuJyZumAT; Wed, 25 Aug 2021 10:27:10 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OVmIvqQo9KjU; Wed, 25 Aug 2021 14:22:53 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 2E0D5400E5;
-	Wed, 25 Aug 2021 10:27:10 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9AF51823DD;
+	Wed, 25 Aug 2021 14:22:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B5B5C0010;
-	Wed, 25 Aug 2021 10:27:10 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 50A80C000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E8BBC0010;
+	Wed, 25 Aug 2021 14:22:53 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2A59EC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 10:27:08 +0000 (UTC)
+ Wed, 25 Aug 2021 14:22:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 30F034074C
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2687F82538
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 10:27:08 +0000 (UTC)
+ Wed, 25 Aug 2021 14:22:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q8Qe6G5Yp6PR
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BbGlDbrv5nKs
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 10:27:07 +0000 (UTC)
+ Wed, 25 Aug 2021 14:22:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 50C9B406DC
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E911A823DD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 10:27:07 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id n18so22639093pgm.12
+ Wed, 25 Aug 2021 14:22:50 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id d17so14404782plr.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 03:27:07 -0700 (PDT)
+ Wed, 25 Aug 2021 07:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZiZptxAG6LZlwjR95iOzUI6M5xQ+c4I+M1PZ5LikpHE=;
- b=hBK8jLnz+Qvhn9vJow4RjUvNtdb4EOIVfTN9Df0pqvZGRzhpFOHLBNw4tmkYhbXP0O
- i3vrPrX8jjED7W2mAwTWfMFP5b7/t2FRtMrR0FJSt/U864PEVKnvw/mdUciFtytnvkm2
- 1l5QOWUEHAkfaK5MP7d9rEzDG7b4YQiT4Z5Cvh2ZeCvnFXVF1B6kGaeXbj01mPn4oFtn
- gCHjyg6d0MeG30CGzA/ue2z4P+bVseZblBqnXX57g2D7sc4DuEahkPuGRf9MgePRzusT
- lo55pmUHaBLL0JHGbN9FHNSYfBZu7+fWjP0aiJ0i3PCkjFF7P/w2CHrn5k/U/+cLQ1fi
- L3lA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PyEUKLbqZIq1NMqrQWfaTXN/Z5gCejfRXXNJ7X/27zI=;
+ b=Otb4pO56XogV3OPnTsbSnwXqDcs6r0tKYcZR1iNssiuYkYcMQ8PckQQk5CD/miFvvB
+ YZnG4332bu9ZsuemG388tzhNs61duJY0Y/KMjR5S08oDCI/f54z5swJSvVfKtWrPVs6T
+ OuNoyKyH75/wKOeVDs9BPzGZoaW4WgmwokdZAk10r16AriZK8yWzshiJ7QPD1tIiR4j4
+ QzPkHke0ApkC7BmIel9NpOhZX6skVucQ5cDWBE1sEkxud+kBXt03CWPE54DZpYbaPcNZ
+ CGpeksEdBwtBmUERj/lWgptGdsYMR8NniWurGI+HmBGYyKp86SYp3LYEv8Bwuy5BttNW
+ kemw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZiZptxAG6LZlwjR95iOzUI6M5xQ+c4I+M1PZ5LikpHE=;
- b=OKhejCgQ9WZQ4BujDEZ9a6N8nOnLyLxdpMIQutymL5zqp5H/G3uic0grl4cAoCXOCk
- DiKQOB1GmhdlU1LAQzSeykdrq38FIFxHbIpDjKt+Mug5OnRBv2hfOaQEYlbGDI+1/TN/
- 0+zDy6G3KZoAbteSx55iOo6Ur3l6YPhmLFpRS3ygymzAxmiTRCM+wMfg0sTZ3Neyw+zh
- VyoGJ9b4SCnOImMpN6qysFjjeV1rOxmGEpZguzbofORdW/k7SNQvY+xmszsavBBSO3RY
- WK1ZO+2fPJB+vtaRgtsL4d1FE2ft5+tbkiJDeEImSU4DHzeTR1g9vVMslFjf0aLtFvnX
- u/8g==
-X-Gm-Message-State: AOAM532M9KAoELwv4Ni7M66sJ2KpXDF3hVJa+vib5OWo/sA7nTwlh5zJ
- //aWRUcu17Qy5VzyZMrJVyM=
-X-Google-Smtp-Source: ABdhPJwpGHyw/JNX8vQV+9CxZcjmMtcAfrqRTNZJ2G1s/7vSRd37Xu0JMq88+7TSzkG9QKgoG6Pv9A==
-X-Received: by 2002:a05:6a00:2491:b0:3ef:5233:8f6 with SMTP id
- c17-20020a056a00249100b003ef523308f6mr3421378pfv.45.1629887226719; 
- Wed, 25 Aug 2021 03:27:06 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PyEUKLbqZIq1NMqrQWfaTXN/Z5gCejfRXXNJ7X/27zI=;
+ b=lHBUT6Pm5kRuZJwgYz8ccAylr4nf1W7PtqktjGE0+cjDumiij4DA6ssmdYN0B83b4q
+ NNNazC60j9sPeX+pn3zC1ANxlxCbpDGR/ktaI27G7rhRv03ZxaaAkmoFedhbusSunntQ
+ 4T86B8IjJpmso/qrwAW+1FSxrcxML66L+xzs9e4u7MGASh+fN2nwe4Sn+Kb/+y0nElfW
+ ouS2uglI+yL6bhthcLE2s5MzhNXlZZlWZNkl/pm3Jqid4NShBvbcRw/pstoHyRXa6wZo
+ 1tSZWrQKi/okzkK06z/A+2O0A9OUe+8r7EPo3J8V/0Y2J/aL/EQEI/7AseS9EsxL2FFh
+ uJfA==
+X-Gm-Message-State: AOAM530gFLnUrWO5JXrycsVVE9VUYM6iSE2TepWAcXenPfaAZxKLxctf
+ Li5Z+jUetkcE0qzTpRQldD0=
+X-Google-Smtp-Source: ABdhPJxehXmLzPU7JznTC/D2Rq9/EqmHv+0cvyHdGLCWoO8H0/6/JPBhLtcGKA9lw/2OCfOujrZx3w==
+X-Received: by 2002:a17:90a:ae18:: with SMTP id
+ t24mr9049661pjq.92.1629901370243; 
+ Wed, 25 Aug 2021 07:22:50 -0700 (PDT)
 Received: from localhost.localdomain ([118.200.190.93])
- by smtp.gmail.com with ESMTPSA id t42sm10228377pfg.30.2021.08.25.03.26.58
+ by smtp.gmail.com with ESMTPSA id n3sm54431pfo.101.2021.08.25.07.22.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 03:27:06 -0700 (PDT)
+ Wed, 25 Aug 2021 07:22:49 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
@@ -98,12 +95,10 @@ To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
  jose.souza@intel.com, manasi.d.navare@intel.com, airlied@redhat.com,
  aditya.swarup@intel.com, andrescj@chromium.org,
  linux-graphics-maintainer@vmware.com, zackr@vmware.com
-Subject: [PATCH v6 7/7] drm: remove drm_file.master_lookup_lock
-Date: Wed, 25 Aug 2021 18:24:11 +0800
-Message-Id: <20210825102411.1084220-8-desmondcheongzx@gmail.com>
+Subject: [PATCH v7 0/7] drm: update locking for modesetting
+Date: Wed, 25 Aug 2021 22:21:58 +0800
+Message-Id: <20210825142205.1376789-1-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210825102411.1084220-1-desmondcheongzx@gmail.com>
-References: <20210825102411.1084220-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
 Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
@@ -126,273 +121,128 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Previously, master_lookup_lock was introduced in
-commit 0b0860a3cf5e ("drm: serialize drm_file.master with a new
-spinlock") to serialize accesses to drm_file.master. This then allowed
-us to write drm_file_get_master in commit 56f0729a510f ("drm: protect
-drm_master pointers in drm_lease.c").
+Sorry for the noise. Sending out a new version because the Intel-gfx CI
+caught that __drm_mode_object_find has to be exported for loadable
+modules like the Intel and VMware DRM drivers.
 
-The rationale behind introducing a new spinlock at the time was that
-the other lock that could have been used (drm_device.master_mutex) was
-the outermost lock, so embedding calls to drm_file_get_master and
-drm_is_current_master in various functions easily caused us to invert
-the lock hierarchy.
+Hi,
 
-Following the conversion of master_mutex into a rwsem, and its use to
-plug races with modesetting rights, we've untangled some lock
-hierarchies and removed the need for using drm_file_get_master and the
-unlocked version of drm_is_current_master in multiple places.
+Updated the series again to avoid recursive locking caught by the
+Intel-gfx CI. Patch 5 touches a number of files, including the Intel and
+VMware drivers, but most changes are simply switching a function call to
+the appropriate locked/unlocked version.
 
-Hence, we can take this opportunity to clean up the locking design by
-replacing master_lookup_lock with drm_device.master_rwsem.
+Overall, this series fixes races with modesetting rights, converts
+drm_device.master_mutex into master_rwsem, and removes
+drm_file.master_lookup_lock.
 
-Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
----
- drivers/gpu/drm/drm_auth.c     | 19 +++++++------------
- drivers/gpu/drm/drm_file.c     |  1 -
- drivers/gpu/drm/drm_internal.h |  1 +
- drivers/gpu/drm/drm_ioctl.c    |  4 ++--
- drivers/gpu/drm/drm_lease.c    | 18 ++++++++----------
- include/drm/drm_file.h         |  9 +--------
- 6 files changed, 19 insertions(+), 33 deletions(-)
+- Patch 1: Fix a potential null ptr dereference in drm_master_release
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index f2b2f197052a..232416119407 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -61,10 +61,9 @@
-  * trusted clients.
-  */
- 
--static bool drm_is_current_master_locked(struct drm_file *fpriv)
-+bool drm_is_current_master_locked(struct drm_file *fpriv)
- {
--	lockdep_assert_once(lockdep_is_held(&fpriv->master_lookup_lock) ||
--			    lockdep_is_held(&fpriv->minor->dev->master_rwsem));
-+	lockdep_assert_held_once(&fpriv->minor->dev->master_rwsem);
- 
- 	return fpriv->is_master && drm_lease_owner(fpriv->master) == fpriv->minor->dev->master;
- }
-@@ -83,9 +82,9 @@ bool drm_is_current_master(struct drm_file *fpriv)
- {
- 	bool ret;
- 
--	spin_lock(&fpriv->master_lookup_lock);
-+	down_read(&fpriv->minor->dev->master_rwsem);
- 	ret = drm_is_current_master_locked(fpriv);
--	spin_unlock(&fpriv->master_lookup_lock);
-+	up_read(&fpriv->minor->dev->master_rwsem);
- 
- 	return ret;
- }
-@@ -120,7 +119,7 @@ int drm_authmagic(struct drm_device *dev, void *data,
- 	DRM_DEBUG("%u\n", auth->magic);
- 
- 	down_write(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(file_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(file_priv))) {
- 		up_write(&dev->master_rwsem);
- 		return -EACCES;
- 	}
-@@ -178,9 +177,7 @@ static int drm_new_set_master(struct drm_device *dev, struct drm_file *fpriv)
- 	new_master = drm_master_create(dev);
- 	if (!new_master)
- 		return -ENOMEM;
--	spin_lock(&fpriv->master_lookup_lock);
- 	fpriv->master = new_master;
--	spin_unlock(&fpriv->master_lookup_lock);
- 
- 	fpriv->is_master = 1;
- 	fpriv->authenticated = 1;
-@@ -343,9 +340,7 @@ int drm_master_open(struct drm_file *file_priv)
- 	if (!dev->master) {
- 		ret = drm_new_set_master(dev, file_priv);
- 	} else {
--		spin_lock(&file_priv->master_lookup_lock);
- 		file_priv->master = drm_master_get(dev->master);
--		spin_unlock(&file_priv->master_lookup_lock);
- 	}
- 	up_write(&dev->master_rwsem);
- 
-@@ -413,13 +408,13 @@ struct drm_master *drm_file_get_master(struct drm_file *file_priv)
- 	if (!file_priv)
- 		return NULL;
- 
--	spin_lock(&file_priv->master_lookup_lock);
-+	down_read(&file_priv->minor->dev->master_rwsem);
- 	if (!file_priv->master)
- 		goto unlock;
- 	master = drm_master_get(file_priv->master);
- 
- unlock:
--	spin_unlock(&file_priv->master_lookup_lock);
-+	up_read(&file_priv->minor->dev->master_rwsem);
- 	return master;
- }
- EXPORT_SYMBOL(drm_file_get_master);
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 90b62f360da1..8c846e0179d7 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -176,7 +176,6 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	init_waitqueue_head(&file->event_wait);
- 	file->event_space = 4096; /* set aside 4k for event buffer */
- 
--	spin_lock_init(&file->master_lookup_lock);
- 	mutex_init(&file->event_read_lock);
- 
- 	if (drm_core_check_feature(dev, DRIVER_GEM))
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index 17f3548c8ed2..5d421f749a17 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -132,6 +132,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
- 				  struct drm_file *filp);
- 
- /* drm_auth.c */
-+bool drm_is_current_master_locked(struct drm_file *fpriv);
- int drm_getmagic(struct drm_device *dev, void *data,
- 		 struct drm_file *file_priv);
- int drm_authmagic(struct drm_device *dev, void *data,
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 8bea39ffc5c0..c728437466c3 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -386,7 +386,7 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	int if_version, retcode = 0;
- 
- 	down_write(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(file_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(file_priv))) {
- 		retcode = -EACCES;
- 		goto unlock;
- 	}
-@@ -540,7 +540,7 @@ static int drm_ioctl_permit(u32 flags, struct drm_file *file_priv)
- 
- 	/* MASTER is only for master or control clients */
- 	if (unlikely((flags & DRM_MASTER) &&
--		     !drm_is_current_master(file_priv)))
-+		     !drm_is_current_master_locked(file_priv)))
- 		return -EACCES;
- 
- 	/* Render clients must be explicitly allowed */
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index 15bf3a3c76d1..0eecf320b1ab 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -498,12 +498,12 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		return PTR_ERR(lessee_file);
- 
- 	down_read(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
- 		ret = -EACCES;
- 		goto out_file;
- 	}
- 
--	lessor = drm_file_get_master(lessor_priv);
-+	lessor = lessor_priv->master;
- 	/* Do not allow sub-leases */
- 	if (lessor->lessor) {
- 		DRM_DEBUG_LEASE("recursive leasing not allowed\n");
-@@ -565,7 +565,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	/* Hook up the fd */
- 	fd_install(fd, lessee_file);
- 
--	drm_master_put(&lessor);
- 	up_read(&dev->master_rwsem);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
- 	return 0;
-@@ -600,7 +599,8 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
--	lessor = drm_file_get_master(lessor_priv);
-+	lockdep_assert_held_once(&dev->master_rwsem);
-+	lessor = lessor_priv->master;
- 	DRM_DEBUG_LEASE("List lessees for %d\n", lessor->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -624,7 +624,6 @@ int drm_mode_list_lessees_ioctl(struct drm_device *dev,
- 		arg->count_lessees = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
--	drm_master_put(&lessor);
- 
- 	return ret;
- }
-@@ -650,7 +649,8 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
--	lessee = drm_file_get_master(lessee_priv);
-+	lockdep_assert_held_once(&dev->master_rwsem);
-+	lessee = lessee_priv->master;
- 	DRM_DEBUG_LEASE("get lease for %d\n", lessee->lessee_id);
- 
- 	mutex_lock(&dev->mode_config.idr_mutex);
-@@ -678,7 +678,6 @@ int drm_mode_get_lease_ioctl(struct drm_device *dev,
- 		arg->count_objects = count;
- 
- 	mutex_unlock(&dev->mode_config.idr_mutex);
--	drm_master_put(&lessee);
- 
- 	return ret;
- }
-@@ -703,11 +702,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 		return -EOPNOTSUPP;
- 
- 	down_write(&dev->master_rwsem);
--	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+	if (unlikely(!drm_is_current_master_locked(lessor_priv))) {
- 		ret = -EACCES;
- 		goto unlock;
- 	}
--	lessor = drm_file_get_master(lessor_priv);
-+	lessor = lessor_priv->master;
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 
- 	lessee = _drm_find_lessee(lessor, arg->lessee_id);
-@@ -728,7 +727,6 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 
- fail:
- 	mutex_unlock(&dev->mode_config.idr_mutex);
--	drm_master_put(&lessor);
- 
- unlock:
- 	up_write(&dev->master_rwsem);
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index d12bb2ba7814..e2d49fe3e32d 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -227,16 +227,12 @@ struct drm_file {
- 	 * @master:
- 	 *
- 	 * Master this node is currently associated with. Protected by struct
--	 * &drm_device.master_rwsem, and serialized by @master_lookup_lock.
-+	 * &drm_device.master_rwsem.
- 	 *
- 	 * Only relevant if drm_is_primary_client() returns true. Note that
- 	 * this only matches &drm_device.master if the master is the currently
- 	 * active one.
- 	 *
--	 * To update @master, both &drm_device.master_rwsem and
--	 * @master_lookup_lock need to be held, therefore holding either of
--	 * them is safe and enough for the read side.
--	 *
- 	 * When dereferencing this pointer, either hold struct
- 	 * &drm_device.master_rwsem for the duration of the pointer's use, or
- 	 * use drm_file_get_master() if struct &drm_device.master_rwsem is not
-@@ -248,9 +244,6 @@ struct drm_file {
- 	 */
- 	struct drm_master *master;
- 
--	/** @master_lock: Serializes @master. */
--	spinlock_t master_lookup_lock;
--
- 	/** @pid: Process that opened this file. */
- 	struct pid *pid;
- 
+- Patch 2: Convert master_mutex into rwsem (avoids creating a new lock)
+
+- Patch 3: Update global mutex locking in the ioctl handler (avoids
+deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
+
+- Patch 4: Plug races with drm modesetting rights
+
+- Patch 5: Modify drm_mode_object_find to fix potential recursive
+locking of master_rwsem and lock inversions between modeset_mutex and
+master_rwsem
+
+- Patch 6: Remove remaining potential lock inversions between
+modeset_mutex and master_rwsem
+
+- Patch 7: Replace master_lookup_lock with master_rwsem
+
+v6 -> v7:
+- Export __drm_mode_object_find for loadable modules, caught by the
+Intel-gfx CI (patch 5)
+
+v5 -> v6:
+- Fix recursive locking on master_rwsem, caught by the Intel-gfx CI
+(patch 5 & 6)
+
+v4 -> v5:
+- Avoid calling drm_file_get_master while holding on to the modeset
+mutex, caught by the Intel-gfx CI (patch 5 & 6)
+
+v3 -> v4 (suggested by Daniel Vetter):
+- Drop a patch that added an unnecessary master_lookup_lock in
+drm_master_release
+- Drop a patch that addressed a non-existent race in
+drm_is_current_master_locked
+- Remove fixes for non-existent null ptr dereferences
+- Protect drm_master.magic_map,unique{_len} with master_rwsem instead of
+master_lookup_lock
+- Drop the patch that moved master_lookup_lock into struct drm_device
+- Drop a patch to export task_work_add
+- Revert the check for the global mutex in the ioctl handler to use
+drm_core_check_feature instead of drm_dev_needs_global_mutex
+- Push down master_rwsem locking for selected ioctls to avoid lock
+hierarchy inversions, and to allow us to hold write locks on
+master_rwsem instead of flushing readers
+- Remove master_lookup_lock by replacing it with master_rwsem
+
+v2 -> v3:
+- Unexport drm_master_flush, as suggested by Daniel Vetter.
+- Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
+- Export task_work_add, reported by kernel test robot.
+- Make master_flush static, reported by kernel test robot.
+- Move master_lookup_lock into struct drm_device.
+- Add a missing lock on master_lookup_lock in drm_master_release.
+- Fix a potential race in drm_is_current_master_locked.
+- Fix potential null ptr dereferences in drm_{auth, ioctl}.
+- Protect magic_map,unique{_len} with  master_lookup_lock.
+- Convert master_mutex into a rwsem.
+- Update global mutex locking in the ioctl handler.
+
+v1 -> v2 (suggested by Daniel Vetter):
+- Address an additional race when drm_open runs.
+- Switch from SRCU to rwsem to synchronise readers and writers.
+- Implement drm_master_flush with task_work so that flushes can be
+queued to run before returning to userspace without creating a new
+DRM_MASTER_FLUSH ioctl flag.
+
+Best wishes,
+Desmond
+
+Desmond Cheong Zhi Xi (7):
+  drm: fix null ptr dereference in drm_master_release
+  drm: convert drm_device.master_mutex into a rwsem
+  drm: lock drm_global_mutex earlier in the ioctl handler
+  drm: avoid races with modesetting rights
+  drm: avoid circular locks in drm_mode_object_find
+  drm: avoid circular locks with modeset_mutex and master_rwsem
+  drm: remove drm_file.master_lookup_lock
+
+ drivers/gpu/drm/drm_atomic_uapi.c            |  7 +-
+ drivers/gpu/drm/drm_auth.c                   | 57 ++++++------
+ drivers/gpu/drm/drm_color_mgmt.c             |  2 +-
+ drivers/gpu/drm/drm_crtc.c                   |  5 +-
+ drivers/gpu/drm/drm_debugfs.c                |  4 +-
+ drivers/gpu/drm/drm_drv.c                    |  3 +-
+ drivers/gpu/drm/drm_encoder.c                |  7 +-
+ drivers/gpu/drm/drm_file.c                   |  7 +-
+ drivers/gpu/drm/drm_framebuffer.c            |  2 +-
+ drivers/gpu/drm/drm_internal.h               |  1 +
+ drivers/gpu/drm/drm_ioctl.c                  | 48 ++++++----
+ drivers/gpu/drm/drm_lease.c                  | 94 ++++++++++----------
+ drivers/gpu/drm/drm_mode_object.c            | 28 +++++-
+ drivers/gpu/drm/drm_plane.c                  | 22 +++--
+ drivers/gpu/drm/drm_property.c               |  6 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c |  2 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c  |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c          |  2 +-
+ include/drm/drm_auth.h                       |  6 +-
+ include/drm/drm_connector.h                  | 23 +++++
+ include/drm/drm_crtc.h                       | 22 +++++
+ include/drm/drm_device.h                     | 15 +++-
+ include/drm/drm_file.h                       | 17 ++--
+ include/drm/drm_lease.h                      |  2 +
+ include/drm/drm_mode_object.h                |  3 +
+ include/drm/drm_plane.h                      | 20 +++++
+ 26 files changed, 264 insertions(+), 143 deletions(-)
+
 -- 
 2.25.1
 
