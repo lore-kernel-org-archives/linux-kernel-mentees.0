@@ -2,102 +2,110 @@ Return-Path: <SRS0=ojZq=NQ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
-	DKIM_ADSP_CUSTOM_MED,DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4916EC4338F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 08:23:53 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F66AC4338F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 10:26:04 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id DF10E611AF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 08:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DF10E611AF
+	by mail.kernel.org (Postfix) with ESMTPS id 0378360FE6
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 25 Aug 2021 10:26:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0378360FE6
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AADE781DBF;
-	Wed, 25 Aug 2021 08:23:52 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C90EE60B51;
+	Wed, 25 Aug 2021 10:26:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x6wfavcl5G6T; Wed, 25 Aug 2021 08:23:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B24F481DA3;
-	Wed, 25 Aug 2021 08:23:48 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82145C001A;
-	Wed, 25 Aug 2021 08:23:48 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3F86BC000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 08:23:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1B9F36063C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 08:23:47 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tNXFAv7rMXHa
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rRo8NYtM-OwT; Wed, 25 Aug 2021 10:25:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C5F5360835;
+	Wed, 25 Aug 2021 10:25:59 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D71DC0010;
+	Wed, 25 Aug 2021 10:25:59 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6E8E8C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 08:23:44 +0000 (UTC)
+ Wed, 25 Aug 2021 10:25:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4E74840178
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 25 Aug 2021 10:25:58 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YoPXZUW-z68d
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 25 Aug 2021 10:25:57 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 559BB60636
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
+ [IPv6:2607:f8b0:4864:20::102d])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 078A6400E5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 08:23:44 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id m17so6829168plc.6
+ Wed, 25 Aug 2021 10:25:56 +0000 (UTC)
+Received: by mail-pj1-x102d.google.com with SMTP id mq3so16198566pjb.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 25 Aug 2021 01:23:44 -0700 (PDT)
+ Wed, 25 Aug 2021 03:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Oa4AJyX+c7xAxMp5FnWylQw6KajuFaq69VONS99z7KY=;
- b=sXUcqJb/YC6LZk4mpAmfwl3iejJgdLSxDCPCsmXUtA5Ko4AoV25Q6p6455R1PzFwfs
- oAYHwBANUhqM4DwqzfCTCzK5rbCh1BHKxrvNto+MxJunRG7WGbQOsrP9p7QSaQgP5DJc
- 5O43fRi/0PYCeZvNLXm5AZzL/QIi/D7YZouKIWtKn1v9TR5NgU3IH2MfKRerMm/ETAr2
- 0/CdHBOAbMRgE0L5QZDApvZbDGoZ/y+xxMHqmjMBPhJlnCiR8kHjq+Qp9OiHA8RkGMvt
- tK+t4DUt7s+x1cIfYT7RuiGkW48OsAmTDZlf+Qx4JyPJncQsLOPCjYsTqV/wVVsJKCZJ
- 7GsQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ba/aDvD1tkluhQ4EKS9mJop10MbwBdBq8p8q4FF7hME=;
+ b=ERW9eAq0Yrphg27JkPRPoE9hi5ScahnBoNwNuz7HulCP62HFkrhXWI0nyJcIddIFn7
+ x9v/kxVidsNMcf+nTHom40evTH/p8ND8jqD3OS/vQtRzDdVvNsMuKCG9sUqIQL4To3EM
+ hyNb7khUoqPlL/5qNG61XXHvm2smKgPyXj9NR5qFeSi1SnMGy9MQRa1ZpfuctgFw9rIP
+ 1Jsx2sSz2YPUYO45juwlfJo3Q15Etj0c7enDb+styb1YpHQBOE2wQWJRUVQDwp4vNLDq
+ 6yfvMoboiwSdcOp4nBSoEYBiUtH5IxObynxBbd5Nc6qiWjduuECQxYvcb2PLgL7buvOL
+ BZ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=Oa4AJyX+c7xAxMp5FnWylQw6KajuFaq69VONS99z7KY=;
- b=Xfb7ETS/wJjni4KntJCL4xa7qkGmYMbUX4KwRptSGAySr4tmmNjkWC0IDNXTcgsymd
- h2WTxFVKUemPnL7TqRgj/VP6eLHTnfgKH9tuu0eeRW2U/eDf8cbxG2CJt/Kdbq+pOWB0
- DUkGiOTMnBh07w5AtiacdC56W3xS7Fxz+sEadV0cuG9vE0cSf5DGgIHXFpaUfuMYE6PH
- nE9fVH5S3I7ZHvrky0XBzwj85GJGAVryfBCp65+LtWNO/sXedatpOL3z/AkWkpJuS1Jj
- EA4UdYDeFOJCmS43Y9ZSBBjohzJaawQ6s2v9zyiqfKarhwGlItr4jfEjEbHI120BDIlx
- cuvw==
-X-Gm-Message-State: AOAM530XAqBPU+Er4IZgnbYOZeGNT6uMGYGfk6wUvoimK2Y80FhJ74D+
- /tAnFr4Wfrdi3hwmdJwAsbY=
-X-Google-Smtp-Source: ABdhPJyiQZuDPOwXvIOjtSq8cVWubsJOZx+gccyo26PYZfznOesBjwGAmZ9FW+BAz/L6TPcLPj8qjw==
-X-Received: by 2002:a17:90a:4306:: with SMTP id
- q6mr9123987pjg.202.1629879823490; 
- Wed, 25 Aug 2021 01:23:43 -0700 (PDT)
-Received: from localhost.localdomain ([49.36.209.103])
- by smtp.googlemail.com with ESMTPSA id
- x207sm4702673pfc.177.2021.08.25.01.23.40
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Ba/aDvD1tkluhQ4EKS9mJop10MbwBdBq8p8q4FF7hME=;
+ b=cFMMCJR+j6RltPCiEX9keMgGgPMsx399jYdHi/1vngr1HRClmfCUg5XY2bkYG5rap1
+ +mF+o5opLHOlSUGZYrE2KKIoNiqWPgPfXEjgHMvyZLIa4G/uVwYx1oOUWdIS7jnLkHge
+ oBXII6S1LFZWRDHmcaJnzN9ZuK4xhopwUcHn1yPJXxvAvwEXJc6SIK/8e9zyEcJoHy6R
+ ckRcK5RwTatNKbeUHQJ+H9Cs6e34epNC0/LPPmjBJKW6cSGuwIMgZZrni8gdbwbLWV9G
+ ZhjZlFL6X8E7K3AcPMTOEi+TW5Wf4cPYkeBviZeDiojgrBc0rNd4Lmh/x+8kUJ+4uqag
+ 3NPQ==
+X-Gm-Message-State: AOAM530hzZeccBr2d462/wtE2riz2Uwb2XpLzrDqZmY2NyBzvrviEde9
+ VoW2HaYjAsajeSiSeMz6b/I=
+X-Google-Smtp-Source: ABdhPJxh+Vt9oDZRXNiLgQBph5qkOp3i9zD+1yOu+rnkCFbGG36RMeKJz2sTzFwpPEwsICDPT2HhbQ==
+X-Received: by 2002:a17:90a:f696:: with SMTP id
+ cl22mr4536225pjb.216.1629887156307; 
+ Wed, 25 Aug 2021 03:25:56 -0700 (PDT)
+Received: from localhost.localdomain ([118.200.190.93])
+ by smtp.gmail.com with ESMTPSA id t42sm10228377pfg.30.2021.08.25.03.25.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 01:23:42 -0700 (PDT)
-From: Utkarsh Verma <utkarshverma294@gmail.com>
-To: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH v2] USB: serial: iuu_phoenix: fix quoted string split across
- lines
-Date: Wed, 25 Aug 2021 13:52:44 +0530
-Message-Id: <20210825082244.2933-1-utkarshverma294@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAKXUXMydtSce3t91s0wmD87qr005MiVeMQ15UH-HBfsVub5ABQ@mail.gmail.com>
-References: <CAKXUXMydtSce3t91s0wmD87qr005MiVeMQ15UH-HBfsVub5ABQ@mail.gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Wed, 25 Aug 2021 03:25:55 -0700 (PDT)
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, rodrigo.vivi@intel.com,
+ chris@chris-wilson.co.uk, ville.syrjala@linux.intel.com,
+ matthew.auld@intel.com, dan.carpenter@oracle.com, tvrtko.ursulin@intel.com,
+ matthew.d.roper@intel.com, lucas.demarchi@intel.com, karthik.b.s@intel.com,
+ jose.souza@intel.com, manasi.d.navare@intel.com, airlied@redhat.com,
+ aditya.swarup@intel.com, andrescj@chromium.org,
+ linux-graphics-maintainer@vmware.com, zackr@vmware.com
+Subject: [PATCH v6 0/7] drm: update locking for modesetting
+Date: Wed, 25 Aug 2021 18:24:04 +0800
+Message-Id: <20210825102411.1084220-1-desmondcheongzx@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,48 +117,128 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fix checkpatch warning "quoted string split across lines".
-Although the line length increases beyond 80 characters, it makes
-grepping the entire string easier.
+Hi,
 
-No functional change.
+Updated the series again to avoid recursive locking caught by the
+Intel-gfx CI. Patch 5 touches a number of files, including the Intel and
+VMware drivers, but most changes are simply switching a function call to
+the appropriate locked/unlocked version.
 
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Utkarsh Verma <utkarshverma294@gmail.com>
----
- drivers/usb/serial/iuu_phoenix.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+Overall, this series fixes races with modesetting rights, converts
+drm_device.master_mutex into master_rwsem, and removes
+drm_file.master_lookup_lock.
 
-diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
-index 19753611e7b0..f2c0dad911c3 100644
---- a/drivers/usb/serial/iuu_phoenix.c
-+++ b/drivers/usb/serial/iuu_phoenix.c
-@@ -1195,13 +1195,10 @@ module_param(boost, int, S_IRUGO | S_IWUSR);
- MODULE_PARM_DESC(boost, "Card overclock boost (in percent 100-500)");
- 
- module_param(clockmode, int, S_IRUGO | S_IWUSR);
--MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, "
--		"3=6 Mhz)");
-+MODULE_PARM_DESC(clockmode, "Card clock mode (1=3.579 MHz, 2=3.680 MHz, 3=6 Mhz)");
- 
- module_param(cdmode, int, S_IRUGO | S_IWUSR);
--MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, "
--		 "4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
-+MODULE_PARM_DESC(cdmode, "Card detect mode (0=none, 1=CD, 2=!CD, 3=DSR, 4=!DSR, 5=CTS, 6=!CTS, 7=RING, 8=!RING)");
- 
- module_param(vcc_default, int, S_IRUGO | S_IWUSR);
--MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 "
--		"for 5V). Default to 5.");
-+MODULE_PARM_DESC(vcc_default, "Set default VCC (either 3 for 3.3V or 5 for 5V). Default to 5.");
+- Patch 1: Fix a potential null ptr dereference in drm_master_release
+
+- Patch 2: Convert master_mutex into rwsem (avoids creating a new lock)
+
+- Patch 3: Update global mutex locking in the ioctl handler (avoids
+deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
+
+- Patch 4: Plug races with drm modesetting rights
+
+- Patch 5: Modify drm_mode_object_find to fix potential recursive
+locking of master_rwsem and lock inversions between modeset_mutex and
+master_rwsem
+
+- Patch 6: Remove remaining potential lock inversions between
+modeset_mutex and master_rwsem
+
+- Patch 7: Replace master_lookup_lock with master_rwsem
+
+v5 -> v6:
+- Fix recursive locking on master_rwsem, caught by the Intel-gfx CI
+(only current patch 5 & 6 changed)
+
+v4 -> v5:
+- Avoid calling drm_file_get_master while holding on to the modeset
+mutex, caught by the Intel-gfx CI
+
+v3 -> v4 (suggested by Daniel Vetter):
+- Drop a patch that added an unnecessary master_lookup_lock in
+drm_master_release
+- Drop a patch that addressed a non-existent race in
+drm_is_current_master_locked
+- Remove fixes for non-existent null ptr dereferences
+- Protect drm_master.magic_map,unique{_len} with master_rwsem instead of
+master_lookup_lock
+- Drop the patch that moved master_lookup_lock into struct drm_device
+- Drop a patch to export task_work_add
+- Revert the check for the global mutex in the ioctl handler to use
+drm_core_check_feature instead of drm_dev_needs_global_mutex
+- Push down master_rwsem locking for selected ioctls to avoid lock
+hierarchy inversions, and to allow us to hold write locks on
+master_rwsem instead of flushing readers
+- Remove master_lookup_lock by replacing it with master_rwsem
+
+v2 -> v3:
+- Unexport drm_master_flush, as suggested by Daniel Vetter.
+- Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
+- Export task_work_add, reported by kernel test robot.
+- Make master_flush static, reported by kernel test robot.
+- Move master_lookup_lock into struct drm_device.
+- Add a missing lock on master_lookup_lock in drm_master_release.
+- Fix a potential race in drm_is_current_master_locked.
+- Fix potential null ptr dereferences in drm_{auth, ioctl}.
+- Protect magic_map,unique{_len} with  master_lookup_lock.
+- Convert master_mutex into a rwsem.
+- Update global mutex locking in the ioctl handler.
+
+v1 -> v2 (suggested by Daniel Vetter):
+- Address an additional race when drm_open runs.
+- Switch from SRCU to rwsem to synchronise readers and writers.
+- Implement drm_master_flush with task_work so that flushes can be
+queued to run before returning to userspace without creating a new
+DRM_MASTER_FLUSH ioctl flag.
+
+Best wishes,
+Desmond
+
+Desmond Cheong Zhi Xi (7):
+  drm: fix null ptr dereference in drm_master_release
+  drm: convert drm_device.master_mutex into a rwsem
+  drm: lock drm_global_mutex earlier in the ioctl handler
+  drm: avoid races with modesetting rights
+  drm: avoid circular locks in drm_mode_object_find
+  drm: avoid circular locks with modeset_mutex and master_rwsem
+  drm: remove drm_file.master_lookup_lock
+
+ drivers/gpu/drm/drm_atomic_uapi.c            |  7 +-
+ drivers/gpu/drm/drm_auth.c                   | 57 ++++++------
+ drivers/gpu/drm/drm_color_mgmt.c             |  2 +-
+ drivers/gpu/drm/drm_crtc.c                   |  5 +-
+ drivers/gpu/drm/drm_debugfs.c                |  4 +-
+ drivers/gpu/drm/drm_drv.c                    |  3 +-
+ drivers/gpu/drm/drm_encoder.c                |  7 +-
+ drivers/gpu/drm/drm_file.c                   |  7 +-
+ drivers/gpu/drm/drm_framebuffer.c            |  2 +-
+ drivers/gpu/drm/drm_internal.h               |  1 +
+ drivers/gpu/drm/drm_ioctl.c                  | 48 ++++++----
+ drivers/gpu/drm/drm_lease.c                  | 94 ++++++++++----------
+ drivers/gpu/drm/drm_mode_object.c            | 13 ++-
+ drivers/gpu/drm/drm_plane.c                  | 22 +++--
+ drivers/gpu/drm/drm_property.c               |  6 +-
+ drivers/gpu/drm/i915/display/intel_overlay.c |  2 +-
+ drivers/gpu/drm/i915/display/intel_sprite.c  |  2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c          |  2 +-
+ include/drm/drm_auth.h                       |  6 +-
+ include/drm/drm_connector.h                  | 23 +++++
+ include/drm/drm_crtc.h                       | 22 +++++
+ include/drm/drm_device.h                     | 15 +++-
+ include/drm/drm_file.h                       | 17 ++--
+ include/drm/drm_lease.h                      |  2 +
+ include/drm/drm_mode_object.h                |  3 +
+ include/drm/drm_plane.h                      | 20 +++++
+ 26 files changed, 249 insertions(+), 143 deletions(-)
+
 -- 
-2.17.1
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
