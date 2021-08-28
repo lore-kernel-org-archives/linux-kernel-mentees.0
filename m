@@ -1,99 +1,94 @@
-Return-Path: <SRS0=MGRu=NR=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=ANfH=NT=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
+X-Spam-Level: **
+X-Spam-Status: No, score=2.5 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,HTML_MESSAGE,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B22BEC432BE
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Aug 2021 14:09:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D1DDC432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Aug 2021 18:24:08 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 510FE60E78
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Aug 2021 14:09:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 510FE60E78
+	by mail.kernel.org (Postfix) with ESMTPS id D05F86023E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Aug 2021 18:24:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D05F86023E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1BEA860647;
-	Thu, 26 Aug 2021 14:09:21 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 936E76073B;
+	Sat, 28 Aug 2021 18:24:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SXXjIdIm0FHA; Thu, 26 Aug 2021 14:09:17 +0000 (UTC)
+	with ESMTP id oTcMUIR-srr8; Sat, 28 Aug 2021 18:24:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2DD2260619;
-	Thu, 26 Aug 2021 14:09:17 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 96905605CE;
+	Sat, 28 Aug 2021 18:24:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 06133C0010;
-	Thu, 26 Aug 2021 14:09:17 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49AFBC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 69E17C001A;
+	Sat, 28 Aug 2021 18:24:03 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EBD74C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Aug 2021 14:09:16 +0000 (UTC)
+ Sat, 28 Aug 2021 18:24:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3911542626
+ by smtp2.osuosl.org (Postfix) with ESMTP id E75804017B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Aug 2021 14:09:16 +0000 (UTC)
+ Sat, 28 Aug 2021 18:24:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DAX4Jgw9e5hD
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vHZZVzzM_mfU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Aug 2021 14:09:15 +0000 (UTC)
+ Sat, 28 Aug 2021 18:24:02 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AEAC042620
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2BF9A400EB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Aug 2021 14:09:15 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id q68so3159126pga.9
+ Sat, 28 Aug 2021 18:24:02 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id g14so8737285pfm.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Aug 2021 07:09:15 -0700 (PDT)
+ Sat, 28 Aug 2021 11:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IHu9tR/6Cya7biP79tZOJnTzvsP2TvD1XGVXSlWQptc=;
- b=nOxTMSOthtkjbNfMJmiDbRBqwR99W6NY3um9pitOe/YvF8Pesoqc3KYuvI4jKAq9lW
- Mhc/Danh+eSy4aK6FNWZMrAJ/azsGr8x1yUHM4YB/R0HbBAgD/LmJbyxopQxKsUSp9la
- 8HoXUT/gI8ZK3UiSnY4xt47YDXyTiN+Q7xEmgLZXlso26skqrAHmpJBcX7r6Iu4aukXh
- pcVbQ5R1RONsrj3/5VOVsG+FlVEgK532l/tHTgGUuap8A9h7IAWHY+1skfFGILmMFM+a
- 4bWN+iJo0wPiZHsrM5IYdlBhF9EJyZFlxfqlEaL4Ofq9Q+chfhWpi4DozZHl/+jJ+/UZ
- IVLw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=hDf9NBbjbGaYgmQDlZeaP3saynHi1Mxv1iAhxveJxAo=;
+ b=JKInRT467mwhxAyE9ijUxVCOlO70Wckztt0AsT9Ii5s534MqsTjYf9nX8qAYzIjiij
+ y4X0sF1QJeK/qH/RtF2mUOe8zAhs3SFx7IcbzjvsWv/hJCCxH1PIKGEevXWjE4XMTVOW
+ RAnSRWNa9t2fA63BmAyC56jJNgEniJEyQM38d0DIC8r7wn3rNpzOPPuMB2VpPVh+pOp2
+ SQOGPdDg9c+emNn595M050fAt0hPgIMRx5DVtKzsUHRjDuW2v9ZG5uk60JBpj5ZhBHbm
+ An1VnLHBwyu9jwZV3AIXMzUM4sWPVHvPTxa1UStsGb2AC5KyvYdgu0h2UC4xS0Bvq8AR
+ uI0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IHu9tR/6Cya7biP79tZOJnTzvsP2TvD1XGVXSlWQptc=;
- b=IH3j9uQLHv6DnS2RkP4ABAliKhPYK9PYvGu2e8mxvRwj4XzB3BY8HrcVORBqn1Frb9
- ORl8/OlbcbAgHPR28M9xHsWV3MEtaakDMGeapfc0Zn+MS7FFaLU7hyhLSXaUreWbK1gG
- giMyhil26uoudmBPf4RFroV2DHMXrWyJOwGT8ZgvDWdVHY2KSU8DaCjIK0bd6XMVDAiL
- ue6/F8bh4I22M+TVtmG96p7YqvxN5Kx5Wz1DJUrvOmtvFrM+bCXoCOc3gma1OrlCZpNB
- 4IRpQqNHdkiaa31Z6QAiW49iIuYwqb4ZsZUM+7PT5gXKUakqmWw3nVVOBvh8ta/d9JsY
- 6aXQ==
-X-Gm-Message-State: AOAM5338DyCAcmvf6Nkiye/gZSdJqANHvAdUufYM3/Ob/x/8o0oDsLHP
- KQKgs3ZjQkmEEStm3V0MzVLogI03uPlB2de7k2s=
-X-Google-Smtp-Source: ABdhPJwdW5JDTSv7/6D2pbzvuhN3sHFkC2wCg7ta7mwBvl1yqMkNzMe2+t9z1HROcwNl3zJWpalmuWHvOcP29Ak1JBo=
-X-Received: by 2002:aa7:800b:0:b029:330:455f:57a8 with SMTP id
- j11-20020aa7800b0000b0290330455f57a8mr3861506pfi.7.1629986955001; Thu, 26 Aug
- 2021 07:09:15 -0700 (PDT)
+ :message-id:subject:to;
+ bh=hDf9NBbjbGaYgmQDlZeaP3saynHi1Mxv1iAhxveJxAo=;
+ b=FuK7+UxlNjUzPVFYARgvyrOmMavLEVDgTGOwk3OzWzbPVwgn4U0UGpErwEYlMNMicY
+ lLIGSPol8oHqT/HzhUT0Zc8d4zVgpyU0jMWtxKQISKPowVRVqEc/NnfkJig4RriiawPZ
+ Y1n0Xu+CaDNw1V1XXrdh2ZBsin8L5GYDpSTX2NsQwAaWLUaj5codipJpZ2exi0kRe/lB
+ Ic+Q+2eF5p+aNDxLk+k71hxgOaFMKQ3dRYbZr/Bl82pCkaW5M468avyhiPyPIE0NOMAt
+ 3npl+m1jAMWumlmTbrExecHN1i5pDurcwBbE+w7wyMIrHdpoWhLOq9+9Qx+Ydb0eJpwv
+ +UHw==
+X-Gm-Message-State: AOAM5319B5n1gW24BRXjc6GVbZ1N8uE6+fEsOu21DMovX80pyhZ9tfFb
+ BuVf3Sl9hKfDtbOD092B0/P0Dt5i3SxV7Ed81dE=
+X-Google-Smtp-Source: ABdhPJzfW6/k5U3DRKQMwcpQYR/jP3gEVEx/uX00HSHYMO0X5FY/UsXkBYUma2K8Cm6fktcwcww5SZhQY/I3F3KUZ6c=
+X-Received: by 2002:a05:6a00:150d:b0:3e2:13fc:dd2b with SMTP id
+ q13-20020a056a00150d00b003e213fcdd2bmr15046357pfu.71.1630175041562; Sat, 28
+ Aug 2021 11:24:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817081401.3440-1-utkarshverma294@gmail.com>
- <YRuyoWujcSB6zKl5@kroah.com>
-In-Reply-To: <YRuyoWujcSB6zKl5@kroah.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 26 Aug 2021 17:08:35 +0300
-Message-ID: <CAHp75Vev9=mkNxi__eH3Lj+a9_rNBQ8M90EGgvsjbtQ_OqcOtg@mail.gmail.com>
-Subject: Re: [PATCH] serial: 8250_mid: Use pci_irq_vector() to get IRQ
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Jiri Slaby <jirislaby@kernel.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <CAKvDqm_ytP1BJ1Onw0n2f1F1bUXAuzETAiGZQDQmvdZifEhNrg@mail.gmail.com>
+In-Reply-To: <CAKvDqm_ytP1BJ1Onw0n2f1F1bUXAuzETAiGZQDQmvdZifEhNrg@mail.gmail.com>
+From: Sahethi DG <dgsahethi@gmail.com>
+Date: Sat, 28 Aug 2021 23:53:50 +0530
+Message-ID: <CAKvDqm8ZLUJrtBnQeFXCX+jeprond0=YybETVQ7ES3Q3-gsHWg@mail.gmail.com>
+Subject: Re: Mining Maintainers mentorship program
+To: lukas.bulwahn@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,44 +100,87 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============4791210835059548065=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Aug 17, 2021 at 3:59 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Tue, Aug 17, 2021 at 01:44:01PM +0530, Utkarsh Verma wrote:
-> > Instead of a direct assignment, use pci_irq_vector() to get the
-> > Linux IRQ number.
+--===============4791210835059548065==
+Content-Type: multipart/alternative; boundary="000000000000462f5b05caa2b41c"
+
+--000000000000462f5b05caa2b41c
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+I would just like to reiterate this mail and let you know the following: -
+I am interested in the Mining Maintainers mentorship program and I would
+like to work on the tasks for the mentee selection.
+
+Best Regards,
+Sahethi
+
+On Sat, Aug 14, 2021 at 12:40 AM Sahethi DG <dgsahethi@gmail.com> wrote:
+
+> Hello,
+> I am Sahethi Depuru Guru a Third Year Student pursuing B-Tech in Computer
+> Engineering. I am interested in the Mining Maintainers mentorship program
+> and I would like to work on the tasks for the mentee selection.
 >
-> Why is this needed?
-
-It's not.
-
-> > +     uart.port.irq = pci_irq_vector(pdev, 0);
+> Best Regards,
+> Sahethi
 >
-> What problem does this solve?
->
-> Do not describe what you are doing, but rather, _why_ you are doing it.
 
-I think I know what was the motivation here, but actually there is no
-problem with current code. Indeed, when we enable MSI we have to
-update the vIRQ line, but this is done in the platform related
-->setup() callbacks (for example, dnv_setup() does it). So we have two
-scenarios:
- 1) there is no MSI enabled and in this case pdev->irq is correct;
- 2) we have MSI enabled and we need to update previously saved pdev->irq.
+--000000000000462f5b05caa2b41c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-What you, Utkarsh, are doing in the patch has no effect, because at
-that point MSI will never be enabled and pci_irq_vector(pdev, 0) will
-return the very same value as kept in pdev->irq.
+<div dir=3D"ltr">Hello,=C2=A0<div style=3D"user-select: auto;">I would just=
+ like to reiterate this mail and let you know the following: -=C2=A0</div><=
+div style=3D"user-select: auto;"><span style=3D"color:rgb(33,37,41);font-fa=
+mily:Poppins,Roboto,&quot;Helvetica Neue&quot;,Arial,sans-serif;font-size:1=
+2.8px;white-space:pre-line">I am interested in the Mining Maintainers mento=
+rship program and I would like to work on the tasks for the mentee selectio=
+n.</span><br style=3D"user-select: auto;"></div><div style=3D"user-select: =
+auto;"><span style=3D"color:rgb(33,37,41);font-family:Poppins,Roboto,&quot;=
+Helvetica Neue&quot;,Arial,sans-serif;font-size:12.8px;white-space:pre-line=
+"><br style=3D"user-select: auto;"></span></div><div style=3D"user-select: =
+auto;"><span style=3D"color:rgb(33,37,41);font-family:Poppins,Roboto,&quot;=
+Helvetica Neue&quot;,Arial,sans-serif;font-size:12.8px;white-space:pre-line=
+">Best Regards,</span></div><div style=3D"user-select: auto;"><span style=
+=3D"color:rgb(33,37,41);font-family:Poppins,Roboto,&quot;Helvetica Neue&quo=
+t;,Arial,sans-serif;font-size:12.8px;white-space:pre-line">Sahethi</span></=
+div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Sat, Aug 14, 2021 at 12:40 AM Sahethi DG &lt;<a href=3D"mailto:dgsah=
+ethi@gmail.com">dgsahethi@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><span style=3D"color:rg=
+b(33,37,41);font-family:Poppins,Roboto,&quot;Helvetica Neue&quot;,Arial,san=
+s-serif;font-size:12.8px;white-space:pre-line">Hello,=C2=A0</span><div><spa=
+n style=3D"color:rgb(33,37,41);font-family:Poppins,Roboto,&quot;Helvetica N=
+eue&quot;,Arial,sans-serif;font-size:12.8px;white-space:pre-line">I am Sahe=
+thi Depuru Guru a Third Year Student pursuing B-Tech in Computer Engineerin=
+g. I am interested in the Mining Maintainers mentorship program and I would=
+ like to work on the tasks for the mentee selection.</span></div><div><span=
+ style=3D"color:rgb(33,37,41);font-family:Poppins,Roboto,&quot;Helvetica Ne=
+ue&quot;,Arial,sans-serif;font-size:12.8px;white-space:pre-line"><br></span=
+></div><div><font color=3D"#212529" face=3D"Poppins, Roboto, Helvetica Neue=
+, Arial, sans-serif"><span style=3D"font-size:12.8px;white-space:pre-line">=
+Best Regards,=C2=A0</span></font></div><div><font color=3D"#212529" face=3D=
+"Poppins, Roboto, Helvetica Neue, Arial, sans-serif"><span style=3D"font-si=
+ze:12.8px;white-space:pre-line">Sahethi</span></font></div></div>
+</blockquote></div>
 
--- 
-With Best Regards,
-Andy Shevchenko
+--000000000000462f5b05caa2b41c--
+
+--===============4791210835059548065==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============4791210835059548065==--
