@@ -8,100 +8,99 @@ X-Spam-Status: No, score=-13.5 required=3.0 tests=BAYES_00,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 771A9C432BE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Aug 2021 06:15:13 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1AECC432BE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Aug 2021 06:56:39 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 3A03660F4B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Aug 2021 06:15:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3A03660F4B
+	by mail.kernel.org (Postfix) with ESMTPS id 86E7F60200
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 31 Aug 2021 06:56:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 86E7F60200
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 11D8460B97;
-	Tue, 31 Aug 2021 06:15:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5ACAE4052A;
+	Tue, 31 Aug 2021 06:56:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5qt-6QKk2arq; Tue, 31 Aug 2021 06:15:09 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ykFIkTwqAX-O; Tue, 31 Aug 2021 06:56:35 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 27D08605F0;
-	Tue, 31 Aug 2021 06:15:09 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 105294050C;
+	Tue, 31 Aug 2021 06:56:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0883AC0010;
-	Tue, 31 Aug 2021 06:15:09 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4EA2BC000E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EF894C001A;
+	Tue, 31 Aug 2021 06:56:34 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5CFC8C001A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Aug 2021 06:15:07 +0000 (UTC)
+ Tue, 31 Aug 2021 06:56:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 30FEC81A6D
+ by smtp1.osuosl.org (Postfix) with ESMTP id 40C8B81D46
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Aug 2021 06:15:07 +0000 (UTC)
+ Tue, 31 Aug 2021 06:56:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SCkRhe5dKkGR
+ with ESMTP id wnCPKyxezA7T
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Aug 2021 06:15:06 +0000 (UTC)
+ Tue, 31 Aug 2021 06:56:29 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5E82C81A9C
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 17AB381B58
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 31 Aug 2021 06:15:06 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id q68so15632900pga.9
+ Tue, 31 Aug 2021 06:56:29 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id
+ j10-20020a17090a94ca00b00181f17b7ef7so1266717pjw.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Aug 2021 23:15:06 -0700 (PDT)
+ Mon, 30 Aug 2021 23:56:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XOWjtPmVcuZURRHCItqd8KeCjmehloMsJa1Tvd/rfGo=;
- b=mYm7klhu8D1d0GjuqfIbWTRUjRNgIEAa3dL8lyoQNp0mVTIahS//yMyxbRIQDR1tAm
- cm/s2CR7gS51s5nM0xi6LPGiZlv09rLOPKOXoUxKwlJMn8GxUx6fFNKfhbe2Z6bbPtma
- 0K52TUob6x00E1p2GLsdVsUsTfgFY/FxXI9Q7bJASogTgCkIbZ7sgpacphMTmtGEfC6E
- 2DC2WkZCBnVHIPLJFSejF9aIeUAFT8Lt9OaiXcKsyD2kiJVH2Ytj5HGgvZRC7AOMGKFI
- ajUn8qFPhAblyPjCxIOwpFpn/kXha1yCrkZ5fXacFxoSrw1Cszy58viw4gWJ51fc0u46
- M5+Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lfEtYIu/utfFULs5apSczuS/W4kZB9kIF3Fl1+UV+f4=;
+ b=SgOqcilv+OBh9sCxLnxuq6V5TkLRgFPTBWHi+6IWG6HdR2fqHX/I+aBq92DldYTjh8
+ ER39P6/wwinMTr5nA4dz1tLfPMHD1uIWZN2wFUPITJG8gqQ7gC4xeOa7ZzpWdJbWHgKH
+ PcRE8RWm93M/qVlbyXi6k9lMF3sunaPijww3qlZZ577SWwNxRw/v/culHIaCyNXZaw7U
+ UW+cMdLEFavKrbOOdohdZz6jy9Uhi6NqjQXPwluHCGiJHF5fhRFip3ihSUJsFP8J23DT
+ /r6Nsau5I++wjbY1h1ZT+ZQvMKbngEXah53cgMhPVH/Ee7HE0i0lbT7ED3wPeejcfs+3
+ ACIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XOWjtPmVcuZURRHCItqd8KeCjmehloMsJa1Tvd/rfGo=;
- b=mnOt98QEsYYETSbkXpLyOLH31ZE5qCxet/sZ1P56NCKR69wcO/6MdNeO7IIr4NqrZh
- wpphY97CoymSVVVyXdz02ZrW2m7R8DA3E7nCQMw7PajQ2W/x0rxroYCHAjErIRlzOjOe
- 6fc2TDBUNchFRRK2hNKy0A2yY1xDYCcAc2T7/OomRQ7CR5fybEoAyEco5C0I/AVnEEEA
- 7a1uzWHLvqt5iM427nZyBsNW3yl2LuDSA3hiSrYUVmbhDc4ItZxosMLzdf8XPXRUKyXI
- QMkkve1akwFckns1Zs99jshXaFSbpRyXJm9rCD3qDKS7G9YZ8RDVkZ0mwgt6L+tqzTNo
- XkmQ==
-X-Gm-Message-State: AOAM530VMzeKQAQUUhPM2rNJXHuYH9McwHuYNIbK8DK0ywLhUDKcADjo
- Nwo9vhCdNCexRQoH34DV7Os=
-X-Google-Smtp-Source: ABdhPJztsAuXiccegNYT+v+yGrR62NbefH2Z/EZ4yrQw6VeBuAlR9qar3ZRXKLdP9fPvQh2G8zu7VA==
-X-Received: by 2002:a65:5845:: with SMTP id s5mr24426433pgr.227.1630390505792; 
- Mon, 30 Aug 2021 23:15:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lfEtYIu/utfFULs5apSczuS/W4kZB9kIF3Fl1+UV+f4=;
+ b=Y/GhZAsUVQH5wECAVYq+SrL8G1yaVHAokS7Oj/GMm2eUk+0w0S1DT2EwOhqbCTuofS
+ ZbZ3GkXLYpZK0FWNTxjMVrYOS1tI29RWRRu+B9W366Fr4GraBZao2AYmDdy10hhJmp0b
+ mPjHyKSw9SvzNrf4g3upVm4k4L1EEN6Xkpod7RHLaA1Mr5YpFO7wvMR1pb+E0G/7kt67
+ BDZMolwEvbU9FAb9K4Zyfl6bbSDN5UojLPLGncNIIKMsZMyo3Dy1Co1HvPtg2uZhS2NG
+ vX4YQ2lgysSE575dbdwngiWKZI1F2E+KulPfYbBoGE5y3bYp8p7dtSHOZBtJQm5QreLf
+ qlhQ==
+X-Gm-Message-State: AOAM530+XJgn48qxMpfaxNEHwdYVQB06SPgClR88KVvCgQbk0lyf9nUZ
+ T7zCpdqae920/3DlQYg+cK0=
+X-Google-Smtp-Source: ABdhPJzzK+r0wG1xM0noPs3I19S+pjKi0DqezCPPUQWpcMTdoXqyzAIMzeX+feHAB4Pnxy9i4LJG/w==
+X-Received: by 2002:a17:90a:8b12:: with SMTP id
+ y18mr3649666pjn.72.1630392988407; 
+ Mon, 30 Aug 2021 23:56:28 -0700 (PDT)
 Received: from sanitydock.wifi-cloud.jp ([210.160.217.69])
- by smtp.gmail.com with ESMTPSA id z7sm1405724pjr.42.2021.08.30.23.15.01
+ by smtp.gmail.com with ESMTPSA id k190sm7988894pgc.11.2021.08.30.23.56.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 23:15:05 -0700 (PDT)
+ Mon, 30 Aug 2021 23:56:27 -0700 (PDT)
 From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@linux.ie, daniel@ffwll.ch, sumit.semwal@linaro.org,
- christian.koenig@amd.com
-Subject: [PATCH v9 4/4] drm: avoid races with modesetting rights
-Date: Tue, 31 Aug 2021 14:13:48 +0800
-Message-Id: <20210831061348.97696-5-desmondcheongzx@gmail.com>
+To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
+ davem@davemloft.net, kuba@kernel.org
+Subject: [PATCH] Bluetooth: fix race in sco_sock_connect
+Date: Tue, 31 Aug 2021 14:56:01 +0800
+Message-Id: <20210831065601.101185-1-desmondcheongzx@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210831061348.97696-1-desmondcheongzx@gmail.com>
-References: <20210831061348.97696-1-desmondcheongzx@gmail.com>
 MIME-Version: 1.0
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
+Cc: Hillf Danton <hdanton@sina.com>,
+ syzbot+2bef95d3ab4daa10155b@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ netdev@vger.kernel.org, Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,235 +118,253 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In drm_client_modeset.c and drm_fb_helper.c,
-drm_master_internal_{acquire,release} are used to avoid races with DRM
-userspace. These functions hold onto drm_device.master_rwsem while
-committing, and bail if there's already a master.
+Syzbot reported a use-after-free Write in sco_sock_timeout [1]:
 
-However, there are other places where modesetting rights can race. A
-time-of-check-to-time-of-use error can occur if an ioctl that changes
-the modeset has its rights revoked after it validates its permissions,
-but before it completes.
+==================================================================
+BUG: KASAN: use-after-free in instrument_atomic_read_write include/linux/instrumented.h:101 [inline]
+BUG: KASAN: use-after-free in atomic_fetch_add_relaxed include/asm-generic/atomic-instrumented.h:111 [inline]
+BUG: KASAN: use-after-free in __refcount_add include/linux/refcount.h:193 [inline]
+BUG: KASAN: use-after-free in __refcount_inc include/linux/refcount.h:250 [inline]
+BUG: KASAN: use-after-free in refcount_inc include/linux/refcount.h:267 [inline]
+BUG: KASAN: use-after-free in sock_hold include/net/sock.h:702 [inline]
+BUG: KASAN: use-after-free in sco_sock_timeout+0x64/0x290 net/bluetooth/sco.c:88
+Write of size 4 at addr ffff888034b46080 by task kworker/1:0/20
 
-There are four places where modesetting permissions can change:
+CPU: 1 PID: 20 Comm: kworker/1:0 Not tainted 5.14.0-rc6-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: events sco_sock_timeout
+Call Trace:
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:105
+ print_address_description.constprop.0.cold+0x6c/0x309 mm/kasan/report.c:233
+ __kasan_report mm/kasan/report.c:419 [inline]
+ kasan_report.cold+0x83/0xdf mm/kasan/report.c:436
+ check_region_inline mm/kasan/generic.c:183 [inline]
+ kasan_check_range+0x13d/0x180 mm/kasan/generic.c:189
+ instrument_atomic_read_write include/linux/instrumented.h:101 [inline]
+ atomic_fetch_add_relaxed include/asm-generic/atomic-instrumented.h:111 [inline]
+ __refcount_add include/linux/refcount.h:193 [inline]
+ __refcount_inc include/linux/refcount.h:250 [inline]
+ refcount_inc include/linux/refcount.h:267 [inline]
+ sock_hold include/net/sock.h:702 [inline]
+ sco_sock_timeout+0x64/0x290 net/bluetooth/sco.c:88
+ process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
+ worker_thread+0x658/0x11f0 kernel/workqueue.c:2422
+ kthread+0x3e5/0x4d0 kernel/kthread.c:319
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
 
-- DROP_MASTER ioctl removes rights for a master and its leases
+Allocated by task 4872:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_set_track mm/kasan/common.c:46 [inline]
+ set_alloc_info mm/kasan/common.c:434 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:513 [inline]
+ ____kasan_kmalloc mm/kasan/common.c:472 [inline]
+ __kasan_kmalloc+0x9b/0xd0 mm/kasan/common.c:522
+ kmalloc include/linux/slab.h:596 [inline]
+ sk_prot_alloc+0x110/0x290 net/core/sock.c:1822
+ sk_alloc+0x32/0xbc0 net/core/sock.c:1875
+ __netlink_create+0x63/0x2f0 net/netlink/af_netlink.c:640
+ netlink_create+0x3ad/0x5e0 net/netlink/af_netlink.c:703
+ __sock_create+0x353/0x790 net/socket.c:1461
+ sock_create net/socket.c:1512 [inline]
+ __sys_socket+0xef/0x200 net/socket.c:1554
+ __do_sys_socket net/socket.c:1563 [inline]
+ __se_sys_socket net/socket.c:1561 [inline]
+ __x64_sys_socket+0x6f/0xb0 net/socket.c:1561
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-- REVOKE_LEASE ioctl revokes rights for a specific lease
+Freed by task 0:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_set_track+0x1c/0x30 mm/kasan/common.c:46
+ kasan_set_free_info+0x20/0x30 mm/kasan/generic.c:360
+ ____kasan_slab_free mm/kasan/common.c:366 [inline]
+ ____kasan_slab_free mm/kasan/common.c:328 [inline]
+ __kasan_slab_free+0xfb/0x130 mm/kasan/common.c:374
+ kasan_slab_free include/linux/kasan.h:230 [inline]
+ slab_free_hook mm/slub.c:1628 [inline]
+ slab_free_freelist_hook+0xdf/0x240 mm/slub.c:1653
+ slab_free mm/slub.c:3213 [inline]
+ kfree+0xe4/0x540 mm/slub.c:4267
+ sk_prot_free net/core/sock.c:1858 [inline]
+ __sk_destruct+0x6a8/0x900 net/core/sock.c:1943
+ sk_destruct+0xbd/0xe0 net/core/sock.c:1958
+ __sk_free+0xef/0x3d0 net/core/sock.c:1969
+ sk_free+0x78/0xa0 net/core/sock.c:1980
+ deferred_put_nlk_sk+0x151/0x2f0 net/netlink/af_netlink.c:740
+ rcu_do_batch kernel/rcu/tree.c:2550 [inline]
+ rcu_core+0x7ab/0x1380 kernel/rcu/tree.c:2785
+ __do_softirq+0x29b/0x9c2 kernel/softirq.c:558
 
-- SET_MASTER ioctl sets the device master if the master role hasn't
-been acquired yet
+Last potentially related work creation:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_record_aux_stack+0xe5/0x110 mm/kasan/generic.c:348
+ __call_rcu kernel/rcu/tree.c:3029 [inline]
+ call_rcu+0xb1/0x750 kernel/rcu/tree.c:3109
+ netlink_release+0xdd4/0x1dd0 net/netlink/af_netlink.c:812
+ __sock_release+0xcd/0x280 net/socket.c:649
+ sock_close+0x18/0x20 net/socket.c:1311
+ __fput+0x288/0x920 fs/file_table.c:280
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ exit_task_work include/linux/task_work.h:32 [inline]
+ do_exit+0xbd4/0x2a60 kernel/exit.c:825
+ do_group_exit+0x125/0x310 kernel/exit.c:922
+ __do_sys_exit_group kernel/exit.c:933 [inline]
+ __se_sys_exit_group kernel/exit.c:931 [inline]
+ __x64_sys_exit_group+0x3a/0x50 kernel/exit.c:931
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-- drm_open which can create a new master for a device if one does not
-currently exist
+Second to last potentially related work creation:
+ kasan_save_stack+0x1b/0x40 mm/kasan/common.c:38
+ kasan_record_aux_stack+0xe5/0x110 mm/kasan/generic.c:348
+ __call_rcu kernel/rcu/tree.c:3029 [inline]
+ call_rcu+0xb1/0x750 kernel/rcu/tree.c:3109
+ netlink_release+0xdd4/0x1dd0 net/netlink/af_netlink.c:812
+ __sock_release+0xcd/0x280 net/socket.c:649
+ sock_close+0x18/0x20 net/socket.c:1311
+ __fput+0x288/0x920 fs/file_table.c:280
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:164
+ exit_task_work include/linux/task_work.h:32 [inline]
+ do_exit+0xbd4/0x2a60 kernel/exit.c:825
+ do_group_exit+0x125/0x310 kernel/exit.c:922
+ __do_sys_exit_group kernel/exit.c:933 [inline]
+ __se_sys_exit_group kernel/exit.c:931 [inline]
+ __x64_sys_exit_group+0x3a/0x50 kernel/exit.c:931
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-These races can be avoided using drm_device.master_rwsem: users that
-perform modesetting should hold a read lock on the new
-drm_device.master_rwsem, and users that change these permissions
-should hold a write lock.
+The buggy address belongs to the object at ffff888034b46000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 128 bytes inside of
+ 2048-byte region [ffff888034b46000, ffff888034b46800)
+The buggy address belongs to the page:
+page:ffffea0000d2d000 refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x34b40
+head:ffffea0000d2d000 order:3 compound_mapcount:0 compound_pincount:0
+flags: 0xfff00000010200(slab|head|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000010200 ffffea0000c37a00 0000000200000002 ffff888010c42000
+raw: 0000000000000000 0000000000080008 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 8634, ts 417197903424, free_ts 417180376519
+ prep_new_page mm/page_alloc.c:2436 [inline]
+ get_page_from_freelist+0xa72/0x2f80 mm/page_alloc.c:4169
+ __alloc_pages+0x1b2/0x500 mm/page_alloc.c:5391
+ alloc_pages+0x18c/0x2a0 mm/mempolicy.c:2244
+ alloc_slab_page mm/slub.c:1691 [inline]
+ allocate_slab+0x32e/0x4b0 mm/slub.c:1831
+ new_slab mm/slub.c:1894 [inline]
+ new_slab_objects mm/slub.c:2640 [inline]
+ ___slab_alloc+0x473/0x7b0 mm/slub.c:2803
+ __slab_alloc.constprop.0+0xa7/0xf0 mm/slub.c:2843
+ slab_alloc_node mm/slub.c:2925 [inline]
+ __kmalloc_node_track_caller+0x2e3/0x360 mm/slub.c:4653
+ kmalloc_reserve net/core/skbuff.c:355 [inline]
+ __alloc_skb+0xde/0x340 net/core/skbuff.c:426
+ alloc_skb include/linux/skbuff.h:1116 [inline]
+ alloc_skb_with_frags+0x93/0x620 net/core/skbuff.c:6073
+ sock_alloc_send_pskb+0x783/0x910 net/core/sock.c:2475
+ mld_newpack+0x1df/0x770 net/ipv6/mcast.c:1756
+ add_grhead+0x265/0x330 net/ipv6/mcast.c:1859
+ add_grec+0x1053/0x14e0 net/ipv6/mcast.c:1997
+ mld_send_initial_cr.part.0+0xf6/0x230 net/ipv6/mcast.c:2244
+ mld_send_initial_cr net/ipv6/mcast.c:1232 [inline]
+ ipv6_mc_dad_complete+0x1d0/0x690 net/ipv6/mcast.c:2255
+ addrconf_dad_completed+0xa20/0xd60 net/ipv6/addrconf.c:4181
+page last free stack trace:
+ reset_page_owner include/linux/page_owner.h:24 [inline]
+ free_pages_prepare mm/page_alloc.c:1346 [inline]
+ free_pcp_prepare+0x2c5/0x780 mm/page_alloc.c:1397
+ free_unref_page_prepare mm/page_alloc.c:3332 [inline]
+ free_unref_page+0x19/0x690 mm/page_alloc.c:3411
+ unfreeze_partials+0x16c/0x1b0 mm/slub.c:2421
+ put_cpu_partial+0x13d/0x230 mm/slub.c:2457
+ qlink_free mm/kasan/quarantine.c:146 [inline]
+ qlist_free_all+0x5a/0xc0 mm/kasan/quarantine.c:165
+ kasan_quarantine_reduce+0x180/0x200 mm/kasan/quarantine.c:272
+ __kasan_slab_alloc+0x8e/0xa0 mm/kasan/common.c:444
+ kasan_slab_alloc include/linux/kasan.h:254 [inline]
+ slab_post_alloc_hook mm/slab.h:519 [inline]
+ slab_alloc_node mm/slub.c:2959 [inline]
+ slab_alloc mm/slub.c:2967 [inline]
+ kmem_cache_alloc+0x285/0x4a0 mm/slub.c:2972
+ getname_flags.part.0+0x50/0x4f0 fs/namei.c:138
+ getname_flags fs/namei.c:2747 [inline]
+ user_path_at_empty+0xa1/0x100 fs/namei.c:2747
+ user_path_at include/linux/namei.h:57 [inline]
+ vfs_statx+0x142/0x390 fs/stat.c:203
+ vfs_fstatat fs/stat.c:225 [inline]
+ vfs_lstat include/linux/fs.h:3386 [inline]
+ __do_sys_newlstat+0x91/0x110 fs/stat.c:380
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-To avoid deadlocks with master_rwsem, for ioctls that need to check
-for modesetting permissions, but also need to hold a write lock on
-master_rwsem to protect some other attribute (or recurses to some
-function that holds a write lock, like drm_mode_create_lease_ioctl
-which eventually calls drm_master_open), we remove the DRM_MASTER flag
-and push the master_rwsem lock and permissions check into the ioctl.
+Memory state around the buggy address:
+ ffff888034b45f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888034b46000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff888034b46080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff888034b46100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888034b46180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
-Reported-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+sco_sock_connect checks the socket's state before allocating a new SCO
+connection and creating a channel for it with the given socket.
+
+However, because this check occurs outside the socket lock, multiple
+concurrent calls to sco_sock_connect are able to pass the check before
+serially entering the critical section and making multiple recursive
+calls to sco_connect.
+
+The result is that multiple SCO connections are allocated, but each
+connection overrides the socket's channel with the previous
+connection. This may cause a UAF because the overwritten connections
+can't have their channels deleted when the socket is released, so
+sco_sock_timeout is able to access the freed socket.
+
+Fix this by checking the socket's state after the socket is locked in
+sco_sock_connect.
+
+Link: https://syzkaller.appspot.com/bug?extid=2bef95d3ab4daa10155b [1]
+Reported-by: syzbot+2bef95d3ab4daa10155b@syzkaller.appspotmail.com
+Tested-by: syzbot+2bef95d3ab4daa10155b@syzkaller.appspotmail.com
 Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Hillf Danton <hdanton@sina.com>
 ---
- drivers/gpu/drm/drm_auth.c  |  4 ++++
- drivers/gpu/drm/drm_ioctl.c | 20 +++++++++++++++-----
- drivers/gpu/drm/drm_lease.c | 35 ++++++++++++++++++++++++-----------
- include/drm/drm_device.h    |  6 ++++++
- 4 files changed, 49 insertions(+), 16 deletions(-)
+ net/bluetooth/sco.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_auth.c b/drivers/gpu/drm/drm_auth.c
-index 73ade0513ccb..65065f7e1499 100644
---- a/drivers/gpu/drm/drm_auth.c
-+++ b/drivers/gpu/drm/drm_auth.c
-@@ -120,6 +120,10 @@ int drm_authmagic(struct drm_device *dev, void *data,
- 	DRM_DEBUG("%u\n", auth->magic);
- 
- 	down_write(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(file_priv))) {
-+		up_write(&dev->master_rwsem);
-+		return -EACCES;
-+	}
- 	file = idr_find(&file_priv->master->magic_map, auth->magic);
- 	if (file) {
- 		file->authenticated = 1;
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index 59c5aa850dd5..96ae6b661c0a 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -386,6 +386,10 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	int if_version, retcode = 0;
- 
- 	down_write(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(file_priv))) {
-+		retcode = -EACCES;
-+		goto unlock;
-+	}
- 	if (sv->drm_di_major != -1) {
- 		if (sv->drm_di_major != DRM_IF_MAJOR ||
- 		    sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MINOR) {
-@@ -420,8 +424,9 @@ static int drm_setversion(struct drm_device *dev, void *data, struct drm_file *f
- 	sv->drm_di_minor = DRM_IF_MINOR;
- 	sv->drm_dd_major = dev->driver->major;
- 	sv->drm_dd_minor = dev->driver->minor;
--	up_write(&dev->master_rwsem);
- 
-+unlock:
-+	up_write(&dev->master_rwsem);
- 	return retcode;
- }
- 
-@@ -574,12 +579,12 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 	DRM_IOCTL_DEF(DRM_IOCTL_GET_STATS, drm_getstats, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_GET_CAP, drm_getcap, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_SET_CLIENT_CAP, drm_setclientcap, 0),
--	DRM_IOCTL_DEF(DRM_IOCTL_SET_VERSION, drm_setversion, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_SET_VERSION, drm_setversion, 0),
- 
- 	DRM_IOCTL_DEF(DRM_IOCTL_SET_UNIQUE, drm_invalid_op, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 	DRM_IOCTL_DEF(DRM_IOCTL_BLOCK, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 	DRM_IOCTL_DEF(DRM_IOCTL_UNBLOCK, drm_noop, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
--	DRM_IOCTL_DEF(DRM_IOCTL_AUTH_MAGIC, drm_authmagic, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_AUTH_MAGIC, drm_authmagic, 0),
- 
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_ADD_MAP, drm_legacy_addmap_ioctl, DRM_AUTH|DRM_MASTER|DRM_ROOT_ONLY),
- 	DRM_LEGACY_IOCTL_DEF(DRM_IOCTL_RM_MAP, drm_legacy_rmmap_ioctl, DRM_AUTH),
-@@ -706,10 +711,10 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
- 		      DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_GET_SEQUENCE, drm_crtc_get_sequence_ioctl, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_CRTC_QUEUE_SEQUENCE, drm_crtc_queue_sequence_ioctl, 0),
--	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_MODE_CREATE_LEASE, drm_mode_create_lease_ioctl, 0),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_LIST_LESSEES, drm_mode_list_lessees_ioctl, DRM_MASTER),
- 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GET_LEASE, drm_mode_get_lease_ioctl, DRM_MASTER),
--	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, DRM_MASTER),
-+	DRM_IOCTL_DEF(DRM_IOCTL_MODE_REVOKE_LEASE, drm_mode_revoke_lease_ioctl, 0),
- };
- 
- #define DRM_CORE_IOCTL_COUNT	ARRAY_SIZE( drm_ioctls )
-@@ -779,6 +784,9 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	if (locked_ioctl)
- 		mutex_lock(&drm_global_mutex);
- 
-+	if (unlikely(flags & DRM_MASTER))
-+		down_read(&dev->master_rwsem);
-+
- 	retcode = drm_ioctl_permit(flags, file_priv);
- 	if (unlikely(retcode))
- 		goto out;
-@@ -786,6 +794,8 @@ long drm_ioctl_kernel(struct file *file, drm_ioctl_t *func, void *kdata,
- 	retcode = func(dev, kdata, file_priv);
- 
- out:
-+	if (unlikely(flags & DRM_MASTER))
-+		up_read(&dev->master_rwsem);
- 	if (locked_ioctl)
- 		mutex_unlock(&drm_global_mutex);
- 	return retcode;
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index dee4f24a1808..bed6f7636cbe 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -500,6 +500,18 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
+diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
+index 98a881586512..fa25b07120c9 100644
+--- a/net/bluetooth/sco.c
++++ b/net/bluetooth/sco.c
+@@ -578,9 +578,6 @@ static int sco_sock_connect(struct socket *sock, struct sockaddr *addr, int alen
+ 	    addr->sa_family != AF_BLUETOOTH)
  		return -EINVAL;
- 	}
  
-+	/* Clone the lessor file to create a new file for us */
-+	DRM_DEBUG_LEASE("Allocating lease file\n");
-+	lessee_file = file_clone_open(lessor_file);
-+	if (IS_ERR(lessee_file))
-+		return PTR_ERR(lessee_file);
-+
-+	down_read(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+		ret = -EACCES;
-+		goto out_file;
+-	if (sk->sk_state != BT_OPEN && sk->sk_state != BT_BOUND)
+-		return -EBADFD;
+-
+ 	if (sk->sk_type != SOCK_SEQPACKET)
+ 		return -EINVAL;
+ 
+@@ -591,6 +588,13 @@ static int sco_sock_connect(struct socket *sock, struct sockaddr *addr, int alen
+ 
+ 	lock_sock(sk);
+ 
++	if (sk->sk_state != BT_OPEN && sk->sk_state != BT_BOUND) {
++		hci_dev_unlock(hdev);
++		hci_dev_put(hdev);
++		err = -EBADFD;
++		goto done;
 +	}
 +
- 	lessor = drm_file_get_master(lessor_priv);
- 	/* Do not allow sub-leases */
- 	if (lessor->lessor) {
-@@ -547,14 +559,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 		goto out_leases;
- 	}
- 
--	/* Clone the lessor file to create a new file for us */
--	DRM_DEBUG_LEASE("Allocating lease file\n");
--	lessee_file = file_clone_open(lessor_file);
--	if (IS_ERR(lessee_file)) {
--		ret = PTR_ERR(lessee_file);
--		goto out_lessee;
--	}
--
- 	lessee_priv = lessee_file->private_data;
- 	/* Change the file to a master one */
- 	drm_master_put(&lessee_priv->master);
-@@ -571,17 +575,19 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev,
- 	fd_install(fd, lessee_file);
- 
- 	drm_master_put(&lessor);
-+	up_read(&dev->master_rwsem);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl succeeded\n");
- 	return 0;
- 
--out_lessee:
--	drm_master_put(&lessee);
--
- out_leases:
- 	put_unused_fd(fd);
- 
- out_lessor:
- 	drm_master_put(&lessor);
-+
-+out_file:
-+	up_read(&dev->master_rwsem);
-+	fput(lessee_file);
- 	DRM_DEBUG_LEASE("drm_mode_create_lease_ioctl failed: %d\n", ret);
- 	return ret;
- }
-@@ -705,6 +711,11 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	if (!drm_core_check_feature(dev, DRIVER_MODESET))
- 		return -EOPNOTSUPP;
- 
-+	down_write(&dev->master_rwsem);
-+	if (unlikely(!drm_is_current_master(lessor_priv))) {
-+		ret = -EACCES;
-+		goto unlock;
-+	}
- 	lessor = drm_file_get_master(lessor_priv);
- 	mutex_lock(&dev->mode_config.idr_mutex);
- 
-@@ -728,5 +739,7 @@ int drm_mode_revoke_lease_ioctl(struct drm_device *dev,
- 	mutex_unlock(&dev->mode_config.idr_mutex);
- 	drm_master_put(&lessor);
- 
-+unlock:
-+	up_write(&dev->master_rwsem);
- 	return ret;
- }
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 142fb2f6e74d..5504f9192408 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -151,6 +151,12 @@ struct drm_device {
- 	 * Lock for &drm_device.master, &drm_file.was_master,
- 	 * &drm_file.is_master, &drm_file.master, &drm_master.unique,
- 	 * &drm_master.unique_len, and &drm_master.magic_map.
-+	 *
-+	 * Additionally, synchronizes access rights to exclusive resources like
-+	 * modesetting access between multiple users. For example, users that
-+	 * can change the modeset or display state must hold a read lock on
-+	 * @master_rwsem, and users that change modesetting rights should hold
-+	 * a write lock.
- 	 */
- 	struct rw_semaphore master_rwsem;
+ 	/* Set destination address and psm */
+ 	bacpy(&sco_pi(sk)->dst, &sa->sco_bdaddr);
  
 -- 
 2.25.1
