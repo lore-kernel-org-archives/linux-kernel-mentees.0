@@ -8,88 +8,88 @@ X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_ADSP_CUSTOM_MED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64317C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Sep 2021 22:54:04 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 140E6C43217
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Sep 2021 23:05:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 04958610E8
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Sep 2021 22:54:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 04958610E8
+	by mail.kernel.org (Postfix) with ESMTPS id A7B0D60F42
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Sep 2021 23:05:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A7B0D60F42
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C966280B53;
-	Thu,  2 Sep 2021 22:54:03 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 75E1142586;
+	Thu,  2 Sep 2021 23:05:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KKg69EUGsMUN; Thu,  2 Sep 2021 22:54:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D550480B27;
-	Thu,  2 Sep 2021 22:54:01 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BC0DFC001A;
-	Thu,  2 Sep 2021 22:54:01 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C54ECC000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Sep 2021 22:54:00 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A1C32425AE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Sep 2021 22:54:00 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WwLGts1DvEU2
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lyn1e4qhUdVc; Thu,  2 Sep 2021 23:05:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5A44B4256C;
+	Thu,  2 Sep 2021 23:05:56 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 37CB5C001A;
+	Thu,  2 Sep 2021 23:05:56 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 24E6AC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Sep 2021 22:53:56 +0000 (UTC)
+ Thu,  2 Sep 2021 23:05:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0180B61536
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  2 Sep 2021 23:05:55 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lf47Rb3kUDmU
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  2 Sep 2021 23:05:54 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7E2E9425A8
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D5E296075D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Sep 2021 22:53:56 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id e18so2183346qvo.1
+ Thu,  2 Sep 2021 23:05:53 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id ay33so4007894qkb.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 02 Sep 2021 15:53:56 -0700 (PDT)
+ Thu, 02 Sep 2021 16:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ h=subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OzpYK8dvsIlm/S8gJHWT+Oy8oCpnYbMnDX+i/m5SSTs=;
- b=bQsf4oPtcPEYtYW7ZnoUgMDLuJQdxMtbDg+2hVBPPA8B+SDgbl7yHNhCOARBU3/VuO
- 95jxFnGaKyu37iRHNOiXcsALAVrJbcl923U806rgq63sigTWoMHYV2g4EMFzyiah4yrt
- GwvmGhD0OojznsPNEOiEKvs4lWiwBg2KBIGlfgSCmwU9u7mFWdG2bon2nT2IpHTJC7hx
- kVmYm8grMBNhxowgcIM5OlgIZw9c7c15E+hoEJEu0kRYFz3zBjFo1pCK3aYce0XTyX+T
- W2d1DECpj60DqYOmQve18Q1cJDIWwd0X7+fuCSHzUHy6/YfPu0Amxnbfr2IC/adbg0yV
- cNFQ==
+ bh=jEtVc/Y6Y90s3mCuRbL/bjjGKhGT7MI4nPKvE05RH60=;
+ b=cZaLSM/kOMm+Ar2RPW+ZjTNASQk3hz6WXEtdIu2JGKGQim4GZ4iahSx3qF/cw3VXe/
+ K7y/WpcIduoB+i3BB9WEs0ZVh8zGeckRNJak+U0U3oxq7V62+7sh4SGrnEC6w6v1k0bE
+ gJ4h98ewuCPr1JOVJFAu7NNyHL/n5uO0eF7f6pUPmyUjiotyiEU9XaVEbSj721FpNw06
+ maiMS40NTrCzIGjjRl4ANuF7nUkzh28bzwy0I8U//PuoyyGIY4h0uS/EKbxKYtNJw9Be
+ Ll4L/8pJ5dWQ4bt2QssW5IOPrFCIlTAhR6dKE1CHOoDfllzzkQzUl6FdPH9vx6pHl4gS
+ fylA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OzpYK8dvsIlm/S8gJHWT+Oy8oCpnYbMnDX+i/m5SSTs=;
- b=GvjLxUl1eRPLad4k0v68HubeuwIHK/StLTckxGuw7tOGrfOTFnnZVo9TE2C4NRnECh
- /2fbU3FuX16ziPNj0gLB5oVXwBtTOjMa6E5m6lDzQJSUOUUq+UNOU3Nb47GILpkhetdx
- 98Hv98zj3zCO37vsp9ECWYk4ZID9UIK0azfAKuN7P84fd01gkQS8/49Y5hXDJqdC4G3g
- yVInTjYxOjwQyqMt2P4Qxux1sWTbK7rrWuH1y0fSWF1HU47VipQVlK07Ym5yGK8PM3nP
- lMRrO+JajiYXcMwguY7d01vVWp84zVH7B1Z+XDSVe+bELkNdqDRfctgHS/4F9oNajoWv
- xVsg==
-X-Gm-Message-State: AOAM5332E8we7nGRYNZAvTQbFU2FqFdZZtIsOP7oDevor7LkAqW2dark
- Hw0vTqJH7K31wPoM5ZZBfDY=
-X-Google-Smtp-Source: ABdhPJyg5pvO80hmei1LQvFpHKLM/sURl80NK6h0B8+ffkuxqd34KT8RNR5rdg3dNqfaRjmvRXMCgQ==
-X-Received: by 2002:a05:6214:14f2:: with SMTP id
- k18mr618747qvw.19.1630623235206; 
- Thu, 02 Sep 2021 15:53:55 -0700 (PDT)
+ bh=jEtVc/Y6Y90s3mCuRbL/bjjGKhGT7MI4nPKvE05RH60=;
+ b=SHM0CzwyjY5KPxSP3FGaBAGAXDv5Uxo9SCzMb4wonlj6ivpKy4LWk60fFJ05ox7UH/
+ cIggzrQGJrwPw8lQVAksgpNslxZsCXf6yaI7ELlzTE0VDqfjYzbZHb0f2AY1u1unHr5G
+ BwwFZFrD9ytLVCZ9Om16Jg7+Up6P3Y7g5+hE53rvI//kALxQJvEYNQcqV2Yj8sUS7Jc6
+ sXq8uZPZziWzYJWVkVnicdqbf5fIokO/WtZ9/AKak0Rxcxfd5cEtObJOAbbH7zP23UFe
+ TSxLEET4N96pYeC8gp9pdZ4zTEYvQdL63EsQUFV0YzqUiKiXSo9SIklGzMh2DL07A+eG
+ fRmA==
+X-Gm-Message-State: AOAM531qPTLSqJLGSkaxXUvTy2D0GYn5fXFlWjC2B6Wl+I6TW+CRFmsb
+ 1lWjkZ5EdXnkt2XuwPbouqE=
+X-Google-Smtp-Source: ABdhPJxVm36GU/6zFkBTHQ6Y3nFXHphkX4NgA2sTDHy11JnIH30oP2pmqM7dD+bud12ckxYxbVhE7g==
+X-Received: by 2002:a37:e06:: with SMTP id 6mr569790qko.290.1630623952660;
+ Thu, 02 Sep 2021 16:05:52 -0700 (PDT)
 Received: from [192.168.4.142] (pool-72-82-21-11.prvdri.fios.verizon.net.
  [72.82.21.11])
- by smtp.gmail.com with ESMTPSA id r140sm2577993qke.15.2021.09.02.15.53.53
+ by smtp.gmail.com with ESMTPSA id x19sm2537341qkm.115.2021.09.02.16.05.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Sep 2021 15:53:54 -0700 (PDT)
+ Thu, 02 Sep 2021 16:05:52 -0700 (PDT)
 Subject: Re: [PATCH v6 1/6] Bluetooth: schedule SCO timeouts with delayed_work
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 To: Eric Dumazet <eric.dumazet@gmail.com>, marcel@holtmann.org,
  johan.hedberg@gmail.com, luiz.dentz@gmail.com, davem@davemloft.net,
  kuba@kernel.org, sudipm.mukherjee@gmail.com
@@ -98,13 +98,13 @@ References: <20210810041410.142035-1-desmondcheongzx@gmail.com>
  <0b33a7fe-4da0-058c-cff3-16bb5cfe8f45@gmail.com>
  <bad67d05-366b-bebe-cbdb-6555386497de@gmail.com>
  <94942257-927c-efbc-b3fd-44cc097ad71f@gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <fa269649-21eb-be76-e552-36a3aa4f3da4@gmail.com>
-Date: Thu, 2 Sep 2021 18:53:53 -0400
+ <fa269649-21eb-be76-e552-36a3aa4f3da4@gmail.com>
+Message-ID: <e54b3c01-6804-4f0d-3e4b-eba49f881039@gmail.com>
+Date: Thu, 2 Sep 2021 19:05:51 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <94942257-927c-efbc-b3fd-44cc097ad71f@gmail.com>
+In-Reply-To: <fa269649-21eb-be76-e552-36a3aa4f3da4@gmail.com>
 Content-Language: en-US
 Cc: syzbot+2f6d7c28bb4bf7e82060@syzkaller.appspotmail.com,
  linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org,
@@ -120,153 +120,140 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2/9/21 5:41 pm, Eric Dumazet wrote:
-> 
-> 
-> On 9/2/21 12:32 PM, Desmond Cheong Zhi Xi wrote:
->>
->> Hi Eric,
->>
->> This actually seems to be a pre-existing error in sco_sock_connect that we now hit in sco_sock_timeout.
->>
->> Any thoughts on the following patch to address the problem?
->>
->> Link: https://lore.kernel.org/lkml/20210831065601.101185-1-desmondcheongzx@gmail.com/
-> 
-> 
-> syzbot is still working on finding a repro, this is obviously not trivial,
-> because this is a race window.
-> 
-> I think this can happen even with a single SCO connection.
-> 
-> This might be triggered more easily forcing a delay in sco_sock_timeout()
-> 
-> diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
-> index 98a88158651281c9f75c4e0371044251e976e7ef..71ebe0243fab106c676c308724fe3a3f92a62cbd 100644
-> --- a/net/bluetooth/sco.c
-> +++ b/net/bluetooth/sco.c
-> @@ -84,8 +84,14 @@ static void sco_sock_timeout(struct work_struct *work)
->   
->          sco_conn_lock(conn);
->          sk = conn->sk;
-> -       if (sk)
-> +       if (sk) {
-> +               // lets pretend cpu has been busy (in interrupts) for 100ms
-> +               int i;
-> +               for (i=0;i<100000;i++)
-> +                       udelay(1);
-> +
->                  sock_hold(sk);
-> +       }>          sco_conn_unlock(conn);
->   
->          if (!sk)
-> 
-> 
-> Stack trace tells us that sco_sock_timeout() is running after last reference
-> on socket has been released.
-> 
-> __refcount_add include/linux/refcount.h:199 [inline]
->   __refcount_inc include/linux/refcount.h:250 [inline]
->   refcount_inc include/linux/refcount.h:267 [inline]
->   sock_hold include/net/sock.h:702 [inline]
->   sco_sock_timeout+0x216/0x290 net/bluetooth/sco.c:88
->   process_one_work+0x98d/0x1630 kernel/workqueue.c:2276
->   worker_thread+0x658/0x11f0 kernel/workqueue.c:2422
->   kthread+0x3e5/0x4d0 kernel/kthread.c:319
->   ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-> 
-> This is why I suggested to delay sock_put() to make sure this can not happen.
-> 
-> diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
-> index 98a88158651281c9f75c4e0371044251e976e7ef..bd0222e3f05a6bcb40cffe8405c9dfff98d7afde 100644
-> --- a/net/bluetooth/sco.c
-> +++ b/net/bluetooth/sco.c
-> @@ -195,10 +195,11 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
->                  sco_sock_clear_timer(sk);
->                  sco_chan_del(sk, err);
->                  release_sock(sk);
-> -               sock_put(sk);
->   
->                  /* Ensure no more work items will run before freeing conn. */
->                  cancel_delayed_work_sync(&conn->timeout_work);
-> +
-> +               sock_put(sk);
->          }
->   
->          hcon->sco_data = NULL;
-> 
-
-I see where you're going with this, but once sco_chan_del returns, any
-instance of sco_sock_timeout that hasn't yet called sock_hold will
-simply return, because conn->sk is NULL. Adding a delay to the
-sco_conn_lock critical section in sco_sock_timeout would not affect this
-because sco_chan_del clears conn->sk while holding onto the lock.
-
-The main reason that cancel_delayed_work_sync is run there is to make
-sure that we don't have a UAF on the SCO connection itself after we free
-conn.
-
-For a single SCO connection with well-formed channel, I think there
-can't be a race. Here's the reasoning:
-
-- For the timeout to be scheduled, a socket must have a channel with a
-connection.
-
-- When a channel between a socket and connection is established, the
-socket transitions from BT_OPEN to BT_CONNECTED, BT_CONNECT, or
-BT_CONNECT2.
-
-- For a socket to be released, it has to be zapped. For sockets that
-have a state of BT_CONNECTED, BT_CONNECT, or BT_CONNECT2, they are
-zapped only when the channel is deleted.
-
-- If the channel is deleted (which is protected by sco_conn_lock), then
-conn->sk is NULL, and sco_sock_timeout simply exits. If we had entered
-the critical section in sco_sock_timeout before the channel was deleted,
-then we increased the reference count on the socket, so it won't be
-freed until sco_sock_timeout is done.
-
-Hence, sco_sock_timeout doesn't race with the release of a socket that
-has a well-formed channel with a connection.
-
-But if multiple connections are allocated and overwritten in
-sco_sock_connect, then none of the above assumptions hold because the
-SCO connection can't be cleaned up (i.e. conn->sk cannot be set to NULL)
-when the associated socket is released. This scenario happens in the
-syzbot reproducer for the crash here:
-https://syzkaller.appspot.com/bug?id=bcc246d137428d00ed14b476c2068579515fe2bc
-
-That aside, upon taking a closer look, I think there is indeed a race
-lurking in sco_conn_del, but it's not the one that syzbot is hitting.
-Our sock_hold simply comes too late, and by the time it's called we
-might have already have freed the socket.
-
-So probably something like this needs to happen:
-
-diff --git a/net/bluetooth/sco.c b/net/bluetooth/sco.c
-index fa25b07120c9..ea18e5b56343 100644
---- a/net/bluetooth/sco.c
-+++ b/net/bluetooth/sco.c
-@@ -187,10 +187,11 @@ static void sco_conn_del(struct hci_conn *hcon, int err)
-  	/* Kill socket */
-  	sco_conn_lock(conn);
-  	sk = conn->sk;
-+	if (sk)
-+		sock_hold(sk);
-  	sco_conn_unlock(conn);
-  
-  	if (sk) {
--		sock_hold(sk);
-  		lock_sock(sk);
-  		sco_sock_clear_timer(sk);
-  		sco_chan_del(sk, err);
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMi85LzIxIDY6NTMgcG0sIERlc21vbmQgQ2hlb25nIFpoaSBYaSB3cm90ZToKPiBPbiAyLzkv
+MjEgNTo0MSBwbSwgRXJpYyBEdW1hemV0IHdyb3RlOgo+Pgo+Pgo+PiBPbiA5LzIvMjEgMTI6MzIg
+UE0sIERlc21vbmQgQ2hlb25nIFpoaSBYaSB3cm90ZToKPj4+Cj4+PiBIaSBFcmljLAo+Pj4KPj4+
+IFRoaXMgYWN0dWFsbHkgc2VlbXMgdG8gYmUgYSBwcmUtZXhpc3RpbmcgZXJyb3IgaW4gc2NvX3Nv
+Y2tfY29ubmVjdCAKPj4+IHRoYXQgd2Ugbm93IGhpdCBpbiBzY29fc29ja190aW1lb3V0Lgo+Pj4K
+Pj4+IEFueSB0aG91Z2h0cyBvbiB0aGUgZm9sbG93aW5nIHBhdGNoIHRvIGFkZHJlc3MgdGhlIHBy
+b2JsZW0/Cj4+Pgo+Pj4gTGluazogCj4+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIw
+MjEwODMxMDY1NjAxLjEwMTE4NS0xLWRlc21vbmRjaGVvbmd6eEBnbWFpbC5jb20vIAo+Pj4KPj4K
+Pj4KPj4gc3l6Ym90IGlzIHN0aWxsIHdvcmtpbmcgb24gZmluZGluZyBhIHJlcHJvLCB0aGlzIGlz
+IG9idmlvdXNseSBub3QgCj4+IHRyaXZpYWwsCj4+IGJlY2F1c2UgdGhpcyBpcyBhIHJhY2Ugd2lu
+ZG93Lgo+Pgo+PiBJIHRoaW5rIHRoaXMgY2FuIGhhcHBlbiBldmVuIHdpdGggYSBzaW5nbGUgU0NP
+IGNvbm5lY3Rpb24uCj4+Cj4+IFRoaXMgbWlnaHQgYmUgdHJpZ2dlcmVkIG1vcmUgZWFzaWx5IGZv
+cmNpbmcgYSBkZWxheSBpbiBzY29fc29ja190aW1lb3V0KCkKPj4KPj4gZGlmZiAtLWdpdCBhL25l
+dC9ibHVldG9vdGgvc2NvLmMgYi9uZXQvYmx1ZXRvb3RoL3Njby5jCj4+IGluZGV4IAo+PiA5OGE4
+ODE1ODY1MTI4MWM5Zjc1YzRlMDM3MTA0NDI1MWU5NzZlN2VmLi43MWViZTAyNDNmYWIxMDZjNjc2
+YzMwODcyNGZlM2EzZjkyYTYyY2JkIAo+PiAxMDA2NDQKPj4gLS0tIGEvbmV0L2JsdWV0b290aC9z
+Y28uYwo+PiArKysgYi9uZXQvYmx1ZXRvb3RoL3Njby5jCj4+IEBAIC04NCw4ICs4NCwxNCBAQCBz
+dGF0aWMgdm9pZCBzY29fc29ja190aW1lb3V0KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKPj4g
+wqDCoMKgwqDCoMKgwqDCoCBzY29fY29ubl9sb2NrKGNvbm4pOwo+PiDCoMKgwqDCoMKgwqDCoMKg
+IHNrID0gY29ubi0+c2s7Cj4+IC3CoMKgwqDCoMKgwqAgaWYgKHNrKQo+PiArwqDCoMKgwqDCoMKg
+IGlmIChzaykgewo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvLyBsZXRzIHByZXRl
+bmQgY3B1IGhhcyBiZWVuIGJ1c3kgKGluIGludGVycnVwdHMpIGZvciAKPj4gMTAwbXMKPj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IGk7Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgIGZvciAoaT0wO2k8MTAwMDAwO2krKykKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHVkZWxheSgxKTsKPj4gKwo+PiDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCBzb2NrX2hvbGQoc2spOwo+PiArwqDCoMKgwqDCoMKgIH0+wqDC
+oMKgwqDCoMKgwqDCoMKgIHNjb19jb25uX3VubG9jayhjb25uKTsKPj4gwqDCoMKgwqDCoMKgwqDC
+oCBpZiAoIXNrKQo+Pgo+Pgo+PiBTdGFjayB0cmFjZSB0ZWxscyB1cyB0aGF0IHNjb19zb2NrX3Rp
+bWVvdXQoKSBpcyBydW5uaW5nIGFmdGVyIGxhc3QgCj4+IHJlZmVyZW5jZQo+PiBvbiBzb2NrZXQg
+aGFzIGJlZW4gcmVsZWFzZWQuCj4+Cj4+IF9fcmVmY291bnRfYWRkIGluY2x1ZGUvbGludXgvcmVm
+Y291bnQuaDoxOTkgW2lubGluZV0KPj4gwqAgX19yZWZjb3VudF9pbmMgaW5jbHVkZS9saW51eC9y
+ZWZjb3VudC5oOjI1MCBbaW5saW5lXQo+PiDCoCByZWZjb3VudF9pbmMgaW5jbHVkZS9saW51eC9y
+ZWZjb3VudC5oOjI2NyBbaW5saW5lXQo+PiDCoCBzb2NrX2hvbGQgaW5jbHVkZS9uZXQvc29jay5o
+OjcwMiBbaW5saW5lXQo+PiDCoCBzY29fc29ja190aW1lb3V0KzB4MjE2LzB4MjkwIG5ldC9ibHVl
+dG9vdGgvc2NvLmM6ODgKPj4gwqAgcHJvY2Vzc19vbmVfd29yaysweDk4ZC8weDE2MzAga2VybmVs
+L3dvcmtxdWV1ZS5jOjIyNzYKPj4gwqAgd29ya2VyX3RocmVhZCsweDY1OC8weDExZjAga2VybmVs
+L3dvcmtxdWV1ZS5jOjI0MjIKPj4gwqAga3RocmVhZCsweDNlNS8weDRkMCBrZXJuZWwva3RocmVh
+ZC5jOjMxOQo+PiDCoCByZXRfZnJvbV9mb3JrKzB4MWYvMHgzMCBhcmNoL3g4Ni9lbnRyeS9lbnRy
+eV82NC5TOjI5NQo+Pgo+PiBUaGlzIGlzIHdoeSBJIHN1Z2dlc3RlZCB0byBkZWxheSBzb2NrX3B1
+dCgpIHRvIG1ha2Ugc3VyZSB0aGlzIGNhbiBub3QgCj4+IGhhcHBlbi4KPj4KPj4gZGlmZiAtLWdp
+dCBhL25ldC9ibHVldG9vdGgvc2NvLmMgYi9uZXQvYmx1ZXRvb3RoL3Njby5jCj4+IGluZGV4IAo+
+PiA5OGE4ODE1ODY1MTI4MWM5Zjc1YzRlMDM3MTA0NDI1MWU5NzZlN2VmLi5iZDAyMjJlM2YwNWE2
+YmNiNDBjZmZlODQwNWM5ZGZmZjk4ZDdhZmRlIAo+PiAxMDA2NDQKPj4gLS0tIGEvbmV0L2JsdWV0
+b290aC9zY28uYwo+PiArKysgYi9uZXQvYmx1ZXRvb3RoL3Njby5jCj4+IEBAIC0xOTUsMTAgKzE5
+NSwxMSBAQCBzdGF0aWMgdm9pZCBzY29fY29ubl9kZWwoc3RydWN0IGhjaV9jb25uICpoY29uLCAK
+Pj4gaW50IGVycikKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2NvX3NvY2tf
+Y2xlYXJfdGltZXIoc2spOwo+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzY29f
+Y2hhbl9kZWwoc2ssIGVycik7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
+bGVhc2Vfc29jayhzayk7Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNvY2tfcHV0
+KHNrKTsKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogRW5zdXJlIG5vIG1v
+cmUgd29yayBpdGVtcyB3aWxsIHJ1biBiZWZvcmUgZnJlZWluZyAKPj4gY29ubi4gKi8KPj4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCZj
+b25uLT50aW1lb3V0X3dvcmspOwo+PiArCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHNvY2tfcHV0KHNrKTsKPj4gwqDCoMKgwqDCoMKgwqDCoCB9Cj4+IMKgwqDCoMKgwqDCoMKgwqAg
+aGNvbi0+c2NvX2RhdGEgPSBOVUxMOwo+Pgo+IAo+IEkgc2VlIHdoZXJlIHlvdSdyZSBnb2luZyB3
+aXRoIHRoaXMsIGJ1dCBvbmNlIHNjb19jaGFuX2RlbCByZXR1cm5zLCBhbnkKPiBpbnN0YW5jZSBv
+ZiBzY29fc29ja190aW1lb3V0IHRoYXQgaGFzbid0IHlldCBjYWxsZWQgc29ja19ob2xkIHdpbGwK
+PiBzaW1wbHkgcmV0dXJuLCBiZWNhdXNlIGNvbm4tPnNrIGlzIE5VTEwuIEFkZGluZyBhIGRlbGF5
+IHRvIHRoZQo+IHNjb19jb25uX2xvY2sgY3JpdGljYWwgc2VjdGlvbiBpbiBzY29fc29ja190aW1l
+b3V0IHdvdWxkIG5vdCBhZmZlY3QgdGhpcwo+IGJlY2F1c2Ugc2NvX2NoYW5fZGVsIGNsZWFycyBj
+b25uLT5zayB3aGlsZSBob2xkaW5nIG9udG8gdGhlIGxvY2suCj4gCj4gVGhlIG1haW4gcmVhc29u
+IHRoYXQgY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jIGlzIHJ1biB0aGVyZSBpcyB0byBtYWtlCj4g
+c3VyZSB0aGF0IHdlIGRvbid0IGhhdmUgYSBVQUYgb24gdGhlIFNDTyBjb25uZWN0aW9uIGl0c2Vs
+ZiBhZnRlciB3ZSBmcmVlCj4gY29ubi4KPiAKCk5vdyB0aGF0IEkgdGhpbmsgYWJvdXQgdGhpcywg
+dGhlIGluaXQgYW5kIGNsZWFudXAgaXNuJ3QgcXVpdGUgcmlnaHQKZWl0aGVyLiBUaGUgZGVsYXll
+ZCB3b3JrIHNob3VsZCBiZSBpbml0aWFsaXplZCB3aGVuIHRoZSBjb25uZWN0aW9uIGlzCmFsbG9j
+YXRlZCwgYW5kIHdlIHNob3VsZCBhbHdheXMgY2FuY2VsIGFsbCB3b3JrIGJlZm9yZSBmcmVlaW5n
+OgoKZGlmZiAtLWdpdCBhL25ldC9ibHVldG9vdGgvc2NvLmMgYi9uZXQvYmx1ZXRvb3RoL3Njby5j
+CmluZGV4IGVhMThlNWI1NjM0My4uYmJhNWNkYjRjYjRhIDEwMDY0NAotLS0gYS9uZXQvYmx1ZXRv
+b3RoL3Njby5jCisrKyBiL25ldC9ibHVldG9vdGgvc2NvLmMKQEAgLTEzMyw2ICsxMzMsNyBAQCBz
+dGF0aWMgc3RydWN0IHNjb19jb25uICpzY29fY29ubl9hZGQoc3RydWN0IGhjaV9jb25uICpoY29u
+KQogIAkJcmV0dXJuIE5VTEw7CiAgCiAgCXNwaW5fbG9ja19pbml0KCZjb25uLT5sb2NrKTsKKwlJ
+TklUX0RFTEFZRURfV09SSygmY29ubi0+dGltZW91dF93b3JrLCBzY29fc29ja190aW1lb3V0KTsK
+ICAKICAJaGNvbi0+c2NvX2RhdGEgPSBjb25uOwogIAljb25uLT5oY29uID0gaGNvbjsKQEAgLTE5
+NywxMSArMTk4LDExIEBAIHN0YXRpYyB2b2lkIHNjb19jb25uX2RlbChzdHJ1Y3QgaGNpX2Nvbm4g
+Kmhjb24sIGludCBlcnIpCiAgCQlzY29fY2hhbl9kZWwoc2ssIGVycik7CiAgCQlyZWxlYXNlX3Nv
+Y2soc2spOwogIAkJc29ja19wdXQoc2spOwotCi0JCS8qIEVuc3VyZSBubyBtb3JlIHdvcmsgaXRl
+bXMgd2lsbCBydW4gYmVmb3JlIGZyZWVpbmcgY29ubi4gKi8KLQkJY2FuY2VsX2RlbGF5ZWRfd29y
+a19zeW5jKCZjb25uLT50aW1lb3V0X3dvcmspOwogIAl9CiAgCisJLyogRW5zdXJlIG5vIG1vcmUg
+d29yayBpdGVtcyB3aWxsIHJ1biBiZWZvcmUgZnJlZWluZyBjb25uLiAqLworCWNhbmNlbF9kZWxh
+eWVkX3dvcmtfc3luYygmY29ubi0+dGltZW91dF93b3JrKTsKKwogIAloY29uLT5zY29fZGF0YSA9
+IE5VTEw7CiAgCWtmcmVlKGNvbm4pOwogIH0KQEAgLTIxNCw4ICsyMTUsNiBAQCBzdGF0aWMgdm9p
+ZCBfX3Njb19jaGFuX2FkZChzdHJ1Y3Qgc2NvX2Nvbm4gKmNvbm4sIHN0cnVjdCBzb2NrICpzaywK
+ICAJc2NvX3BpKHNrKS0+Y29ubiA9IGNvbm47CiAgCWNvbm4tPnNrID0gc2s7CiAgCi0JSU5JVF9E
+RUxBWUVEX1dPUksoJmNvbm4tPnRpbWVvdXRfd29yaywgc2NvX3NvY2tfdGltZW91dCk7Ci0KICAJ
+aWYgKHBhcmVudCkKICAJCWJ0X2FjY2VwdF9lbnF1ZXVlKHBhcmVudCwgc2ssIHRydWUpOwogIH0K
+Cj4gRm9yIGEgc2luZ2xlIFNDTyBjb25uZWN0aW9uIHdpdGggd2VsbC1mb3JtZWQgY2hhbm5lbCwg
+SSB0aGluayB0aGVyZQo+IGNhbid0IGJlIGEgcmFjZS4gSGVyZSdzIHRoZSByZWFzb25pbmc6Cj4g
+Cj4gLSBGb3IgdGhlIHRpbWVvdXQgdG8gYmUgc2NoZWR1bGVkLCBhIHNvY2tldCBtdXN0IGhhdmUg
+YSBjaGFubmVsIHdpdGggYQo+IGNvbm5lY3Rpb24uCj4gCj4gLSBXaGVuIGEgY2hhbm5lbCBiZXR3
+ZWVuIGEgc29ja2V0IGFuZCBjb25uZWN0aW9uIGlzIGVzdGFibGlzaGVkLCB0aGUKPiBzb2NrZXQg
+dHJhbnNpdGlvbnMgZnJvbSBCVF9PUEVOIHRvIEJUX0NPTk5FQ1RFRCwgQlRfQ09OTkVDVCwgb3IK
+PiBCVF9DT05ORUNUMi4KPiAKPiAtIEZvciBhIHNvY2tldCB0byBiZSByZWxlYXNlZCwgaXQgaGFz
+IHRvIGJlIHphcHBlZC4gRm9yIHNvY2tldHMgdGhhdAo+IGhhdmUgYSBzdGF0ZSBvZiBCVF9DT05O
+RUNURUQsIEJUX0NPTk5FQ1QsIG9yIEJUX0NPTk5FQ1QyLCB0aGV5IGFyZQo+IHphcHBlZCBvbmx5
+IHdoZW4gdGhlIGNoYW5uZWwgaXMgZGVsZXRlZC4KPiAKPiAtIElmIHRoZSBjaGFubmVsIGlzIGRl
+bGV0ZWQgKHdoaWNoIGlzIHByb3RlY3RlZCBieSBzY29fY29ubl9sb2NrKSwgdGhlbgo+IGNvbm4t
+PnNrIGlzIE5VTEwsIGFuZCBzY29fc29ja190aW1lb3V0IHNpbXBseSBleGl0cy4gSWYgd2UgaGFk
+IGVudGVyZWQKPiB0aGUgY3JpdGljYWwgc2VjdGlvbiBpbiBzY29fc29ja190aW1lb3V0IGJlZm9y
+ZSB0aGUgY2hhbm5lbCB3YXMgZGVsZXRlZCwKPiB0aGVuIHdlIGluY3JlYXNlZCB0aGUgcmVmZXJl
+bmNlIGNvdW50IG9uIHRoZSBzb2NrZXQsIHNvIGl0IHdvbid0IGJlCj4gZnJlZWQgdW50aWwgc2Nv
+X3NvY2tfdGltZW91dCBpcyBkb25lLgo+IAo+IEhlbmNlLCBzY29fc29ja190aW1lb3V0IGRvZXNu
+J3QgcmFjZSB3aXRoIHRoZSByZWxlYXNlIG9mIGEgc29ja2V0IHRoYXQKPiBoYXMgYSB3ZWxsLWZv
+cm1lZCBjaGFubmVsIHdpdGggYSBjb25uZWN0aW9uLgo+IAo+IEJ1dCBpZiBtdWx0aXBsZSBjb25u
+ZWN0aW9ucyBhcmUgYWxsb2NhdGVkIGFuZCBvdmVyd3JpdHRlbiBpbgo+IHNjb19zb2NrX2Nvbm5l
+Y3QsIHRoZW4gbm9uZSBvZiB0aGUgYWJvdmUgYXNzdW1wdGlvbnMgaG9sZCBiZWNhdXNlIHRoZQo+
+IFNDTyBjb25uZWN0aW9uIGNhbid0IGJlIGNsZWFuZWQgdXAgKGkuZS4gY29ubi0+c2sgY2Fubm90
+IGJlIHNldCB0byBOVUxMKQo+IHdoZW4gdGhlIGFzc29jaWF0ZWQgc29ja2V0IGlzIHJlbGVhc2Vk
+LiBUaGlzIHNjZW5hcmlvIGhhcHBlbnMgaW4gdGhlCj4gc3l6Ym90IHJlcHJvZHVjZXIgZm9yIHRo
+ZSBjcmFzaCBoZXJlOgo+IGh0dHBzOi8vc3l6a2FsbGVyLmFwcHNwb3QuY29tL2J1Zz9pZD1iY2My
+NDZkMTM3NDI4ZDAwZWQxNGI0NzZjMjA2ODU3OTUxNWZlMmJjIAo+IAo+IAo+IFRoYXQgYXNpZGUs
+IHVwb24gdGFraW5nIGEgY2xvc2VyIGxvb2ssIEkgdGhpbmsgdGhlcmUgaXMgaW5kZWVkIGEgcmFj
+ZQo+IGx1cmtpbmcgaW4gc2NvX2Nvbm5fZGVsLCBidXQgaXQncyBub3QgdGhlIG9uZSB0aGF0IHN5
+emJvdCBpcyBoaXR0aW5nLgo+IE91ciBzb2NrX2hvbGQgc2ltcGx5IGNvbWVzIHRvbyBsYXRlLCBh
+bmQgYnkgdGhlIHRpbWUgaXQncyBjYWxsZWQgd2UKPiBtaWdodCBoYXZlIGFscmVhZHkgaGF2ZSBm
+cmVlZCB0aGUgc29ja2V0Lgo+IAo+IFNvIHByb2JhYmx5IHNvbWV0aGluZyBsaWtlIHRoaXMgbmVl
+ZHMgdG8gaGFwcGVuOgo+IAo+IGRpZmYgLS1naXQgYS9uZXQvYmx1ZXRvb3RoL3Njby5jIGIvbmV0
+L2JsdWV0b290aC9zY28uYwo+IGluZGV4IGZhMjViMDcxMjBjOS4uZWExOGU1YjU2MzQzIDEwMDY0
+NAo+IC0tLSBhL25ldC9ibHVldG9vdGgvc2NvLmMKPiArKysgYi9uZXQvYmx1ZXRvb3RoL3Njby5j
+Cj4gQEAgLTE4NywxMCArMTg3LDExIEBAIHN0YXRpYyB2b2lkIHNjb19jb25uX2RlbChzdHJ1Y3Qg
+aGNpX2Nvbm4gKmhjb24sIAo+IGludCBlcnIpCj4gIMKgwqDCoMKgIC8qIEtpbGwgc29ja2V0ICov
+Cj4gIMKgwqDCoMKgIHNjb19jb25uX2xvY2soY29ubik7Cj4gIMKgwqDCoMKgIHNrID0gY29ubi0+
+c2s7Cj4gK8KgwqDCoCBpZiAoc2spCj4gK8KgwqDCoMKgwqDCoMKgIHNvY2tfaG9sZChzayk7Cj4g
+IMKgwqDCoMKgIHNjb19jb25uX3VubG9jayhjb25uKTsKPiAKPiAgwqDCoMKgwqAgaWYgKHNrKSB7
+Cj4gLcKgwqDCoMKgwqDCoMKgIHNvY2tfaG9sZChzayk7Cj4gIMKgwqDCoMKgwqDCoMKgwqAgbG9j
+a19zb2NrKHNrKTsKPiAgwqDCoMKgwqDCoMKgwqDCoCBzY29fc29ja19jbGVhcl90aW1lcihzayk7
+Cj4gIMKgwqDCoMKgwqDCoMKgwqAgc2NvX2NoYW5fZGVsKHNrLCBlcnIpOwoKX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMg
+bWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5v
+cmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGlu
+dXgta2VybmVsLW1lbnRlZXMK
