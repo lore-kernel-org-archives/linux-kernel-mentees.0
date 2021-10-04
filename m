@@ -2,91 +2,96 @@ Return-Path: <SRS0=ogCp=OY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76978C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:00:46 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F504C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:01:24 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1927561213
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:00:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1927561213
+	by mail.kernel.org (Postfix) with ESMTPS id BBBFF6115C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:01:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org BBBFF6115C
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D47114016A;
-	Mon,  4 Oct 2021 18:00:45 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9300683639;
+	Mon,  4 Oct 2021 18:01:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q9oC_YBimcp6; Mon,  4 Oct 2021 18:00:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A71F040018;
-	Mon,  4 Oct 2021 18:00:44 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ws3splx9noBP; Mon,  4 Oct 2021 18:01:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id CCFD8835C9;
+	Mon,  4 Oct 2021 18:01:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7EF13C0011;
-	Mon,  4 Oct 2021 18:00:44 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0E8C3C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ABBF5C0011;
+	Mon,  4 Oct 2021 18:01:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2161EC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:00:43 +0000 (UTC)
+ Mon,  4 Oct 2021 18:01:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 091FA4016A
+ by smtp4.osuosl.org (Postfix) with ESMTP id 1045E404D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:00:43 +0000 (UTC)
+ Mon,  4 Oct 2021 18:01:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZrGAuq2RUHes
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5ML1oe1l40G9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:00:40 +0000 (UTC)
+ Mon,  4 Oct 2021 18:01:19 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 23D0D40018
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E31454044B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:00:40 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id kk10so2854648pjb.1
+ Mon,  4 Oct 2021 18:01:19 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id kk10so2856112pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 04 Oct 2021 11:00:40 -0700 (PDT)
+ Mon, 04 Oct 2021 11:01:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F/kZ/G80MyWYhdKVpqBk0C55lIN/V+L/Ury6/lN0H48=;
- b=Iw7vxd3nbj0C1OKCrJ5xQgex0PG/Kc/CV2C7tPUsGeWawiJ+Az940Wzu2Uy5AmVN11
- PYgVr1uisn3pGX1qacas8hTyKYIt8VOmZwZVG1gre/RBFwd13kU/cyjkN896O6+kWsOz
- aqNCYiEUv+Mql1+gA+oauHx8b4gKZ+g+6JhBQ6JHyELV/qC0+trpinxN3/Si0Y/WpNZt
- 2otRHBRlasP0qjST8dSK+oXvQx3KF5hIWf8ATarS/AlOYRJtC3LVY4fzb8BFgrY3fyCZ
- NIsIQLmwRkYPqoZj9GvQx7bJRDS0HPeBuGYOOlPlfaxJXhpXhK3AX18GgU/JfHwFGscp
- c11Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=B7sq5HEJs5lGnG+J8tujUids2AjtGM7weFegW7/rlp0=;
+ b=DCLTSaQ07PyQGYWXH1+2Xsfdvw5DGV/I8XtRyOJbPaLb7kUI5hE9bZs5tBKfKfnEZv
+ yJWA9rYnr0brHhmOMVeV+trr2fiBrUYwjSZbYSZwDmP9r/JS76OU6s/3AdycKZWfYTFw
+ CIclJY0tQH0UeDsZcm6RtmrZGNXAT160EC6VgsC9hOtIq0iSkaWcZ0KkM1D96wVVTdxM
+ U+yKA9jvbDs9v12WOHtt4EpvmMzklJn+8vLlgMBPU0VuViSjzLx2CwTYViJ73cL/+5xP
+ vGqSeNgUdhH7az1nnmJYLp6QV6XxCG8nLT0xkZmBoClJDUKZ/T4ZfTcgZV5MYU4BQyQC
+ CewA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=F/kZ/G80MyWYhdKVpqBk0C55lIN/V+L/Ury6/lN0H48=;
- b=fRRhN0kfYw5IT2ECgkRGpG7NFwlK1HdDMcg+y/tVlGx/yJ+dNB94DvHXh3EpWy03Di
- Htw0RjgEdlFNxnqln618dUCzSqIyVzXNEjpVG7pMs/OigiKlPL1nQp/cWJUwDIxsllRL
- +o/t7Pk09Q+sq3gvzjCQhA3zjEJM1ZFgLziGNR2M1cv7UWkKG1CJlEV4cVeP4W6C2zpx
- /IS6Xt8bwCvWq6urKePFnvPcezJPRPV5Q4Ufo6SjOsB9GVnIMdkB43wbvwlBuF+R05Id
- FfwyL6RuhvMICi4fjZ2G3N9PjEE0qRifD6NOyab4qDOCNIHlDw1Oz4B8LeOhC69w2f1G
- yZ5g==
-X-Gm-Message-State: AOAM530WM1k1OIS0pXiah7VfuhFjfwHqx+EOkjuego0NAW2m8Bnpi1WP
- GHCThtL3hBCqnARoC4yZLaE=
-X-Google-Smtp-Source: ABdhPJyjTQaAGxBR0yMHdOdR1pG5uX4ZqXJGgnNSDIvUGtfqSnjkdKem5NcrSNhG6aWIO723rBkbDw==
-X-Received: by 2002:a17:90a:4306:: with SMTP id
- q6mr32152882pjg.17.1633370439363; 
- Mon, 04 Oct 2021 11:00:39 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=B7sq5HEJs5lGnG+J8tujUids2AjtGM7weFegW7/rlp0=;
+ b=vjxNd+rA+pSTCpQ44tDgcUxhOMkjF09Payjn13OX9LT9OnhPuBu1zD3AvbdvIanjb2
+ rnAIvyixRgO6H/hWcF3Cs7P6q+86VRdNuVrtZNDtZ2CclpQnAPt7bZKGFzsBncdxFqsg
+ X2UnRo8r4k0iGYK6FLHSVKGJJMXd5+aASqpXC9BpbIZk8mKnFSZ+fwHPtrggik6JaJ0Y
+ coOry2+LFDL7LiDyvg9qG98DhWpsFQ6rUAZf6eK4sj4zfacpkAks0MbhIDvZFZ30rfUB
+ uzihmX/sXHMFmKteRYbyaCm+47FHuqpteFBP/KawVtwmQaIkUueyrp4GbE3j2jE9ZJfN
+ nFig==
+X-Gm-Message-State: AOAM53239xWeXTsoM115IZLyj/I+y01eU51nqEdk9v2U2hl2yXfHTOZ7
+ 81148FnhYbVHLDf96hZ1QvY=
+X-Google-Smtp-Source: ABdhPJxqQ1dbB0F5R2hGORk15/5zZpFg9rCi0DkVZQ7y0tE2wiTwWP4DlAOal+8YQvciNlfn7Vn2pw==
+X-Received: by 2002:a17:902:a503:b029:12b:2429:385e with SMTP id
+ s3-20020a170902a503b029012b2429385emr966754plq.64.1633370478701; 
+ Mon, 04 Oct 2021 11:01:18 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:e8f0:c2a7:3579:5fe8:31d9])
  by smtp.gmail.com with ESMTPSA id
- z2sm3641004pfe.210.2021.10.04.11.00.35
+ z2sm3641004pfe.210.2021.10.04.11.01.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 11:00:38 -0700 (PDT)
+ Mon, 04 Oct 2021 11:01:18 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com, tsbogend@alpha.franken.de, ruscur@russell.cc,
  oohall@gmail.com
-Subject: [PATCH 0/6] MIPS: OCTEON: Remove redundant AER code 
-Date: Mon,  4 Oct 2021 23:29:26 +0530
-Message-Id: <cover.1633369560.git.naveennaidu479@gmail.com>
+Subject: [PATCH 1/6] PCI/AER: Enable COR/UNCOR error reporting in
+ set_device_error_reporting()
+Date: Mon,  4 Oct 2021 23:29:27 +0530
+Message-Id: <b583172ece1fb1dab3d75c6007ec8c443323158d.1633369560.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1633369560.git.naveennaidu479@gmail.com>
+References: <cover.1633369560.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Cc: linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
  linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -108,35 +113,52 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-e8635b484f64 ("MIPS: Add Cavium OCTEON PCI support.") added MIPS
-specific code to enable PCIe and AER error reporting (*irrespective
-of CONFIG_PCIEAER value*) because PCI core didn't do that at the time.
+The (PCIe r5.0, sec 7.6.4.3, Table 7-101) and  (PCIe r5.0, sec 7.8.4.6,
+Table 7-104) states that the default values for the Uncorrectable Error
+Mask and Correctable Error Mask should be 0b. But the current code does
+not set the default value of these registers when the PCIe bus loads the
+AER service driver.
 
-But currently, the PCI core clears and enables the AER status registers.
-So it's redundant for octeon code to do so. This patch series removes
-the redundant code from the pci-octeon.c
+Enable reporting of all correctable and uncorrectable errors during
+aer_probe()
 
-Currently, the correctable and uncorrectable AER mask registers are not
-set to their default value when AER service driver is loaded. This
-defect is also fixed in the "[PATCH 1/6]" in the series.
+Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+---
+ drivers/pci/pcie/aer.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Please note that "Patch 4/6" is dependent on "Patch 1/6".
-
-Thanks,
-Naveen Naidu
-
-Naveen Naidu (6):
- [PATCH 1/6] PCI/AER: Enable COR/UNCOR error reporting in set_device_error_reporting()
- [PATCH 2/6] MIPS: OCTEON: Remove redundant clearing of AER status registers
- [PATCH 3/6] MIPS: OCTEON: Remove redundant enable of PCIe normal error reporting
- [PATCH 4/6] MIPS: OCTEON: Remove redundant enable of COR/UNCOR error
- [PATCH 5/6] MIPS: OCTEON: Remove redundant ECRC Generation Enable
- [PATCH 6/6] MIPS: OCTEON: Remove redundant enable of RP error reporting
-
- arch/mips/pci/pci-octeon.c | 50 --------------------------------------
- drivers/pci/pcie/aer.c     | 13 +++++++++-
- 2 files changed, 12 insertions(+), 51 deletions(-)
-
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index 9784fdcf3006..88c4ca6098fb 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -1212,6 +1212,7 @@ static int set_device_error_reporting(struct pci_dev *dev, void *data)
+ {
+ 	bool enable = *((bool *)data);
+ 	int type = pci_pcie_type(dev);
++	int aer = dev->aer_cap;
+ 
+ 	if ((type == PCI_EXP_TYPE_ROOT_PORT) ||
+ 	    (type == PCI_EXP_TYPE_RC_EC) ||
+@@ -1223,8 +1224,18 @@ static int set_device_error_reporting(struct pci_dev *dev, void *data)
+ 			pci_disable_pcie_error_reporting(dev);
+ 	}
+ 
+-	if (enable)
++	if (enable) {
++
++		/* Enable reporting of all uncorrectable errors */
++		/* Uncorrectable Error Mask - turned on bits disable errors */
++		pci_write_config_dword(dev, aer + PCI_ERR_UNCOR_MASK, 0);
++
++		/* Enable reporting of all correctable errors */
++		/* Correctable Error Mask - turned on bits disable errors */
++		pci_write_config_dword(dev, aer + PCI_ERR_COR_MASK, 0);
++
+ 		pcie_set_ecrc_checking(dev);
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.25.1
 
