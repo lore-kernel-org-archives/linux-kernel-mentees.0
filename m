@@ -2,95 +2,91 @@ Return-Path: <SRS0=ogCp=OY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1897C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:32:46 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B344C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:32:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9FEF86124F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:32:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9FEF86124F
+	by mail.kernel.org (Postfix) with ESMTPS id 1DB2661360
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:32:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1DB2661360
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 725EE40865;
-	Mon,  4 Oct 2021 14:32:46 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E280884BD4;
+	Mon,  4 Oct 2021 14:32:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OwZdAGIUcMxK; Mon,  4 Oct 2021 14:32:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C713D402DD;
-	Mon,  4 Oct 2021 14:32:44 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zzAOv4CvOECk; Mon,  4 Oct 2021 14:32:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 160DB81D02;
+	Mon,  4 Oct 2021 14:32:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B16ACC000F;
-	Mon,  4 Oct 2021 14:32:44 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 830EBC000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E21BDC000F;
+	Mon,  4 Oct 2021 14:32:56 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4A52BC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:43 +0000 (UTC)
+ Mon,  4 Oct 2021 14:32:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 7190E415A3
+ by smtp1.osuosl.org (Postfix) with ESMTP id 358BD84BC7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:43 +0000 (UTC)
+ Mon,  4 Oct 2021 14:32:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id U5uSMDbIt1-G
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id N-i_Gca9tIlF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:42 +0000 (UTC)
+ Mon,  4 Oct 2021 14:32:54 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7F1E7414BA
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 3F59581D02
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:42 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- d13-20020a17090ad3cd00b0019e746f7bd4so4087015pjw.0
+ Mon,  4 Oct 2021 14:32:54 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id g184so16727101pgc.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 04 Oct 2021 07:32:42 -0700 (PDT)
+ Mon, 04 Oct 2021 07:32:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WgoZ9+KpQrZR7tDkQXfhNUVljLBFuOfZzG3U49+7PlA=;
- b=WJdx7P1TcAyVmEBiXMfx3i9JFf4eNjyW5Vq4oC9/fr/nJcEBpUnxCpI18WECXbYHf/
- KB0FXtM9rD6QyJDHR1zVnlxE6P4XVj8uhGsKSNaP+QdsP3oGBF7fsZcQGjOtCIGFAuZl
- 8IyyhVKmRUEZzn8r6VE20PgzYSuV7j4ULaVauXMsqj3kjQetN3trtemqs1QXNMkPh7Ck
- rQEK80gn8TSK+com0w/V2PsVKRY3D5UyJNqo6SPhnAUSfeAhEDsOTWKWQ2ym4UnUGw53
- RLjTjWvlr9RUBdPDUiSj4Tqn6XWMh+eALMls0QIVsiNPuUn6GEDyb4kQ/aYbEJDb0fc5
- ORuw==
+ bh=w+NqgXClATM2+U/6pmcAe6ttC1b34HIq6gozyTG/Fag=;
+ b=EJDTKmB+cmlmsr0qIKuAtTN/kN6cR8NvESH2dE/tM4QMvhT+19A2eI1YW2jVOSY+FZ
+ eiDjdPe9DjppdcR7db8XYN0/V/uedFNAuaLwvnEv321Y/Ij90byXHSCpyb+JuOND5Hdz
+ YJQo2uGXJZrhDN8SKWrXEBQTVl0cVyR8cclU3PtMwvn2hpBlSBlD/s+fXuqwM8gs7ld/
+ ol3BjZv+ZtKv9OB2xcbjxBJlRjgBwnjKjlmdIkpUcPD0F+8+XM8n+0im4gea4L/gm7hF
+ jzePJqS/kVm33ThvcVCf5pSqNeySxMvtmKAqpw/qlF7MH10zQnXRvqeseglTqpgowhKq
+ jZcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WgoZ9+KpQrZR7tDkQXfhNUVljLBFuOfZzG3U49+7PlA=;
- b=2j3TtRYAUsTYE8LFjzsdIK4mBUrr//RK228yxpBkwHjDBX+NT5IME0MTZDi41jqs4l
- 9+ejArYg6d8JYfj+Q6oewRaehF7RSdouCbEsXi3XyxKZULsTqQPkwfmSZ8xkM2QFI8Y8
- 9XEvhwvc3ivDbSgmxMDms5q0BCg05Umz8RuZlb5euutB8aIGgEdsN96BF6HWVlltf3SB
- aHdfkgQqxIHsC8baYNAvIMG19Sq8sUiR6tHouNv885sPk+Gd+ZexEwr3apktsq8j1OaX
- A1siJ9k/JoCiGr0cuDRdkrvtnKoRfFSVHHeOCDEMYcBB2y5pRHGP+agz+HVXVow/gJKG
- SOvA==
-X-Gm-Message-State: AOAM533JBKnK8GgEjwMSEwGuGxGfwHtYFNR4CsVmnDluGzUBzZPta78E
- tvQLVfsCrn1b/j9OAiIkotA=
-X-Google-Smtp-Source: ABdhPJxtTQJnIxU5EdOGKPVOhIsZXoI5Jz8mKWOddwDBmK5s1XWXwrVNaKGUsgVKJPp+b6Hs3D14Jg==
-X-Received: by 2002:a17:90a:1db:: with SMTP id
- 27mr37619533pjd.106.1633357961959; 
- Mon, 04 Oct 2021 07:32:41 -0700 (PDT)
+ bh=w+NqgXClATM2+U/6pmcAe6ttC1b34HIq6gozyTG/Fag=;
+ b=yNEni32JQTwVdbe4jzp7jAnsm7qAXyE8ga87TYBe1oGt41IU4scyq8i8fGbt1u85RS
+ z2I3SdlAEpJhFtdA8oLdQis/OIH3xVBECY8ZdoxGPg2Shxmrm7G9ThnTw9qbA7jDwHOV
+ 53V7ECrW9+rrxAI9L2uK7y8vEOcjBmOP9d+UyQQsLqtvvcH0IvCk3OIL7dUE4ckbNwiO
+ whfxlHDoqZO89hVhy1gl9bYUST6g1ON5mqM0F0ivUMR7mjow2ZO0ZzNYnkfMJiHE9HSE
+ 72+bjZv2YIUdjKCro9xODnnP6YmU/VWPIKQZaMOIqbmKnV+ry+8Cx0FsfSfd+fPhHGle
+ XSPw==
+X-Gm-Message-State: AOAM533wk2XJlFv5uNBFqG2WkMbIIKA0giX/2Udv4ow7PO7VIZUXLQdl
+ u6kUfnGy6022bt1NQLCrv3x+jqjFIU2mj9ym
+X-Google-Smtp-Source: ABdhPJyNtlOm4ZKV7xBauAFvuyKhP0xBlVqGl0Lwgnj5beZB9aLsTPCzwRlA8XscSgq5TtTA4RK1Gg==
+X-Received: by 2002:a65:44c4:: with SMTP id g4mr11266103pgs.254.1633357973671; 
+ Mon, 04 Oct 2021 07:32:53 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:e8f0:c2a7:3579:5fe8:31d9])
  by smtp.gmail.com with ESMTPSA id
- q3sm14489146pgf.18.2021.10.04.07.32.38
+ q3sm14489146pgf.18.2021.10.04.07.32.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 07:32:41 -0700 (PDT)
+ Mon, 04 Oct 2021 07:32:53 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com,
 	ruscur@russell.cc,
 	oohall@gmail.com
-Subject: [PATCH v3 4/8] PCI/DPC: Use pci_aer_clear_status() in
- dpc_process_error()
-Date: Mon,  4 Oct 2021 20:00:00 +0530
-Message-Id: <71cec6aef2535b48911bd98bd010012643eb0bd0.1633357368.git.naveennaidu479@gmail.com>
+Subject: [PATCH v3 5/8] PCI/DPC: Converge EDR and DPC Path of clearing AER
+ registers
+Date: Mon,  4 Oct 2021 20:00:01 +0530
+Message-Id: <14df904c301dc417485f5a7563053b81ab1d3c76.1633357368.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633357368.git.naveennaidu479@gmail.com>
 References: <cover.1633357368.git.naveennaidu479@gmail.com>
@@ -114,31 +110,58 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-dpc_process_error() clears both AER fatal and non fatal status
-registers. Instead of clearing each status registers via a different
-function call use pci_aer_clear_status().
+In the EDR path, AER registers are cleared *after* DPC error event is
+processed. The process stack in EDR is:
 
-This helps clean up the code a bit.
+  edr_handle_event()
+    dpc_process_error()
+    pci_aer_raw_clear_status()
+    pcie_do_recovery()
+
+But in DPC path, AER status registers are cleared *while* processing
+the error. The process stack in DPC is:
+
+  dpc_handler()
+    dpc_process_error()
+      pci_aer_clear_status()
+    pcie_do_recovery()
+
+In EDR path, AER status registers are cleared irrespective of whether
+the error was an RP PIO or unmasked uncorrectable error. But in DPC, the
+AER status registers are cleared only when it's an unmasked uncorrectable
+error.
+
+This leads to two different behaviours for the same task (handling of
+DPC errors) in FFS systems and when native OS has control.
+
+Bring the same semantics for clearing the AER status register in EDR
+path and DPC path.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/pcie/dpc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/pci/pcie/dpc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
-index df3f3a10f8bc..faf4a1e77fab 100644
+index faf4a1e77fab..68899a3db126 100644
 --- a/drivers/pci/pcie/dpc.c
 +++ b/drivers/pci/pcie/dpc.c
-@@ -288,8 +288,7 @@ void dpc_process_error(struct pci_dev *pdev)
+@@ -288,7 +288,6 @@ void dpc_process_error(struct pci_dev *pdev)
  		 dpc_get_aer_uncorrect_severity(pdev, &info) &&
  		 aer_get_device_error_info(pdev, &info)) {
  		aer_print_error(pdev, &info);
--		pci_aer_clear_nonfatal_status(pdev);
--		pci_aer_clear_fatal_status(pdev);
-+		pci_aer_clear_status(pdev);
+-		pci_aer_clear_status(pdev);
  	}
  }
  
+@@ -297,6 +296,7 @@ static irqreturn_t dpc_handler(int irq, void *context)
+ 	struct pci_dev *pdev = context;
+ 
+ 	dpc_process_error(pdev);
++	pci_aer_clear_status(pdev);
+ 
+ 	/* We configure DPC so it only triggers on ERR_FATAL */
+ 	pcie_do_recovery(pdev, pci_channel_io_frozen, dpc_reset_link);
 -- 
 2.25.1
 
