@@ -2,99 +2,96 @@ Return-Path: <SRS0=ogCp=OY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDC1DC433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 13:54:11 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 243EDC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:08:16 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8348F6124D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 13:54:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8348F6124D
+	by mail.kernel.org (Postfix) with ESMTPS id D005E611C1
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:08:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D005E611C1
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 5A087427AF;
-	Mon,  4 Oct 2021 13:54:11 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A157661B8C;
+	Mon,  4 Oct 2021 14:08:15 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id z7ifk0jdBa64; Mon,  4 Oct 2021 13:54:10 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 42n75zokIg5T; Mon,  4 Oct 2021 14:08:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 94AAF4271A;
-	Mon,  4 Oct 2021 13:54:10 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BC0D361B8B;
+	Mon,  4 Oct 2021 14:08:14 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6E37BC0011;
-	Mon,  4 Oct 2021 13:54:10 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B7364C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0187C000F;
+	Mon,  4 Oct 2021 14:08:14 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8B164C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 13:54:08 +0000 (UTC)
+ Mon,  4 Oct 2021 14:08:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A7A3D84BDE
+ by smtp2.osuosl.org (Postfix) with ESMTP id 792B3405EA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 13:54:08 +0000 (UTC)
+ Mon,  4 Oct 2021 14:08:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lVf9DjHi_LWK
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xIaL5FtsmwCO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 13:54:07 +0000 (UTC)
+ Mon,  4 Oct 2021 14:08:12 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9C58284B89
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
+ [IPv6:2607:f8b0:4864:20::534])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8802640134
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 13:54:07 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id t4so3200695plo.0
+ Mon,  4 Oct 2021 14:08:12 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id s75so5771759pgs.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 04 Oct 2021 06:54:07 -0700 (PDT)
+ Mon, 04 Oct 2021 07:08:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6pWZxY1yQdsUwMEG6Is0voI7d8xdXhwobuZZscOdeBw=;
- b=GEPnpVfVlvIMaa15IDrdstFCMhwgZRFdbQv5+Ese4TaXfcnzb8DUsdK+lLmMohOYBz
- dMvGXI3KMUoKzWc22yZzSmOFn1Iim2snCmm61DQ0QD/YCGKx7m7xah2wEt4U4cSQhwpd
- 4P3J6tGT/c5xXB0qZbYd1yGLEhUbvtISZ8urAhZijVsN8iV2Gg49QblQ88XzBg2XpVtx
- kB/0C2ROjpQTn+gfG7xJP9ZCrn/bdTYqKYJUru/lK+WfZrp70Tyk3go7v1o+gntoZprO
- mLC/etQtJ7o2ec+x/CPUDFeU9v8gR6il4yu9icl309kDfDR3Olbty/oSGOr2O6PWJ4oM
- nk0A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=90VZotrStGy8mgssJr/W9iFiKQDvcfNAnl0DsJhkfs0=;
+ b=o/QK+MjgwS+aEQuPx4irPsbCaHMW6sfXp8BaqM12h1M93plmbNOTRFIEVh1NBvMkEB
+ ZUI/rsaRIpecJgpTBkNdVhjXxkwcmFdasoMV5ExX4poVBKt+rT6b3AXqoH8YrS1V9Cma
+ yTLd30q8/soHf0V8eO5srZz85E1ywxMMQjSiHSXBQmm4FwKQnXqmnLibeVWcAbhZsPoG
+ g7rBm1DWVZe9gEnb4fnGCjTY7cLC1uB+fjbWcPtPfaxV99JFomRFEybhCoXr3oNyDkpZ
+ +zue++onjHrY646/5Vrk8fAzNswt0qpQPvj0GEqZcPrHvgmnxDwplbLQUFeXbAVc1+Wk
+ 8g0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6pWZxY1yQdsUwMEG6Is0voI7d8xdXhwobuZZscOdeBw=;
- b=SWj+Qb5JTys+nFHCjwUW/JgGx4V4ji1kMGAGadjoCQRctmUIT8Ulo4QNI1lZhA1/Fr
- sUwMFMc1bZR22og71gWeCzHyNoe37/OR8eappZvnVZja9FXHHTXV6fy3aemDfYezvoyO
- 7hfi8oXfnbrVklDCzEb1DmBUzsoo8vQJM5/OSaMBsYu2S4MFd/f9N8KfuylJp9/yKayj
- 8Gckgg2oGyJfMdRpv3Kxl+vk2famTxysWvqGzvb+1IUb9dEHnu1CjAx8mQfNYRVAJy5f
- guYOZ2/m6wNN6DOfvb04vjmii2awtLIWmEZywlmvh/46CjM01+AbROxNQevUoYCtwfQ1
- wcEQ==
-X-Gm-Message-State: AOAM533ijKtKylcgFv2kG5oEOfozBVdRrio3I66fcYbf88jSQa/UWQlz
- F+BuJ8mKMDGTHN2akn5O8pQ=
-X-Google-Smtp-Source: ABdhPJw1jCD2kuezA7hXQsEBL/XXP1JvlA4weed4pnGBvJ8bxSlzpmzJ645eesGWKLrB6T1ZUZ9pzA==
-X-Received: by 2002:a17:90a:86:: with SMTP id
- a6mr36432880pja.190.1633355647092; 
- Mon, 04 Oct 2021 06:54:07 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=90VZotrStGy8mgssJr/W9iFiKQDvcfNAnl0DsJhkfs0=;
+ b=kofZNT45ZD/VzsnkSP2H9yCmclFV/ljwL6sg0QwPhShaDVVs1mVEc9G+NgjV6VIHg+
+ LXMyd0Cw5cWkEYbdP3pLfJ8omx83kgU2mm8co/OaQdK2pSfPfmuuCAUM+or+P/KCR00A
+ 0WhLhz7LbvST6B9hxmHiJ0sybZsWXbLNy5HmfTVmhUGd1hcGucUSZll7BVhbisGdcXVL
+ zLShFNRXVPDS97VfYP1bo8casP5BRSBwlNHB9AsVvAxo6Cu+gy2Ge/GSPE2A1Spkp0gr
+ IuSXfMDeUkZVPLnPVz/dZcKIw+2dCCNte5nrPDaHNnfb/QbRpJ8sudaD+V+XpDrm1HFF
+ qp7Q==
+X-Gm-Message-State: AOAM533NBBIYnxxiJL/bwFL3HY73QosUNSSxxYy3bUevdnHxaLPmNFlC
+ 7kzACXq4CDGGP9h6UWrIIU0=
+X-Google-Smtp-Source: ABdhPJxdmeh3wBzsACdJJKEbMJ6nFPRgGudEiYPsvM9XJ9KsMd2LE/efWBCTvow/NjbvzslzV8Q/lg==
+X-Received: by 2002:a63:63c5:: with SMTP id x188mr5138080pgb.391.1633356491815; 
+ Mon, 04 Oct 2021 07:08:11 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:e8f0:c2a7:3579:5fe8:31d9])
  by smtp.gmail.com with ESMTPSA id
- k17sm12209548pfu.82.2021.10.04.06.54.04
+ p2sm15274135pgd.84.2021.10.04.07.08.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 06:54:06 -0700 (PDT)
+ Mon, 04 Oct 2021 07:08:11 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com,
 	ruscur@russell.cc,
 	oohall@gmail.com
-Subject: [PATCH 8/8] PCI/AER: Include DEVCTL in aer_print_error()
-Date: Mon,  4 Oct 2021 19:22:43 +0530
-Message-Id: <e39df4392e514bae8dbd373a3c92d994d8c2ae49.1633353468.git.naveennaidu479@gmail.com>
+Subject: [PATCH v2 0/8] Fix long standing AER Error Handling Issues 
+Date: Mon,  4 Oct 2021 19:36:26 +0530
+Message-ID: <cover.1633353468.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1633353468.git.naveennaidu479@gmail.com>
-References: <cover.1633353468.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: linuxppc-dev@lists.ozlabs.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,64 +108,69 @@ Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
+Message-ID: <20211004140626.ZkhdriP2tkVyoQ2nxiOmcwW-SsD_rLRlwI5ccpam-yA@z>
 
-Print the contents of Device Control Register of the device which
-detected the error. This might help in faster error diagnosis.
+This patch series aims at fixing some of the AER error handling issues
+we have.
 
-Sample output from dummy error injected by aer-inject:
+Currently we have the following issues:
+ - Confusing message in aer_print_error()
+ - aer_err_info not being initialized completely in DPC path before 
+   we print the AER logs
+ - A bug [1] in clearing of AER registers in the native AER path
 
-  pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03.0
-  pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver)
-  pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000, devctl=0x000f
-  pcieport 0000:00:03.0:    [ 6] BadTLP
+[1] https://lore.kernel.org/linux-pci/20151229155822.GA17321@localhost/
 
-Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
----
- drivers/pci/pci.h      |  2 ++
- drivers/pci/pcie/aer.c | 10 ++++++++--
- 2 files changed, 10 insertions(+), 2 deletions(-)
+The primary aim of this patch series is to converge the APEI path and the
+native AER error handling paths. In our current code, we find that we
+have two different behaviours (especially when it comes to clearing of
+the AER registers) for the same functionality.
 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index eb88d8bfeaf7..48ed7f91113b 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -437,6 +437,8 @@ struct aer_err_info {
- 	u32 status;		/* COR/UNCOR Error Status */
- 	u32 mask;		/* COR/UNCOR Error Mask */
- 	struct aer_header_log_regs tlp;	/* TLP Header */
-+
-+	u16 devctl;
- };
- 
- /* Preliminary AER error information processed from Root port */
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index 91f91d6ab052..42cae01b6887 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -729,8 +729,8 @@ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info)
- 		   aer_error_severity_string[info->severity],
- 		   aer_error_layer[layer], aer_agent_string[agent]);
- 
--	pci_printk(level, dev, "  device [%04x:%04x] error status/mask=%08x/%08x\n",
--		   dev->vendor, dev->device, info->status, info->mask);
-+	pci_printk(level, dev, "  device [%04x:%04x] error status/mask=%08x/%08x, devctl=%#06x\n",
-+		   dev->vendor, dev->device, info->status, info->mask, info->devctl);
- 
- 	__aer_print_error(dev, info);
- 
-@@ -1083,6 +1083,12 @@ int aer_get_device_error_info(struct pci_dev *dev, struct aer_err_info *info)
- 	if (!aer)
- 		return 0;
- 
-+	/*
-+	 * Cache the value of Device Control Register now, because later the
-+	 * device might not be available
-+	 */
-+	pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &info->devctl);
-+
- 	if (info->severity == AER_CORRECTABLE) {
- 		pci_read_config_dword(dev, aer + PCI_ERR_COR_STATUS,
- 			&info->status);
+This patch series, tries to bring the same semantics and hence more 
+commonanlity between the APEI part of code and the native OS 
+handling of AER errors.
+
+PATCH 1: 
+  - Fixes the first issue
+
+PATCH 2 - 4:
+  - Fixes the second issue
+  - "Patch 3/8" is dependent on "Patch 2/3" in the series
+
+PATCH 5 - 7
+  - Deals with converging the various paths and to bring more
+    commonality between them
+  - "Patch 6/8" depends on "Patch 1/8"
+
+PATCH 8:
+  -  Adds extra information in AER error logs.
+
+Thanks,
+Naveen Naidu
+
+Changelog
+=========
+
+v2:
+  Apologies for the mistake, I forgot to cc the linux-pci mailing list.
+  Resent the email with cc to linux-pci.
+
+Naveen Naidu (8):
+ [PATCH v2 1/8] PCI/AER: Remove ID from aer_agent_string[]
+ [PATCH v2 2/8] PCI: Cleanup struct aer_err_info
+ [PATCH v2 3/8] PCI/DPC: Initialize info->id in dpc_process_error()
+ [PATCH v2 4/8] PCI/DPC: Use pci_aer_clear_status() in dpc_process_error()
+ [PATCH v2 5/8] PCI/DPC: Converge EDR and DPC Path of clearing AER registers
+ [PATCH v2 6/8] PCI/AER: Clear error device AER registers in aer_irq()
+ [PATCH v2 7/8] PCI/ERR: Remove redundant clearing of AER register in pcie_do_recovery()
+ [PATCH v2 8/8] PCI/AER: Include DEVCTL in aer_print_error()
+
+ drivers/pci/pci.h      |  23 +++-
+ drivers/pci/pcie/aer.c | 265 ++++++++++++++++++++++++++++-------------
+ drivers/pci/pcie/dpc.c |   9 +-
+ drivers/pci/pcie/err.c |   9 +-
+ 4 files changed, 207 insertions(+), 99 deletions(-)
+
 -- 
 2.25.1
 
