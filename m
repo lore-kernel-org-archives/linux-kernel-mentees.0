@@ -2,91 +2,93 @@ Return-Path: <SRS0=ogCp=OY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B344C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:32:58 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F594C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:33:42 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1DB2661360
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:32:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1DB2661360
+	by mail.kernel.org (Postfix) with ESMTPS id 19FC161002
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 14:33:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 19FC161002
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E280884BD4;
-	Mon,  4 Oct 2021 14:32:57 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E5A854039C;
+	Mon,  4 Oct 2021 14:33:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zzAOv4CvOECk; Mon,  4 Oct 2021 14:32:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 160DB81D02;
-	Mon,  4 Oct 2021 14:32:57 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rAdxHksIbjV4; Mon,  4 Oct 2021 14:33:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7E00A40392;
+	Mon,  4 Oct 2021 14:33:40 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E21BDC000F;
-	Mon,  4 Oct 2021 14:32:56 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A52BC000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E30AC000F;
+	Mon,  4 Oct 2021 14:33:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03295C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:55 +0000 (UTC)
+ Mon,  4 Oct 2021 14:33:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 358BD84BC7
+ by smtp3.osuosl.org (Postfix) with ESMTP id D9EB561B79
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:55 +0000 (UTC)
+ Mon,  4 Oct 2021 14:33:39 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N-i_Gca9tIlF
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3pGvT-f4VrSm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:54 +0000 (UTC)
+ Mon,  4 Oct 2021 14:33:38 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 3F59581D02
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id EBF9061B7D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 14:32:54 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id g184so16727101pgc.6
+ Mon,  4 Oct 2021 14:33:37 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id x4so16926pln.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 04 Oct 2021 07:32:54 -0700 (PDT)
+ Mon, 04 Oct 2021 07:33:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w+NqgXClATM2+U/6pmcAe6ttC1b34HIq6gozyTG/Fag=;
- b=EJDTKmB+cmlmsr0qIKuAtTN/kN6cR8NvESH2dE/tM4QMvhT+19A2eI1YW2jVOSY+FZ
- eiDjdPe9DjppdcR7db8XYN0/V/uedFNAuaLwvnEv321Y/Ij90byXHSCpyb+JuOND5Hdz
- YJQo2uGXJZrhDN8SKWrXEBQTVl0cVyR8cclU3PtMwvn2hpBlSBlD/s+fXuqwM8gs7ld/
- ol3BjZv+ZtKv9OB2xcbjxBJlRjgBwnjKjlmdIkpUcPD0F+8+XM8n+0im4gea4L/gm7hF
- jzePJqS/kVm33ThvcVCf5pSqNeySxMvtmKAqpw/qlF7MH10zQnXRvqeseglTqpgowhKq
- jZcA==
+ bh=sCmpU5S4jZKIoywYAJlVusQtI19wPvczgOST3Tp8uiA=;
+ b=bucZoN07PID4bpTD8tU7h7hwMv/rOlZwy9r1uGwmeofWTDNN3ql+Z/VA57MRlm0ZOC
+ GvpRtAQwF9xzqMdmHd+WHTEkXMzzyJ3Vy2/L5OVy6dXfAxSpmFnPhEIdrHlUITbaiKRD
+ kHBbPdXFaI0cDdMIorhL67GwUWknHWC/Vni3q4WdGi1jk+v1AFblQj7HBH862rIN/qSr
+ veIoN+FH/wLVCaDgKdEH9r/tnPxLVdBTtg+idBbVLPovmALbiI7qMTVFGlsZ6/T0tNuJ
+ 0PIzvLAdJfPJC7BT85qoIzEg/QnDiifJnDWAfzT6tjknARGyTwNI0poEbZyuznAghmfT
+ 3UrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w+NqgXClATM2+U/6pmcAe6ttC1b34HIq6gozyTG/Fag=;
- b=yNEni32JQTwVdbe4jzp7jAnsm7qAXyE8ga87TYBe1oGt41IU4scyq8i8fGbt1u85RS
- z2I3SdlAEpJhFtdA8oLdQis/OIH3xVBECY8ZdoxGPg2Shxmrm7G9ThnTw9qbA7jDwHOV
- 53V7ECrW9+rrxAI9L2uK7y8vEOcjBmOP9d+UyQQsLqtvvcH0IvCk3OIL7dUE4ckbNwiO
- whfxlHDoqZO89hVhy1gl9bYUST6g1ON5mqM0F0ivUMR7mjow2ZO0ZzNYnkfMJiHE9HSE
- 72+bjZv2YIUdjKCro9xODnnP6YmU/VWPIKQZaMOIqbmKnV+ry+8Cx0FsfSfd+fPhHGle
- XSPw==
-X-Gm-Message-State: AOAM533wk2XJlFv5uNBFqG2WkMbIIKA0giX/2Udv4ow7PO7VIZUXLQdl
- u6kUfnGy6022bt1NQLCrv3x+jqjFIU2mj9ym
-X-Google-Smtp-Source: ABdhPJyNtlOm4ZKV7xBauAFvuyKhP0xBlVqGl0Lwgnj5beZB9aLsTPCzwRlA8XscSgq5TtTA4RK1Gg==
-X-Received: by 2002:a65:44c4:: with SMTP id g4mr11266103pgs.254.1633357973671; 
- Mon, 04 Oct 2021 07:32:53 -0700 (PDT)
+ bh=sCmpU5S4jZKIoywYAJlVusQtI19wPvczgOST3Tp8uiA=;
+ b=rWO2UOgYc+PMoawZz9zWAcpmOPjgGfBOLo//X2wIxtHIGQVaPGYCnE6V/b7gT3DLxL
+ LoSgeDrSS/+FMyj3lMiJwj8s1sFzEkNP9isqUhWnA0IevVpEA4RuQt4gkXLR6hxEV5vI
+ z4i4xi/zhhui4h0kygBBe+N8y0UZtUS23AxOWTgIr1/bP/Zr1H3ccHSZla7+Ib3xe/Ep
+ ka736UhtegsuQERV4JvxLHrHXbXdf4yJMcVjST5U/G8984e5/TnZrbE0aj/BKBCV7fUl
+ vgu+IA2fQZKw7Pl7ysARf0oDKxViukQvzlMuHuEDyw6dcL3bFoBCvObF6Psv2r8kt1T3
+ Bo9w==
+X-Gm-Message-State: AOAM531k7Of7+/L5TCQSTkda1cgzfoXVHZe50OSSof1jcfzaiADZcXnu
+ bKUXxP4oDxnC/9rqtqQiBOE=
+X-Google-Smtp-Source: ABdhPJxazSLkAmNpRsrogAqewHMwPfyv7nMpo54HGLzTx/fdJDKXh9Yd5Lbd/wJ5QrKWWnAhd0iQuA==
+X-Received: by 2002:a17:90a:9285:: with SMTP id
+ n5mr30419001pjo.29.1633358017124; 
+ Mon, 04 Oct 2021 07:33:37 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:e8f0:c2a7:3579:5fe8:31d9])
  by smtp.gmail.com with ESMTPSA id
- q3sm14489146pgf.18.2021.10.04.07.32.49
+ q3sm14489146pgf.18.2021.10.04.07.33.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 07:32:53 -0700 (PDT)
+ Mon, 04 Oct 2021 07:33:36 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com,
 	ruscur@russell.cc,
 	oohall@gmail.com
-Subject: [PATCH v3 5/8] PCI/DPC: Converge EDR and DPC Path of clearing AER
- registers
-Date: Mon,  4 Oct 2021 20:00:01 +0530
-Message-Id: <14df904c301dc417485f5a7563053b81ab1d3c76.1633357368.git.naveennaidu479@gmail.com>
+Subject: [PATCH v3 6/8] PCI/AER: Clear error device AER registers in aer_irq()
+Date: Mon,  4 Oct 2021 20:00:02 +0530
+Message-Id: <9092514ec952ab3d60498b6f6c29671b85f9aeff.1633357368.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633357368.git.naveennaidu479@gmail.com>
 References: <cover.1633357368.git.naveennaidu479@gmail.com>
@@ -110,58 +112,451 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-In the EDR path, AER registers are cleared *after* DPC error event is
-processed. The process stack in EDR is:
+Converge the APEI path and native AER path of clearing the AER registers
+of the error device.
 
-  edr_handle_event()
-    dpc_process_error()
-    pci_aer_raw_clear_status()
-    pcie_do_recovery()
+In APEI path, the system firmware clears the AER registers before
+handing off the record to OS. But in "native AER" path, the execution
+path of clearing the AER register is as follows:
 
-But in DPC path, AER status registers are cleared *while* processing
-the error. The process stack in DPC is:
+  aer_isr_one_error
+    aer_print_port_info
+      if (find_source_device())
+        aer_process_err_devices
+          handle_error_source
+            pci_write_config_dword(dev, PCI_ERR_COR_STATUS, ...)
 
-  dpc_handler()
-    dpc_process_error()
-      pci_aer_clear_status()
-    pcie_do_recovery()
+The above path has a bug, if the find_source_device() fails, AER
+registers are not cleared from the error device. This means, the error
+device will keep reporting the error again and again and would lead
+to message spew.
 
-In EDR path, AER status registers are cleared irrespective of whether
-the error was an RP PIO or unmasked uncorrectable error. But in DPC, the
-AER status registers are cleared only when it's an unmasked uncorrectable
-error.
+Related Bug Report:
+  https://lore.kernel.org/linux-pci/20151229155822.GA17321@localhost/
+  https://bugzilla.kernel.org/show_bug.cgi?id=109691
+  https://bugzilla.kernel.org/show_bug.cgi?id=109691
+  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1521173
 
-This leads to two different behaviours for the same task (handling of
-DPC errors) in FFS systems and when native OS has control.
+The above bug could be avoided, if the AER registers are cleared during
+the AER IRQ handler aer_irq(), which would provide guarantee that the AER
+error registers are always cleared. This is similar to how APEI handles
+these errors.
 
-Bring the same semantics for clearing the AER status register in EDR
-path and DPC path.
+The main aim is that:
+
+  When an interrupt handler deals with a interrupt, it must *always*
+  clear the source of the interrupt.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/pcie/dpc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/pci.h      |  13 ++-
+ drivers/pci/pcie/aer.c | 245 ++++++++++++++++++++++++++++-------------
+ 2 files changed, 182 insertions(+), 76 deletions(-)
 
-diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
-index faf4a1e77fab..68899a3db126 100644
---- a/drivers/pci/pcie/dpc.c
-+++ b/drivers/pci/pcie/dpc.c
-@@ -288,7 +288,6 @@ void dpc_process_error(struct pci_dev *pdev)
- 		 dpc_get_aer_uncorrect_severity(pdev, &info) &&
- 		 aer_get_device_error_info(pdev, &info)) {
- 		aer_print_error(pdev, &info);
--		pci_aer_clear_status(pdev);
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 9be7a966fda7..eb88d8bfeaf7 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -424,7 +424,6 @@ static inline bool pci_dev_is_added(const struct pci_dev *dev)
+ #define AER_MAX_MULTI_ERR_DEVICES	5	/* Not likely to have more */
+ 
+ struct aer_err_info {
+-	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
+ 	int error_dev_num;
+ 
+ 	u16	id;
+@@ -440,6 +439,18 @@ struct aer_err_info {
+ 	struct aer_header_log_regs tlp;	/* TLP Header */
+ };
+ 
++/* Preliminary AER error information processed from Root port */
++struct aer_devices_err_info {
++	struct pci_dev *dev[AER_MAX_MULTI_ERR_DEVICES];
++	struct aer_err_info err_info;
++};
++
++/* AER information associated with each error device */
++struct aer_dev_err_info {
++	struct pci_dev *dev;
++	struct aer_err_info err_info;
++};
++
+ int aer_get_device_error_info(struct pci_dev *dev, struct aer_err_info *info);
+ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info);
+ #endif	/* CONFIG_PCIEAER */
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index 241ff361b43c..91f91d6ab052 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -36,6 +36,18 @@
+ 
+ #define AER_ERROR_SOURCES_MAX		128
+ 
++/*
++ * There can be 128 maximum error sources (AER_ERROR_SOURCES_MAX) and each
++ * error source can have maximum of 5 error devices (AER_MAX_MULTI_ERR_DEVICES)
++ * so the maximum error devices we can report is:
++ *
++ * AER_ERROR_DEVICES_MAX = AER_ERROR_SOURCES_MAX * AER_MAX_MULTI_ERR_DEVICES == (128 * 5) == 640
++ *
++ * But since, the size in KFIFO should be a power of two, the closest value
++ * to 640 is 1024
++ */
++# define AER_ERROR_DEVICES_MAX		1024
++
+ #define AER_MAX_TYPEOF_COR_ERRS		16	/* as per PCI_ERR_COR_STATUS */
+ #define AER_MAX_TYPEOF_UNCOR_ERRS	27	/* as per PCI_ERR_UNCOR_STATUS*/
+ 
+@@ -46,7 +58,7 @@ struct aer_err_source {
+ 
+ struct aer_rpc {
+ 	struct pci_dev *rpd;		/* Root Port device */
+-	DECLARE_KFIFO(aer_fifo, struct aer_err_source, AER_ERROR_SOURCES_MAX);
++	DECLARE_KFIFO(aer_fifo, struct aer_dev_err_info, AER_ERROR_DEVICES_MAX);
+ };
+ 
+ /* AER stats for the device */
+@@ -806,11 +818,11 @@ void cper_print_aer(struct pci_dev *dev, int aer_severity,
+  * @e_info: pointer to error info
+  * @dev: pointer to pci_dev to be added
+  */
+-static int add_error_device(struct aer_err_info *e_info, struct pci_dev *dev)
++static int add_error_device(struct aer_devices_err_info *e_dev, struct pci_dev *dev)
+ {
+-	if (e_info->error_dev_num < AER_MAX_MULTI_ERR_DEVICES) {
+-		e_info->dev[e_info->error_dev_num] = pci_dev_get(dev);
+-		e_info->error_dev_num++;
++	if (e_dev->err_info.error_dev_num < AER_MAX_MULTI_ERR_DEVICES) {
++		e_dev->dev[e_dev->err_info.error_dev_num] = pci_dev_get(dev);
++		e_dev->err_info.error_dev_num++;
+ 		return 0;
  	}
+ 	return -ENOSPC;
+@@ -877,18 +889,18 @@ static bool is_error_source(struct pci_dev *dev, struct aer_err_info *e_info)
+ 
+ static int find_device_iter(struct pci_dev *dev, void *data)
+ {
+-	struct aer_err_info *e_info = (struct aer_err_info *)data;
++	struct aer_devices_err_info *e_dev = (struct aer_devices_err_info *)data;
+ 
+-	if (is_error_source(dev, e_info)) {
++	if (is_error_source(dev, &e_dev->err_info)) {
+ 		/* List this device */
+-		if (add_error_device(e_info, dev)) {
++		if (add_error_device(e_dev, dev)) {
+ 			/* We cannot handle more... Stop iteration */
+ 			/* TODO: Should print error message here? */
+ 			return 1;
+ 		}
+ 
+ 		/* If there is only a single error, stop iteration */
+-		if (!e_info->multi_error_valid)
++		if (!e_dev->err_info.multi_error_valid)
+ 			return 1;
+ 	}
+ 	return 0;
+@@ -907,26 +919,26 @@ static int find_device_iter(struct pci_dev *dev, void *data)
+  * e_info->error_dev_num and e_info->dev[], based on the given information.
+  */
+ static bool find_source_device(struct pci_dev *parent,
+-		struct aer_err_info *e_info)
++		struct aer_devices_err_info *e_dev)
+ {
+ 	struct pci_dev *dev = parent;
+ 	int result;
+ 
+ 	/* Must reset in this function */
+-	e_info->error_dev_num = 0;
++	e_dev->err_info.error_dev_num = 0;
+ 
+ 	/* Is Root Port an agent that sends error message? */
+-	result = find_device_iter(dev, e_info);
++	result = find_device_iter(dev, e_dev);
+ 	if (result)
+ 		return true;
+ 
+ 	if (pci_pcie_type(parent) == PCI_EXP_TYPE_RC_EC)
+-		pcie_walk_rcec(parent, find_device_iter, e_info);
++		pcie_walk_rcec(parent, find_device_iter, e_dev);
+ 	else
+-		pci_walk_bus(parent->subordinate, find_device_iter, e_info);
++		pci_walk_bus(parent->subordinate, find_device_iter, e_dev);
+ 
+-	if (!e_info->error_dev_num) {
+-		pci_info(parent, "can't find device of ID%04x\n", e_info->id);
++	if (!e_dev->err_info.error_dev_num) {
++		pci_info(parent, "can't find device of ID%04x\n", e_dev->err_info.id);
+ 		return false;
+ 	}
+ 	return true;
+@@ -940,24 +952,42 @@ static bool find_source_device(struct pci_dev *parent,
+  * Invoked when an error being detected by Root Port.
+  */
+ static void handle_error_source(struct pci_dev *dev, struct aer_err_info *info)
++{
++	/*
++	 * Correctable error does not need software intervention.
++	 * No need to go through error recovery process.
++	 */
++	if (info->severity == AER_NONFATAL)
++		pcie_do_recovery(dev, pci_channel_io_normal, aer_root_reset);
++	else if (info->severity == AER_FATAL)
++		pcie_do_recovery(dev, pci_channel_io_frozen, aer_root_reset);
++	pci_dev_put(dev);
++}
++
++/**
++ * clear_error_source_aer_registers - clear AER registers of the error source device
++ * @dev: pointer to pci_dev data structure of error source device
++ * @info: comprehensive error information
++ *
++ * Invoked when an error being detected by Root Port but before we handle the
++ * error.
++ */
++static void clear_error_source_aer_registers(struct pci_dev *dev, struct aer_err_info info)
+ {
+ 	int aer = dev->aer_cap;
+ 
+-	if (info->severity == AER_CORRECTABLE) {
+-		/*
+-		 * Correctable error does not need software intervention.
+-		 * No need to go through error recovery process.
+-		 */
++	if (info.severity == AER_CORRECTABLE) {
+ 		if (aer)
+ 			pci_write_config_dword(dev, aer + PCI_ERR_COR_STATUS,
+-					info->status);
++					info.status);
+ 		if (pcie_aer_is_native(dev))
+ 			pcie_clear_device_status(dev);
+-	} else if (info->severity == AER_NONFATAL)
+-		pcie_do_recovery(dev, pci_channel_io_normal, aer_root_reset);
+-	else if (info->severity == AER_FATAL)
+-		pcie_do_recovery(dev, pci_channel_io_frozen, aer_root_reset);
+-	pci_dev_put(dev);
++	} else if (info.severity == AER_NONFATAL) {
++		pci_aer_clear_nonfatal_status(dev);
++	} else if (info.severity == AER_FATAL) {
++		pci_aer_clear_fatal_status(dev);
++	}
++
  }
  
-@@ -297,6 +296,7 @@ static irqreturn_t dpc_handler(int irq, void *context)
- 	struct pci_dev *pdev = context;
+ #ifdef CONFIG_ACPI_APEI_PCIEAER
+@@ -1093,70 +1123,112 @@ int aer_get_device_error_info(struct pci_dev *dev, struct aer_err_info *info)
+ 	return 1;
+ }
  
- 	dpc_process_error(pdev);
-+	pci_aer_clear_status(pdev);
+-static inline void aer_process_err_devices(struct aer_err_info *e_info)
+-{
+-	int i;
+-
+-	/* Report all before handle them, not to lost records by reset etc. */
+-	for (i = 0; i < e_info->error_dev_num && e_info->dev[i]; i++) {
+-		if (aer_get_device_error_info(e_info->dev[i], e_info))
+-			aer_print_error(e_info->dev[i], e_info);
+-	}
+-	for (i = 0; i < e_info->error_dev_num && e_info->dev[i]; i++) {
+-		if (aer_get_device_error_info(e_info->dev[i], e_info))
+-			handle_error_source(e_info->dev[i], e_info);
+-	}
+-}
+-
+ /**
+- * aer_isr_one_error - consume an error detected by root port
+- * @rpc: pointer to the root port which holds an error
++ * aer_find_corr_error_source_device - find the error source which detected the corrected error
++ * @rp: pointer to Root Port pci_dev data structure
+  * @e_src: pointer to an error source
++ * @e_info: including detailed error information such like id
++ *
++ * Return true if found.
++ *
++ * Process the error information received at the Root Port, set these values
++ * in the aer_devices_err_info and find all the devices that are related to
++ * the error.
+  */
+-static void aer_isr_one_error(struct aer_rpc *rpc,
+-		struct aer_err_source *e_src)
++static bool aer_find_corr_error_source_device(struct pci_dev *rp,
++					struct aer_err_source *e_src,
++					struct aer_devices_err_info *e_info)
+ {
+-	struct pci_dev *pdev = rpc->rpd;
+-	struct aer_err_info e_info;
+-
+-	pci_rootport_aer_stats_incr(pdev, e_src);
+-
+-	/*
+-	 * There is a possibility that both correctable error and
+-	 * uncorrectable error being logged. Report correctable error first.
+-	 */
+ 	if (e_src->status & PCI_ERR_ROOT_COR_RCV) {
+-		e_info.id = ERR_COR_ID(e_src->id);
+-		e_info.severity = AER_CORRECTABLE;
++		e_info->err_info.id = ERR_COR_ID(e_src->id);
++		e_info->err_info.severity = AER_CORRECTABLE;
  
- 	/* We configure DPC so it only triggers on ERR_FATAL */
- 	pcie_do_recovery(pdev, pci_channel_io_frozen, dpc_reset_link);
+ 		if (e_src->status & PCI_ERR_ROOT_MULTI_COR_RCV)
+-			e_info.multi_error_valid = 1;
++			e_info->err_info.multi_error_valid = 1;
+ 		else
+-			e_info.multi_error_valid = 0;
+-		aer_print_port_info(pdev, &e_info);
++			e_info->err_info.multi_error_valid = 0;
+ 
+-		if (find_source_device(pdev, &e_info))
+-			aer_process_err_devices(&e_info);
++		if (!find_source_device(rp, e_info))
++			return false;
+ 	}
++	return true;
++}
+ 
++/**
++ * aer_find_corr_error_source_device - find the error source which detected the uncorrected error
++ * @rp: pointer to Root Port pci_dev data structure
++ * @e_src: pointer to an error source
++ * @e_info: including detailed error information such like id
++ *
++ * Return true if found.
++ *
++ * Process the error information received at the Root Port, set these values
++ * in the aer_devices_err_info and find all the devices that are related to
++ * the error.
++ */
++static bool aer_find_uncorr_error_source_device(struct pci_dev *rp,
++					struct aer_err_source *e_src,
++					struct aer_devices_err_info *e_info)
++{
+ 	if (e_src->status & PCI_ERR_ROOT_UNCOR_RCV) {
+-		e_info.id = ERR_UNCOR_ID(e_src->id);
++		e_info->err_info.id = ERR_UNCOR_ID(e_src->id);
+ 
+ 		if (e_src->status & PCI_ERR_ROOT_FATAL_RCV)
+-			e_info.severity = AER_FATAL;
++			e_info->err_info.severity = AER_FATAL;
+ 		else
+-			e_info.severity = AER_NONFATAL;
++			e_info->err_info.severity = AER_NONFATAL;
+ 
+ 		if (e_src->status & PCI_ERR_ROOT_MULTI_UNCOR_RCV)
+-			e_info.multi_error_valid = 1;
++			e_info->err_info.multi_error_valid = 1;
+ 		else
+-			e_info.multi_error_valid = 0;
++			e_info->err_info.multi_error_valid = 0;
++
++		if (!find_source_device(rp, e_info))
++			return false;
++	}
+ 
+-		aer_print_port_info(pdev, &e_info);
++	return true;
++}
+ 
+-		if (find_source_device(pdev, &e_info))
+-			aer_process_err_devices(&e_info);
++/**
++ * aer_isr_one_error - consume an error detected by root port
++ * @rp: pointer to Root Port pci_dev data structure
++ * @e_dev: pointer to an error device
++ */
++static void aer_isr_one_error(struct pci_dev *rp, struct aer_dev_err_info *e_dev)
++{
++	aer_print_port_info(rp, &e_dev->err_info);
++	aer_print_error(e_dev->dev, &e_dev->err_info);
++	handle_error_source(e_dev->dev, &e_dev->err_info);
++}
++
++static bool aer_add_err_devices_to_queue(struct aer_rpc *rpc,
++		struct aer_devices_err_info *e_info)
++{
++	int i;
++	struct aer_dev_err_info *e_dev;
++
++	e_dev = kzalloc(sizeof(*e_dev), GFP_ATOMIC);
++	if (!e_dev)
++		return false;
++
++	for (i = 0; i < e_info->err_info.error_dev_num && e_info->dev[i]; i++) {
++		e_dev->err_info = e_info->err_info;
++		e_dev->dev = e_info->dev[i];
++
++		/*
++		 * Store the AER register information for each error device on
++		 * the queue
++		 */
++		if (aer_get_device_error_info(e_dev->dev, &e_dev->err_info)) {
++			if (!kfifo_put(&rpc->aer_fifo, *e_dev))
++				return false;
++
++			clear_error_source_aer_registers(e_dev->dev, e_dev->err_info);
++		}
+ 	}
++
++	return true;
+ }
+ 
+ /**
+@@ -1170,13 +1242,13 @@ static irqreturn_t aer_isr(int irq, void *context)
+ {
+ 	struct pcie_device *dev = (struct pcie_device *)context;
+ 	struct aer_rpc *rpc = get_service_data(dev);
+-	struct aer_err_source e_src;
++	struct aer_dev_err_info e_dev;
+ 
+ 	if (kfifo_is_empty(&rpc->aer_fifo))
+ 		return IRQ_NONE;
+ 
+-	while (kfifo_get(&rpc->aer_fifo, &e_src))
+-		aer_isr_one_error(rpc, &e_src);
++	while (kfifo_get(&rpc->aer_fifo, &e_dev))
++		aer_isr_one_error(rpc->rpd, &e_dev);
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -1194,6 +1266,11 @@ static irqreturn_t aer_irq(int irq, void *context)
+ 	struct pci_dev *rp = rpc->rpd;
+ 	int aer = rp->aer_cap;
+ 	struct aer_err_source e_src = {};
++	struct aer_devices_err_info *e_info;
++
++	e_info = kzalloc(sizeof(*e_info), GFP_ATOMIC);
++	if (!e_info)
++		return IRQ_NONE;
+ 
+ 	pci_read_config_dword(rp, aer + PCI_ERR_ROOT_STATUS, &e_src.status);
+ 	if (!(e_src.status & (PCI_ERR_ROOT_UNCOR_RCV|PCI_ERR_ROOT_COR_RCV)))
+@@ -1202,8 +1279,26 @@ static irqreturn_t aer_irq(int irq, void *context)
+ 	pci_read_config_dword(rp, aer + PCI_ERR_ROOT_ERR_SRC, &e_src.id);
+ 	pci_write_config_dword(rp, aer + PCI_ERR_ROOT_STATUS, e_src.status);
+ 
+-	if (!kfifo_put(&rpc->aer_fifo, e_src))
+-		return IRQ_HANDLED;
++	pci_rootport_aer_stats_incr(rp, &e_src);
++
++	/*
++	 * There is a possibility that both correctable error and
++	 * uncorrectable error are being logged. Find the devices which caused
++	 * correctable errors first so that they can be added to the queue first
++	 * and will be reported first.
++	 *
++	 * Before adding the error device to the queue to be handled, clear the
++	 * AER status registers.
++	 */
++	if (aer_find_corr_error_source_device(rp, &e_src, e_info)) {
++		if (!aer_add_err_devices_to_queue(rpc, e_info))
++			return IRQ_NONE;
++	}
++
++	if (aer_find_uncorr_error_source_device(rp, &e_src, e_info)) {
++		if (!aer_add_err_devices_to_queue(rpc, e_info))
++			return IRQ_NONE;
++	}
+ 
+ 	return IRQ_WAKE_THREAD;
+ }
 -- 
 2.25.1
 
