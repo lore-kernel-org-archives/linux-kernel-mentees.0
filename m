@@ -2,91 +2,89 @@ Return-Path: <SRS0=ogCp=OY=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 423D8C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:02:13 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA317C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:02:25 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D62F060F9E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:02:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D62F060F9E
+	by mail.kernel.org (Postfix) with ESMTPS id A569960FBF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  4 Oct 2021 18:02:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A569960FBF
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A9F67404F4;
-	Mon,  4 Oct 2021 18:02:12 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7BD1D40463;
+	Mon,  4 Oct 2021 18:02:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GjiAHlBAUl6Q; Mon,  4 Oct 2021 18:02:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D43B34044B;
-	Mon,  4 Oct 2021 18:02:11 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FofA8KlKwf7J; Mon,  4 Oct 2021 18:02:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 64CEB40018;
+	Mon,  4 Oct 2021 18:02:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BECBC0011;
-	Mon,  4 Oct 2021 18:02:08 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8346DC000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 510FDC0011;
+	Mon,  4 Oct 2021 18:02:24 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AB5ADC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:02:06 +0000 (UTC)
+ Mon,  4 Oct 2021 18:02:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 73896405C1
+ by smtp2.osuosl.org (Postfix) with ESMTP id 99C584028E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:02:06 +0000 (UTC)
+ Mon,  4 Oct 2021 18:02:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3zWJGW4GfA8G
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id I4EdBeZQEvL0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:02:05 +0000 (UTC)
+ Mon,  4 Oct 2021 18:02:21 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
- [IPv6:2607:f8b0:4864:20::52f])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E5B464055A
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id BD41540018
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  4 Oct 2021 18:02:05 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id s11so17308785pgr.11
+ Mon,  4 Oct 2021 18:02:21 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id 187so10795824pfc.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 04 Oct 2021 11:02:05 -0700 (PDT)
+ Mon, 04 Oct 2021 11:02:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gPh5qiPFI3S0XIvBtJdJh517PYOVsE4NLDG4oIGpMoo=;
- b=mzYG7nKQV4n2HxRXM9fB7rETP3sJkX4/Rn82nC53JPOMhlckHng8L/wMMqqYreUoVU
- 1q0yC+5vomo21R4lPjPJCW6sO3brNvQ5NmyQ7oSHweT1yCJ5zDn2fwH+v4osk9SIqI/b
- F64BEgmapf4JRVbxncKTSykF2ePnFj806kvrXZ5IZpw9pmpuxPq0jR65C+tcAi3wXKGx
- ra3gpTCW0HCK5Cyuyucs/yCDjdojuIeSMYc6X6ZGG9rZSEHpoVVEuM/CuD22yHO2i3tH
- +wX7xYaYDFO54xAJwJ2DCy+4YQro7wCRvKBqJiERX8FnrZt+qkx/nVbgMV+JMuzUM31u
- WFsA==
+ bh=KXqbMrl5ji7P3WLEqvYvyx/g2tHqF5Pvsy98EpcbEmA=;
+ b=dK+/OiASR7/FhhaAZ1YS1MI0vNDY5l52Cxz3No+1sg7HRJnIdcgAq2YwESOyPBn6U2
+ ylQrlDPi0zET4PEkuZZaCD2aMFfQFJd5zq6AkC0uFi2S2rmimoy07cpRoQDo08+j3TlM
+ mm82LwXdWRtUirmQLHAQH5mBG4+PmSS85QwdWqcPmhfkFCN/BNttISWbcw9IBCdZK339
+ /ZZSwBhc414AE9lM7y7WmavuWwWVzavo+q3xY267R/GbDxwoAsITSos7CCXOGaq/BVj6
+ IPbA+CMtTg7ClhaFo/okYXOLZ8iemQ8vLlIPKr3K54As7GRT2CBtzx3b8o6HhtlMgguf
+ rAgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gPh5qiPFI3S0XIvBtJdJh517PYOVsE4NLDG4oIGpMoo=;
- b=XvlD/Qc3NbgDuTbxchPbm3UAc/KV+L96DRDhWGiUCMcqJ4mdGrSjivkgneIbH8IzmI
- hgydpEcgUMWq83zzf4BUww3JXTZfkCp5yK4O+Y9eKA8azupHBwcqHgVRQm+sPauKMDHN
- xTnqzTzb8GdGXp4HtQXmjDPaAAU669JmO9sQRZta4SHznwBUXMaaGXtuFOwI2csraRe8
- 0UmNdBhO+PgJcUiTNtzH7OwrxuKCffxpzbsGzAMSQKyNrMc4T4UZaSGl+CCMmpCIN4Dv
- xf0VbznskNHRaF2+8tq+i4UWiQn0Ho8BB81cHBRey6MT5l8lIY/4NXmlhnUfbZMIZRjB
- qnGA==
-X-Gm-Message-State: AOAM530gImDffG8W7SOo6suSMwkIeax63uzbfy6yo89B2DRwCFtmJzWK
- 4pf7Oda7NaeTDYLFEPihaj4=
-X-Google-Smtp-Source: ABdhPJzerTveTTqnmsEBHMgmpX4JByTTvA8Nw57fjbDy07nms6vrNcoekHMr7OeeNEK5XeDdbB4wQw==
-X-Received: by 2002:a05:6a00:1789:b0:43d:ea98:7ea8 with SMTP id
- s9-20020a056a00178900b0043dea987ea8mr27393301pfg.67.1633370525385; 
- Mon, 04 Oct 2021 11:02:05 -0700 (PDT)
+ bh=KXqbMrl5ji7P3WLEqvYvyx/g2tHqF5Pvsy98EpcbEmA=;
+ b=mAgkyBcw3QtFjMBdpFR6N1FTFunwoaqpPIrz+9b+gV+tEMpMlpyEIZJqdvcmTZRiJb
+ R4/67W06JNNj241p6QIy496J9ClJxvet9yQ8JP6pWDtk2CsdTOWFP875pqyFyKhhBhpS
+ I/asp3KdwjTgbr+4UqH2Q/8qCqAq4dkmazQX/of8StVI7LqgEPsTa7elHhRRvtCzJZaJ
+ eNtMg+ke59O4yrX1sKRkFy8mudMECo9QrdWg6Y1wX9ybiElLMHzcHzRmfiYDow7t3vrz
+ VzjMBxD3aAYXQjZ3+oWi6THJdW4rx/PxcOMGB2qBXOwfSX24LrZyq9CTxADjg3upPgol
+ sqvg==
+X-Gm-Message-State: AOAM530aaiIhc8MuEOSW76VZH3UUVG919zc3zCOVPYdTJn0jnOLsbHiy
+ 2Rk/KjyIuq6B6yY/ceUfYw8=
+X-Google-Smtp-Source: ABdhPJzbBvEjkhQa/NIXLQN94nJSDDapaLKAaUE41cWvqwkMormTval0zeWCNCkCWwbjm9h9m6LR6Q==
+X-Received: by 2002:a65:44c4:: with SMTP id g4mr12117582pgs.254.1633370541031; 
+ Mon, 04 Oct 2021 11:02:21 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:e8f0:c2a7:3579:5fe8:31d9])
  by smtp.gmail.com with ESMTPSA id
- z2sm3641004pfe.210.2021.10.04.11.02.02
+ z2sm3641004pfe.210.2021.10.04.11.02.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 11:02:05 -0700 (PDT)
+ Mon, 04 Oct 2021 11:02:20 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com,
 	tsbogend@alpha.franken.de
-Subject: [PATCH 3/6] MIPS: OCTEON: Remove redundant enable of PCIe normal
- error reporting
-Date: Mon,  4 Oct 2021 23:29:29 +0530
-Message-Id: <b7eb2cae4f81648a8df5885d5d5f7371a6c436e2.1633369560.git.naveennaidu479@gmail.com>
+Subject: [PATCH 4/6] MIPS: OCTEON: Remove redundant enable of COR/UNCOR error
+Date: Mon,  4 Oct 2021 23:29:30 +0530
+Message-Id: <ba79bae65a1955cd7f7e005f352b1b32799a1781.1633369560.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633369560.git.naveennaidu479@gmail.com>
 References: <cover.1633369560.git.naveennaidu479@gmail.com>
@@ -114,35 +112,42 @@ e8635b484f64 ("MIPS: Add Cavium OCTEON PCI support.") added MIPS
 specific code to enable PCIe and AER error reporting (*irrespective
 of CONFIG_PCIEAER value*) because PCI core didn't do that at the time.
 
-Currently when CONFIG_PCIEAER=y, the PCIe normal error reporting is
-enabled by pci_enable_pcie_error_reporting() in the aer_probe() path.
+Currently when CONFIG_PCIEAER=y, correctable/uncorrectable errors
+are enabled by set_device_error_reporting() in the aer_probe()
+path.
 
-It is now no longer necessary for Octeon code to enable PCIe normal
-error since it's done when PCIe bus loads the AER service driver.
+It is now no longer necessary for Octeon code to enable PCIe COR/UNCOR
+errors since it's done when PCIe bus loads the AER service driver.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- arch/mips/pci/pci-octeon.c | 7 -------
- 1 file changed, 7 deletions(-)
+ arch/mips/pci/pci-octeon.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/arch/mips/pci/pci-octeon.c b/arch/mips/pci/pci-octeon.c
-index 8e8b282226cc..2c251018075c 100644
+index 2c251018075c..a82cf48f00ab 100644
 --- a/arch/mips/pci/pci-octeon.c
 +++ b/arch/mips/pci/pci-octeon.c
-@@ -114,13 +114,6 @@ int pcibios_plat_dev_init(struct pci_dev *dev)
- 		pci_write_config_word(dev, PCI_BRIDGE_CONTROL, config);
- 	}
- 
--	/* Enable the PCIe normal error reporting */
--	config = PCI_EXP_DEVCTL_CERE; /* Correctable Error Reporting */
--	config |= PCI_EXP_DEVCTL_NFERE; /* Non-Fatal Error Reporting */
--	config |= PCI_EXP_DEVCTL_FERE;	/* Fatal Error Reporting */
--	config |= PCI_EXP_DEVCTL_URRE;	/* Unsupported Request */
--	pcie_capability_set_word(dev, PCI_EXP_DEVCTL, config);
--
+@@ -117,18 +117,13 @@ int pcibios_plat_dev_init(struct pci_dev *dev)
  	/* Find the Advanced Error Reporting capability */
  	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ERR);
  	if (pos) {
+-		/* Enable reporting of all uncorrectable errors */
+-		/* Uncorrectable Error Mask - turned on bits disable errors */
+-		pci_write_config_dword(dev, pos + PCI_ERR_UNCOR_MASK, 0);
+ 		/*
+ 		 * Leave severity at HW default. This only controls if
+ 		 * errors are reported as uncorrectable or
+ 		 * correctable, not if the error is reported.
+ 		 */
+ 		/* PCI_ERR_UNCOR_SEVER - Uncorrectable Error Severity */
+-		/* Enable reporting of all correctable errors */
+-		/* Correctable Error Mask - turned on bits disable errors */
+-		pci_write_config_dword(dev, pos + PCI_ERR_COR_MASK, 0);
++
+ 		/* Advanced Error Capabilities */
+ 		pci_read_config_dword(dev, pos + PCI_ERR_CAP, &dconfig);
+ 		/* ECRC Generation Enable */
 -- 
 2.25.1
 
