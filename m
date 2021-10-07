@@ -1,98 +1,99 @@
-Return-Path: <SRS0=dZTT=OZ=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=1ou+=O3=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2864C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Oct 2021 17:21:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED680C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Oct 2021 19:04:32 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 83758610FC
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  5 Oct 2021 17:21:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 83758610FC
+	by mail.kernel.org (Postfix) with ESMTPS id 94D106101E
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Oct 2021 19:04:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 94D106101E
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5DC4F60C1C;
-	Tue,  5 Oct 2021 17:21:39 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 682D4607CF;
+	Thu,  7 Oct 2021 19:04:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5gAtfgwCuBYt; Tue,  5 Oct 2021 17:21:38 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id DD63760C0B;
-	Tue,  5 Oct 2021 17:21:37 +0000 (UTC)
+	with ESMTP id FkrLnpfAvhYu; Thu,  7 Oct 2021 19:04:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9BBF36071A;
+	Thu,  7 Oct 2021 19:04:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BDA21C000F;
-	Tue,  5 Oct 2021 17:21:37 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC836C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 82A53C0011;
+	Thu,  7 Oct 2021 19:04:31 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 005A3C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Oct 2021 17:21:36 +0000 (UTC)
+ Thu,  7 Oct 2021 19:04:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9C45560C1C
+ by smtp1.osuosl.org (Postfix) with ESMTP id D597C84054
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Oct 2021 17:21:36 +0000 (UTC)
+ Thu,  7 Oct 2021 19:04:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n9F7VqO2jZQk
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FeUPcAc8c8cG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Oct 2021 17:21:33 +0000 (UTC)
+ Thu,  7 Oct 2021 19:04:29 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
- [IPv6:2607:f8b0:4864:20::52d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1BE3160C0B
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id AF5FC84015
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  5 Oct 2021 17:21:33 +0000 (UTC)
-Received: by mail-pg1-x52d.google.com with SMTP id r201so7409pgr.4
+ Thu,  7 Oct 2021 19:04:29 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id q201so681538pgq.12
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 05 Oct 2021 10:21:33 -0700 (PDT)
+ Thu, 07 Oct 2021 12:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8KHMqaM1V3DuTRnE2HWYRtLECuoot+YO1EBfUwWqTQQ=;
- b=psgJCp6X1yB83VVSO7eBoBiGgR2hLAh9hXsh/pvHeYNpO9ILUMqx8zmygPefPR++LN
- 37nY1zg6A1xjUPlJ4ST/RxSfmI6+pYI1rVL23SNpOWJ8ThgLh+AiKfCRzcmNb/5SEFMx
- nSe55aFdaSygqdPMdu6mDZHknajlF/MtETA9yH6qhuAcmxm36cLFcFxVIOjmAs9lKvkb
- XdzLP5cPIFdFqOdbM+QP4834U/fjH2M0vu9VcBmH/8OHg7Ut4gsuW9gxQrWE55B5C41D
- LeKDmyRn1H3w/vD45HFVJRREhj+Rjv1xDZuqXwzx9K8xKV8DvlIMt+PrL2yhw8rmApiH
- LqWQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mOdDUK0yJ3uQFwhSQJDO4d6YpI2NOJDULvWFd8/xqZY=;
+ b=GkoBh4jHzExfAoI2V8vm59ZJ5Z9aLcMgolxvOnW+rm8JECz817t83MuEYgfDe+lAyt
+ C0whHGQ30eX0BFyj3sJl78AdyrJ8TUpzVm0aQ8bUxFiPONoDDuKqAHDGpeLdvrauipRb
+ S3Ex+eKYknMsL8syMwQAmPnaoWsy7e9RYMj+d4j9MNZaB2tr4bou3joYgY8AA6MNiCz9
+ lazUxjvJw2Qu3t8WdglF9pD6U/uQdYSp/uW53VD9AGkV6Ez9BQvGwqWn+2wUcNMY5M/l
+ Paz0/ivEX7NJZ5jwhRY+X5frNsX6Azdz9ohkPk+Uja9RyC0zjJQu7hUBPwf1jnebmZL+
+ Ug3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=8KHMqaM1V3DuTRnE2HWYRtLECuoot+YO1EBfUwWqTQQ=;
- b=KYBRY1zHK5hgOPa29+K4z7Ht27GSXG36XuyCQ+1d/GuhkvHS84NyCGtBpm5Jt8gYMv
- 7gh5DoXvC0yBYIA0cxAg1vaq/TNl3JYmIya1OtSrjVgjILl7P6b43JoBNTfB7n4zJOWb
- iK92Hl1CQNywumM3zhL1S9CKNvN+7H9FAABVHzmt3jLGaEXSn6wGI0HyH9HazIvciiyB
- EiobX6PmZf9UuVXJiqwLl+7fUBmWKKQahHLNqEXAAJA/Bga6QifIPWtSLzQNmGaSgwTA
- glxCLBJVkPsCEQo9piKUU04JFbS5n56Vu5Y9HDiptjOnXtBnmStQs+1B9rzGHRoytF0l
- 7gUg==
-X-Gm-Message-State: AOAM530FWEgpadeL+UyysBWjIdrv123iLSCNSXohEhHnQnehOL8m3LMY
- jK+0/fZr4xHo/fs2pe5KJzA=
-X-Google-Smtp-Source: ABdhPJyXbn7O+swbM9D8yH4827BLXqU74mQatvY986DG0V0KKiyfLQiRw50GqimEA4wIGTeafWQ/3g==
-X-Received: by 2002:aa7:9e9a:0:b0:447:a1be:ee48 with SMTP id
- p26-20020aa79e9a000000b00447a1beee48mr32003271pfq.48.1633454492516; 
- Tue, 05 Oct 2021 10:21:32 -0700 (PDT)
-Received: from localhost.localdomain ([2406:7400:63:f69:1127:b4ce:ef67:b718])
- by smtp.gmail.com with ESMTPSA id
- f25sm18476722pge.7.2021.10.05.10.21.29
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mOdDUK0yJ3uQFwhSQJDO4d6YpI2NOJDULvWFd8/xqZY=;
+ b=QwadxSDUbC17FDB9lLQRPGQ4q1TSRPyTGKdlyVnBMn5cNPubiOexDgHOHKbFiaKLgf
+ AgHnXUz40YinPDrmA/O5Yiqf/5fVXkMWWtKW3XkFKEE9dfr0PlAfnWN1bkxKowtU3Brf
+ O1DfxpkSz0qod+MKIUaMmbI6iyEwxirzzcO9fWw6NcobMpt8kzgE12gz061zihLuraom
+ TX6gm3tAGcooevEoaSpPuKW64XIhpTGeTeLt9wEgX/a0WJSz1Re6ixC0GLrtJMGdkQz0
+ hTlyV9DAlF5Dp9N93g0AQs1vATq++oBOPGXpfVeB/6/auWkpiifqRbZ4rf9X6XiiVvlY
+ ZGug==
+X-Gm-Message-State: AOAM530Y/O+Bkn7wv9bS9KcKYqrbq97c7ioOrZVGb/nk77lvCnhEX34i
+ 2CEk4ALbfadP88c7fbrrBpU=
+X-Google-Smtp-Source: ABdhPJy4Z/2SFAtOCnw2xD5a1CT70zeopUGODXNuEOeu0pDOEGOOfA3IR+mf/iA/Rq6Zd2KlPDwvsg==
+X-Received: by 2002:a63:2b8c:: with SMTP id r134mr1049130pgr.420.1633633469149; 
+ Thu, 07 Oct 2021 12:04:29 -0700 (PDT)
+Received: from localhost.localdomain (bb42-60-144-185.singnet.com.sg.
+ [42.60.144.185])
+ by smtp.gmail.com with ESMTPSA id k190sm164396pfd.211.2021.10.07.12.04.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 10:21:32 -0700 (PDT)
-From: Naveen Naidu <naveennaidu479@gmail.com>
-To: bhelgaas@google.com,
-	ruscur@russell.cc,
-	oohall@gmail.com
-Subject: [PATCH v4 8/8] PCI/AER: Include DEVCTL in aer_print_error()
-Date: Tue,  5 Oct 2021 22:48:16 +0530
-Message-Id: <18cad894ac3210af806104b3b4fa6a8cf1554ac8.1633453452.git.naveennaidu479@gmail.com>
+ Thu, 07 Oct 2021 12:04:28 -0700 (PDT)
+From: Nguyen Dinh Phi <phind.uet@gmail.com>
+To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
+ davem@davemloft.net, kuba@kernel.org
+Subject: [PATCH] Bluetooth: hci_sock: purge socket queues in the destruct()
+ callback
+Date: Fri,  8 Oct 2021 03:04:24 +0800
+Message-Id: <20211007190424.196281-1-phind.uet@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1633453452.git.naveennaidu479@gmail.com>
-References: <cover.1633453452.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-bluetooth@vger.kernel.org,
+ syzbot+4c4ffd1e1094dae61035@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,63 +111,56 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Print the contents of Device Control Register of the device which
-detected the error. This might help in faster error diagnosis.
+The receive path may take the socket right before hci_sock_release(),
+but it may enqueue the packets to the socket queues after the call to
+skb_queue_purge(), therefore the socket can be destroyed without clear
+its queues completely.
 
-Sample output from dummy error injected by aer-inject:
+Moving these skb_queue_purge() to the hci_sock_destruct() will fix this
+issue, because nothing is referencing the socket at this point.
 
-  pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03.0
-  pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver)
-  pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000, devctl=0x000f <-- devctl added to the error log
-  pcieport 0000:00:03.0:    [ 6] BadTLP
-
-Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
+Reported-by: syzbot+4c4ffd1e1094dae61035@syzkaller.appspotmail.com
 ---
- drivers/pci/pci.h      |  2 ++
- drivers/pci/pcie/aer.c | 10 ++++++++--
- 2 files changed, 10 insertions(+), 2 deletions(-)
+ net/bluetooth/hci_sock.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index eb88d8bfeaf7..48ed7f91113b 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -437,6 +437,8 @@ struct aer_err_info {
- 	u32 status;		/* COR/UNCOR Error Status */
- 	u32 mask;		/* COR/UNCOR Error Mask */
- 	struct aer_header_log_regs tlp;	/* TLP Header */
+diff --git a/net/bluetooth/hci_sock.c b/net/bluetooth/hci_sock.c
+index d0dad1fafe07..446573a12571 100644
+--- a/net/bluetooth/hci_sock.c
++++ b/net/bluetooth/hci_sock.c
+@@ -889,10 +889,6 @@ static int hci_sock_release(struct socket *sock)
+ 	}
+ 
+ 	sock_orphan(sk);
+-
+-	skb_queue_purge(&sk->sk_receive_queue);
+-	skb_queue_purge(&sk->sk_write_queue);
+-
+ 	release_sock(sk);
+ 	sock_put(sk);
+ 	return 0;
+@@ -2058,6 +2054,12 @@ static int hci_sock_getsockopt(struct socket *sock, int level, int optname,
+ 	return err;
+ }
+ 
++static void hci_sock_destruct(struct sock *sk)
++{
++	skb_queue_purge(&sk->sk_receive_queue);
++	skb_queue_purge(&sk->sk_write_queue);
++}
 +
-+	u16 devctl;
- };
+ static const struct proto_ops hci_sock_ops = {
+ 	.family		= PF_BLUETOOTH,
+ 	.owner		= THIS_MODULE,
+@@ -2111,6 +2113,7 @@ static int hci_sock_create(struct net *net, struct socket *sock, int protocol,
  
- /* Preliminary AER error information processed from Root port */
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index d3937f5384e4..fdeef9deb016 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -729,8 +729,8 @@ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info)
- 		   aer_error_severity_string[info->severity],
- 		   aer_error_layer[layer], aer_agent_string[agent]);
+ 	sock->state = SS_UNCONNECTED;
+ 	sk->sk_state = BT_OPEN;
++	sk->sk_destruct = hci_sock_destruct;
  
--	pci_printk(level, dev, "  device [%04x:%04x] error status/mask=%08x/%08x\n",
--		   dev->vendor, dev->device, info->status, info->mask);
-+	pci_printk(level, dev, "  device [%04x:%04x] error status/mask=%08x/%08x, devctl=%#06x\n",
-+		   dev->vendor, dev->device, info->status, info->mask, info->devctl);
- 
- 	__aer_print_error(dev, info);
- 
-@@ -1083,6 +1083,12 @@ int aer_get_device_error_info(struct pci_dev *dev, struct aer_err_info *info)
- 	if (!aer)
- 		return 0;
- 
-+	/*
-+	 * Cache the value of Device Control Register now, because later the
-+	 * device might not be available
-+	 */
-+	pcie_capability_read_word(dev, PCI_EXP_DEVCTL, &info->devctl);
-+
- 	if (info->severity == AER_CORRECTABLE) {
- 		pci_read_config_dword(dev, aer + PCI_ERR_COR_STATUS,
- 			&info->status);
+ 	bt_sock_link(&hci_sk_list, sk);
+ 	return 0;
 -- 
 2.25.1
 
