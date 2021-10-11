@@ -1,99 +1,98 @@
-Return-Path: <SRS0=1ou+=O3=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=rOi/=O7=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED680C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Oct 2021 19:04:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BDBC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 17:36:26 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 94D106101E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Oct 2021 19:04:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 94D106101E
+	by mail.kernel.org (Postfix) with ESMTPS id B289A60E78
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 17:36:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B289A60E78
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 682D4607CF;
-	Thu,  7 Oct 2021 19:04:32 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 80B8540298;
+	Mon, 11 Oct 2021 17:36:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FkrLnpfAvhYu; Thu,  7 Oct 2021 19:04:31 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yznVLmhZBFr6; Mon, 11 Oct 2021 17:36:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9BBF36071A;
-	Thu,  7 Oct 2021 19:04:31 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4BA6540299;
+	Mon, 11 Oct 2021 17:36:24 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 82A53C0011;
-	Thu,  7 Oct 2021 19:04:31 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 005A3C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2A3B1C000F;
+	Mon, 11 Oct 2021 17:36:24 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5DBEAC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Oct 2021 19:04:30 +0000 (UTC)
+ Mon, 11 Oct 2021 17:36:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D597C84054
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4BBE840299
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Oct 2021 19:04:30 +0000 (UTC)
+ Mon, 11 Oct 2021 17:36:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FeUPcAc8c8cG
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7f8hWzZWqCwh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Oct 2021 19:04:29 +0000 (UTC)
+ Mon, 11 Oct 2021 17:36:22 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by smtp1.osuosl.org (Postfix) with ESMTPS id AF5FC84015
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1E24D40298
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Oct 2021 19:04:29 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id q201so681538pgq.12
+ Mon, 11 Oct 2021 17:36:22 +0000 (UTC)
+Received: by mail-pl1-x62c.google.com with SMTP id n11so11393023plf.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 07 Oct 2021 12:04:29 -0700 (PDT)
+ Mon, 11 Oct 2021 10:36:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mOdDUK0yJ3uQFwhSQJDO4d6YpI2NOJDULvWFd8/xqZY=;
- b=GkoBh4jHzExfAoI2V8vm59ZJ5Z9aLcMgolxvOnW+rm8JECz817t83MuEYgfDe+lAyt
- C0whHGQ30eX0BFyj3sJl78AdyrJ8TUpzVm0aQ8bUxFiPONoDDuKqAHDGpeLdvrauipRb
- S3Ex+eKYknMsL8syMwQAmPnaoWsy7e9RYMj+d4j9MNZaB2tr4bou3joYgY8AA6MNiCz9
- lazUxjvJw2Qu3t8WdglF9pD6U/uQdYSp/uW53VD9AGkV6Ez9BQvGwqWn+2wUcNMY5M/l
- Paz0/ivEX7NJZ5jwhRY+X5frNsX6Azdz9ohkPk+Uja9RyC0zjJQu7hUBPwf1jnebmZL+
- Ug3Q==
+ bh=oJzzZJUwpzeKQJlZIVOTzoqmYp8CWlcv3F3YYYU8MOg=;
+ b=UQY5fuaeniwoPT/xwHQ3Ao7FeWJFVAhorTY5szyrGdLOGVxLcMbAyI4cuBXif1/HZV
+ /PdEKOkP4XWO0c1FKucvGnQLn0BCRsberthTXZxRsm1u3v89wk2oZ3zOnqs9s4ya43NQ
+ XWiezH28+9l/P3xR5zTpFmo1T95D98vsV/3nNl6990Qagg8v+WrADDXJx/HGiSOFn4hX
+ 5XoI5q9TiV72vLFs2lDVIeFnusAPqBeanD8oUQ+lBrDxUns/MCcRe2AdoX2SLgHAI4o/
+ QqyEPf7f9Stid6ShIEinzes0Ri61q601MnMDe/BaR+6QaqRYYe4anDzLKd7yAt8ZQLMR
+ cfzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mOdDUK0yJ3uQFwhSQJDO4d6YpI2NOJDULvWFd8/xqZY=;
- b=QwadxSDUbC17FDB9lLQRPGQ4q1TSRPyTGKdlyVnBMn5cNPubiOexDgHOHKbFiaKLgf
- AgHnXUz40YinPDrmA/O5Yiqf/5fVXkMWWtKW3XkFKEE9dfr0PlAfnWN1bkxKowtU3Brf
- O1DfxpkSz0qod+MKIUaMmbI6iyEwxirzzcO9fWw6NcobMpt8kzgE12gz061zihLuraom
- TX6gm3tAGcooevEoaSpPuKW64XIhpTGeTeLt9wEgX/a0WJSz1Re6ixC0GLrtJMGdkQz0
- hTlyV9DAlF5Dp9N93g0AQs1vATq++oBOPGXpfVeB/6/auWkpiifqRbZ4rf9X6XiiVvlY
- ZGug==
-X-Gm-Message-State: AOAM530Y/O+Bkn7wv9bS9KcKYqrbq97c7ioOrZVGb/nk77lvCnhEX34i
- 2CEk4ALbfadP88c7fbrrBpU=
-X-Google-Smtp-Source: ABdhPJy4Z/2SFAtOCnw2xD5a1CT70zeopUGODXNuEOeu0pDOEGOOfA3IR+mf/iA/Rq6Zd2KlPDwvsg==
-X-Received: by 2002:a63:2b8c:: with SMTP id r134mr1049130pgr.420.1633633469149; 
- Thu, 07 Oct 2021 12:04:29 -0700 (PDT)
-Received: from localhost.localdomain (bb42-60-144-185.singnet.com.sg.
- [42.60.144.185])
- by smtp.gmail.com with ESMTPSA id k190sm164396pfd.211.2021.10.07.12.04.26
+ bh=oJzzZJUwpzeKQJlZIVOTzoqmYp8CWlcv3F3YYYU8MOg=;
+ b=3esXiSlsrLO4CsUIt7VYK7GHOvPkrLarYSeXJ1bxYsGppxGL/j4VQ7jjxDYlFHZbG6
+ 3l8U+g6kovPTVa1q8fFplakRcsOjMABBwfkTYshDqR6s/lzuk655Z8qZtEkv7PdwXkfv
+ OzruKfntPa0VSkG/PklzOEszQ8q/rs39DIyTegzTuL3KscH0yEPSZcBz5cnpOCpqC80H
+ p5NaQPSbWAqErzb48u+fdVulLh6gga1Eap+Mi0KKdslBMc8LF4LupcZ6hFQR+sR/slfb
+ ouM2ymTMh9gidRDoyvVy9loCap+nL2t05S8BXy6k3+KhPdkGgJPT5UMjv04PR65ImpoN
+ cJ2g==
+X-Gm-Message-State: AOAM533nJv4CIPf9bLBq8eDyrLZTSVRXQdjEoqj4+8Qeg0oP+T9fGqbi
+ zFgUCJVqlAz28xGPE+yUT/E=
+X-Google-Smtp-Source: ABdhPJxbCg5k83AJkkf7TpRQJrReqilB+qCC+1rDSbSN1M5Qa0bgpA3LMBJFY9nGSbN5K03Q8ex3zQ==
+X-Received: by 2002:a17:90b:1804:: with SMTP id
+ lw4mr354756pjb.174.1633973781406; 
+ Mon, 11 Oct 2021 10:36:21 -0700 (PDT)
+Received: from localhost.localdomain ([2406:7400:63:9f95:848b:7cc8:d852:ad42])
+ by smtp.gmail.com with ESMTPSA id
+ z8sm8859954pgc.53.2021.10.11.10.36.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 12:04:28 -0700 (PDT)
-From: Nguyen Dinh Phi <phind.uet@gmail.com>
-To: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
- davem@davemloft.net, kuba@kernel.org
-Subject: [PATCH] Bluetooth: hci_sock: purge socket queues in the destruct()
- callback
-Date: Fri,  8 Oct 2021 03:04:24 +0800
-Message-Id: <20211007190424.196281-1-phind.uet@gmail.com>
+ Mon, 11 Oct 2021 10:36:20 -0700 (PDT)
+From: Naveen Naidu <naveennaidu479@gmail.com>
+To: bhelgaas@google.com
+Subject: [PATCH 00/22] PCI: Unify PCI error response checking
+Date: Mon, 11 Oct 2021 23:05:47 +0530
+Message-Id: <cover.1633972263.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-bluetooth@vger.kernel.org,
- syzbot+4c4ffd1e1094dae61035@syzkaller.appspotmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-mediatek@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,56 +110,86 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The receive path may take the socket right before hci_sock_release(),
-but it may enqueue the packets to the socket queues after the call to
-skb_queue_purge(), therefore the socket can be destroyed without clear
-its queues completely.
+An MMIO read from a PCI device that doesn't exist or doesn't respond
+causes a PCI error.  There's no real data to return to satisfy the 
+CPU read, so most hardware fabricates ~0 data.
 
-Moving these skb_queue_purge() to the hci_sock_destruct() will fix this
-issue, because nothing is referencing the socket at this point.
+This patch series adds PCI_ERROR_RESPONSE definition and other helper
+defintion SET_PCI_ERROR_RESPONSE and RESPONSE_IS_PCI_ERROR and uses it
+where appropriate to make these checks consistent and easier to find.
 
-Signed-off-by: Nguyen Dinh Phi <phind.uet@gmail.com>
-Reported-by: syzbot+4c4ffd1e1094dae61035@syzkaller.appspotmail.com
----
- net/bluetooth/hci_sock.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+This helps unify PCI error response checking and make error check
+consistent and easier to find.
 
-diff --git a/net/bluetooth/hci_sock.c b/net/bluetooth/hci_sock.c
-index d0dad1fafe07..446573a12571 100644
---- a/net/bluetooth/hci_sock.c
-+++ b/net/bluetooth/hci_sock.c
-@@ -889,10 +889,6 @@ static int hci_sock_release(struct socket *sock)
- 	}
- 
- 	sock_orphan(sk);
--
--	skb_queue_purge(&sk->sk_receive_queue);
--	skb_queue_purge(&sk->sk_write_queue);
--
- 	release_sock(sk);
- 	sock_put(sk);
- 	return 0;
-@@ -2058,6 +2054,12 @@ static int hci_sock_getsockopt(struct socket *sock, int level, int optname,
- 	return err;
- }
- 
-+static void hci_sock_destruct(struct sock *sk)
-+{
-+	skb_queue_purge(&sk->sk_receive_queue);
-+	skb_queue_purge(&sk->sk_write_queue);
-+}
-+
- static const struct proto_ops hci_sock_ops = {
- 	.family		= PF_BLUETOOTH,
- 	.owner		= THIS_MODULE,
-@@ -2111,6 +2113,7 @@ static int hci_sock_create(struct net *net, struct socket *sock, int protocol,
- 
- 	sock->state = SS_UNCONNECTED;
- 	sk->sk_state = BT_OPEN;
-+	sk->sk_destruct = hci_sock_destruct;
- 
- 	bt_sock_link(&hci_sk_list, sk);
- 	return 0;
+Patch 1:
+  - Adds the PCI_ERROR_RESPONSE and other related defintions
+  - All other patches are dependent on this patch. This patch needs to
+    be applied first, before the others
+
+Patch 2 - 13
+  - Uses SET_PCI_ERROR_RESPONSE() when device is not found
+
+Patch 14 - 19
+  - Uses RESPONSE_IS_PCI_ERROR() to check the reads from hardware
+
+Patch 20 - 22
+  - Edits the comments to include PCI_ERROR_RESPONSE alsong with
+    0xFFFFFFFF, so that it becomes easier to grep for faulty hardware
+    reads.
+
+Thanks,
+Naveen
+
+Naveen Naidu (22):
+  [PATCH 1/22] PCI: Add PCI_ERROR_RESPONSE and it's related defintions
+  [PATCH 2/22] PCI: Unify PCI error response checking
+  [PATCH 3/22] PCI: thunder: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 4/22] PCI: iproc: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 5/22] PCI: mediatek: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 6/22] PCI: exynos: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 7/22] PCI: histb: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 8/22] PCI: kirin: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 9/22] PCI: aardvark: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 10/22] PCI: mvebu: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 11/22] PCI: altera: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 12/22] PCI: rcar: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 13/22] PCI: rockchip: Use SET_PCI_ERROR_RESPONSE() when device not found
+  [PATCH 14/22] PCI/ERR: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
+  [PATCH 15/22] PCI: vmd: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
+  [PATCH 16/22] PCI: pciehp: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
+  [PATCH 17/22] PCI/DPC: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
+  [PATCH 18/22] PCI/PME: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
+  [PATCH 19/22] PCI: cpqphp: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
+  [PATCH 20/22] PCI: keystone: Use PCI_ERROR_RESPONSE to specify hardware error
+  [PATCH 21/22] PCI: hv: Use PCI_ERROR_RESPONSE to specify hardware read error
+  [PATCH 22/22] PCI: xgene: Use PCI_ERROR_RESPONSE to specify hardware error
+
+ drivers/pci/access.c                        | 22 ++++++++++-----------
+ drivers/pci/controller/dwc/pci-exynos.c     |  2 +-
+ drivers/pci/controller/dwc/pci-keystone.c   |  4 ++--
+ drivers/pci/controller/dwc/pcie-histb.c     |  2 +-
+ drivers/pci/controller/dwc/pcie-kirin.c     |  2 +-
+ drivers/pci/controller/pci-aardvark.c       |  8 ++++----
+ drivers/pci/controller/pci-hyperv.c         |  2 +-
+ drivers/pci/controller/pci-mvebu.c          |  4 ++--
+ drivers/pci/controller/pci-thunder-ecam.c   | 20 +++++++++----------
+ drivers/pci/controller/pci-thunder-pem.c    |  2 +-
+ drivers/pci/controller/pci-xgene.c          |  8 ++++----
+ drivers/pci/controller/pcie-altera.c        |  2 +-
+ drivers/pci/controller/pcie-iproc.c         |  2 +-
+ drivers/pci/controller/pcie-mediatek.c      |  4 ++--
+ drivers/pci/controller/pcie-rcar-host.c     |  2 +-
+ drivers/pci/controller/pcie-rockchip-host.c |  2 +-
+ drivers/pci/controller/vmd.c                |  2 +-
+ drivers/pci/hotplug/cpqphp_ctrl.c           |  4 ++--
+ drivers/pci/hotplug/pciehp_hpc.c            | 10 +++++-----
+ drivers/pci/pci.c                           | 10 +++++-----
+ drivers/pci/pcie/dpc.c                      |  4 ++--
+ drivers/pci/pcie/pme.c                      |  4 ++--
+ drivers/pci/probe.c                         | 10 +++++-----
+ include/linux/pci.h                         |  9 +++++++++
+ 24 files changed, 75 insertions(+), 66 deletions(-)
+
 -- 
 2.25.1
 
