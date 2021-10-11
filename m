@@ -2,102 +2,104 @@ Return-Path: <SRS0=rOi/=O7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A89A6C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:12:12 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ACB1C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:12:58 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5EE4B603E5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:12:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5EE4B603E5
+	by mail.kernel.org (Postfix) with ESMTPS id 530AE603E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:12:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 530AE603E5
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 32E51401E1;
-	Mon, 11 Oct 2021 18:12:12 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1CB2D80DD6;
+	Mon, 11 Oct 2021 18:12:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BgeQbefCNuze; Mon, 11 Oct 2021 18:12:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 238E840120;
-	Mon, 11 Oct 2021 18:12:11 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uv5V31GPO7WU; Mon, 11 Oct 2021 18:12:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4CF8280C36;
+	Mon, 11 Oct 2021 18:12:57 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0175EC0011;
-	Mon, 11 Oct 2021 18:12:11 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7617BC000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C62AC0011;
+	Mon, 11 Oct 2021 18:12:57 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C3F02C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:12:09 +0000 (UTC)
+ Mon, 11 Oct 2021 18:12:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 646FB4036B
+ by smtp3.osuosl.org (Postfix) with ESMTP id A67216064C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:12:09 +0000 (UTC)
+ Mon, 11 Oct 2021 18:12:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4B0DditZVr3m
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5pA_tnwxUvfa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:12:08 +0000 (UTC)
+ Mon, 11 Oct 2021 18:12:55 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com
- [IPv6:2607:f8b0:4864:20::102d])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5AB9C40221
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2CFB8605D9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:12:08 +0000 (UTC)
-Received: by mail-pj1-x102d.google.com with SMTP id ls18so13846436pjb.3
+ Mon, 11 Oct 2021 18:12:55 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id
+ ls18-20020a17090b351200b001a00250584aso48285pjb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 11:12:08 -0700 (PDT)
+ Mon, 11 Oct 2021 11:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iKrtrnYSDksMWdgmUznUR/Q64gwdi8mvvQO4UVqOm9E=;
- b=NQPnwh11904uP3h5MegadAiUsEzmbr+NUC4xCBkOzr+acrFXxgnv0RNH7jFvtGanJO
- cBm3WB/xAM+YFWw287it0yRRp3GQf9P9YtTaV4emKba4RjNycwNAHbPLJWdbCy6AFboo
- wx1h+1QQEH8pblTlSf2sG1gOLY1347ErCVOeLsziBXFTWdfwacXEtaMZGrm6Cz7cXtIT
- r4fxsDhs6CBh3LMFrMY1esGlZV5A593L2X8rc6D1w3karLOqVBcqPlGU2CxfW4E18HJo
- 8HQOL3ivDL3Zg+gO5ymn8arHG4w8Ls7u5F9UIFzKokeyMim/pCB6kU1GfC0jfHCidAT/
- nIIg==
+ bh=8H47ocDcATCEcdvQX+LbcVgPZyzX/fIx4WAwDOmGCq4=;
+ b=TBkCc9pHdBDkJzoQ0FC/yWxYnR4OikqY+eKeU53n7352DiHr0vwmSh/vKXoS1wPZvR
+ 8bRamtKpp38BYASttA4n588uD8rIpkW+vekDneKTcyMAaTThsAWBndxbrWF3gbd+LQCe
+ GFxJUpYWf9Yh67jy7WL2zHsYn5BIXyOxE1lRQo1TqAygdVW1CT0Lz1tzzmTNkRTiYeLX
+ 3s6ZfhpmvaYmnUQbCrZOcYVSduI7BqrlKiFVQc6LZy+6zVTaLIzlC0lNGlf9u8Pku5pB
+ NwY6cYTdl0rzY+HGy+ZNdvAPPi3TAQ5RJiLYhyAP4isYIsMlZUReN/xHu/z9SlLN3TpC
+ qwng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iKrtrnYSDksMWdgmUznUR/Q64gwdi8mvvQO4UVqOm9E=;
- b=fNzsRH0cPVU9JtfqHmt4W4Pc3Eb8qRug3d+XfU7oMAHx8CREVOGhaPzz0DVU2BIxho
- 1At83XwuKsdoV9wQaCM5IymX7eaG3X/fP+VPr4QOcAeycHeKvTABGYbzBvXGrbwN26V+
- U4p2vpj5IIoAFUDUdYkrku/PoDUFuxLRWKuOlz1DYwcS3UZs/SQ9IHj3Fb69Km0sZhdV
- +9ZeigtgKjBsVvWdHojneIWscMHvfjd87HlQhzezeeJHWijy/wPd5vtFS8h3IEuCuj+L
- RB9uzcUnszIE3qQifodTXlqDtGWcUfIz7i1He825mKaXw19o/TgDVgXSyH0cZYH1QE/V
- Z2SA==
-X-Gm-Message-State: AOAM533PFtxQi4HAfkzJMFFIdkZEE1JJ6cFKTlFk7BaiZCzLvGCTbcwC
- vNtxNO7SEVHjNgFrHTvBKhU=
-X-Google-Smtp-Source: ABdhPJyOTFBZTe7riUZlUFC2nl/siIMfDTnUL5JGaxiyNZmPOd0W33SnqGWyjMYbUnoJELtkDWBwqA==
-X-Received: by 2002:a17:90a:e552:: with SMTP id
- ei18mr518809pjb.239.1633975927732; 
- Mon, 11 Oct 2021 11:12:07 -0700 (PDT)
+ bh=8H47ocDcATCEcdvQX+LbcVgPZyzX/fIx4WAwDOmGCq4=;
+ b=hyZ7+zx1jHg2O7E3Eb2JIj8xWTfON4u4YeQ5wvrC2ond5MeSguf4ZjfqOLEesvVuxH
+ isfnS/UWwOYaFVnrrU0toiiJ5TxxO5lp17gVTksc3dZKko5laso7nCxJbtVOdUSKYbgG
+ oXgwSaTXBzVrrrNzX7dNqIXDBsmkIUT6MWlCzsuK6FZR44bTEjoic6c3LvTqGorL3x9U
+ TZU2nkDvjYnQEuqO7elcaAOFylS/xIkipTl2EvwWCxnwAnyRnQOVe4Erm0MRYzAMEEtb
+ EOxtP/cFJmY35hRA7IrHHPmetXUUuQ62LAhpwaCJU9uIm6E+F7vlVhybrgf56tsbaQwT
+ 5psg==
+X-Gm-Message-State: AOAM531AFer2AqtVtvB7wPMzojQAsrrUttaE3SzZNmsfCDrt4OvVJ2Pu
+ r2aNF6DaY8qlpUBSqAiY06c=
+X-Google-Smtp-Source: ABdhPJywxR2ieilLzVjEYhfnEdYP1CaWQqyEumTzsDZxlruca0FAiHVzU/6Na+NTe1aNaWscFhqH9A==
+X-Received: by 2002:a17:90a:b288:: with SMTP id c8mr538215pjr.67.1633975974593; 
+ Mon, 11 Oct 2021 11:12:54 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:9f95:848b:7cc8:d852:ad42])
  by smtp.gmail.com with ESMTPSA id
- r130sm8508875pfc.89.2021.10.11.11.12.04
+ h12sm392554pja.1.2021.10.11.11.12.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 11:12:07 -0700 (PDT)
+ Mon, 11 Oct 2021 11:12:54 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH 20/22] PCI: keystone: Use PCI_ERROR_RESPONSE to specify
- hardware error
-Date: Mon, 11 Oct 2021 23:41:52 +0530
-Message-Id: <01c86d23327e28ee6d09daa01538f1a12f9e4d11.1633972263.git.naveennaidu479@gmail.com>
+Subject: [PATCH 21/22] PCI: hv: Use PCI_ERROR_RESPONSE to specify hardware
+ read error
+Date: Mon, 11 Oct 2021 23:42:39 +0530
+Message-Id: <04f4c0ad634eb304b31bbbb8eed8a257712dc0f2.1633972263.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633972263.git.naveennaidu479@gmail.com>
 References: <cover.1633972263.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Marc Zyngier <maz@kernel.org>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+Cc: Rob Herring <robh@kernel.org>, Wei Liu <wei.liu@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ "open list:Hyper-V/Azure CORE AND DRIVERS" <linux-hyperv@vger.kernel.org>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jingoo Han <jingoohan1@gmail.com>,
+ linux-pci@vger.kernel.org, Haiyang Zhang <haiyangz@microsoft.com>,
+ Dexuan Cui <decui@microsoft.com>, linux-kernel@vger.kernel.org,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -116,30 +118,28 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Include PCI_ERROR_RESPONSE along with 0xffffffff in the comment to
+Include PCI_ERROR_RESPONSE along with 0xFFFFFFFF in the comment to
 specify a hardware error. This helps finding where MMIO read error
 occurs easier to find.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/dwc/pci-keystone.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/pci/controller/pci-hyperv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
-index 865258d8c53c..25b11610b500 100644
---- a/drivers/pci/controller/dwc/pci-keystone.c
-+++ b/drivers/pci/controller/dwc/pci-keystone.c
-@@ -748,8 +748,8 @@ static int ks_pcie_config_legacy_irq(struct keystone_pcie *ks_pcie)
- #ifdef CONFIG_ARM
- /*
-  * When a PCI device does not exist during config cycles, keystone host gets a
-- * bus error instead of returning 0xffffffff. This handler always returns 0
-- * for this kind of faults.
-+ * bus error instead of returning 0xffffffff (PCI_ERROR_RESPONSE).
-+ * This handler always returns 0 for this kind of faults.
-  */
- static int ks_pcie_fault(unsigned long addr, unsigned int fsr,
- 			 struct pt_regs *regs)
+diff --git a/drivers/pci/controller/pci-hyperv.c b/drivers/pci/controller/pci-hyperv.c
+index 67c46e52c0dc..7e1102e3d7c6 100644
+--- a/drivers/pci/controller/pci-hyperv.c
++++ b/drivers/pci/controller/pci-hyperv.c
+@@ -1774,7 +1774,7 @@ static void prepopulate_bars(struct hv_pcibus_device *hbus)
+ 	 * If the memory enable bit is already set, Hyper-V silently ignores
+ 	 * the below BAR updates, and the related PCI device driver can not
+ 	 * work, because reading from the device register(s) always returns
+-	 * 0xFFFFFFFF.
++	 * 0xFFFFFFFF (PCI_ERROR_RESPONSE).
+ 	 */
+ 	list_for_each_entry(hpdev, &hbus->children, list_entry) {
+ 		_hv_pcifront_read_config(hpdev, PCI_COMMAND, 2, &command);
 -- 
 2.25.1
 
