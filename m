@@ -2,105 +2,104 @@ Return-Path: <SRS0=rOi/=O7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C00EC433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 17:47:16 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DFD3C433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 17:51:42 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0216B60E8B
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 17:47:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0216B60E8B
+	by mail.kernel.org (Postfix) with ESMTPS id 1735960C4A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 17:51:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1735960C4A
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C7D4C80F6F;
-	Mon, 11 Oct 2021 17:47:15 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id CC1B5402C8;
+	Mon, 11 Oct 2021 17:51:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iiKwBDxN7eOL; Mon, 11 Oct 2021 17:47:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0CD4280EF3;
-	Mon, 11 Oct 2021 17:47:14 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E10DFC000F;
-	Mon, 11 Oct 2021 17:47:14 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFF88C000D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 17:47:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 9E32F402C6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 17:47:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Jif7zauzdhib
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Fn0enaNZq54n; Mon, 11 Oct 2021 17:51:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A70B44029E;
+	Mon, 11 Oct 2021 17:51:40 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8463FC000F;
+	Mon, 11 Oct 2021 17:51:40 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E7103C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 17:47:12 +0000 (UTC)
+ Mon, 11 Oct 2021 17:51:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id D566E60899
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 11 Oct 2021 17:51:39 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id B6PfvvTFUBJq
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 11 Oct 2021 17:51:39 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 68CB44029E
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
+ [IPv6:2607:f8b0:4864:20::530])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 567DB6088E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 17:47:12 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id oa4so13101937pjb.2
+ Mon, 11 Oct 2021 17:51:39 +0000 (UTC)
+Received: by mail-pg1-x530.google.com with SMTP id 66so11488922pgc.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 10:47:12 -0700 (PDT)
+ Mon, 11 Oct 2021 10:51:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zxhtuL3HeCmtsqnFNhK74x+usx81ot+S79+zUUitvW0=;
- b=PD6GjrTQM3KCyYIuR3r9KfKJBDMUoyykds5CzWH4OLLp1/gaFDA33/40tedbUytqNs
- C6NA/4F//BIJVTDGSfpoVfnI+Sy0cLXqFyLEeS9emQR5US4Ef/UihfKbAwb6TwV7SZUa
- s1zyFoWYgwEzSCBV1E4l8hJUbSkzs9IE1/H8VwZ7Ygsxm3IV0tjVz3pejMNZsPCjKtXI
- uMzkMWo0th9vtZqV9Wfx+y+U2utQB5dcO3l3iCFp5LeutR/FRvONywzoVEakuMgKRs7Z
- 0OIg+au2Cc2rP3ui4D9HbMR9Cwrg4a3oN/FgcJP+ZjbF6c9OEFXLLKmMaw1OyqZqdau+
- m/Zg==
+ bh=/eCkgBabqgzZMoeU3aBzDcQBc9kpvi2Lrj2FSZUU1HE=;
+ b=YHh9+t/+VTBC4s3ntJ//sJ/3/IIr2caH4VqARETHgUCXzk5AJvktpuzm9dE1uaz8JR
+ xfjTOD7aZUQWRjbKXiGclanTMy8FIrFMav39XmnhURFykou9MBA41/JZBhSM+7F4oHLA
+ SP02gBaRgAi+oh7QRziQfMLDPOty5vvLh/RP3ivWQn6Y2sB6qtOy64EiNbYPGwDrncay
+ C+mDaqnykJqY0eIAz2Iz0OW+V+GdMg/ZeNJtD5NKeLGRVzSxqJEP1uOfrPqA3jU0492d
+ fW5eUzfXmMfoZsHp372XsnmCWx3xGZMWZOUwL0mzcXIQAAPaFvY1njIycCdWRu30XZ95
+ C7iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zxhtuL3HeCmtsqnFNhK74x+usx81ot+S79+zUUitvW0=;
- b=XGND0SPV6WY0qRNRphyijaQR3rgo/Gb0N5/dlf15W/tzsXxWycli3AqIjn4NjUgI3j
- /rLnaNS/EMiHvplVZtHLPoXQjWFiUwoXYdly6E3DzpxfdzUANUpia91owa2rj0vDwneW
- 16ROW0B9z8FmdqrljSZl+MRQ88h++GXwDLf5zgbhnOSi1B1uZaYZb/CywXYtdmcB7Kdr
- QGoBYh23KSW7Up6iMv2hrjOCnE2BVgLiF/fYg5zrj7Hpy4vJVUtpUVkaFsCnbothWb10
- uTKXhLnqQxjwB2/QxnGfvolW55XQ16BdPfAS2zqYxr//uhnAEX1HBm8BH94pHNrjM5k5
- eH3A==
-X-Gm-Message-State: AOAM530XV7wgtJoyRm96LyyStJBcDpXzbnr8X3RAGAZdpsADm4/27YLQ
- 90OlsAKwogfqeBy1Qfnz+Sk=
-X-Google-Smtp-Source: ABdhPJwIuCQK1VwvP8TNFW8MaB2ve+rMxNFXCiuNx3vXpGFnMP0GHInKPnTxQN1MiUFBM+LvNGahcQ==
-X-Received: by 2002:a17:90a:9f8c:: with SMTP id
- o12mr437340pjp.96.1633974431830; 
- Mon, 11 Oct 2021 10:47:11 -0700 (PDT)
+ bh=/eCkgBabqgzZMoeU3aBzDcQBc9kpvi2Lrj2FSZUU1HE=;
+ b=2t0tFqmHdrMdxO6TiyMSIaHI+knO+pA0XVdOentb91CP47wbQ4r9mOkzFfoMf010zE
+ 4HuMjO03SMpQnoXvwhWJ0T6FFKd+eGJpz9IDlgmLVpplsoqWyl0CY5UfYY+JPngxu/b7
+ o+O1JP6K/FikUZqpRXJImAkxx1EIooh4zzkR6KqkaW9nRTmAUalTvZFK7Y65YCPr5gvQ
+ ENpluZUOeUGIjjEuqPjjm0oHTM/+DeBWZGL32y7PseO2ULBcJC76K/hGXzLxZxKIAbFj
+ /bGSkix0YVXgGcCD6krKmdcwmWW1AKuhun4pfAYBDAoNFnvpFrCGyHhiwWKjWt2K3PqL
+ knMQ==
+X-Gm-Message-State: AOAM531ulNQu4i6dt7K2N63Zxrip4baqQnS/3lobX/jPJsPVhCLoihKO
+ cOLMP1vS1dQxfSjA+1eq8ws=
+X-Google-Smtp-Source: ABdhPJyoiL1u1vbuIv3pXSKqdKMc5JLSJ9ySrHxMnxgboUVF/xihVga0exmAZwG6n8zy5S27LTM1tA==
+X-Received: by 2002:aa7:93ca:0:b0:44c:da51:38ac with SMTP id
+ y10-20020aa793ca000000b0044cda5138acmr21437391pff.67.1633974698694; 
+ Mon, 11 Oct 2021 10:51:38 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:9f95:848b:7cc8:d852:ad42])
- by smtp.gmail.com with ESMTPSA id
- m2sm8824461pgd.70.2021.10.11.10.47.07
+ by smtp.gmail.com with ESMTPSA id y6sm124618pjw.2.2021.10.11.10.51.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 10:47:11 -0700 (PDT)
+ Mon, 11 Oct 2021 10:51:38 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH 04/22] PCI: iproc: Use SET_PCI_ERROR_RESPONSE() when device
+Subject: [PATCH 05/22] PCI: mediatek: Use SET_PCI_ERROR_RESPONSE() when device
  not found
-Date: Mon, 11 Oct 2021 23:16:36 +0530
-Message-Id: <b08c40280615fe9de232a50126b220c5966a69ad.1633972263.git.naveennaidu479@gmail.com>
+Date: Mon, 11 Oct 2021 23:21:22 +0530
+Message-Id: <01f0c358e3ea05510e04384c3fb5edc577523430.1633972263.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1633972263.git.naveennaidu479@gmail.com>
 References: <cover.1633972263.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Scott Branden <sbranden@broadcom.com>,
+Cc: Rob Herring <robh@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
  linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- "maintainer:BROADCOM IPROC ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Jianjun Wang <jianjun.wang@mediatek.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ "open list:PCIE DRIVER FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ p.zabel@pengutronix.de, Matthias Brugger <matthias.bgg@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "moderated list:BROADCOM IPROC ARM ARCHITECTURE"
+ "moderated list:ARM/Mediatek SoC support"
  <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -124,29 +123,38 @@ causes a PCI error.  There's no real data to return to satisfy the
 CPU read, so most hardware fabricates ~0 data.
 
 Use SET_PCI_ERROR_RESPONSE() to set the error response, when a faulty
-hardware read occurs.
+read occurs.
 
 This helps unify PCI error response checking and make error check
 consistent and easier to find.
 
+Compile tested only.
+
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/pcie-iproc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/controller/pcie-mediatek.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
-index 30ac5fbefbbf..f182dc2cdb0c 100644
---- a/drivers/pci/controller/pcie-iproc.c
-+++ b/drivers/pci/controller/pcie-iproc.c
-@@ -660,7 +660,7 @@ static int iproc_pci_raw_config_read32(struct iproc_pcie *pcie,
+diff --git a/drivers/pci/controller/pcie-mediatek.c b/drivers/pci/controller/pcie-mediatek.c
+index 2f3f974977a3..aa744ccd1a2a 100644
+--- a/drivers/pci/controller/pcie-mediatek.c
++++ b/drivers/pci/controller/pcie-mediatek.c
+@@ -369,13 +369,13 @@ static int mtk_pcie_config_read(struct pci_bus *bus, unsigned int devfn,
  
- 	addr = iproc_pcie_map_cfg_bus(pcie, 0, devfn, where & ~0x3);
- 	if (!addr) {
+ 	port = mtk_pcie_find_port(bus, devfn);
+ 	if (!port) {
 -		*val = ~0;
 +		SET_PCI_ERROR_RESPONSE(val);
  		return PCIBIOS_DEVICE_NOT_FOUND;
  	}
  
+ 	ret = mtk_pcie_hw_rd_cfg(port, bn, devfn, where, size, val);
+ 	if (ret)
+-		*val = ~0;
++		SET_PCI_ERROR_RESPONSE(val);
+ 
+ 	return ret;
+ }
 -- 
 2.25.1
 
