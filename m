@@ -2,99 +2,78 @@ Return-Path: <SRS0=rOi/=O7=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D190C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FAC1C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:41:52 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id EF1E360F0F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:28:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EF1E360F0F
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+	by mail.kernel.org (Postfix) with ESMTPS id D38A561076
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Oct 2021 18:41:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D38A561076
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BA4F1608A1;
-	Mon, 11 Oct 2021 18:28:29 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A64AA608BA;
+	Mon, 11 Oct 2021 18:41:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e873iJdICpBm; Mon, 11 Oct 2021 18:28:29 +0000 (UTC)
+	with ESMTP id UMA3tHvEoosu; Mon, 11 Oct 2021 18:41:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D57A36073D;
-	Mon, 11 Oct 2021 18:28:28 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id AF4DA608B7;
+	Mon, 11 Oct 2021 18:41:50 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9F093C0011;
-	Mon, 11 Oct 2021 18:28:28 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 42038C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 997DEC0011;
+	Mon, 11 Oct 2021 18:41:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E557FC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:28:27 +0000 (UTC)
+ Mon, 11 Oct 2021 18:41:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 27C9C402C8
+ by smtp4.osuosl.org (Postfix) with ESMTP id D34034049D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:28:27 +0000 (UTC)
+ Mon, 11 Oct 2021 18:41:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nRCXzQZJKsGR
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SZxCPO59Fgv6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:28:24 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5F48D40120
+ Mon, 11 Oct 2021 18:41:48 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0B1854049B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 18:28:24 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- ns7-20020a17090b250700b001a0937b87b7so416157pjb.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Oct 2021 11:28:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=CKQ88c9j3ESKQlxCKVCJzIzhEW8MF9O1pZyFGKOEDrA=;
- b=oTJLSzyQmCsA6lgeeHn3VxbHP/ZOM0tZi+M/YKcnDvCFUl77KdxyP1DHUHGfghJnEl
- CXzyW7Oh+NADAL/pD0I5kOjOFjcUMNfnINCOLUbM6NF42GHYCMRmzdyxNOR/fe8EXgh+
- VUP3TfYmm/0k51dSuPgYLbN7BSgB+W2gaYslaEmh1LPGFF3PXoONvcwfSFYvr8uaiLVn
- U06MgH5wqjmgyKYO7svrg3Syld5W5Z1C9cTJbCuVC90S9NFSJvQnUL00t2nZIz42J0JP
- pN2IDRWx406mFVDwF4qdz7R7m50JVQE9XFVXtdf7ofMDZPDTyugGr0fJa4pYWELMwwtJ
- VcdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=CKQ88c9j3ESKQlxCKVCJzIzhEW8MF9O1pZyFGKOEDrA=;
- b=4tnFT5kTzHHHwaAeMjo0s7iWSzmElk5oKXSuAVrmwDIsPPWX2SIhnhi0BcP+5+356e
- 98F6H1fGMarbK6WagSdCFY/IOu0rqn3GgBNqckMDKN9VCQ5NFzKrXlrRusX3sY5FKHq7
- /+uo7uORd3uJITKw179a+Pt0dL1rSc0M+42fX8wxipt2Dz2jm7BbQ1GrqFOiKJQ1GtAq
- aAfAiFyZX/TAC4vUr8cr16BNCChdDdCZk+UyWznQQ6bCOO5z8zNO5wzGw81akQY+qGUH
- p8prKl2FNhvPFpU9fR+19mqXpzvE13ZL5l31HJPtp35BAD94SDGgciG2ZHxKQlrJ3+kw
- kt+w==
-X-Gm-Message-State: AOAM530z5CBTzv1qjKcfQ/IMqf7ejyeKGD9wi2z4fT5yv++5Fh+gbvFs
- Bqg8nGUi5PLQVzxiUYy4ATM=
-X-Google-Smtp-Source: ABdhPJxia+sjT3Qg+xTt/VNqtfY33guuOiShsseFdWJ387zSt1snrx1KhCUiVCrhs20k1oIksdC5Iw==
-X-Received: by 2002:a17:90a:708c:: with SMTP id
- g12mr634723pjk.13.1633976903685; 
- Mon, 11 Oct 2021 11:28:23 -0700 (PDT)
-Received: from theprophet ([2406:7400:63:9f95:848b:7cc8:d852:ad42])
- by smtp.gmail.com with ESMTPSA id y17sm5130041pfn.96.2021.10.11.11.28.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 11:28:23 -0700 (PDT)
-Date: Mon, 11 Oct 2021 23:58:13 +0530
-From: Naveen Naidu <naveennaidu479@gmail.com>
-To: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+ Mon, 11 Oct 2021 18:41:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A37F60EB1;
+ Mon, 11 Oct 2021 18:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1633977707;
+ bh=OUpsvaa2Ww8kOdRdhRMnEsW/y3JxO0MjIcQCoVLgCz8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ASGTHeGvamJWUEwSAeRjQDib2OtvfxkhIFCDCwT5tnO2iFyGAoiMCJFQtqRkE0eG8
+ dpmHYWzcNuADcklKZPise08Y0u7QIlVOy2c/3Ri7yj6XIAAlg6OyikBlYNYC5BLyOG
+ PLazxCWmheZqDqaL/TKGcBOlJRA0JWDG8Ujmd2+RMR8O9goVoNsoxV2GZ4q8UgDOHp
+ /lmRda7U4NHhiwMkcChPALtVMFxGTLs+cBOFUhXfQif4KZrEptMlklYraHbIzEhEjT
+ mKey+azEelJu+Dx7KPpl/7vF8QP7MYStdPRDoT9vv1PRuLzKE8O7k0BPO7+P5g6Fgc
+ EnwlapTByzZBw==
+Received: by pali.im (Postfix)
+ id 04A9A7C9; Mon, 11 Oct 2021 20:41:44 +0200 (CEST)
+Date: Mon, 11 Oct 2021 20:41:44 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To: Naveen Naidu <naveennaidu479@gmail.com>
 Subject: Re: [PATCH 09/22] PCI: aardvark: Use SET_PCI_ERROR_RESPONSE() when
  device not found
-Message-ID: <20211011182813.duescywvlkkvddjp@theprophet>
+Message-ID: <20211011184144.qcbmif7hvzozdgzw@pali>
 References: <cover.1633972263.git.naveennaidu479@gmail.com>
  <f423dc9cc90e345680d289d5df7ff469e9b89c60.1633972263.git.naveennaidu479@gmail.com>
  <20211011180850.hgp4ctykvus37fx7@pali>
+ <20211011182526.kboaxqofdpd2jjrl@theprophet>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211011180850.hgp4ctykvus37fx7@pali>
+In-Reply-To: <20211011182526.kboaxqofdpd2jjrl@theprophet>
+User-Agent: NeoMutt/20180716
 Cc: Rob Herring <robh@kernel.org>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
  Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
@@ -114,120 +93,91 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 11/10, Pali Roh=E1r wrote:
-> On Monday 11 October 2021 23:26:33 Naveen Naidu wrote:
-> > An MMIO read from a PCI device that doesn't exist or doesn't respond
-> > causes a PCI error.  There's no real data to return to satisfy the
-> > CPU read, so most hardware fabricates ~0 data.
-> > =
-
-> > Use SET_PCI_ERROR_RESPONSE() to set the error response, when a faulty
-> > read occurs.
-> > =
-
-> > This helps unify PCI error response checking and make error check
-> > consistent and easier to find.
-> > =
-
-> > Compile tested only.
-> > =
-
-> > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
-> > ---
-> >  drivers/pci/controller/pci-aardvark.c | 8 ++++----
-> >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > =
-
-> > diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/contro=
-ller/pci-aardvark.c
-> > index 596ebcfcc82d..dc2f820ef55f 100644
-> > --- a/drivers/pci/controller/pci-aardvark.c
-> > +++ b/drivers/pci/controller/pci-aardvark.c
-> > @@ -894,7 +894,7 @@ static int advk_pcie_rd_conf(struct pci_bus *bus, u=
-32 devfn,
-> >  	int ret;
-> >  =
-
-> >  	if (!advk_pcie_valid_device(pcie, bus, devfn)) {
-> > -		*val =3D 0xffffffff;
-> > +		SET_PCI_ERROR_RESPONSE(val);
-> =
-
-> Hello! Now I'm looking at this macro, and should not it depends on
-> "size" argument? If doing 8-bit or 16-bit read operation then should not
-> it rather sets only low 8 bits or low 16 bits to ones?
->
-
-Hello o/, Thank you for the review.
-
-Yes! you are right that it should indeed depend on the "size" argument.
-And that is what the SET_PCI_ERROR_RESPONSE macro does. The macro is
-defined as:
-
-  #define PCI_ERROR_RESPONSE           (~0ULL)
-  #define SET_PCI_ERROR_RESPONSE(val)  (*val =3D ((typeof(*val))PCI_ERROR_R=
-ESPONSE))
-
-The macro was part of "Patch 1/22" and is present here [1]. Apologies if
-I added the receipient incorrectly.
-
-[1]:
-https://lore.kernel.org/linux-pci/d8e423386aad3d78bca575a7521b138508638e3b.=
-1633972263.git.naveennaidu479@gmail.com/T/#m37295a0dcfe0d7e0f67efce3633efd7=
-b891949c4
-
-IIUC, the typeof(*val) helps in setting the value according to the size
-of the argument.
-
-Please let me know if my understanding is wrong.
-
-> >  		return PCIBIOS_DEVICE_NOT_FOUND;
-> >  	}
-> >  =
-
-> > @@ -920,7 +920,7 @@ static int advk_pcie_rd_conf(struct pci_bus *bus, u=
-32 devfn,
-> >  			*val =3D CFG_RD_CRS_VAL;
-> >  			return PCIBIOS_SUCCESSFUL;
-> >  		}
-> > -		*val =3D 0xffffffff;
-> > +		SET_PCI_ERROR_RESPONSE(val);
-> >  		return PCIBIOS_SET_FAILED;
-> >  	}
-> >  =
-
-> > @@ -955,14 +955,14 @@ static int advk_pcie_rd_conf(struct pci_bus *bus,=
- u32 devfn,
-> >  			*val =3D CFG_RD_CRS_VAL;
-> >  			return PCIBIOS_SUCCESSFUL;
-> >  		}
-> > -		*val =3D 0xffffffff;
-> > +		SET_PCI_ERROR_RESPONSE(val);
-> >  		return PCIBIOS_SET_FAILED;
-> >  	}
-> >  =
-
-> >  	/* Check PIO status and get the read result */
-> >  	ret =3D advk_pcie_check_pio_status(pcie, allow_crs, val);
-> >  	if (ret < 0) {
-> > -		*val =3D 0xffffffff;
-> > +		SET_PCI_ERROR_RESPONSE(val);
-> >  		return PCIBIOS_SET_FAILED;
-> >  	}
-> >  =
-
-> > -- =
-
-> > 2.25.1
-> > =
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gTW9uZGF5IDExIE9jdG9iZXIgMjAyMSAyMzo1NTozNSBOYXZlZW4gTmFpZHUgd3JvdGU6Cj4g
+T24gMTEvMTAsIFBhbGkgUm9ow6FyIHdyb3RlOgo+ID4gT24gTW9uZGF5IDExIE9jdG9iZXIgMjAy
+MSAyMzoyNjozMyBOYXZlZW4gTmFpZHUgd3JvdGU6Cj4gPiA+IEFuIE1NSU8gcmVhZCBmcm9tIGEg
+UENJIGRldmljZSB0aGF0IGRvZXNuJ3QgZXhpc3Qgb3IgZG9lc24ndCByZXNwb25kCj4gPiA+IGNh
+dXNlcyBhIFBDSSBlcnJvci4gIFRoZXJlJ3Mgbm8gcmVhbCBkYXRhIHRvIHJldHVybiB0byBzYXRp
+c2Z5IHRoZQo+ID4gPiBDUFUgcmVhZCwgc28gbW9zdCBoYXJkd2FyZSBmYWJyaWNhdGVzIH4wIGRh
+dGEuCj4gPiA+IAo+ID4gPiBVc2UgU0VUX1BDSV9FUlJPUl9SRVNQT05TRSgpIHRvIHNldCB0aGUg
+ZXJyb3IgcmVzcG9uc2UsIHdoZW4gYSBmYXVsdHkKPiA+ID4gcmVhZCBvY2N1cnMuCj4gPiA+IAo+
+ID4gPiBUaGlzIGhlbHBzIHVuaWZ5IFBDSSBlcnJvciByZXNwb25zZSBjaGVja2luZyBhbmQgbWFr
+ZSBlcnJvciBjaGVjawo+ID4gPiBjb25zaXN0ZW50IGFuZCBlYXNpZXIgdG8gZmluZC4KPiA+ID4g
+Cj4gPiA+IENvbXBpbGUgdGVzdGVkIG9ubHkuCj4gPiA+IAo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBO
+YXZlZW4gTmFpZHUgPG5hdmVlbm5haWR1NDc5QGdtYWlsLmNvbT4KPiA+ID4gLS0tCj4gPiA+ICBk
+cml2ZXJzL3BjaS9jb250cm9sbGVyL3BjaS1hYXJkdmFyay5jIHwgOCArKysrLS0tLQo+ID4gPiAg
+MSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+ID4gCj4g
+PiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3BjaS9jb250cm9sbGVyL3BjaS1hYXJkdmFyay5jIGIv
+ZHJpdmVycy9wY2kvY29udHJvbGxlci9wY2ktYWFyZHZhcmsuYwo+ID4gPiBpbmRleCA1OTZlYmNm
+Y2M4MmQuLmRjMmY4MjBlZjU1ZiAxMDA2NDQKPiA+ID4gLS0tIGEvZHJpdmVycy9wY2kvY29udHJv
+bGxlci9wY2ktYWFyZHZhcmsuYwo+ID4gPiArKysgYi9kcml2ZXJzL3BjaS9jb250cm9sbGVyL3Bj
+aS1hYXJkdmFyay5jCj4gPiA+IEBAIC04OTQsNyArODk0LDcgQEAgc3RhdGljIGludCBhZHZrX3Bj
+aWVfcmRfY29uZihzdHJ1Y3QgcGNpX2J1cyAqYnVzLCB1MzIgZGV2Zm4sCj4gPiA+ICAJaW50IHJl
+dDsKPiA+ID4gIAo+ID4gPiAgCWlmICghYWR2a19wY2llX3ZhbGlkX2RldmljZShwY2llLCBidXMs
+IGRldmZuKSkgewo+ID4gPiAtCQkqdmFsID0gMHhmZmZmZmZmZjsKPiA+ID4gKwkJU0VUX1BDSV9F
+UlJPUl9SRVNQT05TRSh2YWwpOwo+ID4gCj4gPiBIZWxsbyEgTm93IEknbSBsb29raW5nIGF0IHRo
+aXMgbWFjcm8sIGFuZCBzaG91bGQgbm90IGl0IGRlcGVuZHMgb24KPiA+ICJzaXplIiBhcmd1bWVu
+dD8gSWYgZG9pbmcgOC1iaXQgb3IgMTYtYml0IHJlYWQgb3BlcmF0aW9uIHRoZW4gc2hvdWxkIG5v
+dAo+ID4gaXQgcmF0aGVyIHNldHMgb25seSBsb3cgOCBiaXRzIG9yIGxvdyAxNiBiaXRzIHRvIG9u
+ZXM/Cj4gPgo+IAo+IEhlbGxvIG8vLCBUaGFuayB5b3UgZm9yIHRoZSByZXZpZXcuCj4gCj4gWWVz
+ISB5b3UgYXJlIHJpZ2h0IHRoYXQgaXQgc2hvdWxkIGluZGVlZCBkZXBlbmQgb24gdGhlICJzaXpl
+IiBhcmd1bWVudC4KPiBBbmQgdGhhdCBpcyB3aGF0IHRoZSBTRVRfUENJX0VSUk9SX1JFU1BPTlNF
+IG1hY3JvIGRvZXMuIFRoZSBtYWNybyBpcwo+IGRlZmluZWQgYXM6Cj4gCj4gICAjZGVmaW5lIFBD
+SV9FUlJPUl9SRVNQT05TRSAgICAgICAgICAgKH4wVUxMKQo+ICAgI2RlZmluZSBTRVRfUENJX0VS
+Uk9SX1JFU1BPTlNFKHZhbCkgICgqdmFsID0gKCh0eXBlb2YoKnZhbCkpUENJX0VSUk9SX1JFU1BP
+TlNFKSkKPiAKPiBUaGUgbWFjcm8gd2FzIHBhcnQgb2YgIlBhdGNoIDEvMjIiIGFuZCBpcyBwcmVz
+ZW50IGhlcmUgWzFdLiBBcG9sb2dpZXMgaWYKPiBJIGFkZGVkIHRoZSByZWNlaXBpZW50IGluY29y
+cmVjdGx5Lgo+IAo+IFsxXToKPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1wY2kvZDhl
+NDIzMzg2YWFkM2Q3OGJjYTU3NWE3NTIxYjEzODUwODYzOGUzYi4xNjMzOTcyMjYzLmdpdC5uYXZl
+ZW5uYWlkdTQ3OUBnbWFpbC5jb20vVC8jbTM3Mjk1YTBkY2ZlMGQ3ZTBmNjdlZmNlMzYzM2VmZDdi
+ODkxOTQ5YzQKPiAKPiBJSVVDLCB0aGUgdHlwZW9mKCp2YWwpIGhlbHBzIGluIHNldHRpbmcgdGhl
+IHZhbHVlIGFjY29yZGluZyB0byB0aGUgc2l6ZQo+IG9mIHRoZSBhcmd1bWVudC4KPiAKPiBQbGVh
+c2UgbGV0IG1lIGtub3cgaWYgbXkgdW5kZXJzdGFuZGluZyBpcyB3cm9uZy4KCkhlbGxvISBJIG1l
+YW4gInNpemUiIGZ1bmN0aW9uIGFyZ3VtZW50IHdoaWNoIGlzIHBhc3NlZCBhcyB2YXJpYWJsZS4K
+CkZ1bmN0aW9uIGl0c2VsZiBpcyBkZWNsYXJlZCBhczoKCnN0YXRpYyBpbnQgYWR2a19wY2llX3Jk
+X2NvbmYoc3RydWN0IHBjaV9idXMgKmJ1cywgdTMyIGRldmZuLCBpbnQgd2hlcmUsIGludCBzaXpl
+LCB1MzIgKnZhbCk7CgpBbmQgaW4gInNpemUiIGFyZ3VtZW50IGlzIHN0b3JlZCBudW1iZXIgb2Yg
+Ynl0ZXMsIGtpbmQgb2YgcmVhZCBvcGVyYXRpb24KKHJlYWQgYnl0ZSwgcmVhZCB3b3JkLCByZWFk
+IGR3b3JkKS4gSW4gKnZhbCBpcyB0aGVuIHN0b3JlZCByZWFkIHZhbHVlLgpGb3IgYnl0ZSBvcGVy
+YXRpb24sIGp1c3QgbG93IDggYml0cyBpbiAqdmFsIHZhcmlhYmxlIGFyZSBzZXQuCgpCZWNhdXNl
+ICp2YWwgaXMgdTMyIGl0IG1lYW5zIHRoYXQgdHlwZW9mKCp2YWwpIGlzIGFsd2F5cyA0IGluZGVw
+ZW5kZW50bHkKb2YgdGhlICJzaXplIiBhcmd1bWVudC4KCkZvciBleGFtcGxlIG90aGVyIHByb2pl
+Y3QgVS1Cb290IGhhcyBhbHNvIHBjaS1hYXJkdmFyay5jIGRyaXZlciBhbmQKVS1Cb290IGhhcyBm
+b3IgKHByb2JhYmx5IHNhbWUpIHB1cnBvc2UgcGNpX2dldF9mZigpIG1hY3JvLCBzZWU6Cmh0dHBz
+Oi8vc291cmNlLmRlbnguZGUvdS1ib290L3UtYm9vdC8tL2Jsb2IvdjIwMjEuMTAvZHJpdmVycy9w
+Y2kvcGNpLWFhcmR2YXJrLmMjTDM2NwoKSSdtIG5vdCBzYXlpbmcgaWYgY3VycmVudCBhcHByb2Fj
+aCB0byBhbHdheXMgc2V0cyAweGZmZmZmZmZmCihpbmRlcGVuZGVudGx5IG9mICJzaXplIiBhcmd1
+bWVudCkgaXMgY29ycmVjdCBvciBub3QgYXMgSSBkbyBub3Qga25vdwppdCB0b28hIEknbSBqdXN0
+IGdpdmluZyBleGFtcGxlIHRoYXQgdGhpcyBQQ0kgY29kZSBoYXMgdmVyeSBzaW1pbGFyCmltcGxl
+bWVudGF0aW9uIG9mIG90aGVyIHByb2plY3QgKFUtQm9vdCkgd2hpY2ggc2V0cyBudW1iZXIgb2Yg
+b25lcyBiYXNlZApvbiB0aGUgc2l6ZSBhcmd1bWVudC4KClNvIHByb2JhYmx5IHNvbWV0aGluZyBm
+b3Igb3RoZXIgcGVvcGxlIHRvIGRlY2lkZS4KCkFueXdheSwgSSB2ZXJ5IGxpa2UgdGhpcyB5b3Vy
+IGlkZWEgdG8gaGF2ZSBhIG1hY3JvIHdoaWNoIHB1cnBvc2UgaXMgdG8KZXhwbGljaXRseSBpbmRp
+Y2F0ZSBlcnJvciBkdXJpbmcgY29uZmlnIHJlYWQgb3BlcmF0aW9uISBBbmQgdG8gdW5pZnkgYWxs
+CmRyaXZlcnMgdG8gdXNlIHNhbWUgc3R5bGUgZm9yIHNpZ25hbGxpbmcgY29uZmlnIHJlYWQgZXJy
+b3IuCgo+ID4gPiAgCQlyZXR1cm4gUENJQklPU19ERVZJQ0VfTk9UX0ZPVU5EOwo+ID4gPiAgCX0K
+PiA+ID4gIAo+ID4gPiBAQCAtOTIwLDcgKzkyMCw3IEBAIHN0YXRpYyBpbnQgYWR2a19wY2llX3Jk
+X2NvbmYoc3RydWN0IHBjaV9idXMgKmJ1cywgdTMyIGRldmZuLAo+ID4gPiAgCQkJKnZhbCA9IENG
+R19SRF9DUlNfVkFMOwo+ID4gPiAgCQkJcmV0dXJuIFBDSUJJT1NfU1VDQ0VTU0ZVTDsKPiA+ID4g
+IAkJfQo+ID4gPiAtCQkqdmFsID0gMHhmZmZmZmZmZjsKPiA+ID4gKwkJU0VUX1BDSV9FUlJPUl9S
+RVNQT05TRSh2YWwpOwo+ID4gPiAgCQlyZXR1cm4gUENJQklPU19TRVRfRkFJTEVEOwo+ID4gPiAg
+CX0KPiA+ID4gIAo+ID4gPiBAQCAtOTU1LDE0ICs5NTUsMTQgQEAgc3RhdGljIGludCBhZHZrX3Bj
+aWVfcmRfY29uZihzdHJ1Y3QgcGNpX2J1cyAqYnVzLCB1MzIgZGV2Zm4sCj4gPiA+ICAJCQkqdmFs
+ID0gQ0ZHX1JEX0NSU19WQUw7Cj4gPiA+ICAJCQlyZXR1cm4gUENJQklPU19TVUNDRVNTRlVMOwo+
+ID4gPiAgCQl9Cj4gPiA+IC0JCSp2YWwgPSAweGZmZmZmZmZmOwo+ID4gPiArCQlTRVRfUENJX0VS
+Uk9SX1JFU1BPTlNFKHZhbCk7Cj4gPiA+ICAJCXJldHVybiBQQ0lCSU9TX1NFVF9GQUlMRUQ7Cj4g
+PiA+ICAJfQo+ID4gPiAgCj4gPiA+ICAJLyogQ2hlY2sgUElPIHN0YXR1cyBhbmQgZ2V0IHRoZSBy
+ZWFkIHJlc3VsdCAqLwo+ID4gPiAgCXJldCA9IGFkdmtfcGNpZV9jaGVja19waW9fc3RhdHVzKHBj
+aWUsIGFsbG93X2NycywgdmFsKTsKPiA+ID4gIAlpZiAocmV0IDwgMCkgewo+ID4gPiAtCQkqdmFs
+ID0gMHhmZmZmZmZmZjsKPiA+ID4gKwkJU0VUX1BDSV9FUlJPUl9SRVNQT05TRSh2YWwpOwo+ID4g
+PiAgCQlyZXR1cm4gUENJQklPU19TRVRfRkFJTEVEOwo+ID4gPiAgCX0KPiA+ID4gIAo+ID4gPiAt
+LSAKPiA+ID4gMi4yNS4xCj4gPiA+IApfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2Vy
+bmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
+Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
