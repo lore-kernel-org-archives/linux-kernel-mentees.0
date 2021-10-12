@@ -2,106 +2,99 @@ Return-Path: <SRS0=UocX=PA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51856C433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 15:59:50 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 436EDC433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 16:05:33 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 0A2BF6112D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 15:59:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 0A2BF6112D
+	by mail.kernel.org (Postfix) with ESMTPS id DEABF60F23
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 16:05:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DEABF60F23
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C9B7980C5E;
-	Tue, 12 Oct 2021 15:59:49 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id A872E40710;
+	Tue, 12 Oct 2021 16:05:32 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NJtcbGKGzLMM; Tue, 12 Oct 2021 15:59:48 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kw9Iegxo4Jlu; Tue, 12 Oct 2021 16:05:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CD53380D79;
-	Tue, 12 Oct 2021 15:59:48 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id BD0EB40212;
+	Tue, 12 Oct 2021 16:05:31 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A98B7C000F;
-	Tue, 12 Oct 2021 15:59:48 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C595C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A3EB8C000F;
+	Tue, 12 Oct 2021 16:05:31 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 74B0DC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 15:59:48 +0000 (UTC)
+ Tue, 12 Oct 2021 16:05:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1F28680D79
+ by smtp3.osuosl.org (Postfix) with ESMTP id 558B7607E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 15:59:48 +0000 (UTC)
+ Tue, 12 Oct 2021 16:05:30 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JdPGp_V1LUkP
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IYDRuMy_y32o
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 15:59:46 +0000 (UTC)
+ Tue, 12 Oct 2021 16:05:29 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D147480C5E
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C0DD460724
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 15:59:46 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id om14so4145156pjb.5
+ Tue, 12 Oct 2021 16:05:29 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id q5so6247917pgr.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 08:59:46 -0700 (PDT)
+ Tue, 12 Oct 2021 09:05:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=s85hH8OlLfuG7m34y2PmbBUsXhbTPJy7qKvzLqHFuts=;
- b=ofP+Z3s8eNEGO0B0FIO5AIpuQRG7ug6PZNOQMbIWV4jHXgS1f3BTb0Xmmt3E0cls31
- qNFD2XKWvC4KziFheNgPS8sM2gDcndB0XgHmrRy/JY7gB0rAvtBOWMCD3QBCQcGDCnAT
- JBpBQm9+CBJS0iMHD4/YbsDp7SjrmnmdHc4vpv+s9GkR7/Pf8cWD2A+SOafAfUsiBjyp
- QhwuNauwgjxrods43SCJYjs+x3rrbeica31XQgZsvqhup3mDnMTX9P7jpzWAZ6f5Nklq
- a2eKVT78ozWjtCugjbXefdNEIkHme+9n45bc6f+VOQN/559OOaxq1wF4NoG+J8ATFOiz
- RzqA==
+ :content-disposition:in-reply-to;
+ bh=mMOxU6+YA/sNdOBxrd9xR6DIR92SPqX/cAtPGdDmVKU=;
+ b=bDwa7qIkxxY4j1mjJTPYMU69RjYrf7BqhXHN8j96S+Q1bdbHT0UGhaGhYsTUiJzcgW
+ Q+h23U6lvfXttX1Xr5f4SLw+YP6GMI8ma5BcESwFQjnv19d5Pzkx+Nf0QYEODQ4eEgJM
+ 5eEeI8PtE9M6SItS3znLiYEW5weFDD26ChmXer5Ekg1TKqcfTRSTZYQ1a1pv4TQLck5V
+ znNWK4tc3AIMqY1oL4iNthKN5YOrxIq7RNDXuI1p9eWy6AjxderpQclUoKUtMnKWpIT+
+ XYfzMq2vtlyWT7YiLP0mG+SqRjbsaj9tPcfTahwelLVbv5cjqooIZZTyX26bKICf8NhH
+ ZyKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=s85hH8OlLfuG7m34y2PmbBUsXhbTPJy7qKvzLqHFuts=;
- b=R+ZTfiewB7IEgs7WuaL+Tho0uC/jhoq3Z5JFa0RDB0lzwDeXzxkNmMxcxe+HxCcenK
- p0ESgodXWiy5kB8lOvM4If0p9wOeWuFJQhzfX649SNCxMnJACQnnwjPFhmYRCx+Pwg6u
- nrdDjfh/kyOJkqmiBmH63TsBuAP2o79F2FqY/Ta9SuQVlTQzFFpykW+sdob3DMw7QAiW
- hyTk/x3QYTCXHk5smrJwzo/2wrgYhL9R0jpM4fGea7p/2PgFiAqOR7yfxgbZES/PZK/K
- eD6w5G1hyK2THWpRyZOgSa6yZuBUzdjkmRMZi5P20eaMaSIYxMXoltPfXuQ1ZeXAxmqg
- NkRA==
-X-Gm-Message-State: AOAM531kKn845RllkylhNs569DljnwxndCH1LBXSvRFZo/tznGY+/5p7
- QkyLXYeVK0A0nQXpxr2mCww=
-X-Google-Smtp-Source: ABdhPJzJIZzu89Nsz/KDsuCTNqduOueDbscNAqrLgQ6duvBVxEA3fN2vSGJiQKc150Dvkr3qQbubqw==
-X-Received: by 2002:a17:902:d202:b0:13a:709b:dfb0 with SMTP id
- t2-20020a170902d20200b0013a709bdfb0mr30570200ply.34.1634054386055; 
- Tue, 12 Oct 2021 08:59:46 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=mMOxU6+YA/sNdOBxrd9xR6DIR92SPqX/cAtPGdDmVKU=;
+ b=iGHVhnorvL0M7mCYLgKfuTEXLjxaDBfn2uUEmJvUEbIFRcKszGuwV7uG17FljM5eNy
+ nAwZ8yt12Vl6uWzAp9dqK7o4ooVBK+dCxQlKxp0I13Y4dt4BlZkOPtgtd48h65Cjm9FM
+ CFH088n7S/ybgI063fpPW/yifg2MC+6LtMG4vPtUvEpsgVEdUrj00iPpaKcGVW8TKYkz
+ fIoe8N8E3NsuvnCDFlfS3MaY63gcV2Hrmq3qEBoyYG1gMkrjww8frbOFVxh3PQA84AnF
+ 8V84Nr6/RSnpeXNQz683pMXTnoURNM28YOBdm7rZ8/1ikRe3o5iREfN2Bwt9I1McQw/D
+ QLrw==
+X-Gm-Message-State: AOAM530rlGzwBbKW5zsXRaJjjx0Xmj2VwPuTRmt4EGAUDJDq55ItHvJT
+ uUcexNrYaTNtO9l5M2PpzA0=
+X-Google-Smtp-Source: ABdhPJw1IJ/QU67iU8+q118FcNosA5aecym8ZP3I99NBl9Ql4AcFwhi6Y+1cS+L7U0m4T9btUbxwfg==
+X-Received: by 2002:a63:2b4b:: with SMTP id r72mr23056190pgr.57.1634054728858; 
+ Tue, 12 Oct 2021 09:05:28 -0700 (PDT)
 Received: from theprophet ([2406:7400:63:cada:3b09:6c3b:61f5:2cfd])
- by smtp.gmail.com with ESMTPSA id i128sm11576268pfc.47.2021.10.12.08.59.41
+ by smtp.gmail.com with ESMTPSA id m186sm11857248pfb.165.2021.10.12.09.05.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 08:59:45 -0700 (PDT)
-Date: Tue, 12 Oct 2021 21:29:28 +0530
+ Tue, 12 Oct 2021 09:05:27 -0700 (PDT)
+Date: Tue, 12 Oct 2021 21:35:13 +0530
 From: Naveen Naidu <naveennaidu479@gmail.com>
-To: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-Subject: Re: [PATCH 09/22] PCI: aardvark: Use SET_PCI_ERROR_RESPONSE() when
- device not found
-Message-ID: <20211012155928.3nuyzgrgvyjm2v3r@theprophet>
+To: Lukas Wunner <lukas@wunner.de>
+Subject: Re: [PATCH 16/22] PCI: pciehp: Use RESPONSE_IS_PCI_ERROR() to check
+ read from hardware
+Message-ID: <20211012160505.3dov6gjnmxdq5lz6@theprophet>
 References: <cover.1633972263.git.naveennaidu479@gmail.com>
- <f423dc9cc90e345680d289d5df7ff469e9b89c60.1633972263.git.naveennaidu479@gmail.com>
- <20211011180850.hgp4ctykvus37fx7@pali>
- <20211011182526.kboaxqofdpd2jjrl@theprophet>
- <20211011184144.qcbmif7hvzozdgzw@pali>
+ <36c7c3005c4d86a6884b270807d84433a86c0953.1633972263.git.naveennaidu479@gmail.com>
+ <20211011194740.GA14357@wunner.de>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211011184144.qcbmif7hvzozdgzw@pali>
-Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, bhelgaas@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "moderated list:PCI DRIVER FOR AARDVARK \(Marvell Armada 3700\)"
- <linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <20211011194740.GA14357@wunner.de>
+Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, bhelgaas@google.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,205 +106,48 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 11/10, Pali Roh=E1r wrote:
-> On Monday 11 October 2021 23:55:35 Naveen Naidu wrote:
-> > On 11/10, Pali Roh=E1r wrote:
-> > > On Monday 11 October 2021 23:26:33 Naveen Naidu wrote:
-> > > > An MMIO read from a PCI device that doesn't exist or doesn't respond
-> > > > causes a PCI error.  There's no real data to return to satisfy the
-> > > > CPU read, so most hardware fabricates ~0 data.
-> > > > =
-
-> > > > Use SET_PCI_ERROR_RESPONSE() to set the error response, when a faul=
-ty
-> > > > read occurs.
-> > > > =
-
-> > > > This helps unify PCI error response checking and make error check
-> > > > consistent and easier to find.
-> > > > =
-
-> > > > Compile tested only.
-> > > > =
-
-> > > > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
-> > > > ---
-> > > >  drivers/pci/controller/pci-aardvark.c | 8 ++++----
-> > > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > > > =
-
-> > > > diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/co=
-ntroller/pci-aardvark.c
-> > > > index 596ebcfcc82d..dc2f820ef55f 100644
-> > > > --- a/drivers/pci/controller/pci-aardvark.c
-> > > > +++ b/drivers/pci/controller/pci-aardvark.c
-> > > > @@ -894,7 +894,7 @@ static int advk_pcie_rd_conf(struct pci_bus *bu=
-s, u32 devfn,
-> > > >  	int ret;
-> > > >  =
-
-> > > >  	if (!advk_pcie_valid_device(pcie, bus, devfn)) {
-> > > > -		*val =3D 0xffffffff;
-> > > > +		SET_PCI_ERROR_RESPONSE(val);
-> > > =
-
-> > > Hello! Now I'm looking at this macro, and should not it depends on
-> > > "size" argument? If doing 8-bit or 16-bit read operation then should =
-not
-> > > it rather sets only low 8 bits or low 16 bits to ones?
-> > >
-> > =
-
-> > Hello o/, Thank you for the review.
-> > =
-
-> > Yes! you are right that it should indeed depend on the "size" argument.
-> > And that is what the SET_PCI_ERROR_RESPONSE macro does. The macro is
-> > defined as:
-> > =
-
-> >   #define PCI_ERROR_RESPONSE           (~0ULL)
-> >   #define SET_PCI_ERROR_RESPONSE(val)  (*val =3D ((typeof(*val))PCI_ERR=
-OR_RESPONSE))
-> > =
-
-> > The macro was part of "Patch 1/22" and is present here [1]. Apologies if
-> > I added the receipient incorrectly.
-> > =
-
-> > [1]:
-> > https://lore.kernel.org/linux-pci/d8e423386aad3d78bca575a7521b138508638=
-e3b.1633972263.git.naveennaidu479@gmail.com/T/#m37295a0dcfe0d7e0f67efce3633=
-efd7b891949c4
-> > =
-
-> > IIUC, the typeof(*val) helps in setting the value according to the size
-> > of the argument.
-> > =
-
-> > Please let me know if my understanding is wrong.
-> =
-
-> Hello! I mean "size" function argument which is passed as variable.
+On 11/10, Lukas Wunner wrote:
+> On Mon, Oct 11, 2021 at 11:37:33PM +0530, Naveen Naidu wrote:
+> > An MMIO read from a PCI device that doesn't exist or doesn't respond
+> > causes a PCI error.  There's no real data to return to satisfy the
+> > CPU read, so most hardware fabricates ~0 data.
+> > 
+> > Use RESPONSE_IS_PCI_ERROR() to check the response we get when we read
+> > data from hardware.
+> 
+> Actually what happens is that PCI read transactions *time out*,
+> so the host controller fabricates a response.
 >
 
-Thank you for explaining! Now I understand what you mean :), Apologies
-for not being not understanding this beforehand.
+Ah! yes. Now that I look at it, RESPONSE_IS_PCI_TIMEOUT() does indeed
+seem like a better option to RESPONSE_IS_PCI_ERROR(), since it's more
+specfic and depicts the actual condition. 
 
-> Function itself is declared as:
-> =
+I'll wait for sometime and see if others have any objection/a better
+name for the macro and then redo the patch with that.
 
-> static int advk_pcie_rd_conf(struct pci_bus *bus, u32 devfn, int where, i=
-nt size, u32 *val);
-> =
+Thank you very much for the review ^^ 
 
-> And in "size" argument is stored number of bytes, kind of read operation
-> (read byte, read word, read dword). In *val is then stored read value.
-> For byte operation, just low 8 bits in *val variable are set.
-> =
-
-> Because *val is u32 it means that typeof(*val) is always 4 independently
-> of the "size" argument.
-> =
-
-> For example other project U-Boot has also pci-aardvark.c driver and
-> U-Boot has for (probably same) purpose pci_get_ff() macro, see:
-> https://source.denx.de/u-boot/u-boot/-/blob/v2021.10/drivers/pci/pci-aard=
-vark.c#L367
-> =
-
-> I'm not saying if current approach to always sets 0xffffffff
-> (independently of "size" argument) is correct or not as I do not know
-> it too! I'm just giving example that this PCI code has very similar
-> implementation of other project (U-Boot) which sets number of ones based
-> on the size argument.
->
-
-I am not sure too, if we would like to have something like pci_get_ff()
-which sets the return mask based on the size.
-
-If we were to have something like pci_get_ff(), I can think of one
-problem, some of the functions such as pci_raw_set_power_state() which
-checks for errors does not have a "size" argument. An excerpt from that
-function is as follows:
-  static int pci_raw_set_power_state(struct pci_dev *dev, pci_power_t state)
-  {
-    pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-        if (pmcsr =3D=3D (u16) ~0) {
-
-For these functions we wont be able to use pci_get_ff(), I mean we could
-definitely put the responsibility onto the programmers to write down the
-correct size. But that might lead to mistakes, I guess?
-
-Then for those cases, we might need to maintain both the
-SET_PCI_ERROR_RESPONSE macro and the pci_get_ff() functions, which then
-means that we might not have the same style for signalling config read
-error.
-
-I am pretty new to kernel development, so I am sure that whatever I said
-above might be totally wrong. If so, please correct me :)
-
-> So probably something for other people to decide.
-> =
-
-> Anyway, I very like this your idea to have a macro which purpose is to
-> explicitly indicate error during config read operation! And to unify all
-> drivers to use same style for signalling config read error.
-> =
-
-
-Thank you :D, I think I'll wait for other people to chime in here with
-their opinions and then I'll redo the patch with whatever will be
-decided.
-
-Thank again for the detailed reply.
-
-> > > >  		return PCIBIOS_DEVICE_NOT_FOUND;
-> > > >  	}
-> > > >  =
-
-> > > > @@ -920,7 +920,7 @@ static int advk_pcie_rd_conf(struct pci_bus *bu=
-s, u32 devfn,
-> > > >  			*val =3D CFG_RD_CRS_VAL;
-> > > >  			return PCIBIOS_SUCCESSFUL;
-> > > >  		}
-> > > > -		*val =3D 0xffffffff;
-> > > > +		SET_PCI_ERROR_RESPONSE(val);
-> > > >  		return PCIBIOS_SET_FAILED;
-> > > >  	}
-> > > >  =
-
-> > > > @@ -955,14 +955,14 @@ static int advk_pcie_rd_conf(struct pci_bus *=
-bus, u32 devfn,
-> > > >  			*val =3D CFG_RD_CRS_VAL;
-> > > >  			return PCIBIOS_SUCCESSFUL;
-> > > >  		}
-> > > > -		*val =3D 0xffffffff;
-> > > > +		SET_PCI_ERROR_RESPONSE(val);
-> > > >  		return PCIBIOS_SET_FAILED;
-> > > >  	}
-> > > >  =
-
-> > > >  	/* Check PIO status and get the read result */
-> > > >  	ret =3D advk_pcie_check_pio_status(pcie, allow_crs, val);
-> > > >  	if (ret < 0) {
-> > > > -		*val =3D 0xffffffff;
-> > > > +		SET_PCI_ERROR_RESPONSE(val);
-> > > >  		return PCIBIOS_SET_FAILED;
-> > > >  	}
-> > > >  =
-
-> > > > -- =
-
-> > > > 2.25.1
-> > > > =
-
+> By contrast, a PCI *error* usually denotes an Uncorrectable or
+> Correctable Error as specified in section 6.2.2 of the PCIe Base Spec.
+> 
+> Thus something like RESPONSE_IS_PCI_TIMEOUT() or IS_PCI_TIMEOUT() would
+> probably be more appropriate.  I'll leave the exact bikeshed color for
+> others to decide. :-)
+> 
+> 
+> > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+> > ---
+> >  drivers/pci/hotplug/pciehp_hpc.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> Acked-by: Lukas Wunner <lukas@wunner.de>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
