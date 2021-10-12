@@ -2,79 +2,81 @@ Return-Path: <SRS0=UocX=PA=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26D20C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 22:52:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C7B3C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 23:12:11 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id C76DF60041
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 22:52:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C76DF60041
+	by mail.kernel.org (Postfix) with ESMTPS id EC3E260E53
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 12 Oct 2021 23:12:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org EC3E260E53
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9FFF260C2C;
-	Tue, 12 Oct 2021 22:52:51 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C488E60C25;
+	Tue, 12 Oct 2021 23:12:10 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pXEwsgwDQPzT; Tue, 12 Oct 2021 22:52:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B4C9660C2B;
-	Tue, 12 Oct 2021 22:52:50 +0000 (UTC)
+	with ESMTP id Hwc2WVhBhlEZ; Tue, 12 Oct 2021 23:12:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2CC5560737;
+	Tue, 12 Oct 2021 23:12:07 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6BE1AC0011;
-	Tue, 12 Oct 2021 22:52:50 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B6E27C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 11D5DC000F;
+	Tue, 12 Oct 2021 23:12:07 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1AF8C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 22:52:48 +0000 (UTC)
+ Tue, 12 Oct 2021 23:12:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 972F2407AA
+ by smtp1.osuosl.org (Postfix) with ESMTP id D256382907
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 22:52:48 +0000 (UTC)
+ Tue, 12 Oct 2021 23:12:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id aE0tjcTZ_jmZ
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JOUvHtuU-uZZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 22:52:47 +0000 (UTC)
+ Tue, 12 Oct 2021 23:12:05 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C82A0407A7
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2D07A828F8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 12 Oct 2021 22:52:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4D21E604DA;
- Tue, 12 Oct 2021 22:52:47 +0000 (UTC)
+ Tue, 12 Oct 2021 23:12:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9AC8A60C49;
+ Tue, 12 Oct 2021 23:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634079167;
- bh=6avHt35fxd5kfvbX66gcBjXd91rrPnS5ZdttP+UskTM=;
+ s=k20201202; t=1634080324;
+ bh=XqxlPp6YkN/WfuyoQ/c4x1VlZQyfuu5pa8exw8RscaE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=tUPaJIq+NbqOD928tKX1BaHll+Clbo11OlaJjS4L7fMEi3Wxh/KWrAvByhm27g5uI
- jHufW02Yvz1zwBCVPjT1Y/91WiqSaK4VXq419ncpNJKGlkB+Co8bjghoeZnZghTjy7
- oWO7Ymrq2Z/HgxNplbaJCMFxu52HBXferNerq53AFNa0ZEZ5dvUb+TQ9Nxw1ris26r
- dBXS0CwwWl/xjHh8KKj91DETVIts+SXYLIGcB7Phu2VN9UzhbUS/hTcfnIcHwL924U
- tQFqx3LtPP6pUc3CDOd8v4r4ZBx6coeyaGD1YkX3x7pFxgIydvCfKGhTu3zZdMiaA1
- yYZ8pclq0gZJQ==
+ b=jdFYDK5QGubWgrvW5Hj9GLJ3T8+p4EkaPRYileJCu4dc06QLkKtJkWtWej+ANZTvG
+ /reHq7mNkzEyWunsPNpVSRnZrnqYaaAjLn53xDnSgQmC5leZLXvsMhEmeOBt+Be1GV
+ 2NOph/7YdMT/a0shKsXNDy57o+LC+ZXuo+aJigxGVRhtdJnB+4/yIzQM/V1eRJLUlY
+ 5ckQOEX9qIcgMNS2YoAgSLREla4ghiZ/yDXRAysVyACjqr+mxrhv/oKKvabPVf0Hmd
+ 2rz2bGLth2UJ2dysQfm6F+t6gVRr9BUDy71iwhoNj9R/R/czw9e/VLH9nj7NjHAZHY
+ 5mYb2UjzixkVw==
 Received: by pali.im (Postfix)
- id A11267B4; Wed, 13 Oct 2021 00:52:44 +0200 (CEST)
-Date: Wed, 13 Oct 2021 00:52:44 +0200
+ id 08EB67B4; Wed, 13 Oct 2021 01:12:01 +0200 (CEST)
+Date: Wed, 13 Oct 2021 01:12:01 +0200
 From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
 To: Naveen Naidu <naveennaidu479@gmail.com>
-Subject: Re: [PATCH 02/22] PCI: Unify PCI error response checking
-Message-ID: <20211012225244.y75fsd7777ubvljl@pali>
+Subject: Re: [PATCH 16/22] PCI: pciehp: Use RESPONSE_IS_PCI_ERROR() to check
+ read from hardware
+Message-ID: <20211012231201.xj7fvfgvpde5wwrl@pali>
 References: <cover.1633972263.git.naveennaidu479@gmail.com>
- <c632b07eb1b08cc7d4346455a55641436a379abd.1633972263.git.naveennaidu479@gmail.com>
- <YWS1QtNJh7vPCftH@robh.at.kernel.org>
- <20211012162054.rxx7aubwdvhl2eqj@theprophet>
+ <36c7c3005c4d86a6884b270807d84433a86c0953.1633972263.git.naveennaidu479@gmail.com>
+ <20211011194740.GA14357@wunner.de>
+ <20211012160505.3dov6gjnmxdq5lz6@theprophet>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211012162054.rxx7aubwdvhl2eqj@theprophet>
+In-Reply-To: <20211012160505.3dov6gjnmxdq5lz6@theprophet>
 User-Agent: NeoMutt/20180716
-Cc: Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, bhelgaas@google.com, andrew.murray@arm.com,
+Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Wunner <lukas@wunner.de>, bhelgaas@google.com,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -93,55 +95,64 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tuesday 12 October 2021 21:51:08 Naveen Naidu wrote:
-> On 11/10, Rob Herring wrote:
-> > On Mon, Oct 11, 2021 at 11:08:32PM +0530, Naveen Naidu wrote:
-> > >  		return PCIBIOS_DEVICE_NOT_FOUND;
+On Tuesday 12 October 2021 21:35:13 Naveen Naidu wrote:
+> On 11/10, Lukas Wunner wrote:
+> > On Mon, Oct 11, 2021 at 11:37:33PM +0530, Naveen Naidu wrote:
+> > > An MMIO read from a PCI device that doesn't exist or doesn't respond
+> > > causes a PCI error.  There's no real data to return to satisfy the
+> > > CPU read, so most hardware fabricates ~0 data.
+> > > 
+> > > Use RESPONSE_IS_PCI_ERROR() to check the response we get when we read
+> > > data from hardware.
 > > 
-> > Neither does this using custom error codes rather than standard Linux 
-> > errno. I point this out as I that's were I'd start with the config 
-> > accessors. Though there are lots of occurrences so we'd need a way to do 
-> > this in manageable steps.
-> > 
+> > Actually what happens is that PCI read transactions *time out*,
+> > so the host controller fabricates a response.
+> >
 > 
-> I am sorry, but I do not have any answer for this. I really do not know
-> why we return custom error codes instead of standard Linux errno. Maybe
-> someone else can pitch in on this.
+> Ah! yes. Now that I look at it, RESPONSE_IS_PCI_TIMEOUT() does indeed
+> seem like a better option to RESPONSE_IS_PCI_ERROR(), since it's more
+> specfic and depicts the actual condition. 
 
-More people are asking same question and Bjorn recently wrote answer:
-https://lore.kernel.org/linux-pci/20211011205851.GA1690395@bhelgaas/
+This is not fully correct. 0xffffffff is returned when some error
+happens. It does not have to be timeout error. Errors like Unsupported
+Request, Completer Abort or Configuration Request Retry Status (when
+CRSSVE bit is disabled) are also reported as 0xffffffff and they do not
+represent timeout. For example Unsupported Request is returned when you
+try to read from non-existent device behind some PCIe switch.
 
-It looks like some relict from past when PCI was implemented only for x86.
+Also pci-aardvark.c fabricates value 0xffffffff when trying to read from
+config space below the PCIe Root Port when PCIe link is not up.
 
-Anyway, I was looking at PCI firmware spec (where are these PCBIOS_*
-codes defined) and config read function can return only
-PCIBIOS_SUCCESSFUL value.
+And I have seen that Completer Abort was returned by PCIe switch when
+switch itself did not received reply from device below switch. So it
+means that controller can receive some reply from other device even when
+no real reply was sent. Which means that timeout can be reported by some
+other message.
 
-So if kernel PCI API is following this PCBIOS API it means that
-controller drivers are implementing it improperly if they returns also
-non-success value for read method in some cases. And for me it looks
-like very "stupid" API for read as it has basically same meaning as
-function with void return value.
+So I think that generic PCI_ERROR is the best name. You do not know what
+really happened (only some controller drivers can provide additional
+information, it does not have any standard HW<-->OS API) and application
+logic must decide how to process error.
 
-> > Can't we make PCI_OP_READ and PCI_USER_READ_CONFIG set the data value 
-> > and delete the drivers all doing this? Then we have 2 copies (in source) 
-> > rather than the many this series modifies. Though I'm not sure if there 
-> > are other cases of calling pci_bus.ops.read() which expect to get ~0.
-> > 
+> I'll wait for sometime and see if others have any objection/a better
+> name for the macro and then redo the patch with that.
 > 
-> This seems like a really good idea :) But again, I am not entirely sure
-> if doing so would give us any unexpected behaviour. I'll wait for some
-> one to reply to this and if people agree to it, I would be glad to make
-> the changes to PCI_OP_READ and PCI_USER_READ_CONFIG and send a new
-> patch.
-
-If you are going to discuss and change API of config read / write
-functions, please CC me.
-
-For example pci-aardvark controller reports not only "unknown error"
-happened (via 0xffffffff) but can report exact PCIe error (CRS, UR, CA)
-which can be mapped to some linux errnos. I can imagine that it can be
-useful for some callers.
+> Thank you very much for the review ^^ 
+> 
+> > By contrast, a PCI *error* usually denotes an Uncorrectable or
+> > Correctable Error as specified in section 6.2.2 of the PCIe Base Spec.
+> > 
+> > Thus something like RESPONSE_IS_PCI_TIMEOUT() or IS_PCI_TIMEOUT() would
+> > probably be more appropriate.  I'll leave the exact bikeshed color for
+> > others to decide. :-)
+> > 
+> > 
+> > > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+> > > ---
+> > >  drivers/pci/hotplug/pciehp_hpc.c | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > Acked-by: Lukas Wunner <lukas@wunner.de>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
