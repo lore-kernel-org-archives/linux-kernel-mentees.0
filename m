@@ -2,88 +2,79 @@ Return-Path: <SRS0=auPP=PI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B352C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:42:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 309AEC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:52:15 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id B1F3560273
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:42:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org B1F3560273
+	by mail.kernel.org (Postfix) with ESMTPS id D6FFF60EE3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:52:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D6FFF60EE3
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6BDBD607C1;
-	Wed, 20 Oct 2021 13:42:31 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id A69EC83B98;
+	Wed, 20 Oct 2021 13:52:14 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Qmt4vAs3SiHH; Wed, 20 Oct 2021 13:42:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 99618606B9;
-	Wed, 20 Oct 2021 13:42:30 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Cq59lW2qXEZE; Wed, 20 Oct 2021 13:52:13 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C37C783BB1;
+	Wed, 20 Oct 2021 13:52:13 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 78921C000F;
-	Wed, 20 Oct 2021 13:42:30 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7EDDAC000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9DD0DC000F;
+	Wed, 20 Oct 2021 13:52:13 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9CEBC000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:42:29 +0000 (UTC)
+ Wed, 20 Oct 2021 13:52:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6B0C9401B1
+ by smtp4.osuosl.org (Postfix) with ESMTP id 8583A40749
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:42:29 +0000 (UTC)
+ Wed, 20 Oct 2021 13:52:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hLbrn8aanZPW
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9CxGObUNTBVw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:42:28 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
- [209.85.167.177])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A7A0B400B9
+ Wed, 20 Oct 2021 13:52:12 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 006084074A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:42:28 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id q129so9775894oib.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 06:42:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=C3zm8nKj/VABcyLNvlJFABEEbLCD2W5bXoiX6pdtUtw=;
- b=WuGefO0xS7erakhGUZ4lUi+2C5viiOVPhPsYwYzo6+qaoLwAYppp0sFCOV2jfzLTmU
- 06hGEcuyizORS2PfFXJ54L3vmpg8PqsWpDN+t6YPV8HXR7Bw/s009R8uhki/+HQWZ/TY
- uXSOHaGyzJuY9koRrL4ZoOLUs0+N6QNuGrpKM9aXY7tDGl9mSSI+SdcD3jo84pOCiTod
- cl/rrOKDD3fMsnvuFcKw+sXhD1T4dIkSn1+OEYUZDHevPUX+jK/oVYVWrWUCz6CdWfex
- LPZ89ehXcdK/xzxiHMADV2NzYZt1hLaVd1ydlwd9XuYdphvooy7+VQTaRQ99odQsrKdK
- i5OA==
-X-Gm-Message-State: AOAM532OYmaVPjNLH5DpZTepY8JVUmlzyFZIXAzZChC7ANpFv8CkHXaA
- kZmeOVnjhl4nU0dPRZMUqg==
-X-Google-Smtp-Source: ABdhPJy8z4v0lJpsQMD8Slg1JZ9MvgPFDcFKsDrCYO60tYePf2Ras0QIpJseUJhBtzS/Z/i4z8BVYQ==
-X-Received: by 2002:aca:3c87:: with SMTP id j129mr9607754oia.157.1634737347723; 
- Wed, 20 Oct 2021 06:42:27 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id k4sm436183oic.48.2021.10.20.06.42.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 06:42:27 -0700 (PDT)
-Received: (nullmailer pid 2248211 invoked by uid 1000);
- Wed, 20 Oct 2021 13:42:26 -0000
-Date: Wed, 20 Oct 2021 08:42:26 -0500
-From: Rob Herring <robh@kernel.org>
+ Wed, 20 Oct 2021 13:52:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B7BA60EE3;
+ Wed, 20 Oct 2021 13:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634737931;
+ bh=SBDigKEN5g+FIb/oTr8InqTwNX3E4a1MT8ec1sBFvlQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ebOZ/YM1U8AKCU7bkBMRow9hfGEg/T5qtZOnzqYL2X4cYzQc3YBPMtGv7baBuoDor
+ IxdawKe6lJCZFRLJV495dwO5XDDiZjfhHWiRG5x2rR3e5gOrIkJ8CIhOCSoU22mQl7
+ Fr07REsSQa4GqxQ09hAeA9DWeapw6ZfUUWv4jlRloaBaEgkcDf+cJSe2Txk6G+ZbUI
+ IZfHGOVEzVKM0eAME2f2N9Ti6yAYtg5TbrDs1Q2C7bD+PYHsTqgDfrisgQtBg2Efx5
+ isY6pjXd7AVvCUYGh1lDcuVsz4IE5lwT4ZMo5SsCXB8DZpq0E0RjVDbZV2d83aKRcW
+ qj3vJk/Y+E23Q==
+Received: by pali.im (Postfix)
+ id E204C883; Wed, 20 Oct 2021 15:52:08 +0200 (CEST)
+Date: Wed, 20 Oct 2021 15:52:08 +0200
+From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
 To: Naveen Naidu <naveennaidu479@gmail.com>
-Subject: Re: [PATCH v2 04/24] PCI: Remove redundant error fabrication when
- device read fails
-Message-ID: <YXAcws0S2xBvjsDb@robh.at.kernel.org>
+Subject: Re: [PATCH v2 02/24] PCI: Set error response in config access
+ defines when ops->read() fails
+Message-ID: <20211020135208.zgm2gvhqd7ukb57m@pali>
 References: <cover.1634306198.git.naveennaidu479@gmail.com>
- <0114a4a44ceacfbd6a7859d8613ca5942f5b35d7.1634306198.git.naveennaidu479@gmail.com>
+ <b913b4966938b7cad8c049dc34093e6c4b2fae68.1634306198.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <0114a4a44ceacfbd6a7859d8613ca5942f5b35d7.1634306198.git.naveennaidu479@gmail.com>
+In-Reply-To: <b913b4966938b7cad8c049dc34093e6c4b2fae68.1634306198.git.naveennaidu479@gmail.com>
+User-Agent: NeoMutt/20180716
 Cc: bhelgaas@google.com, linux-pci@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh@kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,28 +92,61 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 15, 2021 at 08:08:45PM +0530, Naveen Naidu wrote:
-> An MMIO read from a PCI device that doesn't exist or doesn't respond
-> causes a PCI error. There's no real data to return to satisfy the
-> CPU read, so most hardware fabricates ~0 data.
+On Friday 15 October 2021 19:58:17 Naveen Naidu wrote:
+> Make PCI_OP_READ and PCI_USER_READ_CONFIG set the data value with error
+> response (~0), when the PCI device read by a host controller fails.
 > 
-> The host controller drivers sets the error response values (~0) and
-> returns an error when faulty hardware read occurs. But the error
-> response value (~0) is already being set in PCI_OP_READ and
-> PCI_USER_READ_CONFIG whenever a read by host controller driver fails.
+> This ensures that the controller drivers no longer need to fabricate
+> (~0) value when they detect error. It also  gurantees that the error
+> response (~0) is always set when the controller drivers fails to read a
+> config register from a device.
 > 
-> Thus, it's no longer necessary for the host controller drivers to
-> fabricate any error response.
+> This makes error response fabrication consistent and helps in removal of
+> a lot of repeated code.
 > 
-> This helps unify PCI error response checking and make error check
-> consistent and easier to find.
-> 
+> Suggested-by: Rob Herring <robh@kernel.org>
 > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 > ---
->  drivers/pci/access.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  drivers/pci/access.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/access.c b/drivers/pci/access.c
+> index 46935695cfb9..b3b2006ed1d2 100644
+> --- a/drivers/pci/access.c
+> +++ b/drivers/pci/access.c
+> @@ -42,7 +42,10 @@ int noinline pci_bus_read_config_##size \
+>  	if (PCI_##size##_BAD) return PCIBIOS_BAD_REGISTER_NUMBER;	\
+>  	pci_lock_config(flags);						\
+>  	res = bus->ops->read(bus, devfn, pos, len, &data);		\
+> -	*value = (type)data;						\
+> +	if (res)									\
+> +		SET_PCI_ERROR_RESPONSE(value);			\
+> +	else										\
+> +		*value = (type)data;						\
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Hello! Just one small comment. It looks like that in this patch is
+broken alignment of backslashes on the end of lines. Prior this patch
+backslashes on all lines were at the same column. With this patch they
+are not.
+
+>  	pci_unlock_config(flags);					\
+>  	return res;							\
+>  }
+> @@ -228,7 +231,10 @@ int pci_user_read_config_##size						\
+>  	ret = dev->bus->ops->read(dev->bus, dev->devfn,			\
+>  					pos, sizeof(type), &data);	\
+>  	raw_spin_unlock_irq(&pci_lock);				\
+> -	*val = (type)data;						\
+> +	if (ret)								\
+> +		SET_PCI_ERROR_RESPONSE(val);			\
+> +	else									\
+> +		*val = (type)data;						\
+>  	return pcibios_err_to_errno(ret);				\
+>  }									\
+>  EXPORT_SYMBOL_GPL(pci_user_read_config_##size);
+> -- 
+> 2.25.1
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
