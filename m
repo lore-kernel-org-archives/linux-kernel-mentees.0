@@ -2,85 +2,87 @@ Return-Path: <SRS0=auPP=PI=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63D48C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:13:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F78C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:24:38 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id F0F8E611F2
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:13:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org F0F8E611F2
+	by mail.kernel.org (Postfix) with ESMTPS id 91CFB6136F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Oct 2021 13:24:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 91CFB6136F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AD08583B35;
-	Wed, 20 Oct 2021 13:13:13 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4FE02817EB;
+	Wed, 20 Oct 2021 13:24:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id b8KrxftK5aNV; Wed, 20 Oct 2021 13:13:12 +0000 (UTC)
+	with ESMTP id 21SG2fm0gsTx; Wed, 20 Oct 2021 13:24:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8F55282662;
-	Wed, 20 Oct 2021 13:13:12 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2E65B80EA0;
+	Wed, 20 Oct 2021 13:24:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BC74C000F;
-	Wed, 20 Oct 2021 13:13:12 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27A47C000D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 06DB9C000F;
+	Wed, 20 Oct 2021 13:24:36 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F26E2C000D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:13:11 +0000 (UTC)
+ Wed, 20 Oct 2021 13:24:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 16805607A6
+ by smtp1.osuosl.org (Postfix) with ESMTP id CE60480EA0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:13:11 +0000 (UTC)
+ Wed, 20 Oct 2021 13:24:33 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HhhyEAD_JCs7
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1Fy7B8FGZ2bE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:13:08 +0000 (UTC)
+ Wed, 20 Oct 2021 13:24:32 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
- [209.85.167.182])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 629366076D
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id A39BF80E8C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 13:13:08 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id o83so9595636oif.4
+ Wed, 20 Oct 2021 13:24:32 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ l24-20020a9d1c98000000b00552a5c6b23cso8184146ota.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Oct 2021 06:13:08 -0700 (PDT)
+ Wed, 20 Oct 2021 06:24:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=2r3mbgEOKCAphWOTFN2e6UULnD2H9GQNAPamdyEgIXU=;
- b=4RoVmgGIAL/9rGTIs/5bdcl8Eq5O57h8bcoiBG3jA3UmglCL5Ptlcpq/KwY0Z0jvv+
- kwgfezGMe93lEOCO1KlGq7pRU2URmpjXUqn2BiwYcQ4iGERxEKbP9cqWu6xkuzwB73Wt
- 5HcYpZK9D4o9o1lv7swid5ijk37eyy0C0YB+krXu0/w6EmN9p/P+lg0YhSn8pGb5cf2J
- /5hUF9xMvCkPAqQXX3Va8CrMAQDQ5/ujzg98MqSzGvSYnawefLR7cZ770HjFXL5RpKIB
- CcmtWvod9uwJ8YH3fWMnY4sm4V+Dt2pnU53AHmYpxSCtFyaxOXwdaM0CPskCn0aIQxgX
- A6+Q==
-X-Gm-Message-State: AOAM531nQq9pOk+pAAe3XjjYf8VItgZYWQR3CS8LRHotWnsPWWWxWdHn
- KcfaqKfll+Z1gKxdI77P3Q==
-X-Google-Smtp-Source: ABdhPJxjCjd44cknqX1CrRz3ImU1u4LvNQz115jwwKQoOTlss5OHW3iJ68+/FeioWfmP9Kusyp4lLA==
-X-Received: by 2002:aca:31c7:: with SMTP id x190mr9703609oix.143.1634735587326; 
- Wed, 20 Oct 2021 06:13:07 -0700 (PDT)
+ bh=RNWWP9bTOkCgW0tcCeT8WC0sybKGetWwgWvpGMhElmI=;
+ b=FSz3TX6r4c3s5zrGtOB5a8dgeJsZtTaz0CL0KTBnuncxyrXVOlgKuAXhVIEqd+ZHj+
+ BTGh7tn5cFAynZwec3FzlYNdPzriCCmJMLjarhZuV+7prpyXY/JgNqAo7VY0lObhXYh2
+ zStJAaOT9VrOvi7BubLDV9WwHkEbuoMphGS7QmodNjZ8FRE8MpijrbUK9llyIsOpaKQ4
+ jMRzYFiDpxSbSOBs+o8vdWo4znh6HwFkOWNfLh0nFlwEGSuB5UhLWVesHJ4LrVgxtn+e
+ zxVGGiva8q8bi64LW+yqCOeC7eiTieOhju9LthoSFrKCUoDBRgLlUHX0aWZfeM3l2MfA
+ 3/FA==
+X-Gm-Message-State: AOAM531hRQpJ2h/8tvoJ3wEakc/NUmTzMAQKKr90VRjTuiEKUSf0P5Ea
+ deFY8hIY6LSaBgwmTBmLHQ==
+X-Google-Smtp-Source: ABdhPJzLB3PDzuaVVTWKIo94MOknTyjcODSHeAoxM/rtWZy+oDjpMr99UBRFJbGqlHrtrpiwAtmyXA==
+X-Received: by 2002:a9d:3e5c:: with SMTP id h28mr10960461otg.50.1634736271605; 
+ Wed, 20 Oct 2021 06:24:31 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
  [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id p14sm400670oov.0.2021.10.20.06.13.06
+ by smtp.gmail.com with ESMTPSA id i13sm442681oig.35.2021.10.20.06.24.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Oct 2021 06:13:06 -0700 (PDT)
-Received: (nullmailer pid 2208400 invoked by uid 1000);
- Wed, 20 Oct 2021 13:13:05 -0000
-Date: Wed, 20 Oct 2021 08:13:05 -0500
+ Wed, 20 Oct 2021 06:24:30 -0700 (PDT)
+Received: (nullmailer pid 2224276 invoked by uid 1000);
+ Wed, 20 Oct 2021 13:24:30 -0000
+Date: Wed, 20 Oct 2021 08:24:30 -0500
 From: Rob Herring <robh@kernel.org>
 To: Naveen Naidu <naveennaidu479@gmail.com>
-Subject: Re: [PATCH v2 03/24] PCI: Unify PCI error response checking
-Message-ID: <YXAV4bGehjAKK8XO@robh.at.kernel.org>
+Subject: Re: [PATCH v2 01/24] PCI: Add PCI_ERROR_RESPONSE and it's related
+ definitions
+Message-ID: <YXAYjkLyS53Bod3j@robh.at.kernel.org>
 References: <cover.1634306198.git.naveennaidu479@gmail.com>
- <da939a6cdb2dea96d16392ae152e1232212877d1.1634306198.git.naveennaidu479@gmail.com>
+ <4516b02d3c0fe3593a1a9f59bab47e99cdb65f02.1634306198.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <da939a6cdb2dea96d16392ae152e1232212877d1.1634306198.git.naveennaidu479@gmail.com>
+In-Reply-To: <4516b02d3c0fe3593a1a9f59bab47e99cdb65f02.1634306198.git.naveennaidu479@gmail.com>
 Cc: bhelgaas@google.com, linux-pci@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -100,88 +102,49 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 15, 2021 at 08:08:44PM +0530, Naveen Naidu wrote:
+On Fri, Oct 15, 2021 at 07:58:16PM +0530, Naveen Naidu wrote:
 > An MMIO read from a PCI device that doesn't exist or doesn't respond
 > causes a PCI error.  There's no real data to return to satisfy the
 > CPU read, so most hardware fabricates ~0 data.
 > 
-> Use SET_PCI_ERROR_RESPONSE() to set the error response and
-> RESPONSE_IS_PCI_ERROR() to check the error response during hardware
-> read.
+> Add a PCI_ERROR_RESPONSE definition for that and use it where
+> appropriate to make these checks consistent and easier to find.
 > 
-> These definitions make error checks consistent and easier to find.
+> Also add helper definitions SET_PCI_ERROR_RESPONSE and
+> RESPONSE_IS_PCI_ERROR to make the code more readable.
 > 
+> Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
 > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 > ---
->  drivers/pci/access.c | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
+>  include/linux/pci.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/pci/access.c b/drivers/pci/access.c
-> index b3b2006ed1d2..03712866c818 100644
-> --- a/drivers/pci/access.c
-> +++ b/drivers/pci/access.c
-> @@ -417,10 +417,10 @@ int pcie_capability_read_word(struct pci_dev *dev, int pos, u16 *val)
->  		ret = pci_read_config_word(dev, pci_pcie_cap(dev) + pos, val);
->  		/*
->  		 * Reset *val to 0 if pci_read_config_word() fails, it may
-> -		 * have been written as 0xFFFF if hardware error happens
-> -		 * during pci_read_config_word().
-> +		 * have been written as 0xFFFF (PCI_ERROR_RESPONSE) if hardware error
-> +		 * happens during pci_read_config_word().
->  		 */
-> -		if (ret)
-> +		if (RESPONSE_IS_PCI_ERROR(val))
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index cd8aa6fce204..928c589bb5c4 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -154,6 +154,15 @@ enum pci_interrupt_pin {
+>  /* The number of legacy PCI INTx interrupts */
+>  #define PCI_NUM_INTX	4
+>  
+> +/*
+> + * Reading from a device that doesn't respond typically returns ~0.  A
+> + * successful read from a device may also return ~0, so you need additional
+> + * information to reliably identify errors.
+> + */
+> +#define PCI_ERROR_RESPONSE			(~0ULL)
+> +#define SET_PCI_ERROR_RESPONSE(val)	(*val = ((typeof(*val)) PCI_ERROR_RESPONSE))
+> +#define RESPONSE_IS_PCI_ERROR(val)	(*val == ((typeof(*val)) PCI_ERROR_RESPONSE))
 
-What if there is no error (in ret) and the register value was actually 
-~0? We'd be corrupting the value.
+No reason for val to be a pointer.
 
-In general, I think we should rely more on the error codes and less on 
-the ~0 value.
+Also, macro parameters need () around them. val could be an expression 
+like 'ptr + 1' which would blow up for example.
 
->  			*val = 0;
->  		return ret;
->  	}
-> @@ -452,10 +452,10 @@ int pcie_capability_read_dword(struct pci_dev *dev, int pos, u32 *val)
->  		ret = pci_read_config_dword(dev, pci_pcie_cap(dev) + pos, val);
->  		/*
->  		 * Reset *val to 0 if pci_read_config_dword() fails, it may
-> -		 * have been written as 0xFFFFFFFF if hardware error happens
-> -		 * during pci_read_config_dword().
-> +		 * have been written as 0xFFFFFFFF (PCI_ERROR_RESPONSE) if hardware
-> +		 * error happens during pci_read_config_dword().
->  		 */
-> -		if (ret)
-> +		if (RESPONSE_IS_PCI_ERROR(val))
->  			*val = 0;
->  		return ret;
->  	}
-> @@ -529,7 +529,7 @@ EXPORT_SYMBOL(pcie_capability_clear_and_set_dword);
->  int pci_read_config_byte(const struct pci_dev *dev, int where, u8 *val)
->  {
->  	if (pci_dev_is_disconnected(dev)) {
-> -		*val = ~0;
-> +		SET_PCI_ERROR_RESPONSE(val);
->  		return PCIBIOS_DEVICE_NOT_FOUND;
->  	}
->  	return pci_bus_read_config_byte(dev->bus, dev->devfn, where, val);
-> @@ -539,7 +539,7 @@ EXPORT_SYMBOL(pci_read_config_byte);
->  int pci_read_config_word(const struct pci_dev *dev, int where, u16 *val)
->  {
->  	if (pci_dev_is_disconnected(dev)) {
-> -		*val = ~0;
-> +		SET_PCI_ERROR_RESPONSE(val);
->  		return PCIBIOS_DEVICE_NOT_FOUND;
->  	}
->  	return pci_bus_read_config_word(dev->bus, dev->devfn, where, val);
-> @@ -550,7 +550,7 @@ int pci_read_config_dword(const struct pci_dev *dev, int where,
->  					u32 *val)
->  {
->  	if (pci_dev_is_disconnected(dev)) {
-> -		*val = ~0;
-> +		SET_PCI_ERROR_RESPONSE(val);
->  		return PCIBIOS_DEVICE_NOT_FOUND;
->  	}
->  	return pci_bus_read_config_dword(dev->bus, dev->devfn, where, val);
+> +
+>  /*
+>   * pci_power_t values must match the bits in the Capabilities PME_Support
+>   * and Control/Status PowerState fields in the Power Management capability.
 > -- 
 > 2.25.1
 > 
