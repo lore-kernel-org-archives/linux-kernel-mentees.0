@@ -2,96 +2,93 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8025AC433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:30:37 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD842C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:31:43 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 09A6C613A0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:30:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 09A6C613A0
+	by mail.kernel.org (Postfix) with ESMTPS id 6462761439
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:31:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6462761439
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C35BC606A0;
-	Thu, 21 Oct 2021 16:30:36 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 352214072E;
+	Thu, 21 Oct 2021 16:31:43 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DnPTDhgGfJEk; Thu, 21 Oct 2021 16:30:36 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jEpsKsJmKbJo; Thu, 21 Oct 2021 16:31:42 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D788B605BA;
-	Thu, 21 Oct 2021 16:30:35 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2523640218;
+	Thu, 21 Oct 2021 16:31:42 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 988D6C0033;
-	Thu, 21 Oct 2021 16:30:35 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F3AE6C0033;
+	Thu, 21 Oct 2021 16:31:41 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 85CCEC0011
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2EDE6C0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:30:34 +0000 (UTC)
+ Thu, 21 Oct 2021 16:31:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 71C7F40218
+ by smtp2.osuosl.org (Postfix) with ESMTP id 1A75840218
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:30:34 +0000 (UTC)
+ Thu, 21 Oct 2021 16:31:41 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sO4mOBQ_QJJl
+ with ESMTP id 6iGhB-W5zm0T
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:30:33 +0000 (UTC)
+ Thu, 21 Oct 2021 16:31:40 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 2867640017
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1150A4021A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:30:33 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- o4-20020a17090a3d4400b001a1c8344c3fso1428468pjf.3
+ Thu, 21 Oct 2021 16:31:39 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id oa4so896008pjb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 09:30:33 -0700 (PDT)
+ Thu, 21 Oct 2021 09:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=Lc2V8kW9DWjIh5PwTRqiTR+Qdm9DCZ56d3CfgkVtsAg=;
- b=KuDBSYgshNz9/GCM1Jkbz7X3nsWyxLk7hvxcjDbgj2f+N3J2vjdaq7KVZsGcSNocHf
- pMaNHrJ5ZwHL38XdgC6QleKmA2D81frhRfhI9iPcj9GYH78bb1Nlt2LXE6s4eakmlC1C
- YY2KiZqTVXORECOLw0be0vs2dOsf2m1cyKFZB9E5TJvohcma/0P8dxtyYEikqf591vPp
- X4fBU35cfhcGSzdmFwJnJgWcj03FLgViEoeTO3fzri7jaHSUdzlZtW6qkhhEmFtYWPcp
- ApO6iqy1iDToJt+y0rvB5+29nVoGOieKLQJYFCO7E6YzBy5afnoHSPUxsk03JZHQSjIT
- +2hA==
+ bh=IQdbcLoiSTUVND1y3yU1tj63RV90osj4TBuWtLbjx9w=;
+ b=YQjnOjoxdmAAAhECuj0KPEKt27H/wOxmKMev/Jh3JFVzpa0cOV5dXDMot1AjIrEG5o
+ wOgYSn95J/UqizuILvkc6+g5OAsT+ytgws2SQSx86fqrfx1zMQ8ub37GSDr+YFHAQWu7
+ AiWqL+msiWD7SYSJShRzFd0h2Q5F/ABIdful5MVcYO6wioowEDKbPy6e7Sm+06weThUK
+ Xui6felse6F+NGA1x77OkV/oukWj2d4a0wErt7nwUKfhe9DAWWStrAp+/vnrkZACqZG9
+ zRSQApaprEZtWr6+t2qcRju9au7ZSuNDzMcfd3rLEbaYobAayt/iGBCC+2VoAJJnu/RG
+ t0NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Lc2V8kW9DWjIh5PwTRqiTR+Qdm9DCZ56d3CfgkVtsAg=;
- b=6BBySswfJBKerdmLXU+sZsu8we9tE7OuFcw3x2Pp9nDzY9jI4rEnFkL3N4Pp8vGsis
- Z8ovnVCsSkbgi9x7HMJa8qdtughE5jtUc34qzxwfhNDKRtbvmBay/PGfaUYIk7WhxADa
- p0a44/+sFVSfGlSaQY9Dxx7x0/y5+pzzEmD9g0q0XZVfZaiwrFonRCehY1XY4deSrPuy
- aE2oavIiX4EgFjdY28hMJNdkU2tk1YspfmIWPmrXzLz2mLUAI/s4LU7+nDNm39BL1sQ8
- ZUEmJXfshdnWbpJj3VPKgT8RH1NMljMQmsmmG3fMZkjAWx1vKnksUUPPq0onwAOgpR9C
- s4QQ==
-X-Gm-Message-State: AOAM530GyM5OZff2Q7f6csqKceX9dVfvSGyLnUTwHd7hvjdNOJhrHPKh
- ZoZ8Yc99apBS6HEJv8715oE=
-X-Google-Smtp-Source: ABdhPJxOnUbbOM9WGG3ZOvhQwiI9j78jVo97pCwncL8rKO/wgLLb9naCikt2yiq01L3UPck2/PDSEA==
-X-Received: by 2002:a17:90a:9bca:: with SMTP id
- b10mr7852273pjw.133.1634833832448; 
- Thu, 21 Oct 2021 09:30:32 -0700 (PDT)
+ bh=IQdbcLoiSTUVND1y3yU1tj63RV90osj4TBuWtLbjx9w=;
+ b=qoJhuZBM8i2C92mz+Wmz/XY5MbyDYiPHFDmw4CZftWfXiiiLLt9ZlT9AKxIIFhATcD
+ t4Hyklhplgx8U04b4egVmPfuS+0vKIzv9ckPCg2kJ5W4x9dd5xMVIZ61XMTOWeAbkpbB
+ RwM4b0XfqShTnMY/R0UBbINmPVuYFib6ZIRv7Htr3pQLG084T7PHFxj27Cf470kdFk4d
+ DfhE1D8kjP3i+nQ3g/Im61EHDo8y+pj0oo2G3H/spMkPysvJ2hW+zMeZzg3/jvaCnWn4
+ AuHziKiPQM2btYfJizz5s6ZxKB6J3GfmS3J79XBUHR2n08PnhryoIv8axrv9eAzapWKG
+ yGTw==
+X-Gm-Message-State: AOAM533Ckpsmi55svUow+7ABQCgF8JZwioxHMzRwhEHERXby+DocBPPL
+ Ze+JyOkCscTdtH/Qo2reYz8=
+X-Google-Smtp-Source: ABdhPJy79KDoQD2rK1TbZ1HD9yKVRke6nSbvrV7cMQ1pA2KVnMKpIrwtRe7TAmT4oeznWwGCwsdqBw==
+X-Received: by 2002:a17:90b:4a47:: with SMTP id
+ lb7mr7615497pjb.192.1634833899480; 
+ Thu, 21 Oct 2021 09:31:39 -0700 (PDT)
 Received: from theprophet ([2406:7400:63:29a4:d874:a949:6890:f95f])
- by smtp.gmail.com with ESMTPSA id d60sm9876076pjk.49.2021.10.21.09.30.29
+ by smtp.gmail.com with ESMTPSA id c9sm5669933pgq.58.2021.10.21.09.31.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 09:30:31 -0700 (PDT)
-Date: Thu, 21 Oct 2021 22:00:21 +0530
+ Thu, 21 Oct 2021 09:31:39 -0700 (PDT)
+Date: Thu, 21 Oct 2021 22:01:28 +0530
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v4 1/8] PCI/AER: Remove ID from aer_agent_string[]
-Message-ID: <20211021163021.r4ekhfol42ftw5zw@theprophet>
-References: <22b2dae2a6ac340d9d45c28481d746ec1064cd6c.1633453452.git.naveennaidu479@gmail.com>
- <20211021012826.GA2655655@bhelgaas>
+Subject: Re: [PATCH v4 3/8] PCI/DPC: Initialize info->id in dpc_process_error()
+Message-ID: <20211021163128.rud3fv3jtnbi3ifp@theprophet>
+References: <5ebe87f18339d7567c1d91203e7c5d31f4e65c52.1633453452.git.naveennaidu479@gmail.com>
+ <20211021012800.GA2656128@bhelgaas>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20211021012826.GA2655655@bhelgaas>
+In-Reply-To: <20211021012800.GA2656128@bhelgaas>
 Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, oohall@gmail.com,
  ruscur@russell.cc, bhelgaas@google.com, linuxppc-dev@lists.ozlabs.org,
  linux-kernel-mentees@lists.linuxfoundation.org
@@ -113,126 +110,63 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 On 20/10, Bjorn Helgaas wrote:
-> On Tue, Oct 05, 2021 at 10:48:08PM +0530, Naveen Naidu wrote:
-> > Currently, we do not print the "id" field in the AER error logs. Yet the
-> > aer_agent_string[] has the word "id" in it. The AER error log looks
-> > like:
+> On Tue, Oct 05, 2021 at 10:48:10PM +0530, Naveen Naidu wrote:
+> > In the dpc_process_error() path, info->id isn't initialized before being
+> > passed to aer_print_error(). In the corresponding AER path, it is
+> > initialized in aer_isr_one_error().
 > > 
-> >   pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver ID)
+> > The error message shown during Coverity Scan is:
 > > 
-> > Without the "id" field in the error log, The aer_agent_string[]
-> > (eg: "Receiver ID") does not make sense. A user reading the
-> > aer_agent_string[] in the log, might inadvertently look for an "id"
-> > field and not finding it might lead to confusion.
+> >   Coverity #1461602
+> >   CID 1461602 (#1 of 1): Uninitialized scalar variable (UNINIT)
+> >   8. uninit_use_in_call: Using uninitialized value info.id when calling aer_print_error.
 > > 
-> > Remove the "ID" from the aer_agent_string[].
+> > Initialize the "info->id" before passing it to aer_print_error()
 > > 
-> > The following are sample dummy errors inject via aer-inject.
-> 
-> I like this, and the problem it fixes was my fault because
-> these "ID" strings should have been removed by 010caed4ccb6.
-> 
-> If it's straightforward enough, it would be nice to have the
-> aer-inject command line here in the commit log to make it easier
-> for people to play with this.
->
-
-Thank you for the review. Do you mean something like:
-
-The following sample dummy errors are injected via aer-inject via the
-following steps:
-
-  1. The steps to compile the aer-inject tool is mentioned in (Section
-     4. Software error inject) of the document [1]
-
-     [1]: https://www.kernel.org/doc/Documentation/PCI/pcieaer-howto.txt
-
-     Make sure to place the aer-inject executable at the home directory
-     of the qemu system or at any other place.
-
-  2. Emulate a PCIE architecture using qemu, A sample looks like
-     following:
-     
-		qemu-system-x86_64 -kernel ../linux/arch/x86_64/boot/bzImage \
-        -initrd  buildroot-build/images/rootfs.cpio.gz \
-        -append "console=ttyS0"  \
-        -enable-kvm -nographic \
-        -M q35 \
-        -device pcie-root-port,bus=pcie.0,id=rp1,slot=1 \
-        -device pcie-pci-bridge,id=br1,bus=rp1 \
-        -device e1000,bus=br1,addr=8
-       
-    Note that the PCIe features are available only when using the 
-    'q35' Machine [2]
-    [2]: https://github.com/qemu/qemu/blob/master/docs/pcie.txt
-
-  3. Once the qemu system starts up, create a sample aer-file or use any
-     example aer file from [3]
-
-     [3]:
-     https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/tree/examples
-
-  4. Inject any aer-error using
-      
-      ./aer-inject aer-file
-
-This does look a tad bit longer for a commit log so I am unsure if you
-would like to have it there. If you are okay with it, I would be happy
-to add it to that :)
-
-> > Before
-> > =======
-> > 
-> > In 010caed4ccb6 ("PCI/AER: Decode Error Source Requester ID"),
-> > the "id" field was removed from the AER error logs, so currently AER
-> > logs look like:
-> > 
-> >   pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03:0
-> >   pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver ID) <--- no id field
-> >   pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000
-> >   pcieport 0000:00:03.0:    [ 6] BadTLP
-> > 
-> > After
-> > ======
-> > 
-> >   pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03.0
-> >   pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver)
-> >   pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000
-> >   pcieport 0000:00:03.0:    [ 6] BadTLP
-> > 
+> > Fixes: 8aefa9b0d910 ("PCI/DPC: Print AER status in DPC event handling")
 > > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 > > ---
-> >  drivers/pci/pcie/aer.c | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> >  drivers/pci/pcie/dpc.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
 > > 
-> > diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-> > index 9784fdcf3006..241ff361b43c 100644
-> > --- a/drivers/pci/pcie/aer.c
-> > +++ b/drivers/pci/pcie/aer.c
-> > @@ -516,10 +516,10 @@ static const char *aer_uncorrectable_error_string[] = {
-> >  };
+> > diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
+> > index c556e7beafe3..df3f3a10f8bc 100644
+> > --- a/drivers/pci/pcie/dpc.c
+> > +++ b/drivers/pci/pcie/dpc.c
+> > @@ -262,14 +262,14 @@ static int dpc_get_aer_uncorrect_severity(struct pci_dev *dev,
 > >  
-> >  static const char *aer_agent_string[] = {
-> > -	"Receiver ID",
-> > -	"Requester ID",
-> > -	"Completer ID",
-> > -	"Transmitter ID"
-> > +	"Receiver",
-> > +	"Requester",
-> > +	"Completer",
-> > +	"Transmitter"
-> >  };
+> >  void dpc_process_error(struct pci_dev *pdev)
+> >  {
+> > -	u16 cap = pdev->dpc_cap, status, source, reason, ext_reason;
+> > +	u16 cap = pdev->dpc_cap, status, reason, ext_reason;
+> >  	struct aer_err_info info;
 > >  
-> >  #define aer_stats_dev_attr(name, stats_array, strings_array,		\
-> > @@ -703,7 +703,7 @@ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info)
-> >  	const char *level;
+> >  	pci_read_config_word(pdev, cap + PCI_EXP_DPC_STATUS, &status);
+> > -	pci_read_config_word(pdev, cap + PCI_EXP_DPC_SOURCE_ID, &source);
+> > +	pci_read_config_word(pdev, cap + PCI_EXP_DPC_SOURCE_ID, &info.id);
 > >  
-> >  	if (!info->status) {
-> > -		pci_err(dev, "PCIe Bus Error: severity=%s, type=Inaccessible, (Unregistered Agent ID)\n",
-> > +		pci_err(dev, "PCIe Bus Error: severity=%s, type=Inaccessible, (Unregistered Agent)\n",
-> >  			aer_error_severity_string[info->severity]);
-> >  		goto out;
-> >  	}
+> >  	pci_info(pdev, "containment event, status:%#06x source:%#06x\n",
+> > -		 status, source);
+> > +		 status, info.id);
+> >  
+> >  	reason = (status & PCI_EXP_DPC_STATUS_TRIGGER_RSN) >> 1;
+> 
+> Per PCIe r5.0, sec 7.9.15.5, the Source ID is defined only when the
+> Trigger Reason indicates ERR_NONFATAL or ERR_FATAL.  So I think we
+> need to extract this reason before reading PCI_EXP_DPC_SOURCE_ID,
+> e.g.,
+> 
+>   reason = (status & PCI_EXP_DPC_STATUS_TRIGGER_RSN) >> 1;
+>   if (reason == 1 || reason == 2)
+>     pci_read_config_word(pdev, cap + PCI_EXP_DPC_SOURCE_ID, &info.id);
+>   else
+>     info.id = 0;
+>
+
+Thank you for the review, I'll make this change when I send a v5 for the
+patch series.
+
+> >  	ext_reason = (status & PCI_EXP_DPC_STATUS_TRIGGER_RSN_EXT) >> 5;
 > > -- 
 > > 2.25.1
 > > 
