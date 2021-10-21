@@ -2,103 +2,99 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 949E3C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:13:37 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CBFCC433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:14:05 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 4C85560F9F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:13:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 4C85560F9F
+	by mail.kernel.org (Postfix) with ESMTPS id D9A7361052
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:14:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D9A7361052
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1F08660628;
-	Thu, 21 Oct 2021 15:13:37 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id AC4A640731;
+	Thu, 21 Oct 2021 15:14:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4P4DwFpKF1nT; Thu, 21 Oct 2021 15:13:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 472FF60F0D;
-	Thu, 21 Oct 2021 15:13:36 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24850C001C;
-	Thu, 21 Oct 2021 15:13:36 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 56BD4C0011
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:13:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 451864072A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:13:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vsCiaYD6cP1N
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 75FNELiOfjqr; Thu, 21 Oct 2021 15:14:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7F61A40017;
+	Thu, 21 Oct 2021 15:14:03 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5E55FC001C;
+	Thu, 21 Oct 2021 15:14:03 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 45785C0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:13:33 +0000 (UTC)
+ Thu, 21 Oct 2021 15:14:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4108C60628
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Oct 2021 15:14:02 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id sX1zOVfoNOJO
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Oct 2021 15:14:01 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 837EF40017
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id AD60660604
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:13:33 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- nn3-20020a17090b38c300b001a03bb6c4ebso788370pjb.1
+ Thu, 21 Oct 2021 15:14:01 +0000 (UTC)
+Received: by mail-pf1-x42a.google.com with SMTP id q19so932962pfl.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 08:13:33 -0700 (PDT)
+ Thu, 21 Oct 2021 08:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nMMca6ogUWXi0ch4Y2WRyLimPI/FUHz8LX6jciCfSL0=;
- b=Ebt87PGCiA5DfC2ykF3q2FI75oUe+I22DKgpYutQWfZKv6HY11WV3QxfBdoZ2IZ/8R
- 1dXQQC3ymsHSF7lHENRAW7heU7N3//R7ApODSTy2OPCTm8KgE/AdYPjd7BcjUw/JeXaQ
- G6d0gMcA5ImCvXHdrbfxenldCzozNVINxVpHzZU2dtq0JEiZYMzTAf6eS7YcNzYATO7a
- RFkZdTwYgxCgX5Yb7coZ5yE1oIPHu3K+j7/wBKwKhM9Xp01itiWZJ0+Ob03p93IpGsKR
- d44pWrjLExUCkKCJyqzDEUK0sO+89IQael7QvcRgen995yz6PiWAjLUmDvrkj/EXLhly
- Mjqw==
+ bh=fFyvKUbtJ36eD8qq3Sw3snLE98+exp6mRddv9aYASwg=;
+ b=dCeQRVRtkxDnODjIXOWMmzpf2kAgNYRcm8f4Dc9UrzMunsuTMYL+1ESnryQwcLfpl4
+ PpeERPP4oiIOc9hBrRTALHGIuwGNtoqXGE3qN5HFi9tqXWrFpaNhZ6Aoc9/9EbXrndp9
+ 6jgrAP3Up6IGBaU3gd3v6Zj8iOqsKfEUmUTH4Ss2KWjgrhq/weN5gqHUS6Nvlw0CSbeW
+ 5AjvBvc74EIi9fEiWLoPhAU5ZTvY4k9NeP96vQkXMFMTwLemgXDEEKlunk+emaWC2PKr
+ Pcn7ZBFpMA6WmBfkPOeyO3WO5bWPPjKFTdwZ4Fss8VCpX5gp3KalFP4ZE2CEWQxOSltz
+ tbiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nMMca6ogUWXi0ch4Y2WRyLimPI/FUHz8LX6jciCfSL0=;
- b=OG8O4TLpKXc7yNk4FNEuRTcxCZB9UpN2f67z4A3NGE9yJCjpJKM+qiktriWXEGJP+8
- 0J/aZSrHKXIpQ9okgZNQTqa3Lv0DkOWOZVBYkKhza6JIeqPRlh914TFK+OdZvfWpDmzE
- FrI7gixFq5uuNRQQIVq2o+U+q0MeL+U35UXZzQX2hGAP35YlaIFPrqtvV/S4jUde9/U7
- KqXbw2Kv0ls+PCCPk6DWUoYgIABBUcAMc+zS4jRYGCNyuMxaSPbVOycyymaPx5Xf+lgl
- dcynUcmJ4XX85EvxpHBrG+PNPDy31shwigf796V+TfRBY1jXl2Uj9ZcAqYiJppJA2yyb
- TK5A==
-X-Gm-Message-State: AOAM53069NFGCVmMxxIjub6YJ2djeECu6Pp1TAY0cNICuYPF4sb4G24n
- 2vRclFziaazAjUqVhKO/eyo=
-X-Google-Smtp-Source: ABdhPJxlhCnhuhE7I8iz3HkOhUekSEuVNDqklOld2tfE6JglGG840MuyjWtZqqUSBBb9vuA4cFmhqg==
-X-Received: by 2002:a17:902:b68b:b0:13a:1239:b8d9 with SMTP id
- c11-20020a170902b68b00b0013a1239b8d9mr5741580pls.25.1634829212923; 
- Thu, 21 Oct 2021 08:13:32 -0700 (PDT)
+ bh=fFyvKUbtJ36eD8qq3Sw3snLE98+exp6mRddv9aYASwg=;
+ b=yMxJK3/TwYB3dD8g2gpe8VedgDjphWr1QSNIrhi7/sDsyrMY2OPLN+FA5wJlsqjleU
+ b2AgMwGjst00hFxw8bU5oQctu2oB8pWEMcYFnL882d9LwOvzLWW1YZmXveD3r19UosxM
+ BIvj965bFwEZgQB1QCbtV8lG00T/kawrQVy9vtsxxyOqfKdewbevpVz47FM8NFJTAqLh
+ vZgIjz8Ho8MmAejHlJ32gLRnmHTt0f95XLHMx7GTOI1aON5Ivx0nllsm8Kxg8KhRN554
+ 6m8YrGrj8G24igUJyRfC3Tqqgic3/YPQViabL2mDtlhewRJxFo4RaVD+LJmjw902Z7Sy
+ DUUA==
+X-Gm-Message-State: AOAM530Ues5L5HZKqQhzznKOvUE5ZJEzY3sw+9WQFb+DcaNN+VaWekpB
+ Zx9+PjhQHPjq/TBMQChfeF8=
+X-Google-Smtp-Source: ABdhPJzcdJDJSfmIXMqwEJoJ1dxoI1RQuM8PXDOH4ilX1IstwIRrPtadTf+JaP1DB3ma+YpF9KwFCA==
+X-Received: by 2002:a05:6a00:24c8:b0:44c:654b:403b with SMTP id
+ d8-20020a056a0024c800b0044c654b403bmr6052186pfv.55.1634829241058; 
+ Thu, 21 Oct 2021 08:14:01 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:29a4:d874:a949:6890:f95f])
  by smtp.gmail.com with ESMTPSA id
- c9sm5508027pgq.58.2021.10.21.08.13.28
+ c9sm5508027pgq.58.2021.10.21.08.13.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 08:13:32 -0700 (PDT)
+ Thu, 21 Oct 2021 08:14:00 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v3 17/25] PCI: vmd: Use RESPONSE_IS_PCI_ERROR() to check read
- from hardware
-Date: Thu, 21 Oct 2021 20:37:42 +0530
-Message-Id: <5be1fdfdcf4b4a453117ef4dea0f71c9555fac24.1634825082.git.naveennaidu479@gmail.com>
+Subject: [PATCH v3 18/25] PCI: pciehp: Use RESPONSE_IS_PCI_ERROR() to check
+ read from hardware
+Date: Thu, 21 Oct 2021 20:37:43 +0530
+Message-Id: <c21290fe02a7a342a8b93c692586b6a2b6cde9e0.1634825082.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634825082.git.naveennaidu479@gmail.com>
 References: <cover.1634825082.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Derrick <jonathan.derrick@linux.dev>,
- Nirmal Patel <nirmal.patel@linux.intel.com>
+Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Wunner <lukas@wunner.de>, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,24 +122,62 @@ data from hardware.
 This helps unify PCI error response checking and make error checks
 consistent and easier to find.
 
+Compile tested only.
+
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/vmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/hotplug/pciehp_hpc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pci/controller/vmd.c b/drivers/pci/controller/vmd.c
-index a5987e52700e..bfe6b002ffec 100644
---- a/drivers/pci/controller/vmd.c
-+++ b/drivers/pci/controller/vmd.c
-@@ -538,7 +538,7 @@ static int vmd_get_phys_offsets(struct vmd_dev *vmd, bool native_hint,
- 		int ret;
+diff --git a/drivers/pci/hotplug/pciehp_hpc.c b/drivers/pci/hotplug/pciehp_hpc.c
+index 3024d7e85e6a..f472f83f6cce 100644
+--- a/drivers/pci/hotplug/pciehp_hpc.c
++++ b/drivers/pci/hotplug/pciehp_hpc.c
+@@ -89,7 +89,7 @@ static int pcie_poll_cmd(struct controller *ctrl, int timeout)
  
- 		ret = pci_read_config_dword(dev, PCI_REG_VMLOCK, &vmlock);
--		if (ret || vmlock == ~0)
-+		if (ret || RESPONSE_IS_PCI_ERROR(vmlock))
- 			return -ENODEV;
+ 	do {
+ 		pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
+-		if (slot_status == (u16) ~0) {
++		if (RESPONSE_IS_PCI_ERROR(slot_status)) {
+ 			ctrl_info(ctrl, "%s: no response from device\n",
+ 				  __func__);
+ 			return 0;
+@@ -165,7 +165,7 @@ static void pcie_do_write_cmd(struct controller *ctrl, u16 cmd,
+ 	pcie_wait_cmd(ctrl);
  
- 		if (MB2_SHADOW_EN(vmlock)) {
+ 	pcie_capability_read_word(pdev, PCI_EXP_SLTCTL, &slot_ctrl);
+-	if (slot_ctrl == (u16) ~0) {
++	if (RESPONSE_IS_PCI_ERROR(slot_ctrl)) {
+ 		ctrl_info(ctrl, "%s: no response from device\n", __func__);
+ 		goto out;
+ 	}
+@@ -236,7 +236,7 @@ int pciehp_check_link_active(struct controller *ctrl)
+ 	int ret;
+ 
+ 	ret = pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnk_status);
+-	if (ret == PCIBIOS_DEVICE_NOT_FOUND || lnk_status == (u16)~0)
++	if (ret == PCIBIOS_DEVICE_NOT_FOUND || RESPONSE_IS_PCI_ERROR(lnk_status))
+ 		return -ENODEV;
+ 
+ 	ret = !!(lnk_status & PCI_EXP_LNKSTA_DLLLA);
+@@ -443,7 +443,7 @@ int pciehp_card_present(struct controller *ctrl)
+ 	int ret;
+ 
+ 	ret = pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &slot_status);
+-	if (ret == PCIBIOS_DEVICE_NOT_FOUND || slot_status == (u16)~0)
++	if (ret == PCIBIOS_DEVICE_NOT_FOUND || RESPONSE_IS_PCI_ERROR(slot_status))
+ 		return -ENODEV;
+ 
+ 	return !!(slot_status & PCI_EXP_SLTSTA_PDS);
+@@ -621,7 +621,7 @@ static irqreturn_t pciehp_isr(int irq, void *dev_id)
+ 
+ read_status:
+ 	pcie_capability_read_word(pdev, PCI_EXP_SLTSTA, &status);
+-	if (status == (u16) ~0) {
++	if (RESPONSE_IS_PCI_ERROR(status)) {
+ 		ctrl_info(ctrl, "%s: no response from device\n", __func__);
+ 		if (parent)
+ 			pm_runtime_put(parent);
 -- 
 2.25.1
 
