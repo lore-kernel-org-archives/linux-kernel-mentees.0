@@ -2,99 +2,97 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC232C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:14:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAEFC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:14:25 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id A70D360F46
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:14:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org A70D360F46
+	by mail.kernel.org (Postfix) with ESMTPS id DB3BC61052
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:14:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org DB3BC61052
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 806574082C;
-	Thu, 21 Oct 2021 15:14:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id B979A4082C;
+	Thu, 21 Oct 2021 15:14:24 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 75d3Bi6xkQca; Thu, 21 Oct 2021 15:14:16 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C2747401CE;
-	Thu, 21 Oct 2021 15:14:16 +0000 (UTC)
+	with ESMTP id I3S3yf8WHuU0; Thu, 21 Oct 2021 15:14:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id F08DD401BD;
+	Thu, 21 Oct 2021 15:14:23 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A24C2C001C;
-	Thu, 21 Oct 2021 15:14:16 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C8E59C0011
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5372C001C;
+	Thu, 21 Oct 2021 15:14:23 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94265C0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:14:15 +0000 (UTC)
+ Thu, 21 Oct 2021 15:14:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id AC37580EE3
+ by smtp3.osuosl.org (Postfix) with ESMTP id 830D260EE8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:14:15 +0000 (UTC)
+ Thu, 21 Oct 2021 15:14:22 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GEjA3-PpDEbu
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oyEaOFLmtbNE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:14:15 +0000 (UTC)
+ Thu, 21 Oct 2021 15:14:22 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
- [IPv6:2607:f8b0:4864:20::102b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2C60B80E46
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
+ [IPv6:2607:f8b0:4864:20::635])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 05A9360628
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:14:15 +0000 (UTC)
-Received: by mail-pj1-x102b.google.com with SMTP id
- s61-20020a17090a69c300b0019f663cfcd1so3398744pjj.1
+ Thu, 21 Oct 2021 15:14:21 +0000 (UTC)
+Received: by mail-pl1-x635.google.com with SMTP id g5so655521plg.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 08:14:15 -0700 (PDT)
+ Thu, 21 Oct 2021 08:14:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FjWSerZb+dWA69lxPfira4z913yuChERYmgQMsWZtRA=;
- b=iGh3AHug5XPwueQdVcAQr4MP740tduvSvglgnF1J0evD83ER61uw+1QC2rufw2YuiX
- 1xYvMHoj2Jjn5E25nql1ikj9XKxyXY1lQrlpG3JAyaB4Xgwzsz//bWGkcv+xd5w9ltRC
- P/huvBwEUI5w0CCYlkrzwvcnc1Q8PkSzAVknEH05giViW1UQUN35mJaI11FGoYCXNVBl
- LtUKtEfE8ZRKrqtDh0FxqikjObvPO9OP5/N5hKR8DGJT7VPmu9rGO36jvyImqLg1IPpA
- LqdlVVkGq8g8PP3dfJVhMpU2YjqtsHIINKQ1XJ4aGX6vWegKqqhj3HNT6hLalCVn2j/c
- S8Wg==
+ bh=2uAmo/+Cbfp5AcJgSKVevbtx0v6w8vA6EhRcrgSx5fg=;
+ b=LXZvn3RqW16A3IoLUcDA/nCRjcSAPnabN2YD19JMpKVdRKs/9sY+8HO3d2IwFGtxo2
+ 9QSHJxf3EZ0xPuNHxrVPABkzUrVfCSdbsPtwpm8x34998mo/hpykSAYF47t1bjsgkCc4
+ CJZpjudjuTHW94t6dsRQcOf+iN5ub7bkXdfqYpZ81EXyF/c+hyFhE86D64vmxepPYlqm
+ oWu2TBeeNN9yBzw+mb01r3d3YUZAIbp8giEBbfQLEN47tRsn8c07whMLMpdi34cOq1ha
+ GDA9ljLKc7xWt/2XJhQ44kMQjYWieT7gm0OV24H7quxrkzsHHW2UzMmwJLZjUTr+2kxC
+ 6E7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FjWSerZb+dWA69lxPfira4z913yuChERYmgQMsWZtRA=;
- b=HpIYjeWNJcsBU6wb/5NSHJ//loMZnHoCtuzPXYvcG/WnObZQ6ddaqkGl6JLaroxz2y
- 8k27MtA+S/mLYI/lfE5lZPYeEiufkl37ilzCU3VxDy0n3RNMFBwL37l+Q0pqyLybm71l
- 0so6CfF306stZX2l6oTsEajbl8+Nm9ASLQSnWlClHwt1bTBTIDKKKAkA0hvs0BbHS2Lc
- f/QsvNb5MEOj3dBStlF9plhzmPZKLqmsBeZZWYDP34Eyy+Sr8hkcTQfhOKugdy6c7R5d
- h66o+o+U+wIG5dwGq3cdxRaF/ClYiGD75BM9lIIwlwkC5hhA5aXkaRbJiagufXLENKyr
- FKlA==
-X-Gm-Message-State: AOAM531vL6oPdv+DA9cF8hmDyNKiBddf9uJNtuGNWEWZq7wDAwYg7fxW
- IvxhlpmHZ7k1sNpWZIYkGjY=
-X-Google-Smtp-Source: ABdhPJzXSIGg25L/CN5xu8J0iwX/Cnu6VHjnxns/agf5UjmuVd4y83yG4NP8dNx4oCnosyvdmddVEA==
-X-Received: by 2002:a17:902:9a97:b0:13e:2da4:8132 with SMTP id
- w23-20020a1709029a9700b0013e2da48132mr5758192plp.34.1634829254500; 
- Thu, 21 Oct 2021 08:14:14 -0700 (PDT)
+ bh=2uAmo/+Cbfp5AcJgSKVevbtx0v6w8vA6EhRcrgSx5fg=;
+ b=2EiJnNwJkAwkHOFc0PHJBCkhI1PgDw1gmSi82tXLrf0Fds2EtU1pfv/izD6z6zd2fW
+ kvKXSZuSNg3+17hDIpubebScFn7BjQzFIJ+IU2LPTo5NntrTOomnbt8og/F8ozJPffT7
+ XU40zU6xPsrFzFw8c42AxKvqqJ0qJ9IdsU4Ivpkn03a05y/BNi815ZvMLPd/YrnG/Q6f
+ iHnDksQuzF1SK97RmMK3ffU9F5eCAwWVkgSkPiRi+9nHPaivm1mjCDftc7BB7dUwBOUf
+ 5iCGGB/AySoNBRfBCMihoBbeZ/sbV17YpKFU7L871+qtKzyT3JfrKwu+cmD6ySK4PpCl
+ DIyA==
+X-Gm-Message-State: AOAM532obJs4nyvBX4j6Sda1o9Zw8Skb2gIJ5kVXQuwRFFgwX53EO/r2
+ y6SbehPLp4E6LNgpmSZjEKI=
+X-Google-Smtp-Source: ABdhPJwUspOjoseSTR2C72aM7leLQ4TG95PO4XKpJq1XHYr9Sl/grpaaahcxlWsZRGq5lqx424d8lA==
+X-Received: by 2002:a17:902:6808:b0:13e:a85b:52bd with SMTP id
+ h8-20020a170902680800b0013ea85b52bdmr5649513plk.76.1634829261404; 
+ Thu, 21 Oct 2021 08:14:21 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:29a4:d874:a949:6890:f95f])
  by smtp.gmail.com with ESMTPSA id
- c9sm5508027pgq.58.2021.10.21.08.14.10
+ c9sm5508027pgq.58.2021.10.21.08.14.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 08:14:14 -0700 (PDT)
+ Thu, 21 Oct 2021 08:14:20 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v3 20/25] PCI/PME: Use RESPONSE_IS_PCI_ERROR() to check read
- from hardware
-Date: Thu, 21 Oct 2021 20:37:45 +0530
-Message-Id: <236b7af1f36698b34c01857d0a2a18c4ab850c5f.1634825082.git.naveennaidu479@gmail.com>
+Subject: [PATCH v3 21/25] PCI: cpqphp: Use RESPONSE_IS_PCI_ERROR() to check
+ read from hardware
+Date: Thu, 21 Oct 2021 20:37:46 +0530
+Message-Id: <20dd8fb823cdb1df4a6313fd5872d78d8f0860c0.1634825082.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634825082.git.naveennaidu479@gmail.com>
 References: <cover.1634825082.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Sean V Kelley <sean.v.kelley@intel.com>,
  linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -124,35 +122,33 @@ data from hardware.
 This helps unify PCI error response checking and make error checks
 consistent and easier to find.
 
-Compile tested only.
-
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/pcie/pme.c | 4 ++--
+ drivers/pci/hotplug/cpqphp_ctrl.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/pcie/pme.c b/drivers/pci/pcie/pme.c
-index 1d0dd77fed3a..bad7ba420c18 100644
---- a/drivers/pci/pcie/pme.c
-+++ b/drivers/pci/pcie/pme.c
-@@ -224,7 +224,7 @@ static void pcie_pme_work_fn(struct work_struct *work)
- 			break;
+diff --git a/drivers/pci/hotplug/cpqphp_ctrl.c b/drivers/pci/hotplug/cpqphp_ctrl.c
+index 1b26ca0b3701..bf14391c005f 100644
+--- a/drivers/pci/hotplug/cpqphp_ctrl.c
++++ b/drivers/pci/hotplug/cpqphp_ctrl.c
+@@ -2273,7 +2273,7 @@ static u32 configure_new_device(struct controller  *ctrl, struct pci_func  *func
+ 		while ((function < max_functions) && (!stop_it)) {
+ 			pci_bus_read_config_dword(ctrl->pci_bus, PCI_DEVFN(func->device, function), 0x00, &ID);
  
- 		pcie_capability_read_dword(port, PCI_EXP_RTSTA, &rtsta);
--		if (rtsta == (u32) ~0)
-+		if (RESPONSE_IS_PCI_ERROR(rtsta))
- 			break;
+-			if (ID == 0xFFFFFFFF) {
++			if (RESPONSE_IS_PCI_ERROR(ID)) {
+ 				function++;
+ 			} else {
+ 				/* Setup slot structure. */
+@@ -2517,7 +2517,7 @@ static int configure_new_function(struct controller *ctrl, struct pci_func *func
+ 			pci_bus_read_config_dword(pci_bus, PCI_DEVFN(device, 0), 0x00, &ID);
+ 			pci_bus->number = func->bus;
  
- 		if (rtsta & PCI_EXP_RTSTA_PME) {
-@@ -274,7 +274,7 @@ static irqreturn_t pcie_pme_irq(int irq, void *context)
- 	spin_lock_irqsave(&data->lock, flags);
- 	pcie_capability_read_dword(port, PCI_EXP_RTSTA, &rtsta);
+-			if (ID != 0xFFFFFFFF) {	  /*  device present */
++			if (!RESPONSE_IS_PCI_ERROR(ID)) {	  /*  device present */
+ 				/* Setup slot structure. */
+ 				new_slot = cpqhp_slot_create(hold_bus_node->base);
  
--	if (rtsta == (u32) ~0 || !(rtsta & PCI_EXP_RTSTA_PME)) {
-+	if (RESPONSE_IS_PCI_ERROR(rtsta) || !(rtsta & PCI_EXP_RTSTA_PME)) {
- 		spin_unlock_irqrestore(&data->lock, flags);
- 		return IRQ_NONE;
- 	}
 -- 
 2.25.1
 
