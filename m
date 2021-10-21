@@ -2,109 +2,99 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1383C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:08:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8025AC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:30:37 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 8C32760FC0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:08:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8C32760FC0
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+	by mail.kernel.org (Postfix) with ESMTPS id 09A6C613A0
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 16:30:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 09A6C613A0
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5C4F760F12;
-	Thu, 21 Oct 2021 16:08:44 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C35BC606A0;
+	Thu, 21 Oct 2021 16:30:36 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aOkmyYxjn3Hp; Thu, 21 Oct 2021 16:08:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7DEE960F0C;
-	Thu, 21 Oct 2021 16:08:43 +0000 (UTC)
+	with ESMTP id DnPTDhgGfJEk; Thu, 21 Oct 2021 16:30:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D788B605BA;
+	Thu, 21 Oct 2021 16:30:35 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5D6D4C0033;
-	Thu, 21 Oct 2021 16:08:43 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A51CEC0011
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 988D6C0033;
+	Thu, 21 Oct 2021 16:30:35 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85CCEC0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:08:42 +0000 (UTC)
+ Thu, 21 Oct 2021 16:30:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 84799401B3
+ by smtp2.osuosl.org (Postfix) with ESMTP id 71C7F40218
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:08:42 +0000 (UTC)
+ Thu, 21 Oct 2021 16:30:34 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
+ dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Q8wld_Za6tso
+ with ESMTP id sO4mOBQ_QJJl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:08:41 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by smtp2.osuosl.org (Postfix) with ESMTPS id CD83140017
+ Thu, 21 Oct 2021 16:30:33 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2867640017
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 16:08:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AEFD611CB;
- Thu, 21 Oct 2021 16:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634832521;
- bh=3wcwNbtDNknQedZoy24cZfK1CiOqshIYIk3e2c4B9Rw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XWhJ08GGIqTZw+TvT/nMCDAy7quf2FJv33jj0Ily06vxkI8rUxTQELDkeHb0u+NFl
- MD0Lx9+x7lhMM3GIAZfA1T2u0eNmQAG1bqpXTvz67evSI6p28cRymuvwfzx0MmCdPZ
- Eu9kyx0IRx+BQHrjfg6pUkXIBKHVfUT3rJ6PyHjkKsGXSiMQ2s0MWrlq5f/6WPUXfA
- 12KC4ZTUvETH0cKn32kcKsPv7RGUIftWATLF8XYn+cHxWi3nvl7PC2jb98L+8EJMFN
- xtCzC0AmpDoL2r37xWXDC3EUt/EyyEmL8iLEASXb2kkCdjx5XS/xqqOzJAGW3sGtIs
- FzUF2rqmMe78Q==
-Received: by pali.im (Postfix)
- id D8DB085E; Thu, 21 Oct 2021 18:08:38 +0200 (CEST)
-Date: Thu, 21 Oct 2021 18:08:38 +0200
-From: Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To: Naveen Naidu <naveennaidu479@gmail.com>
-Subject: Re: [PATCH v3 01/25] PCI: Add PCI_ERROR_RESPONSE and it's related
- definitions
-Message-ID: <20211021160838.r7t7fmmeseaecfac@pali>
-References: <cover.1634825082.git.naveennaidu479@gmail.com>
- <f7960a4dee0e417eedd7d2e031d04ac9016c6686.1634825082.git.naveennaidu479@gmail.com>
+ Thu, 21 Oct 2021 16:30:33 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ o4-20020a17090a3d4400b001a1c8344c3fso1428468pjf.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Oct 2021 09:30:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=Lc2V8kW9DWjIh5PwTRqiTR+Qdm9DCZ56d3CfgkVtsAg=;
+ b=KuDBSYgshNz9/GCM1Jkbz7X3nsWyxLk7hvxcjDbgj2f+N3J2vjdaq7KVZsGcSNocHf
+ pMaNHrJ5ZwHL38XdgC6QleKmA2D81frhRfhI9iPcj9GYH78bb1Nlt2LXE6s4eakmlC1C
+ YY2KiZqTVXORECOLw0be0vs2dOsf2m1cyKFZB9E5TJvohcma/0P8dxtyYEikqf591vPp
+ X4fBU35cfhcGSzdmFwJnJgWcj03FLgViEoeTO3fzri7jaHSUdzlZtW6qkhhEmFtYWPcp
+ ApO6iqy1iDToJt+y0rvB5+29nVoGOieKLQJYFCO7E6YzBy5afnoHSPUxsk03JZHQSjIT
+ +2hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Lc2V8kW9DWjIh5PwTRqiTR+Qdm9DCZ56d3CfgkVtsAg=;
+ b=6BBySswfJBKerdmLXU+sZsu8we9tE7OuFcw3x2Pp9nDzY9jI4rEnFkL3N4Pp8vGsis
+ Z8ovnVCsSkbgi9x7HMJa8qdtughE5jtUc34qzxwfhNDKRtbvmBay/PGfaUYIk7WhxADa
+ p0a44/+sFVSfGlSaQY9Dxx7x0/y5+pzzEmD9g0q0XZVfZaiwrFonRCehY1XY4deSrPuy
+ aE2oavIiX4EgFjdY28hMJNdkU2tk1YspfmIWPmrXzLz2mLUAI/s4LU7+nDNm39BL1sQ8
+ ZUEmJXfshdnWbpJj3VPKgT8RH1NMljMQmsmmG3fMZkjAWx1vKnksUUPPq0onwAOgpR9C
+ s4QQ==
+X-Gm-Message-State: AOAM530GyM5OZff2Q7f6csqKceX9dVfvSGyLnUTwHd7hvjdNOJhrHPKh
+ ZoZ8Yc99apBS6HEJv8715oE=
+X-Google-Smtp-Source: ABdhPJxOnUbbOM9WGG3ZOvhQwiI9j78jVo97pCwncL8rKO/wgLLb9naCikt2yiq01L3UPck2/PDSEA==
+X-Received: by 2002:a17:90a:9bca:: with SMTP id
+ b10mr7852273pjw.133.1634833832448; 
+ Thu, 21 Oct 2021 09:30:32 -0700 (PDT)
+Received: from theprophet ([2406:7400:63:29a4:d874:a949:6890:f95f])
+ by smtp.gmail.com with ESMTPSA id d60sm9876076pjk.49.2021.10.21.09.30.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Oct 2021 09:30:31 -0700 (PDT)
+Date: Thu, 21 Oct 2021 22:00:21 +0530
+From: Naveen Naidu <naveennaidu479@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v4 1/8] PCI/AER: Remove ID from aer_agent_string[]
+Message-ID: <20211021163021.r4ekhfol42ftw5zw@theprophet>
+References: <22b2dae2a6ac340d9d45c28481d746ec1064cd6c.1633453452.git.naveennaidu479@gmail.com>
+ <20211021012826.GA2655655@bhelgaas>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <f7960a4dee0e417eedd7d2e031d04ac9016c6686.1634825082.git.naveennaidu479@gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
- linux-hyperv@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
- linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
- Binghui Wang <wangbinghui@hisilicon.com>,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Oliver O'Halloran <oohall@gmail.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Russell Currey <ruscur@russell.cc>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Toan Le <toan@os.amperecomputing.com>, "K. Y. Srinivasan" <kys@microsoft.com>,
- Nirmal Patel <nirmal.patel@linux.intel.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
- Wei Liu <wei.liu@kernel.org>, linux-samsung-soc@vger.kernel.org,
- Stephen Hemminger <sthemmin@microsoft.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Joyce Ooi <joyce.ooi@intel.com>, Dexuan Cui <decui@microsoft.com>,
- Jianjun Wang <jianjun.wang@mediatek.com>, linux-rockchip@lists.infradead.org,
- "maintainer:BROADCOM IPROC ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
- Jonathan Derrick <jonathan.derrick@linux.dev>,
- Xiaowei Song <songxiaowei@hisilicon.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Robert Richter <rric@kernel.org>, Sean V Kelley <sean.v.kelley@intel.com>,
- Ray Jui <rjui@broadcom.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Ryder Lee <ryder.lee@mediatek.com>, linux-mediatek@lists.infradead.org,
- bhelgaas@google.com, linux-arm-kernel@lists.infradead.org,
- Qiuxu Zhuo <qiuxu.zhuo@intel.com>, Scott Branden <sbranden@broadcom.com>,
- Jingoo Han <jingoohan1@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Lukas Wunner <lukas@wunner.de>, Marc Zyngier <maz@kernel.org>,
- Shawn Guo <shawn.guo@linaro.org>, linuxppc-dev@lists.ozlabs.org
+In-Reply-To: <20211021012826.GA2655655@bhelgaas>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, oohall@gmail.com,
+ ruscur@russell.cc, bhelgaas@google.com, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,42 +106,141 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gVGh1cnNkYXkgMjEgT2N0b2JlciAyMDIxIDIwOjM3OjI2IE5hdmVlbiBOYWlkdSB3cm90ZToK
-PiBBbiBNTUlPIHJlYWQgZnJvbSBhIFBDSSBkZXZpY2UgdGhhdCBkb2Vzbid0IGV4aXN0IG9yIGRv
-ZXNuJ3QgcmVzcG9uZAo+IGNhdXNlcyBhIFBDSSBlcnJvci4gIFRoZXJlJ3Mgbm8gcmVhbCBkYXRh
-IHRvIHJldHVybiB0byBzYXRpc2Z5IHRoZQo+IENQVSByZWFkLCBzbyBtb3N0IGhhcmR3YXJlIGZh
-YnJpY2F0ZXMgfjAgZGF0YS4KPiAKPiBBZGQgYSBQQ0lfRVJST1JfUkVTUE9OU0UgZGVmaW5pdGlv
-biBmb3IgdGhhdCBhbmQgdXNlIGl0IHdoZXJlCj4gYXBwcm9wcmlhdGUgdG8gbWFrZSB0aGVzZSBj
-aGVja3MgY29uc2lzdGVudCBhbmQgZWFzaWVyIHRvIGZpbmQuCj4gCj4gQWxzbyBhZGQgaGVscGVy
-IGRlZmluaXRpb25zIFNFVF9QQ0lfRVJST1JfUkVTUE9OU0UgYW5kCj4gUkVTUE9OU0VfSVNfUENJ
-X0VSUk9SIHRvIG1ha2UgdGhlIGNvZGUgbW9yZSByZWFkYWJsZS4KPiAKPiBTdWdnZXN0ZWQtYnk6
-IEJqb3JuIEhlbGdhYXMgPGJoZWxnYWFzQGdvb2dsZS5jb20+Cj4gU2lnbmVkLW9mZi1ieTogTmF2
-ZWVuIE5haWR1IDxuYXZlZW5uYWlkdTQ3OUBnbWFpbC5jb20+CgpSZXZpZXdlZC1ieTogUGFsaSBS
-b2jDoXIgPHBhbGlAa2VybmVsLm9yZz4KCj4gLS0tCj4gIGluY2x1ZGUvbGludXgvcGNpLmggfCA5
-ICsrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAt
-LWdpdCBhL2luY2x1ZGUvbGludXgvcGNpLmggYi9pbmNsdWRlL2xpbnV4L3BjaS5oCj4gaW5kZXgg
-Y2Q4YWE2ZmNlMjA0Li42ODljODI3N2M1ODQgMTAwNjQ0Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9w
-Y2kuaAo+ICsrKyBiL2luY2x1ZGUvbGludXgvcGNpLmgKPiBAQCAtMTU0LDYgKzE1NCwxNSBAQCBl
-bnVtIHBjaV9pbnRlcnJ1cHRfcGluIHsKPiAgLyogVGhlIG51bWJlciBvZiBsZWdhY3kgUENJIElO
-VHggaW50ZXJydXB0cyAqLwo+ICAjZGVmaW5lIFBDSV9OVU1fSU5UWAk0Cj4gIAo+ICsvKgo+ICsg
-KiBSZWFkaW5nIGZyb20gYSBkZXZpY2UgdGhhdCBkb2Vzbid0IHJlc3BvbmQgdHlwaWNhbGx5IHJl
-dHVybnMgfjAuICBBCj4gKyAqIHN1Y2Nlc3NmdWwgcmVhZCBmcm9tIGEgZGV2aWNlIG1heSBhbHNv
-IHJldHVybiB+MCwgc28geW91IG5lZWQgYWRkaXRpb25hbAo+ICsgKiBpbmZvcm1hdGlvbiB0byBy
-ZWxpYWJseSBpZGVudGlmeSBlcnJvcnMuCj4gKyAqLwo+ICsjZGVmaW5lIFBDSV9FUlJPUl9SRVNQ
-T05TRSAgICAgKH4wVUxMKQo+ICsjZGVmaW5lIFNFVF9QQ0lfRVJST1JfUkVTUE9OU0UodmFsKSAg
-ICAoKih2YWwpID0gKCh0eXBlb2YoKih2YWwpKSkgUENJX0VSUk9SX1JFU1BPTlNFKSkKPiArI2Rl
-ZmluZSBSRVNQT05TRV9JU19QQ0lfRVJST1IodmFsKSAoKHZhbCkgPT0gKCh0eXBlb2YodmFsKSkg
-UENJX0VSUk9SX1JFU1BPTlNFKSkKPiArCj4gIC8qCj4gICAqIHBjaV9wb3dlcl90IHZhbHVlcyBt
-dXN0IG1hdGNoIHRoZSBiaXRzIGluIHRoZSBDYXBhYmlsaXRpZXMgUE1FX1N1cHBvcnQKPiAgICog
-YW5kIENvbnRyb2wvU3RhdHVzIFBvd2VyU3RhdGUgZmllbGRzIGluIHRoZSBQb3dlciBNYW5hZ2Vt
-ZW50IGNhcGFiaWxpdHkuCj4gLS0gCj4gMi4yNS4xCj4gCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlz
-dApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8v
-bGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1t
-ZW50ZWVzCg==
+On 20/10, Bjorn Helgaas wrote:
+> On Tue, Oct 05, 2021 at 10:48:08PM +0530, Naveen Naidu wrote:
+> > Currently, we do not print the "id" field in the AER error logs. Yet the
+> > aer_agent_string[] has the word "id" in it. The AER error log looks
+> > like:
+> > 
+> >   pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver ID)
+> > 
+> > Without the "id" field in the error log, The aer_agent_string[]
+> > (eg: "Receiver ID") does not make sense. A user reading the
+> > aer_agent_string[] in the log, might inadvertently look for an "id"
+> > field and not finding it might lead to confusion.
+> > 
+> > Remove the "ID" from the aer_agent_string[].
+> > 
+> > The following are sample dummy errors inject via aer-inject.
+> 
+> I like this, and the problem it fixes was my fault because
+> these "ID" strings should have been removed by 010caed4ccb6.
+> 
+> If it's straightforward enough, it would be nice to have the
+> aer-inject command line here in the commit log to make it easier
+> for people to play with this.
+>
+
+Thank you for the review. Do you mean something like:
+
+The following sample dummy errors are injected via aer-inject via the
+following steps:
+
+  1. The steps to compile the aer-inject tool is mentioned in (Section
+     4. Software error inject) of the document [1]
+
+     [1]: https://www.kernel.org/doc/Documentation/PCI/pcieaer-howto.txt
+
+     Make sure to place the aer-inject executable at the home directory
+     of the qemu system or at any other place.
+
+  2. Emulate a PCIE architecture using qemu, A sample looks like
+     following:
+     
+		qemu-system-x86_64 -kernel ../linux/arch/x86_64/boot/bzImage \
+        -initrd  buildroot-build/images/rootfs.cpio.gz \
+        -append "console=ttyS0"  \
+        -enable-kvm -nographic \
+        -M q35 \
+        -device pcie-root-port,bus=pcie.0,id=rp1,slot=1 \
+        -device pcie-pci-bridge,id=br1,bus=rp1 \
+        -device e1000,bus=br1,addr=8
+       
+    Note that the PCIe features are available only when using the 
+    'q35' Machine [2]
+    [2]: https://github.com/qemu/qemu/blob/master/docs/pcie.txt
+
+  3. Once the qemu system starts up, create a sample aer-file or use any
+     example aer file from [3]
+
+     [3]:
+     https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/tree/examples
+
+  4. Inject any aer-error using
+      
+      ./aer-inject aer-file
+
+This does look a tad bit longer for a commit log so I am unsure if you
+would like to have it there. If you are okay with it, I would be happy
+to add it to that :)
+
+> > Before
+> > =======
+> > 
+> > In 010caed4ccb6 ("PCI/AER: Decode Error Source Requester ID"),
+> > the "id" field was removed from the AER error logs, so currently AER
+> > logs look like:
+> > 
+> >   pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03:0
+> >   pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver ID) <--- no id field
+> >   pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000
+> >   pcieport 0000:00:03.0:    [ 6] BadTLP
+> > 
+> > After
+> > ======
+> > 
+> >   pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03.0
+> >   pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver)
+> >   pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000
+> >   pcieport 0000:00:03.0:    [ 6] BadTLP
+> > 
+> > Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+> > ---
+> >  drivers/pci/pcie/aer.c | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+> > index 9784fdcf3006..241ff361b43c 100644
+> > --- a/drivers/pci/pcie/aer.c
+> > +++ b/drivers/pci/pcie/aer.c
+> > @@ -516,10 +516,10 @@ static const char *aer_uncorrectable_error_string[] = {
+> >  };
+> >  
+> >  static const char *aer_agent_string[] = {
+> > -	"Receiver ID",
+> > -	"Requester ID",
+> > -	"Completer ID",
+> > -	"Transmitter ID"
+> > +	"Receiver",
+> > +	"Requester",
+> > +	"Completer",
+> > +	"Transmitter"
+> >  };
+> >  
+> >  #define aer_stats_dev_attr(name, stats_array, strings_array,		\
+> > @@ -703,7 +703,7 @@ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info)
+> >  	const char *level;
+> >  
+> >  	if (!info->status) {
+> > -		pci_err(dev, "PCIe Bus Error: severity=%s, type=Inaccessible, (Unregistered Agent ID)\n",
+> > +		pci_err(dev, "PCIe Bus Error: severity=%s, type=Inaccessible, (Unregistered Agent)\n",
+> >  			aer_error_severity_string[info->severity]);
+> >  		goto out;
+> >  	}
+> > -- 
+> > 2.25.1
+> > 
+> > _______________________________________________
+> > Linux-kernel-mentees mailing list
+> > Linux-kernel-mentees@lists.linuxfoundation.org
+> > https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
