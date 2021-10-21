@@ -2,91 +2,96 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACAEC433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB5EC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:09:13 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 1596A60F9F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:08:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 1596A60F9F
+	by mail.kernel.org (Postfix) with ESMTPS id 8FB0A60F57
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:09:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 8FB0A60F57
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D15AF405B9;
-	Thu, 21 Oct 2021 15:08:30 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5702A40812;
+	Thu, 21 Oct 2021 15:09:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jmPecXbMV7Xw; Thu, 21 Oct 2021 15:08:28 +0000 (UTC)
+	with ESMTP id kVU9ghFuiPPX; Thu, 21 Oct 2021 15:09:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 53719405AC;
-	Thu, 21 Oct 2021 15:08:28 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 810EC407F6;
+	Thu, 21 Oct 2021 15:09:12 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B8E2C001C;
-	Thu, 21 Oct 2021 15:08:28 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D7204C0011
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F99AC001C;
+	Thu, 21 Oct 2021 15:09:12 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2BFEFC0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:08:26 +0000 (UTC)
+ Thu, 21 Oct 2021 15:09:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C491060EEC
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1ABFB824DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:08:26 +0000 (UTC)
+ Thu, 21 Oct 2021 15:09:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QAOdTjB0Z774
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xOfVGg8-yL2v
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:08:25 +0000 (UTC)
+ Thu, 21 Oct 2021 15:09:09 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 964B260EE8
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
+ [IPv6:2607:f8b0:4864:20::1030])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E622582435
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:08:25 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id r2so566648pgl.10
+ Thu, 21 Oct 2021 15:09:09 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id
+ ls14-20020a17090b350e00b001a00e2251c8so759753pjb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 08:08:25 -0700 (PDT)
+ Thu, 21 Oct 2021 08:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l//N2yjQPwL5Ut6gR7Id3QDkJj4qUz5hOkWw1Y1cnLc=;
- b=k+99nwmDy9pwVyDey675D/OeF6zbd73Y1s2uZR6WXZADWwNUhCQO+ZGEh+HLNI3lfV
- M/Kf0rYS7sJJnHnoVY+B7/kE4zZAM0u36uLUB8v0pMU5V/7Eq5r/XGgyXWVr9eRBp8+F
- NOuU/xIbPzXhWqSbhZlpR8RVr64q0dOVdXYf7D9ZekmEpGC4yCrQb7D9fboynvl+34+e
- oqYUC+uV6q2gtmqvYVS7zWMtNH/zpjhCk9UMidN0n6fGCMYZQgpbMCJieEG3GSfGHVje
- 75vLEBhqJpaEZRiNRY6EyakC2UjUcSrrxI9rnYaJ3zp3htOuoo+MEH6hHFHnbwIYUxG4
- 48jQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CCqTrKqg8AEEY1fy94bWXb9atpHsOzrSvfmsYcP1Hi4=;
+ b=Me2ms/bTDiHgSLBr6tSZnSGK57Xq0PodMkigjQOxBqKFSTP+S6Ys0c1z1cgwhGRzMq
+ dD61uaB62U1bO0yyIAfAlye2MhW4Xb6U3f1ifwy1tiGQ5Li+LQFTluq4WPm1SzJAA/Co
+ i6USRU558XPIJjQTcsE+KgIJOgcbw+05/L7J2UmMshSYeUp0D7qGGyY19TKpkvepf99M
+ qKvLJ/8dCZsuaslmM7TpJXRdRFEfgA57CfrtFR+iToFz5FQ8Br1TUIR43iayrks4OUUh
+ WctytAcN5Y8WaMGzxbsbtr5gt6lzr1z6E+AuwgB/M+xYSeNi2uzA3U+TvUDD8R6lKBJR
+ lYXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l//N2yjQPwL5Ut6gR7Id3QDkJj4qUz5hOkWw1Y1cnLc=;
- b=PXuXqW+mRsItMss+0dknIwdlurkMAWF/1A0420zkpHzC7tXvr+1SmKRd1qos1nJkA1
- WBqM9366IzjUIWyEhVt94TxjO8rMvVoGRnYxXLsRARJdDHRstMiPCFitIxnWbXkNKNFD
- M7r69j4vPbR5J0KxXdJJbCFfpz+Ge9jgDLdttIHizCrlbvzRbpVLUbiHYBPRPGsGQ0PV
- YatbbO2dMcmsw+AKkYxq1355XeH1Lndiw0CAoqbrhrsHV4CeaPIRjeDUtPsO2x2litix
- 4y1SrTRLeJk1Q30qRjCIOPF18ScHOASlL1uCfRm8L54+4gmGbhzLLbovIX1c6KvTcY0/
- NA0A==
-X-Gm-Message-State: AOAM533G0c2UATZ745qyK2ZA2yoVqAHELKZs5FFlfpe2sUTm718v68rl
- qWkzkTCVMzidKYxW8B3TOcw=
-X-Google-Smtp-Source: ABdhPJxzAt/sLs2vPoeeMO8ZPLkWPQjz3XF0ai/VhySWL3UT37B9wdYgmFaV/orMaolXHHmCu+HwcA==
-X-Received: by 2002:a63:af09:: with SMTP id w9mr4779992pge.323.1634828904829; 
- Thu, 21 Oct 2021 08:08:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CCqTrKqg8AEEY1fy94bWXb9atpHsOzrSvfmsYcP1Hi4=;
+ b=7tk7IQ3TrHYo746lTt1J1u8hP+DKPlykLeUZF1p7JciiJSWXJzvE0k7UezkYRW7/v3
+ bjP7UNkfBkxWWNzQ8g5a0XuRlv6sgOvMU7ssiReNlVWRyVQagYWtOdJc9vp6LK9onw/K
+ PUVmSv1jlcbLycQjP4SQc65MMU1ndvSMvzxl9Ytyo8YCcePSZjFTIAvGWxBk1UVLdvzI
+ D0QvMKr1fHyjY5RieXNnGUkLPtC/8z+ElhjGqHYE+eW/aeGrQIWLj1028SEpfpdd+jmp
+ UNU9y8M+BK9xfI2Fswokd3zFdmCYjwHIgbGLYeX3lUXcxHEhPVENO6ugRfAsPkabyM57
+ kw+w==
+X-Gm-Message-State: AOAM532xXPqdIk0GjX2TpotnG8tTWDjF55Kk110kuU44H9ovCC1icfrP
+ 3XKF8KLA5DfmehZrloFHwkI=
+X-Google-Smtp-Source: ABdhPJxnxqjsJSTu0VewveiQokmLiOhsbRmw+PWUQcLpIM+kXijEvkWeAPZfgzTDW/T9CfexzBf24w==
+X-Received: by 2002:a17:90b:4d88:: with SMTP id
+ oj8mr5111859pjb.175.1634828949353; 
+ Thu, 21 Oct 2021 08:09:09 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:29a4:d874:a949:6890:f95f])
  by smtp.gmail.com with ESMTPSA id
- c9sm5508027pgq.58.2021.10.21.08.08.10
+ c9sm5508027pgq.58.2021.10.21.08.08.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 08:08:24 -0700 (PDT)
+ Thu, 21 Oct 2021 08:09:08 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v3 00/25] Unify PCI error response checking
-Date: Thu, 21 Oct 2021 20:37:25 +0530
-Message-Id: <cover.1634825082.git.naveennaidu479@gmail.com>
+Subject: [PATCH v3 01/25] PCI: Add PCI_ERROR_RESPONSE and it's related
+ definitions
+Date: Thu, 21 Oct 2021 20:37:26 +0530
+Message-Id: <f7960a4dee0e417eedd7d2e031d04ac9016c6686.1634825082.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1634825082.git.naveennaidu479@gmail.com>
+References: <cover.1634825082.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
  linux-hyperv@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>,
@@ -102,8 +107,8 @@ Cc: =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
  Marek Vasut <marek.vasut+renesas@gmail.com>, Rob Herring <robh@kernel.org>,
  Wei Liu <wei.liu@kernel.org>, linux-samsung-soc@vger.kernel.org,
  Marc Zyngier <maz@kernel.org>, Joyce Ooi <joyce.ooi@intel.com>,
- Dexuan Cui <decui@microsoft.com>, Kishon Vijay Abraham I <kishon@ti.com>,
- Jianjun Wang <jianjun.wang@mediatek.com>, linux-rockchip@lists.infradead.org,
+ Dexuan Cui <decui@microsoft.com>, Jianjun Wang <jianjun.wang@mediatek.com>,
+ linux-rockchip@lists.infradead.org,
  "maintainer:BROADCOM IPROC ARM ARCHITECTURE"
  <bcm-kernel-feedback-list@broadcom.com>,
  Jonathan Derrick <jonathan.derrick@linux.dev>,
@@ -140,115 +145,41 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 An MMIO read from a PCI device that doesn't exist or doesn't respond
-causes a PCI error.  There's no real data to return to satisfy the 
+causes a PCI error.  There's no real data to return to satisfy the
 CPU read, so most hardware fabricates ~0 data.
 
-This patch series adds PCI_ERROR_RESPONSE definition and other helper
-definition SET_PCI_ERROR_RESPONSE and RESPONSE_IS_PCI_ERROR and uses it
-where appropriate to make these checks consistent and easier to find.
+Add a PCI_ERROR_RESPONSE definition for that and use it where
+appropriate to make these checks consistent and easier to find.
 
-This helps unify PCI error response checking and make error check
-consistent and easier to find.
+Also add helper definitions SET_PCI_ERROR_RESPONSE and
+RESPONSE_IS_PCI_ERROR to make the code more readable.
 
-This series also ensures that the error response fabrication now happens
-in the PCI_OP_READ and PCI_USER_READ_CONFIG. This removes the
-responsibility from controller drivers to do the error response setting. 
+Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+---
+ include/linux/pci.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Patch 1:
-    - Adds the PCI_ERROR_RESPONSE and other related defintions
-    - All other patches are dependent on this patch. This patch needs to
-      be applied first, before the others
-
-Patch 2:
-    - Error fabrication happens in PCI_OP_READ and PCI_USER_READ_CONFIG
-      whenever the data read via the controller driver fails.
-    - This patch needs to be applied before, Patch 4/24 to Patch 15/24 are
-      applied.
-
-Patch 3:
-    - Uses SET_PCI_ERROR_RESPONSE() when device is not found 
-
-Patch 4 - 15:
-    - Removes redundant error fabrication that happens in controller 
-      drivers when the read from a PCI device fails.
-    - These patches are dependent on Patch 2/24 of the series.
-    - These can be applied in any order.
-
-Patch 16 - 22:
-    - Uses RESPONSE_IS_PCI_ERROR() to check the reads from hardware
-    - Patches can be applied in any order.
-
-Patch 23 - 25:
-    - Edits the comments to include PCI_ERROR_RESPONSE alsong with
-      0xFFFFFFFF, so that it becomes easier to grep for faulty 
-      hardware reads.
-
-Changelog
-=========
-v3:
-   - Change RESPONSE_IS_PCI_ERROR macro definition
-   - Fix the macros, Add () around macro parameters
-   - Fix alignment issue in Patch 2/24
-   - Add proper receipients for all the patches
-
-v2:
-    - Instead of using SET_PCI_ERROR_RESPONSE in all controller drivers
-      to fabricate error response, only use them in PCI_OP_READ and
-      PCI_USER_READ_CONFIG
-
-Naveen Naidu (25):
-  [Patch 1/25] PCI: Add PCI_ERROR_RESPONSE and it's related definitions
-  [Patch 2/25] PCI: Set error response in config access defines when ops->read() fails
-  [Patch 3/25] PCI: Use SET_PCI_ERROR_RESPONSE() when device not found
-  [Patch 4/25] PCI: Remove redundant error fabrication when device read fails
-  [Patch 5/25] PCI: thunder: Remove redundant error fabrication when device read fails
-  [Patch 6/25] PCI: iproc: Remove redundant error fabrication when device read fails
-  [Patch 7/25] PCI: mediatek: Remove redundant error fabrication when device read fails
-  [Patch 8/25] PCI: exynos: Remove redundant error fabrication when device read fails
-  [Patch 9/25] PCI: histb: Remove redundant error fabrication when device read fails
-  [Patch 10/25] PCI: kirin: Remove redundant error fabrication when device read fails
-  [Patch 11/25] PCI: aardvark: Remove redundant error fabrication when device read fails
-  [Patch 12/25] PCI: mvebu: Remove redundant error fabrication when device read fails
-  [Patch 13/25] PCI: altera: Remove redundant error fabrication when device read fails
-  [Patch 14/25] PCI: rcar: Remove redundant error fabrication when device read fails
-  [Patch 15/25] PCI: rockchip: Remove redundant error fabrication when device read fails
-  [Patch 16/25] PCI/ERR: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
-  [Patch 17/25] PCI: vmd: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
-  [Patch 18/25] PCI: pciehp: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
-  [Patch 19/25] PCI/DPC: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
-  [Patch 20/25] PCI/PME: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
-  [Patch 21/25] PCI: cpqphp: Use RESPONSE_IS_PCI_ERROR() to check read from hardware
-  [Patch 22/25] PCI: Use PCI_ERROR_RESPONSE to specify hardware error
-  [Patch 23/25] PCI: keystone: Use PCI_ERROR_RESPONSE to specify hardware error
-  [Patch 24/25] PCI: hv: Use PCI_ERROR_RESPONSE to specify hardware read error
-  [Patch 25/25] PCI: xgene: Use PCI_ERROR_RESPONSE to specify hardware error
-
- drivers/pci/access.c                        | 32 +++++++-------
- drivers/pci/controller/dwc/pci-exynos.c     |  4 +-
- drivers/pci/controller/dwc/pci-keystone.c   |  4 +-
- drivers/pci/controller/dwc/pcie-histb.c     |  4 +-
- drivers/pci/controller/dwc/pcie-kirin.c     |  4 +-
- drivers/pci/controller/pci-aardvark.c       | 10 +----
- drivers/pci/controller/pci-hyperv.c         |  2 +-
- drivers/pci/controller/pci-mvebu.c          |  8 +---
- drivers/pci/controller/pci-thunder-ecam.c   | 46 +++++++--------------
- drivers/pci/controller/pci-thunder-pem.c    |  4 +-
- drivers/pci/controller/pci-xgene.c          |  8 ++--
- drivers/pci/controller/pcie-altera.c        |  4 +-
- drivers/pci/controller/pcie-iproc.c         |  4 +-
- drivers/pci/controller/pcie-mediatek.c      | 11 +----
- drivers/pci/controller/pcie-rcar-host.c     |  4 +-
- drivers/pci/controller/pcie-rockchip-host.c |  4 +-
- drivers/pci/controller/vmd.c                |  2 +-
- drivers/pci/hotplug/cpqphp_ctrl.c           |  4 +-
- drivers/pci/hotplug/pciehp_hpc.c            | 10 ++---
- drivers/pci/pci.c                           | 10 ++---
- drivers/pci/pcie/dpc.c                      |  4 +-
- drivers/pci/pcie/pme.c                      |  4 +-
- drivers/pci/probe.c                         | 10 ++---
- include/linux/pci.h                         |  9 ++++
- 24 files changed, 85 insertions(+), 121 deletions(-)
-
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index cd8aa6fce204..689c8277c584 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -154,6 +154,15 @@ enum pci_interrupt_pin {
+ /* The number of legacy PCI INTx interrupts */
+ #define PCI_NUM_INTX	4
+ 
++/*
++ * Reading from a device that doesn't respond typically returns ~0.  A
++ * successful read from a device may also return ~0, so you need additional
++ * information to reliably identify errors.
++ */
++#define PCI_ERROR_RESPONSE     (~0ULL)
++#define SET_PCI_ERROR_RESPONSE(val)    (*(val) = ((typeof(*(val))) PCI_ERROR_RESPONSE))
++#define RESPONSE_IS_PCI_ERROR(val) ((val) == ((typeof(val)) PCI_ERROR_RESPONSE))
++
+ /*
+  * pci_power_t values must match the bits in the Capabilities PME_Support
+  * and Control/Status PowerState fields in the Power Management capability.
 -- 
 2.25.1
 
