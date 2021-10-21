@@ -2,101 +2,101 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7103BC433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:11:47 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 631E5C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:11:53 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 31B6F60F9F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:11:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 31B6F60F9F
+	by mail.kernel.org (Postfix) with ESMTPS id 2404F60F9F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:11:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 2404F60F9F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 069A840725;
-	Thu, 21 Oct 2021 15:11:47 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id F269160F0E;
+	Thu, 21 Oct 2021 15:11:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id r-I8r5s8XFOP; Thu, 21 Oct 2021 15:11:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 071A840017;
-	Thu, 21 Oct 2021 15:11:45 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5395C001C;
-	Thu, 21 Oct 2021 15:11:45 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 723A6C0011
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:11:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6060F60F0A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:11:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QIyPxp8IvbOF
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id tKZpSvJplaFg; Thu, 21 Oct 2021 15:11:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 30CB360F0C;
+	Thu, 21 Oct 2021 15:11:52 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 11A02C001C;
+	Thu, 21 Oct 2021 15:11:52 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E39E7C0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:11:44 +0000 (UTC)
+ Thu, 21 Oct 2021 15:11:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id D3C2940869
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Oct 2021 15:11:50 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id g3-JfQLRzDzT
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Oct 2021 15:11:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D05F260628
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5174B407F7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:11:44 +0000 (UTC)
-Received: by mail-pg1-x52c.google.com with SMTP id f5so570112pgc.12
+ Thu, 21 Oct 2021 15:11:50 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ q10-20020a17090a1b0a00b001a076a59640so5975954pjq.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 08:11:44 -0700 (PDT)
+ Thu, 21 Oct 2021 08:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FA4eEA0vKwb58YOkbLP9K2NVmJYtwGLqPjb+iaCxg5k=;
- b=MSAARfVkkBFaa5Ke5ob3e1LwRETvIsI33C2lnbjRTuAmIo3JjMsSIGohrcEr7GesQo
- YBiVfDVx92ElvZl+8rczQScmVzoG5ry6w4RPZDxetXdzQQ/GfEuoXZ6SIWaD8XMUt6J9
- J7HWgg3KkLAqTEwfg9rVkAdV55stFrUiQmOhjyfbrU/lRuEh/OCtlWGos+FHtYDiOpqM
- KHqMpDUE03pkwqD8tn8d1Tiw5l5YYGKHSz+UsxK435/gmfmdvW5MaWFKGd02PPO4gi+X
- saQGEi++av2pKzxu+zMV/B/auaPuRaTGKq+9CCwCD+0nUS25WJhsnriyYWdRkffmiE1B
- 3XVQ==
+ bh=ldCoPF9oxZH7/MigxipjFPAj1P91oCyhQC/cTDGjKcc=;
+ b=dmsTt7gGeZ6Ingdes9k0K/kmiQqhxigkNRkb4fM8rPc//CHJ6S1lhobnI2ASG5RA59
+ U4zHipA9ZkqLZ3DidNSBfVxOhnfNe16jV6HGfYnamT17BVR9WJhw0KuuSncsNQrQqrG9
+ JQJmgda1aXD1LAv3U8RK5+ZGlkK4Wy1nGbrIQJydOEWBJx5PvmTsqEZ7ik8MCmOubHch
+ QKAqXBRVW/FvQ4YTmanCW03kvGkmJ2+eaIhqJenfPzetkg2Ey72FGPeVhRxTY4WcsU4A
+ aDU3N+XStHq+6tgoE8+KjiBIGQlIMLuh+DR3B7bPsiwVBB6L7w400MyvOhWsx2MZs5BL
+ 0T6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FA4eEA0vKwb58YOkbLP9K2NVmJYtwGLqPjb+iaCxg5k=;
- b=pflGt/MzbGq6+IJo8BJg+B1AMVdTsdgRjAgsTbpo8ltEhql1+EeWqh3JrY32lNxJI/
- ETIoxRTg9HJNApJPH15m2OnYwDN/eR4BmW6gmmfnmj/1muWbqWX+iBc7kSo6CCUSpzOm
- pkdCJ8D600aGCHOyVFEAoht7bmDzQo0hwxcYJka0dVc/O0LvMKQRSTqyHBs69h8QM8wP
- Pbs/6ZvZBhMvDcSkE2vNlCJ2COEjbdLUNVVfttbDIGTwQRZn4yBajqbYIpUkJN0FwRUc
- pIHizRBmmnBG6Cu5B+F/iHHKNx6dAjPmSKl+JQcfRRfXX2yillsIX+jc3tMLFp3pcMBb
- OY7Q==
-X-Gm-Message-State: AOAM533xJwpm0oIoM80CXzbt19AtqVJYJmMEHORzS4h4vgoq3QfrDtt4
- xZLKXpLIFsigCahk3FxiRG4=
-X-Google-Smtp-Source: ABdhPJyxy0wACLRRPNq4NQsmW2piR/kvR+jFJ+L5zv+lm1gRag0Yd1GGflUXQdo2Igoo8j39CZvaHA==
-X-Received: by 2002:a05:6a00:1248:b0:44c:84cd:f795 with SMTP id
- u8-20020a056a00124800b0044c84cdf795mr6283222pfi.79.1634829104274; 
- Thu, 21 Oct 2021 08:11:44 -0700 (PDT)
+ bh=ldCoPF9oxZH7/MigxipjFPAj1P91oCyhQC/cTDGjKcc=;
+ b=lDtQ56hFQ+cWnVna8oKMOJ5TE6xOdnsNiXNpnyt04m5H8NbcRTHTFoyD1ZjRmEayk6
+ 3cCFRnClMO/4ByPbv8lE96cm5jHqIynBXEPdvdPE5e11y24AScHTqV+LIQ+xqwJ4smCF
+ BoeeswVds5ZGQTmJGrkEc1NscFvdqLozdvZba+tkISov574Xt5rRiIBsObQlkpTnvAAO
+ 9ygOtesVCQTD+/V3IgTK+rRq5ji4qzjleYHnvs4GLGT37IDEA/wFHG7RTpMu6NXtJvNk
+ 6I+Tpi3USPXfoAsYIGn4eQKY+WyahI+Vp7rBRFz23QfGW30ivKX8atoNdQXVZi370yN6
+ q6lQ==
+X-Gm-Message-State: AOAM5322tkvD/dV/moWPT9+rpvf6t9EGEsTLPQWJbUpJOGcIOKB2K7i7
+ u3ABaakIzuyZqGMb/AnJZ0s=
+X-Google-Smtp-Source: ABdhPJyPgn/QIIvhGMqguNzG74oSUTcbRqNd45tTyGuD2qwvaXrsopqL74oqLf9t++azxrVtjEwCCg==
+X-Received: by 2002:a17:902:6bc8:b0:13f:8a54:1188 with SMTP id
+ m8-20020a1709026bc800b0013f8a541188mr5677468plt.49.1634829109761; 
+ Thu, 21 Oct 2021 08:11:49 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:29a4:d874:a949:6890:f95f])
  by smtp.gmail.com with ESMTPSA id
- c9sm5508027pgq.58.2021.10.21.08.11.40
+ c9sm5508027pgq.58.2021.10.21.08.11.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 08:11:43 -0700 (PDT)
+ Thu, 21 Oct 2021 08:11:49 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v3 09/25] PCI: histb: Remove redundant error fabrication when
+Subject: [PATCH v3 10/25] PCI: kirin: Remove redundant error fabrication when
  device read fails
-Date: Thu, 21 Oct 2021 20:37:34 +0530
-Message-Id: <0e8d665e676717cc69394c6153aa85dbb4d02ca1.1634825082.git.naveennaidu479@gmail.com>
+Date: Thu, 21 Oct 2021 20:37:35 +0530
+Message-Id: <f194865c4e4bcfed2debe05370748b6841687853.1634825082.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634825082.git.naveennaidu479@gmail.com>
 References: <cover.1634825082.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+Cc: Rob Herring <robh@kernel.org>, Binghui Wang <wangbinghui@hisilicon.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Shawn Guo <shawn.guo@linaro.org>,
+ linux-pci@vger.kernel.org, Xiaowei Song <songxiaowei@hisilicon.com>,
+ linux-kernel@vger.kernel.org, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -132,14 +132,14 @@ consistent and easier to find.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/dwc/pcie-histb.c | 4 +---
+ drivers/pci/controller/dwc/pcie-kirin.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-histb.c b/drivers/pci/controller/dwc/pcie-histb.c
-index 86f9d16c50d7..410555dccb6d 100644
---- a/drivers/pci/controller/dwc/pcie-histb.c
-+++ b/drivers/pci/controller/dwc/pcie-histb.c
-@@ -127,10 +127,8 @@ static int histb_pcie_rd_own_conf(struct pci_bus *bus, unsigned int devfn,
+diff --git a/drivers/pci/controller/dwc/pcie-kirin.c b/drivers/pci/controller/dwc/pcie-kirin.c
+index 026fd1e42a55..56ccc5ceee50 100644
+--- a/drivers/pci/controller/dwc/pcie-kirin.c
++++ b/drivers/pci/controller/dwc/pcie-kirin.c
+@@ -330,10 +330,8 @@ static int kirin_pcie_rd_own_conf(struct pci_bus *bus, unsigned int devfn,
  {
  	struct dw_pcie *pci = to_dw_pcie_from_pp(bus->sysdata);
  
