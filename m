@@ -2,103 +2,106 @@ Return-Path: <SRS0=0JKk=PJ=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C445BC433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:10:39 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6EFFC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:11:04 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 809A160F57
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:10:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 809A160F57
+	by mail.kernel.org (Postfix) with ESMTPS id 69BCC60F57
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Oct 2021 15:11:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 69BCC60F57
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 52D1760726;
-	Thu, 21 Oct 2021 15:10:39 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 445BE83A5A;
+	Thu, 21 Oct 2021 15:11:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZDPphobrxRGD; Thu, 21 Oct 2021 15:10:38 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cezwURm-b34o; Thu, 21 Oct 2021 15:11:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 534FB6067C;
-	Thu, 21 Oct 2021 15:10:38 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 83E2B83B00;
+	Thu, 21 Oct 2021 15:11:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 336C4C001C;
-	Thu, 21 Oct 2021 15:10:38 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C9F42C0011
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5FD84C001C;
+	Thu, 21 Oct 2021 15:11:03 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A9F3C0011
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:10:36 +0000 (UTC)
+ Thu, 21 Oct 2021 15:11:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id AB79F40725
+ by smtp4.osuosl.org (Postfix) with ESMTP id 1CE0E40868
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:10:36 +0000 (UTC)
+ Thu, 21 Oct 2021 15:11:02 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id t_JRlC_BKSPv
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id h54fPBeopaDT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:10:35 +0000 (UTC)
+ Thu, 21 Oct 2021 15:11:00 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
- [IPv6:2607:f8b0:4864:20::62e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BB12A40017
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
+ [IPv6:2607:f8b0:4864:20::102e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E8F79407F7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 15:10:35 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id w17so614986plg.9
+ Thu, 21 Oct 2021 15:11:00 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ nn3-20020a17090b38c300b001a03bb6c4ebso782832pjb.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Oct 2021 08:10:35 -0700 (PDT)
+ Thu, 21 Oct 2021 08:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wdvW0++TQSaLpnlhn3di6k88yfCHb1cy15TmRrFrgvg=;
- b=nn6UzH9K9xm3BbgtRQT6//j7LivuHHqgkWvtklOkW7BxcAWXi6Rd3wDo0ZMLlHD6Jl
- NRcnBGrGQ1ZfkNe5rRWEQ0JQ/mM3SVw90rPXXq4UEClymVBFEo2/hYL4S72QvEomDSWW
- oliXHekIGSCz1mEQuSIzvaJAfV+o0Na3hlhpMrArEX0ePY3PIiCA/SbBbVZ8zstP05F3
- 4LnrCFGoiSabuUSczr3kkL6WkQMjJsBLXxqzyEbVvTbvHul0SrcUz9JNZX9r5yxgaXVt
- 1kinykOuYgmINjXMI/Rrj406Xsjo8n4/P+tO2WTw8CnQGG5HABdOrzMIIvUoSV5bwV2o
- 2P/A==
+ bh=r3o5gBqF0m60j/685v1gCV+85CWmYdPsbI4M53MCV74=;
+ b=i2E12Gf3MradRaA6L+Vcc5Lo6XtZ/fVf/ZWnm8oDtjsE4xTJqRT+l19jozuA+esT+h
+ PJFe/cy5U/ogFT/dPLmB/2eJP5WH67mC0Sc6YJpFdLeE4wCg+AtGoUkNW5E763Ake4L1
+ 0mcJ4mk+yV5TKnLMWZUW0IFVz7ar2ciGv/Idb1uiTPEGS3aWtW0BH2zd2XvhO4uuGgqo
+ c7t7w0ryMTIwqzsTWcp4XZqpzvVnoYlrP76HIhR4rwn5vX9hP2pa4b+gPjiRbyKUUKcL
+ 9NH1RMGqUzPBQky4qUSGPv/4fbzQrRqvp4yp0IaUz2uFsJ/p2EIPz94JzBz5Js1HQjDE
+ u5jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wdvW0++TQSaLpnlhn3di6k88yfCHb1cy15TmRrFrgvg=;
- b=KnuDCKRJnlGgR4BvERexRBlMmFo2R8UyBhLrmLtRpRLT+odkCRRjjikH4olPLNx1Us
- X7y12jS1o56C46Z/0FwUonWokDwxMHbf+joCRCxxRMeappM7HTTfifSdP3hSwZlGhfwh
- 4jBKGxsTcuIsqFRgXvb/SbR/1SG18FTXOQWKCtY0sGjBlYCC586qsvk85QkVucw4r1dJ
- vMPvIlYe+1JBhmDQlKMMcwzQHYoNDTWO2iP4yglZb4uOhBWlg95qkaTw5Bl6x32mNeQN
- OJDRb7Mh8FxT32QkrIpDPgLdf2ALsU9/2iamAiIPmH58AD3ts+Xzi/zPliI1a4Z6lLBp
- oK0Q==
-X-Gm-Message-State: AOAM531VBKG3fvRUs69OsGmgoa56qd2aDjW5achpKffrgZeM50RwYsrQ
- qfpW4cmO350FjZxJrolT3bonyKkbJEsQ616X
-X-Google-Smtp-Source: ABdhPJwQAqO9qqsqzDQINhSUMNkWXH1PmXLf2/63QLfNEoLTgPrpMEAnn6+IoPd3F6XdClY7Gx/RiA==
-X-Received: by 2002:a17:902:6808:b0:13e:a85b:52bd with SMTP id
- h8-20020a170902680800b0013ea85b52bdmr5630098plk.76.1634829035035; 
- Thu, 21 Oct 2021 08:10:35 -0700 (PDT)
+ bh=r3o5gBqF0m60j/685v1gCV+85CWmYdPsbI4M53MCV74=;
+ b=VdW0IXVWYHpj56hoSyyK612hi0yyJrW2zAePgxF39rw87Bbnaipy7QCzH/odzpsIP0
+ e8ib19YvrX7FT6mpg+bsUEt1Jc0pzjULtbnpg5IzFICypilh0aLqBiR63sS7/vqey/vW
+ +VGp0dm8SLVPMqhfCWNwBTkkq8m7haA9xehgfp9KYPjQWF7nltjpmFM5WrgIIOStVEq1
+ 3mQ28t7tUuc/KiTI1aTPu75Lh65ydt+5ts7dZGslSdFvW75fR2g6Lk6+Iye4L/RV6THG
+ p4H4kBOu6gAq6n8+GQmZlimi3O4k6KAXkc+K+HICd9Z0f5nDYhcCuM4AJxHTwnqCAD6v
+ x2wA==
+X-Gm-Message-State: AOAM533d6kEACmSX44z68O7Odk7aPqN8tnXX39tuv9oL/XGS82uLIkw/
+ Y6h8ndrYT3k9efFibIza7cI=
+X-Google-Smtp-Source: ABdhPJxFk7e1vtp4qHS3c1Zxn06yJuOA57fAM3iyNvU3T73javJynq35EJA8Ilbs3c18IIVc7E5eZQ==
+X-Received: by 2002:a17:90b:3809:: with SMTP id
+ mq9mr7304004pjb.7.1634829060352; 
+ Thu, 21 Oct 2021 08:11:00 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:29a4:d874:a949:6890:f95f])
  by smtp.gmail.com with ESMTPSA id
- c9sm5508027pgq.58.2021.10.21.08.10.30
+ c9sm5508027pgq.58.2021.10.21.08.10.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Oct 2021 08:10:34 -0700 (PDT)
+ Thu, 21 Oct 2021 08:10:59 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v3 05/25] PCI: thunder: Remove redundant error fabrication
- when device read fails
-Date: Thu, 21 Oct 2021 20:37:30 +0530
-Message-Id: <823658699653e78ffe9ff856d0bff5058f5d6a8f.1634825082.git.naveennaidu479@gmail.com>
+Subject: [PATCH v3 06/25] PCI: iproc: Remove redundant error fabrication when
+ device read fails
+Date: Thu, 21 Oct 2021 20:37:31 +0530
+Message-Id: <cbcbde500a34fe5ca3996449ec4e1d78d02f5628.1634825082.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1634825082.git.naveennaidu479@gmail.com>
 References: <cover.1634825082.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Cc: Rob Herring <robh@kernel.org>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Robert Richter <rric@kernel.org>,
+ Scott Branden <sbranden@broadcom.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
  linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Ray Jui <rjui@broadcom.com>, "maintainer:BROADCOM IPROC ARM ARCHITECTURE"
+ <bcm-kernel-feedback-list@broadcom.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "moderated list:PCIE DRIVER FOR CAVIUM THUNDERX"
+ "moderated list:BROADCOM IPROC ARM ARCHITECTURE"
  <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -134,156 +137,25 @@ consistent and easier to find.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/pci-thunder-ecam.c | 46 ++++++++---------------
- drivers/pci/controller/pci-thunder-pem.c  |  4 +-
- 2 files changed, 17 insertions(+), 33 deletions(-)
+ drivers/pci/controller/pcie-iproc.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/pci/controller/pci-thunder-ecam.c b/drivers/pci/controller/pci-thunder-ecam.c
-index ffd84656544f..a95bb58afd52 100644
---- a/drivers/pci/controller/pci-thunder-ecam.c
-+++ b/drivers/pci/controller/pci-thunder-ecam.c
-@@ -41,10 +41,9 @@ static int handle_ea_bar(u32 e0, int bar, struct pci_bus *bus,
- 	}
- 	if (where_a == 0x4) {
- 		addr = bus->ops->map_bus(bus, devfn, bar); /* BAR 0 */
--		if (!addr) {
--			*val = ~0;
-+		if (!addr)
- 			return PCIBIOS_DEVICE_NOT_FOUND;
--		}
-+
- 		v = readl(addr);
- 		v &= ~0xf;
- 		v |= 2; /* EA entry-1. Base-L */
-@@ -56,10 +55,9 @@ static int handle_ea_bar(u32 e0, int bar, struct pci_bus *bus,
- 		u32 barl_rb;
+diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
+index 30ac5fbefbbf..e3d86416a4fb 100644
+--- a/drivers/pci/controller/pcie-iproc.c
++++ b/drivers/pci/controller/pcie-iproc.c
+@@ -659,10 +659,8 @@ static int iproc_pci_raw_config_read32(struct iproc_pcie *pcie,
+ 	void __iomem *addr;
  
- 		addr = bus->ops->map_bus(bus, devfn, bar); /* BAR 0 */
--		if (!addr) {
--			*val = ~0;
-+		if (!addr)
- 			return PCIBIOS_DEVICE_NOT_FOUND;
--		}
-+
- 		barl_orig = readl(addr + 0);
- 		writel(0xffffffff, addr + 0);
- 		barl_rb = readl(addr + 0);
-@@ -72,10 +70,9 @@ static int handle_ea_bar(u32 e0, int bar, struct pci_bus *bus,
- 	}
- 	if (where_a == 0xc) {
- 		addr = bus->ops->map_bus(bus, devfn, bar + 4); /* BAR 1 */
--		if (!addr) {
--			*val = ~0;
-+		if (!addr)
- 			return PCIBIOS_DEVICE_NOT_FOUND;
--		}
-+
- 		v = readl(addr); /* EA entry-3. Base-H */
- 		set_val(v, where, size, val);
- 		return PCIBIOS_SUCCESSFUL;
-@@ -104,10 +101,8 @@ static int thunder_ecam_p2_config_read(struct pci_bus *bus, unsigned int devfn,
- 	}
- 
- 	addr = bus->ops->map_bus(bus, devfn, where_a);
+ 	addr = iproc_pcie_map_cfg_bus(pcie, 0, devfn, where & ~0x3);
 -	if (!addr) {
 -		*val = ~0;
 +	if (!addr)
  		return PCIBIOS_DEVICE_NOT_FOUND;
 -	}
  
- 	v = readl(addr);
+ 	*val = readl(addr);
  
-@@ -135,10 +130,8 @@ static int thunder_ecam_config_read(struct pci_bus *bus, unsigned int devfn,
- 	int where_a = where & ~3;
- 
- 	addr = bus->ops->map_bus(bus, devfn, 0xc);
--	if (!addr) {
--		*val = ~0;
-+	if (!addr)
- 		return PCIBIOS_DEVICE_NOT_FOUND;
--	}
- 
- 	v = readl(addr);
- 
-@@ -146,10 +139,8 @@ static int thunder_ecam_config_read(struct pci_bus *bus, unsigned int devfn,
- 	cfg_type = (v >> 16) & 0x7f;
- 
- 	addr = bus->ops->map_bus(bus, devfn, 8);
--	if (!addr) {
--		*val = ~0;
-+	if (!addr)
- 		return PCIBIOS_DEVICE_NOT_FOUND;
--	}
- 
- 	class_rev = readl(addr);
- 	if (class_rev == 0xffffffff)
-@@ -176,10 +167,8 @@ static int thunder_ecam_config_read(struct pci_bus *bus, unsigned int devfn,
- 	}
- 
- 	addr = bus->ops->map_bus(bus, devfn, 0);
--	if (!addr) {
--		*val = ~0;
-+	if (!addr)
- 		return PCIBIOS_DEVICE_NOT_FOUND;
--	}
- 
- 	vendor_device = readl(addr);
- 	if (vendor_device == 0xffffffff)
-@@ -196,10 +185,9 @@ static int thunder_ecam_config_read(struct pci_bus *bus, unsigned int devfn,
- 		bool is_tns = (vendor_device == 0xa01f177d);
- 
- 		addr = bus->ops->map_bus(bus, devfn, 0x70);
--		if (!addr) {
--			*val = ~0;
-+		if (!addr)
- 			return PCIBIOS_DEVICE_NOT_FOUND;
--		}
-+
- 		/* E_CAP */
- 		v = readl(addr);
- 		has_msix = (v & 0xff00) != 0;
-@@ -211,10 +199,9 @@ static int thunder_ecam_config_read(struct pci_bus *bus, unsigned int devfn,
- 		}
- 		if (where_a == 0xb0) {
- 			addr = bus->ops->map_bus(bus, devfn, where_a);
--			if (!addr) {
--				*val = ~0;
-+			if (!addr)
- 				return PCIBIOS_DEVICE_NOT_FOUND;
--			}
-+
- 			v = readl(addr);
- 			if (v & 0xff00)
- 				pr_err("Bad MSIX cap header: %08x\n", v);
-@@ -268,10 +255,9 @@ static int thunder_ecam_config_read(struct pci_bus *bus, unsigned int devfn,
- 
- 		if (where_a == 0x70) {
- 			addr = bus->ops->map_bus(bus, devfn, where_a);
--			if (!addr) {
--				*val = ~0;
-+			if (!addr)
- 				return PCIBIOS_DEVICE_NOT_FOUND;
--			}
-+
- 			v = readl(addr);
- 			if (v & 0xff00)
- 				pr_err("Bad PCIe cap header: %08x\n", v);
-diff --git a/drivers/pci/controller/pci-thunder-pem.c b/drivers/pci/controller/pci-thunder-pem.c
-index 0660b9da204f..06a9855cb431 100644
---- a/drivers/pci/controller/pci-thunder-pem.c
-+++ b/drivers/pci/controller/pci-thunder-pem.c
-@@ -41,10 +41,8 @@ static int thunder_pem_bridge_read(struct pci_bus *bus, unsigned int devfn,
- 	struct pci_config_window *cfg = bus->sysdata;
- 	struct thunder_pem_pci *pem_pci = (struct thunder_pem_pci *)cfg->priv;
- 
--	if (devfn != 0 || where >= 2048) {
--		*val = ~0;
-+	if (devfn != 0 || where >= 2048)
- 		return PCIBIOS_DEVICE_NOT_FOUND;
--	}
- 
- 	/*
- 	 * 32-bit accesses only.  Write the address to the low order
 -- 
 2.25.1
 
