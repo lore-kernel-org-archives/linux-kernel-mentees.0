@@ -2,99 +2,99 @@ Return-Path: <SRS0=xjH5=PN=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BE9C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Oct 2021 17:01:28 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 810B6C43219
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Oct 2021 17:01:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 170B7610EA
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Oct 2021 17:01:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 170B7610EA
+	by mail.kernel.org (Postfix) with ESMTPS id 3274860F9D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Oct 2021 17:01:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3274860F9D
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D53BE80F01;
-	Mon, 25 Oct 2021 17:01:27 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E73AF40442;
+	Mon, 25 Oct 2021 17:01:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fEr-PVNNJ8NZ; Mon, 25 Oct 2021 17:01:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E3B9A80EF0;
-	Mon, 25 Oct 2021 17:01:26 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BE5D1C0019;
-	Mon, 25 Oct 2021 17:01:26 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49C4BC000E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Oct 2021 17:01:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 279D040443
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Oct 2021 17:01:25 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id l-sIKr2oF34o
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xbXzs4inKCqe; Mon, 25 Oct 2021 17:01:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1ED0A40445;
+	Mon, 25 Oct 2021 17:01:57 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F30C9C0019;
+	Mon, 25 Oct 2021 17:01:56 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6DCD1C000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Oct 2021 17:01:24 +0000 (UTC)
+ Mon, 25 Oct 2021 17:01:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4E21980EFC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 25 Oct 2021 17:01:55 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id t2NN0tXsQ-5c
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 25 Oct 2021 17:01:53 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6A00040442
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 71A4F80EF0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Oct 2021 17:01:24 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id i5so8363045pla.5
+ Mon, 25 Oct 2021 17:01:53 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id c4so11544143pgv.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Oct 2021 10:01:24 -0700 (PDT)
+ Mon, 25 Oct 2021 10:01:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8HZsp9BvdntOEBLsd033W6ZW3RXr9hJrrgi/DSIEiZc=;
- b=B/oKHfT/wUi2uwyEuNgWcKyEN7bNb1zznXch9q1rURws+JRljbJEIPz0+rgscXU0+Y
- SCs5Z+HviUmO/AG6Z/ANiKZe4sA5pzDCa+CIEjE3N5dq9PnkcFuiSkw3lDaQaV/ep//u
- ML0AA4vKJiuK7hluPphy+3uxXyhhohyLOWd/UXwTy3rPg2TO7smbF3Fwk9xJQHUp31bm
- LBfNWATE8ZnQ0WXPUVZXg8XJ+cEYa++C35DWFIZz9KbWcTReIP/lY78+rYfYbXko3beJ
- y/jCN5CcI/o3LdBpkqsUiU46xGnE0j44QUDcKmtzvDotdBtawKt/3XJNuzWrpRHLrlmY
- C2gA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TzDmm1CSO5ys2u/cUDBI2TYr2rN5kWaOTVprB8Ko1Uk=;
+ b=ZHdhSeGLURPzXaswSnZGMuZ4LcxM/+rFjEy7pPEM4C8GYgNJCYn1yIid35ljsILwQh
+ U67jlu8fWxehMhq7EiQY5KE11JOQg4hoZwWbNbk61OPyY4blm1uk4YXpwJbYlOSQEGVL
+ LyFNcjlOnkQHLDXAwhFbQ5tKmV62LSf0LwtAaIcxKFXkXXKeDJLLBvLoLItgpm/b1lE1
+ nU+jaOi2JRN5m7b2SBmQ1HhRYU4l2RwPPDrsDxaXNfxqkUhoVDn8tN3pMYujXUAbuNuN
+ cBnR7a6eqlbNs8opvXdJoT7Pe5DChrLafLFE2RQwHrcG3/HjMruSaPOds39rtNr5agiu
+ ZeNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8HZsp9BvdntOEBLsd033W6ZW3RXr9hJrrgi/DSIEiZc=;
- b=sHr+BrmvEuNbq8t+eAZe5kYw/2kZJl4qvFOtr7W2tbWphHBr4uoNabOEssxcuT7Zv9
- tnyt9qJOPtQAwac1JDyJv5KDpzy2cC5s2vJccM/Wrt1/QPq7O/lnCGPEGnicLdRMKeHZ
- XIfDhdQSWKYBKrJ23nn17LbwKbj+Mqw9IFAOTqhFKGu1+Jdv2iKdrYzL9PeUlUpIlUpw
- 4Sf9TqlB5xjAQrIo416aZR72gQLLyZYPMl2kgch/mfvGDbfjpholj3p3FkXim9DtPWRJ
- avSC1qYcZDlfZPkN2Z0D0B4mPxTuhd+v0bruoh+u7xdV0QKzTSkWKk/I+w2b0+5dqT6S
- 3Urw==
-X-Gm-Message-State: AOAM530TthDZb5qydAMi3FZ1IXlT4jCuhV/oVaZWaXv+wjNSkoRUlOME
- K684epLW/475ZxicT1b34PA=
-X-Google-Smtp-Source: ABdhPJwUXQUjwnugVGLJbHKCyPdLUZ/UBQqXh8Cy82r1VP1k13Hq1CAUhdRWR7+Izqw0iqyEfe89ug==
-X-Received: by 2002:a17:90a:2c9:: with SMTP id
- d9mr22098933pjd.73.1635181283642; 
- Mon, 25 Oct 2021 10:01:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TzDmm1CSO5ys2u/cUDBI2TYr2rN5kWaOTVprB8Ko1Uk=;
+ b=RwpQliTKeFvBx379RIJjOTJLtaUtIy1whab2ebekaA1Gq8TbQM9bpnOy+UrmBQZjaN
+ 9zgCrWxY9VAH7MbtPRaNDqcFlejthzYZ+KUosv/RZxRtJQMfmk4z8NyziEEgGWJtYiQ3
+ 9g3/wBBO4deJqp3vrpEbJINtkWNaCDfT9t7GA7knkdoGSa+C8ZKJpmuaKr400sxXYOIm
+ A4KUU7w1zobuRGmLknnae9AJsUWgGjUdIEmlluRCWPeuLMOxHujLsxoCdRa2lwV7JdUD
+ meGOr/zSOUv9/x/2kOK0h+a+pSSmwspqG7/k5ez8TsZkROLzIoSIDV3TH2SrtX4FwiHk
+ LWJA==
+X-Gm-Message-State: AOAM533aEAJk5Jd5Acyd16rGJNQ/7OIh0Pl2dL3Qjt4ucRSnHtWUexFP
+ 6cLN0OqRktUOvRIlB87xXM0=
+X-Google-Smtp-Source: ABdhPJyH7J/iuk4Y6eYOW7ZypxU9kq4dQSkqOm8XsvftCh8hBtHp15bTqEuxROXH/SA1ZGpJoWeNDA==
+X-Received: by 2002:a05:6a00:88e:b0:44c:c40:9279 with SMTP id
+ q14-20020a056a00088e00b0044c0c409279mr19791608pfj.85.1635181312767; 
+ Mon, 25 Oct 2021 10:01:52 -0700 (PDT)
 Received: from localhost.localdomain ([2406:7400:63:df8b:7255:8580:2394:764c])
  by smtp.gmail.com with ESMTPSA id
- g18sm5100858pfj.67.2021.10.25.10.01.18
+ g18sm5100858pfj.67.2021.10.25.10.01.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Oct 2021 10:01:23 -0700 (PDT)
+ Mon, 25 Oct 2021 10:01:52 -0700 (PDT)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com,
 	ruscur@russell.cc,
 	oohall@gmail.com
-Subject: [PATCH v5 0/5] Fix long standing AER Error Handling Issues
-Date: Mon, 25 Oct 2021 22:30:59 +0530
-Message-Id: <cover.1635179600.git.naveennaidu479@gmail.com>
+Subject: [PATCH v5 1/5] PCI/AER: Remove ID from aer_agent_string[]
+Date: Mon, 25 Oct 2021 22:31:00 +0530
+Message-Id: <a205d9c83f89a0942a3302bfa6e300121381aeb8.1635179600.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1635179600.git.naveennaidu479@gmail.com>
+References: <cover.1635179600.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: Oza Pawandeep <poza@codeaurora.org>, linux-pci@vger.kernel.org,
- Sinan Kaya <okaya@kernel.org>, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,73 +112,85 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch series aims at fixing some of the AER error handling issues
-we have.
+Currently, we do not print the "id" field in the AER error logs. Yet the
+aer_agent_string[] has the word "id" in it. The AER error log looks
+like:
 
-Currently we have the following issues: 
-  
-  1. Confusing message in aer_print_error()
-  2. aer_err_info not being initialized completely in DPC path before 
-     we print the AER logs
-  3. A bug [1] in clearing of AER registers in the native AER path
+  pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver ID)
 
-[1] https://lore.kernel.org/linux-pci/20151229155822.GA17321@localhost/
+Without the "id" field in the error log, The aer_agent_string[]
+(eg: "Receiver ID") does not make sense. A user reading the
+aer_agent_string[] in the log, might inadvertently look for an "id"
+field and not finding it might lead to confusion.
 
-The patch series fixes the above things.
+Remove the "ID" from the aer_agent_string[].
 
-PATCH 1: 
-  - Fixes the first issue
-  - This patch is independent of other patches and can be applied
-    seperately
+It is easy to reproduce this by using aer-inject:
 
-PATCH 2 - 3:
-  - Fixes the second issue
-  - Patch 3 is depended on Patch 2 in the series
+  $ aer-inject -s 00:03:0 corr-err-file
 
-PATCH 4
-  - Fixes the bug in clearing of AER registers which leades to
-    AER message spew [1]
+The content of the corr-err-file file is as below:
 
-PATCH 5:
-  - Adds extra information (devctl register) in AER error logs.
-  - Patch 5 depends on Patch 4 of the series
+  AER
+  COR_STATUS BAD_TLP
+  HEADER_LOG 0 1 2 3
 
-Thanks,
-Naveen Naidu
+The following are sample dummy errors inject via aer-inject.
 
-Changelog
-=========
-v5:
-    - Edit the commit message of Patch 1 and Patch 5 to include how to
-      test the AER messages using aer-inject.
-    - Edit Patch 3 to initialize info.id depending on the trigger
-      reason.
-    - Drop few patches (v4 4/8, 5/8 7/8) since they were wrong.
+Before
+=======
 
-v4:
-    - Fix logical error in 6/8, in the previous version of the patch set
-      there was a bug, in how I added the devices to the queue.
+In 010caed4ccb6 ("PCI/AER: Decode Error Source Requester ID"),
+the "id" field was removed from the AER error logs, so currently AER
+logs look like:
 
-v3:
-    - Edit the commit messages to be in imperative style and split the
-      commits to be more atomic.
+  pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03:0
+  pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver ID) <--- no id field
+  pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000
+  pcieport 0000:00:03.0:    [ 6] BadTLP
 
-v2:
-    - Add [PATCH 7] which includes the device control register 
-      information in AER error logs.
+After
+======
 
-Naveen Naidu (5):
-  [PATCH v5 1/5] PCI/AER: Remove ID from aer_agent_string[]
-  [PATCH v5 2/5] PCI: Cleanup struct aer_err_info
-  [PATCH v5 3/5] PCI/DPC: Initialize info.id in dpc_process_error()
-  [PATCH v5 4/5] PCI/AER: Clear error device AER registers in aer_irq()
-  [PATCH v5 5/5] PCI/AER: Include DEVCTL in aer_print_error()
+  pcieport 0000:00:03.0: AER: Corrected error received: 0000:00:03.0
+  pcieport 0000:00:03.0: PCIe Bus Error: severity=Corrected, type=Data Link Layer, (Receiver)
+  pcieport 0000:00:03.0:   device [1b36:000c] error status/mask=00000040/0000e000
+  pcieport 0000:00:03.0:    [ 6] BadTLP
 
- drivers/pci/pci.h      |  23 +++-
- drivers/pci/pcie/aer.c | 269 ++++++++++++++++++++++++++++-------------
- drivers/pci/pcie/dpc.c |  16 ++-
- 3 files changed, 214 insertions(+), 94 deletions(-)
+Link: https://lore.kernel.org/linux-pci/20211021170317.GA2700910@bhelgaas/T/#m618bda4e54042d95a1a83fccc01cdb423f7590dc
+Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+---
+ drivers/pci/pcie/aer.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+index 9784fdcf3006..241ff361b43c 100644
+--- a/drivers/pci/pcie/aer.c
++++ b/drivers/pci/pcie/aer.c
+@@ -516,10 +516,10 @@ static const char *aer_uncorrectable_error_string[] = {
+ };
+ 
+ static const char *aer_agent_string[] = {
+-	"Receiver ID",
+-	"Requester ID",
+-	"Completer ID",
+-	"Transmitter ID"
++	"Receiver",
++	"Requester",
++	"Completer",
++	"Transmitter"
+ };
+ 
+ #define aer_stats_dev_attr(name, stats_array, strings_array,		\
+@@ -703,7 +703,7 @@ void aer_print_error(struct pci_dev *dev, struct aer_err_info *info)
+ 	const char *level;
+ 
+ 	if (!info->status) {
+-		pci_err(dev, "PCIe Bus Error: severity=%s, type=Inaccessible, (Unregistered Agent ID)\n",
++		pci_err(dev, "PCIe Bus Error: severity=%s, type=Inaccessible, (Unregistered Agent)\n",
+ 			aer_error_severity_string[info->severity]);
+ 		goto out;
+ 	}
 -- 
 2.25.1
 
