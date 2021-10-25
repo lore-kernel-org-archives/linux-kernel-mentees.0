@@ -1,73 +1,99 @@
-Return-Path: <SRS0=hpie=PK=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <SRS0=xjH5=PN=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16298C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Oct 2021 07:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68BE9C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Oct 2021 17:01:28 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 9EE456109F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 22 Oct 2021 07:10:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 9EE456109F
-Authentication-Results: mail.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+	by mail.kernel.org (Postfix) with ESMTPS id 170B7610EA
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Oct 2021 17:01:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 170B7610EA
+Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6661180FF2;
-	Fri, 22 Oct 2021 07:10:53 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D53BE80F01;
+	Mon, 25 Oct 2021 17:01:27 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id n_xF2Rfl01mN; Fri, 22 Oct 2021 07:10:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AD3B580F3D;
-	Fri, 22 Oct 2021 07:10:52 +0000 (UTC)
+	with ESMTP id fEr-PVNNJ8NZ; Mon, 25 Oct 2021 17:01:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E3B9A80EF0;
+	Mon, 25 Oct 2021 17:01:26 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 87744C0020;
-	Fri, 22 Oct 2021 07:10:52 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0FD78C001E
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BE5D1C0019;
+	Mon, 25 Oct 2021 17:01:26 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49C4BC000E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Oct 2021 07:10:51 +0000 (UTC)
+ Mon, 25 Oct 2021 17:01:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id F1B9060665
+ by smtp4.osuosl.org (Postfix) with ESMTP id 279D040443
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Oct 2021 07:10:50 +0000 (UTC)
+ Mon, 25 Oct 2021 17:01:25 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RiD7mbvc1uuD
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id l-sIKr2oF34o
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Oct 2021 07:10:49 +0000 (UTC)
-X-Greylist: delayed 00:08:56 by SQLgrey-1.8.0
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [IPv6:2a01:37:3000::53df:4ef0:0])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E8EFA60638
+ Mon, 25 Oct 2021 17:01:24 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6A00040442
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 22 Oct 2021 07:10:48 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.hostsharing.net",
- Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id A42C028005312;
- Fri, 22 Oct 2021 09:01:48 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 979BF16E5C7; Fri, 22 Oct 2021 09:01:48 +0200 (CEST)
-Date: Fri, 22 Oct 2021 09:01:48 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Naveen Naidu <naveennaidu479@gmail.com>
-Subject: Re: [PATCH v3 18/25] PCI: pciehp: Use RESPONSE_IS_PCI_ERROR() to
- check read from hardware
-Message-ID: <20211022070148.GB17656@wunner.de>
-References: <cover.1634825082.git.naveennaidu479@gmail.com>
- <c21290fe02a7a342a8b93c692586b6a2b6cde9e0.1634825082.git.naveennaidu479@gmail.com>
- <20211021152253.pqc6xp3vnv5fpczj@theprophet>
+ Mon, 25 Oct 2021 17:01:24 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id i5so8363045pla.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 25 Oct 2021 10:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8HZsp9BvdntOEBLsd033W6ZW3RXr9hJrrgi/DSIEiZc=;
+ b=B/oKHfT/wUi2uwyEuNgWcKyEN7bNb1zznXch9q1rURws+JRljbJEIPz0+rgscXU0+Y
+ SCs5Z+HviUmO/AG6Z/ANiKZe4sA5pzDCa+CIEjE3N5dq9PnkcFuiSkw3lDaQaV/ep//u
+ ML0AA4vKJiuK7hluPphy+3uxXyhhohyLOWd/UXwTy3rPg2TO7smbF3Fwk9xJQHUp31bm
+ LBfNWATE8ZnQ0WXPUVZXg8XJ+cEYa++C35DWFIZz9KbWcTReIP/lY78+rYfYbXko3beJ
+ y/jCN5CcI/o3LdBpkqsUiU46xGnE0j44QUDcKmtzvDotdBtawKt/3XJNuzWrpRHLrlmY
+ C2gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8HZsp9BvdntOEBLsd033W6ZW3RXr9hJrrgi/DSIEiZc=;
+ b=sHr+BrmvEuNbq8t+eAZe5kYw/2kZJl4qvFOtr7W2tbWphHBr4uoNabOEssxcuT7Zv9
+ tnyt9qJOPtQAwac1JDyJv5KDpzy2cC5s2vJccM/Wrt1/QPq7O/lnCGPEGnicLdRMKeHZ
+ XIfDhdQSWKYBKrJ23nn17LbwKbj+Mqw9IFAOTqhFKGu1+Jdv2iKdrYzL9PeUlUpIlUpw
+ 4Sf9TqlB5xjAQrIo416aZR72gQLLyZYPMl2kgch/mfvGDbfjpholj3p3FkXim9DtPWRJ
+ avSC1qYcZDlfZPkN2Z0D0B4mPxTuhd+v0bruoh+u7xdV0QKzTSkWKk/I+w2b0+5dqT6S
+ 3Urw==
+X-Gm-Message-State: AOAM530TthDZb5qydAMi3FZ1IXlT4jCuhV/oVaZWaXv+wjNSkoRUlOME
+ K684epLW/475ZxicT1b34PA=
+X-Google-Smtp-Source: ABdhPJwUXQUjwnugVGLJbHKCyPdLUZ/UBQqXh8Cy82r1VP1k13Hq1CAUhdRWR7+Izqw0iqyEfe89ug==
+X-Received: by 2002:a17:90a:2c9:: with SMTP id
+ d9mr22098933pjd.73.1635181283642; 
+ Mon, 25 Oct 2021 10:01:23 -0700 (PDT)
+Received: from localhost.localdomain ([2406:7400:63:df8b:7255:8580:2394:764c])
+ by smtp.gmail.com with ESMTPSA id
+ g18sm5100858pfj.67.2021.10.25.10.01.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Oct 2021 10:01:23 -0700 (PDT)
+From: Naveen Naidu <naveennaidu479@gmail.com>
+To: bhelgaas@google.com,
+	ruscur@russell.cc,
+	oohall@gmail.com
+Subject: [PATCH v5 0/5] Fix long standing AER Error Handling Issues
+Date: Mon, 25 Oct 2021 22:30:59 +0530
+Message-Id: <cover.1635179600.git.naveennaidu479@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20211021152253.pqc6xp3vnv5fpczj@theprophet>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, bhelgaas@google.com,
+Cc: Oza Pawandeep <poza@codeaurora.org>, linux-pci@vger.kernel.org,
+ Sinan Kaya <okaya@kernel.org>, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, linuxppc-dev@lists.ozlabs.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -86,21 +112,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Oct 21, 2021 at 08:52:53PM +0530, Naveen Naidu wrote:
-> Lukas, I have not added your Acked-by tag from the v1 [1] of the patch 
-> series, since the RESPONSE_IS_PCI_ERROR macro definition slightly 
-> changed. I hope this was the right thing to do.
-[...]
-> If that is not the case please let me know. But I am not sure what to
-> do here? If RESPONSE_IS_PCI_ERROR does not fit here, should the right
-> option would be to revert/remove this patch from the series?
+This patch series aims at fixing some of the AER error handling issues
+we have.
 
-My Acked-by still stands.  As for the macro name, I'm fine with
-whatever Bjorn and the community settle on. :)
+Currently we have the following issues: 
+  
+  1. Confusing message in aer_print_error()
+  2. aer_err_info not being initialized completely in DPC path before 
+     we print the AER logs
+  3. A bug [1] in clearing of AER registers in the native AER path
+
+[1] https://lore.kernel.org/linux-pci/20151229155822.GA17321@localhost/
+
+The patch series fixes the above things.
+
+PATCH 1: 
+  - Fixes the first issue
+  - This patch is independent of other patches and can be applied
+    seperately
+
+PATCH 2 - 3:
+  - Fixes the second issue
+  - Patch 3 is depended on Patch 2 in the series
+
+PATCH 4
+  - Fixes the bug in clearing of AER registers which leades to
+    AER message spew [1]
+
+PATCH 5:
+  - Adds extra information (devctl register) in AER error logs.
+  - Patch 5 depends on Patch 4 of the series
 
 Thanks,
+Naveen Naidu
 
-Lukas
+Changelog
+=========
+v5:
+    - Edit the commit message of Patch 1 and Patch 5 to include how to
+      test the AER messages using aer-inject.
+    - Edit Patch 3 to initialize info.id depending on the trigger
+      reason.
+    - Drop few patches (v4 4/8, 5/8 7/8) since they were wrong.
+
+v4:
+    - Fix logical error in 6/8, in the previous version of the patch set
+      there was a bug, in how I added the devices to the queue.
+
+v3:
+    - Edit the commit messages to be in imperative style and split the
+      commits to be more atomic.
+
+v2:
+    - Add [PATCH 7] which includes the device control register 
+      information in AER error logs.
+
+Naveen Naidu (5):
+  [PATCH v5 1/5] PCI/AER: Remove ID from aer_agent_string[]
+  [PATCH v5 2/5] PCI: Cleanup struct aer_err_info
+  [PATCH v5 3/5] PCI/DPC: Initialize info.id in dpc_process_error()
+  [PATCH v5 4/5] PCI/AER: Clear error device AER registers in aer_irq()
+  [PATCH v5 5/5] PCI/AER: Include DEVCTL in aer_print_error()
+
+ drivers/pci/pci.h      |  23 +++-
+ drivers/pci/pcie/aer.c | 269 ++++++++++++++++++++++++++++-------------
+ drivers/pci/pcie/dpc.c |  16 ++-
+ 3 files changed, 214 insertions(+), 94 deletions(-)
+
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
