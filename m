@@ -2,92 +2,92 @@ Return-Path: <SRS0=7u83=QB=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A35C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Nov 2021 20:09:26 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 958F7C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Nov 2021 20:09:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 854BE61056
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Nov 2021 20:09:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 854BE61056
+	by mail.kernel.org (Postfix) with ESMTPS id 3420861105
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Nov 2021 20:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 3420861105
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 45465401FD;
-	Sun, 14 Nov 2021 20:09:26 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E947B606A8;
+	Sun, 14 Nov 2021 20:09:48 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6CBl-4WeQpAX; Sun, 14 Nov 2021 20:09:25 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nBJcPi-sO4l1; Sun, 14 Nov 2021 20:09:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 10F7840001;
-	Sun, 14 Nov 2021 20:09:25 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3C5B2605B1;
+	Sun, 14 Nov 2021 20:09:47 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E7BD3C001E;
-	Sun, 14 Nov 2021 20:09:24 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 66A4DC0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1CD2DC001E;
+	Sun, 14 Nov 2021 20:09:47 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7242EC0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Nov 2021 20:09:24 +0000 (UTC)
+ Sun, 14 Nov 2021 20:09:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 48B5680BAC
+ by smtp2.osuosl.org (Postfix) with ESMTP id 53C3A400DD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Nov 2021 20:09:24 +0000 (UTC)
+ Sun, 14 Nov 2021 20:09:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rwQAr6bc4OBK
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id h9kTSZHj6tTq
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Nov 2021 20:09:23 +0000 (UTC)
+ Sun, 14 Nov 2021 20:09:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9F33080B9E
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8500640001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Nov 2021 20:09:23 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id
- cq22-20020a17090af99600b001a9550a17a5so2012461pjb.2
+ Sun, 14 Nov 2021 20:09:44 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id z6so13230351pfe.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 Nov 2021 12:09:23 -0800 (PST)
+ Sun, 14 Nov 2021 12:09:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3Nj+oxSX/c3z55ECc6E1sqG8puAX/WDZIVVJffo9MIU=;
- b=IuCl7VIm2KIapGhBYDwqQraU2CCe8kI2wOVKMMb4/TueOPYH0p/qni4XBxWevydhM3
- yat9GBWYNNtfvFuxCN56xDOf0O44GUSE4XyVcq4gqGFcHIeNBduVB7TpgLvxhJSYh2rt
- oYCfH9tfK6JidnW3E4ashRn4POqA8g/qMcYbs1XYBh9TOtCcrw53nSF3/uJ8fHyFw347
- wKMg5nhy6H87qEdY9jYXD0dkWkVvG/zPhJKjQQCyBt5H2zGYOYBtxbZBxlXVumZLqTkK
- uc750RhkMpxz03fT00tQ20I+qqxl17t3Qdb4kgWcbRvekWBb/eazkRFObjBbnVyNsPos
- p2hA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=g0hqZTxcMlERXHnMKWG+hrxkK3I5O77RjJcF82gUnPA=;
+ b=na9zeWxuNrEcTt5TzQoL7OXc/ORGDC6nCc0Ro0Mwo4mhgnfLk9Zgcmpu1zBuCa+db/
+ 72xN0xoVyh0IGkbLBxM0kNE7uwRm1rgDrU4XYxvx+eXlxFA5SptdR13Zfq/DRA1C35ax
+ KtMsmhl9/BfeD+51mHUQzJKyaX1jG/GDWrQAHLw2wAFygG4rwPt49kWBNwUzlSrccUMh
+ lKc641dPh7c7xlqGHeOQG6t1jE6w8vclpiDYpVeBtjNozCE8ZVk91TcyS+gyKQj+y6VR
+ olp+joWY+YC4gYaNofA5RosKhq4ai2EsYKfxqBbl3VR5C3h/tlSTW5nxOTHQjigc2fU9
+ 7CgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3Nj+oxSX/c3z55ECc6E1sqG8puAX/WDZIVVJffo9MIU=;
- b=6DsTMsnXBjBH+UeyaRkWjQR1Aa8eC9SU+PQ7all6buxXK+ElUjxHxUq14nEURVG4xw
- sAf0puf47m1hMcwWGDigL7PRljOsWzG/FQV3cHtkDuyW1oGrCg1n0pPtEOCw8sWZdmoU
- aghPwyi24Wb+LPI7UmoLTcuGjp5uoVDtwO1w4r7Tw5ePm5MxDHz6QTgxblbeGtG3UmYS
- ooQrNf//NCIMpZyQCqCn2iBFB8Loi1GNt+PajDHEqhrO7tHZNKabZidlsxssAK2MczHA
- Mw5w/OcF/fJAEBF/2gMEX30w9IpIgqoa2stI9IlCTKyM6uXKBLfRgD5wo+mIW8MMznFm
- rb5g==
-X-Gm-Message-State: AOAM531rWIqjHKWcZTYMAOcDOtQ/WeWjdi7gxhKoCTrwni5OpFYA/4Xv
- jI3ptxyJSn3b5Tb5popeU5o=
-X-Google-Smtp-Source: ABdhPJwuJ+OxtBtDWYllww/wd9EdAd7SjOmtJN4Sh7D5MNzQjMSbfpRQg1nv/5+aexHdRUQazD21yA==
-X-Received: by 2002:a17:90a:8043:: with SMTP id
- e3mr41373127pjw.130.1636920562867; 
- Sun, 14 Nov 2021 12:09:22 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=g0hqZTxcMlERXHnMKWG+hrxkK3I5O77RjJcF82gUnPA=;
+ b=DzmUfkl+k9sVLsaGTWq83FnUJvuRSp5NjwotgM+fZcGrx0PuIm/hxxmhlIXLSxmCG2
+ lnvUttQbAPDy2jZPoiDKOVyYokV3sEtXn0j3z11DqRR1HEm8A0JlUXJjs/tPx0etUakj
+ 89khTkJgvLVQR0h0JLXvtys5X1BqJhJ6ImV6bGHEsugO01Kc8h+BSWfbsHScQuOCKXij
+ 8x+ztICnEL+i8wIjIGI6KJycBGomLzb86WFM9Y23QkADy4WINhOcvyA5b9fu/gOv/29e
+ YNuiGC/y9mKkgSPPaNG9PtOBIU7VHJaj6l4m37XPHArJouISCOOE9IHtNnNBiMMMeppR
+ aHAg==
+X-Gm-Message-State: AOAM530MyblGqwcPB+f/LvlVETQ3DXj82k0YEXFKRi+dwM0zx/3rjEkU
+ tLwRwnsNotKsJwJriW/ABVI=
+X-Google-Smtp-Source: ABdhPJzgkRtOJr/cwqFNkJX6yD3WrODZuhpzkKEH07eFcQCEDVgK0EOYpPJg0IkyNGWDZGobBLIFvQ==
+X-Received: by 2002:a63:8c5c:: with SMTP id q28mr21172071pgn.244.1636920583634; 
+ Sun, 14 Nov 2021 12:09:43 -0800 (PST)
 Received: from localhost.localdomain ([2406:7400:63:9777:151e:e959:105:10d])
- by smtp.gmail.com with ESMTPSA id e7sm9737869pgk.90.2021.11.14.12.09.20
+ by smtp.gmail.com with ESMTPSA id e7sm9737869pgk.90.2021.11.14.12.09.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Nov 2021 12:09:22 -0800 (PST)
+ Sun, 14 Nov 2021 12:09:43 -0800 (PST)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH 0/1] PCI: Intial KUnit test fixture for resource assignment
-Date: Mon, 15 Nov 2021 01:38:45 +0530
-Message-Id: <cover.1636919579.git.naveennaidu479@gmail.com>
+Subject: [PATCH 1/1] PCI: Add KUnit tests for __pci_read_base()
+Date: Mon, 15 Nov 2021 01:38:46 +0530
+Message-Id: <950fd05e97d492a71eff54e2c0020d3ae9dd1c85.1636919579.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <cover.1636919579.git.naveennaidu479@gmail.com>
+References: <cover.1636919579.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
@@ -108,42 +108,812 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently it's hard to deubg issues in the resource assignment code of
-the PCI because of the long reproduction cycles between the developer
-trying to fix the code and the user testing it due to the lack of
-hardware device with the developer [1].
+It is usually hard to debug issues in the resource assignment code due
+to long reporduction cycles between the developer trying to fix the code
+and the user testing it.
 
-[1]:
-https://lore.kernel.org/all/20210621123714.GA3286648@bjorn-Precision-5520/
+This adds KUnit tests for __pci_read_base() which is only  dependent
+on software structures, so no hardware is needed to run these.
 
-Bjorn, suggested that it would be really good if we could have a test
-fixture for debugging/testing resource assignment. 
+This lays the foundation for test fixtures we can use to reproduce the
+resource assignment code path of PCI.
 
-The patch attached along with the cover letter is an attempt to lay the
-foundation and also have a proof of concept to show that it is possible 
-to have a test fixture to debug the resource assignment code.
+Sample output from KUnit Test run:
 
-Since there are a lot of things which happens during the resource
-assignement phase, the first version only tests the __pci_read_base()
-function since that was the most easiest to set up.
+  Subtest: __pci_read_base()
+     1..2
+     # test_pci_read_base_type_0_hdr_approach_1: initializing __pci_read_base() tests
+  (null): reg 0x18: [mem 0x4f400000-0x4f400fff]
+     ok 1 - test_pci_read_base_type_0_hdr_approach_1
+     # test_pci_read_base_type_0_hdr_approach_2: initializing __pci_read_base() tests
+  (null): reg 0x18: [mem 0x4f400000-0x4f400fff]
+     ok 2 - test_pci_read_base_type_0_hdr_approach_2
+  # __pci_read_base(): pass:2 fail:0 skip:0 total:2
+  # Totals: pass:2 fail:0 skip:0 total:2
+  ok 2 - __pci_read_base()
 
-Hopefully, in the future patches I'll be able to write more KUnit tests
-for the other parts responsible during the resource assignment phase and
-get closer to the goal of having a complete test fixtures :)
-
-Thanks,
-Naveen
-
-
-Naveen Naidu (1):
-  PCI: Add KUnit tests for __pci_read_base()
-
+Suggested-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
+---
  drivers/pci/Kconfig              |   4 +
  drivers/pci/Makefile             |   3 +
  drivers/pci/pci-read-base-test.c | 740 +++++++++++++++++++++++++++++++
  3 files changed, 747 insertions(+)
  create mode 100644 drivers/pci/pci-read-base-test.c
 
+diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+index 43e615aa12ff..12b3779fb640 100644
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -252,6 +252,10 @@ config PCIE_BUS_PEER2PEER
+ 
+ endchoice
+ 
++config PCI_READ_BASE_KUNIT_TEST
++	tristate "KUnit tests for __pci_read_base() in probe.c"
++	depends on PCI && KUNIT=y
++
+ source "drivers/pci/hotplug/Kconfig"
+ source "drivers/pci/controller/Kconfig"
+ source "drivers/pci/endpoint/Kconfig"
+diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+index d62c4ac4ae1b..010a903c3d5d 100644
+--- a/drivers/pci/Makefile
++++ b/drivers/pci/Makefile
+@@ -36,4 +36,7 @@ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+ obj-y				+= controller/
+ obj-y				+= switch/
+ 
++# KUnit test files
++obj-$(CONFIG_PCI_READ_BASE_KUNIT_TEST) += pci-read-base-test.o
++
+ subdir-ccflags-$(CONFIG_PCI_DEBUG) := -DDEBUG
+diff --git a/drivers/pci/pci-read-base-test.c b/drivers/pci/pci-read-base-test.c
+new file mode 100644
+index 000000000000..97992df7c480
+--- /dev/null
++++ b/drivers/pci/pci-read-base-test.c
+@@ -0,0 +1,740 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * KUnit tests for __pci_read_base()
++ *
++ * Author: Naveen Naidu <naveennaidu479@gmail.com>
++ */
++#include <kunit/test.h>
++#include <linux/pci.h>
++#include <linux/math.h>
++#include <linux/errno.h>
++
++#include "pci.h"
++
++#define MY_PCI_BUS_NUM 0x011
++#define NUM_32_BITCONFIG_REGISTERS 16
++
++/*
++ * Representation of type 0/1 headers.
++ *
++ * Each element of the array represents one 32 bit register of the
++ * Type 0/1 Header register.
++ */
++u32 config_registers[NUM_32_BITCONFIG_REGISTERS];
++
++/* Type of the device you are testing */
++unsigned int type_header_test_case;
++
++/* Type 0/1 Header register values */
++struct config_space_bitfield {
++	char name[64];
++	unsigned int offset;
++	unsigned int size; /* In bytes */
++	unsigned int bit_array_index;
++	unsigned int value;
++};
++
++/*
++ * The index value of BARS in the type_0/1_header struct.
++ * Useful for setting the values for test cases.
++ */
++enum type_header_BAR_index {
++	BAR0 = 3,
++	BAR1,
++	BAR2,
++	BAR3,
++	BAR4,
++	BAR5
++};
++
++/* PCI Type 0 Header for Endpoints */
++static struct config_space_bitfield type_0_header[] = {
++	{"Vendor ID",	PCI_VENDOR_ID,		2,	0,	0},
++	{"Device ID",	PCI_DEVICE_ID,		2,	16,	0},
++	{"Command",	PCI_COMMAND,		2,	32,	0},
++	{"BAR 0",	PCI_BASE_ADDRESS_0,	4,	128,	0},
++	{"BAR 1",	PCI_BASE_ADDRESS_1,	4,	160,	0},
++	{"BAR 2",	PCI_BASE_ADDRESS_2,	4,	192,	0},
++	{"BAR 3",	PCI_BASE_ADDRESS_3,	4,	224,	0},
++	{"BAR 4",	PCI_BASE_ADDRESS_4,	4,	256,	0},
++	{"BAR 5",	PCI_BASE_ADDRESS_5,	4,	288,	0}
++};
++
++/* PCI Type 1 Header for Bridges */
++static struct config_space_bitfield type_1_header[] = {
++	{"Vendor ID",	PCI_VENDOR_ID,		2,	0,	0},
++	{"Device ID",	PCI_DEVICE_ID,		2,	16,	0},
++	{"Command",	PCI_COMMAND,		2,	32,	0},
++	{"BAR 0",	PCI_BASE_ADDRESS_0,	4,	128,	0},
++	{"BAR 1",	PCI_BASE_ADDRESS_1,	4,	160,	0}
++};
++
++/*
++ * -----------------------------------------------------------------------
++ * Data structures to hold test cases values
++ * -----------------------------------------------------------------------
++ */
++
++/* Used for setting the test values of BAR registers. */
++struct config_BARS {
++	char name[64];
++	unsigned int offset;
++	/*
++	 * Allocated Address size.
++	 *
++	 * Value to return, when all 1's are written to BAR registers.
++	 *
++	 * See (NOTE: How to calculate the allocated address size for the BAR
++	 * registers) comment below.
++	 */
++	unsigned int allocated_size;
++};
++
++enum config_BARS_index {
++	config_BAR0,
++	config_BAR1,
++	config_BAR2,
++	config_BAR3,
++	config_BAR4,
++	config_BAR5
++};
++
++static struct config_BARS type_0_BARS_config[] = {
++	{"BAR 0", PCI_BASE_ADDRESS_0, 0},
++	{"BAR 1", PCI_BASE_ADDRESS_1, 0},
++	{"BAR 2", PCI_BASE_ADDRESS_2, 0},
++	{"BAR 3", PCI_BASE_ADDRESS_3, 0},
++	{"BAR 4", PCI_BASE_ADDRESS_4, 0},
++	{"BAR 5", PCI_BASE_ADDRESS_5, 0},
++};
++
++static struct config_BARS type_1_BARS_config[] = {
++	{"BAR 0", PCI_BASE_ADDRESS_0, 0},
++	{"BAR 1", PCI_BASE_ADDRESS_1, 0},
++};
++
++/*
++ * -----------------------------------------------------------------------
++ * Setup FAKE PCI Hierarchy and resources
++ * -----------------------------------------------------------------------
++ */
++
++static struct config_space_bitfield *get_type_header(unsigned int address)
++{
++
++	unsigned int i, size;
++	struct config_space_bitfield *type_hdr;
++	struct kunit *test = current->kunit_test;
++
++	if (type_header_test_case == PCI_HEADER_TYPE_NORMAL) {
++		type_hdr = type_0_header;
++		size = ARRAY_SIZE(type_0_header);
++	} else {
++		type_hdr = type_1_header;
++		size = ARRAY_SIZE(type_1_header);
++	}
++
++	for (i = 0; i < size; i++, type_hdr++) {
++		if (type_hdr->offset == address)
++			return type_hdr;
++	}
++
++	/*
++	 * FAILS, when you try to access a register not present in type_0_header[]
++	 * or type_1_header[]
++	 */
++	KUNIT_FAIL(test, "Can not access address which is not in config headers\n");
++	return NULL;
++}
++
++static int get_BAR_alloc_size(unsigned int address)
++{
++	unsigned int i, array_size;
++	struct config_BARS *BARS_config;
++	struct kunit *test = current->kunit_test;
++
++	if (type_header_test_case == PCI_HEADER_TYPE_NORMAL) {
++		BARS_config = type_0_BARS_config;
++		array_size = ARRAY_SIZE(type_0_BARS_config);
++	} else {
++		BARS_config = type_1_BARS_config;
++		array_size = ARRAY_SIZE(type_1_BARS_config);
++	}
++
++	for (i = 0; i < array_size; i++, BARS_config++) {
++		if (BARS_config->offset == address)
++			return BARS_config->allocated_size;
++	}
++
++	/* FAIL, when you try to access a non BAR register */
++	KUNIT_FAIL(test, "Can not access non BAR register\n");
++	return -EFAULT;
++}
++
++/*
++ * FIXME: The following, read_register() and set_register() function is
++ * implemented on the assumption that, you always try to read/write values
++ * from within  the size of the register being accessed
++ *
++ * It DOES NOT handle the case where the value to write/read is greater
++ * than the length of the register being accessed.
++ */
++
++/* Set a register value in config_registers[] */
++static void set_register(unsigned int address, unsigned int value, unsigned int size)
++{
++	int index, reg_start_pos, shift;
++	unsigned int flag, mask;
++
++	struct config_space_bitfield *type_hdr = get_type_header(address);
++
++	/* The Array Element where the register is present */
++	index = type_hdr->bit_array_index/32;
++
++	/*
++	 * The bit in the config_registers[index] from where the register starts
++	 */
++	reg_start_pos = type_hdr->bit_array_index%32;
++
++	/*
++	 * The shift that needs to be done to access the bits of the register.
++	 *
++	 * FIXME: If (shift < 0) then it means that you are trying to access
++	 * values outside the register's 32 bit boundary. This code does not
++	 * support that as of now.
++	 *
++	 * TODO: Do we want to abort the test case here OR throw an error?
++	 */
++	shift = (32 - (size * 8)) - (reg_start_pos);
++
++	/* Clear the bits of the register we want to write the values to */
++	flag = ~(int_pow(2, size*8) - 1);
++	mask = flag << shift;
++
++	config_registers[index] &= mask;
++
++	/*
++	 * Set the value
++	 *
++	 * FIXME: Check if the value being written is greater than the size of
++	 * register? Should we handle that case?
++	 */
++	config_registers[index] |= (value << shift);
++
++	/* Update the value of struct */
++	type_hdr->value = value;
++}
++
++/* Read a register value from config_registers[] */
++static unsigned int read_register_value(unsigned int address, unsigned int size)
++{
++	int index, reg_start_pos, shift;
++	unsigned int array_value, flag, mask, value;
++
++	struct config_space_bitfield *type_hdr = get_type_header(address);
++
++	/* The Array Element where this register is present */
++	index = type_hdr->bit_array_index/32;
++
++	/*
++	 * The bit in the config_registers[index] from where the register starts
++	 */
++	reg_start_pos = type_hdr->bit_array_index%32;
++
++	/* The shift that needs to be done to access the bits of the register
++	 *
++	 * FIXME: If (shift < 0) then it means that you are trying to access
++	 * values outside the register's 32 bit boundary. This code does not
++	 * support that as of now.
++	 *
++	 * TODO: Do we want to abort the test case here OR throw an error?
++	 */
++	shift = (32 - (size * 8)) - (reg_start_pos);
++
++	/* Save the value from entire array index */
++	array_value = config_registers[index];
++
++	/* Clear the bits of register, we do not want to read */
++	flag = (int_pow(2, size * 8) - 1);
++	mask = flag << shift;
++
++	/* Get the value of the register */
++	array_value &= mask;
++	value = array_value >> shift;
++
++	return value;
++}
++
++static int fake_pci_read(struct pci_bus *bus, unsigned int devfn,
++				int where, int size, u32 *val)
++{
++	*val = read_register_value(where, size);
++	return 0;
++}
++
++static int fake_pci_write(struct pci_bus *bus, unsigned int devfn,
++				int where, int size, u32 val)
++{
++	unsigned int start_BAR_addr, end_BAR_addr;
++
++	if (type_header_test_case == PCI_HEADER_TYPE_NORMAL) {
++		start_BAR_addr = type_0_header[BAR0].offset;
++		end_BAR_addr = type_0_header[BAR5].offset;
++	} else {
++		start_BAR_addr = type_1_header[BAR0].offset;
++		end_BAR_addr = type_1_header[BAR1].offset;
++	}
++
++	/*
++	 * When the value 0xFFFFFFFF is written to BAR registers, update the BAR
++	 * register such that it contains that allocated address space for it.
++	 *
++	 * We get this value from 'struct BARS_config[]', which was set before the
++	 * test ran.
++	 */
++	if ((where >= start_BAR_addr && where <= end_BAR_addr)
++		&& (val == 0xFFFFFFFF)) {
++		unsigned int BAR_alloc_size = get_BAR_alloc_size(where);
++
++		set_register(where, BAR_alloc_size, size);
++		return 0;
++	}
++
++	set_register(where, val, size);
++	return 0;
++}
++
++static struct pci_ops fake_pci_ops = {
++		.read = fake_pci_read,
++		.write = fake_pci_write,
++};
++
++static void pci_fake_bus_init(struct kunit *test, struct pci_bus *bus,
++	struct pci_dev *dev, struct resource *res)
++{
++	struct pci_host_bridge *bridge;
++
++	bus->ops = &fake_pci_ops;
++	bus->number = MY_PCI_BUS_NUM;
++	bus->parent = NULL;
++
++	/* Allocate and initialize a FAKE host bridge, else Kernel Panics */
++	bus->bridge = kunit_kzalloc(test, sizeof(struct pci_host_bridge *),
++					GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, bus->bridge  != NULL);
++
++	bridge = to_pci_host_bridge(bus->bridge);
++
++	INIT_LIST_HEAD(&bridge->windows);
++
++	INIT_LIST_HEAD(&bus->node);
++	INIT_LIST_HEAD(&bus->children);
++	INIT_LIST_HEAD(&bus->devices);
++	INIT_LIST_HEAD(&bus->slots);
++	INIT_LIST_HEAD(&bus->resources);
++	bus->max_bus_speed = PCI_SPEED_UNKNOWN;
++	bus->cur_bus_speed = PCI_SPEED_UNKNOWN;
++
++	/* Attach the device to the Fake PCI Bus */
++	INIT_LIST_HEAD(&dev->bus_list);
++	dev->bus = bus;
++	list_add_tail(&dev->bus_list, &bus->devices);
++
++	/* Initialize the resource */
++	res->name = "FAKE CHILD DEVICE";
++	res->start = 0xFFFFFFFF;
++	res->end = 0xFFFFFFFF;
++}
++
++/*
++ * -----------------------------------------------------------------------
++ * Functions for managing test values
++ * -----------------------------------------------------------------------
++ */
++
++static void init_registers(void)
++{
++	unsigned int i, array_size;
++	struct config_space_bitfield *type_hdr;
++
++	if (type_header_test_case == PCI_HEADER_TYPE_NORMAL) {
++		type_hdr = type_0_header;
++		array_size = ARRAY_SIZE(type_0_header);
++	} else {
++		type_hdr = type_1_header;
++		array_size = ARRAY_SIZE(type_1_header);
++	}
++
++	for (i = 0; i < array_size; i++, type_hdr++)
++		set_register(type_hdr->offset, type_hdr->value, type_hdr->size);
++}
++
++static void clear_BAR_test_config(void)
++{
++	unsigned int i, config_BAR;
++
++	if (type_header_test_case == PCI_HEADER_TYPE_NORMAL) {
++
++		/* Clear the registers */
++		for (i = 0; i < ARRAY_SIZE(type_0_header); i++)
++			config_registers[i] = 0;
++
++		/* Clear the values of BAR from the headers */
++		for (i = BAR0; i <= BAR5; i++)
++			type_0_header[i].value = 0;
++
++		/* Clear the BAR configuration */
++		for (config_BAR = config_BAR0; config_BAR <= config_BAR5;
++				config_BAR++)
++			type_0_BARS_config[config_BAR].allocated_size = 0;
++
++	} else {
++		/* Clear the registers */
++		for (i = 0; i < ARRAY_SIZE(type_1_header); i++)
++			config_registers[i] = 0;
++
++		/* Clear the values of BAR from the headers */
++		for (i = BAR0; i <= BAR1; i++)
++			type_1_header[i].value = 0;
++
++		/* Clear the BAR configuration */
++		for (config_BAR = config_BAR0; config_BAR <= config_BAR1;
++				config_BAR++)
++			type_1_BARS_config[config_BAR].allocated_size = 0;
++		}
++}
++
++/*
++ * NOTE: How to calculate the allocated address size for the BAR registers
++ * -----------------------------------------------------------------------
++ *
++ * The updated value of BAR when all 1's are written to it.
++ *
++ * The hardware of BAR registers is designed such that, whenever all 1's
++ * or 0xFFFFFFFF is written to it, it gets updated with the allocated size
++ * for the device. This value is used by software to figure out the allocated
++ * device size
++ *
++ * To calculate the address size (PCI 3.0 specification section 6.2.5.1):
++ *	1. Clear the lower four bits to zeros (since they are read only)
++ *	2. Invert all 32 bits
++ *	3. Add one to the result
++ *
++ * Since we have to simulate what hardware does, For easy reference on how
++ * to determine what we have to return when all 1's are written to our mock
++ * method is:
++ *
++ *	1. Construct 0xFFFFFFF  (Note 7 F's)
++ *	2. Update the above value such that the last (log2(size in bytes) - 4)
++ *	   bits are zero
++ *	3. Finally to the updated value, append X (where X is the last 4 bit
++ *	   value from the BAR register)
++ *
++ * For eg:
++ *	Say the BAR0 register has the value 0x4F400008 and the allocated size for
++ *	this device is 4 KiB i.e 4096 bytes.
++ *
++ *	1. let val = 0xFFFFFFF
++ *	2. No: of last bits in val that needs to be zero = log2(4096) - 4 = 8 bits
++ *	   Therefore val = 0xFFFFF00
++ *	3. The last 4 bits in the BAR0 register is 8 (BAR0 value 0x4F400008).
++ *	   i.e X = 8
++ *	4. Final value = Append X to val => val = 0xFFFFF008
++ *
++ * This means, the value that needs to be returned when BAR0 in our example is
++ * written with all 1's is 0xFFFFF008. If you wish to confirm, you can follow
++ * the method as prescribed in the (PCI 3.0 specification section 6.2.5.1) to
++ * determine the allocated size from the value 0xFFFFF008
++ *
++ */
++
++struct type_0_header_test_data {
++	u32 BAR0_value;
++	u32 BAR1_value;
++	u32 BAR2_value;
++	u32 BAR3_value;
++	u32 BAR4_value;
++	u32 BAR5_value;
++
++	/*
++	 * It is mandatory to know/calculate the allocated size of a BAR register.
++	 *
++	 * Use the approach described in
++	 * (Note: How to calculate the allocated address size for the BAR
++	 * registers) comment above to calculate the allocated_size of
++	 * the BAR register.
++	 */
++	u32 BAR0_allocated_size;
++	u32 BAR1_allocated_size;
++	u32 BAR2_allocated_size;
++	u32 BAR3_allocated_size;
++	u32 BAR4_allocated_size;
++	u32 BAR5_allocated_size;
++
++	u32 res_flags;
++	u32 BAR_offset; /* BAR address to read data from */
++
++	/*
++	 * Values the resource should have with after the call to
++	 * __pci_read_base()
++	 */
++	u32 expected_res_start;
++	u32 expected_res_end;
++
++};
++
++struct type_1_header_test_data {
++	u32 BAR0_value;
++	u32 BAR1_value;
++
++	u32 BAR0_allocated_size;
++	u32 BAR1_allocated_size;
++
++	u32 res_flags;
++	/* BAR address to read data from */
++	u32 BAR_offset;
++
++	/* Values the resource should be set up with after __pci_read_base() */
++	u32 expected_res_start;
++	u32 expected_res_end;
++
++};
++
++static void set_test_data_type_0_headers(
++		const struct type_0_header_test_data test_data, struct resource *res)
++{
++	res->start = 0;
++	res->end = 0;
++	res->flags = test_data.res_flags;
++
++	type_0_header[BAR0].value = test_data.BAR0_value;
++	type_0_header[BAR1].value = test_data.BAR1_value;
++	type_0_header[BAR2].value = test_data.BAR2_value;
++	type_0_header[BAR3].value = test_data.BAR3_value;
++	type_0_header[BAR4].value = test_data.BAR4_value;
++	type_0_header[BAR5].value = test_data.BAR5_value;
++
++	type_0_BARS_config[config_BAR0].allocated_size =
++		test_data.BAR0_allocated_size;
++
++	type_0_BARS_config[config_BAR1].allocated_size =
++		test_data.BAR1_allocated_size;
++
++	type_0_BARS_config[config_BAR2].allocated_size =
++		test_data.BAR2_allocated_size;
++
++	type_0_BARS_config[config_BAR3].allocated_size =
++		test_data.BAR3_allocated_size;
++
++	type_0_BARS_config[config_BAR4].allocated_size =
++		test_data.BAR4_allocated_size;
++
++	type_0_BARS_config[config_BAR5].allocated_size =
++		test_data.BAR5_allocated_size;
++
++	init_registers();
++}
++
++void set_test_data_type_1_headers(
++	const struct type_1_header_test_data test_data, struct resource *res)
++{
++	res->start = 0;
++	res->end = 0;
++	res->flags = test_data.res_flags;
++
++	type_1_header[BAR0].value = test_data.BAR0_value;
++	type_1_header[BAR1].value = test_data.BAR1_value;
++
++	type_1_BARS_config[config_BAR0].allocated_size =
++		test_data.BAR0_allocated_size;
++
++	type_1_BARS_config[config_BAR1].allocated_size =
++		test_data.BAR1_allocated_size;
++
++	init_registers();
++}
++
++/*
++ * Test __pci_read_base() for type 0 header devices i.e Endpoint devices
++ *
++ * Approach 1:
++ *  Test a single value.
++ *  In this method, always make sure to init_registers() after setting the
++ *	header values and run clear_BAR_test_config() after the test is run.
++ *
++ * Steps for setting up the test case is:
++ *	1. Create fake PCI BUS, device and resources
++ *	2. Set the "type_header_test_case" value as PCI_HEADER_TYPE_NORMAL
++ *	3. Initialize the flags and BAR register values of the resource
++ *	4. Run the test
++ */
++static void test_pci_read_base_type_0_hdr_approach_1(struct kunit *test)
++{
++
++	/* Fake PCI devices and resources */
++	struct pci_dev *fake_pci_dev;
++	struct pci_bus *fake_pci_bus;
++	struct resource *child_dev_res;
++
++	fake_pci_dev = kunit_kzalloc(test, sizeof(*fake_pci_dev), GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, fake_pci_dev != NULL);
++
++	fake_pci_bus = kunit_kzalloc(test, sizeof(*fake_pci_bus), GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, fake_pci_bus != NULL);
++
++	child_dev_res = kunit_kzalloc(test, sizeof(*child_dev_res), GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, child_dev_res != NULL);
++
++	pci_fake_bus_init(test, fake_pci_bus, fake_pci_dev, child_dev_res);
++
++	/* Set the type of header */
++	type_header_test_case = PCI_HEADER_TYPE_NORMAL;
++
++	/* Initialize flags and BAR register values of the resource */
++	child_dev_res->flags = IORESOURCE_MEM;
++	type_0_header[BAR2].value = 0x4F400006;
++
++	/*
++	 * Initialize the allocated address size for the BAR register
++	 *
++	 * Use the approach described in
++	 * (Note: How to calculate the allocated address size for the BAR
++	 * registers) comment above to calculate the allocated_size of
++	 * the BAR register will return when all 1's are written to it.
++	 */
++	type_0_BARS_config[config_BAR2].allocated_size = 0xfffff006;
++
++	/* Initialize the config_registers with the values set in the test case */
++	init_registers();
++
++	__pci_read_base(fake_pci_dev, pci_bar_unknown, child_dev_res,
++		type_0_header[BAR2].offset);
++
++	KUNIT_EXPECT_EQ(test, 0x4f400000, child_dev_res->start);
++	KUNIT_EXPECT_EQ(test, 0x4f400fff, child_dev_res->end);
++	clear_BAR_test_config();
++}
++
++/*
++ * Test __pci_read_base() for type 0 header devices i.e Endpoint devices
++ *
++ *
++ * Approach 2:
++ *  Test a series of values
++ *
++ * Steps for setting up the test case is:
++ *	1. Create fake PCI BUS, device and resources
++ *	2. Set the "type_header_test_case" value as PCI_HEADER_TYPE_NORMAL
++ *	3. Initialize the flags and BAR register values of the resource
++ *	4. Run the test
++ */
++static void test_pci_read_base_type_0_hdr_approach_2(struct kunit *test)
++{
++	/*
++	 * Values to initialize the resource and the BAR registers
++	 */
++	static const struct type_0_header_test_data test_data[] = {
++		{
++			.BAR0_value = 0,
++			.BAR1_value = 0,
++			.BAR2_value = 0x4F400006,
++			.BAR3_value = 0,
++			.BAR4_value = 0,
++			.BAR5_value = 0,
++
++			/*
++			 * Initialize the allocated address size for the BAR register
++			 *
++			 * Use the approach described in
++			 * (Note: How to calculate the allocated address size for the BAR
++			 * registers) comment above to calculate the allocated_size of
++			 * the BAR register will return when all 1's are written to it.
++			 */
++			.BAR0_allocated_size = 0,
++			.BAR1_allocated_size = 0,
++			.BAR2_allocated_size = 0xfffff006,
++			.BAR3_allocated_size = 0,
++			.BAR4_allocated_size = 0,
++			.BAR5_allocated_size = 0,
++
++			.res_flags = IORESOURCE_MEM,
++			.BAR_offset = PCI_BASE_ADDRESS_2,
++
++			.expected_res_start = 0x4f400000,
++			.expected_res_end = 0x4f400fff,
++		},
++		{
++			.BAR0_value = 0,
++			.BAR1_value = 0,
++			.BAR2_value = 0,
++			.BAR3_value = 0,
++			.BAR4_value = 0,
++			.BAR5_value = 0,
++
++			.BAR0_allocated_size = 0,
++			.BAR1_allocated_size = 0,
++			.BAR2_allocated_size = 0,
++			.BAR3_allocated_size = 0,
++			.BAR4_allocated_size = 0,
++			.BAR5_allocated_size = 0,
++
++			.res_flags = 0,
++			.BAR_offset = 0,
++
++			.expected_res_start = 0,
++			.expected_res_end = 0,
++		},
++	};
++
++	unsigned int i;
++
++	/* Fake PCI devices and resources */
++	struct pci_dev *fake_pci_dev;
++	struct pci_bus *fake_pci_bus;
++	struct resource *child_dev_res;
++
++	fake_pci_dev = kunit_kzalloc(test, sizeof(*fake_pci_dev), GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, fake_pci_dev != NULL);
++
++	fake_pci_bus = kunit_kzalloc(test, sizeof(*fake_pci_bus), GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, fake_pci_bus != NULL);
++
++	child_dev_res = kunit_kzalloc(test, sizeof(*child_dev_res), GFP_KERNEL);
++	KUNIT_ASSERT_TRUE(test, child_dev_res != NULL);
++
++	pci_fake_bus_init(test, fake_pci_bus, fake_pci_dev, child_dev_res);
++
++	/* Set the type of header */
++	type_header_test_case = PCI_HEADER_TYPE_NORMAL;
++
++	for (i = 0; i < ARRAY_SIZE(test_data); i++) {
++		set_test_data_type_0_headers(test_data[i], child_dev_res);
++		__pci_read_base(fake_pci_dev, pci_bar_unknown, child_dev_res,
++			test_data[i].BAR_offset);
++		KUNIT_EXPECT_EQ(test, test_data[i].expected_res_start,
++			child_dev_res->start);
++		KUNIT_EXPECT_EQ(test, test_data[i].expected_res_end,
++			child_dev_res->end);
++		clear_BAR_test_config();
++	}
++}
++
++static int pci_read_base_test_init(struct kunit *test)
++{
++	kunit_info(test, "initializing __pci_read_base() tests\n");
++	return 0;
++}
++
++static struct kunit_case pci_read_base_test_cases[] = {
++	KUNIT_CASE(test_pci_read_base_type_0_hdr_approach_1),
++	KUNIT_CASE(test_pci_read_base_type_0_hdr_approach_2),
++	{}
++};
++
++static struct kunit_suite pci_read_base_test_suite = {
++	.name = "__pci_read_base()",
++	.init = pci_read_base_test_init,
++	.test_cases = pci_read_base_test_cases,
++};
++
++kunit_test_suites(&pci_read_base_test_suite);
 -- 
 2.25.1
 
