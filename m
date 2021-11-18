@@ -2,101 +2,103 @@ Return-Path: <SRS0=8PjG=QF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95F41C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:07:51 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15908C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:07:58 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 5F97461AE2
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:07:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 5F97461AE2
+	by mail.kernel.org (Postfix) with ESMTPS id D156161107
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:07:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D156161107
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4272881777;
-	Thu, 18 Nov 2021 14:07:51 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A7104400E1;
+	Thu, 18 Nov 2021 14:07:57 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vBjumMU_XX8C; Thu, 18 Nov 2021 14:07:50 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NwNy54cX5-uN; Thu, 18 Nov 2021 14:07:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 80FAC81779;
-	Thu, 18 Nov 2021 14:07:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9CC7F40140;
+	Thu, 18 Nov 2021 14:07:56 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5BAF7C001E;
-	Thu, 18 Nov 2021 14:07:50 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 634C3C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BCA9C001E;
+	Thu, 18 Nov 2021 14:07:56 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 813B1C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:07:49 +0000 (UTC)
+ Thu, 18 Nov 2021 14:07:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5B6C440342
+ by smtp2.osuosl.org (Postfix) with ESMTP id 61A73400E1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:07:49 +0000 (UTC)
+ Thu, 18 Nov 2021 14:07:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id E1xLA3R_dpyn
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5Xvwdz6Fww1C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:07:48 +0000 (UTC)
+ Thu, 18 Nov 2021 14:07:54 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 35A7A403C7
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
+ [IPv6:2607:f8b0:4864:20::533])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A0A5340180
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:07:48 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id b4so5396118pgh.10
+ Thu, 18 Nov 2021 14:07:54 +0000 (UTC)
+Received: by mail-pg1-x533.google.com with SMTP id r132so5408082pgr.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 06:07:48 -0800 (PST)
+ Thu, 18 Nov 2021 06:07:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oxis35XdZSIgJr6mklaAXMEQHUEVDMfz+GZuoz2m4I8=;
- b=CfdlCofkOkudUS2qd1NsvEsYuT7jk4wE1tunfAm4T9FgxQkNInv2u6Ao0B3dgzI+cp
- MBMg06DQ2ISnqX1E8DL4tFvodGh3V26fGl4gI90ndgXwt0ILK6dyREzbrk/ntTcRfLsO
- NQ1vJyHsPH6wdr2gr2WuWe0A4rPL7km89KeGF+8FimeuZLbRPpfQcn4+a9QU41Rmj/A4
- xlqTGNv7PzYykiz1mzFRyJ9jBQm55fQwg/ZITxxqAhJ7/PoZSHQlVA8GGeCaejFzyMGZ
- zraEelTYLMHHqHjeKMhYs8nVXwQaV4/5e09WsMghtAsMGemsv/R/ne8JoFLJB4WZCfrz
- lx/A==
+ bh=MC+uMtAqzrUGxiPuMGV2uquDaVscrAuApobHOB73Khc=;
+ b=iujRsX4QPoiun7MHP0bUBZW28PjBf6o6gfGjY/YCm/Lpia8P/wzPGdCWhiyGfZG09g
+ Gjrmitr/DvKW1Se/u30W1xBctEtQ460BlEKz4w4a4RRLsG/Z9uYu8quQ3S8YNaXabwUL
+ c0ODX2zYAPzZEc+6s3kYCQfPner0LQoYLnPLwcCCQxCnx5DSiPpfmdj91JA28o2Bh+zR
+ Xxth8mCjdAdYY8DkskQ2AL8PFVJqPwsIgFNlvyqn9V5Q7seZuDDq1aaOMfpUVkRLcLVb
+ p2wov/u8f1vPaBr2+y9SQZFEwiXZ5iREzuqbl0+ygDk3ftzRQ2vbE6NVCZ+zPwJOU+sx
+ PG0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oxis35XdZSIgJr6mklaAXMEQHUEVDMfz+GZuoz2m4I8=;
- b=Ko7v/89/Juz1QprlGXUOLnpksPJxt05TElxZMz71jNs05arcHZhmgtW7Wh1ugktemO
- IP9nVYrugUR0hyF3c55M7TAHFxfRxgmgnzphlaHgZcnZIrEpx9rl6HDNwuT/GDTYy7d5
- xcB6eq+3x/gZB0e89Ot6tMHW30nclny+Gs0o0BxqW/AO/1ABqZyw8LD0Ne/r/2Kq7cjh
- hsS1Wk4/pni1ARA4MN9ovuB70F/BI1IwnBT0+skD77EfAJY50b0hXf41L7nay/M7LQU5
- B1dcCJs3ABCL2Mt17DWne0ZnjqrIr0omfCrubU/iu3DQnMefJrlGbt3iZK/ZG1DtDuGg
- MAlQ==
-X-Gm-Message-State: AOAM532YRT4IcgXBKI9/0XSAlPJqvc2/JxPES8sVovMnkCuLSCHPEiip
- nzqu27kBfBrAllY3IYr+6UA=
-X-Google-Smtp-Source: ABdhPJyKNAsM7vj4XKSIROaJKxPYIQuQZ53f9v5gQ+OOMhKVWBQJbsKOev6gGAPfsMdgsSBm2WrYFw==
-X-Received: by 2002:a05:6a00:248b:b0:49f:9d7f:84e2 with SMTP id
- c11-20020a056a00248b00b0049f9d7f84e2mr56766723pfv.40.1637244467554; 
- Thu, 18 Nov 2021 06:07:47 -0800 (PST)
+ bh=MC+uMtAqzrUGxiPuMGV2uquDaVscrAuApobHOB73Khc=;
+ b=RTmoWHHpsLN4qOcsaWFo3bm+TDLtk962SmmSPUfOUZqOyU7PhBps8/vBY7iCFLgCEb
+ nRomBhoyx8mtI/jgdpofY+xM3XP9FCxo+hEF20aVwrvxAFosl0wf7ARE0O5rQemcDpVq
+ rNlgVBIQJB6rpsfgtY14VBfonzJTL/nWIJ7JyPxq8xU+YSkkuK8VVJU3Ym08QgiepQHS
+ +lynI/0iiV8dLpBCjrbnSQKBcAXWbOFdp1oo3jTeX8ri+ndtqKpne2OHhX3Fss/flojl
+ q16GTC93ZtQETw3TriZnPcUfxqisVlNIhfHdUh+Lt+KKRUPpl1XhXrJxBSZvbEuHo4ia
+ GNXA==
+X-Gm-Message-State: AOAM533LTSa5aCzV8Cq74AWzOdlns1hBoZlPURWY8WvBpCcdBCJq+JMr
+ g0IVOEkZ+5sJPtEQiyQvLxQ=
+X-Google-Smtp-Source: ABdhPJyuYGF3D5BwP9dBQadEZLcKBgGb+caRhXPH1nLvYia+cdRfnIzBQGuarTkOzB+UKMsDzzIvlg==
+X-Received: by 2002:a63:725e:: with SMTP id c30mr11339989pgn.240.1637244474011; 
+ Thu, 18 Nov 2021 06:07:54 -0800 (PST)
 Received: from localhost.localdomain ([2406:7400:63:2c47:5ffe:fc34:61f0:f1ea])
  by smtp.gmail.com with ESMTPSA id
- x14sm2822878pjl.27.2021.11.18.06.07.44
+ x14sm2822878pjl.27.2021.11.18.06.07.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 06:07:47 -0800 (PST)
+ Thu, 18 Nov 2021 06:07:53 -0800 (PST)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v4 13/25] PCI: altera: Remove redundant error fabrication when
+Subject: [PATCH v4 14/25] PCI: rcar: Remove redundant error fabrication when
  device read fails
-Date: Thu, 18 Nov 2021 19:33:23 +0530
-Message-Id: <ed5020e5b008b28c33a90c9c1670cef2393d3b7e.1637243717.git.naveennaidu479@gmail.com>
+Date: Thu, 18 Nov 2021 19:33:24 +0530
+Message-Id: <83540eb3ae76a0d28bbe03d69d685a6d549b456b.1637243717.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1637243717.git.naveennaidu479@gmail.com>
 References: <cover.1637243717.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
 Cc: Rob Herring <robh@kernel.org>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- Joyce Ooi <joyce.ooi@intel.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+ linux-pci@vger.kernel.org,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ linux-kernel@vger.kernel.org,
+ "open list:PCI DRIVER FOR RENESAS R-CAR" <linux-renesas-soc@vger.kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Marek Vasut <marek.vasut+renesas@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -129,27 +131,28 @@ fabricate any error response.
 This helps unify PCI error response checking and make error check
 consistent and easier to find.
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/pcie-altera.c | 4 +---
+ drivers/pci/controller/pcie-rcar-host.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
-index 2513e9363236..a6bdf9aff833 100644
---- a/drivers/pci/controller/pcie-altera.c
-+++ b/drivers/pci/controller/pcie-altera.c
-@@ -510,10 +510,8 @@ static int altera_pcie_cfg_read(struct pci_bus *bus, unsigned int devfn,
- 	if (altera_pcie_hide_rc_bar(bus, devfn, where))
- 		return PCIBIOS_BAD_REGISTER_NUMBER;
+diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
+index e12c2d8be05a..6bd5619fbbf4 100644
+--- a/drivers/pci/controller/pcie-rcar-host.c
++++ b/drivers/pci/controller/pcie-rcar-host.c
+@@ -159,10 +159,8 @@ static int rcar_pcie_read_conf(struct pci_bus *bus, unsigned int devfn,
  
--	if (!altera_pcie_valid_device(pcie, bus, PCI_SLOT(devfn))) {
--		*value = 0xffffffff;
-+	if (!altera_pcie_valid_device(pcie, bus, PCI_SLOT(devfn)))
- 		return PCIBIOS_DEVICE_NOT_FOUND;
+ 	ret = rcar_pcie_config_access(host, RCAR_PCI_ACCESS_READ,
+ 				      bus, devfn, where, val);
+-	if (ret != PCIBIOS_SUCCESSFUL) {
+-		*val = 0xffffffff;
++	if (ret != PCIBIOS_SUCCESSFUL)
+ 		return ret;
 -	}
  
- 	return _altera_pcie_cfg_read(pcie, bus->number, devfn, where, size,
- 				     value);
+ 	if (size == 1)
+ 		*val = (*val >> (BITS_PER_BYTE * (where & 3))) & 0xff;
 -- 
 2.25.1
 
