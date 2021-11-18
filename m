@@ -2,106 +2,104 @@ Return-Path: <SRS0=8PjG=QF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F80CC433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:05:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B6C1C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:05:57 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id ED11A61101
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:05:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org ED11A61101
+	by mail.kernel.org (Postfix) with ESMTPS id C6DB761107
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:05:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org C6DB761107
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BA63381776;
-	Thu, 18 Nov 2021 14:05:43 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id AB4C881776;
+	Thu, 18 Nov 2021 14:05:56 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mMruVNyzRVVV; Thu, 18 Nov 2021 14:05:43 +0000 (UTC)
+	with ESMTP id Hx0D4caKtQvv; Thu, 18 Nov 2021 14:05:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E3C1181774;
-	Thu, 18 Nov 2021 14:05:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1F74081774;
+	Thu, 18 Nov 2021 14:05:55 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D0390C001E;
-	Thu, 18 Nov 2021 14:05:42 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 07552C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0C84C001E;
+	Thu, 18 Nov 2021 14:05:54 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C9839C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:05:41 +0000 (UTC)
+ Thu, 18 Nov 2021 14:05:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id DCFA460767
+ by smtp2.osuosl.org (Postfix) with ESMTP id B6A65401C7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:05:40 +0000 (UTC)
+ Thu, 18 Nov 2021 14:05:53 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp3.osuosl.org (amavisd-new);
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HP6g2-sF74Uo
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4ePSObT3waLQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:05:40 +0000 (UTC)
+ Thu, 18 Nov 2021 14:05:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 6376660761
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 96C7340195
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:05:40 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- o6-20020a17090a0a0600b001a64b9a11aeso5787056pjo.3
+ Thu, 18 Nov 2021 14:05:52 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id 206so373982pgb.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 06:05:40 -0800 (PST)
+ Thu, 18 Nov 2021 06:05:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nZn4SxDZvh+tavMY8+enW7L1nqxNB0bRzV0t3A5PNmg=;
- b=JG5K9Trd1o3s4rrA6V+Ay1LKEJnXRI5kjwDECp3bKxrUj+eDe+iJmCOxM5RXaT7FBj
- wEHlIjohorJgsIIb/ELmE0bh34ntCQCc9Wp6Vmbtq00W4kdPbwQ6n4rCIphJNy7Fju6Q
- 4Zpx3SndARG4CvzkOtorq1A1jbfbAR1UKd3x99AELcG7XRA9l2y5lW2KpA3wWXJEJBHb
- OKyIlxB8PqJ9RUWcV89WDhgxB/ptMVQjvisEzBZa7VsepHzxGFkyKJdWXHT6u4GqyuO6
- STb6sTk5n2jjW1HfkB+mxZZlHikXjN73pqTyz7JjsHdJXKPEEuHDwx3tYkTN2fb8yLz3
- Mwow==
+ bh=E2kMW7De0WUTFR8R6pbmw+v+DfoEFjJfFZEPmx6TpIo=;
+ b=jmYMhdUPtwXlk7YxNRrEY39ARKEZzJckayE37oIVTUa4nPyIslNcR6XMOv+FjMg22s
+ S/2TjPlBw5NarH79TxwrLYnoAVvWIZ0ppI9goUKtPGdcd0slD6cnqVcnAcmR2QXi6HrW
+ 8+7CI+lO7fFXcHknuE0JmXhZ9a5KqyZcFnX4cBMhbOQxCVWJJNIZaMOHFOcmYvr6vB1w
+ pltr2d5RvAkg0R5l+YmyEilG8etz39ddfm+YhEh18pVpohNq8By50UkP5pvHXKBFDxd3
+ 9HBmaDizaekYvA2ywKzrnX+8OKZJm2K/jRoIj7A8oOVDYNxiGAyi68IMrf7PY9dIX6YG
+ g3qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nZn4SxDZvh+tavMY8+enW7L1nqxNB0bRzV0t3A5PNmg=;
- b=GRv0ctKPd771zBR7xDOXyybPgVlda5xqrMPvyjrQIzcctWOgebUb0d09G3J4MXEDj9
- 8ZuzNmt82/HOAt7uZDnp8XSD6cl85uuw8OGGB+uXb1Pb9fqAMv+mJRwctiBtBpxemdnn
- lDCumSpU1PGg5D0i3ihv4N0BDLsEexxhESsp5kwVdN+uTXVEUMmLVrc03MBXo4dqiT+q
- ndndAgVXVc05wwFemPM3KwLU91sINTvqr8rr5ZTh5UfgSCeDNPyY/4jk9DwO9e8AKEMP
- yyaNAZg5ijyDdb3TpvXyH6Knd5mI80osKphVwkH2LR01m20u3qoPt9Z3FLcM3ZHkjg2m
- 3LDg==
-X-Gm-Message-State: AOAM531Z/bc2R64nEqHeEd1eMesgQdRvpgASR+JtKKmLB8lZeje3S7ok
- RCL2lfiT4nHiViC48tX+HJ8=
-X-Google-Smtp-Source: ABdhPJz9L+8is2Ip8jLLWfzTNi/us5Q4tilWZCGXKU5MU+FnoFZb+E4/5NFsc5dQ6k9M0TzIAtqBrA==
-X-Received: by 2002:a17:90a:d49:: with SMTP id
- 9mr11086261pju.115.1637244339812; 
- Thu, 18 Nov 2021 06:05:39 -0800 (PST)
+ bh=E2kMW7De0WUTFR8R6pbmw+v+DfoEFjJfFZEPmx6TpIo=;
+ b=Ly3jJadxn7nqONhAe9fm19ueBWm+1HdEe+yRRBNg/XfxxJY/ntPvj4XIylFIxA+Vht
+ yX+FoSRScA7xOwiqzhoOyUKE2FU+t/e3vEY/6WnMFYJjfftWqrPGERUO5oRFtrBhI41F
+ LslDnxLS61VXZ3ILebf9yBmFr80v407aDk8zWui5O0WvA6F8zFoL7VDJqMkhnHq85B7f
+ YPEpcwF7U3re/Olb94N7OQ2tPFP6rHGbG2jnz96DgbSwuEtfPi+d1Ho0SxdByunLYMmq
+ ky39yjl3uDMFA5y6Xagfl2BZckidkkJCYlk4aY/tFLif0uOqFPe2x3Jm69KzWus+ATkY
+ ePWw==
+X-Gm-Message-State: AOAM531GpR0HkVvGKYPFOZ7dfZV9wQVCptsIwkBwJ1OuMzxsM+qwe33h
+ aoVEM6T599vza43GN/aPsyU=
+X-Google-Smtp-Source: ABdhPJyV+0mLAR5xy7BosKaOERagEd3ZKVQwr7/RwK2rniXrlnNRhEmZz+hP+50EUyrGGs3nj1a7sw==
+X-Received: by 2002:a63:b0d:: with SMTP id 13mr11503398pgl.190.1637244351963; 
+ Thu, 18 Nov 2021 06:05:51 -0800 (PST)
 Received: from localhost.localdomain ([2406:7400:63:2c47:5ffe:fc34:61f0:f1ea])
  by smtp.gmail.com with ESMTPSA id
- x14sm2822878pjl.27.2021.11.18.06.05.35
+ x14sm2822878pjl.27.2021.11.18.06.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 06:05:39 -0800 (PST)
+ Thu, 18 Nov 2021 06:05:51 -0800 (PST)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v4 06/25] PCI: iproc: Remove redundant error fabrication when
- device read fails
-Date: Thu, 18 Nov 2021 19:33:16 +0530
-Message-Id: <b95defa3db834789a4207df5d6b0216c8b610524.1637243717.git.naveennaidu479@gmail.com>
+Subject: [PATCH v4 07/25] PCI: mediatek: Remove redundant error fabrication
+ when device read fails
+Date: Thu, 18 Nov 2021 19:33:17 +0530
+Message-Id: <666127469482f9ca177805ff52aeb7bccb26e4c9.1637243717.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1637243717.git.naveennaidu479@gmail.com>
 References: <cover.1637243717.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Scott Branden <sbranden@broadcom.com>,
+Cc: Rob Herring <robh@kernel.org>, Ryder Lee <ryder.lee@mediatek.com>,
  =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
  linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Ray Jui <rjui@broadcom.com>, "maintainer:BROADCOM IPROC ARM ARCHITECTURE"
- <bcm-kernel-feedback-list@broadcom.com>,
+ Jianjun Wang <jianjun.wang@mediatek.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ "open list:PCIE DRIVER FOR MEDIATEK" <linux-mediatek@lists.infradead.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- "moderated list:BROADCOM IPROC ARM ARCHITECTURE"
+ "moderated list:ARM/Mediatek SoC support"
  <linux-arm-kernel@lists.infradead.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -137,25 +135,35 @@ consistent and easier to find.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/controller/pcie-iproc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/pci/controller/pcie-mediatek.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
-index 36b9d2c46cfa..b3e75bc61ff1 100644
---- a/drivers/pci/controller/pcie-iproc.c
-+++ b/drivers/pci/controller/pcie-iproc.c
-@@ -659,10 +659,8 @@ static int iproc_pci_raw_config_read32(struct iproc_pcie *pcie,
- 	void __iomem *addr;
+diff --git a/drivers/pci/controller/pcie-mediatek.c b/drivers/pci/controller/pcie-mediatek.c
+index 2f3f974977a3..a19f8ec5d392 100644
+--- a/drivers/pci/controller/pcie-mediatek.c
++++ b/drivers/pci/controller/pcie-mediatek.c
+@@ -365,19 +365,12 @@ static int mtk_pcie_config_read(struct pci_bus *bus, unsigned int devfn,
+ {
+ 	struct mtk_pcie_port *port;
+ 	u32 bn = bus->number;
+-	int ret;
  
- 	addr = iproc_pcie_map_cfg_bus(pcie, 0, devfn, where & ~0x3);
--	if (!addr) {
+ 	port = mtk_pcie_find_port(bus, devfn);
+-	if (!port) {
 -		*val = ~0;
-+	if (!addr)
++	if (!port)
  		return PCIBIOS_DEVICE_NOT_FOUND;
 -	}
+-
+-	ret = mtk_pcie_hw_rd_cfg(port, bn, devfn, where, size, val);
+-	if (ret)
+-		*val = ~0;
  
- 	*val = readl(addr);
+-	return ret;
++	return mtk_pcie_hw_rd_cfg(port, bn, devfn, where, size, val);
+ }
  
+ static int mtk_pcie_config_write(struct pci_bus *bus, unsigned int devfn,
 -- 
 2.25.1
 
