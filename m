@@ -2,99 +2,99 @@ Return-Path: <SRS0=8PjG=QF=lists.linuxfoundation.org=linux-kernel-mentees-bounce
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A66C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:09:13 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A28EAC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:09:19 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id 622EB60EE4
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:09:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 622EB60EE4
+	by mail.kernel.org (Postfix) with ESMTPS id 6892E61B5F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Nov 2021 14:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org 6892E61B5F
 Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4319680DDC;
-	Thu, 18 Nov 2021 14:09:13 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 45174403D9;
+	Thu, 18 Nov 2021 14:09:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6gvq_HGf2ljW; Thu, 18 Nov 2021 14:09:12 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EItTwH2DS6sh; Thu, 18 Nov 2021 14:09:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7884F80D2B;
-	Thu, 18 Nov 2021 14:09:12 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 96771403D7;
+	Thu, 18 Nov 2021 14:09:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 579B2C001E;
-	Thu, 18 Nov 2021 14:09:12 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 676DBC0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 74BD1C001E;
+	Thu, 18 Nov 2021 14:09:18 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9C32AC0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:09:10 +0000 (UTC)
+ Thu, 18 Nov 2021 14:09:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6187A40180
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7E74A80DEE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:09:10 +0000 (UTC)
+ Thu, 18 Nov 2021 14:09:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6sgOBga6OgD9
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CbnSUhPB3wry
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:09:09 +0000 (UTC)
+ Thu, 18 Nov 2021 14:09:16 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com
- [IPv6:2607:f8b0:4864:20::530])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A78D4400E1
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
+ [IPv6:2607:f8b0:4864:20::1034])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id F270D80DDB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 14:09:09 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id 200so5440148pga.1
+ Thu, 18 Nov 2021 14:09:15 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id h24so5235833pjq.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Nov 2021 06:09:09 -0800 (PST)
+ Thu, 18 Nov 2021 06:09:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gBBH/Q+4DT6MMFzudxxMo6qTH2zDvIqJYCuHRS/x8Gs=;
- b=h4pBbCLrdpXpef+w/kUpZbJP1X3ldT63Q8bGt/bh2RhSlt94aUaf0PVnzja8+EzyiX
- 5iYMNQKu/SyG4Nub6ksbx6VzPbGJRE/BZuFwnSSp+NgUjuqj2NhPYTKPM4zl6GDf1tKk
- eK61KC8EUBYRAicc/ZNdM+7b7GmVwetmqBzyBFB975MngUwTm9aw4E2AL054rU9cFaPo
- j+lKkLALHvmJGsPT61Y0tz5nJQZn9IMSHtNRdhRP9Yeb4mcwTwBjq2MzY9LTbmoj3JWS
- x19JINYr4ISze+T9+hz9gOPl/KfmZVS+6YlJCCcOTFIQsQZYOt6jbkfEFPctsM8nThJQ
- wFjQ==
+ bh=QEAi0JFFmcVSfLYqvSz9Q36wWsFfdlN527IzY0Xl91w=;
+ b=BNYCIDqXF+9y4b/vF54ZSXcAvHm4L/wOgKJ/UAkZhYW0nozO7Zv8Bks/tDz5yrZ4OD
+ DnPhR2IdEnwjppvTVmQkRGPuCiIl0QVMJNewSDmcbRdga9pHVy8S13vilB1txU8u87tb
+ H7SJ4o1SKk44fDZwqtM5tZc7vZlRH9O4XBhjatHklAJQffJRieEN7xrzQn+flJq9o6LI
+ Himzw2igxlwHQSzjflP/bLgEKcJqNWOHrS2bDE4ZsUfmNPJi7RxiPm92CcH0S0Khe/Cv
+ qZSmJMQdLKSW80RcvtU+J0e4r4E/76uplT2xL+3pucAxz50waGVHUBU9cnZyCl7pIhyM
+ ibZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gBBH/Q+4DT6MMFzudxxMo6qTH2zDvIqJYCuHRS/x8Gs=;
- b=GSEU5AtSGJ+H0Rh5uoDkvVbUzMpBeVhwmU9R9dE7ty7yG0kt8/TvlCkG7Yj9mOJ3JD
- WrblMVoHOkLRiaTRvvJpYrlYP0nsOTHQ3Ou/ysfE03Ny/NwTBwasikqX41zKdtMpyf6/
- FRCKNVwyo2qltGTb9cEQLQ1aVQ25d7OqyOlDYmGyXbU+6Z4YUarLXq5nVOrZ/h2CUlq7
- 376FtOOWur4LPhoG5DUY6Z63nIpMzR4YjG90arWjeO4FylWH7twbj5KpHPWgMsueSWtD
- RfcOcy/wJ5li+bI1RPF1B6Tnlp8Bg+XGPRIz56t5HNMsoYXqlVMCM3XnwbiUfdgGoXvv
- VTtw==
-X-Gm-Message-State: AOAM532RtGmmB5fSZ7bzPIOQOkoc+LXSW5EEYI6TTIcLfFfq3M5ADQY/
- 4nn1bUrPUNpwS8FLYtlrlJVpRA/+qVnVPT3S
-X-Google-Smtp-Source: ABdhPJx6pongqUzF2GCWPf3PPjoh1vz7OEj8FQ/voPke/8ceAr1mP50zFni4Hu2G4gWzSziUIk45mQ==
-X-Received: by 2002:a63:ff23:: with SMTP id k35mr11505864pgi.28.1637244548964; 
- Thu, 18 Nov 2021 06:09:08 -0800 (PST)
+ bh=QEAi0JFFmcVSfLYqvSz9Q36wWsFfdlN527IzY0Xl91w=;
+ b=d2/Xrr5REtfF+k2AZxI04oTEFEO52M2LZBAnRzTdcuYHxGcouNBIBzaAgsuixYT/xD
+ BunamlIfDUYb5CyIhOTdN24htDiWPaDBWnzFtfQJaC6+4/0CAVvGhIVm8KTVzr/9TM1Y
+ YNhLZWkmERytPdIKAfMdiy8H/hybu6h+ZdfGhvowoKr2bxI1vCqoj8vd51TAkkrdENT9
+ kdiXdWtnnRSEPMUTXjeQiPyTn9ppuW/Erx2g7D93pa6YCBIArq/i6sZfDT4wjQAQ4SIH
+ V768a8zVVFSsE+a/8u2uzIGCZziHir844cn3ekzli6riqA2l7voxNc603cJte3vn5oKr
+ nI6A==
+X-Gm-Message-State: AOAM530U5invz8BBXtMyi69wiVeObO1wMRWCB60OPyk/+5gtpsTvcaU3
+ q4nMQ3k7Dc8tc9CPtYtloHJ/VBIIGl7WOQKM
+X-Google-Smtp-Source: ABdhPJx0eGowQg8TSYbw2PJfbQZPFwpWcMyafhZX/7yhfmbbQRXIJXEOBIrKypVY6wqJ7VQxAwOcEw==
+X-Received: by 2002:a17:90b:4f44:: with SMTP id
+ pj4mr11118669pjb.150.1637244555360; 
+ Thu, 18 Nov 2021 06:09:15 -0800 (PST)
 Received: from localhost.localdomain ([2406:7400:63:2c47:5ffe:fc34:61f0:f1ea])
  by smtp.gmail.com with ESMTPSA id
- x14sm2822878pjl.27.2021.11.18.06.09.05
+ x14sm2822878pjl.27.2021.11.18.06.09.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Nov 2021 06:09:08 -0800 (PST)
+ Thu, 18 Nov 2021 06:09:15 -0800 (PST)
 From: Naveen Naidu <naveennaidu479@gmail.com>
 To: bhelgaas@google.com
-Subject: [PATCH v4 19/25] PCI/DPC: Use PCI_POSSIBLE_ERROR() to check read from
+Subject: [PATCH v4 20/25] PCI/PME: Use PCI_POSSIBLE_ERROR() to check read from
  hardware
-Date: Thu, 18 Nov 2021 19:33:29 +0530
-Message-Id: <9b0632f1f183432149f495cf12bdd5a72cc597a4.1637243717.git.naveennaidu479@gmail.com>
+Date: Thu, 18 Nov 2021 19:33:30 +0530
+Message-Id: <679ce049bccf10df3ca9ef4918ee2c3235afdaea.1637243717.git.naveennaidu479@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1637243717.git.naveennaidu479@gmail.com>
 References: <cover.1637243717.git.naveennaidu479@gmail.com>
 MIME-Version: 1.0
-Cc: "open list:PCI ENHANCED ERROR HANDLING EEH FOR POWERPC"
- <linuxppc-dev@lists.ozlabs.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Oliver O'Halloran <oohall@gmail.com>,
- Russell Currey <ruscur@russell.cc>,
+Cc: Sean V Kelley <sean.v.kelley@intel.com>, Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -127,31 +127,31 @@ Compile tested only.
 
 Signed-off-by: Naveen Naidu <naveennaidu479@gmail.com>
 ---
- drivers/pci/pcie/dpc.c | 4 ++--
+ drivers/pci/pcie/pme.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
-index c556e7beafe3..3e9afee02e8d 100644
---- a/drivers/pci/pcie/dpc.c
-+++ b/drivers/pci/pcie/dpc.c
-@@ -79,7 +79,7 @@ static bool dpc_completed(struct pci_dev *pdev)
- 	u16 status;
+diff --git a/drivers/pci/pcie/pme.c b/drivers/pci/pcie/pme.c
+index 1d0dd77fed3a..ef8ce436ead9 100644
+--- a/drivers/pci/pcie/pme.c
++++ b/drivers/pci/pcie/pme.c
+@@ -224,7 +224,7 @@ static void pcie_pme_work_fn(struct work_struct *work)
+ 			break;
  
- 	pci_read_config_word(pdev, pdev->dpc_cap + PCI_EXP_DPC_STATUS, &status);
--	if ((status != 0xffff) && (status & PCI_EXP_DPC_STATUS_TRIGGER))
-+	if ((!PCI_POSSIBLE_ERROR(status)) && (status & PCI_EXP_DPC_STATUS_TRIGGER))
- 		return false;
+ 		pcie_capability_read_dword(port, PCI_EXP_RTSTA, &rtsta);
+-		if (rtsta == (u32) ~0)
++		if (PCI_POSSIBLE_ERROR(rtsta))
+ 			break;
  
- 	if (test_bit(PCI_DPC_RECOVERING, &pdev->priv_flags))
-@@ -312,7 +312,7 @@ static irqreturn_t dpc_irq(int irq, void *context)
+ 		if (rtsta & PCI_EXP_RTSTA_PME) {
+@@ -274,7 +274,7 @@ static irqreturn_t pcie_pme_irq(int irq, void *context)
+ 	spin_lock_irqsave(&data->lock, flags);
+ 	pcie_capability_read_dword(port, PCI_EXP_RTSTA, &rtsta);
  
- 	pci_read_config_word(pdev, cap + PCI_EXP_DPC_STATUS, &status);
- 
--	if (!(status & PCI_EXP_DPC_STATUS_INTERRUPT) || status == (u16)(~0))
-+	if (!(status & PCI_EXP_DPC_STATUS_INTERRUPT) || PCI_POSSIBLE_ERROR(status))
+-	if (rtsta == (u32) ~0 || !(rtsta & PCI_EXP_RTSTA_PME)) {
++	if (PCI_POSSIBLE_ERROR(rtsta) || !(rtsta & PCI_EXP_RTSTA_PME)) {
+ 		spin_unlock_irqrestore(&data->lock, flags);
  		return IRQ_NONE;
- 
- 	pci_write_config_word(pdev, cap + PCI_EXP_DPC_STATUS,
+ 	}
 -- 
 2.25.1
 
