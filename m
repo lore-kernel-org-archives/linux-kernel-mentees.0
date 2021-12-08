@@ -1,99 +1,77 @@
-Return-Path: <SRS0=X1C9=QG=lists.linuxfoundation.org=linux-kernel-mentees-bounces@kernel.org>
+Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1006AC433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Nov 2021 11:10:23 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPS id D691C61206
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Nov 2021 11:10:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 mail.kernel.org D691C61206
-Authentication-Results: mail.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: mail.kernel.org; spf=pass smtp.mailfrom=lists.linuxfoundation.org
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52834C43217
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  8 Dec 2021 19:25:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A280B8194C;
-	Fri, 19 Nov 2021 11:10:21 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id EF811403E7;
+	Wed,  8 Dec 2021 19:25:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V88AyvzLogJP; Fri, 19 Nov 2021 11:10:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E0AA381911;
-	Fri, 19 Nov 2021 11:10:20 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BAEF9C001E;
-	Fri, 19 Nov 2021 11:10:20 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C9424C0012
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Nov 2021 11:10:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id B319B401C0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Nov 2021 11:10:19 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=gmail.com
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SQIe1w0fbbhX
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OXnVZwhWmXmV; Wed,  8 Dec 2021 19:25:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id F12D140231;
+	Wed,  8 Dec 2021 19:25:10 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C53B1C0073;
+	Wed,  8 Dec 2021 19:25:10 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D1DB4C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Nov 2021 11:10:18 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by smtp2.osuosl.org (Postfix) with ESMTPS id AAEC8400D1
+ Wed,  8 Dec 2021 19:25:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id B450940901
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Nov 2021 11:10:18 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id
- np6-20020a17090b4c4600b001a90b011e06so8507125pjb.5
+ Wed,  8 Dec 2021 19:25:09 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HzN9ZHZsGUvL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 19 Nov 2021 03:10:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=6cWAmlDlAF59x4LqcOU/XShYfmYEgb4772Ge0zuawgQ=;
- b=ks3fFLzUFxnyfEU6VkMBuDy9Ur6tgo8k6gs9eRJyRE3XRvxt7oqPmCCzMczBDEwkJp
- Ob5J5llfw8vqiGruy+OC4KFtXmIY8MPOGGjHloaUXpgvry4nY3rWG1Hc90hPxMVbKPsw
- MRWEd+/O274lMNedkRjozFMLU1rYY8Nno+Zx+LIURGwVoqY/bkI1vHyayL2UQObs66CG
- rdrMebdPSoL1yHlMLmskAqoaZ4I4gz1UeibUqaP6wxlpzqqayzrBC7VZ0SzHE3hgHwbl
- 4RQAaO59BcM8aJtyfSTD9DadiQQvikEkU3XfB6yW/Te3fbfxkYPO16dQ7cBk7+kF4mio
- J9SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6cWAmlDlAF59x4LqcOU/XShYfmYEgb4772Ge0zuawgQ=;
- b=q+iSwMxr8Cfj0I2sFj7h9g9TWufNU7r1OJiK7kjVAm6nyCyeYFfwd94k/KSWblppl5
- 6S44NFk1s+vTGyB1N1flcoPpWITvUCl1L5yWCCeHnijyWmnV0yY1oyHu+QUjfks171P0
- DmeHAxtX4BRoZOPW6NHo2f93pgLj86ZFVnA9lxhB9okE7EByNwOF3xL2RuV7IJ4NXf0a
- lLWTd5ViOUvqwHOe6j8JREXu5xIiZBy3KhpZyRQSzV2w1h6Nvt7vjH2LUp7TrE2OcoEF
- UwwTMt3DN3roltJTyk1F8NI3HLnVZgltSBL3o9yCj53FoidLSGZyy3pHDPmuZy2UmA3x
- dqXQ==
-X-Gm-Message-State: AOAM5332Wpg7lQ0KaAtqh7EdHN35CHMMbpkTRFpC+qUiLZBdinGUrp9j
- VY0cV8PTamihEMd+bUFdOd0=
-X-Google-Smtp-Source: ABdhPJxV+Pk1GPCfZmTWufJoVNVs22CQ7LdNAReT9GuuuFE4f7nR5BbG9XzKTJpNj27B+JUr9T7PzA==
-X-Received: by 2002:a17:902:bd88:b0:143:d318:76e6 with SMTP id
- q8-20020a170902bd8800b00143d31876e6mr33099354pls.66.1637320218081; 
- Fri, 19 Nov 2021 03:10:18 -0800 (PST)
-Received: from theprophet ([2406:7400:63:2c47:da89:58f9:fd04:7bf9])
- by smtp.gmail.com with ESMTPSA id z19sm2522822pfe.181.2021.11.19.03.10.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Nov 2021 03:10:17 -0800 (PST)
-Date: Fri, 19 Nov 2021 16:40:07 +0530
-From: Naveen Naidu <naveennaidu479@gmail.com>
-To: bhelgaas@google.com
-Subject: Re: [PATCH v4 1/1] PCI: Add KUnit tests for __pci_read_base()
-Message-ID: <20211119111007.ihxnziwbwo7u4wzx@theprophet>
-References: <cover.1637319848.git.naveennaidu479@gmail.com>
- <a049a89cc673492d12415ebd5195a2b50c2b5626.1637319848.git.naveennaidu479@gmail.com>
+ Wed,  8 Dec 2021 19:25:09 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 041C2408FA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  8 Dec 2021 19:25:08 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E6C98B82271;
+ Wed,  8 Dec 2021 19:25:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52F03C341CA;
+ Wed,  8 Dec 2021 19:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1638991504;
+ bh=oQFwcN3lUVqm/QC2mXvvhW5W+70BEyg1ywIOR6zcnUA=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Er+Q1gw7uO6ekkXfxvesyhl0sDJc2L88xfrJ9wikppnjwxdUtHuWJ1M4Ug2G1vg6c
+ OasEocccOiD6b1dkjTCUPwycDkzI+7enwlP0auOvCeOak81HmRHZZMueMFxNKp+F8z
+ mhtLsz2Ziml5LCktjoP1ukZynuoryu6Ta8FI9HDTRq3+9B7aRZ4yfJR/71v2BEtrLI
+ ONgouI3WDZd4zPqzgTOo+NrpccETm9qqn5IQIdlha+hS3i2ohjqt5XJtZ8fmfi8wHa
+ CUEFLukDCUNmXrap8fprOPbxX/J9R2o7v6z272V+ugZ4Vh+jix6GI96ukgk8+IOKPz
+ egp4XBjhWCRSQ==
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>, Joshua Morris <josh.h.morris@us.ibm.com>,
+ Philip Kelleher <pjk1939@linux.ibm.com>
+Subject: [PATCH v5 1/4] mtip32xx: remove pointless drvdata checking
+Date: Wed,  8 Dec 2021 13:24:46 -0600
+Message-Id: <20211208192449.146076-2-helgaas@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211208192449.146076-1-helgaas@kernel.org>
+References: <20211208192449.146076-1-helgaas@kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <a049a89cc673492d12415ebd5195a2b50c2b5626.1637319848.git.naveennaidu479@gmail.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+Cc: Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-pci@vger.kernel.org,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,15 +89,55 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Greg, I added you to the CC list, because you left comments on the v3 [1]
-of the patch. Apologies if that was not the case and sorry for the noise
-^^'.
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Thanks,
-Naveen
+The .suspend() and .resume() methods are only called after the .probe()
+method (mtip_pci_probe()) has set the drvdata and returned success.
 
-[1]:
-https://lore.kernel.org/linux-pci/cover.1637250854.git.naveennaidu479@gmail.com/T/#m0e0231f1dd9a70bc127736d436aefe79c9838115
+Therefore, if we get to mtip_pci_suspend() or mtip_pci_resume(), the
+drvdata must be valid.  Drop the unnecessary checking.
+
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+---
+ drivers/block/mtip32xx/mtip32xx.c | 15 +--------------
+ 1 file changed, 1 insertion(+), 14 deletions(-)
+
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index c91b9010c1a6..8677ac4c3431 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -4150,12 +4150,6 @@ static int mtip_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
+ 	int rv = 0;
+ 	struct driver_data *dd = pci_get_drvdata(pdev);
+ 
+-	if (!dd) {
+-		dev_err(&pdev->dev,
+-			"Driver private datastructure is NULL\n");
+-		return -EFAULT;
+-	}
+-
+ 	set_bit(MTIP_DDF_RESUME_BIT, &dd->dd_flag);
+ 
+ 	/* Disable ports & interrupts then send standby immediate */
+@@ -4189,14 +4183,7 @@ static int mtip_pci_suspend(struct pci_dev *pdev, pm_message_t mesg)
+ static int mtip_pci_resume(struct pci_dev *pdev)
+ {
+ 	int rv = 0;
+-	struct driver_data *dd;
+-
+-	dd = pci_get_drvdata(pdev);
+-	if (!dd) {
+-		dev_err(&pdev->dev,
+-			"Driver private datastructure is NULL\n");
+-		return -EFAULT;
+-	}
++	struct driver_data *dd = pci_get_drvdata(pdev);
+ 
+ 	/* Move the device to active State */
+ 	pci_set_power_state(pdev, PCI_D0);
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
