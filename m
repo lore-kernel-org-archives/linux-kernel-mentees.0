@@ -4,68 +4,54 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EF3DEC433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  8 Dec 2021 19:33:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C75C5C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  8 Dec 2021 20:02:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A130E60B9A;
-	Wed,  8 Dec 2021 19:33:33 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 62DB860BA1;
+	Wed,  8 Dec 2021 20:02:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eXNflGZsgpp2; Wed,  8 Dec 2021 19:33:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AA1066064D;
-	Wed,  8 Dec 2021 19:33:32 +0000 (UTC)
+	with ESMTP id LMgUKz8U-qoQ; Wed,  8 Dec 2021 20:02:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 8B76460651;
+	Wed,  8 Dec 2021 20:02:48 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98974C002F;
-	Wed,  8 Dec 2021 19:33:32 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6EBC8C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 44DB1C002F;
+	Wed,  8 Dec 2021 20:02:48 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 43B96C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  8 Dec 2021 19:33:31 +0000 (UTC)
+ Wed,  8 Dec 2021 20:02:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 4F5D0400FC
+ by smtp1.osuosl.org (Postfix) with ESMTP id 30DBA81020
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  8 Dec 2021 19:33:31 +0000 (UTC)
+ Wed,  8 Dec 2021 20:02:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m2aaRtqKOIB3
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ErZfet8l99ZY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  8 Dec 2021 19:33:30 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 1BF3B403E7
+ Wed,  8 Dec 2021 20:02:46 +0000 (UTC)
+X-Greylist: delayed 00:07:33 by SQLgrey-1.8.0
+Received: from gir.skynet.ie (gir.skynet.ie [193.1.99.77])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 3F16080FBC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  8 Dec 2021 19:33:30 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ Wed,  8 Dec 2021 20:02:45 +0000 (UTC)
+Received: from skynet-temp.skynet.ie (unknown [193.1.99.76])
+ (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 1E03CCE2339;
- Wed,  8 Dec 2021 19:33:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70B8CC341C8;
- Wed,  8 Dec 2021 19:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1638992006;
- bh=EcWZzUx4fqo+uh+hVA6nBDu/rUQP+9fMDDPThINoo4M=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=L6CQYQZp4U7EOFnagjaEa2clBMQESxBzD56wgo2Jshr2oYquwQKW1mplkBRXzEbXQ
- xpRCqeGDoDfzVEcOhscr/a6zG9lLpMpCKMmPiBxo7xX0ql0QIfmmDqmAcZo7s5VW+c
- qUaLL7py7Vw/HYCrAmy7QotEXqHokVIepgpMAGr7GM8sN9cExft5BZtB1mOqgHL+8K
- cA9IlYvHsfww1zDyMzNmf+W0CN7SDYWrMoO8Mt3wB5OYC76sE6Mif2XkQozYPms9ds
- hoFRYs8js8LooTQwH2IrvGdxgNBWJC1KXQoNV6IGRQZ/3XAWW2Zovvm0/zwZMO8mhm
- mFAT/Z9CxwBHA==
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: David Airlie <airlied@linux.ie>
-Subject: [PATCH v3 3/3] via-agp: convert to generic power management
-Date: Wed,  8 Dec 2021 13:33:05 -0600
-Message-Id: <20211208193305.147072-4-helgaas@kernel.org>
-X-Mailer: git-send-email 2.25.1
+ by gir.skynet.ie (Postfix) with ESMTPS id 95B95101BD;
+ Wed,  8 Dec 2021 19:55:08 +0000 (GMT)
+Date: Wed, 8 Dec 2021 19:55:08 +0000 (UTC)
+From: Dave Airlie <airlied@linux.ie>
+X-X-Sender: airlied@skynet-temp.skynet.ie
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v3 0/3] agp: convert to generic power management
 In-Reply-To: <20211208193305.147072-1-helgaas@kernel.org>
+Message-ID: <alpine.DEB.2.20.2112081942330.32242@skynet-temp.skynet.ie>
 References: <20211208193305.147072-1-helgaas@kernel.org>
+User-Agent: Alpine 2.20 (DEB 67 2015-01-07)
 MIME-Version: 1.0
 Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
  Vaibhav Gupta <vaibhav.varodek@gmail.com>, linux-kernel@vger.kernel.org,
@@ -88,116 +74,47 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 
-Convert via-agp from legacy PCI power management to the generic power
-management framework.
+On Wed, 8 Dec 2021, Bjorn Helgaas wrote:
 
-Previously, via-agp used legacy PCI power management, and agp_via_suspend()
-and agp_via_resume() were responsible for both device-specific things and
-generic PCI things:
+> From: Bjorn Helgaas <bhelgaas@google.com>
+> 
+> Vaibhav has converted around 180 drivers to generic power management, and
+> over 100 of those conversions have made it upstream.  If we can finish off
+> the remaining ones, we'll be able to remove quite a bit of ugly legacy code
+> from the PCI core.
+> 
+> This is a repost of Vaibhav's patches for AGP.  I rebased them to v5.16-rc1
+> and updated the commit logs to try to make it easier to verify them.
+> 
+> In the most recent posting here:
+> 
+>   https://lore.kernel.org/linux-pci/20211201025419.2797624-1-helgaas@kernel.org/
+> 
+> my commit log updates were incorrect.  This v3 has updates that I believe
+> to be correct, but of course I'd be grateful for more corrections.
 
-  agp_via_suspend
-    pci_save_state(pdev)                <-- generic PCI
-    pci_set_power_state(pdev, pci_choose_state(pdev, state)) <-- generic PCI
+Hi Bjorn,
 
-  agp_via_resume
-    pci_set_power_state(pdev, PCI_D0)   <-- generic PCI
-    pci_restore_state(pdev)             <-- generic PCI
-    via_configure_agp3()                <-- device-specific
-    via_configure()                     <-- device-specific
+Do you want to merge these via your tree?
 
-With generic power management, the PCI bus PM methods do the generic PCI
-things, and the driver needs only the device-specific part, i.e.,
+if so,
+Acked-by: Dave Airlie <airlied@redhat.com>
 
-  suspend_devices_and_enter
-    dpm_suspend_start(PMSG_SUSPEND)
-      pci_pm_suspend                    # PCI bus .suspend() method
-        agp_via_suspend                 <-- not needed at all; removed
-    suspend_enter
-      dpm_suspend_noirq(PMSG_SUSPEND)
-        pci_pm_suspend_noirq            # PCI bus .suspend_noirq() method
-          pci_save_state                <-- generic PCI
-          pci_prepare_to_sleep          <-- generic PCI
-            pci_set_power_state
-    ...
-    dpm_resume_end(PMSG_RESUME)
-      pci_pm_resume                     # PCI bus .resume() method
-        pci_restore_standard_config
-          pci_set_power_state(PCI_D0)   <-- generic PCI
-          pci_restore_state             <-- generic PCI
-        agp_via_resume                  # dev->driver->pm->resume
-          via_configure_agp3()          <-- device-specific
-          via_configure()               <-- device-specific
+Dave.
 
-[bhelgaas: commit log]
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
----
- drivers/char/agp/via-agp.c | 25 +++++--------------------
- 1 file changed, 5 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/char/agp/via-agp.c b/drivers/char/agp/via-agp.c
-index 87a92a044570..a460ae352772 100644
---- a/drivers/char/agp/via-agp.c
-+++ b/drivers/char/agp/via-agp.c
-@@ -492,22 +492,11 @@ static void agp_via_remove(struct pci_dev *pdev)
- 	agp_put_bridge(bridge);
- }
- 
--#ifdef CONFIG_PM
-+#define agp_via_suspend NULL
- 
--static int agp_via_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused agp_via_resume(struct device *dev)
- {
--	pci_save_state (pdev);
--	pci_set_power_state (pdev, PCI_D3hot);
--
--	return 0;
--}
--
--static int agp_via_resume(struct pci_dev *pdev)
--{
--	struct agp_bridge_data *bridge = pci_get_drvdata(pdev);
--
--	pci_set_power_state (pdev, PCI_D0);
--	pci_restore_state(pdev);
-+	struct agp_bridge_data *bridge = dev_get_drvdata(dev);
- 
- 	if (bridge->driver == &via_agp3_driver)
- 		return via_configure_agp3();
-@@ -517,8 +506,6 @@ static int agp_via_resume(struct pci_dev *pdev)
- 	return 0;
- }
- 
--#endif /* CONFIG_PM */
--
- /* must be the same order as name table above */
- static const struct pci_device_id agp_via_pci_table[] = {
- #define ID(x) \
-@@ -567,16 +554,14 @@ static const struct pci_device_id agp_via_pci_table[] = {
- 
- MODULE_DEVICE_TABLE(pci, agp_via_pci_table);
- 
-+static SIMPLE_DEV_PM_OPS(agp_via_pm_ops, agp_via_suspend, agp_via_resume);
- 
- static struct pci_driver agp_via_pci_driver = {
- 	.name		= "agpgart-via",
- 	.id_table	= agp_via_pci_table,
- 	.probe		= agp_via_probe,
- 	.remove		= agp_via_remove,
--#ifdef CONFIG_PM
--	.suspend	= agp_via_suspend,
--	.resume		= agp_via_resume,
--#endif
-+	.driver.pm      = &agp_via_pm_ops,
- };
- 
- 
--- 
-2.25.1
-
+> 
+> Vaibhav Gupta (3):
+>   amd64-agp: convert to generic power management
+>   sis-agp: convert to generic power management
+>   via-agp: convert to generic power management
+> 
+>  drivers/char/agp/amd64-agp.c | 24 ++++++------------------
+>  drivers/char/agp/sis-agp.c   | 25 ++++++-------------------
+>  drivers/char/agp/via-agp.c   | 25 +++++--------------------
+>  3 files changed, 17 insertions(+), 57 deletions(-)
+> 
+> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
