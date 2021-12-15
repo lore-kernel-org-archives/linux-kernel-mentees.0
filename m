@@ -4,91 +4,56 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32096C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Dec 2021 13:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 457DBC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Dec 2021 06:42:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C3760606A0;
-	Tue, 14 Dec 2021 13:59:49 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id CE549607D1;
+	Wed, 15 Dec 2021 06:42:44 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id j7_KxxJHaOl3; Tue, 14 Dec 2021 13:59:49 +0000 (UTC)
+	with ESMTP id M9utVm4qUVbU; Wed, 15 Dec 2021 06:42:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id F12B460593;
-	Tue, 14 Dec 2021 13:59:48 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 113BA60648;
+	Wed, 15 Dec 2021 06:42:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D008AC002F;
-	Tue, 14 Dec 2021 13:59:48 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD553C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E459EC002F;
+	Wed, 15 Dec 2021 06:42:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 87D77C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Dec 2021 13:59:47 +0000 (UTC)
+ Wed, 15 Dec 2021 06:42:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id BA0BD40476
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8484281750
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Dec 2021 13:59:47 +0000 (UTC)
+ Wed, 15 Dec 2021 06:42:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel-dk.20210112.gappssmtp.com
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AqFen5Wxa5NI
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=nan-steel.co
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dzXz2SqRGg4Q
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Dec 2021 13:59:45 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A2CEC40146
+ Wed, 15 Dec 2021 06:42:42 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+Received: from mail0.nan-steel.co (unknown [159.65.205.112])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id DF191814B6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Dec 2021 13:59:45 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id p65so24238318iof.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Dec 2021 05:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:in-reply-to:references:subject:message-id:date
- :mime-version:content-transfer-encoding;
- bh=DMsts4DALXAc/4OMVE7nKmsm4oHZCd35/gmAzU5+dTQ=;
- b=lG6LuESlJ4B308I07WHHKuqx5O3r/OW65GXeh4wWWlyyI4EkzBAntlfV9dHOmlEolx
- XaQzKVB/7WyJu3XPVzWIAPfOwvD4PVACuorAykKh2tjfEIF02MFBjXDliLF8086tRBv3
- PrjZsxdgpLZTUoDcU16uFXTSHPMkR3PQ6+XemI3sNIQMaj2yvjlf3WlNOND8X824XtSF
- E9UkZ0jg4ttFL8Xuwj3NHPQA0RP+Xuqa5Kb7UGHH05/nfa/S6XkFefA2llHOf65ioYcv
- 3E9BCfx5AmJv1g7/7RsnGo4Z3Iu1HDi2eLlwsQObttiLxJo9a+if8C+bO0YYeTodRAqY
- Dg/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
- :message-id:date:mime-version:content-transfer-encoding;
- bh=DMsts4DALXAc/4OMVE7nKmsm4oHZCd35/gmAzU5+dTQ=;
- b=laSshs2FA/y0YX6ZjVRsSVf7iFl4J9RbR7y4TbSBbKLYQYPMG+LjGfAEyIIcqtZQL3
- J2QXbATFkiyauz/jzgLnkPpsRnBS677P36DiWWzEvcOWKTBTYcAHuiRuKC2SF5Acut1b
- 8cJLekYZ4xml5kJr+HW18O3Cg/Mj0G/gNMKau93vuc1ZPcpk/JtCZg4nhDDCc4Dwn/JG
- 9UCnsT4ANvSLCRpF2eNR4I+H3o8jJ/B8HN09GPu6t+H8eoRIgcmn2Yg1WvWJopFs9icL
- xyMEUL6XpTgJJ4ElYsVP1E1WJCZh4Sx8v544flfFKspdQo9hbOR9U38prJTzBUcTa7G1
- QXhQ==
-X-Gm-Message-State: AOAM530iEuQdPU/S+wP5a5AkFo+KQT2ODvMWoOYz2eqnBGHK2VyduE9Q
- VaB6eNGRTCJelQ8ZLiGSnG1wog==
-X-Google-Smtp-Source: ABdhPJy7KeYpJWVcc6tu3G+V+pMOg2OSAAl9uEPFaXTi58pXfepSftxLmnmO0y0O6J0QGX+ww67z8g==
-X-Received: by 2002:a05:6638:348f:: with SMTP id
- t15mr2867875jal.272.1639490384660; 
- Tue, 14 Dec 2021 05:59:44 -0800 (PST)
-Received: from [192.168.1.116] ([66.219.217.159])
- by smtp.gmail.com with ESMTPSA id r18sm8793747ilh.59.2021.12.14.05.59.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Dec 2021 05:59:44 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: Philip Kelleher <pjk1939@linux.ibm.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Joshua Morris <josh.h.morris@us.ibm.com>
-In-Reply-To: <20211208192449.146076-1-helgaas@kernel.org>
-References: <20211208192449.146076-1-helgaas@kernel.org>
-Subject: Re: [PATCH v5 0/4] block: convert to generic power management
-Message-Id: <163949038206.174299.12080416577354381479.b4-ty@kernel.dk>
-Date: Tue, 14 Dec 2021 06:59:42 -0700
+ Wed, 15 Dec 2021 06:42:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=default; d=nan-steel.co;
+ h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+ i=info@nan-steel.co;
+ bh=m/mWyQmxdmVhKKG+lcJCsmKKjYaBdyHmh4gyLGu5ad8=;
+ b=yOiCcvPYTTmpNktWH410bTMHFBmvnhNQImulHnAfRzhkXaIqJlNS5gIw8Iowrk7NOoceJn7nqB0H
+ 67cY6kxV9fYMYQ6Dl4TOmCQiATr/E02K8TKfK17KTzfLXvAor/ZYcg3FGSKAFA3qhbOfejTf+lPv
+ szlBowUi+XdXYx0FxhM=
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: =?UTF-8?B?U2lwYXJpxZ8gU29yZ3VsYW1hICMxMTAzMjAxOQ==?=
+Date: 15 Dec 2021 00:42:38 -0600
+Message-ID: <20211215004238.D104685B4AB62817@nan-steel.co>
 MIME-Version: 1.0
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- Vaibhav Gupta <vaibhav.varodek@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: multipart/mixed;
+ boundary="----=_NextPart_000_0012_3080E909.0B366C52"
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,39 +65,49 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?B?QWtpaGlybyDDh2lla28=?= via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: =?UTF-8?B?QWtpaGlybyDDh2lla28=?= <info@nan-steel.co>
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 8 Dec 2021 13:24:45 -0600, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> This is a repost of patches from Vaibhav to convert from legacy PCI power
-> management to generic power management.  The most recent posting is here:
-> 
->   https://lore.kernel.org/all/20210114115423.52414-1-vaibhavgupta40@gmail.com/
-> 
-> [...]
+This is a multi-part message in MIME format.
 
-Applied, thanks!
+------=_NextPart_000_0012_3080E909.0B366C52
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
 
-[1/4] mtip32xx: remove pointless drvdata checking
-      commit: 2920417c98dbe4b58200c12fc9dc152834b76e42
-[2/4] mtip32xx: remove pointless drvdata lookups
-      commit: 9e541f142dab67264075baaf8fd2eb4423742c16
-[3/4] mtip32xx: convert to generic power management
-      commit: cd97b7e0d78009b45e08b92441d9562f9f37968c
-[4/4] rsxx: Drop PCI legacy power management
-      commit: ac6f6548fcb3c6da8ff1653a16c66fc1719a2a3e
+<!DOCTYPE HTML>
 
-Best regards,
--- 
-Jens Axboe
+<html><head><title></title>
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body style=3D"margin: 0.4em;">
+<p>Say&#305;n linux-kernel-mentees,</p><p>Sat&#305;n alma departman&#305;m =
+size iki kez yazd&#305; ancak sizden cevap alamad&#305;m.</p><p>Size bir ha=
+t&#305;rlatma olarak tekrar yaz&#305;yorum.</p><p>L&uuml;tfen sipari&#351; =
+i&ccedil;in ekteki sorguyu bulun ve fiyatlar&#305;n&#305;z&#305; en k&#305;=
+sa s&uuml;rede yorumlay&#305;n.</p><p>Sayg&#305;lar&#305;m&#305;zla,<br><br=
+>Akihiro &Ccedil;ieko<br><strong>PAZARLAMA D&#304;REKT&Ouml;R&Uuml;<br><br>=
+<br>
+<img width=3D"440" height=3D"60" style=3D"width: 278px; height: 71px;" src=
+=3D"C:\Users\Administrator\Desktop\Weldalloy-Caplugs-logo.jpg"><br><br>ADDR=
+ESS<br>9 General Macarthur Place,<br>Redbank, Queensland 4301, Australia<br=
+>PHONE NUMBER<br>Tel: +61 7 3277 2300<br>EMAIL<br><a href=3D"mailto:sales@w=
+eldalloy.com">sales@weldalloy.com</a></strong></p>
 
+
+</body></html>
+------=_NextPart_000_0012_3080E909.0B366C52
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+------=_NextPart_000_0012_3080E909.0B366C52--
