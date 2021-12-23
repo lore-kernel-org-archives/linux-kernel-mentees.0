@@ -4,72 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7423FC433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44D07C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E9D71405C5;
-	Thu, 23 Dec 2021 01:11:19 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 07383405F0;
+	Thu, 23 Dec 2021 01:11:21 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dtr-PITBgD4K; Thu, 23 Dec 2021 01:11:19 +0000 (UTC)
+	with ESMTP id XDiZDzqqd20l; Thu, 23 Dec 2021 01:11:20 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E4F54404A9;
-	Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1058A404A9;
+	Thu, 23 Dec 2021 01:11:20 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BFD17C001E;
-	Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6D2A3C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E1571C001E;
+	Thu, 23 Dec 2021 01:11:19 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83D71C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:17 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4A23481B36
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5EC24405DE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:17 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vO0_CRYr5E6O
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AHFcpSzglA-s
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu, 23 Dec 2021 01:11:16 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 448B381A15
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 44608404A9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu, 23 Dec 2021 01:11:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 7F8C461D45;
- Thu, 23 Dec 2021 01:11:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D20C36AE5;
- Thu, 23 Dec 2021 01:11:15 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 9494BCE0FB1;
+ Thu, 23 Dec 2021 01:11:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CF62C36AEB;
+ Thu, 23 Dec 2021 01:11:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640221875;
- bh=Ibnjc1Ag3vn7A29RC/T0gZzNpyuQKYqn+Ff07SRVx4Q=;
+ s=k20201202; t=1640221871;
+ bh=hG00kWbWXHmSwWgo7vfy0tK/cDWcyfPAdzTXQsCGsWs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZcfHxOmKbAHh1dur48h2G343diWQd0rLaQKK+YfADYBNoQA2tvOZSKISdBUNvGyH/
- mgi+Yeq0GCAzdt8cqaZ26PJ0n/PjZnT2loDxzVws1dNNYCwaKjwudaxLmCLcqyLUtF
- ElJt7+6TAtmb+U6U1/m46/m0UiO/prtTQQxh0iPXWY5vXpPMKp2alyxdFBzansjmyX
- JB1QSS9u938+RS3a0OICI4q2lm2T6XjKGWpuvw2SwH8PhUO3N+juflm85M/JS/O9cP
- OBhwax0V+HAv4vnKjtKWyK3wsAOMtaLYI4uMBZYwyGQJMZHaR46bXJcHkERc006RCq
- thqnbKcuXwSxA==
+ b=C+Vhgkel6nBIgd3Ta4wvAsw2WlgcLdYXD3cSEXHxLLiDWWxoGyEGmpqbeJgJzeDoo
+ gJQ/BAkHieRO0ishtxWcvqeCqG6bU4kpHO08y0QHVPPlpOBttVn5uHJyW/dloPsx4t
+ eIMi1BoWPoV9eRar3/BZlTxj6LZ6SoCukCKk/04UlRhdWw83SgCf/1p/yHSygSr6lZ
+ tLwwCL7N5mg4s4bq6gLvPbNXEyAHWJb/3EfQdVS9wnr+IKOKh2DeO19GNDvoM2c3at
+ joUqfXPw8GSvk7m892YHzlBvz2wbie6+VW6d2XipZjZtjNSxOfRIxilRuPivUduA5z
+ qLjKBCPlhzk0Q==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: linux-pci@vger.kernel.org,
 	Fan Fei <ffclaire1224@gmail.com>
-Subject: [PATCH v2 03/23] PCI: cadence: Prefer of_device_get_match_data()
-Date: Wed, 22 Dec 2021 19:10:34 -0600
-Message-Id: <20211223011054.1227810-4-helgaas@kernel.org>
+Subject: [PATCH v2 01/23] PCI: altera: Prefer of_device_get_match_data()
+Date: Wed, 22 Dec 2021 19:10:32 -0600
+Message-Id: <20211223011054.1227810-2-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
 References: <20211223011054.1227810-1-helgaas@kernel.org>
 MIME-Version: 1.0
 Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
- Tom Joseph <tjoseph@cadence.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Joyce Ooi <joyce.ooi@intel.com>,
+ linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -90,44 +88,46 @@ Sender: "Linux-kernel-mentees"
 
 From: Fan Fei <ffclaire1224@gmail.com>
 
-The cadence driver only needs the device data, not the whole struct
+The altera driver only needs the device data, not the whole struct
 of_device_id.  Use of_device_get_match_data() instead of of_match_device().
 No functional change intended.
 
 [bhelgaas: commit log]
 Signed-off-by: Fan Fei <ffclaire1224@gmail.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Tom Joseph <tjoseph@cadence.com>
+Cc: Joyce Ooi <joyce.ooi@intel.com>
 ---
- drivers/pci/controller/cadence/pcie-cadence-plat.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/pci/controller/pcie-altera.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-index a224afadbcc0..bac0541317c1 100644
---- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
-+++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
-@@ -45,7 +45,6 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
- {
- 	const struct cdns_plat_pcie_of_data *data;
- 	struct cdns_plat_pcie *cdns_plat_pcie;
--	const struct of_device_id *match;
- 	struct device *dev = &pdev->dev;
+diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
+index 2513e9363236..98ada2e20e02 100644
+--- a/drivers/pci/controller/pcie-altera.c
++++ b/drivers/pci/controller/pcie-altera.c
+@@ -767,7 +767,7 @@ static int altera_pcie_probe(struct platform_device *pdev)
+ 	struct altera_pcie *pcie;
  	struct pci_host_bridge *bridge;
- 	struct cdns_pcie_ep *ep;
-@@ -54,11 +53,10 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
- 	bool is_rc;
  	int ret;
+-	const struct of_device_id *match;
++	const struct altera_pcie_data *data;
  
--	match = of_match_device(cdns_plat_pcie_of_match, dev);
+ 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*pcie));
+ 	if (!bridge)
+@@ -777,11 +777,11 @@ static int altera_pcie_probe(struct platform_device *pdev)
+ 	pcie->pdev = pdev;
+ 	platform_set_drvdata(pdev, pcie);
+ 
+-	match = of_match_device(altera_pcie_of_match, &pdev->dev);
 -	if (!match)
-+	data = of_device_get_match_data(dev);
++	data = of_device_get_match_data(&pdev->dev);
 +	if (!data)
- 		return -EINVAL;
+ 		return -ENODEV;
  
--	data = (struct cdns_plat_pcie_of_data *)match->data;
- 	is_rc = data->is_rc;
+-	pcie->pcie_data = match->data;
++	pcie->pcie_data = data;
  
- 	pr_debug(" Started %s with is_rc: %d\n", __func__, is_rc);
+ 	ret = altera_pcie_parse_dt(pcie);
+ 	if (ret) {
 -- 
 2.25.1
 
