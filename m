@@ -4,72 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6EA82C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7423FC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 03B37405DE;
+	by smtp2.osuosl.org (Postfix) with ESMTP id E9D71405C5;
 	Thu, 23 Dec 2021 01:11:19 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KPuPPh47dHt1; Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CC99A405D7;
-	Thu, 23 Dec 2021 01:11:17 +0000 (UTC)
+	with ESMTP id dtr-PITBgD4K; Thu, 23 Dec 2021 01:11:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E4F54404A9;
+	Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2AECC001E;
-	Thu, 23 Dec 2021 01:11:17 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6CAEFC0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFD17C001E;
+	Thu, 23 Dec 2021 01:11:18 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6D2A3C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:16 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 55B65409C0
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4A23481B36
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 23 Dec 2021 01:11:17 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=kernel.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vO0_CRYr5E6O
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu, 23 Dec 2021 01:11:16 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Adopvq3ir8BD
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:15 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 3308340936
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 448B381A15
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:15 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:16 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CE76B61C2A;
- Thu, 23 Dec 2021 01:11:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 619B6C36AE5;
- Thu, 23 Dec 2021 01:11:13 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7F8C461D45;
+ Thu, 23 Dec 2021 01:11:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D20C36AE5;
+ Thu, 23 Dec 2021 01:11:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640221873;
- bh=yGisiihGA/0OfiY28lJ4w5wj7xm0xhnIxa3qRAa2Or0=;
+ s=k20201202; t=1640221875;
+ bh=Ibnjc1Ag3vn7A29RC/T0gZzNpyuQKYqn+Ff07SRVx4Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Nh7C33QdMOtYnnjcLl+Y2Lp4VQGd0KokjCLyM241tdCQV9G7v2jYT7viPYs82LtE4
- 5bUHLojVXLleeOG9QadcLshFK3EPoMa3/mVb2olLZxD+eMo/3izvtRQXfs9R9lI9Eb
- LX7bEEkmjFHm6TmJWXqyQgeIqa8KxmFd2S/bfCrkBdPLL5wSEXXYzLf3jnfWx9waV1
- JLupjK4rhNymbkWWUZVQjkdie3e2bdApEfBJJI7VXZapqZjZlkCB1gnyZqgc9Ewbm+
- OA+zwZw/TjPE/6p3TutKLCP039AZMub9wBt8W3WqNqQsAOhaFLqIH1tMEx1Rdqgmjx
- T/pHQw66mV1Vg==
+ b=ZcfHxOmKbAHh1dur48h2G343diWQd0rLaQKK+YfADYBNoQA2tvOZSKISdBUNvGyH/
+ mgi+Yeq0GCAzdt8cqaZ26PJ0n/PjZnT2loDxzVws1dNNYCwaKjwudaxLmCLcqyLUtF
+ ElJt7+6TAtmb+U6U1/m46/m0UiO/prtTQQxh0iPXWY5vXpPMKp2alyxdFBzansjmyX
+ JB1QSS9u938+RS3a0OICI4q2lm2T6XjKGWpuvw2SwH8PhUO3N+juflm85M/JS/O9cP
+ OBhwax0V+HAv4vnKjtKWyK3wsAOMtaLYI4uMBZYwyGQJMZHaR46bXJcHkERc006RCq
+ thqnbKcuXwSxA==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: linux-pci@vger.kernel.org,
 	Fan Fei <ffclaire1224@gmail.com>
-Subject: [PATCH v2 02/23] PCI: artpec6: Prefer of_device_get_match_data()
-Date: Wed, 22 Dec 2021 19:10:33 -0600
-Message-Id: <20211223011054.1227810-3-helgaas@kernel.org>
+Subject: [PATCH v2 03/23] PCI: cadence: Prefer of_device_get_match_data()
+Date: Wed, 22 Dec 2021 19:10:34 -0600
+Message-Id: <20211223011054.1227810-4-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
 References: <20211223011054.1227810-1-helgaas@kernel.org>
 MIME-Version: 1.0
-Cc: Rob Herring <robh@kernel.org>, Jesper Nilsson <jesper.nilsson@axis.com>,
+Cc: Rob Herring <robh@kernel.org>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
- linux-arm-kernel@axis.com, Bjorn Helgaas <bhelgaas@google.com>,
+ Tom Joseph <tjoseph@cadence.com>, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -90,43 +90,44 @@ Sender: "Linux-kernel-mentees"
 
 From: Fan Fei <ffclaire1224@gmail.com>
 
-The artpec6 driver only needs the device data, not the whole struct
+The cadence driver only needs the device data, not the whole struct
 of_device_id.  Use of_device_get_match_data() instead of of_match_device().
 No functional change intended.
 
 [bhelgaas: commit log]
 Signed-off-by: Fan Fei <ffclaire1224@gmail.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Jesper Nilsson <jesper.nilsson@axis.com>
-Cc: linux-arm-kernel@axis.com
+Cc: Tom Joseph <tjoseph@cadence.com>
 ---
- drivers/pci/controller/dwc/pcie-artpec6.c | 6 ++----
+ drivers/pci/controller/cadence/pcie-cadence-plat.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-artpec6.c b/drivers/pci/controller/dwc/pcie-artpec6.c
-index c91fc1954432..2f15441770e1 100644
---- a/drivers/pci/controller/dwc/pcie-artpec6.c
-+++ b/drivers/pci/controller/dwc/pcie-artpec6.c
-@@ -380,17 +380,15 @@ static int artpec6_pcie_probe(struct platform_device *pdev)
- 	struct dw_pcie *pci;
- 	struct artpec6_pcie *artpec6_pcie;
- 	int ret;
+diff --git a/drivers/pci/controller/cadence/pcie-cadence-plat.c b/drivers/pci/controller/cadence/pcie-cadence-plat.c
+index a224afadbcc0..bac0541317c1 100644
+--- a/drivers/pci/controller/cadence/pcie-cadence-plat.c
++++ b/drivers/pci/controller/cadence/pcie-cadence-plat.c
+@@ -45,7 +45,6 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
+ {
+ 	const struct cdns_plat_pcie_of_data *data;
+ 	struct cdns_plat_pcie *cdns_plat_pcie;
 -	const struct of_device_id *match;
- 	const struct artpec_pcie_of_data *data;
- 	enum artpec_pcie_variants variant;
- 	enum dw_pcie_device_mode mode;
- 	u32 val;
+ 	struct device *dev = &pdev->dev;
+ 	struct pci_host_bridge *bridge;
+ 	struct cdns_pcie_ep *ep;
+@@ -54,11 +53,10 @@ static int cdns_plat_pcie_probe(struct platform_device *pdev)
+ 	bool is_rc;
+ 	int ret;
  
--	match = of_match_device(artpec6_pcie_of_match, dev);
+-	match = of_match_device(cdns_plat_pcie_of_match, dev);
 -	if (!match)
 +	data = of_device_get_match_data(dev);
 +	if (!data)
  		return -EINVAL;
  
--	data = (struct artpec_pcie_of_data *)match->data;
- 	variant = (enum artpec_pcie_variants)data->variant;
- 	mode = (enum dw_pcie_device_mode)data->mode;
+-	data = (struct cdns_plat_pcie_of_data *)match->data;
+ 	is_rc = data->is_rc;
  
+ 	pr_debug(" Started %s with is_rc: %d\n", __func__, is_rc);
 -- 
 2.25.1
 
