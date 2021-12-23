@@ -1,77 +1,92 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id F2922C433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34CB0C433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 06:04:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AB24F405DE;
-	Thu, 23 Dec 2021 01:11:59 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id AA42381B17;
+	Thu, 23 Dec 2021 06:04:47 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zdXvpBUtvk0R; Thu, 23 Dec 2021 01:11:58 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pJCdNU5KIyMw; Thu, 23 Dec 2021 06:04:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5BA61405F7;
-	Thu, 23 Dec 2021 01:11:58 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DFA7481A6F;
+	Thu, 23 Dec 2021 06:04:46 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 35DB0C001E;
-	Thu, 23 Dec 2021 01:11:58 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CD819C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6C43C001E;
+	Thu, 23 Dec 2021 06:04:46 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62FC2C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:56 +0000 (UTC)
+ Thu, 23 Dec 2021 06:04:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id BA7F440600
+ by smtp4.osuosl.org (Postfix) with ESMTP id 39247410AA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:56 +0000 (UTC)
+ Thu, 23 Dec 2021 06:04:46 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1WSECK-H0uGU
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QfVEA9HuxOtH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:55 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7B16240633
+ Thu, 23 Dec 2021 06:04:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com
+ [IPv6:2607:f8b0:4864:20::932])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5313D409A0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:55 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 8E1B1CE1EFC;
- Thu, 23 Dec 2021 01:11:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B32BC36AE8;
- Thu, 23 Dec 2021 01:11:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640221911;
- bh=NIHlxx32hZquI6e6s7ce33q6+j4ig8ruxqlAWwHME8s=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=q0CiPqthI0XC+sVnpYnHPXcP0K2YhieePFjgiVH+s2E0u6hIs1HSo5MzttON2ai8S
- FfbTnK/jBmE74ntz5xYnVXaOAc0Lw082Bb6jYop7sK4TJtmP6yec8DuuM8XFiy+uFb
- YoaVgN1BmL97qrD8RQ2OJRdlMlnUqSzmkKGohRPJWUwo3QBm58UbjSPMsCpMHtWsmB
- 1CTg+j9ZLJdYP9SsedjFFSeXcZ3ie50nMg5epoQsxDS4OiwaQsECaDXLbGOi7wAgm5
- zY1fuWZ3vlL9AbO6HR1xpXYeuHAoordqu/sGkWWd6IwZP9lOv1N6rXchDSCSPqacFu
- dYzqEfMr48j3A==
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: linux-pci@vger.kernel.org,
-	Fan Fei <ffclaire1224@gmail.com>
-Subject: [PATCH v2 23/23] PCI: xilinx-cpm: Rename xilinx_cpm_pcie_port to
- xilinx_cpm_pcie
-Date: Wed, 22 Dec 2021 19:10:54 -0600
-Message-Id: <20211223011054.1227810-24-helgaas@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
-References: <20211223011054.1227810-1-helgaas@kernel.org>
+ Thu, 23 Dec 2021 06:04:45 +0000 (UTC)
+Received: by mail-ua1-x932.google.com with SMTP id p37so8077837uae.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 22 Dec 2021 22:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5XR6lLGbVM6j7f4TfkI4T9+Vc1GDEp24Th+tejsjoxM=;
+ b=oCkF2NqSMEBD27LuyLui+c1YfgkjfBk8KbOz3NpkBbqBCGkH+Am255FfH3A/ZInq1i
+ 9YAZ+6HEjD1ePXpL4g6t2YLZZRYHBlZz3DRYmc6b4WU3KsEHqTP4cap8zD4odOcCuYgW
+ B1M6rQAxQBHi/UXnk2FSr2cjl9ua/l/VygNdQTOm2xz3ruEWwr5oAF3VLK0mMShGLyGj
+ V0vwQNy/4meKoBr87E2Ofwnmzw9hRKBqu4+2TVYAs1VPO0vc4WEZmDh1rFlG0u7L4dYN
+ q2MabiPjPNsCUzTxWMJXt74g7/73nE2AedFxCs+Ga4MLRefdbZZdi9CU6nUo/JpYs10Q
+ jdZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5XR6lLGbVM6j7f4TfkI4T9+Vc1GDEp24Th+tejsjoxM=;
+ b=vT78i6yytUO3vyJl4Yicm7apnpkCqL6+5u4ymEGNLN49aZK6AfAZA5PlbICQYF70e5
+ thnj6KSxFUZ+K6bR8r0U1ZKOF816pCy9y1mXK0c175cR3+lszho/Da4L28zjCM1z6vIY
+ RSIO1u+vkAmf5kQlOTQ66mA4surBhFUWlqxUMY9kYA49UnaurQEg91ZbBg1C8E44r+p2
+ 1tLHQR1BCSboVNn9E558M9dcvdDe/0w5A+bzniIl6tBgroyvVigXQ8+UZTfiL6Ah5v9F
+ /IVaLdnLZ+8Wcal6Rju76Z/pdfJkj9CkTntNC+TMSbw57/eL6fFcuFRPU+7FrMQWh8tu
+ lcog==
+X-Gm-Message-State: AOAM5335ytaIc/NWApcOdk2Nmwu3Et4iDiNpwLBr0HK+t+evcOwDyl2E
+ 1sBVyHv/aNJtkc8hPvSo+52OH+m/nd8eYRAQq2Q=
+X-Google-Smtp-Source: ABdhPJwDbDuTISDqi+zhcgqOH8q9fsGiDk2NL6+HYKcHrWYWMNkFIpfqAnN28lPSHiN/kXqoasNjJlA6DBNeXSFbgL8=
+X-Received: by 2002:a67:d51e:: with SMTP id l30mr255332vsj.1.1640239484159;
+ Wed, 22 Dec 2021 22:04:44 -0800 (PST)
 MIME-Version: 1.0
+References: <20211223011054.1227810-1-helgaas@kernel.org>
+ <20211223011054.1227810-17-helgaas@kernel.org>
+In-Reply-To: <20211223011054.1227810-17-helgaas@kernel.org>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Thu, 23 Dec 2021 07:04:32 +0100
+Message-ID: <CAMhs-H-nSTLiqgw4LxEPBiTGLh7L4n1mm4FbgOCdzCGxK5e47w@mail.gmail.com>
+Subject: Re: [PATCH v2 16/23] PCI: mt7621: Make pci_ops static
+To: Bjorn Helgaas <helgaas@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
- Michal Simek <michal.simek@xilinx.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ linux-pci <linux-pci@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-arm-kernel@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- linux-arm-kernel@lists.infradead.org
+ Fan Fei <ffclaire1224@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,206 +104,46 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+Hi Bjorn,
 
-Rename struct xilinx_cpm_pcie_port to xilinx_cpm_pcie to match the
-convention of <driver>_pcie. No functional change intended.
+On Thu, Dec 23, 2021 at 2:11 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> From: Bjorn Helgaas <bhelgaas@google.com>
+>
+> mt7621_pci_ops is used only in this file.  Make it static.
+>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mediatek@lists.infradead.org
+> ---
+>  drivers/pci/controller/pcie-mt7621.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pci/controller/pcie-mt7621.c b/drivers/pci/controller/pcie-mt7621.c
+> index b60dfb45ef7b..4138c0e83513 100644
+> --- a/drivers/pci/controller/pcie-mt7621.c
+> +++ b/drivers/pci/controller/pcie-mt7621.c
+> @@ -148,7 +148,7 @@ static void __iomem *mt7621_pcie_map_bus(struct pci_bus *bus,
+>         return pcie->base + RALINK_PCI_CONFIG_DATA + (where & 3);
+>  }
+>
+> -struct pci_ops mt7621_pci_ops = {
+> +static struct pci_ops mt7621_pci_ops = {
+>         .map_bus        = mt7621_pcie_map_bus,
+>         .read           = pci_generic_config_read,
+>         .write          = pci_generic_config_write,
+> --
+> 2.25.1
+>
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: linux-arm-kernel@lists.infradead.org
----
- drivers/pci/controller/pcie-xilinx-cpm.c | 44 ++++++++++++------------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+This one was already sent and added to Lorenzo's tree. See:
 
-diff --git a/drivers/pci/controller/pcie-xilinx-cpm.c b/drivers/pci/controller/pcie-xilinx-cpm.c
-index 95426df03200..c7cd44ed4dfc 100644
---- a/drivers/pci/controller/pcie-xilinx-cpm.c
-+++ b/drivers/pci/controller/pcie-xilinx-cpm.c
-@@ -99,10 +99,10 @@
- #define XILINX_CPM_PCIE_REG_PSCR_LNKUP		BIT(11)
- 
- /**
-- * struct xilinx_cpm_pcie_port - PCIe port information
-+ * struct xilinx_cpm_pcie - PCIe port information
-+ * @dev: Device pointer
-  * @reg_base: Bridge Register Base
-  * @cpm_base: CPM System Level Control and Status Register(SLCR) Base
-- * @dev: Device pointer
-  * @intx_domain: Legacy IRQ domain pointer
-  * @cpm_domain: CPM IRQ domain pointer
-  * @cfg: Holds mappings of config space window
-@@ -110,10 +110,10 @@
-  * @irq: Error interrupt number
-  * @lock: lock protecting shared register access
-  */
--struct xilinx_cpm_pcie_port {
-+struct xilinx_cpm_pcie {
-+	struct device			*dev;
- 	void __iomem			*reg_base;
- 	void __iomem			*cpm_base;
--	struct device			*dev;
- 	struct irq_domain		*intx_domain;
- 	struct irq_domain		*cpm_domain;
- 	struct pci_config_window	*cfg;
-@@ -122,24 +122,24 @@ struct xilinx_cpm_pcie_port {
- 	raw_spinlock_t			lock;
- };
- 
--static u32 pcie_read(struct xilinx_cpm_pcie_port *port, u32 reg)
-+static u32 pcie_read(struct xilinx_cpm_pcie *port, u32 reg)
- {
- 	return readl_relaxed(port->reg_base + reg);
- }
- 
--static void pcie_write(struct xilinx_cpm_pcie_port *port,
-+static void pcie_write(struct xilinx_cpm_pcie *port,
- 		       u32 val, u32 reg)
- {
- 	writel_relaxed(val, port->reg_base + reg);
- }
- 
--static bool cpm_pcie_link_up(struct xilinx_cpm_pcie_port *port)
-+static bool cpm_pcie_link_up(struct xilinx_cpm_pcie *port)
- {
- 	return (pcie_read(port, XILINX_CPM_PCIE_REG_PSCR) &
- 		XILINX_CPM_PCIE_REG_PSCR_LNKUP);
- }
- 
--static void cpm_pcie_clear_err_interrupts(struct xilinx_cpm_pcie_port *port)
-+static void cpm_pcie_clear_err_interrupts(struct xilinx_cpm_pcie *port)
- {
- 	unsigned long val = pcie_read(port, XILINX_CPM_PCIE_REG_RPEFR);
- 
-@@ -153,7 +153,7 @@ static void cpm_pcie_clear_err_interrupts(struct xilinx_cpm_pcie_port *port)
- 
- static void xilinx_cpm_mask_leg_irq(struct irq_data *data)
- {
--	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(data);
-+	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(data);
- 	unsigned long flags;
- 	u32 mask;
- 	u32 val;
-@@ -167,7 +167,7 @@ static void xilinx_cpm_mask_leg_irq(struct irq_data *data)
- 
- static void xilinx_cpm_unmask_leg_irq(struct irq_data *data)
- {
--	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(data);
-+	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(data);
- 	unsigned long flags;
- 	u32 mask;
- 	u32 val;
-@@ -211,7 +211,7 @@ static const struct irq_domain_ops intx_domain_ops = {
- 
- static void xilinx_cpm_pcie_intx_flow(struct irq_desc *desc)
- {
--	struct xilinx_cpm_pcie_port *port = irq_desc_get_handler_data(desc);
-+	struct xilinx_cpm_pcie *port = irq_desc_get_handler_data(desc);
- 	struct irq_chip *chip = irq_desc_get_chip(desc);
- 	unsigned long val;
- 	int i;
-@@ -229,7 +229,7 @@ static void xilinx_cpm_pcie_intx_flow(struct irq_desc *desc)
- 
- static void xilinx_cpm_mask_event_irq(struct irq_data *d)
- {
--	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(d);
-+	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(d);
- 	u32 val;
- 
- 	raw_spin_lock(&port->lock);
-@@ -241,7 +241,7 @@ static void xilinx_cpm_mask_event_irq(struct irq_data *d)
- 
- static void xilinx_cpm_unmask_event_irq(struct irq_data *d)
- {
--	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(d);
-+	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(d);
- 	u32 val;
- 
- 	raw_spin_lock(&port->lock);
-@@ -273,7 +273,7 @@ static const struct irq_domain_ops event_domain_ops = {
- 
- static void xilinx_cpm_pcie_event_flow(struct irq_desc *desc)
- {
--	struct xilinx_cpm_pcie_port *port = irq_desc_get_handler_data(desc);
-+	struct xilinx_cpm_pcie *port = irq_desc_get_handler_data(desc);
- 	struct irq_chip *chip = irq_desc_get_chip(desc);
- 	unsigned long val;
- 	int i;
-@@ -327,7 +327,7 @@ static const struct {
- 
- static irqreturn_t xilinx_cpm_pcie_intr_handler(int irq, void *dev_id)
- {
--	struct xilinx_cpm_pcie_port *port = dev_id;
-+	struct xilinx_cpm_pcie *port = dev_id;
- 	struct device *dev = port->dev;
- 	struct irq_data *d;
- 
-@@ -350,7 +350,7 @@ static irqreturn_t xilinx_cpm_pcie_intr_handler(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
--static void xilinx_cpm_free_irq_domains(struct xilinx_cpm_pcie_port *port)
-+static void xilinx_cpm_free_irq_domains(struct xilinx_cpm_pcie *port)
- {
- 	if (port->intx_domain) {
- 		irq_domain_remove(port->intx_domain);
-@@ -369,7 +369,7 @@ static void xilinx_cpm_free_irq_domains(struct xilinx_cpm_pcie_port *port)
-  *
-  * Return: '0' on success and error value on failure
-  */
--static int xilinx_cpm_pcie_init_irq_domain(struct xilinx_cpm_pcie_port *port)
-+static int xilinx_cpm_pcie_init_irq_domain(struct xilinx_cpm_pcie *port)
- {
- 	struct device *dev = port->dev;
- 	struct device_node *node = dev->of_node;
-@@ -410,7 +410,7 @@ static int xilinx_cpm_pcie_init_irq_domain(struct xilinx_cpm_pcie_port *port)
- 	return -ENOMEM;
- }
- 
--static int xilinx_cpm_setup_irq(struct xilinx_cpm_pcie_port *port)
-+static int xilinx_cpm_setup_irq(struct xilinx_cpm_pcie *port)
- {
- 	struct device *dev = port->dev;
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -462,7 +462,7 @@ static int xilinx_cpm_setup_irq(struct xilinx_cpm_pcie_port *port)
-  * xilinx_cpm_pcie_init_port - Initialize hardware
-  * @port: PCIe port information
-  */
--static void xilinx_cpm_pcie_init_port(struct xilinx_cpm_pcie_port *port)
-+static void xilinx_cpm_pcie_init_port(struct xilinx_cpm_pcie *port)
- {
- 	if (cpm_pcie_link_up(port))
- 		dev_info(port->dev, "PCIe Link is UP\n");
-@@ -497,7 +497,7 @@ static void xilinx_cpm_pcie_init_port(struct xilinx_cpm_pcie_port *port)
-  *
-  * Return: '0' on success and error value on failure
-  */
--static int xilinx_cpm_pcie_parse_dt(struct xilinx_cpm_pcie_port *port,
-+static int xilinx_cpm_pcie_parse_dt(struct xilinx_cpm_pcie *port,
- 				    struct resource *bus_range)
- {
- 	struct device *dev = port->dev;
-@@ -523,7 +523,7 @@ static int xilinx_cpm_pcie_parse_dt(struct xilinx_cpm_pcie_port *port,
- 	return 0;
- }
- 
--static void xilinx_cpm_free_interrupts(struct xilinx_cpm_pcie_port *port)
-+static void xilinx_cpm_free_interrupts(struct xilinx_cpm_pcie *port)
- {
- 	irq_set_chained_handler_and_data(port->intx_irq, NULL, NULL);
- 	irq_set_chained_handler_and_data(port->irq, NULL, NULL);
-@@ -537,7 +537,7 @@ static void xilinx_cpm_free_interrupts(struct xilinx_cpm_pcie_port *port)
-  */
- static int xilinx_cpm_pcie_probe(struct platform_device *pdev)
- {
--	struct xilinx_cpm_pcie_port *port;
-+	struct xilinx_cpm_pcie *port;
- 	struct device *dev = &pdev->dev;
- 	struct pci_host_bridge *bridge;
- 	struct resource_entry *bus;
--- 
-2.25.1
+https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/pci.git/commit/?h=pci/mt7621&id=8a0c1afb8560c2f64bcbdb559931f5ca8b83de87
 
+Thanks,
+    Sergio Paracuellos
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
