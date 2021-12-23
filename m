@@ -4,74 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E6DDDC4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8198DC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9688D80E7E;
-	Thu, 23 Dec 2021 01:11:35 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4238C813F1;
+	Thu, 23 Dec 2021 01:11:37 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9IaXyoZxRxdI; Thu, 23 Dec 2021 01:11:34 +0000 (UTC)
+	with ESMTP id y95JZvzKwgxr; Thu, 23 Dec 2021 01:11:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4082E812EC;
-	Thu, 23 Dec 2021 01:11:34 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 74D7681410;
+	Thu, 23 Dec 2021 01:11:36 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1F867C001E;
-	Thu, 23 Dec 2021 01:11:34 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9DBC7C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 530CAC001E;
+	Thu, 23 Dec 2021 01:11:36 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5CFF3C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:32 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7D57E405F6
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4CB1160AC7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:32 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:35 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qST_6zx4tqlK
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lq6jKCwFpxj7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:31 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:34 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
 Received: from sin.source.kernel.org (sin.source.kernel.org
  [IPv6:2604:1380:40e1:4800::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E96E5405C5
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 5ED9560A84
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:30 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:34 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id ACCFCCE1F0B;
- Thu, 23 Dec 2021 01:11:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F28B4C36AEE;
- Thu, 23 Dec 2021 01:11:27 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 3BCB5CE1EFC;
+ Thu, 23 Dec 2021 01:11:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86F11C36AEB;
+ Thu, 23 Dec 2021 01:11:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640221888;
- bh=wsJZohoQmVTjknhdDfkUOxLkrpbTxrO5J7P5PvzrxB0=;
+ s=k20201202; t=1640221891;
+ bh=f04xaSCWCbCEFfwG/HFC1grHJ9t6oRK/Bi24pKjCZyI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Hl/3y332u9lBecG8kcbt2lsRwF0d1Ud164kjW18qs81yGdRarExEe91HtLCisM1QJ
- ruBfOV7ji3exkYooQ0B+s5OZsM42F85p6PAcu2CR9ywicyYht0CBFrpKLszkCc+2Rx
- 5bjL4LWpD+CiYfii/Dh6LCl3YwMXqHTA7kMNSUgr1zi8UuwE6k/xeEb7rysCFjGJdm
- Mm6hiQGFSEDtOK7rgazJ7F0mctdELseHR5Drwi3rTEwWVM6E7T99WQ6jq6qt5rrDSk
- oHUsJbKcgZnIOVwgVpV9XS5bfmZ6M2VvLoUF8TVBkxE7X3SWylemBp78WtPp3t1IZD
- C8bMSNwWOiYrA==
+ b=nvMXfI+W4QtXhYQ0wlO4ZGP5oRI/bDTLIiZQCZnxqDYqFZHNNnvNRAJgUP/uHpaFI
+ Rn9nowg/KHh9eBZDc4XPV4b069qKgcgPjfIA56aihCYeI4vpGn1krWcUf+B9HwT/8f
+ cs88HTW+jpYAcDiX0IZ9ewhy0+kTetN/aimbDjRNsCaxvXtwjjRo+e48zsZJLV//nb
+ eXxp3z8Yo6XzfIEbH6RVTJDc0/GyPVgFJce7STlxmkrxaIh+c33YHrHPtYLWol9c0V
+ R6weAMgfvq+8wnxzxkHdsGsul/2lD09fHFT/az/+xOiphMyohTyTI5RB5W36StJ512
+ yzvjwvNWecxFw==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: linux-pci@vger.kernel.org,
 	Fan Fei <ffclaire1224@gmail.com>
-Subject: [PATCH v2 10/23] PCI: intel-gw: Rename intel_pcie_port to intel_pcie
-Date: Wed, 22 Dec 2021 19:10:41 -0600
-Message-Id: <20211223011054.1227810-11-helgaas@kernel.org>
+Subject: [PATCH v2 12/23] PCI: iproc: Rename iproc_pcie_pltfm_ to
+ iproc_pltfm_pcie_
+Date: Wed, 22 Dec 2021 19:10:43 -0600
+Message-Id: <20211223011054.1227810-13-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
 References: <20211223011054.1227810-1-helgaas@kernel.org>
 MIME-Version: 1.0
 Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
- Rahul Tanwar <rtanwar@maxlinear.com>, Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -89,444 +93,71 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Fan Fei <ffclaire1224@gmail.com>
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Rename struct intel_pcie_port to intel_pcie to match the convention of
-<driver>_pcie. No functional change intended.
+Rename iproc_pcie_pltfm_* to iproc_pltfm_pcie_* for consistency with other
+drivers.  No functional change intended.
 
-Signed-off-by: Fan Fei <ffclaire1224@gmail.com>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Rahul Tanwar <rtanwar@maxlinear.com>
+Cc: Ray Jui <rjui@broadcom.com>
+Cc: Scott Branden <sbranden@broadcom.com>
+Cc: bcm-kernel-feedback-list@broadcom.com
+Cc: linux-arm-kernel@lists.infradead.org
 ---
- drivers/pci/controller/dwc/pcie-intel-gw.c | 204 ++++++++++-----------
- 1 file changed, 102 insertions(+), 102 deletions(-)
+ drivers/pci/controller/pcie-iproc-platform.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/pci/controller/dwc/pcie-intel-gw.c b/drivers/pci/controller/dwc/pcie-intel-gw.c
-index d15cf35fa7f2..5ba144924ff8 100644
---- a/drivers/pci/controller/dwc/pcie-intel-gw.c
-+++ b/drivers/pci/controller/dwc/pcie-intel-gw.c
-@@ -62,7 +62,7 @@ struct intel_pcie_soc {
- 	unsigned int	pcie_ver;
+diff --git a/drivers/pci/controller/pcie-iproc-platform.c b/drivers/pci/controller/pcie-iproc-platform.c
+index b93e7bda101b..538115246c79 100644
+--- a/drivers/pci/controller/pcie-iproc-platform.c
++++ b/drivers/pci/controller/pcie-iproc-platform.c
+@@ -37,7 +37,7 @@ static const struct of_device_id iproc_pcie_of_match_table[] = {
  };
+ MODULE_DEVICE_TABLE(of, iproc_pcie_of_match_table);
  
--struct intel_pcie_port {
-+struct intel_pcie {
- 	struct dw_pcie		pci;
- 	void __iomem		*app_base;
- 	struct gpio_desc	*reset_gpio;
-@@ -83,53 +83,53 @@ static void pcie_update_bits(void __iomem *base, u32 ofs, u32 mask, u32 val)
- 		writel(val, base + ofs);
- }
- 
--static inline void pcie_app_wr(struct intel_pcie_port *lpp, u32 ofs, u32 val)
-+static inline void pcie_app_wr(struct intel_pcie *pcie, u32 ofs, u32 val)
+-static int iproc_pcie_pltfm_probe(struct platform_device *pdev)
++static int iproc_pltfm_pcie_probe(struct platform_device *pdev)
  {
--	writel(val, lpp->app_base + ofs);
-+	writel(val, pcie->app_base + ofs);
- }
- 
--static void pcie_app_wr_mask(struct intel_pcie_port *lpp, u32 ofs,
-+static void pcie_app_wr_mask(struct intel_pcie *pcie, u32 ofs,
- 			     u32 mask, u32 val)
- {
--	pcie_update_bits(lpp->app_base, ofs, mask, val);
-+	pcie_update_bits(pcie->app_base, ofs, mask, val);
- }
- 
--static inline u32 pcie_rc_cfg_rd(struct intel_pcie_port *lpp, u32 ofs)
-+static inline u32 pcie_rc_cfg_rd(struct intel_pcie *pcie, u32 ofs)
- {
--	return dw_pcie_readl_dbi(&lpp->pci, ofs);
-+	return dw_pcie_readl_dbi(&pcie->pci, ofs);
- }
- 
--static inline void pcie_rc_cfg_wr(struct intel_pcie_port *lpp, u32 ofs, u32 val)
-+static inline void pcie_rc_cfg_wr(struct intel_pcie *pcie, u32 ofs, u32 val)
- {
--	dw_pcie_writel_dbi(&lpp->pci, ofs, val);
-+	dw_pcie_writel_dbi(&pcie->pci, ofs, val);
- }
- 
--static void pcie_rc_cfg_wr_mask(struct intel_pcie_port *lpp, u32 ofs,
-+static void pcie_rc_cfg_wr_mask(struct intel_pcie *pcie, u32 ofs,
- 				u32 mask, u32 val)
- {
--	pcie_update_bits(lpp->pci.dbi_base, ofs, mask, val);
-+	pcie_update_bits(pcie->pci.dbi_base, ofs, mask, val);
- }
- 
--static void intel_pcie_ltssm_enable(struct intel_pcie_port *lpp)
-+static void intel_pcie_ltssm_enable(struct intel_pcie *pcie)
- {
--	pcie_app_wr_mask(lpp, PCIE_APP_CCR, PCIE_APP_CCR_LTSSM_ENABLE,
-+	pcie_app_wr_mask(pcie, PCIE_APP_CCR, PCIE_APP_CCR_LTSSM_ENABLE,
- 			 PCIE_APP_CCR_LTSSM_ENABLE);
- }
- 
--static void intel_pcie_ltssm_disable(struct intel_pcie_port *lpp)
-+static void intel_pcie_ltssm_disable(struct intel_pcie *pcie)
- {
--	pcie_app_wr_mask(lpp, PCIE_APP_CCR, PCIE_APP_CCR_LTSSM_ENABLE, 0);
-+	pcie_app_wr_mask(pcie, PCIE_APP_CCR, PCIE_APP_CCR_LTSSM_ENABLE, 0);
- }
- 
--static void intel_pcie_link_setup(struct intel_pcie_port *lpp)
-+static void intel_pcie_link_setup(struct intel_pcie *pcie)
- {
- 	u32 val;
--	u8 offset = dw_pcie_find_capability(&lpp->pci, PCI_CAP_ID_EXP);
-+	u8 offset = dw_pcie_find_capability(&pcie->pci, PCI_CAP_ID_EXP);
- 
--	val = pcie_rc_cfg_rd(lpp, offset + PCI_EXP_LNKCTL);
-+	val = pcie_rc_cfg_rd(pcie, offset + PCI_EXP_LNKCTL);
- 
- 	val &= ~(PCI_EXP_LNKCTL_LD | PCI_EXP_LNKCTL_ASPMC);
--	pcie_rc_cfg_wr(lpp, offset + PCI_EXP_LNKCTL, val);
-+	pcie_rc_cfg_wr(pcie, offset + PCI_EXP_LNKCTL, val);
- }
- 
- static void intel_pcie_init_n_fts(struct dw_pcie *pci)
-@@ -148,14 +148,14 @@ static void intel_pcie_init_n_fts(struct dw_pcie *pci)
- 	pci->n_fts[0] = PORT_AFR_N_FTS_GEN12_DFT;
- }
- 
--static int intel_pcie_ep_rst_init(struct intel_pcie_port *lpp)
-+static int intel_pcie_ep_rst_init(struct intel_pcie *pcie)
- {
--	struct device *dev = lpp->pci.dev;
-+	struct device *dev = pcie->pci.dev;
- 	int ret;
- 
--	lpp->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
--	if (IS_ERR(lpp->reset_gpio)) {
--		ret = PTR_ERR(lpp->reset_gpio);
-+	pcie->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(pcie->reset_gpio)) {
-+		ret = PTR_ERR(pcie->reset_gpio);
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(dev, "Failed to request PCIe GPIO: %d\n", ret);
- 		return ret;
-@@ -167,19 +167,19 @@ static int intel_pcie_ep_rst_init(struct intel_pcie_port *lpp)
- 	return 0;
- }
- 
--static void intel_pcie_core_rst_assert(struct intel_pcie_port *lpp)
-+static void intel_pcie_core_rst_assert(struct intel_pcie *pcie)
- {
--	reset_control_assert(lpp->core_rst);
-+	reset_control_assert(pcie->core_rst);
- }
- 
--static void intel_pcie_core_rst_deassert(struct intel_pcie_port *lpp)
-+static void intel_pcie_core_rst_deassert(struct intel_pcie *pcie)
- {
- 	/*
- 	 * One micro-second delay to make sure the reset pulse
- 	 * wide enough so that core reset is clean.
- 	 */
- 	udelay(1);
--	reset_control_deassert(lpp->core_rst);
-+	reset_control_deassert(pcie->core_rst);
- 
- 	/*
- 	 * Some SoC core reset also reset PHY, more delay needed
-@@ -188,58 +188,58 @@ static void intel_pcie_core_rst_deassert(struct intel_pcie_port *lpp)
- 	usleep_range(1000, 2000);
- }
- 
--static void intel_pcie_device_rst_assert(struct intel_pcie_port *lpp)
-+static void intel_pcie_device_rst_assert(struct intel_pcie *pcie)
- {
--	gpiod_set_value_cansleep(lpp->reset_gpio, 1);
-+	gpiod_set_value_cansleep(pcie->reset_gpio, 1);
- }
- 
--static void intel_pcie_device_rst_deassert(struct intel_pcie_port *lpp)
-+static void intel_pcie_device_rst_deassert(struct intel_pcie *pcie)
- {
--	msleep(lpp->rst_intrvl);
--	gpiod_set_value_cansleep(lpp->reset_gpio, 0);
-+	msleep(pcie->rst_intrvl);
-+	gpiod_set_value_cansleep(pcie->reset_gpio, 0);
- }
- 
--static void intel_pcie_core_irq_disable(struct intel_pcie_port *lpp)
-+static void intel_pcie_core_irq_disable(struct intel_pcie *pcie)
- {
--	pcie_app_wr(lpp, PCIE_APP_IRNEN, 0);
--	pcie_app_wr(lpp, PCIE_APP_IRNCR, PCIE_APP_IRN_INT);
-+	pcie_app_wr(pcie, PCIE_APP_IRNEN, 0);
-+	pcie_app_wr(pcie, PCIE_APP_IRNCR, PCIE_APP_IRN_INT);
- }
- 
- static int intel_pcie_get_resources(struct platform_device *pdev)
- {
--	struct intel_pcie_port *lpp = platform_get_drvdata(pdev);
--	struct dw_pcie *pci = &lpp->pci;
-+	struct intel_pcie *pcie = platform_get_drvdata(pdev);
-+	struct dw_pcie *pci = &pcie->pci;
- 	struct device *dev = pci->dev;
- 	int ret;
- 
--	lpp->core_clk = devm_clk_get(dev, NULL);
--	if (IS_ERR(lpp->core_clk)) {
--		ret = PTR_ERR(lpp->core_clk);
-+	pcie->core_clk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(pcie->core_clk)) {
-+		ret = PTR_ERR(pcie->core_clk);
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(dev, "Failed to get clks: %d\n", ret);
- 		return ret;
- 	}
- 
--	lpp->core_rst = devm_reset_control_get(dev, NULL);
--	if (IS_ERR(lpp->core_rst)) {
--		ret = PTR_ERR(lpp->core_rst);
-+	pcie->core_rst = devm_reset_control_get(dev, NULL);
-+	if (IS_ERR(pcie->core_rst)) {
-+		ret = PTR_ERR(pcie->core_rst);
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(dev, "Failed to get resets: %d\n", ret);
- 		return ret;
- 	}
- 
- 	ret = device_property_read_u32(dev, "reset-assert-ms",
--				       &lpp->rst_intrvl);
-+				       &pcie->rst_intrvl);
- 	if (ret)
--		lpp->rst_intrvl = RESET_INTERVAL_MS;
-+		pcie->rst_intrvl = RESET_INTERVAL_MS;
- 
--	lpp->app_base = devm_platform_ioremap_resource_byname(pdev, "app");
--	if (IS_ERR(lpp->app_base))
--		return PTR_ERR(lpp->app_base);
-+	pcie->app_base = devm_platform_ioremap_resource_byname(pdev, "app");
-+	if (IS_ERR(pcie->app_base))
-+		return PTR_ERR(pcie->app_base);
- 
--	lpp->phy = devm_phy_get(dev, "pcie");
--	if (IS_ERR(lpp->phy)) {
--		ret = PTR_ERR(lpp->phy);
-+	pcie->phy = devm_phy_get(dev, "pcie");
-+	if (IS_ERR(pcie->phy)) {
-+		ret = PTR_ERR(pcie->phy);
- 		if (ret != -EPROBE_DEFER)
- 			dev_err(dev, "Couldn't get pcie-phy: %d\n", ret);
- 		return ret;
-@@ -248,137 +248,137 @@ static int intel_pcie_get_resources(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int intel_pcie_wait_l2(struct intel_pcie_port *lpp)
-+static int intel_pcie_wait_l2(struct intel_pcie *pcie)
- {
- 	u32 value;
- 	int ret;
--	struct dw_pcie *pci = &lpp->pci;
-+	struct dw_pcie *pci = &pcie->pci;
- 
- 	if (pci->link_gen < 3)
- 		return 0;
- 
- 	/* Send PME_TURN_OFF message */
--	pcie_app_wr_mask(lpp, PCIE_APP_MSG_CR, PCIE_APP_MSG_XMT_PM_TURNOFF,
-+	pcie_app_wr_mask(pcie, PCIE_APP_MSG_CR, PCIE_APP_MSG_XMT_PM_TURNOFF,
- 			 PCIE_APP_MSG_XMT_PM_TURNOFF);
- 
- 	/* Read PMC status and wait for falling into L2 link state */
--	ret = readl_poll_timeout(lpp->app_base + PCIE_APP_PMC, value,
-+	ret = readl_poll_timeout(pcie->app_base + PCIE_APP_PMC, value,
- 				 value & PCIE_APP_PMC_IN_L2, 20,
- 				 jiffies_to_usecs(5 * HZ));
- 	if (ret)
--		dev_err(lpp->pci.dev, "PCIe link enter L2 timeout!\n");
-+		dev_err(pcie->pci.dev, "PCIe link enter L2 timeout!\n");
- 
- 	return ret;
- }
- 
--static void intel_pcie_turn_off(struct intel_pcie_port *lpp)
-+static void intel_pcie_turn_off(struct intel_pcie *pcie)
- {
--	if (dw_pcie_link_up(&lpp->pci))
--		intel_pcie_wait_l2(lpp);
-+	if (dw_pcie_link_up(&pcie->pci))
-+		intel_pcie_wait_l2(pcie);
- 
- 	/* Put endpoint device in reset state */
--	intel_pcie_device_rst_assert(lpp);
--	pcie_rc_cfg_wr_mask(lpp, PCI_COMMAND, PCI_COMMAND_MEMORY, 0);
-+	intel_pcie_device_rst_assert(pcie);
-+	pcie_rc_cfg_wr_mask(pcie, PCI_COMMAND, PCI_COMMAND_MEMORY, 0);
- }
- 
--static int intel_pcie_host_setup(struct intel_pcie_port *lpp)
-+static int intel_pcie_host_setup(struct intel_pcie *pcie)
- {
- 	int ret;
--	struct dw_pcie *pci = &lpp->pci;
-+	struct dw_pcie *pci = &pcie->pci;
- 
--	intel_pcie_core_rst_assert(lpp);
--	intel_pcie_device_rst_assert(lpp);
-+	intel_pcie_core_rst_assert(pcie);
-+	intel_pcie_device_rst_assert(pcie);
- 
--	ret = phy_init(lpp->phy);
-+	ret = phy_init(pcie->phy);
- 	if (ret)
- 		return ret;
- 
--	intel_pcie_core_rst_deassert(lpp);
-+	intel_pcie_core_rst_deassert(pcie);
- 
--	ret = clk_prepare_enable(lpp->core_clk);
-+	ret = clk_prepare_enable(pcie->core_clk);
- 	if (ret) {
--		dev_err(lpp->pci.dev, "Core clock enable failed: %d\n", ret);
-+		dev_err(pcie->pci.dev, "Core clock enable failed: %d\n", ret);
- 		goto clk_err;
- 	}
- 
- 	pci->atu_base = pci->dbi_base + 0xC0000;
- 
--	intel_pcie_ltssm_disable(lpp);
--	intel_pcie_link_setup(lpp);
-+	intel_pcie_ltssm_disable(pcie);
-+	intel_pcie_link_setup(pcie);
- 	intel_pcie_init_n_fts(pci);
- 	dw_pcie_setup_rc(&pci->pp);
- 	dw_pcie_upconfig_setup(pci);
- 
--	intel_pcie_device_rst_deassert(lpp);
--	intel_pcie_ltssm_enable(lpp);
-+	intel_pcie_device_rst_deassert(pcie);
-+	intel_pcie_ltssm_enable(pcie);
- 
- 	ret = dw_pcie_wait_for_link(pci);
- 	if (ret)
- 		goto app_init_err;
- 
- 	/* Enable integrated interrupts */
--	pcie_app_wr_mask(lpp, PCIE_APP_IRNEN, PCIE_APP_IRN_INT,
-+	pcie_app_wr_mask(pcie, PCIE_APP_IRNEN, PCIE_APP_IRN_INT,
- 			 PCIE_APP_IRN_INT);
- 
- 	return 0;
- 
- app_init_err:
--	clk_disable_unprepare(lpp->core_clk);
-+	clk_disable_unprepare(pcie->core_clk);
- clk_err:
--	intel_pcie_core_rst_assert(lpp);
--	phy_exit(lpp->phy);
-+	intel_pcie_core_rst_assert(pcie);
-+	phy_exit(pcie->phy);
- 
- 	return ret;
- }
- 
--static void __intel_pcie_remove(struct intel_pcie_port *lpp)
-+static void __intel_pcie_remove(struct intel_pcie *pcie)
- {
--	intel_pcie_core_irq_disable(lpp);
--	intel_pcie_turn_off(lpp);
--	clk_disable_unprepare(lpp->core_clk);
--	intel_pcie_core_rst_assert(lpp);
--	phy_exit(lpp->phy);
-+	intel_pcie_core_irq_disable(pcie);
-+	intel_pcie_turn_off(pcie);
-+	clk_disable_unprepare(pcie->core_clk);
-+	intel_pcie_core_rst_assert(pcie);
-+	phy_exit(pcie->phy);
- }
- 
- static int intel_pcie_remove(struct platform_device *pdev)
- {
--	struct intel_pcie_port *lpp = platform_get_drvdata(pdev);
--	struct pcie_port *pp = &lpp->pci.pp;
-+	struct intel_pcie *pcie = platform_get_drvdata(pdev);
-+	struct pcie_port *pp = &pcie->pci.pp;
- 
- 	dw_pcie_host_deinit(pp);
--	__intel_pcie_remove(lpp);
-+	__intel_pcie_remove(pcie);
- 
- 	return 0;
- }
- 
- static int __maybe_unused intel_pcie_suspend_noirq(struct device *dev)
- {
--	struct intel_pcie_port *lpp = dev_get_drvdata(dev);
-+	struct intel_pcie *pcie = dev_get_drvdata(dev);
- 	int ret;
- 
--	intel_pcie_core_irq_disable(lpp);
--	ret = intel_pcie_wait_l2(lpp);
-+	intel_pcie_core_irq_disable(pcie);
-+	ret = intel_pcie_wait_l2(pcie);
- 	if (ret)
- 		return ret;
- 
--	phy_exit(lpp->phy);
--	clk_disable_unprepare(lpp->core_clk);
-+	phy_exit(pcie->phy);
-+	clk_disable_unprepare(pcie->core_clk);
- 	return ret;
- }
- 
- static int __maybe_unused intel_pcie_resume_noirq(struct device *dev)
- {
--	struct intel_pcie_port *lpp = dev_get_drvdata(dev);
-+	struct intel_pcie *pcie = dev_get_drvdata(dev);
- 
--	return intel_pcie_host_setup(lpp);
-+	return intel_pcie_host_setup(pcie);
- }
- 
- static int intel_pcie_rc_init(struct pcie_port *pp)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
--	struct intel_pcie_port *lpp = dev_get_drvdata(pci->dev);
-+	struct intel_pcie *pcie = dev_get_drvdata(pci->dev);
- 
--	return intel_pcie_host_setup(lpp);
-+	return intel_pcie_host_setup(pcie);
- }
- 
- static u64 intel_pcie_cpu_addr(struct dw_pcie *pcie, u64 cpu_addr)
-@@ -402,17 +402,17 @@ static int intel_pcie_probe(struct platform_device *pdev)
- {
- 	const struct intel_pcie_soc *data;
  	struct device *dev = &pdev->dev;
--	struct intel_pcie_port *lpp;
-+	struct intel_pcie *pcie;
- 	struct pcie_port *pp;
- 	struct dw_pcie *pci;
- 	int ret;
+ 	struct iproc_pcie *pcie;
+@@ -115,30 +115,30 @@ static int iproc_pcie_pltfm_probe(struct platform_device *pdev)
+ 	return 0;
+ }
  
--	lpp = devm_kzalloc(dev, sizeof(*lpp), GFP_KERNEL);
--	if (!lpp)
-+	pcie = devm_kzalloc(dev, sizeof(*pcie), GFP_KERNEL);
-+	if (!pcie)
- 		return -ENOMEM;
+-static int iproc_pcie_pltfm_remove(struct platform_device *pdev)
++static int iproc_pltfm_pcie_remove(struct platform_device *pdev)
+ {
+ 	struct iproc_pcie *pcie = platform_get_drvdata(pdev);
  
--	platform_set_drvdata(pdev, lpp);
--	pci = &lpp->pci;
-+	platform_set_drvdata(pdev, pcie);
-+	pci = &pcie->pci;
- 	pci->dev = dev;
- 	pp = &pci->pp;
+ 	return iproc_pcie_remove(pcie);
+ }
  
-@@ -420,7 +420,7 @@ static int intel_pcie_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+-static void iproc_pcie_pltfm_shutdown(struct platform_device *pdev)
++static void iproc_pltfm_pcie_shutdown(struct platform_device *pdev)
+ {
+ 	struct iproc_pcie *pcie = platform_get_drvdata(pdev);
  
--	ret = intel_pcie_ep_rst_init(lpp);
-+	ret = intel_pcie_ep_rst_init(pcie);
- 	if (ret)
- 		return ret;
+ 	iproc_pcie_shutdown(pcie);
+ }
  
+-static struct platform_driver iproc_pcie_pltfm_driver = {
++static struct platform_driver iproc_pltfm_pcie_driver = {
+ 	.driver = {
+ 		.name = "iproc-pcie",
+ 		.of_match_table = of_match_ptr(iproc_pcie_of_match_table),
+ 	},
+-	.probe = iproc_pcie_pltfm_probe,
+-	.remove = iproc_pcie_pltfm_remove,
+-	.shutdown = iproc_pcie_pltfm_shutdown,
++	.probe = iproc_pltfm_pcie_probe,
++	.remove = iproc_pltfm_pcie_remove,
++	.shutdown = iproc_pltfm_pcie_shutdown,
+ };
+-module_platform_driver(iproc_pcie_pltfm_driver);
++module_platform_driver(iproc_pltfm_pcie_driver);
+ 
+ MODULE_AUTHOR("Ray Jui <rjui@broadcom.com>");
+ MODULE_DESCRIPTION("Broadcom iPROC PCIe platform driver");
 -- 
 2.25.1
 
