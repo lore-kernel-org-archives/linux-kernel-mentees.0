@@ -1,78 +1,80 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36514C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65763C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 01:11:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EDA1B4023C;
-	Thu, 23 Dec 2021 01:11:41 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 15C42405F3;
+	Thu, 23 Dec 2021 01:11:45 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id b67kuEhz-sed; Thu, 23 Dec 2021 01:11:41 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0mGDoTrzIm4m; Thu, 23 Dec 2021 01:11:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E3800410D2;
-	Thu, 23 Dec 2021 01:11:40 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 125AC405DE;
+	Thu, 23 Dec 2021 01:11:44 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C12F8C001E;
-	Thu, 23 Dec 2021 01:11:40 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2CA87C0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F256DC001E;
+	Thu, 23 Dec 2021 01:11:43 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F4FEC0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:39 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 1C2678142A
+ by smtp4.osuosl.org (Postfix) with ESMTP id 415B540010
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:39 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:42 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=kernel.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id e6_lF-3fOBEa
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id xs7cf2i7T669
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:38 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:41 +0000 (UTC)
 X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4745281410
+Received: from sin.source.kernel.org (sin.source.kernel.org
+ [IPv6:2604:1380:40e1:4800::1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 9039440227
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 01:11:38 +0000 (UTC)
+ Thu, 23 Dec 2021 01:11:41 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 94FC461D9C;
- Thu, 23 Dec 2021 01:11:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A2A1C36AED;
- Thu, 23 Dec 2021 01:11:36 +0000 (UTC)
+ by sin.source.kernel.org (Postfix) with ESMTPS id 7DD82CE1F07;
+ Thu, 23 Dec 2021 01:11:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6728C36AE5;
+ Thu, 23 Dec 2021 01:11:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640221897;
- bh=0QYOsHS5wj8XlJwNRMAGvRqv6+NUOG9O0hN3WUXDp44=;
+ s=k20201202; t=1640221899;
+ bh=yk13MRO3FM7shpr7LfUCSVTd5vxWDh8QBr8p3FTIj6o=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M6OSkDDvAFIANsXOdvzGFs8IpZScUztP7K7pwQlGe2BZ8KSI+LKIWBQRVnwmfFBiW
- gOqd0n32/EFKsepqNKAH6SAl2rkxrJIr45yUmb8Sy+lrg1uhvKujTD5ZdvIkStL/G/
- 8F3wyDQnuhlrIKF9FbMj0LjKMYLCB/WaJPeyAPiopoVtboAZMhhGrvOIA1TmCsx1kP
- xBW8SSHMD4wyOwNVS2gUhj417U/JSpkPVJumEsVRKu+2fgZ18RZ2oRA5At1R0qJa8N
- t+kmEkG+KZVFKO6eJqhotVWLyQmuDPb+sxXNIBDRna8N796xuvMLNNbw7BYo/FqHMY
- Mkekpg0L6pjTw==
+ b=p86PrC/3UkOgCOBz8Trt8CCDybc9gaN8i4CKAT6mgCNoa4W5sP31nSCO2wtXdwrwC
+ DG+7sw+rKG5902vb07CknOC1eT9zSe7T/nvDchjKfaZhnI8H99RnGZ+2tRz21zJv2D
+ b1FpEnnC6HHCOv4ULeXMv77z7w2plKA533FSEiZctUCPwObd2OZ0zct7/igbYQt468
+ CHnLVPVoZ3uk9Qp+ogbAj7ktPnIWnuJsFIPb8lJn4RzFc46O04DgUcqjBqsWH6Vdmh
+ GWIc5rlM+wYrN+mNobXcZ+YXkYfFA8biFX1dyMTJ0krQQbaJ/xoMPfkCEcG/6HTqh/
+ 1j1iEvCDxYU0Q==
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: linux-pci@vger.kernel.org,
 	Fan Fei <ffclaire1224@gmail.com>
-Subject: [PATCH v2 15/23] PCI: microchip: Rename mc_port to mc_pcie
-Date: Wed, 22 Dec 2021 19:10:46 -0600
-Message-Id: <20211223011054.1227810-16-helgaas@kernel.org>
+Subject: [PATCH v2 16/23] PCI: mt7621: Make pci_ops static
+Date: Wed, 22 Dec 2021 19:10:47 -0600
+Message-Id: <20211223011054.1227810-17-helgaas@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
 References: <20211223011054.1227810-1-helgaas@kernel.org>
 MIME-Version: 1.0
 Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Daire McNamara <daire.mcnamara@microchip.com>, linux-kernel@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-mediatek@lists.infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,208 +94,30 @@ Sender: "Linux-kernel-mentees"
 
 From: Bjorn Helgaas <bhelgaas@google.com>
 
-Rename struct mc_port to mc_pcie to match the convention of <driver>_pcie.
-No functional change intended.
+mt7621_pci_ops is used only in this file.  Make it static.
 
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Daire McNamara <daire.mcnamara@microchip.com>
+Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mediatek@lists.infradead.org
 ---
- drivers/pci/controller/pcie-microchip-host.c | 42 ++++++++++----------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ drivers/pci/controller/pcie-mt7621.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/pcie-microchip-host.c b/drivers/pci/controller/pcie-microchip-host.c
-index 329f930d17aa..29d8e81e4181 100644
---- a/drivers/pci/controller/pcie-microchip-host.c
-+++ b/drivers/pci/controller/pcie-microchip-host.c
-@@ -262,7 +262,7 @@ struct mc_msi {
- 	DECLARE_BITMAP(used, MC_NUM_MSI_IRQS);
- };
- 
--struct mc_port {
-+struct mc_pcie {
- 	void __iomem *axi_base_addr;
- 	struct device *dev;
- 	struct irq_domain *intx_domain;
-@@ -382,7 +382,7 @@ static struct {
- 
- static char poss_clks[][5] = { "fic0", "fic1", "fic2", "fic3" };
- 
--static void mc_pcie_enable_msi(struct mc_port *port, void __iomem *base)
-+static void mc_pcie_enable_msi(struct mc_pcie *port, void __iomem *base)
- {
- 	struct mc_msi *msi = &port->msi;
- 	u32 cap_offset = MC_MSI_CAP_CTRL_OFFSET;
-@@ -405,7 +405,7 @@ static void mc_pcie_enable_msi(struct mc_port *port, void __iomem *base)
- 
- static void mc_handle_msi(struct irq_desc *desc)
- {
--	struct mc_port *port = irq_desc_get_handler_data(desc);
-+	struct mc_pcie *port = irq_desc_get_handler_data(desc);
- 	struct device *dev = port->dev;
- 	struct mc_msi *msi = &port->msi;
- 	void __iomem *bridge_base_addr =
-@@ -428,7 +428,7 @@ static void mc_handle_msi(struct irq_desc *desc)
- 
- static void mc_msi_bottom_irq_ack(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
- 	u32 bitpos = data->hwirq;
-@@ -443,7 +443,7 @@ static void mc_msi_bottom_irq_ack(struct irq_data *data)
- 
- static void mc_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	phys_addr_t addr = port->msi.vector_phy;
- 
- 	msg->address_lo = lower_32_bits(addr);
-@@ -470,7 +470,7 @@ static struct irq_chip mc_msi_bottom_irq_chip = {
- static int mc_irq_msi_domain_alloc(struct irq_domain *domain, unsigned int virq,
- 				   unsigned int nr_irqs, void *args)
- {
--	struct mc_port *port = domain->host_data;
-+	struct mc_pcie *port = domain->host_data;
- 	struct mc_msi *msi = &port->msi;
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
-@@ -503,7 +503,7 @@ static void mc_irq_msi_domain_free(struct irq_domain *domain, unsigned int virq,
- 				   unsigned int nr_irqs)
- {
- 	struct irq_data *d = irq_domain_get_irq_data(domain, virq);
--	struct mc_port *port = irq_data_get_irq_chip_data(d);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(d);
- 	struct mc_msi *msi = &port->msi;
- 
- 	mutex_lock(&msi->lock);
-@@ -534,7 +534,7 @@ static struct msi_domain_info mc_msi_domain_info = {
- 	.chip = &mc_msi_irq_chip,
- };
- 
--static int mc_allocate_msi_domains(struct mc_port *port)
-+static int mc_allocate_msi_domains(struct mc_pcie *port)
- {
- 	struct device *dev = port->dev;
- 	struct fwnode_handle *fwnode = of_node_to_fwnode(dev->of_node);
-@@ -562,7 +562,7 @@ static int mc_allocate_msi_domains(struct mc_port *port)
- 
- static void mc_handle_intx(struct irq_desc *desc)
- {
--	struct mc_port *port = irq_desc_get_handler_data(desc);
-+	struct mc_pcie *port = irq_desc_get_handler_data(desc);
- 	struct device *dev = port->dev;
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
-@@ -585,7 +585,7 @@ static void mc_handle_intx(struct irq_desc *desc)
- 
- static void mc_ack_intx_irq(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
- 	u32 mask = BIT(data->hwirq + PM_MSI_INT_INTX_SHIFT);
-@@ -595,7 +595,7 @@ static void mc_ack_intx_irq(struct irq_data *data)
- 
- static void mc_mask_intx_irq(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
- 	unsigned long flags;
-@@ -611,7 +611,7 @@ static void mc_mask_intx_irq(struct irq_data *data)
- 
- static void mc_unmask_intx_irq(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
- 	unsigned long flags;
-@@ -698,7 +698,7 @@ static u32 local_events(void __iomem *addr)
- 	return val;
+diff --git a/drivers/pci/controller/pcie-mt7621.c b/drivers/pci/controller/pcie-mt7621.c
+index b60dfb45ef7b..4138c0e83513 100644
+--- a/drivers/pci/controller/pcie-mt7621.c
++++ b/drivers/pci/controller/pcie-mt7621.c
+@@ -148,7 +148,7 @@ static void __iomem *mt7621_pcie_map_bus(struct pci_bus *bus,
+ 	return pcie->base + RALINK_PCI_CONFIG_DATA + (where & 3);
  }
  
--static u32 get_events(struct mc_port *port)
-+static u32 get_events(struct mc_pcie *port)
- {
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
-@@ -715,7 +715,7 @@ static u32 get_events(struct mc_port *port)
- 
- static irqreturn_t mc_event_handler(int irq, void *dev_id)
- {
--	struct mc_port *port = dev_id;
-+	struct mc_pcie *port = dev_id;
- 	struct device *dev = port->dev;
- 	struct irq_data *data;
- 
-@@ -731,7 +731,7 @@ static irqreturn_t mc_event_handler(int irq, void *dev_id)
- 
- static void mc_handle_event(struct irq_desc *desc)
- {
--	struct mc_port *port = irq_desc_get_handler_data(desc);
-+	struct mc_pcie *port = irq_desc_get_handler_data(desc);
- 	unsigned long events;
- 	u32 bit;
- 	struct irq_chip *chip = irq_desc_get_chip(desc);
-@@ -748,7 +748,7 @@ static void mc_handle_event(struct irq_desc *desc)
- 
- static void mc_ack_event_irq(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	u32 event = data->hwirq;
- 	void __iomem *addr;
- 	u32 mask;
-@@ -763,7 +763,7 @@ static void mc_ack_event_irq(struct irq_data *data)
- 
- static void mc_mask_event_irq(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	u32 event = data->hwirq;
- 	void __iomem *addr;
- 	u32 mask;
-@@ -793,7 +793,7 @@ static void mc_mask_event_irq(struct irq_data *data)
- 
- static void mc_unmask_event_irq(struct irq_data *data)
- {
--	struct mc_port *port = irq_data_get_irq_chip_data(data);
-+	struct mc_pcie *port = irq_data_get_irq_chip_data(data);
- 	u32 event = data->hwirq;
- 	void __iomem *addr;
- 	u32 mask;
-@@ -881,7 +881,7 @@ static int mc_pcie_init_clks(struct device *dev)
- 	return 0;
- }
- 
--static int mc_pcie_init_irq_domains(struct mc_port *port)
-+static int mc_pcie_init_irq_domains(struct mc_pcie *port)
- {
- 	struct device *dev = port->dev;
- 	struct device_node *node = dev->of_node;
-@@ -957,7 +957,7 @@ static void mc_pcie_setup_window(void __iomem *bridge_base_addr, u32 index,
- }
- 
- static int mc_pcie_setup_windows(struct platform_device *pdev,
--				 struct mc_port *port)
-+				 struct mc_pcie *port)
- {
- 	void __iomem *bridge_base_addr =
- 		port->axi_base_addr + MC_PCIE_BRIDGE_ADDR;
-@@ -983,7 +983,7 @@ static int mc_platform_init(struct pci_config_window *cfg)
- {
- 	struct device *dev = cfg->parent;
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct mc_port *port;
-+	struct mc_pcie *port;
- 	void __iomem *bridge_base_addr;
- 	void __iomem *ctrl_base_addr;
- 	int ret;
+-struct pci_ops mt7621_pci_ops = {
++static struct pci_ops mt7621_pci_ops = {
+ 	.map_bus	= mt7621_pcie_map_bus,
+ 	.read		= pci_generic_config_read,
+ 	.write		= pci_generic_config_write,
 -- 
 2.25.1
 
