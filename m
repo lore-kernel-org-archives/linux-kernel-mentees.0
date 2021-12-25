@@ -1,77 +1,73 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0AB90C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Dec 2021 16:43:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 505E3C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Dec 2021 13:37:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 93589813A1;
-	Thu, 23 Dec 2021 16:43:11 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id C4A49404E7;
+	Sat, 25 Dec 2021 13:37:23 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yTKGYq9NEuXa; Thu, 23 Dec 2021 16:43:10 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BFDB68140B;
-	Thu, 23 Dec 2021 16:43:10 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fWv69Ro2uXtB; Sat, 25 Dec 2021 13:37:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B7FE840166;
+	Sat, 25 Dec 2021 13:37:22 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9E95CC001E;
-	Thu, 23 Dec 2021 16:43:10 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6E0FDC0012
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 92EC9C002F;
+	Sat, 25 Dec 2021 13:37:22 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 15EA1C0012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 16:43:09 +0000 (UTC)
+ Sat, 25 Dec 2021 13:37:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5D465813CD
+ by smtp2.osuosl.org (Postfix) with ESMTP id EFCCF401C5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 16:43:09 +0000 (UTC)
+ Sat, 25 Dec 2021 13:37:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vxBSO5eclr7P
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2bF1W1duA507
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 16:43:08 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id AF3FF813A1
+ Sat, 25 Dec 2021 13:37:20 +0000 (UTC)
+X-Greylist: delayed 00:06:18 by SQLgrey-1.8.0
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 83BFE40166
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Dec 2021 16:43:08 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id E05A361C04;
- Thu, 23 Dec 2021 16:43:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AEDEC36AE9;
- Thu, 23 Dec 2021 16:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1640277787;
- bh=NL161JDeCDIM/xYNPhiC2ONE2NUXcY75vDiM159xu5U=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=PksqG2PWGf4RtwEqs6ZBvoY/axiIf4Sf9R3Q7ijq4zxConWpi5QScPKc1J1wRl1YF
- VPF4WLJVQSBOF2NRURrWTMuicoXgsqwIjnpbSQsuQgoljTVFBjcGJNKaj8npFSXmQE
- R6dJzXmYW79WzXlhCyFB48jys5FQTOZCrHWYG+Tt+INp9LcH2fj57ufedZZxcqA0ws
- R6BF0NiWq1QW6X9qweE3WjJoIlLzKSMV5IfrmL+Xf3T8S2mwhFephLL76xGB5J37QS
- FkfBcAUKj+cBc8LAqtRQhzvzdcXDb6FoAZjyU4z3C6PUqelnTlpgN0uZzij3k8e2J0
- MOqQT2HPVMHtw==
-Date: Thu, 23 Dec 2021 10:43:05 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Subject: Re: [PATCH v2 17/23] PCI: mt7621: Rename mt7621_pci_ to mt7621_pcie_
-Message-ID: <20211223164305.GA1270275@bhelgaas>
+ Sat, 25 Dec 2021 13:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1640439440;
+ x=1671975440; h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=s9lf9e/EduDxiaQQMklUM5VPoyo3fHkdFdUfVg0nmFY=;
+ b=ZaIMWsd0RF1hGg2kh5I0capCae7kcaqpcjKjNgMAhk+grBELyYI4CF5S
+ 5/3j4/zaYYnPjlJbK38oN/1gN3gbbjWs2ikhXA2Ad8E/TuPsU3NIGpJTt
+ iOOtFTVpKZD2jG8Ax1rvCbrSQaEUd7/QgkxuQz+dhUH9nZDVE1L2aHVIO
+ Tg/nGkE9mtP5Eo9ko5mmoODRViUe2t3T5EkkygdKfsBkJ6k3LqEQttoch
+ xKhHfEVB+xDYxSbdhRAo72xZNjuqcT+4bpvhbgY036dOPuW5XrBlm2d+0
+ uFWJ1obezLK4c/CEhy4MAetO9TN5gp0ddkcG6bb3NpexxZQxXpvvTGevk w==;
+Date: Sat, 25 Dec 2021 14:30:57 +0100
+From: Jesper Nilsson <Jesper.Nilsson@axis.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v2 02/23] PCI: artpec6: Prefer of_device_get_match_data()
+Message-ID: <20211225133057.GN5179@axis.com>
+References: <20211223011054.1227810-1-helgaas@kernel.org>
+ <20211223011054.1227810-3-helgaas@kernel.org>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <CAMhs-H_dTkp6_1Loq973JqotW26GtRYQv-vdQ2i6Heo7oGCL3w@mail.gmail.com>
-Cc: Rob Herring <robh@kernel.org>,
+In-Reply-To: <20211223011054.1227810-3-helgaas@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Rob Herring <robh@kernel.org>, Jesper Nilsson <Jesper.Nilsson@axis.com>,
  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- linux-pci <linux-pci@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- linux-arm-kernel@lists.infradead.org, Bjorn Helgaas <bhelgaas@google.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@axis.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
  Fan Fei <ffclaire1224@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -90,45 +86,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Dec 23, 2021 at 07:10:22AM +0100, Sergio Paracuellos wrote:
-> On Thu, Dec 23, 2021 at 2:11 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > From: Bjorn Helgaas <bhelgaas@google.com>
-> >
-> > Rename mt7621_pci_* structs and functions to mt7621_pcie_* for consistency
-> > with the rest of the file.
-> >
-> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-mediatek@lists.infradead.org
-> > ---
-> >  drivers/pci/controller/pcie-mt7621.c | 36 ++++++++++++++--------------
-> >  1 file changed, 18 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/drivers/pci/controller/pcie-mt7621.c b/drivers/pci/controller/pcie-mt7621.c
-> > index 4138c0e83513..b8fea7afdb1b 100644
-> > --- a/drivers/pci/controller/pcie-mt7621.c
-> > +++ b/drivers/pci/controller/pcie-mt7621.c
-> > @@ -93,8 +93,8 @@ struct mt7621_pcie_port {
-> >   * reset lines are inverted.
-> >   */
-> >  struct mt7621_pcie {
-> > -       void __iomem *base;
-> >         struct device *dev;
-> > +       void __iomem *base;
+On Thu, Dec 23, 2021 at 02:10:33AM +0100, Bjorn Helgaas wrote:
+> From: Fan Fei <ffclaire1224@gmail.com>
 > 
-> This change is unrelated to the commit message and the rest of the
-> changes of this patch.
-> ...
-
-> Other than that minor unrelated change, this looks good to me:
+> The artpec6 driver only needs the device data, not the whole struct
+> of_device_id.  Use of_device_get_match_data() instead of of_match_device().
+> No functional change intended.
 > 
-> Reviewed-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> [bhelgaas: commit log]
+> Signed-off-by: Fan Fei <ffclaire1224@gmail.com>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 
-Thanks, I added a mention of the struct member reorder.
+Looks good to me,
 
-Bjorn
+Acked-by: Jesper Nilsson <jesper.nilsson@axis.com>
+
+> Cc: linux-arm-kernel@axis.com
+
+/^JN - Jesper Nilsson
+-- 
+               Jesper Nilsson -- jesper.nilsson@axis.com
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
