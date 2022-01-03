@@ -1,63 +1,144 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 44366C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 26 Dec 2021 12:04:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFE83C433FE
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Jan 2022 08:39:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D0FC740650;
-	Sun, 26 Dec 2021 12:04:57 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DmPeuYG9WMPh; Sun, 26 Dec 2021 12:04:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B31D3400B9;
-	Sun, 26 Dec 2021 12:04:55 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 887E0C001E;
-	Sun, 26 Dec 2021 12:04:55 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4F8CAC0012
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Dec 2021 12:04:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 2FD336058F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Dec 2021 12:04:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 47F3660B1D;
+	Mon,  3 Jan 2022 08:39:49 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7jH_3hbq1PkQ
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kfTI1Y61qm6O; Mon,  3 Jan 2022 08:39:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E1AFD60AB1;
+	Mon,  3 Jan 2022 08:39:47 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B77A1C0030;
+	Mon,  3 Jan 2022 08:39:47 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 2884CC001E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Dec 2021 12:04:52 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by smtp3.osuosl.org (Postfix) with ESMTP id D2AD6600CC
+ Mon,  3 Jan 2022 08:39:46 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 083B1817BA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 26 Dec 2021 12:04:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2AEC6D;
- Sun, 26 Dec 2021 04:04:51 -0800 (PST)
-Received: from lpieralisi (e121166-lin.cambridge.arm.com [10.1.196.255])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D822F3F5A1;
- Sun, 26 Dec 2021 04:04:50 -0800 (PST)
-Date: Sun, 26 Dec 2021 12:04:45 +0000
-From: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v2 00/23] PCI: Name structs, functions consistently
-Message-ID: <20211226120445.GA19807@lpieralisi>
-References: <20211223011054.1227810-1-helgaas@kernel.org>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20211223011054.1227810-1-helgaas@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: Rob Herring <robh@kernel.org>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ Mon,  3 Jan 2022 08:39:46 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UMh3tjBQeFoY
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Jan 2022 08:39:44 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2067.outbound.protection.outlook.com [40.107.92.67])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 92069817AA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  3 Jan 2022 08:39:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KVoPudfBPllohYnP22Skj+RiZOOALa2tGeI4pVAi+8gE6Ov6FtV/OdePi72JdQwLLWpFoXCYG9Kg2hYkq9XQ7iAjOJGoFOsjgZHx+rpxRY8ujKw76d8z4kgPhVMvDSANU2N0EurKajGje8sqCTfn4JCjuqZ8o1IjXBA9RUrlWHDk2Ieb36VI3Sl7HyEXo6GG6NQhncLruzt+HRevmXBjikKS6rGXpv/zbdtvpxZZN+qyE5Kn+lpLvYB2YjbFHS+11HFiV2Mkau5v/RrtjxAI1F+31WWm3obflmz2uLIbNLE9Y61Ehqc13oRLudcbZyzzJ7G6Hszvq8V0VCPb3sttlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=opdxY9Cxq3yye6ZpH+gO3Wi67aCGrq+UHgpJkyS/mr4=;
+ b=HD/DODeawUFAm+x8EyxT38CTLMNbgyRY11Fd/uhWG6qx6DwdGvtj9nHMvIxTV6j/dp5Yi8zUfKrQJpT25y1Hl5Tq0mOMCUylcg/hINE5pSNVLGz45VPt/WBxcw0nCGxxqt+zyj2xXeHldD+ycvgHUVV6S42Rhm2b8Sx6nbb7P+9UKfMw67nP3kQBjdujnZQj5F8pQfmveOaPYWtX8e5Z+LfQ5/IE5WaRRDs5+tjHyxeKRmslrCS4ZB+an8bjnGBqFcjCPOlR25HSFNUBIaSwxE/Ue7VAAkdziPYIQuixSo8lhk2ohRbB9GJKhMjoJaO3S0iQW6KEvF1/x6beTyJnIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=opdxY9Cxq3yye6ZpH+gO3Wi67aCGrq+UHgpJkyS/mr4=;
+ b=i6bETh+kL2mUFMa5opne/kecMgTmK+Nu4+dVyZ6u0xuQOHkZY3ilgYLkyNLlWmcJfpWbrDctPj0r+ipkaNOAbNAgPXrSECRQ6WeLBG2pir3165qz1+Ju7TTuUQjv+lAIQJrFei8OV/khcv47l+0eS0J+eeBDGe6r7cBpXmPqYcE=
+Received: from BN0PR04CA0106.namprd04.prod.outlook.com (2603:10b6:408:ec::21)
+ by BL0PR02MB3652.namprd02.prod.outlook.com (2603:10b6:207:4a::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.14; Mon, 3 Jan
+ 2022 08:39:41 +0000
+Received: from BN1NAM02FT046.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:408:ec:cafe::29) by BN0PR04CA0106.outlook.office365.com
+ (2603:10b6:408:ec::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.13 via Frontend
+ Transport; Mon, 3 Jan 2022 08:39:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ BN1NAM02FT046.mail.protection.outlook.com (10.13.3.181) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4844.14 via Frontend Transport; Mon, 3 Jan 2022 08:39:40 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.14; Mon, 3 Jan 2022 00:39:38 -0800
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.14 via Frontend Transport; Mon, 3 Jan 2022 00:39:38 -0800
+Envelope-to: helgaas@kernel.org, linux-pci@vger.kernel.org,
+ ffclaire1224@gmail.com, lorenzo.pieralisi@arm.com,
+ robh@kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
- Fan Fei <ffclaire1224@gmail.com>
+ skhan@linuxfoundation.org, bhelgaas@google.com,
+ linux-arm-kernel@lists.infradead.org
+Received: from [10.254.241.49] (port=41770)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <michal.simek@xilinx.com>)
+ id 1n4IsT-0007Ob-Rq; Mon, 03 Jan 2022 00:39:38 -0800
+Message-ID: <51acdf9e-94a8-6cd0-0265-b96af35712a5@xilinx.com>
+Date: Mon, 3 Jan 2022 09:39:34 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH v2 22/23] PCI: xilinx: Rename xilinx_pcie_port to
+ xilinx_pcie
+Content-Language: en-US
+To: Bjorn Helgaas <helgaas@kernel.org>, <linux-pci@vger.kernel.org>, Fan Fei
+ <ffclaire1224@gmail.com>
+References: <20211223011054.1227810-1-helgaas@kernel.org>
+ <20211223011054.1227810-23-helgaas@kernel.org>
+From: Michal Simek <michal.simek@xilinx.com>
+In-Reply-To: <20211223011054.1227810-23-helgaas@kernel.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d9d6b767-0972-423a-7396-08d9ce94958d
+X-MS-TrafficTypeDiagnostic: BL0PR02MB3652:EE_
+X-Microsoft-Antispam-PRVS: <BL0PR02MB3652D6500A1079A419EF6F52C6499@BL0PR02MB3652.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:176;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8uxx5h/zmDRoju8D00Eq6aO11V/zQW2SyVjWsOD+keDltGjGiwNat5s6Z+j8anMBwJGNygoglfEThyIy7FVbp6GaLs5pdhz1P6o2G9/fxfJG59gsCtGKfIJ2gAfXB7iyYB04uO8NK0arodYc/fSbtouF5NxMLGK8eUdP1LnFdZAxuFXx9PlQVnwIpK2tQO46nKqdoowsV/qT/Ub+tF7uibvSTmggjGXNRjiUQsH1zJ0MDTJwHc7ri/a/L4AiTXB/CYpzTbdFR3RsQ9LqfcfQqSPJj1ysZFWxhYkmClu9D+7b/CofS+/QjWapK3CMbwzGqArN/b72fgzybSmE/RVXDulpV6Un+OqIamzOhtzaEp7WhtDX9A/dBQlXb+/sEFN7RAJRQRqDVTcY0CA9vkcP1R1FJ7TxoL/EIhbhz2tmuaqqRsaxGHnKL4BfsR9AVUwwpKQN92z31pTZj7WnAQPaXZ5PYfRKJir7BPGbpno8bUejE4+fRJa5zVuc9cX/A3tQu2VUzRnQtKFq1fK/wDedjIJCGXTx88mL4H6vI6Q0/DDjstybtG+LlUwbAaU5wSnjEG+fBgI5/XTmLD+BXQyco0qYTRAsmZ7i1FvFK0n7cJ8uy5qcAy9Vaq6eoa4tzXza9xuHfJbMyIHoFcG2dzgPwLVHUulF0vHYVMTHs4Ystg3qzNEk/2wMLnKFrBqd3FopBpZkIvFq2Qi/AtF3mTiiiUPv3Na/o71KL76IaijMSFbW3Ljmy4ejvlPZi2vt9Td6J/0VA9UoFvLauLEI/zRiEw==
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(7416002)(82310400004)(70586007)(356005)(5660300002)(8676002)(6666004)(508600001)(47076005)(53546011)(70206006)(186003)(36756003)(336012)(426003)(2906002)(30864003)(2616005)(4326008)(26005)(8936002)(110136005)(54906003)(316002)(31696002)(83380400001)(44832011)(31686004)(9786002)(7636003)(36860700001)(50156003)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2022 08:39:40.7630 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d9d6b767-0972-423a-7396-08d9ce94958d
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT046.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB3652
+Cc: Rob Herring <robh@kernel.org>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
+ Michal Simek <michal.simek@xilinx.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -69,90 +150,454 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Dec 22, 2021 at 07:10:31PM -0600, Bjorn Helgaas wrote:
-> From: Bjorn Helgaas <bhelgaas@google.com>
-> 
-> This is a v2 of Fan's patches, previously posted at:
-> 
->   https://lore.kernel.org/r/cover.1637678103.git.ffclaire1224@gmail.com
->   https://lore.kernel.org/r/cover.1638021831.git.ffclaire1224@gmail.com
-> 
-> I added a few more patches along the same lines and added driver
-> maintainers to the cc lists.
-> 
-> There should be no functional changes here at all; this is strictly to make
-> the drivers more consistent so it's easier to see defects and opportunities
-> for consolidation.
-> 
-> Lorenzo, if this seems OK, I propose that I merge it after all of your
-> branches so it doesn't get in the way of what you have pending.
 
-That works for me, thank you very much for putting it together.
 
-Lorenzo
+On 12/23/21 02:10, Bjorn Helgaas wrote:
+> From: Fan Fei <ffclaire1224@gmail.com>
+> 
+> Rename struct xilinx_pcie_port to xilinx_pcie to match the convention of
+> <driver>_pcie. No functional change intended.
+> 
+> Signed-off-by: Fan Fei <ffclaire1224@gmail.com>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Michal Simek <michal.simek@xilinx.com>
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+>   drivers/pci/controller/pcie-xilinx.c | 158 +++++++++++++--------------
+>   1 file changed, 79 insertions(+), 79 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-xilinx.c b/drivers/pci/controller/pcie-xilinx.c
+> index aa9bdcebc838..cb6e9f7b0152 100644
+> --- a/drivers/pci/controller/pcie-xilinx.c
+> +++ b/drivers/pci/controller/pcie-xilinx.c
+> @@ -91,18 +91,18 @@
+>   #define XILINX_NUM_MSI_IRQS		128
+>   
+>   /**
+> - * struct xilinx_pcie_port - PCIe port information
+> - * @reg_base: IO Mapped Register Base
+> + * struct xilinx_pcie - PCIe port information
+>    * @dev: Device pointer
+> + * @reg_base: IO Mapped Register Base
+>    * @msi_map: Bitmap of allocated MSIs
+>    * @map_lock: Mutex protecting the MSI allocation
+>    * @msi_domain: MSI IRQ domain pointer
+>    * @leg_domain: Legacy IRQ domain pointer
+>    * @resources: Bus Resources
+>    */
+> -struct xilinx_pcie_port {
+> -	void __iomem *reg_base;
+> +struct xilinx_pcie {
+>   	struct device *dev;
+> +	void __iomem *reg_base;
+>   	unsigned long msi_map[BITS_TO_LONGS(XILINX_NUM_MSI_IRQS)];
+>   	struct mutex map_lock;
+>   	struct irq_domain *msi_domain;
+> @@ -110,35 +110,35 @@ struct xilinx_pcie_port {
+>   	struct list_head resources;
+>   };
+>   
+> -static inline u32 pcie_read(struct xilinx_pcie_port *port, u32 reg)
+> +static inline u32 pcie_read(struct xilinx_pcie *pcie, u32 reg)
+>   {
+> -	return readl(port->reg_base + reg);
+> +	return readl(pcie->reg_base + reg);
+>   }
+>   
+> -static inline void pcie_write(struct xilinx_pcie_port *port, u32 val, u32 reg)
+> +static inline void pcie_write(struct xilinx_pcie *pcie, u32 val, u32 reg)
+>   {
+> -	writel(val, port->reg_base + reg);
+> +	writel(val, pcie->reg_base + reg);
+>   }
+>   
+> -static inline bool xilinx_pcie_link_up(struct xilinx_pcie_port *port)
+> +static inline bool xilinx_pcie_link_up(struct xilinx_pcie *pcie)
+>   {
+> -	return (pcie_read(port, XILINX_PCIE_REG_PSCR) &
+> +	return (pcie_read(pcie, XILINX_PCIE_REG_PSCR) &
+>   		XILINX_PCIE_REG_PSCR_LNKUP) ? 1 : 0;
+>   }
+>   
+>   /**
+>    * xilinx_pcie_clear_err_interrupts - Clear Error Interrupts
+> - * @port: PCIe port information
+> + * @pcie: PCIe port information
+>    */
+> -static void xilinx_pcie_clear_err_interrupts(struct xilinx_pcie_port *port)
+> +static void xilinx_pcie_clear_err_interrupts(struct xilinx_pcie *pcie)
+>   {
+> -	struct device *dev = port->dev;
+> -	unsigned long val = pcie_read(port, XILINX_PCIE_REG_RPEFR);
+> +	struct device *dev = pcie->dev;
+> +	unsigned long val = pcie_read(pcie, XILINX_PCIE_REG_RPEFR);
+>   
+>   	if (val & XILINX_PCIE_RPEFR_ERR_VALID) {
+>   		dev_dbg(dev, "Requester ID %lu\n",
+>   			val & XILINX_PCIE_RPEFR_REQ_ID);
+> -		pcie_write(port, XILINX_PCIE_RPEFR_ALL_MASK,
+> +		pcie_write(pcie, XILINX_PCIE_RPEFR_ALL_MASK,
+>   			   XILINX_PCIE_REG_RPEFR);
+>   	}
+>   }
+> @@ -152,11 +152,11 @@ static void xilinx_pcie_clear_err_interrupts(struct xilinx_pcie_port *port)
+>    */
+>   static bool xilinx_pcie_valid_device(struct pci_bus *bus, unsigned int devfn)
+>   {
+> -	struct xilinx_pcie_port *port = bus->sysdata;
+> +	struct xilinx_pcie *pcie = bus->sysdata;
+>   
+> -	/* Check if link is up when trying to access downstream ports */
+> +	/* Check if link is up when trying to access downstream pcie ports */
+>   	if (!pci_is_root_bus(bus)) {
+> -		if (!xilinx_pcie_link_up(port))
+> +		if (!xilinx_pcie_link_up(pcie))
+>   			return false;
+>   	} else if (devfn > 0) {
+>   		/* Only one device down on each root port */
+> @@ -177,12 +177,12 @@ static bool xilinx_pcie_valid_device(struct pci_bus *bus, unsigned int devfn)
+>   static void __iomem *xilinx_pcie_map_bus(struct pci_bus *bus,
+>   					 unsigned int devfn, int where)
+>   {
+> -	struct xilinx_pcie_port *port = bus->sysdata;
+> +	struct xilinx_pcie *pcie = bus->sysdata;
+>   
+>   	if (!xilinx_pcie_valid_device(bus, devfn))
+>   		return NULL;
+>   
+> -	return port->reg_base + PCIE_ECAM_OFFSET(bus->number, devfn, where);
+> +	return pcie->reg_base + PCIE_ECAM_OFFSET(bus->number, devfn, where);
+>   }
+>   
+>   /* PCIe operations */
+> @@ -215,7 +215,7 @@ static int xilinx_msi_set_affinity(struct irq_data *d, const struct cpumask *mas
+>   
+>   static void xilinx_compose_msi_msg(struct irq_data *data, struct msi_msg *msg)
+>   {
+> -	struct xilinx_pcie_port *pcie = irq_data_get_irq_chip_data(data);
+> +	struct xilinx_pcie *pcie = irq_data_get_irq_chip_data(data);
+>   	phys_addr_t pa = ALIGN_DOWN(virt_to_phys(pcie), SZ_4K);
+>   
+>   	msg->address_lo = lower_32_bits(pa);
+> @@ -232,14 +232,14 @@ static struct irq_chip xilinx_msi_bottom_chip = {
+>   static int xilinx_msi_domain_alloc(struct irq_domain *domain, unsigned int virq,
+>   				  unsigned int nr_irqs, void *args)
+>   {
+> -	struct xilinx_pcie_port *port = domain->host_data;
+> +	struct xilinx_pcie *pcie = domain->host_data;
+>   	int hwirq, i;
+>   
+> -	mutex_lock(&port->map_lock);
+> +	mutex_lock(&pcie->map_lock);
+>   
+> -	hwirq = bitmap_find_free_region(port->msi_map, XILINX_NUM_MSI_IRQS, order_base_2(nr_irqs));
+> +	hwirq = bitmap_find_free_region(pcie->msi_map, XILINX_NUM_MSI_IRQS, order_base_2(nr_irqs));
+>   
+> -	mutex_unlock(&port->map_lock);
+> +	mutex_unlock(&pcie->map_lock);
+>   
+>   	if (hwirq < 0)
+>   		return -ENOSPC;
+> @@ -256,13 +256,13 @@ static void xilinx_msi_domain_free(struct irq_domain *domain, unsigned int virq,
+>   				  unsigned int nr_irqs)
+>   {
+>   	struct irq_data *d = irq_domain_get_irq_data(domain, virq);
+> -	struct xilinx_pcie_port *port = domain->host_data;
+> +	struct xilinx_pcie *pcie = domain->host_data;
+>   
+> -	mutex_lock(&port->map_lock);
+> +	mutex_lock(&pcie->map_lock);
+>   
+> -	bitmap_release_region(port->msi_map, d->hwirq, order_base_2(nr_irqs));
+> +	bitmap_release_region(pcie->msi_map, d->hwirq, order_base_2(nr_irqs));
+>   
+> -	mutex_unlock(&port->map_lock);
+> +	mutex_unlock(&pcie->map_lock);
+>   }
+>   
+>   static const struct irq_domain_ops xilinx_msi_domain_ops = {
+> @@ -275,7 +275,7 @@ static struct msi_domain_info xilinx_msi_info = {
+>   	.chip	= &xilinx_msi_top_chip,
+>   };
+>   
+> -static int xilinx_allocate_msi_domains(struct xilinx_pcie_port *pcie)
+> +static int xilinx_allocate_msi_domains(struct xilinx_pcie *pcie)
+>   {
+>   	struct fwnode_handle *fwnode = dev_fwnode(pcie->dev);
+>   	struct irq_domain *parent;
+> @@ -298,7 +298,7 @@ static int xilinx_allocate_msi_domains(struct xilinx_pcie_port *pcie)
+>   	return 0;
+>   }
+>   
+> -static void xilinx_free_msi_domains(struct xilinx_pcie_port *pcie)
+> +static void xilinx_free_msi_domains(struct xilinx_pcie *pcie)
+>   {
+>   	struct irq_domain *parent = pcie->msi_domain->parent;
+>   
+> @@ -342,13 +342,13 @@ static const struct irq_domain_ops intx_domain_ops = {
+>    */
+>   static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+>   {
+> -	struct xilinx_pcie_port *port = (struct xilinx_pcie_port *)data;
+> -	struct device *dev = port->dev;
+> +	struct xilinx_pcie *pcie = (struct xilinx_pcie *)data;
+> +	struct device *dev = pcie->dev;
+>   	u32 val, mask, status;
+>   
+>   	/* Read interrupt decode and mask registers */
+> -	val = pcie_read(port, XILINX_PCIE_REG_IDR);
+> -	mask = pcie_read(port, XILINX_PCIE_REG_IMR);
+> +	val = pcie_read(pcie, XILINX_PCIE_REG_IDR);
+> +	mask = pcie_read(pcie, XILINX_PCIE_REG_IMR);
+>   
+>   	status = val & mask;
+>   	if (!status)
+> @@ -371,23 +371,23 @@ static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+>   
+>   	if (status & XILINX_PCIE_INTR_CORRECTABLE) {
+>   		dev_warn(dev, "Correctable error message\n");
+> -		xilinx_pcie_clear_err_interrupts(port);
+> +		xilinx_pcie_clear_err_interrupts(pcie);
+>   	}
+>   
+>   	if (status & XILINX_PCIE_INTR_NONFATAL) {
+>   		dev_warn(dev, "Non fatal error message\n");
+> -		xilinx_pcie_clear_err_interrupts(port);
+> +		xilinx_pcie_clear_err_interrupts(pcie);
+>   	}
+>   
+>   	if (status & XILINX_PCIE_INTR_FATAL) {
+>   		dev_warn(dev, "Fatal error message\n");
+> -		xilinx_pcie_clear_err_interrupts(port);
+> +		xilinx_pcie_clear_err_interrupts(pcie);
+>   	}
+>   
+>   	if (status & (XILINX_PCIE_INTR_INTX | XILINX_PCIE_INTR_MSI)) {
+>   		struct irq_domain *domain;
+>   
+> -		val = pcie_read(port, XILINX_PCIE_REG_RPIFR1);
+> +		val = pcie_read(pcie, XILINX_PCIE_REG_RPIFR1);
+>   
+>   		/* Check whether interrupt valid */
+>   		if (!(val & XILINX_PCIE_RPIFR1_INTR_VALID)) {
+> @@ -397,17 +397,17 @@ static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+>   
+>   		/* Decode the IRQ number */
+>   		if (val & XILINX_PCIE_RPIFR1_MSI_INTR) {
+> -			val = pcie_read(port, XILINX_PCIE_REG_RPIFR2) &
+> +			val = pcie_read(pcie, XILINX_PCIE_REG_RPIFR2) &
+>   				XILINX_PCIE_RPIFR2_MSG_DATA;
+> -			domain = port->msi_domain->parent;
+> +			domain = pcie->msi_domain->parent;
+>   		} else {
+>   			val = (val & XILINX_PCIE_RPIFR1_INTR_MASK) >>
+>   				XILINX_PCIE_RPIFR1_INTR_SHIFT;
+> -			domain = port->leg_domain;
+> +			domain = pcie->leg_domain;
+>   		}
+>   
+>   		/* Clear interrupt FIFO register 1 */
+> -		pcie_write(port, XILINX_PCIE_RPIFR1_ALL_MASK,
+> +		pcie_write(pcie, XILINX_PCIE_RPIFR1_ALL_MASK,
+>   			   XILINX_PCIE_REG_RPIFR1);
+>   
+>   		generic_handle_domain_irq(domain, val);
+> @@ -442,20 +442,20 @@ static irqreturn_t xilinx_pcie_intr_handler(int irq, void *data)
+>   
+>   error:
+>   	/* Clear the Interrupt Decode register */
+> -	pcie_write(port, status, XILINX_PCIE_REG_IDR);
+> +	pcie_write(pcie, status, XILINX_PCIE_REG_IDR);
+>   
+>   	return IRQ_HANDLED;
+>   }
+>   
+>   /**
+>    * xilinx_pcie_init_irq_domain - Initialize IRQ domain
+> - * @port: PCIe port information
+> + * @pcie: PCIe port information
+>    *
+>    * Return: '0' on success and error value on failure
+>    */
+> -static int xilinx_pcie_init_irq_domain(struct xilinx_pcie_port *port)
+> +static int xilinx_pcie_init_irq_domain(struct xilinx_pcie *pcie)
+>   {
+> -	struct device *dev = port->dev;
+> +	struct device *dev = pcie->dev;
+>   	struct device_node *pcie_intc_node;
+>   	int ret;
+>   
+> @@ -466,25 +466,25 @@ static int xilinx_pcie_init_irq_domain(struct xilinx_pcie_port *port)
+>   		return -ENODEV;
+>   	}
+>   
+> -	port->leg_domain = irq_domain_add_linear(pcie_intc_node, PCI_NUM_INTX,
+> +	pcie->leg_domain = irq_domain_add_linear(pcie_intc_node, PCI_NUM_INTX,
+>   						 &intx_domain_ops,
+> -						 port);
+> +						 pcie);
+>   	of_node_put(pcie_intc_node);
+> -	if (!port->leg_domain) {
+> +	if (!pcie->leg_domain) {
+>   		dev_err(dev, "Failed to get a INTx IRQ domain\n");
+>   		return -ENODEV;
+>   	}
+>   
+>   	/* Setup MSI */
+>   	if (IS_ENABLED(CONFIG_PCI_MSI)) {
+> -		phys_addr_t pa = ALIGN_DOWN(virt_to_phys(port), SZ_4K);
+> +		phys_addr_t pa = ALIGN_DOWN(virt_to_phys(pcie), SZ_4K);
+>   
+> -		ret = xilinx_allocate_msi_domains(port);
+> +		ret = xilinx_allocate_msi_domains(pcie);
+>   		if (ret)
+>   			return ret;
+>   
+> -		pcie_write(port, upper_32_bits(pa), XILINX_PCIE_REG_MSIBASE1);
+> -		pcie_write(port, lower_32_bits(pa), XILINX_PCIE_REG_MSIBASE2);
+> +		pcie_write(pcie, upper_32_bits(pa), XILINX_PCIE_REG_MSIBASE1);
+> +		pcie_write(pcie, lower_32_bits(pa), XILINX_PCIE_REG_MSIBASE2);
+>   	}
+>   
+>   	return 0;
+> @@ -492,44 +492,44 @@ static int xilinx_pcie_init_irq_domain(struct xilinx_pcie_port *port)
+>   
+>   /**
+>    * xilinx_pcie_init_port - Initialize hardware
+> - * @port: PCIe port information
+> + * @pcie: PCIe port information
+>    */
+> -static void xilinx_pcie_init_port(struct xilinx_pcie_port *port)
+> +static void xilinx_pcie_init_port(struct xilinx_pcie *pcie)
+>   {
+> -	struct device *dev = port->dev;
+> +	struct device *dev = pcie->dev;
+>   
+> -	if (xilinx_pcie_link_up(port))
+> +	if (xilinx_pcie_link_up(pcie))
+>   		dev_info(dev, "PCIe Link is UP\n");
+>   	else
+>   		dev_info(dev, "PCIe Link is DOWN\n");
+>   
+>   	/* Disable all interrupts */
+> -	pcie_write(port, ~XILINX_PCIE_IDR_ALL_MASK,
+> +	pcie_write(pcie, ~XILINX_PCIE_IDR_ALL_MASK,
+>   		   XILINX_PCIE_REG_IMR);
+>   
+>   	/* Clear pending interrupts */
+> -	pcie_write(port, pcie_read(port, XILINX_PCIE_REG_IDR) &
+> +	pcie_write(pcie, pcie_read(pcie, XILINX_PCIE_REG_IDR) &
+>   			 XILINX_PCIE_IMR_ALL_MASK,
+>   		   XILINX_PCIE_REG_IDR);
+>   
+>   	/* Enable all interrupts we handle */
+> -	pcie_write(port, XILINX_PCIE_IMR_ENABLE_MASK, XILINX_PCIE_REG_IMR);
+> +	pcie_write(pcie, XILINX_PCIE_IMR_ENABLE_MASK, XILINX_PCIE_REG_IMR);
+>   
+>   	/* Enable the Bridge enable bit */
+> -	pcie_write(port, pcie_read(port, XILINX_PCIE_REG_RPSC) |
+> +	pcie_write(pcie, pcie_read(pcie, XILINX_PCIE_REG_RPSC) |
+>   			 XILINX_PCIE_REG_RPSC_BEN,
+>   		   XILINX_PCIE_REG_RPSC);
+>   }
+>   
+>   /**
+>    * xilinx_pcie_parse_dt - Parse Device tree
+> - * @port: PCIe port information
+> + * @pcie: PCIe port information
+>    *
+>    * Return: '0' on success and error value on failure
+>    */
+> -static int xilinx_pcie_parse_dt(struct xilinx_pcie_port *port)
+> +static int xilinx_pcie_parse_dt(struct xilinx_pcie *pcie)
+>   {
+> -	struct device *dev = port->dev;
+> +	struct device *dev = pcie->dev;
+>   	struct device_node *node = dev->of_node;
+>   	struct resource regs;
+>   	unsigned int irq;
+> @@ -541,14 +541,14 @@ static int xilinx_pcie_parse_dt(struct xilinx_pcie_port *port)
+>   		return err;
+>   	}
+>   
+> -	port->reg_base = devm_pci_remap_cfg_resource(dev, &regs);
+> -	if (IS_ERR(port->reg_base))
+> -		return PTR_ERR(port->reg_base);
+> +	pcie->reg_base = devm_pci_remap_cfg_resource(dev, &regs);
+> +	if (IS_ERR(pcie->reg_base))
+> +		return PTR_ERR(pcie->reg_base);
+>   
+>   	irq = irq_of_parse_and_map(node, 0);
+>   	err = devm_request_irq(dev, irq, xilinx_pcie_intr_handler,
+>   			       IRQF_SHARED | IRQF_NO_THREAD,
+> -			       "xilinx-pcie", port);
+> +			       "xilinx-pcie", pcie);
+>   	if (err) {
+>   		dev_err(dev, "unable to request irq %d\n", irq);
+>   		return err;
+> @@ -566,41 +566,41 @@ static int xilinx_pcie_parse_dt(struct xilinx_pcie_port *port)
+>   static int xilinx_pcie_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+> -	struct xilinx_pcie_port *port;
+> +	struct xilinx_pcie *pcie;
+>   	struct pci_host_bridge *bridge;
+>   	int err;
+>   
+>   	if (!dev->of_node)
+>   		return -ENODEV;
+>   
+> -	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*port));
+> +	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*pcie));
+>   	if (!bridge)
+>   		return -ENODEV;
+>   
+> -	port = pci_host_bridge_priv(bridge);
+> -	mutex_init(&port->map_lock);
+> -	port->dev = dev;
+> +	pcie = pci_host_bridge_priv(bridge);
+> +	mutex_init(&pcie->map_lock);
+> +	pcie->dev = dev;
+>   
+> -	err = xilinx_pcie_parse_dt(port);
+> +	err = xilinx_pcie_parse_dt(pcie);
+>   	if (err) {
+>   		dev_err(dev, "Parsing DT failed\n");
+>   		return err;
+>   	}
+>   
+> -	xilinx_pcie_init_port(port);
+> +	xilinx_pcie_init_port(pcie);
+>   
+> -	err = xilinx_pcie_init_irq_domain(port);
+> +	err = xilinx_pcie_init_irq_domain(pcie);
+>   	if (err) {
+>   		dev_err(dev, "Failed creating IRQ Domain\n");
+>   		return err;
+>   	}
+>   
+> -	bridge->sysdata = port;
+> +	bridge->sysdata = pcie;
+>   	bridge->ops = &xilinx_pcie_ops;
+>   
+>   	err = pci_host_probe(bridge);
+>   	if (err)
+> -		xilinx_free_msi_domains(port);
+> +		xilinx_free_msi_domains(pcie);
+>   
+>   	return err;
+>   }
 
-> 
-> This series applies on v5.16-rc1.
-> 
-> Bjorn Helgaas (10):
->   PCI: j721e: Drop pointless of_device_get_match_data() cast
->   PCI: j721e: Drop redundant struct device *
->   PCI: iproc: Rename iproc_pcie_bcma_ to iproc_bcma_pcie_
->   PCI: iproc: Rename iproc_pcie_pltfm_ to iproc_pltfm_pcie_
->   PCI: ls-gen4: Rename ls_pcie_g4 to ls_g4_pcie
->   PCI: microchip: Rename mc_port to mc_pcie
->   PCI: mt7621: Make pci_ops static
->   PCI: mt7621: Rename mt7621_pci_ to mt7621_pcie_
->   PCI: rcar-gen2: Rename rcar_pci_priv to rcar_pci
->   PCI: xilinx-cpm: Rename xilinx_cpm_pcie_port to xilinx_cpm_pcie
-> 
-> Fan Fei (13):
->   PCI: altera: Prefer of_device_get_match_data()
->   PCI: artpec6: Prefer of_device_get_match_data()
->   PCI: cadence: Prefer of_device_get_match_data()
->   PCI: designware-plat: Prefer of_device_get_match_data()
->   PCI: dra7xx: Prefer of_device_get_match_data()
->   PCI: keystone: Prefer of_device_get_match_data()
->   PCI: kirin: Prefer of_device_get_match_data()
->   PCI: intel-gw: Rename intel_pcie_port to intel_pcie
->   PCI: mediatek-gen3: Rename mtk_pcie_port to mtk_gen3_pcie
->   PCI: tegra194: Rename tegra_pcie_dw to tegra194_pcie
->   PCI: uniphier: Rename uniphier_pcie_priv to uniphier_pcie
->   PCI: xgene: Rename xgene_pcie_port to xgene_pcie
->   PCI: xilinx: Rename xilinx_pcie_port to xilinx_pcie
-> 
->  drivers/pci/controller/cadence/pci-j721e.c    |  18 +-
->  .../controller/cadence/pcie-cadence-plat.c    |   6 +-
->  drivers/pci/controller/dwc/pci-dra7xx.c       |   6 +-
->  drivers/pci/controller/dwc/pci-keystone.c     |   4 +-
->  drivers/pci/controller/dwc/pcie-artpec6.c     |   6 +-
->  .../pci/controller/dwc/pcie-designware-plat.c |   6 +-
->  drivers/pci/controller/dwc/pcie-intel-gw.c    | 204 +++++-----
->  drivers/pci/controller/dwc/pcie-kirin.c       |   6 +-
->  drivers/pci/controller/dwc/pcie-tegra194.c    | 222 +++++------
->  drivers/pci/controller/dwc/pcie-uniphier.c    | 147 +++----
->  .../mobiveil/pcie-layerscape-gen4.c           |  84 ++--
->  drivers/pci/controller/pci-rcar-gen2.c        |  14 +-
->  drivers/pci/controller/pci-xgene.c            |  46 +--
->  drivers/pci/controller/pcie-altera.c          |   8 +-
->  drivers/pci/controller/pcie-iproc-bcma.c      |  22 +-
->  drivers/pci/controller/pcie-iproc-platform.c  |  16 +-
->  drivers/pci/controller/pcie-mediatek-gen3.c   | 372 +++++++++---------
->  drivers/pci/controller/pcie-microchip-host.c  |  42 +-
->  drivers/pci/controller/pcie-mt7621.c          |  36 +-
->  drivers/pci/controller/pcie-xilinx-cpm.c      |  44 +--
->  drivers/pci/controller/pcie-xilinx.c          | 158 ++++----
->  21 files changed, 727 insertions(+), 740 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+Acked-by: Michal Simek <michal.simek@xilinx.com>
+
+Thanks,
+Michal
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
