@@ -1,142 +1,94 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81483C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  3 Jan 2022 08:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE351C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Jan 2022 18:34:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 106B460B12;
-	Mon,  3 Jan 2022 08:39:54 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 734F841519;
+	Tue,  4 Jan 2022 18:34:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YX_6YxyzQBrt; Mon,  3 Jan 2022 08:39:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 175EF60B0E;
-	Mon,  3 Jan 2022 08:39:53 +0000 (UTC)
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E96B4C0030;
-	Mon,  3 Jan 2022 08:39:52 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 40409C001E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Jan 2022 08:39:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 200C34030C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Jan 2022 08:39:52 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hrc1qEJdYBV6
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id e3s913TWuOta; Tue,  4 Jan 2022 18:34:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8FE614095F;
+	Tue,  4 Jan 2022 18:34:50 +0000 (UTC)
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 662B3C0030;
+	Tue,  4 Jan 2022 18:34:50 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 06462C001E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Jan 2022 08:39:51 +0000 (UTC)
+ Tue,  4 Jan 2022 18:34:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id E5F7A40558
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Jan 2022 18:34:48 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at osuosl.org
+Authentication-Results: smtp2.osuosl.org (amavisd-new);
+ dkim=pass (1024-bit key) header.d=broadcom.com
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TKSVDX4MdEfq
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Jan 2022 18:34:47 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2088.outbound.protection.outlook.com [40.107.243.88])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 103CA40207
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 6B71E404D4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  3 Jan 2022 08:39:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dXo7YUjyjhzB9u/TQzmsZGiTfFDB4ptfJ6uLxglskFlHIYQHuumsmKp7mPGG80lRDrFBcFYstZePSv05pEB7T3HobpCBIFAbLDHYyzMDdwch0uep7Gy0lEIYX4IIOgAHMxpvDfQ7/08nqTFP7IE5K/VpHe74qHzOmrWA9SVfgQNDslz4vDshRlG3zL9a3tG7nZZAVbPvmPY13spIcUjArzxZNuJHCpnczaHy8tLxYVA3tSxv/EXMEsyJIdAzpi+bNb0q4V8CyOa9a70cQYEgpVsgO6u/WOooPeLP5d4d4sxsV3dWr6H6Lqxj4reNyE5I4YUdaNdQjEFv+JxvYKM8YA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uIFf1dKjXiWnwwwNZKQZa4078RN+IhooUsJkHjPNlP4=;
- b=mwP1MVAbFjqpaWb1sWVHA4sWP0xuvH6lIRK688NP+A1uQWesemxYHD8Q1vNc6AOS2qdFNjFNwq4t3jXlQiHheeAQKp1JnAbRO6h7ViWzkr4Jy5F9rB+GGjFT48beSjVr7aJv7E47HKxhqcZp3coSHmyH9/+CF48ppK/Bsi4BpH+yxnqXoZ3PtY00eUwBEoTTsh+JqVCjfPyY2MZEBsEVgR4g/bJCZervkT0mCagw6h32x9OLF/jVDMrT21+FFVXCOHM3Rxuq0zzhb7xStl+XwkRodDOTktQ/Di9UUX/yhyLpgOSxeNggQDDTdbG8SJLGhjZzZb6woeSw4M4w8LcLNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uIFf1dKjXiWnwwwNZKQZa4078RN+IhooUsJkHjPNlP4=;
- b=m2xNE6/6Rx/RiS+rl11+KLsSWG/uwPFD/nw9WVRpr4w77XTZo/DboSjkabkCdG/WWjbedWs+bsUTq4h6D9wS3vpiWpzfMAtlWlm6VcHOTHResrpFMoAIoCBEG0+gK6VdBQOWHzyeybptqTcd+OuBAo8F3vIxJQRrU7lDu5KyNus=
-Received: from DM5PR06CA0051.namprd06.prod.outlook.com (2603:10b6:3:37::13) by
- SA0PR02MB7243.namprd02.prod.outlook.com (2603:10b6:806:e8::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4844.14; Mon, 3 Jan 2022 08:39:46 +0000
-Received: from DM3NAM02FT014.eop-nam02.prod.protection.outlook.com
- (2603:10b6:3:37:cafe::3f) by DM5PR06CA0051.outlook.office365.com
- (2603:10b6:3:37::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15 via Frontend
- Transport; Mon, 3 Jan 2022 08:39:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- DM3NAM02FT014.mail.protection.outlook.com (10.13.5.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4844.14 via Frontend Transport; Mon, 3 Jan 2022 08:39:45 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Mon, 3 Jan 2022 00:39:44 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Mon, 3 Jan 2022 00:39:44 -0800
-Envelope-to: helgaas@kernel.org, linux-pci@vger.kernel.org,
- ffclaire1224@gmail.com, lorenzo.pieralisi@arm.com,
- robh@kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- skhan@linuxfoundation.org, bhelgaas@google.com,
- linux-arm-kernel@lists.infradead.org
-Received: from [10.254.241.49] (port=41782)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <michal.simek@xilinx.com>)
- id 1n4Isa-0007On-0d; Mon, 03 Jan 2022 00:39:44 -0800
-Message-ID: <d049cfb1-31e4-b712-cd9a-4566ade8de4c@xilinx.com>
-Date: Mon, 3 Jan 2022 09:39:41 +0100
+ Tue,  4 Jan 2022 18:34:47 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id b22so32934498pfb.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 04 Jan 2022 10:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+ h=message-id:date:mime-version:user-agent:subject:to:cc:references
+ :from:in-reply-to;
+ bh=d28Iu8WeTPGlFem+2r0S+vYJeN4blqo/xeBiNzHALbw=;
+ b=OOesklx4NOl3kivOHa1TfUzp3xqTo2II/APJJGh4828CvN3bditYrKCTY1qanQpunO
+ jLZXU8iIDLl7hsP2zn9GS0eOejXHte4KtMrf0mGWfxWQMwgKqn6nw0rquzKL1CdHpv5C
+ +Gf9t/6LzccJte5gJ5cjnbstqjoEda3d+p9iE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :to:cc:references:from:in-reply-to;
+ bh=d28Iu8WeTPGlFem+2r0S+vYJeN4blqo/xeBiNzHALbw=;
+ b=FjeK5dU2E9ss5onlGxH0e6tST7GKWerE5vuDtPdW2pZiyzkaSczssertaT+A7Q6HBK
+ JoMIx/cQfh1V9WH5bvoD1gWNAz/fny68IB23N+nwo3b58U+6yY+VmtOduUzrtM6zNBmp
+ AG+zMrGCEA/YhapsakxiXnHs78J2QF8q0TTIndKXCJoAEMqKsvNJRPQPSzd3VXE57VJJ
+ fFVuF++B90pDX9cDIJxMKrKmO9+kXR8AMiontNAc4Jw13eIj4FDxtdZk9RWOfEGZSle1
+ CIGp7OTUTI6EE3kmuw1+R5IgPMstdy7q2ixHGfohclCwwgIJqMzds8eVyq1FEHxYOoE/
+ ZsWw==
+X-Gm-Message-State: AOAM5317MH9oAQWrfNY4DpS6TJNATQV9qDondbXGapTpnjPEnp6oakpW
+ VACtl2YTK4wehs8qvKXwU0NxWg==
+X-Google-Smtp-Source: ABdhPJz4uLAkhfLyR6EYx6OhDFJcpP0WSq2qKGbxiQzIg90flakGxqxoI+j4LAOlcfqeekTtmmcpYg==
+X-Received: by 2002:a62:75c6:0:b0:4bb:6e45:89c1 with SMTP id
+ q189-20020a6275c6000000b004bb6e4589c1mr51991843pfc.6.1641321286735; 
+ Tue, 04 Jan 2022 10:34:46 -0800 (PST)
+Received: from [10.136.8.222] ([192.19.228.250])
+ by smtp.gmail.com with ESMTPSA id h10sm18442923pgi.56.2022.01.04.10.34.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Jan 2022 10:34:45 -0800 (PST)
+Message-ID: <c8c8942a-3247-4ac8-8878-9a5406480316@broadcom.com>
+Date: Tue, 4 Jan 2022 10:34:43 -0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH v2 23/23] PCI: xilinx-cpm: Rename xilinx_cpm_pcie_port to
- xilinx_cpm_pcie
-Content-Language: en-US
-To: Bjorn Helgaas <helgaas@kernel.org>, <linux-pci@vger.kernel.org>, Fan Fei
- <ffclaire1224@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.2
+Subject: Re: [PATCH v2 11/23] PCI: iproc: Rename iproc_pcie_bcma_ to
+ iproc_bcma_pcie_
+To: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
+ Fan Fei <ffclaire1224@gmail.com>
 References: <20211223011054.1227810-1-helgaas@kernel.org>
- <20211223011054.1227810-24-helgaas@kernel.org>
-From: Michal Simek <michal.simek@xilinx.com>
-In-Reply-To: <20211223011054.1227810-24-helgaas@kernel.org>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d28e5858-1f18-4020-c465-08d9ce949885
-X-MS-TrafficTypeDiagnostic: SA0PR02MB7243:EE_
-X-Microsoft-Antispam-PRVS: <SA0PR02MB7243AF68316CBC86D3EA6DA8C6499@SA0PR02MB7243.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:635;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rOLGb5iBk5isR60P2t+Hpt//0uvrs9jbtjlZP6x97+06a+FrrIExUeh+v+AlMJVxMk8dJAubkxJ6dYpx25OO6TtxlfM5LTpQ4iVuKM1ygN/5T6Vorab4wNbFPUAC5/eSZmPPJdcYL3M4DGyWcRFT1aLgL488EhHBz1u5PCAOUB+tQfg9faL1bMjxg5xj7guCqwW/2tDAehrZUcJ0+fY2DJfvBboqPvi1ck9UYZnkGqJiXgV1I6wBLBHht+wB1YK1XjM0jgxNcyiL/2XTPSnPXxjjIMOlneYQMYyveLCEoB9LR8YOAsULQw03rVK2Q/M+kzHoNjvjKyYsWwXRyptBSSq7MegT45pzNS/DSAJmKfFoJixJ18tAR440Zq5DO+7JwTfGZ7O8wLmDcBIc02TPSf8/uDcSDc0+fiaUyreKWCcjynI4xNjMZYnPWc4e96Md2bZqcCfYdmAMCCDzOySB+1/fIVlBnsZVyCbckgo7ROTW0RrIpjfOLMORdVl/zSZMykpjYK4gtRFOXbUKynagWmvOIgVQsbYn1Un8huQVgnbT9hYxnPf+rCXCBPXrA6iHM06hih4KvlZkDVdJIV0wQOuGVzyFgaE1GNrq8D95pN42VBjXPE7GtsV8X7uX1dOFFEu7k5P2wIYHsNl/E9Ki0SvVEubdbDdkYxpVmU+HoiAxk5E96gah8ABN0S96uK7F9lirlzPbdt92Ql2Dr0Sd6Ff7UbZ4N4dkhZdAoMrk3zhANN9fIi3ByAtcG7RBa6JsjiZUoOaotVBJQRxsLL9KGw==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(54906003)(110136005)(7416002)(336012)(83380400001)(44832011)(26005)(7636003)(6666004)(9786002)(8676002)(316002)(5660300002)(82310400004)(4326008)(426003)(31696002)(508600001)(186003)(31686004)(70206006)(70586007)(356005)(8936002)(53546011)(47076005)(2616005)(36860700001)(2906002)(36756003)(50156003)(43740500002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2022 08:39:45.8083 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d28e5858-1f18-4020-c465-08d9ce949885
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT014.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR02MB7243
+ <20211223011054.1227810-12-helgaas@kernel.org>
+In-Reply-To: <20211223011054.1227810-12-helgaas@kernel.org>
 Cc: Rob Herring <robh@kernel.org>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, linux-kernel@vger.kernel.org,
- Michal Simek <michal.simek@xilinx.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Scott Branden <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ linux-kernel@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Bjorn Helgaas <bhelgaas@google.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -150,220 +102,200 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+From: Ray Jui via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Ray Jui <ray.jui@broadcom.com>
+Content-Type: multipart/mixed; boundary="===============7367227032009938964=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+--===============7367227032009938964==
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000004794ea05d4c5e4c2"
+
+--0000000000004794ea05d4c5e4c2
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-On 12/23/21 02:10, Bjorn Helgaas wrote:
+
+On 12/22/2021 5:10 PM, Bjorn Helgaas wrote:
 > From: Bjorn Helgaas <bhelgaas@google.com>
 > 
-> Rename struct xilinx_cpm_pcie_port to xilinx_cpm_pcie to match the
-> convention of <driver>_pcie. No functional change intended.
+> Rename iproc_pcie_bcma_* to iproc_bcma_pcie_* for consistency with other
+> drivers.  No functional change intended.
 > 
 > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Michal Simek <michal.simek@xilinx.com>
+> Cc: Ray Jui <rjui@broadcom.com>
+> Cc: Scott Branden <sbranden@broadcom.com>
+> Cc: bcm-kernel-feedback-list@broadcom.com
 > Cc: linux-arm-kernel@lists.infradead.org
 > ---
->   drivers/pci/controller/pcie-xilinx-cpm.c | 44 ++++++++++++------------
->   1 file changed, 22 insertions(+), 22 deletions(-)
+>  drivers/pci/controller/pcie-iproc-bcma.c | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/pci/controller/pcie-xilinx-cpm.c b/drivers/pci/controller/pcie-xilinx-cpm.c
-> index 95426df03200..c7cd44ed4dfc 100644
-> --- a/drivers/pci/controller/pcie-xilinx-cpm.c
-> +++ b/drivers/pci/controller/pcie-xilinx-cpm.c
-> @@ -99,10 +99,10 @@
->   #define XILINX_CPM_PCIE_REG_PSCR_LNKUP		BIT(11)
->   
->   /**
-> - * struct xilinx_cpm_pcie_port - PCIe port information
-> + * struct xilinx_cpm_pcie - PCIe port information
-> + * @dev: Device pointer
->    * @reg_base: Bridge Register Base
->    * @cpm_base: CPM System Level Control and Status Register(SLCR) Base
-> - * @dev: Device pointer
->    * @intx_domain: Legacy IRQ domain pointer
->    * @cpm_domain: CPM IRQ domain pointer
->    * @cfg: Holds mappings of config space window
-> @@ -110,10 +110,10 @@
->    * @irq: Error interrupt number
->    * @lock: lock protecting shared register access
->    */
-> -struct xilinx_cpm_pcie_port {
-> +struct xilinx_cpm_pcie {
-> +	struct device			*dev;
->   	void __iomem			*reg_base;
->   	void __iomem			*cpm_base;
-> -	struct device			*dev;
->   	struct irq_domain		*intx_domain;
->   	struct irq_domain		*cpm_domain;
->   	struct pci_config_window	*cfg;
-> @@ -122,24 +122,24 @@ struct xilinx_cpm_pcie_port {
->   	raw_spinlock_t			lock;
->   };
->   
-> -static u32 pcie_read(struct xilinx_cpm_pcie_port *port, u32 reg)
-> +static u32 pcie_read(struct xilinx_cpm_pcie *port, u32 reg)
->   {
->   	return readl_relaxed(port->reg_base + reg);
->   }
->   
-> -static void pcie_write(struct xilinx_cpm_pcie_port *port,
-> +static void pcie_write(struct xilinx_cpm_pcie *port,
->   		       u32 val, u32 reg)
->   {
->   	writel_relaxed(val, port->reg_base + reg);
->   }
->   
-> -static bool cpm_pcie_link_up(struct xilinx_cpm_pcie_port *port)
-> +static bool cpm_pcie_link_up(struct xilinx_cpm_pcie *port)
->   {
->   	return (pcie_read(port, XILINX_CPM_PCIE_REG_PSCR) &
->   		XILINX_CPM_PCIE_REG_PSCR_LNKUP);
->   }
->   
-> -static void cpm_pcie_clear_err_interrupts(struct xilinx_cpm_pcie_port *port)
-> +static void cpm_pcie_clear_err_interrupts(struct xilinx_cpm_pcie *port)
->   {
->   	unsigned long val = pcie_read(port, XILINX_CPM_PCIE_REG_RPEFR);
->   
-> @@ -153,7 +153,7 @@ static void cpm_pcie_clear_err_interrupts(struct xilinx_cpm_pcie_port *port)
->   
->   static void xilinx_cpm_mask_leg_irq(struct irq_data *data)
->   {
-> -	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(data);
-> +	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(data);
->   	unsigned long flags;
->   	u32 mask;
->   	u32 val;
-> @@ -167,7 +167,7 @@ static void xilinx_cpm_mask_leg_irq(struct irq_data *data)
->   
->   static void xilinx_cpm_unmask_leg_irq(struct irq_data *data)
->   {
-> -	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(data);
-> +	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(data);
->   	unsigned long flags;
->   	u32 mask;
->   	u32 val;
-> @@ -211,7 +211,7 @@ static const struct irq_domain_ops intx_domain_ops = {
->   
->   static void xilinx_cpm_pcie_intx_flow(struct irq_desc *desc)
->   {
-> -	struct xilinx_cpm_pcie_port *port = irq_desc_get_handler_data(desc);
-> +	struct xilinx_cpm_pcie *port = irq_desc_get_handler_data(desc);
->   	struct irq_chip *chip = irq_desc_get_chip(desc);
->   	unsigned long val;
->   	int i;
-> @@ -229,7 +229,7 @@ static void xilinx_cpm_pcie_intx_flow(struct irq_desc *desc)
->   
->   static void xilinx_cpm_mask_event_irq(struct irq_data *d)
->   {
-> -	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(d);
-> +	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(d);
->   	u32 val;
->   
->   	raw_spin_lock(&port->lock);
-> @@ -241,7 +241,7 @@ static void xilinx_cpm_mask_event_irq(struct irq_data *d)
->   
->   static void xilinx_cpm_unmask_event_irq(struct irq_data *d)
->   {
-> -	struct xilinx_cpm_pcie_port *port = irq_data_get_irq_chip_data(d);
-> +	struct xilinx_cpm_pcie *port = irq_data_get_irq_chip_data(d);
->   	u32 val;
->   
->   	raw_spin_lock(&port->lock);
-> @@ -273,7 +273,7 @@ static const struct irq_domain_ops event_domain_ops = {
->   
->   static void xilinx_cpm_pcie_event_flow(struct irq_desc *desc)
->   {
-> -	struct xilinx_cpm_pcie_port *port = irq_desc_get_handler_data(desc);
-> +	struct xilinx_cpm_pcie *port = irq_desc_get_handler_data(desc);
->   	struct irq_chip *chip = irq_desc_get_chip(desc);
->   	unsigned long val;
->   	int i;
-> @@ -327,7 +327,7 @@ static const struct {
->   
->   static irqreturn_t xilinx_cpm_pcie_intr_handler(int irq, void *dev_id)
->   {
-> -	struct xilinx_cpm_pcie_port *port = dev_id;
-> +	struct xilinx_cpm_pcie *port = dev_id;
->   	struct device *dev = port->dev;
->   	struct irq_data *d;
->   
-> @@ -350,7 +350,7 @@ static irqreturn_t xilinx_cpm_pcie_intr_handler(int irq, void *dev_id)
->   	return IRQ_HANDLED;
->   }
->   
-> -static void xilinx_cpm_free_irq_domains(struct xilinx_cpm_pcie_port *port)
-> +static void xilinx_cpm_free_irq_domains(struct xilinx_cpm_pcie *port)
->   {
->   	if (port->intx_domain) {
->   		irq_domain_remove(port->intx_domain);
-> @@ -369,7 +369,7 @@ static void xilinx_cpm_free_irq_domains(struct xilinx_cpm_pcie_port *port)
->    *
->    * Return: '0' on success and error value on failure
->    */
-> -static int xilinx_cpm_pcie_init_irq_domain(struct xilinx_cpm_pcie_port *port)
-> +static int xilinx_cpm_pcie_init_irq_domain(struct xilinx_cpm_pcie *port)
->   {
->   	struct device *dev = port->dev;
->   	struct device_node *node = dev->of_node;
-> @@ -410,7 +410,7 @@ static int xilinx_cpm_pcie_init_irq_domain(struct xilinx_cpm_pcie_port *port)
->   	return -ENOMEM;
->   }
->   
-> -static int xilinx_cpm_setup_irq(struct xilinx_cpm_pcie_port *port)
-> +static int xilinx_cpm_setup_irq(struct xilinx_cpm_pcie *port)
->   {
->   	struct device *dev = port->dev;
->   	struct platform_device *pdev = to_platform_device(dev);
-> @@ -462,7 +462,7 @@ static int xilinx_cpm_setup_irq(struct xilinx_cpm_pcie_port *port)
->    * xilinx_cpm_pcie_init_port - Initialize hardware
->    * @port: PCIe port information
->    */
-> -static void xilinx_cpm_pcie_init_port(struct xilinx_cpm_pcie_port *port)
-> +static void xilinx_cpm_pcie_init_port(struct xilinx_cpm_pcie *port)
->   {
->   	if (cpm_pcie_link_up(port))
->   		dev_info(port->dev, "PCIe Link is UP\n");
-> @@ -497,7 +497,7 @@ static void xilinx_cpm_pcie_init_port(struct xilinx_cpm_pcie_port *port)
->    *
->    * Return: '0' on success and error value on failure
->    */
-> -static int xilinx_cpm_pcie_parse_dt(struct xilinx_cpm_pcie_port *port,
-> +static int xilinx_cpm_pcie_parse_dt(struct xilinx_cpm_pcie *port,
->   				    struct resource *bus_range)
->   {
->   	struct device *dev = port->dev;
-> @@ -523,7 +523,7 @@ static int xilinx_cpm_pcie_parse_dt(struct xilinx_cpm_pcie_port *port,
->   	return 0;
->   }
->   
-> -static void xilinx_cpm_free_interrupts(struct xilinx_cpm_pcie_port *port)
-> +static void xilinx_cpm_free_interrupts(struct xilinx_cpm_pcie *port)
->   {
->   	irq_set_chained_handler_and_data(port->intx_irq, NULL, NULL);
->   	irq_set_chained_handler_and_data(port->irq, NULL, NULL);
-> @@ -537,7 +537,7 @@ static void xilinx_cpm_free_interrupts(struct xilinx_cpm_pcie_port *port)
->    */
->   static int xilinx_cpm_pcie_probe(struct platform_device *pdev)
->   {
-> -	struct xilinx_cpm_pcie_port *port;
-> +	struct xilinx_cpm_pcie *port;
->   	struct device *dev = &pdev->dev;
->   	struct pci_host_bridge *bridge;
->   	struct resource_entry *bus;
+> diff --git a/drivers/pci/controller/pcie-iproc-bcma.c b/drivers/pci/controller/pcie-iproc-bcma.c
+> index f918c713afb0..54b6e6d5bc64 100644
+> --- a/drivers/pci/controller/pcie-iproc-bcma.c
+> +++ b/drivers/pci/controller/pcie-iproc-bcma.c
+> @@ -23,7 +23,7 @@ static void bcma_pcie2_fixup_class(struct pci_dev *dev)
+>  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_BROADCOM, 0x8011, bcma_pcie2_fixup_class);
+>  DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_BROADCOM, 0x8012, bcma_pcie2_fixup_class);
+>  
+> -static int iproc_pcie_bcma_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
+> +static int iproc_bcma_pcie_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
+>  {
+>  	struct iproc_pcie *pcie = dev->sysdata;
+>  	struct bcma_device *bdev = container_of(pcie->dev, struct bcma_device, dev);
+> @@ -31,7 +31,7 @@ static int iproc_pcie_bcma_map_irq(const struct pci_dev *dev, u8 slot, u8 pin)
+>  	return bcma_core_irq(bdev, 5);
+>  }
+>  
+> -static int iproc_pcie_bcma_probe(struct bcma_device *bdev)
+> +static int iproc_bcma_pcie_probe(struct bcma_device *bdev)
+>  {
+>  	struct device *dev = &bdev->dev;
+>  	struct iproc_pcie *pcie;
+> @@ -64,33 +64,33 @@ static int iproc_pcie_bcma_probe(struct bcma_device *bdev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	pcie->map_irq = iproc_pcie_bcma_map_irq;
+> +	pcie->map_irq = iproc_bcma_pcie_map_irq;
+>  
+>  	bcma_set_drvdata(bdev, pcie);
+>  
+>  	return iproc_pcie_setup(pcie, &bridge->windows);
+>  }
+>  
+> -static void iproc_pcie_bcma_remove(struct bcma_device *bdev)
+> +static void iproc_bcma_pcie_remove(struct bcma_device *bdev)
+>  {
+>  	struct iproc_pcie *pcie = bcma_get_drvdata(bdev);
+>  
+>  	iproc_pcie_remove(pcie);
+>  }
+>  
+> -static const struct bcma_device_id iproc_pcie_bcma_table[] = {
+> +static const struct bcma_device_id iproc_bcma_pcie_table[] = {
+>  	BCMA_CORE(BCMA_MANUF_BCM, BCMA_CORE_NS_PCIEG2, BCMA_ANY_REV, BCMA_ANY_CLASS),
+>  	{},
+>  };
+> -MODULE_DEVICE_TABLE(bcma, iproc_pcie_bcma_table);
+> +MODULE_DEVICE_TABLE(bcma, iproc_bcma_pcie_table);
+>  
+> -static struct bcma_driver iproc_pcie_bcma_driver = {
+> +static struct bcma_driver iproc_bcma_pcie_driver = {
+>  	.name		= KBUILD_MODNAME,
+> -	.id_table	= iproc_pcie_bcma_table,
+> -	.probe		= iproc_pcie_bcma_probe,
+> -	.remove		= iproc_pcie_bcma_remove,
+> +	.id_table	= iproc_bcma_pcie_table,
+> +	.probe		= iproc_bcma_pcie_probe,
+> +	.remove		= iproc_bcma_pcie_remove,
+>  };
+> -module_bcma_driver(iproc_pcie_bcma_driver);
+> +module_bcma_driver(iproc_bcma_pcie_driver);
+>  
+>  MODULE_AUTHOR("Hauke Mehrtens");
+>  MODULE_DESCRIPTION("Broadcom iProc PCIe BCMA driver");
+> 
 
+Acked-by: Ray Jui <ray.jui@broadcom.com>
 
+--0000000000004794ea05d4c5e4c2
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-Acked-by: Michal Simek <michal.simek@xilinx.com>
+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
+Pi3DQoJNNR5cV1dw3cNMKQyHRziEjFTVmILshClu9AljdXzCUoHXDUbge8TIJ/fK36qTGCYWwA01
+rTB3drVX3FZq/Uqo0JnVcyP1dtYVzQIDAQABo4IB1TCCAdEwDgYDVR0PAQH/BAQDAgWgMIGjBggr
+BgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9j
+YWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEGCCsGAQUFBzABhjVodHRwOi8v
+b2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMDBNBgNVHSAERjBE
+MEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20v
+cmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6hjhodHRwOi8vY3JsLmdsb2Jh
+bHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNybDAfBgNVHREEGDAWgRRyYXku
+anVpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdb
+NHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQU5E1VdIocTRYIpXh6e6OnGvwfrEgwDQYJKoZIhvcNAQEL
+BQADggEBADcZteuA4mZVmXNzp/tJky+9TS87L/xAogg4z+0bFDomA2JdNGKjraV7jE3LKHUyCQzU
+Bvp8xXjxCndLBgltr+2Fn/Dna/f29iAs4mPBxgPKhqnqpQuTo2DLID2LWU1SLI9ewIlROY57UCvO
+B6ni+9NcOot0MbKF2A1TnzJjWyd127CVyU5vL3un1/tbtmjiT4Ku8ZDoBEViuuWyhdB6TTEQiwDo
+2NxZdezRkkkq+RoNek6gmtl8IKmXsmr1dKIsRBtLQ0xu+kdX+zYJbAQymI1mkq8qCmFAe5aJkrNM
+NbsYBZGZlcox4dHWayCpn4sK+41xyJsmGrygY3zghqBuHPUxggJtMIICaQIBATBrMFsxCzAJBgNV
+BAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdD
+QyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgxnTAexrtwIst251kUwDQYJYIZIAWUDBAIBBQCg
+gdQwLwYJKoZIhvcNAQkEMSIEIGSFPRXbJr5a3o7/4TKevaTeaWlXSB9fw9q6x/+r/dLBMBgGCSqG
+SIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDEwNDE4MzQ0N1owaQYJKoZI
+hvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG
+9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEF
+AASCAQAxat8Z2BKU37XpuvmL/9WtRznwIFZszkdCJ9fu8vtlLM7HLHvkTZTEZCTT5Ivkc+irkCGq
+ImnM1QiBSLanbTk7WqmZWFsBuicaik9ROSZxlMKpIiMBeUKUDOwUGtr8CPNQ2zTh8eHTdE5H8xnS
+0sjI3mhvgEzULaoXxWyFY4DRxeSm1NuIbS4qFJ6+BTZczfm7Jz9hIkFYHZMMGuvkMmm0bX0HZmIg
+Um7BIktmgkZhKSMSpTOXD/uJF+9GIbaGT8FkcYauRTn64GRwydRA8FugsVSvNwyCMzAqtR3VAC4M
+UbCvEWiHazvNc7gg89t8fYlfL2bFmhkrHq/PlkRczoJq
+--0000000000004794ea05d4c5e4c2--
 
-Thanks,
-Michal
+--===============7367227032009938964==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============7367227032009938964==--
