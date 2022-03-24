@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7B221C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Mar 2022 23:22:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23653C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Mar 2022 00:10:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2AA9560B2A;
-	Wed, 23 Mar 2022 23:22:53 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B1812613ED;
+	Thu, 24 Mar 2022 00:10:16 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SeJ83V62n5pR; Wed, 23 Mar 2022 23:22:52 +0000 (UTC)
+	with ESMTP id Vy8oaAwy6zU8; Thu, 24 Mar 2022 00:10:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 1EFC360B24;
-	Wed, 23 Mar 2022 23:22:52 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 7708261375;
+	Thu, 24 Mar 2022 00:10:15 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 037A2C001A;
-	Wed, 23 Mar 2022 23:22:52 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 74A4BC000B
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Mar 2022 23:22:50 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59297C001A;
+	Thu, 24 Mar 2022 00:10:15 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4B75C000B
+ for <linux-kernel-mentees@lists.linux-foundation.org>;
+ Thu, 24 Mar 2022 00:10:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4FFC684902
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Mar 2022 23:22:50 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7D8E4418B8
+ for <linux-kernel-mentees@lists.linux-foundation.org>;
+ Thu, 24 Mar 2022 00:10:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp1.osuosl.org (amavisd-new);
+Authentication-Results: smtp4.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=jyxpxed.cn
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iolTzuiBizov
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Mar 2022 23:22:49 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CmlZdh5Vnqrk
+ for <linux-kernel-mentees@lists.linux-foundation.org>;
+ Thu, 24 Mar 2022 00:10:12 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
 Received: from jyxpxed.cn (unknown [106.75.250.202])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 13871848FF
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Mar 2022 23:22:43 +0000 (UTC)
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1F529419FF
+ for <linux-kernel-mentees@lists.linux-foundation.org>;
+ Thu, 24 Mar 2022 00:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=key1; d=jyxpxed.cn;
  h=Date:From:To:Subject:Message-ID:Mime-Version:Content-Type;
  i=eki-info-account@jyxpxed.cn;
- bh=KwNMUlNHVoeCfSTqwA6fbZJRnpd12q1rujq6d6Riz5w=;
- b=hOcSHapRdlNuUCejw94Zi8SdTReNOjYSfUFsf3AQv0yfwR0lajhPP5i6rMhfI6bS3NBKTJ/1EZe7
- lqfFGWkOFs1rNjghSq9iBUbeA3ErnQYMfB/wq4E6W2jRmPln2ss6sueIf2yz+lx1zqVLRH0UVWT1
- +A+FLKwmqP8qAVuw448N5x1Du9yUDwknnzHVhEPupPWo3pPJfJqu/2jB33Wov80lRlfqMxfs0qT+
- 1/LZgF6a456Z4mYne/2XufFwtuZ9QhjfwZXYqVoFnLO77A6yiK9zrJ1ZyeRyfCyBqw7rsbP3MqTO
- rothJ19sj5gsWirNDYZRPKIKia0ik5sTMUp7hg==
-Date: Thu, 24 Mar 2022 07:17:30 +0800
+ bh=OOPt5fPO1Ra3K3s9zgs58tNcMfoccDyPOMWhslFbX+U=;
+ b=CGIB+KLE9DDeOCNuVl5TfbS0In8YfKqHI52q139exPMKUMn0bTAP5WnTx7h8M1Umt4CB+O3Hurmu
+ P6t1othJHfLDP+GFTxZ7AtTx9fh+0moazjbOXLQfyP6/qkiBQ0IxUaGH5cN5SfH90JDT/u9o7NKd
+ 2XJV+RLBo6ouCuDUeMIrx/whnlHlr5U0OcblSBskP0qxUI0u4WNpqZSpEBNW8bpn+7MvYDc6jnpF
+ t0CWtzulSpA/FS4NSffaUZfR4KLktN84rxT6qw/fhqeDebs5H4RK6jYJnl/j1x8wXxaGiYnTMQtz
+ rgWEt4wZB4D7W16odLCpIX66mlcGgzqFdQPnHA==
+Date: Thu, 24 Mar 2022 08:04:46 +0800
 From: "Ekinet" <eki-info-account@jyxpxed.cn>
-To: <linux-kernel-mentees@lists.linuxfoundation.org>
+To: <linux-kernel-mentees@lists.linux-foundation.org>
 Subject: =?utf-8?B?44CQ6YeN6KaB44CR44GI44GN44Gt44Gj44Go44Ki44Kr44Km44Oz44OI44Gu6Ieq5YuV6YCA5Lya5Yem?=
  =?utf-8?B?55CG44Gr44Gk44GE44Gm?=
-Message-ID: <20220324071737185774@jyxpxed.cn>
+Message-ID: <20220324080500771468@jyxpxed.cn>
 Mime-Version: 1.0
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -67,25 +67,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5856237662961273482=="
+Content-Type: multipart/mixed; boundary="===============6926431255020804649=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 This is a multi-part message in MIME format.
 
---===============5856237662961273482==
+--===============6926431255020804649==
 Content-Type: multipart/related;
 	type="multipart/alternative";
-	boundary="=====003_Dragon015261241600_====="
+	boundary="=====003_Dragon451331031708_====="
 
 This is a multi-part message in MIME format.
 
---=====003_Dragon015261241600_=====
+--=====003_Dragon451331031708_=====
 Content-Type: multipart/alternative;
-	boundary="=====002_Dragon015261241600_====="
+	boundary="=====002_Dragon451331031708_====="
 
---=====002_Dragon015261241600_=====
+--=====002_Dragon451331031708_=====
 Content-Type: text/plain;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -124,7 +124,7 @@ geOAjOOBiOOBjeOBreOBo+OBqOOAjeOCteODneODvOODiOOCu+ODs+OCv+ODvOOBvuOBp+OBlOmA
 o+e1oeOBj+OBoOOBleOBhOOAgg0KDQoNCiBDb3B5cmlnaHQgwqkgSlIgRWFzdCBOZXQgU3RhdGlv
 biBDby4sTHRkLiBBbGwgUmlnaHRzIFJlc2VydmVkLg==
 
---=====002_Dragon015261241600_=====
+--=====002_Dragon451331031708_=====
 Content-Type: text/html;
 	charset="utf-8"
 Content-Transfer-Encoding: base64
@@ -189,9 +189,9 @@ aGlja25lc3M6IGluaXRpYWwiPiZuYnNwO0NvcHlyaWdodCANCsKpIEpSIEVhc3QgTmV0IFN0YXRp
 b24gQ28uLEx0ZC4gQWxsIFJpZ2h0cyBSZXNlcnZlZC48L1NQQU4+PEJSPjwvUD4NCjxQPjxCUj48
 L1A+PC9ESVY+PC9ESVY+PC9CT0RZPjwvSFRNTD4NCg==
 
---=====002_Dragon015261241600_=====--
+--=====002_Dragon451331031708_=====--
 
---=====003_Dragon015261241600_=====
+--=====003_Dragon451331031708_=====
 Content-Type: image/png;
 	name="logo_ekinet.png"
 Content-Transfer-Encoding: base64
@@ -330,10 +330,10 @@ lRL2MtDoDJJqyiyB/FAyvMfSTOeifTUl06ks4c1stlgy/t/XCXA3JRMAE+iAZHPv5ud6/Arbj6J9
 e41yHLflmgfukVYSNmkkIXJWVlu5/77AT0kJR/YxsVev3ZMm9UWHMdlvFtjO9P8CDADk5FY0DvLc
 UAAAAABJRU5ErkJggg==
 
---=====003_Dragon015261241600_=====--
+--=====003_Dragon451331031708_=====--
 
 
---===============5856237662961273482==
+--===============6926431255020804649==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -344,5 +344,5 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============5856237662961273482==--
+--===============6926431255020804649==--
 
