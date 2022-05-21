@@ -1,99 +1,90 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82E78C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 May 2022 14:25:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E7FEC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 May 2022 14:49:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1861784687;
-	Sat, 21 May 2022 14:25:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3AAF241C5E;
+	Sat, 21 May 2022 14:49:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4othSITuVHBg; Sat, 21 May 2022 14:25:15 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id upibwbjQNOeo; Sat, 21 May 2022 14:49:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CB7908464D;
-	Sat, 21 May 2022 14:25:15 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C3EB541C06;
+	Sat, 21 May 2022 14:49:06 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A6803C0039;
-	Sat, 21 May 2022 14:25:15 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 699E1C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80008C0039;
+	Sat, 21 May 2022 14:49:06 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6F043C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 14:25:14 +0000 (UTC)
+ Sat, 21 May 2022 14:49:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6489D40B2A
+ by smtp3.osuosl.org (Postfix) with ESMTP id 4CF0360D5F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 14:25:14 +0000 (UTC)
+ Sat, 21 May 2022 14:49:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp2.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PQu-eG8hSM-W
+Authentication-Results: smtp3.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id M6qXfXirelBk
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 14:25:11 +0000 (UTC)
+ Sat, 21 May 2022 14:49:04 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 7567F400AB
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CEE5E605AE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 14:25:11 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id f4so18603028lfu.12
+ Sat, 21 May 2022 14:49:04 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id z11so479410pjc.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 07:25:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=IbbNsxWO/m2lPWhlsd3aTys0/Azk77kx0rBYcjjzxrw=;
- b=X7Xpxa/+7lKMnKDnsjZKhJ62fLY3M/Bnlu2oTHf1xVs0aDuL6HaFBRursY1TX571Mz
- CTTvITI8UTOU0bVIRqJzdeoY9tvL74IRnKuafMd0fKQhr9aSrbySUUUfjoGyIaRQ8Bsd
- rq1ehvsn+QNWX8JuMg83bVBb141ynroEuXWJ54qYYeJNfrsA7F4ia7U9kRAVJc63vT8S
- 4M8f3yEPO65NtNNJ20uF0+3gHIQXGAHNLaNEEZlWrWLCWQf/zI0YohR609F9v+5+nhJi
- E9Zz7Cp9Fq5GYIbAveb2cQk/sth5VKAI5afZFuEbTy+sHdwhZvLjaJUyOwfHt6o67Z0q
- RxgA==
+ Sat, 21 May 2022 07:49:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aEDSE1m+N2pYJdPG78Lh5a6q6esXpeyoa6uPZvrclFc=;
+ b=kb9ZmcDvj5VJ4lpdrtpjOvjhyAPEsiwHmOCR2kpfa+vsxplXPgjOoutoI/rjKVNCPI
+ KjcuKVWcB7a5bx2IsWpZAgRccdl9hlXyd4KiWlDkQQFrDWQ6qMbsP6kyckc20/R3pl6k
+ xG/as0Q0yWJPpSNOv3DOchIHTJKgOJky9HM+ky9R7OHfyDjGMELp2OAWlj6mleMd8nvf
+ 7oyeVqweqCAKuWjXMwiLF9R/u9v3L73AokJnkWJLCAoMSPIghQcH8OtknirTtdDOz+IW
+ H3EGKIXfm7zDx4PYPID7ajjiPdtWQNmUGZ8jBNcCZEPWP1Svn92DCcABxqKEHiYl8FpN
+ N1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=IbbNsxWO/m2lPWhlsd3aTys0/Azk77kx0rBYcjjzxrw=;
- b=Ywnz2dOTeEaPPJFnoUeooLiU+zDr64u44lMdHC1KLWt3ycnynosV76rJF+BQS67dZJ
- S1r8YW0Mjszdps4iW3ot6OVLouPMOpIXdLFnKxcOYWqK7jKvp7rgi6C5cOyYj+wfyxtw
- 3ppgRECUkNaf+5AeouF2YYuJFdganCdCZMbFvWUH4ZvOm89UmNlQ5YGJZORU0KE6MMvu
- zIn0D7hJC6hyckviwEoY8JX2ASDFBkFOm8qIIiOpSOiCHH+efH6uz6fYeCqWNesZ982N
- L26ow49mMEudWKjr/Fd8Val97I0Ai0sbLBD1zw92SA1aYMEAXfq4NUmoRAfYBSa5G4GD
- Rb+g==
-X-Gm-Message-State: AOAM53267Py6GNPFQ1Fo29b4jfdNST1qXIFqcBR91Hfsylz0hboYLVEJ
- MSNOQZYV8r2BVjVIXqARhYGJbg==
-X-Google-Smtp-Source: ABdhPJxWmFsSb0Vzg1NAnz2GPn7MlkNF023jy6AnGMkyrTd5OmsIHxz8MDigJ2L10kwaol2EYaevwQ==
-X-Received: by 2002:a05:6512:c0e:b0:478:5a91:20bb with SMTP id
- z14-20020a0565120c0e00b004785a9120bbmr3982177lfu.587.1653143109161; 
- Sat, 21 May 2022 07:25:09 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- r26-20020a2e995a000000b0024f3d1daea0sm724179ljj.40.2022.05.21.07.25.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 May 2022 07:25:08 -0700 (PDT)
-Message-ID: <7fd80a4b-5e60-0117-b790-359f6d94aeef@linaro.org>
-Date: Sat, 21 May 2022 16:25:07 +0200
+ bh=aEDSE1m+N2pYJdPG78Lh5a6q6esXpeyoa6uPZvrclFc=;
+ b=ZQATVP0gMlRpci5gYbibPssDQLdUBpgfxg+BjvnVgn9b8LRwqH3GoS8PnFm7/rMMvM
+ lRxmuzn0yTqIshQu67BZRcv/a1kC2TdiunRg2ftpFZ7NC0ygcA54qOr+H4HENBLoilDz
+ xFPXeIFYB+ZR6WTbahly4U84MGESwos0Dx5fA900WMYbDKO/DwK/P2sLnpolq0vWm6dn
+ P4yjIPkNgKAJKnrmDjg7QX5CkZ0wU0k+5tOjupCvkgV7oZoOja9LVUmWaAb30AsSRFKI
+ mtUqI7c22kSsMeQC4jiD/3XSdJ4cE02xy0U5CEd3oX4h+vUsN+Nuurqmd++BFXBzyPzR
+ BPAA==
+X-Gm-Message-State: AOAM5307sYeVmLQQhsk1V2mbZJD4k0yrD9uMXb9Gbl8dhbp8GVe+kTx5
+ FTdh+EEuy1iFWdcXXq12DphmJMXMpQspQA==
+X-Google-Smtp-Source: ABdhPJweIG1odMEjxkG19mhDsemgTmxJXjxh0vDN9QHxD5/5kjm6SG9klmp/njsu9QE2v3z4H44UXg==
+X-Received: by 2002:a17:90a:a384:b0:1dc:a407:b5ac with SMTP id
+ x4-20020a17090aa38400b001dca407b5acmr16585135pjp.11.1653144544094; 
+ Sat, 21 May 2022 07:49:04 -0700 (PDT)
+Received: from localhost.localdomain ([103.230.104.50])
+ by smtp.gmail.com with ESMTPSA id
+ g8-20020a17090a290800b001dc4d22c0a7sm3709572pjd.10.2022.05.21.07.49.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 May 2022 07:49:03 -0700 (PDT)
+From: Khalid Masum <khalid.masum.92@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] fscache: fix misdocumented parameter name
+Date: Sat, 21 May 2022 20:24:46 +0600
+Message-Id: <20220521142446.4746-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] dt-bindings: mips: Convert plain text file to ReST
-Content-Language: en-US
-To: Soumya Negi <soumya.negi97@gmail.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220521015613.6197-1-soumya.negi97@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220521015613.6197-1-soumya.negi97@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,47 +102,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 21/05/2022 03:56, Soumya Negi wrote:
-> Converts .txt documentation file to ReST format(.rst).
-> 
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> ---
->  .../devicetree/bindings/mips/cpu_irq.rst      | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mips/cpu_irq.rst
-> 
-> diff --git a/Documentation/devicetree/bindings/mips/cpu_irq.rst b/Documentation/devicetree/bindings/mips/cpu_irq.rst
-> new file mode 100644
-> index 000000000000..601cc12caa2a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mips/cpu_irq.rst
-> @@ -0,0 +1,56 @@
-> +=============================
-> +MIPS CPU interrupt controller
-> +=============================
-> +
-> +On MIPS the ``mips_cpu_irq_of_init()`` helper can be used to initialize the 8 CPU
-> +IRQs from a devicetree file and create a ``irq_domain`` for IRQ controller.
+To fix warning generated by make docs in the file fscache.h:
+The functions fscache_use_cookie and fscache_unuse_cookie have a
+parameter named cookie. But they are documented with the name "object".
+Which generates warning when creating docs. This commit will replace
+the documentation with a better one named "cookie". This new
+documentation
+line is taken from the function fscache_update_cookie in the same
+file.
 
-Bindings is not a place for code. No.
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+ include/linux/fscache.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> +
-> +With the ``irq_domain`` in place we can describe how the 8 IRQs are wired to the
-> +platforms internal interrupt controller cascade.
-> +
-> +Below is an example of a platform describing the cascade inside the devicetree
-> +and the code used to load it inside ``arch_init_irq()``.
-> +
-> +Required properties
-> +-------------------
-> +* compatible: Should be **"mti,cpu-interrupt-controller"**
+diff --git a/include/linux/fscache.h b/include/linux/fscache.h
+index e25539072..32cf593b8 100644
+--- a/include/linux/fscache.h
++++ b/include/linux/fscache.h
+@@ -256,7 +256,7 @@ struct fscache_cookie *fscache_acquire_cookie(struct fscache_volume *volume,
+ 
+ /**
+  * fscache_use_cookie - Request usage of cookie attached to an object
+- * @object: Object description
++ * @cookie: The cookie representing the cache object
+  * @will_modify: If cache is expected to be modified locally
+  *
+  * Request usage of the cookie attached to an object.  The caller should tell
+@@ -272,7 +272,7 @@ static inline void fscache_use_cookie(struct fscache_cookie *cookie,
+ 
+ /**
+  * fscache_unuse_cookie - Cease usage of cookie attached to an object
+- * @object: Object description
++ * @cookie: The cookie representing the cache object
+  * @aux_data: Updated auxiliary data (or NULL)
+  * @object_size: Revised size of the object (or NULL)
+  *
+-- 
+2.25.1
 
-If you wanted to add bindings, please use DT schema format (see
-writing-schema, writing-bindings and example-schema files).
-
-
-Best regards,
-Krzysztof
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
