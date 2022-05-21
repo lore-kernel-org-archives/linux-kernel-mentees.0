@@ -4,68 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5C623C433F5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 May 2022 15:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B412C433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 21 May 2022 19:56:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F090B60BA8;
-	Sat, 21 May 2022 15:32:08 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9A1E760692;
+	Sat, 21 May 2022 19:56:04 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3lpoVJNGpOVS; Sat, 21 May 2022 15:32:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D4CEE60A82;
-	Sat, 21 May 2022 15:32:06 +0000 (UTC)
+	with ESMTP id RwgDbTKoMnRt; Sat, 21 May 2022 19:56:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id ADFF560669;
+	Sat, 21 May 2022 19:56:03 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A83ACC0032;
-	Sat, 21 May 2022 15:32:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 86986C0032;
+	Sat, 21 May 2022 19:56:03 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AE94BC002D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D76B1C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 15:32:05 +0000 (UTC)
+ Sat, 21 May 2022 19:56:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A6FA160BA3
+ by smtp3.osuosl.org (Postfix) with ESMTP id B1C0F60692
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 15:32:05 +0000 (UTC)
+ Sat, 21 May 2022 19:56:01 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5Qb6KVsHyo1P
+ with ESMTP id 31xBALjrl9jp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 15:32:04 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 8CF7C60A82
+ Sat, 21 May 2022 19:56:01 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2A3CA60669
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 21 May 2022 15:32:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=W4TUiEIdq5HcuLZw5jcWt2qZJ3RX3G8mxdh0nA1JeNU=; b=i548B275KQ2uVw/gK+rQS7z83v
- 7ywiroVH4OOObHSfKdxZ9yjAn5ePtZfG0DwPCXbnp8N7FfeJrHs8pvTPhFKHQedQV/69LXFqf6/Da
- IVc76CWnsVlJa3/b+t3XLIKFqdAUCmmtAU1qa1ndxLN5l2A9p/kw4c5zEH3kuysBYjmnFe/37ubmI
- v+HV2QUdjyV6xunUXTotgYL5GBR0xoyDMO7ti5lYzftAVGt9Btpn8BjvVd0qHjrZ0x8A7YFUYjdqP
- D3qB5sATLmsxWT8k5cfbsEirYBD3cXKLqloJenajbnI7NdCKZRzB34ISvIK8ihIekcAMVxfNhYJLE
- 5xod/fdw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1nsR5D-00EjdF-Jk; Sat, 21 May 2022 15:31:59 +0000
-Message-ID: <c02b4ae7-218e-2349-afcb-9ada25beb934@infradead.org>
-Date: Sat, 21 May 2022 08:31:54 -0700
+ Sat, 21 May 2022 19:56:01 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id p8so10384639pfh.8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 21 May 2022 12:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=pahlxMexkmb3bBQA6Xo5H+RyP2uDtCGR2tGr0pnfrto=;
+ b=kxRL2LKA5PWfRzabVz4llBGK5GbU10XVYfiNbyO520sbIzAyhQ0U78eQtYfx+7Db3j
+ 5KOC0PNvAPjAFefRdWJO6F6rfZEapF1cN++hxtpJI3biY/p62801KDJOW3c0I24zcpsa
+ QnUVD0mNSBvaipEYHH+eNe10aO9SI8ef4UJK+84417/lmzTyf/tWNWGTw9mR3VDa6xd0
+ +a9B+Wb8TEqRjFoTbP8my7BFu0qMSXy7Z+N6Q1qbCoYr5hGfb8VGaGuTiVwkGEt4mawl
+ UN6tzQGPZKgVp1Mmfnquv1M2NHf4Bp0thQv4ZK6E3Z37eYNzc5GLzQBkJ6nCrZWOnp18
+ 5fmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=pahlxMexkmb3bBQA6Xo5H+RyP2uDtCGR2tGr0pnfrto=;
+ b=o6h3jDgHhO28ucgB95+2VtLNFU33+ORg0e1k+q8FKOZqdi4wsFsgcDue80MtZZcqSe
+ 320HtKzrndKhjMxmr2HtqEePa2twCZ5SEm5I0WAMnfW08eVOl1jaA7/F12+NAzytFB7g
+ F3Z5CgIQQS4eFFnE7xJ1N3AdXa00f9Qe66LljAW8J1X3gFSD7DZ632KsDWrz0NoSMSRl
+ kpnH7yqbS6xUXiA+5d0CeI4QokOLQS6vCBJApa/zGZ7mjZFnA8Yko1uB/IPm6aLrXGSA
+ GadF18iS7HvC8Obq8YFuDWX7x5gvHgn9aot8e+0wkcaE3pfuJenL9mnBGs2iOx7Ej0GS
+ +pTQ==
+X-Gm-Message-State: AOAM530wrCg3JiPb9BnFlsnCnX3gYw9EJy9jjULNW6vDXdl2egYDlEo+
+ zQfrJM87kpHrMEtYroW02Yw=
+X-Google-Smtp-Source: ABdhPJyMsuLlslN40Ir06YGFTs98HuVnqrw63vJ9EHLB9HKkCH/+1VU5nKatOpnEUcsbKh/KwG90SQ==
+X-Received: by 2002:a63:d244:0:b0:3f2:5897:99c7 with SMTP id
+ t4-20020a63d244000000b003f2589799c7mr13563407pgi.533.1653162960530; 
+ Sat, 21 May 2022 12:56:00 -0700 (PDT)
+Received: from Negi ([207.151.52.3]) by smtp.gmail.com with ESMTPSA id
+ mn2-20020a17090b188200b001df983f9a3dsm4069958pjb.29.2022.05.21.12.55.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 May 2022 12:56:00 -0700 (PDT)
+Date: Sat, 21 May 2022 12:55:59 -0700
+From: Soumya Negi <soumya.negi97@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] dt-bindings: mips: Convert plain text file to ReST
+Message-ID: <20220521195558.GD14144@Negi>
+References: <20220521015613.6197-1-soumya.negi97@gmail.com>
+ <YojoMzjahyP+HW4m@kroah.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH] fscache: fix misdocumented parameter name
-Content-Language: en-US
-To: Khalid Masum <khalid.masum.92@gmail.com>,
+Content-Disposition: inline
+In-Reply-To: <YojoMzjahyP+HW4m@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
-References: <20220521142446.4746-1-khalid.masum.92@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220521142446.4746-1-khalid.masum.92@gmail.com>
-Cc: David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
- linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,53 +106,29 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On 5/21/22 07:24, Khalid Masum wrote:
-> To fix warning generated by make docs in the file fscache.h:
-> The functions fscache_use_cookie and fscache_unuse_cookie have a
-> parameter named cookie. But they are documented with the name "object".
-> Which generates warning when creating docs. This commit will replace
-> the documentation with a better one named "cookie". This new
-> documentation
-> line is taken from the function fscache_update_cookie in the same
-> file.
+On Sat, May 21, 2022 at 03:25:07PM +0200, Greg KH wrote:
+> On Fri, May 20, 2022 at 06:56:13PM -0700, Soumya Negi wrote:
+> > Converts .txt documentation file to ReST format(.rst).
+> > 
+> > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
+> > ---
+> >  .../devicetree/bindings/mips/cpu_irq.rst      | 56 +++++++++++++++++++
+> >  1 file changed, 56 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/mips/cpu_irq.rst
 > 
-> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+> That did not "convert" it merely added the new file.  Where was the old
+> file?
 
-LGTM. Thanks.
+I will correct the patch. The old file is Documentation/devicetree/bindings/mips/cpu_irq.txt 
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> And does this get added to the build somehow?
 
-> ---
->  include/linux/fscache.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/fscache.h b/include/linux/fscache.h
-> index e25539072..32cf593b8 100644
-> --- a/include/linux/fscache.h
-> +++ b/include/linux/fscache.h
-> @@ -256,7 +256,7 @@ struct fscache_cookie *fscache_acquire_cookie(struct fscache_volume *volume,
->  
->  /**
->   * fscache_use_cookie - Request usage of cookie attached to an object
-> - * @object: Object description
-> + * @cookie: The cookie representing the cache object
->   * @will_modify: If cache is expected to be modified locally
->   *
->   * Request usage of the cookie attached to an object.  The caller should tell
-> @@ -272,7 +272,7 @@ static inline void fscache_use_cookie(struct fscache_cookie *cookie,
->  
->  /**
->   * fscache_unuse_cookie - Cease usage of cookie attached to an object
-> - * @object: Object description
-> + * @cookie: The cookie representing the cache object
->   * @aux_data: Updated auxiliary data (or NULL)
->   * @object_size: Revised size of the object (or NULL)
->   *
+No, I don't think so. When building documentation using make htmldocs, the file
+does not show up in the Documentation/output directory. 
 
--- 
-~Randy
+
+Regards
+Soumya
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
