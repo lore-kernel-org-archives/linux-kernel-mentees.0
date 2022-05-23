@@ -1,100 +1,90 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D313DC433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 22 May 2022 07:51:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4D50C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 May 2022 20:54:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6890940472;
-	Sun, 22 May 2022 07:51:16 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 86EBB610F4;
+	Mon, 23 May 2022 20:54:09 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D6Q50u_57zTt; Sun, 22 May 2022 07:51:15 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id DNyom2VNpgS2; Mon, 23 May 2022 20:54:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7148B402E8;
-	Sun, 22 May 2022 07:51:15 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 878C760634;
+	Mon, 23 May 2022 20:54:08 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4A140C0039;
-	Sun, 22 May 2022 07:51:15 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C24C2C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 54DCDC0039;
+	Mon, 23 May 2022 20:54:08 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E788BC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 May 2022 07:51:13 +0000 (UTC)
+ Mon, 23 May 2022 20:54:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 982BA41720
+ by smtp1.osuosl.org (Postfix) with ESMTP id C89F482E1A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 May 2022 07:51:13 +0000 (UTC)
+ Mon, 23 May 2022 20:54:06 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
- dkim=pass (2048-bit key) header.d=linaro.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id rurF0jfYJSSe
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
+ dkim=pass (2048-bit key) header.d=gmail.com
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UR3Wgyi7D_qy
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 May 2022 07:51:12 +0000 (UTC)
+ Mon, 23 May 2022 20:54:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1D0234171A
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 5F68082E14
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 May 2022 07:51:11 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id t25so20775280lfg.7
+ Mon, 23 May 2022 20:54:06 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 31so14656107pgp.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 22 May 2022 00:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=88owq8uKXDsheKyfsbWWUMK1Cxn07lBnqHB3aJaGB1U=;
- b=HVhU/XPrfs70po+5RBr7uTXEFc/VT5WW15xfZyh/B66A+4JMDjApfrPm9LRtsDlVDx
- rn4F21ZXGLeqWNK6TPvES0lJnTpmWCfIDKIIQKrhwl5a5jq+U03iw57s2C+vvGGiEaTa
- K92fGdP1dmnlb2nq/bKbPysPtwIOUuZc0KgZ3pzvbRgmExF722IxMHjeKrj1xbqGKvy0
- OHdyWGfX/JJXBD6AvvCredZcZamJSn5dzrg6726hKyC+yDDqAZxIF1ZnRyWlxgAnF9tA
- x/zX17rGo5nQAgaLZYBoVVJG9yl9byHEjzzdusuHaqplRK85L/MKn+jf/6y7/vBOO7G9
- Q1xw==
+ Mon, 23 May 2022 13:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PDfySpHTAY1V27s98c7xs1NvYXjrxFhQpygEToybb3Q=;
+ b=dvZJy5o0Tw1ynrGSS7inBw5iv9tFjVGq53/IAKa6bvpKFKR7TW4l5v1Y5P2EGNWOhO
+ YgOOBdhpKF+dzSkp6r8G70zmQy0aFsXHJSRIR0fLOkE2CSkRcLrzSZSf1rHWRwK2UXuC
+ Pobs6dPmbbfPBMoGPZvHeTnsg0iiiiav1NhcOcpcaSvjy+B/XP5hVB1KM5+AssJqxtmd
+ DvFmdEd9BKq5Sv13jQx+K9BXHw8990Cpgi0yXxOiNsL7gGikZG5Z5sKV53Go/llXJglD
+ 8F2wQfx6yTyuV3QP8Za5MCRBAPTdIQxXeVE3pPMnxAS+NS1lfPrNs45R9syLahVSha+i
+ KDCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=88owq8uKXDsheKyfsbWWUMK1Cxn07lBnqHB3aJaGB1U=;
- b=7eY8nOlJLAg+eGIykUr/1g6I/hxiCOHGUS0o21uOo4dzXV14PV9R7RPFhTCBEe3k1f
- xuGNVJ/zAmGaeBs3PXL/0rJuRo5JX/88IGHEX3PqoCINPEcf8Qh15zoeg5eMaFgUAnOi
- +krF9+KKH+C1b/yHuu/8vJ693lizmXlIcx1sbKZmJd2dFowRyl2QeXQV84V5/H6xk7FE
- PX38GE1caKiYx/IwcEMy2SNoh1N2VZoW/X3a+clId1it1827HMyiTWpZvzdxI4HFV1/P
- PVOai01w0f6azx7uuX4aTRzSiUX3D/OZCtiV5o9I4ySarwm5CrVkEHhf3JgPMG6o4Sto
- C9Lg==
-X-Gm-Message-State: AOAM531hj6Pp72hb3bZ2fXREaUtbLqk3R8HQxIlOPg7P27B6/c/1tjeA
- PhNkeHzsfIOkmrYPetrKy9BjLw==
-X-Google-Smtp-Source: ABdhPJxn3SFCU7olnoR4mSUevcHXgr6rUAve15/U4XQVAOEFghCkWDWlZk6zSIXXpDyWWLZER5dIUg==
-X-Received: by 2002:a05:6512:150a:b0:474:bb9:5174 with SMTP id
- bq10-20020a056512150a00b004740bb95174mr11826565lfb.207.1653205869755; 
- Sun, 22 May 2022 00:51:09 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl.
- [78.11.189.27]) by smtp.gmail.com with ESMTPSA id
- q6-20020ac25286000000b0047255d211c1sm1354476lfm.240.2022.05.22.00.51.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 May 2022 00:51:09 -0700 (PDT)
-Message-ID: <e15d74d0-2cae-230f-a410-0e1106f490a3@linaro.org>
-Date: Sun, 22 May 2022 09:51:08 +0200
+ bh=PDfySpHTAY1V27s98c7xs1NvYXjrxFhQpygEToybb3Q=;
+ b=4EwDS4VYaFk+K08OnMuNiy21VNHs28nXwAHsmN4N/JdRQ7EdLgJ7U6h1Qjze392vx8
+ ilWG2SPHKgELUxtMWwLP21c6wgbI35SC6dh/rys/OMQtRIspq6M0zgZ4CK0yJ1zyV1r2
+ dXAJLuq3CCerNQXQwMukg/IjZigJyfhLlpiHHZ+Wp/ChwL82iWy9nZUhtwOW5BOELtQW
+ JTLAr9lNo7BGqWQqyzJazTgTW/VSsQGvAO3JxwELJjz8JCRYgZdxukj4isPaJfCaxgHp
+ ogIfBkOovNdxorUxFTFd9ehM1G7ImoxlHOQ8D0uv2pqrNNPmlH/U4tIJ98hGcLUVSdic
+ PWYw==
+X-Gm-Message-State: AOAM533GshFgI/Tj2KtyOn27F5fauIBCwHtOv0IuIGEHsF3m4foXLfeP
+ ZShYTyEI+o2JeLquatF69aGxErvJv28=
+X-Google-Smtp-Source: ABdhPJxsZBfvuufUzKimg2Bn+Lpq5aGaq08FHon1wbRhJUS2t8M8+S+RsgJjqNq6K9SsQNXD9cpoww==
+X-Received: by 2002:a05:6a00:140b:b0:4e1:2cbd:30ba with SMTP id
+ l11-20020a056a00140b00b004e12cbd30bamr25227553pfu.46.1653339245651; 
+ Mon, 23 May 2022 13:54:05 -0700 (PDT)
+Received: from localhost.localdomain ([103.3.225.10])
+ by smtp.gmail.com with ESMTPSA id
+ e21-20020aa79815000000b005104c6d7941sm7623785pfl.31.2022.05.23.13.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 May 2022 13:54:05 -0700 (PDT)
+From: Khalid Masum <khalid.masum.92@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org,
+ Shuah Khan <skhan@linuxfoundation.org>, SeongJae Park <sj@kernel.org>
+Subject: [PATCH] mm/daemon: describe NR_DAMON_OPS in damon_ops_id
+Date: Tue, 24 May 2022 02:53:36 +0600
+Message-Id: <20220523205336.2435-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH] dt-bindings: mips: Convert plain text file to ReST
-Content-Language: en-US
-To: Soumya Negi <soumya.negi97@gmail.com>
-References: <20220521015613.6197-1-soumya.negi97@gmail.com>
- <7fd80a4b-5e60-0117-b790-359f6d94aeef@linaro.org>
- <20220521202412.GE14144@Negi>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220521202412.GE14144@Negi>
-Cc: devicetree@vger.kernel.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,64 +102,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 21/05/2022 22:24, Soumya Negi wrote:
-> On Sat, May 21, 2022 at 04:25:07PM +0200, Krzysztof Kozlowski wrote:
->> On 21/05/2022 03:56, Soumya Negi wrote:
->>> Converts .txt documentation file to ReST format(.rst).
->>>
->>> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
->>> ---
->>>  .../devicetree/bindings/mips/cpu_irq.rst      | 56 +++++++++++++++++++
->>>  1 file changed, 56 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/mips/cpu_irq.rst
->>>
->>> diff --git a/Documentation/devicetree/bindings/mips/cpu_irq.rst b/Documentation/devicetree/bindings/mips/cpu_irq.rst
->>> new file mode 100644
->>> index 000000000000..601cc12caa2a
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/mips/cpu_irq.rst
->>> @@ -0,0 +1,56 @@
->>> +=============================
->>> +MIPS CPU interrupt controller
->>> +=============================
->>> +
->>> +On MIPS the ``mips_cpu_irq_of_init()`` helper can be used to initialize the 8 CPU
->>> +IRQs from a devicetree file and create a ``irq_domain`` for IRQ controller.
->>
->> Bindings is not a place for code. No.
->>
->>> +
->>> +With the ``irq_domain`` in place we can describe how the 8 IRQs are wired to the
->>> +platforms internal interrupt controller cascade.
->>> +
->>> +Below is an example of a platform describing the cascade inside the devicetree
->>> +and the code used to load it inside ``arch_init_irq()``.
->>> +
->>> +Required properties
->>> +-------------------
->>> +* compatible: Should be **"mti,cpu-interrupt-controller"**
->>
->> If you wanted to add bindings, please use DT schema format (see
->> writing-schema, writing-bindings and example-schema files).
-> 
-> Hi, 
-> I don't want to add bindings. I want to the convert the doc file
-> Documentation/devicetree/bindings/mips/cpu_irq.txt to ReST file format.
-> 
-> I referred to this page(https://wiki.linuxfoundation.org/lkmp/lkmp_task_list) while
-> creating the patch. It also mentions exceptions that should be kept as plain text 
-> files. Does this file count as an exception?
+NR_DAMON_OPS in the enum damon_ops_id is not described. Describe it for
+better readability and also to fix a warning generated by make docs.
 
+"NR" is described as "Total Number" and "DAMON_OPS" is described as
+"Monitoring operations" in the same file. Hence describe NR_DAMON_OPS
+as "Total number of damon operations".
 
-The original file you mention is a dt-bindings file, not a doc file. As
-you see it is in the bindings subdirectory. All (or almost all) files in
-Documentation/devicetree/bindings are bindings.
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+ include/linux/damon.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-It should be stripped out of C code and converted to DT schema (and
-moved to interrupt-controllers), not to ReST.
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index f23cbfa42..9e9fb4d78 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -262,6 +262,7 @@ struct damos {
+  *
+  * @DAMON_OPS_VADDR:	Monitoring operations for virtual address spaces
+  * @DAMON_OPS_PADDR:	Monitoring operations for the physical address space
++ * @NR_DAMON_OPS:	Total number of monitoring operations
+  */
+ enum damon_ops_id {
+ 	DAMON_OPS_VADDR,
+-- 
+2.25.1
 
-Best regards,
-Krzysztof
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
