@@ -1,90 +1,91 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 50930C433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 May 2022 17:28:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D228C433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 24 May 2022 18:22:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 069B284128;
-	Tue, 24 May 2022 17:28:05 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0E7F961253;
+	Tue, 24 May 2022 18:22:55 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id g6s3tuRLoNuL; Tue, 24 May 2022 17:28:04 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YIYJlgfZQ3b8; Tue, 24 May 2022 18:22:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 29CF684125;
-	Tue, 24 May 2022 17:28:04 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C61506124D;
+	Tue, 24 May 2022 18:22:53 +0000 (UTC)
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0C7D8C0039;
-	Tue, 24 May 2022 17:28:04 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A6594C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9EC90C0032;
+	Tue, 24 May 2022 18:22:53 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D838C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 May 2022 17:28:02 +0000 (UTC)
+ Tue, 24 May 2022 18:22:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9C461415D3
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8BC4A840E3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 May 2022 17:28:02 +0000 (UTC)
+ Tue, 24 May 2022 18:22:52 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
-Authentication-Results: smtp4.osuosl.org (amavisd-new);
+Authentication-Results: smtp1.osuosl.org (amavisd-new);
  dkim=pass (2048-bit key) header.d=gmail.com
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id R5Pb5yWm1y4g
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id f-qu-DZcDlxY
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 May 2022 17:28:01 +0000 (UTC)
+ Tue, 24 May 2022 18:22:52 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by smtp4.osuosl.org (Postfix) with ESMTPS id DC90C415CE
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com
+ [IPv6:2607:f8b0:4864:20::1032])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id F351C840DE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 May 2022 17:28:01 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id b5so9378917plx.10
+ Tue, 24 May 2022 18:22:51 +0000 (UTC)
+Received: by mail-pj1-x1032.google.com with SMTP id
+ l20-20020a17090a409400b001dd2a9d555bso2966727pjg.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 May 2022 10:28:01 -0700 (PDT)
+ Tue, 24 May 2022 11:22:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=TQSXOGBPTe2uw0qPjIIRPCO+MsJXruCMk2fBLAYYqXA=;
- b=SMLKrRvgc/KrH7nqdtcAGv/w6WVgHYGDMTNxXymT+PIT3qI9xE5xRuDvStKpTZbMXt
- zLx0qqGhh9+Xe0u49z7OgT/yzgZzmY/7hM3YveAoRyOyiPXVxyENFk012ZMHkgdO6iF4
- dclSnc56WA7bYzd6iCQrGr4sVbgqKdh2Mjf130eX4fsZuNq7X7RiwjlXJUoDIM2uQZAr
- 8Hl7xzfeCJ/KE/pX2xXckAHsN01i2+4TTP7o28H+XBzQXC+/1xhSzJ/lmvBQwfgFiPH0
- +jtlFOfItgDT0bITZgkfDDJXiapu+Z1f6PLIbGnS0TDbauiK37mByB0WywIgAaSA1amA
- Sgig==
+ bh=NQ+IbxSoOWzvPpARlGDJuulp1WoAC1KNhcEUFQJVWLw=;
+ b=YjX69PtOZfBAOveJE2bEYXqX+lWjUI0Kve/NDLqWuJsbYa9sTtwXg7YmPazee+niuT
+ DW/VnXFP7ghPET8wm9rpnVi65J1KKjmpS9fWCO1txRyaVipScC494vSLj3km98F8+4RQ
+ rsMiM4eaRCEWfEpoUoFPOjI+04QW1UXV1ggAhdaE0B9ONGHQbEe2/cNItxChTymcoH/M
+ WnC8PRpqnMnbI+rjdvefwXoxgHJ40snKdlcF1u4Lf+WC+5UUzH9/PpupmhMvLC3dHP4g
+ T7b7/g6IvIRZenL49Obh2mL5fP5fQZQZ09p0GDlvEZ6HsVUhRjV7KnPQxf6S6b1iFdIp
+ u9tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=TQSXOGBPTe2uw0qPjIIRPCO+MsJXruCMk2fBLAYYqXA=;
- b=ery8cPkrrYO/rG3ktIDABC7nx2AJ94MBcbytE8F291VP8aDPRPrX/XG9mS4KrLGT0I
- 3Mqdv15qJuzpXAFqZGniw2pCqND5AYL+5EgEJ0F5P6X5DgMW5DqHaqmoK8byJYuTkz1E
- 3tACrUPFjUjP8duqUE1twKlUS2bRajZT27nQW6naCF/zIqoyOYX/iJWc7exWz6366kD1
- Q2wjxFpdZwYU/g2f1bTov+Zh99QsSvXekL2yDw9MUmuTrtsJHljIfC/C7GxsyIFouN1h
- b6YsgphYaBKMT9jvIhocj6SXWWj55zKzYDgQWWBOlDt1S1vlIQCHrBxYrPNzR1jckmit
- +6+A==
-X-Gm-Message-State: AOAM533cbnrTcH+Lhs/dEyA36fP/5eLOfmYxcHuVzckSNxIZdR3m4k/i
- h9YL9h0dvITIliv0qXNdbpQ=
-X-Google-Smtp-Source: ABdhPJxtyLUP5CjnATo5cBrld/MCmrqLC9oAQT9qim9Xt8yHRxK3xMyYy+Qp/XMm3N4d1auSj+NHOg==
-X-Received: by 2002:a17:90b:1e4f:b0:1e0:b91:39ef with SMTP id
- pi15-20020a17090b1e4f00b001e00b9139efmr5532443pjb.51.1653413281244; 
- Tue, 24 May 2022 10:28:01 -0700 (PDT)
+ bh=NQ+IbxSoOWzvPpARlGDJuulp1WoAC1KNhcEUFQJVWLw=;
+ b=fJbQXxxzLpnhWx1hUGWmeBdJ95FInaL9YheC1Q268fLeihQOk7No55c1zSzSxqtGio
+ YG6ch8OvpuqkFZSqN3oTTPhT38AlPqfNTk5dEXTv/YMKKXygt1UJa6wiwd19cB3bvQ9d
+ ykHCAIh1cA+nKGu52vrOBAo+9xw60HqeLmkZjO8mBgJZVNibbjnrzM1vUmYzQqMfws2H
+ I/1BA+I/SL7vjsc8VMPiSYOriW0sIE21hYjaDImGkGNqK70B/ZQFET/YagYW5DNJB3wO
+ XTcU/doUMIqnHxhb1dM1n0eTZpHt9FtWFFGUKV8uF5vNteflJQh6K/dvXQRbbClxf1+i
+ vbRg==
+X-Gm-Message-State: AOAM530ZJVwA2+ciBp9Ua+NEhqg8iL/Wr62QSxoDXzFO1PmxTjfLj2DK
+ 5VFFMC46LaCfcScr4KKxE7c=
+X-Google-Smtp-Source: ABdhPJw0pevw6L+J31pXA4AxzQC3sqeoJYUUppDxbwh0wnw4ck8awuR3dLEj2ejuHKgnYOaW5JOO5A==
+X-Received: by 2002:a17:90a:b017:b0:1df:6f31:c273 with SMTP id
+ x23-20020a17090ab01700b001df6f31c273mr5831197pjq.167.1653416571356; 
+ Tue, 24 May 2022 11:22:51 -0700 (PDT)
 Received: from ubuntu.localdomain ([103.230.148.185])
  by smtp.gmail.com with ESMTPSA id
- m17-20020a170902db1100b0016144a84c31sm7573894plx.119.2022.05.24.10.27.58
+ n5-20020a170903110500b0015e8d4eb2b8sm7595714plh.258.2022.05.24.11.22.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 May 2022 10:28:00 -0700 (PDT)
+ Tue, 24 May 2022 11:22:51 -0700 (PDT)
 From: Gautam Menghani <gautammenghani201@gmail.com>
-To: akpm@linux-foundation.org
-Subject: [PATCH] include/linux/mm: Initialize an int variable to prevent
- returning garbage value
-Date: Tue, 24 May 2022 10:27:55 -0700
-Message-Id: <20220524172755.11892-1-gautammenghani201@gmail.com>
+To: akpm@linux-foundation.org, shakeelb@google.com, vasily.averin@linux.dev,
+ mhocko@suse.com, manfred@colorfullife.com
+Subject: [PATCH] ipc: Remove dead code in perform_atomic_semop()
+Date: Tue, 24 May 2022 11:22:44 -0700
+Message-Id: <20220524182244.42987-1-gautammenghani201@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: linux-mm@kvack.org, linux-kernel-mentees@lists.linuxfoundation.org,
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org, Gautam Menghani <gautammenghani201@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -103,29 +104,27 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Initialize the variable 'ret' to prevent garbage value from being
-returned. This Fixes the clang scan warning: Undefined or garbage value
-returned to caller [core.uninitialized.UndefReturn]
-        return ret;
+Remove the line which is dead code. Fixes the clang scan warning:
+warning: Value stored to 'result' is never read [deadcode.DeadStores]
+                result = curr->semval;
 
 Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
 ---
- include/linux/mm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ipc/sem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 9f44254af8ce..f437bd81d6a4 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1700,7 +1700,7 @@ static inline int arch_make_page_accessible(struct page *page)
- #ifndef HAVE_ARCH_MAKE_FOLIO_ACCESSIBLE
- static inline int arch_make_folio_accessible(struct folio *folio)
- {
--	int ret;
-+	int ret = 0;
- 	long i, nr = folio_nr_pages(folio);
+diff --git a/ipc/sem.c b/ipc/sem.c
+index 0dbdb98fdf2d..156824bcda47 100644
+--- a/ipc/sem.c
++++ b/ipc/sem.c
+@@ -766,7 +766,6 @@ static int perform_atomic_semop(struct sem_array *sma, struct sem_queue *q)
+ 	for (sop = sops; sop < sops + nsops; sop++) {
+ 		curr = &sma->sems[sop->sem_num];
+ 		sem_op = sop->sem_op;
+-		result = curr->semval;
  
- 	for (i = 0; i < nr; i++) {
+ 		if (sop->sem_flg & SEM_UNDO) {
+ 			int undo = un->semadj[sop->sem_num] - sem_op;
 -- 
 2.25.1
 
