@@ -4,92 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23D55C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jun 2022 00:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72B96C43334
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 28 Jun 2022 00:32:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B576740272;
-	Tue, 28 Jun 2022 00:08:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B576740272
+	by smtp2.osuosl.org (Postfix) with ESMTP id F0BCA402B1;
+	Tue, 28 Jun 2022 00:32:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F0BCA402B1
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=1Dh37h2N
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=NSCcXg1e
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id y0JoU67CaMlU; Tue, 28 Jun 2022 00:08:21 +0000 (UTC)
+	with ESMTP id czh-FWvIpLYu; Tue, 28 Jun 2022 00:32:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CBCED400D6;
-	Tue, 28 Jun 2022 00:08:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CBCED400D6
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0F857400D6;
+	Tue, 28 Jun 2022 00:32:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0F857400D6
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B3138C0032;
-	Tue, 28 Jun 2022 00:08:20 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0446AC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EA0FBC0032;
+	Tue, 28 Jun 2022 00:32:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C486BC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jun 2022 00:08:19 +0000 (UTC)
+ Tue, 28 Jun 2022 00:32:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id BFCCB82BFD
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8816C60B83
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jun 2022 00:08:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BFCCB82BFD
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com
- header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256
- header.s=20210112 header.b=1Dh37h2N
+ Tue, 28 Jun 2022 00:32:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8816C60B83
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=NSCcXg1e
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WIM5vrJekYbm
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VnCUCs70Ys9R
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jun 2022 00:08:18 +0000 (UTC)
+ Tue, 28 Jun 2022 00:32:04 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org ED07D813BE
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com
- [IPv6:2001:4860:4864:20::2f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id ED07D813BE
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7ECD060AC3
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 7ECD060AC3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 Jun 2022 00:08:17 +0000 (UTC)
-Received: by mail-oa1-x2f.google.com with SMTP id
- 586e51a60fabf-fe023ab520so14995395fac.10
+ Tue, 28 Jun 2022 00:32:04 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id x20so4020245plx.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 Jun 2022 17:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=csp-edu.20210112.gappssmtp.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=EEpp/zjJADSHGlJFmARkvy4L9G20CW1cf6ywBKPRwHw=;
- b=1Dh37h2NuEq5zRy5X7JojrbpsbFb4xI7DHrVa4AK73nIpB7vT3nBexk9D0YZ19Iqzw
- 47fLtcy25yPOe/dliWkv2DAAl9lwM/nYGQpL/uazmKZXjyBt+tD3oKNizarDeTnBrWEx
- VzkGEpee8PeCsZHGpuTkYPT/p7+vWbndGWlGPcCjPfQah/qTRO7hSWFeyof/AsBoDP2N
- CFP3yR7MO0PDig+VE0IVBmhM0B3Lzod8U2Hg4do4BRubV/rchjYBFnzzVb4SSiak7UdC
- YtpWZk9XP22M5cqbGvOsmv7FufyWIEyWUO/P3IpXQOBTGf2jGjLbYFYuRiuvhiUCsmBf
- 4knQ==
+ Mon, 27 Jun 2022 17:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=OFFvy82t3qS2mWvKMEQ2PiSLGvpukFE2JbAHWF/b/0o=;
+ b=NSCcXg1ekuYiFLFIOJztsGrrf6k+Y/n8ieyeC9AuJKRrjhP+8mtp6WwejPs6ymRPCr
+ 3+qJflUm1uVqFWeK/w0HEf5BqijTsqUmFg2VZxI9rM7nQNtF0sLdUCFnkyWsgQ6KUdZb
+ 3v2/pkEqEbMMVwSSxAou0C8ixVtoQVE4C2gPxOlIBB0uFBopc3EJEWr7FrAsI607E/r5
+ Uz258GrQ4ESmM+gBquhd/ZPfXvC9SRQ8EMF2KLx4JiVVW7ZwmMHy7098bTEBnI2ZqI2P
+ J9d58NUejrTgglboOKwIQeUjZ54xY3xQX8pcvkNA2isKfxoSVhCxmtmtSerA+UHsitTo
+ 321w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=EEpp/zjJADSHGlJFmARkvy4L9G20CW1cf6ywBKPRwHw=;
- b=D9UN9QPQEB3sV2seK2OrXsi7AeWjtfo18LcEvHRQXLnG1eFgh+p4FzTfqbaxuAL+QH
- LftO4of8rnogwvFNz8PqxlJWo+ysvl72iEa6nICOIoE9agGpw52wTWYhJ/9GZKQNA38j
- bjDgeZFllyjZ3J8m7taYe7ui4l4jB/sxrInEUJ77HMMBFNfTYK/9KXnHP2bEwLaweF0+
- 2AXpnpBBa1V1av7oDOkC+oPdamnxaHLPKgti+6If+BvvAvdglooBa/EN64D8r5MRe1Z2
- fWvRvf6o5zj//pwQUDkkwJSlPchxYuRYjwRiaso8I6aodz+anUqIprqwMChv+TDkpL4E
- ryXw==
-X-Gm-Message-State: AJIora9A9BQ+larYj5nSR92i953tpjzZOrF9q2+DcRoGMrqL9HbRizLq
- dJJSvT3IETf3SeWs++P+KSawfRMhwtzLdYWsqIpb/A==
-X-Google-Smtp-Source: AGRyM1v3jnPv5cuHpx94FRP26ei5mxp/XAukxAl4zEla6eKLM2Q1NSNu7m+CRXyjyBbCB9AsEKEThB2Cu9AZdLgxBO4=
-X-Received: by 2002:a05:6870:7c0e:b0:108:b9a4:8704 with SMTP id
- je14-20020a0568707c0e00b00108b9a48704mr2488361oab.146.1656374896661; Mon, 27
- Jun 2022 17:08:16 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OFFvy82t3qS2mWvKMEQ2PiSLGvpukFE2JbAHWF/b/0o=;
+ b=XYkueAqMbFRbpQJoCt9ZFeDtBPbWlRObcpdeomZLIkzqKdrdA/z6dIyPqhoK+CPmIC
+ i1h7GqCFoX8L6lwuveuyK0c60V4tO+eBEbzwDMq197WIZFN6EZ56WvoUEMmwMyH6hXws
+ N2dzOuKYlYi17D/GbtU9dGEZefk+mQPoGQ3pmNh6mMTSrI/ButbvB12AtZqiWikAZtK8
+ VC1tDrGLhUpsL+q1yDagOmn167verdNApiOkmPue9GqDVGN32twbaMWGwk+qiIJ2uJnu
+ RkODm7N4zk8kjPlPvyNfn0poAMxhdV1I/RIx0Xtx7zq5lRqK0yJriIGzQ6gIh41ZmcJH
+ IBnA==
+X-Gm-Message-State: AJIora/k1rtWo+Q1WajBErSyPxnIbWKvFl54kkzsbbH+7VrWCztecRdS
+ C2jkCdplatrX8I+PduHN7f8=
+X-Google-Smtp-Source: AGRyM1tWsgyFKFnn4ji+g5YZhEaM1wplTOBNsi5KT3WKRaD4wmjJG2KzTXbtuZlDoMCjfrKa2kFccw==
+X-Received: by 2002:a17:903:41d2:b0:16a:2cca:4869 with SMTP id
+ u18-20020a17090341d200b0016a2cca4869mr2157470ple.13.1656376323885; 
+ Mon, 27 Jun 2022 17:32:03 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-39.three.co.id.
+ [116.206.12.39]) by smtp.gmail.com with ESMTPSA id
+ x9-20020a634849000000b0040d75537824sm7726863pgk.86.2022.06.27.17.32.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Jun 2022 17:32:03 -0700 (PDT)
+Message-ID: <e2eee869-3e72-ea18-6afc-73fe5bc5dbd3@gmail.com>
+Date: Tue, 28 Jun 2022 07:31:54 +0700
 MIME-Version: 1.0
-From: Coleman Dietsch <dietschc@csp.edu>
-Date: Mon, 27 Jun 2022 19:08:05 -0500
-Message-ID: <CABvydfLc57kidrM_jSrsHcdu0vhVXv_2eqX=3x5xQwKdcA7Hdg@mail.gmail.com>
-Subject: [PATCH] docs: fix include path causing kselftest net fatal error
-To: Shuah Khan <skhan@linuxfoundation.org>, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- Eric Dumazet <edumazet@google.com>, davem@davemloft.net, kuba@kernel.org, 
- pabeni@redhat.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
- kafai@fb.com
-Content-Type: multipart/mixed; boundary="00000000000054f01005e276d556"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] docs: fix 'make htmldocs' warning in leds
+Content-Language: en-US
+To: Praghadeesh T K S <praghadeeshthevendria@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20220627214311.7817-1-praghadeeshthevendria@gmail.com>
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220627214311.7817-1-praghadeeshthevendria@gmail.com>
+Cc: praghadeeshtks@zohomail.in, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,65 +110,42 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---00000000000054f01005e276d556
-Content-Type: multipart/alternative; boundary="00000000000054f00e05e276d554"
+On 6/28/22 04:43, Praghadeesh T K S wrote:
+> Fix following 'make htmldocs' warnings:
+> ./Documentation/leds/leds-qcom-lpg.rst: WARNING:
+> document isn't included in any toctree
+> 
+> Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+> ---
+>  Documentation/leds/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+> index e5d63b9..b9ca081 100644
+> --- a/Documentation/leds/index.rst
+> +++ b/Documentation/leds/index.rst
+> @@ -26,3 +26,4 @@ LEDs
+>     leds-lp55xx
+>     leds-mlxcpld
+>     leds-sc27xx
+> +   leds-qcom-lpg
 
---00000000000054f00e05e276d554
-Content-Type: text/plain; charset="UTF-8"
+Hi,
 
+I had already sent the fix at [1] (resend at [2]). Thanks anyway.
 
+[1]: https://lore.kernel.org/linux-doc/20220604015735.249707-1-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
 
---00000000000054f00e05e276d554
-Content-Type: text/html; charset="UTF-8"
-
-<div dir="ltr"><br></div>
-
---00000000000054f00e05e276d554--
---00000000000054f01005e276d556
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-Fix-include-path-causing-kselftest-net-fatal-error.patch"
-Content-Disposition: attachment; 
-	filename="0001-Fix-include-path-causing-kselftest-net-fatal-error.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_l4xeox2l0>
-X-Attachment-Id: f_l4xeox2l0
-
-RnJvbSAxZTg1YjUwYzRlY2VlOTIxZDA4YjcwNzQzNjAyMjhlOGFhNTFhYzcxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBDb2xlbWFuIERpZXRzY2ggPGRpZXRzY2hjQGNzcC5lZHU+CkRh
-dGU6IE1vbiwgMjcgSnVuIDIwMjIgMTg6Mzg6NDIgLTA1MDAKU3ViamVjdDogW1BBVENIXSBGaXgg
-aW5jbHVkZSBwYXRoIGNhdXNpbmcga3NlbGZ0ZXN0IG5ldCBmYXRhbCBlcnJvcgoKVGhlIGluY29y
-cmVjdCBwYXRoIGlzIGNhdXNpbmcgdGhlIGZvbGxvd2luZyBlcnJvciB3aGVuIHRyeWluZyB0byBy
-dW4gbmV0CmtzZWxmdGVzdHM6CgpjbGFuZyAtTzIgLXRhcmdldCBicGYgLWMgYnBmL25hdDZ0bzQu
-YyAtSS4uLy4uL2JwZiAtSS4uLy4uLy4uL2xpYiAtSS4uLy4uLy4uLy4uLy4uL3Vzci9pbmNsdWRl
-LyAtbyAvaG9tZS9jb2xlL0RldmVsb3BtZW50L2xpbnV4L3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3Rz
-L25ldC9icGYvbmF0NnRvNC5vCkluIGZpbGUgaW5jbHVkZWQgZnJvbSBicGYvbmF0NnRvNC5jOjQz
-OgouLi8uLi8uLi9saWIvYnBmL2JwZl9oZWxwZXJzLmg6MTE6MTA6IGZhdGFsIGVycm9yOiAnYnBm
-X2hlbHBlcl9kZWZzLmgnIGZpbGUgbm90IGZvdW5kCiAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+
-fn4KMSBlcnJvciBnZW5lcmF0ZWQuCgpTaWduZWQtb2ZmLWJ5OiBDb2xlbWFuIERpZXRzY2ggPGRp
-ZXRzY2hjQGNzcC5lZHU+Ci0tLQogdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbmV0L2JwZi9NYWtl
-ZmlsZSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQoKZGlmZiAtLWdpdCBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL25ldC9icGYvTWFrZWZpbGUg
-Yi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9uZXQvYnBmL01ha2VmaWxlCmluZGV4IDhhNjljOTFm
-Y2NhMC4uOGNjYWY4NzMyZWIyIDEwMDY0NAotLS0gYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9u
-ZXQvYnBmL01ha2VmaWxlCisrKyBiL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL25ldC9icGYvTWFr
-ZWZpbGUKQEAgLTIsNyArMiw3IEBACiAKIENMQU5HID89IGNsYW5nCiBDQ0lOQ0xVREUgKz0gLUku
-Li8uLi9icGYKLUNDSU5DTFVERSArPSAtSS4uLy4uLy4uL2xpYgorQ0NJTkNMVURFICs9IC1JLi4v
-Li4vLi4vLi4vbGliCiBDQ0lOQ0xVREUgKz0gLUkuLi8uLi8uLi8uLi8uLi91c3IvaW5jbHVkZS8K
-IAogVEVTVF9DVVNUT01fUFJPR1MgPSAkKE9VVFBVVCkvYnBmL25hdDZ0bzQubwotLSAKMi4zNC4x
-Cgo=
---00000000000054f01005e276d556
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+An old man doll... just what I always wanted! - Clara
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---00000000000054f01005e276d556--
