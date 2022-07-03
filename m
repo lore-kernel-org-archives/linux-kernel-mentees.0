@@ -4,94 +4,93 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89FAAC43334
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 Jul 2022 08:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1FB80C43334
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 Jul 2022 19:26:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0E9A8404D5;
-	Sun,  3 Jul 2022 08:47:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0E9A8404D5
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8FF8F405B9;
+	Sun,  3 Jul 2022 19:26:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8FF8F405B9
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=niGEtNVy
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=aSdePPka
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zsJgecwDndG9; Sun,  3 Jul 2022 08:47:52 +0000 (UTC)
+	with ESMTP id 6b8XUWVxMaxX; Sun,  3 Jul 2022 19:26:08 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 009214027A;
-	Sun,  3 Jul 2022 08:47:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 009214027A
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 78B7E40519;
+	Sun,  3 Jul 2022 19:26:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 78B7E40519
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C2F05C0032;
-	Sun,  3 Jul 2022 08:47:51 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DCC5FC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 42CC7C0032;
+	Sun,  3 Jul 2022 19:26:08 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9F96DC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 Jul 2022 08:47:50 +0000 (UTC)
+ Sun,  3 Jul 2022 19:26:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id C5E1C60592
+ by smtp4.osuosl.org (Postfix) with ESMTP id 64864410E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 Jul 2022 08:47:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C5E1C60592
-Authentication-Results: smtp3.osuosl.org;
+ Sun,  3 Jul 2022 19:26:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 64864410E7
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=niGEtNVy
+ header.a=rsa-sha256 header.s=20210112 header.b=aSdePPka
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 6xpZU83MfHkm
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SSEiFcjyWEdC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 Jul 2022 08:47:50 +0000 (UTC)
+ Sun,  3 Jul 2022 19:26:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 149F96006A
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 149F96006A
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 24156410E4
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
+ [IPv6:2607:f8b0:4864:20::632])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 24156410E4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  3 Jul 2022 08:47:49 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id fz10so463550pjb.2
+ Sun,  3 Jul 2022 19:26:06 +0000 (UTC)
+Received: by mail-pl1-x632.google.com with SMTP id l12so1473828plk.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 03 Jul 2022 01:47:49 -0700 (PDT)
+ Sun, 03 Jul 2022 12:26:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tUsFz55Px30MpiSri6WdI5V/eCo3oYtyYbcL/dhllTg=;
- b=niGEtNVyxCbmjPSahF1+ZBR8MEYUD3iy5SMhHcNpaGQ2vS4SqSox9PJtXjt4ndBcOK
- vaIA6IWExgqdi7jThgg0zHrgJwpfbVNaCVJOXO9HvYCEKAym++/tMkv3HLkeM06GnPnz
- 9wMg0LeJYrJRo/fMgXreTsiRPZfNqrjcUgMY8wqBFnWy+qmrHruPoN2Ngb1p6THS9393
- 32ezqqbr5p5xDmBFt9k/QXPTvtPfwl3HUrB8o7dYGn2CEhjwtCOrGxLN9stkiNISWafx
- er86W4hs1FZWvaU7M5TRAYbmUf7chK+OxGRNFRIT/3OVHa2ON9RlGMaYLQgaH3m70igX
- AxZg==
+ bh=ko4FLx/zT4WyjidusLHvpuHoIsoPjnk74mrmMkIRO34=;
+ b=aSdePPkaoiggVQvZTHd0K8u6V+AHMuklxapVQ+2i5AWbeU8NHrmU5QqWEhoxHzIGJ6
+ YudfyhsmJlv8i2lKL5Hmqdo5fIs2da6Z4CdCe/4VFFoLMTRKop3pctci2TTn58/J0iau
+ wI/T7ZrJDFxrY713Jpd9o05JRWbPSuFV4lgS/SZLftRUVoh8sIqhCehgnSWgkBdapf2+
+ 86e4vqu2E7cxgY5b9l+8XqiEfBEJYzT3GkwbT8T6ct+rnOMg309m13iI64cGNEG0Gj1o
+ ytOASkzU3tfffpp3eyVwLFzg4gUoKRAZ6OtTwZ7iZRrpXQ7g3+cdrZ2Mh9/WntPvmThK
+ 9/mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tUsFz55Px30MpiSri6WdI5V/eCo3oYtyYbcL/dhllTg=;
- b=A553JcDnINYwDf4Nn9JHp0byagQFjtHXdgoMG13v8/uh2bX+qOGHjoPT1nlSJHAHtJ
- vW5I8ONuKDmb7ZfNpq8Tl9Fno5O9TxmZ++s4ORVIIi7hB7w9bSea19YfzLYNcp8KToP9
- eBdSM71nA6z7kuk+SNRsI0Sz0MG6SzD/rMrOGD52zgW/Jut7enMwabbZjmtW9XNvv1TU
- VbiWZoyA77NEC7YCy4lMAeBISaaUFT7XfztmxhHfrYHgq2nV5zMfVTSEYsf8f1364KIx
- Ljrj/Ox4bfSXMg+ASfXukA9Wos1gAY0y656IR3wuk2f03LB+WKhSFC7s024/lh9I99gO
- E92g==
-X-Gm-Message-State: AJIora/e6awStSNi1NytLx3o53zB1Vr89diq3HTGo18ROE16SDA9Dz21
- uStY4df/M95pvHfNHexdmVJMTm9AHp1jug==
-X-Google-Smtp-Source: AGRyM1uxGwlkGItwao0LpzEZt1r4qM73Q1jRopcIa1PdFpWCXpTztf2Ql0ME8FJRdX6TcLjck2QDMw==
-X-Received: by 2002:a17:90b:218:b0:1ef:1440:ebe1 with SMTP id
- fy24-20020a17090b021800b001ef1440ebe1mr29068126pjb.166.1656838069362; 
- Sun, 03 Jul 2022 01:47:49 -0700 (PDT)
-Received: from fedora.. ([103.159.189.148]) by smtp.gmail.com with ESMTPSA id
- mt7-20020a17090b230700b001ef7bd5b711sm1262417pjb.0.2022.07.03.01.47.45
+ bh=ko4FLx/zT4WyjidusLHvpuHoIsoPjnk74mrmMkIRO34=;
+ b=c/3MB0JkEz2uJ/axMD7brwLgV33H5shH0CASbf1Ld4AgZzjg1Y/uMfIG2rGexJ9a2y
+ OgzqoFaFmkW5fdTazFuX1aAhswtoOMj9McuNGg7Bf2+jJ0yz73AnfJW21diu3XJBH9GW
+ HyZYRFpVAm9xatwGkkDinMFPcGTa3Q2c871EHIVQLYsWRpB/n8RfuTT/mID1pOs13FUB
+ zyRjn9dQPhaSvMdjmVD+S2I+vb8ZzfJIExph5DxgUt2656Psgk/uOMcTVSRH5YmWGYwE
+ yUXrpKEUJmSJzqAo0TCQzSfD7guB50Jr+0Kmt3Ea8LvzaKaZX33Yo1trs+hlIFd7tdZY
+ 5I2Q==
+X-Gm-Message-State: AJIora9G5dZng4Snhekwg5Ifx4RQ1Wo5LYoBzyTdD8KP0KYTEfWn94PW
+ xXwSHASG3H1cfBI9FS+qJT1TlAtXKN+H+yhK
+X-Google-Smtp-Source: AGRyM1vRgNbXzRNTe19H3aGcY46VOCbn98Rj38c8aEYnLB5138lI378QP7k4qXTLsoPtTbXjvTPm7g==
+X-Received: by 2002:a17:90a:af98:b0:1ef:1d10:c052 with SMTP id
+ w24-20020a17090aaf9800b001ef1d10c052mr30691024pjq.111.1656876365391; 
+ Sun, 03 Jul 2022 12:26:05 -0700 (PDT)
+Received: from fedora.. ([103.230.107.40]) by smtp.gmail.com with ESMTPSA id
+ s91-20020a17090a69e400b001ef831a2015sm1341876pjj.22.2022.07.03.12.26.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 03 Jul 2022 01:47:48 -0700 (PDT)
+ Sun, 03 Jul 2022 12:26:05 -0700 (PDT)
 From: Khalid Masum <khalid.masum.92@gmail.com>
-To: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] scripts/gdb: Fix gdb 'lx-symbols' command
-Date: Sun,  3 Jul 2022 14:46:54 +0600
-Message-Id: <20220703084654.6360-1-khalid.masum.92@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: dwc3: Describe function parameter 'mult'
+Date: Mon,  4 Jul 2022 01:24:48 +0600
+Message-Id: <20220703192448.13763-1-khalid.masum.92@gmail.com>
 X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Cc: Pavel Skripkin <paskripkin@gmail.com>, Helge Deller <deller@gmx.de>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
+Cc: Pavel Skripkin <paskripkin@gmail.com>, Felipe Balbi <balbi@kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,31 +108,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently the command 'lx-symbols' in gdb exits with the error`Function
-"do_init_module" not defined in "kernel/module.c"`. This occurs because
-the file kernel/module.c was moved to kernel/module/main.c.
-
-Fix this breakage by changing the path to "kernel/module/main.c" in
-LoadModuleBreakpoint.
+Currently the parameter is not described. Which triggers warning when using
+make htmldocs. Fix it by describing the parameter.
 
 Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
 ---
- scripts/gdb/linux/symbols.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc3/gadget.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
-index 46f7542db08c..dc07b6d12e30 100644
---- a/scripts/gdb/linux/symbols.py
-+++ b/scripts/gdb/linux/symbols.py
-@@ -180,7 +180,7 @@ lx-symbols command."""
-                 self.breakpoint.delete()
-                 self.breakpoint = None
-             self.breakpoint = LoadModuleBreakpoint(
--                "kernel/module.c:do_init_module", self)
-+                "kernel/module/main.c:do_init_module", self)
-         else:
-             gdb.write("Note: symbol update on module loading not supported "
-                       "with this gdb version\n")
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 8716bece1072..e8c86b08cd83 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -657,6 +657,7 @@ static int dwc3_gadget_set_ep_config(struct dwc3_ep *dep, unsigned int action)
+ /**
+  * dwc3_gadget_calc_tx_fifo_size - calculates the txfifo size value
+  * @dwc: pointer to the DWC3 context
++ * @mult: multiplier, 'mult' value for SS Isoc EPs
+  *
+  * Calculates the size value based on the equation below:
+  *
 -- 
 2.36.1
 
