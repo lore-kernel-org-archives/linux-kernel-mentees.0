@@ -1,97 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B72D9C43334
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  2 Jul 2022 09:37:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89FAAC43334
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  3 Jul 2022 08:47:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 30BB760804;
-	Sat,  2 Jul 2022 09:37:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 30BB760804
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=GkNnWxBN
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0E9A8404D5;
+	Sun,  3 Jul 2022 08:47:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0E9A8404D5
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=niGEtNVy
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BfT4U2iyLELT; Sat,  2 Jul 2022 09:37:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3F8DD60757;
-	Sat,  2 Jul 2022 09:37:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3F8DD60757
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zsJgecwDndG9; Sun,  3 Jul 2022 08:47:52 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 009214027A;
+	Sun,  3 Jul 2022 08:47:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 009214027A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id EE0D6C0032;
-	Sat,  2 Jul 2022 09:37:41 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6CC0DC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C2F05C0032;
+	Sun,  3 Jul 2022 08:47:51 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DCC5FC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jul 2022 09:37:40 +0000 (UTC)
+ Sun,  3 Jul 2022 08:47:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 32FC160757
+ by smtp3.osuosl.org (Postfix) with ESMTP id C5E1C60592
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jul 2022 09:37:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 32FC160757
+ Sun,  3 Jul 2022 08:47:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C5E1C60592
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=niGEtNVy
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O3ppzzffDpGL
+ with ESMTP id 6xpZU83MfHkm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jul 2022 09:37:39 +0000 (UTC)
+ Sun,  3 Jul 2022 08:47:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5B92B606E6
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
- [IPv6:2607:f8b0:4864:20::535])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 5B92B606E6
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 149F96006A
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 149F96006A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  2 Jul 2022 09:37:39 +0000 (UTC)
-Received: by mail-pg1-x535.google.com with SMTP id 9so4526945pgd.7
+ Sun,  3 Jul 2022 08:47:49 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id fz10so463550pjb.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 02 Jul 2022 02:37:39 -0700 (PDT)
+ Sun, 03 Jul 2022 01:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=KziEB9cT1XcdWrK8SlCN94Y+V1t5gEx6xZeBcAcwjrQ=;
- b=GkNnWxBNyvD7NfVWf71wj0qPZQHF5Cz849SIL0CUeRtiytraHup5EJThnMcVn1F/7j
- sxPACwemV4bW6KvThxVmBSXvBV1/g+GdbD3YUr5/cCYLmGqv58UZMp/0aeGav6nqVsdj
- QTUNtD1gnVT1hwijOLLaiXHGO7paoTT0uXSE550xfQcBPNWsHr3017xFxMWBwaHKEMP0
- Dlh+vr8qQ4kYU8tnrvS5CgI7kf5B/Ue4xuJaJ0H76aCwCNHMqUhVTqgNdKvO1dm7mUn0
- sz1vmeGDQcodEkchiBJabpgVI1NNFAs5Fwgd8+xfSlN9l3YeWqgJifFnfxEuCn/pAbg3
- 2I6A==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tUsFz55Px30MpiSri6WdI5V/eCo3oYtyYbcL/dhllTg=;
+ b=niGEtNVyxCbmjPSahF1+ZBR8MEYUD3iy5SMhHcNpaGQ2vS4SqSox9PJtXjt4ndBcOK
+ vaIA6IWExgqdi7jThgg0zHrgJwpfbVNaCVJOXO9HvYCEKAym++/tMkv3HLkeM06GnPnz
+ 9wMg0LeJYrJRo/fMgXreTsiRPZfNqrjcUgMY8wqBFnWy+qmrHruPoN2Ngb1p6THS9393
+ 32ezqqbr5p5xDmBFt9k/QXPTvtPfwl3HUrB8o7dYGn2CEhjwtCOrGxLN9stkiNISWafx
+ er86W4hs1FZWvaU7M5TRAYbmUf7chK+OxGRNFRIT/3OVHa2ON9RlGMaYLQgaH3m70igX
+ AxZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KziEB9cT1XcdWrK8SlCN94Y+V1t5gEx6xZeBcAcwjrQ=;
- b=SYw1OOxZTKdaJz1iV+yUeS5MJ1zKwEIPuQWbT5Y6+0ZtRVBAIl7jNsrP6B+FOhQE8n
- ZnH1OmWeiX9/Su+36rnjoh4Jn7yDl/C0MU8JRA4DCpd/e/YXoCqdsLq15zh6x3eLoeSg
- HUNMcC1QoWBuNULlxPd3IXPpKi8KjEG72PgyxuoWU9sEl+9SjIqg8fr4DWMNGbX/8ZOx
- awckdNCF2RbqSt4mrVVVYwxDf+dN2w5Q5NEZJhJBPxH9/3r2MolZfe5RKIGvqxCWEKrK
- 2WBlYfNs5UNOrzoksVAtm+CZ6ijIJNKm6layMg/qJZHRUSM/YiW1ScStt3LaLLZZWG+h
- Ixnw==
-X-Gm-Message-State: AJIora//4aEjY5T8lPfiEycmdY8n9PEpNbVkTGXt6CDPboCPDbFd3k4v
- XJM5Ikswb3XMD8CDNLkmzm3J2a7xUC1lFw==
-X-Google-Smtp-Source: AGRyM1ugAHe+9ZCzXRBnnXe27bSmgN424F9L2BoVUlgCpwrNNSCJRKjrrA8BkTx2ikN7+I2AdjPxyw==
-X-Received: by 2002:a05:6a00:84d:b0:525:3ce6:9c33 with SMTP id
- q13-20020a056a00084d00b005253ce69c33mr24215589pfk.47.1656754658327; 
- Sat, 02 Jul 2022 02:37:38 -0700 (PDT)
-Received: from Negi ([68.181.16.243]) by smtp.gmail.com with ESMTPSA id
- x9-20020a634849000000b0040d75537824sm16814650pgk.86.2022.07.02.02.37.36
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tUsFz55Px30MpiSri6WdI5V/eCo3oYtyYbcL/dhllTg=;
+ b=A553JcDnINYwDf4Nn9JHp0byagQFjtHXdgoMG13v8/uh2bX+qOGHjoPT1nlSJHAHtJ
+ vW5I8ONuKDmb7ZfNpq8Tl9Fno5O9TxmZ++s4ORVIIi7hB7w9bSea19YfzLYNcp8KToP9
+ eBdSM71nA6z7kuk+SNRsI0Sz0MG6SzD/rMrOGD52zgW/Jut7enMwabbZjmtW9XNvv1TU
+ VbiWZoyA77NEC7YCy4lMAeBISaaUFT7XfztmxhHfrYHgq2nV5zMfVTSEYsf8f1364KIx
+ Ljrj/Ox4bfSXMg+ASfXukA9Wos1gAY0y656IR3wuk2f03LB+WKhSFC7s024/lh9I99gO
+ E92g==
+X-Gm-Message-State: AJIora/e6awStSNi1NytLx3o53zB1Vr89diq3HTGo18ROE16SDA9Dz21
+ uStY4df/M95pvHfNHexdmVJMTm9AHp1jug==
+X-Google-Smtp-Source: AGRyM1uxGwlkGItwao0LpzEZt1r4qM73Q1jRopcIa1PdFpWCXpTztf2Ql0ME8FJRdX6TcLjck2QDMw==
+X-Received: by 2002:a17:90b:218:b0:1ef:1440:ebe1 with SMTP id
+ fy24-20020a17090b021800b001ef1440ebe1mr29068126pjb.166.1656838069362; 
+ Sun, 03 Jul 2022 01:47:49 -0700 (PDT)
+Received: from fedora.. ([103.159.189.148]) by smtp.gmail.com with ESMTPSA id
+ mt7-20020a17090b230700b001ef7bd5b711sm1262417pjb.0.2022.07.03.01.47.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Jul 2022 02:37:36 -0700 (PDT)
-Date: Sat, 2 Jul 2022 02:37:35 -0700
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Pavel Skripkin <paskripkin@gmail.com>
-Subject: Re: [RFT PATCH] isdn: capi: Add check for controller count in
- detach_capi_ctr()
-Message-ID: <20220702093734.GA24575@Negi>
-References: <20220701235014.13025-1-soumya.negi97@gmail.com>
- <ee159745-07d2-dca3-6be3-bef823090088@gmail.com>
+ Sun, 03 Jul 2022 01:47:48 -0700 (PDT)
+From: Khalid Masum <khalid.masum.92@gmail.com>
+To: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] scripts/gdb: Fix gdb 'lx-symbols' command
+Date: Sun,  3 Jul 2022 14:46:54 +0600
+Message-Id: <20220703084654.6360-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ee159745-07d2-dca3-6be3-bef823090088@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Pavel Skripkin <paskripkin@gmail.com>, Helge Deller <deller@gmx.de>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,56 +109,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Jul 02, 2022 at 11:14:06AM +0300, Pavel Skripkin wrote:
-> Hi Soumya,
-> 
-> Soumya Negi <soumya.negi97@gmail.com> says:
-> > Fixes Syzbot bug:
-> > https://syzkaller.appspot.com/bug?id=14f4820fbd379105a71fdee357b0759b90587a4e
-> > 
-> > This patch checks whether any ISDN devices are registered before unregistering
-> > a CAPI controller(device). Without the check, the controller struct capi_str
-> > results in out-of-bounds access bugs to other CAPI data strucures in
-> > detach_capri_ctr() as seen in the bug report.
-> > 
-> > Reported-by: syzbot+9d567e08d3970bfd8271@syzkaller.appspotmail.com
-> > 
-> > Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> > ---
-> >   drivers/isdn/capi/kcapi.c | 3 +++
-> >   1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/drivers/isdn/capi/kcapi.c b/drivers/isdn/capi/kcapi.c
-> > index 18de41a266eb..6175ff7ec749 100644
-> > --- a/drivers/isdn/capi/kcapi.c
-> > +++ b/drivers/isdn/capi/kcapi.c
-> > @@ -563,6 +563,9 @@ int detach_capi_ctr(struct capi_ctr *ctr)
-> >   	mutex_lock(&capi_controller_lock);
-> > +	if (ncontrollers == 0)
-> > +		goto unlock_out;
-> > +
-> 
-> It seems like to fix the problem. Did you mean to return 0 in case of
-> ncontrollers == 0? Maybe it's better to return an error to indicate that
-> function was called wrongly.
+Currently the command 'lx-symbols' in gdb exits with the error`Function
+"do_init_module" not defined in "kernel/module.c"`. This occurs because
+the file kernel/module.c was moved to kernel/module/main.c.
 
-Yes, I let detach_capi_ctr() exit without an error code since I figured the
-issue is caused by another subsystem in the first place.
-But your logic sounds right. It is still an error and should be reflected
-on return. I'll do that.
- 
-> On the other hand it means there are suspicious callers of that function.
-> Maybe they should be fixed too.
+Fix this breakage by changing the path to "kernel/module/main.c" in
+LoadModuleBreakpoint.
 
-It is being wrongly called without a controller count check from an external
-function in the bluetooth stack's CMTP module. Should I fix the calling 
-function in the same patch or go for a patchset?
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+ scripts/gdb/linux/symbols.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> I'd put a warning in case of `ncontrollers == 0`, to indicate that something
-> is going completely wrong.
- 
-Thanks for the quick reply,
-Soumya
+diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
+index 46f7542db08c..dc07b6d12e30 100644
+--- a/scripts/gdb/linux/symbols.py
++++ b/scripts/gdb/linux/symbols.py
+@@ -180,7 +180,7 @@ lx-symbols command."""
+                 self.breakpoint.delete()
+                 self.breakpoint = None
+             self.breakpoint = LoadModuleBreakpoint(
+-                "kernel/module.c:do_init_module", self)
++                "kernel/module/main.c:do_init_module", self)
+         else:
+             gdb.write("Note: symbol update on module loading not supported "
+                       "with this gdb version\n")
+-- 
+2.36.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
