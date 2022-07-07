@@ -1,99 +1,103 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 65401C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Jul 2022 19:53:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B32BC433EF
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  7 Jul 2022 23:10:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DB98E410D9;
-	Thu,  7 Jul 2022 19:53:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DB98E410D9
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=ePE8YIlk
+	by smtp4.osuosl.org (Postfix) with ESMTP id A2A504241D;
+	Thu,  7 Jul 2022 23:10:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A2A504241D
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=aYs3bZQ1
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F8HPClhm3JF5; Thu,  7 Jul 2022 19:53:46 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C7A20400D1;
-	Thu,  7 Jul 2022 19:53:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C7A20400D1
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id u6wUbrF7bEvC; Thu,  7 Jul 2022 23:10:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 61D0642418;
+	Thu,  7 Jul 2022 23:10:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 61D0642418
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ADF7EC0033;
-	Thu,  7 Jul 2022 19:53:45 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D69A4C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F14FC0035;
+	Thu,  7 Jul 2022 23:10:57 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 662A7C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Jul 2022 19:53:44 +0000 (UTC)
+ Thu,  7 Jul 2022 23:10:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id A318C400D1
+ by smtp2.osuosl.org (Postfix) with ESMTP id 39E774019F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Jul 2022 19:53:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A318C400D1
+ Thu,  7 Jul 2022 23:10:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 39E774019F
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
+ header.a=rsa-sha256 header.s=20210112 header.b=aYs3bZQ1
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Pdt_MkqK34Qk
+ with ESMTP id BXisoeqrVPAG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Jul 2022 19:53:42 +0000 (UTC)
+ Thu,  7 Jul 2022 23:10:55 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CEF72410D9
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by smtp2.osuosl.org (Postfix) with ESMTPS id CEF72410D9
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9FC4D4014B
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9FC4D4014B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  7 Jul 2022 19:53:41 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id n7so7320553ioo.7
+ Thu,  7 Jul 2022 23:10:55 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ z12-20020a17090a7b8c00b001ef84000b8bso241695pjc.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 07 Jul 2022 12:53:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rbpdA+BUxTlil+WefB4QZKW00HISZttMClbHdZNclx8=;
- b=ePE8YIlkrDxomnHx5zf9YabSCOdJyVxTdJRZfRTShjLWmoCFgjDmrPs1xDYbjks/pz
- qSr/0NwRSJa1CI49afC6wfy5s/FTk7lsrvYaInfrY5pORwhgYDG95OULyjphk2itGMjU
- iBJoD5hdf/iJHB6oAIg/GvpqP6HU3GGAVdIUg=
+ Thu, 07 Jul 2022 16:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TqoITV2pKW32A4dt41SN4K/+XbRSwwvZNic7w5oXhBA=;
+ b=aYs3bZQ1BCJjjPgBnSRGEbYaFkv+Iv8EEgeOrHKNmoqqEiSsZ0LdFntkloSGbcUeUU
+ fiJGTQ28PCl7Xn2j8DwMdxNYmLnKoroRrcA27UO9bNBKSStsrGG1cKHfJBBHW3jm1xyx
+ URvyw5cWZ+5kBh1emLqGyhQXGVptCWZhAQrt2DFw8ufP1eA598eMG4zaF6Qo2IXjV+ze
+ Kz11jUYpa5gt+XubsghdEqVLuTNSF16rESYQO6Hd+b3KwkcwlEZ3UCmSEls3dxXmWOLv
+ sDrLZudS/HntODg5hMKDeCp9zlcxNcvN01iz1xzuXct6/WYslFmfOaJUmR7j5Q3R4NO7
+ h7fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rbpdA+BUxTlil+WefB4QZKW00HISZttMClbHdZNclx8=;
- b=NaU8SgVzabTwDRGuqXzpknEqZu7D7JZt6soh4ePSrTWBD8XR73ZoS5opFTxPoNupSE
- dySJW4fjP5vLpt8Sn/PQxT5V6FYpZvF1e6lKuephnlnPUFvCGglK6eZB7r2jdlqNGqGB
- GkE8t0TG0xlKg9y5acVXEgwBx0+hXyYZXhAx7fYOBZ+5Y19coVIH7GPJvxHZYHSn7gTA
- Vsufc/5prRMrzCUGXldjjtykK7mSYphBVb3R4EwXPK1mMtUcYvTyyduQ8IWFpOCq3qA8
- /DfUv38W0snyMtN+2fCERRnihX9SS12Qkot87HcfA5tXCPRPnu/XpUMtU7gPbwKHJ/OK
- IDvQ==
-X-Gm-Message-State: AJIora8tyb5SUMguyLlDV4aX2ruvM26BoP0roT4me140/CrRFxYK7p96
- eVX3sHTbWLSMrQ5VWxyP4LSHb3Ba
-X-Google-Smtp-Source: AGRyM1vAORWCXL6p9WH1nWaLYP0Q2q2CjsamNu14jSepUKFmKrG2v+RTUiKQTyaAtPkTQAD0veh98A==
-X-Received: by 2002:a02:c05a:0:b0:33f:1a87:966c with SMTP id
- u26-20020a02c05a000000b0033f1a87966cmr2766999jam.311.1657223620876; 
- Thu, 07 Jul 2022 12:53:40 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
- i21-20020a056638381500b0032ec5c47c17sm14671321jav.46.2022.07.07.12.51.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jul 2022 12:52:45 -0700 (PDT)
-Subject: Re: [RFT PATCH] isdn: capi: Add check for controller count in
- detach_capi_ctr()
-To: Soumya Negi <soumya.negi97@gmail.com>,
- Pavel Skripkin <paskripkin@gmail.com>
-References: <20220701235014.13025-1-soumya.negi97@gmail.com>
- <ee159745-07d2-dca3-6be3-bef823090088@gmail.com>
- <20220702093734.GA24575@Negi> <20220705030315.GA16609@Negi>
-From: Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <d0bb6593-958f-3c19-d67b-759c249c61d5@linuxfoundation.org>
-Date: Thu, 7 Jul 2022 13:51:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TqoITV2pKW32A4dt41SN4K/+XbRSwwvZNic7w5oXhBA=;
+ b=UcCDp4uFFfl84MFIhaG/gyEE7nErXdeT4w3VQMSszf1lVeR302DgIlcpPObyRBc2MH
+ uEcNA1pkdXHp7/QBl81RB2E/HZI8rkg35ny544VfzVtwtblfDvBBHqo72Dqt2pTAxVws
+ 5Ur1wPycIgk+nrISLo/0ZYnILC6yhvuC7AHMOygnnCoQY8rJ7m5h/J9QS/UYL1RF2IJu
+ VYkK4H03lMrKTazVOgYIozgIsfVeBNRkIex7XmvGXq0p8Q9f7H+qkjlc2NQBZLU8VGvq
+ 8ICosU8beLOnITctm1Y696AbdDk3FuthYKqcX2Oq64iAWbcPhkXfG0btKz4+xg9UDqeI
+ BcXQ==
+X-Gm-Message-State: AJIora+EuZnRBkJEXDyNIRtM/6f4SwryQFwWGetHsjoiLGvj4XleG5/J
+ 7B+hmr/+TyqpgnD79fwD+0jkSw==
+X-Google-Smtp-Source: AGRyM1uZIJNZXUsYe+zR0XtBe4h3Xn2PoOIdAia3O5yVwvGe6Wp2msoXjkxftcPAEWGr9UWTwdot4Q==
+X-Received: by 2002:a17:90b:1c02:b0:1ed:4bfb:7772 with SMTP id
+ oc2-20020a17090b1c0200b001ed4bfb7772mr8300513pjb.139.1657235455012; 
+ Thu, 07 Jul 2022 16:10:55 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com.
+ [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
+ l189-20020a6225c6000000b005255263a864sm27556291pfl.169.2022.07.07.16.10.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jul 2022 16:10:54 -0700 (PDT)
+Date: Thu, 7 Jul 2022 23:10:50 +0000
+To: Gautam Menghani <gautammenghani201@gmail.com>
+Subject: Re: [PATCH] selftests/kvm: Add error messages before skipping tests
+ in vm_xsave_req_perm()
+Message-ID: <Ysdn+ia40BSKnXU+@google.com>
+References: <20220704163538.31165-1-gautammenghani201@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20220705030315.GA16609@Negi>
-Content-Language: en-US
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20220704163538.31165-1-gautammenghani201@gmail.com>
+Cc: yang.zhong@intel.com, kvm@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ peterx@redhat.com, wei.w.wang@intel.com, linux-kselftest@vger.kernel.org,
+ guang.zeng@intel.com, dmatlack@google.com, pbonzini@redhat.com,
+ vkuznets@redhat.com, shuah@kernel.org, jmattson@google.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,26 +109,49 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Sean Christopherson via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Sean Christopherson <seanjc@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/4/22 9:03 PM, Soumya Negi wrote:
-> Hi,
-> I was just told on the syzkaller mailing list that this bug had been
-> fixed long back and syzbot didn't catch it as the commit didn't have
-> a Fixes tag.
+On Mon, Jul 04, 2022, Gautam Menghani wrote:
+> Add messages in the checks that are performed before making a request
+> with ARCH_REQ_XCOMP_GUEST_PERM.
 > 
-> -Soumya
+> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
+> ---
+>  tools/testing/selftests/kvm/lib/x86_64/processor.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
+> diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+> index ead7011ee8f6..c74e846661b7 100644
+> --- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
+> +++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+> @@ -643,11 +643,15 @@ void vm_xsave_req_perm(int bit)
+>  	if (rc == -1 && (errno == ENXIO || errno == EINVAL))
+>  		exit(KSFT_SKIP);
+>  	TEST_ASSERT(rc == 0, "KVM_GET_DEVICE_ATTR(0, KVM_X86_XCOMP_GUEST_SUPP) error: %ld", rc);
+> -	if (!(bitmask & (1ULL << bit)))
+> +	if (!(bitmask & (1ULL << bit))) {
+> +		print_skip("Userspace address of attr data is blank");
+>  		exit(KSFT_SKIP);
+> +	}
+>  
+> -	if (!is_xfd_supported())
+> +	if (!is_xfd_supported()) {
+> +		print_skip("XFD is not supported");
+>  		exit(KSFT_SKIP);
+> +	}
 
-You can check to see how the problem was fixed and if it is different
-from your fix. Might help in fixing other such problems in the future.
+This is no longer necessary as of commit 7ed397d107d4 ("KVM: selftests: Add
+TEST_REQUIRE macros to reduce skipping copy+paste"), which will automagically
+print the missing requirement before calling exit().
 
-thanks,
--- Shuah
+Thanks much for the patch though!
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
