@@ -4,92 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1932AC43334
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Jul 2022 04:22:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34E52CCA480
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 11 Jul 2022 07:21:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7FB8360E85;
-	Mon, 11 Jul 2022 04:22:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7FB8360E85
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=iqarByK8
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9B19260EA8;
+	Mon, 11 Jul 2022 07:21:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9B19260EA8
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 06Gati7kks1U; Mon, 11 Jul 2022 04:22:44 +0000 (UTC)
+	with ESMTP id XQ2cES5CSedv; Mon, 11 Jul 2022 07:21:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7F71960DF0;
-	Mon, 11 Jul 2022 04:22:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7F71960DF0
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9EA5160A91;
+	Mon, 11 Jul 2022 07:21:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9EA5160A91
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 57683C0033;
-	Mon, 11 Jul 2022 04:22:44 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BA282C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 784A4C0033;
+	Mon, 11 Jul 2022 07:21:36 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ECA8DC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Jul 2022 04:22:43 +0000 (UTC)
+ Mon, 11 Jul 2022 07:21:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9488460DF0
+ by smtp3.osuosl.org (Postfix) with ESMTP id C7A3C60E9B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Jul 2022 04:22:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9488460DF0
+ Mon, 11 Jul 2022 07:21:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C7A3C60E9B
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pupPG_u_lNsy
+ with ESMTP id Hojcb67zF6NT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Jul 2022 04:22:43 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E92D460AFE
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E92D460AFE
+ Mon, 11 Jul 2022 07:21:33 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 272D660A91
+Received: from out30-132.freemail.mail.aliyun.com
+ (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 272D660A91
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 11 Jul 2022 04:22:42 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id c13so3448647pla.6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 10 Jul 2022 21:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=dy7+GGN73umpQ2Bj6ZKtVNghFJ8bz6lPPPijWYG4Dy0=;
- b=iqarByK8IT+N2BbRHDK6Rtx6x6WVei2xs98PxQ+dt/A8dXl91s0EamQ5q1Jjg9TsL/
- yy+c7ADACWYCbh/WmABlv1vyE4towXZ4h9Cz13GEvu/mp16IJU8Niqqpo9DvUKLbkwVc
- u6ELg7Ft3k3kB0lebbvYLwwfc2tHfjQufadRsLLa9IywNg+t7rnkgiLbLBArlR9kJc0K
- hbC+T85cz6REwN1lA+czh0IdHWHgNXVN6nLNmpLl5ErXC8QA7h5QzSpIRwfyvlJtt6uN
- 5f3ygL4FrIkUHXyPq7ODAS/efk0ehpwO04th8I0nOyBwY/bOJn1OZFL54PN8o4laDoqU
- hajA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dy7+GGN73umpQ2Bj6ZKtVNghFJ8bz6lPPPijWYG4Dy0=;
- b=rHwVTnGeiQ9dyGQpdSYzwJTrF0foibO28R5M4xRde5BeE9Da0J9U/v63ql2foy1RV1
- DuA6whjoWB+M4x2YR5WGEmp7o5Eh9tanf1Yzps9HEdGmK5vScN3mRhbswInDWcvVAc+c
- 4hYMwl/3RRnz8Wge2SIvQ3kjQA+h7kG2erGgLqC0vrd2aLxcIfpvVNxqclfvFqM++Yz4
- mLoyUe3t4cctm8tEBtC18T8/N9U3VFu0BakPp9bHM1ALRZyC3a+tQWRFI+O2nvY6X/qL
- wWC1wPjJREfO0BZyN4aYrtMuX+bdJaQ2Ktjet7yrCmy0Zo6zKiCowR0HkhwhK3i/fKHM
- EzhQ==
-X-Gm-Message-State: AJIora9WVoIRkFm0yXCqVjGEzNpKVa+0kbLRaqnZcWJtaBu1FcPZV98V
- CVc3h2OLFUSXSNEDww2E6ZfjB6AU/+5utg==
-X-Google-Smtp-Source: AGRyM1uiZMUMMhRPI8kqqb30ejrMbEQUWkDHOx9Vj+HTvTOSd+7yf1HmDg+K9oQ/6MfPZ9xHR/Yhqg==
-X-Received: by 2002:a17:902:7290:b0:16b:b6b5:7e6c with SMTP id
- d16-20020a170902729000b0016bb6b57e6cmr17081706pll.116.1657513362248; 
- Sun, 10 Jul 2022 21:22:42 -0700 (PDT)
-Received: from fedora ([103.230.148.186]) by smtp.gmail.com with ESMTPSA id
- y8-20020a17090a154800b001eee8998f2esm5877357pja.17.2022.07.10.21.22.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jul 2022 21:22:41 -0700 (PDT)
-Date: Mon, 11 Jul 2022 09:52:36 +0530
-From: Gautam Menghani <gautammenghani201@gmail.com>
-To: shuah@kernel.org
-Subject: Re: [PATCH] selftests/kcmp: Make the test output consistent and clear
-Message-ID: <YsuljDee9KGDPfsH@fedora>
-References: <20220629192822.47577-1-gautammenghani201@gmail.com>
+ Mon, 11 Jul 2022 07:21:32 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=guwen@linux.alibaba.com; NM=1; PH=DS; RN=26; SR=0;
+ TI=SMTPD_---0VIxofy0_1657524082; 
+Received: from 30.227.65.231(mailfrom:guwen@linux.alibaba.com
+ fp:SMTPD_---0VIxofy0_1657524082) by smtp.aliyun-inc.com;
+ Mon, 11 Jul 2022 15:21:24 +0800
+Message-ID: <0408b739-3506-608a-4284-1086443a154d@linux.alibaba.com>
+Date: Mon, 11 Jul 2022 15:21:21 +0800
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220629192822.47577-1-gautammenghani201@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [PATCH] smc: fix refcount bug in sk_psock_get (2)
+To: Hawkins Jiawei <yin31149@gmail.com>,
+ syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
+References: <00000000000026328205e08cdbeb@google.com>
+ <20220709024659.6671-1-yin31149@gmail.com>
+From: Wen Gu <guwen@linux.alibaba.com>
+In-Reply-To: <20220709024659.6671-1-yin31149@gmail.com>
+Cc: songliubraving@fb.com, ast@kernel.org, edumazet@google.com,
+ daniel@iogearbox.net, davem@davemloft.net, borisp@nvidia.com,
+ paskripkin@gmail.com, john.fastabend@gmail.com, andrii@kernel.org, yhs@fb.com,
+ pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ syzkaller-bugs@googlegroups.com, kpsingh@kernel.org, kuba@kernel.org,
+ yoshfuji@linux-ipv6.org, netdev@vger.kernel.org, dsahern@kernel.org,
+ linux-kernel@vger.kernel.org, kgraul@linux.ibm.com, bpf@vger.kernel.org,
+ kafai@fb.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,86 +81,35 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Shuah,
-Please review this patch and let me know if any changes are required.
-On Thu, Jun 30, 2022 at 12:58:22AM +0530, Gautam Menghani wrote:
-> Make the output format of this test consistent. Currently the output is
-> as follows:
+
+
+On 2022/7/9 10:46 am, Hawkins Jiawei wrote:
+
 > 
-> +TAP version 13
-> +1..1
-> +# selftests: kcmp: kcmp_test
-> +# pid1:  45814 pid2:  45815 FD:  1 FILES:  1 VM:  2 FS:  1 SIGHAND:  2 
-> +  IO:  0 SYSVSEM:  0 INV: -1
-> +# PASS: 0 returned as expected
-> +# PASS: 0 returned as expected
-> +# PASS: 0 returned as expected
-> +# # Planned tests != run tests (0 != 3)
-> +# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
-> +# # Planned tests != run tests (0 != 3)
-> +# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
-> +# # Totals: pass:0 fail:0 xfail:0 xpass:0 skip:0 error:0
-> +ok 1 selftests: kcmp: kcmp_test
+> syzbot is try to setup TLS on a SMC socket.
 > 
-> With this patch applied the output is as follows:
+> During SMC fallback process in connect syscall, kernel will sets the
+> smc->sk.sk_socket->file->private_data to smc->clcsock
+> in smc_switch_to_fallback(), and set smc->clcsock->sk_user_data
+> to origin smc in smc_fback_replace_callbacks().
+
 > 
-> +TAP version 13
-> +1..1
-> +# selftests: kcmp: kcmp_test
-> +# TAP version 13
-> +# 1..3
-> +# pid1:  46330 pid2:  46331 FD:  1 FILES:  2 VM:  2 FS:  2 SIGHAND:  1 
-> +  IO:  0 SYSVSEM:  0 INV: -1
-> +# PASS: 0 returned as expected
-> +# PASS: 0 returned as expected
-> +# PASS: 0 returned as expected
-> +# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
-> +ok 1 selftests: kcmp: kcmp_test
+> Later, sk_psock_get() will treat the smc->clcsock->sk_user_data
+> as sk_psock type, which triggers the refcnt warning.
 > 
-> 
-> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
-> ---
->  tools/testing/selftests/kcmp/kcmp_test.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/kcmp/kcmp_test.c b/tools/testing/selftests/kcmp/kcmp_test.c
-> index 6ea7b9f37a41..25110c7c0b3e 100644
-> --- a/tools/testing/selftests/kcmp/kcmp_test.c
-> +++ b/tools/testing/selftests/kcmp/kcmp_test.c
-> @@ -88,6 +88,9 @@ int main(int argc, char **argv)
->  		int pid2 = getpid();
->  		int ret;
->  
-> +		ksft_print_header();
-> +		ksft_set_plan(3);
-> +
->  		fd2 = open(kpath, O_RDWR, 0644);
->  		if (fd2 < 0) {
->  			perror("Can't open file");
-> @@ -152,7 +155,6 @@ int main(int argc, char **argv)
->  			ksft_inc_pass_cnt();
->  		}
->  
-> -		ksft_print_cnts();
->  
->  		if (ret)
->  			ksft_exit_fail();
-> @@ -162,5 +164,5 @@ int main(int argc, char **argv)
->  
->  	waitpid(pid2, &status, P_ALL);
->  
-> -	return ksft_exit_pass();
-> +	return 0;
->  }
-> -- 
-> 2.36.1
-> 
+
+
+Thanks for your analysis.
+
+Although syzbot found this issue in SMC, seems that it is a generic
+issue about sk_user_data usage? Fixing it from SK_USER_DATA_PTRMASK
+as you plan should be a right way.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
