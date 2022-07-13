@@ -1,88 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 34492C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 13 Jul 2022 18:56:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F83BC43334
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 13 Jul 2022 23:52:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A9E4A60B9B;
-	Wed, 13 Jul 2022 18:56:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A9E4A60B9B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qi1iy3s0
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1DF65405E5;
+	Wed, 13 Jul 2022 23:52:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1DF65405E5
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=GmdSul5V
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ssQG45mtGvDS; Wed, 13 Jul 2022 18:56:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C2924606CB;
-	Wed, 13 Jul 2022 18:56:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C2924606CB
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PSmnCt3TMy6j; Wed, 13 Jul 2022 23:52:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 04FBC400CE;
+	Wed, 13 Jul 2022 23:52:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 04FBC400CE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 95BC1C0035;
-	Wed, 13 Jul 2022 18:56:27 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AEE34C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DE97BC0033;
+	Wed, 13 Jul 2022 23:52:50 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CCB04C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Jul 2022 18:56:26 +0000 (UTC)
+ Wed, 13 Jul 2022 23:52:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7C4C7846A4
+ by smtp2.osuosl.org (Postfix) with ESMTP id A15BA40374
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Jul 2022 18:56:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7C4C7846A4
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=Qi1iy3s0
+ Wed, 13 Jul 2022 23:52:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A15BA40374
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9gdLtFkGe9g1
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id q6DMM3xuHw1B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Jul 2022 18:56:26 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E7273846A0
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp1.osuosl.org (Postfix) with ESMTPS id E7273846A0
+ Wed, 13 Jul 2022 23:52:49 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D4B6A400CE
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D4B6A400CE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Jul 2022 18:56:25 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1AFC261DC0;
- Wed, 13 Jul 2022 18:56:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FB5BC34114;
- Wed, 13 Jul 2022 18:56:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1657738583;
- bh=horUYRJu4L75hyURMcGYdLgNsX8H8mt9BCJYF7S/48o=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Qi1iy3s0onH95DCrXc3y+rAMM8+C89BtS8wM23W3glvTW0dVAwwuMmxF6+oCoOOme
- tdWl9vW8q580L0iFw08w2S2nLbmkkOBsEqLmU/jb4FEA0HQzASIsw8r3khOsw9zhee
- hPO99h1vtjVhw6toAdcbU2q0mv0fkAAMFLrqdIC/eMy40iOxbENUalbSDPqNp4s65t
- O5DJsCqNQefB8Cmk5NtBv3Odep9Ig4fzaAbEAR0XH9ayG7JOO0Q320NMVQ/MpJguXc
- 7SOb0vaqpt6U5JyXX/ZzxYyhn9yUadSWuf1UExVy6Rs5aT9iPnutNoLXqUf2My43xy
- kFxRvvr+Uce6A==
-Date: Wed, 13 Jul 2022 11:56:22 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Khalid Masum <khalid.masum.92@gmail.com>
-Subject: Re: [RFC PATCH 0/1][RESEND] Fix KASAN: slab-out-of-bounds Read in
- sk_psock_get
-Message-ID: <20220713115622.25672f01@kernel.org>
-In-Reply-To: <20220713181324.14228-1-khalid.masum.92@gmail.com>
-References: <20220713181324.14228-1-khalid.masum.92@gmail.com>
+ Wed, 13 Jul 2022 23:52:48 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id bb16so500840oib.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 13 Jul 2022 16:52:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=xlTQqbw7uDh4SuPsuMIuNWyY8gGG3CCpf0R5mOWG5uo=;
+ b=GmdSul5V0h0l9vx6e6MKTO5tR7iI4VBAnIruDdHRvVtsL+ZN9U0erJYaKhBmX31wxN
+ YJXKxJHDNRUvUZlxQaEVQ5WBdXsRH2CPxsnKx1NG1u/890cWUrlWSrBht9zPQIPh63kS
+ QZSuoffMnAwsyl0W4LDEnhfBH4Ajgxk51V3Xk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=xlTQqbw7uDh4SuPsuMIuNWyY8gGG3CCpf0R5mOWG5uo=;
+ b=irAKOJsPDg9NHrcgDbkkru20uCTKZ7Z8KtTeSvmHLkE5hYKN0hpFN3OtIHZfz4zYTe
+ P+s7V8Svdb4ibhvNxw0ojM4+r5vcDvxIfx3FhrsbuTQ6P0DiZfPq/5bc2V9rxZgkWcMo
+ IL2jHxIW8KfR/7mt7WPAkcAUL8mgwfr0aOH23aa9gUxySiYasJ2nSze/aje4dNp/iMr0
+ gkFesgsqh+7GAK9U1E+IzxK7OjFho3NH1Wo1mayt/JYNyWjwRhPYufv3sNAK176tJQY5
+ mtWCswuh8rqT3zVKhpjV6Klk+TSJUsW02VhPvU9DLIWcJhLkpaToss0c4Rr1R46Ta9sN
+ Bymg==
+X-Gm-Message-State: AJIora8nlcE+AUKRa835K7IuhkpOTqRYttgXtb0kJBb6KPJkgZ6M4pNX
+ 4dvwDNShJSUZR61Zk3Y8W6LEYHfP
+X-Google-Smtp-Source: AGRyM1t8Oyx9JiN9pS02uZRL8cVCdFOv/rC2q7vL2hNTcSFUdc52uoNQSfKVpumlzFL3QKzMw1yZTg==
+X-Received: by 2002:a05:6808:1183:b0:2d4:5eeb:1ca3 with SMTP id
+ j3-20020a056808118300b002d45eeb1ca3mr3002185oil.8.1657756367781; 
+ Wed, 13 Jul 2022 16:52:47 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
+ o10-20020a056808124a00b0032f51af1999sm56286oiv.42.2022.07.13.16.52.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jul 2022 16:52:47 -0700 (PDT)
+Subject: Re: [PATCH] selftests/kcmp: Make the test output consistent and clear
+To: Gautam Menghani <gautammenghani201@gmail.com>, shuah@kernel.org
+References: <20220629192822.47577-1-gautammenghani201@gmail.com>
+ <YsuljDee9KGDPfsH@fedora>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <bdcac68c-e227-6376-9d71-aa667596c4e6@linuxfoundation.org>
+Date: Wed, 13 Jul 2022 17:52:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Cc: Florian Fainelli <f.fainelli@gmail.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
- Eric Dumazet <edumazet@google.com>, Marc Kleine-Budde <mkl@pengutronix.de>,
- Pavel Skripkin <paskripkin@gmail.com>,
- Nikolay Aleksandrov <nikolay@nvidia.com>,
- syzbot+1fa91bcd05206ff8cbb5@syzkaller.appspotmail.com,
- Paolo Abeni <pabeni@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S . Miller" <davem@davemloft.net>,
- Stefano Garzarella <sgarzare@redhat.com>
+In-Reply-To: <YsuljDee9KGDPfsH@fedora>
+Content-Language: en-US
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,24 +103,63 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 14 Jul 2022 00:13:23 +0600 Khalid Masum wrote:
-> Using size of sk_psock as the size for kcm_psock_cache size no longer
-> reproduces the issue. There might be a better way to solve this issue
-> though so I would like to ask for feedback.
-> 
-> The patch was sent to the wrong mailing list so resending it. Please
-> ignore the previous one.
+On 7/10/22 10:22 PM, Gautam Menghani wrote:
+> Hi Shuah,
+> Please review this patch and let me know if any changes are required.
 
-What happened to my other off-list feedback?
+Remember to bottom post.
 
-I pointed you at another solution which was already being discussed -
-does it solve the issue you're fixing?
+> On Thu, Jun 30, 2022 at 12:58:22AM +0530, Gautam Menghani wrote:
+>> Make the output format of this test consistent. Currently the output is
+>> as follows:
+>>
+
+Now what is inconsistent. It is not very clean from the output. Please
+add more information on how the current information is inconsistent and
+how you patch makes it consistent.
+
+>> +TAP version 13
+>> +1..1
+>> +# selftests: kcmp: kcmp_test
+>> +# pid1:  45814 pid2:  45815 FD:  1 FILES:  1 VM:  2 FS:  1 SIGHAND:  2
+>> +  IO:  0 SYSVSEM:  0 INV: -1
+>> +# PASS: 0 returned as expected
+>> +# PASS: 0 returned as expected
+>> +# PASS: 0 returned as expected
+>> +# # Planned tests != run tests (0 != 3)
+>> +# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+>> +# # Planned tests != run tests (0 != 3)
+>> +# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+>> +# # Totals: pass:0 fail:0 xfail:0 xpass:0 skip:0 error:0
+>> +ok 1 selftests: kcmp: kcmp_test
+>>
+>> With this patch applied the output is as follows:
+>>
+>> +TAP version 13
+>> +1..1
+>> +# selftests: kcmp: kcmp_test
+>> +# TAP version 13
+>> +# 1..3
+>> +# pid1:  46330 pid2:  46331 FD:  1 FILES:  2 VM:  2 FS:  2 SIGHAND:  1
+>> +  IO:  0 SYSVSEM:  0 INV: -1
+>> +# PASS: 0 returned as expected
+>> +# PASS: 0 returned as expected
+>> +# PASS: 0 returned as expected
+>> +# # Totals: pass:3 fail:0 xfail:0 xpass:0 skip:0 error:0
+>> +ok 1 selftests: kcmp: kcmp_test
+>>
+>>
+>> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
+>> ---
+
+thanks,
+-- Shuah
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
