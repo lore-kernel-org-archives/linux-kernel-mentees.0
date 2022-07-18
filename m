@@ -4,92 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52B8FC43334
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 17 Jul 2022 18:34:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9287CC43334
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 18 Jul 2022 23:04:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E8A4F606ED;
-	Sun, 17 Jul 2022 18:34:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E8A4F606ED
+	by smtp3.osuosl.org (Postfix) with ESMTP id 26DFC6102A;
+	Mon, 18 Jul 2022 23:04:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 26DFC6102A
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=R+qaOJ/R
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=eu+8mAms
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PrBzbD03Wnyi; Sun, 17 Jul 2022 18:34:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D0D94605A2;
-	Sun, 17 Jul 2022 18:34:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D0D94605A2
+	with ESMTP id ZCQPvPC0EGc2; Mon, 18 Jul 2022 23:04:10 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 21BB560EA3;
+	Mon, 18 Jul 2022 23:04:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 21BB560EA3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 803C3C0033;
-	Sun, 17 Jul 2022 18:34:36 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D9EFBC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EEF81C0035;
+	Mon, 18 Jul 2022 23:04:09 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5723BC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 17 Jul 2022 18:34:34 +0000 (UTC)
+ Mon, 18 Jul 2022 23:04:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A9CC54155D
+ by smtp4.osuosl.org (Postfix) with ESMTP id 295E5410BB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 17 Jul 2022 18:34:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A9CC54155D
+ Mon, 18 Jul 2022 23:04:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 295E5410BB
 Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=R+qaOJ/R
+ header.a=rsa-sha256 header.s=20210112 header.b=eu+8mAms
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8oVdkVSkkUHc
+ with ESMTP id VDh7iHM7AKM9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 17 Jul 2022 18:34:30 +0000 (UTC)
+ Mon, 18 Jul 2022 23:04:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AF27341552
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AF27341552
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C03A2410A9
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C03A2410A9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 17 Jul 2022 18:34:30 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id e69so253436iof.5
+ Mon, 18 Jul 2022 23:04:05 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id t1so21877739lft.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 17 Jul 2022 11:34:30 -0700 (PDT)
+ Mon, 18 Jul 2022 16:04:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7T1elb4VQwrC1sZg3F4EdxUouZCTWEFZq0pNjmM10H4=;
- b=R+qaOJ/RIl3tbU2jrW/9rmGOvRSHh7KgGM8IOx/eYI3V0sYo9NQmH4FJw4hNkIeZEc
- L6glhandgJX4/1fNKk9uOpAh1MYb1SmhGdyTTj/tiOqprl10s8pSnGVB8hls1Qro3O/Q
- hsGU2inzEMgiQ3M+Peh0rABJjo7yZRQ0z3+WP9/nK4/XINkll/MVTwfkAyD/jpduSMc0
- rBtyGjceHwVaO6EyN8BTRtKRyLxkSJU/V8PcuG4Nz2XUBJSB34BTcREnZNn+zCdok3fx
- 0lv26C9wusy4wO8CpSnZt9qonkLuT2UNIItzdLy8FDRALcJ8ZR0a7DiLQTrdajBmAXsE
- wISA==
+ :cc; bh=TZUTBE8JOO+dBwswBQU/UW48YDxWzcOqBKIIatUeRxg=;
+ b=eu+8mAmsNBdDm3xB9tJ7qWbNXhdC6joRhpKHQAJ4NU3Mky13rD9L25sbhWt9DuIotI
+ gUojvdBW5A0Yn/MC4O+GhB63tm4n97gegK8HpEZRkzwH2RBhJ3qbgnumGnjVrlCvsJR7
+ 2tNXRis6jsm9duhk3z7u+9TVJuxAzDeFkQhctki+wu7c0eWrDms/Ckpf9yes50sGz5ZS
+ iqzCE8Mh9LilppMXKYD8OidSUpoV8K4oY90b0RKIZ/yMBMgmavyjBG0D5sM+o8aKrngS
+ gmmNcREgRh2MPSjA60ICVGr0N2G66g230+VXfqZ4m8y7QeVjVf+NB5gcvz50Ti9awr+y
+ lg8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7T1elb4VQwrC1sZg3F4EdxUouZCTWEFZq0pNjmM10H4=;
- b=lF6Tx+b5DIpFetiBwlYN8xOmMycfVx73IdCY0QoKCXZWXswzwm8CTwQ8sMLgwL6oEZ
- ok54jOmQ+2l1+G/nqN+1MDgnLrb1mo1gWat2Qbp/XuwN6yvDnyTUSKxMMe2yijQFydG6
- u30akUXhUwH/DpwTl1SSfrq232Pq5BEhU4O/xz+VWuRFaeevQ4+vsgZYX7IPSCmuILDi
- v4YLDTgtG/QURMeOLOMsw4HnkMOZ6x5+SbXo7Nm95yB3ysrFRqaTKBiduUERRGT146SP
- tUH+1NwnWwCjH5+eGqKCJoidfhU6eAgn9Nq+N6f4VEhbjXNEA+tgcAxlTQgGLYZtyaRR
- WESQ==
-X-Gm-Message-State: AJIora8MjjnSN3Oqy3FmBeYN+JnAMayKFDmd5+NaDA7VHHxm+zj9dWIZ
- +9b6qsK1hLEMQdKAAas9c12tifRr/ukD17g+MtI=
-X-Google-Smtp-Source: AGRyM1uwKboyXHtiqj1uHFqFb9BJSoG9rYLgloobGhf3g81UQO0u3jikyOPgFmybtt+5ILMNrsR6hmzz46pfsolzH8c=
-X-Received: by 2002:a05:6638:4883:b0:33f:7948:e685 with SMTP id
- ct3-20020a056638488300b0033f7948e685mr12872724jab.138.1658082869800; Sun, 17
- Jul 2022 11:34:29 -0700 (PDT)
+ bh=TZUTBE8JOO+dBwswBQU/UW48YDxWzcOqBKIIatUeRxg=;
+ b=cPd6vcldtN6xJwMcDB+KF3rPuS9XA3fkOcNbXeIXSx3TJ8P8d2TodxEAN5hWRa4fLQ
+ NU734xfZ9L68qyA+PcU+582sgoP+2nSvmjfntExKHMmooONNv07LW+P7GHd8T0hQpm6I
+ PdEtf2A/a93Ws4LLiblPLvqAwtCTEVM9FQriYcbmTB4NYrX+inGI4mSZ/qIPl/tAURGi
+ nwvrapCo7sNEyMh9buoi+hdI1KTJG1Kw9EQTG08Jh1OHDjyhcaYyYFN9iOTWLQKOIPay
+ DpWIaMM9hSglWaG/azdPW9OYpLc4dgtPthigR2+5MH2KxRdRGgvrawvTltH/9XlxLF7U
+ brsg==
+X-Gm-Message-State: AJIora+6L3Pyt+YqOXDRl9EArU1mIX7cyStRESRnoEqGbQbbpwW9acKe
+ tKrNU7LnNk5jXgeTbFQ7r9vr533L6DhgbSXDZGU=
+X-Google-Smtp-Source: AGRyM1u0wBbNmMakHQBA/ZO0hGJZKUbnq/dnkUov8nPUnJv4Mrzha3OP1ESzVnpMYzPJIoYstMUH0d87QXPunDiWZNY=
+X-Received: by 2002:a05:6512:3409:b0:489:c549:4693 with SMTP id
+ i9-20020a056512340900b00489c5494693mr15228484lfr.26.1658185443502; Mon, 18
+ Jul 2022 16:04:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220717133759.8479-1-khalid.masum.92@gmail.com>
  <3ea0ea90-48bf-ce19-e014-9443d732e831@gmail.com>
-In-Reply-To: <3ea0ea90-48bf-ce19-e014-9443d732e831@gmail.com>
-From: Khalid Masum <khalid.masum.92@gmail.com>
-Date: Mon, 18 Jul 2022 00:34:19 +0600
-Message-ID: <CAABMjtHiet1_SRvLBhoNxeEh865rwtZCkb510JmFPkHFMd5chQ@mail.gmail.com>
+ <CAABMjtHiet1_SRvLBhoNxeEh865rwtZCkb510JmFPkHFMd5chQ@mail.gmail.com>
+In-Reply-To: <CAABMjtHiet1_SRvLBhoNxeEh865rwtZCkb510JmFPkHFMd5chQ@mail.gmail.com>
+From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Date: Mon, 18 Jul 2022 16:03:52 -0700
+Message-ID: <CABBYNZJVv=pJv60P6fYZh65JU+BV5agGfXEh4VenxELEXqtDsA@mail.gmail.com>
 Subject: Re: [PATCH] Bluetooth: hci_core: Use ERR_PTR instead of NULL
-To: Pavel Skripkin <paskripkin@gmail.com>
-Cc: Johan Hedberg <johan.hedberg@gmail.com>, netdev@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+To: Khalid Masum <khalid.masum.92@gmail.com>
+Cc: Johan Hedberg <johan.hedberg@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
+ Eric Dumazet <edumazet@google.com>,
+ "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  "David S . Miller" <davem@davemloft.net>
@@ -110,57 +113,71 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Jul 17, 2022 at 10:17 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
+Hi Khalid,
+
+On Sun, Jul 17, 2022 at 11:34 AM Khalid Masum <khalid.masum.92@gmail.com> wrote:
 >
-> Hi Khalid,
->
-> Khalid Masum <khalid.masum.92@gmail.com> says:
-> > Failure of kzalloc to allocate memory is not reported. Return Error
-> > pointer to ENOMEM if memory allocation fails. This will increase
-> > readability and will make the function easier to use in future.
+> On Sun, Jul 17, 2022 at 10:17 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
 > >
-> > Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
-> > ---
->
-> [snip]
->
-> > index a0f99baafd35..ea50767e02bf 100644
-> > --- a/net/bluetooth/hci_core.c
-> > +++ b/net/bluetooth/hci_core.c
-> > @@ -2419,7 +2419,7 @@ struct hci_dev *hci_alloc_dev_priv(int sizeof_priv)
+> > Hi Khalid,
 > >
-> >       hdev = kzalloc(alloc_size, GFP_KERNEL);
-> >       if (!hdev)
-> > -             return NULL;
-> > +             return ERR_PTR(-ENOMEM);
+> > Khalid Masum <khalid.masum.92@gmail.com> says:
+> > > Failure of kzalloc to allocate memory is not reported. Return Error
+> > > pointer to ENOMEM if memory allocation fails. This will increase
+> > > readability and will make the function easier to use in future.
+> > >
+> > > Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+> > > ---
 > >
+> > [snip]
+> >
+> > > index a0f99baafd35..ea50767e02bf 100644
+> > > --- a/net/bluetooth/hci_core.c
+> > > +++ b/net/bluetooth/hci_core.c
+> > > @@ -2419,7 +2419,7 @@ struct hci_dev *hci_alloc_dev_priv(int sizeof_priv)
+> > >
+> > >       hdev = kzalloc(alloc_size, GFP_KERNEL);
+> > >       if (!hdev)
+> > > -             return NULL;
+> > > +             return ERR_PTR(-ENOMEM);
+> > >
+> >
+> > This will break all callers of hci_alloc_dev(). All callers expect NULL
+> > in case of an error, so you will leave them with wrong pointer.
 >
-> This will break all callers of hci_alloc_dev(). All callers expect NULL
-> in case of an error, so you will leave them with wrong pointer.
-
-You are right. All callers of hci_alloc_dev() need to be able to handle
-the error pointer. I shall send a V2 with all the callers of hci_alloc_dev
-handling the ERR_PTR.
-
-> Also, allocation functionS return an error only in case of ENOMEM, so
-> initial code is fine, IMO
+> You are right. All callers of hci_alloc_dev() need to be able to handle
+> the error pointer. I shall send a V2 with all the callers of hci_alloc_dev
+> handling the ERR_PTR.
 >
+> > Also, allocation functionS return an error only in case of ENOMEM, so
+> > initial code is fine, IMO
+> >
 
-I think it makes the memory allocation error handling look to be a bit
-different from what we usually do while allocating memory which is,
-returning an error or an error pointer. Here we are returning a NULL
-without any context, making it a bit unreadable. So I think returning
-an error pointer is better. If I am not mistaken, this also complies with
-the return convention:
-https://www.kernel.org/doc/htmldocs/kernel-hacking/convention-returns.html
+If there just a single error like ENOMEM then Id say this is fine,
+just as it is fine for kzalloc.
 
+> I think it makes the memory allocation error handling look to be a bit
+> different from what we usually do while allocating memory which is,
+> returning an error or an error pointer. Here we are returning a NULL
+> without any context, making it a bit unreadable. So I think returning
+> an error pointer is better. If I am not mistaken, this also complies with
+> the return convention:
+> https://www.kernel.org/doc/htmldocs/kernel-hacking/convention-returns.html
+
+Not sure if that would apply to code that is basically a wrapper of kzalloc.
+
+> >
+> > Thanks,
+> > --Pavel Skripkin
+>
 >
 > Thanks,
-> --Pavel Skripkin
+>   -- Khalid Masum
 
 
-Thanks,
-  -- Khalid Masum
+
+-- 
+Luiz Augusto von Dentz
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
