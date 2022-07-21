@@ -1,100 +1,107 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B0B6CCA479
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Jul 2022 10:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3767C43334
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Jul 2022 16:24:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B5B3541080;
-	Thu, 21 Jul 2022 10:35:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B5B3541080
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=PJTOs+N2
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2D08660E9F;
+	Thu, 21 Jul 2022 16:24:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D08660E9F
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=ixbeGzrV
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eprhNHg3K77H; Thu, 21 Jul 2022 10:35:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B6729405B6;
-	Thu, 21 Jul 2022 10:35:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B6729405B6
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OMEqAodAFzRK; Thu, 21 Jul 2022 16:24:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 4AA6260E25;
+	Thu, 21 Jul 2022 16:24:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4AA6260E25
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89EB4C0035;
-	Thu, 21 Jul 2022 10:35:16 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CDA9DC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 19652C0035;
+	Thu, 21 Jul 2022 16:24:51 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 741E8C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 10:35:14 +0000 (UTC)
+ Thu, 21 Jul 2022 16:24:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id AE3E9422E3
+ by smtp1.osuosl.org (Postfix) with ESMTP id 473FB847B6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 10:35:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AE3E9422E3
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=PJTOs+N2
+ Thu, 21 Jul 2022 16:24:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 473FB847B6
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org
+ header.a=rsa-sha256 header.s=google header.b=ixbeGzrV
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ERBf0MjMdSYG
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AGf3ApykKkKw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 10:35:13 +0000 (UTC)
+ Thu, 21 Jul 2022 16:24:49 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5924040898
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com
- [IPv6:2607:f8b0:4864:20::b33])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5924040898
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 706BF847AB
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
+ [IPv6:2a00:1450:4864:20::62c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 706BF847AB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 10:35:13 +0000 (UTC)
-Received: by mail-yb1-xb33.google.com with SMTP id e69so2075707ybh.2
+ Thu, 21 Jul 2022 16:24:49 +0000 (UTC)
+Received: by mail-ej1-x62c.google.com with SMTP id mf4so4073706ejc.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 03:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ Thu, 21 Jul 2022 09:24:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l/wpKnsu88iqqnfQdZ4Rl466UVvkTC5XsY5VfmsKtYI=;
- b=PJTOs+N2jt8yf/67NT167TvH6DD8Y3ZJumINeZjx9cSXM0wGDQChdKBgqakWHscLZ8
- mMeMgtVDgTaj2Ws9/7A1OyYJJtnq1s+t9b6G6f3qBk9uy9i8TJR/urjlOXWBvS9Ou8Dy
- G5WyLfZUAXlIGX1DFUKCLcG+SE6+n5VXHyfH8b0oNtfLyVWCbQl+QklA+WZPEFPvGdfh
- pSmFNJ1CzOWkikmj6PJqm21BXcNmyxw4zMB3J0SJDj/bTn/usUYVrqVuX9kzlA81l7CS
- Hu7SqlrhfXC/4JM5Aewz9qfCMOXtrT6hzDCCBRuldoQL5nAm4xXON+gzwYkYvcbeDvK+
- MP2g==
+ :cc; bh=CdzyaaSS9wVD/EeKAhIRDfgg/YpGZ+e1ODi82IyhDFc=;
+ b=ixbeGzrVmvVURAdO5sU9OOcCnx0pffmC11dEXfqHTPv7aPiBEc70P0ZZGoaIHU3BTQ
+ A9M6pSaNj9xmUq15oOdfCneHQ0oBU1DIhG+Mkm71JN+8EIG3QsRnX+RGJnlZQQZk2ZPm
+ Om2nQfvVC8EjD+aZQMkscw2RC8rR7VediHcGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=l/wpKnsu88iqqnfQdZ4Rl466UVvkTC5XsY5VfmsKtYI=;
- b=0TN2lh3STeqxL6IdGIHLs+Uz4sASkZLwd/vFssrH56TQsn4CmLxGfVkjxchQrx5zIo
- eKu70jXAKAyyV+bq6Kf/ePeVK+vISSBNJmatKnHKXf3zChoV5BaZ5CeEjnxxD9D86hIq
- uBFjUgY7/aOaUr9EsI3o2TKlJtZDnbDYyJocZROy+EW6Ld4NjohmaKotSFcTeQYn+EWD
- i5kWWHpP2iltyGEvl19Lrfv5EWBTDa+tK0rmDBymZxs5jazSn9xmBSs0fSFgiIX4+DLf
- hLJK+S5P2q+jVtBjqcgE5XCPE0C+VxLFDLrZnQrhqAsqLfAYAwa3tDCCMNOn0p/xv/Oc
- iuJg==
-X-Gm-Message-State: AJIora/wKaYGe5QNn2l2upZCEUgkGM9XJZHc0KnGXgz82FB+v0DUcuuq
- DIK0dlICxvvVLcJ6R6pQTUOHfupHOTXn1019EWs=
-X-Google-Smtp-Source: AGRyM1t95qmA6+uFKxTLfYEcuVdCSnnm/ebRqAwuj9nRI/4RcogNDmKQInBOxclPWV0zPYGj6zuLhcDTZUj/bFuJQC8=
-X-Received: by 2002:a25:850b:0:b0:66c:d287:625a with SMTP id
- w11-20020a25850b000000b0066cd287625amr41901100ybk.31.1658399712184; Thu, 21
- Jul 2022 03:35:12 -0700 (PDT)
+ bh=CdzyaaSS9wVD/EeKAhIRDfgg/YpGZ+e1ODi82IyhDFc=;
+ b=EF5bwXqMU0xu+PW4ueq7X9BwpUhv3BShs8sv2Kz5HM7XzgvYfK8Mu1f6sxPVLmeZXN
+ jPzoOab1fNn833uJL11b/Kqu/9v1ef28GqMUGjNNN83286vf8qw66n9fxidCBwRH9Htl
+ mDmYFjhQam5TKGW5NPDGL7GjYf7f8qOdR+BJYZ0NFq59Ue7Hk6reJgM4tRo27mN8SfIG
+ /yWmHSFxUcnNRGjdU3YQ6FSYcIUfnGonM19soFuHewICGP6hrzqSKMOsqWbgvmVeCNdI
+ bdU+djmqm06ha3LiNpOcOFfGAeEwNFq/X9XB7CTUSflLfidjGcDnmvdyJ3l3vJGoR+sX
+ htfA==
+X-Gm-Message-State: AJIora/fhytSdhq5LHJQgTZWn4JhqtwLMlp+pGVAzxEhJCPGGEGCxwzH
+ 7VtcaLwnXdPZjj1ktcRRvY8X2NtumFxUNqpFZ/o=
+X-Google-Smtp-Source: AGRyM1sL4OTptJz4WEtd9JRtKbxBeCU4mZ1VIkMFg8CCXAiwUbzI9zqtw5Y/xGMLaR4afE0ZQbclAw==
+X-Received: by 2002:a17:906:cc5a:b0:72b:1459:6faa with SMTP id
+ mm26-20020a170906cc5a00b0072b14596faamr41936483ejb.221.1658420687480; 
+ Thu, 21 Jul 2022 09:24:47 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com.
+ [209.85.128.49]) by smtp.gmail.com with ESMTPSA id
+ rn9-20020a170906d92900b0072abb95eaa4sm975798ejb.215.2022.07.21.09.24.46
+ for <linux-kernel-mentees@lists.linuxfoundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jul 2022 09:24:46 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id
+ r1-20020a05600c35c100b003a326685e7cso3506244wmq.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 21 Jul 2022 09:24:46 -0700 (PDT)
+X-Received: by 2002:a05:600c:4e86:b0:3a3:2edc:bcb4 with SMTP id
+ f6-20020a05600c4e8600b003a32edcbcb4mr4239876wmq.85.1658420686023; Thu, 21 Jul
+ 2022 09:24:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721101018.17902-1-code@siddh.me>
-In-Reply-To: <20220721101018.17902-1-code@siddh.me>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Thu, 21 Jul 2022 12:35:01 +0200
-Message-ID: <CAKXUXMzeSLuH31zQDe3Q_1YAvfmFR16ZsfFGmxEMiMQSKcp_Nw@mail.gmail.com>
-Subject: Re: [RESEND PATCH] net: Fix UAF in ieee80211_scan_rx()
-To: Siddh Raman Pant <code@siddh.me>
-Cc: netdev <netdev@vger.kernel.org>,
- syzbot+6cb476b7c69916a0caca@syzkaller.appspotmail.com,
- linux-wireless <linux-wireless@vger.kernel.org>,
- syzbot+f9acff9bf08a845f225d@syzkaller.appspotmail.com,
- Eric Dumazet <edumazet@google.com>,
- syzbot+9250865a55539d384347@syzkaller.appspotmail.com,
- Jakub Kicinski <kuba@kernel.org>, Johannes Berg <johannes@sipsolutions.net>,
- Paolo Abeni <pabeni@redhat.com>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- "David S . Miller" <davem@davemloft.net>
+References: <20220721093042.9840-1-khalid.masum.92@gmail.com>
+In-Reply-To: <20220721093042.9840-1-khalid.masum.92@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 21 Jul 2022 09:24:31 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UbRX194rDztr_=eoALg4kTmjzq=EXCX6RJSSq3vO=fbw@mail.gmail.com>
+Message-ID: <CAD=FV=UbRX194rDztr_=eoALg4kTmjzq=EXCX6RJSSq3vO=fbw@mail.gmail.com>
+Subject: Re: [PATCH RESEND] scripts/gdb: Fix gdb 'lx-symbols' command
+To: Khalid Masum <khalid.masum.92@gmail.com>
+Cc: Aaron Tomlin <atomlin@redhat.com>, Pavel Skripkin <paskripkin@gmail.com>,
+ LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>,
+ Kieran Bingham <kbingham@kernel.org>, kgdb-bugreport@lists.sourceforge.net,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,100 +119,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 21, 2022 at 12:11 PM Siddh Raman Pant via
-Linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
-wrote:
+Hi,
+
+On Thu, Jul 21, 2022 at 2:31 AM Khalid Masum <khalid.masum.92@gmail.com> wrote:
 >
-> ieee80211_scan_rx() tries to access scan_req->flags after a null check
-> (see line 303 of mac80211/scan.c), but ___cfg80211_scan_done() uses
-> kfree() on the scan_req (see line 991 of wireless/scan.c).
+> Currently the command 'lx-symbols' in gdb exits with the error`Function
+> "do_init_module" not defined in "kernel/module.c"`. This occurs because
+> the file kernel/module.c was moved to kernel/module/main.c.
 >
-> This results in a UAF.
+> Fix this breakage by changing the path to "kernel/module/main.c" in
+> LoadModuleBreakpoint.
 >
-> ieee80211_scan_rx() is called inside a RCU read-critical section
-> initiated by ieee80211_rx_napi() (see line 5043 of mac80211/rx.c).
->
-> Thus, add an rcu_head to the scan_req struct so as to use kfree_rcu()
-> instead of kfree() so that we don't free during the critical section.
->
-> Bug report (3): https://syzkaller.appspot.com/bug?extid=f9acff9bf08a845f225d
-> Reported-by: syzbot+f9acff9bf08a845f225d@syzkaller.appspotmail.com
-> Reported-by: syzbot+6cb476b7c69916a0caca@syzkaller.appspotmail.com
-> Reported-by: syzbot+9250865a55539d384347@syzkaller.appspotmail.com
->
-> Signed-off-by: Siddh Raman Pant <code@siddh.me>
+> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
 > ---
-> Resending because didn't get any reply from maintainers for more
-> than 2 weeks.
+>  scripts/gdb/linux/symbols.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
+> index 46f7542db08c..dc07b6d12e30 100644
+> --- a/scripts/gdb/linux/symbols.py
+> +++ b/scripts/gdb/linux/symbols.py
+> @@ -180,7 +180,7 @@ lx-symbols command."""
+>                  self.breakpoint.delete()
+>                  self.breakpoint = None
+>              self.breakpoint = LoadModuleBreakpoint(
+> -                "kernel/module.c:do_init_module", self)
+> +                "kernel/module/main.c:do_init_module", self)
 
-Siddh,
-
-I had a look at the Bug report above. Currently, we do not have any
-syzkaller or C reproducer to confirm that the bug was actually fixed.
-
-Now, that you have a supposed fix for the issue:
-Can you write a 'stress test' and (qemu) setup script that eventually
-makes that bug trigger (e.g., if we run the stress test for two or
-three days it will eventually trigger)? Then, we can also use that to
-confirm that your patch fixes the issue (beyond the normal sanity code
-review).
-
-This is certainly something you can do on your side to move this patch
-forward, and other developers with testing infrastructure can pick up
-and confirm your tests and results independently.
-
-I hope this helps, otherwise you will just need to have some patience.
-
-Best regards,
-
-Lukas
-
->  include/net/cfg80211.h | 2 ++
->  net/wireless/scan.c    | 2 +-
->  2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/include/net/cfg80211.h b/include/net/cfg80211.h
-> index 6d02e12e4702..ba4a49884de8 100644
-> --- a/include/net/cfg80211.h
-> +++ b/include/net/cfg80211.h
-> @@ -2368,6 +2368,7 @@ struct cfg80211_scan_6ghz_params {
->   * @n_6ghz_params: number of 6 GHz params
->   * @scan_6ghz_params: 6 GHz params
->   * @bssid: BSSID to scan for (most commonly, the wildcard BSSID)
-> + * @rcu_head: (internal) RCU head to use for freeing
->   */
->  struct cfg80211_scan_request {
->         struct cfg80211_ssid *ssids;
-> @@ -2397,6 +2398,7 @@ struct cfg80211_scan_request {
->         bool scan_6ghz;
->         u32 n_6ghz_params;
->         struct cfg80211_scan_6ghz_params *scan_6ghz_params;
-> +       struct rcu_head rcu_head;
->
->         /* keep last */
->         struct ieee80211_channel *channels[];
-> diff --git a/net/wireless/scan.c b/net/wireless/scan.c
-> index 6d82bd9eaf8c..638b2805222c 100644
-> --- a/net/wireless/scan.c
-> +++ b/net/wireless/scan.c
-> @@ -988,7 +988,7 @@ void ___cfg80211_scan_done(struct cfg80211_registered_device *rdev,
->         kfree(rdev->int_scan_req);
->         rdev->int_scan_req = NULL;
->
-> -       kfree(rdev->scan_req);
-> +       kfree_rcu(rdev->scan_req, rcu_head);
->         rdev->scan_req = NULL;
->
->         if (!send_message)
-> --
-> 2.35.1
->
->
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+Fixes: cfc1d277891e ("module: Move all into module/")
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
