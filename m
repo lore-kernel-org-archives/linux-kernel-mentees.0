@@ -1,111 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86DD1C433EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 21 Jul 2022 17:41:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EFBECCA483
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Jul 2022 10:54:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E3D4141922;
-	Thu, 21 Jul 2022 17:41:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E3D4141922
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=HaQMMf/l
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PHqZiu2rgEpt; Thu, 21 Jul 2022 17:41:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A0C7341710;
-	Thu, 21 Jul 2022 17:41:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A0C7341710
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7D8FBC0033;
-	Thu, 21 Jul 2022 17:41:53 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A8376C002D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 17:41:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7CC7040445
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 17:41:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7CC7040445
+	by smtp2.osuosl.org (Postfix) with ESMTP id 11A0640227;
+	Sat, 23 Jul 2022 10:54:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 11A0640227
 Authentication-Results: smtp2.osuosl.org;
- dkim=pass (1024-bit key) header.d=linux-foundation.org
- header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google
- header.b=HaQMMf/l
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=icTe+7uD
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GgWqoQFDN-tw
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xjjk7P9nYGBd; Sat, 23 Jul 2022 10:54:19 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1D24640AE0;
+	Sat, 23 Jul 2022 10:54:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1D24640AE0
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E8C0AC0035;
+	Sat, 23 Jul 2022 10:54:18 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4ECCC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 17:41:49 +0000 (UTC)
+ Sat, 23 Jul 2022 10:54:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7F88E416F8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 23 Jul 2022 10:54:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7F88E416F8
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=icTe+7uD
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id JabB3wKJ4KIX
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 23 Jul 2022 10:54:15 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3CD38400A8
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 3CD38400A8
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4938B416D7
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
+ [IPv6:2607:f8b0:4864:20::d36])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 4938B416D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 17:41:49 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id v12so3045442edc.10
+ Sat, 23 Jul 2022 10:54:15 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id r70so5292033iod.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 10:41:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
+ Sat, 23 Jul 2022 03:54:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jrOYLEhcS0420xmVQthPyRSyBJPZ/EqshTnmV/2s3/o=;
- b=HaQMMf/lNG/g52eo3gYTsJdE60j17zx7piC5a1J+s9dbt/vdM1VejF+7jojw+wO3/N
- mtFIH/xngKCKZPh+SVIBBgXN6v7W7wdzeW2e2CK2BamcBsKmAZWsOPsXHqs3z/H7+RLZ
- n0ndHCmXYVLy9DnzwZjQrfJ5qVBMimGwmQAjM=
+ :cc; bh=YL9wCFcJM1S8aQnJbcoxTMo6SNRCJK/vq4C87hsQwpU=;
+ b=icTe+7uDRr7EXvhDnSXmpnK61DUvZdhBUV1EG52pxLeRH5b4Fp++sDQy0J4X6UI8Eh
+ uGZ7po3LSPCe4MqV6mvQgXp1tKpRTebwdxMFJqJnbVMiOOXYa56IKetWOYEVjupA+mbG
+ twO9t0rDvPLv/LnZwpC1PRjDAm98sUoNPLu5bilwe8uwhUF/REZaKCxGvUR+DG4GwupY
+ 96lp4Ne9iS5xiYgOuBNA8rdG3KGBiukHG3Dv1+RXor7fuWoy4onvrQzoGHG68D12evdN
+ qopZqWfKVBQL30UA+lFKUymH1m/li+cOtP1l6Nh3OB+i2U+cnnDaysukc+2hdfwqKlvW
+ HKMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jrOYLEhcS0420xmVQthPyRSyBJPZ/EqshTnmV/2s3/o=;
- b=6Cxx//XlFpabF5Ak5KRLJEZrYysIU+DNAkD/wvzRVmTPj2osn5cv29ut6SSxnwi1PQ
- VGsQgA14mmBS4ThouK6tmEEkC70sMRM5Z71OMOjhXUrc3FF/LiZcKXEWuYKIn4MYOHpm
- s2Sl5Y17hbDfUIpk9JHewLjjZpxNXkEYGIJl/oLIH4cyAxkbXU3kTJtirjJpuCrprVuu
- +8sMZVMYutpaXGhGNzXr+RwSzKAB5AdJORIhzdzEf34L+2Imq3fYKpA2JsbRevSIkVRO
- KxsoIh6e8L60VRO05hQ4m0BkaquKjZ5/FSbNeYZUZedpIpXoQGSlvAnfFK56oH3/6jRt
- kExQ==
-X-Gm-Message-State: AJIora9WceUMNaQNA3k/U/ttMUwksFDJr1RIMera5HJRkuP07/BOSlX+
- ohftCV3U09GXKmwyWZBaxtqwJ2ODIAjhkX4GGCc8vg==
-X-Google-Smtp-Source: AGRyM1vnYx1vU5IcUIO84Ogl6OmS8Z25VQm/TLLbV3W6ajQjBIhJCIKNRWQSBlsePHTmIq79WychKg==
-X-Received: by 2002:a05:6402:3046:b0:43b:c9c1:864e with SMTP id
- bs6-20020a056402304600b0043bc9c1864emr2926089edb.32.1658425307151; 
- Thu, 21 Jul 2022 10:41:47 -0700 (PDT)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com.
- [209.85.128.47]) by smtp.gmail.com with ESMTPSA id
- j10-20020a17090623ea00b0072ab06bf296sm1086259ejg.23.2022.07.21.10.41.45
- for <linux-kernel-mentees@lists.linuxfoundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 10:41:46 -0700 (PDT)
-Received: by mail-wm1-f47.google.com with SMTP id
- b21-20020a05600c4e1500b003a32bc8612fso1209231wmq.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 21 Jul 2022 10:41:45 -0700 (PDT)
-X-Received: by 2002:a05:600c:2211:b0:3a3:2149:88e1 with SMTP id
- z17-20020a05600c221100b003a3214988e1mr9253524wml.8.1658425305550; Thu, 21 Jul
- 2022 10:41:45 -0700 (PDT)
+ bh=YL9wCFcJM1S8aQnJbcoxTMo6SNRCJK/vq4C87hsQwpU=;
+ b=uqATfd4dr7HGR27yQbPgrSqkBrrBUfb+TvrRO62LzbTVugtyrl8L6Vj+99D7o3p9bE
+ dovllkQmHMnVgrJr6XC0BtcPW3gEeg2ErjjHorjXLRPlRvSJhH1OQL/F1uFmMp5EBD2w
+ hoMAxBWvFou2V3L0QA7m/V32ygTPuzLBGyvpKGgiPb6yw8zJAbbWquhj/4/62NhKZT1x
+ sfA/oYN0BjmZkslk24Yo3rkZyv0TLqAvvUGOZO2o2r0eUPwg2f3E9INcl6qIuOr+IUVh
+ 4OoulQw6FNsqO4c7AWsSGbxQao6QgjTo/bB/TM4CGgpuuSgW6yrJK3rBS9tu+TbHbmG/
+ 3b4g==
+X-Gm-Message-State: AJIora+9UF5P89c3+is/mpO3tLskan2QAGnpLpconvg0KM72XwB8QE/h
+ i1uiDUTLo0zc8ZC7hXpHCFVq2ZbMSBi3XWK+oZY=
+X-Google-Smtp-Source: AGRyM1szkUECVWGAESedupd4SaLkQ477HkV5GtL8kMwaKob8JG7T9RM44BdYJtK/AyD8uGaMcylKdTpDzbiO3Mi3N/w=
+X-Received: by 2002:a05:6638:1602:b0:341:3e1f:d862 with SMTP id
+ x2-20020a056638160200b003413e1fd862mr1696518jas.24.1658573654111; Sat, 23 Jul
+ 2022 03:54:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721093042.9840-1-khalid.masum.92@gmail.com>
- <CAD=FV=UbRX194rDztr_=eoALg4kTmjzq=EXCX6RJSSq3vO=fbw@mail.gmail.com>
- <Ytl/xkb9OC43dgJd@bombadil.infradead.org>
-In-Reply-To: <Ytl/xkb9OC43dgJd@bombadil.infradead.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 21 Jul 2022 10:41:29 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgDsUDBeLWfFXTWSQcAGq9YS5gjMeNe-1KpXmyo_RwG8A@mail.gmail.com>
-Message-ID: <CAHk-=wgDsUDBeLWfFXTWSQcAGq9YS5gjMeNe-1KpXmyo_RwG8A@mail.gmail.com>
-Subject: Re: [PATCH RESEND] scripts/gdb: Fix gdb 'lx-symbols' command
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Pavel Skripkin <paskripkin@gmail.com>, Aaron Tomlin <atomlin@redhat.com>,
- Kieran Bingham <kbingham@kernel.org>, LKML <linux-kernel@vger.kernel.org>,
- Doug Anderson <dianders@chromium.org>, Jan Kiszka <jan.kiszka@siemens.com>,
- kgdb-bugreport@lists.sourceforge.net,
- Andrew Morton <akpm@linux-foundation.org>, Stephen Boyd <swboyd@chromium.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+References: <20220717133759.8479-1-khalid.masum.92@gmail.com>
+ <3ea0ea90-48bf-ce19-e014-9443d732e831@gmail.com>
+ <CAABMjtHiet1_SRvLBhoNxeEh865rwtZCkb510JmFPkHFMd5chQ@mail.gmail.com>
+ <CABBYNZJVv=pJv60P6fYZh65JU+BV5agGfXEh4VenxELEXqtDsA@mail.gmail.com>
+In-Reply-To: <CABBYNZJVv=pJv60P6fYZh65JU+BV5agGfXEh4VenxELEXqtDsA@mail.gmail.com>
+From: Khalid Masum <khalid.masum.92@gmail.com>
+Date: Sat, 23 Jul 2022 16:54:03 +0600
+Message-ID: <CAABMjtEDHLRGVHrjPaCyuTX0SBODVcS+U+G+xS+YQH=23zk=hg@mail.gmail.com>
+Subject: Re: [PATCH] Bluetooth: hci_core: Use ERR_PTR instead of NULL
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: Johan Hedberg <johan.hedberg@gmail.com>,
+ Pavel Skripkin <paskripkin@gmail.com>, Marcel Holtmann <marcel@holtmann.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
+ Eric Dumazet <edumazet@google.com>,
+ "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S . Miller" <davem@davemloft.net>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -123,15 +114,77 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 21, 2022 at 9:33 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+On Tue, Jul 19, 2022 at 5:04 AM Luiz Augusto von Dentz
+<luiz.dentz@gmail.com> wrote:
+>
+> Hi Khalid,
+>
+> On Sun, Jul 17, 2022 at 11:34 AM Khalid Masum <khalid.masum.92@gmail.com> wrote:
+> >
+> > On Sun, Jul 17, 2022 at 10:17 PM Pavel Skripkin <paskripkin@gmail.com> wrote:
+> > >
+> > > Hi Khalid,
+> > >
+> > > Khalid Masum <khalid.masum.92@gmail.com> says:
+> > > > Failure of kzalloc to allocate memory is not reported. Return Error
+> > > > pointer to ENOMEM if memory allocation fails. This will increase
+> > > > readability and will make the function easier to use in future.
+> > > >
+> > > > Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+> > > > ---
+> > >
+> > > [snip]
+> > >
+> > > > index a0f99baafd35..ea50767e02bf 100644
+> > > > --- a/net/bluetooth/hci_core.c
+> > > > +++ b/net/bluetooth/hci_core.c
+> > > > @@ -2419,7 +2419,7 @@ struct hci_dev *hci_alloc_dev_priv(int sizeof_priv)
+> > > >
+> > > >       hdev = kzalloc(alloc_size, GFP_KERNEL);
+> > > >       if (!hdev)
+> > > > -             return NULL;
+> > > > +             return ERR_PTR(-ENOMEM);
+> > > >
+> > >
+> > > This will break all callers of hci_alloc_dev(). All callers expect NULL
+> > > in case of an error, so you will leave them with wrong pointer.
+> >
+> > You are right. All callers of hci_alloc_dev() need to be able to handle
+> > the error pointer. I shall send a V2 with all the callers of hci_alloc_dev
+> > handling the ERR_PTR.
+> >
+> > > Also, allocation functionS return an error only in case of ENOMEM, so
+> > > initial code is fine, IMO
+> > >
+>
+> If there just a single error like ENOMEM then Id say this is fine,
+> just as it is fine for kzalloc.
+>
+> > I think it makes the memory allocation error handling look to be a bit
+> > different from what we usually do while allocating memory which is,
+> > returning an error or an error pointer. Here we are returning a NULL
+> > without any context, making it a bit unreadable. So I think returning
+> > an error pointer is better. If I am not mistaken, this also complies with
+> > the return convention:
+> > https://www.kernel.org/doc/htmldocs/kernel-hacking/convention-returns.html
+>
+> Not sure if that would apply to code that is basically a wrapper of kzalloc.
+
+I got you.
+> > > Thanks,
+> > > --Pavel Skripkin
+> >
+> >
+> > Thanks,
+> >   -- Khalid Masum
 >
 >
-> This should go to Linus prior to the next rc.  Linus, I think this is
-> worth picking up now as I smell a final release soon.
+>
+> --
+> Luiz Augusto von Dentz
 
-Applied. Thanks,
-
-               Linus
+Thanks,
+  -- Khalid Masum
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
