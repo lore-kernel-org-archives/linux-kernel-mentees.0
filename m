@@ -1,84 +1,104 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B39EFC00144
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Jul 2022 07:41:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75BBDC19F2A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Jul 2022 18:46:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 460D861040;
-	Fri, 29 Jul 2022 07:41:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 460D861040
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=fJ7gKeTu
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0090B8463F;
+	Fri, 29 Jul 2022 18:46:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0090B8463F
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=gxVP8cku
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kj0aW4e78cl6; Fri, 29 Jul 2022 07:41:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5C25660E96;
-	Fri, 29 Jul 2022 07:41:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5C25660E96
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ydcYk_RWfqgs; Fri, 29 Jul 2022 18:46:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DB5CD8469C;
+	Fri, 29 Jul 2022 18:46:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DB5CD8469C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2218DC0035;
-	Fri, 29 Jul 2022 07:41:12 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98776C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ADB42C0033;
+	Fri, 29 Jul 2022 18:46:49 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 907C6C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 07:41:10 +0000 (UTC)
+ Fri, 29 Jul 2022 18:46:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6BF8040476
+ by smtp4.osuosl.org (Postfix) with ESMTP id 71DBA421E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 07:41:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6BF8040476
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
- header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
- header.b=fJ7gKeTu
+ Fri, 29 Jul 2022 18:46:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 71DBA421E6
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com
+ header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256
+ header.s=20210112 header.b=gxVP8cku
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kG3aHHbVj59W
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gMRiPxD0r6Ma
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 07:41:09 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8BE5440017
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 8BE5440017
+ Fri, 29 Jul 2022 18:46:47 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5AD4F41BD5
+Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
+ [IPv6:2607:f8b0:4864:20::d34])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5AD4F41BD5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 07:41:09 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 50A38B82683;
- Fri, 29 Jul 2022 07:41:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B969C433C1;
- Fri, 29 Jul 2022 07:41:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1659080465;
- bh=FGL1aL6A/RUi4MWxUt1uEuHn+zfgp4GeIxmcVsCw1F4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fJ7gKeTugfJH/h3B7n7K/CEU0tl9h/jM/Ej149hPw1vYLEJ0ZjlSpxZIwDEE6e1aa
- sG1QMS3ATbpyFb/mhLL2L2JIBqBDPAV2d18egaraTDGb31CqxjIvIXkuECBjX9KY+L
- kOUEipqVnksAgmpdlpxnEwJA++KoIihZ2z6a2dcs=
-Date: Fri, 29 Jul 2022 09:41:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Coleman Dietsch <dietschc@csp.edu>
-Subject: Re: [PATCH] KVM: x86/xen: Fix bug in kvm_xen_vcpu_set_attr()
-Message-ID: <YuOPDpy+RqD09n3j@kroah.com>
-References: <20220728194736.383727-1-dietschc@csp.edu>
+ Fri, 29 Jul 2022 18:46:47 +0000 (UTC)
+Received: by mail-io1-xd34.google.com with SMTP id n138so4276909iod.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 29 Jul 2022 11:46:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=csp-edu.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=Fnhyk5gLFQEwsJhfQYKuwr0cjl/8dz+duvFdwzZkUrE=;
+ b=gxVP8cku9Bw1/VU8BYM/gHmgG3lEBkfgDP93zh0zKLMTbWMqzPrYCfj+fNQsA5orbo
+ O2/mTPnA3HyB8P5tlxTZAnt+jt3HodpVnblz7ElhSNACk7FqH/YZd1EsrH3qSPpipY/m
+ XNKkiTjdBGN2L0VknqC/N0B1jprRg3Rjbrl1OCvfByDP+tLcCaCPiFG0sWD2XUpgwDM3
+ mZvKoHnCLrB0BEKJdopm6NMyAv4e0qdpnpCvTT3cuyjEhfwk19BKPRoGUcw+v+NM50nJ
+ MENh/WxL/H66rJytORM1E01INuM8BxTIL64LLhbNlI0kLL1bejixa1ypi/u9iXsCjPKl
+ Y/vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=Fnhyk5gLFQEwsJhfQYKuwr0cjl/8dz+duvFdwzZkUrE=;
+ b=009lnR40rlWOzJxI5EToKW5x0saUpeLICvV7zclGp8eB8ZIKIiUoMLN5ucrbUdFAFH
+ j9FaJLhmyu71H+l8l1yyDZtJ3J0SkJORkqdNLcz29m26pzm4wXlkDtUQ5Um3xco5MLXp
+ Nhue9Gj65BVKwiUNX/yo+OrQbli5KiiJu6vhatAbzZYq96UstI2+bB8Wh24X56x0fnYn
+ /opyze2/kklRbzbtO3/ZprCP5FRy1GZ+nieNu/xZHdy5lnv3s7iB7g8/xhvYKGqZvQ5Q
+ BKjOFIGtNJViH+e3RV+PHBr6y0BXfwwythWevpsKwfaMnIguoWOD/AjuHPIV+h1CPOXO
+ WItw==
+X-Gm-Message-State: AJIora8xTqVO61FgHhdQuCCM2jpIFCmSNVtBV40UGM5b/xvkF0/B3P+J
+ Yl0jeNivS9pW4CW5ksipWPvmPlVFW5DwN6JF87CQt+F2V663f/ywRXzB8Z7mQFKsLAXOmuu5iFq
+ 7tRzA9XzFmWEKNMbnXl2j0knafJk0XJLnw/GAFUiCB5hIadWts5buovSxaZhzz94BYWI0/JKg9k
+ wjDn5WlBS4wT4tdadHwVOOhQ==
+X-Google-Smtp-Source: AGRyM1s9okV2pRWA3Fcsyvo+i/vocs80/XI5TSLntOxAZW8EwS7EcF/KQ5/7BOYxMZYbswazU+GPcg==
+X-Received: by 2002:a6b:c505:0:b0:67c:dcd:a5b2 with SMTP id
+ v5-20020a6bc505000000b0067c0dcda5b2mr1607779iof.37.1659120406280; 
+ Fri, 29 Jul 2022 11:46:46 -0700 (PDT)
+Received: from kernel-dev-1 (75-168-113-69.mpls.qwest.net. [75.168.113.69])
+ by smtp.gmail.com with ESMTPSA id
+ g14-20020a05663810ee00b003423f7b779csm1206576jae.41.2022.07.29.11.46.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jul 2022 11:46:46 -0700 (PDT)
+From: Coleman Dietsch <dietschc@csp.edu>
+To: kvm@vger.kernel.org
+Subject: [PATCH v2 0/2] KVM: x86/xen: Prevent xen timer init when running
+Date: Fri, 29 Jul 2022 13:46:38 -0500
+Message-Id: <20220729184640.244969-1-dietschc@csp.edu>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220728194736.383727-1-dietschc@csp.edu>
-Cc: syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com,
- Dave Hansen <dave.hansen@linux.intel.com>, kvm@vger.kernel.org,
- Sean Christopherson <seanjc@google.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H . Peter Anvin" <hpa@zytor.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Pavel Skripkin <paskripkin@gmail.com>,
+Cc: x86@kernel.org, Sean Christopherson <seanjc@google.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ "H . Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Pavel Skripkin <paskripkin@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -97,21 +117,54 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Jul 28, 2022 at 02:47:37PM -0500, Coleman Dietsch wrote:
-> This crash appears to be happening when vcpu->arch.xen.timer is already set and kvm_xen_init_timer(vcpu) is called.
+This patch series was created to address the following bug found by syzbot
+WARNING: ODEBUG bug in kvm_xen_vcpu_set_attr.
 
-What does "this crash" refer to ?
+When running the syzbot reproducer code, the following crash dump occurs:
 
-> 
-> During testing with the syzbot reproducer code it seemed apparent that the else if statement in the KVM_XEN_VCPU_ATTR_TYPE_TIMER switch case was not being reached, which is where the kvm_xen_stop_timer(vcpu) call is located.
+ODEBUG: init active (active state 0)
+object type: hrtimer hint: xen_timer_callbac0
+RIP: 0010:debug_print_object+0x16e/0x250 lib/debugobjects.c:502
+Call Trace:
+__debug_object_init
+debug_hrtimer_init
+debug_init
+hrtimer_init
+kvm_xen_init_timer
+kvm_xen_vcpu_set_attr
+kvm_arch_vcpu_ioctl
+kvm_vcpu_ioctl
+vfs_ioctl
 
-Please properly wrap your kernel changelog at 72 columns.
+The ODEBUG bug crash appears to be happening when vcpu->arch.xen.timer is
+already set and kvm_xen_init_timer() is called, which appears to be the
+result of two separate issues.
 
-Didn't checkpatch.pl complain about this?
+The first issue is that kvm_xen_init_timer() is run "every"
+KVM_XEN_VCPU_ATTR_TYPE_TIMER. This is addressed in patch 1.
 
-thanks,
+The second issue is that the stop xen timer code should be run before
+changing the IRQ vector. This is addressed in patch 2 with some cleanup.
 
-greg k-h
+version 2 changes (mostly feedback from Sean Christopherson)
+-split patch into 2 patches
+-fix changelogs to be more descriptive
+-fix formatting issues
+-add check for existing xen timer before trying to initialize another one
+-removed conditional for kvm_xen_stop_timer() so that it always runs
+-ensure that xen timer is stopped before changing IRQ vector
+-streamlined switch case KVM_XEN_VCPU_ATTR_TYPE_TIMER a bit
+
+Coleman Dietsch (2):
+  KVM: x86/xen: Initialize Xen timer only once
+  KVM: x86/xen: Stop Xen timer before changing the IRQ vector
+
+ arch/x86/kvm/xen.c | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
+
+-- 
+2.34.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
