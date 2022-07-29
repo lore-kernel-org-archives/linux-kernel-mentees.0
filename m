@@ -1,101 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 75BBDC19F2A
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Jul 2022 18:46:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A4DA0C19F2A
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Jul 2022 18:46:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0090B8463F;
-	Fri, 29 Jul 2022 18:46:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0090B8463F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=gxVP8cku
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ydcYk_RWfqgs; Fri, 29 Jul 2022 18:46:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DB5CD8469C;
-	Fri, 29 Jul 2022 18:46:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DB5CD8469C
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ADB42C0033;
-	Fri, 29 Jul 2022 18:46:49 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 907C6C002D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 18:46:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 71DBA421E6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 18:46:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 71DBA421E6
+	by smtp4.osuosl.org (Postfix) with ESMTP id 466A9421F0;
+	Fri, 29 Jul 2022 18:46:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 466A9421F0
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com
- header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256
- header.s=20210112 header.b=gxVP8cku
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=t8xemHbM
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gMRiPxD0r6Ma
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YPqiF9a_CHk5; Fri, 29 Jul 2022 18:46:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1ADCF421C4;
+	Fri, 29 Jul 2022 18:46:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1ADCF421C4
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EB041C0033;
+	Fri, 29 Jul 2022 18:46:53 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 07C92C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 18:46:47 +0000 (UTC)
+ Fri, 29 Jul 2022 18:46:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id CAD2D40BF5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 29 Jul 2022 18:46:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CAD2D40BF5
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com
+ header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256
+ header.s=20210112 header.b=t8xemHbM
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id J3jcxcVgkrvU
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 29 Jul 2022 18:46:49 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5AD4F41BD5
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5AD4F41BD5
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E606240C4A
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com
+ [IPv6:2607:f8b0:4864:20::12b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id E606240C4A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 18:46:47 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id n138so4276909iod.4
+ Fri, 29 Jul 2022 18:46:48 +0000 (UTC)
+Received: by mail-il1-x12b.google.com with SMTP id b12so2142558ils.9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 11:46:47 -0700 (PDT)
+ Fri, 29 Jul 2022 11:46:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=csp-edu.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=Fnhyk5gLFQEwsJhfQYKuwr0cjl/8dz+duvFdwzZkUrE=;
- b=gxVP8cku9Bw1/VU8BYM/gHmgG3lEBkfgDP93zh0zKLMTbWMqzPrYCfj+fNQsA5orbo
- O2/mTPnA3HyB8P5tlxTZAnt+jt3HodpVnblz7ElhSNACk7FqH/YZd1EsrH3qSPpipY/m
- XNKkiTjdBGN2L0VknqC/N0B1jprRg3Rjbrl1OCvfByDP+tLcCaCPiFG0sWD2XUpgwDM3
- mZvKoHnCLrB0BEKJdopm6NMyAv4e0qdpnpCvTT3cuyjEhfwk19BKPRoGUcw+v+NM50nJ
- MENh/WxL/H66rJytORM1E01INuM8BxTIL64LLhbNlI0kLL1bejixa1ypi/u9iXsCjPKl
- Y/vQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=n9k2YMAlV+e8e432QUJ2PyPKup021wpFALKoUT5LbfA=;
+ b=t8xemHbMEOFF8aIZYKKQUu/GtHy43f3Fqg86S8UanB4LEb84lG9couq0EXyiscKOfM
+ vCmBKRhkZZtyGzmbMzuTeGjkAFGdp7rbh9+8ds5DjoILSUOTJGi6YLs1sNpGuZzbUEZH
+ 10iSC8S7U1sRfpantRGB8LOKZN+UfLRp+uJHFQo0q7uiaN5bWWZooFq+yCWCmv31FnDm
+ v7teJTYMhnqt81hUFBaVeJ2NurQ6NaDdiQF5Hl/oHKELjczbj7Odbf59Om4/wVI7kheC
+ eHxwbTXv3982ju0Rm16EYWrRG4XfUdqDanShbkp9Li0zMPdkSh9WLWyx/8scNJsMnA5V
+ NcYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=Fnhyk5gLFQEwsJhfQYKuwr0cjl/8dz+duvFdwzZkUrE=;
- b=009lnR40rlWOzJxI5EToKW5x0saUpeLICvV7zclGp8eB8ZIKIiUoMLN5ucrbUdFAFH
- j9FaJLhmyu71H+l8l1yyDZtJ3J0SkJORkqdNLcz29m26pzm4wXlkDtUQ5Um3xco5MLXp
- Nhue9Gj65BVKwiUNX/yo+OrQbli5KiiJu6vhatAbzZYq96UstI2+bB8Wh24X56x0fnYn
- /opyze2/kklRbzbtO3/ZprCP5FRy1GZ+nieNu/xZHdy5lnv3s7iB7g8/xhvYKGqZvQ5Q
- BKjOFIGtNJViH+e3RV+PHBr6y0BXfwwythWevpsKwfaMnIguoWOD/AjuHPIV+h1CPOXO
- WItw==
-X-Gm-Message-State: AJIora8xTqVO61FgHhdQuCCM2jpIFCmSNVtBV40UGM5b/xvkF0/B3P+J
- Yl0jeNivS9pW4CW5ksipWPvmPlVFW5DwN6JF87CQt+F2V663f/ywRXzB8Z7mQFKsLAXOmuu5iFq
- 7tRzA9XzFmWEKNMbnXl2j0knafJk0XJLnw/GAFUiCB5hIadWts5buovSxaZhzz94BYWI0/JKg9k
- wjDn5WlBS4wT4tdadHwVOOhQ==
-X-Google-Smtp-Source: AGRyM1s9okV2pRWA3Fcsyvo+i/vocs80/XI5TSLntOxAZW8EwS7EcF/KQ5/7BOYxMZYbswazU+GPcg==
-X-Received: by 2002:a6b:c505:0:b0:67c:dcd:a5b2 with SMTP id
- v5-20020a6bc505000000b0067c0dcda5b2mr1607779iof.37.1659120406280; 
- Fri, 29 Jul 2022 11:46:46 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=n9k2YMAlV+e8e432QUJ2PyPKup021wpFALKoUT5LbfA=;
+ b=mPJF9u815ceBcKiDqfW1C+ECb4PxwxDuHqVq/vmpKzNQPZkVME4hJxFAjj6gk1TIR6
+ ugq50SenggSI9TQkKgVSUOByOOFLoN9KiNeNA4x3CCAx9EjLLQJpUALqlH5YherE4eeA
+ VmIK+rmyqrs8QXhJwp1QltotuDHB2ZGVS3n75cyGt7dq23pcx5158g4TWa4+8iB58f/0
+ 93nNmFEf6iAxtk42P1ilGsWwUNzKFH7U6Z3KXYGsnClwkWOPjb9Q0gVi684MA9QwmBqc
+ a+6K+hloQB8qBoa25yURMllWf84Hk7h0wpGPPbZTB5vVwMXjV9VH6Uhc7a8HTW51hLrM
+ sThA==
+X-Gm-Message-State: AJIora8I+/ycJ184CeqQq51Xa7M/KmI9qDJd6Q5L0O1vmPO+JjHthd4x
+ rDv/j3tlABaJGxuOe7YPzcVr4Q==
+X-Google-Smtp-Source: AGRyM1tMybxHnE1PTpdbKjHoSc/38FzbC7CdYsABqDMQN8d/mR8rV/1QXfGZp0Nt9aj937GQq6ocFg==
+X-Received: by 2002:a05:6e02:160a:b0:2dc:12db:121 with SMTP id
+ t10-20020a056e02160a00b002dc12db0121mr2026813ilu.117.1659120407979; 
+ Fri, 29 Jul 2022 11:46:47 -0700 (PDT)
 Received: from kernel-dev-1 (75-168-113-69.mpls.qwest.net. [75.168.113.69])
  by smtp.gmail.com with ESMTPSA id
- g14-20020a05663810ee00b003423f7b779csm1206576jae.41.2022.07.29.11.46.45
+ f24-20020a02a118000000b0033f7d500749sm1949399jag.128.2022.07.29.11.46.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 11:46:46 -0700 (PDT)
+ Fri, 29 Jul 2022 11:46:47 -0700 (PDT)
 From: Coleman Dietsch <dietschc@csp.edu>
 To: kvm@vger.kernel.org
-Subject: [PATCH v2 0/2] KVM: x86/xen: Prevent xen timer init when running
-Date: Fri, 29 Jul 2022 13:46:38 -0500
-Message-Id: <20220729184640.244969-1-dietschc@csp.edu>
+Subject: [PATCH v2 1/2] KVM: x86/xen: Initialize Xen timer only once
+Date: Fri, 29 Jul 2022 13:46:39 -0500
+Message-Id: <20220729184640.244969-2-dietschc@csp.edu>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220729184640.244969-1-dietschc@csp.edu>
+References: <20220729184640.244969-1-dietschc@csp.edu>
 MIME-Version: 1.0
 Cc: x86@kernel.org, Sean Christopherson <seanjc@google.com>,
  Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+ syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com,
  Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
  "H . Peter Anvin" <hpa@zytor.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Gleixner <tglx@linutronix.de>, Pavel Skripkin <paskripkin@gmail.com>,
@@ -117,10 +118,11 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch series was created to address the following bug found by syzbot
-WARNING: ODEBUG bug in kvm_xen_vcpu_set_attr.
+Add a check for existing xen timers before initializing a new one.
 
-When running the syzbot reproducer code, the following crash dump occurs:
+Currently kvm_xen_init_timer() is called on every
+KVM_XEN_VCPU_ATTR_TYPE_TIMER, which is causing the following ODEBUG
+crash when vcpu->arch.xen.timer is already set.
 
 ODEBUG: init active (active state 0)
 object type: hrtimer hint: xen_timer_callbac0
@@ -136,32 +138,29 @@ kvm_arch_vcpu_ioctl
 kvm_vcpu_ioctl
 vfs_ioctl
 
-The ODEBUG bug crash appears to be happening when vcpu->arch.xen.timer is
-already set and kvm_xen_init_timer() is called, which appears to be the
-result of two separate issues.
+Link: https://syzkaller.appspot.com/bug?id=8234a9dfd3aafbf092cc5a7cd9842e3ebc45fc42
+Reported-by: syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com
+Signed-off-by: Coleman Dietsch <dietschc@csp.edu>
+---
+ arch/x86/kvm/xen.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The first issue is that kvm_xen_init_timer() is run "every"
-KVM_XEN_VCPU_ATTR_TYPE_TIMER. This is addressed in patch 1.
-
-The second issue is that the stop xen timer code should be run before
-changing the IRQ vector. This is addressed in patch 2 with some cleanup.
-
-version 2 changes (mostly feedback from Sean Christopherson)
--split patch into 2 patches
--fix changelogs to be more descriptive
--fix formatting issues
--add check for existing xen timer before trying to initialize another one
--removed conditional for kvm_xen_stop_timer() so that it always runs
--ensure that xen timer is stopped before changing IRQ vector
--streamlined switch case KVM_XEN_VCPU_ATTR_TYPE_TIMER a bit
-
-Coleman Dietsch (2):
-  KVM: x86/xen: Initialize Xen timer only once
-  KVM: x86/xen: Stop Xen timer before changing the IRQ vector
-
- arch/x86/kvm/xen.c | 32 +++++++++++++++++---------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
-
+diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+index 610beba35907..2dd0f72a62f2 100644
+--- a/arch/x86/kvm/xen.c
++++ b/arch/x86/kvm/xen.c
+@@ -713,7 +713,10 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struct kvm_xen_vcpu_attr *data)
+ 				break;
+ 			}
+ 			vcpu->arch.xen.timer_virq = data->u.timer.port;
+-			kvm_xen_init_timer(vcpu);
++
++			/* Check for existing timer */
++			if (!vcpu->arch.xen.timer.function)
++				kvm_xen_init_timer(vcpu);
+ 
+ 			/* Restart the timer if it's set */
+ 			if (data->u.timer.expires_ns)
 -- 
 2.34.1
 
