@@ -1,106 +1,108 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C05AC19F29
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Jul 2022 23:29:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 15F7EC04A68
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 30 Jul 2022 08:59:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 09E3A831C1;
-	Fri, 29 Jul 2022 23:29:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 09E3A831C1
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=csp-edu.20210112.gappssmtp.com header.i=@csp-edu.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=wQRaueez
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8010660BAB;
+	Sat, 30 Jul 2022 08:59:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8010660BAB
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=c6n/Ibwi
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ibBMSlg6kld5; Fri, 29 Jul 2022 23:29:16 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aEhh1kab3eQx; Sat, 30 Jul 2022 08:59:04 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 161DD82F31;
-	Fri, 29 Jul 2022 23:29:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 161DD82F31
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 37B62610C5;
+	Sat, 30 Jul 2022 08:59:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 37B62610C5
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C6459C0035;
-	Fri, 29 Jul 2022 23:29:15 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9BCB9C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F0FD5C0035;
+	Sat, 30 Jul 2022 08:59:03 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6D6BAC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 23:29:13 +0000 (UTC)
+ Sat, 30 Jul 2022 08:59:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6415F82F3D
+ by smtp4.osuosl.org (Postfix) with ESMTP id 3484541B6F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 23:29:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6415F82F3D
+ Sat, 30 Jul 2022 08:59:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3484541B6F
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=c6n/Ibwi
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nQjkPmVdpj_q
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oTYux_S9d3vX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 23:29:09 +0000 (UTC)
+ Sat, 30 Jul 2022 08:59:01 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 22D0582F31
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 22D0582F31
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E0A42419DF
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E0A42419DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 23:29:09 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id c185so4680852iof.7
+ Sat, 30 Jul 2022 08:59:00 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ p14-20020a17090a74ce00b001f4d04492faso1113131pjl.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Jul 2022 16:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=csp-edu.20210112.gappssmtp.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=qWNh7vOk9tCkYV94WwXKMJ4uEd3sFIr85O9CxOfUKiQ=;
- b=wQRaueezeuI5pT4oYhFHZhZMItthSUgguL7GFYaB68jVps//cv0JYxK90b/gVoI05n
- h8dk3+3t6WieMLwz6z1FkKimPbVmxBxmwHfZ2H2GauMe/JDVDscps2uZS6q2n5ehoxyw
- K54ymHUibx6A+RwjmsE+sATpqcBcstkpP+aMgjfMXtSD1T7G06Bm/3FjtmkNfhzv8Yxq
- zj3bPFJ9BbBbJ5lQtFHs3M4iw3Y8yxFUXHwDZvz4iUR1t+dFmIS535MsNySc4XOqDTJN
- AzfiIGVwL8pvMskr8ehS/xgY2ZzFjfGB0VG+4x4NwHQxpcKiTtHsv6uQyoYdrTZlQsBx
- 13sA==
+ Sat, 30 Jul 2022 01:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=puomoMAHuQXs/SqXXekCtCcFNLgV0IdV/qMrowpM2aE=;
+ b=c6n/Ibwi5WwoKOGlBfoXVvZ9DFfolINEO1XlBObTpSOnTPjqE3HvGjR1snZq1sI6OW
+ 7deLvVMDOwnRHaaL2/GdUiIhVecUCwH/bHJhJDLAth8Z99QwdmuVRP22AyjSqkpFh8Cm
+ DRV91mVkiYQpAo4GjbBm1FbZmEyRTybk2C6k3NdV166qR4vQz3xZvTHW5Fhh8oi1eSDI
+ eJ7+/Bu7jdBQJ1Z6Rm16GAACG8x4jFKbPFaRfN51J0Hxkd77NMUAvEl/jOArXyiuZx+Z
+ i18Z+BkAlVGd4fRnaUNGyi0cUs/yV49qAhcjb7reiiajNxHv2XivFXStO+/ooUmC6x0i
+ SY5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=qWNh7vOk9tCkYV94WwXKMJ4uEd3sFIr85O9CxOfUKiQ=;
- b=wbADDJin2xby3BopaKXp1YNXv2KHXM/cWwVGvCY4vshDeDzOwudprelHIN4spl/wmm
- 1v75ofhSeufSUGVpI+mQwstZ1j3dfKHWjewgrzuTQyc0qmOhwB2/VS8XH5RmGLqiqw6g
- 3wk4K8xvl0nX8zImbCUevKG7Z9511qZFC4sD1ujz8HiBMUTEbr3R9SHsw2FVJQMenCa+
- V80JgwncjZWOrbdVIQUdJqq2xjns2Gg8yWAUvw5ZTbSnc79Fy/ZwdzdirmLX315H41Hm
- MHf2hB/ZQgTqG4W71JthZXu6dtnNTw8SpoOrzLIR6W9oStuICbR5CUiO/qoBTCt65y+e
- T6Ww==
-X-Gm-Message-State: AJIora+hjhVCNW+D9n41XG5hQ68eqCRynv4Sv3MHdMvHGQpl17E81c5h
- nhCHwEfvqFf5qC0sQf64bxRjWvuEk5U2QqO3gK+EKdqyI00h4dz3HoOY3+WQk++7wDIjulbw/iw
- ffQtZwH+fG7fmKk/G1++WP0lxv2D9LDHrBWOq5OSeg2K14HJHMDW0QLkug/GDRRlZSVxc/vDjm5
- JyWymvdcnWrK9Ma0eNVt7RQw==
-X-Google-Smtp-Source: AGRyM1uRQjDAUWSoc11u2QbNyEFqJJaHT/kHhRAen2+cI88tCY46m5+6iYzrx08XaKia2PfQSYlqDA==
-X-Received: by 2002:a05:6638:12d4:b0:33f:aaab:8d84 with SMTP id
- v20-20020a05663812d400b0033faaab8d84mr2274213jas.67.1659137348018; 
- Fri, 29 Jul 2022 16:29:08 -0700 (PDT)
-Received: from kernel-dev-1 (75-168-113-69.mpls.qwest.net. [75.168.113.69])
- by smtp.gmail.com with ESMTPSA id
- y14-20020a5e870e000000b0067bd7f5f964sm2244967ioj.7.2022.07.29.16.29.07
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=puomoMAHuQXs/SqXXekCtCcFNLgV0IdV/qMrowpM2aE=;
+ b=AUqUMq/NCeyQVdGId+nQ00n/D6/OkcPS1CPtT1CfsArhqA1ZrB6NozBWTLXDjLIO12
+ Re4Tfc4NGD/pERdJRUwRCCHFn9Yug3Ojx+eaDeJTj3iDXpV+77Agl5W+fB2OFiPz/J7l
+ hUHpZM1gCsHiZfAVBOiYoZtcddFpgpfEOx2XdAEDKZO7SGLzPVIOgdXYxY09Ap4WVYtr
+ u9BwtuqeY5YrDTvbNR/J4O7/Eldg4NSDwtpC/svkRNlX/hoa97NRHkupyMehK5Rf15Dn
+ 6kGhSikKrhujO/pqSazzlDpFVVxsl9y47rgYk3FZOUJQObDL6BI/Q6WNkTnc1Og+qZO1
+ r0Xw==
+X-Gm-Message-State: ACgBeo3AlErvIm5yuaVgLbCr+eLLzaIf32tl0rKk8vS4oPImKJyhqWAC
+ uOPpVLdwtZRLKgqwtz2Y/q0=
+X-Google-Smtp-Source: AA6agR7pFANRL8Gq/mDm5/a+hLy+KV8WKjhFrH96qRB3vfOwbIDxJC7gHjwRlkdZowAs+2B8sQxa/A==
+X-Received: by 2002:a17:90b:1646:b0:1f2:91c8:d0a with SMTP id
+ il6-20020a17090b164600b001f291c80d0amr8857728pjb.5.1659171540275; 
+ Sat, 30 Jul 2022 01:59:00 -0700 (PDT)
+Received: from localhost.localdomain (pcd568068.netvigator.com.
+ [218.102.100.68]) by smtp.gmail.com with ESMTPSA id
+ 4-20020a620604000000b0052b6277df9esm4321524pfg.43.2022.07.30.01.58.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 16:29:07 -0700 (PDT)
-Date: Fri, 29 Jul 2022 18:29:07 -0500
-From: Coleman Dietsch <dietschc@csp.edu>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] KVM: x86/xen: Fix bug in kvm_xen_vcpu_set_attr()
-Message-ID: <YuRtQ/GHc3poAmHG@kernel-dev-1>
-References: <20220728194736.383727-1-dietschc@csp.edu>
- <YuOPDpy+RqD09n3j@kroah.com>
+ Sat, 30 Jul 2022 01:58:59 -0700 (PDT)
+From: Hawkins Jiawei <yin31149@gmail.com>
+To: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
+Subject: [PATCH v2] net/smc: fix refcount bug in sk_psock_get (2)
+Date: Sat, 30 Jul 2022 16:56:55 +0800
+Message-Id: <20220730085654.2598-1-yin31149@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <00000000000026328205e08cdbeb@google.com>
+References: <00000000000026328205e08cdbeb@google.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <YuOPDpy+RqD09n3j@kroah.com>
-Cc: syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com,
- Dave Hansen <dave.hansen@linux.intel.com>, kvm@vger.kernel.org,
- Sean Christopherson <seanjc@google.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, "H . Peter Anvin" <hpa@zytor.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Pavel Skripkin <paskripkin@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: songliubraving@fb.com, guvenc@linux.ibm.com, ast@kernel.org,
+ edumazet@google.com, linux-s390@vger.kernel.org, jakub@cloudflare.com,
+ daniel@iogearbox.net, davem@davemloft.net, borisp@nvidia.com,
+ paskripkin@gmail.com, john.fastabend@gmail.com, andrii@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzkaller-bugs@googlegroups.com, ubraun@linux.ibm.com, kpsingh@kernel.org,
+ wenjia@linux.ibm.com, yhs@fb.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kgraul@linux.ibm.com, guwen@linux.alibaba.com,
+ yin31149@gmail.com, bpf@vger.kernel.org, kafai@fb.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,29 +120,175 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Jul 29, 2022 at 09:41:02AM +0200, Greg KH wrote:
-> On Thu, Jul 28, 2022 at 02:47:37PM -0500, Coleman Dietsch wrote:
-> > This crash appears to be happening when vcpu->arch.xen.timer is already set and kvm_xen_init_timer(vcpu) is called.
-> 
-> What does "this crash" refer to ?
-> 
-> > 
-> > During testing with the syzbot reproducer code it seemed apparent that the else if statement in the KVM_XEN_VCPU_ATTR_TYPE_TIMER switch case was not being reached, which is where the kvm_xen_stop_timer(vcpu) call is located.
-> 
-> Please properly wrap your kernel changelog at 72 columns.
-> 
-> Didn't checkpatch.pl complain about this?
-> 
+Syzkaller reports refcount bug as follows:
+------------[ cut here ]------------
+refcount_t: saturated; leaking memory.
+WARNING: CPU: 1 PID: 3605 at lib/refcount.c:19 refcount_warn_saturate+0xf4/0x1e0 lib/refcount.c:19
+Modules linked in:
+CPU: 1 PID: 3605 Comm: syz-executor208 Not tainted 5.18.0-syzkaller-03023-g7e062cda7d90 #0
+...
+Call Trace:
+ <TASK>
+ __refcount_add_not_zero include/linux/refcount.h:163 [inline]
+ __refcount_inc_not_zero include/linux/refcount.h:227 [inline]
+ refcount_inc_not_zero include/linux/refcount.h:245 [inline]
+ sk_psock_get+0x3bc/0x410 include/linux/skmsg.h:439
+ tls_data_ready+0x6d/0x1b0 net/tls/tls_sw.c:2091
+ tcp_data_ready+0x106/0x520 net/ipv4/tcp_input.c:4983
+ tcp_data_queue+0x25f2/0x4c90 net/ipv4/tcp_input.c:5057
+ tcp_rcv_state_process+0x1774/0x4e80 net/ipv4/tcp_input.c:6659
+ tcp_v4_do_rcv+0x339/0x980 net/ipv4/tcp_ipv4.c:1682
+ sk_backlog_rcv include/net/sock.h:1061 [inline]
+ __release_sock+0x134/0x3b0 net/core/sock.c:2849
+ release_sock+0x54/0x1b0 net/core/sock.c:3404
+ inet_shutdown+0x1e0/0x430 net/ipv4/af_inet.c:909
+ __sys_shutdown_sock net/socket.c:2331 [inline]
+ __sys_shutdown_sock net/socket.c:2325 [inline]
+ __sys_shutdown+0xf1/0x1b0 net/socket.c:2343
+ __do_sys_shutdown net/socket.c:2351 [inline]
+ __se_sys_shutdown net/socket.c:2349 [inline]
+ __x64_sys_shutdown+0x50/0x70 net/socket.c:2349
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x46/0xb0
+ </TASK>
 
-I believe I made the mistake of editing the patch file directly so it was
-on me for forgetting to run checkpatch.pl manually.
+During SMC fallback process in connect syscall, kernel will
+replaces TCP with SMC. In order to forward wakeup
+smc socket waitqueue after fallback, kernel will sets
+clcsk->sk_user_data to origin smc socket in
+smc_fback_replace_callbacks().
 
-> thanks,
-> 
-> greg k-h
+Later, in shutdown syscall, kernel will calls
+sk_psock_get(), which treats the clcsk->sk_user_data
+as sk_psock type, triggering the refcnt warning.
 
-Thanks for the feedback Greg, I believe I have (at least these) issues
-resolved in the next version of the patch.
+So, the root cause is that smc and psock, both will use
+sk_user_data field. So they will mismatch this field
+easily.
+
+This patch solves it by using another bit(defined as
+SK_USER_DATA_NOTPSOCK) in PTRMASK, to mark whether
+sk_user_data points to a sk_psock object or not.
+This patch depends on a PTRMASK introduced in commit f1ff5ce2cd5e
+("net, sk_msg: Clear sk_user_data pointer on clone if tagged").
+
+Fixes: 341adeec9ada ("net/smc: Forward wakeup to smc socket waitqueue after fallback")
+Fixes: a60a2b1e0af1 ("net/smc: reduce active tcp_listen workers")
+Reported-and-tested-by: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
+Suggested-by: Jakub Kicinski <kuba@kernel.org>
+Acked-by: Wen Gu <guwen@linux.alibaba.com>
+Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+---
+v1 -> v2: 
+  - add bit in PTRMASK to patch the bug
+
+ include/linux/skmsg.h |  2 +-
+ include/net/sock.h    | 27 +++++++++++++++++++++++++--
+ net/smc/af_smc.c      |  6 ++++--
+ net/smc/smc.h         |  2 +-
+ 4 files changed, 31 insertions(+), 6 deletions(-)
+
+diff --git a/include/linux/skmsg.h b/include/linux/skmsg.h
+index c5a2d6f50f25..81bfa1a33623 100644
+--- a/include/linux/skmsg.h
++++ b/include/linux/skmsg.h
+@@ -277,7 +277,7 @@ static inline void sk_msg_sg_copy_clear(struct sk_msg *msg, u32 start)
+ 
+ static inline struct sk_psock *sk_psock(const struct sock *sk)
+ {
+-	return rcu_dereference_sk_user_data(sk);
++	return rcu_dereference_sk_user_data_psock(sk);
+ }
+ 
+ static inline void sk_psock_set_state(struct sk_psock *psock,
+diff --git a/include/net/sock.h b/include/net/sock.h
+index 9fa54762e077..316c0313b2bf 100644
+--- a/include/net/sock.h
++++ b/include/net/sock.h
+@@ -549,10 +549,17 @@ enum sk_pacing {
+  * when cloning the socket. For instance, it can point to a reference
+  * counted object. sk_user_data bottom bit is set if pointer must not
+  * be copied.
++ *
++ * SK_USER_DATA_NOCOPY   - test if pointer must not copied
++ * SK_USER_DATA_BPF      - managed by BPF
++ * SK_USER_DATA_NOTPSOCK - test if pointer points to psock
+  */
+ #define SK_USER_DATA_NOCOPY	1UL
+-#define SK_USER_DATA_BPF	2UL	/* Managed by BPF */
+-#define SK_USER_DATA_PTRMASK	~(SK_USER_DATA_NOCOPY | SK_USER_DATA_BPF)
++#define SK_USER_DATA_BPF	2UL
++#define SK_USER_DATA_NOTPSOCK	4UL
++#define SK_USER_DATA_PTRMASK	~(SK_USER_DATA_NOCOPY | SK_USER_DATA_BPF |\
++				  SK_USER_DATA_NOTPSOCK)
++
+ 
+ /**
+  * sk_user_data_is_nocopy - Test if sk_user_data pointer must not be copied
+@@ -584,6 +591,22 @@ static inline bool sk_user_data_is_nocopy(const struct sock *sk)
+ 			   __tmp | SK_USER_DATA_NOCOPY);		\
+ })
+ 
++/**
++ * rcu_dereference_sk_user_data_psock - return psock if sk_user_data points
++ * to the psock
++ * @sk: socket
++ */
++static inline
++struct sk_psock *rcu_dereference_sk_user_data_psock(const struct sock *sk)
++{
++	uintptr_t __tmp = (uintptr_t)rcu_dereference(__sk_user_data((sk)));
++
++	if (__tmp & SK_USER_DATA_NOTPSOCK)
++		return NULL;
++	return (struct sk_psock *)(__tmp & SK_USER_DATA_PTRMASK);
++}
++
++
+ static inline
+ struct net *sock_net(const struct sock *sk)
+ {
+diff --git a/net/smc/af_smc.c b/net/smc/af_smc.c
+index 433bb5a7df31..d0feccf824c8 100644
+--- a/net/smc/af_smc.c
++++ b/net/smc/af_smc.c
+@@ -812,7 +812,8 @@ static void smc_fback_replace_callbacks(struct smc_sock *smc)
+ 	struct sock *clcsk = smc->clcsock->sk;
+ 
+ 	write_lock_bh(&clcsk->sk_callback_lock);
+-	clcsk->sk_user_data = (void *)((uintptr_t)smc | SK_USER_DATA_NOCOPY);
++	clcsk->sk_user_data = (void *)((uintptr_t)smc | SK_USER_DATA_NOCOPY |
++				       SK_USER_DATA_NOTPSOCK);
+ 
+ 	smc_clcsock_replace_cb(&clcsk->sk_state_change, smc_fback_state_change,
+ 			       &smc->clcsk_state_change);
+@@ -2470,7 +2471,8 @@ static int smc_listen(struct socket *sock, int backlog)
+ 	 */
+ 	write_lock_bh(&smc->clcsock->sk->sk_callback_lock);
+ 	smc->clcsock->sk->sk_user_data =
+-		(void *)((uintptr_t)smc | SK_USER_DATA_NOCOPY);
++		(void *)((uintptr_t)smc | SK_USER_DATA_NOCOPY |
++			 SK_USER_DATA_NOTPSOCK);
+ 	smc_clcsock_replace_cb(&smc->clcsock->sk->sk_data_ready,
+ 			       smc_clcsock_data_ready, &smc->clcsk_data_ready);
+ 	write_unlock_bh(&smc->clcsock->sk->sk_callback_lock);
+diff --git a/net/smc/smc.h b/net/smc/smc.h
+index 5ed765ea0c73..c24d0469d267 100644
+--- a/net/smc/smc.h
++++ b/net/smc/smc.h
+@@ -299,7 +299,7 @@ static inline void smc_init_saved_callbacks(struct smc_sock *smc)
+ static inline struct smc_sock *smc_clcsock_user_data(const struct sock *clcsk)
+ {
+ 	return (struct smc_sock *)
+-	       ((uintptr_t)clcsk->sk_user_data & ~SK_USER_DATA_NOCOPY);
++	       ((uintptr_t)clcsk->sk_user_data & SK_USER_DATA_PTRMASK);
+ }
+ 
+ /* save target_cb in saved_cb, and replace target_cb with new_cb */
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
