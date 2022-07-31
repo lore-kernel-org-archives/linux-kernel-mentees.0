@@ -4,97 +4,111 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 80F62C19F29
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 Jul 2022 17:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 03E6EC19F2B
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 31 Jul 2022 18:11:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E52D540535;
-	Sun, 31 Jul 2022 17:03:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E52D540535
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7A33940E08;
+	Sun, 31 Jul 2022 18:11:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7A33940E08
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=aD4/ICKm
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=FeKk7GPw
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 3y-zTluNMOin; Sun, 31 Jul 2022 17:03:34 +0000 (UTC)
+	with ESMTP id Ie9OeKwBRfbU; Sun, 31 Jul 2022 18:11:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id AB4FD4015F;
-	Sun, 31 Jul 2022 17:03:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AB4FD4015F
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 8746240272;
+	Sun, 31 Jul 2022 18:11:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8746240272
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 70520C0032;
-	Sun, 31 Jul 2022 17:03:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 32AE9C0032;
+	Sun, 31 Jul 2022 18:11:38 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6ADA9C002D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F7A7C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 Jul 2022 17:03:32 +0000 (UTC)
+ Sun, 31 Jul 2022 18:11:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5326660E61
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1C6A260D71
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 Jul 2022 17:03:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5326660E61
+ Sun, 31 Jul 2022 18:11:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1C6A260D71
 Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=aD4/ICKm
+ header.a=rsa-sha256 header.s=20210112 header.b=FeKk7GPw
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8mThCTUTF6fV
+ with ESMTP id p3xVp5VLXArh
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 Jul 2022 17:03:29 +0000 (UTC)
+ Sun, 31 Jul 2022 18:11:35 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 53C7C60773
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
- [IPv6:2607:f8b0:4864:20::62d])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 53C7C60773
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2397360767
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com
+ [IPv6:2607:f8b0:4864:20::42f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2397360767
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 Jul 2022 17:03:29 +0000 (UTC)
-Received: by mail-pl1-x62d.google.com with SMTP id w10so8556237plq.0
+ Sun, 31 Jul 2022 18:11:34 +0000 (UTC)
+Received: by mail-pf1-x42f.google.com with SMTP id d20so1272159pfq.5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 31 Jul 2022 10:03:29 -0700 (PDT)
+ Sun, 31 Jul 2022 11:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fzm9FXVK1++mZC5DB3xf/VNAMRJCgD5SmSkZkONamI0=;
- b=aD4/ICKma9H8QGUrQNpPLRVjC7JOnDZvzrZC711tHOJMI0j6ULUnb4avuLqcZVJjiW
- RXjeo7h1MUi1cnRBVfLLE6CqrgHSUP9NIa3ZsbIRLnHGBPgO4wnj0IzHvOd+iPWsd4hp
- cz4jC4j3CbHjJrTP9sdRD+xSvDwGS7RJEV+DxRO68kFY5xdURGfv0to3k6F4w4EtrgGB
- EJqhubxy9DF0KRzW03aZnEfNxib7JCRHRMb1ZIKncFrU9V56uSULZchCGksx8/V5zBap
- uRpsr3HgojQXXEqtl6Cs3nngyp6MOm7OvQr5F55PX1bvSoHwF80vLS5S/eGfBz0Oofpk
- jpfQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=hqBKgf+Ek/JQSC2ln2M+FhamOJdervk7JOSiOKWTnXE=;
+ b=FeKk7GPwptQofjZCsnRB6M98VcwSqFPPVXTVn5P5eIpBwkgiDjjqHkXgEV3C6Z6vFD
+ 4p46kuwmXz60IlNZyF8Ri6j4juO3EQeKMQf08tUD+MTBqb3zhiSidiQvi1fAJk92QbT8
+ ZJncYLYWceXFFKGRLlJ/mRjBfW6zlFSgtvDmBCSoe4TmJzymjUVsBJPECPTc2g2lz+Xd
+ kwhlgTXrCpxS0ScT34Ah0QUwC+ZWc0JNOlo9XG7gEfmQemEScTd9LrVeKY7QAuVeRVGC
+ ks3jN72FnZtyD8pbyLlZytmx56A3lKVFbDJqSENadff5EQfW6lBElkTyYPVCQhqm9NV6
+ 3cIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fzm9FXVK1++mZC5DB3xf/VNAMRJCgD5SmSkZkONamI0=;
- b=RrtKavHvXuKs90q0OKHTVadvt48ubUqYYl+OH143AOBZ8CZtGFpMKzvYdmMvggK6az
- p6cIiz+qIcS4m7L76gpzAjrax1hBdhylDcZAXI9xZXjOyYdVAmQW0ur7G0+tXuQpQvM9
- Bq+JoptX79qid65ywl8QH+7CxDE0MI0Alp+YIr1a2cyWyovsuuZVlLdmyxkG3iEHnjKr
- TfhdAkf7Ro90+Txp5Hly/HnuI7OwrniAUcI/bgIM/pSRie/gr5NknHcDHoHT+CR+Yl+M
- V8j9wHLVSv+wYmSA3i2i87im7LVk1Gmk5wgxBC/EFulVSX+b2zA9yq0FQd7HU/xZNPnY
- 9I5g==
-X-Gm-Message-State: ACgBeo0CcF6GPv2zIDaRkqaY65HsQt98NPAD0ioD6/aU2svm+tKo2sOL
- 8Isn/V8mA3KBQKMqEgIag0w=
-X-Google-Smtp-Source: AA6agR6ozNq7hqX3YWd831P1TBQPEOX1taSgzIAWgLLhtINpn05+TgL/DsK5AN7Evp1hd6lyV+IkwA==
-X-Received: by 2002:a17:90a:fe10:b0:1f3:1de7:fe1b with SMTP id
- ck16-20020a17090afe1000b001f31de7fe1bmr15093843pjb.189.1659287008532; 
- Sun, 31 Jul 2022 10:03:28 -0700 (PDT)
-Received: from biggie.. ([103.230.148.186]) by smtp.gmail.com with ESMTPSA id
- u5-20020a17090a4bc500b001ef7c7564fdsm9696745pjl.21.2022.07.31.10.03.24
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=hqBKgf+Ek/JQSC2ln2M+FhamOJdervk7JOSiOKWTnXE=;
+ b=HYMkzT93jxePtk1D6sh6+M9gIwv0ePJtkfQpm4dGLMa82F45jYSQsYmAeBC1ZJyfUE
+ GA3oF6Rrg0q+KFUVmANRzyNv7KenOBVUWHHAcPyg/mjlFEdbMPaU91Rdx8+NDZAtWGTa
+ kU65lWwPA3M6mgBFvkfZ/2t2GdDFUP+FwmKh8tKtI8FYabQf8hk3EXDBT3ZAllrFJ+Yk
+ 1mMIvXu+oZA7DAbME0hq6wyzeBu+yhjzD2Wm5xB4jPWywAplxUVrvlUvYu807iRlwZpU
+ 1xWFP/TR/t1lTiXzoa+jMqP777Uq38qAXsBdsPWv9/xOplSEQ4iT49JjNZJpjWom5vgX
+ Kxgw==
+X-Gm-Message-State: AJIora8Z8ZHIGw8AYr5EZVpSugS2h6/Ko+NMBOF57mHQ4rF3nvJvtOLR
+ 0KCscbHxBvd0T9p3uaA5dUg=
+X-Google-Smtp-Source: AGRyM1sEvp+XYTCpwY4d2dm6Zd2VcBXo3vZHY8FWqth2u8zv48qtjSvQbAihhZJKf0JdVGKrtys2xg==
+X-Received: by 2002:a63:1941:0:b0:41b:6722:b2df with SMTP id
+ 1-20020a631941000000b0041b6722b2dfmr10392818pgz.263.1659291094444; 
+ Sun, 31 Jul 2022 11:11:34 -0700 (PDT)
+Received: from berlinger (berlinger.seclab.cs.ucsb.edu. [128.111.49.72])
+ by smtp.gmail.com with ESMTPSA id
+ i18-20020a635852000000b0041bc393e594sm2795825pgm.6.2022.07.31.11.11.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jul 2022 10:03:28 -0700 (PDT)
-From: Gautam Menghani <gautammenghani201@gmail.com>
-To: steffen.klassert@secunet.com, herbert@gondor.apana.org.au,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, shuah@kernel.org
-Subject: [PATCH] selftests/net: Refactor xfrm_fill_key() to use array of
- structs
-Date: Sun, 31 Jul 2022 22:33:16 +0530
-Message-Id: <20220731170316.71542-1-gautammenghani201@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sun, 31 Jul 2022 11:11:33 -0700 (PDT)
+Date: Sun, 31 Jul 2022 11:11:31 -0700
+From: Dipanjan Das <mail.dipanjan.das@gmail.com>
+To: Siddh Raman Pant <code@siddh.me>
+Subject: Re: [PATCH] kernel/watch_queue: Make pipe NULL while clearing
+ watch_queue
+Message-ID: <20220731181131.GB3569921@berlinger>
+References: <1822b768504.1d4e377e236061.5518350412857967240@siddh.me>
+ <20220723135447.199557-1-code@siddh.me>
+ <Ytv/4Tljvlt0PJ2r@kroah.com>
+ <3558070.1658933200@warthog.procyon.org.uk>
+ <182407602ce.190e58816827.7904364186178466266@siddh.me>
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Gautam Menghani <gautammenghani201@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <182407602ce.190e58816827.7904364186178466266@siddh.me>
+Cc: syzbot+c70d87ac1d001f29a058
+ <syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com>,
+ linux-security-modules <linux-security-module@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ David Howells <dhowells@redhat.com>,
+ Marius Fleischer <fleischermarius@googlemail.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Priyanka Bose <its.priyanka.bose@gmail.com>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,167 +120,24 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-A TODO in net/ipsec.c asks to refactor the code in xfrm_fill_key() to
-use set/map to avoid manually comparing each algorithm with the "name" 
-parameter passed to the function as an argument. This patch refactors 
-the code to create an array of structs where each struct contains the 
-algorithm name and its corresponding key length.
-
-Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
----
- tools/testing/selftests/net/ipsec.c | 108 +++++++++++++---------------
- 1 file changed, 49 insertions(+), 59 deletions(-)
-
-diff --git a/tools/testing/selftests/net/ipsec.c b/tools/testing/selftests/net/ipsec.c
-index cc10c10c5ed9..82d3f9256b84 100644
---- a/tools/testing/selftests/net/ipsec.c
-+++ b/tools/testing/selftests/net/ipsec.c
-@@ -58,6 +58,8 @@
- #define VETH_FMT	"ktst-%d"
- #define VETH_LEN	12
- 
-+#define XFRM_ALGO_NR_KEYS 29
-+
- static int nsfd_parent	= -1;
- static int nsfd_childa	= -1;
- static int nsfd_childb	= -1;
-@@ -75,6 +77,46 @@ const unsigned int ping_timeout		= 300;
- const unsigned int ping_count		= 100;
- const unsigned int ping_success		= 80;
- 
-+static struct xfrm_key_entry {
-+	char algo_name[35];
-+	int key_len;
-+};
-+
-+static struct xfrm_key_entry xfrm_key_entries[XFRM_ALGO_NR_KEYS];
-+
-+static void init_xfrm_algo_keys(void)
-+{
-+	xfrm_key_entries[0] = (struct xfrm_key_entry) {"digest_null", 0};
-+	xfrm_key_entries[1] = (struct xfrm_key_entry) {"ecb(cipher_null)", 0};
-+	xfrm_key_entries[2] = (struct xfrm_key_entry) {"cbc(des)", 64};
-+	xfrm_key_entries[3] = (struct xfrm_key_entry) {"hmac(md5)", 128};
-+	xfrm_key_entries[4] = (struct xfrm_key_entry) {"cmac(aes)", 128};
-+	xfrm_key_entries[5] = (struct xfrm_key_entry) {"xcbc(aes)", 128};
-+	xfrm_key_entries[6] = (struct xfrm_key_entry) {"cbc(cast5)", 128};
-+	xfrm_key_entries[7] = (struct xfrm_key_entry) {"cbc(serpent)", 128};
-+	xfrm_key_entries[8] = (struct xfrm_key_entry) {"hmac(sha1)", 160};
-+	xfrm_key_entries[9] = (struct xfrm_key_entry) {"hmac(rmd160)", 160};
-+	xfrm_key_entries[10] = (struct xfrm_key_entry) {"cbc(des3_ede)", 192};
-+	xfrm_key_entries[11] = (struct xfrm_key_entry) {"hmac(sha256)", 256};
-+	xfrm_key_entries[12] = (struct xfrm_key_entry) {"cbc(aes)", 256};
-+	xfrm_key_entries[13] = (struct xfrm_key_entry) {"cbc(camellia)", 256};
-+	xfrm_key_entries[14] = (struct xfrm_key_entry) {"cbc(twofish)", 256};
-+	xfrm_key_entries[15] = (struct xfrm_key_entry) {"rfc3686(ctr(aes))", 288};
-+	xfrm_key_entries[16] = (struct xfrm_key_entry) {"hmac(sha384)", 384};
-+	xfrm_key_entries[17] = (struct xfrm_key_entry) {"cbc(blowfish)", 448};
-+	xfrm_key_entries[18] = (struct xfrm_key_entry) {"hmac(sha512)", 512};
-+	xfrm_key_entries[19] = (struct xfrm_key_entry) {"rfc4106(gcm(aes))-128", 160};
-+	xfrm_key_entries[20] = (struct xfrm_key_entry) {"rfc4543(gcm(aes))-128", 160};
-+	xfrm_key_entries[21] = (struct xfrm_key_entry) {"rfc4309(ccm(aes))-128", 152};
-+	xfrm_key_entries[22] = (struct xfrm_key_entry) {"rfc4106(gcm(aes))-192", 224};
-+	xfrm_key_entries[23] = (struct xfrm_key_entry) {"rfc4543(gcm(aes))-192", 224};
-+	xfrm_key_entries[24] = (struct xfrm_key_entry) {"rfc4309(ccm(aes))-192", 216};
-+	xfrm_key_entries[25] = (struct xfrm_key_entry) {"rfc4106(gcm(aes))-256", 288};
-+	xfrm_key_entries[26] = (struct xfrm_key_entry) {"rfc4543(gcm(aes))-256", 288};
-+	xfrm_key_entries[27] = (struct xfrm_key_entry) {"rfc4309(ccm(aes))-256", 280};
-+	xfrm_key_entries[28] = (struct xfrm_key_entry) {"rfc7539(chacha20,poly1305)-128", 0};
-+}
-+
- static void randomize_buffer(void *buf, size_t buflen)
- {
- 	int *p = (int *)buf;
-@@ -767,65 +809,12 @@ static int do_ping(int cmd_fd, char *buf, size_t buf_len, struct in_addr from,
- static int xfrm_fill_key(char *name, char *buf,
- 		size_t buf_len, unsigned int *key_len)
- {
--	/* TODO: use set/map instead */
--	if (strncmp(name, "digest_null", ALGO_LEN) == 0)
--		*key_len = 0;
--	else if (strncmp(name, "ecb(cipher_null)", ALGO_LEN) == 0)
--		*key_len = 0;
--	else if (strncmp(name, "cbc(des)", ALGO_LEN) == 0)
--		*key_len = 64;
--	else if (strncmp(name, "hmac(md5)", ALGO_LEN) == 0)
--		*key_len = 128;
--	else if (strncmp(name, "cmac(aes)", ALGO_LEN) == 0)
--		*key_len = 128;
--	else if (strncmp(name, "xcbc(aes)", ALGO_LEN) == 0)
--		*key_len = 128;
--	else if (strncmp(name, "cbc(cast5)", ALGO_LEN) == 0)
--		*key_len = 128;
--	else if (strncmp(name, "cbc(serpent)", ALGO_LEN) == 0)
--		*key_len = 128;
--	else if (strncmp(name, "hmac(sha1)", ALGO_LEN) == 0)
--		*key_len = 160;
--	else if (strncmp(name, "hmac(rmd160)", ALGO_LEN) == 0)
--		*key_len = 160;
--	else if (strncmp(name, "cbc(des3_ede)", ALGO_LEN) == 0)
--		*key_len = 192;
--	else if (strncmp(name, "hmac(sha256)", ALGO_LEN) == 0)
--		*key_len = 256;
--	else if (strncmp(name, "cbc(aes)", ALGO_LEN) == 0)
--		*key_len = 256;
--	else if (strncmp(name, "cbc(camellia)", ALGO_LEN) == 0)
--		*key_len = 256;
--	else if (strncmp(name, "cbc(twofish)", ALGO_LEN) == 0)
--		*key_len = 256;
--	else if (strncmp(name, "rfc3686(ctr(aes))", ALGO_LEN) == 0)
--		*key_len = 288;
--	else if (strncmp(name, "hmac(sha384)", ALGO_LEN) == 0)
--		*key_len = 384;
--	else if (strncmp(name, "cbc(blowfish)", ALGO_LEN) == 0)
--		*key_len = 448;
--	else if (strncmp(name, "hmac(sha512)", ALGO_LEN) == 0)
--		*key_len = 512;
--	else if (strncmp(name, "rfc4106(gcm(aes))-128", ALGO_LEN) == 0)
--		*key_len = 160;
--	else if (strncmp(name, "rfc4543(gcm(aes))-128", ALGO_LEN) == 0)
--		*key_len = 160;
--	else if (strncmp(name, "rfc4309(ccm(aes))-128", ALGO_LEN) == 0)
--		*key_len = 152;
--	else if (strncmp(name, "rfc4106(gcm(aes))-192", ALGO_LEN) == 0)
--		*key_len = 224;
--	else if (strncmp(name, "rfc4543(gcm(aes))-192", ALGO_LEN) == 0)
--		*key_len = 224;
--	else if (strncmp(name, "rfc4309(ccm(aes))-192", ALGO_LEN) == 0)
--		*key_len = 216;
--	else if (strncmp(name, "rfc4106(gcm(aes))-256", ALGO_LEN) == 0)
--		*key_len = 288;
--	else if (strncmp(name, "rfc4543(gcm(aes))-256", ALGO_LEN) == 0)
--		*key_len = 288;
--	else if (strncmp(name, "rfc4309(ccm(aes))-256", ALGO_LEN) == 0)
--		*key_len = 280;
--	else if (strncmp(name, "rfc7539(chacha20,poly1305)-128", ALGO_LEN) == 0)
--		*key_len = 0;
-+	int i = 0;
-+
-+	for (int i = 0; i < XFRM_ALGO_NR_KEYS; i++) {
-+		if (strncmp(name, xfrm_key_entries[i].algo_name, ALGO_LEN) == 0)
-+			*key_len = xfrm_key_entries[i].key_len;
-+	}
- 
- 	if (*key_len > buf_len) {
- 		printk("Can't pack a key - too big for buffer");
-@@ -2305,6 +2294,7 @@ int main(int argc, char **argv)
- 		}
- 	}
- 
-+	init_xfrm_algo_keys();
- 	srand(time(NULL));
- 	page_size = sysconf(_SC_PAGESIZE);
- 	if (page_size < 1)
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gV2VkLCBKdWwgMjcsIDIwMjIgYXQgMDk6NTA6NTJQTSArMDUzMCwgU2lkZGggUmFtYW4gUGFu
+dCB3cm90ZToKPiBUaGFuayB5b3UgZm9yIGV4cGxhaW5pbmcgaXQhCj4gCj4gSSB3aWxsIHNlbmQg
+YSB2My4gU2hvdWxkIEkgYWRkIGEgU3VnZ2VzdGVkLWJ5IHRhZyBtZW50aW9uaW5nIHlvdT8KClNv
+cnJ5IGZvciBqdW1waW5nIGluLgoKV2UgaGF2ZSByZXBvcnRlZCB0aGUgc2FtZSBidWcgaW4ga2Vy
+bmVsIHY1LjEwLjEzMSBbaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsL0NBTlgyTTViSHllMlpF
+RWhFVjZQVWoxa1lMMktkV1llSnRnWHc4S1pSendyTnBMWXorQUBtYWlsLmdtYWlsLmNvbV0uIFdl
+IGhhdmUgYmVlbiBzdWdnZXN0ZWQgdG8gam9pbiB0aGlzIGRpc2N1c3Npb24gc28gdGhhdCB3ZSBj
+YW4gaGF2ZSBhcHByb3ByaWF0ZSBtZXRhLWluZm9ybWF0aW9uIGluamVjdGVkIGluIHRoaXMgcGF0
+Y2jigJlzIGNvbW1pdCBtZXNzYWdlIHRvIG1ha2Ugc3VyZSB0aGF0IGl0IGdldHMgYmFja3BvcnRl
+ZCB0byB2NS4xMC55LiAgVGhlcmVmb3JlLCB3ZSB3b3VsZCBsaWtlIHRvIGJlIGluIHRoZSBsb29w
+IHNvIHRoYXQgd2UgY2FuIG9mZmVyIGhlbHAgaW4gdGhlIHByb2Nlc3MsIGlmIG5lZWRlZC4KCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5l
+bC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZv
+dW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
