@@ -1,88 +1,107 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5C36C00144
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Aug 2022 13:01:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08982C19F2B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Aug 2022 16:16:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 47BC481D16;
-	Mon,  1 Aug 2022 13:01:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 47BC481D16
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=NJZfe/IX
+	by smtp4.osuosl.org (Postfix) with ESMTP id 812CB408A7;
+	Mon,  1 Aug 2022 16:16:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 812CB408A7
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=bKc+Xzrg
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4ugA9xP_H0it; Mon,  1 Aug 2022 13:01:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 61E9381CE1;
-	Mon,  1 Aug 2022 13:01:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 61E9381CE1
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VCTZtVNyZe5Q; Mon,  1 Aug 2022 16:16:48 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 547084029F;
+	Mon,  1 Aug 2022 16:16:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 547084029F
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21D68C0032;
-	Mon,  1 Aug 2022 13:01:25 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 842C4C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 231E6C0032;
+	Mon,  1 Aug 2022 16:16:48 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DF6C9C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 13:01:24 +0000 (UTC)
+ Mon,  1 Aug 2022 16:16:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5EF1A81D16
+ by smtp3.osuosl.org (Postfix) with ESMTP id B628460736
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 13:01:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5EF1A81D16
+ Mon,  1 Aug 2022 16:16:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B628460736
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=bKc+Xzrg
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XwNqYlTB-9wK
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QKIl7I0iYfMF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 13:01:23 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 10F8481CE1
-Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 10F8481CE1
+ Mon,  1 Aug 2022 16:16:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C55296072A
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C55296072A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 13:01:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1659358869; cv=none; d=zohomail.in; s=zohoarc; 
- b=M2npo+8rvf2mQf9u6Grt4ErfFGR/2ZHMYR8rCOrdB8348R+FuXI2qwKOqsrH5wg81pChgmd/yUZIjgpggaEl21qJDPaDemkWPD6NQQBMbliqzlrZia9SUY66zNTmiWd/zJ09E7HFcZNQ8W5XxP/t0FeB85/MTngZViQetdsZJMs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1659358869;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=SQ0v85mLbFdTasT7Xfcj7jIsYFQii/2HWb8VZtzXjyM=; 
- b=Eoc/U40ZXnlz6FMuqeRxVjZqLbkWIBczvDc/QkvA2ACTtXyKk2bQt/keZlOgcG48LisE9Llyry9OIBpmUGQqr7B0NRtkZ55x7BmM+XgOpKK2kJAo23ASSF6ZAL3p2VKgBYq/Ip6+HSP8GPtPmIdakiiApnvcN1o9l1YDgu+mvwc=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659358869; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=SQ0v85mLbFdTasT7Xfcj7jIsYFQii/2HWb8VZtzXjyM=;
- b=NJZfe/IX8tF8KFHUNwwJfRldlrpua714VbMxQqn+B8og+4rGW33ux2jDIe0di8xB
- C7ORSZ/7CR5NjkF8SzC0O13KI1CxqZAMMjxofVBal/jSLxO0fBaFBspKwFBkOUNnS7v
- Mv2zm0Tn9mqyuDyd6t8eMK0QVHEnzN8DSY9iVMdE=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1659358858473203.14224248901678;
- Mon, 1 Aug 2022 18:30:58 +0530 (IST)
-Date: Mon, 01 Aug 2022 18:30:58 +0530
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Message-ID: <182597eccd3.14cac6a4293987.1730526835854998440@siddh.me>
-In-Reply-To: <182597c78f6.70a93066293735.4741894763116073008@siddh.me>
+ Mon,  1 Aug 2022 16:16:45 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id w10so10942823plq.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 01 Aug 2022 09:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=DyQ9K8ymMDEzTjm8+aouou/83gQAMkkB40Lq7COAi90=;
+ b=bKc+XzrgkCFZiEUbnAS5/FO+43F/9SjycwR/YkYtA5DisTt0Do0fsQg6bF49bGnGd9
+ YA0a3vSXT4RPvmr8zpb5WPNfsG11qdnVmP5H+cZ4kmPs3GXxtQb13FmSs/fqFOEBXLQH
+ anlVgMx+bTF316hXTuS3rispdu1AK1ZbEhokhVLNBAJzU62ck1eKyaEuoND5XoMx50Ig
+ gcveZR6kzZRu20VjweEzzurVLn1Mf5i49vnaK7i1JyiV4ityVX4lsHE7wg3cWc4Q+j6S
+ 6NvGPsgenWjJdFEmu9Wk4wB66TR//iFiNIsncnefryw8HBT/ThlsXMA7A+daWK3oj587
+ 7/Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=DyQ9K8ymMDEzTjm8+aouou/83gQAMkkB40Lq7COAi90=;
+ b=a6WoKwQ6m3FAxzk4yrGXODfwj6fj/dpI5SigMAIbd2WP4smmAV1wLslcHpq+psCkZh
+ 3wIrGFUGTYoxl+CL1+7EWYAbGNWIsKqPCnS2AyEPz0nlOp+o8sBmQnP+JPemnMWTftz6
+ lw1Y2dXDUWN5o7aTeEj+d7hblqEamwglOaETAW8SDWM3og3Hq7Wm7lTE2cBcXUQh+hoO
+ tjHIPXrZXXZPTPo5KsD/v+ETLKEuZCX/zXt1emytbDB8CvRZ49nHfwDYrpx3kFKLlcYo
+ M3quLDJJUlhZv0kCdMcUzk8Q/gm4JUYH6nt7OgzoMjkWLKUTqF2hAk2RPX9lmzMghZvm
+ Oinw==
+X-Gm-Message-State: ACgBeo1DHUl50fHnPPjJvBYe5YKQzIqJVDUnRQbjIAo8yZiktS9RBz/Z
+ 5XCTJBtZkfK85ufoQGotRFk=
+X-Google-Smtp-Source: AA6agR5WQHS2QRnUdDFKIXQxlmyPnqxXuPRAoKSIJNemA2+P+CYErRyt7sfsSAhSbAbcAFNBb+Sz3Q==
+X-Received: by 2002:a17:90b:4b81:b0:1ef:cd2c:bf2e with SMTP id
+ lr1-20020a17090b4b8100b001efcd2cbf2emr19492079pjb.137.1659370605031; 
+ Mon, 01 Aug 2022 09:16:45 -0700 (PDT)
+Received: from berlinger (berlinger.seclab.cs.ucsb.edu. [128.111.49.72])
+ by smtp.gmail.com with ESMTPSA id
+ q11-20020a170903204b00b0016c27561454sm9671277pla.283.2022.08.01.09.16.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 09:16:44 -0700 (PDT)
+Date: Mon, 1 Aug 2022 09:16:42 -0700
+From: Dipanjan Das <mail.dipanjan.das@gmail.com>
+To: Siddh Raman Pant <code@siddh.me>
+Subject: Re: [PATCH v3] kernel/watch_queue: Make pipe NULL while clearing
+ watch_queue
+Message-ID: <20220801161642.GA1932489@berlinger>
 References: <20220728155121.12145-1-code@siddh.me>
  <18258c1d370.6c4bec7a269297.4170944235031209431@siddh.me>
  <Yuepw21SyLbWt9F+@kroah.com>
  <182597c78f6.70a93066293735.4741894763116073008@siddh.me>
-Subject: Re: [PATCH v3] kernel/watch_queue: Make pipe NULL while clearing
- watch_queue
+ <182597eccd3.14cac6a4293987.1730526835854998440@siddh.me>
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Disposition: inline
+In-Reply-To: <182597eccd3.14cac6a4293987.1730526835854998440@siddh.me>
 Cc: Eric Dumazet <edumazet@google.com>,
- linux-kernel <linux-kernel@vger.kernel.org>,
  "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
- Dipanjan Das <mail.dipanjan.das@gmail.com>, syzbot+c70d87ac1d001f29a058
+ syzbot+c70d87ac1d001f29a058
  <syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
  David Howells <dhowells@redhat.com>,
  linux-security-modules <linux-security-module@vger.kernel.org>,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
@@ -98,23 +117,20 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Siddh Raman Pant via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 01 Aug 2022 18:28:25 +0530  Siddh Raman Pant <code@siddh.me> wrote:
-> I now tried the 5.10.y branch of stable (which has v5.10.134), but the
-> reproducer isn't triggering the bug for me. 
+On Mon, Aug 01, 2022 at 06:30:58PM +0530, Siddh Raman Pant wrote:
+> On Mon, 01 Aug 2022 18:28:25 +0530  Siddh Raman Pant <code@siddh.me> wrote:
+> > I now tried the 5.10.y branch of stable (which has v5.10.134), but the
+> > reproducer isn't triggering the bug for me. 
 
-By this, I mean without the patches. I should have been clear.
+Are you referring to the reproducer attached to our original report?
+https://lore.kernel.org/all/CANX2M5bHye2ZEEhEV6PUj1kYL2KdWYeJtgXw8KZRzwrNpLYz+A@mail.gmail.com/
 
-Thanks,
-Siddh
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
