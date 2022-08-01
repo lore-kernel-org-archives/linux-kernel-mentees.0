@@ -1,105 +1,91 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A8E07C00144
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Aug 2022 09:16:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CBC7C00144
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 Aug 2022 09:35:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3336B41295;
-	Mon,  1 Aug 2022 09:16:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3336B41295
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google header.b=fp+jCnQ/
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0C04783E57;
+	Mon,  1 Aug 2022 09:35:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0C04783E57
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=e46cK0mK
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HJEOlelQdOYg; Mon,  1 Aug 2022 09:16:09 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Oru3tVn2LTkY; Mon,  1 Aug 2022 09:34:59 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D051D410E6;
-	Mon,  1 Aug 2022 09:16:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D051D410E6
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1168D83E4C;
+	Mon,  1 Aug 2022 09:34:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1168D83E4C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8486AC0033;
-	Mon,  1 Aug 2022 09:16:08 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 83D1AC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D996FC0033;
+	Mon,  1 Aug 2022 09:34:58 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E3A7CC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 09:16:06 +0000 (UTC)
+ Mon,  1 Aug 2022 09:34:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2EFA24011A
+ by smtp3.osuosl.org (Postfix) with ESMTP id 81E7F60AD2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 09:16:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2EFA24011A
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (1024-bit key) header.d=cloudflare.com header.i=@cloudflare.com
- header.a=rsa-sha256 header.s=google header.b=fp+jCnQ/
+ Mon,  1 Aug 2022 09:34:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 81E7F60AD2
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
+ header.a=rsa-sha256 header.s=zmail header.b=e46cK0mK
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id PIWrXqlmPfhr
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PSGfc8A6Rnjd
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 09:16:04 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E3ED1402E2
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com
- [IPv6:2a00:1450:4864:20::62a])
- by smtp2.osuosl.org (Postfix) with ESMTPS id E3ED1402E2
+ Mon,  1 Aug 2022 09:34:55 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 684E660ABD
+Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 684E660ABD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 Aug 2022 09:16:03 +0000 (UTC)
-Received: by mail-ej1-x62a.google.com with SMTP id f5so6357809eje.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 01 Aug 2022 02:16:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cloudflare.com; s=google;
- h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
- :user-agent:references:from:to:cc;
- bh=mVLib6+KglGWzrVB//L7ezE4how+oky3wShDacSr+Rk=;
- b=fp+jCnQ/ItfHQ1hBwegHh+Ldz7J5kAwEOruTIPovevlje/32kxnh/US3StTNaYN0hk
- LBjV0xdxA2kKiZ7glZAtjn3ihomHLymWh2cSyoDhKTDoMt0iZjgAys3zXeZ2SIK1lC6N
- FW7ALONcIV5nxv9CvyCeLgNoZFZ3ZWcMX0q24=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
- :user-agent:references:x-gm-message-state:from:to:cc;
- bh=mVLib6+KglGWzrVB//L7ezE4how+oky3wShDacSr+Rk=;
- b=y95kSNOgDMRMVK+D1W9iHvNyqn6JdzwavmyH5cuYTvrE2bPvX24rsXuQ63ulS404s0
- J3VKEAtIEamIAsAss1xhmEZoe9dxFEauyUPbxGSwJGBSulsOMFLk4WdPkhUHGPjAUyIP
- JugjyiY0aRIjIG+GJ1A4Y9AaROo9WjxKmke6eSGoQLoLvA3L+lsMHEMTJxYsRYcnlOKt
- W6zzJxd7zCTNUf4QjvBnpKGAqcmiHCjwqJMcVBKdYOnNYt4dvbZorIZF87xkMs1KD2XE
- beksq+EfTXdC6whR8Lns9EOqtM9T6uj/3EZumvcw7jfj9qNkik5Bgsx1N9ktmJqcWuZB
- z1hg==
-X-Gm-Message-State: ACgBeo0bqvu1HyNzKtgu8T34GZKP3pbpbVNmO9HiAYqbbbjn5sZSHjLh
- L8y2nZkl25MKIoPnPNk/fyDBnw==
-X-Google-Smtp-Source: AA6agR4W2ED17/n5sJ/4mk6scRZmpD1dZvTpHT3k2MkraGjSqDq6np/Nh+5vKxICYqkmm4nr3glzrg==
-X-Received: by 2002:a17:907:1deb:b0:730:81ea:1d09 with SMTP id
- og43-20020a1709071deb00b0073081ea1d09mr3464726ejc.183.1659345362041; 
- Mon, 01 Aug 2022 02:16:02 -0700 (PDT)
-Received: from cloudflare.com (79.184.200.53.ipv4.supernova.orange.pl.
- [79.184.200.53]) by smtp.gmail.com with ESMTPSA id
- ky1-20020a170907778100b00722e52d043dsm4984008ejc.114.2022.08.01.02.16.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 02:16:01 -0700 (PDT)
-References: <00000000000026328205e08cdbeb@google.com>
- <20220730085654.2598-1-yin31149@gmail.com>
-User-agent: mu4e 1.6.10; emacs 27.2
-To: Hawkins Jiawei <yin31149@gmail.com>
-Subject: Re: [PATCH v2] net/smc: fix refcount bug in sk_psock_get (2)
-Date: Mon, 01 Aug 2022 11:09:23 +0200
-In-reply-to: <20220730085654.2598-1-yin31149@gmail.com>
-Message-ID: <87wnbsjpdb.fsf@cloudflare.com>
+ Mon,  1 Aug 2022 09:34:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1659346485; cv=none; d=zohomail.in; s=zohoarc; 
+ b=Jx7BAp1Ur6Yy0pKzSMytCbuHMv1MZlMoS/DS7ceicZu9CSubb2WKmZHE/aCS37Z/BtxU+GYHTD6RX1jiuk0XQqY44m3vBcReT3M2ZWkeW0ai9S5BBQpVfhZi5D9qNrm/xsfL8CI67rxStz0mY7zUpb+LEFP1trlHj5R6BCTJloU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1659346485;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=twn2Lmq1bFRdVMBDpvfp6I4loDJxtbWcsNoYD2aHONg=; 
+ b=NypD12WMFZg8wntI1tSrPJ1yfVOd0CUMb1OGBHYlMltXv9S4G7TJyBOza1XFx/EvxChMiEB/hlLYFl+trg6eQX1KKYaQp+7zs4MYiMAhvXd0wObzToFNy7MHr1R+2+cyL7iZr7uSJhUOsNKI71ZszUYpSvIU0QqQzBRihOL7WhY=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659346485; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=twn2Lmq1bFRdVMBDpvfp6I4loDJxtbWcsNoYD2aHONg=;
+ b=e46cK0mKtBWMVu0xfepZMEMpuLyj/VpdL/YZutGDBZ70FCYq7sI3nDZtaj39aM/X
+ ofMRfuiK9R5a8fwxswyiOJruXx+52OBBxbJGt1WeA5hHiNcLMtfcvWHPxNVGZoPa3as
+ 5QTGR3a4iLouam3PWtoPTLjA8UIh/gsg3QDcgQyc=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 1659346473940787.6963523925439;
+ Mon, 1 Aug 2022 15:04:33 +0530 (IST)
+Date: Mon, 01 Aug 2022 15:04:33 +0530
+To: "Dipanjan Das" <mail.dipanjan.das@gmail.com>
+Message-ID: <18258c1d370.6c4bec7a269297.4170944235031209431@siddh.me>
+In-Reply-To: <20220728155121.12145-1-code@siddh.me>
+References: <20220728155121.12145-1-code@siddh.me>
+Subject: Re: [PATCH v3] kernel/watch_queue: Make pipe NULL while clearing
+ watch_queue
 MIME-Version: 1.0
-Cc: songliubraving@fb.com, guvenc@linux.ibm.com, ast@kernel.org,
- edumazet@google.com, linux-s390@vger.kernel.org, daniel@iogearbox.net,
- davem@davemloft.net, borisp@nvidia.com, paskripkin@gmail.com,
- john.fastabend@gmail.com, andrii@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, ubraun@linux.ibm.com, kpsingh@kernel.org,
- wenjia@linux.ibm.com, yhs@fb.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kgraul@linux.ibm.com, guwen@linux.alibaba.com,
- bpf@vger.kernel.org, kafai@fb.com
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Cc: syzbot+c70d87ac1d001f29a058
+ <syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-security-modules <linux-security-module@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ David Howells <dhowells@redhat.com>, Eric Dumazet <edumazet@google.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,94 +97,88 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Jakub Sitnicki via Linux-kernel-mentees
+From: Siddh Raman Pant via Linux-kernel-mentees
  <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Jakub Sitnicki <jakub@cloudflare.com>
+Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
+Hello Dipanjan,
 
-On Sat, Jul 30, 2022 at 04:56 PM +08, Hawkins Jiawei wrote:
-> Syzkaller reports refcount bug as follows:
-> ------------[ cut here ]------------
-> refcount_t: saturated; leaking memory.
-> WARNING: CPU: 1 PID: 3605 at lib/refcount.c:19 refcount_warn_saturate+0xf4/0x1e0 lib/refcount.c:19
-> Modules linked in:
-> CPU: 1 PID: 3605 Comm: syz-executor208 Not tainted 5.18.0-syzkaller-03023-g7e062cda7d90 #0
-> ...
-> Call Trace:
->  <TASK>
->  __refcount_add_not_zero include/linux/refcount.h:163 [inline]
->  __refcount_inc_not_zero include/linux/refcount.h:227 [inline]
->  refcount_inc_not_zero include/linux/refcount.h:245 [inline]
->  sk_psock_get+0x3bc/0x410 include/linux/skmsg.h:439
->  tls_data_ready+0x6d/0x1b0 net/tls/tls_sw.c:2091
->  tcp_data_ready+0x106/0x520 net/ipv4/tcp_input.c:4983
->  tcp_data_queue+0x25f2/0x4c90 net/ipv4/tcp_input.c:5057
->  tcp_rcv_state_process+0x1774/0x4e80 net/ipv4/tcp_input.c:6659
->  tcp_v4_do_rcv+0x339/0x980 net/ipv4/tcp_ipv4.c:1682
->  sk_backlog_rcv include/net/sock.h:1061 [inline]
->  __release_sock+0x134/0x3b0 net/core/sock.c:2849
->  release_sock+0x54/0x1b0 net/core/sock.c:3404
->  inet_shutdown+0x1e0/0x430 net/ipv4/af_inet.c:909
->  __sys_shutdown_sock net/socket.c:2331 [inline]
->  __sys_shutdown_sock net/socket.c:2325 [inline]
->  __sys_shutdown+0xf1/0x1b0 net/socket.c:2343
->  __do_sys_shutdown net/socket.c:2351 [inline]
->  __se_sys_shutdown net/socket.c:2349 [inline]
->  __x64_sys_shutdown+0x50/0x70 net/socket.c:2349
->  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
->  do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
->  entry_SYSCALL_64_after_hwframe+0x46/0xb0
->  </TASK>
->
-> During SMC fallback process in connect syscall, kernel will
-> replaces TCP with SMC. In order to forward wakeup
-> smc socket waitqueue after fallback, kernel will sets
-> clcsk->sk_user_data to origin smc socket in
-> smc_fback_replace_callbacks().
->
-> Later, in shutdown syscall, kernel will calls
-> sk_psock_get(), which treats the clcsk->sk_user_data
-> as sk_psock type, triggering the refcnt warning.
->
-> So, the root cause is that smc and psock, both will use
-> sk_user_data field. So they will mismatch this field
-> easily.
->
-> This patch solves it by using another bit(defined as
-> SK_USER_DATA_NOTPSOCK) in PTRMASK, to mark whether
-> sk_user_data points to a sk_psock object or not.
-> This patch depends on a PTRMASK introduced in commit f1ff5ce2cd5e
-> ("net, sk_msg: Clear sk_user_data pointer on clone if tagged").
->
-> Fixes: 341adeec9ada ("net/smc: Forward wakeup to smc socket waitqueue after fallback")
-> Fixes: a60a2b1e0af1 ("net/smc: reduce active tcp_listen workers")
-> Reported-and-tested-by: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
-> Suggested-by: Jakub Kicinski <kuba@kernel.org>
-> Acked-by: Wen Gu <guwen@linux.alibaba.com>
-> Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+It would be nice if you could test this patch and tell if it fixes the
+issue on v5.10, as you had reported it earlier.
+
+Please apply the following commits before applying this patch:
+db8facfc9faf ("watch_queue, pipe: Free watchqueue state after clearing pipe ring")
+353f7988dd84 ("watchqueue: make sure to serialize 'wqueue->defunct' properly")
+
+I have tested locally on tag v5.10, using the reproducer available on
+syzkaller dashboard. The crash occurred when the patches weren't applied,
+and it no longer occurs after applying the three patches.
+
+Thanks,
+Siddh
+
+> If not done, a reference to a freed pipe remains in the watch_queue,
+> as this function is called before freeing a pipe in free_pipe_info()
+> (see line 834 of fs/pipe.c).
+> 
+> This causes a UAF when post_one_notification() tries to access the pipe
+> on a key update, which is reported by syzbot.
+> 
+> We also need to use READ_ONCE() in post_one_notification() to prevent the
+> compiler from optimising and loading a non-NULL value from wqueue->pipe.
+> 
+> Bug report: https://syzkaller.appspot.com/bug?id=1870dd7791ba05f2ea7f47f7cbdde701173973fc
+> Reported-and-tested-by: syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com
+> 
+> Signed-off-by: Siddh Raman Pant <code@siddh.me>
 > ---
+> Changes in v3:
+> - Restore the original unlock order, and clear before unlock.
+> - Use READ_ONCE() in post path.
+> 
+> This was explained by David Howells <dhowells@redhat.com> in
+> reply to v1. Not added Suggested-by since he didn't reply yet.
+> 
+> Changes in v2:
+> - Removed the superfluous ifdef guard.
+> 
+>  kernel/watch_queue.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+> index bb9962b33f95..617425e34252 100644
+> --- a/kernel/watch_queue.c
+> +++ b/kernel/watch_queue.c
+> @@ -99,7 +99,7 @@ static bool post_one_notification(struct watch_queue *wqueue,
+>  				  struct watch_notification *n)
+>  {
+>  	void *p;
+> -	struct pipe_inode_info *pipe = wqueue->pipe;
+> +	struct pipe_inode_info *pipe = READ_ONCE(wqueue->pipe);
+>  	struct pipe_buffer *buf;
+>  	struct page *page;
+>  	unsigned int head, tail, mask, note, offset, len;
+> @@ -637,6 +637,12 @@ void watch_queue_clear(struct watch_queue *wqueue)
+>  		spin_lock_bh(&wqueue->lock);
+>  	}
+>  
+> +	/* Clearing the watch queue, so we should clean the associated pipe. */
+> +	if (wqueue->pipe) {
+> +		wqueue->pipe->watch_queue = NULL;
+> +		wqueue->pipe = NULL;
+> +	}
+> +
+>  	spin_unlock_bh(&wqueue->lock);
+>  	rcu_read_unlock();
+>  }
+> -- 
+> 2.35.1
 
-Since using psock is not the common case, I'm wondering if it makes more
-sense to have an inverse flag - SK_USER_DATA_PSOCK. Flag would be set by
-the psock code on assignment to sk_user_data.
-
-This way we would also avoid some confusion. With the change below, the
-SK_USER_DATA_NOTPSOCK is not *always* set when sk_user_data holds a
-non-psock pointer. Only when SMC sets it.
-
-If we go with the current approach, the rest of sites, execpt for psock,
-that assign to sk_user_data should be updated to set
-SK_USER_DATA_NOTPSOCK as well, IMO.
-
-That is why I'd do it the other way.
-
-[...]
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
