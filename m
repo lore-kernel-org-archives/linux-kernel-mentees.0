@@ -1,107 +1,89 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53CBBC19F2D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  2 Aug 2022 14:32:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C66E4C00140
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  2 Aug 2022 16:29:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A3335408DE;
-	Tue,  2 Aug 2022 14:32:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A3335408DE
+	by smtp2.osuosl.org (Postfix) with ESMTP id 57A2E401A4;
+	Tue,  2 Aug 2022 16:29:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 57A2E401A4
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=oEJBR4uc
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id K0fc3KWqkF_K; Tue,  2 Aug 2022 16:29:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3C30140911;
+	Tue,  2 Aug 2022 16:29:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3C30140911
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 07C0BC0033;
+	Tue,  2 Aug 2022 16:29:47 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61BBAC002D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  2 Aug 2022 16:29:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 17DD14093A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  2 Aug 2022 16:29:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 17DD14093A
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=aesQNlVx
+ dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
+ header.a=rsa-sha256 header.s=zmail header.b=oEJBR4uc
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yPhpCZIc2by3; Tue,  2 Aug 2022 14:32:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6092D408F1;
-	Tue,  2 Aug 2022 14:32:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6092D408F1
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 30F83C0033;
-	Tue,  2 Aug 2022 14:32:25 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 539D3C002D
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id itbjA0-TJzyN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  2 Aug 2022 14:32:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2557C81455
+ Tue,  2 Aug 2022 16:29:44 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 09C0140935
+Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 09C0140935
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  2 Aug 2022 14:32:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2557C81455
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=aesQNlVx
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id I2sGXwsjARdp
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  2 Aug 2022 14:32:22 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5426381454
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5426381454
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  2 Aug 2022 14:32:22 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id
- h21-20020a17090aa89500b001f31a61b91dso15805822pjq.4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 02 Aug 2022 07:32:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=a2I3feE0Mlfc3dQYVR+6wp2Xd8855Ae93uhZIIi/yHM=;
- b=aesQNlVxD1yT/+g/rcziiqLmKf9Hlm4zQQ8bBvOm0oMfANjlGDpxKqZmpWKm2YnQDm
- LFZ/MXvbb3s71YM75UkKN4Jt4s/ZWOV3PKtzYjpYxhWxYjfsefJutvUBRtmXRkDT/+fh
- gvKoiOn1EBsouTWHyg6Ju3+b6aBVDJ1KmwG+DpepedgZHxZgRbFkbSTgUmbcGvP0mIp0
- y/+m+2Hx6jAYOjwCJ0cO5ZlX1EwegRTdAkUDJY2269qXI/owaAW0twShGzApePCaVe7h
- D/jqVN4qGJ8AoNxqd1bLBacScqDR+hSIys2eexLd8l1X5EptRGbTSsyq3NtxmxZmQdO6
- O7+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=a2I3feE0Mlfc3dQYVR+6wp2Xd8855Ae93uhZIIi/yHM=;
- b=NjoeyjpqarQ//Cow576dLW5t1Mz5LcAul/3c8pzck3SMBC2uqZkavPyDkKDZT4DKAy
- TQ48E2Um/WM7ga2fyA2RQ/s17rsz+cuPZsGAGOw2fmx4FtHZEjhDBst7UaUupZeQePv5
- uO9qhrI8pzc9qwWeV1BdpACednpfegqpgBOCuhZqLxWpLHYhD5erl12FP+euzsnGCw9k
- ZDYKXcdhQoIW3Z0qXQ803wa2TOuG2gLkpjxI9EoYn+GZf8qmq7GGlxLKrZUPedVk0ZUi
- R057ijSJd31WAqCvC2WceMOqWiBuTvejuLcXWbEKxvIT1qdvFv1OVUQQXV/AggIdIsv/
- g8KA==
-X-Gm-Message-State: ACgBeo3j5F+em2EDAA5dxsZA1vlHai4cS1mkGQ6eWnsfO1e1xZcnTnF3
- xcVAfMSYRt0GYWkC96pWe/w=
-X-Google-Smtp-Source: AA6agR5f0C9L4dHw1ZGT1V6HsSKE+oSWd0oY5hDNIEcYNyrNHoM+heSlQ+rbuArRCrxHcS4G+noBOA==
-X-Received: by 2002:a17:902:ab96:b0:16a:6db6:2715 with SMTP id
- f22-20020a170902ab9600b0016a6db62715mr22067267plr.141.1659450741586; 
- Tue, 02 Aug 2022 07:32:21 -0700 (PDT)
-Received: from localhost ([223.104.103.89]) by smtp.gmail.com with ESMTPSA id
- q16-20020a17090311d000b0016be6a554b5sm12172323plh.233.2022.08.02.07.32.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 07:32:21 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: jakub@cloudflare.com
-Subject: Re: [PATCH v2] net/smc: fix refcount bug in sk_psock_get (2)
-Date: Tue,  2 Aug 2022 22:32:14 +0800
-Message-Id: <20220802143214.5885-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <87wnbsjpdb.fsf@cloudflare.com>
-References: <87wnbsjpdb.fsf@cloudflare.com>
+ Tue,  2 Aug 2022 16:29:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1659457757; cv=none; d=zohomail.in; s=zohoarc; 
+ b=Djhgp8iXUCsOnH9BSyQXz7FMb/CCtRzW70p2rAlremDefOEUPhcd/lYHd1VRKZeM3YRLOGNNeSKuekz/r9J/Cn49yzNpUMEQk/U7HZ0F0dU6qL7jlpWZjfkeguXXmjpQVrk1nA5k/YeazDLsBEZWRk3lLjVla5iWdRN+d0OlXcI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1659457757;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=tIaoKZqeKwVm3YXlgfzkmmqa+keWxZ5MypfokfBzu1Q=; 
+ b=AOGAeRcesujq661zWHJWre5A0KEV7ftyIYUHwYhdkcRYgQoTz9AQSSgrxHs1NK9LGIbrboePn5bSh0gR8XBKh6erYOYNUqne/4m0siUOyp+1bs6fuW0+fY4votXtTHTN4gDECXJjXx3b9ZFHqxsyn3XwIq95LbbN7L3HGe9ZlzY=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659457757; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=tIaoKZqeKwVm3YXlgfzkmmqa+keWxZ5MypfokfBzu1Q=;
+ b=oEJBR4ucJWNOr8jLGXAYjnRdA3ARGIT+6lE5L1REVDeYjJryM5Mj3+UeC4HtJ+nz
+ 4FEmI2NUKoT5AtsnyZJn4ho0wiCZs8S6B37xp/HmIEanfBVL8r0P40viL3GNKW0cONb
+ /IlFqk+1C4+5t5EqcQkD4v2y1gzj2W7WIFrkVA4I=
+Received: from mail.zoho.in by mx.zoho.in
+ with SMTP id 1659457745264923.42593622627; Tue, 2 Aug 2022 21:59:05 +0530 (IST)
+Date: Tue, 02 Aug 2022 21:59:05 +0530
+To: "Ingo Molnar" <mingo@kernel.org>
+Message-ID: <1825f63b142.8968bde3116633.1242410031840350968@siddh.me>
+In-Reply-To: <YukFgFTaq4Aw+uht@gmail.com>
+References: <20220731160913.632092-1-code@siddh.me>
+ <YukFgFTaq4Aw+uht@gmail.com>
+Subject: Re: [PATCH] x86/numa: Use cpumask_available instead of hardcoded
+ NULL check
 MIME-Version: 1.0
-Cc: songliubraving@fb.com, guvenc@linux.ibm.com, ast@kernel.org,
- edumazet@google.com, linux-s390@vger.kernel.org, daniel@iogearbox.net,
- davem@davemloft.net, borisp@nvidia.com, paskripkin@gmail.com,
- john.fastabend@gmail.com, andrii@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com, ubraun@linux.ibm.com,
- syzkaller-bugs@googlegroups.com, kpsingh@kernel.org, wenjia@linux.ibm.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kgraul@linux.ibm.com,
- yhs@fb.com, guwen@linux.alibaba.com, yin31149@gmail.com, bpf@vger.kernel.org,
- kafai@fb.com
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Cc: Dave Hansen <dave.hansen@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, x86 <x86@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,75 +95,61 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Siddh Raman Pant via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Thanks for your suggestion!
+On Tue, 02 Aug 2022 16:37:44 +0530  Ingo Molnar <mingo@kernel.org> wrote:
+> Your fix makes sense I suppose, but I'm wondering how testing didn't 
+> trigger this warning.
+> 
+> Off-stack isn't a rare config option:
+> 
+>   kepler:~/tip> make allmodconfig
+>   #
+>   # No change to .config
+>   #
+>   kepler:~/tip> grep CPUMASK_OFFSTACK .config
+>   CONFIG_CPUMASK_OFFSTACK=y
+>   kepler:~/tip> 
+> 
+> What am I missing?
 
-On Mon, 1 Aug 2022 at 17:16, Jakub Sitnicki <jakub@cloudflare.com> wrote:
-> This way we would also avoid some confusion. With the change below, the
-> SK_USER_DATA_NOTPSOCK is not *always* set when sk_user_data holds a
-> non-psock pointer. Only when SMC sets it.
->
-> If we go with the current approach, the rest of sites, execpt for psock,
-> that assign to sk_user_data should be updated to set
-> SK_USER_DATA_NOTPSOCK as well, IMO.
-Yes, as you point out, in this patch, this flag's name should be
-*SK_USER_DATA_NEEDCHECK_NOTPSOCK*, which is more clearly.
+Maybe this triggers on certain config options set, or maybe due to new
+gcc version? (I'm using gcc-12, I also likely saw while on gcc-11.)
+It nevertheless is a helpful warning.
 
-To be more specific, we don't need to set this flag for
-every sk_user_data who holds non-psock pointer. Only set the flag for
-the site that has been reported involved with the type-mismatch bug
-like this bug.
-> > During SMC fallback process in connect syscall, kernel will
-> > replaces TCP with SMC. In order to forward wakeup
-> > smc socket waitqueue after fallback, kernel will sets
-> > clcsk->sk_user_data to origin smc socket in
-> > smc_fback_replace_callbacks().
-> > 
-> > Later, in shutdown syscall, kernel will calls
-> > sk_psock_get(), which treats the clcsk->sk_user_data
-> > as sk_psock type, triggering the refcnt warning.
+I just now tried `make defconfig` (default configuration based on
+'x86_64_defconfig') and compiling with `make -j13 all`, and gcc doesn't
+give any warning. (CONFIG_CPUMASK_OFFSTACK isn't even listed in the
+.config file produced, grep fails.)
 
-For other sites, this patch is actually transparent to them, because
-the *SK_USER_DATA_NEEDCHECK_NOTPSOCK* flag is always unset. So this
-patch won't affect them, which won't introduce any extra
-potential bugs.
-> +/**
-> + * rcu_dereference_sk_user_data_psock - return psock if sk_user_data points
-> + * to the psock
-> + * @sk: socket
-> + */
-> +static inline
-> +struct sk_psock *rcu_dereference_sk_user_data_psock(const struct sock *sk)
-> +{
-> +	uintptr_t __tmp = (uintptr_t)rcu_dereference(__sk_user_data((sk)));
-> +
-> +	if (__tmp & SK_USER_DATA_NOTPSOCK)
-> +		return NULL;
-> +	return (struct sk_psock *)(__tmp & SK_USER_DATA_PTRMASK);
-> +}
+The config on which I can reproduce the warning can be found here:
+https://gist.github.com/siddhpant/0197ea2b9873e8719d5d7ef991e2cd89
+(It has 8969 lines, thus uploaded as a gist.)
 
->
-> Hi,
-> Since using psock is not the common case, I'm wondering if it makes more
-> sense to have an inverse flag - SK_USER_DATA_PSOCK. Flag would be set by
-> the psock code on assignment to sk_user_data.
-However, your suggestion seems more elegant. For my patch, as you point
-out, when anyone reports a new type-mismatch bug, the relative assign to
-sk_user_data should be updated to set *SK_USER_DATA_NEEDCHECK_NOTPSOCK*
-flag.
+This is a modification of a config found on syzkaller, which I was using
+to compile and test some bug. I had noticed the gcc warning earlier while
+on similar detours and usually ignored it, but now I finally took a look.
 
-For your suggestion, you seems avoid above situation. What's more, as I
-use git grep to search, there seems no direct access to sk_user_data,
-all via a small amount macros and wrapper functions. So we can keep
-transparent by only update those macros and wrapper functions, which
-also won't introduce any extra potential bugs.
+I tested compiling with it 5 times (`make clean` and `make -j13 all`),
+and gcc gave the warning in all attempts. I also tried `make -j1 all`,
+which also had gcc spitting out the warning, so it cannot be any race.
 
-I will patch as you suggest in v3 patch.
+> > Fixes: c032ef60d1aa ("cpumask: convert node_to_cpumask_map[] to cpumask_var_t")
+> > Fixes: de2d9445f162 ("x86: Unify node_to_cpumask_map handling between 32 and 64bit")
+> 
+> These are ancient commits from 2009 & 2011.
+
+Yes, that's where blaming the file leads me to.
+
+Thanks,
+Siddh
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
