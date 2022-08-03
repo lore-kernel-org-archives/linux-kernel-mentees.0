@@ -1,96 +1,75 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 08D72C19F28
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 09:46:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1048AC19F28
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 11:27:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id A5F3B81BBD;
-	Wed,  3 Aug 2022 09:46:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A5F3B81BBD
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=LjjQilOD
+	by smtp2.osuosl.org (Postfix) with ESMTP id 79A7B4059D;
+	Wed,  3 Aug 2022 11:27:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 79A7B4059D
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4adK2DngBBin; Wed,  3 Aug 2022 09:46:53 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id R94f7j8E6wk8; Wed,  3 Aug 2022 11:27:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C4A9D81B70;
-	Wed,  3 Aug 2022 09:46:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C4A9D81B70
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7EA5F4029B;
+	Wed,  3 Aug 2022 11:27:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7EA5F4029B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 85CFCC0033;
-	Wed,  3 Aug 2022 09:46:52 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8CAFDC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5384FC0033;
+	Wed,  3 Aug 2022 11:27:18 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B4F4CC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 09:46:51 +0000 (UTC)
+ Wed,  3 Aug 2022 11:27:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4AC0F6F715
+ by smtp3.osuosl.org (Postfix) with ESMTP id 97D626F8C9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 09:46:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4AC0F6F715
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=LjjQilOD
+ Wed,  3 Aug 2022 11:27:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 97D626F8C9
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id m3Z5mgMiTZH0
+ with ESMTP id Pd29R-iEImwD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 09:46:50 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E913461060
-Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E913461060
+ Wed,  3 Aug 2022 11:27:13 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3BBC3605E0
+Received: from out30-57.freemail.mail.aliyun.com
+ (out30-57.freemail.mail.aliyun.com [115.124.30.57])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3BBC3605E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 09:46:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1659519997; cv=none; d=zohomail.in; s=zohoarc; 
- b=XvWsWjE8t5zW4M60jT2kOoKrtmPXvGOMsKVwKyiC2PnFszBqjdRoLPEB5p0Gm4snpFnbYZXTpo2f16yAE99b5YKURvkAqOpSpV5x+fcKGA+qHTZ9eoviJpaSLmXBMEjSoOQdwCbL6hIrRDBCVDyg36UZvsrFYIrC069hNuHmhpY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1659519997;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=tCHNfkvLKa0BySi4rSrFMkX48wCJeADFiMbfJkU5ves=; 
- b=HOyH+TgaaaO2ChMWCD3C9KPP3EGmrp0QUke4MOKwGprGZFQbFRQp2xY9Tyyz1Plz5al4841MlxDMKySAaxJH9rog+bQClxfO6KmUcnb5DaNhRAWlZbs+p/c19AN2GoqAjkTfstZP4KCTqfHkN47VuysSTIieON8M5FOw4lISLis=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659519997; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=tCHNfkvLKa0BySi4rSrFMkX48wCJeADFiMbfJkU5ves=;
- b=LjjQilODd69kMHJImKMUgwONAibLg0YAN8FOsMPeE36IMjtDxzLrJj9TY/02IOqe
- rezK8hZNAgPX0BkAmfPwP/s8bqbqgOW/MpEIK7ECFtoMn1CH3yZ9MJfBduOnZBv2L/h
- Ky8fP0E8dFzeKVY9obsL3O2nyFW+hyIdjbg/9I3M=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1659519981497938.089830690879;
- Wed, 3 Aug 2022 15:16:21 +0530 (IST)
-Date: Wed, 03 Aug 2022 15:16:21 +0530
-To: "Ingo Molnar" <mingo@kernel.org>
-Message-ID: <182631957a7.c72ff42439506.3030495024426988155@siddh.me>
-In-Reply-To: <YupC88xuQ4rcyLVR@gmail.com>
-References: <20220731160913.632092-1-code@siddh.me>
- <YukFgFTaq4Aw+uht@gmail.com>
- <1825f63b142.8968bde3116633.1242410031840350968@siddh.me>
- <Yuo2UkkyaYtZ3rMZ@gmail.com>
- <18262ed2459.44b0d74d434377.3690496800292832933@siddh.me>
- <Yuo7A0KYoNnbgwWT@gmail.com>
- <18263030220.8a990e82436929.3216192040531777412@siddh.me>
- <YupC88xuQ4rcyLVR@gmail.com>
-Subject: Re: [PATCH] x86/numa: Use cpumask_available instead of hardcoded
- NULL check
+ Wed,  3 Aug 2022 11:27:12 +0000 (UTC)
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R131e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=guwen@linux.alibaba.com; NM=1; PH=DS; RN=25; SR=0;
+ TI=SMTPD_---0VLGi36p_1659526024; 
+Received: from 30.227.65.209(mailfrom:guwen@linux.alibaba.com
+ fp:SMTPD_---0VLGi36p_1659526024) by smtp.aliyun-inc.com;
+ Wed, 03 Aug 2022 19:27:06 +0800
+Message-ID: <ecf07c1b-a6f3-2537-aacd-a768c437fa7f@linux.alibaba.com>
+Date: Wed, 3 Aug 2022 19:27:04 +0800
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: Dave Hansen <dave.hansen@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, x86 <x86@kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v3] net/smc: fix refcount bug in sk_psock_get (2)
+To: Hawkins Jiawei <yin31149@gmail.com>,
+ syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
+References: <00000000000026328205e08cdbeb@google.com>
+ <20220803080338.166730-1-yin31149@gmail.com>
+From: Wen Gu <guwen@linux.alibaba.com>
+In-Reply-To: <20220803080338.166730-1-yin31149@gmail.com>
+Cc: songliubraving@fb.com, ast@kernel.org, edumazet@google.com,
+ jakub@cloudflare.com, daniel@iogearbox.net, davem@davemloft.net,
+ borisp@nvidia.com, paskripkin@gmail.com, john.fastabend@gmail.com,
+ andrii@kernel.org, yhs@fb.com, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzkaller-bugs@googlegroups.com, kpsingh@kernel.org, kuba@kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kgraul@linux.ibm.com,
+ bpf@vger.kernel.org, kafai@fb.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,31 +81,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Siddh Raman Pant via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Siddh Raman Pant <code@siddh.me>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gV2VkLCAwMyBBdWcgMjAyMiAxNToxMjoxMSArMDUzMCAgSW5nbyBNb2xuYXIgPG1pbmdvQGtl
-cm5lbC5vcmc+IHdyb3RlOgo+IE9oLiBTbyBJIHdhcyBkYWZ0LCBhcyBzdXNwZWN0ZWQuIDstKQo+
-IAo+IEFuZCBJIGNhbiBjb25maXJtIHRoYXQgd2hpbGUgZ2NjLTExIGRvZXNuJ3QgdHJpZ2dlciB0
-aGUgd2FybmluZywgZ2NjLTEyIAo+IGRvZXM6Cj4gCj4gICAkIG1ha2UgQVJDSD14ODZfNjQgQ0M9
-Z2NjLTExIGFyY2gveDg2L21tL251bWEubwo+ICAgICBDQyAgICAgIGFyY2gveDg2L21tL251bWEu
-bwo+ICAgJAo+IAo+ICAgJCBybSAtZiBhcmNoL3g4Ni9tbS9udW1hLm8KPiAgICQKPiAgICQgbWFr
-ZSBBUkNIPXg4Nl82NCBDQz1nY2MtMTIgYXJjaC94ODYvbW0vbnVtYS5vCj4gCj4gICAgIENDICAg
-ICAgYXJjaC94ODYvbW0vbnVtYS5vCj4gICBhcmNoL3g4Ni9tbS9udW1hLmM6IEluIGZ1bmN0aW9u
-IOKAmGNwdW1hc2tfb2Zfbm9kZeKAmToKPiAgIGFyY2gveDg2L21tL251bWEuYzo5MTY6Mzk6IGVy
-cm9yOiB0aGUgY29tcGFyaXNvbiB3aWxsIGFsd2F5cyBldmFsdWF0ZSBhcyDigJhmYWxzZeKAmSBm
-b3IgdGhlIGFkZHJlc3Mgb2Yg4oCYbm9kZV90b19jcHVtYXNrX21hcOKAmSB3aWxsIG5ldmVyIGJl
-IE5VTEwgWy1XZXJyb3I9YWRkcmVzc10KPiAgICAgOTE2IHwgICAgICAgICBpZiAobm9kZV90b19j
-cHVtYXNrX21hcFtub2RlXSA9PSBOVUxMKSB7Cj4gCj4gCj4gPiBbLi4uXQo+IAo+IFllYWggLSBh
-bmQgSSBhZ3JlZSB3aXRoIHlvdXIgZml4IC0gd2lsbCBhcHBseSBpdC4KPiAKPiBUaGFua3MgZm9y
-IHlvdXIgcGF0aWVuY2UgOi0pCj4gCj4gICAgIEluZ28KPiAKCk5vIHdvcnJpZXMsIGFuZCB0aGFu
-a3MhIDopClNpZGRoCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVl
-c0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9u
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
+
+
+On 2022/8/3 16:03, Hawkins Jiawei wrote:
+> Syzkaller reports refcount bug as follows:
+> ------------[ cut here ]------------
+> refcount_t: saturated; leaking memory.
+> WARNING: CPU: 1 PID: 3605 at lib/refcount.c:19 refcount_warn_saturate+0xf4/0x1e0 lib/refcount.c:19
+> Modules linked in:
+> CPU: 1 PID: 3605 Comm: syz-executor208 Not tainted 5.18.0-syzkaller-03023-g7e062cda7d90 #0
+>   <TASK>
+>   __refcount_add_not_zero include/linux/refcount.h:163 [inline]
+>   __refcount_inc_not_zero include/linux/refcount.h:227 [inline]
+>   refcount_inc_not_zero include/linux/refcount.h:245 [inline]
+>   sk_psock_get+0x3bc/0x410 include/linux/skmsg.h:439
+>   tls_data_ready+0x6d/0x1b0 net/tls/tls_sw.c:2091
+>   tcp_data_ready+0x106/0x520 net/ipv4/tcp_input.c:4983
+>   tcp_data_queue+0x25f2/0x4c90 net/ipv4/tcp_input.c:5057
+>   tcp_rcv_state_process+0x1774/0x4e80 net/ipv4/tcp_input.c:6659
+>   tcp_v4_do_rcv+0x339/0x980 net/ipv4/tcp_ipv4.c:1682
+>   sk_backlog_rcv include/net/sock.h:1061 [inline]
+>   __release_sock+0x134/0x3b0 net/core/sock.c:2849
+>   release_sock+0x54/0x1b0 net/core/sock.c:3404
+>   inet_shutdown+0x1e0/0x430 net/ipv4/af_inet.c:909
+>   __sys_shutdown_sock net/socket.c:2331 [inline]
+>   __sys_shutdown_sock net/socket.c:2325 [inline]
+>   __sys_shutdown+0xf1/0x1b0 net/socket.c:2343
+>   __do_sys_shutdown net/socket.c:2351 [inline]
+>   __se_sys_shutdown net/socket.c:2349 [inline]
+>   __x64_sys_shutdown+0x50/0x70 net/socket.c:2349
+>   do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>   do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+>   entry_SYSCALL_64_after_hwframe+0x46/0xb0
+>   </TASK>
+> 
+> During SMC fallback process in connect syscall, kernel will
+> replaces TCP with SMC. In order to forward wakeup
+> smc socket waitqueue after fallback, kernel will sets
+> clcsk->sk_user_data to origin smc socket in
+> smc_fback_replace_callbacks().
+> 
+> Later, in shutdown syscall, kernel will calls
+> sk_psock_get(), which treats the clcsk->sk_user_data
+> as psock type, triggering the refcnt warning.
+> 
+> So, the root cause is that smc and psock, both will use
+> sk_user_data field. So they will mismatch this field
+> easily.
+> 
+> This patch solves it by using another bit(defined as
+> SK_USER_DATA_PSOCK) in PTRMASK, to mark whether
+> sk_user_data points to a psock object or not.
+> This patch depends on a PTRMASK introduced in commit f1ff5ce2cd5e
+> ("net, sk_msg: Clear sk_user_data pointer on clone if tagged").
+> 
+> Reported-and-tested-by: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
+> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> Acked-by: Wen Gu <guwen@linux.alibaba.com>
+> Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+> ---
+> v2 -> v3:
+>    - use SK_USER_DATA_PSOCK instead of SK_USER_DATA_NOTPSOCK
+> to patch the bug
+>    - refactor the code on assigning to sk_user_data field
+> in psock part
+>    - refactor the code on getting and setting the flag
+> with sk_user_data field
+> 
+> v1 -> v2:
+>    - add bit in PTRMASK to patch the bug
+> 
+>   include/linux/skmsg.h |  2 +-
+>   include/net/sock.h    | 58 +++++++++++++++++++++++++++++++------------
+>   net/core/skmsg.c      |  3 ++-
+>   3 files changed, 45 insertions(+), 18 deletions(-)
+> 
+
+Hi Hawkins,
+
+Since the fix v3 doesn't involved smc codes any more, I wonder if it's still
+appropriate to use 'net/smc:' in subject?
+
+Cheers,
+Wen Gu
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
