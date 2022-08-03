@@ -1,104 +1,83 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49083C19F2B
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 12:44:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54B6AC19F28
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 15:14:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CEFF081494;
-	Wed,  3 Aug 2022 12:44:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CEFF081494
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Bsq9ab0W
+	by smtp3.osuosl.org (Postfix) with ESMTP id D409160BDC;
+	Wed,  3 Aug 2022 15:14:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D409160BDC
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=WHLmK99N
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vG1C4k0TfsFM; Wed,  3 Aug 2022 12:44:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9E75D813FD;
-	Wed,  3 Aug 2022 12:44:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9E75D813FD
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id G7i0C9RyQeih; Wed,  3 Aug 2022 15:14:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C87BB60A68;
+	Wed,  3 Aug 2022 15:14:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C87BB60A68
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A68CC0032;
-	Wed,  3 Aug 2022 12:44:17 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0681DC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0480C0033;
+	Wed,  3 Aug 2022 15:14:22 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CF7ADC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 12:44:16 +0000 (UTC)
+ Wed,  3 Aug 2022 15:14:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C1AAA408DA
+ by smtp3.osuosl.org (Postfix) with ESMTP id B77AA60BDC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 12:44:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C1AAA408DA
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=Bsq9ab0W
+ Wed,  3 Aug 2022 15:14:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B77AA60BDC
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JxvZBS0kB6nI
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id VYObX5qzfAHE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 12:44:15 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DC04140154
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp2.osuosl.org (Postfix) with ESMTPS id DC04140154
+ Wed,  3 Aug 2022 15:14:20 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C068B60A68
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C068B60A68
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 12:44:14 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id x10so15583269plb.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 03 Aug 2022 05:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=wjPWuGJqwbVCwB9jt00Z28vojcxuQqKt27dsntg+ryc=;
- b=Bsq9ab0WNJi8GEhpHAIdXlVJmhL6MjJZHkZoTnU1dxwvnW4OU80rBpA0sMObELn/D4
- VpozXVRgz+s+OjsK6WbXdj2KXfhvF91MxkBNz7GMO0YSDeDPt2evsEyFeNv66obB3FEO
- PyDdOSIh7Mul15OBCEjxEa4pdg+gNbQa1O1WJHfa/Gq0kkoPNCPY9HQh7pkL1/EYPMal
- sHJX4xFvsTG+z/2w+FQA/yJHFDy4mcRKlSRUlC4jkoNjxEPscKOMxDNaKd7/Teyr9nMJ
- xP5XKLOtwac2sAxTiMPE0knMDdxZGsRDOiwmCBpJWHklxx54rvIQxze4iCh4D8J2eaEv
- +R0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=wjPWuGJqwbVCwB9jt00Z28vojcxuQqKt27dsntg+ryc=;
- b=Sod+z13hGUrl7en8vi5oHZoH8vlw5WpRIx7yNVifyUMx1F/GnjlRNJmCOdLIxumNTW
- l2tSw0VP09eEKO0zEVPVmsypS8/0MXtaFK2RYzFDfHpcRLu0mYfGhmJ5K89TPGEhYuM/
- SV5YJ91nhsf7jTlnyA5LY0mWH+TRQSfhhpupycAnuOD6tbGvHJFJ9dj1JUbRN5UeE2Ig
- 5aNIUR2OYStg8M8X7AvFuqVqVZ6nEKJ6KRyttcNX34t/1JGJRhHdG3jLxFM2WbNgd6Tz
- EdWN9d4zLyv1ckIgc56URLpkX3WMku8vSRcttP7aWMxYVEtc23NhXCgRPwRTEXtv7l/n
- 6now==
-X-Gm-Message-State: ACgBeo3jb5mxC9xo/9fovHq6PMK0DNiMDYi0P/jjl4oJWeGGKBWAXiOC
- Ca88gh3BT/tXlvIbuAi6+Po=
-X-Google-Smtp-Source: AA6agR4eXTm3qLYHLqodT04eMxgaDYC3PVyO6JgEv5mouYBYOb41pjejGswljLJAiEqK3JHjc8LWKw==
-X-Received: by 2002:a17:902:b686:b0:16c:ae59:c9b4 with SMTP id
- c6-20020a170902b68600b0016cae59c9b4mr26390503pls.26.1659530654230; 
- Wed, 03 Aug 2022 05:44:14 -0700 (PDT)
-Received: from localhost ([223.104.103.89]) by smtp.gmail.com with ESMTPSA id
- z1-20020a17090ab10100b001f4d4a1b494sm1503613pjq.7.2022.08.03.05.44.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 05:44:13 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
-Subject: [PATCH v4] net: fix refcount bug in sk_psock_get (2)
-Date: Wed,  3 Aug 2022 20:41:22 +0800
-Message-Id: <20220803124121.173303-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <00000000000026328205e08cdbeb@google.com>
+ Wed,  3 Aug 2022 15:14:19 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id E931EB822BA;
+ Wed,  3 Aug 2022 15:14:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B21E2C433D7;
+ Wed,  3 Aug 2022 15:14:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659539655;
+ bh=pK3P6YKF/O7YvZ9WTM4gxZVhDGtihziln7chla4iH5k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=WHLmK99NPoh2XDLKBc8f63WccKUVyqXftm9dlFIwJgKXDyOUW1xGLVr9REBVvDIcW
+ 9IJMTMHr2rBRYhKlVGx0CW5FpSF2CmdFut3hllMCWnRjoUhIw2kQZzEjQAjg8l7P3j
+ ij54+7b2Uys4a2OeIIVOVXCvsO3bJ8vkm7A+mgPv09SiQPeQ603p9ZtYoeFMEI6m+q
+ +jjkJrqu6d9L4ql4apSGZfm8RQ3lRp9ITsfSt4uM3//ruNlYo4YrQFScbzVegcimyg
+ 1pAchX4QHKemLcAlanRzbUaIwmAdqVjp69dhaNOB7ymHUs7LCW5dXIadiaUXzcR7IJ
+ WHCl3NPza6BXQ==
+Date: Wed, 3 Aug 2022 08:14:13 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Hawkins Jiawei <yin31149@gmail.com>, kafai@fb.com
+Subject: Re: [PATCH v4] net: fix refcount bug in sk_psock_get (2)
+Message-ID: <20220803081413.3cc27002@kernel.org>
+In-Reply-To: <20220803124121.173303-1-yin31149@gmail.com>
 References: <00000000000026328205e08cdbeb@google.com>
+ <20220803124121.173303-1-yin31149@gmail.com>
 MIME-Version: 1.0
-Cc: songliubraving@fb.com, yhs@fb.com, ast@kernel.org, edumazet@google.com,
- jakub@cloudflare.com, daniel@iogearbox.net, davem@davemloft.net,
- borisp@nvidia.com, paskripkin@gmail.com, john.fastabend@gmail.com,
- andrii@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, yin31149@gmail.com,
+Cc: songliubraving@fb.com, ast@kernel.org, edumazet@google.com,
+ jakub@cloudflare.com, daniel@iogearbox.net, borisp@nvidia.com,
+ paskripkin@gmail.com, john.fastabend@gmail.com, andrii@kernel.org, yhs@fb.com,
+ pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com,
  syzkaller-bugs@googlegroups.com, kpsingh@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kgraul@linux.ibm.com,
- Wen Gu <guwen@linux.alibaba.com>, bpf@vger.kernel.org, kafai@fb.com
+ linux-kernel@vger.kernel.org, davem@davemloft.net,
+ Wen Gu <guwen@linux.alibaba.com>, bpf@vger.kernel.org, kgraul@linux.ibm.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,193 +95,87 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzkaller reports refcount bug as follows:
-------------[ cut here ]------------
-refcount_t: saturated; leaking memory.
-WARNING: CPU: 1 PID: 3605 at lib/refcount.c:19 refcount_warn_saturate+0xf4/0x1e0 lib/refcount.c:19
-Modules linked in:
-CPU: 1 PID: 3605 Comm: syz-executor208 Not tainted 5.18.0-syzkaller-03023-g7e062cda7d90 #0
- <TASK>
- __refcount_add_not_zero include/linux/refcount.h:163 [inline]
- __refcount_inc_not_zero include/linux/refcount.h:227 [inline]
- refcount_inc_not_zero include/linux/refcount.h:245 [inline]
- sk_psock_get+0x3bc/0x410 include/linux/skmsg.h:439
- tls_data_ready+0x6d/0x1b0 net/tls/tls_sw.c:2091
- tcp_data_ready+0x106/0x520 net/ipv4/tcp_input.c:4983
- tcp_data_queue+0x25f2/0x4c90 net/ipv4/tcp_input.c:5057
- tcp_rcv_state_process+0x1774/0x4e80 net/ipv4/tcp_input.c:6659
- tcp_v4_do_rcv+0x339/0x980 net/ipv4/tcp_ipv4.c:1682
- sk_backlog_rcv include/net/sock.h:1061 [inline]
- __release_sock+0x134/0x3b0 net/core/sock.c:2849
- release_sock+0x54/0x1b0 net/core/sock.c:3404
- inet_shutdown+0x1e0/0x430 net/ipv4/af_inet.c:909
- __sys_shutdown_sock net/socket.c:2331 [inline]
- __sys_shutdown_sock net/socket.c:2325 [inline]
- __sys_shutdown+0xf1/0x1b0 net/socket.c:2343
- __do_sys_shutdown net/socket.c:2351 [inline]
- __se_sys_shutdown net/socket.c:2349 [inline]
- __x64_sys_shutdown+0x50/0x70 net/socket.c:2349
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x46/0xb0
- </TASK>
+On Wed,  3 Aug 2022 20:41:22 +0800 Hawkins Jiawei wrote:
+> -/* Pointer stored in sk_user_data might not be suitable for copying
+> - * when cloning the socket. For instance, it can point to a reference
+> - * counted object. sk_user_data bottom bit is set if pointer must not
+> - * be copied.
+> +/* flag bits in sk_user_data
+> + *
+> + * SK_USER_DATA_NOCOPY - Pointer stored in sk_user_data might
+> + * not be suitable for copying when cloning the socket.
+> + * For instance, it can point to a reference counted object.
+> + * sk_user_data bottom bit is set if pointer must not be copied.
+> + *
+> + * SK_USER_DATA_BPF    - Managed by BPF
 
-During SMC fallback process in connect syscall, kernel will
-replaces TCP with SMC. In order to forward wakeup
-smc socket waitqueue after fallback, kernel will sets
-clcsk->sk_user_data to origin smc socket in
-smc_fback_replace_callbacks().
+I'd use this opportunity to add more info here, BPF is too general.
+Maybe "Pointer is used by a BPF reuseport array"? Martin, WDYT?
 
-Later, in shutdown syscall, kernel will calls
-sk_psock_get(), which treats the clcsk->sk_user_data
-as psock type, triggering the refcnt warning.
+> + * SK_USER_DATA_PSOCK  - Mark whether pointer stored in sk_user_data points
+> + * to psock type. This bit should be set when sk_user_data is
+> + * assigned to a psock object.
 
-So, the root cause is that smc and psock, both will use
-sk_user_data field. So they will mismatch this field
-easily.
+> +/**
+> + * rcu_dereference_sk_user_data_psock - return psock if sk_user_data
+> + * points to the psock type(SK_USER_DATA_PSOCK flag is set), otherwise
+> + * return NULL
+> + *
+> + * @sk: socket
+> + */
+> +static inline
+> +struct sk_psock *rcu_dereference_sk_user_data_psock(const struct sock *sk)
 
-This patch solves it by using another bit(defined as
-SK_USER_DATA_PSOCK) in PTRMASK, to mark whether
-sk_user_data points to a psock object or not.
-This patch depends on a PTRMASK introduced in commit f1ff5ce2cd5e
-("net, sk_msg: Clear sk_user_data pointer on clone if tagged").
+nit: the return type more commonly goes on the same line as "static
+inline"
 
-Reported-and-tested-by: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
-Suggested-by: Jakub Kicinski <kuba@kernel.org>
-Acked-by: Wen Gu <guwen@linux.alibaba.com>
-Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
----
-v3 -> v4:
-  - change new subject
-  - fix diff content, which has been edit accidentally
+> +{
+> +	uintptr_t __tmp = (uintptr_t)rcu_dereference(__sk_user_data((sk)));
+> +
+> +	if (__tmp & SK_USER_DATA_PSOCK)
+> +		return (struct sk_psock *)(__tmp & SK_USER_DATA_PTRMASK);
+> +
+> +	return NULL;
+> +}
 
-v2 -> v3:
-  - use SK_USER_DATA_PSOCK instead of SK_USER_DATA_NOTPSOCK
-to patch the bug
-  - refactor the code on assigning to sk_user_data field
-in psock part
-  - refactor the code on getting and setting the flag
-with sk_user_data field
+As a follow up we can probably generalize this into
+ __rcu_dereference_sk_user_data_cond(sk, bit)
 
-v1 -> v2:
-  - add bit in PTRMASK to patch the bug
+and make the psock just call that:
 
- include/linux/skmsg.h |  2 +-
- include/net/sock.h    | 58 +++++++++++++++++++++++++++++++------------
- net/core/skmsg.c      |  3 ++-
- 3 files changed, 45 insertions(+), 18 deletions(-)
+static inline struct sk_psock *
+rcu_dereference_sk_user_data_psock(const struct sock *sk)
+{
+	return __rcu_dereference_sk_user_data_cond(sk, SK_USER_DATA_PSOCK);
+}
 
-diff --git a/include/linux/skmsg.h b/include/linux/skmsg.h
-index c5a2d6f50f25..81bfa1a33623 100644
---- a/include/linux/skmsg.h
-+++ b/include/linux/skmsg.h
-@@ -277,7 +277,7 @@ static inline void sk_msg_sg_copy_clear(struct sk_msg *msg, u32 start)
- 
- static inline struct sk_psock *sk_psock(const struct sock *sk)
+then reuseport can also benefit, maybe:
+
+diff --git a/kernel/bpf/reuseport_array.c b/kernel/bpf/reuseport_array.c
+index e2618fb5870e..ad5c447a690c 100644
+--- a/kernel/bpf/reuseport_array.c
++++ b/kernel/bpf/reuseport_array.c
+@@ -21,14 +21,11 @@ static struct reuseport_array *reuseport_array(struct bpf_map *map)
+ /* The caller must hold the reuseport_lock */
+ void bpf_sk_reuseport_detach(struct sock *sk)
  {
--	return rcu_dereference_sk_user_data(sk);
-+	return rcu_dereference_sk_user_data_psock(sk);
- }
+-	uintptr_t sk_user_data;
++	struct sock __rcu **socks;
  
- static inline void sk_psock_set_state(struct sk_psock *psock,
-diff --git a/include/net/sock.h b/include/net/sock.h
-index 9fa54762e077..d010910d5879 100644
---- a/include/net/sock.h
-+++ b/include/net/sock.h
-@@ -545,14 +545,24 @@ enum sk_pacing {
- 	SK_PACING_FQ		= 2,
- };
- 
--/* Pointer stored in sk_user_data might not be suitable for copying
-- * when cloning the socket. For instance, it can point to a reference
-- * counted object. sk_user_data bottom bit is set if pointer must not
-- * be copied.
-+/* flag bits in sk_user_data
-+ *
-+ * SK_USER_DATA_NOCOPY - Pointer stored in sk_user_data might
-+ * not be suitable for copying when cloning the socket.
-+ * For instance, it can point to a reference counted object.
-+ * sk_user_data bottom bit is set if pointer must not be copied.
-+ *
-+ * SK_USER_DATA_BPF    - Managed by BPF
-+ *
-+ * SK_USER_DATA_PSOCK  - Mark whether pointer stored in sk_user_data points
-+ * to psock type. This bit should be set when sk_user_data is
-+ * assigned to a psock object.
-  */
- #define SK_USER_DATA_NOCOPY	1UL
--#define SK_USER_DATA_BPF	2UL	/* Managed by BPF */
--#define SK_USER_DATA_PTRMASK	~(SK_USER_DATA_NOCOPY | SK_USER_DATA_BPF)
-+#define SK_USER_DATA_BPF	2UL
-+#define SK_USER_DATA_PSOCK	4UL
-+#define SK_USER_DATA_PTRMASK	~(SK_USER_DATA_NOCOPY | SK_USER_DATA_BPF |\
-+				  SK_USER_DATA_PSOCK)
- 
- /**
-  * sk_user_data_is_nocopy - Test if sk_user_data pointer must not be copied
-@@ -570,19 +580,35 @@ static inline bool sk_user_data_is_nocopy(const struct sock *sk)
- 	void *__tmp = rcu_dereference(__sk_user_data((sk)));		\
- 	(void *)((uintptr_t)__tmp & SK_USER_DATA_PTRMASK);		\
- })
--#define rcu_assign_sk_user_data(sk, ptr)				\
-+#define rcu_assign_sk_user_data_with_flags(sk, ptr, flags)		\
- ({									\
--	uintptr_t __tmp = (uintptr_t)(ptr);				\
--	WARN_ON_ONCE(__tmp & ~SK_USER_DATA_PTRMASK);			\
--	rcu_assign_pointer(__sk_user_data((sk)), __tmp);		\
--})
--#define rcu_assign_sk_user_data_nocopy(sk, ptr)				\
--({									\
--	uintptr_t __tmp = (uintptr_t)(ptr);				\
--	WARN_ON_ONCE(__tmp & ~SK_USER_DATA_PTRMASK);			\
-+	uintptr_t __tmp1 = (uintptr_t)(ptr),				\
-+		  __tmp2 = (uintptr_t)(flags);				\
-+	WARN_ON_ONCE(__tmp1 & ~SK_USER_DATA_PTRMASK);			\
-+	WARN_ON_ONCE(__tmp2 & SK_USER_DATA_PTRMASK);			\
- 	rcu_assign_pointer(__sk_user_data((sk)),			\
--			   __tmp | SK_USER_DATA_NOCOPY);		\
-+			   __tmp1 | __tmp2);				\
- })
-+#define rcu_assign_sk_user_data(sk, ptr)				\
-+	rcu_assign_sk_user_data_with_flags(sk, ptr, 0)
-+
-+/**
-+ * rcu_dereference_sk_user_data_psock - return psock if sk_user_data
-+ * points to the psock type(SK_USER_DATA_PSOCK flag is set), otherwise
-+ * return NULL
-+ *
-+ * @sk: socket
-+ */
-+static inline
-+struct sk_psock *rcu_dereference_sk_user_data_psock(const struct sock *sk)
-+{
-+	uintptr_t __tmp = (uintptr_t)rcu_dereference(__sk_user_data((sk)));
-+
-+	if (__tmp & SK_USER_DATA_PSOCK)
-+		return (struct sk_psock *)(__tmp & SK_USER_DATA_PTRMASK);
-+
-+	return NULL;
-+}
- 
- static inline
- struct net *sock_net(const struct sock *sk)
-diff --git a/net/core/skmsg.c b/net/core/skmsg.c
-index b0fcd0200e84..d174897dbb4b 100644
---- a/net/core/skmsg.c
-+++ b/net/core/skmsg.c
-@@ -735,7 +735,8 @@ struct sk_psock *sk_psock_init(struct sock *sk, int node)
- 	sk_psock_set_state(psock, SK_PSOCK_TX_ENABLED);
- 	refcount_set(&psock->refcnt, 1);
- 
--	rcu_assign_sk_user_data_nocopy(sk, psock);
-+	rcu_assign_sk_user_data_with_flags(sk, psock, SK_USER_DATA_NOCOPY |
-+						      SK_USER_DATA_PSOCK);
- 	sock_hold(sk);
- 
- out:
--- 
-2.25.1
+ 	write_lock_bh(&sk->sk_callback_lock);
+-	sk_user_data = (uintptr_t)sk->sk_user_data;
+-	if (sk_user_data & SK_USER_DATA_BPF) {
+-		struct sock __rcu **socks;
+-
+-		socks = (void *)(sk_user_data & SK_USER_DATA_PTRMASK);
++	socks = __rcu_dereference_sk_user_data_cond(sk, SK_USER_DATA_BPF);
++	if (socks) {
+ 		WRITE_ONCE(sk->sk_user_data, NULL);
+ 		/*
+ 		 * Do not move this NULL assignment outside of
 
+
+But that must be a separate patch, not part of this fix.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
