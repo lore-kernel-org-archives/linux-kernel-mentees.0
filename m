@@ -4,93 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5FF6FC19F28
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 08:40:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3071AC19F28
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 08:48:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D572E40A8F;
-	Wed,  3 Aug 2022 08:40:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D572E40A8F
+	by smtp2.osuosl.org (Postfix) with ESMTP id AE76040A8B;
+	Wed,  3 Aug 2022 08:48:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AE76040A8B
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=aFDqL25Q
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=K1+QwMMF
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uLobV5GpOoaz; Wed,  3 Aug 2022 08:40:32 +0000 (UTC)
+	with ESMTP id ueySpXTEo2lT; Wed,  3 Aug 2022 08:48:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A19BD40476;
-	Wed,  3 Aug 2022 08:40:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A19BD40476
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D353040476;
+	Wed,  3 Aug 2022 08:48:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D353040476
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 76EE0C0033;
-	Wed,  3 Aug 2022 08:40:31 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5A968C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AEC6AC0033;
+	Wed,  3 Aug 2022 08:48:25 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 10CB5C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 08:40:30 +0000 (UTC)
+ Wed,  3 Aug 2022 08:48:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3496E60A6A
+ by smtp2.osuosl.org (Postfix) with ESMTP id D651940A8B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 08:40:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3496E60A6A
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=aFDqL25Q
+ Wed,  3 Aug 2022 08:48:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D651940A8B
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7qyyzsigAzCk
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TABMSRe7K1mm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 08:40:29 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6D345600C7
-Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 6D345600C7
+ Wed,  3 Aug 2022 08:48:23 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 21E8E40476
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 21E8E40476
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 08:40:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1659516018; cv=none; d=zohomail.in; s=zohoarc; 
- b=EuKLCRaI1LyNZ1ZUVDVeBdcNyp8QVEhNaYtYxPfBAuP4rBplyn9n37+xUVc4YPuoZ9+3ZQecw1rWGF5dCAjpi2aYvUV6PZ4FVEevsX3kSpSxasu/WQ+RT65Yp+b36IjiTTVPXTpcOgv8+sipwZ2AF7tMnUi1prsr/p7DVTMWGYc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1659516018;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=+HJj+JToUolbtOl3JgpsAZUz1406bfNqHiQh4CFyvjY=; 
- b=RnTpx+dsjfOsWOBbQzNq/kOZTfh4EhPprWn3mQnqXJhMF2XCFBs0mh4AdXs46kTUec7TELlagFRQQwY+Vyq95352OC7u8YTtoxfUazB1WxqPt+ak6SCWtxhvSQ+OoR2OOVELbowoWo3Ji+2stMkYB26p8/dd8e//WBNu6617XpA=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659516018; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=+HJj+JToUolbtOl3JgpsAZUz1406bfNqHiQh4CFyvjY=;
- b=aFDqL25Qak4dJbogXnSrvupuWBgODiVTP/KEHhGmy6QfugNhe65g3Gq7ZLq1HeI4
- J+zTiyVjyoz3t1TvNOkQW0//qfpT3T9kYNiNwG9EIUv1Xxn3S8wfyaQKCFkUSqsbWoM
- HDrv44+EdV5K1KQI7F4qWP4wXG79S1VXWeJBI2IY=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1659516006945210.23588174332167;
- Wed, 3 Aug 2022 14:10:06 +0530 (IST)
-Date: Wed, 03 Aug 2022 14:10:06 +0530
-To: "Eric Biggers" <ebiggers@kernel.org>
-Message-ID: <18262dcb20e.4bf31faa421018.1228982721921458740@siddh.me>
-In-Reply-To: <YuoKi0GigXm/Hcb+@sol.localdomain>
-References: <20220728155121.12145-1-code@siddh.me>
- <YunKlJCDlmyn2hJ4@sol.localdomain>
- <18261d8a63a.33799d2a402802.7512018232560408914@siddh.me>
- <Yun1rC59USrgd0fu@sol.localdomain>
- <182621f8dca.1e0e6161130907.1470656861897824669@siddh.me>
- <YuoKi0GigXm/Hcb+@sol.localdomain>
-Subject: Re: [PATCH v3] kernel/watch_queue: Make pipe NULL while clearing
- watch_queue
+ Wed,  3 Aug 2022 08:48:23 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j4-20020a05600c1c0400b003a4f287418bso543432wms.5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 03 Aug 2022 01:48:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=qKqo0h9Lva8dP5VOOSo7i61+QrtY8gPr4MgxUM+NaXM=;
+ b=K1+QwMMF0ygQFYNEgKo0BPINIfeDi/62w29AVXiJ+sIPO5wYV7vOKSvv4nkNCLXUYd
+ mpBPtDtwoH1NBnjlBqlWtVec1LV7ZWeJ0TeRNSVIJi7+YntM4Z0tf34zRJMcc0WoYzmN
+ PdEVxwu1atJIytuGyf3tF6oDOybJYk/8SWK+kd8v6fvxu5fqODnJFPI5KtXERKSbDljv
+ XPwFvWejnp8S3o12ZlA9tKbpn57sEnkWliG64dOnXEqKtf5FJ/2meiXN+MyDT40B0iNJ
+ 8Xe8/wEgxquFW3z0BRp7MYS4I0OhVqrTJ6ATOFcuzBRdKRoFXkho5Kf+YkpO9y6kLhDe
+ JF4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :references:mime-version:content-disposition:in-reply-to;
+ bh=qKqo0h9Lva8dP5VOOSo7i61+QrtY8gPr4MgxUM+NaXM=;
+ b=0lU2DgRP9ZNqkFKQxu97qAlCuuZmQg6iRHgoAVMGAdR65C4KF0JLPhKp2m2oNN0YmB
+ cN/HQMvI1Tr7+O9eRsqZwwT5rMXTYP6Sk7qE3MefcJG5pkMz5g6T0idsUk3gtJOj6Nw4
+ LGBQixdR3NyPqmrLwNN4WpnTSQY9vq9Z6ff74wYYnehXJiGF2Gq83lzIhM46HBFt44Y9
+ ujiHSrfunv7h9oS9Anz2URrcSVoD0D+9eAKzjHL4f2eVVcNjmNvMyF8Lp8NgC1GRHjLp
+ xEC67pdTKCSZSDFr8GsPMSCcIBnD/G4VXCoYMHIh3QNuR/915DTrsn13RNDyF91toyPk
+ e5FA==
+X-Gm-Message-State: ACgBeo21h1NpKGOnKOChCVh/Su1feK2lfNM3S5sN66hSFM2//TOz4Adu
+ sSkn0ka7ubmEQXQ6ep6cPls=
+X-Google-Smtp-Source: AA6agR78xbQ3KK5qK5KyQWJM4Kybr6qyH51YeUilppnNGY+xV1TAQkEXrPe1nRJuq8Z/s0lxwWTh8g==
+X-Received: by 2002:a1c:2981:0:b0:3a2:ffe9:945c with SMTP id
+ p123-20020a1c2981000000b003a2ffe9945cmr2090453wmp.38.1659516501272; 
+ Wed, 03 Aug 2022 01:48:21 -0700 (PDT)
+Received: from gmail.com (84-236-113-167.pool.digikabel.hu. [84.236.113.167])
+ by smtp.gmail.com with ESMTPSA id
+ n18-20020a5d67d2000000b0020fff0ea0a3sm17319128wrw.116.2022.08.03.01.48.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Aug 2022 01:48:20 -0700 (PDT)
+Date: Wed, 3 Aug 2022 10:48:18 +0200
+From: Ingo Molnar <mingo@kernel.org>
+To: Siddh Raman Pant <code@siddh.me>
+Subject: Re: [PATCH] x86/numa: Use cpumask_available instead of hardcoded
+ NULL check
+Message-ID: <Yuo2UkkyaYtZ3rMZ@gmail.com>
+References: <20220731160913.632092-1-code@siddh.me>
+ <YukFgFTaq4Aw+uht@gmail.com>
+ <1825f63b142.8968bde3116633.1242410031840350968@siddh.me>
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: syzbot+c70d87ac1d001f29a058
- <syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- linux-security-modules <linux-security-module@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- David Howells <dhowells@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <1825f63b142.8968bde3116633.1242410031840350968@siddh.me>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, x86 <x86@kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,71 +110,55 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Siddh Raman Pant via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 03 Aug 2022 11:11:31 +0530  Eric Biggers <ebiggers@kernel.org> wrote:
-> I tested the syzbot reproducer
-> https://syzkaller.appspot.com/text?tag=ReproC&x=174ea97e080000, and it does
-> *not* trigger the bug on the latest upstream.  But, it does trigger the bug if I
-> recent Linus's recent watch_queue fixes.
+
+* Siddh Raman Pant <code@siddh.me> wrote:
+
+> On Tue, 02 Aug 2022 16:37:44 +0530  Ingo Molnar <mingo@kernel.org> wrote:
+> > Your fix makes sense I suppose, but I'm wondering how testing didn't 
+> > trigger this warning.
+> > 
+> > Off-stack isn't a rare config option:
+> > 
+> >   kepler:~/tip> make allmodconfig
+> >   #
+> >   # No change to .config
+> >   #
+> >   kepler:~/tip> grep CPUMASK_OFFSTACK .config
+> >   CONFIG_CPUMASK_OFFSTACK=y
+> >   kepler:~/tip> 
+> > 
+> > What am I missing?
 > 
-> So I don't currently see any evidence of an unfixed bug.  If, nevertheless, you
-> believe that a bug is still unfixed, then please provide a reproducer and a fix
-> patch that clearly explains what it is fixing. 
+> Maybe this triggers on certain config options set, or maybe due to new
+> gcc version? (I'm using gcc-12, I also likely saw while on gcc-11.)
+> It nevertheless is a helpful warning.
 > 
-> > There is a null check in post_one_notification for the pipe, most probably
-> > because it *expects* the pointer to be NULL'd. Also, there is no reason to have
-> > a dangling pointer stay, it's just a recipe for further bugs.
-> 
-> If you want to send a patch or patches to clean up the code, that is fine, but
-> please make it super clear what is a cleanup and what is a fix.
-> 
-> - Eric
-> 
+> I just now tried `make defconfig` (default configuration based on
+> 'x86_64_defconfig') and compiling with `make -j13 all`, and gcc doesn't
+> give any warning. (CONFIG_CPUMASK_OFFSTACK isn't even listed in the
+> .config file produced, grep fails.)
 
-I honestly feel like I am repeating myself yet again, but okay.
+Does 'allmodconfig' reproduce the warning for you:
 
-Of course, the race condition has been solved by a patch upstream, which I had
-myself mentioned earlier.
+  $ make allmodconfig
+  $ make arch/x86/mm/numa.o
 
-But what I am saying is that it did *not* address *what* that race condition
-had triggered, i.e. the visible cause of the UAF crash, which, among other
-things, is *because* there is a dangling pointer to the freed pipe, which
-*caused* the crash in post_one_notification() when it tried to access
-&pipe->rd.wait_lock as an argument to spin_lock_irq(), a path it reached
-after checking if wqueue->pipe is NULL and proceeded when it was not the case.
+?
 
-And the upstream commit was made *after* I had posted this patch, hence this
-was a fix for the syzkaller issue. While I am *not* saying to accept it just
-because this was posted earlier, I am saying this patch addresses a parallel
-issue, i.e. the *actual use-after-free crash* which was reproduced by those
-reproducers, i.e., what was attempted to be used after getting freed and
-detected by KASAN.
+If yes, then this could be due to gcc-12, as it doesn't reproduce with 
+gcc-11 for me:
 
-We don't need to wait for another similar syzbot report to pop up before doing
-this change, and say let's not fix a dangling pointer reference because now
-another commit apparately fixes the specific syzkaller issue, causing the given
-specific reproducer with its specific way of reproducing to fail, when we in
-fact now know it *can* be a valid problem in practice and doing this change
-too causes the specific reproducer under consideration to fail reproducing, as
-was reported by the reproducer itself.
-
-I really don't know how to create stress tests / reproducers like how syzkaller
-makes, so if a similar new reproducer is really required for showing this
-patch's validity disregarding any earlier reproducers, I unfortunately cannot
-make it due to skill issue as I just started in kernel dev, and I am deeply
-sorry for wasting the time of everyone, and I am thankful for your criticism of
-my patch.
+   gcc version 11.2.0 (Ubuntu 11.2.0-19ubuntu1) 
 
 Thanks,
-Siddh
+
+	Ingo
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
