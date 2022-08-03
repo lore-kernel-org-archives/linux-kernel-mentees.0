@@ -4,162 +4,90 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C244FC19F28
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 15:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A68C9C19F28
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 Aug 2022 18:15:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2CF3741085;
-	Wed,  3 Aug 2022 15:59:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2CF3741085
+	by smtp2.osuosl.org (Postfix) with ESMTP id 31C86402EB;
+	Wed,  3 Aug 2022 18:15:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 31C86402EB
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=facebook header.b=QPmcCxoi
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cmRFsOWk
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id D5OrHlb9H0fb; Wed,  3 Aug 2022 15:59:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 24002400AC;
-	Wed,  3 Aug 2022 15:59:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 24002400AC
+	with ESMTP id Hu5FlcEYXpWr; Wed,  3 Aug 2022 18:15:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id ECB6140112;
+	Wed,  3 Aug 2022 18:15:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org ECB6140112
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 01D14C0033;
-	Wed,  3 Aug 2022 15:59:07 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63C2CC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B61D8C0032;
+	Wed,  3 Aug 2022 18:15:37 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 800B7C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 15:59:05 +0000 (UTC)
+ Wed,  3 Aug 2022 18:15:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 30074824E2
+ by smtp3.osuosl.org (Postfix) with ESMTP id 465EC60B36
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 15:59:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 30074824E2
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (1024-bit key) header.d=fb.com header.i=@fb.com header.a=rsa-sha256
- header.s=facebook header.b=QPmcCxoi
+ Wed,  3 Aug 2022 18:15:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 465EC60B36
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=cmRFsOWk
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id buJjrunK8H2p
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vbokcAP9RzFR
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 15:59:04 +0000 (UTC)
-X-Greylist: delayed 00:21:16 by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 603C782470
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
- [67.231.153.30])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 603C782470
+ Wed,  3 Aug 2022 18:15:35 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3FCA860AE7
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3FCA860AE7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Aug 2022 15:59:04 +0000 (UTC)
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 273EMPQ0008478;
- Wed, 3 Aug 2022 08:37:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=facebook; bh=tiGut+KgyhxM+gjga3MXQtsFww7wofyYzFuzJhNqPsY=;
- b=QPmcCxoijJ7QSSQnGCg5JInTemTLUIFoFIqtDNYOwf37OOx5+gywX4Tdjd1qbhnGfa3V
- ycMm7GM+44E1OT7tVgQoUofJFTtVYk6fJ5eMzBIzs2XiZjnmLKv7D56FtZdjfutcxMiK
- C9/mkuw8YhStYA1zgJgMbhGhTcch2If7rOo= 
-Received: from nam10-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam10lp2100.outbound.protection.outlook.com [104.47.55.100])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hqtqh8jpb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 03 Aug 2022 08:37:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kyBsdjvSl1g/9MAtOTYOvRVgleFQi/gFo0tlaD/AT4lfftHZ1TjPGw/7zFaZVdzFip5qOi9r3HjYPMQwRPgJ1zt2yk6/MNhV5Vnbh1Yh2p7ZDUv6k/RCZLAdxM1mhGKeDAqOYNKE+Yh3si2Hsae26Kz7tzzF2Dx5A8HpUnjXjMIjAoRoyI4AZazk4Css+SN89DSosahU22Z+x1xgURkSuY8UuJVQBeOoFYRiSSRapec0wu7TWMSA21Ja9BTMQ3s5dwkeEXwhU5MJr+KaMtiQdv7633j2YvvuQkytuUlpH7pZLlhSEPP/6PdcK2Adq9qBlh+d7OCcDD7QNH0Vjs/Faw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tiGut+KgyhxM+gjga3MXQtsFww7wofyYzFuzJhNqPsY=;
- b=Z7itrAxl9EGwnyv0sTIa3Yi6vb9g6RUtVcsp9huuLR8y0apkDG9laqFVswHOZQt1BS6rdHKS/jzhu1Xfg98FV9wi3K5ognf1Mo+FL/SkTuR2DkJfFI0lJge64HkRV2fDc9u983R0BCzhwNnyoc3kJhcPy68AthaYcHlx9+LkHCbSz+EjnvgtMHO39MqHQAjKhaRfENKpLimbzFjKKvDLD5JwquXoxjLC/CBRgDE4kB2rY9+vwxAYS5SVRGoavsIbSbbkXd9U1GcPn8q/TCZR9L1lzcwcBCT3jxY0f3r7HxI77Qn6OWUizeWjHX+WHnO9TjxjaVk0els/wEUQKH+iOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from MW4PR15MB4475.namprd15.prod.outlook.com (2603:10b6:303:104::16)
- by BN7PR15MB2371.namprd15.prod.outlook.com (2603:10b6:406:8a::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.14; Wed, 3 Aug
- 2022 15:37:09 +0000
-Received: from MW4PR15MB4475.namprd15.prod.outlook.com
- ([fe80::5455:4e3f:a5a2:6a9e]) by MW4PR15MB4475.namprd15.prod.outlook.com
- ([fe80::5455:4e3f:a5a2:6a9e%4]) with mapi id 15.20.5504.014; Wed, 3 Aug 2022
- 15:37:09 +0000
-Date: Wed, 3 Aug 2022 08:37:06 -0700
-To: Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH v4] net: fix refcount bug in sk_psock_get (2)
-Message-ID: <20220803153706.oo47lv3kvkpb7yem@kafai-mbp.dhcp.thefacebook.com>
-References: <00000000000026328205e08cdbeb@google.com>
- <20220803124121.173303-1-yin31149@gmail.com>
- <20220803081413.3cc27002@kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20220803081413.3cc27002@kernel.org>
-X-ClientProxiedBy: BYAPR21CA0024.namprd21.prod.outlook.com
- (2603:10b6:a03:114::34) To MW4PR15MB4475.namprd15.prod.outlook.com
- (2603:10b6:303:104::16)
+ Wed,  3 Aug 2022 18:15:35 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 309206125E;
+ Wed,  3 Aug 2022 18:15:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9600FC433C1;
+ Wed,  3 Aug 2022 18:15:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1659550534;
+ bh=7O/on+19Nue3/Vk4JQ7+/4AVjwXWMn+5GbqToJguIEI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cmRFsOWkOufQEawUoZve7qnELukP37q45otVfWWsf//TiVfLXIZvmJ/mffOL/oSo5
+ aAIRdmlpqFbaBrkf4CQ4JFM0DA7O/cYLQKmaLhPa2ih01chciOJGzcyDGy6UEhmUJN
+ gFwTcgSd6oBeMORJDMeNtCVmvzL6g4eYlDQib900LSBDgEDFIOy1ZkojGNbrB4sk6J
+ KOmeag/W0n5DuctpmmJkN0JAGcgz7iiZB9w4K35HagHmUVfwWT8XczimkKRekQKpII
+ f2rlvhhtOYTicCRD0zL+vXh9re35hsZvHR6OnC0Olbl50+HDm7P4K2CC30zt7Cujgq
+ XJ1Z0nVaWDuDA==
+Date: Wed, 3 Aug 2022 18:15:31 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Siddh Raman Pant <code@siddh.me>
+Subject: Re: [PATCH v3] kernel/watch_queue: Make pipe NULL while clearing
+ watch_queue
+Message-ID: <Yuq7Q//SH/HjLsxH@gmail.com>
+References: <20220728155121.12145-1-code@siddh.me>
+ <YunKlJCDlmyn2hJ4@sol.localdomain>
+ <18261d8a63a.33799d2a402802.7512018232560408914@siddh.me>
+ <Yun1rC59USrgd0fu@sol.localdomain>
+ <182621f8dca.1e0e6161130907.1470656861897824669@siddh.me>
+ <YuoKi0GigXm/Hcb+@sol.localdomain>
+ <18262dcb20e.4bf31faa421018.1228982721921458740@siddh.me>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65e84283-4946-470c-8778-08da756606ca
-X-MS-TrafficTypeDiagnostic: BN7PR15MB2371:EE_
-X-FB-Source: Internal
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +1pcsok/+/TPRcnY879ZfGrl/S8C0nTvvUNFsHJIeuiiM6ukfE+zaoHiJ+zhhhbs38dMj/WpcC+wA6+C+NK70RgESrhSDC9JKIJD0vtO9e5mb4uUmkE4stCca/4EhFw8+MSne/EWzb9ghDYpEvT55mmk0EdWgfYxrQ3hssTJW4KjBGzH04zfLjZpytmkAtN33axv4pFkJ8I2lJ/YP3VJkQuz9wAdIzxbEdNLaFnFkQHHBNUUyxeGpWCsIHbhJrYPQB7BUIaT9mKnUd822Xwk45yxLIaK1wHT/FnjHOleCSvX+ewxxNOMtw4wwl1Kd+ARpEHnmYFgu1jzwX8n0RClRLY14FMC9uFHRv4SDG4mKNBUu0KRWY7hJBdo7FOzPds9mg+qRXdHj9CqJ1lpMzl0H6tQdHB/KJZPFvMARaVhrO3Hzxmn5QE/4FjOdxTxbh9/+YUXvmWdFiNedGH+OsHa2YFbvQYXSxwuxQsrPlkqOkDlTFfYB7BiIX8upv/PnslX0TBpuDidGEMTvarHUGmZDUaCsXM90nLbwQiz2m6r3r84N6NJuOZQRwjN8/I1zz3ohZYPju4ze0k2yQ2NCOKJv3XOODwN+BnhyV3mEBWHrdBXfkUxyhuEZz8vjNzfQ7RTB3nKrqxz5puxrg/nkwC/769oswagyR5eLGuuwEJoxs3j/h7rkxs0QOiOPLRJGqb64SmV7uqYXXS397+OOB10KrMqsZyfGgVII7dker7uD5cBbI4fZ/6hnbXQw0kytNvC
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW4PR15MB4475.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(346002)(39860400002)(376002)(396003)(366004)(6512007)(9686003)(7416002)(38100700002)(2906002)(4744005)(41300700001)(66476007)(6666004)(4326008)(8676002)(66556008)(66946007)(52116002)(6506007)(1076003)(8936002)(6916009)(6486002)(54906003)(316002)(86362001)(186003)(478600001)(5660300002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kBjGcaZ0E33jyr8zGCmPwwM8jODcpJz5fRgte2D66EW/QtbTEzJWbxwqk2G7?=
- =?us-ascii?Q?sITuJ1xlhvMkoza5AYy35bCf6AmacD9k/VvoVAo13FY+CfaNWndXrsIZ/YL3?=
- =?us-ascii?Q?PlwvHoUAAvyGGAb2g8+ZzuqO+IK8u4hG4qAGnxogO3//hfD2AsGGYonhnPhd?=
- =?us-ascii?Q?XRNYyyAf3JRVeECD1+c7Xt3fcIK75lzEknSvMYzqDpPzdTOZATz9SB5yXNIn?=
- =?us-ascii?Q?d2GxVl3jPcHTO+CxI64oWa5O8e6HWo6sYnu08r+na5XctApDbMlYlIk+NPSd?=
- =?us-ascii?Q?h7Y3zLYmypAk1sm1rb7cvnDfLN5gygAxD0WrZR50ajKIDUwLcE6LbOeCKOzB?=
- =?us-ascii?Q?G7kC5IbtSkwxORvTjPJTFR8839PkcBtb1p6Q+0YXDKzfk5urel12vxjtfF/Z?=
- =?us-ascii?Q?tPIdqeVDQ7FnjdoqJQN8lA3Z+Vl9c4C2EQFN4pHj0h2j6vCnKKg0g1axNXQY?=
- =?us-ascii?Q?BachzY3Lh/D5q3ITL7+7HX5vDpbH9MnU+jMUwpKNUygG++tzFnl1CppbCgPv?=
- =?us-ascii?Q?J0BdQ3qQ9hdhUFtl9AawDgmVwaElucLWkb6TZ+ppESGLXqOR+voE3aUwbT/x?=
- =?us-ascii?Q?o2G25jRkxEkb5luH1ersJO45fc7JKBOxz2/HE+igKvi3nN8+DBQbkyMw2WS+?=
- =?us-ascii?Q?jLhdExgTknoezEIVBZcUahci+EoXJ7VjwDRzZTgOJQ3TvNeLQknXXqNuV/yp?=
- =?us-ascii?Q?J30zC+WmWLXtHqet4+Sm96zcjFynXQlrxqZHW/md69+kKqiWr6WnONWWNHYu?=
- =?us-ascii?Q?bzqK8HeGKmtjjKY2lSKZi5v1OC/2koO2ARF9D6iC7hN+qUZjTkt7PxvfaBMt?=
- =?us-ascii?Q?DrS86j8F1zMUvG7Wy9BGQ+B4mURMIzKmCcfjh+qdJ2SxQAIflIxvfpUDt6pb?=
- =?us-ascii?Q?Y2HD41uVAIISpOpBXF9f5N60DnwQ2dj4jOpIpMxTZviDPCWrta5tyEzBNX9x?=
- =?us-ascii?Q?ZVzjgh2VYmroSxvIyURj344LHE1a0qjOeKqijJKS3c3CQ0rLLfm4A+XSyQzv?=
- =?us-ascii?Q?Ge4UqoMggGSHc2CnfMxowqsUmT1/Ed+Z8AXPn7Ar7ZgmywD3flRYh4Abh52B?=
- =?us-ascii?Q?YNukprvjVd/0qN8iBtO1oTvw+bKaha5VNbEU30QQgSriPWWB7JtpLtMJ5GA6?=
- =?us-ascii?Q?uinh9Uu309rWG0BAdTKCM52nP/73zrdriNU0q+KIWjk2yDNgmaB071qQwzy1?=
- =?us-ascii?Q?ZDxB8pbEBzwlZ/sNinzyrA2MKt82fkHjZwgZiCrnbXc44xqgi08ao+v7w/pt?=
- =?us-ascii?Q?GcMstD5bBpqzeJ+QQQX71JXU6nIuXP3EClOvOVuz6qb0iKnTBNMQ6M+M4Blx?=
- =?us-ascii?Q?IH38bC8vpKwRSwbsZh6fSnBK4caz6iDcFE0/IzMHkmhpOuCKd2kGxXS57UX2?=
- =?us-ascii?Q?9HU8dZ6K63K4oWzU77HNkOLw+MNTe29XYXbbPRSNt8kDKs2A1teVFJtmwcN4?=
- =?us-ascii?Q?ikwJsnWsR8fs9t7xkqIXZzt964f028o6eJTBsQf/cpJR/wx1+rOXA/oBgi7y?=
- =?us-ascii?Q?fQxaZLTRh9tHtOOuHUGMPzKkaRVb7iC/MtchBN/cpO1vFiuEA1VPhrXy849w?=
- =?us-ascii?Q?ZsVzC1MG2Q060cWsOjcHUj+Zp1MljSTqjRjT3Bmeyc1r1bRQfEMxymoFRKo1?=
- =?us-ascii?Q?4g=3D=3D?=
-X-OriginatorOrg: fb.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65e84283-4946-470c-8778-08da756606ca
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR15MB4475.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2022 15:37:09.0833 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ljPGSyUImIy4hvLvCEXHeHPVWFCx4DNC+s8daagzyMtSiOabs5biN3oehinBB2qI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR15MB2371
-X-Proofpoint-GUID: Fn0e08rBnK0NF4kbhI77mmT8SdlxyMyp
-X-Proofpoint-ORIG-GUID: Fn0e08rBnK0NF4kbhI77mmT8SdlxyMyp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-03_03,2022-08-02_01,2022-06-22_01
-Cc: songliubraving@fb.com, yhs@fb.com, ast@kernel.org, edumazet@google.com,
- jakub@cloudflare.com, daniel@iogearbox.net, borisp@nvidia.com,
- paskripkin@gmail.com, john.fastabend@gmail.com, andrii@kernel.org,
- Hawkins Jiawei <yin31149@gmail.com>, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com,
- syzkaller-bugs@googlegroups.com, kpsingh@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net,
- Wen Gu <guwen@linux.alibaba.com>, bpf@vger.kernel.org, kgraul@linux.ibm.com
+Content-Disposition: inline
+In-Reply-To: <18262dcb20e.4bf31faa421018.1228982721921458740@siddh.me>
+Cc: syzbot+c70d87ac1d001f29a058
+ <syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-security-modules <linux-security-module@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ David Howells <dhowells@redhat.com>, Eric Dumazet <edumazet@google.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -171,33 +99,86 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Martin KaFai Lau via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Martin KaFai Lau <kafai@fb.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 03, 2022 at 08:14:13AM -0700, Jakub Kicinski wrote:
-> On Wed,  3 Aug 2022 20:41:22 +0800 Hawkins Jiawei wrote:
-> > -/* Pointer stored in sk_user_data might not be suitable for copying
-> > - * when cloning the socket. For instance, it can point to a reference
-> > - * counted object. sk_user_data bottom bit is set if pointer must not
-> > - * be copied.
-> > +/* flag bits in sk_user_data
-> > + *
-> > + * SK_USER_DATA_NOCOPY - Pointer stored in sk_user_data might
-> > + * not be suitable for copying when cloning the socket.
-> > + * For instance, it can point to a reference counted object.
-> > + * sk_user_data bottom bit is set if pointer must not be copied.
-> > + *
-> > + * SK_USER_DATA_BPF    - Managed by BPF
+On Wed, Aug 03, 2022 at 02:10:06PM +0530, Siddh Raman Pant wrote:
+> On Wed, 03 Aug 2022 11:11:31 +0530  Eric Biggers <ebiggers@kernel.org> wrote:
+> > I tested the syzbot reproducer
+> > https://syzkaller.appspot.com/text?tag=ReproC&x=174ea97e080000, and it does
+> > *not* trigger the bug on the latest upstream.  But, it does trigger the bug if I
+> > recent Linus's recent watch_queue fixes.
+> > 
+> > So I don't currently see any evidence of an unfixed bug.  If, nevertheless, you
+> > believe that a bug is still unfixed, then please provide a reproducer and a fix
+> > patch that clearly explains what it is fixing. 
+> > 
+> > > There is a null check in post_one_notification for the pipe, most probably
+> > > because it *expects* the pointer to be NULL'd. Also, there is no reason to have
+> > > a dangling pointer stay, it's just a recipe for further bugs.
+> > 
+> > If you want to send a patch or patches to clean up the code, that is fine, but
+> > please make it super clear what is a cleanup and what is a fix.
+> > 
+> > - Eric
+> > 
 > 
-> I'd use this opportunity to add more info here, BPF is too general.
-> Maybe "Pointer is used by a BPF reuseport array"? Martin, WDYT?
-SGTM.  Thanks.
+> I honestly feel like I am repeating myself yet again, but okay.
+
+Well, you should try listening instead.  Because you are not listening.
+
+> Of course, the race condition has been solved by a patch upstream, which I had
+> myself mentioned earlier.
+> 
+> But what I am saying is that it did *not* address *what* that race condition
+> had triggered, i.e. the visible cause of the UAF crash, which, among other
+> things, is *because* there is a dangling pointer to the freed pipe, which
+> *caused* the crash in post_one_notification() when it tried to access
+> &pipe->rd.wait_lock as an argument to spin_lock_irq(), a path it reached
+> after checking if wqueue->pipe is NULL and proceeded when it was not the case.
+>
+> And the upstream commit was made *after* I had posted this patch, hence this
+> was a fix for the syzkaller issue. While I am *not* saying to accept it just
+> because this was posted earlier, I am saying this patch addresses a parallel
+> issue, i.e. the *actual use-after-free crash* which was reproduced by those
+> reproducers, i.e., what was attempted to be used after getting freed and
+> detected by KASAN.
+
+Even if wqueue->pipe was set to NULL during free_pipe_info(), there would still
+have been a use-after-free, as the real bug was the lack of synchronization
+between post_one_notification() and free_pipe_info().  That is fixed now.
+
+> 
+> We don't need to wait for another similar syzbot report to pop up before doing
+> this change, and say let's not fix a dangling pointer reference because now
+> another commit apparately fixes the specific syzkaller issue, causing the given
+> specific reproducer with its specific way of reproducing to fail, when we in
+> fact now know it *can* be a valid problem in practice and doing this change
+> too causes the specific reproducer under consideration to fail reproducing, as
+> was reported by the reproducer itself.
+
+To re-iterate, I encourage you to send a cleanup patch if you see an
+opportunity.  It looks like the state wqueue->defunct==true could be replaced
+with wqueue->pipe==NULL, which would be simpler, so how about doing that?  Just
+don't claim that it is "fixing" something, unless it is, as that makes things
+very confusing and difficult for everyone.
+
+> 
+> I really don't know how to create stress tests / reproducers like how syzkaller
+> makes, so if a similar new reproducer is really required for showing this
+> patch's validity disregarding any earlier reproducers, I unfortunately cannot
+> make it due to skill issue as I just started in kernel dev, and I am deeply
+> sorry for wasting the time of everyone, and I am thankful for your criticism of
+> my patch.
+
+A reproducer can just be written as a normal program, in C or another language.
+The syzkaller reproducers are really hard to read as they are auto-generated, so
+don't read too much into them -- they're certainly not examples of good code.
+
+- Eric
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
