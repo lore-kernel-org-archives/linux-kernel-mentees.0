@@ -1,78 +1,81 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C88DC25B06
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  4 Aug 2022 13:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C932FC19F2B
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  4 Aug 2022 13:31:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0927F417E0;
-	Thu,  4 Aug 2022 13:31:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0927F417E0
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=TerWYYE9
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4E46E829B6;
+	Thu,  4 Aug 2022 13:31:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4E46E829B6
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=BmE3ziSS
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CfOQb_SXzS0Q; Thu,  4 Aug 2022 13:31:22 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gv29CT52KtjD; Thu,  4 Aug 2022 13:31:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B28F6417E5;
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 60421829EE;
 	Thu,  4 Aug 2022 13:31:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B28F6417E5
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 60421829EE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 19E0BC0084;
-	Thu,  4 Aug 2022 13:31:22 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1C195C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EB703C007E;
+	Thu,  4 Aug 2022 13:31:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1342EC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu,  4 Aug 2022 13:31:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8E7D841821
+ by smtp3.osuosl.org (Postfix) with ESMTP id C9B4C61016
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu,  4 Aug 2022 13:31:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8E7D841821
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C9B4C61016
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
+ header.a=rsa-sha256 header.s=zmail header.b=BmE3ziSS
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id RWO3vlCClpaP
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tCR2aUS4YdXC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu,  4 Aug 2022 13:31:19 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EEA94417E5
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C5E0860FC0
 Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
- by smtp4.osuosl.org (Postfix) with ESMTPS id EEA94417E5
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C5E0860FC0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
  Thu,  4 Aug 2022 13:31:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1659619870; cv=none; d=zohomail.in; s=zohoarc; 
- b=TArb8JuB1u/dt9SGveolRdb/0G0ugu3aYa+l3KDB45spz+YjqqkVpocnYSOYpQ/2FtLJYxOr/fJskGu4g6puJVbRd3y7vCxPoNi+MTX/H4rRrGDD0VY0S3yE68zhxfbf4hJXZquHpNI2GNDXaMegU05QmRBRPD5JSYRMZysnRvk=
+ARC-Seal: i=1; a=rsa-sha256; t=1659619869; cv=none; d=zohomail.in; s=zohoarc; 
+ b=BuDznUG+XJjgZb6WOz1pkcQ7d1CiQCJ/Rl0Fxs92y5cQAUjXUHkSsOgA4qUBlagjlEwSaJgvM1XrfFP0/bPx+4gZLW7LH3k04lf2UsJ5ehlksME/y+esyGGVnvzL96eCjCZIhERXY6wx/zceqHkH5jmdgtMxCMpPjozI2BcVuDQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1659619870;
+ s=zohoarc; t=1659619869;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=e1Cbq8k6/3YzM7j1aQGJtFkkIjPn4LJXoM3g2nk5cLE=; 
- b=ECmeNiDjUWs71VbAz1usqwe1YmiZFKNj7AEja/3WyYIxyUN3RIy211CcdnAnRmpngfN7EnH8D+lp08NCdZqF6apcOgG9fD/YO0xFRBNEbVRutb1X6yQSDn42jQhMQayqxj4fa1la7zJfcA0d9JIXtMM05XtIxJ6DO4E4ico/2p0=
+ bh=y1Ovbial2FYc1BrqdnC91HLquYb0VtXHNQSWJNxyGjk=; 
+ b=Vt65eUbIR6LC/lPVxeJx2K/5XfUprgeWduCXOQzfPRMSLHVOwoXQqGtThc/ZBwZkUIao4x/pMRrWYV0fueCEmTt9pkxcDfhneYni5CPYO846NCXyGOGyv2jyGBOrEpN+cSkwSXGRVPBYy5QppY/QJy8ozquJzJyWj/orNv4eiqw=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659619870; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659619869; 
  s=zmail; d=siddh.me; i=code@siddh.me;
  h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=e1Cbq8k6/3YzM7j1aQGJtFkkIjPn4LJXoM3g2nk5cLE=;
- b=TerWYYE9ujbbNkLX1KP/NPA7FWH0FshItw90zSI9pMbk5uqbiFZ1MM1QQDmrKo4u
- rAMb/XAsXRWa62pQNLAz6zHlUwZR3MbC6jxurTeMX83dXLM9NfSw52G00wcN/CTwbCO
- PMQ2/Jg3nSuX7hYK6hUHIvctRhV44QXAwuqpEUwk=
+ bh=y1Ovbial2FYc1BrqdnC91HLquYb0VtXHNQSWJNxyGjk=;
+ b=BmE3ziSSl6JohUDLEyLx9hkQtNrVtt4pVMlwGVL5T7lxvJM9+qulfAiFSYYw0yzI
+ 3fwxlkcUnIXTr/0ZKSxEOH6JZi3QBqN3ksPmBM9Liq7TadXR7ZpSQ7C+gLKYvTj5k/O
+ QCewWX5y3RaccVFA598ES41lNj82qLKWXAv528ZQ=
 Received: from localhost.localdomain (103.250.137.206 [103.250.137.206]) by
- mx.zoho.in with SMTPS id 1659619868551234.07828767217745;
- Thu, 4 Aug 2022 19:01:08 +0530 (IST)
+ mx.zoho.in with SMTPS id 1659619867360682.4482276982302;
+ Thu, 4 Aug 2022 19:01:07 +0530 (IST)
 To: Eric Biggers <ebiggers@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  David Howells <dhowells@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  Eric Dumazet <edumazet@google.com>
-Message-ID: <cd2a10ffd8cb11c79754f43d0d20fd3cd4ba9b7e.1659618705.git.code@siddh.me>
-Subject: [PATCH 3/3] kernel/watch_queue: Remove wqueue->defunct and use pipe
- for clear check
-Date: Thu,  4 Aug 2022 19:00:24 +0530
+Message-ID: <cf470fb02971377e32564224f17897c55a374857.1659618705.git.code@siddh.me>
+Subject: [PATCH 1/3 v4] kernel/watch_queue: Remove dangling pipe reference
+ while clearing watch_queue
+Date: Thu,  4 Aug 2022 19:00:22 +0530
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1659618705.git.code@siddh.me>
 References: <cover.1659618705.git.code@siddh.me>
@@ -100,83 +103,56 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The sole use of wqueue->defunct is for checking if the watch queue has
-been cleared, but wqueue->pipe is also NULL'd while clearing.
+If not done, a reference to a freed pipe remains in the watch_queue,
+as this function is called before freeing a pipe in free_pipe_info()
+(see line 834 of fs/pipe.c).
 
-Thus, wqueue->defunct is superfluous, as wqueue->pipe can be checked
-for NULL.
+We also need to use READ_ONCE() in post_one_notification() to prevent the
+compiler from optimising and loading a non-NULL value from wqueue->pipe.
 
 Signed-off-by: Siddh Raman Pant <code@siddh.me>
 ---
- include/linux/watch_queue.h |  3 +--
- kernel/watch_queue.c        | 14 +++++---------
- 2 files changed, 6 insertions(+), 11 deletions(-)
+Changes in v4:
+- Brought the lines towards the start rather than the end.
+- Removed incorrect NULLing of wqueue->pipe->watch_queue.
+The latter was pointed out by Eric Biggers <ebiggers@kernel.org>
+in reply to v3.
 
-diff --git a/include/linux/watch_queue.h b/include/linux/watch_queue.h
-index c99c39ec6548..2a3b318db49d 100644
---- a/include/linux/watch_queue.h
-+++ b/include/linux/watch_queue.h
-@@ -55,7 +55,7 @@ struct watch_filter {
-  *
-  * @rcu: RCU head
-  * @filter: Filter on watch_notification::info
-- * @pipe: The pipe we're using as a buffer.
-+ * @pipe: The pipe we're using as a buffer, NULL when queue is cleared/closed
-  * @watches: Contributory watches
-  * @notes: Preallocated notifications
-  * @notes_bitmap: Allocation bitmap for notes
-@@ -63,7 +63,6 @@ struct watch_filter {
-  * @lock: Spinlock
-  * @nr_notes: Number of notes
-  * @nr_pages: Number of pages in notes[]
-- * @defunct: True when queues closed
-  */
- struct watch_queue {
- 	struct rcu_head		rcu;
+Changes in v3:
+- Restored the original unlock order, and clear before unlock.
+- Used READ_ONCE() in post path.
+This was explained by David Howells <dhowells@redhat.com> in
+reply to v1.
+
+Changes in v2:
+- Removed the superfluous ifdef guard.
+
+ kernel/watch_queue.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
 diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
-index 8999c4e3076d..c63b128818f4 100644
+index a6f9bdd956c3..8999c4e3076d 100644
 --- a/kernel/watch_queue.c
 +++ b/kernel/watch_queue.c
-@@ -43,7 +43,7 @@ MODULE_LICENSE("GPL");
- static inline bool lock_wqueue(struct watch_queue *wqueue)
- {
- 	spin_lock_bh(&wqueue->lock);
--	if (unlikely(wqueue->defunct)) {
-+	if (unlikely(READ_ONCE(wqueue->pipe) == NULL)) {
- 		spin_unlock_bh(&wqueue->lock);
- 		return false;
- 	}
-@@ -99,15 +99,12 @@ static bool post_one_notification(struct watch_queue *wqueue,
+@@ -99,7 +99,7 @@ static bool post_one_notification(struct watch_queue *wqueue,
  				  struct watch_notification *n)
  {
  	void *p;
--	struct pipe_inode_info *pipe = READ_ONCE(wqueue->pipe);
-+	struct pipe_inode_info *pipe = wqueue->pipe;
+-	struct pipe_inode_info *pipe = wqueue->pipe;
++	struct pipe_inode_info *pipe = READ_ONCE(wqueue->pipe);
  	struct pipe_buffer *buf;
  	struct page *page;
  	unsigned int head, tail, mask, note, offset, len;
- 	bool done = false;
+@@ -606,6 +606,9 @@ void watch_queue_clear(struct watch_queue *wqueue)
+ 	/* Prevent new notifications from being stored. */
+ 	wqueue->defunct = true;
  
--	if (!pipe)
--		return false;
--
- 	spin_lock_irq(&pipe->rd_wait.lock);
- 
- 	mask = pipe->ring_size - 1;
-@@ -603,10 +600,9 @@ void watch_queue_clear(struct watch_queue *wqueue)
- 	rcu_read_lock();
- 	spin_lock_bh(&wqueue->lock);
- 
--	/* Prevent new notifications from being stored. */
--	wqueue->defunct = true;
--
--	/* This pipe will get freed by caller, and we are anyways clearing. */
-+	/* This pipe will get freed by the caller free_pipe_info().
-+	 * Removing this reference also prevents new notifications.
-+	 */
- 	wqueue->pipe = NULL;
- 
++	/* This pipe will get freed by caller, and we are anyways clearing. */
++	wqueue->pipe = NULL;
++
  	while (!hlist_empty(&wqueue->watches)) {
+ 		watch = hlist_entry(wqueue->watches.first, struct watch, queue_node);
+ 		hlist_del_init_rcu(&watch->queue_node);
 -- 
 2.35.1
 
