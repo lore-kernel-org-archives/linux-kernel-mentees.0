@@ -1,98 +1,82 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 10FAEC19F2D
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  4 Aug 2022 08:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60B71C19F2D
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  4 Aug 2022 13:31:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 75906409F6;
-	Thu,  4 Aug 2022 08:40:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 75906409F6
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=T0BsybSA
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HtJELAt31D4k; Thu,  4 Aug 2022 08:40:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 77BBE4035F;
-	Thu,  4 Aug 2022 08:40:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 77BBE4035F
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F706C0033;
-	Thu,  4 Aug 2022 08:40:21 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A651AC002D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  4 Aug 2022 08:40:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7A84260C02
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  4 Aug 2022 08:40:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7A84260C02
+	by smtp3.osuosl.org (Postfix) with ESMTP id DA33261045;
+	Thu,  4 Aug 2022 13:31:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DA33261045
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=T0BsybSA
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=Vyp62Aw6
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NOX2D0Upopht; Thu,  4 Aug 2022 13:31:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id EB30261006;
+	Thu,  4 Aug 2022 13:31:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EB30261006
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C898DC0032;
+	Thu,  4 Aug 2022 13:31:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 68B2BC0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Aug 2022 13:31:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3089561016
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Aug 2022 13:31:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3089561016
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uIgM-_JtBB5X
+ with ESMTP id fg8x4v1ueH08
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  4 Aug 2022 08:40:15 +0000 (UTC)
+ Thu,  4 Aug 2022 13:31:19 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A752560ADC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D7E4D61006
 Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A752560ADC
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D7E4D61006
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  4 Aug 2022 08:40:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1659602405; cv=none; d=zohomail.in; s=zohoarc; 
- b=HRa3cgBUGDhLJOtXf2p82GY0rr1az36E7wc+47StGrLH24UiWFXG02fYWxBaIkRwq4b6HktX88yLGouzmORH98fcPv34XoxZSUkd9ALyKhkdMrO6IavL66N9GhRKAv9CeB+KaSf+fozh9nMccDG2w7ZB7oGgZar3TWS9XP8bbEc=
+ Thu,  4 Aug 2022 13:31:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1659619868; cv=none; d=zohomail.in; s=zohoarc; 
+ b=SZw+8XMbXUhCC9M5zws+UTT4BnqMIiledxtl9zcqM91/pPLeB1UzprgJoS+bXuMSxmjVR/0lTawbBopGawupmsXMbgrse4H0Ty0a3g4ql76W/5ykBkw0P9S3/1JT1JeTdQIAhjdGlVJtfqmpb5cLpJ+dRkHWytGyyqAGbxpMNPo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1659602405;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=r2MuNRxKA7fyF0B0LyObbHN/r25kRQ6vAlitFSyZznY=; 
- b=M45y1dKNyTY6JZnb43I7pv82XRyC3YLpg0KUU3Z2jYxw4jUzWFL3SRIhgb1YgsCzgrEqGtum2r95MDP7DKrwTAXsGA2hMLk9Yil1KwgTRC7vfKSgk51gpve5kIJ8/hqq6eOqzK1kBfWKlkQGLz0Il1YEdPLhawnMXipl5Cj0pUo=
+ s=zohoarc; t=1659619868;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=Mkouf4SEWTVHaF7w1SKVoF67Ydf5Jf61GjhuLviyvJI=; 
+ b=f1CWY6eayz5V5C9qgyTnEBauougLevVyN+HAyBc1ycM5g3+oddudC54vSThdy/VAxGansevU66EONexIyeD9/t04T8ANaNiteOEoedk0HnYKuhnhMWvSAx9MXQDsqwPIZdOjcaqEfAWxMU3lp7JyrgMJgtoS24QYE3Sf/jE7xcw=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659602405; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659619868; 
  s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=r2MuNRxKA7fyF0B0LyObbHN/r25kRQ6vAlitFSyZznY=;
- b=T0BsybSAEPB/jwKl7nOSOJlUl9RcaSNLbHjm5I6vh4QRQfBm0T0UuTdRR9LJmJMt
- jtJKYRrEWjDEh0edLVRQFLlYfJySlysO818hkuy3jjbnaGZPjWFIsUtZeVTL805Txbj
- d57YVkn/WeDCN0HwAykHwjczjl1VaQ3Ln1wL5zdU=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1659602376436867.9051997344565;
- Thu, 4 Aug 2022 14:09:36 +0530 (IST)
-Date: Thu, 04 Aug 2022 14:09:36 +0530
-To: "Eric Biggers" <ebiggers@kernel.org>
-Message-ID: <182680296de.8276ed8742454.8804921618540697946@siddh.me>
-In-Reply-To: <Yuq7Q//SH/HjLsxH@gmail.com>
-References: <20220728155121.12145-1-code@siddh.me>
- <YunKlJCDlmyn2hJ4@sol.localdomain>
- <18261d8a63a.33799d2a402802.7512018232560408914@siddh.me>
- <Yun1rC59USrgd0fu@sol.localdomain>
- <182621f8dca.1e0e6161130907.1470656861897824669@siddh.me>
- <YuoKi0GigXm/Hcb+@sol.localdomain>
- <18262dcb20e.4bf31faa421018.1228982721921458740@siddh.me>
- <Yuq7Q//SH/HjLsxH@gmail.com>
-Subject: Re: [PATCH v3] kernel/watch_queue: Make pipe NULL while clearing
- watch_queue
-MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: syzbot+c70d87ac1d001f29a058
- <syzbot+c70d87ac1d001f29a058@syzkaller.appspotmail.com>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- linux-security-modules <linux-security-module@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- David Howells <dhowells@redhat.com>, Eric Dumazet <edumazet@google.com>,
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=Mkouf4SEWTVHaF7w1SKVoF67Ydf5Jf61GjhuLviyvJI=;
+ b=Vyp62Aw68XEUvrRYpXNy938pR6kpxx37ANsObBuIItdFBuDtb+PFlHVe44b8dllE
+ ESyFabbj6UnW/wnj6WsSrH5dZUZmtSfQVVttL2R135evsr901ge8kBxEsSPUzHiK+XO
+ XkvyHCxv2TcJrSnCVhsKfgGBq1CuxbHDSZZnAJpQ=
+Received: from localhost.localdomain (103.250.137.206 [103.250.137.206]) by
+ mx.zoho.in with SMTPS id 1659619866703572.7773396291667;
+ Thu, 4 Aug 2022 19:01:06 +0530 (IST)
+To: Eric Biggers <ebiggers@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ David Howells <dhowells@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+ Eric Dumazet <edumazet@google.com>
+Message-ID: <cover.1659618705.git.code@siddh.me>
+Subject: [PATCH 0/3] kernel/watch_queue: Clean up some code
+Date: Thu,  4 Aug 2022 19:00:21 +0530
+X-Mailer: git-send-email 2.35.1
+MIME-Version: 1.0
+X-ZohoMailClient: External
+Cc: linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,40 +97,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 03 Aug 2022 23:45:31 +0530  Eric Biggers  wrote:
-> Well, you should try listening instead.  Because you are not listening.
+There is a dangling reference to pipe in a watch_queue after clearing it.
+Thus, NULL that pointer while clearing. This can be thought of as a v4 of
+the patches I had sent earlier.
 
-Sorry for that, never meant to come across like that.
+This change renders wqueue->defunct superfluous, as the latter is only used
+to check if watch_queue is cleared. With this change, the pipe is NULL'd
+while clearing, so we can just check if the pipe is NULL.
 
-> Even if wqueue->pipe was set to NULL during free_pipe_info(), there would still
-> have been a use-after-free, as the real bug was the lack of synchronization
-> between post_one_notification() and free_pipe_info().  That is fixed now.
+Extending comment for watch_queue->pipe in the definition of watch_queue
+made the comment conventionally too long (it was already past 80 chars),
+so I have changed the struct annotations to be doxygen-styled, so that
+I can extend the comment mentioning that the pipe is NULL when watch_queue
+is cleared.
 
-Okay, noted.
+Siddh Raman Pant (3):
+  kernel/watch_queue: Remove dangling pipe reference while clearing
+    watch_queue
+  kernel/watch_queue: Improve struct annotation formatting
+  kernel/watch_queue: Remove wqueue->defunct and use pipe for clear
+    check
 
-> To re-iterate, I encourage you to send a cleanup patch if you see an
-> opportunity.  It looks like the state wqueue->defunct==true could be replaced
-> with wqueue->pipe==NULL, which would be simpler, so how about doing that?  Just
-> don't claim that it is "fixing" something, unless it is, as that makes things
-> very confusing and difficult for everyone.
+ include/linux/watch_queue.h | 95 +++++++++++++++++++++++++++----------
+ kernel/watch_queue.c        | 11 ++---
+ 2 files changed, 75 insertions(+), 31 deletions(-)
 
-Okay, I will do that. That actually seems like a plausible thing to do, in
-v2 convo, David Howells had also remarked similarly about `defunct` to a reply.
+-- 
+2.35.1
 
-https://lore.kernel.org/linux-kernel/3565221.1658933355@warthog.procyon.org.uk/
 
-> A reproducer can just be written as a normal program, in C or another language.
-> The syzkaller reproducers are really hard to read as they are auto-generated, so
-> don't read too much into them -- they're certainly not examples of good code.
-> 
-> - Eric
-
-Okay, noted.
-
-Thanks for your patience, I probably annoyed you.
-
-Thanks,
-Siddh
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
