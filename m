@@ -4,103 +4,95 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C2AEFC3F6B0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Aug 2022 06:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BF35C19F2D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Aug 2022 06:39:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 49D988294A;
-	Fri,  5 Aug 2022 06:29:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 49D988294A
+	by smtp1.osuosl.org (Postfix) with ESMTP id CB1B582AC8;
+	Fri,  5 Aug 2022 06:39:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CB1B582AC8
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Sxdyg77b
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=pg/8JT7U
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hv7BCNTV4g4W; Fri,  5 Aug 2022 06:29:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5D92D829FD;
-	Fri,  5 Aug 2022 06:29:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5D92D829FD
+	with ESMTP id XFXVFxrqOoSU; Fri,  5 Aug 2022 06:39:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 742348291A;
+	Fri,  5 Aug 2022 06:39:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 742348291A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 343B8C0032;
-	Fri,  5 Aug 2022 06:29:28 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 57B2EC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2DB13C0032;
+	Fri,  5 Aug 2022 06:39:26 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 374E2C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 06:29:27 +0000 (UTC)
+ Fri,  5 Aug 2022 06:39:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 319DA6F937
+ by smtp4.osuosl.org (Postfix) with ESMTP id 1CDFE41888
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 06:29:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 319DA6F937
-Authentication-Results: smtp3.osuosl.org;
+ Fri,  5 Aug 2022 06:39:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1CDFE41888
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=Sxdyg77b
+ header.a=rsa-sha256 header.s=20210112 header.b=pg/8JT7U
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 47DvR76yUegr
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id x41X2RBqvQph
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 06:29:26 +0000 (UTC)
+ Fri,  5 Aug 2022 06:39:23 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7B6896F936
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7B6896F936
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6EC5F41881
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com
+ [IPv6:2607:f8b0:4864:20::1135])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6EC5F41881
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 06:29:26 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id
- q9-20020a17090a2dc900b001f58bcaca95so590896pjm.3
+ Fri,  5 Aug 2022 06:39:23 +0000 (UTC)
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-32194238c77so16053237b3.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 04 Aug 2022 23:29:26 -0700 (PDT)
+ Thu, 04 Aug 2022 23:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=66sTXdJI9D/uDofdTmj8j7tOsf58bY5fHMNycNv2J+8=;
- b=Sxdyg77bcCLSPX470DdsbQZEx5dV699VcOaq5ukagYnFSrvwC6HCy6vHuf29m2kzp6
- 6jlO5vrBv6NObDGMAjeraj5FLjwX4Tp57UVpDYadL+P63SZnQR2VEepuzrElBjCWGE8/
- +V6pk4L1PxDZwIuzbVDBKMz6WLi0M1IjfDen82CXXNhEWXDk+qM9p/pLtMdIvmNo2PJT
- WHk8uGpaVfr3eJ9XKUIyyzUTYWXCgzKqEwS5ozEO9N/nS/wbPBA5xXHiRKnxWY9Wzagj
- Tv9LS/prQ9/4JbanwL3geBEP5n6WIzJHm3X1kW3HTTAuocL1BTGLHwnPRpnzbUWWbSQl
- ZW9A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=+HMohhGyweMhIzKHTWtejYZYutFOLonOQxMpd/tWt8Q=;
+ b=pg/8JT7UyuGlPrRJ+2LQobjUgAuAQY9r2cQ+sQ99VOxFCABKbl7evpB9/VIboXfvyD
+ /s5WzUibPd6EcMYaKgsYP8v/FYnStcvUZnXx9W32Nm9oHP38obULIw1a8gPaMGdvfQPz
+ n8kGXGkb4/8PAqxslzf2NLw6jVF8vvjwHA0ectmf8uqxbzSqrQebxCwy3kKswqwHbcz0
+ zM1qq3HrhhvrtxlVvdTui4k3vZZMsBYRAfQFozSfCSnoBsmCOP664Ez0jqIJhn5/uYlb
+ ABnNfaXS+SimrG4cBqw9Tte6gzVkS/0F+5mcqMnJYAGHkc5+zphl+Yq10Pm/EL7zBFLO
+ fy3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=66sTXdJI9D/uDofdTmj8j7tOsf58bY5fHMNycNv2J+8=;
- b=vTEfbjzJIQbU9X033vk2De/zUbaampEfECmTzOziCnKmLoc1uvhhfsU5ADAsrJnZzJ
- eAvGHUIW+kUTB26BuKwJnTnjER2xM67/Lj/SMsAe8Zz/3RmPDqkpszvOcrLDVdNV3Q9F
- caR8H4Orga3PqKTj7tbsiIQ4Stpq9ABTtp0Foe0G+CVMvc/4D/qoBCQTmfLWpUJmfo/8
- GVUlEft8yO7ptlx72jFnnaZpQCZB3F12RtM4zmdM3vPyCPbPpMiDjzURyqP7YUG68ro6
- OYGpHvKh6BnJfgz3B6lwQAhrR04bjidKlg7M/c818e++m99jOC2uSrwlUeEhJpRLbrxk
- BlIQ==
-X-Gm-Message-State: ACgBeo197PcqiTUlbPXGWg3az7gBhHJIRFMsazwe8sxJLA8MRmyQZpeg
- 89zvTJj2/TPP/6jsizC7zEs=
-X-Google-Smtp-Source: AA6agR6UmBwWOgZYHRJ2y4V+wTp2HKx/I92yQS+ZTaDQ6QxXZrn2yn1rC0fWpJKkVCxNVmTpSak5dw==
-X-Received: by 2002:a17:90a:558f:b0:1f5:bbc:c58e with SMTP id
- c15-20020a17090a558f00b001f50bbcc58emr14305788pji.102.1659680965733; 
- Thu, 04 Aug 2022 23:29:25 -0700 (PDT)
-Received: from localhost ([117.136.0.155]) by smtp.gmail.com with ESMTPSA id
- m17-20020a170902d19100b0016d83ed0a2csm2056223plb.80.2022.08.04.23.29.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Aug 2022 23:29:25 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: kuba@kernel.org
-Subject: Re: [PATCH v4] net: fix refcount bug in sk_psock_get (2)
-Date: Fri,  5 Aug 2022 14:28:44 +0800
-Message-Id: <20220805062844.89787-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220804082913.5dac303c@kernel.org>
-References: <20220804082913.5dac303c@kernel.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=+HMohhGyweMhIzKHTWtejYZYutFOLonOQxMpd/tWt8Q=;
+ b=Q545BLd4JEJdsB04adHR+x7iemx6gkvN+w60QnKFPvf9dQyoImDVYwgae8TSdkb5Bn
+ SWr0rXKGVg3JbP4NRIlEiHYCL2bEyrzwPgdsEwL6S8R8fZcRRGNkv3zZFRspQtHVt5Hw
+ lvUL3KRMrLwjthccIdCK5PBtlR/cqSmGavn7WQirp9WsfgdkxGNw3ruPTlm1xxFuFfqm
+ rSWsGL3rRA7tuBUpDjv8TIN7I7bQkw8e+s54Exd0MQ81v9K6NGeUI/hJ7t+cXPS3H27+
+ WNQkcgXqhL6SL9gSo1l+E2eAGTyvU3IWgGr9PthEMwLQZVhvEqgoVhXj/rXhP9pwJq68
+ iFyg==
+X-Gm-Message-State: ACgBeo2wBZP1UreitnVKXqJ15kXYnrsANWxFu1qt9qc9jxqQaxDGP1eW
+ hMSppDfoAYEb1NdnKoxdWnB2u35Vju9XjTlFgeEhfwA5n0I=
+X-Google-Smtp-Source: AA6agR6WkscG/ILZIJPc9ZQv0+GfINu9/9mcuZD/iEHyJmSlIsbOHQ8yztEQvir74orenW4wu/nU0ltvY3fqGmYdkxA=
+X-Received: by 2002:a81:7702:0:b0:328:297a:fdcb with SMTP id
+ s2-20020a817702000000b00328297afdcbmr4653126ywc.335.1659681562232; Thu, 04
+ Aug 2022 23:39:22 -0700 (PDT)
 MIME-Version: 1.0
-Cc: songliubraving@fb.com, ast@kernel.org, edumazet@google.com,
- jakub@cloudflare.com, daniel@iogearbox.net, davem@davemloft.net,
- borisp@nvidia.com, paskripkin@gmail.com, john.fastabend@gmail.com,
- andrii@kernel.org, yhs@fb.com, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com, yin31149@gmail.com,
- syzkaller-bugs@googlegroups.com, kpsingh@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, kgraul@linux.ibm.com, guwen@linux.alibaba.com,
- bpf@vger.kernel.org, kafai@fb.com
+References: <20220724214100.593287-1-mazinalhaddad05@gmail.com>
+In-Reply-To: <20220724214100.593287-1-mazinalhaddad05@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 5 Aug 2022 08:39:11 +0200
+Message-ID: <CAKXUXMyQgNQf9O5Dvok7LCg-8nmk6LwTHbiew1q+anup=OkrMQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: dvb-usb: fix memory leak in
+ dvb_usb_adapter_init()
+To: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+Cc: linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,28 +110,184 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 4 Aug 2022 at 23:29, Jakub Kicinski <kuba@kernel.org> wrote:
+On Sun, Jul 24, 2022 at 11:42 PM Mazin Al Haddad
+<mazinalhaddad05@gmail.com> wrote:
 >
-> On Thu,  4 Aug 2022 11:05:15 +0800 Hawkins Jiawei wrote:
-> > I wonder if it is proper to gather these together in a patchset, for
-> > they are all about flags in sk_user_data, maybe:
-> >
-> > [PATCH v5 0/2] net: enhancement to flags in sk_user_data field
-> >       - introduce the patchset
-> >
-> > [PATCH v5 1/2] net: clean up code for flags in sk_user_data field
-> >       - refactor the things in include/linux/skmsg.h and
-> > include/net/sock.h
-> >       - refactor the flags's usage by other code, such as
-> > net/core/skmsg.c and kernel/bpf/reuseport_array.c
-> >
-> > [PATCH v5 2/2] net: fix refcount bug in sk_psock_get (2)
-> >       - add SK_USER_DATA_PSOCK flag in sk_user_data field
+> Fix a memory leak in dvb_usb_adapter_init() reported by syzkaller. The
+> problem is due to the error path exiting before incrementing
+> num_adapters_initalized, which is used as a reference counter to free
+> adapter's private data. There are multiple error paths that
+> dvb_usb_adapter_init() can exit from before incrementing the counter,
+> which lead to a memory leak as the current iteration is not accounted for.
+> Fix this by freeing the current iteration's adap->priv in each of the
+> error paths.
 >
-> Usually the fix comes first, because it needs to be backported to
-> stable, and we don't want to have to pull extra commits into stable
-> and risk regressions in code which was not directly involved in the bug.
-Ok, I got it. Thanks for the explanation.
+> Syz Report:
+> BUG: memory leak
+> unreferenced object 0xffff8881172f1a00 (size 512):
+>   comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
+>   hex dump (first 32 bytes):
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
+>     [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
+>     [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
+>     [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
+>     [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+>     [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+>     [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+>     [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+>     [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+>     [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
+>     [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
+>     [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
+>     [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
+>     [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
+>     [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
+>     [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
+>     [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+>     [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+>     [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
+>     [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
+>     [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
+>     [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+>
+> Link: https://syzkaller.appspot.com/bug?id=4d54f8bf7b98eecf6cd76ed5aaea883c5d9e502a
+> Reported-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
+> Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+> ---
+>
+> Changes in v2:
+> - Remove variable that is used to refcount and instead free current
+>   iteration private data.
+>
+>  drivers/media/usb/dvb-usb/dvb-usb-init.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> index 61439c8f33ca..69520d7ca25d 100644
+> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> @@ -80,16 +80,22 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+>                 }
+>
+>                 ret = dvb_usb_adapter_stream_init(adap);
+> -               if (ret)
+> +               if (ret) {
+> +                       kfree(adap->priv);
+>                         return ret;
+> +               }
+>
+>                 ret = dvb_usb_adapter_dvb_init(adap, adapter_nrs);
+> -               if (ret)
+> +               if (ret) {
+> +                       kfree(adap->priv);
+>                         goto dvb_init_err;
+> +               }
+>
+>                 ret = dvb_usb_adapter_frontend_init(adap);
+> -               if (ret)
+> +               if (ret) {
+> +                       kfree(adap->priv);
+>                         goto frontend_init_err;
+> +               }
+>
+>                 /* use exclusive FE lock if there is multiple shared FEs */
+>                 if (adap->fe_adap[1].fe)
+> @@ -112,6 +118,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
+>
+>  frontend_init_err:
+>         dvb_usb_adapter_dvb_exit(adap);
+> +       return ret;
+>  dvb_init_err:
+>         dvb_usb_adapter_stream_exit(adap);
+>         return ret;
+
+Mazin,
+
+I did not review if this patch is right semantically, but concerning
+how to write and to modify error handling paths, there are a few
+questions and potential improvements for your patch:
+
+Before your patch,  dvb_usb_adapter_init() had three exit paths:
+
+- an early return when dvb_usb_adapter_stream_init() fails
+- a path to label dvb_init_err when dvb_usb_adapter_dvb_init() fails
+- a path to label frontend_init_err when dvb_usb_adapter_stream_exit() fails
+
+When dvb_usb_adapter_stream_exit() fails, the operations needed to
+roll back dvb_usb_adapter_dvb_init() were also needed.
+In other words, the execution path from frontend_init_err continues
+into the operations of the label dvb_init_err and does not just
+return.
+
+With your patch, you changed this:
+
+Why do you now not need to call dvb_usb_adapter_stream_exit() in the
+frontend_init_err case?
+
+Now, a simple syntactic and stylistic improvement to consider:
+
+You would like to have a kfree on all three error paths, rather than
+adding them three times you could just add them once. I have not
+checked if kfree(...) needs to be called before
+dvb_usb_adapter_dvb_exit() and dvb_usb_adapter_stream_exit(), or if it
+is fine to just call it after. Usually, this patch below implements a
+pretty standard pattern, though:
+
+diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+index 61439c8f33ca..58eea8ab5477 100644
+--- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
++++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+@@ -81,7 +81,7 @@ static int dvb_usb_adapter_init(struct
+dvb_usb_device *d, short *adapter_nrs)
+
+                ret = dvb_usb_adapter_stream_init(adap);
+                if (ret)
+-                       return ret;
++                       goto stream_init_err;
+
+                ret = dvb_usb_adapter_dvb_init(adap, adapter_nrs);
+                if (ret)
+@@ -114,6 +114,8 @@ static int dvb_usb_adapter_init(struct
+dvb_usb_device *d, short *adapter_nrs)
+        dvb_usb_adapter_dvb_exit(adap);
+ dvb_init_err:
+        dvb_usb_adapter_stream_exit(adap);
++stream_init_err:
++       kfree(adap->priv);
+        return ret;
+ }
+
+
+I hope this helps a bit in your work.
+
+
+Just another hint:
+
+It might help if you can describe how somebody else (e.g., another
+mentee) can trigger the memory leak without your patch and see it
+being gone with your patch applied:
+
+Provide the kernel config (better even just the fragment needed), the
+link to a rootfs, the exact qemu command and the C reproducer.
+
+Then ask other mentees to test before and after the application of
+your patch and report their results. It is perfectly fine to ask
+others in the community to help you---they will help if they know you
+will help them in the future as well. The simpler the task and the
+better the task needed for testing is described, the higher chances
+that somebody may help here.
+
+In the end that interaction among mentees will also convince the
+maintainers (in this case: Mauro) that picking this patch into his
+tree is the right thing to do.
+
+Good luck.
+
+Lukas
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
