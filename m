@@ -4,94 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2625DC25B08
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Aug 2022 07:37:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EFF20C00140
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  5 Aug 2022 07:48:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AD9FD8341E;
-	Fri,  5 Aug 2022 07:37:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AD9FD8341E
+	by smtp1.osuosl.org (Postfix) with ESMTP id 837D9812E1;
+	Fri,  5 Aug 2022 07:48:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 837D9812E1
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=XhBBP6F6
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=eGEcg3HV
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qoBFFBjUXJ06; Fri,  5 Aug 2022 07:37:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BDB6083300;
-	Fri,  5 Aug 2022 07:37:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BDB6083300
+	with ESMTP id s2V9Df4IXUaS; Fri,  5 Aug 2022 07:48:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 3E5088128F;
+	Fri,  5 Aug 2022 07:48:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3E5088128F
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83359C0033;
-	Fri,  5 Aug 2022 07:37:20 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BEEFAC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 16316C0033;
+	Fri,  5 Aug 2022 07:48:49 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 94FB5C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 07:37:18 +0000 (UTC)
+ Fri,  5 Aug 2022 07:48:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 852D641CD2
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6966B60E32
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 07:37:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 852D641CD2
-Authentication-Results: smtp4.osuosl.org;
+ Fri,  5 Aug 2022 07:48:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6966B60E32
+Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=XhBBP6F6
+ header.a=rsa-sha256 header.s=20210112 header.b=eGEcg3HV
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id A1sdEPFOmJn8
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RmQtJ_g5Kjtf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 07:37:17 +0000 (UTC)
+ Fri,  5 Aug 2022 07:48:47 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9AECA41CC7
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 9AECA41CC7
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 635F560D79
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 635F560D79
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  5 Aug 2022 07:37:17 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id z19so1975843plb.1
+ Fri,  5 Aug 2022 07:48:47 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id d16so1952528pll.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 05 Aug 2022 00:37:17 -0700 (PDT)
+ Fri, 05 Aug 2022 00:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=FaDd+LzIj5iLUBrDGb+n83PYJvxLCIFQVAAzY4PoSgk=;
- b=XhBBP6F6NzSSGpBbC3Qr0i4t8FDpstx+oB1ZK17xY0wdAv97sZbC+uFiJPa8BTCUdF
- ijwFAyY8W8/tyzJUfFe5s8LJisc8t9l0bQdhxl0GpDh9w1VvbN043QNaaj6ToJEGHLGn
- oBAr0b0CARjT8inWeVR4DdluMpvyo3QutR03fGDvPeNafYOdUO6lcKgBhpW9oHdBS/dL
- D288zlvGYf/FOUkEAKMMtlgJ36pb27bl1XTlwJ5HAAqnKg8bKpr5+dD7+BV5vhSN+OJW
- lV5l7OakAfDUEIPCPyPN1EibMUQE/WXQqqXgr55znvuFdu8MVivOwqr//W6BrCzV1svr
- 98Ow==
+ bh=7UBWNlO3fLQxQeZLzmYhtN9S9nLT0WpSVtJngbc+X2w=;
+ b=eGEcg3HVdqx+0OUna1SJ8l7FDJ0Wai0IltIGS84nmsXrLOzxepd7XFK6P9qZS4aXJR
+ QVz+CAPB37lfcElohvPaTg1sa8OAOkILxUC6zBVeuPkS2pBUlj1xKAy+A/CeP5mqgga4
+ qoG2FxfRqAZ6tcLVjAbZHFk/ycc5l53Xh7t23Kd8nCyOTd7GBtF2Tp9HXxMI0EGC+wJo
+ CrFaoWRlhawGqZAS7C+dgU5OSApVOKUaH98G54TBqhuP+mGuU4sLBDinKJ3+poqPzLju
+ Yjz6NEYvKjREhoq6WFqV9vbp3jHvlk0bqWAQa1l/aTP06cMq+LuY4SRDCjHzzESXLyGr
+ wGtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=FaDd+LzIj5iLUBrDGb+n83PYJvxLCIFQVAAzY4PoSgk=;
- b=7241XRf/tFuxICI1JxPiIDobkmMwl5q+iapvujTJza1uZxRHdHfnn6WbZv9gpeBPUd
- qaf+npVdEqo4U+wj8pCsBUAWTz30FGKKJDlBMlbpB52M+4EOVdtkQdk4y6bBytGTItJe
- GRdIzfUFGpXD9pDvsVjGQWO6d3DcT2SDUVdm7F7sQtH17Ked2GjHElJCmR0wAjfKzwhK
- lQ/tNDNnj0YunFN2BAKCThH1z7fVdA9Bacq4AbuHoKPCdtihKyMH4mTJP/15XHtnykc6
- szR+yFFF4oInQAgeeEzfT1X42Tm+drG0cG9nykdnS8iDaxTbHmCMh273IUtR/oy6a9NL
- 454w==
-X-Gm-Message-State: ACgBeo22RgXoHHKOsvSeor78KfyzaDSCTjS6LNbQ8XiZOAhGpVPBI3R3
- seIqree3C3PZKJJm0FQ+FVY=
-X-Google-Smtp-Source: AA6agR6aXUqXhkZ84+pJdqBEbVO0712xP8TGTnR2og+zd4XNEDcabte56LnhHtREQeehcE9x8oJuWA==
-X-Received: by 2002:a17:902:f785:b0:16a:4f3b:a20c with SMTP id
- q5-20020a170902f78500b0016a4f3ba20cmr5629511pln.118.1659685036933; 
- Fri, 05 Aug 2022 00:37:16 -0700 (PDT)
+ bh=7UBWNlO3fLQxQeZLzmYhtN9S9nLT0WpSVtJngbc+X2w=;
+ b=kV7qrZmIKRfOf1RCQ2Wyo/ub11/jFKuqSBHfo3g6f5E7rcfy6JERvlFLYJx4gIgA+o
+ 7hW2t0zbwRiY6mqwhvsAtKngpNpDj0gLksPTkj88zYFgxEU55cChr6lVsxpB1PIepxrL
+ oFFWxNgEgCb+haaLOuNFKjz6pHsShNSaaE5yTgjuotkYzXDYnDXr64tmsLUyb1EWFtJY
+ WX2LiAc5HzpomIf8L7+MerdF61cJRMY96GV/ijRnL8HmHccLcaw58T7Mkg6sNQy9/3bi
+ 8blsiLojIux5jufZT0drg8yqBBk0EZ7XArfxbtl6FQlvJI4oRJXNknz5yA1IPXc0uIM1
+ 0BqA==
+X-Gm-Message-State: ACgBeo1Aks5pdsU3vwR3DD+nxKAXpIrXHsXjxkIA3aNuE6dyH9t35/Gx
+ tcNdUH8Plq5jaAZ4w5G42Bo=
+X-Google-Smtp-Source: AA6agR6v4QLqjaMArP3sGgtyrw+Fmdy7UThiHNXhJHmkKvwTz+wx+iDMM6m/R7il/6yPKy41XuxL7w==
+X-Received: by 2002:a17:90b:508a:b0:1f3:3a77:4fde with SMTP id
+ rt10-20020a17090b508a00b001f33a774fdemr6262387pjb.130.1659685726683; 
+ Fri, 05 Aug 2022 00:48:46 -0700 (PDT)
 Received: from localhost ([117.136.0.155]) by smtp.gmail.com with ESMTPSA id
- a5-20020a17090a008500b001f559e00473sm3228861pja.43.2022.08.05.00.37.14
+ u13-20020a170902714d00b0016d2f0b67e0sm2158889plm.309.2022.08.05.00.48.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Aug 2022 00:37:16 -0700 (PDT)
+ Fri, 05 Aug 2022 00:48:46 -0700 (PDT)
 From: Hawkins Jiawei <yin31149@gmail.com>
-To: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
-Subject: [PATCH net v5 0/2] net: enhancements to sk_user_data field
-Date: Fri,  5 Aug 2022 15:36:48 +0800
-Message-Id: <cover.1659676823.git.yin31149@gmail.com>
+To: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com,
+ John Fastabend <john.fastabend@gmail.com>,
+ Jakub Sitnicki <jakub@cloudflare.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Subject: [PATCH net v5 1/2] net: fix refcount bug in sk_psock_get (2)
+Date: Fri,  5 Aug 2022 15:48:34 +0800
+Message-Id: <785e4e5b6f7375c3e7d7cfb169d34852c1380587.1659676823.git.yin31149@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <00000000000026328205e08cdbeb@google.com>
-References: <00000000000026328205e08cdbeb@google.com>
+In-Reply-To: <cover.1659676823.git.yin31149@gmail.com>
+References: <cover.1659676823.git.yin31149@gmail.com>
 MIME-Version: 1.0
-Cc: paskripkin@gmail.com, Hawkins Jiawei <yin31149@gmail.com>,
+Cc: paskripkin@gmail.com, linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ Wen Gu <guwen@linux.alibaba.com>, Hawkins Jiawei <yin31149@gmail.com>,
  bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -110,9 +116,9 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patchset fixes refcount bug by adding SK_USER_DATA_PSOCK flag bit in
-sk_user_data field. The bug cause following info:
-
+Syzkaller reports refcount bug as follows:
+------------[ cut here ]------------
+refcount_t: saturated; leaking memory.
 WARNING: CPU: 1 PID: 3605 at lib/refcount.c:19 refcount_warn_saturate+0xf4/0x1e0 lib/refcount.c:19
 Modules linked in:
 CPU: 1 PID: 3605 Comm: syz-executor208 Not tainted 5.18.0-syzkaller-03023-g7e062cda7d90 #0
@@ -141,19 +147,182 @@ CPU: 1 PID: 3605 Comm: syz-executor208 Not tainted 5.18.0-syzkaller-03023-g7e062
  entry_SYSCALL_64_after_hwframe+0x46/0xb0
  </TASK>
 
-To improve code maintainability, this patchset refactors sk_user_data
-flags code to be more generic.
+During SMC fallback process in connect syscall, kernel will
+replaces TCP with SMC. In order to forward wakeup
+smc socket waitqueue after fallback, kernel will sets
+clcsk->sk_user_data to origin smc socket in
+smc_fback_replace_callbacks().
 
-Hawkins Jiawei (2):
-  net: fix refcount bug in sk_psock_get (2)
-  net: refactor bpf_sk_reuseport_detach()
+Later, in shutdown syscall, kernel will calls
+sk_psock_get(), which treats the clcsk->sk_user_data
+as psock type, triggering the refcnt warning.
 
- include/linux/skmsg.h        |  3 +-
- include/net/sock.h           | 68 +++++++++++++++++++++++++-----------
- kernel/bpf/reuseport_array.c |  9 ++---
- net/core/skmsg.c             |  4 ++-
- 4 files changed, 56 insertions(+), 28 deletions(-)
+So, the root cause is that smc and psock, both will use
+sk_user_data field. So they will mismatch this field
+easily.
 
+This patch solves it by using another bit(defined as
+SK_USER_DATA_PSOCK) in PTRMASK, to mark whether
+sk_user_data points to a psock object or not.
+This patch depends on a PTRMASK introduced in commit f1ff5ce2cd5e
+("net, sk_msg: Clear sk_user_data pointer on clone if tagged").
+
+For there will possibly be more flags in the sk_user_data field,
+this patch also refactor sk_user_data flags code to be more generic
+to improve its maintainability.
+
+Reported-and-tested-by: syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com
+Suggested-by: Jakub Kicinski <kuba@kernel.org>
+Acked-by: Wen Gu <guwen@linux.alibaba.com>
+Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+---
+v4 -> v5:
+  - add more info about SK_USER_DATA_BPF in comment
+  - correct the function definition format
+  - generalize rcu_deference_sk_user_data_psock() into
+__rcu_deference_sk_user_data_with_flags()
+
+v3 -> v4:
+  - change new subject
+  - fix diff content, which has been edit accidentally
+
+v2 -> v3:
+  - use SK_USER_DATA_PSOCK instead of SK_USER_DATA_NOTPSOCK
+to patch the bug
+  - refactor the code on assigning to sk_user_data field
+in psock part
+  - refactor the code on getting and setting the flag
+with sk_user_data field
+
+v1 -> v2:
+  - add bit in PTRMASK to patch the bug
+
+ include/linux/skmsg.h |  3 +-
+ include/net/sock.h    | 68 ++++++++++++++++++++++++++++++-------------
+ net/core/skmsg.c      |  4 ++-
+ 3 files changed, 53 insertions(+), 22 deletions(-)
+
+diff --git a/include/linux/skmsg.h b/include/linux/skmsg.h
+index c5a2d6f50f25..c5bdc5975a5c 100644
+--- a/include/linux/skmsg.h
++++ b/include/linux/skmsg.h
+@@ -277,7 +277,8 @@ static inline void sk_msg_sg_copy_clear(struct sk_msg *msg, u32 start)
+ 
+ static inline struct sk_psock *sk_psock(const struct sock *sk)
+ {
+-	return rcu_dereference_sk_user_data(sk);
++	return __rcu_dereference_sk_user_data_with_flags(sk,
++							 SK_USER_DATA_PSOCK);
+ }
+ 
+ static inline void sk_psock_set_state(struct sk_psock *psock,
+diff --git a/include/net/sock.h b/include/net/sock.h
+index 9fa54762e077..a5ebc3b28804 100644
+--- a/include/net/sock.h
++++ b/include/net/sock.h
+@@ -545,14 +545,26 @@ enum sk_pacing {
+ 	SK_PACING_FQ		= 2,
+ };
+ 
+-/* Pointer stored in sk_user_data might not be suitable for copying
+- * when cloning the socket. For instance, it can point to a reference
+- * counted object. sk_user_data bottom bit is set if pointer must not
+- * be copied.
++/* flag bits in sk_user_data
++ *
++ * - SK_USER_DATA_NOCOPY:      Pointer stored in sk_user_data might
++ *   not be suitable for copying when cloning the socket. For instance,
++ *   it can point to a reference counted object. sk_user_data bottom
++ *   bit is set if pointer must not be copied.
++ *
++ * - SK_USER_DATA_BPF:         Mark whether sk_user_data field is
++ *   managed/owned by a BPF reuseport array. This bit should be set
++ *   when sk_user_data's sk is added to the bpf's reuseport_array.
++ *
++ * - SK_USER_DATA_PSOCK:       Mark whether pointer stored in
++ *   sk_user_data points to psock type. This bit should be set
++ *   when sk_user_data is assigned to a psock object.
+  */
+ #define SK_USER_DATA_NOCOPY	1UL
+-#define SK_USER_DATA_BPF	2UL	/* Managed by BPF */
+-#define SK_USER_DATA_PTRMASK	~(SK_USER_DATA_NOCOPY | SK_USER_DATA_BPF)
++#define SK_USER_DATA_BPF	2UL
++#define SK_USER_DATA_PSOCK	4UL
++#define SK_USER_DATA_PTRMASK	~(SK_USER_DATA_NOCOPY | SK_USER_DATA_BPF |\
++				  SK_USER_DATA_PSOCK)
+ 
+ /**
+  * sk_user_data_is_nocopy - Test if sk_user_data pointer must not be copied
+@@ -565,24 +577,40 @@ static inline bool sk_user_data_is_nocopy(const struct sock *sk)
+ 
+ #define __sk_user_data(sk) ((*((void __rcu **)&(sk)->sk_user_data)))
+ 
++/**
++ * __rcu_dereference_sk_user_data_with_flags - return the pointer
++ * only if argument flags all has been set in sk_user_data. Otherwise
++ * return NULL
++ *
++ * @sk: socket
++ * @flags: flag bits
++ */
++static inline void *
++__rcu_dereference_sk_user_data_with_flags(const struct sock *sk,
++					  uintptr_t flags)
++{
++	uintptr_t sk_user_data = (uintptr_t)rcu_dereference(__sk_user_data(sk));
++
++	WARN_ON_ONCE(flags & SK_USER_DATA_PTRMASK);
++
++	if ((sk_user_data & flags) == flags)
++		return (void *)(sk_user_data & SK_USER_DATA_PTRMASK);
++	return NULL;
++}
++
+ #define rcu_dereference_sk_user_data(sk)				\
++	__rcu_dereference_sk_user_data_with_flags(sk, 0)
++#define __rcu_assign_sk_user_data_with_flags(sk, ptr, flags)		\
+ ({									\
+-	void *__tmp = rcu_dereference(__sk_user_data((sk)));		\
+-	(void *)((uintptr_t)__tmp & SK_USER_DATA_PTRMASK);		\
+-})
+-#define rcu_assign_sk_user_data(sk, ptr)				\
+-({									\
+-	uintptr_t __tmp = (uintptr_t)(ptr);				\
+-	WARN_ON_ONCE(__tmp & ~SK_USER_DATA_PTRMASK);			\
+-	rcu_assign_pointer(__sk_user_data((sk)), __tmp);		\
+-})
+-#define rcu_assign_sk_user_data_nocopy(sk, ptr)				\
+-({									\
+-	uintptr_t __tmp = (uintptr_t)(ptr);				\
+-	WARN_ON_ONCE(__tmp & ~SK_USER_DATA_PTRMASK);			\
++	uintptr_t __tmp1 = (uintptr_t)(ptr),				\
++		  __tmp2 = (uintptr_t)(flags);				\
++	WARN_ON_ONCE(__tmp1 & ~SK_USER_DATA_PTRMASK);			\
++	WARN_ON_ONCE(__tmp2 & SK_USER_DATA_PTRMASK);			\
+ 	rcu_assign_pointer(__sk_user_data((sk)),			\
+-			   __tmp | SK_USER_DATA_NOCOPY);		\
++			   __tmp1 | __tmp2);				\
+ })
++#define rcu_assign_sk_user_data(sk, ptr)				\
++	__rcu_assign_sk_user_data_with_flags(sk, ptr, 0)
+ 
+ static inline
+ struct net *sock_net(const struct sock *sk)
+diff --git a/net/core/skmsg.c b/net/core/skmsg.c
+index b0fcd0200e84..10f7afa3d7a5 100644
+--- a/net/core/skmsg.c
++++ b/net/core/skmsg.c
+@@ -735,7 +735,9 @@ struct sk_psock *sk_psock_init(struct sock *sk, int node)
+ 	sk_psock_set_state(psock, SK_PSOCK_TX_ENABLED);
+ 	refcount_set(&psock->refcnt, 1);
+ 
+-	rcu_assign_sk_user_data_nocopy(sk, psock);
++	__rcu_assign_sk_user_data_with_flags(sk, psock,
++					     SK_USER_DATA_NOCOPY |
++					     SK_USER_DATA_PSOCK);
+ 	sock_hold(sk);
+ 
+ out:
 -- 
 2.25.1
 
