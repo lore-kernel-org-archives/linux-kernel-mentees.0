@@ -1,80 +1,81 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C344C25B0C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  6 Aug 2022 07:44:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E01DC25B06
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  6 Aug 2022 07:44:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B083640201;
-	Sat,  6 Aug 2022 07:44:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B083640201
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=oZ3ucd7n
+	by smtp3.osuosl.org (Postfix) with ESMTP id F13AE60EFD;
+	Sat,  6 Aug 2022 07:44:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F13AE60EFD
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=JM4WjGJ0
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nxPq-imszT8l; Sat,  6 Aug 2022 07:44:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9B80240192;
-	Sat,  6 Aug 2022 07:44:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9B80240192
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xvXpjF1IRXum; Sat,  6 Aug 2022 07:44:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D883060F39;
+	Sat,  6 Aug 2022 07:44:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D883060F39
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7237EC0032;
-	Sat,  6 Aug 2022 07:44:25 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B825EC0032;
+	Sat,  6 Aug 2022 07:44:30 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 407BEC002D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8BDE8C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Aug 2022 07:44:24 +0000 (UTC)
+ Sat,  6 Aug 2022 07:44:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0828C41769
+ by smtp4.osuosl.org (Postfix) with ESMTP id 72BE94176A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Aug 2022 07:44:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0828C41769
+ Sat,  6 Aug 2022 07:44:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 72BE94176A
 Authentication-Results: smtp4.osuosl.org;
  dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=oZ3ucd7n
+ header.a=rsa-sha256 header.s=zmail header.b=JM4WjGJ0
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1mKf9fbxVOZy
+ with ESMTP id mCinlqE97RDW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Aug 2022 07:44:22 +0000 (UTC)
+ Sat,  6 Aug 2022 07:44:28 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5EF1741761
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A2DF241768
 Received: from sender-of-o53.zoho.in (sender-of-o53.zoho.in [103.117.158.53])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5EF1741761
+ by smtp4.osuosl.org (Postfix) with ESMTPS id A2DF241768
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  6 Aug 2022 07:44:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1659771854; cv=none; d=zohomail.in; s=zohoarc; 
- b=OyqiYSCCh3C8uVr2eRNnqEcgNmJCAo5kB/fZrYFxYEr3NXXK/vQ8sP0VEmCVEnfGdyv4O69kP8GZoaAFEQ9Bm4trftPckv3JdSgjTAI8nEWlta/GXrcqoBxf2EaKvxMGGBOIP4/rGBOY5EHIX7lCOS4WEZRqRjUNCMPFdlIXKaI=
+ Sat,  6 Aug 2022 07:44:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1659771858; cv=none; d=zohomail.in; s=zohoarc; 
+ b=ZhewqxYZXZ+4d92N7/6+E+8roDitfj9snck27koQpePAE3WFuk9MjvSwIGz6eWGCFsV02NvYCyXgHjlcFYzpshrM4HYwvhhVFUEknCgVLTEyUrktXLIGER38MjWFJt4+UKcfvW/AQOzj2uYhK+wNJLTdvfB9NkK0w+PTsFa4FNU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1659771854;
+ s=zohoarc; t=1659771858;
  h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=I7Q4D57L0Fon5Y8OnWeD+j+i4yBdJ+wVG0hPi+xhFQ8=; 
- b=UPI7h69+BeNNjIxPU3XSK6PFbBKYtLl4YacsgEsnk8XnHtUDYNGHup1EHLaK7DmqLblxBpOiw+sRA5AvbqakctBMOR0EO5yX6bZBje+wRmR8YX7YEoCizViax2NwQfmNIXTe3UWBJkJpz4Y3VUfLWt2HLpWNVwuinaQYG52T2rY=
+ bh=CciC0JA+1Sl6P741HLOLO7oPE18KzPzTWUnJ9g4NcCY=; 
+ b=cThpGGll9oucn4GJNKQsynEm1XnwpouK/xSplDvh7EmGcmv1JQV1HiDQYNz1ZyKZF9/qgn0BLQvGxm4z1cPHh3yr4nThvtfxGzQNXC7Mp80DVRyKbCj/uO00qnfCIvwnYQPm/T6c0GvGRLUYueBru+KgtpLIi58OMt2Iq1eVe+E=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659771854; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1659771858; 
  s=zmail; d=siddh.me; i=code@siddh.me;
  h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=I7Q4D57L0Fon5Y8OnWeD+j+i4yBdJ+wVG0hPi+xhFQ8=;
- b=oZ3ucd7nzUTF/dDakhdjR4W3epTJmeattNdaAZavk8/m+LE8bM+hjnMgBcsn1gru
- IGqn7S3MEl2wXgH5IDjd5UcWLnw0K+OTaIfBm1GQH7cYLa9jDSzlE4huvx8Q2xIJyCO
- byekvomJwF/3gVdAiFa7dfp8HJ7nvSm+KNGY6pbE=
+ bh=CciC0JA+1Sl6P741HLOLO7oPE18KzPzTWUnJ9g4NcCY=;
+ b=JM4WjGJ0hHN4JfmzzT4r8K6mAuU1dym79SIEZ/Y2OH3I+04GYX6u2zRwNNXlbves
+ kQPJPG2nNPGEzXxrjpAKzpRvNKOc6foAddrDlVhbZngJ8XzVHTBEYCXhRKsbRLe+RlJ
+ X+0l+Ky/Qt8f+EO+ucwhV9nwa+gC5+HS/vz8ZQJ0=
 Received: from localhost.localdomain (43.250.158.93 [43.250.158.93]) by
- mx.zoho.in with SMTPS id 1659771853673529.5982041718509;
- Sat, 6 Aug 2022 13:14:13 +0530 (IST)
+ mx.zoho.in with SMTPS id 165977185695375.74638919740744;
+ Sat, 6 Aug 2022 13:14:16 +0530 (IST)
 To: Eric Biggers <ebiggers@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  David Howells <dhowells@redhat.com>, Randy Dunlap <rdunlap@infradead.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
  Eric Dumazet <edumazet@google.com>
-Message-ID: <d25b2a4772bf8d2a37bbf1bd2c6ad82b13081762.1659771577.git.code@siddh.me>
-Subject: [PATCH v2 1/2] include/linux/watch_queue: Improve documentation
-Date: Sat,  6 Aug 2022 13:13:41 +0530
+Message-ID: <ef1791b7f1b5207d9ffae053d8641c9a634a25ea.1659771577.git.code@siddh.me>
+Subject: [PATCH v2 2/2] kernel/watch_queue: NULL the dangling *pipe,
+ and use it for clear check
+Date: Sat,  6 Aug 2022 13:13:42 +0530
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <cover.1659771577.git.code@siddh.me>
 References: <cover.1659771577.git.code@siddh.me>
@@ -102,160 +103,90 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Introduce kerneldoc-style comments, and document a couple of things
-explicitly.
+NULL the dangling pipe reference while clearing watch_queue.
+
+If not done, a reference to a freed pipe remains in the watch_queue,
+as this function is called before freeing a pipe in free_pipe_info()
+(see line 834 of fs/pipe.c).
+
+The sole use of wqueue->defunct is for checking if the watch queue has
+been cleared, but wqueue->pipe is also NULLed while clearing.
+
+Thus, wqueue->defunct is superfluous, as wqueue->pipe can be checked
+for NULL. Hence, the former can be removed.
 
 Signed-off-by: Siddh Raman Pant <code@siddh.me>
 ---
- include/linux/watch_queue.h | 102 ++++++++++++++++++++++++++----------
- 1 file changed, 75 insertions(+), 27 deletions(-)
+ include/linux/watch_queue.h |  4 +---
+ kernel/watch_queue.c        | 12 ++++++------
+ 2 files changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/include/linux/watch_queue.h b/include/linux/watch_queue.h
-index fc6bba20273b..7f8b1f15634b 100644
+index 7f8b1f15634b..d72ad82a4435 100644
 --- a/include/linux/watch_queue.h
 +++ b/include/linux/watch_queue.h
-@@ -18,57 +18,103 @@
- 
- struct cred;
- 
-+/**
-+ * struct watch_type_filter - Filter on watch type
-+ *
-+ * @type: Type of watch_notification
-+ * @subtype_filter: Bitmask of subtypes to filter on
-+ * @info_filter: Filter on watch_notification::info
-+ * @info_mask: Mask of relevant bits in info_filter
-+ */
- struct watch_type_filter {
- 	enum watch_notification_type type;
--	__u32		subtype_filter[1];	/* Bitmask of subtypes to filter on */
--	__u32		info_filter;		/* Filter on watch_notification::info */
--	__u32		info_mask;		/* Mask of relevant bits in info_filter */
-+	__u32		subtype_filter[1];
-+	__u32		info_filter;
-+	__u32		info_mask;
- };
- 
-+/**
-+ * struct watch_filter - Filter on watch
-+ *
-+ * @rcu: RCU head (in union with type_filter)
-+ * @type_filter: Bitmask of accepted types (in union with rcu)
-+ * @nr_filters: Number of filters
-+ * @filters: Array of watch_type_filter
-+ */
- struct watch_filter {
- 	union {
- 		struct rcu_head	rcu;
--		/* Bitmask of accepted types */
- 		DECLARE_BITMAP(type_filter, WATCH_TYPE__NR);
- 	};
--	u32			nr_filters;	/* Number of filters */
-+	u32			 nr_filters;
- 	struct watch_type_filter filters[];
- };
- 
-+/**
-+ * struct watch_queue - General notification queue
-+ *
-+ * @rcu: RCU head
-+ * @filter: Filter to use on watches
-+ * @pipe: The pipe we're using as a buffer
-+ * @watches: Contributory watches
-+ * @notes: Preallocated notifications
-+ * @notes_bitmap: Allocation bitmap for notes
-+ * @usage: Object usage count
-+ * @lock: To serialize accesses and removes
-+ * @nr_notes: Number of notes
-+ * @nr_pages: Number of pages in notes[]
-+ * @defunct: True when queues closed
-+ */
+@@ -55,7 +55,7 @@ struct watch_filter {
+  *
+  * @rcu: RCU head
+  * @filter: Filter to use on watches
+- * @pipe: The pipe we're using as a buffer
++ * @pipe: The pipe we're using as a buffer, NULL when queue is cleared/closed
+  * @watches: Contributory watches
+  * @notes: Preallocated notifications
+  * @notes_bitmap: Allocation bitmap for notes
+@@ -63,7 +63,6 @@ struct watch_filter {
+  * @lock: To serialize accesses and removes
+  * @nr_notes: Number of notes
+  * @nr_pages: Number of pages in notes[]
+- * @defunct: True when queues closed
+  */
  struct watch_queue {
  	struct rcu_head		rcu;
- 	struct watch_filter __rcu *filter;
--	struct pipe_inode_info	*pipe;		/* The pipe we're using as a buffer */
--	struct hlist_head	watches;	/* Contributory watches */
--	struct page		**notes;	/* Preallocated notifications */
--	unsigned long		*notes_bitmap;	/* Allocation bitmap for notes */
--	struct kref		usage;		/* Object usage count */
-+	struct pipe_inode_info	*pipe;
-+	struct hlist_head	watches;
-+	struct page		**notes;
-+	unsigned long		*notes_bitmap;
-+	struct kref		usage;
+@@ -76,7 +75,6 @@ struct watch_queue {
  	spinlock_t		lock;
--	unsigned int		nr_notes;	/* Number of notes */
--	unsigned int		nr_pages;	/* Number of pages in notes[] */
--	bool			defunct;	/* T when queues closed */
-+	unsigned int		nr_notes;
-+	unsigned int		nr_pages;
-+	bool			defunct;
+ 	unsigned int		nr_notes;
+ 	unsigned int		nr_pages;
+-	bool			defunct;
  };
- 
--/*
-- * Representation of a watch on an object.
-+/**
-+ * struct watch - Representation of a watch on an object
-+ *
-+ * @rcu: RCU head (in union with info_id)
-+ * @info_id: ID to be OR'd in to info field (in union with rcu)
-+ * @queue: Queue to post events to
-+ * @queue_node: Link in queue->watches
-+ * @watch_list: Link in watch_list->watchers
-+ * @list_node: The list node
-+ * @cred: Creds of the owner of the watch
-+ * @private: Private data for the watched object
-+ * @id: Internal identifier
-+ * @usage: Object usage count
-  */
- struct watch {
- 	union {
- 		struct rcu_head	rcu;
--		u32		info_id;	/* ID to be OR'd in to info field */
-+		u32		info_id;
- 	};
--	struct watch_queue __rcu *queue;	/* Queue to post events to */
--	struct hlist_node	queue_node;	/* Link in queue->watches */
-+	struct watch_queue __rcu *queue;
-+	struct hlist_node	queue_node;
- 	struct watch_list __rcu	*watch_list;
--	struct hlist_node	list_node;	/* Link in watch_list->watchers */
--	const struct cred	*cred;		/* Creds of the owner of the watch */
--	void			*private;	/* Private data for the watched object */
--	u64			id;		/* Internal identifier */
--	struct kref		usage;		/* Object usage count */
-+	struct hlist_node	list_node;
-+	const struct cred	*cred;
-+	void			*private;
-+	u64			id;
-+	struct kref		usage;
- };
- 
--/*
-- * List of watches on an object.
-+/**
-+ * struct watch_list - List of watches on an object
-+ *
-+ * @rcu: RCU head
-+ * @watchers: List head
-+ * @release_watch: Function to release watch
-+ * @lock: To protect addition and removal of watches
-  */
- struct watch_list {
- 	struct rcu_head		rcu;
-@@ -118,8 +164,10 @@ static inline void remove_watch_list(struct watch_list *wlist, u64 id)
- }
  
  /**
-- * watch_sizeof - Calculate the information part of the size of a watch record,
-- * given the structure size.
-+ * watch_sizeof() - Calculate the information part of the size of a watch
-+ *		    record, given the structure size.
-+ *
-+ * @STRUCT: The structure whose size is to be given
-  */
- #define watch_sizeof(STRUCT) (sizeof(STRUCT) << WATCH_INFO_LENGTH__SHIFT)
+diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+index a6f9bdd956c3..a70ddfd622ee 100644
+--- a/kernel/watch_queue.c
++++ b/kernel/watch_queue.c
+@@ -43,7 +43,7 @@ MODULE_LICENSE("GPL");
+ static inline bool lock_wqueue(struct watch_queue *wqueue)
+ {
+ 	spin_lock_bh(&wqueue->lock);
+-	if (unlikely(wqueue->defunct)) {
++	if (unlikely(!wqueue->pipe)) {
+ 		spin_unlock_bh(&wqueue->lock);
+ 		return false;
+ 	}
+@@ -105,9 +105,6 @@ static bool post_one_notification(struct watch_queue *wqueue,
+ 	unsigned int head, tail, mask, note, offset, len;
+ 	bool done = false;
  
+-	if (!pipe)
+-		return false;
+-
+ 	spin_lock_irq(&pipe->rd_wait.lock);
+ 
+ 	mask = pipe->ring_size - 1;
+@@ -603,8 +600,11 @@ void watch_queue_clear(struct watch_queue *wqueue)
+ 	rcu_read_lock();
+ 	spin_lock_bh(&wqueue->lock);
+ 
+-	/* Prevent new notifications from being stored. */
+-	wqueue->defunct = true;
++	/*
++	 * This pipe will get freed by the caller free_pipe_info().
++	 * Removing this reference also prevents new notifications.
++	 */
++	wqueue->pipe = NULL;
+ 
+ 	while (!hlist_empty(&wqueue->watches)) {
+ 		watch = hlist_entry(wqueue->watches.first, struct watch, queue_node);
 -- 
 2.35.1
 
