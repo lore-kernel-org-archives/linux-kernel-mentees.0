@@ -1,119 +1,89 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 193FAC25B07
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  9 Aug 2022 12:59:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9989DC19F2D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  9 Aug 2022 13:52:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9D4614064D;
-	Tue,  9 Aug 2022 12:59:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9D4614064D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Q/pG6cTv
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1D63281AD1;
+	Tue,  9 Aug 2022 13:52:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1D63281AD1
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=TpghGpX4
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HuE9niGpZF9g; Tue,  9 Aug 2022 12:59:42 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id rRBj5YvTCmEr; Tue,  9 Aug 2022 13:52:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9DB9040643;
-	Tue,  9 Aug 2022 12:59:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9DB9040643
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1040F819BC;
+	Tue,  9 Aug 2022 13:52:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1040F819BC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75EC1C0033;
-	Tue,  9 Aug 2022 12:59:42 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0A1DBC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6DD5C0032;
+	Tue,  9 Aug 2022 13:52:12 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 00B2EC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Aug 2022 12:59:41 +0000 (UTC)
+ Tue,  9 Aug 2022 13:52:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id E664760E3A
+ by smtp3.osuosl.org (Postfix) with ESMTP id B9C8060E3A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Aug 2022 12:59:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E664760E3A
+ Tue,  9 Aug 2022 13:52:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B9C8060E3A
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=Q/pG6cTv
+ dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org
+ header.a=rsa-sha256 header.s=casper.20170209 header.b=TpghGpX4
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sT_wKOkV8Gpz
+ with ESMTP id QAN_JAlm3HXf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Aug 2022 12:59:40 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E5A8460E27
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E5A8460E27
+ Tue,  9 Aug 2022 13:52:06 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8F5A060E92
+Received: from casper.infradead.org (casper.infradead.org
+ [IPv6:2001:8b0:10b:1236::1])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8F5A060E92
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 Aug 2022 12:59:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1660049978;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FQ+wwF48ReXy0cBWKcv7V3Cua0LWfPBd2sOCQuW8HDU=;
- b=Q/pG6cTvKoKfUN143fVXN37jjAoHnrRI9T/DG035fdVYHw4KbQEhzVc8QkfgI5ccLdU992
- NIRJqaANBMZNnxDVvJ0EwNftp3FoYn5uLbvZLec8ehziv/FuBcDfcsARGGC9unhS5XZ43R
- ER8Fxkg/wdQX0DAZdsFJdaVziMxR2v0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-bqrbONU1NnGIykcWkFEYgQ-1; Tue, 09 Aug 2022 08:59:38 -0400
-X-MC-Unique: bqrbONU1NnGIykcWkFEYgQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- z20-20020a05640235d400b0043e1e74a495so7281719edc.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 09 Aug 2022 05:59:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=FQ+wwF48ReXy0cBWKcv7V3Cua0LWfPBd2sOCQuW8HDU=;
- b=N5D2YzqKd354JW7uFN6KUnUMx0gY8LbcWmAmzOOB8Wv9j2id7ws+q86hHwmEGQ7dsK
- PjutGHfPSONICoD1vcDO0r50hyVlKw/qMDWn6Qn0DRftBtdfFQQzEnZDCOSXtyb9paaa
- HJ3Tv14NdwRozY8ga85wGcEjuI+HTzuFC0O2U5IiCjHbaGrXDv2YK7huZ9f3Nia9lgQe
- qeSzYCG0aQvgnmO48Zxgq54DpcMzEj44pDWQ6MAKI6IIoezV3XiYUaeDmKonAeYrjQlK
- fybFnNFCHogJ8jR8P4Td4cQ4V+a0Gc02ssFB0yn2MXWQ4+LSZQOGWqshBRHWspAQbHyu
- y1Bw==
-X-Gm-Message-State: ACgBeo1a2dkH1G74I5D9iEhcCh4/T6qqVeRaNta55W+0Ol6jQTPRH8VL
- l1cP0KDRwiDfZ3bKuY4xKRaGW2F77STIi+RrDkl91dqyHkCcgqYLIQTUMb6v7Ye3fB72yh5xoO+
- 8xdAC6UISGGAi/Zkc+xkcz4LVaxETu8BK7Rcvv1SA+C/VhYDk
-X-Received: by 2002:a17:907:7355:b0:730:65bc:e761 with SMTP id
- dq21-20020a170907735500b0073065bce761mr16603422ejc.145.1660049976558; 
- Tue, 09 Aug 2022 05:59:36 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4aIlognX1ka5VIOyyASxtl2SULJCChbsWiporF7XeJ6dk0ZuPxY+VDmFZOshu2ItIRzk5+cg==
-X-Received: by 2002:a17:907:7355:b0:730:65bc:e761 with SMTP id
- dq21-20020a170907735500b0073065bce761mr16603400ejc.145.1660049976349; 
- Tue, 09 Aug 2022 05:59:36 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.googlemail.com with ESMTPSA id
- h7-20020aa7c607000000b0043d7ff1e3bcsm6045081edq.72.2022.08.09.05.59.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Aug 2022 05:59:35 -0700 (PDT)
-Message-ID: <397d670c-69c0-8686-e492-06063b7f6621@redhat.com>
-Date: Tue, 9 Aug 2022 14:59:34 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3 1/2] KVM: x86/xen: Initialize Xen timer only once
-To: Sean Christopherson <seanjc@google.com>, Coleman Dietsch <dietschc@csp.edu>
+ Tue,  9 Aug 2022 13:52:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=//Tju6UR8JQSjjvOc8R7xQQEI50bRDuNbY4ENlpXBOU=; b=TpghGpX4Q+BeePWi+coPxavwCG
+ bjRxWfkICk0usEtyeSktt7JNqB3WVRNiHBN/JyEckAACJY0pysxdr5OUY1u9uzcBvWa+kxbqB9Qak
+ D97kyi34IoHL2A79ZMmLzrKU12cUw5lVxU7b/EcpeeCN9B7REC5UwKh+p/TeZyEuObSCApnUz3kku
+ QcJYULljAuCEGYeh6DosIccu553gAaUuWK8axZcWdl0CX5hJsuEL4FbEMFEeuIxOlqYvw0RkbXPzM
+ OFS5ItVc0VcHWIhkGAboXj96IUTFJtbGJPiCN2q9g9q4vOOC+Bfd3YogoqUlXQsUb7vZnYnoZji3P
+ TmZjY+2Q==;
+Received: from [2001:8b0:10b:1:4a2a:e3ff:fe14:8625]
+ (helo=u3832b3a9db3152.ant.amazon.com)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1oLPdt-00FQ2R-RE; Tue, 09 Aug 2022 13:51:34 +0000
+Message-ID: <4fc1371b83001b4eed1617c37bec6b9d007e45c2.camel@infradead.org>
+Subject: Re: [PATCH v3 2/2] KVM: x86/xen: Stop Xen timer before changing IRQ
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, Coleman Dietsch <dietschc@csp.edu>,
+ kvm@vger.kernel.org
+Date: Tue, 09 Aug 2022 14:51:32 +0100
+In-Reply-To: <43e258cc-71ac-bde4-d1f8-9eb9519928d3@redhat.com>
 References: <20220808190607.323899-2-dietschc@csp.edu>
- <YvGrIRlJThFoLPsb@google.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YvGrIRlJThFoLPsb@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Cc: x86@kernel.org, kvm@vger.kernel.org, Pavel Skripkin <paskripkin@gmail.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com,
+ <20220808190607.323899-3-dietschc@csp.edu>
+ <c648744c096588d30771a22efa6d65c31fffd06c.camel@infradead.org>
+ <43e258cc-71ac-bde4-d1f8-9eb9519928d3@redhat.com>
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Cc: Dave Hansen <dave.hansen@linux.intel.com>,
+ Sean Christopherson <seanjc@google.com>, x86@kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com,
  Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
  "H . Peter Anvin" <hpa@zytor.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Pavel Skripkin <paskripkin@gmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -126,49 +96,167 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============3453266298026564750=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 8/9/22 02:32, Sean Christopherson wrote:
-> On Mon, Aug 08, 2022, Coleman Dietsch wrote:
->> Add a check for existing xen timers before initializing a new one.
->>
->> Currently kvm_xen_init_timer() is called on every
->> KVM_XEN_VCPU_ATTR_TYPE_TIMER, which is causing the following ODEBUG
->> crash when vcpu->arch.xen.timer is already set.
->>
->> ODEBUG: init active (active state 0)
->> object type: hrtimer hint: xen_timer_callbac0
->> RIP: 0010:debug_print_object+0x16e/0x250 lib/debugobjects.c:502
->> Call Trace:
->> __debug_object_init
->> debug_hrtimer_init
->> debug_init
->> hrtimer_init
->> kvm_xen_init_timer
->> kvm_xen_vcpu_set_attr
->> kvm_arch_vcpu_ioctl
->> kvm_vcpu_ioctl
->> vfs_ioctl
->>
->> Fixes: 536395260582 ("KVM: x86/xen: handle PV timers oneshot mode")
->> Cc: stable@vger.kernel.org
->> Link: https://syzkaller.appspot.com/bug?id=8234a9dfd3aafbf092cc5a7cd9842e3ebc45fc42
->> Reported-by: syzbot+e54f930ed78eb0f85281@syzkaller.appspotmail.com
->> Signed-off-by: Coleman Dietsch <dietschc@csp.edu>
->> ---
-> 
-> Reviewed-by: Sean Christopherson <seanjc@google.com>
-> 
 
-Queued both (pending resolution of David's question), thanks.
+--===============3453266298026564750==
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-OHRVuSN7bJcJSl4kVZbB"
 
-Paolo
+
+--=-OHRVuSN7bJcJSl4kVZbB
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 2022-08-09 at 14:59 +0200, Paolo Bonzini wrote:
+> On 8/9/22 11:22, David Woodhouse wrote:
+> > On Mon, 2022-08-08 at 14:06 -0500, Coleman Dietsch wrote:
+> > > Stop Xen timer (if it's running) prior to changing the IRQ vector and
+> > > potentially (re)starting the timer. Changing the IRQ vector while the
+> > > timer is still running can result in KVM injecting a garbage event, e=
+.g.
+> > > vm_xen_inject_timer_irqs() could see a non-zero xen.timer_pending fro=
+m
+> > > a previous timer but inject the new xen.timer_virq.
+> >=20
+> > Hm, wasn't that already addressed in the first patch I saw, which just
+> > called kvm_xen_stop_timer() unconditionally before (possibly) setting
+> > it up again?
+>=20
+> Which patch is that?
+
+The one I acked in
+https://lore.kernel.org/all/9bad724858b6a06c25ead865b2b3d9dfc216d01c.camel@=
+infradead.org/
+
+--=-OHRVuSN7bJcJSl4kVZbB
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjIwODA5MTM1MTMyWjAvBgkqhkiG9w0BCQQxIgQgjO4oTsGM
+bV9lRcdwuJLrWdgqSwYELZGIKYFINjM9kUAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBXZhIWnK7NLICwlkdcq238gf8iXFJ/xrIS
+3dPdBC1mrKZSJxeJtzuyRWsG30H9VEPLHxPzeDTelJRazbOdkiIo1L/I3jaKoxnhG8v8Pfnu487W
+nst1kHwTVi9XkRRse+maOxZYUrdLfroKvo7NLmKASlxP4U4oYtmFMcWMZJsldubm1dTz5eaLqtvy
+OdeU61IEoQIcJcn9mvIj2y8lDeyZFRDnlmwa/i2thwHN2M6fc1YQNcRKz8df/DhWYPioOvB7TEOw
+Nj70r6TN2bAzFwZ/Cs9Fg75kAO2aPEgZFgH8iGtoPKFADuQcUVT6LB5spyKw2RHtXMldjQqypXcf
+pu1sqLtpAq4KMCdiNpE7Q5SptxC3ieJZyMkfEzMppnMJlREUYLZKXq6u6DBHjr2m/GZY4DR0TMur
+1NmX+qrFUMS5NjObtjYSAnV0JEkIp711+3Aah9o8sNS7ce7gNrIPLA1FMePGXgRRiV1eodO76V8h
+XHnrGDU8ijfT7Di0vkfY/LWTioBQ1CATW6F0cewwBmYFouQe+AU7P1VFrACYASzytkTWTYxxeqPk
+1BFyoMCuABESHwxclWANV0b5hOb4iC408/rqDZ3iJQgY7EA7W+VqpixSm/6Cv/pYe5Dyr1sLi1Rf
+647Af5v47bN4uRWCP5/afvlQeNutJk/uxlEkda82dQAAAAAAAA==
+
+
+--=-OHRVuSN7bJcJSl4kVZbB--
+
+
+--===============3453266298026564750==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============3453266298026564750==--
+
