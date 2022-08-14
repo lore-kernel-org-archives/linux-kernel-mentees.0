@@ -4,96 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 98063C19F2D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 Aug 2022 16:20:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6FC9C25B0D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 Aug 2022 01:55:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 1F2B740989;
-	Sat, 13 Aug 2022 16:20:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1F2B740989
+	by smtp2.osuosl.org (Postfix) with ESMTP id 54CE840AB7;
+	Sun, 14 Aug 2022 01:55:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 54CE840AB7
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=Df3uVVWB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=FnPMYv53
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SeqrNI2u6SCT; Sat, 13 Aug 2022 16:20:30 +0000 (UTC)
+	with ESMTP id 7PsWsKMXMN-1; Sun, 14 Aug 2022 01:55:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 17FFB40186;
-	Sat, 13 Aug 2022 16:20:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 17FFB40186
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4016F4014A;
+	Sun, 14 Aug 2022 01:55:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4016F4014A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D342EC0032;
-	Sat, 13 Aug 2022 16:20:29 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5F559C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0B969C0033;
+	Sun, 14 Aug 2022 01:55:38 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B1BE8C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Aug 2022 16:20:28 +0000 (UTC)
+ Sun, 14 Aug 2022 01:55:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 39A6A60E30
+ by smtp1.osuosl.org (Postfix) with ESMTP id 90C3682883
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Aug 2022 16:20:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 39A6A60E30
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=Df3uVVWB
+ Sun, 14 Aug 2022 01:55:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 90C3682883
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=FnPMYv53
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 32_aSgYrLFQF
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id dJW6Phnkt-Wg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Aug 2022 16:20:27 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 97D8C60761
-Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 97D8C60761
+ Sun, 14 Aug 2022 01:55:35 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E1A4F82865
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E1A4F82865
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 13 Aug 2022 16:20:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1660407605; cv=none; d=zohomail.in; s=zohoarc; 
- b=LYtSCUqODWDHtBj51efKKORt0d0g0I/kHwHw5VwPHEK5JV8Lxum5HjFup/SWb2vXW5pF1EJTrrFYxZQQcaMpgcHjwaAjYULpP5eB3lrKcplOmb46LgbXPC1VHqkcJ37Z2mnSuDXSmFJQD58c7Ilis3x326WDVIc9ltCh0+QotVE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1660407605;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=U3torEU8ue1d6ut66EvgIXpz48aBqMmo4NWWLjEFBMM=; 
- b=Kxp8AbQulGvoO7w+Q3UIFPNEhau0uskWwPGJCY5SfvR9ag1xR0xLSp4mB1B/9o5ssZim+eYi2xQmCAQqOzz2qXLn3ESW1aqqbJjU7xakVvbuBjPayiGQ3rQ9Kr4LYthATXF+KPa1uV+NZimTiUqrn89X1soo6YFXJM4yU5poy8E=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1660407605; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=U3torEU8ue1d6ut66EvgIXpz48aBqMmo4NWWLjEFBMM=;
- b=Df3uVVWBXUIoDMCL+puzzLoUIoh7jD0UuVSUAZpQO47W5tw3m/s46kDkvmNzBMmk
- 10XFsSKNcEodQ4JIib9Pde2L22YHccxbCQSazfdGyGzlq3vdIJqky5oqTXmScAO/Oe3
- 7aEpts9XZVD2umtCTWFdQzaIJi6Bqx/TvIBn3a1g=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1660407592922781.0334173208613;
- Sat, 13 Aug 2022 21:49:52 +0530 (IST)
-Date: Sat, 13 Aug 2022 21:49:52 +0530
-To: "Jakub Kicinski" <kuba@kernel.org>
-Message-ID: <182980137c6.5665bf61226802.3084448395277966678@siddh.me>
-In-Reply-To: <20220812122509.281f0536@kernel.org>
-References: <20220726123921.29664-1-code@siddh.me>
- <18291779771.584fa6ab156295.3990923778713440655@siddh.me>
- <YvZEfnjGIpH6XjsD@kroah.com>
- <18292791718.88f48d22175003.6675210189148271554@siddh.me>
- <YvZxfpY4JUqvsOG5@kroah.com>
- <18292e1dcd8.2359a549180213.8185874405406307019@siddh.me>
- <20220812122509.281f0536@kernel.org>
-Subject: Re: [PATCH v2] wifi: cfg80211: Fix UAF in ieee80211_scan_rx()
+ Sun, 14 Aug 2022 01:55:34 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id e27so468951wra.11
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 13 Aug 2022 18:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=TNitijqiLWD8N0q+QjMXs+eaMvvzYslxu1nXPHeU+Ic=;
+ b=FnPMYv53dzLScK8FwJaJSD6pM5/QMCnzb8PSymP17lig+ulpqphrfTK2MAtdzAuNfA
+ kLZiHwqJpmi2lIUCgXjQaJeg9pk/M5cWuP0qo4nR4zX8qJaIweMI+4l/yidgA73Uq0bk
+ oVEJOEhFQ8fPaV3G1qk7zi0vzv+j/hWN/djRGHS10xXc4+WQvd0RGrJVXoggVnTwoQg7
+ WHoVk0mzVGtaYYfs3K7jDLsL/hHqtS1VECCmz0RQlvdCzo5LCGg/1JgFw8iItP9mQaRY
+ c5VMlFdOr21yzIMfIEsc/9OSi8WfBf7UN4GxOBuq+pZkGZmSpEpvvW7BHkQXdzzm3nDg
+ kWag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=TNitijqiLWD8N0q+QjMXs+eaMvvzYslxu1nXPHeU+Ic=;
+ b=WGSq4bgnW2ICC4Hwt5ixSf+seVW4Oqk6XEQp7HzDPYXHxtr+LKPz06AJB/44+OjeSi
+ Iqd23R1gE7Lq+5MMRyC3N72PRntwFjo9uF+MLMyX9q3NaXEBo+/kKBx/FM15mG5kLRIs
+ eWmVeIzNRfFFC+Q7PhDGoyLbmKmx3Rv1bhW/ZhmkacWnj1vVjO2dysetxTIOtJ9UtWMK
+ KTVVRKo2Dcrmi4a5zt9VglVpm/OJhNWjB8/9MfzW5hN35bB1RN6MRjbVhQAqH3+udcgm
+ BUR/UTQuqVU7adkxBnMC0E1j0mqVeHbPGZnk5EZ3Y9XnkCdVbMxOWYnVto80s7gY0WDn
+ XBaA==
+X-Gm-Message-State: ACgBeo2//iyFbdSLmnlqhFo2WD81uIMb/UV9xBxtaXDFuy90nWv5jTNa
+ nKZmHBh1bh39xPRVbAvlXKM=
+X-Google-Smtp-Source: AA6agR4YBcFca/UDOlp8gjODh6JVGCJykTj6AJCW21OE2srC/zsZpZzUt9pGZd2DCjb887IpZnLr2Q==
+X-Received: by 2002:a05:6000:381:b0:221:7542:61bb with SMTP id
+ u1-20020a056000038100b00221754261bbmr5264691wrf.305.1660442133117; 
+ Sat, 13 Aug 2022 18:55:33 -0700 (PDT)
+Received: from localhost.localdomain ([84.255.184.228])
+ by smtp.gmail.com with ESMTPSA id
+ l9-20020a5d5609000000b0021f1ec8776fsm3247558wrv.61.2022.08.13.18.55.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 13 Aug 2022 18:55:32 -0700 (PDT)
+From: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v2] tty: n_gsm: add sanity check for gsm->receive in
+ gsm_receive_buf()
+Date: Sun, 14 Aug 2022 04:52:12 +0300
+Message-Id: <20220814015211.84180-1-mazinalhaddad05@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: syzbot+9250865a55539d384347
- <syzbot+9250865a55539d384347@syzkaller.appspotmail.com>,
- syzbot+6cb476b7c69916a0caca
- <syzbot+6cb476b7c69916a0caca@syzkaller.appspotmail.com>,
- linux-wireless <linux-wireless@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, syzbot+f9acff9bf08a845f225d
- <syzbot+f9acff9bf08a845f225d@syzkaller.appspotmail.com>,
- eric dumazet <edumazet@google.com>, netdev <netdev@vger.kernel.org>,
- johannes berg <johannes@sipsolutions.net>, paolo abeni <pabeni@redhat.com>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- "david s. miller" <davem@davemloft.net>
+Cc: daniel.starke@siemens.com, jirislaby@kernel.org, paskripkin@gmail.com,
+ syzbot+e3563f0c94e188366dbb@syzkaller.appspotmail.com,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Mazin Al Haddad <mazinalhaddad05@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,45 +106,66 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Siddh Raman Pant via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 13 Aug 2022 00:55:09 +0530  Jakub Kicinski  wrote:
-> Similarly to Greg, I'm not very familiar with the code base but one
-> sure way to move things forward would be to point out a commit which
-> broke things and put it in a Fixes tag. Much easier to validate a fix
-> by looking at where things went wrong.
+A null pointer dereference can happen when attempting to access the
+"gsm->receive()" function in gsmld_receive_buf(). Currently, the code
+assumes that gsm->recieve is only called after MUX activation.
+Since the gsmld_receive_buf() function can be accessed without the need to
+initialize the MUX, the gsm->receive() function will not be set and a
+NULL pointer dereference will occur.
 
-Thanks, I now looked at some history.
+Fix this by avoiding the call to "gsm->receive()" in case the function is
+not initialized by adding a sanity check.
 
-The following commit on 28 Sep 2020 put the kfree call before NULLing:
-c8cb5b854b40 ("nl80211/cfg80211: support 6 GHz scanning")
+Call Trace:
+ <TASK>
+ gsmld_receive_buf+0x1c2/0x2f0 drivers/tty/n_gsm.c:2861
+ tiocsti drivers/tty/tty_io.c:2293 [inline]
+ tty_ioctl+0xa75/0x15d0 drivers/tty/tty_io.c:2692
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:870 [inline]
+ __se_sys_ioctl fs/ioctl.c:856 [inline]
+ __x64_sys_ioctl+0x193/0x200 fs/ioctl.c:856
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-The following commit on 19 Nov 2014 introduces RCU:
-6ea0a69ca21b ("mac80211: rcu-ify scan and scheduled scan request pointers")
+Fixes: 01aecd917114 ("tty: n_gsm: fix tty registration before control channel open")
+Link: https://syzkaller.appspot.com/bug?id=bdf035c61447f8c6e0e6920315d577cb5cc35ac5
+Reported-and-tested-by: syzbot+e3563f0c94e188366dbb@syzkaller.appspotmail.com
+Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+---
+v1->v2:
+- Change commit title and description, removing unneeded and 
+unclear references to syzbot bug.
+- Use a sanity check instead of reinitializing gsm->receive in
+	gsmld_attach_gsm() 
 
-The kfree call wasn't "rcu-ified" in this commit, and neither were
-RCU heads added.
+ drivers/tty/n_gsm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The following commit on 18 Dec 2014 added RCU head for sched_scan_req:
-31a60ed1e95a ("nl80211: Convert sched_scan_req pointer to RCU pointer")
+diff --git a/drivers/tty/n_gsm.c b/drivers/tty/n_gsm.c
+index caa5c14ed57f..38688cb16c20 100644
+--- a/drivers/tty/n_gsm.c
++++ b/drivers/tty/n_gsm.c
+@@ -2858,7 +2858,8 @@ static void gsmld_receive_buf(struct tty_struct *tty, const unsigned char *cp,
+ 			flags = *fp++;
+ 		switch (flags) {
+ 		case TTY_NORMAL:
+-			gsm->receive(gsm, *cp);
++			if (gsm->receive)
++				gsm->receive(gsm, *cp);
+ 			break;
+ 		case TTY_OVERRUN:
+ 		case TTY_BREAK:
+-- 
+2.37.2
 
-It seems a similar thing might not have been done for scan_req, but I
-could have also missed commits.
-
-So what should go into the fixes tag, if any? Probably 6ea0a69ca21b?
-
-Also, I probably should use RCU_INIT_POINTER in this patch. Or should
-I make a patch somewhat like 31a60ed1e95a?
-
-Thanks,
-Siddh
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
