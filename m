@@ -1,115 +1,166 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81BF2C00140
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Aug 2022 17:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07766C00140
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 Aug 2022 18:25:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F2CB0400F1;
-	Mon, 15 Aug 2022 17:02:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F2CB0400F1
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=gZqQLXqc
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8925C60A66;
+	Mon, 15 Aug 2022 18:25:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8925C60A66
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=fb.com header.i=@fb.com header.a=rsa-sha256 header.s=facebook header.b=KKVIXfFT
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eapZAzJvjUxv; Mon, 15 Aug 2022 17:02:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 006F7400A6;
-	Mon, 15 Aug 2022 17:02:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 006F7400A6
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uXYlK9Q0KPNK; Mon, 15 Aug 2022 18:25:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 468B660803;
+	Mon, 15 Aug 2022 18:25:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 468B660803
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B593DC0033;
-	Mon, 15 Aug 2022 17:02:04 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CD793C0032;
+	Mon, 15 Aug 2022 18:25:01 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BFC8EC002D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 14274C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Aug 2022 17:02:03 +0000 (UTC)
+ Mon, 15 Aug 2022 18:25:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 95916402E0
+ by smtp4.osuosl.org (Postfix) with ESMTP id E086340372
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Aug 2022 17:02:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 95916402E0
+ Mon, 15 Aug 2022 18:24:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E086340372
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=gZqQLXqc
+ dkim=pass (1024-bit key) header.d=fb.com header.i=@fb.com header.a=rsa-sha256
+ header.s=facebook header.b=KKVIXfFT
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id u3jtsx-drUtz
+ with ESMTP id ybqi-fonaqGW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Aug 2022 17:02:02 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 72A72402B8
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 72A72402B8
+ Mon, 15 Aug 2022 18:24:58 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6DC3F4032C
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com
+ [67.231.153.30])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6DC3F4032C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Aug 2022 17:02:02 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id z187so7074933pfb.12
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 Aug 2022 10:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=kVI9j3DYdqBdWkziBWW1kk/pn2Ueg4C4jZV3ff8Htjw=;
- b=gZqQLXqcl92oRRJt+5e5u2qjisa8kzB6aZhxd9PIhqUmCxltZj383GoU8Cz3j8Tk4c
- vN3dentoCQF+MRI0FvyRZDu3ppO1yOn+l9OA8GhHnGrLqRWgaIjY5eBqJDZC13icn8hw
- +JAwQvLxC0EWZOG74h3jwKTqvyhuQAgdTqTQO3xsOZuG6xc4trx06//kNQR1Qf0Ld1Qt
- tKFvpd6kAwyjbVJ8t5yuX1bSinVtAAjspK7Ilp9HakXaNORZYJnsYGPk0LyRyExCiuIq
- zgLrz1HmdPJhISBHvYLb3Ttimvk0hFUuuNhLGuw8c59leJyeKyuYyxmeeXGhUtcLAc0k
- 0nSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=kVI9j3DYdqBdWkziBWW1kk/pn2Ueg4C4jZV3ff8Htjw=;
- b=ROF/9bAjf6vVY2Z1DYhUwyCjASe0w+LOd3kCxRPqSTndtyIBmhcKtJMdrykuylT7fm
- oT61+/B+P65sQxTxJiQhmRfUZLZ+d6UMzKfeoDu/L6rlnpx8lWzVgJKBD39Qu8X2Qlc1
- 27NmvO4igSSk8Tjx84ZJiu3aVNMxwYdU6CG5XmzVJD3NDHgVm9VnswZCx+7vRmg3iuna
- j24/6ZOaxqRkmzlUtBK0zURk45EfGbqckkxELBR3Xzzv6lZ/W0VZgK53fjAV1f0J/07w
- 3KYEUbij6vZwz0oMhVe/Zhult1wtIgM17o01tc4sD0TU2k/tlj1WBV5ZdU6s8yyay0Pa
- YYHg==
-X-Gm-Message-State: ACgBeo0t2aQXEPGtfC+xU9ok5xFmp8XN2BIYIXJfve988xb8/HzAoBls
- 9KgYTbXYIDqOapTqV6utTGA=
-X-Google-Smtp-Source: AA6agR5RZ22iqECqURoT+vxzrH03J8Q9Bvu9e6PkSFwJuTLDiJCN3IdbpLDIa0y8FwM7EIYwWL+bEw==
-X-Received: by 2002:aa7:88d1:0:b0:52e:f8e:aab5 with SMTP id
- k17-20020aa788d1000000b0052e0f8eaab5mr17090966pff.63.1660582921848; 
- Mon, 15 Aug 2022 10:02:01 -0700 (PDT)
-Received: from [192.168.0.110] ([103.159.189.138])
- by smtp.gmail.com with ESMTPSA id
- l20-20020a17090b079400b001f89383d587sm4767063pjz.56.2022.08.15.10.01.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Aug 2022 10:02:01 -0700 (PDT)
-Message-ID: <1e720378-8398-3e4a-5a77-e34b2fec58fd@gmail.com>
-Date: Mon, 15 Aug 2022 23:01:49 +0600
+ Mon, 15 Aug 2022 18:24:58 +0000 (UTC)
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FHbHHN018418;
+ Mon, 15 Aug 2022 11:24:34 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=facebook; bh=u7vEfa7sHs3W2Lrdh/UjRe1ngpMmCy2jq2Hl+0vx3FA=;
+ b=KKVIXfFT+QRPiA1+rzhrNZA3ojOf752raUbqRZnhZYAclLF8zDKTlROlnLKN0/3AkhyA
+ fX4MJ1IjMVPctv/5ORBTD43zrMFTlqpEcjWxUJG/VZ0suuQ/SH9kRQ15h+K8uhKWKz6E
+ agrBED2NoJtZ0qyurGE4HB9uJxJCuEuDcGE= 
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hx9fymd7c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 15 Aug 2022 11:24:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dSvA0RSL7xaD+okOyNzpsx5vrromJUxa8Qaosqva6VmGSimbqM26MXcHxDL5T1axKUjXWnGyg9TSYIe8Tf3k8LuPie6p/SE57blqxI8NYsHDKmNQInP4cnun5UOz1tX32CWyjZX6+0ulABpzIy4FZwehFTUJuY+DVpqTLde+PJN8MGW1V2s9JqQuqBFs5wBakT70XfYU5cYgcy96dWSJUC6RFb25jDku4xocjSDFKFzO2DKBH6PIzZJRHdvnv9sPIk5Sf4yHgVs1gVuCi96qEiGM89vxY/H+kmZgZW+pgJGr2Z3HoHX42iA9ip3mKRWlg3enSNG/QbF++RCIhWedhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u7vEfa7sHs3W2Lrdh/UjRe1ngpMmCy2jq2Hl+0vx3FA=;
+ b=WfoY1HSjmJcAdlzwk3ESjalkbrck/gelhRcJ2GEMHGJP23OL7hfJBSUWNLSDzW7ylhUH1x4V+5kBXbQ/s5e4pwOiGNx0RC9fD+RHRZhvBjdIMBzgQvOXTfOkFSdbjkBNa3Q7kWac0fgYP9ZkTmLstHqD8U9rBetSlxNH6Ok5XIXlNpwjNccwhNquFvFZFsH00yJSj48nkMItg7N+PAHfyndK3WDS+aERyMnt/UaeOOCJG5xmWUhXiLKGcEcI5YS8b2X14I05MQiUD/s8E+3GFolWIA8sYuLLVdS0ryda0iaqrGPhKrplLIJCC59kGQgCTKhNZHEHIhms34VDfKaiAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from MW4PR15MB4475.namprd15.prod.outlook.com (2603:10b6:303:104::16)
+ by DM6PR15MB2764.namprd15.prod.outlook.com (2603:10b6:5:1ae::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.28; Mon, 15 Aug
+ 2022 18:24:30 +0000
+Received: from MW4PR15MB4475.namprd15.prod.outlook.com
+ ([fe80::5455:4e3f:a5a2:6a9e]) by MW4PR15MB4475.namprd15.prod.outlook.com
+ ([fe80::5455:4e3f:a5a2:6a9e%4]) with mapi id 15.20.5525.011; Mon, 15 Aug 2022
+ 18:24:30 +0000
+Date: Mon, 15 Aug 2022 11:24:27 -0700
+To: Hawkins Jiawei <yin31149@gmail.com>
+Subject: Re: [PATCH net v5 2/2] net: refactor bpf_sk_reuseport_detach()
+Message-ID: <20220815182427.afep7xxchgdbyhd2@kafai-mbp>
+References: <cover.1659676823.git.yin31149@gmail.com>
+ <68ea55d47f10ac8faa0d44e184a5ec00a9dd0409.1659676823.git.yin31149@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <68ea55d47f10ac8faa0d44e184a5ec00a9dd0409.1659676823.git.yin31149@gmail.com>
+X-ClientProxiedBy: BYAPR04CA0032.namprd04.prod.outlook.com
+ (2603:10b6:a03:40::45) To MW4PR15MB4475.namprd15.prod.outlook.com
+ (2603:10b6:303:104::16)
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 69b4506c-6e73-4207-f094-08da7eeb650d
+X-MS-TrafficTypeDiagnostic: DM6PR15MB2764:EE_
+X-FB-Source: Internal
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: lWO88g+DlYjbFFU4naNJrsk3ymhcBvj9w8KSIf/0EBYiYR7x9QkXWUqiAEFTGvmK93sZLJJLAMRE1n7cD4kTxvkG+KUef0a9Cu4OC+QY8DWOVq0Z8j7nednUwwsyVfHmLnL6LJduQtshbim7Zm605pzIVC3cg697mQOtBfEeXJuvZISsRgVhaZ370M/ZeIS4EfHtf9+4zahcfFK5I5cEdXhx7NYuBM2KCGewiO8sbqUiHQFMxEHGOUcjMzKpiHhCcJZRvu53MZj1zCBAO0fn5OfzHmhv4tGcJIMlu2lMgScXprciH/gkxFBROQhw71lC+GqnucDuhWEPBvci4zEcYNgByI08CW05HScKgmC56uyQforlXR7Go/RfJTBKLq12hBWL0iMPRfRYMCwjdiwenVbWixKSTHCwHCjrkQRWZgPb9cUM/xH1VD/nJK11qzs9vNoAf0KTXBCJ+cGyo0kuQE51s3xtNzTnuYaECxB5nsBJyXCYAIESMY5rcqEi1UgxWgTaDz/yoztCBzcFvDWxMuUhgGAwJ7Ax9Tc1o9Yq3itUrAG9bzoYMyxLZHwNobI7IblcwTB11x3CGNb5IxTuvm0/TDUzpXpRT/dTplEkLInOXMtT0NGL6F50Jj3WAahEY+75LeMl6I0GMLe74/oxepZBxzvfZFeRIwMeo5u68ayqGjHWL16WDvIl/ITUUsAix6m1fOVGUetLlpxv2q7qzbqxVNSwxxubFviiL+bDNMxlHKk53qepn8PTPgMpunF7ySSsEPeDZ5Ao9dSgPQyjzQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR15MB4475.namprd15.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(7916004)(4636009)(396003)(136003)(39860400002)(366004)(346002)(376002)(316002)(5660300002)(7416002)(2906002)(33716001)(86362001)(966005)(38100700002)(6666004)(41300700001)(6506007)(52116002)(478600001)(186003)(1076003)(6486002)(9686003)(83380400001)(8676002)(66946007)(66556008)(66476007)(8936002)(4326008)(6916009)(54906003)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MpGF4G44zQWrFobsr5Cw5sy/7Zw+xlbpWmisiX2DUMmg9Ncy5r0SsVc0PzI2?=
+ =?us-ascii?Q?ME8jP9zocVszjNWeJDZ2T7IcgY1ZDAp+J5gX4uWmjLh5EXibv7OE59OYrdEK?=
+ =?us-ascii?Q?ZdX9vDtjFS9BI13bmcRd41tZvYR5iW8veKXb3gMhvq3JuE4+9X3gK3s9EaiC?=
+ =?us-ascii?Q?B1nlySdYVkRoj1SvBJPWvLIGWC+a7cU24qSplgwt0BEf4SHGQyH54MnGM8R9?=
+ =?us-ascii?Q?C2nvkKdG8L6dNpaPVa7EltSTl/wCyDSh0UDaIKbxixTzl4+HZympz+ikMaDr?=
+ =?us-ascii?Q?uf9tlaCheESdlSaExTWo9QPzLuYaKeYIbcK6hYjX8ljjyu/yuymVhOL+bTJZ?=
+ =?us-ascii?Q?rJ+6c/5gdgQqwuwkImk+I8zwEFwtDnY7cDMK5h8MaRUs+wcFIgAY8DC56Fu7?=
+ =?us-ascii?Q?/Zg+B+2BYO5hc/XNf2psZJo1oLOIIUtlS4qZ3pGNKEqqnu9JQ1HWsyD8BHew?=
+ =?us-ascii?Q?vqT6nD/F5bchKxRyl9Rvlev6HTM6tBls9uyVklYzZm+CiDHeHoe7XS1OBFPU?=
+ =?us-ascii?Q?JH9hwebvFgaPKJobJxMOSbwL+XUVJU73Xnp7HurmGm/zqQTjnyvWLRNn2d0e?=
+ =?us-ascii?Q?fYCT0XtsDbM/1v1J1cV1+roRvsEGo/a/mKAJ8zD4UkD41lyzrHvf2+a97YXq?=
+ =?us-ascii?Q?f01u8fG9qqqZ0BjFGvN/5NMOffpV6+lFxZP4H5RRYvwGOE0yG7M2WEfxIQVQ?=
+ =?us-ascii?Q?x8FPEz9ZHXPpWiBdvjUBC6IpMgUUc4RYeyViYeqXQHjkIAMX7XBQB9DfVpU+?=
+ =?us-ascii?Q?I/nAVUFh1NP+Aen6NFpxlgjK+GjV043GXV9ZzLXXsxGQQsDgSkBPoAN7Ty2C?=
+ =?us-ascii?Q?UdyyV+8jFfAuFziGQMBSpEERNsFAX3ntWn17kh4LOxLL7vkLeGQZg2ynt9ag?=
+ =?us-ascii?Q?GykoWKfVvdlPXpQkD4BJPAec8rDzOXpL9O9QXxAa6FKiq5tD/VYcKa2orytQ?=
+ =?us-ascii?Q?BcvqkpJdvgAurKpSc+4d6hc9LTYGcbhXc1hcM6P16klfAP+ng7gkT4GIe+Ja?=
+ =?us-ascii?Q?rMeVSm6LsHxm5XRPZvwDKqu+KHzo24YlXQczO928DOY9Iemj5QpZM4WOJsP2?=
+ =?us-ascii?Q?GrH/o+ZFtSecAfjRXHl4nEEqjh1y7Eh4vkDTyoiOkUEUzZ6xbekdSVGwseJI?=
+ =?us-ascii?Q?8m0nm7d+As5QgiiFXT8nVBHldpisg+VeOYOuBybnNjMDBZ3dT4uEMckI/elJ?=
+ =?us-ascii?Q?rhD4Dk4IyoPmq22id7IbU7N84XztqPHyKC2u3khSidErolkml9VPHc18OqhD?=
+ =?us-ascii?Q?oQM9MKoN8Ox70G/iYuFoEbC3J6gCreij20+AUH45Lv0r/ltTZuv+p5rjJnlo?=
+ =?us-ascii?Q?lLjHeKsm/rg9oix8EQRS22bH4ecrHhN/z9OUcxqjOBHvL+BYneP+4FNvLPB+?=
+ =?us-ascii?Q?e5OEgWCZZdJnG74BRmFoVscsMcUujxe7UJSnLqrnOQyqh7Vvw5coZZ315y5n?=
+ =?us-ascii?Q?QbHzpr6Mu8JQUV4LqXmpOpGDpw5mCqUhAUt62220pyPwZDjMtfw9/gctC2r+?=
+ =?us-ascii?Q?IQ4MTuJ+gPitdqKozmWqn3addVRrlvK17r2U0QgnJAtr8cwPOnBmxaqbjSGo?=
+ =?us-ascii?Q?LORFFmiyWr9gTxbmSd9jbPC5yFmfrQ0r7NqoATxD3/rKj/BrSjypOrEsYqS/?=
+ =?us-ascii?Q?rA=3D=3D?=
+X-OriginatorOrg: fb.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69b4506c-6e73-4207-f094-08da7eeb650d
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR15MB4475.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 18:24:30.6829 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1rglmB6xYqxYz/2BQxBRvmac+Y1OSOf7FzUR9cI+INOfQmmIBz5huUsifbM+IwRN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR15MB2764
+X-Proofpoint-ORIG-GUID: CRRzaTyihQ2gw5dnsTafY467P3ycaPN_
+X-Proofpoint-GUID: CRRzaTyihQ2gw5dnsTafY467P3ycaPN_
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in
- vcn_v4_0_stop
-Content-Language: en-US
-To: Greg KH <greg@kroah.com>
-References: <20220815070056.10816-1-khalid.masum.92@gmail.com>
- <SJ1PR12MB61944B1D53330D5E9531158695689@SJ1PR12MB6194.namprd12.prod.outlook.com>
- <86088c17-585c-4a53-312d-ef339b824538@gmail.com> <YvpwVh359EMGa5kO@kroah.com>
-From: Khalid Masum <khalid.masum.92@gmail.com>
-In-Reply-To: <YvpwVh359EMGa5kO@kroah.com>
-Cc: Wan Jiabing <wanjiabing@vivo.com>, David Airlie <airlied@linux.ie>, "Liu,
- Leo" <Leo.Liu@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "Jiang,
- Sonny" <Sonny.Jiang@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel@ffwll.ch>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Dong, Ruijing" <Ruijing.Dong@amd.com>,
- "Zhu, James" <James.Zhu@amd.com>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>, "Koenig,
- Christian" <Christian.Koenig@amd.com>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-15_08,2022-08-15_01,2022-06-22_01
+Cc: Hao Luo <haoluo@google.com>,
+ syzbot+5f26f85569bd179c18ce@syzkaller.appspotmail.com,
+ Jakub Kicinski <kuba@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ paskripkin@gmail.com, John Fastabend <john.fastabend@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Song Liu <song@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, KP Singh <kpsingh@kernel.org>,
+ Yonghong Song <yhs@fb.com>, bpf@vger.kernel.org,
+ Martin KaFai Lau <martin.lau@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,96 +172,60 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Martin KaFai Lau via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Martin KaFai Lau <kafai@fb.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 8/15/22 22:12, Greg KH wrote:
-> On Mon, Aug 15, 2022 at 09:11:18PM +0600, Khalid Masum wrote:
->> On 8/15/22 20:15, Dong, Ruijing wrote:
->>> [AMD Official Use Only - General]
->>>
->>> Sorry, which "r" value was overwritten?  I didn't see the point of making this change.
->>>
->>> Thanks
->>> Ruijing
->>>
->>> -----Original Message-----
->>> From: Khalid Masum <khalid.masum.92@gmail.com>
->>> Sent: Monday, August 15, 2022 3:01 AM
->>> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-kernel@vger.kernel.org; linux-kernel-mentees@lists.linuxfoundation.org
->>> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>; Koenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui <Xinhui.Pan@amd.com>; David Airlie <airlied@linux.ie>; Daniel Vetter <daniel@ffwll.ch>; Zhu, James <James.Zhu@amd.com>; Jiang, Sonny <Sonny.Jiang@amd.com>; Dong, Ruijing <Ruijing.Dong@amd.com>; Wan Jiabing <wanjiabing@vivo.com>; Liu, Leo <Leo.Liu@amd.com>; Khalid Masum <khalid.masum.92@gmail.com>
->>> Subject: [PATCH linux-next] drm/amdgpu/vcn: Remove unused assignment in vcn_v4_0_stop
->>>
->>> The value assigned from vcn_v4_0_stop_dbg_mode to r is overwritten before it can be used. Remove this assignment.
->>>
->>> Addresses-Coverity: 1504988 ("Unused value")
->>> Fixes: 8da1170a16e4 ("drm/amdgpu: add VCN4 ip block support")
->>> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
->>> ---
->>>    drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>> index ca14c3ef742e..80b8a2c66b36 100644
->>> --- a/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>> +++ b/drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>> @@ -1154,7 +1154,7 @@ static int vcn_v4_0_stop(struct amdgpu_device *adev)
->>>                   fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
->>>
->>>                   if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
->>> -                       r = vcn_v4_0_stop_dpg_mode(adev, i);
->>> +                       vcn_v4_0_stop_dpg_mode(adev, i);
->>>                           continue;
->>>                   }
->>>
->>> --
->>> 2.37.1
->>>
->>
->> After value is overwritten soon right after the diff.
->>
->> See:
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c
->>
->> static int vcn_v4_0_stop(struct amdgpu_device *adev)
->> {
->>          volatile struct amdgpu_vcn4_fw_shared *fw_shared;
->> ...
->>
->>          for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
->>                  fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
->>                  fw_shared->sq.queue_mode |= FW_QUEUE_DPG_HOLD_OFF;
->>
->>                  if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
->>                          r = vcn_v4_0_stop_dpg_mode(adev, i);
->>                          continue;
->>                  }
->>
->>                  /* wait for vcn idle */
->>                  r = SOC15_WAIT_ON_RREG(VCN, i, regUVD_STATUS,
->> UVD_STATUS__IDLE, 0x7);
->>
->> Here, any value assigned to r is overwritten before it could
->> be used. So the assignment in the true branch of the if statement
->> here can be removed.
+On Fri, Aug 05, 2022 at 03:48:36PM +0800, Hawkins Jiawei wrote:
+> Refactor sk_user_data dereference using more generic function
+> __rcu_dereference_sk_user_data_with_flags(), which improve its
+> maintainability
 > 
-> Why not fix vcn_v4_0_stop_dpg_mode() to not return anything, as it does
-> not, and then remove this assignment as well, which would fix up
-> everything at once to be more obvious what is happening and why.
-
-That makes sense. I shall send a v2 this way. Thanks for your suggestion.
-
+> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+> ---
+>  kernel/bpf/reuseport_array.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
-> thanks,
+> diff --git a/kernel/bpf/reuseport_array.c b/kernel/bpf/reuseport_array.c
+> index e2618fb5870e..85fa9dbfa8bf 100644
+> --- a/kernel/bpf/reuseport_array.c
+> +++ b/kernel/bpf/reuseport_array.c
+> @@ -21,14 +21,11 @@ static struct reuseport_array *reuseport_array(struct bpf_map *map)
+>  /* The caller must hold the reuseport_lock */
+>  void bpf_sk_reuseport_detach(struct sock *sk)
+>  {
+> -	uintptr_t sk_user_data;
+> +	struct sock __rcu **socks;
+>  
+>  	write_lock_bh(&sk->sk_callback_lock);
+> -	sk_user_data = (uintptr_t)sk->sk_user_data;
+> -	if (sk_user_data & SK_USER_DATA_BPF) {
+> -		struct sock __rcu **socks;
+> -
+> -		socks = (void *)(sk_user_data & SK_USER_DATA_PTRMASK);
+> +	socks = __rcu_dereference_sk_user_data_with_flags(sk, SK_USER_DATA_BPF);
+syzbot reports 'suspicious rcu_dereference_check() usage':
+https://lore.kernel.org/netdev/0000000000007902fc05e6458697@google.com/
+
+rcu_read_lock() does not need to be held here.
+One option is to use rcu_access_pointer.
+Another option is to use rcu_dereference_check() and pass the
+lockdep_is_held(&sk->sk_callback_lock) from here.
+
+
+> +	if (socks) {
+>  		WRITE_ONCE(sk->sk_user_data, NULL);
+>  		/*
+>  		 * Do not move this NULL assignment outside of
+> -- 
+> 2.25.1
 > 
-> greg k-h
-
-thanks,
-   -- Khalid Masum
-
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
