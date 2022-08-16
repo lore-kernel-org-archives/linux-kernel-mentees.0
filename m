@@ -4,102 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 40A9BC2BB41
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 16 Aug 2022 10:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1AC5BC25B0E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 16 Aug 2022 13:10:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B081060EA7;
-	Tue, 16 Aug 2022 10:36:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B081060EA7
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9CB7761005;
+	Tue, 16 Aug 2022 13:10:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9CB7761005
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=i6P3O5ie
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=iM6mIo7N
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mna_DZxBivKC; Tue, 16 Aug 2022 10:36:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8B24A60E8A;
-	Tue, 16 Aug 2022 10:36:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8B24A60E8A
+	with ESMTP id ZYIyVaBcb6ah; Tue, 16 Aug 2022 13:10:05 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BE43860E83;
+	Tue, 16 Aug 2022 13:10:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BE43860E83
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 60B33C0033;
-	Tue, 16 Aug 2022 10:36:33 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E15CC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9190EC0033;
+	Tue, 16 Aug 2022 13:10:04 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 23D53C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Aug 2022 10:36:32 +0000 (UTC)
+ Tue, 16 Aug 2022 13:10:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2F8054088D
+ by smtp2.osuosl.org (Postfix) with ESMTP id E6DEA4023B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Aug 2022 10:36:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2F8054088D
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=i6P3O5ie
+ Tue, 16 Aug 2022 13:10:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E6DEA4023B
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
+ header.a=rsa-sha256 header.s=mimecast20190719 header.b=iM6mIo7N
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1rvytmnI3VNL
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id F9N-cnK0xx5M
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Aug 2022 10:36:31 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0D2D2404A5
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com
- [IPv6:2607:f8b0:4864:20::52b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0D2D2404A5
+ Tue, 16 Aug 2022 13:09:57 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D4D3040BB1
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D4D3040BB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Aug 2022 10:36:30 +0000 (UTC)
-Received: by mail-pg1-x52b.google.com with SMTP id c24so8862723pgg.11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Aug 2022 03:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=5A5RtN/YS/4w7sXimiNz+39ndA1ngcqHQiad4s8fg4Q=;
- b=i6P3O5ievivOXk5mzbsJWm6wlAnJEdrEfilGpTvRGnyai46rxm0+Jxp11BbZf4IsKj
- qO97j0j41kC2x7RN6OHQ5vKhu3lUys1t4Y/+GkEuD9xgT/9qOQNr3CRdg6oE1xXIBPeJ
- ynhUqnRAtvl35XghDcmpU28lgm0ECn2J1dvMqcf3vlfFFhlWg1IRbPXGhMBWZoKhsFwa
- xQFqWuBeH0sO4xR/fjRkJWxPidM8yOpSI+msEzo9XfCYVIqj4/B4g4B0FcEESZHhcxV0
- /jObHO/tfzPys3En7Dz6pDXNkWxwZgmanen3mAEOEL3lgL110Iz6twsy/infxn/w03bi
- DfOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=5A5RtN/YS/4w7sXimiNz+39ndA1ngcqHQiad4s8fg4Q=;
- b=ROCEFv8OQKEK0YxL+LnJYa7qKUQPs6+aq0ijwSG47Q3GTjsP7RPQC+JsEbDNrBHWxO
- 2Ob5+sgVL/scPW03uTjHE6wYZ6+hgsUWCACkhXjlJol5KLgCrxMP5oGuQ5sKAJwJneQW
- NACAt0MaiT7cCzqiYm4xH8dCcIUqzvgxcjAFTgLLgaxnqVepYsJI4N5nvIv/FaQz0hcr
- VrGDKfMTQAcOIiCsNHj2fDaKfVqjubOl5rkzs/44xgTqZ7sNAsaydoVEWbcBJMHQWRNU
- 0N8khmgazQBYN2Cz8cuFPLI7j+8aPgkPx4t8kX9oOVL+XLoe6i6INHjNUKlmkpc//fcQ
- QZyw==
-X-Gm-Message-State: ACgBeo2qrWQ5Ffo3hAk4WLXdPZ4DByyGuNTOp2joGBmGn6JSTeg2Meio
- zawjStCN3FBh7I9TnKFBJoE=
-X-Google-Smtp-Source: AA6agR7VYoPwJ0fUKY7DGeSKdzzsM77Cgyq30uiP5ZbMuykBi4NKULWYUxSi8YlueLMCiucRw4dhxA==
-X-Received: by 2002:a63:5620:0:b0:429:9ad7:b4f2 with SMTP id
- k32-20020a635620000000b004299ad7b4f2mr3326930pgb.162.1660646190469; 
- Tue, 16 Aug 2022 03:36:30 -0700 (PDT)
-Received: from localhost ([36.112.86.8]) by smtp.gmail.com with ESMTPSA id
- a8-20020a170902ecc800b0016efbccf2c0sm8771705plh.56.2022.08.16.03.36.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 03:36:30 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: dhowells@redhat.com, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <kafai@fb.com>,
- Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>
+ Tue, 16 Aug 2022 13:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1660655395;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8awJny9/ykLwiE6dZBhJI/2SwPImayCQ0hkEt7cHi1w=;
+ b=iM6mIo7NYKvRDfUY03JGHtT4M8ZGpyHZyocwIW3FQHvCh8YG0xO/rdRDXvp62AC5KsY0Os
+ 4LC+cL6kBUTCLXFxsccb1QSMXIpmHnegw5hza0fUr4M9J8pJXil0vdmR6wxA86aKE0GGvb
+ 3/eDkG+DVKKkY34hDL7zHJK7crtWs/M=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-645-CUgRfkWnO82eztXDflM4gA-1; Tue, 16 Aug 2022 09:09:50 -0400
+X-MC-Unique: CUgRfkWnO82eztXDflM4gA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 949E13C1014B;
+ Tue, 16 Aug 2022 13:09:49 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F7B0C15BA6;
+ Tue, 16 Aug 2022 13:09:47 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+ Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+ Kingdom.
+ Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <20220816103452.479281-1-yin31149@gmail.com>
+References: <20220816103452.479281-1-yin31149@gmail.com>
+ <166064248071.3502205.10036394558814861778.stgit@warthog.procyon.org.uk>
+To: Hawkins Jiawei <yin31149@gmail.com>
 Subject: Re: [PATCH] net: Fix suspicious RCU usage in bpf_sk_reuseport_detach()
-Date: Tue, 16 Aug 2022 18:34:52 +0800
-Message-Id: <20220816103452.479281-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <166064248071.3502205.10036394558814861778.stgit@warthog.procyon.org.uk>
-References: <166064248071.3502205.10036394558814861778.stgit@warthog.procyon.org.uk>
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, bpf@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- yin31149@gmail.com
+Content-ID: <3961604.1660655386.1@warthog.procyon.org.uk>
+Date: Tue, 16 Aug 2022 14:09:46 +0100
+Message-ID: <3961607.1660655386@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
+ Daniel Borkmann <daniel@iogearbox.net>, linux-kernel@vger.kernel.org,
+ John Fastabend <john.fastabend@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
+ Andrii Nakryiko <andrii@kernel.org>, dhowells@redhat.com,
+ Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, bpf@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,112 +113,16 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, 16 Aug 2022 at 17:34, David Howells <dhowells@redhat.com> wrote:
->
-> Fix this by adding a new helper, __locked_read_sk_user_data_with_flags()
-> that checks to see if sk->sk_callback_lock() is held and use that here
-> instead.
-Hi, I wonder if we make this more geniric, for I think maybe the future
-code who use __rcu_dereference_sk_user_data_with_flags() may
-also meet this bug.
+Hawkins Jiawei <yin31149@gmail.com> wrote:
 
-To be more specific, maybe we can refactor
-__rcu_dereference_sk_user_data_with_flags() to
-__rcu_dereference_sk_user_data_with_flags_check(), like
-rcu_dereference() and rcu_dereference_check(). Maybe:
+>  	if (socks) {
+>  		WRITE_ONCE(sk->sk_user_data, NULL);
 
-diff --git a/include/net/sock.h b/include/net/sock.h
-index 05a1bbdf5805..cf123954eab9 100644
---- a/include/net/sock.h
-+++ b/include/net/sock.h
-@@ -578,18 +578,27 @@ static inline bool sk_user_data_is_nocopy(const struct sock *sk)
- #define __sk_user_data(sk) ((*((void __rcu **)&(sk)->sk_user_data)))
- 
- /**
-- * __rcu_dereference_sk_user_data_with_flags - return the pointer
-- * only if argument flags all has been set in sk_user_data. Otherwise
-- * return NULL
-+ * __rcu_dereference_sk_user_data_with_flags_check - return the pointer
-+ * only if argument flags all has been set in sk_user_data, with debug
-+ * checking. Otherwise return NULL
-  *
-- * @sk: socket
-- * @flags: flag bits
-+ * Do __rcu_dereference_sk_user_data_with_flags(), but check that the
-+ * conditions under which the rcu dereference will take place are correct,
-+ * which is a bit like rcu_dereference_check() and rcu_derefence().
-+ *
-+ * @sk		: socket
-+ * @flags	: flag bits
-+ * @condition	: the conditions under which the rcu dereference will
-+ * take place
-  */
- static inline void *
--__rcu_dereference_sk_user_data_with_flags(const struct sock *sk,
--					  uintptr_t flags)
-+__rcu_dereference_sk_user_data_with_flags_check(const struct sock *sk,
-+						uintptr_t flags, bool condition)
- {
--	uintptr_t sk_user_data = (uintptr_t)rcu_dereference(__sk_user_data(sk));
-+	uintptr_t sk_user_data;
-+
-+	sk_user_data = (uintptr_t)rcu_dereference_check(__sk_user_data(sk),
-+							condition);
- 
- 	WARN_ON_ONCE(flags & SK_USER_DATA_PTRMASK);
- 
-@@ -598,6 +607,8 @@ __rcu_dereference_sk_user_data_with_flags(const struct sock *sk,
- 	return NULL;
- }
- 
-+#define __rcu_dereference_sk_user_data_with_flags(sk, flags) \
-+	__rcu_dereference_sk_user_data_with_flags_check(sk, flags, 0)
- #define rcu_dereference_sk_user_data(sk)				\
- 	__rcu_dereference_sk_user_data_with_flags(sk, 0)
- #define __rcu_assign_sk_user_data_with_flags(sk, ptr, flags)		\
+Btw, shouldn't this be rcu_assign_pointer() or RCU_INIT_POINTER(), not
+WRITE_ONCE()?
 
-> +/**
-> + * __locked_read_sk_user_data_with_flags - return the pointer
-> + * only if argument flags all has been set in sk_user_data. Otherwise
-> + * return NULL
-> + *
-> +               (uintptr_t)rcu_dereference_check(__sk_user_data(sk),
-> +                                                lockdep_is_held(&sk->sk_callback_lock));
+David
 
-> diff --git a/kernel/bpf/reuseport_array.c b/kernel/bpf/reuseport_array.c
-> index 85fa9dbfa8bf..82c61612f382 100644
-> --- a/kernel/bpf/reuseport_array.c
-> +++ b/kernel/bpf/reuseport_array.c
-> @@ -24,7 +24,7 @@ void bpf_sk_reuseport_detach(struct sock *sk)
->         struct sock __rcu **socks;
-> 
->         write_lock_bh(&sk->sk_callback_lock);
-> -       socks = __rcu_dereference_sk_user_data_with_flags(sk, SK_USER_DATA_BPF);
-> +       socks = __locked_read_sk_user_data_with_flags(sk, SK_USER_DATA_BPF);
->         if (socks) {
->                 WRITE_ONCE(sk->sk_user_data, NULL);
->                 /*
-Then, as you point out, we can pass
-condition(lockdep_is_held(&sk->sk_callback_lock)) to
-__rcu_dereference_sk_user_data_with_flags_check() in order to
-make compiler happy as below:
-
-diff --git a/kernel/bpf/reuseport_array.c b/kernel/bpf/reuseport_array.c
-index 85fa9dbfa8bf..a772610987c5 100644
---- a/kernel/bpf/reuseport_array.c
-+++ b/kernel/bpf/reuseport_array.c
-@@ -24,7 +24,10 @@ void bpf_sk_reuseport_detach(struct sock *sk)
- 	struct sock __rcu **socks;
- 
- 	write_lock_bh(&sk->sk_callback_lock);
--	socks = __rcu_dereference_sk_user_data_with_flags(sk, SK_USER_DATA_BPF);
-+	socks = __rcu_dereference_sk_user_data_with_flags_check(
-+			sk, SK_USER_DATA_BPF,
-+			lockdep_is_held(&sk->sk_callback_lock));
-+
- 	if (socks) {
- 		WRITE_ONCE(sk->sk_user_data, NULL);
- 		/*
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
