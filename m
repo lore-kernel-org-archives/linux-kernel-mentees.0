@@ -1,103 +1,95 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63A87C25B0E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 03:04:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 784C5C25B08
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 07:49:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B592440C6B;
-	Wed, 17 Aug 2022 03:04:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B592440C6B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=F19mXXKt
+	by smtp1.osuosl.org (Postfix) with ESMTP id 040C683187;
+	Wed, 17 Aug 2022 07:49:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 040C683187
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=fj7UGrTD
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TcDWW4nffxD9; Wed, 17 Aug 2022 03:04:47 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mWi6sbwhG0YS; Wed, 17 Aug 2022 07:49:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id C98BA40C69;
-	Wed, 17 Aug 2022 03:04:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C98BA40C69
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 088E08316A;
+	Wed, 17 Aug 2022 07:49:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 088E08316A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A6BCCC0032;
-	Wed, 17 Aug 2022 03:04:46 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8C012C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFDACC0032;
+	Wed, 17 Aug 2022 07:49:12 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 746E0C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 03:04:45 +0000 (UTC)
+ Wed, 17 Aug 2022 07:49:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5A23060671
+ by smtp1.osuosl.org (Postfix) with ESMTP id 3B4528316F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 03:04:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5A23060671
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=F19mXXKt
+ Wed, 17 Aug 2022 07:49:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3B4528316F
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XZDes6ifEfCx
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OkVXY_d1ucUs
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 03:04:44 +0000 (UTC)
+ Wed, 17 Aug 2022 07:49:10 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A4D5560F94
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A4D5560F94
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 69D268316A
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 69D268316A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 03:04:44 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so654703pjf.2
+ Wed, 17 Aug 2022 07:49:10 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id d71so11311803pgc.13
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 16 Aug 2022 20:04:44 -0700 (PDT)
+ Wed, 17 Aug 2022 00:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=QiKcqQGvDQZ0wwxsKELSH16ee9cOyYGIbKKc/TC2lac=;
- b=F19mXXKtLBf6iZVb6OJh9gOPy2/rtD0ZdnW872Bmp9Hgq+BfaOSiyncf8f8FFiLrbw
- sLarg712oGU6m+2FqBAfeZBbnhGkSb3XeZQNewvHJLO5r478kLea8UGdpnvAMfNP4yJO
- KMFnDg2SlEd8+kitF3MHDqBMUfQAENSy08qvPBIhRs04EljBxwF+MIK1XpCyVXjs60lB
- Jf+TqXCq5KkMty7fn0ol9jgro0js6yw5zYaOfv7JSQdwCHRC/+AdarciIMbXvdbfc1rr
- szGau58oFfpvcYt7HhTU5dtxXvr+yD2LAQVfFoBAm8M2Dkccy8NkyPtR0Ai9CmEteSSK
- zZLA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=DNiQd09UafzK11FBkwcs+iSGy+8QGplgYWkm+nS++S0=;
+ b=fj7UGrTDJkbe4FoWiYArk+SAIZwBIpOJ3w5z2iz5JNOUtWcHb2r3IvrOOq338ytPo4
+ mL9IX54+RP2R5Yrq0rHXROHF39LMDOtiWAx3vrEgr+q8R+Vd7ctvJgALho5IoPZ/PQ6a
+ /1bQIoUFBmlFR/5RKc/xOfICfR2SYgfJBw2hFk0qBAU1B2BR6DywKDtUK3zkIjsf6TxK
+ G0+JOE1ux1SC+iqIof0qxj+SxF6vafmOVvllp98ElKt/z3eilm9+dGeiAnkkzSIymD2R
+ T2icDVH+2Q9u17KY2yi5QZbN0pkGaaTAkz4QOb2upf1r19YyEdz91stc1zCJe1hZj4kQ
+ cK8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=QiKcqQGvDQZ0wwxsKELSH16ee9cOyYGIbKKc/TC2lac=;
- b=A3Ywab0zCdiVeuNLAWI00REWkuOCYdxM7BHgJaiZ/pDpEGcPmR1Zatq65hlYcF2n/w
- MOafuEeJOGT6iJmN2AIjlA+EYSn06lHIavc+CGAPokG9+QMWXtmbxkkHDEp0JKZ7DOoQ
- 1Yx/FYXFyaBmrm02BMXw40Az70b3f7beKkb/cNJXpZUm+3OfO6oXrLYWbQh+20D0t8WH
- IhqtRXYeHRwOgY7oYB1rDrSVem7lFEsk596pXhi7Vv5Ix1k4qefVGEgvn6R/BztRs9Ot
- jD48kdH/FjZ8G9mLYg3oliafREXa3FtwP9fHpRIGLfWE5E0X50sxU6U/ihuPN8zC9O5o
- dqpw==
-X-Gm-Message-State: ACgBeo3Dx5KYSLdHLWNFWon8sXrvcvYXxQuD3WsTfpw4etG+nJNlBQYS
- B9mrAQDY7FuSRuQ0SaJ3So4=
-X-Google-Smtp-Source: AA6agR4d1E+ey3zbI4IF5ML3Se7af3AMcCPqfC/gvLIVoMIKs1/GntGKkkoyWx9ncFVYNz/6oOMyYg==
-X-Received: by 2002:a17:902:a3c7:b0:172:8db4:cc54 with SMTP id
- q7-20020a170902a3c700b001728db4cc54mr3998176plb.99.1660705484047; 
- Tue, 16 Aug 2022 20:04:44 -0700 (PDT)
-Received: from localhost ([36.112.86.8]) by smtp.gmail.com with ESMTPSA id
- r15-20020a17090a0acf00b001f559e00473sm279356pje.43.2022.08.16.20.04.42
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=DNiQd09UafzK11FBkwcs+iSGy+8QGplgYWkm+nS++S0=;
+ b=Zm8etm3Ucuv5cjBabvqTah58hQ8ka3o4qbtdoBxQhSPYzLWwB0xkjbaaPKGe1h5WaZ
+ 6U9a23+BedNgJwr0UC7gMT6WJrJe2n7topHYYZb6wUFO1iEXcvRMEXvidVJPUK5Qr7lg
+ oXySsYPeuNV9tcuVaCjBvD3JcG8K3h75SNfpgVPTmLOxQOcX8LrVUhxvYB2On1cMpVCb
+ pn14nipSaZeeKmGXOrsnFBKObQTV3QYh5H/xavcVjI/lVrFFjpz4t5wVX7sPpslfUWka
+ eUEFp7nCw/2qtqEyjB1IvEz3d6CyN9r3m5Qgkf/NI19thzbShTrFtEDwgXSuu+p1y/X+
+ YWmQ==
+X-Gm-Message-State: ACgBeo2cyfrEraDCH3Qv5i+33VjFlXA+Az0Gp2Sxr/SA4t8IjOpihEee
+ 06nJdI9bJ0NVebtQPYACrAE=
+X-Google-Smtp-Source: AA6agR4vHtGkmizUZ/tTkNHmlQg+RREpiDotcib74icakxpdWZ1be5OldVWCoVxw1rPgpIsSgCXIvg==
+X-Received: by 2002:a63:8b43:0:b0:41c:cb91:2c47 with SMTP id
+ j64-20020a638b43000000b0041ccb912c47mr20548848pge.609.1660722549845; 
+ Wed, 17 Aug 2022 00:49:09 -0700 (PDT)
+Received: from fedora.. ([103.230.104.51]) by smtp.gmail.com with ESMTPSA id
+ b14-20020a170902650e00b00172a2a41064sm427208plk.298.2022.08.17.00.49.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Aug 2022 20:04:43 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: kuba@kernel.org
-Subject: Re: [PATCH] net: Fix suspicious RCU usage in bpf_sk_reuseport_detach()
-Date: Wed, 17 Aug 2022 11:00:13 +0800
-Message-Id: <20220817030013.6574-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220816183930.2328d46d@kernel.org>
-References: <20220816183930.2328d46d@kernel.org>
+ Wed, 17 Aug 2022 00:49:09 -0700 (PDT)
+From: Khalid Masum <khalid.masum.92@gmail.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v3 linux-next] soundwire: intel: Remove unnecessary TODO
+Date: Wed, 17 Aug 2022 13:48:59 +0600
+Message-Id: <20220817074859.4759-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Cc: songliubraving@fb.com, kafai@fb.com, jakub@cloudflare.com,
- daniel@iogearbox.net, linux-kernel@vger.kernel.org, john.fastabend@gmail.com,
- andrii@kernel.org, ast@kernel.org, dhowells@redhat.com, edumazet@google.com,
- yin31149@gmail.com, netdev@vger.kernel.org, kpsingh@kernel.org, yhs@fb.com,
- bpf@vger.kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Cc: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Sanyog Kale <sanyog.r.kale@intel.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,31 +107,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 17 Aug 2022 at 07:44, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Tue, 16 Aug 2022 22:16:46 +0100 David Howells wrote:
-> > So either __rcu_dereference_sk_user_data_with_flags_check() has to be a macro,
-> > or we need to go with something like the first version of my patch where I
-> > don't pass the condition through.  Do you have a preference?
->
-> I like your version because it documents what the lock protecting this
-> field is.
-In my opinion, I still think we'd better refactor it to a more
-geniric function, to avoid adding new functions when meeting
-the same problem. However, if this is just a standalone problem,
-maybe David's version shoule be better.
+The capabilities enabled for multi-link are required as part of the
+programming sequences, even when a stream uses a single link we still
+use the syncArm/syncGo sequences. Therefore the TODO is no longer
+necessary.
 
-So maybe apply the David's version, and refactor it later when
-meeting the same problem next time if needed.
+Suggested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+Previous discussions:
+- v2 Link: https://lore.kernel.org/lkml/20220816175954.5259-1-khalid.masum.92@gmail.com/
+- v1 Link: https://lore.kernel.org/lkml/20220814080416.7531-1-khalid.masum.92@gmail.com/
 
-On Wed, 17 Aug 2022 at 08:43, Martin KaFai Lau <kafai@fb.com> wrote:
->
-> On Tue, Aug 16, 2022 at 04:44:35PM -0700, Jakub Kicinski wrote:
-> >
-> > One the naming - maybe just drop the _with_flags() ? There's no version
-> > of locked helper which does not take the flags. And not underscores?
-> I am also good with a shorter name.
-I also agree, the name is really long.
+Changes since v2:
+- Update commit title.
+
+Changes since v1:
+- Remove the todo, leave rest of the code as is.
+- Update commit message.
+
+ drivers/soundwire/bus.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+index 8d4000664fa3..18158825a6d8 100644
+--- a/drivers/soundwire/bus.c
++++ b/drivers/soundwire/bus.c
+@@ -75,7 +75,6 @@ int sdw_bus_master_add(struct sdw_bus *bus, struct device *parent,
+ 
+ 	/*
+ 	 * Initialize multi_link flag
+-	 * TODO: populate this flag by reading property from FW node
+ 	 */
+ 	bus->multi_link = false;
+ 	if (bus->ops->read_prop) {
+-- 
+2.37.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
