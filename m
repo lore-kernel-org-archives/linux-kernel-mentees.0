@@ -1,99 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 797BFC25B08
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 08:55:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F12F7C25B08
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 16:10:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E5E2340D7B;
-	Wed, 17 Aug 2022 08:55:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E5E2340D7B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=LQ2AFKVy
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mZL1i34YyvTC; Wed, 17 Aug 2022 08:55:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DACB54048D;
-	Wed, 17 Aug 2022 08:55:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DACB54048D
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B1C23C0033;
-	Wed, 17 Aug 2022 08:55:35 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 32CBEC002D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 08:55:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0B3F34016E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 08:55:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0B3F34016E
+	by smtp4.osuosl.org (Postfix) with ESMTP id 823A1419F5;
+	Wed, 17 Aug 2022 16:10:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 823A1419F5
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=LQ2AFKVy
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=b1IeAz0s
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Qh679Qvy_7rP
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M0I34F-YrNc1; Wed, 17 Aug 2022 16:10:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0AB7741935;
+	Wed, 17 Aug 2022 16:10:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0AB7741935
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E9164C0032;
+	Wed, 17 Aug 2022 16:10:38 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6EBE8C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 08:55:33 +0000 (UTC)
+ Wed, 17 Aug 2022 16:10:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 3A940404AE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Aug 2022 16:10:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3A940404AE
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=b1IeAz0s
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id el4FbqTK6ap8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Aug 2022 16:10:36 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D751640069
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by smtp4.osuosl.org (Postfix) with ESMTPS id D751640069
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 74DF040475
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 74DF040475
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 08:55:32 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id x19so380592plc.5
+ Wed, 17 Aug 2022 16:10:36 +0000 (UTC)
+Received: by mail-pl1-x62d.google.com with SMTP id 2so1183331pll.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 01:55:32 -0700 (PDT)
+ Wed, 17 Aug 2022 09:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=QMW64EnUhAM3fb/FOLJApJo2idS3sY65uejC0k2Z3qs=;
- b=LQ2AFKVyFma74B+9htyjmznvbfRPRnZLlV/vJ/foDCuBbipC/NLRNHJ23ZQTSer6X4
- o9M4ZYKS6kwdvQ86BhGBEWIluCEEK21Z4UPzw/qDfRApKMBKiZ8eSCrAKvrmfH8GSA9t
- tOJDTIuXcFqUS9yFM57ySvdGjzCpIAXXFZJVj2yPeyLNDcEZiwFY8tvvflUnL1AzhvX6
- TGd+BRvon3Dnn8Yawepllh+7mhuRvHlB1l+O3WC7H5gJsgSkpuSAfFa7jYVlx1iUDNsD
- bjGOchBVY1pbO9+e+gmYhjPvCazqKIHx/ArtUwzge1aG3UnZ9+qPKv6+yLNeYvWbTg1m
- xpZA==
+ bh=0w5leDnB9oITFRG2hBeGs/cY0LqF9F4f5ngXhRmBvoA=;
+ b=b1IeAz0squDe+6l615WdkACq4EioqEHcrmbzFC8D4MNW5e68Ip3Dy8d05YiN/kUeTB
+ kinEPW2ff5WzBQV39M2JOikWSmSBxOQNUB4Dabzc5h3d3dCFfsEejtCTE1Fr/IVALdDh
+ xoMbF/J9Egn0X3Ew/hueK/z8Qvu2wrwI2rTmgGlXSdGupbwgwBK+Hzd+6SvPFgry3Iy3
+ rA9G7Xl9K7i1llEA0b/2hcFvwrAHpFnB9enms3gdIDJSTvaIYnep8nZuZnNcb6wLlyQ3
+ Ul1wjpN3Uz6zW9IUtvgcwTFHbPRd0doMQMyedsaY/NVohq5dk5+VBSI6w5ZVxMAnh4q6
+ cazg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=QMW64EnUhAM3fb/FOLJApJo2idS3sY65uejC0k2Z3qs=;
- b=Dq5EdJsYbWNiDOpKtb7KHH6TCDqk+iAqL3VKK9UyWfcrRiFJ/4BvFdVh7IGpRs/RtR
- i6gMkQg2HFjntNZ33vf8W02vhkq2qUgmkOaiD36jC/vviUyVk2pSk+YofXsSNI92tCIt
- 1ureTD4Rh/Mvl8nWQTaMQDZy9eIs5X4+b8Hz/XULz8xJFgkc9UX3o3ZtjnbulNJ66wdk
- kpHEo7L+8/nK2P0VjmbxvvUk4cAwkDnYNlPI5HrY6mv1/0n8xdIyFTJZLPVm9YNzl9nV
- 80deOjsu9GRlcX4+9ilMScC5Qwd2ZEaxMYZeyYD0qsd88x5qQ8Up4yu89Hw3HSPoS3oI
- nnWA==
-X-Gm-Message-State: ACgBeo3YAP9FydbLuPSgZPyVLJ2wgCmwrs8NKtGMAXpdaiij0hBJLpNT
- Va1Ka9CFaICUkIYDyHSUdSk=
-X-Google-Smtp-Source: AA6agR4b2hPRJE7HpZslHS98/W1cBrlQnEt1QfHEHV9DuQXzbwcnHh7xLYHsYR5KfdYpnG1L5uY+hA==
-X-Received: by 2002:a17:902:7d86:b0:170:a752:cbd1 with SMTP id
- a6-20020a1709027d8600b00170a752cbd1mr25696348plm.17.1660726532284; 
- Wed, 17 Aug 2022 01:55:32 -0700 (PDT)
-Received: from localhost ([36.112.86.8]) by smtp.gmail.com with ESMTPSA id
- bj7-20020a17090b088700b001fabc3da687sm389347pjb.51.2022.08.17.01.55.31
+ bh=0w5leDnB9oITFRG2hBeGs/cY0LqF9F4f5ngXhRmBvoA=;
+ b=KR+r5g+68GhwU5rDx2dYTRrWVC+a3FtsNPvDQ1Jv/a43AU/Ik4c3u+jfVU39XJSwQk
+ ddKNp70HVHQrksSEIW9/wdlFPaCH7WoBrucilId3qTlROyqTR3fWZ3LXg54YhrX5NnZJ
+ DekOEdu4qRLXYkrY6s6qZujfTbmoWO5MriDR/4EVQrGwy9r5psrSVsvoaOOQKGPIGbsZ
+ QGpA/El5IwPYWwiI3/kCvxS64TpJLzrHPmwezR9G04US+DmqpkU/645ALlpAXo8OZVCz
+ J3hzGMEkM2YaW6IqK89z49LJdrV8R8d8flxCnQpX0jE26AyVSI8RibogqKxwscFzTDXd
+ mZcg==
+X-Gm-Message-State: ACgBeo1czscktaCc0Wmjo5s+VUJQRdwScLc4/m947WJ9Nw0OsPYUL3CD
+ RRx7iEQXrvrgQxTsNpfsPyI=
+X-Google-Smtp-Source: AA6agR7bLWJiCbr8SemRp/uA9NkzN4Nflo8rWCbGERFDYp+GuS6IK92hxYHxzM4TJSkt20/AYt0m8w==
+X-Received: by 2002:a17:90a:c58e:b0:1f3:1ab5:22ae with SMTP id
+ l14-20020a17090ac58e00b001f31ab522aemr4501736pjt.45.1660752635824; 
+ Wed, 17 Aug 2022 09:10:35 -0700 (PDT)
+Received: from localhost ([36.112.203.167]) by smtp.gmail.com with ESMTPSA id
+ a15-20020aa795af000000b0052d5e93fcb7sm10658618pfk.191.2022.08.17.09.10.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Aug 2022 01:55:31 -0700 (PDT)
+ Wed, 17 Aug 2022 09:10:35 -0700 (PDT)
 From: Hawkins Jiawei <yin31149@gmail.com>
 To: syzbot+ffe24b1afbc4cb5ae8fb@syzkaller.appspotmail.com
-Subject: [PATCH] reiserfs: add check in search_by_entry_key()
-Date: Wed, 17 Aug 2022 16:55:11 +0800
-Message-Id: <20220817085512.75936-1-yin31149@gmail.com>
+Subject: [PATCH v2] reiserfs: add check in bin_search_in_dir_item()
+Date: Thu, 18 Aug 2022 00:10:28 +0800
+Message-Id: <20220817161028.8027-1-yin31149@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <000000000000bcbb0205e13dc53a@google.com>
 References: <000000000000bcbb0205e13dc53a@google.com>
 MIME-Version: 1.0
 Cc: paskripkin@gmail.com, syzkaller-bugs@googlegroups.com,
  linux-kernel@vger.kernel.org, reiserfs-devel@vger.kernel.org,
- yin31149@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org
+ Hawkins Jiawei <yin31149@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -166,18 +167,21 @@ Memory state around the buggy address:
  ffff8880715ee100: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
 ==================================================================
 
-The root cause is that the value of rbound in bin_search_in_dir_item()
+The cause is that the value of rbound in bin_search_in_dir_item()
 is out of bounds.
 
 To be more specific, struct buffer_head's b_data field
-contains the directory entry headers array, according to
+contains the entry headers array, according to
 set_de_item_location(). So the array's length should be less
-than the size of b_data, or it may access the invalid memory.  
-This patch solves it by comparing the array's size with b_data's size.
+than the size of b_data, or it may access the invalid memory.
 
-Reported-by: syzbot+ffe24b1afbc4cb5ae8fb@syzkaller.appspotmail.com
+This patch solves it by checking the array's size with b_data's size.
+
 Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
 ---
+v2:
+  - rename subject from search_by_entry_key() to bin_search_in_dir_item()
+
  fs/reiserfs/namei.c | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
