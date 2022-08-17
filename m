@@ -1,91 +1,103 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 409FFC25B0E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 01:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63A87C25B0E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 03:04:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D051982983;
-	Wed, 17 Aug 2022 01:39:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D051982983
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EEknQiKr
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id TxJbeF9vH-qd; Wed, 17 Aug 2022 01:39:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E7F5782542;
-	Wed, 17 Aug 2022 01:39:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E7F5782542
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BDD97C0033;
-	Wed, 17 Aug 2022 01:39:35 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8BC0AC002D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 01:39:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 665BF40136
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 01:39:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 665BF40136
+	by smtp2.osuosl.org (Postfix) with ESMTP id B592440C6B;
+	Wed, 17 Aug 2022 03:04:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B592440C6B
 Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=EEknQiKr
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=F19mXXKt
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 99jbguu6XRQv
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TcDWW4nffxD9; Wed, 17 Aug 2022 03:04:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C98BA40C69;
+	Wed, 17 Aug 2022 03:04:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C98BA40C69
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A6BCCC0032;
+	Wed, 17 Aug 2022 03:04:46 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8C012C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 01:39:33 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BB60940117
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BB60940117
+ Wed, 17 Aug 2022 03:04:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5A23060671
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 01:39:33 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id AB3E561178;
- Wed, 17 Aug 2022 01:39:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81E42C433D6;
- Wed, 17 Aug 2022 01:39:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660700372;
- bh=WNI4T2l1xlFYKRJlgSA2O9Bc98a5ZBHH6E/B6tCD50A=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=EEknQiKrl/fuhzX2gYjfHuS2LhzKcvaeq3V/YtQcZVtcI78dfH+0IsdjveRIYTLHh
- 1grv26DVJhODDyf1ecCVDxMbjo1sSJ4DqiS37XphKS80Gl4NvqNQhdrIPoDTnt3Abz
- QmkJq5ksZu/qUhsA29utPhTN2t2Qz3uH2BuTQSYGUxF52YZT8KVZcInAT4lYyTZO+Y
- lDx+luMTE+zYuCCY/I1QGnAM3LhLa04WQaCJCog9XRcyZgpzcM340le5rc3eHddq+y
- mP8yQCYrjv4h0HShV9WvfJ8uR2lQaw0H292s6ns2Y3uuqlSs4UD0nXtewuds+18bpf
- VHHXp+xAm2gfQ==
-Date: Tue, 16 Aug 2022 18:39:30 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Martin KaFai Lau <kafai@fb.com>
+ Wed, 17 Aug 2022 03:04:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5A23060671
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=F19mXXKt
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id XZDes6ifEfCx
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Aug 2022 03:04:44 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A4D5560F94
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A4D5560F94
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 17 Aug 2022 03:04:44 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so654703pjf.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 16 Aug 2022 20:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=QiKcqQGvDQZ0wwxsKELSH16ee9cOyYGIbKKc/TC2lac=;
+ b=F19mXXKtLBf6iZVb6OJh9gOPy2/rtD0ZdnW872Bmp9Hgq+BfaOSiyncf8f8FFiLrbw
+ sLarg712oGU6m+2FqBAfeZBbnhGkSb3XeZQNewvHJLO5r478kLea8UGdpnvAMfNP4yJO
+ KMFnDg2SlEd8+kitF3MHDqBMUfQAENSy08qvPBIhRs04EljBxwF+MIK1XpCyVXjs60lB
+ Jf+TqXCq5KkMty7fn0ol9jgro0js6yw5zYaOfv7JSQdwCHRC/+AdarciIMbXvdbfc1rr
+ szGau58oFfpvcYt7HhTU5dtxXvr+yD2LAQVfFoBAm8M2Dkccy8NkyPtR0Ai9CmEteSSK
+ zZLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=QiKcqQGvDQZ0wwxsKELSH16ee9cOyYGIbKKc/TC2lac=;
+ b=A3Ywab0zCdiVeuNLAWI00REWkuOCYdxM7BHgJaiZ/pDpEGcPmR1Zatq65hlYcF2n/w
+ MOafuEeJOGT6iJmN2AIjlA+EYSn06lHIavc+CGAPokG9+QMWXtmbxkkHDEp0JKZ7DOoQ
+ 1Yx/FYXFyaBmrm02BMXw40Az70b3f7beKkb/cNJXpZUm+3OfO6oXrLYWbQh+20D0t8WH
+ IhqtRXYeHRwOgY7oYB1rDrSVem7lFEsk596pXhi7Vv5Ix1k4qefVGEgvn6R/BztRs9Ot
+ jD48kdH/FjZ8G9mLYg3oliafREXa3FtwP9fHpRIGLfWE5E0X50sxU6U/ihuPN8zC9O5o
+ dqpw==
+X-Gm-Message-State: ACgBeo3Dx5KYSLdHLWNFWon8sXrvcvYXxQuD3WsTfpw4etG+nJNlBQYS
+ B9mrAQDY7FuSRuQ0SaJ3So4=
+X-Google-Smtp-Source: AA6agR4d1E+ey3zbI4IF5ML3Se7af3AMcCPqfC/gvLIVoMIKs1/GntGKkkoyWx9ncFVYNz/6oOMyYg==
+X-Received: by 2002:a17:902:a3c7:b0:172:8db4:cc54 with SMTP id
+ q7-20020a170902a3c700b001728db4cc54mr3998176plb.99.1660705484047; 
+ Tue, 16 Aug 2022 20:04:44 -0700 (PDT)
+Received: from localhost ([36.112.86.8]) by smtp.gmail.com with ESMTPSA id
+ r15-20020a17090a0acf00b001f559e00473sm279356pje.43.2022.08.16.20.04.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Aug 2022 20:04:43 -0700 (PDT)
+From: Hawkins Jiawei <yin31149@gmail.com>
+To: kuba@kernel.org
 Subject: Re: [PATCH] net: Fix suspicious RCU usage in bpf_sk_reuseport_detach()
-Message-ID: <20220816183930.2328d46d@kernel.org>
-In-Reply-To: <20220817004319.fd7dekpqeumbvmsh@kafai-mbp>
-References: <20220816103452.479281-1-yin31149@gmail.com>
- <166064248071.3502205.10036394558814861778.stgit@warthog.procyon.org.uk>
- <804153.1660684606@warthog.procyon.org.uk>
- <20220816164435.0558ef94@kernel.org>
- <20220817004319.fd7dekpqeumbvmsh@kafai-mbp>
+Date: Wed, 17 Aug 2022 11:00:13 +0800
+Message-Id: <20220817030013.6574-1-yin31149@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220816183930.2328d46d@kernel.org>
+References: <20220816183930.2328d46d@kernel.org>
 MIME-Version: 1.0
-Cc: Song Liu <songliubraving@fb.com>, Jakub Sitnicki <jakub@cloudflare.com>,
- Daniel Borkmann <daniel@iogearbox.net>, linux-kernel@vger.kernel.org,
- John Fastabend <john.fastabend@gmail.com>, Alexei Starovoitov <ast@kernel.org>,
- Andrii Nakryiko <andrii@kernel.org>, David Howells <dhowells@redhat.com>,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
- Hawkins Jiawei <yin31149@gmail.com>, bpf@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
+Cc: songliubraving@fb.com, kafai@fb.com, jakub@cloudflare.com,
+ daniel@iogearbox.net, linux-kernel@vger.kernel.org, john.fastabend@gmail.com,
+ andrii@kernel.org, ast@kernel.org, dhowells@redhat.com, edumazet@google.com,
+ yin31149@gmail.com, netdev@vger.kernel.org, kpsingh@kernel.org, yhs@fb.com,
+ bpf@vger.kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,22 +115,31 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, 16 Aug 2022 17:43:19 -0700 Martin KaFai Lau wrote:
-> > I like your version because it documents what the lock protecting this
-> > field is.
-> > 
-> > In fact should we also add && sock_owned_by_user(). Martin, WDYT? Would
-> > that work for reuseport? Jakub S is fixing l2tp to hold the socket lock
-> > while setting this field, yet most places take the callback lock...  
+On Wed, 17 Aug 2022 at 07:44, Jakub Kicinski <kuba@kernel.org> wrote:
 >
-> It needs to take a closer look at where the lock_sock() has already
-> been acquired and also need to consider the lock ordering with reuseport_lock.
-> It probably should work but may need a separate patch to discuss those
-> considerations ?
+> On Tue, 16 Aug 2022 22:16:46 +0100 David Howells wrote:
+> > So either __rcu_dereference_sk_user_data_with_flags_check() has to be a macro,
+> > or we need to go with something like the first version of my patch where I
+> > don't pass the condition through.  Do you have a preference?
+>
+> I like your version because it documents what the lock protecting this
+> field is.
+In my opinion, I still think we'd better refactor it to a more
+geniric function, to avoid adding new functions when meeting
+the same problem. However, if this is just a standalone problem,
+maybe David's version shoule be better.
 
-Right, the users of the field with a bit allocated protect the writes
-with the callback lock, so we can hard code the check against the
-callback lock for now and revisit later if needed.
+So maybe apply the David's version, and refactor it later when
+meeting the same problem next time if needed.
+
+On Wed, 17 Aug 2022 at 08:43, Martin KaFai Lau <kafai@fb.com> wrote:
+>
+> On Tue, Aug 16, 2022 at 04:44:35PM -0700, Jakub Kicinski wrote:
+> >
+> > One the naming - maybe just drop the _with_flags() ? There's no version
+> > of locked helper which does not take the flags. And not underscores?
+> I am also good with a shorter name.
+I also agree, the name is really long.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
