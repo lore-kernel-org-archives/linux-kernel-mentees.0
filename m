@@ -1,91 +1,91 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17AC9C32772
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 17 Aug 2022 23:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31B05C00140
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Aug 2022 11:22:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8881883E81;
-	Wed, 17 Aug 2022 23:42:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8881883E81
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bKqzDfLd
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9115941151;
+	Thu, 18 Aug 2022 11:22:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9115941151
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FkVrY1l7uURD; Thu, 18 Aug 2022 11:22:28 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4E26340166;
+	Thu, 18 Aug 2022 11:22:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4E26340166
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D432C0032;
+	Thu, 18 Aug 2022 11:22:28 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0876AC002D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 18 Aug 2022 11:22:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id C94778405F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 18 Aug 2022 11:22:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C94778405F
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eXCFxKXs9LNZ; Wed, 17 Aug 2022 23:42:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7D42083E08;
-	Wed, 17 Aug 2022 23:42:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7D42083E08
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3B56AC0033;
-	Wed, 17 Aug 2022 23:42:18 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9CACFC002D
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UdSP8xNXueTa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 23:42:17 +0000 (UTC)
+ Thu, 18 Aug 2022 11:22:24 +0000 (UTC)
+X-Greylist: delayed 00:09:07 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AF4388405D
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id AF4388405D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 18 Aug 2022 11:22:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 70DF761023
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 23:42:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 70DF761023
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=bKqzDfLd
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id p2rsQK98SCN2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 23:42:15 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 29E896101E
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 29E896101E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 17 Aug 2022 23:42:15 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ by a.mx.secunet.com (Postfix) with ESMTP id 2883F20538;
+ Thu, 18 Aug 2022 13:13:14 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+ by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lked6gCadlW7; Thu, 18 Aug 2022 13:13:13 +0200 (CEST)
+Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 1ED26B81DEB;
- Wed, 17 Aug 2022 23:42:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3A8C433D6;
- Wed, 17 Aug 2022 23:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1660779730;
- bh=90a0gHd140Crru58gwz91c0iI4UzcfwU6EDuHdNf2Mc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=bKqzDfLdSmpjAPt1fgcvYgH9DmrNEP84Fa4J4OmzTzbSQ3xi+N30wqlhxxB8F/DsU
- 67waHblV+XrGuh4SPKBgvy+kHI3rK97tZ6AaFE0DBIzZgJAnIEbDELwggfu7+sx00N
- 7MyWl+NacEKVkMCvr1syY0zMGfcsmLNHc8ETKXrFz+ZBeyLTzXF1bkWLpuqlhJNzKV
- lOSyh56WbqUEH0AG/Yq/gxjEz/erUXZGTr4zGs56oeWqcx1mZiw7Pp4U629N2aAYcX
- ReOxkkYj9J6SN9NJFsatUEf73nWVVDQMDhdmQxzkBKkdPclgQJ/E4dUHKSvVtZLf0t
- HDctf4J7QsLEA==
-Date: Wed, 17 Aug 2022 16:42:09 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Subject: Re: [PATCH] net: Fix suspicious RCU usage in bpf_sk_reuseport_detach()
-Message-ID: <20220817164209.72c182fb@kernel.org>
-In-Reply-To: <3974013.1660769749@warthog.procyon.org.uk>
-References: <20220816164435.0558ef94@kernel.org>
- <20220816103452.479281-1-yin31149@gmail.com>
- <166064248071.3502205.10036394558814861778.stgit@warthog.procyon.org.uk>
- <804153.1660684606@warthog.procyon.org.uk>
- <3974013.1660769749@warthog.procyon.org.uk>
+ by a.mx.secunet.com (Postfix) with ESMTPS id A1C2820519;
+ Thu, 18 Aug 2022 13:13:13 +0200 (CEST)
+Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
+ by mailout2.secunet.com (Postfix) with ESMTP id 8ED5B80004A;
+ Thu, 18 Aug 2022 13:13:13 +0200 (CEST)
+Received: from mbx-essen-01.secunet.de (10.53.40.197) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 18 Aug 2022 13:13:13 +0200
+Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-01.secunet.de
+ (10.53.40.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 18 Aug
+ 2022 13:13:13 +0200
+Received: by gauss2.secunet.de (Postfix, from userid 1000)
+ id AB11A3182AA7; Thu, 18 Aug 2022 13:13:12 +0200 (CEST)
+Date: Thu, 18 Aug 2022 13:13:12 +0200
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Gautam Menghani <gautammenghani201@gmail.com>
+Subject: Re: [PATCH v3] selftests/net: Refactor xfrm_fill_key() to use array
+ of structs
+Message-ID: <20220818111312.GH566407@gauss3.secunet.de>
+References: <55c8de7e-a6e8-fc79-794d-53536ad7a65d@collabora.com>
+ <20220806163530.70182-1-gautammenghani201@gmail.com>
 MIME-Version: 1.0
-Cc: Song Liu <songliubraving@fb.com>, Martin KaFai Lau <kafai@fb.com>,
- Jakub Sitnicki <jakub@cloudflare.com>, Daniel Borkmann <daniel@iogearbox.net>,
- linux-kernel@vger.kernel.org, John Fastabend <john.fastabend@gmail.com>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- Yonghong Song <yhs@fb.com>, KP Singh <kpsingh@kernel.org>,
- Hawkins Jiawei <yin31149@gmail.com>, bpf@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>
+Content-Disposition: inline
+In-Reply-To: <20220806163530.70182-1-gautammenghani201@gmail.com>
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ mbx-essen-01.secunet.de (10.53.40.197)
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+Cc: herbert@gondor.apana.org.au, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, edumazet@google.com,
+ linux-kselftest@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ shuah@kernel.org, davem@davemloft.net,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,23 +103,16 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 17 Aug 2022 21:55:49 +0100 David Howells wrote:
-> Jakub Kicinski <kuba@kernel.org> wrote:
+On Sat, Aug 06, 2022 at 10:05:30PM +0530, Gautam Menghani wrote:
+> A TODO in net/ipsec.c asks to refactor the code in xfrm_fill_key() to
+> use set/map to avoid manually comparing each algorithm with the "name" 
+> parameter passed to the function as an argument. This patch refactors 
+> the code to create an array of structs where each struct contains the 
+> algorithm name and its corresponding key length.
 > 
-> > I like your version because it documents what the lock protecting this
-> > field is. 
-> > 
-> > In fact should we also add && sock_owned_by_user(). Martin, WDYT? Would
-> > that work for reuseport? Jakub S is fixing l2tp to hold the socket lock
-> > while setting this field, yet most places take the callback lock...  
-> 
-> So how do you want to proceed?  My first version of the patch with
-> sock_owned_by_user()?
+> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
 
-Sorry about the lack of clarity. I was sort of expecting the name 
-to still be shortened, but what you have is probably good enough.
-
-Applying v1, then, thanks!
+Applied to ipsec-next, thanks!
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
