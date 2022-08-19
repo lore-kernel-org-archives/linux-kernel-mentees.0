@@ -4,88 +4,84 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31B05C00140
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 18 Aug 2022 11:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BFD4C32771
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 19 Aug 2022 20:05:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9115941151;
-	Thu, 18 Aug 2022 11:22:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9115941151
+	by smtp2.osuosl.org (Postfix) with ESMTP id EE75B40B55;
+	Fri, 19 Aug 2022 20:05:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EE75B40B55
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=Neex3bMT
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FkVrY1l7uURD; Thu, 18 Aug 2022 11:22:28 +0000 (UTC)
+	with ESMTP id 5S0kBWOPuyPW; Fri, 19 Aug 2022 20:05:44 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4E26340166;
-	Thu, 18 Aug 2022 11:22:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4E26340166
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B165740222;
+	Fri, 19 Aug 2022 20:05:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B165740222
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D432C0032;
-	Thu, 18 Aug 2022 11:22:28 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0876AC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BF1BC0033;
+	Fri, 19 Aug 2022 20:05:43 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1FF63C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Aug 2022 11:22:26 +0000 (UTC)
+ Fri, 19 Aug 2022 20:05:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C94778405F
+ by smtp3.osuosl.org (Postfix) with ESMTP id E6D646115F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Aug 2022 11:22:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C94778405F
+ Fri, 19 Aug 2022 20:05:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E6D646115F
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
+ header.a=rsa-sha256 header.s=zmail header.b=Neex3bMT
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UdSP8xNXueTa
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ehe_juxatBpF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Aug 2022 11:22:24 +0000 (UTC)
-X-Greylist: delayed 00:09:07 by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AF4388405D
-Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
- by smtp1.osuosl.org (Postfix) with ESMTPS id AF4388405D
+ Fri, 19 Aug 2022 20:05:41 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 48CD361149
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 48CD361149
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 18 Aug 2022 11:22:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by a.mx.secunet.com (Postfix) with ESMTP id 2883F20538;
- Thu, 18 Aug 2022 13:13:14 +0200 (CEST)
-X-Virus-Scanned: by secunet
-Received: from a.mx.secunet.com ([127.0.0.1])
- by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lked6gCadlW7; Thu, 18 Aug 2022 13:13:13 +0200 (CEST)
-Received: from mailout2.secunet.com (mailout2.secunet.com [62.96.220.49])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by a.mx.secunet.com (Postfix) with ESMTPS id A1C2820519;
- Thu, 18 Aug 2022 13:13:13 +0200 (CEST)
-Received: from cas-essen-01.secunet.de (unknown [10.53.40.201])
- by mailout2.secunet.com (Postfix) with ESMTP id 8ED5B80004A;
- Thu, 18 Aug 2022 13:13:13 +0200 (CEST)
-Received: from mbx-essen-01.secunet.de (10.53.40.197) by
- cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 18 Aug 2022 13:13:13 +0200
-Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-01.secunet.de
- (10.53.40.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 18 Aug
- 2022 13:13:13 +0200
-Received: by gauss2.secunet.de (Postfix, from userid 1000)
- id AB11A3182AA7; Thu, 18 Aug 2022 13:13:12 +0200 (CEST)
-Date: Thu, 18 Aug 2022 13:13:12 +0200
-From: Steffen Klassert <steffen.klassert@secunet.com>
-To: Gautam Menghani <gautammenghani201@gmail.com>
-Subject: Re: [PATCH v3] selftests/net: Refactor xfrm_fill_key() to use array
- of structs
-Message-ID: <20220818111312.GH566407@gauss3.secunet.de>
-References: <55c8de7e-a6e8-fc79-794d-53536ad7a65d@collabora.com>
- <20220806163530.70182-1-gautammenghani201@gmail.com>
+ Fri, 19 Aug 2022 20:05:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1660939524; cv=none; d=zohomail.in; s=zohoarc; 
+ b=YmzNaWO54q/8fCTIN4jaIZ5Ndxwp9+YSr/ByeZ1N7fM3t9mAdvJ8y6JVwVmhL749gAw2Crf1yFMBP/hmDlyxgG/vh5Z+ClbSGKiIy3i2NJwXvskTK6FyVe5N4KEHj2guGG5g6uEOd1go6jtRcc5iu0jDV2Sp2RVUv6Q4zeceEyk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1660939524;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=ZbOmMhea6mo0GiKmo4Riv4/f27wDQaFeMZfT8F4TkaM=; 
+ b=OTX/jA3DUnqGI4oQNVaV6ZBR9X9H6EIAEQjLXa/wZaMOl2Z3TZz6wxSZaDXy6qqFp6N63Js0NPNTVCPXH/86DU53MrALzPgxdKM/rLiqEHfJ+Mwd1ibKenRYgvk9gbnU3Bpi+dALQyCOps/2DnjxwkyK+0mLveRSoXh3t9vdtSg=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1660939524; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=ZbOmMhea6mo0GiKmo4Riv4/f27wDQaFeMZfT8F4TkaM=;
+ b=Neex3bMTcjTpaHR6LmwPqzEz9gmMywdSnuGnLC4/0PQxWQHeQgjvg/vIyndPhGIP
+ g5dCrqPdTnxpeuhMSYF1XsLA1i8oN+RIhwNXtxznyHNgESUSm8EUXMycuICmyI0cgU/
+ tX8mu62ADEKmBazZSC65bTiBd2o0Fmvhr3jTdaC0=
+Received: from localhost.localdomain (103.86.19.2 [103.86.19.2]) by mx.zoho.in
+ with SMTPS id 1660939523728629.6711836985853;
+ Sat, 20 Aug 2022 01:35:23 +0530 (IST)
+To: Johannes Berg <johannes@sipsolutions.net>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Message-ID: <20220819200340.34826-1-code@siddh.me>
+Subject: [PATCH v3] wifi: mac80211: Fix UAF in ieee80211_scan_rx()
+Date: Sat, 20 Aug 2022 01:33:40 +0530
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220806163530.70182-1-gautammenghani201@gmail.com>
-X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
- mbx-essen-01.secunet.de (10.53.40.197)
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
-Cc: herbert@gondor.apana.org.au, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, edumazet@google.com,
- linux-kselftest@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
- shuah@kernel.org, davem@davemloft.net,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-ZohoMailClient: External
+Cc: netdev <netdev@vger.kernel.org>,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ syzbot+f9acff9bf08a845f225d@syzkaller.appspotmail.com,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -97,22 +93,71 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Siddh Raman Pant via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Aug 06, 2022 at 10:05:30PM +0530, Gautam Menghani wrote:
-> A TODO in net/ipsec.c asks to refactor the code in xfrm_fill_key() to
-> use set/map to avoid manually comparing each algorithm with the "name" 
-> parameter passed to the function as an argument. This patch refactors 
-> the code to create an array of structs where each struct contains the 
-> algorithm name and its corresponding key length.
-> 
-> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
+ieee80211_scan_rx() tries to access scan_req->flags after a
+null check, but a UAF is observed when the scan is completed
+and __ieee80211_scan_completed() executes, which then calls
+cfg80211_scan_done() leading to the freeing of scan_req.
 
-Applied to ipsec-next, thanks!
+Since scan_req is rcu_dereference()'d, prevent the racing in
+__ieee80211_scan_completed() by ensuring that from mac80211's
+POV it is no longer accessed from an RCU read critical section
+before we call cfg80211_scan_done().
+
+Bug report: https://syzkaller.appspot.com/bug?extid=f9acff9bf08a845f225d
+Reported-by: syzbot+f9acff9bf08a845f225d@syzkaller.appspotmail.com
+Suggested-by: Johannes Berg <johannes@sipsolutions.net>
+Signed-off-by: Siddh Raman Pant <code@siddh.me>
+---
+Changes in v3:
+Use Johannes Berg's suggestion as-it-is:
+https://lore.kernel.org/netdev/18fd9b89d45aedc1504d0cbd299ffb289ae96438.camel@sipsolutions.net/
+
+v2 is now obsolete since it was an incorrect way to go about things.
+
+ net/mac80211/scan.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/net/mac80211/scan.c b/net/mac80211/scan.c
+index fa8ddf576bc1..c4f2aeb31da3 100644
+--- a/net/mac80211/scan.c
++++ b/net/mac80211/scan.c
+@@ -469,16 +469,19 @@ static void __ieee80211_scan_completed(struct ieee80211_hw *hw, bool aborted)
+ 	scan_req = rcu_dereference_protected(local->scan_req,
+ 					     lockdep_is_held(&local->mtx));
+ 
+-	if (scan_req != local->int_scan_req) {
+-		local->scan_info.aborted = aborted;
+-		cfg80211_scan_done(scan_req, &local->scan_info);
+-	}
+ 	RCU_INIT_POINTER(local->scan_req, NULL);
+ 	RCU_INIT_POINTER(local->scan_sdata, NULL);
+ 
+ 	local->scanning = 0;
+ 	local->scan_chandef.chan = NULL;
+ 
++	synchronize_rcu();
++
++	if (scan_req != local->int_scan_req) {
++		local->scan_info.aborted = aborted;
++		cfg80211_scan_done(scan_req, &local->scan_info);
++	}
++
+ 	/* Set power back to normal operating levels. */
+ 	ieee80211_hw_config(local, 0);
+ 
+-- 
+2.35.1
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
