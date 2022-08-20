@@ -4,83 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E67C8C25B08
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Aug 2022 11:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58029C25B08
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 20 Aug 2022 11:41:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5893360E38;
-	Sat, 20 Aug 2022 11:29:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5893360E38
+	by smtp3.osuosl.org (Postfix) with ESMTP id D17B960E3F;
+	Sat, 20 Aug 2022 11:41:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D17B960E3F
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=czsdL8kb
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=fbzEaX1s
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f6xAphDWz7Mb; Sat, 20 Aug 2022 11:29:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5777160DFE;
-	Sat, 20 Aug 2022 11:29:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5777160DFE
+	with ESMTP id GiV8Z18tm94H; Sat, 20 Aug 2022 11:41:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BDFA560DFE;
+	Sat, 20 Aug 2022 11:41:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BDFA560DFE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4100FC0032;
-	Sat, 20 Aug 2022 11:29:21 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3EB2AC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A3B1C0032;
+	Sat, 20 Aug 2022 11:41:38 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BE556C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Aug 2022 11:29:19 +0000 (UTC)
+ Sat, 20 Aug 2022 11:41:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 0C9FE60DFE
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9420840201
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Aug 2022 11:29:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0C9FE60DFE
+ Sat, 20 Aug 2022 11:41:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9420840201
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
+ header.a=rsa-sha256 header.s=zmail header.b=fbzEaX1s
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id OYsfwwN7sG4S
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ij9zzQ3G3Ayr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Aug 2022 11:29:18 +0000 (UTC)
+ Sat, 20 Aug 2022 11:41:35 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 63EA660769
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DF6B04015A
 Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 63EA660769
+ by smtp2.osuosl.org (Postfix) with ESMTPS id DF6B04015A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 20 Aug 2022 11:29:17 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1660994946; cv=none; d=zohomail.in; s=zohoarc; 
- b=Nqty8JFgrOxBVH4CzVzB+JLvRqKOQ+RaeObPKiZC2L9vPXlSECC8VEXrWnJw1eDvelBhZHz3sOt7EdaITmBT9F/y/hZ3SC3SNxzFENbOuDRRO+2JTZORa3HicaGPBzAZ5iBHq84T39dgAKEFoErCHjzWFyVgVErvbQQBNtVcQDE=
+ Sat, 20 Aug 2022 11:41:34 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1660995689; cv=none; d=zohomail.in; s=zohoarc; 
+ b=bzuIDQA+sR7ZiWE9DXMgKg0fHNUajlNkGygoTkXW2MW91KjrK5GL9eOKirNwxsPs/bJnNxQhnrknPFPij2k245WT0qW3D9ehEf52EbnOgIYV5FcRmt0UP5siCMl70q70faYcZAIhWPVIxmBHPr5TFhT/a2VU0hP4X9HwO8DZyjU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1660994946;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=/i1BQuBFaVZtsaNVV0P5lReOS+nc8mcEOK2Ji36Irn8=; 
- b=X/FuWa0BtbmySalV7QY8s2gAJo7eQWBW6isSBshOwhmYGuNWg5tvCRC+rnyg65AqhDlMd1MI2eGRcKywq14k+vroDXbfImk/kz4oGEs+7Wa3bpZ8T8Yd/pvXjEXj+e7CP3GPLBEETwaowVQKCzfVd1p0rkcgifdq/jpaOOglt74=
+ s=zohoarc; t=1660995689;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=OwlirewM9MHK3jNUDVvfjUe6e2E0DI0dbUmH8k2UzYQ=; 
+ b=GenioD5MecWkzSLRl/rhBypTtzqh1kkoLFw6k0FFqzkxpS8oGBx2LQASZNBlwQiz/k/4V4pgo3lArz+X2njw4pConEvuJE/v7KG8BpzgJNyeYx7OKReBvZjRVN85YedcxivMXxYTRPt4qmBYAqWdgMypT1LoMkK5opXE1HDkF0s=
 ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
  spf=pass  smtp.mailfrom=code@siddh.me;
  dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1660994946; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1660995689; 
  s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=/i1BQuBFaVZtsaNVV0P5lReOS+nc8mcEOK2Ji36Irn8=;
- b=czsdL8kbKjKitm2RKCXEdbc0de0vVu2hjz+GQYUzDnZF1A+n72JXfkOwOlx+q3v+
- FwaPLRBx4vuNISqNrmXYH3KrMbDd95XqtN0k1zOvkVysxvhvo6iwGVcFnNnkqiw/2aF
- FWqwxc73EubYj0S/Dsexd+/344zE/Z0X6hBJs5rI=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1660994935866227.9120167406926;
- Sat, 20 Aug 2022 16:58:55 +0530 (IST)
-Date: Sat, 20 Aug 2022 16:58:55 +0530
-To: "Eric Biggers" <ebiggers@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, 
- "David Howells" <dhowells@redhat.com>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Christophe JAILLET" <christophe.jaillet@wanadoo.fr>,
- "Eric Dumazet" <edumazet@google.com>
-Message-ID: <182bb035c23.6b1246ee44934.6791244868891887905@siddh.me>
-In-Reply-To: <cover.1659771577.git.code@siddh.me>
-References: <cover.1659771577.git.code@siddh.me>
-Subject: Re: [PATCH v2 0/2] watch_queue: Clean up some code
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=OwlirewM9MHK3jNUDVvfjUe6e2E0DI0dbUmH8k2UzYQ=;
+ b=fbzEaX1s4LxtB1mccW6+EkXK8lpWzjKTQ6YE28zZS4Z1v0I+Fjkwh9aFFNlfRXMo
+ oLl/vzp3vCh/x/gPreCbabPT6O+WmH2NSifKmHL3//s7PlDfHdeTVUoHkhGW4duTx4w
+ 3wcFsrXaZborYmXeobgoRkGXwvLhjr5Xo4i6GcaE=
+Received: from localhost.localdomain (43.250.157.244 [43.250.157.244]) by
+ mx.zoho.in with SMTPS id 1660995687489847.0225686061804;
+ Sat, 20 Aug 2022 17:11:27 +0530 (IST)
+To: Jens Axboe <axboe@kernel.dk>,
+	Carlos Llamas <cmllamas@google.com>
+Message-ID: <20220820114105.8792-1-code@siddh.me>
+Subject: [PATCH] loop: Correct UAPI definitions to match with driver
+Date: Sat, 20 Aug 2022 17:11:05 +0530
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
+X-ZohoMailClient: External
+Cc: linux-block <linux-block@vger.kernel.org>, stable@vger.kernel.org,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ syzbot+a8e049cd3abd342936b6@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,52 +99,100 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 06 Aug 2022 13:13:40 +0530  Siddh Raman Pant  wrote:
-> There is a dangling reference to pipe in a watch_queue after clearing it.
-> Thus, NULL that pointer while clearing.
-> 
-> This change renders wqueue->defunct superfluous, as the latter is only used
-> to check if watch_queue is cleared. With this change, the pipe is NULLed
-> while clearing, so we can just check if the pipe is NULL.
-> 
-> Extending comment for watch_queue->pipe in the definition of watch_queue
-> made the comment conventionally too long (it was already past 80 chars),
-> so I have changed the struct annotations to be kerneldoc-styled, so that
-> I can extend the comment mentioning that the pipe is NULL when watch_queue
-> is cleared. In the process, I have also hopefully improved documentation
-> by documenting things which weren't documented before.
-> 
-> Changes in v2:
-> - Merged the NULLing and removing defunct patches.
-> - Removed READ_ONCE barrier in lock_wqueue().
-> - Improved and fixed errors in struct docs.
-> - Better commit messages.
-> 
-> Siddh Raman Pant (2):
->   include/linux/watch_queue: Improve documentation
->   kernel/watch_queue: NULL the dangling *pipe, and use it for clear
->     check
-> 
->  include/linux/watch_queue.h | 100 ++++++++++++++++++++++++++----------
->  kernel/watch_queue.c        |  12 ++---
->  2 files changed, 79 insertions(+), 33 deletions(-)
-> 
-> -- 
-> 2.35.1
+Syzkaller has reported a warning in iomap_iter(), which got
+triggered due to a call to iomap_iter_done() which has:
+	WARN_ON_ONCE(iter->iomap.offset > iter->pos);
 
-Hello,
+The warning was triggered because `pos` was being negative.
+I was having offset = 0, pos = -2950420705881096192.
 
-Maybe the above quoted patch was missed due to the
-then-ongoing merge window. This can be found on:
-https://lore.kernel.org/lkml/cover.1659771577.git.code@siddh.me/
+This ridiculously negative value smells of an overflow, and sure
+it is.
 
-This patch was posted 2 weeks ago, with changes as requested.
+The userspace can configure a loop using an ioctl call, wherein
+a configuration of type loop_config is passed (see lo_ioctl()'s
+case on line 1550 of drivers/block/loop.c). This proceeds to call
+loop_configure() which in turn calls loop_set_status_from_info()
+(see line 1050 of loop.c), passing &config->info which is of type
+loop_info64*. This function then sets the appropriate values, like
+the offset.
 
-With the merge window closed, may I request for another look at
-this patch?
+The problem here is loop_device has lo_offset of type loff_t
+(see line 52 of loop.c), which is typdef-chained to long long,
+whereas loop_info64 has lo_offset of type __u64 (see line 56 of
+include/uapi/linux/loop.h).
 
-Thanks,
-Siddh
+The function directly copies offset from info to the device as
+follows (See line 980 of loop.c):
+	lo->lo_offset = info->lo_offset;
+
+This results in the encountered overflow (in my case, the RHS
+was 15496323367828455424).
+
+Thus, convert the type definitions in loop_info64 to their
+signed counterparts in order to match definitions in loop_device,
+and check for negative value during loop_set_status_from_info().
+
+Bug report: https://syzkaller.appspot.com/bug?id=c620fe14aac810396d3c3edc9ad73848bf69a29e
+Reported-and-tested-by: syzbot+a8e049cd3abd342936b6@syzkaller.appspotmail.com
+Cc: stable@vger.kernel.org
+Signed-off-by: Siddh Raman Pant <code@siddh.me>
+---
+Unless I am missing any other uses or quirks of UAPI loop_info64,
+I think this won't introduce regression, since if something is
+working, it will continue to work. If something does break, then
+it was relying on overflows, which is anyways an incorrect way
+to go about.
+
+Also, it seems even the 32-bit compatibility structure uses the
+signed types (compat_loop_info uses compat_int_t which is s32),
+so this patch should be fine.
+
+ drivers/block/loop.c      |  3 +++
+ include/uapi/linux/loop.h | 12 ++++++------
+ 2 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index e3c0ba93c1a3..4ca20ce3158d 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -977,6 +977,9 @@ loop_set_status_from_info(struct loop_device *lo,
+ 		return -EINVAL;
+ 	}
+ 
++	if (info->lo_offset < 0 || info->lo_sizelimit < 0)
++		return -EINVAL;
++
+ 	lo->lo_offset = info->lo_offset;
+ 	lo->lo_sizelimit = info->lo_sizelimit;
+ 	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
+diff --git a/include/uapi/linux/loop.h b/include/uapi/linux/loop.h
+index 6f63527dd2ed..973565f38f9d 100644
+--- a/include/uapi/linux/loop.h
++++ b/include/uapi/linux/loop.h
+@@ -53,12 +53,12 @@ struct loop_info64 {
+ 	__u64		   lo_device;			/* ioctl r/o */
+ 	__u64		   lo_inode;			/* ioctl r/o */
+ 	__u64		   lo_rdevice;			/* ioctl r/o */
+-	__u64		   lo_offset;
+-	__u64		   lo_sizelimit;/* bytes, 0 == max available */
+-	__u32		   lo_number;			/* ioctl r/o */
+-	__u32		   lo_encrypt_type;		/* obsolete, ignored */
+-	__u32		   lo_encrypt_key_size;		/* ioctl w/o */
+-	__u32		   lo_flags;
++	__s64		   lo_offset;
++	__s64		   lo_sizelimit;/* bytes, 0 == max available */
++	__s32		   lo_number;			/* ioctl r/o */
++	__s32		   lo_encrypt_type;		/* obsolete, ignored */
++	__s32		   lo_encrypt_key_size;		/* ioctl w/o */
++	__s32		   lo_flags;
+ 	__u8		   lo_file_name[LO_NAME_SIZE];
+ 	__u8		   lo_crypt_name[LO_NAME_SIZE];
+ 	__u8		   lo_encrypt_key[LO_KEY_SIZE]; /* ioctl w/o */
+-- 
+2.35.1
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
