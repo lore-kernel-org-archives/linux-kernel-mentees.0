@@ -1,86 +1,99 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CE27DC00140
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Aug 2022 11:23:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 044EFC32772
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 Aug 2022 12:11:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3AF35404F8;
-	Sun, 21 Aug 2022 11:23:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3AF35404F8
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=VQ5XJJ8w
+	by smtp1.osuosl.org (Postfix) with ESMTP id 88BEB81A5C;
+	Sun, 21 Aug 2022 12:11:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 88BEB81A5C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=poXDkZKa
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wd6Wo7GLv6sb; Sun, 21 Aug 2022 11:23:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DD107400E5;
-	Sun, 21 Aug 2022 11:23:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DD107400E5
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iwBK4G2bzQV1; Sun, 21 Aug 2022 12:11:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8D73F81A3B;
+	Sun, 21 Aug 2022 12:11:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8D73F81A3B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B57D6C0033;
-	Sun, 21 Aug 2022 11:23:51 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7FBEBC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5C617C0033;
+	Sun, 21 Aug 2022 12:11:47 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61170C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Aug 2022 11:23:50 +0000 (UTC)
+ Sun, 21 Aug 2022 12:11:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 59F984099D
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2CF3881A46
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Aug 2022 11:23:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 59F984099D
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=VQ5XJJ8w
+ Sun, 21 Aug 2022 12:11:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2CF3881A46
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2twqo-1FsbCK
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9HrjD9yF9O2M
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Aug 2022 11:23:49 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 286C3404F0
-Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 286C3404F0
+ Sun, 21 Aug 2022 12:11:44 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F00F081A3B
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
+ [IPv6:2607:f8b0:4864:20::62b])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id F00F081A3B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 21 Aug 2022 11:23:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1661081023; cv=none; d=zohomail.in; s=zohoarc; 
- b=KrvlIXm5rXYXzjoMOrRcze4AuXywl1HjEMsZdJHrF4+7zwLhJvirZTC/tBLjnSgMkVKFLY/LkoD/2pLHvZWtcfw2hZIBTGSh3Hg3+TLVKFJ2tHkhtjfM1QOHCxn8qqFs/HuRmW/cyH+4dUMvPLUwfAk8gwzDpn+yzT8h5/LgnVQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1661081023;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=pr6XFxAuncNUkzN57qnmmA5GV4O8hBAFG8BalqlNToE=; 
- b=Q71/PCc8syQqMKA+huSNVq6174D0RXliurjzRQOAvfXDimwG1r2kgyiJkg+PG6nM2DptfxhxcmNJyXsDWvUbpScKAljw3O9VSAR47B4IS1r5wKxEUv1RuTfRdYpYdnPjUz8tMEePz+nZhPwSGaY7aEMeMSYi19tvjs22c5S6tu4=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=code@siddh.me;
- dmarc=pass header.from=<code@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1661081023; 
- s=zmail; d=siddh.me; i=code@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=pr6XFxAuncNUkzN57qnmmA5GV4O8hBAFG8BalqlNToE=;
- b=VQ5XJJ8w/9MlHjbsTrtMPmKurHKIxT/lFYcRNKLAKtJM2ZIFFTdzC/A5sbueQLkA
- JWFj9QJ7z6PlLLeGTPGx/2o21cwCkn4EGNYWVGvRBPuVjxDEkGb7VrCkfBcR2eVK9Ok
- Q8+q6RFw8fw2iMYi6hxxKh5tAgheVE/ShGrvUZFA=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1661081012485618.1064345682378;
- Sun, 21 Aug 2022 16:53:32 +0530 (IST)
-Date: Sun, 21 Aug 2022 16:53:32 +0530
-To: "Jens Axboe" <axboe@kernel.dk>, "Carlos Llamas" <cmllamas@google.com>
-Message-ID: <182c024c8f1.2e77843173026.4408233265123165366@siddh.me>
-In-Reply-To: <20220820114105.8792-1-code@siddh.me>
-References: <20220820114105.8792-1-code@siddh.me>
-Subject: Re: [PATCH] loop: Correct UAPI definitions to match with driver
+ Sun, 21 Aug 2022 12:11:43 +0000 (UTC)
+Received: by mail-pl1-x62b.google.com with SMTP id d10so7683174plr.6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 21 Aug 2022 05:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=cgzLCp3a55Ep+0cEyKvv7krA21NYDyPYbH2CBGQzucg=;
+ b=poXDkZKa0JzQnuD+BhY6e3Qpe4nDrJkPgdPTBRYH/OlRSm6eZmzE2txYKd5dKC+HBw
+ DUmgcJYiQ0EZsxDNfyEKWV08OCsb882SCL7aFwQWpsotT9lwnQ5lwBu9UVBP4NiRNdDA
+ Xb0HRelNBBr1KPlvYmPANAncDMlD+fmI4txdHDw/Idhg/gPI4VkQ76Bu9cVYjGvAm2Xa
+ M1JRyU39Ppwq5Aowd7VMC6y3cAF+URXviAXKRbpasvcpPznqQPLu3fb+gvmQ4tRTv59r
+ 50yrjR//InHFuuwQlfZ5sRlEibsHohmhZxLVw5W5AMy6XjOnW70YbOnT+/n2AEbbs4L8
+ wx4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=cgzLCp3a55Ep+0cEyKvv7krA21NYDyPYbH2CBGQzucg=;
+ b=Z2SxYaiHnCXObLBLovgSM/0bC+WChTfGyKiUXfTLFVtkj3JeevaunAtKqR9a6XefnK
+ zin0WnDOFi+gz89JOgLuRe2TjMRn8mMd9Wc0wL4Yf+ihwhQNu+KPG4Kq5i8fvvgknh3e
+ 8a7gqn1D1EO++lCXPb7l6rcM7SoDmWmFwQhVlX7UHBabIuxGLKrXRZP1756dP2D2Nsfe
+ IRd8g1DnTHf04mbYJDQt1n4HfyBBt5T1LpNXwhFOG8AH92V3xOOhbX+gSQQbzOQDX9tP
+ Mu3/tLHc5XAoCsV4jhEJYrQuAGWtiJ9eXDEcCjVvXv5a2WLmcyTxBDaiAUP9aspcNoYr
+ hmkg==
+X-Gm-Message-State: ACgBeo0W+SRxEy2i0nl2eyDNwrdrabpRPirVOcTCP6P1zIaEidKLnoR4
+ DS5mKko7RrqB4wUVW25YsLs=
+X-Google-Smtp-Source: AA6agR7pAMSWL1n/638qdO1lxqloqjisDk1HkpPCyJeZIn35O3Uvx1FjH0BRNAugQBk352snoSZZ1Q==
+X-Received: by 2002:a17:902:8d95:b0:172:e11e:65da with SMTP id
+ v21-20020a1709028d9500b00172e11e65damr2698288plo.4.1661083903320; 
+ Sun, 21 Aug 2022 05:11:43 -0700 (PDT)
+Received: from localhost ([36.112.204.208]) by smtp.gmail.com with ESMTPSA id
+ g2-20020a632002000000b0042988a04bfdsm5602411pgg.9.2022.08.21.05.11.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 Aug 2022 05:11:42 -0700 (PDT)
+From: Hawkins Jiawei <yin31149@gmail.com>
+To: dvyukov@google.com
+Subject: [PATCH] fs: fix WARNING in mark_buffer_dirty (4)
+Date: Sun, 21 Aug 2022 20:10:39 +0800
+Message-Id: <20220821121038.3527-1-yin31149@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CACT4Y+bUtBuhD7_BAN+NavEfhBNOavqF0CJkrZ+Gc4pYeLiy+g@mail.gmail.com>
+References: <CACT4Y+bUtBuhD7_BAN+NavEfhBNOavqF0CJkrZ+Gc4pYeLiy+g@mail.gmail.com>
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: linux-block <linux-block@vger.kernel.org>, stable <stable@vger.kernel.org>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, syzbot+a8e049cd3abd342936b6
- <syzbot+a8e049cd3abd342936b6@syzkaller.appspotmail.com>
+Cc: paskripkin@gmail.com, syzkaller-bugs@googlegroups.com,
+ linux-kernel@vger.kernel.org, willy@infradead.org, syzkaller@googlegroups.com,
+ viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org,
+ Hawkins Jiawei <yin31149@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+2af3bc9585be7f23f290@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,142 +105,95 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Siddh Raman Pant via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, 20 Aug 2022 17:11:05 +0530  Siddh Raman Pant  wrote:
-> Syzkaller has reported a warning in iomap_iter(), which got
-> triggered due to a call to iomap_iter_done() which has:
-> 	WARN_ON_ONCE(iter->iomap.offset > iter->pos);
-> 
-> The warning was triggered because `pos` was being negative.
-> I was having offset = 0, pos = -2950420705881096192.
-> 
-> This ridiculously negative value smells of an overflow, and sure
-> it is.
-> 
-> The userspace can configure a loop using an ioctl call, wherein
-> a configuration of type loop_config is passed (see lo_ioctl()'s
-> case on line 1550 of drivers/block/loop.c). This proceeds to call
-> loop_configure() which in turn calls loop_set_status_from_info()
-> (see line 1050 of loop.c), passing &config->info which is of type
-> loop_info64*. This function then sets the appropriate values, like
-> the offset.
-> 
-> The problem here is loop_device has lo_offset of type loff_t
-> (see line 52 of loop.c), which is typdef-chained to long long,
-> whereas loop_info64 has lo_offset of type __u64 (see line 56 of
-> include/uapi/linux/loop.h).
-> 
-> The function directly copies offset from info to the device as
-> follows (See line 980 of loop.c):
-> 	lo->lo_offset = info->lo_offset;
-> 
-> This results in the encountered overflow (in my case, the RHS
-> was 15496323367828455424).
-> 
-> Thus, convert the type definitions in loop_info64 to their
-> signed counterparts in order to match definitions in loop_device,
-> and check for negative value during loop_set_status_from_info().
-> 
-> Bug report: https://syzkaller.appspot.com/bug?id=c620fe14aac810396d3c3edc9ad73848bf69a29e
-> Reported-and-tested-by: syzbot+a8e049cd3abd342936b6@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Siddh Raman Pant code@siddh.me>
-> ---
-> Unless I am missing any other uses or quirks of UAPI loop_info64,
-> I think this won't introduce regression, since if something is
-> working, it will continue to work. If something does break, then
-> it was relying on overflows, which is anyways an incorrect way
-> to go about.
-> 
-> Also, it seems even the 32-bit compatibility structure uses the
-> signed types (compat_loop_info uses compat_int_t which is s32),
-> so this patch should be fine.
-> 
->  drivers/block/loop.c      |  3 +++
->  include/uapi/linux/loop.h | 12 ++++++------
->  2 files changed, 9 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index e3c0ba93c1a3..4ca20ce3158d 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -977,6 +977,9 @@ loop_set_status_from_info(struct loop_device *lo,
->  		return -EINVAL;
->  	}
->  
-> +	if (info->lo_offset lo_sizelimit < 0)
-> +		return -EINVAL;
-> +
->  	lo->lo_offset = info->lo_offset;
->  	lo->lo_sizelimit = info->lo_sizelimit;
->  	memcpy(lo->lo_file_name, info->lo_file_name, LO_NAME_SIZE);
-> diff --git a/include/uapi/linux/loop.h b/include/uapi/linux/loop.h
-> index 6f63527dd2ed..973565f38f9d 100644
-> --- a/include/uapi/linux/loop.h
-> +++ b/include/uapi/linux/loop.h
-> @@ -53,12 +53,12 @@ struct loop_info64 {
->  	__u64		   lo_device;			/* ioctl r/o */
->  	__u64		   lo_inode;			/* ioctl r/o */
->  	__u64		   lo_rdevice;			/* ioctl r/o */
-> -	__u64		   lo_offset;
-> -	__u64		   lo_sizelimit;/* bytes, 0 == max available */
-> -	__u32		   lo_number;			/* ioctl r/o */
-> -	__u32		   lo_encrypt_type;		/* obsolete, ignored */
-> -	__u32		   lo_encrypt_key_size;		/* ioctl w/o */
-> -	__u32		   lo_flags;
-> +	__s64		   lo_offset;
-> +	__s64		   lo_sizelimit;/* bytes, 0 == max available */
-> +	__s32		   lo_number;			/* ioctl r/o */
-> +	__s32		   lo_encrypt_type;		/* obsolete, ignored */
-> +	__s32		   lo_encrypt_key_size;		/* ioctl w/o */
-> +	__s32		   lo_flags;
->  	__u8		   lo_file_name[LO_NAME_SIZE];
->  	__u8		   lo_crypt_name[LO_NAME_SIZE];
->  	__u8		   lo_encrypt_key[LO_KEY_SIZE]; /* ioctl w/o */
-> -- 
-> 2.35.1
+Syzkaller reports bug as follows:
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 3684 at fs/buffer.c:1081 mark_buffer_dirty+0x59d/0xa20 fs/buffer.c:1081
+[...]
+Call Trace:
+ <TASK>
+ minix_put_super+0x199/0x500 fs/minix/inode.c:49
+ generic_shutdown_super+0x14c/0x400 fs/super.c:462
+ kill_block_super+0x97/0xf0 fs/super.c:1394
+ deactivate_locked_super+0x94/0x160 fs/super.c:332
+ deactivate_super+0xad/0xd0 fs/super.c:363
+ cleanup_mnt+0x3a2/0x540 fs/namespace.c:1186
+ task_work_run+0xdd/0x1a0 kernel/task_work.c:177
+ ptrace_notify+0x114/0x140 kernel/signal.c:2353
+ ptrace_report_syscall include/linux/ptrace.h:420 [inline]
+ ptrace_report_syscall_exit include/linux/ptrace.h:482 [inline]
+ syscall_exit_work kernel/entry/common.c:249 [inline]
+ syscall_exit_to_user_mode_prepare+0x129/0x280 kernel/entry/common.c:276
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:281 [inline]
+ syscall_exit_to_user_mode+0x9/0x50 kernel/entry/common.c:294
+ do_syscall_64+0x42/0xb0 arch/x86/entry/common.c:86
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+ [...]
+ </TASK>
+------------------------------------
 
-There has been discussion on syzkaller mailing list:
-https://groups.google.com/g/syzkaller-bugs/c/bg3ANn_7oJw/m/-MbtBx9cAwAJ
+During VFS releasing the minix's superblock, kernel will calls
+sync_filesystem() to write out and wait upon all dirty data
+associated with this superblock.
 
-Reproducing the latest reply:
+Yet the problem is that this write may fail, then kernel will
+clear BH_Uptodate flag in superblock's struct buffer_head
+in end_buffer_async_write(). When kernel returns from
+sync_filesystem() and calls sop->put_super()
+(which is minix_put_super()), it will triggers the warning
+for struct buffer_head is not uptodate in mark_buffer_dirty().
 
-On Sun, 21 Aug 2022 11:59:05 +0530  Christoph Hellwig  wrote:
-> On Thu, Aug 18, 2022 at 08:51:16PM +0530, Siddh Raman Pant wrote:
-> > On Thu, 18 Aug 2022 20:20:02 +0530  Matthew Wilcox  wrote:
-> > > I don't think changing these from u64 to s64 is the right way to go.
-> > 
-> > Why do you think so? Is there somnething I overlooked?
-> > 
-> > I think it won't intorduce regression, since if something is working,
-> > it will continue to work. If something does break, then they were
-> > relying on overflows, which is anyways an incorrect way to go about.
-> 
-> Well, for example userspace code expecting unsignedness of these
-> types could break.  So if we really think changing the types is so
-> much preferred we'd need to audit common userspace first.  Because
-> of that I think the version proposed by willy is generally preferred.
->
-> > Also, it seems even the 32-bit compatibility structure uses signed
-> > types.
-> 
-> We should probably fix that as well.
+This patch solves it by handling sync_filesystem() write error
+in minix_put_super(), before calling mark_buffer_dirty()
 
-Thus, I will send a v2 once the discussion is resolved.
+Reported-and-tested-by: syzbot+2af3bc9585be7f23f290@syzkaller.appspotmail.com
+Signed-off-by: Hawkins Jiawei <yin31149@gmail.com>
+---
+ fs/minix/inode.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-I had sent this patch because the discussion was stale for 2 days and
-Matthew seemed to be active on other email threads.
+diff --git a/fs/minix/inode.c b/fs/minix/inode.c
+index da8bdd1712a7..8e9a8057dcfe 100644
+--- a/fs/minix/inode.c
++++ b/fs/minix/inode.c
+@@ -42,17 +42,27 @@ static void minix_put_super(struct super_block *sb)
+ {
+ 	int i;
+ 	struct minix_sb_info *sbi = minix_sb(sb);
++	struct buffer_head *sbh = sbi->s_sbh;
+ 
+ 	if (!sb_rdonly(sb)) {
+ 		if (sbi->s_version != MINIX_V3)	 /* s_state is now out from V3 sb */
+ 			sbi->s_ms->s_state = sbi->s_mount_state;
+-		mark_buffer_dirty(sbi->s_sbh);
++
++		lock_buffer(sbh);
++		if (buffer_write_io_error(sbh)) {
++			clear_buffer_write_io_error(sbh);
++			set_buffer_uptodate(sbh);
++			printk("MINIX-fs warning: superblock detected "
++			       "previous I/O error\n");
++		}
++		mark_buffer_dirty(sbh);
++		unlock_buffer(sbh);
+ 	}
+ 	for (i = 0; i < sbi->s_imap_blocks; i++)
+ 		brelse(sbi->s_imap[i]);
+ 	for (i = 0; i < sbi->s_zmap_blocks; i++)
+ 		brelse(sbi->s_zmap[i]);
+-	brelse (sbi->s_sbh);
++	brelse (sbh);
+ 	kfree(sbi->s_imap);
+ 	sb->s_fs_info = NULL;
+ 	kfree(sbi);
+-- 
+2.25.1
 
-Thanks,
-Siddh
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
