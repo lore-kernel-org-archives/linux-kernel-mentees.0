@@ -4,98 +4,189 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3B69CC32789
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Aug 2022 13:05:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5D1B4C28D13
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 22 Aug 2022 13:46:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id AC83660E32;
-	Mon, 22 Aug 2022 13:05:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AC83660E32
+	by smtp3.osuosl.org (Postfix) with ESMTP id D07AC60E58;
+	Mon, 22 Aug 2022 13:46:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D07AC60E58
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ZmnZOe98
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2022-7-12 header.b=YStHRJ0X;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=oDehWaQW
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dj_bTDKvqAzh; Mon, 22 Aug 2022 13:05:35 +0000 (UTC)
+	with ESMTP id U_RtxTjFjkJ8; Mon, 22 Aug 2022 13:46:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5E81C60864;
-	Mon, 22 Aug 2022 13:05:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5E81C60864
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D4D0160DC6;
+	Mon, 22 Aug 2022 13:46:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D4D0160DC6
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 02C09C0032;
-	Mon, 22 Aug 2022 13:05:35 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B80CDC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B6B35C0032;
+	Mon, 22 Aug 2022 13:46:28 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D2A6EC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Aug 2022 13:05:31 +0000 (UTC)
+ Mon, 22 Aug 2022 13:46:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7AD3360D6D
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9D28C40934
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Aug 2022 13:05:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7AD3360D6D
+ Mon, 22 Aug 2022 13:46:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9D28C40934
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com
+ header.a=rsa-sha256 header.s=corp-2022-7-12 header.b=YStHRJ0X; 
+ dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com
+ header.i=@oracle.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-oracle-onmicrosoft-com header.b=oDehWaQW
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NAnedWL2tG-k
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id KXqq-Cqli_VZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Aug 2022 13:05:30 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 26C7D60864
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 26C7D60864
+ Mon, 22 Aug 2022 13:46:21 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 991CA4058C
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 991CA4058C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Aug 2022 13:05:30 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id 20so9852814plo.10
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 22 Aug 2022 06:05:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=SqqUKybCNm5OY78yBFoExZfJpyRi1vlWaSZzNzjwOi4=;
- b=ZmnZOe98e9Pfi/OvTveAdMo+sx0IH2pkeNeix40MHIYIPNgAZEbEjGO3sVtWKFpSTj
- Uv2SCoH+AJQy+edkC31khKdnKzUAcYSQ0m95oJcAHIyQP5BAJ8D9HGovZkNCXA9de8d2
- tMNPm6titCzd2QRUccqmMmuNudBkmLckBPL2U+n+XfAdLW/9UGuqWR8TsyVVrFjC0byg
- /FXmhBk3PANHyv4/5NgEtgLDpVK63+ZhwszYyIJmBJyPReGtOf1AiJC3mKJ+QqdutUI7
- I/gmpDKT1CyQwvFcNaNdO4MVs4dOH381CwvbGT2lJNcZEcQqLIrR5qhT8IZTa8UFarKz
- 8dnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=SqqUKybCNm5OY78yBFoExZfJpyRi1vlWaSZzNzjwOi4=;
- b=4zvgVYrSxePTGgP9ONYDTZ0tcHky46IEBtTh60Pw5BTM7d2LcdKV/QfWKoyGEmLYmJ
- GfZ/yyBDCCcAORNPvXb9FsswSlfCmoofDu20S6kF1pHWbzvofVsra+llfkVXfYAX9jWP
- YigCXJbg/roHmz0bgpRndXR9q6DqX0gQx/uZnIE80rfjD1RBACfgA3m4YJxBUAgJ/e1H
- 2WMDXGLwbUu625k9bonK2tu1QubfQdHzJ0qXXz9c4LBTaRrkc9xL364Bws8xdxog5fGs
- 42nxl7nlkgQB9pgH7bygAeq6NOxJECx9HBR3yPtWUDetXkzFZQ7zjjWcdSmcgApgLR3g
- 6pqA==
-X-Gm-Message-State: ACgBeo1eQOdJj/XUUwCkYCXsk0JR3BsmmW3pu6ppApIyMwmapULt+lkz
- Y/QW18vzz+wYyY22b5ltVlc=
-X-Google-Smtp-Source: AA6agR6d/4/NvGDCGAUKFRXIMuwufEzIWmrg/XULcAkHiKdXlmbYdcz1cNorX2/CKlfPYPNo4F0wcw==
-X-Received: by 2002:a17:902:f684:b0:172:d54d:6f9e with SMTP id
- l4-20020a170902f68400b00172d54d6f9emr10317923plg.174.1661173529224; 
- Mon, 22 Aug 2022 06:05:29 -0700 (PDT)
-Received: from localhost ([36.112.86.8]) by smtp.gmail.com with ESMTPSA id
- j5-20020a170903024500b0016be5f24aaesm8410010plh.163.2022.08.22.06.05.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Aug 2022 06:05:28 -0700 (PDT)
-From: Hawkins Jiawei <yin31149@gmail.com>
-To: yin31149@gmail.com, David Howells <dhowells@redhat.com>,
- Marc Dionne <marc.dionne@auristor.com>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
+ Mon, 22 Aug 2022 13:46:21 +0000 (UTC)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27MDPbks006031;
+ Mon, 22 Aug 2022 13:45:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2022-7-12;
+ bh=uBeMS398hCQp/KsuybpY/Gjm+H7aSfZ3cBzEBF1ELcE=;
+ b=YStHRJ0X4e+GpI4wYPkuDFfZthuI03z9mVFw+ltylaoiM/4LOKG6pfx9NUAmSHDn/FNI
+ Y5aiVzywNh42kzID7sbdwL2ZyF3qDP6uYBgIgqbqZUrGveO6a5S3QkYh5Bo0R+MR5mQy
+ RghJakXvLTZxPPtKDQpneyfglMhWdbfoLyCeHWYCVPxMR6fVHIOUMOiuLdmoNMJhoIup
+ RDIQ5ENuYaUf2OA78kLGIc3s9lVnVjLi1idXclheX13aGC9xdgMQgGkyWP4SwUOIPz6z
+ vn4u0Gs25Bc9rHLD8Mo8yNnZejt5hOGJdcUuVb05nCYufr0J9F5dVWXtCkVPugY+uN7x Tw== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j4anu82sj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Aug 2022 13:45:20 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 27MDRONS006361; Mon, 22 Aug 2022 13:45:09 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2173.outbound.protection.outlook.com [104.47.56.173])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3j3mjd0qkt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Aug 2022 13:45:09 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f3Da+34+Jb1EogLSUrYcO6vCQJiGfGf1FQMzY1TYLeIhKiGc1aUqLLWPUyq69RqAv5g3kOX7+bb7D0HuMxYbWLidDEaFiXmaY3Od6vsHi2x8lRisdhu1RXk8d6co0roHfuIdCmiaQM8MmWs6HyiYTsuJ+2MmVtw5vTUDHj2abFZiVzFUitU9LWSQ3Rx0peb+u4HOPWAjSU0vAFnVEgqHwPLPIPNVQWD+aqGziNHRwUc+nTDR9YFq0B4M96PmpjXDa/GDw3+5n1UDJfDqfCZ+kfp3hRu1hFj34ExAOVT0Au+5NzvFMIwQivj4R8hvLelxo3njv0f5nO/R0ec3iHYlTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uBeMS398hCQp/KsuybpY/Gjm+H7aSfZ3cBzEBF1ELcE=;
+ b=lxZ70vnvdqaKVp4eOMQQJqd8Z7Unb7S6sjf62TtfwtZ34F9vP/P2vh/1CkVUHbEJtR6m4Gyh0GAZz1l8+GDX8mLDZttnIk21h6czeYjvo7Glgmefly6Q6cTTrQyYhknsPPPKZU1S5Hx+Dnv5mY6hb17ELMFac2wEm0BcmvCOJObPXyvtTD42e8V9qbRFrwl0ph5eyXxgUrbhL/virSY0DywTEKJmq8TqzKaeie+gD+x5NbKK5oG7FozMSRpOG8bqcE+7o308NRoPIEUa+PFobpkVoowul724FQVrTosHGQqWTsF9BcG+MCpIPet66J7veTzBxLwz+6Mh9RyMMy8cQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uBeMS398hCQp/KsuybpY/Gjm+H7aSfZ3cBzEBF1ELcE=;
+ b=oDehWaQWEuGH5QWTUYB5bnPGYdqOhOCvCU3/vy1rMoaPB03C2qDCH9KrceE0W+olvgvXppQmEtt6sT6OiCkZGfKZ2MmXq/GickEfbWF4EOtSx9VtnAlYEth9S6vxpfFSo+MsRTsjntdNCZEpvtQBXfKrFXyRLW4Cqqkpzmnc87I=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by DM4PR10MB5919.namprd10.prod.outlook.com
+ (2603:10b6:8:aa::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.18; Mon, 22 Aug
+ 2022 13:45:06 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::209e:de4d:68ea:c026%3]) with mapi id 15.20.5546.022; Mon, 22 Aug 2022
+ 13:45:06 +0000
+Date: Mon, 22 Aug 2022 16:44:43 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Hawkins Jiawei <yin31149@gmail.com>
 Subject: Re: [PATCH] rxrpc: fix bad unlock balance in rxrpc_do_sendmsg
-Date: Mon, 22 Aug 2022 21:04:14 +0800
-Message-Id: <20220822130414.28489-1-yin31149@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220822112952.2961-1-yin31149@gmail.com>
+Message-ID: <20220822134443.GE2695@kadam>
 References: <20220822112952.2961-1-yin31149@gmail.com>
+ <20220822130414.28489-1-yin31149@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20220822130414.28489-1-yin31149@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNXP275CA0033.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::21)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c2b750fc-486d-4a68-41b7-08da8444854f
+X-MS-TrafficTypeDiagnostic: DM4PR10MB5919:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: FfHkcXkvmolmSSueDYMK97qNwBcLjxlTWCirNxWvfeEdgwaD8tvAH3g82qVyjc7sVOjinf2jCxmNbFwic9RyC9T3xhptM0KdfBcbHSQpAlPyCN2QYIw41tv2d8MNWWpU/sU1BFK+WWVxColyLx4whUEhOsUXfuLwCluI6xP2/BhngnL4SNNp8n5yYy7OA5Ysa+EEKqLVfe3xQTOZLrj4W+2mG8bw30v2/rO4JMNn5hFf7S/KzIbIPE0ZNtT/3L/x0USn1SIjqUCgeUZsPMgP21pXTtqJc0L2NiLG9j9aRpAjKOZOfG34mvOoilUQvn+drhWkPriacHT4VOXg62GRFYJEPFxsg8i3ID2Jwj0oCrsv1PGq3abVWHuuKZbji+y5T/gnklLARuNK9CPGR3M81/7uUBZEXi37ZRgpdKGo70GGjXglYQxUUQ82J6DCjBf+xJL+DEvjlZEDwIkA3HxfAhkI/vFmegkU9Hcc3t7ehmrK03G0WyHpRThWjzYB9wxieGWuPaJouYbfnf5mEpH9EYmCCCCwcHiEaPKvfmXP+0CXVZlgN1KViAoUTmKRBc9z+klUDGuOrceHVsblvXby1ttSloS8jbnOHzYNpsBREbHcEfPCVa+XThxroAj/uEbrXGPlbqBH4AZeVQNmAWp3rFaUSQDCRdl33XJr3Mtvrd7imbOtqnwmwxFdGtOiNUgJXbFptn2zS/JO9KzNVq6yOQ5lRn6yRCr6egGnWBkRmf86D3krgXF5ZLpJaVjx4JS1
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(7916004)(39860400002)(366004)(136003)(396003)(376002)(346002)(44832011)(6506007)(52116002)(2906002)(6666004)(41300700001)(186003)(26005)(9686003)(33656002)(4744005)(1076003)(6512007)(86362001)(38100700002)(33716001)(7416002)(38350700002)(478600001)(5660300002)(6916009)(83380400001)(8676002)(66946007)(4326008)(6486002)(316002)(66556008)(66476007)(8936002)(54906003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NgdVbkG+NZtPj9FDMM+eH4AnJyX3NKv0ds8/PHHA3jFCjc5nOd7iG+VUZysf?=
+ =?us-ascii?Q?wxG9v4QG0OT6Kuw3JsRxO4/DI+ISRfCsS3moVIT/j3U4+djdlrwKgqPP2jYi?=
+ =?us-ascii?Q?QKnRO3OAvhnVrt2+vp02q21CEBJE28MXze2Thx8gQvKvKJ93MvXHeBTtEpBk?=
+ =?us-ascii?Q?VyR+ZD3dn3KXJOf5eez85/daWxPtpy7sDEju7KCBZUBYtZ1RjYyvoQ1i9MoQ?=
+ =?us-ascii?Q?F2Y74gAOMQ0ObpoHcjWRKHwRBh0e086sWmeFrQFt+SRLsT7T0usVtJfjGjhU?=
+ =?us-ascii?Q?hEVFKdD0Zxmac55GN6h0RkRir0ou8LkM2mkho4XZNUPnPA4AzNrHDYnmunY7?=
+ =?us-ascii?Q?d07T3/cCuHROYzBh23Gok0VdWeDBivEKFbPfsVcoBCTDJtbq0rdMf2hFvq/J?=
+ =?us-ascii?Q?x6GqMOKvKdPx0do9VewKn5h8bjurEbnIFFWiUPybspjfiepsd88+ftgK5S1k?=
+ =?us-ascii?Q?h/HlBi//cHzdDTJ7hXlFRWlWWOKnetK6FQzZx+YDlp6+y000YhCnKuFW/q4+?=
+ =?us-ascii?Q?LL3NR0LYiA435tlb1HhTqCEzI3GxhpExgzUE/gti3WE6LNzSOSoXKhBi+Ooc?=
+ =?us-ascii?Q?JN8NH//L7LNuUjydOBmMRlZuudJIeKh17RbtGRoLpaQCCjENlRgnbuSBV9GJ?=
+ =?us-ascii?Q?96hOR0MINbRqyVh96wB560qj8Oo4gowrS2vcb95QtbSsT8iUqMVtzt1HREyJ?=
+ =?us-ascii?Q?5uH2+iDspXKLF6/iYfvLiMxLB4sfjfYYAeb7UIbG2XvW9Gp7LJWNiwijKbGj?=
+ =?us-ascii?Q?8/+eSqGmvzceaBXhIA2TJcIvUzyFYCkOtnmEz+Qo7V+qmrhnfuXI5Rg9/ecZ?=
+ =?us-ascii?Q?LqtGzG9u7Mv7Os8XvhfnkjkDE+yRq+TEKGsqM8cvI5ylcg1CsNyP5bhKskeP?=
+ =?us-ascii?Q?BIZdt5hhhK+7jQRKlnYMd4IeEkdeZqDmy/r0oBgw1x+azYZLi6tcfj96I9pR?=
+ =?us-ascii?Q?hHSNQ3NKrZo/91zFju7u/fd/wbuN6xzQNeWQhBb2EjC/0oOLw3NSk4EQghzk?=
+ =?us-ascii?Q?hv9W5slyfD4k7Xey7bylFTSAK+9N1aDbmD2Kojp/CLLGiFU+6NFsww/7pdu5?=
+ =?us-ascii?Q?BC05xvvyltrafrXzeHMnSEw0Fz6r/vZcHnjhlRymBGJrP8kKRQJWP2nUzELb?=
+ =?us-ascii?Q?cs3BHt9X1VxV/X4y1+UqiZSogAxyGDcCnzmf9cnIuKOD24u6pIbYaqagB02L?=
+ =?us-ascii?Q?TjGAZdkNFS3DXQPpNgSOqxQUGmBqLrHL773ugn4Ze0VVaZCKfvMHPGqQBwtL?=
+ =?us-ascii?Q?RHehTlokghKF4VePTUyD1Y9oMGYvhr7ILNhTghFoCpKN7gZskS3GrVUSQxXp?=
+ =?us-ascii?Q?JCTswSToHz8YjcDL07kBWSbRIHADjZhWclepwQIxES9tR0xh0jO0sx2cEwnp?=
+ =?us-ascii?Q?Uy2djeZA/IoV/3EvVYEoQD/FbI5rG+OkhpCd+KZaP7jJYHWWrzJdln4qW9Cb?=
+ =?us-ascii?Q?GzryupVkDDJVYUf2zC/wf8UQDqmRHjyIskxVj4YHh9z3ABD73EX9OpMYMYVu?=
+ =?us-ascii?Q?/8CfXF2Zx2N/gWRSKvtwQIVens1XOor12bIOudPgHH8HBdNhVEdm2KHp+jYV?=
+ =?us-ascii?Q?w1zIBxsa/1zzLoVP86fGka4/bZJsFWMhVYGz9auLvMdrdrtDoD3elbkZ/Qpe?=
+ =?us-ascii?Q?Ug=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2b750fc-486d-4a68-41b7-08da8444854f
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2022 13:45:06.3052 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7LsNld545HPnh2+hHw9G8GJ6OLUkYNSJE5SSuAA+VcLhKAkt7cY3qi30litQpp41cSO/hFkWJVe0f9MUaSqG68zGDclbaSFsCe4Ktvc5+Sg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5919
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-22_08,2022-08-22_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999 adultscore=0
+ spamscore=0 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208220057
+X-Proofpoint-ORIG-GUID: VjCqrBwMf7AKAQfUHK_SkbjCfmWIzg8m
+X-Proofpoint-GUID: VjCqrBwMf7AKAQfUHK_SkbjCfmWIzg8m
 Cc: netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com,
- linux-kernel@vger.kernel.org,
- syzbot+7f0483225d0c94cb3441@syzkaller.appspotmail.com, paskripkin@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-afs@lists.infradead.org
+ linux-kernel@vger.kernel.org, linux-afs@lists.infradead.org,
+ David Howells <dhowells@redhat.com>,
+ syzbot+7f0483225d0c94cb3441@syzkaller.appspotmail.com,
+ Eric Dumazet <edumazet@google.com>, paskripkin@gmail.com,
+ Marc Dionne <marc.dionne@auristor.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,298 +204,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 22 Aug 2022 at 19:30, Hawkins Jiawei <yin31149@gmail.com> wrote:
->
-> On Mon, 22 Aug 2022 at 16:48, David Howells <dhowells@redhat.com> wrote:
-> >
-> > Hawkins Jiawei <yin31149@gmail.com> wrote:
-> >
-> > > -             if (mutex_lock_interruptible(&call->user_mutex) < 0)
-> > > +             if (mutex_lock_interruptible(&call->user_mutex) < 0) {
-> > > +                     mutex_lock(&call->user_mutex);
-> >
-> > Yeah, as Khalid points out that kind of makes the interruptible lock
-> > pointless.  Either rxrpc_send_data() needs to return a separate indication
-> > that we returned without the lock held or it needs to always drop the lock on
-> > error (at least for ERESTARTSYS/EINTR) which can be checked for higher up.
-> Hi David,
->
-> For second option, I think it may meet some difficulty, because we
-> cannot figure out whether rxrpc_send_data() meets lock error.
-> To be more specific, rxrpc_send_data() may still returns the number
-> it has copied even rxrpc_send_data() meets lock error, if
-> rxrpc_send_data() has successfully dealed some data.(Please correct me
-> if I am wrong)
->
-> So I think the first option seems better. I wonder if we can add an
-> argument in rxrpc_send_data() as an indication you pointed out? Maybe:
->
-> diff --git a/net/rxrpc/sendmsg.c b/net/rxrpc/sendmsg.c
-> index 1d38e279e2ef..0801325a7c7f 100644
-> --- a/net/rxrpc/sendmsg.c
-> +++ b/net/rxrpc/sendmsg.c
-> @@ -284,13 +284,18 @@ static int rxrpc_queue_packet(struct rxrpc_sock *rx, struct rxrpc_call *call,
->
->  /*
->   * send data through a socket
-> + * @holding_mutex: rxrpc_send_data() will assign this pointer with True
-> + * if functions still holds the call user access mutex when returned to caller.
-> + * This argument can be NULL, which will effect nothing.
-> + *
->   * - must be called in process context
->   * - The caller holds the call user access mutex, but not the socket lock.
->   */
+On Mon, Aug 22, 2022 at 09:04:14PM +0800, Hawkins Jiawei wrote:
 >  static int rxrpc_send_data(struct rxrpc_sock *rx,
->                            struct rxrpc_call *call,
->                            struct msghdr *msg, size_t len,
-> -                          rxrpc_notify_end_tx_t notify_end_tx)
-> +                          rxrpc_notify_end_tx_t notify_end_tx,
-> +                          bool *holding_mutex)
+>  			   struct rxrpc_call *call,
+>  			   struct msghdr *msg, size_t len,
+> -			   rxrpc_notify_end_tx_t notify_end_tx)
+> +			   rxrpc_notify_end_tx_t notify_end_tx,
+> +			   bool *holding_mutex)
 >  {
->         struct rxrpc_skb_priv *sp;
->         struct sk_buff *skb;
-> @@ -299,6 +304,9 @@ static int rxrpc_send_data(struct rxrpc_sock *rx,
->         bool more;
->         int ret, copied;
->
-> +       if (holding_mutex)
-> +               *holding_mutex = true;
-> +
->         timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
->
->         /* this should be in poll */
-> @@ -338,8 +346,11 @@ static int rxrpc_send_data(struct rxrpc_sock *rx,
->                                 ret = rxrpc_wait_for_tx_window(rx, call,
->                                                                &timeo,
->                                                                msg->msg_flags & MSG_WAITALL);
-> -                               if (ret < 0)
-> +                               if (ret < 0) {
-> +                                       if (holding_mutex)
-> +                                               *holding_mutex = false;
->                                         goto maybe_error;
-> +                               }
->                         }
->
->                         /* Work out the maximum size of a packet.  Assume that
-> @@ -630,6 +641,7 @@ int rxrpc_do_sendmsg(struct rxrpc_sock *rx, struct msghdr *msg, size_t len)
->         struct rxrpc_call *call;
->         unsigned long now, j;
->         int ret;
-> +       bool holding_user_mutex;
->
->         struct rxrpc_send_params p = {
->                 .call.tx_total_len      = -1,
-> @@ -747,7 +759,9 @@ int rxrpc_do_sendmsg(struct rxrpc_sock *rx, struct msghdr *msg, size_t len)
->                 /* Reply phase not begun or not complete for service call. */
->                 ret = -EPROTO;
->         } else {
-> -               ret = rxrpc_send_data(rx, call, msg, len, NULL);
-> +               ret = rxrpc_send_data(rx, call, msg, len, NULL, &holding_user_mutex);
-> +               if (!holding_user_mutex)
-> +                       goto error_put;
->         }
->
->  out_put_unlock:
-> @@ -796,7 +810,7 @@ int rxrpc_kernel_send_data(struct socket *sock, struct rxrpc_call *call,
->         case RXRPC_CALL_SERVER_ACK_REQUEST:
->         case RXRPC_CALL_SERVER_SEND_REPLY:
->                 ret = rxrpc_send_data(rxrpc_sk(sock->sk), call, msg, len,
-> -                                     notify_end_tx);
-> +                                     notify_end_tx, NULL);
->                 break;
->         case RXRPC_CALL_COMPLETE:
->                 read_lock_bh(&call->state_lock);
->
-> After applying the above patch, kernel still panic, but seems not the
-> bad unlock balance bug before. yet I am not sure if this is the same bug you
-> mentioned. Kernel output as below:
-> [   39.115966][ T6508] ====================================
-> [   39.116940][ T6508] WARNING: syz/6508 still has locks held!
-> [   39.117978][ T6508] 6.0.0-rc1-00066-g3b06a2755758-dirty #186 Not tainted
-> [   39.119353][ T6508] ------------------------------------
-> [   39.120321][ T6508] 1 lock held by syz/6508:
-> [   39.121122][ T6508]  #0: ffff88801f472b20 (&call->user_mutex){....}-{3:3}0
-> [   39.123014][ T6508]
-> [   39.123014][ T6508] stack backtrace:
-> [   39.123925][ T6508] CPU: 0 PID: 6508 Comm: syz Not tainted 6.0.0-rc1-00066
-> [   39.125304][ T6508] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)4
-> [   39.125304][ T6508] Call Trace:
-> [   39.125304][ T6508]  <TASK>
-> [   39.125304][ T6508]  dump_stack_lvl+0x8e/0xdd
-> [   39.125304][ T6508]  get_signal+0x1866/0x24d0
-> [   39.125304][ T6508]  ? lock_acquire+0x172/0x310
-> [   39.125304][ T6508]  ? exit_signals+0x7b0/0x7b0
-> [   39.125304][ T6508]  arch_do_signal_or_restart+0x82/0x23f0
-> [   39.125304][ T6508]  ? __sanitizer_cov_trace_pc+0x1a/0x40
-> [   39.125304][ T6508]  ? __fget_light+0x20d/0x270
-> [   39.125304][ T6508]  ? get_sigframe_size+0x10/0x10
-> [   39.125304][ T6508]  ? __sanitizer_cov_trace_pc+0x1a/0x40
-> [   39.125304][ T6508]  ? __sys_sendmsg+0x11a/0x1c0
-> [   39.125304][ T6508]  ? __sys_sendmsg_sock+0x30/0x30
-> [   39.125304][ T6508]  exit_to_user_mode_prepare+0x146/0x1b0
-> [   39.125304][ T6508]  syscall_exit_to_user_mode+0x12/0x30
-> [   39.125304][ T6508]  do_syscall_64+0x42/0xb0
-> [   39.125304][ T6508]  entry_SYSCALL_64_after_hwframe+0x63/0xcd
-> [   39.125304][ T6508] RIP: 0033:0x44fbad
-> [   39.125304][ T6508] Code: c3 e8 97 29 00 00 0f 1f 80 00 00 00 00 f3 0f 1e8
-> [   39.125304][ T6508] RSP: 002b:00007f4b8ae22d48 EFLAGS: 00000246 ORIG_RAX:e
-> [   39.125304][ T6508] RAX: fffffffffffffffc RBX: 0000000000000000 RCX: 0000d
-> [   39.125304][ T6508] RDX: 0000000000000186 RSI: 0000000020000000 RDI: 00003
-> [   39.125304][ T6508] RBP: 00007f4b8ae22d80 R08: 00007f4b8ae23700 R09: 00000
-> [   39.125304][ T6508] R10: 00007f4b8ae23700 R11: 0000000000000246 R12: 0000e
-> [   39.125304][ T6508] R13: 00007ffe483304af R14: 00007ffe48330550 R15: 00000
-> [   39.125304][ T6508]  </TASK>
-> ====================================
->
-> I will make a deeper look and try to patch it.
-The cause is that patch assigns False to pointer holding_mutex in
-rxrpc_send_data() by only juding whether the return value from
-rxrpc_wait_for_tx_window() is less than 0, yet this is not correct.
+>  	struct rxrpc_skb_priv *sp;
+>  	struct sk_buff *skb;
+> @@ -299,6 +318,13 @@ static int rxrpc_send_data(struct rxrpc_sock *rx,
+>  	bool more;
+>  	int ret, copied;
+>  
+> +	/*
+> +	 * The caller holds the call->user_mutex when calls
+> +	 * rxrpc_send_data(), so initial it with True
+> +	 */
+> +	if (holding_mutex)
+> +		*holding_mutex = true;
 
-So we should just only assign False to holding_mutex when
-unlocking the call->user_mutex in rxrpc_wait_for_tx_window_intr().
-Maybe:
-diff --git a/net/rxrpc/sendmsg.c b/net/rxrpc/sendmsg.c
-index 1d38e279e2ef..1050cc2f5c89 100644
---- a/net/rxrpc/sendmsg.c
-+++ b/net/rxrpc/sendmsg.c
-@@ -33,11 +33,16 @@ static bool rxrpc_check_tx_space(struct rxrpc_call *call, rxrpc_seq_t *_tx_win)
- }
- 
- /*
-+ * @holding_mutex: An indication whether caller can still holds
-+ * the call->user_mutex when returned to caller.
-+ * This argument can be NULL, which will effect nothing.
-+ *
-  * Wait for space to appear in the Tx queue or a signal to occur.
-  */
- static int rxrpc_wait_for_tx_window_intr(struct rxrpc_sock *rx,
- 					 struct rxrpc_call *call,
--					 long *timeo)
-+					 long *timeo,
-+					 bool *holding_mutex)
- {
- 	for (;;) {
- 		set_current_state(TASK_INTERRUPTIBLE);
-@@ -53,8 +58,11 @@ static int rxrpc_wait_for_tx_window_intr(struct rxrpc_sock *rx,
- 		trace_rxrpc_transmit(call, rxrpc_transmit_wait);
- 		mutex_unlock(&call->user_mutex);
- 		*timeo = schedule_timeout(*timeo);
--		if (mutex_lock_interruptible(&call->user_mutex) < 0)
-+		if (mutex_lock_interruptible(&call->user_mutex) < 0) {
-+			if (holding_mutex)
-+				*holding_mutex = false;
- 			return sock_intr_errno(*timeo);
-+		}
- 	}
- }
- 
-@@ -121,13 +129,18 @@ static int rxrpc_wait_for_tx_window_nonintr(struct rxrpc_sock *rx,
- }
- 
- /*
-+ * @holding_mutex: An indication whether caller can still holds
-+ * the call->user_mutex when returned to caller.
-+ * This argument can be NULL, which will effect nothing.
-+ *
-  * wait for space to appear in the transmit/ACK window
-  * - caller holds the socket locked
-  */
- static int rxrpc_wait_for_tx_window(struct rxrpc_sock *rx,
- 				    struct rxrpc_call *call,
- 				    long *timeo,
--				    bool waitall)
-+				    bool waitall,
-+				    bool *holding_mutex)
- {
- 	DECLARE_WAITQUEUE(myself, current);
- 	int ret;
-@@ -142,7 +155,7 @@ static int rxrpc_wait_for_tx_window(struct rxrpc_sock *rx,
- 		if (waitall)
- 			ret = rxrpc_wait_for_tx_window_waitall(rx, call);
- 		else
--			ret = rxrpc_wait_for_tx_window_intr(rx, call, timeo);
-+			ret = rxrpc_wait_for_tx_window_intr(rx, call, timeo, holding_mutex);
- 		break;
- 	case RXRPC_PREINTERRUPTIBLE:
- 	case RXRPC_UNINTERRUPTIBLE:
-@@ -284,13 +297,19 @@ static int rxrpc_queue_packet(struct rxrpc_sock *rx, struct rxrpc_call *call,
- 
- /*
-  * send data through a socket
-+ *
-+ * @holding_mutex: An indication whether caller can still holds
-+ * the call->user_mutex when returned to caller.
-+ * This argument can be NULL, which will effect nothing.
-+ *
-  * - must be called in process context
-  * - The caller holds the call user access mutex, but not the socket lock.
-  */
- static int rxrpc_send_data(struct rxrpc_sock *rx,
- 			   struct rxrpc_call *call,
- 			   struct msghdr *msg, size_t len,
--			   rxrpc_notify_end_tx_t notify_end_tx)
-+			   rxrpc_notify_end_tx_t notify_end_tx,
-+			   bool *holding_mutex)
- {
- 	struct rxrpc_skb_priv *sp;
- 	struct sk_buff *skb;
-@@ -299,6 +318,13 @@ static int rxrpc_send_data(struct rxrpc_sock *rx,
- 	bool more;
- 	int ret, copied;
- 
-+	/*
-+	 * The caller holds the call->user_mutex when calls
-+	 * rxrpc_send_data(), so initial it with True
-+	 */
-+	if (holding_mutex)
-+		*holding_mutex = true;
-+
- 	timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
- 
- 	/* this should be in poll */
-@@ -337,7 +363,8 @@ static int rxrpc_send_data(struct rxrpc_sock *rx,
- 					goto maybe_error;
- 				ret = rxrpc_wait_for_tx_window(rx, call,
- 							       &timeo,
--							       msg->msg_flags & MSG_WAITALL);
-+							       msg->msg_flags & MSG_WAITALL,
-+							       holding_mutex);
- 				if (ret < 0)
- 					goto maybe_error;
- 			}
-@@ -630,6 +657,7 @@ int rxrpc_do_sendmsg(struct rxrpc_sock *rx, struct msghdr *msg, size_t len)
- 	struct rxrpc_call *call;
- 	unsigned long now, j;
- 	int ret;
-+	bool holding_user_mutex;
- 
- 	struct rxrpc_send_params p = {
- 		.call.tx_total_len	= -1,
-@@ -747,7 +775,9 @@ int rxrpc_do_sendmsg(struct rxrpc_sock *rx, struct msghdr *msg, size_t len)
- 		/* Reply phase not begun or not complete for service call. */
- 		ret = -EPROTO;
- 	} else {
--		ret = rxrpc_send_data(rx, call, msg, len, NULL);
-+		ret = rxrpc_send_data(rx, call, msg, len, NULL, &holding_user_mutex);
-+		if (!holding_user_mutex)
-+			goto error_put;
- 	}
- 
- out_put_unlock:
-@@ -796,7 +826,7 @@ int rxrpc_kernel_send_data(struct socket *sock, struct rxrpc_call *call,
- 	case RXRPC_CALL_SERVER_ACK_REQUEST:
- 	case RXRPC_CALL_SERVER_SEND_REPLY:
- 		ret = rxrpc_send_data(rxrpc_sk(sock->sk), call, msg, len,
--				      notify_end_tx);
-+				      notify_end_tx, NULL);
- 		break;
- 	case RXRPC_CALL_COMPLETE:
- 		read_lock_bh(&call->state_lock);
+Don't make this optional.  All callers have to care if we dropped the
+lock.
 
+regards,
+dan carpenter
 
-Reproducer did not trigger any issue locally. I will propose a test by
-syzbot. Maybe I will send v2 patch if patch can pass the syzbot tesing.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
