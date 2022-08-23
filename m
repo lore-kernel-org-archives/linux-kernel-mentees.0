@@ -1,90 +1,90 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07BAEC38142
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Aug 2022 22:25:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 22259C32793
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 23 Aug 2022 22:58:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8710140A1D;
-	Tue, 23 Aug 2022 22:25:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8710140A1D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ISOAaZjB
+	by smtp3.osuosl.org (Postfix) with ESMTP id 86B7160D5A;
+	Tue, 23 Aug 2022 22:58:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 86B7160D5A
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=pvfL7cJb
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5Dv6DcDfpx6j; Tue, 23 Aug 2022 22:25:50 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id BffLQ08levSk; Tue, 23 Aug 2022 22:58:15 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 71124400FE;
-	Tue, 23 Aug 2022 22:25:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 71124400FE
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 8DD5C60C0B;
+	Tue, 23 Aug 2022 22:58:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8DD5C60C0B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4F715C0032;
-	Tue, 23 Aug 2022 22:25:50 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1570CC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 687D7C0032;
+	Tue, 23 Aug 2022 22:58:15 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B5CF9C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Aug 2022 22:25:49 +0000 (UTC)
+ Tue, 23 Aug 2022 22:58:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D7E1D40A1D
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8972F60C1F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Aug 2022 22:25:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D7E1D40A1D
+ Tue, 23 Aug 2022 22:58:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8972F60C1F
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7J0d016mDGa9
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OeBEvQZqtPEV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Aug 2022 22:25:47 +0000 (UTC)
+ Tue, 23 Aug 2022 22:58:13 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5E83640A19
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5E83640A19
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7B02C60C0B
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 7B02C60C0B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Aug 2022 22:25:47 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id u5so10801082wrt.11
+ Tue, 23 Aug 2022 22:58:13 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id h1so7902302wmd.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Aug 2022 15:25:47 -0700 (PDT)
+ Tue, 23 Aug 2022 15:58:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc;
- bh=0KiyNC174zzIjrp1GQzwkUvnQfE9zdtStKGjmTOoAis=;
- b=ISOAaZjBLHcybcp4uPVGbXkobnssTpHtkw01HnsIkvCOXnpw0/0LwaIbeXccRKCQ0M
- JKTK29tVl3uxvOrLEEfvBYrHm+cjw8F1x0eBXsQjDQKqE5di3ZMDFVqaQ7i6oS3xeTOy
- McKs03C2T5MNpFnSZw7g/0fM4sFGLp8WtHnfMXFFK1hN7wABEa1w6M8g0mgCbDt7weSS
- 41xaeJvRF1ZAyjpxLi0/3Qh88jiIgM64CTkN5KVXoLNt5qtZDStaC9hJrrsNLuGvrWzK
- akMDScEddIA2fx0iToXHjyt//hg4dUKZ1sF2TBFvOtWQB+zblWRHviWhK5d7jeKuIryJ
- 7O3Q==
+ bh=lk8/tj/nL+5/3atLQyJ228xPqcFNf3nUrZ03uJtpZEE=;
+ b=pvfL7cJb4Q6aj5gWTQZr10k4cTHpOUxS7OR9MD9VoS52aLJQqXyhRq0jV08egaTM99
+ +PZuXYnNSeIR+5K3C2HGqM0kq7LHIw+Bmdtna0MRXVK7AYCWQfuhPS4audm7Iuq6it+t
+ zxDpN7LXKfs3pakXGXkNaf7nkqR2s9gEe1UCs9azV0aGGogLnmVRsknkLmP3C90Wiqod
+ d8jmm9Qo1MIPLKZOwYA+BCnoxz6dM3fB+Vkgi7RPZrHrGPLzexH9gEYz8gDcOSBDz5Vc
+ NQekFrrPeElUGnSETN4rTBDqiBV9Ca5A1nAh7wXsROpOmYDgoFI2tjnwb+qsY/5mJEM9
+ gDpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc;
- bh=0KiyNC174zzIjrp1GQzwkUvnQfE9zdtStKGjmTOoAis=;
- b=3ghrObifh19im2Yav2QDiSNZ02hGGUJFlX95YuGObYV4rl6hr5oUlTGbgDgMvPP82E
- Hza9ObeZ6B4OYLmRqPKKAxpnx0c0MhTitvtMZJU08//sBTXxoqqV8lzSL1I+nMZr4zVJ
- 9TOmYgBYQGz1uwhmt1hYxqBNXcsQX/gLP50UTVQ9qzBg0wDi3uPQn+B4UY1G6wYOXmZz
- F2JyQ6k3Dd9KsdCNRcDdQfewt3J3WoaUzPON2IzmffL1HKO6Jkgh7ViZM5KkmjxtJ7BF
- QQvCXINyDMvksmvtb5sI4m5JinS6Gc4eYb7gwWTGJu6gVEDUcgOu8Njf3BmBHMF7qtW1
- cqaQ==
-X-Gm-Message-State: ACgBeo1lB+V3+4kdyHlPcAszIuFJH88pQYLaJl7PgOqQfSS3P9RPDcoW
- brfIGkpKp9A19rKDkw8LlfQ=
-X-Google-Smtp-Source: AA6agR4y17yGEPfUjNos3CS9FizMNvtc29TAVoyBBkCY/cph1Sh1OwBFkf27OS+J6CbR5P851Ny8bw==
-X-Received: by 2002:a5d:594a:0:b0:225:3606:da33 with SMTP id
- e10-20020a5d594a000000b002253606da33mr12411231wri.60.1661293545431; 
- Tue, 23 Aug 2022 15:25:45 -0700 (PDT)
+ bh=lk8/tj/nL+5/3atLQyJ228xPqcFNf3nUrZ03uJtpZEE=;
+ b=7ItVPp3mZW9KpHa69/I+kVMkOdqc9eWhPAG/ze986qnS6H4/q6ooZKAakCJB+wHxzD
+ Vpwoa3830qDzYIB0Ds0iHs+epr6nOIkS8LpciqaUHj+xO/SYzEH1AWzQTkoqoI1dyfKh
+ B9qU/qQjAgALn/75c+z5jQrAhRWmv8STHdhktbHFrjdT1dRfUcaYqC0PMXJFduMayPp1
+ gR6ehWFoHrqGXpkj3lhCGAnxSezHzHQ3PAg5pZQFLvp/nHRxElicBruJGtIYdTVCrGBD
+ Jwpve9flXGrKLhpGY2b3jIeRi/xYF+8R3c0qGjll7tKQQq/g9T0JeeuhYDUqx72BoH6P
+ Nrzg==
+X-Gm-Message-State: ACgBeo1IvJQn/K90FScch5ClSiaZ1qO77xx9VEunzerf3kikh7sw0gaW
+ R/9xYCVGO8qOgYSWx/UTTcY=
+X-Google-Smtp-Source: AA6agR43PKc2OD8KiUkOBN1+RxOPi6GqXs/g9ouzuKC/13rWTetZzknP+V5rl+Lf0JXq4gPbsnRVWg==
+X-Received: by 2002:a7b:cc90:0:b0:3a5:3899:7be1 with SMTP id
+ p16-20020a7bcc90000000b003a538997be1mr3361217wma.19.1661295491434; 
+ Tue, 23 Aug 2022 15:58:11 -0700 (PDT)
 Received: from localhost.localdomain ([84.255.184.228])
  by smtp.gmail.com with ESMTPSA id
- g11-20020a05600c4ecb00b003a4c6e67f01sm26522607wmq.6.2022.08.23.15.25.41
+ y6-20020a056000108600b002250c35826dsm15052123wrw.104.2022.08.23.15.58.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 15:25:44 -0700 (PDT)
+ Tue, 23 Aug 2022 15:58:10 -0700 (PDT)
 From: Mazin Al Haddad <mazinalhaddad05@gmail.com>
 To: pontus.fuchs@gmail.com
-Subject: [PATCH] ar5523: check endpoints type and direction in probe()
-Date: Wed, 24 Aug 2022 01:24:38 +0300
-Message-Id: <20220823222436.514204-1-mazinalhaddad05@gmail.com>
+Subject: [PATCH v2] ar5523: check endpoints type and direction in probe()
+Date: Wed, 24 Aug 2022 01:57:54 +0300
+Message-Id: <20220823225754.519945-1-mazinalhaddad05@gmail.com>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Cc: netdev@vger.kernel.org, kvalo@kernel.org, linux-wireless@vger.kernel.org,
@@ -116,7 +116,7 @@ of endpoints and the type which causes an error as the code tries to
 send a URB to the wrong endpoint.
 
 Fix it by adding a check for the number of endpoints and the
-direction/type of the endpoints. If the endpoints do not match the 
+direction/type of the endpoints. If the endpoints do not match the
 expected configuration -ENODEV is returned.
 
 Syzkaller report:
@@ -134,19 +134,23 @@ Call Trace:
  ar5523_host_available drivers/net/wireless/ath/ar5523/ar5523.c:1376 [inline]
  ar5523_probe+0xc66/0x1da0 drivers/net/wireless/ath/ar5523/ar5523.c:1655
 
-
 Link: https://syzkaller.appspot.com/bug?extid=1bc2c2afd44f820a669f
 Reported-and-tested-by: syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com
 Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
 ---
- drivers/net/wireless/ath/ar5523/ar5523.c | 31 ++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+v1->v2 changes:
+	- Fix incorrect check in if statement within switch case (was missing
+		a "!" operator).
+	- Added comments explaining the code.
+
+ drivers/net/wireless/ath/ar5523/ar5523.c | 33 ++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
 diff --git a/drivers/net/wireless/ath/ar5523/ar5523.c b/drivers/net/wireless/ath/ar5523/ar5523.c
-index 6f937d2cc126..5451bf9ab9fb 100644
+index 6f937d2cc126..d7e86dc4c293 100644
 --- a/drivers/net/wireless/ath/ar5523/ar5523.c
 +++ b/drivers/net/wireless/ath/ar5523/ar5523.c
-@@ -1581,8 +1581,39 @@ static int ar5523_probe(struct usb_interface *intf,
+@@ -1581,8 +1581,41 @@ static int ar5523_probe(struct usb_interface *intf,
  	struct usb_device *dev = interface_to_usbdev(intf);
  	struct ieee80211_hw *hw;
  	struct ar5523 *ar;
@@ -158,24 +162,26 @@ index 6f937d2cc126..5451bf9ab9fb 100644
 +		return -ENODEV;
 +	}
 +
++	// Check for type of endpoint and direction.
 +	for (int i = 0; i < host->desc.bNumEndpoints; ++i) {
 +		struct usb_endpoint_descriptor *ep = &host->endpoint[i].desc;
-+		// Check for type of endpoint and direction.
++
 +		switch (i) {
 +		case 0:
 +		case 1:
-+			if ((ep->bEndpointAddress & USB_DIR_OUT) &&
-+			    ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
-+			     == USB_ENDPOINT_XFER_BULK)){
++			// if endpoint direction and type does not match
++			if (!((ep->bEndpointAddress & USB_DIR_OUT) &&
++			      ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
++			      == USB_ENDPOINT_XFER_BULK))){
 +				dev_err(&dev->dev, "Wrong type of endpoints\n");
 +				return -ENODEV;
 +			}
 +			break;
 +		case 2:
 +		case 3:
-+			if ((ep->bEndpointAddress & USB_DIR_IN) &&
-+			    ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
-+			     == USB_ENDPOINT_XFER_BULK)){
++			if (!((ep->bEndpointAddress & USB_DIR_IN) &&
++			      ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
++			     == USB_ENDPOINT_XFER_BULK))){
 +				dev_err(&dev->dev, "Wrong type of endpoints\n");
 +				return -ENODEV;
 +			}
