@@ -1,105 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B10CC00140
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 24 Aug 2022 12:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B6FEAC32793
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 24 Aug 2022 13:07:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E1B69409AA;
-	Wed, 24 Aug 2022 12:53:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E1B69409AA
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel-dk.20210112.gappssmtp.com header.i=@kernel-dk.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=rciuwxHp
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4AF1C82656;
+	Wed, 24 Aug 2022 13:07:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4AF1C82656
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ZWuwggVw
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xsap6sKwh0gu; Wed, 24 Aug 2022 12:53:42 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id BB27A4030A;
-	Wed, 24 Aug 2022 12:53:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BB27A4030A
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0H6L19yW7bkv; Wed, 24 Aug 2022 13:07:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 00389825C7;
+	Wed, 24 Aug 2022 13:07:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 00389825C7
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 87544C0033;
-	Wed, 24 Aug 2022 12:53:41 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DD8E3C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C063EC0033;
+	Wed, 24 Aug 2022 13:07:39 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 332ECC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 12:53:39 +0000 (UTC)
+ Wed, 24 Aug 2022 13:07:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A3296402E7
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0BED760F5C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 12:53:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A3296402E7
+ Wed, 24 Aug 2022 13:07:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0BED760F5C
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=ZWuwggVw
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ilAXtX6q7lIF
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id v2vVLz-vYFNE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 12:53:38 +0000 (UTC)
+ Wed, 24 Aug 2022 13:07:33 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7DB0D402B1
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com
- [IPv6:2607:f8b0:4864:20::102e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 7DB0D402B1
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9236260F56
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9236260F56
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 12:53:38 +0000 (UTC)
-Received: by mail-pj1-x102e.google.com with SMTP id m15so8904764pjj.3
+ Wed, 24 Aug 2022 13:07:33 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id x23so15622447pll.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 05:53:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=4x7rCbb98jj2MaSBdFm3SDEQp0i7SVqT+8rNiIgDvNQ=;
- b=rciuwxHpu+evpljQNfKJs+0b1dm0bOGf5k6J4GfJ8Ob2IKOQQrElCqhhYKDsCIIjl0
- h/tsTCQrEI6c4+WjnVOEhYSt42CA9ky8fTpdqnMSizqPvWuwMgXbMsOEBN4/qbQ5RJ6K
- WKaHxejxgDk5o0x3wvahIeAo8FdrxqQc9IaGT9ncDJC+6ufUu5Q2rEDXvBfUlqiTBvJo
- d2S+WEo4OjaJci8aN0GrQupoKi9P9KbiR+J2DN64lO23y+D0bY08felAedr/11/FUTP7
- AdQsPuCGg6OTPw1xE1ZDnbfobion26t++Hy4Ac9io7PbM52n6wfVNEb6NdubzgCenD4t
- jgQA==
+ Wed, 24 Aug 2022 06:07:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=8hQNlaNRXsTFWu3o2bv0H8H3dQ4+lM+vaoEV4x76qg4=;
+ b=ZWuwggVwhgl+RWG5blvg8JohOdTrZXEfEQHhPT7ykLYdSBw/1aLDHoYVLHGFiGkkjz
+ p4Rk12s5pYr0JGSUAhScvCc61YcODUrF3eozBk4JbL+YH+Zvk2owIBU3+ty9xaiTlE2P
+ E3V35PYtht2oeMuxZCKnkXsyp5m4+xzjlge81oBWyJzYdiOtAoGiB2uN/92dLDm0csFM
+ lj8rAsX/sLisHMZitoHUJHc7vqP9ovFPD/dDHGon5T8X+xadUggDAoykuifJpEotRwCJ
+ u8LnB8vLFhunyGzu8NYxW42E2K2rrptrsfGkyN5hIiu0UZnjYZB3M3shydY/CHZdHlpl
+ ICuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=4x7rCbb98jj2MaSBdFm3SDEQp0i7SVqT+8rNiIgDvNQ=;
- b=ao92m4gQfjgxkxOhhxkxks3nry+h7WDqqbQJbJ9cmJmby46BYm5oZqKnUFcI3L6PAX
- yBosagLN4x/cpKmTxe9k3FNZyAMOL+5kw8ptmu8GgShE6SP2zmitjhe9H5N6Y7zhEuAz
- ffjM2/rY7bG0XPUNiTiJxldg/4DEsq2eqJ/glTthDo4A5zl872rs303+lKUV+osoIThz
- 81Rae9OztNlkVh7PP7Je+gFJ9hnTjYdQCzXWrfbt25qYxqsJm1K6mW/cZYPqIhls1+I1
- L9ZKxekUBRLk/pUFwgU2ZKQCHI5/W8nWgAjECSttF/BMAIMnFznT7VVDIv7MQbWCjYOz
- s3Jg==
-X-Gm-Message-State: ACgBeo0vIFg/WQOiLX+YlDImrD5sI65fX2v/5jFXxvfoNWScCAWiq3VH
- eXCi0pKr8jr6DbSk7VK0iPXjOQ==
-X-Google-Smtp-Source: AA6agR77A1nkMFGgKB89xERjp52vEWHB5SOhbqG7h6vi9MrZLvKLm1L+Fj0SrOLng6jFSwdPvfIbQA==
-X-Received: by 2002:a17:903:258e:b0:173:10fb:10d6 with SMTP id
- jb14-20020a170903258e00b0017310fb10d6mr4172092plb.67.1661345617755; 
- Wed, 24 Aug 2022 05:53:37 -0700 (PDT)
-Received: from [192.168.1.136] ([198.8.77.157])
- by smtp.gmail.com with ESMTPSA id
- s19-20020a635253000000b0040d75537824sm6722788pgl.86.2022.08.24.05.53.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Aug 2022 05:53:37 -0700 (PDT)
-Message-ID: <202a2d80-5290-452e-db8e-3a0c10b79840@kernel.dk>
-Date: Wed, 24 Aug 2022 06:53:35 -0600
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=8hQNlaNRXsTFWu3o2bv0H8H3dQ4+lM+vaoEV4x76qg4=;
+ b=h0VE7ogxg5oiBRGuaojbYLOMVcym/nRi2gY6LdTDbz17NiTqj7phTbDSwd+osHDhkg
+ 310thhwHn9lzv6w4TY/o/sYIZb1wihazN+de3Eit4SLnuUTRx91dHBB9ty7SRQFgWMzK
+ JxA+Qw9A8gn2lgJkwntlS2vvkr6vCg0qJBCKobX18Kq+7YROjD74B7xY0sDMsIUnabIY
+ ub4165m5lF3UGMFIcZy8o/W5DRpcLMDXg2cNm55kOlNLSzK4lG/ecYgP0S+gsXWBnFmu
+ ZyYCjBNxdcJELkkkBMHkXmLulhbqUpYTFlbhNI7nsgIIyZKFOiIKnI0uQeWpED3c04wZ
+ aKgA==
+X-Gm-Message-State: ACgBeo1f+0EsLPcFl7mm7JGaUiakDGMALEp6lgBtUZ1HRO/T9f31cJKT
+ kZzayJ2+haI91lNIubmWxRo=
+X-Google-Smtp-Source: AA6agR6xn/Z0E7zOROHt6LLIPRv549HHXNyJ8KBcJsXZt4wQkIka7KikRb0a2eGY22Bl3jJJ5qc98g==
+X-Received: by 2002:a17:903:2049:b0:172:eb95:c61e with SMTP id
+ q9-20020a170903204900b00172eb95c61emr13467280pla.74.1661346445857; 
+ Wed, 24 Aug 2022 06:07:25 -0700 (PDT)
+Received: from fedora.. ([103.159.189.138]) by smtp.gmail.com with ESMTPSA id
+ m12-20020a633f0c000000b0041c49af8156sm11096323pga.6.2022.08.24.06.07.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Aug 2022 06:07:25 -0700 (PDT)
+From: Khalid Masum <khalid.masum.92@gmail.com>
+To: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: host: Use helper function to get endpoint
+Date: Wed, 24 Aug 2022 19:07:02 +0600
+Message-Id: <20220824130702.10912-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2] loop: Check for overflow while configuring loop
-Content-Language: en-US
-To: Siddh Raman Pant <code@siddh.me>
-References: <20220823160810.181275-1-code@siddh.me>
- <166127140632.124225.483036207879834754.b4-ty@kernel.dk>
- <182cee8e2a7.5a62eb4811173.7413734946973464259@siddh.me>
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <182cee8e2a7.5a62eb4811173.7413734946973464259@siddh.me>
-Cc: linux-block <linux-block@vger.kernel.org>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
- syzbot+a8e049cd3abd342936b6
- <syzbot+a8e049cd3abd342936b6@syzkaller.appspotmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Kishon Vijay Abraham I <kishon@ti.com>,
+ Alexey Sheplyakov <asheplyakov@basealt.ru>,
+ Matthias Kaehlcke <mka@chromium.org>, Alan Stern <stern@rowland.harvard.edu>,
+ Weitao Wang <WeitaoWang-oc@zhaoxin.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -117,25 +112,33 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 8/24/22 2:12 AM, Siddh Raman Pant wrote:
-> On Tue, 23 Aug 2022 21:46:46 +0530  Jens Axboe  wrote:
->> Applied, thanks!
->>
->> [1/1] loop: Check for overflow while configuring loop
->>       commit: f11ebc7347340d291ba032a3872e40d3283fc351
-> 
-> Thanks!
-> 
-> Though, it seems that you have used the mailing list's address
-> (linux-kernel-mentees@lists.linuxfoundation.org) in the author
-> field instead of the Signed-off email.
+Current implementation to convert urb pipe number to struct 
+usb_host_endpoint in rquest_single_step_set_feature_urb is a little
+messy. 
 
-Weird! I'll let Konstantin know about this one, I've manually
-fixed it up.
+Use usb_pipe_endpoint helper function to get the endpoint instead.
 
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+ drivers/usb/core/hcd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index 94b305bbd621..107e29d5d3ae 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -2165,8 +2165,7 @@ static struct urb *request_single_step_set_feature_urb(
+ 		return NULL;
+ 
+ 	urb->pipe = usb_rcvctrlpipe(udev, 0);
+-	ep = (usb_pipein(urb->pipe) ? udev->ep_in : udev->ep_out)
+-				[usb_pipeendpoint(urb->pipe)];
++	ep = usb_pipe_endpoint(udev, urb->pipe);
+ 	if (!ep) {
+ 		usb_free_urb(urb);
+ 		return NULL;
 -- 
-Jens Axboe
-
+2.37.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
