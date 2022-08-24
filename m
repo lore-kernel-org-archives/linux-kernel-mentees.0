@@ -1,99 +1,82 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3FE5C32796
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 24 Aug 2022 01:22:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 60CD9C32792
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 24 Aug 2022 06:04:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1AFCD81778;
-	Wed, 24 Aug 2022 01:22:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1AFCD81778
+	by smtp2.osuosl.org (Postfix) with ESMTP id D0DDF40604;
+	Wed, 24 Aug 2022 06:04:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D0DDF40604
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=VjcVhUpo
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id i5FK-c9IsoFu; Wed, 24 Aug 2022 06:04:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B85A04046D;
+	Wed, 24 Aug 2022 06:04:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B85A04046D
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 891AAC0033;
+	Wed, 24 Aug 2022 06:04:46 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AE0C5C002D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 24 Aug 2022 06:04:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 75ED381397
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 24 Aug 2022 06:04:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 75ED381397
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=KF010LcS
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+ header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
+ header.b=VjcVhUpo
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Q5me1dIV2J16; Wed, 24 Aug 2022 01:22:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0A81A813BE;
-	Wed, 24 Aug 2022 01:22:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0A81A813BE
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DC0FBC0033;
-	Wed, 24 Aug 2022 01:22:14 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5EFCCC002D
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id A5y8sDQkiH0t
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 01:22:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 37CE441514
+ Wed, 24 Aug 2022 06:04:43 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2C0F581395
+Received: from ams.source.kernel.org (ams.source.kernel.org
+ [IPv6:2604:1380:4601:e00::1])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 2C0F581395
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 01:22:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 37CE441514
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=KF010LcS
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kcNlaLMrqJyO
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 01:22:11 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 85A7E4150F
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 85A7E4150F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 Aug 2022 01:22:11 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id z16so145074wrh.10
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 Aug 2022 18:22:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=OhLPqZHai+lEZNO/aWIoJdIaImKIb4W7ZXPCAX37T0U=;
- b=KF010LcSPIWCIFpfDR0DvZsdsFdeGEGkqDXLaLXAt0Unnok8jGtw0Q4tk9n+XysoMX
- r03afeZ23ebiVSNkurNuFADPlOxXQhFzjduZWLX3Bl/CJxm6zQwiVgaUK9h7Ty/+T0nh
- vInb3mYztoTvUrmaK8Wq/OIyMxPTmX/RIXZWtcNm31qQ1h/nmUur+eMPnZFqLYD77Pmn
- 8o0AcfuHWr2x6HLbprJOz8iJfmq5e6+iFuWLOtYwL0hJ2St+L09a05yDZv3TUBwBry0b
- crAoz6xjAaqRs8kpL4U9N+RP0auXPA1k51Qi5V5+cU+paTUZmszTiB3hsNgpuXEO67Mr
- YFiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=OhLPqZHai+lEZNO/aWIoJdIaImKIb4W7ZXPCAX37T0U=;
- b=n+gvKVvhrJJhnFrNEolO3NttqfapGdDCOEahZecAJab/LW8QwUdrhX95FxEfekSXBJ
- KZ1H76bZp6zlYYw0qDbPHgcAXcSLw2jWUj1g/bqrik8yH02UEP4OvOXMhsJkbngNJzBp
- bNAS+QxfcUNoii89+pwND05F2tin6wfvqerzkKLTCqr9y5dRXrRqPCjgwOvK51ROfw8G
- feMdN5ie83sNJFg7uKLP3QFdpIVbAbYgeFF/03ui9ZkyFSG4znEDWHO+308rwHhpd27C
- yiTDw1TVCAbMjVGsPu8ThShfip9UlfQvVZ+QEIFZTrgKQsGhn8un+HYONLXEOCx4OPxl
- KXgw==
-X-Gm-Message-State: ACgBeo0OyPhjZeiKDf7UptfPjd/F1LZMymrXULtGA9UK+Adz9e5wwTAO
- 7M0x99JH4OGC60E+qEgpao8=
-X-Google-Smtp-Source: AA6agR55uyl5UODy8v/O3d3ed7BqsoPln2Xnk12sc+Vvjm8qw4FB4W647Ss7e/TKFClpln4GHkpL4w==
-X-Received: by 2002:a5d:5487:0:b0:225:3fa7:41c2 with SMTP id
- h7-20020a5d5487000000b002253fa741c2mr11004598wrv.195.1661304129469; 
- Tue, 23 Aug 2022 18:22:09 -0700 (PDT)
-Received: from localhost.localdomain ([84.255.184.228])
- by smtp.gmail.com with ESMTPSA id
- p7-20020a5d48c7000000b00223a50b1be8sm15364601wrs.50.2022.08.23.18.22.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Aug 2022 18:22:08 -0700 (PDT)
-From: Mazin Al Haddad <mazinalhaddad05@gmail.com>
-To: mchehab@kernel.org
-Subject: [PATCH v3] media: dvb-usb: fix memory leak in dvb_usb_adapter_init()
-Date: Wed, 24 Aug 2022 04:21:52 +0300
-Message-Id: <20220824012152.539788-1-mazinalhaddad05@gmail.com>
-X-Mailer: git-send-email 2.37.2
+ Wed, 24 Aug 2022 06:04:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id D13B7B82364;
+ Wed, 24 Aug 2022 06:04:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10050C433C1;
+ Wed, 24 Aug 2022 06:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1661321078;
+ bh=Vg8rTF4/cdtBoLL5ouYQ0cWuabQoYYlJa7ce+p3Xejs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VjcVhUpolXkOJk2e7Xbrrmm38DHGKJUqEQ00X9L5/ERNz4hgHNGGcDmsoZztq5NVl
+ b7FlUW3xjkdUD6WyiHQxb5qoxbKQvrsY+cqOOr5MJiRYI0DnevOFXDAPh0EybbK7nv
+ XlxhPjuGxasFT70mMeEtHy3TuazFglf1unjI9UCU=
+Date: Wed, 24 Aug 2022 08:04:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+Subject: Re: [PATCH] ar5523: check endpoints type and direction in probe()
+Message-ID: <YwW/cw2cXLEd5xFo@kroah.com>
+References: <20220823222436.514204-1-mazinalhaddad05@gmail.com>
 MIME-Version: 1.0
-Cc: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Mazin Al Haddad <mazinalhaddad05@gmail.com>
+Content-Disposition: inline
+In-Reply-To: <20220823222436.514204-1-mazinalhaddad05@gmail.com>
+Cc: netdev@vger.kernel.org, kvalo@kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, edumazet@google.com, pontus.fuchs@gmail.com,
+ syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com, paskripkin@gmail.com,
+ kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,97 +94,88 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzbot reports a memory leak in "dvb_usb_adapter_init()".
-The leak is due to not accounting for and freeing current iteration's
-adapter->priv in case of an error. Currently if an error occurs, 
-it will exit before incrementing "num_adapters_initalized", 
-which is used as a reference counter to free all adap->priv 
-in "dvb_usb_adapter_exit()". There are multiple error paths that
-can exit from before incrementing the counter. Including the
-error handling paths for "dvb_usb_adapter_stream_init()", 
-"dvb_usb_adapter_dvb_init()" and "dvb_usb_adapter_frontend_init()"
-within "dvb_usb_adapter_init()".
+On Wed, Aug 24, 2022 at 01:24:38AM +0300, Mazin Al Haddad wrote:
+> Fixes a bug reported by syzbot, where a warning occurs in usb_submit_urb()
+> due to the wrong endpoint type. There is no check for both the number
+> of endpoints and the type which causes an error as the code tries to
+> send a URB to the wrong endpoint.
+> 
+> Fix it by adding a check for the number of endpoints and the
+> direction/type of the endpoints. If the endpoints do not match the 
+> expected configuration -ENODEV is returned.
+> 
+> Syzkaller report:
+> 
+> usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+> WARNING: CPU: 1 PID: 71 at drivers/usb/core/urb.c:502 usb_submit_urb+0xed2/0x18a0 drivers/usb/core/urb.c:502
+> Modules linked in:
+> CPU: 1 PID: 71 Comm: kworker/1:2 Not tainted 5.19.0-rc7-syzkaller-00150-g32f02a211b0a #0
+> Hardware name: Google Compute Engine/Google Compute Engine, BIOS Google 06/29/2022
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>  <TASK>
+>  ar5523_cmd+0x420/0x790 drivers/net/wireless/ath/ar5523/ar5523.c:275
+>  ar5523_cmd_read drivers/net/wireless/ath/ar5523/ar5523.c:302 [inline]
+>  ar5523_host_available drivers/net/wireless/ath/ar5523/ar5523.c:1376 [inline]
+>  ar5523_probe+0xc66/0x1da0 drivers/net/wireless/ath/ar5523/ar5523.c:1655
+> 
+> 
+> Link: https://syzkaller.appspot.com/bug?extid=1bc2c2afd44f820a669f
+> Reported-and-tested-by: syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com
+> Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+> ---
+>  drivers/net/wireless/ath/ar5523/ar5523.c | 31 ++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/drivers/net/wireless/ath/ar5523/ar5523.c b/drivers/net/wireless/ath/ar5523/ar5523.c
+> index 6f937d2cc126..5451bf9ab9fb 100644
+> --- a/drivers/net/wireless/ath/ar5523/ar5523.c
+> +++ b/drivers/net/wireless/ath/ar5523/ar5523.c
+> @@ -1581,8 +1581,39 @@ static int ar5523_probe(struct usb_interface *intf,
+>  	struct usb_device *dev = interface_to_usbdev(intf);
+>  	struct ieee80211_hw *hw;
+>  	struct ar5523 *ar;
+> +	struct usb_host_interface *host = intf->cur_altsetting;
+>  	int error = -ENOMEM;
+>  
+> +	if (host->desc.bNumEndpoints != 4) {
+> +		dev_err(&dev->dev, "Wrong number of endpoints\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	for (int i = 0; i < host->desc.bNumEndpoints; ++i) {
+> +		struct usb_endpoint_descriptor *ep = &host->endpoint[i].desc;
+> +		// Check for type of endpoint and direction.
+> +		switch (i) {
+> +		case 0:
+> +		case 1:
+> +			if ((ep->bEndpointAddress & USB_DIR_OUT) &&
+> +			    ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
+> +			     == USB_ENDPOINT_XFER_BULK)){
 
-This means that in case of an error in any of these functions the 
-current iteration is not accounted for and the current iteration's 
-adap->priv is not freed.
+Did you run your change through checkpatch?
 
-Fix this by freeing the current iteration's adap->priv in the 
-"stream_init_err:" label in the error path. The rest of the 
-(accounted for) adap->priv objects are freed in dvb_usb_adapter_exit()
-as expected using the num_adapters_initalized variable. 
+> +				dev_err(&dev->dev, "Wrong type of endpoints\n");
+> +				return -ENODEV;
+> +			}
+> +			break;
+> +		case 2:
+> +		case 3:
+> +			if ((ep->bEndpointAddress & USB_DIR_IN) &&
+> +			    ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
+> +			     == USB_ENDPOINT_XFER_BULK)){
+> +				dev_err(&dev->dev, "Wrong type of endpoints\n");
+> +				return -ENODEV;
+> +			}
+> +			break;
+> +		}
 
-Syzbot report:
+We have usb helper functions for all of this, why not use them instead
+of attempting to roll your own?
 
-BUG: memory leak
-unreferenced object 0xffff8881172f1a00 (size 512):
-  comm "kworker/0:2", pid 139, jiffies 4294994873 (age 10.960s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-backtrace:
-    [<ffffffff844af012>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:75 [inline]
-    [<ffffffff844af012>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:184 [inline]
-    [<ffffffff844af012>] dvb_usb_device_init.cold+0x4e5/0x79e drivers/media/usb/dvb-usb/dvb-usb-init.c:308
-    [<ffffffff830db21d>] dib0700_probe+0x8d/0x1b0 drivers/media/usb/dvb-usb/dib0700_core.c:883
-    [<ffffffff82d3fdc7>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
-    [<ffffffff8274af6a>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:782
-    [<ffffffff8274b786>] __device_attach_driver+0xf6/0x140 drivers/base/dd.c:899
-    [<ffffffff82747c87>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:427
-    [<ffffffff8274b352>] __device_attach+0x122/0x260 drivers/base/dd.c:970
-    [<ffffffff827498f6>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:487
-    [<ffffffff82745cdb>] device_add+0x5fb/0xdf0 drivers/base/core.c:3405
-    [<ffffffff82d3d202>] usb_set_configuration+0x8f2/0xb80 drivers/usb/core/message.c:2170
-    [<ffffffff82d4dbfc>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
-    [<ffffffff82d3f49c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
-    [<ffffffff8274ab37>] call_driver_probe drivers/base/dd.c:542 [inline]
-    [<ffffffff8274ab37>] really_probe.part.0+0xe7/0x310 drivers/base/dd.c:621
-    [<ffffffff8274ae6c>] really_probe drivers/base/dd.c:583 [inline]
-    [<ffffffff8274ae6c>] __driver_probe_device+0x10c/0x1e0 drivers/base/dd.c:752
+thanks,
 
-
-Link: https://syzkaller.appspot.com/bug?extid=f66dd31987e6740657be
-Reported-and-tested-by: syzbot+f66dd31987e6740657be@syzkaller.appspotmail.com
-Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
----
-v2->v3:
-	- Follow standard kernel pattern by moving error handling 
-	to label instead as suggested by Lukas Bulwhan.
-	- Adjust commit description to include syzbot report, 
-	The "Reported-and-tested-by" tag and clarify the commit message. 
-
- drivers/media/usb/dvb-usb/dvb-usb-init.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-index 61439c8f33ca..58eea8ab5477 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-@@ -81,7 +81,7 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
- 
- 		ret = dvb_usb_adapter_stream_init(adap);
- 		if (ret)
--			return ret;
-+			goto stream_init_err;
- 
- 		ret = dvb_usb_adapter_dvb_init(adap, adapter_nrs);
- 		if (ret)
-@@ -114,6 +114,8 @@ static int dvb_usb_adapter_init(struct dvb_usb_device *d, short *adapter_nrs)
- 	dvb_usb_adapter_dvb_exit(adap);
- dvb_init_err:
- 	dvb_usb_adapter_stream_exit(adap);
-+stream_init_err:
-+	kfree(adap->priv);
- 	return ret;
- }
- 
--- 
-2.37.2
-
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
