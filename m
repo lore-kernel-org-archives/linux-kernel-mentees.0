@@ -1,93 +1,89 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CBD4CECAA2B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 25 Aug 2022 19:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 13F1CECAAD4
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 26 Aug 2022 13:14:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 346C983336;
-	Thu, 25 Aug 2022 19:46:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 346C983336
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=techviewdata-com.20210112.gappssmtp.com header.i=@techviewdata-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=5SkQMTLx
+	by smtp2.osuosl.org (Postfix) with ESMTP id A0F2440545;
+	Fri, 26 Aug 2022 13:14:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A0F2440545
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=cdb6/FHn
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pdsU3d9zG6JA; Thu, 25 Aug 2022 19:46:33 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 0-f5HRA1b8Oo; Fri, 26 Aug 2022 13:14:48 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 90582832AA;
-	Thu, 25 Aug 2022 19:46:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 90582832AA
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4C5C640192;
+	Fri, 26 Aug 2022 13:14:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4C5C640192
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B4B6C0033;
-	Thu, 25 Aug 2022 19:46:33 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33C5BC0032;
+	Fri, 26 Aug 2022 13:14:48 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7D183C002D
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E6057C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Aug 2022 19:46:32 +0000 (UTC)
+ Fri, 26 Aug 2022 13:14:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 5D206418EF
+ by smtp4.osuosl.org (Postfix) with ESMTP id AE922419F0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Aug 2022 19:46:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5D206418EF
+ Fri, 26 Aug 2022 13:14:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AE922419F0
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=techviewdata-com.20210112.gappssmtp.com
- header.i=@techviewdata-com.20210112.gappssmtp.com header.a=rsa-sha256
- header.s=20210112 header.b=5SkQMTLx
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=cdb6/FHn
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 39wNsm1HRtcU
+ with ESMTP id fJJGyWiNKe6n
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Aug 2022 19:46:31 +0000 (UTC)
+ Fri, 26 Aug 2022 13:14:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B38F74177B
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
- [IPv6:2607:f8b0:4864:20::1130])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B38F74177B
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1273D419E9
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1273D419E9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Aug 2022 19:46:30 +0000 (UTC)
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-3376851fe13so535641387b3.6
+ Fri, 26 Aug 2022 13:14:43 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id h5so1772100wru.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 25 Aug 2022 12:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=techviewdata-com.20210112.gappssmtp.com; s=20210112;
- h=to:subject:message-id:date:disposition-notification-to:thread-index
- :mime-version:from:from:to:cc;
- bh=5dYxdLL0t1kcSOOWLh8Yd/NZ+4rG1mX7BIJ03rviGxo=;
- b=5SkQMTLxiMkZOUNIbamjnaGui9sDZQW2GUhuHQHthJJ+oN4yuEvOr38SsBcZoMypNn
- hvUwgDg8fAzt3hkDIxBeTSjMGXkr/q4hwOq5SSUAi9fGEGciXYEY1Zt1xTvYkSH/1Ls9
- zzESrx2kCKvPxKZ1kRADc/NrdHVEIYkoi3U19OLhPZXaN1/QsEbf4E4AJV0iHtdLSZdp
- Cy7U47gbBjuJFbJ/A96lRavnqHsmWkyfRBlr/CgJQS0VsBel9LvzORE86KCibH/GNFlV
- IhGVMMh5uWK+ymfxJ1u09dtvSK8QuqJtjzMwwOmpR4c180JEQ43x75lwHUbXoZWTpxx5
- Tnow==
+ Fri, 26 Aug 2022 06:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc; bh=Mhyr16Jb7rqP0Et4zr5iYbRDezi2Di7tJE4vgWxRJxA=;
+ b=cdb6/FHn8GJm7Bi13BfqnxW7IfL3Du7S4noK9OTjdj7eitukcq5srSYkUKwlO09eft
+ jySrRMrdh81X/a6dEsXPOMucAmg/KyjSyxKFvhau/2JnblLFwUKBPtaNJWXx5O0UlRPt
+ KreHjXKm9TLTkK2myURgfhtjK2T8iOWSj+7R4uc83+G+q6iukzVqARpuV6ftZ16PVtvE
+ /sEbNbB0fydckxEddBr38rVXWc6Lp8cpU7rz9zPXiO7LhmpiPn3ESTj0v20rvKeMIfN3
+ xvk95chqW6TDnRwqz8SX4tHeLO03r846AA+MxuZvtnsTUHIei/E24fM1MXh5i/OYXJfZ
+ UbHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:disposition-notification-to:thread-index
- :mime-version:from:x-gm-message-state:from:to:cc;
- bh=5dYxdLL0t1kcSOOWLh8Yd/NZ+4rG1mX7BIJ03rviGxo=;
- b=EtksrcGsH+fEw/5t9F3TJ5fC2sO6Smg7vpzLRxurHmIxQHSNuvTl7+H+zjXEKTbGDh
- j/NwPBaSWmgatEwnvThfZyaspj4PawtNIk903gDEiUd6cP1oXTzStmO3gZgRY4kXK9c9
- 7ubfu6Dr0iDPPkwqI+NtvAW5VMzHpRYIBSvIEKuDJofIfklHvmo4YAAuTNtJkxRmk43A
- CF3tfQkgRZyBRD8/sQ1sOmDKXrHfoKiKAaXQiHBp8QqBaz5i3Pn0C/JvtXUaA2ZyrCbP
- ueZjrchHbUEKv43hFmhR5jrUQnTqHX/a/3C1n9hDVLHusAZG49z0ICM+9G9OExvazp95
- sBCA==
-X-Gm-Message-State: ACgBeo0E5dj/5sbfAvoU7tvG6471trlzy4ip28O8/a+nYBmPrO6vI6CE
- jy0BJDkApBrUlyRT/DgDHUqXKsCCv2L3aTp1VwQdjaHHbcOgUbQZ
-X-Google-Smtp-Source: AA6agR5s+OIhATUD9jTXZjO+E0b6gfB8TYvLr+H6SoqUW78ZDWtW+yb003cdUqfA3NruQQjBp83BUXes1ci8/wobtRg=
-X-Received: by 2002:a81:a552:0:b0:33d:b299:8748 with SMTP id
- v18-20020a81a552000000b0033db2998748mr5339765ywg.405.1661456789465; Thu, 25
- Aug 2022 12:46:29 -0700 (PDT)
-From: Casey Beeson <casey@techviewdata.com>
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc;
+ bh=Mhyr16Jb7rqP0Et4zr5iYbRDezi2Di7tJE4vgWxRJxA=;
+ b=LQh5HX57euSQOlcGd4rxyXLXHY1lQF6GmcFmIjYFQGhmDHnwPA4ejNakKSTStxvu3K
+ UMz/Oq7hPyc237UnkJG5LtbNLDr2S+rYf3dge8c0CF8tgfKA/RH9VszJm/jOveyksXEa
+ rHY/gJjDhpI4M6FFTsyKq88MVwTpuhh58O8c46K3Yldft6FAhQpNcGzpGhZIsNPAvfOR
+ WPPzhxLy9vurP9tj02L7Q4u/F3nJaTZPDRU6E/Ka7IWeS+bQWdxT1erWpgmab28rDZJ/
+ xbHh4IlMZU9oyKQCWKAMJ2ctyhMIsEkp0x9vFd7150YLWz+WvQjoRbHF2uMguas/3iQr
+ lSjQ==
+X-Gm-Message-State: ACgBeo3kzAhqZpetUqA3YXx8RLW52Bj3NhUlOiJz4k5Etklt15799G/K
+ 80wTkap/UhQ/hxhWO1r4eq6+yDS6N7MWCZgMhLb25I3aniY=
+X-Google-Smtp-Source: AA6agR4Na5QzSSIR5WGF578l0zXRLp4h+RSDLHzqcMzlbnaxASEXxn8Xt50ZraiQNnTvLE5davp2PO1gFvhxIN01PSI=
+X-Received: by 2002:a5d:6f0b:0:b0:226:458c:269 with SMTP id
+ ay11-20020a5d6f0b000000b00226458c0269mr1077720wrb.223.1661519681756; Fri, 26
+ Aug 2022 06:14:41 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Adi4usWCyPA+ge3+Tsqyv63BpWLvUQ==
-Date: Thu, 25 Aug 2022 13:46:27 -0600
-Message-ID: <b33f051a13ec29ab4808b95f561a4cd5@mail.gmail.com>
-Subject: Hyperbaric Oxygen Therapists Contacts
+References: <mailman.13.1661515204.24896.linux-kernel-mentees@lists.linuxfoundation.org>
+In-Reply-To: <mailman.13.1661515204.24896.linux-kernel-mentees@lists.linuxfoundation.org>
+From: Muskan Paliwal <muskan10112002@gmail.com>
+Date: Fri, 26 Aug 2022 18:44:29 +0530
+Message-ID: <CAM1CVPpS8dfFf8mf+Lw6Na4fez9KRyh24VkKF8VrovFVkWk5QQ@mail.gmail.com>
+Subject: Not interested
 To: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -100,149 +96,386 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============3359898860508572087=="
+Content-Type: multipart/mixed; boundary="===============4281870804205953340=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============3359898860508572087==
-Content-Type: multipart/alternative; boundary="000000000000beeeb905e7160d1b"
+--===============4281870804205953340==
+Content-Type: multipart/alternative; boundary="0000000000006b21cc05e724b257"
 
---000000000000beeeb905e7160d1b
+--0000000000006b21cc05e724b257
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Fri, Aug 26, 2022, 5:30 PM <
+linux-kernel-mentees-request@lists.linuxfoundation.org> wrote:
 
+> Send Linux-kernel-mentees mailing list submissions to
+>         linux-kernel-mentees@lists.linuxfoundation.org
+>
+> To subscribe or unsubscribe via the World Wide Web, visit
+>
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+>
+> or, via email, send a message with subject or body 'help' to
+>         linux-kernel-mentees-request@lists.linuxfoundation.org
+>
+> You can reach the person managing the list at
+>         linux-kernel-mentees-owner@lists.linuxfoundation.org
+>
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Linux-kernel-mentees digest..."
+>
+>
+> Today's Topics:
+>
+>    1. Re: [PATCH v2] usb: host: Initiate urb ep with udev ep0
+>       (Alan Stern)
+>    2. Hyperbaric Oxygen Therapists Contacts (Casey Beeson)
+>
+>
+> ----------------------------------------------------------------------
+>
+> Message: 1
+> Date: Thu, 25 Aug 2022 10:19:26 -0400
+> From: Alan Stern <stern@rowland.harvard.edu>
+> To: Khalid Masum <khalid.masum.92@gmail.com>
+> Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, Arnd Bergmann
+>         <arnd@arndb.de>, linux-usb@vger.kernel.org,
+>         linux-kernel@vger.kernel.org, Kishon Vijay Abraham I <
+> kishon@ti.com>,
+>         Matthias Kaehlcke <mka@chromium.org>, Weitao Wang
+>         <WeitaoWang-oc@zhaoxin.com>,
+>         linux-kernel-mentees@lists.linuxfoundation.org
+> Subject: Re: [PATCH v2] usb: host: Initiate urb ep with udev ep0
+> Message-ID: <YweE7jCfGDhLB16G@rowland.harvard.edu>
+> Content-Type: text/plain; charset=us-ascii
+>
+> On Thu, Aug 25, 2022 at 02:31:07AM +0600, Khalid Masum wrote:
+> > Currently we look up for endpoint in a table and initate urb endpoint
+> > with it. This is unnecessary because the lookup will always result in
+> > endpoint 0.
+> >
+> > Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> > Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+> > ---
+> > Changes since v1:
+> >  - Remove endpoint lookup and NULL check
+> >  - Remove unnecessary variable *ep
+> >  - Initiate urb ep with udev ep0
+> >  - Update commit message
+> >  - v1 Link:
+> https://lore.kernel.org/lkml/20220824130702.10912-1-khalid.masum.92@gmail.com/
+> >
+> >  drivers/usb/core/hcd.c | 9 +--------
+> >  1 file changed, 1 insertion(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> > index 94b305bbd621..05f30ae5570b 100644
+> > --- a/drivers/usb/core/hcd.c
+> > +++ b/drivers/usb/core/hcd.c
+> > @@ -2158,21 +2158,14 @@ static struct urb
+> *request_single_step_set_feature_urb(
+> >  {
+> >       struct urb *urb;
+> >       struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+> > -     struct usb_host_endpoint *ep;
+> >
+> >       urb = usb_alloc_urb(0, GFP_KERNEL);
+> >       if (!urb)
+> >               return NULL;
+> >
+> >       urb->pipe = usb_rcvctrlpipe(udev, 0);
+> > -     ep = (usb_pipein(urb->pipe) ? udev->ep_in : udev->ep_out)
+> > -                             [usb_pipeendpoint(urb->pipe)];
+> > -     if (!ep) {
+> > -             usb_free_urb(urb);
+> > -             return NULL;
+> > -     }
+> >
+> > -     urb->ep = ep;
+> > +     urb->ep = &udev->ep0;
+> >       urb->dev = udev;
+> >       urb->setup_packet = (void *)dr;
+> >       urb->transfer_buffer = buf;
+>
+> Acked-by: Alan Stern <stern@rowland.harvard.edu>
+>
+>
+> ------------------------------
+>
+> Message: 2
+> Date: Thu, 25 Aug 2022 13:46:27 -0600
+> From: Casey Beeson <casey@techviewdata.com>
+> To: linux-kernel-mentees@lists.linuxfoundation.org
+> Subject: Hyperbaric Oxygen Therapists Contacts
+> Message-ID: <b33f051a13ec29ab4808b95f561a4cd5@mail.gmail.com>
+> Content-Type: text/plain; charset="utf-8"
+>
+> Hello,
+>
+>
+>
+> I was wondering if you would be interested in acquiring verified
+> *Hyperbaric
+> Oxygen Therapists Contacts*
+>
+>
+>
+> Kindly let me know you are *Target geography,* so that we can discuss on
+> further details about available counts and cost.
+>
+>
+>
+> Awaiting your response.
+>
+>
+>
+> Regards,
+>
+> Casey Beeson
+>
+> Manager ? Demand Generation
+>
+>
+>
+> To opt-out kindly reply with ?not interested? in subject line
+> -------------- next part --------------
+> An HTML attachment was scrubbed...
+> URL: <
+> http://lists.linuxfoundation.org/pipermail/linux-kernel-mentees/attachments/20220825/7194c15c/attachment-0001.html
+> >
+>
+> ------------------------------
+>
+> Subject: Digest Footer
+>
+> _______________________________________________
+> Linux-kernel-mentees mailing list
+> Linux-kernel-mentees@lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+>
+>
+> ------------------------------
+>
+> End of Linux-kernel-mentees Digest, Vol 41, Issue 55
+> ****************************************************
+>
 
-
-I was wondering if you would be interested in acquiring verified *Hyperbari=
-c
-Oxygen Therapists Contacts*
-
-
-
-Kindly let me know you are *Target geography,* so that we can discuss on
-further details about available counts and cost.
-
-
-
-Awaiting your response.
-
-
-
-Regards,
-
-Casey Beeson
-
-Manager =E2=80=93 Demand Generation
-
-
-
-To opt-out kindly reply with =E2=80=9Cnot interested=E2=80=9D in subject li=
-ne
-
---000000000000beeeb905e7160d1b
+--0000000000006b21cc05e724b257
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3Dus-ascii"><meta name=3D"Generator" content=3D"Microsoft Word 15 (filtere=
-d medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin-top:0cm;
-	margin-right:0cm;
-	margin-bottom:8.0pt;
-	margin-left:0cm;
-	line-height:106%;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0cm;
-	mso-margin-bottom-alt:auto;
-	margin-left:0cm;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	color:#2F5496;
-	mso-fareast-language:EN-IN;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:595.3pt 841.9pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style></head><body lang=3D"EN-IN" link=3D"#0563C1" vlink=3D"#954F72"><=
-div class=3D"WordSection1"><p class=3D"MsoNormal" style=3D"margin-bottom:0c=
-m;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"f=
-ont-size:10.5pt;color:#2f5496">Hello,</span><span style=3D"mso-fareast-lang=
-uage:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;ma=
-rgin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-=
-size:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-fareast-language=
-:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin=
--bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size=
-:10.5pt;color:#2f5496">I was wondering if you would be interested in acquir=
-ing verified <b>Hyperbaric Oxygen Therapists Contacts</b></span><span style=
-=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"=
-margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"E=
-N-US" style=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"=
-mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"marg=
-in-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US=
-" style=3D"font-size:10.5pt;color:#2f5496">Kindly let me know you are <b>Ta=
-rget geography,</b> so that we can discuss on further details about availab=
-le counts and cost.</span><span style=3D"mso-fareast-language:EN-IN"></span=
-></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001p=
-t;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:=
-#2f5496">=C2=A0</span><span style=3D"mso-fareast-language:EN-IN"></span></p=
-><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;li=
-ne-height:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5=
-496">Awaiting your response.</span><span style=3D"mso-fareast-language:EN-I=
-N"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bott=
-om:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10.5=
-pt;color:#2f5496">=C2=A0</span><span style=3D"mso-fareast-language:EN-IN"><=
-/span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.=
-0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;c=
-olor:#2f5496">Regards,</span><span style=3D"mso-fareast-language:EN-IN"></s=
-pan></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.00=
-01pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;col=
-or:#2f5496">Casey Beeson</span><span style=3D"mso-fareast-language:EN-IN"><=
-/span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.=
-0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;c=
-olor:#2f5496;background:white">Manager =E2=80=93 Demand Generation</span><s=
-pan style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" =
-style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span =
-lang=3D"EN-US" style=3D"font-size:9.0pt">=C2=A0</span><span style=3D"mso-fa=
-reast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bot=
-tom:0cm;margin-bottom:.0001pt;line-height:normal"><span style=3D"font-size:=
-9.0pt">To opt-out kindly reply with =E2=80=9Cnot interested=E2=80=9D in sub=
-ject line</span><span style=3D"mso-fareast-language:EN-IN"></span></p></div=
-></body></html>
+<div dir=3D"auto"></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Fri, Aug 26, 2022, 5:30 PM  &lt;<a href=3D"mailto:linu=
+x-kernel-mentees-request@lists.linuxfoundation.org">linux-kernel-mentees-re=
+quest@lists.linuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">Send Linux-kernel-mentees mailing list submissions to<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"mailto:linux-kernel-mentees@lists.li=
+nuxfoundation.org" target=3D"_blank" rel=3D"noreferrer">linux-kernel-mentee=
+s@lists.linuxfoundation.org</a><br>
+<br>
+To subscribe or unsubscribe via the World Wide Web, visit<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://lists.linuxfoundation.org/ma=
+ilman/listinfo/linux-kernel-mentees" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel=
+-mentees</a><br>
+<br>
+or, via email, send a message with subject or body &#39;help&#39; to<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"mailto:linux-kernel-mentees-request@=
+lists.linuxfoundation.org" target=3D"_blank" rel=3D"noreferrer">linux-kerne=
+l-mentees-request@lists.linuxfoundation.org</a><br>
+<br>
+You can reach the person managing the list at<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"mailto:linux-kernel-mentees-owner@li=
+sts.linuxfoundation.org" target=3D"_blank" rel=3D"noreferrer">linux-kernel-=
+mentees-owner@lists.linuxfoundation.org</a><br>
+<br>
+When replying, please edit your Subject line so it is more specific<br>
+than &quot;Re: Contents of Linux-kernel-mentees digest...&quot;<br>
+<br>
+<br>
+Today&#39;s Topics:<br>
+<br>
+=C2=A0 =C2=A01. Re: [PATCH v2] usb: host: Initiate urb ep with udev ep0<br>
+=C2=A0 =C2=A0 =C2=A0 (Alan Stern)<br>
+=C2=A0 =C2=A02. Hyperbaric Oxygen Therapists Contacts (Casey Beeson)<br>
+<br>
+<br>
+----------------------------------------------------------------------<br>
+<br>
+Message: 1<br>
+Date: Thu, 25 Aug 2022 10:19:26 -0400<br>
+From: Alan Stern &lt;<a href=3D"mailto:stern@rowland.harvard.edu" target=3D=
+"_blank" rel=3D"noreferrer">stern@rowland.harvard.edu</a>&gt;<br>
+To: Khalid Masum &lt;<a href=3D"mailto:khalid.masum.92@gmail.com" target=3D=
+"_blank" rel=3D"noreferrer">khalid.masum.92@gmail.com</a>&gt;<br>
+Cc: Sergey Shtylyov &lt;<a href=3D"mailto:s.shtylyov@omp.ru" target=3D"_bla=
+nk" rel=3D"noreferrer">s.shtylyov@omp.ru</a>&gt;, Arnd Bergmann<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;<a href=3D"mailto:arnd@arndb.de" target=3D"=
+_blank" rel=3D"noreferrer">arnd@arndb.de</a>&gt;, <a href=3D"mailto:linux-u=
+sb@vger.kernel.org" target=3D"_blank" rel=3D"noreferrer">linux-usb@vger.ker=
+nel.org</a>,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"mailto:linux-kernel@vger.kernel.org"=
+ target=3D"_blank" rel=3D"noreferrer">linux-kernel@vger.kernel.org</a>, Kis=
+hon Vijay Abraham I &lt;<a href=3D"mailto:kishon@ti.com" target=3D"_blank" =
+rel=3D"noreferrer">kishon@ti.com</a>&gt;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Matthias Kaehlcke &lt;<a href=3D"mailto:mka@chr=
+omium.org" target=3D"_blank" rel=3D"noreferrer">mka@chromium.org</a>&gt;, W=
+eitao Wang<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;<a href=3D"mailto:WeitaoWang-oc@zhaoxin.com=
+" target=3D"_blank" rel=3D"noreferrer">WeitaoWang-oc@zhaoxin.com</a>&gt;,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"mailto:linux-kernel-mentees@lists.li=
+nuxfoundation.org" target=3D"_blank" rel=3D"noreferrer">linux-kernel-mentee=
+s@lists.linuxfoundation.org</a><br>
+Subject: Re: [PATCH v2] usb: host: Initiate urb ep with udev ep0<br>
+Message-ID: &lt;<a href=3D"mailto:YweE7jCfGDhLB16G@rowland.harvard.edu" tar=
+get=3D"_blank" rel=3D"noreferrer">YweE7jCfGDhLB16G@rowland.harvard.edu</a>&=
+gt;<br>
+Content-Type: text/plain; charset=3Dus-ascii<br>
+<br>
+On Thu, Aug 25, 2022 at 02:31:07AM +0600, Khalid Masum wrote:<br>
+&gt; Currently we look up for endpoint in a table and initate urb endpoint<=
+br>
+&gt; with it. This is unnecessary because the lookup will always result in<=
+br>
+&gt; endpoint 0.<br>
+&gt; <br>
+&gt; Suggested-by: Alan Stern &lt;<a href=3D"mailto:stern@rowland.harvard.e=
+du" target=3D"_blank" rel=3D"noreferrer">stern@rowland.harvard.edu</a>&gt;<=
+br>
+&gt; Signed-off-by: Khalid Masum &lt;<a href=3D"mailto:khalid.masum.92@gmai=
+l.com" target=3D"_blank" rel=3D"noreferrer">khalid.masum.92@gmail.com</a>&g=
+t;<br>
+&gt; ---<br>
+&gt; Changes since v1:<br>
+&gt;=C2=A0 - Remove endpoint lookup and NULL check<br>
+&gt;=C2=A0 - Remove unnecessary variable *ep<br>
+&gt;=C2=A0 - Initiate urb ep with udev ep0<br>
+&gt;=C2=A0 - Update commit message<br>
+&gt;=C2=A0 - v1 Link: <a href=3D"https://lore.kernel.org/lkml/2022082413070=
+2.10912-1-khalid.masum.92@gmail.com/" rel=3D"noreferrer noreferrer" target=
+=3D"_blank">https://lore.kernel.org/lkml/20220824130702.10912-1-khalid.masu=
+m.92@gmail.com/</a> <br>
+&gt; <br>
+&gt;=C2=A0 drivers/usb/core/hcd.c | 9 +--------<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 8 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c<br>
+&gt; index 94b305bbd621..05f30ae5570b 100644<br>
+&gt; --- a/drivers/usb/core/hcd.c<br>
+&gt; +++ b/drivers/usb/core/hcd.c<br>
+&gt; @@ -2158,21 +2158,14 @@ static struct urb *request_single_step_set_fea=
+ture_urb(<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct urb *urb;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct usb_hcd *hcd =3D bus_to_hcd(udev-&gt;=
+bus);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0struct usb_host_endpoint *ep;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0urb =3D usb_alloc_urb(0, GFP_KERNEL);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!urb)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0urb-&gt;pipe =3D usb_rcvctrlpipe(udev, 0);<b=
+r>
+&gt; -=C2=A0 =C2=A0 =C2=A0ep =3D (usb_pipein(urb-&gt;pipe) ? udev-&gt;ep_in=
+ : udev-&gt;ep_out)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[usb_pipeendpoint(urb-&gt;pipe)];<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0if (!ep) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0usb_free_urb(urb);<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0urb-&gt;ep =3D ep;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0urb-&gt;ep =3D &amp;udev-&gt;ep0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0urb-&gt;dev =3D udev;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0urb-&gt;setup_packet =3D (void *)dr;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0urb-&gt;transfer_buffer =3D buf;<br>
+<br>
+Acked-by: Alan Stern &lt;<a href=3D"mailto:stern@rowland.harvard.edu" targe=
+t=3D"_blank" rel=3D"noreferrer">stern@rowland.harvard.edu</a>&gt;<br>
+<br>
+<br>
+------------------------------<br>
+<br>
+Message: 2<br>
+Date: Thu, 25 Aug 2022 13:46:27 -0600<br>
+From: Casey Beeson &lt;<a href=3D"mailto:casey@techviewdata.com" target=3D"=
+_blank" rel=3D"noreferrer">casey@techviewdata.com</a>&gt;<br>
+To: <a href=3D"mailto:linux-kernel-mentees@lists.linuxfoundation.org" targe=
+t=3D"_blank" rel=3D"noreferrer">linux-kernel-mentees@lists.linuxfoundation.=
+org</a><br>
+Subject: Hyperbaric Oxygen Therapists Contacts<br>
+Message-ID: &lt;<a href=3D"mailto:b33f051a13ec29ab4808b95f561a4cd5@mail.gma=
+il.com" target=3D"_blank" rel=3D"noreferrer">b33f051a13ec29ab4808b95f561a4c=
+d5@mail.gmail.com</a>&gt;<br>
+Content-Type: text/plain; charset=3D&quot;utf-8&quot;<br>
+<br>
+Hello,<br>
+<br>
+<br>
+<br>
+I was wondering if you would be interested in acquiring verified *Hyperbari=
+c<br>
+Oxygen Therapists Contacts*<br>
+<br>
+<br>
+<br>
+Kindly let me know you are *Target geography,* so that we can discuss on<br=
+>
+further details about available counts and cost.<br>
+<br>
+<br>
+<br>
+Awaiting your response.<br>
+<br>
+<br>
+<br>
+Regards,<br>
+<br>
+Casey Beeson<br>
+<br>
+Manager ? Demand Generation<br>
+<br>
+<br>
+<br>
+To opt-out kindly reply with ?not interested? in subject line<br>
+-------------- next part --------------<br>
+An HTML attachment was scrubbed...<br>
+URL: &lt;<a href=3D"http://lists.linuxfoundation.org/pipermail/linux-kernel=
+-mentees/attachments/20220825/7194c15c/attachment-0001.html" rel=3D"norefer=
+rer noreferrer" target=3D"_blank">http://lists.linuxfoundation.org/pipermai=
+l/linux-kernel-mentees/attachments/20220825/7194c15c/attachment-0001.html</=
+a>&gt;<br>
+<br>
+------------------------------<br>
+<br>
+Subject: Digest Footer<br>
+<br>
+_______________________________________________<br>
+Linux-kernel-mentees mailing list<br>
+<a href=3D"mailto:Linux-kernel-mentees@lists.linuxfoundation.org" target=3D=
+"_blank" rel=3D"noreferrer">Linux-kernel-mentees@lists.linuxfoundation.org<=
+/a><br>
+<a href=3D"https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-=
+mentees" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.linu=
+xfoundation.org/mailman/listinfo/linux-kernel-mentees</a><br>
+<br>
+<br>
+------------------------------<br>
+<br>
+End of Linux-kernel-mentees Digest, Vol 41, Issue 55<br>
+****************************************************<br>
+</blockquote></div>
 
---000000000000beeeb905e7160d1b--
+--0000000000006b21cc05e724b257--
 
---===============3359898860508572087==
+--===============4281870804205953340==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -253,4 +486,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============3359898860508572087==--
+--===============4281870804205953340==--
