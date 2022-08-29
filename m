@@ -4,92 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0B864C0502E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 12:40:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 26BA5ECAAD5
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 13:26:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 693E5416C1;
-	Mon, 29 Aug 2022 12:40:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 693E5416C1
+	by smtp4.osuosl.org (Postfix) with ESMTP id 902AA416D5;
+	Mon, 29 Aug 2022 13:26:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 902AA416D5
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=mUW9a9Wu
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Sg4v28g9
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vS0_txFyOmiK; Mon, 29 Aug 2022 12:40:15 +0000 (UTC)
+	with ESMTP id kLt4yYn-aRGG; Mon, 29 Aug 2022 13:26:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 2FB19416AB;
-	Mon, 29 Aug 2022 12:40:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2FB19416AB
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 2AA5440904;
+	Mon, 29 Aug 2022 13:26:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2AA5440904
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1330CC0032;
-	Mon, 29 Aug 2022 12:40:15 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 76512C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1316DC0033;
+	Mon, 29 Aug 2022 13:26:05 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 954EDC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 12:40:14 +0000 (UTC)
+ Mon, 29 Aug 2022 13:26:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 438CE81420
+ by smtp2.osuosl.org (Postfix) with ESMTP id 628E740B6B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 12:40:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 438CE81420
-Authentication-Results: smtp1.osuosl.org;
+ Mon, 29 Aug 2022 13:26:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 628E740B6B
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=mUW9a9Wu
+ header.a=rsa-sha256 header.s=20210112 header.b=Sg4v28g9
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AKn8D1PMdDiM
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id nvtmC1ktCtEk
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 12:40:12 +0000 (UTC)
+ Mon, 29 Aug 2022 13:26:03 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CF4578141A
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by smtp1.osuosl.org (Postfix) with ESMTPS id CF4578141A
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 273D040B69
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 273D040B69
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 12:40:12 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id
- u9-20020a17090a1f0900b001fde6477464so1412873pja.4
+ Mon, 29 Aug 2022 13:26:03 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id q9so7687585pgq.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 05:40:12 -0700 (PDT)
+ Mon, 29 Aug 2022 06:26:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:subject:cc:to:from:from:to:cc;
- bh=U4wTB7v20lr8R8vN/DK0R+bOA2Ehyif+zGIk0zOHfx0=;
- b=mUW9a9WuxFwjzWd9ArvC0UAnAXe8WIK4jnMELe11pyHPPKuXyL1J0BD4HdYYhFfiiv
- 60ocE3VLbMEQ5FINK30pxWHac4NP/zeNzrHDJw+mfOPH+YXlD66fleA56iFTNEOZqATS
- qQ78Ft48VWLOxBlkd3f+mwir9VNJ6cT1JDDYS6xu54ixjpHprwimnF52vKMrliY0tc/j
- 1bQQmr8oVWVhPff4l9wbmNsyeDZnbQzygjFW0rY10pZ4eZrJyVSa+ws/WgqbijQWe4jp
- qZiz7NpZu1b9oB8OAmV7amCMReVX+DXuGTbNZUNMTs3RCEHsC9dxgv+t96hrec1V9+WB
- jgTw==
+ bh=WG09mAhXQQfAx9IYst4qrimV9OzP+6WFIUz0RFuN5Cs=;
+ b=Sg4v28g92GjGFLglKL5FXlD6atfNS+815wMSBDIDkP3bmO6+3HRaRAtegUPWrnfqV7
+ z4m7Km8/vk0XlC7pVyGWdaGscHGV0Khj+okBm56CZTbuPagAMHgXJxRJCl/uS4ayUrr1
+ oIS9SVUtNBaP4mwBLqQBC003qh857tPtds6C2juZ2Mker3YVXkNVMTMTC/HmK8jH5tR5
+ 1UsZmWDvGO1uiDFmY6ufuQ+W0Gt621KcmmLWiuMvVwDzLUhhQhNJY1iX5bRPUlfBQVWE
+ p5WXOrxRjY/0vdmOFVftBWWrbm5unFunkFYTE3bAD9aOR4TmD0esz5vf9eyFJ+EuOMl4
+ OzUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=U4wTB7v20lr8R8vN/DK0R+bOA2Ehyif+zGIk0zOHfx0=;
- b=28WgKhveojsvDiLmbhK5DTvci/pDi+kLxDebmkE+RKmS7gteFX5eZfJDQByBJ1fmwZ
- OzhCwMm+ziHQAZV7TIZu/28Wf88Istn2+YoGJyvm9EWjEUOEj+cpUeLHw19+yXwdZCdw
- ZcbkdWDbK+wG8+7higtGYrxbDVZtonfI1lciAouR76298BleVltgSmp86m3n2QBXQxr2
- MRdUvFP9UzyEYj+v8m/AzGMu4iRgW/u+Dmq6YdRa09TafzLoeoOSB1IkOh+kl9F2ARKg
- pHynKnKLzhPNaWz+RNa7eExYRR1SwRK5wEWswpjXa6OdJnfTiJ134ozU2Vw6o6viUlrm
- zoMw==
-X-Gm-Message-State: ACgBeo0ywZId2IBO/TfPXiWmYb15rGbPQrPRvHkuKeqgHjUr+zwoAlyJ
- Cj8qEoaE8JKmcmnR7haiyjkUkryKELkCzg==
-X-Google-Smtp-Source: AA6agR62s5v7zx7N35JeijeC8JxoIsW/kNiBDiOhLdy9ERmBr/+5HYU7BCqEN6UQidMuu50r9Uu9mA==
-X-Received: by 2002:a17:902:9a41:b0:171:389a:554f with SMTP id
- x1-20020a1709029a4100b00171389a554fmr16202440plv.122.1661776812126; 
- Mon, 29 Aug 2022 05:40:12 -0700 (PDT)
+ bh=WG09mAhXQQfAx9IYst4qrimV9OzP+6WFIUz0RFuN5Cs=;
+ b=jkMbporFVC44hveYhOVVqq3W0XqfjVwxhwzqC8byzPbDlrCXVWSZInRk/U1KhPI1ZU
+ rrKJBc74tALZx4eRcOaSo9S34F63GoFeOEhsnH0QiycdPZbXWnJIDQGcXGfqfzzSdCvb
+ LvtFX4jU1U2mu2qZkyNGEIBb06VYmzMZXfmrZrRiPGveCO9aK02N02ALdWEeN7iK8r3k
+ 8oVFrxER5e0eTMoSug5dN3VU92XAvzVkZkhoO7ArBHpcSxPBEmdp8UmPd/2hoFt0jUsR
+ SGrBRSckAJHYGLflfSw+pb6IWqu2zS4JPHW1Z63p7hJNxTLumyjGeEmKj6KVwdlMAV/z
+ 5Yvw==
+X-Gm-Message-State: ACgBeo0khB7F4cYc06GsTy9GjUZ8vNAc2k95ASLwZjwfmcQiahihjG3e
+ mvJbtFNeE5o/J3UdQYw5ns8=
+X-Google-Smtp-Source: AA6agR4iICr0MS6GylHzeQ7syjs6ibXQZYH8UN6xLgOVnE+vPLhhH3u9CZ+A0QdXKknbzZONJVZsDA==
+X-Received: by 2002:a63:2b02:0:b0:41d:9b5e:7d69 with SMTP id
+ r2-20020a632b02000000b0041d9b5e7d69mr13499645pgr.165.1661779562545; 
+ Mon, 29 Aug 2022 06:26:02 -0700 (PDT)
 Received: from Negi ([207.151.52.7]) by smtp.gmail.com with ESMTPSA id
- n2-20020a170902e54200b0016d1bee1519sm7491501plf.102.2022.08.29.05.40.11
+ i5-20020a17090332c500b0017292073839sm1381370plr.178.2022.08.29.06.26.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Aug 2022 05:40:11 -0700 (PDT)
+ Mon, 29 Aug 2022 06:26:01 -0700 (PDT)
 From: Soumya Negi <soumya.negi97@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH] Input: Check sanity of endpoint in pegasus_open()
-Date: Mon, 29 Aug 2022 05:39:59 -0700
-Message-Id: <20220829123959.21298-1-soumya.negi97@gmail.com>
+Subject: [RFT PATCH] media: em28xx: Enable v4l2 file ops at the end of
+ em28xx_v4l2_init()
+Date: Mon, 29 Aug 2022 06:25:48 -0700
+Message-Id: <20220829132548.23520-1-soumya.negi97@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,39 +108,128 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Fix WARNING in pegasus_open/usb_submit_urb
-Syzbot bug: https://syzkaller.appspot.com/bug?id=bbc107584dcf3262253ce93183e51f3612aaeb13
+Fix syzbot bug KASAN: use-after-free Read in v4l2_fh_open
+Syzbot link:
+https://syzkaller.appspot.com/bug?id=0e3c97f1c4112e102c9988afd5eff079350eab7f
+Repro: https://syzkaller.appspot.com/text?tag=ReproC&x=12663ebdd00000
 
-Add sanity check of endpoint for Pegasus URB in pegasus_open() so that
-transfer requests for bogus URBs are not submitted. If the URB is bogus
-pegasus_open() will fail.
+The bug arises because the em28xx driver registers a v4l2 video
+device(struct video_device) with the V4L2 interface in
+em28xx_v4l2_init() but the v4l2 extension initialization eventually
+fails and the video device is unregistered. v4l2_open() in the V4L2
+interface views the device as registered and allows calls to
+em28xx_v4l2_open(). Due to race between video_unregister_device() and
+v4l2_open(), em28xx_v4l2_open() is accessing video device after it has
+been freed(by the release callback) and is passing it on to
+v4l2_fh_open().
 
-Reported-by: syzbot+04ee0cb4caccaed12d78@syzkaller.appspotmail.com
+In em28xx_v4l2_init(), temporarily disable v4l2 file operations on
+struct video_device devices(video, vbi, radio) before registering them
+and enable the file ops at the end when v4l2 extension initialization
+succeeds.
+
+Reported-by: syzbot+b2391895514ed9ef4a8e@syzkaller.appspotmail.com
 Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
 ---
- drivers/input/tablet/pegasus_notetaker.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/usb/em28xx/em28xx-video.c | 45 +++++++++++++++++++++----
+ 1 file changed, 39 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/tablet/pegasus_notetaker.c b/drivers/input/tablet/pegasus_notetaker.c
-index c608ac505d1b..5e47882ee4c0 100644
---- a/drivers/input/tablet/pegasus_notetaker.c
-+++ b/drivers/input/tablet/pegasus_notetaker.c
-@@ -225,6 +225,15 @@ static int pegasus_open(struct input_dev *dev)
+diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
+index 8181c0e6a25b..900a1eacb1c7 100644
+--- a/drivers/media/usb/em28xx/em28xx-video.c
++++ b/drivers/media/usb/em28xx/em28xx-video.c
+@@ -2320,6 +2320,19 @@ static int em28xx_v4l2_close(struct file *filp)
+ 	return 0;
+ }
  
- 	mutex_lock(&pegasus->pm_mutex);
- 	pegasus->irq->dev = pegasus->usbdev;
++/* Used to temporarily disable file operations on video_device until successful
++ * initialization in em28xx_v4l2_init().
++ */
++static const struct v4l2_file_operations em28xx_v4l_fops_empty = {
++	.owner         = THIS_MODULE,
++	.open          = NULL,
++	.release       = NULL,
++	.read          = NULL,
++	.poll          = NULL,
++	.mmap          = NULL,
++	.unlocked_ioctl = NULL,
++};
 +
-+	/* Sanity check of endpoint in Pegasus URB */
-+	error = usb_urb_ep_type_check(pegasus->irq);
-+	if (error) {
-+		dev_err(&pegasus->usbdev->dev,
-+			"URB failed endpoint sanity check: %d\n", error);
-+		goto err_autopm_put;
+ static const struct v4l2_file_operations em28xx_v4l_fops = {
+ 	.owner         = THIS_MODULE,
+ 	.open          = em28xx_v4l2_open,
+@@ -2375,12 +2388,22 @@ static const struct v4l2_ioctl_ops video_ioctl_ops = {
+ };
+ 
+ static const struct video_device em28xx_video_template = {
+-	.fops		= &em28xx_v4l_fops,
++	.fops		= &em28xx_v4l_fops_empty,
+ 	.ioctl_ops	= &video_ioctl_ops,
+ 	.release	= video_device_release_empty,
+ 	.tvnorms	= V4L2_STD_ALL,
+ };
+ 
++/* Used to temporarily disable file operations on video_device until successful
++ * initialization in em28xx_v4l2_init().
++ */
++static const struct v4l2_file_operations radio_fops_empty = {
++	.owner         = THIS_MODULE,
++	.open          = NULL,
++	.release       = NULL,
++	.unlocked_ioctl = NULL,
++};
++
+ static const struct v4l2_file_operations radio_fops = {
+ 	.owner         = THIS_MODULE,
+ 	.open          = em28xx_v4l2_open,
+@@ -2404,7 +2427,7 @@ static const struct v4l2_ioctl_ops radio_ioctl_ops = {
+ };
+ 
+ static struct video_device em28xx_radio_template = {
+-	.fops		= &radio_fops,
++	.fops		= &radio_fops_empty,
+ 	.ioctl_ops	= &radio_ioctl_ops,
+ 	.release	= video_device_release_empty,
+ };
+@@ -2833,9 +2856,6 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 				"can't register radio device\n");
+ 			goto unregister_dev;
+ 		}
+-		dev_info(&dev->intf->dev,
+-			 "Registered radio device as %s\n",
+-			 video_device_node_name(&v4l2->radio_dev));
+ 	}
+ 
+ 	/* Init entities at the Media Controller */
+@@ -2851,14 +2871,27 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 	}
+ #endif
+ 
++	/* Enable v4l2 file operations for v4l2 video video_device */
++	v4l2->vdev.fops = &em28xx_v4l_fops;
+ 	dev_info(&dev->intf->dev,
+ 		 "V4L2 video device registered as %s\n",
+ 		 video_device_node_name(&v4l2->vdev));
+ 
+-	if (video_is_registered(&v4l2->vbi_dev))
++	if (video_is_registered(&v4l2->vbi_dev)) {
++		/* Enable v4l2 file operations for v4l2 vbi video_device */
++		v4l2->vbi_dev.fops = &em28xx_v4l_fops;
+ 		dev_info(&dev->intf->dev,
+ 			 "V4L2 VBI device registered as %s\n",
+ 			 video_device_node_name(&v4l2->vbi_dev));
 +	}
 +
- 	if (usb_submit_urb(pegasus->irq, GFP_KERNEL)) {
- 		error = -EIO;
- 		goto err_autopm_put;
++	if (video_is_registered(&v4l2->radio_dev)) {
++		/* Enable v4l2 file operations for v4l2 radio video_device */
++		v4l2->radio_dev.fops = &radio_fops;
++		dev_info(&dev->intf->dev,
++			 "Registered radio device as %s\n",
++			 video_device_node_name(&v4l2->radio_dev));
++	}
+ 
+ 	/* Save some power by putting tuner to sleep */
+ 	v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, standby);
 -- 
 2.17.1
 
