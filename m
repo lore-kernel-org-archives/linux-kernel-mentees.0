@@ -4,74 +4,70 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E0ABECAAD5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 10:32:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7A845C0502C
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 10:52:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D3FCD40BE8;
-	Mon, 29 Aug 2022 10:32:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D3FCD40BE8
+	by smtp2.osuosl.org (Postfix) with ESMTP id EFD9740BF8;
+	Mon, 29 Aug 2022 10:52:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EFD9740BF8
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HTMjuFBy
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bW5qBkU/
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id noArhQLas7ee; Mon, 29 Aug 2022 10:32:18 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 893E940A35;
-	Mon, 29 Aug 2022 10:32:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 893E940A35
+	with ESMTP id s-z4YLZUEd3X; Mon, 29 Aug 2022 10:52:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E3C3E408D2;
+	Mon, 29 Aug 2022 10:52:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E3C3E408D2
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 63AFDC0032;
-	Mon, 29 Aug 2022 10:32:18 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63363C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B96AFC0032;
+	Mon, 29 Aug 2022 10:52:49 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 862DBC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 10:32:17 +0000 (UTC)
+ Mon, 29 Aug 2022 10:52:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 2FED340B05
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4E77A40B29
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 10:32:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2FED340B05
+ Mon, 29 Aug 2022 10:52:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4E77A40B29
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KxcUbExif3Og
+ with ESMTP id 2IypmU6sq-MZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 10:32:16 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2EEF940A35
+ Mon, 29 Aug 2022 10:52:47 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 071AB408D2
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 2EEF940A35
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 071AB408D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 10:32:16 +0000 (UTC)
+ Mon, 29 Aug 2022 10:52:46 +0000 (UTC)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 94D70B80E69;
- Mon, 29 Aug 2022 10:32:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B60AAC433D6;
- Mon, 29 Aug 2022 10:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1661769132;
- bh=TR5k2Yh8gwGWFbzhitEfL7Rh1/zEpiSLk+TrzVaWXOI=;
- h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
- b=HTMjuFBy6+vGraHsxJBXt61FOrZE16rCSuDIX7J9zsNP2dAfbVPhBN2fCuk+cUc6p
- XzIGM35vwf3hugYZM/x+xlkdAOEEgAQQymtIi+eiuEszD0cssDnMZ6EBKOJpy64nyw
- VZocptAW0fki4n5/eIVIPYhc+LchLbDuMu7IXvxjqfi2PHHHbFreCrgxkZesagAzqD
- 02vg4VIaL/JIfX8D+TgaSN/MQmVD1CpDflxZSBDbXeGX5/S7Tvi39cnVClOUyeiAvH
- RCfc3377H6dALCZXOiswrcwKSUxQZffetMqzbCnn4umcysouB99Bq7hc5i6FfBwqt4
- bQ5uw3PFBmo8w==
-From: Kalle Valo <kvalo@kernel.org>
+ by ams.source.kernel.org (Postfix) with ESMTPS id 2C7C6B80E4B;
+ Mon, 29 Aug 2022 10:52:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615A6C433C1;
+ Mon, 29 Aug 2022 10:52:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1661770364;
+ bh=/qIsYw7pC3OIg+O4ZZaXLIShhig52gT7JK1V5dIC2aQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bW5qBkU/BjWLkoMTqUDhSWImKCsyGqCJ7COVb5SVLcYf+AJvg5pmWK72NW2LED9H8
+ aB+Bbi2Ynuaeyr3Iog1aOr1Z+5+6VrHtFfV1/zYYwNz7YuOopg8eAKufS6BRNYsLtb
+ 1Qur/6PmQyPO0Lm4KtTEdnfKZkfACECueXrCokcw=
+Date: Mon, 29 Aug 2022 12:52:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Mazin Al Haddad <mazinalhaddad05@gmail.com>
 Subject: Re: [PATCH v3] ar5523: check endpoints type and direction in probe()
+Message-ID: <YwyaeNX2vYcHttfU@kroah.com>
 References: <20220827110148.203104-1-mazinalhaddad05@gmail.com>
-Date: Mon, 29 Aug 2022 13:32:06 +0300
-In-Reply-To: <20220827110148.203104-1-mazinalhaddad05@gmail.com> (Mazin Al
- Haddad's message of "Sat, 27 Aug 2022 14:01:49 +0300")
-Message-ID: <871qszibmh.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Cc: netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+Content-Disposition: inline
+In-Reply-To: <20220827110148.203104-1-mazinalhaddad05@gmail.com>
+Cc: netdev@vger.kernel.org, kvalo@kernel.org, linux-wireless@vger.kernel.org,
  linux-kernel@vger.kernel.org, edumazet@google.com, pontus.fuchs@gmail.com,
  syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com, kuba@kernel.org,
  pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
@@ -93,16 +89,15 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Mazin Al Haddad <mazinalhaddad05@gmail.com> writes:
-
+On Sat, Aug 27, 2022 at 02:01:49PM +0300, Mazin Al Haddad wrote:
 > Fixes a bug reported by syzbot, where a warning occurs in usb_submit_urb()
 > due to the wrong endpoint type. There is no check for both the number
 > of endpoints and the type.
->
+> 
 > Fix it by adding a check for the number of endpoints and the
 > direction/type of the endpoints. If the endpoints do not match -ENODEV is
 > returned.
->
+> 
 > usb 1-1: BOGUS urb xfer, pipe 3 != type 1
 > WARNING: CPU: 1 PID: 71 at drivers/usb/core/urb.c:502 usb_submit_urb+0xed2/0x18a0 drivers/usb/core/urb.c:502
 > Modules linked in:
@@ -115,17 +110,77 @@ Mazin Al Haddad <mazinalhaddad05@gmail.com> writes:
 >  ar5523_cmd_read drivers/net/wireless/ath/ar5523/ar5523.c:302 [inline]
 >  ar5523_host_available drivers/net/wireless/ath/ar5523/ar5523.c:1376 [inline]
 >  ar5523_probe+0xc66/0x1da0 drivers/net/wireless/ath/ar5523/ar5523.c:1655
->
+> 
 > Link: https://syzkaller.appspot.com/bug?extid=1bc2c2afd44f820a669f
 > Reported-and-tested-by: syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com
 > Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
+> ---
+> v2->v3 changes:
+>  - Make use of helper functions instead of checking for direction
+> 	 and type manually. 
+> 
+>  drivers/net/wireless/ath/ar5523/ar5523.c | 38 ++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+> 
+> diff --git a/drivers/net/wireless/ath/ar5523/ar5523.c b/drivers/net/wireless/ath/ar5523/ar5523.c
+> index 6f937d2cc126..69979e8f99fd 100644
+> --- a/drivers/net/wireless/ath/ar5523/ar5523.c
+> +++ b/drivers/net/wireless/ath/ar5523/ar5523.c
+> @@ -1581,8 +1581,46 @@ static int ar5523_probe(struct usb_interface *intf,
+>  	struct usb_device *dev = interface_to_usbdev(intf);
+>  	struct ieee80211_hw *hw;
+>  	struct ar5523 *ar;
+> +	struct usb_host_interface *host = intf->cur_altsetting;
+> +	struct usb_endpoint_descriptor *cmd_tx, *cmd_rx, *data_tx, *data_rx;
+>  	int error = -ENOMEM;
+>  
+> +	if (host->desc.bNumEndpoints != 4) {
+> +		dev_err(&dev->dev, "Wrong number of endpoints\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	for (int i = 0; i < host->desc.bNumEndpoints; ++i) {
+> +		struct usb_endpoint_descriptor *ep = &host->endpoint[i].desc;
+> +
+> +		if (usb_endpoint_is_bulk_out(ep)) {
+> +			if (!cmd_tx) {
+> +				if (ep->bEndpointAddress == AR5523_CMD_TX_PIPE)
+> +					cmd_tx = ep;
+> +			}
+> +			if (!data_tx) {
+> +				if (ep->bEndpointAddress == AR5523_DATA_TX_PIPE)
+> +					data_tx = ep;
+> +				}
+> +		}
+> +
+> +		if (usb_endpoint_is_bulk_in(ep)) {
+> +			if (!cmd_rx) {
+> +				if (ep->bEndpointAddress == AR5523_CMD_RX_PIPE)
+> +					cmd_rx = ep;
+> +			}
+> +			if (!data_rx) {
+> +				if (ep->bEndpointAddress == AR5523_DATA_RX_PIPE)
+> +					data_rx = ep;
+> +			}
+> +		}
+> +	}
+> +
+> +	if (!cmd_tx || !data_tx || !cmd_rx || !data_rx) {
+> +		dev_warn("wrong number of endpoints\n");
+> +		return -ENODEV;
+> +	}
 
-Has this been tested on a real ar5523 hardware?
+So you save off all of these values, and then do not use them anywhere?
+Why not properly save them to the device structure and then you can get
+rid of the odd ar5523_cmd_tx_pipe() macros?
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Also, I don't see why you can't use the USB core function for finding
+endpoints, all you want is the first 2 bulk in and 2 bulk out, that
+should be much simpler to use than the above long codebase.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+thanks,
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
