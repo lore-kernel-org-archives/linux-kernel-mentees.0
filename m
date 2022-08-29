@@ -4,99 +4,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DF9FECAAD5
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 15:03:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 453CBECAAD4
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 20:52:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2B4CD81A73;
-	Mon, 29 Aug 2022 15:03:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2B4CD81A73
+	by smtp1.osuosl.org (Postfix) with ESMTP id D4BDC8145A;
+	Mon, 29 Aug 2022 20:52:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D4BDC8145A
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=N1pIhGD3
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=techviewdata-com.20210112.gappssmtp.com header.i=@techviewdata-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=TTWJvDZK
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1IV5Jrwsp0yQ; Mon, 29 Aug 2022 15:03:16 +0000 (UTC)
+	with ESMTP id gMos3IZYH1oI; Mon, 29 Aug 2022 20:52:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3433381468;
-	Mon, 29 Aug 2022 15:03:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3433381468
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E5A2C8141C;
+	Mon, 29 Aug 2022 20:52:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E5A2C8141C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F1D21C0033;
-	Mon, 29 Aug 2022 15:03:15 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D2469C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BA061C0032;
+	Mon, 29 Aug 2022 20:52:26 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C0398C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 15:03:14 +0000 (UTC)
+ Mon, 29 Aug 2022 20:52:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id ACF7040B87
+ by smtp3.osuosl.org (Postfix) with ESMTP id 8E550605E0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 15:03:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org ACF7040B87
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=N1pIhGD3
+ Mon, 29 Aug 2022 20:52:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8E550605E0
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=techviewdata-com.20210112.gappssmtp.com
+ header.i=@techviewdata-com.20210112.gappssmtp.com header.a=rsa-sha256
+ header.s=20210112 header.b=TTWJvDZK
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3LMiItWEfxoM
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id bL6U7tvzgui4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 15:03:13 +0000 (UTC)
+ Mon, 29 Aug 2022 20:52:23 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B584E4051E
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com
- [IPv6:2607:f8b0:4864:20::1030])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B584E4051E
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9721160B36
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
+ [IPv6:2607:f8b0:4864:20::112f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 9721160B36
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 15:03:13 +0000 (UTC)
-Received: by mail-pj1-x1030.google.com with SMTP id
- x1-20020a17090ab00100b001fda21bbc90so4549845pjq.3
+ Mon, 29 Aug 2022 20:52:23 +0000 (UTC)
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-3376851fe13so226306777b3.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 08:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:from:to:cc;
- bh=hl19yC27qvJPGzvVoFgwuG8P3RA3WT4VWzdG/9QIu5c=;
- b=N1pIhGD3wyaigKJVuMP6jb4oj231Asc43jUz5tjVhjk5bTdEAAcjlu+xAvZU/qb9+m
- 1m5qLiwFAUAIcOjaHfMSChJoyufmA6Zxclf8RU9S0ixKv80UoHtL5WOqQbTrCT5xznXF
- i/DS01nwtIF3d68Na5mCvQV6XHczdhOioi+X3kRLspOP22nPcUGEzf/BcTd2Wab9vPr2
- Pb+N0BxHyJH2UG61ugOuyC7ND/2XO7a1AAvBqSddPCtxvGkFlyUweO+GxukeWHRkQLyG
- GSzOxEhS5UmBsZtvXcWaPYZyMCdtpdX+51/lZH7B3YGIrlj1f6rRpOARqnvUSkOJO7lm
- aX1A==
+ Mon, 29 Aug 2022 13:52:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=techviewdata-com.20210112.gappssmtp.com; s=20210112;
+ h=to:subject:message-id:date:disposition-notification-to:thread-index
+ :mime-version:from:from:to:cc;
+ bh=aMpiRtYABSxY12KMeGz3OZXruDLg3Y6a8u1cJBsZcJU=;
+ b=TTWJvDZKRXCRofiOnojsZBt7p9bkFNYdukthsDLsz6XlJrXY599SyJfvxzE4mA2uNX
+ QFr/lVLSy0zAdX0fAx7kGq5pa7B9Im9ztykEC4sVDI4l8Le0v+jowN1WVfQQtaZHz6Y/
+ bWL3riArxBr3ltAyAPBGvKhl3YhN12YIamtVEtVqlYM4N5J12aTsbpX9ovq56HQfSby9
+ hgJdj8Mp72vvDLoRKABr5KuJ6cAAmAprdnGW/kcR/DDTlUzr72kVEtgHrgJdRx1+kgrc
+ u9ScdN7L5AxzWDMhfsYN5Yj07faxaETMEb5Wa9MrtxclTG0NDe9QPJFbqd4o8kKY55OU
+ llMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=hl19yC27qvJPGzvVoFgwuG8P3RA3WT4VWzdG/9QIu5c=;
- b=SF2AfjEZarQGRStBBJTuIklh1bWwXDJXLE9MHEFMn83eRu8sf9qIHf4t5O9NBl1Jec
- A/uHjhYISukUd5UlWujkhvgrnctQyMsAwX8Dt+XANukv2dvghLp86371vFhD1fzKg1sf
- uXeCGgqKbfeIi1R+lXe/nI4NUtDM/Ns9KVRa+ZtdYQlEoQr8GH5AtQukCPo+UBwjVK+W
- 4Xk6MNBR2a2WkSO4UMGcJHpD5kvRxJ+smf8raHTnTcmI3Tjpb5eRgPspSsH3F3dF9QSh
- Mdjum9/Kco3XqxVlXemtwlUFM9m2U9dLZVO98giWZdF2Hvn2OTqsqPiVQ7Wemr1oKsGm
- vtvg==
-X-Gm-Message-State: ACgBeo2UesC3FNDJEqZlnHTTkJO7MQgnBEdWtWZvE0Dab2MFX0ShZMFA
- yLWHv836hZcaORDbFJ40SD0=
-X-Google-Smtp-Source: AA6agR7OFBttzwRQAP0jnnmDnPAv1l0tyFU2JXitdpeRVfDA4S77kutEDWZof5n4mxHqPaLyKs4WNQ==
-X-Received: by 2002:a17:90b:2404:b0:1fc:b5d1:446f with SMTP id
- nr4-20020a17090b240400b001fcb5d1446fmr18494415pjb.58.1661785392095; 
- Mon, 29 Aug 2022 08:03:12 -0700 (PDT)
-Received: from Negi ([207.151.52.7]) by smtp.gmail.com with ESMTPSA id
- u1-20020a170902e80100b0016c4546fbf9sm6644546plg.128.2022.08.29.08.03.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 29 Aug 2022 08:03:11 -0700 (PDT)
-Date: Mon, 29 Aug 2022 08:03:10 -0700
-From: Soumya Negi <soumya.negi97@gmail.com>
-To: Anton Altaparmakov <anton@tuxera.com>,
- Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2] ntfs: Ensure $Extend is a directory
-Message-ID: <20220829150309.GA26122@Negi>
-References: <20220727001513.11902-1-soumya.negi97@gmail.com>
+ h=to:subject:message-id:date:disposition-notification-to:thread-index
+ :mime-version:from:x-gm-message-state:from:to:cc;
+ bh=aMpiRtYABSxY12KMeGz3OZXruDLg3Y6a8u1cJBsZcJU=;
+ b=sou1Fuxra1Ds6wUimiOAz3pyppijiiKXV+sHK9GglRdeAClNur4ExVeZvtHzNOBpVA
+ EUCwcI2v+qf10ITcO//aWVz3ffI1PAH8KTSWPtj5fUacSX3Z8XlLEogjO09KR45ovAZO
+ cS2bwUqhgdjqPvIwnNhjU4SmqY9taD5pWu09SvIhRuAH/pU/MUZCnAYr1vzJ99YTIt0G
+ bzPPrJjO4GZNx6Ss+zKm0Sd94/H3E7Qu4ZrpbZlufRisPC2ZLeB1ob+9EPlZ/2r2zqFc
+ RSGVfzi/5upw+Oe5WULzU2nnG46ELiRlzQec4kxVm9KnlW9mv4iPq4fj9Z20JHkq+yNG
+ Kwjg==
+X-Gm-Message-State: ACgBeo32VtG+7mIhXP91jfxaVH+slq/INhrPSvWtLl6tQHZ1vwydm5CH
+ HBavVKOacrlYICW/HyIxZjLcXjsyKttymXpxmNohMEroim1ri7P3
+X-Google-Smtp-Source: AA6agR4wC3nS/RgpTjh6AJ7nuC+GTj+JjzCx9AzvZ8hvCwzRiNwhrrWjYbp/r4Yf9Bbxb05K34e/YTvi1x3Ja9zsW+c=
+X-Received: by 2002:a81:84d1:0:b0:340:b0ea:d1c6 with SMTP id
+ u200-20020a8184d1000000b00340b0ead1c6mr10319277ywf.256.1661806342434; Mon, 29
+ Aug 2022 13:52:22 -0700 (PDT)
+From: Casey Beeson <casey@techviewdata.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220727001513.11902-1-soumya.negi97@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: linux-ntfs-dev@lists.sourceforge.net,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Adi75uDzgBXDiKuNQnalfAOoY17Czw==
+Date: Mon, 29 Aug 2022 14:52:20 -0600
+Message-ID: <2e7b5bf33e401435be78bf7e7b4ce0fd@mail.gmail.com>
+Subject: RE: Hyperbaric Oxygen Therapists Contacts
+To: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,65 +100,233 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8626622097405949602=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Jul 26, 2022 at 05:15:13PM -0700, Soumya Negi wrote:
-> Fix Syzbot bug: kernel BUG in ntfs_lookup_inode_by_name
-> https://syzkaller.appspot.com/bug?id=32cf53b48c1846ffc25a185a2e92e170d1a95d71
-> 
-> Check whether $Extend is a directory or not( for NTFS3.0+) while
-> loading system files. If it isn't(as in the case of this bug where the
-> mft record for $Extend contains a regular file), load_system_files()
-> returns false.
-> 
-> Reported-by: syzbot+30b7f850c6d98ea461d2@syzkaller.appspotmail.com
-> CC: stable@vger.kernel.org # 4.9+
-> Signed-off-by: Soumya Negi <soumya.negi97@gmail.com>
-> ---
-> Changes since v1:
-> * Added CC tag for stable
-> * Formatted changelog to fit within 72 cols
-> 
-> ---
->  fs/ntfs/super.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/ntfs/super.c b/fs/ntfs/super.c
-> index 5ae8de09b271..18e2902531f9 100644
-> --- a/fs/ntfs/super.c
-> +++ b/fs/ntfs/super.c
-> @@ -2092,10 +2092,15 @@ static bool load_system_files(ntfs_volume *vol)
->  	// TODO: Initialize security.
->  	/* Get the extended system files' directory inode. */
->  	vol->extend_ino = ntfs_iget(sb, FILE_Extend);
-> -	if (IS_ERR(vol->extend_ino) || is_bad_inode(vol->extend_ino)) {
-> +	if (IS_ERR(vol->extend_ino) || is_bad_inode(vol->extend_ino) ||
-> +	    !S_ISDIR(vol->extend_ino->i_mode)) {
-> +		static const char *es1 = "$Extend is not a directory";
-> +		static const char *es2 = "Failed to load $Extend";
-> +		const char *es = !S_ISDIR(vol->extend_ino->i_mode) ? es1 : es2;
-> +
->  		if (!IS_ERR(vol->extend_ino))
->  			iput(vol->extend_ino);
-> -		ntfs_error(sb, "Failed to load $Extend.");
-> +		ntfs_error(sb, "%s.", es);
->  		goto iput_sec_err_out;
->  	}
->  #ifdef NTFS_RW
-> -- 
-> 2.17.1
+--===============8626622097405949602==
+Content-Type: multipart/alternative; boundary="000000000000ba029105e7677079"
 
-Hi Anton,
-Have you had a chance to look at this patch?
+--000000000000ba029105e7677079
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Soumya
+Hi,
+
+
+
+Hope you are doing well and staying safe!
+
+
+
+I haven't heard back from you yet so I just wanted to make sure you
+received my previous email, when you get a moment, could you please drop me
+a line?
+
+
+
+Please acknowledge the receipt of this email.
+
+
+
+Regards
+
+Casey
+
+___________________________________________________________________________=
+___________
+
+*Subject:* Hyperbaric Oxygen Therapists Contacts
+
+
+
+Hello,
+
+
+
+I was wondering if you would be interested in acquiring verified *Hyperbari=
+c
+Oxygen Therapists Contacts*
+
+
+
+Kindly let me know you are *Target geography,* so that we can discuss on
+further details about available counts and cost.
+
+
+
+Awaiting your response.
+
+
+
+Regards,
+
+Casey Beeson
+
+Manager =E2=80=93 Demand Generation
+
+
+
+To opt-out kindly reply with =E2=80=9Cnot interested=E2=80=9D in subject li=
+ne
+
+--000000000000ba029105e7677079
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=3Dus-ascii"><meta name=3D"Generator" content=3D"Microsoft Word 15 (filtere=
+d medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:0cm;
+	line-height:106%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	font-size:12.0pt;
+	font-family:"Times New Roman",serif;}
+p.xv1msonormal1, li.xv1msonormal1, div.xv1msonormal1
+	{mso-style-name:x_v1msonormal1;
+	mso-style-priority:99;
+	margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:0cm;
+	line-height:105%;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle19
+	{mso-style-type:personal-compose;
+	color:#2F5496;
+	background:white;
+	mso-fareast-language:EN-IN;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style></head><body lang=3D"EN-IN" link=3D"#0563C1" vlink=3D"#954F72"><=
+div class=3D"WordSection1"><p class=3D"MsoNormal" style=3D"margin-bottom:0c=
+m;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"f=
+ont-size:10.5pt;color:#2f5496;background:white">Hi,</span></p><p class=3D"M=
+soNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:norm=
+al"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;background=
+:white">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;=
+margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"fon=
+t-size:10.5pt;color:#2f5496;background:white">Hope you are doing well and s=
+taying safe!</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;ma=
+rgin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-=
+size:10.5pt;color:#2f5496;background:white">=C2=A0</span></p><p class=3D"Ms=
+oNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:norma=
+l"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;background:=
+white">I haven&#39;t heard back from you yet so I just wanted to make sure =
+you received my previous email, when you get a moment, could you please dro=
+p me a line?</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;ma=
+rgin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-=
+size:10.5pt;color:#2f5496;background:white">=C2=A0</span></p><p class=3D"Ms=
+oNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:norma=
+l"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;background:=
+white">Please acknowledge the receipt of this email.</span></p><p class=3D"=
+MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:nor=
+mal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;backgroun=
+d:white">=C2=A0</span></p><p class=3D"xv1msonormal1" style=3D"margin-bottom=
+:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=
+=3D"font-size:10.5pt;color:#2f5496;background:white">Regards</span></p><p c=
+lass=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-he=
+ight:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496">=
+Casey</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bo=
+ttom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10=
+.5pt;color:#2f5496">_______________________________________________________=
+_______________________________</span></p><p class=3D"MsoNormal" style=3D"m=
+argin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><b><span lang=3D=
+"EN-US" style=3D"mso-fareast-language:EN-IN">Subject:</span></b><span lang=
+=3D"EN-US" style=3D"mso-fareast-language:EN-IN"> Hyperbaric Oxygen Therapis=
+ts Contacts</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;mar=
+gin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-s=
+ize:10.5pt;color:#2f5496">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"=
+margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"E=
+N-US" style=3D"font-size:10.5pt;color:#2f5496">Hello,</span><span style=3D"=
+mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"marg=
+in-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US=
+" style=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-=
+fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-b=
+ottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" st=
+yle=3D"font-size:10.5pt;color:#2f5496">I was wondering if you would be inte=
+rested in acquiring verified <b>Hyperbaric Oxygen Therapists Contacts</b></=
+span><span style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoN=
+ormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"=
+><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span=
+><span style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNorma=
+l" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><sp=
+an lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496">Kindly let me kn=
+ow you are <b>Target geography,</b> so that we can discuss on further detai=
+ls about available counts and cost.</span><span style=3D"mso-fareast-langua=
+ge:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;marg=
+in-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-si=
+ze:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-fareast-language:E=
+N-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-b=
+ottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:1=
+0.5pt;color:#2f5496">Awaiting your response.</span><span style=3D"mso-farea=
+st-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom=
+:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=
+=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-fareast=
+-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0=
+cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"=
+font-size:10.5pt;color:#2f5496">Regards,</span><span style=3D"mso-fareast-l=
+anguage:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm=
+;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"fo=
+nt-size:10.5pt;color:#2f5496">Casey Beeson</span><span style=3D"mso-fareast=
+-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0=
+cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"=
+font-size:10.5pt;color:#2f5496;background:white">Manager =E2=80=93 Demand G=
+eneration</span><span style=3D"mso-fareast-language:EN-IN"></span></p><p cl=
+ass=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-hei=
+ght:normal"><span lang=3D"EN-US" style=3D"font-size:9.0pt">=C2=A0</span><sp=
+an style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" s=
+tyle=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span s=
+tyle=3D"font-size:9.0pt">To opt-out kindly reply with =E2=80=9Cnot interest=
+ed=E2=80=9D in subject line</span></p></div></body></html>
+
+--000000000000ba029105e7677079--
+
+--===============8626622097405949602==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8626622097405949602==--
