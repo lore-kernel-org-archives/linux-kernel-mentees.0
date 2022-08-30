@@ -1,94 +1,91 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 453CBECAAD4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 29 Aug 2022 20:52:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DFB2CECAAD4
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Aug 2022 08:00:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D4BDC8145A;
-	Mon, 29 Aug 2022 20:52:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D4BDC8145A
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=techviewdata-com.20210112.gappssmtp.com header.i=@techviewdata-com.20210112.gappssmtp.com header.a=rsa-sha256 header.s=20210112 header.b=TTWJvDZK
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gMos3IZYH1oI; Mon, 29 Aug 2022 20:52:27 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E5A2C8141C;
-	Mon, 29 Aug 2022 20:52:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E5A2C8141C
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BA061C0032;
-	Mon, 29 Aug 2022 20:52:26 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C0398C002D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 20:52:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 8E550605E0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 20:52:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8E550605E0
+	by smtp3.osuosl.org (Postfix) with ESMTP id 622CE60E8F;
+	Tue, 30 Aug 2022 08:00:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 622CE60E8F
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=techviewdata-com.20210112.gappssmtp.com
- header.i=@techviewdata-com.20210112.gappssmtp.com header.a=rsa-sha256
- header.s=20210112 header.b=TTWJvDZK
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dAzDNqtp
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id bL6U7tvzgui4
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id c-t7dBTUWSug; Tue, 30 Aug 2022 08:00:08 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1982960E8D;
+	Tue, 30 Aug 2022 08:00:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1982960E8D
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BF5D5C007F;
+	Tue, 30 Aug 2022 08:00:07 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E755EC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 20:52:23 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9721160B36
-Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com
- [IPv6:2607:f8b0:4864:20::112f])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9721160B36
+ Tue, 30 Aug 2022 08:00:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id B5FA3409AA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 20:52:23 +0000 (UTC)
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-3376851fe13so226306777b3.6
+ Tue, 30 Aug 2022 08:00:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B5FA3409AA
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=dAzDNqtp
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id R12DheeSejZv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Aug 2022 13:52:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=techviewdata-com.20210112.gappssmtp.com; s=20210112;
- h=to:subject:message-id:date:disposition-notification-to:thread-index
- :mime-version:from:from:to:cc;
- bh=aMpiRtYABSxY12KMeGz3OZXruDLg3Y6a8u1cJBsZcJU=;
- b=TTWJvDZKRXCRofiOnojsZBt7p9bkFNYdukthsDLsz6XlJrXY599SyJfvxzE4mA2uNX
- QFr/lVLSy0zAdX0fAx7kGq5pa7B9Im9ztykEC4sVDI4l8Le0v+jowN1WVfQQtaZHz6Y/
- bWL3riArxBr3ltAyAPBGvKhl3YhN12YIamtVEtVqlYM4N5J12aTsbpX9ovq56HQfSby9
- hgJdj8Mp72vvDLoRKABr5KuJ6cAAmAprdnGW/kcR/DDTlUzr72kVEtgHrgJdRx1+kgrc
- u9ScdN7L5AxzWDMhfsYN5Yj07faxaETMEb5Wa9MrtxclTG0NDe9QPJFbqd4o8kKY55OU
- llMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:disposition-notification-to:thread-index
- :mime-version:from:x-gm-message-state:from:to:cc;
- bh=aMpiRtYABSxY12KMeGz3OZXruDLg3Y6a8u1cJBsZcJU=;
- b=sou1Fuxra1Ds6wUimiOAz3pyppijiiKXV+sHK9GglRdeAClNur4ExVeZvtHzNOBpVA
- EUCwcI2v+qf10ITcO//aWVz3ffI1PAH8KTSWPtj5fUacSX3Z8XlLEogjO09KR45ovAZO
- cS2bwUqhgdjqPvIwnNhjU4SmqY9taD5pWu09SvIhRuAH/pU/MUZCnAYr1vzJ99YTIt0G
- bzPPrJjO4GZNx6Ss+zKm0Sd94/H3E7Qu4ZrpbZlufRisPC2ZLeB1ob+9EPlZ/2r2zqFc
- RSGVfzi/5upw+Oe5WULzU2nnG46ELiRlzQec4kxVm9KnlW9mv4iPq4fj9Z20JHkq+yNG
- Kwjg==
-X-Gm-Message-State: ACgBeo32VtG+7mIhXP91jfxaVH+slq/INhrPSvWtLl6tQHZ1vwydm5CH
- HBavVKOacrlYICW/HyIxZjLcXjsyKttymXpxmNohMEroim1ri7P3
-X-Google-Smtp-Source: AA6agR4wC3nS/RgpTjh6AJ7nuC+GTj+JjzCx9AzvZ8hvCwzRiNwhrrWjYbp/r4Yf9Bbxb05K34e/YTvi1x3Ja9zsW+c=
-X-Received: by 2002:a81:84d1:0:b0:340:b0ea:d1c6 with SMTP id
- u200-20020a8184d1000000b00340b0ead1c6mr10319277ywf.256.1661806342434; Mon, 29
- Aug 2022 13:52:22 -0700 (PDT)
-From: Casey Beeson <casey@techviewdata.com>
+ Tue, 30 Aug 2022 08:00:03 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 304C840984
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 304C840984
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Aug 2022 08:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1661846403; x=1693382403;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=gj7BG2I75M6eDiqbF3AlhKCmmZofbp2bRV6PEgQpKu8=;
+ b=dAzDNqtpitDrgbgTVgsRgCJQ3qcXZbJa/Kh5ukPn/zQl+JfwSOP7CwOa
+ hAmVtTOr+HSAaDCc+YYj6HoPSGRa1s8Fl3zA3ZgE+VYRjpWM8hdgbU7lr
+ 7RDHcusUYI7hVyAQmMe4K59uq1nfNSERFd35slc9V3VnBHNLBryjduwZs
+ MTQrHl0SNMZsu53TOu3IViHYMtjgLbzQjgH8xsqrHLoD1xstEXjubAlfX
+ A5vqA8CF7HMhokdUFLkBex2zZaMaoZcqSFQTCbDX/ANWwuS8jB+x+Clga
+ C2n2/nnEpNoEbDjZLVGYzAHxLnoN+Ws69fi4OlZU7pTS4Llx1AuCGkI6h g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="321239091"
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; d="scan'208";a="321239091"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Aug 2022 01:00:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,274,1654585200"; d="scan'208";a="939920813"
+Received: from lkp-server02.sh.intel.com (HELO 77b6d4e16fc5) ([10.239.97.151])
+ by fmsmga005.fm.intel.com with ESMTP; 30 Aug 2022 00:59:54 -0700
+Received: from kbuild by 77b6d4e16fc5 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1oSwA5-00003W-2n;
+ Tue, 30 Aug 2022 07:59:53 +0000
+Date: Tue, 30 Aug 2022 15:59:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mazin Al Haddad <mazinalhaddad05@gmail.com>, pontus.fuchs@gmail.com
+Subject: Re: [PATCH v3] ar5523: check endpoints type and direction in probe()
+Message-ID: <202208301536.yCbVfZ1a-lkp@intel.com>
+References: <20220827110148.203104-1-mazinalhaddad05@gmail.com>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Adi75uDzgBXDiKuNQnalfAOoY17Czw==
-Date: Mon, 29 Aug 2022 14:52:20 -0600
-Message-ID: <2e7b5bf33e401435be78bf7e7b4ce0fd@mail.gmail.com>
-Subject: RE: Hyperbaric Oxygen Therapists Contacts
-To: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20220827110148.203104-1-mazinalhaddad05@gmail.com>
+Cc: kbuild-all@lists.01.org, netdev@vger.kernel.org, kvalo@kernel.org,
+ llvm@lists.linux.dev, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, edumazet@google.com,
+ syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com, kuba@kernel.org,
+ pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ davem@davemloft.net, Mazin Al Haddad <mazinalhaddad05@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,233 +97,253 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8626622097405949602=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============8626622097405949602==
-Content-Type: multipart/alternative; boundary="000000000000ba029105e7677079"
+Hi Mazin,
 
---000000000000ba029105e7677079
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch! Yet something to improve:
 
-Hi,
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.0-rc3 next-20220829]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Mazin-Al-Haddad/ar5523-check-endpoints-type-and-direction-in-probe/20220827-190333
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+config: i386-randconfig-a016-20220829 (https://download.01.org/0day-ci/archive/20220830/202208301536.yCbVfZ1a-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0c1dd42c9cfa5b58485b12b4f27e1539fcb8b9dd
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mazin-Al-Haddad/ar5523-check-endpoints-type-and-direction-in-probe/20220827-190333
+        git checkout 0c1dd42c9cfa5b58485b12b4f27e1539fcb8b9dd
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/wireless/ath/ar5523/
 
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Hope you are doing well and staying safe!
+All error/warnings (new ones prefixed by >>):
 
-
-
-I haven't heard back from you yet so I just wanted to make sure you
-received my previous email, when you get a moment, could you please drop me
-a line?
-
-
-
-Please acknowledge the receipt of this email.
-
-
-
-Regards
-
-Casey
-
-___________________________________________________________________________=
-___________
-
-*Subject:* Hyperbaric Oxygen Therapists Contacts
-
-
-
-Hello,
-
-
-
-I was wondering if you would be interested in acquiring verified *Hyperbari=
-c
-Oxygen Therapists Contacts*
-
-
-
-Kindly let me know you are *Target geography,* so that we can discuss on
-further details about available counts and cost.
-
+>> drivers/net/wireless/ath/ar5523/ar5523.c:1620:41: error: too few arguments provided to function-like macro invocation
+                   dev_warn("wrong number of endpoints\n");
+                                                         ^
+   include/linux/dev_printk.h:145:9: note: macro 'dev_warn' defined here
+   #define dev_warn(dev, fmt, ...) \
+           ^
+>> drivers/net/wireless/ath/ar5523/ar5523.c:1620:3: error: use of undeclared identifier 'dev_warn'; did you mean '_dev_warn'?
+                   dev_warn("wrong number of endpoints\n");
+                   ^~~~~~~~
+                   _dev_warn
+   include/linux/dev_printk.h:52:6: note: '_dev_warn' declared here
+   void _dev_warn(const struct device *dev, const char *fmt, ...);
+        ^
+>> drivers/net/wireless/ath/ar5523/ar5523.c:1620:3: warning: expression result unused [-Wunused-value]
+                   dev_warn("wrong number of endpoints\n");
+                   ^~~~~~~~
+   1 warning and 2 errors generated.
 
 
-Awaiting your response.
+vim +1620 drivers/net/wireless/ath/ar5523/ar5523.c
 
+  1577	
+  1578	static int ar5523_probe(struct usb_interface *intf,
+  1579				const struct usb_device_id *id)
+  1580	{
+  1581		struct usb_device *dev = interface_to_usbdev(intf);
+  1582		struct ieee80211_hw *hw;
+  1583		struct ar5523 *ar;
+  1584		struct usb_host_interface *host = intf->cur_altsetting;
+  1585		struct usb_endpoint_descriptor *cmd_tx, *cmd_rx, *data_tx, *data_rx;
+  1586		int error = -ENOMEM;
+  1587	
+  1588		if (host->desc.bNumEndpoints != 4) {
+  1589			dev_err(&dev->dev, "Wrong number of endpoints\n");
+  1590			return -ENODEV;
+  1591		}
+  1592	
+  1593		for (int i = 0; i < host->desc.bNumEndpoints; ++i) {
+  1594			struct usb_endpoint_descriptor *ep = &host->endpoint[i].desc;
+  1595	
+  1596			if (usb_endpoint_is_bulk_out(ep)) {
+  1597				if (!cmd_tx) {
+  1598					if (ep->bEndpointAddress == AR5523_CMD_TX_PIPE)
+  1599						cmd_tx = ep;
+  1600				}
+  1601				if (!data_tx) {
+  1602					if (ep->bEndpointAddress == AR5523_DATA_TX_PIPE)
+  1603						data_tx = ep;
+  1604					}
+  1605			}
+  1606	
+  1607			if (usb_endpoint_is_bulk_in(ep)) {
+  1608				if (!cmd_rx) {
+  1609					if (ep->bEndpointAddress == AR5523_CMD_RX_PIPE)
+  1610						cmd_rx = ep;
+  1611				}
+  1612				if (!data_rx) {
+  1613					if (ep->bEndpointAddress == AR5523_DATA_RX_PIPE)
+  1614						data_rx = ep;
+  1615				}
+  1616			}
+  1617		}
+  1618	
+  1619		if (!cmd_tx || !data_tx || !cmd_rx || !data_rx) {
+> 1620			dev_warn("wrong number of endpoints\n");
+  1621			return -ENODEV;
+  1622		}
+  1623	
+  1624		/*
+  1625		 * Load firmware if the device requires it.  This will return
+  1626		 * -ENXIO on success and we'll get called back afer the usb
+  1627		 * id changes to indicate that the firmware is present.
+  1628		 */
+  1629		if (id->driver_info & AR5523_FLAG_PRE_FIRMWARE)
+  1630			return ar5523_load_firmware(dev);
+  1631	
+  1632	
+  1633		hw = ieee80211_alloc_hw(sizeof(*ar), &ar5523_ops);
+  1634		if (!hw)
+  1635			goto out;
+  1636		SET_IEEE80211_DEV(hw, &intf->dev);
+  1637	
+  1638		ar = hw->priv;
+  1639		ar->hw = hw;
+  1640		ar->dev = dev;
+  1641		mutex_init(&ar->mutex);
+  1642	
+  1643		INIT_DELAYED_WORK(&ar->stat_work, ar5523_stat_work);
+  1644		timer_setup(&ar->tx_wd_timer, ar5523_tx_wd_timer, 0);
+  1645		INIT_WORK(&ar->tx_wd_work, ar5523_tx_wd_work);
+  1646		INIT_WORK(&ar->tx_work, ar5523_tx_work);
+  1647		INIT_LIST_HEAD(&ar->tx_queue_pending);
+  1648		INIT_LIST_HEAD(&ar->tx_queue_submitted);
+  1649		spin_lock_init(&ar->tx_data_list_lock);
+  1650		atomic_set(&ar->tx_nr_total, 0);
+  1651		atomic_set(&ar->tx_nr_pending, 0);
+  1652		init_waitqueue_head(&ar->tx_flush_waitq);
+  1653	
+  1654		atomic_set(&ar->rx_data_free_cnt, 0);
+  1655		INIT_WORK(&ar->rx_refill_work, ar5523_rx_refill_work);
+  1656		INIT_LIST_HEAD(&ar->rx_data_free);
+  1657		INIT_LIST_HEAD(&ar->rx_data_used);
+  1658		spin_lock_init(&ar->rx_data_list_lock);
+  1659	
+  1660		ar->wq = create_singlethread_workqueue("ar5523");
+  1661		if (!ar->wq) {
+  1662			ar5523_err(ar, "Could not create wq\n");
+  1663			goto out_free_ar;
+  1664		}
+  1665	
+  1666		error = ar5523_alloc_rx_bufs(ar);
+  1667		if (error) {
+  1668			ar5523_err(ar, "Could not allocate rx buffers\n");
+  1669			goto out_free_wq;
+  1670		}
+  1671	
+  1672		error = ar5523_alloc_rx_cmd(ar);
+  1673		if (error) {
+  1674			ar5523_err(ar, "Could not allocate rx command buffers\n");
+  1675			goto out_free_rx_bufs;
+  1676		}
+  1677	
+  1678		error = ar5523_alloc_tx_cmd(ar);
+  1679		if (error) {
+  1680			ar5523_err(ar, "Could not allocate tx command buffers\n");
+  1681			goto out_free_rx_cmd;
+  1682		}
+  1683	
+  1684		error = ar5523_submit_rx_cmd(ar);
+  1685		if (error) {
+  1686			ar5523_err(ar, "Failed to submit rx cmd\n");
+  1687			goto out_free_tx_cmd;
+  1688		}
+  1689	
+  1690		/*
+  1691		 * We're now ready to send/receive firmware commands.
+  1692		 */
+  1693		error = ar5523_host_available(ar);
+  1694		if (error) {
+  1695			ar5523_err(ar, "could not initialize adapter\n");
+  1696			goto out_cancel_rx_cmd;
+  1697		}
+  1698	
+  1699		error = ar5523_get_max_rxsz(ar);
+  1700		if (error) {
+  1701			ar5523_err(ar, "could not get caps from adapter\n");
+  1702			goto out_cancel_rx_cmd;
+  1703		}
+  1704	
+  1705		error = ar5523_get_devcap(ar);
+  1706		if (error) {
+  1707			ar5523_err(ar, "could not get caps from adapter\n");
+  1708			goto out_cancel_rx_cmd;
+  1709		}
+  1710	
+  1711		error = ar5523_get_devstatus(ar);
+  1712		if (error != 0) {
+  1713			ar5523_err(ar, "could not get device status\n");
+  1714			goto out_cancel_rx_cmd;
+  1715		}
+  1716	
+  1717		ar5523_info(ar, "MAC/BBP AR5523, RF AR%c112\n",
+  1718				(id->driver_info & AR5523_FLAG_ABG) ? '5' : '2');
+  1719	
+  1720		ar->vif = NULL;
+  1721		ieee80211_hw_set(hw, HAS_RATE_CONTROL);
+  1722		ieee80211_hw_set(hw, RX_INCLUDES_FCS);
+  1723		ieee80211_hw_set(hw, SIGNAL_DBM);
+  1724		hw->extra_tx_headroom = sizeof(struct ar5523_tx_desc) +
+  1725					sizeof(struct ar5523_chunk);
+  1726		hw->wiphy->interface_modes = BIT(NL80211_IFTYPE_STATION);
+  1727		hw->queues = 1;
+  1728	
+  1729		error = ar5523_init_modes(ar);
+  1730		if (error)
+  1731			goto out_cancel_rx_cmd;
+  1732	
+  1733		wiphy_ext_feature_set(hw->wiphy, NL80211_EXT_FEATURE_CQM_RSSI_LIST);
+  1734	
+  1735		usb_set_intfdata(intf, hw);
+  1736	
+  1737		error = ieee80211_register_hw(hw);
+  1738		if (error) {
+  1739			ar5523_err(ar, "could not register device\n");
+  1740			goto out_cancel_rx_cmd;
+  1741		}
+  1742	
+  1743		ar5523_info(ar, "Found and initialized AR5523 device\n");
+  1744		return 0;
+  1745	
+  1746	out_cancel_rx_cmd:
+  1747		ar5523_cancel_rx_cmd(ar);
+  1748	out_free_tx_cmd:
+  1749		ar5523_free_tx_cmd(ar);
+  1750	out_free_rx_cmd:
+  1751		ar5523_free_rx_cmd(ar);
+  1752	out_free_rx_bufs:
+  1753		ar5523_free_rx_bufs(ar);
+  1754	out_free_wq:
+  1755		destroy_workqueue(ar->wq);
+  1756	out_free_ar:
+  1757		ieee80211_free_hw(hw);
+  1758	out:
+  1759		return error;
+  1760	}
+  1761	
 
-
-Regards,
-
-Casey Beeson
-
-Manager =E2=80=93 Demand Generation
-
-
-
-To opt-out kindly reply with =E2=80=9Cnot interested=E2=80=9D in subject li=
-ne
-
---000000000000ba029105e7677079
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3Dus-ascii"><meta name=3D"Generator" content=3D"Microsoft Word 15 (filtere=
-d medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin-top:0cm;
-	margin-right:0cm;
-	margin-bottom:8.0pt;
-	margin-left:0cm;
-	line-height:106%;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;
-	mso-fareast-language:EN-US;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0cm;
-	mso-margin-bottom-alt:auto;
-	margin-left:0cm;
-	font-size:12.0pt;
-	font-family:"Times New Roman",serif;}
-p.xv1msonormal1, li.xv1msonormal1, div.xv1msonormal1
-	{mso-style-name:x_v1msonormal1;
-	mso-style-priority:99;
-	margin-top:0cm;
-	margin-right:0cm;
-	margin-bottom:8.0pt;
-	margin-left:0cm;
-	line-height:105%;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-compose;
-	color:#2F5496;
-	background:white;
-	mso-fareast-language:EN-IN;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:595.3pt 841.9pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style></head><body lang=3D"EN-IN" link=3D"#0563C1" vlink=3D"#954F72"><=
-div class=3D"WordSection1"><p class=3D"MsoNormal" style=3D"margin-bottom:0c=
-m;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"f=
-ont-size:10.5pt;color:#2f5496;background:white">Hi,</span></p><p class=3D"M=
-soNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:norm=
-al"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;background=
-:white">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;=
-margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"fon=
-t-size:10.5pt;color:#2f5496;background:white">Hope you are doing well and s=
-taying safe!</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;ma=
-rgin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-=
-size:10.5pt;color:#2f5496;background:white">=C2=A0</span></p><p class=3D"Ms=
-oNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:norma=
-l"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;background:=
-white">I haven&#39;t heard back from you yet so I just wanted to make sure =
-you received my previous email, when you get a moment, could you please dro=
-p me a line?</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;ma=
-rgin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-=
-size:10.5pt;color:#2f5496;background:white">=C2=A0</span></p><p class=3D"Ms=
-oNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:norma=
-l"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;background:=
-white">Please acknowledge the receipt of this email.</span></p><p class=3D"=
-MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:nor=
-mal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496;backgroun=
-d:white">=C2=A0</span></p><p class=3D"xv1msonormal1" style=3D"margin-bottom=
-:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=
-=3D"font-size:10.5pt;color:#2f5496;background:white">Regards</span></p><p c=
-lass=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-he=
-ight:normal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496">=
-Casey</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bo=
-ttom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:10=
-.5pt;color:#2f5496">_______________________________________________________=
-_______________________________</span></p><p class=3D"MsoNormal" style=3D"m=
-argin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><b><span lang=3D=
-"EN-US" style=3D"mso-fareast-language:EN-IN">Subject:</span></b><span lang=
-=3D"EN-US" style=3D"mso-fareast-language:EN-IN"> Hyperbaric Oxygen Therapis=
-ts Contacts</span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;mar=
-gin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-s=
-ize:10.5pt;color:#2f5496">=C2=A0</span></p><p class=3D"MsoNormal" style=3D"=
-margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"E=
-N-US" style=3D"font-size:10.5pt;color:#2f5496">Hello,</span><span style=3D"=
-mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"marg=
-in-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US=
-" style=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-=
-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-b=
-ottom:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" st=
-yle=3D"font-size:10.5pt;color:#2f5496">I was wondering if you would be inte=
-rested in acquiring verified <b>Hyperbaric Oxygen Therapists Contacts</b></=
-span><span style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoN=
-ormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"=
-><span lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span=
-><span style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNorma=
-l" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><sp=
-an lang=3D"EN-US" style=3D"font-size:10.5pt;color:#2f5496">Kindly let me kn=
-ow you are <b>Target geography,</b> so that we can discuss on further detai=
-ls about available counts and cost.</span><span style=3D"mso-fareast-langua=
-ge:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;marg=
-in-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-si=
-ze:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-fareast-language:E=
-N-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-b=
-ottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"font-size:1=
-0.5pt;color:#2f5496">Awaiting your response.</span><span style=3D"mso-farea=
-st-language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom=
-:0cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=
-=3D"font-size:10.5pt;color:#2f5496">=C2=A0</span><span style=3D"mso-fareast=
--language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0=
-cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"=
-font-size:10.5pt;color:#2f5496">Regards,</span><span style=3D"mso-fareast-l=
-anguage:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0cm=
-;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"fo=
-nt-size:10.5pt;color:#2f5496">Casey Beeson</span><span style=3D"mso-fareast=
--language:EN-IN"></span></p><p class=3D"MsoNormal" style=3D"margin-bottom:0=
-cm;margin-bottom:.0001pt;line-height:normal"><span lang=3D"EN-US" style=3D"=
-font-size:10.5pt;color:#2f5496;background:white">Manager =E2=80=93 Demand G=
-eneration</span><span style=3D"mso-fareast-language:EN-IN"></span></p><p cl=
-ass=3D"MsoNormal" style=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-hei=
-ght:normal"><span lang=3D"EN-US" style=3D"font-size:9.0pt">=C2=A0</span><sp=
-an style=3D"mso-fareast-language:EN-IN"></span></p><p class=3D"MsoNormal" s=
-tyle=3D"margin-bottom:0cm;margin-bottom:.0001pt;line-height:normal"><span s=
-tyle=3D"font-size:9.0pt">To opt-out kindly reply with =E2=80=9Cnot interest=
-ed=E2=80=9D in subject line</span></p></div></body></html>
-
---000000000000ba029105e7677079--
-
---===============8626622097405949602==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8626622097405949602==--
