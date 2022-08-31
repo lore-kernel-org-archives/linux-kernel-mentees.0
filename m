@@ -1,84 +1,103 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6B60FC0502C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 30 Aug 2022 12:09:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45AB5ECAAA1
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 31 Aug 2022 01:42:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DD575405CB;
-	Tue, 30 Aug 2022 12:09:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DD575405CB
+	by smtp4.osuosl.org (Postfix) with ESMTP id B294E417AC;
+	Wed, 31 Aug 2022 01:42:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B294E417AC
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=WQWrb6A2
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iaKyoYo8kYJ1; Wed, 31 Aug 2022 01:42:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6B2174176D;
+	Wed, 31 Aug 2022 01:42:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6B2174176D
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4329CC0032;
+	Wed, 31 Aug 2022 01:42:40 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6038EC002D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 31 Aug 2022 01:42:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4084D40BA2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 31 Aug 2022 01:42:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4084D40BA2
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=gK/iqDo4
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=WQWrb6A2
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ouzcFnV95hg1; Tue, 30 Aug 2022 12:09:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BB2D9400D1;
-	Tue, 30 Aug 2022 12:09:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BB2D9400D1
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 91368C0033;
-	Tue, 30 Aug 2022 12:09:20 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B10ECC002D
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ICJyjRDklcpf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Aug 2022 12:09:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 843CB60F93
+ Wed, 31 Aug 2022 01:42:37 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 89D7A40235
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 89D7A40235
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Aug 2022 12:09:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 843CB60F93
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
- header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
- header.b=gK/iqDo4
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ERh3FSHZuGqH
+ Wed, 31 Aug 2022 01:42:37 +0000 (UTC)
+Received: by mail-pf1-x42b.google.com with SMTP id y141so13063838pfb.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Aug 2022 12:09:18 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3F7D560F90
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 3F7D560F90
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Aug 2022 12:09:18 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 21A65B8162B;
- Tue, 30 Aug 2022 12:09:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AAEFC433C1;
- Tue, 30 Aug 2022 12:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1661861353;
- bh=5SJoOLlqoi3wA7Tl35RDJpwiROFY/iHL4dfRvU6AjnM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gK/iqDo4C0Zmh3B/Nc+4CrNwNlp8phAoKQBEDV7U6eONb46Joz5lH14kH/W7okd4C
- z1/xe/VtSl+JhaXC5uMOa8EA3y0s3LfoUGzwklvFeUT74PRSuTWvBuLCnLJs608KOV
- rFmxIqtIm/n5DlS3PtzYHeWrVCeQrpFhCYQIdgOQ=
-Date: Tue, 30 Aug 2022 14:09:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mazin Al Haddad <mazinalhaddad05@gmail.com>
-Subject: Re: [PATCH] ar5523: check endpoints type and direction in probe()
-Message-ID: <Yw395qJF+eDYaY4Z@kroah.com>
-References: <20220823222436.514204-1-mazinalhaddad05@gmail.com>
- <YwW/cw2cXLEd5xFo@kroah.com>
- <CMGQTZ9XBSTJ.5QY7JQCNULBN@Arch-Desktop>
+ Tue, 30 Aug 2022 18:42:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc;
+ bh=ubln5fbaH7ce6iCfzyyQW0XzblPfUEWaEnsNJEtuwZ0=;
+ b=WQWrb6A2v+HplHa3p58KzNRe6SGR/3aIWFOSYkCJN0vW/pKmSkdNGK/JiCYm4EEbhH
+ nVMI9oI06oNBKeVT4kRHfNoZ/j7eG7vmAX+6Izx/XPGRsV6Aluyw2K60H0tVaBm+DUxJ
+ EhsnX3Ind220EeodRa+bvDXMM+ZZIqPurQhcUwudUmAra8VYIctv6qCypHE1VKNHCP3G
+ 4YcoOUwsJwE2OtZnuYwoWsStzSGz42wG02pXpODJot6I8B4/0sMcN6H31TM5F/j9c/Uw
+ rzpSf6rFCe92nJ83yoNL7Y5j6WGJxGq7DqRZZ1v1vBO2r6NE4ZC+pO9r9bznIVIUuMHA
+ znUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=ubln5fbaH7ce6iCfzyyQW0XzblPfUEWaEnsNJEtuwZ0=;
+ b=GflLmnz8VRHPC0zPRwJQyMkTishA8qmMiCgIouRfQAJRzOtr/kLqC/jpdYOWKmhtc7
+ CcOOZzZUkip+oxuzSkOD37xFzGcNcwsCUBZ1L4ybdDkms9R+e7T9BlaHA0jHMCFBbJCs
+ S+lwmf5xKfFnMWmahW3oyWckERbnU5YywvKcTnGPeqOvyzZo+IF5PmkoCJrYr4MF0SEQ
+ DyRyqVSFD6pI1bcj3gh3oWjtC3R1HvV6Qf8TMLDTbORIi3wZZsbIKCPflQviC+ecJdwT
+ upjw+33wZkb7QPR1X88eEaQDm/nahtM0bHVqVWJwOy4hwFD5dTYpcGEwgLbeOY/yfwPT
+ n+KA==
+X-Gm-Message-State: ACgBeo3rk+1nJQ9C1rvIHSHe38omXFfO7tUqSCosO7HF7dHkKwm8IzxY
+ hNxoWd4ATnUfOydYBDRBh/c=
+X-Google-Smtp-Source: AA6agR6kV/OhmOXg5dp+Bv+738W/VZODrtrBXBzu3xirOAwgxXAPMAvHOgtUE00PgnclQ8hA1OuYZg==
+X-Received: by 2002:a05:6a00:4147:b0:52e:2d56:17c8 with SMTP id
+ bv7-20020a056a00414700b0052e2d5617c8mr23961845pfb.51.1661910156971; 
+ Tue, 30 Aug 2022 18:42:36 -0700 (PDT)
+Received: from fedora.. ([103.159.189.150]) by smtp.gmail.com with ESMTPSA id
+ k15-20020a62840f000000b0052ddccd7b64sm10080460pfd.205.2022.08.30.18.42.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 30 Aug 2022 18:42:36 -0700 (PDT)
+From: Khalid Masum <khalid.masum.92@gmail.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com,
+ syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
+Subject: [PATCH] xfrm: Don't increase scratch users if allocation fails
+Date: Wed, 31 Aug 2022 07:41:26 +0600
+Message-Id: <20220831014126.6708-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <00000000000092839d0581fd74ad@google.com>
+References: <00000000000092839d0581fd74ad@google.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <CMGQTZ9XBSTJ.5QY7JQCNULBN@Arch-Desktop>
-Cc: netdev@vger.kernel.org, kvalo@kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org, edumazet@google.com, pontus.fuchs@gmail.com,
- syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com, paskripkin@gmail.com,
- kuba@kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Cc: Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ "David S. Miller" <davem@davemloft.net>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -96,84 +115,46 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Aug 27, 2022 at 01:36:29PM +0300, Mazin Al Haddad wrote:
-> On Wed Aug 24, 2022 at 9:04 AM +03, Greg KH wrote:
-> > On Wed, Aug 24, 2022 at 01:24:38AM +0300, Mazin Al Haddad wrote:
-> > > Fixes a bug reported by syzbot, where a warning occurs in usb_submit_urb()
-> > > due to the wrong endpoint type. There is no check for both the number
-> > > of endpoints and the type which causes an error as the code tries to
-> > > send a URB to the wrong endpoint.
-> > > 
-> > > Fix it by adding a check for the number of endpoints and the
-> > > direction/type of the endpoints. If the endpoints do not match the 
-> > > expected configuration -ENODEV is returned.
-> > > 
-> > > Syzkaller report:
-> > > 
-> > > usb 1-1: BOGUS urb xfer, pipe 3 != type 1
-> > > WARNING: CPU: 1 PID: 71 at drivers/usb/core/urb.c:502 usb_submit_urb+0xed2/0x18a0 drivers/usb/core/urb.c:502
-> > > Modules linked in:
-> > > CPU: 1 PID: 71 Comm: kworker/1:2 Not tainted 5.19.0-rc7-syzkaller-00150-g32f02a211b0a #0
-> > > Hardware name: Google Compute Engine/Google Compute Engine, BIOS Google 06/29/2022
-> > > Workqueue: usb_hub_wq hub_event
-> > > Call Trace:
-> > >  <TASK>
-> > >  ar5523_cmd+0x420/0x790 drivers/net/wireless/ath/ar5523/ar5523.c:275
-> > >  ar5523_cmd_read drivers/net/wireless/ath/ar5523/ar5523.c:302 [inline]
-> > >  ar5523_host_available drivers/net/wireless/ath/ar5523/ar5523.c:1376 [inline]
-> > >  ar5523_probe+0xc66/0x1da0 drivers/net/wireless/ath/ar5523/ar5523.c:1655
-> > > 
-> > > 
-> > > Link: https://syzkaller.appspot.com/bug?extid=1bc2c2afd44f820a669f
-> > > Reported-and-tested-by: syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com
-> > > Signed-off-by: Mazin Al Haddad <mazinalhaddad05@gmail.com>
-> > > ---
-> > >  drivers/net/wireless/ath/ar5523/ar5523.c | 31 ++++++++++++++++++++++++
-> > >  1 file changed, 31 insertions(+)
-> > > 
-> > > diff --git a/drivers/net/wireless/ath/ar5523/ar5523.c b/drivers/net/wireless/ath/ar5523/ar5523.c
-> > > index 6f937d2cc126..5451bf9ab9fb 100644
-> > > --- a/drivers/net/wireless/ath/ar5523/ar5523.c
-> > > +++ b/drivers/net/wireless/ath/ar5523/ar5523.c
-> > > @@ -1581,8 +1581,39 @@ static int ar5523_probe(struct usb_interface *intf,
-> > >  	struct usb_device *dev = interface_to_usbdev(intf);
-> > >  	struct ieee80211_hw *hw;
-> > >  	struct ar5523 *ar;
-> > > +	struct usb_host_interface *host = intf->cur_altsetting;
-> > >  	int error = -ENOMEM;
-> > >  
-> > > +	if (host->desc.bNumEndpoints != 4) {
-> > > +		dev_err(&dev->dev, "Wrong number of endpoints\n");
-> > > +		return -ENODEV;
-> > > +	}
-> > > +
-> > > +	for (int i = 0; i < host->desc.bNumEndpoints; ++i) {
-> > > +		struct usb_endpoint_descriptor *ep = &host->endpoint[i].desc;
-> > > +		// Check for type of endpoint and direction.
-> > > +		switch (i) {
-> > > +		case 0:
-> > > +		case 1:
-> > > +			if ((ep->bEndpointAddress & USB_DIR_OUT) &&
-> > > +			    ((ep->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK)
-> > > +			     == USB_ENDPOINT_XFER_BULK)){
-> >
-> > Did you run your change through checkpatch?
-> 
-> Yes.
-> 
-> > We have usb helper functions for all of this, why not use them instead
-> > of attempting to roll your own?
-> 
-> Using the helpers is indeed a lot better. I wasn't aware of all of them.
-> Since find_common_endpoints() won't work here, I used the helpers for 
-> checking direction/type. 
+ipcomp_alloc_scratches() routine increases ipcomp_scratch_users count
+even if it fails to allocate memory. Therefore, ipcomp_free_scratches()
+routine, when triggered, tries to vfree() non existent percpu 
+ipcomp_scratches.
 
-I don't understand why usb_find_common_endpoints() will not work here.
-It seems to be very generic and should work just fine.
+To fix this breakage, do not increase scratch users count if
+ipcomp_alloc_scratches() fails to allocate scratches.
 
-thanks,
+Reported-and-tested-by: syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
 
-greg k-h
+---
+ net/xfrm/xfrm_ipcomp.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/net/xfrm/xfrm_ipcomp.c b/net/xfrm/xfrm_ipcomp.c
+index cb40ff0ff28d..af9097983139 100644
+--- a/net/xfrm/xfrm_ipcomp.c
++++ b/net/xfrm/xfrm_ipcomp.c
+@@ -210,13 +210,15 @@ static void * __percpu *ipcomp_alloc_scratches(void)
+ 	void * __percpu *scratches;
+ 	int i;
+ 
+-	if (ipcomp_scratch_users++)
++	if (ipcomp_scratch_users) {
++		ipcomp_scratch_users++;
+ 		return ipcomp_scratches;
+-
++	}
+ 	scratches = alloc_percpu(void *);
+ 	if (!scratches)
+ 		return NULL;
+ 
++	ipcomp_scratch_users++;
+ 	ipcomp_scratches = scratches;
+ 
+ 	for_each_possible_cpu(i) {
+-- 
+2.37.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
