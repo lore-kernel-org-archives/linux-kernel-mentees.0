@@ -1,69 +1,82 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFA1CECAAD3
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Sep 2022 07:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 89A6EECAAD2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Sep 2022 20:07:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 50EC9404D5;
-	Thu,  1 Sep 2022 07:49:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 50EC9404D5
+	by smtp1.osuosl.org (Postfix) with ESMTP id EE95E82419;
+	Thu,  1 Sep 2022 20:07:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EE95E82419
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=pF/hCgNb
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id C7e1hJ9yBo9p; Thu,  1 Sep 2022 07:49:06 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 50065400BB;
-	Thu,  1 Sep 2022 07:49:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 50065400BB
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kvM3C5jEAhuJ; Thu,  1 Sep 2022 20:07:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 08B018239A;
+	Thu,  1 Sep 2022 20:07:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 08B018239A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 369ACC0032;
-	Thu,  1 Sep 2022 07:49:06 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 501ABC002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CA4EDC0032;
+	Thu,  1 Sep 2022 20:07:19 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DDE4FC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:49:04 +0000 (UTC)
+ Thu,  1 Sep 2022 20:07:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1DFAF60BBF
+ by smtp1.osuosl.org (Postfix) with ESMTP id A5A07823F6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:49:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1DFAF60BBF
+ Thu,  1 Sep 2022 20:07:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A5A07823F6
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7j48FcJUgFFK
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UDQm3JUdUc6S
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:49:02 +0000 (UTC)
+ Thu,  1 Sep 2022 20:07:16 +0000 (UTC)
 X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 768FC60A87
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 768FC60A87
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CE2A18239A
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id CE2A18239A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:49:01 +0000 (UTC)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
- by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
- id 1oTewD-00HUk4-KZ; Thu, 01 Sep 2022 17:48:34 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation);
- Thu, 01 Sep 2022 15:48:33 +0800
-Date: Thu, 1 Sep 2022 15:48:33 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Khalid Masum <khalid.masum.92@gmail.com>
-Subject: Re: [PATCH v4] xfrm: Update ipcomp_scratches with NULL when freed
-Message-ID: <YxBj0QAdRaVZCr9i@gondor.apana.org.au>
-References: <00000000000092839d0581fd74ad@google.com>
- <20220901071210.8402-1-khalid.masum.92@gmail.com>
+ Thu,  1 Sep 2022 20:07:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1662062825; cv=none; d=zohomail.in; s=zohoarc; 
+ b=EQptWnhg3JSH0gD54XqAKCRQV+o+hVQY4IYmzReNKQhTx5th/R1yIUbMJuObrzXBFkGqOCu/MDGe19/hyOfN3b4dEomyORcJYBJydmZ0Ld6AP5cgnmkzpUzurM7XT4rrkMiE+rOtr7A++v3H59s+ObtMBRxPO3TEGbSgeKRDG78=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1662062825;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=1j9B3a9+XvhyGJpimzS54jknD3atX0UsgCNgtn4m3hM=; 
+ b=Ek46Zva6JJAE8tmnRoU57vSf5xWpTQsUCDllK+RVZWP1unAiK5BUFYM0wglTIKA3Fd4jDMhYYWpQhPHdxVE+Gx03xKqPBbERXZCaiFeuENvx+FkY7zO7iiuidqC7Y98u8zOIrgEFEim8mExyyfmWGEXf7YHIdVbduuMIccuDFqs=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1662062825; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=1j9B3a9+XvhyGJpimzS54jknD3atX0UsgCNgtn4m3hM=;
+ b=pF/hCgNbHJAWM48rUU/C7j5aEXWyPst0brvqLUHqKO7DIxRTyX/8EZ/SGP0++Jwu
+ ZWdz/Lnz5z5wzYpnR6lVwvv/ATFe0nk+G0LUJQqE65ASp2nZ281uoOs6And3Kwi/yAA
+ fHcVsg/SyyS6PH0N+ozlEks325hCPFKyk0ok8fdM=
+Received: from localhost.localdomain (103.249.233.18 [103.249.233.18]) by
+ mx.zoho.in with SMTPS id 166206282365234.66171267020229;
+ Fri, 2 Sep 2022 01:37:03 +0530 (IST)
+To: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Eric Dumazet <edumazet@google.com>, Eric Biggers <ebiggers@kernel.org>
+Message-ID: <cover.1659771577.git.code@siddh.me>
+Subject: [RESEND PATCH v2 0/2] watch_queue: Clean up some code
+Date: Fri,  2 Sep 2022 01:36:54 +0530
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220901071210.8402-1-khalid.masum.92@gmail.com>
-Cc: Steffen Klassert <steffen.klassert@secunet.com>, netdev@vger.kernel.org,
- syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "David S. Miller" <davem@davemloft.net>,
- syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
+X-ZohoMailClient: External
+Cc: linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -75,62 +88,49 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Siddh Raman Pant via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
+Message-ID: <20220901200654.UnD3P-UOJKMYKfBlZmHjX9jRoPyRiJyqZnT00FICS_I@z>
 
-On Thu, Sep 01, 2022 at 01:12:10PM +0600, Khalid Masum wrote:
-> Currently if ipcomp_alloc_scratches() fails to allocate memory
-> ipcomp_scratches holds obsolete address. So when we try to free the
-> percpu scratches using ipcomp_free_scratches() it tries to vfree non
-> existent vm area. Described below:
-> 
-> static void * __percpu *ipcomp_alloc_scratches(void)
-> {
->         ...
->         scratches = alloc_percpu(void *);
->         if (!scratches)
->                 return NULL;
-> ipcomp_scratches does not know about this allocation failure.
-> Therefore holding the old obsolete address.
->         ...
-> }
-> 
-> So when we free,
-> 
-> static void ipcomp_free_scratches(void)
-> {
->         ...
->         scratches = ipcomp_scratches;
-> Assigning obsolete address from ipcomp_scratches
-> 
->         if (!scratches)
->                 return;
-> 
->         for_each_possible_cpu(i)
->                vfree(*per_cpu_ptr(scratches, i));
-> Trying to free non existent page, causing warning: trying to vfree
-> existent vm area.
->         ...
-> }
-> 
-> Fix this breakage by updating ipcomp_scrtches with NULL when scratches
-> is freed
-> 
-> Suggested-by: Herbert Xu <herbert@gondor.apana.org.au>
-> Reported-by: syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
-> Tested-by: syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
-> Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+There is a dangling reference to pipe in a watch_queue after clearing it.
+Thus, NULL that pointer while clearing.
 
-Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
+This change renders wqueue->defunct superfluous, as the latter is only used
+to check if watch_queue is cleared. With this change, the pipe is NULLed
+while clearing, so we can just check if the pipe is NULL.
 
-Thanks,
+Extending comment for watch_queue->pipe in the definition of watch_queue
+made the comment conventionally too long (it was already past 80 chars),
+so I have changed the struct annotations to be kerneldoc-styled, so that
+I can extend the comment mentioning that the pipe is NULL when watch_queue
+is cleared. In the process, I have also hopefully improved documentation
+by documenting things which weren't documented before.
+
+Changes in v2:
+- Merged the NULLing and removing defunct patches.
+- Removed READ_ONCE barrier in lock_wqueue().
+- Improved and fixed errors in struct docs.
+- Better commit messages.
+
+Siddh Raman Pant (2):
+  include/linux/watch_queue: Improve documentation
+  kernel/watch_queue: NULL the dangling *pipe, and use it for clear
+    check
+
+ include/linux/watch_queue.h | 100 ++++++++++++++++++++++++++----------
+ kernel/watch_queue.c        |  12 ++---
+ 2 files changed, 79 insertions(+), 33 deletions(-)
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.35.1
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
