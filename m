@@ -4,98 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACF6CECAAD1
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Sep 2022 07:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 07A14ECAAD2
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  1 Sep 2022 07:12:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 37B60416C9;
-	Thu,  1 Sep 2022 07:04:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 37B60416C9
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6446F41A1A;
+	Thu,  1 Sep 2022 07:12:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6446F41A1A
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ffOiZdh+
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=hf0pPpYj
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s3grzYYfw3VK; Thu,  1 Sep 2022 07:04:09 +0000 (UTC)
+	with ESMTP id fGJMPtlU9JqB; Thu,  1 Sep 2022 07:12:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B9D23416AC;
-	Thu,  1 Sep 2022 07:04:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B9D23416AC
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EB8AE418EC;
+	Thu,  1 Sep 2022 07:12:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EB8AE418EC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 78EFFC0032;
-	Thu,  1 Sep 2022 07:04:08 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DFF67C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9DE4C0032;
+	Thu,  1 Sep 2022 07:12:27 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0FE9BC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:04:06 +0000 (UTC)
+ Thu,  1 Sep 2022 07:12:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id C121E410CC
+ by smtp4.osuosl.org (Postfix) with ESMTP id C9D0041A2B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:04:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C121E410CC
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=ffOiZdh+
+ Thu,  1 Sep 2022 07:12:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C9D0041A2B
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id o17wRquRuNdp
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SPFDJQJ_q3KH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:04:06 +0000 (UTC)
+ Thu,  1 Sep 2022 07:12:24 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 16408410C6
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com
- [IPv6:2607:f8b0:4864:20::d31])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 16408410C6
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B70AF4184B
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
+ [IPv6:2607:f8b0:4864:20::42d])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B70AF4184B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Sep 2022 07:04:06 +0000 (UTC)
-Received: by mail-io1-xd31.google.com with SMTP id q81so13832808iod.9
+ Thu,  1 Sep 2022 07:12:24 +0000 (UTC)
+Received: by mail-pf1-x42d.google.com with SMTP id y29so12611539pfq.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 01 Sep 2022 00:04:05 -0700 (PDT)
+ Thu, 01 Sep 2022 00:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date;
- bh=i383AFik6yhsG3iX8RnrTI6xwTdG+YMrBsOjo22c5D0=;
- b=ffOiZdh+jXh3qPYSKprm0GZhBE7CDrzYPAQGXFDWZxwlLLJoNTCVqwXaGa5WgDKTc+
- Zt5y/pM/SYacoDCtW6mw9azEBvAxi4fdA35C5FkYPeGmpcTjziE2SenK/l2HoxQiOGNr
- ZxMsJB2PPXzrzG/D0Pl2iCk4Qzy4f5mvBpklYarIMYp8BT6z46ZY2orBhMXiPLgBLllw
- DmiGxMcysqbSX5yDTHCD9RG2FGAuLbHT5ffTwngf1w2MPhIMCFKydng0pdQmx9Ltp0Xr
- UsJhcPwMDwFtaFZ7+57STIUQHRAv0/xwxOrHqRMrXGW8/SargF7R9f0ZKGU8H/6nkntA
- z/ng==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+ bh=ZnVHYIoePyzft+SR64LAbQjIYKuIRSY5pvCaoRn0uR4=;
+ b=hf0pPpYjDcjPGucGsP6ylkEDuZmBFG9lkrq81PSSVgzqZ+yKJ+duU5RLlxpp0p6zo2
+ Uvo/FIPtgVodEDAvfADDz/Bm72MOBn57TfDwKm0gqqXNIAb0IdvCWYPODaBNAvhQvg09
+ 8YPZoZeu8/zE/EscbKW9ptybnGBZ1nrBZtoOfhP97mGUgtCjvTv53bTNcFNBWRQGdJDL
+ Oc4Z4ej3C6cIa5eLoHeM9ze32PFg+gVAn5gHyTKLMc9vettP8fpaYfr1dQQ1tmg/hDrc
+ JxcrvYAVBB+i8N265izt/7+Aaalrmr8wBRJ8IUrsS+1gEcjXqipg8gXPi8Dp5TfQd6GF
+ Qovg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date;
- bh=i383AFik6yhsG3iX8RnrTI6xwTdG+YMrBsOjo22c5D0=;
- b=LJ3s25FdUw1Zeaw42Ao+LSWkWynYNDL33uWocK5Vr23YA9BGpTJWrqi0w9V+iaIzF6
- y8tvvsvkYhyl4xWwSDG1XUo48vUMCi7ar3BPSLHtG4qMuqspE7B4zDVIfoSbS/8naZO8
- VXsjTQz84i2Z2bwIE1UThkVCzfqUD2nir6o/OQzwXMf/oOnKmj0yTjs3QtQVys7H+g9m
- m2J09ZjDQSZPJ/ZzDR9bi2NGm75dRUGku0kNMCNpTquBhygB/YvvdTJGp7i6sC7XXr3t
- RHRuQUfO+dgPPzEsLOaM56y0g8ZbQMozfn5nfKgtoBtpNy4XNbIVFrK8n0l+sZH2BG8q
- FIjg==
-X-Gm-Message-State: ACgBeo352SlaOowImVu2fmI9jEl1//Y6Fcyz2L/INsXOhA9IvlieqBlM
- yHBZ7GEiplXTE+SH1MtPv6ec3x8lKhOkR41QzHo=
-X-Google-Smtp-Source: AA6agR6mveoPidXd7UAaBrslM4w5PmPciUvkUWfEG9bL0YPOzXuVhofd+d8O8emP0wcVtN4LDpgeOq+eDdozuUXJ+0I=
-X-Received: by 2002:a6b:5f08:0:b0:688:9846:2f61 with SMTP id
- t8-20020a6b5f08000000b0068898462f61mr13831703iob.65.1662015845142; Thu, 01
- Sep 2022 00:04:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <00000000000092839d0581fd74ad@google.com>
- <20220901040307.4674-1-khalid.masum.92@gmail.com>
- <YxAyd6++6oWPu9L1@gondor.apana.org.au>
-In-Reply-To: <YxAyd6++6oWPu9L1@gondor.apana.org.au>
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date;
+ bh=ZnVHYIoePyzft+SR64LAbQjIYKuIRSY5pvCaoRn0uR4=;
+ b=trfCAPIpkrSWElTQJNOHMjmpyC/kXrKI2LFutDV50DonttmWGTeT7IH5bXknl9rUHC
+ +PaslCSqqH2Q5ti9g7atPvNevXvwtySM6iL+U/ROB0M3LCNRZjIAyFtBLi8OwpGlryMc
+ Q8uebKv/rNHLzptwJUPVFJ2714h/P6SscO7sRjSRDF93JD3mUrrbNja+D2Gg6h42ap+L
+ hIMmY7TPaSKZxPZT5LTdhlNW8ptA1FA+3+S4NZ1jQLz+Uc1Sa3P0pJf03u9TlZwMyCxK
+ QuY5f9hj0fQCmPjHdBtVOSi/AVGRd2V2z3+xjUEw8ATeQwjWajDu4mXiYYxFZs3OHNSt
+ iXmQ==
+X-Gm-Message-State: ACgBeo2gQMRJ5hwTfcpyYZkz4FABOIVsmruz/itoy2D/LOl/B1h65PQb
+ Ncd3SUISjJo+Y7L+ewkdZIo=
+X-Google-Smtp-Source: AA6agR4WZoetDvivmlqq9ieW+hP6W9zwvwCVfBpNaU2sUWgZikyExz43/hy+jnpoe89kmajDObQgwg==
+X-Received: by 2002:a63:89c6:0:b0:42b:8246:265 with SMTP id
+ v189-20020a6389c6000000b0042b82460265mr23356525pgd.256.1662016344064; 
+ Thu, 01 Sep 2022 00:12:24 -0700 (PDT)
+Received: from fedora.. ([103.230.104.22]) by smtp.gmail.com with ESMTPSA id
+ b1-20020a17090a990100b001fdcfe9a731sm2513918pjp.50.2022.09.01.00.12.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 01 Sep 2022 00:12:23 -0700 (PDT)
 From: Khalid Masum <khalid.masum.92@gmail.com>
-Date: Thu, 1 Sep 2022 13:03:53 +0600
-Message-ID: <CAABMjtGgv1GP0F9TJCMFN2psx7ok23BR9pEOyemWHeKvc_LfqA@mail.gmail.com>
-Subject: Re: [PATCH v3] xfrm: Update ipcomp_scratches with NULL if not
- allocated
-To: Herbert Xu <herbert@gondor.apana.org.au>
+To: Herbert Xu <herbert@gondor.apana.org.au>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: [PATCH v4] xfrm: Update ipcomp_scratches with NULL when freed
+Date: Thu,  1 Sep 2022 13:12:10 +0600
+Message-Id: <20220901071210.8402-1-khalid.masum.92@gmail.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <00000000000092839d0581fd74ad@google.com>
+References: <00000000000092839d0581fd74ad@google.com>
+MIME-Version: 1.0
 Cc: Steffen Klassert <steffen.klassert@secunet.com>,
- "open list:NETWORKING \[GENERAL\]" <netdev@vger.kernel.org>,
- syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
  Paolo Abeni <pabeni@redhat.com>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
  "David S. Miller" <davem@davemloft.net>,
  syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -115,45 +113,74 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Sep 1, 2022 at 10:18 AM Herbert Xu <herbert@gondor.apana.org.au> wrote:
->
-> On Thu, Sep 01, 2022 at 10:03:07AM +0600, Khalid Masum wrote:
-> >
-> > diff --git a/net/xfrm/xfrm_ipcomp.c b/net/xfrm/xfrm_ipcomp.c
-> > index cb40ff0ff28d..3774d07c5819 100644
-> > --- a/net/xfrm/xfrm_ipcomp.c
-> > +++ b/net/xfrm/xfrm_ipcomp.c
-> > @@ -203,6 +203,7 @@ static void ipcomp_free_scratches(void)
-> >               vfree(*per_cpu_ptr(scratches, i));
-> >
-> >       free_percpu(scratches);
-> > +     ipcomp_scratches = NULL;
-> >  }
->
-> Good catch! This is probably the root cause of all the crashes.
->
-> >  static void * __percpu *ipcomp_alloc_scratches(void)
-> > @@ -215,7 +216,7 @@ static void * __percpu *ipcomp_alloc_scratches(void)
-> >
-> >       scratches = alloc_percpu(void *);
-> >       if (!scratches)
-> > -             return NULL;
-> > +             return ipcomp_scratches = NULL;
->
-> This is unnecessary as with your first hunk, ipcomp_scratches
-> is guaranteed to be NULL.
->
-> Thanks,
-> --
+Currently if ipcomp_alloc_scratches() fails to allocate memory
+ipcomp_scratches holds obsolete address. So when we try to free the
+percpu scratches using ipcomp_free_scratches() it tries to vfree non
+existent vm area. Described below:
 
-You are right. Instead of setting it to NULL at both places, it makes
-more sense to
-do it when memory is freed.
+static void * __percpu *ipcomp_alloc_scratches(void)
+{
+        ...
+        scratches = alloc_percpu(void *);
+        if (!scratches)
+                return NULL;
+ipcomp_scratches does not know about this allocation failure.
+Therefore holding the old obsolete address.
+        ...
+}
 
-I shall send a v4 with the suggested change.
+So when we free,
 
-thanks,
- -- Khalid Masum
+static void ipcomp_free_scratches(void)
+{
+        ...
+        scratches = ipcomp_scratches;
+Assigning obsolete address from ipcomp_scratches
+
+        if (!scratches)
+                return;
+
+        for_each_possible_cpu(i)
+               vfree(*per_cpu_ptr(scratches, i));
+Trying to free non existent page, causing warning: trying to vfree
+existent vm area.
+        ...
+}
+
+Fix this breakage by updating ipcomp_scrtches with NULL when scratches
+is freed
+
+Suggested-by: Herbert Xu <herbert@gondor.apana.org.au>
+Reported-by: syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
+Tested-by: syzbot+5ec9bb042ddfe9644773@syzkaller.appspotmail.com
+Signed-off-by: Khalid Masum <khalid.masum.92@gmail.com>
+---
+Changes since v3:
+- Update ipcomp_scratches to NULL when freed only
+- Link: https://lore.kernel.org/lkml/20220901040307.4674-1-khalid.masum.92@gmail.com/
+
+Changes since v2:
+- Set ipcomp_scratches to NULL when scratches is freed.
+- Update commit message.
+- v2 Link: https://lore.kernel.org/lkml/20220831142938.5882-1-khalid.masum.92@gmail.com/
+
+Changes since v1:
+- Instead of altering usercount, update ipcomp_scratches to NULL
+- Update commit message.
+- v1 Link: https://lore.kernel.org/lkml/20220831014126.6708-1-khalid.masum.92@gmail.com/
+
+diff --git a/net/xfrm/xfrm_ipcomp.c b/net/xfrm/xfrm_ipcomp.c
+index cb40ff0ff28d..3774d07c5819 100644
+--- a/net/xfrm/xfrm_ipcomp.c
++++ b/net/xfrm/xfrm_ipcomp.c
+@@ -203,6 +203,7 @@ static void ipcomp_free_scratches(void)
+ 		vfree(*per_cpu_ptr(scratches, i));
+ 
+ 	free_percpu(scratches);
++	ipcomp_scratches = NULL;
+ }
+ 
+ static void * __percpu *ipcomp_alloc_scratches(void)
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
