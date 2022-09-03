@@ -4,96 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 86750C6FA86
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Sep 2022 07:39:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A0E5ECAAD4
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  3 Sep 2022 07:59:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F08D941634;
-	Sat,  3 Sep 2022 07:39:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F08D941634
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0FF6C408C9;
+	Sat,  3 Sep 2022 07:59:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0FF6C408C9
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=aDZMg+5G
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=mess.org header.i=@mess.org header.a=rsa-sha256 header.s=2020 header.b=lPjBKz4Y
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id iu22j3n-7r42; Sat,  3 Sep 2022 07:39:12 +0000 (UTC)
+	with ESMTP id BcLNnMuyQj_0; Sat,  3 Sep 2022 07:58:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A42B6415F4;
-	Sat,  3 Sep 2022 07:39:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A42B6415F4
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9297740457;
+	Sat,  3 Sep 2022 07:58:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9297740457
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 64A3CC0033;
-	Sat,  3 Sep 2022 07:39:12 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C9B23C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C670C0033;
+	Sat,  3 Sep 2022 07:58:58 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ADC4CC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Sep 2022 07:39:11 +0000 (UTC)
+ Sat,  3 Sep 2022 07:58:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id A429E8188B
+ by smtp2.osuosl.org (Postfix) with ESMTP id 88FF24010C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Sep 2022 07:39:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A429E8188B
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=aDZMg+5G
+ Sat,  3 Sep 2022 07:58:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 88FF24010C
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org
+ header.a=rsa-sha256 header.s=2020 header.b=lPjBKz4Y
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wMpGVJGepYhK
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3N7BdKxB_hfG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Sep 2022 07:39:09 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C186D81886
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C186D81886
+ Sat,  3 Sep 2022 07:58:55 +0000 (UTC)
+X-Greylist: delayed 00:08:55 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 80D33400F2
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 80D33400F2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  3 Sep 2022 07:39:09 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id x19so4007918pfr.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 03 Sep 2022 00:39:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=ROgdEwGTwKSezP6yTg8Bn5b9HWITXNuPp4Q731RWP+M=;
- b=aDZMg+5Gm5Z4KOXdcDeuVimJyU0uVQjdAQwcQwrupA3dK9GcXnOTJ1Go03nMO5UyIi
- FeAOY3WR4t3d4kBYiXdbh/karp3nWeMzIKPNe1GjSRWstX3jcBW+G6NKSbCfW5u/Tvg+
- 5kRi8bZBQvV92jv9FWMu5Yq7yXg9X4fnz00+Ywyb6vEMoDYl10D7q2ZMToCtXPL1C0xe
- i4S4ZxWiI/RjCU6JKkX3JksmRs7gdmwWGLazYwyeHMTJ+bEBxJ/2TGUQ54iwSfdrxgCu
- kBsyEt+iDL7CP3ZUpk+gRIWGP1ZYIPLIuV5DjlxubDNmsPUdBKT/6Sl9T0UFhfL9BGe0
- FuDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=ROgdEwGTwKSezP6yTg8Bn5b9HWITXNuPp4Q731RWP+M=;
- b=BGH+Qi6ejihpOZ3elYOL2SofLRs1jqWrprTGISBcFcyhLySufa+UmZio1AxkShCQXz
- tzxfUCb8CLEwoI95zdYJZjmqlZ5Me75LpP0d4SP2mVqGIrShP1vEcubp5kv8vPpkJlHz
- tkEuUFw61jKkbT5byOjDA8g/WDiGk21OFTuPMY3jkvow5HIczV/FiR9f9NhD69xG/8bB
- 9leFK83LMP51b45xMI6LkveW4mBjKdJeMyOye/0BNiWy7HpQQrMnuL5RW8+ln2ZZYjZ6
- z2e1TwCigP7otPqy471qUqgROrNlPTqRuQTgH7OYnvyzJ4/QY5jYJaAWGr6udu2d9G12
- 2VHA==
-X-Gm-Message-State: ACgBeo25H/6i9OKGKx8jleCF5ATEckhUQ7Fr2u9aTqVXKwCiYdsSA5uG
- vYn942pJ/HzPVIKXZhgcO6o=
-X-Google-Smtp-Source: AA6agR57jxS7L9aa+NHczXrLUs5tGLCFmC508F1B/uwdaU5GBjHzXDuYk1MADtsscXoIC3Xfvhxabw==
-X-Received: by 2002:a05:6a02:104:b0:430:93ec:776f with SMTP id
- bg4-20020a056a02010400b0043093ec776fmr8025194pgb.544.1662190749090; 
- Sat, 03 Sep 2022 00:39:09 -0700 (PDT)
-Received: from biggie.. ([103.230.148.184]) by smtp.gmail.com with ESMTPSA id
- h14-20020a17090adb8e00b001fd6066284dsm2738133pjv.6.2022.09.03.00.39.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 03 Sep 2022 00:39:08 -0700 (PDT)
-From: Gautam Menghani <gautammenghani201@gmail.com>
-To: pbonzini@redhat.com,
-	shuah@kernel.org
-Subject: [PATCH] selftests/kvm: Use num_vcpus when testing ICR in the
- xapic_state_test
-Date: Sat,  3 Sep 2022 13:09:01 +0530
-Message-Id: <20220903073901.73862-1-gautammenghani201@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sat,  3 Sep 2022 07:58:55 +0000 (UTC)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+ id 9E6EF100072; Sat,  3 Sep 2022 08:49:56 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+ t=1662191396; bh=G4MT1MV4esuAr0v8xfY1oNqEbcDxmnusDDYk2WFLurE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lPjBKz4YJU0zBRkohIzEImV5T8Vdxs3wm3YIKJvuSG6n3TB5kkoRxK7v2E4acMO2d
+ wRNpdZ7ncFfzgIgDoTZ0FPXvOJYNkd1qBW3JGyLXG+hwHoLR+dtAK2mB/V+xbG8BOj
+ kr+24owdZBA84+AdXiaC3KBw8zpIJlwIw06m7r01O4VbhvPt3hWdfaAPdNHigCVaDT
+ cq2ekM0T3kjS54NikN5pyi+teKRf6CeO/9Fs7iMj7rrHpP0PIGSjr92PwUXDMF1ZxM
+ JT4G088rtwYzRwPVxDTHTZ39ZEaLduSAbFMESumMoT3B+cgDOI7Df06ATHNCqloLPN
+ 48CCuyN81XiXA==
+Date: Sat, 3 Sep 2022 08:49:56 +0100
+From: Sean Young <sean@mess.org>
+To: Gautam Menghani <gautammenghani201@gmail.com>
+Subject: Re: [PATCH] drivers/media/rc: Ensure usb_submit_urb() is not called
+ if write is in progress
+Message-ID: <YxMHJNNq2e3kLxdQ@gofer.mess.org>
+References: <20220814142543.24910-1-gautammenghani201@gmail.com>
+ <YxJHmYDMtmzaHWQG@biggie>
 MIME-Version: 1.0
-Cc: kvm@vger.kernel.org, seanjc@google.com, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Gautam Menghani <gautammenghani201@gmail.com>,
- guang.zeng@intel.com, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <YxJHmYDMtmzaHWQG@biggie>
+Cc: hdanton@sina.com, linux-kernel@vger.kernel.org,
+ syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com, mchehab@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,71 +89,56 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-A TODO in xapic_state_test asks to use number of vCPUs instead of
-vcpu.id + 1 in test_icr(). This patch adds support to get the number 
-of vCPUs from the VM created and use it.
+On Fri, Sep 02, 2022 at 11:42:41PM +0530, Gautam Menghani wrote:
+> On Sun, Aug 14, 2022 at 07:55:42PM +0530, Gautam Menghani wrote:
+> > The warning "URB submitted while active" is reported if the function
+> > send_packet() in imon.c is called if a write is already is in progress.
+> > Add a check to return -EBUSY in case a write is already is in progress.
+> > Also, mark tx.busy as false after transmission is completed.
+> > 
+> > Fixes: 21677cfc562a ("V4L/DVB: ir-core: add imon driver")
+> > Cc: hdanton@sina.com
+> > Suggested-by: hdanton@sina.com
+> > Link: https://syzkaller.appspot.com/bug?id=e378e6a51fbe6c5cc43e34f131cc9a315ef0337e
+> > Reported-by: syzbot+0c3cb6dc05fbbdc3ad66@syzkaller.appspotmail.com
+> > Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
+> > ---
+> >  drivers/media/rc/imon.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> > index 735b925da998..a5b997c2c7e2 100644
+> > --- a/drivers/media/rc/imon.c
+> > +++ b/drivers/media/rc/imon.c
+> > @@ -598,6 +598,8 @@ static int send_packet(struct imon_context *ictx)
+> >  	int retval = 0;
+> >  	struct usb_ctrlrequest *control_req = NULL;
+> >  
+> > +	if (ictx->tx.busy)
+> > +		return -EBUSY;
+> >  	/* Check if we need to use control or interrupt urb */
+> >  	if (!ictx->tx_control) {
+> >  		pipe = usb_sndintpipe(ictx->usbdev_intf0,
+> > @@ -654,6 +656,7 @@ static int send_packet(struct imon_context *ictx)
+> >  			pr_err_ratelimited("task interrupted\n");
+> >  		}
+> >  		mutex_lock(&ictx->lock);
+> > +		ictx->tx.busy = false;
+> >  
+> >  		retval = ictx->tx.status;
+> >  		if (retval)
+> > -- 
+> > 2.34.1
+> > 
+> Hi,
+> 
+> Please review the above fix and let me know if any changes are needed.
 
-Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
----
- .../selftests/kvm/x86_64/xapic_state_test.c     | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+Greg has pointed out issues with this patch: there is no locking.
 
-diff --git a/tools/testing/selftests/kvm/x86_64/xapic_state_test.c b/tools/testing/selftests/kvm/x86_64/xapic_state_test.c
-index 6f7a5ef66718..de934e8e5e41 100644
---- a/tools/testing/selftests/kvm/x86_64/xapic_state_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/xapic_state_test.c
-@@ -96,9 +96,8 @@ static void __test_icr(struct xapic_vcpu *x, uint64_t val)
- 	____test_icr(x, val & ~(u64)APIC_ICR_BUSY);
- }
- 
--static void test_icr(struct xapic_vcpu *x)
-+static void test_icr(struct xapic_vcpu *x, int num_vcpus)
- {
--	struct kvm_vcpu *vcpu = x->vcpu;
- 	uint64_t icr, i, j;
- 
- 	icr = APIC_DEST_SELF | APIC_INT_ASSERT | APIC_DM_FIXED;
-@@ -110,11 +109,11 @@ static void test_icr(struct xapic_vcpu *x)
- 		__test_icr(x, icr | i);
- 
- 	/*
--	 * Send all flavors of IPIs to non-existent vCPUs.  TODO: use number of
--	 * vCPUs, not vcpu.id + 1.  Arbitrarily use vector 0xff.
-+	 * Send all flavors of IPIs to non-existent vCPUs. Arbitrarily use vector 0xff.
- 	 */
-+
- 	icr = APIC_INT_ASSERT | 0xff;
--	for (i = vcpu->id + 1; i < 0xff; i++) {
-+	for (i = num_vcpus; i < 0xff; i++) {
- 		for (j = 0; j < 8; j++)
- 			__test_icr(x, i << (32 + 24) | icr | (j << 8));
- 	}
-@@ -137,9 +136,13 @@ int main(int argc, char *argv[])
- 		.is_x2apic = true,
- 	};
- 	struct kvm_vm *vm;
-+	struct list_head *iter;
-+	int nr_vcpus_created = 0;
- 
- 	vm = vm_create_with_one_vcpu(&x.vcpu, x2apic_guest_code);
--	test_icr(&x);
-+	list_for_each(iter, &vm->vcpus)
-+		nr_vcpus_created++;
-+	test_icr(&x, nr_vcpus_created);
- 	kvm_vm_free(vm);
- 
- 	/*
-@@ -153,6 +156,6 @@ int main(int argc, char *argv[])
- 	vcpu_clear_cpuid_feature(x.vcpu, X86_FEATURE_X2APIC);
- 
- 	virt_pg_map(vm, APIC_DEFAULT_GPA, APIC_DEFAULT_GPA);
--	test_icr(&x);
-+	test_icr(&x, nr_vcpus_created);
- 	kvm_vm_free(vm);
- }
--- 
-2.34.1
+Thanks,
 
+Sean
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
