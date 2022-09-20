@@ -4,97 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9A7DEC6FA82
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 13 Sep 2022 16:19:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82E4EC6FA8B
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Sep 2022 19:51:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2C7CA40AE2;
-	Tue, 13 Sep 2022 16:19:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2C7CA40AE2
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0EF9A40C79;
+	Tue, 20 Sep 2022 19:51:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0EF9A40C79
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=Eonuy6tP
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=RBtwoayj
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WBCQ8D8YYlnm; Tue, 13 Sep 2022 16:19:25 +0000 (UTC)
+	with ESMTP id EuMT9Fcrxwai; Tue, 20 Sep 2022 19:51:19 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 96A2740AE7;
-	Tue, 13 Sep 2022 16:19:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 96A2740AE7
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 16BDB4013D;
+	Tue, 20 Sep 2022 19:51:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 16BDB4013D
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B68CC0033;
-	Tue, 13 Sep 2022 16:19:25 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B34E8C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E4038C0032;
+	Tue, 20 Sep 2022 19:51:18 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9594C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Sep 2022 16:19:23 +0000 (UTC)
+ Tue, 20 Sep 2022 19:51:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9555381839
+ by smtp3.osuosl.org (Postfix) with ESMTP id 7086F60F42
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Sep 2022 16:19:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9555381839
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=Eonuy6tP
+ Tue, 20 Sep 2022 19:51:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7086F60F42
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
+ header.a=rsa-sha256 header.s=20210112 header.b=RBtwoayj
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id snwzacHS8Ven
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id EHowehjkBl_L
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Sep 2022 16:19:21 +0000 (UTC)
+ Tue, 20 Sep 2022 19:51:16 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D1C8F8149C
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
- [IPv6:2607:f8b0:4864:20::629])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D1C8F8149C
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A068260F3B
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
+ [IPv6:2607:f8b0:4864:20::436])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A068260F3B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Sep 2022 16:19:20 +0000 (UTC)
-Received: by mail-pl1-x629.google.com with SMTP id k21so1794393pls.11
+ Tue, 20 Sep 2022 19:51:16 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id b75so3730683pfb.7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Sep 2022 09:19:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ Tue, 20 Sep 2022 12:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=JRpSe51gO9elcRpNLQ13XpR1BjhyoW7VoSIpUC+x7RI=;
- b=Eonuy6tP0PQq6FJE+yAdGYE4n7+/QEnfURtlysVXZkisYqC6MQK8pg4FSKqNDfNend
- OeX/Tu38DpQzJf/kaFZkBZgFegcxev/dClMV7FHVh7bO9ezKK+2I92MkHjic6QqaIiH2
- wMM5mt1u0ueFdumkSmKOV/boMIur2vQLfPICJOUl7LjeBk9QhuIggiewGGVlfhRdpCNy
- SYCXv0IV9Kd8C03Dx2kHyy5W36X83WC6mjHzGw/mKaGP9yc0hCY/JyHyAHP2sOnC43Le
- gQ2Cok7GMNbUgE/a3EkIOr2FBDLWzHcxkpa4J886i3fVUPYH2oww+ylvu9LjSOmWw7/0
- a4Kw==
+ bh=DTuwHmur8BQ7UzvYXiSfhG6hoCLOFlEZLc+v/yhwyjc=;
+ b=RBtwoayj+pMK/J5jSI0mvoHQG0BJON5T+gf4rKX8Rq65AY9XUeli1UUam9cEOdwCAC
+ x8gHFCFL/icqEGcNeWXHYdTE02bXSyc+MV5I6e+kPHCYobDuk8E18tp7lCpTuJHGrllN
+ fbxAe321lGeeHrzc+Ra82RYS1HVvMLDfTirYcgq/8rboWH0JckIn6jecDWxBKEDr/SGw
+ i0Vquzu9V1zci54lVCEK9NvAHru6Jcbfa3XI7Y1FLDGHulIX+dwJ1kLrCyBMkOuqvzfw
+ 2oK92I1Bd+apQXpZ6IMsdy7zCALZAtqKt4nDiO7GtPdba0vXE4LR7n8j8mDCrSyBDLl8
+ jDug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=JRpSe51gO9elcRpNLQ13XpR1BjhyoW7VoSIpUC+x7RI=;
- b=PHf/pVBYulne/jfbK5t7R1aY9IB30GMZJ9oLuferdxiPqkEXneMGwJ7X2qrJ1/spls
- jgJfwtFRuuTv0LieKTxEUT2StDtIoPl/+PImwLhtmK0RTqwua6+FyHzIIofiXiduZIF2
- 5GI2Cj/LgeywwH5TXYlWhSLopM+EA+qmhJX4VdUXqT+ndMPIDcAwp7ygDW8pqfuASFN6
- YnPpTfoAk4VgUYmgYAAMw7rXElOZm3RRrgUvzyBkTkf5tN+jEYyuJyu/UAN1sc+1Q6S5
- tqwFwJBw2kJzP5cHZk1HF2pnPFzVNBruljGWaGMrRJ3m3vLjMgsc5xfUsqR4cDKZHjLa
- uHCg==
-X-Gm-Message-State: ACrzQf1lMWcDxMiol792tm8psNxExdqP68I7mHPZHcFLAu4HVFJjrD9o
- qVM62ljxwYuSref6QlGwAsk=
-X-Google-Smtp-Source: AMsMyM5t1BxKo7mB4oo2cqqSwlWl3t+9pzST0FUwIknMPIUKkYQGfi4+HWWZNiyQ/6X522JJR731MA==
-X-Received: by 2002:a17:90a:e60c:b0:202:6ef8:4b52 with SMTP id
- j12-20020a17090ae60c00b002026ef84b52mr81315pjy.236.1663085956264; 
- Tue, 13 Sep 2022 09:19:16 -0700 (PDT)
-Received: from biggie ([103.230.148.187]) by smtp.gmail.com with ESMTPSA id
- n12-20020a17090ac68c00b002009c05b802sm7459286pjt.2.2022.09.13.09.19.13
+ bh=DTuwHmur8BQ7UzvYXiSfhG6hoCLOFlEZLc+v/yhwyjc=;
+ b=POQoDV4E9qcbLf/VIz2oGH0kxgKyh44grjNsGC6nK1rLOU6VknHiNWClZkiaaMQnCO
+ yXdacFTHpU7cXeII3CyHGzkvwFc3Vm1gDNupS9cUu4D9PVswKNDfVeeSC3h817t3uioo
+ 6u7zM4jyjzvWNjVny6YDtXjCWdnlBiWQtpf4TTK1egrRH+9XnTrENMvGLgUeg/DiMy8G
+ 20scHN/ZRHplECgF3EKkSdUjmLmIpdZizScq469Q9qzKZitf64Bk3oA0W2ujoslkn2Gk
+ XLUJvEQUohZQguq2Uldndacna+RI6Af1zKR2jJGWWUAn5A5Ai6M8ihSdhQNyu74GN/oD
+ pilA==
+X-Gm-Message-State: ACrzQf2vrWXRxmrMPhmP5HiGQKMjFSgahjRkcFOY03lWLAGtPR+qeraa
+ HF4+cgv7CRli8tNcleT/tXPDvw==
+X-Google-Smtp-Source: AMsMyM7jex9Q5arTcLqho5hOOC6Z04y67nCb26iNt51DRVTZbuq+ew/XjLCTxS9HZwnDheQ8q64NMw==
+X-Received: by 2002:a63:1455:0:b0:438:e26b:ab1f with SMTP id
+ 21-20020a631455000000b00438e26bab1fmr20977346pgu.183.1663703475946; 
+ Tue, 20 Sep 2022 12:51:15 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ m1-20020a17090a7f8100b002008ba3a74csm256802pjl.52.2022.09.20.12.51.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Sep 2022 09:19:15 -0700 (PDT)
-Date: Tue, 13 Sep 2022 21:49:10 +0530
-From: Gautam Menghani <gautammenghani201@gmail.com>
-To: pbonzini@redhat.com, shuah@kernel.org
+ Tue, 20 Sep 2022 12:51:15 -0700 (PDT)
+Date: Tue, 20 Sep 2022 19:51:11 +0000
+To: Gautam Menghani <gautammenghani201@gmail.com>
 Subject: Re: [PATCH] selftests/kvm: Use num_vcpus when testing ICR in the
  xapic_state_test
-Message-ID: <YyCtfu8zvvTKKs1u@biggie>
+Message-ID: <YyoZr9rXSSMEtdh5@google.com>
 References: <20220903073901.73862-1-gautammenghani201@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20220903073901.73862-1-gautammenghani201@gmail.com>
-Cc: kvm@vger.kernel.org, seanjc@google.com, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, guang.zeng@intel.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: kvm@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ guang.zeng@intel.com, pbonzini@redhat.com, shuah@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,13 +106,16 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Sean Christopherson via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Sean Christopherson <seanjc@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Sep 03, 2022 at 01:09:01PM +0530, Gautam Menghani wrote:
+On Sat, Sep 03, 2022, Gautam Menghani wrote:
 > A TODO in xapic_state_test asks to use number of vCPUs instead of
 > vcpu.id + 1 in test_icr(). This patch adds support to get the number 
 > of vCPUs from the VM created and use it.
@@ -149,6 +152,24 @@ On Sat, Sep 03, 2022 at 01:09:01PM +0530, Gautam Menghani wrote:
 >  	icr = APIC_INT_ASSERT | 0xff;
 > -	for (i = vcpu->id + 1; i < 0xff; i++) {
 > +	for (i = num_vcpus; i < 0xff; i++) {
+
+Hrm, this is a bad TODO, which is 100% my fault.  I think past me wanted to play
+nice with the possibility of creating multiple vCPUs, but using the number of
+vCPUs to do that is the wrong approach as it makes assumptions on the vcpu_id.
+One of the goals of the refactoring that led to vm_create_with_one_vcpu() was
+to have tests stop making assumptions about vCPU IDs.
+
+What would make sense though is to not assume vcpu_id == 0, i.e.
+
+	if (i = 0; i < 0xff; i++) {
+		if (i == vcpu->id)
+			continue;
+
+		for (j = 0; j < 8; j++)
+			__test_icr(x, i << (32 + 24) | icr | (j << 8));
+
+	}
+
 >  		for (j = 0; j < 8; j++)
 >  			__test_icr(x, i << (32 + 24) | icr | (j << 8));
 >  	}
@@ -164,27 +185,9 @@ On Sat, Sep 03, 2022 at 01:09:01PM +0530, Gautam Menghani wrote:
 > +	list_for_each(iter, &vm->vcpus)
 > +		nr_vcpus_created++;
 > +	test_icr(&x, nr_vcpus_created);
->  	kvm_vm_free(vm);
->  
->  	/*
-> @@ -153,6 +156,6 @@ int main(int argc, char *argv[])
->  	vcpu_clear_cpuid_feature(x.vcpu, X86_FEATURE_X2APIC);
->  
->  	virt_pg_map(vm, APIC_DEFAULT_GPA, APIC_DEFAULT_GPA);
-> -	test_icr(&x);
-> +	test_icr(&x, nr_vcpus_created);
->  	kvm_vm_free(vm);
->  }
-> -- 
-> 2.34.1
-> 
 
-Hi,
-
-Please review the above patch and let me know if any change is required.
-
-Thanks,
-Gautam
+Computing the number of vCPUs created is rather silly, the test _knows_ that it
+has created exacty one vCPU.  Should be a moot point though.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
