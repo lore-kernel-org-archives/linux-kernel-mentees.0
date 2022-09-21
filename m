@@ -1,100 +1,90 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 82E4EC6FA8B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 20 Sep 2022 19:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BE870ECAAD8
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 21 Sep 2022 09:28:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 0EF9A40C79;
-	Tue, 20 Sep 2022 19:51:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0EF9A40C79
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=RBtwoayj
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4E5A981761;
+	Wed, 21 Sep 2022 09:28:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4E5A981761
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=code@siddh.me header.a=rsa-sha256 header.s=zmail header.b=lGEFgPrP
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EuMT9Fcrxwai; Tue, 20 Sep 2022 19:51:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 16BDB4013D;
-	Tue, 20 Sep 2022 19:51:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 16BDB4013D
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QhGI9TCB_Zbp; Wed, 21 Sep 2022 09:28:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 656A08175A;
+	Wed, 21 Sep 2022 09:28:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 656A08175A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4038C0032;
-	Tue, 20 Sep 2022 19:51:18 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A9594C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3FB52C0033;
+	Wed, 21 Sep 2022 09:28:22 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1D453C002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Sep 2022 19:51:17 +0000 (UTC)
+ Wed, 21 Sep 2022 09:28:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7086F60F42
+ by smtp4.osuosl.org (Postfix) with ESMTP id DDB0D4028E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Sep 2022 19:51:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7086F60F42
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
- header.a=rsa-sha256 header.s=20210112 header.b=RBtwoayj
+ Wed, 21 Sep 2022 09:28:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DDB0D4028E
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (1024-bit key) header.d=siddh.me header.i=code@siddh.me
+ header.a=rsa-sha256 header.s=zmail header.b=lGEFgPrP
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EHowehjkBl_L
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1vJofocVGVK0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Sep 2022 19:51:16 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A068260F3B
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A068260F3B
+ Wed, 21 Sep 2022 09:28:20 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5324640288
+Received: from sender-of-o50.zoho.in (sender-of-o50.zoho.in [103.117.158.50])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5324640288
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Sep 2022 19:51:16 +0000 (UTC)
-Received: by mail-pf1-x436.google.com with SMTP id b75so3730683pfb.7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Sep 2022 12:51:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date;
- bh=DTuwHmur8BQ7UzvYXiSfhG6hoCLOFlEZLc+v/yhwyjc=;
- b=RBtwoayj+pMK/J5jSI0mvoHQG0BJON5T+gf4rKX8Rq65AY9XUeli1UUam9cEOdwCAC
- x8gHFCFL/icqEGcNeWXHYdTE02bXSyc+MV5I6e+kPHCYobDuk8E18tp7lCpTuJHGrllN
- fbxAe321lGeeHrzc+Ra82RYS1HVvMLDfTirYcgq/8rboWH0JckIn6jecDWxBKEDr/SGw
- i0Vquzu9V1zci54lVCEK9NvAHru6Jcbfa3XI7Y1FLDGHulIX+dwJ1kLrCyBMkOuqvzfw
- 2oK92I1Bd+apQXpZ6IMsdy7zCALZAtqKt4nDiO7GtPdba0vXE4LR7n8j8mDCrSyBDLl8
- jDug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
- bh=DTuwHmur8BQ7UzvYXiSfhG6hoCLOFlEZLc+v/yhwyjc=;
- b=POQoDV4E9qcbLf/VIz2oGH0kxgKyh44grjNsGC6nK1rLOU6VknHiNWClZkiaaMQnCO
- yXdacFTHpU7cXeII3CyHGzkvwFc3Vm1gDNupS9cUu4D9PVswKNDfVeeSC3h817t3uioo
- 6u7zM4jyjzvWNjVny6YDtXjCWdnlBiWQtpf4TTK1egrRH+9XnTrENMvGLgUeg/DiMy8G
- 20scHN/ZRHplECgF3EKkSdUjmLmIpdZizScq469Q9qzKZitf64Bk3oA0W2ujoslkn2Gk
- XLUJvEQUohZQguq2Uldndacna+RI6Af1zKR2jJGWWUAn5A5Ai6M8ihSdhQNyu74GN/oD
- pilA==
-X-Gm-Message-State: ACrzQf2vrWXRxmrMPhmP5HiGQKMjFSgahjRkcFOY03lWLAGtPR+qeraa
- HF4+cgv7CRli8tNcleT/tXPDvw==
-X-Google-Smtp-Source: AMsMyM7jex9Q5arTcLqho5hOOC6Z04y67nCb26iNt51DRVTZbuq+ew/XjLCTxS9HZwnDheQ8q64NMw==
-X-Received: by 2002:a63:1455:0:b0:438:e26b:ab1f with SMTP id
- 21-20020a631455000000b00438e26bab1fmr20977346pgu.183.1663703475946; 
- Tue, 20 Sep 2022 12:51:15 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- m1-20020a17090a7f8100b002008ba3a74csm256802pjl.52.2022.09.20.12.51.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Sep 2022 12:51:15 -0700 (PDT)
-Date: Tue, 20 Sep 2022 19:51:11 +0000
-To: Gautam Menghani <gautammenghani201@gmail.com>
-Subject: Re: [PATCH] selftests/kvm: Use num_vcpus when testing ICR in the
- xapic_state_test
-Message-ID: <YyoZr9rXSSMEtdh5@google.com>
-References: <20220903073901.73862-1-gautammenghani201@gmail.com>
+ Wed, 21 Sep 2022 09:28:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1663752488; cv=none; d=zohomail.in; s=zohoarc; 
+ b=DyPkmnbo/DgdALbJ52LApIG2RqgJrBXp54iMKHR2N8joa9qpQH0xRgYMaegejSefqgsnrjqqSx+Ccn1DYBZQIMgs57/eBSvxYvT8bGUksMEXqTTr44+vEoBOw2hBNnFa9ZvmuHeL3UP94yYFRafb5xdMCVyCVdJgSGRiZKT46dc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
+ s=zohoarc; t=1663752488;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To;
+ bh=1j9B3a9+XvhyGJpimzS54jknD3atX0UsgCNgtn4m3hM=; 
+ b=PLirgJsQpDyE0sg0mrXKK4V5ji2GKVzgNcrtjvL9sXiI0AajxbNhzX/j0Nhpl3ytH2euBv81fYNVwOcKWhQ/deUZONY69m/tvV4elGfQKHiq0nKSMNC56ptUsBdmF3wIdh/bTefRgRHvdLDYXJh4OVbSXiEzC75gG9zZmaY8f7w=
+ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
+ spf=pass  smtp.mailfrom=code@siddh.me;
+ dmarc=pass header.from=<code@siddh.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1663752488; 
+ s=zmail; d=siddh.me; i=code@siddh.me;
+ h=From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:Date:Date:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+ bh=1j9B3a9+XvhyGJpimzS54jknD3atX0UsgCNgtn4m3hM=;
+ b=lGEFgPrPlgUunVg4iRYjjKsEFUFsp368JW4/G7YMvZJPZGPyESa4w1WqZHQb7RsZ
+ igUC8LSnIeOaNuYs2p8WtTP2IFjv1nXx6QF1xaS97Imgr/oWsHsf0LzJ//HxjuzukAu
+ h8RFhBAxxyKlg4kUwWStl0MZNXHn0QNj4mumG74w=
+Received: from localhost.localdomain (103.240.204.191 [103.240.204.191]) by
+ mx.zoho.in with SMTPS id 1663752487704363.0191740785489;
+ Wed, 21 Sep 2022 14:58:07 +0530 (IST)
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, David Howells <dhowells@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Eric Biggers <ebiggers@kernel.org>
+Message-ID: <cover.1663750794.git.code@siddh.me>
+Subject: [RESEND PATCH v2 0/2] watch_queue: Clean up some code
+Date: Wed, 21 Sep 2022 14:57:44 +0530
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20220903073901.73862-1-gautammenghani201@gmail.com>
-Cc: kvm@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- guang.zeng@intel.com, pbonzini@redhat.com, shuah@kernel.org
+X-ZohoMailClient: External
+Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ linux-security-module <linux-security-module@vger.kernel.org>,
+ keyrings <keyrings@vger.kernel.org>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,88 +96,48 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Sean Christopherson via Linux-kernel-mentees
+From: Siddh Raman Pant via Linux-kernel-mentees
  <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Sean Christopherson <seanjc@google.com>
+Reply-To: Siddh Raman Pant <code@siddh.me>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Sep 03, 2022, Gautam Menghani wrote:
-> A TODO in xapic_state_test asks to use number of vCPUs instead of
-> vcpu.id + 1 in test_icr(). This patch adds support to get the number 
-> of vCPUs from the VM created and use it.
-> 
-> Signed-off-by: Gautam Menghani <gautammenghani201@gmail.com>
-> ---
->  .../selftests/kvm/x86_64/xapic_state_test.c     | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/kvm/x86_64/xapic_state_test.c b/tools/testing/selftests/kvm/x86_64/xapic_state_test.c
-> index 6f7a5ef66718..de934e8e5e41 100644
-> --- a/tools/testing/selftests/kvm/x86_64/xapic_state_test.c
-> +++ b/tools/testing/selftests/kvm/x86_64/xapic_state_test.c
-> @@ -96,9 +96,8 @@ static void __test_icr(struct xapic_vcpu *x, uint64_t val)
->  	____test_icr(x, val & ~(u64)APIC_ICR_BUSY);
->  }
->  
-> -static void test_icr(struct xapic_vcpu *x)
-> +static void test_icr(struct xapic_vcpu *x, int num_vcpus)
->  {
-> -	struct kvm_vcpu *vcpu = x->vcpu;
->  	uint64_t icr, i, j;
->  
->  	icr = APIC_DEST_SELF | APIC_INT_ASSERT | APIC_DM_FIXED;
-> @@ -110,11 +109,11 @@ static void test_icr(struct xapic_vcpu *x)
->  		__test_icr(x, icr | i);
->  
->  	/*
-> -	 * Send all flavors of IPIs to non-existent vCPUs.  TODO: use number of
-> -	 * vCPUs, not vcpu.id + 1.  Arbitrarily use vector 0xff.
-> +	 * Send all flavors of IPIs to non-existent vCPUs. Arbitrarily use vector 0xff.
->  	 */
-> +
->  	icr = APIC_INT_ASSERT | 0xff;
-> -	for (i = vcpu->id + 1; i < 0xff; i++) {
-> +	for (i = num_vcpus; i < 0xff; i++) {
+There is a dangling reference to pipe in a watch_queue after clearing it.
+Thus, NULL that pointer while clearing.
 
-Hrm, this is a bad TODO, which is 100% my fault.  I think past me wanted to play
-nice with the possibility of creating multiple vCPUs, but using the number of
-vCPUs to do that is the wrong approach as it makes assumptions on the vcpu_id.
-One of the goals of the refactoring that led to vm_create_with_one_vcpu() was
-to have tests stop making assumptions about vCPU IDs.
+This change renders wqueue->defunct superfluous, as the latter is only used
+to check if watch_queue is cleared. With this change, the pipe is NULLed
+while clearing, so we can just check if the pipe is NULL.
 
-What would make sense though is to not assume vcpu_id == 0, i.e.
+Extending comment for watch_queue->pipe in the definition of watch_queue
+made the comment conventionally too long (it was already past 80 chars),
+so I have changed the struct annotations to be kerneldoc-styled, so that
+I can extend the comment mentioning that the pipe is NULL when watch_queue
+is cleared. In the process, I have also hopefully improved documentation
+by documenting things which weren't documented before.
 
-	if (i = 0; i < 0xff; i++) {
-		if (i == vcpu->id)
-			continue;
+Changes in v2:
+- Merged the NULLing and removing defunct patches.
+- Removed READ_ONCE barrier in lock_wqueue().
+- Improved and fixed errors in struct docs.
+- Better commit messages.
 
-		for (j = 0; j < 8; j++)
-			__test_icr(x, i << (32 + 24) | icr | (j << 8));
+Siddh Raman Pant (2):
+  include/linux/watch_queue: Improve documentation
+  kernel/watch_queue: NULL the dangling *pipe, and use it for clear
+    check
 
-	}
+ include/linux/watch_queue.h | 100 ++++++++++++++++++++++++++----------
+ kernel/watch_queue.c        |  12 ++---
+ 2 files changed, 79 insertions(+), 33 deletions(-)
 
->  		for (j = 0; j < 8; j++)
->  			__test_icr(x, i << (32 + 24) | icr | (j << 8));
->  	}
-> @@ -137,9 +136,13 @@ int main(int argc, char *argv[])
->  		.is_x2apic = true,
->  	};
->  	struct kvm_vm *vm;
-> +	struct list_head *iter;
-> +	int nr_vcpus_created = 0;
->  
->  	vm = vm_create_with_one_vcpu(&x.vcpu, x2apic_guest_code);
-> -	test_icr(&x);
-> +	list_for_each(iter, &vm->vcpus)
-> +		nr_vcpus_created++;
-> +	test_icr(&x, nr_vcpus_created);
+-- 
+2.35.1
 
-Computing the number of vCPUs created is rather silly, the test _knows_ that it
-has created exacty one vCPU.  Should be a moot point though.
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
