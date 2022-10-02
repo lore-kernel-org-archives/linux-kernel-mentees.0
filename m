@@ -1,98 +1,82 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5915CC433FE
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Oct 2022 07:02:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2F5AEC433F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  2 Oct 2022 20:04:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id DA72160E2A;
-	Sat,  1 Oct 2022 07:02:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DA72160E2A
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=jj0QTDpg
+	by smtp2.osuosl.org (Postfix) with ESMTP id B56A140136;
+	Sun,  2 Oct 2022 20:04:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B56A140136
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cNS_iPmYAStM; Sat,  1 Oct 2022 07:02:23 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VA_gMpCIhBXW; Sun,  2 Oct 2022 20:04:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E0DFE60AC9;
-	Sat,  1 Oct 2022 07:02:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E0DFE60AC9
+	by smtp2.osuosl.org (Postfix) with ESMTPS id BA01D400AB;
+	Sun,  2 Oct 2022 20:04:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BA01D400AB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1EEC7C0033;
-	Sat,  1 Oct 2022 07:02:22 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E630C002D
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 85149C0032;
+	Sun,  2 Oct 2022 20:04:22 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1058FC002D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Oct 2022 07:02:14 +0000 (UTC)
+ Sun,  2 Oct 2022 20:04:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 2D8D6419AE
+ by smtp2.osuosl.org (Postfix) with ESMTP id D794A400AB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Oct 2022 07:02:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2D8D6419AE
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=jj0QTDpg
+ Sun,  2 Oct 2022 20:04:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D794A400AB
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GI4H597Lbgq6
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id rF0dPv7SRzHt
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Oct 2022 07:02:13 +0000 (UTC)
+ Sun,  2 Oct 2022 20:04:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2F790416E9
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2F790416E9
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1C8EF4048B
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1C8EF4048B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Oct 2022 07:02:13 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id u69so5878330pgd.2
+ Sun,  2 Oct 2022 20:04:20 +0000 (UTC)
+Received: by mail-il1-f200.google.com with SMTP id
+ a9-20020a056e0208a900b002f6b21181f5so7156872ilt.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 01 Oct 2022 00:02:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date;
- bh=UZi6urliHkT7uuCCwMJIEdfiFKYnQrKuVx0cI+vnDEU=;
- b=jj0QTDpgDeZfGbcn6HGHaPXlP88xl40rG7Pv4j42eH9P9CfKS18A/RSUi7ExdFCu37
- CPbHmiQ23xzPkU2WKU0+1760AmANnC0w052wPTKM0i1n+DQdxeU2G01si0Ql7OaMuWoe
- T9mOR3PK4ShjtJAlj6fzSzqPu+Qe4mrPb124p8mLQZA6L0tbb49F2E1J0C1ZXTx51OyE
- 8BjJnaFLFYhwQIoeAIERiZrq6DJ8FcViu0Jor6jnsYh1VkpsByCAYu0WraPm3E60jseB
- emkBG78Wy5SQmcXIlmwaeCxP2KFBDShazS8b5Cgu5Y5oHEM9m9Zq+0SWZFSARrOpcGH7
- qD7Q==
+ Sun, 02 Oct 2022 13:04:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date;
- bh=UZi6urliHkT7uuCCwMJIEdfiFKYnQrKuVx0cI+vnDEU=;
- b=Pfi+cjggWmC+1IDOjBCHKp72I0jz6Gbc1IF4xisXhjKeWyI3Ktov5+ZSgk0x/1VxoF
- GHGKZ1KqLDV+GfhUn/jJIGpWCIfkuhWG1kUsRscmAFK1I6xGVwdvV5Wgk/QU3wmnX4i9
- PDHLNArgz1NlL+JUa7AY9i6F7ZLyJRYsvxmFoCPZVwZHE+2YuaqdiMC5un+y+2Ug8ZUD
- ZaGfyZhRprGVnCOS/dlwZIbCvLdMw9n1nLHjeR1H6B81h9CcB73yoI7olAH2fBfeSE6z
- lH4nYBW9BsUVbp/eNFNNtEFcstGY/9IK34naT6okCChRJWB6m6EO8I9Y63HCTeUu+Twh
- VeOA==
-X-Gm-Message-State: ACrzQf3X+daxzyNabfQ9M6T7+9a0Mx+n+fHqZqqZX53Ns2v0Bh071wI9
- d4J+ggOM2SlMzZaCX8fvc5I=
-X-Google-Smtp-Source: AMsMyM6NekkCQ+SPiH7FgzScGB7FRte1AggwIPEioxwjLKRo72tVf8xBr2hlsYj7VC29MD0zXyl0/A==
-X-Received: by 2002:a05:6a00:140d:b0:52a:d561:d991 with SMTP id
- l13-20020a056a00140d00b0052ad561d991mr12604792pfu.46.1664607732558; 
- Sat, 01 Oct 2022 00:02:12 -0700 (PDT)
-Received: from localhost.localdomain ([171.78.165.127])
- by smtp.googlemail.com with ESMTPSA id
- 9-20020a631349000000b00429b6e6c539sm2764473pgt.61.2022.10.01.00.02.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Oct 2022 00:02:12 -0700 (PDT)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: almaz.alexandrovich@paragon-software.com
-Subject: [PATCH] fs/ntfs3: Fix slab-out-of-bounds read in ntfs_trim_fs
-Date: Sat,  1 Oct 2022 12:30:24 +0530
-Message-Id: <20221001070024.1366018-1-abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.37.3
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date;
+ bh=alt+Pnmjzew3cSMHF8D4f4jTWwNd/We9mTfqo5aLOos=;
+ b=sZXcz6FOq2L9Sy33wnayCKtvUMcpKw8tn8PWABALuTFBJ9z/6S49pIXd1oov6VuIQ8
+ cx/kR8QUKoofumDLh3kvyHg3r9EwTTiyPqRhQLgLnOXKMbZvY5avCW9zXwuKI6nIaoDS
+ 5+Gg2wUIePtIHC9YCz8RryfW9lRe2uUljoTOOJnJ7g1dVkC3kJvYR+1ldAg0c2eTvGWG
+ YJaQVEU4ISsgsrTHWzGOQz6t1ksGbv+91SC/NjnfQF5eGbtxW1d1Yvy/USy9EHd4VH+H
+ qA2y5azGmVpYJvnyRMaf4OX+snYC+c6sET94wEii//ZhmsIj+e49TvMNWLtXeULdPLG7
+ ZV4w==
+X-Gm-Message-State: ACrzQf2D8VlnJ4wOWdbkAdjWgu8ergGpnfV8PRBR5oB0E/lY4HBZlhmP
+ MlLjroiK3nUv0MbQmZ1urpwA4uAY4aD9i0pTrci7J3D2T6/m
+X-Google-Smtp-Source: AMsMyM6VLcxZo3tjaJFXzbN/lsdTicHGhkOT9Fp7uoyQ4GhRHFgxHmgHscdmxDLKobMFvIgDK8W1sDcVNrnUqYDMsKocGpjcH2gM
 MIME-Version: 1.0
-Cc: syzbot+b892240eac461e488d51@syzkaller.appspotmail.com,
- linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-Received: by 2002:a05:6638:150c:b0:35a:f7a9:c3d8 with SMTP id
+ b12-20020a056638150c00b0035af7a9c3d8mr9235231jat.38.1664741059255; Sun, 02
+ Oct 2022 13:04:19 -0700 (PDT)
+Date: Sun, 02 Oct 2022 13:04:19 -0700
+In-Reply-To: <000000000000eca83705e9a72fb9@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007ae43605ea12bb12@google.com>
+Subject: Re: [syzbot] KASAN: slab-out-of-bounds Read in ntfs_trim_fs
+From: syzbot <syzbot+b892240eac461e488d51@syzkaller.appspotmail.com>
+To: abdun.nihaal@gmail.com, almaz.alexandrovich@paragon-software.com, 
+ linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+ linux-kernel@vger.kernel.org, ntfs3@lists.linux.dev, 
+ skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
+ viro@zeniv.linux.org.uk
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,37 +94,28 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzbot reports an out of bound access in ntfs_trim_fs.
-The cause of this is using a loop termination condition that compares
-window index (iw) with wnd->nbits instead of wnd->nwnd, due to which the
-index used for wnd->free_bits exceeds the size of the array allocated.
+syzbot has bisected this issue to:
 
-Fix the loop condition.
+commit 6e5be40d32fb1907285277c02e74493ed43d77fe
+Author: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+Date:   Fri Aug 13 14:21:30 2021 +0000
 
-Fixes: 3f3b442b5ad2 ("fs/ntfs3: Add bitmap")
-Link: https://syzkaller.appspot.com/bug?extid=b892240eac461e488d51
+    fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17b6daf4880000
+start commit:   f76349cf4145 Linux 6.0-rc7
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=1476daf4880000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1076daf4880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
+dashboard link: https://syzkaller.appspot.com/bug?extid=b892240eac461e488d51
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=133c8540880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b74870880000
+
 Reported-by: syzbot+b892240eac461e488d51@syzkaller.appspotmail.com
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
----
- fs/ntfs3/bitmap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes: 6e5be40d32fb ("fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile")
 
-diff --git a/fs/ntfs3/bitmap.c b/fs/ntfs3/bitmap.c
-index 1675c9a69788..629c1ee97268 100644
---- a/fs/ntfs3/bitmap.c
-+++ b/fs/ntfs3/bitmap.c
-@@ -1424,7 +1424,7 @@ int ntfs_trim_fs(struct ntfs_sb_info *sbi, struct fstrim_range *range)
- 
- 	down_read_nested(&wnd->rw_lock, BITMAP_MUTEX_CLUSTERS);
- 
--	for (; iw < wnd->nbits; iw++, wbit = 0) {
-+	for (; iw < wnd->nwnd; iw++, wbit = 0) {
- 		CLST lcn_wnd = iw * wbits;
- 		struct buffer_head *bh;
- 
--- 
-2.37.3
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
