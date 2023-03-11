@@ -1,88 +1,92 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 58D65C6FD1C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 11 Mar 2023 17:28:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56DFBC6FD1C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 11 Mar 2023 17:30:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D3477418B7;
-	Sat, 11 Mar 2023 17:28:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D3477418B7
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=C6D5HWsf
+	by smtp1.osuosl.org (Postfix) with ESMTP id D5C9081D3A;
+	Sat, 11 Mar 2023 17:30:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D5C9081D3A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=bvh9trzB
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NMIgiwM0POEr; Sat, 11 Mar 2023 17:28:26 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YYMeOgoJ5KME; Sat, 11 Mar 2023 17:30:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 269A34188B;
-	Sat, 11 Mar 2023 17:28:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 269A34188B
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8F70F81C93;
+	Sat, 11 Mar 2023 17:30:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8F70F81C93
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 11BC9C0071;
-	Sat, 11 Mar 2023 17:28:26 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A2768C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75C2EC0071;
+	Sat, 11 Mar 2023 17:30:39 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 350B7C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 17:28:25 +0000 (UTC)
+ Sat, 11 Mar 2023 17:30:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 7C1EE4188B
+ by smtp2.osuosl.org (Postfix) with ESMTP id 1091D4046D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 17:28:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7C1EE4188B
+ Sat, 11 Mar 2023 17:30:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1091D4046D
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=bvh9trzB
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ecoRy7xU4MZS
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9b2qOJh9CBDj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 17:28:24 +0000 (UTC)
+ Sat, 11 Mar 2023 17:30:37 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E101441C01
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com
- [IPv6:2607:f8b0:4864:20::82b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E101441C01
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EFBBA400C4
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id EFBBA400C4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 17:28:23 +0000 (UTC)
-Received: by mail-qt1-x82b.google.com with SMTP id h19so9166685qtk.7
+ Sat, 11 Mar 2023 17:30:36 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id h17so2998362qka.11
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 09:28:23 -0800 (PST)
+ Sat, 11 Mar 2023 09:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678555702;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=fnRfrNBgW6VmdsH5V5foIRR4UqfDscL7jiZjugpsRTo=;
- b=C6D5HWsfgRAVuzMHhXeARyWuDjQgOKKer7Ufufgzt0noOOc52Q1n6+XRBM3TSoUWEJ
- XSzPNVsOekj4XArMD37y6hPza1Cg+tuPLXDg5ygK1OS1/k7R93nfruXDROk8aSIUIpry
- J8NIWsR1XLoaEm+/paZETVfzweT55acsl8Jz3jYuWCgzBWvHTaQpbsh9k7zpjEorh8to
- 73siR+m+Dhc0VeUjQbX5KtL1PSjQKNgUPRcZACxq5O+BqVwoXem0pYBgf5GyB2CfFGJU
- 1F9/CF0hVdoRYuAziPsUViPIpvg2Sbd+eWmEw5A+OTG/+sE2LyZkOD7ZSRCvAUEJ734a
- NOjg==
+ d=gmail.com; s=20210112; t=1678555836;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=uU6dGrt2rIzrhCnJXbaQHOas3xv+F1JDdAfTJ+oW/RQ=;
+ b=bvh9trzBAS2l2m1h0HCxqnySScFOuROTEyTiIMTBeF8PQP2OWZqPqWC3cGECLhcwAH
+ 6anXClkJjl9COgnOAanr4FE3271F1yJqo/9lpTUV6ep6IJQpkiwRWfoU0uoZJCZEqVHi
+ ysV2zp6JFgFx+r4XQbRJ435KksJeyyF2JlgJGhe0G5J6XH2E6xs4sYHAMW8XVCqOdMBS
+ bW4h09gR02iQfeF+bjjP8LPJqMFDEcHEMWLjSmMSfw+zpO/54/GLaN/qWhXk54lvwbmj
+ 09Shs0n/oW3/dUfuLdTCzHBKhkqIZZals5Rj5dpXybe/FvZTGTWh3skuEE2aFRyBW20j
+ vkxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678555702;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fnRfrNBgW6VmdsH5V5foIRR4UqfDscL7jiZjugpsRTo=;
- b=AjBDU3LTE6o8Y81PV0DtFVyssg5MPu0qRTo+0TnXT1zkgXQ9POdVVgNxHyXFPG4Sw3
- hSXJAx++1JfAXEQ55ny76QQOeiMj9ykKrRdmpmsZKLj57Iz0eUTch92OY0BFapD7LUou
- EYsLWsWSC6CfcKbgDRiq6LTpG8g1AYM+3em9GptBc+ACjvRsm+ghbUXkD0Cmxjbl89ld
- d1IKvHucANs8mdgq3PQZmssy3EPbOGwGmF71v7jjz9itugI9w5Sns7i9TZBs83kcdRfw
- hTEpLu47jUYtNTWQZlGPClmC4ixA+WBG569P2nXFRt5WzzkwCDfPQl9WnNI8SowKkAxE
- 7Pzw==
-X-Gm-Message-State: AO0yUKU2cKrJfTJXPpUQ5CAPlDtAoKGqcwUwE0kmkPfEgyDMcGyxt9kB
- ZJTmhkReBxUB4u4oQoGtVbv4uG662KAy92E2NQo=
-X-Google-Smtp-Source: AK7set9MRPoWlhlXXNagYxf7CMlIQeQnU+M7fqxlruT+LftsaXnAPYZ8vyLAxDqRt4PSvOUSgVD2j6p38/nFosDJGuA=
-X-Received: by 2002:ac8:4295:0:b0:3bf:e153:89d8 with SMTP id
- o21-20020ac84295000000b003bfe15389d8mr7536967qtl.0.1678555702618; Sat, 11 Mar
- 2023 09:28:22 -0800 (PST)
+ d=1e100.net; s=20210112; t=1678555836;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=uU6dGrt2rIzrhCnJXbaQHOas3xv+F1JDdAfTJ+oW/RQ=;
+ b=4xXuWwXvdDKhx+l2/4dqOOhZrBEqSdVb+oMnRuOtv2VT6kiojvpc1zkTupUzS1+cZd
+ IO6Sxq6V1HmE/K8aPBi/Cera/EPBsnhYYsyGjtcSezETi3p1kkk8v5U8Yivb0fLPJLxr
+ xtslrk5bO28J6+WJ0OvKVfwEcvyHKSEFvvfYkSBnYt/iN9IecIcqAMCVw6n8da5j1RNr
+ hy6S0E6A8HGn4jTfm3pmFn5ICW3rfXqI26Wp9fs4qcVFo30JoRRqAC8LZndj0RG9Jq7h
+ KimwI91wOqlOUM9xdzjAvQHr/tOMJjYFcr88J0IlotlY+VAkRFXHUaHKE5SZv1G3tWQ5
+ 73DA==
+X-Gm-Message-State: AO0yUKVcXnhKdFaIf2YQ+Vkt+eDPYGS4Pang/KW8qmqhDwyONVUDlVq0
+ TAinW6kyyrQ1swjeAlz3t7Nm4lwQKIBQfTqxc9U=
+X-Google-Smtp-Source: AK7set+cugWP5zKt6KMIC6m8i+hg8Ut3Qze/upRlJFEFI+Q72RtsBkvvN4MVyja5eqWo2xLoK7aPOAxioOApHIXudEQ=
+X-Received: by 2002:a37:64c1:0:b0:72d:4b50:f156 with SMTP id
+ y184-20020a3764c1000000b0072d4b50f156mr1491924qkb.14.1678555835734; Sat, 11
+ Mar 2023 09:30:35 -0800 (PST)
 MIME-Version: 1.0
 References: <20230310202619.433269-1-ivan.orlov0322@gmail.com>
 In-Reply-To: <20230310202619.433269-1-ivan.orlov0322@gmail.com>
 From: David Kahurani <k.kahurani@gmail.com>
-Date: Sat, 11 Mar 2023 20:28:11 +0300
-Message-ID: <CAAZOf24yhpSBd1926v7T=qDwqvFfLsWMJeMKTafeZ=69hJ4rdw@mail.gmail.com>
+Date: Sat, 11 Mar 2023 20:30:24 +0300
+Message-ID: <CAAZOf27oFt=+DndvUxFLoRM8u_+oUs-Bdtca=yoBT0e-ych3Lw@mail.gmail.com>
 Subject: Re: [PATCH] 9P FS: Fix wild-memory-access write in v9fs_get_acl
 To: Ivan Orlov <ivan.orlov0322@gmail.com>
 Cc: lucho@ionkov.net, ericvh@gmail.com, asmadeus@codewreck.org,
@@ -101,252 +105,82 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============2790160887876855102=="
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============2790160887876855102==
-Content-Type: multipart/alternative; boundary="00000000000063f11305f6a3349d"
-
---00000000000063f11305f6a3349d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Mar 10, 2023 at 11:28=E2=80=AFPM Ivan Orlov <ivan.orlov0322@gmail.c=
-om>
-wrote:
-
-> KASAN reported the following issue:
-> [   36.825817][ T5923] BUG: KASAN: wild-memory-access in
-> v9fs_get_acl+0x1a4/0x390
-> [   36.827479][ T5923] Write of size 4 at addr 9fffeb37f97f1c00 by task
-> syz-executor798/5923
-> [   36.829303][ T5923]
-> [   36.829846][ T5923] CPU: 0 PID: 5923 Comm: syz-executor798 Not tainted
-> 6.2.0-syzkaller-18302-g596b6b709632 #0
-> [   36.832110][ T5923] Hardware name: Google Google Compute Engine/Google
-> Compute Engine, BIOS Google 01/21/2023
-> [   36.834464][ T5923] Call trace:
-> [   36.835196][ T5923]  dump_backtrace+0x1c8/0x1f4
-> [   36.836229][ T5923]  show_stack+0x2c/0x3c
-> [   36.837100][ T5923]  dump_stack_lvl+0xd0/0x124
-> [   36.838103][ T5923]  print_report+0xe4/0x4c0
-> [   36.839068][ T5923]  kasan_report+0xd4/0x130
-> [   36.840052][ T5923]  kasan_check_range+0x264/0x2a4
-> [   36.841199][ T5923]  __kasan_check_write+0x2c/0x3c
-> [   36.842216][ T5923]  v9fs_get_acl+0x1a4/0x390
-> [   36.843232][ T5923]  v9fs_mount+0x77c/0xa5c
-> [   36.844163][ T5923]  legacy_get_tree+0xd4/0x16c
-> [   36.845173][ T5923]  vfs_get_tree+0x90/0x274
-> [   36.846137][ T5923]  do_new_mount+0x25c/0x8c8
-> [   36.847066][ T5923]  path_mount+0x590/0xe58
-> [   36.848147][ T5923]  __arm64_sys_mount+0x45c/0x594
-> [   36.849273][ T5923]  invoke_syscall+0x98/0x2c0
-> [   36.850421][ T5923]  el0_svc_common+0x138/0x258
-> [   36.851397][ T5923]  do_el0_svc+0x64/0x198
-> [   36.852398][ T5923]  el0_svc+0x58/0x168
-> [   36.853224][ T5923]  el0t_64_sync_handler+0x84/0xf0
-> [   36.854293][ T5923]  el0t_64_sync+0x190/0x194
->
-> Calling '__v9fs_get_acl' method in 'v9fs_get_acl' creates the
-> following chain of function calls:
->
-> __v9fs_get_acl
->         v9fs_fid_get_acl
->                 v9fs_fid_xattr_get
->                         p9_client_xattrwalk
->
-> Function p9_client_xattrwalk accepts a pointer to u64-typed
-> variable attr_size and puts some u64 value into it. However,
-> after the executing the p9_client_xattrwalk, in some circumstances
-> we assign the value of u64-typed variable 'attr_size' to the
-> variable 'retval', which we will return. However, the type of
-> 'retval' is ssize_t, and if the value of attr_size is larger
-> than SSIZE_MAX, we will face the signed type overflow. If the
-> overflow occurs, the result of v9fs_fid_xattr_get may be
-> negative, but not classified as an error. When we try to allocate
-> an acl with 'broken' size we receive an error, but don't process
-> it. When we try to free this acl, we face the 'wild-memory-access'
-> error (because it wasn't allocated).
->
-> This patch will modify the condition in the 'v9fs_fid_xattr_get'
-> function, so it will return an error if the 'attr_size' is larger
-> than SSIZE_MAX.
->
-> Reported-by: syzbot+cb1d16facb3cc90de5fb@syzkaller.appspotmail.com
-> Link:
-> https://syzkaller.appspot.com/bug?id=3Dfbbef66d9e4d096242f3617de5d14d1270=
-5b4659
-> Signed-off-by
-> <https://syzkaller.appspot.com/bug?id=3Dfbbef66d9e4d096242f3617de5d14d127=
-05b4659Signed-off-by>:
-> Ivan Orlov <ivan.orlov0322@gmail.com>
-> ---
->  fs/9p/xattr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/fs/9p/xattr.c b/fs/9p/xattr.c
-> index 50f7f3f6b55e..d6f7450107a8 100644
-> --- a/fs/9p/xattr.c
-> +++ b/fs/9p/xattr.c
-> @@ -35,7 +35,7 @@ ssize_t v9fs_fid_xattr_get(struct p9_fid *fid, const
-> char *name,
->                 return retval;
->         }
->         if (attr_size > buffer_size) {
-> -               if (!buffer_size) /* request to get the attr_size */
-> +               if (!buffer_size && attr_size <=3D (u64) SSIZE_MAX) /*
-> request to get the attr_size */
->
-
-I'm not sure what are the rules around here but I prefer to use brackets
-more generously.
-
-
->                         retval =3D attr_size;
->                 else
->                         retval =3D -ERANGE;
-> --
-> 2.34.1
->
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
->
-
---00000000000063f11305f6a3349d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 10, 2023 at 11:28=E2=80=
-=AFPM Ivan Orlov &lt;<a href=3D"mailto:ivan.orlov0322@gmail.com">ivan.orlov=
-0322@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">KASAN reported the following issue:<br>
-[=C2=A0 =C2=A036.825817][ T5923] BUG: KASAN: wild-memory-access in v9fs_get=
-_acl+0x1a4/0x390<br>
-[=C2=A0 =C2=A036.827479][ T5923] Write of size 4 at addr 9fffeb37f97f1c00 b=
-y task syz-executor798/5923<br>
-[=C2=A0 =C2=A036.829303][ T5923]<br>
-[=C2=A0 =C2=A036.829846][ T5923] CPU: 0 PID: 5923 Comm: syz-executor798 Not=
- tainted 6.2.0-syzkaller-18302-g596b6b709632 #0<br>
-[=C2=A0 =C2=A036.832110][ T5923] Hardware name: Google Google Compute Engin=
-e/Google Compute Engine, BIOS Google 01/21/2023<br>
-[=C2=A0 =C2=A036.834464][ T5923] Call trace:<br>
-[=C2=A0 =C2=A036.835196][ T5923]=C2=A0 dump_backtrace+0x1c8/0x1f4<br>
-[=C2=A0 =C2=A036.836229][ T5923]=C2=A0 show_stack+0x2c/0x3c<br>
-[=C2=A0 =C2=A036.837100][ T5923]=C2=A0 dump_stack_lvl+0xd0/0x124<br>
-[=C2=A0 =C2=A036.838103][ T5923]=C2=A0 print_report+0xe4/0x4c0<br>
-[=C2=A0 =C2=A036.839068][ T5923]=C2=A0 kasan_report+0xd4/0x130<br>
-[=C2=A0 =C2=A036.840052][ T5923]=C2=A0 kasan_check_range+0x264/0x2a4<br>
-[=C2=A0 =C2=A036.841199][ T5923]=C2=A0 __kasan_check_write+0x2c/0x3c<br>
-[=C2=A0 =C2=A036.842216][ T5923]=C2=A0 v9fs_get_acl+0x1a4/0x390<br>
-[=C2=A0 =C2=A036.843232][ T5923]=C2=A0 v9fs_mount+0x77c/0xa5c<br>
-[=C2=A0 =C2=A036.844163][ T5923]=C2=A0 legacy_get_tree+0xd4/0x16c<br>
-[=C2=A0 =C2=A036.845173][ T5923]=C2=A0 vfs_get_tree+0x90/0x274<br>
-[=C2=A0 =C2=A036.846137][ T5923]=C2=A0 do_new_mount+0x25c/0x8c8<br>
-[=C2=A0 =C2=A036.847066][ T5923]=C2=A0 path_mount+0x590/0xe58<br>
-[=C2=A0 =C2=A036.848147][ T5923]=C2=A0 __arm64_sys_mount+0x45c/0x594<br>
-[=C2=A0 =C2=A036.849273][ T5923]=C2=A0 invoke_syscall+0x98/0x2c0<br>
-[=C2=A0 =C2=A036.850421][ T5923]=C2=A0 el0_svc_common+0x138/0x258<br>
-[=C2=A0 =C2=A036.851397][ T5923]=C2=A0 do_el0_svc+0x64/0x198<br>
-[=C2=A0 =C2=A036.852398][ T5923]=C2=A0 el0_svc+0x58/0x168<br>
-[=C2=A0 =C2=A036.853224][ T5923]=C2=A0 el0t_64_sync_handler+0x84/0xf0<br>
-[=C2=A0 =C2=A036.854293][ T5923]=C2=A0 el0t_64_sync+0x190/0x194<br>
-<br>
-Calling &#39;__v9fs_get_acl&#39; method in &#39;v9fs_get_acl&#39; creates t=
-he<br>
-following chain of function calls:<br>
-<br>
-__v9fs_get_acl<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_fid_get_acl<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 v9fs_fid_xattr_get<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 p9_client_xattrwalk<br>
-<br>
-Function p9_client_xattrwalk accepts a pointer to u64-typed<br>
-variable attr_size and puts some u64 value into it. However,<br>
-after the executing the p9_client_xattrwalk, in some circumstances<br>
-we assign the value of u64-typed variable &#39;attr_size&#39; to the<br>
-variable &#39;retval&#39;, which we will return. However, the type of<br>
-&#39;retval&#39; is ssize_t, and if the value of attr_size is larger<br>
-than SSIZE_MAX, we will face the signed type overflow. If the<br>
-overflow occurs, the result of v9fs_fid_xattr_get may be<br>
-negative, but not classified as an error. When we try to allocate<br>
-an acl with &#39;broken&#39; size we receive an error, but don&#39;t proces=
-s<br>
-it. When we try to free this acl, we face the &#39;wild-memory-access&#39;<=
-br>
-error (because it wasn&#39;t allocated).<br>
-<br>
-This patch will modify the condition in the &#39;v9fs_fid_xattr_get&#39;<br=
->
-function, so it will return an error if the &#39;attr_size&#39; is larger<b=
-r>
-than SSIZE_MAX.<br>
-<br>
-Reported-by: <a href=3D"mailto:syzbot%2Bcb1d16facb3cc90de5fb@syzkaller.apps=
-potmail.com" target=3D"_blank">syzbot+cb1d16facb3cc90de5fb@syzkaller.appspo=
-tmail.com</a><br>
-Link: <a href=3D"https://syzkaller.appspot.com/bug?id=3Dfbbef66d9e4d096242f=
-3617de5d14d12705b4659Signed-off-by" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://syzkaller.appspot.com/bug?id=3Dfbbef66d9e4d096242f3617de5d14d12705b46=
-59<br>
-Signed-off-by</a>: Ivan Orlov &lt;<a href=3D"mailto:ivan.orlov0322@gmail.co=
-m" target=3D"_blank">ivan.orlov0322@gmail.com</a>&gt;<br>
----<br>
-=C2=A0fs/9p/xattr.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/fs/9p/xattr.c b/fs/9p/xattr.c<br>
-index 50f7f3f6b55e..d6f7450107a8 100644<br>
---- a/fs/9p/xattr.c<br>
-+++ b/fs/9p/xattr.c<br>
-@@ -35,7 +35,7 @@ ssize_t v9fs_fid_xattr_get(struct p9_fid *fid, const char=
- *name,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return retval;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (attr_size &gt; buffer_size) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buffer_size) /=
-* request to get the attr_size */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buffer_size &a=
-mp;&amp; attr_size &lt;=3D (u64) SSIZE_MAX) /* request to get the attr_size=
- */<br></blockquote><div><br></div><div>I&#39;m not sure what are the rules=
- around here but I prefer to use brackets more generously.</div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 retval =3D attr_size;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 retval =3D -ERANGE;<br>
--- <br>
-2.34.1<br>
-<br>
-_______________________________________________<br>
-Linux-kernel-mentees mailing list<br>
-<a href=3D"mailto:Linux-kernel-mentees@lists.linuxfoundation.org" target=3D=
-"_blank">Linux-kernel-mentees@lists.linuxfoundation.org</a><br>
-<a href=3D"https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-=
-mentees" rel=3D"noreferrer" target=3D"_blank">https://lists.linuxfoundation=
-.org/mailman/listinfo/linux-kernel-mentees</a><br>
-</blockquote></div></div>
-
---00000000000063f11305f6a3349d--
-
---===============2790160887876855102==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============2790160887876855102==--
+T24gRnJpLCBNYXIgMTAsIDIwMjMgYXQgMTE6MjjigK9QTSBJdmFuIE9ybG92IDxpdmFuLm9ybG92
+MDMyMkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gS0FTQU4gcmVwb3J0ZWQgdGhlIGZvbGxvd2luZyBp
+c3N1ZToKPiBbICAgMzYuODI1ODE3XVsgVDU5MjNdIEJVRzogS0FTQU46IHdpbGQtbWVtb3J5LWFj
+Y2VzcyBpbiB2OWZzX2dldF9hY2wrMHgxYTQvMHgzOTAKPiBbICAgMzYuODI3NDc5XVsgVDU5MjNd
+IFdyaXRlIG9mIHNpemUgNCBhdCBhZGRyIDlmZmZlYjM3Zjk3ZjFjMDAgYnkgdGFzayBzeXotZXhl
+Y3V0b3I3OTgvNTkyMwo+IFsgICAzNi44MjkzMDNdWyBUNTkyM10KPiBbICAgMzYuODI5ODQ2XVsg
+VDU5MjNdIENQVTogMCBQSUQ6IDU5MjMgQ29tbTogc3l6LWV4ZWN1dG9yNzk4IE5vdCB0YWludGVk
+IDYuMi4wLXN5emthbGxlci0xODMwMi1nNTk2YjZiNzA5NjMyICMwCj4gWyAgIDM2LjgzMjExMF1b
+IFQ1OTIzXSBIYXJkd2FyZSBuYW1lOiBHb29nbGUgR29vZ2xlIENvbXB1dGUgRW5naW5lL0dvb2ds
+ZSBDb21wdXRlIEVuZ2luZSwgQklPUyBHb29nbGUgMDEvMjEvMjAyMwo+IFsgICAzNi44MzQ0NjRd
+WyBUNTkyM10gQ2FsbCB0cmFjZToKPiBbICAgMzYuODM1MTk2XVsgVDU5MjNdICBkdW1wX2JhY2t0
+cmFjZSsweDFjOC8weDFmNAo+IFsgICAzNi44MzYyMjldWyBUNTkyM10gIHNob3dfc3RhY2srMHgy
+Yy8weDNjCj4gWyAgIDM2LjgzNzEwMF1bIFQ1OTIzXSAgZHVtcF9zdGFja19sdmwrMHhkMC8weDEy
+NAo+IFsgICAzNi44MzgxMDNdWyBUNTkyM10gIHByaW50X3JlcG9ydCsweGU0LzB4NGMwCj4gWyAg
+IDM2LjgzOTA2OF1bIFQ1OTIzXSAga2FzYW5fcmVwb3J0KzB4ZDQvMHgxMzAKPiBbICAgMzYuODQw
+MDUyXVsgVDU5MjNdICBrYXNhbl9jaGVja19yYW5nZSsweDI2NC8weDJhNAo+IFsgICAzNi44NDEx
+OTldWyBUNTkyM10gIF9fa2FzYW5fY2hlY2tfd3JpdGUrMHgyYy8weDNjCj4gWyAgIDM2Ljg0MjIx
+Nl1bIFQ1OTIzXSAgdjlmc19nZXRfYWNsKzB4MWE0LzB4MzkwCj4gWyAgIDM2Ljg0MzIzMl1bIFQ1
+OTIzXSAgdjlmc19tb3VudCsweDc3Yy8weGE1Ywo+IFsgICAzNi44NDQxNjNdWyBUNTkyM10gIGxl
+Z2FjeV9nZXRfdHJlZSsweGQ0LzB4MTZjCj4gWyAgIDM2Ljg0NTE3M11bIFQ1OTIzXSAgdmZzX2dl
+dF90cmVlKzB4OTAvMHgyNzQKPiBbICAgMzYuODQ2MTM3XVsgVDU5MjNdICBkb19uZXdfbW91bnQr
+MHgyNWMvMHg4YzgKPiBbICAgMzYuODQ3MDY2XVsgVDU5MjNdICBwYXRoX21vdW50KzB4NTkwLzB4
+ZTU4Cj4gWyAgIDM2Ljg0ODE0N11bIFQ1OTIzXSAgX19hcm02NF9zeXNfbW91bnQrMHg0NWMvMHg1
+OTQKPiBbICAgMzYuODQ5MjczXVsgVDU5MjNdICBpbnZva2Vfc3lzY2FsbCsweDk4LzB4MmMwCj4g
+WyAgIDM2Ljg1MDQyMV1bIFQ1OTIzXSAgZWwwX3N2Y19jb21tb24rMHgxMzgvMHgyNTgKPiBbICAg
+MzYuODUxMzk3XVsgVDU5MjNdICBkb19lbDBfc3ZjKzB4NjQvMHgxOTgKPiBbICAgMzYuODUyMzk4
+XVsgVDU5MjNdICBlbDBfc3ZjKzB4NTgvMHgxNjgKPiBbICAgMzYuODUzMjI0XVsgVDU5MjNdICBl
+bDB0XzY0X3N5bmNfaGFuZGxlcisweDg0LzB4ZjAKPiBbICAgMzYuODU0MjkzXVsgVDU5MjNdICBl
+bDB0XzY0X3N5bmMrMHgxOTAvMHgxOTQKPgo+IENhbGxpbmcgJ19fdjlmc19nZXRfYWNsJyBtZXRo
+b2QgaW4gJ3Y5ZnNfZ2V0X2FjbCcgY3JlYXRlcyB0aGUKPiBmb2xsb3dpbmcgY2hhaW4gb2YgZnVu
+Y3Rpb24gY2FsbHM6Cj4KPiBfX3Y5ZnNfZ2V0X2FjbAo+ICAgICAgICAgdjlmc19maWRfZ2V0X2Fj
+bAo+ICAgICAgICAgICAgICAgICB2OWZzX2ZpZF94YXR0cl9nZXQKPiAgICAgICAgICAgICAgICAg
+ICAgICAgICBwOV9jbGllbnRfeGF0dHJ3YWxrCj4KPiBGdW5jdGlvbiBwOV9jbGllbnRfeGF0dHJ3
+YWxrIGFjY2VwdHMgYSBwb2ludGVyIHRvIHU2NC10eXBlZAo+IHZhcmlhYmxlIGF0dHJfc2l6ZSBh
+bmQgcHV0cyBzb21lIHU2NCB2YWx1ZSBpbnRvIGl0LiBIb3dldmVyLAo+IGFmdGVyIHRoZSBleGVj
+dXRpbmcgdGhlIHA5X2NsaWVudF94YXR0cndhbGssIGluIHNvbWUgY2lyY3Vtc3RhbmNlcwo+IHdl
+IGFzc2lnbiB0aGUgdmFsdWUgb2YgdTY0LXR5cGVkIHZhcmlhYmxlICdhdHRyX3NpemUnIHRvIHRo
+ZQo+IHZhcmlhYmxlICdyZXR2YWwnLCB3aGljaCB3ZSB3aWxsIHJldHVybi4gSG93ZXZlciwgdGhl
+IHR5cGUgb2YKPiAncmV0dmFsJyBpcyBzc2l6ZV90LCBhbmQgaWYgdGhlIHZhbHVlIG9mIGF0dHJf
+c2l6ZSBpcyBsYXJnZXIKPiB0aGFuIFNTSVpFX01BWCwgd2Ugd2lsbCBmYWNlIHRoZSBzaWduZWQg
+dHlwZSBvdmVyZmxvdy4gSWYgdGhlCj4gb3ZlcmZsb3cgb2NjdXJzLCB0aGUgcmVzdWx0IG9mIHY5
+ZnNfZmlkX3hhdHRyX2dldCBtYXkgYmUKPiBuZWdhdGl2ZSwgYnV0IG5vdCBjbGFzc2lmaWVkIGFz
+IGFuIGVycm9yLiBXaGVuIHdlIHRyeSB0byBhbGxvY2F0ZQo+IGFuIGFjbCB3aXRoICdicm9rZW4n
+IHNpemUgd2UgcmVjZWl2ZSBhbiBlcnJvciwgYnV0IGRvbid0IHByb2Nlc3MKPiBpdC4gV2hlbiB3
+ZSB0cnkgdG8gZnJlZSB0aGlzIGFjbCwgd2UgZmFjZSB0aGUgJ3dpbGQtbWVtb3J5LWFjY2VzcycK
+PiBlcnJvciAoYmVjYXVzZSBpdCB3YXNuJ3QgYWxsb2NhdGVkKS4KPgo+IFRoaXMgcGF0Y2ggd2ls
+bCBtb2RpZnkgdGhlIGNvbmRpdGlvbiBpbiB0aGUgJ3Y5ZnNfZmlkX3hhdHRyX2dldCcKPiBmdW5j
+dGlvbiwgc28gaXQgd2lsbCByZXR1cm4gYW4gZXJyb3IgaWYgdGhlICdhdHRyX3NpemUnIGlzIGxh
+cmdlcgo+IHRoYW4gU1NJWkVfTUFYLgo+Cj4gUmVwb3J0ZWQtYnk6IHN5emJvdCtjYjFkMTZmYWNi
+M2NjOTBkZTVmYkBzeXprYWxsZXIuYXBwc3BvdG1haWwuY29tCj4gTGluazogaHR0cHM6Ly9zeXpr
+YWxsZXIuYXBwc3BvdC5jb20vYnVnP2lkPWZiYmVmNjZkOWU0ZDA5NjI0MmYzNjE3ZGU1ZDE0ZDEy
+NzA1YjQ2NTkKPiBTaWduZWQtb2ZmLWJ5OiBJdmFuIE9ybG92IDxpdmFuLm9ybG92MDMyMkBnbWFp
+bC5jb20+Cj4gLS0tCj4gIGZzLzlwL3hhdHRyLmMgfCAyICstCj4gIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+Cj4gZGlmZiAtLWdpdCBhL2ZzLzlwL3hhdHRy
+LmMgYi9mcy85cC94YXR0ci5jCj4gaW5kZXggNTBmN2YzZjZiNTVlLi5kNmY3NDUwMTA3YTggMTAw
+NjQ0Cj4gLS0tIGEvZnMvOXAveGF0dHIuYwo+ICsrKyBiL2ZzLzlwL3hhdHRyLmMKPiBAQCAtMzUs
+NyArMzUsNyBAQCBzc2l6ZV90IHY5ZnNfZmlkX3hhdHRyX2dldChzdHJ1Y3QgcDlfZmlkICpmaWQs
+IGNvbnN0IGNoYXIgKm5hbWUsCj4gICAgICAgICAgICAgICAgIHJldHVybiByZXR2YWw7Cj4gICAg
+ICAgICB9Cj4gICAgICAgICBpZiAoYXR0cl9zaXplID4gYnVmZmVyX3NpemUpIHsKPiAtICAgICAg
+ICAgICAgICAgaWYgKCFidWZmZXJfc2l6ZSkgLyogcmVxdWVzdCB0byBnZXQgdGhlIGF0dHJfc2l6
+ZSAqLwo+ICsgICAgICAgICAgICAgICBpZiAoIWJ1ZmZlcl9zaXplICYmIGF0dHJfc2l6ZSA8PSAo
+dTY0KSBTU0laRV9NQVgpIC8qIHJlcXVlc3QgdG8gZ2V0IHRoZSBhdHRyX3NpemUgKi8KCkknbSBu
+b3Qgc3VyZSB3aGF0IGFyZSB0aGUgcnVsZXMgYXJvdW5kIGhlcmUgYnV0IEkgcHJlZmVyIHRvIHVz
+ZQpicmFja2V0cyBtb3JlIGdlbmVyb3VzbHkuCgo+Cj4gICAgICAgICAgICAgICAgICAgICAgICAg
+cmV0dmFsID0gYXR0cl9zaXplOwo+ICAgICAgICAgICAgICAgICBlbHNlCj4gICAgICAgICAgICAg
+ICAgICAgICAgICAgcmV0dmFsID0gLUVSQU5HRTsKPiAtLQo+IDIuMzQuMQo+Cj4gX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KPiBMaW51eC1rZXJuZWwtbWVu
+dGVlcyBtYWlsaW5nIGxpc3QKPiBMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5k
+YXRpb24ub3JnCj4gaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlz
+dGluZm8vbGludXgta2VybmVsLW1lbnRlZXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4
+LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5s
+aW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
