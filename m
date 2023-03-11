@@ -1,99 +1,92 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7D84EC6FD1D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Mar 2023 14:30:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 809C4C6FD1D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Mar 2023 20:56:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id F0B20418D9;
-	Fri, 17 Mar 2023 14:30:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F0B20418D9
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=p23Nr9BC
+	by smtp1.osuosl.org (Postfix) with ESMTP id F322D8232B;
+	Fri, 17 Mar 2023 20:56:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F322D8232B
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=PoW//RtJ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GkK5FAkHoGpQ; Fri, 17 Mar 2023 14:30:35 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id v2OeDApDdHmE; Fri, 17 Mar 2023 20:56:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8E0394162C;
-	Fri, 17 Mar 2023 14:30:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8E0394162C
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0C75A8232C;
+	Fri, 17 Mar 2023 20:56:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0C75A8232C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6B756C0035;
-	Fri, 17 Mar 2023 14:30:35 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1CDDDC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Mar 2023 14:30:34 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DB21BC0035;
+	Fri, 17 Mar 2023 20:56:23 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5EE6AC0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 11 Mar 2023 03:40:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id EAE04416B4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Mar 2023 14:30:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EAE04416B4
+ by smtp2.osuosl.org (Postfix) with ESMTP id 408CC40187
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 11 Mar 2023 03:40:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 408CC40187
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=PoW//RtJ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hxbFISUGufFT
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Mar 2023 14:30:32 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gY5l8W0kTpBa
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 11 Mar 2023 03:40:05 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 903234162C
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com
- [IPv6:2a00:1450:4864:20::52a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 903234162C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Mar 2023 14:30:32 +0000 (UTC)
-Received: by mail-ed1-x52a.google.com with SMTP id w9so21189818edc.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 Mar 2023 07:30:32 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 29BEC4016D
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
+ [IPv6:2001:4860:4864:20::31])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 29BEC4016D
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 11 Mar 2023 03:40:05 +0000 (UTC)
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-176e43eb199so8095559fac.7
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 10 Mar 2023 19:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679063431;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=xytjjE5myxOfjkZ4GExR989+SsHyYu7LM3zVntLwGFc=;
- b=p23Nr9BCXPxuZwi4crQ4QYUt1eIhvqbs080JAnzA6zEFZaAPSMrivXlX3IGlxVgXIu
- TYJgNY9AIqlgNwXW8GL85JJVYl10mb1UOwLDuF0jaXGgyIJ4aNGNWEWQUFnCfIlF39Bu
- wfIn85VcKyU99mu6GfanUYwK/ULrDxTsBSvLk+lahM5gkvDSTADkeONSe7b/P4lABQeM
- oBZ6F9a93uLPgs8hvkIhpHWqLPFZpQznImfYGqMH7rdVDL13qDPr5+3zSxhLJS9DEf4l
- Nb12bmlZlZYiKQIRa6u5gxc4kRBJLmnc0LnMCHK3VFYRaxAcQxTk0ehhO6qanJhYEeC8
- /Ddw==
+ d=gmail.com; s=20210112; t=1678506004;
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=4ze71QqSIgsiRn9c3VjUq+U4hxPR1aSy3jn2VpUcHbU=;
+ b=PoW//RtJwgpqpwoqVUvBxVp/Mi5E2RuVJeEOwAdCI3f1kJrQnRtmVQTsqoc97oYfbF
+ h4Ar9KFB5gaCApXMlwK/tSJ0JIqkTd+uVVJXw4f647eZrV3XqTYh0fr1ute0nyTHxvKd
+ Vtcxosfwblp3YGuHbbBj3B6wx+UM+zxud0wGnYiELneSsza4PtnHUwbiRrhIUxxl2NTS
+ Gxv+pa46xCNdB8KKNnZXWsTCfxVCcddRLSmrTjg7PyMvUJGTWhpK4KZSfvrt5XGUcIoH
+ kalpOY3KDPZTfEg80X35JisAm32nVcxxvk2PNPKPy852CkamVwU11l18+kU9g8cfi7dQ
+ fs9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679063431;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xytjjE5myxOfjkZ4GExR989+SsHyYu7LM3zVntLwGFc=;
- b=qSxD66uJ4EFlxIdHHeswjI8C2TB+F+aCVl7t0t1Rs4BIQ34u00fZAqC7AuA7ZeOW92
- XeWC66R93Nq7wikmFo3R4Dd4CD+H8vgGYXaHRHJgeEwQxDnrKDmr1XXPSJuN9qT6WPcu
- xmYUcbGKvX/Dg4FbUEPbhNWYdMNpEPz6cxQ42csvNrSuIFDNr9wUdXZYMMMceGkdgPYs
- 5SGwk9MFq/jq+ZTm9M880ByCsNqikgIdf60SZcdbbBE5AvQeEkLrdiroxrXxTk2tgBZH
- BLMzyBCzqvjm2rcTN5wT5wB6O7TWuF3TxvQtkrNaheZ6O3aGybpCz+R+DqaUcDb/PV0P
- 65rQ==
-X-Gm-Message-State: AO0yUKUZSe1767MCDRim7ttgsxMlFtAec88zzwLcuUAy0JIKuYGP9KbD
- qc92IV3NOR8I/D2sPTeSbiQ=
-X-Google-Smtp-Source: AK7set8R1vLe16PzktpZ3wXVITKGYxosfQOkPCFOvvd5FS/kxiRdi6Qi1M4i1AUbzSL854Bj3JNNSg==
-X-Received: by 2002:a05:6402:524e:b0:4fd:298d:4f26 with SMTP id
- t14-20020a056402524e00b004fd298d4f26mr7631606edd.3.1679063430629; 
- Fri, 17 Mar 2023 07:30:30 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.81.68])
- by smtp.gmail.com with ESMTPSA id
- e25-20020a50d4d9000000b004c10b4f9ebesm1155058edj.15.2023.03.17.07.30.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Mar 2023 07:30:30 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: almaz.alexandrovich@paragon-software.com, nathan@kernel.org,
- ndesaulniers@google.com, trix@redhat.com
-Subject: [PATCH] FS: NTFS3: Fix UBSAN shift-out-of-bounds in ntfs_fill_super
-Date: Fri, 17 Mar 2023 18:29:58 +0400
-Message-Id: <20230317142958.5566-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20210112; t=1678506004;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=4ze71QqSIgsiRn9c3VjUq+U4hxPR1aSy3jn2VpUcHbU=;
+ b=vZqHZlhsS9vSLxeOAGMqLI49u5jKwpWR9CpCrf50s8bNor4kxSUGZkotXu5hgNj3IF
+ UAyZxf8A3QwqIh6mNyzOwmgkN40OS1fnK/JXc2dJSGHAXndzjsNgnmM0rIQJ1W5/r4n2
+ LafhuxS6/+64vyjlm9DarKSEvYoIjuoMHJus8CEweUb3Hg17+tSHxEY+XBY7Opg3wKdC
+ ODM7iXRVSubATvD+Ud3wzNoHtrHrydThDa/kGkAGY22bi+AR8XAFOSjyciV1wZsXbKTF
+ 3YaBtbpbIlT5AgvuuOfKsGsGVUQS44WzC67J8+YPN/2InOdKulrNBeOU0RjfL4+upV+H
+ bsyQ==
+X-Gm-Message-State: AO0yUKWhJZE9/CS8JTU7yzcCv5svWRF6wdjA2XM9n37d3QKJrDnvkDGf
+ YM6xtEv/CCO/TvdReXdtCD3zFalO5BjrFL8K6DKjqndQ+PA=
+X-Google-Smtp-Source: AK7set9fzjuIL39S2Pw7aBkbVtlzhvXk/fh+slKsbSFMiXSQN9T5lhvb31fEc8WgW3A1nWVF/142tFNj9H6MgvENhI4=
+X-Received: by 2002:a05:6870:7735:b0:16e:8dc0:3861 with SMTP id
+ dw53-20020a056870773500b0016e8dc03861mr9288123oab.2.1678506003999; Fri, 10
+ Mar 2023 19:40:03 -0800 (PST)
 MIME-Version: 1.0
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, llvm@lists.linux.dev,
- linux-kernel@vger.kernel.org,
- syzbot+478c1bf0e6bf4a8f3a04@syzkaller.appspotmail.com, ntfs3@lists.linux.dev,
- linux-kernel-mentees@lists.linuxfoundation.org
+From: Aviral Gupta <shiv14112001@gmail.com>
+Date: Sat, 11 Mar 2023 09:09:49 +0530
+Message-ID: <CAN8in0Fd2u841ACtwwJ=OcOhTVdmW=XoyCiHYuFzuwVxcxuiMQ@mail.gmail.com>
+Subject: Unsubscribe
+To: Linux-kernel-mentees@lists.linuxfoundation.org
+X-Mailman-Approved-At: Fri, 17 Mar 2023 20:56:22 +0000
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,107 +98,37 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============8230203175589207824=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzkaller reported the following issue:
+--===============8230203175589207824==
+Content-Type: multipart/alternative; boundary="0000000000001f312a05f697a2c1"
 
-UBSAN: shift-out-of-bounds in fs/ntfs3/super.c:777:25
-shift exponent 128 is too large for 32-bit type 'unsigned int'
-CPU: 0 PID: 5928 Comm: syz-executor258 Not tainted 6.2.0-syzkaller-18300-g2ebd1fbb946d #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/21/2023
-Call trace:
- dump_backtrace+0x1c8/0x1f4 arch/arm64/kernel/stacktrace.c:158
- show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:165
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
- dump_stack+0x1c/0x28 lib/dump_stack.c:113
- ubsan_epilogue lib/ubsan.c:151 [inline]
- __ubsan_handle_shift_out_of_bounds+0x2f4/0x36c lib/ubsan.c:321
- ntfs_init_from_boot fs/ntfs3/super.c:777 [inline]
- ntfs_fill_super+0x2544/0x3b9c fs/ntfs3/super.c:970
- get_tree_bdev+0x360/0x54c fs/super.c:1282
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1408
- vfs_get_tree+0x90/0x274 fs/super.c:1489
- do_new_mount+0x25c/0x8c8 fs/namespace.c:3145
- path_mount+0x590/0xe58 fs/namespace.c:3475
- do_mount fs/namespace.c:3488 [inline]
- __do_sys_mount fs/namespace.c:3697 [inline]
- __se_sys_mount fs/namespace.c:3674 [inline]
- __arm64_sys_mount+0x45c/0x594 fs/namespace.c:3674
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall+0x98/0x2c0 arch/arm64/kernel/syscall.c:52
- el0_svc_common+0x138/0x258 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x64/0x198 arch/arm64/kernel/syscall.c:193
- el0_svc+0x58/0x168 arch/arm64/kernel/entry-common.c:637
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:655
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+--0000000000001f312a05f697a2c1
+Content-Type: text/plain; charset="UTF-8"
 
-This issue is caused by the left shift in 'ntfs_init_from_boot'
-function, which uses the absolute value of 'index_size' field as
-an exponent in case it is negative. If 'index_size' absolute value
-is larger than 30, the issue occurs.
+I don't  wish to receive  any  further  communication
 
-Absolute value of 'index_size' can't be larger than 31, because in case
-it is negative it is used as a shift exponent to compute the superblock
-index_size (which is a 32-bit unsigned integer). So we need to check this.
-If it is larger than 31, the superblock index_size will be zero (because it
-will be equal to 1u << (>31))
+--0000000000001f312a05f697a2c1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Additionally, if the absolute value of index_size is equal to 31 it is
-correct, and we need to process it correctly. The result of 2U << 31
-calculation will be 0, which will cause the ntfs_init_from_boot to
-return an error. So let's shift the 2UL instead of 2U to avoid this issue.
+<div dir=3D"auto">I don&#39;t=C2=A0 wish to receive=C2=A0 any=C2=A0 further=
+=C2=A0 communication=C2=A0</div>
 
-We need to do the same with boot record_size as well, because it works in
-the similar way.
+--0000000000001f312a05f697a2c1--
 
-Tested via syzbot.
-
-Reported-by: syzbot+478c1bf0e6bf4a8f3a04@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=00a7d35a2790926d5b91a5279462e0cb958cc689
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- fs/ntfs3/super.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/fs/ntfs3/super.c b/fs/ntfs3/super.c
-index ef4ea3f21905..9097cf2081df 100644
---- a/fs/ntfs3/super.c
-+++ b/fs/ntfs3/super.c
-@@ -766,15 +766,23 @@ static int ntfs_init_from_boot(struct super_block *sb, u32 sector_size,
- 		goto out;
- 
- 	/* Check MFT record size. */
-+	if (boot->record_size < 0 &&
-+		-boot->record_size > 31)
-+		goto out;
-+
- 	if ((boot->record_size < 0 &&
--	     SECTOR_SIZE > (2U << (-boot->record_size))) ||
-+	     SECTOR_SIZE > (2UL << (-boot->record_size))) ||
- 	    (boot->record_size >= 0 && !is_power_of_2(boot->record_size))) {
- 		goto out;
- 	}
- 
- 	/* Check index record size. */
-+	if (boot->index_size < 0 &&
-+		-boot->index_size > 31)
-+		goto out;
-+
- 	if ((boot->index_size < 0 &&
--	     SECTOR_SIZE > (2U << (-boot->index_size))) ||
-+	     SECTOR_SIZE > (2UL << (-boot->index_size))) ||
- 	    (boot->index_size >= 0 && !is_power_of_2(boot->index_size))) {
- 		goto out;
- 	}
--- 
-2.34.1
+--===============8230203175589207824==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8230203175589207824==--
