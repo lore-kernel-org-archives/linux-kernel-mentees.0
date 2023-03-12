@@ -1,96 +1,94 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87453C6FD1F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 12 Mar 2023 22:42:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DF7DC6FD1F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 12 Mar 2023 22:43:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0D606812B4;
-	Sun, 12 Mar 2023 22:42:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0D606812B4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=DS4J85Da
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R3uOxe22FA8l; Sun, 12 Mar 2023 22:42:02 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8A6D98129D;
-	Sun, 12 Mar 2023 22:42:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8A6D98129D
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6773EC0071;
-	Sun, 12 Mar 2023 22:42:01 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8F62BC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 12 Mar 2023 22:41:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 56928605E9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 12 Mar 2023 22:41:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 56928605E9
+	by smtp3.osuosl.org (Postfix) with ESMTP id 230A460C18;
+	Sun, 12 Mar 2023 22:43:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 230A460C18
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=DS4J85Da
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=oHrvhUBn
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hBv1u_R8O4bS; Sun, 12 Mar 2023 22:43:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C5E1A60A93;
+	Sun, 12 Mar 2023 22:43:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C5E1A60A93
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A55E5C0071;
+	Sun, 12 Mar 2023 22:43:02 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BD01AC0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 12 Mar 2023 22:43:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id A53F060BFE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 12 Mar 2023 22:43:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A53F060BFE
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mpwxN0GQdyTi
+ with ESMTP id Qc9VirkmpiYn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 12 Mar 2023 22:41:58 +0000 (UTC)
+ Sun, 12 Mar 2023 22:42:59 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C703B605B3
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com
- [IPv6:2a00:1450:4864:20::329])
- by smtp3.osuosl.org (Postfix) with ESMTPS id C703B605B3
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 61ABA60A93
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
+ [IPv6:2a00:1450:4864:20::332])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 61ABA60A93
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 12 Mar 2023 22:41:57 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id
- k25-20020a7bc419000000b003ed23114fa7so1007036wmi.4
+ Sun, 12 Mar 2023 22:42:59 +0000 (UTC)
+Received: by mail-wm1-x332.google.com with SMTP id
+ d41-20020a05600c4c2900b003e9e066550fso6709195wmp.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 12 Mar 2023 15:41:57 -0700 (PDT)
+ Sun, 12 Mar 2023 15:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678660916;
+ d=gmail.com; s=20210112; t=1678660977;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3DV3WErX81w+oA4u46CgOde85YlNmEd8A6YS/1NMMiY=;
- b=DS4J85DaLrNKPyqVJvGc/VQSd4fLq4wFqYnY+fUanmZ2ezx8KgUKzL8DeXtfNvVPlZ
- +lSDEnTMFWCqwiFNWUBm98o5f6Eol1aeSEEgcEosKrZutFburwWxXfVK490hfKPejTn2
- PRE8EtNAZwnMlKrnlPhhXkvc7zWfNsoPN/62NMxFsx3rMd3KXzaEg4z5b0VlPB3Y5MaU
- Nrg7mntzofcM90s0PY9MzP07RZuZpqwJ4yG7qmCHX3PuWx0h61Nv2am6ssS56q56TaAD
- mFMDOKK7EjYE4d/L5YMBg11T+Q47G0BAdw7LmMmdFNIKwb4CFTj2LLwdd0HwOzv8gHaD
- THfQ==
+ bh=b0ViGEbyFErRvg7Qz/LIg+Zt65cp8EPInnkG8HJXYoM=;
+ b=oHrvhUBnl0o+IC2q/3qYaOvxNruVjAMTtaLY5g2hJNy//RWU/sAxjg5l/Fh36sWDRu
+ h8//7vjugmj6jHAjSuVtpM9PIJiAQtkF9tlfDj8NQUAIf8HA70C7R5tXlm7gAcOVxddi
+ DfOMP4N4h/BYAXysR+vCDTyN6D+j71Q8qz4bXfuU72TEVMyrZ7DZ7t3MZfmWp8y69K71
+ ln6iUHVgfQmzAVThIT7pR2mUfIFDI5QZOdL8qJoGZzj3uih2oqq3pg++6f4KD3eixIdY
+ zSJcQeMo6XLUgrHXLKG9YDFvTZmviI8osj1mdvmlqe7V3SAjQLmJfgrIWgrvvAHYOc1T
+ HN1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678660916;
+ d=1e100.net; s=20210112; t=1678660977;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=3DV3WErX81w+oA4u46CgOde85YlNmEd8A6YS/1NMMiY=;
- b=caNGt5ZJzG+AToF/5ZXiR1M1yOcelTvKot60bAoDqr28I8s5LFsl5+EITHxQV1E79L
- rFvtShKCgcgarUQKLobRbWdfv5UzDwIPRSXvpocBpaaLLTDjGB3Do6jPJQ7DizGtohmX
- J/DAAu+0WKNTS1UxKg8PfCdRzLn715+uCbNCSNvE9gPBGba8PSUIaqrBaCm7vvEvFddg
- wY0xAVx9glNycEa0dLtBxCaF7sciIHJlRlWE4nXTqgde8LjVNEFsnhhGpm12RyJIDyuA
- HYweGKF97ErSFFg0AHQ5vJBhT82IX4uGBD1LudwM6U4Bj86clsIc3bdG0MfC5hh3ynQY
- /92w==
-X-Gm-Message-State: AO0yUKV9qcpyqrs0/baro5XOnxyGvj9cJnYXrn3528eEFbIk+WjI7Bww
- oSrskaIS2qCPeXq+0bZGMKQ=
-X-Google-Smtp-Source: AK7set+Y+FI9zNZpA+pWt8rs6vDigtGJMebgVH5yAwDKB0ArlOgT98n98M8O9iiYbJ4+rPg8/DEkLA==
-X-Received: by 2002:a1c:6a07:0:b0:3e2:1e01:803a with SMTP id
- f7-20020a1c6a07000000b003e21e01803amr8862204wmc.9.1678660915673; 
- Sun, 12 Mar 2023 15:41:55 -0700 (PDT)
+ bh=b0ViGEbyFErRvg7Qz/LIg+Zt65cp8EPInnkG8HJXYoM=;
+ b=oY0Ni1q9DI/2w5bayr4jmAbyx5vapit2s0JGYkAWilqq4l37RHGh1YWc2OixTnsY1W
+ fE42vBjXTN8bCoqMR2m0GrHG4TY6CvyVpfqfHvcAZvLNNRLxgpt4mYOkJwIw/sy7NRCc
+ sJ6y6z1SF+X5tvT5qZUAB5Hs0Ld2YmmHsW4cz/rJ8t5M5baiC7JoLI1NCtPlwJpcu+/o
+ hxiN1iK06582EJXAGP4N6vMRUIXBjl93gdEg4vfURDVGLWZSVVzB7fpUZmO3dMy8wZzB
+ 055/zdy4hDWJG/BENdnFBD1shtAPIXaUhsCDDeN5C/cpuPGNkr99evlPQ9kOGpN4sOFD
+ gPtg==
+X-Gm-Message-State: AO0yUKWcS7/OchO/U/1jsNZwkvRohu1xjpPqpzVh22yvtBTnHKVdXrX9
+ u/Q0v21oblTLm6ovL/d9SNkiJ80/txQXFQ==
+X-Google-Smtp-Source: AK7set/6UZOvxL1VAlulZhWciaG+yLSLeCHvf2bE1OEOwze3wPBFMFsTiKUztjVCYlACS0KZoPXXyw==
+X-Received: by 2002:a05:600c:3506:b0:3e2:c67:1c7f with SMTP id
+ h6-20020a05600c350600b003e20c671c7fmr8914733wmq.10.1678660977395; 
+ Sun, 12 Mar 2023 15:42:57 -0700 (PDT)
 Received: from localhost.localdomain ([2001:b07:5d37:537d:cd23:cd6e:ae14:44fe])
  by smtp.gmail.com with ESMTPSA id
- bi26-20020a05600c3d9a00b003e01493b136sm7127295wmb.43.2023.03.12.15.41.54
+ o4-20020a5d6844000000b002ce3b31753fsm6137544wrw.26.2023.03.12.15.42.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Mar 2023 15:41:55 -0700 (PDT)
+ Sun, 12 Mar 2023 15:42:56 -0700 (PDT)
 From: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
 To: linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v1 0/1] possibile regression in the mm_types
-Date: Sun, 12 Mar 2023 23:41:50 +0100
-Message-Id: <20230312224150.425382-1-vincenzopalazzodev@gmail.com>
+Subject: [RFC PATCH v1 1/1] linux: mm_types: allow to modified the vm_flags in
+ vm_area_struct
+Date: Sun, 12 Mar 2023 23:42:50 +0100
+Message-Id: <20230312224250.425727-1-vincenzopalazzodev@gmail.com>
 X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
 Cc: david@redhat.com, jhubbard@nvidia.com, willy@infradead.org, jgg@ziepe.ca,
@@ -107,185 +105,121 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-While I was testing the last rc1 version on my build machine
-I noticed that I was not able to build my nvidia driver and 
-also, the vboxhost/7.0.6_OSE driver while I was building [1].
-
-So I noticed that this change was introduced in the 6.3-rc1 
-and proposed by [2]. However, I think I can miss important 
-around this change,  there may be some motivation to 
-have the `const` constraint here, 
-and this change needs to be done in the out-of-tree driver 
-(this is the reason for the RFC) and not on the kernel itself.
-
-Therefore with the current path I was able to build and run 
-all the drivers mentioned, and before sending the email 
-I tested also with linux-next if the bug persists, and it does.
-
-Except for the nvidia driver that has this double-free exception
-but I guess it is unrelated
-
-[1] https://github.com/linux-kdevops/linux-kdevops
-[2] https://lore.kernel.org/all/20230126193752.297968-3-surenb@google.com/T/#u
-
-----
-[Mar11 18:59] ==================================================================
-[  +0.000008] BUG: KASAN: slab-use-after-free in nv_match_dev_state+0x74/0xa0 [nvidia]
-[  +0.001054] Read of size 8 at addr ffff88810dae4b38 by task cinnamon/791
-
-[  +0.000007] CPU: 6 PID: 791 Comm: cinnamon Tainted: P           OE      6.3.0-rc1-vincenzopalazzo-ge208f19e7da1-dirty #2 d6f374db04afea9926e4fb922b3f0658d8f082d0
-[  +0.000005] Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./H97M Pro4, BIOS P1.20 07/29/2014
-[  +0.000003] Call Trace:
-[  +0.000003]  <TASK>
-[  +0.000002]  dump_stack_lvl+0x47/0x60
-[  +0.000007]  print_report+0xcf/0x660
-[  +0.000006]  ? __virt_addr_valid+0xf8/0x180
-[  +0.000006]  ? nv_match_dev_state+0x74/0xa0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001048]  kasan_report+0xc9/0x100
-[  +0.000006]  ? nv_match_dev_state+0x74/0xa0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001045]  nv_match_dev_state+0x74/0xa0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001036]  ? __pfx_nv_match_dev_state+0x10/0x10 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001043]  iterate_fd+0x89/0xd0
-[  +0.000007]  nv_is_gpu_accessible+0x48/0x60 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001046]  _nv017347rm+0x24b/0x490 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001173]  _nv002227rm+0x4e/0x70 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001075]  _nv003800rm+0x7a/0xd0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001076]  _nv003495rm+0x4c/0x70 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001096]  _nv039310rm+0x8c/0x160 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001059]  _nv009851rm+0x259/0x520 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001088]  _nv041137rm+0x40a/0x830 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001056]  _nv041135rm+0x29d/0x2b0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001091]  _nv039423rm+0x15a/0x2e0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001051]  _nv039424rm+0x5b/0x90 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001066]  ? _nv039424rm+0x31/0x90 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001051]  ? cap_capable+0xaf/0xe0
-[  +0.000006]  _nv000559rm+0x5a/0x70 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001071]  ? _nv000559rm+0x33/0x70 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001076]  _nv000694rm+0x94a/0xc80 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001056]  rm_ioctl+0x54/0xb0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001051]  nvidia_ioctl+0xaa3/0xd90 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001027]  ? __pfx_nvidia_ioctl+0x10/0x10 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001023]  ? __rcu_read_unlock+0x4c/0x70
-[  +0.000005]  nvidia_frontend_unlocked_ioctl+0x82/0xb0 [nvidia a203532645cde567719e13f62d588b43ee43cdbf]
-[  +0.001042]  __x64_sys_ioctl+0xc3/0x100
-[  +0.000005]  do_syscall_64+0x5f/0x90
-[  +0.000006]  ? __x64_sys_ioctl+0xdb/0x100
-[  +0.000004]  ? syscall_exit_to_user_mode+0x1b/0x40
-[  +0.000005]  ? do_syscall_64+0x6b/0x90
-[  +0.000004]  ? syscall_exit_to_user_mode+0x1b/0x40
-[  +0.000004]  ? do_syscall_64+0x6b/0x90
-[  +0.000004]  ? syscall_exit_to_user_mode+0x1b/0x40
-[  +0.000004]  ? syscall_exit_to_user_mode+0x1b/0x40
-[  +0.000004]  ? do_syscall_64+0x6b/0x90
-[  +0.000004]  ? do_syscall_64+0x6b/0x90
-[  +0.000003]  ? exc_page_fault+0x5e/0xd0
-[  +0.000005]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-[  +0.000006] RIP: 0033:0x7fb3d2b9453f
-[  +0.000004] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 18 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-[  +0.000003] RSP: 002b:00007ffd30cd2f60 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[  +0.000005] RAX: ffffffffffffffda RBX: 0000000000000028 RCX: 00007fb3d2b9453f
-[  +0.000003] RDX: 00007ffd30cd30c0 RSI: 00000000c028462b RDI: 000000000000000c
-[  +0.000003] RBP: 00007ffd30cd30c0 R08: 00007ffd30cd30c0 R09: 00007ffd30cd30e4
-[  +0.000003] R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000c
-[  +0.000002] R13: 00000000c028462b R14: 000000000000002b R15: 00007ffd30cd2fc0
-[  +0.000005]  </TASK>
-
-[  +0.000004] Allocated by task 791:
-[  +0.000002]  kasan_save_stack+0x33/0x60
-[  +0.000005]  kasan_set_track+0x25/0x30
-[  +0.000004]  __kasan_kmalloc+0xaa/0xb0
-[  +0.000004]  __kmalloc+0x5e/0xd0
-[  +0.000003]  os_alloc_mem+0x11a/0x140 [nvidia]
-[  +0.001050]  _nv012306rm+0x23/0x30 [nvidia]
-[  +0.001089]  _nv012307rm+0x27/0xe0 [nvidia]
-[  +0.001086]  _nv013141rm+0x1b/0x90 [nvidia]
-[  +0.001090]  _nv043333rm+0x65/0xb0 [nvidia]
-[  +0.001100]  _nv039461rm+0xf9/0x1d0 [nvidia]
-[  +0.001070]  _nv041190rm+0x45/0xd0 [nvidia]
-[  +0.001064]  _nv041135rm+0x142/0x2b0 [nvidia]
-[  +0.001093]  _nv039423rm+0x15a/0x2e0 [nvidia]
-[  +0.001062]  _nv039424rm+0x5b/0x90 [nvidia]
-[  +0.001056]  _nv000560rm+0x59/0x70 [nvidia]
-[  +0.001065]  _nv000694rm+0x4ae/0xc80 [nvidia]
-[  +0.001051]  rm_ioctl+0x54/0xb0 [nvidia]
-[  +0.001050]  nvidia_ioctl+0xaa3/0xd90 [nvidia]
-[  +0.001026]  nvidia_frontend_unlocked_ioctl+0x82/0xb0 [nvidia]
-[  +0.001028]  __x64_sys_ioctl+0xc3/0x100
-[  +0.000003]  do_syscall_64+0x5f/0x90
-[  +0.000003]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-
-[  +0.000006] Freed by task 791:
-[  +0.000002]  kasan_save_stack+0x33/0x60
-[  +0.000004]  kasan_set_track+0x25/0x30
-[  +0.000004]  kasan_save_free_info+0x2e/0x50
-[  +0.000004]  ____kasan_slab_free+0x169/0x1c0
-[  +0.000004]  slab_free_freelist_hook+0xcd/0x190
-[  +0.000003]  __kmem_cache_free+0x1a6/0x2f0
-[  +0.000004]  _nv013138rm+0xbe/0x100 [nvidia]
-[  +0.001087]  _nv039463rm+0xa7/0xe0 [nvidia]
-[  +0.001055]  _nv041189rm+0x45/0x60 [nvidia]
-[  +0.001049]  _nv041135rm+0xbb/0x2b0 [nvidia]
-[  +0.001086]  _nv039423rm+0x15a/0x2e0 [nvidia]
-[  +0.001062]  _nv039424rm+0x5b/0x90 [nvidia]
-[  +0.001056]  _nv000560rm+0x59/0x70 [nvidia]
-[  +0.001065]  _nv000694rm+0x4ae/0xc80 [nvidia]
-[  +0.001060]  rm_ioctl+0x54/0xb0 [nvidia]
-[  +0.001050]  nvidia_ioctl+0xaa3/0xd90 [nvidia]
-[  +0.001020]  nvidia_frontend_unlocked_ioctl+0x82/0xb0 [nvidia]
-[  +0.001038]  __x64_sys_ioctl+0xc3/0x100
-[  +0.000004]  do_syscall_64+0x5f/0x90
-[  +0.000003]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-
-[  +0.000005] Last potentially related work creation:
-[  +0.000002]  kasan_save_stack+0x33/0x60
-[  +0.000004]  __kasan_record_aux_stack+0xb6/0xd0
-[  +0.000004]  kvfree_call_rcu+0x7c/0x530
-[  +0.000003]  kernfs_unlink_open_file+0x1ac/0x1c0
-[  +0.000005]  kernfs_fop_release+0x6f/0x160
-[  +0.000003]  __fput+0x10c/0x420
-[  +0.000004]  task_work_run+0xfc/0x170
-[  +0.000006]  exit_to_user_mode_prepare+0x1a7/0x1d0
-[  +0.000006]  syscall_exit_to_user_mode+0x1b/0x40
-[  +0.000003]  do_syscall_64+0x6b/0x90
-[  +0.000003]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-
-[  +0.000005] The buggy address belongs to the object at ffff88810dae4b00
-               which belongs to the cache kmalloc-96 of size 96
-[  +0.000004] The buggy address is located 56 bytes inside of
-               freed 96-byte region [ffff88810dae4b00, ffff88810dae4b60)
-
-[  +0.000005] The buggy address belongs to the physical page:
-[  +0.000002] page:00000000b6b0fdcc refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x10dae4
-[  +0.000004] anon flags: 0x2ffff0000000200(slab|node=0|zone=2|lastcpupid=0xffff)
-[  +0.000006] raw: 02ffff0000000200 ffff888100042780 0000000000000000 dead000000000001
-[  +0.000003] raw: 0000000000000000 0000000080200020 00000001ffffffff 0000000000000000
-[  +0.000002] page dumped because: kasan: bad access detected
-
-[  +0.000003] Memory state around the buggy address:
-[  +0.000002]  ffff88810dae4a00: 00 00 00 00 00 00 00 00 00 fc fc fc fc fc fc fc
-[  +0.000003]  ffff88810dae4a80: 00 00 00 00 00 00 00 00 00 00 fc fc fc fc fc fc
-[  +0.000003] >ffff88810dae4b00: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
-[  +0.000002]                                         ^
-[  +0.000003]  ffff88810dae4b80: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
-[  +0.000003]  ffff88810dae4c00: fa fb fb fb fb fb fb fb fb fb fb fb fc fc fc fc
-[  +0.000002] ==================================================================
-
-Vincenzo Palazzo (1):
-  linux: mm_types: allow to modified the vm_flags in vm_area_struct
-
- include/linux/mm_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-2.39.2
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+V2l0aCA2LjMtcmMxIGlzIG5vdCBwb3NzaWJsZSB0byBidWlsZCB0aGUgZm9sbG93aW5nIGRyaXZl
+cnMKCi0gbnZpZGlhLCB0aGF0IHRoZSBjb21waWxhdGlvbiByZXR1cm5zIHRoZSBmb2xsb3dpbmcg
+ZXJyb3JzCgovdmFyL2xpYi9ka21zL252aWRpYS81MjUuODkuMDIvYnVpbGQvbnZpZGlhL252LW1t
+YXAuYzogSW4gZnVuY3Rpb24g4oCYbnZpZGlhX21tYXBfbnVtYeKAmToKL3Zhci9saWIvZGttcy9u
+dmlkaWEvNTI1Ljg5LjAyL2J1aWxkL252aWRpYS9udi1tbWFwLmM6NDU1OjE5OiBlcnJvcjogYXNz
+aWdubWVudCBvZiByZWFkLW9ubHkgbWVtYmVyIOKAmHZtX2ZsYWdz4oCZCiAgNDU1IHwgICAgIHZt
+YS0+dm1fZmxhZ3MgfD0gVk1fTUlYRURNQVA7CiAgICAgIHwgICAgICAgICAgICAgICAgICAgXn4K
+L3Zhci9saWIvZGttcy9udmlkaWEvNTI1Ljg5LjAyL2J1aWxkL252aWRpYS9udi1tbWFwLmM6IElu
+IGZ1bmN0aW9uIOKAmG52aWRpYV9tbWFwX2hlbHBlcuKAmToKL3Zhci9saWIvZGttcy9udmlkaWEv
+NTI1Ljg5LjAyL2J1aWxkL252aWRpYS9udi1tbWFwLmM6NTk5OjIzOiBlcnJvcjogYXNzaWdubWVu
+dCBvZiByZWFkLW9ubHkgbWVtYmVyIOKAmHZtX2ZsYWdz4oCZCiAgNTk5IHwgICAgICAgICB2bWEt
+PnZtX2ZsYWdzIHw9IFZNX0lPIHwgVk1fUEZOTUFQIHwgVk1fRE9OVEVYUEFORDsKICAgICAgfCAg
+ICAgICAgICAgICAgICAgICAgICAgXn4KL3Zhci9saWIvZGttcy9udmlkaWEvNTI1Ljg5LjAyL2J1
+aWxkL252aWRpYS9udi1tbWFwLmM6NjY2OjIzOiBlcnJvcjogYXNzaWdubWVudCBvZiByZWFkLW9u
+bHkgbWVtYmVyIOKAmHZtX2ZsYWdz4oCZCiAgNjY2IHwgICAgICAgICB2bWEtPnZtX2ZsYWdzIHw9
+IChWTV9JTyB8IFZNX0xPQ0tFRCB8IFZNX1JFU0VSVkVEKTsKICAgICAgfCAgICAgICAgICAgICAg
+ICAgICAgICAgXn4KL3Zhci9saWIvZGttcy9udmlkaWEvNTI1Ljg5LjAyL2J1aWxkL252aWRpYS9u
+di1tbWFwLmM6NjY3OjIzOiBlcnJvcjogYXNzaWdubWVudCBvZiByZWFkLW9ubHkgbWVtYmVyIOKA
+mHZtX2ZsYWdz4oCZCiAgNjY3IHwgICAgICAgICB2bWEtPnZtX2ZsYWdzIHw9IChWTV9ET05URVhQ
+QU5EIHwgVk1fRE9OVERVTVApOwogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBefgovdmFy
+L2xpYi9ka21zL252aWRpYS81MjUuODkuMDIvYnVpbGQvbnZpZGlhL252LW1tYXAuYzo2NzM6MjM6
+IGVycm9yOiBhc3NpZ25tZW50IG9mIHJlYWQtb25seSBtZW1iZXIg4oCYdm1fZmxhZ3PigJkKICA2
+NzMgfCAgICAgICAgIHZtYS0+dm1fZmxhZ3MgJj0gflZNX1dSSVRFOwogICAgICB8ICAgICAgICAg
+ICAgICAgICAgICAgICBefgovdmFyL2xpYi9ka21zL252aWRpYS81MjUuODkuMDIvYnVpbGQvbnZp
+ZGlhL252LW1tYXAuYzo2NzQ6MjM6IGVycm9yOiBhc3NpZ25tZW50IG9mIHJlYWQtb25seSBtZW1i
+ZXIg4oCYdm1fZmxhZ3PigJkKICA2NzQgfCAgICAgICAgIHZtYS0+dm1fZmxhZ3MgJj0gflZNX01B
+WVdSSVRFOwogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICBefgovdmFyL2xpYi9ka21zL252
+aWRpYS81MjUuODkuMDIvYnVpbGQvbnZpZGlhL252LW1tYXAuYzogSW4gZnVuY3Rpb24g4oCYbnZf
+ZW5jb2RlX2NhY2hpbmfigJk6Ci92YXIvbGliL2RrbXMvbnZpZGlhLzUyNS44OS4wMi9idWlsZC9u
+dmlkaWEvbnYtbW1hcC5jOjM1MzoxNjogd2FybmluZzogdGhpcyBzdGF0ZW1lbnQgbWF5IGZhbGwg
+dGhyb3VnaCBbLVdpbXBsaWNpdC1mYWxsdGhyb3VnaD1dCiAgMzUzIHwgICAgICAgICAgICAgaWYg
+KE5WX0FMTE9XX0NBQ0hJTkcobWVtb3J5X3R5cGUpKQogICAgICB8ICAgICAgICAgICAgICAgIF4K
+L3Zhci9saWIvZGttcy9udmlkaWEvNTI1Ljg5LjAyL2J1aWxkL252aWRpYS9udi1tbWFwLmM6MzU2
+Ojk6IG5vdGU6IGhlcmUKICAzNTYgfCAgICAgICAgIGRlZmF1bHQ6CiAgICAgIHwgICAgICAgICBe
+fn5+fn5+Cm1ha2VbMl06ICoqKiBbc2NyaXB0cy9NYWtlZmlsZS5idWlsZDoyNTI6IC92YXIvbGli
+L2RrbXMvbnZpZGlhLzUyNS44OS4wMi9idWlsZC9udmlkaWEvbnYtbW1hcC5vXSBFcnJvciAxCm1h
+a2VbMl06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uCm1ha2VbMV06ICoqKiBb
+TWFrZWZpbGU6MjAyODogL3Zhci9saWIvZGttcy9udmlkaWEvNTI1Ljg5LjAyL2J1aWxkXSBFcnJv
+ciAyCm1ha2VbMV06IExlYXZpbmcgZGlyZWN0b3J5ICcvaG9tZS92aW5jZW56b3BhbGF6em8vZ2l0
+dGVhL2xpbnV4JwptYWtlOiAqKiogW01ha2VmaWxlOjgyOiBtb2R1bGVzXSBFcnJvciAyCi0tLS0t
+LQoKLSB2Ym94aG9zdC83LjAuNl9PU0Ugd2hlcmUgdGhlIGJ1aWxkIGZhaWxzIHdpdGggdGhlIGZv
+bGxvd2luZyBlcnJvcnMKREtNUyBtYWtlLmxvZyBmb3IgdmJveGhvc3QtNy4wLjZfT1NFIGZvciBr
+ZXJuZWwgNi4zLjAtcmMxLTAwMjMxLWc1MTFlNzczMzIyM2IgKHg4Nl82NCkKU2F0IE1hciAxMSAw
+NDoyMTozNCBQTSBVVEMgMjAyMwogIENDIFtNXSAgL3Zhci9saWIvZGttcy92Ym94aG9zdC83LjAu
+Nl9PU0UvYnVpbGQvdmJveG5ldGZsdC9saW51eC9WQm94TmV0Rmx0LWxpbnV4Lm8KICBDQyBbTV0g
+IC92YXIvbGliL2RrbXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3huZXRhZHAvbGludXgv
+VkJveE5ldEFkcC1saW51eC5vCiAgQ0MgW01dICAvdmFyL2xpYi9ka21zL3Zib3hob3N0LzcuMC42
+X09TRS9idWlsZC92Ym94bmV0Zmx0L1ZCb3hOZXRGbHQubwogIENDIFtNXSAgL3Zhci9saWIvZGtt
+cy92Ym94aG9zdC83LjAuNl9PU0UvYnVpbGQvdmJveGRydi9saW51eC9TVVBEcnYtbGludXgubwog
+IENDIFtNXSAgL3Zhci9saWIvZGttcy92Ym94aG9zdC83LjAuNl9PU0UvYnVpbGQvdmJveGRydi9T
+VVBEcnYubwogIENDIFtNXSAgL3Zhci9saWIvZGttcy92Ym94aG9zdC83LjAuNl9PU0UvYnVpbGQv
+dmJveG5ldGFkcC9WQm94TmV0QWRwLm8KICBDQyBbTV0gIC92YXIvbGliL2RrbXMvdmJveGhvc3Qv
+Ny4wLjZfT1NFL2J1aWxkL3Zib3hkcnYvU1VQRHJ2R2lwLm8KICBDQyBbTV0gIC92YXIvbGliL2Rr
+bXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3huZXRmbHQvU1VQUjBJZGNDbGllbnQubwog
+IENDIFtNXSAgL3Zhci9saWIvZGttcy92Ym94aG9zdC83LjAuNl9PU0UvYnVpbGQvdmJveGRydi9T
+VVBEcnZTZW0ubwogIENDIFtNXSAgL3Zhci9saWIvZGttcy92Ym94aG9zdC83LjAuNl9PU0UvYnVp
+bGQvdmJveG5ldGZsdC9TVVBSMElkY0NsaWVudENvbXBvbmVudC5vCiAgQ0MgW01dICAvdmFyL2xp
+Yi9ka21zL3Zib3hob3N0LzcuMC42X09TRS9idWlsZC92Ym94bmV0Zmx0L2xpbnV4L1NVUFIwSWRj
+Q2xpZW50LWxpbnV4Lm8KICBDQyBbTV0gIC92YXIvbGliL2RrbXMvdmJveGhvc3QvNy4wLjZfT1NF
+L2J1aWxkL3Zib3hkcnYvU1VQRHJ2VHJhY2VyLm8KICBDQyBbTV0gIC92YXIvbGliL2RrbXMvdmJv
+eGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3hkcnYvU1VQTGliQWxsLm8KICBDQyBbTV0gIC92YXIv
+bGliL2RrbXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3hkcnYvY29tbW9uL3N0cmluZy9z
+dHJmb3JtYXRydC5vCiAgQ0MgW01dICAvdmFyL2xpYi9ka21zL3Zib3hob3N0LzcuMC42X09TRS9i
+dWlsZC92Ym94ZHJ2L2NvbWJpbmVkLWFnbm9zdGljMS5vCiAgQ0MgW01dICAvdmFyL2xpYi9ka21z
+L3Zib3hob3N0LzcuMC42X09TRS9idWlsZC92Ym94ZHJ2L2NvbWJpbmVkLWFnbm9zdGljMi5vCiAg
+Q0MgW01dICAvdmFyL2xpYi9ka21zL3Zib3hob3N0LzcuMC42X09TRS9idWlsZC92Ym94ZHJ2L2Nv
+bWJpbmVkLW9zLXNwZWNpZmljLm8KICBMRCBbTV0gIC92YXIvbGliL2RrbXMvdmJveGhvc3QvNy4w
+LjZfT1NFL2J1aWxkL3Zib3huZXRhZHAvdmJveG5ldGFkcC5vCkluIGZpbGUgaW5jbHVkZWQgZnJv
+bSAvdmFyL2xpYi9ka21zL3Zib3hob3N0LzcuMC42X09TRS9idWlsZC92Ym94ZHJ2L2NvbWJpbmVk
+LW9zLXNwZWNpZmljLmM6NDM6Ci92YXIvbGliL2RrbXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxk
+L3Zib3hkcnYvcjBkcnYvbGludXgvbWVtb2JqLXIwZHJ2LWxpbnV4LmM6IEluIGZ1bmN0aW9uIOKA
+mHJ0UjBNZW1PYmpOYXRpdmVMb2NrVXNlcuKAmToKL3Zhci9saWIvZGttcy92Ym94aG9zdC83LjAu
+Nl9PU0UvYnVpbGQvdmJveGRydi9yMGRydi9saW51eC9tZW1vYmotcjBkcnYtbGludXguYzoxNDA0
+OjM5OiBlcnJvcjogYXNzaWdubWVudCBvZiByZWFkLW9ubHkgbWVtYmVyIOKAmHZtX2ZsYWdz4oCZ
+CiAxNDA0IHwgICAgICAgICAgICAgICAgIHBhcFZNQXNbcmNdLT52bV9mbGFncyB8PSBWTV9ET05U
+Q09QWSB8IFZNX0xPQ0tFRDsKICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF5+Ci92YXIvbGliL2RrbXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3hkcnYv
+cjBkcnYvbGludXgvbWVtb2JqLXIwZHJ2LWxpbnV4LmM6IEluIGZ1bmN0aW9uIOKAmHJ0UjBNZW1P
+YmpOYXRpdmVNYXBVc2Vy4oCZOgovdmFyL2xpYi9ka21zL3Zib3hob3N0LzcuMC42X09TRS9idWls
+ZC92Ym94ZHJ2L3IwZHJ2L2xpbnV4L21lbW9iai1yMGRydi1saW51eC5jOjE4NzY6MzU6IGVycm9y
+OiBhc3NpZ25tZW50IG9mIHJlYWQtb25seSBtZW1iZXIg4oCYdm1fZmxhZ3PigJkKIDE4NzYgfCAg
+ICAgICAgICAgICAgICAgICAgIHZtYS0+dm1fZmxhZ3MgfD0gVk1fRE9OVEVYUEFORCB8IFZNX0RP
+TlREVU1QOwogICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBefgptYWtl
+WzJdOiAqKiogW3NjcmlwdHMvTWFrZWZpbGUuYnVpbGQ6MjUyOiAvdmFyL2xpYi9ka21zL3Zib3ho
+b3N0LzcuMC42X09TRS9idWlsZC92Ym94ZHJ2L2NvbWJpbmVkLW9zLXNwZWNpZmljLm9dIEVycm9y
+IDEKbWFrZVsyXTogKioqIFdhaXRpbmcgZm9yIHVuZmluaXNoZWQgam9icy4uLi4KICBMRCBbTV0g
+IC92YXIvbGliL2RrbXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3huZXRmbHQvdmJveG5l
+dGZsdC5vCm1ha2VbMV06ICoqKiBbc2NyaXB0cy9NYWtlZmlsZS5idWlsZDo0OTQ6IC92YXIvbGli
+L2RrbXMvdmJveGhvc3QvNy4wLjZfT1NFL2J1aWxkL3Zib3hkcnZdIEVycm9yIDIKbWFrZTogKioq
+IFtNYWtlZmlsZToyMDI4OiAvdmFyL2xpYi9ka21zL3Zib3hob3N0LzcuMC42X09TRS9idWlsZF0g
+RXJyb3IgMgotLS0tLQoKVGhlIGNvbW1hbmRzIHRoYXQgSSB1c2UgdG8gYnVpbGQgdGhlc2UgZHJp
+dmVycyBhcmU6CgotIHN1ZG8gZGttcyBpbnN0YWxsIC0tbm8tZGVwbW9kIG52aWRpYS81MjUuODku
+MDIgLWsgNi4zLjAtcmMxLTAwMjMxLWc1MTFlNzczMzIyM2IKLSBzdWRvIGRrbXMgaW5zdGFsbCAt
+LW5vLWRlcG1vZCB2Ym94aG9zdC83LjAuNl9PU0UgLWsgNi4zLjAtcmMxLTAwMjMxLWc1MTFlNzcz
+MzIyM2IKClRoZSBmb2xsb3dpbmcgY29tbWl0IHJldmVydHMgdGhlIGNvbnN0IGNvbnN0cmFpbnQg
+dGhhdCB3YXMgYWRkZWQgaW4gWzFdLAphbmQgYWxzbyBJIHRlc3RlZCB0aGlzIHBhdGNoIG9uIG15
+IHN5c3RlbSBhbmQgYWxsIHN0YXJ0ZWQgYWdhaW4gYXMKNi4yLjIuCgpbMV0gaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvYWxsLzIwMjMwMTI2MTkzNzUyLjI5Nzk2OC0zLXN1cmVuYkBnb29nbGUuY29t
+L1QvI3UKClNpZ25lZC1vZmYtYnk6IFZpbmNlbnpvIFBhbGF6em8gPHZpbmNlbnpvcGFsYXp6b2Rl
+dkBnbWFpbC5jb20+Ci0tLQogaW5jbHVkZS9saW51eC9tbV90eXBlcy5oIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvaW5j
+bHVkZS9saW51eC9tbV90eXBlcy5oIGIvaW5jbHVkZS9saW51eC9tbV90eXBlcy5oCmluZGV4IDA3
+MjI4NTljMzY0Ny4uYTM1NGViNjBjN2U4IDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4L21tX3R5
+cGVzLmgKKysrIGIvaW5jbHVkZS9saW51eC9tbV90eXBlcy5oCkBAIC00OTcsNyArNDk3LDcgQEAg
+c3RydWN0IHZtX2FyZWFfc3RydWN0IHsKIAkgKiBUbyBtb2RpZnkgdXNlIHZtX2ZsYWdzX3tpbml0
+fHJlc2V0fHNldHxjbGVhcnxtb2R9IGZ1bmN0aW9ucy4KIAkgKi8KIAl1bmlvbiB7Ci0JCWNvbnN0
+IHZtX2ZsYWdzX3Qgdm1fZmxhZ3M7CisJCXZtX2ZsYWdzX3Qgdm1fZmxhZ3M7CiAJCXZtX2ZsYWdz
+X3QgX19wcml2YXRlIF9fdm1fZmxhZ3M7CiAJfTsKIAotLSAKMi4zOS4yCgpfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBt
+YWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9y
+ZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51
+eC1rZXJuZWwtbWVudGVlcwo=
