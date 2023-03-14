@@ -4,98 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C5FC8C6FD19
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 13 Mar 2023 14:29:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77AD2C6FD1C
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Mar 2023 12:05:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 47C5D81951;
-	Mon, 13 Mar 2023 14:29:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 47C5D81951
+	by smtp1.osuosl.org (Postfix) with ESMTP id F3DF081E24;
+	Tue, 14 Mar 2023 12:05:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F3DF081E24
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=JsYGpUuu
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=IwlVlMQ4
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id LkgY0-f252sJ; Mon, 13 Mar 2023 14:29:52 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0428A8191E;
-	Mon, 13 Mar 2023 14:29:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0428A8191E
+	with ESMTP id tcVbY5bLsSz0; Tue, 14 Mar 2023 12:05:34 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DEEF381E04;
+	Tue, 14 Mar 2023 12:05:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DEEF381E04
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DF258C0035;
-	Mon, 13 Mar 2023 14:29:51 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 70543C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C291AC0035;
+	Tue, 14 Mar 2023 12:05:33 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9D37EC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Mar 2023 14:29:50 +0000 (UTC)
+ Tue, 14 Mar 2023 12:05:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 378B941729
+ by smtp1.osuosl.org (Postfix) with ESMTP id 71F2D81E24
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Mar 2023 14:29:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 378B941729
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
- header.a=rsa-sha256 header.s=20210112 header.b=JsYGpUuu
+ Tue, 14 Mar 2023 12:05:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 71F2D81E24
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JKkFv4XUJseY
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id sufwdmGF_aaZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Mar 2023 14:29:49 +0000 (UTC)
+ Tue, 14 Mar 2023 12:05:31 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1B06141718
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com
- [IPv6:2607:f8b0:4864:20::112a])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 1B06141718
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0580881E04
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 0580881E04
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Mar 2023 14:29:48 +0000 (UTC)
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-5416b0ab0ecso116031197b3.6
+ Tue, 14 Mar 2023 12:05:30 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c8-20020a05600c0ac800b003ed2f97a63eso101995wmr.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 Mar 2023 07:29:48 -0700 (PDT)
+ Tue, 14 Mar 2023 05:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1678717788;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6UKWk2lA6kcgmQW/mPXhYLF0VgpMqFYUu2eJawxBUrc=;
- b=JsYGpUuuAx69bskMhPRqv35bAcYWS/hoIYaRo9DNZLzgl1Utp9qht4TTGAWdAQEbsf
- 5UJxIBxJssi4Lqs01bKzAvX+MoGXit5rRaXgLxkVgnN7f1AED9uIfPAzCz/xZt8tAsm9
- mRZ3BawbmCm60zy91wZNRV3xPR1z6mLAakuqOfsEuT7clGpdo3KFgVwtliPaCU51V4qt
- EO4UrVB21S99Syng0gy+sj3NTmwckTm9oIL4bYv+iLzA4WqxAYRLZCYJvVO/6Ns3iG2P
- 9OXop6CzXqYhlm1cmJ0ZBPc05a7i0r9lPDskicKJwOrW/LyFCtYmHaJrKqKjW0/HKsYp
- K7sA==
+ d=gmail.com; s=20210112; t=1678795529; x=1681387529;
+ h=content-transfer-encoding:in-reply-to:from:to:content-language
+ :references:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=uuZPA6U7LSFaedRXIOYqZD00Nnv1oDl6UuiE2AirY+k=;
+ b=IwlVlMQ4zPgU8q+JJtkDM9Z2/ogIyw+2pvLUbobUmms0x135dZXMFGiJwtfi7y9aBt
+ r7FrKbIMXAwKynW0NzD55XU+O0Ub/GLS1RZSRZLy/IXCKPa8sHmLL//k9+dtyRo0Sl4l
+ rFj73MzaVwzNCqyvzlAlNLkXW9SK/vV89m7BbdK5QgIMIe8yQQTLJ3RqQB0LE1nQvHCm
+ gUpBpH1dNp1q4JqVCL+Cam1qQfkHsq/HN8icZU+HRo3muarStXFsnWkcd7+enRQMsvVT
+ iNwCu97R+iHMsLD+SToAf9sH3Db0oZ/rTYpZJgeiAwCJabcmomnsP3615ydPeattoOO1
+ 5YSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678717788;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6UKWk2lA6kcgmQW/mPXhYLF0VgpMqFYUu2eJawxBUrc=;
- b=fKFqTG+lwPOe66JpTkEEGNuBsexT5AQ/UlEvCJ6aeWD64wMfloFNllAMb+rR4NN8X+
- 2YB2BQr1UIkmOaxLIDlj+iH4Cv5KCuBIV697bfq/RMgusCrC/2512pvIGGvXeIzVp3bb
- zJpltF40ZNaPtUwGk+4OVE/kAcFf+q3iyhVgrVuarWf/p3Kl+LxMdEfAXdvFaWu6z/FQ
- jJCWAmMZPy+3HJP3opFRY2PRTDrf6jC3/Y4c+rJ3D+SG3pR3bKluxxlvjqyVW7AwO3X3
- 67ZLOLdWjMQ9xmPqTSMMipjw82ipkQUIpI2ryEWbA26HCWS4TZ/oYQUU4LVuF8IsBZAX
- JqwA==
-X-Gm-Message-State: AO0yUKV1ddtRcfxHSlTExqnJPDLisqcx7qMDkwEb5VYP2/zzJPYspxYs
- Rl3ibU2eVNuG3zmn/kzZJvtQcYiUlNEyuBtB+ELYnQ==
-X-Google-Smtp-Source: AK7set9+V74KeSz36D//IGW89NODCNRrVm8ctZWGiYSP3DdxCEfiOrL/e5qwPAaaztWcNGEAHyWBdw2UyDWyJW43tQ8=
-X-Received: by 2002:a81:a989:0:b0:534:1d7:fcf0 with SMTP id
- g131-20020a81a989000000b0053401d7fcf0mr22797541ywh.1.1678717787629; Mon, 13
- Mar 2023 07:29:47 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1678795529; x=1681387529;
+ h=content-transfer-encoding:in-reply-to:from:to:content-language
+ :references:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=uuZPA6U7LSFaedRXIOYqZD00Nnv1oDl6UuiE2AirY+k=;
+ b=4C3QtYxcVYi9Kiwr12DP2uF25s5uvCIpRDyGIfIUM8IDJY8ny7RSM5itnUldkdnDAC
+ rKm+DnCnSM8TBVJb1Ea8d9z5zYXfvHXLrvC6gohYS31t6/Y1Xxv7Q+b8AQzAtLxkhe2e
+ WQkSMtHcdJm+Xgx4m7biRcXLfTibVSH1aIhF/YyyX2XV0N3fxzeEuiIwI4UbxUK9q+HV
+ XnjE1IkrL/YBFO2J1l9jMbSQCsj4Ndj/Yew3mk56WG10E67pxVTQrumPhgbArSq5fNHH
+ Y1mRTae4lirWcsSGPa4o7bY2Jel/rpHKUA8oLZqwF0+AkgD09mY+rg6my2eLFD4LM5ha
+ RQDQ==
+X-Gm-Message-State: AO0yUKUpmK3+QVVbxU59ydjJaagjRQorkPHdHFEXLgVPwQujB4B+N0gc
+ GGLfkW11cn5PgIenXCtN3IGIIgJoH+psaQ==
+X-Google-Smtp-Source: AK7set/KhVONwK8Xt1fNGAyXn/h9TwTAWxw/R43j8xTCKSWYcaLOWtMdrWc7nWzn4cNREAVmOfxRBA==
+X-Received: by 2002:a05:600c:3d89:b0:3e2:415:f09f with SMTP id
+ bi9-20020a05600c3d8900b003e20415f09fmr12565558wmb.3.1678795528802; 
+ Tue, 14 Mar 2023 05:05:28 -0700 (PDT)
+Received: from [192.168.10.15] ([37.252.81.68])
+ by smtp.gmail.com with ESMTPSA id
+ s16-20020a05600c45d000b003ed29899dfdsm2811859wmo.21.2023.03.14.05.05.28
+ for <linux-kernel-mentees@lists.linuxfoundation.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Mar 2023 05:05:28 -0700 (PDT)
+Message-ID: <d2790e79-898a-609a-af3e-3bb9571bd264@gmail.com>
+Date: Tue, 14 Mar 2023 16:05:27 +0400
 MIME-Version: 1.0
-References: <20230312224250.425727-1-vincenzopalazzodev@gmail.com>
- <20230312175703.d8d8e0192387dfa9592ee8e5@linux-foundation.org>
- <CR55BD4YCDR1.22R5TLYJW6YS0@vincent-arch>
-In-Reply-To: <CR55BD4YCDR1.22R5TLYJW6YS0@vincent-arch>
-Date: Mon, 13 Mar 2023 07:29:35 -0700
-Message-ID: <CAJuCfpETYdLRigLTHe6HHQrC5vy5MmDc=HPsuMc6UKEzfr22ZA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 1/1] linux: mm_types: allow to modified the
- vm_flags in vm_area_struct
-To: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-Cc: david@redhat.com, jhubbard@nvidia.com, linux-kernel@vger.kernel.org,
- Liam.Howlett@oracle.com, jgg@ziepe.ca, willy@infradead.org,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Fwd: [PATCH] FS, NET: Fix KMSAN uninit-value in vfs_write
+References: <20230314120445.12407-1-ivan.orlov0322@gmail.com>
+Content-Language: en-US
+To: linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <20230314120445.12407-1-ivan.orlov0322@gmail.com>
+X-Forwarded-Message-Id: <20230314120445.12407-1-ivan.orlov0322@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,67 +108,135 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Suren Baghdasaryan via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gTW9uLCBNYXIgMTMsIDIwMjMgYXQgMjoyNeKAr0FNIFZpbmNlbnpvIFBhbGF6em8KPHZpbmNl
-bnpvcGFsYXp6b2RldkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gT24gTW9uIE1hciAxMywgMjAyMyBh
-dCAxOjU3IEFNIENFVCwgQW5kcmV3IE1vcnRvbiB3cm90ZToKPiA+IE9uIFN1biwgMTIgTWFyIDIw
-MjMgMjM6NDI6NTAgKzAxMDAgVmluY2Vuem8gUGFsYXp6byA8dmluY2Vuem9wYWxhenpvZGV2QGdt
-YWlsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gPiBXaXRoIDYuMy1yYzEgaXMgbm90IHBvc3NpYmxlIHRv
-IGJ1aWxkIHRoZSBmb2xsb3dpbmcgZHJpdmVycwo+ID4KPiA+IFdlbGwsIGxldCdzIGNjIFN1cmVu
-IHdobyBhY3R1YWxseSB3cm90ZSBiYzI5MmFiMDBmNmMgKCJtbTogaW50cm9kdWNlCj4gPiB2bWEt
-PnZtX2ZsYWdzIHdyYXBwZXIgZnVuY3Rpb25zIikuCj4gPgo+ID4gPiAtIG52aWRpYSwgdGhhdCB0
-aGUgY29tcGlsYXRpb24gcmV0dXJucyB0aGUgZm9sbG93aW5nIGVycm9ycwo+ID4gPgo+ID4gPiAt
-IHZib3hob3N0LzcuMC42X09TRSB3aGVyZSB0aGUgYnVpbGQgZmFpbHMgd2l0aCB0aGUgZm9sbG93
-aW5nIGVycm9ycwo+ID4gPgo+ID4gPiAuLi4KPiA+ID4KPiA+ID4gLS0tIGEvaW5jbHVkZS9saW51
-eC9tbV90eXBlcy5oCj4gPiA+ICsrKyBiL2luY2x1ZGUvbGludXgvbW1fdHlwZXMuaAo+ID4gPiBA
-QCAtNDk3LDcgKzQ5Nyw3IEBAIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCB7Cj4gPiA+ICAgICAgKiBU
-byBtb2RpZnkgdXNlIHZtX2ZsYWdzX3tpbml0fHJlc2V0fHNldHxjbGVhcnxtb2R9IGZ1bmN0aW9u
-cy4KPiA+ID4gICAgICAqLwo+ID4gPiAgICAgdW5pb24gewo+ID4gPiAtICAgICAgICAgICBjb25z
-dCB2bV9mbGFnc190IHZtX2ZsYWdzOwo+ID4gPiArICAgICAgICAgICB2bV9mbGFnc190IHZtX2Zs
-YWdzOwo+ID4gPiAgICAgICAgICAgICB2bV9mbGFnc190IF9fcHJpdmF0ZSBfX3ZtX2ZsYWdzOwo+
-ID4gPiAgICAgfTsKPiA+Cj4gPiBUaGVzZSBvdXQtb2YtdHJlZSBkcml2ZXJzIHNob3VsZCBiZSBj
-b252ZXJ0ZWQgdG8gdXNlIHRoZSB3cmFwcGVycyB3aGljaAo+ID4gYmMyOTJhYjAwZjZjIGFkZGVk
-LiAgVGhlaXIgbWFpbnRhaW5lcnMgaGF2ZSBhIGNvdXBsZSBvZiBtb250aHMgdG8gZG8KPiA+IHRo
-aXMgYmVmb3JlIGJjMjkyYWIwMGY2YyBpcyByZWxlYXNlZCBpbiA2LjMuCj4KPiBZZWFoIEkgdGhv
-dWdodCBhYm91dCB0aGF0ISBudmlkaWEgdXBkYXRlIGFzIHNvb24gYXMgdGhlIDYuMyBpcyBvdXQs
-IG5vdCBzdXJlCj4gYWJvdXQgdmJveGhvc3QuIEJ1dCBsZXQgdGhlIGRyaXZlciB1cGRhdGUgdG8g
-dGhpcyBuZXcgZmVhdHVyZSBtYWtlIHNlbnNlLgo+Cj4gPgo+ID4gSXQncyB1bmZvcnR1bmF0ZS4g
-IEkgZ3Vlc3MgaXQgd291bGQgYmUgYmV0dGVyIGlmIHdlIHdlcmUgdG8gZmluZCBhIHdheQo+ID4g
-dG8gcGVybWl0IHRoZXNlIGRyaXZlcnMgdG8gY29tcGlsZSBPSyBidXQgdG8gZ2VuZXJhdGUgd2Fy
-bmluZ3MsIGFzIGFuCj4gPiBpbnRlcmltIHRoaW5nIGZvciBzaXggbW9udGhzIG9yIHNvLiAgUGVy
-aGFwcyB0aGVyZSdzIHNvbWUgY2xldmVyIHdheS4KPgo+IFllYWggaXQgaXMhIFJlZ2FyZGluZyBn
-aXZpbmcgdGhlIHBvc3NpYmxpdHkgdG8gY29tcGlsZSBvayAoYW5kCj4gcHJlc2VydmluZyB0aGUg
-cHJldmlvdXMgYmVoYXZpb3IpIGxvb2sgbGlrZSBhbiBpbnRlcmVzdGluZyB0aG91Z2h0IGZvcgo+
-IGtlcm5lbCBBUEksIGJ1dCBhbSBJIHRoaW5rIHRoYXQgaXQgdGhpcyBpcyBkaWZmaWN1bHQgdG8g
-ZG8/Cj4KPiBUaGUgcmVhbCB0aGluZ3MgdGhhdCBJJ20gbWlzc2luZyB3aXRoIHRoZSBuZXcgd3Jh
-cHBlciBBUEkKPiBpcyB0aGUgbWVhbmluZyBvZiB0aGUgbmV3IGB2bV9mbGFnc190IHZtX2ZsYWdz
-YCwgYmVmb3JlIHRoZQo+IGZpZWxkIHdhcyBvbmx5IG9uZSBhbmQgaXQgd2FzIGdldHRpbmcgbW9k
-aWZpZWQsIGJ1dCBub3cgdGhlIHJlYWwKPiB2YWx1ZSBpcyB0aGUgcHJpdmF0ZSBvbmUgYF9fdm1f
-ZmxhZ3NgLCBzbyB3aGF0IGlzIHRoZSBtZWFuaW5nIG9mCj4gdGhlIG5ldyBgdm1fZmxhZ3NgPwoK
-U29ycnkgZm9yIHRoZSBkZWxheS4gSSdtIG9uIHZhY2F0aW9uIHVudGlsIFdlZG5lc2RheSBhbmQg
-aGF2ZSBsaW1pdGVkCm5ldHdvcmsgYWNjZXNzLgp2bV9mbGFncyBpcyB1c2VkIGFzIGEgcmVhZC1v
-bmx5IHByb3BlcnR5IHNvIHRoYXQgcmVhZGVycyBvZiB0aGUgZmxhZ3MKZG9uJ3QgaGF2ZSB0byBj
-aGFuZ2UsIGhvd2V2ZXIgZmxhZyBtb2RpZmllcnMgc2hvdWxkIGJlIHVzaW5nIG5ldwp3cmFwcGVy
-IGZ1bmN0aW9ucy4gRml4aW5nIHRoZSBlcnJvcnMgaW4gdGhpcyByZXBvcnQgc2hvdWxkIGJlIHRy
-aXZpYWwuCkZvciBleGFtcGxlOgp2bWEtPnZtX2ZsYWdzIHw9IFZNX0lPIHwgVk1fUEZOTUFQIHwg
-Vk1fRE9OVEVYUEFORDsKc2hvdWxkIGJlIHJlcGxhY2VkIHdpdGgKdm1fZmxhZ3Nfc2V0KHZtYSwg
-Vk1fSU8gfCBWTV9QRk5NQVAgfCBWTV9ET05URVhQQU5EKTsKYW5kCnZtYS0+dm1fZmxhZ3MgJj0g
-flZNX01BWVdSSVRFOwp3aXRoCnZtX2ZsYWdzX2NsZWFyKHZtYSwgVk1fTUFZV1JJVEUpOwoKVGhh
-bmtzLApTdXJlbi4KCj4KPiBJIGZlZWwgdGhhdCB0aGlzIHF1ZXN0aW9uIGlzIHN0dXBpZCBidXQg
-SSBjYW4gbm90IGF2b2lkIGRvIGl0LCBvdGhlcndpc2UKPiBteSBtaW5kIHRoaW5rIGFib3V0IGl0
-IHRpbGwgSSB3aWxsIG5vdCBmaW5kIGFuIGFuc3dlciA6KQo+Cj4gUC5TOiByZWdhcmluZyB0aGUg
-d2FybmluZyBhdCBjb21waWxlIHRpbWUgdGhlIF9fZGVwcmVjYXRlZCBsb29rcyBhIGdvb2QKPiBm
-aXQgdG8gZ2VuZXJhdGUgZXJyb3IgbWVzc2FnZSwgYnV0IHRvIG1lIGluIHRoaXMgcGFydGljdWxh
-ciBjYXNlIGRvIG5vdC4KPgo+IFRoYW5rcywKPgo+IFZpbmNlbnQuCj4KX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFp
-bGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcK
-aHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-a2VybmVsLW1lbnRlZXMK
+
+
+
+-------- Forwarded Message --------
+Subject: [PATCH] FS, NET: Fix KMSAN uninit-value in vfs_write
+Date: Tue, 14 Mar 2023 16:04:45 +0400
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: socketcan@hartkopp.net, mkl@pengutronix.de, davem@davemloft.net, 
+edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+CC: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-can@vger.kernel.org, 
+netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+himadrispandya@gmail.com, skhan@linuxfoundation.org, 
+syzbot+c9bfd85eca611ebf5db1@syzkaller.appspotmail.com
+
+Syzkaller reported the following issue:
+
+=====================================================
+BUG: KMSAN: uninit-value in aio_rw_done fs/aio.c:1520 [inline]
+BUG: KMSAN: uninit-value in aio_write+0x899/0x950 fs/aio.c:1600
+  aio_rw_done fs/aio.c:1520 [inline]
+  aio_write+0x899/0x950 fs/aio.c:1600
+  io_submit_one+0x1d1c/0x3bf0 fs/aio.c:2019
+  __do_sys_io_submit fs/aio.c:2078 [inline]
+  __se_sys_io_submit+0x293/0x770 fs/aio.c:2048
+  __x64_sys_io_submit+0x92/0xd0 fs/aio.c:2048
+  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+Uninit was created at:
+  slab_post_alloc_hook mm/slab.h:766 [inline]
+  slab_alloc_node mm/slub.c:3452 [inline]
+  __kmem_cache_alloc_node+0x71f/0xce0 mm/slub.c:3491
+  __do_kmalloc_node mm/slab_common.c:967 [inline]
+  __kmalloc+0x11d/0x3b0 mm/slab_common.c:981
+  kmalloc_array include/linux/slab.h:636 [inline]
+  bcm_tx_setup+0x80e/0x29d0 net/can/bcm.c:930
+  bcm_sendmsg+0x3a2/0xce0 net/can/bcm.c:1351
+  sock_sendmsg_nosec net/socket.c:714 [inline]
+  sock_sendmsg net/socket.c:734 [inline]
+  sock_write_iter+0x495/0x5e0 net/socket.c:1108
+  call_write_iter include/linux/fs.h:2189 [inline]
+  aio_write+0x63a/0x950 fs/aio.c:1600
+  io_submit_one+0x1d1c/0x3bf0 fs/aio.c:2019
+  __do_sys_io_submit fs/aio.c:2078 [inline]
+  __se_sys_io_submit+0x293/0x770 fs/aio.c:2048
+  __x64_sys_io_submit+0x92/0xd0 fs/aio.c:2048
+  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+CPU: 1 PID: 5034 Comm: syz-executor350 Not tainted 
+6.2.0-rc6-syzkaller-80422-geda666ff2276 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS 
+Google 01/12/2023
+=====================================================
+
+We can follow the call chain and find that 'bcm_tx_setup' function calls 
+'memcpy_from_msg'
+to copy some content to the newly allocated frame of 'op->frames'. After 
+that the 'len'
+field of copied structure being compared with some constant value (64 or 
+8). However, if
+'memcpy_from_msg' returns an error, we will compare some uninitialized 
+memory. This triggers
+'uninit-value' issue.
+
+This patch will add 'memcpy_from_msg' possible errors processing to 
+avoid uninit-value
+issue.
+
+Tested via syzkaller
+
+Reported-by: syzbot+c9bfd85eca611ebf5db1@syzkaller.appspotmail.com
+Link: 
+https://syzkaller.appspot.com/bug?id=47f897f8ad958bbde5790ebf389b5e7e0a345089
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+  net/can/bcm.c | 16 ++++++++++------
+  1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/net/can/bcm.c b/net/can/bcm.c
+index 27706f6ace34..a962ec2b8ba5 100644
+--- a/net/can/bcm.c
++++ b/net/can/bcm.c
+@@ -941,6 +941,8 @@ static int bcm_tx_setup(struct bcm_msg_head 
+*msg_head, struct msghdr *msg,
+   			cf = op->frames + op->cfsiz * i;
+  			err = memcpy_from_msg((u8 *)cf, msg, op->cfsiz);
++			if (err < 0)
++				goto free_op;
+   			if (op->flags & CAN_FD_FRAME) {
+  				if (cf->len > 64)
+@@ -950,12 +952,8 @@ static int bcm_tx_setup(struct bcm_msg_head 
+*msg_head, struct msghdr *msg,
+  					err = -EINVAL;
+  			}
+  -			if (err < 0) {
+-				if (op->frames != &op->sframe)
+-					kfree(op->frames);
+-				kfree(op);
+-				return err;
+-			}
++			if (err < 0)
++				goto free_op;
+   			if (msg_head->flags & TX_CP_CAN_ID) {
+  				/* copy can_id into frame */
+@@ -1026,6 +1024,12 @@ static int bcm_tx_setup(struct bcm_msg_head 
+*msg_head, struct msghdr *msg,
+  		bcm_tx_start_timer(op);
+   	return msg_head->nframes * op->cfsiz + MHSIZ;
++
++free_op:
++	if (op->frames != &op->sframe)
++		kfree(op->frames);
++	kfree(op);
++	return err;
+  }
+   /*
+-- 
+2.34.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
