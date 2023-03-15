@@ -1,102 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 77AD2C6FD1C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 14 Mar 2023 12:05:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 147D8C61DA4
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 15 Mar 2023 09:06:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F3DF081E24;
-	Tue, 14 Mar 2023 12:05:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F3DF081E24
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=IwlVlMQ4
+	by smtp4.osuosl.org (Postfix) with ESMTP id 93CD04175E;
+	Wed, 15 Mar 2023 09:06:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 93CD04175E
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=p4W+PejK
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tcVbY5bLsSz0; Tue, 14 Mar 2023 12:05:34 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GlpwfJOe_wyU; Wed, 15 Mar 2023 09:06:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id DEEF381E04;
-	Tue, 14 Mar 2023 12:05:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DEEF381E04
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1FC3A415E6;
+	Wed, 15 Mar 2023 09:06:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1FC3A415E6
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C291AC0035;
-	Tue, 14 Mar 2023 12:05:33 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9D37EC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 05B72C0035;
+	Wed, 15 Mar 2023 09:06:29 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 64079C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Mar 2023 12:05:32 +0000 (UTC)
+ Wed, 15 Mar 2023 09:06:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 71F2D81E24
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3E94360E30
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Mar 2023 12:05:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 71F2D81E24
+ Wed, 15 Mar 2023 09:06:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3E94360E30
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=p4W+PejK
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sufwdmGF_aaZ
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id D5kfCfEXUaA1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Mar 2023 12:05:31 +0000 (UTC)
+ Wed, 15 Mar 2023 09:06:27 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0580881E04
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0580881E04
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E0BF060DF0
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id E0BF060DF0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Mar 2023 12:05:30 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id
- c8-20020a05600c0ac800b003ed2f97a63eso101995wmr.3
+ Wed, 15 Mar 2023 09:06:26 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id x3so72542608edb.10
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 14 Mar 2023 05:05:30 -0700 (PDT)
+ Wed, 15 Mar 2023 02:06:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678795529; x=1681387529;
- h=content-transfer-encoding:in-reply-to:from:to:content-language
- :references:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=uuZPA6U7LSFaedRXIOYqZD00Nnv1oDl6UuiE2AirY+k=;
- b=IwlVlMQ4zPgU8q+JJtkDM9Z2/ogIyw+2pvLUbobUmms0x135dZXMFGiJwtfi7y9aBt
- r7FrKbIMXAwKynW0NzD55XU+O0Ub/GLS1RZSRZLy/IXCKPa8sHmLL//k9+dtyRo0Sl4l
- rFj73MzaVwzNCqyvzlAlNLkXW9SK/vV89m7BbdK5QgIMIe8yQQTLJ3RqQB0LE1nQvHCm
- gUpBpH1dNp1q4JqVCL+Cam1qQfkHsq/HN8icZU+HRo3muarStXFsnWkcd7+enRQMsvVT
- iNwCu97R+iHMsLD+SToAf9sH3Db0oZ/rTYpZJgeiAwCJabcmomnsP3615ydPeattoOO1
- 5YSw==
+ d=gmail.com; s=20210112; t=1678871185; x=1681463185;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mviUQ27/iHZGfwlahjqCZ5wZtdsMAGwoSzooIkgDF+w=;
+ b=p4W+PejKtE7ObImdexXA1FMi9bf9soTFJkauE0DTZ7BotV+TTyx3TOWvPkZnIDeqrn
+ 0ZHscmQF3YQ2yRpdP8TGiSWZ2lmvvS+uquPm5UypqCZGfsSAtlFlJz2pnAV+ZkVXyHJQ
+ 6JEzwj/8xDAG37aMilglb0eUuSZcvK78rJKxtBqCigIZ3diwHy7x22twUbp2CJ0EU5yr
+ RQDtp60Ax+pDCz8JNHC5we5oEYySFibbU0Jg9jjDlRf/3TyAEVBbrlpJlfS/mSyNs4ww
+ czEBR7z1dClr2unyVUom2jyqFP7FN888gtV+fqYtl8yBRJ41q5F40tMGby4yn3dqQSyg
+ DqsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678795529; x=1681387529;
- h=content-transfer-encoding:in-reply-to:from:to:content-language
- :references:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uuZPA6U7LSFaedRXIOYqZD00Nnv1oDl6UuiE2AirY+k=;
- b=4C3QtYxcVYi9Kiwr12DP2uF25s5uvCIpRDyGIfIUM8IDJY8ny7RSM5itnUldkdnDAC
- rKm+DnCnSM8TBVJb1Ea8d9z5zYXfvHXLrvC6gohYS31t6/Y1Xxv7Q+b8AQzAtLxkhe2e
- WQkSMtHcdJm+Xgx4m7biRcXLfTibVSH1aIhF/YyyX2XV0N3fxzeEuiIwI4UbxUK9q+HV
- XnjE1IkrL/YBFO2J1l9jMbSQCsj4Ndj/Yew3mk56WG10E67pxVTQrumPhgbArSq5fNHH
- Y1mRTae4lirWcsSGPa4o7bY2Jel/rpHKUA8oLZqwF0+AkgD09mY+rg6my2eLFD4LM5ha
- RQDQ==
-X-Gm-Message-State: AO0yUKUpmK3+QVVbxU59ydjJaagjRQorkPHdHFEXLgVPwQujB4B+N0gc
- GGLfkW11cn5PgIenXCtN3IGIIgJoH+psaQ==
-X-Google-Smtp-Source: AK7set/KhVONwK8Xt1fNGAyXn/h9TwTAWxw/R43j8xTCKSWYcaLOWtMdrWc7nWzn4cNREAVmOfxRBA==
-X-Received: by 2002:a05:600c:3d89:b0:3e2:415:f09f with SMTP id
- bi9-20020a05600c3d8900b003e20415f09fmr12565558wmb.3.1678795528802; 
- Tue, 14 Mar 2023 05:05:28 -0700 (PDT)
-Received: from [192.168.10.15] ([37.252.81.68])
+ d=1e100.net; s=20210112; t=1678871185; x=1681463185;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=mviUQ27/iHZGfwlahjqCZ5wZtdsMAGwoSzooIkgDF+w=;
+ b=xeswB7tmy2I8lQ4PcoyqAGEQ+hUW1DFK8y7Xh9HK9ZatFXgG9Q46OXHPk1DjlQ44B3
+ WVKyPhLqhXel35TwGbuiSwrg/xA7r0aHGLHVqjZlu64Kq5l8hb+wEA67Kf4tDpN0klBD
+ 9+7iff4Jpk+vl6pt6seiFKiPR+5kuamwBY87t3PKzcbeBQFjTC+0pU7PBtr68kSD8Sud
+ P0IyBP3CT6IEfatY4++5PL47uXDLAcJsMo8VOZD8DzG/az84wmsFDt0mS21fQiyvVMDd
+ ceuXdu8tWON+hfJA8zcDgMSVnkMGS4RGDudQ/w8rsN8cpMgaPBZjdXdfYkndydNom79Z
+ Ksmg==
+X-Gm-Message-State: AO0yUKVWMgV/dMmgE47J+TYfKpVkqaoI4wXwo5gnHnuhEdkn35xBAozY
+ YyTCLw1lPOwT5PEf8Q7X/uw=
+X-Google-Smtp-Source: AK7set/AvPhKa1Udt5DUEvQlOz5vMHUkIaNtdHxKhdF6BLIGq1ynPteZ9cLjl9xXqUBm0xGnIJANuQ==
+X-Received: by 2002:a17:906:4c:b0:92e:f520:7779 with SMTP id
+ 12-20020a170906004c00b0092ef5207779mr1162424ejg.0.1678871184900; 
+ Wed, 15 Mar 2023 02:06:24 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([37.252.81.68])
  by smtp.gmail.com with ESMTPSA id
- s16-20020a05600c45d000b003ed29899dfdsm2811859wmo.21.2023.03.14.05.05.28
- for <linux-kernel-mentees@lists.linuxfoundation.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 14 Mar 2023 05:05:28 -0700 (PDT)
-Message-ID: <d2790e79-898a-609a-af3e-3bb9571bd264@gmail.com>
-Date: Tue, 14 Mar 2023 16:05:27 +0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Fwd: [PATCH] FS, NET: Fix KMSAN uninit-value in vfs_write
-References: <20230314120445.12407-1-ivan.orlov0322@gmail.com>
-Content-Language: en-US
-To: linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+ ss10-20020a170907038a00b008e36f9b2308sm2264411ejb.43.2023.03.15.02.06.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Mar 2023 02:06:24 -0700 (PDT)
 From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20230314120445.12407-1-ivan.orlov0322@gmail.com>
-X-Forwarded-Message-Id: <20230314120445.12407-1-ivan.orlov0322@gmail.com>
+To: rpeterso@redhat.com,
+	agruenba@redhat.com
+Subject: [PATCH] gfs2 FS: Fix UBSAN array-index-out-of-bounds in
+ __gfs2_iomap_get
+Date: Wed, 15 Mar 2023 13:06:20 +0400
+Message-Id: <20230315090620.7294-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
+ syzbot+45d4691b1ed3c48eba05@syzkaller.appspotmail.com,
+ cluster-devel@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,131 +108,96 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-
--------- Forwarded Message --------
-Subject: [PATCH] FS, NET: Fix KMSAN uninit-value in vfs_write
-Date: Tue, 14 Mar 2023 16:04:45 +0400
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: socketcan@hartkopp.net, mkl@pengutronix.de, davem@davemloft.net, 
-edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-CC: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-can@vger.kernel.org, 
-netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-himadrispandya@gmail.com, skhan@linuxfoundation.org, 
-syzbot+c9bfd85eca611ebf5db1@syzkaller.appspotmail.com
-
 Syzkaller reported the following issue:
 
-=====================================================
-BUG: KMSAN: uninit-value in aio_rw_done fs/aio.c:1520 [inline]
-BUG: KMSAN: uninit-value in aio_write+0x899/0x950 fs/aio.c:1600
-  aio_rw_done fs/aio.c:1520 [inline]
-  aio_write+0x899/0x950 fs/aio.c:1600
-  io_submit_one+0x1d1c/0x3bf0 fs/aio.c:2019
-  __do_sys_io_submit fs/aio.c:2078 [inline]
-  __se_sys_io_submit+0x293/0x770 fs/aio.c:2048
-  __x64_sys_io_submit+0x92/0xd0 fs/aio.c:2048
-  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+UBSAN: array-index-out-of-bounds in fs/gfs2/bmap.c:901:46
+index 11 is out of range for type 'u64 [11]'
+CPU: 0 PID: 5067 Comm: syz-executor164 Not tainted 6.1.0-syzkaller-13031-g77856d911a8c #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1b1/0x290 lib/dump_stack.c:106
+ ubsan_epilogue lib/ubsan.c:151 [inline]
+ __ubsan_handle_out_of_bounds+0xe0/0x110 lib/ubsan.c:282
+ __gfs2_iomap_get+0x4a4/0x16e0 fs/gfs2/bmap.c:901
+ gfs2_iomap_get fs/gfs2/bmap.c:1399 [inline]
+ gfs2_block_map+0x28f/0x7f0 fs/gfs2/bmap.c:1214
+ gfs2_write_alloc_required+0x441/0x6e0 fs/gfs2/bmap.c:2322
+ gfs2_jdesc_check+0x1b9/0x290 fs/gfs2/super.c:114
+ init_journal+0x5a4/0x22c0 fs/gfs2/ops_fstype.c:804
+ init_inodes+0xdc/0x340 fs/gfs2/ops_fstype.c:889
+ gfs2_fill_super+0x1bb2/0x2700 fs/gfs2/ops_fstype.c:1247
+ get_tree_bdev+0x400/0x620 fs/super.c:1282
+ gfs2_get_tree+0x50/0x210 fs/gfs2/ops_fstype.c:1330
+ vfs_get_tree+0x88/0x270 fs/super.c:1489
+ do_new_mount+0x289/0xad0 fs/namespace.c:3145
+ do_mount fs/namespace.c:3488 [inline]
+ __do_sys_mount fs/namespace.c:3697 [inline]
+ __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3674
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f2c63567aca
+Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd0e3a28d8 EFLAGS: 00000282 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f2c63567aca
+RDX: 0000000020037f40 RSI: 0000000020037f80 RDI: 00007ffd0e3a28e0
+RBP: 00007ffd0e3a28e0 R08: 00007ffd0e3a2920 R09: 0000000000043350
+R10: 0000000002000011 R11: 0000000000000282 R12: 0000000000000004
+R13: 00005555567192c0 R14: 00007ffd0e3a2920 R15: 0000000000000000
+ </TASK>
 
-Uninit was created at:
-  slab_post_alloc_hook mm/slab.h:766 [inline]
-  slab_alloc_node mm/slub.c:3452 [inline]
-  __kmem_cache_alloc_node+0x71f/0xce0 mm/slub.c:3491
-  __do_kmalloc_node mm/slab_common.c:967 [inline]
-  __kmalloc+0x11d/0x3b0 mm/slab_common.c:981
-  kmalloc_array include/linux/slab.h:636 [inline]
-  bcm_tx_setup+0x80e/0x29d0 net/can/bcm.c:930
-  bcm_sendmsg+0x3a2/0xce0 net/can/bcm.c:1351
-  sock_sendmsg_nosec net/socket.c:714 [inline]
-  sock_sendmsg net/socket.c:734 [inline]
-  sock_write_iter+0x495/0x5e0 net/socket.c:1108
-  call_write_iter include/linux/fs.h:2189 [inline]
-  aio_write+0x63a/0x950 fs/aio.c:1600
-  io_submit_one+0x1d1c/0x3bf0 fs/aio.c:2019
-  __do_sys_io_submit fs/aio.c:2078 [inline]
-  __se_sys_io_submit+0x293/0x770 fs/aio.c:2048
-  __x64_sys_io_submit+0x92/0xd0 fs/aio.c:2048
-  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+This issue is caused by the 'while' loop in the '__gfs2_iomap_get' function,
+which increments 'height' var until it matches the condition. If height is
+larger or equal to 'sdp->sd_heightsize' array size (which is GFS2_MAX_META_HEIGHT
++ 1), the array-index-out-of-bounds issue occurs. Therefore we need to add extra
+condition to the while loop, which will prevent this issue.
 
-CPU: 1 PID: 5034 Comm: syz-executor350 Not tainted 
-6.2.0-rc6-syzkaller-80422-geda666ff2276 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS 
-Google 01/12/2023
-=====================================================
+Additionally, if 'height' var after the while ending is equal to GFS2_MAX_META_HEIGHT,
+the 'find_metapath' call right after the loop will break (because it assumes that
+'height' parameter will not be larger than the size of metapath's mp_list array length,
+which is GFS2_MAX_META_HEIGHT). So, we need to check the 'height' after the loop ending,
+and if its value is too big we need to break the execution of the function, and return
+a proper error if it is too big.
 
-We can follow the call chain and find that 'bcm_tx_setup' function calls 
-'memcpy_from_msg'
-to copy some content to the newly allocated frame of 'op->frames'. After 
-that the 'len'
-field of copied structure being compared with some constant value (64 or 
-8). However, if
-'memcpy_from_msg' returns an error, we will compare some uninitialized 
-memory. This triggers
-'uninit-value' issue.
+Tested via syzbot.
 
-This patch will add 'memcpy_from_msg' possible errors processing to 
-avoid uninit-value
-issue.
-
-Tested via syzkaller
-
-Reported-by: syzbot+c9bfd85eca611ebf5db1@syzkaller.appspotmail.com
-Link: 
-https://syzkaller.appspot.com/bug?id=47f897f8ad958bbde5790ebf389b5e7e0a345089
+Reported-by: syzbot+45d4691b1ed3c48eba05@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=42296ea544c870f4dde3b25efa4cc1b89515d38e
 Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
 ---
-  net/can/bcm.c | 16 ++++++++++------
-  1 file changed, 10 insertions(+), 6 deletions(-)
+ fs/gfs2/bmap.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/net/can/bcm.c b/net/can/bcm.c
-index 27706f6ace34..a962ec2b8ba5 100644
---- a/net/can/bcm.c
-+++ b/net/can/bcm.c
-@@ -941,6 +941,8 @@ static int bcm_tx_setup(struct bcm_msg_head 
-*msg_head, struct msghdr *msg,
-   			cf = op->frames + op->cfsiz * i;
-  			err = memcpy_from_msg((u8 *)cf, msg, op->cfsiz);
-+			if (err < 0)
-+				goto free_op;
-   			if (op->flags & CAN_FD_FRAME) {
-  				if (cf->len > 64)
-@@ -950,12 +952,8 @@ static int bcm_tx_setup(struct bcm_msg_head 
-*msg_head, struct msghdr *msg,
-  					err = -EINVAL;
-  			}
-  -			if (err < 0) {
--				if (op->frames != &op->sframe)
--					kfree(op->frames);
--				kfree(op);
--				return err;
--			}
-+			if (err < 0)
-+				goto free_op;
-   			if (msg_head->flags & TX_CP_CAN_ID) {
-  				/* copy can_id into frame */
-@@ -1026,6 +1024,12 @@ static int bcm_tx_setup(struct bcm_msg_head 
-*msg_head, struct msghdr *msg,
-  		bcm_tx_start_timer(op);
-   	return msg_head->nframes * op->cfsiz + MHSIZ;
+diff --git a/fs/gfs2/bmap.c b/fs/gfs2/bmap.c
+index eedf6926c652..9b7358165f96 100644
+--- a/fs/gfs2/bmap.c
++++ b/fs/gfs2/bmap.c
+@@ -895,8 +895,16 @@ static int __gfs2_iomap_get(struct inode *inode, loff_t pos, loff_t length,
+ 	iomap->length = len << inode->i_blkbits;
+ 
+ 	height = ip->i_height;
+-	while ((lblock + 1) * sdp->sd_sb.sb_bsize > sdp->sd_heightsize[height])
 +
-+free_op:
-+	if (op->frames != &op->sframe)
-+		kfree(op->frames);
-+	kfree(op);
-+	return err;
-  }
-   /*
++	while (height <= GFS2_MAX_META_HEIGHT
++		&& (lblock + 1) * sdp->sd_sb.sb_bsize > sdp->sd_heightsize[height])
+ 		height++;
++
++	if (height > GFS2_MAX_META_HEIGHT) {
++		ret = -ERANGE;
++		goto unlock;
++	}
++
+ 	find_metapath(sdp, lblock, mp, height);
+ 	if (height > ip->i_height || gfs2_is_stuffed(ip))
+ 		goto do_alloc;
 -- 
 2.34.1
 
