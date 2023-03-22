@@ -1,92 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 809C4C6FD1D
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 17 Mar 2023 20:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F9A0C6FD1C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Mar 2023 14:45:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F322D8232B;
-	Fri, 17 Mar 2023 20:56:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F322D8232B
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=PoW//RtJ
+	by smtp4.osuosl.org (Postfix) with ESMTP id E007C41D5F;
+	Wed, 22 Mar 2023 14:45:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E007C41D5F
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=SfTs+c81
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v2OeDApDdHmE; Fri, 17 Mar 2023 20:56:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0C75A8232C;
-	Fri, 17 Mar 2023 20:56:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0C75A8232C
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8IO0CCsft8V9; Wed, 22 Mar 2023 14:45:39 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id BE14141B83;
+	Wed, 22 Mar 2023 14:45:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BE14141B83
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DB21BC0035;
-	Fri, 17 Mar 2023 20:56:23 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5EE6AC0032
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 03:40:06 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 80AC5C0071;
+	Wed, 22 Mar 2023 14:45:38 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 893B7C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 22 Mar 2023 14:45:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 408CC40187
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 03:40:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 408CC40187
+ by smtp2.osuosl.org (Postfix) with ESMTP id 519CF417C3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 22 Mar 2023 14:45:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 519CF417C3
 Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=PoW//RtJ
+ header.a=rsa-sha256 header.s=20210112 header.b=SfTs+c81
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gY5l8W0kTpBa
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 03:40:05 +0000 (UTC)
+ with ESMTP id LGqudu3N4uCW
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 22 Mar 2023 14:45:36 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 29BEC4016D
-Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com
- [IPv6:2001:4860:4864:20::31])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 29BEC4016D
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 11 Mar 2023 03:40:05 +0000 (UTC)
-Received: by mail-oa1-x31.google.com with SMTP id
- 586e51a60fabf-176e43eb199so8095559fac.7
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 10 Mar 2023 19:40:05 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 835DC417BA
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 835DC417BA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 22 Mar 2023 14:45:36 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id ew6so10990947edb.7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 22 Mar 2023 07:45:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1678506004;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=4ze71QqSIgsiRn9c3VjUq+U4hxPR1aSy3jn2VpUcHbU=;
- b=PoW//RtJwgpqpwoqVUvBxVp/Mi5E2RuVJeEOwAdCI3f1kJrQnRtmVQTsqoc97oYfbF
- h4Ar9KFB5gaCApXMlwK/tSJ0JIqkTd+uVVJXw4f647eZrV3XqTYh0fr1ute0nyTHxvKd
- Vtcxosfwblp3YGuHbbBj3B6wx+UM+zxud0wGnYiELneSsza4PtnHUwbiRrhIUxxl2NTS
- Gxv+pa46xCNdB8KKNnZXWsTCfxVCcddRLSmrTjg7PyMvUJGTWhpK4KZSfvrt5XGUcIoH
- kalpOY3KDPZTfEg80X35JisAm32nVcxxvk2PNPKPy852CkamVwU11l18+kU9g8cfi7dQ
- fs9g==
+ d=gmail.com; s=20210112; t=1679496334;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rLmkUGsjVKN4NZf9Xwc68SFWMoDmXlx37mUEv+QwNDs=;
+ b=SfTs+c817QkFkmtH//ktryjgBJ3/o2Pj5C9ikp9Le++n2Ykm9Y5EQNgikfOy8eUjk9
+ RkSFSmqvIbvwxyEie+7wkWesrZg/vRENcgAklTF3n98xNsY07sQyR8LLMBnxMZyiLRrk
+ 53zYL8EhW/C8FTySSs/JgyJk187s/eaRaxeBy3l0LeHqqHarwNFe5omlsia5W+B4H0Kv
+ P9BvilEYSsxjzbzibSNR/y0ejfGnV084SY8SSHCvRPTaztrKC7w8IvXDl5Zohvv/+ari
+ eekCiWFQqOjDlaww9HEm44n/ifgcTrcSPT0qczEeXFtRD3am2bdWiCQfX0dPy1QdzMd0
+ CGZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1678506004;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=4ze71QqSIgsiRn9c3VjUq+U4hxPR1aSy3jn2VpUcHbU=;
- b=vZqHZlhsS9vSLxeOAGMqLI49u5jKwpWR9CpCrf50s8bNor4kxSUGZkotXu5hgNj3IF
- UAyZxf8A3QwqIh6mNyzOwmgkN40OS1fnK/JXc2dJSGHAXndzjsNgnmM0rIQJ1W5/r4n2
- LafhuxS6/+64vyjlm9DarKSEvYoIjuoMHJus8CEweUb3Hg17+tSHxEY+XBY7Opg3wKdC
- ODM7iXRVSubATvD+Ud3wzNoHtrHrydThDa/kGkAGY22bi+AR8XAFOSjyciV1wZsXbKTF
- 3YaBtbpbIlT5AgvuuOfKsGsGVUQS44WzC67J8+YPN/2InOdKulrNBeOU0RjfL4+upV+H
- bsyQ==
-X-Gm-Message-State: AO0yUKWhJZE9/CS8JTU7yzcCv5svWRF6wdjA2XM9n37d3QKJrDnvkDGf
- YM6xtEv/CCO/TvdReXdtCD3zFalO5BjrFL8K6DKjqndQ+PA=
-X-Google-Smtp-Source: AK7set9fzjuIL39S2Pw7aBkbVtlzhvXk/fh+slKsbSFMiXSQN9T5lhvb31fEc8WgW3A1nWVF/142tFNj9H6MgvENhI4=
-X-Received: by 2002:a05:6870:7735:b0:16e:8dc0:3861 with SMTP id
- dw53-20020a056870773500b0016e8dc03861mr9288123oab.2.1678506003999; Fri, 10
- Mar 2023 19:40:03 -0800 (PST)
+ d=1e100.net; s=20210112; t=1679496334;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rLmkUGsjVKN4NZf9Xwc68SFWMoDmXlx37mUEv+QwNDs=;
+ b=isPlrU3p0oWFDVXO4jO2krOn4bWopBi8duMq7EKT86OUzPFUz7gjoW5S5QWRkhD2FH
+ ONt6c6iUkRIXNtgB5dCSIxQMZEl8VAitL+Wx64OdMr9Bt7PVaxyZe37q6dZwyx5ARIOm
+ oLQ2He48Yr1RvFViEELwei9SK9XgY8udneR7HUSK0l1wqHgdcobQhKVKTaC8EHFb9MeH
+ ujSlGRpk+yKDbxDRBC0YaByO9EO8M/K04vnpnz0YCooDytTkhnkmnyB8ZYc8j8cUtFPa
+ caVDV8tZ/kCymwI8r6YfaFgyG5SYtOksi52+zjCIVRzrErQoYsKtna2hLKRUaH40fK3W
+ h9Dw==
+X-Gm-Message-State: AO0yUKW8huVy+SSO08EGFB8UEFx2tY3J0DKS+a8h3uotHJi6xONBjVvD
+ QAOrcbi79XrZHo3tJKCBnyA=
+X-Google-Smtp-Source: AK7set/eNEzNh4JcOxymfhGwBqM5daoKmgX/0uSzD/XkdVZ0pb4jAN1GI3sQMn0JGiwqY3Zd5TaEyA==
+X-Received: by 2002:a17:906:209:b0:932:170:e07b with SMTP id
+ 9-20020a170906020900b009320170e07bmr5657820ejd.7.1679496334548; 
+ Wed, 22 Mar 2023 07:45:34 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([178.160.196.94])
+ by smtp.gmail.com with ESMTPSA id
+ z26-20020a17090674da00b009310d4dece9sm7298268ejl.62.2023.03.22.07.45.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Mar 2023 07:45:34 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: pbonzini@redhat.com, shuah@kernel.org, seanjc@google.com,
+ dmatlack@google.com, vannapurve@google.com
+Subject: [PATCH] selftests: kvm: Add 'malloc' failure check in vcpu_save_state
+Date: Wed, 22 Mar 2023 18:45:28 +0400
+Message-Id: <20230322144528.704077-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-From: Aviral Gupta <shiv14112001@gmail.com>
-Date: Sat, 11 Mar 2023 09:09:49 +0530
-Message-ID: <CAN8in0Fd2u841ACtwwJ=OcOhTVdmW=XoyCiHYuFzuwVxcxuiMQ@mail.gmail.com>
-Subject: Unsubscribe
-To: Linux-kernel-mentees@lists.linuxfoundation.org
-X-Mailman-Approved-At: Fri, 17 Mar 2023 20:56:22 +0000
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -98,37 +107,38 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============8230203175589207824=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============8230203175589207824==
-Content-Type: multipart/alternative; boundary="0000000000001f312a05f697a2c1"
+There is a 'malloc' call in vcpu_save_state function, which can
+be unsuccessful. This patch will add the malloc failure checking
+to avoid possible null dereference and give more information
+about test fail reasons.
 
---0000000000001f312a05f697a2c1
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+ tools/testing/selftests/kvm/lib/x86_64/processor.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I don't  wish to receive  any  further  communication
-
---0000000000001f312a05f697a2c1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">I don&#39;t=C2=A0 wish to receive=C2=A0 any=C2=A0 further=
-=C2=A0 communication=C2=A0</div>
-
---0000000000001f312a05f697a2c1--
-
---===============8230203175589207824==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/tools/testing/selftests/kvm/lib/x86_64/processor.c b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+index c39a4353ba19..827647ff3d41 100644
+--- a/tools/testing/selftests/kvm/lib/x86_64/processor.c
++++ b/tools/testing/selftests/kvm/lib/x86_64/processor.c
+@@ -954,6 +954,7 @@ struct kvm_x86_state *vcpu_save_state(struct kvm_vcpu *vcpu)
+ 	vcpu_run_complete_io(vcpu);
+ 
+ 	state = malloc(sizeof(*state) + msr_list->nmsrs * sizeof(state->msrs.entries[0]));
++	TEST_ASSERT(state, "-ENOMEM when allocating kvm state");
+ 
+ 	vcpu_events_get(vcpu, &state->events);
+ 	vcpu_mp_state_get(vcpu, &state->mp_state);
+-- 
+2.34.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============8230203175589207824==--
