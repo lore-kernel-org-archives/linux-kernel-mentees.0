@@ -1,100 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 56FF0C6FD1F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 22 Mar 2023 20:37:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 84A47C6FD1C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 23 Mar 2023 17:29:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C04AE6146C;
-	Wed, 22 Mar 2023 20:37:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C04AE6146C
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=GUepQa4F
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dr-HziC7hfMB; Wed, 22 Mar 2023 20:37:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B0E9C61446;
-	Wed, 22 Mar 2023 20:37:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B0E9C61446
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 71838C0071;
-	Wed, 22 Mar 2023 20:37:34 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27AFDC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Mar 2023 20:37:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 01BCE40BB4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Mar 2023 20:37:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 01BCE40BB4
+	by smtp2.osuosl.org (Postfix) with ESMTP id 044B040635;
+	Thu, 23 Mar 2023 17:29:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 044B040635
 Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=GUepQa4F
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=JJQB8Vr7
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QRnhCoU0NPsr
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ekpDA8UlUs5N; Thu, 23 Mar 2023 17:29:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B2D2B41D95;
+	Thu, 23 Mar 2023 17:29:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B2D2B41D95
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1DF24C0071;
+	Thu, 23 Mar 2023 17:29:08 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5F072C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Mar 2023 20:37:32 +0000 (UTC)
+ Thu, 23 Mar 2023 17:29:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2744361555
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 23 Mar 2023 17:29:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2744361555
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=JJQB8Vr7
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 71R87pDjrN0s
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 23 Mar 2023 17:29:06 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 415D54031F
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 415D54031F
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7B5296159D
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com
+ [IPv6:2607:f8b0:4864:20::1035])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 7B5296159D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Mar 2023 20:37:32 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id eg48so77962356edb.13
+ Thu, 23 Mar 2023 17:29:06 +0000 (UTC)
+Received: by mail-pj1-x1035.google.com with SMTP id q102so7623864pjq.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 22 Mar 2023 13:37:32 -0700 (PDT)
+ Thu, 23 Mar 2023 10:29:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679517450;
+ d=gmail.com; s=20210112; t=1679592546;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=17Wjze2y6t8a4zjcKa53kmqOgCJMw9ntTYn+G4muZxo=;
- b=GUepQa4FzpVnJdj3SwadimZqcabtTzoGmqFjHse67Uu4gkiGslqm6j9V07lBXolcOw
- r4qeHpPt5iGDTtqcul1BUlmiefkYFe/dxTn86OG3OIwWpfwxIfaQ33DwBXXT7dAMgwIB
- IpFOTnS8OofaLs15P51FTOSfr8QY9h3t6AAGjlOLh3FuZQmKqvuN5y4xNiVmFM2jLpdJ
- gVpQqIp43nAwNYTVz8BMmLKFUo6Xku8y3WQIlVOVYGVRweI/aUXPHIzTwogs+v0ogPnl
- Y+rQVDJ8dpScuVUIII53iUNnxyEkw9N2bG2DbC0nghJH8p8RD6SAT57hpC3AoZSpgFfM
- mDUw==
+ bh=zMZZ6Tcdapuhof/i/nzGFRj0fuePe+lfLjf6gEGMDaA=;
+ b=JJQB8Vr7MplIrOqQUE8j55kUWU8R1tdzDxkeHZs3Z7Nt8qpYMbNhVkS8ZIlr7Uw7Xw
+ YwPNZFfFX4igQz695AHv9CN6P3BZHPaJp3F0FAGBeEo/0TNWPHXta+l7PQTNTu3gmuoD
+ qNfnrAc2JdgzK2eOYF5ncFkLnUQc+hFpc5ehSEYBqqZgX2/tXtuc+sRUJBeUnS9EIl3T
+ F+kNvm169HmX4YwjNGFORfoXD7bseQzue33WIjaqPHRIX7h4RlMf5gEqyrwNe8vOabaO
+ 2H9kV7PGuUFH9m7PX5eHbOrslRKoUVAoqUM74pygwOGaVfEWvv+pvqgSXauPrqCvMcjj
+ 6DwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679517450;
+ d=1e100.net; s=20210112; t=1679592546;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=17Wjze2y6t8a4zjcKa53kmqOgCJMw9ntTYn+G4muZxo=;
- b=ZUI+OfEfweZs0hdV1pnmwGIiZ4MZ1nnF1pvvoZh9935fVWOv8iPcxHe5gkbspIQXxx
- UoWm+xrbrtLDAVybY+80BbZJUvM3lUCnID1YTMJjPIVm5Cpgp6hGSgYPKsy0DDIRbHwh
- NiHw1T+hQHrVw0VodIL6SDeddrIf3PH1bkZRhsfyFXeF1+s5CZQl/uHh5/mrwVngHPbO
- hAJHxekuF4VYXQi5EcCQBFQg3v/1DbPhAiJ+14KqtbRWzbBAJR3JEhsq1STILSDFUWv/
- yL2BI9pSxBpB+/ZKblRYsgCJlsvWUFWbmP3TAtKFqJVOL4EOmz92Dnk6hBUWE+VnxFvq
- 9xzA==
-X-Gm-Message-State: AAQBX9ef2vwXosfnSyD0vKElR/JtVvcn9zRkfeXespLuQgGEm8ceVU5h
- t+0RIi1ctpn7RGWk2qMk8aw=
-X-Google-Smtp-Source: AK7set/OL6xIAJnNOtJzYybsbaA8EkueTTd9ranGekne3VZDLQzuxhHshbuJ98MDBcimsyp0ApUgsA==
-X-Received: by 2002:a05:6402:268e:b0:502:465:28d4 with SMTP id
- w14-20020a056402268e00b00502046528d4mr563537edd.1.1679517450319; 
- Wed, 22 Mar 2023 13:37:30 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.81.68])
- by smtp.gmail.com with ESMTPSA id
- qh7-20020a170906eca700b0092bea699124sm7671936ejb.106.2023.03.22.13.37.28
+ bh=zMZZ6Tcdapuhof/i/nzGFRj0fuePe+lfLjf6gEGMDaA=;
+ b=og0LrN6mbq/T3K5OJzQwWlzz23Lma7AJbUE+ZwvwdCHLfjV1wAx+xDqHJX88T/hcL5
+ M4VgvHFyOCTdt71DQisYbdZpYqVQbIXKCUbQbkzlfbSmKyMCLGyfexFtyGMGRSiSCg6E
+ cfhmxisvARJ9ERhPHzrIz2oxawBjQsHSxOVRTw7mE4QYF0A8ctC4CDm/GcQ7mkEihh8/
+ EMvBiBnRk77hTfLhm1RX2v4TBtVueRCkm91YfQVFyENw7t6B2Y9g+5cAW4u1dXJIsX4q
+ kaDqtyLQJ1jypPRpjK0ULTdZKCs54AuN5D5lJCq/SJqqp29EVfW6ovO6Yp2bMZSypzqi
+ 4zVg==
+X-Gm-Message-State: AO0yUKW5zdcPrit9ZUeTsPV1R2l3EN0OybK3tCPW/FILkvs3uGajX+a3
+ UG1K8/sSPLTQSdk9iY/3DvM=
+X-Google-Smtp-Source: AK7set+u9tUFLPhTIUjtBT8TxguYuKCL7Y8+0lU2tr8K8Iyjx83VlHZ5GwHr+11lqr4smZ3/h/bDpA==
+X-Received: by 2002:a05:6a20:49a9:b0:da:5ab7:8cf3 with SMTP id
+ fs41-20020a056a2049a900b000da5ab78cf3mr3492515pzb.30.1679592545666; 
+ Thu, 23 Mar 2023 10:29:05 -0700 (PDT)
+Received: from pop-os.lan ([14.232.107.112]) by smtp.gmail.com with ESMTPSA id
+ s10-20020a62e70a000000b00593e4e6516csm10706427pfh.124.2023.03.23.10.29.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Mar 2023 13:37:30 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: shuah@kernel.org
-Subject: [PATCH] selftests: sched: Add more core schedule prctl calls
-Date: Thu, 23 Mar 2023 00:37:24 +0400
-Message-Id: <20230322203724.4757-1-ivan.orlov0322@gmail.com>
+ Thu, 23 Mar 2023 10:29:05 -0700 (PDT)
+From: Anh Tuan Phan <tuananhlfc@gmail.com>
+To: brauner@kernel.org,
+	sforshee@kernel.org,
+	shuah@kernel.org
+Subject: [PATCH v1] selftests mount: Fix mount_setattr_test builds failed
+Date: Fri, 24 Mar 2023 00:28:59 +0700
+Message-Id: <20230323172859.89085-1-tuananhlfc@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Anh Tuan Phan <tuananhlfc@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,45 +107,31 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The core sched kselftest makes prctl calls only with correct
-parameters. This patch will extend this test with more core
-schedule prctl calls with wrong parameters to increase code
-coverage.
-
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- tools/testing/selftests/sched/cs_prctl_test.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/tools/testing/selftests/sched/cs_prctl_test.c b/tools/testing/selftests/sched/cs_prctl_test.c
-index 25e0d95d3713..df8e4629b3b5 100644
---- a/tools/testing/selftests/sched/cs_prctl_test.c
-+++ b/tools/testing/selftests/sched/cs_prctl_test.c
-@@ -334,6 +334,14 @@ int main(int argc, char *argv[])
- 	validate(get_cs_cookie(pid) != 0);
- 	validate(get_cs_cookie(pid) == get_cs_cookie(procs[pidx].thr_tids[0]));
- 
-+	printf("\n## Try to pass wrong subcommand PR_SCHED_CORE_MAX = %d to prctl (shouldn't succeed)\n", PR_SCHED_CORE_MAX);
-+	validate(_prctl(PR_SCHED_CORE, PR_SCHED_CORE_MAX, 0, PIDTYPE_PGID, 0) < 0
-+		&& errno == EINVAL);
-+
-+	printf("\n## Try to pass not-null uaddr with forbidden command (shouldn't succeed)\n");
-+	validate(_prctl(PR_SCHED_CORE, PR_SCHED_CORE_SHARE_TO, 0, PIDTYPE_PGID, 1) < 0
-+		&& errno == EINVAL);
-+
- 	if (errors) {
- 		printf("TESTS FAILED. errors: %d\n", errors);
- 		res = 10;
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+V2hlbiBjb21waWxpbmcgc2VsZnRlc3RzIHdpdGggdGFyZ2V0IG1vdW50X3NldGF0dHIgSSBlbmNv
+dW50ZXJlZCBzb21lIGVycm9ycyB3aXRoIHRoZSBiZWxvdyBtZXNzYWdlczoKbW91bnRfc2V0YXR0
+cl90ZXN0LmM6IEluIGZ1bmN0aW9uIOKAmG1vdW50X3NldGF0dHJfdGhyZWFk4oCZOgptb3VudF9z
+ZXRhdHRyX3Rlc3QuYzozNDM6MTY6IGVycm9yOiB2YXJpYWJsZSDigJhhdHRy4oCZIGhhcyBpbml0
+aWFsaXplciBidXQgaW5jb21wbGV0ZSB0eXBlCiAgMzQzIHwgICAgICAgICBzdHJ1Y3QgbW91bnRf
+YXR0ciBhdHRyID0gewogICAgICB8ICAgICAgICAgICAgICAgIF5+fn5+fn5+fn4KClRoZXNlIGVy
+cm9ycyBhcmUgbWlnaHQgYmUgYmVjYXVzZSBvZiBsaW51eC9tb3VudC5oIGlzIG5vdCBpbmNsdWRl
+ZC4gVGhpcyBwYXRjaCByZXNvbHZlcyB0aGF0IGlzc3VlLgoKU2lnbmVkLW9mZi1ieTogQW5oIFR1
+YW4gUGhhbiA8dHVhbmFuaGxmY0BnbWFpbC5jb20+Ci0tLQogdG9vbHMvdGVzdGluZy9zZWxmdGVz
+dHMvbW91bnRfc2V0YXR0ci9tb3VudF9zZXRhdHRyX3Rlc3QuYyB8IDEgKwogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMv
+bW91bnRfc2V0YXR0ci9tb3VudF9zZXRhdHRyX3Rlc3QuYyBiL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRl
+c3RzL21vdW50X3NldGF0dHIvbW91bnRfc2V0YXR0cl90ZXN0LmMKaW5kZXggNTgyNjY5Y2EzOGU5
+Li43Y2ExM2E5MjRlMzQgMTAwNjQ0Ci0tLSBhL3Rvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL21vdW50
+X3NldGF0dHIvbW91bnRfc2V0YXR0cl90ZXN0LmMKKysrIGIvdG9vbHMvdGVzdGluZy9zZWxmdGVz
+dHMvbW91bnRfc2V0YXR0ci9tb3VudF9zZXRhdHRyX3Rlc3QuYwpAQCAtMTgsNiArMTgsNyBAQAog
+I2luY2x1ZGUgPGdycC5oPgogI2luY2x1ZGUgPHN0ZGJvb2wuaD4KICNpbmNsdWRlIDxzdGRhcmcu
+aD4KKyNpbmNsdWRlICJsaW51eC9tb3VudC5oIgogCiAjaW5jbHVkZSAiLi4va3NlbGZ0ZXN0X2hh
+cm5lc3MuaCIKIAotLSAKMi4zNC4xCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2Vy
+bmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4
+Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
