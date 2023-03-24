@@ -1,101 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9890FC6FD1C
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Mar 2023 02:14:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7223EC6FD20
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Mar 2023 05:07:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1486860E5D;
-	Fri, 24 Mar 2023 02:14:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1486860E5D
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=qKECIUkH
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EEIiWmjHRgtV; Fri, 24 Mar 2023 02:14:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 49C4060C12;
-	Fri, 24 Mar 2023 02:14:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 49C4060C12
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 23688C0035;
-	Fri, 24 Mar 2023 02:14:35 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 98389C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 02:14:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 6CD3F81FBE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 02:14:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6CD3F81FBE
+	by smtp1.osuosl.org (Postfix) with ESMTP id DDA0584078;
+	Fri, 24 Mar 2023 05:07:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DDA0584078
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=qKECIUkH
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=EUSWzn6k
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CCLJRw95qull
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HWGirj_rANs7; Fri, 24 Mar 2023 05:07:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C7FD184072;
+	Fri, 24 Mar 2023 05:07:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C7FD184072
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9BC6DC0035;
+	Fri, 24 Mar 2023 05:07:41 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4292C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 02:14:27 +0000 (UTC)
+ Fri, 24 Mar 2023 05:07:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 796C960E5B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Mar 2023 05:07:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 796C960E5B
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=EUSWzn6k
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id q5mDoMd5O9hA
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 24 Mar 2023 05:07:37 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C982481ED4
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
- [IPv6:2607:f8b0:4864:20::634])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C982481ED4
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7A33860E3A
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 7A33860E3A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 02:14:27 +0000 (UTC)
-Received: by mail-pl1-x634.google.com with SMTP id bc12so639023plb.0
+ Fri, 24 Mar 2023 05:07:37 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id i5so3528648eda.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 23 Mar 2023 19:14:27 -0700 (PDT)
+ Thu, 23 Mar 2023 22:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679624067;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DjZ8tIr/PF8OJoYSDIjMzoT6havTlKl8dZ9y/Hrp13w=;
- b=qKECIUkHVbjZx7eY07qrnQUNaRjut4Aq+BCaYeyZW3CbhzrPFyHxWkBwxz3M6pEXLH
- 9nK+tSd5Ece2GHNkYeTq0ab3JStx/jBtBZENITfvCjitU8N5nDDlkGAnomH568vIYV1Y
- oD6ve+pKeIZ18KIDN+NlqJk3jh0B4DUH2eHz/Rrg+n/4RpKO/2PMg0s154MqnGIiYvni
- cnqQWbN/lANKekY4gQ5VAlOKHGwfJPil70hl7KBg2tbnXELpbBV0ENunlZ6emYmZDiuV
- /CArHbuFUCQOwkOI+oYbE4jbLYMfj7LsSh1k776KD9fne3OpuXo8kpadq5cxrlV8euHs
- hNdQ==
+ d=gmail.com; s=20210112; t=1679634455;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kBpxI4lGzunQIJcTy0Wu60h6ZsBAWmGxZxQSmX0uFmQ=;
+ b=EUSWzn6kHwgbDhoo68XHhAg2Km/vibAMCcf3/FHKHBcyfjpQ9PhqlpKupia4Mtxlkj
+ Buyk3QeYClCwEqj3nKDNBescvQcwVvvG5mOSn9/Rxm0Y9yHTPKSTlZsg0WU/igxOSPIu
+ btNe/pNLQmR5cDCcask/GvXK/cyFTI/NpzsF7OC1uon6INA1kJSdO2JgL/Iz9E91VXtp
+ Y1NplCTXqYQgC9hlMDiAblNhl4N9yo97qe6+ar/R0K1XprWQMiXQ4e8Nd3dBCXsOFpJi
+ BBZYQc+adidRJJG5ZemojxGuPdbSxJO69A9OWCLLrjHefEvH7cm5S1/ayhYQyYMxBf2v
+ P0Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679624067;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=DjZ8tIr/PF8OJoYSDIjMzoT6havTlKl8dZ9y/Hrp13w=;
- b=QSgDVNaXf0degTOsbeyBCqVNv0+MEFPob0u7bmFycJx45C4UdGag5m0O/MDV5sKCbE
- Vv/9w2lDjqgntlKopRB+hDLIjrwhIA62jtbWfcsGxzxRYy19wMeeNcWSqf5XoX+XUjSa
- 1lbr3IamQLAQQJLg/StXG7OfRF6ZPk5puLPukK6Dk1gXe+rh081ppZ5PrKdaGMOtH007
- FRFMGsm+5u7dj9rEKt513Wi+0oSFcEjrDVJVblX6086kX3BXn3EE6yiLZrOeCoGw8qrF
- pzpe84h1xmhSyUZhYTRTNX8VRZFOmiVKO9Vvcyg9fABgqrXU8UEKRkXb+uxoKwsduDxc
- /ncQ==
-X-Gm-Message-State: AO0yUKVroHa3bWaeV8twZOsvsmkYRQaXuePCHWNR29OpUJjbL+r5UhVD
- DYObBoX4Ml3fWh4vzRqMIEE=
-X-Google-Smtp-Source: AK7set8OImd5shd8MnxakXcmYgfHCdt7YJw9IFjm44AA+74PF6ay96ajaQUMywf4qOtIzLWNeAc73g==
-X-Received: by 2002:a05:6a20:811a:b0:d5:7704:f362 with SMTP id
- g26-20020a056a20811a00b000d57704f362mr1382121pza.56.1679624066965; 
- Thu, 23 Mar 2023 19:14:26 -0700 (PDT)
-Received: from pop-os.lan ([14.232.107.112]) by smtp.gmail.com with ESMTPSA id
- d16-20020aa78150000000b005825b8e0540sm12547010pfn.204.2023.03.23.19.14.25
+ d=1e100.net; s=20210112; t=1679634455;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kBpxI4lGzunQIJcTy0Wu60h6ZsBAWmGxZxQSmX0uFmQ=;
+ b=viCIsW4GyAWsbapv14BRuy2O4MM8ujaF2h5bXevpsHHIO5JlpEPLkqrj7pPFNab8E+
+ BwVg0UP0Wii4l84s4B7FFbSykDu9PCgoNAIRX4V2Wqbv0tCd/LS06dTgYadXyZmjHLkE
+ mNfVtoO+0syeM5OtdeSbBxbWEzDUtfjASfsbbXK2ojhjFJeHlPTBykdt7Puhes4/pnp6
+ Lr+Q51WL9tU+8eBf23mBsZq8G1TyDzh0EB/wri1gCj578Yo5dyDfX08hiuFDMuckAvQd
+ BoHg1F7qufHMEG4DxdjXLjHS2XZmSGDhPloi2vQ8oKdMOQf2FuRQMtr7gZLjOCwqgbhw
+ bcvw==
+X-Gm-Message-State: AAQBX9eSVi/bwaZi66vpYH6vRCrKVUxwv/APT96QwbRn9M992Zsut137
+ ynpAh6MDC3H80OMMsjkE5Mo=
+X-Google-Smtp-Source: AKy350YHAfuyqcama1ziPT02mzs5ARITreG3BtRax/9FGKFg+vur48ALmQTAGS+oUfTIwEsXhAOU9g==
+X-Received: by 2002:a17:906:dc7:b0:92b:7e6a:bca0 with SMTP id
+ p7-20020a1709060dc700b0092b7e6abca0mr1334015eji.14.1679634455222; 
+ Thu, 23 Mar 2023 22:07:35 -0700 (PDT)
+Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
+ gt6-20020a170906f20600b0092a3b199db8sm9486968ejb.186.2023.03.23.22.07.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Mar 2023 19:14:26 -0700 (PDT)
-From: Anh Tuan Phan <tuananhlfc@gmail.com>
-To: sforshee@kernel.org
-Subject: [PATCH v2 1/1] selftests mount: Fix mount_setattr_test builds failed
-Date: Fri, 24 Mar 2023 09:14:15 +0700
-Message-Id: <20230324021415.17416-1-tuananhlfc@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZByVac3GsD7RFuaj@do-x1extreme>
-References: <ZByVac3GsD7RFuaj@do-x1extreme>
+ Thu, 23 Mar 2023 22:07:34 -0700 (PDT)
+Date: Fri, 24 Mar 2023 08:07:30 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Alexander Heinrich <hallo@alexanderheinrich.de>
+Subject: Re: [PATCH] Correct code style according to Linux guildelines
+Message-ID: <5f8ff690-4b26-42d8-b405-f815a240fb46@kili.mountain>
+References: <20230323194611.299241-1-hallo@alexanderheinrich.de>
 MIME-Version: 1.0
-Cc: linux-fsdevel@vger.kernel.org, shuah@kernel.org, brauner@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, tuananhlfc@gmail.com
+Content-Disposition: inline
+In-Reply-To: <20230323194611.299241-1-hallo@alexanderheinrich.de>
+Cc: linux-staging@lists.linux.dev,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,34 +106,47 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-V2hlbiBjb21waWxpbmcgc2VsZnRlc3RzIHdpdGggdGFyZ2V0IG1vdW50X3NldGF0dHIgSSBlbmNv
-dW50ZXJlZCBzb21lIGVycm9ycyB3aXRoIHRoZSBiZWxvdyBtZXNzYWdlczoKbW91bnRfc2V0YXR0
-cl90ZXN0LmM6IEluIGZ1bmN0aW9uIOKAmG1vdW50X3NldGF0dHJfdGhyZWFk4oCZOgptb3VudF9z
-ZXRhdHRyX3Rlc3QuYzozNDM6MTY6IGVycm9yOiB2YXJpYWJsZSDigJhhdHRy4oCZIGhhcyBpbml0
-aWFsaXplciBidXQgaW5jb21wbGV0ZSB0eXBlCiAgMzQzIHwgICAgICAgICBzdHJ1Y3QgbW91bnRf
-YXR0ciBhdHRyID0gewogICAgICB8ICAgICAgICAgICAgICAgIF5+fn5+fn5+fn4KClRoZXNlIGVy
-cm9ycyBtaWdodCBiZSBiZWNhdXNlIG9mIGxpbnV4L21vdW50LmggaXMgbm90IGluY2x1ZGVkLiBU
-aGlzIHBhdGNoIHJlc29sdmVzIHRoYXQgaXNzdWUuCgpTaWduZWQtb2ZmLWJ5OiBBbmggVHVhbiBQ
-aGFuIDx0dWFuYW5obGZjQGdtYWlsLmNvbT4KLS0tClRoYW5rcyBmb3IgcmVwbHlpbmcgc28gcXVp
-Y2tseSwgdGhpcyBpcyBteSBmaXJzdCBwYXRjaCB0byB0aGUga2VybmVsLiBJCmNoYW5nZWQgdGhl
-IGluY2x1ZGUgdG8gdXNlIGFuZ2xlIGJyYWNrZXQgYXMgeW91ciBzdWdnZXN0aW9uLgoKIHRvb2xz
-L3Rlc3Rpbmcvc2VsZnRlc3RzL21vdW50X3NldGF0dHIvbW91bnRfc2V0YXR0cl90ZXN0LmMgfCAx
-ICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL3Rvb2xzL3Rl
-c3Rpbmcvc2VsZnRlc3RzL21vdW50X3NldGF0dHIvbW91bnRfc2V0YXR0cl90ZXN0LmMgYi90b29s
-cy90ZXN0aW5nL3NlbGZ0ZXN0cy9tb3VudF9zZXRhdHRyL21vdW50X3NldGF0dHJfdGVzdC5jCmlu
-ZGV4IDU4MjY2OWNhMzhlOS4uYzZhOGM3MzJiODAyIDEwMDY0NAotLS0gYS90b29scy90ZXN0aW5n
-L3NlbGZ0ZXN0cy9tb3VudF9zZXRhdHRyL21vdW50X3NldGF0dHJfdGVzdC5jCisrKyBiL3Rvb2xz
-L3Rlc3Rpbmcvc2VsZnRlc3RzL21vdW50X3NldGF0dHIvbW91bnRfc2V0YXR0cl90ZXN0LmMKQEAg
-LTE4LDYgKzE4LDcgQEAKICNpbmNsdWRlIDxncnAuaD4KICNpbmNsdWRlIDxzdGRib29sLmg+CiAj
-aW5jbHVkZSA8c3RkYXJnLmg+CisjaW5jbHVkZSA8bGludXgvbW91bnQuaD4KIAogI2luY2x1ZGUg
-Ii4uL2tzZWxmdGVzdF9oYXJuZXNzLmgiCiAKLS0gCjIuMzQuMQoKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGlu
-ZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0
-cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2Vy
-bmVsLW1lbnRlZXMK
+1: The subject doesn't have a patch prefix and is generally not in the
+   correct format.
+
+On Thu, Mar 23, 2023 at 08:46:11PM +0100, Alexander Heinrich wrote:
+> This patch fixes the following warning produced by checkpatch.pl,
+> when run on drivers/staging/wlan-ng/p80211req.c.
+> 
+> CHECK: Unnecessary parentheses around
+>     'msg->msgcode != DIDMSG_DOT11REQ_MIBGET'
+
+2: Add a blank line here, before the signed-off-by line.
+
+> Signed-off-by: Alexander Heinrich <hallo@alexanderheinrich.de>
+> ---
+>  drivers/staging/wlan-ng/p80211req.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/wlan-ng/p80211req.c b/drivers/staging/wlan-ng/p80211req.c
+> index 809cf3d480e9..df2d07304d1c 100644
+> --- a/drivers/staging/wlan-ng/p80211req.c
+> +++ b/drivers/staging/wlan-ng/p80211req.c
+> @@ -125,7 +125,7 @@ int p80211req_dorequest(struct wlandevice *wlandev, u8 *msgbuf)
+>  
+>  	/* Check Permissions */
+>  	if (!capable(CAP_NET_ADMIN) &&
+> -	    (msg->msgcode != DIDMSG_DOT11REQ_MIBGET)) {
+> +	    msg->msgcode != DIDMSG_DOT11REQ_MIBGET) {
+
+3: Greg likes these parentheses so just ignore checkpatch on this.
+   (Don't resend this one, find something else to clean up).
+
+regards,
+dan carpenter
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
