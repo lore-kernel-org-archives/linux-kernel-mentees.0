@@ -1,96 +1,83 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BB30C6FD1C
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Mar 2023 09:53:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7439AC6FD20
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 24 Mar 2023 16:13:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id F0C65417F1;
-	Fri, 24 Mar 2023 09:53:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F0C65417F1
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0g0ELczH;
-	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3VaINjeq
+	by smtp4.osuosl.org (Postfix) with ESMTP id DEE1341FA4;
+	Fri, 24 Mar 2023 16:13:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DEE1341FA4
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=alexanderheinrich.de header.i=@alexanderheinrich.de header.a=rsa-sha256 header.s=sig1 header.b=Is+U/Hvs
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MPdEZVOTAjf6; Fri, 24 Mar 2023 09:53:04 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CC2B740286;
-	Fri, 24 Mar 2023 09:53:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CC2B740286
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id N78WVORb4wnj; Fri, 24 Mar 2023 16:13:02 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 409404021B;
+	Fri, 24 Mar 2023 16:13:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 409404021B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A777FC0035;
-	Fri, 24 Mar 2023 09:53:03 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B9953C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 13E62C0071;
+	Fri, 24 Mar 2023 16:13:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ABE5BC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 09:53:01 +0000 (UTC)
+ Fri, 24 Mar 2023 16:12:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 81FA5615CD
+ by smtp4.osuosl.org (Postfix) with ESMTP id 4D6E241FA4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 09:53:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 81FA5615CD
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de
- header.a=rsa-sha256 header.s=susede2_rsa header.b=0g0ELczH; 
- dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256
- header.s=susede2_ed25519 header.b=3VaINjeq
+ Fri, 24 Mar 2023 16:12:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4D6E241FA4
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 3-zaTNU9Vjlp
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id rcsodqtzdM4o
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 09:53:00 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B72A9615C6
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B72A9615C6
+ Fri, 24 Mar 2023 16:12:54 +0000 (UTC)
+X-Greylist: delayed 00:10:01 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1C3784021B
+Received: from qs51p00im-qukt01071702.me.com (qs51p00im-qukt01071702.me.com
+ [17.57.155.7])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 1C3784021B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 24 Mar 2023 09:53:00 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B150033777;
- Fri, 24 Mar 2023 09:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1679651019; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p5gU4YUVCJUKRvg7TRuNnivRS6YS1MoKDOqLZ95pv7A=;
- b=0g0ELczHnlGOC88a2Y0t/1ExMbIdXossK77nETDjPb/MkjhgzJQ6o4VzNwQ7dF1euKbZtK
- BN0gDA8dPClY/9SNSs/Qdz7y3wt9etasu1sOqKGmz/Dal5s95SuUs9r/8b39re775H8JS7
- 4DLjgVePw+3Xhb/lIi3EIIFnFQNlHU4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1679651019;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p5gU4YUVCJUKRvg7TRuNnivRS6YS1MoKDOqLZ95pv7A=;
- b=3VaINjeq+UXxdQE+bHl75dihBMVHJs8tR1sKJ/DbvBIjoACW89B18sbUD28ROJgKdeSa8Z
- uwfARJkK1f/qQYAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 80049138ED;
- Fri, 24 Mar 2023 09:43:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id XJUgHstwHWRVKAAAMHmgww
- (envelope-from <tiwai@suse.de>); Fri, 24 Mar 2023 09:43:39 +0000
-Date: Fri, 24 Mar 2023 10:43:38 +0100
-Message-ID: <87sfdu5vsl.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Alexander Heinrich <hallo@alexanderheinrich.de>
-Subject: Re: [PATCH] kselftest/alsa: Fix -Wformat compiler warnings
-In-Reply-To: <20230324092806.363253-1-hallo@alexanderheinrich.de>
-References: <20230324092806.363253-1-hallo@alexanderheinrich.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Cc: shuah@kernel.org, tiwai@suse.com, perex@perex.cz, broonie@kernel.org,
+ Fri, 24 Mar 2023 16:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=alexanderheinrich.de; s=sig1; t=1679673771;
+ bh=WA7S6ZvTYQ6luSPw10U7xe5lrYgnhlkjN4sbsAQmXk8=;
+ h=From:To:Subject:Date:Message-Id:MIME-Version;
+ b=Is+U/HvsFkPjrZ5Pfx/zKMG3sarbhHGJPSbuMDON9sU6Kk8NrBa9bmTB1BRcHaw04
+ ORTgOOW3GVKdGIDwE3NjfrdHWnrq81i0IN5uWvBnaOQ/hZ4VT8ivisknlltF4+MhRt
+ 3Y8Caui8Owl6FeLP2JMTSOtg6ofKX6AjMKeTFWZo/3OQiumVZCYO84Ybr3x7Q9Z5SS
+ P7XvCTYZXQpY5/o+9W/uV20lDViqt+ZouFxzet3zqK/6z7K57FEJSlyl5GBJPl0Ptt
+ aYJqSK7B+zAd0Ik2EikUgVER14yeBU6OjQsJ2EOUcDI3X6JGHRpRCZsc7/HvhV7kSp
+ 7do/P6nMa1RVQ==
+Received: from pop-os.fritz.box (qs51p00im-dlb-asmtp-mailmevip.me.com
+ [17.57.155.28])
+ by qs51p00im-qukt01071702.me.com (Postfix) with ESMTPSA id C144635018B9;
+ Fri, 24 Mar 2023 16:02:48 +0000 (UTC)
+From: Alexander Heinrich <hallo@alexanderheinrich.de>
+To: tiwai@suse.de
+Subject: [PATCH v2] kselftest/alsa: Fix -Wformat compiler warnings
+Date: Fri, 24 Mar 2023 17:01:58 +0100
+Message-Id: <20230324160158.4076-1-hallo@alexanderheinrich.de>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+X-Proofpoint-GUID: gmt5rTcaZmiePQ-5PdAefwWpp_I_jnzC
+X-Proofpoint-ORIG-GUID: gmt5rTcaZmiePQ-5PdAefwWpp_I_jnzC
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.790,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-01-12=5F02:2020-02-14=5F02,2022-01-12=5F02,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ mlxscore=0 mlxlogscore=999
+ suspectscore=0 clxscore=1030 phishscore=0 spamscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2303240127
+Cc: shuah@kernel.org, perex@perex.cz, broonie@kernel.org,
  linux-kselftest@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -110,77 +97,148 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, 24 Mar 2023 10:28:06 +0100,
-Alexander Heinrich wrote:
-> 
-> I noticed some -Wformat compiler warnings in pcm-test.c while building
-> kselftest, fix them by using the same types for format specifier and arguments.
-> 
-> Signed-off-by: Alexander Heinrich <hallo@alexanderheinrich.de>
+Fix compiler warnings caused by mixing long and unsigned int values:
+Change type of variables rate, channels, period_size and buffer_size to
+unsigned int (as used by rrate).
 
-Those variables (rates, channels, etc) should be rather int instead of
-long, as these are not 64bit parameters on 32bit archs.
-On top of that, the whole '%l' prefix and cast should be dropped.
+Signed-off-by: Alexander Heinrich <hallo@alexanderheinrich.de>
+---
+Hi Takashi,
+Thank you for your feedback on my first version of the patch!
+I have changed the variables to unsigned int, removed the casts and
+changed the relevant format specifiers to %d.
 
-The only concern is the string to int conversion, and this should be
-checked carefully, but other than that, it must be straightforward.
+This produced a new warnings in two places, where the 'rate' and 'channels' 
+variables were being multiplied with 'snd_pcm_format_physical_width()', because
+this function returns an int (and can return a negative value on failure).
+I added a check for negative values, so that the return value can safely
+be cast to unsigned int.
 
-Care to work on that way?
+For the string to int conversion functions, the return values for the test cases
+in pcm-test.conf are non-negative and in the range of unsigned int, so I just
+cast them to unsigned int.
 
+Please let me know if I can further improve on my patch (it is my first)!
+Thanks and greetings,
+Alex
 
-thanks,
+ tools/testing/selftests/alsa/pcm-test.c | 41 ++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 18 deletions(-)
 
-Takashi
+diff --git a/tools/testing/selftests/alsa/pcm-test.c b/tools/testing/selftests/alsa/pcm-test.c
+index 3e390fe67eb9..d4420789837c 100644
+--- a/tools/testing/selftests/alsa/pcm-test.c
++++ b/tools/testing/selftests/alsa/pcm-test.c
+@@ -259,7 +259,7 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
+ {
+ 	char name[64], key[128], msg[256];
+ 	const char *cs;
+-	int i, err;
++	int i, err, phys_width;
+ 	snd_pcm_t *handle = NULL;
+ 	snd_pcm_access_t access = SND_PCM_ACCESS_RW_INTERLEAVED;
+ 	snd_pcm_format_t format, old_format;
+@@ -267,8 +267,7 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
+ 	unsigned char *samples = NULL;
+ 	snd_pcm_sframes_t frames;
+ 	long long ms;
+-	long rate, channels, period_size, buffer_size;
+-	unsigned int rrate;
++	unsigned int rate, channels, period_size, buffer_size, rrate;
+ 	snd_pcm_uframes_t rperiod_size, rbuffer_size, start_threshold;
+ 	timestamp_t tstamp;
+ 	bool pass = false;
+@@ -308,12 +307,15 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
+ 		ksft_exit_fail_msg("Wrong format '%s'\n", cs);
+ 	conf_get_string_array(pcm_cfg, "alt_formats", NULL,
+ 				alt_formats, ARRAY_SIZE(alt_formats), NULL);
+-	rate = conf_get_long(pcm_cfg, "rate", NULL, 48000);
+-	channels = conf_get_long(pcm_cfg, "channels", NULL, 2);
+-	period_size = conf_get_long(pcm_cfg, "period_size", NULL, 4096);
+-	buffer_size = conf_get_long(pcm_cfg, "buffer_size", NULL, 16384);
+-
+-	samples = malloc((rate * channels * snd_pcm_format_physical_width(format)) / 8);
++	rate = (unsigned int)conf_get_long(pcm_cfg, "rate", NULL, 48000);
++	channels = (unsigned int)conf_get_long(pcm_cfg, "channels", NULL, 2);
++	period_size = (unsigned int)conf_get_long(pcm_cfg, "period_size", NULL, 4096);
++	buffer_size = (unsigned int)conf_get_long(pcm_cfg, "buffer_size", NULL, 16384);
++
++	phys_width = snd_pcm_format_physical_width(format);
++	if (phys_width < 0)
++		ksft_exit_fail_msg("Unknown PCM format\n");
++	samples = malloc((rate * channels * (unsigned int)phys_width) / 8);
+ 	if (!samples)
+ 		ksft_exit_fail_msg("Out of memory\n");
+ 	snd_pcm_format_set_silence(format, samples, rate * channels);
+@@ -357,8 +359,11 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
+ 						 snd_pcm_access_name(access),
+ 						 snd_pcm_format_name(old_format),
+ 						 snd_pcm_format_name(format));
++				phys_width = snd_pcm_format_physical_width(format);
++				if (phys_width < 0)
++					ksft_exit_fail_msg("Unknown PCM format\n");
+ 				samples = realloc(samples, (rate * channels *
+-							    snd_pcm_format_physical_width(format)) / 8);
++								  (unsigned int)phys_width) / 8);
+ 				if (!samples)
+ 					ksft_exit_fail_msg("Out of memory\n");
+ 				snd_pcm_format_set_silence(format, samples, rate * channels);
+@@ -371,29 +376,29 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
+ 	}
+ 	err = snd_pcm_hw_params_set_channels(handle, hw_params, channels);
+ 	if (err < 0) {
+-		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_channels %ld: %s", channels, snd_strerror(err));
++		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_channels %d: %s", channels, snd_strerror(err));
+ 		goto __close;
+ 	}
+ 	rrate = rate;
+ 	err = snd_pcm_hw_params_set_rate_near(handle, hw_params, &rrate, 0);
+ 	if (err < 0) {
+-		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_rate %ld: %s", rate, snd_strerror(err));
++		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_rate %d: %s", rate, snd_strerror(err));
+ 		goto __close;
+ 	}
+ 	if (rrate != rate) {
+-		snprintf(msg, sizeof(msg), "rate mismatch %ld != %ld", rate, rrate);
++		snprintf(msg, sizeof(msg), "rate mismatch %d != %d", rate, rrate);
+ 		goto __close;
+ 	}
+ 	rperiod_size = period_size;
+ 	err = snd_pcm_hw_params_set_period_size_near(handle, hw_params, &rperiod_size, 0);
+ 	if (err < 0) {
+-		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_period_size %ld: %s", period_size, snd_strerror(err));
++		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_period_size %d: %s", period_size, snd_strerror(err));
+ 		goto __close;
+ 	}
+ 	rbuffer_size = buffer_size;
+ 	err = snd_pcm_hw_params_set_buffer_size_near(handle, hw_params, &rbuffer_size);
+ 	if (err < 0) {
+-		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_buffer_size %ld: %s", buffer_size, snd_strerror(err));
++		snprintf(msg, sizeof(msg), "snd_pcm_hw_params_set_buffer_size %d: %s", buffer_size, snd_strerror(err));
+ 		goto __close;
+ 	}
+ 	err = snd_pcm_hw_params(handle, hw_params);
+@@ -428,14 +433,14 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
+ 		goto __close;
+ 	}
+ 
+-	ksft_print_msg("%s.%s.%d.%d.%d.%s hw_params.%s.%s.%ld.%ld.%ld.%ld sw_params.%ld\n",
++	ksft_print_msg("%s.%s.%d.%d.%d.%s hw_params.%s.%s.%d.%d.%d.%d sw_params.%ld\n",
+ 		         test_class_name, test_name,
+ 			 data->card, data->device, data->subdevice,
+ 			 snd_pcm_stream_name(data->stream),
+ 			 snd_pcm_access_name(access),
+ 			 snd_pcm_format_name(format),
+-			 (long)rate, (long)channels,
+-			 (long)rperiod_size, (long)rbuffer_size,
++			 rate, channels,
++			 rperiod_size, rbuffer_size,
+ 			 (long)start_threshold);
+ 
+ 	/* Set all the params, actually run the test */
+-- 
+2.34.1
 
-> ---
->  tools/testing/selftests/alsa/pcm-test.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/alsa/pcm-test.c b/tools/testing/selftests/alsa/pcm-test.c
-> index 58b525a4a32c..44fc5f826ab5 100644
-> --- a/tools/testing/selftests/alsa/pcm-test.c
-> +++ b/tools/testing/selftests/alsa/pcm-test.c
-> @@ -371,7 +371,7 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
->  		goto __close;
->  	}
->  	if (rrate != rate) {
-> -		snprintf(msg, sizeof(msg), "rate mismatch %ld != %ld", rate, rrate);
-> +		snprintf(msg, sizeof(msg), "rate mismatch %ld != %d", rate, rrate);
->  		goto __close;
->  	}
->  	rperiod_size = period_size;
-> @@ -437,24 +437,24 @@ static void test_pcm_time(struct pcm_data *data, enum test_class class,
->  			frames = snd_pcm_writei(handle, samples, rate);
->  			if (frames < 0) {
->  				snprintf(msg, sizeof(msg),
-> -					 "Write failed: expected %d, wrote %li", rate, frames);
-> +					 "Write failed: expected %ld, wrote %li", rate, frames);
->  				goto __close;
->  			}
->  			if (frames < rate) {
->  				snprintf(msg, sizeof(msg),
-> -					 "expected %d, wrote %li", rate, frames);
-> +					 "expected %ld, wrote %li", rate, frames);
->  				goto __close;
->  			}
->  		} else {
->  			frames = snd_pcm_readi(handle, samples, rate);
->  			if (frames < 0) {
->  				snprintf(msg, sizeof(msg),
-> -					 "expected %d, wrote %li", rate, frames);
-> +					 "expected %ld, wrote %li", rate, frames);
->  				goto __close;
->  			}
->  			if (frames < rate) {
->  				snprintf(msg, sizeof(msg),
-> -					 "expected %d, wrote %li", rate, frames);
-> +					 "expected %ld, wrote %li", rate, frames);
->  				goto __close;
->  			}
->  		}
-> -- 
-> 2.34.1
-> 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
