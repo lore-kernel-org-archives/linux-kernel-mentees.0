@@ -1,101 +1,82 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 094FDC6FD1C
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 25 Mar 2023 20:59:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2E235C7619A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 27 Mar 2023 08:00:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8A36A4019E;
-	Sat, 25 Mar 2023 20:59:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8A36A4019E
+	by smtp1.osuosl.org (Postfix) with ESMTP id AEF3C81D5A;
+	Mon, 27 Mar 2023 08:00:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AEF3C81D5A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZRcIc4ct
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bwFPc1JtikxV; Mon, 27 Mar 2023 08:00:18 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2155681D4D;
+	Mon, 27 Mar 2023 08:00:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2155681D4D
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DF206C008C;
+	Mon, 27 Mar 2023 08:00:17 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 656F4C0091
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Mar 2023 08:00:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 33B1D40A5D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 Mar 2023 08:00:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 33B1D40A5D
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=SQGA7KYV
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=ZRcIc4ct
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tmku20L75qs7; Sat, 25 Mar 2023 20:59:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4DCD140141;
-	Sat, 25 Mar 2023 20:59:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4DCD140141
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 293DFC0035;
-	Sat, 25 Mar 2023 20:59:14 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DF1F6C0032
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id f79A1Jc-kW6m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Mar 2023 20:59:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B916B416C5
+ Mon, 27 Mar 2023 08:00:10 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A70184057F
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A70184057F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Mar 2023 20:59:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B916B416C5
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=SQGA7KYV
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Bqyogv2E7_Hk
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Mar 2023 20:59:11 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 20AAA416B4
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 20AAA416B4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Mar 2023 20:59:10 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id b20so21202183edd.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 25 Mar 2023 13:59:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1679777949; x=1682369949;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pOkHB3mU6jZljf9gVbxLDgI3yP0VZBhBZesGbxbybZw=;
- b=SQGA7KYVH3D2WTBeR8641cnQbpEsmSL/lzoPf0KMRBYaAcJbrWB6Y/Usa7btzUu89e
- r6tcqtxJ0izxXzc/jWvX4kZgcePeScoLdAMg7aRtKKBQq132h7VXZhkaGzmg9o6cWKTk
- 9jjqyJZQr4tkjzn1kxaSmvm/EnIQmzDGoo9pjJ2/5QKr/GfEFeM6yMh6yZMx67tCX999
- 2PdlVRcD3adR5A8GvIUpgVzb/UQWBx/+Ro5zHWcCULKGSfs3B+cqPegOpSKdYohGg6sQ
- 5gPlRhmDyXfNhmlOvtsHcD2rCsdc9XE+7VjkzGnHCEGB2rGfE9RDOyGUIkemZh2RErqF
- Nn8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1679777949; x=1682369949;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pOkHB3mU6jZljf9gVbxLDgI3yP0VZBhBZesGbxbybZw=;
- b=xjtdP2+Olzhbwb4OzOE5juFEeX0sVjHvNfOGUl1rcRc+rHRqw+bh2NCpSe+jj1v1MY
- SutA4Lpn27fnsEFQF8IqEiVgth9wprPJxDIXav1RI6vAdaAJUR6uUbnGk0pG2wkLKelI
- OMVZzaI88RnnzXmdI2f3fro7YhjDsCnrRgaAVPfIimKKZDoGdYhAkJg7KqvDBXScI6jn
- bXDVWB3fpVb7poXuqtocdI/JMA0QqZt9ZcUNNzQ6kI34o2+wnGLhYxB5xSxEviZylC9N
- bcAQR0SLabMtGNgRPbfg+V8Q2E514/GLiHdx+AqEUIypZyosV2L8nR5ec0WYMOWQrzWe
- hSDg==
-X-Gm-Message-State: AAQBX9fAhc5jHU8D+nEcqlMuIhEQBuLFWzsG55veUh+Eo0KgvjSlEVlF
- QfVpf8KwBtjHupA50VRfNsQ=
-X-Google-Smtp-Source: AKy350Zf2xFKvcZ0tlVEUyhkALBh5Oi4WhTX1RmzmttS5oNlDzIhNHIiTko+UnihFhZxSlPsUTonrg==
-X-Received: by 2002:a05:6402:268e:b0:502:1f7b:f0a6 with SMTP id
- w14-20020a056402268e00b005021f7bf0a6mr6842871edd.0.1679777948929; 
- Sat, 25 Mar 2023 13:59:08 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.81.68])
- by smtp.gmail.com with ESMTPSA id
- l6-20020a50d6c6000000b004af62273b66sm12597440edj.18.2023.03.25.13.59.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Mar 2023 13:59:08 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: shuah@kernel.org,
-	colin.i.king@gmail.com
-Subject: [PATCH v2] selftests: prctl: Add new prctl test for PR_SET_VMA action
-Date: Sun, 26 Mar 2023 00:59:02 +0400
-Message-Id: <20230325205903.5550-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Mon, 27 Mar 2023 08:00:10 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 958A761046;
+ Mon, 27 Mar 2023 08:00:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46478C433EF;
+ Mon, 27 Mar 2023 08:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1679904008;
+ bh=uFY69oHQbQUzDGw86QdQ180TfEErZH0YMPUJ07jxJFg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZRcIc4ctCcAZ7ynVjGR+chP8P1YkCb5VfA6SuIq5+HhunxSx519jS2al14O2J4/Ta
+ 3hFzkahiLAVPV5wXJUruqnPVCKCevCR7gJ+ozxWlaZKeZnnThpTAQqWGLD6MxyGamG
+ gH2bv119c1CuWGCTmW6a33JM7yqNZhHlLpgrHu/CquB36EFVUOT09bTcWcoEKi8x4e
+ RJgM7kJVYEPgU7qUOjNd/QkszFicuc0PuE+oQJxCMJSSbErBoCoZLZpm3oAT+ZT4j0
+ YejUnocp4mBoGEvnMeFY+epxupYGqQp7EYlGcnyOJe/HAWERG9QGYQ4nRXD+luT8sd
+ w5x2REE0s5Nhg==
+Date: Mon, 27 Mar 2023 10:00:04 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Anh Tuan Phan <tuananhlfc@gmail.com>
+Subject: Re: [PATCH v2 1/1] selftests mount: Fix mount_setattr_test builds
+ failed
+Message-ID: <20230327080004.7iqrbp3ja2osrq5z@wittgenstein>
+References: <ZByVac3GsD7RFuaj@do-x1extreme>
+ <20230324021415.17416-1-tuananhlfc@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20230324021415.17416-1-tuananhlfc@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, shuah@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, sforshee@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,194 +88,25 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch will add the new test, which covers the prctl call with
-PR_SET_VMA command. The test tries to give a name to the anonymous
-VMA within the process memory map, and then checks the result of
-the operation by parsing 'maps' virtual file.
-
-Additionally, the test tries to call the prctl PR_SET_VMA command
-with invalid arguments, and checks the error codes for correctness.
-
-At the moment anonymous VMA naming through prctl call functionality
-is not covered with any tests, so I think implementing it makes sense.
-
-In version 2 of this patch I consider the selftest Makefile rule about
-TARGETS entries order - I moved the 'prctl' entry in the Makefile to
-follow the lexicographic order. In version 1 it was placed at the
-end of the list.
-
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- tools/testing/selftests/Makefile              |   1 +
- tools/testing/selftests/prctl/.gitignore      |   1 +
- tools/testing/selftests/prctl/Makefile        |   2 +-
- tools/testing/selftests/prctl/config          |   1 +
- .../selftests/prctl/set-anon-vma-name-test.c  | 104 ++++++++++++++++++
- 5 files changed, 108 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/prctl/config
- create mode 100644 tools/testing/selftests/prctl/set-anon-vma-name-test.c
-
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 13a6837a0c6b..97dcdaa656f6 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -58,6 +58,7 @@ TARGETS += nsfs
- TARGETS += pidfd
- TARGETS += pid_namespace
- TARGETS += powerpc
-+TARGETS += prctl
- TARGETS += proc
- TARGETS += pstore
- TARGETS += ptrace
-diff --git a/tools/testing/selftests/prctl/.gitignore b/tools/testing/selftests/prctl/.gitignore
-index 91af2b631bc9..7a657b25f686 100644
---- a/tools/testing/selftests/prctl/.gitignore
-+++ b/tools/testing/selftests/prctl/.gitignore
-@@ -2,3 +2,4 @@
- disable-tsc-ctxt-sw-stress-test
- disable-tsc-on-off-stress-test
- disable-tsc-test
-+set-anon-vma-name-test
-diff --git a/tools/testing/selftests/prctl/Makefile b/tools/testing/selftests/prctl/Makefile
-index c7923b205222..c058b81eeb41 100644
---- a/tools/testing/selftests/prctl/Makefile
-+++ b/tools/testing/selftests/prctl/Makefile
-@@ -5,7 +5,7 @@ ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/x86/ -e s/x86_64/x86/)
- 
- ifeq ($(ARCH),x86)
- TEST_PROGS := disable-tsc-ctxt-sw-stress-test disable-tsc-on-off-stress-test \
--		disable-tsc-test
-+		disable-tsc-test set-anon-vma-name-test
- all: $(TEST_PROGS)
- 
- include ../lib.mk
-diff --git a/tools/testing/selftests/prctl/config b/tools/testing/selftests/prctl/config
-new file mode 100644
-index 000000000000..c6ed03c544e5
---- /dev/null
-+++ b/tools/testing/selftests/prctl/config
-@@ -0,0 +1 @@
-+CONFIG_ANON_VMA_NAME=y
-diff --git a/tools/testing/selftests/prctl/set-anon-vma-name-test.c b/tools/testing/selftests/prctl/set-anon-vma-name-test.c
-new file mode 100644
-index 000000000000..26d853c5a0c1
---- /dev/null
-+++ b/tools/testing/selftests/prctl/set-anon-vma-name-test.c
-@@ -0,0 +1,104 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * This test covers the anonymous VMA naming functionality through prctl calls
-+ */
-+
-+#include <errno.h>
-+#include <sys/prctl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/mman.h>
-+#include <string.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define AREA_SIZE 1024
-+
-+#define GOOD_NAME "goodname"
-+#define BAD_NAME "badname\1"
-+
-+#ifndef PR_SET_VMA
-+#define PR_SET_VMA 0x53564d41
-+#define PR_SET_VMA_ANON_NAME 0
-+#endif
-+
-+
-+int rename_vma(unsigned long addr, unsigned long size, char *name)
-+{
-+	int res;
-+
-+	res = prctl(PR_SET_VMA, PR_SET_VMA_ANON_NAME, addr, size, name);
-+	if (res < 0)
-+		return -errno;
-+	return res;
-+}
-+
-+int was_renaming_successful(char *target_name, unsigned long ptr)
-+{
-+	FILE *maps_file;
-+
-+	char line_buf[512], name[128], mode[8];
-+	unsigned long start_addr, end_addr, offset;
-+	unsigned int major_id, minor_id, node_id;
-+
-+	char target_buf[128];
-+	int res = 0, sscanf_res;
-+
-+	// The entry name in maps will be in format [anon:<target_name>]
-+	sprintf(target_buf, "[anon:%s]", target_name);
-+	maps_file = fopen("/proc/self/maps", "r");
-+	if (!maps_file) {
-+		printf("## /proc/self/maps file opening error\n");
-+		return 0;
-+	}
-+
-+	// Parse the maps file to find the entry we renamed
-+	while (fgets(line_buf, sizeof(line_buf), maps_file)) {
-+		sscanf_res = sscanf(line_buf, "%lx-%lx %7s %lx %u:%u %u %s", &start_addr,
-+					&end_addr, mode, &offset, &major_id,
-+					&minor_id, &node_id, name);
-+		if (sscanf_res == EOF) {
-+			res = 0;
-+			printf("## EOF while parsing the maps file\n");
-+			break;
-+		}
-+		if (!strcmp(name, target_buf) && start_addr == ptr) {
-+			res = 1;
-+			break;
-+		}
-+	}
-+	fclose(maps_file);
-+	return res;
-+}
-+
-+FIXTURE(vma) {
-+	void *ptr_anon, *ptr_not_anon;
-+};
-+
-+FIXTURE_SETUP(vma) {
-+	self->ptr_anon = mmap(NULL, AREA_SIZE, PROT_READ | PROT_WRITE,
-+					MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
-+	ASSERT_NE(self->ptr_anon, NULL);
-+	self->ptr_not_anon = mmap(NULL, AREA_SIZE, PROT_READ | PROT_WRITE,
-+					MAP_PRIVATE, 0, 0);
-+	ASSERT_NE(self->ptr_not_anon, NULL);
-+}
-+
-+FIXTURE_TEARDOWN(vma) {
-+	munmap(self->ptr_anon, AREA_SIZE);
-+	munmap(self->ptr_not_anon, AREA_SIZE);
-+}
-+
-+TEST_F(vma, renaming) {
-+	TH_LOG("Try to rename the VMA with correct parameters");
-+	EXPECT_GE(rename_vma((unsigned long)self->ptr_anon, AREA_SIZE, GOOD_NAME), 0);
-+	EXPECT_TRUE(was_renaming_successful(GOOD_NAME, (unsigned long)self->ptr_anon));
-+
-+	TH_LOG("Try to pass invalid name (with non-printable character \\1) to rename the VMA");
-+	EXPECT_EQ(rename_vma((unsigned long)self->ptr_anon, AREA_SIZE, BAD_NAME), -EINVAL);
-+
-+	TH_LOG("Try to rename non-anonynous VMA");
-+	EXPECT_EQ(rename_vma((unsigned long) self->ptr_not_anon, AREA_SIZE, GOOD_NAME), -EINVAL);
-+}
-+
-+TEST_HARNESS_MAIN
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gRnJpLCBNYXIgMjQsIDIwMjMgYXQgMDk6MTQ6MTVBTSArMDcwMCwgQW5oIFR1YW4gUGhhbiB3
+cm90ZToKPiBXaGVuIGNvbXBpbGluZyBzZWxmdGVzdHMgd2l0aCB0YXJnZXQgbW91bnRfc2V0YXR0
+ciBJIGVuY291bnRlcmVkIHNvbWUgZXJyb3JzIHdpdGggdGhlIGJlbG93IG1lc3NhZ2VzOgo+IG1v
+dW50X3NldGF0dHJfdGVzdC5jOiBJbiBmdW5jdGlvbiDigJhtb3VudF9zZXRhdHRyX3RocmVhZOKA
+mToKPiBtb3VudF9zZXRhdHRyX3Rlc3QuYzozNDM6MTY6IGVycm9yOiB2YXJpYWJsZSDigJhhdHRy
+4oCZIGhhcyBpbml0aWFsaXplciBidXQgaW5jb21wbGV0ZSB0eXBlCj4gICAzNDMgfCAgICAgICAg
+IHN0cnVjdCBtb3VudF9hdHRyIGF0dHIgPSB7Cj4gICAgICAgfCAgICAgICAgICAgICAgICBefn5+
+fn5+fn5+Cj4gCj4gVGhlc2UgZXJyb3JzIG1pZ2h0IGJlIGJlY2F1c2Ugb2YgbGludXgvbW91bnQu
+aCBpcyBub3QgaW5jbHVkZWQuIFRoaXMgcGF0Y2ggcmVzb2x2ZXMgdGhhdCBpc3N1ZS4KPiAKPiBT
+aWduZWQtb2ZmLWJ5OiBBbmggVHVhbiBQaGFuIDx0dWFuYW5obGZjQGdtYWlsLmNvbT4KPiAtLS0K
+CkkgdGhpbmsgU2V0aCBhbHJlYWR5IGFja2VkIHRoaXMuIFRoaXMgY2FuIGdvIHZpYSB0aGUgc2Vs
+ZnRlc3QgdHJlZSwKQWNrZWQtYnk6IENocmlzdGlhbiBCcmF1bmVyIDxicmF1bmVyQGtlcm5lbC5v
+cmc+Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4
+LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5s
+aW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWls
+bWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
