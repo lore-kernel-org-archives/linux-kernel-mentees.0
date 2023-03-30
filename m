@@ -1,96 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 06AF0C6FD18
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Mar 2023 00:58:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D80C7C761A6
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 30 Mar 2023 15:53:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 58F6341E30;
-	Thu, 30 Mar 2023 00:58:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 58F6341E30
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=WEXfDUGX
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6E4A160BFD;
+	Thu, 30 Mar 2023 15:53:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6E4A160BFD
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ROBarmsc
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7pct5ADDOjIi; Thu, 30 Mar 2023 00:58:43 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HEGOGC9oR8lu; Thu, 30 Mar 2023 15:53:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id C783941E1A;
-	Thu, 30 Mar 2023 00:58:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C783941E1A
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3D98760BBC;
+	Thu, 30 Mar 2023 15:53:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3D98760BBC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98676C0037;
-	Thu, 30 Mar 2023 00:58:42 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 28343C0037;
+	Thu, 30 Mar 2023 15:53:14 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4E5ACC002F
+ by lists.linuxfoundation.org (Postfix) with ESMTP id AF6F3C002F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Mar 2023 00:58:42 +0000 (UTC)
+ Thu, 30 Mar 2023 15:53:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 27CA441E2D
+ by smtp4.osuosl.org (Postfix) with ESMTP id 8956140263
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Mar 2023 00:58:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 27CA441E2D
+ Thu, 30 Mar 2023 15:53:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8956140263
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20210112 header.b=ROBarmsc
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pOqXL2zIvlrI
+ with ESMTP id YaHeCT7TrN7N
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Mar 2023 00:58:40 +0000 (UTC)
+ Thu, 30 Mar 2023 15:53:11 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A494A41E1A
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A494A41E1A
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 138B441E21
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 138B441E21
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 Mar 2023 00:58:40 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id ew6so70256061edb.7
+ Thu, 30 Mar 2023 15:53:10 +0000 (UTC)
+Received: by mail-ed1-x52e.google.com with SMTP id ek18so78350710edb.6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 29 Mar 2023 17:58:40 -0700 (PDT)
+ Thu, 30 Mar 2023 08:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20210112; t=1680137918;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=su0gIjKrNXbtaF8LQ8xZK0mtSIWjgnLtGXQ4zlfGIYQ=;
- b=WEXfDUGXYmXh859yKLvna3F3O6cnWUDpZexV58P6WEGdNfB5Nd4xfh3zdYamjP67bX
- 6EfYoqmHRSU4Vaoo15AYIf0CnX1lcS/BHfKE1WA150zf8OCJGmueOZD4iCwZRysujJfI
- rpL8b1EhGGmItvwfEs5V5ZK36C92Ae7tm/pkG6YaPVavMos4drXFJGrL6qguaSFhwUEE
- ltz1iJr2Bgd3zPjgIt7F5E4BGm7u5phTfDS+rEjoSnWhOGp/W9zJewhi/Cl3IxzBh377
- AEYgIOneC29WK6ZuASSG4nBdWXYudwhG0Nk8fM+EnjS95zu2DJBZamrb5LEIuZRaOf8x
- 0CNA==
+ d=gmail.com; s=20210112; t=1680191589;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ikZyF37hU9YDO+GQB/GUbHTmkdXciWAtoxo0PEHvqgY=;
+ b=ROBarmsc9FRDQk/abfcUvYA25l2Bl8IEyF1WgfDPAx4A5JuDBqHyeCrwreeMJyenNA
+ v/OJvRZVjGKu2bWHM+Y28FtVAY6hyB6C03uv4iS0cfRSbz/rNPzTHClz1dEfTIq8hAo/
+ E2RjDsaqtmGYV8cQslOaONDxnL3O6+LRmtpvoq1XA6o4BxiTC15ritsL82jR1iGCzY7C
+ 3D2+R8sk27Dp51zWeHJx80dTawRIABmezauk948tCUgvfgwcei/0sLl0SuFo6h3Ofh6d
+ U55bwxxMHRJLYAxH4nI8QpYP6r39xLfRaF8nWV7+OZhpkXsY2QUuxWRnvwrdCzq/CGqE
+ aKiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680137918;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=su0gIjKrNXbtaF8LQ8xZK0mtSIWjgnLtGXQ4zlfGIYQ=;
- b=cwl6rObEI2pipb83rjx0MOK5fvEabeJ0ZAtece2yjwOuRhRYILCC28o6v+iTAXsaLe
- AJ0wY9s6VuCoW3v7zaCtayDH7bYaBwFYinuHGwBHYrf72dCKlCd59vcm7f4ADsRStRWN
- Ob1L+MluB6ZBHyh77dQk8tbj8O5euAUXfUQsZFt3RLV6Pss8mt8Pa5Dg8ySZ7XlyONOh
- U7+9bdrbdGjD76sh0iotkvTqc5lldudYhCc2PEma6jpG6guiynZbvimGKxdvuCkUxcsC
- kASpxMHj/0fHYd+Tgia4czE9wmh3wpC2AKM9aduy3SKPX8EiHOU9YpK3mnP9VE3PyC8e
- e1XQ==
-X-Gm-Message-State: AAQBX9eJJOSDrbaknaz/ej4fsxRCiIpiHtLL56OT0og7RWk6Bageza0V
- izubazCMFvgIKkqcMPhQHLNZvtZCbTHvpDX3MjNd0Iotq7mtyAd4XgbO7w==
-X-Google-Smtp-Source: AKy350b53e6+XRogiX+Qi8FwDcW8/73RPONebml/PIb/IzEz/4R5hJRzEC0HD1YmwJoodG2Cjd5GvTqDGOGIz6a/GDM=
-X-Received: by 2002:a17:907:d412:b0:930:310:abbf with SMTP id
- vi18-20020a170907d41200b009300310abbfmr10584206ejc.11.1680137918431; Wed, 29
- Mar 2023 17:58:38 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680191589;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ikZyF37hU9YDO+GQB/GUbHTmkdXciWAtoxo0PEHvqgY=;
+ b=PlnSUhdl9xj698io11hOfAz9NORu4o7kFt5y7swWGOFLcoYWe2ZzsqcF8l3walBjpP
+ bEPXLwZbtSWtJJHoZZhFY2OPRq22OLzyHVqK6gQ8m9gE4Qd3Z2X8O4ILGs9rjHqnEtpR
+ BHVhqAKYH/flvsEKZhzfOcQ9tksn9LQGmfaU7jU7l3fWz5fIgSDJCqAm7zhQYkwS9qDg
+ PieqAKcjxG+Xlo1Kce749yY+7Cze+bWkiatEznB/DUFGscwvIY1w3pKBTBe/WSEuUaUH
+ yrAWXBZK8tD3wFqOnlRw8RnbIuOC+QijnDBhRdnKGh8JU9iFRB6pVAR2R9B9PlXUxar0
+ xH/w==
+X-Gm-Message-State: AAQBX9d9iRi6sSW0lBqqRlyEkFU9a/vax4FUUwFyCnkhQw+UtO1TGTF+
+ jSZ2lPdPpC9+7b9xvtiS7b8=
+X-Google-Smtp-Source: AKy350bonleupkdfcCxOXzFGjgMB/RZ0SXYhmfxsTBkQyFAwaTdJDflIKAwbXhgwxlO9d0UptITKhQ==
+X-Received: by 2002:a17:906:2098:b0:8d2:78c5:1d4e with SMTP id
+ 24-20020a170906209800b008d278c51d4emr2497476ejq.5.1680191588594; 
+ Thu, 30 Mar 2023 08:53:08 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([37.252.81.51])
+ by smtp.gmail.com with ESMTPSA id
+ e7-20020a170906248700b0093408d33875sm15027305ejb.49.2023.03.30.08.53.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Mar 2023 08:53:08 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: akpm@linux-foundation.org
+Subject: [PATCH v2] mm: khugepaged: Fix kernel BUG in hpage_collapse_scan_file
+Date: Thu, 30 Mar 2023 19:53:05 +0400
+Message-Id: <20230330155305.423051-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230329145330.23191-1-ivan.orlov0322@gmail.com>
- <20230329145304.66add47ba9b9fafb71b1e13d@linux-foundation.org>
- <CAHbLzko=aWBPk5a1P2fgR9yAgc52WG-HX_OBV8=iWFy_D4_eNQ@mail.gmail.com>
-In-Reply-To: <CAHbLzko=aWBPk5a1P2fgR9yAgc52WG-HX_OBV8=iWFy_D4_eNQ@mail.gmail.com>
-Date: Wed, 29 Mar 2023 17:58:01 -0700
-Message-ID: <CAAa6QmQx6QrC451QqC2KQx+XUU5mFuWbzR07cosHFsrr6W-hvw@mail.gmail.com>
-Subject: Re: [PATCH] mm: khugepaged: Fix kernel BUG in hpage_collapse_scan_file
-To: Yang Shi <shy828301@gmail.com>
-Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, shy828301@gmail.com,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, zokeefe@google.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,118 +107,125 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Zach O'Keefe via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Zach O'Keefe <zokeefe@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gV2VkLCBNYXIgMjksIDIwMjMgYXQgNToxNOKAr1BNIFlhbmcgU2hpIDxzaHk4MjgzMDFAZ21h
-aWwuY29tPiB3cm90ZToKPgo+IE9uIFdlZCwgTWFyIDI5LCAyMDIzIGF0IDI6NTPigK9QTSBBbmRy
-ZXcgTW9ydG9uIDxha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnPiB3cm90ZToKPiA+Cj4gPiBPbiBX
-ZWQsIDI5IE1hciAyMDIzIDE4OjUzOjMwICswNDAwIEl2YW4gT3Jsb3YgPGl2YW4ub3Jsb3YwMzIy
-QGdtYWlsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gPiBTeXprYWxsZXIgcmVwb3J0ZWQgdGhlIGZvbGxv
-d2luZyBpc3N1ZToKPiA+ID4KPiA+ID4gLi4uCj4gPiA+Cj4gPiA+IFRoZSAneGFzX3N0b3JlJyBj
-YWxsIGR1cmluZyBwYWdlIGNhY2hlIHNjYW5uaW5nIGNhbiBwb3RlbnRpYWxseQo+ID4gPiB0cmFu
-c2xhdGUgJ3hhcycgaW50byB0aGUgZXJyb3Igc3RhdGUgKHdpdGggdGhlIHJlcHJvZHVjZXIgcHJv
-dmlkZWQKPiA+ID4gYnkgdGhlIHN5emthbGxlciB0aGUgZXJyb3IgY29kZSBpcyAtRU5PTUVNKS4g
-SG93ZXZlciwgdGhlcmUgYXJlIG5vCj4gPiA+IGZ1cnRoZXIgY2hlY2tzIGFmdGVyIHRoZSAneGFz
-X3N0b3JlJywgYW5kIHRoZSBuZXh0IGNhbGwgb2YgJ3hhc19uZXh0Jwo+ID4gPiBhdCB0aGUgc3Rh
-cnQgb2YgdGhlIHNjYW5uaW5nIGN5Y2xlIGRvZXNuJ3QgaW5jcmVhc2UgdGhlIHhhX2luZGV4LAo+
-ID4gPiBhbmQgdGhlIGlzc3VlIG9jY3Vycy4KPiA+ID4KPiA+ID4gVGhpcyBwYXRjaCB3aWxsIGFk
-ZCB0aGUgeGFycmF5IHN0YXRlIGVycm9yIGNoZWNraW5nIGFmdGVyIHRoZQo+ID4gPiAneGFzX3N0
-b3JlJyBhbmQgdGhlIGNvcnJlc3BvbmRpbmcgcmVzdWx0IGVycm9yIGNvZGUuCj4gPiA+Cj4gPiA+
-IFRlc3RlZCB2aWEgc3l6Ym90Lgo+ID4gPgo+ID4gPiBSZXBvcnRlZC1ieTogc3l6Ym90Kzk1Nzhm
-YWE1NDc1YWNiMzVmYTUwQHN5emthbGxlci5hcHBzcG90bWFpbC5jb20KPiA+ID4gTGluazogaHR0
-cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20vYnVnP2lkPTdkNmJiMzc2MGUwMjZlY2U3NTI0NTAw
-ZmU0NGZiMDI0YTBlOTU5ZmMKPiA+ID4gU2lnbmVkLW9mZi1ieTogSXZhbiBPcmxvdiA8aXZhbi5v
-cmxvdjAzMjJAZ21haWwuY29tPgo+ID4gPiAtLS0KPiA+ID4gIG1tL2todWdlcGFnZWQuYyB8IDEw
-ICsrKysrKysrKysKPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspCj4gPiA+
-Cj4gPiA+IGRpZmYgLS1naXQgYS9tbS9raHVnZXBhZ2VkLmMgYi9tbS9raHVnZXBhZ2VkLmMKPiA+
-ID4gaW5kZXggOTJlNmY1NmE5MzJkLi40ZDk4NTBkOWVhN2YgMTAwNjQ0Cj4gPiA+IC0tLSBhL21t
-L2todWdlcGFnZWQuYwo+ID4gPiArKysgYi9tbS9raHVnZXBhZ2VkLmMKPiA+ID4gQEAgLTU1LDYg
-KzU1LDcgQEAgZW51bSBzY2FuX3Jlc3VsdCB7Cj4gPiA+ICAgICAgIFNDQU5fQ0dST1VQX0NIQVJH
-RV9GQUlMLAo+ID4gPiAgICAgICBTQ0FOX1RSVU5DQVRFRCwKPiA+ID4gICAgICAgU0NBTl9QQUdF
-X0hBU19QUklWQVRFLAo+ID4gPiArICAgICBTQ0FOX1NUT1JFX0ZBSUxFRCwKPiA+ID4gIH07Cj4g
-PiA+Cj4gPiA+ICAjZGVmaW5lIENSRUFURV9UUkFDRV9QT0lOVFMKPiA+ID4gQEAgLTE4NDAsNiAr
-MTg0MSwxNSBAQCBzdGF0aWMgaW50IGNvbGxhcHNlX2ZpbGUoc3RydWN0IG1tX3N0cnVjdCAqbW0s
-IHVuc2lnbmVkIGxvbmcgYWRkciwKPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBnb3RvIHhhX2xvY2tlZDsKPiA+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgfQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB4YXNfc3RvcmUoJnhhcywg
-aHBhZ2UpOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpZiAoeGFzX2Vycm9y
-KCZ4YXMpKSB7Cj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLyog
-cmV2ZXJ0IHNobWVtX2NoYXJnZSBwZXJmb3JtZWQKPiA+ID4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgKiBpbiB0aGUgcHJldmlvdXMgY29uZGl0aW9uCj4gPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICovCj4gPiA+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgbWFwcGluZy0+bnJwYWdlcy0tOwo+ID4gPiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNobWVtX3VuY2hhcmdlKG1hcHBpbmctPmhv
-c3QsIDEpOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlc3Vs
-dCA9IFNDQU5fU1RPUkVfRkFJTEVEOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIGdvdG8geGFfbG9ja2VkOwo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICB9Cj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG5yX25vbmUrKzsKPiA+
-ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgY29udGludWU7Cj4gPiA+ICAgICAgICAg
-ICAgICAgICAgICAgICB9Cj4gPgo+ID4gTmVlZHMgdGhpcywgSSBhc3N1bWUuCj4gPgo+ID4gLS0t
-IGEvaW5jbHVkZS90cmFjZS9ldmVudHMvaHVnZV9tZW1vcnkuaH5tbS1raHVnZXBhZ2VkLWZpeC1r
-ZXJuZWwtYnVnLWluLWhwYWdlX2NvbGxhcHNlX3NjYW5fZmlsZS1maXgKPiA+ICsrKyBhL2luY2x1
-ZGUvdHJhY2UvZXZlbnRzL2h1Z2VfbWVtb3J5LmgKPiA+IEBAIC0zNiw3ICszNiw4IEBACj4gPiAg
-ICAgICAgIEVNKCBTQ0FOX0FMTE9DX0hVR0VfUEFHRV9GQUlMLCAgImFsbG9jX2h1Z2VfcGFnZV9m
-YWlsZWQiKSAgICAgICBcCj4gPiAgICAgICAgIEVNKCBTQ0FOX0NHUk9VUF9DSEFSR0VfRkFJTCwg
-ICAgImNjZ3JvdXBfY2hhcmdlX2ZhaWxlZCIpICAgICAgICBcCj4gPiAgICAgICAgIEVNKCBTQ0FO
-X1RSVU5DQVRFRCwgICAgICAgICAgICAgInRydW5jYXRlZCIpICAgICAgICAgICAgICAgICAgICBc
-Cj4gPiAtICAgICAgIEVNZShTQ0FOX1BBR0VfSEFTX1BSSVZBVEUsICAgICAgInBhZ2VfaGFzX3By
-aXZhdGUiKSAgICAgICAgICAgICBcCj4gPiArICAgICAgIEVNKCBTQ0FOX1BBR0VfSEFTX1BSSVZB
-VEUsICAgICAgInBhZ2VfaGFzX3ByaXZhdGUiKSAgICAgICAgICAgICBcCj4gPiArICAgICAgIEVN
-ZShTQ0FOX1NUT1JFX0ZBSUxFRCwgICAgICAgICAgInN0b3JlX2ZhaWxlZCIpCj4KPiBJJ20gYSBs
-aXR0bGUgYml0IHJlbHVjdGFudCB0byBtYWtlIHRoZSBlcnJvciBjb2RlIGxpc3QgbG9uZ2VyLCBj
-YW4gd2UKPiBqdXN0IHJldHVybiBTQ0FOX0ZBSUw/IElJVUMgdGhpcyBpc3N1ZSBzaG91bGQgaGFw
-cGVuIHZlcnkgcmFyZWx5LAo+IG1heWJlIG5vdCB3b3J0aCBhIG5ldyBlcnJvciBjb2RlLgo+Cj4g
-QmFzaWNhbGx5IHRoZSByb2xsYmFjayBhcHByb2FjaCBtYWtlcyBzZW5zZSB0byBtZS4gSUlSQyBa
-YWNoIHdhcwo+IGxvb2tpbmcgaW50byB0aGUgc2FtZSBwcm9ibGVtLCBsb29wIGhpbSBpbi4gSGUg
-bWF5IHNoYXJlIHNvbWUKPiB0aG91Z2h0cy4KClRoYW5rcyBZYW5nLCBhcHByZWNpYXRlIGJlaW5n
-IGJyb3VnaHQgaW50byB0aGUgbG9vcC4gT25lIG9mIHRoZSB0aGluZ3MKSSBwbGFuIHRvIGRvIGR1
-cmluZyBwYXRlcm5pdHkgbGVhdmUgaXMgdXBkYXRlIG15IGVtYWlsIGZpbHRlcnMgc28gSQpkb24n
-dCBtaXNzIHRoaW5ncyBsaWtlIHRoaXMuCgpDb2luY2lkZW50YWxseSwgSHVnaCBhbHNvIGp1c3Qg
-YnJvdWdodCB0aGlzIHRvIG15IGF0dGVudGlvbi4gTG9va3MgdG8KYmUgdGhlIHN5emthbGxlciBy
-ZXBvcnQgcG9zdGVkIGEgZmV3IHdlZWtzIGFnb1sxXS4KCkdpdmVuIHRoZXJlIGFyZSB0d28gc2Vy
-aWVzIG11bmdpbmcgd2l0aCB0aGlzIHBhdGggcmlnaHQgbm93IChvciB3ZXJlKSwKSSB3YXMgdHJ5
-aW5nIHRvIGZpbmQgdGltZSB0byBmaXJzdCByZXZpZXcgc2FpZCBzZXJpZXMsIHRoZW4gcG9zdCBh
-IGZpeApvbiB0b3AsIGlmIG5lY2Vzc2FyeSAob3IgaXQgY291bGQgaGF2ZSBiZWVuIGluY29ycG9y
-YXRlZCBpbnRvIERhdmlkClN0ZXZlbnMnICJtbS9raHVnZXBhZ2VkOiBmaXgga2h1Z2VwYWdlZCtz
-aG1lbSByYWNlcyIgc2VyaWVzKS4KCkJ1dCwgSSdtIHBlcmVubmlhbGx5IGJlaGluZCBhbmQgaGF2
-ZW4ndCBiZWVuIGFibGUgdG8gZmluZCB0aW1lIHRvIGRvCnRob3NlIHJldmlld3MsIGFuZCBzbyBt
-eSAiZml4IiBhdHRlbXB0IGhhcyBzYXQuIFRoYW5rcywgSXZhbiwgZm9yCnBpY2tpbmcgdXAgdGhl
-IHNsYWNrLgoKU28sIEkgZGlkIHRlc3QgdGhpcyBwYXRjaCB3aXRoIHRoZSBzeXpib3QgcmVwcm9k
-dWNlciwgYW5kIGV2ZXJ5dGhpbmcKbG9va2VkIGdvb2QgOikgVGhhbmsgeW91LgoKSSBoYXZlIHNp
-bWlsYXIgcmVzZXJ2YXRpb25zIGFib3V0IGluY3JlYXNpbmcgdGhlIGVycm9yIGNvZGUgbGlzdAps
-b25nZXIsIHVubGVzcyB0aGVyZSBpcyBvcHBvcnR1bml0eSB0byBjb21iaW5lIG90aGVyIGZhaWx1
-cmUgc2l0ZXMKdW5kZXIgYSBjb21tb24gdW1icmVsbGEuIEZvciBleGFtcGxlLCBJIHdhcyBkZWJh
-dGluZyBpZiBhIFNDQU5fT09NCmVycm9yIHdhcyB3b3J0aHkgb2YgaW5jbHVzaW9uLCB3aGljaCB3
-ZSBjb3VsZCB1c2UgaW4KX19jb2xsYXBzZV9odWdlX3BhZ2Vfc3dhcGluKCkgb24gVk1fRkFVTFRf
-T09NLiBJIHBlcnNvbmFsbHkgd2VudCB0aGUKcm91dGUgb2Ygc2F5aW5nLCAibm8sIGp1c3QgdXNl
-IFNDQU5fRkFJTCIuCgpUaGVyZSBhbHNvIG91Z2h0IHRvIGJlIHNvbWUgY29tbWVudHMsIHNvbWV3
-aGVyZSAoZWl0aGVyIGluIGNvZGUsIG9yCmNvbW1pdCBkZXNjcmlwdGlvbikgYWJvdXQgd2h5IHRo
-aXMgaXMgdGhlIG9ubHkgeGFzX3N0b3JlKCkgc2l0ZSB0aGF0CmRlc2VydmVzIHNwZWNpYWwgZXJy
-b3IgaGFuZGxpbmcuIEkgd2FzIHBsYW5uaW5nIG9uIHN1Z2dlc3RpbmcgdG8Kc3ByaW5rbGUgaW4g
-YSBmZXcgVk1fQlVHX09OKCkncyBhZnRlciBzb21lIG9mIHRoZXNlIHNpdGVzLCB3aXRoIGEKY29t
-bWVudCwganVzdCBpbiBjYXNlIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiB4YXJyYXkgY2hhbmdlcyBh
-bmQKb3BlcmF0aW9ucyB3aGljaCBwcmV2aW91c2x5IGRpZG4ndCByZXF1aXJlIGFsbG9jYXRpbmcg
-bWVtb3J5IG5vdyBkbwpzby4gQXQgbGVhc3QgdG8gbWUsIGl0IHRvb2sgd29yayB0byBzb3J0IGl0
-IG91dCwgc28gSSBkb24ndCB0aGluayBpdCdzCm9idmlvdXMuCgpOb3csIGFzIG1lbnRpb25lZCwg
-SSdtIGhlYWRlZCBvbiBwYXRlcm5pdHkgbGVhdmUgc3RhcnRpbmcgRnJpZGF5LAp1bnRpbCBKdWx5
-IDEyLiBTbywgaWYgdGhlcmUgaXMgYSB2MiwgSSdtIGxpa2VseSB0byBtaXNzIGl0LCBhbmQgZXZl
-bgpDYydpbmcgbWUgaXNuJ3QgbGlrZWx5IHRvIGdldCBhIHJlc3BvbnNlIDopIEFzIHN1Y2gsIGZl
-ZWwgZnJlZSB0byBoYXZlCm15CgpUZXN0ZWQtYnk6IFphY2ggTydLZWVmZSA8em9rZWVmZUBnb29n
-bGUuY29tPgoKbm93LCBzaW5jZSBJJ3ZlIHZhbGlkYXRlZCBpdCB3b3Jrcy4gTXkgdW5kZXJzdGFu
-ZGluZyBpcyB0aGF0IG5vIG90aGVyCmNhbGxzaXRlcyBuZWVkIGF0dGVudGlvbiwgc28gSSBiZWxp
-ZXZlIHRoaXMgYnVnIGlzICJmaXhlZCIgLS0gYWxsIHRoYXQKcmVtYWlucyBpcyBkZWFsaW5nIHdp
-dGggdGhlIGVycm9yIGNvZGVzLCBjb21tZW50cywgYXNzZXJ0aW9ucywgZXRjLgoKVGhhbmtzIGFn
-YWluLCBJdmFuLAoKQmVzdCwKWmFjaAoKWzFdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4
-LW1tLzAwMDAwMDAwMDAwMDIyNmE2MTA1ZjY5NTRiNDdAZ29vZ2xlLmNvbS8KCj4gPgo+ID4gICN1
-bmRlZiBFTQo+ID4gICN1bmRlZiBFTWUKPiA+IF8KPiA+Cj4gPgpfX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
-IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
-czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
-ZWwtbWVudGVlcwo=
+Syzkaller reported the following issue:
+
+kernel BUG at mm/khugepaged.c:1823!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 1 PID: 5097 Comm: syz-executor220 Not tainted 6.2.0-syzkaller-13154-g857f1268a591 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/16/2023
+RIP: 0010:collapse_file mm/khugepaged.c:1823 [inline]
+RIP: 0010:hpage_collapse_scan_file+0x67c8/0x7580 mm/khugepaged.c:2233
+Code: 00 00 89 de e8 c9 66 a3 ff 31 ff 89 de e8 c0 66 a3 ff 45 84 f6 0f 85 28 0d 00 00 e8 22 64 a3 ff e9 dc f7 ff ff e8 18 64 a3 ff <0f> 0b f3 0f 1e fa e8 0d 64 a3 ff e9 93 f6 ff ff f3 0f 1e fa 4c 89
+RSP: 0018:ffffc90003dff4e0 EFLAGS: 00010093
+RAX: ffffffff81e95988 RBX: 00000000000001c1 RCX: ffff8880205b3a80
+RDX: 0000000000000000 RSI: 00000000000001c0 RDI: 00000000000001c1
+RBP: ffffc90003dff830 R08: ffffffff81e90e67 R09: fffffbfff1a433c3
+R10: 0000000000000000 R11: dffffc0000000001 R12: 0000000000000000
+R13: ffffc90003dff6c0 R14: 00000000000001c0 R15: 0000000000000000
+FS:  00007fdbae5ee700(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fdbae6901e0 CR3: 000000007b2dd000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ madvise_collapse+0x721/0xf50 mm/khugepaged.c:2693
+ madvise_vma_behavior mm/madvise.c:1086 [inline]
+ madvise_walk_vmas mm/madvise.c:1260 [inline]
+ do_madvise+0x9e5/0x4680 mm/madvise.c:1439
+ __do_sys_madvise mm/madvise.c:1452 [inline]
+ __se_sys_madvise mm/madvise.c:1450 [inline]
+ __x64_sys_madvise+0xa5/0xb0 mm/madvise.c:1450
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+
+The 'xas_store' call during page cache scanning can potentially
+translate 'xas' into the error state (with the reproducer provided
+by the syzkaller the error code is -ENOMEM). However, there are no
+further checks after the 'xas_store', and the next call of 'xas_next'
+at the start of the scanning cycle doesn't increase the xa_index,
+and the issue occurs.
+
+This patch will add the xarray state error checking after the
+'xas_store' and the corresponding result error code. It will
+also add xarray state error checking via WARN_ON_ONCE macros,
+to be sure that ENOMEM or other possible errors don't occur
+at the places they shouldn't.
+
+Tested via syzbot.
+
+Reported-by: syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=7d6bb3760e026ece7524500fe44fb024a0e959fc
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+V1 -> V2: Add WARN_ON_ONCE error checking and comments
+
+ mm/khugepaged.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 92e6f56a932d..8b6580b13339 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -55,6 +55,7 @@ enum scan_result {
+ 	SCAN_CGROUP_CHARGE_FAIL,
+ 	SCAN_TRUNCATED,
+ 	SCAN_PAGE_HAS_PRIVATE,
++	SCAN_STORE_FAILED,
+ };
+ 
+ #define CREATE_TRACE_POINTS
+@@ -1840,6 +1841,15 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
+ 					goto xa_locked;
+ 				}
+ 				xas_store(&xas, hpage);
++				if (xas_error(&xas)) {
++					/* revert shmem_charge performed
++					 * in the previous condition
++					 */
++					mapping->nrpages--;
++					shmem_uncharge(mapping->host, 1);
++					result = SCAN_STORE_FAILED;
++					goto xa_locked;
++				}
+ 				nr_none++;
+ 				continue;
+ 			}
+@@ -1992,6 +2002,11 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
+ 
+ 		/* Finally, replace with the new page. */
+ 		xas_store(&xas, hpage);
++		/* We can't get an ENOMEM here (because the allocation happened before)
++		 * but let's check for errors (XArray implementation can be
++		 * changed in the future)
++		 */
++		WARN_ON_ONCE(xas_error(&xas));
+ 		continue;
+ out_unlock:
+ 		unlock_page(page);
+@@ -2029,6 +2044,11 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
+ 	/* Join all the small entries into a single multi-index entry */
+ 	xas_set_order(&xas, start, HPAGE_PMD_ORDER);
+ 	xas_store(&xas, hpage);
++	/* Here we can't get an ENOMEM (because entries were
++	 * previously allocated) But let's check for errors
++	 * (XArray implementation can be changed in the future)
++	 */
++	WARN_ON_ONCE(xas_error(&xas));
+ xa_locked:
+ 	xas_unlock_irq(&xas);
+ xa_unlocked:
+-- 
+2.34.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
