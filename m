@@ -1,100 +1,96 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id EA05EC6FD1D
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  1 Apr 2023 09:22:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0DB1C76188
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Apr 2023 00:58:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 6130E4016D;
-	Sat,  1 Apr 2023 09:22:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6130E4016D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=hM9QVU/g
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FT6G0TdfgrFg; Sat,  1 Apr 2023 09:22:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 15C8440108;
-	Sat,  1 Apr 2023 09:22:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 15C8440108
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DFDFEC0037;
-	Sat,  1 Apr 2023 09:22:16 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B20F9C002F
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Apr 2023 09:22:15 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 75A6760A98
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Apr 2023 09:22:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 75A6760A98
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1C9F360B5D;
+	Tue,  4 Apr 2023 00:58:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1C9F360B5D
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=hM9QVU/g
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ew5ohV9V
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id r6CwFWxk91d7; Tue,  4 Apr 2023 00:58:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C5285605EC;
+	Tue,  4 Apr 2023 00:58:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C5285605EC
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D1DFC0036;
+	Tue,  4 Apr 2023 00:58:24 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 63A01C002F
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Apr 2023 00:58:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3885660ADC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  4 Apr 2023 00:58:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3885660ADC
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5uKlfKgzp9Br
+ with ESMTP id 39PpeN2sU2HC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Apr 2023 09:22:14 +0000 (UTC)
+ Tue,  4 Apr 2023 00:58:21 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D5C560A8B
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com
- [IPv6:2a00:1450:4864:20::536])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2D5C560A8B
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1FF69605EC
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
+ [IPv6:2607:f8b0:4864:20::1029])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1FF69605EC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  1 Apr 2023 09:22:13 +0000 (UTC)
-Received: by mail-ed1-x536.google.com with SMTP id eg48so98891970edb.13
+ Tue,  4 Apr 2023 00:58:21 +0000 (UTC)
+Received: by mail-pj1-x1029.google.com with SMTP id j13so28939612pjd.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 01 Apr 2023 02:22:13 -0700 (PDT)
+ Mon, 03 Apr 2023 17:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680340932; x=1682932932;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=2JAXjEh00e4SLFvJwSAfkOz5lCcAQOFO7gXGReDig9g=;
- b=hM9QVU/gTNXHt0T6rSic4JFPX3dZwj6smNRVN2+KTkGBsqpaZPzKm4yL+ANnu2JyP6
- hRXf2XQLgeHC0XPhpRDuSCB5AvLvlGNZCBqBUCQoBGE0xcEm2Vg1vAJfqwJGiYcl/6ph
- eThu1cHNsNkKLdVlx9fbi6j16b2lFluox1vj0UOyH8OUDFpOar3UUdt+FVTfsM3CWgoy
- ui02UUMxFPCXPP+uXKbue4PkbRt3MoKmH9t/YuNp0qgKfgnUzZM5mIeNsbFPR2Qo3VGJ
- CcSevXERu+fnqgAYb1kTXM6jsOQgcr6T0HfMiA1+LuxviP184wDZqUeubUzAzuk95/aD
- YsqA==
+ d=gmail.com; s=20210112; t=1680569900;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6mPWw+cp8u38n//2LxCVukXUZphVvDxZkQ7SxSLKPdg=;
+ b=ew5ohV9V7tjDVx7tuFLPhpfxaYqNpO+SXfuREqneN2fOMRoZLAFP8Uayeio9arNyeZ
+ G8D7WJRk/tdSoifp8dD3r/NinW4Y997taX6+0C2PmMirlWoSSvYmmG5temfWiBOKfGl6
+ j1uIVHxK/lZnDed1sNhRtxOO8YuRhO2hq10wO7fMdIjOYRmytr3dD9XuZfT8Xvfm4c19
+ UEmVJ5J1eWQF+lIqAiTKUKkPeIGq7gRAxAMoyaHpReqWNoiI88a9n6kcoxlqfLIkPqaf
+ 53QeXcaVpY/aP0kDHqqkxEVQRXsW4H8hwZAOvusviaknI/kQCldA8xeX9eXD+fSUZAPQ
+ SzSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680340932; x=1682932932;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2JAXjEh00e4SLFvJwSAfkOz5lCcAQOFO7gXGReDig9g=;
- b=BUTImcFv966SWspRc5vvUnouTbte7MHuV+qXXDFpw2/ILgIlJINYn0qeo26tgdvpD/
- EaVX1Mv/Y/nwhP20qIRPaOr7DY8NcFzbIul3EiDT4IkwPOGTMhCIvu/57yO6o1FEZ6Bm
- i6X6ibr303Zb54NqKfLKgOyIUVA4ttK8/piP4tzqPayOqL+jw9Rr8jSn1PQUqN2ZsHVm
- 6JzeFPfIFMpaTCMtPhrPgWjREhwfK8dzP+K9e+pvN30FS9mjjSatMKXjnqBhJgiyfLK1
- QIeGgNJhJUnslEXIvQlOA8efOy3wxwDIdwjfRxzXb/DbCrrTbiCW+H1mo9H/ALNOmAbp
- yJqA==
-X-Gm-Message-State: AAQBX9f81ZbUvXio+vlINQFA6eq9uZ0qKkoUGkTobRjfp5o0pqXey27J
- +c8zqLmSMds5czpxFeS4bMFrzlJYZtd6BA==
-X-Google-Smtp-Source: AKy350ZC7Jp6bb0KKIDt6HVyCcf/E6RKfx79MtDfHO/qgKIZXf2ZLQRw9+yzj75P/WOHpopxMG1T5Q==
-X-Received: by 2002:a05:6402:524e:b0:502:465:28e0 with SMTP id
- t14-20020a056402524e00b00502046528e0mr8967686edd.0.1680340931961; 
- Sat, 01 Apr 2023 02:22:11 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.81.51])
- by smtp.gmail.com with ESMTPSA id
- t28-20020a50ab5c000000b005024faae65esm1885147edc.10.2023.04.01.02.22.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 01 Apr 2023 02:22:11 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: skhan@linuxfoundation.org
-Subject: [PATCH] selftests: media_tests: Add new subtest to video_device_test
-Date: Sat,  1 Apr 2023 13:22:07 +0400
-Message-Id: <20230401092207.16667-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20210112; t=1680569900;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6mPWw+cp8u38n//2LxCVukXUZphVvDxZkQ7SxSLKPdg=;
+ b=3Dy3tskHYvp9Xv7OYctxceoY+Y+gMVRfckQN68OsjAgGJ9q9BgrQ7SFy50mHlTEuxa
+ 9oG9u0/KuMT25f3nCDC6nonboMVmtmEGr9+ofhepBuLe/B5u8cNDdpwWYxt/mXDU98HX
+ nNcxAPV9lc0ubJaQwz/t/Hl1SC0QujRTMsSj5faZ8F+WyD1EVJ/iWRW/sipiaNGCVW5g
+ tkPW1FWMSmRLbq4HySjco0pWile8M+t/wo14JbsyiwzqpxJtXN2Kk2hVd5uP0IARtdkO
+ WVIGpgL7LAjRKDabsUDFzDgKjGJyuzGNYnxqLyQHuJeFxF4/hShnYzWk6Vv0ekAmKUs+
+ ZUqA==
+X-Gm-Message-State: AAQBX9d7uw+BvisvXyHBAl69Paoag2mIPwPsufEQpGt3WhqXG1IBsNXF
+ mB36wpG7i/rjlsWPynijU8hPULht9p1/sMQ8LwI=
+X-Google-Smtp-Source: AKy350aPu9QE0B9P21qh06MAkRNBNUK2EH+YclgqKNaEDf6n4sBfV37d1dmdAMJ8B+lw2FaVY5XL4TuNFU6ZhceBR+8=
+X-Received: by 2002:a17:90a:f283:b0:23d:4e0e:cf2c with SMTP id
+ fs3-20020a17090af28300b0023d4e0ecf2cmr284098pjb.3.1680569900309; Mon, 03 Apr
+ 2023 17:58:20 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+References: <20230330155305.423051-1-ivan.orlov0322@gmail.com>
+ <20230331013301.ecgkjymaf3ws6rfb@google.com>
+In-Reply-To: <20230331013301.ecgkjymaf3ws6rfb@google.com>
+From: Yang Shi <shy828301@gmail.com>
+Date: Mon, 3 Apr 2023 17:58:08 -0700
+Message-ID: <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
+Subject: Re: [PATCH v2] mm: khugepaged: Fix kernel BUG in
+ hpage_collapse_scan_file
+To: "Zach O'Keefe" <zokeefe@google.com>
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
+ akpm@linux-foundation.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -106,200 +102,170 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add new subtest to video_device_test to cover the VIDIOC_G_PRIORITY
-and VIDIOC_S_PRIORITY ioctl calls. This test tries to set the priority
-associated with the file descriptior via ioctl VIDIOC_S_PRIORITY
-command from V4L2 API. After that, the test tries to get the new
-priority via VIDIOC_G_PRIORITY ioctl command and compares the result
-with the v4l2_priority it set before. At the end, the test restores the
-old priority.
-
-This test will increase the code coverage for video_device_test, so
-I think it might be useful. Additionally, this patch will refactor the
-video_device_test a little bit, according to the new functionality.
-
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- .../selftests/media_tests/video_device_test.c | 131 +++++++++++++-----
- 1 file changed, 93 insertions(+), 38 deletions(-)
-
-diff --git a/tools/testing/selftests/media_tests/video_device_test.c b/tools/testing/selftests/media_tests/video_device_test.c
-index 0f6aef2e2593..5e6f65ad2ca3 100644
---- a/tools/testing/selftests/media_tests/video_device_test.c
-+++ b/tools/testing/selftests/media_tests/video_device_test.c
-@@ -13,18 +13,9 @@
-  * in the Kselftest run. This test should be run when hardware and driver
-  * that makes use of V4L2 API is present.
-  *
-- * This test opens user specified Video Device and calls video ioctls in a
-- * loop once every 10 seconds.
-- *
-  * Usage:
-  *	sudo ./video_device_test -d /dev/videoX
-- *
-- *	While test is running, remove the device or unbind the driver and
-- *	ensure there are no use after free errors and other Oops in the
-- *	dmesg.
-- *	When possible, enable KaSan kernel config option for use-after-free
-- *	error detection.
--*/
-+ */
- 
- #include <stdio.h>
- #include <unistd.h>
-@@ -37,45 +28,67 @@
- #include <time.h>
- #include <linux/videodev2.h>
- 
--int main(int argc, char **argv)
-+#define PRIORITY_MAX 4
-+
-+int priority_test(int fd)
- {
--	int opt;
--	char video_dev[256];
--	int count;
--	struct v4l2_tuner vtuner;
--	struct v4l2_capability vcap;
-+	/* This test will try to update the priority associated with a file descriptor */
-+
-+	enum v4l2_priority old_priority, new_priority, priority_to_compare;
- 	int ret;
--	int fd;
-+	int result = 0;
- 
--	if (argc < 2) {
--		printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
--		exit(-1);
-+	ret = ioctl(fd, VIDIOC_G_PRIORITY, &old_priority);
-+	if (ret < 0) {
-+		printf("Failed to get priority: %s\n", strerror(errno));
-+		return -1;
-+	}
-+	new_priority = (old_priority + 1) % PRIORITY_MAX;
-+	ret = ioctl(fd, VIDIOC_S_PRIORITY, &new_priority);
-+	if (ret < 0) {
-+		printf("Failed to set priority: %s\n", strerror(errno));
-+		return -1;
-+	}
-+	ret = ioctl(fd, VIDIOC_G_PRIORITY, &priority_to_compare);
-+	if (ret < 0) {
-+		printf("Failed to get new priority: %s\n", strerror(errno));
-+		result = -1;
-+		goto cleanup;
-+	}
-+	if (priority_to_compare != new_priority) {
-+		printf("Priority wasn't set - test failed\n");
-+		result = -1;
- 	}
- 
--	/* Process arguments */
--	while ((opt = getopt(argc, argv, "d:")) != -1) {
--		switch (opt) {
--		case 'd':
--			strncpy(video_dev, optarg, sizeof(video_dev) - 1);
--			video_dev[sizeof(video_dev)-1] = '\0';
--			break;
--		default:
--			printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
--			exit(-1);
--		}
-+cleanup:
-+	ret = ioctl(fd, VIDIOC_S_PRIORITY, &old_priority);
-+	if (ret < 0) {
-+		printf("Failed to restore priority: %s\n", strerror(errno));
-+		return -1;
- 	}
-+	return result;
-+}
-+
-+int loop_test(int fd)
-+{
-+	/*
-+	 * This test opens user specified Video Device and calls video ioctls in a
-+	 * loop once every 10 seconds.
-+	 * While test is running, remove the device or unbind the driver and
-+	 * ensure there are no use after free errors and other Oops in the
-+	 * dmesg.
-+	 * When possible, enable KaSan kernel config option for use-after-free
-+	 * error detection.
-+	 */
-+	int count;
-+	struct v4l2_tuner vtuner;
-+	struct v4l2_capability vcap;
-+	int ret;
- 
- 	/* Generate random number of interations */
- 	srand((unsigned int) time(NULL));
- 	count = rand();
- 
--	/* Open Video device and keep it open */
--	fd = open(video_dev, O_RDWR);
--	if (fd == -1) {
--		printf("Video Device open errno %s\n", strerror(errno));
--		exit(-1);
--	}
--
- 	printf("\nNote:\n"
- 	       "While test is running, remove the device or unbind\n"
- 	       "driver and ensure there are no use after free errors\n"
-@@ -98,4 +111,46 @@ int main(int argc, char **argv)
- 		sleep(10);
- 		count--;
- 	}
-+	return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int opt;
-+	char video_dev[256];
-+	int fd;
-+	int test_result;
-+
-+	if (argc < 2) {
-+		printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
-+		exit(-1);
-+	}
-+
-+	/* Process arguments */
-+	while ((opt = getopt(argc, argv, "d:")) != -1) {
-+		switch (opt) {
-+		case 'd':
-+			strncpy(video_dev, optarg, sizeof(video_dev) - 1);
-+			video_dev[sizeof(video_dev)-1] = '\0';
-+			break;
-+		default:
-+			printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
-+			exit(-1);
-+		}
-+	}
-+
-+	/* Open Video device and keep it open */
-+	fd = open(video_dev, O_RDWR);
-+	if (fd == -1) {
-+		printf("Video Device open errno %s\n", strerror(errno));
-+		exit(-1);
-+	}
-+
-+	test_result = priority_test(fd);
-+	if (!test_result)
-+		printf("Priority test - PASSED\n");
-+	else
-+		printf("Priority test - FAILED\n");
-+
-+	loop_test(fd);
- }
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gVGh1LCBNYXIgMzAsIDIwMjMgYXQgNjozM+KAr1BNIFphY2ggTydLZWVmZSA8em9rZWVmZUBn
+b29nbGUuY29tPiB3cm90ZToKPgo+IE9uIE1hciAzMCAxOTo1MywgSXZhbiBPcmxvdiB3cm90ZToK
+PiA+IFN5emthbGxlciByZXBvcnRlZCB0aGUgZm9sbG93aW5nIGlzc3VlOgo+ID4KPiA+IGtlcm5l
+bCBCVUcgYXQgbW0va2h1Z2VwYWdlZC5jOjE4MjMhCj4gPiBpbnZhbGlkIG9wY29kZTogMDAwMCBb
+IzFdIFBSRUVNUFQgU01QIEtBU0FOCj4gPiBDUFU6IDEgUElEOiA1MDk3IENvbW06IHN5ei1leGVj
+dXRvcjIyMCBOb3QgdGFpbnRlZCA2LjIuMC1zeXprYWxsZXItMTMxNTQtZzg1N2YxMjY4YTU5MSAj
+MAo+ID4gSGFyZHdhcmUgbmFtZTogR29vZ2xlIEdvb2dsZSBDb21wdXRlIEVuZ2luZS9Hb29nbGUg
+Q29tcHV0ZSBFbmdpbmUsIEJJT1MgR29vZ2xlIDAyLzE2LzIwMjMKPiA+IFJJUDogMDAxMDpjb2xs
+YXBzZV9maWxlIG1tL2todWdlcGFnZWQuYzoxODIzIFtpbmxpbmVdCj4gPiBSSVA6IDAwMTA6aHBh
+Z2VfY29sbGFwc2Vfc2Nhbl9maWxlKzB4NjdjOC8weDc1ODAgbW0va2h1Z2VwYWdlZC5jOjIyMzMK
+PiA+IENvZGU6IDAwIDAwIDg5IGRlIGU4IGM5IDY2IGEzIGZmIDMxIGZmIDg5IGRlIGU4IGMwIDY2
+IGEzIGZmIDQ1IDg0IGY2IDBmIDg1IDI4IDBkIDAwIDAwIGU4IDIyIDY0IGEzIGZmIGU5IGRjIGY3
+IGZmIGZmIGU4IDE4IDY0IGEzIGZmIDwwZj4gMGIgZjMgMGYgMWUgZmEgZTggMGQgNjQgYTMgZmYg
+ZTkgOTMgZjYgZmYgZmYgZjMgMGYgMWUgZmEgNGMgODkKPiA+IFJTUDogMDAxODpmZmZmYzkwMDAz
+ZGZmNGUwIEVGTEFHUzogMDAwMTAwOTMKPiA+IFJBWDogZmZmZmZmZmY4MWU5NTk4OCBSQlg6IDAw
+MDAwMDAwMDAwMDAxYzEgUkNYOiBmZmZmODg4MDIwNWIzYTgwCj4gPiBSRFg6IDAwMDAwMDAwMDAw
+MDAwMDAgUlNJOiAwMDAwMDAwMDAwMDAwMWMwIFJESTogMDAwMDAwMDAwMDAwMDFjMQo+ID4gUkJQ
+OiBmZmZmYzkwMDAzZGZmODMwIFIwODogZmZmZmZmZmY4MWU5MGU2NyBSMDk6IGZmZmZmYmZmZjFh
+NDMzYzMKPiA+IFIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6IGRmZmZmYzAwMDAwMDAwMDEgUjEy
+OiAwMDAwMDAwMDAwMDAwMDAwCj4gPiBSMTM6IGZmZmZjOTAwMDNkZmY2YzAgUjE0OiAwMDAwMDAw
+MDAwMDAwMWMwIFIxNTogMDAwMDAwMDAwMDAwMDAwMAo+ID4gRlM6ICAwMDAwN2ZkYmFlNWVlNzAw
+KDAwMDApIEdTOmZmZmY4ODgwYjk5MDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMAo+
+ID4gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwo+ID4g
+Q1IyOiAwMDAwN2ZkYmFlNjkwMWUwIENSMzogMDAwMDAwMDA3YjJkZDAwMCBDUjQ6IDAwMDAwMDAw
+MDAzNTA2ZTAKPiA+IERSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAg
+RFIyOiAwMDAwMDAwMDAwMDAwMDAwCj4gPiBEUjM6IDAwMDAwMDAwMDAwMDAwMDAgRFI2OiAwMDAw
+MDAwMGZmZmUwZmYwIERSNzogMDAwMDAwMDAwMDAwMDQwMAo+ID4gQ2FsbCBUcmFjZToKPiA+ICA8
+VEFTSz4KPiA+ICBtYWR2aXNlX2NvbGxhcHNlKzB4NzIxLzB4ZjUwIG1tL2todWdlcGFnZWQuYzoy
+NjkzCj4gPiAgbWFkdmlzZV92bWFfYmVoYXZpb3IgbW0vbWFkdmlzZS5jOjEwODYgW2lubGluZV0K
+PiA+ICBtYWR2aXNlX3dhbGtfdm1hcyBtbS9tYWR2aXNlLmM6MTI2MCBbaW5saW5lXQo+ID4gIGRv
+X21hZHZpc2UrMHg5ZTUvMHg0NjgwIG1tL21hZHZpc2UuYzoxNDM5Cj4gPiAgX19kb19zeXNfbWFk
+dmlzZSBtbS9tYWR2aXNlLmM6MTQ1MiBbaW5saW5lXQo+ID4gIF9fc2Vfc3lzX21hZHZpc2UgbW0v
+bWFkdmlzZS5jOjE0NTAgW2lubGluZV0KPiA+ICBfX3g2NF9zeXNfbWFkdmlzZSsweGE1LzB4YjAg
+bW0vbWFkdmlzZS5jOjE0NTAKPiA+ICBkb19zeXNjYWxsX3g2NCBhcmNoL3g4Ni9lbnRyeS9jb21t
+b24uYzo1MCBbaW5saW5lXQo+ID4gIGRvX3N5c2NhbGxfNjQrMHg0MS8weGMwIGFyY2gveDg2L2Vu
+dHJ5L2NvbW1vbi5jOjgwCj4gPiAgZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NjMv
+MHhjZAo+ID4KPgo+IFRoYW5rcywgSXZhbi4KPgo+IEluIHRoZSBwcm9jZXNzIG9mIHJldmlld2lu
+ZyB0aGlzLCBJIHN0YXJ0aW5nIHRoaW5raW5nIGlmIHRoZSAhc2htZW0gY2FzZSB3YXMKPiBhbHNv
+IHN1c2NlcHRpYmxlIHRvIGEgc2ltaWxhciByYWNlLCBhbmQgSSAqdGhpbmsqIGl0IG1pZ2h0IGJl
+LiBVbmZvcnR1bmF0ZWx5LCBteQo+IHRpbWUgaGFzIHJhbiBvdXQsIGFuZCBJIGhhdmVuJ3QgYmVl
+biBhYmxlIHRvIHZhbGlkYXRlIDsgSSdtIGxlc3MgZmFtaWxpYXIgd2l0aAo+IHRoZSBmaWxlLXNp
+ZGUgb2YgdGhpbmdzLgo+Cj4gVGhlIHVuZGVybHlpbmcgcHJvYmxlbSBpcyByYWNlIHdpdGggdHJ1
+bmNhdGlvbi9ob2xlLXB1bmNoICB1bmRlciBPT00gY29uZGl0aW9uLgo+IFRoZSBuaWNlIGRvLXdo
+aWxlIGxvb3AgbmVhciB0aGUgdG9wIG9mIGNvbGxhcHNlX2ZpbGUoKSBhdHRlbXB0cyB0byBhdm9p
+ZCB0aGlzCj4gc2NlbmFyaW8gYnkgbWFraW5nIHN1cmUgZW5vdWdoIHNsb3RzIGFyZSBhdmFpbGFi
+bGUuIEhvd2V2ZXIsIHdoZW4gd2UgZHJvcCB4YXJyYXkKPiBsb2NrLCB3ZSBvcGVuIG91cnNlbHZl
+cyB1cCB0byBjb25jdXJyZW50IHJlbW92YWwgKyBzbG90IGRlbGV0aW9uLiBUaG9zZSBzbG90cwo+
+IHRoZW4gbmVlZCB0byBiZSBhbGxvY2F0ZWQgYWdhaW4gLS0gd2hpY2ggdW5kZXIgT09NIGNvbmRp
+dGlvbiBpcyBmYWlsYWJsZS4KPgo+IFRoZSBzeXpib3QgcmVwcm9kdWNlciBwaWNrcyBvbiBzaG1l
+bSwgYnV0IEkgdGhpbmsgdGhpcyBjYW4gb2NjdXIgZm9yIGZpbGUgYXMKPiB3ZWxsLiBJZiB3ZSBm
+aW5kIGEgaG9sZSwgd2UgdW5sb2NrIHRoZSB4YXJyYXkgYW5kIGNhbGwKPiBwYWdlX2NhY2hlX3N5
+bmNfcmVhZGFoZWFkKCksIHdoaWNoIGlmIGl0IHN1Y2NlZWRzLCBJSVVDLCB3aWxsIGhhdmUgYWxs
+b2NhdGVkIGEKPiBuZXcgc2xvdCBpbiBvdXIgbWFwcGluZyBwb2ludGluZyB0byB0aGUgbmV3IHBh
+Z2UuIFdlICp0aGVuKiBsb2NrcyB0aGUgcGFnZS4gT25seQo+IGFmdGVyIHRoZSBwYWdlIGlzIGxv
+Y2tlZCBhcmUgd2UgcHJvdGVjdGVkIGZyb20gY29uY3VycmVudCByZW1vdmFsIChOb3RlOiB0aGlz
+IGlzCj4gd2hhdCBwcm92aWRlcyB1cyBwcm90ZWN0aW9uIGluIG1hbnkgb2YgdGhlIHhhc19zdG9y
+ZSgpIGNhc2VzIDsgd2UndmUgaGVsZCB0aGUKPiBzbG90J3MgY29udGFpbmVkIHBhZ2UtbG9jayBz
+aW5jZSB2ZXJpZnlpbmcgdGhlIHNsb3QgZXhpc3RzLCBwcm90ZWN0aW5nIHVzIGZyb20KPiByZW1v
+dmFsIC8gcmVhbGxvY2F0aW9uIHJhY2VzKS4KCklJVUMsIHRoZSBmaW5kX2xvY2tfcGFnZSgpIHNo
+b3VsZCBiZSBhYmxlIHRvIGhhbmRsZSB0aGUgcmFjZS4gSXQgZG9lcwpjaGVjayB3aGV0aGVyIHRo
+ZSBwYWdlIGlzIHRydW5jYXRlZCBvciBub3QgYWZ0ZXIgbG9ja2luZyB0aGUgcGFnZS4KCj4KPiBN
+YXliZSBJJ20ganVzdCBsb3cgb24gY2FmZmVpbmUgYXQgdGhlIGVuZCBvZiB0aGUgZGF5LCBhbmQg
+YW0gbWlzc2luZyBzb21ldGhpbmcsCj4gYnV0IGlmIEkgaGFkIG1vcmUgdGltZSwgSSdkIGJlIGxv
+b2tpbmcgaW50byB0aGUgZmlsZS1zaWRlIHNvbWUgbW9yZSB0byB2ZXJpZnkuCj4gQXBvbG9naWVz
+IHRoYXQgaGFzbid0IG9jY3VycmVkIHRvIG1lIHVudGlsIG5vdyA7IEkgd2FzIGxvb2tpbmcgYXQg
+b25lIG9mIHlvdXIKPiBjb21tZW50cyBhbmQgZG91YmxlLWNoZWNrZWQgd2h5IEkgKnRob3VnaHQq
+IHdlIHdlcmUgc2FmZS4KPgo+IEFueXdheXMsIGlycmVzcGVjdGl2ZSBvZiB0aGF0IGxvb21pbmcg
+aXNzdWVzLCBzb21lIG1vcmUgbm90ZXMgdG8gZm9sbG93Ogo+Cj4gPiBUaGUgJ3hhc19zdG9yZScg
+Y2FsbCBkdXJpbmcgcGFnZSBjYWNoZSBzY2FubmluZyBjYW4gcG90ZW50aWFsbHkKPiA+IHRyYW5z
+bGF0ZSAneGFzJyBpbnRvIHRoZSBlcnJvciBzdGF0ZSAod2l0aCB0aGUgcmVwcm9kdWNlciBwcm92
+aWRlZAo+ID4gYnkgdGhlIHN5emthbGxlciB0aGUgZXJyb3IgY29kZSBpcyAtRU5PTUVNKS4gSG93
+ZXZlciwgdGhlcmUgYXJlIG5vCj4gPiBmdXJ0aGVyIGNoZWNrcyBhZnRlciB0aGUgJ3hhc19zdG9y
+ZScsIGFuZCB0aGUgbmV4dCBjYWxsIG9mICd4YXNfbmV4dCcKPiA+IGF0IHRoZSBzdGFydCBvZiB0
+aGUgc2Nhbm5pbmcgY3ljbGUgZG9lc24ndCBpbmNyZWFzZSB0aGUgeGFfaW5kZXgsCj4gPiBhbmQg
+dGhlIGlzc3VlIG9jY3Vycy4KPiA+Cj4gPiBUaGlzIHBhdGNoIHdpbGwgYWRkIHRoZSB4YXJyYXkg
+c3RhdGUgZXJyb3IgY2hlY2tpbmcgYWZ0ZXIgdGhlCj4gPiAneGFzX3N0b3JlJyBhbmQgdGhlIGNv
+cnJlc3BvbmRpbmcgcmVzdWx0IGVycm9yIGNvZGUuIEl0IHdpbGwKPiA+IGFsc28gYWRkIHhhcnJh
+eSBzdGF0ZSBlcnJvciBjaGVja2luZyB2aWEgV0FSTl9PTl9PTkNFIG1hY3JvcywKPiA+IHRvIGJl
+IHN1cmUgdGhhdCBFTk9NRU0gb3Igb3RoZXIgcG9zc2libGUgZXJyb3JzIGRvbid0IG9jY3VyCj4g
+PiBhdCB0aGUgcGxhY2VzIHRoZXkgc2hvdWxkbid0Lgo+Cj4gVGhhbmtzIGZvciB0aGUgYWRkaXRp
+b25zIGhlcmUuIEkgdGhpbmsgaXQncyB3b3J0aHdoaWxlIHByb3ZpZGluZyBldmVuIG1vcmUKPiBk
+ZXRhaWxzIGFib3V0IHRoZSBzcGVjaWZpY3Mgb2YgdGhlIHJhY2Ugd2UgYXJlIGZpeGluZyBhbmQv
+b3IgZ3VhcmRpbmcgYWdhaW5zdCB0bwo+IGhlbHAgcHBsIHVuZGVyc3RhbmQgaG93IHRoYXQgLUVO
+T01FTSBjb21lcyBhYm91dCBpZiB0aGUgZG8td2hpbGUgbG9vcCBoYXMKPiAiRW5zdXJlZCIgd2Ug
+aGF2ZSBzbG90cyBhdmFpbGFibGUgKGFkZGl0aW9uYWxseSwgSSB0aGluayB0aGF0IGNvbW1lbnQg
+Y2FuIGJlCj4gYXVnbWVudGVkKS4KPgo+ID4gVGVzdGVkIHZpYSBzeXpib3QuCj4gPgo+ID4gUmVw
+b3J0ZWQtYnk6IHN5emJvdCs5NTc4ZmFhNTQ3NWFjYjM1ZmE1MEBzeXprYWxsZXIuYXBwc3BvdG1h
+aWwuY29tCj4gPiBMaW5rOiBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS9idWc/aWQ9N2Q2
+YmIzNzYwZTAyNmVjZTc1MjQ1MDBmZTQ0ZmIwMjRhMGU5NTlmYwo+ID4gU2lnbmVkLW9mZi1ieTog
+SXZhbiBPcmxvdiA8aXZhbi5vcmxvdjAzMjJAZ21haWwuY29tPgo+ID4gLS0tCj4gPiBWMSAtPiBW
+MjogQWRkIFdBUk5fT05fT05DRSBlcnJvciBjaGVja2luZyBhbmQgY29tbWVudHMKPiA+Cj4gPiAg
+bW0va2h1Z2VwYWdlZC5jIHwgMjAgKysrKysrKysrKysrKysrKysrKysKPiA+ICAxIGZpbGUgY2hh
+bmdlZCwgMjAgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9tbS9raHVnZXBhZ2Vk
+LmMgYi9tbS9raHVnZXBhZ2VkLmMKPiA+IGluZGV4IDkyZTZmNTZhOTMyZC4uOGI2NTgwYjEzMzM5
+IDEwMDY0NAo+ID4gLS0tIGEvbW0va2h1Z2VwYWdlZC5jCj4gPiArKysgYi9tbS9raHVnZXBhZ2Vk
+LmMKPiA+IEBAIC01NSw2ICs1NSw3IEBAIGVudW0gc2Nhbl9yZXN1bHQgewo+ID4gICAgICAgU0NB
+Tl9DR1JPVVBfQ0hBUkdFX0ZBSUwsCj4gPiAgICAgICBTQ0FOX1RSVU5DQVRFRCwKPiA+ICAgICAg
+IFNDQU5fUEFHRV9IQVNfUFJJVkFURSwKPiA+ICsgICAgIFNDQU5fU1RPUkVfRkFJTEVELAo+ID4g
+IH07Cj4KPiBJJ20gc3RpbGwgcmVsdWN0YW50IHRvIGFkZCBhIG5ldyBlcnJvciBjb2RlIGZvciB0
+aGlzIGFzIHRoaXMgc2VlbXMgbGlrZSBxdWl0ZSBhCj4gcmFyZSByYWNlIHRoYXQgcmVxdWlyZXMg
+T09NIHRvIHRyaWdnZXIuIEknZCBiZSBoYXBwaWVyIGp1c3QgcmV1c2luZyBTQ0FOX0ZBSUwsCj4g
+b3IsIHNvbWV0aGluZyB3ZSBtaWdodCBnZXQgc29tZSBtaWxsYWdlIG91dCBvZiBsYXRlcjogU0NB
+Tl9PT00uCj4KPiBBbHNvLCBhIHJlbWluZGVyIHRvIHVwZGF0ZSBpbmNsdWRlL3RyYWNlL2V2ZW50
+cy9odWdlX21lbW9yeS5oLCBpZiB5b3UgZ28gdGhhdAo+IHJvdXRlLgo+Cj4gPgo+ID4gICNkZWZp
+bmUgQ1JFQVRFX1RSQUNFX1BPSU5UUwo+ID4gQEAgLTE4NDAsNiArMTg0MSwxNSBAQCBzdGF0aWMg
+aW50IGNvbGxhcHNlX2ZpbGUoc3RydWN0IG1tX3N0cnVjdCAqbW0sIHVuc2lnbmVkIGxvbmcgYWRk
+ciwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZ290byB4YV9sb2Nr
+ZWQ7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9Cj4gPiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICB4YXNfc3RvcmUoJnhhcywgaHBhZ2UpOwo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgaWYgKHhhc19lcnJvcigmeGFzKSkgewo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAvKiByZXZlcnQgc2htZW1fY2hhcmdlIHBlcmZvcm1l
+ZAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKiBpbiB0aGUgcHJl
+dmlvdXMgY29uZGl0aW9uCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAqLwo+Cj4gTml0OiBIZXJlLCBhbmQgZm9sbG93aW5nLCBJIHRoaW5rIHN0YW5kYXJkIGNvbnZl
+bnRpb24gZm9yIG11bHRpbGluZSBjb21tZW50IGlzCj4gdG8gaGF2ZSBhbiBlbXB0eSBmaXJzdCBh
+bmQgbGFzdCBsaW5lLCBlZzoKPgo+ICArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAvKgo+ICArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKiByZXZl
+cnQgc2htZW1fY2hhcmdlIHBlcmZvcm1lZAo+ICArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgKiBpbiB0aGUgcHJldmlvdXMgY29uZGl0aW9uCj4gICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAqLwo+Cj4gVGhvdWdoLCBjaGVja3BhdGNoLnBsIC0t
+c3RyaWN0IGRpZG4ndCBzZWVtIHRvIGNhcmUuCj4KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgbWFwcGluZy0+bnJwYWdlcy0tOwo+ID4gKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBzaG1lbV91bmNoYXJnZShtYXBwaW5nLT5ob3N0LCAxKTsKPiA+
+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVzdWx0ID0gU0NBTl9TVE9S
+RV9GQUlMRUQ7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8g
+eGFfbG9ja2VkOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgbnJfbm9uZSsrOwo+ID4gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgY29udGludWU7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4gQEAg
+LTE5OTIsNiArMjAwMiwxMSBAQCBzdGF0aWMgaW50IGNvbGxhcHNlX2ZpbGUoc3RydWN0IG1tX3N0
+cnVjdCAqbW0sIHVuc2lnbmVkIGxvbmcgYWRkciwKPiA+Cj4gPiAgICAgICAgICAgICAgIC8qIEZp
+bmFsbHksIHJlcGxhY2Ugd2l0aCB0aGUgbmV3IHBhZ2UuICovCj4gPiAgICAgICAgICAgICAgIHhh
+c19zdG9yZSgmeGFzLCBocGFnZSk7Cj4gPiArICAgICAgICAgICAgIC8qIFdlIGNhbid0IGdldCBh
+biBFTk9NRU0gaGVyZSAoYmVjYXVzZSB0aGUgYWxsb2NhdGlvbiBoYXBwZW5lZCBiZWZvcmUpCj4g
+PiArICAgICAgICAgICAgICAqIGJ1dCBsZXQncyBjaGVjayBmb3IgZXJyb3JzIChYQXJyYXkgaW1w
+bGVtZW50YXRpb24gY2FuIGJlCj4gPiArICAgICAgICAgICAgICAqIGNoYW5nZWQgaW4gdGhlIGZ1
+dHVyZSkKPiA+ICsgICAgICAgICAgICAgICovCj4gPiArICAgICAgICAgICAgIFdBUk5fT05fT05D
+RSh4YXNfZXJyb3IoJnhhcykpOwo+Cj4gTml0OiBpdCdzIG5vdCBqdXN0IHRoYXQgYWxsb2NhdGlv
+biBoYXBwZW5lZCBiZWZvcmUgLS0gbmVlZCBzb21lIGd1YXJhbnRlZSB3ZSd2ZQo+IGJlZW4gcHJv
+dGVjdGVkIGZyb20gY29uY3VycmVudCByZW1vdmFsLiBUaGlzIGlzIHdoYXQgbWFkZSBtZSBsb29r
+IGF0IHRoZSBmaWxlCj4gc2lkZS4KPgo+ID4gICAgICAgICAgICAgICBjb250aW51ZTsKPiA+ICBv
+dXRfdW5sb2NrOgo+ID4gICAgICAgICAgICAgICB1bmxvY2tfcGFnZShwYWdlKTsKPiA+IEBAIC0y
+MDI5LDYgKzIwNDQsMTEgQEAgc3RhdGljIGludCBjb2xsYXBzZV9maWxlKHN0cnVjdCBtbV9zdHJ1
+Y3QgKm1tLCB1bnNpZ25lZCBsb25nIGFkZHIsCj4gPiAgICAgICAvKiBKb2luIGFsbCB0aGUgc21h
+bGwgZW50cmllcyBpbnRvIGEgc2luZ2xlIG11bHRpLWluZGV4IGVudHJ5ICovCj4gPiAgICAgICB4
+YXNfc2V0X29yZGVyKCZ4YXMsIHN0YXJ0LCBIUEFHRV9QTURfT1JERVIpOwo+ID4gICAgICAgeGFz
+X3N0b3JlKCZ4YXMsIGhwYWdlKTsKPiA+ICsgICAgIC8qIEhlcmUgd2UgY2FuJ3QgZ2V0IGFuIEVO
+T01FTSAoYmVjYXVzZSBlbnRyaWVzIHdlcmUKPiA+ICsgICAgICAqIHByZXZpb3VzbHkgYWxsb2Nh
+dGVkKSBCdXQgbGV0J3MgY2hlY2sgZm9yIGVycm9ycwo+ID4gKyAgICAgICogKFhBcnJheSBpbXBs
+ZW1lbnRhdGlvbiBjYW4gYmUgY2hhbmdlZCBpbiB0aGUgZnV0dXJlKQo+ID4gKyAgICAgICovCj4g
+PiArICAgICBXQVJOX09OX09OQ0UoeGFzX2Vycm9yKCZ4YXMpKTsKPgo+IERpdHRvLgo+Cj4gQXBv
+bG9naWVzIEkgd29uJ3QgYmUgYXJvdW5kIHRvIHNlZSB0aGlzIGNoYW5nZSB0aHJvdWdoIC0tIEkn
+bSBqdXN0IG91dCBvZiB0aW1lLAo+IGFuZCB3aWxsIGJlIHNodXR0aW5nIG15IGNvbXB1dGVyIGRv
+d24gdG9tb3Jyb3cgZm9yIDMgbW9udGhzLiAgU29ycnkgZm9yIHRoZSBwb29yCj4gdGltaW5nLCBm
+b3IgcmFpc2luZyBpc3N1ZXMsIHRoZW4gZGlzYXBwZWFyaW5nLiBIb3BlZnVsbHkgSSdtIHdyb25n
+IGFuZCB0aGUKPiBmaWxlLXNpZGUgaXNuJ3QgYSBjb25jZXJuLgo+Cj4gQmVzdCwKPiBaYWNoCj4K
+PiA+ICB4YV9sb2NrZWQ6Cj4gPiAgICAgICB4YXNfdW5sb2NrX2lycSgmeGFzKTsKPiA+ICB4YV91
+bmxvY2tlZDoKPiA+IC0tCj4gPiAyLjM0LjEKPiA+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApM
+aW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
+dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50
+ZWVzCg==
