@@ -4,90 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A0DB1C76188
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  4 Apr 2023 00:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 005CBC77B62
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Apr 2023 16:43:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1C9F360B5D;
-	Tue,  4 Apr 2023 00:58:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1C9F360B5D
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7A79E60E8A;
+	Wed,  5 Apr 2023 16:43:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7A79E60E8A
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=ew5ohV9V
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20210112 header.b=BJSatbPa
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id r6CwFWxk91d7; Tue,  4 Apr 2023 00:58:25 +0000 (UTC)
+	with ESMTP id 0agtISM2YGoI; Wed,  5 Apr 2023 16:43:54 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C5285605EC;
-	Tue,  4 Apr 2023 00:58:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C5285605EC
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C1C9860709;
+	Wed,  5 Apr 2023 16:43:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C1C9860709
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D1DFC0036;
-	Tue,  4 Apr 2023 00:58:24 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63A01C002F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D60BC0036;
+	Wed,  5 Apr 2023 16:43:53 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 72E8AC002F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Apr 2023 00:58:22 +0000 (UTC)
+ Wed,  5 Apr 2023 16:43:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3885660ADC
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3A1DA60709
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Apr 2023 00:58:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3885660ADC
+ Wed,  5 Apr 2023 16:43:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3A1DA60709
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 39PpeN2sU2HC
+ with ESMTP id bphtppEuX1Wq
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Apr 2023 00:58:21 +0000 (UTC)
+ Wed,  5 Apr 2023 16:43:50 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1FF69605EC
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com
- [IPv6:2607:f8b0:4864:20::1029])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 1FF69605EC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 21D1860C00
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 21D1860C00
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  4 Apr 2023 00:58:21 +0000 (UTC)
-Received: by mail-pj1-x1029.google.com with SMTP id j13so28939612pjd.1
+ Wed,  5 Apr 2023 16:43:49 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id h8so142646014ede.8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 03 Apr 2023 17:58:21 -0700 (PDT)
+ Wed, 05 Apr 2023 09:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680569900;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6mPWw+cp8u38n//2LxCVukXUZphVvDxZkQ7SxSLKPdg=;
- b=ew5ohV9V7tjDVx7tuFLPhpfxaYqNpO+SXfuREqneN2fOMRoZLAFP8Uayeio9arNyeZ
- G8D7WJRk/tdSoifp8dD3r/NinW4Y997taX6+0C2PmMirlWoSSvYmmG5temfWiBOKfGl6
- j1uIVHxK/lZnDed1sNhRtxOO8YuRhO2hq10wO7fMdIjOYRmytr3dD9XuZfT8Xvfm4c19
- UEmVJ5J1eWQF+lIqAiTKUKkPeIGq7gRAxAMoyaHpReqWNoiI88a9n6kcoxlqfLIkPqaf
- 53QeXcaVpY/aP0kDHqqkxEVQRXsW4H8hwZAOvusviaknI/kQCldA8xeX9eXD+fSUZAPQ
- SzSw==
+ d=google.com; s=20210112; t=1680713028;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=5TPofhCRqsaDy+QKQvLq1nSwBkzlsiF3K1oEcaeWETM=;
+ b=BJSatbPaHofJrC6zTpy2LSmzhLS6wGpgUE/yxHwMHt14zaVJ7j2hMM4hcIWsUMyniM
+ C0zc+hvP3Mn1uhlwIYzgoVXROsKYNv1hiERfBFYGH1qcCoH6S4O0sJOZp/Kzx7rnNj9e
+ vT0kMTBLAkF3VLAU/zwcey/VZwB61sCjj1VUW9Xc6RZJfxPPVYX3ZCyj2lPNH3oaSU8y
+ jSbe2k2D8fQwAW63JjsL5GA3ETZesnfDiqRa+JinPNm8iMxmDwabdy0sXMx6KzmRiDtC
+ KtwDL4llhQV4WC/oFSO7rzs+7vMvyfh3+rF1fCEYZXl0gl71+wEJKfBhYVXXbRsiA0/5
+ CvOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680569900;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6mPWw+cp8u38n//2LxCVukXUZphVvDxZkQ7SxSLKPdg=;
- b=3Dy3tskHYvp9Xv7OYctxceoY+Y+gMVRfckQN68OsjAgGJ9q9BgrQ7SFy50mHlTEuxa
- 9oG9u0/KuMT25f3nCDC6nonboMVmtmEGr9+ofhepBuLe/B5u8cNDdpwWYxt/mXDU98HX
- nNcxAPV9lc0ubJaQwz/t/Hl1SC0QujRTMsSj5faZ8F+WyD1EVJ/iWRW/sipiaNGCVW5g
- tkPW1FWMSmRLbq4HySjco0pWile8M+t/wo14JbsyiwzqpxJtXN2Kk2hVd5uP0IARtdkO
- WVIGpgL7LAjRKDabsUDFzDgKjGJyuzGNYnxqLyQHuJeFxF4/hShnYzWk6Vv0ekAmKUs+
- ZUqA==
-X-Gm-Message-State: AAQBX9d7uw+BvisvXyHBAl69Paoag2mIPwPsufEQpGt3WhqXG1IBsNXF
- mB36wpG7i/rjlsWPynijU8hPULht9p1/sMQ8LwI=
-X-Google-Smtp-Source: AKy350aPu9QE0B9P21qh06MAkRNBNUK2EH+YclgqKNaEDf6n4sBfV37d1dmdAMJ8B+lw2FaVY5XL4TuNFU6ZhceBR+8=
-X-Received: by 2002:a17:90a:f283:b0:23d:4e0e:cf2c with SMTP id
- fs3-20020a17090af28300b0023d4e0ecf2cmr284098pjb.3.1680569900309; Mon, 03 Apr
- 2023 17:58:20 -0700 (PDT)
+ d=1e100.net; s=20210112; t=1680713028;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5TPofhCRqsaDy+QKQvLq1nSwBkzlsiF3K1oEcaeWETM=;
+ b=tFy/rVEVdhKAHhcuEnXZnbZT+nhx20iqqTez7nbYx6+T0O1xAVS2vURj54q+HaiPI9
+ MIXP+ZcMfrTjR8BjKMUf5ABcBWbm0wrKIE6mYnzfEiQorgarT3TcT247klQv5OWPeGgL
+ Ty1g0JUyC/GcKsJHdc9sZkmRtASyd7v6oP15aumLf9u4fQpDyU8ia/Y1CmpD1WG4aeud
+ I/n4ejyO2oFa0SNJhG0uFT5WmRQUubI5vORi1RcrKbPNcQxc757i/bdcK3hKQcdML7Ne
+ 2YKC4+PXreXR2uK808yUUYoA8dsEfk0MueYCIT5U/7GSYQkSgXk4TSFmpIZd2VQcPHfg
+ vtGA==
+X-Gm-Message-State: AAQBX9fXkGIit+8qdbCHA05DxRxhRRfDaUjy172iIl3cLKmQ6rRou3sR
+ kcT259lgcbgqlJA3kGjJ2myPnzJohJvetxi7APqNXA==
+X-Google-Smtp-Source: AKy350brlMtCY3MiHnXwsnAhEHJalJ563bCxczrxwMKUFenq7zwkD9t+eK36V53WCL82GEcl+rfePCbO5dT/2PpAUWU=
+X-Received: by 2002:a17:907:8b92:b0:92a:a75e:6b9 with SMTP id
+ tb18-20020a1709078b9200b0092aa75e06b9mr1773679ejc.11.1680713027992; Wed, 05
+ Apr 2023 09:43:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20230330155305.423051-1-ivan.orlov0322@gmail.com>
  <20230331013301.ecgkjymaf3ws6rfb@google.com>
-In-Reply-To: <20230331013301.ecgkjymaf3ws6rfb@google.com>
-From: Yang Shi <shy828301@gmail.com>
-Date: Mon, 3 Apr 2023 17:58:08 -0700
-Message-ID: <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
+ <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
+In-Reply-To: <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
+Date: Wed, 5 Apr 2023 09:43:36 -0700
+Message-ID: <CAAa6QmTLXSvygQQNk=8C4pB3D2Twy1guzo=+-aXhCqNAE3Q3MA@mail.gmail.com>
 Subject: Re: [PATCH v2] mm: khugepaged: Fix kernel BUG in
  hpage_collapse_scan_file
-To: "Zach O'Keefe" <zokeefe@google.com>
+To: Yang Shi <shy828301@gmail.com>
 Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
  linux-mm@kvack.org, syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
  akpm@linux-foundation.org, linux-kernel-mentees@lists.linuxfoundation.org
@@ -102,170 +101,613 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Zach O'Keefe via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Zach O'Keefe <zokeefe@google.com>
+Content-Type: multipart/mixed; boundary="===============8971795042681613500=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gVGh1LCBNYXIgMzAsIDIwMjMgYXQgNjozM+KAr1BNIFphY2ggTydLZWVmZSA8em9rZWVmZUBn
-b29nbGUuY29tPiB3cm90ZToKPgo+IE9uIE1hciAzMCAxOTo1MywgSXZhbiBPcmxvdiB3cm90ZToK
-PiA+IFN5emthbGxlciByZXBvcnRlZCB0aGUgZm9sbG93aW5nIGlzc3VlOgo+ID4KPiA+IGtlcm5l
-bCBCVUcgYXQgbW0va2h1Z2VwYWdlZC5jOjE4MjMhCj4gPiBpbnZhbGlkIG9wY29kZTogMDAwMCBb
-IzFdIFBSRUVNUFQgU01QIEtBU0FOCj4gPiBDUFU6IDEgUElEOiA1MDk3IENvbW06IHN5ei1leGVj
-dXRvcjIyMCBOb3QgdGFpbnRlZCA2LjIuMC1zeXprYWxsZXItMTMxNTQtZzg1N2YxMjY4YTU5MSAj
-MAo+ID4gSGFyZHdhcmUgbmFtZTogR29vZ2xlIEdvb2dsZSBDb21wdXRlIEVuZ2luZS9Hb29nbGUg
-Q29tcHV0ZSBFbmdpbmUsIEJJT1MgR29vZ2xlIDAyLzE2LzIwMjMKPiA+IFJJUDogMDAxMDpjb2xs
-YXBzZV9maWxlIG1tL2todWdlcGFnZWQuYzoxODIzIFtpbmxpbmVdCj4gPiBSSVA6IDAwMTA6aHBh
-Z2VfY29sbGFwc2Vfc2Nhbl9maWxlKzB4NjdjOC8weDc1ODAgbW0va2h1Z2VwYWdlZC5jOjIyMzMK
-PiA+IENvZGU6IDAwIDAwIDg5IGRlIGU4IGM5IDY2IGEzIGZmIDMxIGZmIDg5IGRlIGU4IGMwIDY2
-IGEzIGZmIDQ1IDg0IGY2IDBmIDg1IDI4IDBkIDAwIDAwIGU4IDIyIDY0IGEzIGZmIGU5IGRjIGY3
-IGZmIGZmIGU4IDE4IDY0IGEzIGZmIDwwZj4gMGIgZjMgMGYgMWUgZmEgZTggMGQgNjQgYTMgZmYg
-ZTkgOTMgZjYgZmYgZmYgZjMgMGYgMWUgZmEgNGMgODkKPiA+IFJTUDogMDAxODpmZmZmYzkwMDAz
-ZGZmNGUwIEVGTEFHUzogMDAwMTAwOTMKPiA+IFJBWDogZmZmZmZmZmY4MWU5NTk4OCBSQlg6IDAw
-MDAwMDAwMDAwMDAxYzEgUkNYOiBmZmZmODg4MDIwNWIzYTgwCj4gPiBSRFg6IDAwMDAwMDAwMDAw
-MDAwMDAgUlNJOiAwMDAwMDAwMDAwMDAwMWMwIFJESTogMDAwMDAwMDAwMDAwMDFjMQo+ID4gUkJQ
-OiBmZmZmYzkwMDAzZGZmODMwIFIwODogZmZmZmZmZmY4MWU5MGU2NyBSMDk6IGZmZmZmYmZmZjFh
-NDMzYzMKPiA+IFIxMDogMDAwMDAwMDAwMDAwMDAwMCBSMTE6IGRmZmZmYzAwMDAwMDAwMDEgUjEy
-OiAwMDAwMDAwMDAwMDAwMDAwCj4gPiBSMTM6IGZmZmZjOTAwMDNkZmY2YzAgUjE0OiAwMDAwMDAw
-MDAwMDAwMWMwIFIxNTogMDAwMDAwMDAwMDAwMDAwMAo+ID4gRlM6ICAwMDAwN2ZkYmFlNWVlNzAw
-KDAwMDApIEdTOmZmZmY4ODgwYjk5MDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMAo+
-ID4gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwo+ID4g
-Q1IyOiAwMDAwN2ZkYmFlNjkwMWUwIENSMzogMDAwMDAwMDA3YjJkZDAwMCBDUjQ6IDAwMDAwMDAw
-MDAzNTA2ZTAKPiA+IERSMDogMDAwMDAwMDAwMDAwMDAwMCBEUjE6IDAwMDAwMDAwMDAwMDAwMDAg
-RFIyOiAwMDAwMDAwMDAwMDAwMDAwCj4gPiBEUjM6IDAwMDAwMDAwMDAwMDAwMDAgRFI2OiAwMDAw
-MDAwMGZmZmUwZmYwIERSNzogMDAwMDAwMDAwMDAwMDQwMAo+ID4gQ2FsbCBUcmFjZToKPiA+ICA8
-VEFTSz4KPiA+ICBtYWR2aXNlX2NvbGxhcHNlKzB4NzIxLzB4ZjUwIG1tL2todWdlcGFnZWQuYzoy
-NjkzCj4gPiAgbWFkdmlzZV92bWFfYmVoYXZpb3IgbW0vbWFkdmlzZS5jOjEwODYgW2lubGluZV0K
-PiA+ICBtYWR2aXNlX3dhbGtfdm1hcyBtbS9tYWR2aXNlLmM6MTI2MCBbaW5saW5lXQo+ID4gIGRv
-X21hZHZpc2UrMHg5ZTUvMHg0NjgwIG1tL21hZHZpc2UuYzoxNDM5Cj4gPiAgX19kb19zeXNfbWFk
-dmlzZSBtbS9tYWR2aXNlLmM6MTQ1MiBbaW5saW5lXQo+ID4gIF9fc2Vfc3lzX21hZHZpc2UgbW0v
-bWFkdmlzZS5jOjE0NTAgW2lubGluZV0KPiA+ICBfX3g2NF9zeXNfbWFkdmlzZSsweGE1LzB4YjAg
-bW0vbWFkdmlzZS5jOjE0NTAKPiA+ICBkb19zeXNjYWxsX3g2NCBhcmNoL3g4Ni9lbnRyeS9jb21t
-b24uYzo1MCBbaW5saW5lXQo+ID4gIGRvX3N5c2NhbGxfNjQrMHg0MS8weGMwIGFyY2gveDg2L2Vu
-dHJ5L2NvbW1vbi5jOjgwCj4gPiAgZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NjMv
-MHhjZAo+ID4KPgo+IFRoYW5rcywgSXZhbi4KPgo+IEluIHRoZSBwcm9jZXNzIG9mIHJldmlld2lu
-ZyB0aGlzLCBJIHN0YXJ0aW5nIHRoaW5raW5nIGlmIHRoZSAhc2htZW0gY2FzZSB3YXMKPiBhbHNv
-IHN1c2NlcHRpYmxlIHRvIGEgc2ltaWxhciByYWNlLCBhbmQgSSAqdGhpbmsqIGl0IG1pZ2h0IGJl
-LiBVbmZvcnR1bmF0ZWx5LCBteQo+IHRpbWUgaGFzIHJhbiBvdXQsIGFuZCBJIGhhdmVuJ3QgYmVl
-biBhYmxlIHRvIHZhbGlkYXRlIDsgSSdtIGxlc3MgZmFtaWxpYXIgd2l0aAo+IHRoZSBmaWxlLXNp
-ZGUgb2YgdGhpbmdzLgo+Cj4gVGhlIHVuZGVybHlpbmcgcHJvYmxlbSBpcyByYWNlIHdpdGggdHJ1
-bmNhdGlvbi9ob2xlLXB1bmNoICB1bmRlciBPT00gY29uZGl0aW9uLgo+IFRoZSBuaWNlIGRvLXdo
-aWxlIGxvb3AgbmVhciB0aGUgdG9wIG9mIGNvbGxhcHNlX2ZpbGUoKSBhdHRlbXB0cyB0byBhdm9p
-ZCB0aGlzCj4gc2NlbmFyaW8gYnkgbWFraW5nIHN1cmUgZW5vdWdoIHNsb3RzIGFyZSBhdmFpbGFi
-bGUuIEhvd2V2ZXIsIHdoZW4gd2UgZHJvcCB4YXJyYXkKPiBsb2NrLCB3ZSBvcGVuIG91cnNlbHZl
-cyB1cCB0byBjb25jdXJyZW50IHJlbW92YWwgKyBzbG90IGRlbGV0aW9uLiBUaG9zZSBzbG90cwo+
-IHRoZW4gbmVlZCB0byBiZSBhbGxvY2F0ZWQgYWdhaW4gLS0gd2hpY2ggdW5kZXIgT09NIGNvbmRp
-dGlvbiBpcyBmYWlsYWJsZS4KPgo+IFRoZSBzeXpib3QgcmVwcm9kdWNlciBwaWNrcyBvbiBzaG1l
-bSwgYnV0IEkgdGhpbmsgdGhpcyBjYW4gb2NjdXIgZm9yIGZpbGUgYXMKPiB3ZWxsLiBJZiB3ZSBm
-aW5kIGEgaG9sZSwgd2UgdW5sb2NrIHRoZSB4YXJyYXkgYW5kIGNhbGwKPiBwYWdlX2NhY2hlX3N5
-bmNfcmVhZGFoZWFkKCksIHdoaWNoIGlmIGl0IHN1Y2NlZWRzLCBJSVVDLCB3aWxsIGhhdmUgYWxs
-b2NhdGVkIGEKPiBuZXcgc2xvdCBpbiBvdXIgbWFwcGluZyBwb2ludGluZyB0byB0aGUgbmV3IHBh
-Z2UuIFdlICp0aGVuKiBsb2NrcyB0aGUgcGFnZS4gT25seQo+IGFmdGVyIHRoZSBwYWdlIGlzIGxv
-Y2tlZCBhcmUgd2UgcHJvdGVjdGVkIGZyb20gY29uY3VycmVudCByZW1vdmFsIChOb3RlOiB0aGlz
-IGlzCj4gd2hhdCBwcm92aWRlcyB1cyBwcm90ZWN0aW9uIGluIG1hbnkgb2YgdGhlIHhhc19zdG9y
-ZSgpIGNhc2VzIDsgd2UndmUgaGVsZCB0aGUKPiBzbG90J3MgY29udGFpbmVkIHBhZ2UtbG9jayBz
-aW5jZSB2ZXJpZnlpbmcgdGhlIHNsb3QgZXhpc3RzLCBwcm90ZWN0aW5nIHVzIGZyb20KPiByZW1v
-dmFsIC8gcmVhbGxvY2F0aW9uIHJhY2VzKS4KCklJVUMsIHRoZSBmaW5kX2xvY2tfcGFnZSgpIHNo
-b3VsZCBiZSBhYmxlIHRvIGhhbmRsZSB0aGUgcmFjZS4gSXQgZG9lcwpjaGVjayB3aGV0aGVyIHRo
-ZSBwYWdlIGlzIHRydW5jYXRlZCBvciBub3QgYWZ0ZXIgbG9ja2luZyB0aGUgcGFnZS4KCj4KPiBN
-YXliZSBJJ20ganVzdCBsb3cgb24gY2FmZmVpbmUgYXQgdGhlIGVuZCBvZiB0aGUgZGF5LCBhbmQg
-YW0gbWlzc2luZyBzb21ldGhpbmcsCj4gYnV0IGlmIEkgaGFkIG1vcmUgdGltZSwgSSdkIGJlIGxv
-b2tpbmcgaW50byB0aGUgZmlsZS1zaWRlIHNvbWUgbW9yZSB0byB2ZXJpZnkuCj4gQXBvbG9naWVz
-IHRoYXQgaGFzbid0IG9jY3VycmVkIHRvIG1lIHVudGlsIG5vdyA7IEkgd2FzIGxvb2tpbmcgYXQg
-b25lIG9mIHlvdXIKPiBjb21tZW50cyBhbmQgZG91YmxlLWNoZWNrZWQgd2h5IEkgKnRob3VnaHQq
-IHdlIHdlcmUgc2FmZS4KPgo+IEFueXdheXMsIGlycmVzcGVjdGl2ZSBvZiB0aGF0IGxvb21pbmcg
-aXNzdWVzLCBzb21lIG1vcmUgbm90ZXMgdG8gZm9sbG93Ogo+Cj4gPiBUaGUgJ3hhc19zdG9yZScg
-Y2FsbCBkdXJpbmcgcGFnZSBjYWNoZSBzY2FubmluZyBjYW4gcG90ZW50aWFsbHkKPiA+IHRyYW5z
-bGF0ZSAneGFzJyBpbnRvIHRoZSBlcnJvciBzdGF0ZSAod2l0aCB0aGUgcmVwcm9kdWNlciBwcm92
-aWRlZAo+ID4gYnkgdGhlIHN5emthbGxlciB0aGUgZXJyb3IgY29kZSBpcyAtRU5PTUVNKS4gSG93
-ZXZlciwgdGhlcmUgYXJlIG5vCj4gPiBmdXJ0aGVyIGNoZWNrcyBhZnRlciB0aGUgJ3hhc19zdG9y
-ZScsIGFuZCB0aGUgbmV4dCBjYWxsIG9mICd4YXNfbmV4dCcKPiA+IGF0IHRoZSBzdGFydCBvZiB0
-aGUgc2Nhbm5pbmcgY3ljbGUgZG9lc24ndCBpbmNyZWFzZSB0aGUgeGFfaW5kZXgsCj4gPiBhbmQg
-dGhlIGlzc3VlIG9jY3Vycy4KPiA+Cj4gPiBUaGlzIHBhdGNoIHdpbGwgYWRkIHRoZSB4YXJyYXkg
-c3RhdGUgZXJyb3IgY2hlY2tpbmcgYWZ0ZXIgdGhlCj4gPiAneGFzX3N0b3JlJyBhbmQgdGhlIGNv
-cnJlc3BvbmRpbmcgcmVzdWx0IGVycm9yIGNvZGUuIEl0IHdpbGwKPiA+IGFsc28gYWRkIHhhcnJh
-eSBzdGF0ZSBlcnJvciBjaGVja2luZyB2aWEgV0FSTl9PTl9PTkNFIG1hY3JvcywKPiA+IHRvIGJl
-IHN1cmUgdGhhdCBFTk9NRU0gb3Igb3RoZXIgcG9zc2libGUgZXJyb3JzIGRvbid0IG9jY3VyCj4g
-PiBhdCB0aGUgcGxhY2VzIHRoZXkgc2hvdWxkbid0Lgo+Cj4gVGhhbmtzIGZvciB0aGUgYWRkaXRp
-b25zIGhlcmUuIEkgdGhpbmsgaXQncyB3b3J0aHdoaWxlIHByb3ZpZGluZyBldmVuIG1vcmUKPiBk
-ZXRhaWxzIGFib3V0IHRoZSBzcGVjaWZpY3Mgb2YgdGhlIHJhY2Ugd2UgYXJlIGZpeGluZyBhbmQv
-b3IgZ3VhcmRpbmcgYWdhaW5zdCB0bwo+IGhlbHAgcHBsIHVuZGVyc3RhbmQgaG93IHRoYXQgLUVO
-T01FTSBjb21lcyBhYm91dCBpZiB0aGUgZG8td2hpbGUgbG9vcCBoYXMKPiAiRW5zdXJlZCIgd2Ug
-aGF2ZSBzbG90cyBhdmFpbGFibGUgKGFkZGl0aW9uYWxseSwgSSB0aGluayB0aGF0IGNvbW1lbnQg
-Y2FuIGJlCj4gYXVnbWVudGVkKS4KPgo+ID4gVGVzdGVkIHZpYSBzeXpib3QuCj4gPgo+ID4gUmVw
-b3J0ZWQtYnk6IHN5emJvdCs5NTc4ZmFhNTQ3NWFjYjM1ZmE1MEBzeXprYWxsZXIuYXBwc3BvdG1h
-aWwuY29tCj4gPiBMaW5rOiBodHRwczovL3N5emthbGxlci5hcHBzcG90LmNvbS9idWc/aWQ9N2Q2
-YmIzNzYwZTAyNmVjZTc1MjQ1MDBmZTQ0ZmIwMjRhMGU5NTlmYwo+ID4gU2lnbmVkLW9mZi1ieTog
-SXZhbiBPcmxvdiA8aXZhbi5vcmxvdjAzMjJAZ21haWwuY29tPgo+ID4gLS0tCj4gPiBWMSAtPiBW
-MjogQWRkIFdBUk5fT05fT05DRSBlcnJvciBjaGVja2luZyBhbmQgY29tbWVudHMKPiA+Cj4gPiAg
-bW0va2h1Z2VwYWdlZC5jIHwgMjAgKysrKysrKysrKysrKysrKysrKysKPiA+ICAxIGZpbGUgY2hh
-bmdlZCwgMjAgaW5zZXJ0aW9ucygrKQo+ID4KPiA+IGRpZmYgLS1naXQgYS9tbS9raHVnZXBhZ2Vk
-LmMgYi9tbS9raHVnZXBhZ2VkLmMKPiA+IGluZGV4IDkyZTZmNTZhOTMyZC4uOGI2NTgwYjEzMzM5
-IDEwMDY0NAo+ID4gLS0tIGEvbW0va2h1Z2VwYWdlZC5jCj4gPiArKysgYi9tbS9raHVnZXBhZ2Vk
-LmMKPiA+IEBAIC01NSw2ICs1NSw3IEBAIGVudW0gc2Nhbl9yZXN1bHQgewo+ID4gICAgICAgU0NB
-Tl9DR1JPVVBfQ0hBUkdFX0ZBSUwsCj4gPiAgICAgICBTQ0FOX1RSVU5DQVRFRCwKPiA+ICAgICAg
-IFNDQU5fUEFHRV9IQVNfUFJJVkFURSwKPiA+ICsgICAgIFNDQU5fU1RPUkVfRkFJTEVELAo+ID4g
-IH07Cj4KPiBJJ20gc3RpbGwgcmVsdWN0YW50IHRvIGFkZCBhIG5ldyBlcnJvciBjb2RlIGZvciB0
-aGlzIGFzIHRoaXMgc2VlbXMgbGlrZSBxdWl0ZSBhCj4gcmFyZSByYWNlIHRoYXQgcmVxdWlyZXMg
-T09NIHRvIHRyaWdnZXIuIEknZCBiZSBoYXBwaWVyIGp1c3QgcmV1c2luZyBTQ0FOX0ZBSUwsCj4g
-b3IsIHNvbWV0aGluZyB3ZSBtaWdodCBnZXQgc29tZSBtaWxsYWdlIG91dCBvZiBsYXRlcjogU0NB
-Tl9PT00uCj4KPiBBbHNvLCBhIHJlbWluZGVyIHRvIHVwZGF0ZSBpbmNsdWRlL3RyYWNlL2V2ZW50
-cy9odWdlX21lbW9yeS5oLCBpZiB5b3UgZ28gdGhhdAo+IHJvdXRlLgo+Cj4gPgo+ID4gICNkZWZp
-bmUgQ1JFQVRFX1RSQUNFX1BPSU5UUwo+ID4gQEAgLTE4NDAsNiArMTg0MSwxNSBAQCBzdGF0aWMg
-aW50IGNvbGxhcHNlX2ZpbGUoc3RydWN0IG1tX3N0cnVjdCAqbW0sIHVuc2lnbmVkIGxvbmcgYWRk
-ciwKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZ290byB4YV9sb2Nr
-ZWQ7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB9Cj4gPiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB4YXNfc3RvcmUoJnhhcywgaHBhZ2UpOwo+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgaWYgKHhhc19lcnJvcigmeGFzKSkgewo+ID4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAvKiByZXZlcnQgc2htZW1fY2hhcmdlIHBlcmZvcm1l
-ZAo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKiBpbiB0aGUgcHJl
-dmlvdXMgY29uZGl0aW9uCj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAqLwo+Cj4gTml0OiBIZXJlLCBhbmQgZm9sbG93aW5nLCBJIHRoaW5rIHN0YW5kYXJkIGNvbnZl
-bnRpb24gZm9yIG11bHRpbGluZSBjb21tZW50IGlzCj4gdG8gaGF2ZSBhbiBlbXB0eSBmaXJzdCBh
-bmQgbGFzdCBsaW5lLCBlZzoKPgo+ICArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAvKgo+ICArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKiByZXZl
-cnQgc2htZW1fY2hhcmdlIHBlcmZvcm1lZAo+ICArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgKiBpbiB0aGUgcHJldmlvdXMgY29uZGl0aW9uCj4gICsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAqLwo+Cj4gVGhvdWdoLCBjaGVja3BhdGNoLnBsIC0t
-c3RyaWN0IGRpZG4ndCBzZWVtIHRvIGNhcmUuCj4KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgbWFwcGluZy0+bnJwYWdlcy0tOwo+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBzaG1lbV91bmNoYXJnZShtYXBwaW5nLT5ob3N0LCAxKTsKPiA+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVzdWx0ID0gU0NBTl9TVE9S
-RV9GQUlMRUQ7Cj4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8g
-eGFfbG9ja2VkOwo+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4gICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgbnJfbm9uZSsrOwo+ID4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgY29udGludWU7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgfQo+ID4gQEAg
-LTE5OTIsNiArMjAwMiwxMSBAQCBzdGF0aWMgaW50IGNvbGxhcHNlX2ZpbGUoc3RydWN0IG1tX3N0
-cnVjdCAqbW0sIHVuc2lnbmVkIGxvbmcgYWRkciwKPiA+Cj4gPiAgICAgICAgICAgICAgIC8qIEZp
-bmFsbHksIHJlcGxhY2Ugd2l0aCB0aGUgbmV3IHBhZ2UuICovCj4gPiAgICAgICAgICAgICAgIHhh
-c19zdG9yZSgmeGFzLCBocGFnZSk7Cj4gPiArICAgICAgICAgICAgIC8qIFdlIGNhbid0IGdldCBh
-biBFTk9NRU0gaGVyZSAoYmVjYXVzZSB0aGUgYWxsb2NhdGlvbiBoYXBwZW5lZCBiZWZvcmUpCj4g
-PiArICAgICAgICAgICAgICAqIGJ1dCBsZXQncyBjaGVjayBmb3IgZXJyb3JzIChYQXJyYXkgaW1w
-bGVtZW50YXRpb24gY2FuIGJlCj4gPiArICAgICAgICAgICAgICAqIGNoYW5nZWQgaW4gdGhlIGZ1
-dHVyZSkKPiA+ICsgICAgICAgICAgICAgICovCj4gPiArICAgICAgICAgICAgIFdBUk5fT05fT05D
-RSh4YXNfZXJyb3IoJnhhcykpOwo+Cj4gTml0OiBpdCdzIG5vdCBqdXN0IHRoYXQgYWxsb2NhdGlv
-biBoYXBwZW5lZCBiZWZvcmUgLS0gbmVlZCBzb21lIGd1YXJhbnRlZSB3ZSd2ZQo+IGJlZW4gcHJv
-dGVjdGVkIGZyb20gY29uY3VycmVudCByZW1vdmFsLiBUaGlzIGlzIHdoYXQgbWFkZSBtZSBsb29r
-IGF0IHRoZSBmaWxlCj4gc2lkZS4KPgo+ID4gICAgICAgICAgICAgICBjb250aW51ZTsKPiA+ICBv
-dXRfdW5sb2NrOgo+ID4gICAgICAgICAgICAgICB1bmxvY2tfcGFnZShwYWdlKTsKPiA+IEBAIC0y
-MDI5LDYgKzIwNDQsMTEgQEAgc3RhdGljIGludCBjb2xsYXBzZV9maWxlKHN0cnVjdCBtbV9zdHJ1
-Y3QgKm1tLCB1bnNpZ25lZCBsb25nIGFkZHIsCj4gPiAgICAgICAvKiBKb2luIGFsbCB0aGUgc21h
-bGwgZW50cmllcyBpbnRvIGEgc2luZ2xlIG11bHRpLWluZGV4IGVudHJ5ICovCj4gPiAgICAgICB4
-YXNfc2V0X29yZGVyKCZ4YXMsIHN0YXJ0LCBIUEFHRV9QTURfT1JERVIpOwo+ID4gICAgICAgeGFz
-X3N0b3JlKCZ4YXMsIGhwYWdlKTsKPiA+ICsgICAgIC8qIEhlcmUgd2UgY2FuJ3QgZ2V0IGFuIEVO
-T01FTSAoYmVjYXVzZSBlbnRyaWVzIHdlcmUKPiA+ICsgICAgICAqIHByZXZpb3VzbHkgYWxsb2Nh
-dGVkKSBCdXQgbGV0J3MgY2hlY2sgZm9yIGVycm9ycwo+ID4gKyAgICAgICogKFhBcnJheSBpbXBs
-ZW1lbnRhdGlvbiBjYW4gYmUgY2hhbmdlZCBpbiB0aGUgZnV0dXJlKQo+ID4gKyAgICAgICovCj4g
-PiArICAgICBXQVJOX09OX09OQ0UoeGFzX2Vycm9yKCZ4YXMpKTsKPgo+IERpdHRvLgo+Cj4gQXBv
-bG9naWVzIEkgd29uJ3QgYmUgYXJvdW5kIHRvIHNlZSB0aGlzIGNoYW5nZSB0aHJvdWdoIC0tIEkn
-bSBqdXN0IG91dCBvZiB0aW1lLAo+IGFuZCB3aWxsIGJlIHNodXR0aW5nIG15IGNvbXB1dGVyIGRv
-d24gdG9tb3Jyb3cgZm9yIDMgbW9udGhzLiAgU29ycnkgZm9yIHRoZSBwb29yCj4gdGltaW5nLCBm
-b3IgcmFpc2luZyBpc3N1ZXMsIHRoZW4gZGlzYXBwZWFyaW5nLiBIb3BlZnVsbHkgSSdtIHdyb25n
-IGFuZCB0aGUKPiBmaWxlLXNpZGUgaXNuJ3QgYSBjb25jZXJuLgo+Cj4gQmVzdCwKPiBaYWNoCj4K
-PiA+ICB4YV9sb2NrZWQ6Cj4gPiAgICAgICB4YXNfdW5sb2NrX2lycSgmeGFzKTsKPiA+ICB4YV91
-bmxvY2tlZDoKPiA+IC0tCj4gPiAyLjM0LjEKPiA+Cl9fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApM
-aW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlz
-dHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50
-ZWVzCg==
+--===============8971795042681613500==
+Content-Type: multipart/alternative; boundary="000000000000018df005f8997fc3"
+
+--000000000000018df005f8997fc3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Apr 3, 2023 at 5:58 PM Yang Shi <shy828301@gmail.com> wrote:
+
+> On Thu, Mar 30, 2023 at 6:33=E2=80=AFPM Zach O'Keefe <zokeefe@google.com>=
+ wrote:
+> >
+> > On Mar 30 19:53, Ivan Orlov wrote:
+> > > Syzkaller reported the following issue:
+> > >
+> > > kernel BUG at mm/khugepaged.c:1823!
+> > > invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+> > > CPU: 1 PID: 5097 Comm: syz-executor220 Not tainted
+> 6.2.0-syzkaller-13154-g857f1268a591 #0
+> > > Hardware name: Google Google Compute Engine/Google Compute Engine,
+> BIOS Google 02/16/2023
+> > > RIP: 0010:collapse_file mm/khugepaged.c:1823 [inline]
+> > > RIP: 0010:hpage_collapse_scan_file+0x67c8/0x7580 mm/khugepaged.c:2233
+> > > Code: 00 00 89 de e8 c9 66 a3 ff 31 ff 89 de e8 c0 66 a3 ff 45 84 f6
+> 0f 85 28 0d 00 00 e8 22 64 a3 ff e9 dc f7 ff ff e8 18 64 a3 ff <0f> 0b f3
+> 0f 1e fa e8 0d 64 a3 ff e9 93 f6 ff ff f3 0f 1e fa 4c 89
+> > > RSP: 0018:ffffc90003dff4e0 EFLAGS: 00010093
+> > > RAX: ffffffff81e95988 RBX: 00000000000001c1 RCX: ffff8880205b3a80
+> > > RDX: 0000000000000000 RSI: 00000000000001c0 RDI: 00000000000001c1
+> > > RBP: ffffc90003dff830 R08: ffffffff81e90e67 R09: fffffbfff1a433c3
+> > > R10: 0000000000000000 R11: dffffc0000000001 R12: 0000000000000000
+> > > R13: ffffc90003dff6c0 R14: 00000000000001c0 R15: 0000000000000000
+> > > FS:  00007fdbae5ee700(0000) GS:ffff8880b9900000(0000)
+> knlGS:0000000000000000
+> > > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > CR2: 00007fdbae6901e0 CR3: 000000007b2dd000 CR4: 00000000003506e0
+> > > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > > Call Trace:
+> > >  <TASK>
+> > >  madvise_collapse+0x721/0xf50 mm/khugepaged.c:2693
+> > >  madvise_vma_behavior mm/madvise.c:1086 [inline]
+> > >  madvise_walk_vmas mm/madvise.c:1260 [inline]
+> > >  do_madvise+0x9e5/0x4680 mm/madvise.c:1439
+> > >  __do_sys_madvise mm/madvise.c:1452 [inline]
+> > >  __se_sys_madvise mm/madvise.c:1450 [inline]
+> > >  __x64_sys_madvise+0xa5/0xb0 mm/madvise.c:1450
+> > >  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+> > >  do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+> > >  entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> > >
+> >
+> > Thanks, Ivan.
+> >
+> > In the process of reviewing this, I starting thinking if the !shmem cas=
+e
+> was
+> > also susceptible to a similar race, and I *think* it might be.
+> Unfortunately, my
+> > time has ran out, and I haven't been able to validate ; I'm less
+> familiar with
+> > the file-side of things.
+> >
+> > The underlying problem is race with truncation/hole-punch  under OOM
+> condition.
+> > The nice do-while loop near the top of collapse_file() attempts to avoi=
+d
+> this
+> > scenario by making sure enough slots are available. However, when we
+> drop xarray
+> > lock, we open ourselves up to concurrent removal + slot deletion. Those
+> slots
+> > then need to be allocated again -- which under OOM condition is failabl=
+e.
+> >
+> > The syzbot reproducer picks on shmem, but I think this can occur for
+> file as
+> > well. If we find a hole, we unlock the xarray and call
+> > page_cache_sync_readahead(), which if it succeeds, IIUC, will have
+> allocated a
+> > new slot in our mapping pointing to the new page. We *then* locks the
+> page. Only
+> > after the page is locked are we protected from concurrent removal (Note=
+:
+> this is
+> > what provides us protection in many of the xas_store() cases ; we've
+> held the
+> > slot's contained page-lock since verifying the slot exists, protecting
+> us from
+> > removal / reallocation races).
+>
+> IIUC, the find_lock_page() should be able to handle the race. It does
+> check whether the page is truncated or not after locking the page.
+>
+
+Ugh. Duh. You=E2=80=99re right, and I=E2=80=99m not sure how I missed that =
+implication; we
+*did* succeed in locking the page in page cache. Well, the above rant just
+looks foolish now.
+
+Anyways, sorry for the false alarm, Ivan, and thanks for keeping me honest,
+Yang!
+
+
+
+
+> >
+> > Maybe I'm just low on caffeine at the end of the day, and am missing
+> something,
+> > but if I had more time, I'd be looking into the file-side some more to
+> verify.
+> > Apologies that hasn't occurred to me until now ; I was looking at one o=
+f
+> your
+> > comments and double-checked why I *thought* we were safe.
+> >
+> > Anyways, irrespective of that looming issues, some more notes to follow=
+:
+> >
+> > > The 'xas_store' call during page cache scanning can potentially
+> > > translate 'xas' into the error state (with the reproducer provided
+> > > by the syzkaller the error code is -ENOMEM). However, there are no
+> > > further checks after the 'xas_store', and the next call of 'xas_next'
+> > > at the start of the scanning cycle doesn't increase the xa_index,
+> > > and the issue occurs.
+> > >
+> > > This patch will add the xarray state error checking after the
+> > > 'xas_store' and the corresponding result error code. It will
+> > > also add xarray state error checking via WARN_ON_ONCE macros,
+> > > to be sure that ENOMEM or other possible errors don't occur
+> > > at the places they shouldn't.
+> >
+> > Thanks for the additions here. I think it's worthwhile providing even
+> more
+> > details about the specifics of the race we are fixing and/or guarding
+> against to
+> > help ppl understand how that -ENOMEM comes about if the do-while loop h=
+as
+> > "Ensured" we have slots available (additionally, I think that comment
+> can be
+> > augmented).
+> >
+> > > Tested via syzbot.
+> > >
+> > > Reported-by: syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com
+> > > Link:
+> https://syzkaller.appspot.com/bug?id=3D7d6bb3760e026ece7524500fe44fb024a0=
+e959fc
+> > > Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+> > > ---
+> > > V1 -> V2: Add WARN_ON_ONCE error checking and comments
+> > >
+> > >  mm/khugepaged.c | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
+> > >
+> > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > > index 92e6f56a932d..8b6580b13339 100644
+> > > --- a/mm/khugepaged.c
+> > > +++ b/mm/khugepaged.c
+> > > @@ -55,6 +55,7 @@ enum scan_result {
+> > >       SCAN_CGROUP_CHARGE_FAIL,
+> > >       SCAN_TRUNCATED,
+> > >       SCAN_PAGE_HAS_PRIVATE,
+> > > +     SCAN_STORE_FAILED,
+> > >  };
+> >
+> > I'm still reluctant to add a new error code for this as this seems like
+> quite a
+> > rare race that requires OOM to trigger. I'd be happier just reusing
+> SCAN_FAIL,
+> > or, something we might get some millage out of later: SCAN_OOM.
+> >
+> > Also, a reminder to update include/trace/events/huge_memory.h, if you g=
+o
+> that
+> > route.
+> >
+> > >
+> > >  #define CREATE_TRACE_POINTS
+> > > @@ -1840,6 +1841,15 @@ static int collapse_file(struct mm_struct *mm,
+> unsigned long addr,
+> > >                                       goto xa_locked;
+> > >                               }
+> > >                               xas_store(&xas, hpage);
+> > > +                             if (xas_error(&xas)) {
+> > > +                                     /* revert shmem_charge performe=
+d
+> > > +                                      * in the previous condition
+> > > +                                      */
+> >
+> > Nit: Here, and following, I think standard convention for multiline
+> comment is
+> > to have an empty first and last line, eg:
+> >
+> >  +                                      /*
+> >  +                                       * revert shmem_charge performe=
+d
+> >  +                                       * in the previous condition
+> >  +                                       */
+> >
+> > Though, checkpatch.pl --strict didn't seem to care.
+> >
+> > > +                                     mapping->nrpages--;
+> > > +                                     shmem_uncharge(mapping->host, 1=
+);
+> > > +                                     result =3D SCAN_STORE_FAILED;
+> > > +                                     goto xa_locked;
+> > > +                             }
+> > >                               nr_none++;
+> > >                               continue;
+> > >                       }
+> > > @@ -1992,6 +2002,11 @@ static int collapse_file(struct mm_struct *mm,
+> unsigned long addr,
+> > >
+> > >               /* Finally, replace with the new page. */
+> > >               xas_store(&xas, hpage);
+> > > +             /* We can't get an ENOMEM here (because the allocation
+> happened before)
+> > > +              * but let's check for errors (XArray implementation ca=
+n
+> be
+> > > +              * changed in the future)
+> > > +              */
+> > > +             WARN_ON_ONCE(xas_error(&xas));
+> >
+> > Nit: it's not just that allocation happened before -- need some
+> guarantee we've
+> > been protected from concurrent removal. This is what made me look at th=
+e
+> file
+> > side.
+> >
+> > >               continue;
+> > >  out_unlock:
+> > >               unlock_page(page);
+> > > @@ -2029,6 +2044,11 @@ static int collapse_file(struct mm_struct *mm,
+> unsigned long addr,
+> > >       /* Join all the small entries into a single multi-index entry *=
+/
+> > >       xas_set_order(&xas, start, HPAGE_PMD_ORDER);
+> > >       xas_store(&xas, hpage);
+> > > +     /* Here we can't get an ENOMEM (because entries were
+> > > +      * previously allocated) But let's check for errors
+> > > +      * (XArray implementation can be changed in the future)
+> > > +      */
+> > > +     WARN_ON_ONCE(xas_error(&xas));
+> >
+> > Ditto.
+> >
+> > Apologies I won't be around to see this change through -- I'm just out
+> of time,
+> > and will be shutting my computer down tomorrow for 3 months.  Sorry for
+> the poor
+> > timing, for raising issues, then disappearing. Hopefully I'm wrong and
+> the
+> > file-side isn't a concern.
+> >
+> > Best,
+> > Zach
+> >
+> > >  xa_locked:
+> > >       xas_unlock_irq(&xas);
+> > >  xa_unlocked:
+> > > --
+> > > 2.34.1
+> > >
+>
+>
+
+--000000000000018df005f8997fc3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Apr 3, 2023 at 5:58 PM Yang Shi &lt;<a href=3D"mail=
+to:shy828301@gmail.com">shy828301@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wi=
+dth:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,=
+204,204)">On Thu, Mar 30, 2023 at 6:33=E2=80=AFPM Zach O&#39;Keefe &lt;<a h=
+ref=3D"mailto:zokeefe@google.com" target=3D"_blank">zokeefe@google.com</a>&=
+gt; wrote:<br>
+&gt;<br>
+&gt; On Mar 30 19:53, Ivan Orlov wrote:<br>
+&gt; &gt; Syzkaller reported the following issue:<br>
+&gt; &gt;<br>
+&gt; &gt; kernel BUG at mm/khugepaged.c:1823!<br>
+&gt; &gt; invalid opcode: 0000 [#1] PREEMPT SMP KASAN<br>
+&gt; &gt; CPU: 1 PID: 5097 Comm: syz-executor220 Not tainted 6.2.0-syzkalle=
+r-13154-g857f1268a591 #0<br>
+&gt; &gt; Hardware name: Google Google Compute Engine/Google Compute Engine=
+, BIOS Google 02/16/2023<br>
+&gt; &gt; RIP: 0010:collapse_file mm/khugepaged.c:1823 [inline]<br>
+&gt; &gt; RIP: 0010:hpage_collapse_scan_file+0x67c8/0x7580 mm/khugepaged.c:=
+2233<br>
+&gt; &gt; Code: 00 00 89 de e8 c9 66 a3 ff 31 ff 89 de e8 c0 66 a3 ff 45 84=
+ f6 0f 85 28 0d 00 00 e8 22 64 a3 ff e9 dc f7 ff ff e8 18 64 a3 ff &lt;0f&g=
+t; 0b f3 0f 1e fa e8 0d 64 a3 ff e9 93 f6 ff ff f3 0f 1e fa 4c 89<br>
+&gt; &gt; RSP: 0018:ffffc90003dff4e0 EFLAGS: 00010093<br>
+&gt; &gt; RAX: ffffffff81e95988 RBX: 00000000000001c1 RCX: ffff8880205b3a80=
+<br>
+&gt; &gt; RDX: 0000000000000000 RSI: 00000000000001c0 RDI: 00000000000001c1=
+<br>
+&gt; &gt; RBP: ffffc90003dff830 R08: ffffffff81e90e67 R09: fffffbfff1a433c3=
+<br>
+&gt; &gt; R10: 0000000000000000 R11: dffffc0000000001 R12: 0000000000000000=
+<br>
+&gt; &gt; R13: ffffc90003dff6c0 R14: 00000000000001c0 R15: 0000000000000000=
+<br>
+&gt; &gt; FS:=C2=A0 00007fdbae5ee700(0000) GS:ffff8880b9900000(0000) knlGS:=
+0000000000000000<br>
+&gt; &gt; CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 0000000080050033<br>
+&gt; &gt; CR2: 00007fdbae6901e0 CR3: 000000007b2dd000 CR4: 00000000003506e0=
+<br>
+&gt; &gt; DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000=
+<br>
+&gt; &gt; DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400=
+<br>
+&gt; &gt; Call Trace:<br>
+&gt; &gt;=C2=A0 &lt;TASK&gt;<br>
+&gt; &gt;=C2=A0 madvise_collapse+0x721/0xf50 mm/khugepaged.c:2693<br>
+&gt; &gt;=C2=A0 madvise_vma_behavior mm/madvise.c:1086 [inline]<br>
+&gt; &gt;=C2=A0 madvise_walk_vmas mm/madvise.c:1260 [inline]<br>
+&gt; &gt;=C2=A0 do_madvise+0x9e5/0x4680 mm/madvise.c:1439<br>
+&gt; &gt;=C2=A0 __do_sys_madvise mm/madvise.c:1452 [inline]<br>
+&gt; &gt;=C2=A0 __se_sys_madvise mm/madvise.c:1450 [inline]<br>
+&gt; &gt;=C2=A0 __x64_sys_madvise+0xa5/0xb0 mm/madvise.c:1450<br>
+&gt; &gt;=C2=A0 do_syscall_x64 arch/x86/entry/common.c:50 [inline]<br>
+&gt; &gt;=C2=A0 do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80<br>
+&gt; &gt;=C2=A0 entry_SYSCALL_64_after_hwframe+0x63/0xcd<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; Thanks, Ivan.<br>
+&gt;<br>
+&gt; In the process of reviewing this, I starting thinking if the !shmem ca=
+se was<br>
+&gt; also susceptible to a similar race, and I *think* it might be. Unfortu=
+nately, my<br>
+&gt; time has ran out, and I haven&#39;t been able to validate ; I&#39;m le=
+ss familiar with<br>
+&gt; the file-side of things.<br>
+&gt;<br>
+&gt; The underlying problem is race with truncation/hole-punch=C2=A0 under =
+OOM condition.<br>
+&gt; The nice do-while loop near the top of collapse_file() attempts to avo=
+id this<br>
+&gt; scenario by making sure enough slots are available. However, when we d=
+rop xarray<br>
+&gt; lock, we open ourselves up to concurrent removal + slot deletion. Thos=
+e slots<br>
+&gt; then need to be allocated again -- which under OOM condition is failab=
+le.<br>
+&gt;<br>
+&gt; The syzbot reproducer picks on shmem, but I think this can occur for f=
+ile as<br>
+&gt; well. If we find a hole, we unlock the xarray and call<br>
+&gt; page_cache_sync_readahead(), which if it succeeds, IIUC, will have all=
+ocated a<br>
+&gt; new slot in our mapping pointing to the new page. We *then* locks the =
+page. Only<br>
+&gt; after the page is locked are we protected from concurrent removal (Not=
+e: this is<br>
+&gt; what provides us protection in many of the xas_store() cases ; we&#39;=
+ve held the<br>
+&gt; slot&#39;s contained page-lock since verifying the slot exists, protec=
+ting us from<br>
+&gt; removal / reallocation races).<br>
+<br>
+IIUC, the find_lock_page() should be able to handle the race. It does<br>
+check whether the page is truncated or not after locking the page.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ugh. Duh. You=E2=
+=80=99re right, and I=E2=80=99m not sure how I missed that implication; we =
+*did* succeed in locking the page in page cache. Well, the above rant just =
+looks foolish now.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Anywa=
+ys, sorry for the false alarm, Ivan, and thanks for keeping me honest, Yang=
+!</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"=
+auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
+der-left-color:rgb(204,204,204)"><br>
+&gt;<br>
+&gt; Maybe I&#39;m just low on caffeine at the end of the day, and am missi=
+ng something,<br>
+&gt; but if I had more time, I&#39;d be looking into the file-side some mor=
+e to verify.<br>
+&gt; Apologies that hasn&#39;t occurred to me until now ; I was looking at =
+one of your<br>
+&gt; comments and double-checked why I *thought* we were safe.<br>
+&gt;<br>
+&gt; Anyways, irrespective of that looming issues, some more notes to follo=
+w:<br>
+&gt;<br>
+&gt; &gt; The &#39;xas_store&#39; call during page cache scanning can poten=
+tially<br>
+&gt; &gt; translate &#39;xas&#39; into the error state (with the reproducer=
+ provided<br>
+&gt; &gt; by the syzkaller the error code is -ENOMEM). However, there are n=
+o<br>
+&gt; &gt; further checks after the &#39;xas_store&#39;, and the next call o=
+f &#39;xas_next&#39;<br>
+&gt; &gt; at the start of the scanning cycle doesn&#39;t increase the xa_in=
+dex,<br>
+&gt; &gt; and the issue occurs.<br>
+&gt; &gt;<br>
+&gt; &gt; This patch will add the xarray state error checking after the<br>
+&gt; &gt; &#39;xas_store&#39; and the corresponding result error code. It w=
+ill<br>
+&gt; &gt; also add xarray state error checking via WARN_ON_ONCE macros,<br>
+&gt; &gt; to be sure that ENOMEM or other possible errors don&#39;t occur<b=
+r>
+&gt; &gt; at the places they shouldn&#39;t.<br>
+&gt;<br>
+&gt; Thanks for the additions here. I think it&#39;s worthwhile providing e=
+ven more<br>
+&gt; details about the specifics of the race we are fixing and/or guarding =
+against to<br>
+&gt; help ppl understand how that -ENOMEM comes about if the do-while loop =
+has<br>
+&gt; &quot;Ensured&quot; we have slots available (additionally, I think tha=
+t comment can be<br>
+&gt; augmented).<br>
+&gt;<br>
+&gt; &gt; Tested via syzbot.<br>
+&gt; &gt;<br>
+&gt; &gt; Reported-by: <a href=3D"mailto:syzbot%2B9578faa5475acb35fa50@syzk=
+aller.appspotmail.com" target=3D"_blank">syzbot+9578faa5475acb35fa50@syzkal=
+ler.appspotmail.com</a><br>
+&gt; &gt; Link: <a href=3D"https://syzkaller.appspot.com/bug?id=3D7d6bb3760=
+e026ece7524500fe44fb024a0e959fc" rel=3D"noreferrer" target=3D"_blank">https=
+://syzkaller.appspot.com/bug?id=3D7d6bb3760e026ece7524500fe44fb024a0e959fc<=
+/a><br>
+&gt; &gt; Signed-off-by: Ivan Orlov &lt;<a href=3D"mailto:ivan.orlov0322@gm=
+ail.com" target=3D"_blank">ivan.orlov0322@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; V1 -&gt; V2: Add WARN_ON_ONCE error checking and comments<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 mm/khugepaged.c | 20 ++++++++++++++++++++<br>
+&gt; &gt;=C2=A0 1 file changed, 20 insertions(+)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/mm/khugepaged.c b/mm/khugepaged.c<br>
+&gt; &gt; index 92e6f56a932d..8b6580b13339 100644<br>
+&gt; &gt; --- a/mm/khugepaged.c<br>
+&gt; &gt; +++ b/mm/khugepaged.c<br>
+&gt; &gt; @@ -55,6 +55,7 @@ enum scan_result {<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0SCAN_CGROUP_CHARGE_FAIL,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0SCAN_TRUNCATED,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0SCAN_PAGE_HAS_PRIVATE,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0SCAN_STORE_FAILED,<br>
+&gt; &gt;=C2=A0 };<br>
+&gt;<br>
+&gt; I&#39;m still reluctant to add a new error code for this as this seems=
+ like quite a<br>
+&gt; rare race that requires OOM to trigger. I&#39;d be happier just reusin=
+g SCAN_FAIL,<br>
+&gt; or, something we might get some millage out of later: SCAN_OOM.<br>
+&gt;<br>
+&gt; Also, a reminder to update include/trace/events/huge_memory.h, if you =
+go that<br>
+&gt; route.<br>
+&gt;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 #define CREATE_TRACE_POINTS<br>
+&gt; &gt; @@ -1840,6 +1841,15 @@ static int collapse_file(struct mm_struct =
+*mm, unsigned long addr,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0go=
+to xa_locked;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xas_store(&amp;xas, hpage);<br=
+>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (xas_error(&amp;xas)) {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* rev=
+ert shmem_charge performed<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in =
+the previous condition<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br=
+>
+&gt;<br>
+&gt; Nit: Here, and following, I think standard convention for multiline co=
+mment is<br>
+&gt; to have an empty first and last line, eg:<br>
+&gt;<br>
+&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br=
+>
+&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0* revert shmem_charge performed<br>
+&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0* in the previous condition<br>
+&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0*/<br>
+&gt;<br>
+&gt; Though, <a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"=
+_blank">checkpatch.pl</a> --strict didn&#39;t seem to care.<br>
+&gt;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mappin=
+g-&gt;nrpages--;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0shmem_=
+uncharge(mapping-&gt;host, 1);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result=
+ =3D SCAN_STORE_FAILED;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto x=
+a_locked;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nr_none++;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0}<br>
+&gt; &gt; @@ -1992,6 +2002,11 @@ static int collapse_file(struct mm_struct =
+*mm, unsigned long addr,<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Finally,=
+ replace with the new page. */<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xas_store(&=
+amp;xas, hpage);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* We can&#39;t =
+get an ENOMEM here (because the allocation happened before)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * but let&#39;s=
+ check for errors (XArray implementation can be<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * changed in th=
+e future)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0WARN_ON_ONCE(xas=
+_error(&amp;xas));<br>
+&gt;<br>
+&gt; Nit: it&#39;s not just that allocation happened before -- need some gu=
+arantee we&#39;ve<br>
+&gt; been protected from concurrent removal. This is what made me look at t=
+he file<br>
+&gt; side.<br>
+&gt;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<b=
+r>
+&gt; &gt;=C2=A0 out_unlock:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unlock_page=
+(page);<br>
+&gt; &gt; @@ -2029,6 +2044,11 @@ static int collapse_file(struct mm_struct =
+*mm, unsigned long addr,<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Join all the small entries into a si=
+ngle multi-index entry */<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0xas_set_order(&amp;xas, start, HPAGE_PM=
+D_ORDER);<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0xas_store(&amp;xas, hpage);<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0/* Here we can&#39;t get an ENOMEM (because =
+entries were<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 * previously allocated) But let&#39;s check=
+ for errors<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 * (XArray implementation can be changed in =
+the future)<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0WARN_ON_ONCE(xas_error(&amp;xas));<br>
+&gt;<br>
+&gt; Ditto.<br>
+&gt;<br>
+&gt; Apologies I won&#39;t be around to see this change through -- I&#39;m =
+just out of time,<br>
+&gt; and will be shutting my computer down tomorrow for 3 months.=C2=A0 Sor=
+ry for the poor<br>
+&gt; timing, for raising issues, then disappearing. Hopefully I&#39;m wrong=
+ and the<br>
+&gt; file-side isn&#39;t a concern.<br>
+&gt;<br>
+&gt; Best,<br>
+&gt; Zach<br>
+&gt;<br>
+&gt; &gt;=C2=A0 xa_locked:<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0xas_unlock_irq(&amp;xas);<br>
+&gt; &gt;=C2=A0 xa_unlocked:<br>
+&gt; &gt; --<br>
+&gt; &gt; 2.34.1<br>
+&gt; &gt;<br>
+<br>
+</blockquote></div></div>
+
+--000000000000018df005f8997fc3--
+
+--===============8971795042681613500==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============8971795042681613500==--
