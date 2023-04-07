@@ -1,102 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9792AC761AF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  5 Apr 2023 20:05:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 95F08C6FD1D
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  7 Apr 2023 13:59:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3965D417CD;
-	Wed,  5 Apr 2023 20:05:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3965D417CD
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=SfZj5ver
+	by smtp1.osuosl.org (Postfix) with ESMTP id 1B8DD84480;
+	Fri,  7 Apr 2023 13:59:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1B8DD84480
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=FoQxGWAU
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0hvme_6Gqet4; Wed,  5 Apr 2023 20:04:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A4CFD417A1;
-	Wed,  5 Apr 2023 20:04:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A4CFD417A1
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id a0tdUAYMMkJh; Fri,  7 Apr 2023 13:59:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E495B843A3;
+	Fri,  7 Apr 2023 13:59:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E495B843A3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 83129C0037;
-	Wed,  5 Apr 2023 20:04:58 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5F9D2C002F
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C101FC0036;
+	Fri,  7 Apr 2023 13:59:22 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 319DBC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Apr 2023 20:04:57 +0000 (UTC)
+ Fri,  7 Apr 2023 13:59:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4815A60F3A
+ by smtp3.osuosl.org (Postfix) with ESMTP id 04E666165B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Apr 2023 20:04:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4815A60F3A
+ Fri,  7 Apr 2023 13:59:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 04E666165B
 Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=SfZj5ver
+ header.a=rsa-sha256 header.s=20210112 header.b=FoQxGWAU
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZNrkgYe9B4-4
+ with ESMTP id wyrwwOgkKt7O
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Apr 2023 20:04:56 +0000 (UTC)
+ Fri,  7 Apr 2023 13:59:20 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DC13F60F34
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DC13F60F34
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 189956165A
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 189956165A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  5 Apr 2023 20:04:55 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id
- a640c23a62f3a-947a47eb908so60210166b.0
+ Fri,  7 Apr 2023 13:59:20 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id o2so40065831plg.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 05 Apr 2023 13:04:55 -0700 (PDT)
+ Fri, 07 Apr 2023 06:59:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1680725094;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=l4ybHK0lZfDPR4eVPVTes6mvN8filGMsCKj+vPBAOkc=;
- b=SfZj5verxakoXZSU3gC/cXy7s7AfRZIwhg0IWLmtOH5SyE3h/YNrp60UByYgAnt7v4
- gxcJWWvgmjT2qe76JuFzWh7g56XFG3SKTCF+bqM5Viml0xwTF274jjduEp3XaSNF7cZz
- wxMoTkCYWP3dUOFF+h30hIJ9y/D82UIWIOktbYP/qGhv5KdsKt4NbDCOK3ZVvR9Xvdel
- tHpACLggCxUQ/0DdwMkln/3PyRLP2hvh9+A48TvPJPr8MqrC80LpghKheb+YgYTJvhPC
- l9wD73ReEPbaDFSZje17JH4ALInN11J049YDD8NDnmSai4cRj1Wt7dIlriK8sB2N3aNL
- AkiA==
+ d=gmail.com; s=20210112; t=1680875959; x=1683467959;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qkjTQZiyEp69i+khEDoVUoiu0TmVX77vcchEWSjOYWg=;
+ b=FoQxGWAUjclaByPY+kYrY3hbxycz/zKItxZK7DPfuOIJH2tKvJ8aJAFPVagTl+B4gU
+ d14837vt8dBdaANuZQibVh+yrKkVUB+1RVLyqIdSHNc3mzbY2sds8smt+ThW4XUrdtxn
+ XAQciFK0+4q/Z7cFcIQPaUDONOl/47RK9IUDRYlwnrJIjcBunEEbv5PmHj0c9B4GCplX
+ 29yLXanuEM6tL39FauwZ1GfQzSDSUN08O7elbqPAxaQTbnGpipIKAB1cWHV/4SArfTfW
+ xwUWe81YpddUw3BqicW+CwqgX+52As8Hugh1sHtN6w+MJicBkR5UwXu6gtlkNN53L5nt
+ v4Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1680725094;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=l4ybHK0lZfDPR4eVPVTes6mvN8filGMsCKj+vPBAOkc=;
- b=KsgAv+4aZVeICE3l+WFStdmYzu1eNBViEgu1ay5Bls/EO0ZvD7S1CymbSUsHhKayZ/
- W7g9tc+u9LFJOBbiD7vCTBDNTLj4A9xPMY+oigdUw254sJ+SAl5QcCmu85Bx5zQaZwXW
- YQRlSEANCkOz8e24DjqlgN+pYhLnzAuYpGFT3W5/4ABXPkFNQc6Fqj/mRRaytLs9HomQ
- FlSGKFP7um2U5IfzIP43KoFoJOimcFfQ1KTrphT0T9RziZDDevaaiLP9sd84BrqK5fK7
- eZgPDf1gBFw7xL6X82+zYgX2txSA/T6fbKZ4sX0YwIkRgecpCxMh0C1RuCmpdZ7tmHEG
- wmzw==
-X-Gm-Message-State: AAQBX9fxluwcqxQHKcYKJa2Dhv4yxoiBhTgsNX0eMONcdVQhsIAkP1WQ
- uXwDhpNkZQOExv0ekgFG0ss=
-X-Google-Smtp-Source: AKy350aif9Lwcm9XVSUrafHAfP1cry8Ie2vf0NydHq4XGIP8Qwgof/0CgfCcQaqIkul9njwPwDUnDA==
-X-Received: by 2002:a05:6402:51d4:b0:502:1cf6:f52c with SMTP id
- r20-20020a05640251d400b005021cf6f52cmr4212056edd.4.1680725093943; 
- Wed, 05 Apr 2023 13:04:53 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.92.225])
+ d=1e100.net; s=20210112; t=1680875959; x=1683467959;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qkjTQZiyEp69i+khEDoVUoiu0TmVX77vcchEWSjOYWg=;
+ b=V45tUDsIiYR6wItpKz9jISMMwtAnHDWhXSTROdtZImGrVRV3k9q8Wixwa7aAr2AKUe
+ BSbeGCW/uNeriokxSfe1RoQ/65mLYOc9F2i6esolOAcQqoZF7R6lSmlBBKUy4+P9luBA
+ Z+BpkXA5tabJ/fAYPTMWMgzjXjTQRkNbGvusUm4jP+Om1F2Von9Mdt7K3TpcOn6zGbve
+ W/fszIbayoIONXeIVoqFACltbXi2ismxNvY8t6cx9mmsCDQZIOX/v57GrT4/Wmsx1qOa
+ kgzrXnzpzDbib/f8GH1IzwfqSmd4gmMO22+KyvTQEBb8SmJLoo9Q+1BMegh9iyKLJMHj
+ nBNA==
+X-Gm-Message-State: AAQBX9enPMYJQz/hxk8bnWEajIeyntJMiBC16XGm3yAG9IR1rjqCKD48
+ yDsljrIN5V6G7yMq9gnMqmg=
+X-Google-Smtp-Source: AKy350byoOGS6k4sI/rjUWAXzIng4LuwCeSCK0lFf/Rq896ENqH2rndFss02mAhVRxRrHMbj3ejhZA==
+X-Received: by 2002:a17:903:1c7:b0:1a1:956e:5417 with SMTP id
+ e7-20020a17090301c700b001a1956e5417mr3201444plh.22.1680875959382; 
+ Fri, 07 Apr 2023 06:59:19 -0700 (PDT)
+Received: from yoga ([2409:40e6:29:c6fc:20c6:5e49:603c:d6fa])
  by smtp.gmail.com with ESMTPSA id
- o1-20020a50c281000000b00502b0b0d75csm3655030edf.46.2023.04.05.13.04.53
+ j8-20020a654d48000000b0050f6530959bsm2612702pgt.64.2023.04.07.06.59.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Apr 2023 13:04:53 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: shuah@kernel.org
-Subject: [PATCH v2] selftests: media_tests: Add new subtest to
- video_device_test
-Date: Thu,  6 Apr 2023 00:04:50 +0400
-Message-Id: <20230405200450.6254-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Fri, 07 Apr 2023 06:59:18 -0700 (PDT)
+Date: Fri, 7 Apr 2023 19:29:09 +0530
+From: Anup Sharma <anupnewsmail@gmail.com>
+To: shaggy@kernel.org, r33s3n6@gmail.com, mudongliangabcd@gmail.com,
+ liushixin2@huawei.com, wuhoipok@gmail.com
+Subject: [PATCH] fs: jfs: fixed UBSAN: shift-out-of-bounds in dbFree
+Message-ID: <ZDAhrYVHTVEYIGUM@yoga>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+Content-Disposition: inline
+Cc: jfs-discussion@lists.sourceforge.net,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ shuah@kernel.org, syzbot+d2cd27dcf8e04b232eb2@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,163 +112,88 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add new subtest to video_device_test to cover the VIDIOC_G_PRIORITY
-and VIDIOC_S_PRIORITY ioctl calls. This test tries to set the priority
-associated with the file descriptior via ioctl VIDIOC_S_PRIORITY
-command from V4L2 API. After that, the test tries to get the new
-priority via VIDIOC_G_PRIORITY ioctl command and compares the result
-with the v4l2_priority it set before. At the end, the test restores the
-old priority.
+Syzkaller reported the following issue:
+         option from the mount to silence this warning.
+=======================================================
+find_entry called with index = 0
+read_mapping_page failed!
+ERROR: (device loop0): txCommit: 
+ERROR: (device loop0): remounting filesystem as read-only
+================================================================================
+UBSAN: shift-out-of-bounds in fs/jfs/jfs_dmap.c:381:12
+shift exponent 134217736 is too large for 64-bit type 'long long'
+CPU: 1 PID: 5068 Comm: syz-executor350 Not tainted 6.3.0-rc2-syzkaller-00069-g0ddc84d2dd43 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1e7/0x2d0 lib/dump_stack.c:106
+ ubsan_epilogue lib/ubsan.c:217 [inline]
+ __ubsan_handle_shift_out_of_bounds+0x3c3/0x420 lib/ubsan.c:387
+ dbFree+0x46e/0x650 fs/jfs/jfs_dmap.c:381
+ txFreeMap+0x96a/0xd50 fs/jfs/jfs_txnmgr.c:2510
+ xtTruncate+0xe5c/0x3260 fs/jfs/jfs_xtree.c:2467
+ jfs_free_zero_link+0x46e/0x6e0 fs/jfs/namei.c:758
+ jfs_evict_inode+0x35f/0x440 fs/jfs/inode.c:153
+ evict+0x2a4/0x620 fs/inode.c:665
+ __dentry_kill+0x436/0x650 fs/dcache.c:607
+ shrink_dentry_list+0x39c/0x6a0 fs/dcache.c:1201
+ shrink_dcache_parent+0xcd/0x480
+ do_one_tree+0x23/0xe0 fs/dcache.c:1682
+ shrink_dcache_for_umount+0x7d/0x120 fs/dcache.c:1699
+ generic_shutdown_super+0x67/0x340 fs/super.c:472
+ kill_block_super+0x7e/0xe0 fs/super.c:1398
+ deactivate_locked_super+0xa4/0x110 fs/super.c:331
+ cleanup_mnt+0x426/0x4c0 fs/namespace.c:1177
+ task_work_run+0x24a/0x300 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x68f/0x2290 kernel/exit.c:869
+ do_group_exit+0x206/0x2c0 kernel/exit.c:1019
+ __do_sys_exit_group kernel/exit.c:1030 [inline]
+ __se_sys_exit_group kernel/exit.c:1028 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1028
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fa87e2289b9
+Code: Unable to access opcode bytes at 0x7fa87e22898f.
+RSP: 002b:00007fff4bfe3938 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa87e2a3330 RCX: 00007fa87e2289b9
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffffffffffc0 R09: 00007fa87e29de40
+R10: 00007fff4bfe3850 R11: 0000000000000246 R12: 00007fa87e2a3330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
+================================================================================
 
-This test will increase the code coverage for video_device_test, so
-I think it might be useful. Additionally, this patch will refactor the
-video_device_test a little bit, according to the new functionality.
+The current size of dn_l2nbperpage was insufficient for larger values,
+leading to unexpected behavior. This patch increases the size of dn_l2nbperpage 
+to ensure that larger values can be accommodated without issue.
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+Tested via syzbot.
+
+Reported-by: syzbot+d2cd27dcf8e04b232eb2@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=2a70a453331db32ed491f5cbb07e81bf2d225715
+
+Signed-off-by: anupsharma <anupnewsmail@gmail.com>
+
 ---
-V1 -> V2: Revert the test description change
+ fs/jfs/jfs_dmap.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../selftests/media_tests/video_device_test.c | 111 +++++++++++++-----
- 1 file changed, 83 insertions(+), 28 deletions(-)
-
-diff --git a/tools/testing/selftests/media_tests/video_device_test.c b/tools/testing/selftests/media_tests/video_device_test.c
-index 0f6aef2e2593..2c44e115f2f0 100644
---- a/tools/testing/selftests/media_tests/video_device_test.c
-+++ b/tools/testing/selftests/media_tests/video_device_test.c
-@@ -37,45 +37,58 @@
- #include <time.h>
- #include <linux/videodev2.h>
- 
--int main(int argc, char **argv)
-+#define PRIORITY_MAX 4
-+
-+int priority_test(int fd)
- {
--	int opt;
--	char video_dev[256];
--	int count;
--	struct v4l2_tuner vtuner;
--	struct v4l2_capability vcap;
-+	/* This test will try to update the priority associated with a file descriptor */
-+
-+	enum v4l2_priority old_priority, new_priority, priority_to_compare;
- 	int ret;
--	int fd;
-+	int result = 0;
- 
--	if (argc < 2) {
--		printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
--		exit(-1);
-+	ret = ioctl(fd, VIDIOC_G_PRIORITY, &old_priority);
-+	if (ret < 0) {
-+		printf("Failed to get priority: %s\n", strerror(errno));
-+		return -1;
-+	}
-+	new_priority = (old_priority + 1) % PRIORITY_MAX;
-+	ret = ioctl(fd, VIDIOC_S_PRIORITY, &new_priority);
-+	if (ret < 0) {
-+		printf("Failed to set priority: %s\n", strerror(errno));
-+		return -1;
-+	}
-+	ret = ioctl(fd, VIDIOC_G_PRIORITY, &priority_to_compare);
-+	if (ret < 0) {
-+		printf("Failed to get new priority: %s\n", strerror(errno));
-+		result = -1;
-+		goto cleanup;
-+	}
-+	if (priority_to_compare != new_priority) {
-+		printf("Priority wasn't set - test failed\n");
-+		result = -1;
- 	}
- 
--	/* Process arguments */
--	while ((opt = getopt(argc, argv, "d:")) != -1) {
--		switch (opt) {
--		case 'd':
--			strncpy(video_dev, optarg, sizeof(video_dev) - 1);
--			video_dev[sizeof(video_dev)-1] = '\0';
--			break;
--		default:
--			printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
--			exit(-1);
--		}
-+cleanup:
-+	ret = ioctl(fd, VIDIOC_S_PRIORITY, &old_priority);
-+	if (ret < 0) {
-+		printf("Failed to restore priority: %s\n", strerror(errno));
-+		return -1;
- 	}
-+	return result;
-+}
-+
-+int loop_test(int fd)
-+{
-+	int count;
-+	struct v4l2_tuner vtuner;
-+	struct v4l2_capability vcap;
-+	int ret;
- 
- 	/* Generate random number of interations */
- 	srand((unsigned int) time(NULL));
- 	count = rand();
- 
--	/* Open Video device and keep it open */
--	fd = open(video_dev, O_RDWR);
--	if (fd == -1) {
--		printf("Video Device open errno %s\n", strerror(errno));
--		exit(-1);
--	}
--
- 	printf("\nNote:\n"
- 	       "While test is running, remove the device or unbind\n"
- 	       "driver and ensure there are no use after free errors\n"
-@@ -98,4 +111,46 @@ int main(int argc, char **argv)
- 		sleep(10);
- 		count--;
- 	}
-+	return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int opt;
-+	char video_dev[256];
-+	int fd;
-+	int test_result;
-+
-+	if (argc < 2) {
-+		printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
-+		exit(-1);
-+	}
-+
-+	/* Process arguments */
-+	while ((opt = getopt(argc, argv, "d:")) != -1) {
-+		switch (opt) {
-+		case 'd':
-+			strncpy(video_dev, optarg, sizeof(video_dev) - 1);
-+			video_dev[sizeof(video_dev)-1] = '\0';
-+			break;
-+		default:
-+			printf("Usage: %s [-d </dev/videoX>]\n", argv[0]);
-+			exit(-1);
-+		}
-+	}
-+
-+	/* Open Video device and keep it open */
-+	fd = open(video_dev, O_RDWR);
-+	if (fd == -1) {
-+		printf("Video Device open errno %s\n", strerror(errno));
-+		exit(-1);
-+	}
-+
-+	test_result = priority_test(fd);
-+	if (!test_result)
-+		printf("Priority test - PASSED\n");
-+	else
-+		printf("Priority test - FAILED\n");
-+
-+	loop_test(fd);
- }
+diff --git a/fs/jfs/jfs_dmap.h b/fs/jfs/jfs_dmap.h
+index aa03a904d5ab..e852b3cb6b61 100644
+--- a/fs/jfs/jfs_dmap.h
++++ b/fs/jfs/jfs_dmap.h
+@@ -191,7 +191,7 @@ typedef union dmtree {
+ struct dbmap_disk {
+ 	__le64 dn_mapsize;	/* 8: number of blocks in aggregate	*/
+ 	__le64 dn_nfree;	/* 8: num free blks in aggregate map	*/
+-	__le32 dn_l2nbperpage;	/* 4: number of blks per page		*/
++	__le64 dn_l2nbperpage;	/* 4: number of blks per page		*/
+ 	__le32 dn_numag;	/* 4: total number of ags		*/
+ 	__le32 dn_maxlevel;	/* 4: number of active ags		*/
+ 	__le32 dn_maxag;	/* 4: max active alloc group number	*/
 -- 
 2.34.1
 
