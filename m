@@ -1,102 +1,96 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25733C77B70
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 11 Apr 2023 04:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4395C77B61
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Apr 2023 09:28:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 86F6C417B6;
-	Tue, 11 Apr 2023 04:51:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 86F6C417B6
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20210112 header.b=CJxFkB6T
+	by smtp3.osuosl.org (Postfix) with ESMTP id 53A45613B8;
+	Thu, 13 Apr 2023 09:28:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 53A45613B8
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=benbenng.net header.i=@benbenng.net header.a=rsa-sha256 header.s=gwkuid74newif2lbp44dedrl2t4vmmbs header.b=dlXM0RiS;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=O5xpWDes
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jldPOGPq8Q3F; Tue, 11 Apr 2023 04:51:25 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hzn_qOSenHgp; Thu, 13 Apr 2023 09:28:23 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0CBA340AB9;
-	Tue, 11 Apr 2023 04:51:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0CBA340AB9
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3C2D3607CE;
+	Thu, 13 Apr 2023 09:28:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3C2D3607CE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CF9B2C0037;
-	Tue, 11 Apr 2023 04:51:24 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFBA3C002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 17447C0036;
+	Thu, 13 Apr 2023 09:28:23 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3C4CBC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Apr 2023 04:51:23 +0000 (UTC)
+ Thu, 13 Apr 2023 09:28:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 75CA881985
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0234F41173
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Apr 2023 04:51:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 75CA881985
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20210112 header.b=CJxFkB6T
+ Thu, 13 Apr 2023 09:28:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0234F41173
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key, unprotected) header.d=benbenng.net
+ header.i=@benbenng.net header.a=rsa-sha256
+ header.s=gwkuid74newif2lbp44dedrl2t4vmmbs header.b=dlXM0RiS; 
+ dkim=pass (1024-bit key,
+ unprotected) header.d=amazonses.com header.i=@amazonses.com
+ header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono
+ header.b=O5xpWDes
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TyZ64CueR0Qk
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iH9BdYkuV_1u
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Apr 2023 04:51:22 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1F6D881926
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com
- [IPv6:2607:f8b0:4864:20::102f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1F6D881926
+ Thu, 13 Apr 2023 09:28:21 +0000 (UTC)
+X-Greylist: delayed 00:07:06 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F3A194116C
+Received: from a11-16.smtp-out.amazonses.com (a11-16.smtp-out.amazonses.com
+ [54.240.11.16])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id F3A194116C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 11 Apr 2023 04:51:22 +0000 (UTC)
-Received: by mail-pj1-x102f.google.com with SMTP id w11so7342618pjh.5
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Apr 2023 21:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20210112; t=1681188681; x=1683780681;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=z6UPiY38yO+I9miVlmKFqc6AE+fAemcc/uHi48eGyh4=;
- b=CJxFkB6TktKzxhxys6lPO/FkaVIgnHSsYFE9+zgHTlzuUP24E//COr3OOQlBgt30MN
- 2NVoom6bGQKHywKKkcBroElCPe48rUqh+B26XRMNYsWGFkcltik5HV1iaPNlwjdR+OyV
- UcJN/2yj0XlurG9DGc/HxruAoK9wvZMJTPOXJnVE7Mjr8zDRlD2Zj72PlLDPtjiiry9E
- S1sxw7a94CNC+JI/1I7j8AiKDV1NkR6wdpLC9nJqy9QOdhgVHiYZ+VMUJZVVbTMWbdoU
- CnO0AviStyNjKDfBsjDvl8UqqKJ6x/wWAplxwmkHyR5uO2WylV3a9oMs9ihhKkN84KgD
- U9Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112; t=1681188681; x=1683780681;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=z6UPiY38yO+I9miVlmKFqc6AE+fAemcc/uHi48eGyh4=;
- b=4QvTl8Xfz56x9T+iQHsnqBGxKqtWf+xbF//ftnIQjr0tLnyfg+hO3AKaXY6InjnT6O
- HyR+ZH0AwQXS4FHgnf9UQB0B9KIk1woDKnN15MTPBZxXnuA6Yec/OeOGN/D1mhprcOuZ
- u6Y9vxyeJgBBDhBaDvxQhBEXtdabFrhK4bm7IF3L2PL+CEO+lL/DGLQRYV1KHCVrSpQG
- tTmXxmE+yVyJbFbXswK9Trvt9kfuh7QB4cJDFbLEVosxWvFHs2qDBf5ywxLMqSZqB1vx
- RWh6WMJWzITWYIcnnYNBQ4YrZyWTx3Up4QeJ5EeexSVhCXcIo3I0pqMsHCNNF31lgJkP
- bemA==
-X-Gm-Message-State: AAQBX9eo7T9GTpjjKV0CKKCUdNPBYo1I2wLHpUhdWP9UNW8sIoWR2RjA
- wYeRGuUKgRZ/kGS3Fi4I7t38+v10wwI=
-X-Google-Smtp-Source: AKy350a7JKPF9ZSzKHiX/FAlJYHxvz/Eewu9Mxyr1Jcm2ggFe4eA8XUZwgqFHmgU20yu7YwBmn/LvA==
-X-Received: by 2002:a17:902:e5d1:b0:19d:1d32:fc7 with SMTP id
- u17-20020a170902e5d100b0019d1d320fc7mr1530263plf.51.1681188681416; 
- Mon, 10 Apr 2023 21:51:21 -0700 (PDT)
-Received: from atom0118 ([2401:4900:1c0f:b9e0:3218:620d:6456:d093])
- by smtp.gmail.com with ESMTPSA id
- ji10-20020a170903324a00b0019a83f2c99bsm3830696plb.28.2023.04.10.21.51.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Apr 2023 21:51:20 -0700 (PDT)
-Date: Tue, 11 Apr 2023 10:21:15 +0530
-From: Atul Kumar Pant <atulpant.linux@gmail.com>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH] selftests: Improves rtctest error handling.
-Message-ID: <20230411045115.GA5979@atom0118>
-References: <20230408074059.397065-1-atulpant.linux@gmail.com>
- <20230408115015bcc4b5ba@mail.local>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230408115015bcc4b5ba@mail.local>
-Cc: a.zummo@towertech.it, shuah@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Thu, 13 Apr 2023 09:28:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=gwkuid74newif2lbp44dedrl2t4vmmbs; d=benbenng.net; t=1681377673;
+ h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
+ bh=iCGZGKi5slX3+1EbZTs0K5lMxThH+s23lVBYdgse0I4=;
+ b=dlXM0RiS+bkfvggjXjPyBfra2Ys+k+cPbgT4qIBDtC9qV7H8zF0wgVzGG0/nJfRA
+ LxR8YxEr2hW86KQYAzg+NDcj2ZJi/dSwj5OEjtIcHVr9imYmF/QZVAEpBB7BHhF1Jrc
+ yRzzUaNovUpPZ4qeQfpcgSfNq0v6g3iWyckCfifIBu7vwuEVFAS3KoxK+aJkTqacubu
+ 2Y3xtkdqp6Z6MLlcIsuZx4Iij9oPVmxmSlbiypjCn8HP3vUxdamXbnZwXMnDnLxgxpd
+ tKhGWmm2rbjM1kdaMYFNILIV1D7q0hLTsDbu5W/4e5lS+o0vdTHExkzku7K8yPJrHr7
+ 8pEdPHNA4A==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+ s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1681377673;
+ h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
+ bh=iCGZGKi5slX3+1EbZTs0K5lMxThH+s23lVBYdgse0I4=;
+ b=O5xpWDesy/hJag71jGjX6AgswpCtnGJulyPR0BS0RRk+bCsgMW/CnnteBDlOoNHh
+ 0kAjpSf6xKrUhzfCsQYCuy4FYY2Z3YGJ2iLQ1+dJ2hyfCHtMxwikL6SmQFV8TMdKzKy
+ jm5wIM89DS99ICEu30a1OGlfYn20ugayypjSMF88=
+Subject: [PATCH] Initialization of read buffer for dib3000_read_reg
+To: =?UTF-8?Q?mchehab=40kernel=2Eorg?= <mchehab@kernel.org>
+Date: Thu, 13 Apr 2023 09:21:13 +0000
+Mime-Version: 1.0
+References: <20230413091841.22000-1-kdev@benbenng.net>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHZbelJ3+E1CTjNR3uk6Rz3nyFiTw==
+Thread-Topic: [PATCH] Initialization of read buffer for dib3000_read_reg
+X-Original-Mailer: git-send-email 2.39.2
+X-Wm-Sent-Timestamp: 1681377672
+Message-ID: <0100018779eb40dc-cee9e39d-5d87-4733-83db-eca5218fcc8f-000000@email.amazonses.com>
+Feedback-ID: 1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2023.04.13-54.240.11.16
+Cc: =?UTF-8?Q?linux-kernel=40vger=2Ekernel=2E?= =?UTF-8?Q?org?=
+ <linux-kernel@vger.kernel.org>,
+ =?UTF-8?Q?syzbot+c88fc0ebe0d5935c70da=40syzkaller=2Eappspotmail=2Ecom?=
+ <syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com>,
+ =?UTF-8?Q?linux-kernel-mentees=40lists=2Elinuxfoundation=2Eorg?=
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ =?UTF-8?Q?linux-media=40vger=2Ekernel=2Eorg?= <linux-media@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,104 +102,70 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: =?UTF-8?Q?Kernel-Development?= via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: =?UTF-8?Q?Kernel-Development?= <kdev@benbenng.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sat, Apr 08, 2023 at 01:50:15PM +0200, Alexandre Belloni wrote:
-> On 08/04/2023 13:10:59+0530, Atul Kumar Pant wrote:
-> > When running the rtctest without root privileges the test fails
-> > expectedly, but prints the logs that are not useful to point to the issue.
-> > Similarly, if we pass wrong rtc device file as an argument, the test
-> > output failure logs do not point to the issue that the rtc file is
-> > invalid.
-> > To handle these issues, this patch adds checks to verify uid with which
-> > the test is run and also if the rtc_file is valid.
-> > 
-> > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
-> > ---
-> >  tools/testing/selftests/rtc/rtctest.c | 34 +++++++++++++++++++--------
-> >  1 file changed, 24 insertions(+), 10 deletions(-)
-> > 
-> 
-> Please run your patch through checkpatch.pl, the indentation and comment
-> style are not correct.
+This is a patch that fixes a bug:
+KMSAN: uninit-value in dib3000mb_attach (2)
 
-Sure I'll fix this is next patch.
+Local variable u8 rb[2] is not initialized as it is used as read buffer
+for i2c_transfer(). It is expected that i2c_transfer() should fill in
+the buffer before the target function returns rb's content. However
+error handling of i2c_transfer is not done, and on occasions where the
+read fails, uninitialized rb value will be returned.
 
-> 
-> > diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
-> > index 2b9d929a24ed..9564346c63eb 100644
-> > --- a/tools/testing/selftests/rtc/rtctest.c
-> > +++ b/tools/testing/selftests/rtc/rtctest.c
-> > @@ -388,16 +388,30 @@ __constructor_order_last(void)
-> >  
-> >  int main(int argc, char **argv)
-> >  {
-> > -	switch (argc) {
-> > -	case 2:
-> > -		rtc_file = argv[1];
-> > -		/* FALLTHROUGH */
-> > -	case 1:
-> > -		break;
-> > -	default:
-> > -		fprintf(stderr, "usage: %s [rtcdev]\n", argv[0]);
-> > -		return 1;
-> > +    int ret = -1;
-> > +
-> > +    // Verify if the test is run as root
-> > +    if (getuid() != 0) {
-> > +		ksft_exit_skip("[ERROR]: Please run the test as root - Exiting.\n");
-> 
-> If this is an error, should we really return skip? This may end up being
-> silently ignored whereas the expectation is to test the rtc.
-> 
+The usage of this function, defined as macro rd() in
+drivers/media/dvb-frontends/dib3000mb_priv,h, does not expect any error
+to occur. Adding error handling here might involve significant code
+changes.
 
-Yes, we should not skip the test. In that case we can use 'ksft_exit_fail_msg'.
-I'll fix this in next patch.
+Thus 0-initialization is done on rb. This might affect some logic on
+error case as the use of the return value is used as boolean and flags.
 
-> Also, you may use the rtc as non root so I guess the access() test
-> should be enough.
+Reported-by: syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=2f4d19de8c9e9f0b9794e53ca54d68e0ffe9f068
+Signed-off-by: (Ben) HokChun Ng <kdev@benbenng.net>
+---
+ drivers/media/dvb-frontends/dib3000mb.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-I added this check for the use case when we use the rtc file from /dev/ which will require root
-permissions. Should I keep this check ?
+diff --git a/drivers/media/dvb-frontends/dib3000mb.c b/drivers/media/dvb-frontends/dib3000mb.c
+index a6c2fc4586eb..0dd96656aaf4 100644
+--- a/drivers/media/dvb-frontends/dib3000mb.c
++++ b/drivers/media/dvb-frontends/dib3000mb.c
+@@ -50,15 +50,19 @@ MODULE_PARM_DESC(debug, "set debugging level (1=info,2=xfer,4=setfe,8=getfe (|-a
+ 
+ static int dib3000_read_reg(struct dib3000_state *state, u16 reg)
+ {
++	int errno;
+ 	u8 wb[] = { ((reg >> 8) | 0x80) & 0xff, reg & 0xff };
+-	u8 rb[2];
++	u8 rb[2] = { 0, 0 };
+ 	struct i2c_msg msg[] = {
+ 		{ .addr = state->config.demod_address, .flags = 0,        .buf = wb, .len = 2 },
+ 		{ .addr = state->config.demod_address, .flags = I2C_M_RD, .buf = rb, .len = 2 },
+ 	};
+ 
+-	if (i2c_transfer(state->i2c, msg, 2) != 2)
+-		deb_i2c("i2c read error\n");
++	errno = i2c_transfer(state->i2c, msg, 2);
++	if (errno != 2) {
++		deb_i2c("i2c read error (errno: %d)\n", -errno);
++		return 0;
++	}
+ 
+ 	deb_i2c("reading i2c bus (reg: %5d 0x%04x, val: %5d 0x%04x)\n",reg,reg,
+ 			(rb[0] << 8) | rb[1],(rb[0] << 8) | rb[1]);
+-- 
+2.39.2
 
-> 
-> > +    }
-> > +
-> > +    switch (argc) {
-> > +    case 2:
-> > +        rtc_file = argv[1];
-> > +        /* FALLTHROUGH */
-> > +    case 1:
-> > +        break;
-> > +    default:
-> > +        fprintf(stderr, "usage: %s [rtcdev]\n", argv[0]);
-> > +        return 1;
-> >  	}
-> >  
-> > -	return test_harness_run(argc, argv);
-> > +    // Run the test if rtc_file is valid
-> > +    if (access(rtc_file, F_OK) == 0) {
-> > +	    ret = test_harness_run(argc, argv);
-> > +    } else {
-> > +		ksft_exit_skip("[ERROR]: %s : File does not exists - Exiting\n", rtc_file);
-> 
-> 
-> > +    }
-> > +
-> > +    return ret;
-> >  }
-> > -- 
-> > 2.25.1
-> > 
-> 
-> -- 
-> Alexandre Belloni, co-owner and COO, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
