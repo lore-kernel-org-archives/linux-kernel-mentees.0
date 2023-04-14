@@ -1,96 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E4395C77B61
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 13 Apr 2023 09:28:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0CAABC77B77
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 14 Apr 2023 13:53:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 53A45613B8;
-	Thu, 13 Apr 2023 09:28:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 53A45613B8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=benbenng.net header.i=@benbenng.net header.a=rsa-sha256 header.s=gwkuid74newif2lbp44dedrl2t4vmmbs header.b=dlXM0RiS;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b=O5xpWDes
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hzn_qOSenHgp; Thu, 13 Apr 2023 09:28:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3C2D3607CE;
-	Thu, 13 Apr 2023 09:28:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3C2D3607CE
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 17447C0036;
-	Thu, 13 Apr 2023 09:28:23 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C4CBC002A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Apr 2023 09:28:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 0234F41173
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Apr 2023 09:28:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0234F41173
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5D5ED405ED;
+	Fri, 14 Apr 2023 13:53:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5D5ED405ED
 Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key, unprotected) header.d=benbenng.net
- header.i=@benbenng.net header.a=rsa-sha256
- header.s=gwkuid74newif2lbp44dedrl2t4vmmbs header.b=dlXM0RiS; 
- dkim=pass (1024-bit key,
- unprotected) header.d=amazonses.com header.i=@amazonses.com
- header.a=rsa-sha256 header.s=224i4yxa5dv7c2xz3womw6peuasteono
- header.b=O5xpWDes
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=dlVo8j/W
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iH9BdYkuV_1u
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TcUXh-M40AeZ; Fri, 14 Apr 2023 13:53:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 3B9D9400D2;
+	Fri, 14 Apr 2023 13:53:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3B9D9400D2
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 208E7C0037;
+	Fri, 14 Apr 2023 13:53:37 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 62DCEC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Apr 2023 09:28:21 +0000 (UTC)
-X-Greylist: delayed 00:07:06 by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F3A194116C
-Received: from a11-16.smtp-out.amazonses.com (a11-16.smtp-out.amazonses.com
- [54.240.11.16])
- by smtp2.osuosl.org (Postfix) with ESMTPS id F3A194116C
+ Fri, 14 Apr 2023 13:53:36 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 3615C60FEB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 13 Apr 2023 09:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=gwkuid74newif2lbp44dedrl2t4vmmbs; d=benbenng.net; t=1681377673;
- h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id;
- bh=iCGZGKi5slX3+1EbZTs0K5lMxThH+s23lVBYdgse0I4=;
- b=dlXM0RiS+bkfvggjXjPyBfra2Ys+k+cPbgT4qIBDtC9qV7H8zF0wgVzGG0/nJfRA
- LxR8YxEr2hW86KQYAzg+NDcj2ZJi/dSwj5OEjtIcHVr9imYmF/QZVAEpBB7BHhF1Jrc
- yRzzUaNovUpPZ4qeQfpcgSfNq0v6g3iWyckCfifIBu7vwuEVFAS3KoxK+aJkTqacubu
- 2Y3xtkdqp6Z6MLlcIsuZx4Iij9oPVmxmSlbiypjCn8HP3vUxdamXbnZwXMnDnLxgxpd
- tKhGWmm2rbjM1kdaMYFNILIV1D7q0hLTsDbu5W/4e5lS+o0vdTHExkzku7K8yPJrHr7
- 8pEdPHNA4A==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
- s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1681377673;
- h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:References:Message-Id:Feedback-ID;
- bh=iCGZGKi5slX3+1EbZTs0K5lMxThH+s23lVBYdgse0I4=;
- b=O5xpWDesy/hJag71jGjX6AgswpCtnGJulyPR0BS0RRk+bCsgMW/CnnteBDlOoNHh
- 0kAjpSf6xKrUhzfCsQYCuy4FYY2Z3YGJ2iLQ1+dJ2hyfCHtMxwikL6SmQFV8TMdKzKy
- jm5wIM89DS99ICEu30a1OGlfYn20ugayypjSMF88=
-Subject: [PATCH] Initialization of read buffer for dib3000_read_reg
-To: =?UTF-8?Q?mchehab=40kernel=2Eorg?= <mchehab@kernel.org>
-Date: Thu, 13 Apr 2023 09:21:13 +0000
-Mime-Version: 1.0
-References: <20230413091841.22000-1-kdev@benbenng.net>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHZbelJ3+E1CTjNR3uk6Rz3nyFiTw==
-Thread-Topic: [PATCH] Initialization of read buffer for dib3000_read_reg
-X-Original-Mailer: git-send-email 2.39.2
-X-Wm-Sent-Timestamp: 1681377672
-Message-ID: <0100018779eb40dc-cee9e39d-5d87-4733-83db-eca5218fcc8f-000000@email.amazonses.com>
-Feedback-ID: 1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2023.04.13-54.240.11.16
-Cc: =?UTF-8?Q?linux-kernel=40vger=2Ekernel=2E?= =?UTF-8?Q?org?=
- <linux-kernel@vger.kernel.org>,
- =?UTF-8?Q?syzbot+c88fc0ebe0d5935c70da=40syzkaller=2Eappspotmail=2Ecom?=
- <syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com>,
- =?UTF-8?Q?linux-kernel-mentees=40lists=2Elinuxfoundation=2Eorg?=
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- =?UTF-8?Q?linux-media=40vger=2Ekernel=2Eorg?= <linux-media@vger.kernel.org>
+ Fri, 14 Apr 2023 13:53:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3615C60FEB
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=dlVo8j/W
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PKs-gkI4js7G
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 14 Apr 2023 13:53:35 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 411ED60C17
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 411ED60C17
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 14 Apr 2023 13:53:35 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ b2-20020a17090a6e0200b002470b249e59so7651921pjk.4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 14 Apr 2023 06:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1681480414; x=1684072414;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=0qGRdodWbglm/4nLuGPq0WWdg9oIMDzxL1+BodNRkNI=;
+ b=dlVo8j/WgNCwLlT2hLLArgJlgTvV+mnNkOGmjAYpoTVnIzbheBW1QCUREs8TexfUUC
+ 7bhaWBC6OpRohj1KH9cl+oEtbisH77S4LnhqZ4U48MZ+ZwOBe7nsvnEYWmY1qrk8cFPn
+ O0gka6p/8+5a411fUhdLMGW3s8ik/Ne8spOrP4/JlYc7CIEb1CHJQ1bzwvFI3RGxAmDB
+ Awa7Zor/LRs5g0EvTc9JxtdshpAPFoO0BK+1EIXg38hyCEW1eus3GYKHRrP9nYfgrLdm
+ 4SVbCyisHJVGx460lh4tbOqYrOTtNZGUn+2zz/CUfGdS46V5BBtW/P0FJyp7Eki03wSn
+ 2qzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1681480414; x=1684072414;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=0qGRdodWbglm/4nLuGPq0WWdg9oIMDzxL1+BodNRkNI=;
+ b=BcSbZz8yeie1fKb8L2SOKuCQopOfvNuc86IiH5x0gLbK/rM+MhQpeytNx98gA2LtPE
+ URfvLXK5tGCYMbPV3lbC2o0UGjXa+NlHhGKd2GsScgjEjkTmecUjQuLGNJRAaf8Ifm+z
+ AeEukiBj5dbz1p7nBVp83ORwbJ6Nui7Kx+xfhaaTBGcU1rY7gYmKyEk0fu17C1jUOnxk
+ 1rwygMaqQLWXMQeka/e5ZmsYWGOfY9kyM/fLrrsDy0sJlXQxHyaONJOTiaKijl6zMT4K
+ hGT8zgWXnitPHLdlpMTdg66RWi9ODX8mTvYVKEuLT003TeXg6HUlGtgyFu1p7TTK2MV9
+ srJA==
+X-Gm-Message-State: AAQBX9dd5QUsJ+mEJUQsp/gpZOpjWIp+iZ2+LMo9OM6SQOM/srAp77SR
+ rlh7VLcH8tF1QeqIHyQvquA=
+X-Google-Smtp-Source: AKy350am3+b1JoU2ZPTWq0qpA4UU4l44h0EG3UkOfJ9NGeFylot9I1+e/KeBsqU5tVSVPFNx1B4p9g==
+X-Received: by 2002:a17:902:f9c8:b0:19d:553:746b with SMTP id
+ kz8-20020a170902f9c800b0019d0553746bmr2587385plb.66.1681480414461; 
+ Fri, 14 Apr 2023 06:53:34 -0700 (PDT)
+Received: from yoga ([2400:1f00:13:fe48:30c1:6c25:8f15:18bc])
+ by smtp.gmail.com with ESMTPSA id
+ o12-20020a1709026b0c00b001a229e52c1asm3086455plk.231.2023.04.14.06.53.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Apr 2023 06:53:34 -0700 (PDT)
+Date: Fri, 14 Apr 2023 19:23:28 +0530
+From: anupsharma <anupnewsmail@gmail.com>
+To: shaggy@kernel.org, r33s3n6@gmail.com, mudongliangabcd@gmail.com,
+ liushixin2@huawei.com, wuhoipok@gmail.com
+Subject: [PATCH] fs: jfs: fixed UBSAN: shift-out-of-bounds in dbFree
+Message-ID: <ZDla2Nuyq2QLdo96@yoga>
+MIME-Version: 1.0
+Content-Disposition: inline
+Cc: jfs-discussion@lists.sourceforge.net,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,69 +106,97 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: =?UTF-8?Q?Kernel-Development?= via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: =?UTF-8?Q?Kernel-Development?= <kdev@benbenng.net>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This is a patch that fixes a bug:
-KMSAN: uninit-value in dib3000mb_attach (2)
+Syzkaller reported the following issue:
+         option from the mount to silence this warning.
+=======================================================
+find_entry called with index = 0
+read_mapping_page failed!
+ERROR: (device loop0): txCommit:
+ERROR: (device loop0): remounting filesystem as read-only
+================================================================================
+UBSAN: shift-out-of-bounds in fs/jfs/jfs_dmap.c:381:12
+shift exponent 134217736 is too large for 64-bit type 'long long'
+CPU: 1 PID: 5068 Comm: syz-executor350 Not tainted 6.3.0-rc2-syzkaller-00069-g0ddc84d2dd43 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 03/02/2023
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1e7/0x2d0 lib/dump_stack.c:106
+ ubsan_epilogue lib/ubsan.c:217 [inline]
+ __ubsan_handle_shift_out_of_bounds+0x3c3/0x420 lib/ubsan.c:387
+ dbFree+0x46e/0x650 fs/jfs/jfs_dmap.c:381
+ txFreeMap+0x96a/0xd50 fs/jfs/jfs_txnmgr.c:2510
+ xtTruncate+0xe5c/0x3260 fs/jfs/jfs_xtree.c:2467
+ jfs_free_zero_link+0x46e/0x6e0 fs/jfs/namei.c:758
+ jfs_evict_inode+0x35f/0x440 fs/jfs/inode.c:153
+ evict+0x2a4/0x620 fs/inode.c:665
+ __dentry_kill+0x436/0x650 fs/dcache.c:607
+ shrink_dentry_list+0x39c/0x6a0 fs/dcache.c:1201
+ shrink_dcache_parent+0xcd/0x480
+ do_one_tree+0x23/0xe0 fs/dcache.c:1682
+ shrink_dcache_for_umount+0x7d/0x120 fs/dcache.c:1699
+ generic_shutdown_super+0x67/0x340 fs/super.c:472
+ kill_block_super+0x7e/0xe0 fs/super.c:1398
+ deactivate_locked_super+0xa4/0x110 fs/super.c:331
+ cleanup_mnt+0x426/0x4c0 fs/namespace.c:1177
+ task_work_run+0x24a/0x300 kernel/task_work.c:179
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x68f/0x2290 kernel/exit.c:869
+ do_group_exit+0x206/0x2c0 kernel/exit.c:1019
+ __do_sys_exit_group kernel/exit.c:1030 [inline]
+ __se_sys_exit_group kernel/exit.c:1028 [inline]
+ __x64_sys_exit_group+0x3f/0x40 kernel/exit.c:1028
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fa87e2289b9
+Code: Unable to access opcode bytes at 0x7fa87e22898f.
+RSP: 002b:00007fff4bfe3938 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa87e2a3330 RCX: 00007fa87e2289b9
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffffffffffc0 R09: 00007fa87e29de40
+R10: 00007fff4bfe3850 R11: 0000000000000246 R12: 00007fa87e2a3330
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000001
+ </TASK>
+================================================================================
 
-Local variable u8 rb[2] is not initialized as it is used as read buffer
-for i2c_transfer(). It is expected that i2c_transfer() should fill in
-the buffer before the target function returns rb's content. However
-error handling of i2c_transfer is not done, and on occasions where the
-read fails, uninitialized rb value will be returned.
+db_l2nbperpage which is used as a shift exponent to get the buffer
+for the current dmap will be less than and equal to 64. 
 
-The usage of this function, defined as macro rd() in
-drivers/media/dvb-frontends/dib3000mb_priv,h, does not expect any error
-to occur. Adding error handling here might involve significant code
-changes.
+Tested via syzbot.
 
-Thus 0-initialization is done on rb. This might affect some logic on
-error case as the use of the return value is used as boolean and flags.
+Reported-by: syzbot+d2cd27dcf8e04b232eb2@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=2a70a453331db32ed491f5cbb07e81bf2d225715
 
-Reported-by: syzbot+c88fc0ebe0d5935c70da@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=2f4d19de8c9e9f0b9794e53ca54d68e0ffe9f068
-Signed-off-by: (Ben) HokChun Ng <kdev@benbenng.net>
+Signed-off-by: Anup Sharma <anupnewsmail@gmail.com>
 ---
- drivers/media/dvb-frontends/dib3000mb.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ fs/jfs/jfs_dmap.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/dvb-frontends/dib3000mb.c b/drivers/media/dvb-frontends/dib3000mb.c
-index a6c2fc4586eb..0dd96656aaf4 100644
---- a/drivers/media/dvb-frontends/dib3000mb.c
-+++ b/drivers/media/dvb-frontends/dib3000mb.c
-@@ -50,15 +50,19 @@ MODULE_PARM_DESC(debug, "set debugging level (1=info,2=xfer,4=setfe,8=getfe (|-a
- 
- static int dib3000_read_reg(struct dib3000_state *state, u16 reg)
- {
-+	int errno;
- 	u8 wb[] = { ((reg >> 8) | 0x80) & 0xff, reg & 0xff };
--	u8 rb[2];
-+	u8 rb[2] = { 0, 0 };
- 	struct i2c_msg msg[] = {
- 		{ .addr = state->config.demod_address, .flags = 0,        .buf = wb, .len = 2 },
- 		{ .addr = state->config.demod_address, .flags = I2C_M_RD, .buf = rb, .len = 2 },
- 	};
- 
--	if (i2c_transfer(state->i2c, msg, 2) != 2)
--		deb_i2c("i2c read error\n");
-+	errno = i2c_transfer(state->i2c, msg, 2);
-+	if (errno != 2) {
-+		deb_i2c("i2c read error (errno: %d)\n", -errno);
-+		return 0;
+diff --git a/fs/jfs/jfs_dmap.c b/fs/jfs/jfs_dmap.c
+index a3eb1e826947..d2cf56dd8f91 100644
+--- a/fs/jfs/jfs_dmap.c
++++ b/fs/jfs/jfs_dmap.c
+@@ -184,7 +184,10 @@ int dbMount(struct inode *ipbmap)
+ 		err = -EINVAL;
+ 		goto err_release_metapage;
+ 	}
+-
++	if (bmp->db_l2nbperpage >= 64) {
++		err = -EINVAL;
++		goto err_release_metapage;
 +	}
- 
- 	deb_i2c("reading i2c bus (reg: %5d 0x%04x, val: %5d 0x%04x)\n",reg,reg,
- 			(rb[0] << 8) | rb[1],(rb[0] << 8) | rb[1]);
+ 	bmp->db_maxlevel = le32_to_cpu(dbmp_le->dn_maxlevel);
+ 	bmp->db_maxag = le32_to_cpu(dbmp_le->dn_maxag);
+ 	bmp->db_agpref = le32_to_cpu(dbmp_le->dn_agpref);
 -- 
-2.39.2
-
+2.34.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
