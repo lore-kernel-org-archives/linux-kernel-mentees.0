@@ -1,114 +1,109 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81F84C77B73
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Apr 2023 23:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1F55C77B73
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Apr 2023 00:45:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EE8CE41B9B;
-	Sun, 16 Apr 2023 23:05:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EE8CE41B9B
+	by smtp1.osuosl.org (Postfix) with ESMTP id 19FF2822FB;
+	Mon, 17 Apr 2023 00:45:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 19FF2822FB
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20221208 header.b=sbBQCkJR
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ACpX9aDFeEsU; Mon, 17 Apr 2023 00:45:33 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 22874822F3;
+	Mon, 17 Apr 2023 00:45:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 22874822F3
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E6202C0036;
+	Mon, 17 Apr 2023 00:45:32 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A9B8BC002A
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 17 Apr 2023 00:45:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7B25D41952
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 17 Apr 2023 00:45:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7B25D41952
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=H66VS9lJ
+ dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
+ header.a=rsa-sha256 header.s=20221208 header.b=sbBQCkJR
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cKevO4nreltq; Sun, 16 Apr 2023 23:05:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id F298B41834;
-	Sun, 16 Apr 2023 23:05:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F298B41834
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7B21C0036;
-	Sun, 16 Apr 2023 23:05:06 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7DB58C002A
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TMVZo_211SHl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Apr 2023 23:05:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4473360B94
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Apr 2023 23:05:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4473360B94
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=H66VS9lJ
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IPPbiZB5Rsxf
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Apr 2023 23:05:04 +0000 (UTC)
+ Mon, 17 Apr 2023 00:45:30 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2367E60AE7
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com
- [IPv6:2a00:1450:4864:20::631])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2367E60AE7
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5E54A4186E
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com
+ [IPv6:2607:f8b0:4864:20::b2f])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 5E54A4186E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Apr 2023 23:05:03 +0000 (UTC)
-Received: by mail-ej1-x631.google.com with SMTP id
- a640c23a62f3a-94d585efdbdso34197266b.0
+ Mon, 17 Apr 2023 00:45:30 +0000 (UTC)
+Received: by mail-yb1-xb2f.google.com with SMTP id m14so6702170ybk.4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Apr 2023 16:05:03 -0700 (PDT)
+ Sun, 16 Apr 2023 17:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681686302; x=1684278302;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=JfCcxv5wLUfMTELXAoE2t5WyF0Xi0PP+u/u08eUy+2I=;
- b=H66VS9lJEjt1KObnvR8249QRKSgoVyagjfpOWBsXehIFrQeIrpo35VJQNHaRkZnFnj
- PUzVpDOpkNsMnvFfsq13xBdZTsZLiH5wf75lR8rog6COXzTNjHJmSyInjs2VFCx5zv9S
- Z6y7/wcGXhbHrt6iRu7gasliOZlQBcom+i3R/y/9/GTfzC6tFrHzX3793v8Lut6Dj8Rk
- 2RW1tO96E6lIGHo7yjpUVOLlcLEZkOjrv+D09D4JLyhbemkKzeq8wsWLOM/9uOSZOiId
- a/UkuwzqS6MINzaRWtyOCvQXoQVoyzF3n+PV0o957evCqjaGk3cXD3iflrbEL945i1S9
- jvkg==
+ d=google.com; s=20221208; t=1681692329; x=1684284329;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kRSWS4CahJKmzHjoYHWbTfAxUOlWiKT6IkxMS+a7Rf8=;
+ b=sbBQCkJR1blA3hV96FpkODzI2tgHmoZZfsnImeAQnIAhG79OWScwEEOSM7gZ0tW1zP
+ EiFVqszySsbrwI59L7OFeP55CYduW/jOtunH0hxePs7wY85uyAz1iH6Psg+xzgzCTdJP
+ 0iKpt8nOteMGmwrsWscYZCyPD7u3VlJlygy12rXWVMHcJrTq2W+1vrdcs10Wt6OwCjdE
+ M+EdvAlQBCbLcihbX/qL6yLRDRSeNVnfgNOXMliL4e6yduDQYHOIvj2fqlHsdTnTpWXF
+ WgNHZPbRajqpfbbBq+Hfue3QT3sz1wqUAeDEzHKSe+xpwUMW+mWmOvKYuOx14RDBvnnl
+ wwcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681686302; x=1684278302;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JfCcxv5wLUfMTELXAoE2t5WyF0Xi0PP+u/u08eUy+2I=;
- b=bXDa3kfpspD17e5cJK0eY2vkRpeyUFf3e2rnmJuhjGTqQ8uN9ol0sFEdB9Iiv5jdf8
- 2Pd79rm+wZtBSjmnuW7loY5wXvlZZqrMGP4wO/w4xStbOpjEkpAafjgAF3hzFCcSo+oU
- +mXtBKifMVsd8RfVE1itgU5DVQBE+ka1HOssNSvt/sLd+L4XjKyhM9H1yBfIh1xY0ejR
- tgNouB0ajSw2PvePGIEtjY7+nkhq2hmsJxrvrv/kfLuU6bzUAtoMwIZP3Qe8BB+OtTSu
- m7IjClzLezlPyHKvSmbuMufQgfyXoqkB+fYcpxth0v74+ziFpvXS/9SqXuPCaUnea6XT
- 7f0Q==
-X-Gm-Message-State: AAQBX9fgf7AGkYWhKB4DmmOsJrasQDTpxaARDXoQ476J/YjnkCQIEEy8
- SBTEufg06g9r1UKzsaDUe9w=
-X-Google-Smtp-Source: AKy350a5cudH4yO6cluPGC+FqL8+sxaXKMlI5R4NcktLq1tvB3/j3aoF4CQHQf0zBPTF1FLP51gheQ==
-X-Received: by 2002:a17:906:7a4e:b0:94e:d5d7:67eb with SMTP id
- i14-20020a1709067a4e00b0094ed5d767ebmr7440893ejo.5.1681686301910; 
- Sun, 16 Apr 2023 16:05:01 -0700 (PDT)
-Received: from [192.168.10.10] ([37.252.92.4])
+ d=1e100.net; s=20221208; t=1681692329; x=1684284329;
+ h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kRSWS4CahJKmzHjoYHWbTfAxUOlWiKT6IkxMS+a7Rf8=;
+ b=ZmBcpRFrPgjQ30l3F1oXC2XPMEjdUjXxixhzqM2N0EUfSd6a4RRdBxlKsfxwq5MDp2
+ VtFOEK06q+mR6m0EmQA5sNSgaXgjh754h79rphQt5In0GxFc43i28Ay/xdfpCTR1szXr
+ pCDp8elTXwiFUGhMwBC4DQhvg7KUQogmB4k22DG0rTujge/d8cQAgtyq749abdWIEkK+
+ tIDj+YYVPvjhPi0+aByA3irpdkhumgr0BRseKGz4gFUVH+NYb3em9R6vdsOKQZQipKOP
+ eKnAlM5BAp5q2Rk8erM9dq5tNXkgr5Q8zZIr0UET+SctDUhERPERgQDe5+uZGfgeu8ik
+ P9Lw==
+X-Gm-Message-State: AAQBX9fLSD6+fvmQVMs06IJOO+BmR0hJRVJe1nku8Zi0kzBGNP5sVU6D
+ DP7kERzRZ8ynXgXEr49lRWGxmw==
+X-Google-Smtp-Source: AKy350ZNiO/Qqw4kBjaaCtnr795xEsGikp7UxElEWMXA54ObhUZJ121qoa5BUfup+ExOJL25sSjdBQ==
+X-Received: by 2002:a05:6902:114d:b0:b6a:9364:1dc8 with SMTP id
+ p13-20020a056902114d00b00b6a93641dc8mr15325573ybu.44.1681692329122; 
+ Sun, 16 Apr 2023 17:45:29 -0700 (PDT)
+Received: from ripple.attlocal.net
+ (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
  by smtp.gmail.com with ESMTPSA id
- eq17-20020a170907291100b0094efe88a037sm3503048ejc.9.2023.04.16.16.05.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Apr 2023 16:05:01 -0700 (PDT)
-Message-ID: <d513cd8d-0262-8c4e-d0d9-ec7eea45941a@gmail.com>
-Date: Mon, 17 Apr 2023 03:04:59 +0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
+ be18-20020a05690c009200b0054fcbf35b94sm2601627ywb.87.2023.04.16.17.45.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Apr 2023 17:45:28 -0700 (PDT)
+Date: Sun, 16 Apr 2023 17:45:18 -0700 (PDT)
+X-X-Sender: hugh@ripple.attlocal.net
+To: Andrew Morton <akpm@linux-foundation.org>
 Subject: Re: [PATCH v2] mm: khugepaged: Fix kernel BUG in
  hpage_collapse_scan_file
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>,
- Zach O'Keefe <zokeefe@google.com>
+In-Reply-To: <20230416113335.caeafda1328fdd4bfe2406e8@linux-foundation.org>
+Message-ID: <f0fa9ad0-5077-e47a-8234-684f5cddcae0@google.com>
 References: <20230330155305.423051-1-ivan.orlov0322@gmail.com>
  <20230331013301.ecgkjymaf3ws6rfb@google.com>
  <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
  <CAAa6QmTLXSvygQQNk=8C4pB3D2Twy1guzo=+-aXhCqNAE3Q3MA@mail.gmail.com>
  <20230416113335.caeafda1328fdd4bfe2406e8@linux-foundation.org>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20230416113335.caeafda1328fdd4bfe2406e8@linux-foundation.org>
-Cc: Yang Shi <shy828301@gmail.com>, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
- syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
+MIME-Version: 1.0
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, Yang Shi <shy828301@gmail.com>,
+ linux-kernel@vger.kernel.org, Matthew Wilcox <willy@infradead.org>,
+ linux-mm@kvack.org, syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
  Mike Kravetz <mike.kravetz@oracle.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
+ Zach O'Keefe <zokeefe@google.com>,
  "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -121,17 +116,30 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Hugh Dickins via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Hugh Dickins <hughd@google.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 4/16/23 22:33, Andrew Morton wrote:
+On Sun, 16 Apr 2023, Andrew Morton wrote:
+
 > 
 > Circling back to this fix...
 > 
-> The BUG() is obviously real.  We're unsure that Ivan's fix is the best
+> The BUG() is obviously real.
+
+It's worth remembering that syzbot's reproducer involves artificially
+injecting page allocation failures.  So although the bug may be "real",
+it is rather in the theoretical category, way down on my own list to
+look at, and I'd say not at all urgent to fix.
+
+Hugh
+
+> We're unsure that Ivan's fix is the best
 > one.  We haven't identified a Fixes:, and as this report is against the 6.2
 > kernel, a cc:stable will be needed.
 > 
@@ -151,12 +159,6 @@ On 4/16/23 22:33, Andrew Morton wrote:
 > which was added in 77da9389b9d5f, so perhaps you could take a look?
 > 
 > Thanks.
-
-I tested the reproducers on the 99cb0dbd47a15 commit, and they do not 
-trigger the problematic condition of shared memory truncation or 
-hole-punching. I will investigate further, as there have been many 
-changes in khugepaged since the 99cb0dbd47a15 commit that could 
-potentially affect its behavior.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
