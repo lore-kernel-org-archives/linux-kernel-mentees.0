@@ -1,115 +1,79 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9CB79C77B7D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 17 Apr 2023 18:28:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 68505C77B75
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Apr 2023 08:01:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D138360D8E;
-	Mon, 17 Apr 2023 18:28:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D138360D8E
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=LOBAzaOn
+	by smtp1.osuosl.org (Postfix) with ESMTP id F2EB882073;
+	Tue, 18 Apr 2023 08:01:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F2EB882073
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=gm1 header.b=HqiQuVJJ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id UORq_zWPJz5B; Mon, 17 Apr 2023 18:28:57 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 948E360D88;
-	Mon, 17 Apr 2023 18:28:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 948E360D88
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id K-g5iPgOhphR; Tue, 18 Apr 2023 08:01:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 54E5780D1B;
+	Tue, 18 Apr 2023 08:01:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 54E5780D1B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6EBBAC0037;
-	Mon, 17 Apr 2023 18:28:57 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 34C8AC007A;
+	Tue, 18 Apr 2023 08:01:37 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A24D5C002A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 866D2C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Apr 2023 18:28:56 +0000 (UTC)
+ Tue, 18 Apr 2023 08:01:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 6E06640990
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5E7B3415DE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Apr 2023 18:28:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6E06640990
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=LOBAzaOn
+ Tue, 18 Apr 2023 08:01:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5E7B3415DE
+Authentication-Results: smtp4.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256
+ header.s=gm1 header.b=HqiQuVJJ
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5nN61iheS8Ym
+ with ESMTP id BonU6KTqIKEL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Apr 2023 18:28:55 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 31AB44096D
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 31AB44096D
+ Tue, 18 Apr 2023 08:01:34 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 98DB1415BA
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 98DB1415BA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Apr 2023 18:28:55 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id
- 4fb4d7f45d1cf-50671ef0c48so427748a12.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 17 Apr 2023 11:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1681756133; x=1684348133;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=0lqi6e8RVymVTF7fcFUOheURxMqgPbsBHzaUXSbYH78=;
- b=LOBAzaOnsbv+xJP9yrRAQZbI6B1nC83pWaavjbDytCM09qdqR5xvP/kOGyGhyhJitE
- KeFPQxLE9aNAeW1K964mlXNqJnmye34SZhx0h6fSjZutXCXd9fORM/8rV2tklwzzLNQZ
- unFClX8U9/out3OBbsRqjF9TqIZvUyxfnirs0dD5tVubtnARlTCHDsVc9473jaXtDh9u
- yQo8XH/bcZziG8vVyG4OQ7yQJpWLA0UsdMHpOjfJB2LbZnfjTok5V2+a/6Ge25MLKsFi
- D0H0C9s5cYSU+CGEfWy7YlAoMvB6Zpw6/uropFfLFEjewyhLKYjtqFIYkDDkCX3R08Xb
- WqsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1681756133; x=1684348133;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0lqi6e8RVymVTF7fcFUOheURxMqgPbsBHzaUXSbYH78=;
- b=MknM3aUpGoOKUYW1tWUO98PkBNsTmhsBIaRmlMJHWH0naLYuxaepv3Q9P3Kz0MTTLV
- QnmGZdG9BoSHE56Lqm7IWQ2jMJ2TLktHYuXu7n2P6J3VMeUoUjoyGaVE7JYeOjmvRkxm
- NTnvfkXINVrQbsHoccN8WciZE0QJEaAhjsVW92zG0rSCS8GoOIi4+gIYmxS/aTqb/Hhj
- HFKq48YHIrOZLUleSsTtBCWqM7YDhaNQxg9yx0qbdZ00r7rv6p+mb38dqpejWEYeoBWO
- 0dtRYGdAZXq8qSHTHOTHSu+o3bG14Oz1Q2CIRJQJASlEKhN2f78DigukmhZ/SuYcE+bk
- KJKA==
-X-Gm-Message-State: AAQBX9d8tBCs0ptlJwASRjlD18LZiiJmpSuS8eE6Z/6URXx8vYOY6N0O
- UttVsJmbD9T/qaI04x6fuiY=
-X-Google-Smtp-Source: AKy350YbvOqbJZgTK9Sfz/uzC+CuwIZ0d5X/ModBjEaxuEa/1srzK+Ja6pWa6tWd/92z8dNPYbu33w==
-X-Received: by 2002:a17:906:7a45:b0:947:bff2:1c2d with SMTP id
- i5-20020a1709067a4500b00947bff21c2dmr11215147ejo.3.1681756133240; 
- Mon, 17 Apr 2023 11:28:53 -0700 (PDT)
-Received: from [192.168.10.10] ([37.252.92.4])
- by smtp.gmail.com with ESMTPSA id
- e17-20020a17090681d100b0094f2f1c5ea1sm3618588ejx.174.2023.04.17.11.28.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Apr 2023 11:28:52 -0700 (PDT)
-Message-ID: <5dc97e10-8c64-4818-2642-dd8edb21c016@gmail.com>
-Date: Mon, 17 Apr 2023 22:28:51 +0400
+ Tue, 18 Apr 2023 08:01:33 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+ by mail.gandi.net (Postfix) with ESMTPSA id C10F61C000F;
+ Tue, 18 Apr 2023 08:01:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1681804890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SoVxLgc/JeVD7XmigNqrEEyWoDw10fu8bJGPDHfvFbk=;
+ b=HqiQuVJJJWjVVVFRANck/X7gYE+xX7aan6AdB8f4e7WuWRvCrD8k1PmdiCCUgc7nqL2+sS
+ 10bHaMAYMiCfTKnOmZ9dZqXlstvIZzSScQn5RxoQykTm8qr4U7Wihv1hZ0/yLnDic8b1cJ
+ shPuOWkp3RPyb/XR2Re82nbYfVYNq2+CfBJqAtw0drvlxT5QlLuQQl5hFdeJN20sX6Ldq9
+ ReDLJQguzh4tnWRE2kJ4jYjXOYGZa05VrWycVlspDxDAO/nJKfW4xQYIz+Q+dorksSQSkr
+ kGd/7zq+bPJdSsGf/KTiNagrstQ8klHeZunnT+J3bGj9yFFneZwHmWyTG0uOsg==
+Date: Tue, 18 Apr 2023 10:01:27 +0200
+To: Atul Kumar Pant <atulpant.linux@gmail.com>
+Subject: Re: [PATCH] selftests: Improves rtctest error handling.
+Message-ID: <202304180801276b50d209@mail.local>
+References: <20230408074059.397065-1-atulpant.linux@gmail.com>
+ <20230408115015bcc4b5ba@mail.local>
+ <20230411045115.GA5979@atom0118>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2] mm: khugepaged: Fix kernel BUG in
- hpage_collapse_scan_file
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>,
- Zach O'Keefe <zokeefe@google.com>
-References: <20230330155305.423051-1-ivan.orlov0322@gmail.com>
- <20230331013301.ecgkjymaf3ws6rfb@google.com>
- <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
- <CAAa6QmTLXSvygQQNk=8C4pB3D2Twy1guzo=+-aXhCqNAE3Q3MA@mail.gmail.com>
- <20230416113335.caeafda1328fdd4bfe2406e8@linux-foundation.org>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <20230416113335.caeafda1328fdd4bfe2406e8@linux-foundation.org>
-Cc: Yang Shi <shy828301@gmail.com>, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
- syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
- Mike Kravetz <mike.kravetz@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Content-Disposition: inline
+In-Reply-To: <20230411045115.GA5979@atom0118>
+Cc: a.zummo@towertech.it, shuah@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,41 +85,117 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Alexandre Belloni via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 16.04.2023 22:33, Andrew Morton wrote:
+On 11/04/2023 10:21:15+0530, Atul Kumar Pant wrote:
+> On Sat, Apr 08, 2023 at 01:50:15PM +0200, Alexandre Belloni wrote:
+> > On 08/04/2023 13:10:59+0530, Atul Kumar Pant wrote:
+> > > When running the rtctest without root privileges the test fails
+> > > expectedly, but prints the logs that are not useful to point to the issue.
+> > > Similarly, if we pass wrong rtc device file as an argument, the test
+> > > output failure logs do not point to the issue that the rtc file is
+> > > invalid.
+> > > To handle these issues, this patch adds checks to verify uid with which
+> > > the test is run and also if the rtc_file is valid.
+> > > 
+> > > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+> > > ---
+> > >  tools/testing/selftests/rtc/rtctest.c | 34 +++++++++++++++++++--------
+> > >  1 file changed, 24 insertions(+), 10 deletions(-)
+> > > 
+> > 
+> > Please run your patch through checkpatch.pl, the indentation and comment
+> > style are not correct.
 > 
-> Circling back to this fix...
+> Sure I'll fix this is next patch.
 > 
-> The BUG() is obviously real.  We're unsure that Ivan's fix is the best
-> one.  We haven't identified a Fixes:, and as this report is against the 6.2
-> kernel, a cc:stable will be needed.
+> > 
+> > > diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
+> > > index 2b9d929a24ed..9564346c63eb 100644
+> > > --- a/tools/testing/selftests/rtc/rtctest.c
+> > > +++ b/tools/testing/selftests/rtc/rtctest.c
+> > > @@ -388,16 +388,30 @@ __constructor_order_last(void)
+> > >  
+> > >  int main(int argc, char **argv)
+> > >  {
+> > > -	switch (argc) {
+> > > -	case 2:
+> > > -		rtc_file = argv[1];
+> > > -		/* FALLTHROUGH */
+> > > -	case 1:
+> > > -		break;
+> > > -	default:
+> > > -		fprintf(stderr, "usage: %s [rtcdev]\n", argv[0]);
+> > > -		return 1;
+> > > +    int ret = -1;
+> > > +
+> > > +    // Verify if the test is run as root
+> > > +    if (getuid() != 0) {
+> > > +		ksft_exit_skip("[ERROR]: Please run the test as root - Exiting.\n");
+> > 
+> > If this is an error, should we really return skip? This may end up being
+> > silently ignored whereas the expectation is to test the rtc.
+> > 
 > 
-> According to the sysbot bisection
-> (https://syzkaller.appspot.com/bug?id=7d6bb3760e026ece7524500fe44fb024a0e959fc),
-> this is present in linux-5.19, so it might predate Zach's
-> 58ac9a8993a13ebc changes.  But that bisection claim might be
-> misleading.
+> Yes, we should not skip the test. In that case we can use 'ksft_exit_fail_msg'.
+> I'll fix this in next patch.
 > 
-> And Zach is offline for a few months.  So can people please take a look
-> and see if we can get this wrapped up?
+> > Also, you may use the rtc as non root so I guess the access() test
+> > should be enough.
 > 
-> Matthew, the assertion failure is in the
-> 
-> 	VM_BUG_ON(index != xas.xa_index);
-> 
-> which was added in 77da9389b9d5f, so perhaps you could take a look?
-> 
-> Thanks.
+> I added this check for the use case when we use the rtc file from /dev/ which will require root
+> permissions. Should I keep this check ?
 
-Tested today on the latest rc7, the bug still exists.
+You don't need to be root, you need CAP_SYS_TIME and CAP_SYS_RESOURCE, I
+wouldn't check for uid 0.
 
-Kind regards,
-Ivan Orlov.
+> 
+> > 
+> > > +    }
+> > > +
+> > > +    switch (argc) {
+> > > +    case 2:
+> > > +        rtc_file = argv[1];
+> > > +        /* FALLTHROUGH */
+> > > +    case 1:
+> > > +        break;
+> > > +    default:
+> > > +        fprintf(stderr, "usage: %s [rtcdev]\n", argv[0]);
+> > > +        return 1;
+> > >  	}
+> > >  
+> > > -	return test_harness_run(argc, argv);
+> > > +    // Run the test if rtc_file is valid
+> > > +    if (access(rtc_file, F_OK) == 0) {
+> > > +	    ret = test_harness_run(argc, argv);
+> > > +    } else {
+> > > +		ksft_exit_skip("[ERROR]: %s : File does not exists - Exiting\n", rtc_file);
+> > 
+> > 
+> > > +    }
+> > > +
+> > > +    return ret;
+> > >  }
+> > > -- 
+> > > 2.25.1
+> > > 
+> > 
+> > -- 
+> > Alexandre Belloni, co-owner and COO, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
