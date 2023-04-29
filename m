@@ -1,89 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C6AAFC77B76
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Apr 2023 21:28:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0053DC77B7E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 29 Apr 2023 06:49:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3EB02408A6;
-	Tue, 18 Apr 2023 21:28:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3EB02408A6
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=TDvWQVGe
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BAR1kLG8QEV1; Tue, 18 Apr 2023 21:28:48 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4720D40580;
-	Tue, 18 Apr 2023 21:28:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4720D40580
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 22B84C007A;
-	Tue, 18 Apr 2023 21:28:48 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5CFEC002A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Apr 2023 21:28:46 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id AE18F60B8A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Apr 2023 21:28:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AE18F60B8A
+	by smtp3.osuosl.org (Postfix) with ESMTP id 63B0160E87;
+	Sat, 29 Apr 2023 06:49:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 63B0160E87
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=linux-foundation.org
- header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg
- header.b=TDvWQVGe
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=c0z9/N3s
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id hQp2LrHBIoVg
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XuV9ITDZhirn; Sat, 29 Apr 2023 06:49:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5389D60E3E;
+	Sat, 29 Apr 2023 06:49:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5389D60E3E
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 33474C0036;
+	Sat, 29 Apr 2023 06:49:32 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A6DCFC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Apr 2023 21:28:46 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0D7AA60B60
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 0D7AA60B60
+ Sat, 29 Apr 2023 06:49:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6CEF54091A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Apr 2023 21:28:45 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 0198A6395E;
- Tue, 18 Apr 2023 21:28:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 234BDC433EF;
- Tue, 18 Apr 2023 21:28:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1681853324;
- bh=2SNZxN9hzt7Hcn612PhEVKLrSU4yAg5SPreBYxtfaP8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=TDvWQVGeqhj3/mWi/MRa3z2d2YtdyfUdrfzN4bDApR8Tccgr04pUJspvHZgMWe2sH
- KAVTt5BWR0pdykBB6joWO8tyUNmSIdqamNfJ5Hu2MwsWjSat5dIAPM4t4AitEminqe
- RzukRKpSuFilmu6UtJ5QUqZB4vOQeLzDzp70LC/8=
-Date: Tue, 18 Apr 2023 14:28:43 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>
-Subject: Re: [PATCH v2] mm: khugepaged: Fix kernel BUG in
- hpage_collapse_scan_file
-Message-Id: <20230418142843.4ef62be30f529458344fa0e0@linux-foundation.org>
-In-Reply-To: <5dc97e10-8c64-4818-2642-dd8edb21c016@gmail.com>
-References: <20230330155305.423051-1-ivan.orlov0322@gmail.com>
- <20230331013301.ecgkjymaf3ws6rfb@google.com>
- <CAHbLzkoJ2zvKZpqd6NqikpCc8rGR02C87f0fPq8qwb1BF3K+9Q@mail.gmail.com>
- <CAAa6QmTLXSvygQQNk=8C4pB3D2Twy1guzo=+-aXhCqNAE3Q3MA@mail.gmail.com>
- <20230416113335.caeafda1328fdd4bfe2406e8@linux-foundation.org>
- <5dc97e10-8c64-4818-2642-dd8edb21c016@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Cc: Yang Shi <shy828301@gmail.com>, linux-kernel@vger.kernel.org,
- Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
- syzbot+9578faa5475acb35fa50@syzkaller.appspotmail.com,
- Mike Kravetz <mike.kravetz@oracle.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Zach O'Keefe <zokeefe@google.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+ Sat, 29 Apr 2023 06:49:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6CEF54091A
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=c0z9/N3s
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id waLwnLlaEMFY
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 29 Apr 2023 06:49:29 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8B4AE40918
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com
+ [IPv6:2607:f8b0:4864:20::431])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8B4AE40918
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 29 Apr 2023 06:49:29 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id
+ d2e1a72fcca58-63b5465fb99so659245b3a.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 28 Apr 2023 23:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1682750969; x=1685342969;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=e4bDzV0lLhdnU/5RNH175pUAjmfdzaJV0OIwecl930c=;
+ b=c0z9/N3sLEYMbxbjtbgQQ0xrTofRsqKqpd56WomUiNL4VxpBzcmDqNzWbtMHEO2/Dn
+ 7bA56jBi/zLjLyFdGlQymI1Am9qPT+V+pW1siPWavF4u5DcCOsoO7Xv1BBHyX9xXJPg9
+ bnhSv4tFFVT5ePiBLnWBqJHs/J4TolTrhjCrQDS++mCD8rZezxE2a60QCO+pENwtbvlo
+ /ZXwAcAu/JW9UYWJc4Ntt6Icazu+2pPaaW6Cv5rsvyx/NJM8BLEHD/y57FOAlCWOm7Yc
+ uRvqfeJ9W1we1A9yi9JwbfKmF7B9k0oTyNKNMDZqi+Y/PC38sfbBajaJ35af3AdXdC8+
+ GMqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1682750969; x=1685342969;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e4bDzV0lLhdnU/5RNH175pUAjmfdzaJV0OIwecl930c=;
+ b=R/I4F5iDPenllFQJDtxmRCQTTsCfOINP+mnfXBRpMwYLN/6dghp/CSIymAHkYzne6h
+ +QBFZHe+T6UuRn4YmehwfrhpK9D2/d07keF2pOTkzo9jF9g42VYiXgSehPTTDdgGJrr/
+ QZHuoWvcR5021uJZ0IY1iHP+ustXAeXFfg+XIomRVVV9OKczOiFTRxGu2aLnI1CSpBQh
+ BJ/PXol8ZJz3vbeB0tvwcgm2LvwSWYg/n3BzwyY4tXQh0YLhY9jG55GlwQyjBCbpwb/i
+ lqTulVZmAflem25yMIvZl+AvtsTdKScD3BROlHG7wCaP4G9mj5Yts4fQq/xGPZaYifJl
+ 7waQ==
+X-Gm-Message-State: AC+VfDw1iSGOgo+41cQbM4/vsZOSmtNrR7Z7zODDE9b4ybVvw++iERVj
+ 3k4xreJICZHpz4wma89HOK4=
+X-Google-Smtp-Source: ACHHUZ4/YbaWsomzPTc3IhNQVKJo/i82W4D8vjb+bnOYQWr2+bYWka87NoOPTXwt+qItliRSnq0CXw==
+X-Received: by 2002:a17:902:dac2:b0:1aa:ce4d:c779 with SMTP id
+ q2-20020a170902dac200b001aace4dc779mr2336179plx.39.1682750968881; 
+ Fri, 28 Apr 2023 23:49:28 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2409:4070:2d3b:5a4f:be4f:9ffa:373f:f0b8])
+ by smtp.gmail.com with ESMTPSA id
+ w24-20020a170902a71800b001a64dbfc5d7sm14121122plq.145.2023.04.28.23.49.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 28 Apr 2023 23:49:28 -0700 (PDT)
+From: Atul Kumar Pant <atulpant.linux@gmail.com>
+To: a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com
+Subject: [PATCH v2] selftests: rtc: Improves rtctest error handling.
+Date: Sat, 29 Apr 2023 12:19:17 +0530
+Message-Id: <20230429064917.97153-1-atulpant.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Cc: shuah@kernel.org, Atul Kumar Pant <atulpant.linux@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,13 +114,57 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 17 Apr 2023 22:28:51 +0400 Ivan Orlov <ivan.orlov0322@gmail.com> wrote:
+When running the rtctest if we pass wrong rtc device file as an argument
+the test fails expectedly, but prints the logs that are not useful
+to point out the issue.
+To handle this, the patch adds a checks to verify if the rtc_file is valid.
 
-> Tested today on the latest rc7, the bug still exists.
+Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+---
 
-OK, thanks.  I'll send this patch upstream during the next merge window. 
-If you, Zach or someone else decides to remove SCAN_STORE_FAILED and
-perhaps those WARN_ON_ONCE()es then we can address these things later.
+changes since v1:
+    Removed check for uid=0
+    If rtc file is invalid, then exit the test.
+
+ tools/testing/selftests/rtc/rtctest.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
+index 2b9d929a24ed..07f7dcd47102 100644
+--- a/tools/testing/selftests/rtc/rtctest.c
++++ b/tools/testing/selftests/rtc/rtctest.c
+@@ -17,6 +17,7 @@
+ #include <unistd.h>
+ 
+ #include "../kselftest_harness.h"
++#include "../kselftest.h"
+ 
+ #define NUM_UIE 3
+ #define ALARM_DELTA 3
+@@ -388,6 +389,8 @@ __constructor_order_last(void)
+ 
+ int main(int argc, char **argv)
+ {
++	int ret = -1;
++
+ 	switch (argc) {
+ 	case 2:
+ 		rtc_file = argv[1];
+@@ -399,5 +402,11 @@ int main(int argc, char **argv)
+ 		return 1;
+ 	}
+ 
+-	return test_harness_run(argc, argv);
++	// Run the test if rtc_file is valid
++	if (access(rtc_file, F_OK) == 0)
++		ret = test_harness_run(argc, argv);
++	else
++		ksft_exit_fail_msg("[ERROR]: %s : File does not exists - Exiting\n", rtc_file);
++
++	return ret;
+ }
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
