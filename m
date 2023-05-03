@@ -1,101 +1,98 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4813EC77B73
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  1 May 2023 20:14:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9E036C7EE22
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  3 May 2023 06:06:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D4BAC4091C;
-	Mon,  1 May 2023 20:14:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D4BAC4091C
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hk0WDqik
+	by smtp4.osuosl.org (Postfix) with ESMTP id EA5F941C24;
+	Wed,  3 May 2023 06:06:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EA5F941C24
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bgNahnK0;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=fogcCL2i
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id aEQzwyb1_a_j; Mon,  1 May 2023 20:14:39 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id C4WD3nJClu0R; Wed,  3 May 2023 06:06:58 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8801C40588;
-	Mon,  1 May 2023 20:14:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8801C40588
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 62E5C41AFD;
+	Wed,  3 May 2023 06:06:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 62E5C41AFD
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 67C4AC0036;
-	Mon,  1 May 2023 20:14:39 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1FAC6C002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 395FDC0036;
+	Wed,  3 May 2023 06:06:57 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C1778C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 May 2023 20:14:38 +0000 (UTC)
+ Wed,  3 May 2023 06:06:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EDCA581FDE
+ by smtp3.osuosl.org (Postfix) with ESMTP id 880FF60AC0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 May 2023 20:14:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EDCA581FDE
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=hk0WDqik
+ Wed,  3 May 2023 06:06:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 880FF60AC0
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de
+ header.a=rsa-sha256 header.s=susede2_rsa header.b=bgNahnK0; 
+ dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256
+ header.s=susede2_ed25519 header.b=fogcCL2i
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xgkofqtI4vfu
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id miFAaaqvjQKP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 May 2023 20:14:36 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A140581FDC
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com
- [IPv6:2a00:1450:4864:20::234])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A140581FDC
+ Wed,  3 May 2023 06:06:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4D80560A81
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 4D80560A81
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  1 May 2023 20:14:35 +0000 (UTC)
-Received: by mail-lj1-x234.google.com with SMTP id
- 38308e7fff4ca-2a8b082d6feso28213591fa.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 01 May 2023 13:14:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1682972073; x=1685564073;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=F36MPH23paVmBGSmxmn9RmQiUOeoap4Sfmdw21UVa9w=;
- b=hk0WDqikTg2XGL+FpwM+aTOKR4jbi/roZyK5FgLMu/jJ50UrMvaTMwVhRZumNVwh7m
- 1WoLymy7oFg400Vbv7Sq9g3KlnpBaz/HaSozcpgKnQ0EB/31+q0iLmOJa9sIc4iFEbHf
- H2r/tDKzpWljf/pWgi+9tlWaoZnPCiBVvxs7Mm4A/sLi835BqyQvHFHhJ31e/iP6ER/r
- AhfGGpPMj/Zztden6TuiR4lZM6YifLa/b4zFDGl6swRh7K72Wef98mBUzoudJ8ypTwOq
- Pp6zD1RskqO5gr6X3Ps9LrepQNOgKQIdo5cFTnoNchg0RPTgehIlBYVIpPjUzEbTgR4r
- CTvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1682972073; x=1685564073;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=F36MPH23paVmBGSmxmn9RmQiUOeoap4Sfmdw21UVa9w=;
- b=QrkEFp/Ze4WeiYZNkR0xZo3hjibSaXNmT18mS9BDgXgbkyOyuPnF37Gf6OizUE5Y6D
- BPOiajoTEZ2CgKo8upO+wmBmA3ZDWi5O6o4vs4fD3xkxGbTO+oqyLF049EhjdYXnth/5
- bCJFQYW/q6+ivN0Rfo7Jm//mIgpF/Pg5eZL3ROkF5ZOVTdVjxSV9SwKHx2ZhKQSNuSVH
- aywLFGES5xZWiCpnnEBakfYLmsKKrwwLp9tbZut6Sk/k3We23rVcYv7FSHhAw1dbCQmy
- +eQW4ebakP6XPTPYW0sMY8ekYhnmtoAjbErIq/AWorCRBqGajtRmmpiEIpyHVhc9hsWk
- w/jw==
-X-Gm-Message-State: AC+VfDwDGqr0MVu46pVq25W721e7u+IOK55VazuRS1weqUgApLgRkc2U
- L+faPUIhpHoxpqDL4p5+ulo=
-X-Google-Smtp-Source: ACHHUZ42hKW3WLegKTjJHohYj65AW8/to+vWy6xwVxsg+RIq9U/FylkCWoQ6ielBpCOCWBv1yIGzaw==
-X-Received: by 2002:a05:651c:10c:b0:2a7:6b95:1d62 with SMTP id
- a12-20020a05651c010c00b002a76b951d62mr3689434ljb.52.1682972073208; 
- Mon, 01 May 2023 13:14:33 -0700 (PDT)
-Received: from localhost.localdomain ([165.231.178.21])
- by smtp.gmail.com with ESMTPSA id
- f22-20020a2e9196000000b002a483f01d9csm4868041ljg.85.2023.05.01.13.14.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 May 2023 13:14:32 -0700 (PDT)
-From: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH v1] drivers: pci: introduce configurable delay for Rockchip
- PCIe bus scan
-Date: Mon,  1 May 2023 22:14:26 +0200
-Message-Id: <20230501201426.1214125-1-vincenzopalazzodev@gmail.com>
-X-Mailer: git-send-email 2.40.1
-MIME-Version: 1.0
-Cc: shawn.lin@rock-chips.com, Dan Johansen <strit@manjaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org
+ Wed,  3 May 2023 06:06:55 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 198E81FFD8;
+ Wed,  3 May 2023 06:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683094012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uJyauCRKA1OKuD2J2BLjbo+7WdRbLAPXODKeyqBieVA=;
+ b=bgNahnK0jIVhMQdwFI6wxSrA5z8mhlcU207HYujRgIwZ/+ar1qIoI8UvxTuEosCA81sM7D
+ Se2gi2Aoc7w9u/DS5aCq6YAhw1GRaRsG+q8v+c3BgYyJ7B5PcgjFI03H+3m+mxokRgmK5I
+ Q95bU+4Kf4ZkGpRvCJ40Xm8rjY1geh8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683094012;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uJyauCRKA1OKuD2J2BLjbo+7WdRbLAPXODKeyqBieVA=;
+ b=fogcCL2iwIwnpNvbJwTouByyjpBdGNss0x0Jr1gUDCt833IsJdqiRIS7P19jTUTaV0V8Yr
+ lhQXN8IGLQ3P6lBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D6DEC13584;
+ Wed,  3 May 2023 06:06:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id NyWKM/v5UWTiJQAAMHmgww
+ (envelope-from <tiwai@suse.de>); Wed, 03 May 2023 06:06:51 +0000
+Date: Wed, 03 May 2023 08:06:51 +0200
+Message-ID: <87ildane2s.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Subject: Re: [PATCH] ALSA: docs: Extend module parameters description
+In-Reply-To: <20230501101634.476297-1-ivan.orlov0322@gmail.com>
+References: <20230501101634.476297-1-ivan.orlov0322@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Cc: alsa-devel@alsa-project.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, tiwai@suse.com, perex@perex.cz,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,227 +110,26 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add a configurable delay to the Rockchip PCIe driver to address
-crashes that occur on some old devices, such as the Pine64 RockPro64.
+On Mon, 01 May 2023 12:16:34 +0200,
+Ivan Orlov wrote:
+> 
+> Common ALSA module parameters look a little bit confusing because of the
+> description lacking, and it took me a while to understand the purpose of
+> their existence. To figure it out I asked the question about them to the
+> "alsa-devel" mailing list, and Takashi Iwai answered me with the text I
+> appended to the ALSA documentation in this patch.
+> 
+> These common module parameters aren't used a lot nowadays, but as I
+> understand they are important for providing compatibility with some
+> existing user-space apps. So in my opinion it is a good idea to document
+> why we need them.
+> 
+> Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
 
-This issue is affecting the ARM community, but there is no
-upstream solution for it yet.
+Thanks, applied.
 
-The crash I worked on is described below.
 
-Co-Developed-by: Dan Johansen <strit@manjaro.org>
-Signed-off-by: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-
-Crash dump (customized Manjaro kernel before this patch):
-[    1.229856] SError Interrupt on CPU4, code 0xbf000002 -- SError
-[    1.229860] CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.9.9-2.0-MANJARO-ARM #1
-[    1.229862] Hardware name: Pine64 RockPro64 v2.1 (DT)
-[    1.229864] pstate: 60000085 (nZCv daIf -PAN -UAO BTYPE=--)
-[    1.229866] pc : rockchip_pcie_rd_conf+0xb4/0x270
-[    1.229868] lr : rockchip_pcie_rd_conf+0x1b4/0x270
-[    1.229870] sp : ffff80001004b850
-[    1.229872] x29: ffff80001004b850 x28: 0000000000000001
-[    1.229877] x27: 0000000000000000 x26: ffff00007a795000
-[    1.229882] x25: ffff00007a7910b0 x24: 0000000000000000
-[    1.229887] x23: 0000000000000000 x22: ffff00007b3a4380
-[    1.229891] x21: ffff80001004b8c4 x20: 0000000000000004
-[    1.229895] x19: 0000000000100000 x18: 0000000000000020
-[    1.229900] x17: 0000000000000001 x16: 0000000000000019
-[    1.229904] x15: ffff00007b222fd8 x14: ffffffffffffffff
-[    1.229908] x13: ffff00007a79ba1c x12: ffff00007a79b290
-[    1.229912] x11: 0101010101010101 x10: 7f7f7f7f7f7f7f7f
-[    1.229917] x9 : ff72646268756463 x8 : 0000000000000391
-[    1.229921] x7 : ffff80001004b880 x6 : 0000000000000001
-[    1.229925] x5 : 0000000000000000 x4 : 0000000000000000
-[    1.229930] x3 : 0000000000c00008 x2 : 000000000080000a
-[    1.229934] x1 : 0000000000000000 x0 : ffff800014000000
-[    1.229939] Kernel panic - not syncing: Asynchronous SError Interrupt
-[    1.229942] CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.9.9-2.0-MANJARO-ARM #1
-[    1.229944] Hardware name: Pine64 RockPro64 v2.1 (DT)
-[    1.229946] Call trace:
-[    1.229948]  dump_backtrace+0x0/0x1d0
-[    1.229949]  show_stack+0x18/0x24
-[    1.229951]  dump_stack+0xc0/0x118
-[    1.229953]  panic+0x148/0x320
-[    1.229955]  nmi_panic+0x8c/0x90
-[    1.229956]  arm64_serror_panic+0x78/0x84
-[    1.229958]  do_serror+0x15c/0x160
-[    1.229960]  el1_error+0x84/0x100
-[    1.229962]  rockchip_pcie_rd_conf+0xb4/0x270
-[    1.229964]  pci_bus_read_config_dword+0x6c/0xd0
-[    1.229966]  pci_bus_generic_read_dev_vendor_id+0x34/0x1b0
-[    1.229968]  pci_scan_single_device+0xa4/0x144
-[    1.229970]  pci_scan_slot+0x40/0x12c
-[    1.229972]  pci_scan_child_bus_extend+0x58/0x34c
-[    1.229974]  pci_scan_bridge_extend+0x310/0x590
-[    1.229976]  pci_scan_child_bus_extend+0x210/0x34c
-[    1.229978]  pci_scan_root_bus_bridge+0x68/0xdc
-[    1.229980]  pci_host_probe+0x18/0xc4
-[    1.229981]  rockchip_pcie_probe+0x204/0x330
-[    1.229984]  platform_drv_probe+0x54/0xb0
-[    1.229985]  really_probe+0xe8/0x500
-[    1.229987]  driver_probe_device+0xd8/0xf0
-[    1.229989]  device_driver_attach+0xc0/0xcc
-[    1.229991]  __driver_attach+0xa4/0x170
-[    1.229993]  bus_for_each_dev+0x70/0xc0
-[    1.229994]  driver_attach+0x24/0x30
-[    1.229996]  bus_add_driver+0x140/0x234
-[    1.229998]  driver_register+0x78/0x130
-[    1.230000]  __platform_driver_register+0x4c/0x60
-[    1.230002]  rockchip_pcie_driver_init+0x1c/0x28
-[    1.230004]  do_one_initcall+0x54/0x1c0
-[    1.230005]  do_initcalls+0xf4/0x130
-[    1.230007]  kernel_init_freeable+0x144/0x19c
-[    1.230009]  kernel_init+0x14/0x11c
-[    1.230011]  ret_from_fork+0x10/0x34
-[    1.230035] SMP: stopping secondary CPUs
-[    1.230037] Kernel Offset: disabled
-[    1.230039] CPU features: 0x0240022,2100200c
-[    1.230041] Memory Limit: none
----
- .../admin-guide/kernel-parameters.txt         |  8 +++++
- .../boot/dts/rockchip/rk3399-rockpro64.dtsi   |  3 +-
- drivers/pci/controller/pcie-rockchip-host.c   | 31 +++++++++++++++++++
- drivers/pci/controller/pcie-rockchip.c        |  5 +++
- drivers/pci/controller/pcie-rockchip.h        | 10 ++++++
- 5 files changed, 56 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 7016cb12dc4e..3f0e0d670126 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4286,6 +4286,14 @@
- 				any pair of devices, possibly at the cost of
- 				reduced performance.  This also guarantees
- 				that hot-added devices will work.
-+		pcie_rockchip_host.bus_scan_delay=	[PCIE] Delay in ms before
-+			scanning PCIe bus in Rockchip PCIe host driver. Some PCIe
-+			cards seem to need delays that can be several hundred ms.
-+			If set to greater than or equal to 0 this parameter will
-+			override delay that can be set in device tree.
-+			Values less than 0 the module will hit an assertion
-+			during the init.
-+			The default value is 0.
- 		cbiosize=nn[KMG]	The fixed amount of bus space which is
- 				reserved for the CardBus bridge's IO window.
- 				The default value is 256 bytes.
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-index bca2b50e0a93..95a4623b8c18 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-@@ -663,7 +663,8 @@ &pcie0 {
- 	pinctrl-0 = <&pcie_perst>;
- 	vpcie12v-supply = <&vcc12v_dcin>;
- 	vpcie3v3-supply = <&vcc3v3_pcie>;
--	status = "okay";
-+    bus-scan-delay-ms = <0>;
-+    status = "okay";
- };
- 
- &pcie_phy {
-diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
-index c96c0f454570..b97f3102a628 100644
---- a/drivers/pci/controller/pcie-rockchip-host.c
-+++ b/drivers/pci/controller/pcie-rockchip-host.c
-@@ -38,6 +38,10 @@
- #include "../pci.h"
- #include "pcie-rockchip.h"
- 
-+/* bus_scan_delay - module parameter to override the
-+ * device tree value, which is 0 by default. */
-+static int bus_scan_delay = -1;
-+
- static void rockchip_pcie_enable_bw_int(struct rockchip_pcie *rockchip)
- {
- 	u32 status;
-@@ -931,6 +935,11 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
- 	struct rockchip_pcie *rockchip;
- 	struct device *dev = &pdev->dev;
- 	struct pci_host_bridge *bridge;
-+	/* It seems that the driver crashes on some
-+	 * older devices. To work around this, we
-+	 * should add a sleep delay before probing.
-+	 **/
-+	u32 prob_delay;
- 	int err;
- 
- 	if (!dev->of_node)
-@@ -987,6 +996,23 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
- 
- 	rockchip_pcie_enable_interrupts(rockchip);
- 
-+	prob_delay = rockchip->bus_scan_delay;
-+	if (bus_scan_delay)
-+		prob_delay = bus_scan_delay;
-+
-+	/*
-+	 * FIXME: This is a workaround for some devices that crash on calls to pci_host_probe()
-+	 * or pci_scan_root_bus_bridge(). We add a delay before bus scanning to avoid the crash.
-+	 * The call trace reaches rockchip_pcie_rd_conf() while attempting to read the vendor ID
-+	 * (pci_bus_generic_read_dev_vendor_id() is in the call stack) before panicking.
-+	 *
-+	 * I'm not sure why this workaround is effective or what causes the panic. It may be related
-+	 * to the cansleep value.
-+	 */
-+	dev_info(dev, "wait %u ms before bus scan\n", prob_delay);
-+	if (prob_delay > 0)
-+		msleep(prob_delay);
-+
- 	err = pci_host_probe(bridge);
- 	if (err < 0)
- 		goto err_remove_irq_domain;
-@@ -1055,6 +1081,11 @@ static struct platform_driver rockchip_pcie_driver = {
- };
- module_platform_driver(rockchip_pcie_driver);
- 
-+/** Allow to override the device tree default configuration with
-+ * a command line argument.
-+ **/
-+module_param_named(bus_scan_delay, bus_scan_delay, int, S_IRUGO);
-+
- MODULE_AUTHOR("Rockchip Inc");
- MODULE_DESCRIPTION("Rockchip AXI PCIe driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/pci/controller/pcie-rockchip.c b/drivers/pci/controller/pcie-rockchip.c
-index 990a00e08bc5..7350be04f662 100644
---- a/drivers/pci/controller/pcie-rockchip.c
-+++ b/drivers/pci/controller/pcie-rockchip.c
-@@ -149,6 +149,11 @@ int rockchip_pcie_parse_dt(struct rockchip_pcie *rockchip)
- 		return PTR_ERR(rockchip->clk_pcie_pm);
- 	}
- 
-+	err = of_property_read_u32(node, "bus-scan-delay-ms", &rockchip->bus_scan_delay);
-+	if (err) {
-+		dev_info(dev, "no bus scan delay, default to 0 ms\n");
-+		rockchip->bus_scan_delay = 0;
-+	}
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(rockchip_pcie_parse_dt);
-diff --git a/drivers/pci/controller/pcie-rockchip.h b/drivers/pci/controller/pcie-rockchip.h
-index 32c3a859c26b..76503dde6099 100644
---- a/drivers/pci/controller/pcie-rockchip.h
-+++ b/drivers/pci/controller/pcie-rockchip.h
-@@ -299,6 +299,16 @@ struct rockchip_pcie {
- 	phys_addr_t msg_bus_addr;
- 	bool is_rc;
- 	struct resource *mem_res;
-+
-+	/* It seems that the driver crashes on some
-+	 * older devices. To work around this, we
-+	 * should add a sleep delay before probing.
-+	 *
-+	 * FIXME: need more investigated with an,
-+	 * but looks like the problem can be related with
-+	 * the cansleep value?
-+	 **/
-+	u32 bus_scan_delay;
- };
- 
- static u32 rockchip_pcie_read(struct rockchip_pcie *rockchip, u32 reg)
--- 
-2.40.1
-
+Takashi
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
