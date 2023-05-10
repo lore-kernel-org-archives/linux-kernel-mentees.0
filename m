@@ -1,107 +1,118 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 83E2FC77B7C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 07:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A690EC77B7D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 07:57:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 207A760F76;
-	Wed, 10 May 2023 07:55:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 207A760F76
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=a3T9bDod
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4B097844B9;
+	Wed, 10 May 2023 07:57:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4B097844B9
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com header.a=rsa-sha256 header.s=fm3 header.b=tJa8a0Kb;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=IojDGxNt
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5IlVLKajnkCO; Wed, 10 May 2023 07:55:26 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0840060F14;
-	Wed, 10 May 2023 07:55:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0840060F14
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Xnu6eBoVoFKG; Wed, 10 May 2023 07:57:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 629DB844AC;
+	Wed, 10 May 2023 07:57:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 629DB844AC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E4883C0036;
-	Wed, 10 May 2023 07:55:25 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 266D9C002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DC35C0036;
+	Wed, 10 May 2023 07:57:24 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0CF01C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:55:24 +0000 (UTC)
+ Wed, 10 May 2023 07:57:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E6AFE41E0F
+ by smtp4.osuosl.org (Postfix) with ESMTP id C5FFD41FB5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:55:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E6AFE41E0F
+ Wed, 10 May 2023 07:57:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C5FFD41FB5
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=a3T9bDod
+ dkim=pass (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com
+ header.a=rsa-sha256 header.s=fm3 header.b=tJa8a0Kb; 
+ dkim=pass (2048-bit key,
+ unprotected) header.d=messagingengine.com header.i=@messagingengine.com
+ header.a=rsa-sha256 header.s=fm3 header.b=IojDGxNt
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JaR0--g2TFqN
+ with ESMTP id a8Z1GHzMH00T
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:55:23 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 04AA941DD9
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com
- [IPv6:2a00:1450:4864:20::62b])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 04AA941DD9
+ Wed, 10 May 2023 07:57:21 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D442741E0F
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id D442741E0F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:55:22 +0000 (UTC)
-Received: by mail-ej1-x62b.google.com with SMTP id
- a640c23a62f3a-94f9cd65b1aso174972066b.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 00:55:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683705321; x=1686297321;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GIJKyRBEjdyUl/MVV9x2JqKCqHZQzxhquAJ+JI/f5XA=;
- b=a3T9bDodW1/k5HN5DT6PH4X9lv2Dbf5kR59lnt3ABrgC+Kle9jBuRgvo8pYQuSXECQ
- npw2L4nGfhgTq/XJKcDxDMFFwxE6PmiTf4k34cjdmZgiYC8ola/kc4pTRb8NuxGYht58
- qSclKzvYvMKJ8da54yy5Jhn3LL0ITzet4+nykowvYW6vW0OtqD/KbezsfgO/zlonoIGn
- HjQpf3m2oHdydnewz5Ofg3xmhwForC/o69EppfOEMvMRoZqaa91REZHoBVV6eNiZEXA9
- DX1OWn9Lpc7fKvsMPh7dG4M8CTWtv16zMcTBYN3ssm2XxJQAxD3qHwmiO4zvLB/iK01X
- KMIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683705321; x=1686297321;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GIJKyRBEjdyUl/MVV9x2JqKCqHZQzxhquAJ+JI/f5XA=;
- b=TLPh7Pm+AFNBrephAk+dsmn9qRSrIB5spKDD9TG/ym/P7i40/rnJmrg+4xMU1sqmXg
- /AUQu/iyYj5WInE/YziiboxsjkvUFKcpKoGV70czvrFwdS7VLGdl5d0lFjoygaQKhpc6
- kQtvwWdMYsi9zUzW9aFBv2EXrVj0XujFF7Lqzj2ZCqE48xIBA7Vt0BlP1K6tQCSFC1XG
- SG5IfOBlbN7BVXnE+MGW8gTPBftL2B1KRZo6A90o6+XN1hwJxupYbTb4qjSE3sl7VkRA
- pO4T63aBWfYd/vufMdlAvVolksEbvfcYHxDJ2j7Y2Pd5KTi943AJuY1MSUO4vUfdKpqt
- o3aQ==
-X-Gm-Message-State: AC+VfDxDgh+apgIamOTHAp9vED7qb24YeEekrJMljAV3BiXm89DtjMPj
- T5qRl7XSRxyzCQwz5A1hvEQ=
-X-Google-Smtp-Source: ACHHUZ4Etamrv/XEITbdotEx2ui0eic7/8Gzjz6mioeFp38Zuvsrbto00bt1j4JEIfAzxCT4KgGXCQ==
-X-Received: by 2002:a17:906:7794:b0:965:9db5:3823 with SMTP id
- s20-20020a170906779400b009659db53823mr13650720ejm.3.1683705320717; 
- Wed, 10 May 2023 00:55:20 -0700 (PDT)
-Received: from [192.168.10.10] ([37.252.94.55])
- by smtp.gmail.com with ESMTPSA id
- tk13-20020a170907c28d00b0094f185d82dcsm2313239ejc.21.2023.05.10.00.55.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 00:55:20 -0700 (PDT)
-Message-ID: <f1a912ea-884b-fdcd-1c05-87089f1e97b7@gmail.com>
-Date: Wed, 10 May 2023 11:55:18 +0400
+ Wed, 10 May 2023 07:57:21 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 833672B0681C;
+ Wed, 10 May 2023 03:57:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Wed, 10 May 2023 03:57:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1683705438; x=1683712638; bh=lu
+ YuF/JxvULVmeDkbLyw1Zb3ZU/LU2UPbqzZwwIFgXw=; b=tJa8a0KbkrvxLGCR7o
+ RenGyf/IB6qR1pixLlCkrrhzyY4nd6Hgh0GBNTsFmBpS0yMjL74a8jbaxz46Idci
+ SbSk8gDCdjUF9MktAUpyyVurrve2RX/OUlZjer7wv7lNpvic911D/4E4OEUyg5Yl
+ CsNBemqmjUcJsRVRfTneLAqz0mVFo75fWmzQg8OUbugSCgDvE8FdJDVbm4Dbqmoj
+ 1YpZKNl8oNskPtS6BxXH1Lq3mUjh400ZR/q5wuj6GCk5qtV6r3N/A94Sxu0Mv5Nc
+ saY5yq+lnqIzpNAnBPijBvK8V0ZnoKZomnU0ISU4+RW7lk093hW9aX5chyoEv5kR
+ PMtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1683705438; x=1683712638; bh=luYuF/JxvULVm
+ eDkbLyw1Zb3ZU/LU2UPbqzZwwIFgXw=; b=IojDGxNtfD0DJ2+CDtWHQSSGfufa3
+ mL3zg7qEiV1DwRNj71zq5VhPgXz26dFRGtLgymYCP7w5nSNkImbCcIwUctOOm7/B
+ ILWPc13tLoAl3sR8mTTKHxmONTLbjgfmpSWPs1lOuK8U9zXaZi11/wdQnTnqsNa0
+ fk9xG4zZO8A/FbAQfy7FJOgON5rUl9is5pA99i6YUy6B0NoO3wsQm+3c64IcgMpn
+ lFCY54lj9He2nNNY8D5OKNO+zkZcWTMElhVf+R6m4KGjeXdzVCUDRhD+BDi0wTeA
+ P/w+qzj0IDnU03FOBPAkIyURywhEcUJomw7TS5cJzS2/BCp/dOUZTwQ9w==
+X-ME-Sender: <xms:XU5bZMf7Es_B0mwWdMR6GPrBKUfqIBy8Fv2iQcwsFpJEzP-LUx33qg>
+ <xme:XU5bZOMZtC6bj_qHm8gMWnmPqo6h9LwJqGP9JE4E7mQwNeBHLJ3ZhwG-0B2G4kmbj
+ 5GCo-AXCaGUyw>
+X-ME-Received: <xmr:XU5bZNhPlWCTwCYTsx7F-DVagjVKZm_GDne2UCLTFm9eOeG9JFudqwkmx0c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggedgtdehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+ ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
+ qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
+ euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+ ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:XU5bZB97UnXv30emiW9sr70rvQi2LVWwvNxvEf-JAoLlrxnFx0dAJg>
+ <xmx:XU5bZIsKlK22zhz6WYqNwgO7ZnD9qhkdh6gJmsYnXuZzK5TdRaKDqA>
+ <xmx:XU5bZIH7i6ymzx6TM4i5eFMSOp4qcaSjBHhPECWvkwh2qGSziJl6Cg>
+ <xmx:Xk5bZB6scUFm3rT8fS8eGVX945sSW2Q7ZKiIHhmaToKgTntgMO0ltQpY_qg>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 10 May 2023 03:57:16 -0400 (EDT)
+Date: Wed, 10 May 2023 09:57:14 +0200
+From: Greg KH <greg@kroah.com>
+To: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
+ Rockchip PCIe bus scan
+Message-ID: <2023051014-foe-multiply-ffff@gregkh>
+References: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] ALSA: PCM: Fix codestyle issues in pcm_native.c
-Content-Language: en-US
-To: ivan.orlov0322@gmail.com
-References: <20230510072726.435247-1-ivan.orlov0322@gmail.com>
- <2023051052-recoil-headache-1594@gregkh>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <2023051052-recoil-headache-1594@gregkh>
-Cc: axboe@kernel.dk, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
- tiwai@suse.com, perex@perex.cz, 42.hyeyoo@gmail.com, oswald.buddenhagen@gmx.de,
- surenb@google.com, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
+Cc: kw@linux.com, heiko@sntech.de, robh@kernel.org, linux-pci@vger.kernel.org,
+ shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+ linux-rockchip@lists.infradead.org, broonie@kernel.org, bhelgaas@google.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org,
+ linux-arm-kernel@lists.infradead.org, Dan Johansen <strit@manjaro.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,35 +124,31 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 5/10/23 11:48, Greg KH wrote:
-> - Your patch did many different things all at once, making it difficult
->    to review.  All Linux kernel patches need to only do one thing at a
->    time.  If you need to do multiple things (such as clean up all coding
->    style issues in a file/driver), do it in a sequence of patches, each
->    one doing only one thing.  This will make it easier to review the
->    patches to ensure that they are correct, and to help alleviate any
->    merge issues that larger patches can cause.
-> 
-> If you wish to discuss this problem further, or you have questions about
-> how to resolve this issue, please feel free to respond to this email and
-> Greg will reply once he has dug out from the pending patches received
-> from other developers.
-> 
-> thanks,
-> 
-> greg k-h's patch email bot
+On Tue, May 09, 2023 at 05:39:12PM +0200, Vincenzo Palazzo wrote:
+> --- a/drivers/pci/controller/pcie-rockchip-host.c
+> +++ b/drivers/pci/controller/pcie-rockchip-host.c
+> @@ -38,6 +38,10 @@
+>  #include "../pci.h"
+>  #include "pcie-rockchip.h"
+>  
+> +/* bus_scan_delay - module parameter to override the
+> + * device tree value, which is 0 by default. */
+> +static int bus_scan_delay = -1;
 
-Greg's Bot is right, it will be better as a sequence of patches. Sorry 
-for bothering!
+Please do not add new module parameters, this is not the 1990's anymore.
+We have per-device settings everywhere, this makes that impossible.
+Just use a DT value, if it is wrong, then fix the DT value!  No need to
+have the kernel override it, that's not what DT files are for.
 
-Kind regards,
-Ivan Orlov.
+thanks,
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
