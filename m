@@ -4,106 +4,88 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A4F9C77B7D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 09:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AD503C77B7C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 09:43:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D433D400B1;
-	Wed, 10 May 2023 09:18:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D433D400B1
+	by smtp4.osuosl.org (Postfix) with ESMTP id 49E25414BF;
+	Wed, 10 May 2023 09:43:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 49E25414BF
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=aGm4T2Im
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G5IPJZNv
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZdzL1Wncyakr; Wed, 10 May 2023 09:18:11 +0000 (UTC)
+	with ESMTP id afRefnUQP3aL; Wed, 10 May 2023 09:43:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 800684089A;
-	Wed, 10 May 2023 09:18:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 800684089A
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 83CD54046D;
+	Wed, 10 May 2023 09:43:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 83CD54046D
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 56594C0037;
-	Wed, 10 May 2023 09:18:11 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E2716C002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5B3F3C0037;
+	Wed, 10 May 2023 09:43:31 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0A274C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 09:18:10 +0000 (UTC)
+ Wed, 10 May 2023 09:43:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A8FD7611EB
+ by smtp3.osuosl.org (Postfix) with ESMTP id CC19660A79
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 09:18:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A8FD7611EB
+ Wed, 10 May 2023 09:43:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CC19660A79
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=aGm4T2Im
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=G5IPJZNv
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jFQNNXDq6xEm
+ with ESMTP id CAXSjfmFFuTe
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 09:18:04 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A9A6F60B74
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
- [IPv6:2a00:1450:4864:20::530])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A9A6F60B74
+ Wed, 10 May 2023 09:43:28 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 83D5460669
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 83D5460669
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 09:18:04 +0000 (UTC)
-Received: by mail-ed1-x530.google.com with SMTP id
- 4fb4d7f45d1cf-50c079eb705so1795826a12.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 02:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683710282; x=1686302282;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+jevaS7XjYmubGxCabqB2SEiMi0tGSHztXxg0wz/p34=;
- b=aGm4T2ImeDl3HjLxeWJMDW3qjdYp5oX4KjuQT3omAd9HqwymdXoVAOkA/zlJqo2y9r
- a+g/FhkDKXE/hrqKlThAQjXEnj79UA3u4n683UNYF2ARpjRlNeteot0WZJj1d1xM1NnU
- e+8Gf/afKFiLPxcsyi4hOwFx0S6xU800dzIeUAqAajU8TKHcgh9IBXtbJS+1liinjO74
- qQ7Cz2z8BNIKGXe1Zjnxmk2GIkXCx79JrJDhv20qtDvHL99Nzk3hqhoEocTodcLYnkTb
- hdVa7ciWOLHHHOBQXWHW04532l2RiFsHLh5+QGmrBsOta3BpFm8p1/i/eZpimV2Ha3m5
- BkPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683710282; x=1686302282;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+jevaS7XjYmubGxCabqB2SEiMi0tGSHztXxg0wz/p34=;
- b=R/QSUbQwrAe03YX9F2HMN6DRvq26LqQ43XV8YY7QBOyBuJQ/6XwbQGXwGlH5H/M9Ss
- P8WfDKzICP/kk5a510AI9fJN9AhKu21CLlOLuZ9uM/7An1plSZA0+da1dXCVOBKi8ts5
- ufHrOljC7rhYLMFb9Nva/SXAUYtADz/NQSsU3K83n0MpCkK3WjJjuT14wqqLxTCDprmr
- hGXQikJx8kAHZHKjptJ+R3psojwg/3zlBEnMY2d1R+hqQr+ELdKhKslT1XsEHGiV1eTv
- IY+EYtLH/lutnk7TC2LbHS/RBUind/pv7ZRdqXFVSggJ58AHeAOTvZ/zwasLqkbqaWTI
- mV8Q==
-X-Gm-Message-State: AC+VfDx1byk5hS8i5D6eagShsSfK6nB5zVIf0hvKNm4NDSL1tGOFM8Hj
- EZspAxYRqh1sS6ZsA87+sf0=
-X-Google-Smtp-Source: ACHHUZ6kfTMCVyOH550c2jp3dI6n6OyH0zYXAmIdy28wl6JY97gMQHsMTiRNxw/4pjrcSq6Coyc+fg==
-X-Received: by 2002:a05:6402:3482:b0:506:97f2:1a44 with SMTP id
- v2-20020a056402348200b0050697f21a44mr15235342edc.3.1683710282395; 
- Wed, 10 May 2023 02:18:02 -0700 (PDT)
-Received: from [192.168.10.10] ([37.252.94.55])
- by smtp.gmail.com with ESMTPSA id
- u15-20020aa7db8f000000b0050bc863d32asm1669580edt.27.2023.05.10.02.18.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 02:18:02 -0700 (PDT)
-Message-ID: <414e52c8-d1b8-e445-c896-0f19effc6708@gmail.com>
-Date: Wed, 10 May 2023 13:17:59 +0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
+ Wed, 10 May 2023 09:43:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1683711808; x=1715247808;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=vneA6Bzg5q3YdvaBP1cqZUP2nVUoSSSgg5zP6JZKWOo=;
+ b=G5IPJZNvxnYzb0ROGiUgpQPbZFidmo7lnvA9zMGL02tTCXkMlYEQRMyI
+ qq75y7gBVuWsrsSiKLdRDg2v5XhFwW4mPVWwJ8flsK98ieDxJZ5MCEOmn
+ 5tegqtygrZH43/StviWw2Rk7OK6ZhrCg9Gyg00Z5Tj8AvKk50G7R7knok
+ PdszrlH576Xf990kZrqWsZ78TbwZ+7y2c2XZmVwtJpi4jYavdxZ9YzVTy
+ g8ru16gpzumGIg7ng8T10xuThFC1d/bXEAwY2S+KtVfrFXiEpmuoTOvmu
+ LzAKsnWaGYreiUOPTWqH/hEwVNR2kdhtX4TuM54ovTQ8isc3pFfN8sWOU g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="329793438"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; d="scan'208";a="329793438"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 May 2023 02:43:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="843444436"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; d="scan'208";a="843444436"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+ by fmsmga001.fm.intel.com with ESMTP; 10 May 2023 02:43:24 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1pwgM0-000374-08;
+ Wed, 10 May 2023 09:43:24 +0000
+Date: Wed, 10 May 2023 17:42:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>, perex@perex.cz, tiwai@suse.com,
+ oswald.buddenhagen@gmx.de, axboe@kernel.dk, 42.hyeyoo@gmail.com,
+ surenb@google.com
 Subject: Re: [PATCH] ALSA: PCM: Fix codestyle issues in pcm_native.c
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, perex@perex.cz, tiwai@suse.com,
- axboe@kernel.dk, 42.hyeyoo@gmail.com, surenb@google.com,
- alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Message-ID: <202305101732.PILWtd0A-lkp@intel.com>
 References: <20230510072726.435247-1-ivan.orlov0322@gmail.com>
- <2023051052-recoil-headache-1594@gregkh>
- <f1a912ea-884b-fdcd-1c05-87089f1e97b7@gmail.com>
- <87a5yc626f.wl-tiwai@suse.de> <ZFtT9J0DQI9uSd1x@ugly>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <ZFtT9J0DQI9uSd1x@ugly>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <20230510072726.435247-1-ivan.orlov0322@gmail.com>
+Cc: alsa-devel@alsa-project.org, Ivan Orlov <ivan.orlov0322@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,34 +97,122 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gMTAuMDUuMjAyMyAxMjoyMSwgT3N3YWxkIEJ1ZGRlbmhhZ2VuIHdyb3RlOgo+IE9uIFdlZCwg
-TWF5IDEwLCAyMDIzIGF0IDEwOjA2OjE2QU0gKzAyMDAsIFRha2FzaGkgSXdhaSB3cm90ZToKPj4g
-QWxzbywgaWYgaXQncyBvbmx5IGFib3V0IHdoaXRlIHNwYWNlIGZpeCBvciBzb21lIGluZGVudCBs
-ZXZlbCBpc3N1ZXMsCj4+IHRoYXQgY291bGQgYmUgcmF0aGVyIG1vcmUgbm9pc2UgYW5kIGRpc3R1
-cmJzIHRoZSBnaXQgY2hhbmdlIGhpc3RvcnksCj4+IGUuZy4gaXQgbWFrZXMgZGlmZmljdWx0IHRv
-IGZpbmQgb3V0IHRoZSByZWFsIGNvZGUgY2hhbmdlcyB2aWEgZ2l0Cj4+IGJsYW1lLCBlc3BlY2lh
-bGx5IGl0IHRvdWNoZXMgYSBodWdlIGFtb3VudCBvZiBsaW5lcyBsaWtlIHRoaXMuCj4+Cj4+IFRo
-YXQgc2FpZCwgSSdtIG5vdCBnb2luZyB0byB0YWtlIHN1Y2ggImNvZGluZyBzdHlsZSBjbGVhbnVw
-IiBwYXRjaAo+PiBibGluZGx5LsKgIElmIGl0J3MgYXNzb2NpYXRlZCB3aXRoIG90aGVyIHJlYWwg
-Zml4IG9yIGVuaGFuY2VtZW50LCBJJ2xsCj4+IGhhcHBpbHkgdGFrZSBpdC7CoCBPdGhlcndpc2Us
-IEknZCByYXRoZXIgbGVhdmUgaXQuCj4+Cj4gYSBtYXliZSBsZXNzIGNvbmZ1c2luZyB3YXkgdG8g
-cHV0IGl0IHdvdWxkIGJlICJkbyB3aGl0ZXNwYWNlIGNsZWFudXBzIAo+IG9ubHkgb24gdGhlIGxp
-bmVzIHRoYXQgY29udGFpbiAicmVhbCIgY2hhbmdlcywgYW5kIG1heWJlIGluIHRoZWlyIAo+IGlt
-bWVkaWF0ZSBwcm94aW1pdHkgZm9yIGNvbnNpc3RlbmN5Ii4gdGhhdCBtZWFucyB0aGF0IHdoaXRl
-c3BhY2Utb25seSAKPiBwYXRjaGVzIGFyZSBieSBkZWZpbml0aW9uIG5vdCBhY2NlcHRhYmxlLgo+
-IAo+IHJlZ2FyZHMKCk9zd2FsZCwgVGFrYXNoaSwgdGhhbmsgeW91IGZvciB0aGUgZXhwbGFuYXRp
-b24hIEkgZ290IGl0LiBUaGUgYWNjZXB0YW5jZSAKb2YgY29kZXN0eWxlIGNsZWFudXAgcGF0Y2hl
-cyB2YXJ5IGZyb20gb25lIEtlcm5lbCBhcmVhIHRvIGFub3RoZXIuIEknbSAKY3VyaW91cyBhYm91
-dCB0aGUgc291bmQgc3Vic3lzdGVtLCBhbmQgZGVjaWRlZCB0byBmaXggc29tZSBvYnZpb3VzIAp0
-aGluZ3MgYmVmb3JlIGdvaW5nIHRvIG1vcmUgc2lnbmlmaWNhbnQgZW5oYW5jZW1lbnRzIEkgcHJv
-YmFibHkgd291bGQgCmFibGUgdG8gbWFrZS4KCktpbmQgcmVnYXJkcywKSXZhbiBPcmxvdi4KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVs
-LW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91
-bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlz
-dGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+Hi Ivan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.4-rc1 next-20230510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/ALSA-PCM-Fix-codestyle-issues-in-pcm_native-c/20230510-152814
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230510072726.435247-1-ivan.orlov0322%40gmail.com
+patch subject: [PATCH] ALSA: PCM: Fix codestyle issues in pcm_native.c
+config: csky-randconfig-r004-20230509 (https://download.01.org/0day-ci/archive/20230510/202305101732.PILWtd0A-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/6099cbeae29e29487828a858f8b0e866bec90ab1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ivan-Orlov/ALSA-PCM-Fix-codestyle-issues-in-pcm_native-c/20230510-152814
+        git checkout 6099cbeae29e29487828a858f8b0e866bec90ab1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash sound/core/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305101732.PILWtd0A-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/core/pcm_native.c: In function 'snd_pcm_hw_params_choose':
+>> sound/core/pcm_native.c:660:94: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     660 |                         trace_hw_mask_param(pcm, *v, 0, &old_mask, hw_param_mask(params, *v));
+         |                                                                                              ^
+
+
+vim +/if +660 sound/core/pcm_native.c
+
+   607	
+   608	/**
+   609	 * snd_pcm_hw_params_choose - choose a configuration defined by @params
+   610	 * @pcm: PCM instance
+   611	 * @params: the hw_params instance
+   612	 *
+   613	 * Choose one configuration from configuration space defined by @params.
+   614	 * The configuration chosen is that obtained fixing in this order:
+   615	 * first access, first format, first subformat, min channels,
+   616	 * min rate, min period time, max buffer size, min tick time
+   617	 *
+   618	 * Return: Zero if successful, or a negative error code on failure.
+   619	 */
+   620	static int snd_pcm_hw_params_choose(struct snd_pcm_substream *pcm,
+   621					    struct snd_pcm_hw_params *params)
+   622	{
+   623		static const int vars[] = {
+   624			SNDRV_PCM_HW_PARAM_ACCESS,
+   625			SNDRV_PCM_HW_PARAM_FORMAT,
+   626			SNDRV_PCM_HW_PARAM_SUBFORMAT,
+   627			SNDRV_PCM_HW_PARAM_CHANNELS,
+   628			SNDRV_PCM_HW_PARAM_RATE,
+   629			SNDRV_PCM_HW_PARAM_PERIOD_TIME,
+   630			SNDRV_PCM_HW_PARAM_BUFFER_SIZE,
+   631			SNDRV_PCM_HW_PARAM_TICK_TIME,
+   632			-1
+   633		};
+   634		const int *v;
+   635		struct snd_mask old_mask __maybe_unused;
+   636		struct snd_interval old_interval __maybe_unused;
+   637		int changed;
+   638	
+   639		for (v = vars; *v != -1; v++) {
+   640			/* Keep old parameter to trace. */
+   641			if (trace_hw_mask_param_enabled()) {
+   642				if (hw_is_mask(*v))
+   643					old_mask = *hw_param_mask(params, *v);
+   644			}
+   645			if (trace_hw_interval_param_enabled()) {
+   646				if (hw_is_interval(*v))
+   647					old_interval = *hw_param_interval(params, *v);
+   648			}
+   649			if (*v != SNDRV_PCM_HW_PARAM_BUFFER_SIZE)
+   650				changed = snd_pcm_hw_param_first(pcm, params, *v, NULL);
+   651			else
+   652				changed = snd_pcm_hw_param_last(pcm, params, *v, NULL);
+   653			if (changed < 0)
+   654				return changed;
+   655			if (changed == 0)
+   656				continue;
+   657	
+   658			/* Trace the changed parameter. */
+   659			if (hw_is_mask(*v))
+ > 660				trace_hw_mask_param(pcm, *v, 0, &old_mask, hw_param_mask(params, *v));
+   661			if (hw_is_interval(*v)) {
+   662				trace_hw_interval_param(pcm, *v, 0, &old_interval,
+   663							hw_param_interval(params, *v));
+   664			}
+   665		}
+   666	
+   667		return 0;
+   668	}
+   669	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
