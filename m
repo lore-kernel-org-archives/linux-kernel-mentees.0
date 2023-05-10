@@ -1,78 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5B691C77B7C
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  9 May 2023 21:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 038B3C77B7C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 00:11:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D362942716;
-	Tue,  9 May 2023 21:19:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D362942716
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Osqy01NM
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7336441CA0;
+	Wed, 10 May 2023 00:11:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7336441CA0
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=qa1QAZpu
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4zi_3wn3e7sP; Tue,  9 May 2023 21:19:09 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id D2auhGoKZMwc; Wed, 10 May 2023 00:11:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 747FD4270E;
-	Tue,  9 May 2023 21:19:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 747FD4270E
+	by smtp2.osuosl.org (Postfix) with ESMTPS id C73814013D;
+	Wed, 10 May 2023 00:11:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C73814013D
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 526FAC0036;
-	Tue,  9 May 2023 21:19:09 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1AD5AC002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0B52C0036;
+	Wed, 10 May 2023 00:11:49 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3F4ADC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 May 2023 21:19:08 +0000 (UTC)
+ Wed, 10 May 2023 00:11:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E37E884606
+ by smtp1.osuosl.org (Postfix) with ESMTP id 1623D84698
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 May 2023 21:19:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E37E884606
+ Wed, 10 May 2023 00:11:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1623D84698
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=Osqy01NM
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=qa1QAZpu
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gaPTWub9aWuQ
+ with ESMTP id EAgqXEsQNI8Q
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 May 2023 21:19:07 +0000 (UTC)
-X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D1B3B845C5
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D1B3B845C5
+ Wed, 10 May 2023 00:11:45 +0000 (UTC)
+X-Greylist: whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1B85984693
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 1B85984693
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  9 May 2023 21:19:06 +0000 (UTC)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id B8F4B63474;
- Tue,  9 May 2023 21:19:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1962C433D2;
- Tue,  9 May 2023 21:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1683667145;
- bh=paFIiV0ojWVNmpAG7xnNSJM6eT+FwbQEGoSUL07SX9E=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=Osqy01NModmG70vIdcLfjI4bTcs6w3AwYzLBNAL5wzYbz8J78Eck1IqtWWcc3tMHQ
- mfwtaHhDJOmN8phCSA9ShpYhisTVQSIvqnvVknukuqmjulR2LFh8OQRs8EfdOsZRes
- C/S3TDloBE6VMjfkr3YclV9+5t9m9Unm0rWUW9U7MdSUpj6RnXUw2zse8ttpFbUPMd
- UzaGreBQW8g+6ML9V+s/dgX+zKW+q2RhSYPRX2nd6wXp1Xi4ztQoNQqAlaukmkMzrB
- iWG3gT92ASwVa4NxiOdhQ0g5l60PoTW6ckle+kPHAhKVvwCeBPNktFL2kQUM1p+7jR
- e32tevANNQpuQ==
-Date: Tue, 9 May 2023 16:19:02 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+ Wed, 10 May 2023 00:11:45 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-50bd2d7ba74so63884848a12.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 09 May 2023 17:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1683677503; x=1686269503;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SnZfBH4+e2aG6WyD+epIRlRbCTM2ae5x3KP3NU/zsH8=;
+ b=qa1QAZpuJRX22Wmqd7/SOrbuP3EC0T33Rx282qiN3yDfvAawQN0HU5mjnMKzBsRPzR
+ IsAE5C8YgbOxIzYleO6Zo09SeM4LYmKpASKa6AxqVfF9i+hxQZzUthlMZqLCV9ghjMLl
+ wP+PG951ln1pfKY+JlzCDnfQCEm8RlAvBaopqd3Ue9ye01GVRoTA1BVahRw3ea9ni6yM
+ xOx3NXRXPHDCtzoLrmSWj8WfhhP4Vk9/syO+AjYpUD36E1M+yy11014L0TkiVBmA59Jb
+ vxN/YH1t6AhEIegeI1jVZiNSee6MuqReh4BFmH72XBRSbJkS/bIAQp1A4iM6hOfOz769
+ pAZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1683677503; x=1686269503;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SnZfBH4+e2aG6WyD+epIRlRbCTM2ae5x3KP3NU/zsH8=;
+ b=IuhRE4GX8JcQXi2Gch6yQY4eb1HMa2B+RNNhmnFWA4e7Jusx3rlPOEVgWwZIFNKrmt
+ maPsPUqckXHLQxRBsO4DyaTG/lzKYDaz/RaRB/yeTNgXSsIz/I2CmWxf6XL4sRIwyoBN
+ T2Z0XyYe7eRmwTSjPe8hdp2UV6QMneBIvO/tFmm3XfQng3BFsmjUteXaJ+vARDUJqv7Y
+ 2ct8eP+zBm8qSEYq1i9HxK88xC3E8CrZMoa8pgDqZlCxA9Wvzc5jpjpAltrey3y2Wu4o
+ s0PiQ4u2ZeZ0Dnu0WZVblHA1zRvIKd5kcqURoFxlie0B2lQc+8W18OqKsQFFaiCn0ABT
+ 7DRQ==
+X-Gm-Message-State: AC+VfDx45PuLIorbHwJgq32ewvbRaS8iKcuGTIa+cHkXa1WI70Zfppbj
+ twMDjMuZMzp6ra+cHLFHra5tTOi2V9aLwbicq9M=
+X-Google-Smtp-Source: ACHHUZ4LKCnpwtXIUWdZdv/WBqxjTJX73A2u7762COFMTWyJZARzrpjkFg+kJbVMwx6laMiUTbuQMztjzLvKXONXriI=
+X-Received: by 2002:a17:907:3f9c:b0:966:1bf2:2af5 with SMTP id
+ hr28-20020a1709073f9c00b009661bf22af5mr10982902ejc.22.1683677502942; Tue, 09
+ May 2023 17:11:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
+ <20230509211902.GA1270901@bhelgaas>
+In-Reply-To: <20230509211902.GA1270901@bhelgaas>
+From: Peter Geis <pgwipeout@gmail.com>
+Date: Tue, 9 May 2023 20:11:29 -0400
+Message-ID: <CAMdYzYp6=mYSoUHN3TEXVSMbRt1HpRm0X_4RMez09V0XzQewaw@mail.gmail.com>
 Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
  Rockchip PCIe bus scan
-Message-ID: <20230509211902.GA1270901@bhelgaas>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
 Cc: kw@linux.com, heiko@sntech.de, robh@kernel.org, linux-pci@vger.kernel.org,
  shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
  linux-rockchip@lists.infradead.org, broonie@kernel.org, bhelgaas@google.com,
@@ -89,243 +108,224 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Vincenzo,
-
-Thanks for raising this issue.  Let's see what we can do to address
-it.
-
-On Tue, May 09, 2023 at 05:39:12PM +0200, Vincenzo Palazzo wrote:
-> Add a configurable delay to the Rockchip PCIe driver to address
-> crashes that occur on some old devices, such as the Pine64 RockPro64.
-> 
-> This issue is affecting the ARM community, but there is no
-> upstream solution for it yet.
-
-It sounds like this happens with several endpoints, right?  And I
-assume the endpoints work fine in other non-Rockchip systems?  If
-that's the case, my guess is the problem is with the Rockchip host
-controller and how it's initialized, not with the endpoints.
-
-The only delays and timeouts I see in the driver now are in
-rockchip_pcie_host_init_port(), where it waits for link training to
-complete.  I assume the link training did completely successfully
-since you don't mention either a gen1 or gen2 timeout (although the
-gen2 message is a dev_dbg() that normally wouldn't go to the console).
-
-I don't know that the spec contains a retrain timeout value.  Several
-other drivers use 1 second, while rockchip uses 500ms (for example,
-see LINK_RETRAIN_TIMEOUT and LINK_UP_TIMEOUT).
-
-I think we need to understand the issue better before adding a DT
-property and a module parameter.  Those are hard for users to deal
-with.  If we can figure out a value that works for everybody, it would
-be better to just hard-code it in the driver and use that all the
-time.
-
-A few minor style/formatting comments below just for future reference:
-
-> Crash dump (customized Manjaro kernel before this patch):
-> [    1.229856] SError Interrupt on CPU4, code 0xbf000002 -- SError
-> [    1.229860] CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.9.9-2.0-MANJARO-ARM #1
-> [    1.229862] Hardware name: Pine64 RockPro64 v2.1 (DT)
-> [    1.229864] pstate: 60000085 (nZCv daIf -PAN -UAO BTYPE=--)
-> [    1.229866] pc : rockchip_pcie_rd_conf+0xb4/0x270
-> [    1.229868] lr : rockchip_pcie_rd_conf+0x1b4/0x270
-> [    1.229870] sp : ffff80001004b850
-> [    1.229872] x29: ffff80001004b850 x28: 0000000000000001
-> [    1.229877] x27: 0000000000000000 x26: ffff00007a795000
-> [    1.229882] x25: ffff00007a7910b0 x24: 0000000000000000
-> [    1.229887] x23: 0000000000000000 x22: ffff00007b3a4380
-> [    1.229891] x21: ffff80001004b8c4 x20: 0000000000000004
-> [    1.229895] x19: 0000000000100000 x18: 0000000000000020
-> [    1.229900] x17: 0000000000000001 x16: 0000000000000019
-> [    1.229904] x15: ffff00007b222fd8 x14: ffffffffffffffff
-> [    1.229908] x13: ffff00007a79ba1c x12: ffff00007a79b290
-> [    1.229912] x11: 0101010101010101 x10: 7f7f7f7f7f7f7f7f
-> [    1.229917] x9 : ff72646268756463 x8 : 0000000000000391
-> [    1.229921] x7 : ffff80001004b880 x6 : 0000000000000001
-> [    1.229925] x5 : 0000000000000000 x4 : 0000000000000000
-> [    1.229930] x3 : 0000000000c00008 x2 : 000000000080000a
-> [    1.229934] x1 : 0000000000000000 x0 : ffff800014000000
-> [    1.229939] Kernel panic - not syncing: Asynchronous SError Interrupt
-> [    1.229942] CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.9.9-2.0-MANJARO-ARM #1
-> [    1.229944] Hardware name: Pine64 RockPro64 v2.1 (DT)
-> [    1.229946] Call trace:
-> [    1.229948]  dump_backtrace+0x0/0x1d0
-> [    1.229949]  show_stack+0x18/0x24
-> [    1.229951]  dump_stack+0xc0/0x118
-> [    1.229953]  panic+0x148/0x320
-> [    1.229955]  nmi_panic+0x8c/0x90
-> [    1.229956]  arm64_serror_panic+0x78/0x84
-> [    1.229958]  do_serror+0x15c/0x160
-> [    1.229960]  el1_error+0x84/0x100
-> [    1.229962]  rockchip_pcie_rd_conf+0xb4/0x270
-> [    1.229964]  pci_bus_read_config_dword+0x6c/0xd0
-> [    1.229966]  pci_bus_generic_read_dev_vendor_id+0x34/0x1b0
-> [    1.229968]  pci_scan_single_device+0xa4/0x144
-> [    1.229970]  pci_scan_slot+0x40/0x12c
-> [    1.229972]  pci_scan_child_bus_extend+0x58/0x34c
-> [    1.229974]  pci_scan_bridge_extend+0x310/0x590
-> [    1.229976]  pci_scan_child_bus_extend+0x210/0x34c
-> [    1.229978]  pci_scan_root_bus_bridge+0x68/0xdc
-> [    1.229980]  pci_host_probe+0x18/0xc4
-> [    1.229981]  rockchip_pcie_probe+0x204/0x330
-
-Include only the parts of the crash dump that are needed to debug the
-problem or identify the problem enough to find this patch.  Timestamps
-probably aren't necessary.  Register contents -- probably not either.
-
-The rest of the backtrace (below here) probably isn't useful.
-
-> [    1.229984]  platform_drv_probe+0x54/0xb0
-> [    1.229985]  really_probe+0xe8/0x500
-> [    1.229987]  driver_probe_device+0xd8/0xf0
-> [    1.229989]  device_driver_attach+0xc0/0xcc
-> [    1.229991]  __driver_attach+0xa4/0x170
-> [    1.229993]  bus_for_each_dev+0x70/0xc0
-> [    1.229994]  driver_attach+0x24/0x30
-> [    1.229996]  bus_add_driver+0x140/0x234
-> [    1.229998]  driver_register+0x78/0x130
-> [    1.230000]  __platform_driver_register+0x4c/0x60
-> [    1.230002]  rockchip_pcie_driver_init+0x1c/0x28
-> [    1.230004]  do_one_initcall+0x54/0x1c0
-> [    1.230005]  do_initcalls+0xf4/0x130
-> [    1.230007]  kernel_init_freeable+0x144/0x19c
-> [    1.230009]  kernel_init+0x14/0x11c
-> [    1.230011]  ret_from_fork+0x10/0x34
-> [    1.230035] SMP: stopping secondary CPUs
-> [    1.230037] Kernel Offset: disabled
-> [    1.230039] CPU features: 0x0240022,2100200c
-> [    1.230041] Memory Limit: none
-
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4286,6 +4286,14 @@
->  				any pair of devices, possibly at the cost of
->  				reduced performance.  This also guarantees
->  				that hot-added devices will work.
-> +		pcie_rockchip_host.bus_scan_delay=	[PCIE] Delay in ms before
-> +			scanning PCIe bus in Rockchip PCIe host driver. Some PCIe
-> +			cards seem to need delays that can be several hundred ms.
-> +			If set to greater than or equal to 0 this parameter will
-> +			override delay that can be set in device tree.
-> +			Values less than 0 the module will hit an assertion
-> +			during the init.
-> +			The default value is 0.
-
-Generally speaking module-specific stuff like this doesn't get
-documented in kernel-parameters.txt.
-
-> +++ b/arch/arm64/boot/dts/rockchip/rk3399-rockpro64.dtsi
-> @@ -663,7 +663,8 @@ &pcie0 {
->  	pinctrl-0 = <&pcie_perst>;
->  	vpcie12v-supply = <&vcc12v_dcin>;
->  	vpcie3v3-supply = <&vcc3v3_pcie>;
-> -	status = "okay";
-> +    bus-scan-delay-ms = <0>;
-> +    status = "okay";
-
-Please don't add arbitrary whitespace changes (it looks like this
-uses leading spaces instead of tabs).
-
-> +/* bus_scan_delay - module parameter to override the
-> + * device tree value, which is 0 by default. */
-
-Please follow comment style in the file, i.e.,
-
-  /*
-   * bus_scan_delay - ...
-   */
-
-Wrap comments to fill 78 columns or so to match the rest of the file.
-
-> @@ -987,6 +996,23 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
->  
->  	rockchip_pcie_enable_interrupts(rockchip);
->  
-> +	prob_delay = rockchip->bus_scan_delay;
-> +	if (bus_scan_delay)
-> +		prob_delay = bus_scan_delay;
-> +
-> +	/*
-> +	 * FIXME: This is a workaround for some devices that crash on calls to pci_host_probe()
-> +	 * or pci_scan_root_bus_bridge(). We add a delay before bus scanning to avoid the crash.
-> +	 * The call trace reaches rockchip_pcie_rd_conf() while attempting to read the vendor ID
-> +	 * (pci_bus_generic_read_dev_vendor_id() is in the call stack) before panicking.
-> +	 *
-> +	 * I'm not sure why this workaround is effective or what causes the panic. It may be related
-> +	 * to the cansleep value.
-
-Wrap comments to fit in 78 columns to match the rest of the file.
-
-> +	 */
-> +	dev_info(dev, "wait %u ms before bus scan\n", prob_delay);
-> +	if (prob_delay > 0)
-> +		msleep(prob_delay);
-
-I don't think we want to just add a random delay here that's not
-connected to anything else.  I assume it could go in
-rockchip_pcie_host_init_port() or perhaps rockchip_pcie_init_port()
-(which deasserts resets, and there are usually timing constraints
-related to deasserting resets).  Hopefully Shawn can shed some light
-on this.
-
->  	err = pci_host_probe(bridge);
->  	if (err < 0)
->  		goto err_remove_irq_domain;
-> @@ -1055,6 +1081,11 @@ static struct platform_driver rockchip_pcie_driver = {
->  };
->  module_platform_driver(rockchip_pcie_driver);
->  
-> +/** Allow to override the device tree default configuration with
-> + * a command line argument.
-> + **/
-
-Use multi-line comment style that matches the rest of the file.
-
-> +module_param_named(bus_scan_delay, bus_scan_delay, int, S_IRUGO);
-
-This should go right next to the bus_scan_delay definition above.
-
-> +++ b/drivers/pci/controller/pcie-rockchip.c
-> @@ -149,6 +149,11 @@ int rockchip_pcie_parse_dt(struct rockchip_pcie *rockchip)
->  		return PTR_ERR(rockchip->clk_pcie_pm);
->  	}
->  
-> +	err = of_property_read_u32(node, "bus-scan-delay-ms", &rockchip->bus_scan_delay);
-> +	if (err) {
-> +		dev_info(dev, "no bus scan delay, default to 0 ms\n");
-> +		rockchip->bus_scan_delay = 0;
-
-I hope we don't need this property at all, but if we do, I assume it
-should be optional, with no message needed if it's not present.
-
-> +++ b/drivers/pci/controller/pcie-rockchip.h
-> @@ -299,6 +299,16 @@ struct rockchip_pcie {
->  	phys_addr_t msg_bus_addr;
->  	bool is_rc;
->  	struct resource *mem_res;
-> +
-> +	/* It seems that the driver crashes on some
-> +	 * older devices. To work around this, we
-> +	 * should add a sleep delay before probing.
-> +	 *
-> +	 * FIXME: need more investigated with an,
-> +	 * but looks like the problem can be related with
-> +	 * the cansleep value?
-> +	 **/
-
-We need better understanding of what's going on here.  Then this
-comment could be made more specific, shorter, and formatted like
-others.
-
-> +	u32 bus_scan_delay;
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gVHVlLCBNYXkgOSwgMjAyMyBhdCA1OjE54oCvUE0gQmpvcm4gSGVsZ2FhcyA8aGVsZ2Fhc0Br
+ZXJuZWwub3JnPiB3cm90ZToKPgo+IEhpIFZpbmNlbnpvLAo+Cj4gVGhhbmtzIGZvciByYWlzaW5n
+IHRoaXMgaXNzdWUuICBMZXQncyBzZWUgd2hhdCB3ZSBjYW4gZG8gdG8gYWRkcmVzcwo+IGl0Lgo+
+Cj4gT24gVHVlLCBNYXkgMDksIDIwMjMgYXQgMDU6Mzk6MTJQTSArMDIwMCwgVmluY2Vuem8gUGFs
+YXp6byB3cm90ZToKPiA+IEFkZCBhIGNvbmZpZ3VyYWJsZSBkZWxheSB0byB0aGUgUm9ja2NoaXAg
+UENJZSBkcml2ZXIgdG8gYWRkcmVzcwo+ID4gY3Jhc2hlcyB0aGF0IG9jY3VyIG9uIHNvbWUgb2xk
+IGRldmljZXMsIHN1Y2ggYXMgdGhlIFBpbmU2NCBSb2NrUHJvNjQuCj4gPgo+ID4gVGhpcyBpc3N1
+ZSBpcyBhZmZlY3RpbmcgdGhlIEFSTSBjb21tdW5pdHksIGJ1dCB0aGVyZSBpcyBubwo+ID4gdXBz
+dHJlYW0gc29sdXRpb24gZm9yIGl0IHlldC4KPgo+IEl0IHNvdW5kcyBsaWtlIHRoaXMgaGFwcGVu
+cyB3aXRoIHNldmVyYWwgZW5kcG9pbnRzLCByaWdodD8gIEFuZCBJCj4gYXNzdW1lIHRoZSBlbmRw
+b2ludHMgd29yayBmaW5lIGluIG90aGVyIG5vbi1Sb2NrY2hpcCBzeXN0ZW1zPyAgSWYKPiB0aGF0
+J3MgdGhlIGNhc2UsIG15IGd1ZXNzIGlzIHRoZSBwcm9ibGVtIGlzIHdpdGggdGhlIFJvY2tjaGlw
+IGhvc3QKPiBjb250cm9sbGVyIGFuZCBob3cgaXQncyBpbml0aWFsaXplZCwgbm90IHdpdGggdGhl
+IGVuZHBvaW50cy4KPgo+IFRoZSBvbmx5IGRlbGF5cyBhbmQgdGltZW91dHMgSSBzZWUgaW4gdGhl
+IGRyaXZlciBub3cgYXJlIGluCj4gcm9ja2NoaXBfcGNpZV9ob3N0X2luaXRfcG9ydCgpLCB3aGVy
+ZSBpdCB3YWl0cyBmb3IgbGluayB0cmFpbmluZyB0bwo+IGNvbXBsZXRlLiAgSSBhc3N1bWUgdGhl
+IGxpbmsgdHJhaW5pbmcgZGlkIGNvbXBsZXRlbHkgc3VjY2Vzc2Z1bGx5Cj4gc2luY2UgeW91IGRv
+bid0IG1lbnRpb24gZWl0aGVyIGEgZ2VuMSBvciBnZW4yIHRpbWVvdXQgKGFsdGhvdWdoIHRoZQo+
+IGdlbjIgbWVzc2FnZSBpcyBhIGRldl9kYmcoKSB0aGF0IG5vcm1hbGx5IHdvdWxkbid0IGdvIHRv
+IHRoZSBjb25zb2xlKS4KPgo+IEkgZG9uJ3Qga25vdyB0aGF0IHRoZSBzcGVjIGNvbnRhaW5zIGEg
+cmV0cmFpbiB0aW1lb3V0IHZhbHVlLiAgU2V2ZXJhbAo+IG90aGVyIGRyaXZlcnMgdXNlIDEgc2Vj
+b25kLCB3aGlsZSByb2NrY2hpcCB1c2VzIDUwMG1zIChmb3IgZXhhbXBsZSwKPiBzZWUgTElOS19S
+RVRSQUlOX1RJTUVPVVQgYW5kIExJTktfVVBfVElNRU9VVCkuCj4KPiBJIHRoaW5rIHdlIG5lZWQg
+dG8gdW5kZXJzdGFuZCB0aGUgaXNzdWUgYmV0dGVyIGJlZm9yZSBhZGRpbmcgYSBEVAo+IHByb3Bl
+cnR5IGFuZCBhIG1vZHVsZSBwYXJhbWV0ZXIuICBUaG9zZSBhcmUgaGFyZCBmb3IgdXNlcnMgdG8g
+ZGVhbAo+IHdpdGguICBJZiB3ZSBjYW4gZmlndXJlIG91dCBhIHZhbHVlIHRoYXQgd29ya3MgZm9y
+IGV2ZXJ5Ym9keSwgaXQgd291bGQKPiBiZSBiZXR0ZXIgdG8ganVzdCBoYXJkLWNvZGUgaXQgaW4g
+dGhlIGRyaXZlciBhbmQgdXNlIHRoYXQgYWxsIHRoZQo+IHRpbWUuCgpHb29kIEV2ZW5pbmcsCgpU
+aGUgbWFpbiBpc3N1ZSB3aXRoIHRoZSByazMzOTkgaXMgdGhlIFBDSWUgY29udHJvbGxlciBpcyBi
+dWdneSBhbmQKdHJpZ2dlcnMgYSBTb0MgcGFuaWMgd2hlbiBjZXJ0YWluIGVycm9yIGNvbmRpdGlv
+bnMgb2NjdXIgdGhhdCBzaG91bGQKYmUgaGFuZGxlZCBncmFjZWZ1bGx5LiBPbmUgb2YgdGhvc2Ug
+Y29uZGl0aW9ucyBpcyB3aGVuIGFuIGVuZHBvaW50CnJlcXVlc3RzIGFuIGFjY2VzcyB0byB3YWl0
+IGFuZCByZXRyeSBsYXRlci4gTWFueSB5ZWFycyBhZ28gd2UgcmFuIHRoYXQKaXNzdWUgdG8gZ3Jv
+dW5kIGFuZCB3aXRoIFJvYmluIE11cnBoeSdzIGhlbHAgd2UgZm91bmQgdGhhdCB3aGlsZSBpdCdz
+CnBvc3NpYmxlIHRvIGdyYWNlZnVsbHkgaGFuZGxlIHRoYXQgY29uZGl0aW9uIGl0IHJlcXVpcmVk
+IGhpamFja2luZyB0aGUKZW50aXJlIGFybTY0IGVycm9yIGhhbmRsaW5nIHJvdXRpbmUuIE5vdCBl
+eGFjdGx5IHNjYWxhYmxlIGZvciBqdXN0IG9uZQpTb0MuIFRoZSBjb25maWd1cmFibGUgd2FpdHMg
+YWxsb3cgdXMgdG8gcHJvZ3JhbSByZWFzb25hYmxlIHRpbWVzIGZvcgo5MCUgb2YgdGhlIGVuZHBv
+aW50cyB0aGF0IGNvbWUgdXAgaW4gdGhlIG5vcm1hbCBhbW91bnQgb2YgdGltZSwgd2hpbGUKYmVp
+bmcgYWJsZSB0byBhZGp1c3QgaXQgZm9yIHRoZSBvdGhlciAxMCUgdGhhdCBkbyBub3QuIFNvbWUg
+cmVxdWlyZQptdWx0aXBsZSBzZWNvbmRzIGJlZm9yZSB0aGV5IHJldHVybiB3aXRob3V0IGVycm9y
+LiBQYXJ0IG9mIHRoZSByZWFzb24Kd2UgZG9uJ3Qgd2FudCB0byBoYXJkY29kZSB0aGUgd2FpdCB0
+aW1lIGlzIGJlY2F1c2UgdGhlIHByb2JlIGlzbid0CmhhbmRsZWQgYXN5bmNocm9ub3VzbHksIHNv
+IHRoZSBrZXJuZWwgYXBwZWFycyB0byBoYW5nIHdoaWxlIHdhaXRpbmcKZm9yIHRoZSB0aW1lb3V0
+LgoKSSdtIGN1cmlvdXMgaWYgaXQncyBiZWVuIHRlc3RlZCB3aXRoIHRoaXMgc2VyaWVzIG9uIHRv
+cDoKaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtYXJtLWtlcm5lbC8yMDIzMDQxODA3NDcw
+MC4xMDgzNTA1LTgtcmljay53ZXJ0ZW5icm9la0BnbWFpbC5jb20vVC8KSSdtIHBhcnRpY3VsYXJs
+eSBjdXJpb3VzIGlmClt2NSwwNC8xMV0gUENJOiByb2NrY2hpcDogQWRkIHBvbGwgYW5kIHRpbWVv
+dXQgdG8gd2FpdCBmb3IgUEhZIFBMTHMgdG8gYmUgbG9ja2VkCm1ha2VzIGEgZGlmZmVyZW5jZSBp
+biB0aGUgYmVoYXZpb3IuIFBsZWFzZSB0ZXN0IHRoaXMgYW5kIHNlZSBpZiBpdAppbXByb3ZlcyB0
+aGUgdGltZW91dHMgeW91IG5lZWQgZm9yIHRoZSBlbmRwb2ludHMgeW91J3JlIHRlc3RpbmcKYWdh
+aW5zdC4KClZlcnkgUmVzcGVjdGZ1bGx5LApQZXRlciBHZWlzCgo+Cj4gQSBmZXcgbWlub3Igc3R5
+bGUvZm9ybWF0dGluZyBjb21tZW50cyBiZWxvdyBqdXN0IGZvciBmdXR1cmUgcmVmZXJlbmNlOgo+
+Cj4gPiBDcmFzaCBkdW1wIChjdXN0b21pemVkIE1hbmphcm8ga2VybmVsIGJlZm9yZSB0aGlzIHBh
+dGNoKToKPiA+IFsgICAgMS4yMjk4NTZdIFNFcnJvciBJbnRlcnJ1cHQgb24gQ1BVNCwgY29kZSAw
+eGJmMDAwMDAyIC0tIFNFcnJvcgo+ID4gWyAgICAxLjIyOTg2MF0gQ1BVOiA0IFBJRDogMSBDb21t
+OiBzd2FwcGVyLzAgTm90IHRhaW50ZWQgNS45LjktMi4wLU1BTkpBUk8tQVJNICMxCj4gPiBbICAg
+IDEuMjI5ODYyXSBIYXJkd2FyZSBuYW1lOiBQaW5lNjQgUm9ja1BybzY0IHYyLjEgKERUKQo+ID4g
+WyAgICAxLjIyOTg2NF0gcHN0YXRlOiA2MDAwMDA4NSAoblpDdiBkYUlmIC1QQU4gLVVBTyBCVFlQ
+RT0tLSkKPiA+IFsgICAgMS4yMjk4NjZdIHBjIDogcm9ja2NoaXBfcGNpZV9yZF9jb25mKzB4YjQv
+MHgyNzAKPiA+IFsgICAgMS4yMjk4NjhdIGxyIDogcm9ja2NoaXBfcGNpZV9yZF9jb25mKzB4MWI0
+LzB4MjcwCj4gPiBbICAgIDEuMjI5ODcwXSBzcCA6IGZmZmY4MDAwMTAwNGI4NTAKPiA+IFsgICAg
+MS4yMjk4NzJdIHgyOTogZmZmZjgwMDAxMDA0Yjg1MCB4Mjg6IDAwMDAwMDAwMDAwMDAwMDEKPiA+
+IFsgICAgMS4yMjk4NzddIHgyNzogMDAwMDAwMDAwMDAwMDAwMCB4MjY6IGZmZmYwMDAwN2E3OTUw
+MDAKPiA+IFsgICAgMS4yMjk4ODJdIHgyNTogZmZmZjAwMDA3YTc5MTBiMCB4MjQ6IDAwMDAwMDAw
+MDAwMDAwMDAKPiA+IFsgICAgMS4yMjk4ODddIHgyMzogMDAwMDAwMDAwMDAwMDAwMCB4MjI6IGZm
+ZmYwMDAwN2IzYTQzODAKPiA+IFsgICAgMS4yMjk4OTFdIHgyMTogZmZmZjgwMDAxMDA0YjhjNCB4
+MjA6IDAwMDAwMDAwMDAwMDAwMDQKPiA+IFsgICAgMS4yMjk4OTVdIHgxOTogMDAwMDAwMDAwMDEw
+MDAwMCB4MTg6IDAwMDAwMDAwMDAwMDAwMjAKPiA+IFsgICAgMS4yMjk5MDBdIHgxNzogMDAwMDAw
+MDAwMDAwMDAwMSB4MTY6IDAwMDAwMDAwMDAwMDAwMTkKPiA+IFsgICAgMS4yMjk5MDRdIHgxNTog
+ZmZmZjAwMDA3YjIyMmZkOCB4MTQ6IGZmZmZmZmZmZmZmZmZmZmYKPiA+IFsgICAgMS4yMjk5MDhd
+IHgxMzogZmZmZjAwMDA3YTc5YmExYyB4MTI6IGZmZmYwMDAwN2E3OWIyOTAKPiA+IFsgICAgMS4y
+Mjk5MTJdIHgxMTogMDEwMTAxMDEwMTAxMDEwMSB4MTA6IDdmN2Y3ZjdmN2Y3ZjdmN2YKPiA+IFsg
+ICAgMS4yMjk5MTddIHg5IDogZmY3MjY0NjI2ODc1NjQ2MyB4OCA6IDAwMDAwMDAwMDAwMDAzOTEK
+PiA+IFsgICAgMS4yMjk5MjFdIHg3IDogZmZmZjgwMDAxMDA0Yjg4MCB4NiA6IDAwMDAwMDAwMDAw
+MDAwMDEKPiA+IFsgICAgMS4yMjk5MjVdIHg1IDogMDAwMDAwMDAwMDAwMDAwMCB4NCA6IDAwMDAw
+MDAwMDAwMDAwMDAKPiA+IFsgICAgMS4yMjk5MzBdIHgzIDogMDAwMDAwMDAwMGMwMDAwOCB4MiA6
+IDAwMDAwMDAwMDA4MDAwMGEKPiA+IFsgICAgMS4yMjk5MzRdIHgxIDogMDAwMDAwMDAwMDAwMDAw
+MCB4MCA6IGZmZmY4MDAwMTQwMDAwMDAKPiA+IFsgICAgMS4yMjk5MzldIEtlcm5lbCBwYW5pYyAt
+IG5vdCBzeW5jaW5nOiBBc3luY2hyb25vdXMgU0Vycm9yIEludGVycnVwdAo+ID4gWyAgICAxLjIy
+OTk0Ml0gQ1BVOiA0IFBJRDogMSBDb21tOiBzd2FwcGVyLzAgTm90IHRhaW50ZWQgNS45LjktMi4w
+LU1BTkpBUk8tQVJNICMxCj4gPiBbICAgIDEuMjI5OTQ0XSBIYXJkd2FyZSBuYW1lOiBQaW5lNjQg
+Um9ja1BybzY0IHYyLjEgKERUKQo+ID4gWyAgICAxLjIyOTk0Nl0gQ2FsbCB0cmFjZToKPiA+IFsg
+ICAgMS4yMjk5NDhdICBkdW1wX2JhY2t0cmFjZSsweDAvMHgxZDAKPiA+IFsgICAgMS4yMjk5NDld
+ICBzaG93X3N0YWNrKzB4MTgvMHgyNAo+ID4gWyAgICAxLjIyOTk1MV0gIGR1bXBfc3RhY2srMHhj
+MC8weDExOAo+ID4gWyAgICAxLjIyOTk1M10gIHBhbmljKzB4MTQ4LzB4MzIwCj4gPiBbICAgIDEu
+MjI5OTU1XSAgbm1pX3BhbmljKzB4OGMvMHg5MAo+ID4gWyAgICAxLjIyOTk1Nl0gIGFybTY0X3Nl
+cnJvcl9wYW5pYysweDc4LzB4ODQKPiA+IFsgICAgMS4yMjk5NThdICBkb19zZXJyb3IrMHgxNWMv
+MHgxNjAKPiA+IFsgICAgMS4yMjk5NjBdICBlbDFfZXJyb3IrMHg4NC8weDEwMAo+ID4gWyAgICAx
+LjIyOTk2Ml0gIHJvY2tjaGlwX3BjaWVfcmRfY29uZisweGI0LzB4MjcwCj4gPiBbICAgIDEuMjI5
+OTY0XSAgcGNpX2J1c19yZWFkX2NvbmZpZ19kd29yZCsweDZjLzB4ZDAKPiA+IFsgICAgMS4yMjk5
+NjZdICBwY2lfYnVzX2dlbmVyaWNfcmVhZF9kZXZfdmVuZG9yX2lkKzB4MzQvMHgxYjAKPiA+IFsg
+ICAgMS4yMjk5NjhdICBwY2lfc2Nhbl9zaW5nbGVfZGV2aWNlKzB4YTQvMHgxNDQKPiA+IFsgICAg
+MS4yMjk5NzBdICBwY2lfc2Nhbl9zbG90KzB4NDAvMHgxMmMKPiA+IFsgICAgMS4yMjk5NzJdICBw
+Y2lfc2Nhbl9jaGlsZF9idXNfZXh0ZW5kKzB4NTgvMHgzNGMKPiA+IFsgICAgMS4yMjk5NzRdICBw
+Y2lfc2Nhbl9icmlkZ2VfZXh0ZW5kKzB4MzEwLzB4NTkwCj4gPiBbICAgIDEuMjI5OTc2XSAgcGNp
+X3NjYW5fY2hpbGRfYnVzX2V4dGVuZCsweDIxMC8weDM0Ywo+ID4gWyAgICAxLjIyOTk3OF0gIHBj
+aV9zY2FuX3Jvb3RfYnVzX2JyaWRnZSsweDY4LzB4ZGMKPiA+IFsgICAgMS4yMjk5ODBdICBwY2lf
+aG9zdF9wcm9iZSsweDE4LzB4YzQKPiA+IFsgICAgMS4yMjk5ODFdICByb2NrY2hpcF9wY2llX3By
+b2JlKzB4MjA0LzB4MzMwCj4KPiBJbmNsdWRlIG9ubHkgdGhlIHBhcnRzIG9mIHRoZSBjcmFzaCBk
+dW1wIHRoYXQgYXJlIG5lZWRlZCB0byBkZWJ1ZyB0aGUKPiBwcm9ibGVtIG9yIGlkZW50aWZ5IHRo
+ZSBwcm9ibGVtIGVub3VnaCB0byBmaW5kIHRoaXMgcGF0Y2guICBUaW1lc3RhbXBzCj4gcHJvYmFi
+bHkgYXJlbid0IG5lY2Vzc2FyeS4gIFJlZ2lzdGVyIGNvbnRlbnRzIC0tIHByb2JhYmx5IG5vdCBl
+aXRoZXIuCj4KPiBUaGUgcmVzdCBvZiB0aGUgYmFja3RyYWNlIChiZWxvdyBoZXJlKSBwcm9iYWJs
+eSBpc24ndCB1c2VmdWwuCj4KPiA+IFsgICAgMS4yMjk5ODRdICBwbGF0Zm9ybV9kcnZfcHJvYmUr
+MHg1NC8weGIwCj4gPiBbICAgIDEuMjI5OTg1XSAgcmVhbGx5X3Byb2JlKzB4ZTgvMHg1MDAKPiA+
+IFsgICAgMS4yMjk5ODddICBkcml2ZXJfcHJvYmVfZGV2aWNlKzB4ZDgvMHhmMAo+ID4gWyAgICAx
+LjIyOTk4OV0gIGRldmljZV9kcml2ZXJfYXR0YWNoKzB4YzAvMHhjYwo+ID4gWyAgICAxLjIyOTk5
+MV0gIF9fZHJpdmVyX2F0dGFjaCsweGE0LzB4MTcwCj4gPiBbICAgIDEuMjI5OTkzXSAgYnVzX2Zv
+cl9lYWNoX2RldisweDcwLzB4YzAKPiA+IFsgICAgMS4yMjk5OTRdICBkcml2ZXJfYXR0YWNoKzB4
+MjQvMHgzMAo+ID4gWyAgICAxLjIyOTk5Nl0gIGJ1c19hZGRfZHJpdmVyKzB4MTQwLzB4MjM0Cj4g
+PiBbICAgIDEuMjI5OTk4XSAgZHJpdmVyX3JlZ2lzdGVyKzB4NzgvMHgxMzAKPiA+IFsgICAgMS4y
+MzAwMDBdICBfX3BsYXRmb3JtX2RyaXZlcl9yZWdpc3RlcisweDRjLzB4NjAKPiA+IFsgICAgMS4y
+MzAwMDJdICByb2NrY2hpcF9wY2llX2RyaXZlcl9pbml0KzB4MWMvMHgyOAo+ID4gWyAgICAxLjIz
+MDAwNF0gIGRvX29uZV9pbml0Y2FsbCsweDU0LzB4MWMwCj4gPiBbICAgIDEuMjMwMDA1XSAgZG9f
+aW5pdGNhbGxzKzB4ZjQvMHgxMzAKPiA+IFsgICAgMS4yMzAwMDddICBrZXJuZWxfaW5pdF9mcmVl
+YWJsZSsweDE0NC8weDE5Ywo+ID4gWyAgICAxLjIzMDAwOV0gIGtlcm5lbF9pbml0KzB4MTQvMHgx
+MWMKPiA+IFsgICAgMS4yMzAwMTFdICByZXRfZnJvbV9mb3JrKzB4MTAvMHgzNAo+ID4gWyAgICAx
+LjIzMDAzNV0gU01QOiBzdG9wcGluZyBzZWNvbmRhcnkgQ1BVcwo+ID4gWyAgICAxLjIzMDAzN10g
+S2VybmVsIE9mZnNldDogZGlzYWJsZWQKPiA+IFsgICAgMS4yMzAwMzldIENQVSBmZWF0dXJlczog
+MHgwMjQwMDIyLDIxMDAyMDBjCj4gPiBbICAgIDEuMjMwMDQxXSBNZW1vcnkgTGltaXQ6IG5vbmUK
+Pgo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50
+eHQKPiA+IEBAIC00Mjg2LDYgKzQyODYsMTQgQEAKPiA+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGFueSBwYWlyIG9mIGRldmljZXMsIHBvc3NpYmx5IGF0IHRoZSBjb3N0IG9mCj4gPiAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWR1Y2VkIHBlcmZvcm1hbmNlLiAgVGhpcyBh
+bHNvIGd1YXJhbnRlZXMKPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRoYXQgaG90
+LWFkZGVkIGRldmljZXMgd2lsbCB3b3JrLgo+ID4gKyAgICAgICAgICAgICBwY2llX3JvY2tjaGlw
+X2hvc3QuYnVzX3NjYW5fZGVsYXk9ICAgICAgW1BDSUVdIERlbGF5IGluIG1zIGJlZm9yZQo+ID4g
+KyAgICAgICAgICAgICAgICAgICAgIHNjYW5uaW5nIFBDSWUgYnVzIGluIFJvY2tjaGlwIFBDSWUg
+aG9zdCBkcml2ZXIuIFNvbWUgUENJZQo+ID4gKyAgICAgICAgICAgICAgICAgICAgIGNhcmRzIHNl
+ZW0gdG8gbmVlZCBkZWxheXMgdGhhdCBjYW4gYmUgc2V2ZXJhbCBodW5kcmVkIG1zLgo+ID4gKyAg
+ICAgICAgICAgICAgICAgICAgIElmIHNldCB0byBncmVhdGVyIHRoYW4gb3IgZXF1YWwgdG8gMCB0
+aGlzIHBhcmFtZXRlciB3aWxsCj4gPiArICAgICAgICAgICAgICAgICAgICAgb3ZlcnJpZGUgZGVs
+YXkgdGhhdCBjYW4gYmUgc2V0IGluIGRldmljZSB0cmVlLgo+ID4gKyAgICAgICAgICAgICAgICAg
+ICAgIFZhbHVlcyBsZXNzIHRoYW4gMCB0aGUgbW9kdWxlIHdpbGwgaGl0IGFuIGFzc2VydGlvbgo+
+ID4gKyAgICAgICAgICAgICAgICAgICAgIGR1cmluZyB0aGUgaW5pdC4KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICBUaGUgZGVmYXVsdCB2YWx1ZSBpcyAwLgo+Cj4gR2VuZXJhbGx5IHNwZWFraW5n
+IG1vZHVsZS1zcGVjaWZpYyBzdHVmZiBsaWtlIHRoaXMgZG9lc24ndCBnZXQKPiBkb2N1bWVudGVk
+IGluIGtlcm5lbC1wYXJhbWV0ZXJzLnR4dC4KPgo+ID4gKysrIGIvYXJjaC9hcm02NC9ib290L2R0
+cy9yb2NrY2hpcC9yazMzOTktcm9ja3BybzY0LmR0c2kKPiA+IEBAIC02NjMsNyArNjYzLDggQEAg
+JnBjaWUwIHsKPiA+ICAgICAgIHBpbmN0cmwtMCA9IDwmcGNpZV9wZXJzdD47Cj4gPiAgICAgICB2
+cGNpZTEydi1zdXBwbHkgPSA8JnZjYzEydl9kY2luPjsKPiA+ICAgICAgIHZwY2llM3YzLXN1cHBs
+eSA9IDwmdmNjM3YzX3BjaWU+Owo+ID4gLSAgICAgc3RhdHVzID0gIm9rYXkiOwo+ID4gKyAgICBi
+dXMtc2Nhbi1kZWxheS1tcyA9IDwwPjsKPiA+ICsgICAgc3RhdHVzID0gIm9rYXkiOwo+Cj4gUGxl
+YXNlIGRvbid0IGFkZCBhcmJpdHJhcnkgd2hpdGVzcGFjZSBjaGFuZ2VzIChpdCBsb29rcyBsaWtl
+IHRoaXMKPiB1c2VzIGxlYWRpbmcgc3BhY2VzIGluc3RlYWQgb2YgdGFicykuCj4KPiA+ICsvKiBi
+dXNfc2Nhbl9kZWxheSAtIG1vZHVsZSBwYXJhbWV0ZXIgdG8gb3ZlcnJpZGUgdGhlCj4gPiArICog
+ZGV2aWNlIHRyZWUgdmFsdWUsIHdoaWNoIGlzIDAgYnkgZGVmYXVsdC4gKi8KPgo+IFBsZWFzZSBm
+b2xsb3cgY29tbWVudCBzdHlsZSBpbiB0aGUgZmlsZSwgaS5lLiwKPgo+ICAgLyoKPiAgICAqIGJ1
+c19zY2FuX2RlbGF5IC0gLi4uCj4gICAgKi8KPgo+IFdyYXAgY29tbWVudHMgdG8gZmlsbCA3OCBj
+b2x1bW5zIG9yIHNvIHRvIG1hdGNoIHRoZSByZXN0IG9mIHRoZSBmaWxlLgo+Cj4gPiBAQCAtOTg3
+LDYgKzk5NiwyMyBAQCBzdGF0aWMgaW50IHJvY2tjaGlwX3BjaWVfcHJvYmUoc3RydWN0IHBsYXRm
+b3JtX2RldmljZSAqcGRldikKPiA+Cj4gPiAgICAgICByb2NrY2hpcF9wY2llX2VuYWJsZV9pbnRl
+cnJ1cHRzKHJvY2tjaGlwKTsKPiA+Cj4gPiArICAgICBwcm9iX2RlbGF5ID0gcm9ja2NoaXAtPmJ1
+c19zY2FuX2RlbGF5Owo+ID4gKyAgICAgaWYgKGJ1c19zY2FuX2RlbGF5KQo+ID4gKyAgICAgICAg
+ICAgICBwcm9iX2RlbGF5ID0gYnVzX3NjYW5fZGVsYXk7Cj4gPiArCj4gPiArICAgICAvKgo+ID4g
+KyAgICAgICogRklYTUU6IFRoaXMgaXMgYSB3b3JrYXJvdW5kIGZvciBzb21lIGRldmljZXMgdGhh
+dCBjcmFzaCBvbiBjYWxscyB0byBwY2lfaG9zdF9wcm9iZSgpCj4gPiArICAgICAgKiBvciBwY2lf
+c2Nhbl9yb290X2J1c19icmlkZ2UoKS4gV2UgYWRkIGEgZGVsYXkgYmVmb3JlIGJ1cyBzY2Fubmlu
+ZyB0byBhdm9pZCB0aGUgY3Jhc2guCj4gPiArICAgICAgKiBUaGUgY2FsbCB0cmFjZSByZWFjaGVz
+IHJvY2tjaGlwX3BjaWVfcmRfY29uZigpIHdoaWxlIGF0dGVtcHRpbmcgdG8gcmVhZCB0aGUgdmVu
+ZG9yIElECj4gPiArICAgICAgKiAocGNpX2J1c19nZW5lcmljX3JlYWRfZGV2X3ZlbmRvcl9pZCgp
+IGlzIGluIHRoZSBjYWxsIHN0YWNrKSBiZWZvcmUgcGFuaWNraW5nLgo+ID4gKyAgICAgICoKPiA+
+ICsgICAgICAqIEknbSBub3Qgc3VyZSB3aHkgdGhpcyB3b3JrYXJvdW5kIGlzIGVmZmVjdGl2ZSBv
+ciB3aGF0IGNhdXNlcyB0aGUgcGFuaWMuIEl0IG1heSBiZSByZWxhdGVkCj4gPiArICAgICAgKiB0
+byB0aGUgY2Fuc2xlZXAgdmFsdWUuCj4KPiBXcmFwIGNvbW1lbnRzIHRvIGZpdCBpbiA3OCBjb2x1
+bW5zIHRvIG1hdGNoIHRoZSByZXN0IG9mIHRoZSBmaWxlLgo+Cj4gPiArICAgICAgKi8KPiA+ICsg
+ICAgIGRldl9pbmZvKGRldiwgIndhaXQgJXUgbXMgYmVmb3JlIGJ1cyBzY2FuXG4iLCBwcm9iX2Rl
+bGF5KTsKPiA+ICsgICAgIGlmIChwcm9iX2RlbGF5ID4gMCkKPiA+ICsgICAgICAgICAgICAgbXNs
+ZWVwKHByb2JfZGVsYXkpOwo+Cj4gSSBkb24ndCB0aGluayB3ZSB3YW50IHRvIGp1c3QgYWRkIGEg
+cmFuZG9tIGRlbGF5IGhlcmUgdGhhdCdzIG5vdAo+IGNvbm5lY3RlZCB0byBhbnl0aGluZyBlbHNl
+LiAgSSBhc3N1bWUgaXQgY291bGQgZ28gaW4KPiByb2NrY2hpcF9wY2llX2hvc3RfaW5pdF9wb3J0
+KCkgb3IgcGVyaGFwcyByb2NrY2hpcF9wY2llX2luaXRfcG9ydCgpCj4gKHdoaWNoIGRlYXNzZXJ0
+cyByZXNldHMsIGFuZCB0aGVyZSBhcmUgdXN1YWxseSB0aW1pbmcgY29uc3RyYWludHMKPiByZWxh
+dGVkIHRvIGRlYXNzZXJ0aW5nIHJlc2V0cykuICBIb3BlZnVsbHkgU2hhd24gY2FuIHNoZWQgc29t
+ZSBsaWdodAo+IG9uIHRoaXMuCj4KPiA+ICAgICAgIGVyciA9IHBjaV9ob3N0X3Byb2JlKGJyaWRn
+ZSk7Cj4gPiAgICAgICBpZiAoZXJyIDwgMCkKPiA+ICAgICAgICAgICAgICAgZ290byBlcnJfcmVt
+b3ZlX2lycV9kb21haW47Cj4gPiBAQCAtMTA1NSw2ICsxMDgxLDExIEBAIHN0YXRpYyBzdHJ1Y3Qg
+cGxhdGZvcm1fZHJpdmVyIHJvY2tjaGlwX3BjaWVfZHJpdmVyID0gewo+ID4gIH07Cj4gPiAgbW9k
+dWxlX3BsYXRmb3JtX2RyaXZlcihyb2NrY2hpcF9wY2llX2RyaXZlcik7Cj4gPgo+ID4gKy8qKiBB
+bGxvdyB0byBvdmVycmlkZSB0aGUgZGV2aWNlIHRyZWUgZGVmYXVsdCBjb25maWd1cmF0aW9uIHdp
+dGgKPiA+ICsgKiBhIGNvbW1hbmQgbGluZSBhcmd1bWVudC4KPiA+ICsgKiovCj4KPiBVc2UgbXVs
+dGktbGluZSBjb21tZW50IHN0eWxlIHRoYXQgbWF0Y2hlcyB0aGUgcmVzdCBvZiB0aGUgZmlsZS4K
+Pgo+ID4gK21vZHVsZV9wYXJhbV9uYW1lZChidXNfc2Nhbl9kZWxheSwgYnVzX3NjYW5fZGVsYXks
+IGludCwgU19JUlVHTyk7Cj4KPiBUaGlzIHNob3VsZCBnbyByaWdodCBuZXh0IHRvIHRoZSBidXNf
+c2Nhbl9kZWxheSBkZWZpbml0aW9uIGFib3ZlLgo+Cj4gPiArKysgYi9kcml2ZXJzL3BjaS9jb250
+cm9sbGVyL3BjaWUtcm9ja2NoaXAuYwo+ID4gQEAgLTE0OSw2ICsxNDksMTEgQEAgaW50IHJvY2tj
+aGlwX3BjaWVfcGFyc2VfZHQoc3RydWN0IHJvY2tjaGlwX3BjaWUgKnJvY2tjaGlwKQo+ID4gICAg
+ICAgICAgICAgICByZXR1cm4gUFRSX0VSUihyb2NrY2hpcC0+Y2xrX3BjaWVfcG0pOwo+ID4gICAg
+ICAgfQo+ID4KPiA+ICsgICAgIGVyciA9IG9mX3Byb3BlcnR5X3JlYWRfdTMyKG5vZGUsICJidXMt
+c2Nhbi1kZWxheS1tcyIsICZyb2NrY2hpcC0+YnVzX3NjYW5fZGVsYXkpOwo+ID4gKyAgICAgaWYg
+KGVycikgewo+ID4gKyAgICAgICAgICAgICBkZXZfaW5mbyhkZXYsICJubyBidXMgc2NhbiBkZWxh
+eSwgZGVmYXVsdCB0byAwIG1zXG4iKTsKPiA+ICsgICAgICAgICAgICAgcm9ja2NoaXAtPmJ1c19z
+Y2FuX2RlbGF5ID0gMDsKPgo+IEkgaG9wZSB3ZSBkb24ndCBuZWVkIHRoaXMgcHJvcGVydHkgYXQg
+YWxsLCBidXQgaWYgd2UgZG8sIEkgYXNzdW1lIGl0Cj4gc2hvdWxkIGJlIG9wdGlvbmFsLCB3aXRo
+IG5vIG1lc3NhZ2UgbmVlZGVkIGlmIGl0J3Mgbm90IHByZXNlbnQuCj4KPiA+ICsrKyBiL2RyaXZl
+cnMvcGNpL2NvbnRyb2xsZXIvcGNpZS1yb2NrY2hpcC5oCj4gPiBAQCAtMjk5LDYgKzI5OSwxNiBA
+QCBzdHJ1Y3Qgcm9ja2NoaXBfcGNpZSB7Cj4gPiAgICAgICBwaHlzX2FkZHJfdCBtc2dfYnVzX2Fk
+ZHI7Cj4gPiAgICAgICBib29sIGlzX3JjOwo+ID4gICAgICAgc3RydWN0IHJlc291cmNlICptZW1f
+cmVzOwo+ID4gKwo+ID4gKyAgICAgLyogSXQgc2VlbXMgdGhhdCB0aGUgZHJpdmVyIGNyYXNoZXMg
+b24gc29tZQo+ID4gKyAgICAgICogb2xkZXIgZGV2aWNlcy4gVG8gd29yayBhcm91bmQgdGhpcywg
+d2UKPiA+ICsgICAgICAqIHNob3VsZCBhZGQgYSBzbGVlcCBkZWxheSBiZWZvcmUgcHJvYmluZy4K
+PiA+ICsgICAgICAqCj4gPiArICAgICAgKiBGSVhNRTogbmVlZCBtb3JlIGludmVzdGlnYXRlZCB3
+aXRoIGFuLAo+ID4gKyAgICAgICogYnV0IGxvb2tzIGxpa2UgdGhlIHByb2JsZW0gY2FuIGJlIHJl
+bGF0ZWQgd2l0aAo+ID4gKyAgICAgICogdGhlIGNhbnNsZWVwIHZhbHVlPwo+ID4gKyAgICAgICoq
+Lwo+Cj4gV2UgbmVlZCBiZXR0ZXIgdW5kZXJzdGFuZGluZyBvZiB3aGF0J3MgZ29pbmcgb24gaGVy
+ZS4gIFRoZW4gdGhpcwo+IGNvbW1lbnQgY291bGQgYmUgbWFkZSBtb3JlIHNwZWNpZmljLCBzaG9y
+dGVyLCBhbmQgZm9ybWF0dGVkIGxpa2UKPiBvdGhlcnMuCj4KPiA+ICsgICAgIHUzMiBidXNfc2Nh
+bl9kZWxheTsKPgo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fCj4gTGludXgtcm9ja2NoaXAgbWFpbGluZyBsaXN0Cj4gTGludXgtcm9ja2NoaXBAbGlzdHMu
+aW5mcmFkZWFkLm9yZwo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21haWxtYW4vbGlzdGlu
+Zm8vbGludXgtcm9ja2NoaXAKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1t
+ZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5k
+YXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
