@@ -1,118 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A690EC77B7D
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 07:57:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AF0ACC77B7C
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 08:06:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4B097844B9;
-	Wed, 10 May 2023 07:57:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4B097844B9
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com header.a=rsa-sha256 header.s=fm3 header.b=tJa8a0Kb;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=IojDGxNt
+	by smtp2.osuosl.org (Postfix) with ESMTP id 40D9642999;
+	Wed, 10 May 2023 08:06:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 40D9642999
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IwQ7Q0EQ;
+	dkim=fail reason="signature verification failed" header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=GMKQzn4m
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Xnu6eBoVoFKG; Wed, 10 May 2023 07:57:24 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 629DB844AC;
-	Wed, 10 May 2023 07:57:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 629DB844AC
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FCWNT7YVaABY; Wed, 10 May 2023 08:06:24 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 1A1DA4011C;
+	Wed, 10 May 2023 08:06:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1A1DA4011C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DC35C0036;
-	Wed, 10 May 2023 07:57:24 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0CF01C002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EBA00C0037;
+	Wed, 10 May 2023 08:06:23 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8FEE1C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:57:23 +0000 (UTC)
+ Wed, 10 May 2023 08:06:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C5FFD41FB5
+ by smtp3.osuosl.org (Postfix) with ESMTP id 77C5660FAE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:57:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C5FFD41FB5
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com
- header.a=rsa-sha256 header.s=fm3 header.b=tJa8a0Kb; 
- dkim=pass (2048-bit key,
- unprotected) header.d=messagingengine.com header.i=@messagingengine.com
- header.a=rsa-sha256 header.s=fm3 header.b=IojDGxNt
+ Wed, 10 May 2023 08:06:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 77C5660FAE
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de
+ header.a=rsa-sha256 header.s=susede2_rsa header.b=IwQ7Q0EQ; 
+ dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256
+ header.s=susede2_ed25519 header.b=GMKQzn4m
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a8Z1GHzMH00T
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RnwgX2s_sfJT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:57:21 +0000 (UTC)
-X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D442741E0F
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by smtp4.osuosl.org (Postfix) with ESMTPS id D442741E0F
+ Wed, 10 May 2023 08:06:21 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D2B060F89
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2D2B060F89
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 07:57:21 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 833672B0681C;
- Wed, 10 May 2023 03:57:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 10 May 2023 03:57:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1683705438; x=1683712638; bh=lu
- YuF/JxvULVmeDkbLyw1Zb3ZU/LU2UPbqzZwwIFgXw=; b=tJa8a0KbkrvxLGCR7o
- RenGyf/IB6qR1pixLlCkrrhzyY4nd6Hgh0GBNTsFmBpS0yMjL74a8jbaxz46Idci
- SbSk8gDCdjUF9MktAUpyyVurrve2RX/OUlZjer7wv7lNpvic911D/4E4OEUyg5Yl
- CsNBemqmjUcJsRVRfTneLAqz0mVFo75fWmzQg8OUbugSCgDvE8FdJDVbm4Dbqmoj
- 1YpZKNl8oNskPtS6BxXH1Lq3mUjh400ZR/q5wuj6GCk5qtV6r3N/A94Sxu0Mv5Nc
- saY5yq+lnqIzpNAnBPijBvK8V0ZnoKZomnU0ISU4+RW7lk093hW9aX5chyoEv5kR
- PMtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1683705438; x=1683712638; bh=luYuF/JxvULVm
- eDkbLyw1Zb3ZU/LU2UPbqzZwwIFgXw=; b=IojDGxNtfD0DJ2+CDtWHQSSGfufa3
- mL3zg7qEiV1DwRNj71zq5VhPgXz26dFRGtLgymYCP7w5nSNkImbCcIwUctOOm7/B
- ILWPc13tLoAl3sR8mTTKHxmONTLbjgfmpSWPs1lOuK8U9zXaZi11/wdQnTnqsNa0
- fk9xG4zZO8A/FbAQfy7FJOgON5rUl9is5pA99i6YUy6B0NoO3wsQm+3c64IcgMpn
- lFCY54lj9He2nNNY8D5OKNO+zkZcWTMElhVf+R6m4KGjeXdzVCUDRhD+BDi0wTeA
- P/w+qzj0IDnU03FOBPAkIyURywhEcUJomw7TS5cJzS2/BCp/dOUZTwQ9w==
-X-ME-Sender: <xms:XU5bZMf7Es_B0mwWdMR6GPrBKUfqIBy8Fv2iQcwsFpJEzP-LUx33qg>
- <xme:XU5bZOMZtC6bj_qHm8gMWnmPqo6h9LwJqGP9JE4E7mQwNeBHLJ3ZhwG-0B2G4kmbj
- 5GCo-AXCaGUyw>
-X-ME-Received: <xmr:XU5bZNhPlWCTwCYTsx7F-DVagjVKZm_GDne2UCLTFm9eOeG9JFudqwkmx0c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeggedgtdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
- ertddttddvnecuhfhrohhmpefirhgvghcumffjuceoghhrvghgsehkrhhorghhrdgtohhm
- qeenucggtffrrghtthgvrhhnpeehgedvvedvleejuefgtdduudfhkeeltdeihfevjeekje
- euhfdtueefhffgheekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
- ihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:XU5bZB97UnXv30emiW9sr70rvQi2LVWwvNxvEf-JAoLlrxnFx0dAJg>
- <xmx:XU5bZIsKlK22zhz6WYqNwgO7ZnD9qhkdh6gJmsYnXuZzK5TdRaKDqA>
- <xmx:XU5bZIH7i6ymzx6TM4i5eFMSOp4qcaSjBHhPECWvkwh2qGSziJl6Cg>
- <xmx:Xk5bZB6scUFm3rT8fS8eGVX945sSW2Q7ZKiIHhmaToKgTntgMO0ltQpY_qg>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 10 May 2023 03:57:16 -0400 (EDT)
-Date: Wed, 10 May 2023 09:57:14 +0200
-From: Greg KH <greg@kroah.com>
-To: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
-Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
- Rockchip PCIe bus scan
-Message-ID: <2023051014-foe-multiply-ffff@gregkh>
-References: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
-Cc: kw@linux.com, heiko@sntech.de, robh@kernel.org, linux-pci@vger.kernel.org,
- shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
- linux-rockchip@lists.infradead.org, broonie@kernel.org, bhelgaas@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org,
- linux-arm-kernel@lists.infradead.org, Dan Johansen <strit@manjaro.org>
+ Wed, 10 May 2023 08:06:21 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0DB6D21ADC;
+ Wed, 10 May 2023 08:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1683705978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AIn9dMlGX57qADgU5sVGhgMAmniYi84QyI4AhbTr4fo=;
+ b=IwQ7Q0EQNrhrqdcBDRee3SUA+hYmy3U2txJFNueaQuzeQ/4sRA2e9vmX/Ab5RSZucCkHFn
+ jFox3PUjR8zsrX65Zhj/xV3bnESrrg+2wdngbIJNRCXyKLbm98+E2kFOQOYNqSkKq398L7
+ gxmj9bBEo5/j/wXPuCXe3LrTHC3mP5E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1683705978;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AIn9dMlGX57qADgU5sVGhgMAmniYi84QyI4AhbTr4fo=;
+ b=GMKQzn4mT0Uj6ACH2YHTPFBRpwTBHx+Lmq0c5l50VooP8S5BLQgQvLmV0RAvSk0TjwHr66
+ uBsuoWRycUAEhSDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6744313519;
+ Wed, 10 May 2023 08:06:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id K/pCGHlQW2SjXQAAMHmgww
+ (envelope-from <tiwai@suse.de>); Wed, 10 May 2023 08:06:17 +0000
+Date: Wed, 10 May 2023 10:06:16 +0200
+Message-ID: <87a5yc626f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Subject: Re: [PATCH] ALSA: PCM: Fix codestyle issues in pcm_native.c
+In-Reply-To: <f1a912ea-884b-fdcd-1c05-87089f1e97b7@gmail.com>
+References: <20230510072726.435247-1-ivan.orlov0322@gmail.com>
+ <2023051052-recoil-headache-1594@gregkh>
+ <f1a912ea-884b-fdcd-1c05-87089f1e97b7@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Cc: axboe@kernel.dk, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+ tiwai@suse.com, perex@perex.cz, 42.hyeyoo@gmail.com, oswald.buddenhagen@gmx.de,
+ surenb@google.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -130,25 +112,43 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, May 09, 2023 at 05:39:12PM +0200, Vincenzo Palazzo wrote:
-> --- a/drivers/pci/controller/pcie-rockchip-host.c
-> +++ b/drivers/pci/controller/pcie-rockchip-host.c
-> @@ -38,6 +38,10 @@
->  #include "../pci.h"
->  #include "pcie-rockchip.h"
->  
-> +/* bus_scan_delay - module parameter to override the
-> + * device tree value, which is 0 by default. */
-> +static int bus_scan_delay = -1;
+On Wed, 10 May 2023 09:55:18 +0200,
+Ivan Orlov wrote:
+> 
+> On 5/10/23 11:48, Greg KH wrote:
+> > - Your patch did many different things all at once, making it difficult
+> >    to review.  All Linux kernel patches need to only do one thing at a
+> >    time.  If you need to do multiple things (such as clean up all coding
+> >    style issues in a file/driver), do it in a sequence of patches, each
+> >    one doing only one thing.  This will make it easier to review the
+> >    patches to ensure that they are correct, and to help alleviate any
+> >    merge issues that larger patches can cause.
+> > 
+> > If you wish to discuss this problem further, or you have questions about
+> > how to resolve this issue, please feel free to respond to this email and
+> > Greg will reply once he has dug out from the pending patches received
+> > from other developers.
+> > 
+> > thanks,
+> > 
+> > greg k-h's patch email bot
+> 
+> Greg's Bot is right, it will be better as a sequence of patches. Sorry
+> for bothering!
 
-Please do not add new module parameters, this is not the 1990's anymore.
-We have per-device settings everywhere, this makes that impossible.
-Just use a DT value, if it is wrong, then fix the DT value!  No need to
-have the kernel override it, that's not what DT files are for.
+Also, if it's only about white space fix or some indent level issues,
+that could be rather more noise and disturbs the git change history,
+e.g. it makes difficult to find out the real code changes via git
+blame, especially it touches a huge amount of lines like this.
+
+That said, I'm not going to take such "coding style cleanup" patch
+blindly.  If it's associated with other real fix or enhancement, I'll
+happily take it.  Otherwise, I'd rather leave it.
+
 
 thanks,
 
-greg k-h
+Takashi
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
