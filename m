@@ -4,102 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5182FC77B7C
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 11:35:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F10EAC7EE2A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 10 May 2023 19:46:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CD12B4213D;
-	Wed, 10 May 2023 11:35:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CD12B4213D
+	by smtp4.osuosl.org (Postfix) with ESMTP id 702FE42702;
+	Wed, 10 May 2023 19:46:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 702FE42702
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=A7JK7Aa8
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=qKtDqwcd
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Dn45ceh3II23; Wed, 10 May 2023 11:35:50 +0000 (UTC)
+	with ESMTP id c0f6Z0QVUtDW; Wed, 10 May 2023 19:46:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6BFFF42120;
-	Wed, 10 May 2023 11:35:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6BFFF42120
+	by smtp4.osuosl.org (Postfix) with ESMTPS id ED02C427DB;
+	Wed, 10 May 2023 19:46:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ED02C427DB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 5732BC0037;
-	Wed, 10 May 2023 11:35:50 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 97356C002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B1CB5C0037;
+	Wed, 10 May 2023 19:46:24 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A2D5C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 11:35:48 +0000 (UTC)
+ Wed, 10 May 2023 19:46:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7209583F74
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0112C6FEAC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 11:35:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7209583F74
-Authentication-Results: smtp1.osuosl.org;
+ Wed, 10 May 2023 19:46:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0112C6FEAC
+Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=A7JK7Aa8
+ header.a=rsa-sha256 header.s=20221208 header.b=qKtDqwcd
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CPZw_7zb-Gv2
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id E9x_HhnsFs8R
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 11:35:47 +0000 (UTC)
+ Wed, 10 May 2023 19:46:22 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9AE2083C62
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 9AE2083C62
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CC6C86FE8A
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com
+ [IPv6:2a00:1450:4864:20::52d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CC6C86FE8A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 11:35:47 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- 5b1f17b1804b1-3f4c6c4b425so2694775e9.2
+ Wed, 10 May 2023 19:46:21 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id
+ 4fb4d7f45d1cf-50bcae898b2so13663312a12.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 10 May 2023 04:35:47 -0700 (PDT)
+ Wed, 10 May 2023 12:46:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683718546; x=1686310546;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1683747980; x=1686339980;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=tvApClf6Vwq7pYYq456swXVsLdXe4Yk/kHkfI1zIbf0=;
- b=A7JK7Aa8+cE+lTIOQPBBguTGx4LVhzygAywBRaxRWDXJpKHRJStUaUY0rPCDStOCSq
- GBOwjR+1YuWTe1dVqZQcobgsVkrlYymiSSrIgo+y0ASEPz75m0AzfCcw0fQzFPjjjYS7
- d6bzOGfAsvxNKXSfg0xZdsHy5GLoUdan879eDcH7YNC+L+C7ZB2Q+noqlVV1W1Pk56KR
- 7bEuYPaKJmyf9WpoT0p220LaMblPNU6x98SZYeR65vem9VFLS+ZxqbhOETZtq+tXPA5r
- PVytCKL5HNhUazNOxTgiBgva7e24kHjSXwKigglEJI+dTeP4GBSTvCjnBOWyCxdAaAqP
- 0bFA==
+ bh=B1Ax+C4uVpShkrhGJuWjnQ32NyLaUTtPNx+vaWWWtRo=;
+ b=qKtDqwcdFt3Z+xjetBlVll3ql6lmXwZ3cZaMEO7+qOH50NSVWdMVREhDc20U80fTyz
+ +wMBDiofE9h/RnnjIf9E90ZqTvCkVtp1jkOJf8JL8V5cczXOrC0GgO4YlnC2uhten5D2
+ 3F9dHcFhisygtrTq9+dHqR6szwodWTBmEm/mjMF/N0RPmlVWPhmEB2Uz7DGlg5DTaH70
+ 8qPZduFC19NIF56VzusFy83xPpZQkwD2P0IoL3s7q7NbA4tpj7Jlp8eCjzZDcZxs2RBI
+ lHKsqpAJHl6BnA5EDqjY35rF3GBBb3PO0gi2DaloEZAJjLZCHQsBM1/UCD+wN1S7PrPi
+ PN/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683718546; x=1686310546;
- h=in-reply-to:references:cc:to:from:subject:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=tvApClf6Vwq7pYYq456swXVsLdXe4Yk/kHkfI1zIbf0=;
- b=V34GveFOeZlWI22/kD1s5KkDBlBxz3YXbeAyWF27XnCdXxhm3jIG6DgxE2Q2HaaGHj
- hQ5MEFP937zG/WgaNRKpVOl1H+Kw7V7+jrYcvdk9AhfWDcDeGYUxHBNdBQ2y797RPGPE
- m9cmOJFxwZzjWDaH2P4wtXKXluw1CdLZJD7HgSBj/jnETMklL6nFUiS1phZ/MlXMpBq/
- Q4nnL1WAZRqrlIRvp5gFkkqgatVyvc+qGONb8qtqFjvJymFZNOIog9b5Nmj0RqtugdbM
- ITgJYTFvaGVvGi259rRBHqDJWgCc8SlNRoYheTAjjJqxZg7FmvTe27iPGrBrD8dHyXfw
- 6LBQ==
-X-Gm-Message-State: AC+VfDxF5wD8fcI9Xkc0QE3eEMMGKk2PcrGRm4SqZmArlAU2ySm0f1vI
- XLVr+cNlBieWE7pdy6yXVmA=
-X-Google-Smtp-Source: ACHHUZ7wo+6G+OTP/f1njXi4NgMQmaiEiKJ9+AcmhQdxQJiCG8NzXngE14HdSos3iGEqNEoox2RfcQ==
-X-Received: by 2002:a05:600c:2298:b0:3f4:2bce:eeff with SMTP id
- 24-20020a05600c229800b003f42bceeeffmr3624831wmf.25.1683718545727; 
- Wed, 10 May 2023 04:35:45 -0700 (PDT)
-Received: from localhost ([146.70.133.78]) by smtp.gmail.com with ESMTPSA id
- y10-20020a7bcd8a000000b003f16fc33fbesm22321946wmj.17.2023.05.10.04.35.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 10 May 2023 04:35:45 -0700 (PDT)
-Mime-Version: 1.0
-Date: Wed, 10 May 2023 13:35:43 +0200
-Message-Id: <CSIKESNNLX5D.4VDA3E6NBN3N@vincent-arch>
-Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
- Rockchip PCIe bus scan
-From: "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
-To: "Bjorn Helgaas" <helgaas@kernel.org>
-X-Mailer: aerc 0.15.1
+ d=1e100.net; s=20221208; t=1683747980; x=1686339980;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=B1Ax+C4uVpShkrhGJuWjnQ32NyLaUTtPNx+vaWWWtRo=;
+ b=gbR6WX/L3RGaT/CNGssUeavR6wYU3gQ/YyU28ee9rHMgwrxDGDpGCDtiFVXsYkvQFk
+ 4f4+n/8Tp6s+bhxrCDaNrfe0IfZYbBrfbyDaGPnpRAO+uBquXrLU29f9YSkk0s6DVNBP
+ cSfCT5nDxxOT21UCISeUHLbi2JOiM9sNxAa5K7nYXY/NublwsXeYYT8QnWZ6mKRNabQq
+ oA9obvxOUFAtnU1T46NeiT0cfE1T3T+oj1CpkQvKMVw0hyOfd47Z+pfgW2DXWPVScn7p
+ +xtEopTxW9DmxNnrLdlnqjF5sImGLKNR4l6E2QepoiuDdCvoC4d6wAESZfaAL0by68QC
+ ZxyA==
+X-Gm-Message-State: AC+VfDwNcFVBD/9jOJJE94qdDV0z7q9uTTP3Dm58AmCJ8zhrjHHP25PA
+ WdiDyHjBHrpkE2rzNRCL6K3rEsWrY3ugUGK1J1Q=
+X-Google-Smtp-Source: ACHHUZ71b7omNvOYvmXMlT5h+vZxL1cQOXXwSCWfa8NRKmoq3Ab93DsePztpxij0ZcDDi+9V49IW6SYFiysEQeq+vz0=
+X-Received: by 2002:a05:6402:203:b0:506:a561:b0a9 with SMTP id
+ t3-20020a056402020300b00506a561b0a9mr15705456edv.14.1683747979721; Wed, 10
+ May 2023 12:46:19 -0700 (PDT)
+MIME-Version: 1.0
 References: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
  <20230509211902.GA1270901@bhelgaas>
-In-Reply-To: <20230509211902.GA1270901@bhelgaas>
+ <CAMdYzYp6=mYSoUHN3TEXVSMbRt1HpRm0X_4RMez09V0XzQewaw@mail.gmail.com>
+ <CSIJZYWBC38N.2M99O6W1PLR4B@vincent-arch>
+In-Reply-To: <CSIJZYWBC38N.2M99O6W1PLR4B@vincent-arch>
+From: Peter Geis <pgwipeout@gmail.com>
+Date: Wed, 10 May 2023 15:46:06 -0400
+Message-ID: <CAMdYzYrPNwq7OC-_9PE18coO-y_NZuu9bAj4XX1r8q8Gy_EofA@mail.gmail.com>
+Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
+ Rockchip PCIe bus scan
+To: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
 Cc: kw@linux.com, heiko@sntech.de, robh@kernel.org, linux-pci@vger.kernel.org,
  shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
- linux-rockchip@lists.infradead.org, broonie@kernel.org, bhelgaas@google.com,
+ linux-rockchip@lists.infradead.org, broonie@kernel.org,
+ Bjorn Helgaas <helgaas@kernel.org>, bhelgaas@google.com,
  linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org,
  linux-arm-kernel@lists.infradead.org, Dan Johansen <strit@manjaro.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -113,66 +111,87 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> Hi Vincenzo,
-
-Hi :)
-
-> Thanks for raising this issue.  Let's see what we can do to address
-> it.
-
-Yeah, as I said in my cover letter, I am not happy with my solution,
-but we should start somewhere to discuss it.
-
-> > Add a configurable delay to the Rockchip PCIe driver to address
-> > crashes that occur on some old devices, such as the Pine64 RockPro64.
-> > 
-> > This issue is affecting the ARM community, but there is no
-> > upstream solution for it yet.
->
-> It sounds like this happens with several endpoints, right?  And I
-> assume the endpoints work fine in other non-Rockchip systems?  If
-> that's the case, my guess is the problem is with the Rockchip host
-> controller and how it's initialized, not with the endpoints.
-
-
-Yeah, the crash is only reproducible with the Rockchip system, or better, 
-the crash is reproducible only in some modern devices that use the old 
-Rockchip driver mentioned in this patch.
-
-> The only delays and timeouts I see in the driver now are in
-> rockchip_pcie_host_init_port(), where it waits for link training to
-> complete.  I assume the link training did completely successfully
-> since you don't mention either a gen1 or gen2 timeout (although the
-> gen2 message is a dev_dbg() that normally wouldn't go to the console).
->
-> I don't know that the spec contains a retrain timeout value.  Several
-> other drivers use 1 second, while rockchip uses 500ms (for example,
-> see LINK_RETRAIN_TIMEOUT and LINK_UP_TIMEOUT).
->
-> I think we need to understand the issue better before adding a DT
-> property and a module parameter.  Those are hard for users to deal
-> with.  If we can figure out a value that works for everybody, it would
-> be better to just hard-code it in the driver and use that all the
-> time.
-
-Yeah, I see, I see. This makes sense. Is there any path that I can follow in 
-order to better understand what's going on at the hardware level? In other 
-words, how can I help to understand this issue better and provide a
-unique solution for everybody?
-
-Thanks for the nits in the patch, I will take a look with a fresh mind
-later in the day.
-
-Cheers!
-
-Vincent.
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gV2VkLCBNYXkgMTAsIDIwMjMgYXQgNzoxNuKAr0FNIFZpbmNlbnpvIFBhbGF6em8KPHZpbmNl
+bnpvcGFsYXp6b2RldkBnbWFpbC5jb20+IHdyb3RlOgo+Cj4gPiBPbiBUdWUsIE1heSA5LCAyMDIz
+IGF0IDU6MTnigK9QTSBCam9ybiBIZWxnYWFzIDxoZWxnYWFzQGtlcm5lbC5vcmc+IHdyb3RlOgo+
+ID4gPgo+ID4gPiBIaSBWaW5jZW56bywKPiA+ID4KPiA+ID4gVGhhbmtzIGZvciByYWlzaW5nIHRo
+aXMgaXNzdWUuICBMZXQncyBzZWUgd2hhdCB3ZSBjYW4gZG8gdG8gYWRkcmVzcwo+ID4gPiBpdC4K
+PiA+ID4KPiA+ID4gT24gVHVlLCBNYXkgMDksIDIwMjMgYXQgMDU6Mzk6MTJQTSArMDIwMCwgVmlu
+Y2Vuem8gUGFsYXp6byB3cm90ZToKPiA+ID4gPiBBZGQgYSBjb25maWd1cmFibGUgZGVsYXkgdG8g
+dGhlIFJvY2tjaGlwIFBDSWUgZHJpdmVyIHRvIGFkZHJlc3MKPiA+ID4gPiBjcmFzaGVzIHRoYXQg
+b2NjdXIgb24gc29tZSBvbGQgZGV2aWNlcywgc3VjaCBhcyB0aGUgUGluZTY0IFJvY2tQcm82NC4K
+PiA+ID4gPgo+ID4gPiA+IFRoaXMgaXNzdWUgaXMgYWZmZWN0aW5nIHRoZSBBUk0gY29tbXVuaXR5
+LCBidXQgdGhlcmUgaXMgbm8KPiA+ID4gPiB1cHN0cmVhbSBzb2x1dGlvbiBmb3IgaXQgeWV0Lgo+
+ID4gPgo+ID4gPiBJdCBzb3VuZHMgbGlrZSB0aGlzIGhhcHBlbnMgd2l0aCBzZXZlcmFsIGVuZHBv
+aW50cywgcmlnaHQ/ICBBbmQgSQo+ID4gPiBhc3N1bWUgdGhlIGVuZHBvaW50cyB3b3JrIGZpbmUg
+aW4gb3RoZXIgbm9uLVJvY2tjaGlwIHN5c3RlbXM/ICBJZgo+ID4gPiB0aGF0J3MgdGhlIGNhc2Us
+IG15IGd1ZXNzIGlzIHRoZSBwcm9ibGVtIGlzIHdpdGggdGhlIFJvY2tjaGlwIGhvc3QKPiA+ID4g
+Y29udHJvbGxlciBhbmQgaG93IGl0J3MgaW5pdGlhbGl6ZWQsIG5vdCB3aXRoIHRoZSBlbmRwb2lu
+dHMuCj4gPiA+Cj4gPiA+IFRoZSBvbmx5IGRlbGF5cyBhbmQgdGltZW91dHMgSSBzZWUgaW4gdGhl
+IGRyaXZlciBub3cgYXJlIGluCj4gPiA+IHJvY2tjaGlwX3BjaWVfaG9zdF9pbml0X3BvcnQoKSwg
+d2hlcmUgaXQgd2FpdHMgZm9yIGxpbmsgdHJhaW5pbmcgdG8KPiA+ID4gY29tcGxldGUuICBJIGFz
+c3VtZSB0aGUgbGluayB0cmFpbmluZyBkaWQgY29tcGxldGVseSBzdWNjZXNzZnVsbHkKPiA+ID4g
+c2luY2UgeW91IGRvbid0IG1lbnRpb24gZWl0aGVyIGEgZ2VuMSBvciBnZW4yIHRpbWVvdXQgKGFs
+dGhvdWdoIHRoZQo+ID4gPiBnZW4yIG1lc3NhZ2UgaXMgYSBkZXZfZGJnKCkgdGhhdCBub3JtYWxs
+eSB3b3VsZG4ndCBnbyB0byB0aGUgY29uc29sZSkuCj4gPiA+Cj4gPiA+IEkgZG9uJ3Qga25vdyB0
+aGF0IHRoZSBzcGVjIGNvbnRhaW5zIGEgcmV0cmFpbiB0aW1lb3V0IHZhbHVlLiAgU2V2ZXJhbAo+
+ID4gPiBvdGhlciBkcml2ZXJzIHVzZSAxIHNlY29uZCwgd2hpbGUgcm9ja2NoaXAgdXNlcyA1MDBt
+cyAoZm9yIGV4YW1wbGUsCj4gPiA+IHNlZSBMSU5LX1JFVFJBSU5fVElNRU9VVCBhbmQgTElOS19V
+UF9USU1FT1VUKS4KPiA+ID4KPiA+ID4gSSB0aGluayB3ZSBuZWVkIHRvIHVuZGVyc3RhbmQgdGhl
+IGlzc3VlIGJldHRlciBiZWZvcmUgYWRkaW5nIGEgRFQKPiA+ID4gcHJvcGVydHkgYW5kIGEgbW9k
+dWxlIHBhcmFtZXRlci4gIFRob3NlIGFyZSBoYXJkIGZvciB1c2VycyB0byBkZWFsCj4gPiA+IHdp
+dGguICBJZiB3ZSBjYW4gZmlndXJlIG91dCBhIHZhbHVlIHRoYXQgd29ya3MgZm9yIGV2ZXJ5Ym9k
+eSwgaXQgd291bGQKPiA+ID4gYmUgYmV0dGVyIHRvIGp1c3QgaGFyZC1jb2RlIGl0IGluIHRoZSBk
+cml2ZXIgYW5kIHVzZSB0aGF0IGFsbCB0aGUKPiA+ID4gdGltZS4KPiA+Cj4gPiBHb29kIEV2ZW5p
+bmcsCj4gPgo+ID4gVGhlIG1haW4gaXNzdWUgd2l0aCB0aGUgcmszMzk5IGlzIHRoZSBQQ0llIGNv
+bnRyb2xsZXIgaXMgYnVnZ3kgYW5kCj4gPiB0cmlnZ2VycyBhIFNvQyBwYW5pYyB3aGVuIGNlcnRh
+aW4gZXJyb3IgY29uZGl0aW9ucyBvY2N1ciB0aGF0IHNob3VsZAo+ID4gYmUgaGFuZGxlZCBncmFj
+ZWZ1bGx5LiBPbmUgb2YgdGhvc2UgY29uZGl0aW9ucyBpcyB3aGVuIGFuIGVuZHBvaW50Cj4gPiBy
+ZXF1ZXN0cyBhbiBhY2Nlc3MgdG8gd2FpdCBhbmQgcmV0cnkgbGF0ZXIuIE1hbnkgeWVhcnMgYWdv
+IHdlIHJhbiB0aGF0Cj4gPiBpc3N1ZSB0byBncm91bmQgYW5kIHdpdGggUm9iaW4gTXVycGh5J3Mg
+aGVscCB3ZSBmb3VuZCB0aGF0IHdoaWxlIGl0J3MKPiA+IHBvc3NpYmxlIHRvIGdyYWNlZnVsbHkg
+aGFuZGxlIHRoYXQgY29uZGl0aW9uIGl0IHJlcXVpcmVkIGhpamFja2luZyB0aGUKPiA+IGVudGly
+ZSBhcm02NCBlcnJvciBoYW5kbGluZyByb3V0aW5lLiBOb3QgZXhhY3RseSBzY2FsYWJsZSBmb3Ig
+anVzdCBvbmUKPiA+IFNvQy4gVGhlIGNvbmZpZ3VyYWJsZSB3YWl0cyBhbGxvdyB1cyB0byBwcm9n
+cmFtIHJlYXNvbmFibGUgdGltZXMgZm9yCj4gPiA5MCUgb2YgdGhlIGVuZHBvaW50cyB0aGF0IGNv
+bWUgdXAgaW4gdGhlIG5vcm1hbCBhbW91bnQgb2YgdGltZSwgd2hpbGUKPiA+IGJlaW5nIGFibGUg
+dG8gYWRqdXN0IGl0IGZvciB0aGUgb3RoZXIgMTAlIHRoYXQgZG8gbm90LiBTb21lIHJlcXVpcmUK
+PiA+IG11bHRpcGxlIHNlY29uZHMgYmVmb3JlIHRoZXkgcmV0dXJuIHdpdGhvdXQgZXJyb3IuIFBh
+cnQgb2YgdGhlIHJlYXNvbgo+ID4gd2UgZG9uJ3Qgd2FudCB0byBoYXJkY29kZSB0aGUgd2FpdCB0
+aW1lIGlzIGJlY2F1c2UgdGhlIHByb2JlIGlzbid0Cj4gPiBoYW5kbGVkIGFzeW5jaHJvbm91c2x5
+LCBzbyB0aGUga2VybmVsIGFwcGVhcnMgdG8gaGFuZyB3aGlsZSB3YWl0aW5nCj4gPiBmb3IgdGhl
+IHRpbWVvdXQuCj4KPiBZZWFoLCBJIHNtZWxsIGEgaGFyZHdhcmUgYnVnIGluIG15IGNvZGUuIEkg
+aGF0ZSB3YWl0aW5nIGluIHRoaXMgd2F5IGluc2lkZQo+IHRoZSBjb2RlLCBzbyBpdCdzIHVzdWFs
+bHkgd3Jvbmcgd2hlbiB5b3UgbmVlZCB0byBkbyBzb21ldGhpbmcgbGlrZSB0aGF0LgoKQ29ycmVj
+dCwgaXQncyB0aGUgdW5mb3J0dW5hdGUgd2F5IG9mIGFybTY0IGRldmVsb3BtZW50LiBBbG1vc3Qg
+bm9uZSBvZgp0aGUgU29DcyBpbXBsZW1lbnQgYWxsIG9mIHRoZWlyIGhhcmR3YXJlIGluIGEgY29t
+cGxldGVseSBzcGVjaWZpY2F0aW9uCmNvbXBsaWFudCB3YXkuCgo+Cj4gRHVyaW5nIG15IHJlc2Vh
+cmNoLCBJIGFsc28gZm91bmQgdGhpcyBwYXRjaCAoaHR0cHM6Ly9idWd6aWxsYS5yZWRoYXQuY29t
+L3Nob3dfYnVnLmNnaT9pZD0yMTM0MTc3KQo+IHRoYXQgcHJvdmlkZXMgYSBmaXggaW4gYW5vdGhl
+ciBwb3NzaWJseSBjbGVhbmVyIHdheS4KPgo+IEJ1dCBJIGRvbid0IHVuZGVyc3RhbmQgdGhlIHJl
+YXNvbmluZyBiZWhpbmQgaXQsIHNvIG1heWJlIEkKPiBoYXZlbid0IHNwZW50IGVub3VnaCB0aW1l
+IHRoaW5raW5nIGFib3V0IGl0LgoKVGhhdCBpcyBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IGlzc3Vl
+LCB1bnJlbGF0ZWQgdG8gdGhlIFBDSSBjcmFzaC4KCj4KPiA+IEknbSBjdXJpb3VzIGlmIGl0J3Mg
+YmVlbiB0ZXN0ZWQgd2l0aCB0aGlzIHNlcmllcyBvbiB0b3A6Cj4gPiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9saW51eC1hcm0ta2VybmVsLzIwMjMwNDE4MDc0NzAwLjEwODM1MDUtOC1yaWNrLndl
+cnRlbmJyb2VrQGdtYWlsLmNvbS9ULwo+ID4gSSdtIHBhcnRpY3VsYXJseSBjdXJpb3VzIGlmCj4g
+PiBbdjUsMDQvMTFdIFBDSTogcm9ja2NoaXA6IEFkZCBwb2xsIGFuZCB0aW1lb3V0IHRvIHdhaXQg
+Zm9yIFBIWSBQTExzIHRvIGJlIGxvY2tlZAo+ID4gbWFrZXMgYSBkaWZmZXJlbmNlIGluIHRoZSBi
+ZWhhdmlvci4gUGxlYXNlIHRlc3QgdGhpcyBhbmQgc2VlIGlmIGl0Cj4gPiBpbXByb3ZlcyB0aGUg
+dGltZW91dHMgeW91IG5lZWQgZm9yIHRoZSBlbmRwb2ludHMgeW91J3JlIHRlc3RpbmcKPiA+IGFn
+YWluc3QuCj4KPiBNaCwgSSBjYW4gdHJ5IHRvIGNoZXJyeS1waWNrIHRoZSBjb21taXQgYW5kIHRl
+c3QgaXQgaW4gbXkgb3duIHRlc3QgZW52aXJvbm1lbnQuIEN1cnJlbnRseSwgSSBoYXZlbid0IGJl
+ZW4KPiBhYmxlIHRvIHRlc3QgaXQgZHVlIHRvIGEgbGFjayBvZiBoYXJkd2FyZSwgYnV0IEknbSBz
+ZWVraW5nIGEgd2F5IHRvIG9idGFpbiBvbmUuCj4gTHVja2lseSwgSSBoYXZlIHNvbWVvbmUgb24g
+dGhlIE1hbmphcm8gYXJtIHRlYW0gd2hvIGNhbiBoZWxwIG1lIHRlc3QgaXQsCj4gc28gSSdsbCB0
+cnkgdG8gZG8gdGhhdC4KPgo+IENoZWVycyEKPgo+IFZpbmNlbnQuCl9fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxp
+bmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0
+dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtl
+cm5lbC1tZW50ZWVzCg==
