@@ -1,108 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A6B60C7EE25
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 May 2023 10:46:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DAAABC77B75
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 May 2023 13:05:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 04A7261304;
-	Fri, 12 May 2023 10:46:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 04A7261304
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=JCRV1/NQ
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CrKHbkqg-EJD; Fri, 12 May 2023 10:46:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9D66F60E7B;
-	Fri, 12 May 2023 10:46:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9D66F60E7B
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BBBF7C008E;
-	Fri, 12 May 2023 10:46:28 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DAB59C0036
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 10:46:27 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B0BF042BD9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 10:46:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B0BF042BD9
+	by smtp4.osuosl.org (Postfix) with ESMTP id 51C3E42AAD;
+	Fri, 12 May 2023 13:05:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 51C3E42AAD
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=JCRV1/NQ
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=gSVtugdu
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Wr6eMYptPG35
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yL8y4-3aA01Y; Fri, 12 May 2023 13:05:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1AFEF41F61;
+	Fri, 12 May 2023 13:05:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1AFEF41F61
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E3630C0036;
+	Fri, 12 May 2023 13:05:41 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8643FC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 10:46:26 +0000 (UTC)
+ Fri, 12 May 2023 13:05:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5ACCA60E41
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 May 2023 13:05:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5ACCA60E41
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=gSVtugdu
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id P7-LQTPe-8kp
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 May 2023 13:05:39 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6496142BCF
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6496142BCF
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 825B360BD3
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com
+ [IPv6:2a00:1450:4864:20::22a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 825B360BD3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 10:46:26 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id
- ffacd0b85a97d-3075e802738so8875905f8f.1
+ Fri, 12 May 2023 13:05:39 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id
+ 38308e7fff4ca-2add755b7c2so1084131fa.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 03:46:26 -0700 (PDT)
+ Fri, 12 May 2023 06:05:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683888384; x=1686480384;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oo67O9FRX0GyvAWrdRm6agPjzPmEBmkG90/e6PxM5KQ=;
- b=JCRV1/NQyGX6dw30BOLJmllahdmyGUPU53QIi9FLiR5Vfnxd/uxH57HFPSk2aiYmXs
- Lwb7Qy3ApHZfdD8luXPgw+oPKlxgc2wRL1wd92LiLKvvrCJe9INCIriCfJXnWkAO19l/
- kasDE6ZhNNTv8R8qVQhXsVjD+0Pf0CBGWWOyhOeIW7RLZnfeBxOiGNtz0pqqUFgqfY0l
- J0JW80xxDmkPygm6LCo7LzDgPQOnKoFh35Rj3+iSTA9CtTrnMcqwV9YNV9RmRfVcP86H
- /nCUaDxSjynHnQx/rk7tXbMkQMzkDE3L0xn8uZCFZH9ojCzgZQdUT8WX4RksSCGlQtKp
- DCgw==
+ d=gmail.com; s=20221208; t=1683896737; x=1686488737;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=hCQRjBkP8l0PQhKcHh5TnNSnWxhKMBpH5u3PrLqP5bw=;
+ b=gSVtugdu0QcsPWfCv177WCPgmmUIXwjpkxJncUPS9gWAroAhjf8n1PyBgvo+yG2FyM
+ AGT9UxdYd/iV5HYbxAg9G9PhyPppuGSo1xmNnevlv70djo7FF012iIYPdJpg5AsdbYkh
+ BhKFg/OYk3YHdh1O8qtxffpfw51RxOOQW+P+CwbWqQSmLdWVWQh3m8bTVR2Q2kAcKTn5
+ Xq35VcJY+bPGNGQgRBOfkxDfA6iUiHEOy7GH+nXrxZP+Pw3H3QSN06hnvofVCsOxM0c6
+ 3r/11TnBKqscTYtpRisEqtsEx1pQOf5S1bTLHSrlWu3QEq3HoV0vtxnpxklSaOl3y8Wr
+ gdMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683888384; x=1686480384;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=oo67O9FRX0GyvAWrdRm6agPjzPmEBmkG90/e6PxM5KQ=;
- b=HnDu24xlv0zcuOGHwQX3jCEPw0R5pL96qg8v4RjiITdVXuqZRolQWr9FrpHaC7L7pi
- Nki1fUyyOPmXIZ07v/Dqi7BcQ8E59+b5yJM8fjpsEjslGqGgzSUuC2c6VvnnwAa+diCV
- +osU29Cxrn9z6Fg3Zw5JkPl5ka7zfZCrEhoOHcIuV8VpUdTJbobKFqDApwzwH5LlsI+2
- U5tF9Mx7coWw12E7cTYJB7UrNrJSykmu8i4v+Bw5yAnap09Aa8iz4KUIr6FUHqwH4/xm
- 2NukZr7IW38moGS73JuL0zhn6M6IZS/LF6Gr0T8Z87YPWXXgu4Ib+C0Jm7rwpDAGmFz2
- Xx2Q==
-X-Gm-Message-State: AC+VfDy127QyENyRjbzDao+dQoW3UIqDye2wya6eVP0WtlPvcc3aSxX/
- uscIIPTOM7ox23a7kL4ER5s=
-X-Google-Smtp-Source: ACHHUZ7cQ6lAGWPK6qsZqTOzReZDoPCdV311+gW5FWzcfuzQiOK30bhW8w9cTIRqHdDCML34gprPCg==
-X-Received: by 2002:a5d:5011:0:b0:307:8a39:5568 with SMTP id
- e17-20020a5d5011000000b003078a395568mr17093589wrt.7.1683888384189; 
- Fri, 12 May 2023 03:46:24 -0700 (PDT)
-Received: from localhost ([146.70.133.78]) by smtp.gmail.com with ESMTPSA id
- f12-20020a7bc8cc000000b003f4e4b5713esm5650587wml.37.2023.05.12.03.46.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 03:46:23 -0700 (PDT)
-Mime-Version: 1.0
-Date: Fri, 12 May 2023 12:46:21 +0200
-Message-Id: <CSK8M39MQL2C.3S7JO031H0BA2@vincent-arch>
-Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
- Rockchip PCIe bus scan
-From: "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
-To: "Peter Geis" <pgwipeout@gmail.com>, "Bjorn Helgaas" <helgaas@kernel.org>
-X-Mailer: aerc 0.15.1
-References: <CAMdYzYp6=mYSoUHN3TEXVSMbRt1HpRm0X_4RMez09V0XzQewaw@mail.gmail.com>
- <ZFwC/seTfSoaLn0v@bhelgaas>
- <CAMdYzYoa8dhmBx5MUG0yBPwVVXPXHrYNnR0QvKHXvV=JaKuMfw@mail.gmail.com>
-In-Reply-To: <CAMdYzYoa8dhmBx5MUG0yBPwVVXPXHrYNnR0QvKHXvV=JaKuMfw@mail.gmail.com>
-Cc: kw@linux.com, heiko@sntech.de, robh@kernel.org, linux-pci@vger.kernel.org,
- shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
- linux-rockchip@lists.infradead.org, broonie@kernel.org, bhelgaas@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org,
- linux-arm-kernel@lists.infradead.org, Dan Johansen <strit@manjaro.org>
+ d=1e100.net; s=20221208; t=1683896737; x=1686488737;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=hCQRjBkP8l0PQhKcHh5TnNSnWxhKMBpH5u3PrLqP5bw=;
+ b=LCBj33VDmeKw28IBPK8q1lzd1VOjVepfv51AjCGeufv+7juhNLBgpbuWqAtnAMpnaA
+ /8BaEUvrSsr8/AyDKbACBgFHEg8fbazZ8iid3ut2a4ANnbiidfhO9CvfcVIkeqRItYwJ
+ 66WOt0nPWxE2kNC0yQRSkbR2bfxyA27YGpLVfhBzqt+9EO1CNCTI7W83J1uoZsaZFaG9
+ up2XVKqsGW52Tg/oBpyWn72Hjq+YxjecTkb67g+g7q7K7+eTpkswM72D0J+Ho5NoZHlC
+ gFirMZqP3+H5jHoCjtG8xZ32wWgna1+U5dW+NpwTzTDYV9wiCn2hHeqCIcXjN1JUUc0o
+ bKfA==
+X-Gm-Message-State: AC+VfDzybzNRWTZNOrJ4mnpQMBFBR+JxArg9e2+Mjba446O3H5iBPP2o
+ gmmnqgU5mYxCyr9gHwmHIgI=
+X-Google-Smtp-Source: ACHHUZ5HB45FEo0/mPj5ucpEmu76J/nqzc0NAvE+NhUO19q+o09XnzL1yhjtyYr9YcK/hWKQCkXung==
+X-Received: by 2002:a05:6512:208:b0:4ee:d640:91eb with SMTP id
+ a8-20020a056512020800b004eed64091ebmr6572026lfo.3.1683896736794; 
+ Fri, 12 May 2023 06:05:36 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([178.160.196.94])
+ by smtp.gmail.com with ESMTPSA id
+ p17-20020a05651211f100b004f155762085sm1473028lfs.122.2023.05.12.06.05.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 12 May 2023 06:05:36 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: josef@toxicpanda.com,
+	axboe@kernel.dk
+Subject: [PATCH] nbd: Fix debugfs_create_dir error checking
+Date: Fri, 12 May 2023 17:05:32 +0400
+Message-Id: <20230512130533.98709-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Cc: Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org,
+ nbd@other.debian.org, linux-block@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -120,62 +114,40 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> > > Many years ago we ran that issue to ground and with Robin Murphy's
-> > > help we found that while it's possible to gracefully handle that
-> > > condition it required hijacking the entire arm64 error handling
-> > > routine. Not exactly scalable for just one SoC.
-> >
-> > Do you have a pointer to that discussion?  The URL might save
-> > repeating the whole exercise and could be useful for the commit log
-> > when we try to resolve this.
->
-> The link to the patch email is here, the full discussion is pretty
-> easy to follow:
-> https://lore.kernel.org/linux-pci/2a381384-9d47-a7e2-679c-780950cd862d@rock-chips.com/
-> Also:
-> https://lore.kernel.org/linux-rockchip/1f180d4b-9e5d-c829-555b-c9750940361e@web.de/T/#m9c9d4a28a0d3aa064864f188b8ee3b16ce107aff
+The debugfs_create_dir function returns ERR_PTR in case of error, and the
+only correct way to check if an error occurred is 'IS_ERR' inline function.
+This patch will replace the null-comparison with IS_ERR.
 
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+ drivers/block/nbd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have some concerns about the patch proposed in the email that you share. It seems like 
-it is quite extensive (code that is it not just related to the HW) just to fix a hardware 
-issue. I would have expected the code to fix the bug to be integrated into the driver itself, 
-so that if the hardware will died at some point in the future, I would expect that also the 
-buddy code will died with it.
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 9c35c958f2c8..65ecde3e2a5b 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -1666,7 +1666,7 @@ static int nbd_dev_dbg_init(struct nbd_device *nbd)
+ 		return -EIO;
+ 
+ 	dir = debugfs_create_dir(nbd_name(nbd), nbd_dbg_dir);
+-	if (!dir) {
++	if (IS_ERR(dir)) {
+ 		dev_err(nbd_to_dev(nbd), "Failed to create debugfs dir for '%s'\n",
+ 			nbd_name(nbd));
+ 		return -EIO;
+@@ -1692,7 +1692,7 @@ static int nbd_dbg_init(void)
+ 	struct dentry *dbg_dir;
+ 
+ 	dbg_dir = debugfs_create_dir("nbd", NULL);
+-	if (!dbg_dir)
++	if (IS_ERR(dbg_dir))
+ 		return -EIO;
+ 
+ 	nbd_dbg_dir = dbg_dir;
+-- 
+2.34.1
 
-However, it is possible that I may have missed something in the patch, 
-and my thoughts could be wrong.
-
-> >
-> > > The configurable waits allow us to program reasonable times for
-> > > 90% of the endpoints that come up in the normal amount of time, while
-> > > being able to adjust it for the other 10% that do not. Some require
-> > > multiple seconds before they return without error. Part of the reason
-> > > we don't want to hardcode the wait time is because the probe isn't
-> > > handled asynchronously, so the kernel appears to hang while waiting
-> > > for the timeout.
-> >
-> > Is there some way for users to figure out that they would need this
-> > property?  Or is it just "if your kernel panics on boot, try
-> > adding or increasing "bus-scan-delay-ms" in your DT?
->
-> There's a listing of tested cards at:
-> https://wiki.pine64.org/wiki/ROCKPro64_Hardware_compatibility
->
-> Most cards work fine that don't require a large BAR. PCIe switches are
-> completely dead without the above hack patch. Cards that lie in the
-> middle are ones that expect BIOS / EFI support to initialize, or ones
-> that have complex boot roms and don't initialize quickly.
-> But yes, it's unfortunately going to be "if you panic, increase the
-> delay" unless a more complete database of cards can be generated.
-
-This is really unfortunate because as mentioned in some previous emails, 
-using sleep time slows down the kernel. Is there any way to tell the kernel 
-to tell the kernel "hey we need some more time here", or in computer science 
-terms, load a driver asynchronously?
-
-Thanks.
-
-Vincent.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
