@@ -1,105 +1,85 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09424C7EE23
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 12 May 2023 16:40:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 74D84C77B7F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 13 May 2023 01:24:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8E6CB404DB;
-	Fri, 12 May 2023 16:40:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8E6CB404DB
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=DOCSZD3R
+	by smtp3.osuosl.org (Postfix) with ESMTP id D49A160F11;
+	Sat, 13 May 2023 01:24:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D49A160F11
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sxtJ8CfH
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5_QFoPPtNWZZ; Fri, 12 May 2023 16:40:11 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id To44y9eiuut8; Sat, 13 May 2023 01:24:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 89A4241665;
-	Fri, 12 May 2023 16:40:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 89A4241665
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 91D9860EB3;
+	Sat, 13 May 2023 01:24:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 91D9860EB3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 628BCC0037;
-	Fri, 12 May 2023 16:40:11 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6AC67C0037;
+	Sat, 13 May 2023 01:24:46 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6F89DC002A
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A487FC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 16:40:10 +0000 (UTC)
+ Sat, 13 May 2023 01:24:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 4239541800
+ by smtp4.osuosl.org (Postfix) with ESMTP id 7648342D9C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 16:40:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4239541800
+ Sat, 13 May 2023 01:24:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7648342D9C
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=DOCSZD3R
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=sxtJ8CfH
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AjRT8pmr0Rvz
+ with ESMTP id yOWxPSvT6Xr7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 16:40:08 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F3AE5417E4
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id F3AE5417E4
+ Sat, 13 May 2023 01:24:43 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2398342D53
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2398342D53
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 16:40:07 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- 5b1f17b1804b1-3f42769a0c1so59735465e9.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 May 2023 09:40:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1683909606; x=1686501606;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gOPr8RiZNSgqggpmzVuoRlbviV7C/s+3BUUqAAb6inU=;
- b=DOCSZD3R4gA0NV+uJmIYMvCPKGm8d9kpASOgAAz+Pf4S+bC0zfZIpDVA6j4pA5/G9z
- 2pv/aZk9u0O0KFrGIRGMFN5sxS4S/44ucOrDp+w9VpWR4uuZvwDTzUhBQBhBZ8S1Tz3B
- A5RVjIX26Ua+r+QGuGgXEYRPOaEK2M0bQL6s3XxHIXuZRKLWM+xfN3SpYRT0P92uopQt
- CkJRyCOBuJ4vl5d6ZVUxN/FPuTayqcbUDbcbnkY8KA6iyaI8vGfTnKQJuxTpkgX780tb
- 2n2REXdeuXT4AOACppzPbHWgY1hFyp1P5fqnXt0Bz0wOeGEDCNuAqXOkQ+hG5w5ExObO
- OR2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1683909606; x=1686501606;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=gOPr8RiZNSgqggpmzVuoRlbviV7C/s+3BUUqAAb6inU=;
- b=IAq3Zr7YSxYaeaQ4C8RTAnrGzRxroII6ARvmbvxiL3HUMEFwFXNw0bH16mARfI312l
- +czJuaRDKz5kDQGllPlYtweeH8JYtXK0jb2zvK/s1vIIkOlK/XOGqgbtSjgaP99kMWG9
- wESzga1J07vm035382Q6GyNFO0SO3nuVYhWDWp4tfzX40lfNkPO/WgSp47T94zQdWj+/
- bYtEx8p6X4/MaEeOS0TDkAWqlTJon8lkxSxhBKTB78GyFCw8AdYpyy9KVbiIisBTunc4
- 9PknvPXyOQ65VSyUwyqz1I+pv3cl6tiiCl90JedO0Uq8yFHVF6SNgSn4GMhuOSjpGkYV
- LZKg==
-X-Gm-Message-State: AC+VfDwFLW+HpjLdHIC3iS4LQfp/BdID67vV8FgU0UUPeq9tDMJULkS5
- Vzg8+vcXeSdNrD6ed4mHmpk=
-X-Google-Smtp-Source: ACHHUZ5yxbWW2Bv6DZDq5gkRtNdoEDpV2I3JPwHvYv23gd+IPRTMx71bA/LG2dz5CkgOQTwYpkRxhA==
-X-Received: by 2002:a5d:5968:0:b0:2c9:e585:84b0 with SMTP id
- e40-20020a5d5968000000b002c9e58584b0mr16128939wri.1.1683909605667; 
- Fri, 12 May 2023 09:40:05 -0700 (PDT)
-Received: from localhost ([146.70.133.78]) by smtp.gmail.com with ESMTPSA id
- v13-20020a05600c214d00b003f42461ac75sm16140195wml.12.2023.05.12.09.40.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 12 May 2023 09:40:05 -0700 (PDT)
-Mime-Version: 1.0
-Date: Fri, 12 May 2023 18:40:03 +0200
-Message-Id: <CSKG4WDA4MVH.1RVYIN4NYH4EA@vincent-arch>
+ Sat, 13 May 2023 01:24:43 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DCAF361DB4;
+ Sat, 13 May 2023 01:24:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F15BFC433D2;
+ Sat, 13 May 2023 01:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1683941081;
+ bh=ufptWhk0BbCBOlRE0pk1y6y1XcHSouNAvlan/zSTrAY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=sxtJ8CfHTCeAo0D9/++DN1TpfPp54rd4Bjo9/cVcNl+dpoRXUItLhHO5gRcwq/76H
+ iG2T612DUkjnlkyelE9eD2HgVSk04mxeWbB0MU+5ARtEwZw1qO4cyCfiHmHjmGZvH1
+ nDgF5O5vp+wv35xUsBBE8WZaXp3awA3WiHOajXq++DOBOGEEF7LKHnbMDxrj4WqF+Q
+ O+3N4Vm1dRMOBRBmrKN/f+e07pyMPCq7HDKGhx1ySipqxRfIZJme8kOOTfOjO6rJ8b
+ ogh0CxwXsoQHtYEWTf8j2mjN7gAEPM4vUsAqY6xRymjRUSmPw989oheJkEI1Qy1xl7
+ 2SRbEcfq/u5IQ==
+Date: Fri, 12 May 2023 20:24:38 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
 Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
  Rockchip PCIe bus scan
-From: "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
-To: "Bjorn Helgaas" <helgaas@kernel.org>
-X-Mailer: aerc 0.15.1
-References: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
- <20230509211902.GA1270901@bhelgaas>
-In-Reply-To: <20230509211902.GA1270901@bhelgaas>
-Cc: kw@linux.com, heiko@sntech.de, robh@kernel.org, linux-pci@vger.kernel.org,
- shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
- linux-rockchip@lists.infradead.org, broonie@kernel.org, bhelgaas@google.com,
+Message-ID: <ZF7m1npzLZmawT8Y@bhelgaas>
+MIME-Version: 1.0
+Content-Disposition: inline
+In-Reply-To: <CSK8M39MQL2C.3S7JO031H0BA2@vincent-arch>
+Cc: kw@linux.com, heiko@sntech.de, Will Deacon <will@kernel.org>,
+ robh@kernel.org, linux-pci@vger.kernel.org, shawn.lin@rock-chips.com,
+ linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+ linux-rockchip@lists.infradead.org, broonie@kernel.org,
+ Peter Geis <pgwipeout@gmail.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ bhelgaas@google.com, Robin Murphy <robin.murphy@arm.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org,
  linux-arm-kernel@lists.infradead.org, Dan Johansen <strit@manjaro.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -119,46 +99,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
->
-> Thanks for raising this issue.  Let's see what we can do to address
-> it.
->
+[+cc ARM64 folks, in case you have abort handling tips; thread at:
+https://lore.kernel.org/r/20230509153912.515218-1-vincenzopalazzodev@gmail.com]
+
+Pine64 RockPro64 panics while enumerating some PCIe devices.  Adding a
+delay avoids the panic.  My theory is a PCIe Request Retry Status to a
+Vendor ID config read causes an abort that we don't handle.
+
 > On Tue, May 09, 2023 at 05:39:12PM +0200, Vincenzo Palazzo wrote:
-> > Add a configurable delay to the Rockchip PCIe driver to address
-> > crashes that occur on some old devices, such as the Pine64 RockPro64.
-> > 
-> > This issue is affecting the ARM community, but there is no
-> > upstream solution for it yet.
->
-> It sounds like this happens with several endpoints, right?  And I
-> assume the endpoints work fine in other non-Rockchip systems?  If
-> that's the case, my guess is the problem is with the Rockchip host
-> controller and how it's initialized, not with the endpoints.
->
-> The only delays and timeouts I see in the driver now are in
-> rockchip_pcie_host_init_port(), where it waits for link training to
-> complete.  I assume the link training did completely successfully
-> since you don't mention either a gen1 or gen2 timeout (although the
-> gen2 message is a dev_dbg() that normally wouldn't go to the console).
->
-> I don't know that the spec contains a retrain timeout value.  Several
-> other drivers use 1 second, while rockchip uses 500ms (for example,
-> see LINK_RETRAIN_TIMEOUT and LINK_UP_TIMEOUT).
->
-> I think we need to understand the issue better before adding a DT
-> property and a module parameter.  Those are hard for users to deal
-> with.  If we can figure out a value that works for everybody, it would
-> be better to just hard-code it in the driver and use that all the
-> time.
->
-> A few minor style/formatting comments below just for future reference:
+>> ...
+>> [    1.229856] SError Interrupt on CPU4, code 0xbf000002 -- SError
+>> [    1.229860] CPU: 4 PID: 1 Comm: swapper/0 Not tainted 5.9.9-2.0-MANJARO-ARM
+>> #1
+>> [    1.229862] Hardware name: Pine64 RockPro64 v2.1 (DT)
+>> [    1.229864] pstate: 60000085 (nZCv daIf -PAN -UAO BTYPE=--)
+>> [    1.229866] pc : rockchip_pcie_rd_conf+0xb4/0x270
+>> [    1.229868] lr : rockchip_pcie_rd_conf+0x1b4/0x270
+>> ...
+>> [    1.229939] Kernel panic - not syncing: Asynchronous SError Interrupt
+>> ...
+>> [    1.229955]  nmi_panic+0x8c/0x90
+>> [    1.229956]  arm64_serror_panic+0x78/0x84
+>> [    1.229958]  do_serror+0x15c/0x160
+>> [    1.229960]  el1_error+0x84/0x100
+>> [    1.229962]  rockchip_pcie_rd_conf+0xb4/0x270
+>> [    1.229964]  pci_bus_read_config_dword+0x6c/0xd0
+>> [    1.229966]  pci_bus_generic_read_dev_vendor_id+0x34/0x1b0
+>> [    1.229968]  pci_scan_single_device+0xa4/0x144
 
-Due the recent email I think it is worth make a version 2 of this
-patch with your suggestion? and iterate over it another time?
+On Fri, May 12, 2023 at 12:46:21PM +0200, Vincenzo Palazzo wrote:
+> ... Is there any way to tell the kernel "hey we need some more time
+> here"?
 
-Cheers!
+We enumerate PCI devices by trying to read the Vendor ID of every
+possible device address (see pci_scan_slot()).  On PCIe, if a device
+doesn't exist at that address, the Vendor ID config read will be
+terminated with Unsupported Request (UR) status.  This is normal
+and happens every time we enumerate devices.
 
-Vincent.
+The crash doesn't happen every time we enumerate, so I don't think
+this UR is the problem.  Also, if it *were* the problem, adding a
+delay would not make any difference.
+
+There *is* a way for a PCIe device to say "I need more time".  It does
+this by responding to that Vendor ID config read with Request Retry
+Status (RRS, aka CRS in older specs), which means "I'm not ready yet,
+but I will be ready in the future."  Adding a delay would definitely
+make a difference here, so my guess is this is what's happening.
+
+Most root complexes return ~0 data to the CPU when a config read
+terminates with UR or RRS.  It sounds like rockchip does this for UR
+but possibly not for RRS.
+
+There is a "RRS Software Visibility" feature, which is supposed to
+turn the RRS into a special value (Vendor ID == 0x0001), but per [1],
+rockchip doesn't support it (lspci calls it "CRSVisible").
+
+But the CPU load instruction corresponding to the config read has to
+complete by reading *something* or else be aborted.  It sounds like
+it's aborted in this case.  I don't know the arm64 details, but if we
+could catch that abort and determine that it was an RRS and not a UR,
+maybe we could fabricate the magic RRS 0x0001 value.
+
+imx6q_pcie_abort_handler() does something like that, although I think
+it's for arm32, not arm64.  But obviously we already catch the abort
+enough to dump the register state and panic, so maybe there's a way to
+extend that?
+
+Bjorn
+
+[1] https://lore.kernel.org/linux-pci/CAMdYzYpOFAVq30N+O2gOxXiRtpoHpakFg3LKq3TEZq4S6Y0y0g@mail.gmail.com/
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
