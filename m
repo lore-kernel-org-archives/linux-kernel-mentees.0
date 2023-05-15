@@ -4,98 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2687DC77B7F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 14 May 2023 17:24:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 17E90C7EE26
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 May 2023 01:28:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5A29B81CE7;
-	Sun, 14 May 2023 17:24:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5A29B81CE7
+	by smtp1.osuosl.org (Postfix) with ESMTP id 934D6813D2;
+	Mon, 15 May 2023 01:28:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 934D6813D2
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ZmAk5vL9
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=G1Y2xdQf
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id L515MD88hJ2o; Sun, 14 May 2023 17:24:07 +0000 (UTC)
+	with ESMTP id MgN51DR8zxPM; Mon, 15 May 2023 01:28:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3EF4381B72;
-	Sun, 14 May 2023 17:24:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3EF4381B72
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8401C813BB;
+	Mon, 15 May 2023 01:28:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8401C813BB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 138DFC0037;
-	Sun, 14 May 2023 17:24:07 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 38BDDC002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F130C0037;
+	Mon, 15 May 2023 01:28:39 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3A521C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 May 2023 17:24:05 +0000 (UTC)
+ Mon, 15 May 2023 01:28:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0C40641E4C
+ by smtp4.osuosl.org (Postfix) with ESMTP id F3EE4417D3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 May 2023 17:24:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0C40641E4C
+ Mon, 15 May 2023 01:28:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F3EE4417D3
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=ZmAk5vL9
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=G1Y2xdQf
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 919hjShVVPbh
+ with ESMTP id MHPUNC42Skc4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 May 2023 17:24:04 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 059B941E4B
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
- [IPv6:2a00:1450:4864:20::535])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 059B941E4B
+ Mon, 15 May 2023 01:28:37 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 17749417D2
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 17749417D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 May 2023 17:24:03 +0000 (UTC)
-Received: by mail-ed1-x535.google.com with SMTP id
- 4fb4d7f45d1cf-50bfd66ba3eso2703623a12.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 May 2023 10:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684085042; x=1686677042;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Bhdn8N3vjt5NpRXjd0CXpQ3x1s9gcdBgiJ6kPjy6i+k=;
- b=ZmAk5vL9yNEtkeODSVlHMUipUbsEG3xzA46o8BdUVqDQlN3FKOxOxR2LMx9Dh682s7
- 5VrOnk2VAhIsNq/cTrRLmgQ4gEhXB4FKbHK92rCi8pnrFZ/sDfDXGSAaiwq/UVlLvhkV
- wJ6tkyjX8LYHmS8t7bMawnus6kXhMOxQrj8XxCrguUOlECf7OlVomgE+bLbjVW9kDHMT
- wjMZic4f86Z276EgD0cBUhg6CXHnUtWH5+FvaoSvhpJX+fa5kxizw1WBXnBBLWDnALlP
- qi08IHgzKHYdsOY+72oUVlyKpFssCiLqNMoHzf6APU4s4VC+haT6QoZiQzuHjt0gPg0V
- J0tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684085042; x=1686677042;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Bhdn8N3vjt5NpRXjd0CXpQ3x1s9gcdBgiJ6kPjy6i+k=;
- b=FrveKRR2XIAdveVlaKrTWRiPjUnfNeE3JSeDETzAj7raGHvGqrVLdPZGMf5D62i2Mg
- bb0R2aQaPSOn82yKzdWdkGSwF+CqB1B1BNtJd1UiA/S7uFM7aMdZ0ilZDyeWAcKtWs4R
- 8gSn7uaP36f+l+/CU6EEdtT0kQIkWDpopU4fHr1ZElbhmBBs7HF7oFgoSbRZzK9SFAV3
- MDsKqgfppXJ+X1HUcEyPyqMqAwMJSPv8pZAZZTk7que9AlOPS5EbwLuYWZi+gQVd6wlJ
- aVN1beX0UmTpqJC1JzjU4kgG4dcTwWvZ0v4FjjQH6nvd6ZbIdM+WblR17x+M6U/9/Fit
- MqVg==
-X-Gm-Message-State: AC+VfDz/TdZn10ZALP2fz47Cqtc/y0tUgEbo4vpy8F7A6b0vw3MNQA8s
- JMBh0EtMpVdGKVX6dwkWwpU=
-X-Google-Smtp-Source: ACHHUZ7V/E1SXJmh0CcocZMAWa/YKLC03nZJyLWERYojD9FXz+CaJzep3o7rHLaWpWdYTH0XHSlZmA==
-X-Received: by 2002:a05:6402:510e:b0:506:c24e:667d with SMTP id
- m14-20020a056402510e00b00506c24e667dmr29993006edd.4.1684085041883; 
- Sun, 14 May 2023 10:24:01 -0700 (PDT)
-Received: from ivan-HLYL-WXX9.. ([37.252.94.55])
- by smtp.gmail.com with ESMTPSA id
- ig13-20020a1709072e0d00b0096623c00727sm8405986ejc.136.2023.05.14.10.24.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 May 2023 10:24:01 -0700 (PDT)
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-To: gregkh@linuxfoundation.org,
-	rafael@kernel.org
-Subject: [PATCH] debugfs: Correct the 'debugfs_create_str' docs
-Date: Sun, 14 May 2023 21:23:53 +0400
-Message-Id: <20230514172353.52878-1-ivan.orlov0322@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Mon, 15 May 2023 01:28:36 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F411560C0A;
+ Mon, 15 May 2023 01:28:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14340C433EF;
+ Mon, 15 May 2023 01:28:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1684114115;
+ bh=I20Qcx+0QMlKTWmytfbz1TfDFmdsrpzG804q+DcMxT0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=G1Y2xdQfgmvkV3nlC0SWXnCZv8HEt7Eax23r2n7MNPoTbqzv/MyK3LUaH4mVX9nfx
+ +WQQ8nB54nSKvq1alqJITAVnLKiEL59gzUn1tQ4DT3DnCvU+WQyRwne2QkaBN8vvLa
+ OIAXkd3qBS/l1upiwA5SBn5NKWo7K0d77fqqUzJN0fyKqdri3RrGPA803A6g8riOtT
+ FpHDa+Tmkmkr1ZuLD+LZu8lcg19G+ucHnotuRi5srfdmH75F/m9MIoWJ1cqAXZNyrZ
+ MBPgJ3eB5XhqUpwVvtqGhIR8w6JYa8J7WrDw+mOOY/BifTtXRGuJEYqw1PV00I+loP
+ zd4xXi4/X080A==
+Date: Mon, 15 May 2023 10:28:32 +0900
+From: Mark Brown <broonie@kernel.org>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Subject: Re: [PATCH 3/3] selftests: ALSA: Add test for the 'valsa' driver
+Message-ID: <ZGGKwA10shGGUr87@finisterre.sirena.org.uk>
+References: <20230513202037.158777-1-ivan.orlov0322@gmail.com>
+ <20230513202037.158777-3-ivan.orlov0322@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Ivan Orlov <ivan.orlov0322@gmail.com>, linux-kernel@vger.kernel.org
+In-Reply-To: <20230513202037.158777-3-ivan.orlov0322@gmail.com>
+X-Cookie: Avoid contact with eyes.
+Cc: alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, corbet@lwn.net, tiwai@suse.com, perex@perex.cz,
+ linux-kselftest@vger.kernel.org, akpm@linux-foundation.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,46 +90,91 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1577908180762306288=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The documentation of the 'debugfs_create_str' says that the function
-returns a pointer to a dentry created, or an ERR_PTR in case of error.
-Actually, this is not true: this function doesn't return anything at all.
-Correct the documentation correspondingly.
 
-Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
----
- fs/debugfs/file.c | 9 ---------
- 1 file changed, 9 deletions(-)
+--===============1577908180762306288==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7tubSUVrD+xV4Inh"
+Content-Disposition: inline
 
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index 1f971c880dde..b7711888dd17 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -940,15 +940,6 @@ static const struct file_operations fops_str_wo = {
-  * This function creates a file in debugfs with the given name that
-  * contains the value of the variable @value.  If the @mode variable is so
-  * set, it can be read from, and written to.
-- *
-- * This function will return a pointer to a dentry if it succeeds.  This
-- * pointer must be passed to the debugfs_remove() function when the file is
-- * to be removed (no automatic cleanup happens if your module is unloaded,
-- * you are responsible here.)  If an error occurs, ERR_PTR(-ERROR) will be
-- * returned.
-- *
-- * If debugfs is not enabled in the kernel, the value ERR_PTR(-ENODEV) will
-- * be returned.
-  */
- void debugfs_create_str(const char *name, umode_t mode,
- 			struct dentry *parent, char **value)
--- 
-2.34.1
+
+--7tubSUVrD+xV4Inh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Sun, May 14, 2023 at 12:20:37AM +0400, Ivan Orlov wrote:
+
+> +uid=$(id -u)
+> +if [ $uid -ne 0 ]; then
+> +	echo "$0: Must be run as root"
+> +	exit 1
+> +fi
+
+It is not an error to run the selftest as a non-root user, the test
+should be skipped.
+
+> +modprobe snd-valsa
+
+We don't check if the module was already loaded.
+
+> +if [ ! -e /sys/kernel/debug/valsa/pc_test ]; then
+> +	mount -t debugfs none /sys/kernel/debug
+> +
+> +	if [ ! -e /sys/kernel/debug/valsa/pc_test ]; then
+> +		echo "$0: Error mounting debugfs"
+> +		exit 4
+> +	fi
+> +fi
+
+This will unconditionally attempt to mount debugfs in a standard
+location and won't clean up after itself, if the system didn't have
+debugfs mounted for some reason then this will leave it sitting there.
+
+> +success="1"
+> +arecord -D hw:CARD=valsa,DEV=0 -c 1 --buffer-size=8192 -f S16_LE -r 8000 --duration=4 out.wav
+> +
+> +if [[ $(< /sys/kernel/debug/valsa/ioctl_test) == "$success" ]]; then
+> +	echo "$0: ioctl test: success"
+> +else
+> +	echo "$0: ioctl test: fail"
+> +fi
+
+Would it not be better to have a C program that actually calls the ioctl
+rather than a custom debugfs thing that may or may not be wired up to do
+the same thing as an ioctl would?  It seems like other than whatever
+this ioctl test actually does this is all just a simplified version of
+the existing pcm-test.
+
+--7tubSUVrD+xV4Inh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmRhir8ACgkQJNaLcl1U
+h9DDEQf+IjmNUuTXgXNfQLkMLf76FazxTesXhLu7ittBq9lGs7S5/GQaJ8QTMgzC
+TddmGnsS6C774id02yqhg4QU04zGQQ66amxkeAcdylaQZlK8e7U4UwKtXHq4UTDU
+X79NmH2oYOE6keq6GYZ7r1KsmfOMD0flHA6+vuq2Lak8PEHms/OlHvQtyNmA7DTE
+YUYAzmBzh+zGmq5dbWloNGsJgmdgdcXh6x8eIMDiCDiCo4JKekDXNlY0f/G7wLuh
+3U5d9Ud/q2VmgXeCMLkCzKR7o9F1p4ym3MLLM2Up9GevfInfJwTih6XyvtW8WKyR
+GdU4RbkyizlI7hiqcmOyBJR1b0Ypcw==
+=E/Qm
+-----END PGP SIGNATURE-----
+
+--7tubSUVrD+xV4Inh--
+
+--===============1577908180762306288==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============1577908180762306288==--
