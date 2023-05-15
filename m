@@ -1,109 +1,111 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 065E5C77B7D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 May 2023 05:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7361C7EE25
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 May 2023 11:04:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8C059408B4;
-	Mon, 15 May 2023 05:58:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8C059408B4
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=VK/SJmfF
+	by smtp3.osuosl.org (Postfix) with ESMTP id 22F0660B9A;
+	Mon, 15 May 2023 11:04:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 22F0660B9A
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=MpUkLvhN
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Yqd8BpkXjb4K; Mon, 15 May 2023 05:58:24 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QBTJzpObV9ex; Mon, 15 May 2023 11:04:43 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7E49840291;
-	Mon, 15 May 2023 05:58:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7E49840291
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2B34060AAF;
+	Mon, 15 May 2023 11:04:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2B34060AAF
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 527CDC0037;
-	Mon, 15 May 2023 05:58:24 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 75D4EC002A
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0080BC0037;
+	Mon, 15 May 2023 11:04:43 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03565C002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 05:58:23 +0000 (UTC)
+ Mon, 15 May 2023 11:04:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4B02E83BAD
+ by smtp1.osuosl.org (Postfix) with ESMTP id C3F1082191
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 05:58:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4B02E83BAD
+ Mon, 15 May 2023 11:04:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C3F1082191
 Authentication-Results: smtp1.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=VK/SJmfF
+ header.a=rsa-sha256 header.s=20221208 header.b=MpUkLvhN
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ou7d1VFtjC2h
+ with ESMTP id jxF3ebR4yeP5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 05:58:22 +0000 (UTC)
+ Mon, 15 May 2023 11:04:39 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5E47183B7B
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
- [IPv6:2a00:1450:4864:20::52f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5E47183B7B
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7EA2482180
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
+ [IPv6:2a00:1450:4864:20::636])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 7EA2482180
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 05:58:22 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id
- 4fb4d7f45d1cf-50c079eb705so3039002a12.1
+ Mon, 15 May 2023 11:04:39 +0000 (UTC)
+Received: by mail-ej1-x636.google.com with SMTP id
+ a640c23a62f3a-96adcb66f37so441816066b.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 14 May 2023 22:58:22 -0700 (PDT)
+ Mon, 15 May 2023 04:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684130300; x=1686722300;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NPQtZOXsXDtCauwTHNXvzScss6wN7/6B+b24lKETaGY=;
- b=VK/SJmfFZupbAd5/+2FwqSOo5GZXg1tMePpH0B9ihJg7i9s70UKRXN7pjr/rJ+Ccti
- vDMxqrkXkt2ev2XIK4l2mpLHAHjNmU9K7T/uZxBGLj3v5x2XFtIGmbNf7p8ROYWbB70E
- 7bHRbQmqKhYQAAILyh20N/DkDwZBvCBmPJHG2xYwKzFmZEkrVWZm1jy8VlCvRafH6wEA
- UUqUCKsFqg7uO5fHNlVnznb9KkCr54n0Yijsf0i+1SiIzMzy4Vmh/jl67rkwWBQLpiYk
- Xu3s9GH1cMXUwp6himyLZGzdYFCgJ4839KyyRUI4p81baVKpY8KqzejeZkN+wCbhkKrx
- AC0g==
+ d=gmail.com; s=20221208; t=1684148677; x=1686740677;
+ h=in-reply-to:references:to:from:subject:cc:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lERUo+WLdZx4JBH1Pw+XtLzFG1CgqVYgHbVRbkTw/zc=;
+ b=MpUkLvhNClhT0+vzP2Wf7eEd6ur5TUAoj+zZSAkek414G63FLBv4no2rTUVduz4l9o
+ qkQRw2DEssURnU9zbv5bHx5vD+nvhTvl8ea3XSimE6AOLO4oY0qpexU4ZSZg8IZ5fJmc
+ fNzTTXcbVeNjkFD7KRdDF47H50mlVHyyX7IsGC3ri3KKZjxHL7CkiYH6MVa4xiDdClQN
+ exzTJ/0ON2HEwQxZ9/vz+uw40MScC4o/fRjspKeyp+5Tfxx75YbqBTrmPWNZkrz2/9GE
+ eyTLzYpJNPOP1M5XMjvE+pUt5Les/zp/XhJ+h1XFmMEDxwJvlILT6ZOd+dQk1qdcI/PQ
+ uRfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684130300; x=1686722300;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NPQtZOXsXDtCauwTHNXvzScss6wN7/6B+b24lKETaGY=;
- b=FWcHRyzdSjkxaP9BHFjUkgy3yx3WiHjVMU0qvnDOHsCzqR6mGP8ytUpsLVjTPu8huF
- w/nLyiuAQTZ2KXyRu1koMgZHfl5L3m18MYZxvNi2cCIu+9YOYfIJ2tHMvRkPRZ6sBnzy
- 6gCY+0C3ARc59tQBLpV3+GLDtJT3CIz+cnwaayq/Cz6ciUVE2qrqOYtKxTumfKxOfDQS
- KSWpsQZRnDuzfpNq5H98eC0ziw62S2G9mJ3Ezf4WYkw8ZKbBqLRQ72fG90ARKTu084zj
- q2PapcJPhUfO8TX9KcPwVhSqW9MkOLzJXkT7S2l4eK4vvWs2Yztra9ZHJJ0ldl88mW8H
- ah2A==
-X-Gm-Message-State: AC+VfDxeq2FECXrg4LvSaQ5onRfSmtkIj9zFOc58FVc0Zyee3TScNt6C
- K4OvgVEzMD1jvPf9clpp1HQ=
-X-Google-Smtp-Source: ACHHUZ6nMW9a0P1Ql/uFkqv12DRTC4hSCe3KL6gtMdm1+0pa5miAPoRV2RKERnYzaZnI/EEomTYr/g==
-X-Received: by 2002:a17:906:1051:b0:966:1f60:fd32 with SMTP id
- j17-20020a170906105100b009661f60fd32mr5945505ejj.6.1684130300277; 
- Sun, 14 May 2023 22:58:20 -0700 (PDT)
-Received: from [192.168.10.10] ([37.252.94.55])
- by smtp.gmail.com with ESMTPSA id
- de47-20020a1709069bef00b0096b20c968afsm1464579ejc.124.2023.05.14.22.58.19
+ d=1e100.net; s=20221208; t=1684148677; x=1686740677;
+ h=in-reply-to:references:to:from:subject:cc:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=lERUo+WLdZx4JBH1Pw+XtLzFG1CgqVYgHbVRbkTw/zc=;
+ b=V1MUUgGh7s3pbori0H1uJZwoh88Y8qcoY86Ee0K4hjk28o6q9vStT5AFx/wI40f0b1
+ madMvxfc4EFBTaAWHE3SVzhtpeLjx0Hbaa1vzZgDsXVemjkfXZKEZAmmKBA53t6CKnz/
+ oVBXhcy2M/VADFS11m3w86SB/Juz9Za87HpcNdMgOS4FWx8Wk9Kd4NHz0rFpUeJcR0bc
+ Dkj2X7Nsyqw26j1rP5YHE1vQwbLE+z81nA/RG1KHX1pba80+X6KXh0K4XsTnbdBWQXSQ
+ PYiC/bVUZGnn58pll5sqPtwcVUxAspaeSbQhHEp+QKYn4ROXwLktceZqxt7/WEOp5LJl
+ /nhg==
+X-Gm-Message-State: AC+VfDwUL/6o28+88QoGBPWQjRm5l4J2aVra+0bK9AeBBXKJ+jgIu5VN
+ LK7Vxf/QBfvpsqFiFXnUUiU=
+X-Google-Smtp-Source: ACHHUZ6wMR84Ke6Bj7QUjIoHhVknpSvv7L8BQTIL2uFttHnpEnLdiTBzHPFK9FhK4YNbXf1M57YKrQ==
+X-Received: by 2002:a17:907:7e97:b0:968:4ce9:677a with SMTP id
+ qb23-20020a1709077e9700b009684ce9677amr24562615ejc.38.1684148677324; 
+ Mon, 15 May 2023 04:04:37 -0700 (PDT)
+Received: from localhost ([146.70.133.78]) by smtp.gmail.com with ESMTPSA id
+ de9-20020a1709069bc900b0094e6a9c1d24sm9520105ejc.12.2023.05.15.04.04.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 May 2023 22:58:20 -0700 (PDT)
-Message-ID: <9a76e550-fd1e-851c-e322-4bf51ab11e97@gmail.com>
-Date: Mon, 15 May 2023 09:58:18 +0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] selftests: ALSA: Add test for the 'valsa' driver
-To: Mark Brown <broonie@kernel.org>
-References: <20230513202037.158777-1-ivan.orlov0322@gmail.com>
- <20230513202037.158777-3-ivan.orlov0322@gmail.com>
- <ZGGKwA10shGGUr87@finisterre.sirena.org.uk>
-Content-Language: en-US
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <ZGGKwA10shGGUr87@finisterre.sirena.org.uk>
-Cc: alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, corbet@lwn.net, tiwai@suse.com, perex@perex.cz,
- linux-kselftest@vger.kernel.org, akpm@linux-foundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+ Mon, 15 May 2023 04:04:36 -0700 (PDT)
+Mime-Version: 1.0
+Date: Mon, 15 May 2023 13:04:34 +0200
+Message-Id: <CSMSVO8Z73NV.3MX3FRNO026T9@vincent-arch>
+Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
+ Rockchip PCIe bus scan
+From: "Vincenzo Palazzo" <vincenzopalazzodev@gmail.com>
+To: "Peter Geis" <pgwipeout@gmail.com>, "Bjorn Helgaas" <helgaas@kernel.org>
+X-Mailer: aerc 0.15.1
+References: <CSK8M39MQL2C.3S7JO031H0BA2@vincent-arch>
+ <ZF7m1npzLZmawT8Y@bhelgaas>
+ <CAMdYzYqV72=pQa-U3a2N7MZ2ChBNL74QrxHQLbMZJxiftTK9sA@mail.gmail.com>
+In-Reply-To: <CAMdYzYqV72=pQa-U3a2N7MZ2ChBNL74QrxHQLbMZJxiftTK9sA@mail.gmail.com>
+Cc: kw@linux.com, heiko@sntech.de, Will Deacon <will@kernel.org>,
+ robh@kernel.org, linux-pci@vger.kernel.org, shawn.lin@rock-chips.com,
+ linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
+ linux-rockchip@lists.infradead.org, broonie@kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, bhelgaas@google.com,
+ Robin Murphy <robin.murphy@arm.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, lpieralisi@kernel.org,
+ linux-arm-kernel@lists.infradead.org, Dan Johansen <strit@manjaro.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,70 +117,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 5/15/23 05:28, Mark Brown wrote:
-> On Sun, May 14, 2023 at 12:20:37AM +0400, Ivan Orlov wrote:
-> 
->> +uid=$(id -u)
->> +if [ $uid -ne 0 ]; then
->> +	echo "$0: Must be run as root"
->> +	exit 1
->> +fi
-> 
-> It is not an error to run the selftest as a non-root user, the test
-> should be skipped.
+> >
+> > There *is* a way for a PCIe device to say "I need more time".  It does
+> > this by responding to that Vendor ID config read with Request Retry
+> > Status (RRS, aka CRS in older specs), which means "I'm not ready yet,
+> > but I will be ready in the future."  Adding a delay would definitely
+> > make a difference here, so my guess is this is what's happening.
+> >
+> > Most root complexes return ~0 data to the CPU when a config read
+> > terminates with UR or RRS.  It sounds like rockchip does this for UR
+> > but possibly not for RRS.
+> >
+> > There is a "RRS Software Visibility" feature, which is supposed to
+> > turn the RRS into a special value (Vendor ID == 0x0001), but per [1],
+> > rockchip doesn't support it (lspci calls it "CRSVisible").
+> >
+> > But the CPU load instruction corresponding to the config read has to
+> > complete by reading *something* or else be aborted.  It sounds like
+> > it's aborted in this case.  I don't know the arm64 details, but if we
+> > could catch that abort and determine that it was an RRS and not a UR,
+> > maybe we could fabricate the magic RRS 0x0001 value.
+> >
+> > imx6q_pcie_abort_handler() does something like that, although I think
+> > it's for arm32, not arm64.  But obviously we already catch the abort
+> > enough to dump the register state and panic, so maybe there's a way to
+> > extend that?
+>
+> Perhaps a hook mechanism that allows drivers to register with the
+> serror handler and offer to handle specific errors before the generic
+> code causes the system panic?
 
-Alright, thanks!
->> +modprobe snd-valsa
-> 
-> We don't check if the module was already loaded.
-> 
->> +if [ ! -e /sys/kernel/debug/valsa/pc_test ]; then
->> +	mount -t debugfs none /sys/kernel/debug
->> +
->> +	if [ ! -e /sys/kernel/debug/valsa/pc_test ]; then
->> +		echo "$0: Error mounting debugfs"
->> +		exit 4
->> +	fi
->> +fi
-> 
-> This will unconditionally attempt to mount debugfs in a standard
-> location and won't clean up after itself, if the system didn't have
-> debugfs mounted for some reason then this will leave it sitting there.
+This sounds to me a good general solution that also help to handle 
+future HW like this one.
 
-Yes, I agree... I'll remove this in the future versions, I think the 
-approach with skipping in case of missing debugfs would be better.
+So this is a Concept Ack for me.
 
-By the way, I used the 'fpa' test as an example, and it looks like it 
-should be fixed as well...
+Cheers!
 
-> Would it not be better to have a C program that actually calls the ioctl
-> rather than a custom debugfs thing that may or may not be wired up to do
-> the same thing as an ioctl would?  It seems like other than whatever
-> this ioctl test actually does this is all just a simplified version of
-> the existing pcm-test.
-
-Well, the idea was to test the playback buffer consistency - the driver 
-has the functionality of testing the playback buffer for containing the 
-looped pattern (and if the buffer doesn't contain the looped pattern the 
-test fails). So, firstly we get the capture buffer with this pattern 
-(via arecord), and then send it to the driver for the test (via aplay).
-
-The pcm-test (as I understand) performs only time checks, not the checks 
-of the data played/captured, and I think it is pointless to test the 
-time again. But I agree, that C test implementation would be better - 
-using this approach I can perform additional buffer checks and cover 
-more functionality of the driver.
-
-Thank you very much for the review!
-
-Kind regards,
-Ivan Orlov.
+Vincent.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
