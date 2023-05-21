@@ -1,105 +1,103 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9EE62C7EE24
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 15 May 2023 20:52:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9263C7EE2D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 21 May 2023 18:32:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2EEE384038;
-	Mon, 15 May 2023 20:52:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2EEE384038
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=V/2yfYMN
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qbldkRqIqn7p; Mon, 15 May 2023 20:52:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id F333D84022;
-	Mon, 15 May 2023 20:52:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F333D84022
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C9A38C0037;
-	Mon, 15 May 2023 20:52:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E133C002A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 20:52:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 346D460FA7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 20:52:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 346D460FA7
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5982A60FBE;
+	Sun, 21 May 2023 18:32:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5982A60FBE
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=V/2yfYMN
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=EWwrSP4y
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id DdmVNniTROGq
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MqGRSF5v6gjN; Sun, 21 May 2023 18:32:40 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1194460FA2;
+	Sun, 21 May 2023 18:32:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1194460FA2
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E5598C0035;
+	Sun, 21 May 2023 18:32:39 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 132BCC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 20:52:30 +0000 (UTC)
+ Sun, 21 May 2023 18:32:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id DC70F82266
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 21 May 2023 18:32:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DC70F82266
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=EWwrSP4y
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id POuwnS4mJaFF
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 21 May 2023 18:32:37 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E908160F91
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com
- [IPv6:2a00:1450:4864:20::529])
- by smtp3.osuosl.org (Postfix) with ESMTPS id E908160F91
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9E9F68225C
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 9E9F68225C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 20:52:29 +0000 (UTC)
-Received: by mail-ed1-x529.google.com with SMTP id
- 4fb4d7f45d1cf-50bcb00a4c2so20366002a12.1
+ Sun, 21 May 2023 18:32:37 +0000 (UTC)
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-96f44435d92so43976766b.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 15 May 2023 13:52:29 -0700 (PDT)
+ Sun, 21 May 2023 11:32:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684183948; x=1686775948;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M/2uUKqg/Ab7BmGViY4uFNbKZ61QIe3EzqjsTUTm1Z8=;
- b=V/2yfYMNotTUH5sWqlZZYGANTIWGAy2JE8hvjMGxZglBgjlScTYvPicblpEntPXHPT
- wNc7Nx/p6BG7OyHikNoPvkPV52u5HbAIEvoIMOBFIJ0ea8O8rkTyexKTmBfclnpHVwyO
- Ww0MMeqR1n4GfDGQCAkctMo3xTdCid+FK+pH6y6O28FTJIBNWgPdpNtUw2vwjPxdL934
- 9CjsvLQRCg+KHKd0fDR/IvsK54JPe9LCl7t/d5BkBOdUic1gIhJBahqpi6ZDydnVgMQi
- MO/AjjKC1rAUFR+sI6YdX3/R8m347DCknc20SW/4gY+SiMMhMuQQ56FMFk5pz+H5B/Uc
- esSw==
+ d=gmail.com; s=20221208; t=1684693955; x=1687285955;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XS5dP4/0kxSXRrTOxgf6uiSb5APBJTI1WcIJY11cvhE=;
+ b=EWwrSP4yoKWj11w5mAd/U713VrzEWZrEm6KKG7VWu4iOAU99aGKyEH1sp4sP7YUgbZ
+ AWazM/jChgRvmIHpvWGU/TY0yeXzJ3dCOZ5MQnDK3DJ+gJx5Ks54vccZ/tfdFeLlK6sW
+ E75/wcdCsiyjNHN9TaAom6qVysZajnMZJ3KR7enqwnbwhlsXyLHmKHcRuV2o0Pvxu0j9
+ q8aStAINClJbbGXsFBpNEwOodkRbXSSSwt1EE98Rf651kkk4Kit/RM005ldvnGkGbjz+
+ IYhY1JS+QgCZiFVxhJOO9eN7B+44EnrHhEI1LPbi+Nkra1V/Llw7jlyAznweM72cPQX8
+ braA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684183948; x=1686775948;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=M/2uUKqg/Ab7BmGViY4uFNbKZ61QIe3EzqjsTUTm1Z8=;
- b=SyleDNXtYSIglz48X8uMKWaiiYMx/OYrxR5wQt69qUCXoLgJiANjQfBy/MT2Mwl26I
- vG8cMSldjO5DJjimi9YZA3kiUdXr6CYRj0G3tdx532XRK5+fC7F+1HagQFXaNfd6rsWc
- KWGkjKIBl1sxwQvfN7hWtQ1sYOG8iIS+BilGkAKEGEVCpgBahamJ6BJMawdXsNmIZU4s
- IGyLWUipKJRT7Ft7HedtFX0QmWn+UfWI3YBMuXvhcz0KGTrRp4iOBqRmwyekwyw0fXGb
- SXv67TlF3IAMzd+aaTEmbYMxkf+zP8kUsqDymoc1epV9OrYO4Gf3VPqLKT0943oQHfE4
- LXAg==
-X-Gm-Message-State: AC+VfDxyrtpb0k877dTyBlDwuAyNvMNxw+5BZ6t8S26DlhVZjYVkvSq0
- 2e5qwCHOwYNK2YaDlAW6JVsQQbzpbTqA3m+RP4A=
-X-Google-Smtp-Source: ACHHUZ6RO+g+onx2wiXt9im45PpNoTTLqVha9ZLhkMKcmXatlco2sUSvPD4Ho5HdVHM8xwLpyJVbKC0fWf36YYnQkFI=
-X-Received: by 2002:a17:907:8690:b0:96a:3119:ac0 with SMTP id
- qa16-20020a170907869000b0096a31190ac0mr17725693ejc.69.1684183947424; Mon, 15
- May 2023 13:52:27 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1684693955; x=1687285955;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XS5dP4/0kxSXRrTOxgf6uiSb5APBJTI1WcIJY11cvhE=;
+ b=AdplehBt8KMpXAMLwRmUKRUVFtJvOr34Q0zP9d2xKhA8VDL3DKGjK3DZfIA29CWV6r
+ sph3ZgcvkxBupoEgmSkbckNtsK7g/95ZVqQzwr6B4fUsPiWjkjsq6xcpbGRkrE8wYysZ
+ xcbaQIi8hE5J6ToGNRKL2so1rCOmCIsKmgp87+9sjuYjCsQ5y5hEu4Fg9hqLM9R6q2kr
+ qkbnIeoFyxymszyncxxTBuLuMzpQ1yyP1PSLObyCU6topAFaPdK5piSeNX+1dmBYhPV1
+ R+/XCfc2H9aHIqCfjfY+vSoMEJyWCU5PWMC/CQnXWJjRs+pZAJT0fR3o2XDx9Z10ftXI
+ QIWQ==
+X-Gm-Message-State: AC+VfDzlnbtGAMMnFI58K7o9HXH0jeZgLGCRiLp4iy++8XG0UPaVLc9R
+ g+dS/UsIZVYI5mPPB1bmRb8=
+X-Google-Smtp-Source: ACHHUZ68z3QpD3OkCVzKvW+WTgMqfEOM6PCjkujbswhOwYZhDtYiHuMNHq2r08OOQlYi70QH+4SmiQ==
+X-Received: by 2002:a17:906:729e:b0:96f:6590:cbdb with SMTP id
+ b30-20020a170906729e00b0096f6590cbdbmr7686148ejl.6.1684693955078; 
+ Sun, 21 May 2023 11:32:35 -0700 (PDT)
+Received: from ivan-HLYL-WXX9.. ([141.136.93.87])
+ by smtp.gmail.com with ESMTPSA id
+ mc20-20020a170906eb5400b0096f803afbe3sm2194252ejb.66.2023.05.21.11.32.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 21 May 2023 11:32:34 -0700 (PDT)
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+To: perex@perex.cz, tiwai@suse.com, corbet@lwn.net, broonie@kernel.org,
+ skhan@linuxfoundation.org
+Subject: [PATCH v2 1/3] docs: sound: add 'pcmtest' driver documentation
+Date: Sun, 21 May 2023 22:32:16 +0400
+Message-Id: <20230521183218.9641-1-ivan.orlov0322@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <CAMdYzYqV72=pQa-U3a2N7MZ2ChBNL74QrxHQLbMZJxiftTK9sA@mail.gmail.com>
- <ZGJjHnHNJPqvuqVC@bhelgaas>
-In-Reply-To: <ZGJjHnHNJPqvuqVC@bhelgaas>
-From: Peter Geis <pgwipeout@gmail.com>
-Date: Mon, 15 May 2023 16:52:14 -0400
-Message-ID: <CAMdYzYqzHFo+223gfE4T2XGqGUPT6Zy=4AkadgpG=o_KN3MvXQ@mail.gmail.com>
-Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
- Rockchip PCIe bus scan
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: robh@kernel.org, heiko@sntech.de, kw@linux.com, linux-pci@vger.kernel.org,
- shawn.lin@rock-chips.com, linux-kernel@vger.kernel.org, lgirdwood@gmail.com,
- linux-rockchip@lists.infradead.org, broonie@kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Catalin Marinas <catalin.marinas@arm.com>, bhelgaas@google.com,
- Dan Johansen <strit@manjaro.org>, Will Deacon <will@kernel.org>,
- lpieralisi@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Robin Murphy <robin.murphy@arm.com>
+Cc: alsa-devel@alsa-project.org, Ivan Orlov <ivan.orlov0322@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,128 +109,198 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gTW9uLCBNYXkgMTUsIDIwMjMgYXQgMTI6NTHigK9QTSBCam9ybiBIZWxnYWFzIDxoZWxnYWFz
-QGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4gT24gU2F0LCBNYXkgMTMsIDIwMjMgYXQgMDc6NDA6MTJB
-TSAtMDQwMCwgUGV0ZXIgR2VpcyB3cm90ZToKPiA+IE9uIEZyaSwgTWF5IDEyLCAyMDIzIGF0IDk6
-MjTigK9QTSBCam9ybiBIZWxnYWFzIDxoZWxnYWFzQGtlcm5lbC5vcmc+IHdyb3RlOgo+ID4gPgo+
-ID4gPiBbK2NjIEFSTTY0IGZvbGtzLCBpbiBjYXNlIHlvdSBoYXZlIGFib3J0IGhhbmRsaW5nIHRp
-cHM7IHRocmVhZCBhdDoKPiA+ID4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDIzMDUwOTE1
-MzkxMi41MTUyMTgtMS12aW5jZW56b3BhbGF6em9kZXZAZ21haWwuY29tXQo+ID4gPgo+ID4gPiBQ
-aW5lNjQgUm9ja1BybzY0IHBhbmljcyB3aGlsZSBlbnVtZXJhdGluZyBzb21lIFBDSWUgZGV2aWNl
-cy4gIEFkZGluZyBhCj4gPiA+IGRlbGF5IGF2b2lkcyB0aGUgcGFuaWMuICBNeSB0aGVvcnkgaXMg
-YSBQQ0llIFJlcXVlc3QgUmV0cnkgU3RhdHVzIHRvIGEKPiA+ID4gVmVuZG9yIElEIGNvbmZpZyBy
-ZWFkIGNhdXNlcyBhbiBhYm9ydCB0aGF0IHdlIGRvbid0IGhhbmRsZS4KPiA+ID4KPiA+ID4gPiBP
-biBUdWUsIE1heSAwOSwgMjAyMyBhdCAwNTozOToxMlBNICswMjAwLCBWaW5jZW56byBQYWxhenpv
-IHdyb3RlOgo+ID4gPiA+PiAuLi4KPiA+ID4gPj4gWyAgICAxLjIyOTg1Nl0gU0Vycm9yIEludGVy
-cnVwdCBvbiBDUFU0LCBjb2RlIDB4YmYwMDAwMDIgLS0gU0Vycm9yCj4gPiA+ID4+IFsgICAgMS4y
-Mjk4NjBdIENQVTogNCBQSUQ6IDEgQ29tbTogc3dhcHBlci8wIE5vdCB0YWludGVkIDUuOS45LTIu
-MC1NQU5KQVJPLUFSTQo+ID4gPiA+PiAjMQo+ID4gPiA+PiBbICAgIDEuMjI5ODYyXSBIYXJkd2Fy
-ZSBuYW1lOiBQaW5lNjQgUm9ja1BybzY0IHYyLjEgKERUKQo+ID4gPiA+PiBbICAgIDEuMjI5ODY0
-XSBwc3RhdGU6IDYwMDAwMDg1IChuWkN2IGRhSWYgLVBBTiAtVUFPIEJUWVBFPS0tKQo+ID4gPiA+
-PiBbICAgIDEuMjI5ODY2XSBwYyA6IHJvY2tjaGlwX3BjaWVfcmRfY29uZisweGI0LzB4MjcwCj4g
-PiA+ID4+IFsgICAgMS4yMjk4NjhdIGxyIDogcm9ja2NoaXBfcGNpZV9yZF9jb25mKzB4MWI0LzB4
-MjcwCj4gPiA+ID4+IC4uLgo+ID4gPiA+PiBbICAgIDEuMjI5OTM5XSBLZXJuZWwgcGFuaWMgLSBu
-b3Qgc3luY2luZzogQXN5bmNocm9ub3VzIFNFcnJvciBJbnRlcnJ1cHQKPiA+ID4gPj4gLi4uCj4g
-PiA+ID4+IFsgICAgMS4yMjk5NTVdICBubWlfcGFuaWMrMHg4Yy8weDkwCj4gPiA+ID4+IFsgICAg
-MS4yMjk5NTZdICBhcm02NF9zZXJyb3JfcGFuaWMrMHg3OC8weDg0Cj4gPiA+ID4+IFsgICAgMS4y
-Mjk5NThdICBkb19zZXJyb3IrMHgxNWMvMHgxNjAKPiA+ID4gPj4gWyAgICAxLjIyOTk2MF0gIGVs
-MV9lcnJvcisweDg0LzB4MTAwCj4gPiA+ID4+IFsgICAgMS4yMjk5NjJdICByb2NrY2hpcF9wY2ll
-X3JkX2NvbmYrMHhiNC8weDI3MAo+ID4gPiA+PiBbICAgIDEuMjI5OTY0XSAgcGNpX2J1c19yZWFk
-X2NvbmZpZ19kd29yZCsweDZjLzB4ZDAKPiA+ID4gPj4gWyAgICAxLjIyOTk2Nl0gIHBjaV9idXNf
-Z2VuZXJpY19yZWFkX2Rldl92ZW5kb3JfaWQrMHgzNC8weDFiMAo+ID4gPiA+PiBbICAgIDEuMjI5
-OTY4XSAgcGNpX3NjYW5fc2luZ2xlX2RldmljZSsweGE0LzB4MTQ0Cj4gPiA+Cj4gPiA+IE9uIEZy
-aSwgTWF5IDEyLCAyMDIzIGF0IDEyOjQ2OjIxUE0gKzAyMDAsIFZpbmNlbnpvIFBhbGF6em8gd3Jv
-dGU6Cj4gPiA+ID4gLi4uIElzIHRoZXJlIGFueSB3YXkgdG8gdGVsbCB0aGUga2VybmVsICJoZXkg
-d2UgbmVlZCBzb21lIG1vcmUgdGltZQo+ID4gPiA+IGhlcmUiPwo+ID4gPgo+ID4gPiBXZSBlbnVt
-ZXJhdGUgUENJIGRldmljZXMgYnkgdHJ5aW5nIHRvIHJlYWQgdGhlIFZlbmRvciBJRCBvZiBldmVy
-eQo+ID4gPiBwb3NzaWJsZSBkZXZpY2UgYWRkcmVzcyAoc2VlIHBjaV9zY2FuX3Nsb3QoKSkuICBP
-biBQQ0llLCBpZiBhIGRldmljZQo+ID4gPiBkb2Vzbid0IGV4aXN0IGF0IHRoYXQgYWRkcmVzcywg
-dGhlIFZlbmRvciBJRCBjb25maWcgcmVhZCB3aWxsIGJlCj4gPiA+IHRlcm1pbmF0ZWQgd2l0aCBV
-bnN1cHBvcnRlZCBSZXF1ZXN0IChVUikgc3RhdHVzLiAgVGhpcyBpcyBub3JtYWwKPiA+ID4gYW5k
-IGhhcHBlbnMgZXZlcnkgdGltZSB3ZSBlbnVtZXJhdGUgZGV2aWNlcy4KPiA+ID4KPiA+ID4gVGhl
-IGNyYXNoIGRvZXNuJ3QgaGFwcGVuIGV2ZXJ5IHRpbWUgd2UgZW51bWVyYXRlLCBzbyBJIGRvbid0
-IHRoaW5rCj4gPiA+IHRoaXMgVVIgaXMgdGhlIHByb2JsZW0uICBBbHNvLCBpZiBpdCAqd2VyZSog
-dGhlIHByb2JsZW0sIGFkZGluZyBhCj4gPiA+IGRlbGF5IHdvdWxkIG5vdCBtYWtlIGFueSBkaWZm
-ZXJlbmNlLgo+ID4KPiA+IElzIHRoaXMgYmVoYXZpb3IgZGlmZmVyZW50IGlmIHRoZXJlIGlzIGEg
-c3dpdGNoIGRldmljZSBmb3J3YXJkaW5nIG9uCj4gPiB0aGUgVVI/IE9uIHJrMzM5OSBzd2l0Y2hl
-cyBhcmUgY29tcGxldGVseSBub24tZnVuY3Rpb25hbCBiZWNhdXNlIG9mCj4gPiB0aGUgcGFuaWMs
-IHdoaWNoIGlzIG9ic2VydmVkIGluIHRoZSBvdXRwdXQgb2YgdGhlIGRtZXNnIGluIFsyXSB3aXRo
-Cj4gPiB0aGUgaGFjayBwYXRjaCBlbmFibGVkLiBDb25zaWRlcmluZyB3aGF0IHlvdSBqdXN0IGRl
-c2NyaWJlZCBpdCBsb29rcwo+ID4gbGlrZSB0aGUgZm9yd2FyZGVkIFVSIGZvciBlYWNoIG5vbi1l
-eGlzdGVudCBkZXZpY2UgYmVoaW5kIHRoZSBzd2l0Y2gKPiA+IGlzIGNhdXNpbmcgYW4gc2Vycm9y
-Lgo+Cj4gSSBkb24ndCBrbm93IGV4YWN0bHkgd2hhdCB0aGUgcGFuaWMgbG9va3MgbGlrZSwgYnV0
-IEkgd291bGRuJ3QgZXhwZWN0Cj4gVVIgaGFuZGxpbmcgdG8gYmUgZGlmZmVyZW50IHdoZW4gdGhl
-cmUncyBhIHN3aXRjaC4KPgo+IHBjaWUtcm9ja2NoaXAtaG9zdC5jIGRvZXMgaGFuZGxlIGRldmlj
-ZXMgb24gdGhlIHJvb3QgYnVzICgwMCkKPiBkaWZmZXJlbnRseSB0aGFuIG90aGVycyBiZWNhdXNl
-IHJvY2tjaGlwX3BjaWVfdmFsaWRfZGV2aWNlKCkga25vd3MKPiB0aGF0IGRldmljZSAwMDowMCBp
-cyB0aGUgb25seSBkZXZpY2Ugb24gdGhlIHJvb3QgYnVzLiAgVGhhdCBwYXJ0IG1ha2VzCj4gc2Vu
-c2UgYmVjYXVzZSAwMDowMCBpcyBidWlsdCBpbnRvIHRoZSBTb0MuCj4KPiBJJ20gYSBsaXR0bGUg
-c3VzcGljaW91cyBvZiB0aGUgZmFjdCB0aGF0IHJvY2tjaGlwX3BjaWVfdmFsaWRfZGV2aWNlKCkK
-PiBhbHNvIGVuZm9yY2VzIHRoYXQgYnVzIDAxIGNhbiBvbmx5IGhhdmUgYSBzaW5nbGUgZGV2aWNl
-IG9uIGl0LiAgTm8KPiBvdGhlciAqX3BjaWVfdmFsaWRfZGV2aWNlKCkgaW1wbGVtZW50YXRpb25z
-IGVuZm9yY2UgdGhhdC4gIEl0J3MgdHJ1ZQo+IHRoYXQgdHJhZGl0aW9uYWwgUENJZSBkZXZpY2Vz
-IGNhbiBvbmx5IGltcGxlbWVudCBkZXZpY2UgMDAsIGJ1dCBBUkkKPiByZWxheGVzIHRoYXQgYnkg
-cmV1c2luZyB0aGUgRGV2aWNlIE51bWJlciBhcyBleHRlbmRlZCBGdW5jdGlvbiBOdW1iZXIKPiBi
-aXRzLgoKQmpvcm4sIGdyZWF0IGNhdGNoLCB0aGFuayB5b3UhCgpJIHN1c3BlY3QgeW91J3JlIGFj
-dHVhbGx5IG9udG8gdGhlIGNvcmUgb2YgdGhlIHByb2JsZW0uIExvb2tpbmcKdGhyb3VnaCB2YXJp
-b3VzIG90aGVyIGRyaXZlcnMgdGhhdCBpbXBsZW1lbnQgX3BjaWVfdmFsaWRfZGV2aWNlIHRoZXkK
-YWxsIGFwcGVhciB0byBmaWxlIHNpbWlsYXIgcmVzdHJpY3Rpb25zIG9uIHNjYW5uaW5nIGZvciBk
-ZXZpY2VzLiBUaGUKZHJpdmVycyBhcmUgYWxsIHNpbWlsYXIgZW5vdWdoIHRoYXQgSSBhbSBzdGFy
-dGluZyB0byBzdXNwZWN0IHRoZXkgYXJlCmFsbCBydW5uaW5nIHNvbWUgdmVyc2lvbiBvZiB0aGUg
-c2FtZSBidWdnZWQgSVAuIFRoZW4gSSBjYW1lIGFjcm9zcwphZHZrX3BjaWVfcGlvX2lzX3J1bm5p
-bmcoKSBpbiBwY2ktYWFyZHZhcmsuYywgd2hpY2ggZGVzY3JpYmVzIG91cgppc3N1ZSBwcmV0dHkg
-c3BvdCBvbiBpbmNsdWRpbmcgdGhlIHNhbWUgZXhhY3QgU0Vycm9yLiBJbnRlcmVzdGluZ2x5CmVu
-b3VnaCB0aGV5IG1hZGUgYSBURi1BIHBhdGNoIFszXSB0byBjYXRjaCBhbmQgaGFuZGxlIHRoZSBl
-cnJvcgp3aXRob3V0IGV2ZXIgcGFzc2luZyBpdCB0byB0aGUga2VybmVsLiBPdGhlciBsaW1pdGF0
-aW9ucyB0aGV5IGFkZGVkCmFyZSBlbnN1cmluZyByZWFkcyBhcmUgbm90IGF0dGVtcHRlZCB3aGls
-ZSB0aGUgbGluayBpcyBkb3duLgpwY2ktYWFyZHZhcmsuYyBhbHNvIGltcGxlbWVudHMgbGltaXRh
-dGlvbnMgb24gQ29tcGxldGlvbiBSZXRyeSBTdGF0dXMuCkl0IGhhcyBnaXZlbiBtZSBpZGVhcyBm
-b3Igc29sdmluZyB0aGUgcHJvYmxlbS4KClZlcnkgUmVzcGVjdGZ1bGx5LApQZXRlciBHZWlzCgpb
-M10gaHR0cHM6Ly9naXQudHJ1c3RlZGZpcm13YXJlLm9yZy9URi1BL3RydXN0ZWQtZmlybXdhcmUt
-YS5naXQvY29tbWl0Lz9pZD0zYzdkY2RhYzVjNTAKCj4KPiA+ID4gVGhlcmUgKmlzKiBhIHdheSBm
-b3IgYSBQQ0llIGRldmljZSB0byBzYXkgIkkgbmVlZCBtb3JlIHRpbWUiLiAgSXQgZG9lcwo+ID4g
-PiB0aGlzIGJ5IHJlc3BvbmRpbmcgdG8gdGhhdCBWZW5kb3IgSUQgY29uZmlnIHJlYWQgd2l0aCBS
-ZXF1ZXN0IFJldHJ5Cj4gPiA+IFN0YXR1cyAoUlJTLCBha2EgQ1JTIGluIG9sZGVyIHNwZWNzKSwg
-d2hpY2ggbWVhbnMgIkknbSBub3QgcmVhZHkgeWV0LAo+ID4gPiBidXQgSSB3aWxsIGJlIHJlYWR5
-IGluIHRoZSBmdXR1cmUuIiAgQWRkaW5nIGEgZGVsYXkgd291bGQgZGVmaW5pdGVseQo+ID4gPiBt
-YWtlIGEgZGlmZmVyZW5jZSBoZXJlLCBzbyBteSBndWVzcyBpcyB0aGlzIGlzIHdoYXQncyBoYXBw
-ZW5pbmcuCj4gPiA+Cj4gPiA+IE1vc3Qgcm9vdCBjb21wbGV4ZXMgcmV0dXJuIH4wIGRhdGEgdG8g
-dGhlIENQVSB3aGVuIGEgY29uZmlnIHJlYWQKPiA+ID4gdGVybWluYXRlcyB3aXRoIFVSIG9yIFJS
-Uy4gIEl0IHNvdW5kcyBsaWtlIHJvY2tjaGlwIGRvZXMgdGhpcyBmb3IgVVIKPiA+ID4gYnV0IHBv
-c3NpYmx5IG5vdCBmb3IgUlJTLgo+ID4gPgo+ID4gPiBUaGVyZSBpcyBhICJSUlMgU29mdHdhcmUg
-VmlzaWJpbGl0eSIgZmVhdHVyZSwgd2hpY2ggaXMgc3VwcG9zZWQgdG8KPiA+ID4gdHVybiB0aGUg
-UlJTIGludG8gYSBzcGVjaWFsIHZhbHVlIChWZW5kb3IgSUQgPT0gMHgwMDAxKSwgYnV0IHBlciBb
-MV0sCj4gPiA+IHJvY2tjaGlwIGRvZXNuJ3Qgc3VwcG9ydCBpdCAobHNwY2kgY2FsbHMgaXQgIkNS
-U1Zpc2libGUiKS4KPiA+ID4KPiA+ID4gQnV0IHRoZSBDUFUgbG9hZCBpbnN0cnVjdGlvbiBjb3Jy
-ZXNwb25kaW5nIHRvIHRoZSBjb25maWcgcmVhZCBoYXMgdG8KPiA+ID4gY29tcGxldGUgYnkgcmVh
-ZGluZyAqc29tZXRoaW5nKiBvciBlbHNlIGJlIGFib3J0ZWQuICBJdCBzb3VuZHMgbGlrZQo+ID4g
-PiBpdCdzIGFib3J0ZWQgaW4gdGhpcyBjYXNlLiAgSSBkb24ndCBrbm93IHRoZSBhcm02NCBkZXRh
-aWxzLCBidXQgaWYgd2UKPiA+ID4gY291bGQgY2F0Y2ggdGhhdCBhYm9ydCBhbmQgZGV0ZXJtaW5l
-IHRoYXQgaXQgd2FzIGFuIFJSUyBhbmQgbm90IGEgVVIsCj4gPiA+IG1heWJlIHdlIGNvdWxkIGZh
-YnJpY2F0ZSB0aGUgbWFnaWMgUlJTIDB4MDAwMSB2YWx1ZS4KPiA+ID4KPiA+ID4gaW14NnFfcGNp
-ZV9hYm9ydF9oYW5kbGVyKCkgZG9lcyBzb21ldGhpbmcgbGlrZSB0aGF0LCBhbHRob3VnaCBJIHRo
-aW5rCj4gPiA+IGl0J3MgZm9yIGFybTMyLCBub3QgYXJtNjQuICBCdXQgb2J2aW91c2x5IHdlIGFs
-cmVhZHkgY2F0Y2ggdGhlIGFib3J0Cj4gPiA+IGVub3VnaCB0byBkdW1wIHRoZSByZWdpc3RlciBz
-dGF0ZSBhbmQgcGFuaWMsIHNvIG1heWJlIHRoZXJlJ3MgYSB3YXkgdG8KPiA+ID4gZXh0ZW5kIHRo
-YXQ/Cj4gPgo+ID4gUGVyaGFwcyBhIGhvb2sgbWVjaGFuaXNtIHRoYXQgYWxsb3dzIGRyaXZlcnMg
-dG8gcmVnaXN0ZXIgd2l0aCB0aGUKPiA+IHNlcnJvciBoYW5kbGVyIGFuZCBvZmZlciB0byBoYW5k
-bGUgc3BlY2lmaWMgZXJyb3JzIGJlZm9yZSB0aGUgZ2VuZXJpYwo+ID4gY29kZSBjYXVzZXMgdGhl
-IHN5c3RlbSBwYW5pYz8KPiA+Cj4gPiBWZXJ5IFJlc3BlY3RmdWxseSwKPiA+IFBldGVyIEdlaXMK
-PiA+Cj4gPiBbMl0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtcGNpL0NBTWRZellxbjNM
-N3gtdmMrX0s2akcwRVZUaVBHYno4cFEtTjFRMW1SYmNWWEU4MjJZZ0BtYWlsLmdtYWlsLmNvbS8K
-PiA+Cj4gPiA+Cj4gPiA+IEJqb3JuCj4gPiA+Cj4gPiA+IFsxXSBodHRwczovL2xvcmUua2VybmVs
-Lm9yZy9saW51eC1wY2kvQ0FNZFl6WXBPRkFWcTMwTitPMmdPeFhpUnRwb0hwYWtGZzNMS3EzVEVa
-cTRTNlkweTBnQG1haWwuZ21haWwuY29tLwo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18KPiA+IExpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlz
-dAo+ID4gTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwo+ID4g
-aHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
-a2VybmVsLW1lbnRlZXMKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50
-ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRp
-b24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+Add documentation for the new Virtual PCM Test Driver. It covers all
+possible usage cases: errors and delay injections, random and
+pattern-based data generation, playback and ioctl redefinition
+functionalities testing.
+
+We have a lot of different virtual media drivers, which can be used for
+testing of the userspace applications and media subsystem middle layer.
+However, all of them are aimed at testing the video functionality and
+simulating the video devices. For audio devices we have only snd-dummy
+module, which is good in simulating the correct behavior of an ALSA device.
+I decided to write a tool, which would help to test the userspace ALSA
+programs (and the PCM middle layer as well) under unusual circumstances
+to figure out how they would behave. So I came up with this Virtual PCM
+Test Driver.
+
+This new Virtual PCM Test Driver has several features which can be useful
+during the userspace ALSA applications testing/fuzzing, or testing/fuzzing
+of the PCM middle layer. Not all of them can be implemented using the
+existing virtual drivers (like dummy or loopback). Here is what can this
+driver do:
+
+- Simulate both capture and playback processes
+- Check the playback stream for containing the looped pattern
+- Generate random or pattern-based capture data
+- Inject delays into the playback and capturing processes
+- Inject errors during the PCM callbacks
+
+Also, this driver can check the playback stream for containing the
+predefined pattern, which is used in the corresponding selftest to check
+the PCM middle layer data transferring functionality. Additionally, this
+driver redefines the default RESET ioctl, and the selftest covers this PCM
+API functionality as well.
+
+Signed-off-by: Ivan Orlov <ivan.orlov0322@gmail.com>
+---
+V1 -> V2:
+
+- Rename the driver from from 'valsa' to 'pcmtest'.
+- Implement support for interleaved and non-interleaved access modes
+- Add support for 8 substreams and 4 channels
+- Extend supported formats
+- Extend and rewrite in C the selftest for the driver
+
+ Documentation/sound/cards/index.rst   |   1 +
+ Documentation/sound/cards/pcmtest.rst | 119 ++++++++++++++++++++++++++
+ 2 files changed, 120 insertions(+)
+ create mode 100644 Documentation/sound/cards/pcmtest.rst
+
+diff --git a/Documentation/sound/cards/index.rst b/Documentation/sound/cards/index.rst
+index c016f8c3b88b..49c1f2f688f8 100644
+--- a/Documentation/sound/cards/index.rst
++++ b/Documentation/sound/cards/index.rst
+@@ -17,3 +17,4 @@ Card-Specific Information
+    hdspm
+    serial-u16550
+    img-spdif-in
++   pcmtest
+diff --git a/Documentation/sound/cards/pcmtest.rst b/Documentation/sound/cards/pcmtest.rst
+new file mode 100644
+index 000000000000..ea8070eaa44e
+--- /dev/null
++++ b/Documentation/sound/cards/pcmtest.rst
+@@ -0,0 +1,119 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++The Virtual PCM Test Driver
++===========================
++
++The Virtual PCM Test Driver emulates a generic PCM device, and can be used for
++testing/fuzzing of the userspace ALSA applications, as well as for testing/fuzzing of
++the PCM middle layer. Additionally, it can be used for simulating hard to reproduce
++problems with PCM devices.
++
++What can this driver do?
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++At this moment the driver can do the following things:
++	* Simulate both capture and playback processes
++	* Generate random or pattern-based capturing data
++	* Inject delays into the playback and capturing processes
++	* Inject errors during the PCM callbacks
++
++It supports up to 8 substreams and 4 channels. Also it supports both interleaved and
++non-interleaved access modes.
++
++Also, this driver can check the playback stream for containing the predefined pattern,
++which is used in the corresponding selftest (alsa/test-pcmtest-driver.c). To check the
++PCM middle layer data transferring functionality. Additionally, this driver redefines
++the default RESET ioctl, and the selftest covers this PCM API functionality as well.
++
++Configuration
++-------------
++
++The driver has several parameters besides the common ALSA module parameters:
++
++	* fill_mode (bool) - Buffer fill mode (see below)
++	* inject_delay (int)
++	* inject_hwpars_err (bool)
++	* inject_prepare_err (bool)
++	* inject_trigger_err (bool)
++
++
++Capture Data Generation
++-----------------------
++
++The driver has two modes of data generation: the first (0 in the fill_mode parameter)
++means random data generation, the second (1 in the fill_mode) - pattern-based
++data generation. Let's look at the second mode.
++
++First of all, you may want to specify the pattern for data generation. You can do it
++by writing the pattern to the debugfs file (/sys/kernel/debug/pcmtest/fill_pattern).
++Like that:
++
++.. code-block:: bash
++
++	echo -n mycoolpattern > /sys/kernel/debug/pcmtest/fill_pattern
++
++After this, every capture action performed on the 'pcmtest' device will return
++'mycoolpatternmycoolpatternmycoolpatternmy...' for every channel buffer.
++
++In case of interleaved access, the capture buffer will contain the repeated pattern
++for every channel. Otherwise, every channel buffer will contain the repeated pattern.
++
++The pattern itself can be up to 4096 bytes long.
++
++Delay injection
++---------------
++
++The driver has 'inject_delay' parameter, which has very self-descriptive name and
++can be used for time delay/speedup simulations. The parameter has integer type, and
++it means the delay added between module's internal timer ticks.
++
++If the 'inject_delay' value is positive, the buffer will be filled slower, if it is
++negative - faster. You can try it yourself by starting a recording in any
++audio recording application (like Audacity) and selecting the 'pcmtest' device as a
++source.
++
++This parameter can be also used for generating a huge amount of sound data in a very
++short period of time (with the negative 'inject_delay' value).
++
++Errors injection
++----------------
++
++This module can be used for injecting errors into the PCM communication process. This
++action can help you to figure out how the userspace ALSA program behaves under unusual
++circumstances.
++
++For example, you can make all 'hw_params' PCM callback calls return EBUSY error by
++writing '1' to the 'inject_hwpars_err' module parameter:
++
++.. code-block:: bash
++
++	echo 1 > /sys/module/snd_pcmtest/parameters/inject_hwpars_err
++
++Errors can be injected into the following PCM callbacks:
++
++	* hw_params (EBUSY)
++	* prepare (EINVAL)
++	* trigger (EINVAL)
++
++
++Playback test
++-------------
++
++This driver can be also used for the playback functionality testing - every time you
++write the playback data to the 'pcmtest' PCM device and close it, the driver checks the
++buffer of each channel for containing the looped pattern (which is specified in the
++fill_pattern debugfs file). If the playback buffer content represents the looped pattern,
++'pc_test' debugfs entry is set into '1'. Otherwise, the driver sets it to '0'.
++
++ioctl redefinition test
++-----------------------
++
++The driver redefines the 'reset' ioctl, which is default for all PCM devices. To test
++this functionality, we can trigger the reset ioctl and check the 'ioctl_test' debugfs
++entry:
++
++.. code-block:: bash
++
++	cat /sys/kernel/debug/pcmtest/ioctl_test
++
++If the ioctl is triggered successfully, this file will contain '1', and '0' otherwise.
+-- 
+2.34.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
