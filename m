@@ -1,108 +1,105 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6DEC0C77B73
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 24 May 2023 06:31:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4FBDC77B7E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 28 May 2023 01:25:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D668941E11;
-	Wed, 24 May 2023 06:31:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D668941E11
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=kCgeZ8ob
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id l0CrJfaAdXKN; Wed, 24 May 2023 06:31:06 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 750CE4000B;
-	Wed, 24 May 2023 06:31:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 750CE4000B
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4BFBCC0035;
-	Wed, 24 May 2023 06:31:06 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BC06DC002A
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 May 2023 06:31:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8EA7D424D6
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 May 2023 06:31:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8EA7D424D6
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2469A41E99;
+	Sun, 28 May 2023 01:25:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2469A41E99
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=kCgeZ8ob
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=kfln9wFD
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mX4GN64TMUXv
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UTjMsywNRqAh; Sun, 28 May 2023 01:25:47 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C278D41E6A;
+	Sun, 28 May 2023 01:25:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C278D41E6A
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 945CFC0036;
+	Sun, 28 May 2023 01:25:46 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8829BC002A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 May 2023 06:31:03 +0000 (UTC)
+ Sun, 28 May 2023 01:25:45 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5959F401D2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 28 May 2023 01:25:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5959F401D2
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=kfln9wFD
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5ut2M8iB7_h1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 28 May 2023 01:25:44 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2497F424BB
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
- [IPv6:2a00:1450:4864:20::533])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 2497F424BB
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B34BD4013B
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com
+ [IPv6:2607:f8b0:4864:20::52f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id B34BD4013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 24 May 2023 06:31:03 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id
- 4fb4d7f45d1cf-513debc49e8so183862a12.0
+ Sun, 28 May 2023 01:25:44 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id
+ 41be03b00d2f7-53f70f7c2d2so241025a12.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 23 May 2023 23:31:02 -0700 (PDT)
+ Sat, 27 May 2023 18:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1684909861; x=1687501861;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=RjNzEJWtwaikCiJE57i78ekQMAO9RRitNfS4hH15fr0=;
- b=kCgeZ8obhDo28nCt2Ds+bmfQMAx8mv0ObMk/woGuLotfZnRmNlwttE7rEINi+eBHp4
- T85lOdsQ89z/7asGLFdEVaOXGEZpklxW+Eh280kwqbsE9f1w7IGv05Xfd5tacAMnRyY/
- kf1ZywsNSME+NH632UvTNglT0DuYcz5jetPbXvBqAbcpszLeCLNtoohZaImOL14Zegnq
- ug4unNdHE6FoFdA2TgTNiupihcgrJSztv7jcjiT5advmAvehFoW3oHUt6KzFZ5tKOyWo
- Tqrc1RD8kc6hV7Wi/YnAjWbJ/r+Uj7kY9b4YnuOH8O/h+Tai6u2/WsAzbX4oPZBHKIhX
- BEjg==
+ d=gmail.com; s=20221208; t=1685237144; x=1687829144;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b44Rf60oUaAcGpO0dqWTBH48dBelIzQdyh7QejEWNW4=;
+ b=kfln9wFDTku231dnl5jv9gXmGxBLGm+GeLHXFO5shj4wLFIQRB6HTAdTIm+c/wYKQr
+ ZMLsXHI/iwoAF4F5Q3Ng906IsSifrgE87Ki68CLmCGSYQ6so66zVJ5iVkJiy1AUR06ul
+ vwy68VfOB3iQs0OIYV/XTEr0a/F1Uv1RuCJzHdZUJjdLfZp+FhlWpHVrvrtvd7R/RQog
+ ekfPe7XAQeqFH/8KhvUnMpGZfhDWU8bhslgo80l3ZbiYnZK5M0ziWB+rBq476IrTzwli
+ M3PCQQu4xZ4lB8Mih9jznWZxSLnjMrVB/cwN61XHk+N3KZSpL3lhPikqjBG8icmW4cgv
+ xwng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1684909861; x=1687501861;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RjNzEJWtwaikCiJE57i78ekQMAO9RRitNfS4hH15fr0=;
- b=TQsZRG/zx/c3im8Y2Rw1YI6T6057GO65rDv48Vrek0T6yjM9Y5KO7ZueP7R/iqEyjw
- ny1tnaSIYwg6uHiNkgRaCTJtgLAhdkWQVqyQVFyTFiv33aN4tyb+vVZisalvm1sB5MSD
- IdfSt0i9CE9f0xnfwNKKgDC7JfiWR2cIU9u2rMRWCnefRsdRxwHWWAA2/EmsjuT36AmA
- FVMEuSAm9TjjGuaffNxIgrUWpiGy+7RtD5zJ1QVcV02NLkfQ1Jl3/vVDiw5vax+3fyn+
- ITmCpZY52v0GSwOAR9eUODu2nbGEbbXTi79zRc+enlM4krJipz89ZBYKAKbJ4RwNk8rY
- YZxQ==
-X-Gm-Message-State: AC+VfDyGw32cADK7DlnkFzE4VWAiMtlrM2KrIAVEfowe0q/XwlqSyC0B
- Gkn1RY9W8PcH4a7i7a6Ddvc=
-X-Google-Smtp-Source: ACHHUZ4EFPbBocz0ldfP6auAAnd4+8ZZzau3uJD3txGc+GMgqlL/AK60wRd+0xwo+bekiYkQDNiRmg==
-X-Received: by 2002:a17:906:748c:b0:965:9c7d:df96 with SMTP id
- e12-20020a170906748c00b009659c7ddf96mr16034695ejl.1.1684909860542; 
- Tue, 23 May 2023 23:31:00 -0700 (PDT)
-Received: from [192.168.10.215] ([141.136.93.87])
+ d=1e100.net; s=20221208; t=1685237144; x=1687829144;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b44Rf60oUaAcGpO0dqWTBH48dBelIzQdyh7QejEWNW4=;
+ b=NUW+CUk0Pqw2DMIEQIBgGkt5Yi0Oxg8ifEpmaaEVPRZQDs7bfYJc6T28CXJPwasl+7
+ y6FJKss/bIBawnJAixslIB/iFTKPuR3QpgpeMG4013Z1Bsw5CaR12A3dt29CfU5LBSRJ
+ DzawPS6P37o5wzO7qbaR2+1R0T6qIAC7bBgFx4OCAO4RLh04udF5xuYR2hIgQ9JfPt0A
+ XouxMqfYtGN+soa2opxnnfeT0enzGDs4CrtiNMnZa3w5YUBK/ljjHW9CTs0C8CXqLSYM
+ v22tc5nTH9/km4aGg2WlEjtUecrx0LQfurK+A/lbtRNC8JUbsCTpp0Q2fGL1GNePoFMA
+ DguQ==
+X-Gm-Message-State: AC+VfDx/O6Jv5SeWhJrb9Yd4YHmpIdxyiUm5P4sXjRKArnMfoLG5nury
+ qYmwijSlPF/4DsPnYLVEpHk=
+X-Google-Smtp-Source: ACHHUZ6JuxPtigaUbnEpUtjjk1rUCSKj5kJKVbQCnvdh3E/PCl0hVDi9NO5g++x4rI44sENmtS9huw==
+X-Received: by 2002:a05:6a20:100a:b0:10d:8f40:6469 with SMTP id
+ gs10-20020a056a20100a00b0010d8f406469mr4147880pzc.48.1685237143737; 
+ Sat, 27 May 2023 18:25:43 -0700 (PDT)
+Received: from fedora.hsd1.wa.comcast.net ([2601:602:9300:2710::f1c9])
  by smtp.gmail.com with ESMTPSA id
- p19-20020a170906229300b0096f5b48fe43sm5265343eja.47.2023.05.23.23.30.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 May 2023 23:31:00 -0700 (PDT)
-Message-ID: <8f0b51f6-bc95-794d-929f-11b84629d0cd@gmail.com>
-Date: Wed, 24 May 2023 10:30:57 +0400
+ m21-20020a638c15000000b0053449457a25sm4752313pgd.88.2023.05.27.18.25.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 27 May 2023 18:25:43 -0700 (PDT)
+From: Prince Kumar Maurya <princekumarmaurya06@gmail.com>
+To: skhan@linuxfoundation.org, viro@zeniv.linux.org.uk, brauner@kernel.org,
+ chenzhongjin@huawei.com
+Subject: [PATCH] Null check to prevent null-ptr-deref bug
+Date: Sat, 27 May 2023 18:25:16 -0700
+Message-Id: <20230528012516.427126-1-princekumarmaurya06@gmail.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <000000000000cafb9305fc4fe588@google.com>
+References: <000000000000cafb9305fc4fe588@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/3] docs: sound: add 'pcmtest' driver documentation
-Content-Language: en-US
-To: Bagas Sanjaya <bagasdotme@gmail.com>, perex@perex.cz, tiwai@suse.com,
- corbet@lwn.net, broonie@kernel.org, skhan@linuxfoundation.org
-References: <20230521183218.9641-1-ivan.orlov0322@gmail.com>
- <ZGtntdJVy8dZBnf9@debian.me>
-From: Ivan Orlov <ivan.orlov0322@gmail.com>
-In-Reply-To: <ZGtntdJVy8dZBnf9@debian.me>
-Cc: alsa-devel@alsa-project.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,153 +111,35 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 5/22/23 17:01, Bagas Sanjaya wrote:
-> On Sun, May 21, 2023 at 10:32:16PM +0400, Ivan Orlov wrote:
->> diff --git a/Documentation/sound/cards/pcmtest.rst b/Documentation/sound/cards/pcmtest.rst
->> new file mode 100644
->> index 000000000000..ea8070eaa44e
->> --- /dev/null
->> +++ b/Documentation/sound/cards/pcmtest.rst
->> @@ -0,0 +1,119 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +The Virtual PCM Test Driver
->> +===========================
->> +
->> +The Virtual PCM Test Driver emulates a generic PCM device, and can be used for
->> +testing/fuzzing of the userspace ALSA applications, as well as for testing/fuzzing of
->> +the PCM middle layer. Additionally, it can be used for simulating hard to reproduce
->> +problems with PCM devices.
->> +
->> +What can this driver do?
->> +~~~~~~~~~~~~~~~~~~~~~~~~
->> +
->> +At this moment the driver can do the following things:
->> +	* Simulate both capture and playback processes
->> +	* Generate random or pattern-based capturing data
->> +	* Inject delays into the playback and capturing processes
->> +	* Inject errors during the PCM callbacks
->> +
->> +It supports up to 8 substreams and 4 channels. Also it supports both interleaved and
->> +non-interleaved access modes.
->> +
->> +Also, this driver can check the playback stream for containing the predefined pattern,
->> +which is used in the corresponding selftest (alsa/test-pcmtest-driver.c). To check the
->> +PCM middle layer data transferring functionality. Additionally, this driver redefines
-> "... corresponding selftest ... to check the ..."
->> +the default RESET ioctl, and the selftest covers this PCM API functionality as well.
->> +
->> +Configuration
->> +-------------
->> +
->> +The driver has several parameters besides the common ALSA module parameters:
->> +
->> +	* fill_mode (bool) - Buffer fill mode (see below)
->> +	* inject_delay (int)
->> +	* inject_hwpars_err (bool)
->> +	* inject_prepare_err (bool)
->> +	* inject_trigger_err (bool)
->> +
->> +
->> +Capture Data Generation
->> +-----------------------
->> +
->> +The driver has two modes of data generation: the first (0 in the fill_mode parameter)
->> +means random data generation, the second (1 in the fill_mode) - pattern-based
->> +data generation. Let's look at the second mode.
->> +
->> +First of all, you may want to specify the pattern for data generation. You can do it
->> +by writing the pattern to the debugfs file (/sys/kernel/debug/pcmtest/fill_pattern).
->> +Like that:
-> "For example::"
->> +
->> +.. code-block:: bash
->> +
->> +	echo -n mycoolpattern > /sys/kernel/debug/pcmtest/fill_pattern
->> +
->> +After this, every capture action performed on the 'pcmtest' device will return
->> +'mycoolpatternmycoolpatternmycoolpatternmy...' for every channel buffer.
->> +
->> +In case of interleaved access, the capture buffer will contain the repeated pattern
->> +for every channel. Otherwise, every channel buffer will contain the repeated pattern.
->> +
->> +The pattern itself can be up to 4096 bytes long.
->> +
->> +Delay injection
->> +---------------
->> +
->> +The driver has 'inject_delay' parameter, which has very self-descriptive name and
->> +can be used for time delay/speedup simulations. The parameter has integer type, and
->> +it means the delay added between module's internal timer ticks.
->> +
->> +If the 'inject_delay' value is positive, the buffer will be filled slower, if it is
->> +negative - faster. You can try it yourself by starting a recording in any
->> +audio recording application (like Audacity) and selecting the 'pcmtest' device as a
->> +source.
->> +
->> +This parameter can be also used for generating a huge amount of sound data in a very
->> +short period of time (with the negative 'inject_delay' value).
->> +
->> +Errors injection
->> +----------------
->> +
->> +This module can be used for injecting errors into the PCM communication process. This
->> +action can help you to figure out how the userspace ALSA program behaves under unusual
->> +circumstances.
->> +
->> +For example, you can make all 'hw_params' PCM callback calls return EBUSY error by
->> +writing '1' to the 'inject_hwpars_err' module parameter:
->> +
->> +.. code-block:: bash
->> +
->> +	echo 1 > /sys/module/snd_pcmtest/parameters/inject_hwpars_err
->> +
->> +Errors can be injected into the following PCM callbacks:
->> +
->> +	* hw_params (EBUSY)
->> +	* prepare (EINVAL)
->> +	* trigger (EINVAL)
->> +
->> +
->> +Playback test
->> +-------------
->> +
->> +This driver can be also used for the playback functionality testing - every time you
->> +write the playback data to the 'pcmtest' PCM device and close it, the driver checks the
->> +buffer of each channel for containing the looped pattern (which is specified in the
->> +fill_pattern debugfs file). If the playback buffer content represents the looped pattern,
->> +'pc_test' debugfs entry is set into '1'. Otherwise, the driver sets it to '0'.
->> +
->> +ioctl redefinition test
->> +-----------------------
->> +
->> +The driver redefines the 'reset' ioctl, which is default for all PCM devices. To test
->> +this functionality, we can trigger the reset ioctl and check the 'ioctl_test' debugfs
->> +entry:
->> +
->> +.. code-block:: bash
->> +
->> +	cat /sys/kernel/debug/pcmtest/ioctl_test
->> +
->> +If the ioctl is triggered successfully, this file will contain '1', and '0' otherwise.
-> 
-> The rest is LGTM, thanks!
-> 
+sb_getblk(inode->i_sb, parent) return a null ptr and taking lock on that leads to the null-ptr-deref bug.
 
-Hi Bagas!
+Signed-off-by: Prince Kumar Maurya <princekumarmaurya06@gmail.com>
+---
+ fs/sysv/itree.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thank you for the review! I'll fix this in the next version of the patch 
-set after getting response from the sound maintainers - probably it 
-isn't the only part which needs to be fixed :)
+diff --git a/fs/sysv/itree.c b/fs/sysv/itree.c
+index b22764fe669c..3a6b66e719fd 100644
+--- a/fs/sysv/itree.c
++++ b/fs/sysv/itree.c
+@@ -145,6 +145,8 @@ static int alloc_branch(struct inode *inode,
+ 		 */
+ 		parent = block_to_cpu(SYSV_SB(inode->i_sb), branch[n-1].key);
+ 		bh = sb_getblk(inode->i_sb, parent);
++		if (!bh)
++			break;
+ 		lock_buffer(bh);
+ 		memset(bh->b_data, 0, blocksize);
+ 		branch[n].bh = bh;
+-- 
+2.40.1
 
-Kind regards,
-Ivan Orlov.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
