@@ -1,97 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 81B81EB64D7
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Jun 2023 13:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 59C23EB64D7
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 18 Jun 2023 13:06:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1AE2940969;
-	Sun, 18 Jun 2023 13:05:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1AE2940969
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=SnvACYEP
+	by smtp1.osuosl.org (Postfix) with ESMTP id E73D881E71;
+	Sun, 18 Jun 2023 13:06:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E73D881E71
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=lZexxq7P
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c0d27ntmZhxQ; Sun, 18 Jun 2023 13:05:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9D0904025A;
-	Sun, 18 Jun 2023 13:05:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9D0904025A
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NO3epjvy0Hnu; Sun, 18 Jun 2023 13:06:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id CA956818C0;
+	Sun, 18 Jun 2023 13:06:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CA956818C0
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7C71BC007A;
-	Sun, 18 Jun 2023 13:05:53 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BFD23C0029
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AA155C007A;
+	Sun, 18 Jun 2023 13:06:34 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7AC7CC0029
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jun 2023 13:05:51 +0000 (UTC)
+ Sun, 18 Jun 2023 13:06:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8E8EF402F6
+ by smtp3.osuosl.org (Postfix) with ESMTP id 483846059F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jun 2023 13:05:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8E8EF402F6
-Authentication-Results: smtp2.osuosl.org;
+ Sun, 18 Jun 2023 13:06:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 483846059F
+Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=SnvACYEP
+ header.a=rsa-sha256 header.s=20221208 header.b=lZexxq7P
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WHYnOUQSllmr
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id YXgZk8jLq_wK
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jun 2023 13:05:51 +0000 (UTC)
+ Sun, 18 Jun 2023 13:06:32 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EC88E400FB
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by smtp2.osuosl.org (Postfix) with ESMTPS id EC88E400FB
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AF0EF60067
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com
+ [IPv6:2607:f8b0:4864:20::634])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id AF0EF60067
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jun 2023 13:05:50 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-666683eb028so1327848b3a.0
+ Sun, 18 Jun 2023 13:06:32 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id
+ d9443c01a7336-1b55643507dso5581055ad.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 18 Jun 2023 06:05:50 -0700 (PDT)
+ Sun, 18 Jun 2023 06:06:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687093550; x=1689685550;
+ d=gmail.com; s=20221208; t=1687093592; x=1689685592;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Awvoaf5eSwNCHFdEadyIQRz9usUvjf5nZIyeulxK9fU=;
- b=SnvACYEPoPdUseu8hBkro1tuItr+rEyu2aa27tx7DHMkjC/9oXwfzg/R6cDOrSie6x
- wZls5Gu9hOtqWtK2cvK4qYeulAJL89Vt8sE3OLCd0UbDVBFmLFPMpoOgTwN0y5t1j+KQ
- /P2yC//YMPxlfdHa1uLhvT/MzGAeD3CR41tAPldRCM3+VZk3keLInzlOWDRqLM2IKOs2
- sdjtE1yvvCzW7n/LjnuIKl8kvYnHNMaMZwBtP5QXdZDXxwQkov8FlET2LPdtP3OmsHR8
- V3ZYRkDY2z+6z2bYkXjnmZGScXxXaTste1BnR/w7mx4LvP18oPS3iUgyfirgT9fWxYbk
- 4NhA==
+ bh=GrnRiINtmKsRPpdoYY28cns2m1Iqy+OAFvN9buTT+SU=;
+ b=lZexxq7P3XtuZPtJJ5JNGgBbfUyPOyFIcg0Cf1k4PZUWTiouPub2JaLA0sUnZcqg7y
+ sy5cTPc8wRDhABm2qeP7wQoyi0q2O/BZ00wmncwqtaP9WQssMnaKjq2B7BNnAz65FZlh
+ RIKRJwVBJJF37fYkkIYX99CbN0gm0IFO+oHkUOjKLprNovaxDt6jlgDinvY+2IXrHbnB
+ JyuAmnC1ULxFXQ1qWSvx6rpRoeM41/DR8Q6fnD8Nhty+eBdBVXAgJy163iv1sdu+MNQe
+ xzh9ruZlmDgiDQzy8g4Chp4nDMXrKUP83aje03f68VOk3J8wzM/aPqwowMPLmk9ArNt6
+ h28g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687093550; x=1689685550;
+ d=1e100.net; s=20221208; t=1687093592; x=1689685592;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Awvoaf5eSwNCHFdEadyIQRz9usUvjf5nZIyeulxK9fU=;
- b=KX4k65jMmMB6b7YzPrERqLMPgtp3U4HIACVAiaLH034qXkB7bfBax/kRS7YcVzfoPX
- lqmkeG5y2wSnfRPSjmyWLzCei/jnTKy5VNYcCgmLldPfUgVUpUtqFUd1i90LR0bEwmpM
- L2w8RA6nydt4z9uvepBuIWOh5wpWF94dcYsqHC8ieaIlWdsRghVGtAHau6nWedVzusaS
- p1TvQHfGnqfCOG262vSWKoNEY49keTnzTbKPAvL9Cf2SqucyWOKy4A+beHCXAWeKGoZ6
- 4j3I3k9oRTe0Q3GgazX8QjGZZoQ86jeuKJ49HKUZyezXpJvUr5dwG9iAYD36tdYvWcjq
- GXnQ==
-X-Gm-Message-State: AC+VfDz3JsI53RL8aKL4/k33K2UeBjWirTJDVjnDg1Ng+0kj3uP2IXHA
- bo2yid4WUDQwa8Nh740SZcA=
-X-Google-Smtp-Source: ACHHUZ5TtP+nQJsdLRDy+mFSw0pnq3nU3bxvH9A/VP5IWjTe8oYDGsEuqaFI7iEVhYUDuR3sgm21wQ==
-X-Received: by 2002:a05:6a20:8f06:b0:104:873:c3b5 with SMTP id
- b6-20020a056a208f0600b001040873c3b5mr5440001pzk.44.1687093550144; 
- Sun, 18 Jun 2023 06:05:50 -0700 (PDT)
+ bh=GrnRiINtmKsRPpdoYY28cns2m1Iqy+OAFvN9buTT+SU=;
+ b=Gh7BT6Qw1d8dhYfVRmhOeO2Pj5e8lQ7E8z2t9SherVOgRvGlZ7O2ITZjKe2YFsFpek
+ C8QT2QGFauTMoA68JC7GzoctNw+JDMo0MALsWBC4UEarLiH8tR6QUKV1ufxw9Bxai1wp
+ NioRlyog7b59yfPyjRIwxfYG/obfY9ObHvkFtgjsrhGHSY7Osg16DstH1Xzr0muQhwui
+ GDYX59N3TkvW8f7JRo63LhMdKNC3SLftuZbCMjG6qf48Z81PZiENp1PNNAHvaifKTlG8
+ 2HozOT1z7t/BygYGI5QW+JkEG7nhBTy/ExGhDavBpHxt+ghoRYgiyy4SsBT+grxIEDgm
+ e9vw==
+X-Gm-Message-State: AC+VfDzz9oMsG2iDKq9+S3hOpZm/G0qCcHdNKGLlBYVTHXlX3+Q/iBbM
+ K6/Op0K+vKnFoE94z3r3Kp7gaYEnGmQ=
+X-Google-Smtp-Source: ACHHUZ7u0MlTI1QnE1/QfcX+1B04t7ijeC3d4SMCyrPu+0RQ8QpwZMt4KJuaa1PbrX26Fyi54isqOw==
+X-Received: by 2002:a17:902:ee41:b0:1b3:de1d:1ce1 with SMTP id
+ 1-20020a170902ee4100b001b3de1d1ce1mr6859808plo.61.1687093592061; 
+ Sun, 18 Jun 2023 06:06:32 -0700 (PDT)
 Received: from zephyrusG14 ([103.251.210.211])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a056a00073200b0063d2cd02d69sm16137148pfm.54.2023.06.18.06.05.45
+ s11-20020a170902ea0b00b001b23eb0b4bbsm18670943plg.147.2023.06.18.06.06.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 18 Jun 2023 06:05:49 -0700 (PDT)
-Date: Sun, 18 Jun 2023 18:35:43 +0530
+ Sun, 18 Jun 2023 06:06:31 -0700 (PDT)
+Date: Sun, 18 Jun 2023 18:36:26 +0530
 From: Yogesh Hegde <yogi.kernel@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/4] staging: rtl8192e: Rename variable SetBWModeHandler
-Message-ID: <6c929da448e04393d1259de820bbcb78f0e2a409.1687092111.git.yogi.kernel@gmail.com>
+Subject: [PATCH v3 3/4] staging: rtl8192e: Rename variable LeisurePSLeave
+Message-ID: <b45c35593a3b080814cc3fc882907dfc1d367d76.1687092111.git.yogi.kernel@gmail.com>
 References: <cover.1687092111.git.yogi.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -115,7 +115,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Rename variable SetBWModeHandler to set_bw_mode_handler to avoid
+Rename variable LeisurePSLeave to leisure_ps_leave to avoid
 CamelCase which is not accepted by checkpatch.
 
 Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
@@ -129,81 +129,63 @@ v2: Removed the variable and called the function directly instead of
     <gregkh@linuxfoundation.org>.
 ---
  drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
- drivers/staging/rtl8192e/rtl819x_HTProc.c    | 4 ++--
- drivers/staging/rtl8192e/rtllib.h            | 6 +++---
- drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtllib.h            | 2 +-
+ drivers/staging/rtl8192e/rtllib_rx.c         | 2 +-
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 699c4accf2db..68e921a3a0a8 100644
+index 68e921a3a0a8..b82d2b7aa26c 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -718,7 +718,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
+@@ -717,7 +717,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
+ 	priv->rtllib->handle_assoc_response	= _rtl92e_handle_assoc_response;
  	priv->rtllib->handle_beacon		= _rtl92e_handle_beacon;
  	priv->rtllib->set_wireless_mode		= rtl92e_set_wireless_mode;
- 	priv->rtllib->LeisurePSLeave		= rtl92e_leisure_ps_leave;
--	priv->rtllib->SetBWModeHandler		= rtl92e_set_bw_mode;
-+	priv->rtllib->set_bw_mode_handler	= rtl92e_set_bw_mode;
+-	priv->rtllib->LeisurePSLeave		= rtl92e_leisure_ps_leave;
++	priv->rtllib->leisure_ps_leave		= rtl92e_leisure_ps_leave;
+ 	priv->rtllib->set_bw_mode_handler	= rtl92e_set_bw_mode;
  	priv->rf_set_chan			= rtl92e_set_channel;
  
- 	priv->rtllib->start_send_beacons = rtl92e_start_beacon;
-diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-index fe30a291e64c..1fe504244437 100644
---- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
-+++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
-@@ -835,11 +835,11 @@ static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
- 			ieee->set_chan(ieee->dev,
- 				       ieee->current_network.channel);
- 
--		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20_40,
-+		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20_40,
- 				       ht_info->CurSTAExtChnlOffset);
- 	} else {
- 		ieee->set_chan(ieee->dev, ieee->current_network.channel);
--		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20,
-+		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
- 				       HT_EXTCHNL_OFFSET_NO_EXT);
- 	}
- 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index f91355de17f7..e79510258447 100644
+index e79510258447..0ee9b99b4c5e 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1704,9 +1704,9 @@ struct rtllib_device {
+@@ -1721,7 +1721,7 @@ struct rtllib_device {
  
- 	/* check whether Tx hw resource available */
- 	short (*check_nic_enough_desc)(struct net_device *dev, int queue_index);
--	void (*SetBWModeHandler)(struct net_device *dev,
--				 enum ht_channel_width bandwidth,
--				 enum ht_extchnl_offset Offset);
-+	void (*set_bw_mode_handler)(struct net_device *dev,
-+				    enum ht_channel_width bandwidth,
-+				    enum ht_extchnl_offset Offset);
- 	bool (*GetNmodeSupportBySecCfg)(struct net_device *dev);
- 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
- 	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
+ 	void (*rtllib_ips_leave_wq)(struct net_device *dev);
+ 	void (*rtllib_ips_leave)(struct net_device *dev);
+-	void (*LeisurePSLeave)(struct net_device *dev);
++	void (*leisure_ps_leave)(struct net_device *dev);
+ 
+ 	/* This must be the last item so that it points to the data
+ 	 * allocated beyond this structure by alloc_rtllib
+diff --git a/drivers/staging/rtl8192e/rtllib_rx.c b/drivers/staging/rtl8192e/rtllib_rx.c
+index 46c77ed335ab..c00f72316a3d 100644
+--- a/drivers/staging/rtl8192e/rtllib_rx.c
++++ b/drivers/staging/rtl8192e/rtllib_rx.c
+@@ -1200,7 +1200,7 @@ static void rtllib_rx_check_leave_lps(struct rtllib_device *ieee, u8 unicast,
+ 			if (((ieee->link_detect_info.NumRxUnicastOkInPeriod +
+ 			    ieee->link_detect_info.NumTxOkInPeriod) > 8) ||
+ 			    (ieee->link_detect_info.NumRxUnicastOkInPeriod > 2)) {
+-				ieee->LeisurePSLeave(ieee->dev);
++				ieee->leisure_ps_leave(ieee->dev);
+ 			}
+ 		}
+ 	}
 diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-index d6d90e6ba2d3..6a7738a828e1 100644
+index 6a7738a828e1..d7df6f698c0c 100644
 --- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
 +++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
-@@ -335,7 +335,7 @@ void rtllib_wx_sync_scan_wq(void *data)
- 		b40M = 1;
- 		chan_offset = ieee->ht_info->CurSTAExtChnlOffset;
- 		bandwidth = (enum ht_channel_width)ieee->ht_info->bCurBW40MHz;
--		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20,
-+		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
- 				       HT_EXTCHNL_OFFSET_NO_EXT);
- 	}
+@@ -316,7 +316,7 @@ void rtllib_wx_sync_scan_wq(void *data)
  
-@@ -348,7 +348,7 @@ void rtllib_wx_sync_scan_wq(void *data)
- 			ieee->set_chan(ieee->dev, chan - 2);
- 		else
- 			ieee->set_chan(ieee->dev, chan);
--		ieee->SetBWModeHandler(ieee->dev, bandwidth, chan_offset);
-+		ieee->set_bw_mode_handler(ieee->dev, bandwidth, chan_offset);
- 	} else {
- 		ieee->set_chan(ieee->dev, chan);
- 	}
+ 	chan = ieee->current_network.channel;
+ 
+-	ieee->LeisurePSLeave(ieee->dev);
++	ieee->leisure_ps_leave(ieee->dev);
+ 	/* notify AP to be in PS mode */
+ 	rtllib_sta_ps_send_null_frame(ieee, 1);
+ 	rtllib_sta_ps_send_null_frame(ieee, 1);
 -- 
 2.34.1
 
