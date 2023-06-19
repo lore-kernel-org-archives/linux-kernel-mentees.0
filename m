@@ -1,97 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B40EEB64D9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 19 Jun 2023 14:17:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C24D1EB64DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 19 Jun 2023 14:18:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C29BF40BF7;
-	Mon, 19 Jun 2023 14:17:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C29BF40BF7
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=NHpLwEgb
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5B69140A00;
+	Mon, 19 Jun 2023 14:18:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5B69140A00
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=TF9Ir8Ar
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nEHu3_trmfti; Mon, 19 Jun 2023 14:17:54 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BDFD3405D3;
-	Mon, 19 Jun 2023 14:17:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BDFD3405D3
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kp0Zgu2nmkpy; Mon, 19 Jun 2023 14:18:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 102E9409E3;
+	Mon, 19 Jun 2023 14:18:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 102E9409E3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9D720C0037;
-	Mon, 19 Jun 2023 14:17:53 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5637BC0029
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E3CD1C0037;
+	Mon, 19 Jun 2023 14:18:22 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A8576C0029
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Jun 2023 14:17:52 +0000 (UTC)
+ Mon, 19 Jun 2023 14:18:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 302446117F
+ by smtp1.osuosl.org (Postfix) with ESMTP id 82E6E81CE9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Jun 2023 14:17:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 302446117F
-Authentication-Results: smtp3.osuosl.org;
+ Mon, 19 Jun 2023 14:18:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 82E6E81CE9
+Authentication-Results: smtp1.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=NHpLwEgb
+ header.a=rsa-sha256 header.s=20221208 header.b=TF9Ir8Ar
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id i2HXpf8kcGT6
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cbfEnRUuByoV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Jun 2023 14:17:51 +0000 (UTC)
+ Mon, 19 Jun 2023 14:18:21 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7E96761174
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7E96761174
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E146381DEF
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com
+ [IPv6:2607:f8b0:4864:20::535])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E146381DEF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Jun 2023 14:17:51 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id
- 41be03b00d2f7-54fdf8c79a3so1572155a12.3
+ Mon, 19 Jun 2023 14:18:20 +0000 (UTC)
+Received: by mail-pg1-x535.google.com with SMTP id
+ 41be03b00d2f7-54fdf8c79a3so1572507a12.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Jun 2023 07:17:51 -0700 (PDT)
+ Mon, 19 Jun 2023 07:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1687184271; x=1689776271;
+ d=gmail.com; s=20221208; t=1687184300; x=1689776300;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=z2lE7a2e73x78sHkw8HLnq0fUJFGsUNME76JPhx8NgU=;
- b=NHpLwEgbAllkTYZVBSWJFhrO127G4EAGk+PObZwauMv29q3xq9Ph+MbO26c4+j2cpA
- MyCtGuYnHvcRP4YpAbZtZn+fBwsIeIStGioI/TNjNeVurN+ead6ZGjqRMnEvB/zEBCGp
- 3JllhG70x/GQD23zisSEKQBKLlaA0rkPyK0hKhbjNHWlcpJyB7btvhR2inltVM5YS4+l
- 0Xe8q5oCZoMx3PoPKpWeRfcRFLipYEiC3XaSDWaLM/lQGHgl702/BmR0298xXd/T+REJ
- fDgzro9JD229vzbd9XdBIZ32rFH1iB5D3l7UPU/UH/nQWHt6LzeGMmkx3b6bfZ6rNBQf
- AuCg==
+ bh=JQy84gQUtEAMC5sEhanysB2VGHkEqPs0ft2DSQHuBlk=;
+ b=TF9Ir8ArfA1ZmdS3lhs/0saMshbLdrbX3GKiqC6IrUHGC5nf306M71GvRX5jM6GN1L
+ WKsR2pilm46hyNOSHC3PfRaCZmyE610r9Z7Cndj+hdmPwsQ1NbsEDtel3g5Dp6Ge4vQo
+ C3gbgNk+j1HH+F4VW6EicBFXyp5kBWyTLoyCU9rZF7qe2LeNF9C+97HN3i4RatIlz3o4
+ z2j6gyuJ3wXqCNOFDR6khZTT7hV5sivUVE7trMGAaStGvNAWzOIt4uU5k4J0AtsdtGDw
+ ZJQA1fPQXXuC5nU3+Wt1HnAySOQmUVeUmbE4StTeOtkcTglcOMJ9V7axs8lq4D/UcWP4
+ xOOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1687184271; x=1689776271;
+ d=1e100.net; s=20221208; t=1687184300; x=1689776300;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=z2lE7a2e73x78sHkw8HLnq0fUJFGsUNME76JPhx8NgU=;
- b=EHhZhdY49srAdHke6d3IhAxfDtmsUd2A+8e1y81+3ft+gjqIGVUKEG335Elg1icgt3
- Db6WECt6b9Hutm74FgSJfnKsozx2RIwUxvAG0DAx/UA3N6MWO9DBzLAi+NJ/D9DCIfWG
- 40g2JdiKL4SnkRAoWyR68pkMbWr3JKMF+2rXvkpLVmWc6EJsyUb4YxOtzsP6mrOtvIov
- u7uC/ObMrPcauc6Ky2a6J0IDHO8WC1FNVQ+AYFNA2A6ppEuWBHyaN1Jbf/HhkspdqpTr
- xf5EeKuh/Qw7Xswf+STXlDJdriwpzu2if9r/tp24AMkUqS0RvX5PUK0Ut8XACZPwrGep
- ZOww==
-X-Gm-Message-State: AC+VfDwFW3YKx12erwqM7sYV5TQTUKQp3S+YQofITAXXJCcTq9uqOAhD
- bq0HdK0Y6sLsUrQfkONK3yo=
-X-Google-Smtp-Source: ACHHUZ71lOMJwPR5Z+FKfKg9o2n6I9rc5xObNqZMrTaCL5qHi7HhX5JyYX06DYG6aX7zVZ/htUYlLA==
-X-Received: by 2002:a05:6a20:9187:b0:11a:c012:4fdb with SMTP id
- v7-20020a056a20918700b0011ac0124fdbmr938782pzd.34.1687184270774; 
- Mon, 19 Jun 2023 07:17:50 -0700 (PDT)
+ bh=JQy84gQUtEAMC5sEhanysB2VGHkEqPs0ft2DSQHuBlk=;
+ b=TkkrTHf7iJuowDyPdpnUVkWabBS+LAi4sHysyCCl1zmhuSx6/HfaRCCNeps+/Tjtht
+ gg7QLRBtrxHFBOAviMqeSdYEIQopWx+wLE1DTiN9v+aikmAXC+L8wxZVastcRp4t0o5Y
+ NDvtfB1NdMf5cwLQ2+ZKsWtOC7GNtAzAtUNrL301dUbTZZw37ZTiG7qht5aVXEeH4QKg
+ 8B7fIj1tMmz4U3scVhy6LKEvdBsQGluvmE1a2GhwGyjC6m93T9kxuwXtzHRhQ/mioK03
+ AL5wKc8q5CaKrWfhMHzsF5pqcfyc5BfDZFMNwOB3OBGyyJKQfRkUaR3C9uetyE1nvURH
+ mmjw==
+X-Gm-Message-State: AC+VfDxX8sjUO4XIS9AIhv85y0LoiuZmEWGUddPHETzsx2vDyUdJDYmw
+ tjcIdmRinYKDz2cmHdcZAEs=
+X-Google-Smtp-Source: ACHHUZ4gJBaUyELc7uscWZ5vr2ruSCb1nPh4+1QxdZJOfW1HMPII/IxFC1SQyJwwqmnM7x4ICyEIaA==
+X-Received: by 2002:a17:902:d2cb:b0:1a9:40d5:b0ae with SMTP id
+ n11-20020a170902d2cb00b001a940d5b0aemr1060217plc.12.1687184300199; 
+ Mon, 19 Jun 2023 07:18:20 -0700 (PDT)
 Received: from zephyrusG14 ([103.251.210.211])
  by smtp.gmail.com with ESMTPSA id
- x1-20020a056a00270100b005a8173829d5sm12177962pfv.66.2023.06.19.07.17.48
+ b9-20020a170902d88900b001b55fe1b471sm2589127plz.302.2023.06.19.07.18.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jun 2023 07:17:50 -0700 (PDT)
-Date: Mon, 19 Jun 2023 19:47:46 +0530
+ Mon, 19 Jun 2023 07:18:19 -0700 (PDT)
+Date: Mon, 19 Jun 2023 19:48:15 +0530
 From: Yogesh Hegde <yogi.kernel@gmail.com>
 To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/4] staging: rtl8192e: Rename variable SetWirelessMode
-Message-ID: <c0a65d217d272bf457917c89462c49e67bbfedb2.1687183827.git.yogi.kernel@gmail.com>
+Subject: [PATCH v4 2/4] staging: rtl8192e: Rename variable SetBWModeHandler
+Message-ID: <fe6c16cfe1d8f7ff41b5fce90fc63383fbfec4f5.1687183827.git.yogi.kernel@gmail.com>
 References: <cover.1687183827.git.yogi.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -115,7 +115,7 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Rename variable SetWirelessMode to set_wireless_mode to avoid
+Rename variable SetBWModeHandler to set_bw_mode_handler to avoid
 CamelCase which is not accepted by checkpatch.
 
 Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
@@ -131,88 +131,82 @@ v2: Removed the variable and called the function directly instead of
     just renaming the variable as suggested by Greg Kroah-Hartman
     <gregkh@linuxfoundation.org>.
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_core.c |  2 +-
- drivers/staging/rtl8192e/rtllib.h            |  2 +-
- drivers/staging/rtl8192e/rtllib_softmac.c    | 12 ++++++------
- 3 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_core.c | 2 +-
+ drivers/staging/rtl8192e/rtl819x_HTProc.c    | 4 ++--
+ drivers/staging/rtl8192e/rtllib.h            | 6 +++---
+ drivers/staging/rtl8192e/rtllib_softmac_wx.c | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-index 9cb4ae9ba970..51748166eecc 100644
+index 51748166eecc..a06d1c4e778a 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_core.c
-@@ -716,7 +716,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
- 	priv->rtllib->check_nic_enough_desc	= _rtl92e_check_nic_enough_desc;
- 	priv->rtllib->handle_assoc_response	= _rtl92e_handle_assoc_response;
+@@ -718,7 +718,7 @@ static void _rtl92e_init_priv_handler(struct net_device *dev)
  	priv->rtllib->handle_beacon		= _rtl92e_handle_beacon;
--	priv->rtllib->SetWirelessMode		= rtl92e_set_wireless_mode;
-+	priv->rtllib->set_wireless_mode		= rtl92e_set_wireless_mode;
+ 	priv->rtllib->set_wireless_mode		= rtl92e_set_wireless_mode;
  	priv->rtllib->LeisurePSLeave		= rtl92e_leisure_ps_leave;
- 	priv->rtllib->SetBWModeHandler		= rtl92e_set_bw_mode;
+-	priv->rtllib->SetBWModeHandler		= rtl92e_set_bw_mode;
++	priv->rtllib->set_bw_mode_handler	= rtl92e_set_bw_mode;
  	priv->rf_set_chan			= rtl92e_set_channel;
+ 
+ 	priv->rtllib->start_send_beacons = rtl92e_start_beacon;
+diff --git a/drivers/staging/rtl8192e/rtl819x_HTProc.c b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+index 7ee3cb846ca1..f9fa3f2bb728 100644
+--- a/drivers/staging/rtl8192e/rtl819x_HTProc.c
++++ b/drivers/staging/rtl8192e/rtl819x_HTProc.c
+@@ -833,11 +833,11 @@ static void HTSetConnectBwModeCallback(struct rtllib_device *ieee)
+ 			ieee->set_chan(ieee->dev,
+ 				       ieee->current_network.channel);
+ 
+-		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20_40,
++		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20_40,
+ 				       ht_info->CurSTAExtChnlOffset);
+ 	} else {
+ 		ieee->set_chan(ieee->dev, ieee->current_network.channel);
+-		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20,
++		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
+ 				       HT_EXTCHNL_OFFSET_NO_EXT);
+ 	}
+ 
 diff --git a/drivers/staging/rtl8192e/rtllib.h b/drivers/staging/rtl8192e/rtllib.h
-index cdd167de127f..581d568476ce 100644
+index 581d568476ce..b3d6699b31ed 100644
 --- a/drivers/staging/rtl8192e/rtllib.h
 +++ b/drivers/staging/rtl8192e/rtllib.h
-@@ -1690,7 +1690,7 @@ struct rtllib_device {
- 				 enum ht_channel_width bandwidth,
- 				 enum ht_extchnl_offset Offset);
+@@ -1686,9 +1686,9 @@ struct rtllib_device {
+ 
+ 	/* check whether Tx hw resource available */
+ 	short (*check_nic_enough_desc)(struct net_device *dev, int queue_index);
+-	void (*SetBWModeHandler)(struct net_device *dev,
+-				 enum ht_channel_width bandwidth,
+-				 enum ht_extchnl_offset Offset);
++	void (*set_bw_mode_handler)(struct net_device *dev,
++				    enum ht_channel_width bandwidth,
++				    enum ht_extchnl_offset Offset);
  	bool (*GetNmodeSupportBySecCfg)(struct net_device *dev);
--	void (*SetWirelessMode)(struct net_device *dev, u8 wireless_mode);
-+	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
+ 	void (*set_wireless_mode)(struct net_device *dev, u8 wireless_mode);
  	bool (*GetHalfNmodeSupportByAPsHandler)(struct net_device *dev);
- 	u8   (*rtllib_ap_sec_type)(struct rtllib_device *ieee);
- 	void (*InitialGainHandler)(struct net_device *dev, u8 Operation);
-diff --git a/drivers/staging/rtl8192e/rtllib_softmac.c b/drivers/staging/rtl8192e/rtllib_softmac.c
-index 7494c7e6fff6..0eaff91d92bd 100644
---- a/drivers/staging/rtl8192e/rtllib_softmac.c
-+++ b/drivers/staging/rtl8192e/rtllib_softmac.c
-@@ -1470,7 +1470,7 @@ static void rtllib_associate_complete_wq(void *data)
- 		netdev_info(ieee->dev, "Using G rates:%d\n", ieee->rate);
- 	} else {
- 		ieee->rate = 22;
--		ieee->SetWirelessMode(ieee->dev, WIRELESS_MODE_B);
-+		ieee->set_wireless_mode(ieee->dev, WIRELESS_MODE_B);
- 		netdev_info(ieee->dev, "Using B rates:%d\n", ieee->rate);
+diff --git a/drivers/staging/rtl8192e/rtllib_softmac_wx.c b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+index be82f0a655e8..d8c7b7377132 100644
+--- a/drivers/staging/rtl8192e/rtllib_softmac_wx.c
++++ b/drivers/staging/rtl8192e/rtllib_softmac_wx.c
+@@ -335,7 +335,7 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 		b40M = 1;
+ 		chan_offset = ieee->ht_info->CurSTAExtChnlOffset;
+ 		bandwidth = (enum ht_channel_width)ieee->ht_info->bCurBW40MHz;
+-		ieee->SetBWModeHandler(ieee->dev, HT_CHANNEL_WIDTH_20,
++		ieee->set_bw_mode_handler(ieee->dev, HT_CHANNEL_WIDTH_20,
+ 				       HT_EXTCHNL_OFFSET_NO_EXT);
  	}
- 	if (ieee->ht_info->bCurrentHTSupport && ieee->ht_info->enable_ht) {
-@@ -1654,12 +1654,12 @@ inline void rtllib_softmac_new_net(struct rtllib_device *ieee,
- 				    (ieee->modulation &
- 				     RTLLIB_OFDM_MODULATION)) {
- 					ieee->rate = 108;
--					ieee->SetWirelessMode(ieee->dev, WIRELESS_MODE_G);
-+					ieee->set_wireless_mode(ieee->dev, WIRELESS_MODE_G);
- 					netdev_info(ieee->dev,
- 						    "Using G rates\n");
- 				} else {
- 					ieee->rate = 22;
--					ieee->SetWirelessMode(ieee->dev, WIRELESS_MODE_B);
-+					ieee->set_wireless_mode(ieee->dev, WIRELESS_MODE_B);
- 					netdev_info(ieee->dev,
- 						    "Using B rates\n");
- 				}
-@@ -2233,11 +2233,11 @@ static void rtllib_rx_auth_resp(struct rtllib_device *ieee, struct sk_buff *skb)
- 		}
- 		/* Dummy wirless mode setting to avoid encryption issue */
- 		if (bSupportNmode) {
--			ieee->SetWirelessMode(ieee->dev,
-+			ieee->set_wireless_mode(ieee->dev,
- 					      ieee->current_network.mode);
- 		} else {
- 			/*TODO*/
--			ieee->SetWirelessMode(ieee->dev, WIRELESS_MODE_G);
-+			ieee->set_wireless_mode(ieee->dev, WIRELESS_MODE_G);
- 		}
  
- 		if ((ieee->current_network.mode == WIRELESS_MODE_N_24G) &&
-@@ -2566,7 +2566,7 @@ static void rtllib_start_ibss_wq(void *data)
- 		}
- 
- 		ieee->current_network.qos_data.supported = 0;
--		ieee->SetWirelessMode(ieee->dev, WIRELESS_MODE_G);
-+		ieee->set_wireless_mode(ieee->dev, WIRELESS_MODE_G);
- 		ieee->current_network.mode = ieee->mode;
- 		ieee->current_network.atim_window = 0;
- 		ieee->current_network.capability = WLAN_CAPABILITY_IBSS;
+@@ -348,7 +348,7 @@ void rtllib_wx_sync_scan_wq(void *data)
+ 			ieee->set_chan(ieee->dev, chan - 2);
+ 		else
+ 			ieee->set_chan(ieee->dev, chan);
+-		ieee->SetBWModeHandler(ieee->dev, bandwidth, chan_offset);
++		ieee->set_bw_mode_handler(ieee->dev, bandwidth, chan_offset);
+ 	} else {
+ 		ieee->set_chan(ieee->dev, chan);
+ 	}
 -- 
 2.34.1
 
