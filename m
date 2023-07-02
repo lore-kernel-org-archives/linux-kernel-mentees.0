@@ -1,94 +1,94 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70346EB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  2 Jul 2023 12:15:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDBA1EB64D9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  2 Jul 2023 12:16:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0FBDE60A80;
-	Sun,  2 Jul 2023 12:15:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0FBDE60A80
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=AlxV7Pr7
+	by smtp4.osuosl.org (Postfix) with ESMTP id 468C441527;
+	Sun,  2 Jul 2023 12:16:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 468C441527
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=cAi0Aiva
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rRUDzdGHVnWj; Sun,  2 Jul 2023 12:15:55 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GF3GQa-mELED; Sun,  2 Jul 2023 12:16:18 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 11F7F6079D;
-	Sun,  2 Jul 2023 12:15:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 11F7F6079D
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 39EF84150F;
+	Sun,  2 Jul 2023 12:16:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 39EF84150F
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E5E88C0071;
-	Sun,  2 Jul 2023 12:15:54 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 46399C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 18DD2C0071;
+	Sun,  2 Jul 2023 12:16:18 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 840DEC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  2 Jul 2023 12:15:54 +0000 (UTC)
+ Sun,  2 Jul 2023 12:16:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 213AF60A64
+ by smtp4.osuosl.org (Postfix) with ESMTP id 5D8D341503
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  2 Jul 2023 12:15:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 213AF60A64
+ Sun,  2 Jul 2023 12:16:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5D8D341503
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 61orRhLCndMt
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BwtC1qryw_6P
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  2 Jul 2023 12:15:53 +0000 (UTC)
+ Sun,  2 Jul 2023 12:16:16 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5D9246079D
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 5D9246079D
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 74468408AD
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
+ [IPv6:2607:f8b0:4864:20::102c])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 74468408AD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  2 Jul 2023 12:15:53 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1b891142681so1632045ad.1
+ Sun,  2 Jul 2023 12:16:16 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id
+ 98e67ed59e1d1-263036d4bc3so2529728a91.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 02 Jul 2023 05:15:53 -0700 (PDT)
+ Sun, 02 Jul 2023 05:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688300152; x=1690892152;
+ d=gmail.com; s=20221208; t=1688300176; x=1690892176;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=ahNrA+kvPkt2jIv1WX2dJh9T0CTy/Hn3rwyQ5h/Idfs=;
- b=AlxV7Pr7eN7wuspl+PZcT1VxCqiyN0Yg1pDvW0lZJqo3S5/r1vX75iVS1psMMjBH0i
- IV20fVRGlLjs5CwK+9KqPM3dm8rwfUUME08+qFYdCZBvDl91rwHsnMyEjHQPJqlEdAHl
- QOWC5IwpeA4O+bJRVdsF9xAG1oy7IfTYBmQC41SeaTaPgK/uK7D4kvgJPeFKTaeauqIa
- LUcB1t52g7xgeaMGCOvKegIu44Tvh4W+dz0HWsmUof7vG9a0CwxMrUjrViQkFkcDhWDZ
- F++XClhrCQBjH2arYd9xCnOV+hlsWwH5gJRVMqp/JidblIIbDfL8fOOFuaPbdn4tPisH
- X+uw==
+ bh=LI5xtyL2k2cBitbepn6US1F6e5Ej9j9z5n1WZ2zQtfs=;
+ b=cAi0AivaoyBUmInw7KpCb/jsQAYZS+Rq+v2vjn8Jtq2wlacDU2vUHAwaSlPNyzDod4
+ UTJWJy7s0Xa3OhUh5xMPWzhh27yf4/vp2lzAe6JJz5Q8+POegERnqiY1hd5jXN8UwV1i
+ pUwapcc6ttM7NjnGdnIzxJQzZlKH13KBiK1+nh4/YEZ37jtPS8baOjBViZJ0Jud3bQ3V
+ HZdMrSYkfhePqAAurgUQTa9HtJHBhULxOUSQnS/xfPh6Hdwg1xuCo+N1ao7XCq5Ucncm
+ LcZR7JRR5cFbQY1XTqHX5UhosyhAMeFEWBTd2YF6fWZY40ZEjQyXR5SThR44aFi1QaQx
+ 0C6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688300152; x=1690892152;
+ d=1e100.net; s=20221208; t=1688300176; x=1690892176;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ahNrA+kvPkt2jIv1WX2dJh9T0CTy/Hn3rwyQ5h/Idfs=;
- b=MapLgzxNTfTYXZtJ3q2W0v0S7kNufrsjnjnWUzQOHfQPFIpn557zMGzDUjowQV/a2v
- GqSy4//MvECmiCdqga1T2uNk9r8UfC+RjbGwI2X/v1ag/LbGQHD1W8N78yZkdByFmnJR
- ECDDUxBfFtSySg6MoHd9ngc8rF8g2g3tOCUI4+x95Ns9w7+FwcXE5KyPnw8DssGK43OG
- 1RTfFTmluXawMImo3sBFd0KbRg62t8wgh5Lq5mZ07fjW0ZaQIhle8l4Le9Q//qNpE4Lq
- KySFh8Ag00eVeQjrdUfoTMa1Hi7KG73SkKcxaeNPBhd3qjV5PmFsNSRLnJqENCj1gZpE
- FhKg==
-X-Gm-Message-State: ABy/qLaDISSlvvSNTTE9BfN3CKj2wtilOkKEwXxl+EqN7iPvV9O9PwKA
- djNkWX/4Rp45IlpwQcio8+4=
-X-Google-Smtp-Source: APBJJlFxh2k5PKZ1iRR4/jkn4HJLDiUzOwrsdyihhLzIkblKK+aP46PVZUCLePZ7fiUY8T8X6VHrWw==
-X-Received: by 2002:a17:903:230f:b0:1b8:8679:ab9f with SMTP id
- d15-20020a170903230f00b001b88679ab9fmr2978629plh.49.1688300152521; 
- Sun, 02 Jul 2023 05:15:52 -0700 (PDT)
+ bh=LI5xtyL2k2cBitbepn6US1F6e5Ej9j9z5n1WZ2zQtfs=;
+ b=KfANFe88kEeVa0vQCTcx6ctorLhcPmpDLtlBSJ5BZPWzea3rcXtG1J/HyIYYWE5qMq
+ c42Q+dg9XWXs+feq+rNU79558700ljpXQnMGvry3cvo09qji5nMkmB4r87q2EdCzgUUx
+ RxKiYet8z57DgSYwnEziiYDh/hHLCcvHkijvviXZpI3LOFd6j3/O2NYVkKkewauPh6IL
+ PqlAEloPCqxfh+YepUkV+bM7BSVZDxnDJCsXGEDL2Z6MiLw+PVKrZsxHCSSVnu6AX8Jg
+ FeoZzgpHQbUQIXRcZCSL0/KFAN7O72ZXdSKT4BtM8Xx46DTvi/Vjjp+X8+aR5+Vy9Jvb
+ HgNQ==
+X-Gm-Message-State: ABy/qLZWpMv1gXgCpS3dz2UTIaVPO+6rxTmzjB7+SAUx38Jbgr9YH/dj
+ X64nqV6qCSv3TUPMXe6IouE=
+X-Google-Smtp-Source: APBJJlHF4Wdd3nuQiVZBSb9dYApRmcLqlVqkm3nVD3k3QUQGvK3mgSNWcWdCX2B2hqCBuE/YtMC0RQ==
+X-Received: by 2002:a17:902:e9d1:b0:1b5:361:cefe with SMTP id
+ 17-20020a170902e9d100b001b50361cefemr7811279plk.52.1688300175778; 
+ Sun, 02 Jul 2023 05:16:15 -0700 (PDT)
 Received: from zephyrusG14 ([103.251.210.195])
  by smtp.gmail.com with ESMTPSA id
- h10-20020a170902748a00b001a98f844e60sm7218474pll.263.2023.07.02.05.15.49
+ w5-20020a1709027b8500b001ab2592ed33sm13580074pll.171.2023.07.02.05.16.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Jul 2023 05:15:52 -0700 (PDT)
-Date: Sun, 2 Jul 2023 17:45:47 +0530
+ Sun, 02 Jul 2023 05:16:15 -0700 (PDT)
+Date: Sun, 2 Jul 2023 17:46:10 +0530
 From: Yogesh Hegde <yogi.kernel@gmail.com>
 To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] staging: rtl8192e: Rename variable targetRATR
-Message-ID: <ef60d870d643a3774363efdac798e059ea5b8f85.1688299890.git.yogi.kernel@gmail.com>
+Subject: [PATCH 3/4] staging: rtl8192e: Rename variable LowRSSIThreshForRA
+Message-ID: <ebea3e75dc84a6d77750c0598ab12d04ad55c676.1688299890.git.yogi.kernel@gmail.com>
 References: <cover.1688299890.git.yogi.kernel@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -111,77 +111,55 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Rename variable targetRATR to target_ratr to avoid CamelCase
-which is not accepted by checkpatch.
+Rename variable LowRSSIThreshForRA to low_rssi_thresh_for_ra to avoid
+CamelCase which is not accepted by checkpatch.
 
 Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 ---
- drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8192e/rtl8192e/rtl_dm.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-index 14c78f740366..a535a63ce9f7 100644
+index a535a63ce9f7..d266d2d047ca 100644
 --- a/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
 +++ b/drivers/staging/rtl8192e/rtl8192e/rtl_dm.c
-@@ -277,7 +277,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 	struct r8192_priv *priv = rtllib_priv(dev);
+@@ -278,7 +278,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
  	struct rt_hi_throughput *ht_info = priv->rtllib->ht_info;
  	struct rate_adaptive *pra = &priv->rate_adaptive;
--	u32 current_ratr, targetRATR = 0;
-+	u32 current_ratr, target_ratr = 0;
- 	u32 LowRSSIThreshForRA = 0, HighRSSIThreshForRA = 0;
+ 	u32 current_ratr, target_ratr = 0;
+-	u32 LowRSSIThreshForRA = 0, HighRSSIThreshForRA = 0;
++	u32 low_rssi_thresh_for_ra = 0, HighRSSIThreshForRA = 0;
  	bool bshort_gi_enabled = false;
  	static u8 ping_rssi_state;
-@@ -335,14 +335,14 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 		if (priv->undecorated_smoothed_pwdb >=
- 		    (long)HighRSSIThreshForRA) {
- 			pra->ratr_state = DM_RATR_STA_HIGH;
--			targetRATR = pra->upper_rssi_threshold_ratr;
-+			target_ratr = pra->upper_rssi_threshold_ratr;
- 		} else if (priv->undecorated_smoothed_pwdb >=
- 			   (long)LowRSSIThreshForRA) {
- 			pra->ratr_state = DM_RATR_STA_MIDDLE;
--			targetRATR = pra->middle_rssi_threshold_ratr;
-+			target_ratr = pra->middle_rssi_threshold_ratr;
+ 
+@@ -320,15 +320,15 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+ 
+ 		if (pra->ratr_state == DM_RATR_STA_HIGH) {
+ 			HighRSSIThreshForRA = pra->high2low_rssi_thresh_for_ra;
+-			LowRSSIThreshForRA = (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) ?
++			low_rssi_thresh_for_ra = (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) ?
+ 					(pra->low_rssi_thresh_for_ra40M) : (pra->low_rssi_thresh_for_ra20M);
+ 		} else if (pra->ratr_state == DM_RATR_STA_LOW) {
+ 			HighRSSIThreshForRA = pra->high_rssi_thresh_for_ra;
+-			LowRSSIThreshForRA = (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) ?
++			low_rssi_thresh_for_ra = (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) ?
+ 					(pra->low2high_rssi_thresh_for_ra40M) : (pra->low2high_rssi_thresh_for_ra20M);
  		} else {
- 			pra->ratr_state = DM_RATR_STA_LOW;
--			targetRATR = pra->low_rssi_threshold_ratr;
-+			target_ratr = pra->low_rssi_threshold_ratr;
+ 			HighRSSIThreshForRA = pra->high_rssi_thresh_for_ra;
+-			LowRSSIThreshForRA = (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) ?
++			low_rssi_thresh_for_ra = (priv->current_chnl_bw != HT_CHANNEL_WIDTH_20) ?
+ 					(pra->low_rssi_thresh_for_ra40M) : (pra->low_rssi_thresh_for_ra20M);
  		}
  
- 		if (pra->ping_rssi_enable) {
-@@ -352,7 +352,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 				     (long)pra->ping_rssi_thresh_for_ra) ||
- 				    ping_rssi_state) {
- 					pra->ratr_state = DM_RATR_STA_LOW;
--					targetRATR = pra->ping_rssi_ratr;
-+					target_ratr = pra->ping_rssi_ratr;
- 					ping_rssi_state = 1;
- 				}
- 			} else {
-@@ -361,18 +361,18 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
- 		}
- 
- 		if (priv->rtllib->GetHalfNmodeSupportByAPsHandler(dev))
--			targetRATR &=  0xf00fffff;
-+			target_ratr &=  0xf00fffff;
- 
- 		current_ratr = rtl92e_readl(dev, RATR0);
--		if (targetRATR !=  current_ratr) {
-+		if (target_ratr !=  current_ratr) {
- 			u32 ratr_value;
- 
--			ratr_value = targetRATR;
-+			ratr_value = target_ratr;
- 			ratr_value &= ~(RATE_ALL_OFDM_2SS);
- 			rtl92e_writel(dev, RATR0, ratr_value);
- 			rtl92e_writeb(dev, UFWP, 1);
- 
--			pra->last_ratr = targetRATR;
-+			pra->last_ratr = target_ratr;
- 		}
- 
- 	} else {
+@@ -337,7 +337,7 @@ static void _rtl92e_dm_check_rate_adaptive(struct net_device *dev)
+ 			pra->ratr_state = DM_RATR_STA_HIGH;
+ 			target_ratr = pra->upper_rssi_threshold_ratr;
+ 		} else if (priv->undecorated_smoothed_pwdb >=
+-			   (long)LowRSSIThreshForRA) {
++			   (long)low_rssi_thresh_for_ra) {
+ 			pra->ratr_state = DM_RATR_STA_MIDDLE;
+ 			target_ratr = pra->middle_rssi_threshold_ratr;
+ 		} else {
 -- 
 2.34.1
 
