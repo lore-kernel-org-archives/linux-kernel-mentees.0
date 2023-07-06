@@ -1,94 +1,106 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 064AEEB64D9
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Jul 2023 18:16:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CAFF0EB64DC
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  6 Jul 2023 19:43:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 814658227F;
-	Thu,  6 Jul 2023 18:16:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 814658227F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20221208 header.b=I7RGLB0u
+	by smtp2.osuosl.org (Postfix) with ESMTP id 17318415AF;
+	Thu,  6 Jul 2023 19:43:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 17318415AF
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=J7FPWLa6
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0uMZU0VszvIk; Thu,  6 Jul 2023 18:16:32 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id duhszuM2djHO; Thu,  6 Jul 2023 19:43:21 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5E34A821A5;
-	Thu,  6 Jul 2023 18:16:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5E34A821A5
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 25A48402F2;
+	Thu,  6 Jul 2023 19:43:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 25A48402F2
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AAB1C0071;
-	Thu,  6 Jul 2023 18:16:32 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 131E8C0072;
+	Thu,  6 Jul 2023 19:43:21 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0C508C0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7BFF1C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Jul 2023 18:16:31 +0000 (UTC)
+ Thu,  6 Jul 2023 19:43:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E40AE82258
+ by smtp1.osuosl.org (Postfix) with ESMTP id 56D30822D2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Jul 2023 18:16:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E40AE82258
+ Thu,  6 Jul 2023 19:43:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 56D30822D2
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=J7FPWLa6
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id N4cOMDTeReg1
+ with ESMTP id fnzl1ayaqK2m
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Jul 2023 18:16:29 +0000 (UTC)
+ Thu,  6 Jul 2023 19:43:19 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B0F9D821A5
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com
- [IPv6:2607:f8b0:4864:20::449])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B0F9D821A5
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 889BA8218F
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 889BA8218F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  6 Jul 2023 18:16:29 +0000 (UTC)
-Received: by mail-pf1-x449.google.com with SMTP id
- d2e1a72fcca58-668728bb904so1529235b3a.2
+ Thu,  6 Jul 2023 19:43:19 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id
+ ffacd0b85a97d-3142498c2e3so249837f8f.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 06 Jul 2023 11:16:29 -0700 (PDT)
+ Thu, 06 Jul 2023 12:43:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20221208; t=1688667389; x=1691259389;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=g7bcGKfqy3IhA8j+aFZQMe/R+wBoGTcL9Apo1o/U2h0=;
- b=I7RGLB0uTkALR8qWTmrtGHlWVVgMld9o1QUAQ3tS1bqbk5UjIwpmXfYdf3FLWKl0lk
- R8B4ltEjgeARF1XkSlCqOCmBTIfA8+mwlZ2ODD4LLJC/O/RN5jrCmqQ2yJkRHJiWLZzB
- mKjgscm1aQsVWLyyQ6hv8TMGY4tEOEZQ0Cnj20AXL5zgOXmoCUZmBjGHpyUs38KuFP02
- 5NrHsJq4RQ9I31NEG3dRYpfzCC4AaLjN6jlKd1e0KIAr5S0RIaepfyrD1gxeJH44Ep1L
- fV+mjTz4YI+GLe7/hC85lcP4opBE8ZuOnyr0xgMQkpWcAri5koVY6mHp58mG9sbVNMrM
- JBzA==
+ d=gmail.com; s=20221208; t=1688672597; x=1691264597;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nhm/jJrR1NHfK1pGN7EZo6eMVf2ZaHxU5UH60jdxSyw=;
+ b=J7FPWLa6RpMlLOE5RwQYNk7L0ElaT87B3FFxGzrSTfNoLYbmh5D7OTsBd1JHcS3mWl
+ qQFW19Yg6zo6RIsqFzjEI3yOOUPyulybQEVp2/4x8zka/caCLKTUXKxghUx87DaZDDJP
+ tk8/cEVxgeityp8j/OrsFUoVt/xvKiuuOWzO60hb11C1uRYGK5b5ZjLine3roP8JAHKJ
+ 68xnFe8waQ9DgBgDZFueue+Sa3V7XDwr9ljNQuQvWjhB70msf6AFKdPUOupTeyQWRrRJ
+ FrHrWSm2TwNQahuEajzeOXgUVBzNCFnv1Mb1UiQ8gOWkVXiYo2rUOZ9bAwBRcsDlgE2n
+ smow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688667389; x=1691259389;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=g7bcGKfqy3IhA8j+aFZQMe/R+wBoGTcL9Apo1o/U2h0=;
- b=bIHYxKu7E0n+LJ6buyfW/7RTmiDHDxNC0R4OiiYymOSg0gDCPs805ItlY9zLMi+rAJ
- eck+CetnTI8BkL/5eAGgYLz8HcplxHTy9ADHPR1a3VdL39q2mVzO9WXFONmR/HDPg69B
- AQHoQPUJQy/+c+q+tNdp7W+YHnyQKvm6vAhWqrYO9zr9f0sKZEkuVm6KIw6x5ZMfc1I6
- 2OalGJlP3/OorxVrbEsAfn7nrp4ZzseQgaOlSQ7ZTjeGWuO93yzVbgF9446AUviuaa4F
- 8mvuGYnJ5HeUnwHN3ZizIftKI6odSEqJKcl8hUOooC7esPQG5lAPRLiekTmVQU94UqyW
- JtHg==
-X-Gm-Message-State: ABy/qLbh4DB1poQeI4filmZi1ySVla3d5EP6mJwxbtncu7EG8WpWR57/
- GqQvrWYdGH3zMz6UxabQ/kAB4Ak=
-X-Google-Smtp-Source: APBJJlFaBwwxr4fY3i/lCrJiyW37Yf3g8v6biv1f6tLtm/C1dz1mPpymUT8bzPmG6Zq4RDKPDTISh60=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a05:6a00:1a94:b0:676:ba7f:7906 with SMTP id
- e20-20020a056a001a9400b00676ba7f7906mr3263742pfv.3.1688667389054; Thu, 06 Jul
- 2023 11:16:29 -0700 (PDT)
-Date: Thu, 6 Jul 2023 11:16:27 -0700
-In-Reply-To: <bd1477f2-a51e-a795-4f25-a32d6ab46530@gmail.com>
-Mime-Version: 1.0
-References: <bd1477f2-a51e-a795-4f25-a32d6ab46530@gmail.com>
-Message-ID: <ZKcE+wMWGdVFSBX2@google.com>
+ d=1e100.net; s=20221208; t=1688672597; x=1691264597;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nhm/jJrR1NHfK1pGN7EZo6eMVf2ZaHxU5UH60jdxSyw=;
+ b=SIwYcQW9B7ebykuiCrCJXFcKJWvNSPwjjz57uMzksHGpybc3b5NqGJ6uDGKuVxjM8v
+ axWvRLaxNKXV8HoHr+YAir/A3AF5ypvphPTXh42080sQrv5wxIlHLlmOP7VxKP1u2CU8
+ QTEnOqTPkkujBpyNK2+OOqdH0EGYH8MOyKnH+mZLDkC1KtpGDp22zRvKguxuspZPFk/z
+ VH+IOiSavZyTnLvE+b3n8hXYeQDOgI83d370WIoAN+/zNDi1bkb3QFR0TXGb55UUeCGo
+ LQpdoopvHtGHoyOOzoPqUwX0Ie75jBYqHDHoeJY7WxID9KcTkX7gLbo1Y+vDgT+DAQk6
+ xCUw==
+X-Gm-Message-State: ABy/qLZDe8hgUkC6WyotRzSiEGRbMd+MCUNrdmbe0Gf1+Y6Go1Lcwznr
+ IHbnEE0AQQJJykHCihE/ILA=
+X-Google-Smtp-Source: APBJJlEFW+Gf4pNbVCJS5ndRPmqxjCcienCUY7YNr8CRXubOimUzh/nbMUVzze0tUFBGlgW9yfhOhQ==
+X-Received: by 2002:adf:e706:0:b0:313:df4b:414a with SMTP id
+ c6-20020adfe706000000b00313df4b414amr2219200wrm.5.1688672597403; 
+ Thu, 06 Jul 2023 12:43:17 -0700 (PDT)
+Received: from [192.168.10.215] ([141.136.92.16])
+ by smtp.gmail.com with ESMTPSA id
+ d8-20020adff848000000b0031128382ed0sm2590580wrq.83.2023.07.06.12.43.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jul 2023 12:43:17 -0700 (PDT)
+Message-ID: <4e4a3024-0482-665c-212f-f0084f404239@gmail.com>
+Date: Thu, 6 Jul 2023 23:43:15 +0400
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
 Subject: Re: [PATCH v2] samples/bpf: Add more instructions to build
  dependencies and, configuration in README.rst
-To: Anh Tuan Phan <tuananhlfc@gmail.com>
-Cc: daniel@iogearbox.net, martin.lau@linux.dev, ast@kernel.org,
- andrii@kernel.org, bpf@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
+Content-Language: en-US
+To: Anh Tuan Phan <tuananhlfc@gmail.com>, bpf@vger.kernel.org,
+ ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev, linux-kernel-mentees@lists.linuxfoundation.org
+References: <bd1477f2-a51e-a795-4f25-a32d6ab46530@gmail.com>
+From: Ivan Orlov <ivan.orlov0322@gmail.com>
+In-Reply-To: <bd1477f2-a51e-a795-4f25-a32d6ab46530@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -100,69 +112,21 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Stanislav Fomichev via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Stanislav Fomichev <sdf@google.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 07/06, Anh Tuan Phan wrote:
+On 06.07.2023 20:00, Anh Tuan Phan wrote:
 > Update the Documentation to mention that some samples require pahole
 > v1.16 and kernel built with CONFIG_DEBUG_INFO_BTF=y
 > 
 > Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
 > ---
->  samples/bpf/README.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/samples/bpf/README.rst b/samples/bpf/README.rst
-> index 57f93edd1957..631592b83d60 100644
-> --- a/samples/bpf/README.rst
-> +++ b/samples/bpf/README.rst
-> @@ -14,6 +14,9 @@ Compiling requires having installed:
->  Note that LLVM's tool 'llc' must support target 'bpf', list version
->  and supported targets with command: ``llc --version``
-> 
-> +Some samples require pahole version 1.16 as a dependency. See
-> +https://docs.kernel.org/bpf/bpf_devel_QA.html for reference.
-> +
 
-Any reason no to add pahole 1.16 to this section above?
-
-Compiling requires having installed:
- * clang >= version 3.4.0
- * llvm >= version 3.7.1
- * pahole >= version 1.16
-
-Although clang 3.4 probably won't get you anywhere these days. The
-whole README seems a bit outdated :-)
-
->  Clean and configuration
->  -----------------------
-> 
-> @@ -28,6 +31,10 @@ Configure kernel, defconfig for instance::
-> 
->   make defconfig
-> 
-> +Some samples require support for BPF Type Format (BTF). To enable it,
-> open the
-> +generated config file, or use menuconfig (by "make menuconfig") to
-> enable the
-> +following configs: CONFIG_BPF_SYSCALL and CONFIG_DEBUG_INFO_BTF.
-> +
-
-This is usually enabled by default, so why special case it here?
-Maybe, if you want some hints about the config, we should add
-a reference to tools/testing/selftests/bpf/config ?
-
->  Kernel headers
->  --------------
-> 
-> -- 
-> 2.34.1
+Minor nit: you should write what changed since the first version of the 
+patch here, otherwise the changes are pretty hard to follow.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
