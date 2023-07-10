@@ -4,89 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 79295EB64DC
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  9 Jul 2023 15:52:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA852EB64D9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Jul 2023 09:25:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D36E181CD0;
-	Sun,  9 Jul 2023 15:52:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D36E181CD0
+	by smtp1.osuosl.org (Postfix) with ESMTP id 293778145D;
+	Mon, 10 Jul 2023 09:25:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 293778145D
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=siddh.me header.i=sanganaka@siddh.me header.a=rsa-sha256 header.s=zmail header.b=eXfoG3E7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ld7hoDal
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EtrB0vE3-F8s; Sun,  9 Jul 2023 15:52:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4AC3581CC3;
-	Sun,  9 Jul 2023 15:52:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4AC3581CC3
+	with ESMTP id j-dq8Id9EGFx; Mon, 10 Jul 2023 09:24:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 27E1781458;
+	Mon, 10 Jul 2023 09:24:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 27E1781458
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20F2FC0072;
-	Sun,  9 Jul 2023 15:52:21 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 72F80C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 108EDC0071;
+	Mon, 10 Jul 2023 09:24:59 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9FD03C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Jul 2023 15:52:19 +0000 (UTC)
+ Mon, 10 Jul 2023 09:24:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3972960B78
+ by smtp2.osuosl.org (Postfix) with ESMTP id 73EBD4053E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Jul 2023 15:52:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3972960B78
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=siddh.me header.i=sanganaka@siddh.me
- header.a=rsa-sha256 header.s=zmail header.b=eXfoG3E7
+ Mon, 10 Jul 2023 09:24:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 73EBD4053E
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=ld7hoDal
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AIqkvv1YawZq
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kPRLzQBg5O-i
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Jul 2023 15:52:18 +0000 (UTC)
-X-Greylist: delayed 00:15:08 by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4B0A560760
-Received: from sender-of-o51.zoho.in (sender-of-o51.zoho.in [103.117.158.51])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 4B0A560760
+ Mon, 10 Jul 2023 09:24:56 +0000 (UTC)
+X-Greylist: domain auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C066440517
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C066440517
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  9 Jul 2023 15:52:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1688917012; cv=none; d=zohomail.in; s=zohoarc; 
- b=fQcL45A+VOmjbvvXN812kez4xoComZ1FNJTZMGk0DBbXI2I0fG31vUg5X6H6xfhz+lW8Lrf2Xxd3TeWrC7m2PhFbdoUOVJzjyNmZ0ePdp+xkNIbJZvaBqlzEdM+DIn3TrDyra1HMqNPkp+lcieRzihM/NcASU848lPPi5DaqZ+E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in;
- s=zohoarc; t=1688917012;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
- bh=3KiyNrREGpilhuXknlJzzQDPoX9feR3u2Ube6/79vVw=; 
- b=L3Eo5aJ9cqPYE6GazrNQt4zv2OdTwkMNF1rwQ6gdEUuAcHpQCsbTpenJNsNWMu6INWS37BPLyuRv/UxCbIpW3HPwPsVxFAQrRhlGHQfSAQ9I6Gk8xj2DqT4JC/RXtFTE7VgSzc7CwTn4vgQaFx650abiwTWZwBsrmv1mhZ8AB+E=
-ARC-Authentication-Results: i=1; mx.zohomail.in; dkim=pass  header.i=siddh.me;
- spf=pass  smtp.mailfrom=sanganaka@siddh.me;
- dmarc=pass header.from=<sanganaka@siddh.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1688917012; 
- s=zmail; d=siddh.me; i=sanganaka@siddh.me;
- h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=3KiyNrREGpilhuXknlJzzQDPoX9feR3u2Ube6/79vVw=;
- b=eXfoG3E7m3rvHP7ZV5dPdKUD/ZCw0Pri1LcIY16MrAagYZR8tcFdtROw0L/X6nqc
- cX2GcG3dtixBfmMxyWV4SZCUwvzH8ggNZ+8z7SH8G1kDXKVLHxdDRjjcmboiWRP3N3e
- OxcFQP9/3k1PM9oZ9U+NAuB9jOn0seNxQZbjO/20=
-Received: from mail.zoho.in by mx.zoho.in
- with SMTP id 1688916981528744.8055241048502;
- Sun, 9 Jul 2023 21:06:21 +0530 (IST)
-Date: Sun, 09 Jul 2023 21:06:21 +0530
-From: Siddh Raman Pant <sanganaka@siddh.me>
-To: "Khalid Masum" <khalid.masum.92@gmail.com>
-Message-ID: <1893b4bf70a.2c44c261262941.883099013045252156@siddh.me>
-In-Reply-To: <CAABMjtHc4Vu=_L4rOhy1a-m0nQ-ptHe68qXJd__mSQAgO+t_iw@mail.gmail.com>
-References: <bd1477f2-a51e-a795-4f25-a32d6ab46530@gmail.com>
- <ZKcE+wMWGdVFSBX2@google.com> <32d67707-b831-9a98-4cb9-fcb27c8806ef@gmail.com>
- <ZKhEEJfzCyYI7BfH@google.com> <5d336a9a-8ae5-2b1f-7af3-a94818867b40@gmail.com>
- <CAABMjtHc4Vu=_L4rOhy1a-m0nQ-ptHe68qXJd__mSQAgO+t_iw@mail.gmail.com>
-Subject: Re: [PATCH v2] samples/bpf: Add more instructions to build
- dependencies and, configuration in README.rst
+ Mon, 10 Jul 2023 09:24:56 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A736260F1B;
+ Mon, 10 Jul 2023 09:24:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F498C433C8;
+ Mon, 10 Jul 2023 09:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1688981095;
+ bh=gDgDXrT4xu+oFlxoLyT5AijUEFQkMSQUcGHG6LfEkic=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ld7hoDalsbVCM8DI84dvv+pcpsXfZKexstGKRhORmWf8/xJnpFJUBTQZm411qzdGt
+ sDRMHVjJz12WY2LyM4dOmnzBN/doR/5OmNeVCVcb0PEuBNPXIcnZ9HDfHGORHW/RoN
+ tyv7Z2tNpdFr8s5ynynt6oc1Iu9i9+tMKLhcV+vzX8cbWpLKFDIsoGBRjkUtTi0O94
+ DwxetsNWTnIEZ3qbieuVOqzOFEfFWPp+xg3O9loHwbDbUtrvpwlzl5F/3tTk/kOLFj
+ V1uAEymafXpfI1wFQE/bRTbETBAPhc0m2FYPF33VknaUPV6JLiZDp7K1GES2DXDNTW
+ uL+oFPSiHOjXA==
+Message-ID: <1dcd6d8f-f15b-4f71-52a2-3ff48bff7575@kernel.org>
+Date: Mon, 10 Jul 2023 11:24:49 +0200
 MIME-Version: 1.0
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Cc: daniel <daniel@iogearbox.net>, "martin.lau" <martin.lau@linux.dev>,
- ast <ast@kernel.org>, andrii <andrii@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, bpf <bpf@vger.kernel.org>,
- Anh Tuan Phan <tuananhlfc@gmail.com>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH] Style error/warning fixes: replacing space with tabs
+Content-Language: en-US
+To: Prince Kumar Maurya <princekumarmaurya06@gmail.com>,
+ gregkh@linuxfoundation.org, raychi@google.com, skhan@linuxfoundation.org
+References: <20230709005133.2439465-1-princekumarmaurya06@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <20230709005133.2439465-1-princekumarmaurya06@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,22 +95,59 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, 09 Jul 2023 20:51:15 +0530, Khalid Masum wrote:
-> However, something to think about is: If future versions of clang, llvm etc
-> do not support compiling our code as it is now, it may become misleading.
+On 09/07/2023 02:51, Prince Kumar Maurya wrote:
+> Style fixes for warning found using checkpatch.pl script 
+> 
+> Signed-off-by: Prince Kumar Maurya <princekumarmaurya06@gmail.com>
+> ---
+>  drivers/usb/core/hub.c | 58 +++++++++++++++++++++---------------------
+>  1 file changed, 29 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index a739403a9e45..82a7b127a340 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -1777,7 +1777,7 @@ static bool hub_descriptor_is_sane(struct usb_host_interface *desc)
+>  	if (!usb_endpoint_is_int_in(&desc->endpoint[0].desc))
+>  		return false;
+>  
+> -        return true;
+> +		return true;
 
-When that happens, the max version can be added in.
+This does not look like correctly indented.
 
-Though, it would be an indicator to problems in the code IMO,
-which would need some updates and fixes.
+>  }
+>  
+>  static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
+> @@ -5854,37 +5854,37 @@ static void hub_event(struct work_struct *work)
+>  }
+>  
+>  static const struct usb_device_id hub_id_table[] = {
+> -    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+> -                   | USB_DEVICE_ID_MATCH_PRODUCT
+> -                   | USB_DEVICE_ID_MATCH_INT_CLASS,
+> -      .idVendor = USB_VENDOR_SMSC,
+> -      .idProduct = USB_PRODUCT_USB5534B,
+> -      .bInterfaceClass = USB_CLASS_HUB,
+> -      .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
+> -    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+> -                   | USB_DEVICE_ID_MATCH_PRODUCT,
+> -      .idVendor = USB_VENDOR_CYPRESS,
+> -      .idProduct = USB_PRODUCT_CY7C65632,
+> -      .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
+> -    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+> +	{ .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+> +			| USB_DEVICE_ID_MATCH_PRODUCT
+> +			| USB_DEVICE_ID_MATCH_INT_CLASS,
+> +	  .idVendor = USB_VENDOR_SMSC,
 
-So nothing to worry about now.
+Spaces after the tab. Are you sure this does not cause checkpatch
+--strict errors?
 
-Anh should send v3 instead of replying though. I would also suggest
-to shorten the commit title if possible.
 
-Thanks,
-Siddh
+
+Best regards,
+Krzysztof
 
 _______________________________________________
 Linux-kernel-mentees mailing list
