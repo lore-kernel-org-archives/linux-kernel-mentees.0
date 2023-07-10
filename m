@@ -1,99 +1,98 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 49C48EB64D9
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Jul 2023 13:05:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8F7EEB64D9
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 10 Jul 2023 17:18:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D4D1B404F6;
-	Mon, 10 Jul 2023 13:05:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D4D1B404F6
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=VaDMWo/D
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5465281FE7;
+	Mon, 10 Jul 2023 17:18:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5465281FE7
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20221208 header.b=HZHn1KNn
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zu03z4RMkxkg; Mon, 10 Jul 2023 13:05:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CE126400CF;
-	Mon, 10 Jul 2023 13:05:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CE126400CF
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7vdepGnim1ZG; Mon, 10 Jul 2023 17:18:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E5E3E81FC4;
+	Mon, 10 Jul 2023 17:18:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E5E3E81FC4
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BB5A3C0072;
-	Mon, 10 Jul 2023 13:05:14 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 10888C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BC004C0071;
+	Mon, 10 Jul 2023 17:18:26 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1848DC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Jul 2023 13:05:13 +0000 (UTC)
+ Mon, 10 Jul 2023 17:18:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id D2D7D40220
+ by smtp3.osuosl.org (Postfix) with ESMTP id DFFEF60D8E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Jul 2023 13:05:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D2D7D40220
+ Mon, 10 Jul 2023 17:18:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DFFEF60D8E
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
+ header.a=rsa-sha256 header.s=20221208 header.b=HZHn1KNn
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xVX34rnsYZtr
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id E0VF40JKZe6j
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Jul 2023 13:05:12 +0000 (UTC)
+ Mon, 10 Jul 2023 17:18:24 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org ED430400CF
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com
- [IPv6:2a00:1450:4864:20::22e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id ED430400CF
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 21D6B60701
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com
+ [IPv6:2607:f8b0:4864:20::649])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 21D6B60701
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Jul 2023 13:05:11 +0000 (UTC)
-Received: by mail-lj1-x22e.google.com with SMTP id
- 38308e7fff4ca-2b700e85950so65920381fa.3
+ Mon, 10 Jul 2023 17:18:23 +0000 (UTC)
+Received: by mail-pl1-x649.google.com with SMTP id
+ d9443c01a7336-1b8b310553bso78123525ad.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Jul 2023 06:05:11 -0700 (PDT)
+ Mon, 10 Jul 2023 10:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1688994310; x=1691586310;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=yuCQJnbemlgFFPZWsFNXaAIe6zz+6UmyaU+BFnlr21U=;
- b=VaDMWo/DY3QxQMwYzEnritcrz0veQlEHLTHyVkvopbeWdMui4cbsiCNnQvIPiIY3hP
- Z/mbbhDjDFR7B0/gH2LCsjuHQnqIxPTBEcMPcpOkK2PLGmBAignnwZontk5F/VnjSQ01
- E/rkhubmmmEQyqfyg9gK48abIbrVISNPYhR7GI3kg5QPL/0SPmAs2uHavOqA2XPV5pi7
- LOGah95Gw+C76Ratj1CD/szLsc+LleWRXvQpACYYpa4ZfR7qzO261saerrtoI5We9Iu+
- viYDnFKZGJOD6XI2HeKeysoTkYGhnYFOdotVuIP2DcH0CS/bCx3x3PzgWiPJtiFOnwl6
- BI/g==
+ d=google.com; s=20221208; t=1689009503; x=1691601503;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=fd/jFas9/ddzumuFsCZwyFQrGgcdAN+2PgNZn7yYwbs=;
+ b=HZHn1KNnwtlwZlFd6Ii4kJHwRN+NGBxoXT1n1dT81haL6YarEviPWZbKtjhzZSnjN7
+ erHlPXj+HCaoPSzrPsj9vsQMctRr4jEIpDf1CjgVEwXsX5fwNiH2UBQohG3NM8PEZBqh
+ EHEJMv9zTh0sOz9A7pTORVZx/Alp3jGIFoH22wRA33EKvfXSlBWCWxL5RIR4el5h/PFV
+ l3C+nQO67xAIUmEj9H4JuCm4LRw284EI70aORw3vvNVoQZmRSGjIZkkWXCsQ2HyZyZRn
+ bpO+jJxinv3Ud4CMSG4Dc90Prq4l81iqk1l5SNrtNghxI2KD8ORmcWFHjBUB/pKToEwM
+ XfFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1688994310; x=1691586310;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yuCQJnbemlgFFPZWsFNXaAIe6zz+6UmyaU+BFnlr21U=;
- b=fSbjCze0eZPG4WewSDXBfGD+ulhWisxSgv330P7qwTmRxxzx6OICi+qVmK0mIhDqsD
- 6S3kONuU6AkhM8A1XeE4RtJjh9LafU5pVZAecxtSvFO5msISjfWv/DXVQa8fjNuujNMs
- YWbus86pzMcVVQlwoCC42hAOa/c+WQ/TAsOPTSrJ62oTJZxNAtF5rY2CTi+Ac5ZcU8G8
- bUyLIzrLrSaM3ed7Uxvv41xYg5lu/nztBaBSIMffqdwKAQpdgcaq2zS5yQzz5kqbJ8oB
- TAKsrhKvxVFosZlPT1uTkNfd2jc66uPjmyKlwYseQntTcd8Wz2uSJ+uUK9e+T8t/+hfN
- Dm+w==
-X-Gm-Message-State: ABy/qLaO0UnFeKBfbVuICm0fjvJHUscveD9D/bv9bKUKMTmmCuczWZbf
- 9grFvqsi5TMc38rUjr7e8RI=
-X-Google-Smtp-Source: APBJJlF7a5vl4MaVsFv0mXytCXE/ZB2j506raAw2PtlG/xixDbkLsgXvaP4GQsxJy/xw5zJFsI8OMQ==
-X-Received: by 2002:a2e:9b8f:0:b0:2b6:d57f:d81 with SMTP id
- z15-20020a2e9b8f000000b002b6d57f0d81mr9434546lji.53.1688994309427; 
- Mon, 10 Jul 2023 06:05:09 -0700 (PDT)
-Received: from mmaatuq-HP-Laptop-15-dy2xxx..
- ([2001:8f8:1163:535c:656e:34e4:18d9:8e8c])
- by smtp.gmail.com with ESMTPSA id
- 18-20020a05600c025200b003fbca942499sm10224631wmj.14.2023.07.10.06.05.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 10 Jul 2023 06:05:08 -0700 (PDT)
-From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
-To: shuah@kernel.org
-Subject: [PATCH v0] selftests/bpf: replace manual array size calc with
- ARRAYSIZE.
-Date: Mon, 10 Jul 2023 17:04:48 +0400
-Message-Id: <20230710130448.1558118-1-mahmoudmatook.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kselftest@vger.kernel.org, Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+ d=1e100.net; s=20221208; t=1689009503; x=1691601503;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fd/jFas9/ddzumuFsCZwyFQrGgcdAN+2PgNZn7yYwbs=;
+ b=RXddOeEFaekDacOtaqJc/gb2LAwEHFER0yXYD4vgaRZYoPe0eAbartv25SKcroeCZg
+ ECAv37C+89Ofj4Sbu2iN2n/hrsf/QjVzyZQUhl5a3uzGyUShhBWTrkFjdswycXC2M6Y9
+ 2Gmex+uM7jnlPmtNyo4BhBp9OmeVaWsnTbGynbUYQL7JCJ+6Py6tPaVDRSIm3uE+2oOp
+ Pb5Dbky8ihvcdvPzwuurZs4NNI84yBK1P1kPgkQeb125UizhaSoAUTCzcEGrt+y63EAH
+ lr8pR6YXlrxSvGlmPZ+ExGSfouUmcb2Kcq8tD2j6eUGkh95m/Tvm/mBc3k0iJSvTUN1z
+ U8DQ==
+X-Gm-Message-State: ABy/qLZie99cEe5TjmX9t94AX9Vy06efMNtloQOTIfVvo7vD6/5jy12Q
+ 2vFLnuki0YT0akbETDwCnkSw18U=
+X-Google-Smtp-Source: APBJJlHvVrDz1g2oRDm9FKijVnJKD+Wp8/adNeEDp2lT19t1t4+ySQ4RmAmWW2rMUH0hpqVW5eLRl4Y=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a17:902:e9d4:b0:1a2:3436:4119 with SMTP id
+ 20-20020a170902e9d400b001a234364119mr12697223plk.8.1689009503485; Mon, 10 Jul
+ 2023 10:18:23 -0700 (PDT)
+Date: Mon, 10 Jul 2023 10:18:21 -0700
+In-Reply-To: <2b48be65-5f63-4658-38cb-03c00c10fdf3@gmail.com>
+Mime-Version: 1.0
+References: <67bec6a9-af59-d6f9-2630-17280479a1f7@gmail.com>
+ <ZKcDdIYOUQuPP5Px@google.com> <51aa1dd7-86d0-ed08-1142-f229513ad316@gmail.com>
+ <ZKhC9G5ouGOviSOG@google.com> <2b48be65-5f63-4658-38cb-03c00c10fdf3@gmail.com>
+Message-ID: <ZKw9XQGOza6qGDLf@google.com>
+Subject: Re: [PATCH v1] samples/bpf: Fix build out of source tree
+To: Anh Tuan Phan <tuananhlfc@gmail.com>
+Cc: daniel@iogearbox.net, martin.lau@linux.dev, ast@kernel.org,
+ andrii@kernel.org, bpf@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,71 +104,193 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Stanislav Fomichev via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Stanislav Fomichev <sdf@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-fixes coccinelle warnings due to manual calculation of array size.
+On 07/09, Anh Tuan Phan wrote:
+> I updated the patch to reflect your suggestion. Thank you!
 
-Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
----
- tools/testing/selftests/bpf/progs/syscall.c          | 6 +++++-
- tools/testing/selftests/bpf/progs/test_rdonly_maps.c | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+In the future, can you please post a new one with v+1 instead of replying
+to the old one? Thx!
 
-diff --git a/tools/testing/selftests/bpf/progs/syscall.c b/tools/testing/selftests/bpf/progs/syscall.c
-index e550f728962d..9cc25d93c601 100644
---- a/tools/testing/selftests/bpf/progs/syscall.c
-+++ b/tools/testing/selftests/bpf/progs/syscall.c
-@@ -27,6 +27,10 @@ struct args {
- 	BTF_TYPE_ENC(name, BTF_INFO_ENC(BTF_KIND_INT, 0, 0), sz), \
- 	BTF_INT_ENC(encoding, bits_offset, bits)
- 
-+#ifndef ARRAY_SIZE
-+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
-+#endif
-+
- static int btf_load(void)
- {
- 	struct btf_blob {
-@@ -82,7 +86,7 @@ int bpf_prog(struct args *ctx)
- 	static __u64 value = 34;
- 	static union bpf_attr prog_load_attr = {
- 		.prog_type = BPF_PROG_TYPE_XDP,
--		.insn_cnt = sizeof(insns) / sizeof(insns[0]),
-+		.insn_cnt = ARRAY_SIZE(insns),
- 	};
- 	int ret;
- 
-diff --git a/tools/testing/selftests/bpf/progs/test_rdonly_maps.c b/tools/testing/selftests/bpf/progs/test_rdonly_maps.c
-index fc8e8a34a3db..7431936ab26c 100644
---- a/tools/testing/selftests/bpf/progs/test_rdonly_maps.c
-+++ b/tools/testing/selftests/bpf/progs/test_rdonly_maps.c
-@@ -21,6 +21,10 @@ struct {
- 	unsigned sum;
- } res = {};
- 
-+#ifndef ARRAY_SIZE
-+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
-+#endif
-+
- SEC("raw_tracepoint/sys_enter:skip_loop")
- int skip_loop(struct pt_regs *ctx)
- {
-@@ -64,7 +68,7 @@ int full_loop(struct pt_regs *ctx)
- {
- 	/* prevent compiler to optimize everything out */
- 	unsigned * volatile p = (void *)&rdonly_values.a;
--	int i = sizeof(rdonly_values.a) / sizeof(rdonly_values.a[0]);
-+	int i = ARRAY_SIZE(rdonly_values.a);
- 	unsigned iters = 0, sum = 0;
- 
- 	/* validate verifier can allow full loop as well */
--- 
-2.34.1
+> On 7/7/23 23:53, Stanislav Fomichev wrote:
+> > On 07/07, Anh Tuan Phan wrote:
+> >>
+> >>
+> >> On 7/7/23 01:09, Stanislav Fomichev wrote:
+> >>> On 07/06, Anh Tuan Phan wrote:
+> >>>> This commit fixes a few compilation issues when building out of source
+> >>>> tree. The command that I used to build samples/bpf:
+> >>>>
+> >>>> export KBUILD_OUTPUT=/tmp
+> >>>> make V=1 M=samples/bpf
+> >>>>
+> >>>> The compilation failed since it tried to find the header files in the
+> >>>> wrong places between output directory and source tree directory
+> >>>>
+> >>>> Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
+> >>>> ---
+> >>>>  samples/bpf/Makefile        | 8 ++++----
+> >>>>  samples/bpf/Makefile.target | 2 +-
+> >>>>  2 files changed, 5 insertions(+), 5 deletions(-)
+> >>>>
+> >>>> diff --git a/samples/bpf/Makefile b/samples/bpf/Makefile
+> >>>> index 615f24ebc49c..32469aaa82d5 100644
+> >>>> --- a/samples/bpf/Makefile
+> >>>> +++ b/samples/bpf/Makefile
+> >>>> @@ -341,10 +341,10 @@ $(obj)/hbm_edt_kern.o: $(src)/hbm.h $(src)/hbm_kern.h
+> >>>>  # Override includes for xdp_sample_user.o because $(srctree)/usr/include in
+> >>>>  # TPROGS_CFLAGS causes conflicts
+> >>>>  XDP_SAMPLE_CFLAGS += -Wall -O2 \
+> >>>> -		     -I$(src)/../../tools/include \
+> >>>> +		     -I$(srctree)/tools/include \
+> >>>
+> >>> [..]
+> >>>
+> >>>>  		     -I$(src)/../../tools/include/uapi \
+> >>>
+> >>> Does this $(src) need to be changed as well?
+> >>
+> >> I think this line doesn't affect the build. I removed it and it still
+> >> compiles (after "make -C samples/bpf clean"). I guess xdp_sample_user.c
+> >> doesn't include any file in tools/include/uapi. Am I missing something
+> >> or should I remove this line?
+> > 
+> > You might have these headers installed on your system already if
+> > it compiles without this part. So I'd keep this part but do
+> > s/src/srctree/ (and remove ../..).
+> > 
+> >>>
+> >>>
+> >>>>  		     -I$(LIBBPF_INCLUDE) \
+> >>>> -		     -I$(src)/../../tools/testing/selftests/bpf
+> >>>> +		     -I$(srctree)/tools/testing/selftests/bpf
+> >>>>
+> >>>>  $(obj)/$(XDP_SAMPLE): TPROGS_CFLAGS = $(XDP_SAMPLE_CFLAGS)
+> >>>>  $(obj)/$(XDP_SAMPLE): $(src)/xdp_sample_user.h $(src)/xdp_sample_shared.h
+> >>>> @@ -393,7 +393,7 @@ $(obj)/xdp_router_ipv4.bpf.o: $(obj)/xdp_sample.bpf.o
+> >>>>  $(obj)/%.bpf.o: $(src)/%.bpf.c $(obj)/vmlinux.h $(src)/xdp_sample.bpf.h
+> >>>> $(src)/xdp_sample_shared.h
+> >>>>  	@echo "  CLANG-BPF " $@
+> >>>>  	$(Q)$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(SRCARCH) \
+> >>>> -		-Wno-compare-distinct-pointer-types -I$(srctree)/include \
+> >>>> +		-Wno-compare-distinct-pointer-types -I$(obj) -I$(srctree)/include \
+> >>>>  		-I$(srctree)/samples/bpf -I$(srctree)/tools/include \
+> >>>>  		-I$(LIBBPF_INCLUDE) $(CLANG_SYS_INCLUDES) \
+> >>>>  		-c $(filter %.bpf.c,$^) -o $@
+> >>>> @@ -412,7 +412,7 @@ xdp_router_ipv4.skel.h-deps := xdp_router_ipv4.bpf.o
+> >>>> xdp_sample.bpf.o
+> >>>>
+> >>>>  LINKED_BPF_SRCS := $(patsubst %.bpf.o,%.bpf.c,$(foreach
+> >>>> skel,$(LINKED_SKELS),$($(skel)-deps)))
+> >>>>
+> >>>> -BPF_SRCS_LINKED := $(notdir $(wildcard $(src)/*.bpf.c))
+> >>>> +BPF_SRCS_LINKED := $(notdir $(wildcard $(srctree)/$(src)/*.bpf.c))
+> >>>>  BPF_OBJS_LINKED := $(patsubst %.bpf.c,$(obj)/%.bpf.o, $(BPF_SRCS_LINKED))
+> >>>>  BPF_SKELS_LINKED := $(addprefix $(obj)/,$(LINKED_SKELS))
+> >>>>
+> >>>> diff --git a/samples/bpf/Makefile.target b/samples/bpf/Makefile.target
+> >>>> index 7621f55e2947..86a454cfb080 100644
+> >>>> --- a/samples/bpf/Makefile.target
+> >>>> +++ b/samples/bpf/Makefile.target
+> >>>> @@ -41,7 +41,7 @@ _tprogc_flags   = $(TPROGS_CFLAGS) \
+> >>>>                   $(TPROGCFLAGS_$(basetarget).o)
+> >>>>
+> >>>>  # $(objtree)/$(obj) for including generated headers from checkin source
+> >>>> files
+> >>>
+> >>> [..]
+> >>>
+> >>>> -ifeq ($(KBUILD_EXTMOD),)
+> >>>> +ifneq ($(KBUILD_EXTMOD),)
+> >>>
+> >>> This parts seems to be copy-pasted all over the place in its 'ifeq'
+> >>> form. What is it doing and why is it needed?
+> >>>
+> >>>>  ifdef building_out_of_srctree
+> >>>>  _tprogc_flags   += -I $(objtree)/$(obj)
+> >>>>  endif
+> >>>> -- 
+> >>>> 2.34.1
+> 
+> Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
+> ---
+> 
+> Change from the original patch
+> 
+> - Change "-I$(src)/../../tools/include/uapi" to
+> "-I$(srctree)/tools/include/uapi"
+> 
+>  samples/bpf/Makefile        | 10 +++++-----
+>  samples/bpf/Makefile.target |  2 +-
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/samples/bpf/Makefile b/samples/bpf/Makefile
+> index 615f24ebc49c..cfc960b3713a 100644
+> --- a/samples/bpf/Makefile
+> +++ b/samples/bpf/Makefile
+> @@ -341,10 +341,10 @@ $(obj)/hbm_edt_kern.o: $(src)/hbm.h $(src)/hbm_kern.h
+>  # Override includes for xdp_sample_user.o because $(srctree)/usr/include in
+>  # TPROGS_CFLAGS causes conflicts
+>  XDP_SAMPLE_CFLAGS += -Wall -O2 \
+> -		     -I$(src)/../../tools/include \
+> -		     -I$(src)/../../tools/include/uapi \
+> +		     -I$(srctree)/tools/include \
+> +		     -I$(srctree)/tools/include/uapi \
+>  		     -I$(LIBBPF_INCLUDE) \
+> -		     -I$(src)/../../tools/testing/selftests/bpf
+> +		     -I$(srctree)/tools/testing/selftests/bpf
+> 
+>  $(obj)/$(XDP_SAMPLE): TPROGS_CFLAGS = $(XDP_SAMPLE_CFLAGS)
+>  $(obj)/$(XDP_SAMPLE): $(src)/xdp_sample_user.h $(src)/xdp_sample_shared.h
+> @@ -393,7 +393,7 @@ $(obj)/xdp_router_ipv4.bpf.o: $(obj)/xdp_sample.bpf.o
+>  $(obj)/%.bpf.o: $(src)/%.bpf.c $(obj)/vmlinux.h $(src)/xdp_sample.bpf.h
+> $(src)/xdp_sample_shared.h
+>  	@echo "  CLANG-BPF " $@
+>  	$(Q)$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(SRCARCH) \
+> -		-Wno-compare-distinct-pointer-types -I$(srctree)/include \
+> +		-Wno-compare-distinct-pointer-types -I$(obj) -I$(srctree)/include \
+>  		-I$(srctree)/samples/bpf -I$(srctree)/tools/include \
+>  		-I$(LIBBPF_INCLUDE) $(CLANG_SYS_INCLUDES) \
+>  		-c $(filter %.bpf.c,$^) -o $@
+> @@ -412,7 +412,7 @@ xdp_router_ipv4.skel.h-deps := xdp_router_ipv4.bpf.o
+> xdp_sample.bpf.o
+> 
+>  LINKED_BPF_SRCS := $(patsubst %.bpf.o,%.bpf.c,$(foreach
+> skel,$(LINKED_SKELS),$($(skel)-deps)))
+> 
+> -BPF_SRCS_LINKED := $(notdir $(wildcard $(src)/*.bpf.c))
+> +BPF_SRCS_LINKED := $(notdir $(wildcard $(srctree)/$(src)/*.bpf.c))
+>  BPF_OBJS_LINKED := $(patsubst %.bpf.c,$(obj)/%.bpf.o, $(BPF_SRCS_LINKED))
+>  BPF_SKELS_LINKED := $(addprefix $(obj)/,$(LINKED_SKELS))
+> 
+> diff --git a/samples/bpf/Makefile.target b/samples/bpf/Makefile.target
+> index 7621f55e2947..86a454cfb080 100644
+> --- a/samples/bpf/Makefile.target
+> +++ b/samples/bpf/Makefile.target
+> @@ -41,7 +41,7 @@ _tprogc_flags   = $(TPROGS_CFLAGS) \
+>                   $(TPROGCFLAGS_$(basetarget).o)
+> 
+>  # $(objtree)/$(obj) for including generated headers from checkin source
+> files
 
+[..]
+
+> -ifeq ($(KBUILD_EXTMOD),)
+> +ifneq ($(KBUILD_EXTMOD),)
+>  ifdef building_out_of_srctree
+>  _tprogc_flags   += -I $(objtree)/$(obj)
+>  endif
+
+This question left undressed. Can you share more on why this change
+is needed? Because it looks like it's actually needed for M='' case.
+IOW, maybe we should add $(objtree)/$(obj) somewhere else?
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
