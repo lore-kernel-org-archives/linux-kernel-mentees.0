@@ -1,102 +1,104 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46321C001DE
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 18:18:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6F6EC001B0
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 18:44:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CB08D404E1;
-	Sun, 16 Jul 2023 18:18:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CB08D404E1
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5A8F04013C;
+	Sun, 16 Jul 2023 18:44:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5A8F04013C
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=HeTYsvuj
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gmrP54UtPOoI; Sun, 16 Jul 2023 18:44:14 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2D2644013B;
+	Sun, 16 Jul 2023 18:44:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2D2644013B
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 136B7C0072;
+	Sun, 16 Jul 2023 18:44:14 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 217CDC0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 16 Jul 2023 18:44:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id E963E4023B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 16 Jul 2023 18:44:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E963E4023B
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=GaaYjzKL
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=HeTYsvuj
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2U-o9NdxqV-S; Sun, 16 Jul 2023 18:18:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 664BF4029B;
-	Sun, 16 Jul 2023 18:18:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 664BF4029B
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3DC15C0072;
-	Sun, 16 Jul 2023 18:18:39 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A9CD1C0032
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IFLANBDly1um
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:18:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6F3A860B27
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:18:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6F3A860B27
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=GaaYjzKL
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 4HRLmUI97xMB
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:18:36 +0000 (UTC)
+ Sun, 16 Jul 2023 18:44:12 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CA75A60A47
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id CA75A60A47
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CB69740230
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CB69740230
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:18:36 +0000 (UTC)
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1b8ad356f03so21965565ad.1
+ Sun, 16 Jul 2023 18:44:11 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id
+ ffacd0b85a97d-3143b72c5ffso3940385f8f.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 11:18:36 -0700 (PDT)
+ Sun, 16 Jul 2023 11:44:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689531516; x=1692123516;
+ d=gmail.com; s=20221208; t=1689533050; x=1692125050;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=uRr4t72OqG7bbsdSQp36s5QmJpiGmQDwT7OtOfgVJAs=;
- b=GaaYjzKLGGS1UieotsqzLzc8zg49fL2l6LbQTq3nbfRE+3kPmSrdRXeC5u7qg1VvXB
- ruuwP3vXsuw7i7PcoixYO4rTMutHMuhoAoT3wQ5lO0TZi5uBCYh/B1j8b1Tkuh+p1Jw5
- GMyOpBuH6+TcBxZYOBO7/F0bG+EraHMrDfGydgkurseGk/ofa92an7A/FhERLpHr4pte
- OwQINR0kLvSSLFs9k4ApiPmnIGKO79f9d38yBzjXvL6Cj1FNF3U3Trp8ZGs/fSG1hzdK
- A8pZkBlstHyHiWzs/QntkFLl6bp9ddzq4TpFicx12n3wumpjmvzZaC1DUudpjgA9OeVg
- EzoA==
+ bh=Iw9rxMmy489xUbQwxOXNVFRR34rAPTUVmC3dh4HsQWw=;
+ b=HeTYsvujwYrQwwXDp0WMfX5PfsFlIaj6iOyQIXfhYDOXQFOXAymdjg45DuXKHpZVdJ
+ T0aeNJd7Ukr89zC6YK00llwOXwwMwhYEvmhru6R/6shzkJ+Ukd7y+DIIZvnwnJX/J3I3
+ lzlwAHp1rxIOasiaWGaNKZtkhzOFqAEO4USZ5UpVmpIrBKJ++StYna4dQjao6RT3DY3z
+ jZ030yFpCTFSV/R5E2TwYhm4lrnd2utaZEcbhOPlI0c0I6IGQyGLT7QllT2zMfiqmACc
+ W8IWNxCpZmfjezbzCziIQLwUl1CWTwNc0IUxRR7LEYPdb+MZJkH+B+Unu+t4e3s6mEOc
+ FsAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689531516; x=1692123516;
+ d=1e100.net; s=20221208; t=1689533050; x=1692125050;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=uRr4t72OqG7bbsdSQp36s5QmJpiGmQDwT7OtOfgVJAs=;
- b=adHasmbkcgxnePDEkXNYLiMZEsT8Vssi91hayOIxhFHNEjogTGxaQa/qvyycvPJNcz
- WTR2FmkemKdEoWIqMtfiEt/uVZtgEISB1TIJx/zAhShLt9lLvvQyjohwzo0RZs1YJl3f
- 9vuFLqnanDZ7WmRaFyi6zpPVqouvbS96B9j6TFCI8fsBttCI5cpThMTmMjMEqdtYoZqA
- 38pp1uA9aUIDgYhAq6GvSAA5WHJPbrPZiL+PresZoY7PgNMF3QC3Nt7DoNj+REcUzpNC
- iRJB+CPYO9HgnaiIPfwCazwPChuAWFXaDOmCJwn0RfYYGp4JaCwwffILLLquX06wunJ9
- +p5w==
-X-Gm-Message-State: ABy/qLZ0nsnudrchEm1ocw7xFJDrpPekw1iPQKW+nIisNuHPRUzOnXhI
- lNGVUOIu1qCyPtfilD4+JSA=
-X-Google-Smtp-Source: APBJJlGeSVnKgr9IYi96OpeUoLCDTdox4GFlFamj0ylUDg3pvZD2cublCV/5BfUn/SiWjyUynohRiw==
-X-Received: by 2002:a17:903:182:b0:1b8:944a:a932 with SMTP id
- z2-20020a170903018200b001b8944aa932mr10984982plg.2.1689531516055; 
- Sun, 16 Jul 2023 11:18:36 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c009:58ea:65e4:f662:2536:5ba8])
+ bh=Iw9rxMmy489xUbQwxOXNVFRR34rAPTUVmC3dh4HsQWw=;
+ b=JucRn+xS49+P5LN/nzZ32iSpMboBN+695axOjUBVNrG+ZRVYgUh9tJcRxfWYcK4o6K
+ fk57P4K0RQEiCanjnGKUvV2hK2scfuqxh1ZvxEL0+4pzQOlDQEtlL9dq4Vk3hGz3jsJf
+ TsZnkHDDtPZXgCUEtujcUhnGK2S23yyjdHDIkQqhxonBiIAXk11lYkA1c+MD/lqN0Vu5
+ uI3/uHzmfxe89OdPGjm2u/rrQJj1uWKkIPGUZWABxjP8vQ8U4KTUi93vEjXpuUCvvV3q
+ LYKmbAAXJ/hX0iqI78tMguHvFX9cstPDUh9CpHq2JU2MpaczY7II8wyj9UPcZ5qQqi2C
+ trdA==
+X-Gm-Message-State: ABy/qLZWnYxl94vle3Di9EpITVSBquNl5swvdfWdfl5FYCIgmLRzQkIN
+ CtBx/9RZxYM3PbGvJp0USjA=
+X-Google-Smtp-Source: APBJJlGqrk4/ImODOjlE2fM0n8aEqgTPPtq8oeBjobvCf+cVue7GW3rAT7MupfI6Rwb2vIto6QFSbw==
+X-Received: by 2002:adf:ffd2:0:b0:313:eb81:d2f6 with SMTP id
+ x18-20020adfffd2000000b00313eb81d2f6mr11309115wrs.4.1689533049498; 
+ Sun, 16 Jul 2023 11:44:09 -0700 (PDT)
+Received: from mmaatuq-HP-Laptop-15-dy2xxx..
+ ([2001:8f8:1163:535c:e1af:2d96:1960:a57d])
  by smtp.gmail.com with ESMTPSA id
- e15-20020a17090301cf00b001b87d3e845bsm11242422plh.149.2023.07.16.11.18.31
+ v7-20020a05600c214700b003fbc681c8d1sm6212956wml.36.2023.07.16.11.44.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jul 2023 11:18:35 -0700 (PDT)
-From: Atul Kumar Pant <atulpant.linux@gmail.com>
-To: a.zummo@towertech.it,
-	alexandre.belloni@bootlin.com
-Subject: [PATCH v4] selftests: rtc: Improves rtctest error handling.
-Date: Sun, 16 Jul 2023 23:48:25 +0530
-Message-Id: <20230716181825.44337-1-atulpant.linux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Sun, 16 Jul 2023 11:44:08 -0700 (PDT)
+From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, shuah@kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] selftests/net: replace manual array size calc with
+ ARRAYSIZE macro.
+Date: Sun, 16 Jul 2023 22:43:49 +0400
+Message-Id: <20230716184349.2124858-1-mahmoudmatook.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: linux-rtc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Atul Kumar Pant <atulpant.linux@gmail.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, shuah@kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,63 +116,129 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-When running the rtctest if we pass wrong rtc device file as an argument
-the test fails expectedly, but prints the logs that are not useful
-to point out the issue.
-To handle this, the patch adds a checks to verify if the rtc_file is valid.
+fixes coccinelle WARNING: Use ARRAY_SIZE
 
-Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
 ---
+changelog since v3:
+ - move changelog outside commit message.
 
-changes since v3:
-    Added Linux-kselftest and Linux-kernel mailing lists.
+changelog since v2:
+ - integrat a commit that contains actual replacement for ARRAY_SIZE.
+ - use ARRAY_SIZE for net/psock_lib.h
 
-changes since v2:
-    Changed error message when rtc file does not exist.
+changelog since v1:
+ - remove unnecessary extra new line
 
-changes since v1:
-    Removed check for uid=0
-    If rtc file is invalid, then exit the test.
+changelog since v0:
+ - update net/Makefile to include kselftest.h
+ - remove redefinition of ARRAYSIZE.
+---
+ tools/testing/selftests/net/Makefile          | 2 ++
+ tools/testing/selftests/net/csum.c            | 6 ++++--
+ tools/testing/selftests/net/hwtstamp_config.c | 6 ++++--
+ tools/testing/selftests/net/psock_lib.h       | 4 +++-
+ 4 files changed, 13 insertions(+), 5 deletions(-)
 
- tools/testing/selftests/rtc/rtctest.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
-index 63ce02d1d5cc..630fef735c7e 100644
---- a/tools/testing/selftests/rtc/rtctest.c
-+++ b/tools/testing/selftests/rtc/rtctest.c
-@@ -17,6 +17,7 @@
+diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+index 7f3ab2a93ed6..a06cc25489f9 100644
+--- a/tools/testing/selftests/net/Makefile
++++ b/tools/testing/selftests/net/Makefile
+@@ -3,6 +3,8 @@
+ 
+ CFLAGS =  -Wall -Wl,--no-as-needed -O2 -g
+ CFLAGS += -I../../../../usr/include/ $(KHDR_INCLUDES)
++# Additional include paths needed by kselftest.h
++CFLAGS += -I../
+ 
+ TEST_PROGS := run_netsocktests run_afpackettests test_bpf.sh netdevice.sh \
+ 	      rtnetlink.sh xfrm_policy.sh test_blackhole_dev.sh
+diff --git a/tools/testing/selftests/net/csum.c b/tools/testing/selftests/net/csum.c
+index 82a1c1839da6..90eb06fefa59 100644
+--- a/tools/testing/selftests/net/csum.c
++++ b/tools/testing/selftests/net/csum.c
+@@ -91,6 +91,8 @@
+ #include <sys/types.h>
  #include <unistd.h>
  
- #include "../kselftest_harness.h"
-+#include "../kselftest.h"
- 
- #define NUM_UIE 3
- #define ALARM_DELTA 3
-@@ -419,6 +420,8 @@ __constructor_order_last(void)
- 
- int main(int argc, char **argv)
- {
-+	int ret = -1;
++#include "kselftest.h"
 +
- 	switch (argc) {
- 	case 2:
- 		rtc_file = argv[1];
-@@ -430,5 +433,11 @@ int main(int argc, char **argv)
- 		return 1;
- 	}
+ static bool cfg_bad_csum;
+ static int cfg_family = PF_INET6;
+ static int cfg_num_pkt = 4;
+@@ -450,7 +452,7 @@ static void send_packet(int fd, const char *buf, int len)
+ 	iov[2].iov_len = len;
  
--	return test_harness_run(argc, argv);
-+	// Run the test if rtc_file is valid
-+	if (access(rtc_file, F_OK) == 0)
-+		ret = test_harness_run(argc, argv);
-+	else
-+		ksft_exit_fail_msg("[ERROR]: Cannot access rtc file %s - Exiting\n", rtc_file);
-+
-+	return ret;
+ 	msg.msg_iov = iov;
+-	msg.msg_iovlen = sizeof(iov) / sizeof(iov[0]);
++	msg.msg_iovlen = ARRAY_SIZE(iov);
+ 
+ 	msg.msg_name = &addr;
+ 	msg.msg_namelen = sizeof(addr);
+@@ -505,7 +507,7 @@ static void __recv_prepare_packet_filter(int fd, int off_nexthdr, int off_dport)
+ 	struct sock_fprog prog = {};
+ 
+ 	prog.filter = filter;
+-	prog.len = sizeof(filter) / sizeof(struct sock_filter);
++	prog.len = ARRAY_SIZE(filter);
+ 	if (setsockopt(fd, SOL_SOCKET, SO_ATTACH_FILTER, &prog, sizeof(prog)))
+ 		error(1, errno, "setsockopt filter");
  }
+diff --git a/tools/testing/selftests/net/hwtstamp_config.c b/tools/testing/selftests/net/hwtstamp_config.c
+index e1fdee841021..170728c96c46 100644
+--- a/tools/testing/selftests/net/hwtstamp_config.c
++++ b/tools/testing/selftests/net/hwtstamp_config.c
+@@ -16,6 +16,8 @@
+ #include <linux/net_tstamp.h>
+ #include <linux/sockios.h>
+ 
++#include "kselftest.h"
++
+ static int
+ lookup_value(const char **names, int size, const char *name)
+ {
+@@ -50,7 +52,7 @@ static const char *tx_types[] = {
+ 	TX_TYPE(ONESTEP_SYNC)
+ #undef TX_TYPE
+ };
+-#define N_TX_TYPES ((int)(sizeof(tx_types) / sizeof(tx_types[0])))
++#define N_TX_TYPES ((int)(ARRAY_SIZE(tx_types)))
+ 
+ static const char *rx_filters[] = {
+ #define RX_FILTER(name) [HWTSTAMP_FILTER_ ## name] = #name
+@@ -71,7 +73,7 @@ static const char *rx_filters[] = {
+ 	RX_FILTER(PTP_V2_DELAY_REQ),
+ #undef RX_FILTER
+ };
+-#define N_RX_FILTERS ((int)(sizeof(rx_filters) / sizeof(rx_filters[0])))
++#define N_RX_FILTERS ((int)(ARRAY_SIZE(rx_filters)))
+ 
+ static void usage(void)
+ {
+diff --git a/tools/testing/selftests/net/psock_lib.h b/tools/testing/selftests/net/psock_lib.h
+index faa884385c45..6e4fef560873 100644
+--- a/tools/testing/selftests/net/psock_lib.h
++++ b/tools/testing/selftests/net/psock_lib.h
+@@ -14,6 +14,8 @@
+ #include <arpa/inet.h>
+ #include <unistd.h>
+ 
++#include "kselftest.h"
++
+ #define DATA_LEN			100
+ #define DATA_CHAR			'a'
+ #define DATA_CHAR_1			'b'
+@@ -63,7 +65,7 @@ static __maybe_unused void pair_udp_setfilter(int fd)
+ 	struct sock_fprog bpf_prog;
+ 
+ 	bpf_prog.filter = bpf_filter;
+-	bpf_prog.len = sizeof(bpf_filter) / sizeof(struct sock_filter);
++	bpf_prog.len = ARRAY_SIZE(bpf_filter);
+ 
+ 	if (setsockopt(fd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf_prog,
+ 		       sizeof(bpf_prog))) {
 -- 
-2.25.1
+2.34.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
