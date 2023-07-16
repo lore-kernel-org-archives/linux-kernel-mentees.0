@@ -1,104 +1,98 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BF07EB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 09:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3990BC001DC
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 09:31:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E42C760706;
-	Sun, 16 Jul 2023 09:02:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E42C760706
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ng97L1oh
+	by smtp2.osuosl.org (Postfix) with ESMTP id C2133403F8;
+	Sun, 16 Jul 2023 09:31:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C2133403F8
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=l6RwRWza
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yf19EcJBz02r; Sun, 16 Jul 2023 09:02:36 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ziHXt_1UuQNq; Sun, 16 Jul 2023 09:31:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id A3C0A605EC;
-	Sun, 16 Jul 2023 09:02:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A3C0A605EC
+	by smtp2.osuosl.org (Postfix) with ESMTPS id AD0A140354;
+	Sun, 16 Jul 2023 09:31:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AD0A140354
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6FE22C0072;
-	Sun, 16 Jul 2023 09:02:35 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0B8F3C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C243C0071;
+	Sun, 16 Jul 2023 09:31:28 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C453C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 09:02:34 +0000 (UTC)
+ Sun, 16 Jul 2023 09:31:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C356F40929
+ by smtp2.osuosl.org (Postfix) with ESMTP id 1FB43403C0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 09:02:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C356F40929
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=ng97L1oh
+ Sun, 16 Jul 2023 09:31:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1FB43403C0
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2NjwDNnlYAs9
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id F_h1ao1N7P5C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 09:02:33 +0000 (UTC)
+ Sun, 16 Jul 2023 09:31:26 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B7D0340915
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B7D0340915
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7E8B740354
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7E8B740354
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 09:02:32 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-31590e4e27aso3153756f8f.1
+ Sun, 16 Jul 2023 09:31:26 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id
+ d9443c01a7336-1b8bbcfd89aso19270735ad.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 02:02:32 -0700 (PDT)
+ Sun, 16 Jul 2023 02:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689498151; x=1692090151;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=HrdUA5P1+t589TrebUiC2lW0ShZ+14JLZPgMTM8GsxI=;
- b=ng97L1ohCssjPItL/rKiYp78ZqIw9DjJ1sdRnkJTHr2reexTr8D1dHEe9W20BQFud7
- uxBSdNQza/+6TrQNphfP33jMKfXs/yc9X5D1KaVfnPKXQGii4NE/iLzpWnHxdCxg+PfR
- kcfqmrEmge7McjzQcnJCoNKYm/SCKiSs0l4h4zR2QrYn8IfMMmZ+/Zzc3J8tMmcy8/R2
- FHRVsOoTHPioaC9+y8VDxI/vV5NKQazeQYrwd+kdIHGMEMBjO9GKILfMlmzjmvRIelR6
- cmtOlbHqfkGwBtYu+u4HsWpM9MakVVGg0eLTnnrfmlVKyP15PQj7CWqwL4TRetqGWGB7
- TOLQ==
+ d=gmail.com; s=20221208; t=1689499886; x=1692091886;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=PAEW5pBQpGEQa8+u+L9FSRTp3sQn8Q/V86sBZoZsPWQ=;
+ b=l6RwRWzaknd6B76niiuL3tAR63PuV1iQSjFKFJXxADmQb4HesnoyQ447/WNd4TUcO6
+ XATKCziG9vWxMed+uSYI0nDY901HvvRQdJlAETW6bwI+GaFGfsR6yJpEQqdJ+U0ay0+W
+ 0CwrvCc3JTkBzqTM/gPZOgHYYgVf/TnJDOCxKIXFO3EgW5HKFXKYnrDdPkP3tN//SC5o
+ rE7IIgz7ANUGNYdgbKHmLhxbJj5Hg+Q+Ai9AvZ2m/qLmj8HfNj5ddXWulXeOSXHc/WGU
+ os6aCBAz8ugrM3R+5w/KlXe2yoPjQ2jOpjxBoiy8/BIdbvRnBCBsk4ab5hfJVly6J/wV
+ R8gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689498151; x=1692090151;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=HrdUA5P1+t589TrebUiC2lW0ShZ+14JLZPgMTM8GsxI=;
- b=glXXXd56yRj/KF7nF2uRGrs0rKL8+3T3ptJ3YJIp8WQgXNWzseiUN03vyEjChO9gU7
- mK2XFDBk30KNWPXN2YYHCuRFQ5Gp7Jp81/AxLVe2UfJI4d+Sh4lckcjg9yp83V13MNPc
- Y1MebwflSjjTaW3xBopWJbRII99WtnZE+2DNRL7qkLWbpR4/geYzH2de0Y+TFlom8f+5
- HDZy9fi8dzepq1R392OCo3yoS0UasxKVz5ecNV7LIT65Hfmj1dNoucsZaSA4MWvPqhrf
- js0XcJ+6tXGcRy6z+gAECmiqyIbWy0pFkSlHxQUnNURxqrV9qDdPZ4wS47Hbd6j2I2Y9
- qVyQ==
-X-Gm-Message-State: ABy/qLaWKWxKdOHGhx5JduDrgMXCG+OI0wo1M8BzWL3X5nm1M/oMeO5S
- JZ4JMPRuNz9e+O4fmVY5OGo=
-X-Google-Smtp-Source: APBJJlH61HQQgQ7O2iGO+dkeIj69YMi8lsSkjoffaLhYC9aeEgCD+XO9MLow3vD3oPbNJr1ENrgrnQ==
-X-Received: by 2002:a5d:4d8c:0:b0:314:91d:58b5 with SMTP id
- b12-20020a5d4d8c000000b00314091d58b5mr7858184wru.65.1689498150405; 
- Sun, 16 Jul 2023 02:02:30 -0700 (PDT)
-Received: from mmaatuq-HP-Laptop-15-dy2xxx..
- ([2001:8f8:1163:535c:e1af:2d96:1960:a57d])
+ d=1e100.net; s=20221208; t=1689499886; x=1692091886;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PAEW5pBQpGEQa8+u+L9FSRTp3sQn8Q/V86sBZoZsPWQ=;
+ b=Rt6B7Imj9Bw1hLtfRZDf0GMxDvvyDmxgNlHHekysKRW6PZdOkPBeanjlOQMoAozk5W
+ UbPX0ttV1qi5lvkYfrFVrDbJ7iRX2IG2r6CIpukM7HSDgk+X4j9wVgO6zqKLqT5oooh9
+ hnkXOec0pauGZO2ly1VgAqAoKuSezm0YJXsmLiVLOr6DUqKLTI3ZPpb3tpKRAVuZEZPb
+ GvrGEw7PtkDzG8LGLzDfq+t75h0ZAI5mMun95nQAg+6f4g/9pHjJoCnMf8RXhBORmusa
+ f6Zp51DPJdmtJYT95tp/sDHilCSEWyuPeotux47RDNY+9Nn7SXBAtyHhb4e7QCRxDm/M
+ HQdg==
+X-Gm-Message-State: ABy/qLY2vfB6h1EzwthjogiX8KG96/JMJFEkI010FFvgfMfRRzfVwioH
+ Z88C2LcqyvNNkZ1E5HD5wyI=
+X-Google-Smtp-Source: APBJJlF/U3P4PPfKm/yTvfoD3FH7ic/HtRrlLwsE4DFcJwxy9JLajQ6TfObSOFUhHXjL9WuuDR2T7g==
+X-Received: by 2002:a17:902:ec88:b0:1b7:fef7:d578 with SMTP id
+ x8-20020a170902ec8800b001b7fef7d578mr7533075plg.41.1689499885772; 
+ Sun, 16 Jul 2023 02:31:25 -0700 (PDT)
+Received: from zephyrusG14 ([103.251.210.195])
  by smtp.gmail.com with ESMTPSA id
- y3-20020a056000108300b003141f96ed36sm15935903wrw.0.2023.07.16.02.02.27
+ q9-20020a170902dac900b001b89f6550d1sm10662211plx.16.2023.07.16.02.31.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jul 2023 02:02:29 -0700 (PDT)
-From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
-To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, shuah@kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] selftests/net: replace manual array size calc with
- ARRAYSIZE macro.
-Date: Sun, 16 Jul 2023 13:02:00 +0400
-Message-Id: <20230716090200.1947107-1-mahmoudmatook.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sun, 16 Jul 2023 02:31:25 -0700 (PDT)
+Date: Sun, 16 Jul 2023 15:01:19 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ conor+dt@kernel.org, heiko@sntech.de, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: rockchip: Fix Wifi/Bluetooth on ROCK Pi 4 boards
+Message-ID: <ZLO450xOIQ29VoBT@zephyrusG14>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+Content-Disposition: inline
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,74 +110,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-fixes coccinelle WARNING: Use ARRAY_SIZE
+This patch fixes an issue affecting the Wifi/Bluetooth connectivity on
+ROCK Pi 4 boards. Commit f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth
+on ROCK Pi 4 boards") introduced a problem with the clock configuration.
+Specifically, the clock-names property of the sdio-pwrseq node was not
+updated to 'lpo', causing the driver to wait indefinitely for the wrong clock
+signal 'ext_clock' instead of the expected one 'lpo'. This prevented the proper
+initialization of Wifi/Bluetooth chip on ROCK Pi 4 boards.
 
-changelog since v1:
- - remove unnecessary extra new line
+To address this, this patch updates the clock-names property of the
+sdio-pwrseq node to "lpo" to align with the changes made to the bluetooth node.
 
-changelog since v0:
- - update net/Makefile to include kselftest.h
- - remove redefinition of ARRAYSIZE.
+This patch has been tested on ROCK Pi 4B.
 
-Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 ---
- tools/testing/selftests/net/Makefile          | 2 ++
- tools/testing/selftests/net/csum.c            | 6 ++----
- tools/testing/selftests/net/hwtstamp_config.c | 4 +---
- 3 files changed, 5 insertions(+), 7 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index 7f3ab2a93ed6..a06cc25489f9 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -3,6 +3,8 @@
- 
- CFLAGS =  -Wall -Wl,--no-as-needed -O2 -g
- CFLAGS += -I../../../../usr/include/ $(KHDR_INCLUDES)
-+# Additional include paths needed by kselftest.h
-+CFLAGS += -I../
- 
- TEST_PROGS := run_netsocktests run_afpackettests test_bpf.sh netdevice.sh \
- 	      rtnetlink.sh xfrm_policy.sh test_blackhole_dev.sh
-diff --git a/tools/testing/selftests/net/csum.c b/tools/testing/selftests/net/csum.c
-index 702f34a9d506..90eb06fefa59 100644
---- a/tools/testing/selftests/net/csum.c
-+++ b/tools/testing/selftests/net/csum.c
-@@ -91,6 +91,8 @@
- #include <sys/types.h>
- #include <unistd.h>
- 
-+#include "kselftest.h"
-+
- static bool cfg_bad_csum;
- static int cfg_family = PF_INET6;
- static int cfg_num_pkt = 4;
-@@ -123,10 +125,6 @@ static struct sockaddr_in6 cfg_saddr6 = {.sin6_family = AF_INET6};
- #define MAX_HEADER_LEN	(sizeof(struct ipv6hdr) + ENC_HEADER_LEN + sizeof(struct tcphdr))
- #define MAX_PAYLOAD_LEN 1024
- 
--#ifndef ARRAY_SIZE
--#define ARRAY_SIZE(x)	(sizeof(x) / sizeof((x)[0]))
--#endif
--
- /* Trivial demo encap. Stand-in for transport layer protocols like ESP or PSP */
- struct udp_encap_hdr {
- 	uint8_t nexthdr;
-diff --git a/tools/testing/selftests/net/hwtstamp_config.c b/tools/testing/selftests/net/hwtstamp_config.c
-index 263cc1c34165..60970d98eb9b 100644
---- a/tools/testing/selftests/net/hwtstamp_config.c
-+++ b/tools/testing/selftests/net/hwtstamp_config.c
-@@ -16,9 +16,7 @@
- #include <linux/net_tstamp.h>
- #include <linux/sockios.h>
- 
--#ifndef ARRAY_SIZE
--#define ARRAY_SIZE(x)	(sizeof(x) / sizeof((x)[0]))
--#endif
-+#include "kselftest.h"
- 
- static int
- lookup_value(const char **names, int size, const char *name)
+diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
+index 907071d4fe80..795a70948d9a 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
+@@ -45,7 +45,7 @@ led-0 {
+ 	sdio_pwrseq: sdio-pwrseq {
+ 		compatible = "mmc-pwrseq-simple";
+ 		clocks = <&rk808 1>;
+-		clock-names = "ext_clock";
++		clock-names = "lpo";
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&wifi_enable_h>;
+ 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
 -- 
 2.34.1
 
