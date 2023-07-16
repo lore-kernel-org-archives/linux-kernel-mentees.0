@@ -1,104 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D6F6EC001B0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 18:44:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 91426EB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 19:41:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5A8F04013C;
-	Sun, 16 Jul 2023 18:44:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5A8F04013C
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=HeTYsvuj
+	by smtp3.osuosl.org (Postfix) with ESMTP id F075360AF1;
+	Sun, 16 Jul 2023 19:41:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F075360AF1
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=ubP9Plsp
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gmrP54UtPOoI; Sun, 16 Jul 2023 18:44:14 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PG2vO7O3CPBA; Sun, 16 Jul 2023 19:41:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 2D2644013B;
-	Sun, 16 Jul 2023 18:44:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2D2644013B
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BBECF60BEB;
+	Sun, 16 Jul 2023 19:41:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BBECF60BEB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 136B7C0072;
-	Sun, 16 Jul 2023 18:44:14 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9AE5AC0071;
+	Sun, 16 Jul 2023 19:41:05 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 217CDC0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8EDB4C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:44:13 +0000 (UTC)
+ Sun, 16 Jul 2023 19:41:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id E963E4023B
+ by smtp4.osuosl.org (Postfix) with ESMTP id 6203240903
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:44:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E963E4023B
+ Sun, 16 Jul 2023 19:41:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6203240903
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=HeTYsvuj
+ dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de
+ header.a=rsa-sha256 header.s=s29768273 header.b=ubP9Plsp
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id IFLANBDly1um
+ with ESMTP id rOne_dIcOjWC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:44:12 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CB69740230
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by smtp4.osuosl.org (Postfix) with ESMTPS id CB69740230
+ Sun, 16 Jul 2023 19:41:02 +0000 (UTC)
+X-Greylist: delayed 00:05:14 by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2C1ED408D0
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 2C1ED408D0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 18:44:11 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id
- ffacd0b85a97d-3143b72c5ffso3940385f8f.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 11:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689533050; x=1692125050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Iw9rxMmy489xUbQwxOXNVFRR34rAPTUVmC3dh4HsQWw=;
- b=HeTYsvujwYrQwwXDp0WMfX5PfsFlIaj6iOyQIXfhYDOXQFOXAymdjg45DuXKHpZVdJ
- T0aeNJd7Ukr89zC6YK00llwOXwwMwhYEvmhru6R/6shzkJ+Ukd7y+DIIZvnwnJX/J3I3
- lzlwAHp1rxIOasiaWGaNKZtkhzOFqAEO4USZ5UpVmpIrBKJ++StYna4dQjao6RT3DY3z
- jZ030yFpCTFSV/R5E2TwYhm4lrnd2utaZEcbhOPlI0c0I6IGQyGLT7QllT2zMfiqmACc
- W8IWNxCpZmfjezbzCziIQLwUl1CWTwNc0IUxRR7LEYPdb+MZJkH+B+Unu+t4e3s6mEOc
- FsAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689533050; x=1692125050;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Iw9rxMmy489xUbQwxOXNVFRR34rAPTUVmC3dh4HsQWw=;
- b=JucRn+xS49+P5LN/nzZ32iSpMboBN+695axOjUBVNrG+ZRVYgUh9tJcRxfWYcK4o6K
- fk57P4K0RQEiCanjnGKUvV2hK2scfuqxh1ZvxEL0+4pzQOlDQEtlL9dq4Vk3hGz3jsJf
- TsZnkHDDtPZXgCUEtujcUhnGK2S23yyjdHDIkQqhxonBiIAXk11lYkA1c+MD/lqN0Vu5
- uI3/uHzmfxe89OdPGjm2u/rrQJj1uWKkIPGUZWABxjP8vQ8U4KTUi93vEjXpuUCvvV3q
- LYKmbAAXJ/hX0iqI78tMguHvFX9cstPDUh9CpHq2JU2MpaczY7II8wyj9UPcZ5qQqi2C
- trdA==
-X-Gm-Message-State: ABy/qLZWnYxl94vle3Di9EpITVSBquNl5swvdfWdfl5FYCIgmLRzQkIN
- CtBx/9RZxYM3PbGvJp0USjA=
-X-Google-Smtp-Source: APBJJlGqrk4/ImODOjlE2fM0n8aEqgTPPtq8oeBjobvCf+cVue7GW3rAT7MupfI6Rwb2vIto6QFSbw==
-X-Received: by 2002:adf:ffd2:0:b0:313:eb81:d2f6 with SMTP id
- x18-20020adfffd2000000b00313eb81d2f6mr11309115wrs.4.1689533049498; 
- Sun, 16 Jul 2023 11:44:09 -0700 (PDT)
-Received: from mmaatuq-HP-Laptop-15-dy2xxx..
- ([2001:8f8:1163:535c:e1af:2d96:1960:a57d])
- by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c214700b003fbc681c8d1sm6212956wml.36.2023.07.16.11.44.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Jul 2023 11:44:08 -0700 (PDT)
-From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
-To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, shuah@kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4] selftests/net: replace manual array size calc with
- ARRAYSIZE macro.
-Date: Sun, 16 Jul 2023 22:43:49 +0400
-Message-Id: <20230716184349.2124858-1-mahmoudmatook.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sun, 16 Jul 2023 19:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=s29768273; t=1689536458; x=1690141258; i=markus.elfring@web.de;
+ bh=+uuRyE1bNNRzqrGtckrAJ6dm1r7ODtvY9NvDovsnT4o=;
+ h=X-UI-Sender-Class:Date:To:Cc:References:Subject:From:In-Reply-To;
+ b=ubP9Plsp7wOPP7bzrrJyEQ0IKAOw4698XRvJ9E7JoDhhdiER7a3UoQohOub9X2PEz2QbqeB
+ YERUI+HHbYj4r934qt6zJJC5kI/y5YC5TRCscK8nBj/hqVLjCSyKApzz6HDB/PBnHG4ymTKRn
+ 52GXsbAZwJDDzUaWoCybcOW1TOp+TZKy21bSj94VqRkXkFvptoE5qu4Gzx2+7YAy+sVpxAj9h
+ 7QEQYH/BKr1Met5Bqztqs/0T4waNbZOLDVhP7/UxDwRarg7BSLK2Zif+7d+NLtTcSPIaiOaSr
+ cv16OD0pwXRNd01ecclLGRCl4dVdNTEvhNI5mNp6rTuBHTPhNqdw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.90.83]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlsKH-1pe7Pe2QLr-00ipe5; Sun, 16
+ Jul 2023 21:35:29 +0200
+Message-ID: <741714f4-5997-5688-21ca-1e2ff1839dfb@web.de>
+Date: Sun, 16 Jul 2023 21:35:20 +0200
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+To: Atul Kumar Pant <atulpant.linux@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kselftest@vger.kernel.org, linux-rtc@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Shuah Khan <shuah@kernel.org>
+References: <20230716181825.44337-1-atulpant.linux@gmail.com>
+Subject: Re: [PATCH v4] selftests: rtc: Improve rtctest error handling
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20230716181825.44337-1-atulpant.linux@gmail.com>
+X-Provags-ID: V03:K1:8MAV4p0qvMSHLwKpJ3N2EYzgqbWU0DQ5IcmzdSNb2PwJBYTSpis
+ TKgGqNf2U9muGPIfx0C748r/kNXc/vSNYLnsts6vyJRGW3t/ezEUgu++krt1dWdtngyTcT7
+ b4v3IF1hQ0/XRhF9dXJLKUP8j9KpdpZLUekDreaY0n79tcMxCydjykR+Qiz6T1XPtGT94R8
+ WwMh+AGnwSt+0DBy6XE4A==
+UI-OutboundReport: notjunk:1;M01:P0:jRT8KChJHbo=;614pqXKSddfc0KLQEGmWVeqwRZ5
+ d/9KQdQuE/ThpISDPg07u3BprXwsP2nMd+SHBUMgAXFgS1ACdFnXmYQ901kQSryNXmd2783ed
+ 3nXeMf2E7AZMbqGxZ7F26fGyOq5HUhI6EUJRBxNZaq2T6sKefiDTOjSonCXXejtP7vOkXuKbw
+ CSx77qDwk2nWPzauxD0z3Am6HuxsXOaWo+bi5hdMheVOWZiJSbVwB4908LEmMH9CWzUwMdl9y
+ bIsZNknQJ0Dd67ZLNnamQNd8FReMcw08irngO3n8eBUMHE6Pyc5uzsr4q13kMvsnnHxYI1GJE
+ Bor4mX1Ov4UgL99NYzSv9vFE0HmxQORNwgpz+jcqGINmdL1WEeH9le74BXTr3a3V9B+3W+fL2
+ cAvp9OLksa3m4mMkbkRNOGLjWI1Ey5YtVEhgfc0bXlwVJdAHd8ev2YUhTh8U3sMBFfpLlBvnL
+ Z2f2bw1VxfTKundDgbU75Ad9zRh2vcPYHLVL4FvMLmQIyYgreHxpk/g3pnzZFjOB/yr+cH4kR
+ P7vPJY1MfK3Ab4Vi9ZL8I0uQO6sUYTDCDmjsoc71M8dj5hCApSGoIoGKdMFvRsLH+pKx5Al0v
+ S0NKx4FqiqRJK8YVQVAKbH8scDWwgCnuv1+RywL9azhQJgk6/GFZm8kOTcDV1pEaeFLmpmHXH
+ n78n7YT1qRJjVMFp7lPH+HsBTIK7qhueEgiAhC/HHKDWju7e2MQokwYNC9McvMoQPVxpkKB1L
+ wVe96vH4xhEJNJun0ZvAfEwCfC8fA2MoGcqOuRuj1m9WO9IA0Q/xWbEuNytsCtIv4UBCXopvp
+ m+nmUloq/efmYttNRDjStO44NiNOEGXGsOqSL+QbYGK5tdZPnQ748H5KEMyuGlHpgSpemoD4j
+ dEW6XTtMY5IJyNGH8MY6QtrW3CgbUmLWOt1UbP9Lui7X4FB2rtyj3BWtwAYg3KZwR6XCIPTek
+ p8gVNg==
+Cc: LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,137 +107,20 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-fixes coccinelle WARNING: Use ARRAY_SIZE
-
-Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
----
-changelog since v3:
- - move changelog outside commit message.
-
-changelog since v2:
- - integrat a commit that contains actual replacement for ARRAY_SIZE.
- - use ARRAY_SIZE for net/psock_lib.h
-
-changelog since v1:
- - remove unnecessary extra new line
-
-changelog since v0:
- - update net/Makefile to include kselftest.h
- - remove redefinition of ARRAYSIZE.
----
- tools/testing/selftests/net/Makefile          | 2 ++
- tools/testing/selftests/net/csum.c            | 6 ++++--
- tools/testing/selftests/net/hwtstamp_config.c | 6 ++++--
- tools/testing/selftests/net/psock_lib.h       | 4 +++-
- 4 files changed, 13 insertions(+), 5 deletions(-)
-
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index 7f3ab2a93ed6..a06cc25489f9 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -3,6 +3,8 @@
- 
- CFLAGS =  -Wall -Wl,--no-as-needed -O2 -g
- CFLAGS += -I../../../../usr/include/ $(KHDR_INCLUDES)
-+# Additional include paths needed by kselftest.h
-+CFLAGS += -I../
- 
- TEST_PROGS := run_netsocktests run_afpackettests test_bpf.sh netdevice.sh \
- 	      rtnetlink.sh xfrm_policy.sh test_blackhole_dev.sh
-diff --git a/tools/testing/selftests/net/csum.c b/tools/testing/selftests/net/csum.c
-index 82a1c1839da6..90eb06fefa59 100644
---- a/tools/testing/selftests/net/csum.c
-+++ b/tools/testing/selftests/net/csum.c
-@@ -91,6 +91,8 @@
- #include <sys/types.h>
- #include <unistd.h>
- 
-+#include "kselftest.h"
-+
- static bool cfg_bad_csum;
- static int cfg_family = PF_INET6;
- static int cfg_num_pkt = 4;
-@@ -450,7 +452,7 @@ static void send_packet(int fd, const char *buf, int len)
- 	iov[2].iov_len = len;
- 
- 	msg.msg_iov = iov;
--	msg.msg_iovlen = sizeof(iov) / sizeof(iov[0]);
-+	msg.msg_iovlen = ARRAY_SIZE(iov);
- 
- 	msg.msg_name = &addr;
- 	msg.msg_namelen = sizeof(addr);
-@@ -505,7 +507,7 @@ static void __recv_prepare_packet_filter(int fd, int off_nexthdr, int off_dport)
- 	struct sock_fprog prog = {};
- 
- 	prog.filter = filter;
--	prog.len = sizeof(filter) / sizeof(struct sock_filter);
-+	prog.len = ARRAY_SIZE(filter);
- 	if (setsockopt(fd, SOL_SOCKET, SO_ATTACH_FILTER, &prog, sizeof(prog)))
- 		error(1, errno, "setsockopt filter");
- }
-diff --git a/tools/testing/selftests/net/hwtstamp_config.c b/tools/testing/selftests/net/hwtstamp_config.c
-index e1fdee841021..170728c96c46 100644
---- a/tools/testing/selftests/net/hwtstamp_config.c
-+++ b/tools/testing/selftests/net/hwtstamp_config.c
-@@ -16,6 +16,8 @@
- #include <linux/net_tstamp.h>
- #include <linux/sockios.h>
- 
-+#include "kselftest.h"
-+
- static int
- lookup_value(const char **names, int size, const char *name)
- {
-@@ -50,7 +52,7 @@ static const char *tx_types[] = {
- 	TX_TYPE(ONESTEP_SYNC)
- #undef TX_TYPE
- };
--#define N_TX_TYPES ((int)(sizeof(tx_types) / sizeof(tx_types[0])))
-+#define N_TX_TYPES ((int)(ARRAY_SIZE(tx_types)))
- 
- static const char *rx_filters[] = {
- #define RX_FILTER(name) [HWTSTAMP_FILTER_ ## name] = #name
-@@ -71,7 +73,7 @@ static const char *rx_filters[] = {
- 	RX_FILTER(PTP_V2_DELAY_REQ),
- #undef RX_FILTER
- };
--#define N_RX_FILTERS ((int)(sizeof(rx_filters) / sizeof(rx_filters[0])))
-+#define N_RX_FILTERS ((int)(ARRAY_SIZE(rx_filters)))
- 
- static void usage(void)
- {
-diff --git a/tools/testing/selftests/net/psock_lib.h b/tools/testing/selftests/net/psock_lib.h
-index faa884385c45..6e4fef560873 100644
---- a/tools/testing/selftests/net/psock_lib.h
-+++ b/tools/testing/selftests/net/psock_lib.h
-@@ -14,6 +14,8 @@
- #include <arpa/inet.h>
- #include <unistd.h>
- 
-+#include "kselftest.h"
-+
- #define DATA_LEN			100
- #define DATA_CHAR			'a'
- #define DATA_CHAR_1			'b'
-@@ -63,7 +65,7 @@ static __maybe_unused void pair_udp_setfilter(int fd)
- 	struct sock_fprog bpf_prog;
- 
- 	bpf_prog.filter = bpf_filter;
--	bpf_prog.len = sizeof(bpf_filter) / sizeof(struct sock_filter);
-+	bpf_prog.len = ARRAY_SIZE(bpf_filter);
- 
- 	if (setsockopt(fd, SOL_SOCKET, SO_ATTACH_FILTER, &bpf_prog,
- 		       sizeof(bpf_prog))) {
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+4oCmCj4gVG8gaGFuZGxlIHRoaXMsIHRoZSBwYXRjaCBhZGRzIGEgY2hlY2tzIHRvIHZlcmlmeSBp
+ZiB0aGUgcnRjX2ZpbGUgaXMgdmFsaWQuCgpDYW4gYSB0eXBvIGJlIGF2b2lkZWQgaW4gdGhpcyBt
+ZXNzYWdlPwoKQXJlIGltcGVyYXRpdmUgY2hhbmdlIGRlc2NyaXB0aW9ucyBzdGlsbCBwcmVmZXJy
+ZWQ/CgpTZWUgYWxzbzoKaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5l
+bC9naXQvdG9ydmFsZHMvbGludXguZ2l0L3RyZWUvRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1Ym1p
+dHRpbmctcGF0Y2hlcy5yc3Q/aD12Ni41LXJjMSNuOTQKCgpIb3cgZG8geW91IHRoaW5rIGFib3V0
+IHRvIGFkZCB0aGUgdGFnIOKAnEZpeGVz4oCdPwoKUmVnYXJkcywKTWFya3VzCl9fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVz
+IG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24u
+b3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xp
+bnV4LWtlcm5lbC1tZW50ZWVzCg==
