@@ -4,104 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D4882EB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 16:14:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7E924EB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 18:07:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 532964018A;
-	Sun, 16 Jul 2023 16:14:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 532964018A
+	by smtp2.osuosl.org (Postfix) with ESMTP id 019E340606;
+	Sun, 16 Jul 2023 18:07:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 019E340606
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Rsjn8jCG
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=caiZEoW0
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9NSxBPOzXVcf; Sun, 16 Jul 2023 16:13:59 +0000 (UTC)
+	with ESMTP id NOb9aVTXaRkz; Sun, 16 Jul 2023 18:07:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 4821940181;
-	Sun, 16 Jul 2023 16:13:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4821940181
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 05A224013C;
+	Sun, 16 Jul 2023 18:07:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 05A224013C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CB358C0072;
-	Sun, 16 Jul 2023 16:13:58 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9A9AEC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C75A1C0072;
+	Sun, 16 Jul 2023 18:07:09 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 85CA9C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 16:13:57 +0000 (UTC)
+ Sun, 16 Jul 2023 18:07:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6C51060608
+ by smtp1.osuosl.org (Postfix) with ESMTP id 59223818AC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 16:13:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6C51060608
-Authentication-Results: smtp3.osuosl.org;
+ Sun, 16 Jul 2023 18:07:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 59223818AC
+Authentication-Results: smtp1.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Rsjn8jCG
+ header.a=rsa-sha256 header.s=20221208 header.b=caiZEoW0
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ICcbAmEif8fP
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id CagXdD02ZRXl
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 16:13:56 +0000 (UTC)
+ Sun, 16 Jul 2023 18:07:07 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8D422605E9
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com
- [IPv6:2607:f8b0:4864:20::533])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 8D422605E9
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 648548188D
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 648548188D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 16:13:56 +0000 (UTC)
-Received: by mail-pg1-x533.google.com with SMTP id
- 41be03b00d2f7-55af0a816e4so1959714a12.1
+ Sun, 16 Jul 2023 18:07:07 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id
+ d9443c01a7336-1b9c5e07c1bso29836635ad.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 09:13:56 -0700 (PDT)
+ Sun, 16 Jul 2023 11:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689524036; x=1692116036;
- h=content-transfer-encoding:cc:to:subject:from:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=NIao1VcArH3W8DDSG/GnVwhJIIFZxJMzOD8LUPapLn8=;
- b=Rsjn8jCGMaLBJSDIkYLC190vn3g3T3h8Yiu5qbL7mmWnquMVjns8jGMQw2vKvjN510
- KF5jvChiHt4zfgJlOhqi3YQt0QmbfjJt5PGCOqzfrfSpl/pCM5xs/M8bJn1VvsfyECXX
- vV+wuZh8RZ0SNJn4MC6eosMUniAiMB7WdlsTdLKhR8e6r2PF/zfENlPxQm1AJzMVcqjY
- utsdIinv7RP/jkbjMfCldYp1egOa7CAeZ5ZR6B+nLtm+HOid2PZWgT+PioIQ7r74Q7PP
- jaNRJk9QMJMTnlBoHsddlaKy/A1maHqOVa3GhDILFgXxF6ac77nJocJYdMxY4xBMPMBA
- D9HA==
+ d=gmail.com; s=20221208; t=1689530827; x=1692122827;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=2VN5BCe7p3k/rs5+lmswJ5ZOTa7xgkaiKZ5S+/FFp8A=;
+ b=caiZEoW0EPHIIxNMdUUNKMhZhVpZbEBO4OQAFtb8vcsiEpiMx7xV/qWiMCVglDi2Ji
+ BOZvUjPgZg64xUoLdJEAWFZQp1I7Uka7652WTbWxHKXikXUqEkHBuQeydmF2k/IKP0Fj
+ Uhr3R/ZVfgi8SCGlQRPl7/kCSPR+VvAeNOBuQsfHyxbpXAKFLlyJ1vRWOxmXabR77uUc
+ L/i5PT05Hw7ehPOjQTZrulbiUEbKy7tsRim1WovLn8v2xvla5GfK/LMgcXCOeP8F3y6G
+ vplirf82Q3JsroE14agGPcnG/M9PmpurdpqphaK5OuYTkELCyBqGUvy0tb8oTlZvcGhZ
+ +QQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689524036; x=1692116036;
- h=content-transfer-encoding:cc:to:subject:from:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NIao1VcArH3W8DDSG/GnVwhJIIFZxJMzOD8LUPapLn8=;
- b=ehtrvIqer3dMj+o/obyzvkJ62jsGjJDOl20mvSMJiqASMXL7SOR07dPs9IrR50Heds
- sVPCkZelY1N7Td9Cu6K7ujaAwFNlgNCKBgwQ73WTpCKd73KmEaguUBR/nXVmElhs8N9t
- 4xzghO69+epgpRnNUMakPATDA0LMlffbtvkcKa6n5a31Rpvw23ylUQxzoxA2c5ljr2n1
- emmy3bXTuLUvqrn4qb5nFKSea8UzG4ghpbQ/IXaLa5GAyUWNJ4m1tv1gpTwJl/sAgMDy
- rFXc+hJNc0fQQXbNwjx8S8K6IGI+wijBeFG0gLNWrFMcz3epMVE4fCLuLH7ZiSk+oGIA
- WB5w==
-X-Gm-Message-State: ABy/qLYpiBaNOE3kfvQTrE5uduXpFGbZUBy3ToUuVm9fUu3qHHtd0nYb
- svV0T+PTvi98ESW07/YjhN8=
-X-Google-Smtp-Source: APBJJlGlOFP8plcY5j6FI8jOqcmGP4t7lDcCGrwLeCJgLOKgylJchFJk5s4QpPDui7VTQKK2uJ27Xg==
-X-Received: by 2002:a17:90a:fd06:b0:263:30a0:643f with SMTP id
- cv6-20020a17090afd0600b0026330a0643fmr7443576pjb.21.1689524035716; 
- Sun, 16 Jul 2023 09:13:55 -0700 (PDT)
-Received: from [192.168.1.9] ([222.252.65.171])
+ d=1e100.net; s=20221208; t=1689530827; x=1692122827;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2VN5BCe7p3k/rs5+lmswJ5ZOTa7xgkaiKZ5S+/FFp8A=;
+ b=MMWMQKV42vmTabdwfpv5GoylrSTjKzgn2yPlDA1HSyB/H40hFO1mAvVzNj8uKTvBB6
+ CtYMMoKz5qObvuu8Kt3RJKVt6HrUeHR9P1aKz9EFvF3oNWQ2pXpHjwZ65y/uEAgltOZe
+ npg9uSPJq4AneqEQ9QNpL03Y0OZ4k1QNhbwggGYoU+SLM8XI7e3J2csI96sMBbj+7w2X
+ iiV3sygQOwjwv4LOjVs19xnu2yDHFGSciaBsmUKYdTdhZM4BU+/SVaeelrBxcMWpEaXU
+ j6kPVMRnNKzlkyO2LoLzT88g9cNp8EM3+E5IN+PON6iA31mO+rTR1AxUW6lFDOtFDCP+
+ pX7Q==
+X-Gm-Message-State: ABy/qLbKdv2+wN0BGdCafOUciej86mFVrb+OcW07xHtxSpbNOg76GQaZ
+ p2VWO4hUFQbqoS5NpQz3c0Q=
+X-Google-Smtp-Source: APBJJlE8z7XDsmxrRKCo902XDhR2VOfV92jlIj//5GuW318hNTRIXOhzyLMxvU4AUh0ddNOFFes/Kg==
+X-Received: by 2002:a17:902:ab03:b0:1b7:ecbb:aa06 with SMTP id
+ ik3-20020a170902ab0300b001b7ecbbaa06mr11358326plb.55.1689530826624; 
+ Sun, 16 Jul 2023 11:07:06 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c009:58ea:65e4:f662:2536:5ba8])
  by smtp.gmail.com with ESMTPSA id
- a2-20020a63bd02000000b0054fe7736ac1sm11205263pgf.76.2023.07.16.09.13.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jul 2023 09:13:55 -0700 (PDT)
-Message-ID: <aecaf7a2-9100-cd5b-5cf4-91e5dbb2c90d@gmail.com>
-Date: Sun, 16 Jul 2023 23:13:51 +0700
+ o11-20020a1709026b0b00b001b392bf9192sm11231480plk.145.2023.07.16.11.07.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Jul 2023 11:07:06 -0700 (PDT)
+From: Atul Kumar Pant <atulpant.linux@gmail.com>
+To: peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+ longman@redhat.com, boqun.feng@gmail.com
+Subject: [PATCH v1] kernel: locking: Updates return value check
+Date: Sun, 16 Jul 2023 23:36:57 +0530
+Message-Id: <20230716180657.44056-1-atulpant.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-From: Anh Tuan Phan <tuananhlfc@gmail.com>
-Subject: [PATCH v3] samples/bpf: README: Update build dependencies required
-To: Stanislav Fomichev <sdf@google.com>,
- Khalid Masum <khalid.masum.92@gmail.com>,
- Siddh Raman Pant <sanganaka@siddh.me>, daniel <daniel@iogearbox.net>,
- andrii <andrii@kernel.org>, ast <ast@kernel.org>,
- "martin.lau" <martin.lau@linux.dev>
-Cc: bpf <bpf@vger.kernel.org>,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+Cc: shuah@kernel.org, Atul Kumar Pant <atulpant.linux@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,59 +113,48 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Update samples/bpf/README.rst to add pahole to the build dependencies
-list. Add the reference to "Documentation/process/changes.rst" for
-minimum version required so that the version required will not be
-outdated in the future.
+Updating the check of return value from debugfs_create_file
+and debugfs_create_dir to use IS_ERR.
 
-Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
+Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
 ---
-Changes from v1 + v2:
-- Remove specified version numbers for each dependency
-- Add the reference to Documentation/process/changes.rst
-- Add a hint for kernel configuration to tools/testing/selftests/bpf/config
-Reference:
-- v1 + v2:
-https://lore.kernel.org/all/bd1477f2-a51e-a795-4f25-a32d6ab46530@gmail.com/
----
- samples/bpf/README.rst | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ kernel/locking/lock_events.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/samples/bpf/README.rst b/samples/bpf/README.rst
-index 57f93edd1957..f16fc48e55a5 100644
---- a/samples/bpf/README.rst
-+++ b/samples/bpf/README.rst
-@@ -8,11 +8,14 @@ Build dependencies
- ==================
-
- Compiling requires having installed:
-- * clang >= version 3.4.0
-- * llvm >= version 3.7.1
-+ * clang
-+ * llvm
-+ * pahole
-
--Note that LLVM's tool 'llc' must support target 'bpf', list version
--and supported targets with command: ``llc --version``
-+Consult :ref:`Documentation/process/changes.rst <changes>` for the minimum
-+version numbers required and how to update them. Note that LLVM's tool
-+'llc' must support target 'bpf', list version and supported targets with
-+command: ``llc --version``
-
- Clean and configuration
- -----------------------
-@@ -24,7 +27,8 @@ after some changes (on demand)::
-  make -C samples/bpf clean
-  make clean
-
--Configure kernel, defconfig for instance::
-+Configure kernel, defconfig for instance
-+(see "tools/testing/selftests/bpf/config" for a reference config)::
-
-  make defconfig
-
+diff --git a/kernel/locking/lock_events.c b/kernel/locking/lock_events.c
+index fa2c2f951c6b..e68d82099558 100644
+--- a/kernel/locking/lock_events.c
++++ b/kernel/locking/lock_events.c
+@@ -146,7 +146,7 @@ static int __init init_lockevent_counts(void)
+ 	struct dentry *d_counts = debugfs_create_dir(LOCK_EVENTS_DIR, NULL);
+ 	int i;
+ 
+-	if (!d_counts)
++	if (IS_ERR(d_counts))
+ 		goto out;
+ 
+ 	/*
+@@ -159,14 +159,14 @@ static int __init init_lockevent_counts(void)
+ 	for (i = 0; i < lockevent_num; i++) {
+ 		if (skip_lockevent(lockevent_names[i]))
+ 			continue;
+-		if (!debugfs_create_file(lockevent_names[i], 0400, d_counts,
+-					 (void *)(long)i, &fops_lockevent))
++		if (IS_ERR(debugfs_create_file(lockevent_names[i], 0400, d_counts,
++					 (void *)(long)i, &fops_lockevent)))
+ 			goto fail_undo;
+ 	}
+ 
+-	if (!debugfs_create_file(lockevent_names[LOCKEVENT_reset_cnts], 0200,
++	if (IS_ERR(debugfs_create_file(lockevent_names[LOCKEVENT_reset_cnts], 0200,
+ 				 d_counts, (void *)(long)LOCKEVENT_reset_cnts,
+-				 &fops_lockevent))
++				 &fops_lockevent)))
+ 		goto fail_undo;
+ 
+ 	return 0;
 -- 
-2.34.1
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
