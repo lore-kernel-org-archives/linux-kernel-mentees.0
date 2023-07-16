@@ -4,99 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52692C001DC
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 15:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 33F31EB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 16 Jul 2023 15:53:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CBA8A40138;
-	Sun, 16 Jul 2023 15:45:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CBA8A40138
+	by smtp2.osuosl.org (Postfix) with ESMTP id D2F99400FF;
+	Sun, 16 Jul 2023 15:53:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D2F99400FF
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=rij7/W12
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ctFvETFr
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mObDEQHHxLjP; Sun, 16 Jul 2023 15:45:03 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id BD1A5400FF;
-	Sun, 16 Jul 2023 15:45:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BD1A5400FF
+	with ESMTP id wGQpqrypjOie; Sun, 16 Jul 2023 15:53:36 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D240D400FB;
+	Sun, 16 Jul 2023 15:53:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D240D400FB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A9290C0071;
-	Sun, 16 Jul 2023 15:45:02 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B2273C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AECC7C0071;
+	Sun, 16 Jul 2023 15:53:35 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 26A42C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 15:45:01 +0000 (UTC)
+ Sun, 16 Jul 2023 15:53:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8C47A40138
+ by smtp1.osuosl.org (Postfix) with ESMTP id E1A11802CF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 15:45:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8C47A40138
+ Sun, 16 Jul 2023 15:53:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E1A11802CF
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=ctFvETFr
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CMu13FG8ItZQ
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2LJk2tm9d99S
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 15:45:00 +0000 (UTC)
+ Sun, 16 Jul 2023 15:53:34 +0000 (UTC)
 X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B5F12400FF
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B5F12400FF
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 56B9C80B9B
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 56B9C80B9B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 15:45:00 +0000 (UTC)
-Received: by mail-pg1-x531.google.com with SMTP id
- 41be03b00d2f7-55b22f82ac8so3005620a12.1
+ Sun, 16 Jul 2023 15:53:34 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id
+ 41be03b00d2f7-55b1238cab4so2088115a12.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jul 2023 08:45:00 -0700 (PDT)
+ Sun, 16 Jul 2023 08:53:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689522300; x=1692114300;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ d=gmail.com; s=20221208; t=1689522814; x=1692114814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WvKLyYGop2dMHaRt6lb3hw8V7SqDURLCw/b6W7tR2ZQ=;
- b=rij7/W128RMSEHRjPkvt2CSFG40Sv7oKrGqKjz6K6bq9S/PM+IchTptN3BawFLhJ/r
- ym4Ih+Qj1qsriFIa/Puu6Tmz9/vqoq4oZXOGfmuYL4jxvXeK/E0Y1w+bggUP8FEiEOzs
- tgMRyEi9rAUgNWr+tF8/la+/kblt3PSWYZ7dinO7J1usDeZ9LZqi7UQ8Ot/XzV0wbzKq
- bY/Byn+4wu4jCZRnC5VvQTi8V7NMCF61Z3jszJFIdCqHVtPCzb2tSefH6Raw9ju5qd8B
- QeE3Lu+ZuvSmV8hXrkHadkluWwPDvoOgURv6J3vtmbkpM7RDrAZs/RKUtnminlv37ag3
- Ce8g==
+ bh=abs11f8UHVu+fecLFEFwp0PW6/N5LPbHdu0gV+3y038=;
+ b=ctFvETFr7bnJxUyExlXVogWAbDtwrZb9lVS8wjLMPmQtSNPHo3RiCI3D7RdOxnIdrg
+ KbpcR1/UGhV4a5YawvKmm5xtctdaHE1Y2dXbL26fFQTaSX0YKeOV/OdxIyJKbt1uS4ux
+ hJ+ypmbBTYuU/0+8zlCOkLGZN66xLUmjqjAzH+ld2Hhc9blh4Fq49cy4IOIvpkuA8rk8
+ /T2QY0isHdD4iT54ky3nzir6HJuvASdSxwNzDb72h452fN816pfKhntGQz8sr5XV+/mt
+ rAP4H23HyPcXpC+ErWLpMO/vyJHPu+an9200hVB3cUpgW4fAlnPVVUgrdnVB3YhPXzqZ
+ Z30Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689522300; x=1692114300;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=WvKLyYGop2dMHaRt6lb3hw8V7SqDURLCw/b6W7tR2ZQ=;
- b=hlUyQmahFbWPaQ00IBGfSPUi3KoNJ3g9iTTuKsGUuJ9JAzqVFkxxQ4+h4hVDj1vxLM
- Ol/L0r22YOaYU4rqWqTFM26aDOLtH6aUlSNWfXJIpqoQ1bS0Y6ml7aHtnKJNX0JbPNSQ
- fRQf6+W1wwwCJiLbWUck0Knkisx9WzEKXctUGg0FwqH2e6Vlt4yTc0Ay4SJJ/OTfW7R8
- eDTrMQS4SlZZQgBCr2uudmuVjNVstEn58aDQIdaH3PAePT1FDYnOb2+6G7fospFJzR+T
- NZ2jWmbLHPHOPAJhTIBR2lVJyondM+Bg/PxmFCeLCYbEArlJaopVTA3k0j1dvi8sLLFz
- JjqQ==
-X-Gm-Message-State: ABy/qLaZGOEqzrrDHEUdAqesCIAcZYO5DLNTDJnmPcr4ePUPtxC4ogwr
- Q/pgmteJietc84s6Izyy4ME=
-X-Google-Smtp-Source: APBJJlFFuuZv23TJkkzP/61j9KUMip1D69gCdXdZz9eTEN+hWwdErmMNiT9ipAQ/A7/wIMXeZV0kjQ==
-X-Received: by 2002:a17:90a:e594:b0:262:ec12:7c40 with SMTP id
- g20-20020a17090ae59400b00262ec127c40mr10127878pjz.11.1689522299885; 
- Sun, 16 Jul 2023 08:44:59 -0700 (PDT)
-Received: from [192.168.1.9] ([222.252.65.171])
- by smtp.gmail.com with ESMTPSA id
- 26-20020a17090a031a00b002609cadc56esm4086575pje.11.2023.07.16.08.44.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 16 Jul 2023 08:44:59 -0700 (PDT)
-Message-ID: <d4080db5-1825-2848-079a-8bb674d8ee44@gmail.com>
-Date: Sun, 16 Jul 2023 22:44:56 +0700
+ d=1e100.net; s=20221208; t=1689522814; x=1692114814;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=abs11f8UHVu+fecLFEFwp0PW6/N5LPbHdu0gV+3y038=;
+ b=IpgjpY62wgMyzXHx3aBRl6AFrpQwakl82ZN29kH34eV4M5M1VXIF2A4ixaYaGMVfmD
+ HITC1eTr2Ev/M7dLdvpTCpcyaRxjWBbzWY25tRLEC41MRuqOD8Q3tQjYDoO61hCoXo0c
+ +royjB0fj6M9yjh2ds/UrF9V2EpABpwTWcD4/jKOewwQ/QsLOgos3eELJazvwZcVvRmh
+ MGIMY54Sha1ZWZg6wnrZE/EAUhLkKyLyliHmraIF1Un2ORMWjUCilP9BEstGSSySqGb7
+ x0VVQnSq+9Xo3NDmHtcR2RsB9TasmOyjb+Yk1Dbwnh0tJBLHuC2rTkJ+79yZ7V0vX+UK
+ XhpA==
+X-Gm-Message-State: ABy/qLYqohabcTsMpK/zWv9OnyRxZJ2MvPQCjLuTjGlLdW2TirVQbZGL
+ QNZ3avKTiLiRkIL/7SnSyuc/KqlJvOb1xpYExeI=
+X-Google-Smtp-Source: APBJJlEGQtfsRwz1XtspqBQl34vmpvD+Dei7LRAoFDGxKuzO815i+XyeZQE6FVEUNXOjwbyrPM/p7K+ru97TpSRLgWA=
+X-Received: by 2002:a17:90a:eb12:b0:24e:2e86:5465 with SMTP id
+ j18-20020a17090aeb1200b0024e2e865465mr8674012pjz.31.1689522813638; Sun, 16
+ Jul 2023 08:53:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Content-Language: en-US
-To: william.gray@linaro.org, rongtao@cestc.cn, ricardo@pardini.net
-From: Anh Tuan Phan <tuananhlfc@gmail.com>
-Subject: [PATCH v2] tools/counter: Makefile: Replace rmdir by rm to avoid
- make,clean failure
-Cc: linux-iio@vger.kernel.org,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>,
- linux-kernel@vger.kernel.org
+References: <ZLO450xOIQ29VoBT@zephyrusG14>
+In-Reply-To: <ZLO450xOIQ29VoBT@zephyrusG14>
+From: Vincent Legoll <vincent.legoll@gmail.com>
+Date: Sun, 16 Jul 2023 15:53:22 +0000
+Message-ID: <CAEwRq=rUXpFpkrfKyCG8Eede10cCeo6V3RCDxv0McWA_g9t0CA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: rockchip: Fix Wifi/Bluetooth on ROCK Pi 4
+ boards
+To: Yogesh Hegde <yogi.kernel@gmail.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,48 +107,19 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Use rm -df instead of rmdir -p since rmdir requires the directory exist
-so it causes "make -C tools clean" failed if someone only builds other
-tools but not counter.
-
-Fixes: 228354ed692f ("tools/counter: Makefile: Remove lingering
-'include' directories on make clean")
-Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
----
-Changes from v1:
-- Use rm -df instead of checking the directory exists
-- Add Fixes tag
-- Update the patch title
-Reference:
-- v1:
-https://lore.kernel.org/all/362e127d-6018-5fc6-247b-3c729b99d946@gmail.com/
----
- tools/counter/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/tools/counter/Makefile b/tools/counter/Makefile
-index a0f4cab71fe5..b2c2946f44c9 100644
---- a/tools/counter/Makefile
-+++ b/tools/counter/Makefile
-@@ -40,7 +40,8 @@ $(OUTPUT)counter_example: $(COUNTER_EXAMPLE)
- clean:
- 	rm -f $(ALL_PROGRAMS)
- 	rm -rf $(OUTPUT)include/linux/counter.h
--	rmdir -p $(OUTPUT)include/linux
-+	rm -df $(OUTPUT)include/linux
-+	rm -df $(OUTPUT)include
- 	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
-
- install: $(ALL_PROGRAMS)
--- 
-2.34.1
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+SGVsbG8sCgpPbiBTdW4sIEp1bCAxNiwgMjAyMyBhdCA5OjMy4oCvQU0gWW9nZXNoIEhlZ2RlIDx5
+b2dpLmtlcm5lbEBnbWFpbC5jb20+IHdyb3RlOgo+IENvbW1pdCBmNDcxYjFiMmRiMDggKCJhcm02
+NDogZHRzOiByb2NrY2hpcDogRml4IEJsdWV0b290aAo+IG9uIFJPQ0sgUGkgNCBib2FyZHMiKSBp
+bnRyb2R1Y2VkIGEgcHJvYmxlbSB3aXRoIHRoZSBjbG9jayBjb25maWd1cmF0aW9uLgoKTWF5YmUg
+eW91IHNob3VsZCBhZGQgYSAiRml4ZXM6IiB0YWcuCkxvb2sgYXQ6CkRvY3VtZW50YXRpb24vcHJv
+Y2Vzcy9zdWJtaXR0aW5nLXBhdGNoZXMucnN0CmZvciBkZXRhaWxzLgoKQ2hlZXJzCgotLSAKVmlu
+Y2VudCBMZWdvbGwKX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVz
+QGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24u
+b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
