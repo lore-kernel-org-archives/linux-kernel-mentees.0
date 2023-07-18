@@ -4,99 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2BBF5EB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Jul 2023 16:39:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 413EFEB64DC
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 18 Jul 2023 17:37:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CAD4640154;
-	Tue, 18 Jul 2023 16:39:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CAD4640154
+	by smtp2.osuosl.org (Postfix) with ESMTP id BF2994062A;
+	Tue, 18 Jul 2023 17:37:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BF2994062A
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=WuaFFFb8
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=R1LzwR5a
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d_gkzxA8aX30; Tue, 18 Jul 2023 16:39:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id ABD77400CF;
-	Tue, 18 Jul 2023 16:39:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org ABD77400CF
+	with ESMTP id rGynd4rnIRsg; Tue, 18 Jul 2023 17:37:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A05D14053C;
+	Tue, 18 Jul 2023 17:37:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A05D14053C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 75E83C0072;
-	Tue, 18 Jul 2023 16:39:52 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7303CC0071;
+	Tue, 18 Jul 2023 17:37:28 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7FCCDC0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 4C443C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Jul 2023 16:39:50 +0000 (UTC)
+ Tue, 18 Jul 2023 17:37:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 46065410E1
+ by smtp4.osuosl.org (Postfix) with ESMTP id 1864C41746
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Jul 2023 16:39:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 46065410E1
+ Tue, 18 Jul 2023 17:37:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1864C41746
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=WuaFFFb8
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+ header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
+ header.b=R1LzwR5a
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Y1mA2LzRVDp2
+ with ESMTP id 2ZoSms84zZzv
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Jul 2023 16:39:49 +0000 (UTC)
-X-Greylist: whitelisted by SQLgrey-1.8.0
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5AACE409DB
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5AACE409DB
+ Tue, 18 Jul 2023 17:37:26 +0000 (UTC)
+X-Greylist: from auto-whitelisted by SQLgrey-1.8.0
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CB71F4088E
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CB71F4088E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Jul 2023 16:39:49 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id
- d9443c01a7336-1bb1baf55f5so34197305ad.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 18 Jul 2023 09:39:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1689698389; x=1692290389;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=dJfm9Xu6mLNf+bMAmuP6AEX0CyJ95XqwOktwztwQYHc=;
- b=WuaFFFb8P26DlxbEI98Sj9R8DetzfD5pLUWStEYhjaTGtJH+OUC3umtYjNgHw53X8H
- qRQz9GWTsXAIw8VqpXYoRn4nH1Ah7isvmtXvHS4QWlaW2HQQOrhO1i4lP+Se/EmSLKsH
- p9SLbEWHHS3M2CbGlPep/pdKYflAHMnT2458jc02O1Q8Wgu4rgmk6B2G1IraMMBbbeuX
- iRWXAYcYtwu3AgJCLEV4JOftBkNXpHIoV1AI9NB1sHxKTNczwCKtrJYzab4fajTWXn6L
- tgxfZQaBAXvS4rVJERQ1GahNghgEHZOuIOyq3D7dUCM8Ar9OdimqlIeaDOgMcpYwW9ha
- yWag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1689698389; x=1692290389;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dJfm9Xu6mLNf+bMAmuP6AEX0CyJ95XqwOktwztwQYHc=;
- b=f4K2VPmKZxx547S4yBwCBSs3GBYJaH55DeWxj0tuynbF+sIWESjx3ccioy4djwNlYj
- OIyA70wsOzdzJhoUpM7HlGFx7V2SBDBMwd8L0QEDf7kdYW4KCOsq5u/oqRXfXNW4RzTl
- W6IsVuJaQNkYknobBCqC71DSOyQyibs+mGhc1DoyQBHFQMpFxHIFTvMo9kHzM81NyZOc
- qfL0xbrIphFtq5ZUmCUI4X1oLF1L6VPQFNQRfCKJ6B2QDud1M84iV6UdFXrqrH1fvoE5
- SBi61KymljRGFrJAxSZS7zIv4w80WsRSem5d042+spAIWHejXjjCLGNnglQWCFUriwOE
- +TMQ==
-X-Gm-Message-State: ABy/qLbm31cTWmkCUakjcDoGaW8HHn79jpKsULmvLDaubO16G9LnVPP8
- nFHrIPPxRDINTrz3H3AU9CE=
-X-Google-Smtp-Source: APBJJlHZTPpp1pKtH1Oi100fve+RA7DjBKu+d4ef5KaEWCIBBYdCe08KvkmNsDfXxRTogVs8bDcwIQ==
-X-Received: by 2002:a17:902:7894:b0:1b7:ffb9:ea85 with SMTP id
- q20-20020a170902789400b001b7ffb9ea85mr15154411pll.29.1689698388615; 
- Tue, 18 Jul 2023 09:39:48 -0700 (PDT)
-Received: from zephyrusG14 ([103.251.210.195])
- by smtp.gmail.com with ESMTPSA id
- g21-20020a170902869500b001b80d399730sm2077207plo.242.2023.07.18.09.39.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Jul 2023 09:39:48 -0700 (PDT)
-Date: Tue, 18 Jul 2023 22:09:41 +0530
-From: Yogesh Hegde <yogi.kernel@gmail.com>
-To: robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- conor+dt@kernel.org, heiko@sntech.de, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] arm64: dts: rockchip: Fix Wifi/Bluetooth on ROCK Pi 4
+ Tue, 18 Jul 2023 17:37:25 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 10143616A3;
+ Tue, 18 Jul 2023 17:37:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC501C433C7;
+ Tue, 18 Jul 2023 17:37:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1689701844;
+ bh=J43/S4lutq118/A5V7YO0P4DU+erOplZ6RTbTJcyXXQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=R1LzwR5aDD8TXdJqJdZSkB7/GA6wxpVZ6fnubikPocdmnJ5tem7vZpnYowJFNbdIi
+ B1YKxGR2ON9JVPgHbhs6Nft5EBG33UVV1yPBgVCT7qoqW4ude4jxxQovdxRjZeiFYp
+ v+Mtz00ppX7ZIVi3E12AW8rwY5jgUivU7D4xW2Pw=
+Date: Tue, 18 Jul 2023 19:37:21 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yogesh Hegde <yogi.kernel@gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: rockchip: Fix Wifi/Bluetooth on ROCK Pi 4
  boards
-Message-ID: <ZLbATQRjOl09aLAp@zephyrusG14>
+Message-ID: <2023071850-festival-illusion-6399@gregkh>
+References: <ZLbATQRjOl09aLAp@zephyrusG14>
 MIME-Version: 1.0
 Content-Disposition: inline
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <ZLbATQRjOl09aLAp@zephyrusG14>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,45 +95,29 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch fixes an issue affecting the Wifi/Bluetooth connectivity on
-ROCK Pi 4 boards. Commit f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth
-on ROCK Pi 4 boards") introduced a problem with the clock configuration.
-Specifically, the clock-names property of the sdio-pwrseq node was not
-updated to 'lpo', causing the driver to wait indefinitely for the wrong clock
-signal 'ext_clock' instead of the expected one 'lpo'. This prevented the proper
-initialization of Wifi/Bluetooth chip on ROCK Pi 4 boards.
+On Tue, Jul 18, 2023 at 10:09:41PM +0530, Yogesh Hegde wrote:
+> This patch fixes an issue affecting the Wifi/Bluetooth connectivity on
+> ROCK Pi 4 boards. Commit f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth
+> on ROCK Pi 4 boards") introduced a problem with the clock configuration.
+> Specifically, the clock-names property of the sdio-pwrseq node was not
+> updated to 'lpo', causing the driver to wait indefinitely for the wrong clock
+> signal 'ext_clock' instead of the expected one 'lpo'. This prevented the proper
+> initialization of Wifi/Bluetooth chip on ROCK Pi 4 boards.
+> 
+> To address this, this patch updates the clock-names property of the
+> sdio-pwrseq node to "lpo" to align with the changes made to the bluetooth node.
+> 
+> This patch has been tested on ROCK Pi 4B.
+> 
+> Fixes: f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth on ROCK Pi 4 boards")
+> Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
 
-To address this, this patch updates the clock-names property of the
-sdio-pwrseq node to "lpo" to align with the changes made to the bluetooth node.
+Why are you saying this fixes a specific old commit and not also
+properly cc: the stable@vger.kernel.org alias?
 
-This patch has been tested on ROCK Pi 4B.
-
-Fixes: f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth on ROCK Pi 4 boards")
-Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
-
----
-Changes in v2: Added the Fixes tag as per feedback from Vincent Legoll
-	       <vincent.legoll@gmail.com>
----
- arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
-index 907071d4fe80..795a70948d9a 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-rock-pi-4.dtsi
-@@ -45,7 +45,7 @@ led-0 {
- 	sdio_pwrseq: sdio-pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		clocks = <&rk808 1>;
--		clock-names = "ext_clock";
-+		clock-names = "lpo";
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&wifi_enable_h>;
- 		reset-gpios = <&gpio0 RK_PB2 GPIO_ACTIVE_LOW>;
--- 
-2.34.1
-
+Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
