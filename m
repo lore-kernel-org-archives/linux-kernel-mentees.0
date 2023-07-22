@@ -1,82 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9C44AC001DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 21 Jul 2023 13:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB8B1C0015E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 22 Jul 2023 06:07:21 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0AE928215B;
-	Fri, 21 Jul 2023 13:10:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0AE928215B
+	by smtp2.osuosl.org (Postfix) with ESMTP id 3A80E40960;
+	Sat, 22 Jul 2023 06:07:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3A80E40960
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=DoBw3Me1
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Sgogi3Vmve-R; Sat, 22 Jul 2023 06:07:20 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 27B314000B;
+	Sat, 22 Jul 2023 06:07:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 27B314000B
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 01336C0071;
+	Sat, 22 Jul 2023 06:07:20 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F13E2C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Jul 2023 06:07:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id D1DB383984
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 22 Jul 2023 06:07:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D1DB383984
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=inoY0JWE
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=DoBw3Me1
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mfrUlEHoFKse; Fri, 21 Jul 2023 13:10:36 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C06E8820FA;
-	Fri, 21 Jul 2023 13:10:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C06E8820FA
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 93C4FC0071;
-	Fri, 21 Jul 2023 13:10:35 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E1AFC0032
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BR8DxF434N_X
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Jul 2023 13:10:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id F1E3441EB8
+ Sat, 22 Jul 2023 06:07:18 +0000 (UTC)
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com
+ [IPv6:2001:4860:4864:20::35])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E5DDB83955
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Jul 2023 13:10:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F1E3441EB8
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=inoY0JWE
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lYGr6OBVv7pf
+ Sat, 22 Jul 2023 06:07:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E5DDB83955
+Received: by mail-oa1-x35.google.com with SMTP id
+ 586e51a60fabf-1b730eb017bso2065663fac.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Jul 2023 13:10:33 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id C596F41EB1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 21 Jul 2023 13:10:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C596F41EB1
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D86E661A39;
- Fri, 21 Jul 2023 13:10:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E21C433C8;
- Fri, 21 Jul 2023 13:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1689945030;
- bh=fFYghksYJ5mrpl6JUo/uJE8f87XTyNtDPP/p/SwJ02U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=inoY0JWEyp4n+YaE0gGTHnVKBGbQK4g0VVV91kRHx3IMFFjia0wKKmFSikFJQlysv
- LuwUppIfD0bsY0I3hAJC4VnPK3Zk3OJmD8X/ptbzvJwi/39W01nVzdxXDnW0hCJ8sv
- IpFLmO5hHU0O8pGNxg/1KpiTxSWUMPM6BDMdCH/KxDcFoEZoCfaW0r3rKIQtIJh9tI
- JI0HtghkUK/WsRG1DjS0uLkGUmJGysKod7qdAkVCbtZG6QRO6p54CbaM2Auc5tHHd3
- qSo8WLTnZghwYMlXnPKp62VUrJEm7E0vKVezK6MFlkziR3Ea91mT3x4TOTwp8w/wrC
- GscAWc04D6Hng==
-Date: Fri, 21 Jul 2023 09:10:26 -0400
-From: William Breathitt Gray <wbg@kernel.org>
-To: Anh Tuan Phan <tuananhlfc@gmail.com>
-Subject: Re: [PATCH v2] tools/counter: Makefile: Replace rmdir by rm to avoid
- make,clean failure
-Message-ID: <ZLqDwg44UFNrrQfZ@ishi>
-References: <d4080db5-1825-2848-079a-8bb674d8ee44@gmail.com>
+ Fri, 21 Jul 2023 23:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690006037; x=1690610837;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rW6GM0YOKgtl8KRMmye9ZDjg4JN8bbrjMVuMmk40jik=;
+ b=DoBw3Me1QOOkU/J1GVBk5SaEYGjZnik2o7BnISvlBySPxczy5lmYzvOCcxWqQYxb1N
+ NcgDMNi+jaKY6uI1eqHyRlE0ugCo1Gnhlw2RNAVeQswQ202G2D+OtrzWvU9IvH1nQjTC
+ Bbsms1KXORTHkB591U+nMfZIGXO7twpzOMR4YEeKk45fAyAG4vSpWppYDPNTNOCqy1E1
+ L2L8XC92xts5DmJySbJTIpxki27QNH8SFTt9dfBoR9ANQ1ZRWVGbM5EAQG94yzo53tQ/
+ ryPh2g3T98RbYr/JoNCPYZ7szaUIfMkibSE7AD76BOVKuAvSv8xxF+EUnJ+NvjmKC21j
+ Mc/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690006037; x=1690610837;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rW6GM0YOKgtl8KRMmye9ZDjg4JN8bbrjMVuMmk40jik=;
+ b=RgButAc+I7w7hxf/NXKi+pqryRi/tZvEwNly7gJBMRWUqztUhWyhRsr8OFKstUGoeX
+ JTNdG12Ug0aGxNDujxNyXLFjQlIhq7q5GsZgpps0wyE/PguDSr7QRTb1JIrAzFybBMuM
+ tr4QfftyMQmc1RhgaME1jPSbrhus7hHoB5VVWWk8zSV2CtPhWV3Gkhrybl2ky/VpBIPZ
+ WgWV9WwgmRLAw5J0VFPwm0IhGWSx/wYb6QwCbtYyagLmCD3in25bAMiHis34h8WIAZkO
+ EneNKkgwZdAi/5mQl1UaKiEJDcroCT22S2O1QCh2ai5XebvjPDlZzlzUK0aURX4pO+az
+ fLDw==
+X-Gm-Message-State: ABy/qLZpeUJ4B0LJxfJm9hUJdmCa65rZrdT0n42OVTy4pQIcroeAgPO9
+ 4Yc2jQw1V947x5UKOYnkLWs=
+X-Google-Smtp-Source: APBJJlHCe0dYIQRNUPOiWsNip1lqerBaA6M371j3mQZBtlg6icpfQ1ao2XrDcq24IliOaCsmOVeg6A==
+X-Received: by 2002:a05:6870:a40a:b0:1b4:4a2e:b698 with SMTP id
+ m10-20020a056870a40a00b001b44a2eb698mr4386468oal.47.1690006036749; 
+ Fri, 21 Jul 2023 23:07:16 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c009:58e9:afd6:100a:624c:cf38])
+ by smtp.gmail.com with ESMTPSA id
+ y12-20020aa7804c000000b0063b898b3502sm3886060pfm.153.2023.07.21.23.07.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Jul 2023 23:07:16 -0700 (PDT)
+From: Atul Kumar Pant <atulpant.linux@gmail.com>
+To: a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com
+Subject: [PATCH v5] selftests: rtc: Fixes rtctest error handling.
+Date: Sat, 22 Jul 2023 11:37:06 +0530
+Message-Id: <20230722060706.79759-1-atulpant.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <d4080db5-1825-2848-079a-8bb674d8ee44@gmail.com>
-Cc: ricardo@pardini.net, linux-iio@vger.kernel.org, william.gray@linaro.org,
- linux-kernel@vger.kernel.org, rongtao@cestc.cn,
- linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
+Cc: linux-rtc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Atul Kumar Pant <atulpant.linux@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, shuah@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,97 +107,73 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============5583669804379119718=="
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
+Adds a check to verify if the rtc device file is valid or not
+and prints a useful error message if the file is not accessible.
 
---===============5583669804379119718==
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ABYG4snp4xgxCo8T"
-Content-Disposition: inline
+Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
 
+changes since v4:
+    Updated the commit message.
 
---ABYG4snp4xgxCo8T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+changes since v3:
+    Added Linux-kselftest and Linux-kernel mailing lists.
 
-On Sun, Jul 16, 2023 at 10:44:56PM +0700, Anh Tuan Phan wrote:
-> Use rm -df instead of rmdir -p since rmdir requires the directory exist
-> so it causes "make -C tools clean" failed if someone only builds other
-> tools but not counter.
->=20
-> Fixes: 228354ed692f ("tools/counter: Makefile: Remove lingering
-> 'include' directories on make clean")
+changes since v2:
+    Changed error message when rtc file does not exist.
 
-Hi Anh,
+changes since v1:
+    Removed check for uid=0
+    If rtc file is invalid, then exit the test.
 
-Tags should span a single line even if they are long. This is minor
-enough that I will clean it as I pick up the patch so no need to worry
-about it this time. In the future, run script/checkpatch.pl on your
-patches to catch these type of mistakes that are easy to miss.
+ tools/testing/selftests/rtc/rtctest.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-I'll queue this patch for the counter-fixes branch.
-
-Thanks,
-
-William Breathitt Gray
-
-> Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
-> ---
-> Changes from v1:
-> - Use rm -df instead of checking the directory exists
-> - Add Fixes tag
-> - Update the patch title
-> Reference:
-> - v1:
-> https://lore.kernel.org/all/362e127d-6018-5fc6-247b-3c729b99d946@gmail.co=
-m/
-> ---
->  tools/counter/Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tools/counter/Makefile b/tools/counter/Makefile
-> index a0f4cab71fe5..b2c2946f44c9 100644
-> --- a/tools/counter/Makefile
-> +++ b/tools/counter/Makefile
-> @@ -40,7 +40,8 @@ $(OUTPUT)counter_example: $(COUNTER_EXAMPLE)
->  clean:
->  	rm -f $(ALL_PROGRAMS)
->  	rm -rf $(OUTPUT)include/linux/counter.h
-> -	rmdir -p $(OUTPUT)include/linux
-> +	rm -df $(OUTPUT)include/linux
-> +	rm -df $(OUTPUT)include
->  	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
->=20
->  install: $(ALL_PROGRAMS)
-> --=20
-> 2.34.1
-
---ABYG4snp4xgxCo8T
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQSNN83d4NIlKPjon7a1SFbKvhIjKwUCZLqDwgAKCRC1SFbKvhIj
-K/EgAP9E3YVYGgBmTKzYt7HtWSEl6P4V3/3L5q07eEOwJ5briAEAwpmxGhABSqXF
-ziGiYjvVWkX/M+D2Pd7OLGXFcM9p5QQ=
-=LKOM
------END PGP SIGNATURE-----
-
---ABYG4snp4xgxCo8T--
-
---===============5583669804379119718==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
+index 63ce02d1d5cc..630fef735c7e 100644
+--- a/tools/testing/selftests/rtc/rtctest.c
++++ b/tools/testing/selftests/rtc/rtctest.c
+@@ -17,6 +17,7 @@
+ #include <unistd.h>
+ 
+ #include "../kselftest_harness.h"
++#include "../kselftest.h"
+ 
+ #define NUM_UIE 3
+ #define ALARM_DELTA 3
+@@ -419,6 +420,8 @@ __constructor_order_last(void)
+ 
+ int main(int argc, char **argv)
+ {
++	int ret = -1;
++
+ 	switch (argc) {
+ 	case 2:
+ 		rtc_file = argv[1];
+@@ -430,5 +433,11 @@ int main(int argc, char **argv)
+ 		return 1;
+ 	}
+ 
+-	return test_harness_run(argc, argv);
++	// Run the test if rtc_file is valid
++	if (access(rtc_file, F_OK) == 0)
++		ret = test_harness_run(argc, argv);
++	else
++		ksft_exit_fail_msg("[ERROR]: Cannot access rtc file %s - Exiting\n", rtc_file);
++
++	return ret;
+ }
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============5583669804379119718==--
