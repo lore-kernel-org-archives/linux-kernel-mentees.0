@@ -1,100 +1,106 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 229CFC001DE
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 Jul 2023 06:42:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D3ADC001DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 Jul 2023 08:28:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9E5A1414D8;
-	Sun, 23 Jul 2023 06:42:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9E5A1414D8
+	by smtp2.osuosl.org (Postfix) with ESMTP id 19B2E40568;
+	Sun, 23 Jul 2023 08:28:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 19B2E40568
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=aZpe29ck
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JIBdXn0DuZo5; Sun, 23 Jul 2023 08:28:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 21DB440168;
+	Sun, 23 Jul 2023 08:28:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 21DB440168
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EE828C0072;
+	Sun, 23 Jul 2023 08:28:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id ACE14C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 23 Jul 2023 08:28:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 787D8414A1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 23 Jul 2023 08:28:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 787D8414A1
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Yv9vYGpE
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=aZpe29ck
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gxg9lxqTN7V5; Sun, 23 Jul 2023 06:42:08 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6D97A40868;
-	Sun, 23 Jul 2023 06:42:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6D97A40868
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E2D1C0072;
-	Sun, 23 Jul 2023 06:42:08 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 08903C0032
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id msvW9hBHkkru
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 06:42:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D0C8960B00
+ Sun, 23 Jul 2023 08:28:43 +0000 (UTC)
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
+ [IPv6:2607:f8b0:4864:20::636])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 7215F410E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 06:42:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D0C8960B00
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Yv9vYGpE
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id xtwvopyIP_eX
+ Sun, 23 Jul 2023 08:28:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7215F410E7
+Received: by mail-pl1-x636.google.com with SMTP id
+ d9443c01a7336-1b9e93a538dso17580355ad.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 06:42:04 +0000 (UTC)
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DB25A60AE9
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 06:42:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DB25A60AE9
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-6686708c986so3147210b3a.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 22 Jul 2023 23:42:03 -0700 (PDT)
+ Sun, 23 Jul 2023 01:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690094523; x=1690699323;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=f2Z4DK/biTW+DU3lNfXFXK1/9r53OdVKpygo77g5mjg=;
- b=Yv9vYGpEg5a3tvQJxB+jXbSpD6IfFyngrnmM3j1hGdo8+UUz8NN4V/bzttR70DoCct
- CjC0MV2b9CwglBgRo75pgYWiQvkUa5QvxaPADxKjlf7BX8241/Kt6pQMSZLXMQX0xvTI
- 1iCPSPdgRSkReZGAm6R86afSmA31UtNbOSxMzjKlh4MssZl84Cj9Z9ywjAExeVdmS8jh
- uMGQ083Xo1TQVKOoRP5bouPenPsa4DVlQE77jbN/hurf2NQlJpR81hFZsICHZnbw9dcR
- dPpnnlHTSv0gRgDezDwSiCr4Ng2HkWNeUpxsWmIKd3eZinmAf5qXs/sDYZPC5t+OIpc7
- 50Hw==
+ d=gmail.com; s=20221208; t=1690100923; x=1690705723;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=f2RBK6a1rrlPMn5TOATq9/7yx1S/Tl+2zZSZzJBZNsM=;
+ b=aZpe29ckQMqcjD0CsG2rRtigKYI0ycSzcfnysKME5uEV0dbXxqtgQbq/bhqYWPtf+W
+ CSobQNGJyv5uNyH8uuFRqc+5O513SpfChXjITqC+MhD19F9pcuh321hq90epTf2hntZI
+ xNJWWUot6UblUHOmHbXg/+aohGhJxd/y12WJLiLVw7Vx4xrYQ+RkRLK3FWeQQFqVSwmi
+ 9I9HtohJOBSMAaRi0gRLwLmBeMkiYmP6he6Yyl1LTMroJeD73kHNriFDxANu2tsSg2Wy
+ F/HCRsLhC2jDUyU/dZPzCQK7fbSeZV8UPDqP3L85G8sLY7tJZ8mUKPFj1Z5xZ9XOIHty
+ eGqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690094523; x=1690699323;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=f2Z4DK/biTW+DU3lNfXFXK1/9r53OdVKpygo77g5mjg=;
- b=lFMMbBk1CtudXrVVD6nfnUFTm4Fr0D39yFqmBA3JZnryWSh92MKCaNNdK+H0Qc3krE
- DDRU618izqX5Fr0fxpJD865IwmLdvp2Dvi6/5VfsSzqbl4elsAv4dZpCilan3KNeAgAj
- 7GNHOBKb9K8efodkbbIn8klXr/pT1pZmmMcSJWCrfFs96OOK//Vjp8iAGpO4IQ6LbP7v
- uW6XJKPha/VBP2eFdKdVe+dab+jHOLUMonAgChA6TKfZarWYOuh8Akx5lJFdf3PT84MZ
- vaNHNk9KuDKNA0562XJ6MW/ZgBEYtryMaxpYsrIYv/o2GF91Pw3disvFkiwn4jmYQvNA
- XXgw==
-X-Gm-Message-State: ABy/qLZ2l8M/B9sKyr2ZLFb1i2qtQ73s9RLZtRKxtwU1cSZtsaIjvzzt
- GLqWmj+BoVeTmfMjzXen9eo=
-X-Google-Smtp-Source: APBJJlEWT0Zrha6XrT67EXlC9BYYFmDhOxsUfSPgdpFRFVyxZ7h4ub6qpj/NTMtlIKG394UWmqRHIg==
-X-Received: by 2002:aa7:88d5:0:b0:63a:ea82:b7b7 with SMTP id
- k21-20020aa788d5000000b0063aea82b7b7mr6444493pff.28.1690094523150; 
- Sat, 22 Jul 2023 23:42:03 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c009:58e9:5a21:2ad8:393a:4253])
+ d=1e100.net; s=20221208; t=1690100923; x=1690705723;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=f2RBK6a1rrlPMn5TOATq9/7yx1S/Tl+2zZSZzJBZNsM=;
+ b=LrMW8mXeqUESzzCoZquYZ59ZHAFOjIIRBQAdqK2QQ7YDMcZ3VoLgQaU59FpC51Bh5A
+ Hg8hJvY9d00imabp82QcdGLJO1e5q6TZc72Q0AvZLxfpPm8uZeUs8boRaEUZkCqNtn+D
+ u/IKxuVfJqMStiMYsg4rIi2kSwerIO/b/p+cKfJpRZOxrlQbveRuvwA2Lat1PoudNdeT
+ PIkhLFmCJ7bK7yhEsjbHm+buEr/YpXu009ytir6Ro5oWT4KY12MYn1IzOmyNSuZjnkRJ
+ ORc2qDETavfp+dNzc4Voto6ywVhZ9D1X/U/3uq/ZEldFPGgfdp8ffMhqT+VB1OUvT9i4
+ bSPA==
+X-Gm-Message-State: ABy/qLaGbtL0lkQCVXTroLam5usgUZljuQhaL26tVbdf5swW0XX/knOk
+ qkH0yatNiCSoDbBAWVgYwWI=
+X-Google-Smtp-Source: APBJJlEyAivqgS1z/Q7bcfIa339ze+9MNCa6mD2worMXLAUFaSPxd3TpcGx2eH8f/O2vbFPJ05rqIg==
+X-Received: by 2002:a17:902:d509:b0:1b9:de67:2870 with SMTP id
+ b9-20020a170902d50900b001b9de672870mr6536878plg.40.1690100922731; 
+ Sun, 23 Jul 2023 01:28:42 -0700 (PDT)
+Received: from zephyrusG14 ([103.251.210.195])
  by smtp.gmail.com with ESMTPSA id
- ff12-20020a056a002f4c00b005d22639b577sm5416817pfb.165.2023.07.22.23.42.00
+ s10-20020a170902ea0a00b001b53d3d8f3dsm6428406plg.299.2023.07.23.01.28.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 22 Jul 2023 23:42:02 -0700 (PDT)
-From: Atul Kumar Pant <atulpant.linux@gmail.com>
-To: shuah@kernel.org
-Subject: [PATCH v1] selftests: ipc: Updates the msgque test to use kselftest
- framework
-Date: Sun, 23 Jul 2023 12:11:54 +0530
-Message-Id: <20230723064154.89443-1-atulpant.linux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Sun, 23 Jul 2023 01:28:42 -0700 (PDT)
+Date: Sun, 23 Jul 2023 13:58:36 +0530
+From: Yogesh Hegde <yogi.kernel@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2] arm64: dts: rockchip: Fix Wifi/Bluetooth on ROCK Pi 4
+ boards
+Message-ID: <ZLzktMnJHTg13Pp/@zephyrusG14>
+References: <ZLbATQRjOl09aLAp@zephyrusG14>
+ <2023071850-festival-illusion-6399@gregkh>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Atul Kumar Pant <atulpant.linux@gmail.com>, linux-kselftest@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <2023071850-festival-illusion-6399@gregkh>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, heiko@sntech.de,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,54 +118,36 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Updates the msgque test to print the pass or fail status after the
-completion of the test.
+On Tue, Jul 18, 2023 at 07:37:21PM +0200, Greg KH wrote:
+> On Tue, Jul 18, 2023 at 10:09:41PM +0530, Yogesh Hegde wrote:
+> > This patch fixes an issue affecting the Wifi/Bluetooth connectivity on
+> > ROCK Pi 4 boards. Commit f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth
+> > on ROCK Pi 4 boards") introduced a problem with the clock configuration.
+> > Specifically, the clock-names property of the sdio-pwrseq node was not
+> > updated to 'lpo', causing the driver to wait indefinitely for the wrong clock
+> > signal 'ext_clock' instead of the expected one 'lpo'. This prevented the proper
+> > initialization of Wifi/Bluetooth chip on ROCK Pi 4 boards.
+> > 
+> > To address this, this patch updates the clock-names property of the
+> > sdio-pwrseq node to "lpo" to align with the changes made to the bluetooth node.
+> > 
+> > This patch has been tested on ROCK Pi 4B.
+> > 
+> > Fixes: f471b1b2db08 ("arm64: dts: rockchip: Fix Bluetooth on ROCK Pi 4 boards")
+> > Signed-off-by: Yogesh Hegde <yogi.kernel@gmail.com>
+> 
+> Why are you saying this fixes a specific old commit and not also
+> properly cc: the stable@vger.kernel.org alias?
+It is a mistake on my part. I apologize for the mistake. 
+> 
+> Please read:
+>     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+> for how to do this properly.
+Thanks for the link, I will read through it and resend a v3 of the patch 
+with fixes. 
 
-Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
----
- tools/testing/selftests/ipc/msgque.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/tools/testing/selftests/ipc/msgque.c b/tools/testing/selftests/ipc/msgque.c
-index 656c43c24044..513b1265bb75 100644
---- a/tools/testing/selftests/ipc/msgque.c
-+++ b/tools/testing/selftests/ipc/msgque.c
-@@ -9,6 +9,7 @@
- 
- #include "../kselftest.h"
- 
-+#define NUM_TEST_CASES		1
- #define MAX_MSG_SIZE		32
- 
- struct msg1 {
-@@ -197,6 +198,7 @@ int main(int argc, char **argv)
- 	int msg, pid, err;
- 	struct msgque_data msgque;
- 
-+	ksft_set_plan(NUM_TEST_CASES);
- 	if (getuid() != 0)
- 		return ksft_exit_skip(
- 				"Please run the test as root - Exiting.\n");
-@@ -243,13 +245,16 @@ int main(int argc, char **argv)
- 		printf("Failed to test queue: %d\n", err);
- 		goto err_out;
- 	}
-+	ksft_test_result_pass("# Test Passed\n");
- 	return ksft_exit_pass();
- 
- err_destroy:
- 	if (msgctl(msgque.msq_id, IPC_RMID, NULL)) {
- 		printf("Failed to destroy queue: %d\n", -errno);
-+		ksft_test_result_fail("# Test Failed\n");
- 		return ksft_exit_fail();
- 	}
- err_out:
-+	ksft_test_result_fail("# Test Failed\n");
- 	return ksft_exit_fail();
- }
--- 
-2.25.1
-
+Thanks and Regards 
+-- Yogesh 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
