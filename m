@@ -4,103 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 32535C001B0
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 Jul 2023 09:38:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id F0597C001DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 23 Jul 2023 15:02:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B263560AB2;
-	Sun, 23 Jul 2023 09:38:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B263560AB2
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7AEB860B1D;
+	Sun, 23 Jul 2023 15:02:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7AEB860B1D
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=FYJY+Bnu
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=oBQ6EFoL
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id GQedk1FgIv3g; Sun, 23 Jul 2023 09:38:41 +0000 (UTC)
+	with ESMTP id 96RDNwI14WD0; Sun, 23 Jul 2023 15:02:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id CC716607AA;
-	Sun, 23 Jul 2023 09:38:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CC716607AA
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 42FA760AEE;
+	Sun, 23 Jul 2023 15:02:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 42FA760AEE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A6EAAC0071;
-	Sun, 23 Jul 2023 09:38:40 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BE2E4C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1C5FEC0072;
+	Sun, 23 Jul 2023 15:02:01 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CC034C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 09:38:38 +0000 (UTC)
+ Sun, 23 Jul 2023 15:01:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 98DE581842
+ by smtp4.osuosl.org (Postfix) with ESMTP id ABAEC410A0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 09:38:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 98DE581842
-Authentication-Results: smtp1.osuosl.org;
+ Sun, 23 Jul 2023 15:01:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ABAEC410A0
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=FYJY+Bnu
+ header.a=rsa-sha256 header.s=20221208 header.b=oBQ6EFoL
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id TTR7bBcjUWCn
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RzjaWwdXOJtH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 09:38:38 +0000 (UTC)
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by smtp1.osuosl.org (Postfix) with ESMTPS id BD11A817A9
+ Sun, 23 Jul 2023 15:01:55 +0000 (UTC)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 65311409EF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 09:38:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BD11A817A9
-Received: by mail-wr1-x431.google.com with SMTP id
- ffacd0b85a97d-31427ddd3fbso2447780f8f.0
+ Sun, 23 Jul 2023 15:01:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 65311409EF
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-666eba6f3d6so1968007b3a.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 23 Jul 2023 02:38:37 -0700 (PDT)
+ Sun, 23 Jul 2023 08:01:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690105116; x=1690709916;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=oxNqVJ8M0RlStNJiqmdGBEdZEF6FgJ1pvu+FzFr7WF0=;
- b=FYJY+Bnur9aWsu4JUe2QcktPfX1ZzMT7ckqyKMJjd1FsziSSoGOxn7tMu0APZfH0Yc
- LqMCRiBaRJGPUuoJiWt9BOQdwz7fEHapRbLkQIpw9dq8bvJI03LVa80Ir8R2KCnnbGPi
- Gqs78Hc9HX2pHoStqBZHbnRRoYAbMLukkM88Bz+++peQC5xRWxYWZUGwXIVZHdIjzUip
- emvyfzWkkIuArKz7ae6X1L0xZ7+fHpiJi8Nc0hEApqibuoXtE5NhGJ6ZBiUOGNSoBDTs
- jjaVXyenoxODBkRjpLTcbru/9k1YWKSKxfvJj/53v9GBiTUk1KIjBbng/e8ROP4bOla4
- Pefg==
+ d=gmail.com; s=20221208; t=1690124514; x=1690729314;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bhw7aS6Ttjq7iKZtaXUkeoqYKQnM4Kk9jkRz0JOQFyU=;
+ b=oBQ6EFoLo43YeFslZ93d+KzKQaPDIYxvUgtovPitsGtHDSjDw56vKDMo4hlh9obkvk
+ x/vHfXMu+HFUtODWkGmX/do1OT3suz720aqbGczxyCiEO6AVPXCg89FqBg5vEG/vNd+7
+ qywV3ABWwmDQduJshw71HluWwvlmP84gKQHeb6vVZq+SPubhpLRE3TUZNCftXRwAqLzy
+ Xgg03sLKGkxsmjUI9O8wK9bLH+Fa297ZvEzdDp9sKi523Gg7eZITXRxQD2fAA2b0rqdq
+ 7p04DFmRU0+izkO4UzRvnUlAtBjryTwNwZ7Fz6ttNw2VQjbEo6BoFaOs89kDN/sjt03o
+ bbZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690105116; x=1690709916;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=oxNqVJ8M0RlStNJiqmdGBEdZEF6FgJ1pvu+FzFr7WF0=;
- b=Fz5RNspHChLyOjbAd6u2TGenXTUtlZmgY6Dm75fggH/A/p8yvp+ZizqWic0nbHQ892
- 5Lad8JKE46Lfyn8QD6kwr7UO3Niqa5Tt1LGbbj/NYfqn1yB5zexIQuyW9ZVMXltvbEWR
- jJUSjpnUAEAi8BvRNiJwp3xtIKV8gr5Px78NHo5r2RmCUlDEHa0SKYBLoMkapZU6OFjX
- u4+NOeAfouB/5ca7xzAxTMssMztzGXGpZCNRx4yOtZo2swWmvTkQDQgIbBt3cdpgngPT
- a8h8w+3udh+CFlqI7O0IrZRJ0YmoKl5sssHE2es1UIR85sKNsUTjNEieue67GaJfpOi2
- WqaA==
-X-Gm-Message-State: ABy/qLaQlYpDZyEOBKViZ/JFTrRSBF51XknzKyyOKwntdUSa5cnSgSss
- bLsgavaRAd158E8EFNXFrrA=
-X-Google-Smtp-Source: APBJJlHEoHQAlhF6vEArYxkf108SJhFb8RJ0pr+GGHx6NyP863uApYvVhr8KpOvpDqncDS8OfFbWMw==
-X-Received: by 2002:a5d:61c5:0:b0:30f:af19:81f3 with SMTP id
- q5-20020a5d61c5000000b0030faf1981f3mr4621201wrv.41.1690105115424; 
- Sun, 23 Jul 2023 02:38:35 -0700 (PDT)
-Received: from mmaatuq-HP-Laptop-15-dy2xxx..
- ([2001:8f8:1163:535c:ce7:4d43:f827:e4e8])
+ d=1e100.net; s=20221208; t=1690124514; x=1690729314;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bhw7aS6Ttjq7iKZtaXUkeoqYKQnM4Kk9jkRz0JOQFyU=;
+ b=i8DMEElnqJOXOwAh8wQalTcYkaCeS3p7VJ+p/CAdd+n9epSxcuSWEfELhxTGH1/yQY
+ 4tmbeKfsJ0ouYZkvSmumgoBjdvr9r0GaXEx8AfuUW0DZCac1ZQdtUdexWcsPnT8c9d+y
+ EGsu1zZbNkQsmwD858Q7VWOukZhvoWr5fzYEnZ8+EgnAo1OuWPY/1T7OpAhhpvbMDN9J
+ ocnnTGBMpyT+TKOJqG5PYpn4yqSldfIIcP+pDTZWLhZT4jc4XHVYCoZFi/5pwShHNVhz
+ ZRkKKKIXuVanEZ7UsEAkA1WcmEYZwOvgkslL+4B7WdBO2165Zib61VZKczj3CiO/ZmRi
+ CzPQ==
+X-Gm-Message-State: ABy/qLakDLZIQZBhztAaaV57PtGtlZ9/MAvPo/hbvgqactvru3PExgWz
+ G7DRxW9WhfsHvvyH90/DxSY=
+X-Google-Smtp-Source: APBJJlGrkZbZAI+0i5agNXdNgChDuEbW7rB1bs1hj8u6UREjJr2lAAv6r87GAWsZ6e0Co0w02/ODyA==
+X-Received: by 2002:a05:6a00:114c:b0:680:ddd6:7d8b with SMTP id
+ b12-20020a056a00114c00b00680ddd67d8bmr5134675pfm.15.1690124514220; 
+ Sun, 23 Jul 2023 08:01:54 -0700 (PDT)
+Received: from [192.168.1.9] ([222.252.65.171])
  by smtp.gmail.com with ESMTPSA id
- r5-20020adff105000000b003145521f4e5sm9186373wro.116.2023.07.23.02.38.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Jul 2023 02:38:34 -0700 (PDT)
-From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
-To: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
- john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
- haoluo@google.com, jolsa@kernel.org, mykolal@fb.com, shuah@kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests/bpf: fix build errors if CONFIG_NF_CONNTRACK_MARK
- not set.
-Date: Sun, 23 Jul 2023 13:38:06 +0400
-Message-Id: <20230723093806.2850822-1-mahmoudmatook.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ bn9-20020a056a00324900b00678afd48250sm6019234pfb.218.2023.07.23.08.01.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 23 Jul 2023 08:01:53 -0700 (PDT)
+Message-ID: <8f5a91f4-2b4e-9007-99d3-bf69b776b708@gmail.com>
+Date: Sun, 23 Jul 2023 22:01:50 +0700
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2] tools/counter: Makefile: Replace rmdir by rm to avoid
+ make,clean failure
+To: William Breathitt Gray <wbg@kernel.org>
+References: <d4080db5-1825-2848-079a-8bb674d8ee44@gmail.com>
+ <ZLqDwg44UFNrrQfZ@ishi>
+Content-Language: en-US
+From: Anh Tuan Phan <tuananhlfc@gmail.com>
+In-Reply-To: <ZLqDwg44UFNrrQfZ@ishi>
+Cc: ricardo@pardini.net, linux-iio@vger.kernel.org, william.gray@linaro.org,
+ linux-kernel@vger.kernel.org, rongtao@cestc.cn,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,72 +119,65 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-'mark' member in 'struct nf_conn' is conditionally defined
- by CONFIG_NF_CONNTRACK_MARK
- so any reference to it should follow the same.
 
- $ make -C tools/testing/selftests/bpf
-	progs/test_bpf_nf.c:219:12: error: no member named 'mark' in 'struct nf_conn'
-	                        if (ct->mark == 42) {
-	                            ~~  ^
-	progs/test_bpf_nf.c:220:9: error: no member named 'mark' in 'struct nf_conn'
-	                                ct->mark++;
-	                                ~~  ^
-	progs/test_bpf_nf.c:221:34: error: no member named 'mark' in 'struct nf_conn'
-                                test_exist_lookup_mark = ct->mark;
 
-Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
----
- .../testing/selftests/bpf/progs/test_bpf_nf.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+On 7/21/23 20:10, William Breathitt Gray wrote:
+> On Sun, Jul 16, 2023 at 10:44:56PM +0700, Anh Tuan Phan wrote:
+>> Use rm -df instead of rmdir -p since rmdir requires the directory exist
+>> so it causes "make -C tools clean" failed if someone only builds other
+>> tools but not counter.
+>>
+>> Fixes: 228354ed692f ("tools/counter: Makefile: Remove lingering
+>> 'include' directories on make clean")
+> 
+> Hi Anh,
+> 
+> Tags should span a single line even if they are long. This is minor
+> enough that I will clean it as I pick up the patch so no need to worry
+> about it this time. In the future, run script/checkpatch.pl on your
+> patches to catch these type of mistakes that are easy to miss.
+> 
+> I'll queue this patch for the counter-fixes branch.
+> 
+> Thanks,
+> 
+> William Breathitt Gray
+> 
 
-diff --git a/tools/testing/selftests/bpf/progs/test_bpf_nf.c b/tools/testing/selftests/bpf/progs/test_bpf_nf.c
-index 77ad8adf68da..0b285de8b7e7 100644
---- a/tools/testing/selftests/bpf/progs/test_bpf_nf.c
-+++ b/tools/testing/selftests/bpf/progs/test_bpf_nf.c
-@@ -157,7 +157,10 @@ nf_ct_test(struct nf_conn *(*lookup_fn)(void *, struct bpf_sock_tuple *, u32,
- 		struct nf_conn *ct_ins;
- 
- 		bpf_ct_set_timeout(ct, 10000);
--		ct->mark = 77;
-+		#if defined(CONFIG_NF_CONNTRACK_MARK)
-+			ct->mark = 77;
-+		#endif
-+
- 
- 		/* snat */
- 		saddr.ip = bpf_get_prandom_u32();
-@@ -188,7 +191,9 @@ nf_ct_test(struct nf_conn *(*lookup_fn)(void *, struct bpf_sock_tuple *, u32,
- 				bpf_ct_change_timeout(ct_lk, 10000);
- 				test_delta_timeout = ct_lk->timeout - bpf_jiffies64();
- 				test_delta_timeout /= CONFIG_HZ;
--				test_insert_lookup_mark = ct_lk->mark;
-+				#if defined(CONFIG_NF_CONNTRACK_MARK)
-+					test_insert_lookup_mark = ct_lk->mark;
-+				#endif
- 				bpf_ct_change_status(ct_lk,
- 						     IPS_CONFIRMED | IPS_SEEN_REPLY);
- 				test_status = ct_lk->status;
-@@ -210,10 +215,12 @@ nf_ct_test(struct nf_conn *(*lookup_fn)(void *, struct bpf_sock_tuple *, u32,
- 		       sizeof(opts_def));
- 	if (ct) {
- 		test_exist_lookup = 0;
--		if (ct->mark == 42) {
--			ct->mark++;
--			test_exist_lookup_mark = ct->mark;
--		}
-+		#if defined(CONFIG_NF_CONNTRACK_MARK)
-+			if (ct->mark == 42) {
-+				ct->mark++;
-+				test_exist_lookup_mark = ct->mark;
-+			}
-+		#endif
- 		bpf_ct_release(ct);
- 	} else {
- 		test_exist_lookup = opts_def.error;
--- 
-2.34.1
+Thanks for helping me correct the patch, will run the script in the future.
 
+Best,
+Anh
+
+>> Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
+>> ---
+>> Changes from v1:
+>> - Use rm -df instead of checking the directory exists
+>> - Add Fixes tag
+>> - Update the patch title
+>> Reference:
+>> - v1:
+>> https://lore.kernel.org/all/362e127d-6018-5fc6-247b-3c729b99d946@gmail.com/
+>> ---
+>>  tools/counter/Makefile | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/tools/counter/Makefile b/tools/counter/Makefile
+>> index a0f4cab71fe5..b2c2946f44c9 100644
+>> --- a/tools/counter/Makefile
+>> +++ b/tools/counter/Makefile
+>> @@ -40,7 +40,8 @@ $(OUTPUT)counter_example: $(COUNTER_EXAMPLE)
+>>  clean:
+>>  	rm -f $(ALL_PROGRAMS)
+>>  	rm -rf $(OUTPUT)include/linux/counter.h
+>> -	rmdir -p $(OUTPUT)include/linux
+>> +	rm -df $(OUTPUT)include/linux
+>> +	rm -df $(OUTPUT)include
+>>  	find $(or $(OUTPUT),.) -name '*.o' -delete -o -name '\.*.d' -delete
+>>
+>>  install: $(ALL_PROGRAMS)
+>> -- 
+>> 2.34.1
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
