@@ -1,98 +1,98 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B3D8C00528
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Jul 2023 15:40:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B995FC001DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 25 Jul 2023 15:54:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C1DB7818BE;
-	Tue, 25 Jul 2023 15:40:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C1DB7818BE
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=ccCJ+sje
+	by smtp3.osuosl.org (Postfix) with ESMTP id 3FC7E61099;
+	Tue, 25 Jul 2023 15:54:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3FC7E61099
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=L+StV56S
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sKYn2RBNaUSV; Tue, 25 Jul 2023 15:40:17 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B77E681062;
-	Tue, 25 Jul 2023 15:40:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B77E681062
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VHpwZoTOOvIS; Tue, 25 Jul 2023 15:54:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 06BB66103F;
+	Tue, 25 Jul 2023 15:54:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 06BB66103F
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A2920C0071;
-	Tue, 25 Jul 2023 15:40:16 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 588ECC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B2505C0071;
+	Tue, 25 Jul 2023 15:54:31 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B9B24C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Jul 2023 15:40:15 +0000 (UTC)
+ Tue, 25 Jul 2023 15:54:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3DFB7409B0
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9458E41520
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Jul 2023 15:40:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3DFB7409B0
-Authentication-Results: smtp4.osuosl.org;
+ Tue, 25 Jul 2023 15:54:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9458E41520
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=ccCJ+sje
+ header.a=rsa-sha256 header.s=20221208 header.b=L+StV56S
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id qgvNMAf_OuiX
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BkQZoi6-r2GZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Jul 2023 15:40:14 +0000 (UTC)
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com
- [IPv6:2a00:1450:4864:20::229])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 091C14098F
+ Tue, 25 Jul 2023 15:54:29 +0000 (UTC)
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com
+ [IPv6:2a00:1450:4864:20::230])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 607A64151A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Jul 2023 15:40:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 091C14098F
-Received: by mail-lj1-x229.google.com with SMTP id
- 38308e7fff4ca-2b70bfc8db5so81447621fa.2
+ Tue, 25 Jul 2023 15:54:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 607A64151A
+Received: by mail-lj1-x230.google.com with SMTP id
+ 38308e7fff4ca-2b9aa1d3029so9215321fa.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 25 Jul 2023 08:40:13 -0700 (PDT)
+ Tue, 25 Jul 2023 08:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690299612; x=1690904412;
+ d=gmail.com; s=20221208; t=1690300467; x=1690905267;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LjgkMSzV2Aay/adVSC7zHs9NU/NVLjLkoJwzzPQaQ/4=;
- b=ccCJ+sjeDvb3HMwrqgFU01u4q/qF/ZipO8S5hJItvxJyKvug+/7exWYLC8zDxg/qoQ
- iPGgo1am6/GyHMLsz9CM0zVecJ0UzYLWbOs9ywiAVrHNcuHISsr9b8YvBXubfy9b7NFi
- jPNELS2rCv8AbcWoLlBrTmY7lWObTU7ornZiFpqJU4ExbRjJilmwwgV0k5t1PdfMEDjN
- 90ghsW+rFKy1sPA97EmjGKL7RxbZXGsUTT5WS9iHm8dJWcwXUuhw/kzRv/qg3ggoLBcB
- ke/PEtoFsxhSFPNAxY8RjL7hb3CjxK1E0QZxxNtSZaEmiXZCcAbSRZ2T8fwIl5D9l5sO
- gOBQ==
+ bh=+2ueYrBi52W2OkGXaF73xpgZBQIsvgeSihX41z0L7xE=;
+ b=L+StV56SO8Hq4MRlBfv5ewD58CUtuNhf3SladD8jctRRcL8zbKOJsdIzyNKM0XJ804
+ jLH3O4VhCEmWK1u6tUPh5jf0YG5dMHLu9yHparAuZpXH7rsAT9ZVHUMHcYtHDZzASR7b
+ 3i3BXSwCf4JHyFWVVa5ojk+GqQLWDg4r1e1sxOQ1Tn++Guxd10G9SGo4Xr0rv+jmzODJ
+ WVegOTzRbBVIglLKAn1sVUe7mfWQE0B9vb0drVotj5vI5YJeJz4hy+Qy7bpDfsXJd/ZN
+ KrjAhhPwLx0XzQ/eK8ueSW9CGP3K9LXg87Hg2jeC3yiKtAJuuqB1/NxOePbT6bwnYdf8
+ cGYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690299612; x=1690904412;
+ d=1e100.net; s=20221208; t=1690300467; x=1690905267;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LjgkMSzV2Aay/adVSC7zHs9NU/NVLjLkoJwzzPQaQ/4=;
- b=Q+eZNUxpLtMCx6CXbo8zLKyGGE3/Ta3x2c/jKiovrcehxiCzRSoRvUsdeGNIPPL5bX
- DN5S9RzD3/CQg3Rni2oKApu5FdD8hvJqmBAzrI64lCIFbauLLCe8UZCYfu+KipW6Z23g
- CKU7hfCYstl7jS9CqpzloCNgj+5CKu4rCAqKTLfxbX1RohCj/v1P3Y+IZ/TdfrlhYtww
- ecBu67SOtWeBvg2sqjB9+dSwPS49ApLuQeyf9XXHz/PqQfwWI89MSEaGJdvl0bxwp4Sp
- BhUwGAQxrQAjxbI9ML9KuN5i8oi9Pkh8ZMifQl/2hmt+dKTmOEIPmMfwj3F1Agz3S/X0
- HCkQ==
-X-Gm-Message-State: ABy/qLaLOCg1nhK84ogdWgTwGPKUQs7jm2MoyiojF3qBnc3E2zGqDyAB
- v37qpiHIM39nhWyQFKtBUKA=
-X-Google-Smtp-Source: APBJJlEcM5BfU2dJ60Esw54sf/EGMMvtXZcpewa75+2O+UEV7RHygTidmdYH5MWY3HyQOEXrq2RYdQ==
-X-Received: by 2002:a2e:94ca:0:b0:2b6:cb0d:56ae with SMTP id
- r10-20020a2e94ca000000b002b6cb0d56aemr8137241ljh.11.1690299611618; 
- Tue, 25 Jul 2023 08:40:11 -0700 (PDT)
+ bh=+2ueYrBi52W2OkGXaF73xpgZBQIsvgeSihX41z0L7xE=;
+ b=L7U/0P4C/2QFpnWxBOnd3OFacVoJsC6ID2X3Isvnk4uflfy6xpDFJ3DIidonW+B+e/
+ pj6UMp2s6CrOKuPbBUG9sgY1JQ5zKxIIj0Sh1jEB1LIJ8yHk7KYjZyI9cP77FmVyCW7O
+ PrrO9kYjSfSTEGTvrkMAHVjzvVj7QVlSIBr5QOZX3C50cmMx6FkMeBQ1XAqQuX3llcFY
+ JjNSM1OgXR5/DMHKco0J6yyruMbJRJiwFNe0XgH2XUEfPL7DX+VG3K9FZHSObVBDb/qZ
+ qfxmeD2u2Q8TEGK7TPD6M3EyUTG88fY4iWTVjR+MR5gxr1RPhhVH/BBsZYIZBUQ8JGUv
+ gECg==
+X-Gm-Message-State: ABy/qLaWyYR5T5HVvF8MXTCxTWeGvZx3mWW+lSVfzx6mGLXriI/vxTLh
+ q0o8OQzIjePqxbYl//I1hMI=
+X-Google-Smtp-Source: APBJJlGFsUL2NLGBfql/tuKTnFjUD7SzrJRbhKHlGxQWMzvZUxuoklAu4R38OUCt1alorXvn+snuBQ==
+X-Received: by 2002:a2e:99d9:0:b0:2b5:80e0:f18e with SMTP id
+ l25-20020a2e99d9000000b002b580e0f18emr8957085ljj.3.1690300467033; 
+ Tue, 25 Jul 2023 08:54:27 -0700 (PDT)
 Received: from localhost.localdomain ([77.222.25.78])
  by smtp.gmail.com with ESMTPSA id
- o5-20020a2e9445000000b002b9ae051ea1sm128521ljh.113.2023.07.25.08.40.09
+ a24-20020a2e8618000000b002b96a3a87d5sm3510747lji.98.2023.07.25.08.54.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Jul 2023 08:40:11 -0700 (PDT)
+ Tue, 25 Jul 2023 08:54:26 -0700 (PDT)
 From: Andrew Kanner <andrew.kanner@gmail.com>
 To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
  pabeni@redhat.com, jasowang@redhat.com, netdev@vger.kernel.org,
  brouer@redhat.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drivers: net: prevent tun_get_user() to exceed xdp size
+Subject: [PATCH v3] drivers: net: prevent tun_get_user() to exceed xdp size
  limits
-Date: Tue, 25 Jul 2023 18:39:41 +0300
-Message-Id: <20230725153941.653-1-andrew.kanner@gmail.com>
+Date: Tue, 25 Jul 2023 18:54:04 +0300
+Message-Id: <20230725155403.796-1-andrew.kanner@gmail.com>
 X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
 Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com,
@@ -161,6 +161,19 @@ Link: https://syzkaller.appspot.com/bug?id=5335c7c62bfff89bbb1c8f14cdabebe919090
 Fixes: 7df13219d757 ("tun: reserve extra headroom only when XDP is set")
 Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
 ---
+
+Notes:
+    V2 -> V3:
+    * attach the forgotten changelog
+    V1 -> V2:
+    * merged 2 patches in 1, fixing both issues: WARN_ON_ONCE with
+      syzkaller repro and missing XDP_PACKET_HEADROOM in pad
+    * changed the title and description of the execution path, suggested
+      by Jason Wang <jasowang@redhat.com>
+    * move the limit check from tun_can_build_skb() to tun_build_skb() to
+      remove duplication and locking issue, and also drop the packet in
+      case of a failed check - noted by Jason Wang <jasowang@redhat.com>
+
  drivers/net/tun.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
