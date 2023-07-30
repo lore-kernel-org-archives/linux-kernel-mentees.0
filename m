@@ -1,99 +1,105 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 181E6C001DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 30 Jul 2023 13:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AFA78C001DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 30 Jul 2023 13:19:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 72A164021D;
-	Sun, 30 Jul 2023 13:18:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 72A164021D
+	by smtp3.osuosl.org (Postfix) with ESMTP id 4BA5660BCC;
+	Sun, 30 Jul 2023 13:19:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4BA5660BCC
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=V/qUzZPl
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8UzQHSAfTuE4; Sun, 30 Jul 2023 13:19:57 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 4D02260BEC;
+	Sun, 30 Jul 2023 13:19:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4D02260BEC
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35A2EC0072;
+	Sun, 30 Jul 2023 13:19:57 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D34E7C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 30 Jul 2023 13:19:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9A34541521
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 30 Jul 2023 13:19:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9A34541521
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=NipgZv6P
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=V/qUzZPl
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Txt4hcPFnbPK; Sun, 30 Jul 2023 13:18:12 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 13106401E1;
-	Sun, 30 Jul 2023 13:18:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 13106401E1
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DFDF3C0072;
-	Sun, 30 Jul 2023 13:18:11 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B75F0C0032
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ed55XiSKDlhm
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 13:18:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 792F58184F
+ Sun, 30 Jul 2023 13:19:55 +0000 (UTC)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id E412A41505
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 13:18:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 792F58184F
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=NipgZv6P
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id I8AxkFJltPHr
+ Sun, 30 Jul 2023 13:19:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E412A41505
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1bbc87ded50so22382195ad.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 13:18:09 +0000 (UTC)
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 82D3F8183D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 13:18:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 82D3F8183D
-Received: by mail-pf1-x42a.google.com with SMTP id
- d2e1a72fcca58-686efb9ee3cso3534584b3a.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 06:18:09 -0700 (PDT)
+ Sun, 30 Jul 2023 06:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690723089; x=1691327889;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=DoKJbbiWl8hUg0Dy6YLVM9iQokjVlJ3D8prlTQfzCzg=;
- b=NipgZv6PiVltkSLreFuviTiDabA7maZ6wrCQ8AActBCPMzoNsHRKcJuD98lVWSDg/G
- 1GqLvQo5oSPgaof8RVK+SvP2qhVfeQo8PGCdk/mKqcV7bjw91nPcqInkz1VKDvSIXcHG
- LlEv3jk1LQDLXoX3GyGduUm4ZRTrcybzDADzfO3d6pch3YrWXGzoyjEtiKjp+d/mcnPO
- xyEgZARbZlQhB4fkDcTJmTyvcB6L+GtgXRpGtA0eeCKGiy5hNuwF/7YmODZfI88PzKzY
- VYUqTSysDTDZqoTeNLJPEQeC+/B862LSm8LuGmvO9Ek8I0m9XK9IidFNbwZaJaqlIdwA
- cm+g==
+ d=gmail.com; s=20221208; t=1690723194; x=1691327994;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xe19FSyqVMtSJothuV+9HnDqwn9ZBzV0WLnzrMtLXqI=;
+ b=V/qUzZPl2C2fJiVrHo1ek0bN6LOIbGz0QJ2SNo0yUiouo4yAk+SZbOXMvIMbLmOL+Q
+ PNyEmwTg+lr+3oW/M2WEwzyb3XVJohKAFYERiXUACMMOevkatBUAtDmDGzgTRlQbXEed
+ Kp3b2KOR1aeyyT7WpYmSa/iByeX+NpQ+oAhxxWZp3A7upUn+t4wB9WTtvd6tDrwlibV/
+ wS82SrERCEN0prQsTVUaK/solx2On8AiHoIcl1EcXnKY6madqoTeHDX2KfO4ACzUTQWq
+ 6zqppNtcYDpnaF1qMOlYy7P7fJcMoDID4PHAVUbJuDwDka/KE8uKmjmvP4ewlVfu9cwh
+ s74w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690723089; x=1691327889;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DoKJbbiWl8hUg0Dy6YLVM9iQokjVlJ3D8prlTQfzCzg=;
- b=XqXt0LY1x1hHPYHr13TYcesO5XyBvoYiVevuCr2UEqnj3qyzubL9iK8ZVS1xxsuXMx
- 7xN4CvtetE3+qeaA63fU7+D8RqcMRxOMNTdsJGFoQ94It4xZ47xZ0lZWbNRbhT0ilS63
- SuTyP1KmVlyMXkrFvAbh78z2CkSJRTKLUFM5mWI78yphzxUaqxYFKKsYAwHxeC6QoW1z
- OZBdtN2QTJNDunqWujqAccndgthLfVy4vY/9JGh+N+l3DtArY7wDZVAqIPyXh+BaRK32
- GNaJ+I2oqLVQaZaemr+VQ+52BwVUdMm+nEh7j7HCrV/w5u8iLOdUfbRX/Ugnrn/D8S9i
- ny9Q==
-X-Gm-Message-State: ABy/qLY/8F09zjryhUUS/8cOl5iASvSpGshR2/P8JdN30JJApCjD8JLy
- HZdO9CQX9Qq9kEXiDrTQh3k=
-X-Google-Smtp-Source: APBJJlGxWL7Q6ft5ubK3ML9kE6ZI8AqfCONOxLIrr78jTbF4pjdiSSPx1VgbgZwRSVHQLa72iYD0Wg==
-X-Received: by 2002:a05:6a00:23c8:b0:668:81c5:2f8d with SMTP id
- g8-20020a056a0023c800b0066881c52f8dmr8427462pfc.3.1690723088736; 
- Sun, 30 Jul 2023 06:18:08 -0700 (PDT)
-Received: from pop-os.. ([222.252.65.171]) by smtp.gmail.com with ESMTPSA id
- 2-20020aa79142000000b0067ab572c72fsm434727pfi.84.2023.07.30.06.18.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jul 2023 06:18:08 -0700 (PDT)
-From: Anh Tuan Phan <tuananhlfc@gmail.com>
-To: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, sdf@google.com
-Subject: [PATCH v3] samples/bpf: Fix build out of source tree
-Date: Sun, 30 Jul 2023 20:17:50 +0700
-Message-Id: <20230730131750.16552-1-tuananhlfc@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ d=1e100.net; s=20221208; t=1690723194; x=1691327994;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xe19FSyqVMtSJothuV+9HnDqwn9ZBzV0WLnzrMtLXqI=;
+ b=cnc1O/tnz/OnsdAGCobY7L6KUHZI5/I3mack+G+U73o0vYx+i/Lp5h8VZjWKCjRTXu
+ /du42jb6Hp36TkpKJgP2FW4xEaMJEeUW5K4gUyj4vIzmXnLp7moOwf761P+8AS3+mRlR
+ UdPXaGJZz+MHJxzXQj5l4Mplwid9Ft3A1ueE1sIeAUMBy2mxITyPmkPSnlHbMqnofPoM
+ Q61DdT45EtsATKkHvjG/zSkEox3fWkXNxC97Jn7uF32Za1u2WIYEZGsXNS2jnLgk6sqP
+ iOX8YKhRq4SAw05TOzVEWKDvYpDJM69wfA8/+xn6jDkEWq3kTItN92n3mqMa+82+B27c
+ ktyQ==
+X-Gm-Message-State: ABy/qLZaMVnk2KjJLF2vgrlST+K/kELWe4fVXmDyH9PW8opPimP/F7aZ
+ n8+DEMyiiBn+5rj02wKs51Y=
+X-Google-Smtp-Source: APBJJlFhLL4w/TUxkKxMNKA43NH01EhQ9PdJy4NpTiPDx0o9DsuWqs8TzldfKmK5wA/8g3crgaqq8Q==
+X-Received: by 2002:a17:902:70c7:b0:1ba:1704:8a12 with SMTP id
+ l7-20020a17090270c700b001ba17048a12mr6487132plt.45.1690723194166; 
+ Sun, 30 Jul 2023 06:19:54 -0700 (PDT)
+Received: from [192.168.1.9] ([222.252.65.171])
+ by smtp.gmail.com with ESMTPSA id
+ w5-20020a1709029a8500b001b03cda6389sm6658317plp.10.2023.07.30.06.19.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Jul 2023 06:19:53 -0700 (PDT)
+Message-ID: <cc5a6736-5fa8-1bae-8649-e113fb32c483@gmail.com>
+Date: Sun, 30 Jul 2023 20:19:51 +0700
 MIME-Version: 1.0
-Cc: bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- Anh Tuan Phan <tuananhlfc@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] samples/bpf: Fix build out of source tree
+Content-Language: en-US
+To: Stanislav Fomichev <sdf@google.com>
+References: <2ba1c076-f5bf-432f-50c1-72c845403167@gmail.com>
+ <CAKH8qBtJ-Nb--BqH+J6K4S++J7J-8uHTPewS3BrVA86GBry=sQ@mail.gmail.com>
+From: Anh Tuan Phan <tuananhlfc@gmail.com>
+In-Reply-To: <CAKH8qBtJ-Nb--BqH+J6K4S++J7J-8uHTPewS3BrVA86GBry=sQ@mail.gmail.com>
+Cc: daniel <daniel@iogearbox.net>, "martin.lau" <martin.lau@linux.dev>,
+ ast <ast@kernel.org>, andrii <andrii@kernel.org>, bpf <bpf@vger.kernel.org>,
+ linux-kernel-mentees <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,93 +111,28 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This commit fixes a few compilation issues when building out of source
-tree. The command that I used to build samples/bpf:
-
-export KBUILD_OUTPUT=/tmp
-make V=1 M=samples/bpf
-
-The compilation failed since it tried to find the header files in the
-wrong places between output directory and source tree directory
-
-Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
----
-Changes from v1:
-- Unconditionally add "-I $(objtree)/$(obj)" to _tprogc_flags and drop unnecessary part
-Reference:
-- v1: https://lore.kernel.org/all/67bec6a9-af59-d6f9-2630-17280479a1f7@gmail.com/
-- v2: https://lore.kernel.org/all/2ba1c076-f5bf-432f-50c1-72c845403167@gmail.com/
----
- samples/bpf/Makefile        | 10 +++++-----
- samples/bpf/Makefile.target |  9 +--------
- 2 files changed, 6 insertions(+), 13 deletions(-)
-
-diff --git a/samples/bpf/Makefile b/samples/bpf/Makefile
-index 615f24ebc49c..cfc960b3713a 100644
---- a/samples/bpf/Makefile
-+++ b/samples/bpf/Makefile
-@@ -341,10 +341,10 @@ $(obj)/hbm_edt_kern.o: $(src)/hbm.h $(src)/hbm_kern.h
- # Override includes for xdp_sample_user.o because $(srctree)/usr/include in
- # TPROGS_CFLAGS causes conflicts
- XDP_SAMPLE_CFLAGS += -Wall -O2 \
--		     -I$(src)/../../tools/include \
--		     -I$(src)/../../tools/include/uapi \
-+		     -I$(srctree)/tools/include \
-+		     -I$(srctree)/tools/include/uapi \
- 		     -I$(LIBBPF_INCLUDE) \
--		     -I$(src)/../../tools/testing/selftests/bpf
-+		     -I$(srctree)/tools/testing/selftests/bpf
- 
- $(obj)/$(XDP_SAMPLE): TPROGS_CFLAGS = $(XDP_SAMPLE_CFLAGS)
- $(obj)/$(XDP_SAMPLE): $(src)/xdp_sample_user.h $(src)/xdp_sample_shared.h
-@@ -393,7 +393,7 @@ $(obj)/xdp_router_ipv4.bpf.o: $(obj)/xdp_sample.bpf.o
- $(obj)/%.bpf.o: $(src)/%.bpf.c $(obj)/vmlinux.h $(src)/xdp_sample.bpf.h $(src)/xdp_sample_shared.h
- 	@echo "  CLANG-BPF " $@
- 	$(Q)$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(SRCARCH) \
--		-Wno-compare-distinct-pointer-types -I$(srctree)/include \
-+		-Wno-compare-distinct-pointer-types -I$(obj) -I$(srctree)/include \
- 		-I$(srctree)/samples/bpf -I$(srctree)/tools/include \
- 		-I$(LIBBPF_INCLUDE) $(CLANG_SYS_INCLUDES) \
- 		-c $(filter %.bpf.c,$^) -o $@
-@@ -412,7 +412,7 @@ xdp_router_ipv4.skel.h-deps := xdp_router_ipv4.bpf.o xdp_sample.bpf.o
- 
- LINKED_BPF_SRCS := $(patsubst %.bpf.o,%.bpf.c,$(foreach skel,$(LINKED_SKELS),$($(skel)-deps)))
- 
--BPF_SRCS_LINKED := $(notdir $(wildcard $(src)/*.bpf.c))
-+BPF_SRCS_LINKED := $(notdir $(wildcard $(srctree)/$(src)/*.bpf.c))
- BPF_OBJS_LINKED := $(patsubst %.bpf.c,$(obj)/%.bpf.o, $(BPF_SRCS_LINKED))
- BPF_SKELS_LINKED := $(addprefix $(obj)/,$(LINKED_SKELS))
- 
-diff --git a/samples/bpf/Makefile.target b/samples/bpf/Makefile.target
-index 7621f55e2947..d2fab959652e 100644
---- a/samples/bpf/Makefile.target
-+++ b/samples/bpf/Makefile.target
-@@ -38,14 +38,7 @@ tprog-cobjs	:= $(addprefix $(obj)/,$(tprog-cobjs))
- # Handle options to gcc. Support building with separate output directory
- 
- _tprogc_flags   = $(TPROGS_CFLAGS) \
--                 $(TPROGCFLAGS_$(basetarget).o)
--
--# $(objtree)/$(obj) for including generated headers from checkin source files
--ifeq ($(KBUILD_EXTMOD),)
--ifdef building_out_of_srctree
--_tprogc_flags   += -I $(objtree)/$(obj)
--endif
--endif
-+                 -I $(objtree)/$(obj)
- 
- tprogc_flags    = -Wp,-MD,$(depfile) $(_tprogc_flags)
- 
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+CgpPbiA3LzI4LzIzIDIzOjMwLCBTdGFuaXNsYXYgRm9taWNoZXYgd3JvdGU6Cj4gT24gVGh1LCBK
+dWwgMjcsIDIwMjMgYXQgNTo0M+KAr1BNIEFuaCBUdWFuIFBoYW4gPHR1YW5hbmhsZmNAZ21haWwu
+Y29tPiB3cm90ZToKPj4KPj4gVGhpcyBjb21taXQgZml4ZXMgYSBmZXcgY29tcGlsYXRpb24gaXNz
+dWVzIHdoZW4gYnVpbGRpbmcgb3V0IG9mIHNvdXJjZQo+PiB0cmVlLiBUaGUgY29tbWFuZCB0aGF0
+IEkgdXNlZCB0byBidWlsZCBzYW1wbGVzL2JwZjoKPj4KPj4gZXhwb3J0IEtCVUlMRF9PVVRQVVQ9
+L3RtcAo+PiBtYWtlIFY9MSBNPXNhbXBsZXMvYnBmCj4+Cj4+IFRoZSBjb21waWxhdGlvbiBmYWls
+ZWQgc2luY2UgaXQgdHJpZWQgdG8gZmluZCB0aGUgaGVhZGVyIGZpbGVzIGluIHRoZQo+PiB3cm9u
+ZyBwbGFjZXMgYmV0d2VlbiBvdXRwdXQgZGlyZWN0b3J5IGFuZCBzb3VyY2UgdHJlZSBkaXJlY3Rv
+cnkKPiAKPiBJIHdhcyBnb2luZyB0byB0ZXN0IGl0IGxvY2FsbHksIGJ1dCBJIGNhbid0IGFwcGx5
+IGl0LiBQYXRjaHdvcmsgYWxzbwo+IGNvbXBsYWlucyBhYm91dCB0aGUgc2FtZSBpc3N1ZToKPiAg
+IHN0ZGVycjogJ2Vycm9yOiBjb3JydXB0IHBhdGNoIGF0IGxpbmUgMzMKPiAKPiBBcmUgeW91IGNv
+cHktcGFzdGluZyBpdCB0byBnbWFpbCBtYXliZT8gKG9yIG1hbnVhbGx5IGVkaXRlZCBpdCBhZnRl
+cgo+IGdpdCBmb3JtYXQtcGF0Y2g/KQo+IE1heWJlIHJlYmFzZSwgYW5kIHJlc2VuZCBwcm9wZXJs
+eSB3aXRoIGdpdCBzZW5kLWVtYWlsPwo+IApJdCB3YXMgdGhlIGNvcHkgcGFzdGUgcHJvYmxlbS4g
+SSByZWJhc2VkIGFuZCBzZW50IGFnYWluIGJ5IGdpdApzZW5kLWVtYWlsLiBTb3JyeSBmb3IgdGhl
+IGluY29udmVuaWVudC4KCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVu
+dGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0
+aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
