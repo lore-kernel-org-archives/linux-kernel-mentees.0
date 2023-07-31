@@ -1,101 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 36600EB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 31 Jul 2023 02:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EB2FC001DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 31 Jul 2023 02:26:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B7CAD80B48;
-	Mon, 31 Jul 2023 02:18:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B7CAD80B48
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=h5K+DYPq
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0D50C61026;
+	Mon, 31 Jul 2023 02:26:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0D50C61026
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hdJPCLFD
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 5DwGsdjGbAB6; Mon, 31 Jul 2023 02:18:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id B11D58002D;
-	Mon, 31 Jul 2023 02:18:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B11D58002D
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VlPu_mX0lvKZ; Mon, 31 Jul 2023 02:26:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 034BC60B79;
+	Mon, 31 Jul 2023 02:26:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 034BC60B79
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 89B3FC0071;
-	Mon, 31 Jul 2023 02:18:29 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0E002C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E2ADAC0071;
+	Mon, 31 Jul 2023 02:26:14 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6DDA5C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:18:28 +0000 (UTC)
+ Mon, 31 Jul 2023 02:26:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id D4EAE40920
+ by smtp2.osuosl.org (Postfix) with ESMTP id 34CB0400E7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:18:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D4EAE40920
-Authentication-Results: smtp4.osuosl.org;
+ Mon, 31 Jul 2023 02:26:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 34CB0400E7
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=h5K+DYPq
+ header.a=rsa-sha256 header.s=20221208 header.b=hdJPCLFD
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id R34PQH2zLC5t
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5H2x3I8SVHB2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:18:26 +0000 (UTC)
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id B4B7540901
+ Mon, 31 Jul 2023 02:26:12 +0000 (UTC)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 6F4F9400D0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:18:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B4B7540901
-Received: by mail-pf1-x42c.google.com with SMTP id
- d2e1a72fcca58-68730bafa6bso377762b3a.1
+ Mon, 31 Jul 2023 02:26:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6F4F9400D0
+Received: by mail-pl1-x62f.google.com with SMTP id
+ d9443c01a7336-1bba04b9df3so32201825ad.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 19:18:25 -0700 (PDT)
+ Sun, 30 Jul 2023 19:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690769905; x=1691374705;
+ d=gmail.com; s=20221208; t=1690770372; x=1691375172;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YGe7yeLSCJNtOm6KMm1pCwSHsNpi9wZaHI6nfPlQl3c=;
- b=h5K+DYPqZFC60a4cycOBBwDw5B5aIbHbzVUDTSJ6TmYOhMYUesVIXYk0R0JFkg2WgX
- BqzQ34i+6GjiKS6oRSCiLl0ic6J9PuUs4c4QS6euPm/SL7qBhmuS6/kg/TKZzh+lNtD5
- K/cb62Lbuse0dW9UGOxZCzJrJBqDiopp9TjAJysFCOBEUGMBIf6InBjVzAcMwhwVWWjN
- OzOpHhxABYLhKR/ifh3OWwHVUjQX04a8Yf/2GsLMwiWsRj4Msd08iBqmJZ7caPgi1w9J
- rV8j/ceCuCZ1VYT+la25Uut6MLD8MoUE5y1wia1maBSuWyvnORxdF6JL1mnTNKn0/Wma
- xr1A==
+ bh=+5+YDtWOqzo4ntCd+ygrleNLdsHAxAxplxj1dQXMQFU=;
+ b=hdJPCLFD6ReyKmnF/ug9HWb5kg1E28UUAXXmv8egdv9xxQkThiVfhuSHBKmF7GcLJD
+ lhpwd2oUOws2qM2/rEbDiRyFv1IucwhwfzTIt4/O/SKIWXY9mQYhw99Q0h2PsOnEAWU4
+ hFZTS8t2EorHlPm3R+hQ1pPRGYQdl1+11bA0mTG0HyVq7mUAgFCyvyjQncueSRbQyduw
+ hwC5rj21ZjjZKYNu/aSYwhMGHzxNos8+BBmczhTwhqCcoXxelfG9vkziu5n4rag4hO0R
+ ndzen1kWIQCX3T7uJid61z356RElByaco+/nuR/bD61S6nE/+6GWbazNeTOZvYYIO0Ok
+ tcZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690769905; x=1691374705;
+ d=1e100.net; s=20221208; t=1690770372; x=1691375172;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=YGe7yeLSCJNtOm6KMm1pCwSHsNpi9wZaHI6nfPlQl3c=;
- b=Rzv5yRMtCtMMZW9voKLyCJWtJte/O/Iq2dfmcLtBICFm2py3ckXH4IxyUdXjkeKcMu
- oQKLu3oEkkh9lgvAkQWeKB/beR869oOrNtmZtkzKiEkkLJvO0A26Ksy00sj0Kx0th9qa
- efdkrSOgfd8xtbNgxwk8uyuOVp6Ox5pbVv0hQFHc+SplJYCCeWpNCUgqU86tRjfULE4M
- 8se7Le+c7CsaHBp44rHfbZWAZk05sCgUyTCvgT6FTft6ChbtxQHd5/UB+m+uKpwP/nKl
- r7wpWJkjbc6IbX+AnstMm2AWHKZleS9FD3WS1RZiIQNNexlUadjCCQ21LCp9TMCLL/dC
- 5MbQ==
-X-Gm-Message-State: ABy/qLYpMI/mlj5Wh5RFnO8wsaweHzPj8rPDN65m2neaP7XWg611KBDk
- FgIq9qBSRYzML+VbJKNQALg=
-X-Google-Smtp-Source: APBJJlFEz/QKJPg44Ka8GKBHJeWwG0oxzm4iA/VEL0cm8A0/7em09GsIoQpzhFflx+zfO6TcGfEObQ==
-X-Received: by 2002:a05:6a20:3d21:b0:10b:bf2d:71bb with SMTP id
- y33-20020a056a203d2100b0010bbf2d71bbmr9643953pzi.27.1690769905200; 
- Sun, 30 Jul 2023 19:18:25 -0700 (PDT)
+ bh=+5+YDtWOqzo4ntCd+ygrleNLdsHAxAxplxj1dQXMQFU=;
+ b=NcQfEOYh9/IMvMT3vurHr2XXW8Y5pBh6ADD0eMjbg5lkRRvBJmf/vTHlQvumPySS1A
+ 5gk+XR65n26+Fn4Y7Lyg0gd10D/z/kwgS2Q9uowvEjw45LSYHjUDB38GQOZmrjRDeEp9
+ lE7a4TDw/AuGswirChcoh4DjdeTg6Vh/ZIZ2dCSte0omGnYnOenaW2/aZ0w+mpNI5tvJ
+ 2gjr0TFzw2lzJSODSqWMFJjbVvwHtEVt3LPh7zGqVag8sakbMPDgSdUyZFp1zXvF6sfL
+ ATUfx4foyq6fDd/opc/taU43g9BvChvdV3JE8nwCvVvS9Hjpy9w5hAwoaC54YGu0VnAL
+ FQKA==
+X-Gm-Message-State: ABy/qLbE2nsHC6RG+J2oQvfqpPudTVuRZv2DPGNrMatexCdZVNPTS7+f
+ 8S5oq7GGimRRmMQNHZjCT4c=
+X-Google-Smtp-Source: APBJJlF+vu+opgQ1dCnvS8yu4mP20sj7AQijKvtoK4+KiXtKJ9FGp/UBhR3wdrI/NYwby8rzAkp0Og==
+X-Received: by 2002:a17:902:ea0d:b0:1b8:6cac:ffe8 with SMTP id
+ s13-20020a170902ea0d00b001b86cacffe8mr9713516plg.51.1690770371714; 
+ Sun, 30 Jul 2023 19:26:11 -0700 (PDT)
 Received: from rajgad.hsd1.ca.comcast.net
  ([2601:204:df00:9cd0:f50b:8f24:acc4:e5c])
  by smtp.gmail.com with ESMTPSA id
- y1-20020aa78041000000b00686bcfb5a34sm6460022pfm.124.2023.07.30.19.18.24
+ g6-20020a170902740600b001b03842ab78sm7233993pll.89.2023.07.30.19.26.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jul 2023 19:18:24 -0700 (PDT)
+ Sun, 30 Jul 2023 19:26:11 -0700 (PDT)
 From: Atul Raut <rauji.raut@gmail.com>
-To: deller@gmx.de
-Subject: [PATCH] fbdev/amifb: Replace zero-length arrays with
- DECLARE_FLEX_ARRAY() helper
-Date: Sun, 30 Jul 2023 19:18:08 -0700
-Message-Id: <20230731021808.24997-1-rauji.raut@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] ipc:msg: Replace zero-length arrays with DECLARE_FLEX_ARRAY()
+ helper
+Date: Sun, 30 Jul 2023 19:25:57 -0700
+Message-Id: <20230731022557.25598-1-rauji.raut@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: linux-fbdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,30 +113,31 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 Replacing zero-length arrays with C99 flexible-array members
-because they are deprecated. Use the new DECLARE_FLEX_ARRAY()
-auxiliary macro instead of defining a zero-length array.
+because they are deprecated.
+Use the new DECLARE_FLEX_ARRAY() auxiliary macro instead of defining
+a zero-length array.
 
 This fixes warnings such as:
-./drivers/video/fbdev/amifb.c:690:6-10: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+./ipc/msg.c:981:6-11: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
 Signed-off-by: Atul Raut <rauji.raut@gmail.com>
 ---
- drivers/video/fbdev/amifb.c | 2 +-
+ ipc/msg.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/amifb.c b/drivers/video/fbdev/amifb.c
-index d88265dbebf4..f216b2c702a1 100644
---- a/drivers/video/fbdev/amifb.c
-+++ b/drivers/video/fbdev/amifb.c
-@@ -687,7 +687,7 @@ struct fb_var_cursorinfo {
- 	__u16 height;
- 	__u16 xspot;
- 	__u16 yspot;
--	__u8 data[1];			/* field with [height][width]        */
-+	DECLARE_FLEX_ARRAY(__u8, data);	/* field with [height][width]        */
+diff --git a/ipc/msg.c b/ipc/msg.c
+index fd08b3cb36d7..300c126faf2d 100644
+--- a/ipc/msg.c
++++ b/ipc/msg.c
+@@ -978,7 +978,7 @@ SYSCALL_DEFINE4(msgsnd, int, msqid, struct msgbuf __user *, msgp, size_t, msgsz,
+ 
+ struct compat_msgbuf {
+ 	compat_long_t mtype;
+-	char mtext[1];
++	DECLARE_FLEX_ARRAY(char, mtext);
  };
  
- struct fb_cursorstate {
+ long compat_ksys_msgsnd(int msqid, compat_uptr_t msgp,
 -- 
 2.34.1
 
