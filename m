@@ -1,102 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3E5E0C001E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 31 Jul 2023 01:16:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 24FACEB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 31 Jul 2023 01:29:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B19AC4049D;
-	Mon, 31 Jul 2023 01:16:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B19AC4049D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Q77lfKBG
+	by smtp1.osuosl.org (Postfix) with ESMTP id AAF49815CE;
+	Mon, 31 Jul 2023 01:29:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AAF49815CE
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=CIMHYVIL
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id bHOIPMIwWrTZ; Mon, 31 Jul 2023 01:16:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id AFCCC40025;
-	Mon, 31 Jul 2023 01:16:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AFCCC40025
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ytBMwg1zDx-q; Mon, 31 Jul 2023 01:29:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 834C581815;
+	Mon, 31 Jul 2023 01:29:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 834C581815
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 74F2AC0072;
-	Mon, 31 Jul 2023 01:16:48 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BE80CC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E522C0072;
+	Mon, 31 Jul 2023 01:29:54 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 604F8C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 01:16:45 +0000 (UTC)
+ Mon, 31 Jul 2023 01:29:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9230760F9B
+ by smtp3.osuosl.org (Postfix) with ESMTP id 35CEE6101A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 01:16:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9230760F9B
+ Mon, 31 Jul 2023 01:29:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 35CEE6101A
 Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Q77lfKBG
+ header.a=rsa-sha256 header.s=20221208 header.b=CIMHYVIL
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QBOKB0piPdTw
+ with ESMTP id vZv8mnBCu5_J
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 01:16:44 +0000 (UTC)
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 5041660F6F
+ Mon, 31 Jul 2023 01:29:51 +0000 (UTC)
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com
+ [IPv6:2607:f8b0:4864:20::52e])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 0F2A160F5E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 01:16:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5041660F6F
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-686b643df5dso2722678b3a.1
+ Mon, 31 Jul 2023 01:29:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0F2A160F5E
+Received: by mail-pg1-x52e.google.com with SMTP id
+ 41be03b00d2f7-563d3e4f73cso2182175a12.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 18:16:44 -0700 (PDT)
+ Sun, 30 Jul 2023 18:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690766203; x=1691371003;
+ d=gmail.com; s=20221208; t=1690766990; x=1691371790;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=RoLht6Nj+QdoUfDoHkYrw79LiGPXCNEAvhbkzzXglIs=;
- b=Q77lfKBGO1gtg7GHeJifAa2N4OOCQsbu/8fYgxBycCuTeFosUbOVfiGeg8tUFmaXyf
- F9El/OzKqhoi/yV9hMHJiRUfFTzqJGtwcpMsMcwXJumlgOjfzD+OyLBUxS1naEVQ40YW
- +M6fX+e8GwVV1Kc8hM9yvYACfY3PDc5Aki6CJI9ZzCEM2hGLiTqVQ/MF8bm5w6bLUmA2
- d3WLWyhHIDIEVffZBbs4Ksg6mNgaOBOrK0aHQfUH1265fxJicELeUYAcNYn++wYDFeYc
- 6g/1XKEocy693h1M6BjWJmaeJNr/YO48jm+P+qCOKX6c08L/+320QjbfXQSKeqjffOOX
- ZuVw==
+ bh=xIIhCDOH7Yz5qlTpKDXtZZdnWeyGOEAV1deFecuA5Bk=;
+ b=CIMHYVILe2Ga9K6PB29WGrUwogEpNfAI7k3CSKpE0izeGeu8/SbFoosF95BUu2DCsx
+ JIB03K673qERBb7DmlesQTmPnwqNekjJgmLl4poc4fJ8Xrpf7Vv6zofSocLGa+hTKJEe
+ tp8ZpygEwFs9xQ2VKk0m/VYYxlUlFie4AvCeLh+285B+aaSZfp3jrDyYGjNV2eM+IFCp
+ NuuCt/aWv95SnxXDenDbb5sdaxKqLOmyzIS7inIh0xrIsfN3BLs8pz1mlhxejez3zC1C
+ NKbfK0rzDVia3XNWtO7FikMzlTKFIeUqqyzygJ06vKXErfk6xQdfojA/q5tiIFnamii1
+ so9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690766204; x=1691371004;
+ d=1e100.net; s=20221208; t=1690766990; x=1691371790;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=RoLht6Nj+QdoUfDoHkYrw79LiGPXCNEAvhbkzzXglIs=;
- b=HouTugRpUa56AsfTJsQ3x2A9paV9k3lPzNA4s6Y/fCTlQ/SuJHDlitJdlqz/2xQET9
- sbhNHViCCHDrcop9VX9/9fvlYrJv3EQ2h/PzJtH/cx/hnMpLBttxI16iyUIeaNOguTBR
- GYj8QDx6D6VOuZOOvaYYnF2BZPD05jhvLu9t9fqrhvv2QRBjGE9QLKJfK1EYQ57NNGjf
- igRGyabaowNprO/PoQ8r52i27iJGe9Mx6wBrLJd4RP6Oj7XpIOYiSjTjalcNroXOa33T
- AYC1c++/V+Fzx2R8fRhajbE/3uCrEFFvzjFZCOSbRc4LXr8TTXCIP9eZ7c4bbUQOtHC0
- cXMQ==
-X-Gm-Message-State: ABy/qLZerCBzWVfpw6evHmdsut7DH4HFGe0V6MgzuO/4xZZ8IfYIezsC
- //MzwZdjB/JZrM5Z2vT1WtI=
-X-Google-Smtp-Source: APBJJlGm8+7fAysmaFnTRk2gyFZmqf8NkF0LlK0YpCb6TaNVmCWjvHTM9zeqgdip0y9QNjkv8S0yfw==
-X-Received: by 2002:a05:6a20:4288:b0:133:fd64:8d48 with SMTP id
- o8-20020a056a20428800b00133fd648d48mr9586468pzj.4.1690766203411; 
- Sun, 30 Jul 2023 18:16:43 -0700 (PDT)
+ bh=xIIhCDOH7Yz5qlTpKDXtZZdnWeyGOEAV1deFecuA5Bk=;
+ b=IcdMM7RYM3dJc0mHaOhO+86VjT3kTuxm3wCxYRRqYriKXAcDtYxwwzjCBL6ZX+rA16
+ WhQNuAdjQA0O8gWBKEM7rWQYrvMqco8DUMma6+ehND4j8YuYX5yvqUltWj1E2jPLhkvi
+ 7TYk0d5zAg6L8St/n+T5bWkOjK09ypZAY9Xxk5NXvbsSgbfhrbs6MYyCwT93JIfXuc+V
+ qj20FPdW9BTRNsdsjsJWUlxVxqFKDcRyK117EZLzOShDgiPqZUyu0BCNyvPqnM5VztxL
+ 3UabVoc0FgEIJGxuJlXn5B/n4l1w89aqLq6vf796N13T5mk60u1qaD07J7KMUOKjCLcj
+ 8oPQ==
+X-Gm-Message-State: ABy/qLZJfjmzpNH2jc62L0csVbbVXUKbe0npSnOP35Z7qPwGR1idw4sW
+ Jh9f+cK5fj2CrPasxT3bHAo=
+X-Google-Smtp-Source: APBJJlHZ6HcObPOdibXv5PwgRtX5UYPrYVpL9EBylHOssbj0fI2JjX1oSSInlzrjssBpbInxGRzJ8g==
+X-Received: by 2002:a05:6a20:840b:b0:137:514a:9835 with SMTP id
+ c11-20020a056a20840b00b00137514a9835mr10050395pzd.9.1690766990276; 
+ Sun, 30 Jul 2023 18:29:50 -0700 (PDT)
 Received: from rajgad.hsd1.ca.comcast.net
  ([2601:204:df00:9cd0:f50b:8f24:acc4:e5c])
  by smtp.gmail.com with ESMTPSA id
- q16-20020a170902bd9000b001bb515e6b39sm7166021pls.306.2023.07.30.18.16.42
+ v5-20020a170902b7c500b001b891259eddsm7141277plz.197.2023.07.30.18.29.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jul 2023 18:16:43 -0700 (PDT)
+ Sun, 30 Jul 2023 18:29:49 -0700 (PDT)
 From: Atul Raut <rauji.raut@gmail.com>
-To: aspriel@gmail.com
-Subject: [PATCH] brcmfmac: Replace zero-length arrays with
- DECLARE_FLEX_ARRAY() helper
-Date: Sun, 30 Jul 2023 18:16:35 -0700
-Message-Id: <20230731011635.20993-1-rauji.raut@gmail.com>
+To: kvalo@kernel.org
+Subject: [PATCH] ath6kl: Replace zero-length arrays with DECLARE_FLEX_ARRAY()
+ helper
+Date: Sun, 30 Jul 2023 18:29:41 -0700
+Message-Id: <20230731012941.21875-1-rauji.raut@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, kvalo@kernel.org,
- linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- franky.lin@broadcom.com
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,32 +113,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Replacing zero-length arrays with C99 flexible-array members
-because they are deprecated.
-Use the new DECLARE_FLEX_ARRAY() auxiliary macro instead of defining
-a zero-length array.
+Because zero-length arrays are obsolete, replacing them with
+C99 flexible-array members.
+Instead of defining a zero-length array, use the new
+DECLARE_FLEX_ARRAY() auxiliary macro.
 
 This fixes warnings such as:
-./drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:119:6-9: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+./drivers/net/wireless/ath/ath6kl/usb.c:109:8-12: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
 Signed-off-by: Atul Raut <rauji.raut@gmail.com>
 ---
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 2 +-
+ drivers/net/wireless/ath/ath6kl/usb.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-index de8a2e27f49c..983946b146b3 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-@@ -116,7 +116,7 @@ struct brcmf_dump_survey {
- struct cca_stats_n_flags {
- 	u32 msrmnt_time; /* Time for Measurement (msec) */
- 	u32 msrmnt_done; /* flag set when measurement complete */
--	char buf[1];
-+	DECLARE_FLEX_ARRAY(char, buf);
- };
+diff --git a/drivers/net/wireless/ath/ath6kl/usb.c b/drivers/net/wireless/ath/ath6kl/usb.c
+index 5220809841a6..bb3771a3897c 100644
+--- a/drivers/net/wireless/ath/ath6kl/usb.c
++++ b/drivers/net/wireless/ath/ath6kl/usb.c
+@@ -106,7 +106,7 @@ struct ath6kl_usb_ctrl_diag_cmd_write {
+ 	__le32 cmd;
+ 	__le32 address;
+ 	__le32 value;
+-	__le32 _pad[1];
++	DECLARE_FLEX_ARRAY(__le32, _pad);
+ } __packed;
  
- struct cca_msrmnt_query {
+ struct ath6kl_usb_ctrl_diag_cmd_read {
 -- 
 2.34.1
 
