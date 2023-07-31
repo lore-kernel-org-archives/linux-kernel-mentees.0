@@ -4,97 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EB2FC001DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 31 Jul 2023 02:26:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 737FAC001E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 31 Jul 2023 02:38:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0D50C61026;
-	Mon, 31 Jul 2023 02:26:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0D50C61026
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0B91360BAB;
+	Mon, 31 Jul 2023 02:38:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0B91360BAB
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hdJPCLFD
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=BJasjRvN
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VlPu_mX0lvKZ; Mon, 31 Jul 2023 02:26:15 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 034BC60B79;
-	Mon, 31 Jul 2023 02:26:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 034BC60B79
+	with ESMTP id kz6qIryh25aG; Mon, 31 Jul 2023 02:38:37 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DAA4260AA8;
+	Mon, 31 Jul 2023 02:38:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DAA4260AA8
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E2ADAC0071;
-	Mon, 31 Jul 2023 02:26:14 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6DDA5C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AC77FC0071;
+	Mon, 31 Jul 2023 02:38:36 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 68666C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:26:13 +0000 (UTC)
+ Mon, 31 Jul 2023 02:38:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 34CB0400E7
+ by smtp4.osuosl.org (Postfix) with ESMTP id 2D7014081F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:26:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 34CB0400E7
-Authentication-Results: smtp2.osuosl.org;
+ Mon, 31 Jul 2023 02:38:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2D7014081F
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=hdJPCLFD
+ header.a=rsa-sha256 header.s=20221208 header.b=BJasjRvN
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5H2x3I8SVHB2
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8_xkYpIZILxx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:26:12 +0000 (UTC)
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 6F4F9400D0
+ Mon, 31 Jul 2023 02:38:33 +0000 (UTC)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id BC05540583
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 31 Jul 2023 02:26:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6F4F9400D0
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-1bba04b9df3so32201825ad.0
+ Mon, 31 Jul 2023 02:38:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BC05540583
+Received: by mail-pf1-x430.google.com with SMTP id
+ d2e1a72fcca58-686efa1804eso2807291b3a.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 30 Jul 2023 19:26:12 -0700 (PDT)
+ Sun, 30 Jul 2023 19:38:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1690770372; x=1691375172;
+ d=gmail.com; s=20221208; t=1690771113; x=1691375913;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=+5+YDtWOqzo4ntCd+ygrleNLdsHAxAxplxj1dQXMQFU=;
- b=hdJPCLFD6ReyKmnF/ug9HWb5kg1E28UUAXXmv8egdv9xxQkThiVfhuSHBKmF7GcLJD
- lhpwd2oUOws2qM2/rEbDiRyFv1IucwhwfzTIt4/O/SKIWXY9mQYhw99Q0h2PsOnEAWU4
- hFZTS8t2EorHlPm3R+hQ1pPRGYQdl1+11bA0mTG0HyVq7mUAgFCyvyjQncueSRbQyduw
- hwC5rj21ZjjZKYNu/aSYwhMGHzxNos8+BBmczhTwhqCcoXxelfG9vkziu5n4rag4hO0R
- ndzen1kWIQCX3T7uJid61z356RElByaco+/nuR/bD61S6nE/+6GWbazNeTOZvYYIO0Ok
- tcZw==
+ bh=ARxiCoB+DCxySI06TbQe/1opBfLGlEbdA/arcMTzmFU=;
+ b=BJasjRvNE8e3dDMzzRpr096BocEe6ocP5JxoG8E2Ze96sbnYIW0VA01TIeTAOGgRKE
+ zkpTvoa+aJq8PLiygj/lU6RRVKOtck73spYRPtZ8D5pk21RIVRmgXMr9TDJ2ucg06hro
+ 8hYV6Jj9+bl00VgGkXhFD91lNdeAgTU6Y3MM7jpoNUxj0ERr58GVn/rG7Hv0dHKi85Vu
+ khaNw3CTX9WwTHM3EHJ/gTXPL0u3npFeE5BqSakcbtVtw0Eh1NA0wDgHCmSmO9aseeSx
+ 9oQ1JLpTDoODCtJBexwlkzR+517eatnjpGI/LyvAjAuyNC09I9lgNMe6lu2CjdVPhsxH
+ 5Y1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1690770372; x=1691375172;
+ d=1e100.net; s=20221208; t=1690771113; x=1691375913;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+5+YDtWOqzo4ntCd+ygrleNLdsHAxAxplxj1dQXMQFU=;
- b=NcQfEOYh9/IMvMT3vurHr2XXW8Y5pBh6ADD0eMjbg5lkRRvBJmf/vTHlQvumPySS1A
- 5gk+XR65n26+Fn4Y7Lyg0gd10D/z/kwgS2Q9uowvEjw45LSYHjUDB38GQOZmrjRDeEp9
- lE7a4TDw/AuGswirChcoh4DjdeTg6Vh/ZIZ2dCSte0omGnYnOenaW2/aZ0w+mpNI5tvJ
- 2gjr0TFzw2lzJSODSqWMFJjbVvwHtEVt3LPh7zGqVag8sakbMPDgSdUyZFp1zXvF6sfL
- ATUfx4foyq6fDd/opc/taU43g9BvChvdV3JE8nwCvVvS9Hjpy9w5hAwoaC54YGu0VnAL
- FQKA==
-X-Gm-Message-State: ABy/qLbE2nsHC6RG+J2oQvfqpPudTVuRZv2DPGNrMatexCdZVNPTS7+f
- 8S5oq7GGimRRmMQNHZjCT4c=
-X-Google-Smtp-Source: APBJJlF+vu+opgQ1dCnvS8yu4mP20sj7AQijKvtoK4+KiXtKJ9FGp/UBhR3wdrI/NYwby8rzAkp0Og==
-X-Received: by 2002:a17:902:ea0d:b0:1b8:6cac:ffe8 with SMTP id
- s13-20020a170902ea0d00b001b86cacffe8mr9713516plg.51.1690770371714; 
- Sun, 30 Jul 2023 19:26:11 -0700 (PDT)
+ bh=ARxiCoB+DCxySI06TbQe/1opBfLGlEbdA/arcMTzmFU=;
+ b=jmaHEvDFfmYdWtc3tc8qOWKMC93MiuYxv7KyRZgQQdPucR58usmU0S3mwmtsrPbxwz
+ ye2XjtltwhkiiKRxZVpjcUU7V9tSdKSIEgr4D989urOZosrRg3pwlnlqqdSq+VlviI/m
+ bYerYt90YGirz9Vsq9LE+9D02KFscyhS6glBnbhnRXRO0pwiX8rnwotOpZdBOx6BOacy
+ 7RH+64EqrjVYJM40Glt79q101sOHuSAlGWJ/Jn4mGsgA6feXToe25F02rg781uOpI+jR
+ VREZXSORWtMaO/tbbunVanynudtAM/JdRatn4QEwA/DX9DmSKriF+Z614dVNTCTiKCCh
+ Fr5A==
+X-Gm-Message-State: ABy/qLZsSVfJWpQG/lM75VVIAJddaRDQb1s1hhMWrpZ1/Rc/pTLnyigT
+ QQerH0VDNuqLYIICmZ21S2I=
+X-Google-Smtp-Source: APBJJlHRPRHHkKwKoOs5V9VHQLWmC3z/V04kEImJhE9suNHr3LMJnF2jA8vaJQ2VfqXFI4NTMfIn2g==
+X-Received: by 2002:a05:6a00:170a:b0:672:264c:e8cf with SMTP id
+ h10-20020a056a00170a00b00672264ce8cfmr9547837pfc.7.1690771113025; 
+ Sun, 30 Jul 2023 19:38:33 -0700 (PDT)
 Received: from rajgad.hsd1.ca.comcast.net
  ([2601:204:df00:9cd0:f50b:8f24:acc4:e5c])
  by smtp.gmail.com with ESMTPSA id
- g6-20020a170902740600b001b03842ab78sm7233993pll.89.2023.07.30.19.26.11
+ s8-20020aa78d48000000b006661562429fsm2474546pfe.97.2023.07.30.19.38.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Jul 2023 19:26:11 -0700 (PDT)
+ Sun, 30 Jul 2023 19:38:32 -0700 (PDT)
 From: Atul Raut <rauji.raut@gmail.com>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] ipc:msg: Replace zero-length arrays with DECLARE_FLEX_ARRAY()
- helper
-Date: Sun, 30 Jul 2023 19:25:57 -0700
-Message-Id: <20230731022557.25598-1-rauji.raut@gmail.com>
+To: jirislaby@kernel.org, mickflemm@gmail.com, mcgrof@kernel.org,
+ kvalo@kernel.org
+Subject: [PATCH] ath5k: Fix debugfs_create_dir error checking
+Date: Sun, 30 Jul 2023 19:38:20 -0700
+Message-Id: <20230731023820.26571-1-rauji.raut@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,32 +113,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Replacing zero-length arrays with C99 flexible-array members
-because they are deprecated.
-Use the new DECLARE_FLEX_ARRAY() auxiliary macro instead of defining
-a zero-length array.
+The debugfs_create_dir function returns ERR_PTR
+in case of error and the correct way to check an
+error is 'IS_ERR' inline function.
+This patch will replace the null-comparison with IS_ERR
 
-This fixes warnings such as:
-./ipc/msg.c:981:6-11: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+This issue was found with the help of Coccinelle.
+./drivers/net/wireless/ath/ath5k/debug.c:985:6-12: Wrong debugfs call error processing on line 985
 
 Signed-off-by: Atul Raut <rauji.raut@gmail.com>
 ---
- ipc/msg.c | 2 +-
+ drivers/net/wireless/ath/ath5k/debug.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/ipc/msg.c b/ipc/msg.c
-index fd08b3cb36d7..300c126faf2d 100644
---- a/ipc/msg.c
-+++ b/ipc/msg.c
-@@ -978,7 +978,7 @@ SYSCALL_DEFINE4(msgsnd, int, msqid, struct msgbuf __user *, msgp, size_t, msgsz,
+diff --git a/drivers/net/wireless/ath/ath5k/debug.c b/drivers/net/wireless/ath/ath5k/debug.c
+index 4b41160e5d38..08058b3f7e22 100644
+--- a/drivers/net/wireless/ath/ath5k/debug.c
++++ b/drivers/net/wireless/ath/ath5k/debug.c
+@@ -982,7 +982,7 @@ ath5k_debug_init_device(struct ath5k_hw *ah)
+ 	ah->debug.level = ath5k_debug;
  
- struct compat_msgbuf {
- 	compat_long_t mtype;
--	char mtext[1];
-+	DECLARE_FLEX_ARRAY(char, mtext);
- };
+ 	phydir = debugfs_create_dir("ath5k", ah->hw->wiphy->debugfsdir);
+-	if (!phydir)
++	if (IS_ERR(phydir))
+ 		return;
  
- long compat_ksys_msgsnd(int msqid, compat_uptr_t msgp,
+ 	debugfs_create_file("debug", 0600, phydir, ah, &fops_debug);
 -- 
 2.34.1
 
