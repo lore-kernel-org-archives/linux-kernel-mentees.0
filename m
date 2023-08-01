@@ -1,84 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 323A7C0015E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  1 Aug 2023 22:00:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54EF5C0015E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  1 Aug 2023 22:08:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B7BCE81FD5;
-	Tue,  1 Aug 2023 22:00:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B7BCE81FD5
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Q7jZlrsA
+	by smtp3.osuosl.org (Postfix) with ESMTP id E5DCA60FF0;
+	Tue,  1 Aug 2023 22:08:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E5DCA60FF0
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=kaotcAVc
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 27nJ1YxHQ6Xk; Tue,  1 Aug 2023 22:00:30 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AF6A880B0E;
-	Tue,  1 Aug 2023 22:00:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AF6A880B0E
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iP3iWZukcquv; Tue,  1 Aug 2023 22:08:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DE8DB61163;
+	Tue,  1 Aug 2023 22:08:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DE8DB61163
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EDB3C0072;
-	Tue,  1 Aug 2023 22:00:30 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BB8B8C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AE13EC0071;
+	Tue,  1 Aug 2023 22:08:49 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0403FC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 22:00:28 +0000 (UTC)
+ Tue,  1 Aug 2023 22:08:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 94D91417D7
+ by smtp2.osuosl.org (Postfix) with ESMTP id CCA134063B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 22:00:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 94D91417D7
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=Q7jZlrsA
+ Tue,  1 Aug 2023 22:08:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CCA134063B
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=kaotcAVc
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5B9EhI1_UBFL
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id t59FbJbLYwsb
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 22:00:27 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp4.osuosl.org (Postfix) with ESMTPS id AF1D84189E
+ Tue,  1 Aug 2023 22:08:48 +0000 (UTC)
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
+ [IPv6:2a00:1450:4864:20::231])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id D6D93404D8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 22:00:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AF1D84189E
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id DFD506175A;
- Tue,  1 Aug 2023 22:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EB012C43391;
- Tue,  1 Aug 2023 22:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690927226;
- bh=TfTWerrT151QkA9LdcUjyC/O6PsLiVHfw7rM1IQ6jMQ=;
- h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
- b=Q7jZlrsAOvLcG8zlqTXiRuz8wEHuiC53UF7AQ4XXdtmBD1YfwpxC8P4JJYAnfqO2m
- vor/Oy9m1cWPiJ7cCbP+H2Hg1KbPLuxyJVC6a9fb0eJMHWZoPf5Dy+DrrVKYxnJAlo
- AH2U572+qg/yKotNzj2NQT4AY3nJjMMy6Z72dc/qu7y+dEOZrZMHi1lsHffamQDWRx
- JxdOo+u+YlTpbiJ7uAZVoD9cfxdiqQPiH6Vp3gAOc9Kc9m7POBWuKn0eh5hk0Y8HjA
- MrDF6Dld5t7X60WnLMVZfUyEUzXBAngKIV5L4ABiRr6zu3FQqVr2ngSoLIKqTxPyUK
- 64nlLjduQKr8g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- D3C25C691E4; Tue,  1 Aug 2023 22:00:25 +0000 (UTC)
+ Tue,  1 Aug 2023 22:08:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D6D93404D8
+Received: by mail-lj1-x231.google.com with SMTP id
+ 38308e7fff4ca-2b9cdba1228so78707031fa.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 01 Aug 2023 15:08:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690927726; x=1691532526;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=G1hkgYbEyenByhiJwV7HkHjwBRGI9O4uNXYD4EgYxI0=;
+ b=kaotcAVcJkwsqpE9BJbV/XN+eV8bYnbuh3SRhYaVa0Q/fSJh+DRrukxPvbyd8radiL
+ P7aNclrVt4fzkZQSQy9toXXQEUtU33zUdgWp8436CNj6cUaj0nykCVaQQhSf+HXCpB3L
+ nqVc4olywChap+KoZXu6zpr/PM2yGPeDb+pRoUESyWkGrf0UTzlDA17bWU0yUpXUhgdz
+ qOMixXr2r/5m7Q80jNGtbzZKKlkmkHZutQSBLUEUtnVKFwfQi9TMzkIlqHahckUuxS5o
+ cxvEConNhDfn8iiaxVy8h699euN19H+A6fxbZ4NnIhb6oLS2gMwXBYc8nFzUY/QFIipd
+ devA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690927726; x=1691532526;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=G1hkgYbEyenByhiJwV7HkHjwBRGI9O4uNXYD4EgYxI0=;
+ b=GaAkwiT7yS9f9IkPWugvX7EXyTp3xcpzzUf/bcT7JCocbRfAWjza/5IMf/tTydfuwK
+ Xt9JKAKaIu09FzXYIyc496DxhDKfW3v+reVVEyXQdtanOhCkkFo23feTU81fj4kJZTds
+ yE1FL/gCsoW5bGSgExls0X+C4HrxngI7flkQvMdYjvqhVE8CtEa3B0/Dh2gUqPBQjfl7
+ wHS+k5Lq3dPfFUWgCS/ZCEJPFB8jneEk/lFLl68H61ztVPzl7BPEEhwNQKaqqyD06PLo
+ Tq02Sf3UlVLbk/r2W+MugfxyrYVbszIwK3F+m3pVftn1FLBCCXzKJAMcIxm/Uh+Ehs6g
+ 7oqw==
+X-Gm-Message-State: ABy/qLZ9Ea9L2ZfIcyeIT/myic0YGgaKqHeq/j+DdJ1eG0nWHUoA+VKN
+ W+4vU6a4/7p3seWUgvfgvh4=
+X-Google-Smtp-Source: APBJJlEQLbXtHrYLczB2Kt01YL/EZrQRIWtxgHivm16qea/RpBi1FApyfFFXUDWH4sX5Hq88RIbR4A==
+X-Received: by 2002:a2e:805a:0:b0:2b6:e2aa:8fbc with SMTP id
+ p26-20020a2e805a000000b002b6e2aa8fbcmr2976839ljg.8.1690927725514; 
+ Tue, 01 Aug 2023 15:08:45 -0700 (PDT)
+Received: from localhost.localdomain ([77.222.27.96])
+ by smtp.gmail.com with ESMTPSA id
+ y18-20020a2e95d2000000b002b9ea00a7bbsm1391013ljh.60.2023.08.01.15.08.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Aug 2023 15:08:45 -0700 (PDT)
+From: Andrew Kanner <andrew.kanner@gmail.com>
+To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, jasowang@redhat.com, netdev@vger.kernel.org,
+ brouer@redhat.com, dsahern@gmail.com, jbrouer@redhat.com,
+ john.fastabend@gmail.com, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/2] drivers: net: prevent tun_build_skb() to exceed the
+ packet size limit
+Date: Wed,  2 Aug 2023 01:07:11 +0300
+Message-Id: <20230801220710.464-1-andrew.kanner@gmail.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Subject: Re: [PATCH] net/macmace: Replace zero-length array with
- DECLARE_FLEX_ARRAY() helper
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169092722585.12287.10967772625799606285.git-patchwork-notify@kernel.org>
-Date: Tue, 01 Aug 2023 22:00:25 +0000
-References: <20230730231442.15003-1-rauji.raut@gmail.com>
-In-Reply-To: <20230730231442.15003-1-rauji.raut@gmail.com>
-To: Atul Raut <rauji.raut@gmail.com>
-Cc: netdev@vger.kernel.org, avem@davemloft.net, rafal@milecki.pl,
- kuba@kernel.org, pabeni@redhat.com,
+Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -97,31 +115,76 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello:
+Using the syzkaller repro with reduced packet size it was discovered
+that XDP_PACKET_HEADROOM is not checked in tun_can_build_skb(),
+although pad may be incremented in tun_build_skb(). This may end up
+with exceeding the PAGE_SIZE limit in tun_build_skb().
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Fixes: 7df13219d757 ("tun: reserve extra headroom only when XDP is set")
+Link: https://syzkaller.appspot.com/bug?extid=f817490f5bd20541b90a
+Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
+---
 
-On Sun, 30 Jul 2023 16:14:42 -0700 you wrote:
-> Since zero-length arrays are deprecated, we are replacing
-> them with C99 flexible-array members. As a result, instead
-> of declaring a zero-length array, use the new
-> DECLARE_FLEX_ARRAY() helper macro.
-> 
-> This fixes warnings such as:
-> ./drivers/net/ethernet/apple/macmace.c:80:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> 
-> [...]
+Notes:
+    v3 -> v4:
+    * fall back to v1, fixing only missing XDP_PACKET_HEADROOM in pad and
+      removing bpf_xdp_adjust_tail() check for frame_sz.
+    * added rcu read lock, noted by Jason Wang <jasowang@redhat.com> in v1
+    * I decided to leave the packet length check in tun_can_build_skb()
+      instead of moving to tun_build_skb() suggested by Jason Wang
+      <jasowang@redhat.com>. Otherwise extra packets will be dropped
+      without falling back to tun_alloc_skb(). And in the discussion of v3
+      Jesper Dangaard Brouer <jbrouer@redhat.com> noticed that XDP is ok
+      with a higher order pages if it's a contiguous physical memory
+      allocation, so falling to tun_alloc_skb() -> do_xdp_generic() should
+      be ok.
+    
+    v2 -> v3:
+    * attach the forgotten changelog
+    
+    v1 -> v2:
+    * merged 2 patches in 1, fixing both issues: WARN_ON_ONCE with
+      syzkaller repro and missing XDP_PACKET_HEADROOM in pad
+    * changed the title and description of the execution path, suggested
+      by Jason Wang <jasowang@redhat.com>
+    * move the limit check from tun_can_build_skb() to tun_build_skb() to
+      remove duplication and locking issue, and also drop the packet in
+      case of a failed check - noted by Jason Wang <jasowang@redhat.com>
 
-Here is the summary with links:
-  - net/macmace: Replace zero-length array with DECLARE_FLEX_ARRAY() helper
-    https://git.kernel.org/netdev/net-next/c/005c9600003e
+ drivers/net/tun.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-You are awesome, thank you!
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index d75456adc62a..a1d04bc9485f 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -1582,6 +1582,9 @@ static void tun_rx_batched(struct tun_struct *tun, struct tun_file *tfile,
+ static bool tun_can_build_skb(struct tun_struct *tun, struct tun_file *tfile,
+ 			      int len, int noblock, bool zerocopy)
+ {
++	struct bpf_prog *xdp_prog;
++	int pad = TUN_RX_PAD;
++
+ 	if ((tun->flags & TUN_TYPE_MASK) != IFF_TAP)
+ 		return false;
+ 
+@@ -1594,7 +1597,13 @@ static bool tun_can_build_skb(struct tun_struct *tun, struct tun_file *tfile,
+ 	if (zerocopy)
+ 		return false;
+ 
+-	if (SKB_DATA_ALIGN(len + TUN_RX_PAD) +
++	rcu_read_lock();
++	xdp_prog = rcu_dereference(tun->xdp_prog);
++	if (xdp_prog)
++		pad += XDP_PACKET_HEADROOM;
++	rcu_read_unlock();
++
++	if (SKB_DATA_ALIGN(len + pad) +
+ 	    SKB_DATA_ALIGN(sizeof(struct skb_shared_info)) > PAGE_SIZE)
+ 		return false;
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.3
 
 _______________________________________________
 Linux-kernel-mentees mailing list
