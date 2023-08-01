@@ -1,83 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B5D6BC001DF
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  1 Aug 2023 14:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 70245C001DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  1 Aug 2023 15:54:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 403CA60EB3;
-	Tue,  1 Aug 2023 14:42:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 403CA60EB3
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=IcqNTVC6
+	by smtp4.osuosl.org (Postfix) with ESMTP id E7A5841797;
+	Tue,  1 Aug 2023 15:54:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E7A5841797
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=QBJdIun1
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KW1X3ijtmW14; Tue,  1 Aug 2023 14:42:20 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nlPfY98HIIhr; Tue,  1 Aug 2023 15:54:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3E9A260E4C;
-	Tue,  1 Aug 2023 14:42:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3E9A260E4C
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B724B40EC1;
+	Tue,  1 Aug 2023 15:54:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B724B40EC1
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 24358C0071;
-	Tue,  1 Aug 2023 14:42:20 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31E8AC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9A5D2C0072;
+	Tue,  1 Aug 2023 15:54:11 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id C6399C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 14:42:19 +0000 (UTC)
+ Tue,  1 Aug 2023 15:54:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 135B98129E
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9D178417CD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 14:42:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 135B98129E
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=IcqNTVC6
+ Tue,  1 Aug 2023 15:54:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9D178417CD
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id MrFEhUbpw7s6
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1c8p7BxMZyXI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 14:42:18 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 1CAA080FB8
+ Tue,  1 Aug 2023 15:54:06 +0000 (UTC)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6C36240EC1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 14:42:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1CAA080FB8
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D4B84615C1;
- Tue,  1 Aug 2023 14:42:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2D3C433C9;
- Tue,  1 Aug 2023 14:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690900936;
- bh=Ifsf+UP7DfBl5X+t2F3PvEQ8d2CvFMBSWmOAi1tejUI=;
- h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
- b=IcqNTVC6OSw7u6y45OyD6q0oSZbVww1OfHa16ef3QjXxi4t3sbgXv9Gy36BJo3Kvt
- +SH5//cL604sQpPGKG+sAA7Oimky30stV9x9dt97vs1RAn3UgLnYv8694AczWkSejZ
- OCmM+oQ2xo4U+Vc3Bq8N4mvAcT8Nx3t7iaPt3B/ExnCzJFa/wiLv/Cc7aSIOf4Nohr
- mC7gyAlJMvoDYAGur+YFJKiwZInZEaTOsGMRJcVwwIzs48byCeUiNwRRUBKWAG9t3H
- 955/FdBg9Haq/zVYNCeTTTsL+1dBWyIu1OxzwLQPhkJdU/kB3llakGCOkGdzCwmA/J
- 59OMW5p46zgrw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Greg KH <greg@kroah.com>
-Subject: Re: [PATCH] ath6kl: Replace zero-length arrays with
- DECLARE_FLEX_ARRAY() helper
-References: <20230731012941.21875-1-rauji.raut@gmail.com>
- <2023073103-basket-ranking-b6e6@gregkh>
-Date: Tue, 01 Aug 2023 17:42:13 +0300
-In-Reply-To: <2023073103-basket-ranking-b6e6@gregkh> (Greg KH's message of
- "Mon, 31 Jul 2023 08:05:52 +0200")
-Message-ID: <877cqeygca.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ Tue,  1 Aug 2023 15:54:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6C36240EC1
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-686ea67195dso4188665b3a.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 01 Aug 2023 08:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1690905246; x=1691510046;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ajAF+t6njGTTE10ONTyjICZkmpPMA+YFQnQaKbwByKI=;
+ b=QBJdIun1mNOViVW8Uny9lh9MsGjFaQoXV+ZOBDcpUbghZLC8I0EcTDHGlhKqFkoD44
+ U3/2OJ7LjlIKgIk9oVrrum/cQyMGMkwM/hvxwfof0rW6hM9RwEizLa1DJk6bef4zThtC
+ ONqHBUhkl7eJ3xI6BHkA2FNeT1XQWKSQrlsgNzMMdCKep6TDhbFXH3M3Kf5d1p6QRjbK
+ a0gwMblH6PMh+dv3w6dovGaBeNGMjKUmW/yjpz6hYL3wRy4eo1zwohE/M0WrIKBEtQjP
+ rG40ddwz3mcOECo7FtFe+cUPIP3+FQsF93OlMU7IYsxGSjaPO+jsazcSsqWpBPltB2GL
+ Z2gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1690905246; x=1691510046;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ajAF+t6njGTTE10ONTyjICZkmpPMA+YFQnQaKbwByKI=;
+ b=AQInOHQrBrVjEGvBWn8Kb0Jor7D1MBFAttgj4QrNNkp8LiPKZpMtEr50gEVk+yg9N7
+ Ipy27P9joxFBdPUHXLqyBqcNrG6bTe5ntSO1zGtfBsoxWVpEN02vvVluoJ/kYKV1MIsj
+ 6M1cpyExmGOCWqGliEdhgrsc/naJ7EuEH1bug/8McTNaBCiyi7PE0QFrW9LVPPCaDEZs
+ zeBBxAyH4Ufc18ZTwQQTnqMiVVJ+BREo4zktRzKTH5iJMJX1yxp0FZxvcLBw4b2JnAta
+ f+1dWxmeRZrXz76eET+FzzFNYEawI615vJxhES1lV7kzULdQeZm81hTErq5FlL76V6uo
+ ZItw==
+X-Gm-Message-State: ABy/qLa1FZnZvOLwLR0WukKateGkorOx2cgObiDdeI9fHt0XIsDsXld8
+ +MOcQtrfBnPcyCjVzNMMwII=
+X-Google-Smtp-Source: APBJJlFgNzbmuV8eSVldQHYXyHB7bf23+ZYHg54AdM7BWBEoTgYkgFqHbXdbchtdkQarwNUx56oZJg==
+X-Received: by 2002:a05:6a20:430b:b0:13a:52ce:13cc with SMTP id
+ h11-20020a056a20430b00b0013a52ce13ccmr14580644pzk.51.1690905245433; 
+ Tue, 01 Aug 2023 08:54:05 -0700 (PDT)
+Received: from fanta-System-Product-Name.. ([222.252.65.171])
+ by smtp.gmail.com with ESMTPSA id
+ n4-20020a637204000000b0054fe7736ac1sm10167912pgc.76.2023.08.01.08.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Aug 2023 08:54:04 -0700 (PDT)
+From: Anh Tuan Phan <tuananhlfc@gmail.com>
+To: sdf@google.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev
+Subject: [PATCH bpf-next v4] samples/bpf: Fix build out of source tree
+Date: Tue,  1 Aug 2023 22:53:55 +0700
+Message-Id: <20230801155355.11885-1-tuananhlfc@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: Atul Raut <rauji.raut@gmail.com>, linux-wireless@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Cc: bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ Anh Tuan Phan <tuananhlfc@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,46 +109,86 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Greg KH <greg@kroah.com> writes:
+This commit fixes a few compilation issues when building out of source
+tree. The command that I used to build samples/bpf:
 
-> On Sun, Jul 30, 2023 at 06:29:41PM -0700, Atul Raut wrote:
->
->> Because zero-length arrays are obsolete, replacing them with
->> C99 flexible-array members.
->> Instead of defining a zero-length array, use the new
->> DECLARE_FLEX_ARRAY() auxiliary macro.
->> 
->> This fixes warnings such as:
->> ./drivers/net/wireless/ath/ath6kl/usb.c:109:8-12: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
->> 
->> Signed-off-by: Atul Raut <rauji.raut@gmail.com>
->> ---
->>  drivers/net/wireless/ath/ath6kl/usb.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->> 
->> diff --git a/drivers/net/wireless/ath/ath6kl/usb.c b/drivers/net/wireless/ath/ath6kl/usb.c
->> index 5220809841a6..bb3771a3897c 100644
->> --- a/drivers/net/wireless/ath/ath6kl/usb.c
->> +++ b/drivers/net/wireless/ath/ath6kl/usb.c
->> @@ -106,7 +106,7 @@ struct ath6kl_usb_ctrl_diag_cmd_write {
->>  	__le32 cmd;
->>  	__le32 address;
->>  	__le32 value;
->> -	__le32 _pad[1];
->> +	DECLARE_FLEX_ARRAY(__le32, _pad);
->
-> This is not a 0 length array, or a variable array.  Look at the work
-> done on the hardening mailing list for more details, I think this is
-> wrong.
+export KBUILD_OUTPUT=/tmp
+make V=1 M=samples/bpf
 
-I agree with Greg, this is just padding and _pad is not even used
-anywhere in ath6kl. Though use of [1] is strange here, '__le32 _pad;'
-would be enough.
+The compilation failed since it tried to find the header files in the
+wrong places between output directory and source tree directory
 
+Signed-off-by: Anh Tuan Phan <tuananhlfc@gmail.com>
+---
+Changes from v1:
+- Unconditionally add "-I $(objtree)/$(obj)" to _tprogc_flags and drop unnecessary part
+Reference:
+- v1: https://lore.kernel.org/all/67bec6a9-af59-d6f9-2630-17280479a1f7@gmail.com/
+- v2: https://lore.kernel.org/all/2ba1c076-f5bf-432f-50c1-72c845403167@gmail.com/
+---
+ samples/bpf/Makefile        | 10 +++++-----
+ samples/bpf/Makefile.target |  9 +--------
+ 2 files changed, 6 insertions(+), 13 deletions(-)
+
+diff --git a/samples/bpf/Makefile b/samples/bpf/Makefile
+index 595b98d825ce..fe0214f21a9d 100644
+--- a/samples/bpf/Makefile
++++ b/samples/bpf/Makefile
+@@ -341,10 +341,10 @@ $(obj)/hbm_edt_kern.o: $(src)/hbm.h $(src)/hbm_kern.h
+ # Override includes for xdp_sample_user.o because $(srctree)/usr/include in
+ # TPROGS_CFLAGS causes conflicts
+ XDP_SAMPLE_CFLAGS += -Wall -O2 \
+-		     -I$(src)/../../tools/include \
+-		     -I$(src)/../../tools/include/uapi \
++		     -I(srctree)/tools/include \
++		     -I(srctree)/tools/include/uapi \
+ 		     -I$(LIBBPF_INCLUDE) \
+-		     -I$(src)/../../tools/testing/selftests/bpf
++		     -I(srctree)/tools/testing/selftests/bpf
+ 
+ $(obj)/$(XDP_SAMPLE): TPROGS_CFLAGS = $(XDP_SAMPLE_CFLAGS)
+ $(obj)/$(XDP_SAMPLE): $(src)/xdp_sample_user.h $(src)/xdp_sample_shared.h
+@@ -393,7 +393,7 @@ $(obj)/xdp_router_ipv4.bpf.o: $(obj)/xdp_sample.bpf.o
+ $(obj)/%.bpf.o: $(src)/%.bpf.c $(obj)/vmlinux.h $(src)/xdp_sample.bpf.h $(src)/xdp_sample_shared.h
+ 	@echo "  CLANG-BPF " $@
+ 	$(Q)$(CLANG) -g -O2 --target=bpf -D__TARGET_ARCH_$(SRCARCH) \
+-		-Wno-compare-distinct-pointer-types -I$(srctree)/include \
++		-Wno-compare-distinct-pointer-types -I$(obj) -I$(srctree)/include \
+ 		-I$(srctree)/samples/bpf -I$(srctree)/tools/include \
+ 		-I$(LIBBPF_INCLUDE) $(CLANG_SYS_INCLUDES) \
+ 		-c $(filter %.bpf.c,$^) -o $@
+@@ -412,7 +412,7 @@ xdp_router_ipv4.skel.h-deps := xdp_router_ipv4.bpf.o xdp_sample.bpf.o
+ 
+ LINKED_BPF_SRCS := $(patsubst %.bpf.o,%.bpf.c,$(foreach skel,$(LINKED_SKELS),$($(skel)-deps)))
+ 
+-BPF_SRCS_LINKED := $(notdir $(wildcard $(src)/*.bpf.c))
++BPF_SRCS_LINKED := $(notdir $(wildcard $(srctree)/$(src)/*.bpf.c))
+ BPF_OBJS_LINKED := $(patsubst %.bpf.c,$(obj)/%.bpf.o, $(BPF_SRCS_LINKED))
+ BPF_SKELS_LINKED := $(addprefix $(obj)/,$(LINKED_SKELS))
+ 
+diff --git a/samples/bpf/Makefile.target b/samples/bpf/Makefile.target
+index 7621f55e2947..d2fab959652e 100644
+--- a/samples/bpf/Makefile.target
++++ b/samples/bpf/Makefile.target
+@@ -38,14 +38,7 @@ tprog-cobjs	:= $(addprefix $(obj)/,$(tprog-cobjs))
+ # Handle options to gcc. Support building with separate output directory
+ 
+ _tprogc_flags   = $(TPROGS_CFLAGS) \
+-                 $(TPROGCFLAGS_$(basetarget).o)
+-
+-# $(objtree)/$(obj) for including generated headers from checkin source files
+-ifeq ($(KBUILD_EXTMOD),)
+-ifdef building_out_of_srctree
+-_tprogc_flags   += -I $(objtree)/$(obj)
+-endif
+-endif
++                 -I $(objtree)/$(obj)
+ 
+ tprogc_flags    = -Wp,-MD,$(depfile) $(_tprogc_flags)
+ 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.34.1
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
