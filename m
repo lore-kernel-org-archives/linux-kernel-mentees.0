@@ -1,81 +1,84 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ACED0C0015E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  1 Aug 2023 21:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 323A7C0015E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  1 Aug 2023 22:00:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 4A00F60AC0;
-	Tue,  1 Aug 2023 21:51:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4A00F60AC0
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ea86IZrl
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WunjeBmGExNn; Tue,  1 Aug 2023 21:51:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5875060743;
-	Tue,  1 Aug 2023 21:51:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5875060743
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 39121C0072;
-	Tue,  1 Aug 2023 21:51:20 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 31E36C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 21:51:19 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E4B5C81492
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 21:51:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E4B5C81492
+	by smtp1.osuosl.org (Postfix) with ESMTP id B7BCE81FD5;
+	Tue,  1 Aug 2023 22:00:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B7BCE81FD5
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=Ea86IZrl
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Q7jZlrsA
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id sKfy0aDeW7E1
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 27nJ1YxHQ6Xk; Tue,  1 Aug 2023 22:00:30 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AF6A880B0E;
+	Tue,  1 Aug 2023 22:00:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AF6A880B0E
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8EDB3C0072;
+	Tue,  1 Aug 2023 22:00:30 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB8B8C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 21:51:18 +0000 (UTC)
+ Tue,  1 Aug 2023 22:00:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 94D91417D7
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  1 Aug 2023 22:00:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 94D91417D7
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=Q7jZlrsA
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5B9EhI1_UBFL
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  1 Aug 2023 22:00:27 +0000 (UTC)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 54A2C81F38
+ by smtp4.osuosl.org (Postfix) with ESMTPS id AF1D84189E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  1 Aug 2023 21:51:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 54A2C81F38
+ Tue,  1 Aug 2023 22:00:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AF1D84189E
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 48D73615F2;
- Tue,  1 Aug 2023 21:51:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7081DC433C7;
- Tue,  1 Aug 2023 21:51:16 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id DFD506175A;
+ Tue,  1 Aug 2023 22:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EB012C43391;
+ Tue,  1 Aug 2023 22:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1690926676;
- bh=4dYL6EavnS6V/WEwMnlud6nMt53cQOrRwJGdMdREcSg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=Ea86IZrl/0H6euUS4i9ji2lVI4hqosY13fdKD8VJiQOs/xLhRtHS5ZeUhYFiS+Vg4
- GrqrxzNevJoM9iBxCHbi+MYzYHdzRLcmrXkstsOihtbRkPiWZut6lS/JMxjUU1On7V
- Ef848XgqHAqcJw9hKurZL05cGCuB5Yv+vQMNzxRCYilxSGZe9b7+VwuPQqkI0fAXqr
- 7CX7KP6d+Q1cM95rwTv/tzqZ41m8TtESjCOGaTrg6e8xTbmOkVeMI8HYCLbcwCRWDK
- MKdumOKc6bzBo6VXUQGoWMpI/XRSFwJ9trRH34fnvw/NAkoErCLsfsAj1fzsVz7DZ1
- NX8XKQgsThM3Q==
-Date: Tue, 1 Aug 2023 14:51:15 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Atul Raut <rauji.raut@gmail.com>
+ s=k20201202; t=1690927226;
+ bh=TfTWerrT151QkA9LdcUjyC/O6PsLiVHfw7rM1IQ6jMQ=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=Q7jZlrsAOvLcG8zlqTXiRuz8wEHuiC53UF7AQ4XXdtmBD1YfwpxC8P4JJYAnfqO2m
+ vor/Oy9m1cWPiJ7cCbP+H2Hg1KbPLuxyJVC6a9fb0eJMHWZoPf5Dy+DrrVKYxnJAlo
+ AH2U572+qg/yKotNzj2NQT4AY3nJjMMy6Z72dc/qu7y+dEOZrZMHi1lsHffamQDWRx
+ JxdOo+u+YlTpbiJ7uAZVoD9cfxdiqQPiH6Vp3gAOc9Kc9m7POBWuKn0eh5hk0Y8HjA
+ MrDF6Dld5t7X60WnLMVZfUyEUzXBAngKIV5L4ABiRr6zu3FQqVr2ngSoLIKqTxPyUK
+ 64nlLjduQKr8g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ D3C25C691E4; Tue,  1 Aug 2023 22:00:25 +0000 (UTC)
+MIME-Version: 1.0
 Subject: Re: [PATCH] net/macmace: Replace zero-length array with
  DECLARE_FLEX_ARRAY() helper
-Message-ID: <20230801145115.153f3629@kernel.org>
-In-Reply-To: <ZMkSIfUEnvYvHyZx@lincoln>
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169092722585.12287.10967772625799606285.git-patchwork-notify@kernel.org>
+Date: Tue, 01 Aug 2023 22:00:25 +0000
 References: <20230730231442.15003-1-rauji.raut@gmail.com>
- <20230731073801.GA87829@unreal> <ZMkSIfUEnvYvHyZx@lincoln>
-MIME-Version: 1.0
-Cc: Larysa Zaremba <larysa.zaremba@intel.com>, netdev@vger.kernel.org,
- avem@davemloft.net, rafal@milecki.pl, pabeni@redhat.com,
+In-Reply-To: <20230730231442.15003-1-rauji.raut@gmail.com>
+To: Atul Raut <rauji.raut@gmail.com>
+Cc: netdev@vger.kernel.org, avem@davemloft.net, rafal@milecki.pl,
+ kuba@kernel.org, pabeni@redhat.com,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -94,20 +97,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, 1 Aug 2023 16:09:37 +0200 Larysa Zaremba wrote:
-> > > -	u8	data[1];
-> > > +	DECLARE_FLEX_ARRAY(u8, data);  
-> > 
-> > But data[1] is not zero-length array.
-> 
-> So, please, if you are certain that data should be a flexible array,
-> send v2 without calling data a zero-length array. Also, with such change, I 
-> think driver code could be improved in many places in the same patchset.
+Hello:
 
-Atul, you should respond to reviewers promptly. These are legit
-questions.
-On closer inspection the patch looks fine so to avoid clogging up 
-the review queue and wasting more time on it I'm just going to apply it.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sun, 30 Jul 2023 16:14:42 -0700 you wrote:
+> Since zero-length arrays are deprecated, we are replacing
+> them with C99 flexible-array members. As a result, instead
+> of declaring a zero-length array, use the new
+> DECLARE_FLEX_ARRAY() helper macro.
+> 
+> This fixes warnings such as:
+> ./drivers/net/ethernet/apple/macmace.c:80:4-8: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> 
+> [...]
+
+Here is the summary with links:
+  - net/macmace: Replace zero-length array with DECLARE_FLEX_ARRAY() helper
+    https://git.kernel.org/netdev/net-next/c/005c9600003e
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
