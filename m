@@ -4,100 +4,103 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 37990C00528
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Aug 2023 19:00:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5E1FC001DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Aug 2023 19:04:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8CE2641F5C;
-	Thu,  3 Aug 2023 19:00:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8CE2641F5C
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6FDA241F29;
+	Thu,  3 Aug 2023 19:04:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6FDA241F29
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=k5NDFDrE
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mV4KTN0y
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F_uQTI17KbrT; Thu,  3 Aug 2023 19:00:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 1D4A2408FA;
-	Thu,  3 Aug 2023 19:00:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1D4A2408FA
+	with ESMTP id dcyajA1QwJ-y; Thu,  3 Aug 2023 19:04:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DBC0B41F3E;
+	Thu,  3 Aug 2023 19:04:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DBC0B41F3E
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E9284C0071;
-	Thu,  3 Aug 2023 19:00:32 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA4FAC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A13F3C0071;
+	Thu,  3 Aug 2023 19:04:52 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D0D3CC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:00:31 +0000 (UTC)
+ Thu,  3 Aug 2023 19:04:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id AE1D540253
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9344E41F29
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:00:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AE1D540253
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=k5NDFDrE
+ Thu,  3 Aug 2023 19:04:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9344E41F29
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yeRkeh9QJ2wU
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Skb8ZjHg3dMM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:00:30 +0000 (UTC)
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
- [IPv6:2a00:1450:4864:20::632])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 9D5E24186B
+ Thu,  3 Aug 2023 19:04:50 +0000 (UTC)
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
+ [IPv6:2a00:1450:4864:20::52e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 253C041F2E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:00:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9D5E24186B
-Received: by mail-ej1-x632.google.com with SMTP id
- a640c23a62f3a-99c1f6f3884so180798266b.0
+ Thu,  3 Aug 2023 19:04:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 253C041F2E
+Received: by mail-ed1-x52e.google.com with SMTP id
+ 4fb4d7f45d1cf-52164adea19so1625881a12.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 03 Aug 2023 12:00:30 -0700 (PDT)
+ Thu, 03 Aug 2023 12:04:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691089229; x=1691694029;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fpJNHhs8hGi2yDC45xTTVL8bPEioZdZntYr6lajc9vM=;
- b=k5NDFDrEg+9nNDfAkqK83fDOp8A5hffycEbrlbI1/HFSkoagQYZMmMPYLy72x3L1wF
- JTyYZl2/V9SuoMJt9V3F/7xfyxu01MSFXa2Xhu/TtBD6BVVPbIYsb+0cN3OSQ4ZzY7qV
- sLMQfRL+DlBOv9af5SFsYVhKt8Yrf8E+RH9PvIzTXoXF5B3MwM01l3mdjlPDFa94T/5x
- XIi4lG512p/FVDpSvNiARyeXHw50IbimFnqlTAn/a/o63GlyqwYjJBdWDdtAbFGbfknY
- PcDd53ab0QCfjsii/z7pcosDnLaQrDL9LBgq9QPpZCYn7XUPYkMAEojnEN9BefiQyZTN
- 77Dg==
+ d=gmail.com; s=20221208; t=1691089488; x=1691694288;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OjWDL2QftxnG9c5+Vha2qoI437XfBQWXN8yDWNa47PQ=;
+ b=mV4KTN0ysT5hTWu9K8Zc31QqIGOV7LQ1dwH4El6DJSEHE1FtI7dZUuEczg74YLrZOT
+ 0EgbOxFz3pD9xeAK9hkbHYdc8Xx8xR/Jo2aomITNvTm6y5PWIfWVNZ7l789Ld8GZfjkn
+ cp4c/v4/D4O4XC6+Vv7CEJUb/sh3D+as1ZZeJUk3990UkQT0Oimc1u4ElS7CwkE8Mitx
+ wdGw5o06v4xn2IF1MTnG1qHGxULGuI60c4DVaUMCJe2mKVippAQQW2EH3ek6G/QW+Z7p
+ 9OK01xzemoCiwbDcj3oFZwFVfOHejPB+7PLomRQ4Iir8StXjxNo+DnXSjRaLPwgcbKB0
+ KM1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691089229; x=1691694029;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fpJNHhs8hGi2yDC45xTTVL8bPEioZdZntYr6lajc9vM=;
- b=UI8rwCVeCSLvjPSbcnscXABoe9j68YV7uxZ9+Uivrfz/B+Q9DA2kGIPeQsHPHD36zC
- 3peG//pv5JwCkMFRKbj47MAbHnieLnXx6JkwfbZ7hya60WTxdbnhu56KCq33kX+k3rB4
- 78A+hF7aW9CKO7+YSL81Bb+ffrQUAUoaFme54kO6zl0DzG8S8KIiLv/H/7jeyRWhs5Js
- Yx6M48STXX5cQum2Cm4wMB0hOOhEmDFmm/+PhSs/3rjpAs5ZrUDVyyioEPl86QEJDFea
- FS9ldM4d4Bpw9OFJDbbkMETTDkkg85Se8dvdbwFWXceQKK4sTHYZratVSQ4Jbi2EH3rx
- vpwA==
-X-Gm-Message-State: ABy/qLb/LYUs7s6BaTacYy3fNgVvsKA/B7s9r8yXxiZdyt8AWbsVh+ig
- duzTuS/Dni9g1zoEfesYbIc=
-X-Google-Smtp-Source: APBJJlErSeEumK9R9+wnkEORl7kuxFvXLYgJU3sv1JvX9YTgWXsr9PNifF6jZ1kMyJr/QPo0T+vz+w==
-X-Received: by 2002:a17:906:20d9:b0:994:47a0:c730 with SMTP id
- c25-20020a17090620d900b0099447a0c730mr8455282ejc.43.1691089228564; 
- Thu, 03 Aug 2023 12:00:28 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691089488; x=1691694288;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OjWDL2QftxnG9c5+Vha2qoI437XfBQWXN8yDWNa47PQ=;
+ b=VDV/dNICx+M1uMzfkP9PUzQHSz3KAYjT7izcrqd7OvSEOvSLmNOOdcylXajL7FPNV0
+ 2JqoaqJduWFqvTOC4Ss3KfUaVSq+78oBo04WjhSUUI8aHOqTGTY+kiHSq9M30MOz2UyY
+ oVCFj1dQpG7lNWOZQdshZRltIKobmx7rAE+nm/eSdG2F8pM2Hv6Cf8zIUFoYqMn9Cg58
+ 1eeDpfdY3ra4PACWmbz7HxxtnK3Qn5QmXd7iIGxZofDukjT0plNeS0pyPGeG5KXrE9xF
+ /unnYVG6OEjsDQVbL9zflsVcsmDKAoeSh6CthZSkbf7kGH2pKEJnZgQaM3VE773W5f4a
+ 5sEQ==
+X-Gm-Message-State: ABy/qLbhHy5NqJeHyHaqwRuBpKwqP9+ZAjKbt/vvWZFL9xYGCXO4A1lQ
+ Q++M00rBHjUVdN4FG5BfnetBvBJTGqVlkCCqqoU=
+X-Google-Smtp-Source: APBJJlGddjj+hpSRgOCDARjrmWpd5r3t7GFMF97AXlxC73gVDE7QpmUeSSqOWqDM6EPTtAa0eyyQ2w==
+X-Received: by 2002:aa7:c251:0:b0:522:3410:de23 with SMTP id
+ y17-20020aa7c251000000b005223410de23mr7929054edo.3.1691089487896; 
+ Thu, 03 Aug 2023 12:04:47 -0700 (PDT)
 Received: from dev7.kernelcare.com ([2a01:4f8:201:23::2])
  by smtp.gmail.com with ESMTPSA id
- d13-20020a1709063ecd00b00992a8a54f32sm182939ejj.139.2023.08.03.12.00.27
+ g8-20020a056402180800b005227ead61d0sm158232edy.83.2023.08.03.12.04.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 12:00:27 -0700 (PDT)
+ Thu, 03 Aug 2023 12:04:47 -0700 (PDT)
 From: Andrew Kanner <andrew.kanner@gmail.com>
-To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, jasowang@redhat.com, netdev@vger.kernel.org,
- hawk@kernel.org, jbrouer@redhat.com, dsahern@gmail.com,
- john.fastabend@gmail.com, linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v5 1/2] drivers: net: prevent tun_build_skb() to
- exceed the packet size limit
-Date: Thu,  3 Aug 2023 20:59:48 +0200
-Message-Id: <20230803185947.2379988-1-andrew.kanner@gmail.com>
+To: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev, song@kernel.org, yhs@fb.com, kpsingh@kernel.org,
+ sdf@google.com, haoluo@google.com, jolsa@kernel.org, mw@semihalf.com,
+ shayagr@amazon.com, bpf@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v5 2/2] net: core: remove unnecessary frame_sz check
+ in bpf_xdp_adjust_tail()
+Date: Thu,  3 Aug 2023 21:03:18 +0200
+Message-Id: <20230803190316.2380231-1-andrew.kanner@gmail.com>
 X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20230803185947.2379988-1-andrew.kanner@gmail.com>
+References: <20230803185947.2379988-1-andrew.kanner@gmail.com>
 MIME-Version: 1.0
-Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com, hawk@kernel.org,
+ jasowang@redhat.com, john.fastabend@gmail.com, jbrouer@redhat.com,
+ edumazet@google.com, dsahern@gmail.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,70 +118,89 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Using the syzkaller repro with reduced packet size it was discovered
-that XDP_PACKET_HEADROOM is not checked in tun_can_build_skb(),
-although pad may be incremented in tun_build_skb(). This may end up
-with exceeding the PAGE_SIZE limit in tun_build_skb().
+Syzkaller reported the following issue:
+=======================================
+Too BIG xdp->frame_sz = 131072
+WARNING: CPU: 0 PID: 5020 at net/core/filter.c:4121
+  ____bpf_xdp_adjust_tail net/core/filter.c:4121 [inline]
+WARNING: CPU: 0 PID: 5020 at net/core/filter.c:4121
+  bpf_xdp_adjust_tail+0x466/0xa10 net/core/filter.c:4103
+...
+Call Trace:
+ <TASK>
+ bpf_prog_4add87e5301a4105+0x1a/0x1c
+ __bpf_prog_run include/linux/filter.h:600 [inline]
+ bpf_prog_run_xdp include/linux/filter.h:775 [inline]
+ bpf_prog_run_generic_xdp+0x57e/0x11e0 net/core/dev.c:4721
+ netif_receive_generic_xdp net/core/dev.c:4807 [inline]
+ do_xdp_generic+0x35c/0x770 net/core/dev.c:4866
+ tun_get_user+0x2340/0x3ca0 drivers/net/tun.c:1919
+ tun_chr_write_iter+0xe8/0x210 drivers/net/tun.c:2043
+ call_write_iter include/linux/fs.h:1871 [inline]
+ new_sync_write fs/read_write.c:491 [inline]
+ vfs_write+0x650/0xe40 fs/read_write.c:584
+ ksys_write+0x12f/0x250 fs/read_write.c:637
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
 
-Jason Wang <jasowang@redhat.com> proposed to count XDP_PACKET_HEADROOM
-always (e.g. without rcu_access_pointer(tun->xdp_prog)) in
-tun_can_build_skb() since there's a window during which XDP program
-might be attached between tun_can_build_skb() and tun_build_skb().
+xdp->frame_sz > PAGE_SIZE check was introduced in commit c8741e2bfe87
+("xdp: Allow bpf_xdp_adjust_tail() to grow packet size"). But Jesper
+Dangaard Brouer <jbrouer@redhat.com> noted that after introducing the
+xdp_init_buff() which all XDP driver use - it's safe to remove this
+check. The original intend was to catch cases where XDP drivers have
+not been updated to use xdp.frame_sz, but that is not longer a concern
+(since xdp_init_buff).
 
-Fixes: 7df13219d757 ("tun: reserve extra headroom only when XDP is set")
+Running the initial syzkaller repro it was discovered that the
+contiguous physical memory allocation is used for both xdp paths in
+tun_get_user(), e.g. tun_build_skb() and tun_alloc_skb(). It was also
+stated by Jesper Dangaard Brouer <jbrouer@redhat.com> that XDP can
+work on higher order pages, as long as this is contiguous physical
+memory (e.g. a page).
+
+Reported-and-tested-by: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/000000000000774b9205f1d8a80d@google.com/T/
 Link: https://syzkaller.appspot.com/bug?extid=f817490f5bd20541b90a
+Link: https://lore.kernel.org/all/20230725155403.796-1-andrew.kanner@gmail.com/T/
+Fixes: 43b5169d8355 ("net, xdp: Introduce xdp_init_buff utility routine")
 Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
+Acked-by: Jesper Dangaard Brouer <hawk@kernel.org>
+Acked-by: Jason Wang <jasowang@redhat.com>
 ---
 
 Notes (akanner):
     v5:
-      - always count XDP_PACKET_HEADROOM in tun_can_build_skb() as there's a
-        window between tun_can_build_skb() and tun_build_skb() and XDP
-        program might be attached there.
-      - rcu_read_lock/unlock() for tun->xdp_prog were completely removed and
-        there's no need to use rcu_access_pointer() instead which was noted
-        by David Ahern <dsahern@gmail.com>.
+      - same as v4, but cc-ed bpf@vger.kernel.org according to v3->v4
+        change
     v4: https://lore.kernel.org/all/20230801220710.464-1-andrew.kanner@gmail.com/T/
-      - fall back to v1, fixing only missing XDP_PACKET_HEADROOM in pad
-        and removing bpf_xdp_adjust_tail() check for frame_sz.
-      - added rcu read lock, noted by Jason Wang <jasowang@redhat.com> in
-        v1
-      - I decided to leave the packet length check in tun_can_build_skb()
-        instead of moving to tun_build_skb() suggested by Jason Wang
-        <jasowang@redhat.com>. Otherwise extra packets will be dropped
-        without falling back to tun_alloc_skb(). And in the discussion of
-        v3 Jesper Dangaard Brouer <jbrouer@redhat.com> noticed that XDP is
-        ok with a higher order pages if it's a contiguous physical memory
-        allocation, so falling to tun_alloc_skb() -> do_xdp_generic()
-        should be ok.
+      - remove bpf_xdp_adjust_tail() check for frame_sz instead.
     v3: https://lore.kernel.org/all/20230725155403.796-1-andrew.kanner@gmail.com/T/
-      - attach the forgotten changelog
     v2: https://lore.kernel.org/all/20230725153941.653-1-andrew.kanner@gmail.com/T/
-      - merged 2 patches in 1, fixing both issues: WARN_ON_ONCE with
-        syzkaller repro and missing XDP_PACKET_HEADROOM in pad
-      - changed the title and description of the execution path, suggested
-        by Jason Wang <jasowang@redhat.com>
-      - move the limit check from tun_can_build_skb() to tun_build_skb()
-        to remove duplication and locking issue, and also drop the packet
-        in case of a failed check - noted by Jason Wang
-        <jasowang@redhat.com>
     v1: https://lore.kernel.org/all/20230724221326.384-1-andrew.kanner@gmail.com/T/
+      - initial attempts to fix drivers/net/tun.c:tun_get_user(),
+        e.g. tun_build_skb() or tun_alloc_skb(), to not exceed
+        xdp->frame_sz check from net/core/filter.c
 
- drivers/net/tun.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ net/core/filter.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/net/tun.c b/drivers/net/tun.c
-index 25f0191df00b..100339bc8b04 100644
---- a/drivers/net/tun.c
-+++ b/drivers/net/tun.c
-@@ -1594,7 +1594,7 @@ static bool tun_can_build_skb(struct tun_struct *tun, struct tun_file *tfile,
- 	if (zerocopy)
- 		return false;
+diff --git a/net/core/filter.c b/net/core/filter.c
+index 06ba0e56e369..28a59596987a 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -4116,12 +4116,6 @@ BPF_CALL_2(bpf_xdp_adjust_tail, struct xdp_buff *, xdp, int, offset)
+ 	if (unlikely(data_end > data_hard_end))
+ 		return -EINVAL;
  
--	if (SKB_DATA_ALIGN(len + TUN_RX_PAD) +
-+	if (SKB_DATA_ALIGN(len + TUN_RX_PAD + XDP_PACKET_HEADROOM) +
- 	    SKB_DATA_ALIGN(sizeof(struct skb_shared_info)) > PAGE_SIZE)
- 		return false;
+-	/* ALL drivers MUST init xdp->frame_sz, chicken check below */
+-	if (unlikely(xdp->frame_sz > PAGE_SIZE)) {
+-		WARN_ONCE(1, "Too BIG xdp->frame_sz = %d\n", xdp->frame_sz);
+-		return -EINVAL;
+-	}
+-
+ 	if (unlikely(data_end < xdp->data + ETH_HLEN))
+ 		return -EINVAL;
  
 -- 
 2.39.3
