@@ -1,102 +1,80 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 51FF9C04A94
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Aug 2023 11:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC439C04A94
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Aug 2023 11:57:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D9C4340179;
-	Fri,  4 Aug 2023 11:51:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D9C4340179
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=RkXaPq+y
+	by smtp1.osuosl.org (Postfix) with ESMTP id 281138410C;
+	Fri,  4 Aug 2023 11:57:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 281138410C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Cn1s6G/u
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id e9kyb63fqAGQ; Fri,  4 Aug 2023 11:51:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8EECC42018;
-	Fri,  4 Aug 2023 11:51:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8EECC42018
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aFqRsC6oa7sE; Fri,  4 Aug 2023 11:57:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2242A81A9C;
+	Fri,  4 Aug 2023 11:57:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2242A81A9C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 687C9C0071;
-	Fri,  4 Aug 2023 11:51:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2D41FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F1ABDC0071;
+	Fri,  4 Aug 2023 11:57:08 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 624A2C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 11:51:31 +0000 (UTC)
+ Fri,  4 Aug 2023 11:57:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id EF63860F15
+ by smtp2.osuosl.org (Postfix) with ESMTP id 4A55E41CAD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 11:51:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EF63860F15
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=RkXaPq+y
+ Fri,  4 Aug 2023 11:57:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4A55E41CAD
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=Cn1s6G/u
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id CWo9LKcBppcy
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ca-dhnpESEch
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 11:51:30 +0000 (UTC)
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
- [IPv6:2607:f8b0:4864:20::52a])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 6B0E160F89
+ Fri,  4 Aug 2023 11:57:06 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C5A41429AA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 11:51:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6B0E160F89
-Received: by mail-pg1-x52a.google.com with SMTP id
- 41be03b00d2f7-564b6276941so626804a12.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 04 Aug 2023 04:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691149889; x=1691754689;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=e2EtyOVR4achsHfoqHulXQMM4qvU1Tc5rB6swnOUt9A=;
- b=RkXaPq+y0NMC78lUo79YLQxkRdl8QVxoFjh2/Pb8teHzMojIAmXpeIkvM6to9j2877
- ZlWpuWKOaunJeaN0afmlmfGTHThR7/9oH9Cfkmjksy1Hr+lxB2vVnGHuBe8RdqhtS3NQ
- uPNeTOoZhwCHV0zk2g+heC6yoYCdTu59n+tUsBevLutgQ8Yn2cR6lOeG/d2lExMrhWBz
- FxriyZomUg1pWe6+93XUC/2Y5Ch0myj0nvZ5dOM2+4Up6AXxklX1ehN4uwOCY4hJKu9U
- zvPdv3PCad31AL1uoYo0RdQ+9jSA6Z7kR78z518SUTclU2ElQEjfMU+qLcg7sP58AhBw
- rBUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691149889; x=1691754689;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=e2EtyOVR4achsHfoqHulXQMM4qvU1Tc5rB6swnOUt9A=;
- b=WLsdimP+gWUw75iXxgftbJAjXNwx07Fn5IQ+4aGImGZTcEtpd66JRA2zZsQSnYSm1n
- W70U4iQEF/tNQoCJxGI7nB5cdWlIIMkQgVh6cBWYqomRkS18M+roSKuZmjBfvq6oPaPu
- 8mBGlV01+0u/vIfX++Qq8JqSe/VienaMMbaPi/v/wlLkzgcF/OTBf55eU40kHPd3yVVL
- QbO61HQxZmdcrvalXKmeFh5qsd0A2Wx3WqCVltWaXRO5rd3X+sOQ4YMjj42z7Amjam0+
- 9vfGrwhVi/YDBkx6y3xQLGKtEAE8TpuU4hJzYorObpxUQCUZZFP/XcmqKEuSlF1nBb+T
- X82Q==
-X-Gm-Message-State: AOJu0YwP5cytSYxdDXK3uh0VD5eorzIVx7kIKUvpw62GUaJTVKTWDV8V
- cAfwIX01n6MuDHvVpzRATW2/qoMDL2I=
-X-Google-Smtp-Source: AGHT+IFrlm4tOx+dZl0DNygmKZUm3g3WWUWZy8C2IkoWH/jLQBTmJeONwoqQItdqyH7rurNQ6Cd9rw==
-X-Received: by 2002:a17:90a:dc06:b0:261:2a59:dc38 with SMTP id
- i6-20020a17090adc0600b002612a59dc38mr1602346pjv.25.1691149889549; 
- Fri, 04 Aug 2023 04:51:29 -0700 (PDT)
-Received: from localhost.localdomain
- ([2409:40c2:1022:c939:1859:30f6:c95a:3e44])
- by smtp.gmail.com with ESMTPSA id
- je19-20020a170903265300b001b9dab0397bsm1587773plb.29.2023.08.04.04.51.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Aug 2023 04:51:29 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: broonie@kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] fixes warning
-Date: Fri,  4 Aug 2023 17:21:21 +0530
-Message-Id: <20230804115121.34035-2-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230804115121.34035-1-coolrrsh@gmail.com>
+ Fri,  4 Aug 2023 11:57:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C5A41429AA
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id F36D261FA0;
+ Fri,  4 Aug 2023 11:57:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3301CC433C7;
+ Fri,  4 Aug 2023 11:57:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691150225;
+ bh=9dHPIWei1lQvg0gJ7x4MSUMPkCG5dKhD6C1oBv23fuE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cn1s6G/uxcXadA0vnjvrmc9fNJzoBMgl0EPmPI8Zpf8J59g7sqNGGaW4B74fy+/mj
+ KnFrsTMuc0s5drUhxhuK9bREK1+hREvd/VH5MQnAOK26jOBX4ZTPtTHiMqHfhXn/Iq
+ lQ/UnrFDpTzwHlW1w2pzBOzwOIxjAEMVKmgLRAYzJpf5N66Wc/lv+RGUEVZmqU7CO8
+ Sqb2kSD9g/CmODlGDDHqE69pKfzpXA47u04Urkl1CsADPxJCkmAQbUX8LK/n5pMxfC
+ cRgGnEa4WX8t2z7tJ6FojOmGV7ednBicrxdR84XxDzO3ej3nle6Uli5Sr4RlEbqvat
+ SO4LNy4MnGREg==
+Date: Fri, 4 Aug 2023 12:57:00 +0100
+From: Mark Brown <broonie@kernel.org>
+To: coolrrsh@gmail.com
+Subject: Re: [PATCH 1/2] fixes warning
+Message-ID: <abc6fd12-345b-40ac-838c-7e7c954ffcbd@sirena.org.uk>
 References: <20230804115121.34035-1-coolrrsh@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <20230804115121.34035-1-coolrrsh@gmail.com>
+X-Cookie: I'm hungry, time to eat lunch.
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,39 +86,70 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============3040313825799644847=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-drivers/spi/spi-mpc52xx-psc.c:332:5-13:
-WARNING: Unsigned expression compared with zero: mps -> irq < 0
+--===============3040313825799644847==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EinGkbFxHzb+mjgS"
+Content-Disposition: inline
 
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
----
- drivers/spi/spi-mpc52xx-psc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-mpc52xx-psc.c b/drivers/spi/spi-mpc52xx-psc.c
-index 9a1a080..7452bc9 100644
---- a/drivers/spi/spi-mpc52xx-psc.c
-+++ b/drivers/spi/spi-mpc52xx-psc.c
-@@ -329,7 +329,7 @@ static int mpc52xx_psc_spi_of_probe(struct platform_device *pdev)
- 	mps->fifo = ((void __iomem *)mps->psc) + sizeof(struct mpc52xx_psc);
- 
- 	mps->irq = platform_get_irq(pdev, 0);
--	if (mps->irq < 0)
-+	if ((int)mps->irq < 0)
- 		return mps->irq;
- 
- 	ret = devm_request_irq(dev, mps->irq, mpc52xx_psc_spi_isr, 0,
--- 
-2.25.1
+--EinGkbFxHzb+mjgS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 04, 2023 at 05:21:20PM +0530, coolrrsh@gmail.com wrote:
+> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+>=20
+> drivers/spi/spi-mpc512x-psc.c:493:5-13:
+> WARNING: Unsigned expression compared with zero: mps -> irq < 0
+
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
+
+>  	mps->irq =3D platform_get_irq(pdev, 0);
+> -	if (mps->irq < 0)
+> +	if ((int)mps->irq < 0)
+>  		return mps->irq;
+
+Casts are almost always the wrong choice.  If the issue is that the
+value is unsigned and can't be negative casting it to signed isn't going
+to help, though here possibly the type of the variable is wrong.
+
+--EinGkbFxHzb+mjgS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmTM54wACgkQJNaLcl1U
+h9CjLAf4iPJD/78J99DOMVoPiGetjhuwUND1SXwkKmss/KVgI911p8J+nZKXVQIg
+ktvKmMxfAMGqJG69wrBBa+u7+NqCP/vHGFHai3x7rJY0bcuy1GnWtYE3yw//rVQ+
+gLMWsKHfzKySHHTBxiZOKz6g3V4brPfYVOSoYT4Ygmtp58XzCzR8bfQIzMqtGHKi
+4IjPbIj4horjA1G6RuPo5sPA9fF/UIQOi4ZFPTCUhEj1h9hYvHRqL543qNvEsooL
+BvztkYTIH+CL7HC7PnIxGnMUStYwbwo4nA0tHB4LSUIn/yMYXOKjtefR5npKhu/M
+XEB2ccAhWvaWI+tSU6MMV++LWp9B
+=B5cz
+-----END PGP SIGNATURE-----
+
+--EinGkbFxHzb+mjgS--
+
+--===============3040313825799644847==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============3040313825799644847==--
