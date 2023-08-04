@@ -1,88 +1,81 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B369BC00528
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Aug 2023 09:30:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AC055C001DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Aug 2023 09:31:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2C34F404B6;
-	Fri,  4 Aug 2023 09:30:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2C34F404B6
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sIGAu88h
+	by smtp1.osuosl.org (Postfix) with ESMTP id 350F4840AF;
+	Fri,  4 Aug 2023 09:31:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 350F4840AF
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=KfAgx545
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id djRJpqhxQvfJ; Fri,  4 Aug 2023 09:30:12 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gIbFu649BZBc; Fri,  4 Aug 2023 09:31:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E8D1D401FA;
-	Fri,  4 Aug 2023 09:30:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E8D1D401FA
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2726A83F44;
+	Fri,  4 Aug 2023 09:31:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2726A83F44
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D488AC0071;
-	Fri,  4 Aug 2023 09:30:11 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id DA4A7C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 13878C0071;
+	Fri,  4 Aug 2023 09:31:05 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 204D0C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 09:30:10 +0000 (UTC)
+ Fri,  4 Aug 2023 09:31:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A682A400D4
+ by smtp3.osuosl.org (Postfix) with ESMTP id E114260FA3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 09:30:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A682A400D4
+ Fri,  4 Aug 2023 09:31:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E114260FA3
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+ header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
+ header.b=KfAgx545
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id UtnKNm4Vasvr
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id aPELXYA7BvqD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 09:30:10 +0000 (UTC)
+ Fri,  4 Aug 2023 09:31:01 +0000 (UTC)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org
  [IPv6:2604:1380:4641:c500::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E0AE9415A3
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B6D3460FC0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  4 Aug 2023 09:30:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E0AE9415A3
+ Fri,  4 Aug 2023 09:31:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B6D3460FC0
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 1638C61F63;
- Fri,  4 Aug 2023 09:30:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE5BDC433C7;
- Fri,  4 Aug 2023 09:30:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691141408;
- bh=LEzM9G3hCkmW57EJI+SwefMcALPoyoAqXr/zZx0/GPw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=sIGAu88hByPr2pePZ9Q6D3Op+OdIxyXOdviLitcorwMWrv8SrX0NOW/EDrU5LDMRu
- hbC7eG8xmtLQf+t62qRsaSoAEwpDcb1klZN6MFIfPJiCvpF/2GOTg7fidd0TiMIe3s
- TgLaTMxQvbTEMyrZ3dp3/jqeJxlPeyTi+F4GJHh+mU5+pz+mKvRL0dY/knGbTdvr26
- Jetk/KBw7uzKMLQa8BIUZ3MuzFJ1hR98N0GM7SLCFrCndR0/I6S3MJV5J/kYCbPPHZ
- XmxwbxAs2V855E3W7I+pwkz8Jaq4Z8N7SK70s1QU2+HqqZRpM39LnD0og0yM2QRggL
- NxhvBslhPcR7Q==
-Message-ID: <224e100b-6874-2993-a743-0a93ca0201fd@kernel.org>
-Date: Fri, 4 Aug 2023 11:30:03 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTPS id E14EE61F6B;
+ Fri,  4 Aug 2023 09:31:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7CEBC433C8;
+ Fri,  4 Aug 2023 09:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1691141460;
+ bh=ytIilxh+58GrQ8OHf133q4mTeWcJ92IHYhytXiXB5rU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KfAgx545kZ70EWgy/+Qb+hWmMEmrKZQ4cXGMJdY2hV7euni4BE1fHneZEIwQoT2tD
+ kpG95qee0OZIpoJNWQtYz1004mw5SxWuamuq9N27z25x+G+x6dXM5smrmEkqP9liQ4
+ R+uXXT2TpN7giDd+y24XYCNJWdLQvZl/EkhLcNWE=
+Date: Fri, 4 Aug 2023 11:30:57 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kalle Valo <kvalo@kernel.org>
+Subject: Re: [PATCH v2] ath6kl: replace one-element array with flexible-array
+ member
+Message-ID: <2023080410-unadorned-vertigo-c0b8@gregkh>
+References: <20230804045554.6934-1-rauji.raut@gmail.com>
+ <2023080433-patio-staining-2cfe@gregkh> <87sf8zs2oi.fsf@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v4 1/2] drivers: net: prevent tun_build_skb() to exceed
- the packet size limit
-Content-Language: en-US
-To: Andrew Kanner <andrew.kanner@gmail.com>, Jason Wang <jasowang@redhat.com>
-References: <20230801220710.464-1-andrew.kanner@gmail.com>
- <2cb34364-0d7c-cf0a-487f-c15ba6568ac8@kernel.org>
- <CACGkMEvukuV5UZqb=MOaPqWfuJKOokZW1986GE4cRwt=Vx9Unw@mail.gmail.com>
- <64cbe991.190a0220.b646b.04c1@mx.google.com>
-From: Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <64cbe991.190a0220.b646b.04c1@mx.google.com>
-Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com,
- netdev@vger.kernel.org, john.fastabend@gmail.com, linux-kernel@vger.kernel.org,
- jbrouer@redhat.com, edumazet@google.com,
- Alexander Duyck <alexander.duyck@gmail.com>, dsahern@gmail.com,
- kuba@kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Content-Disposition: inline
+In-Reply-To: <87sf8zs2oi.fsf@kernel.org>
+Cc: Atul Raut <rauji.raut@gmail.com>, linux-wireless@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,49 +87,56 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On 03/08/2023 19.53, Andrew Kanner wrote:
->>> Question to Jason Wang:
->>> Why fall back (to e.g. tun_alloc_skb()) when size is above PAGE_SIZE?
->>>
->>> AFAIK tun_build_skb()*can*  create get larger packets than PAGE_SIZE
->>> from it's page_frag.  Is there a reason for this limitation?
->> >> I couldn't recall but I think we can relax.
-> > Jesper already sent enough info for this idea in v2, I will use it for
-> the next patch/series.
+On Fri, Aug 04, 2023 at 10:10:37AM +0300, Kalle Valo wrote:
+> Greg KH <gregkh@linuxfoundation.org> writes:
 > 
+> > On Thu, Aug 03, 2023 at 09:55:54PM -0700, Atul Raut wrote:
+> >
+> >> One-element arrays are no longer relevant, and their
+> >> place has been taken by flexible array members thus,
+> >> use a flexible-array member to replace the one-element
+> >> array in struct ath6kl_usb_ctrl_diag_cmd_write
+> >> 
+> >> This fixes warnings such as:
+> >> ./drivers/net/wireless/ath/ath6kl/usb.c:109:8-12: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> >> 
+> >> Signed-off-by: Atul Raut <rauji.raut@gmail.com>
+> >> ---
+> >>  drivers/net/wireless/ath/ath6kl/usb.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> 
+> >> diff --git a/drivers/net/wireless/ath/ath6kl/usb.c b/drivers/net/wireless/ath/ath6kl/usb.c
+> >> index 5220809841a6..c8ecc9e85897 100644
+> >> --- a/drivers/net/wireless/ath/ath6kl/usb.c
+> >> +++ b/drivers/net/wireless/ath/ath6kl/usb.c
+> >> @@ -106,7 +106,7 @@ struct ath6kl_usb_ctrl_diag_cmd_write {
+> >>  	__le32 cmd;
+> >>  	__le32 address;
+> >>  	__le32 value;
+> >> -	__le32 _pad[1];
+> >> +	__le32 _pad[];
+> >
+> > Are you sure this is actually a variable length array?
+> 
+> It's not, it's just padding. We both told this in v1:
+> 
+> https://patchwork.kernel.org/project/linux-wireless/patch/20230731012941.21875-1-rauji.raut@gmail.com/
 
-I have some more input and considerations when selecting the new
-constant that replace PAGE_SIZE.
+Hey, I'm consistent, nice!  :)
 
-Lets see if Eric Dumazet or Alex Duyck disagree?
-("inventors" of page_frag scheme)
+But Atul, that's not good to ignore our review comments.  Usually that
+ends up meaning that everyone will then just ignore your submissions,
+generally a not-good resolution.
 
-The function tun_alloc_skb() uses a page_frag scheme for allocation.
-The maximim size is 32768 bytes (Order-3), but using something that is
-close to this max alloc size can cause memory waste and fragmentation.
+thanks,
 
-My suggestion would be to use the constant SKB_MAX_ALLOC (16KiB).
-
-Maybe Eric or Alex would recommend using something smaller? (e.g. 8192)
-
-page_frag limit comes from:
-  #define SKB_FRAG_PAGE_ORDER get_order(32768)
-
-
-> Jesper, I will add this tag for this next patch/series if you don't
-> mind:
-> Suggested-by: Jesper Dangaard Brouer <hawk@kernel.org>
-
-ACK
-
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
