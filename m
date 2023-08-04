@@ -1,106 +1,100 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E5E1FC001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  3 Aug 2023 19:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DB2AFC001DE
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  4 Aug 2023 04:20:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6FDA241F29;
-	Thu,  3 Aug 2023 19:04:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6FDA241F29
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mV4KTN0y
+	by smtp1.osuosl.org (Postfix) with ESMTP id 63FA483F00;
+	Fri,  4 Aug 2023 04:20:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 63FA483F00
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=bL66U/DO
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dcyajA1QwJ-y; Thu,  3 Aug 2023 19:04:53 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MDcDXvtT-ygT; Fri,  4 Aug 2023 04:20:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id DBC0B41F3E;
-	Thu,  3 Aug 2023 19:04:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DBC0B41F3E
+	by smtp1.osuosl.org (Postfix) with ESMTPS id ED40083C76;
+	Fri,  4 Aug 2023 04:20:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org ED40083C76
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A13F3C0071;
-	Thu,  3 Aug 2023 19:04:52 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D0D3CC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BFA49C0071;
+	Fri,  4 Aug 2023 04:20:35 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7F818C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:04:51 +0000 (UTC)
+ Fri,  4 Aug 2023 04:20:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9344E41F29
+ by smtp3.osuosl.org (Postfix) with ESMTP id 52BC860B97
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:04:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9344E41F29
+ Fri,  4 Aug 2023 04:20:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 52BC860B97
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=bL66U/DO
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Skb8ZjHg3dMM
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TihpQQ8Qb3Yr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:04:50 +0000 (UTC)
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 253C041F2E
+ Fri,  4 Aug 2023 04:20:33 +0000 (UTC)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CCE9F60AE2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  3 Aug 2023 19:04:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 253C041F2E
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-52164adea19so1625881a12.1
+ Fri,  4 Aug 2023 04:20:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CCE9F60AE2
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-1bc3d94d40fso14186875ad.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 03 Aug 2023 12:04:49 -0700 (PDT)
+ Thu, 03 Aug 2023 21:20:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691089488; x=1691694288;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OjWDL2QftxnG9c5+Vha2qoI437XfBQWXN8yDWNa47PQ=;
- b=mV4KTN0ysT5hTWu9K8Zc31QqIGOV7LQ1dwH4El6DJSEHE1FtI7dZUuEczg74YLrZOT
- 0EgbOxFz3pD9xeAK9hkbHYdc8Xx8xR/Jo2aomITNvTm6y5PWIfWVNZ7l789Ld8GZfjkn
- cp4c/v4/D4O4XC6+Vv7CEJUb/sh3D+as1ZZeJUk3990UkQT0Oimc1u4ElS7CwkE8Mitx
- wdGw5o06v4xn2IF1MTnG1qHGxULGuI60c4DVaUMCJe2mKVippAQQW2EH3ek6G/QW+Z7p
- 9OK01xzemoCiwbDcj3oFZwFVfOHejPB+7PLomRQ4Iir8StXjxNo+DnXSjRaLPwgcbKB0
- KM1Q==
+ d=gmail.com; s=20221208; t=1691122832; x=1691727632;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ad/FcpxuBxv4GmuGDEXaoeeXnYfsgrYDuuE2WEQNHRE=;
+ b=bL66U/DOtQaMlkD6sBFqEgc+4rwJfGyOoZFfRpyIs7K6E/mitQbRMaUqRJEr2Ef5Op
+ ML/bR6hvKP4gm14zEtE1WrWNRhxsBKAxGjfA8IKBOZumhPgbUbRLlNVv/aYNXU2fuJ8q
+ QBLtL3zNtrjweO9gj3uC/wpUxzNyco3gUX2QId/ys1lerkeQeGxiq2jc1EZITpJvCLvb
+ BUfy7idpXGubaBwOmGrnEu79oKBdPeEVIGLlctu8tOwBcXcryT6u1QV2LOfc53uT5FMn
+ nsswK8kgGSdQhDaaYbVH27m5NCl9rARgp0NMVUKsT62Zknj8QSybJYdEDKIWTTW3LZkB
+ yixw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691089488; x=1691694288;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OjWDL2QftxnG9c5+Vha2qoI437XfBQWXN8yDWNa47PQ=;
- b=VDV/dNICx+M1uMzfkP9PUzQHSz3KAYjT7izcrqd7OvSEOvSLmNOOdcylXajL7FPNV0
- 2JqoaqJduWFqvTOC4Ss3KfUaVSq+78oBo04WjhSUUI8aHOqTGTY+kiHSq9M30MOz2UyY
- oVCFj1dQpG7lNWOZQdshZRltIKobmx7rAE+nm/eSdG2F8pM2Hv6Cf8zIUFoYqMn9Cg58
- 1eeDpfdY3ra4PACWmbz7HxxtnK3Qn5QmXd7iIGxZofDukjT0plNeS0pyPGeG5KXrE9xF
- /unnYVG6OEjsDQVbL9zflsVcsmDKAoeSh6CthZSkbf7kGH2pKEJnZgQaM3VE773W5f4a
- 5sEQ==
-X-Gm-Message-State: ABy/qLbhHy5NqJeHyHaqwRuBpKwqP9+ZAjKbt/vvWZFL9xYGCXO4A1lQ
- Q++M00rBHjUVdN4FG5BfnetBvBJTGqVlkCCqqoU=
-X-Google-Smtp-Source: APBJJlGddjj+hpSRgOCDARjrmWpd5r3t7GFMF97AXlxC73gVDE7QpmUeSSqOWqDM6EPTtAa0eyyQ2w==
-X-Received: by 2002:aa7:c251:0:b0:522:3410:de23 with SMTP id
- y17-20020aa7c251000000b005223410de23mr7929054edo.3.1691089487896; 
- Thu, 03 Aug 2023 12:04:47 -0700 (PDT)
-Received: from dev7.kernelcare.com ([2a01:4f8:201:23::2])
+ d=1e100.net; s=20221208; t=1691122832; x=1691727632;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ad/FcpxuBxv4GmuGDEXaoeeXnYfsgrYDuuE2WEQNHRE=;
+ b=aaWpqsMPYpVAPecGgzZBwlB+6Y1QJdE7c3qJ+ji8M/mABFD3KO3HHTkltbU1Q2qnWi
+ pd1moLbEv7d8tU7LNZNT3yHXk5kTVvm6cokGjvO5q895xYXAbMit3J4TeONLJwmCRa91
+ SZWDh5LrRqeW7QeRq6Nt1WQdHzH8GVJHFY4m/UDewqTpVBUlyYW64/lNguAXO9MNpJq3
+ gXOsUePfZSRt20shLS1BbzpOih054YnBtm7pQfAulUwp7zR/G4rDECnaAB68orm4bQLD
+ X3RNwCg2RGtw3Nnv8LTNWU3FfSIUmZ8Qp38QpUBp+EBh/XSuust6onfpKkSiv1jGeI5n
+ mX0w==
+X-Gm-Message-State: AOJu0YxB5YI6wTulVLkGUuRT0woDuohHPOx4agyE0ZrtNxKTiEQ0KwHt
+ fz1lMPzvAaw5Wxctq+K5s4k=
+X-Google-Smtp-Source: AGHT+IFKYdeKLX/DB9LH66FpCPX82AzIXspBG7VI2BVAVdUvDRKyvsUkbmKiOOpQfAWyYH4sGXycsw==
+X-Received: by 2002:a17:902:d34c:b0:1b6:c229:c350 with SMTP id
+ l12-20020a170902d34c00b001b6c229c350mr698292plk.18.1691122832084; 
+ Thu, 03 Aug 2023 21:20:32 -0700 (PDT)
+Received: from rajgad.hsd1.ca.comcast.net
+ ([2601:204:df00:9cd0:9428:7df2:aef6:7a3e])
  by smtp.gmail.com with ESMTPSA id
- g8-20020a056402180800b005227ead61d0sm158232edy.83.2023.08.03.12.04.46
+ o15-20020a170902d4cf00b001b866472e8dsm636235plg.241.2023.08.03.21.20.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Aug 2023 12:04:47 -0700 (PDT)
-From: Andrew Kanner <andrew.kanner@gmail.com>
-To: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, song@kernel.org, yhs@fb.com, kpsingh@kernel.org,
- sdf@google.com, haoluo@google.com, jolsa@kernel.org, mw@semihalf.com,
- shayagr@amazon.com, bpf@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v5 2/2] net: core: remove unnecessary frame_sz check
- in bpf_xdp_adjust_tail()
-Date: Thu,  3 Aug 2023 21:03:18 +0200
-Message-Id: <20230803190316.2380231-1-andrew.kanner@gmail.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20230803185947.2379988-1-andrew.kanner@gmail.com>
-References: <20230803185947.2379988-1-andrew.kanner@gmail.com>
+ Thu, 03 Aug 2023 21:20:31 -0700 (PDT)
+From: Atul Raut <rauji.raut@gmail.com>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ipc:msg: replace one-element array with flexible-array
+ member
+Date: Thu,  3 Aug 2023 21:19:49 -0700
+Message-Id: <20230804041949.5724-1-rauji.raut@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com, hawk@kernel.org,
- jasowang@redhat.com, john.fastabend@gmail.com, jbrouer@redhat.com,
- edumazet@google.com, dsahern@gmail.com, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -118,92 +112,34 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzkaller reported the following issue:
-=======================================
-Too BIG xdp->frame_sz = 131072
-WARNING: CPU: 0 PID: 5020 at net/core/filter.c:4121
-  ____bpf_xdp_adjust_tail net/core/filter.c:4121 [inline]
-WARNING: CPU: 0 PID: 5020 at net/core/filter.c:4121
-  bpf_xdp_adjust_tail+0x466/0xa10 net/core/filter.c:4103
-...
-Call Trace:
- <TASK>
- bpf_prog_4add87e5301a4105+0x1a/0x1c
- __bpf_prog_run include/linux/filter.h:600 [inline]
- bpf_prog_run_xdp include/linux/filter.h:775 [inline]
- bpf_prog_run_generic_xdp+0x57e/0x11e0 net/core/dev.c:4721
- netif_receive_generic_xdp net/core/dev.c:4807 [inline]
- do_xdp_generic+0x35c/0x770 net/core/dev.c:4866
- tun_get_user+0x2340/0x3ca0 drivers/net/tun.c:1919
- tun_chr_write_iter+0xe8/0x210 drivers/net/tun.c:2043
- call_write_iter include/linux/fs.h:1871 [inline]
- new_sync_write fs/read_write.c:491 [inline]
- vfs_write+0x650/0xe40 fs/read_write.c:584
- ksys_write+0x12f/0x250 fs/read_write.c:637
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
+One-element arrays are obsolete, and flexible
+array members have taken their place. So, in
+struct compat_msgbuf, replace the one-element
+array with a flexible-array member.
 
-xdp->frame_sz > PAGE_SIZE check was introduced in commit c8741e2bfe87
-("xdp: Allow bpf_xdp_adjust_tail() to grow packet size"). But Jesper
-Dangaard Brouer <jbrouer@redhat.com> noted that after introducing the
-xdp_init_buff() which all XDP driver use - it's safe to remove this
-check. The original intend was to catch cases where XDP drivers have
-not been updated to use xdp.frame_sz, but that is not longer a concern
-(since xdp_init_buff).
+This fixes warnings such as:
+./ipc/msg.c:981:6-11: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
 
-Running the initial syzkaller repro it was discovered that the
-contiguous physical memory allocation is used for both xdp paths in
-tun_get_user(), e.g. tun_build_skb() and tun_alloc_skb(). It was also
-stated by Jesper Dangaard Brouer <jbrouer@redhat.com> that XDP can
-work on higher order pages, as long as this is contiguous physical
-memory (e.g. a page).
-
-Reported-and-tested-by: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/000000000000774b9205f1d8a80d@google.com/T/
-Link: https://syzkaller.appspot.com/bug?extid=f817490f5bd20541b90a
-Link: https://lore.kernel.org/all/20230725155403.796-1-andrew.kanner@gmail.com/T/
-Fixes: 43b5169d8355 ("net, xdp: Introduce xdp_init_buff utility routine")
-Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
-Acked-by: Jesper Dangaard Brouer <hawk@kernel.org>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Atul Raut <rauji.raut@gmail.com>
 ---
+ ipc/msg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Notes (akanner):
-    v5:
-      - same as v4, but cc-ed bpf@vger.kernel.org according to v3->v4
-        change
-    v4: https://lore.kernel.org/all/20230801220710.464-1-andrew.kanner@gmail.com/T/
-      - remove bpf_xdp_adjust_tail() check for frame_sz instead.
-    v3: https://lore.kernel.org/all/20230725155403.796-1-andrew.kanner@gmail.com/T/
-    v2: https://lore.kernel.org/all/20230725153941.653-1-andrew.kanner@gmail.com/T/
-    v1: https://lore.kernel.org/all/20230724221326.384-1-andrew.kanner@gmail.com/T/
-      - initial attempts to fix drivers/net/tun.c:tun_get_user(),
-        e.g. tun_build_skb() or tun_alloc_skb(), to not exceed
-        xdp->frame_sz check from net/core/filter.c
-
- net/core/filter.c | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/net/core/filter.c b/net/core/filter.c
-index 06ba0e56e369..28a59596987a 100644
---- a/net/core/filter.c
-+++ b/net/core/filter.c
-@@ -4116,12 +4116,6 @@ BPF_CALL_2(bpf_xdp_adjust_tail, struct xdp_buff *, xdp, int, offset)
- 	if (unlikely(data_end > data_hard_end))
- 		return -EINVAL;
+diff --git a/ipc/msg.c b/ipc/msg.c
+index fd08b3cb36d7..ee6af4fe52bf 100644
+--- a/ipc/msg.c
++++ b/ipc/msg.c
+@@ -978,7 +978,7 @@ SYSCALL_DEFINE4(msgsnd, int, msqid, struct msgbuf __user *, msgp, size_t, msgsz,
  
--	/* ALL drivers MUST init xdp->frame_sz, chicken check below */
--	if (unlikely(xdp->frame_sz > PAGE_SIZE)) {
--		WARN_ONCE(1, "Too BIG xdp->frame_sz = %d\n", xdp->frame_sz);
--		return -EINVAL;
--	}
--
- 	if (unlikely(data_end < xdp->data + ETH_HLEN))
- 		return -EINVAL;
+ struct compat_msgbuf {
+ 	compat_long_t mtype;
+-	char mtext[1];
++	char mtext[];
+ };
  
+ long compat_ksys_msgsnd(int msqid, compat_uptr_t msgp,
 -- 
-2.39.3
+2.34.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
