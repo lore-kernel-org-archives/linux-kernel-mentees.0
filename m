@@ -1,103 +1,109 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73C4AC001DE
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Aug 2023 08:37:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F731C04A6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Aug 2023 08:54:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E7BC8404BF;
-	Sun,  6 Aug 2023 08:37:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E7BC8404BF
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Sid+cRv5
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eynUGmkz3eA9; Sun,  6 Aug 2023 08:37:44 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id AB3C240322;
-	Sun,  6 Aug 2023 08:37:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AB3C240322
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 874D5C0072;
-	Sun,  6 Aug 2023 08:37:44 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D502C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:37:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id DA67E4021C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:37:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DA67E4021C
+	by smtp2.osuosl.org (Postfix) with ESMTP id DA63F40134;
+	Sun,  6 Aug 2023 08:54:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DA63F40134
 Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Sid+cRv5
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com header.a=rsa-sha256 header.s=fm3 header.b=hHBSpgfq;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=bZFMflRI
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sFW8QpTj_4XM; Sun,  6 Aug 2023 08:54:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9504A4031D;
+	Sun,  6 Aug 2023 08:54:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9504A4031D
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 70477C0072;
+	Sun,  6 Aug 2023 08:54:49 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5E694C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Aug 2023 08:54:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 06B634031D
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  6 Aug 2023 08:54:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 06B634031D
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8aByA633ihUr
+ with ESMTP id 8CcJEgpobaWu
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:37:43 +0000 (UTC)
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 3C062400DD
+ Sun,  6 Aug 2023 08:54:46 +0000 (UTC)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8437340134
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:37:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3C062400DD
-Received: by mail-pf1-x429.google.com with SMTP id
- d2e1a72fcca58-68783004143so2422296b3a.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 06 Aug 2023 01:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691311062; x=1691915862;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hrXeSpeuC2gzyt9qidPdox3/pGaSYVOC+06MEHE1kmY=;
- b=Sid+cRv5QSaZv2yiPAGIe4aA5sfxdLEKyJut3NxHgecR9aFIIFK0ScTSoNpm6xHJ2J
- jU8wFmClv/+9QVIg8gGimu6fyiJ3CVCuBtZiJkUqymQf+NC741HMSOREmjjHjNnHqz+7
- JTOUg+HqY4AXScDeuaapY6Gmp8naFY2kVnSlHmicjmTRAm8BlnOcgBGm0aBi8Bt6ZzCY
- 8nfRAKO1IvAa3PHpqFOBqO/IQi0klSo8Q4JRdu2s8eG3cuPtnewgRAGMnV8DVqRNJY8K
- soCWgtwEe9Bx0yBefOP25VzZQUUUy9dOy/ZbQEaTlGZQv4nIX5bfYwFBlo8l/A9KBqLL
- +WJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691311062; x=1691915862;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hrXeSpeuC2gzyt9qidPdox3/pGaSYVOC+06MEHE1kmY=;
- b=R//2Z+7+SX3Pf6dyOZfudqJxt6WlB57ABnJp7dzFnZqoFKCnDCTz821Nz4VSXDLx/w
- 8ao5TFUPRlZHlvXAPrX5bswbWSl2jVilDzY9+5AkpCLRCjzqiVA2Z5v6a3QRX14ZffED
- mnkMBj+lAGAGqPhtg+i32yTJ+zNBTQbqLPKXfrjaO6mOLOeEbVUEyzc+mr2Y7ErUY3Xg
- gvdqrVN1mHSTuVx3/cfs0l7ofRjh7Q+Upm07BfdPjHIi0qQBEK0uCF5eJu/H44ZlBWge
- K73UzuNiiZV4ioq9uHkBwGbt+y0dBUUCXz1Lv1wd103YURhKaRTYjF9R+gzBqqNCYJ+N
- kQqg==
-X-Gm-Message-State: AOJu0YyIJ4WSk5BBk1QuYPYwuwFCQiRSjN1yHwLpLY7tv7cq5dsgMB4F
- 8h2gbOGpKyRNxyiNQLjWvnQ=
-X-Google-Smtp-Source: AGHT+IGM4oSRmmUW0Z++Auu5+buRXa+u6jRhZiPyievtJTnhUDlx+820nSRqttFP5I8MNcofc3+ZoQ==
-X-Received: by 2002:a17:90b:224e:b0:267:f9c4:c0a8 with SMTP id
- hk14-20020a17090b224e00b00267f9c4c0a8mr5031102pjb.4.1691311062614; 
- Sun, 06 Aug 2023 01:37:42 -0700 (PDT)
-Received: from localhost.localdomain
- ([2409:40c2:1028:5dc5:7c0a:52e1:6b87:38ef])
- by smtp.gmail.com with ESMTPSA id
- i4-20020a17090a64c400b0026307fa0442sm6580403pjm.49.2023.08.06.01.37.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Aug 2023 01:37:42 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: broonie@kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] spi: spi-mpc52xx-psc: Fix an unsigned comparison that can
- never be negative 
-Date: Sun,  6 Aug 2023 14:07:34 +0530
-Message-Id: <20230806083734.7685-2-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230806083734.7685-1-coolrrsh@gmail.com>
+ Sun,  6 Aug 2023 08:54:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8437340134
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 88BA55C00A6;
+ Sun,  6 Aug 2023 04:54:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Sun, 06 Aug 2023 04:54:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm3; t=1691312083; x=1691398483; bh=PU
+ l/rN2mkbNT1ghDGerkeSZT7FB1mE6xTiSr+Cq7Jt4=; b=hHBSpgfqnSFNXBvL9/
+ 01f1Pc/cIjYCpch8jObzQZJaUZxf0WTfp6bGNaV4SqfxxkrZ+MAyQXfkO6b6NbFm
+ wL2iy6UkD/o1sVmbeixeoWEpUPykjzlrlpzQhiRumwAweQiyNJgMIdkgMvzND2f1
+ Hm2wZUiulnEvEcIXG1jiYyYs7lXSBj62UUP2TWgETZ5xPJs76UzHNf5VgMAEo79P
+ +T/dx+gVqwMj4EYhISBTkEietoOQP8X7b8Hmq3thtnlhfNx7oBvC2Rz/JNex5wIH
+ 6lLrBK7/Brwj6bXj/S0HsC5wDr4OI9z3mNR6yDvWEa060T8+8mObd5z6V17I13Ju
+ sMOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1691312083; x=1691398483; bh=PUl/rN2mkbNT1
+ ghDGerkeSZT7FB1mE6xTiSr+Cq7Jt4=; b=bZFMflRIHlgdTKvr1JrLjCBd28U6S
+ HPKOnC7s8JlaFWK3ZriG/N61lZ/tolA9NmQpweDXM+MKyokZB0dFv1LMvgEFN8kc
+ p/SGTMMuMA5ZCrgQQvGmGNKAOWSZa03kLi+I3E+TLJixLerX3khu4nDxm3IRVVwJ
+ 9cLaEJy592RVWJSh8H01jmf5xUfC4E/3sfYUj4eLNw96PCOv0olJDwh7lcLhWsh8
+ tsdcG3bSRlvOlZammRF+rZ2jsG6zoRsJkBdb6WgkvrJtUZskEOxodlG0/1a4iG5I
+ jK2w3XPrSzSnLvctM4EnGK9/Um6DASR//bUEbmaYAqacT01cOo8NkxywQ==
+X-ME-Sender: <xms:01_PZOERp-5Mc995MkK3g6s4bOeDckRvIKFAVLs9XRRGP6CVPaBjtQ>
+ <xme:01_PZPXelJiMe4LjSjEzUXO8WcRKOBOVqQy5rH2iM3h6HYLv_M-IfDHjtyeUDS_ma
+ 1gxHJenvNKPow>
+X-ME-Received: <xmr:01_PZIJk766Bfa1Txxb_XDOlEaIJ2DKd9cz-BDeAKHttTJ4zib8PFs5nyK1GXy5A6crcGpiCh6sgFllwl8qDyDtM1_n2bmHFDOE3rg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrkeekgddutdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtre
+ dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+ necuggftrfgrthhtvghrnhepkeeuiedugfeuleeitdffkeelleekvdekhfduveffffeuhf
+ fhueeikeevheejtefgnecuffhomhgrihhnpehlihhnuhigfhhouhhnuggrthhiohhnrdho
+ rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepgh
+ hrvghgsehkrhhorghhrdgtohhm
+X-ME-Proxy: <xmx:01_PZIED9jiMcJOiRqNaY-6mWY1ThWlh5djWnio76OYTPVE2G0d94w>
+ <xmx:01_PZEUoFZ3kHWFhmqNmjPcpKp4Shc4eSB1_mHbWhrKjcDZj-Co82g>
+ <xmx:01_PZLO_slpZuzxSx7ElJf-hXwn4dWkrY-SvHUdfOlDG5NIHCewVqw>
+ <xmx:01_PZIpxKMwFulVV-CCBUaC96w2hbCpcXVkYBT2PzpsATAdFZ2YmSw>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 6 Aug 2023 04:54:42 -0400 (EDT)
+Date: Sun, 6 Aug 2023 10:54:40 +0200
+From: Greg KH <greg@kroah.com>
+To: coolrrsh@gmail.com
+Subject: Re: [PATCH v3] spi: spi-mpc512x-psc: Fix an unsigned comparison that
+ can never be negative
+Message-ID: <2023080629-vocalize-ducking-c8f2@gregkh>
 References: <20230806083734.7685-1-coolrrsh@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20230806083734.7685-1-coolrrsh@gmail.com>
+Cc: broonie@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,38 +121,71 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+On Sun, Aug 06, 2023 at 02:07:33PM +0530, coolrrsh@gmail.com wrote:
+> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+> 
+> In struct mpc512x_psc_spi, the variable 'irq' is declared as an unsigned int.
+> The comparison of variable 'irq'  with signed int operand is incorrect. Also,
+> the return value from the call to platform_get_irq(pdev,0) is int and it is 
+> assigned to an unsigned int variable 'irq', thus redeclaring the type of 
+> variable 'irq' to signed int.
+> 
+> This fixes warning such as:
+> drivers/spi/spi-mpc512x-psc.c:493:5-13: 
+> WARNING: Unsigned expression compared with zero: mps -> irq < 0
+> 
+> ---
+>  drivers/spi/spi-mpc512x-psc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/spi/spi-mpc512x-psc.c b/drivers/spi/spi-mpc512x-psc.c
+> index 99aeef28a..5cecca1be 100644
+> --- a/drivers/spi/spi-mpc512x-psc.c
+> +++ b/drivers/spi/spi-mpc512x-psc.c
+> @@ -53,7 +53,7 @@ struct mpc512x_psc_spi {
+>  	int type;
+>  	void __iomem *psc;
+>  	struct mpc512x_psc_fifo __iomem *fifo;
+> -	unsigned int irq;
+> +	int irq;
+>  	u8 bits_per_word;
+>  	u32 mclk_rate;
+>  
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> Linux-kernel-mentees mailing list
+> Linux-kernel-mentees@lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
-In struct mpc52xx_psc_spi, the variable 'irq' is declared as an unsigned int.
-The comparison of variable 'irq'  with signed int operand is incorrect. Also,
-the return value from the call to platform_get_irq(pdev,0) is int and it is 
-assigned to an unsigned int variable 'irq', thus redeclaring the type of
-variable 'irq' to signed int.
+Hi,
 
-This fixes warning such as:
-drivers/spi/spi-mpc52xx-psc.c:332:5-13:
-WARNING: Unsigned expression compared with zero: mps -> irq < 0
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
----
- drivers/spi/spi-mpc52xx-psc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-diff --git a/drivers/spi/spi-mpc52xx-psc.c b/drivers/spi/spi-mpc52xx-psc.c
-index 9a1a080fb..795c08594 100644
---- a/drivers/spi/spi-mpc52xx-psc.c
-+++ b/drivers/spi/spi-mpc52xx-psc.c
-@@ -29,7 +29,7 @@ struct mpc52xx_psc_spi {
- 	/* driver internal data */
- 	struct mpc52xx_psc __iomem *psc;
- 	struct mpc52xx_psc_fifo __iomem *fifo;
--	unsigned int irq;
-+	int irq;
- 	u8 bits_per_word;
- 
- 	struct completion done;
--- 
-2.25.1
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
