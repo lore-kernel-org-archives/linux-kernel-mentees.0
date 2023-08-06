@@ -1,109 +1,98 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3F731C04A6A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Aug 2023 08:54:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2A135C04A94
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Aug 2023 12:24:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DA63F40134;
-	Sun,  6 Aug 2023 08:54:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DA63F40134
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=kroah.com header.i=@kroah.com header.a=rsa-sha256 header.s=fm3 header.b=hHBSpgfq;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=bZFMflRI
+	by smtp1.osuosl.org (Postfix) with ESMTP id 920A2817C3;
+	Sun,  6 Aug 2023 12:24:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 920A2817C3
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=rlM0y2UF
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sFW8QpTj_4XM; Sun,  6 Aug 2023 08:54:50 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9504A4031D;
-	Sun,  6 Aug 2023 08:54:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9504A4031D
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id W4g8gErHYoEG; Sun,  6 Aug 2023 12:24:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9711C818BE;
+	Sun,  6 Aug 2023 12:24:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9711C818BE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 70477C0072;
-	Sun,  6 Aug 2023 08:54:49 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5E694C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6A9EDC0072;
+	Sun,  6 Aug 2023 12:24:03 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 955CAC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:54:48 +0000 (UTC)
+ Sun,  6 Aug 2023 12:24:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 06B634031D
+ by smtp1.osuosl.org (Postfix) with ESMTP id 61F4A81C58
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:54:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 06B634031D
+ Sun,  6 Aug 2023 12:24:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 61F4A81C58
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8CcJEgpobaWu
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OWCzG_z0KQkL
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:54:46 +0000 (UTC)
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
- [66.111.4.27])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 8437340134
+ Sun,  6 Aug 2023 12:24:00 +0000 (UTC)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id D0E01817C3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 08:54:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8437340134
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 88BA55C00A6;
- Sun,  6 Aug 2023 04:54:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Sun, 06 Aug 2023 04:54:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm3; t=1691312083; x=1691398483; bh=PU
- l/rN2mkbNT1ghDGerkeSZT7FB1mE6xTiSr+Cq7Jt4=; b=hHBSpgfqnSFNXBvL9/
- 01f1Pc/cIjYCpch8jObzQZJaUZxf0WTfp6bGNaV4SqfxxkrZ+MAyQXfkO6b6NbFm
- wL2iy6UkD/o1sVmbeixeoWEpUPykjzlrlpzQhiRumwAweQiyNJgMIdkgMvzND2f1
- Hm2wZUiulnEvEcIXG1jiYyYs7lXSBj62UUP2TWgETZ5xPJs76UzHNf5VgMAEo79P
- +T/dx+gVqwMj4EYhISBTkEietoOQP8X7b8Hmq3thtnlhfNx7oBvC2Rz/JNex5wIH
- 6lLrBK7/Brwj6bXj/S0HsC5wDr4OI9z3mNR6yDvWEa060T8+8mObd5z6V17I13Ju
- sMOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1691312083; x=1691398483; bh=PUl/rN2mkbNT1
- ghDGerkeSZT7FB1mE6xTiSr+Cq7Jt4=; b=bZFMflRIHlgdTKvr1JrLjCBd28U6S
- HPKOnC7s8JlaFWK3ZriG/N61lZ/tolA9NmQpweDXM+MKyokZB0dFv1LMvgEFN8kc
- p/SGTMMuMA5ZCrgQQvGmGNKAOWSZa03kLi+I3E+TLJixLerX3khu4nDxm3IRVVwJ
- 9cLaEJy592RVWJSh8H01jmf5xUfC4E/3sfYUj4eLNw96PCOv0olJDwh7lcLhWsh8
- tsdcG3bSRlvOlZammRF+rZ2jsG6zoRsJkBdb6WgkvrJtUZskEOxodlG0/1a4iG5I
- jK2w3XPrSzSnLvctM4EnGK9/Um6DASR//bUEbmaYAqacT01cOo8NkxywQ==
-X-ME-Sender: <xms:01_PZOERp-5Mc995MkK3g6s4bOeDckRvIKFAVLs9XRRGP6CVPaBjtQ>
- <xme:01_PZPXelJiMe4LjSjEzUXO8WcRKOBOVqQy5rH2iM3h6HYLv_M-IfDHjtyeUDS_ma
- 1gxHJenvNKPow>
-X-ME-Received: <xmr:01_PZIJk766Bfa1Txxb_XDOlEaIJ2DKd9cz-BDeAKHttTJ4zib8PFs5nyK1GXy5A6crcGpiCh6sgFllwl8qDyDtM1_n2bmHFDOE3rg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrkeekgddutdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtre
- dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
- necuggftrfgrthhtvghrnhepkeeuiedugfeuleeitdffkeelleekvdekhfduveffffeuhf
- fhueeikeevheejtefgnecuffhomhgrihhnpehlihhnuhigfhhouhhnuggrthhiohhnrdho
- rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepgh
- hrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:01_PZIED9jiMcJOiRqNaY-6mWY1ThWlh5djWnio76OYTPVE2G0d94w>
- <xmx:01_PZEUoFZ3kHWFhmqNmjPcpKp4Shc4eSB1_mHbWhrKjcDZj-Co82g>
- <xmx:01_PZLO_slpZuzxSx7ElJf-hXwn4dWkrY-SvHUdfOlDG5NIHCewVqw>
- <xmx:01_PZIpxKMwFulVV-CCBUaC96w2hbCpcXVkYBT2PzpsATAdFZ2YmSw>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 6 Aug 2023 04:54:42 -0400 (EDT)
-Date: Sun, 6 Aug 2023 10:54:40 +0200
-From: Greg KH <greg@kroah.com>
-To: coolrrsh@gmail.com
-Subject: Re: [PATCH v3] spi: spi-mpc512x-psc: Fix an unsigned comparison that
- can never be negative
-Message-ID: <2023080629-vocalize-ducking-c8f2@gregkh>
-References: <20230806083734.7685-1-coolrrsh@gmail.com>
+ Sun,  6 Aug 2023 12:24:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D0E01817C3
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-686b9920362so2383228b3a.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 06 Aug 2023 05:24:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691324640; x=1691929440;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0OP3sZeafU4m0UvmTlOzrFMO40KUOq+JpcUSvznD7bw=;
+ b=rlM0y2UFWX5yMGImUCu9Uzd/HOr6asy+NiIwL5GVuh7acTg7rjT8i3fEt7Dx0N9LcK
+ ZLTDcXd6ew4TMQTZrJIUk2NlrHrkVpgv1LNjmzcVSyqmtKdDLcx4mCy5IAJKOHYmwVBs
+ OUwqNmiw3kiDk9cA+0xhjBERUpIwv+lI3FGGaxUbxvIhdb2P70Zz44Zv02KQ6HTkZ3Pt
+ YGqTmdNnfvijvXL9Xyy/n62BQA0rBJ5NeXd1zfvMMNYb+ZeQuuv1SfXFzZxVpNI9APtW
+ cjA/QxqvcoEaFWJYFTOUXh+sHe39sKJZS9Bu5QoDxg0jp2XZ6gmey5B/ocJMi0T0itA+
+ SDww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691324640; x=1691929440;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0OP3sZeafU4m0UvmTlOzrFMO40KUOq+JpcUSvznD7bw=;
+ b=QErbot0NlnzjJa7WwvQhvD5iwD6ptKRytI51IKtc1g7PZaac61YQajZSTzSAwVAydu
+ +2KFj9XQePe/iffJ/QFmZrpqoq6glFHMLwr6WyG76XiRI7u7c/AYD5Pk71jU8XvTFWlU
+ 0NEnnZbImwZ4oBKBVNk9FRh8z3GzeOAp+lJCzvtuHN+rgYk6dcYdfQbXX5+3v3mgJ+hC
+ HhnHK3rKIBW2/Li7Tp84ECeixMjQH4kN2KIsC6w8C3YQ6gHzelBhipK8RvRgOEK5RHyC
+ uGRgvF44meMyqiuiDETbEqQk+DU44GGf8C5OVTqm0y0Asj2XTJ375PZ5D0P1wBRLJF0F
+ 86GQ==
+X-Gm-Message-State: AOJu0YyRHWsGsgl/YuTjmgWtR0FamlP2QCVNTLf80ELwIj0f25kHHfMH
+ zwl0aI+W1BC1GppBJjxKBLs=
+X-Google-Smtp-Source: AGHT+IFr1bZnirGJUFRnxXC9TXA6S12TQZZnJCcuPAvKxdcjo7aby1bQ6E/0zdEL/4qy7x9DgHi4ug==
+X-Received: by 2002:a05:6a00:2495:b0:66c:9e97:aece with SMTP id
+ c21-20020a056a00249500b0066c9e97aecemr5796227pfv.10.1691324640150; 
+ Sun, 06 Aug 2023 05:24:00 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c009:58e9:3a2a:ee75:10eb:7534])
+ by smtp.gmail.com with ESMTPSA id
+ p26-20020a63741a000000b0054f9936accesm3540570pgc.55.2023.08.06.05.23.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 06 Aug 2023 05:23:59 -0700 (PDT)
+From: Atul Kumar Pant <atulpant.linux@gmail.com>
+To: josef@toxicpanda.com,
+	axboe@kernel.dk
+Subject: [PATCH v1] drivers: block: Updates return value check
+Date: Sun,  6 Aug 2023 17:53:51 +0530
+Message-Id: <20230806122351.157168-1-atulpant.linux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230806083734.7685-1-coolrrsh@gmail.com>
-Cc: broonie@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org
+Cc: linux-block@vger.kernel.org, shuah@kernel.org,
+ Atul Kumar Pant <atulpant.linux@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, nbd@other.debian.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,71 +110,53 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Aug 06, 2023 at 02:07:33PM +0530, coolrrsh@gmail.com wrote:
-> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
-> 
-> In struct mpc512x_psc_spi, the variable 'irq' is declared as an unsigned int.
-> The comparison of variable 'irq'  with signed int operand is incorrect. Also,
-> the return value from the call to platform_get_irq(pdev,0) is int and it is 
-> assigned to an unsigned int variable 'irq', thus redeclaring the type of 
-> variable 'irq' to signed int.
-> 
-> This fixes warning such as:
-> drivers/spi/spi-mpc512x-psc.c:493:5-13: 
-> WARNING: Unsigned expression compared with zero: mps -> irq < 0
-> 
-> ---
->  drivers/spi/spi-mpc512x-psc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/spi/spi-mpc512x-psc.c b/drivers/spi/spi-mpc512x-psc.c
-> index 99aeef28a..5cecca1be 100644
-> --- a/drivers/spi/spi-mpc512x-psc.c
-> +++ b/drivers/spi/spi-mpc512x-psc.c
-> @@ -53,7 +53,7 @@ struct mpc512x_psc_spi {
->  	int type;
->  	void __iomem *psc;
->  	struct mpc512x_psc_fifo __iomem *fifo;
-> -	unsigned int irq;
-> +	int irq;
->  	u8 bits_per_word;
->  	u32 mclk_rate;
->  
-> -- 
-> 2.25.1
-> 
-> _______________________________________________
-> Linux-kernel-mentees mailing list
-> Linux-kernel-mentees@lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+Updating the check of return value from debugfs_create_dir
+to use IS_ERR.
 
-Hi,
+Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+---
+ drivers/block/nbd.c     | 4 ++--
+ drivers/block/pktcdvd.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 9c35c958f2c8..65ecde3e2a5b 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -1666,7 +1666,7 @@ static int nbd_dev_dbg_init(struct nbd_device *nbd)
+ 		return -EIO;
+ 
+ 	dir = debugfs_create_dir(nbd_name(nbd), nbd_dbg_dir);
+-	if (!dir) {
++	if (IS_ERR(dir)) {
+ 		dev_err(nbd_to_dev(nbd), "Failed to create debugfs dir for '%s'\n",
+ 			nbd_name(nbd));
+ 		return -EIO;
+@@ -1692,7 +1692,7 @@ static int nbd_dbg_init(void)
+ 	struct dentry *dbg_dir;
+ 
+ 	dbg_dir = debugfs_create_dir("nbd", NULL);
+-	if (!dbg_dir)
++	if (IS_ERR(dbg_dir))
+ 		return -EIO;
+ 
+ 	nbd_dbg_dir = dbg_dir;
+diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
+index d5d7884cedd4..69e5a100b3cf 100644
+--- a/drivers/block/pktcdvd.c
++++ b/drivers/block/pktcdvd.c
+@@ -451,7 +451,7 @@ static void pkt_debugfs_dev_new(struct pktcdvd_device *pd)
+ 	if (!pkt_debugfs_root)
+ 		return;
+ 	pd->dfs_d_root = debugfs_create_dir(pd->name, pkt_debugfs_root);
+-	if (!pd->dfs_d_root)
++	if (IS_ERR(pd->dfs_d_root))
+ 		return;
+ 
+ 	pd->dfs_f_info = debugfs_create_file("info", 0444,
+-- 
+2.25.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
