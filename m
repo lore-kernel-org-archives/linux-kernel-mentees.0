@@ -4,96 +4,80 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4BCFCC001DE
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 20:11:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0A2FBC001B0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 21:57:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D831D81E67;
-	Mon,  7 Aug 2023 20:11:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D831D81E67
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8C90D81991;
+	Mon,  7 Aug 2023 21:57:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8C90D81991
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=CuPKy1nJ
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Im0t4U06
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id urH1vCyXpRrA; Mon,  7 Aug 2023 20:11:36 +0000 (UTC)
+	with ESMTP id pqOnQdezyH0r; Mon,  7 Aug 2023 21:57:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CED3081E4A;
-	Mon,  7 Aug 2023 20:11:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CED3081E4A
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 86AE081948;
+	Mon,  7 Aug 2023 21:57:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 86AE081948
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 98F68C0071;
-	Mon,  7 Aug 2023 20:11:35 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BEC7BC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 554A7C0072;
+	Mon,  7 Aug 2023 21:57:36 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id DED7DC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 20:11:34 +0000 (UTC)
+ Mon,  7 Aug 2023 21:57:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 8D4E681E52
+ by smtp3.osuosl.org (Postfix) with ESMTP id A32F560E32
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 20:11:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8D4E681E52
+ Mon,  7 Aug 2023 21:57:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A32F560E32
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=Im0t4U06
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5ldbJld8G0S3
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HVFcsp5Qa93y
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 20:11:34 +0000 (UTC)
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by smtp1.osuosl.org (Postfix) with ESMTPS id C478F81E4A
+ Mon,  7 Aug 2023 21:57:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 5B32E60E17
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 20:11:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C478F81E4A
-Received: by mail-wm1-x32b.google.com with SMTP id
- 5b1f17b1804b1-3fe490c05c9so18932825e9.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 07 Aug 2023 13:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691439092; x=1692043892;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NIgW417nJ8bvxbhi642SzRPDY1ezzoM514sPszH49a4=;
- b=CuPKy1nJHxILhIX3BO+881Vpy4e85JkXhpbjPqnCKMsbU0INPblIFXRLvyfsda/BRP
- HrWs2ZhbTWu9xBJ3BiKLu1tx7v9d7B9p8+HAzZ9HOpMYOb5t1Y7Uo+3aeP499EnTUBHz
- cPKCRLIzbUSBM9zwh/BVJ1Go1yQUdisPyMVIYKQNV0edqmeuLB/kv56c0jmCMZrU9aWn
- s4Lnj66DMnzfu/bHfHlbfzL52nThIgx11BJH1OtEb2gic8lbi7OOO8CNvEWkLK5Yb+D2
- kkxr07uYzom0ikfG0wIQk1f+I0sV102u8ahMrXlAatsJKd+s6GXGfrjc1Os0a9lavJ6n
- x9lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691439092; x=1692043892;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NIgW417nJ8bvxbhi642SzRPDY1ezzoM514sPszH49a4=;
- b=Qlas/zdISEAmPWScKmbvSPbUjkRm/430wtrFlyZlgUlfuW1gkG79VUZvwaDkPMRuHy
- 0+YOP6y7mXLk5WmU1rtBJvGQ9UC0lEOWH2QpFvrrtQNfqpui1xOZsQ4fqcHgZgRoYVTQ
- if0kuZXj+1ZGTRKSoMU92KSvACYvv/ka4L+dUr8nSHuYyVqFSgovg9hRn3rud0353YaY
- QrcgcJQyt2tlFH49fGSIOs/QK1wL5baLw+au7vMAts3FYsprhJgcIlDgiUxvCz5Lq1Rn
- Sl7g5ehE9JAlrM3OxnpO7gfdyojBVZtl4SMd58rjFKmrYIWFH7nSY88bX5AXnuWV1HLA
- mqSg==
-X-Gm-Message-State: AOJu0YwOGPMtF9bTFj2DoTKeSdqAwYh5TMGEI9qzogjtpxo6yIDkwRzB
- dxOCN8WSbNyJR4pXctAyQXg=
-X-Google-Smtp-Source: AGHT+IEfihewtMi1wwv4EExS6KMmD7EL5dbu05lTOoKn2ydQ+El3PbhdWggCr7EhI/1h8r+u3bpJrA==
-X-Received: by 2002:adf:fcc4:0:b0:314:3369:df57 with SMTP id
- f4-20020adffcc4000000b003143369df57mr6034932wrs.5.1691439091633; 
- Mon, 07 Aug 2023 13:11:31 -0700 (PDT)
-Received: from mmaatuq-HP-Laptop-15-dy2xxx..
- ([2001:8f8:1163:15aa:2e0a:61a:af68:b30])
- by smtp.gmail.com with ESMTPSA id
- l26-20020a1c791a000000b003fe4548188bsm11572566wme.48.2023.08.07.13.11.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 13:11:31 -0700 (PDT)
-From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
-To: jirislaby@kernel.org, mickflemm@gmail.com, mcgrof@kernel.org,
- kvalo@kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] ath5k: fix WARNING opportunity for swap.
-Date: Tue,  8 Aug 2023 00:10:57 +0400
-Message-Id: <20230807201057.340371-1-mahmoudmatook.mm@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Mon,  7 Aug 2023 21:57:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5B32E60E17
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 48E026223E;
+ Mon,  7 Aug 2023 21:57:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC70C433C7;
+ Mon,  7 Aug 2023 21:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691445452;
+ bh=Hjr9TC5T/2rdK2wbUjAujziz8ImCXcl8RITuuGXMqSk=;
+ h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+ b=Im0t4U06DzMB4wtkyZXrmkFPUAX3Fxpyy0MDNdyekL5M8fCCdm9IruGDp55cDUa2w
+ +4hYC7Lt2/hI5/bWH9o/ATBup8f0cH//laVEISqdoteME7mL9Wx0x5wW66Huqywfh1
+ eOI7UhXge1+CKSoneaH9ALInBa+g8+qiVziGELnC3q7YZs57nWrupd2RwZlptO1IxA
+ IkmvQ+LuA1Vzy9Z0jgQfMRuYdmtzrgwdgsjhYonsOh8PX91D+K8rpuHYeGCPhd9ZPa
+ UYQigIMTSBeBsUyX7cXNbClECaSC6tBL2hPVuKPanreOgnJsPwDJfsNR+YicvABe02
+ 5sSPavZGYoiRA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ coolrrsh@gmail.com
+In-Reply-To: <20230806083734.7685-2-coolrrsh@gmail.com>
+References: <20230806083734.7685-1-coolrrsh@gmail.com>
+ <20230806083734.7685-2-coolrrsh@gmail.com>
+Subject: Re: [PATCH v3] spi: spi-mpc52xx-psc: Fix an unsigned comparison
+ that can never be negative
+Message-Id: <169144545157.329334.2631329470445507219.b4-ty@kernel.org>
+Date: Mon, 07 Aug 2023 22:57:31 +0100
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+X-Mailer: b4 0.13-dev-034f2
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,38 +95,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-coccinielle reported the following:
-./drivers/net/wireless/ath/ath5k/phy.c:1573:25-26: WARNING opportunity for swap()
+On Sun, 06 Aug 2023 14:07:34 +0530, coolrrsh@gmail.com wrote:
+> In struct mpc52xx_psc_spi, the variable 'irq' is declared as an unsigned int.
+> The comparison of variable 'irq'  with signed int operand is incorrect. Also,
+> the return value from the call to platform_get_irq(pdev,0) is int and it is
+> assigned to an unsigned int variable 'irq', thus redeclaring the type of
+> variable 'irq' to signed int.
+> 
+> This fixes warning such as:
+> drivers/spi/spi-mpc52xx-psc.c:332:5-13:
+> 
+> [...]
 
-Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
----
- drivers/net/wireless/ath/ath5k/phy.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Applied to
 
-diff --git a/drivers/net/wireless/ath/ath5k/phy.c b/drivers/net/wireless/ath/ath5k/phy.c
-index 5797ef9c73d7..f87eb684f223 100644
---- a/drivers/net/wireless/ath/ath5k/phy.c
-+++ b/drivers/net/wireless/ath/ath5k/phy.c
-@@ -1562,16 +1562,13 @@ static s16
- ath5k_hw_get_median_noise_floor(struct ath5k_hw *ah)
- {
- 	s16 sort[ATH5K_NF_CAL_HIST_MAX];
--	s16 tmp;
- 	int i, j;
- 
- 	memcpy(sort, ah->ah_nfcal_hist.nfval, sizeof(sort));
- 	for (i = 0; i < ATH5K_NF_CAL_HIST_MAX - 1; i++) {
- 		for (j = 1; j < ATH5K_NF_CAL_HIST_MAX - i; j++) {
- 			if (sort[j] > sort[j - 1]) {
--				tmp = sort[j];
--				sort[j] = sort[j - 1];
--				sort[j - 1] = tmp;
-+				swap(sort[j], sort[j - 1]);
- 			}
- 		}
- 	}
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+
+Thanks!
+
+[1/1] spi: spi-mpc52xx-psc: Fix an unsigned comparison that can never be negative
+      commit: 4f5177458ba97734149897c5d4d44f85b8fe0348
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
 _______________________________________________
 Linux-kernel-mentees mailing list
