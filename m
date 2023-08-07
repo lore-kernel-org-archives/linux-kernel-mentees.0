@@ -4,92 +4,98 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 618A3C001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 14:49:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64767C001DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 14:50:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D77D86108F;
-	Mon,  7 Aug 2023 14:49:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D77D86108F
+	by smtp3.osuosl.org (Postfix) with ESMTP id EF82761078;
+	Mon,  7 Aug 2023 14:50:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EF82761078
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=sWF0QXNH
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Sroup4QU
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sakmDWYqd5Uh; Mon,  7 Aug 2023 14:49:58 +0000 (UTC)
+	with ESMTP id ZUxsU5tu26cz; Mon,  7 Aug 2023 14:50:03 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D0A3B61084;
-	Mon,  7 Aug 2023 14:49:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D0A3B61084
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 0241F61085;
+	Mon,  7 Aug 2023 14:50:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0241F61085
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AE3A3C0071;
-	Mon,  7 Aug 2023 14:49:57 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A3EB7C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D68C8C0071;
+	Mon,  7 Aug 2023 14:50:02 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 54281C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:49:55 +0000 (UTC)
+ Mon,  7 Aug 2023 14:50:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 6F3C461077
+ by smtp4.osuosl.org (Postfix) with ESMTP id 36BB6408FB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:49:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6F3C461077
+ Mon,  7 Aug 2023 14:50:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 36BB6408FB
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=Sroup4QU
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id pIJ52khVUTlZ
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Goj2COpqqm7K
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:49:55 +0000 (UTC)
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
- [IPv6:2607:f8b0:4864:20::42b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id CD17C606E6
+ Mon,  7 Aug 2023 14:49:59 +0000 (UTC)
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6D648401C3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:49:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CD17C606E6
-Received: by mail-pf1-x42b.google.com with SMTP id
- d2e1a72fcca58-686ed1d2594so4434533b3a.2
+ Mon,  7 Aug 2023 14:49:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6D648401C3
+Received: by mail-pf1-x433.google.com with SMTP id
+ d2e1a72fcca58-686f0d66652so4379726b3a.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 07 Aug 2023 07:49:54 -0700 (PDT)
+ Mon, 07 Aug 2023 07:49:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691419794; x=1692024594;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=manx55rXTBvaqxGz9G2eNlyGDJ5fD2gP+HFfKEjL4GU=;
- b=sWF0QXNHlaTAVhPmuX6j4ld3K60S6RM56ZBwkgf0Fy933B/1Z1E3ZQAAEnx4cPlkRr
- yeHpVQUWywjzavhwxDy5QkepIkD4gI7T3wGCWGGGh8241VuUM5tLeJ+ZvLm8Xf5zuMJp
- lAn/7oQE7BoPEnms3qqyL9qzLro3+rDBQVUf1FJHFSymrsFnL+29t3JhPLuID/INgaOX
- mZh3Bih+q7vrCr2wf2/XqVg2T/yFo2WSVQt5umEk1SgDH0kXb0xxwGLjBEM1YQLHMxuY
- 4jEWkXh+i9NV8oFrSYmDC5zghdVw3JLWktCIohzg3opgqHRwFjMgyMAcTRNbpRTRAlW/
- HJeg==
+ d=gmail.com; s=20221208; t=1691419798; x=1692024598;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MVJ1NMXrZLpfm1TC5o9BlBqLzQ7UhV92PKS85S8rFNs=;
+ b=Sroup4QU3HZ7LerI3fPwMoENwg0kBChAlLlahHdIe5ucOHVSbEpVo+ZcfpOC86jqnL
+ 41WK8xWU6Sb4NixCabglANoa8//xn/56r6m1jWsHNhEug7rzGL+rW/dsZsVn5ob4YH+R
+ L3i91RmJmpV9CNCnrppAQS3BsumCDChhd4De712R5yR2/KV7DhkKQaWz+QlGHJWXs2Yw
+ WFm+A2/3VqAJSkdS1khuK74NF4YQ9YZbGj9BJO2IcwUYwUJAMF4OZw5+HBoNvMuvyAwC
+ QfIcb3XiJ4U6EX3u5KEvgf9i7ypvt8VVsT3JiGYJMHS4NjPOn1CeK/HOCn15tsACs+3a
+ q/wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691419794; x=1692024594;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=manx55rXTBvaqxGz9G2eNlyGDJ5fD2gP+HFfKEjL4GU=;
- b=VpKcgFT+njatr3Y1Ue04QB758xQf4N5+xD7FPNepXfiQnvVurvooIKP/f1dLnoiqMa
- HoiLQsb7FdCJecIpseUqgf3B8qGYRkeIKrXDJKjh5fkz2PpWs5fllUszMjKTZUp00giq
- g9GsQXKcm7J7lulewBlKRjatAewp0aZHUpj7mOHjLCjQta1M8PDs5Crq5btVlADGP29L
- KMGH3S3Fj3Fc/eoaC5bQHItFXEO2asqspncHiuGof4jCGfyaVt9fYvEYA/7P8XDEDCS1
- 7Kgew+88a+8oX4tOEJMe2Fj1StQcTlR5N/61kJFJ0WuySynJNiG0wnnyoXYLD/ZoS91K
- BiBw==
-X-Gm-Message-State: AOJu0Yx1zG5wzZlZKTf3hBPhZFd6FmLJ1Ja9YBuEjjNdCbLNvvlG9RP+
- 7CotGUxDZFTnR+/V4N/5Zi0=
-X-Google-Smtp-Source: AGHT+IHSF2LjhCwFeQ9exe3vk3rKcmGFd9zuiy0O5vO0KOXNIP4cDVzDNZUx2ai2UjTwQ9bvQVghPg==
-X-Received: by 2002:a05:6a20:258b:b0:13e:e3aa:d871 with SMTP id
- k11-20020a056a20258b00b0013ee3aad871mr12459029pzd.53.1691419793906; 
- Mon, 07 Aug 2023 07:49:53 -0700 (PDT)
+ d=1e100.net; s=20221208; t=1691419798; x=1692024598;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=MVJ1NMXrZLpfm1TC5o9BlBqLzQ7UhV92PKS85S8rFNs=;
+ b=VnMU4Te3bxIev+JlPFfxys/mLbpkP548KkLcOfIFgS+G4nuTPwnjgX5GjRj/1WBfGy
+ 03zfgFewSMlw2sSV5ytW4YjVhjOhrILImSrUmEifKkqku2N6wxGQ/A8NIggXQ1/cXJOW
+ PixnZUU5CZhxYKBzFOy4KOXS4KJ2sIFhD9+ZP21ejbZmvuMJbzSDK5yso5L/VjVH5vLG
+ 8C/Ei6U5TkU6VTwHwSOrAuBQsSTAmS98DFa1bvc00N51Xun9QAXQ2LqsZRO5jx8+0tqi
+ 18PQ6LN444izBT4NXSWx5n1ZgbG46ObDCgNMfh0w8tfpCLK2Q8J8shukb9rZRY5vj+mv
+ iInw==
+X-Gm-Message-State: AOJu0YwiRNuf09xluTdDnY4HtjoS66UaHPWmWnQDDqFbTHsV8ISg0XLy
+ 8JztwHgQwRLyNIRbwv2o7h4=
+X-Google-Smtp-Source: AGHT+IFxCA9Hh9AGaKvSkXYR503KWYhOuOlfrvrHCVIxaYrFzl1ziRZ0VuWFV8rpmy8d+cxHJY21ag==
+X-Received: by 2002:a05:6a20:549f:b0:12f:bc36:4c67 with SMTP id
+ i31-20020a056a20549f00b0012fbc364c67mr12099566pzk.61.1691419798413; 
+ Mon, 07 Aug 2023 07:49:58 -0700 (PDT)
 Received: from localhost.localdomain
  ([2409:40c2:1035:32cd:7d2b:8acf:815f:3f79])
  by smtp.gmail.com with ESMTPSA id
- q24-20020a62e118000000b006826df9e286sm6417461pfh.143.2023.08.07.07.49.48
+ q24-20020a62e118000000b006826df9e286sm6417461pfh.143.2023.08.07.07.49.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 07:49:50 -0700 (PDT)
+ Mon, 07 Aug 2023 07:49:56 -0700 (PDT)
 From: coolrrsh@gmail.com
 To: broonie@kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] spi: spi-mpc512x-psc: Fix an unsigned comparison that can
+Subject: [PATCH v2] spi: spi-mpc52xx-psc: Fix an unsigned comparison that can
  never be negative 
-Date: Mon,  7 Aug 2023 20:19:41 +0530
-Message-Id: <20230807144942.30317-1-coolrrsh@gmail.com>
+Date: Mon,  7 Aug 2023 20:19:42 +0530
+Message-Id: <20230807144942.30317-2-coolrrsh@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20230807144942.30317-1-coolrrsh@gmail.com>
+References: <20230807144942.30317-1-coolrrsh@gmail.com>
 MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -111,39 +117,39 @@ Sender: "Linux-kernel-mentees"
 
 From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-In struct mpc512x_psc_spi, the variable 'irq' is declared as an unsigned int.
+In struct mpc52xx_psc_spi, the variable 'irq' is declared as an unsigned int.
 The comparison of variable 'irq'  with signed int operand is incorrect. Also,
 the return value from the call to platform_get_irq(pdev,0) is int and it is 
-assigned to an unsigned int variable 'irq', thus redeclaring the type of 
+assigned to an unsigned int variable 'irq', thus redeclaring the type of
 variable 'irq' to signed int.
 
 This fixes warning such as:
-drivers/spi/spi-mpc512x-psc.c:493:5-13: 
+drivers/spi/spi-mpc52xx-psc.c:332:5-13:
 WARNING: Unsigned expression compared with zero: mps -> irq < 0
 
 Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
 ---
 v1->v2
-changed the commit message
+changed the commit message 
 
 ---
- drivers/spi/spi-mpc512x-psc.c | 2 +-
+ drivers/spi/spi-mpc52xx-psc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-mpc512x-psc.c b/drivers/spi/spi-mpc512x-psc.c
-index 99aeef28a..5cecca1be 100644
---- a/drivers/spi/spi-mpc512x-psc.c
-+++ b/drivers/spi/spi-mpc512x-psc.c
-@@ -53,7 +53,7 @@ struct mpc512x_psc_spi {
- 	int type;
- 	void __iomem *psc;
- 	struct mpc512x_psc_fifo __iomem *fifo;
+diff --git a/drivers/spi/spi-mpc52xx-psc.c b/drivers/spi/spi-mpc52xx-psc.c
+index 9a1a080fb..795c08594 100644
+--- a/drivers/spi/spi-mpc52xx-psc.c
++++ b/drivers/spi/spi-mpc52xx-psc.c
+@@ -29,7 +29,7 @@ struct mpc52xx_psc_spi {
+ 	/* driver internal data */
+ 	struct mpc52xx_psc __iomem *psc;
+ 	struct mpc52xx_psc_fifo __iomem *fifo;
 -	unsigned int irq;
 +	int irq;
  	u8 bits_per_word;
- 	u32 mclk_rate;
  
+ 	struct completion done;
 -- 
 2.25.1
 
