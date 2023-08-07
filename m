@@ -4,100 +4,101 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64767C001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 14:50:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25DF7C04A6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 15:17:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id EF82761078;
-	Mon,  7 Aug 2023 14:50:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EF82761078
+	by smtp3.osuosl.org (Postfix) with ESMTP id BB70560E2E;
+	Mon,  7 Aug 2023 15:17:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BB70560E2E
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Sroup4QU
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=JljrwEsM
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZUxsU5tu26cz; Mon,  7 Aug 2023 14:50:03 +0000 (UTC)
+	with ESMTP id 2YXj13tQmKiE; Mon,  7 Aug 2023 15:17:26 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0241F61085;
-	Mon,  7 Aug 2023 14:50:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0241F61085
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C390460AA7;
+	Mon,  7 Aug 2023 15:17:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C390460AA7
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D68C8C0071;
-	Mon,  7 Aug 2023 14:50:02 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 54281C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9FFB6C0072;
+	Mon,  7 Aug 2023 15:17:25 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99883C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:50:00 +0000 (UTC)
+ Mon,  7 Aug 2023 15:17:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 36BB6408FB
+ by smtp2.osuosl.org (Postfix) with ESMTP id 80AF640A99
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:50:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 36BB6408FB
-Authentication-Results: smtp4.osuosl.org;
+ Mon,  7 Aug 2023 15:17:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 80AF640A99
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Sroup4QU
+ header.a=rsa-sha256 header.s=20221208 header.b=JljrwEsM
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Goj2COpqqm7K
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id UuiQ2eq85py8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:49:59 +0000 (UTC)
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6D648401C3
+ Mon,  7 Aug 2023 15:17:23 +0000 (UTC)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com
+ [IPv6:2607:f8b0:4864:20::631])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id A7FC64051D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:49:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6D648401C3
-Received: by mail-pf1-x433.google.com with SMTP id
- d2e1a72fcca58-686f0d66652so4379726b3a.2
+ Mon,  7 Aug 2023 15:17:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A7FC64051D
+Received: by mail-pl1-x631.google.com with SMTP id
+ d9443c01a7336-1bbf0f36ce4so29505735ad.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 07 Aug 2023 07:49:59 -0700 (PDT)
+ Mon, 07 Aug 2023 08:17:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691419798; x=1692024598;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MVJ1NMXrZLpfm1TC5o9BlBqLzQ7UhV92PKS85S8rFNs=;
- b=Sroup4QU3HZ7LerI3fPwMoENwg0kBChAlLlahHdIe5ucOHVSbEpVo+ZcfpOC86jqnL
- 41WK8xWU6Sb4NixCabglANoa8//xn/56r6m1jWsHNhEug7rzGL+rW/dsZsVn5ob4YH+R
- L3i91RmJmpV9CNCnrppAQS3BsumCDChhd4De712R5yR2/KV7DhkKQaWz+QlGHJWXs2Yw
- WFm+A2/3VqAJSkdS1khuK74NF4YQ9YZbGj9BJO2IcwUYwUJAMF4OZw5+HBoNvMuvyAwC
- QfIcb3XiJ4U6EX3u5KEvgf9i7ypvt8VVsT3JiGYJMHS4NjPOn1CeK/HOCn15tsACs+3a
- q/wg==
+ d=gmail.com; s=20221208; t=1691421443; x=1692026243;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8+9F0mm26547YwGdsOYT/6OgcExXxmjtiA50SQtPXRg=;
+ b=JljrwEsM1fFtKPnszTzIISBcoRaaj7fBrx95Wccvs2g6MsC921pQR/6GbKbfooj9cC
+ MNRSGq7fAbsYu+5r4It5zyJFFwXQYy2GI2q9HuaS9fTGzot+l2YzegkF4eeI9RXOiQu3
+ ixmB3kf29LycmnoopQPqhEBFhm1BrrkwWtLsIZxbkQEHBu3PmQpu/ZCZZUVAyWZVJPpX
+ RiraItHyTa5KIWZNwqTJqDDPp7Et0O4PmzRCmFYQ/5pWsNSLtoVqClVi0ne6ZJFaBzKL
+ 5xO3C5kI0lNCRa9XifcBTOeLBYxZ5Wpms8J/9B9vNcqNdZEH3ga77/FmZP5eybZXdSCM
+ jPaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691419798; x=1692024598;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MVJ1NMXrZLpfm1TC5o9BlBqLzQ7UhV92PKS85S8rFNs=;
- b=VnMU4Te3bxIev+JlPFfxys/mLbpkP548KkLcOfIFgS+G4nuTPwnjgX5GjRj/1WBfGy
- 03zfgFewSMlw2sSV5ytW4YjVhjOhrILImSrUmEifKkqku2N6wxGQ/A8NIggXQ1/cXJOW
- PixnZUU5CZhxYKBzFOy4KOXS4KJ2sIFhD9+ZP21ejbZmvuMJbzSDK5yso5L/VjVH5vLG
- 8C/Ei6U5TkU6VTwHwSOrAuBQsSTAmS98DFa1bvc00N51Xun9QAXQ2LqsZRO5jx8+0tqi
- 18PQ6LN444izBT4NXSWx5n1ZgbG46ObDCgNMfh0w8tfpCLK2Q8J8shukb9rZRY5vj+mv
- iInw==
-X-Gm-Message-State: AOJu0YwiRNuf09xluTdDnY4HtjoS66UaHPWmWnQDDqFbTHsV8ISg0XLy
- 8JztwHgQwRLyNIRbwv2o7h4=
-X-Google-Smtp-Source: AGHT+IFxCA9Hh9AGaKvSkXYR503KWYhOuOlfrvrHCVIxaYrFzl1ziRZ0VuWFV8rpmy8d+cxHJY21ag==
-X-Received: by 2002:a05:6a20:549f:b0:12f:bc36:4c67 with SMTP id
- i31-20020a056a20549f00b0012fbc364c67mr12099566pzk.61.1691419798413; 
- Mon, 07 Aug 2023 07:49:58 -0700 (PDT)
-Received: from localhost.localdomain
- ([2409:40c2:1035:32cd:7d2b:8acf:815f:3f79])
+ d=1e100.net; s=20221208; t=1691421443; x=1692026243;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8+9F0mm26547YwGdsOYT/6OgcExXxmjtiA50SQtPXRg=;
+ b=YAIr+leXpi3PwGoeZriDtCZW+j0pk/EBnA3jZb8xOo+uWijSrSMn80SvXt8Ru+uj7T
+ 0jdMJDFcS6YHFCSgbUoEDJa8KRYntLqifk/YDVsMEczzAam60AfN+J+4iyIyt4h6ZoaL
+ r/vCJRs/Er8c1NgU/ZkAjWK4GomCn1y+95yMs5eVzccKvNPW4xKkDq9opkxvDe6A739Y
+ qkYGHxJ8pnKC5oWPOOhEvFPA7EUUOmZBRlZGd9Ud4TUdTtBIH4/h2Pb7RUqacYEjGnSY
+ z75rSu7jgPmSUGET1OpalNavsSQroxeIF3XZjK6arhg1v91WNbk4NUGlnL1u9O7NU2YZ
+ fluw==
+X-Gm-Message-State: AOJu0YwnuHr4E7pmbTYuxkaLqjCfMNOei4j38+tmQGqSeyr/1q4uXHUD
+ SHMuSIz5OsHSrWnX+otLpVc=
+X-Google-Smtp-Source: AGHT+IEdWab8M45OJVYq6HKxCC/BIo1O8CXS+FMGJY+gu/L2pr/OZXQIAidO7BK76Zxz5T74hNQUEQ==
+X-Received: by 2002:a17:903:191:b0:1bb:a056:2c5f with SMTP id
+ z17-20020a170903019100b001bba0562c5fmr9832821plg.7.1691421442901; 
+ Mon, 07 Aug 2023 08:17:22 -0700 (PDT)
+Received: from rajgad ([2601:204:df00:9cd0:b50f:ee2a:c29c:a732])
  by smtp.gmail.com with ESMTPSA id
- q24-20020a62e118000000b006826df9e286sm6417461pfh.143.2023.08.07.07.49.54
+ q5-20020a170902bd8500b001b89b1b99fasm7018101pls.243.2023.08.07.08.17.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Aug 2023 07:49:56 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: broonie@kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] spi: spi-mpc52xx-psc: Fix an unsigned comparison that can
- never be negative 
-Date: Mon,  7 Aug 2023 20:19:42 +0530
-Message-Id: <20230807144942.30317-2-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230807144942.30317-1-coolrrsh@gmail.com>
-References: <20230807144942.30317-1-coolrrsh@gmail.com>
+ Mon, 07 Aug 2023 08:17:22 -0700 (PDT)
+Date: Mon, 7 Aug 2023 08:17:21 -0700
+From: Atul Raut <rauji.raut@gmail.com>
+To: Jeff Johnson <quic_jjohnson@quicinc.com>
+Subject: Re: [PATCH v2] ath6kl: replace one-element array with flexible-array
+ member
+Message-ID: <20230807151721.qasrym5x5lqoqjgd@rajgad>
+References: <20230804045554.6934-1-rauji.raut@gmail.com>
+ <2023080433-patio-staining-2cfe@gregkh> <87sf8zs2oi.fsf@kernel.org>
+ <2023080410-unadorned-vertigo-c0b8@gregkh>
+ <47f1a06b-8bfe-911a-3a05-da7d522b588f@quicinc.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <47f1a06b-8bfe-911a-3a05-da7d522b588f@quicinc.com>
+Cc: linux-wireless@vger.kernel.org, kvalo@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,51 +110,111 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0094681425773181371=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-In struct mpc52xx_psc_spi, the variable 'irq' is declared as an unsigned int.
-The comparison of variable 'irq'  with signed int operand is incorrect. Also,
-the return value from the call to platform_get_irq(pdev,0) is int and it is 
-assigned to an unsigned int variable 'irq', thus redeclaring the type of
-variable 'irq' to signed int.
+--===============0094681425773181371==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rcfpwov7x5kwjhxg"
+Content-Disposition: inline
 
-This fixes warning such as:
-drivers/spi/spi-mpc52xx-psc.c:332:5-13:
-WARNING: Unsigned expression compared with zero: mps -> irq < 0
 
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+--rcfpwov7x5kwjhxg
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Description: I appreciate the comments. Will refrain from altering this or any other submitted patches, as advised.
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
----
-v1->v2
-changed the commit message 
+On Mon, Aug 07, 2023 at 07:13:20AM -0700, Jeff Johnson wrote:
+>On 8/4/2023 2:30 AM, Greg KH wrote:
+>>On Fri, Aug 04, 2023 at 10:10:37AM +0300, Kalle Valo wrote:
+>>>Greg KH <gregkh@linuxfoundation.org> writes:
+>>>
+>>>>On Thu, Aug 03, 2023 at 09:55:54PM -0700, Atul Raut wrote:
+>>>>
+>>>>>One-element arrays are no longer relevant, and their
+>>>>>place has been taken by flexible array members thus,
+>>>>>use a flexible-array member to replace the one-element
+>>>>>array in struct ath6kl_usb_ctrl_diag_cmd_write
+>>>>>
+>>>>>This fixes warnings such as:
+>>>>>./drivers/net/wireless/ath/ath6kl/usb.c:109:8-12: WARNING use flexible=
+-array member instead (https://www.kernel.org/doc/html/latest/process/depre=
+cated.html#zero-length-and-one-element-arrays)
+>>>>>
+>>>>>Signed-off-by: Atul Raut <rauji.raut@gmail.com>
+>>>>>---
+>>>>>  drivers/net/wireless/ath/ath6kl/usb.c | 2 +-
+>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>
+>>>>>diff --git a/drivers/net/wireless/ath/ath6kl/usb.c b/drivers/net/wirel=
+ess/ath/ath6kl/usb.c
+>>>>>index 5220809841a6..c8ecc9e85897 100644
+>>>>>--- a/drivers/net/wireless/ath/ath6kl/usb.c
+>>>>>+++ b/drivers/net/wireless/ath/ath6kl/usb.c
+>>>>>@@ -106,7 +106,7 @@ struct ath6kl_usb_ctrl_diag_cmd_write {
+>>>>>  	__le32 cmd;
+>>>>>  	__le32 address;
+>>>>>  	__le32 value;
+>>>>>-	__le32 _pad[1];
+>>>>>+	__le32 _pad[];
+>>>>
+>>>>Are you sure this is actually a variable length array?
+>>>
+>>>It's not, it's just padding. We both told this in v1:
+>>>
+>>>https://patchwork.kernel.org/project/linux-wireless/patch/20230731012941=
+=2E21875-1-rauji.raut@gmail.com/
+>>
+>>Hey, I'm consistent, nice!  :)
+>>
+>>But Atul, that's not good to ignore our review comments.  Usually that
+>>ends up meaning that everyone will then just ignore your submissions,
+>>generally a not-good resolution.
+>>
+>>thanks,
+>>
+>>greg k-h
+>
+>Since the 'pad' field is never directly accessed, suggest the author=20
+>respin this this to use simply:
+>	__le32 _pad;
+>
+>That will prevent others from trying to "fix" this actual one-element=20
+>array in the future.
 
----
- drivers/spi/spi-mpc52xx-psc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--rcfpwov7x5kwjhxg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/spi/spi-mpc52xx-psc.c b/drivers/spi/spi-mpc52xx-psc.c
-index 9a1a080fb..795c08594 100644
---- a/drivers/spi/spi-mpc52xx-psc.c
-+++ b/drivers/spi/spi-mpc52xx-psc.c
-@@ -29,7 +29,7 @@ struct mpc52xx_psc_spi {
- 	/* driver internal data */
- 	struct mpc52xx_psc __iomem *psc;
- 	struct mpc52xx_psc_fifo __iomem *fifo;
--	unsigned int irq;
-+	int irq;
- 	u8 bits_per_word;
- 
- 	struct completion done;
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEk+Uz5/8aTg0U2TbgUdAfNFxksqcFAmTRCv0ACgkQUdAfNFxk
+sqfOrQwAptc9XDlqik1wPWhDQR3FcwX0d30+AQUk9qPg47CfXTjoY0Wk2eN/f8H2
+MSVv4UYFw4vePh83nPkdZMtmaMgck3TWCJ522khoWVM1Auj6y4piuOu7SyYnraPT
+CHBxkeBHHOpicHCgCjtojdiaNRFxtCsAmr5dzpI+uKhLZqmUtXcU+CP73xmxcO+i
+mMaWrHDvBAha9d1IIFCTcuO0wH+kvz+LJ5UcO9WGgbTjkpLYOwRpekDvHfvgeLPT
+4bu/kUExrYnZ20ur34sujn+eBs2ISqAVvpniNrufGDCrUjpjIVHauxEQZgRbGrdF
+vQnN992f/hw4+5LQHoVK1IC55GVL6WPw3Q9RIboEgJu5YxASKlSF4Tho1GLDs+Sm
+lo+pyxL54zSALszhIjUdXiVSRiW8Oos062rrSfIqTwc0CD3SSdlbUeP4mAMgHkSp
+P2P5Tgmevc723Kx05qCaSUa3DAYU4tXvf/YJRSmK4FkGejgdtIEYlDHxXFodPece
+1TAGz34i
+=Y0V4
+-----END PGP SIGNATURE-----
+
+--rcfpwov7x5kwjhxg--
+
+--===============0094681425773181371==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============0094681425773181371==--
