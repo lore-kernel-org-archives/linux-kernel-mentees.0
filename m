@@ -1,98 +1,104 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3C332C0015E
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  6 Aug 2023 20:06:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1C6F8C001DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 02:31:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BAC7340151;
-	Sun,  6 Aug 2023 20:06:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BAC7340151
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=NQ7Dx+NY
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7131961013;
+	Mon,  7 Aug 2023 02:31:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7131961013
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=OILhHfS9
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Hz0j2cdoNnkU; Sun,  6 Aug 2023 20:06:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7A49B414C5;
-	Sun,  6 Aug 2023 20:06:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7A49B414C5
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TiGpSqtjW8Kb; Mon,  7 Aug 2023 02:31:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 63A2060FF1;
+	Mon,  7 Aug 2023 02:31:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 63A2060FF1
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44012C0072;
-	Sun,  6 Aug 2023 20:06:32 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 27BAEC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AA39C0072;
+	Mon,  7 Aug 2023 02:31:15 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0E1E6C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 20:06:31 +0000 (UTC)
+ Mon,  7 Aug 2023 02:31:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id EE6874091A
+ by smtp2.osuosl.org (Postfix) with ESMTP id DD0504036F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 20:06:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EE6874091A
+ Mon,  7 Aug 2023 02:31:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DD0504036F
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=OILhHfS9
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id huxm9jZndAqh
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id WelXUZn__S3C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 20:06:30 +0000 (UTC)
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id EDF2140104
+ Mon,  7 Aug 2023 02:31:13 +0000 (UTC)
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 472D5401F1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  6 Aug 2023 20:06:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EDF2140104
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-686ed1d2594so3732709b3a.2
+ Mon,  7 Aug 2023 02:31:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 472D5401F1
+Received: by mail-pf1-x432.google.com with SMTP id
+ d2e1a72fcca58-686e0213c0bso2722346b3a.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 06 Aug 2023 13:06:29 -0700 (PDT)
+ Sun, 06 Aug 2023 19:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691352389; x=1691957189;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OQMn+nUvoYrtKWuXbPyVqz57rqA4nMHv0ArCSIqw2yU=;
- b=NQ7Dx+NY/Lz11X2A7IsLs1SsnOqKk9u0UFOhZx3fLWoZcZc6p7clwRu6HQ51y8Gk12
- nEo3UjfzvrpQrpL6nP6imK+TIKtsEzf6NteKeWFPAo7I4Bv+24FC98lrFp1nO5AkkibV
- 6RKDUlObclgc8hA76iE5mqNm2VbbMfvGreGioQc0gV+q9XWxytrfMeUSTIxRI8PUebe0
- 2UWKJ14no3C3xWPcHianMAtulmTJbFXNgVEaEbp54xK+4JvSWw5nORNILjwXvpXu3YkS
- EiGB2w+1uJdHfqaNY868XryY8ZKzuYpwCPeUFMTL210wqgf98GbBZYRivKt0MUX0WhYQ
- acfQ==
+ d=gmail.com; s=20221208; t=1691375472; x=1691980272;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8MtUmDOT4hbgkhome0dArLibfOqFr9fyGVLclTZcR/I=;
+ b=OILhHfS9+nFKQjvYoPSlglBArsK0CU0hgxDWXWIYD0hq+yRtCTi79PUiN349SjmDsH
+ ZeNO9vnryPF35q//Xnjwmy3hynss0CgOR5eOfyRsfY+trmKb2rJ/aVkHOd3w6oJmK4pO
+ 9qaaUaSoiY2cNkW0GHJB194icWWsem6Fnn62zVtxo6xHXmUDMKbqGe1LyGSptnjmdw1T
+ YXMYzxGLCDRCAubQexezlwrCVM28uA5BSUCBiTiqwXZnX+q+kLs4CfyNPjLhy5Qtz94K
+ Dip8DPK0lVb3JeSIeZUPqKATFS/8RP/yPAPOLv0R9PmSRDBLCqs1rRUfmirFwLqn8KE7
+ pvWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691352389; x=1691957189;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OQMn+nUvoYrtKWuXbPyVqz57rqA4nMHv0ArCSIqw2yU=;
- b=Q250XH8eh3NKH9PkSquv3nicEfMH2yVkpmTOtD7E05X89pLsEVzjasHpm+atVHssaG
- OqLCBbU4irTM1PAmkaX3IZxQeDbrZDInKgX3rbS1UnTKro0YF2HpzLwIbmHltxPMUdqE
- Zy8pKL9QDaz0MFUQrCSr7zeG6Wm2TB8k01ABSGcJAIoiAWpHuK30MIfw4uUFdDp4VU1j
- 1rRnJOQ7gvjQFUfVA39MuF2i0iKZsy3d8kfcjzOAvd/SLt99HRRRC+6I7MjHbI95RNnS
- sNwWYWy67PaW/eHbK/boakgJJvyWaTCHC3+XtcUQdPud6MdHrKHsBIJbR9SPQtMTDq6N
- GIrQ==
-X-Gm-Message-State: AOJu0YxF04NqVkb9kYSxSmx41yfKDOY7recoLemh1ubOi9nN6Qk16pzK
- tQmmcQSPRkB+so5qrB4DOIVArgskhHD+Ng==
-X-Google-Smtp-Source: AGHT+IFOlWZzUFchlFd4iMRuiDbE8cP433/OXvPa03YCPWC5GsltkG/qEqckNvxFkwdffU/2OzqxvA==
-X-Received: by 2002:a05:6a21:498a:b0:13f:a69c:53af with SMTP id
- ax10-20020a056a21498a00b0013fa69c53afmr8188391pzc.61.1691352389174; 
- Sun, 06 Aug 2023 13:06:29 -0700 (PDT)
-Received: from rajgad.hsd1.ca.comcast.net
- ([2601:204:df00:9cd0:bb85:602f:712d:8309])
+ d=1e100.net; s=20221208; t=1691375472; x=1691980272;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8MtUmDOT4hbgkhome0dArLibfOqFr9fyGVLclTZcR/I=;
+ b=WVCBZypyzsDWo+XMIAMZBN1gQkb2bre+L5+AZ2z80lHBPJAmrTjmvA3SfFjcoaKBi5
+ LcKzQYz+pLowdUHMG/FevdvYOdyUOyFSgLlcmn9TZ71ClQWHHW4tn0g6RuA1tJUxCr4E
+ 3OTJGQedapSr1WhS+x53BDsiG4SM3eM7uTcpkC9rqej9dd13HHdaEMZ++xW55XyMis4q
+ vQt5/N30yfl6i4lscUN+RmSFQ1VA0e13JkJcSF4XI36ivXPSbs3XSrte0w8KJxeY9q6g
+ vBHNdR+zSO1mefu9waQPKj3WwR8zBd0CoCtab6uVroeZyHx1+A5r/mYBNPnPhu0lL16/
+ Xbbg==
+X-Gm-Message-State: AOJu0YxIWBAORAS9wrcp0paRVLrdh+CwLrJ11QEvP8sw2xmgJgaHK0+g
+ rQQPNzpCc+Dj0Ti8JK56pnQ=
+X-Google-Smtp-Source: AGHT+IHWDWtqlShThH+qeIRbWnFU4LQo1cMNU8kGLBUq5GfaPYHra+rzPBWAuv4AA57BrmNeSeggyA==
+X-Received: by 2002:a05:6a20:160b:b0:133:e3e3:dc07 with SMTP id
+ l11-20020a056a20160b00b00133e3e3dc07mr8610513pzj.49.1691375472581; 
+ Sun, 06 Aug 2023 19:31:12 -0700 (PDT)
+Received: from atom0118 ([2405:201:c009:58e9:e6a4:a0f3:7393:fde0])
  by smtp.gmail.com with ESMTPSA id
- q24-20020a62e118000000b006826df9e286sm4824634pfh.143.2023.08.06.13.06.28
+ r1-20020a62e401000000b006877a2e6285sm4944819pfh.128.2023.08.06.19.31.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Aug 2023 13:06:28 -0700 (PDT)
-From: Atul Raut <rauji.raut@gmail.com>
-To: stefan@agner.ch,
-	dev@lynxeye.de
-Subject: [PATCH v2] mtd: rawnand: replace one-element array with
- flexible-array member
-Date: Sun,  6 Aug 2023 13:05:27 -0700
-Message-Id: <20230806200527.18797-1-rauji.raut@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sun, 06 Aug 2023 19:31:12 -0700 (PDT)
+Date: Mon, 7 Aug 2023 08:01:04 +0530
+From: Atul Kumar Pant <atulpant.linux@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1] drivers: edac: zynqmp_edac: Updates return value check
+Message-ID: <20230807023104.GA4030@atom0118>
+References: <20230806130514.159102-1-atulpant.linux@gmail.com>
+ <2023080631-salon-banter-31b7@gregkh>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <2023080631-salon-banter-31b7@gregkh>
+Cc: tony.luck@intel.com, rric@kernel.org, linux-edac@vger.kernel.org,
+ shuah@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ shubhrajyoti.datta@amd.com, bp@alien8.de, james.morse@arm.com,
+ mchehab@kernel.org, michal.simek@amd.com, sai.krishna.potthuri@amd.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,38 +116,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-One-element arrays are obsolete, and flexible
-array members have taken their place. So, in
-struct tegra_nand_chip, replace the one-element
-array with a flexible-array member.
+On Sun, Aug 06, 2023 at 03:37:01PM +0200, Greg KH wrote:
+> On Sun, Aug 06, 2023 at 06:35:14PM +0530, Atul Kumar Pant wrote:
+> > Updating the check of return value from edac_debugfs_create_dir
+> > to use IS_ERR.
+> > 
+> > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+> > ---
+> >  drivers/edac/zynqmp_edac.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/edac/zynqmp_edac.c b/drivers/edac/zynqmp_edac.c
+> > index ac7d1e0b324c..cefbbafb945e 100644
+> > --- a/drivers/edac/zynqmp_edac.c
+> > +++ b/drivers/edac/zynqmp_edac.c
+> > @@ -351,7 +351,7 @@ static void setup_debugfs(struct edac_device_ctl_info *edac_dev)
+> >  	struct edac_priv *priv = edac_dev->pvt_info;
+> >  
+> >  	priv->debugfs_dir = edac_debugfs_create_dir("ocm");
+> > -	if (!priv->debugfs_dir)
+> > +	if (IS_ERR(priv->debugfs_dir))
+> >  		return;
+> 
+> Again, not correct, sorry.  Please do not make these types of changes.
+> 
+> Why do you feel this is needed at all?
+> 
+    edac_debugfs_create_dir uses debugfs_create_dir that return ERR_PTR.
+    Hence to check the return value by this function I changed null
+    comparison with IS_ERR.
 
-This fixes warnings such as:
-./drivers/mtd/nand/raw/tegra_nand.c:189:5-7: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-
-Signed-off-by: Atul Raut <rauji.raut@gmail.com>
----
-v1 -> v2:
- Corrected commit message
----
- drivers/mtd/nand/raw/tegra_nand.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/mtd/nand/raw/tegra_nand.c b/drivers/mtd/nand/raw/tegra_nand.c
-index eb0b9d16e8da..f34cd8cd0eaf 100644
---- a/drivers/mtd/nand/raw/tegra_nand.c
-+++ b/drivers/mtd/nand/raw/tegra_nand.c
-@@ -186,7 +186,7 @@ struct tegra_nand_chip {
- 	u32 config;
- 	u32 config_ecc;
- 	u32 bch_config;
--	int cs[1];
-+	int cs[];
- };
- 
- static inline struct tegra_nand_controller *
--- 
-2.34.1
-
+> thanks,
+> 
+> greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
