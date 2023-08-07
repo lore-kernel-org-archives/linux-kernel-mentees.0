@@ -1,113 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4427AC001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 14:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 618A3C001DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 14:49:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9DFF1402BA;
-	Mon,  7 Aug 2023 14:44:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9DFF1402BA
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=S1WdKG5Y
+	by smtp3.osuosl.org (Postfix) with ESMTP id D77D86108F;
+	Mon,  7 Aug 2023 14:49:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D77D86108F
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=sWF0QXNH
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zJxiVVrroP6U; Mon,  7 Aug 2023 14:44:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 37F6F4021B;
-	Mon,  7 Aug 2023 14:44:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 37F6F4021B
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sakmDWYqd5Uh; Mon,  7 Aug 2023 14:49:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D0A3B61084;
+	Mon,  7 Aug 2023 14:49:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D0A3B61084
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 046B2C0071;
-	Mon,  7 Aug 2023 14:44:33 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 35EBFC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id AE3A3C0071;
+	Mon,  7 Aug 2023 14:49:57 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A3EB7C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:44:31 +0000 (UTC)
+ Mon,  7 Aug 2023 14:49:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id F0F6740A57
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6F3C461077
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:44:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F0F6740A57
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com
- header.a=rsa-sha256 header.s=qcppdkim1 header.b=S1WdKG5Y
+ Mon,  7 Aug 2023 14:49:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6F3C461077
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZnHIn-PDR40U
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pIJ52khVUTlZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:44:30 +0000 (UTC)
-X-Greylist: delayed 1860 seconds by postgrey-1.37 at util1.osuosl.org;
- Mon, 07 Aug 2023 14:44:29 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B6FA6404FF
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by smtp2.osuosl.org (Postfix) with ESMTPS id B6FA6404FF
+ Mon,  7 Aug 2023 14:49:55 +0000 (UTC)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CD17C606E6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 14:44:29 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3778eCqw024287; Mon, 7 Aug 2023 14:13:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Gt+gCUHmgDjj2zNUxEfs8O41tYDOTQH90wdcsrwitAc=;
- b=S1WdKG5Y5q3RgokRD85oKHJKd5mUZNVUJgd3j02B25wuR/5W/GOtxIMEHOW2FTzVj/gj
- gtUJzOVBgpGkDOAahRQgUoLP8ECkwKI9wtqRPJ6rcAZqadZKcpjtF6E1VOqkZY+TlmN6
- Orty990YVLgJDPKu0lJHam1suD8vnOHmbSHiheDrVFiww/g2hB0IFFuFHVKkhAjLh8jQ
- W8ZO/VSWVwApsQQRVbCEsGQbHSiZotZpt/MxwWgX7zcm5zJNp/Yy7FvG7elkWla/XGgq
- CMpKsU7bJg10EWG9HI2P9ktmiEH5XEqbi13C7/R8y23S7sUP/TlZ9n8P6LkH7bMlQTP7 ig== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3saw0r8s43-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 07 Aug 2023 14:13:22 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 377EDLRJ028863
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 7 Aug 2023 14:13:21 GMT
-Received: from [10.111.180.219] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Mon, 7 Aug
- 2023 07:13:21 -0700
-Message-ID: <47f1a06b-8bfe-911a-3a05-da7d522b588f@quicinc.com>
-Date: Mon, 7 Aug 2023 07:13:20 -0700
+ Mon,  7 Aug 2023 14:49:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CD17C606E6
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-686ed1d2594so4434533b3a.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 07 Aug 2023 07:49:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691419794; x=1692024594;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=manx55rXTBvaqxGz9G2eNlyGDJ5fD2gP+HFfKEjL4GU=;
+ b=sWF0QXNHlaTAVhPmuX6j4ld3K60S6RM56ZBwkgf0Fy933B/1Z1E3ZQAAEnx4cPlkRr
+ yeHpVQUWywjzavhwxDy5QkepIkD4gI7T3wGCWGGGh8241VuUM5tLeJ+ZvLm8Xf5zuMJp
+ lAn/7oQE7BoPEnms3qqyL9qzLro3+rDBQVUf1FJHFSymrsFnL+29t3JhPLuID/INgaOX
+ mZh3Bih+q7vrCr2wf2/XqVg2T/yFo2WSVQt5umEk1SgDH0kXb0xxwGLjBEM1YQLHMxuY
+ 4jEWkXh+i9NV8oFrSYmDC5zghdVw3JLWktCIohzg3opgqHRwFjMgyMAcTRNbpRTRAlW/
+ HJeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691419794; x=1692024594;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=manx55rXTBvaqxGz9G2eNlyGDJ5fD2gP+HFfKEjL4GU=;
+ b=VpKcgFT+njatr3Y1Ue04QB758xQf4N5+xD7FPNepXfiQnvVurvooIKP/f1dLnoiqMa
+ HoiLQsb7FdCJecIpseUqgf3B8qGYRkeIKrXDJKjh5fkz2PpWs5fllUszMjKTZUp00giq
+ g9GsQXKcm7J7lulewBlKRjatAewp0aZHUpj7mOHjLCjQta1M8PDs5Crq5btVlADGP29L
+ KMGH3S3Fj3Fc/eoaC5bQHItFXEO2asqspncHiuGof4jCGfyaVt9fYvEYA/7P8XDEDCS1
+ 7Kgew+88a+8oX4tOEJMe2Fj1StQcTlR5N/61kJFJ0WuySynJNiG0wnnyoXYLD/ZoS91K
+ BiBw==
+X-Gm-Message-State: AOJu0Yx1zG5wzZlZKTf3hBPhZFd6FmLJ1Ja9YBuEjjNdCbLNvvlG9RP+
+ 7CotGUxDZFTnR+/V4N/5Zi0=
+X-Google-Smtp-Source: AGHT+IHSF2LjhCwFeQ9exe3vk3rKcmGFd9zuiy0O5vO0KOXNIP4cDVzDNZUx2ai2UjTwQ9bvQVghPg==
+X-Received: by 2002:a05:6a20:258b:b0:13e:e3aa:d871 with SMTP id
+ k11-20020a056a20258b00b0013ee3aad871mr12459029pzd.53.1691419793906; 
+ Mon, 07 Aug 2023 07:49:53 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2409:40c2:1035:32cd:7d2b:8acf:815f:3f79])
+ by smtp.gmail.com with ESMTPSA id
+ q24-20020a62e118000000b006826df9e286sm6417461pfh.143.2023.08.07.07.49.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Aug 2023 07:49:50 -0700 (PDT)
+From: coolrrsh@gmail.com
+To: broonie@kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] spi: spi-mpc512x-psc: Fix an unsigned comparison that can
+ never be negative 
+Date: Mon,  7 Aug 2023 20:19:41 +0530
+Message-Id: <20230807144942.30317-1-coolrrsh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ath6kl: replace one-element array with flexible-array
- member
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>, Kalle Valo <kvalo@kernel.org>
-References: <20230804045554.6934-1-rauji.raut@gmail.com>
- <2023080433-patio-staining-2cfe@gregkh> <87sf8zs2oi.fsf@kernel.org>
- <2023080410-unadorned-vertigo-c0b8@gregkh>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <2023080410-unadorned-vertigo-c0b8@gregkh>
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: g6PxgHzzUW0wA2SGSy-RByiRbc4Ag86W
-X-Proofpoint-ORIG-GUID: g6PxgHzzUW0wA2SGSy-RByiRbc4Ag86W
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-07_13,2023-08-03_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0
- phishscore=0 adultscore=0 impostorscore=0 mlxlogscore=502 clxscore=1011
- spamscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308070131
-Cc: Atul Raut <rauji.raut@gmail.com>, linux-wireless@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -119,64 +103,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 8/4/2023 2:30 AM, Greg KH wrote:
-> On Fri, Aug 04, 2023 at 10:10:37AM +0300, Kalle Valo wrote:
->> Greg KH <gregkh@linuxfoundation.org> writes:
->>
->>> On Thu, Aug 03, 2023 at 09:55:54PM -0700, Atul Raut wrote:
->>>
->>>> One-element arrays are no longer relevant, and their
->>>> place has been taken by flexible array members thus,
->>>> use a flexible-array member to replace the one-element
->>>> array in struct ath6kl_usb_ctrl_diag_cmd_write
->>>>
->>>> This fixes warnings such as:
->>>> ./drivers/net/wireless/ath/ath6kl/usb.c:109:8-12: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
->>>>
->>>> Signed-off-by: Atul Raut <rauji.raut@gmail.com>
->>>> ---
->>>>   drivers/net/wireless/ath/ath6kl/usb.c | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/net/wireless/ath/ath6kl/usb.c b/drivers/net/wireless/ath/ath6kl/usb.c
->>>> index 5220809841a6..c8ecc9e85897 100644
->>>> --- a/drivers/net/wireless/ath/ath6kl/usb.c
->>>> +++ b/drivers/net/wireless/ath/ath6kl/usb.c
->>>> @@ -106,7 +106,7 @@ struct ath6kl_usb_ctrl_diag_cmd_write {
->>>>   	__le32 cmd;
->>>>   	__le32 address;
->>>>   	__le32 value;
->>>> -	__le32 _pad[1];
->>>> +	__le32 _pad[];
->>>
->>> Are you sure this is actually a variable length array?
->>
->> It's not, it's just padding. We both told this in v1:
->>
->> https://patchwork.kernel.org/project/linux-wireless/patch/20230731012941.21875-1-rauji.raut@gmail.com/
-> 
-> Hey, I'm consistent, nice!  :)
-> 
-> But Atul, that's not good to ignore our review comments.  Usually that
-> ends up meaning that everyone will then just ignore your submissions,
-> generally a not-good resolution.
-> 
-> thanks,
-> 
-> greg k-h
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-Since the 'pad' field is never directly accessed, suggest the author 
-respin this this to use simply:
-	__le32 _pad;
+In struct mpc512x_psc_spi, the variable 'irq' is declared as an unsigned int.
+The comparison of variable 'irq'  with signed int operand is incorrect. Also,
+the return value from the call to platform_get_irq(pdev,0) is int and it is 
+assigned to an unsigned int variable 'irq', thus redeclaring the type of 
+variable 'irq' to signed int.
 
-That will prevent others from trying to "fix" this actual one-element 
-array in the future.
+This fixes warning such as:
+drivers/spi/spi-mpc512x-psc.c:493:5-13: 
+WARNING: Unsigned expression compared with zero: mps -> irq < 0
+
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+
+---
+v1->v2
+changed the commit message
+
+---
+ drivers/spi/spi-mpc512x-psc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/spi/spi-mpc512x-psc.c b/drivers/spi/spi-mpc512x-psc.c
+index 99aeef28a..5cecca1be 100644
+--- a/drivers/spi/spi-mpc512x-psc.c
++++ b/drivers/spi/spi-mpc512x-psc.c
+@@ -53,7 +53,7 @@ struct mpc512x_psc_spi {
+ 	int type;
+ 	void __iomem *psc;
+ 	struct mpc512x_psc_fifo __iomem *fifo;
+-	unsigned int irq;
++	int irq;
+ 	u8 bits_per_word;
+ 	u32 mclk_rate;
+ 
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
