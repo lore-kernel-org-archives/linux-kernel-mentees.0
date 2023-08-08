@@ -1,80 +1,84 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 21FA2C04FE0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  7 Aug 2023 21:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1D6FBEB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 02:20:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A180160E19;
-	Mon,  7 Aug 2023 21:57:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A180160E19
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Zvf0yctA
+	by smtp1.osuosl.org (Postfix) with ESMTP id A1B0B81E4A;
+	Tue,  8 Aug 2023 02:20:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A1B0B81E4A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=R4+Ff2oW
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Se6ZwPDkXO2e; Mon,  7 Aug 2023 21:57:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 946C460E17;
-	Mon,  7 Aug 2023 21:57:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 946C460E17
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zM3_wmR1ilLc; Tue,  8 Aug 2023 02:20:26 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 66551817EB;
+	Tue,  8 Aug 2023 02:20:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 66551817EB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7B5B5C0072;
-	Mon,  7 Aug 2023 21:57:37 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7B925C0DD5
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 409CBC0071;
+	Tue,  8 Aug 2023 02:20:26 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3AF41C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 21:57:36 +0000 (UTC)
+ Tue,  8 Aug 2023 02:20:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4371460E17
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0DFAF81C38
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 21:57:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4371460E17
+ Tue,  8 Aug 2023 02:20:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0DFAF81C38
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JpWOjPhJBVKR
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id OkAnxmd8MGwX
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 21:57:35 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 65ADE60E19
+ Tue,  8 Aug 2023 02:20:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id E98AB817EB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  7 Aug 2023 21:57:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 65ADE60E19
+ Tue,  8 Aug 2023 02:20:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E98AB817EB
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9B1B16228F;
- Mon,  7 Aug 2023 21:57:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F283C433C8;
- Mon,  7 Aug 2023 21:57:33 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 2D88F6237D;
+ Tue,  8 Aug 2023 02:20:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 886B7C433C9;
+ Tue,  8 Aug 2023 02:20:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691445454;
- bh=ZBdsSzFVKRY6PmokTMG4ushfFOwsRYYskB/P5mPnNWc=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=Zvf0yctAVdibWfzojglrSgk/ffqQTc8vzB7IJkrzcfZa7QH0MZn98vW69pVpZkVIR
- nI9PyeW7HU5Nk6/Py7tx3PcwF1ZxIDqPnkgu/XO//NKjxtW3CzP774YZcBZgF4rOvH
- 4kPMD4JQIisVzh4aoAEzpec2w/tZgAUqBCx1o9gd/2fCVZTZIixYh2g6TT7uJv9M28
- o/y15aCYTKSeh8AC4/X+aDpB6iEBG6SrWksS+/otxQSmly4nkyMlYnXOuyMREA2QWx
- Pp+omntF00A+zNsHqsTUA7DyHr7YkAD/pqGLRuRv1Q45jfC7y4HrjF5GEQrkkXazdq
- I33L5xUJA5GOQ==
-From: Mark Brown <broonie@kernel.org>
-To: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org, 
- coolrrsh@gmail.com
-In-Reply-To: <20230807144942.30317-2-coolrrsh@gmail.com>
-References: <20230807144942.30317-1-coolrrsh@gmail.com>
- <20230807144942.30317-2-coolrrsh@gmail.com>
-Subject: Re: [PATCH v2] spi: spi-mpc52xx-psc: Fix an unsigned comparison
- that can never be negative
-Message-Id: <169144545291.329334.7193582247834857976.b4-ty@kernel.org>
-Date: Mon, 07 Aug 2023 22:57:32 +0100
+ s=k20201202; t=1691461221;
+ bh=kIyAQMukGXX9hkfOIlUbx01Y94cwkm21Uaczx4ozoPo=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=R4+Ff2oWweI6Pxzul5oURhFvP7LdJM1JFZBYoGuJL+we1MR4sM+t+WlNoG+wW2ZPw
+ 9SLsUtp4Jj+ZnHDT1LNtt3nud3r5ifP8IcUaHQwODJSzb0qIY9tFMSXmU4ZFmgyI5g
+ ke2yztGbfb2aJglQPCwUB71T1bbUcO5PN05NZVX98wykp/Ovkx39SyKhdNCQSWJlga
+ E1JOrcuBeMZjwmfFaPKxhLcY4dCTGrHTHMxArIY6PqE1+QKs1WA6RqIocVEiAZCS9T
+ rZPlqmkaUEZRJ9eMI4nA+jblkgXqCTyoHGcL3uYb0MNB2gab1M4Sz4+3IYwJ2Ys1t/
+ x1f4XgwtO8WJw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
+ 6DBA3E505D4; Tue,  8 Aug 2023 02:20:21 +0000 (UTC)
 MIME-Version: 1.0
-X-Mailer: b4 0.13-dev-034f2
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH net-next v5 1/2] drivers: net: prevent tun_build_skb() to
+ exceed the packet size limit
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169146122144.9822.6352423513613934358.git-patchwork-notify@kernel.org>
+Date: Tue, 08 Aug 2023 02:20:21 +0000
+References: <20230803185947.2379988-1-andrew.kanner@gmail.com>
+In-Reply-To: <20230803185947.2379988-1-andrew.kanner@gmail.com>
+To: Andrew Kanner <andrew.kanner@gmail.com>
+Cc: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com, hawk@kernel.org,
+ netdev@vger.kernel.org, jasowang@redhat.com, john.fastabend@gmail.com,
+ linux-kernel@vger.kernel.org, jbrouer@redhat.com, edumazet@google.com,
+ dsahern@gmail.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,46 +96,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, 07 Aug 2023 20:19:42 +0530, coolrrsh@gmail.com wrote:
-> In struct mpc52xx_psc_spi, the variable 'irq' is declared as an unsigned int.
-> The comparison of variable 'irq'  with signed int operand is incorrect. Also,
-> the return value from the call to platform_get_irq(pdev,0) is int and it is
-> assigned to an unsigned int variable 'irq', thus redeclaring the type of
-> variable 'irq' to signed int.
+Hello:
+
+This series was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu,  3 Aug 2023 20:59:48 +0200 you wrote:
+> Using the syzkaller repro with reduced packet size it was discovered
+> that XDP_PACKET_HEADROOM is not checked in tun_can_build_skb(),
+> although pad may be incremented in tun_build_skb(). This may end up
+> with exceeding the PAGE_SIZE limit in tun_build_skb().
 > 
-> This fixes warning such as:
-> drivers/spi/spi-mpc52xx-psc.c:332:5-13:
-> WARNING: Unsigned expression compared with zero: mps -> irq < 0
+> Jason Wang <jasowang@redhat.com> proposed to count XDP_PACKET_HEADROOM
+> always (e.g. without rcu_access_pointer(tun->xdp_prog)) in
+> tun_can_build_skb() since there's a window during which XDP program
+> might be attached between tun_can_build_skb() and tun_build_skb().
 > 
 > [...]
 
-Applied to
+Here is the summary with links:
+  - [net-next,v5,1/2] drivers: net: prevent tun_build_skb() to exceed the packet size limit
+    https://git.kernel.org/netdev/net/c/59eeb2329405
+  - [net-next,v5,2/2] net: core: remove unnecessary frame_sz check in bpf_xdp_adjust_tail()
+    https://git.kernel.org/netdev/net/c/d14eea09edf4
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Thanks!
-
-[1/1] spi: spi-mpc52xx-psc: Fix an unsigned comparison that can never be negative
-      commit: 4f5177458ba97734149897c5d4d44f85b8fe0348
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
 _______________________________________________
 Linux-kernel-mentees mailing list
