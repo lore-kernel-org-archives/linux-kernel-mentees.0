@@ -4,95 +4,147 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 57007C001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 20:58:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EDDA5C001B0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 22:47:18 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id E8C12611A9;
-	Tue,  8 Aug 2023 20:58:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E8C12611A9
+	by smtp3.osuosl.org (Postfix) with ESMTP id 653CF611C0;
+	Tue,  8 Aug 2023 22:47:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 653CF611C0
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=fnsrIWtd
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=PLloOUDW
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ms4pSi7V4s4C; Tue,  8 Aug 2023 20:58:17 +0000 (UTC)
+	with ESMTP id HaEQEexAgQIH; Tue,  8 Aug 2023 22:47:17 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 01EA860784;
-	Tue,  8 Aug 2023 20:58:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 01EA860784
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 41DA8611A3;
+	Tue,  8 Aug 2023 22:47:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 41DA8611A3
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D5F91C0072;
-	Tue,  8 Aug 2023 20:58:16 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E99CBC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2B250C0072;
+	Tue,  8 Aug 2023 22:47:17 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 98F4BC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 20:58:15 +0000 (UTC)
+ Tue,  8 Aug 2023 22:47:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C42CD8211B
+ by smtp4.osuosl.org (Postfix) with ESMTP id 23B894169B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 20:58:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C42CD8211B
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=fnsrIWtd
+ Tue,  8 Aug 2023 22:47:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 23B894169B
+Authentication-Results: smtp4.osuosl.org; dkim=pass (1024-bit key,
+ unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256
+ header.s=selector1 header.b=PLloOUDW
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id P3ji-a7mEP6f
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 44PxYQD21wKN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 20:58:15 +0000 (UTC)
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 47CDC82119
+ Tue,  8 Aug 2023 22:47:14 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2061f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe59::61f])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B957F41591
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 20:58:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 47CDC82119
-Received: by mail-pl1-x62a.google.com with SMTP id
- d9443c01a7336-1bbd03cb7c1so40441505ad.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 08 Aug 2023 13:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691528294; x=1692133094;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=4mYS0E0S3XpBShTbT2N4ULzE/smbrejxctyKZkmYxrE=;
- b=fnsrIWtdT0z0cFi0yqq9DGs9hps2rgu+7OCt6DQTKclDznTkVtbSHQ01tBc1sL1NMO
- +vozi4FXMbInyy+/vhI31aGqoJEEPuoLtaFSETw8JvAUWdNiO6SwdnawFx9FtDOgkx7o
- lYQfiZqkqYBFaiOQf2BPhHkCc1VtBpjoIGp+5NBls/7IF/QEUWBXQCpnB5jBLPEn8Umt
- pM3jxMPPE/BYVftB1fKcqRqap04IJ3zSXwRzUV5M+cP3kM8UQuALIRqzZa6nHks+3gc9
- fR8IpeUDLx6gOJvFNZwJOmkkZ2TSKvOfk9n5FNh/CfON6bR/5fIPKdhGrQY4ZJEllYbj
- fPBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691528294; x=1692133094;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4mYS0E0S3XpBShTbT2N4ULzE/smbrejxctyKZkmYxrE=;
- b=bhgbLXMRvN3n6L9uvlXqxYhMteINrS3i5Yx00IN2tTh9YMd4shdn31T+wKwdOvFtCV
- m5DrKCikqGZfP9qlZPSpLlpr5jBCdGpBgp2rug62Y7gfGeuN438BkY2n6OagN2WwM7Ab
- j+6alUXuUmNMXetayRScY4ooqf+b4DW8TOpxGcKNLCWDtecE9SF7OHL9of40r8Y8lajt
- r2H43+ahJkikzflB9sC9/IWi6jnFGEGEYrWR/w84SHlD5j6KnJEi7acjUnzgKFdRJRWW
- VSUTyVj0NbZ4S6gAH7ifuEELp7t/anaQSyemk4C12YejlG1+VPJIFUKDK0WkJsL4HbSy
- HmPg==
-X-Gm-Message-State: AOJu0YxBNUywYO1DZz50s8FaqoQ/kYmmoz7v7rt72DIs4Se+q8cezvom
- hmRoIDz/kdfYc5PmTPd73oA=
-X-Google-Smtp-Source: AGHT+IGR7E6c3nQAovGoU+QWgAJA+H84RS2ofPzMLXFvA6z5cHclqENykRudtZlcOLkdn8ynLX8Ebw==
-X-Received: by 2002:a17:902:f801:b0:1b1:7362:9a18 with SMTP id
- ix1-20020a170902f80100b001b173629a18mr732564plb.27.1691528294548; 
- Tue, 08 Aug 2023 13:58:14 -0700 (PDT)
-Received: from rajgad.hsd1.ca.comcast.net
- ([2601:204:df00:9cd0:dc29:7938:e2e3:43a8])
- by smtp.gmail.com with ESMTPSA id
- w8-20020a170902904800b001b9d8688956sm9440692plz.144.2023.08.08.13.58.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Aug 2023 13:58:14 -0700 (PDT)
-From: Atul Raut <rauji.raut@gmail.com>
-To: Felix.Kuehling@amd.com
-Subject: drm/amdkfd: Use memdup_user() rather than duplicating its 
-Date: Tue,  8 Aug 2023 13:57:52 -0700
-Message-Id: <20230808205752.23704-1-rauji.raut@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Tue,  8 Aug 2023 22:47:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B957F41591
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c7PVCFPLjSjoOA3ZWwoosssHxw+oSIJN/pvpP2QB6nM6khlmt7B4HyckXgjwIQrE7fGhucAmAfuNU7dCSV76ONZLZZW/I9+fJb5YSgXySyiEzCN94lHSAzoFmnPmBRQIs8gdfzDELbi/vosGrZKhkg7mqy44R9pgIqVNurZbXScU6WwkDUn9ETN3s2aItMHMlnaEzMb5cT6kpTMyZU4g0ZoZqWxI+MW431Z9o1+2IhK3YWW5oTKVV/utpsQ3dQyNKBLKJnYT5G9PyU2ERDGsgt50ooJ498hIyXqv9w5K5lmiv47jsgKA7fps09sX2c/bTlXLRo540e0a4ekJHCF5RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NoLr71XXqX86kM7K8t6jK2VhLb8AKB1LlX6/+DAitPg=;
+ b=Y2KgC/qHHqRSxq/E36eP8W7HdhYl1kDceXfkcix2Xs24dpP5WMuc9uzMud54HGlB+BBpd3F838QldHc4AsTSA6lx1Fz9dYJr1U/B//PKocCbz8m7SeL48JmUmJEDTTazdmfn7JlYtCDF6TSdyJUTt6EENYD55mpgzZ3QMf+aN3CPrtJ5q3mw0cmaD68KYK+I2+ciG1adtJQoHrhSffPulx00vFjnk0Kxo5XTxU2puHiH2XXu+ySNMpE38g68fjsIuotvxJBHN002RiSq6wo4FQHJ0EDKbno4UaldusbwBXc8t9dN9nttDJEOYPCgozxxksL6GdRTb7xgpTKrF4mtSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NoLr71XXqX86kM7K8t6jK2VhLb8AKB1LlX6/+DAitPg=;
+ b=PLloOUDWcwlKPhpYokObxXCnyH1dsPUB/cC5/PBgTymz1ueuNX4yu+8VRUHwnzkfaFTT8MoHmY250u4CoMpQUp9+KizUbLQS5sEE81kHd5/SFV1McnBOkKC0Gv30dGF/hkeTW+3GCNrfEqvKO12RZyHqmURTnrXYGyrgZbDvpfs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by MW3PR12MB4569.namprd12.prod.outlook.com (2603:10b6:303:57::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6652.27; Tue, 8 Aug
+ 2023 22:47:10 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::ca28:efb4:a838:58fb]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::ca28:efb4:a838:58fb%4]) with mapi id 15.20.6652.026; Tue, 8 Aug 2023
+ 22:47:10 +0000
+Message-ID: <8370cf91-66b5-d96b-fed8-a38eb488a011@amd.com>
+Date: Tue, 8 Aug 2023 18:47:08 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: drm/amdkfd: Use memdup_user() rather than duplicating its
+Content-Language: en-US
+To: Atul Raut <rauji.raut@gmail.com>
+References: <20230808205752.23704-1-rauji.raut@gmail.com>
+Organization: AMD Inc.
+In-Reply-To: <20230808205752.23704-1-rauji.raut@gmail.com>
+X-ClientProxiedBy: YQXP288CA0017.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c00:41::43) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|MW3PR12MB4569:EE_
+X-MS-Office365-Filtering-Correlation-Id: f118fbfa-5c16-4219-b4d7-08db9861669a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Ap4CHnMPh+vkIGGu2cGKOI94IDDT6aH9VGch8wWJnereDZa1fXulAqWDwhiFzMx/9ISPgEB5GsYjIMpTAHpz1gi7IT75NL7ocU5Uaqdoe89az6CSejx0Z7+6FglWtgzr6yRR0olVHKiBWcKdjU1cmNiG6p75g5V2rf1DYRPMMhx0NpSoC0mABcgnWCr5JXC47Ky9QxqGLQUZqphTd0UJvz9MqZiKXHF5UYajOxAE6RhLU2R532XqwmrtPIrnPdxNkwtN/P+dCNIjjaSMAXljrNfm/6LkeysCwwfJOOD+syKmEi4ft8jRGz3V6OO48hA4ftDijTpkS3MQ3TSFnuYoVwMkhUXSf6ez7xAKNLvvUBIIgkZW33IYBFS4AmoVPoJozMMTCHF6eDt3Hfsh3bdVvn9qE7B0chAyIrP27VuS3iVOcj+aNkFVSv1CTeVsUKnmjnR2/4eUQFmCMTXmHw9/ad2wgSwB8dyHRWkJGsOrTwUKiMAh7JhLgUFN1WfQoDlkOM3rycSYPnVDI9zg0czjE0l4B0AG+alCxtZUV+qxkLOwHWpyoj+++6Q08jdbSZuArqXR7VIJyBwtPaBHtsArkJIEmKuc4aMnW5zjWBrXiR5ZJe6qEbkaCsGb3bqXhn21xuB0ProOyqE3HVM6o5lasg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230028)(4636009)(366004)(396003)(376002)(136003)(346002)(39860400002)(1800799006)(451199021)(186006)(83380400001)(316002)(66556008)(36916002)(44832011)(66946007)(66476007)(4326008)(41300700001)(6916009)(38100700002)(6486002)(26005)(8936002)(53546011)(6506007)(5660300002)(6512007)(8676002)(478600001)(86362001)(31696002)(2616005)(36756003)(2906002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U3JKVUxITmNIdWhUMWpnd1ZPYUxkVFcyQzdxT1NjVndaaFljSnpyQkFmQ01R?=
+ =?utf-8?B?QkVpNWNMbmVaNUplTnRWYkcraSt1cjZEUXFnajZGbzVrSHhmWVVKdWl4dzhD?=
+ =?utf-8?B?SW93Y0tTaC9kNEdzK1lZTTY0dC8xL0UxeEhURzNvWnFMbmVQazF6Ly9BaC91?=
+ =?utf-8?B?d1hxRTVBNXpUOFF5TEs1RTZtak96UndxL1lYVWtKb1BhVnE1UGlzZEVYdFFR?=
+ =?utf-8?B?MGpaL3lMSUZIa25KRUZUT0NtNWN1dnpVVUs0OXNRVWpEQ2hNYXJEVTNOVFls?=
+ =?utf-8?B?Y2hPY0lIUW1UMS9qMmh1SllaU0tQSVRNei9BWHREZVJ4d3NTclBGWXJTN01G?=
+ =?utf-8?B?WnNSOEVBeFNGRHZJenRrYm5ndWp1SU1mUFNCcFZvZWIzSUxVUlk1emM0QzRa?=
+ =?utf-8?B?U1RsdnN4QjNXOEpmZDNQSlU5SFV4Qy9RV1FrUXBWTFFxUk1vR0xjVVJ6bWVj?=
+ =?utf-8?B?N25XcU9JMXl1aTFPZTBRSHh5d2p4RktEaWE3elp2V2hZTWRQQ1I3TWFzc2lm?=
+ =?utf-8?B?dXNGZjFNOXl3dkFmbTM5cjE2SjRGbkRGMnk1RlJTTFBnTHdtTDc3cFJtbm5x?=
+ =?utf-8?B?a1hnQnY0VW45SmhFRmRad2poZEVYcytCa3JOY0s5NEs1c1FMV01pci8rOUIy?=
+ =?utf-8?B?THhHak9XekJPZTFOMTRaVlBpSGFyNkR2WSt1RHR5SkFLOEI2a0dLcFpuRDBB?=
+ =?utf-8?B?WksxRGhIQy9XVnk0YU0yK3BPdjN3VVNZOEo0UHp2bnJ2UEZPWGs0OWRzUHJo?=
+ =?utf-8?B?bFVZcHJsbjBwaTFnRnVvN2pZekFoOExYNVZCZmxmakQxWmNPdTBwdWloN1NC?=
+ =?utf-8?B?ekZSVFAyZU5kZWpISWVORFlVK1BHcW9WUTh3UXRrakFLakJnczdON2xNaFhn?=
+ =?utf-8?B?bngxbDBRemFXL1NNTXh5UlpteXJkakwrbzNvclJWL3V1YkV3K0dMZzZKNytY?=
+ =?utf-8?B?N1hOdTRkRkZXSGxtN2h5SzhRTHcxRmhhTXl4S1FxbGxYMEJxeEFoWXRIcXVL?=
+ =?utf-8?B?aEVZSXJpU3o2d3grWnR3ODZTVEhoUUt5OTlhUnp5TTVMNDZ3U2I0b3NUb0Q3?=
+ =?utf-8?B?ZTdGaWlycUphY25aeUVsSlc0dDRLa2lrbVFmTEpubzJOL1liWFhKck4zdkZF?=
+ =?utf-8?B?ME5MV0kwUkFVQzlpV2w1VmFKYmVFSFBmQkFhTVdVT1ZrM2R3dnZVT1c5Q3Fp?=
+ =?utf-8?B?bFlIM1FJS21kUHQ1amRDYTd5Y2VscE0va2dqWERvdm9YT0h1aytSYWpmOWFE?=
+ =?utf-8?B?M0FIeTlZY1poNytXYVVwcCtGQjlTaFhESHYzMGhNYWc5amF2eThmVDNBeVM2?=
+ =?utf-8?B?eXBoaVpSYndsYmVaUmNYZDFxbGhSTDRnZXpOK25TSG1CSHFsODRtZWR1cDNu?=
+ =?utf-8?B?Y25NSW51UFJVWFhZRGU2VWRhMzFtOWxBT2xBczJhVG5FYjZBbkNSZkFDa0Fn?=
+ =?utf-8?B?a2crWTlEdGZXczBxQUoyME85MmR1eXVmbHRvOFdvbUhhMDVYQUQ2UU10dGkv?=
+ =?utf-8?B?OThGMGg0Z090WUM4ZTlMTHIwTVNKcjN4QzJLZDNpaXhjTWd3NitpMUNYaXpD?=
+ =?utf-8?B?cGY2VWo1MEJiLzRQYUdUWW56emlMa05pWHhaYjBvZWViQ1BNcFRldlMzbk1z?=
+ =?utf-8?B?RzFyRkZhc3lzOEJoQ0hkQlFCSVBHUVhQZFNEK3hMcENjODZHMlJ2ZWVMcURH?=
+ =?utf-8?B?NnRJZC9ub3cvYUVqWHd3aWNzRXN6elQ5VUc5Z0haTDVFb0hWazdtNktEa1lO?=
+ =?utf-8?B?cnVUc2l3Z2pXZW9jTU9YZCtNai96RnNZQnhURXliak5YS0NlVnJFaXNQY3Aw?=
+ =?utf-8?B?ZnhOQ0Z0eWNncFFRQ2NyTVBEVCs3OFFjaTdybS9qWjZma3NnV1A5QU42K1FH?=
+ =?utf-8?B?RVA2U3RoOFZxQSs1cFFWY2owR1AybEt2a2RYMktQUVhFOFhMMk5TMU0rOTdM?=
+ =?utf-8?B?RFZxWDBLYUQ0cHRIVmxodmlTSjNRTFJHZmJYSUg1NTErZTRtVngxVXVxL21T?=
+ =?utf-8?B?ZlFCbjM0TzZYUVpNQnBSR3lKbG5udUpWUU1QcnVmaW9kUlFwd04xOWJhUU1M?=
+ =?utf-8?B?aXFVK1NzcUJndXhVY2ZHWi9UYWV5b0hlQ0lrSGIreEdmWGIwanBFcXU3Ujk4?=
+ =?utf-8?Q?zudfrMh1n5BujI1B/d6zU9jzn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f118fbfa-5c16-4219-b4d7-08db9861669a
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2023 22:47:10.4988 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QQsnqUeGXmqgh3Qvmj5uoWcTVZj5fvWS+jsEZJmVNK0YKFdRWbxSTXpQBMwCPupko+O4wh1MmQaPOhwmF5yU/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4569
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  amd-gfx@lists.freedesktop.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -106,47 +158,45 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Felix Kuehling via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Felix Kuehling <felix.kuehling@amd.com>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-To prevent its redundant implementation and streamline
-code, use memdup_user.
-
-This fixes warnings reported by Coccinelle:
-./drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c:2811:13-20: WARNING opportunity for memdup_user
-
-Signed-off-by: Atul Raut <rauji.raut@gmail.com>
----
- drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-index 2df153828ff4..51740e007e89 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
-@@ -2808,12 +2808,9 @@ static uint32_t *get_queue_ids(uint32_t num_queues, uint32_t *usr_queue_id_array
- 	if (!usr_queue_id_array)
- 		return NULL;
- 
--	queue_ids = kzalloc(array_size, GFP_KERNEL);
--	if (!queue_ids)
--		return ERR_PTR(-ENOMEM);
--
--	if (copy_from_user(queue_ids, usr_queue_id_array, array_size))
--		return ERR_PTR(-EFAULT);
-+	queue_ids = memdup_user(usr_queue_id_array, array_size);
-+	if (IS_ERR(Iqueue_ids))
-+		return ERR_PTR(queue_ids);
- 
- 	return queue_ids;
- }
--- 
-2.34.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMjAyMy0wOC0wOCAxNjo1NywgQXR1bCBSYXV0IHdyb3RlOgo+IFRvIHByZXZlbnQgaXRzIHJl
+ZHVuZGFudCBpbXBsZW1lbnRhdGlvbiBhbmQgc3RyZWFtbGluZQo+IGNvZGUsIHVzZSBtZW1kdXBf
+dXNlci4KPgo+IFRoaXMgZml4ZXMgd2FybmluZ3MgcmVwb3J0ZWQgYnkgQ29jY2luZWxsZToKPiAu
+L2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2VfcXVldWVfbWFuYWdlci5jOjI4
+MTE6MTMtMjA6IFdBUk5JTkcgb3Bwb3J0dW5pdHkgZm9yIG1lbWR1cF91c2VyCj4KPiBTaWduZWQt
+b2ZmLWJ5OiBBdHVsIFJhdXQgPHJhdWppLnJhdXRAZ21haWwuY29tPgo+IC0tLQo+ICAgZHJpdmVy
+cy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2RldmljZV9xdWV1ZV9tYW5hZ2VyLmMgfCA5ICsrKy0t
+LS0tLQo+ICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkK
+Pgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1
+ZXVlX21hbmFnZXIuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2VfcXVl
+dWVfbWFuYWdlci5jCj4gaW5kZXggMmRmMTUzODI4ZmY0Li41MTc0MGUwMDdlODkgMTAwNjQ0Cj4g
+LS0tIGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2RldmljZV9xdWV1ZV9tYW5hZ2Vy
+LmMKPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGtmZC9rZmRfZGV2aWNlX3F1ZXVlX21h
+bmFnZXIuYwo+IEBAIC0yODA4LDEyICsyODA4LDkgQEAgc3RhdGljIHVpbnQzMl90ICpnZXRfcXVl
+dWVfaWRzKHVpbnQzMl90IG51bV9xdWV1ZXMsIHVpbnQzMl90ICp1c3JfcXVldWVfaWRfYXJyYXkK
+PiAgIAlpZiAoIXVzcl9xdWV1ZV9pZF9hcnJheSkKPiAgIAkJcmV0dXJuIE5VTEw7Cj4gICAKPiAt
+CXF1ZXVlX2lkcyA9IGt6YWxsb2MoYXJyYXlfc2l6ZSwgR0ZQX0tFUk5FTCk7Cj4gLQlpZiAoIXF1
+ZXVlX2lkcykKPiAtCQlyZXR1cm4gRVJSX1BUUigtRU5PTUVNKTsKPiAtCj4gLQlpZiAoY29weV9m
+cm9tX3VzZXIocXVldWVfaWRzLCB1c3JfcXVldWVfaWRfYXJyYXksIGFycmF5X3NpemUpKQo+IC0J
+CXJldHVybiBFUlJfUFRSKC1FRkFVTFQpOwo+ICsJcXVldWVfaWRzID0gbWVtZHVwX3VzZXIodXNy
+X3F1ZXVlX2lkX2FycmF5LCBhcnJheV9zaXplKTsKPiArCWlmIChJU19FUlIoSXF1ZXVlX2lkcykp
+CgpZb3UgaGF2ZSBhIHR5cG8gaW4gdGhlIHZhcmlhYmxlIG5hbWUgaGVyZS4gRGlkIHlvdSBhdCBs
+ZWFzdCBjb21waWxlLXRlc3QgCnRoZSBwYXRjaD8KCgo+ICsJCXJldHVybiBFUlJfUFRSKHF1ZXVl
+X2lkcyk7CgpJIHRoaW5rIGl0IHNob3VsZCBqdXN0IHJldHVybiBxdWV1ZV9pZHMgaGVyZS4gVGhh
+dCdzIGFscmVhZHkgYW4gRVJSX1BUUiAKaW4gY2FzZSBvZiBlcnJvcnMuIFNvIHlvdSBkb24ndCBl
+dmVuIG5lZWQgdGhlICJpZiIuIEp1c3QgdGhpcyBzaG91bGQgZG8gCnRoZSBqb2I6CgogwqDCoMKg
+IHJldHVybiBtZW1kdXBfdXNlcih1c3JfcXVldWVfaWRfYXJyYXksIGFycmF5X3NpemUpOwoKVGhl
+IGVycm9yIGNoZWNraW5nIGlzIGRvbmUgYnkgdGhlIGNhbGxlci4KClJlZ2FyZHMsCiDCoCBGZWxp
+eAoKCj4gICAKPiAgIAlyZXR1cm4gcXVldWVfaWRzOwo+ICAgfQpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
+IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
+czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
+ZWwtbWVudGVlcwo=
