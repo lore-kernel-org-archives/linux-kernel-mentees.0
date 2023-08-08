@@ -1,81 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D121C001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 08:09:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4E986C001DF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 10:30:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B54C540562;
-	Tue,  8 Aug 2023 08:09:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B54C540562
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=iRL9wCGr
+	by smtp3.osuosl.org (Postfix) with ESMTP id BF44060DFA;
+	Tue,  8 Aug 2023 10:30:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BF44060DFA
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=lKLghmyj
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hNN6ZCRwicru; Tue,  8 Aug 2023 08:09:03 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 54YJPyzgU0SG; Tue,  8 Aug 2023 10:30:14 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7CED3400CB;
-	Tue,  8 Aug 2023 08:09:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7CED3400CB
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BD10560ADC;
+	Tue,  8 Aug 2023 10:30:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BD10560ADC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 50A6AC0072;
-	Tue,  8 Aug 2023 08:09:03 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 34BAEC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 08:09:02 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8AF5EC0072;
+	Tue,  8 Aug 2023 10:30:13 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 069AFC0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  8 Aug 2023 10:30:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 0D79740382
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 08:09:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0D79740382
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
- header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
- header.b=iRL9wCGr
+ by smtp3.osuosl.org (Postfix) with ESMTP id E038460DFA
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  8 Aug 2023 10:30:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E038460DFA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id vQvfkJoYFVXQ
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 08:09:01 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp4.osuosl.org (Postfix) with ESMTPS id D672240358
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 08:09:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D672240358
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id A6A376242E;
- Tue,  8 Aug 2023 08:08:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF0FC433C7;
- Tue,  8 Aug 2023 08:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1691482139;
- bh=01W2hqms8ZqWd00aCRj2aWotAjT/HqjOmCQ8l6gmh14=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iRL9wCGrwqWzwHC2s/LKjqv3DIXoaU1m1eE2ZfUKy5RP6HxhtgKGbkeEm992lG7y6
- Sa2vW/koBPgfvyTvEwx1rfxzzVrvU8cQwwcwt109Am4XzNo0qTpaxfXVtA6c6lCxqb
- 2Xb37oJySVLIYEvtEMLb07T2TVeN24n4/helYTDY=
-Date: Tue, 8 Aug 2023 10:08:56 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Atul Kumar Pant <atulpant.linux@gmail.com>
-Subject: Re: [PATCH v1] drivers: block: Updates return value check
-Message-ID: <2023080841-preacher-lunchroom-7c8c@gregkh>
-References: <20230806122351.157168-1-atulpant.linux@gmail.com>
- <2023080600-pretext-corporal-61e3@gregkh>
- <20230807114420.GA5826@atom0118>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id iQv_lZ6v0R1P
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  8 Aug 2023 10:30:12 +0000 (UTC)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 0C29060ADC
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  8 Aug 2023 10:30:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0C29060ADC
+Received: by mail-ot1-x331.google.com with SMTP id
+ 46e09a7af769-6bd0a0a6766so179931a34.2
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 08 Aug 2023 03:30:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691490611; x=1692095411;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ohd14K5oR+JrF5FR78MmbbdwJ7n6halDzi8bumggJ7I=;
+ b=lKLghmyjaleYnZtOL3BsBEBNB7Xarddhnemn+fiVsBgYrgDl86KiPFH2q0mRHUyaiN
+ FS4wc+HwYN6blocUFB2hATZWJzI4mwsfOjA9PeUbIQm6IBJigK5wbbFPKpIbqWIRezae
+ 4T6+yDLm0YEKuMoKDy3MmUqeCJD4QvFhcpeah7V0HAXQ8J5pQ8Lzh3DbI/IuCZILjFrr
+ JWlpG6LXiigd8QNMzPq8GWmbzpmjYvMzgFcGeoW0iVvGj1IeQmNub8nLO5aytgo1CvSd
+ p1kKwE1yNbn4nEgR8kbWGZKdOuH8TUj4Rn1srw94ZqBTjoAj148+7iaIP0cJ6OINS9jc
+ wYjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691490611; x=1692095411;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ohd14K5oR+JrF5FR78MmbbdwJ7n6halDzi8bumggJ7I=;
+ b=NzedFET9ddpMKKz53Gk8ahoFd9Y1dHW4J5Q7+j5YTIX0c0jahdkz9zllnpG7VrtcxT
+ pTk4bjRYz4gryjZdd06fBNk10fZkApEA53sI5pFtMCQxY/sRrfQ5hQdxI/jLIFZAfAmX
+ 6PVBYMtu68F11vH7Ro0cARXQn/F6Sct612OZNu629JxN82DWu+pX0jx8hLzKCVzbwsLn
+ 39dB9zAoLNUNKsJtwfgMUpYS3zy5oD9Ru9JaDca3UrX2ZdaAYh3b32krjzr1Czc47k+i
+ f+vrCJznI85+9MZh53q4+nQCiIlKs4rUCNctVkzbQcrAd0natUge+8bDN2WBg4Q4lDr+
+ i4FQ==
+X-Gm-Message-State: AOJu0YwkJ+L+EbL7YrXEmzDbVMObUzEVwM1uVK5RDJghtBTSSgKWXLfh
+ fZ8urghAKloN5cDaSFVctbY=
+X-Google-Smtp-Source: AGHT+IEJkrwzqWUu/RKDr5oW4yXy5UhYxO5LIGeFvcigdoleJ/sRDxBJJ8Urbuxi3n0lOTYGwxRNDw==
+X-Received: by 2002:a05:6830:1e0d:b0:6bc:9078:81c8 with SMTP id
+ s13-20020a0568301e0d00b006bc907881c8mr11518461otr.20.1691490610989; 
+ Tue, 08 Aug 2023 03:30:10 -0700 (PDT)
+Received: from manas-VirtualBox.iitr.ac.in ([103.37.201.175])
+ by smtp.gmail.com with ESMTPSA id
+ l12-20020a17090aec0c00b002677739860fsm7483268pjy.34.2023.08.08.03.30.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Aug 2023 03:30:10 -0700 (PDT)
+From: Manas Ghandat <ghandatmanas@gmail.com>
+To: gregkh@linuxfoundation.org
+Subject: [PATCH v2] ntfs : fix shift-out-of-bounds in ntfs_iget
+Date: Tue,  8 Aug 2023 15:59:58 +0530
+Message-Id: <20230808102958.8161-1-ghandatmanas@gmail.com>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <2023080821-blandness-survival-44af@gregkh>
+References: <2023080821-blandness-survival-44af@gregkh>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230807114420.GA5826@atom0118>
-Cc: axboe@kernel.dk, linux-kernel-mentees@lists.linuxfoundation.org,
- josef@toxicpanda.com, nbd@other.debian.org, linux-block@vger.kernel.org,
- shuah@kernel.org
+Cc: Manas Ghandat <ghandatmanas@gmail.com>,
+ linux-ntfs-dev@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com,
+ linux-fsdevel@vger.kernel.org, Linux-kernel-mentees@lists.linuxfoundation.org,
+ linkinjeon@kernel.org, anton@tuxera.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,96 +114,40 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Mon, Aug 07, 2023 at 05:14:20PM +0530, Atul Kumar Pant wrote:
-> On Sun, Aug 06, 2023 at 03:36:18PM +0200, Greg KH wrote:
-> > On Sun, Aug 06, 2023 at 05:53:51PM +0530, Atul Kumar Pant wrote:
-> > > Updating the check of return value from debugfs_create_dir
-> > > to use IS_ERR.
-> > 
-> > Why?
-> > 
-> > > 
-> > > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
-> > > ---
-> > >  drivers/block/nbd.c     | 4 ++--
-> > >  drivers/block/pktcdvd.c | 2 +-
-> > >  2 files changed, 3 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-> > > index 9c35c958f2c8..65ecde3e2a5b 100644
-> > > --- a/drivers/block/nbd.c
-> > > +++ b/drivers/block/nbd.c
-> > > @@ -1666,7 +1666,7 @@ static int nbd_dev_dbg_init(struct nbd_device *nbd)
-> > >  		return -EIO;
-> > >  
-> > >  	dir = debugfs_create_dir(nbd_name(nbd), nbd_dbg_dir);
-> > > -	if (!dir) {
-> > > +	if (IS_ERR(dir)) {
-> > >  		dev_err(nbd_to_dev(nbd), "Failed to create debugfs dir for '%s'\n",
-> > >  			nbd_name(nbd));
-> > >  		return -EIO;
-> > 
-> > This isn't correct, sorry.  Please do not make this change.
-> > 
-> > > @@ -1692,7 +1692,7 @@ static int nbd_dbg_init(void)
-> > >  	struct dentry *dbg_dir;
-> > >  
-> > >  	dbg_dir = debugfs_create_dir("nbd", NULL);
-> > > -	if (!dbg_dir)
-> > > +	if (IS_ERR(dbg_dir))
-> > >  		return -EIO;
-> > 
-> > Again, not corrct.
-> > 
-> > >  	nbd_dbg_dir = dbg_dir;
-> > > diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
-> > > index d5d7884cedd4..69e5a100b3cf 100644
-> > > --- a/drivers/block/pktcdvd.c
-> > > +++ b/drivers/block/pktcdvd.c
-> > > @@ -451,7 +451,7 @@ static void pkt_debugfs_dev_new(struct pktcdvd_device *pd)
-> > >  	if (!pkt_debugfs_root)
-> > >  		return;
-> > >  	pd->dfs_d_root = debugfs_create_dir(pd->name, pkt_debugfs_root);
-> > > -	if (!pd->dfs_d_root)
-> > > +	if (IS_ERR(pd->dfs_d_root))
-> > >  		return;
-> > 
-> > Also not correct.
-> > 
-> > Why check the return value at all?  As this check has always been wrong,
-> > why are you wanting to keep it?
-> 
->     I'll check the code again. I was not aware that this check is wrong,
->     so just tried to fix this based on return value of
->     debugfs_create_dir.
+Added a check to the compression_unit so that out of bound doesn't occur.
 
-The return value of debugfs_create_dir() should never need to be checked
-at all.  The value passed in can be later used in any debugfs call
-safely, be it an error or success.  The kernel logic should NOT change
-based on if debugfs is working properly or not.
+Fix patching issues in version 2.
 
-So for stuff like this, where the check is obviously wrong (i.e. it's
-never caught an error, it's even more of a good idea to remove the
-check.
+Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+Reported-by: syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
+---
+ fs/ntfs/inode.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> > 
-> > Also, you never responded to our previous review comments, why not?  To
-> > ignore people is not generally considered a good idea :(
-> 
->     I might have missed seeing your comments hence I did not reply back.
->     Please accept my sincere apologies for this.
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index 6c3f38d66579..a657322874ed 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -1077,6 +1077,15 @@ static int ntfs_read_locked_inode(struct inode *vi)
+ 					goto unm_err_out;
+ 				}
+ 				if (a->data.non_resident.compression_unit) {
++					if (a->data.non_resident.compression_unit +
++						vol->cluster_size_bits > 32) {
++						ntfs_error(vi->i_sb,
++							"Found non-standard compression unit (%u).   Cannot handle this.",
++							a->data.non_resident.compression_unit
++						);
++						err = -EOPNOTSUPP;
++						goto unm_err_out;
++					}
+ 					ni->itype.compressed.block_size = 1U <<
+ 							(a->data.non_resident.
+ 							compression_unit +
+-- 
+2.37.2
 
-Oops, nope, my apologies, this was my fault.  I got you confused with a
-different developer sending patches to the kernel-mentees mailing list
-with the same first name.  I should have checked better, again my fault,
-sorry.
-
-So all is good with your responses, but you should fix these up to NOT
-check the return value at all.
-
-thanks,
-
-greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
