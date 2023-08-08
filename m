@@ -4,85 +4,78 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 114A6C001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 06:02:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2D121C001DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 08:09:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 86517402D7;
-	Tue,  8 Aug 2023 06:02:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 86517402D7
+	by smtp2.osuosl.org (Postfix) with ESMTP id B54C540562;
+	Tue,  8 Aug 2023 08:09:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B54C540562
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=iRL9wCGr
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ph-OXvcw5tYA; Tue,  8 Aug 2023 06:02:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9234040102;
-	Tue,  8 Aug 2023 06:02:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9234040102
+	with ESMTP id hNN6ZCRwicru; Tue,  8 Aug 2023 08:09:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7CED3400CB;
+	Tue,  8 Aug 2023 08:09:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7CED3400CB
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6CAB0C0071;
-	Tue,  8 Aug 2023 06:02:56 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 50A6AC0072;
+	Tue,  8 Aug 2023 08:09:03 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 6454DC0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 34BAEC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 06:02:55 +0000 (UTC)
+ Tue,  8 Aug 2023 08:09:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 27B114096D
+ by smtp4.osuosl.org (Postfix) with ESMTP id 0D79740382
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 06:02:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 27B114096D
+ Tue,  8 Aug 2023 08:09:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0D79740382
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+ header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
+ header.b=iRL9wCGr
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iSoWlB4zMuCp
+ with ESMTP id vQvfkJoYFVXQ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 06:02:54 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
- [209.85.208.178])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0149F4096B
+ Tue,  8 Aug 2023 08:09:01 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id D672240358
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 06:02:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0149F4096B
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-2b9dc1bff38so82003601fa.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 07 Aug 2023 23:02:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691474571; x=1692079371;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jKx1/VaIgRqUN/ndVcw3NROdMrmRr8duDpEd8AClkoQ=;
- b=QiHYUrGQkcAabfjgqNgTVYG0Vp+a6X8ZFEhhwndoPpIlcD+FzshhCFzFkBdWqBGIcz
- 0rcSqVT+lxPmyrjEWveJ183fCd/dLcTAlW/rGPz8jDsN6DL6FPzIFjJnoNtMo0kj+wPi
- 9HU83jid//WEjBphaUJOvMmGpiJMj4Nj/4vANfswWhAL7De6O3icAUu8wHcvTpphu1z1
- lA9t2MsBRlyUzyLQ0lNISJoTT71L5QRtmaZD6K0X4LW64geyBHcWkZUv06ekaQqfeZoG
- tohXJEwyZ0JpuG3DOd3qbZHqWtVLWLBj4DQS5d5RhOQbYXyCCG7c3rElZbQnr+y0PbnT
- 8ApA==
-X-Gm-Message-State: AOJu0Yw5o5nnDlW6Y9qt/CsgVmWqvrt1cDF0kWiVXhJregP415kf9Yi0
- bAwof1axh8v95G3U0LG3jaE=
-X-Google-Smtp-Source: AGHT+IEasP0f7uh5KfcBuXX9IzUxuEcy7FQjGihwCKiz0bxM6gSLGw/llf+xsy++JBMe+yBcn1yP/Q==
-X-Received: by 2002:a2e:9d86:0:b0:2b6:df23:2117 with SMTP id
- c6-20020a2e9d86000000b002b6df232117mr8325133ljj.43.1691474571353; 
- Mon, 07 Aug 2023 23:02:51 -0700 (PDT)
-Received: from [192.168.1.58] (185-219-167-24-static.vivo.cz. [185.219.167.24])
- by smtp.gmail.com with ESMTPSA id
- si10-20020a170906ceca00b00992e14af9c3sm6163483ejb.143.2023.08.07.23.02.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Aug 2023 23:02:50 -0700 (PDT)
-Message-ID: <92a26f67-1b24-ea35-2f39-7c0b75027617@kernel.org>
-Date: Tue, 8 Aug 2023 08:02:49 +0200
+ Tue,  8 Aug 2023 08:09:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D672240358
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id A6A376242E;
+ Tue,  8 Aug 2023 08:08:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF0FC433C7;
+ Tue,  8 Aug 2023 08:08:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1691482139;
+ bh=01W2hqms8ZqWd00aCRj2aWotAjT/HqjOmCQ8l6gmh14=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iRL9wCGrwqWzwHC2s/LKjqv3DIXoaU1m1eE2ZfUKy5RP6HxhtgKGbkeEm992lG7y6
+ Sa2vW/koBPgfvyTvEwx1rfxzzVrvU8cQwwcwt109Am4XzNo0qTpaxfXVtA6c6lCxqb
+ 2Xb37oJySVLIYEvtEMLb07T2TVeN24n4/helYTDY=
+Date: Tue, 8 Aug 2023 10:08:56 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Atul Kumar Pant <atulpant.linux@gmail.com>
+Subject: Re: [PATCH v1] drivers: block: Updates return value check
+Message-ID: <2023080841-preacher-lunchroom-7c8c@gregkh>
+References: <20230806122351.157168-1-atulpant.linux@gmail.com>
+ <2023080600-pretext-corporal-61e3@gregkh>
+ <20230807114420.GA5826@atom0118>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.1
-Subject: Re: [PATCH] ath5k: fix WARNING opportunity for swap.
-Content-Language: en-US
-To: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>, mickflemm@gmail.com,
- mcgrof@kernel.org, kvalo@kernel.org, linux-wireless@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20230807201057.340371-1-mahmoudmatook.mm@gmail.com>
-From: Jiri Slaby <jirislaby@kernel.org>
-In-Reply-To: <20230807201057.340371-1-mahmoudmatook.mm@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20230807114420.GA5826@atom0118>
+Cc: axboe@kernel.dk, linux-kernel-mentees@lists.linuxfoundation.org,
+ josef@toxicpanda.com, nbd@other.debian.org, linux-block@vger.kernel.org,
+ shuah@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -94,52 +87,102 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 07. 08. 23, 22:10, Mahmoud Maatuq wrote:
-> coccinielle reported the following:
-> ./drivers/net/wireless/ath/ath5k/phy.c:1573:25-26: WARNING opportunity for swap()
-
-
-OK, once again:
-https://lore.kernel.org/all/0c3acbd4-6ab2-5cc5-6293-54e30093cce2@kernel.org/
-
-> Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
-> ---
->   drivers/net/wireless/ath/ath5k/phy.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
+On Mon, Aug 07, 2023 at 05:14:20PM +0530, Atul Kumar Pant wrote:
+> On Sun, Aug 06, 2023 at 03:36:18PM +0200, Greg KH wrote:
+> > On Sun, Aug 06, 2023 at 05:53:51PM +0530, Atul Kumar Pant wrote:
+> > > Updating the check of return value from debugfs_create_dir
+> > > to use IS_ERR.
+> > 
+> > Why?
+> > 
+> > > 
+> > > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+> > > ---
+> > >  drivers/block/nbd.c     | 4 ++--
+> > >  drivers/block/pktcdvd.c | 2 +-
+> > >  2 files changed, 3 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+> > > index 9c35c958f2c8..65ecde3e2a5b 100644
+> > > --- a/drivers/block/nbd.c
+> > > +++ b/drivers/block/nbd.c
+> > > @@ -1666,7 +1666,7 @@ static int nbd_dev_dbg_init(struct nbd_device *nbd)
+> > >  		return -EIO;
+> > >  
+> > >  	dir = debugfs_create_dir(nbd_name(nbd), nbd_dbg_dir);
+> > > -	if (!dir) {
+> > > +	if (IS_ERR(dir)) {
+> > >  		dev_err(nbd_to_dev(nbd), "Failed to create debugfs dir for '%s'\n",
+> > >  			nbd_name(nbd));
+> > >  		return -EIO;
+> > 
+> > This isn't correct, sorry.  Please do not make this change.
+> > 
+> > > @@ -1692,7 +1692,7 @@ static int nbd_dbg_init(void)
+> > >  	struct dentry *dbg_dir;
+> > >  
+> > >  	dbg_dir = debugfs_create_dir("nbd", NULL);
+> > > -	if (!dbg_dir)
+> > > +	if (IS_ERR(dbg_dir))
+> > >  		return -EIO;
+> > 
+> > Again, not corrct.
+> > 
+> > >  	nbd_dbg_dir = dbg_dir;
+> > > diff --git a/drivers/block/pktcdvd.c b/drivers/block/pktcdvd.c
+> > > index d5d7884cedd4..69e5a100b3cf 100644
+> > > --- a/drivers/block/pktcdvd.c
+> > > +++ b/drivers/block/pktcdvd.c
+> > > @@ -451,7 +451,7 @@ static void pkt_debugfs_dev_new(struct pktcdvd_device *pd)
+> > >  	if (!pkt_debugfs_root)
+> > >  		return;
+> > >  	pd->dfs_d_root = debugfs_create_dir(pd->name, pkt_debugfs_root);
+> > > -	if (!pd->dfs_d_root)
+> > > +	if (IS_ERR(pd->dfs_d_root))
+> > >  		return;
+> > 
+> > Also not correct.
+> > 
+> > Why check the return value at all?  As this check has always been wrong,
+> > why are you wanting to keep it?
 > 
-> diff --git a/drivers/net/wireless/ath/ath5k/phy.c b/drivers/net/wireless/ath/ath5k/phy.c
-> index 5797ef9c73d7..f87eb684f223 100644
-> --- a/drivers/net/wireless/ath/ath5k/phy.c
-> +++ b/drivers/net/wireless/ath/ath5k/phy.c
-> @@ -1562,16 +1562,13 @@ static s16
->   ath5k_hw_get_median_noise_floor(struct ath5k_hw *ah)
->   {
->   	s16 sort[ATH5K_NF_CAL_HIST_MAX];
-> -	s16 tmp;
->   	int i, j;
->   
->   	memcpy(sort, ah->ah_nfcal_hist.nfval, sizeof(sort));
->   	for (i = 0; i < ATH5K_NF_CAL_HIST_MAX - 1; i++) {
->   		for (j = 1; j < ATH5K_NF_CAL_HIST_MAX - i; j++) {
->   			if (sort[j] > sort[j - 1]) {
-> -				tmp = sort[j];
-> -				sort[j] = sort[j - 1];
-> -				sort[j - 1] = tmp;
-> +				swap(sort[j], sort[j - 1]);
->   			}
->   		}
->   	}
+>     I'll check the code again. I was not aware that this check is wrong,
+>     so just tried to fix this based on return value of
+>     debugfs_create_dir.
 
--- 
-js
-suse labs
+The return value of debugfs_create_dir() should never need to be checked
+at all.  The value passed in can be later used in any debugfs call
+safely, be it an error or success.  The kernel logic should NOT change
+based on if debugfs is working properly or not.
 
+So for stuff like this, where the check is obviously wrong (i.e. it's
+never caught an error, it's even more of a good idea to remove the
+check.
+
+> > 
+> > Also, you never responded to our previous review comments, why not?  To
+> > ignore people is not generally considered a good idea :(
+> 
+>     I might have missed seeing your comments hence I did not reply back.
+>     Please accept my sincere apologies for this.
+
+Oops, nope, my apologies, this was my fault.  I got you confused with a
+different developer sending patches to the kernel-mentees mailing list
+with the same first name.  I should have checked better, again my fault,
+sorry.
+
+So all is good with your responses, but you should fix these up to NOT
+check the return value at all.
+
+thanks,
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
