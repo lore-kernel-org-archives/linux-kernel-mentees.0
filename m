@@ -1,102 +1,96 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B3551C001E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  8 Aug 2023 23:51:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C91FDC0015E
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  9 Aug 2023 05:30:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2EE4F60BAC;
-	Tue,  8 Aug 2023 23:51:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2EE4F60BAC
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=oy4I54MZ
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2EA63417B6;
+	Wed,  9 Aug 2023 05:30:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2EA63417B6
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=MM7eLh7H
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7RJjx0MtG1yo; Tue,  8 Aug 2023 23:51:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5733960797;
-	Tue,  8 Aug 2023 23:51:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5733960797
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KPNI8kxJNTqn; Wed,  9 Aug 2023 05:30:46 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E2172417A2;
+	Wed,  9 Aug 2023 05:30:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E2172417A2
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2745DC0071;
-	Tue,  8 Aug 2023 23:51:28 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7198C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B5FC0C0071;
+	Wed,  9 Aug 2023 05:30:45 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A97D6C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 23:51:26 +0000 (UTC)
+ Wed,  9 Aug 2023 05:30:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id BB684820E7
+ by smtp4.osuosl.org (Postfix) with ESMTP id 8221C417A9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 23:51:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BB684820E7
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=oy4I54MZ
+ Wed,  9 Aug 2023 05:30:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8221C417A9
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 7fnEd_Um9fR9
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GoWjkXlNIhxg
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 23:51:26 +0000 (UTC)
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 19970820E6
+ Wed,  9 Aug 2023 05:30:43 +0000 (UTC)
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
+ [IPv6:2607:f8b0:4864:20::531])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id AF403417A2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  8 Aug 2023 23:51:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 19970820E6
-Received: by mail-oi1-x22f.google.com with SMTP id
- 5614622812f47-3a7781225b4so3798546b6e.3
+ Wed,  9 Aug 2023 05:30:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AF403417A2
+Received: by mail-pg1-x531.google.com with SMTP id
+ 41be03b00d2f7-563dfffea87so4723165a12.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 08 Aug 2023 16:51:26 -0700 (PDT)
+ Tue, 08 Aug 2023 22:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691538685; x=1692143485;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8BP2Tfc3vy3cwSRBFZ2e1oFmyYaIxvroBai/slP3GKA=;
- b=oy4I54MZ8ganu/0JKBY0LhQhTIqQOeeid+0JTq4zCkX0T27cFCqd/n4zCKlu3pq7ea
- 0U9rGCU/g9TPOnKVjbZe89IDLSOEx5GyFjBJ1EYeYnGvEIKZpyWw3JFKL+oN9cz9QV2/
- iabpsWWxbLifd0OQd4FLOxgd6brB2u1Y203xUBdEX0B2NrGfHWS3B8ZhgtZAj3eXEOgB
- sChHtX1rafSBpfl+fW10B03dZCHnz1Ty71FK9HBwsNbaHPnQtMi4Fe7BK5RB/5q6iatP
- ZdUKkcREk/vdmE48o1jiLxpBalmolahXNaeaJCnWWgoHs+jiXKtKI+o3itnmvuKakC9S
- zqig==
+ d=gmail.com; s=20221208; t=1691559043; x=1692163843;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jqVBe5pt9GZ7aYDqfwkD/WWrE8SCWRSIo2SjG3OVAgU=;
+ b=MM7eLh7HIOK4VQ7mjvl2km+GxCVraxI3FmtGC/e1X2dlLHwM2wunzn0PO+39GW7XGB
+ xYNheiS7f/b0DBUVWJLT+uSRKTs5Opoy5211SCFtPyrRspa8BbSjcq1V+nDofiWqI+jl
+ ArdNg4OSo/89hx8QQRXKRV9ycRGdIEnzg2zlfHCGotYUJ1nq4Rh4cWvV+gCaLnnD5JWd
+ rc1aWa3En8/OLn/pDEev6iep/0ZT2RXMU5tXzWxgnnDeyz2Is0CP/lQDHxTPz5kEZwd0
+ bdZwToWnkeIEwhdTYcHCey4kJJXxIhdgXWDQeYK04ose9NlVPINiu06/waL5RuKHRDbI
+ HW9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691538685; x=1692143485;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8BP2Tfc3vy3cwSRBFZ2e1oFmyYaIxvroBai/slP3GKA=;
- b=OEQGwgmL1pzoHMF0Om8SjuJcKUxEMZfNmYe5/B3sAOH4bzJGZDrpgx1ci0S5oHYO1Y
- Awa3/A0FGmddDT1rNT9LtIhVJZFI0wBD2czq/6l+HBwQ6luliX5dYfaxf3fq/LQtn21J
- MPlHNu/lnzSCjkVL1ioIEvpA5fmtV+TfSvCpPsmC7aRnHzTHTDHqqwCxkLX/0Yjq0xVL
- fol6mVhTTlmppex/HfG+klO60NiIqgRmFF4XHIJMsCR0LYh0IT1O1WGqDsEhgIf3VThL
- +20hJSZXr3abFwJ/+e748dT+90ph4xYRMnYBC8pv6+hJE+c2/gBPusGZp8eAKMYoR1gk
- 1Mhw==
-X-Gm-Message-State: AOJu0YxePyTaASm4XcxPlMvQVpseXTODRCuD8o/XXTOeiUaoXdD4nRFi
- 1LTttBZyXpW8HbEcoKkz1e8=
-X-Google-Smtp-Source: AGHT+IE/gWTYeRXx8tnVq3xxFY5cMVtu8CcfVrP6BfYlMpgvl6xRQ6q/cxMFeSH0+1LZm+eEux/Qyg==
-X-Received: by 2002:a54:4582:0:b0:3a7:1cca:f99f with SMTP id
- z2-20020a544582000000b003a71ccaf99fmr1263858oib.34.1691538684989; 
- Tue, 08 Aug 2023 16:51:24 -0700 (PDT)
-Received: from ?IPV6:2601:204:df00:9cd0::c121? ([2601:204:df00:9cd0::c121])
+ d=1e100.net; s=20221208; t=1691559043; x=1692163843;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jqVBe5pt9GZ7aYDqfwkD/WWrE8SCWRSIo2SjG3OVAgU=;
+ b=UDfNu0pxC17dGxW3xGm/uYmwYMAFs7u4pTIrjGCDNdEf6u64TeWEiBD0DLbw/btWIZ
+ RgBeJmNF3vXP0q2OehobJ2SVBphJr5BKmmTO5KSU+FRHQvidMqL7mj6zRKh6Cz3OwSfz
+ 0uCvKxYtKf5oAtPR44LZxPPrl70uZwUOHr04YG4nNQU3xqTinyBWWA+wvTG/YvxB+hTW
+ J4bBh7QxettP0ZFeZJCv4AB/aWXuq0tmRs/HnaMMYVSEeOKSHc+uK2nualzQiTeCPDbH
+ RBkPrXzvF+JJHvOD813bS3TKK+/SSCjPc6hfHkkROEQ4ybccgvuLjm8qERCGtvry/nEQ
+ Xxog==
+X-Gm-Message-State: AOJu0YzLTBv+a4VHd5Mo0DO3wvqGmeMmZ/lTMTuYddYws1TWYxQ7UvaU
+ fdrdESdstekoPrXB5EL2uwU=
+X-Google-Smtp-Source: AGHT+IF8YXJ5+u1OlAQhMTZIOC/FvpTkv+YYhZbdzEmzkD6hXk2WE0zkQSSRVA4O3SYOMJGDlXJtrw==
+X-Received: by 2002:a05:6a20:3251:b0:13e:e053:1050 with SMTP id
+ hm17-20020a056a20325100b0013ee0531050mr1475021pzc.56.1691559042883; 
+ Tue, 08 Aug 2023 22:30:42 -0700 (PDT)
+Received: from rajgad.hsd1.ca.comcast.net
+ ([2601:204:df00:9cd0:d26e:9bde:5e8b:6cb6])
  by smtp.gmail.com with ESMTPSA id
- ju22-20020a170903429600b001bb9b5e86b7sm9573153plb.91.2023.08.08.16.51.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Aug 2023 16:51:24 -0700 (PDT)
-Message-ID: <93e3d058-96c3-4ff7-afd5-d6701cdc349b@gmail.com>
-Date: Tue, 8 Aug 2023 16:51:23 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drm/amdkfd: Use memdup_user() rather than duplicating its
-Content-Language: en-US
-To: Felix Kuehling <felix.kuehling@amd.com>
-References: <20230808205752.23704-1-rauji.raut@gmail.com>
- <8370cf91-66b5-d96b-fed8-a38eb488a011@amd.com>
+ e16-20020a62ee10000000b00686940bfb77sm8986255pfi.71.2023.08.08.22.30.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 08 Aug 2023 22:30:42 -0700 (PDT)
 From: Atul Raut <rauji.raut@gmail.com>
-In-Reply-To: <8370cf91-66b5-d96b-fed8-a38eb488a011@amd.com>
+To: Felix.Kuehling@amd.com
+Subject: [PATCH v2] drm/amdkfd: Use memdup_user() rather than duplicating its
+ implementation
+Date: Tue,  8 Aug 2023 22:30:18 -0700
+Message-Id: <20230809053018.88004-1-rauji.raut@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
  amd-gfx@lists.freedesktop.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
@@ -110,49 +104,55 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-SGVsbG8gRmVsaXgsCgpJIGFwcHJlY2lhdGUgdGhlIGNvZGUgcmV2aWV3LgpXaWxsIGNvcnJlY3Qg
-dGhlwqAgdHlwbyAoc2VlbXMgdG8gaGF2ZSBhcHBlYXJlZCBkdXJpbmcgcGF0Y2ggY3JlYXRpb24g
-CmZvbGxvd2luZyBjb21waWxhdGlvbikuClNob3J0bHkgYXMgdGhlIGNvbXBpbGF0aW9uIGlzIHN1
-Y2Nlc3NmdWwsIFYyIHdpbGwgYmUgc2VudC4KCi1BdHVsCgpPbiA4LzgvMjMgMTU6NDcsIEZlbGl4
-IEt1ZWhsaW5nIHdyb3RlOgo+IE9uIDIwMjMtMDgtMDggMTY6NTcsIEF0dWwgUmF1dCB3cm90ZToK
-Pj4gVG8gcHJldmVudCBpdHMgcmVkdW5kYW50IGltcGxlbWVudGF0aW9uIGFuZCBzdHJlYW1saW5l
-Cj4+IGNvZGUsIHVzZSBtZW1kdXBfdXNlci4KPj4KPj4gVGhpcyBmaXhlcyB3YXJuaW5ncyByZXBv
-cnRlZCBieSBDb2NjaW5lbGxlOgo+PiAuL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9k
-ZXZpY2VfcXVldWVfbWFuYWdlci5jOjI4MTE6MTMtMjA6IAo+PiBXQVJOSU5HIG9wcG9ydHVuaXR5
-IGZvciBtZW1kdXBfdXNlcgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBBdHVsIFJhdXQgPHJhdWppLnJh
-dXRAZ21haWwuY29tPgo+PiAtLS0KPj4gwqAgZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2Zk
-X2RldmljZV9xdWV1ZV9tYW5hZ2VyLmMgfCA5ICsrKy0tLS0tLQo+PiDCoCAxIGZpbGUgY2hhbmdl
-ZCwgMyBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2RldmljZV9xdWV1ZV9tYW5hZ2VyLmMgCj4+IGIv
-ZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRrZmQva2ZkX2RldmljZV9xdWV1ZV9tYW5hZ2VyLmMKPj4g
-aW5kZXggMmRmMTUzODI4ZmY0Li41MTc0MGUwMDdlODkgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2VfcXVldWVfbWFuYWdlci5jCj4+ICsrKyBiL2Ry
-aXZlcnMvZ3B1L2RybS9hbWQvYW1ka2ZkL2tmZF9kZXZpY2VfcXVldWVfbWFuYWdlci5jCj4+IEBA
-IC0yODA4LDEyICsyODA4LDkgQEAgc3RhdGljIHVpbnQzMl90ICpnZXRfcXVldWVfaWRzKHVpbnQz
-Ml90IAo+PiBudW1fcXVldWVzLCB1aW50MzJfdCAqdXNyX3F1ZXVlX2lkX2FycmF5Cj4+IMKgwqDC
-oMKgwqAgaWYgKCF1c3JfcXVldWVfaWRfYXJyYXkpCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1
-cm4gTlVMTDsKPj4gwqAgLcKgwqDCoCBxdWV1ZV9pZHMgPSBremFsbG9jKGFycmF5X3NpemUsIEdG
-UF9LRVJORUwpOwo+PiAtwqDCoMKgIGlmICghcXVldWVfaWRzKQo+PiAtwqDCoMKgwqDCoMKgwqAg
-cmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7Cj4+IC0KPj4gLcKgwqDCoCBpZiAoY29weV9mcm9tX3Vz
-ZXIocXVldWVfaWRzLCB1c3JfcXVldWVfaWRfYXJyYXksIGFycmF5X3NpemUpKQo+PiAtwqDCoMKg
-wqDCoMKgwqAgcmV0dXJuIEVSUl9QVFIoLUVGQVVMVCk7Cj4+ICvCoMKgwqAgcXVldWVfaWRzID0g
-bWVtZHVwX3VzZXIodXNyX3F1ZXVlX2lkX2FycmF5LCBhcnJheV9zaXplKTsKPj4gK8KgwqDCoCBp
-ZiAoSVNfRVJSKElxdWV1ZV9pZHMpKQo+Cj4gWW91IGhhdmUgYSB0eXBvIGluIHRoZSB2YXJpYWJs
-ZSBuYW1lIGhlcmUuIERpZCB5b3UgYXQgbGVhc3QgCj4gY29tcGlsZS10ZXN0IHRoZSBwYXRjaD8K
-Pgo+Cj4+ICvCoMKgwqDCoMKgwqDCoCByZXR1cm4gRVJSX1BUUihxdWV1ZV9pZHMpOwo+Cj4gSSB0
-aGluayBpdCBzaG91bGQganVzdCByZXR1cm4gcXVldWVfaWRzIGhlcmUuIFRoYXQncyBhbHJlYWR5
-IGFuIAo+IEVSUl9QVFIgaW4gY2FzZSBvZiBlcnJvcnMuIFNvIHlvdSBkb24ndCBldmVuIG5lZWQg
-dGhlICJpZiIuIEp1c3QgdGhpcyAKPiBzaG91bGQgZG8gdGhlIGpvYjoKPgo+IMKgwqDCoCByZXR1
-cm4gbWVtZHVwX3VzZXIodXNyX3F1ZXVlX2lkX2FycmF5LCBhcnJheV9zaXplKTsKPgo+IFRoZSBl
-cnJvciBjaGVja2luZyBpcyBkb25lIGJ5IHRoZSBjYWxsZXIuCj4KPiBSZWdhcmRzLAo+IMKgIEZl
-bGl4Cj4KPgo+PiDCoCDCoMKgwqDCoMKgIHJldHVybiBxdWV1ZV9pZHM7Cj4+IMKgIH0KX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1l
-bnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRh
-dGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGlu
-Zm8vbGludXgta2VybmVsLW1lbnRlZXMK
+To prevent its redundant implementation and streamline
+code, use memdup_user.
+
+This fixes warnings reported by Coccinelle:
+./drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c:2811:13-20: WARNING opportunity for memdup_user
+
+Signed-off-by: Atul Raut <rauji.raut@gmail.com>
+---
+v1 -> v2
+  caller checks for errors, hence removed
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+index 2df153828ff4..df9b618756e6 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_device_queue_manager.c
+@@ -2803,19 +2803,11 @@ static void copy_context_work_handler (struct work_struct *work)
+ static uint32_t *get_queue_ids(uint32_t num_queues, uint32_t *usr_queue_id_array)
+ {
+ 	size_t array_size = num_queues * sizeof(uint32_t);
+-	uint32_t *queue_ids = NULL;
+ 
+ 	if (!usr_queue_id_array)
+ 		return NULL;
+ 
+-	queue_ids = kzalloc(array_size, GFP_KERNEL);
+-	if (!queue_ids)
+-		return ERR_PTR(-ENOMEM);
+-
+-	if (copy_from_user(queue_ids, usr_queue_id_array, array_size))
+-		return ERR_PTR(-EFAULT);
+-
+-	return queue_ids;
++	return memdup_user(usr_queue_id_array, array_size);
+ }
+ 
+ int resume_queues(struct kfd_process *p,
+-- 
+2.34.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
