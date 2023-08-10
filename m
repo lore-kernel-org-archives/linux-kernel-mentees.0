@@ -4,96 +4,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B7CEC001E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Aug 2023 13:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 419EBC04A6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 10 Aug 2023 14:35:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3F7B34174F;
-	Thu, 10 Aug 2023 13:06:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3F7B34174F
+	by smtp2.osuosl.org (Postfix) with ESMTP id C10F84051A;
+	Thu, 10 Aug 2023 14:35:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C10F84051A
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=mvkL5E2P
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=WvKmnKdT
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qljZvF9TRzKJ; Thu, 10 Aug 2023 13:06:21 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 5AD38416D1;
-	Thu, 10 Aug 2023 13:06:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5AD38416D1
+	with ESMTP id 0D2wrieloXhJ; Thu, 10 Aug 2023 14:35:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B36B84023D;
+	Thu, 10 Aug 2023 14:35:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B36B84023D
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 35403C0072;
-	Thu, 10 Aug 2023 13:06:21 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8FE54C0072;
+	Thu, 10 Aug 2023 14:35:08 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 05412C0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B9695C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Aug 2023 13:06:10 +0000 (UTC)
+ Thu, 10 Aug 2023 14:35:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C61AC83B0D
+ by smtp1.osuosl.org (Postfix) with ESMTP id 9434183F35
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Aug 2023 13:06:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C61AC83B0D
+ Thu, 10 Aug 2023 14:35:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9434183F35
 Authentication-Results: smtp1.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=mvkL5E2P
+ header.a=rsa-sha256 header.s=20221208 header.b=WvKmnKdT
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZQcKPmoF6A6Y
+ with ESMTP id so17kYu9ULVP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Aug 2023 13:06:06 +0000 (UTC)
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com
- [IPv6:2607:f8b0:4864:20::632])
- by smtp1.osuosl.org (Postfix) with ESMTPS id BB0238190B
+ Thu, 10 Aug 2023 14:35:07 +0000 (UTC)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
+ [IPv6:2001:4860:4864:20::32])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id F1D5E83F0B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Aug 2023 13:06:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BB0238190B
-Received: by mail-pl1-x632.google.com with SMTP id
- d9443c01a7336-1bc73a2b0easo6966575ad.0
+ Thu, 10 Aug 2023 14:35:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F1D5E83F0B
+Received: by mail-oa1-x32.google.com with SMTP id
+ 586e51a60fabf-1bbaa549c82so871676fac.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 10 Aug 2023 06:06:06 -0700 (PDT)
+ Thu, 10 Aug 2023 07:35:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691672766; x=1692277566;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Yu0+RXr2S4MvxeQNmu1NcD/c8jFJvuQbNcDr/8nKhYI=;
- b=mvkL5E2PVotM+rjp1G+ko5KR+EKPWXBKQk4h3a0qqt/HvFTaVhgWA6PLxU0wOhb6Pq
- S2qikBsKnGUIPu7hOO9kG2KhJRoeXSi7sRnhWkAzJHaSMobZxLxV3/1Sl4Vv7PLkdDG1
- SUggydQvO5reD8kJHNyowOW/hf7egSFjAHBzmLmmvdCju/xwXYT0VqvXnoK8ruMGWnW6
- ul6wiF39L5mAg9m+SdnO/6klfqcYsV718ZkYWC4FBnlhkvHLC5aAKJUqvhSwgnu5n+mm
- dFZdD0WxQ24eGt0oGx7ypaPzFOrtjNuuR03/gQOyx8Kn8Jaq3TswcgT93mGn+acy6aXp
- soug==
+ d=gmail.com; s=20221208; t=1691678106; x=1692282906;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B2gV1030sZCbxiS6NMaJx8ViLVSVMgkSZNa15D6K3vI=;
+ b=WvKmnKdTk7/vcpPkkquQKRnsM2nH+X7LcfB5W5JUec4VmYYP/79R/TlGfNw9UDw8iv
+ g8gWOr48Fpd95EJOkiyJZWMnl2lAJH6lXxeYXpE5PAiJTaAdNDfJ1EKJP2xXYsAPPlWa
+ zcJIpjJmJjZICDXmQH3twd5/kUR+UWW5PsbHTN9WkbjKjB3y0xNIAuYvGSatJtFf1/wz
+ XKloZWdRDnM+CplcTo0EW5JyP/vQlcYL0Vd4hX/tuyTnCmHROO2YEH5WnULbwn5JnblI
+ LX/xm57Tgu+A94keG6VVPxvUCWyLtQKAVLbBb8oVKwajV7dhgYhhVktmpBchiH9gcGxx
+ mf3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691672766; x=1692277566;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Yu0+RXr2S4MvxeQNmu1NcD/c8jFJvuQbNcDr/8nKhYI=;
- b=HB7affiH4f6ZRIDMNgLviEp3yNJLe/casSb59cV3YAKZSkxJUf8dk3Jc4w+h/pL4pO
- 3H9BtzZIYyjmKdaXgSIYm/S300aivasi/Mo+0phF97ewlFCSaq9oIiw+wLC1B89LpLbK
- p2pnKiWO3ut9aAecJ9pIOFq/Zh4tCrwmEG9PbFmXY6Nbpa4dqAOLxkXLdyluMS04VqKE
- RAKE2is02NmQRKovTk8cl/O7Ni44Q/uPSIso/m7D/9R5+ioFNg/BziDTb3EY1FJ3aW4G
- Y7H4j4qbcW9ahPMohjxh/l1WVmBAA8m+ucIGWlBGk99L6QqnlNBPQIK8z3b8ey2dCP04
- s+yA==
-X-Gm-Message-State: AOJu0YxVzbziXchsP1QE1Wmt9vOaISQ0Wcqxh4n5hDVsxsaUfcXdasNA
- MgWhlyvDJh+U5+/LuEXqZN0=
-X-Google-Smtp-Source: AGHT+IHBMTYk7Cy1rw/ils4wjf31OPgZv6xAbp1PZXZ8GoiLulv2zz8hU+aeGynxHxSfg0/Fxw+j6Q==
-X-Received: by 2002:a17:903:191:b0:1b8:af7f:6331 with SMTP id
- z17-20020a170903019100b001b8af7f6331mr2050532plg.55.1691672765844; 
- Thu, 10 Aug 2023 06:06:05 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1057:1bce:4dc8:d063:71b0:bea])
- by smtp.gmail.com with ESMTPSA id
- s15-20020a17090a880f00b00267fbd521dbsm3350790pjn.5.2023.08.10.06.06.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Aug 2023 06:06:05 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: linus.walleij@linaro.org, brgl@bgdev.pl, andy@kernel.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] gpio: gpio-imx-scu: Use ARRAY_SIZE for array length
-Date: Thu, 10 Aug 2023 18:36:00 +0530
-Message-Id: <20230810130600.25616-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20221208; t=1691678106; x=1692282906;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=B2gV1030sZCbxiS6NMaJx8ViLVSVMgkSZNa15D6K3vI=;
+ b=XatZPt5At7g2YhKQfSTkRcY9T0Gheu7hl4a5p+sZxcTnfRVIPbeofe3tkZuewL0u/J
+ nCEGESTHtf9ASRobXBJ2sM/r6isBiWTS5+JSnEQFwRX9MhajeQsbb7Hv+NTnzSWBya0D
+ WjQ6BGMvUw+NupF+BaVL1ZzoX0NwobZQbNnZXcdMqwWZtHLmgwSnPGf3l5QhWILKyXpL
+ 548UuD4sISOttFpRT7y3/VfeO4sH88jJtRmj6CdrmfxMmWWW53W5g53EJAKbUr+Cj//5
+ u8sgRhRNgHXY5sh1DnmIsNWm0NjMkYqcO33roA2Dsb8itfcR2aE2jhrI8rwYex1yNCjG
+ ryow==
+X-Gm-Message-State: AOJu0YwASfY5gOKHyNVKfJfegky+5SspUh2iAj3KX6P+wgutFacODZ+5
+ nyIX9NeuqkeaJw6kcRy1MwAAAqxacrty62suhaI=
+X-Google-Smtp-Source: AGHT+IEHA1a88InV115gvWZ6fTpuo8G8dJ0JE+QhlYWK9ofr3EsSSwBeJb9FbIglLDFxn9OhngPeBTahocUoDlfqpz0=
+X-Received: by 2002:a05:6870:364e:b0:1c0:b4ec:c0fa with SMTP id
+ v14-20020a056870364e00b001c0b4ecc0famr2865098oak.41.1691678106019; Thu, 10
+ Aug 2023 07:35:06 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+References: <20230810130600.25616-1-coolrrsh@gmail.com>
+In-Reply-To: <20230810130600.25616-1-coolrrsh@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 10 Aug 2023 17:34:30 +0300
+Message-ID: <CAHp75VeSLwR-EbkJYM131Fkj2C0Cr1OA80B1=H1jOnpHcvt=NA@mail.gmail.com>
+Subject: Re: [PATCH v3] gpio: gpio-imx-scu: Use ARRAY_SIZE for array length
+To: coolrrsh@gmail.com
+Cc: andy@kernel.org, linus.walleij@linaro.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ brgl@bgdev.pl
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,58 +103,22 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
-
-Use of macro ARRAY_SIZE to calculate array size minimizes
-the redundant code and improves code reusability.
-This fixes warnings reported by Coccinelle:
-drivers/gpio/gpio-imx-scu.c:106:32-33: WARNING: Use ARRAY_SIZE
-
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
----
-v1->v2
-ARRAY_SIZE calculates array length, so changed
-gc->ngpio = ARRAY_SIZE(scu_rsrc_arr)/sizeof(unsigned int) to
-gc->ngpio = ARRAY_SIZE(scu_rsrc_arr)
-
-v2->v3
-added linux/kernel.h containing ARRAY_SIZE definition
-
----
- drivers/gpio/gpio-imx-scu.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpio/gpio-imx-scu.c b/drivers/gpio/gpio-imx-scu.c
-index e190bde5397d..13baf465aedf 100644
---- a/drivers/gpio/gpio-imx-scu.c
-+++ b/drivers/gpio/gpio-imx-scu.c
-@@ -6,6 +6,7 @@
-  * to control the PIN resources on SCU domain.
-  */
- 
-+#include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/gpio/driver.h>
- #include <linux/platform_device.h>
-@@ -103,7 +104,7 @@ static int imx_scu_gpio_probe(struct platform_device *pdev)
- 	gc = &priv->chip;
- 	gc->base = -1;
- 	gc->parent = dev;
--	gc->ngpio = sizeof(scu_rsrc_arr)/sizeof(unsigned int);
-+	gc->ngpio = ARRAY_SIZE(scu_rsrc_arr);
- 	gc->label = dev_name(dev);
- 	gc->get = imx_scu_gpio_get;
- 	gc->set = imx_scu_gpio_set;
--- 
-2.25.1
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gVGh1LCBBdWcgMTAsIDIwMjMgYXQgNDowNuKAr1BNIDxjb29scnJzaEBnbWFpbC5jb20+IHdy
+b3RlOgo+Cj4gRnJvbTogUmFqZXNod2FyIFIgU2hpbmRlIDxjb29scnJzaEBnbWFpbC5jb20+Cj4K
+PiBVc2Ugb2YgbWFjcm8gQVJSQVlfU0laRSB0byBjYWxjdWxhdGUgYXJyYXkgc2l6ZSBtaW5pbWl6
+ZXMKPiB0aGUgcmVkdW5kYW50IGNvZGUgYW5kIGltcHJvdmVzIGNvZGUgcmV1c2FiaWxpdHkuCj4g
+VGhpcyBmaXhlcyB3YXJuaW5ncyByZXBvcnRlZCBieSBDb2NjaW5lbGxlOgo+IGRyaXZlcnMvZ3Bp
+by9ncGlvLWlteC1zY3UuYzoxMDY6MzItMzM6IFdBUk5JTkc6IFVzZSBBUlJBWV9TSVpFCgpZZXMg
+YW5kIHRoaXMgbWFrZXMgY29kZSBtb3JlIHJvYnVzdCBhZ2FpbnN0IHR5cGUgY2hhbmdlcy4KUmV2
+aWV3ZWQtYnk6IEFuZHkgU2hldmNoZW5rbyA8YW5keS5zaGV2Y2hlbmtvQGdtYWlsLmNvbT4KCi0t
+IApXaXRoIEJlc3QgUmVnYXJkcywKQW5keSBTaGV2Y2hlbmtvCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcg
+bGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBz
+Oi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5l
+bC1tZW50ZWVzCg==
