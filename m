@@ -1,98 +1,96 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 93A86C001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 13 Aug 2023 14:25:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 767B5EB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Aug 2023 01:02:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 27BEB4038B;
-	Sun, 13 Aug 2023 14:25:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 27BEB4038B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Luouxj5L
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id djKJiElzNARM; Sun, 13 Aug 2023 14:25:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1D5BA40127;
-	Sun, 13 Aug 2023 14:25:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1D5BA40127
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id F0F8CC0072;
-	Sun, 13 Aug 2023 14:25:54 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A1234C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Aug 2023 14:25:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 2DF08817A7
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Aug 2023 14:25:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2DF08817A7
+	by smtp1.osuosl.org (Postfix) with ESMTP id E182B81551;
+	Mon, 14 Aug 2023 01:02:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E182B81551
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Luouxj5L
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FOB/qY/P
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FRkB1QnvHn6R
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Aug 2023 14:25:52 +0000 (UTC)
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
- [IPv6:2607:f8b0:4864:20::433])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 47EE3817A2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Aug 2023 14:25:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 47EE3817A2
-Received: by mail-pf1-x433.google.com with SMTP id
- d2e1a72fcca58-686e0213c0bso2223649b3a.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Aug 2023 07:25:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1691936751; x=1692541551;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=u+Bbe2ATRUNZ2U0iDFw/4l0wbzl0ApUtMQF0UvPw22Q=;
- b=Luouxj5LwU8rtQTxzvqFr9qhwbgELf2N2f8Cy0zZbcAcaRzDs1EfNC6Io7lAcUBrXc
- zOC5Yv3xoAbrAKvAWH5jug8gxRatuXtAjL4IYR18uI5n2EcnbUB8giIJMclwT2ZLInW7
- zxp57FEHcXTBMizJUwRPcv4YaGmyJEoWx9t8W1lgcrXt7B4kc33uDFF0RULSa5tmdr2s
- hBYGATj9ySQ4VEEJur46OPikEm+JsY03JmGoN0rH95c4GVfg1CLBs/9Ma/tCrxYhNiO2
- xUK5bkNd3gPnp9w6tTaihYx0hrA6muz9oixiGsNnFaQn9Lq8ZfzHIKzl08njGgYgiDjB
- Q1OQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1691936751; x=1692541551;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=u+Bbe2ATRUNZ2U0iDFw/4l0wbzl0ApUtMQF0UvPw22Q=;
- b=NMS52GdNVdvETwerkzngjVaQGEz2EsecmwDUKkf/lx7jsbyEWQcCUHOvHWBaziR862
- wKXA2pLy7RAAxwH7wttOCUs2VjChWfZzgimVE5f9mRJOWXrqplWLff/emhAKGy0KzXgp
- N3rkClyyALGLzQjuH/wbvIIk+J7pAVxiS5sSUtxnMU6zNpowGyhcN5w4s8FTeytM2W4a
- n/dR1Ah/FW6He1zJPSRnfKGxPxT0xE/J6ScY4WxfzNxzu/FJtzZe0uplnTIBxmJTq3WD
- ItMba81ygFQfW2+RpR2yalmgMfaJwdA6HTj57wlmTfJ94CTpAh0rHMIM0TMWGk0IXknx
- Z/JQ==
-X-Gm-Message-State: AOJu0Yxd8liCQY/ST1T+rEzpUr9ZSYBOrZH8M1TpcIuQOqk6/1D8xWAt
- g8SFVGpQ3UhjeAyrFgTYeqDFQncvo4g=
-X-Google-Smtp-Source: AGHT+IHmz/gnjtoFiqwnQfwKPpTKrfpr3OSJ3X5BmGB76Tvs5u7NacAzNSMRJtPnOXO61WT/7vXimw==
-X-Received: by 2002:a05:6a20:100d:b0:13c:8e50:34b8 with SMTP id
- gs13-20020a056a20100d00b0013c8e5034b8mr4980193pzc.35.1691936751531; 
- Sun, 13 Aug 2023 07:25:51 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1022:f538:d00a:1992:423:e24e])
- by smtp.gmail.com with ESMTPSA id
- fk1-20020a056a003a8100b006765cb3255asm6296626pfb.68.2023.08.13.07.25.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Aug 2023 07:25:51 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: broonie@kernel.org, linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: spi: Added a valid hyperlink
-Date: Sun, 13 Aug 2023 19:55:46 +0530
-Message-Id: <20230813142546.150799-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IfuPl179py36; Mon, 14 Aug 2023 01:02:31 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C912981514;
+	Mon, 14 Aug 2023 01:02:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C912981514
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8BF3BC0072;
+	Mon, 14 Aug 2023 01:02:30 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 21140C0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 01:02:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 089E860E90
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 01:02:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 089E860E90
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=FOB/qY/P
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id I_QWGjG-sXjS
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 01:02:28 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D092960C2E
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 01:02:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D092960C2E
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9C0E061135
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 01:02:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1CC7C433CA
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 01:02:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1691974946;
+ bh=JEEY10hBYz8RwhXPPVD6zF4+YQYQsXCRSg8FIpcrlVY=;
+ h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
+ b=FOB/qY/PpdgHCtif2jsnF7NTFxHEmFbrI3NnLit3qzbbEwG0sHPOCAfEhTpS58s2i
+ 7zrZcLz9cA8dfipUEWmWoJb6euJQ4aIjWtG1Sof3Ho+0SREVOR0PINgxS/mhpwuPQI
+ rE5ggXMCOD/e6KwTLUByfD0d6tLgZ+JNkip6wF1jenLYVMO7zXpSYFKgeqZ2z8nFEg
+ 2wKesPUUbsPrtaP76RRB4nZrB5W+FPUgMAWNBgl6zoeZ8fWe9NnL5aLs0q6auiTwEL
+ IbWzHcbEyKtJXyDyigng30ra7xZpMpckRBQtSebqarla6TJdx/pJrXvn2S1g7kRRbn
+ 0Y9UEJMKiA5dg==
+Received: by mail-oo1-f51.google.com with SMTP id
+ 006d021491bc7-56e0d6651fbso687636eaf.1
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 13 Aug 2023 18:02:25 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy73dz6JOi540YxzvGnQvjOvJyzhfsRt1+rrP/dH9cWZSWkGzrx
+ xI36Gq4LBT0jxJKV7c6s6t4aMUVgbIaqQDns4Ok=
+X-Google-Smtp-Source: AGHT+IEZBAOsoH5R9sMuTJ0tT6LAbfT4e8g0Coz08nyYUPTnQN4yEKjF5zsRrsRYGnMLm7X+87vqmfeDUsDdJWyaSG8=
+X-Received: by 2002:a05:6870:e985:b0:19f:e5a8:7525 with SMTP id
+ r5-20020a056870e98500b0019fe5a87525mr7150030oao.12.1691974945110; Sun, 13 Aug
+ 2023 18:02:25 -0700 (PDT)
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Received: by 2002:a8a:14c:0:b0:4e8:f6ff:2aab with HTTP; Sun, 13 Aug 2023
+ 18:02:24 -0700 (PDT)
+In-Reply-To: <20230813055948.12513-1-ghandatmanas@gmail.com>
+References: <20230813055948.12513-1-ghandatmanas@gmail.com>
+From: Namjae Jeon <linkinjeon@kernel.org>
+Date: Mon, 14 Aug 2023 10:02:24 +0900
+X-Gmail-Original-Message-ID: <CAKYAXd8A9+Zcg=8wLV0h4fdcvybp=BB-a0yRKSTHmk0sQi26_A@mail.gmail.com>
+Message-ID: <CAKYAXd8A9+Zcg=8wLV0h4fdcvybp=BB-a0yRKSTHmk0sQi26_A@mail.gmail.com>
+Subject: Re: [PATCH v4] ntfs : fix shift-out-of-bounds in ntfs_iget
+To: Manas Ghandat <ghandatmanas@gmail.com>, anton@tuxera.com
+Cc: linux-ntfs-dev@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com,
+ linux-fsdevel@vger.kernel.org, Linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,46 +108,68 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+2023-08-13 14:59 GMT+09:00, Manas Ghandat <ghandatmanas@gmail.com>:
+Hi,
+> Currently there is not check for ni->itype.compressed.block_size when
+> a->data.non_resident.compression_unit is present and NInoSparse(ni) is
+> true. Added the required check to calculation of block size.
+>
+> Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+> Reported-by: syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
+> Fix-commit-ID: upstream f40ddce88593482919761f74910f42f4b84c004b
+> ---
+> V3 -> V4: Fix description
+> V2 -> V3: Fix patching issue.
+> V1 -> V2: Cleaned up coding style.
+>
+>  fs/ntfs/inode.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+> index 6c3f38d66579..a657322874ed 100644
+> --- a/fs/ntfs/inode.c
+> +++ b/fs/ntfs/inode.c
+> @@ -1077,6 +1077,15 @@ static int ntfs_read_locked_inode(struct inode *vi)
+>  					goto unm_err_out;
+>  				}
+>  				if (a->data.non_resident.compression_unit) {
+> +					if (a->data.non_resident.compression_unit +
+> +					vol->cluster_size_bits > 32) {
+> +						ntfs_error(vi->i_sb,
+> +						"Found non-standard compression unit (%u).   Cannot handle this.",
+> +						a->data.non_resident.compression_unit
+> +						);
+> +						err = -EOPNOTSUPP;
+> +						goto unm_err_out;
+> +					}
+compression_unit seems to be used when the ntfs inode is compressed.
+And it should be either 0 or 4 value. So, I think we can set related
+compression block variables of ntfs inode only when ni is
+NInoCompressed like this... Anton, Am I missing something ?
 
-The hyperlink to datasheet in website are subject to change.
-Created stable hyperlinks to view datasheets.
+diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
+index efe0602b4e51..e5a7d81d575b 100644
+--- a/fs/ntfs/inode.c
++++ b/fs/ntfs/inode.c
+@@ -1076,7 +1076,8 @@ static int ntfs_read_locked_inode(struct inode *vi)
+                                        err = -EOPNOTSUPP;
+                                        goto unm_err_out;
+                                }
+-                               if (a->data.non_resident.compression_unit) {
++                               if (NInoCompressed(ni) &&
++                                   a->data.non_resident.compression_unit) {
+                                        ni->itype.compressed.block_size = 1U <<
+                                                        (a->data.non_resident.
+                                                        compression_unit +
 
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
-
----
-v1->v2
-changed the commit message
-
----
- Documentation/spi/spi-lm70llp.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/spi/spi-lm70llp.rst b/Documentation/spi/spi-lm70llp.rst
-index 0144e12d9..f6a416468 100644
---- a/Documentation/spi/spi-lm70llp.rst
-+++ b/Documentation/spi/spi-lm70llp.rst
-@@ -6,7 +6,7 @@ Supported board/chip:
- 
-   * National Semiconductor LM70 LLP evaluation board
- 
--    Datasheet: http://www.national.com/pf/LM/LM70.html
-+    Datasheet: https://nbviewer.org/github/spidocs/spi-lm70llp/blob/main/LM70-LLP.pdf
- 
- Author:
-         Kaiwan N Billimoria <kaiwan@designergraphix.com>
-@@ -28,7 +28,7 @@ Hardware Interfacing
- The schematic for this particular board (the LM70EVAL-LLP) is
- available (on page 4) here:
- 
--  http://www.national.com/appinfo/tempsensors/files/LM70LLPEVALmanual.pdf
-+  https://nbviewer.org/github/spidocs/spi-lm70llp/blob/main/LM70-LLP_schematic.pdf
- 
- The hardware interfacing on the LM70 LLP eval board is as follows:
- 
--- 
-2.25.1
-
+>  					ni->itype.compressed.block_size = 1U <<
+>  							(a->data.non_resident.
+>  							compression_unit +
+> --
+> 2.37.2
+>
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
