@@ -4,93 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 767B5EB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Aug 2023 01:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6CF1FC001DB
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Aug 2023 06:22:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id E182B81551;
-	Mon, 14 Aug 2023 01:02:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E182B81551
+	by smtp1.osuosl.org (Postfix) with ESMTP id DF0C7817AD;
+	Mon, 14 Aug 2023 06:22:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DF0C7817AD
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=FOB/qY/P
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=KhDw23MP
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IfuPl179py36; Mon, 14 Aug 2023 01:02:31 +0000 (UTC)
+	with ESMTP id f361qtMBTvDv; Mon, 14 Aug 2023 06:22:56 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C912981514;
-	Mon, 14 Aug 2023 01:02:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C912981514
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DBFE3817A9;
+	Mon, 14 Aug 2023 06:22:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DBFE3817A9
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8BF3BC0072;
-	Mon, 14 Aug 2023 01:02:30 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 72C23C0072;
+	Mon, 14 Aug 2023 06:22:55 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 21140C0032
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 01:02:29 +0000 (UTC)
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7CB03C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 06:22:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 089E860E90
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 01:02:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 089E860E90
+ by smtp3.osuosl.org (Postfix) with ESMTP id 525D960FA1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 06:22:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 525D960FA1
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=FOB/qY/P
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=KhDw23MP
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id I_QWGjG-sXjS
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 01:02:28 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp3.osuosl.org (Postfix) with ESMTPS id D092960C2E
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 01:02:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D092960C2E
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9C0E061135
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 01:02:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1CC7C433CA
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 01:02:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1691974946;
- bh=JEEY10hBYz8RwhXPPVD6zF4+YQYQsXCRSg8FIpcrlVY=;
- h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
- b=FOB/qY/PpdgHCtif2jsnF7NTFxHEmFbrI3NnLit3qzbbEwG0sHPOCAfEhTpS58s2i
- 7zrZcLz9cA8dfipUEWmWoJb6euJQ4aIjWtG1Sof3Ho+0SREVOR0PINgxS/mhpwuPQI
- rE5ggXMCOD/e6KwTLUByfD0d6tLgZ+JNkip6wF1jenLYVMO7zXpSYFKgeqZ2z8nFEg
- 2wKesPUUbsPrtaP76RRB4nZrB5W+FPUgMAWNBgl6zoeZ8fWe9NnL5aLs0q6auiTwEL
- IbWzHcbEyKtJXyDyigng30ra7xZpMpckRBQtSebqarla6TJdx/pJrXvn2S1g7kRRbn
- 0Y9UEJMKiA5dg==
-Received: by mail-oo1-f51.google.com with SMTP id
- 006d021491bc7-56e0d6651fbso687636eaf.1
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 13 Aug 2023 18:02:25 -0700 (PDT)
-X-Gm-Message-State: AOJu0Yy73dz6JOi540YxzvGnQvjOvJyzhfsRt1+rrP/dH9cWZSWkGzrx
- xI36Gq4LBT0jxJKV7c6s6t4aMUVgbIaqQDns4Ok=
-X-Google-Smtp-Source: AGHT+IEZBAOsoH5R9sMuTJ0tT6LAbfT4e8g0Coz08nyYUPTnQN4yEKjF5zsRrsRYGnMLm7X+87vqmfeDUsDdJWyaSG8=
-X-Received: by 2002:a05:6870:e985:b0:19f:e5a8:7525 with SMTP id
- r5-20020a056870e98500b0019fe5a87525mr7150030oao.12.1691974945110; Sun, 13 Aug
- 2023 18:02:25 -0700 (PDT)
+ with ESMTP id 80QDNPnnNGjM
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 06:22:52 +0000 (UTC)
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com
+ [IPv6:2607:f8b0:4864:20::629])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 464BA60F95
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 06:22:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 464BA60F95
+Received: by mail-pl1-x629.google.com with SMTP id
+ d9443c01a7336-1bdaeb0f29aso18229665ad.2
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 13 Aug 2023 23:22:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1691994172; x=1692598972;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rbPoi4ehPomih+rqf88RiO5h1U0eqpVIVYqKIjGhfGk=;
+ b=KhDw23MPuanlxAjuOO9NR13Z2WYuW3raUWEz4gIyh50I7S9W6COU84lhou/islhuWG
+ JSx1EdP5rUQ3HOxdGBLpqirzE99ZgMAYgbX8x8oGoqV1ji/NhTp+mhJtiY0l75uA+ey1
+ l+P6LErd6YseDOnBrum+aHGJFn4hM9kHv45mTXp3WTfX+2/JiV7xri8y+AJ7eMBl7tcB
+ 15lOshmWIrGSCgi7f2W0zY0Sl64bW/DTBmkHWfdOjDfBlDmqHTUdINaKD9xw6BOuVO+e
+ F4VqOvUd2DK5uPI8wczYxmc31wK+Zx3nY33dGPlzuX2WsQOBUHqolD3hyjNnJegTQFcR
+ SLUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1691994172; x=1692598972;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rbPoi4ehPomih+rqf88RiO5h1U0eqpVIVYqKIjGhfGk=;
+ b=EA1nTMMLSriKhE0wvrGaQEWgDAe+mQN16UIuK/vkDlzgxtoL+rIWB+HbMNJ4RW5hjy
+ 3hnhxAzsHI7T8L1X+DeeIqSr+LEw6+A53L9ciTlHk4MrZSJX+zDWKH1dIhyFMYrsrEJ9
+ aLt35dQhrKlPu+yhfj/+3CWnrmqg52yvEn3dZUMgI+g0AupVL1Xj8uvzwjFqlgNWCQld
+ pADQRihV9dUJJKwGmfBNfO3i4xoM3Co6GEQ6CFe/YuFOaWXwTXkk6K9KaL3f8y4BOayv
+ vviwHugAkc6wBh8brBuZd7h4eQQCdSvO1qUHXzGxRLPAwRYtXaehBLfhUTRz9tCFHMJs
+ hKKw==
+X-Gm-Message-State: AOJu0Yzd2Wf72wlawXKwe96c0qmf3KE0dE6OcYITAmx8K3yjzF9ksJK6
+ w69XiYI2AFqjPEt2sQd7wfg=
+X-Google-Smtp-Source: AGHT+IF+hhw4+dNlT2tD/DxR4eF682l4n3CUzSyipbEn7gbo8Ubv6r7h5vVViuR8MLR8LniVrE9L/w==
+X-Received: by 2002:a17:902:e550:b0:1bb:809d:ae72 with SMTP id
+ n16-20020a170902e55000b001bb809dae72mr8763076plf.33.1691994171421; 
+ Sun, 13 Aug 2023 23:22:51 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2409:40c2:103c:3fe4:b95c:5882:bac7:2668])
+ by smtp.gmail.com with ESMTPSA id
+ f2-20020a170902ab8200b001b9da42cd7dsm8434571plr.279.2023.08.13.23.22.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 13 Aug 2023 23:22:50 -0700 (PDT)
+From: coolrrsh@gmail.com
+To: vkoul@kernel.org, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] dma: dmatest: Use div64_s64
+Date: Mon, 14 Aug 2023 11:52:46 +0530
+Message-Id: <20230814062246.4636-1-coolrrsh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a8a:14c:0:b0:4e8:f6ff:2aab with HTTP; Sun, 13 Aug 2023
- 18:02:24 -0700 (PDT)
-In-Reply-To: <20230813055948.12513-1-ghandatmanas@gmail.com>
-References: <20230813055948.12513-1-ghandatmanas@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Mon, 14 Aug 2023 10:02:24 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8A9+Zcg=8wLV0h4fdcvybp=BB-a0yRKSTHmk0sQi26_A@mail.gmail.com>
-Message-ID: <CAKYAXd8A9+Zcg=8wLV0h4fdcvybp=BB-a0yRKSTHmk0sQi26_A@mail.gmail.com>
-Subject: Re: [PATCH v4] ntfs : fix shift-out-of-bounds in ntfs_iget
-To: Manas Ghandat <ghandatmanas@gmail.com>, anton@tuxera.com
-Cc: linux-ntfs-dev@lists.sourceforge.net, linux-kernel@vger.kernel.org,
- syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com,
- linux-fsdevel@vger.kernel.org, Linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,68 +111,45 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-2023-08-13 14:59 GMT+09:00, Manas Ghandat <ghandatmanas@gmail.com>:
-Hi,
-> Currently there is not check for ni->itype.compressed.block_size when
-> a->data.non_resident.compression_unit is present and NInoSparse(ni) is
-> true. Added the required check to calculation of block size.
->
-> Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
-> Reported-by: syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
-> Fix-commit-ID: upstream f40ddce88593482919761f74910f42f4b84c004b
-> ---
-> V3 -> V4: Fix description
-> V2 -> V3: Fix patching issue.
-> V1 -> V2: Cleaned up coding style.
->
->  fs/ntfs/inode.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-> index 6c3f38d66579..a657322874ed 100644
-> --- a/fs/ntfs/inode.c
-> +++ b/fs/ntfs/inode.c
-> @@ -1077,6 +1077,15 @@ static int ntfs_read_locked_inode(struct inode *vi)
->  					goto unm_err_out;
->  				}
->  				if (a->data.non_resident.compression_unit) {
-> +					if (a->data.non_resident.compression_unit +
-> +					vol->cluster_size_bits > 32) {
-> +						ntfs_error(vi->i_sb,
-> +						"Found non-standard compression unit (%u).   Cannot handle this.",
-> +						a->data.non_resident.compression_unit
-> +						);
-> +						err = -EOPNOTSUPP;
-> +						goto unm_err_out;
-> +					}
-compression_unit seems to be used when the ntfs inode is compressed.
-And it should be either 0 or 4 value. So, I think we can set related
-compression block variables of ntfs inode only when ni is
-NInoCompressed like this... Anton, Am I missing something ?
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-diff --git a/fs/ntfs/inode.c b/fs/ntfs/inode.c
-index efe0602b4e51..e5a7d81d575b 100644
---- a/fs/ntfs/inode.c
-+++ b/fs/ntfs/inode.c
-@@ -1076,7 +1076,8 @@ static int ntfs_read_locked_inode(struct inode *vi)
-                                        err = -EOPNOTSUPP;
-                                        goto unm_err_out;
-                                }
--                               if (a->data.non_resident.compression_unit) {
-+                               if (NInoCompressed(ni) &&
-+                                   a->data.non_resident.compression_unit) {
-                                        ni->itype.compressed.block_size = 1U <<
-                                                        (a->data.non_resident.
-                                                        compression_unit +
+In the function do_div, the dividend is evaluated multiple times
+so it can cause side effects. Therefore replace it with div64_s64.
 
->  					ni->itype.compressed.block_size = 1U <<
->  							(a->data.non_resident.
->  							compression_unit +
-> --
-> 2.37.2
->
->
+This fixes warning such as:
+drivers/dma/dmatest.c:496:1-7:
+WARNING: do_div() does a 64-by-32 division,
+please consider using div64_s64 instead.
+
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+---
+ drivers/dma/dmatest.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma/dmatest.c b/drivers/dma/dmatest.c
+index ffe621695e47..07042f239db8 100644
+--- a/drivers/dma/dmatest.c
++++ b/drivers/dma/dmatest.c
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/err.h>
+ #include <linux/delay.h>
++#include <linux/math64.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmaengine.h>
+ #include <linux/freezer.h>
+@@ -493,7 +494,7 @@ static unsigned long long dmatest_persec(s64 runtime, unsigned int val)
+ 
+ 	per_sec *= val;
+ 	per_sec = INT_TO_FIXPT(per_sec);
+-	do_div(per_sec, runtime);
++	per_sec=div64_s64(per_sec, runtime);
+ 
+ 	return per_sec;
+ }
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
