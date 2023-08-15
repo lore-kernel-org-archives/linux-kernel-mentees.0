@@ -1,85 +1,91 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C749AC001B0
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Aug 2023 07:16:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DC68C0015E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Aug 2023 09:00:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 42341813DE;
-	Tue, 15 Aug 2023 07:16:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 42341813DE
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YSgOnTEW
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1384360FFD;
+	Tue, 15 Aug 2023 09:00:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1384360FFD
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UOVLMspB
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XjgnEW4mLZnp; Tue, 15 Aug 2023 07:16:39 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 3E5C4813CD;
-	Tue, 15 Aug 2023 07:16:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3E5C4813CD
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4GkMtQLQbigO; Tue, 15 Aug 2023 08:59:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C0A2C60B15;
+	Tue, 15 Aug 2023 08:59:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C0A2C60B15
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 18986C0071;
-	Tue, 15 Aug 2023 07:16:39 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EF954C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B088C0072;
+	Tue, 15 Aug 2023 08:59:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1572C0032
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 07:16:37 +0000 (UTC)
+ Tue, 15 Aug 2023 08:59:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D5FCC813C5
+ by smtp4.osuosl.org (Postfix) with ESMTP id C30B341808
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 07:16:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D5FCC813C5
+ Tue, 15 Aug 2023 08:59:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C30B341808
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=UOVLMspB
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id L_kKrZ4Yx7yK
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id kztlAlOSJots
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 07:16:35 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A716E813C3
+ Tue, 15 Aug 2023 08:59:54 +0000 (UTC)
+X-Greylist: delayed 427 seconds by postgrey-1.37 at util1.osuosl.org;
+ Tue, 15 Aug 2023 08:59:54 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6C6F141806
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6C6F141806
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 07:16:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A716E813C3
+ Tue, 15 Aug 2023 08:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692083795; x=1723619795;
+ t=1692089994; x=1723625994;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=uMwrqtr45I6Xt2txlh4kL6vnb5x1hLG6Ric5UOBb0SQ=;
- b=YSgOnTEWh1arBL5GCF11Msiv/q+YzXMrJkUYCE2gOOJubgzKaX248w9X
- Td+nLX0UJig69vKkySMVCMMXxKM5v9hWnG4oUKZoniYskezZPqsFegkyp
- muXyGOlgdp/X7gPbZL3Fm5aWubmhvfpJqb+fncwJy4Dmf4za4UDPhr6jN
- 2WZZXr+oqqtWM+x6CX77C3SuqSw7AkZ70oPNM/XjdH8myNlNGPQKEAsHJ
- E5lBmrWCywxB8KSUzKypk35ZZEuz1uPZdNfzaCNoaPi6AywbB7LjxhA6X
- JaO/hbTHAmzUrPB70YNmtTxfAiJ25ZHTFo4S4/IzyZnr5K1bgHvVaLllV A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="369692395"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="369692395"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2023 00:16:33 -0700
+ bh=5Sm5/qnqxAxyQO+s/4YGC4l8jiOKtdqXvkk51HFIr0w=;
+ b=UOVLMspBkuwbAq/XxY1cDiezCYJUe/2TS7TNlu9+1WuosGL8WEaneLBv
+ 9bCgZu+xWfLRIQhuNt5rH2mXipZ2cSERFn8VN5ZdzCHe8+xHKUgF3FOAz
+ yXDal2k/+LAWv2oQbathdOb63QNN935UYXpQiZJw/Phio5FGJbNvw2lAJ
+ J/gNc5777gKFtarpcOb0cU72qXNVpeUL0wQsuMZjwxkbRbjJhSSF+db3E
+ gARyPDNegzb7TwCUWHyl/3mRl+UM65Rm3Rgwsi77QMj8gZSG+ik2euQhp
+ sbrvXfMCMGGtHlyWIg5qAbxdvLhDzuOCFCKDbnE8Hm5JLyKBhiGkDMyQX A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="352558710"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="352558710"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2023 01:52:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="733750362"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="733750362"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980302382"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="980302382"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
- by orsmga002.jf.intel.com with ESMTP; 15 Aug 2023 00:16:30 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 15 Aug 2023 01:52:43 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qVoI1-0000l3-1S;
- Tue, 15 Aug 2023 07:16:29 +0000
-Date: Tue, 15 Aug 2023 15:16:14 +0800
+ (envelope-from <lkp@intel.com>) id 1qVpn2-0000oF-2y;
+ Tue, 15 Aug 2023 08:52:38 +0000
+Date: Tue, 15 Aug 2023 16:52:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Manas Ghandat <ghandatmanas@gmail.com>, anton@tuxera.com,
  linkinjeon@kernel.org
 Subject: Re: [PATCH v5] ntfs : fix shift-out-of-bounds in ntfs_iget
-Message-ID: <202308151536.ErfTUJ9J-lkp@intel.com>
+Message-ID: <202308151606.3Xy20wzx-lkp@intel.com>
 References: <20230815052251.107732-1-ghandatmanas@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 In-Reply-To: <20230815052251.107732-1-ghandatmanas@gmail.com>
 Cc: Manas Ghandat <ghandatmanas@gmail.com>,
- linux-ntfs-dev@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ linux-ntfs-dev@lists.sourceforge.net, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
  syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com,
  oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
  Linux-kernel-mentees@lists.linuxfoundation.org
@@ -114,30 +120,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Manas-Ghandat/ntfs-fix-sh
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20230815052251.107732-1-ghandatmanas%40gmail.com
 patch subject: [PATCH v5] ntfs : fix shift-out-of-bounds in ntfs_iget
-config: mips-randconfig-r002-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151536.ErfTUJ9J-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151536.ErfTUJ9J-lkp@intel.com/reproduce)
+config: i386-randconfig-i002-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151606.3Xy20wzx-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151606.3Xy20wzx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308151536.ErfTUJ9J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151606.3Xy20wzx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/ntfs/inode.c: In function 'ntfs_read_locked_inode':
->> fs/ntfs/inode.c:1081:36: error: 'ntfs_volume' has no member named 'sparse_compression_unit'
-    1081 |                                 vol->sparse_compression_unit) {
-         |                                    ^~
-   In file included from fs/ntfs/inode.h:25,
-                    from fs/ntfs/aops.h:18,
-                    from fs/ntfs/inode.c:18:
-   fs/ntfs/inode.c:1085:44: error: 'ntfs_volume' has no member named 'sparse_compression_unit'
-    1085 |                                         vol->sparse_compression_unit);
-         |                                            ^~
-   fs/ntfs/debug.h:55:73: note: in definition of macro 'ntfs_error'
-      55 | #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
-         |                                                                         ^
+>> fs/ntfs/inode.c:1081:10: error: no member named 'sparse_compression_unit' in 'ntfs_volume'
+                                   vol->sparse_compression_unit) {
+                                   ~~~  ^
+   fs/ntfs/inode.c:1085:11: error: no member named 'sparse_compression_unit' in 'ntfs_volume'
+                                           vol->sparse_compression_unit);
+                                           ~~~  ^
+   fs/ntfs/debug.h:55:66: note: expanded from macro 'ntfs_error'
+   #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
+                                                                           ^
+   2 errors generated.
 
 
 vim +1081 fs/ntfs/inode.c
