@@ -1,84 +1,84 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8DC68C0015E
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Aug 2023 09:00:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id AA4A5C0015E
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Aug 2023 09:00:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 1384360FFD;
-	Tue, 15 Aug 2023 09:00:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1384360FFD
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UOVLMspB
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 4GkMtQLQbigO; Tue, 15 Aug 2023 08:59:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C0A2C60B15;
-	Tue, 15 Aug 2023 08:59:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C0A2C60B15
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B088C0072;
-	Tue, 15 Aug 2023 08:59:58 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id F1572C0032
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 08:59:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id C30B341808
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 08:59:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C30B341808
+	by smtp4.osuosl.org (Postfix) with ESMTP id 21C6641829;
+	Tue, 15 Aug 2023 09:00:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 21C6641829
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
- header.a=rsa-sha256 header.s=Intel header.b=UOVLMspB
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JioSr/GT
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kztlAlOSJots
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jy7fTm_4XH2i; Tue, 15 Aug 2023 09:00:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7BFD441806;
+	Tue, 15 Aug 2023 09:00:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7BFD441806
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 59049C0072;
+	Tue, 15 Aug 2023 09:00:32 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 1A592C0032
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 08:59:54 +0000 (UTC)
-X-Greylist: delayed 427 seconds by postgrey-1.37 at util1.osuosl.org;
- Tue, 15 Aug 2023 08:59:54 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6C6F141806
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 6C6F141806
+ Tue, 15 Aug 2023 09:00:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id DC20660FD9
  for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 15 Aug 2023 08:59:54 +0000 (UTC)
+ Tue, 15 Aug 2023 09:00:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DC20660FD9
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=JioSr/GT
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Ko4E-H2uokry
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Aug 2023 09:00:28 +0000 (UTC)
+X-Greylist: delayed 429 seconds by postgrey-1.37 at util1.osuosl.org;
+ Tue, 15 Aug 2023 09:00:28 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6B3F260B15
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6B3F260B15
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 15 Aug 2023 09:00:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1692089994; x=1723625994;
+ t=1692090028; x=1723626028;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=5Sm5/qnqxAxyQO+s/4YGC4l8jiOKtdqXvkk51HFIr0w=;
- b=UOVLMspBkuwbAq/XxY1cDiezCYJUe/2TS7TNlu9+1WuosGL8WEaneLBv
- 9bCgZu+xWfLRIQhuNt5rH2mXipZ2cSERFn8VN5ZdzCHe8+xHKUgF3FOAz
- yXDal2k/+LAWv2oQbathdOb63QNN935UYXpQiZJw/Phio5FGJbNvw2lAJ
- J/gNc5777gKFtarpcOb0cU72qXNVpeUL0wQsuMZjwxkbRbjJhSSF+db3E
- gARyPDNegzb7TwCUWHyl/3mRl+UM65Rm3Rgwsi77QMj8gZSG+ik2euQhp
- sbrvXfMCMGGtHlyWIg5qAbxdvLhDzuOCFCKDbnE8Hm5JLyKBhiGkDMyQX A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="352558710"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="352558710"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Aug 2023 01:52:46 -0700
+ bh=uaFwGNIGZ1U4h59Fp01L1+bG1mfDR1Z7wf+Y67FcNNI=;
+ b=JioSr/GTzHGcaGgs2mK4B3D+bxNnrXsQLku9g/yMamtf2LZqBCkk+Nd6
+ q+ounuFtSk8BG9rxuk7O3lgKxULt0wPjkaDjjpFxQZPycC/erCf274GQN
+ Z3fQvtqZC8JVJRhydLSyGAOcN4esPm7AMqfX9OSsXA6bNIh3kuu08Qo3K
+ RqIk7jz5fBTiKZY7b//hqeNa9iqKKOswEKolzh6jAPQ5NLpCgTAtaYJ/U
+ 6fLu5YZVI6DeoYO5B/nEjwpiXZj+Tfebp/s07vhmMoXgo1PV6tP7y2UoJ
+ SAUBSENJb0P/rxjrhk+arIl2iolgkC+7j5Xslahw+BiLeqnUHfwQp8Wy3 g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="436131196"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="436131196"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Aug 2023 01:53:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="980302382"
-X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="980302382"
+X-IronPort-AV: E=McAfee;i="6600,9927,10802"; a="799131782"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; d="scan'208";a="799131782"
 Received: from lkp-server02.sh.intel.com (HELO b5fb8d9e1ffc) ([10.239.97.151])
- by fmsmga006.fm.intel.com with ESMTP; 15 Aug 2023 01:52:43 -0700
+ by fmsmga008.fm.intel.com with ESMTP; 15 Aug 2023 01:53:12 -0700
 Received: from kbuild by b5fb8d9e1ffc with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1qVpn2-0000oF-2y;
- Tue, 15 Aug 2023 08:52:38 +0000
+ (envelope-from <lkp@intel.com>) id 1qVpn8-0000oH-35;
+ Tue, 15 Aug 2023 08:52:52 +0000
 Date: Tue, 15 Aug 2023 16:52:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Manas Ghandat <ghandatmanas@gmail.com>, anton@tuxera.com,
  linkinjeon@kernel.org
 Subject: Re: [PATCH v5] ntfs : fix shift-out-of-bounds in ntfs_iget
-Message-ID: <202308151606.3Xy20wzx-lkp@intel.com>
+Message-ID: <202308151601.LQ3EIAQF-lkp@intel.com>
 References: <20230815052251.107732-1-ghandatmanas@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
@@ -120,27 +120,111 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Manas-Ghandat/ntfs-fix-sh
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20230815052251.107732-1-ghandatmanas%40gmail.com
 patch subject: [PATCH v5] ntfs : fix shift-out-of-bounds in ntfs_iget
-config: i386-randconfig-i002-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151606.3Xy20wzx-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151606.3Xy20wzx-lkp@intel.com/reproduce)
+config: hexagon-randconfig-r045-20230815 (https://download.01.org/0day-ci/archive/20230815/202308151601.LQ3EIAQF-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230815/202308151601.LQ3EIAQF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202308151606.3Xy20wzx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202308151601.LQ3EIAQF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
+   In file included from fs/ntfs/inode.c:8:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/ntfs/inode.c:8:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/ntfs/inode.c:8:
+   In file included from include/linux/buffer_head.h:12:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
 >> fs/ntfs/inode.c:1081:10: error: no member named 'sparse_compression_unit' in 'ntfs_volume'
-                                   vol->sparse_compression_unit) {
-                                   ~~~  ^
+    1081 |                                 vol->sparse_compression_unit) {
+         |                                 ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> fs/ntfs/inode.c:1081:10: error: no member named 'sparse_compression_unit' in 'ntfs_volume'
+    1081 |                                 vol->sparse_compression_unit) {
+         |                                 ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> fs/ntfs/inode.c:1081:10: error: no member named 'sparse_compression_unit' in 'ntfs_volume'
+    1081 |                                 vol->sparse_compression_unit) {
+         |                                 ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
    fs/ntfs/inode.c:1085:11: error: no member named 'sparse_compression_unit' in 'ntfs_volume'
-                                           vol->sparse_compression_unit);
-                                           ~~~  ^
+    1085 |                                         vol->sparse_compression_unit);
+         |                                         ~~~  ^
    fs/ntfs/debug.h:55:66: note: expanded from macro 'ntfs_error'
-   #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
-                                                                           ^
-   2 errors generated.
+      55 | #define ntfs_error(sb, f, a...)         __ntfs_error(__func__, sb, f, ##a)
+         |                                                                         ^
+   6 warnings and 4 errors generated.
 
 
 vim +1081 fs/ntfs/inode.c
@@ -844,3 +928,4 @@ _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
