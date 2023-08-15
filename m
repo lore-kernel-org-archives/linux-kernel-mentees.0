@@ -4,107 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1292CC001DB
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 14 Aug 2023 22:54:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 102E1C001B0
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 15 Aug 2023 04:08:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 916B9415EB;
-	Mon, 14 Aug 2023 22:54:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 916B9415EB
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8BDBF40869;
+	Tue, 15 Aug 2023 04:08:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8BDBF40869
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=XC8KnyPg
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=pXh3wdDu
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 67NbRmcIgpKO; Mon, 14 Aug 2023 22:54:18 +0000 (UTC)
+	with ESMTP id OIsnFvaO4Zx4; Tue, 15 Aug 2023 04:08:32 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 329D340959;
-	Mon, 14 Aug 2023 22:54:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 329D340959
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 109A140865;
+	Tue, 15 Aug 2023 04:08:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 109A140865
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1AF52C0071;
-	Mon, 14 Aug 2023 22:54:18 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15D32C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC14EC0071;
+	Tue, 15 Aug 2023 04:08:31 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 88A9BC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 22:54:17 +0000 (UTC)
+ Tue, 15 Aug 2023 04:08:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id D2F0581391
+ by smtp2.osuosl.org (Postfix) with ESMTP id 69B0240382
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 22:54:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D2F0581391
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com
- header.a=rsa-sha256 header.s=qcppdkim1 header.b=XC8KnyPg
+ Tue, 15 Aug 2023 04:08:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 69B0240382
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=pXh3wdDu
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tnn961FuVzMp
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ROTysr9FSHXG
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 22:54:16 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2BC8681210
+ Tue, 15 Aug 2023 04:08:29 +0000 (UTC)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 7AB0340114
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 14 Aug 2023 22:54:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2BC8681210
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 37ELxkOQ031993; Mon, 14 Aug 2023 22:31:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=aqvogJ3Gg6Ldr/fyhM0dIyPC+xh6v86/zGhN0n8wpiI=;
- b=XC8KnyPgz7+Jc2xX0zs7B0+5qOVicX4w/rfXyn/n01o1WaAu/4Z9xJWjZ78dTBOjCCOo
- oO8GZFaMrnNYzI4TN+M8mCNVchQ5bDw+IYc6FB/XvkBJBByVcbPxfY5oGby6kL45WFZM
- N24/kDYvTymeHengEgF7VVVx2c8kbJxcJghWfVUQkX/0Z7tToDB5duiwXms0Ggu4zVha
- TgBlJEPhjy+RiAju3Jt+NlxmG1yvaSahsDV2fM4nyW+76NhCp2KuB7IGl5JwuG505f8C
- vu8N1hZqAzUL6W5sMW79/nsuvM2KDVxZXv8gLqH4thVGyVHDUOZd9qly8DB4VGWefbAD iA== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3sffxt9tng-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Aug 2023 22:31:06 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 37EMV5CZ007350
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 14 Aug 2023 22:31:05 GMT
-Received: from [10.48.240.144] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.36; Mon, 14 Aug
- 2023 15:31:04 -0700
-Message-ID: <bc736eb5-3240-48af-38e1-0728ef43211b@quicinc.com>
-Date: Mon, 14 Aug 2023 15:31:03 -0700
+ Tue, 15 Aug 2023 04:08:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7AB0340114
+Received: by mail-wm1-x334.google.com with SMTP id
+ 5b1f17b1804b1-3fe1e1142caso49478875e9.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 14 Aug 2023 21:08:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692072507; x=1692677307;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=anT8jKhSoDVocUIDbiLfqy7dD2AOUweYjEowk202rTE=;
+ b=pXh3wdDuavmAXAWIopZ2tsVh81/1AfndoZfZCz6/vScMlf2CL0WH/iRhg39OnJbi96
+ Mi6oLJlMJ/nsCF54S1G09ZWjPd9vznFlZ3Zry6G3nn00GLfg2bHUu4RH1Ak6x3s8NDZL
+ pf4GLkgmBssOJX8mm7Tlwfi8nYngQz3TT6luj14EsoxJPXmMSHTyhvcg4kzCyG1aDN31
+ moOXSAe0JMwiawhxdNx3ZXSLwp2MFZ5kGCL3gFB4al8mQvJuPYMHOjWIBILFSIB+kKxr
+ 6xFm04W11jT9eob7hbPxd4mV+/bqzsVLXYK1JUbcUmavyOY1wvPj+fcf8D06MyLRFmtl
+ YTfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692072507; x=1692677307;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=anT8jKhSoDVocUIDbiLfqy7dD2AOUweYjEowk202rTE=;
+ b=hZ00w+Y+m93tnaSkTw3OKA8Sz9aYWPRb0DhtV1LP26xo1x0LKZwtiMNjY6ilZrbbKi
+ UJz9WlsnUQOnuRT8wWMZEx+DAIssOXjBM2PsGnQNh5EY31BSDP+rdoa9bCnt8maTahax
+ lfTgyAli9d+XivForRgz/NwRiijO1LMv0IZjhb1wCSiQ+p/reIVJBhbBefRvxos6lcrX
+ er8U5YLRIKvPJBN+zsrQ8hxpQPP9sXJ6Gnp4dn9ywWdD5pDyRdoGgGb5flISNDKnlP/T
+ SZo8YUvIiuVLzBngqbz0LZ+kyfjBzZWJ514P1Q+9DHxJJ+wQzH7b+4XqYA7BexdMqp6S
+ eKGQ==
+X-Gm-Message-State: AOJu0YzB7cCgGfH5KIeduchHZaDGdnOzSKjvCCax0wPM9nFsP2vVWC6g
+ 1+QW9C+UwslVYF5bmiWMqt0=
+X-Google-Smtp-Source: AGHT+IGqJCddhtqQ3on45c/KeSIusPEi1z8qJoVUzy5BtApUx75l6r8iKgX+6HNVY9FMuRS0MrcGLw==
+X-Received: by 2002:a7b:cc8d:0:b0:3f4:d18f:b2fb with SMTP id
+ p13-20020a7bcc8d000000b003f4d18fb2fbmr9080082wma.8.1692072507328; 
+ Mon, 14 Aug 2023 21:08:27 -0700 (PDT)
+Received: from mmaatuq-HP-Laptop-15-dy2xxx..
+ ([2001:8f8:1163:806e:5eb8:ff79:bda:b103])
+ by smtp.gmail.com with ESMTPSA id
+ p1-20020adfcc81000000b003179b3fd837sm16375286wrj.33.2023.08.14.21.08.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Aug 2023 21:08:26 -0700 (PDT)
+From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+To: jirislaby@kernel.org, mickflemm@gmail.com, mcgrof@kernel.org,
+ kvalo@kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ath5k: fix WARNING opportunity for swap.
+Date: Tue, 15 Aug 2023 08:08:19 +0400
+Message-Id: <20230815040819.649455-1-mahmoudmatook.mm@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] ath5k: fix WARNING opportunity for swap.
-Content-Language: en-US
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-To: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>, <jirislaby@kernel.org>,
- <mickflemm@gmail.com>, <mcgrof@kernel.org>, <kvalo@kernel.org>,
- <linux-wireless@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20230814200234.637583-1-mahmoudmatook.mm@gmail.com>
- <01fc3da3-dc67-8873-dd59-f77a7d067f33@quicinc.com>
-In-Reply-To: <01fc3da3-dc67-8873-dd59-f77a7d067f33@quicinc.com>
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: qFxs8487Xz6MPaaFVBu7-5rvpo5ZASbB
-X-Proofpoint-GUID: qFxs8487Xz6MPaaFVBu7-5rvpo5ZASbB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-14_18,2023-08-10_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=997 spamscore=0
- malwarescore=0 clxscore=1015 suspectscore=0 adultscore=0 bulkscore=0
- mlxscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308140206
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,70 +108,99 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gOC8xNC8yMDIzIDM6MjggUE0sIEplZmYgSm9obnNvbiB3cm90ZToKPiBPbiA4LzE0LzIwMjMg
-MTowMiBQTSwgTWFobW91ZCBNYWF0dXEgd3JvdGU6Cj4+IGNvY2NpbmllbGxlIHJlcG9ydGVkIHRo
-ZSBmb2xsb3dpbmc6Cj4+IC4vZHJpdmVycy9uZXQvd2lyZWxlc3MvYXRoL2F0aDVrL3BoeS5jOjE1
-NzM6MjUtMjY6IFdBUk5JTkcgb3Bwb3J0dW5pdHkgCj4+IGZvciBzd2FwKCkKPiAKPiBTdWdnZXN0
-IHlvdSBhZGQgc29tZXRoaW5nIGxpa2U6Cj4gCj4gVGhpcyByZXZlYWxlZCB0aGF0IGF0aDVrX2h3
-X2dldF9tZWRpYW5fbm9pc2VfZmxvb3IoKSBoYWQgb3Blbi1jb2RlZCAKPiBzb3J0KCkgZnVuY3Rp
-b25hbGl0eS4gU2luY2UgYXRoNWtfaHdfZ2V0X21lZGlhbl9ub2lzZV9mbG9vcigpIG9ubHkgCj4g
-ZXhlY3V0ZXMgb25jZSBldmVyeSAxMCBzZWNvbmRzLCBhbnkgZXh0cmEgb3ZlcmhlYWQgZHVlIHRv
-IHNvcnQoKSBjYWxsaW5nIAo+IGl0J3MgImNvbXBhcmUiIGFuZCAic3dhcCIgZnVuY3Rpb25zIGNh
-biBiZSBpZ25vcmVkLCBzbyByZXBsYWNlIHRoZSAKCjxibHVzaD4gYW5kIG9mIGNvdXJzZSB0aGF0
-IHNob3VsZCBiZSBpdHMgYW5kIG5vdCBpdCdzIDwvYmx1c2g+Cgo+IGV4aXN0aW5nIGxvZ2ljIHdp
-dGggYSBjYWxsIHRvIHNvcnQoKS4KPiAKPiBhbmQgYmVmb3JlIHlvdXIgU09CIGFkZDoKPiBTdWdn
-ZXN0ZWQtYnk6IEppcmkgU2xhYnkgPGppcmlzbGFieUBrZXJuZWwub3JnPgo+IAo+PiBTaWduZWQt
-b2ZmLWJ5OiBNYWhtb3VkIE1hYXR1cSA8bWFobW91ZG1hdG9vay5tbUBnbWFpbC5jb20+Cj4+IC0t
-LQo+PiBjaGFuZ2VzIGluIHYxOgo+PiAtIHJlcGxhY2UgdGhlIGVudGlyZSBkb3VibGUgbG9vcCB3
-aXRoIHNvcnQoKQo+PiDCoMKgIGFzIHN1Z2dlc3RlZCBieSBKaXJpIFNsYWJ5IDxqaXJpc2xhYnlA
-a2VybmVsLm9yZz4KPj4gLS0tCj4+IMKgIGRyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9w
-aHkuYyB8IDI5ICsrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0KPj4gwqAgMSBmaWxlIGNoYW5n
-ZWQsIDEzIGluc2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQo+Pgo+PiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9uZXQvd2lyZWxlc3MvYXRoL2F0aDVrL3BoeS5jIAo+PiBiL2RyaXZlcnMvbmV0L3dp
-cmVsZXNzL2F0aC9hdGg1ay9waHkuYwo+PiBpbmRleCA1Nzk3ZWY5YzczZDcuLjdlZTRlMTYxNmY0
-NSAxMDA2NDQKPj4gLS0tIGEvZHJpdmVycy9uZXQvd2lyZWxlc3MvYXRoL2F0aDVrL3BoeS5jCj4+
-ICsrKyBiL2RyaXZlcnMvbmV0L3dpcmVsZXNzL2F0aC9hdGg1ay9waHkuYwo+PiBAQCAtMjYsNiAr
-MjYsNyBAQAo+PiDCoCAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4KPj4gwqAgI2luY2x1ZGUgPGxp
-bnV4L3NsYWIuaD4KPj4gKyNpbmNsdWRlIDxsaW51eC9zb3J0Lmg+Cj4+IMKgICNpbmNsdWRlIDxh
-c20vdW5hbGlnbmVkLmg+Cj4+IMKgICNpbmNsdWRlICJhdGg1ay5oIgo+PiBAQCAtMTU1NCw2ICsx
-NTU1LDExIEBAIHN0YXRpYyB2b2lkIGF0aDVrX2h3X3VwZGF0ZV9uZmNhbF9oaXN0KHN0cnVjdCAK
-Pj4gYXRoNWtfaHcgKmFoLCBzMTYgbm9pc2VfZmxvb3IpCj4+IMKgwqDCoMKgwqAgaGlzdC0+bmZ2
-YWxbaGlzdC0+aW5kZXhdID0gbm9pc2VfZmxvb3I7Cj4+IMKgIH0KPj4gK3N0YXRpYyBpbnQgY21w
-czE2KGNvbnN0IHZvaWQgKmEsIGNvbnN0IHZvaWQgKmIpCj4+ICt7Cj4+ICvCoMKgwqAgcmV0dXJu
-ICooczE2ICopYSAtICooczE2ICopYjsKPj4gK30KPj4gKwo+PiDCoCAvKioKPj4gwqDCoCAqIGF0
-aDVrX2h3X2dldF9tZWRpYW5fbm9pc2VfZmxvb3IoKSAtIEdldCBtZWRpYW4gTkYgZnJvbSBoaXN0
-b3J5IAo+PiBidWZmZXIKPj4gwqDCoCAqIEBhaDogVGhlICZzdHJ1Y3QgYXRoNWtfaHcKPj4gQEAg
-LTE1NjEsMjUgKzE1NjcsMTYgQEAgc3RhdGljIHZvaWQgYXRoNWtfaHdfdXBkYXRlX25mY2FsX2hp
-c3Qoc3RydWN0IAo+PiBhdGg1a19odyAqYWgsIHMxNiBub2lzZV9mbG9vcikKPj4gwqAgc3RhdGlj
-IHMxNgo+PiDCoCBhdGg1a19od19nZXRfbWVkaWFuX25vaXNlX2Zsb29yKHN0cnVjdCBhdGg1a19o
-dyAqYWgpCj4+IMKgIHsKPj4gLcKgwqDCoCBzMTYgc29ydFtBVEg1S19ORl9DQUxfSElTVF9NQVhd
-Owo+PiAtwqDCoMKgIHMxNiB0bXA7Cj4+IC3CoMKgwqAgaW50IGksIGo7Cj4+IC0KPj4gLcKgwqDC
-oCBtZW1jcHkoc29ydCwgYWgtPmFoX25mY2FsX2hpc3QubmZ2YWwsIHNpemVvZihzb3J0KSk7Cj4+
-IC3CoMKgwqAgZm9yIChpID0gMDsgaSA8IEFUSDVLX05GX0NBTF9ISVNUX01BWCAtIDE7IGkrKykg
-ewo+PiAtwqDCoMKgwqDCoMKgwqAgZm9yIChqID0gMTsgaiA8IEFUSDVLX05GX0NBTF9ISVNUX01B
-WCAtIGk7IGorKykgewo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoc29ydFtqXSA+IHNv
-cnRbaiAtIDFdKSB7Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdG1wID0gc29y
-dFtqXTsKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzb3J0W2pdID0gc29ydFtq
-IC0gMV07Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc29ydFtqIC0gMV0gPSB0
-bXA7Cj4+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPj4gLcKgwqDCoMKgwqDCoMKgIH0KPj4g
-LcKgwqDCoCB9Cj4+ICvCoMKgwqAgczE2IHNvcnRlZF9uZnZhbFtBVEg1S19ORl9DQUxfSElTVF9N
-QVhdOwo+PiArwqDCoMKgIGludCBpOwo+PiArCj4+ICvCoMKgwqAgbWVtY3B5KHNvcnRlZF9uZnZh
-bCwgYWgtPmFoX25mY2FsX2hpc3QubmZ2YWwsIHNpemVvZihzb3J0ZWRfbmZ2YWwpKTsKPj4gK8Kg
-wqDCoCBzb3J0KHNvcnRlZF9uZnZhbCwgQVRINUtfTkZfQ0FMX0hJU1RfTUFYLCBzaXplb2YoczE2
-KSwgY21wczE2LCAKPj4gTlVMTCk7Cj4+IMKgwqDCoMKgwqAgZm9yIChpID0gMDsgaSA8IEFUSDVL
-X05GX0NBTF9ISVNUX01BWDsgaSsrKSB7Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBBVEg1S19EQkco
-YWgsIEFUSDVLX0RFQlVHX0NBTElCUkFURSwKPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgImNh
-bCAlZDolZFxuIiwgaSwgc29ydFtpXSk7Cj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICJjYWwg
-JWQ6JWRcbiIsIGksIHNvcnRlZF9uZnZhbFtpXSk7Cj4+IMKgwqDCoMKgwqAgfQo+PiAtwqDCoMKg
-IHJldHVybiBzb3J0WyhBVEg1S19ORl9DQUxfSElTVF9NQVggLSAxKSAvIDJdOwo+PiArwqDCoMKg
-IHJldHVybiBzb3J0ZWRfbmZ2YWxbKEFUSDVLX05GX0NBTF9ISVNUX01BWCAtIDEpIC8gMl07Cj4+
-IMKgIH0KPj4gwqAgLyoqCj4gCgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVs
-LW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91
-bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+coccinielle reported the following:
+./drivers/net/wireless/ath/ath5k/phy.c:1573:25-26: WARNING opportunity for swap()
+
+while trying to fix the above warning, it reveals that ath5k_hw_get_median_noise_floor() 
+had open-coded sort() functionality. Since ath5k_hw_get_median_noise_floor() only
+executes once every 10 seconds, any extra overhead due to sort() calling
+its "compare" and "swap" functions can be ignored, so replace the
+existing logic with a call to sort().
+
+Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+---
+changes in v2:
+- update the commit message explaining why open-coded sort()
+  functionality is replaced with a call to sort().
+
+- this part of updating the commit message is suggested by
+   Jeff Johnson <quic_jjohnson@quicinc.com>
+
+changes in v1:
+- replace the entire double loop with sort()
+  as suggested by Jiri Slaby <jirislaby@kernel.org>
+---
+ drivers/net/wireless/ath/ath5k/phy.c | 29 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/net/wireless/ath/ath5k/phy.c b/drivers/net/wireless/ath/ath5k/phy.c
+index 5797ef9c73d7..7ee4e1616f45 100644
+--- a/drivers/net/wireless/ath/ath5k/phy.c
++++ b/drivers/net/wireless/ath/ath5k/phy.c
+@@ -26,6 +26,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/slab.h>
++#include <linux/sort.h>
+ #include <asm/unaligned.h>
+ 
+ #include "ath5k.h"
+@@ -1554,6 +1555,11 @@ static void ath5k_hw_update_nfcal_hist(struct ath5k_hw *ah, s16 noise_floor)
+ 	hist->nfval[hist->index] = noise_floor;
+ }
+ 
++static int cmps16(const void *a, const void *b)
++{
++	return *(s16 *)a - *(s16 *)b;
++}
++
+ /**
+  * ath5k_hw_get_median_noise_floor() - Get median NF from history buffer
+  * @ah: The &struct ath5k_hw
+@@ -1561,25 +1567,16 @@ static void ath5k_hw_update_nfcal_hist(struct ath5k_hw *ah, s16 noise_floor)
+ static s16
+ ath5k_hw_get_median_noise_floor(struct ath5k_hw *ah)
+ {
+-	s16 sort[ATH5K_NF_CAL_HIST_MAX];
+-	s16 tmp;
+-	int i, j;
+-
+-	memcpy(sort, ah->ah_nfcal_hist.nfval, sizeof(sort));
+-	for (i = 0; i < ATH5K_NF_CAL_HIST_MAX - 1; i++) {
+-		for (j = 1; j < ATH5K_NF_CAL_HIST_MAX - i; j++) {
+-			if (sort[j] > sort[j - 1]) {
+-				tmp = sort[j];
+-				sort[j] = sort[j - 1];
+-				sort[j - 1] = tmp;
+-			}
+-		}
+-	}
++	s16 sorted_nfval[ATH5K_NF_CAL_HIST_MAX];
++	int i;
++
++	memcpy(sorted_nfval, ah->ah_nfcal_hist.nfval, sizeof(sorted_nfval));
++	sort(sorted_nfval, ATH5K_NF_CAL_HIST_MAX, sizeof(s16), cmps16, NULL);
+ 	for (i = 0; i < ATH5K_NF_CAL_HIST_MAX; i++) {
+ 		ATH5K_DBG(ah, ATH5K_DEBUG_CALIBRATE,
+-			"cal %d:%d\n", i, sort[i]);
++			"cal %d:%d\n", i, sorted_nfval[i]);
+ 	}
+-	return sort[(ATH5K_NF_CAL_HIST_MAX - 1) / 2];
++	return sorted_nfval[(ATH5K_NF_CAL_HIST_MAX - 1) / 2];
+ }
+ 
+ /**
+-- 
+2.34.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
