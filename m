@@ -1,76 +1,76 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 959E7C07E8A
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Aug 2023 18:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDFA3C19F4F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Aug 2023 19:16:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EDD388217D;
-	Wed, 16 Aug 2023 18:38:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EDD388217D
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4LQCWKgU
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1FBF541DF7;
+	Wed, 16 Aug 2023 19:16:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1FBF541DF7
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=jmUg4WZv
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id S6Ruae2HNT4r; Wed, 16 Aug 2023 18:38:53 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6A2B7820A2;
-	Wed, 16 Aug 2023 18:38:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6A2B7820A2
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 9Slvk4tpbqjD; Wed, 16 Aug 2023 19:15:59 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E2E5141D8A;
+	Wed, 16 Aug 2023 19:15:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E2E5141D8A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4CAEFC0071;
-	Wed, 16 Aug 2023 18:38:53 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 1E541C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 18:38:51 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C1D2AC0072;
+	Wed, 16 Aug 2023 19:15:58 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3CF1BC0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 19:15:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 06455820CC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 18:38:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 06455820CC
+ by smtp4.osuosl.org (Postfix) with ESMTP id 08E3741D96
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 19:15:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 08E3741D96
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cTwX-sX4bidH
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 18:38:49 +0000 (UTC)
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 25837820A2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 18:38:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 25837820A2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=Zt0oIUR7CPyOLzen8uwt/eQkJhMyoct9UDoUX3KYy9w=; b=4LQCWKgUm1uweQAPl58aV65Jjg
- IX4nraKfDHtq1oTAbepnVOGSPyAWWfQ4VefJaI0s8DpCrRaWZdlkiTZqSdQ3GMipKyrWbP5Oi03Ok
- QfLIbNaXV5YRFr8YE2RnoICQRW207MvP69Ov6eevZi37iadRfuuKWZz4E327Cvq/AxXkUwYfM57+d
- CJk3yQRJ5kdEMjwkI2AHONGEwArp16+wSefizti8D4HvGQDm0fnq1ajcsV3IivGaxWGWLGPVPTlZn
- TiPIkA/lUpnPTjt7Up6uFImFfdVHuYIYct6pGp5ZsPpw6lBgjzVoQxmhsDXudLHyt2OPGqGJHCDpA
- iWY1hX4g==;
-Received: from [2601:1c2:980:9ec0::2764]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qWLPp-004on9-1W; Wed, 16 Aug 2023 18:38:45 +0000
-Message-ID: <1595571f-e69a-319e-0f8e-708c222706cb@infradead.org>
-Date: Wed, 16 Aug 2023 11:38:44 -0700
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id K8o_y7wMy0lU
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 19:15:57 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id F346B41D8A
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 19:15:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F346B41D8A
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 26A4161FED;
+ Wed, 16 Aug 2023 19:15:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1380DC433C7;
+ Wed, 16 Aug 2023 19:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1692213355;
+ bh=72YlqPhkOdrbhyCp3YFbVRU56Qy6DgtXMIcnpb3LfUs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jmUg4WZvE56CBBpixX0YhC43+TGzHWtj8Ly1JmOeeef/GO/dl9RPsvAZOIT9anLlT
+ Xuo/FYNFQMw/6UmVgLhevpIIVmaUzLxnF8YTTw0NMDvSSfjVTjWHGHIZbRoUnhaHXu
+ dvGmt8QFVClqfUHcGS/ifXY+JgPBgDq6OOOlBP+U=
+Date: Wed, 16 Aug 2023 21:15:52 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Manas Ghandat <ghandatmanas@gmail.com>
+Subject: Re: [PATCH v4] ntfs : fix shift-out-of-bounds in ntfs_iget
+Message-ID: <2023081621-mosaic-untwist-a786@gregkh>
+References: <20230813055948.12513-1-ghandatmanas@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.14.0
-Subject: Re: [PATCH] dma: dmatest: Use div64_s64
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>, coolrrsh@gmail.com
-References: <20230816060400.3325-1-coolrrsh@gmail.com>
- <2023081654-dormitory-vocally-02f7@gregkh>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2023081654-dormitory-vocally-02f7@gregkh>
-Cc: dmaengine@vger.kernel.org, vkoul@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20230813055948.12513-1-ghandatmanas@gmail.com>
+Cc: linux-ntfs-dev@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+ syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com,
+ linux-fsdevel@vger.kernel.org, Linux-kernel-mentees@lists.linuxfoundation.org,
+ linkinjeon@kernel.org, anton@tuxera.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -88,52 +88,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-
-On 8/16/23 08:16, Greg KH wrote:
-> On Wed, Aug 16, 2023 at 11:34:00AM +0530, coolrrsh@gmail.com wrote:
->> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
->>
->> In the function do_div, the dividend is evaluated multiple times
->> so it can cause side effects. Therefore replace it with div64_s64.
->>
->> This fixes warning such as:
->> drivers/dma/dmatest.c:496:1-7:
->> WARNING: do_div() does a 64-by-32 division,
->> please consider using div64_s64 instead.
->>
->> Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
->> ---
->>  drivers/dma/dmatest.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/dma/dmatest.c b/drivers/dma/dmatest.c
->> index ffe621695e47..07042f239db8 100644
->> --- a/drivers/dma/dmatest.c
->> +++ b/drivers/dma/dmatest.c
->> @@ -9,6 +9,7 @@
->>  
->>  #include <linux/err.h>
->>  #include <linux/delay.h>
->> +#include <linux/math64.h>
->>  #include <linux/dma-mapping.h>
->>  #include <linux/dmaengine.h>
->>  #include <linux/freezer.h>
->> @@ -493,7 +494,7 @@ static unsigned long long dmatest_persec(s64 runtime, unsigned int val)
->>  
->>  	per_sec *= val;
->>  	per_sec = INT_TO_FIXPT(per_sec);
->> -	do_div(per_sec, runtime);
->> +	per_sec=div64_s64(per_sec, runtime);
+On Sun, Aug 13, 2023 at 11:29:49AM +0530, Manas Ghandat wrote:
+> Currently there is not check for ni->itype.compressed.block_size when
+> a->data.non_resident.compression_unit is present and NInoSparse(ni) is
+> true. Added the required check to calculation of block size.
 > 
-> Please always run checkpatch.pl on your changes before submitting them
-> for others to review.
+> Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+> Reported-by: syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
+> Fix-commit-ID: upstream f40ddce88593482919761f74910f42f4b84c004b
 
-Also please tell us what tool produced that warning message.
-Thanks.
+What is this last tag for?  That's a kernel release version, what can be
+done with that?
 
--- 
-~Randy
+confused,
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
