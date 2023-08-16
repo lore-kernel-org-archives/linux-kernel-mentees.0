@@ -1,104 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 703ECC04FDF
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Aug 2023 15:59:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id EB153C04A6A
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 16 Aug 2023 16:40:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EBB01416CB;
-	Wed, 16 Aug 2023 15:59:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EBB01416CB
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6C8E66139D;
+	Wed, 16 Aug 2023 16:40:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6C8E66139D
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=NHB1Kirn
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ywabsjEp5Vgk; Wed, 16 Aug 2023 16:40:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5F51E60ACC;
+	Wed, 16 Aug 2023 16:40:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5F51E60ACC
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3F2E6C0071;
+	Wed, 16 Aug 2023 16:40:21 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 13EDEC0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 16:40:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id D5601416E3
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 16:40:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D5601416E3
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=Y9009i98
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=NHB1Kirn
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id AH94R7dGfMYB; Wed, 16 Aug 2023 15:59:35 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E8F8B416BD;
-	Wed, 16 Aug 2023 15:59:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E8F8B416BD
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4D125C0072;
-	Wed, 16 Aug 2023 15:59:34 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5AFBCC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 15:59:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 28EAA8200E
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 15:59:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 28EAA8200E
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
- header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google
- header.b=Y9009i98
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tHB0rMB9Whxg
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 15:59:32 +0000 (UTC)
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4BA8782004
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 15:59:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4BA8782004
-Received: by mail-io1-xd2c.google.com with SMTP id
- ca18e2360f4ac-77dcff76e35so80376839f.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 16 Aug 2023 08:59:32 -0700 (PDT)
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id z2P67RBGsgnp
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 16:40:19 +0000 (UTC)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
+ [IPv6:2607:f8b0:4864:20::62c])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1AFD640232
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 16:40:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1AFD640232
+Received: by mail-pl1-x62c.google.com with SMTP id
+ d9443c01a7336-1bdfb11ea2aso13484765ad.2
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 16 Aug 2023 09:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1692201571; x=1692806371;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6LWn1wprpupG35+bMZ4L8PNbSMJ+ptPNw9QujPnf6hY=;
- b=Y9009i98a5k/RKDiCvgAVt/GpX9xfdqqSzhcRoZ4o5yRIf4K57F6CXkNhs4fCSxZHE
- gufo+/8vkgMf63/1JpsrRlmv/PgunPkbf9IQQKvFZpljRW4gK3Or+xkqA3dgQ9sRYAPq
- mx8lAzpcktGEMFRg42+fUjWmNnuPb6pfGq4dY=
+ d=gmail.com; s=20221208; t=1692204018; x=1692808818;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lpXtmiRdtXtrnVuj+yOd5/ldcPOOd3KtSDr9PtSjjpQ=;
+ b=NHB1Kirnobegb/kcu1DT8SxfH2r9i3kA/FMl1eEpCEgUxQUt6tXQ3PTBnk/DbE0h/y
+ k/ZNiyyMfYKu5iTilr1EU8FSbFxzeU5OfyatpKMQwc1kSUSXGYbHbYx0U1PpF5fF1Vkc
+ CubvRnJIP7rkjbLGISOReUrbh5/24BRmOnjQNTpW4K9VCRo4oVsxdN2PRcWxPg8Wpi3U
+ luAJ2/VSvnKT4I5hKRjI5GH0zodIBP7J5AWrsZbP5+cHlplgMaUD7kJ6chqyhmVotlLF
+ ofNmHf7tQks0vnVFDJdObvsqj09zODg9xZzzVXc8MY6muLp5Re/Oe41w8j/lQlJWOP+W
+ CvrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692201571; x=1692806371;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6LWn1wprpupG35+bMZ4L8PNbSMJ+ptPNw9QujPnf6hY=;
- b=O9psNwxAuE8ptNyJDj9Z8f9Q48C/Cenmc9dLw2uXNLR9dA+ZGLEmNnoO2Wyk857cq7
- 57fhb8OiSAOcGEcRHEU+2mBFUq0JQ4sWKUJnWJOzcvb1j63rIhHancqScaDy71fJKEuG
- U77YqRnZ4ZnXXd2hYv8otiB0MqjvmeOVk3ktMeS+9isaSN3bKw4Xz2F/3bID3EncB6r/
- UCQlG0MlTGfNYrZHL3FQ8c+bjKE8nDc8/PdUweRnsUAw7XcZGKhkoiaoRYYVDtD8Nl+3
- Y0cMr/6FOoRc8q2+UXkyPl45COIbEOZr5eJ8pvHHL6dUwP0djbpR5Kh31Wdcmn62CvGT
- mmMg==
-X-Gm-Message-State: AOJu0YyBj5L+J2c8HdlgzjPDjgqxzoMWCwqzuOloPIokP0fCNvVP9/Pl
- ceVLcrvdyqRy41LbG5uBefkGqTAh
-X-Google-Smtp-Source: AGHT+IGK4cdCETtfYgSH4T9D5jn2WTiDl9/1cLISPwpvLDfE4s5qSf8Ox8MxyoVcoyjql0bwO2/2jQ==
-X-Received: by 2002:a05:6602:3983:b0:783:63e8:3bfc with SMTP id
- bw3-20020a056602398300b0078363e83bfcmr3773980iob.0.1692201571288; 
- Wed, 16 Aug 2023 08:59:31 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
- b12-20020a5ea70c000000b0078702f4894asm4719286iod.9.2023.08.16.08.59.30
+ d=1e100.net; s=20221208; t=1692204018; x=1692808818;
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=lpXtmiRdtXtrnVuj+yOd5/ldcPOOd3KtSDr9PtSjjpQ=;
+ b=b1TREeSm0oWht0Nx7WPBgQ1pPRGNIvwpmbkVRUbY0dK9AX0tHsdfa/UG8ok/NFx8c0
+ xNqPta7VtxpgQauhSd9SLW07XLuLBm6MTCCMytREnQO1UmxBLZJ6tgFUKZICiMeYO3uJ
+ hn22I7/vHOWIT27g+8bAtFKQQzOG1ONwnV3JH3/aBRp5yOFt+TRRghP34e4ur1lzZtr3
+ gM/S9xdGhPzXxaWWGpvKLCHOIYwuQ9iYw1jZdWQtgkeh7ReKDOIHFelTljPTBAphbZy4
+ 52BpHv/MU6pj/izLl95hPGWisVKRQeX/8j5uN4jAobj/juZVX+uzKBQw7wRHrsYQ7iI/
+ NKJw==
+X-Gm-Message-State: AOJu0Yy+g9+sZFxqAt90D8u25BD3EnQwBTPYw/7RFBSu1sV3Ji7xt70s
+ s3FF7Q6YvAbj+FGu8IJ8+BK0fUbmzPESRuaf
+X-Google-Smtp-Source: AGHT+IFgmpqQTjnDicZXCXdWpUiVCZFVQJb0ZW+wO3g3PcrODJcTxoXS67BKCpC9Y/ka1nbYpEwtbQ==
+X-Received: by 2002:a17:902:ef89:b0:1bb:25bd:d09c with SMTP id
+ iz9-20020a170902ef8900b001bb25bdd09cmr2188237plb.1.1692204018320; 
+ Wed, 16 Aug 2023 09:40:18 -0700 (PDT)
+Received: from [10.0.2.15] ([103.37.201.179]) by smtp.gmail.com with ESMTPSA id
+ q24-20020a170902789800b001b8b1f6619asm13375124pll.75.2023.08.16.09.40.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Aug 2023 08:59:30 -0700 (PDT)
-Message-ID: <8d0c3075-22a0-bd13-45fe-f8c052e50588@linuxfoundation.org>
-Date: Wed, 16 Aug 2023 09:59:30 -0600
+ Wed, 16 Aug 2023 09:40:17 -0700 (PDT)
+Message-ID: <a1c9e590-2d42-23bc-bdf7-3f3c784284b5@gmail.com>
+Date: Wed, 16 Aug 2023 22:10:14 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
-Subject: Re: [PATCH v5] selftests: rtc: Fixes rtctest error handling.
 Content-Language: en-US
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Atul Kumar Pant <atulpant.linux@gmail.com>
-References: <20230717175251.54390-1-atulpant.linux@gmail.com>
- <202307172115223bd0669f@mail.local>
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <202307172115223bd0669f@mail.local>
-Cc: linux-rtc@vger.kernel.org, a.zummo@towertech.it,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, shuah@kernel.org
+To: viro@zeniv.linux.org.uk, brauner@kernel.org
+From: Manas Ghandat <ghandatmanas@gmail.com>
+Subject: [PATCH 0/1 ] fs: Warming in __brelse
+Cc: linux-fsdevel@vger.kernel.org,
+ Linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,72 +113,22 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 7/17/23 15:15, Alexandre Belloni wrote:
-> On 17/07/2023 23:22:51+0530, Atul Kumar Pant wrote:
->> Adds a check to verify if the rtc device file is valid or not
->> and prints a useful error message if the file is not accessible.
->>
->> Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
-> 
-> Please collect and keep the tags you got on previous versions
-> 
->> ---
->>
->> changes since v4:
->>      Updated the commit message.
->>
->> changes since v3:
->>      Added Linux-kselftest and Linux-kernel mailing lists.
->>
->> changes since v2:
->>      Changed error message when rtc file does not exist.
->>
->> changes since v1:
->>      Removed check for uid=0
->>      If rtc file is invalid, then exit the test.
->>
->>   tools/testing/selftests/rtc/rtctest.c | 11 ++++++++++-
->>   1 file changed, 10 insertions(+), 1 deletion(-)
->>
->> diff --git a/tools/testing/selftests/rtc/rtctest.c b/tools/testing/selftests/rtc/rtctest.c
->> index 63ce02d1d5cc..630fef735c7e 100644
->> --- a/tools/testing/selftests/rtc/rtctest.c
->> +++ b/tools/testing/selftests/rtc/rtctest.c
->> @@ -17,6 +17,7 @@
->>   #include <unistd.h>
->>   
->>   #include "../kselftest_harness.h"
->> +#include "../kselftest.h"
->>   
->>   #define NUM_UIE 3
->>   #define ALARM_DELTA 3
->> @@ -419,6 +420,8 @@ __constructor_order_last(void)
->>   
->>   int main(int argc, char **argv)
->>   {
->> +	int ret = -1;
->> +
->>   	switch (argc) {
->>   	case 2:
->>   		rtc_file = argv[1];
->> @@ -430,5 +433,11 @@ int main(int argc, char **argv)
->>   		return 1;
->>   	}
->>   
->> -	return test_harness_run(argc, argv);
->> +	// Run the test if rtc_file is valid
->> +	if (access(rtc_file, F_OK) == 0)
->> +		ret = test_harness_run(argc, argv);
->> +	else
->> +		ksft_exit_fail_msg("[ERROR]: Cannot access rtc file %s - Exiting\n", rtc_file);
+Hi,
 
-This should be skip not a fail. access() could for a number of reasons.
-Since the test isn't run when access() returns error, this would be a
-skip. Also the new message could be improved to use strerror() to
-print message with details on why access() failed.
-  
-thanks,
--- Shuah
+I was working on the following syzbot bug:
+
+https://syzkaller.appspot.com/bug?extid=ce3af36144a13b018cc7
+
+Upon debugging I found that in this case the buffer_head is having count 
+0 and then when __brelse is called it tries to free it. A simple 
+solution to this problem would be to remove the warn call. SInce in any 
+case the buffers only get freed if the count is present and consequently 
+the pointers are also set to null. Additionally we could add a check in 
+the has_bh_in_lru to also consider the counter.
+
+Link : 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/buffer.c?id=d192f5382581d972c4ae1b4d72e0b59b34cadeb9#n1509
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
