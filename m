@@ -1,100 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E98D2C2FC0E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Aug 2023 09:21:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E9137C2FC14
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Aug 2023 10:38:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2A7B541816;
-	Thu, 17 Aug 2023 09:21:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2A7B541816
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=fPihYR+i
+	by smtp1.osuosl.org (Postfix) with ESMTP id 742B483CD3;
+	Thu, 17 Aug 2023 10:38:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 742B483CD3
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=OMZXTeKw
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XpwirIbBo6Wa; Thu, 17 Aug 2023 09:21:57 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id gdSyBX8sznTK; Thu, 17 Aug 2023 10:38:01 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 348484180A;
-	Thu, 17 Aug 2023 09:21:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 348484180A
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 6CB6981EEE;
+	Thu, 17 Aug 2023 10:38:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6CB6981EEE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D73CC0071;
-	Thu, 17 Aug 2023 09:21:57 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A0CDAC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 483C2C0039;
+	Thu, 17 Aug 2023 10:38:01 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18E44C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 09:21:55 +0000 (UTC)
+ Thu, 17 Aug 2023 10:38:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 6DED441811
+ by smtp4.osuosl.org (Postfix) with ESMTP id E4E6442238
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 09:21:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6DED441811
+ Thu, 17 Aug 2023 10:37:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E4E6442238
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=OMZXTeKw
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a_jz38YR13ra
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 3VxcHh_yfqkC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 09:21:54 +0000 (UTC)
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com
- [IPv6:2607:f8b0:4864:20::436])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 33C424180A
+ Thu, 17 Aug 2023 10:37:59 +0000 (UTC)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0F4BC42161
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 09:21:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 33C424180A
-Received: by mail-pf1-x436.google.com with SMTP id
- d2e1a72fcca58-6889078ee66so1203306b3a.0
+ Thu, 17 Aug 2023 10:37:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0F4BC42161
+Received: by mail-pl1-x62a.google.com with SMTP id
+ d9443c01a7336-1bf078d5fb7so8308405ad.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 02:21:54 -0700 (PDT)
+ Thu, 17 Aug 2023 03:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692264113; x=1692868913;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SQs2iirMBYyeAMahOY50mDUR4NQKE6tkGZ5ZARpOjG0=;
- b=fPihYR+ioPrcnNvKWxJLA3AKVfaCi+u62mnwS5clWqWQG0qdhsfFZx9J+PjzLJKjib
- 0dxF6uuLdW392GKiDhckmYR8XXBk9vn0ET8erRmYrXuMUMs2jyGF637+mEOHiONFvSYF
- lZ6L3pGsdQfrR0rqygxtIwvHl5sh49wnkZXbOboD4pt/fLlK7WPu+Yt2zVvIOlWwq6GI
- cCSY8SBmmSOzYaI+KlNMVcsw2zlfnG+FNdZ+Lo/HcAGkwZfuAAFRT99ibu56T9Z3M/xU
- yOjJDLtpElcB3ligbcJ/C+Ojn3PkSX1oyc8vAUD9penYErHMVv88A5c3WqIpon4Ok23a
- 65jg==
+ d=gmail.com; s=20221208; t=1692268678; x=1692873478;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=e8u6STTTo0IQbi3lQd+vgtiTbyFEHsVCA7HA0UeiZdw=;
+ b=OMZXTeKwtW1HkrTRzX9/ceRnBHtM5YJ6w2M3N4KNUttvLDqZJeNUGjKnRFHkkkjJ7a
+ 4mWnKqvrd+W8U3GtAzJWdvpVjc/jxwVLPvnM2UjiYMXRfWk9T8va3JaUAvl1Cu/VJ6QH
+ Qfgvuvrp7iWpEcCodll03rjut+S44okzhw/avRSBxNp2naDF46FNu6cXCLbD/XiJgFpl
+ B+j4q4HhduNEz8/DyvzfsFD6xe8rM8WPhAH5j5djuIRt9J5E2dkDp8K9dK86MLjBmiN+
+ E5/e2s0eeHTRVn4RrM5TKSp0YwTLkdYtZS7lJS0RDHSuJo52Gfp2IhpqjilIfrdpQfUK
+ KVVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692264113; x=1692868913;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SQs2iirMBYyeAMahOY50mDUR4NQKE6tkGZ5ZARpOjG0=;
- b=llxPOMsgcHh3itmc2XwZOyzfVIM/DmJ4ITp6sxzvauxPKEq/NX4iIQDZtlTiMaFcMm
- PIfCkwr1jtDds4MWq6gR6q8gS2DLnNUQ1Th10O1HmMkjokXVLnc4mj1DFKS2mYUUMeSD
- SpV/Rt3O9jTYxZX8Bg1z2+6loKzu9jmJjJXsdUdUsOb+OjXs+w1NvdvSdberYFAho72S
- LVzvO/36qupm7StPbjdjbs/w4oqaQHo4PPCwtSB2CN+yYpNiUaPPoQgx5JPBISysavUB
- s6v1vZwLT4bdfdDeGxlTt6oUhXy7inytuGoXol4ya+FfTPkFgbpgL7PlwE4BTHIryCbV
- 9nTA==
-X-Gm-Message-State: AOJu0Yxe5T/SARBVG1MQmBuLrlPUAuwQNdVJNSGdLJbNB5tluIAMJhQw
- pjxjcDjmtLvfJLfe3b3p+VU=
-X-Google-Smtp-Source: AGHT+IECzFfJxHoNRPkfwgfOAyjabTcKnbc+FzB0G6CHancwE/uNi8x0hMrYxi2xagXdY6Qlk9e2PQ==
-X-Received: by 2002:a05:6a21:3e0c:b0:144:5d5b:8e24 with SMTP id
- bk12-20020a056a213e0c00b001445d5b8e24mr4198600pzc.24.1692264113469; 
- Thu, 17 Aug 2023 02:21:53 -0700 (PDT)
-Received: from atom0118 ([2405:201:c009:58e9:1afa:cf81:3a3:6ec8])
+ d=1e100.net; s=20221208; t=1692268678; x=1692873478;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=e8u6STTTo0IQbi3lQd+vgtiTbyFEHsVCA7HA0UeiZdw=;
+ b=KFmVfALv10d9Kwms+soxs1IDqR/yGqjpV3DnS4JPlbLjHpPeQFO7T5KUAdhqN4zjUO
+ h3/r4PvCjPMTuw+R/bnAomVxd0iYAD3/8cOgt4bQnOEFHef3ppxcVGpo5lKUvdDGiSs7
+ ogJr1XGsYYlXRwajIFpaUioYdRT+Xmg4nlEPM+W5myxit1aYRDt4w1YWGgHJTXe0LIOy
+ DUt2A5st+5ie9h1l+pAU8E1qadrq7H0c+B8nxQOQgb7gIVZeglWjKGeVRntgXyFqClWU
+ jUyZT+iydrimhs5CxNHsPzsFPS3EMcgU4/Mo8Q+/hG/LZR1heXQUJX0M2PBMfQZso14E
+ cOpQ==
+X-Gm-Message-State: AOJu0YxfrUoIf2N68qmOKSkrNMRr5uq34/291g9mOLq5VaIfJ3Q6b0KE
+ 1eLljxWJAVoSjQ0Msld6XrA=
+X-Google-Smtp-Source: AGHT+IFpAGL5N3vaudEA7MH3XwrMMJeUBz6yL0NjKOczZnqyaaL5xXtsNl/eXPB/emWKCmX2nsxYvQ==
+X-Received: by 2002:a17:902:cec5:b0:1bc:81f2:ddf0 with SMTP id
+ d5-20020a170902cec500b001bc81f2ddf0mr5157403plg.67.1692268678398; 
+ Thu, 17 Aug 2023 03:37:58 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c2:1016:aeca:454:68e4:51c8:d1cf])
  by smtp.gmail.com with ESMTPSA id
- n23-20020a62e517000000b0064f76992905sm12376503pff.202.2023.08.17.02.21.51
+ h17-20020a170902f7d100b001b87d3e845bsm14963467plw.149.2023.08.17.03.37.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Aug 2023 02:21:53 -0700 (PDT)
-Date: Thu, 17 Aug 2023 14:51:48 +0530
-From: Atul Kumar Pant <atulpant.linux@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v1] selftests: ipc: Updates the msgque test to use
- kselftest framework
-Message-ID: <20230817092148.GB72739@atom0118>
-References: <20230723064154.89443-1-atulpant.linux@gmail.com>
- <26d32ad9-6b83-d959-adae-d7181695db18@linuxfoundation.org>
+ Thu, 17 Aug 2023 03:37:58 -0700 (PDT)
+From: coolrrsh@gmail.com
+To: james.smart@broadcom.com, ram.vegesna@broadcom.com, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, rdunlap@infradead.org,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] scsi: sli4: Remove the buggy code
+Date: Thu, 17 Aug 2023 16:07:51 +0530
+Message-Id: <20230817103751.16350-1-coolrrsh@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <26d32ad9-6b83-d959-adae-d7181695db18@linuxfoundation.org>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
- linux-kselftest@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -112,62 +113,47 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Aug 16, 2023 at 09:45:10AM -0600, Shuah Khan wrote:
-> On 7/23/23 00:41, Atul Kumar Pant wrote:
-> > Updates the msgque test to print the pass or fail status after the
-> > completion of the test.
-> > 
-> > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
-> > ---
-> >   tools/testing/selftests/ipc/msgque.c | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/tools/testing/selftests/ipc/msgque.c b/tools/testing/selftests/ipc/msgque.c
-> > index 656c43c24044..513b1265bb75 100644
-> > --- a/tools/testing/selftests/ipc/msgque.c
-> > +++ b/tools/testing/selftests/ipc/msgque.c
-> > @@ -9,6 +9,7 @@
-> >   #include "../kselftest.h"
-> > +#define NUM_TEST_CASES		1
-> >   #define MAX_MSG_SIZE		32
-> >   struct msg1 {
-> > @@ -197,6 +198,7 @@ int main(int argc, char **argv)
-> >   	int msg, pid, err;
-> >   	struct msgque_data msgque;
-> > +	ksft_set_plan(NUM_TEST_CASES);
-> >   	if (getuid() != 0)
-> >   		return ksft_exit_skip(
-> >   				"Please run the test as root - Exiting.\n");
-> > @@ -243,13 +245,16 @@ int main(int argc, char **argv)
-> >   		printf("Failed to test queue: %d\n", err);
-> >   		goto err_out;
-> >   	}
-> > +	ksft_test_result_pass("# Test Passed\n");
-> >   	return ksft_exit_pass();
-> >   err_destroy:
-> >   	if (msgctl(msgque.msq_id, IPC_RMID, NULL)) {
-> >   		printf("Failed to destroy queue: %d\n", -errno);
-> > +		ksft_test_result_fail("# Test Failed\n");
-> >   		return ksft_exit_fail();
-> >   	}
-> >   err_out:
-> > +	ksft_test_result_fail("# Test Failed\n");
-> >   	return ksft_exit_fail();
-> >   }
-> 
-> I am not seeing any value in adding these. It already has messages
-> in error legs and it prints totals at the end:
-> 
-> # Totals: pass:0 fail:0 xfail:0 xpass:0 skip:0 error:0
-> 
-> thanks,
-> -- Shuah
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-	The stats printed at the end have no account of whether the test passed
-	or failed. As seen in the totals message at the end, all the values for
-	various test results (pass, fail,xfail, xpass,skip and error) is 0.
-	With this patch we'll get the totals at the end of test like:
-	# Totals: pass:1 fail:0 xfail:0 xpass:0 skip:0 error:0
+In the function sli_xmit_bls_rsp64_wqe, the 'if' and 'else' conditions
+evaluates the same expression and gives same output. Also the variable
+bls->local_n_port_id_dword is not used anywhere. Therefore removing the 
+redundant code.
+
+This fixes coccinelle warning such as:
+drivers/scsi/elx/libefc_sli/sli4.c:2320:2-4: WARNING: possible
+condition with no effect (if == else)
+
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+---
+v1->v2
+Modified patch and verified with checkpatch.pl.
+
+---
+ drivers/scsi/elx/libefc_sli/sli4.c | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/drivers/scsi/elx/libefc_sli/sli4.c b/drivers/scsi/elx/libefc_sli/sli4.c
+index 8f96049f62dd..af661b769464 100644
+--- a/drivers/scsi/elx/libefc_sli/sli4.c
++++ b/drivers/scsi/elx/libefc_sli/sli4.c
+@@ -2317,13 +2317,6 @@ sli_xmit_bls_rsp64_wqe(struct sli4 *sli, void *buf,
+ 		SLI4_GENERIC_CONTEXT_VPI << SLI4_BLS_RSP_WQE_CT_SHFT;
+ 		bls->context_tag = cpu_to_le16(params->vpi);
+ 
+-		if (params->s_id != U32_MAX)
+-			bls->local_n_port_id_dword |=
+-				cpu_to_le32(params->s_id & 0x00ffffff);
+-		else
+-			bls->local_n_port_id_dword |=
+-				cpu_to_le32(params->s_id & 0x00ffffff);
+-
+ 		dw_ridflags = (dw_ridflags & ~SLI4_BLS_RSP_RID) |
+ 			       (params->d_id & SLI4_BLS_RSP_RID);
+ 
+-- 
+2.25.1
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
