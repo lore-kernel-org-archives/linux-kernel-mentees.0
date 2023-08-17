@@ -1,90 +1,93 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 674FEEB64DD
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Aug 2023 12:29:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8D814EB64DD
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 17 Aug 2023 12:33:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id CD54C423F3;
-	Thu, 17 Aug 2023 12:29:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CD54C423F3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=IBJLw3YA
+	by smtp3.osuosl.org (Postfix) with ESMTP id 0A5AC614FF;
+	Thu, 17 Aug 2023 12:33:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0A5AC614FF
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=Lp4RgGTr
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id s--xNAILQxG9; Thu, 17 Aug 2023 12:29:25 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nh_IxHHqT4mt; Thu, 17 Aug 2023 12:33:47 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0A86642272;
-	Thu, 17 Aug 2023 12:29:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0A86642272
+	by smtp3.osuosl.org (Postfix) with ESMTPS id ACBF6614FE;
+	Thu, 17 Aug 2023 12:33:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org ACBF6614FE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DD71CC0039;
-	Thu, 17 Aug 2023 12:29:24 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0F6BBC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8C059C0039;
+	Thu, 17 Aug 2023 12:33:47 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5417FC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 12:29:24 +0000 (UTC)
+ Thu, 17 Aug 2023 12:33:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id DCC0542278
+ by smtp2.osuosl.org (Postfix) with ESMTP id 2F0714185F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 12:29:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DCC0542278
+ Thu, 17 Aug 2023 12:33:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2F0714185F
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com
+ header.a=rsa-sha256 header.s=google header.b=Lp4RgGTr
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0MSEyI7srfJG
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6FWlHAmmtIhp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 12:29:22 +0000 (UTC)
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com
- [IPv6:2607:f8b0:4864:20::52c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4E08042272
+ Thu, 17 Aug 2023 12:33:45 +0000 (UTC)
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id F21B54185A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 12:29:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4E08042272
-Received: by mail-pg1-x52c.google.com with SMTP id
- 41be03b00d2f7-565e6502dbbso1783112a12.1
+ Thu, 17 Aug 2023 12:33:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F21B54185A
+Received: by mail-pg1-x529.google.com with SMTP id
+ 41be03b00d2f7-51b4ef5378bso5717098a12.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 17 Aug 2023 05:29:22 -0700 (PDT)
+ Thu, 17 Aug 2023 05:33:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1692275361; x=1692880161;
+ d=broadcom.com; s=google; t=1692275624; x=1692880424;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Dod+jUAtrfq8WKcddvqjG23UkjL57VIedBdoOoctqWw=;
- b=IBJLw3YAf219tBI7sVt6VWmcoiIyEDDrLa0sjPY/WxLNHrENZ9phC3tjv4ABXq4NZf
- IFcSxd1r4zn5IQhQuT0pO297jksRHV3fLHHOmgZZzIM3WAJSgV35hk93EFJ5E1BSFn0d
- ztRjRbD9PFh4YBNXBcFbqYtAX4zsauVpADSBw=
+ bh=4QrDUH5IRxLwefO0PelicpgqeSGnfApEqaePajr9O8Q=;
+ b=Lp4RgGTrNaywM0bumGG6qwXb5VCx7/Y/YRjneJULAvxxqjpERNjXit2Mfevn44yPZy
+ MmUBJxaPCgB59kOb+Rvx+bpIM6A89M7+Tk5OgSaFo4NlbzMirhTOQ1wse7vQ86ukk/H1
+ BbNjG6/dkNJIR8yOvdf6D3zFnIG2wS6YzlVTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692275361; x=1692880161;
+ d=1e100.net; s=20221208; t=1692275624; x=1692880424;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Dod+jUAtrfq8WKcddvqjG23UkjL57VIedBdoOoctqWw=;
- b=NdDkRzzabUIa53SvUGn5SIu7dCABGWmhYdeirsGP1eMGrIe1efSsOJE9OcEfOLi83I
- ICZBkyVqGaDNfCodmfMuTZFIcK5TctP0gozVFvKUQK7miU3eRGG2ONAAQ2YLVa0TZwGt
- yPTFggDB0MorK0URq6um0LjC4GtP/Su/gDDEnjHE5HPrf9JTfNaO5PSsjJge73hBLK2x
- AFOL9+9j+mUFn+Psq0fusaMlovjnYrQ859vaYlL/AdsqgsyVbi77zbqcTW9Y/bQEGGa9
- Hj7IGEEodiIJgOK81YvJMi0xc+tXYgwfN9+EbNWkKrriZXN5itx1OnHgOHeSjEsVxqRX
- EuiA==
-X-Gm-Message-State: AOJu0YzBqHWCzydJxi4htb3HpuAhkHpSE+n7Qepex6vSO23VQ+eIwzPl
- L/4jBpTIQzLpHkDtdNQBBUQ9xbY9tpS51AnQ3tpKr5asvR6JP3Y9iKpX+u4C36eNfHZ4LKgdmPj
- k2LC0LI2uHi/+frKFyR1d64goaRMej+kjbPQwhHQizT24y6+QORRFsnc=
-X-Google-Smtp-Source: AGHT+IHVPH3rk6MvI2h6lLylZm305Mf0+g8423xf4ra1Ui9xDTchMHOJ4lpvw0zZlpFILcnjry+hVOXzdir0Irh/sGU=
-X-Received: by 2002:a17:90b:50b:b0:268:2127:6cb6 with SMTP id
- r11-20020a17090b050b00b0026821276cb6mr3849709pjz.16.1692275361559; Thu, 17
- Aug 2023 05:29:21 -0700 (PDT)
+ bh=4QrDUH5IRxLwefO0PelicpgqeSGnfApEqaePajr9O8Q=;
+ b=U+msWep4OnuiBH3xOhkoP5QPN5DxFH/I6fNfHoHtgWbjkNLrteoIGB8IFq6wVSPLmY
+ nummopjyE5ZpzHDUNFSwIiBUAOUhmvIuu/a0gOa60pFvvkc3EWfZbNvr7qFs2xC5D/x/
+ C8CAVxHWN8SU0OX2RqPYvWzJopUqJ/Rm6ppdFjDPyMhUBtHcuaU863tWlyiSJzve5EqO
+ xC1buX4R1enRunwaHkHiKzm515Nv89INTfnmT6lwB4XYZlbSU3xW4q0ylkMQATxEiQIJ
+ MftgePD/t5ckfzUTJZRHj7HBtRlf3Gc9INynJpOV5o0G1gqwjYKGGDdDd48VuDyc4L4d
+ wfTQ==
+X-Gm-Message-State: AOJu0Yyfi3KNG1XfOJ0+bDOUPe0qshCe2EHVDAvqHXNZzF3KucYN3tM8
+ KtnR0rc8TU2cWvxea5EKAU0MAxaWBU1crouxPivKmeOEW8TgTiPThbDKeSXPwIU9lrYyA6JtkeE
+ KvYbsvomoQG2yfF3yNPmZemU0oZ6Yl35inR2Tv+aSGxC0VND5/1/6dEY=
+X-Google-Smtp-Source: AGHT+IESpGWDgmVDvDMeNdBX+5uC10z/MwU7F8MOaLhY+eyjnU6AyDym6b8uzVRzGF+jv/mPxC0aDYaaL5b97Xt97i8=
+X-Received: by 2002:a17:90b:4b88:b0:26b:2c52:5fc with SMTP id
+ lr8-20020a17090b4b8800b0026b2c5205fcmr4090142pjb.18.1692275624295; Thu, 17
+ Aug 2023 05:33:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230816085007.10591-1-coolrrsh@gmail.com>
- <38158855-5738-16a9-2237-34980917566b@infradead.org>
-In-Reply-To: <38158855-5738-16a9-2237-34980917566b@infradead.org>
-Date: Thu, 17 Aug 2023 17:59:09 +0530
-Message-ID: <CAF7aS0pFAA=730Oy+-MH5Dgg-Yj7ye=2FFQmqRcczpbX1W7V6A@mail.gmail.com>
-Subject: Re: [PATCH] scsi: sli4: Remove code duplication
-To: Randy Dunlap <rdunlap@infradead.org>
+References: <20230817103751.16350-1-coolrrsh@gmail.com>
+ <20230817105252.GA14370@yadro.com>
+In-Reply-To: <20230817105252.GA14370@yadro.com>
+Date: Thu, 17 Aug 2023 18:03:32 +0530
+Message-ID: <CAF7aS0rrZvZK_bE21Umrr+RAGgQB6-qDdoqSPnKh6f7HcX8Ovw@mail.gmail.com>
+Subject: Re: [PATCH v2] scsi: sli4: Remove the buggy code
+To: Dmitry Bogdanov <d.bogdanov@yadro.com>
 Cc: martin.petersen@oracle.com, linux-scsi@vger.kernel.org, jejb@linux.ibm.com,
- james.smart@broadcom.com, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, james.smart@broadcom.com, linux-kernel@vger.kernel.org,
  target-devel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -100,86 +103,80 @@ List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel
 From: Ram Kishore Vegesna via Linux-kernel-mentees
  <linux-kernel-mentees@lists.linuxfoundation.org>
 Reply-To: Ram Kishore Vegesna <ram.vegesna@broadcom.com>
-Content-Type: multipart/mixed; boundary="===============1037106228291285002=="
+Content-Type: multipart/mixed; boundary="===============3806215128350558356=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
---===============1037106228291285002==
+--===============3806215128350558356==
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000cf4a1106031d8f59"
+	boundary="000000000000786ac306031d9f6a"
 
---000000000000cf4a1106031d8f59
-Content-Type: multipart/alternative; boundary="000000000000ca247a06031d8f00"
+--000000000000786ac306031d9f6a
+Content-Type: multipart/alternative; boundary="00000000000073429606031d9f6c"
 
---000000000000ca247a06031d8f00
+--00000000000073429606031d9f6c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 17, 2023 at 1:05=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
+On Thu, Aug 17, 2023 at 4:22=E2=80=AFPM Dmitry Bogdanov <d.bogdanov@yadro.c=
+om>
+wrote:
 
-> Hi--
->
-> On 8/16/23 01:50, coolrrsh@gmail.com wrote:
+> On Thu, Aug 17, 2023 at 04:07:51PM +0530, coolrrsh@gmail.com wrote:
+> >
 > > From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 > >
 > > In the function sli_xmit_bls_rsp64_wqe, the 'if' and 'else' conditions
-> > evaluates the same expression and gives same output. So removing the
-> redundant
-> > code duplication to optimise the code.
+> > evaluates the same expression and gives same output. Also the variable
+> > bls->local_n_port_id_dword is not used anywhere. Therefore removing the
+> > redundant code.
 > >
-> > This fixes warning such as:
-> > drivers/scsi/elx/libefc_sli/sli4.c:2320:2-4: WARNING: possible conditio=
-n
-> with no effect (if =3D=3D else)
->
-> What tool produces this message?
->
+> > This fixes coccinelle warning such as:
+> > drivers/scsi/elx/libefc_sli/sli4.c:2320:2-4: WARNING: possible
+> > condition with no effect (if =3D=3D else)
+> >
 > > Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
 > > ---
-> >  drivers/scsi/elx/libefc_sli/sli4.c | 8 ++------
-> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > v1->v2
+> > Modified patch and verified with checkpatch.pl.
+> >
+> > ---
+> >  drivers/scsi/elx/libefc_sli/sli4.c | 7 -------
+> >  1 file changed, 7 deletions(-)
 > >
 > > diff --git a/drivers/scsi/elx/libefc_sli/sli4.c
 > b/drivers/scsi/elx/libefc_sli/sli4.c
-> > index 8f96049f62dd..5e7fb110bc3f 100644
+> > index 8f96049f62dd..af661b769464 100644
 > > --- a/drivers/scsi/elx/libefc_sli/sli4.c
 > > +++ b/drivers/scsi/elx/libefc_sli/sli4.c
-> > @@ -2317,12 +2317,8 @@ sli_xmit_bls_rsp64_wqe(struct sli4 *sli, void
+> > @@ -2317,13 +2317,6 @@ sli_xmit_bls_rsp64_wqe(struct sli4 *sli, void
 > *buf,
-> >               SLI4_GENERIC_CONTEXT_VPI << SLI4_BLS_RSP_WQE_CT_SHFT;
-> >               bls->context_tag =3D cpu_to_le16(params->vpi);
+> >                 SLI4_GENERIC_CONTEXT_VPI << SLI4_BLS_RSP_WQE_CT_SHFT;
+> >                 bls->context_tag =3D cpu_to_le16(params->vpi);
 > >
-> > -             if (params->s_id !=3D U32_MAX)
-> > -                     bls->local_n_port_id_dword |=3D
-> > -                             cpu_to_le32(params->s_id & 0x00ffffff);
-> > -             else
-> > -                     bls->local_n_port_id_dword |=3D
-> > -                             cpu_to_le32(params->s_id & 0x00ffffff);
-> > +             bls->local_n_port_id_dword |=3D
-> > +                     cpu_to_le32(params->s_id & 0x00ffffff);
+> > -               if (params->s_id !=3D U32_MAX)
+> > -                       bls->local_n_port_id_dword |=3D
+> > -                               cpu_to_le32(params->s_id & 0x00ffffff);
+> > -               else
+> > -                       bls->local_n_port_id_dword |=3D
+> > -                               cpu_to_le32(params->s_id & 0x00ffffff);
+> > -
 >
-> That could be correct. Or there could be a bug there.
-> Who knows? I don't.
+> omg, it is not an unused variable. Whole bls is a HW descriptor, all of
+> its variables are used by HW. You should keep v1 version of the patch.
+> According to the comment at the beginning of the funciton s_id here shall
+> be !=3D U32_MAX. That is an explanation for your v1 patch.
 >
-> But maybe it doesn't matter since AFAICT that field isn't used
-> anywhere after it is set.
->
+> >                 dw_ridflags =3D (dw_ridflags & ~SLI4_BLS_RSP_RID) |
+> >                                (params->d_id & SLI4_BLS_RSP_RID);
 > >
-> >               dw_ridflags =3D (dw_ridflags & ~SLI4_BLS_RSP_RID) |
-> >                              (params->d_id & SLI4_BLS_RSP_RID);
->
-> --
-> ~Randy
->
-The expectation here is that the s_id will be valid when the RPI
- is not registered.
-This value will be used as the S_ID for the BLS reply sequence.
+> > --
+> > 2.25.1
+> >
 
-Change looks good.
-
-Reviewed-by: Ram Vegesna<ram.vegesna@broadcom.com>
+local_n_port_id_dword is not an unused variable. As Dimtry pointed out
+all the above variables are used by the HW.
 
 --=20
 This electronic communication and the information and any files transmitted=
@@ -200,90 +197,88 @@ please return the e-mail to the sender, delete it from your computer, and=
 =20
 destroy any printed copy of it.
 
---000000000000ca247a06031d8f00
+--00000000000073429606031d9f6c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 17, 2023 at 1:05=E2=80=AF=
-AM Randy Dunlap &lt;<a href=3D"mailto:rdunlap@infradead.org">rdunlap@infrad=
-ead.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">Hi--<br>
-<br>
-On 8/16/23 01:50, <a href=3D"mailto:coolrrsh@gmail.com" target=3D"_blank">c=
-oolrrsh@gmail.com</a> wrote:<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 17, 2023 at 4:22=E2=80=AF=
+PM Dmitry Bogdanov &lt;<a href=3D"mailto:d.bogdanov@yadro.com">d.bogdanov@y=
+adro.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Thu, Aug 17, 2023 at 04:07:51PM +0530, <a href=3D"mailto:coolrrs=
+h@gmail.com" target=3D"_blank">coolrrsh@gmail.com</a> wrote:<br>
+&gt; <br>
 &gt; From: Rajeshwar R Shinde &lt;<a href=3D"mailto:coolrrsh@gmail.com" tar=
 get=3D"_blank">coolrrsh@gmail.com</a>&gt;<br>
 &gt; <br>
 &gt; In the function sli_xmit_bls_rsp64_wqe, the &#39;if&#39; and &#39;else=
-&#39; conditions <br>
-&gt; evaluates the same expression and gives same output. So removing the r=
-edundant <br>
-&gt; code duplication to optimise the code.<br>
+&#39; conditions<br>
+&gt; evaluates the same expression and gives same output. Also the variable=
+<br>
+&gt; bls-&gt;local_n_port_id_dword is not used anywhere. Therefore removing=
+ the<br>
+&gt; redundant code.<br>
 &gt; <br>
-&gt; This fixes warning such as:<br>
-&gt; drivers/scsi/elx/libefc_sli/sli4.c:2320:2-4: WARNING: possible conditi=
-on with no effect (if =3D=3D else)<br>
-<br>
-What tool produces this message?<br>
-<br>
+&gt; This fixes coccinelle warning such as:<br>
+&gt; drivers/scsi/elx/libefc_sli/sli4.c:2320:2-4: WARNING: possible<br>
+&gt; condition with no effect (if =3D=3D else)<br>
+&gt; <br>
 &gt; Signed-off-by: Rajeshwar R Shinde &lt;<a href=3D"mailto:coolrrsh@gmail=
 .com" target=3D"_blank">coolrrsh@gmail.com</a>&gt;<br>
 &gt; ---<br>
-&gt;=C2=A0 drivers/scsi/elx/libefc_sli/sli4.c | 8 ++------<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 6 deletions(-)<br>
+&gt; v1-&gt;v2<br>
+&gt; Modified patch and verified with <a href=3D"http://checkpatch.pl" rel=
+=3D"noreferrer" target=3D"_blank">checkpatch.pl</a>.<br>
+&gt; <br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/scsi/elx/libefc_sli/sli4.c | 7 -------<br>
+&gt;=C2=A0 1 file changed, 7 deletions(-)<br>
 &gt; <br>
 &gt; diff --git a/drivers/scsi/elx/libefc_sli/sli4.c b/drivers/scsi/elx/lib=
 efc_sli/sli4.c<br>
-&gt; index 8f96049f62dd..5e7fb110bc3f 100644<br>
+&gt; index 8f96049f62dd..af661b769464 100644<br>
 &gt; --- a/drivers/scsi/elx/libefc_sli/sli4.c<br>
 &gt; +++ b/drivers/scsi/elx/libefc_sli/sli4.c<br>
-&gt; @@ -2317,12 +2317,8 @@ sli_xmit_bls_rsp64_wqe(struct sli4 *sli, void *=
+&gt; @@ -2317,13 +2317,6 @@ sli_xmit_bls_rsp64_wqe(struct sli4 *sli, void *=
 buf,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SLI4_GENERIC_CON=
-TEXT_VPI &lt;&lt; SLI4_BLS_RSP_WQE_CT_SHFT;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bls-&gt;context_=
-tag =3D cpu_to_le16(params-&gt;vpi);<br>
-&gt;=C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (params-&gt;s_id !=
-=3D U32_MAX)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SLI4_GENE=
+RIC_CONTEXT_VPI &lt;&lt; SLI4_BLS_RSP_WQE_CT_SHFT;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bls-&gt;c=
+ontext_tag =3D cpu_to_le16(params-&gt;vpi);<br>
+&gt; <br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (params-&gt=
+;s_id !=3D U32_MAX)<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0bls-&gt;local_n_port_id_dword |=3D<br>
+ =C2=A0 =C2=A0bls-&gt;local_n_port_id_dword |=3D<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_to_le32(params-&gt;s_id &amp; 0x00ff=
-ffff);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_to_le32(params-&gt;s_id &amp;=
+ 0x00ffffff);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0bls-&gt;local_n_port_id_dword |=3D<br>
+ =C2=A0 =C2=A0bls-&gt;local_n_port_id_dword |=3D<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_to_le32(params-&gt;s_id &amp; 0x00ff=
-ffff);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bls-&gt;local_n_port_=
-id_dword |=3D<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0cpu_to_le32(params-&gt;s_id &amp; 0x00ffffff);<br>
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_to_le32(params-&gt;s_id &amp;=
+ 0x00ffffff);<br>
+&gt; -<br>
 <br>
-That could be correct. Or there could be a bug there.<br>
-Who knows? I don&#39;t.<br>
+omg, it is not an unused variable. Whole bls is a HW descriptor, all of<br>
+its variables are used by HW. You should keep v1 version of the patch.<br>
+According to the comment at the beginning of the funciton s_id here shall<b=
+r>
+be !=3D U32_MAX. That is an explanation for your v1 patch.<br>
 <br>
-But maybe it doesn&#39;t matter since AFAICT that field isn&#39;t used<br>
-anywhere after it is set.<br>
-<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dw_ridflags =3D =
-(dw_ridflags &amp; ~SLI4_BLS_RSP_RID) |<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dw_ridfla=
+gs =3D (dw_ridflags &amp; ~SLI4_BLS_RSP_RID) |<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (params-&gt;d_id &amp; SLI4_BLS_RSP_RID)=
-;<br>
-<br>
--- <br>
-~Randy<br></blockquote>The expectation here is that the s_id will be valid =
-when the RPI<br>=C2=A0is not registered.</div><div class=3D"gmail_quote">Th=
-is value will be used as the S_ID for the BLS reply sequence.<br><br>Change=
- looks good.<br><br>Reviewed-by: Ram Vegesna&lt;<a href=3D"mailto:ram.veges=
-na@broadcom.com">ram.vegesna@broadcom.com</a>&gt;<br><div>=C2=A0</div></div=
-></div>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (params-&gt;d_id &amp; SLI4_BLS_R=
+SP_RID);<br>
+&gt; <br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;</blockquote><div>local_n_port_id_dword is not an unused variable. As D=
+imtry=C2=A0pointed out=C2=A0<br></div><div>all the above variables are used=
+ by the HW.</div></div></div>
 
 <br>
 <span style=3D"background-color:rgb(255,255,255)"><font size=3D"2">This ele=
@@ -298,9 +293,9 @@ uting, dissemination, forwarding, printing, or copying of this e-mail is st=
 rictly prohibited. If you received this e-mail in error, please return the =
 e-mail to the sender, delete it from your computer, and destroy any printed=
  copy of it.</font></span>
---000000000000ca247a06031d8f00--
+--00000000000073429606031d9f6c--
 
---000000000000cf4a1106031d8f59
+--000000000000786ac306031d9f6a
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -371,18 +366,18 @@ wK4tdCNKvWy8nHgPw4+x25QIGk+ur66gc+8nY2Y3iejwIGjEjzoKlG6v8jm6Yt/1jnjJltAev6R6
 bHCB3GzEib7aU2IBQ/Jv3bCf7h18Xl0j03xE6sJfZkU7u4DTF8njoco30Y4vvdQHAttklJkJLDGC
 Am0wggJpAgEBMGswWzELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExMTAv
 BgNVBAMTKEdsb2JhbFNpZ24gR0NDIFIzIFBlcnNvbmFsU2lnbiAyIENBIDIwMjACDBqPumG2a5F2
-dafbHDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgdECSFCgBVAsPTsbopcqhq6f7
-mSUjFlEksxMbeSRmr8AwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
-MjMwODE3MTIyOTIxWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYw
+dafbHDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgbDqL8Kc6jvjOXQcMT2s3X6ct
+W8dz2X7gHYSSpePsal4wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcN
+MjMwODE3MTIzMzQ0WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYw
 CwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcwCwYJYIZI
-AWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBALon+LWl5GMDhdUjzxWN7D02+SXelEyjSlyRhZ4dWPpX
-aLqpO7BUWs+IvlhIIelACT6vXUbHIQ9JRwWn2r+YBDrsLD3zW0SIODE4fkInLF+rfmiM+L9Ff30/
-6Bo4CreuT1BZqEEikIFYkqhsDYGuWqgwOSYD7YLyHLZhNAvBCcyqy1KRTD6JEguBDANP+6QpeEm7
-GWUDPIGaFV8DLQmptWCSHjBpBBJtqne9iMO1SdIxMY9eqXofXPj+79ZymxaLiRCwle4lx3z2GmMB
-LVKu0IOIN0oaqsDiA9ichpLu+9hSCuosJIKR5dk9JqWXGZ56haSi+qblwxBNjcgaYjL0IZg=
---000000000000cf4a1106031d8f59--
+AWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBADGQFvodzrs8pqNzaliQK5Aio6vdARccy5sFGkVK4XRT
+eo4ahCWq5RE5h0BLNuzgKYnCv6QixqOeuH/YNSje59KESBVQzSsVzpFINq6KgjJ+9H4gjlYamxe5
+gxwfilhCV1zoWC48uFrh7ECb1fMAXtpApjJRAzuLPq72yve22FWo2nUommNArcEvbETroJ0TFmHS
+OFgtdjKgha209SmuWoBsFeEsYTyUx+gGk0jwFIHzonwho+WV4Lwxi64T3CARhelFzvZhUwLVZQrE
+Fn/cbajtaxUtLRtl+hR/vdrL62C+IaG3xSNu/7p83PUW8MqavdcQ1nFTEBbYfLExDXNixdQ=
+--000000000000786ac306031d9f6a--
 
---===============1037106228291285002==
+--===============3806215128350558356==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -393,4 +388,4 @@ Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
---===============1037106228291285002==--
+--===============3806215128350558356==--
