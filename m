@@ -1,89 +1,103 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B0E5DEE49A5
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 19 Aug 2023 11:48:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A10F2EE49A3
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 19 Aug 2023 19:50:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 342C883BF4;
-	Sat, 19 Aug 2023 11:48:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 342C883BF4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HAQ6LryM
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lofQXhC-bbyt; Sat, 19 Aug 2023 11:48:14 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 28E8683BF3;
-	Sat, 19 Aug 2023 11:48:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 28E8683BF3
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 047F6C0039;
-	Sat, 19 Aug 2023 11:48:14 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5402CC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 19 Aug 2023 11:48:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 279E040186
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 19 Aug 2023 11:48:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 279E040186
+	by smtp4.osuosl.org (Postfix) with ESMTP id F294941BB1;
+	Sat, 19 Aug 2023 19:50:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F294941BB1
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=HAQ6LryM
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=gxUCaWSE
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id iCL7S4e--YDu
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id in1Ly2_j8G5M; Sat, 19 Aug 2023 19:50:25 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8ACD541730;
+	Sat, 19 Aug 2023 19:50:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8ACD541730
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4843EC0039;
+	Sat, 19 Aug 2023 19:50:25 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D706AC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 19 Aug 2023 11:48:11 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id F3D6F4012D
+ Sat, 19 Aug 2023 19:50:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id AAC1B401B1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 19 Aug 2023 11:48:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F3D6F4012D
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 398AC611F9;
- Sat, 19 Aug 2023 11:48:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 303DBC433C8;
- Sat, 19 Aug 2023 11:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1692445689;
- bh=A9tgsTdBMhQA/WJpr5nRjwwiNo470PILec1afwIdDoE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HAQ6LryMFjY2tRHa+R9xdI5OJBUao5XIAiOUYvUYLO2fk98nXL1koc72ROfCLeU21
- Zbg8xR7k+XFt0EVR0Uppc6WlHERuL6F/l2bLZZDV0i7bVBX+JhivFzypcoUoTMLc1e
- TvOKj4HKJLQPzAuaZAoVHnpa3cW7q3SaFYZuO2YUReHW0qPA9CGqHC1+Bm5zXlDsGi
- q8UW2boyVaJ8dBZj/mzYiDf+/fU6p6T4XB4wC0S7Xlt2PJwy+ti7bzc/Y5kYNaMj3k
- 7vjlhV0pwo2p6YymaJVxcSuKVlkBPHbpMQbZaPCfxthmc8Xv3IK76vY/s+klvpjKZx
- mgrRrT4+AsmYA==
-From: Christian Brauner <brauner@kernel.org>
-To: Anh Tuan Phan <tuananhlfc@gmail.com>
-Subject: Re: [PATCH v1] fs/dcache: Replace printk and WARN_ON by WARN
-Date: Sat, 19 Aug 2023 13:48:03 +0200
-Message-Id: <20230819-flexibel-erzhaltig-a16a0fd46e24@brauner>
+ Sat, 19 Aug 2023 19:50:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AAC1B401B1
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=gxUCaWSE
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id USDpDw6PaeTi
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 19 Aug 2023 19:50:23 +0000 (UTC)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C050A4000B
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 19 Aug 2023 19:50:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C050A4000B
+Received: by mail-wm1-x32b.google.com with SMTP id
+ 5b1f17b1804b1-3fe12820bffso19394635e9.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 19 Aug 2023 12:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1692474621; x=1693079421;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=sSB6bHkjwrLrFphZRXjaDm3kSiCaocff/7800VaCd8Q=;
+ b=gxUCaWSEn7y8qaC48/Ir3tNWSAROgPfUfqvIKkyE+gRVYZPhjJ03GFaN+8tnraN79e
+ 215Yp1dgiehqEmpGGHGLDCCF4SDEwTUC/z7HLOhqLD5zrsNj/7LmI/7ma4NblW/opOqg
+ bQFVrmpiGSmPbZ2Yg5boXNgBv8m4wT+bVWuJxsHz+UIKd9LGyb8pPUvqxx5qco3gv6Wv
+ n6HJtAo55rpgB+aCczFTOiZFEvKDbrcwOFP538A4l/z/0wTDZZib2RxZhOX1UDGGUmz4
+ 5L54+7N/YAfeV7+rfPelZlkEAV8A/rsDlOmoiH+oQI4x8PHykbo9JIWuT9PO/jpJz2WJ
+ +vpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1692474621; x=1693079421;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sSB6bHkjwrLrFphZRXjaDm3kSiCaocff/7800VaCd8Q=;
+ b=QSeuhqwkpwelBho9NHcSQuWbi7kX3Lm5CKfEV5KNz5z0lRFyg72a1SObFWMyp44ID/
+ jxs6NhUek5nPO9ppQ/FcIu04HcKtuPCSxUgKYwRCrkeA5h7AcTnk/B/geO4hAHxCRZE2
+ 1ATgI2jc8F8qhqphIRSDiskgHtQG2HON1P8Orsegwtxaic8YBjtG39jrxfURbm27ITnC
+ eachkcaeFBN1uc1uQueO6PGw2USsAtsNdCZgE9pBbvnKeCbSe4rBbfC/PcXjrGBoTVzX
+ zKr61o8+R/fX2agpqEuk5H5ikygVuRsZGu2A1ESGWGMACnJvJHA10fUWbHurAGGEVwi2
+ T0Gg==
+X-Gm-Message-State: AOJu0Yyfq4+SrJ4ApaYtLvta08g5gfxrf7w5K4uXJwbVJpGe5xYNdPhH
+ nMkZfWb947XgbW/Si21EJlg=
+X-Google-Smtp-Source: AGHT+IHahhec10BYrPqz/QP1HfNcaB3/uicy40ATMZ7BLndPcptrIvIFgo8k7y6MTcL3w2uqTpqEmA==
+X-Received: by 2002:a1c:6a16:0:b0:3fa:98c3:7dbd with SMTP id
+ f22-20020a1c6a16000000b003fa98c37dbdmr1935691wmc.41.1692474620596; 
+ Sat, 19 Aug 2023 12:50:20 -0700 (PDT)
+Received: from mmaatuq-HP-Laptop-15-dy2xxx.. ([5.194.84.172])
+ by smtp.gmail.com with ESMTPSA id
+ l19-20020a1c7913000000b003fe26bf65e7sm6861382wme.13.2023.08.19.12.50.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Aug 2023 12:50:20 -0700 (PDT)
+From: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+To: linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kuba@kernel.org, netdev@vger.kernel.org, willemdebruijn.kernel@gmail.com,
+ davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ shuah@kernel.org
+Subject: [PATCH 0/2] selftests: Introduce common min()/max() and apply them in
+ net tests
+Date: Sat, 19 Aug 2023 23:50:03 +0400
+Message-Id: <20230819195005.99387-1-mahmoudmatook.mm@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230817163142.117706-1-tuananhlfc@gmail.com>
-References: <20230817163142.117706-1-tuananhlfc@gmail.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=965; i=brauner@kernel.org;
- h=from:subject:message-id; bh=A9tgsTdBMhQA/WJpr5nRjwwiNo470PILec1afwIdDoE=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaQ8WPVk292rTg5nUuY5XLueNLmLs3ShoMR0/feZfxuqny/Q
- U1/L3VHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRWdyMDGtXrEjdK/x4ouvUffrnj1
- +WNLt0NX9hZeYhJ8v1x58dic9nZHhlZs70fduP8tNpFusvdbMd16hIb/olHPX86pdY/3XN5owA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Cc: linux-fsdevel@vger.kernel.org, Christian Brauner <brauner@kernel.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- viro@zeniv.linux.org.uk
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -101,29 +115,28 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, 17 Aug 2023 23:31:42 +0700, Anh Tuan Phan wrote:
-> Use WARN instead of printk + WARN_ON as reported from coccinelle:
-> ./fs/dcache.c:1667:1-7: SUGGESTION: printk + WARN_ON can be just WARN
-> 
-> 
+The first patch introduces a common definition of 
+the min() and max() macros for use in multiple files under selftests. 
+This avoids the redundancy of having scattered local definitions 
+and prepares the groundwork for other files to simply include kselftest.h.
 
-Applied to the vfs.misc branch of the vfs/vfs.git tree.
-Patches in the vfs.misc branch should appear in linux-next soon.
+The second patch then applies these new macros in the selftests/net files, 
+replacing the ternary operations. This directly addresses several 
+coccicheck warnings, making the code cleaner and more maintainable
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Mahmoud Maatuq (2):
+  selftests: Provide local define of min() and max()
+  selftests/net: replace ternary operator with min()/max()
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
+ tools/testing/selftests/kselftest.h           | 7 +++++++
+ tools/testing/selftests/net/Makefile          | 2 ++
+ tools/testing/selftests/net/so_txtime.c       | 7 ++++---
+ tools/testing/selftests/net/udpgso_bench_tx.c | 6 +++---
+ 4 files changed, 16 insertions(+), 6 deletions(-)
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
+-- 
+2.34.1
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.misc
-
-[1/1] fs/dcache: Replace printk and WARN_ON by WARN
-      https://git.kernel.org/vfs/vfs/c/7fbf9abcc77f
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
