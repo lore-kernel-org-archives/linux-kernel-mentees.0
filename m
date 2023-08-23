@@ -1,128 +1,113 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 783DFC3DA6F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Aug 2023 19:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14E1FC3DA6F
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 23 Aug 2023 19:40:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F1C2F8214C;
-	Wed, 23 Aug 2023 19:35:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F1C2F8214C
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Pz5GxaNu
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9615760C11;
+	Wed, 23 Aug 2023 19:40:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9615760C11
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Q7c+th06
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Wk6PGdKF9vDj; Wed, 23 Aug 2023 19:35:56 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id z1bohzdNRP6v; Wed, 23 Aug 2023 19:40:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CF22182147;
-	Wed, 23 Aug 2023 19:35:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CF22182147
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 362D260AC0;
+	Wed, 23 Aug 2023 19:40:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 362D260AC0
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id AAC0CC0039;
-	Wed, 23 Aug 2023 19:35:55 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B5A21C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0E680C0039;
+	Wed, 23 Aug 2023 19:40:34 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 50392C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Aug 2023 19:35:54 +0000 (UTC)
+ Wed, 23 Aug 2023 19:40:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8FA0E400FF
+ by smtp4.osuosl.org (Postfix) with ESMTP id 22E6D40888
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Aug 2023 19:35:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8FA0E400FF
-Authentication-Results: smtp2.osuosl.org;
+ Wed, 23 Aug 2023 19:40:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 22E6D40888
+Authentication-Results: smtp4.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Pz5GxaNu
+ header.a=rsa-sha256 header.s=20221208 header.b=Q7c+th06
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cnw9FMGGnU_L
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id L2AraRQXJ4ZF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Aug 2023 19:35:53 +0000 (UTC)
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 67F30400C8
+ Wed, 23 Aug 2023 19:40:31 +0000 (UTC)
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C5A5B4087E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Aug 2023 19:35:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 67F30400C8
-Received: by mail-wr1-x436.google.com with SMTP id
- ffacd0b85a97d-31771bb4869so5342118f8f.0
+ Wed, 23 Aug 2023 19:40:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C5A5B4087E
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 5b1f17b1804b1-3fee769fd53so40815985e9.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 23 Aug 2023 12:35:53 -0700 (PDT)
+ Wed, 23 Aug 2023 12:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692819351; x=1693424151;
+ d=gmail.com; s=20221208; t=1692819629; x=1693424429;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bp6bqfxHSQpdkJRolDmXvKb/3Pn3dAeE7ceDWHWRWDA=;
- b=Pz5GxaNuZRWinCrudpRM+C6sPFDBxK+ivZHBISs3ftAuYHWoN/CiGfoZc3wneRFyzr
- YOE35feW/4E6p/qBo5AoobnPCdphf3sLAR3NhBjOVkSc/7lGfk4AvZo+l3ZGeqELWAua
- dXi2R9F+coHLxhqBXa8ijVNVaNr1REcetkiGtSue7Djan5z7k2M1N0NjITTzPEtZmBLv
- a1OUCSn4uGpnx16Pe+edGOSJWNbUSTF4swUW9sMK2jV6ecXzu9om6ZR+uaoL/C5OIFg4
- CQD7XievlNqaf42X8hksPc6AzRdhOQHaSXG8iByc0qI6mVQnri+yg0KPkdO3u37L+VIG
- L/+w==
+ bh=SZSBOiLjL7l4F5q6riFKLA/ZyFchhCDJyrcaJS20FpE=;
+ b=Q7c+th06liDrGKX59Uzi5rXxttPg1iqISxM15+Jq+aB0TfOeh4bkBa2ZLINqjE7wWX
+ jCNS0fAxlK1BQvlLtPDPOYVxFHLOCtEw2y51RwVfRaDWJWGsJx1IhZTYZliINrNXV1yU
+ RTWRAT5xEfOgO96iBgkdvT2Ovhd/rTrLH0MNCJN08op1yL0yhfqtC6gJMaLjxgdurNSh
+ FrJGFt5IakrtZJZ+zS3pOETgKN4f5uyvYNJ/yUrv6XSQyKQvsl2fmUPuZ8RGj75dJa/Z
+ juGJHUwVpfpSWhJfXUha7lIDJtPl0V5In9oz6iLERTSi/czSVBdKPN+7HZC5OtUdK1g6
+ P0Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692819351; x=1693424151;
+ d=1e100.net; s=20221208; t=1692819629; x=1693424429;
  h=in-reply-to:content-disposition:mime-version:references
  :mail-followup-to:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bp6bqfxHSQpdkJRolDmXvKb/3Pn3dAeE7ceDWHWRWDA=;
- b=eqnbAwqCKtQH/ZjEI35iP8y+ld+pnwBTVsQxsSJ/2CRB+s1Kj58yLMkFioa8Uc438c
- 9DWm14cvimDYWKtMfiFMmUALREl6MCf1PCTImbrEupkOKe8JjSAhipusLcIDcK7OHB9l
- it8FoWHRLG7aYArSLPR3vfpIZqtMaRXCKccDT1fNZ7cBZIkUlSEOpVh55eiso+JkZVt4
- oIepqZYUIEWT9YVc8yXbkZkqwOiZ3oDDCEkOxyMFVkmhFpgKxOUGU3/i9PAAR+vn1Hit
- wEUeEP8moVIvSanx50vatYUL4Brmr3XwPhuGwC/VDd2cbpbn3DcpKi1XZoT0Br0dTWyn
- m8gg==
-X-Gm-Message-State: AOJu0YzvLYgWv5p3Y6C4harlrmxLMHG3Y/8uO6A4Z9hc6rxeCncXHnPU
- BG037WPyYa5tG8ZEAKD2sNM=
-X-Google-Smtp-Source: AGHT+IE/pM8ndpJGoLUlBS3tuaqhUZ8RbNcGhFz69gcMjVcaQK1oUzA23JffSfe6yWFdi+iqNFaCAg==
-X-Received: by 2002:adf:f3cd:0:b0:319:6ce2:e5a3 with SMTP id
- g13-20020adff3cd000000b003196ce2e5a3mr10674485wrp.26.1692819351220; 
- Wed, 23 Aug 2023 12:35:51 -0700 (PDT)
+ bh=SZSBOiLjL7l4F5q6riFKLA/ZyFchhCDJyrcaJS20FpE=;
+ b=MnlfwYQksLBweYo3rojH6wO+LZkYA+WXkj1651WyMHehe0iFYNwldAQTbpAOzHPOin
+ nlQ3nZVVNXi7y8LUnV/cixsngvXm+1KMBDZP76D3fYUxf/0ewLixEdnXJlQyenPsI5+r
+ z0/GNlhIz+dEU7XEDRs+fxy/WeG0/TIbRfEEJlMQxvNR21wG/emwXRsKZiv9dPFPr7Xd
+ 92iWtDPEYDbc2xksMPouAd7Hj4bUbO7u4NFgE21RjHeoSmNS7VwH0c6mpbeB7iWdJ3tD
+ Q3HFFvdSeyLC8VIMz7kAbKGBkP7DsqTxwxuebaJ1ZjWZWY/N4LDRgl2a2gUMUDqrwmcx
+ uuQA==
+X-Gm-Message-State: AOJu0YyKXT7k0MHwcFr23ZEXA2P6dJ2riZxUDjWyFu1dldthfa9iAhdz
+ 5FGwSkTJdimkfjFwUKp6qjU=
+X-Google-Smtp-Source: AGHT+IFzQqUZNW2Ms4UX0ii01iwiE4BupQm9WH+y8SjsIil3cZMc3ISo746anHc7lRrm7ibTKpTnyA==
+X-Received: by 2002:a05:600c:d8:b0:3fe:e812:4709 with SMTP id
+ u24-20020a05600c00d800b003fee8124709mr9585282wmm.12.1692819628516; 
+ Wed, 23 Aug 2023 12:40:28 -0700 (PDT)
 Received: from mmaatuq-HP-Laptop-15-dy2xxx
  ([2001:8f8:1163:806e:99f3:c946:a43c:e1e3])
  by smtp.gmail.com with ESMTPSA id
- p6-20020a5d68c6000000b00317f70240afsm20336320wrw.27.2023.08.23.12.35.47
+ m20-20020a7bca54000000b003fe3674bb39sm503196wml.2.2023.08.23.12.40.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 23 Aug 2023 12:35:50 -0700 (PDT)
-Date: Wed, 23 Aug 2023 23:35:45 +0400
+ Wed, 23 Aug 2023 12:40:28 -0700 (PDT)
+Date: Wed, 23 Aug 2023 23:40:23 +0400
 From: Mahmoud Matook <mahmoudmatook.mm@gmail.com>
-To: David Laight <David.Laight@ACULAB.COM>
-Subject: Re: [PATCH 1/2] selftests: Provide local define of min() and max()
-Message-ID: <20230823193545.nrzlbsa32hm4os4k@mmaatuq-HP-Laptop-15-dy2xxx>
-Mail-Followup-To: David Laight <David.Laight@ACULAB.COM>,
- 'Willem de Bruijn' <willemdebruijn.kernel@gmail.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "kuba@kernel.org" <kuba@kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "pabeni@redhat.com" <pabeni@redhat.com>,
- "edumazet@google.com" <edumazet@google.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Subject: Re: [PATCH 2/2] selftests/net: replace ternary operator with
+ min()/max()
+Message-ID: <20230823194023.zc3p6g2atwjz6hbp@mmaatuq-HP-Laptop-15-dy2xxx>
+Mail-Followup-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kuba@kernel.org, netdev@vger.kernel.org, davem@davemloft.net,
+ pabeni@redhat.com, edumazet@google.com, shuah@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 References: <20230819195005.99387-1-mahmoudmatook.mm@gmail.com>
- <20230819195005.99387-2-mahmoudmatook.mm@gmail.com>
- <64e22df53d1e6_3580162945b@willemb.c.googlers.com.notmuch>
- <7e8c2597c71647f38cd4672cbef53a66@AcuMS.aculab.com>
- <CAF=yD-+6cWTiDgpsu=hUV+OvzDFRaT2ZUmtQo9qTrCB9i-+7ng@mail.gmail.com>
- <d33fbb24119c4d09864e79ea9dfbb881@AcuMS.aculab.com>
+ <20230819195005.99387-3-mahmoudmatook.mm@gmail.com>
+ <64e22ce99cfa6_35801629446@willemb.c.googlers.com.notmuch>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <d33fbb24119c4d09864e79ea9dfbb881@AcuMS.aculab.com>
-Cc: 'Willem de Bruijn' <willemdebruijn.kernel@gmail.com>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "edumazet@google.com" <edumazet@google.com>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
- "shuah@kernel.org" <shuah@kernel.org>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>
+In-Reply-To: <64e22ce99cfa6_35801629446@willemb.c.googlers.com.notmuch>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, edumazet@google.com,
+ linux-kselftest@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ shuah@kernel.org, davem@davemloft.net,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -140,60 +125,37 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 08/22, David Laight wrote:
+On 08/20, Willem de Bruijn wrote:
 
-> ...
-> > > That typecheck() is horrid.
-> > > It may well have caused more bugs due to incorrect casts that
-> > > it actually detected.
-> > >
-> > > I'd suggest the version that just avoids multiple evaluations.
-> > > Or just error signed v unsigned comparisons.
-> > > See  https://lore.kernel.org/all/b4ce9dad748e489f9314a2dc95615033@AcuMS.aculab.com/
-> > > for an example patch set.
+> Mahmoud Maatuq wrote:
+> > Fix the following coccicheck warning:
+> > tools/testing/selftests/net/udpgso_bench_tx.c:297:18-19: WARNING opportunity for min()
+> > tools/testing/selftests/net/udpgso_bench_tx.c:354:27-28: WARNING opportunity for min()
+> > tools/testing/selftests/net/so_txtime.c:129:24-26: WARNING opportunity for max()
+> > tools/testing/selftests/net/so_txtime.c:96:30-31: WARNING opportunity for max()
 > > 
-> > Interesting, thanks. That is also simpler.
+> > Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+> > ---
+> >  tools/testing/selftests/net/Makefile          | 2 ++
+> >  tools/testing/selftests/net/so_txtime.c       | 7 ++++---
+> >  tools/testing/selftests/net/udpgso_bench_tx.c | 6 +++---
+> >  3 files changed, 9 insertions(+), 6 deletions(-)
 > > 
-> > Also, the existing patch is no worse than the open coded code today,
-> > so even without code to avoid multiple evaluations, I guess it's okay
-> > to merge.
-> > 
-> > The coccinelle warnings are arguably false positives, using checks for
-> > kernel code, but being run against userspace code that has no access
-> > to those helpers. But fine to silence them.
+> > diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+> > index 7f3ab2a93ed6..a06cc25489f9 100644
+> > --- a/tools/testing/selftests/net/Makefile
+> > +++ b/tools/testing/selftests/net/Makefile
+> > @@ -3,6 +3,8 @@
+> >  
+> >  CFLAGS =  -Wall -Wl,--no-as-needed -O2 -g
+> >  CFLAGS += -I../../../../usr/include/ $(KHDR_INCLUDES)
+> > +# Additional include paths needed by kselftest.h
+> > +CFLAGS += -I../
 > 
-> You can't use is_constexpr() unless 'sizeof *(void *)' is valid.
-> And builtin_constant() isn't good enough for builtin_choose_expr().
-> 
-> That might be ok for selftests and tools, but not for generaluserspace.
-> 
-> 	David
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-I tried to use the relaxed version provided in the shared patchset link 
-besides not able to use is_constexpr(), I'm not able to use
-__UNIQUE_ID() also. It's definded inside include/linux/compiler-gcc.h
-and it uses another macro __PASTE() which is defined inside
-include/linux/compiler_types.h. 
-not sure what to do next
-- bring those macros definitions to able to use the relaxed version.
-- if the most important point for min/max defines inside selftests is to
-  avoid multiple evaluation is the below version acceptable?
-  /*
-  #define min(x, y) ({ \
-    typeof(x) _x = (x); \
-    typeof(y) _y = (y); \
-    _x < _y ? _x : _y; \
-})
-
-#define max(x, y) ({ \
-    typeof(x) _x = (x); \
-    typeof(y) _y = (y); \
-    _x > _y ? _x : _y; \
-})
-*/
+> Why this, instead of the existing include with relative path?
+>
+no big reason other than that version was added in a previous patch that was accepted 
+https://lore.kernel.org/all/168972782004.15840.17484255346823026.git-patchwork-notify@kernel.org/#r
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
