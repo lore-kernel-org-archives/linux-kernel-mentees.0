@@ -4,98 +4,72 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id ECE8DC6FA8F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Aug 2023 08:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id DEB99C27C40
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 24 Aug 2023 11:47:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 99D3E41489;
-	Thu, 24 Aug 2023 08:57:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 99D3E41489
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4CB21414F9;
+	Thu, 24 Aug 2023 11:47:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4CB21414F9
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=Tznc5ZWr
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=SZASipak
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RGKy1qg_e1Qp; Thu, 24 Aug 2023 08:57:41 +0000 (UTC)
+	with ESMTP id rU_za2w391_y; Thu, 24 Aug 2023 11:47:06 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9683841480;
-	Thu, 24 Aug 2023 08:57:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9683841480
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4D1D0414DE;
+	Thu, 24 Aug 2023 11:47:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4D1D0414DE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 73277C0039;
-	Thu, 24 Aug 2023 08:57:41 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE8FBC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2BBB9C0071;
+	Thu, 24 Aug 2023 11:47:06 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CF243C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Aug 2023 08:57:39 +0000 (UTC)
+ Thu, 24 Aug 2023 11:47:04 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9A7214191E
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9C1B6414CC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Aug 2023 08:57:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9A7214191E
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=Tznc5ZWr
+ Thu, 24 Aug 2023 11:47:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9C1B6414CC
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id uE-Z-716eyQS
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id c0YU1iL_JLVJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Aug 2023 08:57:38 +0000 (UTC)
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
- [IPv6:2607:f8b0:4864:20::62f])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 8C4BB40117
+ Thu, 24 Aug 2023 11:47:03 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id BBAAF4060B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Aug 2023 08:57:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8C4BB40117
-Received: by mail-pl1-x62f.google.com with SMTP id
- d9443c01a7336-1bf092a16c9so51068745ad.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Aug 2023 01:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692867458; x=1693472258;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wONcFGWq+PGpZIkK9NYcTrSr8kaoXLZnug4VTSpfpPY=;
- b=Tznc5ZWr+3NAD2cD/d5ogGrBOTq3TgjrZld+TW6mk6d+TZXYJDLL4Auc8V/6Il08eL
- CFGn6otYSEkPncaBfF/lylKc4yQdlxsoLvhlLhj55ZwSwBoapNB6oAegGg3atmr/ZwYw
- O4jgpo+1QrG+3X4XwixG0r5828IiHdmSTrb3B05pngmFwxlaxC0SK6MAnVgxWSh0SsJ6
- slWAhrUde5orpCa1ycNpOJEHZqqKPj7f7cKV/NdWsBPjPYhwk+JeRr7Fo19Wc8/O4tKt
- c8HZD2zgcCyIkRpv/3tGM7t4bgPV7gzozmyIXHsDS/kcyJNx1jMyMsA/JJn+Ezp7N4GJ
- foPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692867458; x=1693472258;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wONcFGWq+PGpZIkK9NYcTrSr8kaoXLZnug4VTSpfpPY=;
- b=LpdJnL1sZ1ixDKE1grykOjlHvpLoL3Bs3kgZWOSLKqvBBR1i8UxbkYQK3Rv4sPnlCg
- eu4kCq2+IMWoX5qGXXUpHzV9eUjrNdlYyJaBNZJrPgyayiKTy3Ba4iKyPpTnVL9bD9MZ
- ah1yY7x0izxnPJ7AeRUA/e5ZcnvYpyW5lwKnBCjY8O0gW5A0i6/C67hXFXXpxffNrFOY
- aR1Jcx67LxwltMozNDvRyD9SrSrx+BNjau88f6UYj1x6HfGCRERIpPa18WD9YbPrjW04
- obcmH0uq4qzJqVDIaWRkpxOzP91d9aOKKWRIjXaGfrNyHYDBV8GWdk471l5spLeNI5NM
- 0wjw==
-X-Gm-Message-State: AOJu0Yyy/CWO6eFNSeBegRXVb5MyvF6dAJAlBeW60fZc8D8cf/hYvcSR
- R7uo//T4B8WnuhpgBH6mfS8=
-X-Google-Smtp-Source: AGHT+IHsmAb2LrAKerZ9+R8nOBbMmaVsg9zBo6JFh36BUqIlI7RiLy51goYsL07hTZ4IdFaQPCDi+g==
-X-Received: by 2002:a17:903:234e:b0:1bd:aeb3:9504 with SMTP id
- c14-20020a170903234e00b001bdaeb39504mr17985769plh.15.1692867457815; 
- Thu, 24 Aug 2023 01:57:37 -0700 (PDT)
-Received: from localhost.localdomain
- ([2409:40c2:1047:2379:8974:f63f:c2f8:6a5b])
- by smtp.gmail.com with ESMTPSA id
- l6-20020a170902d34600b001b8b26fa6c1sm12322673plk.115.2023.08.24.01.57.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Aug 2023 01:57:37 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: gspca: UBSAN: shift-out-of-bounds in set_flicker
-Date: Thu, 24 Aug 2023 14:27:31 +0530
-Message-Id: <20230824085731.9930-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ Thu, 24 Aug 2023 11:47:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BBAAF4060B
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 9DC46653A7;
+ Thu, 24 Aug 2023 11:47:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C23DC433CD;
+ Thu, 24 Aug 2023 11:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1692877622;
+ bh=ujlrD4Sp8quQd5NmAy54IKaq5mtGExATpmzJqrhMpfo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SZASipakVIkRDiJc9gemQoyx1PJon9fy172p5VL6liXqmP2xTcHuiMEaVLnpZM222
+ QPHoiHVcCWNmAuEPE1k6EBija3gacj7Jaf1+PBHgLUTcS0nZhbe7UG9fNdMreflVz8
+ QKdJF5+dZSEbxZMA1xZ0bnnrMPD7OEgS614eN7hM=
+Date: Thu, 24 Aug 2023 13:46:59 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: coolrrsh@gmail.com
+Subject: Re: [PATCH v3] media: gspca: UBSAN: shift-out-of-bounds in set_flicker
+Message-ID: <2023082406-vascular-unroasted-077a@gregkh>
+References: <20230824085731.9930-1-coolrrsh@gmail.com>
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+Content-Disposition: inline
+In-Reply-To: <20230824085731.9930-1-coolrrsh@gmail.com>
+Cc: slark_xiao@163.com, linux-kernel@vger.kernel.org,
+ syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com, mchehab@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -113,48 +87,58 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+On Thu, Aug 24, 2023 at 02:27:31PM +0530, coolrrsh@gmail.com wrote:
+> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+> 
+> Syzkaller reported the following issue:
+> 							
+> UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27 
+> shift exponent 245 is too large for 32-bit type 'int'
+> 						
+> When the value of the variable "sd->params.exposure.gain" exceeds the 
+> number of bits in an int, a shift-out-of-bounds error occurs. The error is 
+> generated when the variable "currentexp" is left-shifted by more than 31 
+> bits. In order to confirm the range is valid, the conditional expression 
+> was added.
+> 				
+> Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+> Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>							
 
-Syzkaller reported the following issue:
-							
-UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27 
-shift exponent 245 is too large for 32-bit type 'int'
-						
-When the value of the variable "sd->params.exposure.gain" exceeds the 
-number of bits in an int, a shift-out-of-bounds error occurs. The error is 
-generated when the variable "currentexp" is left-shifted by more than 31 
-bits. In order to confirm the range is valid, the conditional expression 
-was added.
-				
-Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
-Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>							
----
-v1->v2			
-Changed the patch
-v2->v3				
-Changed the commit message	
----
- drivers/media/usb/gspca/cpia1.c | 2 ++
- 1 file changed, 2 insertions(+)
+You have loads of trailing whitespace, please fix your editor to not do
+that.
 
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 46ed95483e22..dafc522d5e7b 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
- 			sd->params.exposure.expMode = 2;
- 			sd->exposure_status = EXPOSURE_NORMAL;
- 		}
-+		if (sd->params.exposure.gain > 31)
-+			return -1;
- 		currentexp = currentexp << sd->params.exposure.gain;
- 		sd->params.exposure.gain = 0;
- 		/* round down current exposure to nearest value */
--- 
-2.25.1
+> ---
+> v1->v2			
+> Changed the patch
 
+In what way?  Be specific.
+
+> v2->v3				
+> Changed the commit message	
+
+Again, be specific please.  Otherwise all changes could be listed with
+these two sentances and that helps none of us out :(
+
+> ---
+>  drivers/media/usb/gspca/cpia1.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+> index 46ed95483e22..dafc522d5e7b 100644
+> --- a/drivers/media/usb/gspca/cpia1.c
+> +++ b/drivers/media/usb/gspca/cpia1.c
+> @@ -1028,6 +1028,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
+>  			sd->params.exposure.expMode = 2;
+>  			sd->exposure_status = EXPOSURE_NORMAL;
+>  		}
+> +		if (sd->params.exposure.gain > 31)
+> +			return -1;
+
+Why is this still -1?
+
+greg k-h
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
