@@ -4,94 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 243B1C88CB2
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Aug 2023 00:50:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6701FC88CB9
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 25 Aug 2023 02:05:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9785683168;
-	Fri, 25 Aug 2023 00:50:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9785683168
+	by smtp1.osuosl.org (Postfix) with ESMTP id D9B9F834B9;
+	Fri, 25 Aug 2023 02:05:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D9B9F834B9
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=hV2UHFjI
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=KH+lMhzI
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NPr2r_Gnsmqs; Fri, 25 Aug 2023 00:50:28 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EDB4E830B8;
-	Fri, 25 Aug 2023 00:50:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EDB4E830B8
+	with ESMTP id WBEbhqruECru; Fri, 25 Aug 2023 02:05:51 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C48F18343B;
+	Fri, 25 Aug 2023 02:05:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C48F18343B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BA668C0071;
-	Fri, 25 Aug 2023 00:50:27 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C6778C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9B963C0039;
+	Fri, 25 Aug 2023 02:05:50 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 955D0C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Aug 2023 00:50:25 +0000 (UTC)
+ Fri, 25 Aug 2023 02:05:49 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9B974830B8
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6FA5860BD8
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Aug 2023 00:50:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9B974830B8
+ Fri, 25 Aug 2023 02:05:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6FA5860BD8
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=KH+lMhzI
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id y-sLbOoUhrxB
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id D7HdF1A_1JP5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Aug 2023 00:50:24 +0000 (UTC)
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by smtp1.osuosl.org (Postfix) with ESMTPS id F2AE383065
+ Fri, 25 Aug 2023 02:05:48 +0000 (UTC)
+Received: from mail-oo1-xc32.google.com (mail-oo1-xc32.google.com
+ [IPv6:2607:f8b0:4864:20::c32])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 188F360BD4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 25 Aug 2023 00:50:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F2AE383065
-Received: by mail-pf1-x42d.google.com with SMTP id
- d2e1a72fcca58-68a402c1fcdso353237b3a.1
+ Fri, 25 Aug 2023 02:05:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 188F360BD4
+Received: by mail-oo1-xc32.google.com with SMTP id
+ 006d021491bc7-573249e73f8so338307eaf.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 24 Aug 2023 17:50:23 -0700 (PDT)
+ Thu, 24 Aug 2023 19:05:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1692924623; x=1693529423;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LvwS+jlKr38unb9CcYY5WoiseSIwieWVb3qntdo57a4=;
- b=hV2UHFjIjieRWzKuPWsS/r2yAjufefc86mAKUrHLobqKOBVuYpSsGgguQ4l5C/8ZVe
- 1KgOwcLoW881Oy8XgIagxzfL2eukj9n/2lbAa+a3zChSbdGcgORl+tpFQPSHYuZE1LuI
- IAabMQqkct0P5QE3MQucHaEtq3jy0eprfnZUAyZFGlX37fXrCuNM6AEimvEGH5zuGpCl
- VXVsUINnwmKsDUVkc9R1wfp0gyFOfWAzGC5j7P+Sj2Qw3JOzhOpDHbFzvAVURMbCRd1e
- 2/SNEOYH8vz6trAT4e73DzxVt/qlbUUrQEnkQtUfQCPxIOVQu1bAsjRK3yC/QeVH+WtO
- uknA==
+ d=gmail.com; s=20221208; t=1692929147; x=1693533947;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=tV/xhMrG27pnQQdfeNDXAs9vebCS+5kkS2KT1sSOa80=;
+ b=KH+lMhzI7jZ8rYptdhcbSfZQ8+HBsGRJd77yQHDq+BXrhGxqXTWKXOH3kGZYuze8qe
+ kfvFFx5SyWefbAqyqUbeBn4VDBIuPTMnTciUaWuBxik1CZwCXnLbghczQs+n/YOMn5Sa
+ 2mto9NZOBxN5C8qUM1C3b4o8qeN/WKzVjdG+Ez9ViVkD2OhfZfZ0iiejDsSBwxwMtAbj
+ P9VBABTUkDMnw+ZFBjEkHdNoqW2AOlIBc8bFXuyakMoVN2RIxbYplmnGe6i+PmeEPwcn
+ 6KjSkifdhykk/A1XmBBLQzc49QwW+jMEeeEv+1Oj5YCTj9FgUWmTPTpA3DqV2PwZBSLe
+ OdhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1692924623; x=1693529423;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LvwS+jlKr38unb9CcYY5WoiseSIwieWVb3qntdo57a4=;
- b=Q/hrgGQrdwlJ7TN02C/xVyI1oGwk7m+zyKgyU2bUR6+ekub5HL+PoI2pWPFTt9+nVf
- Q47eFcCy51Z7r2j2s0J/Rs9KTVOHzTv+vuga1MhmPr4fSTpt9b4ugU7ZAYKElqx/pnhy
- qG70QF51ZXA3gzUKAQPk8Ble5uUGtUCXQC7CXmhMQF5sRYrBDuf47be4GcvaMyiNPT76
- hDAgY4sdBI5RTaD7fzw8C/OjvcDG1wNj+pCqxoFPVUSzpLDWIHJ6PVN3QiAYLFR9TTdq
- B+AXHNc4KXzkwTTq81kV9aBWFKn/lhIZdaUjRVyuKbXaTyYMXHG6xCQIQrXCxpuFz4fP
- 9gxw==
-X-Gm-Message-State: AOJu0YymQOo9Xkl69tqNGXUL69KjAtQH6Tz3NoWugLmNZdOhesKfmFrw
- Fc8kcZrZPH0YIREqbcA69uQ=
-X-Google-Smtp-Source: AGHT+IF9kibcxyG9jR7mEZPqgFZUObik7otOOL6ht5rmNeC+uOml6EcU3CG9gL31/50CjLTwV7s/9Q==
-X-Received: by 2002:a05:6a20:3d83:b0:134:2b44:decf with SMTP id
- s3-20020a056a203d8300b001342b44decfmr16885759pzi.21.1692924623064; 
- Thu, 24 Aug 2023 17:50:23 -0700 (PDT)
-Received: from rajgad.hsd1.ca.comcast.net
- ([2601:204:df00:9cd0:5aa8:2901:89a5:c04b])
+ d=1e100.net; s=20221208; t=1692929147; x=1693533947;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tV/xhMrG27pnQQdfeNDXAs9vebCS+5kkS2KT1sSOa80=;
+ b=S+HBz4jOvQ+JTv+Apr8O3Hw2xTO/FE4w+nZDZ/i/r0pQ5cbTAqyEnJaEUvbY0szgvm
+ QbBsixHUPRmNJK/tCaNOQfMyxvJmcZD0BOKpBzWMiWeL4jXLfC/2pGdu7XRswijNBHqm
+ qiUsGobvpUbqDkh8toHw0xaPrtI35BJ25yxkQ6ODykOq5IIyPx/NiCS5UUooTpxh8pxb
+ BMq2CTPB6M3+SBqaeGuUqt0CKAX609hgqi+0NJCuFOcZubVocup7M7aPDB9fhzhM7FzN
+ 01bYNoQS0T8TAydsDiPtF2cB8TWyZgsdzr80rrVKwrm1RMw04dWvO9GlUiIkhQOSiSon
+ WPbg==
+X-Gm-Message-State: AOJu0YxtrF3oyBYllRU3t86haZ/HYe4yveqA6f1f0vHhNhp5Od+8T7fJ
+ N8DjsZ9aXHfgR9Si8ypBWx4=
+X-Google-Smtp-Source: AGHT+IFwVVg6YiTFk8zpBOPVx1N8fV+8AvVZxuYh+26ryVBhH9WMkI0PDKDJBRCuMeaUJ5VlITHA5w==
+X-Received: by 2002:a05:6870:5620:b0:1bb:583a:db4a with SMTP id
+ m32-20020a056870562000b001bb583adb4amr1678722oao.44.1692929147043; 
+ Thu, 24 Aug 2023 19:05:47 -0700 (PDT)
+Received: from rajgad ([2601:204:df00:9cd0:5aa8:2901:89a5:c04b])
  by smtp.gmail.com with ESMTPSA id
- f12-20020aa782cc000000b0064f76992905sm320672pfn.202.2023.08.24.17.50.22
+ f6-20020a17090ace0600b00267ee71f463sm3461672pju.0.2023.08.24.19.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 24 Aug 2023 17:50:22 -0700 (PDT)
+ Thu, 24 Aug 2023 19:05:46 -0700 (PDT)
+Date: Thu, 24 Aug 2023 19:05:45 -0700
 From: Atul Raut <rauji.raut@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Subject: pagevec: Fix array-index-out-of-bounds error
-Date: Thu, 24 Aug 2023 17:17:21 -0700
-Message-Id: <20230825001720.19101-1-rauji.raut@gmail.com>
-X-Mailer: git-send-email 2.34.1
+To: Matthew Wilcox <willy@infradead.org>
+Subject: Re: pagevec: Fix array-index-out-of-bounds error
+Message-ID: <20230825020545.bfpxs6uq4qdvrv5x@rajgad>
+References: <20230825001720.19101-1-rauji.raut@gmail.com>
+ <ZOgKTO612u1Fn7PB@casper.infradead.org>
 MIME-Version: 1.0
-Cc: syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, willy@infradead.org
+In-Reply-To: <ZOgKTO612u1Fn7PB@casper.infradead.org>
+Cc: linux-fsdevel@vger.kernel.org,
+ syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,86 +108,93 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============1607033618761807315=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Syzkaller reported the following issue:
 
-UBSAN: array-index-out-of-bounds in ./include/linux/pagevec.h:74:2
-index 255 is out of range for type 'struct folio *[15]'
-CPU: 1 PID: 12841 Comm: syz-executor402 Not tainted 6.5.0-rc7-syzkaller-g35e2132122ba #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/26/2023
-Call trace:
- dump_backtrace+0x1b8/0x1e4 arch/arm64/kernel/stacktrace.c:233
- show_stack+0x2c/0x44 arch/arm64/kernel/stacktrace.c:240
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0xd0/0x124 lib/dump_stack.c:106
- dump_stack+0x1c/0x28 lib/dump_stack.c:113
- ubsan_epilogue lib/ubsan.c:217 [inline]
- __ubsan_handle_out_of_bounds+0xfc/0x148 lib/ubsan.c:348
- folio_batch_add include/linux/pagevec.h:74 [inline]
- find_lock_entries+0x8fc/0xd84 mm/filemap.c:2089
- truncate_inode_pages_range+0x1b0/0xf74 mm/truncate.c:364
- truncate_inode_pages mm/truncate.c:449 [inline]
- truncate_inode_pages_final+0x90/0xc0 mm/truncate.c:484
- ntfs_evict_inode+0x20/0x48 fs/ntfs3/inode.c:1790
- evict+0x260/0x68c fs/inode.c:664
- iput_final fs/inode.c:1788 [inline]
- iput+0x734/0x818 fs/inode.c:1814
- ntfs_fill_super+0x3648/0x3f90 fs/ntfs3/super.c:1420
- get_tree_bdev+0x378/0x570 fs/super.c:1318
- ntfs_fs_get_tree+0x28/0x38 fs/ntfs3/super.c:1647
- vfs_get_tree+0x90/0x274 fs/super.c:1519
- do_new_mount+0x25c/0x8c8 fs/namespace.c:3335
- path_mount+0x590/0xe04 fs/namespace.c:3662
- do_mount fs/namespace.c:3675 [inline]
- __do_sys_mount fs/namespace.c:3884 [inline]
- __se_sys_mount fs/namespace.c:3861 [inline]
- __arm64_sys_mount+0x45c/0x594 fs/namespace.c:3861
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
- el0_svc+0x58/0x16c arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:591
+--===============1607033618761807315==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sve3wn3ghdf5u6b7"
+Content-Disposition: inline
 
-In folio_batch_add, which contains folios rather
-than fixed-size pages, there is a chance that the
-array index will fall outside of bounds.
-Before adding folios, examine the available space to fix.
 
-The patch is tested via syzbot.
+--sve3wn3ghdf5u6b7
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=e295147e14b474e4ad70
-Signed-off-by: Atul Raut <rauji.raut@gmail.com>
----
- include/linux/pagevec.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Hello Matthew,
 
-diff --git a/include/linux/pagevec.h b/include/linux/pagevec.h
-index 87cc678adc85..208f9a99889f 100644
---- a/include/linux/pagevec.h
-+++ b/include/linux/pagevec.h
-@@ -71,7 +71,9 @@ static inline unsigned int folio_batch_space(struct folio_batch *fbatch)
- static inline unsigned folio_batch_add(struct folio_batch *fbatch,
- 		struct folio *folio)
- {
--	fbatch->folios[fbatch->nr++] = folio;
-+	if (folio_batch_space(fbatch))
-+		fbatch->folios[fbatch->nr++] = folio;
-+
- 	return folio_batch_space(fbatch);
- }
- 
--- 
-2.34.1
+Thank you for your reply, agree with you its seems wrong fix,
+will take a look at it.
+
+-Atul=20
+
+On Fri, Aug 25, 2023 at 02:56:28AM +0100, Matthew Wilcox wrote:
+>On Thu, Aug 24, 2023 at 05:17:21PM -0700, Atul Raut wrote:
+>>  ntfs_evict_inode+0x20/0x48 fs/ntfs3/inode.c:1790
+>
+>No.  This is your clue.  ntfs corrupts memory.  You can't take bug
+>reports involving ntfs seriously.  Ignore everything tagged with ntfs.
+>
+>> In folio_batch_add, which contains folios rather
+>> than fixed-size pages, there is a chance that the
+>> array index will fall outside of bounds.
+>> Before adding folios, examine the available space to fix.
+>
+>This is definitely the wrong fix.
+>
+>>  static inline unsigned folio_batch_add(struct folio_batch *fbatch,
+>>  		struct folio *folio)
+>>  {
+>> -	fbatch->folios[fbatch->nr++] =3D folio;
+>> +	if (folio_batch_space(fbatch))
+>> +		fbatch->folios[fbatch->nr++] =3D folio;
+>
+>Did you look at what folio_batch_space() actually does?
+>
+>static inline unsigned int folio_batch_space(struct folio_batch *fbatch)
+>{
+>        return PAGEVEC_SIZE - fbatch->nr;
+>}
+>
+>So if fbatch->nr is 255, what will it return?  How will
+>folio_batch_add() behave?
+>
+>The right way to fix this problem is to find the data corrupter in NTFS.
+>You can't "fix" it anywhere else.
+
+--sve3wn3ghdf5u6b7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEk+Uz5/8aTg0U2TbgUdAfNFxksqcFAmToDHUACgkQUdAfNFxk
+sqdPngv+NCUU657tLXSWvPgVhINaEPNau3DK7gKbAEj67weSHu/YUAavgo04fDrg
+nD6ND6gskKrHaOF8uxzaybB49a5d4E4Mp5JTQCJ8D/3771GijyX+PgauDZBAtPsF
+r0PJOc9Gh//OFIQmtxp9COzxL219LBnJysQ7lBxwYJ3/oiO4yvvNwgeIEv1U+L29
+MLoKrFiMc7CGp5NmzPAGc5Fl+OuKF96NgkDW/8ZUvkLp80fkOg+egdqwTFLRJ9Ok
+lqYQrqAQngQhQS3siWFjUR7UNcsOsq6Aj+22MPTAc5VijUFEVW3+0u8npE7g3uoo
++4J/Ip9WZzNvpIetdwrWgSbi61dGezJv5AfxC5zXwQXz3jtC9Hu3ip8f+Xune9pD
+It7225RCOz4A5R/jjWSSpBlmvOUB/+T7BD3PLa3Hpa5x/cb+x2gs/bAGc+7bTsi2
+pIwRqG9I4vHbXSY2eJDUXFeaTBDnLMEgur6nmr5TWNtUt7Cw/4qcPtrfpyMmtsfc
+BlipfPA/
+=Bi8j
+-----END PGP SIGNATURE-----
+
+--sve3wn3ghdf5u6b7--
+
+--===============1607033618761807315==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============1607033618761807315==--
