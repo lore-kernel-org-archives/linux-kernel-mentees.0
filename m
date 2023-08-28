@@ -4,93 +4,97 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C20F0C71153
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Aug 2023 10:22:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 243E9C83F12
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 28 Aug 2023 15:04:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 51D1C60FFB;
-	Mon, 28 Aug 2023 10:22:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 51D1C60FFB
+	by smtp3.osuosl.org (Postfix) with ESMTP id 99D51610C9;
+	Mon, 28 Aug 2023 15:04:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 99D51610C9
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=nVU2W7l+
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20221208 header.b=cfQqaL/I
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id dIlhlalLOVL8; Mon, 28 Aug 2023 10:22:41 +0000 (UTC)
+	with ESMTP id mnb05Z-YU91M; Mon, 28 Aug 2023 15:04:22 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 5FFEF60E35;
-	Mon, 28 Aug 2023 10:22:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5FFEF60E35
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 8350F60E5D;
+	Mon, 28 Aug 2023 15:04:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8350F60E5D
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 33824C0071;
-	Mon, 28 Aug 2023 10:22:41 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D2294C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 5F142C0039;
+	Mon, 28 Aug 2023 15:04:22 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8D554C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Aug 2023 10:22:38 +0000 (UTC)
+ Mon, 28 Aug 2023 15:04:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id AC3BD60EF1
+ by smtp1.osuosl.org (Postfix) with ESMTP id 5BC4D80E27
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Aug 2023 10:22:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AC3BD60EF1
+ Mon, 28 Aug 2023 15:04:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5BC4D80E27
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
+ header.a=rsa-sha256 header.s=20221208 header.b=cfQqaL/I
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id NSwhK9kTiMXq
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id QLDEKFzGADSO
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Aug 2023 10:22:37 +0000 (UTC)
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id CBE5660E35
+ Mon, 28 Aug 2023 15:04:19 +0000 (UTC)
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com
+ [IPv6:2607:f8b0:4864:20::549])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 69F7A80D7B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Aug 2023 10:22:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CBE5660E35
-Received: by mail-pj1-x102c.google.com with SMTP id
- 98e67ed59e1d1-26f4bc74131so1951769a91.1
+ Mon, 28 Aug 2023 15:04:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 69F7A80D7B
+Received: by mail-pg1-x549.google.com with SMTP id
+ 41be03b00d2f7-56f75ec7ca9so3444261a12.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 28 Aug 2023 03:22:37 -0700 (PDT)
+ Mon, 28 Aug 2023 08:04:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693218157; x=1693822957;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yEaJWeBAVOoawr4c33mkvjoKOidJHOfAi0d6D3J7utQ=;
- b=nVU2W7l+NmxVDoUJL2WyJAGvhjit71AAHto0Hp6vd4G3o3tDeOnth7/rtm5+CafRBa
- FU3U4IbbtzjJjCAYNdlUnXH6Qj8Qep/bUf4KvB0lelGn7Mfoj68ULuvWwLzorZaYugdH
- zo6JmPxza0/p/K9y1/utstUzy9tLotzQs7+IHqzYSsqSykziMqaf9bYzdXqg533TtDlC
- zhUj7pc0ctVglVDy0VkYTk0Wwj3+F93yg8qP7HSKuF/uQhioRSMTd6PrqucIn8ItdWI4
- tuiDwcLZx1zFttMJHGWhTcB3L9v+mmWkzdByUKdjDjU287NRKzWpPd2bOJCtao/ZANpT
- lu5A==
+ d=google.com; s=20221208; t=1693235059; x=1693839859;
+ h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=44z04Upq456UQmw678VVBxGUGBJlGyeCqGamftbBzBI=;
+ b=cfQqaL/IgFqjVPy1uxXhOnPoIcUzStfsVfY2XTS+f8qyN8I/TPlrLPkXMtnMHQL0hw
+ eRs5YPhOyntfV3Yk919brYJIa7QFoPtF0o2OpVbSikSYVDq9EPtJUqothhsfbUdkTE2d
+ vVf8C/aldP7zaxVLQ8/KYf3esHR2VLxdxCxVNdQ3NegLvf9K4sJ50aOOOYKGC0pqPae8
+ +kGua2sD7Uxi312eA0eHodErjGJ6Vpl1tkgHI7l011Xdxvpy1+8XPLkzgxRjBWn5kgms
+ pJVvOJlDlhCs25wlVGuNPOfw/+pVTHgUzV+T9ZpWWbvqZmxO1b4sGMNfGT2aRbUL8+XS
+ IJvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693218157; x=1693822957;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yEaJWeBAVOoawr4c33mkvjoKOidJHOfAi0d6D3J7utQ=;
- b=c/fY/CH/qc4y5yhZ8PRheh6FFX/I5Eou9qB3MpUH6S8WQED4osI+DkVCvdI8xDKXSj
- NItdWbZo96NCep2FH7Lc6aGAshpW8ttS3nuBF8oZTAyvbUwRzuoWymzv/bayeWNjPb+P
- gxmgtqqCftZAl+q3mACAXJ3xpufpimS0CeqzGVdbCxS7K0Xe2gnZJhktUImhl5JYwRnI
- axCpYnHnLsJ7MUDpW4ZOR1UopZzsOTVcJ/JfX/gEej3agqtGgT1en3gWQSfKQFAKcn8G
- PUY9rLJMFAzduS2F/R63NTiIWFFQ6JYlYKyWcbTSCvOrsW7om2sAFXo+UGhoDTQDJifY
- aMdA==
-X-Gm-Message-State: AOJu0Yyo3g7vnse8/5CX52jnG/LLV9jQkMZfNVm9ULyIrKsffcxJL/jm
- vaZmhHnzVCLSdyzULIIQUBZEWiMNdoleDvORejg=
-X-Google-Smtp-Source: AGHT+IHunRJ8SKrwJgaP+51V2JJrecdxsMCTtZgn0eMB70U7pUC9syasL7KOaWROh+wvS8qj56tjawwSSP8Jbu9b7DA=
-X-Received: by 2002:a17:90a:2a48:b0:269:68e7:bbb9 with SMTP id
- d8-20020a17090a2a4800b0026968e7bbb9mr38051213pjg.23.1693218157096; Mon, 28
- Aug 2023 03:22:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230828071829.64366-1-anshulusr@gmail.com>
- <2023082827-craftily-citric-06fa@gregkh>
- <CAPwwkU7+zHo2jpt+ovJDE1ca=K8AKyowyA5Z9pOFAy6iifVEwA@mail.gmail.com>
- <2023082801-cost-radiance-95fa@gregkh>
-In-Reply-To: <2023082801-cost-radiance-95fa@gregkh>
-From: Anshul <anshulusr@gmail.com>
-Date: Mon, 28 Aug 2023 15:52:29 +0530
-Message-ID: <CAPwwkU77=FvjtEFM9gzoMRLdporY8F7y1zXNky1Rj4cL0UpXHQ@mail.gmail.com>
-Subject: Re: [PATCH] fixed formatting issues
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: richard.henderson@linaro.org, linux-kernel@vger.kernel.org,
- ink@jurassic.park.msu.ru, linux-alpha@vger.kernel.org, mattst88@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+ d=1e100.net; s=20221208; t=1693235059; x=1693839859;
+ h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=44z04Upq456UQmw678VVBxGUGBJlGyeCqGamftbBzBI=;
+ b=Ed9dtnXDAicHhwABxqjwWXkl5BYk3Yxjo1aJyWTOy0BPn0mPpEfQLt5kVWM7IHENPr
+ RKv+jG2Cq7Ea4tghOU7Y3SvraHrgTLQkR2g1tI5wqQ9KXVTZQB1PHatOVj1rws6UVF1f
+ CyZXTxI19XF7FUVN6mCwEbVDOjaKK7rnqmm+5HEI1lq50hZxvda2TTqRLZEunoCPjrIB
+ f1tpYxifN/qBAj0BK+0BnlVJaiz02cJ25QH8SQxZnF3Igzv6Smxjyeu5I7Yz7KeZpIGc
+ X2IQgAUO45TPFzRtyVzajOBGcB6hWQd7BfLSvN3C65aLRF0MhJdPohRtfdyTiML8AzTZ
+ mUYw==
+X-Gm-Message-State: AOJu0YwjpXIg295PvzXWZ8p8r7N4Fy1hz9H20QHal0efm/dWK5u5PorL
+ WXWuMJorx/G6nsXdHsQk07FmVaghi90=
+X-Google-Smtp-Source: AGHT+IHx8QoPWXG0uiFs074kxBJ4wZlo7XAZfUZCF9qCl2ZpFWDd3rF0lIPdKRvJ34ciqAdr+HR2gVtKTXk=
+X-Received: from zagreus.c.googlers.com
+ ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a63:6d83:0:b0:566:2d6:f720 with SMTP id
+ i125-20020a636d83000000b0056602d6f720mr4944654pgc.7.1693235058652; Mon, 28
+ Aug 2023 08:04:18 -0700 (PDT)
+Date: Mon, 28 Aug 2023 08:04:17 -0700
+In-Reply-To: <20230826094523.bl6kbcwelj23cydu@mmaatuq-HP-Laptop-15-dy2xxx>
+Mime-Version: 1.0
+References: <20230824202415.131824-1-mahmoudmatook.mm@gmail.com>
+ <ZOjIHo2A6HZ8K4Qp@google.com>
+ <20230826094523.bl6kbcwelj23cydu@mmaatuq-HP-Laptop-15-dy2xxx>
+Message-ID: <ZOy3cXUJld0FskSk@google.com>
+Subject: Re: [PATCH v2 1/2] selftests: Provide local define of min() and max()
+To: keescook@chromium.org, edumazet@google.com, 
+ willemdebruijn.kernel@gmail.com, wad@chromium.org, luto@amacapital.net, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, kuba@kernel.org, 
+ shuah@kernel.org, pabeni@redhat.com, linux-kselftest@vger.kernel.org, 
+ davem@davemloft.net, linux-kernel-mentees@lists.linuxfoundation.org, 
+ David Laight <David.Laight@aculab.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,34 +106,57 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Sean Christopherson via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Sean Christopherson <seanjc@google.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-> Why are you changing coding style issues in this portion of the kernel?
-> Do you have this hardware to test with?
+On Sat, Aug 26, 2023, Mahmoud Matook wrote:
+> On 08/25, Sean Christopherson wrote:
+> 
+> > On Fri, Aug 25, 2023, Mahmoud Maatuq wrote:
+> > > to avoid manual calculation of min and max values
+> > > and fix coccinelle warnings such WARNING opportunity for min()/max()
+> > > adding one common definition that could be used in multiple files
+> > > under selftests.
+> > > there are also some defines for min/max scattered locally inside sources
+> > > under selftests.
+> > > this also prepares for cleaning up those redundant defines and include
+> > > kselftest.h instead.
+> > > 
+> > > Signed-off-by: Mahmoud Maatuq <mahmoudmatook.mm@gmail.com>
+> > > Suggested-by: David Laight <David.Laight@aculab.com>
+> > > ---
+> > > changes in v2:
+> > > redefine min/max in a more strict way to avoid 
+> > > signedness mismatch and multiple evaluation.
+> > > is_signed_type() moved from selftests/kselftest_harness.h 
+> > > to selftests/kselftest.h.
+> > > ---
+> > >  tools/testing/selftests/kselftest.h         | 24 +++++++++++++++++++++
+> > 
+> > Heh, reminds me of https://xkcd.com/927.
+> > 
+> > All of these #defines are available in tools/include/linux/kernel.h, and it's
+> > trivially easy for selftests to add all of tools/include to their include path.
+> > I don't see any reason for the selftests framework to define yet another version,
+> > just fix the individual tests.
+> 
+> giving the reviews seems that patchset is useless.
+> still a confusing point for me; after adding tools/include to the
+> include path of selftes how we can differentaite between  #include
+> <linux/kernel.h> that under tools/include and one under usr/include.
 
-I was exploring the source code and noticed a few discrepancies in the
-coding style and followed to run `scripts/checkpatch.pl`.
+AFAIK, it's up to the individual selftest (or it's "local" framework) to declare
+the tools/include path before usr/include, e.g. see tools/testing/selftests/kvm/Makefile.
 
-> Normally coding style cleanups like this are only allowed in the
-> drivers/staging/* portion of the kernel.  Unless you get approval from
-> the maintainer of the subsystem you are changing, I wouldn't work on
-> this as it's generally considered bad form.
-
-I was not aware of that. I apologise in case my actions caused any
-undue inconveniences, that was never my intention.
-
-> Your name is only 1 word?
-Yes, my legal name doesn't have a last name. I could change my From:
-or Signed-off-by: lines to have "Anshul A" or add my informal last name
-if that aligns better with kernel standards.
-
-I appreciate your feedback and apologise for any problems caused,
-
-Anshul
+The whole setup is definitely a bit kludgy, but IMO it's better than conditionally
+providing selftests specific fallbacks and potentially ending up with multiple
+definitions of min/max within a single test.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
