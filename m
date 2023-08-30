@@ -1,101 +1,106 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3AFDDC83F01
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Aug 2023 07:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 346D8C83F01
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 30 Aug 2023 16:59:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B497B408A8;
-	Wed, 30 Aug 2023 07:44:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B497B408A8
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=HYF52zyY
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id C67JLPToAedu; Wed, 30 Aug 2023 07:44:11 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 697D940407;
-	Wed, 30 Aug 2023 07:44:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 697D940407
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 51559C0071;
-	Wed, 30 Aug 2023 07:44:11 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C3AC7C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Aug 2023 07:44:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 968B4402DE
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Aug 2023 07:44:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 968B4402DE
+	by smtp4.osuosl.org (Postfix) with ESMTP id AAAA241D71;
+	Wed, 30 Aug 2023 16:59:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AAAA241D71
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20221208 header.b=HYF52zyY
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=jU50Xyyd
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id eGBxfcBoCDRt
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Aug 2023 07:44:08 +0000 (UTC)
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
- [IPv6:2607:f8b0:4864:20::42e])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 8DB0A40325
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Aug 2023 07:44:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8DB0A40325
-Received: by mail-pf1-x42e.google.com with SMTP id
- d2e1a72fcca58-68c0d886ea0so3723417b3a.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 30 Aug 2023 00:44:08 -0700 (PDT)
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HlZZWZPpA6gy; Wed, 30 Aug 2023 16:59:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 88E4441B51;
+	Wed, 30 Aug 2023 16:59:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 88E4441B51
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 57F5BC0039;
+	Wed, 30 Aug 2023 16:59:07 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 796FBC0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Aug 2023 16:59:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 471978226E
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Aug 2023 16:59:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 471978226E
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=jU50Xyyd
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SMY6HeKR0T5Y
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Aug 2023 16:59:05 +0000 (UTC)
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
+ [IPv6:2607:f8b0:4864:20::1036])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 26A698190B
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Aug 2023 16:59:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 26A698190B
+Received: by mail-pj1-x1036.google.com with SMTP id
+ 98e67ed59e1d1-26f7f71b9a7so3697101a91.0
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 30 Aug 2023 09:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20221208; t=1693381448; x=1693986248;
+ d=gmail.com; s=20221208; t=1693414744; x=1694019544;
  darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=KaI3PfD8joR99TjMB7Mb3TjzWqZ8IotMwduAcjhk/lk=;
- b=HYF52zyYhWt2B1mGIs1ACgtBWtykrC2XZ9y2P7aFH/2GFNUuuaD/Q32WA3ICI5f9Rr
- 1wY+E6lrSSdp1WMBPUL4x2PqVrwoiodsBE+aVK3yCKYuunpY43MYtPGzZeusfyXUIxt1
- gLUDQloNBVrp1C25jPyeX6GqQv3+1kytvQoLC3GfdZXZZhdeCgqlUOP4+ORE0lfERb3s
- 8DXwb3yMzx4K1gbDYwPxMZp87cQ7hAhjsRvA/0hVpE6ePAUve/2fWNNaMHem0WLRmXsc
- ukllo54nLDvYAgsnQxRWNphi+Yd+DQEGJ8GLRA5Jz3P1MiOjLZdVZaFnju7CMSIFDS47
- NsWQ==
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=wgkRy2fHXk12I8uXbR8oF1JVRCE6YBpekWqJS8+t/SY=;
+ b=jU50Xyyd32xk88aJooTv1enzNSFyzxDdYhs1S5+KYvKSfwmK+8sbcfdHnKp2PfrqK2
+ mCVKMvTZnCLyzD6pcz/uyjt1aNk7fq9IisRPNG9wFx1th9/bxHfskIp8GnPYacH4megc
+ rEGP2PZv4UDCGlf8QBPjMA2tHSbbTCjbh8/MsLrmDqpWS70jId/xjLs/QjiMkNomPtx0
+ klTsy8c+Y0NauuM4TRhQK7iWPN006Pt1N5rX95tHPNo/Q+s4dKHP4XoJJx7jWGfjgJTe
+ GqJrnxVrMJSrfxqdmZqxh3PaWrw38R+KqgH/ODepNyDnNrs/j3JxOJBF2oWdX2yAEdYF
+ pMhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20221208; t=1693381448; x=1693986248;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KaI3PfD8joR99TjMB7Mb3TjzWqZ8IotMwduAcjhk/lk=;
- b=Di1h4/726E75WlQFaM9Vlt/Dg7epcfor6WxYRSvRVRTRLVY2PolKh3P3IwGEB/fl7F
- 1FW7ov0wFgXZz6w/mlH7E38qcwHYm5eJd18kwmB+KaNsAc2vYBW2XESWP4DTydJpGDBg
- yRUPq/MFLTzon7y8hIs5xQET85BB1GJRXEvvAG3pcCXsFfjM2hHVTJ7+zQvnOPSBZgBa
- 8gYukVmlizI2fLP4ahzlfbdhh6C0EDN3ywS1BtcP/7NoHTb6xRZ8fov9r5XKW/rCaU/x
- oPezYZ/WynmOXmxvyIm0XEU+bO9SjZpgsxdjkPNOiIWqEPkcbiGw+mxlYA9mqXDtXhbw
- MEIQ==
-X-Gm-Message-State: AOJu0YzZl5TLIXrs8atKBx5AZ6vAVbkALMkaGO2aKwQ/QhFwXmDuMp3H
- MJjit8JR6q3dMYT79xoYFcM=
-X-Google-Smtp-Source: AGHT+IGaQ4P8EvC7PlpIhxszpNMfsVh9XWh9SaGCCo1nYYOFuxiN9tKA8ohVp4yCvqqpSXyx313liA==
-X-Received: by 2002:a05:6a21:7784:b0:14d:f41c:435a with SMTP id
- bd4-20020a056a21778400b0014df41c435amr1839509pzc.39.1693381447705; 
- Wed, 30 Aug 2023 00:44:07 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1033:772c:a5cb:ea8f:e44:ec54])
- by smtp.gmail.com with ESMTPSA id
- i19-20020a170902eb5300b001b8b26fa6c1sm10467189pli.115.2023.08.30.00.44.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 30 Aug 2023 00:44:07 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: hverkuil@xs4all.nl, mchehab@kernel.org, slark_xiao@163.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5] media: gspca: cpia1: shift-out-of-bounds in set_flicker
-Date: Wed, 30 Aug 2023 13:14:01 +0530
-Message-Id: <20230830074401.7696-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ d=1e100.net; s=20221208; t=1693414744; x=1694019544;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wgkRy2fHXk12I8uXbR8oF1JVRCE6YBpekWqJS8+t/SY=;
+ b=FfPbApWgyodAzBriU1M/05YEFa07hW3CaMbzmeViudrQu65yb1TR3rSnRVWzUbn41s
+ cd0v0LGVN9UbT9+7e5V8BsZITOVF/NBSpRPs2UA5rMZjJyV6lp0O7ECvQThEiuUhitqu
+ hnvOJB01DzP8bWjct+N9AnVgbaqv+DcPUMJ816JBMXGLBVNZqxUAFvQM/hQ03LizpXXT
+ /FAeCpAu9c3y2y/JT+7J/JhgWdzXdrL7CrvI66OybkgP5/GtbAnmd2OMBHm/ATAHDTxl
+ j0KUlDyhUvKDW9cWh5tD/zdujGIR+FnrOc6hRNZ1xB7ofkE4Lke4Gl9tSG+JV5XjCswx
+ AL9g==
+X-Gm-Message-State: AOJu0YwXWMI8tr9aNcAaPY299xIArL/Pu8BIwqnrA7Uo0eeHf+0D+LAt
+ cpaP0w7tQdtt73txFrZ2NPA=
+X-Google-Smtp-Source: AGHT+IEiBWKa3xloyf6eL2PYGoBgEH0g8SDOhM3inWHe4UsSlpRC7tRISmG4yyxSsF9If5WjYXUl6w==
+X-Received: by 2002:a17:90a:7345:b0:26b:4a9e:3c7e with SMTP id
+ j5-20020a17090a734500b0026b4a9e3c7emr2738462pjs.4.1693414744444; 
+ Wed, 30 Aug 2023 09:59:04 -0700 (PDT)
+Received: from [10.0.2.15] ([103.37.201.174]) by smtp.gmail.com with ESMTPSA id
+ d13-20020a17090ad98d00b0025bfda134ccsm1496364pjv.16.2023.08.30.09.59.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 30 Aug 2023 09:59:03 -0700 (PDT)
+Message-ID: <e655b722-f610-99dd-16c1-ed3235860a80@gmail.com>
+Date: Wed, 30 Aug 2023 22:28:58 +0530
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] jfs : fix shift-out-of-bounds in dbUpdatePMap
+To: Dave Kleikamp <dave.kleikamp@oracle.com>, liushixin2@huawei.com
+References: <20230827050513.364567-1-ghandatmanas@gmail.com>
+ <edf10660-2e8a-4f5b-8eb5-16038f8adbcf@oracle.com>
+Content-Language: en-US
+From: Manas Ghandat <ghandatmanas@gmail.com>
+In-Reply-To: <edf10660-2e8a-4f5b-8eb5-16038f8adbcf@oracle.com>
+Cc: jfs-discussion@lists.sourceforge.net,
+ Linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ syzbot+91ad2b52815a08caf4ea@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -107,67 +112,27 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+I checked for the v6.5. Its fixed there.
 
-Syzkaller reported the following issue:
-UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
-shift exponent 245 is too large for 32-bit type 'int'
-
-When the value of the variable "sd->params.exposure.gain" exceeds the
-number of bits in an integer, a shift-out-of-bounds error is reported. It
-is triggered because the variable "currentexp" cannot be left-shifted by
-more than the number of bits in an integer. In order to avoid invalid
-range during left-shift, the conditional expression is added.
-
-
-Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
-Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
----
-v1->v2
-Changed the patch. Instead of avoiding shift operation for invalid
-input of 'exposure.gain', throw an error for invalid range.
-v2->v3
-Changed the commit message details
-v3->v4
-Removed the trailing spaces in commit message
-v4->v5
-Replaced the hardcoded value with inbuilt macro
----
- drivers/media/usb/gspca/cpia1.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
-index 46ed95483e22..5f5fa851ca64 100644
---- a/drivers/media/usb/gspca/cpia1.c
-+++ b/drivers/media/usb/gspca/cpia1.c
-@@ -18,6 +18,7 @@
- 
- #include <linux/input.h>
- #include <linux/sched/signal.h>
-+#include <linux/bitops.h>
- 
- #include "gspca.h"
- 
-@@ -1028,6 +1029,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
- 			sd->params.exposure.expMode = 2;
- 			sd->exposure_status = EXPOSURE_NORMAL;
- 		}
-+		if (sd->params.exposure.gain >= BITS_PER_TYPE(currentexp))
-+			return -EINVAL;
- 		currentexp = currentexp << sd->params.exposure.gain;
- 		sd->params.exposure.gain = 0;
- 		/* round down current exposure to nearest value */
--- 
-2.25.1
-
+On 29/08/23 23:19, Dave Kleikamp wrote:
+> On 8/27/23 12:05AM, Manas Ghandat wrote:
+>> Currently there is no bound check for number of logical blocks per
+>> page (bmp->db_l2nbperpage). Added the required bound check for the
+>> calculation of dmap.
+>
+> This should already be fixed by 11509910c599 ("jfs: jfs_dmap: Validate 
+> db_l2nbperpage while mounting")
+>
+> Can you please verify if this problem still exists in v6.5?
+>
+> Shaggy
+>
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
