@@ -4,128 +4,89 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 31547EE14B1
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Sep 2023 16:46:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7A37EE14D3
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Sep 2023 18:52:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 970EA41B3E;
-	Wed,  6 Sep 2023 16:46:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 970EA41B3E
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7C50941B1A;
+	Wed,  6 Sep 2023 18:52:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7C50941B1A
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=QkFNIdlC
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20221208 header.b=STTCixu1
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ohmkVNfOvOWR; Wed,  6 Sep 2023 16:46:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 4931D4060F;
-	Wed,  6 Sep 2023 16:46:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4931D4060F
+	with ESMTP id Q9qaQRItV9oV; Wed,  6 Sep 2023 18:52:55 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 132C441B81;
+	Wed,  6 Sep 2023 18:52:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 132C441B81
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 21EC6C0071;
-	Wed,  6 Sep 2023 16:46:20 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 829F7C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B0160C0DDF;
+	Wed,  6 Sep 2023 18:52:54 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 38CF9C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 16:46:18 +0000 (UTC)
+ Fri,  1 Sep 2023 21:12:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3A02161037
+ by smtp1.osuosl.org (Postfix) with ESMTP id 0017E8146E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 16:46:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3A02161037
-Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256
- header.s=selector1 header.b=QkFNIdlC
+ Fri,  1 Sep 2023 21:12:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0017E8146E
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20221208 header.b=STTCixu1
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5NdnkgkYCOSY
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id cdC4aAlpAeGM
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 16:46:17 +0000 (UTC)
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
- (mail-he1eur01olkn082f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe1e::82f])
- by smtp3.osuosl.org (Postfix) with ESMTPS id AE66260A6D
+ Fri,  1 Sep 2023 21:12:20 +0000 (UTC)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 8DE3C81449
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 16:46:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AE66260A6D
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MzANdwbPKRSBfYL+hG/DM8kXvSwm0PttYIQI3rkbNz3KSyPRpR3bjzPV2w2ywTqWKpVJRpUg6Ruu+X3LZhY+syNGuBXhBM1/JDYC2wUY4SMfpl8rWKGfHNeFqTEhtkQLpWnzd624sYUlrQmGEPZ1MXW8Ow189inx97ZWmlIEgK10W4EhomSyILQhS44nmN3xW100xw25IP4Fr+sr3w0kHsje2gtxDj6Oz7NELHIUrL/v+nlDlTyhubmaMCoAFajIItr9EZB7GGJclkni7+XX+hUbzS5YX7Pbq3cC3pFDa9Nx1zjh6LVCuCUxPx/WBJdcn2Z8EufbWLN+Ql4pcamxlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=R21wmXrAFmFt8rpghQT+7WZnFnA7+/WDKyI2f2deSN8=;
- b=Sg6tnVHECtB2NwGX9JepRobcxufJX6OiZVBib3XZlgB4e6vo1iB0hRmT+7TN81w4ZYjwXE0gjDVBTyjazIsfR39SeU3WqX+P0IPF+jAHDIdwiij/9fzANYgbGcnxX3/WnvSPt4w5u3BjmnuviMklQk+WaBt5oyI5zNPSYsSRxqg1XPkl7ZGT4aOMNxIvRNGX5O0Ab9jDNwRXp8YQwLaC00x9v7Gx7UyHcioNe64GnlnLCD9sVFITHdXh7T0P7LXWzlWzyFz4R9yqCrgNDoD0zteQ6J4J2AaH7gnf8fqv7z6Um0nW4gVF9zXhJNapY+kCbB6eUdJ/O3hwkh+x+bmDkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R21wmXrAFmFt8rpghQT+7WZnFnA7+/WDKyI2f2deSN8=;
- b=QkFNIdlCMy06QLAqKG0Be8Eo3DdZVGFeHFJzU7FWG+BGo4NKP3b1nrFSjwuwi0nmyP1LRzx1J2Qox//B7IQiUucXPr8FHJm/MX3RcTM6LZ1udtu3QlnShxxongx6EH6qYeLAi5KmdGdrw48amKRVu0PtF1gx3AK3DGar7FHz5ZPtP0nRhdUiHPrv5l1lAhEbM4yVhoMEOBEmfFPBIVOqGBaIS1XF9Z2FDCeuf8bhgmeJ+iENUk84JB16a9CV0e9Iwo0W3VE11h5BwYRtRXe8qO9aZ999WWrTIEe8b9BybjsfAkJnbJi8rKCxhFGaYmzsBecLcalhfQwzlcdkNrfUiw==
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by DB9P193MB1900.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:24a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
- 2023 16:46:13 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::3d3c:61f2:146f:b3b4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::3d3c:61f2:146f:b3b4%7]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
- 16:46:13 +0000
-From: Juntong Deng <juntong.deng@outlook.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com
-Subject: [PATCH] drm: Rename drm_ioctl_flags() to eliminate duplicate
- declaration warning
-Date: Thu,  7 Sep 2023 00:45:47 +0800
-Message-ID: <VI1P193MB0752635EE197F2BB14A2D87499EFA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-X-TMN: [JT1n74E14+jD+T8Xjlx0+O2voZOfgrR3]
-X-ClientProxiedBy: AM8P191CA0006.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::11) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <20230906164547.13873-1-juntong.deng@outlook.com>
+ Fri,  1 Sep 2023 21:12:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8DE3C81449
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-9a62a3f10c5so13241466b.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 01 Sep 2023 14:12:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20221208; t=1693602738; x=1694207538;
+ darn=lists.linuxfoundation.org; 
+ h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=jwF66SuH+WnA3xvcI4K5NGD2GK+EtCyaWdS/tQYeoHI=;
+ b=STTCixu14aOCsLtT4CTuTIaUQW0rxN5xeuRBShJX1+xmqeyu3GdS6LEzsWVDrTObT7
+ pMnINM2Sjzj0U1c6YB59IuyKclIQPXMU7nZ0dodj6zHsdP3yBecGUrpjUl/EsCtekLXa
+ 0K1EMpcZWlDLjNqnL0t7hBqj664T3qBhjxqkdT0d+aYwuz5L4TIU0k3gHAyZko1T1JRf
+ Va0qeM4fkM/SgrQPPWUM+YbXJFHnaVcZxUEg4I+jOq9QmxoK0f8yFYlivxUys8LSki6p
+ NsrhdDT9h8QZfQkOaiqe0mopRPIcoKiE9dSnMfdfCjUsU8Ma0uD+GgiVca+xefXl6rVF
+ bM0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20221208; t=1693602738; x=1694207538;
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jwF66SuH+WnA3xvcI4K5NGD2GK+EtCyaWdS/tQYeoHI=;
+ b=MhRNjojjws/pem1bd80D8w/hnWmc6VaU2nlHf9+IO72DO0CSsL0KGepE+8y0Wa39hm
+ DKWmk57uwdGBpLFRvsIh5G9iF9WdvrEC1X61M4deerL32q2WyHMA1QjkZwFLiolXWnJ8
+ jdJR1nkmQog1vOJlw33orvdgoFwtTBlvB8v/Ki1KzUJyZMwa0jpF1OmjPVitQbnJBNxO
+ XhTsrn/xj+UvbzA1Nt3SHJ/ehIlln5OkG1kBCEp0W6MZ6gtLlvMM9W5CgbX/auRaKu+D
+ woMzrFTAmhmu1jqmqwEm0wYKc2BHLYYylrS8xyaflZi2oVEZ34VyMM3pB41jc+Pwqdgx
+ kOiQ==
+X-Gm-Message-State: AOJu0YxpCYX5wC2VEPhNtxw3Xn4sOjkmps4JsUx1yW41F0doYdtwmkJf
+ gTN/p5B3MLg7RAaygK9DgiUXX6wtve8Ccn19Pm7tj+hr
+X-Google-Smtp-Source: AGHT+IFDS5t8fDTB/zUbszOy+LmWUrGkwSJlgrx0LYOKe8S+tnvWVlsNiy7yDCIHweGJ+uyGtcCM43r9G5fnFYOAqHA=
+X-Received: by 2002:a17:906:74da:b0:9a1:f6b2:7852 with SMTP id
+ z26-20020a17090674da00b009a1f6b27852mr2621811ejl.1.1693602738112; Fri, 01 Sep
+ 2023 14:12:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|DB9P193MB1900:EE_
-X-MS-Office365-Filtering-Correlation-Id: 281b9519-29aa-4509-0c8d-08dbaef8c7b4
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wiq1gzUhQ7999Bffa8+BerDIG7iSgK5t8g0tfgjXQwPz5vysVZYB1GMx6uL1FtwyA/R2rTDaRoqIqbm29eDCMVvWNHco0QRWEIaY7zVRmxQ+K0n3NBZU/idXhmacIwCQCmq3pZn5amsM5P0z5S6UWsgvlUvxM8YMvNZDxC3p9t5T4aIUjtb1OrjkHTKHHR30uqNtoCOYgBWu1Jg27cWx8bc59dEjz8F5LCqOcaxCkdT9GsJt2WWufxMKinjveIumF7mD3tVUmEc4iKGuXrgFcgnXQwDrbTU0yjT/dHsQHg2xvYWcW3F6lRWkCn/TjBeFDRSB7UJD+OrlXNV5N/UJtAb9+LP4HBbXCVSGX4K6JXkGJ84udUND+G+TTwb1dXRas1JowmELB44unwvs0cx2wlyXFgygMIWGAMWuzj9+mO1cyIWA4/UFW56kOJc50EIp7yqQU1uJxDc/RwePhwC+YO7S9NhXBf5ZBZhzARTadyRo4vu8PiienpIC2ZxiNjvQ/ZXyyJ0rz+Ngbl2G9uDXwHJClcqqWZcQYi63UKE0zizDTSyYxt8LNUYY8RBpvIfe
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KPgo6GiFPm+QoTKVrz6PD+l56CBMKaIBh9t2mykCHA8tzZzYD/m4UJPCGAE9?=
- =?us-ascii?Q?304jX62S1jxjLb7kYym2YWNr7tLpcEIo4yEatXfX+fS+V/Cz+V6LjQjnzabx?=
- =?us-ascii?Q?V38HGO483XgUWBpnIiokQeoXLLPv4jeDd34nmpT4MEKoWtuGyJFLMEFXv8iv?=
- =?us-ascii?Q?7+GHTvRk8PbvC7yuqaPjnine+TsmVw3VGDKtkUJZ74ejIbSlNlgDPiSbCOSy?=
- =?us-ascii?Q?pB5nafZc9MnzscRFhTV5Bu7feNAvXCSLZl2v0NnnbM0QqJwJ93p0IAA0+wKX?=
- =?us-ascii?Q?sQol+qVWpXl4PgmtiZHhafo9RwTEwcPmH6exqaqneUpmBw1yYH5N/DPBqrAp?=
- =?us-ascii?Q?dYPbnIEnjZc+KH1I0OEgJlAv5V2ONhoP71MmC80TcP4EltsiCNSZi1x9nX7f?=
- =?us-ascii?Q?Pv8OxCieUV2cdJYpts/DxmHLgGuL5tuXdppoH8y2GnBO29TIt/xxYXB4L06D?=
- =?us-ascii?Q?TKT+4sdITbGpGf8/a2X4QVHOuxvGEvl+vss/bnu0B2IESnVYuGFYrXRQLlBp?=
- =?us-ascii?Q?+25Ez0Neoq2bPfzMdbpsNGYFHM3SjVDvZ/KwYQTF1Wxj1PljAzbTxVRDTemX?=
- =?us-ascii?Q?y3ZQ8unN4yuypbNqb1C9HWOrK9bGE4HE3qbb6p1eTmL7f1SFsiYjpaF9eD63?=
- =?us-ascii?Q?V/8lV0mcyA+XFxgBTJG3EaAKR+JfpnOa09Gm2rpOixakaqO4xK9iSvVEQ7e9?=
- =?us-ascii?Q?jUIRgJjuMrIAHdkxBdVeAGVCVGYRfas5MabCUV58rWjhG+8n1goavxJzqQoo?=
- =?us-ascii?Q?L+0UKefRNvosyJ7U5DCFZZnUdTWU9aGE6ZQLocu0X66DZ/iLeamSIOMwJ4Vs?=
- =?us-ascii?Q?YM4uL1GaSs8ef+COoilsfQPRr9LpZqioJCkx/HAk52FdR9j1BsvudBQLRPmZ?=
- =?us-ascii?Q?hR33oa/+hegKTGGAh+bu9MS7DBljaL7kbKBp4uZrJfmayhhVzJ4Rg4drUCBo?=
- =?us-ascii?Q?fZKOD3UEcWSKOAJarL0pTvLDPCCj6m0wCvkOuZgkSUQNuYNQfH5B9CUKAlq9?=
- =?us-ascii?Q?erPz69kNInNrpT3BqF16b3wM2YN+e3RHMVbhvJq1wgiGhDEQ7JZMehgmNB6C?=
- =?us-ascii?Q?5U/2JPmEWxrdK0XR6RhJGNjqMp3S2NY5Ghuo7C6Z1Bl7eOitkvVwoEDUxvd6?=
- =?us-ascii?Q?/EZLlT5QyuiboVjvWgqS9lS6RcbzsRNQ1XVYi2bZDV26G2PQ8iamvZVYW6Wl?=
- =?us-ascii?Q?yE+7yGH+OI5MVJfehctZp3qGfKvNM1X9Yab83laK/P34RIOhozFNgV8UrQI?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 281b9519-29aa-4509-0c8d-08dbaef8c7b4
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 16:46:13.0340 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P193MB1900
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+Date: Sat, 2 Sep 2023 02:42:06 +0530
+Message-ID: <CAHvgv0Hm2yVCQAWV4Y=GG_G+Typ3CCD7xP1F22vScHiN3n--WQ@mail.gmail.com>
+Subject: Subscribing
+To: linux-kernel-mentees@lists.linuxfoundation.org
+X-Mailman-Approved-At: Wed, 06 Sep 2023 18:52:54 +0000
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -137,84 +98,35 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============7740384955329236750=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are 'enum drm_ioctl_flags' and 'bool drm_ioctl_flags(...)' with the
-same name, which is not a problem in C, but it can lead to
-'WARNING: Duplicate C declaration' when generating documentation.
+--===============7740384955329236750==
+Content-Type: multipart/alternative; boundary="000000000000988c120604529d43"
 
-According to the purpose of the function, rename 'drm_ioctl_flags(...)' to
-'drm_check_ioctl_flags(...)' to eliminate the warning.
+--000000000000988c120604529d43
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
----
- drivers/gpu/drm/drm_ioctl.c         | 6 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
- include/drm/drm_ioctl.h             | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+Subscribe
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index f03ffbacfe9b..30699a0a10bc 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -911,7 +911,7 @@ long drm_ioctl(struct file *filp,
- EXPORT_SYMBOL(drm_ioctl);
- 
- /**
-- * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
-+ * drm_check_ioctl_flags - Check for core ioctl and return ioctl permission flags
-  * @nr: ioctl number
-  * @flags: where to return the ioctl permission flags
-  *
-@@ -922,7 +922,7 @@ EXPORT_SYMBOL(drm_ioctl);
-  * Returns:
-  * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
-  */
--bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
-+bool drm_check_ioctl_flags(unsigned int nr, unsigned int *flags)
- {
- 	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
- 		return false;
-@@ -934,4 +934,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
- 	*flags = drm_ioctls[nr].flags;
- 	return true;
- }
--EXPORT_SYMBOL(drm_ioctl_flags);
-+EXPORT_SYMBOL(drm_check_ioctl_flags);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 8b24ecf60e3e..9615104451b3 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1287,7 +1287,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
- 			goto out_io_encoding;
- 
- 		flags = ioctl->flags;
--	} else if (!drm_ioctl_flags(nr, &flags))
-+	} else if (!drm_check_ioctl_flags(nr, &flags))
- 		return -EINVAL;
- 
- 	return ioctl_func(filp, cmd, arg);
-diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-index 6ed61c371f6c..2fc5fc86f711 100644
---- a/include/drm/drm_ioctl.h
-+++ b/include/drm/drm_ioctl.h
-@@ -175,7 +175,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
- /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
- #define drm_compat_ioctl NULL
- #endif
--bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
-+bool drm_check_ioctl_flags(unsigned int nr, unsigned int *flags);
- 
- int drm_noop(struct drm_device *dev, void *data,
- 	     struct drm_file *file_priv);
--- 
-2.39.2
+--000000000000988c120604529d43
+Content-Type: text/html; charset="UTF-8"
+
+<div dir="ltr">Subscribe</div>
+
+--000000000000988c120604529d43--
+
+--===============7740384955329236750==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============7740384955329236750==--
