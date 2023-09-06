@@ -1,87 +1,127 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 106BDEB8FDD
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Sep 2023 14:38:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BB0F1EE14AE
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  6 Sep 2023 16:27:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9BC8E404AF;
-	Wed,  6 Sep 2023 14:38:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9BC8E404AF
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=claudiocambra.com header.i=@claudiocambra.com header.a=rsa-sha256 header.s=sig1 header.b=r7T0POPV
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3126781FA1;
+	Wed,  6 Sep 2023 16:27:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3126781FA1
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=Dgbq8yMT
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id N26EKlKNA5cu; Wed,  6 Sep 2023 14:38:31 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 59A754046D;
-	Wed,  6 Sep 2023 14:38:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 59A754046D
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oIlf6qNAJILp; Wed,  6 Sep 2023 16:27:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9FCB181F85;
+	Wed,  6 Sep 2023 16:26:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9FCB181F85
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 361E7C0071;
-	Wed,  6 Sep 2023 14:38:31 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id B06B8C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75909C0071;
+	Wed,  6 Sep 2023 16:26:59 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 01946C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 14:38:30 +0000 (UTC)
+ Wed,  6 Sep 2023 16:26:58 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7DCD4820FD
+ by smtp1.osuosl.org (Postfix) with ESMTP id D748881F85
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 14:38:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7DCD4820FD
-Authentication-Results: smtp1.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=claudiocambra.com header.i=@claudiocambra.com
- header.a=rsa-sha256 header.s=sig1 header.b=r7T0POPV
+ Wed,  6 Sep 2023 16:26:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D748881F85
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ESvYuTTegsZa
+ with ESMTP id 6X6CqCHINIPf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 14:38:28 +0000 (UTC)
-Received: from pv50p00im-zteg10011401.me.com (pv50p00im-zteg10011401.me.com
- [17.58.6.41]) by smtp1.osuosl.org (Postfix) with ESMTPS id 5E770820FA
+ Wed,  6 Sep 2023 16:26:56 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+ (mail-db8eur05olkn20828.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7e1a::828])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 724EC81F43
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  6 Sep 2023 14:38:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5E770820FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=claudiocambra.com;
- s=sig1; t=1694010765;
- bh=cdH2TirNO5ueRwo8QJsKy5oOekpcUmw8wn9FTzQ22E0=;
- h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
- b=r7T0POPVFL4NJiYNWh4f/N5/SAFxxzgmFlJAHGKRLAcpeCR52s7IMAb2tZghmzcnI
- fqPrelfxaJON+HP8ufGrLcp/ULkJXTP3T6sn7CUm4pyfhMfzZ+QbA5mXBiruSKPlyP
- 2zj06LPHVXiI8SBrq4GOiUtKMNIExdI9fDb4+oNjCJKapWvvcQc9UfpA+YDbVf48qG
- lxRfzRi7Jk3t39/KueoEUhj3ITr0MdaNIV2F66NVd6DhJrTcLO1Z0XqQ0L0IcJFanv
- GtfpghUU0Hh+axo4pdxbUURrLo1aJItHGWf1pTEOS+J2WyiIaunjMauE+HBh+FAWT1
- kt/XC2nbT7dDA==
-Received: from [172.20.10.2] (pv50p00im-dlb-asmtp-mailmevip.me.com
- [17.56.9.10])
- by pv50p00im-zteg10011401.me.com (Postfix) with ESMTPSA id 4DD05DC022F;
- Wed,  6 Sep 2023 14:32:42 +0000 (UTC)
-Message-ID: <0c629825-2a70-4b79-b4df-12e826297664@claudiocambra.com>
-Date: Wed, 6 Sep 2023 22:32:39 +0800
+ Wed,  6 Sep 2023 16:26:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 724EC81F43
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ap9xZT8C0wcp8zAzAn8IusW9Jfa7s+Kz0McCl/7ZwQB08/aufAhTD4B0ASVx32JS2G8M69TvTszLBCG3u6TzycdH3He/pEuU7ZBPyi1wg8fWgBduTZIP7U+mPegsWnHWfY2BW8u+64cSSopO3RYifDCFbdGPUgffQhzpZfuO5M4pBGPMrZiQXHn818AUtCvTR+2bKJxT12To84IZ4dTD/RSwDuDJjKV/yEaqlW4XhSJqFSqqVwqc81Ibq7O04y/oHUZVixqfO22O+F/qbeXf5fIRPiGMT0Ouc8m4xcS+X+Q8EHBl3QbZDHLPeK/xHzBKcogRGEJHnFDi8DWaFSmbPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rQIRpvEvZq96oNilEKRjEap2z/x0mbnKcQboRvYOG0w=;
+ b=ChMa7OwKgSvYC0uKDRGxRvpTgib0rRcLWa0xw94Q7ywMP/h1xCVTP5rs/d07oWyBZJb+Ik5mTbr960EwhldAczkhHe9IoS36r+/Lt8wRJ/P75870KNadgWAMgywCSm8suEmQNooD/DQbarumT6WFrlu00J2C3QPRyt/eUs/9sTNOG111Ux45SMCbJMQwHkUVEGyvyKJriHVcYjaemZlHIVz1FM4Fm91VPLStxhXfKo5X5pwoycsqYZixPWRPX0so3dvrYbBQrxPNVA6w7F5Baft1YVe2/eLFi8qMIg8wl8b8SPcb6i7/KkxfKxhzHJZ6O7cnqLdH6aOFSDSIysW2nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rQIRpvEvZq96oNilEKRjEap2z/x0mbnKcQboRvYOG0w=;
+ b=Dgbq8yMT5SihhH7R1/GHV33Cp665T5/V+AHMFOk0h/sW/eYkYvlavVQjbHjdizwn9g9WNU1zVnVvY2C2UhvXBMQyjzy8uo+CkWARjnU0h+P+N0DD9AJTgGgDxTR7mw48lT6b3hzRE5+2SCPpXdb1Hi4HLe4Fae27WKrRcpdiMHGxMvFFXfGCduV4EWyi6MxOaTByw9tqVATGgGDiZRx1TJ+xFy/pMWOp0bVh1FCeGPfVUb79p4Ec4S5h+EcBXUa/P8kYXitMtbjzMAAEoqoEq3kr2b3AF74Bb5nhXNksVPyuuAkD7sJ3Mzh56jk+ajo2dZucHZonFKNh+rkVkg2WuA==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by PR3P193MB0863.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:96::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6745.34; Wed, 6 Sep
+ 2023 16:26:52 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::3d3c:61f2:146f:b3b4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::3d3c:61f2:146f:b3b4%7]) with mapi id 15.20.6745.034; Wed, 6 Sep 2023
+ 16:26:52 +0000
+From: Juntong Deng <juntong.deng@outlook.com>
+To: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, shuah@kernel.org
+Subject: [PATCH] selftests/net: Improve bind_bhash.sh to accommodate
+ predictable network interface names
+Date: Thu,  7 Sep 2023 00:26:03 +0800
+Message-ID: <VI1P193MB0752FDA6D89743CF57FB600599EFA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
+X-TMN: [tmtn26axAYFWXmjQPhaFAMbyQyBbR6qw]
+X-ClientProxiedBy: AM8P190CA0025.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:219::30) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <20230906162603.10809-1-juntong.deng@outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/gpu: fix docs compile error for i915
-Content-Language: en-GB
-To: skhan@linuxfoundation.org, ivan.orlov0322@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20230906142746.93411-2-developer@claudiocambra.com>
-From: Claudio Cambra <developer@claudiocambra.com>
-In-Reply-To: <20230906142746.93411-2-developer@claudiocambra.com>
-X-Proofpoint-ORIG-GUID: i63t-a_iJZ5NZfizd2TrqZegsTIPgzWf
-X-Proofpoint-GUID: i63t-a_iJZ5NZfizd2TrqZegsTIPgzWf
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.883,17.11.64.514.0000000_definitions?=
- =?UTF-8?Q?=3D2022-06-21=5F08:2022-06-21=5F01,2022-06-21=5F08,2022-02-23?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 clxscore=1030
- malwarescore=0 suspectscore=0 mlxlogscore=534 bulkscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2309060126
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PR3P193MB0863:EE_
+X-MS-Office365-Filtering-Correlation-Id: edbd6582-4e21-4b7b-ca39-08dbaef6138d
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JHBL16qWDGxmpXARnIUoq+HYZOkPzufQ/BxPstTtczMLfUwAbB7DYDTAHKqG591bU3i8zI8fwWwqNNfKyXddzKQgJQtweo2DFM1b5uhxp7Rncw8fBaTiM6J18jrsTJHwAD/YLkWX9H28euQiwXyNTinzkJ6wQF32GwBTQQtb4numbloVZEFb/rY+v4cbzgOTuctarz0SkeDhUwa/8YSLeqzycIV1epfn8JEN4Rl+JUTORocMB7l7mDzIoVDSAK8/HtblaAkUr3pHIOQ6qliRVT3RHTKsoEH4QfXOhX5hgJVTxiQnNvVhFLPdMrabl9h0DcPdWdTjeRn9rquNv6plug3R31lOOFtRvd0r6t1MxEo6fIbOhzw7nkjzWJyT5/3dle7oVJMwVfnZGJL/G/4SsmIT35zEhRM2/VdVWuwjknkOnWffXuC8ttNbEieG8v6cUkBPEolOQFGhrQT0wRyt9d74REDBs/KXG9zJfSVCJ0UYWN9CBOoPaxThBIgyd02EqczRQJw8Hfs5xHQixKQDBn2iTeOZsXrLfJ4dodLePVwYWOLaCKtJ4zPYDdPp49IU
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?amDBA5k9uY0bD84vgUkvwWEUIoz23BCavkMRfwqpxSo3019pMg2pyzw/yCdF?=
+ =?us-ascii?Q?tHatx4wruFAupdaOMojjK0F9980s21CmDC7mKx4ntZdE6ihXJeZxjv6LFiel?=
+ =?us-ascii?Q?3rZxwWDV9y5Cic4xbz8jDFkH14ctZIer1KDchKNBQGe7fcJRnWFq0GUEZMXQ?=
+ =?us-ascii?Q?TVprFQcWqQuTIJsH6AbYROsGOKCe+C1kj2eXrc6cXLhtwXBVJzBLlHFitKBo?=
+ =?us-ascii?Q?8AsRqIEEbJvBiH407Er1v69UmFs1oLPzbmve07cXxuuglDEY2UWjhD9gf6dZ?=
+ =?us-ascii?Q?esUMfR91J44B4aMXSfn73roeE7sEtu7eYHC13jCnSM0yVfNoMV/jGTI754jQ?=
+ =?us-ascii?Q?9yVKBv1bmKmwl0Dtg56s7a/hUy/FkFk2R8JLrqc2njHHe2pfamv828jcx31R?=
+ =?us-ascii?Q?bp7kLp8clJGpxzdd+jXuujo782NSdegKWwTfKsItLFyGVnJEMFudiBOYP4wX?=
+ =?us-ascii?Q?a+93MyRqSh/sddTKdqRCo9v1IUqmFzh1RNm3mret2/aL5FjWaO0Zlz0dxORz?=
+ =?us-ascii?Q?WgbRHoEJ1+YqrGAI1F89A2i1wRsp+/3BkvT8cX0xmDdVtMI2+bRz8goxhu27?=
+ =?us-ascii?Q?DUA1qBL/Y4hdPR6jbp8mdJAKJHpTKovWXYbn+a7DozukNZLfwacSG9aMT7HB?=
+ =?us-ascii?Q?ZM38trt2uew23l/PgWegy3xigl0VNO9P3finmjLDl0EkL0cUSoADz0Oi5gLz?=
+ =?us-ascii?Q?wmjJ3IzKR4Yy/Dni6bd2fYyBaLO8JvzjLYhyq/5mIZsdqyEscI50LNnts1PZ?=
+ =?us-ascii?Q?b+DyL9COkACDg+p9i8iNuwAxZlrcKPSBcGCorkCsMs9CS1n3TBhl/CDPbVbP?=
+ =?us-ascii?Q?0kLZMiZDJ+0Sm8rL2Qv43x03Gr2UyqU2dXCaq4tbfjU6mFphZS9yPs/O1VeP?=
+ =?us-ascii?Q?cXe5PktvO7swOxCni5t9Z27IFiW97p5sZMDLndj6x63Wt25s8dZUb/RevnKL?=
+ =?us-ascii?Q?gekBghQHYLCU65osf/RCv5aRcVewK5T/6GyezVj/YtRAQcVoOZPyRB+WkLnH?=
+ =?us-ascii?Q?sqEScsRBAR1LtAvYe7RBn8sNG21yFDS1y9JDcYnz3zfW4jhIO5XWDbNeBAGg?=
+ =?us-ascii?Q?DytDjd5bCpjdUzlVf2jEhfWt3wei3rhk0J5qOwWUTlmuqr2NaWsO1Qpz16Fw?=
+ =?us-ascii?Q?DHp79ytiWy9Mxt+LRfYbN1EbUxctK+chz2j56+BiLkng+9PIB3bDPVs25tkx?=
+ =?us-ascii?Q?rZS9ipCTgrViJml3C5VJC9DoIirpi8cWxzy+HxQaBk9r1s9Kk/LaF/1Xppw?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edbd6582-4e21-4b7b-ca39-08dbaef6138d
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2023 16:26:52.8524 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P193MB0863
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,47 +133,85 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Apologies, saw this has already been fixed, please disregard
+Starting with v197, systemd uses predictable interface network names,
+the traditional interface naming scheme (eth0) is deprecated, therefore
+it cannot be assumed that the eth0 interface exists on the host.
 
-Claudio
+This modification makes the bind_bhash test program run in a separate
+network namespace and no longer needs to consider the name of the
+network interface on the host.
 
-On 6/9/23 22:27, Claudio Cambra wrote:
-> Compile error was caused by improper doc comment whitespacing
->
-> Extra task for "Documentation task"
-> Linux kernel Bug Fixing Fall Unpaid 2023
->
-> Signed-off-by: Claudio Cambra <developer@claudiocambra.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_huc.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc.c b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> index ddd146265beb..fa70defcb5b2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_huc.c
-> @@ -26,6 +26,7 @@
->    * The kernel driver is only responsible for loading the HuC firmware and
->    * triggering its security authentication. This is done differently depending
->    * on the platform:
-> + *
->    * - older platforms (from Gen9 to most Gen12s): the load is performed via DMA
->    *   and the authentication via GuC
->    * - DG2: load and authentication are both performed via GSC.
-> @@ -33,6 +34,7 @@
->    *   not-DG2 older platforms), while the authentication is done in 2-steps,
->    *   a first auth for clear-media workloads via GuC and a second one for all
->    *   workloads via GSC.
-> + *
->    * On platforms where the GuC does the authentication, to correctly do so the
->    * HuC binary must be loaded before the GuC one.
->    * Loading the HuC is optional; however, not using the HuC might negatively
+Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+---
+ tools/testing/selftests/net/bind_bhash.sh | 26 ++++++++++++-----------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+diff --git a/tools/testing/selftests/net/bind_bhash.sh b/tools/testing/selftests/net/bind_bhash.sh
+index ca0292d4b441..a28563bdaae0 100755
+--- a/tools/testing/selftests/net/bind_bhash.sh
++++ b/tools/testing/selftests/net/bind_bhash.sh
+@@ -2,7 +2,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ NR_FILES=32768
+-SAVED_NR_FILES=$(ulimit -n)
++readonly NETNS="ns-$(mktemp -u XXXXXX)"
+ 
+ # default values
+ port=443
+@@ -36,21 +36,21 @@ while getopts "ha:p:64" opt; do
+ done
+ 
+ setup() {
++    ip netns add "${NETNS}"
++    ip -netns "${NETNS}" link add veth0 type veth peer name veth1
++    ip -netns "${NETNS}" link set lo up
++    ip -netns "${NETNS}" link set veth0 up
++    ip -netns "${NETNS}" link set veth1 up
++
+     if [[ "$use_v6" == true ]]; then
+-	ip addr add $addr_v6 nodad dev eth0
++        ip -netns "${NETNS}" addr add $addr_v6 nodad dev veth0
+     else
+-	ip addr add $addr_v4 dev lo
++        ip -netns "${NETNS}" addr add $addr_v4 dev lo
+     fi
+-	ulimit -n $NR_FILES
+ }
+ 
+ cleanup() {
+-    if [[ "$use_v6" == true ]]; then
+-	ip addr del $addr_v6 dev eth0
+-    else
+-	ip addr del $addr_v4/32 dev lo
+-    fi
+-    ulimit -n $SAVED_NR_FILES
++    ip netns del "${NETNS}"
+ }
+ 
+ if [[ "$addr" != "" ]]; then
+@@ -59,8 +59,10 @@ if [[ "$addr" != "" ]]; then
+ fi
+ setup
+ if [[ "$use_v6" == true ]] ; then
+-    ./bind_bhash $port "ipv6" $addr_v6
++    ip netns exec "${NETNS}" sh -c \
++        "ulimit -n ${NR_FILES};./bind_bhash ${port} ipv6 ${addr_v6}"
+ else
+-    ./bind_bhash $port "ipv4" $addr_v4
++    ip netns exec "${NETNS}" sh -c \
++        "ulimit -n ${NR_FILES};./bind_bhash ${port} ipv4 ${addr_v4}"
+ fi
+ cleanup
+-- 
+2.39.2
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
