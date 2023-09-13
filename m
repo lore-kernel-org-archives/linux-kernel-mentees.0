@@ -1,81 +1,85 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66371EDEC66
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 13 Sep 2023 14:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C854FEDEC6B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 13 Sep 2023 14:41:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id CDE6982BC0;
-	Wed, 13 Sep 2023 14:32:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CDE6982BC0
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2bUj9SL0rTk5; Wed, 13 Sep 2023 14:32:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8BFB882CD4;
-	Wed, 13 Sep 2023 14:32:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8BFB882CD4
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 692A0C0039;
-	Wed, 13 Sep 2023 14:32:07 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 69A87C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Sep 2023 14:32:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 36DF361086
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Sep 2023 14:32:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 36DF361086
+	by smtp3.osuosl.org (Postfix) with ESMTP id 39D7261058;
+	Wed, 13 Sep 2023 14:41:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 39D7261058
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=foaaS8V8
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dwPIFDXDmD04
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pIXpEWY-eez3; Wed, 13 Sep 2023 14:41:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C1A0D60F56;
+	Wed, 13 Sep 2023 14:41:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C1A0D60F56
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 97C29C0039;
+	Wed, 13 Sep 2023 14:41:28 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BB11CC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Sep 2023 14:32:02 +0000 (UTC)
-X-Greylist: delayed 111893 seconds by postgrey-1.37 at util1.osuosl.org;
- Wed, 13 Sep 2023 14:32:02 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 457B960AB0
-Received: from 12.mo584.mail-out.ovh.net (12.mo584.mail-out.ovh.net
- [178.33.104.253])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 457B960AB0
+ Wed, 13 Sep 2023 14:41:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id A2DD74060C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Sep 2023 14:32:02 +0000 (UTC)
-Received: from director11.ghost.mail-out.ovh.net (unknown [10.109.138.64])
- by mo584.mail-out.ovh.net (Postfix) with ESMTP id 6085B234A9
+ Wed, 13 Sep 2023 14:41:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A2DD74060C
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=foaaS8V8
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ja7dyDQdOc-t
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 13 Sep 2023 08:32:36 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-c88lw (unknown [10.110.103.253])
- by director11.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 29CA21FD87;
- Wed, 13 Sep 2023 08:32:34 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.98])
- by ghost-submission-6684bf9d7b-c88lw with ESMTPSA
- id ILxbD6JzAWVKNAAAV6PKcA
- (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 13 Sep 2023 08:32:34 +0000
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R00241428889-f3c2-4350-b7c2-ccf44e00b95d,
- DC2EF514C16DA978A4B56AB6E34F69DC0F88BBA7)
- smtp.auth=jose.pekkarinen@foxhound.fi
-X-OVh-ClientIp: 91.157.108.232
-From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: airlied@gmail.com,
-	daniel@ffwll.ch
-Subject: [PATCH] drm/tests: provide exit function
-Date: Wed, 13 Sep 2023 11:32:23 +0300
-Message-Id: <20230913083223.28684-1-jose.pekkarinen@foxhound.fi>
-X-Mailer: git-send-email 2.39.2
+ Wed, 13 Sep 2023 14:41:26 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org
+ [IPv6:2604:1380:4641:c500::1])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 90C6940480
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 13 Sep 2023 14:41:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 90C6940480
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 56594617D2;
+ Wed, 13 Sep 2023 14:41:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66DD2C433C8;
+ Wed, 13 Sep 2023 14:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1694616084;
+ bh=keiQAhGl1KiQuI4EQlUBS5t1hZLSooT0aQknqkd3RNw=;
+ h=From:Date:To:Cc:Subject:References:In-Reply-To:From;
+ b=foaaS8V8By/GEEvlESL1FRYWFDGeHe79QknknqA+frVW/9g7ijSn5WU+r1LQ1lGZW
+ 9D3l/CGQXnabSLR/8ORf3cw8GXVj/9n7zoREKf1z4tmjPJctX5dxL4XT8I2wkc/KLI
+ XyZmlBSSd072qdV2KWsOuZUTE73bIUkX+48pptf/YKLX0B7PLFUb99f5kMH1Le1qpb
+ 9OhaBaU2RJCS1ncyZnSglj87zrPz1N3NGoVO5+mo3zpyWOko5+6YH9zmbrY8mpcqEB
+ wljLjxQBKh0muJW8qtW6alwzc4WnOkXMuGlqvPEqdWopZuD7YUYuk7BYAhTVwoDbHk
+ aC9GcvW4hHkow==
+From: mripard@kernel.org
+Date: Wed, 13 Sep 2023 16:41:22 +0200
+To: =?utf-8?B?Sm9zw6k=?= Pekkarinen <jose.pekkarinen@foxhound.fi>
+Subject: Re: [PATCH] drm/tests: provide exit function
+Message-ID: <4epqmvfgjlj4sz7zj6wy5z2qkezif2te3teiwhbf5wv3g3nkeo@36wbg7ksnpy4>
+References: <20230913083223.28684-1-jose.pekkarinen@foxhound.fi>
+ <63yq44aikrrymqz5e5mg5mwwnaetud7sdxju2lgtsupq52b7hm@fydwmsm4yh54>
+ <46d60d7e69c470e9550a2e7b7c750f12@foxhound.fi>
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 8332785210841409190
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrudeikedgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeeftdelueetieetvdettdetueeivedujeefffdvteefkeelhefhleelfeetteejjeenucfkphepuddvjedrtddrtddruddpledurdduheejrddutdekrddvfedvpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugihfohhunhgurghtihhonhdrohhrghdpoffvtefjohhsthepmhhoheekgedpmhhouggvpehsmhhtphhouhht
-Cc: linux-kernel@vger.kernel.org, mripard@kernel.org, arthurgrillo@riseup.net,
- boris.brezillon@collabora.com, dakr@redhat.com,
- dri-devel@lists.freedesktop.org, alexander.deucher@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
+In-Reply-To: <46d60d7e69c470e9550a2e7b7c750f12@foxhound.fi>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ arthurgrillo@riseup.net, boris.brezillon@collabora.com, dakr@redhat.com,
+ daniel@ffwll.ch, alexander.deucher@amd.com, airlied@gmail.com,
+ christian.koenig@amd.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -87,143 +91,239 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: multipart/mixed; boundary="===============0059367537207094103=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-UnVubmluZyBkcm1fZXhlY190ZXN0IGJ5IG1vZHByb2JpbmcgdGhlIG1vZHVsZSBJCm9ic2VydmUg
-dGhlIGZvbGxvd2luZyBvdXRwdXQ6CgpbICA0MjQuNDcxOTM2XSBLVEFQIHZlcnNpb24gMQpbICA0
-MjQuNDcxOTQyXSAxLi4xClsgIDQyNC40NzI0NDZdICAgICBLVEFQIHZlcnNpb24gMQpbICA0MjQu
-NDcyNDUwXSAgICAgIyBTdWJ0ZXN0OiBkcm1fZXhlYwpbICA0MjQuNDcyNDUzXSAgICAgIyBtb2R1
-bGU6IGRybV9leGVjX3Rlc3QKWyAgNDI0LjQ3MjQ1OV0gICAgIDEuLjcKWyAgNDI0LjQ3OTA4Ml0g
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09ClsgIDQyNC40NzkwOTVdIEJVRzogS0FTQU46IHNsYWItdXNlLWFmdGVyLWZyZWUg
-aW4gZHJtX2Rldl9wdXQucGFydC4wKzB4NGIvMHg5MCBbZHJtXQpbICA0MjQuNDc5NDI2XSBSZWFk
-IG9mIHNpemUgOCBhdCBhZGRyIGZmZmY4ODgxMzJkM2UwMjggYnkgdGFzayBrdW5pdF90cnlfY2F0
-Y2gvMTg2NgpbICA0MjQuNDc5NDM2XQpbICA0MjQuNDc5NDQyXSBDUFU6IDEgUElEOiAxODY2IENv
-bW06IGt1bml0X3RyeV9jYXRjaCBUYWludGVkOiBHICAgICAgICAgICAgICAgICBOIDYuNi4wLXJj
-MS1kaXJ0eSAjMgpbICA0MjQuNDc5NDQ2XSBIYXJkd2FyZSBuYW1lOiBRRU1VIFN0YW5kYXJkIFBD
-IChRMzUgKyBJQ0g5LCAyMDA5KSwgQklPUyAwLjAuMCAwMi8wNi8yMDE1ClsgIDQyNC40Nzk0NDZd
-IENhbGwgVHJhY2U6ClsgIDQyNC40Nzk0NDZdICA8VEFTSz4KWyAgNDI0LjQ3OTQ0Nl0gIGR1bXBf
-c3RhY2tfbHZsKzB4NDMvMHg2MApbICA0MjQuNDc5NDQ2XSAgcHJpbnRfcmVwb3J0KzB4Y2YvMHg2
-NjAKWyAgNDI0LjQ3OTQ0Nl0gID8gX192aXJ0X2FkZHJfdmFsaWQrMHhkOS8weDE2MApbICA0MjQu
-NDc5NDQ2XSAgPyBkcm1fZGV2X3B1dC5wYXJ0LjArMHg0Yi8weDkwIFtkcm1dClsgIDQyNC40Nzk0
-NDZdICBrYXNhbl9yZXBvcnQrMHhkYS8weDExMApbICA0MjQuNDc5NDQ2XSAgPyBkcm1fZGV2X3B1
-dC5wYXJ0LjArMHg0Yi8weDkwIFtkcm1dClsgIDQyNC40Nzk0NDZdICBkcm1fZGV2X3B1dC5wYXJ0
-LjArMHg0Yi8weDkwIFtkcm1dClsgIDQyNC40Nzk0NDZdICByZWxlYXNlX25vZGVzKzB4ODMvMHgx
-NjAKWyAgNDI0LjQ3OTQ0Nl0gIGRldnJlc19yZWxlYXNlX2FsbCsweGU2LzB4MTMwClsgIDQyNC40
-Nzk0NDZdICA/IF9fcGZ4X2RldnJlc19yZWxlYXNlX2FsbCsweDEwLzB4MTAKWyAgNDI0LjQ3OTQ0
-Nl0gID8gbXV0ZXhfdW5sb2NrKzB4ODAvMHhkMApbICA0MjQuNDc5NDQ2XSAgPyBfX3BmeF9tdXRl
-eF91bmxvY2srMHgxMC8weDEwClsgIDQyNC40Nzk0NDZdICBkZXZpY2VfdW5iaW5kX2NsZWFudXAr
-MHgxNi8weGMwClsgIDQyNC40Nzk0NDZdICBkZXZpY2VfcmVsZWFzZV9kcml2ZXJfaW50ZXJuYWwr
-MHgyOGIvMHgyZTAKWyAgNDI0LjQ3OTQ0Nl0gIGJ1c19yZW1vdmVfZGV2aWNlKzB4MTI0LzB4MWQw
-ClsgIDQyNC40Nzk0NDZdICBkZXZpY2VfZGVsKzB4MjNkLzB4NTgwClsgIDQyNC40Nzk0NDZdICA/
-IF9fcGZ4X2RldmljZV9kZWwrMHgxMC8weDEwClsgIDQyNC40Nzk0NDZdICA/IGthc2FuX3NldF90
-cmFjaysweDIxLzB4MzAKWyAgNDI0LjQ3OTQ0Nl0gID8gX3Jhd19zcGluX2xvY2tfaXJxc2F2ZSsw
-eDk4LzB4ZjAKWyAgNDI0LjQ3OTQ0Nl0gIHBsYXRmb3JtX2RldmljZV9kZWwucGFydC4wKzB4MTkv
-MHhlMApbICA0MjQuNDc5NDQ2XSAga3VuaXRfcmVtb3ZlX3Jlc291cmNlKzB4ZmEvMHgxNDAgW2t1
-bml0XQpbICA0MjQuNDc5NDQ2XSAga3VuaXRfY2xlYW51cCsweDQ3LzB4YTAgW2t1bml0XQpbICA0
-MjQuNDc5NDQ2XSAgPyBfX3BmeF9rdW5pdF90cnlfcnVuX2Nhc2VfY2xlYW51cCsweDEwLzB4MTAg
-W2t1bml0XQpbICA0MjQuNDc5NDQ2XSAgPyBfX3BmeF9rdW5pdF9nZW5lcmljX3J1bl90aHJlYWRm
-bl9hZGFwdGVyKzB4MTAvMHgxMCBba3VuaXRdClsgIDQyNC40Nzk0NDZdICBrdW5pdF9nZW5lcmlj
-X3J1bl90aHJlYWRmbl9hZGFwdGVyKzB4MjkvMHg1MCBba3VuaXRdClsgIDQyNC40Nzk0NDZdICBr
-dGhyZWFkKzB4MTg0LzB4MWMwClsgIDQyNC40Nzk0NDZdICA/IF9fcGZ4X2t0aHJlYWQrMHgxMC8w
-eDEwClsgIDQyNC40Nzk0NDZdICByZXRfZnJvbV9mb3JrKzB4MzAvMHg1MApbICA0MjQuNDc5NDQ2
-XSAgPyBfX3BmeF9rdGhyZWFkKzB4MTAvMHgxMApbICA0MjQuNDc5NDQ2XSAgcmV0X2Zyb21fZm9y
-a19hc20rMHgxYi8weDMwClsgIDQyNC40Nzk0NDZdICA8L1RBU0s+ClsgIDQyNC40Nzk0NDZdClsg
-IDQyNC40Nzk0NDZdIEFsbG9jYXRlZCBieSB0YXNrIDE4NjU6ClsgIDQyNC40Nzk0NDZdICBrYXNh
-bl9zYXZlX3N0YWNrKzB4MmYvMHg1MApbICA0MjQuNDc5NDQ2XSAga2FzYW5fc2V0X3RyYWNrKzB4
-MjEvMHgzMApbICA0MjQuNDc5NDQ2XSAgX19rYXNhbl9rbWFsbG9jKzB4YTYvMHhiMApbICA0MjQu
-NDc5NDQ2XSAgX19rbWFsbG9jKzB4NWQvMHgxNjAKWyAgNDI0LjQ3OTQ0Nl0gIGt1bml0X2ttYWxs
-b2NfYXJyYXkrMHgxYy8weDUwIFtrdW5pdF0KWyAgNDI0LjQ3OTQ0Nl0gIGRybV9leGVjX3Rlc3Rf
-aW5pdCsweGVmLzB4MjYwIFtkcm1fZXhlY190ZXN0XQpbICA0MjQuNDc5NDQ2XSAga3VuaXRfdHJ5
-X3J1bl9jYXNlKzB4NmUvMHgxMDAgW2t1bml0XQpbICA0MjQuNDc5NDQ2XSAga3VuaXRfZ2VuZXJp
-Y19ydW5fdGhyZWFkZm5fYWRhcHRlcisweDI5LzB4NTAgW2t1bml0XQpbICA0MjQuNDc5NDQ2XSAg
-a3RocmVhZCsweDE4NC8weDFjMApbICA0MjQuNDc5NDQ2XSAgcmV0X2Zyb21fZm9yaysweDMwLzB4
-NTAKWyAgNDI0LjQ3OTQ0Nl0gIHJldF9mcm9tX2ZvcmtfYXNtKzB4MWIvMHgzMApbICA0MjQuNDc5
-NDQ2XQpbICA0MjQuNDc5NDQ2XSBGcmVlZCBieSB0YXNrIDE4NjY6ClsgIDQyNC40Nzk0NDZdICBr
-YXNhbl9zYXZlX3N0YWNrKzB4MmYvMHg1MApbICA0MjQuNDc5NDQ2XSAga2FzYW5fc2V0X3RyYWNr
-KzB4MjEvMHgzMApbICA0MjQuNDc5NDQ2XSAga2FzYW5fc2F2ZV9mcmVlX2luZm8rMHgyNy8weDQw
-ClsgIDQyNC40Nzk0NDZdICBfX19fa2FzYW5fc2xhYl9mcmVlKzB4MTY2LzB4MWMwClsgIDQyNC40
-Nzk0NDZdICBzbGFiX2ZyZWVfZnJlZWxpc3RfaG9vaysweDlmLzB4MWUwClsgIDQyNC40Nzk0NDZd
-ICBfX2ttZW1fY2FjaGVfZnJlZSsweDE4Ny8weDJkMApbICA0MjQuNDc5NDQ2XSAga3VuaXRfcmVt
-b3ZlX3Jlc291cmNlKzB4ZmEvMHgxNDAgW2t1bml0XQpbICA0MjQuNDc5NDQ2XSAga3VuaXRfY2xl
-YW51cCsweDQ3LzB4YTAgW2t1bml0XQpbICA0MjQuNDc5NDQ2XSAga3VuaXRfZ2VuZXJpY19ydW5f
-dGhyZWFkZm5fYWRhcHRlcisweDI5LzB4NTAgW2t1bml0XQpbICA0MjQuNDc5NDQ2XSAga3RocmVh
-ZCsweDE4NC8weDFjMApbICA0MjQuNDc5NDQ2XSAgcmV0X2Zyb21fZm9yaysweDMwLzB4NTAKWyAg
-NDI0LjQ3OTQ0Nl0gIHJldF9mcm9tX2ZvcmtfYXNtKzB4MWIvMHgzMApbICA0MjQuNDc5NDQ2XQpb
-ICA0MjQuNDc5NDQ2XSBUaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdzIHRvIHRoZSBvYmplY3QgYXQg
-ZmZmZjg4ODEzMmQzZTAwMApbICA0MjQuNDc5NDQ2XSAgd2hpY2ggYmVsb25ncyB0byB0aGUgY2Fj
-aGUga21hbGxvYy0yNTYgb2Ygc2l6ZSAyNTYKWyAgNDI0LjQ3OTQ0Nl0gVGhlIGJ1Z2d5IGFkZHJl
-c3MgaXMgbG9jYXRlZCA0MCBieXRlcyBpbnNpZGUgb2YKWyAgNDI0LjQ3OTQ0Nl0gIGZyZWVkIDI1
-Ni1ieXRlIHJlZ2lvbiBbZmZmZjg4ODEzMmQzZTAwMCwgZmZmZjg4ODEzMmQzZTEwMCkKWyAgNDI0
-LjQ3OTQ0Nl0KWyAgNDI0LjQ3OTQ0Nl0gVGhlIGJ1Z2d5IGFkZHJlc3MgYmVsb25ncyB0byB0aGUg
-cGh5c2ljYWwgcGFnZToKWyAgNDI0LjQ3OTQ0Nl0gcGFnZTowMDAwMDAwMDkyZmY2NTUxIHJlZmNv
-dW50OjEgbWFwY291bnQ6MCBtYXBwaW5nOjAwMDAwMDAwMDAwMDAwMDAgaW5kZXg6MHhmZmZmODg4
-MTMyZDNmNjAwIHBmbjoweDEzMmQzYwpbICA0MjQuNDc5NDQ2XSBoZWFkOjAwMDAwMDAwOTJmZjY1
-NTEgb3JkZXI6MiBlbnRpcmVfbWFwY291bnQ6MCBucl9wYWdlc19tYXBwZWQ6MCBwaW5jb3VudDow
-ClsgIDQyNC40Nzk0NDZdIGtzbSBmbGFnczogMHgxN2ZmZmZjMDAwMDg0MChzbGFifGhlYWR8bm9k
-ZT0wfHpvbmU9MnxsYXN0Y3B1cGlkPTB4MWZmZmZmKQpbICA0MjQuNDc5NDQ2XSBwYWdlX3R5cGU6
-IDB4ZmZmZmZmZmYoKQpbICA0MjQuNDc5NDQ2XSByYXc6IDAwMTdmZmZmYzAwMDA4NDAgZmZmZjg4
-ODEwMDA0MmI0MCBmZmZmZWEwMDA0MmM4MDAwIGRlYWQwMDAwMDAwMDAwMDMKWyAgNDI0LjQ3OTQ0
-Nl0gcmF3OiBmZmZmODg4MTMyZDNmNjAwIDAwMDAwMDAwODAyMDAwMWYgMDAwMDAwMDFmZmZmZmZm
-ZiAwMDAwMDAwMDAwMDAwMDAwClsgIDQyNC40Nzk0NDZdIHBhZ2UgZHVtcGVkIGJlY2F1c2U6IGth
-c2FuOiBiYWQgYWNjZXNzIGRldGVjdGVkClsgIDQyNC40Nzk0NDZdClsgIDQyNC40Nzk0NDZdIE1l
-bW9yeSBzdGF0ZSBhcm91bmQgdGhlIGJ1Z2d5IGFkZHJlc3M6ClsgIDQyNC40Nzk0NDZdICBmZmZm
-ODg4MTMyZDNkZjAwOiBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBmYyBm
-YyBmYwpbICA0MjQuNDc5NDQ2XSAgZmZmZjg4ODEzMmQzZGY4MDogZmMgZmMgZmMgZmMgZmMgZmMg
-ZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMKWyAgNDI0LjQ3OTQ0Nl0gPmZmZmY4ODgxMzJk
-M2UwMDA6IGZhIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZiClsg
-IDQyNC40Nzk0NDZdICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeClsgIDQyNC40
-Nzk0NDZdICBmZmZmODg4MTMyZDNlMDgwOiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBm
-YiBmYiBmYiBmYiBmYiBmYgpbICA0MjQuNDc5NDQ2XSAgZmZmZjg4ODEzMmQzZTEwMDogZmMgZmMg
-ZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMgZmMKWyAgNDI0LjQ3OTQ0Nl0g
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09ClsgIDQyNC40ODE2ODZdIERpc2FibGluZyBsb2NrIGRlYnVnZ2luZyBkdWUgdG8g
-a2VybmVsIHRhaW50ClsgIDQyNC40ODQxMjRdICAgICBub3Qgb2sgMSBzYW5pdHljaGVjawpbICA0
-MjQuNDkyOTgxXSAgICAgb2sgMiB0ZXN0X2xvY2sKWyAgNDI0LjUwMzYxMF0gICAgIG9rIDMgdGVz
-dF9sb2NrX3VubG9jawpbICA0MjQuNTE1MDU4XSAgICAgb2sgNCB0ZXN0X2R1cGxpY2F0ZXMKWyAg
-NDI0LjUzMDQ1M10gICAgIG9rIDUgdGVzdF9wcmVwYXJlClsgIDQyNC41MzkwOTldICAgICBvayA2
-IHRlc3RfcHJlcGFyZV9hcnJheQpbICA0MjQuNTUwNzMwXSAgICAgb2sgNyB0ZXN0X211bHRpcGxl
-X2xvb3BzClsgIDQyNC41NTA3NDNdICMgZHJtX2V4ZWM6IHBhc3M6NiBmYWlsOjEgc2tpcDowIHRv
-dGFsOjcKWyAgNDI0LjU1MDc1MF0gIyBUb3RhbHM6IHBhc3M6NiBmYWlsOjEgc2tpcDowIHRvdGFs
-OjcKWyAgNDI0LjU1MDc1Nl0gbm90IG9rIDUgZHJtX2V4ZWMKClRoZSBvdXB0dXQgc3VnZ2VzdCB0
-aGUgaW5pdCBmdW5jdGlvbiBpcyBhbGxvY2F0aW5nIGEgZHJtX2RldmljZQp0aGF0IGlzIG5vdCBi
-ZWluZyBmcmVlZC4gVGhpcyBwYXRjaCBwcm92aWRlcyB0aGUgZnVuY3Rpb24gYW5kCmFkZCBpdCB0
-byB0aGUga3VuaXRfc3VpdGUgdG8gcHJvZHVjZSB0aGUgZm9sbG93aW5nIHJlc3VsdCBvZgp0aGUg
-dGVzdDoKClsgMzM2My4zNDI1NjBdIEtUQVAgdmVyc2lvbiAxClsgMzM2My4zNDI1NzFdIDEuLjEK
-WyAzMzYzLjM0MzA5MF0gICAgIEtUQVAgdmVyc2lvbiAxClsgMzM2My4zNDMwOTVdICAgICAjIFN1
-YnRlc3Q6IGRybV9leGVjClsgMzM2My4zNDMwOThdICAgICAjIG1vZHVsZTogZHJtX2V4ZWNfdGVz
-dApbIDMzNjMuMzQzMTAzXSAgICAgMS4uNwpbIDMzNjMuMzUzNjU5XSAgICAgb2sgMSBzYW5pdHlj
-aGVjawpbIDMzNjMuMzY0MjgxXSAgICAgb2sgMiB0ZXN0X2xvY2sKWyAzMzYzLjM3NTYxNl0gICAg
-IG9rIDMgdGVzdF9sb2NrX3VubG9jawpbIDMzNjMuMzg4NzQxXSAgICAgb2sgNCB0ZXN0X2R1cGxp
-Y2F0ZXMKWyAzMzYzLjQwMjU0NF0gICAgIG9rIDUgdGVzdF9wcmVwYXJlClsgMzM2My40MTMxNjNd
-ICAgICBvayA2IHRlc3RfcHJlcGFyZV9hcnJheQpbIDMzNjMuNDI0NjE0XSAgICAgb2sgNyB0ZXN0
-X211bHRpcGxlX2xvb3BzClsgMzM2My40MjQ2MzBdICMgZHJtX2V4ZWM6IHBhc3M6NyBmYWlsOjAg
-c2tpcDowIHRvdGFsOjcKWyAzMzYzLjQyNDYzN10gIyBUb3RhbHM6IHBhc3M6NyBmYWlsOjAgc2tp
-cDowIHRvdGFsOjcKWyAzMzYzLjQyNDY0M10gb2sgMSBkcm1fZXhlYwoKU2lnbmVkLW9mZi1ieTog
-Sm9zw6kgUGVra2FyaW5lbiA8am9zZS5wZWtrYXJpbmVuQGZveGhvdW5kLmZpPgotLS0KIGRyaXZl
-cnMvZ3B1L2RybS90ZXN0cy9kcm1fZXhlY190ZXN0LmMgfCAxNCArKysrKysrKysrKysrKwogMSBm
-aWxlIGNoYW5nZWQsIDE0IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vdGVzdHMvZHJtX2V4ZWNfdGVzdC5jIGIvZHJpdmVycy9ncHUvZHJtL3Rlc3RzL2RybV9leGVj
-X3Rlc3QuYwppbmRleCA1NjM5NDlkNzc3ZGQuLjdmZjZiYzY0NjdkNCAxMDA2NDQKLS0tIGEvZHJp
-dmVycy9ncHUvZHJtL3Rlc3RzL2RybV9leGVjX3Rlc3QuYworKysgYi9kcml2ZXJzL2dwdS9kcm0v
-dGVzdHMvZHJtX2V4ZWNfdGVzdC5jCkBAIC00Miw2ICs0MiwxOSBAQCBzdGF0aWMgaW50IGRybV9l
-eGVjX3Rlc3RfaW5pdChzdHJ1Y3Qga3VuaXQgKnRlc3QpCiAJcmV0dXJuIDA7CiB9CiAKK3N0YXRp
-YyB2b2lkIGRybV9leGVjX3Rlc3RfZXhpdChzdHJ1Y3Qga3VuaXQgKnRlc3QpCit7CisJc3RydWN0
-IGRybV9leGVjX3ByaXYgKnByaXYgPSB0ZXN0LT5wcml2OworCisJZHJtX2t1bml0X2hlbHBlcl9m
-cmVlX2RldmljZSh0ZXN0LCBwcml2LT5kZXYpOworCUtVTklUX0FTU0VSVF9OT1RfRVJSX09SX05V
-TEwodGVzdCwgcHJpdi0+ZGV2KTsKKworCWRybV9kZXZfcHV0KHByaXYtPmRybSk7CisJS1VOSVRf
-QVNTRVJUX05PVF9FUlJfT1JfTlVMTCh0ZXN0LCBwcml2LT5kcm0pOworCisJa3VuaXRfa2ZyZWUo
-dGVzdCwgcHJpdik7Cit9CisKIHN0YXRpYyB2b2lkIHNhbml0eWNoZWNrKHN0cnVjdCBrdW5pdCAq
-dGVzdCkKIHsKIAlzdHJ1Y3QgZHJtX2V4ZWMgZXhlYzsKQEAgLTIwNCw2ICsyMTcsNyBAQCBzdGF0
-aWMgc3RydWN0IGt1bml0X2Nhc2UgZHJtX2V4ZWNfdGVzdHNbXSA9IHsKIHN0YXRpYyBzdHJ1Y3Qg
-a3VuaXRfc3VpdGUgZHJtX2V4ZWNfdGVzdF9zdWl0ZSA9IHsKIAkubmFtZSA9ICJkcm1fZXhlYyIs
-CiAJLmluaXQgPSBkcm1fZXhlY190ZXN0X2luaXQsCisJLmV4aXQgPSBkcm1fZXhlY190ZXN0X2V4
-aXQsCiAJLnRlc3RfY2FzZXMgPSBkcm1fZXhlY190ZXN0cywKIH07CiAKLS0gCjIuMzkuMgoKX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVs
-LW1lbnRlZXMgbWFpbGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91
-bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlz
-dGluZm8vbGludXgta2VybmVsLW1lbnRlZXMK
+
+--===============0059367537207094103==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="upz45bzpjfn2lqwm"
+Content-Disposition: inline
+
+
+--upz45bzpjfn2lqwm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Sep 13, 2023 at 05:01:40PM +0300, Jos=E9 Pekkarinen wrote:
+> On 2023-09-13 12:50, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Wed, Sep 13, 2023 at 11:32:23AM +0300, Jos=E9 Pekkarinen wrote:
+> > > Running drm_exec_test by modprobing the module I
+> > > observe the following output:
+> > >=20
+> > > [  424.471936] KTAP version 1
+> > > [  424.471942] 1..1
+> > > [  424.472446]     KTAP version 1
+> > > [  424.472450]     # Subtest: drm_exec
+> > > [  424.472453]     # module: drm_exec_test
+> > > [  424.472459]     1..7
+> > > [  424.479082]
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > [  424.479095] BUG: KASAN: slab-use-after-free in
+> > > drm_dev_put.part.0+0x4b/0x90 [drm]
+> > > [  424.479426] Read of size 8 at addr ffff888132d3e028 by task
+> > > kunit_try_catch/1866
+> > > [  424.479436]
+> > > [  424.479442] CPU: 1 PID: 1866 Comm: kunit_try_catch Tainted: G
+> > > N 6.6.0-rc1-dirty #2
+> >=20
+> > That's suspicious
+> >=20
+> > > [  424.479446] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009),
+> > > BIOS 0.0.0 02/06/2015
+> > > [  424.479446] Call Trace:
+> > > [  424.479446]  <TASK>
+> > > [  424.479446]  dump_stack_lvl+0x43/0x60
+> > > [  424.479446]  print_report+0xcf/0x660
+> > > [  424.479446]  ? __virt_addr_valid+0xd9/0x160
+> > > [  424.479446]  ? drm_dev_put.part.0+0x4b/0x90 [drm]
+> > > [  424.479446]  kasan_report+0xda/0x110
+> > > [  424.479446]  ? drm_dev_put.part.0+0x4b/0x90 [drm]
+> > > [  424.479446]  drm_dev_put.part.0+0x4b/0x90 [drm]
+> > > [  424.479446]  release_nodes+0x83/0x160
+> > > [  424.479446]  devres_release_all+0xe6/0x130
+> > > [  424.479446]  ? __pfx_devres_release_all+0x10/0x10
+> > > [  424.479446]  ? mutex_unlock+0x80/0xd0
+> > > [  424.479446]  ? __pfx_mutex_unlock+0x10/0x10
+> > > [  424.479446]  device_unbind_cleanup+0x16/0xc0
+> > > [  424.479446]  device_release_driver_internal+0x28b/0x2e0
+> > > [  424.479446]  bus_remove_device+0x124/0x1d0
+> > > [  424.479446]  device_del+0x23d/0x580
+> > > [  424.479446]  ? __pfx_device_del+0x10/0x10
+> > > [  424.479446]  ? kasan_set_track+0x21/0x30
+> > > [  424.479446]  ? _raw_spin_lock_irqsave+0x98/0xf0
+> > > [  424.479446]  platform_device_del.part.0+0x19/0xe0
+> > > [  424.479446]  kunit_remove_resource+0xfa/0x140 [kunit]
+> > > [  424.479446]  kunit_cleanup+0x47/0xa0 [kunit]
+> > > [  424.479446]  ? __pfx_kunit_try_run_case_cleanup+0x10/0x10 [kunit]
+> > > [  424.479446]  ? __pfx_kunit_generic_run_threadfn_adapter+0x10/0x10
+> > > [kunit]
+> > > [  424.479446]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
+> > > [  424.479446]  kthread+0x184/0x1c0
+> > > [  424.479446]  ? __pfx_kthread+0x10/0x10
+> > > [  424.479446]  ret_from_fork+0x30/0x50
+> > > [  424.479446]  ? __pfx_kthread+0x10/0x10
+> > > [  424.479446]  ret_from_fork_asm+0x1b/0x30
+> > > [  424.479446]  </TASK>
+> > > [  424.479446]
+> > > [  424.479446] Allocated by task 1865:
+> > > [  424.479446]  kasan_save_stack+0x2f/0x50
+> > > [  424.479446]  kasan_set_track+0x21/0x30
+> > > [  424.479446]  __kasan_kmalloc+0xa6/0xb0
+> > > [  424.479446]  __kmalloc+0x5d/0x160
+> > > [  424.479446]  kunit_kmalloc_array+0x1c/0x50 [kunit]
+> > > [  424.479446]  drm_exec_test_init+0xef/0x260 [drm_exec_test]
+> > > [  424.479446]  kunit_try_run_case+0x6e/0x100 [kunit]
+> > > [  424.479446]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
+> > > [  424.479446]  kthread+0x184/0x1c0
+> > > [  424.479446]  ret_from_fork+0x30/0x50
+> > > [  424.479446]  ret_from_fork_asm+0x1b/0x30
+> > > [  424.479446]
+> > > [  424.479446] Freed by task 1866:
+> > > [  424.479446]  kasan_save_stack+0x2f/0x50
+> > > [  424.479446]  kasan_set_track+0x21/0x30
+> > > [  424.479446]  kasan_save_free_info+0x27/0x40
+> > > [  424.479446]  ____kasan_slab_free+0x166/0x1c0
+> > > [  424.479446]  slab_free_freelist_hook+0x9f/0x1e0
+> > > [  424.479446]  __kmem_cache_free+0x187/0x2d0
+> > > [  424.479446]  kunit_remove_resource+0xfa/0x140 [kunit]
+> > > [  424.479446]  kunit_cleanup+0x47/0xa0 [kunit]
+> > > [  424.479446]  kunit_generic_run_threadfn_adapter+0x29/0x50 [kunit]
+> > > [  424.479446]  kthread+0x184/0x1c0
+> > > [  424.479446]  ret_from_fork+0x30/0x50
+> > > [  424.479446]  ret_from_fork_asm+0x1b/0x30
+> > > [  424.479446]
+> > > [  424.479446] The buggy address belongs to the object at
+> > > ffff888132d3e000
+> > > [  424.479446]  which belongs to the cache kmalloc-256 of size 256
+> > > [  424.479446] The buggy address is located 40 bytes inside of
+> > > [  424.479446]  freed 256-byte region [ffff888132d3e000,
+> > > ffff888132d3e100)
+> > > [  424.479446]
+> > > [  424.479446] The buggy address belongs to the physical page:
+> > > [  424.479446] page:0000000092ff6551 refcount:1 mapcount:0
+> > > mapping:0000000000000000 index:0xffff888132d3f600 pfn:0x132d3c
+> > > [  424.479446] head:0000000092ff6551 order:2 entire_mapcount:0
+> > > nr_pages_mapped:0 pincount:0
+> > > [  424.479446] ksm flags:
+> > > 0x17ffffc0000840(slab|head|node=3D0|zone=3D2|lastcpupid=3D0x1fffff)
+> > > [  424.479446] page_type: 0xffffffff()
+> > > [  424.479446] raw: 0017ffffc0000840 ffff888100042b40
+> > > ffffea00042c8000 dead000000000003
+> > > [  424.479446] raw: ffff888132d3f600 000000008020001f
+> > > 00000001ffffffff 0000000000000000
+> > > [  424.479446] page dumped because: kasan: bad access detected
+> > > [  424.479446]
+> > > [  424.479446] Memory state around the buggy address:
+> > > [  424.479446]  ffff888132d3df00: fc fc fc fc fc fc fc fc fc fc fc
+> > > fc fc fc fc fc
+> > > [  424.479446]  ffff888132d3df80: fc fc fc fc fc fc fc fc fc fc fc
+> > > fc fc fc fc fc
+> > > [  424.479446] >ffff888132d3e000: fa fb fb fb fb fb fb fb fb fb fb
+> > > fb fb fb fb fb
+> > > [  424.479446]                                   ^
+> > > [  424.479446]  ffff888132d3e080: fb fb fb fb fb fb fb fb fb fb fb
+> > > fb fb fb fb fb
+> > > [  424.479446]  ffff888132d3e100: fc fc fc fc fc fc fc fc fc fc fc
+> > > fc fc fc fc fc
+> > > [  424.479446]
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > [  424.481686] Disabling lock debugging due to kernel taint
+> > > [  424.484124]     not ok 1 sanitycheck
+> > > [  424.492981]     ok 2 test_lock
+> > > [  424.503610]     ok 3 test_lock_unlock
+> > > [  424.515058]     ok 4 test_duplicates
+> > > [  424.530453]     ok 5 test_prepare
+> > > [  424.539099]     ok 6 test_prepare_array
+> > > [  424.550730]     ok 7 test_multiple_loops
+> > > [  424.550743] # drm_exec: pass:6 fail:1 skip:0 total:7
+> > > [  424.550750] # Totals: pass:6 fail:1 skip:0 total:7
+> > > [  424.550756] not ok 5 drm_exec
+> > >=20
+> > > The ouptut suggest the init function is allocating a drm_device
+> > > that is not being freed. This patch provides the function and
+> > > add it to the kunit_suite to produce the following result of
+> > > the test:
+> > >=20
+> > > [ 3363.342560] KTAP version 1
+> > > [ 3363.342571] 1..1
+> > > [ 3363.343090]     KTAP version 1
+> > > [ 3363.343095]     # Subtest: drm_exec
+> > > [ 3363.343098]     # module: drm_exec_test
+> > > [ 3363.343103]     1..7
+> > > [ 3363.353659]     ok 1 sanitycheck
+> > > [ 3363.364281]     ok 2 test_lock
+> > > [ 3363.375616]     ok 3 test_lock_unlock
+> > > [ 3363.388741]     ok 4 test_duplicates
+> > > [ 3363.402544]     ok 5 test_prepare
+> > > [ 3363.413163]     ok 6 test_prepare_array
+> > > [ 3363.424614]     ok 7 test_multiple_loops
+> > > [ 3363.424630] # drm_exec: pass:7 fail:0 skip:0 total:7
+> > > [ 3363.424637] # Totals: pass:7 fail:0 skip:0 total:7
+> > > [ 3363.424643] ok 1 drm_exec
+> > >=20
+> > > Signed-off-by: Jos=E9 Pekkarinen <jose.pekkarinen@foxhound.fi>
+> > > ---
+> > >  drivers/gpu/drm/tests/drm_exec_test.c | 14 ++++++++++++++
+> > >  1 file changed, 14 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/tests/drm_exec_test.c
+> > > b/drivers/gpu/drm/tests/drm_exec_test.c
+> > > index 563949d777dd..7ff6bc6467d4 100644
+> > > --- a/drivers/gpu/drm/tests/drm_exec_test.c
+> > > +++ b/drivers/gpu/drm/tests/drm_exec_test.c
+> > > @@ -42,6 +42,19 @@ static int drm_exec_test_init(struct kunit *test)
+> > >  	return 0;
+> > >  }
+> > >=20
+> > > +static void drm_exec_test_exit(struct kunit *test)
+> > > +{
+> > > +	struct drm_exec_priv *priv =3D test->priv;
+> > > +
+> > > +	drm_kunit_helper_free_device(test, priv->dev);
+> > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv->dev);
+> >=20
+> > This shouldn't be necessary at all since 4f2b0b583baa.
+>=20
+>
+> Reading this suggested patch I see only references to
+> platform_driver_unregister, platform_device_put, and
+> platform_device_del, not the ones used in this patch.
+
+I mean, what is drm_kunit_helper_free_device calling?
+
+Maxime
+--upz45bzpjfn2lqwm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZQHKDAAKCRDj7w1vZxhR
+xRy0AQD64PRpRQr2oE8ifP25UReMHkkoQA+V4DFE3ifHwC4JlwD/Q97uVJogsdT6
+Up2HFbxP7eQYpBketEKT0iSsQs6qxwQ=
+=et4w
+-----END PGP SIGNATURE-----
+
+--upz45bzpjfn2lqwm--
+
+--===============0059367537207094103==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============0059367537207094103==--
