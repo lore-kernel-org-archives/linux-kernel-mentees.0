@@ -4,99 +4,82 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F3F9CE79D7
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Sep 2023 14:29:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 54413C04FFE
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Sep 2023 21:14:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 98BDF80F6C;
-	Wed, 20 Sep 2023 14:29:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 98BDF80F6C
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0980C81395;
+	Wed, 20 Sep 2023 21:14:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0980C81395
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lRepN4p7
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=OVtEQlBJ
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Aat8Ag2RgkG7; Wed, 20 Sep 2023 14:29:54 +0000 (UTC)
+	with ESMTP id kYs5hztOEHrK; Wed, 20 Sep 2023 21:14:30 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 74C5880E39;
-	Wed, 20 Sep 2023 14:29:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 74C5880E39
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0DB21811A9;
+	Wed, 20 Sep 2023 21:14:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0DB21811A9
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 451F1C0039;
-	Wed, 20 Sep 2023 14:29:54 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 552A3C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DDF1BC0071;
+	Wed, 20 Sep 2023 21:14:29 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0AF3CC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Sep 2023 14:29:53 +0000 (UTC)
+ Wed, 20 Sep 2023 21:14:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 223E780EAC
+ by smtp3.osuosl.org (Postfix) with ESMTP id A586A6139A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Sep 2023 14:29:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 223E780EAC
+ Wed, 20 Sep 2023 21:14:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A586A6139A
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com
+ header.a=rsa-sha256 header.s=mail header.b=OVtEQlBJ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id dBjc1J7k8NFP
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oAZD9GeGTYci
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Sep 2023 14:29:52 +0000 (UTC)
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 23B4480E39
+ Wed, 20 Sep 2023 21:14:01 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id D19A96134C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Sep 2023 14:29:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 23B4480E39
-Received: by mail-lf1-x132.google.com with SMTP id
- 2adb3069b0e04-50317080342so5715851e87.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 20 Sep 2023 07:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695220190; x=1695824990;
- darn=lists.linuxfoundation.org; 
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=ysWSXqnK8OeEpLhbUCktYsznOSRQAjBgSh+YG4ngKDI=;
- b=lRepN4p773vvU4cDP+4+Knkjc9MVQAxTU3JsqQBeaiYrBAMNPmhWa9bZDqa6odTIm6
- aDtTb9GF0NJbjtuImsfShshVtvJy6COHl3YeKhDDDYpuaB1hCh2maiLfTSz12AkikfUL
- t0AaK2dUwKX5kRrzo6Pl5f7ZcmeVFcvAF+O11pL4haENa4binZtt+oc/BNOiN+XjuJT6
- atRgdyj3XZDK8mdzPBGJ/KlVcKf+VbrQ6WM/1EBcJVLh6U0bbAcFCVpXDq7IJo80fEMm
- 3wln6bdR+nRqxxRBIc29iFcYtuFxZ0lNeuEWdqePHc8Vn75d5Cvt/llRvfc+G9iY8Fnc
- UmsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695220190; x=1695824990;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ysWSXqnK8OeEpLhbUCktYsznOSRQAjBgSh+YG4ngKDI=;
- b=TSgj/TfCyEm+dYluO35GiMSO6v3z63IFbecUFUsCBuh6trONm9T7OlpAR23e4HaaEv
- WgjnqhO7qbwsIcmuARVJEy7Gr6iDY9wKfoUwz746HYbiBptFYfbzg0Pf4bQXaiv26gfI
- lkFIHd4/HkaHpEN7N6OPPqE5PZkHDzuPNcFd6U/wXtrRinKkyf81UP/q+aV1tdh0g5QI
- /oVAOidwof2b7C9+Bw8nKhnJbwqeNFbjJhL0DyborIqk+b6s9yGCz1tkGCcLeMxtDhMC
- OjIc0yV2tn5dtcMaSiY6IePgxfYuQaFawc9JuOLkGnPm2WG3w6XtBSY2PNdky/Pwe1Cq
- JNnQ==
-X-Gm-Message-State: AOJu0Yyc9NRVG+tjXy5n7I3pblB+soT7ywjL7sDekri5BUQaal8ojHQK
- jjKz/pekyMmy6lGKcrg9NJM=
-X-Google-Smtp-Source: AGHT+IF4292rSmWZUTEL97qdL/H5LRRTmvg/tMETf2isHSAXVL8Pq0PSKunSu55P6aWx1bPL8l1Jzg==
-X-Received: by 2002:a05:6512:445:b0:503:3707:66ed with SMTP id
- y5-20020a056512044500b00503370766edmr2230433lfk.34.1695220189426; 
- Wed, 20 Sep 2023 07:29:49 -0700 (PDT)
-Received: from akanner-r14. ([91.245.138.112])
- by smtp.gmail.com with ESMTPSA id
- j14-20020ac2550e000000b004fe2de20d88sm2670935lfk.232.2023.09.20.07.29.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Sep 2023 07:29:48 -0700 (PDT)
-Message-ID: <650b01dc.c20a0220.51a00.8920@mx.google.com>
-X-Google-Original-Message-ID: <ZQsB2U4QnumsxlIY@akanner-r14.>
-Date: Wed, 20 Sep 2023 17:29:45 +0300
-From: Andrew Kanner <andrew.kanner@gmail.com>
-To: apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
- lukas.bulwahn@gmail.com
-Subject: Re: [PATCH] checkpatch: stop complaining about tags suggested/tested
- by syzkaller
-References: <20230829123446.3455193-1-andrew.kanner@gmail.com>
+ Wed, 20 Sep 2023 21:14:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D19A96134C
+Received: from [192.168.2.59] (109-252-153-31.dynamic.spd-mgts.ru
+ [109.252.153.31])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: dmitry.osipenko)
+ by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A50F6607243;
+ Wed, 20 Sep 2023 22:13:57 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1695244438;
+ bh=AEY7xSy+XlWvC67wCNaiGkWUgOsbIuFYHHmnxBCjy3I=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=OVtEQlBJBAtJi9tb4FkbfpRmsugl2ETOMWGjfNX2zARe4zatOkyv2qFJys4qpZtAF
+ +Pd04c3WENeHGNveAmVQjypZBCeUc+c3fmfZbTJ2yHcQiA7cdicWuFvMkGH+n3TRTC
+ xMNh9WWDUw4RunEtbk8xx8tLFjrKDMQJOSJGXl9t3FkCbgj0JSaYOa8v/SiZtqvHp2
+ EcMhgaMKvguYPbjpwINvIxme70frCQjPc81NrM7RCkxjaGlNIzwfyrePkf6ASLYE+o
+ mf9DkAuGVNsiaI/F26kgzkV66Gg9aLL+UXmsce2VOVwbfv1f+LeTqxhXQFWC8u9ttg
+ 75roO4Mdw5y1Q==
+Message-ID: <e944b37b-87e2-5cd4-1140-f7bb7e28519f@collabora.com>
+Date: Thu, 21 Sep 2023 00:13:54 +0300
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <20230829123446.3455193-1-andrew.kanner@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/virtio: clean out_fence on complete_submit
+Content-Language: en-US
+To: =?UTF-8?Q?Jos=c3=a9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ airlied@redhat.com, kraxel@redhat.com, skhan@linuxfoundation.org
+References: <20230912060824.5210-1-jose.pekkarinen@foxhound.fi>
+In-Reply-To: <20230912060824.5210-1-jose.pekkarinen@foxhound.fi>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, Rob Clark <robdclark@gmail.com>,
+ gurchetansingh@chromium.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ christian.koenig@amd.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -108,66 +91,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+From: Dmitry Osipenko via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Aug 29, 2023 at 02:34:47PM +0200, Andrew Kanner wrote:
-> If you submit a testing request to syzkaller it may reply with:
-> 
->  syzbot has tested the proposed patch and the reproducer did not \
->  trigger any issue:
-> 
->  Reported-and-tested-by: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com
-> 
-> Checkpatch is ok with Reported-by tags, but complains about
-> Reported-and-tested-by tags:
-> 
->  WARNING: Possible unwrapped commit description (prefer a maximum 75 \
->  chars per line)
->  #48:
->  Reported-and-tested-by: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com
-> 
-> Adding the new tag to signature_tags removes this warning.
-> 
-> Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
-> ---
->  scripts/checkpatch.pl | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index a9841148cde2..f85dcfb098e0 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -615,6 +615,7 @@ our $signature_tags = qr{(?xi:
->  	Tested-by:|
->  	Reviewed-by:|
->  	Reported-by:|
-> +	Reported-and-tested-by:|
->  	Suggested-by:|
->  	To:|
->  	Cc:
-> @@ -709,7 +710,7 @@ sub find_standard_signature {
->  	my ($sign_off) = @_;
->  	my @standard_signature_tags = (
->  		'Signed-off-by:', 'Co-developed-by:', 'Acked-by:', 'Tested-by:',
-> -		'Reviewed-by:', 'Reported-by:', 'Suggested-by:'
-> +		'Reviewed-by:', 'Reported-by:', 'Reported-and-tested-by:', 'Suggested-by:'
->  	);
->  	foreach my $signature (@standard_signature_tags) {
->  		return $signature if (get_edit_distance($sign_off, $signature) <= 2);
-> -- 
-> 2.39.3
-> 
-
-Kindly reminder.
-Please let me know if there're any objections.
-
--- 
-Andrew Kanner
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gOS8xMi8yMyAwOTowOCwgSm9zw6kgUGVra2FyaW5lbiB3cm90ZToKPiBUaGUgcmVtb3ZlZCBs
+aW5lIHByZXZlbnRzIHRoZSBmb2xsb3dpbmcgY2xlYW51cCBmdW5jdGlvbgo+IHRvIGV4ZWN1dGUg
+YSBkbWFfZmVuY2VfcHV0IG9uIHRoZSBvdXRfZmVuY2UgdG8gZnJlZSBpdHMKPiBtZW1vcnksIHBy
+b2R1Y2luZyB0aGUgZm9sbG93aW5nIG91dHB1dCBpbiBrbWVtbGVhazoKPiAKPiB1bnJlZmVyZW5j
+ZWQgb2JqZWN0IDB4ZmZmZjg4ODEyNmQ4ZWUwMCAoc2l6ZSAxMjgpOgo+ICAgY29tbSAia3dpbl93
+YXlsYW5kIiwgcGlkIDk4MSwgamlmZmllcyA0Mjk1MzgwMjk2IChhZ2UgMzkwLjA2MHMpCj4gICBo
+ZXggZHVtcCAoZmlyc3QgMzIgYnl0ZXMpOgo+ICAgICBjOCBhMSBjMiAyNyA4MSA4OCBmZiBmZiBl
+MCAxNCBhOSBjMCBmZiBmZiBmZiBmZiAgLi4uJy4uLi4uLi4uLi4uLgo+ICAgICAzMCAxYSBlMSAy
+ZSBhNiAwMCAwMCAwMCAyOCBmYyA1YiAxNyA4MSA4OCBmZiBmZiAgMC4uLi4uLi4oLlsuLi4uLgo+
+ICAgYmFja3RyYWNlOgo+ICAgICBbPDAwMDAwMDAwMTE2NTU2NjE+XSBrbWFsbG9jX3RyYWNlKzB4
+MjYvMHhhMAo+ICAgICBbPDAwMDAwMDAwNTVmMTViODI+XSB2aXJ0aW9fZ3B1X2ZlbmNlX2FsbG9j
+KzB4NDcvMHhjMCBbdmlydGlvX2dwdV0KPiAgICAgWzwwMDAwMDAwMGZhNmQ5NmY5Pl0gdmlydGlv
+X2dwdV9leGVjYnVmZmVyX2lvY3RsKzB4MWE4LzB4ODAwIFt2aXJ0aW9fZ3B1XQo+ICAgICBbPDAw
+MDAwMDAwZTZjYjUxMDU+XSBkcm1faW9jdGxfa2VybmVsKzB4MTY5LzB4MjQwIFtkcm1dCj4gICAg
+IFs8MDAwMDAwMDA1YWQzM2UyNz5dIGRybV9pb2N0bCsweDM5OS8weDZiMCBbZHJtXQo+ICAgICBb
+PDAwMDAwMDAwYTE5ZGJmNjU+XSBfX3g2NF9zeXNfaW9jdGwrMHhjNS8weDEwMAo+ICAgICBbPDAw
+MDAwMDAwMTFmYTgwMWU+XSBkb19zeXNjYWxsXzY0KzB4NWIvMHhjMAo+ICAgICBbPDAwMDAwMDAw
+NjVjNzZkOGE+XSBlbnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg2ZS8weGQ4Cj4gdW5y
+ZWZlcmVuY2VkIG9iamVjdCAweGZmZmY4ODgxMjE5MzA1MDAgKHNpemUgMTI4KToKPiAgIGNvbW0g
+Imt3aW5fd2F5bGFuZCIsIHBpZCA5ODEsIGppZmZpZXMgNDI5NTM4MDMxMyAoYWdlIDM5MC4wOTZz
+KQo+ICAgaGV4IGR1bXAgKGZpcnN0IDMyIGJ5dGVzKToKPiAgICAgYzggYTEgYzIgMjcgODEgODgg
+ZmYgZmYgZTAgMTQgYTkgYzAgZmYgZmYgZmYgZmYgIC4uLicuLi4uLi4uLi4uLi4KPiAgICAgZjkg
+ZWMgZDcgMmYgYTYgMDAgMDAgMDAgMjggZmMgNWIgMTcgODEgODggZmYgZmYgIC4uLi8uLi4uKC5b
+Li4uLi4KPiAgIGJhY2t0cmFjZToKPiAgICAgWzwwMDAwMDAwMDExNjU1NjYxPl0ga21hbGxvY190
+cmFjZSsweDI2LzB4YTAKPiAgICAgWzwwMDAwMDAwMDU1ZjE1YjgyPl0gdmlydGlvX2dwdV9mZW5j
+ZV9hbGxvYysweDQ3LzB4YzAgW3ZpcnRpb19ncHVdCj4gICAgIFs8MDAwMDAwMDBmYTZkOTZmOT5d
+IHZpcnRpb19ncHVfZXhlY2J1ZmZlcl9pb2N0bCsweDFhOC8weDgwMCBbdmlydGlvX2dwdV0KPiAg
+ICAgWzwwMDAwMDAwMGU2Y2I1MTA1Pl0gZHJtX2lvY3RsX2tlcm5lbCsweDE2OS8weDI0MCBbZHJt
+XQo+ICAgICBbPDAwMDAwMDAwNWFkMzNlMjc+XSBkcm1faW9jdGwrMHgzOTkvMHg2YjAgW2RybV0K
+PiAgICAgWzwwMDAwMDAwMGExOWRiZjY1Pl0gX194NjRfc3lzX2lvY3RsKzB4YzUvMHgxMDAKPiAg
+ICAgWzwwMDAwMDAwMDExZmE4MDFlPl0gZG9fc3lzY2FsbF82NCsweDViLzB4YzAKPiAgICAgWzww
+MDAwMDAwMDY1Yzc2ZDhhPl0gZW50cnlfU1lTQ0FMTF82NF9hZnRlcl9od2ZyYW1lKzB4NmUvMHhk
+OAo+IFsuLi5dCj4gCj4gVGhpcyBtZW1sZWFrIHdpbGwgZ3JvdyBxdWlja2x5LCBiZWluZyBwb3Nz
+aWJsZSB0byBzZWUgdGhlCj4gZm9sbG93aW5nIGxpbmUgaW4gZG1lc2cgYWZ0ZXIgZmV3IG1pbnV0
+ZXMgb2YgbGlmZSBpbiB0aGUKPiB2aXJ0dWFsIG1hY2hpbmU6Cj4gCj4gWyAgNzA2LjIxNzM4OF0g
+a21lbWxlYWs6IDEwNzMxIG5ldyBzdXNwZWN0ZWQgbWVtb3J5IGxlYWtzIChzZWUgL3N5cy9rZXJu
+ZWwvZGVidWcva21lbWxlYWspCj4gCj4gVGhlIHBhdGNoIHdpbGwgcmVtb3ZlIHRoZSBsaW5lIHRv
+IGFsbG93IHRoZSBjbGVhbnVwCj4gZnVuY3Rpb24gZG8gaXRzIGpvYi4KPiAKPiBTaWduZWQtb2Zm
+LWJ5OiBKb3PDqSBQZWtrYXJpbmVuIDxqb3NlLnBla2thcmluZW5AZm94aG91bmQuZmk+Cj4gLS0t
+Cj4gIGRyaXZlcnMvZ3B1L2RybS92aXJ0aW8vdmlydGdwdV9zdWJtaXQuYyB8IDEgLQo+ICAxIGZp
+bGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKQWRkZWQgZml4ZXMgdGFnIGFuZCBwdXNoZWQgdG8g
+bWlzYy1maXhlcwoKLS0gCkJlc3QgcmVnYXJkcywKRG1pdHJ5CgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
+IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
+czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
+ZWwtbWVudGVlcwo=
