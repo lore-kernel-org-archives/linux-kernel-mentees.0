@@ -1,77 +1,82 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2CF5CCE79A8
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 19 Sep 2023 21:54:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2FBAECE79AC
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 20 Sep 2023 07:40:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AEE3E40432;
-	Tue, 19 Sep 2023 21:54:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AEE3E40432
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=vLQ7y4GR
+	by smtp1.osuosl.org (Postfix) with ESMTP id AB2BE81357;
+	Wed, 20 Sep 2023 07:40:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AB2BE81357
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 91LBqeAPUC7N; Tue, 19 Sep 2023 21:54:42 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id OOLazR2RyJc9; Wed, 20 Sep 2023 07:40:39 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 9CA7A40376;
-	Tue, 19 Sep 2023 21:54:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9CA7A40376
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7ABB180EB1;
+	Wed, 20 Sep 2023 07:40:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7ABB180EB1
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 76549C0039;
-	Tue, 19 Sep 2023 21:54:42 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 61E78C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 4E69CC0039;
+	Wed, 20 Sep 2023 07:40:39 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 72093C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Sep 2023 21:54:40 +0000 (UTC)
+ Wed, 20 Sep 2023 07:40:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 3619740396
+ by smtp1.osuosl.org (Postfix) with ESMTP id 4C67081357
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Sep 2023 21:54:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3619740396
+ Wed, 20 Sep 2023 07:40:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4C67081357
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id auoCNNcgnYGe
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Jj1qSZKJssJZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Sep 2023 21:54:37 +0000 (UTC)
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:3::133])
- by smtp2.osuosl.org (Postfix) with ESMTPS id A1FEF40376
+ Wed, 20 Sep 2023 07:40:36 +0000 (UTC)
+X-Greylist: delayed 69121 seconds by postgrey-1.37 at util1.osuosl.org;
+ Wed, 20 Sep 2023 07:40:36 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8E77C80EB1
+Received: from 6.mo560.mail-out.ovh.net (6.mo560.mail-out.ovh.net
+ [87.98.165.38])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 8E77C80EB1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 19 Sep 2023 21:54:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A1FEF40376
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=f5/fMBSIznIr+vGvXU4rmAhmq+8j0wlA0K01HLKQFAk=; b=vLQ7y4GRj4HN8CPHKXs7DDUYk7
- Sd7EIIkAz3j/advHMGwNIZ/P8P5y7lt/s7IAHQK5W9SLtqj984StvmdcIoAqi+S1k/8Lnr6kpcyXo
- Y00GBqfbkvVQ/aBLQx1y1/dKzBrjU1A60/TSsH2cDIw6V2VVliTksjLwM2lSEGpnDZEhko9SjUn/T
- ggKhpRhTEzyLWqK8RagH9DQ8589VzHUXlc7+2IEFvmXrU3FG3bhJu/J3yxnWQe1A3AuVgWhyF7giM
- Ep28IzN6HTN6pnmLwRgkzTi4pSTuiI9XyW8VUQEnFUMSdfub5Yg5ceWb9kdFTXD5cDPZdk5zSlmsN
- mDjYu8cg==;
-Received: from [2601:1c2:980:9ec0::9fed]
- by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1qiifx-001K5G-10; Tue, 19 Sep 2023 21:54:33 +0000
-Message-ID: <e1294905-b867-4141-87ff-2b7202476e59@infradead.org>
-Date: Tue, 19 Sep 2023 14:54:32 -0700
+ Wed, 20 Sep 2023 07:40:36 +0000 (UTC)
+Received: from director2.ghost.mail-out.ovh.net (unknown [10.108.4.183])
+ by mo560.mail-out.ovh.net (Postfix) with ESMTP id 20C3426134
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 20 Sep 2023 06:25:00 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-9dvr6 (unknown [10.110.103.93])
+ by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 33E281FE5D;
+ Wed, 20 Sep 2023 06:24:59 +0000 (UTC)
+Received: from RCM-web9.webmail.mail.ovh.net ([151.80.29.21])
+ by ghost-submission-6684bf9d7b-9dvr6 with ESMTPSA
+ id zUNWCzuQCmU11gkA6QqK6A
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 20 Sep 2023 06:24:59 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu: drm: amd: display: fix kernel-doc warnings
-Content-Language: en-US
-To: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20230919093318.16407-1-swarupkotikalapudi@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20230919093318.16407-1-swarupkotikalapudi@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Date: Wed, 20 Sep 2023 09:24:58 +0300
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Subject: Re: [PATCH] drm/atomic-helper: prevent uaf in wait_for_vblanks
+In-Reply-To: <c64d38db-cb55-a511-3f19-0cf2ee2c7557@mailbox.org>
+References: <20230918165340.2330-1-jose.pekkarinen@foxhound.fi>
+ <c64d38db-cb55-a511-3f19-0cf2ee2c7557@mailbox.org>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <95caefafeec02b0fa01177c7ebf94838@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 185.220.102.7
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+X-Ovh-Tracer-Id: 10392900568754923241
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrudekvddguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpudekhedrvddvtddruddtvddrjedpudehuddrkedtrddvledrvddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdfovfetjfhoshhtpehmohehiedtpdhmohguvgepshhmthhpohhuth
+Cc: tzimmermann@suse.de, linux-kernel-mentees@lists.linuxfoundation.org,
+ maarten.lankhorst@linux.intel.com, linux-kernel@vger.kernel.org,
+ mripard@kernel.org, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ airlied@gmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,74 +88,145 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi,
-
-On 9/19/23 02:33, Swarup Laxman Kotiaklapudi wrote:
-> Fix kernel-doc warnings discovered in AMD gpu display driver.
-> Fixes these warnings:
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:110: warning:
-> Function parameter or member 'overlap_only'
-> not described in 'mpcc_blnd_cfg'.
-> 
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:110: warning:
-> Function parameter or member 'bottom_gain_mode'
-> not described in 'mpcc_blnd_cfg'.
-> 
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:110: warning:
-> Function parameter or member 'background_color_bpc'
-> not described in 'mpcc_blnd_cfg'.
-> 
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:110:
-> warning: Function parameter or member 'top_gain'
-> not described in 'mpcc_blnd_cfg'.
-> 
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:110:
-> warning: Function parameter or member 'bottom_inside_gain'
-> not described in 'mpcc_blnd_cfg'.
-> 
-> ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:110:
-> warning: Function parameter or member 'bottom_outside_gain'
-> not described in 'mpcc_blnd_cfg'.
-> 
-> Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-
-Thanks for fixing these kernel-doc warnings.
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-> ---
->  drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-> index 8d86159d9de0..61a2406dcc53 100644
-> --- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-> @@ -91,6 +91,12 @@ enum mpcc_alpha_blend_mode {
->   * @global_gain: used when blend mode considers both pixel alpha and plane
->   * alpha value and assumes the global alpha value.
->   * @global_alpha: plane alpha value
-> + * @overlap_only: whether overlapping of different planes is allowed
-> + * @bottom_gain_mode: blend mode for bottom gain setting
-> + * @background_color_bpc: background color for bpc
-> + * @top_gain: top gain setting
-> + * @bottom_inside_gain: blend mode for bottom inside
-> + * @bottom_outside_gain:  blend mode for bottom outside
->   */
->  struct mpcc_blnd_cfg {
->  	struct tg_color black_color;	/* background color */
-
--- 
-~Randy
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMjAyMy0wOS0xOSAxOTo1NiwgTWljaGVsIETDpG56ZXIgd3JvdGU6Cj4gT24gOS8xOC8yMyAx
+ODo1MywgSm9zw6kgUGVra2FyaW5lbiB3cm90ZToKPj4gS2FzYW4gcmVwb3J0ZWQgdGhlIGZvbGxv
+d2luZyBpbiBteSBzeXN0ZW06Cj4+IAo+PiBbIDM5MzUuMzIxMDAzXSAKPj4gPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Cj4+
+IFsgMzkzNS4zMjEwMjJdIEJVRzogS0FTQU46IHNsYWItdXNlLWFmdGVyLWZyZWUgaW4gCj4+IGRy
+bV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MucGFydC4wKzB4MTE2LzB4NDUwIFtkcm1f
+a21zX2hlbHBlcl0KPj4gWyAzOTM1LjMyMTEyNF0gUmVhZCBvZiBzaXplIDEgYXQgYWRkciBmZmZm
+ODg4MThhNmY4MDA5IGJ5IHRhc2sgCj4+IGt3b3JrZXIvdTE2OjMvNTI2OAo+PiAKPj4gWyAzOTM1
+LjMyMTEyNF0gQ1BVOiA3IFBJRDogNTI2OCBDb21tOiBrd29ya2VyL3UxNjozIE5vdCB0YWludGVk
+IAo+PiA2LjYuMC1yYzIrICMxCj4+IFsgMzkzNS4zMjExMjRdIEhhcmR3YXJlIG5hbWU6IFFFTVUg
+U3RhbmRhcmQgUEMgKFEzNSArIElDSDksIDIwMDkpLCAKPj4gQklPUyAwLjAuMCAwMi8wNi8yMDE1
+Cj4+IFsgMzkzNS4zMjExMjRdIFdvcmtxdWV1ZTogZXZlbnRzX3VuYm91bmQgY29tbWl0X3dvcmsg
+W2RybV9rbXNfaGVscGVyXQo+PiBbIDM5MzUuMzIxMTI0XSBDYWxsIFRyYWNlOgo+PiBbIDM5MzUu
+MzIxMTI0XSAgPFRBU0s+Cj4+IFsgMzkzNS4zMjExMjRdICBkdW1wX3N0YWNrX2x2bCsweDQzLzB4
+NjAKPj4gWyAzOTM1LjMyMTEyNF0gIHByaW50X3JlcG9ydCsweGNmLzB4NjYwCj4+IFsgMzkzNS4z
+MjExMjRdICA/IHJlbW92ZV9lbnRpdHlfbG9hZF9hdmcrMHhkYy8weDEwMAo+PiBbIDM5MzUuMzIx
+MTI0XSAgPyBfX3ZpcnRfYWRkcl92YWxpZCsweGQ5LzB4MTYwCj4+IFsgMzkzNS4zMjExMjRdICA/
+IAo+PiBkcm1fYXRvbWljX2hlbHBlcl93YWl0X2Zvcl92YmxhbmtzLnBhcnQuMCsweDExNi8weDQ1
+MCBbZHJtX2ttc19oZWxwZXJdCj4+IFsgMzkzNS4zMjExMjRdICBrYXNhbl9yZXBvcnQrMHhkYS8w
+eDExMAo+PiBbIDM5MzUuMzIxMTI0XSAgPyAKPj4gZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3Jf
+dmJsYW5rcy5wYXJ0LjArMHgxMTYvMHg0NTAgW2RybV9rbXNfaGVscGVyXQo+PiBbIDM5MzUuMzIx
+MTI0XSAgZHJtX2F0b21pY19oZWxwZXJfd2FpdF9mb3JfdmJsYW5rcy5wYXJ0LjArMHgxMTYvMHg0
+NTAgCj4+IFtkcm1fa21zX2hlbHBlcl0KPj4gWyAzOTM1LjMyMTEyNF0gID8gCj4+IF9fcGZ4X2Ry
+bV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MucGFydC4wKzB4MTAvMHgxMCAKPj4gW2Ry
+bV9rbXNfaGVscGVyXQo+PiBbIDM5MzUuMzIxMTI0XSAgPyBjb21wbGV0ZV9hbGwrMHg0OC8weDEw
+MAo+PiBbIDM5MzUuMzIxMTI0XSAgPyBfcmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUrMHgxOS8w
+eDQwCj4+IFsgMzkzNS4zMjExMjRdICA/IHByZWVtcHRfY291bnRfc3ViKzB4MTQvMHhjMAo+PiBb
+IDM5MzUuMzIxMTI0XSAgPyBfcmF3X3NwaW5fdW5sb2NrX2lycXJlc3RvcmUrMHgyMy8weDQwCj4+
+IFsgMzkzNS4zMjExMjRdICA/IGRybV9hdG9taWNfaGVscGVyX2NvbW1pdF9od19kb25lKzB4MWFj
+LzB4MjQwIAo+PiBbZHJtX2ttc19oZWxwZXJdCj4+IFsgMzkzNS4zMjExMjRdICBkcm1fYXRvbWlj
+X2hlbHBlcl9jb21taXRfdGFpbCsweDgyLzB4OTAgCj4+IFtkcm1fa21zX2hlbHBlcl0KPj4gWyAz
+OTM1LjMyMTEyNF0gIGNvbW1pdF90YWlsKzB4MTVjLzB4MWQwIFtkcm1fa21zX2hlbHBlcl0KPj4g
+WyAzOTM1LjMyMzE4NV0gIHByb2Nlc3Nfb25lX3dvcmsrMHgzMWEvMHg2MTAKPj4gWyAzOTM1LjMy
+MzE4NV0gIHdvcmtlcl90aHJlYWQrMHgzOGUvMHg1ZjAKPj4gWyAzOTM1LjMyMzE4NV0gID8gX19w
+Znhfd29ya2VyX3RocmVhZCsweDEwLzB4MTAKPj4gWyAzOTM1LjMyMzE4NV0gIGt0aHJlYWQrMHgx
+ODQvMHgxYzAKPj4gWyAzOTM1LjMyMzE4NV0gID8gX19wZnhfa3RocmVhZCsweDEwLzB4MTAKPj4g
+WyAzOTM1LjMyMzE4NV0gIHJldF9mcm9tX2ZvcmsrMHgzMC8weDUwCj4+IFsgMzkzNS4zMjMxODVd
+ICA/IF9fcGZ4X2t0aHJlYWQrMHgxMC8weDEwCj4+IFsgMzkzNS4zMjMxODVdICByZXRfZnJvbV9m
+b3JrX2FzbSsweDFiLzB4MzAKPj4gWyAzOTM1LjMyMzE4NV0gIDwvVEFTSz4KPj4gCj4+IFsgMzkz
+NS4zMjMxODVdIEFsbG9jYXRlZCBieSB0YXNrIDM3NTE6Cj4+IFsgMzkzNS4zMjMxODVdICBrYXNh
+bl9zYXZlX3N0YWNrKzB4MmYvMHg1MAo+PiBbIDM5MzUuMzIzMTg1XSAga2FzYW5fc2V0X3RyYWNr
+KzB4MjEvMHgzMAo+PiBbIDM5MzUuMzIzMTg1XSAgX19rYXNhbl9rbWFsbG9jKzB4YTYvMHhiMAo+
+PiBbIDM5MzUuMzIzMTg1XSAgZHJtX2F0b21pY19oZWxwZXJfY3J0Y19kdXBsaWNhdGVfc3RhdGUr
+MHg0Mi8weDcwIAo+PiBbZHJtX2ttc19oZWxwZXJdCj4+IFsgMzkzNS4zMjMxODVdICBkcm1fYXRv
+bWljX2dldF9jcnRjX3N0YXRlKzB4YzMvMHgxZTAgW2RybV0KPj4gWyAzOTM1LjMyMzE4NV0gIHBh
+Z2VfZmxpcF9jb21tb24rMHg0Mi8weDE2MCBbZHJtX2ttc19oZWxwZXJdCj4+IFsgMzkzNS4zMjMx
+ODVdICBkcm1fYXRvbWljX2hlbHBlcl9wYWdlX2ZsaXArMHg2Yi8weGYwIFtkcm1fa21zX2hlbHBl
+cl0KPj4gWyAzOTM1LjMyMzE4NV0gIGRybV9tb2RlX3BhZ2VfZmxpcF9pb2N0bCsweDhhZC8weDkw
+MCBbZHJtXQo+PiBbIDM5MzUuMzIzMTg1XSAgZHJtX2lvY3RsX2tlcm5lbCsweDE2OS8weDI0MCBb
+ZHJtXQo+PiBbIDM5MzUuMzIzMTg1XSAgZHJtX2lvY3RsKzB4Mzk5LzB4NmIwIFtkcm1dCj4+IFsg
+MzkzNS4zMjQ3NzJdICBfX3g2NF9zeXNfaW9jdGwrMHhjNS8weDEwMAo+PiBbIDM5MzUuMzI0Nzcy
+XSAgZG9fc3lzY2FsbF82NCsweDViLzB4YzAKPj4gWyAzOTM1LjMyNDc3Ml0gIGVudHJ5X1NZU0NB
+TExfNjRfYWZ0ZXJfaHdmcmFtZSsweDZlLzB4ZDgKPj4gCj4+IFsgMzkzNS4zMjQ3NzJdIEZyZWVk
+IGJ5IHRhc2sgMzc1MToKPj4gWyAzOTM1LjMyNDc3Ml0gIGthc2FuX3NhdmVfc3RhY2srMHgyZi8w
+eDUwCj4+IFsgMzkzNS4zMjQ3NzJdICBrYXNhbl9zZXRfdHJhY2srMHgyMS8weDMwCj4+IFsgMzkz
+NS4zMjQ3NzJdICBrYXNhbl9zYXZlX2ZyZWVfaW5mbysweDI3LzB4NDAKPj4gWyAzOTM1LjMyNDc3
+Ml0gIF9fX19rYXNhbl9zbGFiX2ZyZWUrMHgxNjYvMHgxYzAKPj4gWyAzOTM1LjMyNDc3Ml0gIHNs
+YWJfZnJlZV9mcmVlbGlzdF9ob29rKzB4OWYvMHgxZTAKPj4gWyAzOTM1LjMyNDc3Ml0gIF9fa21l
+bV9jYWNoZV9mcmVlKzB4MTg3LzB4MmQwCj4+IFsgMzkzNS4zMjQ3NzJdICBkcm1fYXRvbWljX3N0
+YXRlX2RlZmF1bHRfY2xlYXIrMHgyMjYvMHg1ZTAgW2RybV0KPj4gWyAzOTM1LjMyNDc3Ml0gIF9f
+ZHJtX2F0b21pY19zdGF0ZV9mcmVlKzB4YzgvMHgxMzAgW2RybV0KPj4gWyAzOTM1LjMyNDc3Ml0g
+IGRybV9hdG9taWNfaGVscGVyX3VwZGF0ZV9wbGFuZSsweDE3ZC8weDFiMCAKPj4gW2RybV9rbXNf
+aGVscGVyXQo+PiBbIDM5MzUuMzI0NzcyXSAgZHJtX21vZGVfY3Vyc29yX3VuaXZlcnNhbCsweDJh
+NC8weDRkMCBbZHJtXQo+PiBbIDM5MzUuMzI0NzcyXSAgZHJtX21vZGVfY3Vyc29yX2NvbW1vbisw
+eDFjZi8weDQzMCBbZHJtXQo+PiBbIDM5MzUuMzI0NzcyXSAgZHJtX21vZGVfY3Vyc29yX2lvY3Rs
+KzB4YzYvMHgxMDAgW2RybV0KPj4gWyAzOTM1LjMyNjE2N10gIGRybV9pb2N0bF9rZXJuZWwrMHgx
+NjkvMHgyNDAgW2RybV0KPj4gWyAzOTM1LjMyNjE2N10gIGRybV9pb2N0bCsweDM5OS8weDZiMCBb
+ZHJtXQo+PiBbIDM5MzUuMzI2NjE0XSAgX194NjRfc3lzX2lvY3RsKzB4YzUvMHgxMDAKPj4gWyAz
+OTM1LjMyNjYxNF0gIGRvX3N5c2NhbGxfNjQrMHg1Yi8weGMwCj4+IFsgMzkzNS4zMjY2MTRdICBl
+bnRyeV9TWVNDQUxMXzY0X2FmdGVyX2h3ZnJhbWUrMHg2ZS8weGQ4Cj4+IAo+PiBbIDM5MzUuMzI2
+NjE0XSBUaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdzIHRvIHRoZSBvYmplY3QgYXQgCj4+IGZmZmY4
+ODgxOGE2ZjgwMDAKPj4gICAgICAgICAgICAgICAgIHdoaWNoIGJlbG9uZ3MgdG8gdGhlIGNhY2hl
+IGttYWxsb2MtNTEyIG9mIHNpemUgNTEyCj4+IFsgMzkzNS4zMjY2MTRdIFRoZSBidWdneSBhZGRy
+ZXNzIGlzIGxvY2F0ZWQgOSBieXRlcyBpbnNpZGUgb2YKPj4gICAgICAgICAgICAgICAgIGZyZWVk
+IDUxMi1ieXRlIHJlZ2lvbiBbZmZmZjg4ODE4YTZmODAwMCwgCj4+IGZmZmY4ODgxOGE2ZjgyMDAp
+Cj4+IAo+PiBbIDM5MzUuMzI2NjE0XSBUaGUgYnVnZ3kgYWRkcmVzcyBiZWxvbmdzIHRvIHRoZSBw
+aHlzaWNhbCBwYWdlOgo+PiBbIDM5MzUuMzI2NjE0XSBwYWdlOjAwMDAwMDAwYjBmYjA4MTYgcmVm
+Y291bnQ6MSBtYXBjb3VudDowIAo+PiBtYXBwaW5nOjAwMDAwMDAwMDAwMDAwMDAgaW5kZXg6MHgw
+IHBmbjoweDE4YTZmOAo+PiBbIDM5MzUuMzI2NjE0XSBoZWFkOjAwMDAwMDAwYjBmYjA4MTYgb3Jk
+ZXI6MyBlbnRpcmVfbWFwY291bnQ6MCAKPj4gbnJfcGFnZXNfbWFwcGVkOjAgcGluY291bnQ6MAo+
+PiBbIDM5MzUuMzI2NjE0XSBhbm9uIGZsYWdzOiAKPj4gMHgxN2ZmZmZjMDAwMDg0MChzbGFifGhl
+YWR8bm9kZT0wfHpvbmU9MnxsYXN0Y3B1cGlkPTB4MWZmZmZmKQo+PiBbIDM5MzUuMzI2NjE0XSBw
+YWdlX3R5cGU6IDB4ZmZmZmZmZmYoKQo+PiBbIDM5MzUuMzI2NjE0XSByYXc6IDAwMTdmZmZmYzAw
+MDA4NDAgZmZmZjg4ODEwMDA0MmM4MCAwMDAwMDAwMDAwMDAwMDAwIAo+PiBkZWFkMDAwMDAwMDAw
+MDAxCj4+IFsgMzkzNS4zMjY2MTRdIHJhdzogMDAwMDAwMDAwMDAwMDAwMCAwMDAwMDAwMDgwMjAw
+MDIwIDAwMDAwMDAxZmZmZmZmZmYgCj4+IDAwMDAwMDAwMDAwMDAwMDAKPj4gWyAzOTM1LjMyNjYx
+NF0gcGFnZSBkdW1wZWQgYmVjYXVzZToga2FzYW46IGJhZCBhY2Nlc3MgZGV0ZWN0ZWQKPj4gCj4+
+IFsgMzkzNS4zMjY2MTRdIE1lbW9yeSBzdGF0ZSBhcm91bmQgdGhlIGJ1Z2d5IGFkZHJlc3M6Cj4+
+IFsgMzkzNS4zMjY2MTRdICBmZmZmODg4MThhNmY3ZjAwOiBmYyBmYyBmYyBmYyBmYyBmYyBmYyBm
+YyBmYyBmYyBmYyBmYyAKPj4gZmMgZmMgZmMgZmMKPj4gWyAzOTM1LjMyNjYxNF0gIGZmZmY4ODgx
+OGE2ZjdmODA6IGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIGZjIAo+PiBmYyBmYyBm
+YyBmYwo+PiBbIDM5MzUuMzI2NjE0XSA+ZmZmZjg4ODE4YTZmODAwMDogZmEgZmIgZmIgZmIgZmIg
+ZmIgZmIgZmIgZmIgZmIgZmIgZmIgCj4+IGZiIGZiIGZiIGZiCj4+IFsgMzkzNS4zMjY3NzJdICAg
+ICAgICAgICAgICAgICAgICAgICBeCj4+IFsgMzkzNS4zMjY3NzJdICBmZmZmODg4MThhNmY4MDgw
+OiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiBmYiAKPj4gZmIgZmIgZmIgZmIKPj4g
+WyAzOTM1LjMyNjc3Ml0gIGZmZmY4ODgxOGE2ZjgxMDA6IGZiIGZiIGZiIGZiIGZiIGZiIGZiIGZi
+IGZiIGZiIGZiIGZiIAo+PiBmYiBmYiBmYiBmYgo+PiBbIDM5MzUuMzI2NzcyXSAKPj4gPT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09Cj4+IAo+PiBUaGlzIHN1Z2dlc3QgdGhlcmUgbWF5IGJlIHNvbWUgc2l0dWF0aW9uIHdoZXJl
+IGEKPj4gc3RydWN0IGRybV9jcnRjX3N0YXRlIGlzIHJlZmVyZW5jZWQgYWZ0ZXIgYWxyZWFkeQo+
+PiBiZWluZyBmcmVlZCBieSBkcm1fYXRvbWljX3N0YXRlX2RlZmF1bHRfY2xlYXIuIFRoaXMKPj4g
+cGF0Y2ggd2lsbCBjaGVjayB0aGUgbmV3X2NydGNfc3RhdGUgaXMgbm90IG51bGwgYmVmb3JlCj4+
+IHVzaW5nIGl0Lgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogSm9zw6kgUGVra2FyaW5lbiA8am9zZS5w
+ZWtrYXJpbmVuQGZveGhvdW5kLmZpPgo+PiAtLS0KPj4gIGRyaXZlcnMvZ3B1L2RybS9kcm1fYXRv
+bWljX2hlbHBlci5jIHwgMiArLQo+PiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pCj4+IAo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9t
+aWNfaGVscGVyLmMgCj4+IGIvZHJpdmVycy9ncHUvZHJtL2RybV9hdG9taWNfaGVscGVyLmMKPj4g
+aW5kZXggMjkyZTM4ZWI2MjE4Li5jYzc1ZDM4N2E1NDIgMTAwNjQ0Cj4+IC0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9kcm1fYXRvbWljX2hlbHBlci5jCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1f
+YXRvbWljX2hlbHBlci5jCj4+IEBAIC0xNjQ3LDcgKzE2NDcsNyBAQCBkcm1fYXRvbWljX2hlbHBl
+cl93YWl0X2Zvcl92YmxhbmtzKHN0cnVjdCAKPj4gZHJtX2RldmljZSAqZGV2LAo+PiAgCQlyZXR1
+cm47Cj4+IAo+PiAgCWZvcl9lYWNoX29sZG5ld19jcnRjX2luX3N0YXRlKG9sZF9zdGF0ZSwgY3J0
+Yywgb2xkX2NydGNfc3RhdGUsIAo+PiBuZXdfY3J0Y19zdGF0ZSwgaSkgewo+PiAtCQlpZiAoIW5l
+d19jcnRjX3N0YXRlLT5hY3RpdmUpCj4+ICsJCWlmIChuZXdfY3J0Y19zdGF0ZSAmJiAhbmV3X2Ny
+dGNfc3RhdGUtPmFjdGl2ZSkKPj4gIAkJCWNvbnRpbnVlOwo+PiAKPj4gIAkJcmV0ID0gZHJtX2Ny
+dGNfdmJsYW5rX2dldChjcnRjKTsKPiAKPiBJJ20gbm90IHF1aXRlIHNlZWluZyB0aGUgY29ubmVj
+dGlvbiBiZXR3ZWVuIHRoaXMgY2hhbmdlIGFuZCB0aGUgS0FTQU4gCj4gcmVwb3J0Lgo+IAo+IElm
+IG5ld19jcnRjX3N0YXRlIHdhcyBOVUxMLCBJIHdvdWxkIGhhdmUgZXhwZWN0ZWQgYSBub3JtYWwg
+TlVMTAo+IHBvaW50ZXIgZGVyZWZlcmVuY2Ugb29wcywgbm90IGEgS0FTQU4gcmVwb3J0Lgo+IAo+
+IFRoZSBLQVNBTiByZXBvcnQgaW5zdGVhZCBpbmRpY2F0ZXMgdGhhdCBuZXdfY3J0Y19zdGF0ZSBp
+c24ndCBOVUxMLCBidXQKPiBwb2ludHMgdG8gbWVtb3J5IHdoaWNoIGhhcyBhbHJlYWR5IGJlZW4g
+ZnJlZWQuIFRoaXMgY291bGQgYmUgZS5nLiBkdWUKPiB0byBpbmNvcnJlY3QgcmVmZXJlbmNlIGNv
+dW50aW5nIHNvbWV3aGVyZSBlbHNlLgoKICAgICBIaSBNaWNoZWwsCgogICAgIFRoYW5rcyBmb3Ig
+eW91ciBjb21tZW50cywgSSBmb3VuZCB0aGUga2FzYW4gcmVwb3J0IGFsc28KaW4gdGhpcyB2ZXJz
+aW9uIG9mIHRoZSBwYXRjaCwgc28gSSdtIHNldHRpbmcgYmlnZ2VyIHRyYXBzIHRvCnRoZSBidWcg
+dG8gZmluZCBvdXQgd2hhdCBpcyB0aGUgaXNzdWUgYmVoaW5kLiBXaGlsZSB3aGF0IHlvdQpzYXkg
+aXQgaXMgdHJ1ZSwgSSBtYXkgaW52aXRlIHlvdSB0byB0YWtlIGEgbG9vayB0bwpkcm1fYXRvbWlj
+X3N0YXRlX2RlZmF1bHRfY2xlYXIsIHlvdSdsbCBxdWlja2x5IG5vdGljZSB0aGF0CmFmdGVyIGRl
+c3Ryb3lpbmcgdGhlIGNydGNfc3RhdGUsIGl0IHNldCBzdGF0ZSBwb2ludGVycyB0byBudWxsLApz
+byB1bmxlc3Mgc29tZXRoaW5nIHZlcnkgYmFkIGhhcHBlbmVkIGluIG15IHN5c3RlbSwgYXQgdGhl
+CnRpbWUgb2YgZXhlY3V0aW5nIGRybV9hdG9taWNfaGVscGVyX3dhaXRfZm9yX3ZibGFua3MsIGlm
+IHN0YXRlCmlzIGZyZWVkLCBpdHMgcG9pbnRlciBzaG91bGQgYmUgbnVsbCBhbHNvLgoKICAgICBC
+ZXN0IHJlZ2FyZHMuCgogICAgIEpvc8OpLgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgt
+a2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxp
+bnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
