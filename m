@@ -4,100 +4,99 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 273E8CE7A88
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Sep 2023 17:30:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E8B51CE7A8C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 23 Sep 2023 17:32:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8A0C941835;
-	Sat, 23 Sep 2023 17:30:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8A0C941835
+	by smtp4.osuosl.org (Postfix) with ESMTP id 87B4041836;
+	Sat, 23 Sep 2023 17:32:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 87B4041836
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JHc1T9Ky
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XMwrpVZe
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i15DFHcvd_cU; Sat, 23 Sep 2023 17:30:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 070AA41828;
-	Sat, 23 Sep 2023 17:30:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 070AA41828
+	with ESMTP id 6ZUP4ID0ccM5; Sat, 23 Sep 2023 17:32:07 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 4F9E041828;
+	Sat, 23 Sep 2023 17:32:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4F9E041828
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E6F1EC0039;
-	Sat, 23 Sep 2023 17:30:48 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BE8BAC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 2CFB7C0039;
+	Sat, 23 Sep 2023 17:32:07 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 53C69C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Sep 2023 17:30:47 +0000 (UTC)
+ Sat, 23 Sep 2023 17:32:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 8BEA540C1E
+ by smtp3.osuosl.org (Postfix) with ESMTP id 219B960AB5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Sep 2023 17:30:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8BEA540C1E
-Authentication-Results: smtp2.osuosl.org;
+ Sat, 23 Sep 2023 17:32:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 219B960AB5
+Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=JHc1T9Ky
+ header.a=rsa-sha256 header.s=20230601 header.b=XMwrpVZe
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id n37C479MN5_W
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 7CYb72B-a5qe
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Sep 2023 17:30:47 +0000 (UTC)
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp2.osuosl.org (Postfix) with ESMTPS id F34BC400FE
+ Sat, 23 Sep 2023 17:32:03 +0000 (UTC)
+Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com
+ [IPv6:2001:4860:4864:20::36])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id CA28460A8D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Sep 2023 17:30:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F34BC400FE
-Received: by mail-pg1-x534.google.com with SMTP id
- 41be03b00d2f7-565334377d0so3002474a12.2
+ Sat, 23 Sep 2023 17:32:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CA28460A8D
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-1dc6195bf93so2139071fac.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 23 Sep 2023 10:30:46 -0700 (PDT)
+ Sat, 23 Sep 2023 10:32:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1695490246; x=1696095046;
+ d=gmail.com; s=20230601; t=1695490322; x=1696095122;
  darn=lists.linuxfoundation.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=hqVcpoe1kOppgOo9sz7e5PA+cHdVczMYuQbWhKjq+0w=;
- b=JHc1T9KyBiGMhCnKquF8C53tZMtwXPCF0wO7+d47dintXpOs7Il0rxwBZVlINWjReB
- N12IQX6fPsbf5Tf6rpSmhCRych7xBeHl8telb1/9qUsRPXi11TwUJKdeaxHmfd9fnFnc
- S9ttz5d+xr3iqApBSI/qu75F50/wsTOeiFned/ewJ0LFkPgudDCXc1VeKsOC1DZFRCPu
- ZC0P2Pif2MowUBEy4RnnApTsa3BFFQkCMYw03zZufrNMovKpXvghS4iNXA5e56SGSVQl
- 1cIcQKsOtZy8NLkn1euX59OmnKcVivKZQlpB+T+5OLAx0zdmxQD2/UMUJJWfSzqKDpDx
- cWwA==
+ bh=6gvvXDcU16cywZW5qlvx++3wmaqbF3rOKpU79fjE2DA=;
+ b=XMwrpVZe+tE0hHyMeIhg7IOKqhonyGGD4vmircYoD+dWKRo6Gvr8Nq2x/5uTK07ujN
+ jKVaGwZ8nS4oS2x5BcjGS0KYPsHkJ9Sx7IXdwOeEv1PKAM0X4EwguOt23uBb2q3XHC8l
+ TkujNbT32sI/dZtOchv9W8Bd+v0O+oAJBeFEkHNfQahVB2H0r1jeW9gSbpQzckByPJTf
+ eB1kmR15DdVUaLgm+cyFwwu2JYPwLXoP65lG9Q1RqVC52Md4D7HgF0aOUVTp+Cb0wpcT
+ pmp/Youv20BXiR7O/zRyNvCiQ8dYBBR6ywvDcAQQgxbVCxyoKOxFEi3KTtG8ihHGiYz5
+ ZVEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695490246; x=1696095046;
+ d=1e100.net; s=20230601; t=1695490322; x=1696095122;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hqVcpoe1kOppgOo9sz7e5PA+cHdVczMYuQbWhKjq+0w=;
- b=EYOxWvOmQtAgXMdPgyUX4taNVCuFrBKz2WUSmxvxDkp6DhFMi6knEyCJunRlftfK13
- w2yUmqVQjHnIw3fnFds//TMznFiHd8hq6zMQgpNaHWyl5IQQPkQAn2ayk4Phqcnkzj2l
- 4U0IpVRFHmW6FfLBUB5nFq6MFDSEQDRL2a9FHvQAy2ewoKy5C36hV2FlpIHi6sxxQ8ha
- hH0mE0g+P8yaaP+XfRC+w/J+wNh0hcRJPOWNu2tYxqv2eJKqIFLelGtRxN2fEjZdBxbq
- NdU0oVmnuJh7PzvYz+oTzHnbSwXWZUJCsgb77t8O7DBg72zDGsr7ZaeIGaHBO+ZsK5tH
- /09Q==
-X-Gm-Message-State: AOJu0Yy1Zi+ZTP65ap+qM6bSNsuFEaNjF2lDlTshbRKaDMu8DQoPDkjQ
- mLJmZURREiLWl0eIrGlakyo=
-X-Google-Smtp-Source: AGHT+IHPdAb9M4jmm7oPBQjTAdl+QuO4EQ9Bp6jQsdh2Qe+b4XyW/HGfpl9cadv6/1o1cEmZV/rE8w==
-X-Received: by 2002:a05:6a20:4290:b0:14d:16c:2d20 with SMTP id
- o16-20020a056a20429000b0014d016c2d20mr3333712pzj.44.1695490246251; 
- Sat, 23 Sep 2023 10:30:46 -0700 (PDT)
+ bh=6gvvXDcU16cywZW5qlvx++3wmaqbF3rOKpU79fjE2DA=;
+ b=EC7WF+P4b6meSbJ+wfCZsLSz7yZ9SVd1tVvU5owQCzbmHTrAqKAtGntAN4/JxsFwDG
+ govLWt0dvwZIV+hXw92HO8EyFvGmoxgYlW3XVVfJ7Q02FrymfmzRDszrcdaoncQcVQBt
+ 5ARhbF3AmtqMTdEP34g0hZwHQgoAlM22TcOFqOnHSpOtl9PGoV3NrsOHFLW5miQyTx/t
+ HHHv6c8UchCkpIl+uijCeg1YkLaQ2qyubxXYfLE0N9Jl5GPv0ldknQ226+kPV+pE/ghO
+ ijUSXm+pRHOFJ5EYSE9EwIC+VcJNmUdZjT6Qvrztk5B2YL8nuFt5+ykgRwNRb426ZVuN
+ /fOg==
+X-Gm-Message-State: AOJu0YxWiWHM2hJRgD+omC50zUD1ovejspyspO3kgiIpizywiDdGIF4b
+ 8BmUvHqHNlOapES8+/yg83k=
+X-Google-Smtp-Source: AGHT+IH1R5plTtx2ZeV0MFIuVMXVY9nSXiBJzqZqz1zZ3Z5cwG1k3VJBllqOCZJskhsQ58R2CUG34w==
+X-Received: by 2002:a05:6870:2308:b0:1d5:5660:3ae0 with SMTP id
+ w8-20020a056870230800b001d556603ae0mr3486958oao.20.1695490322568; 
+ Sat, 23 Sep 2023 10:32:02 -0700 (PDT)
 Received: from atom0118 ([2405:201:c009:52e1:3075:4405:fdad:b3f9])
  by smtp.gmail.com with ESMTPSA id
- fk22-20020a056a003a9600b0068a30f6cf32sm5294269pfb.143.2023.09.23.10.30.42
+ e22-20020a656896000000b00565e96d9874sm4518382pgt.89.2023.09.23.10.32.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Sep 2023 10:30:45 -0700 (PDT)
-Date: Sat, 23 Sep 2023 23:00:40 +0530
+ Sat, 23 Sep 2023 10:32:01 -0700 (PDT)
+Date: Sat, 23 Sep 2023 23:01:57 +0530
 From: Atul Kumar Pant <atulpant.linux@gmail.com>
-To: naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
- davem@davemloft.net, mhiramat@kernel.org
-Subject: Re: [PATCH v1] samples: kprobes: Fixes a typo
-Message-ID: <20230923173040.GA159038@atom0118>
-References: <20230817170819.77857-1-atulpant.linux@gmail.com>
+To: stefani@seibold.net
+Subject: Re: [PATCH v1] samples: kfifo: Fixes a typo
+Message-ID: <20230923173157.GB159038@atom0118>
+References: <20230817173636.78757-1-atulpant.linux@gmail.com>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20230817170819.77857-1-atulpant.linux@gmail.com>
+In-Reply-To: <20230817173636.78757-1-atulpant.linux@gmail.com>
 Cc: shuah@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,32 +114,41 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Aug 17, 2023 at 10:38:19PM +0530, Atul Kumar Pant wrote:
-> Fixes typo in a function name.
+On Thu, Aug 17, 2023 at 11:06:36PM +0530, Atul Kumar Pant wrote:
+> Fixes a typo in a comment.
 > 
 > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
 > ---
->  samples/kprobes/kretprobe_example.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  samples/kfifo/dma-example.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
-> index cbf16542d84e..ed79fd3d48fb 100644
-> --- a/samples/kprobes/kretprobe_example.c
-> +++ b/samples/kprobes/kretprobe_example.c
-> @@ -35,7 +35,7 @@ struct my_data {
->  	ktime_t entry_stamp;
->  };
+> diff --git a/samples/kfifo/dma-example.c b/samples/kfifo/dma-example.c
+> index 0cf27483cb36..112b0e427199 100644
+> --- a/samples/kfifo/dma-example.c
+> +++ b/samples/kfifo/dma-example.c
+> @@ -80,7 +80,7 @@ static int __init example_init(void)
+>  			break;
+>  	}
 >  
-> -/* Here we use the entry_hanlder to timestamp function entry */
-> +/* Here we use the entry_handler to timestamp function entry */
->  static int entry_handler(struct kretprobe_instance *ri, struct pt_regs *regs)
->  {
->  	struct my_data *data;
+> -	/* put here your code to setup and exectute the dma operation */
+> +	/* put here your code to setup and execute the dma operation */
+>  	/* ... */
+>  
+>  	/* example: zero bytes received */
+> @@ -109,7 +109,7 @@ static int __init example_init(void)
+>  			break;
+>  	}
+>  
+> -	/* put here your code to setup and exectute the dma operation */
+> +	/* put here your code to setup and execute the dma operation */
+>  	/* ... */
+>  
+>  	/* example: 5 bytes transmitted */
 > -- 
 > 2.25.1
 > 
 
-	Hi all, can someone provide comments on this change.
+	Hi all, can someone review this change ?
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
