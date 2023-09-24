@@ -1,128 +1,87 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6030BCE7A8A
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Sep 2023 17:44:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6E5C4CE7A8C
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 24 Sep 2023 18:41:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id BC00481234;
-	Sun, 24 Sep 2023 17:44:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BC00481234
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=hnBeDH2A
+	by smtp3.osuosl.org (Postfix) with ESMTP id F2FAB60A93;
+	Sun, 24 Sep 2023 18:41:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F2FAB60A93
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=claudiocambra.com header.i=@claudiocambra.com header.a=rsa-sha256 header.s=sig1 header.b=na8+TlhC
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id u6pekH-ZWI_T; Sun, 24 Sep 2023 17:44:47 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Fz8tdC9f8L4K; Sun, 24 Sep 2023 18:41:38 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8F02781253;
-	Sun, 24 Sep 2023 17:44:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8F02781253
+	by smtp3.osuosl.org (Postfix) with ESMTPS id CF49160A91;
+	Sun, 24 Sep 2023 18:41:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CF49160A91
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 65F92C0071;
-	Sun, 24 Sep 2023 17:44:47 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9160EC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 9289FC0039;
+	Sun, 24 Sep 2023 18:41:37 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 703BFC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Sep 2023 17:44:45 +0000 (UTC)
+ Sun, 24 Sep 2023 18:41:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 99E0F81253
+ by smtp2.osuosl.org (Postfix) with ESMTP id 14FC040A95
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Sep 2023 17:44:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 99E0F81253
+ Sun, 24 Sep 2023 18:41:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 14FC040A95
+Authentication-Results: smtp2.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=claudiocambra.com header.i=@claudiocambra.com
+ header.a=rsa-sha256 header.s=sig1 header.b=na8+TlhC
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id D79-J3ZMs2d7
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id EniKj1ce3xsn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Sep 2023 17:44:43 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05acsn20808.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::808])
- by smtp1.osuosl.org (Postfix) with ESMTPS id AFA9F81234
+ Sun, 24 Sep 2023 18:41:33 +0000 (UTC)
+Received: from pv50p00im-ztbu10021601.me.com (pv50p00im-ztbu10021601.me.com
+ [17.58.6.57]) by smtp2.osuosl.org (Postfix) with ESMTPS id 375DE40A15
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Sep 2023 17:44:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AFA9F81234
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jb8xw/XiKco/1sAQvp0hyRcJwrbKHZwZgvUVXjw7fejT0L2hLS3FboKt+sDXl1bo9SLexcWP5PiTS8JP/wZ5uV6X4u037TO+64e7u9bMoFbjf+F3EacVFh42niy0Tfq8FUtpdVFSt7pcnrqXoxix89QgGAT/NYqtaRKsoGdFNtOi2jaUClatucsGuloUDwl353BKy9mfAgW63VEQOA8uJx308s/iZcc9VkbxDbYcK2H2lfU0KZk/cC+FclS8foJunweiuSwNpaSzCuT3x2cYEFZSc0KjlxDSFBrTQmOfUoLzfbz3dZAcb1ZTO1MdbYvn6yzUixoimPTOnHGtaBIoNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s7rl5G6j4nIMK+0duIsOTFBXzoYbShkjS4kkQr8iKdA=;
- b=ew8WJ+eg/lHE55Wxtf74LGvjZruH7tPbZYEKlI6xucFnggb2n00FlMajI8QyiHgXF2ekwltUhPBS0NyOp0l/S26wCUFlVtPx4HWjh/FkKBXHnBor7+dyjdLQPTAp5nH+CGpv7VxmvoFFdYTYpnY/KHstGD7qukalubUMMrdyvEzsv6C7iLRdgNfUoDLuC7pVbNMSLoBARsLHaTtn38XKxoqg0OE7JOAgJqiwIAd/AGSl0GCXXwM6ZunzhakY9ToxjL5xiR9K9HtL2lIPMc6uFdQ3PpUm0SeaOftgXBQj5nPc1qrghE6TLsHgkAuCkBoxr9N8vUxBqwaGYqvFQBWs2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s7rl5G6j4nIMK+0duIsOTFBXzoYbShkjS4kkQr8iKdA=;
- b=hnBeDH2A+ZsL9DrI8eEY/1xdLRS50AD/Dc9unuAGoVl5Cih3Ns32Gvhug64mEkGL0QB+Lv5O9U3Dpk38inQvMh1FJz4qzfRhjh3PmiEi3CvVpGhcQA6WNyCFllOeLn2BqEaNRkNeFn7QFLCwBOjM2wyVVYI7x6qTfco4diZPZNovGLBFbHzUbCFVMq4YbV27q12ibsAhepJxlgWHPWqWrOz+cW6tn0nXy1CCW85ZGJdGapNr2ya+Z5UJ1yUNH90IdNAAyAymdeGnkqE9seNuNRpc/dn18QF/4Qn3OV01UZ0HhxlwAzB1HseUSG2rst7i1zNC98xrWweUP/7YxcoJyA==
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by AS8P193MB1461.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:39d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Sun, 24 Sep
- 2023 17:44:38 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::3164:ae5c:78f7:23ad]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::3164:ae5c:78f7:23ad%4]) with mapi id 15.20.6813.024; Sun, 24 Sep 2023
- 17:44:38 +0000
-From: Juntong Deng <juntong.deng@outlook.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, zackr@vmware.com,
- linux-graphics-maintainer@vmware.com
-Subject: [PATCH v2] drm: Rename drm_ioctl_flags() to eliminate duplicate
- declaration warning
-Date: Sun, 24 Sep 2023 18:43:33 +0100
-Message-ID: <VI1P193MB0752F71CC14FFC9B9A22A6E399FDA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-X-TMN: [16lAXriSjIZ8v8Ytaj1rcYP7dsqMj6Pi]
-X-ClientProxiedBy: AS4P190CA0012.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5de::12) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <20230924174333.13398-1-juntong.deng@outlook.com>
+ Sun, 24 Sep 2023 18:41:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 375DE40A15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=claudiocambra.com;
+ s=sig1; t=1695580891;
+ bh=VQR4EtRBp7jWzudSp/FWLXg7bXlybMvQwwQhYXIOHTE=;
+ h=From:To:Subject:Date:Message-ID:MIME-Version;
+ b=na8+TlhClG6W/pLjdBT4WmQ7LPxT9XBcEO58pL68vD/uJVHtSqKhrs8c/zIdlwNSI
+ ZX0rVjE2NEnQn6P69iGlTP3JHM61I0OyON3MWYKdKHgF9YLxvs4UxM4EA4peJjauP4
+ 0xGY3kGUdA7ltujJlQuG55vONgtqqLteQZxrI5BdsQDR4QuB4SlXFq1d82c8FH9IZv
+ 0+t+EMtskcu/O7PuGRbCpuzu291gKIfLEhafB+MihKRm6DS62vFaaV7fesAfXlaX9O
+ c+fi9SWrfsd67UBl39vTdAc4nihXLy5vSAqq4JEGsUG/QR+vIoO22qrnG5aSd+DBoL
+ uudd7RLXow00Q==
+Received: from localhost.localdomain (pv50p00im-dlb-asmtp-mailmevip.me.com
+ [17.56.9.10])
+ by pv50p00im-ztbu10021601.me.com (Postfix) with ESMTPSA id 5680180262;
+ Sun, 24 Sep 2023 18:41:28 +0000 (UTC)
+From: Claudio Cambra <developer@claudiocambra.com>
+To: skhan@linuxfoundation.org, ivan.orlov0322@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: Fix Sphinx 8 warning caused by paths represented with
+ strings
+Date: Mon, 25 Sep 2023 02:40:57 +0800
+Message-ID: <20230924184057.91861-1-developer@claudiocambra.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|AS8P193MB1461:EE_
-X-MS-Office365-Filtering-Correlation-Id: 751dcb95-816a-474d-2899-08dbbd25ecb2
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kEQJyv20eyffHYL3nX03wUH6gyRsPTy+Y6D3incACYWAlaPDUNCOFlQw9T4cHUMvGCJHwqZTQJBfJ+S3H3LUSrbrf31zT/1xtHCf8dRCsm/PxAsrk9iigSEjOx/oHkkYB9np/bIqjLkiv5nxBthmushaN81R/r5M+4c+Avt5vaErCCDZ3971U24hIAtNN91IRZwlroQDA2CEuKwHTDIcIjUrg82d4GV6PoUPo923zS30EFI3N5D5N/5Q7AiDVLZKG25BKU3tyZzpI8J2/3u9szDg972wiJGBO9f/lSFaR3IcZacNRUJwApP5xe6JvXtToAFTDxlG08+qwYyspAnGXz1zV+fGVcmrgsWq63XgujH+pSieqvuTiXaDegTsGyoacfUlH31AxOnJtt7Gy2iG5yJTBaf9bZv6ELPIfq9CqZ+JEXVecYclKnM7ycVR+GoU4BERKZTH7zHQhfnhK5gJsM3DBut6lwF/hyCe8/sIzCzUN7s0ZgKuE/8qCiKDQ7wCUJwu3qTl5ZJoRBSxJcsKYdf6A3ImHA+ScInnKYekXw51Hffup11eEnf1RQcXPND+
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?phqQHd1bvsKKgs7/5mAR1Mp5KAoY5L9z/IMQhxJC2FF5ru0GUlwgIcxKf/3n?=
- =?us-ascii?Q?Z0T5wTH9Y9ba1TsCJPM+5QzlCO3rzAv4tF97CjySsczWbu0HoW3cuPek97+W?=
- =?us-ascii?Q?x73FPLcPXaZoFmoDP2hsFUOXEE6/EmYDzExBC91B1nh16kxnpJXyS550tYTd?=
- =?us-ascii?Q?OshXPW2o+hqOVN89chmqt0TasDK0qw5PhSucNVxXMT3aJ3M3N/hxyAJ5MfHB?=
- =?us-ascii?Q?uZNiBo11W5uxyT/hmi7dQZ7sAg7VPfS3r3VpLtl701oEW2nYnHWvWqK8cLZa?=
- =?us-ascii?Q?iWbpiUZUw3Iw25i1vFdfFxZ+8F5dKlismajeDjjR67zeomjjZWcZxukyONSK?=
- =?us-ascii?Q?bbupGckx0jQCGhjs8UrRDyrl3YQmdRI4P+6pV0hZFnaEZ5Y2WUENNe8+coUY?=
- =?us-ascii?Q?K3k/S1nlvlh3hG01I781CHiDC6uGO58tHf6+2SoQQ+B7uqkI3EdrG5B3LyLY?=
- =?us-ascii?Q?ZOmBSsawxp58FIPSJ3OW4QPp5OR5T2Fx5MhpXj6AeB8irZsF8WWFQ39f51mi?=
- =?us-ascii?Q?iEHO6qpujxAnOXMUS1FMK59O9hsNd2nUkMMWM+P7NynPugX+3e3Zom2fyKUA?=
- =?us-ascii?Q?4OZqqIuiebP2GRtJamsLfoBXW2Jt8qUNjFxhAaXrObTNUfidz2Yn1HCY3JQs?=
- =?us-ascii?Q?GrGSOLtbmRVg032rCmNH1eU+mqsSsapYyOeHcgt69S6NMsySOqQPbftn+tDY?=
- =?us-ascii?Q?0WzTwnixIftdbXcfubtPIka+jAp+CvCQjxK9dTf4rYD7t0zwCeG3iTQuCutO?=
- =?us-ascii?Q?84QQzn0LUIgqLkqwq8ui1rfdcHpOK3sBq/QL0Cllabk0TYk0XmThHXx4TLLc?=
- =?us-ascii?Q?udXN/6yCukl8+Uc9z1TXykYijWmFdQCeZeSDipUbVC8x1Adp2e0iniI2LirI?=
- =?us-ascii?Q?xCfdl9wuYonX5Fs0AFws2mzjLX0A9PJX0aBEDtdaoehASwWV4m3KyXwzdbSL?=
- =?us-ascii?Q?xKos+oavQFBxj1MMJ4cTopevC/0w2o8ftRJ/JsRpSSMJVNtnceJFp5rkhOEh?=
- =?us-ascii?Q?rpoa2l9B9hSKWBau0F0K2C3BQ2VSjmzu60PeoPG4lRKNRUnVeakR3eUI0CBz?=
- =?us-ascii?Q?aPF2x1AcHDCFe15SLG7rk0l5RHxRZTfJ5aUVOga12Ne45IgarcS/jC1DwsBZ?=
- =?us-ascii?Q?fO+mxR8JiRmrJrFDV9kJlLeTSa84Ou66BYZKPOMbIsGwaXdL1ChdvHdaG/98?=
- =?us-ascii?Q?MqPsw1K3dP6AkrFK76d6qSOMqRTE7s+9TgwHSsuaRGWj11hPK7bdvC7hKko?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 751dcb95-816a-474d-2899-08dbbd25ecb2
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2023 17:44:38.8241 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P193MB1461
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+X-Proofpoint-GUID: 9S0jnjFqe4WtRWUxJnFWrNMT2F2RB_li
+X-Proofpoint-ORIG-GUID: 9S0jnjFqe4WtRWUxJnFWrNMT2F2RB_li
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.517,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2022-06-21=5F01:2022-06-21=5F01,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ adultscore=0 bulkscore=0
+ mlxlogscore=394 suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0
+ clxscore=1030 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2309240164
+Cc: Claudio Cambra <developer@claudiocambra.com>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -140,76 +99,35 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are 'enum drm_ioctl_flags' and 'bool drm_ioctl_flags(...)' with the
-same name, which is not a problem in C, but it can lead to
-'WARNING: Duplicate C declaration' when generating documentation.
+Running "make htmldocs" generates several lines of this warning:
 
-According to the purpose of the function, rename 'drm_ioctl_flags(...)' to
-'drm_ioctl_flags_check(...)' to eliminate the warning.
+Documentation/sphinx/kerneldoc.py:141: RemovedInSphinx80Warning: Sphinx 8 will drop support for representing paths as strings. Use "pathlib.Path" or "os.fspath" instead.
+  doc = (env.srcdir + "/" + env.docname + ":" + str(self.lineno))
 
-Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+Making "doc" an fspath type and creating a new variable with the
+appended colon and lineno fixes this warning.
+
+Signed-off-by: Claudio Cambra <developer@claudiocambra.com>
 ---
- drivers/gpu/drm/drm_ioctl.c         | 6 +++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c | 2 +-
- include/drm/drm_ioctl.h             | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/sphinx/kerneldoc.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
-index f03ffbacfe9b..feaa58ca36f7 100644
---- a/drivers/gpu/drm/drm_ioctl.c
-+++ b/drivers/gpu/drm/drm_ioctl.c
-@@ -911,7 +911,7 @@ long drm_ioctl(struct file *filp,
- EXPORT_SYMBOL(drm_ioctl);
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index 9395892c7ba3..e2c835e10dba 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -138,7 +138,8 @@ class KernelDocDirective(Directive):
+                     lineoffset = int(match.group(1)) - 1
+                     # we must eat our comments since the upset the markup
+                 else:
+-                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
++                    doc = os.path.join(env.srcdir, env.docname)
++                    doc_with_line = (doc + ":" + str(self.lineno))
+                     result.append(line, doc + ": " + filename, lineoffset)
+                     lineoffset += 1
  
- /**
-- * drm_ioctl_flags - Check for core ioctl and return ioctl permission flags
-+ * drm_ioctl_flags_check - Check for core ioctl and return ioctl permission flags
-  * @nr: ioctl number
-  * @flags: where to return the ioctl permission flags
-  *
-@@ -922,7 +922,7 @@ EXPORT_SYMBOL(drm_ioctl);
-  * Returns:
-  * True if the @nr corresponds to a DRM core ioctl number, false otherwise.
-  */
--bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
-+bool drm_ioctl_flags_check(unsigned int nr, unsigned int *flags)
- {
- 	if (nr >= DRM_COMMAND_BASE && nr < DRM_COMMAND_END)
- 		return false;
-@@ -934,4 +934,4 @@ bool drm_ioctl_flags(unsigned int nr, unsigned int *flags)
- 	*flags = drm_ioctls[nr].flags;
- 	return true;
- }
--EXPORT_SYMBOL(drm_ioctl_flags);
-+EXPORT_SYMBOL(drm_ioctl_flags_check);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 8b24ecf60e3e..2aafc7a62bee 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1287,7 +1287,7 @@ static long vmw_generic_ioctl(struct file *filp, unsigned int cmd,
- 			goto out_io_encoding;
- 
- 		flags = ioctl->flags;
--	} else if (!drm_ioctl_flags(nr, &flags))
-+	} else if (!drm_ioctl_flags_check(nr, &flags))
- 		return -EINVAL;
- 
- 	return ioctl_func(filp, cmd, arg);
-diff --git a/include/drm/drm_ioctl.h b/include/drm/drm_ioctl.h
-index 6ed61c371f6c..465c5de2d5cd 100644
---- a/include/drm/drm_ioctl.h
-+++ b/include/drm/drm_ioctl.h
-@@ -175,7 +175,7 @@ long drm_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
- /* Let drm_compat_ioctl be assigned to .compat_ioctl unconditionally */
- #define drm_compat_ioctl NULL
- #endif
--bool drm_ioctl_flags(unsigned int nr, unsigned int *flags);
-+bool drm_ioctl_flags_check(unsigned int nr, unsigned int *flags);
- 
- int drm_noop(struct drm_device *dev, void *data,
- 	     struct drm_file *file_priv);
 -- 
-2.39.2
+2.42.0
 
 _______________________________________________
 Linux-kernel-mentees mailing list
