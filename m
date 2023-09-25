@@ -1,143 +1,133 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 3805ACE7A89
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Sep 2023 08:18:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 09463CE7A94
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 25 Sep 2023 10:25:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C080860F91;
-	Mon, 25 Sep 2023 08:18:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C080860F91
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=gj6p7oi3
+	by smtp4.osuosl.org (Postfix) with ESMTP id 70AFC417A5;
+	Mon, 25 Sep 2023 10:25:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 70AFC417A5
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=LZLk4cIi
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9NuATXkTB5om; Mon, 25 Sep 2023 08:18:24 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KKIXKTNK69T7; Mon, 25 Sep 2023 10:25:49 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3924F60A9C;
-	Mon, 25 Sep 2023 08:18:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3924F60A9C
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 04E114171A;
+	Mon, 25 Sep 2023 10:25:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 04E114171A
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1FF16C0071;
-	Mon, 25 Sep 2023 08:18:24 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E7E56C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D6F53C0071;
+	Mon, 25 Sep 2023 10:25:48 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CB8EAC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Sep 2023 08:18:22 +0000 (UTC)
+ Mon, 25 Sep 2023 10:25:47 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 941B2404D5
+ by smtp4.osuosl.org (Postfix) with ESMTP id 788374171E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Sep 2023 08:18:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 941B2404D5
-Authentication-Results: smtp2.osuosl.org; dkim=pass (1024-bit key,
- unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256
- header.s=selector1 header.b=gj6p7oi3
+ Mon, 25 Sep 2023 10:25:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 788374171E
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id SEdeTvsW8kta
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id apg2c__xrYeI
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Sep 2023 08:18:21 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on20619.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7eaa::619])
- by smtp2.osuosl.org (Postfix) with ESMTPS id BF94B40465
+ Mon, 25 Sep 2023 10:25:46 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04olkn0825.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe0c::825])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 81FC44171A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 25 Sep 2023 08:18:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BF94B40465
+ Mon, 25 Sep 2023 10:25:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 81FC44171A
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LvmdatgX4CQVCy6LBbFwmoIafqCE1fPegSCAtFsohoAqXI6jrBSAcY4zMxImZZR9jqUUDCyoGgcw/0/TWEl9DhQ8n2NnTMW1lFfn4QmM4OjAJ69jdxQ4CMrtHlnOHtFdMbr0tXKtQlCBAnRyDpkB8Kotvyh8lGx3AetxR1wGs4HJJ2NgQRL+Jo8pUn39PcO4VvyJYIQBI0IlelgSGhVb/gNI4/yrcfrRYK6DkqPNFCH5UroKZkELrrEfMjuFf1Rj4qHko/z01+4dtydUxiuOgdfo6gQFyZZ46OERn2E+L+9nXYdS7rcobGeLkWNN8fcKZTAtqNZp4zbDaZtAZhFmKQ==
+ b=Tg+p09Huj7fKlM4X1SKtsMI4KM3oiWUJZgq2JAK80Hk51qb4tzqrQZCfY7UaJpCA+OYDfqnPnODvPBMmIg2U4+1TNU6Ei0AC0z5xNA0mXEClldFjb4DDwU//9umY8PHY0+RYQbybGFW7kLdx9aOOLHRd1MZbN73x8VjJKsCXNsRehwUY5f4Q4NV5GakmK3E0vJA5n7bKdMffkWkR7xBa7MK32+UZLLNFjc4lRDfyGVt3Z9jZP2RbRto4kfBiojDvTSfHQp1rl4xuIp+Aaf4yuwFIvR1N4uYdkk1nLLCpkiuoRnIRmFp/6/isMpTKqQi8zgphq8ZR6UAln0NJI7+Uyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bzMfrURqQjlqbBcs9MBTXo1dmQpen9EUPgS5JdkirTo=;
- b=LF4SfB/sd7bM9jN98SVUo9IZpUE8MO6lCHWCj8Z96f+qXszy9L2um2I5pVDcuPkAT4kGPMxzPCPAGiCF5+B3sx0F1rk7EQT6ZxGp9HOQIUO0p1IDJVETF+Gb9QbSwckMRF3wRFpAauwcKI0T/zqDZ6e0yxWE/ujh04S9vsN4ctvkbgAQvxINJrKmULXdl9H1k6B6oadKPaUfRaqh8P1HM2XHLJPZRBOM0SEUzUAlaBOpiG24KD5kGB7NPsY6ZSkkweq/YU2t0XxhXMv31v/yTRHiLpttXWqjZRuyWGaaAmzsh1HLu1ytEZk6jA/XGT9NsmOQbYnRE9lGWg6uaSbuvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=efiM11N+arttjvmiaNCAs9ty55wN/pZreGXpV4jhcvg=;
+ b=oQdxytt+/0OubG5yefurvvKF7lafIrD4YshGww2FaSHz6XNoRm1lSezQJyJheAp7btTTnadGt/SsI5n8V5gTUOUNNBh1W+coKSwUH1LI5zmW7V0NJkS0YXtK81q4AgSjmlWJ79BvkVH3LjZXefgFV5l7aJiMIo0/fAM47UYmP1dZlrvUapOfvOJnv3v/fSz0hI8fJzwK6RTtfluAh+g+WA23bJZnCgv1hw/I0Looeb9GQVbxPl8DKj+r501s2kZoCJrTOtm/+s8JIScO1k3bSZE5Zk7KmxDhnI2r17QbBYh3gOPJ4w8jKjuAwlgeavTcPS/l1WsieuGQClT88GQSQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bzMfrURqQjlqbBcs9MBTXo1dmQpen9EUPgS5JdkirTo=;
- b=gj6p7oi3Hv9FNR9IC/3z8GJVeAQbBkgy2o8OyinWzXQLqxhFz0gmjr2VTex+i5FKi4MdeBQVsZsAc35YBpCW4G9iiVTdvAEV8LFyoJoyf79bZOf6HThIRb3k6nk/LLf3lsGD2rUT5FmAUF3oEOk5RQsC+WIddl7v8FkxiHlD69o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW6PR12MB8898.namprd12.prod.outlook.com (2603:10b6:303:246::8)
- by DM6PR12MB4926.namprd12.prod.outlook.com (2603:10b6:5:1bb::15) with
+ bh=efiM11N+arttjvmiaNCAs9ty55wN/pZreGXpV4jhcvg=;
+ b=LZLk4cIiTBa7H49CTTVRoANepMdaA6BQ4/3RKMbSmcVHYncQryA6oySy0jXdZlfUgbDfGg3pwBpgeQCZ+iVuIatK6iHxGGPaq5tqOjgOB8cffem5geylXQf0SGD6rZvVsnu/9YnECma75mTpXuYLr28BH6QbISbTSAVp2TJHt7VHCFgVCZ77+5VrteDnOKMd1W6o+iaqIRejrrB5zxHIEgGbBZFIJaGfxgkXgGonnK+3NqI+Hxw3ciFJoXh58GqSxA+1yizWpu/Uxi/DjAeAp8s8JsMhqOKGHTkz8pKBXTuxpuPl0DCgN8CRGL8p7tqzV1sedKmtLszmlqnhs37v3g==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by GV1P193MB2023.EURP193.PROD.OUTLOOK.COM (2603:10a6:150:27::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Mon, 25 Sep
- 2023 08:18:19 +0000
-Received: from MW6PR12MB8898.namprd12.prod.outlook.com
- ([fe80::a67a:d5d:8219:56ce]) by MW6PR12MB8898.namprd12.prod.outlook.com
- ([fe80::a67a:d5d:8219:56ce%3]) with mapi id 15.20.6813.027; Mon, 25 Sep 2023
- 08:18:19 +0000
-Date: Mon, 25 Sep 2023 16:18:07 +0800
-To: Juntong Deng <juntong.deng@outlook.com>
-Subject: Re: [PATCH] drm/amdgpu: Add description for AMD_IP_BLOCK_TYPE_VPE
-Message-ID: <ZRFCP23GbTLjig5u@lang-desktop>
-References: <VI1P193MB07528C2081A3A8BBDFAF2BED99FDA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-Content-Disposition: inline
-In-Reply-To: <VI1P193MB07528C2081A3A8BBDFAF2BED99FDA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-X-ClientProxiedBy: PS2PR02CA0050.apcprd02.prod.outlook.com
- (2603:1096:300:5a::14) To MW6PR12MB8898.namprd12.prod.outlook.com
- (2603:10b6:303:246::8)
+ 2023 10:25:43 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::3164:ae5c:78f7:23ad]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::3164:ae5c:78f7:23ad%4]) with mapi id 15.20.6813.024; Mon, 25 Sep 2023
+ 10:25:43 +0000
+Message-ID: <VI1P193MB0752C18200A14B449C863B1899FCA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Date: Mon, 25 Sep 2023 18:25:42 +0800
+User-Agent: Mozilla Thunderbird
+To: shuah@kernel.org
+From: Juntong Deng <juntong.deng@outlook.com>
+Subject: [RFC] selftests: Add dependencies information for kselftest
+X-TMN: [HQV39rmNPkCNlChnyngT5w951PVCIUfp]
+X-ClientProxiedBy: AS4P251CA0024.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d3::16) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <5a972cd1-0da8-409f-8a61-f4a081ba5808@outlook.com>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW6PR12MB8898:EE_|DM6PR12MB4926:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2f8aaaa3-d41c-4852-8543-08dbbd9ff95e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|GV1P193MB2023:EE_
+X-MS-Office365-Filtering-Correlation-Id: 72458393-8ac6-4af1-3b02-08dbbdb1c5f8
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1ljQkcsQNwHsHplr36qkKvzteJrOscPShPM7WaCH9F78oo0vxo1SpXZilKoJFlmneSK+JrMOKX0y2nwNuAmeDEJIKo7c/UB1HW8gQ4d4vFDtKzrdy+QGtBfJVMXVkeDSGPOiC4DEHRWbZboauHA0eDOQULuOKPyAAZ3TCRX9kF+pWI0zGtKeIW3HUN2Bc3o2FZ53hr3WqZe1kpw0Xi+wphn01l9Ei/f8AJNCuk48WXiQy1Ell3Mt9DQ7G9EZbxu/t/QOBL117MBiVm1aCbQ8K0GYot8hVxDySQHh7Ybaa5336IsHjQRsFRth1296P8LTqPLUSnOFLwswd31msz6BEyNbzlvLAJfkLoRTR+7pFNO8x9V94g5UujUD4bHEUZOfF08IZU3CJR2OXO0zrfH7x7yIJQNzO4lNIvPkmfQ3GrHlGmmkryccJGZXyZfjlBm+aaQjsJ6h02bSgiyaPW0AXEqVkgoWxLesJcdS4F+gMAefPiV2E9qPSkySzcsvM04ARIELn7A1bX82AyzMLjcq9bywkXbaXAe/GbJe6+ZAFgH3PlWkLRN7hFunAbDC62rv
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW6PR12MB8898.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(7916004)(366004)(39860400002)(396003)(136003)(346002)(376002)(230922051799003)(451199024)(186009)(1800799009)(83380400001)(2906002)(5660300002)(316002)(6916009)(41300700001)(8676002)(8936002)(4326008)(66476007)(66556008)(66946007)(86362001)(45080400002)(6486002)(9686003)(6512007)(6666004)(6506007)(26005)(38100700002)(478600001)(33716001);
- DIR:OUT; SFP:1101; 
+X-Microsoft-Antispam-Message-Info: P04eYQCHpk9T/4f+ZFEKE3aU+sK+5+cJL56O/Lj5LhuwaQzBCEACUC0UXs0Mf/WxvQ/Wih52vdneILD+fMDIrKJmGhDoVi69pDppNIt9fGU8ovBVzu06MguICaqV5XBz2yWT2yPpLv8XTCcOAoDlwmop8pTqy6ciSW5wB3UnmEHlqsF7Js/KLUzoZKCXkUf+mdxRgBAuIelaJrPtM/WFepJivsFvu8kg9mwJF6/m9xQz53xtgn2UwF4HN9QxZIXv1BF9AF1k0RsRAfeFXLtFxsWcfJPWu6aAgWnPa+NfsJErXf2GOg/E3jHJr/vsBefV+dUNcYQny2uYBa3QAkMLLipzxgxgXa2knnWbpAIEt8yEOmcpWb+9wndV4QqASo/cD8B9WnN3h3AvK0o3VCqhHpY4h5bTec4ntdN0kQuw9KCgLRxHfFnIPhYyG10QZ5r4prPkXOuaEjRiF1V/gUgej/qmn+4WmT4xQUB9cIr9M5YzgrX4YgKZjwq8Hpj+LJNGRi2bj3LOJ8emIteQ+4/sV+QQ/ZxlXOoxtA5993SzTuv/A5OKIjPPUVLwMsLXXDul
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pd/u2xLbVcl7C7Gbo8IFaB59z1RWqBUwSBgQEu0jlOC/NDrAF5wfDOGNRIzl?=
- =?us-ascii?Q?UKWB+j1LYFxdW7QB6lD8/RWNzbx30wzPYYkPLVlrtQcj9Yl6VqMwxs8EXNKu?=
- =?us-ascii?Q?rzLgsKv9GCp48+0mQwcjZy4/XbXV4LsV73tNTbV8t5+1fbYsN1NSdvF8TxaM?=
- =?us-ascii?Q?G93Tgu0BR/bJuxC16QB283NoNb3E9zZvt5Zia+9CyIoK8ddvaWwbcohnVOYA?=
- =?us-ascii?Q?DEG+FibidPhEwANUD8idO3+NHgGZ3Xl518UdtWCp1JrAzutvzIOV0NKeDfXm?=
- =?us-ascii?Q?2nHoaFzzwr1NI5BWkYsugFBVLnPsslxcJwTBuqRIbzF+Sg/viasg7GTQNV12?=
- =?us-ascii?Q?kkLVWVgDP6Yng3V01PVxiHnxDB8QgAfP0OTmXO6fWTMTj3VzmW6WxWmuULCr?=
- =?us-ascii?Q?WI/bYGB17rmZoxGU09LP/GhP84YKg6W32hKMyRnoCixzqjicurdIUDWVH7bO?=
- =?us-ascii?Q?yYm4SE2tU7WQjFGojJsl6CUlFMDYDtYT9gURZ+uIIRjYNg5FyXfHB6u4+wYb?=
- =?us-ascii?Q?mT3nkRN1bqmoEC/0WocILe5CTucGEuzckF0voyBDHcLRMveW2+y/WXNL22Fe?=
- =?us-ascii?Q?1Ql97EhrCKwYVsv0u0yYNXvWCP5B1bnyu4CbU3orHegPmeRIK7g48f8+Nld3?=
- =?us-ascii?Q?ofbCKCPbZWpuSzACm8ZoTFJwZZgJSJIqMkG84lUnuXtBgJQHa4whps8R6LEw?=
- =?us-ascii?Q?0LegOm1M19d02H2p+laK/KQCayJlunD2AKiab6pWG9zH/MmRxA5sxJRfXZFv?=
- =?us-ascii?Q?O1u3Cd65XA4R9xNOJYcXWEF3q7aytjlN2/KrEgL57YhwiSKSUGynPzOnzGFU?=
- =?us-ascii?Q?0P20RtfpHyWVkKswsKTZoRjTyDdRCGCC/MZfH0DNS647Pleabea4jdkXth/7?=
- =?us-ascii?Q?5R3AYKR72zpUo8seJzTtQDuN+CtLxcVdSTGdxW5CIi1nu4aZRBqaCdK/YmE/?=
- =?us-ascii?Q?QkP+3g9UuQOY2hu2qI6B1T7m0xyhIY1zXlZQnLUhLyTOH9SevgSdDJ46Pjgs?=
- =?us-ascii?Q?Bgf1r4UmqJX41N4Q07R98ILQEduKaaUdaRmOtys/GBY+WTjdSl4MXp/YiDhG?=
- =?us-ascii?Q?HibGrelIT7HYlOpN39QPI9Spix67K2QZLLYYWJmKVpgi/GYmUQd4HOY7AcxS?=
- =?us-ascii?Q?GZvi1qkK8Rwj3mHI+yVgGRxqF3dPBOGl298CzMzz08KSYJ3lUuTNZkl9VmZ1?=
- =?us-ascii?Q?1zN2OHVRL1/r1MI5+aaqYQuxx3ppuOpO+pvY9b3qFFT/N8JzKFLZobxJVaGx?=
- =?us-ascii?Q?4aRElwelUdS0uGILX1zg4HdF0Bly9bEmmyE13Jrs/qvJVAAunGuo7+6j9PAh?=
- =?us-ascii?Q?7/cOl7phUvNAgnyTjOLG8PDNIh9NFmxEoVnB2FDgyQQkPp9HUxE0tgQch2F3?=
- =?us-ascii?Q?3edQXZg05QDcsfo68MPM+uXx6MzZULQwttFqsVUnlAiTWyRuFXDVq9SU4lRH?=
- =?us-ascii?Q?4ju0zRewI28Q6eCO5XC33j7Repjy4Db2Hbt1A4m+JYqESAqgmimATRNUSA9+?=
- =?us-ascii?Q?CGmHLx7gN5W+tPtOfEt4VXzszmzBObBC3BixDifVKAqtGootTrDSZGAVpYn8?=
- =?us-ascii?Q?YCbfNoGHh/Y/8u0E47XXfZAuwiO+OL+7mlQaO3LE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2f8aaaa3-d41c-4852-8543-08dbbd9ff95e
-X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8898.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VEFWV01LSDNVU1M4c2JwQUpYWXh6bmpLam5JWUxMY2drL2o5a1VNWXlBL0I4?=
+ =?utf-8?B?bUdMM2dSYUROc3FKZE9RSGdnSEFETTZYa0Z2REM2L3dSSjZVVHByNk1ndEZO?=
+ =?utf-8?B?ajQ1emQ4RzBBanlneXdCZjZXTWhndmxMNXdGRjEwMTQ0ekc2UlVWMDdZTW1r?=
+ =?utf-8?B?UU5lREw3cWhlaHJaa2JFUUFpbkl4MkFJY2o3TjVKZmU2ZGJ4cjgxSDFDS3VY?=
+ =?utf-8?B?aGxvVnRSbVNPa0RFQUFGN3lKMzhTSC9IdURuQlBXajJGWWVLMGZOdE1RWnF3?=
+ =?utf-8?B?NTQvV3hqcFppRlN3NWp4UVN0MUN6U2NQYWYvZ1ptQUlDa2d0VDZQRHp6QlVH?=
+ =?utf-8?B?ZTIvbkF3cjNTWmw1ZjlmaGl1VXAva3hXcy9OSFFsWDBYRjZOR2plelRoZXBn?=
+ =?utf-8?B?Y0JjNnZMVlVxZ09wcFJUOEttMGcydm5ZanI0aWlnUUE4Z00vSHRxZVZJWWVN?=
+ =?utf-8?B?UVZ5V0ZHUVVEemJHTE43VzIwaWpYcXpGZlhrb2VRMkNoWi9aeGFMSm9nd0Jz?=
+ =?utf-8?B?WDdVcnZzdU1kaHZJL1cxUjNXcVM3eHhGaFMyNnVSbUZ0dDFoeEJ4dkhTK1Vq?=
+ =?utf-8?B?YkZ1cGREemtLTGZubmZWN3gzaWpPRXB0QWUzSEp4aXJPNURQV3lwSjRGL09i?=
+ =?utf-8?B?eXI3QzRLLy9md3dSTlNWYnlNakdRY0ZUQm54Y3M3ZmpNZ2lySDFnM21LYmZl?=
+ =?utf-8?B?ZFM5bGNVT1NRUDcvRXFTVzg1Rm00MlJXdGhoVVRMazZkOUloU1M3cUJMdmM5?=
+ =?utf-8?B?S00vRFVMOTNOYVZlWXVibXE5ZG1tdEdkTzlqeW11MEwyU2lFcXBFYUhYOVVB?=
+ =?utf-8?B?OXVtZ1I1Q0xCVXNKZlhqdkhxQTlMRTdWcHRPRlVFZlBCWW5HeXVtV21iNmUv?=
+ =?utf-8?B?MkxqZ21UaE9BZkRtcDlKTUpGOUFZNXVHMCttVERjSjF0MmdEeXVEV0VoUUxL?=
+ =?utf-8?B?VG5aMU5xdzk5YmlhcWtvTjVwVUFZRlR2aDBXUDBFMHAzeTFub25UbWRsaU0z?=
+ =?utf-8?B?Q0lmejlVcVQwS0x0REJacWFlNEhlUWZGdm02WHZ2T3k0Q0ZsZm1jWG1Fb0ZT?=
+ =?utf-8?B?SEFBcndFelNWaXhPeGJxNDhBWVFJdGdqaUlIZUhMc3k1QnZwNjhxR3RDN0c1?=
+ =?utf-8?B?TVBIM0cycERqSVVjVDJUVERmVmN6ck5iS2N1S3RrREZMejFPWGtmS3ZiK3pI?=
+ =?utf-8?B?clV1S2dVeTBhelhOaG5yY2JualNhWjlkb3lmMTZweDV6VDhXRjdlYW1hazVr?=
+ =?utf-8?B?bHVjSittQUN3TldCYXg3MExscjYzQVNVYWo5a2Z1NEJaUGp5YmpTVjloenBt?=
+ =?utf-8?B?WDNjMG40THRPMEdpekRaYUhkNlIxZkxlaHQ5T2RSb20rNXAvMFlzdDAxWlRQ?=
+ =?utf-8?B?Y3JFTFlhTEhkY3ZZSysrZVhZM2pqWGJXWlNqbDNHWnlWS0QwQzlubnJ2U1B1?=
+ =?utf-8?B?TWQrSTVhNjlpaGgwN2syNjRtTjNJR2hicjFrRkJVa1RCYnE1eEhzMkhoR0Vo?=
+ =?utf-8?B?L1dQMjdqTGpXMnpkbWZIcHV2ejZtcFJ4cUovYzZsZ1lMTlJHMXQ3cjBzNzBN?=
+ =?utf-8?B?Qm8xRVNTaWNFMWp6a1g5bjN5dkI2T2JjbkEveHBZQVY0eWNMY0tHTEhBRitN?=
+ =?utf-8?Q?/C4NZ99Gy1wJQ/s07y5vNpHuyKjSj0UZQd7cE13pBgOg=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 72458393-8ac6-4af1-3b02-08dbbdb1c5f8
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2023 08:18:18.7280 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2023 10:25:43.5957 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3pmGjq+skjkV9jUlB0GW4YpyGBwgkDnTDerlJLPYslpWQuRJUISIHpurxWU0/nQBB075TxY8y+CtWHdyznsaFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4926
-Cc: amd-gfx@lists.freedesktop.org, Bhawanpreet.Lakha@amd.com,
- Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org, shiwu.zhang@amd.com,
- aurabindo.pillai@amd.com, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
- harry.wentland@amd.com, alexander.deucher@amd.com, airlied@gmail.com,
- christian.koenig@amd.com, linux-kernel-mentees@lists.linuxfoundation.org
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P193MB2023
+Cc: "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -149,48 +139,43 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Lang Yu via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Lang Yu <Lang.Yu@amd.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 09/24/ , Juntong Deng wrote:
-> AMD_IP_BLOCK_TYPE_VPE is a new IP BLOCK type for Video Processing Engine,
-> but currently lacks description.
-> 
-> Fix the documentation warning:
-> warning: Enum value 'AMD_IP_BLOCK_TYPE_VPE' not described in
-> enum 'amd_ip_block_type'
-> 
-> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+Most of the tests in kselftest rely on external tools and libraries
+to run, which means that in order to run the tests effectively we need
+to have all the dependencies installed first.
 
-Thanks!
+But unfortunately, there is currently no way to know in advance what
+tools and libraries the tests in kselftest depend on, and can only be
+known when a test run fails.
 
-Reviewed-by: Lang Yu <lang.yu@amd.com>
+For example after running the alsa subsystem test I realized I needed
+to install the libasound-dev package.
 
-> ---
->  drivers/gpu/drm/amd/include/amd_shared.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
-> index 63e2153c00c4..314fd44ec018 100644
-> --- a/drivers/gpu/drm/amd/include/amd_shared.h
-> +++ b/drivers/gpu/drm/amd/include/amd_shared.h
-> @@ -83,6 +83,7 @@ enum amd_apu_flags {
->  * @AMD_IP_BLOCK_TYPE_VCN: Video Core/Codec Next
->  * @AMD_IP_BLOCK_TYPE_MES: Micro-Engine Scheduler
->  * @AMD_IP_BLOCK_TYPE_JPEG: JPEG Engine
-> +* @AMD_IP_BLOCK_TYPE_VPE: Video Processing Engine
->  * @AMD_IP_BLOCK_TYPE_UMSCH_MM: User Mode Schduler for Multimedia
->  * @AMD_IP_BLOCK_TYPE_NUM: Total number of IP block types
->  */
-> -- 
-> 2.39.2
-> 
+This is inefficient for the test of subsystems that require a long
+time to run.
+
+For example, the net subsystem test, which takes more than an hour to
+run a complete test.
+
+I can only know that I need to install numactl, libnuma-dev, ethtool,
+mausezahn, netsniff-ng, ndisc6, netperf, and other tools after carefully
+reviewing the results of the tests.
+
+I think we should add dependencies information to the Makefile for
+each subsystem test, either as a comment or as an output target of
+the Makefile, it would save a lot of time for the people running
+the tests.
+
+I can do this part of the work.
+
+Welcome to discuss!
+
+Juntong Deng
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
