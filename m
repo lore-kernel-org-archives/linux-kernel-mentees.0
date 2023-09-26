@@ -1,129 +1,127 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7EAF2E7E65D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Sep 2023 18:04:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B4C6E7E65D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Sep 2023 18:20:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EE60182521;
-	Tue, 26 Sep 2023 18:04:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EE60182521
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=o8XM9qAF
+	by smtp2.osuosl.org (Postfix) with ESMTP id 918E041AA5;
+	Tue, 26 Sep 2023 18:20:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 918E041AA5
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=dbvGaguX
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fUrV9Kr-xQZf; Tue, 26 Sep 2023 18:04:22 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SET3E7FzCBwh; Tue, 26 Sep 2023 18:20:37 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D3A0E82505;
-	Tue, 26 Sep 2023 18:04:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D3A0E82505
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 539E240153;
+	Tue, 26 Sep 2023 18:20:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 539E240153
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A91A5C0071;
-	Tue, 26 Sep 2023 18:04:21 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E443FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AA02C0039;
+	Tue, 26 Sep 2023 18:20:37 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 8168DC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:04:19 +0000 (UTC)
+ Tue, 26 Sep 2023 18:20:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 9F2FD82512
+ by smtp2.osuosl.org (Postfix) with ESMTP id 5C0E04026A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:04:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9F2FD82512
+ Tue, 26 Sep 2023 18:20:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5C0E04026A
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WKqXR5QNx_Ys
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yszZh-RIV5-x
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:04:18 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com
- (mail-am0eur02olkn20803.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe13::803])
- by smtp1.osuosl.org (Postfix) with ESMTPS id A336182505
+ Tue, 26 Sep 2023 18:20:35 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur02acsn20807.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe16::807])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 70ACB40153
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:04:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A336182505
+ Tue, 26 Sep 2023 18:20:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 70ACB40153
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Zfkkaaqyh6M4MPbEhgl+X+KWv1jSUBI87qzFo5q1f74llCH1ci5A8xfnfEx4LYTvB+mi8xCegvQc4yWCmpfog9gTaUHCeEwDOnO9xyxQ1HEqUTWaMo16S8/oBKwC+DMNwr7wSKeHIb2Oxh1G8CKr1Uq/IEfLWJNNkMETNOJKj70qnwCx4ufeo4abWOqWKNQxBXHmSEJyH/r2x+14IfFBljzqjcXnRFlzNXY9hJqBhBLhpV80HiMUd3JEK/pg1LodkOM6TM06gWwvGMwMF9gaqWr2Lk2v61HoSB+a9i8dz8Cr54eoHSIaniRqzNrIWHKV7R2zmxFoOBiP2GOOyX5NjQ==
+ b=lX4VCeefxByhbkilyddsIBTV47N02eoAp+umG0dZP3d+zgjq/6dTk5g60dmX+xLVM2UKWiKfeSj+lTYJH8MwAGyKnSldU05lNfsHD/tbYKjvM6jq5yp1at7W3Jx0nWyLgvPHku9RoDyMbn9cWCEOWEwyAgTwIhAjf7nNw78DiKh2/Qmr1X9sFd4vS1ygv/sO6dD/cbIMnLKNp+9gyAqEsrDqHkI48zwO9tq7uvnLSCtg3lOhn8jdeQgxE5iWyJM/xi0BbBRgHZy0RZpuI733ekS5oFdfSdUyx4/3u5zrNHR/iJPOGTjVkODxs5V7nQNXF5cmjX2ADvVQAHeFTFTHkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RwVWlXQeoym0mywKOq9pNSsKico5ab6LLcX/fLgmsKc=;
- b=jMsaO2cq+EWIbNhYYKNAjQfALFNkFys5/3gMFROa+DqwzkahztB1qkvsg7KjBendDzPjBsCVAAtjIjGmNQSwHWHHssFzr92l2PWDL8Hy2WaMNzdmvtnvGx9vMnMAWXyAysbVf7W98QIHXB4WnFXnbpQipkMTEoTWKK0bs47u5r8OdmoESAaLXk3IzpmAyB13QMjS+5OQ0xHd5SZP7gpKsi9GJAghKl5PNosRAhpRvH9dmBJ0+IxK2zjH8Hy2e1elaJkX39NbX+X8u9u3W2hh7a8xmmnl8KcySKCAPhSmLWbGavN5RxWP+FGcjrW7j49hsRQxDHlA7T4aRr6rTgOhUA==
+ bh=NVM8wUWpsLD51AyWhDWjK6FIdwXC8vGtLgVBzAfi9Ak=;
+ b=HfigqPYHtlwpsC9E0mjJS4EVLJpdPmLemP2HvZA8BpbhlMBx/vUFoxrusq3A4K1xrlVNQMtGS9xjw6hqgV4MUncHmmlTqsD3vGsy2jUwJgixNFaW0ArlgEkdqqBez0KUGYD51BZs5WV8wxF2rEh5Co1zKZviZrPAAfuP5gvGxQkrDxsBn0kid/K8aK7ZZqiu9eDXhht8MG1y821mt9yDXqmA1kRFA1dTz722h7BzgAAmWPtXSvxrqLmchMItfXrogRbIxowai1Y1uL74XrnigHdt2v79mwHSQ8E6nXP6VmGpiB6/IU1QYdWrwlHujr3WY9pdaXavJCO9adr+1P1eBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RwVWlXQeoym0mywKOq9pNSsKico5ab6LLcX/fLgmsKc=;
- b=o8XM9qAFgMLeT6wtS5rc9bEjU2b/zTnAv4TGY/ypdoPUH94ClDw5w0BgvFJB/mCaa8f0rp6Nmg8CKYOFT9I1EQiz1JdHNF1SsP+aUWr2oLt2duCg6dyluOKuvTiK/xT9v6h8r0n0kWVWHUerf7hfDsECS9+zdOrdJwZ+ZE6C8ZuPFG3Yzwn4Ce8L2Tq1MHvyCvdWtCr4JsPcvSTCGvQCgVUZ0mjlr7bIlAA8DEZFgpaksh1JSkUhOWZl6GYNWVza3ZAwTRRF3JLPKd2l8lLxLY1w7Rq2mby4JEeb2gC2GlWp1yzQlo6JNUHJa1MpVhZdkcyot3LacZPktmbbBu/S7A==
+ bh=NVM8wUWpsLD51AyWhDWjK6FIdwXC8vGtLgVBzAfi9Ak=;
+ b=dbvGaguXHba0TJSV1nO3WqquEaQIFlUxw5sCTdPduFs/cFpNtq4oc95nJ1sqayBDt8Qq6QczmVA8TpymKa3RxCMDBlt5H+uHskKs8hlPu8TZNoQZVPnwRWexqlNrlk4R+KFMvSROL6Id99q1aHbYb2TpHlCN07D9T+8Xbgy3gC0HMVVxk8VTt8F/TuQ7w2LDkR93qSIjzAnRl9urrpxSs2g7BAQSgzIguAFbcjivLu0XdmBY9pivUbWfnQPCSAy1jZ4VoEa+39cKC6nkumiLa8j/MdsLYGL2dNNh2Fbi43frdIZA2lXkp2jegM/zm8r/S64kPQwwO2hMT0JGrjcWZw==
 Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by PAXP193MB1629.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:13f::11) with
+ by AM8P193MB0916.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ed::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
- 2023 18:04:15 +0000
+ 2023 18:20:31 +0000
 Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
  ([fe80::3164:ae5c:78f7:23ad]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
  ([fe80::3164:ae5c:78f7:23ad%4]) with mapi id 15.20.6813.024; Tue, 26 Sep 2023
- 18:04:15 +0000
+ 18:20:31 +0000
 From: Juntong Deng <juntong.deng@outlook.com>
-To: shuah@kernel.org, mic@digikod.net, brauner@kernel.org,
- keescook@chromium.org, tony.luck@intel.com, gpiccoli@igalia.com,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu
-Subject: [PATCH] selftests: Fix wrong TARGET in kselftest top level Makefile
-Date: Wed, 27 Sep 2023 02:03:23 +0800
-Message-ID: <VI1P193MB0752596147F224B9F921C85199C3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+To: akpm@linux-foundation.org,
+	shuah@kernel.org
+Subject: [PATCH] selftests/mm: Fix awk usage in charge_reserved_hugetlb.sh and
+ hugetlb_reparenting_test.sh that may cause error
+Date: Wed, 27 Sep 2023 02:19:44 +0800
+Message-ID: <VI1P193MB075228810591AF2FDD7D42C599C3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.39.2
-X-TMN: [Ier0yVm8oTt2wRApjFme38b5i3hVTU7C]
-X-ClientProxiedBy: AM9P193CA0005.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:20b:21e::10) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-TMN: [xILr9DlG3sQtR9dc1DzJCCLG8cuXEP7L]
+X-ClientProxiedBy: AS4P195CA0022.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d6::10) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
  (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <20230926180323.21921-1-juntong.deng@outlook.com>
+X-Microsoft-Original-Message-ID: <20230926181944.24179-1-juntong.deng@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PAXP193MB1629:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61d13663-69a7-4085-66c5-08dbbebafe85
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|AM8P193MB0916:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8f755ffb-d0b7-4ef0-21b7-08dbbebd44c4
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lihTRgR9Sr4MI15Ka9DYgAztiI6JS8M9R8kNeHHgSiWGOD6CLwjqnPzla3oMZZKHt4gOLIGPynowX7M9Y3BCpscgPGFzp0tK4zMir7UEMkF49/mKgCWANTUDYtIb0HD2dZskXaLlFkusJZYCl3F7NqSt3Tewga9YsJa8BlI/DSoyAIMb3+0YKYZynaWcDvg2hUWvxM0kc0/w+jhHSKRE/el7duglX4+KW2zGEiGEyO1sC0kWTBiohkBtzyO0d3ygY3A5sBw1xheRKp88vvNDKorCbHO5yNVUKSL9izUt+j4OLlhy/aIIiE9BssakyyVL/ArenVV4EJo9zhO7yVjq/5uwiSrnxK40h+H+bNwlErLI5w4TRYZwF0CRAvEOiRihcJA/MQLVqV/t8DPF9l67cdFrMfChgnAwNlr7ZG4iZtU/dO4uDEfy7HaPXIK1zsQj3bvj/pYaJyGVmm+5/jq4DZ1akI1c+LhyJk7beOr2sopS8dsP3GF3pAiXBs5r86HZD6OpVpgsRheQBCZ+BM0Vx9JzF9a76sgJAAn4eZ3Sj7kgxq8VRZjVhndh/mDU2gAR
+X-Microsoft-Antispam-Message-Info: vGTQ28tI/nv7wHjMyYFpLcKQV1B2pkIVz2b7z7uhlZp++lww9EPNrYDRxaI+RuzLOvOpbidffRuh1+eEMft2+TjARKnqBFdTxaq7TOCabXJpjGNqrzTP7UEunJA/k1odHwmn/OgmuuFcGDS03740z0LPxmZUcG3n15c1np8F2cfQfYPNFMMoC/vHuxmhUmGI1EwD8SQwfhVTm9kDYa/onPLF2+3OZ++/uj5OtsJtUVicz4fVg+/DJLj9acqdVsGKKTkqQkbmvHWamEasA8D71RZdGBDM1r9sjMekXVZ3yDFccrwPD9DWUVqScq3L/4/pQwTPVaFcTJOHkigsEqA3wNKAjP3A+pDmd1i2W0lOsf8oZfMNP1M88FYc0fK+TnoZ8bUSbzLXBc0zNGiuFcY184jIN6ERbMy58qTzPQvXDTArRHBLakxye6CIWCErKXTOCUZC4b0VYoXPyympTcXxPBuK8CLdmgVytUcvw874O7335e9MpMn7se7flIA6hTDojRis5WOqc8Zsdvip6Yg+obgKhkgT/RUmIY459vJmd24EgMaKOHS12nY3lqDH2hlj
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pIZEGfMgfEHrNru7pYofKvThXDbVcUzHcsAxbS1Tl+BMhjkpJbjNoyFjaWUu?=
- =?us-ascii?Q?urNluKWZmTzz1yzkstF6pV+6GIL02oU0cCq0xhttsMKpMYzWs0r+LxRDGmBV?=
- =?us-ascii?Q?MRM0Pg0kwbpj8nX3IU6zMhHSFU+puFtmwwkLvg1dukkXtI2P3zUCnpI2WTPT?=
- =?us-ascii?Q?VAtv0t2sg1yd6QZ1o+0OE6QOIL3KkeN3HaBGIfcaZJf6bbbM/xrenp/hOZVz?=
- =?us-ascii?Q?kbnO/bW5Xdce+DjgY0hK7+VNE7Eai9FGOOIP6YQHUHepqEnKL8CA2TafP8E2?=
- =?us-ascii?Q?MNdPRyPSZzf3OoMRB8J9QDGMpwbUy81K0REivp1alXnIYm2ISRZhjJaRSn7l?=
- =?us-ascii?Q?0LW/Q6e2oQkuvGDpZdukTlLhcFYjtZjfs5qsjgx9nN8AUxhnthCacLuXItm/?=
- =?us-ascii?Q?WqWmcgvQMeq6UDL0w8wXzFXZZCQ72DgKHk/D+db2U9KUjzsxeCZh61XMxB73?=
- =?us-ascii?Q?6ZQ/v9CqdiTLvJpnrcU4x5ctXajI++SgNdGI8cfUQEsRdatoU0HcpCktt4z7?=
- =?us-ascii?Q?eOrmE5nPY7EPu9H7Jq3qlnxGpHzCOQNLEvmtcggRGQXyz3AtVLeP5HCsSFtw?=
- =?us-ascii?Q?4Qw0pzYnkG1wZeZFuxeJol/obp6IoO25lCC9KNWOZ9NQ2T8M6SRGvVE/1dqT?=
- =?us-ascii?Q?2u4jYoy0NeXZnj2vdiO9QGMDaRbXtqYhlmxftHcr9GGuF/x/lX1voZB2cYgp?=
- =?us-ascii?Q?01rkuNUKaBFcZCV7VGBe+hl2M8vHeaKNbbCHG2Hs/N2URQzdGY6VlOTWeKAz?=
- =?us-ascii?Q?UsrlsVOKMYs9TfKOCeqmoxcFUZhmiCORbM+XD9Ym2Aii8e0KRs3R/gubU/ia?=
- =?us-ascii?Q?QuE3Zc6upD25PVrJUmUBtNm7f86FaiOXiU9RJt8pvi4boltfTk+wEiqiSNSQ?=
- =?us-ascii?Q?iZrniHoCnq8HwWO/6Jk7SbB5oGDRW54GDJmWganLz9d/VW1ZUeW660xT3jv1?=
- =?us-ascii?Q?rSIFXwpGU7L9UUKYr8/4r5+96zckZlcAgqIMGfOUz9Lqbu5E9SIs7ILUrkVw?=
- =?us-ascii?Q?HuMKyZG0LKAvoBrhKA0/v/thgHZg5rjS/FJ5ivlb8N7cys+UcRygJ1osDQwh?=
- =?us-ascii?Q?oUbBluuObTvkrVqMpWnJdqQzFOlI61pEYAVIg+AUnK82MytVhKIkiA51OcOC?=
- =?us-ascii?Q?TS/0LQk2GobL//W/UMH43YwvMeN8CGA0JZhcwHSt2uK2fBHcPLPfe1+pawkd?=
- =?us-ascii?Q?6stuy16gPMPlT2mOsyaetg0DIz0Ni4esliPHc6a/wDZ8spYTuHizTx1eZkA?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?akGJZ1AGyAIBlpxOBKKHKRWD6hPUhNwU1f84jZiyyz8IntRDlsiatAxR2UDq?=
+ =?us-ascii?Q?eniEzjCVJ03DwrsNWLxhKJvsKHW4psZrm3GW79vmTLTeF1lIEMihLrtZH07g?=
+ =?us-ascii?Q?HQZay9sOH2aoI4tYtnJ+EWnkXc3JzSfNmmSWOo4l0IUTcP46ZQ0qtukqFL6s?=
+ =?us-ascii?Q?c3Pz4ymron9RWLh/ao2TrvzS4PKDVxYE0Qyv686Sk8ypOti6bCSHDcEeZBSe?=
+ =?us-ascii?Q?JSvuY0ENLmsgwtrXxlx6mxdAsN0LQbjldN2MhPy2tZqehNAcjqAa9hm4ATSg?=
+ =?us-ascii?Q?bBJIg6W+TeNN3vILe3S7gpaC5Sp7BLh5CalT7ZOyAkIWorDAfVr8t2YWgVfz?=
+ =?us-ascii?Q?QG1WDC7InwH7T12YLh0smJwLv4wbvLx/AMdIL7wakslaZrI3bOR/YqnqjiXh?=
+ =?us-ascii?Q?yMasCtjJKRY+yu1IoQVoR7xwi2g5achkU6O/0gRkY/Zn0EgZ0oX/R5YB0vnp?=
+ =?us-ascii?Q?8AKCr0wDoAEFVSHW1+FVjbjcmzYtS+zErvYi/lPFfdxGB56xoY0ow95kg8Aj?=
+ =?us-ascii?Q?nnpWluZhTuvD4jaxsO7O19lpu6s5CccDwaHSRSSoYHB/nleqVU2B0R4Fwhq5?=
+ =?us-ascii?Q?KsaTw+iCSz12AYdU/1C0umJbf2rXdF8GN+yckg9XTCsjqZ6Z6AR1y83JBCbE?=
+ =?us-ascii?Q?Xi5gua+HHUdWLfW6nBmrDkPwlursb7mZ3WgBasNWcXUtnBPkOkva1tiuXFEn?=
+ =?us-ascii?Q?mklu9Luj6xtNY8WV4PiqFZWD7/36dsxSflB7VKtpaohLdNLxE/ztnani4Eqd?=
+ =?us-ascii?Q?/qV0Bq29IwOm8hdeqYV8oV3wu1eL74SoacO/xj4wRyr9nvUq6hoPIzhEpQFV?=
+ =?us-ascii?Q?J0x1TGdTWweEs1ao2MED0rLyAEqVzJikvBM3NPNehdUoGGga17/5lBDpbwVX?=
+ =?us-ascii?Q?FvB4Dg8XiKldto6MmvL6cbyIWDyjKkS/kvNNiPRaIsaJGyEUaqECZgEF4h82?=
+ =?us-ascii?Q?cyr0GGpnrIPBqSbeL/7IHnMi/aBOWxpzAjxqF4znPDXwZU8Out+vF3nMHXBI?=
+ =?us-ascii?Q?jJIbO7SZ8lFCtNMxs0p5FN1mOW7xbLKsQawDBiPAOI0iU5BYmJj4l7QJnIHM?=
+ =?us-ascii?Q?G39NdvwS7Kw1SQVClaooXHUjN1MyE3Q45Zxv2lfpq2aRboTYBMvkUg5Wt5GB?=
+ =?us-ascii?Q?BxH+mF/jTX4zf5inSKCM/RX1IOfFbouv8KYUJygASeWWt0FsnjmG5AnDkLeU?=
+ =?us-ascii?Q?fiDWXoAYUV3EX0TTZ7czC5jG7l7m6pj5YaCs5E9VpJHR2unb2koZBibqb+I?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61d13663-69a7-4085-66c5-08dbbebafe85
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8f755ffb-d0b7-4ef0-21b7-08dbbebd44c4
 X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 18:04:15.0017 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 18:20:31.6529 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB1629
-Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-riscv@lists.infradead.org
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P193MB0916
+Cc: linux-mm@kvack.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -141,34 +139,65 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The 'uevents' subdirectory does not exist in tools/testing/selftests/
-and adding 'uevents' to the TARGETS list results in the following error:
+According to the awk manual, the -e option does not need to be specified
+in front of 'program' (unless you need to mix program-file).
 
-make[1]: Entering directory 'xx/tools/testing/selftests/uevents'
-make[1]: *** No targets specified and no makefile found. Stop.
-make[1]: Leaving directory 'xx/tools/testing/selftests/uevents'
+The redundant -e option can cause error when users use awk tools other
+than gawk (for example, mawk does not support the -e option).
 
-What actually exists in tools/testing/selftests/ is the 'uevent'
-subdirectory.
+Error Example:
+awk: not an option: -e
 
 Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 ---
- tools/testing/selftests/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/testing/selftests/mm/charge_reserved_hugetlb.sh  | 4 ++--
+ tools/testing/selftests/mm/hugetlb_reparenting_test.sh | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 42806add0114..1a21d6beebc6 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -92,7 +92,7 @@ endif
- TARGETS += tmpfs
- TARGETS += tpm2
- TARGETS += tty
--TARGETS += uevents
-+TARGETS += uevent
- TARGETS += user
- TARGETS += user_events
- TARGETS += vDSO
+diff --git a/tools/testing/selftests/mm/charge_reserved_hugetlb.sh b/tools/testing/selftests/mm/charge_reserved_hugetlb.sh
+index a5cb4b09a46c..0899019a7fcb 100755
+--- a/tools/testing/selftests/mm/charge_reserved_hugetlb.sh
++++ b/tools/testing/selftests/mm/charge_reserved_hugetlb.sh
+@@ -25,7 +25,7 @@ if [[ "$1" == "-cgroup-v2" ]]; then
+ fi
+ 
+ if [[ $cgroup2 ]]; then
+-  cgroup_path=$(mount -t cgroup2 | head -1 | awk -e '{print $3}')
++  cgroup_path=$(mount -t cgroup2 | head -1 | awk '{print $3}')
+   if [[ -z "$cgroup_path" ]]; then
+     cgroup_path=/dev/cgroup/memory
+     mount -t cgroup2 none $cgroup_path
+@@ -33,7 +33,7 @@ if [[ $cgroup2 ]]; then
+   fi
+   echo "+hugetlb" >$cgroup_path/cgroup.subtree_control
+ else
+-  cgroup_path=$(mount -t cgroup | grep ",hugetlb" | awk -e '{print $3}')
++  cgroup_path=$(mount -t cgroup | grep ",hugetlb" | awk '{print $3}')
+   if [[ -z "$cgroup_path" ]]; then
+     cgroup_path=/dev/cgroup/memory
+     mount -t cgroup memory,hugetlb $cgroup_path
+diff --git a/tools/testing/selftests/mm/hugetlb_reparenting_test.sh b/tools/testing/selftests/mm/hugetlb_reparenting_test.sh
+index bf2d2a684edf..14d26075c863 100755
+--- a/tools/testing/selftests/mm/hugetlb_reparenting_test.sh
++++ b/tools/testing/selftests/mm/hugetlb_reparenting_test.sh
+@@ -20,7 +20,7 @@ fi
+ 
+ 
+ if [[ $cgroup2 ]]; then
+-  CGROUP_ROOT=$(mount -t cgroup2 | head -1 | awk -e '{print $3}')
++  CGROUP_ROOT=$(mount -t cgroup2 | head -1 | awk '{print $3}')
+   if [[ -z "$CGROUP_ROOT" ]]; then
+     CGROUP_ROOT=/dev/cgroup/memory
+     mount -t cgroup2 none $CGROUP_ROOT
+@@ -28,7 +28,7 @@ if [[ $cgroup2 ]]; then
+   fi
+   echo "+hugetlb +memory" >$CGROUP_ROOT/cgroup.subtree_control
+ else
+-  CGROUP_ROOT=$(mount -t cgroup | grep ",hugetlb" | awk -e '{print $3}')
++  CGROUP_ROOT=$(mount -t cgroup | grep ",hugetlb" | awk '{print $3}')
+   if [[ -z "$CGROUP_ROOT" ]]; then
+     CGROUP_ROOT=/dev/cgroup/memory
+     mount -t cgroup memory,hugetlb $CGROUP_ROOT
 -- 
 2.39.2
 
