@@ -1,127 +1,104 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1B4C6E7E65D
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 26 Sep 2023 18:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 48750E7F14B
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 27 Sep 2023 01:18:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 918E041AA5;
-	Tue, 26 Sep 2023 18:20:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 918E041AA5
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=dbvGaguX
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8993360E8E;
+	Wed, 27 Sep 2023 01:18:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8993360E8E
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=M3Njdvwp
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SET3E7FzCBwh; Tue, 26 Sep 2023 18:20:37 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id u18Utz8kc5w0; Wed, 27 Sep 2023 01:18:33 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 539E240153;
-	Tue, 26 Sep 2023 18:20:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 539E240153
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 905D760BE4;
+	Wed, 27 Sep 2023 01:18:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 905D760BE4
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3AA02C0039;
-	Tue, 26 Sep 2023 18:20:37 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 8168DC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 74B56C0071;
+	Wed, 27 Sep 2023 01:18:33 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 35A0EC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:20:36 +0000 (UTC)
+ Wed, 27 Sep 2023 01:18:32 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 5C0E04026A
+ by smtp3.osuosl.org (Postfix) with ESMTP id 03D2160D75
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:20:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5C0E04026A
+ Wed, 27 Sep 2023 01:18:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 03D2160D75
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yszZh-RIV5-x
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0IW6159H9lDN
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:20:35 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur02acsn20807.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe16::807])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 70ACB40153
+ Wed, 27 Sep 2023 01:18:31 +0000 (UTC)
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
+ [IPv6:2607:f8b0:4864:20::131])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 2D6D360BE4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 26 Sep 2023 18:20:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 70ACB40153
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lX4VCeefxByhbkilyddsIBTV47N02eoAp+umG0dZP3d+zgjq/6dTk5g60dmX+xLVM2UKWiKfeSj+lTYJH8MwAGyKnSldU05lNfsHD/tbYKjvM6jq5yp1at7W3Jx0nWyLgvPHku9RoDyMbn9cWCEOWEwyAgTwIhAjf7nNw78DiKh2/Qmr1X9sFd4vS1ygv/sO6dD/cbIMnLKNp+9gyAqEsrDqHkI48zwO9tq7uvnLSCtg3lOhn8jdeQgxE5iWyJM/xi0BbBRgHZy0RZpuI733ekS5oFdfSdUyx4/3u5zrNHR/iJPOGTjVkODxs5V7nQNXF5cmjX2ADvVQAHeFTFTHkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NVM8wUWpsLD51AyWhDWjK6FIdwXC8vGtLgVBzAfi9Ak=;
- b=HfigqPYHtlwpsC9E0mjJS4EVLJpdPmLemP2HvZA8BpbhlMBx/vUFoxrusq3A4K1xrlVNQMtGS9xjw6hqgV4MUncHmmlTqsD3vGsy2jUwJgixNFaW0ArlgEkdqqBez0KUGYD51BZs5WV8wxF2rEh5Co1zKZviZrPAAfuP5gvGxQkrDxsBn0kid/K8aK7ZZqiu9eDXhht8MG1y821mt9yDXqmA1kRFA1dTz722h7BzgAAmWPtXSvxrqLmchMItfXrogRbIxowai1Y1uL74XrnigHdt2v79mwHSQ8E6nXP6VmGpiB6/IU1QYdWrwlHujr3WY9pdaXavJCO9adr+1P1eBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NVM8wUWpsLD51AyWhDWjK6FIdwXC8vGtLgVBzAfi9Ak=;
- b=dbvGaguXHba0TJSV1nO3WqquEaQIFlUxw5sCTdPduFs/cFpNtq4oc95nJ1sqayBDt8Qq6QczmVA8TpymKa3RxCMDBlt5H+uHskKs8hlPu8TZNoQZVPnwRWexqlNrlk4R+KFMvSROL6Id99q1aHbYb2TpHlCN07D9T+8Xbgy3gC0HMVVxk8VTt8F/TuQ7w2LDkR93qSIjzAnRl9urrpxSs2g7BAQSgzIguAFbcjivLu0XdmBY9pivUbWfnQPCSAy1jZ4VoEa+39cKC6nkumiLa8j/MdsLYGL2dNNh2Fbi43frdIZA2lXkp2jegM/zm8r/S64kPQwwO2hMT0JGrjcWZw==
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by AM8P193MB0916.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ed::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6813.28; Tue, 26 Sep
- 2023 18:20:31 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::3164:ae5c:78f7:23ad]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::3164:ae5c:78f7:23ad%4]) with mapi id 15.20.6813.024; Tue, 26 Sep 2023
- 18:20:31 +0000
-From: Juntong Deng <juntong.deng@outlook.com>
-To: akpm@linux-foundation.org,
-	shuah@kernel.org
-Subject: [PATCH] selftests/mm: Fix awk usage in charge_reserved_hugetlb.sh and
- hugetlb_reparenting_test.sh that may cause error
-Date: Wed, 27 Sep 2023 02:19:44 +0800
-Message-ID: <VI1P193MB075228810591AF2FDD7D42C599C3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-X-TMN: [xILr9DlG3sQtR9dc1DzJCCLG8cuXEP7L]
-X-ClientProxiedBy: AS4P195CA0022.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d6::10) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <20230926181944.24179-1-juntong.deng@outlook.com>
+ Wed, 27 Sep 2023 01:18:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D6D360BE4
+Received: by mail-il1-x131.google.com with SMTP id
+ e9e14a558f8ab-34f69780037so5833105ab.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 26 Sep 2023 18:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1695777510; x=1696382310;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pSK45h5LTS9VqkVC57gaj2Wd82aeyGKZrEYe4dJCVic=;
+ b=M3NjdvwpOwtV71x0/8Mu3rSeBPjSAq70mI05Ch4fJbEXabAPQPiDq0es6NlSw9YyZW
+ aMis5FaSTCrqWEEgbs1iBKU0oijZ97aKEAdnCInw8a/1cEgIHMuWs8QaMLmWcqLAKeK4
+ Vax5Ib2PsVnfDT81zoh+7xbDBqwiMijYy8gBE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1695777510; x=1696382310;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=pSK45h5LTS9VqkVC57gaj2Wd82aeyGKZrEYe4dJCVic=;
+ b=d77sZ2ERYBzpRZWWUtB/ZhHsElfu9oM6425ZIrSEt6anZPg9cCE7tMI1GnQNwDVf7s
+ HFyN8kKg6M8Ln9Mk3SKvDNaC1Q2yGlgMVxRqU1oGiYNtAkR4xj+EY0IdkCNmHj6mN1l0
+ jvTH8hnSatS/MH2VOYaiHWOyTzn+O6cXV1piL+F782bLLfqVA24xaMFxBLYY/vCcbsM1
+ WcHgYr2xbGjWLLe3Cj5YqcO+hGBbbS/L6i//KHA0UT0YBSefJk5vP0QmSub6jz2YyAvq
+ LxWFjFDpRcA2n1C8rHM17vUauSbWByOwvBomBNmbC4Tmr0cZp3g96EGfn5Zm4WBPVg61
+ DmUg==
+X-Gm-Message-State: AOJu0Yy2SnmNT/n5ChUTuFoy3YLDWcQoLIfNOCpySTq7M0cEgM3wlan3
+ msoX+9cX0+BBLNtzG49hSLaur7SZ
+X-Google-Smtp-Source: AGHT+IE2jaCutfBvakslg8GPNafee+TlzK+8frCnXrODTVfbk9z1YRbburEMP7cvS9iSP7ZFw0fvlQ==
+X-Received: by 2002:a92:cc46:0:b0:350:f353:4017 with SMTP id
+ t6-20020a92cc46000000b00350f3534017mr614948ilq.0.1695777510062; 
+ Tue, 26 Sep 2023 18:18:30 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
+ y3-20020a92d203000000b0034f3220c086sm2389624ily.12.2023.09.26.18.18.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Sep 2023 18:18:29 -0700 (PDT)
+Message-ID: <fc915b30-5842-5851-bd76-71c2133685b9@linuxfoundation.org>
+Date: Tue, 26 Sep 2023 19:18:28 -0600
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|AM8P193MB0916:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f755ffb-d0b7-4ef0-21b7-08dbbebd44c4
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vGTQ28tI/nv7wHjMyYFpLcKQV1B2pkIVz2b7z7uhlZp++lww9EPNrYDRxaI+RuzLOvOpbidffRuh1+eEMft2+TjARKnqBFdTxaq7TOCabXJpjGNqrzTP7UEunJA/k1odHwmn/OgmuuFcGDS03740z0LPxmZUcG3n15c1np8F2cfQfYPNFMMoC/vHuxmhUmGI1EwD8SQwfhVTm9kDYa/onPLF2+3OZ++/uj5OtsJtUVicz4fVg+/DJLj9acqdVsGKKTkqQkbmvHWamEasA8D71RZdGBDM1r9sjMekXVZ3yDFccrwPD9DWUVqScq3L/4/pQwTPVaFcTJOHkigsEqA3wNKAjP3A+pDmd1i2W0lOsf8oZfMNP1M88FYc0fK+TnoZ8bUSbzLXBc0zNGiuFcY184jIN6ERbMy58qTzPQvXDTArRHBLakxye6CIWCErKXTOCUZC4b0VYoXPyympTcXxPBuK8CLdmgVytUcvw874O7335e9MpMn7se7flIA6hTDojRis5WOqc8Zsdvip6Yg+obgKhkgT/RUmIY459vJmd24EgMaKOHS12nY3lqDH2hlj
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?akGJZ1AGyAIBlpxOBKKHKRWD6hPUhNwU1f84jZiyyz8IntRDlsiatAxR2UDq?=
- =?us-ascii?Q?eniEzjCVJ03DwrsNWLxhKJvsKHW4psZrm3GW79vmTLTeF1lIEMihLrtZH07g?=
- =?us-ascii?Q?HQZay9sOH2aoI4tYtnJ+EWnkXc3JzSfNmmSWOo4l0IUTcP46ZQ0qtukqFL6s?=
- =?us-ascii?Q?c3Pz4ymron9RWLh/ao2TrvzS4PKDVxYE0Qyv686Sk8ypOti6bCSHDcEeZBSe?=
- =?us-ascii?Q?JSvuY0ENLmsgwtrXxlx6mxdAsN0LQbjldN2MhPy2tZqehNAcjqAa9hm4ATSg?=
- =?us-ascii?Q?bBJIg6W+TeNN3vILe3S7gpaC5Sp7BLh5CalT7ZOyAkIWorDAfVr8t2YWgVfz?=
- =?us-ascii?Q?QG1WDC7InwH7T12YLh0smJwLv4wbvLx/AMdIL7wakslaZrI3bOR/YqnqjiXh?=
- =?us-ascii?Q?yMasCtjJKRY+yu1IoQVoR7xwi2g5achkU6O/0gRkY/Zn0EgZ0oX/R5YB0vnp?=
- =?us-ascii?Q?8AKCr0wDoAEFVSHW1+FVjbjcmzYtS+zErvYi/lPFfdxGB56xoY0ow95kg8Aj?=
- =?us-ascii?Q?nnpWluZhTuvD4jaxsO7O19lpu6s5CccDwaHSRSSoYHB/nleqVU2B0R4Fwhq5?=
- =?us-ascii?Q?KsaTw+iCSz12AYdU/1C0umJbf2rXdF8GN+yckg9XTCsjqZ6Z6AR1y83JBCbE?=
- =?us-ascii?Q?Xi5gua+HHUdWLfW6nBmrDkPwlursb7mZ3WgBasNWcXUtnBPkOkva1tiuXFEn?=
- =?us-ascii?Q?mklu9Luj6xtNY8WV4PiqFZWD7/36dsxSflB7VKtpaohLdNLxE/ztnani4Eqd?=
- =?us-ascii?Q?/qV0Bq29IwOm8hdeqYV8oV3wu1eL74SoacO/xj4wRyr9nvUq6hoPIzhEpQFV?=
- =?us-ascii?Q?J0x1TGdTWweEs1ao2MED0rLyAEqVzJikvBM3NPNehdUoGGga17/5lBDpbwVX?=
- =?us-ascii?Q?FvB4Dg8XiKldto6MmvL6cbyIWDyjKkS/kvNNiPRaIsaJGyEUaqECZgEF4h82?=
- =?us-ascii?Q?cyr0GGpnrIPBqSbeL/7IHnMi/aBOWxpzAjxqF4znPDXwZU8Out+vF3nMHXBI?=
- =?us-ascii?Q?jJIbO7SZ8lFCtNMxs0p5FN1mOW7xbLKsQawDBiPAOI0iU5BYmJj4l7QJnIHM?=
- =?us-ascii?Q?G39NdvwS7Kw1SQVClaooXHUjN1MyE3Q45Zxv2lfpq2aRboTYBMvkUg5Wt5GB?=
- =?us-ascii?Q?BxH+mF/jTX4zf5inSKCM/RX1IOfFbouv8KYUJygASeWWt0FsnjmG5AnDkLeU?=
- =?us-ascii?Q?fiDWXoAYUV3EX0TTZ7czC5jG7l7m6pj5YaCs5E9VpJHR2unb2koZBibqb+I?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f755ffb-d0b7-4ef0-21b7-08dbbebd44c4
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2023 18:20:31.6529 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P193MB0916
-Cc: linux-mm@kvack.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] selftests: Fix wrong TARGET in kselftest top level
+ Makefile
+Content-Language: en-US
+To: Juntong Deng <juntong.deng@outlook.com>, shuah@kernel.org,
+ mic@digikod.net, brauner@kernel.org, keescook@chromium.org,
+ tony.luck@intel.com, gpiccoli@igalia.com, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu
+References: <VI1P193MB0752596147F224B9F921C85199C3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <VI1P193MB0752596147F224B9F921C85199C3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-riscv@lists.infradead.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -133,73 +110,30 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-According to the awk manual, the -e option does not need to be specified
-in front of 'program' (unless you need to mix program-file).
+On 9/26/23 12:03, Juntong Deng wrote:
+> The 'uevents' subdirectory does not exist in tools/testing/selftests/
+> and adding 'uevents' to the TARGETS list results in the following error:
+> 
+> make[1]: Entering directory 'xx/tools/testing/selftests/uevents'
+> make[1]: *** No targets specified and no makefile found. Stop.
+> make[1]: Leaving directory 'xx/tools/testing/selftests/uevents'
+> 
+> What actually exists in tools/testing/selftests/ is the 'uevent'
+> subdirectory.
+> 
+> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+> ---
 
-The redundant -e option can cause error when users use awk tools other
-than gawk (for example, mawk does not support the -e option).
+Thank you. Applied now to linux-kselftest fixes for the next rc
 
-Error Example:
-awk: not an option: -e
-
-Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
----
- tools/testing/selftests/mm/charge_reserved_hugetlb.sh  | 4 ++--
- tools/testing/selftests/mm/hugetlb_reparenting_test.sh | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/tools/testing/selftests/mm/charge_reserved_hugetlb.sh b/tools/testing/selftests/mm/charge_reserved_hugetlb.sh
-index a5cb4b09a46c..0899019a7fcb 100755
---- a/tools/testing/selftests/mm/charge_reserved_hugetlb.sh
-+++ b/tools/testing/selftests/mm/charge_reserved_hugetlb.sh
-@@ -25,7 +25,7 @@ if [[ "$1" == "-cgroup-v2" ]]; then
- fi
- 
- if [[ $cgroup2 ]]; then
--  cgroup_path=$(mount -t cgroup2 | head -1 | awk -e '{print $3}')
-+  cgroup_path=$(mount -t cgroup2 | head -1 | awk '{print $3}')
-   if [[ -z "$cgroup_path" ]]; then
-     cgroup_path=/dev/cgroup/memory
-     mount -t cgroup2 none $cgroup_path
-@@ -33,7 +33,7 @@ if [[ $cgroup2 ]]; then
-   fi
-   echo "+hugetlb" >$cgroup_path/cgroup.subtree_control
- else
--  cgroup_path=$(mount -t cgroup | grep ",hugetlb" | awk -e '{print $3}')
-+  cgroup_path=$(mount -t cgroup | grep ",hugetlb" | awk '{print $3}')
-   if [[ -z "$cgroup_path" ]]; then
-     cgroup_path=/dev/cgroup/memory
-     mount -t cgroup memory,hugetlb $cgroup_path
-diff --git a/tools/testing/selftests/mm/hugetlb_reparenting_test.sh b/tools/testing/selftests/mm/hugetlb_reparenting_test.sh
-index bf2d2a684edf..14d26075c863 100755
---- a/tools/testing/selftests/mm/hugetlb_reparenting_test.sh
-+++ b/tools/testing/selftests/mm/hugetlb_reparenting_test.sh
-@@ -20,7 +20,7 @@ fi
- 
- 
- if [[ $cgroup2 ]]; then
--  CGROUP_ROOT=$(mount -t cgroup2 | head -1 | awk -e '{print $3}')
-+  CGROUP_ROOT=$(mount -t cgroup2 | head -1 | awk '{print $3}')
-   if [[ -z "$CGROUP_ROOT" ]]; then
-     CGROUP_ROOT=/dev/cgroup/memory
-     mount -t cgroup2 none $CGROUP_ROOT
-@@ -28,7 +28,7 @@ if [[ $cgroup2 ]]; then
-   fi
-   echo "+hugetlb +memory" >$CGROUP_ROOT/cgroup.subtree_control
- else
--  CGROUP_ROOT=$(mount -t cgroup | grep ",hugetlb" | awk -e '{print $3}')
-+  CGROUP_ROOT=$(mount -t cgroup | grep ",hugetlb" | awk '{print $3}')
-   if [[ -z "$CGROUP_ROOT" ]]; then
-     CGROUP_ROOT=/dev/cgroup/memory
-     mount -t cgroup memory,hugetlb $CGROUP_ROOT
--- 
-2.39.2
+thanks,
+-- Shuah
 
 _______________________________________________
 Linux-kernel-mentees mailing list
