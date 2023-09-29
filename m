@@ -1,68 +1,69 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 69441E743E1
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Sep 2023 05:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5A4FBE743EC
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Sep 2023 06:15:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DFF0B40914;
-	Fri, 29 Sep 2023 05:14:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DFF0B40914
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mailo.com header.i=@mailo.com header.a=rsa-sha256 header.s=mailo header.b=do/G6q9r
+	by smtp4.osuosl.org (Postfix) with ESMTP id AF13A41DBB;
+	Fri, 29 Sep 2023 06:15:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AF13A41DBB
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mailo.com header.i=@mailo.com header.a=rsa-sha256 header.s=mailo header.b=BT5FFlQp
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2QkXvlo0S7CC; Fri, 29 Sep 2023 05:14:43 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JNFqx2NS9hoX; Fri, 29 Sep 2023 06:15:10 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 84F094060B;
-	Fri, 29 Sep 2023 05:14:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 84F094060B
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 11A7841A60;
+	Fri, 29 Sep 2023 06:15:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 11A7841A60
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 58073C0039;
-	Fri, 29 Sep 2023 05:14:43 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 52C9CC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C5671C0071;
+	Fri, 29 Sep 2023 06:15:09 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id B9104C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 05:14:42 +0000 (UTC)
+ Fri, 29 Sep 2023 06:15:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 199CB40914
+ by smtp1.osuosl.org (Postfix) with ESMTP id 8852581F90
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 05:14:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 199CB40914
+ Fri, 29 Sep 2023 06:15:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8852581F90
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (1024-bit key) header.d=mailo.com header.i=@mailo.com
+ header.a=rsa-sha256 header.s=mailo header.b=BT5FFlQp
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5m1rIqRrWU9C
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Gq7uBFDbKcJ9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 05:14:39 +0000 (UTC)
-X-Greylist: delayed 39991 seconds by postgrey-1.37 at util1.osuosl.org;
- Fri, 29 Sep 2023 05:14:39 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3F4264060B
-Received: from mailo.com (msg-4.mailo.com [213.182.54.15])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 3F4264060B
+ Fri, 29 Sep 2023 06:15:06 +0000 (UTC)
+Received: from mailo.com (msg-1.mailo.com [213.182.54.11])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 044A781F72
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 05:14:38 +0000 (UTC)
+ Fri, 29 Sep 2023 06:15:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 044A781F72
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
- t=1695964460; bh=5TrBxRkf8axAboRq5eJan1h4q+4K8csemq/WK/VP9ZA=;
+ t=1695968086; bh=sUtnhl+BN0pAXgvT1VA9dfcxtXJrnbj9wF0wciOqpdA=;
  h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:MIME-Version:
  Content-Type;
- b=do/G6q9r/tlorBmTdac9FvUvIjtHyBXdJqg2ExEi6A3UgQ2kL1IuO8CIXkKPo4iVv
- 0Ih7El6ezPjRTCOtJ5bZol3iNCoIpDlBsXxUhxqGuqjI79z3y1UB08uD8TRI0/fOOW
- UCai0Mi8pDHABqMbn1jj8VaW/OBcdNEVXteTkniQ=
-Received: by b221-5.in.mailobj.net [192.168.90.25] with ESMTP
+ b=BT5FFlQpPpYYiLWCg0obrQwHB6L2jyl1IDQj4NY5PfCuvzM71FERDYaVd2NdJ48Pq
+ Cchkcw4ji4i6zgQbnC7a3yMpUUgBsHN/bIIiBwonfYk/btOo0uizwSWjwhn7wzkPOl
+ G7fnpFFwQLvucAEwRU5T1RZn/pRHsU9gHvLyAhiw=
+Received: by b221-3.in.mailobj.net [192.168.90.23] with ESMTP
  via ip-20.mailobj.net [213.182.54.20]
- Fri, 29 Sep 2023 07:14:20 +0200 (CEST)
-X-EA-Auth: tVqjOmq4lkR80hgPN1Q6rvpztdtUdTqm+kt5z3NoCdz7P1X7GYld++tOOVSzXEg4yFVPF8nuORj/+y7BiDt+O1Bd4GglWdfR
-Date: Fri, 29 Sep 2023 10:44:16 +0530
+ Fri, 29 Sep 2023 08:14:46 +0200 (CEST)
+X-EA-Auth: mJrxcB5o/rp3CdNHoV+lGMylfQKBbaAvaC4JHT2Uwm3geFEykZ96si8l7FTXLh3ZxpTAt34dRlCrz8K4QFKtJ4AC9NHhu1Tb
+Date: Fri, 29 Sep 2023 11:44:40 +0530
 From: Deepak R Varma <drv@mailo.com>
 To: Bob Peterson <rpeterso@redhat.com>,
  Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] gfs2: No need to be "extern" at the time of definition
-Message-ID: <ZRZdKAmDjrpCQLwE@runicha.com>
+Subject: [PATCH] gfs2: Set error on error path
+Message-ID: <ZRZrUMzweaJeEJuD@runicha.com>
 MIME-Version: 1.0
 Content-Disposition: inline
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
@@ -84,40 +85,32 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-No need to for the extern keyword at the time of function definition.
-Remove it to silence the following Smatch warnings:
-fs/gfs2/super.c:1579:13: warning: function 'free_local_statfs_inodes' with external linkage has definition
-fs/gfs2/super.c:1594:21: warning: function 'find_local_statfs_inode' with external linkage has definition
+Set the error variable inside the error path on failure. Saves
+unnecessary variable assignment during normal execution.
 
 Signed-off-by: Deepak R Varma <drv@mailo.com>
 ---
- fs/gfs2/super.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ fs/gfs2/bmap.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/fs/gfs2/super.c b/fs/gfs2/super.c
-index 02d93da21b2b..fad36ed89853 100644
---- a/fs/gfs2/super.c
-+++ b/fs/gfs2/super.c
-@@ -1576,7 +1576,7 @@ static void gfs2_free_inode(struct inode *inode)
- 	kmem_cache_free(gfs2_inode_cachep, GFS2_I(inode));
- }
-
--extern void free_local_statfs_inodes(struct gfs2_sbd *sdp)
-+void free_local_statfs_inodes(struct gfs2_sbd *sdp)
- {
- 	struct local_statfs_inode *lsi, *safe;
-
-@@ -1591,8 +1591,7 @@ extern void free_local_statfs_inodes(struct gfs2_sbd *sdp)
- 	}
- }
-
--extern struct inode *find_local_statfs_inode(struct gfs2_sbd *sdp,
--					     unsigned int index)
-+struct inode *find_local_statfs_inode(struct gfs2_sbd *sdp, unsigned int index)
- {
- 	struct local_statfs_inode *lsi;
-
---
+diff --git a/fs/gfs2/bmap.c b/fs/gfs2/bmap.c
+index ef7017fb6951..93bd8ea34444 100644
+--- a/fs/gfs2/bmap.c
++++ b/fs/gfs2/bmap.c
+@@ -162,9 +162,10 @@ int gfs2_unstuff_dinode(struct gfs2_inode *ip)
+ 
+ 	down_write(&ip->i_rw_mutex);
+ 	page = grab_cache_page(inode->i_mapping, 0);
+-	error = -ENOMEM;
+-	if (!page)
++	if (!page) {
++		error = -ENOMEM;
+ 		goto out;
++	}
+ 	error = __gfs2_unstuff_inode(ip, page);
+ 	unlock_page(page);
+ 	put_page(page);
+-- 
 2.39.2
 
 
