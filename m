@@ -4,96 +4,66 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BDBBBE743EF
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Sep 2023 07:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A3531E743F1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 29 Sep 2023 07:34:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 3F121611AB;
-	Fri, 29 Sep 2023 07:15:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3F121611AB
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2C9C060A8D;
+	Fri, 29 Sep 2023 07:34:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2C9C060A8D
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KrTtOPte
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=mailo.com header.i=@mailo.com header.a=rsa-sha256 header.s=mailo header.b=h4UfrgMc
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id I5bOaEOoiS-v; Fri, 29 Sep 2023 07:15:00 +0000 (UTC)
+	with ESMTP id JAZ7LAhermqj; Fri, 29 Sep 2023 07:34:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id D0A4C61159;
-	Fri, 29 Sep 2023 07:14:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D0A4C61159
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D6969607CA;
+	Fri, 29 Sep 2023 07:34:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D6969607CA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B54A3C0039;
-	Fri, 29 Sep 2023 07:14:59 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AA672C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A8D36C0039;
+	Fri, 29 Sep 2023 07:34:06 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 99AC7C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 07:14:58 +0000 (UTC)
+ Fri, 29 Sep 2023 07:34:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 72C3341861
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6E05460A8D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 07:14:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 72C3341861
-Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
- header.a=rsa-sha256 header.s=google header.b=KrTtOPte
+ Fri, 29 Sep 2023 07:34:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6E05460A8D
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yz_AL6iMRLrm
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SLzx24SP19Xx
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 07:14:57 +0000 (UTC)
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com
- [IPv6:2a00:1450:4864:20::633])
- by smtp2.osuosl.org (Postfix) with ESMTPS id EC5574155F
+ Fri, 29 Sep 2023 07:34:03 +0000 (UTC)
+Received: from mailo.com (msg-1.mailo.com [213.182.54.11])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id C4ECE607CA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 07:14:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EC5574155F
-Received: by mail-ej1-x633.google.com with SMTP id
- a640c23a62f3a-9ad8a822508so1838968366b.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Sep 2023 00:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1695971695; x=1696576495;
- darn=lists.linuxfoundation.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=V2OkkCi3457fhrun/Ka7gKdk+nLLGHEIhC9CyvKi8oA=;
- b=KrTtOPteX9M0+20rDX080autHVxT3tsDOoZKvxLiYGKZ8TRUMNFANeekKd5Ig1+oOl
- aes9oFM1eWsMZE/nFRMxdx8KG88Iv4I1U7Iud6H/F/HOEmvQ4cmnISugSZIuUY4EdT7N
- Qg5q61NXlDWcnSEtrye5CDObV5+tZZFu7ducLbP94xCnNM86aExDOZWJR47Yox1rKSlS
- K+N63YGzL1pRhA41oHHTmmvlw1t9Pyrp7JtjhHrSQYB0rBwJAuhuEYg18QoU+O7lc9N/
- NcehYJdH/spkoV74lWAPjbHokgJmHFJb7SaapZQAMgTTcL2O6oKJEi9qhvmIqumKajT/
- kqpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1695971695; x=1696576495;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=V2OkkCi3457fhrun/Ka7gKdk+nLLGHEIhC9CyvKi8oA=;
- b=tP3ujI1QBg+pZye0C49lYJSLXxVYrFAi1P5ykWFaV0pAb24bWgvlmbCnh6lEkdxU8E
- sE2XqEG2l9DPLDxwSD5DqRcfAjWKU62kCB52w0WassH1xPc9IkfW5ThdxelohAZ4c5RN
- PEjq19TvJUWsQyH2r2ve2WFn+YKBVIRDJAgez5vGIK6fIkrV2ukSUekPlkwPASoAV4It
- 001uZGMUkcm1/3DceIYqpH2TlMnStlA14/x0uwl9KK9CNcuRh/0ycRvrWpE5Jxa1EvKV
- WHwkpe91RM6Zm629LuWqGlLKjT2ylFbXtBYfwtiBVNzmxJv2DFf0QLcF4AysKapp0bIy
- 6dEQ==
-X-Gm-Message-State: AOJu0YyuzNgVdlVWR+dXnJeRR0EnKM4bV8TaLM0Rz6x8kzmzvEugsRNZ
- cZZlrzdp/YtWxMEPt5jXQinw7w==
-X-Google-Smtp-Source: AGHT+IGZ/E7+G4cnfaB8C0RTqz4HpzEQLdCBnqk+eAgNYK3UAcdw1uetqgquWBvnEbokDk1wX/u06w==
-X-Received: by 2002:a17:906:28e:b0:9ae:552a:3d3f with SMTP id
- 14-20020a170906028e00b009ae552a3d3fmr3026696ejf.28.1695971695031; 
- Fri, 29 Sep 2023 00:14:55 -0700 (PDT)
-Received: from localhost ([102.36.222.112]) by smtp.gmail.com with ESMTPSA id
- o14-20020a05600c4fce00b004065d67c3c9sm709048wmq.8.2023.09.29.00.14.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Sep 2023 00:14:54 -0700 (PDT)
-Date: Fri, 29 Sep 2023 10:14:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Deepak R Varma <drv@mailo.com>
+ Fri, 29 Sep 2023 07:34:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C4ECE607CA
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailo.com; s=mailo;
+ t=1695972824; bh=Mxk9l/U073uStCFV2UzL0Jvqq/Vo4Ln1BTaY+q264Og=;
+ h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+ References:Content-Type:Content-Transfer-Encoding:MIME-Version;
+ b=h4UfrgMc/GsgctxJuapIvK1n7NV2LISZyjM4eagWufGdxYn3a8T9eGQXeex2tADbM
+ RuSfnz0Aa2M1r9OmxMjaANzArsx8eleoOeYnBkl5bAn7kmPTMU47MmBq66hAGYQnXS
+ ffsVjkZKidUECmxdEiX+EkZhCkxEgQWxHEYbKBkg=
+Received: by b221-6.in.mailobj.net [192.168.90.26] with ESMTP
+ via ip-20.mailobj.net [213.182.54.20]
+ Fri, 29 Sep 2023 09:33:44 +0200 (CEST)
+X-EA-Auth: Kph+n6amj/OpMbnfaagrjIvIfM2f1llYlstIKcYMbu7B9oWx5SNQR1QBvj0B4fmVvei9+OhAtDxj3qPLNaYgUr/AVERwIYts
+Message-ID: <f8e478c86bb80f37fbedc4f17b782918bc1c3607.camel@mailo.com>
 Subject: Re: [PATCH] gfs2: Set error on error path
-Message-ID: <72de9c2e-7c60-4930-acfb-556a1f0fa4c4@kadam.mountain>
+From: drv <drv@mailo.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Date: Fri, 29 Sep 2023 13:02:51 +0530
+In-Reply-To: <72de9c2e-7c60-4930-acfb-556a1f0fa4c4@kadam.mountain>
 References: <ZRZrUMzweaJeEJuD@runicha.com>
+ <72de9c2e-7c60-4930-acfb-556a1f0fa4c4@kadam.mountain>
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <ZRZrUMzweaJeEJuD@runicha.com>
 Cc: Andreas Gruenbacher <agruenba@redhat.com>, linux-kernel@vger.kernel.org,
  gfs2@lists.linux.dev, Bob Peterson <rpeterso@redhat.com>,
  linux-kernel-mentees@lists.linuxfoundation.org,
@@ -109,44 +79,38 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Sep 29, 2023 at 11:44:40AM +0530, Deepak R Varma wrote:
-> Set the error variable inside the error path on failure. Saves
-> unnecessary variable assignment during normal execution.
-> 
-> Signed-off-by: Deepak R Varma <drv@mailo.com>
-> ---
->  fs/gfs2/bmap.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/gfs2/bmap.c b/fs/gfs2/bmap.c
-> index ef7017fb6951..93bd8ea34444 100644
-> --- a/fs/gfs2/bmap.c
-> +++ b/fs/gfs2/bmap.c
-> @@ -162,9 +162,10 @@ int gfs2_unstuff_dinode(struct gfs2_inode *ip)
->  
->  	down_write(&ip->i_rw_mutex);
->  	page = grab_cache_page(inode->i_mapping, 0);
-> -	error = -ENOMEM;
-> -	if (!page)
-> +	if (!page) {
-> +		error = -ENOMEM;
->  		goto out;
-> +	}
-
-It used to be that the other way was faster?  I'm pretty sure the
-compiler can figure it out these days.  Please don't randomly start
-changing people's prefered style unless it's drivers/staging/ code.
-
-regards,
-dan carpenter
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gRnJpLCAyMDIzLTA5LTI5IGF0IDEwOjE0ICswMzAwLCBEYW4gQ2FycGVudGVyIHdyb3RlOgo+
+IE9uIEZyaSwgU2VwIDI5LCAyMDIzIGF0IDExOjQ0OjQwQU0gKzA1MzAsIERlZXBhayBSIFZhcm1h
+IHdyb3RlOgo+ID4gU2V0IHRoZSBlcnJvciB2YXJpYWJsZSBpbnNpZGUgdGhlIGVycm9yIHBhdGgg
+b24gZmFpbHVyZS4gU2F2ZXMKPiA+IHVubmVjZXNzYXJ5IHZhcmlhYmxlIGFzc2lnbm1lbnQgZHVy
+aW5nIG5vcm1hbCBleGVjdXRpb24uCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IERlZXBhayBSIFZh
+cm1hIDxkcnZAbWFpbG8uY29tPgo+ID4gLS0tCj4gPiDCoGZzL2dmczIvYm1hcC5jIHwgNSArKyst
+LQo+ID4gwqAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQo+
+ID4gCj4gPiBkaWZmIC0tZ2l0IGEvZnMvZ2ZzMi9ibWFwLmMgYi9mcy9nZnMyL2JtYXAuYwo+ID4g
+aW5kZXggZWY3MDE3ZmI2OTUxLi45M2JkOGVhMzQ0NDQgMTAwNjQ0Cj4gPiAtLS0gYS9mcy9nZnMy
+L2JtYXAuYwo+ID4gKysrIGIvZnMvZ2ZzMi9ibWFwLmMKPiA+IEBAIC0xNjIsOSArMTYyLDEwIEBA
+IGludCBnZnMyX3Vuc3R1ZmZfZGlub2RlKHN0cnVjdCBnZnMyX2lub2RlICppcCkKPiA+IMKgCj4g
+PiDCoMKgwqDCoMKgwqDCoMKgZG93bl93cml0ZSgmaXAtPmlfcndfbXV0ZXgpOwo+ID4gwqDCoMKg
+wqDCoMKgwqDCoHBhZ2UgPSBncmFiX2NhY2hlX3BhZ2UoaW5vZGUtPmlfbWFwcGluZywgMCk7Cj4g
+PiAtwqDCoMKgwqDCoMKgwqBlcnJvciA9IC1FTk9NRU07Cj4gPiAtwqDCoMKgwqDCoMKgwqBpZiAo
+IXBhZ2UpCj4gPiArwqDCoMKgwqDCoMKgwqBpZiAoIXBhZ2UpIHsKPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqBlcnJvciA9IC1FTk9NRU07Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoGdvdG8gb3V0Owo+ID4gK8KgwqDCoMKgwqDCoMKgfQo+IAo+IEl0IHVzZWQg
+dG8gYmUgdGhhdCB0aGUgb3RoZXIgd2F5IHdhcyBmYXN0ZXI/wqAgSSdtIHByZXR0eSBzdXJlIHRo
+ZQo+IGNvbXBpbGVyIGNhbiBmaWd1cmUgaXQgb3V0IHRoZXNlIGRheXMuwqAgUGxlYXNlIGRvbid0
+IHJhbmRvbWx5IHN0YXJ0Cj4gY2hhbmdpbmcgcGVvcGxlJ3MgcHJlZmVyZWQgc3R5bGUgdW5sZXNz
+IGl0J3MgZHJpdmVycy9zdGFnaW5nLyBjb2RlLgo+IApIaSBEYW4sClRoYW5rIHlvdSBmb3IgdGhl
+IGZlZWRiYWNrLiBJIGRpZCBub3Qga25vdyBhYm91dCB0aGUgY29tcGlsZXIKb3B0aW1pemF0aW9u
+IHJlc3VsdGluZyBpbiBvcmlnaW5hbCBjb2RlIGJlaW5nIGZhc3Rlci4KSSB3aWxsIGxldCB0aGUg
+bWFpbnRhaW5lcnMgY29tbWVudCBvbiBicmVha2luZyB0aGUgc3R5bGUuCgpyZWdhcmRzLApkZWVw
+YWsuCgo+IHJlZ2FyZHMsCj4gZGFuIGNhcnBlbnRlcgo+IAoKCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5n
+IGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRw
+czovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJu
+ZWwtbWVudGVlcwo=
