@@ -1,102 +1,101 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id A7AAEE77373
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 30 Sep 2023 12:25:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7551E748E5
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 30 Sep 2023 19:41:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2108E60FD4;
-	Sat, 30 Sep 2023 12:25:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2108E60FD4
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gTjYpM5H
+	by smtp1.osuosl.org (Postfix) with ESMTP id 55C4481F4B;
+	Sat, 30 Sep 2023 19:41:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 55C4481F4B
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=cJ1Jjqc1
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sMjGWHzuaGrg; Sat, 30 Sep 2023 12:25:39 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PgOcahR3I38e; Sat, 30 Sep 2023 19:41:24 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id C411160F0F;
-	Sat, 30 Sep 2023 12:25:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C411160F0F
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 32A6581E58;
+	Sat, 30 Sep 2023 19:41:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 32A6581E58
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 94D02C0039;
-	Sat, 30 Sep 2023 12:25:38 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02CE6C0071;
+	Sat, 30 Sep 2023 19:41:24 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 90F78C0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 41F94C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 30 Sep 2023 12:25:37 +0000 (UTC)
+ Sat, 30 Sep 2023 19:41:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7BD5740127
+ by smtp2.osuosl.org (Postfix) with ESMTP id 177CD4021C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 30 Sep 2023 12:25:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7BD5740127
+ Sat, 30 Sep 2023 19:41:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 177CD4021C
 Authentication-Results: smtp2.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=gTjYpM5H
+ header.a=rsa-sha256 header.s=20230601 header.b=cJ1Jjqc1
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mqDYLcqPCyL4
+ with ESMTP id a1jK0Decp3XV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 30 Sep 2023 12:25:33 +0000 (UTC)
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com
- [IPv6:2607:f8b0:4864:20::1034])
- by smtp2.osuosl.org (Postfix) with ESMTPS id DD9DD40108
+ Sat, 30 Sep 2023 19:41:22 +0000 (UTC)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
+ [IPv6:2607:f8b0:4864:20::42a])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 8059A4013B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 30 Sep 2023 12:25:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DD9DD40108
-Received: by mail-pj1-x1034.google.com with SMTP id
- 98e67ed59e1d1-277564f049dso8010592a91.1
+ Sat, 30 Sep 2023 19:41:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8059A4013B
+Received: by mail-pf1-x42a.google.com with SMTP id
+ d2e1a72fcca58-690f2719ab2so3383379b3a.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 30 Sep 2023 05:25:33 -0700 (PDT)
+ Sat, 30 Sep 2023 12:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696076733; x=1696681533;
+ d=gmail.com; s=20230601; t=1696102882; x=1696707682;
  darn=lists.linuxfoundation.org; 
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=NxFdnF+d4GELCyBnxXMqf2wy+/Apt8AHrNw5TDGtQhE=;
- b=gTjYpM5HGtVM3Tqy1F2pAlAFqhkT2HmEdzTFqcw+a0xt8q7NkT9w+vvJe4ThB0U1+H
- EN+chumvsGoHlKxO88njpTC93WdAbAARsgEQ4tggkSfXDrpW7mye5K61yKGutOuES5fk
- UiDUL9P4ks3JhQ6zTfFPlqSBDz+NQpHI2trngNKXWYNQ73TacIvFTE+5Z4S06sh/qe+E
- /9DQ7bp4v4W2A29oZkOcoe6UZaz8s2y5OdXUVQM3RANNTE6eY1UGwf3pLA/hwY9dA0bD
- bVmsHhMSYUuonPKt0WHImldXzmTSty8UHXo3YwEqTSVSglmm38QUhaJEqM5Rl3dMeYUA
- ri7Q==
+ bh=DLeIJ/fAJFQuWgfN3SfqzLo+G0sfER2FPjENsdAZzLE=;
+ b=cJ1Jjqc1775cDvNs05oP+WS8PxnL4aq3Pwb1RETLniLsdkjtMpgzajMO5pJxt8/qG1
+ /EKvFdhf/S4beTvcCY31Nq3NSfrYiwHStBxUb6RdnsT7C6/9h3kirsOkMqra+Kx9FP08
+ +OuX6BjgrxQyL5fRPQcafktjdFDpEiXkRUSqvwcK3e/W2gSbLol1ACvMrNyHAy4Y9Jr5
+ f+yaqLy+WgTHfc5Hx1nzXKq/pUAcsY+FxADjYDWYiotoEjP6GyzedEktb1RdUxoCHvTv
+ 5sxr6DyElO38lY/BYCFijF79emab4dsclzYs38OSU2bmSpqAG3VLSsXAUaisGWPlm10h
+ zUqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696076733; x=1696681533;
+ d=1e100.net; s=20230601; t=1696102882; x=1696707682;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=NxFdnF+d4GELCyBnxXMqf2wy+/Apt8AHrNw5TDGtQhE=;
- b=lodryr+WM9LH18tr9EQLSWeMVufnjTMOsC7xW/AnE5TeoqXBqW+HLPRyhY4oX3gZC6
- 8SoaRJN/zw3IkKPjTXRMNwD8ple5NF6VboDGhSm0eCF1aweJsh2smFvUHH2aC1wEDMqu
- xn0VutZ6H8cduDg6ki8XFTJ5MrK4cA9BAAvFH3QOc8JvMwK04Auo7v0a6nMgUh9JywOy
- vnFU9iKrEOrTAQtnb3tkPbS1BQOHqbXy+ztA32mexPMquOzWfGS9LufL2xgi7c2oGBvw
- P6MiRgka4nhLcHukI8w9b5HZ7DgksioopdxirelywxUCloGo6nzErwK+uzUGy8iEG2pV
- wJDA==
-X-Gm-Message-State: AOJu0YxMn1Cxq95tEkHB+qRkF3uJdIcEe4nfXF8OXLT7gloEtXhYNcXp
- 0KqyqGTrW7yKxjqXj9pOofI=
-X-Google-Smtp-Source: AGHT+IEK0Xg6qzH2Dm4yIDx6l93pGNsG8+Wuig0p6FBvwt9f5BaAcmHS/LJYC3ybdLbpAIlHcN2gnw==
-X-Received: by 2002:a17:90a:5217:b0:274:9409:bbca with SMTP id
- v23-20020a17090a521700b002749409bbcamr5793346pjh.3.1696076733186; 
- Sat, 30 Sep 2023 05:25:33 -0700 (PDT)
-Received: from swarup-virtual-machine.localdomain ([171.76.87.78])
- by smtp.gmail.com with ESMTPSA id
- q9-20020a17090a178900b0027463889e72sm3301661pja.55.2023.09.30.05.25.30
+ bh=DLeIJ/fAJFQuWgfN3SfqzLo+G0sfER2FPjENsdAZzLE=;
+ b=mU9OX4G2ocPcYm5GO3AcEymWenDzk1jDEMa5VvfajQFt3HewX/7sXdSqkz87hK0vPh
+ 8QBj9jTlo/8Jf9riEW4Ei6qx9TSbpZWa06vz017ah7U61gKC1cSgUS3i1ijihMVZmTF5
+ 1PXe6oFSyr+jehauq88I6I/3BgZDH5QgU4dacsbgBgwu9rzyRatl+ssWmZNGxEBGxD2y
+ fdKUzeCGE0/bYfWiZ/Jyz658VdH8fPyGyAXjmaPGO+qrRajQ9TXY2ff+kTcrHGnREGcZ
+ Bg5JhTs/h1vGqSbkaVjlzbshPWEOi6RstWtqGiWTZUQOzLil6DTGOrpY/8C8j8YE62Hk
+ my2w==
+X-Gm-Message-State: AOJu0Yz+l083SUo7imvQ1y+va0Y0Aw8ucRtNUMy/rUx8NjAQEVRa/dZO
+ gb6FF0M6Nvte7c15HSG6nRk=
+X-Google-Smtp-Source: AGHT+IFLX+X0bbprJYYxzfpMKb+uZKzOoBVsOhZSCU2aGF5m/fir3wpoVoZJzPPS/RknQ/D0E/cltQ==
+X-Received: by 2002:a05:6a21:33a0:b0:15a:4634:e4c with SMTP id
+ yy32-20020a056a2133a000b0015a46340e4cmr8807395pzb.5.1696102881879; 
+ Sat, 30 Sep 2023 12:41:21 -0700 (PDT)
+Received: from abhinav-IdeaPad-Slim-5-14ABR8.. ([103.75.161.211])
+ by smtp.googlemail.com with ESMTPSA id
+ i14-20020aa787ce000000b006900cb919b8sm16969510pfo.53.2023.09.30.12.41.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Sep 2023 05:25:32 -0700 (PDT)
-From: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-To: shuah@kernel.org, akpm@linux-foundation.org, hughd@google.com,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: [PATCH] selftests:proc add missing field KSM in smaps_rollup[] array
-Date: Sat, 30 Sep 2023 17:55:23 +0530
-Message-Id: <20230930122523.118173-1-swarupkotikalapudi@gmail.com>
+ Sat, 30 Sep 2023 12:41:21 -0700 (PDT)
+From: Abhinav <singhabhinav9051571833@gmail.com>
+To: shuah@kernel.org
+Subject: [PATCH] Added missing TARGETS in kselftest top level Makefile
+Date: Sun,  1 Oct 2023 01:11:06 +0530
+Message-Id: <20230930194106.1379527-1-singhabhinav9051571833@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Cc: swarupkotikalapudi@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Abhinav <singhabhinav9051571833@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -114,45 +113,81 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Missing field KSM is added in g_smaps_rollup[] array as it
-fixes assert in function test_proc_pid_smaps_rollup()
-
-Without this patchset test fails for "proc-empty-vm" as can be seen below:
-$make TARGETS="proc" kselftest
-...
-  selftests: proc: proc-empty-vm
-  proc-empty-vm: proc-empty-vm.c:299: test_proc_pid_smaps_rollup:
-   Assertion `rv == sizeof(g_smaps_rollup) - 1' failed.
-  /usr/bin/timeout: the monitored command dumped core
-  Aborted
-  not ok 5 selftests: proc: proc-empty-vm # exit=134
-...
-
-With this patchset test passes for "proc-empty-vm" as can be seen below:
-$make TARGETS="proc" kselftest
-....
-timeout set to 45
-selftests: proc: proc-empty-vm
-ok 5 selftests: proc: proc-empty-vm
-....
-
-Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+Some TARGETS were missing in selftests top level Makefile.Added those.
+Signed-off-by: Abhinav <singhabhinav9051571833@gmail.com>
 ---
- tools/testing/selftests/proc/proc-empty-vm.c | 1 +
- 1 file changed, 1 insertion(+)
+ tools/testing/selftests/Makefile | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/tools/testing/selftests/proc/proc-empty-vm.c b/tools/testing/selftests/proc/proc-empty-vm.c
-index b16c13688b88..ee71ce52cb6a 100644
---- a/tools/testing/selftests/proc/proc-empty-vm.c
-+++ b/tools/testing/selftests/proc/proc-empty-vm.c
-@@ -267,6 +267,7 @@ static const char g_smaps_rollup[] =
- "Private_Dirty:         0 kB\n"
- "Referenced:            0 kB\n"
- "Anonymous:             0 kB\n"
-+"KSM:                   0 kB\n"
- "LazyFree:              0 kB\n"
- "AnonHugePages:         0 kB\n"
- "ShmemPmdMapped:        0 kB\n"
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 8d9b2341b79a..14050f39cc5e 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -13,6 +13,7 @@ TARGETS += core
+ TARGETS += cpufreq
+ TARGETS += cpu-hotplug
+ TARGETS += damon
++TARGETS += dma
+ TARGETS += dmabuf-heaps
+ TARGETS += drivers/dma-buf
+ TARGETS += drivers/s390x/uvdevice
+@@ -22,6 +23,7 @@ TARGETS += dt
+ TARGETS += efivarfs
+ TARGETS += exec
+ TARGETS += fchmodat2
++TARGETS += filelock
+ TARGETS += filesystems
+ TARGETS += filesystems/binderfs
+ TARGETS += filesystems/epoll
+@@ -32,17 +34,21 @@ TARGETS += ftrace
+ TARGETS += futex
+ TARGETS += gpio
+ TARGETS += hid
++TARGETS += ia64
+ TARGETS += intel_pstate
+ TARGETS += iommu
+ TARGETS += ipc
+ TARGETS += ir
+ TARGETS += kcmp
+ TARGETS += kexec
++TARGETS += kmod
+ TARGETS += kvm
+ TARGETS += landlock
+ TARGETS += lib
+ TARGETS += livepatch
+ TARGETS += lkdtm
++TARGETS += locking
++TARGETS += media_tests
+ TARGETS += membarrier
+ TARGETS += memfd
+ TARGETS += memory-hotplug
+@@ -66,14 +72,18 @@ TARGETS += pid_namespace
+ TARGETS += powerpc
+ TARGETS += prctl
+ TARGETS += proc
++TARGETS += ptp
+ TARGETS += pstore
+ TARGETS += ptrace
++TARGETS += rcutorture
+ TARGETS += openat2
+ TARGETS += resctrl
+ TARGETS += riscv
+ TARGETS += rlimits
+ TARGETS += rseq
+ TARGETS += rtc
++TARGETS += safesetid
++TARGETS += sched
+ TARGETS += seccomp
+ TARGETS += sgx
+ TARGETS += sigaltstack
+@@ -99,6 +109,7 @@ TARGETS += user
+ TARGETS += user_events
+ TARGETS += vDSO
+ TARGETS += mm
++TARGETS += watchdog
+ TARGETS += x86
+ TARGETS += zram
+ #Please keep the TARGETS list alphabetically sorted
 -- 
 2.34.1
 
