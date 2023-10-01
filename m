@@ -1,97 +1,97 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E3111E748E9
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Oct 2023 17:08:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2EE0AE748E9
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  1 Oct 2023 17:32:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 6386760C15;
-	Sun,  1 Oct 2023 17:08:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6386760C15
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ik0JOr8/
+	by smtp1.osuosl.org (Postfix) with ESMTP id AB01A820F1;
+	Sun,  1 Oct 2023 17:32:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AB01A820F1
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gVqDhP3d
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nyTF_n5pj_oR; Sun,  1 Oct 2023 17:08:29 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id koKFAxP_0zYY; Sun,  1 Oct 2023 17:32:27 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 43FBA60BE8;
-	Sun,  1 Oct 2023 17:08:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 43FBA60BE8
+	by smtp1.osuosl.org (Postfix) with ESMTPS id ADD19820F2;
+	Sun,  1 Oct 2023 17:32:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org ADD19820F2
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1E716C0039;
-	Sun,  1 Oct 2023 17:08:29 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 15D14C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7BF45C0039;
+	Sun,  1 Oct 2023 17:32:27 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 016B6C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Oct 2023 17:08:28 +0000 (UTC)
+ Sun,  1 Oct 2023 17:32:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D89B260C0A
+ by smtp4.osuosl.org (Postfix) with ESMTP id C26B341961
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Oct 2023 17:08:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D89B260C0A
+ Sun,  1 Oct 2023 17:32:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C26B341961
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=gVqDhP3d
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id by5f9lE3-1za
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id vGyvqZ0x5Upj
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Oct 2023 17:08:27 +0000 (UTC)
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
- [IPv6:2607:f8b0:4864:20::430])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 3A31260BE8
+ Sun,  1 Oct 2023 17:32:25 +0000 (UTC)
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
+ [IPv6:2a00:1450:4864:20::62e])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id C6AD141D9E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  1 Oct 2023 17:08:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3A31260BE8
-Received: by mail-pf1-x430.google.com with SMTP id
- d2e1a72fcca58-6934202b8bdso4470339b3a.1
+ Sun,  1 Oct 2023 17:32:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C6AD141D9E
+Received: by mail-ej1-x62e.google.com with SMTP id
+ a640c23a62f3a-9b2d64c9307so90915766b.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 01 Oct 2023 10:08:27 -0700 (PDT)
+ Sun, 01 Oct 2023 10:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696180106; x=1696784906;
+ d=gmail.com; s=20230601; t=1696181543; x=1696786343;
  darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=kMbPHvTg3KYTqU6lv7R86vabK04eeF0+vWPKUI7IZ2g=;
- b=Ik0JOr8/0EXorgj/zILa/f5/X08hpfiw+U5UhJoJnzq4YRxVBpJ2Zjj3kQRcHBACYs
- /wdHXbdWqM0ku1rKK28MMjly0j4PBY9ezS7q20XErx68LvRgER1X7KVy+8yi/0jzAQtI
- WSBjoTKDG1kjDZS18aupmsbg8zbf2p05OafA2t9qNo+IUN1gg8C8vKTYwiiB8PL7v8Iw
- HbCpJt70+LjctSARq1wZiaQg90ilvHpesLfsnLyDAUDPhD7zwPzsTNvas0/Yeaa6WP4M
- sRidNA9jTJorRQEmK9lYWH+XqKcWoo4gMeUVxqsh1dBWRJOdhWlJEIF3OAL7Kck3/L9o
- 8NZA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=we3e5kSkpP5rDA8lM2ugzJT1PsRTrEqF+I696p7zYqY=;
+ b=gVqDhP3dxI9VVELrTPya3gtut0YTMiOicFwx2xQUJKwYaPe6IR5jGBAJu3uixbmtnp
+ bQz/hKGrfbKUifLOnVIADmpQdGj0tTcASLzraD3r/5WC8sAP+zkeq9wxlgybqzh9/bOg
+ zIOceQ7UsH+cOAbos6wFhXLORNkrQQeWuByZmxhCAjt+MKMOnSpX0WB9pR/i1+pMzMqA
+ CyRXvNUvrwHFnqfVXK8gLt8N0ncVRJR4bZFbP4p9Qo/rtR6zIREiyz4FPkUyZR7WDtrR
+ 7btYxs5yZ/6dMY8EVac8A2uguLn6nNP1JrtraGUXL2NQWiavgvastjL7LuRptV9EOODt
+ 9wkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696180106; x=1696784906;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1696181543; x=1696786343;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=kMbPHvTg3KYTqU6lv7R86vabK04eeF0+vWPKUI7IZ2g=;
- b=IdVJR83xa1hxuHy4W/vaZYQKwvLrFk0tzaWVIbavgq3z5F5xxLhBM0CZos3Tv99Zk4
- EgO5MY5mkSyTsXeZ7lAiGAWvF/jIRdrl/xsrbmntA/XsnKPSDJY6TIFG6Y/k3REfcPr0
- 3KSvrDfCCNT8650zwlKv9QujpstH2wVqF0RVQGRmh23FLFHzbmctk4PVaS6RO500/ahy
- 4J3YIxWSjpoXakc1lZpaUCZwwHPNMtSyH5cuw1BIK4t56yJFXoCXfErTuEX2So2eO3H6
- gYi2YcU7iQlnIMYDbzZ3qx/qDEMlVfnjWnCIis2JCly+lHflAoBV1rmI29kJGdkua/Z9
- /e7Q==
-X-Gm-Message-State: AOJu0YyOXF0q1viF/J2DGQduwNcs1BJdH1bXeeBddpbi8o5P5OGanbgg
- N0lTm7Itl99VukAYUbQSQpc=
-X-Google-Smtp-Source: AGHT+IGKB2PYrd5YyfAoImdg/5wvtBJ7JlGl0wk4+u0Zr0inVTGJQz2PAyH7NqOVLNxcLrhiRbDPbA==
-X-Received: by 2002:a05:6a20:96c3:b0:152:238a:f05b with SMTP id
- hq3-20020a056a2096c300b00152238af05bmr8105216pzc.53.1696180106449; 
- Sun, 01 Oct 2023 10:08:26 -0700 (PDT)
-Received: from swarup-virtual-machine.localdomain ([171.76.87.78])
- by smtp.gmail.com with ESMTPSA id
- n3-20020aa79043000000b0068e12e6954csm7590138pfo.36.2023.10.01.10.08.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 01 Oct 2023 10:08:25 -0700 (PDT)
-From: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-To: shuah@kernel.org, akpm@linux-foundation.org, adobriyan@gmail.com,
- hughd@google.com, linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] selftests:proc Add /proc/$(pid)/statm output validation
-Date: Sun,  1 Oct 2023 22:38:16 +0530
-Message-Id: <20231001170816.28241-1-swarupkotikalapudi@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ bh=we3e5kSkpP5rDA8lM2ugzJT1PsRTrEqF+I696p7zYqY=;
+ b=Qtz8qXHa0WTGdv13sjBJ8xTCFLfEzJiUh4rAzLN2AGNMB/jpC7IZQfsRO4f/+qi7B3
+ R0LAdf2djBxDyf8L03QJQWaLNSG4kwYgD9hqsZXttuJ7lcjh07mJ24xyQytISN6fvoUC
+ YNujGbEpmj+ap17SDIhNhKBI4eDOgcpoU4+aNy7utlhiVNHMk0hMAmHHMx4UoGFisQKq
+ r4HofG+D3+CycpkN+73UKTOi/6tlO7KW/Ddpa/jO80hAh7/sYYOiZB+jFI4uSYevmQqL
+ LpN1NewUT+QKOzjJnP8T5y0xQCWzEsrCBUUMbR/XxcK6TDm5INl6y4sbBEsjelFrudos
+ i2FA==
+X-Gm-Message-State: AOJu0YxMZMiK0m0zCFLpQoMiaJiK9tguO/8cHilSFTzk/A2gsnIXww1G
+ jV8skT0dFvCfuzv0o4RUNnTIVSrEQ43M5Fs6Wmc=
+X-Google-Smtp-Source: AGHT+IGWHEDWL8AuLOY7PVeS1KcNQMBqmHhwR7CcZl3U1yid6P53mgJEFjeCk1zi/DXtO0BOOeonsT9Uul+POqdWQ0Q=
+X-Received: by 2002:a17:906:74c1:b0:9ae:3ee2:6feb with SMTP id
+ z1-20020a17090674c100b009ae3ee26febmr6777641ejl.2.1696181542503; Sun, 01 Oct
+ 2023 10:32:22 -0700 (PDT)
 MIME-Version: 1.0
-Cc: swarupkotikalapudi@gmail.com
+References: <20230930194106.1379527-1-singhabhinav9051571833@gmail.com>
+ <2023100135-stiffen-depress-8121@gregkh>
+In-Reply-To: <2023100135-stiffen-depress-8121@gregkh>
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+Date: Sun, 1 Oct 2023 23:02:11 +0530
+Message-ID: <CAHvgv0Fsm2DzadwV2ECPWSvb2NDS-q06P8dcch=QEwE6+zLRvg@mail.gmail.com>
+Subject: Re: [PATCH] Added missing TARGETS in kselftest top level Makefile
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -103,87 +103,88 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============0951964195710351191=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add /proc/${pid}/statm validation
+--===============0951964195710351191==
+Content-Type: multipart/alternative; boundary="00000000000050d3cd0606ab0a57"
 
-/proc/$(pid)/statm output is expected to be:
- "0 0 0 * 0 0 0\n"
-Here * can be any value
+--00000000000050d3cd0606ab0a57
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Read output of /proc/$(pid)/statm
-and compare length of output is
-equal or greater than expected output
+Yes I tested and saw that the targets I added was missing.
+Reason for doing this is because I saw almost all dirs are included as
+TARGETS inside Makefile and some dir where not included, so individually
+tested whether the left out dirs are actual tests or not and if they are, I
+added them.
 
-Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
----
- tools/testing/selftests/proc/proc-empty-vm.c | 38 +++++++++++++++++---
- 1 file changed, 33 insertions(+), 5 deletions(-)
 
-diff --git a/tools/testing/selftests/proc/proc-empty-vm.c b/tools/testing/selftests/proc/proc-empty-vm.c
-index b16c13688b88..4b51b5d617e4 100644
---- a/tools/testing/selftests/proc/proc-empty-vm.c
-+++ b/tools/testing/selftests/proc/proc-empty-vm.c
-@@ -302,6 +302,37 @@ static int test_proc_pid_smaps_rollup(pid_t pid)
- 	}
- }
- 
-+static const char g_statm[] = "0 0 0 * 0 0 0\n";
-+
-+static int test_proc_pid_statm(pid_t pid)
-+{
-+	char buf[4096];
-+
-+	snprintf(buf, sizeof(buf), "/proc/%u/statm", pid);
-+
-+	int fd = open(buf, O_RDONLY);
-+
-+	if (fd == -1) {
-+		if (errno == ENOENT) {
-+			/*
-+			 * /proc/${pid}/statm is under CONFIG_PROC_PAGE_MONITOR,
-+			 * it doesn't necessarily exist.
-+			 */
-+			return EXIT_SUCCESS;
-+		}
-+		perror("open /proc/${pid}/statm");
-+		return EXIT_FAILURE;
-+	} else {
-+		ssize_t rv = read(fd, buf, sizeof(buf));
-+
-+		close(fd);
-+		size_t len = strlen(g_statm);
-+
-+		assert(rv >= len);
-+		return EXIT_SUCCESS;
-+	}
-+}
-+
- int main(void)
- {
- 	int rv = EXIT_SUCCESS;
-@@ -388,11 +419,8 @@ int main(void)
- 		if (rv == EXIT_SUCCESS) {
- 			rv = test_proc_pid_smaps_rollup(pid);
- 		}
--		/*
--		 * TODO test /proc/${pid}/statm, task_statm()
--		 * ->start_code, ->end_code aren't updated by munmap().
--		 * Output can be "0 0 0 2 0 0 0\n" where "2" can be anything.
--		 */
-+		if (rv == EXIT_SUCCESS)
-+			rv = test_proc_pid_statm(pid);
- 
- 		/* Cut the rope. */
- 		int wstatus;
--- 
-2.34.1
+Thank You,
+Abhinav Singh
+
+On Sun, Oct 1, 2023 at 11:37=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+
+> On Sun, Oct 01, 2023 at 01:11:06AM +0530, Abhinav wrote:
+> > Some TARGETS were missing in selftests top level Makefile.Added those.
+> > Signed-off-by: Abhinav <singhabhinav9051571833@gmail.com>
+>
+> You need a blank line here please.
+>
+> Also, why make this change, you are saying what you did, but not why?
+> Have you tested to verify that these targets were actually missing and
+> needed to be added?  If so, for what reason?
+>
+> thanks,
+>
+> greg k-h
+>
+
+--00000000000050d3cd0606ab0a57
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Yes I tested and saw that the targets I added was missing.=
+<div>Reason for doing this is because I saw almost all dirs are included as=
+ TARGETS inside Makefile and some dir where not included, so individually t=
+ested whether the left out dirs are actual tests or not and if they are, I =
+added them.</div><div><br></div><div><br></div><div>Thank You,</div><div>Ab=
+hinav Singh</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Sun, Oct 1, 2023 at 11:37=E2=80=AFAM Greg KH &lt;<a hre=
+f=3D"mailto:gregkh@linuxfoundation.org">gregkh@linuxfoundation.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, O=
+ct 01, 2023 at 01:11:06AM +0530, Abhinav wrote:<br>
+&gt; Some TARGETS were missing in selftests top level Makefile.Added those.=
+<br>
+&gt; Signed-off-by: Abhinav &lt;<a href=3D"mailto:singhabhinav9051571833@gm=
+ail.com" target=3D"_blank">singhabhinav9051571833@gmail.com</a>&gt;<br>
+<br>
+You need a blank line here please.<br>
+<br>
+Also, why make this change, you are saying what you did, but not why?<br>
+Have you tested to verify that these targets were actually missing and<br>
+needed to be added?=C2=A0 If so, for what reason?<br>
+<br>
+thanks,<br>
+<br>
+greg k-h<br>
+</blockquote></div>
+
+--00000000000050d3cd0606ab0a57--
+
+--===============0951964195710351191==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============0951964195710351191==--
