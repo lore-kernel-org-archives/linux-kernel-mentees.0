@@ -1,104 +1,76 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D37AEE784A4
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Oct 2023 07:27:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 23495E784AF
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  2 Oct 2023 08:58:17 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4DF0E41B46;
-	Mon,  2 Oct 2023 07:27:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4DF0E41B46
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=V8Q9Mbl9
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZJHcIufJs54b; Mon,  2 Oct 2023 07:27:55 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id EFFD041B3E;
-	Mon,  2 Oct 2023 07:27:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EFFD041B3E
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B9FDFC0071;
-	Mon,  2 Oct 2023 07:27:54 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 63F66C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Oct 2023 07:27:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 3FB23605A3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Oct 2023 07:27:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3FB23605A3
+	by smtp3.osuosl.org (Postfix) with ESMTP id A7D1C60BDD;
+	Mon,  2 Oct 2023 08:58:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A7D1C60BDD
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=V8Q9Mbl9
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=R3iroP1f
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QSKwgYfg-N-N
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TECSo2RzahCQ; Mon,  2 Oct 2023 08:58:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6AA2560BCA;
+	Mon,  2 Oct 2023 08:58:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6AA2560BCA
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3A2ADC0039;
+	Mon,  2 Oct 2023 08:58:15 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3F61C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Oct 2023 07:27:52 +0000 (UTC)
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com
- [IPv6:2607:f8b0:4864:20::62b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7FA386059B
+ Mon,  2 Oct 2023 08:58:13 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id C97D082045
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  2 Oct 2023 07:27:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7FA386059B
-Received: by mail-pl1-x62b.google.com with SMTP id
- d9443c01a7336-1c72e235debso10329625ad.0
+ Mon,  2 Oct 2023 08:58:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C97D082045
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (1024-bit key) header.d=linuxfoundation.org
+ header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
+ header.b=R3iroP1f
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6rwe86vMgwOU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 02 Oct 2023 00:27:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696231672; x=1696836472;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fKdhwE6Nvv6dfMJ1charSbuyq7vd9RUBMHfjBdkzVPc=;
- b=V8Q9Mbl9tV620xl6fUEsPGxKwybBIC8iw7hCgo9QDb11e5oA+Rsk900DMVEfC61K3F
- IkmqPdVWERGhvzvX7nVs4J3Tyy1Fw/veqvu0L5PweJNhogUBvf+vPupcayi7R433zX2+
- mIk1EMXt2r4fC4fpxmTcfsCdtoKG5cjsxndTIqsi/IrLdjw7zzbPjKWxzS1UuP8JY4xv
- UO+nOkDymGVMpErMTsFtVSKsuIQoLBVjW+SkbVVx1V3SNrqa7SMT9NaESMm8OXLukpUz
- 5eqQuQ0l6u3eY5DJR/sU4b5Mnb4zB//bq9vTBfFW9i0BXdGjlG0O+fGTXZAi1NmcjQ5W
- Y+NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696231672; x=1696836472;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fKdhwE6Nvv6dfMJ1charSbuyq7vd9RUBMHfjBdkzVPc=;
- b=pWgKsAK94ETx0uOomM6G39kzPz2Y8OiayFAm5CAbCRRaha5rfXLJW3oEKhAgxlfLcS
- KdSKj9Ye3jPA0BFHTOuOC1buq+g+wyWAXM36DH+iehF8HSjH8MH3wThI/bvnZfH7SRC5
- lXuruiHwFOpqLnkR6tWSYWfhCCi8LuuvhQGCc/lJEWzrUMs8Zk2qJlEp1O4cWvMm4OTk
- rX7pCos3BAVU/n9NTiEE3rjWGhExMpEPezKip9B+qdnIKt94FWF68shfx0lIYOpy4Twn
- U9w45soGsRFdFN9u/Wv4rLBciTH537cVZb6SjM5C++dd9gQUS42opDU6VRqIGdntydxJ
- JVxw==
-X-Gm-Message-State: AOJu0YxO1WSDSurbDRHlBB7HazhLTdm4wx5P1md4uUq/rYzg+dA0EmjZ
- 7PEB3GabYF0cSTCzx3edjXc=
-X-Google-Smtp-Source: AGHT+IHYjn8vbhw0v2ocpkuF8SIWfiwgwx7fIsV29nwtCJY3zotMPH6p6MLpJsCcAJDaxG3ZUVPSFQ==
-X-Received: by 2002:a17:903:41c1:b0:1bf:349f:b85c with SMTP id
- u1-20020a17090341c100b001bf349fb85cmr12573981ple.1.1696231671756; 
- Mon, 02 Oct 2023 00:27:51 -0700 (PDT)
-Received: from abhinav-IdeaPad-Slim-5-14ABR8.. ([103.75.161.210])
- by smtp.googlemail.com with ESMTPSA id
- 4-20020a170902c14400b001c755810f89sm4059895plj.181.2023.10.02.00.27.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Oct 2023 00:27:51 -0700 (PDT)
-From: Abhinav <singhabhinav9051571833@gmail.com>
-To: shuah@kernel.org
-Subject: [PATCH v2] Added missing TARGETS in kselftest top level Makefile
-Date: Mon,  2 Oct 2023 12:57:35 +0530
-Message-Id: <20231002072735.1566009-1-singhabhinav9051571833@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <2023100135-stiffen-depress-8121@gregkh>
+ Mon,  2 Oct 2023 08:58:11 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id C9ED380C66
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  2 Oct 2023 08:58:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C9ED380C66
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9F98260C89;
+ Mon,  2 Oct 2023 08:58:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1E7EC433C8;
+ Mon,  2 Oct 2023 08:58:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1696237090;
+ bh=8abm9OAu+6R2eeXjvqzEvTzOpfgxvqtX2BvAOig38Qc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=R3iroP1fgcPCfVuj+LKeoTyHLNnOW1uVwQiT1WrjNYg+BWp/TPOvIaG7m1vjEea9n
+ f1i0I0RO0TojNIyE2LzamXcwGlHYmuYAZSVRpu9dFBN8Nd2OWywNdtZBxplEoB3n9k
+ 3vAAbta8hvhd0hnSSJwqg0kwzk5vjWWX98klWb5Q=
+Date: Mon, 2 Oct 2023 10:58:08 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhinav <singhabhinav9051571833@gmail.com>
+Subject: Re: [PATCH v2] Added missing TARGETS in kselftest top level Makefile
+Message-ID: <2023100251-recycled-purist-1ea5@gregkh>
 References: <2023100135-stiffen-depress-8121@gregkh>
+ <20231002072735.1566009-1-singhabhinav9051571833@gmail.com>
 MIME-Version: 1.0
-Cc: Abhinav <singhabhinav9051571833@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <20231002072735.1566009-1-singhabhinav9051571833@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, shuah@kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -116,68 +88,44 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Some tests like dma, ia64, etc. were not present in top level of
-selftest Makefile, so when someone ran 'make run_tests' they would miss
-these tests. This patches adds those left out tests.
+On Mon, Oct 02, 2023 at 12:57:35PM +0530, Abhinav wrote:
+> Some tests like dma, ia64, etc. were not present in top level of
+> selftest Makefile, so when someone ran 'make run_tests' they would miss
+> these tests. This patches adds those left out tests.
+> 
+> Signed-off-by: Abhinav <singhabhinav9051571833@gmail.com>
+> ---
+>  tools/testing/selftests/Makefile | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
 
-Signed-off-by: Abhinav <singhabhinav9051571833@gmail.com>
----
- tools/testing/selftests/Makefile | 7 +++++++
- 1 file changed, 7 insertions(+)
+Hi,
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 8d9b2341b79a..dc138c1dcb4b 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -13,6 +13,7 @@ TARGETS += core
- TARGETS += cpufreq
- TARGETS += cpu-hotplug
- TARGETS += damon
-+TARGETS += dma
- TARGETS += dmabuf-heaps
- TARGETS += drivers/dma-buf
- TARGETS += drivers/s390x/uvdevice
-@@ -32,17 +33,21 @@ TARGETS += ftrace
- TARGETS += futex
- TARGETS += gpio
- TARGETS += hid
-+TARGETS += ia64
- TARGETS += intel_pstate
- TARGETS += iommu
- TARGETS += ipc
- TARGETS += ir
- TARGETS += kcmp
- TARGETS += kexec
-+TARGETS += kmod
- TARGETS += kvm
- TARGETS += landlock
- TARGETS += lib
- TARGETS += livepatch
- TARGETS += lkdtm
-+TARGETS += locking
-+TARGETS += media_tests
- TARGETS += membarrier
- TARGETS += memfd
- TARGETS += memory-hotplug
-@@ -66,6 +71,7 @@ TARGETS += pid_namespace
- TARGETS += powerpc
- TARGETS += prctl
- TARGETS += proc
-+TARGETS += ptp
- TARGETS += pstore
- TARGETS += ptrace
- TARGETS += openat2
-@@ -99,6 +105,7 @@ TARGETS += user
- TARGETS += user_events
- TARGETS += vDSO
- TARGETS += mm
-+TARGETS += watchdog
- TARGETS += x86
- TARGETS += zram
- #Please keep the TARGETS list alphabetically sorted
--- 
-2.34.1
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
