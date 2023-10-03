@@ -1,78 +1,79 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 88E1DE75450
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Oct 2023 11:40:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id E7126E7AD77
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Oct 2023 16:41:16 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0A2FC61150;
-	Tue,  3 Oct 2023 11:40:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0A2FC61150
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=hSVvXxhn
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ufZeP3ZQg0EY; Tue,  3 Oct 2023 11:40:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B163760AEC;
-	Tue,  3 Oct 2023 11:40:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B163760AEC
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9503CC0039;
-	Tue,  3 Oct 2023 11:40:12 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9CDBCC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 11:40:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 71B24408ED
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 11:40:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 71B24408ED
+	by smtp4.osuosl.org (Postfix) with ESMTP id 68CAA416C4;
+	Tue,  3 Oct 2023 16:41:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 68CAA416C4
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org
- header.a=rsa-sha256 header.s=casper.20170209 header.b=hSVvXxhn
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Ohzgz7ht
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 1SrlyQsfNPWv; Tue,  3 Oct 2023 16:41:15 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E5B9B417C4;
+	Tue,  3 Oct 2023 16:41:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E5B9B417C4
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CDC28C0071;
+	Tue,  3 Oct 2023 16:41:14 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 447CFC0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Oct 2023 16:41:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 09BBD417C4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Oct 2023 16:41:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 09BBD417C4
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZEuUZWwndpm8
+ with ESMTP id qYkQCnma8pdn
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 11:40:09 +0000 (UTC)
-Received: from casper.infradead.org (casper.infradead.org
- [IPv6:2001:8b0:10b:1236::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4B07740382
+ Tue,  3 Oct 2023 16:41:10 +0000 (UTC)
+X-Greylist: delayed 598 seconds by postgrey-1.37 at util1.osuosl.org;
+ Tue, 03 Oct 2023 16:41:10 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 95FCB416C4
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 95FCB416C4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 11:40:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4B07740382
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=0hVrByY9OZMwSDVH4NovQCWUi18feulbnZSSWENahGo=; b=hSVvXxhnluuBkQzvcowECzcZFw
- tYY0dT4IQ7hyJCFF4qhBYq3cYI2yhXvGfhlBkxAdxO6RWGgStz33lCrIT5N/eWO1+gANcwuxROBhs
- OuBiGuhXxWcToFjgeCs/oUNPU/FCAcnQl2I0lIaiD1L10SqCS7ZjwxZkLMM5E36hGOgSwWJmrkKxF
- 39IxjbYKBloEF9hcCDCQuCS7ESqNcx453xtfd1mbehjMkLwXeiNSDgUsd6Oogc0Qej6k7Regmjy9d
- YzHs0ftfUxyqY4Axkr94WYVfciIe4QtfZXRDeA4oRGwapuKy2jVBW+wMZeNgJ6KcJsf4D6v83yFBX
- PmNROhpw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red
- Hat Linux)) id 1qndkv-00EmKj-A6; Tue, 03 Oct 2023 11:40:01 +0000
-Date: Tue, 3 Oct 2023 12:40:01 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Juntong Deng <juntong.deng@outlook.com>
-Subject: Re: [PATCH] pagevec: Add remaining space check before adding folio
- to batch.
-Message-ID: <ZRv9kXspdAZ5OamD@casper.infradead.org>
-References: <VI1P193MB0752429AFF2B87041B0D9E2799C4A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ Tue,  3 Oct 2023 16:41:10 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::646])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ms.lwn.net (Postfix) with ESMTPSA id 93AEA2B4;
+ Tue,  3 Oct 2023 16:31:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93AEA2B4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+ t=1696350671; bh=Gehdcdnf+A4CsEvU65+tetDAgnqQs9RkmnesjHWCM08=;
+ h=From:To:Subject:In-Reply-To:References:Date:From;
+ b=Ohzgz7htoFlZeGQCP6pIrq1QIAoIxUyNPAZ2Feb+Hi7yqoYx+aJikuJWnzMibvfSx
+ a9jMFb6bgTVBqyHPR4XipyfgQKbLhPzE2Vl4qia/GsE33wJv6hXwV41mSBbUkAjWbA
+ 3ukODpRmXqZGps2T7zYq2XmCqxJhCMG6hQPWY3L7lsNYBt6gBJwwc+cvSepXPJhGbV
+ DbObOhDJkwdvzhghNBbIug1NACrIOVgjscJDDAVsHAAGq8o8sPa5MuTYSoUOOYk6ov
+ s26wC8rFb76KSS8iDEoKPxHaplQzqRKKpaOpBB5MooD5IGd/in/Y7SgtcALyyKe6gd
+ bjmcasDAeKFTg==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, Claudio Cambra
+ <developer@claudiocambra.com>, skhan@linuxfoundation.org,
+ ivan.orlov0322@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] docs: Fix Sphinx 8 warning caused by paths represented
+ with strings
+In-Reply-To: <5fd1b5cd-ea6c-44a1-9cb5-8f692d32ec99@infradead.org>
+References: <20230924184057.91861-1-developer@claudiocambra.com>
+ <5fd1b5cd-ea6c-44a1-9cb5-8f692d32ec99@infradead.org>
+Date: Tue, 03 Oct 2023 10:31:10 -0600
+Message-ID: <87y1gjd5wx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <VI1P193MB0752429AFF2B87041B0D9E2799C4A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-Cc: lstoakes@gmail.com, linux-kernel@vger.kernel.org,
- syzbot+e295147e14b474e4ad70@syzkaller.appspotmail.com,
- akpm@linux-foundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- vbabka@suse.cz
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -90,13 +91,50 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Tue, Oct 03, 2023 at 05:18:52PM +0800, Juntong Deng wrote:
-> Currently there is no check for remaining space before adding folio to
-> batch, which means that folios can still be added via folio_batch_add()
-> when the batch is full and cause errors.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-No.  This is an ntfs3 error.  It corrupted the stack.  You can't fix
-this in pagevec.  Ignore all syzbot treports that involve ntfs3.
+> Hi,
+>
+> On 9/24/23 11:40, Claudio Cambra wrote:
+>> Running "make htmldocs" generates several lines of this warning:
+>> 
+>> Documentation/sphinx/kerneldoc.py:141: RemovedInSphinx80Warning: Sphinx 8 will drop support for representing paths as strings. Use "pathlib.Path" or "os.fspath" instead.
+>>   doc = (env.srcdir + "/" + env.docname + ":" + str(self.lineno))
+>> 
+>> Making "doc" an fspath type and creating a new variable with the
+>> appended colon and lineno fixes this warning.
+>> 
+>> Signed-off-by: Claudio Cambra <developer@claudiocambra.com>
+>> ---
+>>  Documentation/sphinx/kerneldoc.py | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+>> index 9395892c7ba3..e2c835e10dba 100644
+>> --- a/Documentation/sphinx/kerneldoc.py
+>> +++ b/Documentation/sphinx/kerneldoc.py
+>> @@ -138,7 +138,8 @@ class KernelDocDirective(Directive):
+>>                      lineoffset = int(match.group(1)) - 1
+>>                      # we must eat our comments since the upset the markup
+>>                  else:
+>> -                    doc = env.srcdir + "/" + env.docname + ":" + str(self.lineno)
+>> +                    doc = os.path.join(env.srcdir, env.docname)
+>> +                    doc_with_line = (doc + ":" + str(self.lineno))
+>>                      result.append(line, doc + ": " + filename, lineoffset)
+>>                      lineoffset += 1
+>>  
+>
+> This patch should be sent to the linux-doc@vger.kernel.org mailing list,
+> with the Documentation maintainer copied on the patch.
+>
+> We also have this similar patch to consider:
+>   https://lore.kernel.org/linux-doc/20230910040811.53046-1-erer1243@gmail.com/
+
+I have, in fact, applied that other patch.
+
+Thanks,
+
+jon
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
