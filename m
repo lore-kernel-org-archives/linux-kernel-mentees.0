@@ -1,104 +1,215 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 63903E8FDA9
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Oct 2023 19:43:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 45649E8FDBF
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  3 Oct 2023 23:22:45 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EA97341864;
-	Tue,  3 Oct 2023 19:43:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EA97341864
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TCUJ2A2n
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id OyIwMThCtnZa; Tue,  3 Oct 2023 19:43:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E4636401B2;
-	Tue,  3 Oct 2023 19:43:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E4636401B2
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id CC5A9C0039;
-	Tue,  3 Oct 2023 19:43:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 594AEC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 19:43:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 282B160BBC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 19:43:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 282B160BBC
+	by smtp3.osuosl.org (Postfix) with ESMTP id B6D5D60598;
+	Tue,  3 Oct 2023 23:22:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B6D5D60598
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=TCUJ2A2n
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2023-03-30 header.b=SBUAz5Yi;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-oracle-onmicrosoft-com header.b=QIk9lcO4
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gNxKGpraIWNN
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 19:43:30 +0000 (UTC)
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 7D73560AB2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  3 Oct 2023 19:43:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7D73560AB2
-Received: by mail-pl1-x635.google.com with SMTP id
- d9443c01a7336-1c6219307b2so9682405ad.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 03 Oct 2023 12:43:30 -0700 (PDT)
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 3VSWIVBfF556; Tue,  3 Oct 2023 23:22:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 71D1460ABD;
+	Tue,  3 Oct 2023 23:22:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 71D1460ABD
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 58574C0039;
+	Tue,  3 Oct 2023 23:22:43 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EA65EC0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Oct 2023 23:22:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id ADC1F41F6F
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Oct 2023 23:22:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ADC1F41F6F
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com
+ header.a=rsa-sha256 header.s=corp-2023-03-30 header.b=SBUAz5Yi; 
+ dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com
+ header.i=@oracle.onmicrosoft.com header.a=rsa-sha256
+ header.s=selector2-oracle-onmicrosoft-com header.b=QIk9lcO4
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0z9bbe8JyINv
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Oct 2023 23:22:41 +0000 (UTC)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id DAA7B41E70
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  3 Oct 2023 23:22:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DAA7B41E70
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 393I4N55004021; Tue, 3 Oct 2023 23:22:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2023-03-30;
+ bh=X8UeJfPlGgEooasWfuAYGIj/2KRAUGdoAy1aMkgSjnQ=;
+ b=SBUAz5YiZ+Twxk/4j09V7gjidX60sP1e6suNzCHHiSgD7gQCajWVU0au7dLClvJWJpRk
+ BwpuccqRbifmihY/oVj4Om6JrxzSNmo2fAWokMOI+o716VSf006ywr55u3QcawTP3HvX
+ PA1c66zDrMMACR8wHEOjvmrBID0Zw91yD/fWCf31/ATcjfZ0oUw6uCUUpDmXPcPg6+4P
+ V64G1nbx5SRvc4N51W3aKvx5u84QEVZwF7HlowRBW9my5ZtdLVY7xeoCG25AXvx0QXbN
+ UehiCZbDJt0TFq032diEP+lW6XL18Fa3iEquI1y4WPNkdxbDtdYi0K6PaY1NWSuGyjSa Pw== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3teb9udw9h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 03 Oct 2023 23:22:34 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19)
+ with ESMTP id 393M0wur025724; Tue, 3 Oct 2023 23:22:33 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3tea4d5sm5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 03 Oct 2023 23:22:33 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wn7EZDH1Oo0pyhnyOnA6tMDlY5QUEBl4NwfGj5s7kNg+kBHgi33E/ZHabL7ODLmXNBYYxwe5mjVB/WDbvyRO+BmKxFCzFjw9iVbYr9Zxp3qKYw8aAxOaHFry1fmxmKpkDkz0GFvNfOF37QkDRIk1uUvTc73vHxwq0whssjP+47eDfdxAHUAGp/pNEO5/3Cr4M17XDwxj1wZjWz2PVzAZ0Ex7LXnk8ASIZEeSVSJbw1S0i2cVAjHJGs4GOIx+lNASMsZQItFVzjFdtiGOj3YCJMZL4GdVWZyFVzp2kMI/LjJVMei4xOH3eQiAyaUCff7Sa4dGlCDzERGsFOB324DsGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=X8UeJfPlGgEooasWfuAYGIj/2KRAUGdoAy1aMkgSjnQ=;
+ b=CzlA8K0lnQjo8/5V8LIiWOrqFyQlUjxXC4R29CeM/BoGZ/lAWfo+Q+euqqDQdoMlJqoWuH8gKhj5efo40WnwC2PwdSKW7A3MJdHTxkFa274ENnzM1ftrYik/YNm1C1EE+tudXtokjBKRyZNN+lMpNHVvpCLBqxu8m3ZNM/72Nbv0QeA2B4PKL/+D2RzzlkeSfCkZN+cqUMhcctHdqhXBO0WWBUSVIcpcoYiVu0Yu6j5RxIsiRH16ghxMAgiYQ6HpAAt5tD3fadgPjOTPxyV81qDiFewoSdA9jfif0sB0q0AJ151kqo9y8pveUgnryIZlVbZkoh56c0wKqjxyHyHf/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696362210; x=1696967010;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MbdHdhO4/8XQFhe6TXvhjzuMCQeWe1W0DXY8haIPqBM=;
- b=TCUJ2A2neD4f0oIeYPcw2Q4qtkEi38gQMgBJW77wi8R+uk8UHBBorbflOL/ju54MR+
- S74I6laaMLWTOy0ZzdktdtgPhLXKO65CzN3SHiwJXIzhfR2akgGpVkOTu6y2olqczDKI
- aCg4em8qwKGpbyW5UkTXjZaRa73NoCFXf/PjvYqNhhNXjBnkGIE/Dzk6AT3RcOiZCYqG
- HDn+iNMDo7RiRDGNPvl9XOGl9/sUtGzv0gL/W2DLzP03YuT7SmXEXGeOe7n562gdtbe0
- HPH010YU4pk3cAMSUspCJnJWpxOugeb09ES3HBtOcXIAiqkMyr8WG97WrgSUi4Y0Gl0g
- legg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696362210; x=1696967010;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=MbdHdhO4/8XQFhe6TXvhjzuMCQeWe1W0DXY8haIPqBM=;
- b=Gku6ksj0qtKRe2zPU3HpfXr5Uu38XDNB7Zs4L7kU5rRJ2qBMaVOyFjMIrfTUqvqpXz
- Fv93RoWyvN6qzK7dB2GgzMtP4OHoK0osb6UTuketPGC67sqvazrZ8Op6L0uFJ4sE/C4y
- jIRI1aRUg7jIqqpPfcDS/tx1HmVBNUfR5L9ke5A+6+GI3r7eSFAxOOsuNCFWjHp9O7BP
- rlQ4/6vTsaHJ25lPRqzf1P5XzgC8ZBd2U5gVmT/OZ4Lbtkosx57AvJif5l5eCX2y9yJf
- I4M4GLOF3q16euJihU/wotmsEpLdSrgxt0T+/jSkXhEl5Pbcrq9t5TWsUvkMqrCtawyt
- lY4w==
-X-Gm-Message-State: AOJu0YwtmBlHibxYYTac8OrYeaQvb5/y+0qMY2vPbd5Ef8st4/DBX8tU
- zeN6hj0CtfPAwUkEoPNR+SE=
-X-Google-Smtp-Source: AGHT+IE8Zzd5tPTms4qpIkKaLgA/vVn5aDnp/RRxtPIznkHxLLVZPVZ1k3dVVvKti/qDIrBu38AJSg==
-X-Received: by 2002:a17:902:d4cd:b0:1c4:3294:74ca with SMTP id
- o13-20020a170902d4cd00b001c4329474camr590332plg.17.1696362209640; 
- Tue, 03 Oct 2023 12:43:29 -0700 (PDT)
-Received: from swarup-virtual-machine.localdomain ([171.76.87.78])
- by smtp.gmail.com with ESMTPSA id
- l8-20020a170903244800b001bc2831e1a9sm1989965pls.90.2023.10.03.12.43.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Oct 2023 12:43:29 -0700 (PDT)
-From: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-To: adobriyan@gmail.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, shuah@kernel.org, hughd@google.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2] selftests:proc Add /proc/$(pid)/statm output validation
-Date: Wed,  4 Oct 2023 01:13:19 +0530
-Message-Id: <20231003194319.602646-1-swarupkotikalapudi@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ZRsDWFxy3rcILfxg@swarup-virtual-machine>
-References: <ZRsDWFxy3rcILfxg@swarup-virtual-machine>
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=X8UeJfPlGgEooasWfuAYGIj/2KRAUGdoAy1aMkgSjnQ=;
+ b=QIk9lcO4UrcKZ8H5VLfMRnRjihB61W/hRDqUsAWo4dJkTjkRgixegHXcJPyRQ5n34IPpJVmGbuBeCYfxEAgt1HQvRHZ7E0lkOwys9sbFNUQrP/DI7ryhEcqhR7Zj1aln1c8jFZlBqHl2nsDYBdq9xwDD5x32pHp1KlyHG65959g=
+Received: from MW5PR10MB5738.namprd10.prod.outlook.com (2603:10b6:303:19b::14)
+ by DM6PR10MB4396.namprd10.prod.outlook.com (2603:10b6:5:21e::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Tue, 3 Oct
+ 2023 23:22:32 +0000
+Received: from MW5PR10MB5738.namprd10.prod.outlook.com
+ ([fe80::5943:cf66:5683:21be]) by MW5PR10MB5738.namprd10.prod.outlook.com
+ ([fe80::5943:cf66:5683:21be%4]) with mapi id 15.20.6792.024; Tue, 3 Oct 2023
+ 23:22:31 +0000
+Message-ID: <727579ab-94d5-49d5-aee0-23e69b9472ad@oracle.com>
+Date: Tue, 3 Oct 2023 18:22:28 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] jfs: fix array-index-out-of-bounds in diAlloc
+Content-Language: en-US
+To: Manas Ghandat <ghandatmanas@gmail.com>, shaggy@kernel.org
+References: <20230926071312.14086-1-ghandatmanas@gmail.com>
+From: Dave Kleikamp <dave.kleikamp@oracle.com>
+In-Reply-To: <20230926071312.14086-1-ghandatmanas@gmail.com>
+X-ClientProxiedBy: CH0PR03CA0254.namprd03.prod.outlook.com
+ (2603:10b6:610:e5::19) To MW5PR10MB5738.namprd10.prod.outlook.com
+ (2603:10b6:303:19b::14)
 MIME-Version: 1.0
-Cc: swarupkotikalapudi@gmail.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW5PR10MB5738:EE_|DM6PR10MB4396:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b979484-26fb-40a2-845d-08dbc4679e18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: n/oz2Z0upipP5fJjP/1uYi0fqYg40Fn+Gyyy76jCpktcCZHk1ZYLTk95HUdyllR3ptQiFhtSTkoQ01iVH84QgVmPEgNJwnnjxKO2wZe//OhYPiCWR0gVcDGuOC6+0vVpYRHbnpfRtoqAYn4vjTPbWaq0Fy4hYFKLbay52a+v4jsUnSmmYpQUKTGRLnqe8olPTz1BGJXOYXmloZH5+60Vpj51mK+qpLuAMPokMA1aBoDulVOv0r/ENrJxKnqOPDad61bh3El5/zY8DQgeH783jFYbWnYAvQKoQdRUs5bKKrM1jJ1TDP1zuJNQ0SSCc1TvFm2ZoEq5vybJdgsC0KxIVN6uB8y/E89vVVZbb+Nrpy635zylW1WqNnvhEX+joI1o/rIEAM6EfDaT529CtYiKBAWnqPnTbX6FDAPW3inyhS4oRnjAg2mVKS9ugC6g8w+XvCtF93hvh30MKOBbZUB7MVAx47vM6d6oxs35vPhPDmTpEOLAjbnytz/kMCv63e1siJbPo8m8oGpN03zKMRrlwJB5Xbz3JlRPidqY6HjMzYa7/cCle7jKgpicSbJgj+z9X1WBniNkS1FsPaonKEH6Pa9ntpdFsUeoFdq8kAVHTZOzQL0Um7yiku9UltuXy3iMkorZ7C3TaEfAn/OggJa8aA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW5PR10MB5738.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(346002)(39860400002)(366004)(136003)(376002)(396003)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(2616005)(26005)(5660300002)(6666004)(8676002)(4326008)(8936002)(86362001)(31686004)(478600001)(31696002)(6486002)(66556008)(38100700002)(66946007)(66476007)(316002)(36756003)(2906002)(6512007)(4744005)(83380400001)(6506007)(41300700001)(44832011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2RkSU5sSXp5RW85dlR1cHh5ck9FR3d6TFBtMUVZMWNjOHJkZFI2bEorc1h0?=
+ =?utf-8?B?alhtaEpyMmQ2UVIwRHN2SGw2Mk11VTRPbXZjcTdsMGJHbWdqV0lhYjcva0RG?=
+ =?utf-8?B?c0xkNmdZdzBwRjRQS3lxYitQKzBhZWRpcXFWemZ1RmwyS21rcU95aDc4Wnhs?=
+ =?utf-8?B?T1pXYWlFQ09JWWRwTGJ0WVJLa0RyNlRsdnJoT0tIOG92ZnlpbDBRWC9ZYTB5?=
+ =?utf-8?B?L0NOdXBhdzcxaVJDWm5reWhsN0Z3L2xkZzRzT29xZ05ZZXBsaDFFbXJGdWRC?=
+ =?utf-8?B?cWVqN3BVSlhLNExhQWJES2tuQ2xPZFVBRkNJVnV5VWhKUVY4MUpDQzBVd0VS?=
+ =?utf-8?B?dWt3RWRRQmJxSWJuQ1d2OWJya1JKOFc0QnBwYlArRHJlTzVhQ3czUlZCYm5m?=
+ =?utf-8?B?d3NRckMxREhib1k0NDBXMWZKNmxqc0tzY3NIdkNiWlBJQXRkNTVxeHhyZnY1?=
+ =?utf-8?B?Y1pKSU9Pclhwd0gySzJPeXdSTm16MEhkbTVqQzhCVFcvbEdrMnhQS1NVUEZI?=
+ =?utf-8?B?cVluWmxaTUZkaTNWTm5IS1lYS21nV3J0TWszZm02MWxvQ3pvTGNLcDJOcHg4?=
+ =?utf-8?B?dklseWlkbENpYksrZTBRTklyWFBkRUFzZUlUdStUa3ZlcE9RN1REb2tGSFBv?=
+ =?utf-8?B?TGM5cS9NNHkrRmN3SUlUOXVjdnVuMHE0SHVoUDlWRTYzUlNIbXF4a0gvRjN5?=
+ =?utf-8?B?bGNYOXZmWFBCazdKbmh3ckNvVSsvT0w1T1N4bGE1Vm40dG1LeFRaMmZ2VW0w?=
+ =?utf-8?B?dkpwZzhJdkRlWENNa1BlRHFBTHFwOTlqdEpTZjlnQ3RNNkFQMUQ0eHR5S1BH?=
+ =?utf-8?B?VjZpbjBIRDN1ZC9mdkVSV1ZERlQwbDYyVmdoajlyN3hSKzFubjF5QS9xeXJ0?=
+ =?utf-8?B?UWRLMnJsSDRiZjZFR3dCSnFNeXpQMGxORzQxbTE0Y3Y0SXBGRFBLbWgzSlZ3?=
+ =?utf-8?B?TncvbEFlS25wai9obDRwVHo5aTRLQzJocjJ4L2t0UGF4LzRNZk1QUUp0UlQy?=
+ =?utf-8?B?dWw5NENINXo0dkZML0VITjJ1Vjl1WUJrNUFlSFhWbC9kR2k2UjcwRHFkNWNG?=
+ =?utf-8?B?Yko5MDB6YWxsV3Bnd2dNb2wyZG5LdWpna0VyRmpsZWQyNEtjS0JRN2FuODJJ?=
+ =?utf-8?B?dDJjTktBdHAwZFNKeUNodlBYV1Y2MjZxVldLVk5EZE80b2UveE1URDNOV29x?=
+ =?utf-8?B?OW5Sa3dHQ2piZlYxVEpKSWpVanFYc2QzbXB5OEgyYkVQSFZ6WklEUmRxMTFV?=
+ =?utf-8?B?aTNsRW81UElhTmtYc1V6VnZNYitPeEludjR4emJJdmhKT2VJVGVySkNLb044?=
+ =?utf-8?B?S0srUTV4UFdIblRkTnVtaVBWSGwwSXgrbFVZSUZSUEFDUkl1QXpyYkVLNmZu?=
+ =?utf-8?B?aHhBKzQ1YjJPZVhISFh1V2FMVWpvS1ZFVVYwd0ZySXd2SE5ERnBYQi9wZHJq?=
+ =?utf-8?B?QUNsUkkxZmdzOWhvQlA4czhsdkN0b0YvNW5Qc2lsSTNrUVhUOHZXVllRc05y?=
+ =?utf-8?B?NVphbkI1SzBET1lsOFkzRzdQaWJ3R1BkUHVqWmxTdTR3MkgxKzFXTjBOdFlY?=
+ =?utf-8?B?OWwwZ0ZNb0h2MzlBRjhoaXdNUmZqallUNUhYUGkzcEZ2SEJJOGx6eUJYNnNz?=
+ =?utf-8?B?dThxVnpielVJb0NDV3gzMzdFaGJHd1doVHJ3djZIVVIzOEtpTWNaTUxKK2hi?=
+ =?utf-8?B?cmg0WjcvM2pZZkF3UHZYU2hncXM2NzFqK3JjdVBkb2NYMDNGS1R1MWhjK3A5?=
+ =?utf-8?B?ZDRWNzFXb2I2a2JmTlY5dFFlQkpWRnJwSmIyaHF4a0ZLdGZXaGVkSStQWG9t?=
+ =?utf-8?B?amxma1A1WjFiWktPY2lWYWRuUldlVzVWVjQzVHhDeHdubmcyN1FVT2MzS0Jt?=
+ =?utf-8?B?cFZVMVlyVDBrRG9uL1RTSWRZNjRIZVB3ZFF5TTNTUlZSbGozQ3VKeHd2VzFU?=
+ =?utf-8?B?Wkd0azcwOTZBM0RrdTFPbHNmTVprTXh6TWZlYWJSTSt2eHF0eW5UZkZqZXZ2?=
+ =?utf-8?B?QlRxQjNFc1NkVlRNK2djTDZmaklJbEMrWS8rcGgrNFdOMmF4ZHp5b2hGVWNP?=
+ =?utf-8?B?Ym9iZnJtcFc4bURXVFhzMlIwWE5QaWVhT01LbEFVN2JoUTJRREIrMVpuanRa?=
+ =?utf-8?B?WkN1SEJMZlFnMHhPSmI5RGZNYUlHRnQzWFphOWFza0doQmc1TGVtK1dzRmtO?=
+ =?utf-8?B?c1E9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?utf-8?B?UjFWTEtPa1BRRkY0ZzVmK2ovdHMrNnh5K3NSR2hpOEd0Z0hvVUhWY0pwaW0y?=
+ =?utf-8?B?QW9oUlgrU1p3cXpRTnlVMzdQbmFZUmErcjhQelRBWllJU3RIYTFERmxPa0ZE?=
+ =?utf-8?B?N2tScGxhdFN2RklLNVVKOXJoa3g5QnNVOFlxSGM2OFlvTE5TTXFQZXVFTkM0?=
+ =?utf-8?B?V29VMnZENG5heXJsUDZKSTV6N0hJQllFaHNVSTRidUFvWkxNWWVLbTNNOWVu?=
+ =?utf-8?B?RmN6RWN5Q1dvUFVZdUhCMmpxT1AwUUxWRkZBSnlqNVJDQ3FQcVN5THJNcWs3?=
+ =?utf-8?B?UlRCUVlmMmdLT1pYNEFzNnBmclZUdVdFcUpwbCtaOTZ3UWhHdHM1QnFrTmN0?=
+ =?utf-8?B?WUx2ako5eERTR1cyaUZvcUNHbTZMSjlla1U2VHphRUtRSXFSUlpKRzh5aThQ?=
+ =?utf-8?B?cDdKOTUwdXhQM01JcTlvUjFBWTQ2RFNKQXlZamdJdE5LempWL0tmNkpsUkNz?=
+ =?utf-8?B?SnpqdlBNajJOWVQ4YVFoampsZlRySDZScUgxTWtleU5UVWFxQkcwS2p3WEx6?=
+ =?utf-8?B?cG5BejBMWmVmcnVPVFZ3T3B3MkJWMkJxYUZTM2NUZTEycisvT1NYZytpWnRy?=
+ =?utf-8?B?VFdhTVF1TEM0NFNKejJZSjI1a3ErN0Z6VzNOU2RDMkxwanVodDhGNmtiV2pn?=
+ =?utf-8?B?V08yYVJnc05ET1JTdi9zTWpDR3pvMXBnWThGM0hwTTBPUGMwQ1puMUVYSWhM?=
+ =?utf-8?B?UW93VThhT25sVERhem9QK05vNW5PWTk5ckNLQ05GVjdsYlBEK1J6OGRKNVVq?=
+ =?utf-8?B?Y2Q2SGR5MTl2MW50MjY5SlV1dWxUSjRFc1NYWnlrd0dXUUpxeDM0TWtaYVZR?=
+ =?utf-8?B?dHAwVjc5K2Z0T0E4SUdUaisvaklMSHdMWjladUZRbVFXYXh2QlVYREVIZkVz?=
+ =?utf-8?B?UlpLbTFOZ2g0UXlwN29BaWVoejVwZWFwdUQwdG9uczN3ajlreVpmZFBWSkw1?=
+ =?utf-8?B?cUxDN0svcWJpcHZvZXhCQkNBaHBYUFpBbG16VmVCYkxHbmdBSUFMSUhBd3oy?=
+ =?utf-8?B?SXBrcnEwVHZUa1R4QlE2L0RRcUc0dWFPOHZNUlVsaDFtSmtIQmhhN0pEVmhC?=
+ =?utf-8?B?MVJBUFF1emNhZXRlaFFhQXVWWjFqbHdFNHNXS2hyU0MzbjJwQUVwU3ZPakJ0?=
+ =?utf-8?B?dTBXcGdjWHFDTlVoR0ordGxEMEpCdExGNTFZWWlNQkxxcVZ5TnFUMjcrZkNR?=
+ =?utf-8?B?M2k5Z00xNWVYTTZQdW9xT3c3WmpSamV4V2pYRFlFamN4TFVCSms1SFBpOGhB?=
+ =?utf-8?Q?oWlpokuZ21SHf8A?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b979484-26fb-40a2-845d-08dbc4679e18
+X-MS-Exchange-CrossTenant-AuthSource: MW5PR10MB5738.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Oct 2023 23:22:31.8331 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NDNSstA7xBG0hiDE+fqVPgHzG3QTR7MkdjJnysrgyeFd3Dwnzmh1TZJVG14TPMNPgcI0OK9ytV00tJCLpvKc189sSm0IH0XP2hAWTsUj4Bg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4396
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-03_18,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ bulkscore=0 spamscore=0
+ mlxscore=0 malwarescore=0 phishscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2309180000
+ definitions=main-2310030177
+X-Proofpoint-ORIG-GUID: 8_-6KmTYhlgGfQdpAXu8Jx4FHTptc7kf
+X-Proofpoint-GUID: 8_-6KmTYhlgGfQdpAXu8Jx4FHTptc7kf
+Cc: jfs-discussion@lists.sourceforge.net,
+ Linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,113 +221,40 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Add /proc/${pid}/statm validation
+On 9/26/23 2:13AM, Manas Ghandat wrote:
+> Currently there is not check against the agno of the iag while
+> allocating new inodes to avoid fragmentation problem. Added the check
+> which is required.
 
-/proc/$(pid)/statm output is expected to be:
- "0 0 0 * 0 0 0\n"
-Here * can be any value
+Does this fix an observed problem? It seems reasonable and if we add 
+this we may also want to make sure that agno doesn't exceed db_numag,
+(JFS_SBI(pip->i_sb)->bmap->db_numag) (yuck).
 
-Read output of /proc/$(pid)/statm
-and check except for 4th position,
-all other positions have value zero.
-
-Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
----
-Changes in V2:
-- 4th field if zero it will assert
-- field other than 4th field is checked for zero value
-- clean up of function test_proc_pid_statm()
-
-Changes in V1:
-- added new function test_proc_pid_statm()
-
- tools/testing/selftests/proc/proc-empty-vm.c | 57 ++++++++++++++++++--
- 1 file changed, 52 insertions(+), 5 deletions(-)
-
-diff --git a/tools/testing/selftests/proc/proc-empty-vm.c b/tools/testing/selftests/proc/proc-empty-vm.c
-index b16c13688b88..1b5b48445e0f 100644
---- a/tools/testing/selftests/proc/proc-empty-vm.c
-+++ b/tools/testing/selftests/proc/proc-empty-vm.c
-@@ -302,6 +302,56 @@ static int test_proc_pid_smaps_rollup(pid_t pid)
- 	}
- }
- 
-+static int test_proc_pid_statm(pid_t pid)
-+{
-+	char buf[4096];
-+	char *tok;
-+	char *string;
-+	int non_zero_value_indx = 4;
-+	int i = 1;
-+
-+	snprintf(buf, sizeof(buf), "/proc/%u/statm", pid);
-+
-+	/*
-+	 *  Output can be "0 0 0 2 0 0 0\n" where "2" can be anything.
-+	 */
-+	int fd = open(buf, O_RDONLY);
-+
-+	if (fd == -1) {
-+		if (errno == ENOENT) {
-+			/*
-+			 * /proc/${pid}/statm is under CONFIG_PROC_PAGE_MONITOR,
-+			 * it doesn't necessarily exist.
-+			 */
-+			return EXIT_SUCCESS;
-+		}
-+		perror("open /proc/${pid}/statm");
-+		return EXIT_FAILURE;
-+	} else {
-+		ssize_t rv = read(fd, buf, sizeof(buf));
-+
-+		close(fd);
-+		assert(rv);
-+		string = buf;
-+
-+		while ((tok = strsep(&string, " ")) != NULL) {
-+			if (i == non_zero_value_indx) {
-+				if (!strncmp(tok, "0", 1))
-+					goto err_statm;
-+			} else {
-+				if (strncmp(tok, "0", 1))
-+					goto err_statm;
-+			}
-+			i++;
-+		}
-+	}
-+
-+	return EXIT_SUCCESS;
-+
-+err_statm:
-+	assert(0);
-+}
-+
- int main(void)
- {
- 	int rv = EXIT_SUCCESS;
-@@ -388,11 +438,8 @@ int main(void)
- 		if (rv == EXIT_SUCCESS) {
- 			rv = test_proc_pid_smaps_rollup(pid);
- 		}
--		/*
--		 * TODO test /proc/${pid}/statm, task_statm()
--		 * ->start_code, ->end_code aren't updated by munmap().
--		 * Output can be "0 0 0 2 0 0 0\n" where "2" can be anything.
--		 */
-+		if (rv == EXIT_SUCCESS)
-+			rv = test_proc_pid_statm(pid);
- 
- 		/* Cut the rope. */
- 		int wstatus;
--- 
-2.34.1
-
+> 
+> Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+> ---
+>   fs/jfs/jfs_imap.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/fs/jfs/jfs_imap.c b/fs/jfs/jfs_imap.c
+> index 799d3837e7c2..ace8a1506380 100644
+> --- a/fs/jfs/jfs_imap.c
+> +++ b/fs/jfs/jfs_imap.c
+> @@ -1355,6 +1355,8 @@ int diAlloc(struct inode *pip, bool dir, struct inode *ip)
+>   
+>   	/* get the ag number of this iag */
+>   	agno = BLKTOAG(JFS_IP(pip)->agstart, JFS_SBI(pip->i_sb));
+> +	if (agno < 0)
+> +		return -EIO;
+>   
+>   	if (atomic_read(&JFS_SBI(pip->i_sb)->bmap->db_active[agno])) {
+>   		/*
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
