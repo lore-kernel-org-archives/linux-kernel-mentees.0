@@ -1,105 +1,110 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5E21EE936FD
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Oct 2023 05:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 588E5E7C4F5
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  5 Oct 2023 07:43:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id AF45C41F34;
-	Thu,  5 Oct 2023 05:16:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AF45C41F34
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dfVadmSa
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Agr46F458rai; Thu,  5 Oct 2023 05:16:00 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 47A5C41511;
-	Thu,  5 Oct 2023 05:16:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 47A5C41511
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 244DCC0039;
-	Thu,  5 Oct 2023 05:16:00 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 2325CC0032
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Oct 2023 05:15:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 060CC82299
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Oct 2023 05:15:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 060CC82299
+	by smtp1.osuosl.org (Postfix) with ESMTP id C5D98823F6;
+	Thu,  5 Oct 2023 07:43:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C5D98823F6
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=dfVadmSa
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m/b50Gsz
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id QdXh1nSK2ybo
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Oct 2023 05:15:55 +0000 (UTC)
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0147B8228A
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  5 Oct 2023 05:15:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0147B8228A
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1c77449a6daso4596335ad.0
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 04 Oct 2023 22:15:54 -0700 (PDT)
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Bsxx8yk9wFPE; Thu,  5 Oct 2023 07:43:53 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C37EF823C6;
+	Thu,  5 Oct 2023 07:43:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C37EF823C6
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A0A9BC0039;
+	Thu,  5 Oct 2023 07:43:52 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 03A4FC0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  5 Oct 2023 07:43:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id D41596F529
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  5 Oct 2023 07:43:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D41596F529
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=m/b50Gsz
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id zjCUPhGl0AsS
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  5 Oct 2023 07:43:51 +0000 (UTC)
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com
+ [IPv6:2a00:1450:4864:20::641])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BF80160B44
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  5 Oct 2023 07:43:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BF80160B44
+Received: by mail-ej1-x641.google.com with SMTP id
+ a640c23a62f3a-9b2cee55056so121729966b.3
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 05 Oct 2023 00:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696482954; x=1697087754;
+ d=gmail.com; s=20230601; t=1696491829; x=1697096629;
  darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=H9nT5tLRN5qqmtXX+vtQZ11JSBruGv0fxOyk+moMln8=;
- b=dfVadmSalkGwhuUWfQ2IiPmvs2HVX7vKASkZMAWXSA+je7CKYM2JbmEkt19jlK4178
- KWXfjcYq6oYaVKj27b4APJKrTNT5uDtXmyZUMXO78OoHMvcKed2xLZlKa95wsqMBoCSs
- 1pomQXnGAS4+t7Gw8flJUIB1HV+xMAU3ziGLSpiuczgCqBjw5XcIpgmlbiUlpH4KEOwR
- sU9ok2QLy4gRoE5ZwMCH2xpbJN6oNzvNNJwxvKoxxtIuj/dZAZAVSXmBomFmBQZ64Mtg
- LlD5HlnPy9klWhL1KVf7InJepo3HwMsHFzCDgTFTCu2cAC2IVtqoh+siXGtypwFvFLf2
- CaCg==
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=434RHBUC25tmTHbc0SxjMGW/nyMWNCPZ1Bst5eTtmeM=;
+ b=m/b50GszYUaZDZx1Fh8U72ytkk3W1KdUe9E3OFX2vnRr+C/tk66ZmVkMwNOPbph248
+ vUQQ1MtWP1nrjfbnvztUG01jgYhHM5Lth498F40Lj62sSPZecaK4LQrEqatxLkNI+L+j
+ uGbZMYmR0eH388oOC761hw0d1yzP67EaahNXApeR4idTj5cBvGxwNlMApCxQyiYrrdDv
+ i/UwsbtEHBvuLdgiteUUjx2OUbztWmZ9P4tSAae7U8YacLCt5GMShD9OAfTY4rfVxJYI
+ 3W4VLA+z3fpLrbGZHmmi5pXqf/TxVmxa52oXqzur3pR49NeaeLKakit/H36/u6Fzs1hg
+ AXog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696482954; x=1697087754;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H9nT5tLRN5qqmtXX+vtQZ11JSBruGv0fxOyk+moMln8=;
- b=A1RZ+uMOrvuQPcHuYSxesDLRixtzJEx8lPzyEexHHoJbKhEk37+gUb3PrPdGlnRG/v
- n6JVy9f6Jc9iHx/J2vrNrysqnDk0rjPhKMyeQK0ze2YkFx+nDD3PLYWz9aoL37KhdbHi
- WxSWzhTqx1lS8tAIKaPw341siRAChlrZ5gQLgJLxmupymdRmzUL4hnQrL/2sduU0oWdp
- 6tLUuyKkqvYfp5yLM7amdjqnK00zaCymuQNsc2GC4zkjUsdytfV9f927A8xIQsHsCkKX
- LT/S41AKrZQOAv0X/dc2Xz/NcEHhdFG7JDnGL0EB0g8gageZialOtnQWXboLGrIp5hqu
- a41w==
-X-Gm-Message-State: AOJu0YyPeYuBEOStcaSXdXq2CQjfgg/aKfhko1O0MPneQW5DJqwovOci
- clboztk6iLHg+dhU6Pw3RWA=
-X-Google-Smtp-Source: AGHT+IG0E0MClgQEMPm1p4gW05l/cLgh45hB65zPuXG48f5XxjBjvLGQ87pk67e720CBKvIJ65j8ZQ==
-X-Received: by 2002:a17:903:2445:b0:1c7:4ab6:b3cc with SMTP id
- l5-20020a170903244500b001c74ab6b3ccmr5233304pls.54.1696482954260; 
- Wed, 04 Oct 2023 22:15:54 -0700 (PDT)
-Received: from [10.0.2.15] ([103.37.201.179]) by smtp.gmail.com with ESMTPSA id
- h10-20020a170902f7ca00b001bc445e249asm533587plw.124.2023.10.04.22.15.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Oct 2023 22:15:53 -0700 (PDT)
-Message-ID: <3d4e0f62-35bb-4b18-a64c-191c88415032@gmail.com>
-Date: Thu, 5 Oct 2023 10:45:49 +0530
+ d=1e100.net; s=20230601; t=1696491829; x=1697096629;
+ h=in-reply-to:content-disposition:mime-version:references:subject:cc
+ :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=434RHBUC25tmTHbc0SxjMGW/nyMWNCPZ1Bst5eTtmeM=;
+ b=MLD/fKxn/c7eQDHYtfE7gV3tskrVy82CGeYFo+yie2tCFVHgwjKu+70SzJWowV2ZSd
+ bqYTqK+oTXonnZPvSKigSz0KbzSUg31USTWG7d3Hz3FUoqCzkaDAGAK4bd3v0V5exzE/
+ otIbM7DuOniNoWwnG/9VagGiAaK0h8iiD46t6jfCqt3I4HJo3adUQ/LkEJ5w9L1i1M41
+ 1d848Ybn0MRxFGTcBlm0CD4Q5AY7YO7KkLoPAotT6rDb+ftgboqdXShs8mDA2iVoulcc
+ mdvrXYzVaV5sValCUUXn0r1gKdHIzRKLfR7FFqq3oToKZxiHLcEMpJjQ5w0ZXa/AAQcD
+ f7SA==
+X-Gm-Message-State: AOJu0Yylz/AI4ctDy2r4MO20RTAw+yoLxBSi+qraiZzAZ4bs1LsCbLy2
+ X8M4EhsFKzBu9UukNJXjJ4M=
+X-Google-Smtp-Source: AGHT+IFvDmJPhDO8Jx+ZQXEtd1a2eMdmo4I9tmenB4y4AIYQ55Kkp0YyeiGHG29nPu9RkmJ6ihEApg==
+X-Received: by 2002:a17:906:253:b0:9b8:9b4f:1cc2 with SMTP id
+ 19-20020a170906025300b009b89b4f1cc2mr3632778ejl.43.1696491828442; 
+ Thu, 05 Oct 2023 00:43:48 -0700 (PDT)
+Received: from akanner-r14. ([62.4.56.169]) by smtp.gmail.com with ESMTPSA id
+ j16-20020a170906051000b0099bcf1c07c6sm714925eja.138.2023.10.05.00.43.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Oct 2023 00:43:47 -0700 (PDT)
+Message-ID: <651e6933.170a0220.f6f76.1a12@mx.google.com>
+X-Google-Original-Message-ID: <ZR5nSFVu9XhIHjit@akanner-r14.>
+Date: Thu, 5 Oct 2023 10:35:56 +0300
+From: Andrew Kanner <andrew.kanner@gmail.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Subject: Re: [PATCH net-next v2] net/xdp: fix zero-size allocation warning in
+ xskq_create()
+References: <20231002222939.1519-1-andrew.kanner@gmail.com>
+ <2f5abbf8-8d50-3deb-19cd-9bfd654e1ceb@iogearbox.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] jfs : fs array-index-out-of-bounds in txCommit
-Content-Language: en-US
-To: Dave Kleikamp <dave.kleikamp@oracle.com>, shaggy@kernel.org
-References: <20230919155542.4354-1-ghandatmanas@gmail.com>
- <423182d1-3d75-4a73-9011-da24658a40cc@oracle.com>
-From: Manas Ghandat <ghandatmanas@gmail.com>
-In-Reply-To: <423182d1-3d75-4a73-9011-da24658a40cc@oracle.com>
-Cc: syzbot+0558d19c373e44da3c18@syzkaller.appspotmail.com,
- jfs-discussion@lists.sourceforge.net,
- Linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+Content-Disposition: inline
+In-Reply-To: <2f5abbf8-8d50-3deb-19cd-9bfd654e1ceb@iogearbox.net>
+Cc: xuanzhuo@linux.alibaba.com, maciej.fijalkowski@intel.com, hawk@kernel.org,
+ netdev@vger.kernel.org, john.fastabend@gmail.com, bjorn@kernel.org,
+ ast@kernel.org, aleksander.lobakin@intel.com, edumazet@google.com,
+ linux-kernel@vger.kernel.org, jonathan.lemon@gmail.com, kuba@kernel.org,
+ bpf@vger.kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
+ magnus.karlsson@intel.com,
+ syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -111,27 +116,57 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 04/10/23 00:46, Dave Kleikamp wrote:
-> The size of the xad array can be either XTROOTMAXSLOT or XTPAGEMAXSLOT 
-> depending on whether it is the root, imbedded in the inode, or not. It 
-> is currently declared with the smaller value so we can use xtpage_t 
-> within the inode.
+On Thu, Oct 05, 2023 at 12:49:23AM +0200, Daniel Borkmann wrote:
+[...]
+> > 
+> > Reported-and-tested-by: syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com
+> > Closes: https://lore.kernel.org/all/000000000000c84b4705fb31741e@google.com/T/
+> > Link: https://syzkaller.appspot.com/bug?extid=fae676d3cf469331fc89
+> > Fixes: 9f78bf330a66 ("xsk: support use vaddr as ring")
+> > Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
+> 
+> I guess also:
+> 
+> Reported-by: syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com
+> 
+> Moreover, this fix is needed in bpf/net tree (as opposed to *-next tree), right?
 >
-> I had promised to address this, but haven't gotten to it yet. I'll try 
-> to carve out some time to do that.
->
-> Thanks,
-> Shaggy
 
-Can you guide with the workflow of how things should be done. I can try 
-to work on it and resolve the issue.
+Seems, so - I will check.
 
+> >   net/xdp/xsk_queue.c | 3 +++
+> >   1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/net/xdp/xsk_queue.c b/net/xdp/xsk_queue.c
+> > index f8905400ee07..b03d1bfb6978 100644
+> > --- a/net/xdp/xsk_queue.c
+> > +++ b/net/xdp/xsk_queue.c
+> > @@ -34,6 +34,9 @@ struct xsk_queue *xskq_create(u32 nentries, bool umem_queue)
+> >   	q->ring_mask = nentries - 1;
+> >   	size = xskq_get_ring_size(q, umem_queue);
+> > +	if (unlikely(size == SIZE_MAX))
+> > +		return NULL;
+> 
+> Doesn't this leak q here ?
+> 
+> >   	size = PAGE_ALIGN(size);
+> >   	q->ring = vmalloc_user(size);
+> > 
+> 
+
+It is.
+Thanks, Daniel, I will fix it in v3. 
+
+pw-bot: cr
+
+--
+Andrew Kanner
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
