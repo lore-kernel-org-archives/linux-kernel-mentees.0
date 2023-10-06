@@ -1,89 +1,86 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA211E92FD0
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Oct 2023 00:40:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4B10AE92FD1
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Oct 2023 01:06:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 3AAA3611E4;
-	Fri,  6 Oct 2023 00:40:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3AAA3611E4
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Lm8yzjEV
+	by smtp2.osuosl.org (Postfix) with ESMTP id D07D540BFB;
+	Fri,  6 Oct 2023 01:06:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D07D540BFB
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=hwGL3kkX
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jxsinSqxv5mr; Fri,  6 Oct 2023 00:40:38 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ycmqySuuv_KX; Fri,  6 Oct 2023 01:06:36 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2D86C61034;
-	Fri,  6 Oct 2023 00:40:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2D86C61034
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 9EDBD40649;
+	Fri,  6 Oct 2023 01:06:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9EDBD40649
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0D139C0071;
-	Fri,  6 Oct 2023 00:40:38 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7135AC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 75DA4C0071;
+	Fri,  6 Oct 2023 01:06:35 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 27847C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 00:40:36 +0000 (UTC)
+ Fri,  6 Oct 2023 01:06:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 3621F42450
+ by smtp4.osuosl.org (Postfix) with ESMTP id DDF7541E31
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 00:40:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3621F42450
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=Lm8yzjEV
+ Fri,  6 Oct 2023 01:06:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DDF7541E31
+Authentication-Results: smtp4.osuosl.org; dkim=pass (1024-bit key,
+ unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256
+ header.s=key1 header.b=hwGL3kkX
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id KYUC4jj_1qQO
+ with ESMTP id h2Ti9qITgaZr
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 00:40:33 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org
- [IPv6:2604:1380:4641:c500::1])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 4DE8742418
+ Fri,  6 Oct 2023 01:06:32 +0000 (UTC)
+X-Greylist: delayed 332 seconds by postgrey-1.37 at util1.osuosl.org;
+ Fri, 06 Oct 2023 01:06:32 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 835EB41E2F
+Received: from out-194.mta1.migadu.com (out-194.mta1.migadu.com
+ [95.215.58.194])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 835EB41E2F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 00:40:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4DE8742418
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9E86861BE7;
- Fri,  6 Oct 2023 00:40:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 37F79C433C9;
- Fri,  6 Oct 2023 00:40:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696552831;
- bh=oFqZXtcvFppptFRRQK616T2zS75kLFYvPUfsMrV73+0=;
- h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
- b=Lm8yzjEV5F0dJdu6RDVB6N8buhLc49RHkhFHD/A3zXWZB0QPrbkBoHR15lS8sy7nK
- glhN6QnURCManbr8qn8SqF9GvpY0F4MuU18W2z+0p8nezDNOTQSVuUmoEnyA1JGPYb
- RR/J0LXIjCrGIXwaEF4G9RyYfmcWVwpvT0xjCQC3n0N/4ab0iwPTP9y59rYHeLQr99
- iW7FKADHvG2ORw/sC/i86vhAVD8WkQwTrFCn/H7m7N8HxYe9PA7cxB0S3pbHV3pEHT
- KrMKrvbJGh/FuXPvpiT7kmXdfvnIzktg6oG2AL3B2orrLPsnY+I2lx7ujkxbu0Glba
- SCnRXPCfWG6zQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id
- 1F7EAE11F50; Fri,  6 Oct 2023 00:40:31 +0000 (UTC)
+ Fri,  6 Oct 2023 01:06:32 +0000 (UTC)
+Message-ID: <7aa47549-5a95-22d7-1d03-ffdd251cec6d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1696554056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3uFabqeCC0ZaRLQsefD4hwIIguPVcY2YJuzj553oCas=;
+ b=hwGL3kkX/wvNGM5EF592wWTbKt6DKNsaYezKHyVPJEY0O2hUwc/F/BRLiId2/qWzJT6N/C
+ w8z+e8XnmevSY9uBv9ZZmir7GByWW/08ch2uBW/6wNFE30BD6sjQg4YmS6uzWUUjeL6uYk
+ Id9AS6BVmiIk5Y3DZ8yXK9BHwqB6CAg=
+Date: Thu, 5 Oct 2023 18:00:46 -0700
 MIME-Version: 1.0
 Subject: Re: [PATCH bpf v3] net/xdp: fix zero-size allocation warning in
  xskq_create()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <169655283112.25319.4323691266083806754.git-patchwork-notify@kernel.org>
-Date: Fri, 06 Oct 2023 00:40:31 +0000
-References: <20231005193548.515-1-andrew.kanner@gmail.com>
-In-Reply-To: <20231005193548.515-1-andrew.kanner@gmail.com>
+Content-Language: en-US
 To: Andrew Kanner <andrew.kanner@gmail.com>
-Cc: xuanzhuo@linux.alibaba.com, maciej.fijalkowski@intel.com, hawk@kernel.org,
- daniel@iogearbox.net, syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com,
- netdev@vger.kernel.org, john.fastabend@gmail.com, bjorn@kernel.org,
- ast@kernel.org, aleksander.lobakin@intel.com, edumazet@google.com,
- linux-kernel@vger.kernel.org, jonathan.lemon@gmail.com, kuba@kernel.org,
- bpf@vger.kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net,
- magnus.karlsson@intel.com,
- syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com
+References: <20231005193548.515-1-andrew.kanner@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <20231005193548.515-1-andrew.kanner@gmail.com>
+X-Migadu-Flow: FLOW_OUT
+Cc: xuanzhuo@linux.alibaba.com, daniel@iogearbox.net,
+ maciej.fijalkowski@intel.com, hawk@kernel.org, edumazet@google.com,
+ aleksander.lobakin@intel.com, netdev@vger.kernel.org, john.fastabend@gmail.com,
+ linux-kernel@vger.kernel.org, davem@davemloft.net,
+ syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com, bjorn@kernel.org,
+ ast@kernel.org, jonathan.lemon@gmail.com, kuba@kernel.org, bpf@vger.kernel.org,
+ pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com,
+ magnus.karlsson@intel.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -95,46 +92,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello:
-
-This patch was applied to bpf/bpf.git (master)
-by Martin KaFai Lau <martin.lau@kernel.org>:
-
-On Thu,  5 Oct 2023 22:35:49 +0300 you wrote:
+On 10/5/23 12:35 PM, Andrew Kanner wrote:
 > Syzkaller reported the following issue:
->  ------------[ cut here ]------------
->  WARNING: CPU: 0 PID: 2807 at mm/vmalloc.c:3247 __vmalloc_node_range (mm/vmalloc.c:3361)
->  Modules linked in:
->  CPU: 0 PID: 2807 Comm: repro Not tainted 6.6.0-rc2+ #12
->  Hardware name: Generic DT based system
->  unwind_backtrace from show_stack (arch/arm/kernel/traps.c:258)
->  show_stack from dump_stack_lvl (lib/dump_stack.c:107 (discriminator 1))
->  dump_stack_lvl from __warn (kernel/panic.c:633 kernel/panic.c:680)
->  __warn from warn_slowpath_fmt (./include/linux/context_tracking.h:153 kernel/panic.c:700)
->  warn_slowpath_fmt from __vmalloc_node_range (mm/vmalloc.c:3361 (discriminator 3))
->  __vmalloc_node_range from vmalloc_user (mm/vmalloc.c:3478)
->  vmalloc_user from xskq_create (net/xdp/xsk_queue.c:40)
->  xskq_create from xsk_setsockopt (net/xdp/xsk.c:953 net/xdp/xsk.c:1286)
->  xsk_setsockopt from __sys_setsockopt (net/socket.c:2308)
->  __sys_setsockopt from ret_fast_syscall (arch/arm/kernel/entry-common.S:68)
+>   ------------[ cut here ]------------
+>   WARNING: CPU: 0 PID: 2807 at mm/vmalloc.c:3247 __vmalloc_node_range (mm/vmalloc.c:3361)
+>   Modules linked in:
+>   CPU: 0 PID: 2807 Comm: repro Not tainted 6.6.0-rc2+ #12
+>   Hardware name: Generic DT based system
+>   unwind_backtrace from show_stack (arch/arm/kernel/traps.c:258)
+>   show_stack from dump_stack_lvl (lib/dump_stack.c:107 (discriminator 1))
+>   dump_stack_lvl from __warn (kernel/panic.c:633 kernel/panic.c:680)
+>   __warn from warn_slowpath_fmt (./include/linux/context_tracking.h:153 kernel/panic.c:700)
+>   warn_slowpath_fmt from __vmalloc_node_range (mm/vmalloc.c:3361 (discriminator 3))
+>   __vmalloc_node_range from vmalloc_user (mm/vmalloc.c:3478)
+>   vmalloc_user from xskq_create (net/xdp/xsk_queue.c:40)
+>   xskq_create from xsk_setsockopt (net/xdp/xsk.c:953 net/xdp/xsk.c:1286)
+>   xsk_setsockopt from __sys_setsockopt (net/socket.c:2308)
+>   __sys_setsockopt from ret_fast_syscall (arch/arm/kernel/entry-common.S:68)
 > 
-> [...]
+> xskq_get_ring_size() uses struct_size() macro to safely calculate the
+> size of struct xsk_queue and q->nentries of desc members. But the
+> syzkaller repro was able to set q->nentries with the value initially
+> taken from copy_from_sockptr() high enough to return SIZE_MAX by
+> struct_size(). The next PAGE_ALIGN(size) is such case will overflow
+> the size_t value and set it to 0. This will trigger WARN_ON_ONCE in
 
-Here is the summary with links:
-  - [bpf,v3] net/xdp: fix zero-size allocation warning in xskq_create()
-    https://git.kernel.org/bpf/bpf/c/90aeaa99f53e
+Please ignore the pw-bot email. A question just came to my mind after applying.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> diff --git a/net/xdp/xsk_queue.c b/net/xdp/xsk_queue.c
+> index f8905400ee07..c7e8bbb12752 100644
+> --- a/net/xdp/xsk_queue.c
+> +++ b/net/xdp/xsk_queue.c
+> @@ -34,6 +34,11 @@ struct xsk_queue *xskq_create(u32 nentries, bool umem_queue)
+>   	q->ring_mask = nentries - 1;
+>   
+>   	size = xskq_get_ring_size(q, umem_queue);
+> +	if (unlikely(size == SIZE_MAX)) {
 
+What if "size" is SIZE_MAX-1? Would it still overflow the PAGE_ALIGN below?
+
+> +		kfree(q);
+> +		return NULL;
+> +	}
+> +
+>   	size = PAGE_ALIGN(size);
+>   
+>   	q->ring = vmalloc_user(size);
 
 _______________________________________________
 Linux-kernel-mentees mailing list
