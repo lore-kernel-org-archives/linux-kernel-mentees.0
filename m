@@ -4,98 +4,73 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9D43EE94139
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Oct 2023 23:24:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 110A9E94139
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Oct 2023 23:58:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 24FD06110C;
-	Fri,  6 Oct 2023 23:24:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 24FD06110C
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7964E60C1A;
+	Fri,  6 Oct 2023 23:58:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7964E60C1A
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fOGWMeNL
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=bRp8bZaQ
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Tm8cPF9ZaZkn; Fri,  6 Oct 2023 23:24:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EBF5A60F13;
-	Fri,  6 Oct 2023 23:24:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EBF5A60F13
+	with ESMTP id JCTZYYBUZZ3P; Fri,  6 Oct 2023 23:58:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2048D60AF6;
+	Fri,  6 Oct 2023 23:58:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2048D60AF6
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7E93C0071;
-	Fri,  6 Oct 2023 23:24:18 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C5DBEC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id EBCC5C0071;
+	Fri,  6 Oct 2023 23:58:37 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 5167EC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 23:24:17 +0000 (UTC)
+ Fri,  6 Oct 2023 23:58:36 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 9A8386110C
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2716A60B0E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 23:24:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9A8386110C
+ Fri,  6 Oct 2023 23:58:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2716A60B0E
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0qbEmzs-EmF2
+ with ESMTP id RpoIi_yLGXxc
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 23:24:16 +0000 (UTC)
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by smtp3.osuosl.org (Postfix) with ESMTPS id A2B0860F13
+ Fri,  6 Oct 2023 23:58:34 +0000 (UTC)
+Received: from out-200.mta1.migadu.com (out-200.mta1.migadu.com
+ [95.215.58.200])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id BF1D560AF6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 23:24:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A2B0860F13
-Received: by mail-ed1-x52e.google.com with SMTP id
- 4fb4d7f45d1cf-5333fb34be3so4669547a12.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Oct 2023 16:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696634654; x=1697239454;
- darn=lists.linuxfoundation.org; 
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=hPaXNBZLQrXq61kgT1VtVRZp5hOGTGuxGwxK2C9WNE4=;
- b=fOGWMeNLlLqSLsO+wLP5O9dWkhU/z/mpXjEAJ5Aq+OIw7zp2tNLIFa2wdQ3Vl5kUKx
- zyMuBrPexjz39pDDtJidNGPyMur7FZOHJa1KK1exzYoXv/1YdfU4I9Q5N2HpspD5+dM0
- DaQpdJRmc244waUhwHx1gQMf2FTc0b5pTcZbsoXk4eKx6vbdimizyF7LFVdd/LGnrqqV
- 9A/PtzhTucSEgsX+3lGnTviM9UIhWmCPWiMlkroF70sNm+0BpLqoIJjIL0oN7bEmBLe8
- D84hPLQK/LuzaC0QdSv+OJyybtg1pMRHnLwR3wYdRZ8u2Um4gKIHMFXKrDAkOQgoBM14
- G1UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696634654; x=1697239454;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hPaXNBZLQrXq61kgT1VtVRZp5hOGTGuxGwxK2C9WNE4=;
- b=EQ4QlEki8EyRp0P8+3oSZ80yAjPkurQk3fEYM1nHMjIK+BLqsAByzP56Aqy/HAZf9Q
- tUZc6OUD/CumlipCFQlDc88Ph6qoHZvkxVA24fC216+NjuO5SuTp1fDxdr5tgiZQ4rD5
- f7ZnSECvrZpaHuke9do6HJlJUpP2tkGPloVoIRHaJFYFoBy3rsOLCesoyttRAVU6zaSH
- TrYcSWskWqVCaUpMZsM/LyZsSb15Y7z7ahJOHzlqdOYzYlWiRl/5HmgJ3e4TI148wuDe
- fPO0LNCoKwSo5qa/2kbKom27tHe8nycnC00Uco+qo4fpHIbNZT+Z014px3ICHefYiOI8
- kVqw==
-X-Gm-Message-State: AOJu0Yz0IzY0u+RVZGhXMHGjplDKn6nBd4TKDEFEghT/hAgBkc/na5yO
- qQySXjiKn6EKeDYNS8xRZa8=
-X-Google-Smtp-Source: AGHT+IFfto7EAMEg7VApspqL6vAy9RqJg0LXgxG7jOvdtW7oM72tB4A8+dN9tWoFUCe051xP4IEYnA==
-X-Received: by 2002:aa7:d492:0:b0:533:39da:6ffb with SMTP id
- b18-20020aa7d492000000b0053339da6ffbmr8401911edr.14.1696634654420; 
- Fri, 06 Oct 2023 16:24:14 -0700 (PDT)
-Received: from akanner-r14. ([77.222.24.57]) by smtp.gmail.com with ESMTPSA id
- l25-20020aa7c319000000b0053441519ed5sm3152155edq.88.2023.10.06.16.24.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Oct 2023 16:24:13 -0700 (PDT)
-Message-ID: <6520971d.a70a0220.758e3.8cf7@mx.google.com>
-X-Google-Original-Message-ID: <ZSCXFdDLDycRAPxQ@akanner-r14.>
-Date: Sat, 7 Oct 2023 02:24:05 +0300
-From: Andrew Kanner <andrew.kanner@gmail.com>
-To: Martin KaFai Lau <martin.lau@linux.dev>
+ Fri,  6 Oct 2023 23:58:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BF1D560AF6
+Message-ID: <eb61966f-8666-80f6-1eab-c89bffe496b8@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1696636709;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dDT9aDLVsvLOYEEw3RfZqvCDnW1m/iupVkMyeiBZkag=;
+ b=bRp8bZaQOTZ0RK9xi0lir38QHE8v8QBKgJcvmeoeYaNR/IEA1nPc6gk1SCWnOrW3geE8q5
+ SFeTWujgrha+ovCuE032fSZ5wTFtw5twahhoma/m66jMNpq33ud9K9jtJClu9970B1GWn+
+ XA3wZYQCtHyiI655HDSBavI2iGp6Mfg=
+Date: Fri, 6 Oct 2023 16:58:18 -0700
+MIME-Version: 1.0
 Subject: Re: [PATCH bpf v3] net/xdp: fix zero-size allocation warning in
  xskq_create()
+Content-Language: en-US
+To: Andrew Kanner <andrew.kanner@gmail.com>
 References: <20231005193548.515-1-andrew.kanner@gmail.com>
  <7aa47549-5a95-22d7-1d03-ffdd251cec6d@linux.dev>
  <651fb2a8.c20a0220.8d6c3.0fd9@mx.google.com>
  <57c35480-983d-2056-1d72-f6e555069b83@linux.dev>
-MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <57c35480-983d-2056-1d72-f6e555069b83@linux.dev>
+ <6520971d.a70a0220.758e3.8cf7@mx.google.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <6520971d.a70a0220.758e3.8cf7@mx.google.com>
+X-Migadu-Flow: FLOW_OUT
 Cc: xuanzhuo@linux.alibaba.com, daniel@iogearbox.net,
  maciej.fijalkowski@intel.com, hawk@kernel.org, edumazet@google.com,
  aleksander.lobakin@intel.com, netdev@vger.kernel.org, john.fastabend@gmail.com,
@@ -116,85 +91,53 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 06, 2023 at 10:37:44AM -0700, Martin KaFai Lau wrote:
-[...] 
-> > > What if "size" is SIZE_MAX-1? Would it still overflow the PAGE_ALIGN below?
-> > > 
-> > > > +		kfree(q);
-> > > > +		return NULL;
-> > > > +	}
-> > > > +
-> > > >    	size = PAGE_ALIGN(size);
-> > > >    	q->ring = vmalloc_user(size);
-> > > 
-> > 
-> > I asked myself the same question before v1. E.g. thinking about the
-> > check: (size > SIZE_MAX - PAGE_SIZE + 1)
-> > 
-> > But xskq_create() is called after the check for
-> > !is_power_of_2(entries) in xsk_init_queue(). So I tried the same
-> > reproducer and divided the (nentries) value by 2 in a loop - it hits
-> > either SIZE_MAX case or the normal cases without overflow (sometimes
-> > throwing vmalloc error complaining about size which exceed total pages
-> > in my arm setup).
-> > 
-> > So I can't see a way size will be SIZE_MAX-1, etc. Correct me if I'm
-> > wrong, please.
-> > 
-> > PS: In the output below the first 2 values of (nentries) hit SIZE_MAX
+On 10/6/23 4:24 PM, Andrew Kanner wrote:
+>> Thanks for the explanation, so iiuc it means it will overflow the
+>> struct_size() first because of the is_power_of_2(nentries) requirement?
+>> Could you help adding some comment to explain? Thanks.
+>>
+> The overflow happens because there's no upper limit for nentries
+> (userspace input). Let me add more context, e.g. from net/xdp/xsk.c:
 > 
-> Thanks for the explanation, so iiuc it means it will overflow the
-> struct_size() first because of the is_power_of_2(nentries) requirement?
-> Could you help adding some comment to explain? Thanks.
->
+> static int xsk_setsockopt(struct socket *sock, int level, int optname,
+>                            sockptr_t optval, unsigned int optlen)
+> {
+> [...]
+>                  if (copy_from_sockptr(&entries, optval, sizeof(entries)))
+>                          return -EFAULT;
+> [...]
+>                  err = xsk_init_queue(entries, q, false);
+> [...]
+> }
+> 
+> 'entries' is passed to xsk_init_queue() and there're 2 checks: for 0
+> and is_power_of_2() only, no upper bound check:
+> 
+> static int xsk_init_queue(u32 entries, struct xsk_queue **queue,
+>                            bool umem_queue)
+> {
+>          struct xsk_queue *q;
+> 
+>          if (entries == 0 || *queue || !is_power_of_2(entries))
+>                  return -EINVAL;
+> 
+>          q = xskq_create(entries, umem_queue);
+>          if (!q)
+>                  return -ENOMEM;
+> [...]
+> }
+> 
+> The 'entries' value is next passed to struct_size() in
+> net/xdp/xsk_queue.c. If it's large enough - SIZE_MAX will be returned.
 
-The overflow happens because there's no upper limit for nentries
-(userspace input). Let me add more context, e.g. from net/xdp/xsk.c:
-
-static int xsk_setsockopt(struct socket *sock, int level, int optname,
-                          sockptr_t optval, unsigned int optlen)
-{
-[...]
-                if (copy_from_sockptr(&entries, optval, sizeof(entries)))
-                        return -EFAULT;
-[...]
-                err = xsk_init_queue(entries, q, false);
-[...]
-}
-
-'entries' is passed to xsk_init_queue() and there're 2 checks: for 0
-and is_power_of_2() only, no upper bound check:
-
-static int xsk_init_queue(u32 entries, struct xsk_queue **queue,
-                          bool umem_queue)
-{
-        struct xsk_queue *q;
-
-        if (entries == 0 || *queue || !is_power_of_2(entries))
-                return -EINVAL;
-
-        q = xskq_create(entries, umem_queue);
-        if (!q)
-                return -ENOMEM;
-[...]
-}
-
-The 'entries' value is next passed to struct_size() in
-net/xdp/xsk_queue.c. If it's large enough - SIZE_MAX will be returned.
-
-I'm not sure if some appropriate limit for the size of XDP_RX_RING /
-XDP_TX_RING and XDP_UMEM_FILL_RING / XDP_UMEM_COMPLETION_RING rings
-should be used. But anyway, vmalloc() will tell if it's not ok with
-the requested allocation size.
-
--- 
-Andrew Kanner
+All make sense. I was mostly asking to add a comment at the "if (unlikely(size 
+== SIZE_MAX)" check to explain this details on why checking SIZE_MAX is enough.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
