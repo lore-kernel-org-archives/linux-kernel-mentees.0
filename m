@@ -1,99 +1,88 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 624C4E81E10
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Oct 2023 15:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 411F0E81E1E
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  6 Oct 2023 17:46:52 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BCAD26FA72;
-	Fri,  6 Oct 2023 15:56:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BCAD26FA72
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DdeXXAGx
+	by smtp4.osuosl.org (Postfix) with ESMTP id 93C8742CF0;
+	Fri,  6 Oct 2023 17:46:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 93C8742CF0
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WfD9FbXP
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DVmezk-PKkZa; Fri,  6 Oct 2023 15:56:07 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3209060FAA;
-	Fri,  6 Oct 2023 15:56:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3209060FAA
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yxdPmdVxQAGc; Fri,  6 Oct 2023 17:46:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0954341F58;
+	Fri,  6 Oct 2023 17:46:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0954341F58
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0AE20C0071;
-	Fri,  6 Oct 2023 15:56:07 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0D86FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id D5F94C0071;
+	Fri,  6 Oct 2023 17:46:49 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 80DDDC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 15:56:05 +0000 (UTC)
+ Fri,  6 Oct 2023 17:46:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D9E236FA72
+ by smtp1.osuosl.org (Postfix) with ESMTP id 2E13E83BE9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 15:56:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D9E236FA72
+ Fri,  6 Oct 2023 17:46:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2E13E83BE9
+Authentication-Results: smtp1.osuosl.org; dkim=pass (1024-bit key,
+ unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256
+ header.s=key1 header.b=WfD9FbXP
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gG5ylb0lgIe8
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id x1g9h3DZCRS6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 15:56:02 +0000 (UTC)
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com
- [IPv6:2a00:1450:4864:20::231])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 665FC60FAA
+ Fri,  6 Oct 2023 17:46:47 +0000 (UTC)
+X-Greylist: delayed 528 seconds by postgrey-1.37 at util1.osuosl.org;
+ Fri, 06 Oct 2023 17:46:47 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 04ECA83BD5
+Received: from out-203.mta0.migadu.com (out-203.mta0.migadu.com
+ [91.218.175.203])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 04ECA83BD5
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Oct 2023 15:56:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 665FC60FAA
-Received: by mail-lj1-x231.google.com with SMTP id
- 38308e7fff4ca-2bfed7c4e6dso26146271fa.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Oct 2023 08:56:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696607760; x=1697212560;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=p79UdREZZAqJEG4ed9Cqy6ZZIFZqKWpUabzxjEUQnwI=;
- b=DdeXXAGxQd/kR38ZC9hdL9BpY9eQ1jYHlCIjI4KXI5gjRzufUBLADMd5g6WyxXlJyS
- tZZeS0hNyrfALQFfIfLU+HSylIdozFQLO9hc+ahqrPgOoSe+rKZQbHT0tZCNrGmhOums
- FrdI6S7ksn7q3p3hQUCNj7uhVIpD7x1dkNlfuV43M7nAr7bXiM7QiexKDq2GT0ZlUjAT
- i/AdlO/KuiLUXfDxCxuAFJicvwRdclY1kZpgmfA3tAO+B5gcdkqLZ4k81at5LKtGa/Gz
- +szQ0kc35BvG/hfHuWCjiFWhr7dX7lJkwl5h2qhnlQn4I4JeZhyjMkHCKzvUkWSwNZmz
- lZdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696607760; x=1697212560;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=p79UdREZZAqJEG4ed9Cqy6ZZIFZqKWpUabzxjEUQnwI=;
- b=Q9dDn7Dvwl7FuP6CqwScvbe+r7ThCVvmproRb1BT9w6782cwwS28/iPuPNeT2KHTTj
- Up+u8b8XaTnT8ZRgvJDxsu+UP2K//bD22xarBxNlvOBTuZI4zAC1e98y3fnACmrmS/2a
- 5TcgfMkAOMy2c1+eroo2uS6CT2IOMsmK0H1K0L59CVpJxPgbSEQwT3GxhcER1bJVtjOE
- yB5c0wWRKz1DVrUuuDL/W5b7RcEDmj+QoAtyijb2sK7dzR4pAU8iitAb+Jwrqcf/wB7S
- 9lzEuouh2d1KGCdXcJhHPU5dlip/xvMYTo+z1jdzO8zG7+4NKUYeUUkjFexi/z8NQ04X
- LKhA==
-X-Gm-Message-State: AOJu0YyR3ATdcQE4ikFbZxolHlx7JR1EKuXIjmLp9t42z+0e8GjJOS61
- w0Y4McPpeHuaz8bDkT4XuYI=
-X-Google-Smtp-Source: AGHT+IFUwTAmliU6/8HaySJamov+AdflUtJK3/o9el7FvFWytzQwSVGEK8537qPiiJ7p1RoiHOgTKw==
-X-Received: by 2002:a2e:9f42:0:b0:2c0:c9e:e276 with SMTP id
- v2-20020a2e9f42000000b002c00c9ee276mr7623038ljk.31.1696607759663; 
- Fri, 06 Oct 2023 08:55:59 -0700 (PDT)
-Received: from localhost.localdomain ([77.222.24.57])
- by smtp.gmail.com with ESMTPSA id
- w13-20020a05651c102d00b002b9e9a8532dsm825978ljm.138.2023.10.06.08.55.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Oct 2023 08:55:58 -0700 (PDT)
-From: Andrew Kanner <andrew.kanner@gmail.com>
-To: apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
- lukas.bulwahn@gmail.com
-Subject: [PATCH RESEND trivial v2] checkpatch: stop complaining about tags
- suggested/tested by syzkaller
-Date: Fri,  6 Oct 2023 18:55:02 +0300
-Message-Id: <20231006155501.3120-1-andrew.kanner@gmail.com>
-X-Mailer: git-send-email 2.39.3
+ Fri,  6 Oct 2023 17:46:46 +0000 (UTC)
+Message-ID: <57c35480-983d-2056-1d72-f6e555069b83@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1696613876;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qpXKuzg71AgBMcaKo6kzSKg7OXzsFHX5EQqRaIUxIhA=;
+ b=WfD9FbXP+XfaMTekiCdxwIA2Ul/LvowsY4QBrZ5BWJNt6IM4YA16uruGqTq54eIe4xeXf6
+ pPDH/1uRgfEVVr24mekBmZ544XqEhwaPL+soaK/g99hIBxGcRgu0DCFI6WceegYvhmfhzv
+ rtE8yomic9cJM1uYaQGbmi3/EfQMvfM=
+Date: Fri, 6 Oct 2023 10:37:44 -0700
 MIME-Version: 1.0
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+Subject: Re: [PATCH bpf v3] net/xdp: fix zero-size allocation warning in
+ xskq_create()
+Content-Language: en-US
+To: Andrew Kanner <andrew.kanner@gmail.com>
+References: <20231005193548.515-1-andrew.kanner@gmail.com>
+ <7aa47549-5a95-22d7-1d03-ffdd251cec6d@linux.dev>
+ <651fb2a8.c20a0220.8d6c3.0fd9@mx.google.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <651fb2a8.c20a0220.8d6c3.0fd9@mx.google.com>
+X-Migadu-Flow: FLOW_OUT
+Cc: xuanzhuo@linux.alibaba.com, daniel@iogearbox.net,
+ maciej.fijalkowski@intel.com, hawk@kernel.org, edumazet@google.com,
+ aleksander.lobakin@intel.com, netdev@vger.kernel.org, john.fastabend@gmail.com,
+ linux-kernel@vger.kernel.org, davem@davemloft.net,
+ syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com, bjorn@kernel.org,
+ ast@kernel.org, jonathan.lemon@gmail.com, kuba@kernel.org, bpf@vger.kernel.org,
+ pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com,
+ magnus.karlsson@intel.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -105,67 +94,89 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-If you submit a testing request to syzkaller it may reply with:
-> syzbot has tested the proposed patch and the reproducer did not \
-> trigger any issue:
->
-> Reported-and-tested-by: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com
+On 10/6/23 12:09 AM, Andrew Kanner wrote:
+> On Thu, Oct 05, 2023 at 06:00:46PM -0700, Martin KaFai Lau wrote:
+> [...]
+>>> diff --git a/net/xdp/xsk_queue.c b/net/xdp/xsk_queue.c
+>>> index f8905400ee07..c7e8bbb12752 100644
+>>> --- a/net/xdp/xsk_queue.c
+>>> +++ b/net/xdp/xsk_queue.c
+>>> @@ -34,6 +34,11 @@ struct xsk_queue *xskq_create(u32 nentries, bool umem_queue)
+>>>    	q->ring_mask = nentries - 1;
+>>>    	size = xskq_get_ring_size(q, umem_queue);
+>>> +	if (unlikely(size == SIZE_MAX)) {
+>>
+>> What if "size" is SIZE_MAX-1? Would it still overflow the PAGE_ALIGN below?
+>>
+>>> +		kfree(q);
+>>> +		return NULL;
+>>> +	}
+>>> +
+>>>    	size = PAGE_ALIGN(size);
+>>>    	q->ring = vmalloc_user(size);
+>>
+> 
+> I asked myself the same question before v1. E.g. thinking about the
+> check: (size > SIZE_MAX - PAGE_SIZE + 1)
+> 
+> But xskq_create() is called after the check for
+> !is_power_of_2(entries) in xsk_init_queue(). So I tried the same
+> reproducer and divided the (nentries) value by 2 in a loop - it hits
+> either SIZE_MAX case or the normal cases without overflow (sometimes
+> throwing vmalloc error complaining about size which exceed total pages
+> in my arm setup).
+> 
+> So I can't see a way size will be SIZE_MAX-1, etc. Correct me if I'm
+> wrong, please.
+> 
+> PS: In the output below the first 2 values of (nentries) hit SIZE_MAX
 
-Checkpatch is ok with Reported-by tags, but complains about
-Reported-and-tested-by tags:
-> WARNING: Possible unwrapped commit description (prefer a maximum 75 \
-> chars per line)
-> #48:
-> Reported-and-tested-by: syzbot+f817490f5bd20541b90a@syzkaller.appspotmail.com
+Thanks for the explanation, so iiuc it means it will overflow the struct_size() 
+first because of the is_power_of_2(nentries) requirement? Could you help adding 
+some comment to explain? Thanks.
 
-Adding the new tag to signature_tags removes this warning.
-
-Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
----
-PS: It's expected that checkpatch.pl will complain about this patch for
-checkpatch.pl, although I tried to remove some warnings - see below.
-
-v2:
-  - suppress 4 warnings from checkpatch.pl, adding '>' to commit-msg
-  - ./scripts/checkpatch.pl is still complaining about this patch
-    (mostly about the keywords in diff):
-      total: 6 errors, 14 warnings
-    although it's not complaining too much about commit-msg (only about
-    Reported-and-tested-by tag)
-v1: https://lore.kernel.org/all/20230829123446.3455193-1-andrew.kanner@gmail.com/
-
- scripts/checkpatch.pl | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 7d16f863edf1..a9dbc9c6e26c 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -617,6 +617,7 @@ our $signature_tags = qr{(?xi:
- 	Tested-by:|
- 	Reviewed-by:|
- 	Reported-by:|
-+	Reported-and-tested-by:|
- 	Suggested-by:|
- 	To:|
- 	Cc:
-@@ -711,7 +712,7 @@ sub find_standard_signature {
- 	my ($sign_off) = @_;
- 	my @standard_signature_tags = (
- 		'Signed-off-by:', 'Co-developed-by:', 'Acked-by:', 'Tested-by:',
--		'Reviewed-by:', 'Reported-by:', 'Suggested-by:'
-+		'Reviewed-by:', 'Reported-by:', 'Reported-and-tested-by:', 'Suggested-by:'
- 	);
- 	foreach my $signature (@standard_signature_tags) {
- 		return $signature if (get_edit_distance($sign_off, $signature) <= 2);
--- 
-2.39.3
+> case, the rest hit the normal case, vmalloc_user() is complaining
+> about 1 allocation:
+> 
+> 0x20000000
+> 0x10000000
+> 0x8000000
+> [   41.759195][ T2807] pre PAGE_ALIGN size = 2147483968 (0x80000140), PAGE_SIZE = 4096 (0x1000)
+> [   41.759621][ T2807] repro-iter: vmalloc error: size 2147487744, exceeds total pages, mode:0xdc0(GFP_KERNEL|__GFP_ZERO), nodemask=(null),cpuset=/,mems_allowed=0
+> [...]
+> 0x4000000
+> 0x2000000
+> 0x1000000
+> 0x800000
+> 0x400000
+> 0x200000
+> 0x100000
+> 0x80000
+> 0x40000
+> 0x20000
+> 0x10000
+> 0x8000
+> 0x4000
+> 0x2000
+> 0x1000
+> 0x800
+> 0x400
+> 0x200
+> 0x100
+> 0x80
+> 0x40
+> 0x20
+> 0x10
+> 0x8
+> 0x4
+> 0x2
+> 
 
 _______________________________________________
 Linux-kernel-mentees mailing list
