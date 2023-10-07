@@ -1,80 +1,104 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4352BE95A61
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Oct 2023 15:23:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C768EE95A61
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Oct 2023 15:39:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BA8544046B;
-	Sat,  7 Oct 2023 15:23:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org BA8544046B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=m6aZYe0E
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id f1Im10qIdVyO; Sat,  7 Oct 2023 15:23:49 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 97D74400CE;
-	Sat,  7 Oct 2023 15:23:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 97D74400CE
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C804C0039;
-	Sat,  7 Oct 2023 15:23:49 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0C001C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 15:23:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D5415612FC
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 15:23:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D5415612FC
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5122460F89;
+	Sat,  7 Oct 2023 15:39:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5122460F89
 Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=m6aZYe0E
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gCEXlBJt
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id McfnsC1RSCgj
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id L97c0cCNZcv1; Sat,  7 Oct 2023 15:39:11 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 331B560BEB;
+	Sat,  7 Oct 2023 15:39:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 331B560BEB
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 0BDA4C0039;
+	Sat,  7 Oct 2023 15:39:11 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id CF786C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 15:23:46 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 624C7610DE
+ Sat,  7 Oct 2023 15:39:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 951A641E71
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 15:23:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 624C7610DE
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id F37EDB8077E;
- Sat,  7 Oct 2023 15:23:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 832C8C433C7;
- Sat,  7 Oct 2023 15:23:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1696692223;
- bh=9FvghTJx3n5zJscHtVU/mx4NrhT3yTXI6D36vN8bU9w=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=m6aZYe0E/NxsHBMhWo5vZPAFmMp/9ZbTe+uxADVYPJXpE4qfG09wNMPFYJihec30v
- xFUIxuruWES+8S1Q1FUzKpk5v3NUhXlfZSvUd/QePuK4VadTXJYPahQYhN/4goU85K
- eLbkMWU7UroC3LhuLYlWVXDaUOfjbUfiYXYsmofNp5FLS+jik5183XCMz+09N2RoQz
- 863AEDvWrqsDV67Qo5EXrXb0ouCgbFKfvZcAB4nnnR2Uf+CklDPBvqvcDdvSkWf4Mk
- KV7BBS1XkVEN9o5LblvfzGdjQDYlh7InI6z/OSUtFAePvqLZgycwsqcJFstWqdkQaq
- IVKtrgZDVkCog==
-Received: (nullmailer pid 2012352 invoked by uid 1000);
- Sat, 07 Oct 2023 15:23:41 -0000
+ Sat,  7 Oct 2023 15:39:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 951A641E71
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=gCEXlBJt
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id GkTDsEr9XPa6
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Oct 2023 15:39:08 +0000 (UTC)
+Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com
+ [IPv6:2001:4860:4864:20::30])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 8F48741C54
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Oct 2023 15:39:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8F48741C54
+Received: by mail-oa1-x30.google.com with SMTP id
+ 586e51a60fabf-1dd1714b9b6so2072279fac.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 07 Oct 2023 08:39:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696693147; x=1697297947;
+ darn=lists.linuxfoundation.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=0lJN7RuCz9ZjltjJkr63VcR1vl5+W7ycDgx1Cg/Hr84=;
+ b=gCEXlBJtkOetYrSYELBbcPS8NIaAHTwtP9EPxf2LXYvp5KEZtJxTTfEONHFm1jniAW
+ 65tc5Cd0u6S5RCSZklRuUaOxn1Bqmk2YjM67eIAIsSPA+van32aZV+xlExD+1ekphZIR
+ G5b33M6KlsQqWd+baIH34YbYbi3VdnSJsVwH/8tYe60z+6L3Eo8TJXjOfcP1/eTM7rGF
+ GAFu/yQtq3t/EceI99N0BIsuukG1t6u5UnnIB2D1Gz0ySdPebvM8WsshFWBQw9tCmAsV
+ 4/qhUJCytPWQ/KFJ5ke7CDNiL1iy+eHA5KGzBr69NGP+GX0nmkvXEjhjZbZJnIkER9r0
+ AJLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696693147; x=1697297947;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0lJN7RuCz9ZjltjJkr63VcR1vl5+W7ycDgx1Cg/Hr84=;
+ b=fbs2FgJ87JG84GjLdbHnlVrU0OmCg2VJ4q0mg4HcngCVQ7YRN+XZy/cTJ+mOOGK/Ob
+ HW9Cs9OyTEgT72emIyHhcfjVt9ysLRKtBiOD+iLB+PgLkQ+0W1uu8l+wniwuUiBmM8F5
+ 1dxc1BY/tbcmUSMH4NmWav+KM+A0yHbooSpyJIfmpA7/ImLl2zcn8YFt44gGG7OzN7nQ
+ h8JKsWoS2W50NYQO6c+UDDlYDxVyumHj9oZtUkP418tseKgJtsILImyAJtqSJ9PCLreN
+ Idsp/w6ZCvItU2ST/Po/tVh3hNKhWGY96YSQgE3E4SCCFAgFwR/wA6Klr7VXBsXPcBsp
+ GMTA==
+X-Gm-Message-State: AOJu0YzpOt1sJ9p3eqjBgJJYOZ+GBY38Lv5WiHbJ0m4bjLEDR7JB4iAp
+ L9hjsam0vV+hWshazyis3uw=
+X-Google-Smtp-Source: AGHT+IFCF+7ptEknYG3uxPPktuAFWsMzDhdeQdX0H5Xy/UH2i3owgjFXHpdjxFEMJ3W1E/Emi9KBcg==
+X-Received: by 2002:a05:6870:d689:b0:1c8:bbd0:2fc9 with SMTP id
+ z9-20020a056870d68900b001c8bbd02fc9mr12466971oap.49.1696693147062; 
+ Sat, 07 Oct 2023 08:39:07 -0700 (PDT)
+Received: from atom0118 ([2405:201:c009:52e1:f940:d30d:8b60:5b64])
+ by smtp.gmail.com with ESMTPSA id
+ j5-20020aa78d05000000b0068842ebfd10sm3300016pfe.160.2023.10.07.08.39.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 07 Oct 2023 08:39:06 -0700 (PDT)
+Date: Sat, 7 Oct 2023 21:09:00 +0530
+From: Atul Kumar Pant <atulpant.linux@gmail.com>
+To: naveen.n.rao@linux.ibm.com, anil.s.keshavamurthy@intel.com,
+ davem@davemloft.net, mhiramat@kernel.org
+Subject: Re: [PATCH v1] samples: kprobes: Fixes a typo
+Message-ID: <20231007153900.GA20160@atom0118>
+References: <20230817170819.77857-1-atulpant.linux@gmail.com>
+ <20230923173040.GA159038@atom0118>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <20231007144052.1535417-1-anshulusr@gmail.com>
-References: <20231007144052.1535417-1-anshulusr@gmail.com>
-Message-Id: <169669222125.2012336.4347656576097036742.robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: Add bindings for Adafruit Seesaw Gamepad
-Date: Sat, 07 Oct 2023 10:23:41 -0500
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Disposition: inline
+In-Reply-To: <20230923173040.GA159038@atom0118>
+Cc: shuah@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,74 +116,36 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
-On Sat, 07 Oct 2023 20:10:49 +0530, Anshul Dalal wrote:
-> A simple driver for a mini gamepad that communicates over i2c, the gamepad
-> has bidirectional thumb stick input and six buttons.
+On Sat, Sep 23, 2023 at 11:00:46PM +0530, Atul Kumar Pant wrote:
+> On Thu, Aug 17, 2023 at 10:38:19PM +0530, Atul Kumar Pant wrote:
+> > Fixes typo in a function name.
+> > 
+> > Signed-off-by: Atul Kumar Pant <atulpant.linux@gmail.com>
+> > ---
+> >  samples/kprobes/kretprobe_example.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/samples/kprobes/kretprobe_example.c b/samples/kprobes/kretprobe_example.c
+> > index cbf16542d84e..ed79fd3d48fb 100644
+> > --- a/samples/kprobes/kretprobe_example.c
+> > +++ b/samples/kprobes/kretprobe_example.c
+> > @@ -35,7 +35,7 @@ struct my_data {
+> >  	ktime_t entry_stamp;
+> >  };
+> >  
+> > -/* Here we use the entry_hanlder to timestamp function entry */
+> > +/* Here we use the entry_handler to timestamp function entry */
+> >  static int entry_handler(struct kretprobe_instance *ri, struct pt_regs *regs)
+> >  {
+> >  	struct my_data *data;
+> > -- 
+> > 2.25.1
+> > 
 > 
-> The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
-> to transmit the ADC data for the joystick and digital pin state for the
-> buttons. I have only implemented the functionality required to receive the
-> thumb stick and button state.
-> 
-> Steps in reading the gamepad state over i2c:
->   1. Reset the registers
->   2. Set the pin mode of the pins specified by the `BUTTON_MASK` to input
->       `BUTTON_MASK`: A bit-map for the six digital pins internally
->        connected to the joystick buttons.
->   3. Enable internal pullup resistors for the `BUTTON_MASK`
->   4. Bulk set the pin state HIGH for `BUTTON_MASK`
->   5. Poll the device for button and joystick state done by:
->       `seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)`
-> 
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
-> 
-> Tested on RPi Zero 2W
-> 
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> ---
->  .../bindings/input/adafruit_seesaw.yaml       | 45 +++++++++++++++++++
->  1 file changed, 45 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/adafruit_seesaw.yaml
-> 
+> 	Hi all, can someone provide comments on this change.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/input/adafruit_seesaw.yaml:4:6: [error] string value is redundantly quoted with any quotes (quoted-strings)
-./Documentation/devicetree/bindings/input/adafruit_seesaw.yaml:5:10: [error] string value is redundantly quoted with any quotes (quoted-strings)
-
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/input/adafruit_seesaw.example.dts:20.13-26: Warning (reg_format): /example-0/seesaw_gamepad@50:reg: property has invalid length (4 bytes) (#address-cells == 1, #size-cells == 1)
-Documentation/devicetree/bindings/input/adafruit_seesaw.example.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/adafruit_seesaw.example.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/adafruit_seesaw.example.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/adafruit_seesaw.example.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
-Documentation/devicetree/bindings/input/adafruit_seesaw.example.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/input/adafruit_seesaw.example.dtb: seesaw_gamepad@50: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/input/adafruit_seesaw.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231007144052.1535417-1-anshulusr@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+			Hi all, can someone please review this change. It has been not
+			reviewed for quite some time.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
