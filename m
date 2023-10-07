@@ -1,115 +1,108 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C1DE8E92FFD
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Oct 2023 06:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CEE33E92FFD
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Oct 2023 07:52:55 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4A3A8401B1;
-	Sat,  7 Oct 2023 06:56:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4A3A8401B1
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kQKJVVzS
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c1GQ8V-Onf6g; Sat,  7 Oct 2023 06:56:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 502D64026E;
-	Sat,  7 Oct 2023 06:56:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 502D64026E
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2C9F2C0039;
-	Sat,  7 Oct 2023 06:56:20 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BD5CBC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 06:56:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9820141DC4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 06:56:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9820141DC4
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3DB1242D4A;
+	Sat,  7 Oct 2023 07:52:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3DB1242D4A
 Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=kQKJVVzS
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XWBPjaQk
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tMt_cFdSih5f
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ZVX2n1C-991Y; Sat,  7 Oct 2023 07:52:54 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B01FB42D30;
+	Sat,  7 Oct 2023 07:52:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B01FB42D30
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 93963C0039;
+	Sat,  7 Oct 2023 07:52:53 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4795C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 06:56:17 +0000 (UTC)
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id A23EB41D9F
+ Sat,  7 Oct 2023 07:52:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 6CC144026E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 06:56:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A23EB41D9F
-Received: by mail-ej1-x62c.google.com with SMTP id
- a640c23a62f3a-9a6190af24aso509744466b.0
+ Sat,  7 Oct 2023 07:52:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6CC144026E
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=XWBPjaQk
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id yJcWsxcjqkMT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 06 Oct 2023 23:56:17 -0700 (PDT)
+ Sat,  7 Oct 2023 07:52:51 +0000 (UTC)
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 345D7401B1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Oct 2023 07:52:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 345D7401B1
+Received: by mail-ed1-x533.google.com with SMTP id
+ 4fb4d7f45d1cf-53b8f8c6b1fso117935a12.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 07 Oct 2023 00:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696661775; x=1697266575;
+ d=gmail.com; s=20230601; t=1696665169; x=1697269969;
  darn=lists.linuxfoundation.org; 
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=YUw7XoLsz41SiLTdb8LgB9w87N22enKZ40wW5PzF0/s=;
- b=kQKJVVzSDHNSuYhtt9P4HexEFGOd1hZj3tu+b3hQ/C23qynmkHFbTx+jpFMbeUOMrv
- fCM0sSOaJrH2jlfab2Px7K18Z+OUb1u7j3ZJ3GrCom6kVURBStD4qsJf6PA3iImNLBhB
- Bm+Qy0FJ6be7x11uaiHn4wmU9pxPiYgCEpMPbXLLsEUyDb0gWlJrCPBE1MCpG64hjSxv
- kgaYoUO5mPisGyJcQoidfx5AWP95EKSVIJkAua8DxB9IeEaVnJQtBD2ixXAuslPrMLaD
- U5mUoWlOsX4FstYySaILjmuM9EPY2RPAer0iPXGULi+n0ZVwfTahaiKD+f4yULXXHJO9
- JaPA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FYYo8GR3oiE1tO7of8Zj0AJ+1K2a6alvRcy0hRc5+D0=;
+ b=XWBPjaQkaL2pOjnU3bkf4ce2ltnX4cBZhuMdoYQbmR0c8QWu1dsWmSKrJ3cMGr0QJN
+ WRS9/cakJKowW0qPams2q3QQRQ0LRsoL6xqDKdX9q18PDbVXsDmRT5KLF7V9GlJdmKO2
+ yP0CAaQn8WxiPWclSy01EaO2e3gE4ud7n3603FDFnUlmN0FTnF/9Nd/9t3NkSmiVV2zB
+ MXgMXUyAH/tkYVxe2uBQ5J57/S0JuKXG8SEsptxn58d9WDeLE8l7wnbJtoZyscLeYECf
+ 3n/Zqe+YVL5wsRIgB7j3/A+LNM4qEcF5oYkragxsn4auyePaVpLfHowIqBCpyqfOLvdD
+ Dzrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696661775; x=1697266575;
- h=in-reply-to:content-disposition:mime-version:references:subject:cc
- :to:from:date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YUw7XoLsz41SiLTdb8LgB9w87N22enKZ40wW5PzF0/s=;
- b=kNdHwas6kiHEGhI2VVOcy00YqlagN6fxIomgFI1YKIlFy8+o7rDErzKet22OVnMlUI
- YFKR03rxBM01S1RZ0HmkE/rjEuhEjdench8tweb7yCT3m9ACQma6MpwIYM5C+JKEsv6V
- 0z8oAUHg/6/dwsx8QXZR0TtjUuq0h2URnlUPtYQZJGDgoXAJLyl3UUp2QSK4KuIjObj8
- azEmPGBn29HUyJV6/isecc+g36nTxG2c5he6aIm6SEky5/Wvz49TpWwfuEzWCmVlGKq+
- dQPpEibyKWiiY7FXOx97KgiibOQJ2BcDVThcQAjGTcuCmmg3BQfJTFmLZEc4cGA1Ya0q
- FPbw==
-X-Gm-Message-State: AOJu0YySzSEEVXowolbXMER7I5jU/NfFZDteeuA5jTihx4twgBTaY7kU
- jlntkkAv3g3H5Bu8KWGAO4k=
-X-Google-Smtp-Source: AGHT+IE9bYWCnyZHBnyoiDrTEX9fuL1lMn3ATCGlp1Qxp0RTtKHcxZd4K4z8vLp4+Z+7rjnr4qBHKA==
-X-Received: by 2002:a17:907:7888:b0:9ae:68dc:d571 with SMTP id
- ku8-20020a170907788800b009ae68dcd571mr10124154ejc.46.1696661775293; 
- Fri, 06 Oct 2023 23:56:15 -0700 (PDT)
-Received: from akanner-r14. ([77.222.24.57]) by smtp.gmail.com with ESMTPSA id
- rn4-20020a170906d92400b0099bc038eb2bsm3858516ejb.58.2023.10.06.23.56.11
+ d=1e100.net; s=20230601; t=1696665169; x=1697269969;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FYYo8GR3oiE1tO7of8Zj0AJ+1K2a6alvRcy0hRc5+D0=;
+ b=MI33gVvjCjclxPgLTCdn8qB/vwZInt0uIKs4dDS48MzQgPS3V2HjBQNmpjDtFf0fAo
+ x0jXH8aLPFhmPDV/qLV5L+czJErmjeXUJI6nTDyaT9ICyQq8KUHMRdIJ1dHJsQksGpqC
+ XKDJh3Dzde8sHcj/MALQQXWCocOZekYd5H0ZgKUjY72NPrJAozVcZn/TQLu7S87lIAWc
+ 0Fz7Mj6NDjwqCDUXWU/fOKeGeZR24l0jXFnjKUSaCm/wBs1UI6Lzk8upwojqjW6gfIsn
+ ksmQFj9uTQ1BVAqonST0xLNH8BuykzxPYHSOtXS/cRmttHTzW85bp6Bpubd/ysTEa6yB
+ OnNw==
+X-Gm-Message-State: AOJu0YyTA3K+TN/BqNM+2hOvjoRJ36Z1P3rASJ6pi5kG7fgyinnJwKJ/
+ /bOqXJxKF1/cd52NIKaEkeg=
+X-Google-Smtp-Source: AGHT+IEa0d+g1RmX9uc9gMWr0k5mS4QILCecL+NREQqJlgOannZCmyfEkeEcOEKCxv16TAPphXhn1Q==
+X-Received: by 2002:a50:ee1a:0:b0:530:a0a9:ee36 with SMTP id
+ g26-20020a50ee1a000000b00530a0a9ee36mr8902769eds.38.1696665168939; 
+ Sat, 07 Oct 2023 00:52:48 -0700 (PDT)
+Received: from localhost.localdomain ([77.222.24.57])
+ by smtp.gmail.com with ESMTPSA id
+ n24-20020aa7d058000000b0053331f9094dsm3568685edo.52.2023.10.07.00.52.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Oct 2023 23:56:14 -0700 (PDT)
-Message-ID: <6521010e.170a0220.1f5b5.aaa6@mx.google.com>
-X-Google-Original-Message-ID: <ZSEBBY1Xb7vjm0ua@akanner-r14.>
-Date: Sat, 7 Oct 2023 09:56:05 +0300
+ Sat, 07 Oct 2023 00:52:44 -0700 (PDT)
 From: Andrew Kanner <andrew.kanner@gmail.com>
-To: Martin KaFai Lau <martin.lau@linux.dev>
-Subject: Re: [PATCH bpf v3] net/xdp: fix zero-size allocation warning in
+To: martin.lau@linux.dev, bjorn@kernel.org, magnus.karlsson@intel.com,
+ maciej.fijalkowski@intel.com, jonathan.lemon@gmail.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, aleksander.lobakin@intel.com,
+ xuanzhuo@linux.alibaba.com, ast@kernel.org, hawk@kernel.org,
+ john.fastabend@gmail.com, daniel@iogearbox.net
+Subject: [PATCH bpf v4] net/xdp: fix zero-size allocation warning in
  xskq_create()
-References: <20231005193548.515-1-andrew.kanner@gmail.com>
- <7aa47549-5a95-22d7-1d03-ffdd251cec6d@linux.dev>
- <651fb2a8.c20a0220.8d6c3.0fd9@mx.google.com>
- <57c35480-983d-2056-1d72-f6e555069b83@linux.dev>
- <6520971d.a70a0220.758e3.8cf7@mx.google.com>
- <eb61966f-8666-80f6-1eab-c89bffe496b8@linux.dev>
+Date: Sat,  7 Oct 2023 10:51:49 +0300
+Message-Id: <20231007075148.1759-1-andrew.kanner@gmail.com>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <eb61966f-8666-80f6-1eab-c89bffe496b8@linux.dev>
-Cc: xuanzhuo@linux.alibaba.com, daniel@iogearbox.net,
- maciej.fijalkowski@intel.com, hawk@kernel.org, edumazet@google.com,
- aleksander.lobakin@intel.com, netdev@vger.kernel.org, john.fastabend@gmail.com,
- linux-kernel@vger.kernel.org, davem@davemloft.net,
- syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com, bjorn@kernel.org,
- ast@kernel.org, jonathan.lemon@gmail.com, kuba@kernel.org, bpf@vger.kernel.org,
- pabeni@redhat.com, linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com,
- magnus.karlsson@intel.com
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com, bpf@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -127,55 +120,115 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 06, 2023 at 04:58:18PM -0700, Martin KaFai Lau wrote:
-> On 10/6/23 4:24 PM, Andrew Kanner wrote:
-> > > Thanks for the explanation, so iiuc it means it will overflow the
-> > > struct_size() first because of the is_power_of_2(nentries) requirement?
-> > > Could you help adding some comment to explain? Thanks.
-> > > 
-> > The overflow happens because there's no upper limit for nentries
-> > (userspace input). Let me add more context, e.g. from net/xdp/xsk.c:
-> > 
-> > static int xsk_setsockopt(struct socket *sock, int level, int optname,
-> >                            sockptr_t optval, unsigned int optlen)
-> > {
-> > [...]
-> >                  if (copy_from_sockptr(&entries, optval, sizeof(entries)))
-> >                          return -EFAULT;
-> > [...]
-> >                  err = xsk_init_queue(entries, q, false);
-> > [...]
-> > }
-> > 
-> > 'entries' is passed to xsk_init_queue() and there're 2 checks: for 0
-> > and is_power_of_2() only, no upper bound check:
-> > 
-> > static int xsk_init_queue(u32 entries, struct xsk_queue **queue,
-> >                            bool umem_queue)
-> > {
-> >          struct xsk_queue *q;
-> > 
-> >          if (entries == 0 || *queue || !is_power_of_2(entries))
-> >                  return -EINVAL;
-> > 
-> >          q = xskq_create(entries, umem_queue);
-> >          if (!q)
-> >                  return -ENOMEM;
-> > [...]
-> > }
-> > 
-> > The 'entries' value is next passed to struct_size() in
-> > net/xdp/xsk_queue.c. If it's large enough - SIZE_MAX will be returned.
-> 
-> All make sense. I was mostly asking to add a comment at the "if
-> (unlikely(size == SIZE_MAX)" check to explain this details on why checking
-> SIZE_MAX is enough.
+Syzkaller reported the following issue:
+ ------------[ cut here ]------------
+ WARNING: CPU: 0 PID: 2807 at mm/vmalloc.c:3247 __vmalloc_node_range (mm/vmalloc.c:3361)
+ Modules linked in:
+ CPU: 0 PID: 2807 Comm: repro Not tainted 6.6.0-rc2+ #12
+ Hardware name: Generic DT based system
+ unwind_backtrace from show_stack (arch/arm/kernel/traps.c:258)
+ show_stack from dump_stack_lvl (lib/dump_stack.c:107 (discriminator 1))
+ dump_stack_lvl from __warn (kernel/panic.c:633 kernel/panic.c:680)
+ __warn from warn_slowpath_fmt (./include/linux/context_tracking.h:153 kernel/panic.c:700)
+ warn_slowpath_fmt from __vmalloc_node_range (mm/vmalloc.c:3361 (discriminator 3))
+ __vmalloc_node_range from vmalloc_user (mm/vmalloc.c:3478)
+ vmalloc_user from xskq_create (net/xdp/xsk_queue.c:40)
+ xskq_create from xsk_setsockopt (net/xdp/xsk.c:953 net/xdp/xsk.c:1286)
+ xsk_setsockopt from __sys_setsockopt (net/socket.c:2308)
+ __sys_setsockopt from ret_fast_syscall (arch/arm/kernel/entry-common.S:68)
 
-Ok, I got it. Will add in v4.
-Thanks.
+xskq_get_ring_size() uses struct_size() macro to safely calculate the
+size of struct xsk_queue and q->nentries of desc members. But the
+syzkaller repro was able to set q->nentries with the value initially
+taken from copy_from_sockptr() high enough to return SIZE_MAX by
+struct_size(). The next PAGE_ALIGN(size) is such case will overflow
+the size_t value and set it to 0. This will trigger WARN_ON_ONCE in
+vmalloc_user() -> __vmalloc_node_range().
 
+The issue is reproducible on 32-bit arm kernel.
+
+Reported-and-tested-by: syzbot+fae676d3cf469331fc89@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/000000000000c84b4705fb31741e@google.com/T/
+Link: https://syzkaller.appspot.com/bug?extid=fae676d3cf469331fc89
+Reported-by: syzbot+b132693e925cbbd89e26@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/000000000000e20df20606ebab4f@google.com/T/
+Fixes: 9f78bf330a66 ("xsk: support use vaddr as ring")
+Signed-off-by: Andrew Kanner <andrew.kanner@gmail.com>
+---
+
+Notes (akanner):
+    v4:
+      - add explanation about SIZE_MAX, suggested by Martin KaFai Lau
+        <martin.lau@linux.dev>
+    v3: https://lore.kernel.org/all/20231005193548.515-1-andrew.kanner@gmail.com/T/
+      - free kzalloc-ed memory before return, the leak was noticed by
+        Daniel Borkmann <daniel@iogearbox.net>
+    v2: https://lore.kernel.org/all/20231002222939.1519-1-andrew.kanner@gmail.com/raw
+      - use unlikely() optimization for the case with SIZE_MAX return from
+        struct_size(), suggested by Alexander Lobakin
+        <aleksander.lobakin@intel.com>
+      - cc-ed 4 more maintainers, mentioned by cc_maintainers patchwork
+        test
+    
+    v1: https://lore.kernel.org/all/20230928204440.543-1-andrew.kanner@gmail.com/T/
+      - RFC notes:
+        It was found that net/xdp/xsk.c:xsk_setsockopt() uses
+        copy_from_sockptr() to get the number of entries (int) for cases
+        with XDP_RX_RING / XDP_TX_RING and XDP_UMEM_FILL_RING /
+        XDP_UMEM_COMPLETION_RING.
+    
+        Next in xsk_init_queue() there're 2 sanity checks (entries == 0)
+        and (!is_power_of_2(entries)) for which -EINVAL will be returned.
+    
+        After that net/xdp/xsk_queue.c:xskq_create() will calculate the
+        size multipling the number of entries (int) with the size of u64,
+        at least.
+    
+        I wonder if there should be the upper bound (e.g. the 3rd sanity
+        check inside xsk_init_queue()). It seems that without the upper
+        limit it's quiet easy to overflow the allocated size (SIZE_MAX),
+        especially for 32-bit architectures, for example arm nodes which
+        were used by the syzkaller.
+    
+        In this patch I added a naive check for SIZE_MAX which helped to
+        skip zero-size allocation after overflow, but maybe it's not quite
+        right. Please, suggest if you have any thoughts about the
+        appropriate limit for the size of these xdp rings.
+    
+        PS: the initial number of entries is 0x20000000 in syzkaller
+        repro: syscall(__NR_setsockopt, (intptr_t)r[0], 0x11b, 3,
+        0x20000040, 0x20);
+    
+        Link:
+        https://syzkaller.appspot.com/text?tag=ReproC&x=10910f18280000
+
+ net/xdp/xsk_queue.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/net/xdp/xsk_queue.c b/net/xdp/xsk_queue.c
+index f8905400ee07..d2c264030017 100644
+--- a/net/xdp/xsk_queue.c
++++ b/net/xdp/xsk_queue.c
+@@ -34,6 +34,16 @@ struct xsk_queue *xskq_create(u32 nentries, bool umem_queue)
+ 	q->ring_mask = nentries - 1;
+ 
+ 	size = xskq_get_ring_size(q, umem_queue);
++
++	/* size which is overflowing or close to SIZE_MAX will become 0 in
++	 * PAGE_ALIGN(), checking SIZE_MAX is enough due to the previous
++	 * is_power_of_2(), the rest will be handled by vmalloc_user()
++	 */
++	if (unlikely(size == SIZE_MAX)) {
++		kfree(q);
++		return NULL;
++	}
++
+ 	size = PAGE_ALIGN(size);
+ 
+ 	q->ring = vmalloc_user(size);
 -- 
-Andrew Kanner
+2.39.3
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
