@@ -1,109 +1,140 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C945CE95A66
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Oct 2023 16:14:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8102AE95A62
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat,  7 Oct 2023 17:39:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 3C3DC61062;
-	Sat,  7 Oct 2023 16:14:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3C3DC61062
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YELg0aoU
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eOSGvpKU1VOS; Sat,  7 Oct 2023 16:13:59 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0FBF96105F;
-	Sat,  7 Oct 2023 16:13:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0FBF96105F
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D8C66C0071;
-	Sat,  7 Oct 2023 16:13:58 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7B8CEC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 16:13:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 5068282E29
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 16:13:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5068282E29
+	by smtp1.osuosl.org (Postfix) with ESMTP id D3F3982F99;
+	Sat,  7 Oct 2023 17:39:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D3F3982F99
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=YELg0aoU
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=ibAhP68t
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id thm08deMw3gm
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oJU7sLMHik3s; Sat,  7 Oct 2023 17:39:09 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8153682F14;
+	Sat,  7 Oct 2023 17:39:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8153682F14
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 64827C0039;
+	Sat,  7 Oct 2023 17:39:09 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D7584C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 16:13:56 +0000 (UTC)
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
- [IPv6:2607:f8b0:4864:20::62a])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 28EC382E19
+ Sat,  7 Oct 2023 17:39:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 9129C40128
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat,  7 Oct 2023 16:13:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 28EC382E19
-Received: by mail-pl1-x62a.google.com with SMTP id
- d9443c01a7336-1c888b3a25aso19215865ad.0
+ Sat,  7 Oct 2023 17:39:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9129C40128
+Authentication-Results: smtp2.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
+ header.s=selector1 header.b=ibAhP68t
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id C6VSnTSU6vqD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 07 Oct 2023 09:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696695235; x=1697300035;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xkfU4bzU52zK6sm4tXBNFHasLcdSkI9FGxbIUj7r4CQ=;
- b=YELg0aoUC5lAHSpVok7zEAcXrt9ZuENFpwpC/PsZ4vWSQDmgvF0jK7HPAEZB1H7IB1
- liHt7nlk2/EV93V0nLWK/IBdc2qd6CpfbAdbbwMH2wM7mMgIXOh8Fn1BdXfzGnkwHaHc
- D+zdxmqE9nVSIKLYLjgftdZvebYlA1Tw6HogZ2a4drlPo6pVaVhLoc5iFxGb0sAw8wP4
- Oz9lOomjqqrYEp8y3qcabVrFuhwPVz9l2kr0sYnef6v3fQOOufm9eHl3Lg+yN+kRt/ay
- WNomBcF/zbqOV/exFtCxeTPGla4x86YuCaFil7VSvkcql74z2vuzUXT9ZwnMQW3pbl5M
- us+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696695235; x=1697300035;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=xkfU4bzU52zK6sm4tXBNFHasLcdSkI9FGxbIUj7r4CQ=;
- b=XhNSfbjtUKV20LDthHD7dQ9O/SXnzDX4/nD7zF3nZyIG0/fPN6LXga//t9BxYFLn8i
- NiHZlfeTxl2MwwMA9AqsPNLZN9P3KOa8vGVqIDEMoAPgjUNK8BzQdcpLTQCVSCJjLAOP
- f89oJWY4BuwNVv+vgHqT0l31OY5MInDnJ+0Mk5s84+wRkkLIfWQOhiu1D67TWgL/xZj4
- JH2B75sDRKS8k4mVBNKUOA02KS1sOcwKXhRHjM0VVsdYSGZ5xBVzpOJT/NaKrgM6KC6i
- sLTF7YUcGnfSdqDC4kKoRxTfg+UI3tacTE6MW8GJ0um25sYU8nZuSKxPBNpSo8176BM/
- 1y5w==
-X-Gm-Message-State: AOJu0YxLwtQ38e+DLp7qXdf/jaSj01b1Bk18hSjTyY6w5Lp5+uqH+KcU
- BYG2aVQMYX6JtRft6B3WPnI=
-X-Google-Smtp-Source: AGHT+IHx7uW/3+I8klN2K9j0a2Ii8xQ7H7aYh/Wqy1ibZ2a6Vo4SN76zJlvZ3wv4/5mM5DjlT9Ez8Q==
-X-Received: by 2002:a17:902:e5c7:b0:1c6:ec8:4c67 with SMTP id
- u7-20020a170902e5c700b001c60ec84c67mr11904346plf.18.1696695235460; 
- Sat, 07 Oct 2023 09:13:55 -0700 (PDT)
-Received: from [10.3.171.174] ([103.4.221.252])
- by smtp.gmail.com with ESMTPSA id
- i19-20020a170902eb5300b001c63429fa89sm6055800pli.247.2023.10.07.09.13.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 07 Oct 2023 09:13:55 -0700 (PDT)
-Message-ID: <2281f924-30d1-41c5-b105-d8d28aada5b2@gmail.com>
-Date: Sat, 7 Oct 2023 21:43:03 +0530
+ Sat,  7 Oct 2023 17:39:06 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03olkn2082a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1a::82a])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 1DB5A400CE
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat,  7 Oct 2023 17:39:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1DB5A400CE
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fTf0IfQ2WUeipmcOPJRKzFFjYdG4b8BBVUbMT8YAVsZJ0xkBAQpuYYWKKhEhVD6sAeaOvYlZchTBS+pao7C2buKQV40vvm0jhzEmYGRMWivYp1wrsM5MOVtRCPH6d1Anx1wsGX7P8siRxZXsjmUfMrQSPRap3f2tewE+FKMDHF/LI3UQhIkXcCPGoBRWA/MUgPZWn8M9tol67rXT+KbD3KwG4+RtuXxX7N6PpgesbKUTSYaFQh8iAdtZ0Pe8dfyBEuHohYgd0rw77W/erOPiuPlfUzA6+ArrGxPvsqEhhFaAe24OvecwFSLccXw/cTUUJztYVs3A37lMwZYTqZem5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=12EvdEFmL6/zi3i+t0TrKA2F5mSMUmhk9+9EyCcMrOI=;
+ b=Gx7AMJAufF72nqMiQCZv7I8vPHnRPFCcGQkicEbW6xefy1rrsWhkk8NAuZDGSMK4cPvZmTerwVEPWLLKawdkZLr9NSAoR7XyuxHcuQDzjvc2Q9ZNf9Is86G2a5SwJfRQwTQlY7lvd6aoTMgxmT0IMfhLaQuFIiPHWjJpLic7cVx6F9dWITnEh+jiSoyB/MFCaihEyextizqr++z8jAye03GN05Wu7euxiTO76bkDlHhtPuIZqFSmzM+qMmQjGaYYUcYM7gNLDwteFsfOwMGa7NN9GYPqP8xzNLUn+7mMI4mWXCOkJ1TTrn7BI/QYxzlD9RetePDzE4AdsTULsfAStQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=12EvdEFmL6/zi3i+t0TrKA2F5mSMUmhk9+9EyCcMrOI=;
+ b=ibAhP68teFXLRmWTLoyEUP+JBOFgaYQ9fceWXvUoAoSqZvhUhPoqM5qKICGvBFhXOr2ywHHN7QJKdgJ6oasacbTTpYunpiv7mPF6OpgbBBWmjRS/jGXo9bM2Wdj3cPoor61KoILkISIupe6BpCy8/SFw2HOp/OLtz6rshe095AaWWKnkdd8lth4j2eZob257LGTS+ZmsxT7j62gFwTQQOVOnkeNy3wPS+ioLDSOkyFJHGEZ2V9tHqRVU3UMEdwaWoPG+9sP5A+S49jWgMzouj/pu+FZjc3V/KfouIF9sXY5s2xhj2rqDa/Kqp3Odamc9HEL86MaIF0tgccl6YgYnpw==
+Received: from AM9P192MB1267.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:3a7::7)
+ by DU0P192MB1545.EURP192.PROD.OUTLOOK.COM (2603:10a6:10:349::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.33; Sat, 7 Oct
+ 2023 17:39:01 +0000
+Received: from AM9P192MB1267.EURP192.PROD.OUTLOOK.COM
+ ([fe80::628d:d050:3672:a203]) by AM9P192MB1267.EURP192.PROD.OUTLOOK.COM
+ ([fe80::628d:d050:3672:a203%7]) with mapi id 15.20.6838.033; Sat, 7 Oct 2023
+ 17:39:01 +0000
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH] Bluetooth: hci_conn_failed: Fixes memory leak
+Thread-Topic: [PATCH] Bluetooth: hci_conn_failed: Fixes memory leak
+Thread-Index: AQHZ+RLtW/b784HxfEKhHQ3+HoD6ELA+NFAAgABQIEk=
+Date: Sat, 7 Oct 2023 17:39:01 +0000
+Message-ID: <AM9P192MB1267C58F299DF86A5EEFE39EE8C8A@AM9P192MB1267.EURP192.PROD.OUTLOOK.COM>
+References: <AM9P192MB12672AA34A0480B522D23741E8C8A@AM9P192MB1267.EURP192.PROD.OUTLOOK.COM>
+ <2023100727-passive-untidy-8df4@gregkh>
+In-Reply-To: <2023100727-passive-untidy-8df4@gregkh>
+Accept-Language: pt-PT, en-US
+Content-Language: pt-PT
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [n8x/OrWKWPfmvfw9C0U334ucIVzprDl+]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM9P192MB1267:EE_|DU0P192MB1545:EE_
+x-ms-office365-filtering-correlation-id: b6c4fe5f-394f-4dd2-04c7-08dbc75c4b00
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VWpuFI5iWnescrJMgvmLbOa2ibsaNPxwt5WGFedvAB1N7SkGrM2NkAmk6gEamm0N1qBnaH04PNbrzNNRe2MqHh+2/KkytYMIBI3qqwa2VYALR2aI6HmtV1AVSbFd1uB5aWtyWLBP8OHp6BDXOBjeKj0iscTDf1AgVJBigAHijF+66TVdKKVErSxHBlBhO5xDMQPiSJN77Ycxz0FkA/3A5j62as7bWcJCGDztmJRN1IcYnpwL3xgL/KD8tTUv5QMmEdgp24TFgPiklXk1KsVt638Glhpx2b/nywT8sxzmgmYCuBlmpaaTyzLG1EhTocmWmXudGY3neBlNj2mL+P/fN43KiCKIDvbkS5t7aFpxWq28lGbcU3RwVUKYU5NXmoZDEpxhFLvpbJeH0vRg0PVctig1fauxvUhkE4F2Yi6tKn4Def3lUGrpJKpK9KVug3d6Ug0FEiI2Xhxc9CanZ5XQLkKMR+WlAZVVJde7hLMGtk3npBHuF2eVKa59qxkt4JFD9fxGhT2DQR0ZGSum6KWKwO30TLBVGqOj0NfQ1/55INKgmYznL7R1dSpPwz4QjFFT
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3RS/kkQmcjeeUrYRXPL27oiuTefJAe0D0bXJkiVA4r9b1eV+ow7GKMC7CJMm?=
+ =?us-ascii?Q?BdCRDRI3MT8T5PapvwJk4KhGlFMq+3g04MBDVL9iex5pM8Ko/ACNj+9bFYL4?=
+ =?us-ascii?Q?DJ83PReH05a5d4w9g5gd+CziI5zOyIsNOGMBgx5QZK42NnuQPpBrqZZdVfG+?=
+ =?us-ascii?Q?vHUglXACGPdoddRPWEkaMKf9LECb2odJYEbVCJa7OW3MLSPfimc7RVm9/eoY?=
+ =?us-ascii?Q?oa4not24jyq6RkhXrHWsgoEIfXTS2JR/htQfDnUdesxbVUA3pljzzvxNG6PX?=
+ =?us-ascii?Q?jt5RLGa7z2WnI20AIIvvGFbcJ5gFBsE4znlGOcoFJ7Jo7M7ZhLVTBEAdyylh?=
+ =?us-ascii?Q?ft56PBQA+fl7XwV6us2SkTorlsP+V7tuGwW1I4yXHMex2jFxExPevQreKL13?=
+ =?us-ascii?Q?SyQsWfhv8pIFJ4EIlUvWCcLhyXsQ8r2l6AzMdpRIF7dovdLkw8g/LilKf513?=
+ =?us-ascii?Q?3a1RBVIpTHW0+ou2c1bWod7qsXCDGT/154Tpf8wPx15Y94TnsEdzC4IQQ7Ag?=
+ =?us-ascii?Q?ZN8faj0H2Dl7aSukQYNVUCzmwRQ/iC2Tss0fQ04FWypVDf3Myn8ZmjvtJxSH?=
+ =?us-ascii?Q?DNSv7zUskb36nkRBphWbi8S+uZ8K/udt0yg0vJnGW2rgoUTFqqXeBABsuYQ3?=
+ =?us-ascii?Q?4m6ZJmPaJ/6Mhx8UXjsjxKWzzfo/LViX53ZLeQsbkuALKlwKEI6oG1n22SaJ?=
+ =?us-ascii?Q?8tUERe8mlLEHTmvnROIws5SJZJDB6jpE+DdmYfywpO6q0PDsyhuzSj8rtPeq?=
+ =?us-ascii?Q?mdnigr0kvXuAiww1BH0AOo2PNBpeL+lpSD32tky5EJsXSt/axvj/0kytjFAj?=
+ =?us-ascii?Q?zLgeXYWT178nM2o3IWxwLZG+RYbZu2hG6CH33qHsEoZZdz0+iuIPen/cTVVg?=
+ =?us-ascii?Q?+dhIg1ZkE5sjqOk90/XQTkpkKYWoB4vVYaK8uJ6n8Pa5yrQUUlhDWlo5boC5?=
+ =?us-ascii?Q?156c/CfK1xpQ4p6mFDWt4Lmo/SvPGPsk7LirGXXvE0ww2ambXWfy5tDnFQG1?=
+ =?us-ascii?Q?C0rsrSzB2CcG0YBEmoN9gSQDR3+h4qt4MTiDQmqHqZOkxjQPiJflHuOexeQ/?=
+ =?us-ascii?Q?/KfxH0VRI9hI7fzEMbI1CWxSfoEjf6U/FdE9+9SIAleCRL2Un772g0HlodjG?=
+ =?us-ascii?Q?es7jMadu6qUZpKlELoVFRMjGeCuEoYI2jFeA4asrk5KbZij5eiJW+dQe2eXA?=
+ =?us-ascii?Q?fMG0EdRGqgB3+MTjHpq5ELjaxv0Y3WjmriJRbQ=3D=3D?=
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] input: add Adafruit Seesaw Gamepad driver
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org
-References: <20231007144052.1535417-1-anshulusr@gmail.com>
- <20231007144052.1535417-2-anshulusr@gmail.com>
- <a49deeb6-728c-4527-8399-57c52214e1d3@linaro.org>
-From: Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <a49deeb6-728c-4527-8399-57c52214e1d3@linaro.org>
-Cc: Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-fb43a.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9P192MB1267.EURP192.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6c4fe5f-394f-4dd2-04c7-08dbc75c4b00
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2023 17:39:01.2162 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P192MB1545
+Cc: "johan.hedberg@gmail.com" <johan.hedberg@gmail.com>,
+ "marcel@holtmann.org" <marcel@holtmann.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>,
+ "luiz.dentz@gmail.com" <luiz.dentz@gmail.com>,
+ "syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com"
+ <syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,46 +146,156 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="===============2784053585047837787=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello Krzysztof,
-Thank you very much for the review, I am planning to address the changes
-in my next patch series though I had a question.
+--===============2784053585047837787==
+Content-Language: pt-PT
+Content-Type: multipart/alternative;
+	boundary="_000_AM9P192MB1267C58F299DF86A5EEFE39EE8C8AAM9P192MB1267EURP_"
 
-On 10/7/23 20:26, Krzysztof Kozlowski wrote:
-> On 07/10/2023 16:40, Anshul Dalal wrote:
->> +
->> +static int seesaw_probe(struct i2c_client *client)
->> +{
->> +	int err;
->> +	struct seesaw_gamepad *private;
->> +	unsigned char register_reset[] = { SEESAW_STATUS_BASE,
->> +					   SEESAW_STATUS_SWRST, 0xFF };
->> +	unsigned char get_hw_id[] = { SEESAW_STATUS_BASE, SEESAW_STATUS_HW_ID };
->> +
->> +	err = i2c_master_send(client, register_reset, sizeof(register_reset));
->> +	if (err < 0)
->> +		return err;
->> +	if (err != sizeof(register_reset))
->> +		return -EIO;
->> +	mdelay(10);
-> 
-> Why 10? This should be explained somehow in the code.
+--_000_AM9P192MB1267C58F299DF86A5EEFE39EE8C8AAM9P192MB1267EURP_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The reason for the delay is to ensure the register reset process is
-finished before going further. The reference Arduino driver from the
-manufacturer also had a delay for the same amount though my hardware
-unit worked fine till 5ms delay. Is there some kernel abstraction I
-could use to indicate a short delay or will the previous explanation in
-a comment above the line do?
+Hello Greg,
+My apologies, I just noticed that my patch is based on the mainline tree. I=
+'ll re-submit one based on the Bluetooth tree and I'll ensure to include th=
+e commit id that it's fixing.
 
-Best wishes,
-Anshul
+Thanks,
+Yuran Pereira
+________________________________
+De: Greg KH <gregkh@linuxfoundation.org>
+Enviado: 7 de outubro de 2023 11:41
+Para: Yuran Pereira <yuran.pereira@hotmail.com>
+Cc: marcel@holtmann.org <marcel@holtmann.org>; johan.hedberg@gmail.com <joh=
+an.hedberg@gmail.com>; linux-kernel@vger.kernel.org <linux-kernel@vger.kern=
+el.org>; linux-bluetooth@vger.kernel.org <linux-bluetooth@vger.kernel.org>;=
+ luiz.dentz@gmail.com <luiz.dentz@gmail.com>; syzbot+39ec16ff6cc18b1d066d@s=
+yzkaller.appspotmail.com <syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail=
+.com>; linux-kernel-mentees@lists.linuxfoundation.org <linux-kernel-mentees=
+@lists.linuxfoundation.org>
+Assunto: Re: [PATCH] Bluetooth: hci_conn_failed: Fixes memory leak
+
+On Sat, Oct 07, 2023 at 05:09:01PM +0530, Yuran Pereira wrote:
+> The hci_conn_failed() function currently calls hci_connect_cfm(), which
+> indirectly leads to the allocation of an l2cap_conn struct in l2cap_conn_=
+add().
+> This operation results in a memory leak, as the l2cap_conn structure
+> becomes unreferenced.
+>
+> To address this issue and prevent the memory leak, this patch modifies
+> hci_conn_failed() to replace the call to hci_connect_cfm() with a
+> call to hci_disconn_cfm().
+>
+> Reported-by: syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>  net/bluetooth/hci_conn.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+What commit id does this fix?
+
+thanks,
+
+greg k-h
+
+--_000_AM9P192MB1267C58F299DF86A5EEFE39EE8C8AAM9P192MB1267EURP_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+Hello Greg,&nbsp;</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+My apologies, I just noticed that my patch is based on the mainline tree. I=
+'ll re-submit one based on the Bluetooth tree and I'll ensure to include th=
+e commit id that it's fixing.</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+Thanks,</div>
+<div style=3D"font-family: Calibri, Helvetica, sans-serif; font-size: 12pt;=
+ color: rgb(0, 0, 0);" class=3D"elementToProof">
+Yuran Pereira</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>De:</b> Greg KH &lt;gregkh@linu=
+xfoundation.org&gt;<br>
+<b>Enviado:</b> 7 de outubro de 2023 11:41<br>
+<b>Para:</b> Yuran Pereira &lt;yuran.pereira@hotmail.com&gt;<br>
+<b>Cc:</b> marcel@holtmann.org &lt;marcel@holtmann.org&gt;; johan.hedberg@g=
+mail.com &lt;johan.hedberg@gmail.com&gt;; linux-kernel@vger.kernel.org &lt;=
+linux-kernel@vger.kernel.org&gt;; linux-bluetooth@vger.kernel.org &lt;linux=
+-bluetooth@vger.kernel.org&gt;; luiz.dentz@gmail.com &lt;luiz.dentz@gmail.c=
+om&gt;;
+ syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com &lt;syzbot+39ec16ff6=
+cc18b1d066d@syzkaller.appspotmail.com&gt;; linux-kernel-mentees@lists.linux=
+foundation.org &lt;linux-kernel-mentees@lists.linuxfoundation.org&gt;<br>
+<b>Assunto:</b> Re: [PATCH] Bluetooth: hci_conn_failed: Fixes memory leak</=
+font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Sat, Oct 07, 2023 at 05:09:01PM +0530, Yuran Pe=
+reira wrote:<br>
+&gt; The hci_conn_failed() function currently calls hci_connect_cfm(), whic=
+h<br>
+&gt; indirectly leads to the allocation of an l2cap_conn struct in l2cap_co=
+nn_add().<br>
+&gt; This operation results in a memory leak, as the l2cap_conn structure<b=
+r>
+&gt; becomes unreferenced.<br>
+&gt; <br>
+&gt; To address this issue and prevent the memory leak, this patch modifies=
+<br>
+&gt; hci_conn_failed() to replace the call to hci_connect_cfm() with a<br>
+&gt; call to hci_disconn_cfm().<br>
+&gt; <br>
+&gt; Reported-by: syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com<br>
+&gt; Signed-off-by: Yuran Pereira &lt;yuran.pereira@hotmail.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; net/bluetooth/hci_conn.c | 2 +-<br>
+&gt;&nbsp; 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+What commit id does this fix?<br>
+<br>
+thanks,<br>
+<br>
+greg k-h<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_AM9P192MB1267C58F299DF86A5EEFE39EE8C8AAM9P192MB1267EURP_--
+
+--===============2784053585047837787==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============2784053585047837787==--
