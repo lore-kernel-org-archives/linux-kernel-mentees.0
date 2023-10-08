@@ -1,77 +1,76 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0393FE95A67
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Oct 2023 06:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8BB83E95A82
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  8 Oct 2023 08:18:57 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9340B40535;
-	Sun,  8 Oct 2023 06:05:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9340B40535
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=PuqeMXVc
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7iC_wDCPPybi; Sun,  8 Oct 2023 06:05:51 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3CD2C403A9;
-	Sun,  8 Oct 2023 06:05:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3CD2C403A9
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1ADABC0039;
-	Sun,  8 Oct 2023 06:05:51 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9FF0AC0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Oct 2023 06:05:49 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 7BE0B610AA
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Oct 2023 06:05:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7BE0B610AA
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=linuxfoundation.org
- header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
- header.b=PuqeMXVc
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1848F60DC6;
+	Sun,  8 Oct 2023 08:18:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1848F60DC6
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1j_bfl9DFZML
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uDlEN0mEjGGl; Sun,  8 Oct 2023 08:18:56 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E54E060D8E;
+	Sun,  8 Oct 2023 08:18:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E54E060D8E
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BB594C0039;
+	Sun,  8 Oct 2023 08:18:55 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 49320C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Oct 2023 06:05:47 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 322E56108E
+ Sun,  8 Oct 2023 08:18:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 22F86410A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Oct 2023 06:05:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 322E56108E
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 458B2B80B6D;
- Sun,  8 Oct 2023 06:05:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FA68C433C9;
- Sun,  8 Oct 2023 06:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1696745143;
- bh=6G4E2k0CfxZ9RMVM/HKCgdTvuF8wdlnMz5WMcwKbtiE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PuqeMXVcKbcaBDb+fC1tnut7M9vrgyJMrCuNtLsk/3bJoBgGgW22YJk1NZzmTVLbw
- +t8OLkbdY5K541GwTxUqJ7J+MU7Vjq0eQvD0o4W1/0PC9lOoXljrbbu8vqzDRZbz75
- x0daNe4E/8V0YueTZfR4j2fKeO1D4NUq2inl0+hA=
-Date: Sun, 8 Oct 2023 08:05:41 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yuran Pereira <yuran.pereira@hotmail.com>
-Subject: Re: [PATCH] Bluetooth: hci_conn_failed: Fix memory leak
-Message-ID: <2023100830-agreeably-jokingly-e6b4@gregkh>
-References: <AM9P192MB1267F1B8CA16CEEF884C9F2CE8CFA@AM9P192MB1267.EURP192.PROD.OUTLOOK.COM>
+ Sun,  8 Oct 2023 08:18:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 22F86410A1
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lsXh2WWVC3YP
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  8 Oct 2023 08:18:52 +0000 (UTC)
+Received: from 7.mo575.mail-out.ovh.net (7.mo575.mail-out.ovh.net
+ [46.105.63.230])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 6D59140347
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  8 Oct 2023 08:18:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6D59140347
+Received: from director4.ghost.mail-out.ovh.net (unknown [10.109.143.220])
+ by mo575.mail-out.ovh.net (Postfix) with ESMTP id 10A1B27E21
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  8 Oct 2023 08:00:01 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-9mdf6 (unknown [10.110.171.163])
+ by director4.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 5E1A01FE55;
+ Sun,  8 Oct 2023 08:00:00 +0000 (UTC)
+Received: from foxhound.fi ([37.59.142.106])
+ by ghost-submission-6684bf9d7b-9mdf6 with ESMTPSA
+ id SGIwEoBhImXIvwAA5rXBkA
+ (envelope-from <jose.pekkarinen@foxhound.fi>); Sun, 08 Oct 2023 08:00:00 +0000
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006c7d3698b-c1da-41f1-860f-13c89ef29aab,
+ F6EE83B07292679BC443460DC7C66060252C3E74)
+ smtp.auth=jose.pekkarinen@foxhound.fi
+X-OVh-ClientIp: 83.100.45.21
+From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: dmitry.torokhov@gmail.com, rydberg@bitmath.org, skhan@linuxfoundation.org
+Subject: [PATCH] Input: synaptics: enable InterTouch for ThinkPad L14 G1
+Date: Sun,  8 Oct 2023 11:01:28 +0300
+Message-ID: <20231008080129.17931-1-jose.pekkarinen@foxhound.fi>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <AM9P192MB1267F1B8CA16CEEF884C9F2CE8CFA@AM9P192MB1267.EURP192.PROD.OUTLOOK.COM>
-Cc: johan.hedberg@gmail.com, marcel@holtmann.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, luiz.dentz@gmail.com,
- syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-Ovh-Tracer-Id: 7025896895597160102
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrhedtgdduvdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeeftdelueetieetvdettdetueeivedujeefffdvteefkeelhefhleelfeetteejjeenucfkphepuddvjedrtddrtddruddpkeefrddutddtrdeghedrvddupdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdfovfetjfhoshhtpehmohehjeehpdhmohguvgepshhmthhpohhuth
+Cc: amandhoot12@gmail.com, linux-kernel@vger.kernel.org, rrangel@chromium.org,
+ linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,78 +82,56 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Sun, Oct 08, 2023 at 11:33:34AM +0530, Yuran Pereira wrote:
-> The hci_conn_failed() function currently calls hci_connect_cfm(), which
-> indirectly leads to the allocation of an l2cap_conn struct in 
-> l2cap_conn_add().
-> This operation results in a memory leak, as the l2cap_conn structure
-> becomes unreferenced.
-> 
-> To address this issue and prevent the memory leak, this patch modifies
-> hci_conn_failed() to replace the call to hci_connect_cfm() with a
-> call to hci_disconn_cfm().
-> 
-> Fixes: 9b3628d79b46 ("Bluetooth: hci_sync: Cleanup hci_conn if it cannot be aborted")
-> Reported-by: syzbot+39ec16ff6cc18b1d066d@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=39ec16ff6cc18b1d066d
-> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
-> ---
->  net/bluetooth/hci_conn.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/bluetooth/hci_conn.c b/net/bluetooth/hci_conn.c
-> index 7a6f20338db8..1d2d03b4a98a 100644
-> --- a/net/bluetooth/hci_conn.c
-> +++ b/net/bluetooth/hci_conn.c
-> @@ -1248,7 +1248,7 @@ void hci_conn_failed(struct hci_conn *conn, u8 status)
->  	}
->  
->  	conn->state = BT_CLOSED;
-> -	hci_connect_cfm(conn, status);
-> +	hci_disconn_cfm(conn, status);
->  	hci_conn_del(conn);
->  }
->  
-> -- 
-> 2.25.1
-> 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documetnation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T2JzZXJ2ZWQgb24gZG1lc2cgb2YgbXkgbGFwdG9wIEkgc2VlIHRoZSBmb2xsb3dpbmcKb3V0cHV0
+OgoKWyAgIDE5Ljg5ODcwMF0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogcXVlcmllZCBtYXgg
+Y29vcmRpbmF0ZXM6IHggWy4uNTY3OF0sIHkgWy4uNDY5NF0KWyAgIDE5LjkzNjA1N10gcHNtb3Vz
+ZSBzZXJpbzE6IHN5bmFwdGljczogcXVlcmllZCBtaW4gY29vcmRpbmF0ZXM6IHggWzEyNjYuLl0s
+IHkgWzExNjIuLl0KWyAgIDE5LjkzNjA3Nl0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogWW91
+ciB0b3VjaHBhZCAoUE5QOiBMRU4wNDExIFBOUDBmMTMpIHNheXMgaXQgY2FuIHN1cHBvcnQgYSBk
+aWZmZXJlbnQgYnVzLiBJZiBpMmMtaGlkIGFuZCBoaWQtcm1pIGFyZSBub3QgdXNlZCwgeW91IG1p
+Z2h0IHdhbnQgdG8gdHJ5IHNldHRpbmcgcHNtb3VzZS5zeW5hcHRpY3NfaW50ZXJ0b3VjaCB0byAx
+IGFuZCByZXBvcnQgdGhpcyB0byBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmcuClsgICAyMC4w
+MDg5MDFdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IFRvdWNocGFkIG1vZGVsOiAxLCBmdzog
+MTAuMzIsIGlkOiAweDFlMmExLCBjYXBzOiAweGYwMTRhMy8weDk0MDMwMC8weDEyZTgwMC8weDUw
+MDAwMCwgYm9hcmQgaWQ6IDM0NzEsIGZ3IGlkOiAyOTA5NjQwClsgICAyMC4wMDg5MjVdIHBzbW91
+c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IHNlcmlvOiBTeW5hcHRpY3MgcGFzcy10aHJvdWdoIHBvcnQg
+YXQgaXNhMDA2MC9zZXJpbzEvaW5wdXQwClsgICAyMC4wNTMzNDRdIGlucHV0OiBTeW5QUy8yIFN5
+bmFwdGljcyBUb3VjaFBhZCBhcyAvZGV2aWNlcy9wbGF0Zm9ybS9pODA0Mi9zZXJpbzEvaW5wdXQv
+aW5wdXQ3ClsgICAyMC4zOTc2MDhdIG1vdXNlZGV2OiBQUy8yIG1vdXNlIGRldmljZSBjb21tb24g
+Zm9yIGFsbCBtaWNlCgpUaGlzIHBhdGNoIHdpbGwgYWRkIGl0cyBwbnAgaWQgdG8gdGhlIHNtYnVz
+IGxpc3QgdG8KcHJvZHVjZSB0aGUgc2V0dXAgb2YgaW50ZXJ0b3VjaCBmb3IgdGhlIGRldmljZS4g
+QWZ0ZXIKYXBwbHlpbmcsIHRoZSBvdXB1dCB3aWxsIGxvb2sgbGlrZToKClsgICAxOS4xNjg2NjRd
+IHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IHF1ZXJpZWQgbWF4IGNvb3JkaW5hdGVzOiB4IFsu
+LjU2NzhdLCB5IFsuLjQ2OTRdClsgICAxOS4yMDYzMTFdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRp
+Y3M6IHF1ZXJpZWQgbWluIGNvb3JkaW5hdGVzOiB4IFsxMjY2Li5dLCB5IFsxMTYyLi5dClsgICAx
+OS4yMDYzMjVdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IFRyeWluZyB0byBzZXQgdXAgU01C
+dXMgYWNjZXNzClsgICAxOS4yMDk1NDVdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IFNNYnVz
+IGNvbXBhbmlvbiBpcyBub3QgcmVhZHkgeWV0ClsgICAxOS4yODM4NDVdIHBzbW91c2Ugc2VyaW8x
+OiBzeW5hcHRpY3M6IFRvdWNocGFkIG1vZGVsOiAxLCBmdzogMTAuMzIsIGlkOiAweDFlMmExLCBj
+YXBzOiAweGYwMTRhMy8weDk0MDMwMC8weDEyZTgwMC8weDUwMDAwMCwgYm9hcmQgaWQ6IDM0NzEs
+IGZ3IGlkOiAyOTA5NjQwClsgICAxOS4yODM4NjNdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6
+IHNlcmlvOiBTeW5hcHRpY3MgcGFzcy10aHJvdWdoIHBvcnQgYXQgaXNhMDA2MC9zZXJpbzEvaW5w
+dXQwClsgICAxOS4zMjg5NTldIGlucHV0OiBTeW5QUy8yIFN5bmFwdGljcyBUb3VjaFBhZCBhcyAv
+ZGV2aWNlcy9wbGF0Zm9ybS9pODA0Mi9zZXJpbzEvaW5wdXQvaW5wdXQ4ClsgICAxOS43MDYxNjRd
+IG1vdXNlZGV2OiBQUy8yIG1vdXNlIGRldmljZSBjb21tb24gZm9yIGFsbCBtaWNlCgpTaWduZWQt
+b2ZmLWJ5OiBKb3PDqSBQZWtrYXJpbmVuIDxqb3NlLnBla2thcmluZW5AZm94aG91bmQuZmk+Ci0t
+LQogZHJpdmVycy9pbnB1dC9tb3VzZS9zeW5hcHRpY3MuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnB1dC9tb3VzZS9zeW5hcHRp
+Y3MuYyBiL2RyaXZlcnMvaW5wdXQvbW91c2Uvc3luYXB0aWNzLmMKaW5kZXggYWRhMjk5ZWM1YmJh
+Li4zNzZhMDQxYzgwYjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaW5wdXQvbW91c2Uvc3luYXB0aWNz
+LmMKKysrIGIvZHJpdmVycy9pbnB1dC9tb3VzZS9zeW5hcHRpY3MuYwpAQCAtMTgzLDYgKzE4Myw3
+IEBAIHN0YXRpYyBjb25zdCBjaGFyICogY29uc3Qgc21idXNfcG5wX2lkc1tdID0gewogCSJMRU4w
+MDliIiwgLyogVDU4MCAqLwogCSJMRU4wNDAyIiwgLyogWDEgRXh0cmVtZSBHZW4gMiAvIFAxIEdl
+biAyICovCiAJIkxFTjA0MGYiLCAvKiBQMSBHZW4gMyAqLworCSJMRU4wNDExIiwgLyogTDE0IEdl
+biAxICovCiAJIkxFTjIwMGYiLCAvKiBUNDUwcyAqLwogCSJMRU4yMDQ0IiwgLyogTDQ3MCAgKi8K
+IAkiTEVOMjA1NCIsIC8qIEU0ODAgKi8KLS0gCjIuNDEuMAoKX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFpbGluZyBs
+aXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcKaHR0cHM6
+Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgta2VybmVs
+LW1lbnRlZXMK
