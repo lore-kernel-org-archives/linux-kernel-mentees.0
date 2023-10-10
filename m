@@ -1,79 +1,105 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 392C9CD8CAC
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Oct 2023 18:11:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BA3EDCD8CAC
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Oct 2023 18:50:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C111040AA5;
-	Tue, 10 Oct 2023 18:11:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C111040AA5
+	by smtp1.osuosl.org (Postfix) with ESMTP id 43627817ED;
+	Tue, 10 Oct 2023 18:50:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 43627817ED
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iK3t1jW7
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6ZoVk3P3Tmgo; Tue, 10 Oct 2023 18:11:45 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Idc5NQQkdNUq; Tue, 10 Oct 2023 18:50:00 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6F35540111;
-	Tue, 10 Oct 2023 18:11:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6F35540111
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1D47E817A9;
+	Tue, 10 Oct 2023 18:50:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1D47E817A9
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 41E1CC0039;
-	Tue, 10 Oct 2023 18:11:45 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E7286C0039;
+	Tue, 10 Oct 2023 18:49:59 +0000 (UTC)
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AFB1EC0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 37AD9C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 18:11:43 +0000 (UTC)
+ Tue, 10 Oct 2023 18:49:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 7DF7F402F4
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0D5DF40489
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 18:11:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7DF7F402F4
+ Tue, 10 Oct 2023 18:49:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0D5DF40489
+Authentication-Results: smtp2.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=iK3t1jW7
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id oZu301tCcPN8
+ with ESMTP id JRv-SJ5_O81B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 18:11:42 +0000 (UTC)
-Received: from 8.mo576.mail-out.ovh.net (8.mo576.mail-out.ovh.net
- [46.105.56.233])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 5076F40111
+ Tue, 10 Oct 2023 18:49:58 +0000 (UTC)
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com
+ [IPv6:2607:f8b0:4864:20::62d])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2DB1040012
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 18:11:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5076F40111
-Received: from director2.ghost.mail-out.ovh.net (unknown [10.109.146.32])
- by mo576.mail-out.ovh.net (Postfix) with ESMTP id 8A7E3267AB
+ Tue, 10 Oct 2023 18:49:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2DB1040012
+Received: by mail-pl1-x62d.google.com with SMTP id
+ d9443c01a7336-1c434c33ec0so37577435ad.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 18:03:39 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-rfnfq (unknown [10.110.103.92])
- by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 26EE71FE7B;
- Tue, 10 Oct 2023 18:03:39 +0000 (UTC)
-Received: from RCM-web2.webmail.mail.ovh.net ([176.31.232.109])
- by ghost-submission-6684bf9d7b-rfnfq with ESMTPSA
- id GIhHCPuRJWW7fgAACGw8uA
- (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 10 Oct 2023 18:03:39 +0000
+ Tue, 10 Oct 2023 11:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1696963797; x=1697568597;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=3r/GV/XLucgebya1CEWK14+Mj9aJsAwuJyhcB53lBRU=;
+ b=iK3t1jW7XCrYX05jKxTKuTeVMZ43/sZd/VkijP+eOBKdgd329yn5z7OHK8Ne3nYsDD
+ NmTjmioYH0ZOguSrSusxnQvbYcW3fsqCZ18XIpAhcaWVmO2hV8nwxbdapcqdJbtv+3NG
+ ncabKJa1ahHM7j74lv/l2/WJ22R5HDBdpuG51pKaGEuphu2o2LsLxBXbrps/H53wr+md
+ OliaEZmQfnFAbBbvBfl11phk6BBW+a2JW2mcNv+O9+/5/srPvt0mOaV5eOPjd8ayXWBs
+ SvnkRcwrQxYE6Cth265VXGiIeeyPzZjk5+L0K3CgVywmKBKmvMYZmbM+ltEJZqpy1c9M
+ rOfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1696963797; x=1697568597;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3r/GV/XLucgebya1CEWK14+Mj9aJsAwuJyhcB53lBRU=;
+ b=g62D+fu6j6a9cqFUmn3hjDpCgRryQ1Upg1yPPpkNfKR+3YMRPyerl+2GyfJkhyVpOi
+ ehM3MjEq5a91zMKQiTBafdA7XXSrYrx4RL9OSA3OlSaYPf/NxxY+1Zc4J5VPZZ2S0IKW
+ 9QaNGzDkMl2yoW3ROJg+b1SXPAnYuTAMzKP9ZhZYHk5nBSZclb5FhTwu5u691fzrs4/Y
+ 5u1XzhlyWyXXy0pGuYEvXnIv3JgHbq5Xycz4/xKMb8mB4JRScZ57SS3uFOEytvKDpibE
+ gJIgnN3E1qrLX6cqIlxL0PvTKSErm2gaDsGroxBvmhWj6kyj3R1Jyw1BomJY4f/iEXou
+ FckA==
+X-Gm-Message-State: AOJu0YzZVhdfO3nzPyAMdGw9ZZraGUx7f3dY/NQQBJ8wNez4MnYjOk6m
+ grE9CKvcQLHdZi8ZCxjs4ZU=
+X-Google-Smtp-Source: AGHT+IHeml2e2h+flm0b4gyQ9W87X8pjvLvYttiBiveqrYZq/41IZBUYmoWCmUJ30hLtemH9Eam+2w==
+X-Received: by 2002:a17:902:8e87:b0:1b8:2ba0:c9c0 with SMTP id
+ bg7-20020a1709028e8700b001b82ba0c9c0mr15123695plb.59.1696963797436; 
+ Tue, 10 Oct 2023 11:49:57 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2401:4900:629e:4cec:991b:26e5:7c89:9a07])
+ by smtp.gmail.com with ESMTPSA id
+ 21-20020a170902c25500b001bc87e6e26bsm12147570plg.222.2023.10.10.11.49.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 10 Oct 2023 11:49:57 -0700 (PDT)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Date: Wed, 11 Oct 2023 00:18:23 +0530
+Message-ID: <20231010184827.1213507-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Date: Tue, 10 Oct 2023 21:03:38 +0300
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: Peter Gonda <pgonda@google.com>
-Subject: Re: [PATCH] kvm/sev: make SEV/SEV-ES asids configurable
-In-Reply-To: <CAMkAt6o7urak_kAjxEU4wtXv-mGOnyOYdcyhCRMfAG3MAOip0g@mail.gmail.com>
-References: <20231010100441.30950-1-jose.pekkarinen@foxhound.fi>
- <CAMkAt6o7urak_kAjxEU4wtXv-mGOnyOYdcyhCRMfAG3MAOip0g@mail.gmail.com>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <8fd78d002d84f3164eb5a9337e694fa1@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 23.128.248.14
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-X-Ovh-Tracer-Id: 10519001355388888742
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrheehgdduudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpvdefrdduvdekrddvgeekrddugedpudejiedrfedurddvfedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdfovfetjfhoshhtpehmohehjeeipdhmohguvgepshhmthhpohhuth
-Cc: x86@kernel.org, hpa@zytor.com, kvm@vger.kernel.org, seanjc@google.com,
- dave.hansen@linux.intel.com, linux-kernel@vger.kernel.org, mingo@redhat.com,
- bp@alien8.de, pbonzini@redhat.com, tglx@linutronix.de,
+Cc: Conor Dooley <conor+dt@kernel.org>, Anshul Dalal <anshulusr@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -86,38 +112,115 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gMjAyMy0xMC0xMCAxOTo0OSwgUGV0ZXIgR29uZGEgd3JvdGU6Cj4gT24gVHVlLCBPY3QgMTAs
-IDIwMjMgYXQgNToyMuKAr0FNIEpvc8OpIFBla2thcmluZW4KPiA8am9zZS5wZWtrYXJpbmVuQGZv
-eGhvdW5kLmZpPiB3cm90ZToKPj4gCj4+IFRoZXJlIGFyZSBiaW9zZXMgdGhhdCBkb2Vzbid0IGFs
-bG93IHRvIGNvbmZpZ3VyZSB0aGUKPj4gbnVtYmVyIG9mIGFzaWRzIGFsbG9jYXRlZCBmb3IgU0VW
-L1NFVi1FUywgZm9yIHRob3NlCj4+IGNhc2VzLCB0aGUgZGVmYXVsdCBiZWhhdmlvdXIgYWxsb2Nh
-dGVzIGFsbCB0aGUgYXNpZHMKPj4gZm9yIFNFViwgbGVhdmluZyBubyByb29tIGZvciBTRVYtRVMg
-dG8gaGF2ZSBzb21lIGZ1bi4KPj4gSWYgdGhlIHVzZXIgcmVxdWVzdCBTRVYtRVMgdG8gYmUgZW5h
-YmxlZCwgaXQgd2lsbAo+PiBmaW5kIHRoZSBrZXJuZWwganVzdCBydW4gb3V0IG9mIHJlc291cmNl
-cyBhbmQgaWdub3JlZAo+PiB1c2VyIHJlcXVlc3QuIFRoaXMgZm9sbG93aW5nIHBhdGNoIHdpbGwg
-YWRkcmVzcyB0aGlzCj4+IGlzc3VlIGJ5IG1ha2luZyB0aGUgbnVtYmVyIG9mIGFzaWRzIGZvciBT
-RVYvU0VWLUVTCj4+IGNvbmZpZ3VyYWJsZSBvdmVyIGtlcm5lbCBtb2R1bGUgcGFyYW1ldGVycy4K
-Pj4gCj4gCj4gQWxsIHRoaXMgcGF0Y2ggZG9lcyBpcyBpbnRyb2R1Y2UgYW4gZXJyb3IgY2FzZSBy
-aWdodD8gQmVjYXVzZSBpZiB0aGUKPiBCSU9TIGhhc24ndCBhY3R1YWxseSBjb25maWd1cmVkIHRo
-b3NlIFNFVi1FUyBhc2lkcyBhbmQgS1ZNIHRyaWVzIHRvCj4gdXNlIGFuIFNFViBhcyBhbiBTRVYt
-RVMgYXNpZCBjb21tYW5kcyB0byB0aGUgQVNQIHdpbGwgZmFpbCwgcmlnaHQ/Cj4gCj4gV2hhdCBo
-YXBwZW5zIHdoZW4geW91IHRyeSB0byBjcmVhdGUgYW4gU0VWLUVTIFZNIHdpdGggdGhpcyBwYXRj
-aCwgd2hlbgo+IHRoZSBCSU9TIGhhc24ndCBhbGxvY2F0ZWQgYW55IFNFVi1FUyBhc2lkcz8KCiAg
-ICAgSXQgc3RpbGwgZG9lc24ndCBlbmFibGUgU0VWLUVTIHNpbmNlIHRoZSBjcHUgZXhwb3Nlcwpt
-aW5fc2V2X2FzaWRzIGFzIDEsIGFuZCB0aGVyZSBpcyBhIGNoZWNrIHRvIGJhaWwgb3V0IGluCnRo
-ZSBoYXJkd2FyZSBzZXR1cCBmdW5jdGlvbiwgc28gZGVmaW5pdGVseSB0aGlzIGlzIG5vdApmaXhp
-bmcgYW55dGhpbmcuIEkgbWF5IG5vdCBiZWluZyB1bmRlcnN0YW5kaW5nIHNvbWV0aGluZwpoZXJl
-IHRob3VnaCwgc2luY2UgbXkgQklPUyBkb2Vzbid0IHNlZW0gdG8gaGF2ZSBhbnkgb3B0aW9ucwpu
-b3IgaGludHMgYWJvdXQgU0VWLUVTLCBzbyBJJ20gbm90IHF1aXRlIHN1cmUgaXQgcmVhbGx5CmRv
-ZXMgc29tZXRoaW5nIHRvIHByb3ZpZGUgdGhlIGZ1bmN0aW9uYWxpdHkuIEZvciB0aGUgcmVjb3Jk
-cwppdCBpcyBhIFN1cGVybWljcm8gSDExU1NMLU5DLgoKICAgICBUaGFua3MhCgogICAgIEpvc8Op
-LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpMaW51eC1r
-ZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1lbnRlZXNAbGlzdHMubGlu
-dXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1h
-bi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+Adds bindings for the Adafruit Seesaw Gamepad.
+
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
+
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
+
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+---
+
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
+
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
+
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
+
+ .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..e8e676006d2f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,59 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit percision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.0
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
