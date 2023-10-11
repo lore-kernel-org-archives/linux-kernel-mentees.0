@@ -1,103 +1,178 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7C96CCD6E77
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 14:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14BCBCD6E7D
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 15:25:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E87AE40205;
-	Wed, 11 Oct 2023 14:39:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E87AE40205
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7DC0361224;
+	Wed, 11 Oct 2023 15:25:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7DC0361224
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Nrq43Hj6
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cDK7vprtsFFz; Wed, 11 Oct 2023 15:25:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3AADB60BBA;
+	Wed, 11 Oct 2023 15:25:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3AADB60BBA
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1277EC0039;
+	Wed, 11 Oct 2023 15:25:29 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A23E6C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Oct 2023 15:25:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp4.osuosl.org (Postfix) with ESMTP id 73E6241579
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Oct 2023 15:25:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 73E6241579
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=g2IDFX5/
+ dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com
+ header.a=rsa-sha256 header.s=Intel header.b=Nrq43Hj6
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id feA9VvqNIxxO; Wed, 11 Oct 2023 14:39:56 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CC972401E2;
-	Wed, 11 Oct 2023 14:39:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CC972401E2
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id B2C7EC0071;
-	Wed, 11 Oct 2023 14:39:55 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 30294C0032
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 14:39:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id EB8B881308
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 14:39:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EB8B881308
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=g2IDFX5/
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id cTO89r819HUZ
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 14:39:53 +0000 (UTC)
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com
- [IPv6:2607:f8b0:4864:20::444])
- by smtp1.osuosl.org (Postfix) with ESMTPS id D8F7380ECB
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 14:39:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D8F7380ECB
-Received: by mail-pf1-x444.google.com with SMTP id
- d2e1a72fcca58-694ed847889so5345561b3a.2
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 07:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697035193; x=1697639993;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fQNK4cZppGs8Y8rM4h3XQeL/bSmNLB40k5aLUnjJJ7g=;
- b=g2IDFX5/aj2fcqa//OsSfqoLDDddl8tcPIsSDYQWFFCVT0JXucsGZ1Iu6lXiud+gM8
- FR/oaIqGB2f/j43vAzEJ5FWGZIhMy+siDGjXQZTbfQEfMpkNYgFui0NW6AwLDP2+/KVC
- kdTlIwRNX0EK2c+eG14YM0/wiEQY2/Ev5DGjebTrYWxMpa01hglV1SucypkMPkwdvBt9
- ya93eNAxpCbqBiu7Eqv+yM+tK9UZGXZnHuyqkVKmKNsgewtWke0BXlnr5tYNroOO66J2
- pz50+nrH390H2Weviz0Fd7vCoJ+R+azvJBgn4ynIZbi2O/JHB43azqyEmtEio2ds1wSe
- VuFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697035193; x=1697639993;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fQNK4cZppGs8Y8rM4h3XQeL/bSmNLB40k5aLUnjJJ7g=;
- b=d0vlPkmUJv4YtlES5iDQCU9QLk1kVQyF1e6DADB/xyAwAxA/i42S3ujiGl306/qseQ
- gaBQNBpefToNDvdjLNH4x3ECW0x/eTBqaPIAESojH19waTdf3ZukQyREUzm7eJkfpfCC
- xkJSe4JvO52riaEFzJG6KzR3tQFgY/MBRjdqxD8CyvxWo7rXITEGFbU9rKpq2LytSqBs
- /3lYc5esEMs0SSytJEnokZwWEYVUqL5WLwpyZkL5Duj7VfBsPtb1q7qrvJMB/j1ABrqH
- rLo8vTDxeVaiuRmnEdH+ufi3GgcBI77Ny85hVOZuo7HbEFg11kdz+pQUm1mqUWBS+D5C
- pLiw==
-X-Gm-Message-State: AOJu0Yx8XnGETEuar9ijaDk9gR1OhkDYp73UaKdaKsdeDblfBVzOskf0
- WwROnRWK1EU4aGtSNOjGG2Q=
-X-Google-Smtp-Source: AGHT+IE6Ikt3sjADpcL2G+goBGqBF7/yE9bydDfjiJ4t5gPY9YMYFFqsRsWWbZrdhK57fjiyveTMXA==
-X-Received: by 2002:a05:6a21:788a:b0:125:517c:4f18 with SMTP id
- bf10-20020a056a21788a00b00125517c4f18mr22055418pzc.8.1697035193173; 
- Wed, 11 Oct 2023 07:39:53 -0700 (PDT)
-Received: from manas-VirtualBox.iitr.ac.in ([103.37.201.179])
- by smtp.gmail.com with ESMTPSA id
- x16-20020a170902ec9000b001c61901ed2esm13874266plg.219.2023.10.11.07.39.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 11 Oct 2023 07:39:52 -0700 (PDT)
-From: Manas Ghandat <ghandatmanas@gmail.com>
-To: dave.kleikamp@oracle.com,
-	shaggy@kernel.org
-Subject: [PATCH] jfs: fix shift-out-of-bounds in dbJoin
-Date: Wed, 11 Oct 2023 20:09:37 +0530
-Message-Id: <20231011143937.31996-1-ghandatmanas@gmail.com>
-X-Mailer: git-send-email 2.37.2
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id gh3eVHjZDgm5
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Oct 2023 15:25:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id ECBA3410A4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Oct 2023 15:25:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ECBA3410A4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1697037927; x=1728573927;
+ h=date:from:to:cc:subject:message-id:in-reply-to: mime-version;
+ bh=FYNwZ04fT9LxaM3TRvwzePHkTBmq8a+Yom50kgdfabQ=;
+ b=Nrq43Hj6Y6/jmQu/2fUe99LirPMsoxiQY1/l1QX4z4uAXpGdHi4nfwnB
+ hM6IVEuOYtA3zrFTs9uZmtbd22mxdc09dm/BDxSX2/o2wTWb/Q/AxL9J5
+ /NOWsgeXeeXtu688o05STWl1sZIrK3HRky/825b55GZ48RgfiI9/QDwoH
+ QNTolUFGDb7T86lrsUkNot/gWmTruuWOrfPOziBsPGYScUD8phdkg1e6z
+ JToAiEXrQXobceqU4fg/qUJ53BMDonpW43aHt9ZjF7ANst8F5+wjRv5td
+ ymngEkWoshVpM8nIGi2A66gtRYGCJCcZEiEbDXKUlk0HBj6k4lpMFCjOO A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="6255244"
+X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
+   d="scan'208";a="6255244"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2023 08:25:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="1085266215"
+X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; d="scan'208";a="1085266215"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by fmsmga005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384;
+ 11 Oct 2023 08:25:25 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 08:25:25 -0700
+Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32; Wed, 11 Oct 2023 08:25:24 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.32 via Frontend Transport; Wed, 11 Oct 2023 08:25:24 -0700
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.169)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.32; Wed, 11 Oct 2023 08:25:24 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GEBAlTFmmPOR1Qc8BRGHKYfnj0RD9nxh1kaoTf2Znkue8bxI2lbxzBKqiJx8e6s+pli62idUeYKhtXd6pUD5idd1UX0E89PXF6bE8DVNHJgL+SxLimTgGgPFVp3QVtqC4VEFZkfXWjSUDyMnxqYNpjRLcZ0kXhenKWWTvSzvwPfcIaNI8h9AiFiNkvZDqybSd7moDHjxWIwI0XX16rZ10B5LuH0VbgUU+UBWg1is+O41VUTzUMIxCMwb/5o1PeHnBy1eg4sdAro5ndVtI4xKmy7SizvBgdkrEmkS31ho8GH7PY/4nLzICBni0BQw3Qk4ewUKibW/B1iXmnT7ARmIsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UpWvi/cdqwG8PtU+N5Y4Dx1k25i7Uhtcv/dDdLG/lQc=;
+ b=W+Nbh/Wwo1VcLc49BEi7Q5FhUF1hD4/++mU8iS4tN/KTbuHX3UltkknrH9TT5qNz2f5cTa8lQ7TlzmDL02c7YgifKb+yttGXmRfz30IHKYFA61XmjQ+6Lutrsk6KZbw1QH6B4xvM7Q488hXZijlZtPmY+hqQNCsYpChju0Au0/4fI1f/g3W9l2LLhhVlAEvTKXY74uujC+XrdG0Qx21s6yTU2Aoij7SK9211M8FYi79TsaQZza5ZEr8cHugOjTTttlP3sZHGPB297NEYx6j/VmVIwpUacOwsY88w6NEQ6C/b0UJRyb0dYIa59onD7kQOlHTt7PLzTiyo8ns4+BAfRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
+ by DS0PR11MB7560.namprd11.prod.outlook.com (2603:10b6:8:14b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.38; Wed, 11 Oct
+ 2023 15:25:22 +0000
+Received: from CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::d35:d16b:4ee3:77e5]) by CY5PR11MB6392.namprd11.prod.outlook.com
+ ([fe80::d35:d16b:4ee3:77e5%7]) with mapi id 15.20.6863.032; Wed, 11 Oct 2023
+ 15:25:22 +0000
+Date: Wed, 11 Oct 2023 23:20:23 +0800
+From: kernel test robot <yujie.liu@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, <linux-input@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Message-ID: <202310090414.Iulnmfzb-lkp@intel.com>
+Content-Disposition: inline
+In-Reply-To: <20231008172435.2391009-1-anshulusr@gmail.com>
+X-ClientProxiedBy: KU1PR03CA0012.apcprd03.prod.outlook.com
+ (2603:1096:802:18::24) To CY5PR11MB6392.namprd11.prod.outlook.com
+ (2603:10b6:930:37::15)
 MIME-Version: 1.0
-Cc: Linux-kernel-mentees@lists.linuxfoundation.org,
- jfs-discussion@lists.sourceforge.net, Manas Ghandat <ghandatmanas@gmail.com>,
- linux-kernel@vger.kernel.org,
- syzbot+411debe54d318eaed386@syzkaller.appspotmail.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DS0PR11MB7560:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b57fbba-b39f-4325-3229-08dbca6e4917
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ew2I++IUHUCMBdXe31tRFrSwr5Qc5HUokIKAUj7WxoVoFX87TKSlGRQMVXJEOb5FubzuNzfwvp4oqn6eBUhN2fdwsIL2yfOiU0PgRQky5PNWzC/UQjYiwU93YvBSdXQq7n5l2L7jzs6B6mVMTnwSr/yOPOVk5+e6udwLQsWOhyFdLbYdDFkCN+Fp8UkFh/LghX30vGWy5hGq+BKm/KeZQR4pYApJ77vkL/RlqpvtkPylElyuDArCkzYSCSW/VY9EhtWIVMTcauzprRYqOngdJQgDL7RCHsFSugI/dfjh75p5ta/iKi4YGuhWXBIybFSyyNr1o+uolkG4FINt3KSn9X++KLWIAmwrwAfcv9vlKmg35EaqonbnnTSKYTy84f+C7OUu/9S9fTZTuwABLfb8Uk1AtHDeAV9qAejp+4vz8Ed6rvJ0nnkfklzUb0u+PZt3rChoy3oD7GR1cVO0EqL7Y0yeo0QrapYNIenXMFFvincjuoo+xsZh6smue9zhcIRBb2a3y8HGxIdd4P5csWP2GEZ2CA8WqyQNtYBfKaxFLJv05frk2ahkp3hArVLh69ArgYZEgHoJNsHdXaoFt8+Zlw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6392.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(396003)(366004)(39860400002)(376002)(136003)(346002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(2616005)(1076003)(6512007)(83380400001)(6506007)(8676002)(2906002)(966005)(7416002)(4326008)(5660300002)(66946007)(478600001)(66556008)(54906003)(66476007)(41300700001)(6486002)(8936002)(316002)(86362001)(82960400001)(36756003)(38100700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?b6LvFEuA99HcmrUyN966n3t/fKRaWAR2DNem8uhRdIHyocxSd02jbUT2Ezi7?=
+ =?us-ascii?Q?S5FlnSxuGSfQ5AJwCK+ctFfnEKf0TxXeu64ogr3aqQhCXbgNGT9XgjXxt3XT?=
+ =?us-ascii?Q?3/LSnyP6t3DGQMxLTL5oseQVTNxsxaF1c+gROXJ/HHEGAzF8DMTRmz8huX+C?=
+ =?us-ascii?Q?+sU6UsNrZ5O9OgdLQmeoFhB6qcOBe52609KMvJhZ90/MBf4xaTl2VGQt9O+1?=
+ =?us-ascii?Q?mEHNQsDlqqS7SnUa5gpkHTyKLdYXzyLhYaoC86DIhYybNGZof+5/tzrw7b+9?=
+ =?us-ascii?Q?yicsvAJsBxjMLTgyCPfujBxu5lp5Ubl6qLmZUydLs3gC2noIF8T2m70KakcY?=
+ =?us-ascii?Q?v26s5GSaQPXfD8tuI+pFLQ3/XwdVUOwv+V8c0ujFCG2CN+S19Sa4oEjtaRa5?=
+ =?us-ascii?Q?Rnr31iLkIhElVtWx/NCrqs/6aRus5CXyaTrZQNLK8waE4ZE760v+fgO9O12e?=
+ =?us-ascii?Q?vOAIKEkmuMSuvmvkupidPPUuOBpxdDJ8yhta5LFQPcEKSmqqQpfd2sjPP2e/?=
+ =?us-ascii?Q?rUFURTpO+xPVWTMpHqT8YRDs9HvpG4fe1JaT+jjl0OpJeET1JAhSaxvmPITr?=
+ =?us-ascii?Q?+oObvpNAz99v/oF4z+PPeEsdLMxwqGZce0v7c+p6POdcSmxgKnt+mfrMC52L?=
+ =?us-ascii?Q?9F2OutD/zT+r5DWfuBflNVKQVrQNbjH/3cnee/FcUpO+qeInRTu8TTm9PWWr?=
+ =?us-ascii?Q?NRBa51GPAhP+Di0sNL30IMVOa1qMgCy1PbsDTbEasUyOj4ZmNa3EOlRaIC+F?=
+ =?us-ascii?Q?kFO7oXmgT5uSR8Lxamc2aDnAh4/d58Yp1S5RTziOyE+16X5i/qos81A5cs6q?=
+ =?us-ascii?Q?x1OCo0nzpBpRhVaP+5CtNmQ3pALm/3ksf3NqfADFFM5lLzEP3gVwg6tdp0jD?=
+ =?us-ascii?Q?Cl5CVYEQeJ+1kAiMYssYd8D+SYCOqvtq0eBWzahETFEqLvxWFl/egxHyXnMU?=
+ =?us-ascii?Q?TrCgz+UBXX1uWUK1jAninN+k9DXYySGkqS3zFxvbghM0O3uuNCSMRUQ7+PJE?=
+ =?us-ascii?Q?lQFtAOMZJm2Xbff1TcELYzDMq84z0SjUbU0QEi5/kt8PPlcmhZ/wL+/toxAg?=
+ =?us-ascii?Q?2SuATcKNyEizje01T2jkltZ+k0hXf8ZtE/449xJGH7Rs6A5wEWV96eojWoY2?=
+ =?us-ascii?Q?oUKMiv0wgwljL4AhqRuROi22VVX+F3B3gXaH5IUGYBY7XqyZet5WjMQLplx6?=
+ =?us-ascii?Q?XuWSLVrpsQXAYtTVfipJ3Owzb7EhZkWIcRUiVSc/5RNnYMOUiPKGgYMCKCFa?=
+ =?us-ascii?Q?PGVgWQ5YMDZHqP+OiELBk0cZj+yqIQpEWJDaBfAqI876QbK7Lf17n0bw3h0L?=
+ =?us-ascii?Q?ZIHg0OIVZe903rhZalIaa9a70WgMmn0QvcbPBMabjxsZ7MIdarUIRjJv1Kgh?=
+ =?us-ascii?Q?tfz/v0+FPugVcTHK73clQWQUnE9u4n5BNJs8/wSOfUHtbnXfMnj+w6rTgZvy?=
+ =?us-ascii?Q?bM/4SYlUop0K0lwXwmB5SO6PdTXP7fHSCU6rcQuBwLwWr2LBjPmz07iJYcQ0?=
+ =?us-ascii?Q?uufwmXkkXaoh0UF/0CkgNsf7QedUNJOi50vs7JDaN9wyvF0b606dFmW+/eLp?=
+ =?us-ascii?Q?RlzUWCoDYFGLy97ZsOexiad+yQGzCdNl+kh9wRNL?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b57fbba-b39f-4325-3229-08dbca6e4917
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 15:25:22.7555 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HjMF+xIcWnLAqk4sZmE+hdh/zL1IPmz4evlhvDtZWuUcHxjD5K2kikqROgi/bCFnM1uyzO7wX0Iezkqy2XVw5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7560
+X-OriginatorOrg: intel.com
+Cc: Conor Dooley <conor+dt@kernel.org>, Anshul Dalal <anshulusr@gmail.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,45 +190,36 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently while joining the leaf in a buddy system there is shift out
-of bound error in calculation of BUDSIZE. Added the required check 
-to the BUDSIZE and fixed the documentation as well.
+Hi Anshul,
 
-Reported-by: syzbot+411debe54d318eaed386@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=411debe54d318eaed386
-Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
----
- fs/jfs/jfs_dmap.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/fs/jfs/jfs_dmap.c b/fs/jfs/jfs_dmap.c
-index 6b838d3ae7c2..baa97bda1c7a 100644
---- a/fs/jfs/jfs_dmap.c
-+++ b/fs/jfs/jfs_dmap.c
-@@ -2730,7 +2730,9 @@ static int dbBackSplit(dmtree_t * tp, int leafno)
-  *	leafno	- the number of the leaf to be updated.
-  *	newval	- the new value for the leaf.
-  *
-- * RETURN VALUES: none
-+ * RETURN VALUES:
-+ *  0		- success
-+ *	-EIO	- i/o error
-  */
- static int dbJoin(dmtree_t * tp, int leafno, int newval)
- {
-@@ -2757,6 +2759,10 @@ static int dbJoin(dmtree_t * tp, int leafno, int newval)
- 		 * get the buddy size (number of words covered) of
- 		 * the new value.
- 		 */
-+
-+		if ((newval - tp->dmt_budmin) > BUDMIN)
-+			return -EIO;
-+
- 		budsz = BUDSIZE(newval, tp->dmt_budmin);
- 
- 		/* try to join.
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.6-rc4 next-20231006]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231009-012745
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231008172435.2391009-1-anshulusr%40gmail.com
+patch subject: [PATCH v2 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231009/202310090414.Iulnmfzb-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <yujie.liu@intel.com>
+| Closes: https://lore.kernel.org/r/202310090414.Iulnmfzb-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml: $id: Cannot determine base path from $id, relative path/filename doesn't match actual path or filename
+    	 $id: http://devicetree.org/schemas/input/adafruit_seesaw.yaml
+    	file: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
 -- 
-2.37.2
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 _______________________________________________
 Linux-kernel-mentees mailing list
