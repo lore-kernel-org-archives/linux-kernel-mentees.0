@@ -1,80 +1,99 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16AF7CDB461
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 16:15:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6BCB0CDB472
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 17:43:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9684360FEC;
-	Wed, 11 Oct 2023 16:15:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9684360FEC
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bs0AcPB4
+	by smtp2.osuosl.org (Postfix) with ESMTP id EB3EB4049F;
+	Wed, 11 Oct 2023 17:43:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EB3EB4049F
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=Luutyvpp
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cr3g4MMADsRx; Wed, 11 Oct 2023 16:15:22 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2108160FFE;
-	Wed, 11 Oct 2023 16:15:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2108160FFE
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KMXlBlDL0aJ2; Wed, 11 Oct 2023 17:43:43 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CD2EE40160;
+	Wed, 11 Oct 2023 17:43:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CD2EE40160
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 04C36C0071;
-	Wed, 11 Oct 2023 16:15:22 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id D51E7C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B3CABC0039;
+	Wed, 11 Oct 2023 17:43:42 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id EF4CCC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 16:15:20 +0000 (UTC)
+ Wed, 11 Oct 2023 17:43:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id B62AA404DF
+ by smtp1.osuosl.org (Postfix) with ESMTP id C554B82355
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 16:15:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B62AA404DF
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=bs0AcPB4
+ Wed, 11 Oct 2023 17:43:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C554B82355
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=google.com header.i=@google.com
+ header.a=rsa-sha256 header.s=20230601 header.b=Luutyvpp
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kmxYuzbRuvXW
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RjEFKsrSJMrA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 16:15:19 +0000 (UTC)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by smtp4.osuosl.org (Postfix) with ESMTPS id ECF7F404CB
+ Wed, 11 Oct 2023 17:43:38 +0000 (UTC)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 8968682352
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 16:15:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ECF7F404CB
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 40E8FCE23E7;
- Wed, 11 Oct 2023 16:15:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06ED6C433C8;
- Wed, 11 Oct 2023 16:15:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697040908;
- bh=wtQMMdHrnFggk0m06ilUhF5VMAOMImQU9UM40mHBiVM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bs0AcPB4HUa9JKFIg7sdXg83lTzuhi2OLLs5zi4krsrYvKkFZflYBf5izlTEFYFOP
- YvFLiFb3wyNSQ6tsiAy8O8YdDaQto5/2ejA3/wlhLEJFh+DjPPnVsVn1yULSEB49cL
- VinmbeTTkJmHOe7f+Mw/vGKdY2McoxJ3LxjkVJEDbYjH4UgOQXIV1IQ6n5A7VWViqY
- 2djutKm3XqC32xhSqUTRM9doqqD/yVJBsJ+r6B8RN+V0zz+D6STCXNDgzOAFWFbN9r
- j3syNlYhPWWm/HhBeiCYETIqLjcBcDEQeSTIRAcABeASEW/tgv7tTS0ie/ooyVKydW
- 6qJwMIDqkj1tQ==
-Date: Wed, 11 Oct 2023 17:15:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Anshul Dalal <anshulusr@gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Message-ID: <20231011-powdering-recycled-71608e794eaa@spud>
-References: <20231010184827.1213507-1-anshulusr@gmail.com>
+ Wed, 11 Oct 2023 17:43:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8968682352
+Received: by mail-wm1-x330.google.com with SMTP id
+ 5b1f17b1804b1-405459d9a96so6015e9.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Oct 2023 10:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1697046215; x=1697651015;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=POLgW7vGVBgqnLcSHIyA8aTEXOElLRzKVX3eHJN8DXY=;
+ b=LuutyvppYhN/PrY2VJ/IecEszwksaAfTi+eCQTS/mXs917zGH3DVSdUE3JIM1gyCUP
+ resIZoAF2zq8mY5vjl3ggcwbzxG8i/X/pyQBBi5vJX0eZex9k/OWgI8bIGyPxXOxFKHB
+ 0Y8j30juUkJ/ml96Zx9eo9BFsoj7t2NWiBNp4YzphFV9Blro/njuUhdD+Y34oXxbXDX0
+ B3uL76Oz7wNJxhRgSnLea8sI2nVDYJdLp8j9UqFjhoF85a1YQgYqReKwULXV/50JNZTt
+ y27As8RcKrMCwCW8mRQBwVwfy84tAU2u6Eqlttcu/ZNtxrCscWsXdKY6FnHOEurdufTp
+ wUUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697046215; x=1697651015;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=POLgW7vGVBgqnLcSHIyA8aTEXOElLRzKVX3eHJN8DXY=;
+ b=iUebl0vqYdLsK5Ys3eBX+7M6tdE8Ji9a7hGYoXbk2nWXBIaG6+1j5rasmJmsxRgxmo
+ uslE5n40GejSQ9/hpfPInVYOyswsm1R7apaJVk2AfSRNNpPTyFp9Ax3aKrQyEql305eE
+ MuwT+39qs0PBoSxij9XNZnqcwlYkXaRgpXpyD4ak74giOIm9BthzWENedTeWDAvD7wqD
+ XQTOKDfQyH0ZW3uJkVbEogW4P6ap9JkGJhwW+ZP5uPLKHXmpQEFozJ3ZX7KCLrQMf+55
+ t6LklpN7E4YI5NlYVip/hsSl+G6GUqEnQ8BRpKd7NX2J5EzJZlH+YXchgHluX9BYqcdU
+ 79dw==
+X-Gm-Message-State: AOJu0Yxx7U1WiPrWgHb+2Q7s1MSHHOlXBri2GRbv/wPrXGataHK3hqHV
+ PKxGDikuwiDLvnpdb0q0YfA998L9PMvs0jQ8X0Ky9w==
+X-Google-Smtp-Source: AGHT+IEF+mY6rg7imO16vhwcTa8BR4dYmyLxq+Ihn7VM5Sbft/PIxucsoX8vk+dLEu1yk5jdvUp9xRh+Tk2qO8x2Iuw=
+X-Received: by 2002:a05:600c:4f81:b0:405:38d1:e146 with SMTP id
+ n1-20020a05600c4f8100b0040538d1e146mr149083wmq.4.1697046215172; Wed, 11 Oct
+ 2023 10:43:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20231010184827.1213507-1-anshulusr@gmail.com>
-Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231010224630.238254-1-singhabhinav9051571833@gmail.com>
+ <2023101136-irritate-shrine-cde6@gregkh>
+ <3073e9a6-9f10-4326-9734-7e203d509888@gmail.com>
+In-Reply-To: <3073e9a6-9f10-4326-9734-7e203d509888@gmail.com>
+Date: Wed, 11 Oct 2023 19:43:20 +0200
+Message-ID: <CANn89i+hMbhLqXKCF2P=HVeeRSCxvgH_xY1b=T=udLFJjG3ZwA@mail.gmail.com>
+Subject: Re: [PATCH] Remove extra unlock for the mutex
+To: Abhinav Singh <singhabhinav9051571833@gmail.com>
+Cc: dsahern@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,168 +105,60 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: multipart/mixed; boundary="===============4447161630996643041=="
+From: Eric Dumazet via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Eric Dumazet <edumazet@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-
---===============4447161630996643041==
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="timCUOp0XhI+CNqU"
-Content-Disposition: inline
-
-
---timCUOp0XhI+CNqU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hey,
-
-On Wed, Oct 11, 2023 at 12:18:23AM +0530, Anshul Dalal wrote:
-> Adds bindings for the Adafruit Seesaw Gamepad.
->=20
-> The gamepad functions as an i2c device with the default address of 0x50
-> and has an IRQ pin that can be enabled in the driver to allow for a rising
-> edge trigger on each button press or joystick movement.
->=20
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
->=20
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> ---
->=20
-> Changes for v4:
-> - Fixed the URI for the id field
-> - Added `interrupts` property
->=20
-> Changes for v3:
-> - Updated id field to reflect updated file name from previous version
-> - Added `reg` property
->=20
-> Changes for v2:
-> - Renamed file to `adafruit,seesaw-gamepad.yaml`
-> - Removed quotes for `$id` and `$schema`
-> - Removed "Bindings for" from the description
-> - Changed node name to the generic name "joystick"
-> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->   'adafruit,seesaw_gamepad'
->=20
->  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/adafruit,sees=
-aw-gamepad.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-game=
-pad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.=
-yaml
-> new file mode 100644
-> index 000000000000..e8e676006d2f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Adafruit Mini I2C Gamepad with seesaw
-
-Binding mostly looks good to me. My main question is what is a seesaw?
-
-> +
-> +maintainers:
-> +  - Anshul Dalal <anshulusr@gmail.com>
-> +
-> +description: |
-> +  Adafruit Mini I2C Gamepad
-> +
-> +    +-----------------------------+
-> +    |   ___                       |
-> +    |  /   \               (X)    |
-> +    | |  S  |  __   __  (Y)   (A) |
-> +    |  \___/  |ST| |SE|    (B)    |
-> +    |                             |
-> +    +-----------------------------+
-> +
-> +  S -> 10-bit percision bidirectional analog joystick
-> +  ST -> Start
-> +  SE -> Select
-> +  X, A, B, Y -> Digital action buttons
-> +
-> +  Product page: https://www.adafruit.com/product/5743
-> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
-
-I'm not really sure what the arduino driver has to do with the binding.
-Why is a link to it more relevant than the freebsd driver, or the linux
-driver etc? Is there info about how the pad works in the arduino driver
-
-Otherwise, this seems good to me.
-
-Thanks,
-Conor.
-
-> +
-> +properties:
-> +  compatible:
-> +    const: adafruit,seesaw-gamepad
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      The gamepad's IRQ pin triggers a rising edge if interrupts are ena=
-bled.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        joystick@50 {
-> +            compatible =3D "adafruit,seesaw-gamepad";
-> +            reg =3D <0x50>;
-> +        };
-> +    };
-> --=20
-> 2.42.0
->=20
-
---timCUOp0XhI+CNqU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSbKBwAKCRB4tDGHoIJi
-0uPyAP44XQzOQbflxL/UvrKTR2YMG9/YIVQXQK5aBzNTEXcMUAEA8xyeLKAOZtJx
-HK4Pss8t1U8E5lZrti8sa9pDht76Bws=
-=wvkn
------END PGP SIGNATURE-----
-
---timCUOp0XhI+CNqU--
-
---===============4447161630996643041==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
-
---===============4447161630996643041==--
+T24gV2VkLCBPY3QgMTEsIDIwMjMgYXQgNTo1MOKAr1BNIEFiaGluYXYgU2luZ2gKPHNpbmdoYWJo
+aW5hdjkwNTE1NzE4MzNAZ21haWwuY29tPiB3cm90ZToKPgo+IE9uIDEwLzExLzIzIDEyOjAwLCBH
+cmVnIEtIIHdyb3RlOgo+ID4gT24gV2VkLCBPY3QgMTEsIDIwMjMgYXQgMDQ6MTY6MzBBTSArMDUz
+MCwgQWJoaW5hdiBTaW5naCB3cm90ZToKPiA+PiBUaGVyZSBpcyBhIGRvdWJsZSB1bmxvY2sgb24g
+bXV0ZXguIFRoaXMgY2FuIGNhdXNlIHVuZGVmaW5lZCBiZWhhdmlvdXIuCj4gPj4KPiA+PiBTaWdu
+ZWQtb2ZmLWJ5OiBBYmhpbmF2IFNpbmdoIDxzaW5naGFiaGluYXY5MDUxNTcxODMzQGdtYWlsLmNv
+bT4KPiA+PiAtLS0KPiA+PiAgIG5ldC9pcHY0L2luZXRfY29ubmVjdGlvbl9zb2NrLmMgfCAxIC0K
+PiA+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCj4gPj4KPiA+PiBkaWZmIC0tZ2l0
+IGEvbmV0L2lwdjQvaW5ldF9jb25uZWN0aW9uX3NvY2suYyBiL25ldC9pcHY0L2luZXRfY29ubmVj
+dGlvbl9zb2NrLmMKPiA+PiBpbmRleCBhZWViZTg4MTY2ODkuLmYxMWZlOGM3MjdhNCAxMDA2NDQK
+PiA+PiAtLS0gYS9uZXQvaXB2NC9pbmV0X2Nvbm5lY3Rpb25fc29jay5jCj4gPj4gKysrIGIvbmV0
+L2lwdjQvaW5ldF9jb25uZWN0aW9uX3NvY2suYwo+ID4+IEBAIC01OTcsNyArNTk3LDYgQEAgaW50
+IGluZXRfY3NrX2dldF9wb3J0KHN0cnVjdCBzb2NrICpzaywgdW5zaWduZWQgc2hvcnQgc251bSkK
+PiA+PiAgICAgIH0KPiA+PiAgICAgIGlmIChoZWFkMl9sb2NrX2FjcXVpcmVkKQo+ID4+ICAgICAg
+ICAgICAgICBzcGluX3VubG9jaygmaGVhZDItPmxvY2spOwo+ID4+IC0gICAgc3Bpbl91bmxvY2tf
+YmgoJmhlYWQtPmxvY2spOwo+ID4KPiA+IEhvdyB3YXMgdGhpcyB0ZXN0ZWQ/Cj4gPgo+ID4gQW5k
+IHdoZXJlIGlzIHRoZSBub3ctbmVlZGVkIHVubG9jayBvZiB0aGUgaGVhZC0+bG9jaz8KPiA+Cj4g
+PiBIb3cgd2FzIHRoaXMgY2hhbmdlIGZvdW5kPwo+ID4KPiA+IEFuZCB5b3VyIHN1YmplY3QgbGlu
+ZSBuZWVkcyBhIGxvdCBvZiB3b3JrLi4uCj4gPgo+ID4gdGhhbmtzLAo+ID4KPiA+IGdyZWcgay1o
+Cj4gSGVsbG8sIEkgdXNlZCBzcGFyc2UgdG9vbCBhbmQgZ290IGl0IHRoaXMgd2FybmluZyBtZXNz
+YWdlICJ3YXJuaW5nOgo+IGNvbnRleHQgaW1iYWxhbmNlIGluICdpbmV0X2Nza19nZXRfcG9ydCcg
+LSB1bmV4cGVjdGVkIHVubG9jayIKPiBEdWUgdG8gbXkgb3ZlciBleGNpdGVtZW50IG9mIHNlbmRp
+bmcgYSBnb29kIHBhdGNoIHRvIGtlcm5lbCBJIGRpZG50IHNlZQo+IGNvcnJlY3RseSBhbmQgbWlz
+cmVhZCBgaGVhZGAgYXMgYGhlYWQyYCBhbmQgdGhvdWdodCBpdCB3YXMgZG91YmxlCj4gdW5sb2Nr
+aW5nIHRoZSBtdXRleC4gSSBtIHZlcnkgc29ycnkuIEJ1dCBvbiBhIGRpZmZlcmVudCBub3RlIHRo
+aW5rIHdlCj4gc2hvdWxkIGRvIGEgY2hlY2sgZm9yIGBoZWFkLT5sb2NrYCBhcyB3ZWxsIGJlZm9y
+ZSB1bmxvY2tpbmcuIFVubG9ja2luZyBhCj4gbm9uIGxvY2tlZCBtdXRleCBjYW4gYWxzbyB0cmln
+Z2VyIGEgdW5kZWZpbmVkIGJlaGF2aW91ci4KPgoKVGhlcmUgaXMgbm8gdW5kZWZpbmVkIGJlaGF2
+aW9yLCBvbmx5IHNwYXJzZSB0aGF0IG1pZ2h0IGJlIGNvbmZ1c2VkIGEgbGl0dGxlLgoKSSBkbyBu
+b3QgdGhpbmsgd2UgY2FuIGV4cHJlc3MgaW4gc3BhcnNlIHRoZSBmYWN0IHRoYXQKaW5ldF9jc2tf
+ZmluZF9vcGVuX3BvcnQoKSBhY3F1aXJlcyBoZWFkLT5sb2NrCgooaGVhZCBiZWluZyB0aGUgcmV0
+dXJuIHZhbHVlIG9mIHRoaXMgZnVuY3Rpb24uLi4pCgpUaGUgZm9sbG93aW5nIGRvZXMgbm90IGhl
+bHAuCgpkaWZmIC0tZ2l0IGEvbmV0L2lwdjQvaW5ldF9jb25uZWN0aW9uX3NvY2suYyBiL25ldC9p
+cHY0L2luZXRfY29ubmVjdGlvbl9zb2NrLmMKaW5kZXggYWVlYmU4ODE2Njg5OTYwNTdkMTQ5NWM4
+NGVlZTBmMGI2NDRiN2FkMC4uZWQ3YjM5OTMzMTZjZDFiYTBiMjg1OWIwYmQzZjQ0N2UwNjZiZDNi
+NQoxMDA2NDQKLS0tIGEvbmV0L2lwdjQvaW5ldF9jb25uZWN0aW9uX3NvY2suYworKysgYi9uZXQv
+aXB2NC9pbmV0X2Nvbm5lY3Rpb25fc29jay5jCkBAIC0zMjMsNiArMzIzLDcgQEAgc3RhdGljIHN0
+cnVjdCBpbmV0X2JpbmRfaGFzaGJ1Y2tldCAqCiBpbmV0X2Nza19maW5kX29wZW5fcG9ydChjb25z
+dCBzdHJ1Y3Qgc29jayAqc2ssIHN0cnVjdAppbmV0X2JpbmRfYnVja2V0ICoqdGJfcmV0LAogICAg
+ICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgaW5ldF9iaW5kMl9idWNrZXQgKip0YjJfcmV0LAog
+ICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgaW5ldF9iaW5kX2hhc2hidWNrZXQgKipoZWFk
+Ml9yZXQsIGludCAqcG9ydF9yZXQpCisgICAgICAgX19hY3F1aXJlcyhoZWFkLT5sb2NrKQogewog
+ICAgICAgIHN0cnVjdCBpbmV0X2hhc2hpbmZvICpoaW5mbyA9IHRjcF9vcl9kY2NwX2dldF9oYXNo
+aW5mbyhzayk7CiAgICAgICAgaW50IGksIGxvdywgaGlnaCwgYXR0ZW1wdF9oYWxmLCBwb3J0LCBs
+M21kZXY7Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxp
+bnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0
+cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9t
+YWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
