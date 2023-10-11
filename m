@@ -1,103 +1,80 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B050CD6E7F
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 15:50:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 16AF7CDB461
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 16:15:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A050F40761;
-	Wed, 11 Oct 2023 15:50:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A050F40761
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JW/kPHiq
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9684360FEC;
+	Wed, 11 Oct 2023 16:15:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9684360FEC
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bs0AcPB4
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1kaomECb0lP4; Wed, 11 Oct 2023 15:50:05 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 98865402F8;
-	Wed, 11 Oct 2023 15:50:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 98865402F8
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cr3g4MMADsRx; Wed, 11 Oct 2023 16:15:22 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2108160FFE;
+	Wed, 11 Oct 2023 16:15:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2108160FFE
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 8412BC0039;
-	Wed, 11 Oct 2023 15:50:05 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 04C36C0071;
+	Wed, 11 Oct 2023 16:15:22 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C3592C0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id D51E7C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 15:50:03 +0000 (UTC)
+ Wed, 11 Oct 2023 16:15:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 8FA45402F8
+ by smtp4.osuosl.org (Postfix) with ESMTP id B62AA404DF
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 15:50:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8FA45402F8
+ Wed, 11 Oct 2023 16:15:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B62AA404DF
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
+ header.a=rsa-sha256 header.s=k20201202 header.b=bs0AcPB4
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9OhIPVA7LqnN
+ with ESMTP id kmxYuzbRuvXW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 15:50:02 +0000 (UTC)
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 41EE8402D5
+ Wed, 11 Oct 2023 16:15:19 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id ECF7F404CB
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 15:50:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 41EE8402D5
-Received: by mail-pg1-x534.google.com with SMTP id
- 41be03b00d2f7-55b5a37acb6so784704a12.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 11 Oct 2023 08:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697039401; x=1697644201;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=sDYBKIS55V1uI8CU7rsbxpgMy6trEjU+BP4wxaqMQ+0=;
- b=JW/kPHiqOTPzTTU6IOJc+gr58R08exly4BSmH29/e0I2M6/hB05zWJ6+jZMMLIK12X
- /WB6Kb7Dh1WJlhahfG9uC2ePfMhXDoQh1PESVyG0iTd+IRcZGhoDz26N6czQ5pKafjS8
- nD0LYfei99mUBkZc6gWtxkSQzl1s8R/e/yMDhkmxnc2NqZ5likmySsOgyzqJyp0wFdaa
- Dqf5rTp2XLalzmQuhMUTCPYdiiuB92e9ODhLg3F/YB9DsVc3cbVDqTwCMh5jkjUt4Y8j
- Vx+dcP1B46AH8jkVte6avWzYyHT6Tm8t1qrdThrb7ykVsAhYYvjCkVGIElF7751cVd31
- 5S/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697039401; x=1697644201;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sDYBKIS55V1uI8CU7rsbxpgMy6trEjU+BP4wxaqMQ+0=;
- b=wGYq/M/gD/Z098vEoxuc0Ey/XQEna0EiNMVCyobR6fVcUP4s9Q9jMNz2+J6dFGYFr+
- dQlpcK0ID3P3NrfeOIv+6/b9xifQFj7uaG1bH8WF1HDsX/oM+eBJYTKGbld/lkC+QGku
- 2n+l5CJCQkRytS71WRzXDT/bAWor+jgsnIwPktJvrcfgTPqvbU1b2PuaAthrhE0A6gPv
- iTJtJor6JCpp8j8OwTwy1q48ww5qqvzHOHYBL6Myi1ywM6Rx+g9d1UC2ljDuQKDYAbzm
- pDF/nrxJgJeBp0+4FljEfxQOdpY83936qtxew9x6+xiP0AWaiNb3wY3xIDxRgrv+CW7t
- m0yw==
-X-Gm-Message-State: AOJu0Yyv+p5KoLpAUPLNfDzm2awLEvfUkaXuzGCsTHgTJxTp4nxxFBgH
- 6/rYMV86XeZSJDD4knPe43w=
-X-Google-Smtp-Source: AGHT+IHEXzo3nG4oHvAYaUxMtuOcdqDQ+lFQZSBrGVmbjQPPHV2ObamtR1Pq50KuZb10ox7FWz/T5A==
-X-Received: by 2002:a17:90b:1496:b0:27c:f88f:11a5 with SMTP id
- js22-20020a17090b149600b0027cf88f11a5mr3826613pjb.2.1697039401382; 
- Wed, 11 Oct 2023 08:50:01 -0700 (PDT)
-Received: from [192.168.0.152] ([103.75.161.210])
- by smtp.gmail.com with ESMTPSA id
- mz14-20020a17090b378e00b0027722832498sm59877pjb.52.2023.10.11.08.49.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 11 Oct 2023 08:50:00 -0700 (PDT)
-Message-ID: <3073e9a6-9f10-4326-9734-7e203d509888@gmail.com>
-Date: Wed, 11 Oct 2023 21:19:51 +0530
+ Wed, 11 Oct 2023 16:15:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ECF7F404CB
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sin.source.kernel.org (Postfix) with ESMTP id 40E8FCE23E7;
+ Wed, 11 Oct 2023 16:15:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06ED6C433C8;
+ Wed, 11 Oct 2023 16:15:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1697040908;
+ bh=wtQMMdHrnFggk0m06ilUhF5VMAOMImQU9UM40mHBiVM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bs0AcPB4HUa9JKFIg7sdXg83lTzuhi2OLLs5zi4krsrYvKkFZflYBf5izlTEFYFOP
+ YvFLiFb3wyNSQ6tsiAy8O8YdDaQto5/2ejA3/wlhLEJFh+DjPPnVsVn1yULSEB49cL
+ VinmbeTTkJmHOe7f+Mw/vGKdY2McoxJ3LxjkVJEDbYjH4UgOQXIV1IQ6n5A7VWViqY
+ 2djutKm3XqC32xhSqUTRM9doqqD/yVJBsJ+r6B8RN+V0zz+D6STCXNDgzOAFWFbN9r
+ j3syNlYhPWWm/HhBeiCYETIqLjcBcDEQeSTIRAcABeASEW/tgv7tTS0ie/ooyVKydW
+ 6qJwMIDqkj1tQ==
+Date: Wed, 11 Oct 2023 17:15:03 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Anshul Dalal <anshulusr@gmail.com>
+Subject: Re: [PATCH v4 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Message-ID: <20231011-powdering-recycled-71608e794eaa@spud>
+References: <20231010184827.1213507-1-anshulusr@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Remove extra unlock for the mutex
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-References: <20231010224630.238254-1-singhabhinav9051571833@gmail.com>
- <2023101136-irritate-shrine-cde6@gregkh>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <2023101136-irritate-shrine-cde6@gregkh>
-Cc: netdev@vger.kernel.org, dsahern@kernel.org, linux-kernel@vger.kernel.org,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+In-Reply-To: <20231010184827.1213507-1-anshulusr@gmail.com>
+Cc: devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-input@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -109,53 +86,168 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: multipart/mixed; boundary="===============4447161630996643041=="
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 10/11/23 12:00, Greg KH wrote:
-> On Wed, Oct 11, 2023 at 04:16:30AM +0530, Abhinav Singh wrote:
->> There is a double unlock on mutex. This can cause undefined behaviour.
->>
->> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
->> ---
->>   net/ipv4/inet_connection_sock.c | 1 -
->>   1 file changed, 1 deletion(-)
->>
->> diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
->> index aeebe8816689..f11fe8c727a4 100644
->> --- a/net/ipv4/inet_connection_sock.c
->> +++ b/net/ipv4/inet_connection_sock.c
->> @@ -597,7 +597,6 @@ int inet_csk_get_port(struct sock *sk, unsigned short snum)
->>   	}
->>   	if (head2_lock_acquired)
->>   		spin_unlock(&head2->lock);
->> -	spin_unlock_bh(&head->lock);
-> 
-> How was this tested?
-> 
-> And where is the now-needed unlock of the head->lock?
-> 
-> How was this change found?
-> 
-> And your subject line needs a lot of work...
-> 
-> thanks,
-> 
-> greg k-h
-Hello, I used sparse tool and got it this warning message "warning: 
-context imbalance in 'inet_csk_get_port' - unexpected unlock"
-Due to my over excitement of sending a good patch to kernel I didnt see 
-correctly and misread `head` as `head2` and thought it was double 
-unlocking the mutex. I m very sorry. But on a different note think we 
-should do a check for `head->lock` as well before unlocking. Unlocking a 
-non locked mutex can also trigger a undefined behaviour.
 
-Thank you,
-Abhinav Singh
+--===============4447161630996643041==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="timCUOp0XhI+CNqU"
+Content-Disposition: inline
+
+
+--timCUOp0XhI+CNqU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hey,
+
+On Wed, Oct 11, 2023 at 12:18:23AM +0530, Anshul Dalal wrote:
+> Adds bindings for the Adafruit Seesaw Gamepad.
+>=20
+> The gamepad functions as an i2c device with the default address of 0x50
+> and has an IRQ pin that can be enabled in the driver to allow for a rising
+> edge trigger on each button press or joystick movement.
+>=20
+> Product page:
+>   https://www.adafruit.com/product/5743
+> Arduino driver:
+>   https://github.com/adafruit/Adafruit_Seesaw
+>=20
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> ---
+>=20
+> Changes for v4:
+> - Fixed the URI for the id field
+> - Added `interrupts` property
+>=20
+> Changes for v3:
+> - Updated id field to reflect updated file name from previous version
+> - Added `reg` property
+>=20
+> Changes for v2:
+> - Renamed file to `adafruit,seesaw-gamepad.yaml`
+> - Removed quotes for `$id` and `$schema`
+> - Removed "Bindings for" from the description
+> - Changed node name to the generic name "joystick"
+> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
+>   'adafruit,seesaw_gamepad'
+>=20
+>  .../input/adafruit,seesaw-gamepad.yaml        | 59 +++++++++++++++++++
+>  1 file changed, 59 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,sees=
+aw-gamepad.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-game=
+pad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.=
+yaml
+> new file mode 100644
+> index 000000000000..e8e676006d2f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+> @@ -0,0 +1,59 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Adafruit Mini I2C Gamepad with seesaw
+
+Binding mostly looks good to me. My main question is what is a seesaw?
+
+> +
+> +maintainers:
+> +  - Anshul Dalal <anshulusr@gmail.com>
+> +
+> +description: |
+> +  Adafruit Mini I2C Gamepad
+> +
+> +    +-----------------------------+
+> +    |   ___                       |
+> +    |  /   \               (X)    |
+> +    | |  S  |  __   __  (Y)   (A) |
+> +    |  \___/  |ST| |SE|    (B)    |
+> +    |                             |
+> +    +-----------------------------+
+> +
+> +  S -> 10-bit percision bidirectional analog joystick
+> +  ST -> Start
+> +  SE -> Select
+> +  X, A, B, Y -> Digital action buttons
+> +
+> +  Product page: https://www.adafruit.com/product/5743
+> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
+
+I'm not really sure what the arduino driver has to do with the binding.
+Why is a link to it more relevant than the freebsd driver, or the linux
+driver etc? Is there info about how the pad works in the arduino driver
+
+Otherwise, this seems good to me.
+
+Thanks,
+Conor.
+
+> +
+> +properties:
+> +  compatible:
+> +    const: adafruit,seesaw-gamepad
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +    description:
+> +      The gamepad's IRQ pin triggers a rising edge if interrupts are ena=
+bled.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        joystick@50 {
+> +            compatible =3D "adafruit,seesaw-gamepad";
+> +            reg =3D <0x50>;
+> +        };
+> +    };
+> --=20
+> 2.42.0
+>=20
+
+--timCUOp0XhI+CNqU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSbKBwAKCRB4tDGHoIJi
+0uPyAP44XQzOQbflxL/UvrKTR2YMG9/YIVQXQK5aBzNTEXcMUAEA8xyeLKAOZtJx
+HK4Pss8t1U8E5lZrti8sa9pDht76Bws=
+=wvkn
+-----END PGP SIGNATURE-----
+
+--timCUOp0XhI+CNqU--
+
+--===============4447161630996643041==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
 https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+
+--===============4447161630996643041==--
