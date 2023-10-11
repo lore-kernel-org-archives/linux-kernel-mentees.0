@@ -1,108 +1,96 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id CF6E3CD98CB
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 10 Oct 2023 22:51:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2109ECD98E0
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed, 11 Oct 2023 00:28:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 3D21E60F9B;
-	Tue, 10 Oct 2023 22:51:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3D21E60F9B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=CPlGWHIU
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kPH1lBGLrgaT; Tue, 10 Oct 2023 22:51:20 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EAC5760F8E;
-	Tue, 10 Oct 2023 22:51:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EAC5760F8E
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D3EC3C0039;
-	Tue, 10 Oct 2023 22:51:19 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AE264C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 22:51:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 758BC4044D
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 22:51:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 758BC4044D
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8926C4158B;
+	Wed, 11 Oct 2023 00:28:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8926C4158B
 Authentication-Results: smtp2.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=CPlGWHIU
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazon201209 header.b=ZSBua0an
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gB5fTkqSP5VS
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id bhB5K7r6kDFg; Wed, 11 Oct 2023 00:28:32 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4C5714012E;
+	Wed, 11 Oct 2023 00:28:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4C5714012E
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 24F9EC0039;
+	Wed, 11 Oct 2023 00:28:32 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F1DA4C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 22:51:17 +0000 (UTC)
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by smtp2.osuosl.org (Postfix) with ESMTPS id 423A140012
+ Wed, 11 Oct 2023 00:28:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id A14BD60F27
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 22:51:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 423A140012
-Received: by mail-ot1-x32e.google.com with SMTP id
- 46e09a7af769-6c67060fdfaso4270597a34.2
+ Wed, 11 Oct 2023 00:28:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A14BD60F27
+Authentication-Results: smtp3.osuosl.org; dkim=pass (1024-bit key,
+ unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256
+ header.s=amazon201209 header.b=ZSBua0an
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id RtYw00AcDBh3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Oct 2023 15:51:17 -0700 (PDT)
+ Wed, 11 Oct 2023 00:28:29 +0000 (UTC)
+Received: from smtp-fw-80008.amazon.com (smtp-fw-80008.amazon.com
+ [99.78.197.219])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id B789D60AA8
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Oct 2023 00:28:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B789D60AA8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1696978276; x=1697583076;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=MAPx7emm+jvc2q+Bc3jRC8KUctxaIgAys23gkHTb/Ng=;
- b=CPlGWHIU8dMtbaNIfS4dRkhoRv5gvAbldgdsJy4NJ4gk2aE5LTY3fGN9S8BzOlx7To
- 0ceUsGadYeDJbgQEFIAAwljCJ3XefEs73WMN5PE46FldiowuQfoT7cJINfwoJGZbJuY+
- /P+MZ62f+yEhXx7mGqGPgXMRvXWPrCVrWMt7ZbrhW8L2/vKaaPKC+vcjshsONzi0PJro
- nvbuOjoVuFMML+dgxmBCBJZgH8T2jBYRp1B1vZxafADRUmU3ZATs8KgMY1WQUpekJvn6
- NwV2/H2tlI7wM5pzHeA+ljX1Rq1fHfHnT6xmtaeR/iAQhG4dedaqwWIkA9/CPJjMdjXA
- djZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1696978276; x=1697583076;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MAPx7emm+jvc2q+Bc3jRC8KUctxaIgAys23gkHTb/Ng=;
- b=LmBYqWA7tVbAUbz0OGULMXlchy1r+3/bTP0iXXGcov9uUp9eMEEeOH+x3eyWnsW6Xo
- DxGfTf1AqCFaeUQggo0HoiFIBZLtCd/SDj33wPbdMRiQ7fn/2qlVQ8atIgs57mTCBltb
- ZlxM1QopCtK6/+VM7VgmrrjsnIQ0ygxTXRgL+uvhl6NbgWEbfWzmdhR42NuHvbbs8w1W
- IEDrHUN88KJE+VXbhxGlesRRyolufyDFfXH6IHWZyLqVE4IMT0Ne3gWj+ar/PR7HRhdn
- 7SBf62r2LWyJY7+DyFFEz4KKWV5irJkp1WXdx3xGtSE7ckXuJSVXizV9wnyQ/IAjVYow
- 1thA==
-X-Gm-Message-State: AOJu0Yx00saKbunYPtklcsVDB5J7kR6ZYQQY17adtqhxB7wTv2TqcMHQ
- Vj4EiXeoSzFWHClTgQY/1CM=
-X-Google-Smtp-Source: AGHT+IH+5J16uc3L0kkDA8aO9xcwVg1Eq67MFvQMo7wRDvdT9c4px7qlZSXwP6e3Rp0AaG9N5LfKcg==
-X-Received: by 2002:a05:6830:442:b0:6c6:42ca:ed52 with SMTP id
- d2-20020a056830044200b006c642caed52mr20713072otc.30.1696978276144; 
- Tue, 10 Oct 2023 15:51:16 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
- by smtp.googlemail.com with ESMTPSA id
- s29-20020a63925d000000b0059a1c256bb2sm2545977pgn.60.2023.10.10.15.51.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 10 Oct 2023 15:51:15 -0700 (PDT)
-Message-ID: <ab48efc3-9f40-4eed-bdb1-4ce04d3c55cf@gmail.com>
-Date: Tue, 10 Oct 2023 15:51:13 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1696984109; x=1728520109;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=xuZcVqG1Y38jX5g59zUv7HtsOiRZ/8gim6olwT/sCKY=;
+ b=ZSBua0anw1DmE5gSi/cZwOywlNHud/6p+0of1xlFIHDzkoGIzh2TWgM6
+ JcYye8+VIpsNXEBDsoG89P1WAw+a/MfAV8dzUi8zd/dPyrTYz/j23pOQg
+ 5lVHHb20i11KQayPmS+BR+fbEg09Cowuk3VkrbT+ayP2MwWsrBuolB01S Q=;
+X-IronPort-AV: E=Sophos;i="6.03,214,1694736000"; d="scan'208";a="34964492"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO
+ email-inbound-relay-iad-1a-m6i4x-edda28d4.us-east-1.amazon.com)
+ ([10.25.36.214]) by smtp-border-fw-80008.pdx80.corp.amazon.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 00:28:26 +0000
+Received: from EX19MTAUWC002.ant.amazon.com
+ (iad55-ws-svc-p15-lb9-vlan2.iad.amazon.com [10.40.159.162])
+ by email-inbound-relay-iad-1a-m6i4x-edda28d4.us-east-1.amazon.com (Postfix)
+ with ESMTPS id 7A7708047B; Wed, 11 Oct 2023 00:28:25 +0000 (UTC)
+Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.37; Wed, 11 Oct 2023 00:28:25 +0000
+Received: from 88665a182662.ant.amazon.com.com (10.187.171.21) by
+ EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.37; Wed, 11 Oct 2023 00:28:22 +0000
+To: <f.fainelli@gmail.com>
 Subject: Re: [PATCH] Remove extra unlock for the mutex
-Content-Language: en-US
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>, davem@davemloft.net,
- dsahern@kernel.org, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-References: <20231010224630.238254-1-singhabhinav9051571833@gmail.com>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20231010224630.238254-1-singhabhinav9051571833@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org
+Date: Tue, 10 Oct 2023 17:28:14 -0700
+Message-ID: <20231011002814.77527-1-kuniyu@amazon.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <ab48efc3-9f40-4eed-bdb1-4ce04d3c55cf@gmail.com>
+References: <ab48efc3-9f40-4eed-bdb1-4ce04d3c55cf@gmail.com>
+MIME-Version: 1.0
+X-Originating-IP: [10.187.171.21]
+X-ClientProxiedBy: EX19D039UWB001.ant.amazon.com (10.13.138.119) To
+ EX19D004ANA001.ant.amazon.com (10.37.240.138)
+Precedence: Bulk
+Cc: netdev@vger.kernel.org, dsahern@kernel.org, linux-kernel@vger.kernel.org,
+ singhabhinav9051571833@gmail.com, edumazet@google.com, kuniyu@amazon.com,
+ kuba@kernel.org, pabeni@redhat.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
-Precedence: list
 List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
 List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=unsubscribe>
@@ -111,40 +99,49 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: Kuniyuki Iwashima via Linux-kernel-mentees
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: Kuniyuki Iwashima <kuniyu@amazon.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 10/10/23 15:46, Abhinav Singh wrote:
-> There is a double unlock on mutex. This can cause undefined behaviour.
+From: Florian Fainelli <f.fainelli@gmail.com>
+Date: Tue, 10 Oct 2023 15:51:13 -0700
+> On 10/10/23 15:46, Abhinav Singh wrote:
+> > There is a double unlock on mutex. This can cause undefined behaviour.
+> 
+> Where is the double unlock of head->lock (which is a spinlock and not a 
+> mutex, btw)?
 
-Where is the double unlock of head->lock (which is a spinlock and not a 
-mutex, btw)?
+Maybe head is just confused with the preceding head2 as the two are
+the same type of struct.  They are pointers of different hash tables
+though.
+
+bind()ing two sockets to the same 2-tuple will easily trigger hung task.
+
 
 > 
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> ---
->   net/ipv4/inet_connection_sock.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
-> index aeebe8816689..f11fe8c727a4 100644
-> --- a/net/ipv4/inet_connection_sock.c
-> +++ b/net/ipv4/inet_connection_sock.c
-> @@ -597,7 +597,6 @@ int inet_csk_get_port(struct sock *sk, unsigned short snum)
->   	}
->   	if (head2_lock_acquired)
->   		spin_unlock(&head2->lock);
-> -	spin_unlock_bh(&head->lock);
->   	return ret;
->   }
->   EXPORT_SYMBOL_GPL(inet_csk_get_port);
-
--- 
-Florian
-
+> > 
+> > Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+> > ---
+> >   net/ipv4/inet_connection_sock.c | 1 -
+> >   1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/net/ipv4/inet_connection_sock.c b/net/ipv4/inet_connection_sock.c
+> > index aeebe8816689..f11fe8c727a4 100644
+> > --- a/net/ipv4/inet_connection_sock.c
+> > +++ b/net/ipv4/inet_connection_sock.c
+> > @@ -597,7 +597,6 @@ int inet_csk_get_port(struct sock *sk, unsigned short snum)
+> >   	}
+> >   	if (head2_lock_acquired)
+> >   		spin_unlock(&head2->lock);
+> > -	spin_unlock_bh(&head->lock);
+> >   	return ret;
+> >   }
+> >   EXPORT_SYMBOL_GPL(inet_csk_get_port);
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
