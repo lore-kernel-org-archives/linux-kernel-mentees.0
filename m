@@ -1,98 +1,127 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 0ED19CDB483
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Oct 2023 10:56:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D8756CDB482
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 12 Oct 2023 11:03:43 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 9C245410A2;
-	Thu, 12 Oct 2023 10:56:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9C245410A2
+	by smtp2.osuosl.org (Postfix) with ESMTP id 69B2940382;
+	Thu, 12 Oct 2023 11:03:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 69B2940382
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=AG4CFqMV
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DGkwVesVRg-p; Thu, 12 Oct 2023 10:56:19 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 42D014150E;
-	Thu, 12 Oct 2023 10:56:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 42D014150E
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ms6SmCjFAmBg; Thu, 12 Oct 2023 11:03:42 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 282FC4013F;
+	Thu, 12 Oct 2023 11:03:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 282FC4013F
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 20CC6C0039;
-	Thu, 12 Oct 2023 10:56:19 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 9CCFAC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 01A07C0039;
+	Thu, 12 Oct 2023 11:03:42 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 96D49C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Oct 2023 10:56:17 +0000 (UTC)
+ Thu, 12 Oct 2023 11:03:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 696E54150E
+ by smtp2.osuosl.org (Postfix) with ESMTP id 578A640382
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Oct 2023 10:56:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 696E54150E
+ Thu, 12 Oct 2023 11:03:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 578A640382
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id X0RNgOSluh-a
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id j8tNRProNJV6
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Oct 2023 10:56:15 +0000 (UTC)
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5D841410A2
+ Thu, 12 Oct 2023 11:03:40 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02olkn20822.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe12::822])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 0F1EC4013F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Oct 2023 10:56:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5D841410A2
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1c5c91bec75so6403315ad.3
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Oct 2023 03:56:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697108175; x=1697712975;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:dkim-signature:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
- b=IamIXEKieMhbiBx8JKb3mAMzAHgXpinrS/6jzpqalviG91SYL4zZINk4eXCyivuAmq
- zF58nqV/byLyjcB8OmSbP5KyLbMVTxRRrtOjbGYwhfuvXv+YYCSRv8HtErMVYamCp8mq
- OSyRX4xrD5YwYtg6c9F7SvVi0hA7aE4oBTgfLUOHmxh1ZW16SclqeOY5VC4oQq55zVs1
- 9y8H7ANl8ZQUkXRA+70UB3PolCYDOaUwYw5T3Btr7e1Q8x5VImybf7E/1eWs8oVVPMrB
- SxFgBjA9XYI64cjW7YlSSVdsmgKSITNy551rbMTZB8uNro0Sjhme2yk0mVKn0x2L3EKR
- 829w==
-X-Gm-Message-State: AOJu0YxgKU8fyPRPRiuei/RTAp4/5MFb4UcrNkMhhvRjyrW1liHzGcXt
- jSz+cpR7TzdXhvSU5e5cdb+bDHNk5wPYHA==
-X-Google-Smtp-Source: AGHT+IHrukWTPzhOjCyRsKwTW9N1rf4iR43yr7LemfnQgYdFKwX3fykZ3xDPkLmVgn5cqdkN8M/iSQ==
-X-Received: by 2002:a17:902:fa8f:b0:1c9:d948:33d5 with SMTP id
- lc15-20020a170902fa8f00b001c9d94833d5mr2349432plb.64.1697108174615; 
- Thu, 12 Oct 2023 03:56:14 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
- by smtp.gmail.com with ESMTPSA id
- a7-20020a170902ecc700b001c3267ae31bsm1642297plh.301.2023.10.12.03.56.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 12 Oct 2023 03:56:13 -0700 (PDT)
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
- s=2023; t=1697108172;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=W9Da9MBT9rB+lZA9zm7WjEfc17v4yeizFPCpeNj0xZ0=;
- b=p6mRBJRv15x2a8mugD54EELIKpHhGxE1HudINzkmlCUswZguuXtnlCIm/uEwKwVFGZVLJK
- nYWY3ofQoWfYLeWEKmB7VlsdpqXtvMSIsU6UcKac9GL54ENIO1eIdN7DJjkuzehSfniMDg
- qORCa7JwERprwg49vaR4XZH3DGZYcOA0iaWdlZhua/wejFBTrv0X29zVCWKoPHxCiZUyj+
- 6m2N1mhjzLGzrd+M41gY1i3BLQ8YfOEO7gI4LQKNrAbrF/BAbWNzNcAJZ6yUKmJvj2rjU8
- m0xLBNvh1cZcYPP/CDUQ5IFVxGBe/Ql7NmfsVGUjkM9DsgHzdToaow1h361Ndg==
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-To: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] docs: kbuild: add INSTALL_DTBS_PATH
-Date: Thu, 12 Oct 2023 07:54:21 -0300
-Message-ID: <20231012105420.16779-2-ricardo@marliere.net>
+ Thu, 12 Oct 2023 11:03:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0F1EC4013F
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d9I7Wsxoi2msSJTECusPF8OQOTWID4SHbJfShngm/DpVh9xIsEaooRKUYNDLc21aBBot7iJEf4iot7GytJI8hcAqHuEPetM3DWIJyAX0Xt+JgdWAj0tHekkuIG3jwR1gqWJiG/4I3I5/IWvBjqPyRy2qoWtAk4091WbsMF2kkkAO+HYJ5Tnvhw/cNW9XO1CENgrgLOWCWvFbvUcPN+06d3XUH2kn1eMpDoNW0uRW3N2FASAJnhljvPB+U+ITix98d2gfdaO7ZVTr0TR0AivaZdWlOeLTPJokKRIMzCqsxK+7dlOnPnyuTaKCKftIBt66jRbxZ0oV/BYS83XZSBQpYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dWAbrkXml6NEsYcTfWFt3VsGaLxIICZYwThYz40k9t0=;
+ b=A1fbf7rQFi2LhlAbaCSY0nJ1dOTB4Bq4iPqXvpIw6U0AUC113CdXGYQ9q6NekYCDAUCY83yoLvGxY1tqH3vrjlrK6HAAC+4//MUBZhTpI3EP7fO84fWErEI6Cybqh9zT5+3gyHZPPGa4SI/ouS6cYheXG7u4ZPkFtRqFx+K9WZat25ErJt7hElaXEjncZh/0i8uSCu9pR5BRr9oFVWEeiGStl+mb+BIq1BdiCpuJdVXbbBWSGp6SA3QCz1SbAosjrSzaLkPQq3G7hIdkWwuXzM6LeF4y+XQu1VHvE1tK8xtF7sr+DtpYUHpeBoygclVj80cWRQkBmh1Hgz88TGw4BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dWAbrkXml6NEsYcTfWFt3VsGaLxIICZYwThYz40k9t0=;
+ b=AG4CFqMVUqffihyI1i/Ab1SoDZlvkVZO911mGFqffLis2hQrdVTI1jzNF06Kf2jzwkPxqfgjhmphHvRhA+xnANonBti9bOCHkO4Nbz5ujuw49lyBVqIS36b1O61jYqKPgQoNrxTlxdTrWR3wEuzm6nVhnPHz16/4ui3oGMgeju0RiYPpzkoznH1sK4bw9ArJmbwKqgRYpBRsc5FGfTQatcteOz180os8bt5BX3rnV7q2/KBLzpUIH9f6G/wbg+dfrhQs1wAGYqFakeptBwbhvRGVFh8LiGXAGVAqKPt/dceqXSzXqYMajzNVrm1ovQVPKlySOq6DGq7eF/Q6avo7aA==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by PAXP193MB2252.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:232::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.43; Thu, 12 Oct
+ 2023 11:03:36 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::af68:c2a:73ce:8e99]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::af68:c2a:73ce:8e99%3]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
+ 11:03:36 +0000
+From: Juntong Deng <juntong.deng@outlook.com>
+To: borisp@nvidia.com, john.fastabend@gmail.com, kuba@kernel.org,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
+Subject: [PATCH] net/tls: Fix slab-use-after-free in tls_encrypt_done
+Date: Thu, 12 Oct 2023 19:02:51 +0800
+Message-ID: <VI1P193MB0752428D259D066379242BD099D3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
+X-TMN: [IYw6gEqPreLhsJRR+n9bpDeFOiGYOaZz]
+X-ClientProxiedBy: LNXP265CA0021.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:5e::33) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <20231012110251.10696-1-juntong.deng@outlook.com>
 MIME-Version: 1.0
-Cc: linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PAXP193MB2252:EE_
+X-MS-Office365-Filtering-Correlation-Id: c77aa7bc-1b2d-4b0b-1b78-08dbcb12e130
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ncHInV2HNgsx5LhrR4Vg83pPI2No9Tz7Iz3dQOOWozVbhV5kQ9emIdVXhis6dW6TwltjbaYmexushk8rFLLLVP9FndPnUFK1voRTBb9nnUjvFEPtBvztrAb0J3zoLcVkITQQzla+zWhkazZ6CEGasZvtJvtA10WRZ8ZsrbvpWeVHLtQrw0fPEuzPS1mBP9LD0DNGqUKyQtK6nnHJDcXXi+NjeznaqulgHsT5FYjrO4PPr0o5y+fY6ZlblkTh2WCGM6ZWP1cDJnpeuBSPWPOgj2SHgohD4esdnrIJWXZMi65ClKfNWoVQ8T3UoI4+FEwFaQ8B+Tk64WjtyQR2FDyjS3vhvQcDF15KwJeyHKl6zdAFmewy3wP2QA4THH5oQVX/txdMmNQLRTX/wg0qz6lA9lxnr7aDyMrNyxhVIn21nTK5xmwemkHjzZDD0nsA96tOzNdR6ZPP69HGytfNL+es9ChkniUT42LyHKvynJPm9FkZRvUTz7Or0/O1mJ04CJVAhz2rzTRxKFuI/xoCHOvLhkpjsePYCCJ7tw3fPgULNxiBwfgpuqMpBfWYoIWZjgCTTSPjfY0prnaH3ey0GrZnBsmZ+qBCLRhUYjxM/2IWJaM=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YJ3qbzQt1oNaeXazn620RqPIf6L314yOqNlTP4Q7jG4mDxEN5voOmIUnrgwl?=
+ =?us-ascii?Q?T2nAh57EZoMo33BPx0ZXb2AB5DoAdkWEpN3U/NYotavXUOZFMdw1sF7kfpl+?=
+ =?us-ascii?Q?Zl6dUT1Dew3q3usIJ0sXjVKxNMMSEDg6ib6ixUgxK7AhOGtlHZ3QIYV83cOR?=
+ =?us-ascii?Q?qE1sl3RSFGlRvjRWMRCO/EWC205DB2o5l9oyLG+lVVylj5e0eDDD9anU/n8g?=
+ =?us-ascii?Q?EmP6Qc4P0wVH0e6fhXl79BafivjHqt9uf3DXf+fmB4thyN0t2Hsf+dFyan7o?=
+ =?us-ascii?Q?YGVUeBUt+sIMdqw60nH8yrDYlQ89THYBridolMJV4ekVpFS5k9PJ1yr179FB?=
+ =?us-ascii?Q?X9H2hjZOeJ8nXNgdDyaTfaAVRrBRf/7sWGH8EfaiG6nwVwmGc2YWB5IEUCau?=
+ =?us-ascii?Q?JO7FShVhmJ/o9vb0hC0qBAEhOIF2x2CDQH7ACjrgaejVCd3vNxW1qi76Vzst?=
+ =?us-ascii?Q?TieAhTRJwBXZ2s4bXrjsQnkHtm3XuC7KH6Jdd5OiJPGtH4YnLRdCacAXvgrH?=
+ =?us-ascii?Q?UQBWTHf8yRClR/NJHoiK9aur60z9OxYyIOkhQMKgjk9BmXDoj9YFEFG9XV3b?=
+ =?us-ascii?Q?huFgkrCLCw/BkkgaTFvNLK1KYn0KW8P3ZGhO17xALTkcwBWAhu4+yDxl4mQu?=
+ =?us-ascii?Q?OPTaEmN9xHN0s/z/lNrlYzRr7O4L/Ph3MkyAvyB5cwimWXtHQCbCw/D93XBZ?=
+ =?us-ascii?Q?D1j1adNJe67lcoRNAFtexTz7WV4Bo6e47s54VZOsGCngGSZBbsVvZjVh3KyL?=
+ =?us-ascii?Q?ZCgLZJtJyf2VHp5KXj3xTHNdkje+rES4lY2wSgxVuwfDTCOHzjeq0pRl5iHY?=
+ =?us-ascii?Q?BVSvQ45gHB/nWet+gK8xjEzHTaiPUlyJftcaxNB88tXDj28WuFmkRkFrI/Hs?=
+ =?us-ascii?Q?QEjDOVcwwTGz6oFUKMUAlrH1HS/EDTkBth84H3P+GsQp22prKShz4gRcfHK3?=
+ =?us-ascii?Q?HXCSnqFxHPkJHOSG7U2X0FEmVE6SvuB4v5vNIq/BPQMt1klh+wH2FtSBy77B?=
+ =?us-ascii?Q?uNFzQAopdVS3dJwYFw9XejH/it9/QDAKRU8DlBTgVnQx8PrbaoJehUljNR+b?=
+ =?us-ascii?Q?lVujm/Ia0KmLCvDuO8NJ3S9KU6nY6yg8XncCGj878Dnpps5n3lnHD2B8meYp?=
+ =?us-ascii?Q?nz7ph2oMArNPgTMrbImBnnkF9xx2//7DYTqUtClmotPlPwE40xJ+ldlDr2E8?=
+ =?us-ascii?Q?D/YBfmEUTXBk0Zqx3Ltwws4cG8cpscNxCeZSy2IA7dEX5gUTJAD+AMJIhiw?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c77aa7bc-1b2d-4b0b-1b78-08dbcb12e130
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2023 11:03:36.4259 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB2252
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -110,52 +139,59 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The documentation for kbuild and makefiles is missing an explanation of
-a variable important for some architectures.
+In the current implementation, ctx->async_wait.completion is completed
+after spin_lock_bh, which causes tls_sw_release_resources_tx to
+continue executing and return to tls_sk_proto_cleanup, then return
+to tls_sk_proto_close, and after that enter tls_sw_free_ctx_tx to kfree
+the entire struct tls_context (including ctx->encrypt_compl_lock).
 
-Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+Since ctx->encrypt_compl_lock has been freed, subsequent spin_unlock_bh
+will result in slab-use-after-free error. Due to SMP, even using
+spin_lock_bh does not prevent tls_sw_release_resources_tx from continuing
+on other CPUs. After tls_sw_release_resources_tx is woken up, there is no
+attempt to hold ctx->encrypt_compl_lock again, therefore everything
+described above is possible.
+
+The fix is to put complete(&ctx->async_wait.completion) after
+spin_unlock_bh, making the release after the unlock. Since complete is
+only executed if pending is 0, which means this is the last record, there
+is no need to worry about race condition causing duplicate completes.
+
+Reported-by: syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=29c22ea2d6b2c5fd2eae
+Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 ---
- Documentation/kbuild/kbuild.rst    | 6 ++++++
- Documentation/kbuild/makefiles.rst | 7 +++++++
- 2 files changed, 13 insertions(+)
+ net/tls/tls_sw.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index bd906407e307..9c8d1d046ea5 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -243,6 +243,12 @@ The output directory is often set using "O=..." on the commandline.
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 270712b8d391..7abe5a6aa989 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -441,6 +441,7 @@ static void tls_encrypt_done(void *data, int err)
+ 	struct sk_msg *msg_en;
+ 	bool ready = false;
+ 	struct sock *sk;
++	int async_notify;
+ 	int pending;
  
- The value can be overridden in which case the default value is ignored.
+ 	msg_en = &rec->msg_encrypted;
+@@ -482,10 +483,11 @@ static void tls_encrypt_done(void *data, int err)
  
-+INSTALL_DTBS_PATH
-+-----------------
-+INSTALL_DTBS_PATH specifies where to install device tree blobs for
-+relocations required by build roots.  This is not defined in the
-+makefile but the argument can be passed to make if needed.
-+
- KBUILD_ABS_SRCTREE
- --------------------------------------------------
- Kbuild uses a relative path to point to the tree when possible. For instance,
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index e67eb261c9b0..d88d4f0f4f89 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -1623,6 +1623,13 @@ INSTALL_MOD_STRIP
-   INSTALL_MOD_STRIP value will be used as the option(s) to the strip
-   command.
+ 	spin_lock_bh(&ctx->encrypt_compl_lock);
+ 	pending = atomic_dec_return(&ctx->encrypt_pending);
++	async_notify = ctx->async_notify;
++	spin_unlock_bh(&ctx->encrypt_compl_lock);
  
-+INSTALL_DTBS_PATH
-+  This variable specifies a prefix for relocations required by build
-+  roots. It defines a place for installing the device tree blobs. Like
-+  INSTALL_MOD_PATH, it isn't defined in the Makefile, but can be passed
-+  by the user if desired. Otherwise it defaults to the kernel install
-+  path.
-+
- Makefile language
- =================
+-	if (!pending && ctx->async_notify)
++	if (!pending && async_notify)
+ 		complete(&ctx->async_wait.completion);
+-	spin_unlock_bh(&ctx->encrypt_compl_lock);
  
+ 	if (!ready)
+ 		return;
 -- 
-2.42.0
+2.39.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
