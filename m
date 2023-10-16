@@ -4,76 +4,100 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 00671CDB474
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Oct 2023 16:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 05383CDB482
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 16 Oct 2023 17:22:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 75E5F611CB;
-	Mon, 16 Oct 2023 16:46:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 75E5F611CB
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7343F61170;
+	Mon, 16 Oct 2023 17:22:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7343F61170
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nTfS2sZe
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2-kuwDsTqsQp; Mon, 16 Oct 2023 16:46:43 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 49A9B611AE;
-	Mon, 16 Oct 2023 16:46:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 49A9B611AE
+	with ESMTP id bNXyLgHPU-Qt; Mon, 16 Oct 2023 17:22:29 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2EF7360A93;
+	Mon, 16 Oct 2023 17:22:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2EF7360A93
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 228D8C0039;
-	Mon, 16 Oct 2023 16:46:43 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E3AA1C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Oct 2023 16:46:41 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 02A1EC0071;
+	Mon, 16 Oct 2023 17:22:29 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 92D00C0032
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Oct 2023 17:22:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id AB47C40929
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Oct 2023 16:46:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AB47C40929
+ by smtp1.osuosl.org (Postfix) with ESMTP id 688A38145D
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Oct 2023 17:22:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 688A38145D
+Authentication-Results: smtp1.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=nTfS2sZe
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GnLIcf_J4jn4
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Oct 2023 16:46:40 +0000 (UTC)
-X-Greylist: delayed 3283 seconds by postgrey-1.37 at util1.osuosl.org;
- Mon, 16 Oct 2023 16:46:40 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5772140915
-Received: from 3.mo576.mail-out.ovh.net (3.mo576.mail-out.ovh.net
- [188.165.52.203])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 5772140915
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Oct 2023 16:46:40 +0000 (UTC)
-Received: from director5.ghost.mail-out.ovh.net (unknown [10.109.138.205])
- by mo576.mail-out.ovh.net (Postfix) with ESMTP id 35C0921885
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 16 Oct 2023 15:51:55 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-z9f7w (unknown [10.110.171.76])
- by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9D0191FE94;
- Mon, 16 Oct 2023 15:51:54 +0000 (UTC)
-Received: from RCM-web7.webmail.mail.ovh.net ([151.80.29.19])
- by ghost-submission-6684bf9d7b-z9f7w with ESMTPSA
- id pvT0JBpcLWU2DwEAAnawRQ
- (envelope-from <jose.pekkarinen@foxhound.fi>); Mon, 16 Oct 2023 15:51:54 +0000
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id TrKQGdb91JoU
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Oct 2023 17:22:26 +0000 (UTC)
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
+ [IPv6:2607:f8b0:4864:20::642])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id AD8E1813CE
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Oct 2023 17:22:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AD8E1813CE
+Received: by mail-pl1-x642.google.com with SMTP id
+ d9443c01a7336-1c9b7c234a7so40974865ad.3
+ for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 16 Oct 2023 10:22:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1697476946; x=1698081746;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fzazQLMiElf0E2rTzrIHqd72McOV2ajmxD+aMmf7vqY=;
+ b=nTfS2sZew8gv+UHmag83EF4fh4lUFzZ+RGdIM8lKyN+nNvfl4ndcYl2xraL9R6B0fd
+ Irk5WxokefhdwaoxP0Kb+WJOakOGEdG64XuMlhrJBvyQ+2293ZFz/+hX3bCuKQ68nFUp
+ qolQyxpLDW5dRL1gQrDps4IZ5r3Igwtzr52vNiKODmceU0JvVW28dyR4B2nmNzxDRVbV
+ bsIG2pbUY/pesYMC2nQLjF2FHjAtpoKhew4VX/MQ/8IC7tG4dg4oecVqpD/SDt1zkE+O
+ lX3qQ0oHzOU+ElUVASnpKK/JSgKARrQNOifN+sBt+M+6ElZB0Ok1y1haBKiH5hyUixHP
+ ivWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697476946; x=1698081746;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fzazQLMiElf0E2rTzrIHqd72McOV2ajmxD+aMmf7vqY=;
+ b=XngxLKwaduL0el3+sX+dw1NlhqQFq7pJWdz6T3NSYinCkn6ExHU4GRzQoCuD/os6uZ
+ uUWuQ30P0E2Ou0QrlHPHgF+lm66vwcgA3p/TyYH1o2yzCO8+HNQY4r2TFIkXhq6WtWuK
+ ePTj8LJtt1DyOPjnj0bg5geMeDbOCatSHZLRuKhd0lXT+/+aEDqUGzGEUvuqP3C1z9D3
+ LEAupFLH6vba837YXR7KS3t4uQgSjcbmOpUOsVSuP7i+YF16UCYbNQfeUj5Lm/pMWPlY
+ Iv93vf0BPvNsktVZT2OV5e2cA8b0MmeBwVJtQylh9/6aEslzKDpg48VSubtsH1MBcT7L
+ OgdA==
+X-Gm-Message-State: AOJu0YzeiFCsuwB5k5M3UsJKfp1IZLGpoIJ6qF2NhmnTwu65QXtd2u+n
+ eQcNCz9RKv+xaO/1twsFljs=
+X-Google-Smtp-Source: AGHT+IFu32FXclE93vnrfHvsUnNd7aLyilrnezvtfZPodtmCbOs68G8/SX15ddka7PWiK1VxXkXDQA==
+X-Received: by 2002:a17:903:2445:b0:1ca:2497:554 with SMTP id
+ l5-20020a170903244500b001ca24970554mr9560472pls.8.1697476945945; 
+ Mon, 16 Oct 2023 10:22:25 -0700 (PDT)
+Received: from manas-VirtualBox.iitr.ac.in ([103.37.201.178])
+ by smtp.gmail.com with ESMTPSA id
+ ik5-20020a170902ab0500b001b8622c1ad2sm8926936plb.130.2023.10.16.10.22.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Oct 2023 10:22:25 -0700 (PDT)
+From: Manas Ghandat <ghandatmanas@gmail.com>
+To: dave.kleikamp@oracle.com,
+	shaggy@kernel.org
+Subject: [PATCH] jfs: fix slab-out-of-bounds Read in dtSearch
+Date: Mon, 16 Oct 2023 22:41:30 +0530
+Message-Id: <20231016171130.15952-1-ghandatmanas@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Date: Mon, 16 Oct 2023 18:51:54 +0300
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: dmitry.torokhov@gmail.com, rydberg@bitmath.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH] Input: synaptics: enable InterTouch for ThinkPad L14 G1
-In-Reply-To: <20231008080129.17931-1-jose.pekkarinen@foxhound.fi>
-References: <20231008080129.17931-1-jose.pekkarinen@foxhound.fi>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <5d857ff972e9203ef65ae2396c7285c0@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 185.220.101.52
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-X-Ovh-Tracer-Id: 6636898479886935718
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrjedtgdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpudekhedrvddvtddruddtuddrhedvpdduhedurdektddrvdelrdduleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugihfohhunhgurghtihhonhdrohhrghdpoffvtefjohhsthepmhhoheejiedpmhhouggvpehsmhhtphhouhht
-Cc: rrangel@chromium.org, amandhoot12@gmail.com, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-input@vger.kernel.org
+Cc: Linux-kernel-mentees@lists.linuxfoundation.org,
+ jfs-discussion@lists.sourceforge.net, Manas Ghandat <ghandatmanas@gmail.com>,
+ linux-kernel@vger.kernel.org,
+ syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -85,59 +109,41 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gMjAyMy0xMC0wOCAxMTowMSwgSm9zw6kgUGVra2FyaW5lbiB3cm90ZToKPiBPYnNlcnZlZCBv
-biBkbWVzZyBvZiBteSBsYXB0b3AgSSBzZWUgdGhlIGZvbGxvd2luZwo+IG91dHB1dDoKPiAKPiBb
-ICAgMTkuODk4NzAwXSBwc21vdXNlIHNlcmlvMTogc3luYXB0aWNzOiBxdWVyaWVkIG1heCBjb29y
-ZGluYXRlczogeAo+IFsuLjU2NzhdLCB5IFsuLjQ2OTRdCj4gWyAgIDE5LjkzNjA1N10gcHNtb3Vz
-ZSBzZXJpbzE6IHN5bmFwdGljczogcXVlcmllZCBtaW4gY29vcmRpbmF0ZXM6IHgKPiBbMTI2Ni4u
-XSwgeSBbMTE2Mi4uXQo+IFsgICAxOS45MzYwNzZdIHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6
-IFlvdXIgdG91Y2hwYWQgKFBOUDogTEVOMDQxMQo+IFBOUDBmMTMpIHNheXMgaXQgY2FuIHN1cHBv
-cnQgYSBkaWZmZXJlbnQgYnVzLiBJZiBpMmMtaGlkIGFuZCBoaWQtcm1pCj4gYXJlIG5vdCB1c2Vk
-LCB5b3UgbWlnaHQgd2FudCB0byB0cnkgc2V0dGluZwo+IHBzbW91c2Uuc3luYXB0aWNzX2ludGVy
-dG91Y2ggdG8gMSBhbmQgcmVwb3J0IHRoaXMgdG8KPiBsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5v
-cmcuCj4gWyAgIDIwLjAwODkwMV0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogVG91Y2hwYWQg
-bW9kZWw6IDEsIGZ3Ogo+IDEwLjMyLCBpZDogMHgxZTJhMSwgY2FwczogMHhmMDE0YTMvMHg5NDAz
-MDAvMHgxMmU4MDAvMHg1MDAwMDAsIGJvYXJkCj4gaWQ6IDM0NzEsIGZ3IGlkOiAyOTA5NjQwCj4g
-WyAgIDIwLjAwODkyNV0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogc2VyaW86IFN5bmFwdGlj
-cwo+IHBhc3MtdGhyb3VnaCBwb3J0IGF0IGlzYTAwNjAvc2VyaW8xL2lucHV0MAo+IFsgICAyMC4w
-NTMzNDRdIGlucHV0OiBTeW5QUy8yIFN5bmFwdGljcyBUb3VjaFBhZCBhcwo+IC9kZXZpY2VzL3Bs
-YXRmb3JtL2k4MDQyL3NlcmlvMS9pbnB1dC9pbnB1dDcKPiBbICAgMjAuMzk3NjA4XSBtb3VzZWRl
-djogUFMvMiBtb3VzZSBkZXZpY2UgY29tbW9uIGZvciBhbGwgbWljZQo+IAo+IFRoaXMgcGF0Y2gg
-d2lsbCBhZGQgaXRzIHBucCBpZCB0byB0aGUgc21idXMgbGlzdCB0bwo+IHByb2R1Y2UgdGhlIHNl
-dHVwIG9mIGludGVydG91Y2ggZm9yIHRoZSBkZXZpY2UuIEFmdGVyCj4gYXBwbHlpbmcsIHRoZSBv
-dXB1dCB3aWxsIGxvb2sgbGlrZToKPiAKPiBbICAgMTkuMTY4NjY0XSBwc21vdXNlIHNlcmlvMTog
-c3luYXB0aWNzOiBxdWVyaWVkIG1heCBjb29yZGluYXRlczogeAo+IFsuLjU2NzhdLCB5IFsuLjQ2
-OTRdCj4gWyAgIDE5LjIwNjMxMV0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogcXVlcmllZCBt
-aW4gY29vcmRpbmF0ZXM6IHgKPiBbMTI2Ni4uXSwgeSBbMTE2Mi4uXQo+IFsgICAxOS4yMDYzMjVd
-IHBzbW91c2Ugc2VyaW8xOiBzeW5hcHRpY3M6IFRyeWluZyB0byBzZXQgdXAgU01CdXMgYWNjZXNz
-Cj4gWyAgIDE5LjIwOTU0NV0gcHNtb3VzZSBzZXJpbzE6IHN5bmFwdGljczogU01idXMgY29tcGFu
-aW9uIGlzIG5vdCByZWFkeSAKPiB5ZXQKPiBbICAgMTkuMjgzODQ1XSBwc21vdXNlIHNlcmlvMTog
-c3luYXB0aWNzOiBUb3VjaHBhZCBtb2RlbDogMSwgZnc6Cj4gMTAuMzIsIGlkOiAweDFlMmExLCBj
-YXBzOiAweGYwMTRhMy8weDk0MDMwMC8weDEyZTgwMC8weDUwMDAwMCwgYm9hcmQKPiBpZDogMzQ3
-MSwgZncgaWQ6IDI5MDk2NDAKPiBbICAgMTkuMjgzODYzXSBwc21vdXNlIHNlcmlvMTogc3luYXB0
-aWNzOiBzZXJpbzogU3luYXB0aWNzCj4gcGFzcy10aHJvdWdoIHBvcnQgYXQgaXNhMDA2MC9zZXJp
-bzEvaW5wdXQwCj4gWyAgIDE5LjMyODk1OV0gaW5wdXQ6IFN5blBTLzIgU3luYXB0aWNzIFRvdWNo
-UGFkIGFzCj4gL2RldmljZXMvcGxhdGZvcm0vaTgwNDIvc2VyaW8xL2lucHV0L2lucHV0OAo+IFsg
-ICAxOS43MDYxNjRdIG1vdXNlZGV2OiBQUy8yIG1vdXNlIGRldmljZSBjb21tb24gZm9yIGFsbCBt
-aWNlCj4gCj4gU2lnbmVkLW9mZi1ieTogSm9zw6kgUGVra2FyaW5lbiA8am9zZS5wZWtrYXJpbmVu
-QGZveGhvdW5kLmZpPgo+IC0tLQo+ICBkcml2ZXJzL2lucHV0L21vdXNlL3N5bmFwdGljcy5jIHwg
-MSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRpZmYgLS1naXQgYS9k
-cml2ZXJzL2lucHV0L21vdXNlL3N5bmFwdGljcy5jIAo+IGIvZHJpdmVycy9pbnB1dC9tb3VzZS9z
-eW5hcHRpY3MuYwo+IGluZGV4IGFkYTI5OWVjNWJiYS4uMzc2YTA0MWM4MGIyIDEwMDY0NAo+IC0t
-LSBhL2RyaXZlcnMvaW5wdXQvbW91c2Uvc3luYXB0aWNzLmMKPiArKysgYi9kcml2ZXJzL2lucHV0
-L21vdXNlL3N5bmFwdGljcy5jCj4gQEAgLTE4Myw2ICsxODMsNyBAQCBzdGF0aWMgY29uc3QgY2hh
-ciAqIGNvbnN0IHNtYnVzX3BucF9pZHNbXSA9IHsKPiAgCSJMRU4wMDliIiwgLyogVDU4MCAqLwo+
-ICAJIkxFTjA0MDIiLCAvKiBYMSBFeHRyZW1lIEdlbiAyIC8gUDEgR2VuIDIgKi8KPiAgCSJMRU4w
-NDBmIiwgLyogUDEgR2VuIDMgKi8KPiArCSJMRU4wNDExIiwgLyogTDE0IEdlbiAxICovCj4gIAki
-TEVOMjAwZiIsIC8qIFQ0NTBzICovCj4gIAkiTEVOMjA0NCIsIC8qIEw0NzAgICovCj4gIAkiTEVO
-MjA1NCIsIC8qIEU0ODAgKi8KCiAgICAgQW55IGNvbW1lbnRzIGhlcmU/CgogICAgIFRoYW5rcyEK
-CiAgICAgSm9zw6kuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVl
-c0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9u
-Lm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
+Currently while searching for current page in the sorted entry table
+of the page there is a out of bound access. Added a bound check to fix
+the error.
+
+Reported-by: syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com
+Fixes: https://syzkaller.appspot.com/bug?extid=9924e2a08d9ba0fd4ce2
+Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+---
+ fs/jfs/jfs_dtree.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/fs/jfs/jfs_dtree.c b/fs/jfs/jfs_dtree.c
+index 92b7c533407c..cf67d32d5b7f 100644
+--- a/fs/jfs/jfs_dtree.c
++++ b/fs/jfs/jfs_dtree.c
+@@ -633,6 +633,9 @@ int dtSearch(struct inode *ip, struct component_name * key, ino_t * data,
+ 		for (base = 0, lim = p->header.nextindex; lim; lim >>= 1) {
+ 			index = base + (lim >> 1);
+ 
++			if (stbl[index] > 128 || stbl[index] < 0)
++				goto out;
++
+ 			if (p->header.flag & BT_LEAF) {
+ 				/* uppercase leaf name to compare */
+ 				cmp =
+-- 
+2.37.2
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
