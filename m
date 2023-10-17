@@ -4,136 +4,108 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5BB00CDB474
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 10:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id D43B2CDB474
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 10:31:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B18D441944;
-	Tue, 17 Oct 2023 10:25:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B18D441944
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6E15C41B66;
+	Tue, 17 Oct 2023 10:31:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6E15C41B66
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=ZZMGV/lg
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Z0gC2y37
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uC07uC42c13M; Tue, 17 Oct 2023 10:25:22 +0000 (UTC)
+	with ESMTP id CfEYccyYjItE; Tue, 17 Oct 2023 10:31:50 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 93A1741B66;
-	Tue, 17 Oct 2023 10:25:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 93A1741B66
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 442A840318;
+	Tue, 17 Oct 2023 10:31:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 442A840318
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C854C0071;
-	Tue, 17 Oct 2023 10:25:22 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 0BBF0C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 1A153C0071;
+	Tue, 17 Oct 2023 10:31:50 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 339C0C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 10:25:21 +0000 (UTC)
+ Tue, 17 Oct 2023 10:31:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id C0E0B81303
+ by smtp4.osuosl.org (Postfix) with ESMTP id 01A0640318
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 10:25:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C0E0B81303
-Authentication-Results: smtp1.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256
- header.s=selector1 header.b=ZZMGV/lg
+ Tue, 17 Oct 2023 10:31:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 01A0640318
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FwEWPjZf7zqf
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5mhVm6IPcU1G
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 10:25:19 +0000 (UTC)
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
- (mail-ve1eur01olkn082e.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe1f::82e])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 8FCD3812A1
+ Tue, 17 Oct 2023 10:31:47 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 0862B40324
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 10:25:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8FCD3812A1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YitFB4t02R7NNJUhY6k72R6k2gs5ZJYHu6T8GHv5ouKTyU5aY8VZ1JFRZr2d73NZZFCvRWd7R5vHpjTUpHDVUXy1s2u8+DC+FVo7hDpaHGJOQ/M+8nPETXQWV7wgqsGZWWdAJJ/5P3At69l+9Xo6EuA0no0X891LXErPswYGmQpRIuntkqlVKZDCf+eFbiFyapYsFrLjZGYaoJpApduopnv2dyvi4UmghEAB83DFM4sl+0GIxT98CfI0++6R/IiGb0+P8nGkWPhvvxLwJ3j1vQH84bwh7f0KtoPinBoiy0MIAnd7R5M4VlR6Cz7hXzhH4Urp8WsT97O/LpCaKNdUgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4NLbVtIBgZKSwD0lqdxD9uFkjaf/d+qY8eqhJrvrPW0=;
- b=oKOp/obo6cbxXCapmxPcF8BLrxUwsfbd5gbMUbtPkjY8dQOyGFRc1V3ykzD9sjnMPURm7HmdSp925nXy16Ad3kXnEdZR44lFXkDE2jtXrW3wPK/62+3Sg4Bg2D/hsBD8AVSi5bNkdDFrqieh2F8MspCn29/9oa/PAQ3vhYwrHkzScIIvhP6lwQV+vFG58yuYbN6B07H+Jfh/mqsEijQmL/maeLbzwgTqsWNTN1J26q4TkbyOm0cUJjETKqwZXevp4dq+BZX4RwlBUwWSLvmQur1S9kpGn2Cj7y15KPgSURwo9E7yS0ellIrgaHgyqx4OuPM8JHgqe//jCPLALG66cQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4NLbVtIBgZKSwD0lqdxD9uFkjaf/d+qY8eqhJrvrPW0=;
- b=ZZMGV/lgehae3VsL2G+R6pPF4so3NszUYKOkUUFsoi4y23KnIJJyK10uE5NlPpHZp/Sv1zYY60bmwy1FuUe9lpmJaXLr6DTjWhfsytnxpM3jEa7u3km1fhw/OfiDpOPel/vzmZF6RSXRFA5u1ip8jnuIv3zL2M2NXiH/iIoNlFn90A3qn3eyRmzNND3EBE/wToagBvkaOIwR0xk0RYQBiFu9tzrVm2FmYfikyDAkrFkQ4NLZtree0XSvhrdPAIxC8YiYRKSCabiW+1GdJ5YzNk1E2CjpiSFegOZ98glveVt6zXPHIYz0bfNjl8Hc3IUqmUDsV3mzhny8nsogmmsNKQ==
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by DB8P193MB0502.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:152::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
- 2023 10:25:15 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::af68:c2a:73ce:8e99]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::af68:c2a:73ce:8e99%3]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
- 10:25:15 +0000
-Message-ID: <VI1P193MB0752C1A213A65CD7D49347B399D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-Date: Tue, 17 Oct 2023 18:25:12 +0800
-User-Agent: Mozilla Thunderbird
+ Tue, 17 Oct 2023 10:31:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0862B40324
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1697538705;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dGImsWzgXv54P+RV8cdB+PVPykD6eKoMxJcB86BauK0=;
+ b=Z0gC2y37iE8FpFYhkeP0GYMIC5lieeSYrVuHesnY7JH5S95smsWK8VXQSspMGS1B31BwMf
+ 9YtXJIEq7xQH4LtcSPd0NvXIHYn0OZewQJOjdk4RAieuuyLjPFhlBlsKgSjzJBZg/DcNHZ
+ I7xxbslngvuDoCwxNQoQhX0dc9uyNjc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-418-mduYtSLBNsOBxMJRzRcw3g-1; Tue, 17 Oct 2023 06:31:39 -0400
+X-MC-Unique: mduYtSLBNsOBxMJRzRcw3g-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ 4fb4d7f45d1cf-5386aefc01eso1042225a12.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 03:31:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697538698; x=1698143498;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/PQNd65jbO86OIlgL0xtBIZWLMK2wzq1JGDzpYDTVTc=;
+ b=nb2LG8HtNCT7HJ8vsz+RHrgjrn1CVUosjI+YBdhb23x5jaufOUws/SFawQ3vMcsziE
+ KRgWnzd4G3jLjw3lhpOkq1S2CrYhnw8GcYHrja7Mi4eyEGRDoE0rAkqx3ELND17s+wdh
+ 5GtYh6bIjLdNFs4eB/IiSFRuG8ywahJkChwdqVopNHp6PcVZg71edXy4YXNUzns3Ogtk
+ S4Fw8bW5in0v3FSAjHmUwWw0WGKJWWS04ypaL0LTFncPGZTF6+75JbY51HE95VDH6BhN
+ hjp6m6Yz184qRfZhLd9YL/Y9oWjcPGxfdkfq5iF9BebpNug04ZtIZgQ/n/Rnlti/DVl2
+ at0w==
+X-Gm-Message-State: AOJu0YxrMkimNVvwRuRhIbe0KToC/3894BGIOYr2k0srs2IMzU3RiBEy
+ fQjMmBPgJYpH0qVVir0pXPfqQ5SMZnhk0sI2KIZbtmu4cXfv557Ds6ErALHJdlEzMekK0WcgOdL
+ ZZYMH+TOTUjOsg9vo+XXXFyz/TEu8dYWkHNMiihr34OiiOD3qWw/nk9PS
+X-Received: by 2002:a05:6402:31e1:b0:53f:12e0:fba3 with SMTP id
+ dy1-20020a05640231e100b0053f12e0fba3mr1304507edb.1.1697538698511; 
+ Tue, 17 Oct 2023 03:31:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGAbwOnF0ogNOzyxOwQAvKPzIBz3SQuwXSsW9rlIJHyh123Wldx7SAZ8wGa6WB5E/6ljLTIkA==
+X-Received: by 2002:a05:6402:31e1:b0:53f:12e0:fba3 with SMTP id
+ dy1-20020a05640231e100b0053f12e0fba3mr1304490edb.1.1697538698147; 
+ Tue, 17 Oct 2023 03:31:38 -0700 (PDT)
+Received: from gerbillo.redhat.com (146-241-233-87.dyn.eolo.it.
+ [146.241.233.87]) by smtp.gmail.com with ESMTPSA id
+ eh15-20020a0564020f8f00b0053e775e428csm928723edb.83.2023.10.17.03.31.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 03:31:37 -0700 (PDT)
+Message-ID: <20aed7c604115c7f346cdbbe848c37feded3cf21.camel@redhat.com>
 Subject: Re: [PATCH] net/tls: Fix slab-use-after-free in tls_encrypt_done
-To: Simon Horman <horms@kernel.org>
+From: Paolo Abeni <pabeni@redhat.com>
+To: Juntong Deng <juntong.deng@outlook.com>, borisp@nvidia.com, 
+ john.fastabend@gmail.com, kuba@kernel.org, davem@davemloft.net, 
+ edumazet@google.com
+Date: Tue, 17 Oct 2023 12:31:36 +0200
+In-Reply-To: <VI1P193MB0752428D259D066379242BD099D3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
 References: <VI1P193MB0752428D259D066379242BD099D3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
- <20231016095015.GJ1501712@kernel.org>
-From: Juntong Deng <juntong.deng@outlook.com>
-In-Reply-To: <20231016095015.GJ1501712@kernel.org>
-X-TMN: [n/rox1dDbiBHhRGH2yfIn/7RqCFJhqNC]
-X-ClientProxiedBy: LO2P265CA0387.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::15) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <c560c802-f514-47ba-936d-c9c76105cbeb@outlook.com>
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|DB8P193MB0502:EE_
-X-MS-Office365-Filtering-Correlation-Id: aad3ffb2-18a3-400f-8910-08dbcefb59f6
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: hNd9051h22e7U5rP0SIcXMWxut4scFelPm6zvtTw/rCqnv7SRgoVhYrWRnByXrbcEUvERHT6BdMbOd2Ua77Gjrjrx+wgnUasKgmfDjQVkFVtWUCqvWJwKgGZg/lPSHHp18gmCC3BqAE9/16sRvwu2Q9Ztd+X8idqjDdNcYdOnm67jj/h+fcUOmxB8OPvt9Q6EOy7AC+WvJvscRb9cIrbpA8qXiCOf5u8fwGauhEsVE3bR+9FLHT8EKfrYiZfBsJkiv8PeO9zuYIVlKWcfdY2bMyEtgnbgeEJnIN4l4YcWt+b70xt0NIPKMojh9h4KkaQpCoumKmQVdhlasjR/wJQXXQoyJzp9Pio5XyewQxPSFa3nJ7CsW5uNNZ4QwhBZv/3aSydnkQiCT81hWR1L1ITBsstjn2Ad91gWFFMzfv4iXIsEkBaVLby/lqzpss4w0u46D0jrwOEz6Q1f7uqKBPwfDhRp/c4QChjJNaUc/svBjUM869bclxXT2h42CCTdLXG1D1bvQfMUwKXgyofkZTXgUQklODOJ2R78YB6q7jn70OPyiAR9kmylraHMDrWAtW1KOCfuFTTq6MpMFQcZ2VTk41BkHvkO02tlcNZnC5Ro8o=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a2xWZ2VLTWdoRGMxclF1ZHZld1FkUVJJcHI0cDhMSjllUmhrUXNnb1gvT2RD?=
- =?utf-8?B?Ym5WYVB2R1IvbjlDQndiUHhnTDNTOEtpdzZCdGhyVlJuSjMrb3g5NWZlQmdo?=
- =?utf-8?B?TDg4ZUFMZlhaVjhIM244V2R1QVNRSUV2RW9yWTliYUpIZ0ZiQitIZmFsS3BB?=
- =?utf-8?B?ZHI3bnFuMlRyR1l1alVZZHdFV1RhcXQxSkNYZHhtQktLeE9QOUpFUnN6S25u?=
- =?utf-8?B?Z3hFeVVCQVhIU1phcmFNSDQ5TVByYWwwblpNMmlUdVZybHorSVU0QVZiSGZN?=
- =?utf-8?B?V2cxeXpvQkFaN0pvU3l6c3JsdVR0a2djZmZJcGlZWTc5L2sxVHJ2QytTWlpI?=
- =?utf-8?B?Qk1vQzlkUjh5RXd6ZjJGd0JxTm5mRnRDbTk1b204NGNLaUlzZUhxMTNockpn?=
- =?utf-8?B?UzVkbW1hTC9ZMTVKWk4yQnFlaG1TMnFQd3FzZHZtT3lLVnUvZWxCdEVUL0xv?=
- =?utf-8?B?NGtkaXlrazRnZFU3VjdVbTM3OEt3b0NPb2tIMVl4VFdRTXZvWTZRZDZlV2dt?=
- =?utf-8?B?SjdYdjBDZklzNHA4RXN1Y2FobXplY0N1OHI3bUtuL2M1RkxIRGxxWFR1Z0Vj?=
- =?utf-8?B?Ym1uOTVaT29Qd3ZKcktoemNaRjczODB4QVRkUHZIcFkxYzN5MU5LdHVUZ3hj?=
- =?utf-8?B?Lys2NzhONDVCUkZDVkRPN1lOM2pXQW5RRnc0TWlFSloyVWRDWTZUc0V5d0ph?=
- =?utf-8?B?NkRnMVhPTUhhVWFyYndqVit0U093SXRZOFBaUGR1YngyakFmdDhMZE1rcU5Q?=
- =?utf-8?B?T1FsRmJNcDhkU29nQXhiZXdTU2JBZytRaEZDM00xRlB5aUNBc3orZzJuaWVV?=
- =?utf-8?B?VHc1MnovUzlFSDdaRE9GMWtVNXRmTUlBUVg3VGZ2RHNwWHl3dVlIb09NTE5H?=
- =?utf-8?B?N2s1RFhPOTRYSFVrK3Z2NExSVzJEcFh0elgvbDduRW9mc25YM2ZiTHdscU9Q?=
- =?utf-8?B?d3hUYnJ2YWlTWlk4L1VZaUs4VlZCUWcrbDNNZnhWWjE1cUJkMnlOUFlhTXlZ?=
- =?utf-8?B?NStDaE5lOG1qNnFXcVF3S2RLT0h5clBuMFZ2R1oyTjJtaUlVUTBzMjZGRWFO?=
- =?utf-8?B?aHpNamFOSmQ1YzlFc045ZW5lUWRnRXZPY2VKREp1OWMxQVh3eXdYb0Z5UEpP?=
- =?utf-8?B?TEJ1aWRvcS9KVVUrNGdSZERpSkVWY0VCY3hXV1hLRkdFV2FlMG4rd21JWkRZ?=
- =?utf-8?B?TTdFWjYydlVhMllIUjVGYjhJZ2ppS3JkUDI4NlBIMU13ZGJTTkttcWtzd0VC?=
- =?utf-8?B?Z2pTQUFialkyUjMxbHZJeU9nMW1jcWM3MXhxbmxTRTd1ZzVmR2lRUHFxRkUx?=
- =?utf-8?B?TXVucDNkVHVoT0N2L2pPdWlJaHF4TDQ1bGNkQUNsbVlrYy8yaE44bDNpeVd4?=
- =?utf-8?B?T2JJU1huY2U1RDc5MTlEcE9YZStwSnVtQ2pQNjYxOVNvc0loQm1aUTltaXpL?=
- =?utf-8?B?SThvZUpZSE9jUGFTZW9UNkFaa3R3VlJ6M3pPUjdoRlZadUtXTk9uKytrWUpN?=
- =?utf-8?B?amt6NEczZWpZSzZlVnBpTlArOFNHNmhRQkMyQWk0Y3ZITXNOZUpsMHNFL0RX?=
- =?utf-8?B?RlZsc2NOQTBWeUNEZ3FVUHo2ZmhNckRjMk9xNE8wRW4vaU9DWmtSeUxoeE51?=
- =?utf-8?Q?tjQpft9GwrLzOvqTh4oj6MMExfk5k34b2QWO5J/t5Kmo=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aad3ffb2-18a3-400f-8910-08dbcefb59f6
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 10:25:14.9725 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P193MB0502
-Cc: syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com, borisp@nvidia.com,
- netdev@vger.kernel.org, john.fastabend@gmail.com, linux-kernel@vger.kernel.org,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -145,96 +117,58 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 2023/10/16 17:50, Simon Horman wrote:
-> On Thu, Oct 12, 2023 at 07:02:51PM +0800, Juntong Deng wrote:
->> In the current implementation, ctx->async_wait.completion is completed
->> after spin_lock_bh, which causes tls_sw_release_resources_tx to
->> continue executing and return to tls_sk_proto_cleanup, then return
+On Thu, 2023-10-12 at 19:02 +0800, Juntong Deng wrote:
+> In the current implementation, ctx->async_wait.completion is completed
+> after spin_lock_bh, which causes tls_sw_release_resources_tx to
+> continue executing and return to tls_sk_proto_cleanup, then return
+> to tls_sk_proto_close, and after that enter tls_sw_free_ctx_tx to kfree
+> the entire struct tls_context (including ctx->encrypt_compl_lock).
 > 
-> Hi Juntong Deng,
+> Since ctx->encrypt_compl_lock has been freed, subsequent spin_unlock_bh
+> will result in slab-use-after-free error. Due to SMP, even using
+> spin_lock_bh does not prevent tls_sw_release_resources_tx from continuing
+> on other CPUs. After tls_sw_release_resources_tx is woken up, there is no
+> attempt to hold ctx->encrypt_compl_lock again, therefore everything
+> described above is possible.
 > 
-> I'm slightly confused by "causes tls_sw_release_resources_tx to  continue
-> executing".
+> The fix is to put complete(&ctx->async_wait.completion) after
+> spin_unlock_bh, making the release after the unlock. Since complete is
+> only executed if pending is 0, which means this is the last record, there
+> is no need to worry about race condition causing duplicate completes.
 > 
-> What I see in tls_sw_release_resources_tx() is:
-> 
->          /* Wait for any pending async encryptions to complete */
->          spin_lock_bh(&ctx->encrypt_compl_lock);
->          ctx->async_notify = true;
->          pending = atomic_read(&ctx->encrypt_pending);
->          spin_unlock_bh(&ctx->encrypt_compl_lock);
-> 
-> Am I wrong in thinking the above will block because
-> (the same) ctx->encrypt_compl_lock is held in tls_encrypt_done?
-> 
+> Reported-by: syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=29c22ea2d6b2c5fd2eae
+> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 
-Hi Simon Horman,
+Have you tested this patch vs the syzbot reproducer?
 
-What I mean is that tls_sw_release_resources_tx will pause at
-crypto_wait_req(-EINPROGRESS, &ctx->async_wait) because crypto_wait_req
-call wait_for_completion.
+I think the following race is still present:
 
-Then after tls_encrypt_done call complete(&ctx->async_wait.completion),
-it will cause tls_sw_release_resources_tx to continue executing.
+CPU0                            CPU1
+tls_sw_release_resources_tx     tls_encrypt_done
+spin_lock_bh
+spin_unlock_bh
+                                spin_lock_bh
+                                spin_unlock_bh
+                                complete
 
->> to tls_sk_proto_close, and after that enter tls_sw_free_ctx_tx to kfree
->> the entire struct tls_context (including ctx->encrypt_compl_lock).
->>
->> Since ctx->encrypt_compl_lock has been freed, subsequent spin_unlock_bh
->> will result in slab-use-after-free error. Due to SMP, even using
->> spin_lock_bh does not prevent tls_sw_release_resources_tx from continuing
->> on other CPUs. After tls_sw_release_resources_tx is woken up, there is no
->> attempt to hold ctx->encrypt_compl_lock again, therefore everything
->> described above is possible.
->>
->> The fix is to put complete(&ctx->async_wait.completion) after
->> spin_unlock_bh, making the release after the unlock. Since complete is
->> only executed if pending is 0, which means this is the last record, there
->> is no need to worry about race condition causing duplicate completes.
->>
->> Reported-by: syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
->> Closes: https://syzkaller.appspot.com/bug?extid=29c22ea2d6b2c5fd2eae
->> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
->> ---
->>   net/tls/tls_sw.c | 6 ++++--
->>   1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
->> index 270712b8d391..7abe5a6aa989 100644
->> --- a/net/tls/tls_sw.c
->> +++ b/net/tls/tls_sw.c
->> @@ -441,6 +441,7 @@ static void tls_encrypt_done(void *data, int err)
->>   	struct sk_msg *msg_en;
->>   	bool ready = false;
->>   	struct sock *sk;
->> +	int async_notify;
->>   	int pending;
->>   
->>   	msg_en = &rec->msg_encrypted;
->> @@ -482,10 +483,11 @@ static void tls_encrypt_done(void *data, int err)
->>   
->>   	spin_lock_bh(&ctx->encrypt_compl_lock);
->>   	pending = atomic_dec_return(&ctx->encrypt_pending);
->> +	async_notify = ctx->async_notify;
->> +	spin_unlock_bh(&ctx->encrypt_compl_lock);
->>   
->> -	if (!pending && ctx->async_notify)
->> +	if (!pending && async_notify)
->>   		complete(&ctx->async_wait.completion);
->> -	spin_unlock_bh(&ctx->encrypt_compl_lock);
->>   
->>   	if (!ready)
->>   		return;
->> -- 
->> 2.39.2
->>
->>
+wait
+// ...
+tls_sk_proto_close
+
+                                test_and_set_bit(BIT_TX_SCHEDULED, &ctx->tx_bitmask
+				// UaF
+
+regardless of 'complete()' being invoked before or after the
+'spin_unlock_bh()'.
+
+Paolo
 
 _______________________________________________
 Linux-kernel-mentees mailing list
