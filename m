@@ -1,137 +1,103 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C48A6C46CA1
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 19:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8349FCDB483
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 20:10:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 19A2C81E25;
-	Tue, 17 Oct 2023 19:40:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 19A2C81E25
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=dGDyKoxn
+	by smtp4.osuosl.org (Postfix) with ESMTP id 026F541A04;
+	Tue, 17 Oct 2023 20:10:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 026F541A04
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HL924ta3GhdJ; Tue, 17 Oct 2023 20:10:27 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D7EEA4194E;
+	Tue, 17 Oct 2023 20:10:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D7EEA4194E
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id BA31EC0071;
+	Tue, 17 Oct 2023 20:10:26 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 7BB52C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 20:10:25 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp1.osuosl.org (Postfix) with ESMTP id 3547081359
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 20:10:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3547081359
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sowOAUv-SPv9; Tue, 17 Oct 2023 19:40:06 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E489A81773;
-	Tue, 17 Oct 2023 19:40:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E489A81773
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C7A3DC0072;
-	Tue, 17 Oct 2023 19:40:05 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id AC091C0032
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 0feoC34PER01
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 19:40:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 894B561284
+ Tue, 17 Oct 2023 20:10:24 +0000 (UTC)
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 18BA88134F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 19:40:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 894B561284
-Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256
- header.s=selector1 header.b=dGDyKoxn
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id faIbcJGCD5VM
+ Tue, 17 Oct 2023 20:10:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 18BA88134F
+Received: by mail-pf1-x42c.google.com with SMTP id
+ d2e1a72fcca58-6bd73395bceso2294020b3a.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 19:40:04 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04olkn082c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0e::82c])
- by smtp3.osuosl.org (Postfix) with ESMTPS id B37FA6110C
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 19:40:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B37FA6110C
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q5sol7ZUCTRO6Z3/4Zz4xf9jlFHDKwrb5eMKrcfY0ZSkc96WjdTFonFI3AGn0hCrKJeQeb3OfbjkQS3wh73m+Dvt6Kwp+MDCQb7YC0tEyjHcnwfnvlH4WWNRo7dkZZnM5ZHIwiH+81DGYPLGvgfPHEIiyXDG5AoQhcdZhVrOOfMX7jG/AEL8pH1UE+7sUQjezORbYtx2gngJ5aNLf/F4PHDM3fB4s+JaC00DV6fhWWeRJqhYxD9BN2bXMLPwcmMoa1t/an5KZN74X8ot0kLkDmPEW0cLzgUhhjj8YtdCvQZGbLjwNatCRnk272leU0+El5pgnMN1zcdVDPQZh50PpQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s1ZEJfJwgCo78Asz1ZD2KDfn5+bZC8UTiZ1X83PPJ98=;
- b=B15MMiuoZUyZWCvnhqdS9B3TiIvuHfMILQ7Nk4aHVJhfSWwnY8OWmXCxmeMqyErEnXtxAn5bgnCbFEO7NS4JcJBX3GqMo/uAc8iapCwFC7lZEuRx4msdnxdG0dQud0XtFVlkveK9G+V26imt95oBPIM9ZehhXznG/Sgm6wEuGSnAMPLzV4f/GZO2bWJiGWKPadz8rntrMc47lnHxXlzSA0iUTEIRISo4kapbldPdkXjaLb07uIC2vB/mXU9IV/OP9RdWjRrfzZY3tPrqRZsWyuQTVkh3QWBm5DEWeFmlBq6HI/3TYAMBkmbOQwOGbADF8+pIKl4ouxHrpXCWRWkLZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s1ZEJfJwgCo78Asz1ZD2KDfn5+bZC8UTiZ1X83PPJ98=;
- b=dGDyKoxnKLUpK5WSWx8bDfc2vbULOBv/FEFDqz40DbwbQJX5fNyX45hAUCNmMJczn58DE6rVg3kYD9+YbniT7TyzhDDeMHJPM8nmyI5NuCRDWqpxrYSmy/wEmuQphHfHelWFYL7gWZs16lsIFrHJMA0oymbfonAhUOHgJzuvlRRCXEvbb03oyeXxCSGPWAV+Zp8Tu2JG4fTikoCvWJfFRaWpkRm+YPRvFJsuII5Jds0iuedZWgqKIgRf+L64wJS2L5loqTt7W4B6AMjSPMkpZfuCtKgptDHy9OZJNUSwCw0G2emc9Uo2/cXSrw3ZUyl8WkEIbcyXJSa79o5LlRbaYQ==
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by DB8P193MB0645.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:151::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
- 2023 19:40:00 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::af68:c2a:73ce:8e99]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::af68:c2a:73ce:8e99%3]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
- 19:40:00 +0000
-Message-ID: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-Date: Wed, 18 Oct 2023 03:39:59 +0800
-User-Agent: Mozilla Thunderbird
-From: Juntong Deng <juntong.deng@outlook.com>
-To: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
- dvyukov@google.com, vincenzo.frascino@arm.com, akpm@linux-foundation.org
-Subject: [RFC] mm/kasan: Add Allocation, Free, Error timestamps to KASAN report
-X-TMN: [n68INaFdX0AQ9ixRWTnYzMxHobQbJ5ct]
-X-ClientProxiedBy: LO6P123CA0001.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:338::7) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <951f648d-2dcb-4438-993a-c9fafed0128b@outlook.com>
+ Tue, 17 Oct 2023 13:10:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697573423; x=1698178223;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=Uj2R21g4EPlt4YZKWi7SG89ievVQJ+iyFG5BwjhrmmE=;
+ b=KUVMfOJT3YUBYmqfFCinKWdYmFQqkdQB/oZkIxJVV8VNn/penwcewImrWPDaHa4Chi
+ 2nggZiVHxIjVIct6gtjPUsZ86uaopZC2Sb8BUP3+0/cUg6PHO3R40nuAzL4p+HVvq8EL
+ 8bynwmPVFDR/MepHOneqh8csJGLsB+yNyNy2fVxxODIpVl88lUIoot7/CmmAuth3dbVw
+ HB12I5Y70rcQI2GXeKvaCxfwInFCm6PwHg3G3+/jnj17ZNBS0Sm4aYwhWTDRZKnDFh1i
+ 3T0v9dtGbH++kqvXU7uIlHtw6tGo90noH708xg4L/OQWfgPSx4iqGrLMhpUTpv+s+arB
+ aUmw==
+X-Gm-Message-State: AOJu0Yx5LTU0/0RlPXsu73Ox+uCISUbhhNPNffCgakcmgC3VDs4Ez0S8
+ XxH/Sijtia1qbeIBVR2ZbsM=
+X-Google-Smtp-Source: AGHT+IEPY0k7Zb1PMfxn6P2a1QNtfE7IToifhIIwsP0rg4ArLxFEVp2FOQ6vFHPhJI2ALpNnMSKmzw==
+X-Received: by 2002:a05:6a00:3408:b0:691:27b:15b4 with SMTP id
+ cn8-20020a056a00340800b00691027b15b4mr3871596pfb.5.1697573423273; 
+ Tue, 17 Oct 2023 13:10:23 -0700 (PDT)
+Received: from mail.marliere.net ([24.199.118.162])
+ by smtp.gmail.com with ESMTPSA id
+ z21-20020aa79f95000000b0069323619f69sm1918389pfr.143.2023.10.17.13.10.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Oct 2023 13:10:22 -0700 (PDT)
+Date: Tue, 17 Oct 2023 17:10:14 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+ s=2023; t=1697573418;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Uj2R21g4EPlt4YZKWi7SG89ievVQJ+iyFG5BwjhrmmE=;
+ b=Sd7GNP/bf0yRIpIrDgRsW5XZ4eSKsUoJ5xRV2D58RK5XCT0LV2IxaO3HmNa60rGT2E3d5L
+ jtdldngQhriPe+qNxE1kT0DMtqconE5I+up4eMlISXEI8569NwNjfV7GoHvR51wmEXnDgQ
+ j0Awwtx/zDEM/wM1rwbOLFHJb8fxtJ+i1G2HDQzv3Iit94/AZTABUdDt0j4B2xHzadTkmd
+ q6W+nawquOo//gCaRyawwJu7omaFskXMsQg2GgTH8CY6kPME9wleTHg4ppGpLSOoedSLe2
+ 8ifxIM9dfCcdghArMGZ+4W1wU4pJWKcgmsdsM7mpNHOvJOvlBVolya0dupzNQQ==
+Authentication-Results: ORIGINATING;
+ auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+To: Juntong Deng <juntong.deng@outlook.com>
+Subject: Re: [RFC] mm/kasan: Add Allocation, Free, Error timestamps to KASAN
+ report
+Message-ID: <eqinp4exznpgclzgz3ytjfdbpjffyyfn62dqfiaw2htk4ppa5p@ip25t7yczqc3>
+References: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|DB8P193MB0645:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf333dce-9b20-4534-f3ea-08dbcf48d9bd
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: j1md31kUyyaT7+1p69ggEWbAqYF5o4s2dDXa/WSmHrH/WL09w/KkL++6Xz0gWnGDitUU34XBqlzj77V/rMdjj1DfGu+u1Wk3gEc9rxb6q3FeUR+Yj2Yt84btAoPvjv5/Ude9Z8fWKcxmEH51LJ0Emi33+u5iM8G69zpRi+m0RjRTfZaWlRLTyFNX0wVCqlzAimN96BRPt2xXqFUi81DPJqcJMv+YtnmwfqO3YbTXT8vdsltAGGxh4ZjrYi6nEKapsE/AQgRsKCqpqMfEzf4Oh4man6qmL+vS0O5njK19s4t6S2rqzPuP5stXMpc9Jw8ttrfDd5QVVPT8kjcZwKDC2L2TkvNMB9KsMRWImMXHhTqJ9HELOfdQBG8qiJzhyXkIbbFyNe9MpLzoZTcq7+DZIB71SdLmygzHCwVq/YNPMMy1M0HAmcws01rxDZKz1PuBR92So76S+M+5sWtr0DxIiVruZkVfwJvA5teysKFD3qyLcgCX+jtv8H5cfwQ3dv5dBCjc8EP+G7dPINdNjj1CNxF6FBFry6nuwogLxm6RS2siFLcPVHwAby9mThlSp9xV
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UFdPdHo1STFYa0Z1TEdPUkRJN0NiSzRJbHpaTzYwTnJ0YVZaUVJ4eDM5OVJN?=
- =?utf-8?B?NXFJdkFGZkNzclV5a3p2WlVpcWY5QTBPMkpUR25vc1p3S2J3SXF6QUNZTEZv?=
- =?utf-8?B?OXo0UG0rTkUyRVo4WXdzTjdIQUNlTkU3TDRJSEZYRnBjT2E1aW5zNkFhZjgz?=
- =?utf-8?B?eFFBY0NHVUl0ajVydWQxS2xYaHc4R0k4My95aWo5cisxMkppQ1pESDllNVVN?=
- =?utf-8?B?NmRLV0JGMFdLc1NKcEU1dnhSVHdKelB5RXNhZytDRGl1R3V4cFJIYWZuTmM3?=
- =?utf-8?B?dUdvaksyc1BmWGFqN0FTK0Z2VWhxb1VZbXUwdm1RdndRY0VHV2MzYmxGYWlh?=
- =?utf-8?B?ZUplZTN5WUVrQUpOZ1ZiMGRLbU00VjM4akYvZUpYNjhTRGZPNldVUURrVEhW?=
- =?utf-8?B?NUMxWno0SlNRWDRTKzhaQTZYeTVqSFVTRGVGZkZQL3JGa3BSNm5mWFRNWENp?=
- =?utf-8?B?a0tadEhPNEhJZHVITGxYU3ZZTFZ4V0NWYUZNNG1HamVSQTJnUnh6czRqSDVu?=
- =?utf-8?B?UmNEVnBSSm0zTGZWUDU2MCtHQnc1SVZucUxDQ0VCejVpaUFVcGhjWTZjVHEv?=
- =?utf-8?B?NlkyL3lmL2ZraHBlc3FFcHRNVFJ1S29NTmJlYkJhYjdzdnRxTjRweGRrRGhY?=
- =?utf-8?B?R1krRnMweEZXeTREbklmQ1hlLys3Skd4OHd5bXZnU1hmNy9oaVNDWmtmNmxH?=
- =?utf-8?B?U3ZqN0RVQWdhWXB2OXZVeFM3WXhIVjdHTmxlbTdIVEV6N3VXMGtDaUpPNk42?=
- =?utf-8?B?TTAzdGVGTjBRM2N2ZkNrZ3h0eENNWnBOeGkzRGllVlA4NWNuc3FlRjl3Y3Ni?=
- =?utf-8?B?Sm9WNVNuSUVLOForZXhOWVJFN1E3cU5LWVZrL2NmQWIydmgzaW1vLzR0Q0N2?=
- =?utf-8?B?elBGcFpZY3JlQ1c5dTRCNHdFT2IxWkVjSER2Y1o1ZWtjQjlLbWtJYUpCTGIw?=
- =?utf-8?B?OG1IbXMweEZSTFNjVmxPRElZOGNTSGpLd1FyYVpZWHc3YUxCLzBpaW1XZm1D?=
- =?utf-8?B?eGxEZlYvSnA2V3VaVkxMY3Vsbmk5bE5jSzhFZW9FZWgyTHVsOEhkN0pINXBy?=
- =?utf-8?B?eFJJTFVVS3oxd1djYU5MdU5keUdaNlpIandpcnBhV29nN3A3Mzcxa09UQ3NE?=
- =?utf-8?B?MVlvM1FmQ0ZTZURXVGtGNnZ0RnMwSVpRVlp1NmoyTnZhcnQva2hMRDcrdFdX?=
- =?utf-8?B?aUlod2hYR21VNzlsTXJBYU44S1JvOHNFbkEwbDFHcXpUbzZ6dXBDQzVGYUJp?=
- =?utf-8?B?aGZONkdiNEV4UkhIdXBqZGhTQy9WZXZ6MzhEa2JWYnphZkJUYWxXUkIzL2Vr?=
- =?utf-8?B?cEUyVXhrQ0toS3JZVHBPU3J6OXkwNnNCTEUxUEFRTks3WHpFd1lXZEFrdHdO?=
- =?utf-8?B?aWFFV1o0Y1NJTEVweFlRaUdPM3RiUFR0NGp0YUZDWnU3dzRFaWxLdnJXYkJQ?=
- =?utf-8?B?SFJtb3FxaWd4SGxpVkttRnBwOEhVQ3A5Uk9UZ3NpbGZTbThVTkF2cU5aZ0Zy?=
- =?utf-8?B?dWdncm9WQi80UUE0cVpCV1NwNjRWdzB0dWZVNkFwUVY1Z2E0NXJTL1ZxTFRY?=
- =?utf-8?B?SmNZd2JEYUhZOW9qZHArMEtPeDFEZ201TkhQMVhKTXJ4SkFvcWVuWE5RcmpP?=
- =?utf-8?Q?ENv95TQUg7ryBMVEkHHFq/s64UbPQM7T2ouJrOwbrGYY=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf333dce-9b20-4534-f3ea-08dbcf48d9bd
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 19:40:00.5837 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P193MB0645
-Cc: linux-mm@kvack.org, "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- kasan-dev@googlegroups.com
+Content-Disposition: inline
+In-Reply-To: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org, ryabinin.a.a@gmail.com,
+ glider@google.com, akpm@linux-foundation.org, vincenzo.frascino@arm.com,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>, dvyukov@google.com,
+ andreyknvl@gmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -143,45 +109,23 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-The idea came from the bug I was fixing recently,
-'KASAN: slab-use-after-free Read in tls_encrypt_done'.
+On 23/10/18 03:39AM, Juntong Deng wrote:
+> If the free time is slightly before the error time, then there is a
+> high probability that this is an error caused by race condition.
+> 
+> If the free time is long before the error time, then this is obviously
+> not caused by race condition, but by something else.
 
-This bug is caused by subtle race condition, where the data structure
-is freed early on another CPU, resulting in use-after-free.
-
-Like this bug, some of the use-after-free bugs are caused by race
-condition, but it is not easy to quickly conclude that the cause of the
-use-after-free is race condition if only looking at the stack trace.
-
-I did not think this use-after-free was caused by race condition at the
-beginning, it took me some time to read the source code carefully and
-think about it to determine that it was caused by race condition.
-
-By adding timestamps for Allocation, Free, and Error to the KASAN
-report, it will be much easier to determine if use-after-free is
-caused by race condition.
-
-If the free time is slightly before the error time, then there is a
-high probability that this is an error caused by race condition.
-
-If the free time is long before the error time, then this is obviously
-not caused by race condition, but by something else.
-
-In addition, I read the source code of KASAN, and it is not a
-difficult task to add the function of recording timestamps,
-which can be done by adding a member to struct kasan_track.
-
-If it is a good idea, I can do this part of the work.
-
-Welcome to discuss!
-
-Juntong Deng
+That sounds a bit arbitrary to me. How do you set the threshold for each
+case? I mean, the fact remains: an invalid read after the object being
+freed. Does it matter what it was caused by? It should be fixed
+regardless.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
