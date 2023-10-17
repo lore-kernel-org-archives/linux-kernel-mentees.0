@@ -1,103 +1,130 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 66269CDB482
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 12:21:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id ED32FCDB474
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 16:23:01 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E1B5D404B9;
-	Tue, 17 Oct 2023 12:21:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E1B5D404B9
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VYMjCyCf
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zWksjmydPSHs; Tue, 17 Oct 2023 12:21:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1CF1640004;
-	Tue, 17 Oct 2023 12:21:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1CF1640004
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id D375EC0071;
-	Tue, 17 Oct 2023 12:21:24 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 49BA1C0032
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 12:21:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 4AD7282027
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 12:20:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4AD7282027
+	by smtp1.osuosl.org (Postfix) with ESMTP id 68AA4820EF;
+	Tue, 17 Oct 2023 16:23:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 68AA4820EF
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=VYMjCyCf
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=uxfapWGF
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id O2hc3UK2twz7
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 12:20:30 +0000 (UTC)
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com
- [IPv6:2607:f8b0:4864:20::642])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5C2C881341
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 12:20:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5C2C881341
-Received: by mail-pl1-x642.google.com with SMTP id
- d9443c01a7336-1c9d3a21f7aso44854895ad.2
- for <Linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 05:20:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1697545230; x=1698150030;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rr3aW7LK1XAhrtCj3229DIhxXbjMtybVhITPYZZVzq0=;
- b=VYMjCyCfq3KfPCDUkCkx2L0pIlZmFNl2swrfP7P9wAguZe0hIe1VfLzkRyiGZ7NOya
- Hw1QFKB6Wuce8jXzFnTwglY2wczlRvgRxuFPzIsx1whOOLUo/ELaWW03nYciYYFH/bQ9
- u155sPhqiznbEVziY0GOvaE39NlMO8ksD3uHrWkbcQWkGQAQ+bXZi7glteZRy2li6Pwi
- X6WCoTqgOM9dpncjYvGxR/tegjuY2ItypHse5/0yHK41z7EGC4qwXScOhn8IYm6vv+JI
- idu3V1uS6SBTo0Zs80qN0yWOENPKliwFjbrPJrW+eo0UFLzvrz1Ftj+nqMs1xR1NRkow
- n5FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697545230; x=1698150030;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rr3aW7LK1XAhrtCj3229DIhxXbjMtybVhITPYZZVzq0=;
- b=Bt15hVVjG6HySpkUGGQQGq0bIR834uCvFA6gX6OdcVvA2LWXori/qLspmv1v8oEIuy
- iU7cqMBMDHl/XtEiZC+VxKb6j+Rb+/Ht8P5MrDdhoocVwu4J350ga455Cj+Ab0af0MHL
- ralsnjBkLLNvLtPcacvr2Ana7/6yu/es4FFtm83luE1VLrEodqkNjL+qfk4LgfBm7M6D
- hfyx7TcthsAoGgtcpCUmgMPcoUJTfliz3PqHH1oAyCC/ZKDkSdv/+jNAj5y4PE+SfAql
- YgbDm1nwT95ume1vld800xSQ2UPF4BhuACyUrHGnOo7CYLvZ+sJhBSEQIZjM4tvRn0U0
- tvlg==
-X-Gm-Message-State: AOJu0YyomTmKIqM9IwtW2T79ch6E6+Rp+NX/LtcIC/SuOFjczKLZPgV/
- KzOWZXFLHjWl3WiN8cpQElE=
-X-Google-Smtp-Source: AGHT+IFJzi8P08ZvJ6HuW6FFT+GWNbpO2WFeyN5U6zh3XLZArnSJZAZwBC+SNpOiOW3G0+1tqmqiCw==
-X-Received: by 2002:a17:903:32d0:b0:1ca:1be4:bda4 with SMTP id
- i16-20020a17090332d000b001ca1be4bda4mr2196950plr.4.1697545229477; 
- Tue, 17 Oct 2023 05:20:29 -0700 (PDT)
-Received: from manas-VirtualBox.iitr.ac.in ([103.37.201.174])
- by smtp.gmail.com with ESMTPSA id
- h12-20020a170902eecc00b001bbab888ba0sm1383541plb.138.2023.10.17.05.20.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Oct 2023 05:20:29 -0700 (PDT)
-From: Manas Ghandat <ghandatmanas@gmail.com>
-To: dave.kleikamp@oracle.com,
-	shaggy@kernel.org
-Subject: [PATCH] jfs: fix array-index-out-of-bounds in dbAdjTree
-Date: Tue, 17 Oct 2023 17:33:56 +0530
-Message-Id: <20231017120356.55322-1-ghandatmanas@gmail.com>
-X-Mailer: git-send-email 2.37.2
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id q-EPmVcUQfjs; Tue, 17 Oct 2023 16:23:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4DB46820F2;
+	Tue, 17 Oct 2023 16:23:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4DB46820F2
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 29209C0071;
+	Tue, 17 Oct 2023 16:23:00 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 83EFAC0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 16:22:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5F0AB60EA4
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 16:22:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5F0AB60EA4
+Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256
+ header.s=selector1 header.b=uxfapWGF
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9xuTU2xIVnAa
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 16:22:57 +0000 (UTC)
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur04olkn0812.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe0e::812])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 324D360D67
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 17 Oct 2023 16:22:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 324D360D67
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MsidnMIHUykPYc8/mxvWl8CoDYWJPb7gstIt+KappnqKLZvU86OCe42JcEFfavpfyANnJc/Dy8Wl2rn9HAd0Ehg9XygY0lP+zEUwWlStGMYnUWOZESErA0Q6GGcS13h8OkypYirw0w5yD+RoZz7iO8/AYQiai97oz+v61AlwIScgwli4IA905Xih6YS+8y/c0ePq2PkNg2buQBuRxRnN67VaFEzr/ogx9SuGm+HRHMMQsXm/0WgjIYrjJ2H5AHtGfC+SDft9HHobYND7VJI6F9JexZLANj1S9gFOmrXrsYBKAia8pycY9iHMdO/mrZCQ6MkU1E5Ws666+KWZi+UZfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DDRqOekf0qd4P/DQTcQIPmfho3vMDf5sI5B6cunmMHI=;
+ b=OYuH9whVBKQFUxnEgJakKiT/PTuLcNQsmHxirR9FHktMz2Kwff504mK0tOjfRIF9SCPu8UxoGfDKifyBvb5gaWPFQVIy7TG/1sAYYsCb3DNEtOEWhqcCoJz9Qzy0HaVxDIKuTabjt2eYH6LgWzoWWHjjEYWMBDqGE77ceRSyBRCsG4tvUn68cTrLINaXwNBDZ58lvdj+aQenc274k8H27KhQuXoTP7FeecW6L16ruv8E8HW2dj8nXx1T4i8vjzXTaenSa8pB4XdbLA8FPESiCMKs32LJdmECGEoePqNu6DSh2V7g7BReff56syg+g34xL/JGr1He/BPZ/tm5rqf82Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DDRqOekf0qd4P/DQTcQIPmfho3vMDf5sI5B6cunmMHI=;
+ b=uxfapWGF8nd2m6ItjbS3YSBt8YDG8fvYla0P0gqKo1Y4YBtiE0qtkSRI8SDEsSf/W7D+Oz1Cs9eRaNxX50jCjksfXJAU8+fWyiWwHbv5YMAUiWwAZwLWuSq2xv625ZNNhcx1JwdRWUyA2MSljzmq6dUg6bzphraaS9k91+NfynMCG+sPTwtaF5wOlPRRaS96Cqs6yICHzngXTn1TrxU2srWXuL2rQgxGczm3ZLO+wgC0ziawESXGS69xfYZZvG5xLVCCUipDsGC4er3urcEW2NKuWTkJ20R7bdpG23OaEtj8gj2UibdU7liUCENtu0LBJ8flNwbtWsSIEVFUSWEZbw==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by PR3P193MB0553.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:36::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Tue, 17 Oct
+ 2023 16:22:53 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::af68:c2a:73ce:8e99]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::af68:c2a:73ce:8e99%3]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
+ 16:22:53 +0000
+From: Juntong Deng <juntong.deng@outlook.com>
+To: borisp@nvidia.com, john.fastabend@gmail.com, kuba@kernel.org,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
+Subject: [PATCH v2] net/tls: Fix slab-use-after-free in tls_encrypt_done
+Date: Wed, 18 Oct 2023 00:22:15 +0800
+Message-ID: <VI1P193MB0752321F24623E024C87886A99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
+X-TMN: [l4mhqtjJiDvTyGcARR2Dbgu+eyvxvniW]
+X-ClientProxiedBy: LNXP265CA0086.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:76::26) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <20231017162215.20484-1-juntong.deng@outlook.com>
 MIME-Version: 1.0
-Cc: syzbot+39ba34a099ac2e9bd3cb@syzkaller.appspotmail.com,
- Linux-kernel-mentees@lists.linuxfoundation.org,
- jfs-discussion@lists.sourceforge.net, Manas Ghandat <ghandatmanas@gmail.com>,
- linux-kernel@vger.kernel.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PR3P193MB0553:EE_
+X-MS-Office365-Filtering-Correlation-Id: f70fa696-fbd1-4989-9c1d-08dbcf2d4f69
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dvvpteJGpr3dRZvuYHCactD6WD/sIwC8auKsqtOe2BAa48PwhSPHCQNaLiT9Bw7qV+H0roClitVOYjpPg3EKt7ji+z5lwoAf20iBziUfVKOykzNNnfXZfsQIm5TepY7B8PVHqeueSjPSli0HxvBgA9OzWG7MRRakeV9M6H/+mvW19p5Od3gHnhv56Q/1obrrsVmtYnfwtOH5MqDofnmG/BlRD5+E8YAS0jE/+Ripb6gp3qESPUDHM1j18Kc9LJk2AFFSYJWCxIDhYPOEc5wxoDJAekXoG8eElSe4wonrXtWpmwESlwnLVve4YNRE6T+GtaVgAJuDw0mvB/nE+t87bN3Dvkc4kPlRa1KWRLHPmFv6IgacUaX6n2EKVxqHB/iPuqUKCC72FilWlxXB0/hydrzbQyJLD9x7cVbBEt3Lqe1geQm3ksj+StXjBWVjhXARe4KSmrkVuGEfgug7pjCL9+8rJXvfFYp2G+ZiBcnyxynFT4sdRsya7mXTfA3UaZfpgq4kNoLFEkPy0VBbMxoUQow5buejBYtxgofcMAoZNWCLZ9jlFWYHQ7KWiago0mzlnhfoDBUhZVAjBnFlAOzOqZEreSofQLls6gRLDW7Etvo=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?og+5c227dqG1JjGvwMb31JYgjRoAZXAjDTzlcDSR/H3zJFBaXC62o56ussvb?=
+ =?us-ascii?Q?MzQjcxEQvs1HAbKOCmx1jcSkEgV5BVkCrz4nAgAHTt6W2Yw0pUqu7IHYSh+F?=
+ =?us-ascii?Q?eKyPJJK1Drxe5qh4pj3bzTqFNgaZhWmrYAOUJ0xSUlMXGOP1zqnOCgmDkvYj?=
+ =?us-ascii?Q?PBayeBgWVAqMwGUGqKG71aTb4lpwg2U+uthQ7FKeQNqVL72yg1ZdYeYKk+Wa?=
+ =?us-ascii?Q?uXi+Q0crKVNC57O04y0bNzySGRdNTqVZMfpFgaMiN7gd7wymwDnN2oObEjJC?=
+ =?us-ascii?Q?z9XSzKyhDG/4cJrhNoV/n4t/vqYJmSBSkwcKYZ0gP+PC479KRik4Odx3hYOV?=
+ =?us-ascii?Q?zzPIciqlk+9+yNuGuNttNRFGggxucwlINTcqqQmciirLvMhe0aM+MtPJUQ3k?=
+ =?us-ascii?Q?rde76Uf1Y+oGuY6TtM8dn87kbLAYYWr9WQl34S3mF9vyHBe7I5hRFBb6QLX2?=
+ =?us-ascii?Q?bpAUxuCeNLCB01aPqMovgH+YlC0K22Akd2HW9EQi7NMhgczl9lsejmHDh9gK?=
+ =?us-ascii?Q?MV53SGESMrFj3Npk3FLprmJKhJ4nNnjTdFbYYaoERebI1TNo19Ze0t+31L6i?=
+ =?us-ascii?Q?HfldUSqo/jqKxJnmC0MdXM9+ltMNlsaWL723pec/WBoGzRLWPxRawVEjjJP1?=
+ =?us-ascii?Q?OtrdOxHGECOa5gnpfqmdcts5rGqLA340V7p9qSLNPl+LeRYAOKG5bp+JcaUD?=
+ =?us-ascii?Q?nczKKEfkQ2YGJndC6kU8ljtSTS+xgKJm8giNW8uonbxkqe9H80gui6NHqOkx?=
+ =?us-ascii?Q?l1BWRKVyWeVFLi5/Mxg/tQ0EsTs63ORNwDiHIQrAQDivYX13dmKE2xN+d4Gi?=
+ =?us-ascii?Q?ukySfh1RLk+nirFCf1qQjEKZYWjFHRo8DbuexBDlBPZgkcSszisVkTieNiBk?=
+ =?us-ascii?Q?69DHqnQh5K9aFDiCGos2W4oKgLH9xWK3kSVbucZfcPmN3ZjyXrbTO7hCLovD?=
+ =?us-ascii?Q?UTxw2/nw3oPqkRRxvSFuHdttO7VcmBFA96nyMymD0g3sczKiUrsQ5kn3Shr5?=
+ =?us-ascii?Q?YA3zDD5oJKGQ54InabgL+KhcSt2fzFrnKpIaYzX2gjHCs2Al70rq5bx/7cfs?=
+ =?us-ascii?Q?UvzjHRubgOsQuKjw5wyXXudhUeRrJuF0oyMbSjOEgRQs7XKyfj99uTrvSgkQ?=
+ =?us-ascii?Q?Qf41nN6iMhrxdU6kQMeUs0ubmd82a2zC4NnjetXoGrjWvCoxAfJZd29/uRLW?=
+ =?us-ascii?Q?2BsSJQ9IpBtxSGg2Oc35ebvKlC+S+wAWludxOkoZEkS0hMcSy7M/VELIdwo?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f70fa696-fbd1-4989-9c1d-08dbcf2d4f69
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 16:22:51.9331 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P193MB0553
+Cc: netdev@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,227 +142,69 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Currently there is a bound check missing in the dbAdjTree while
-accessing the dmt_stree. To add the required check added the bool is_ctl
-which is required to determine the size as suggest in the following
-commit.
-https://lore.kernel.org/linux-kernel-mentees/f9475918-2186-49b8-b801-6f0f9e75f4fa@oracle.com/
+In the current implementation, ctx->async_wait.completion is completed
+after spin_lock_bh, which causes tls_sw_release_resources_tx to
+continue executing and return to tls_sk_proto_cleanup, then return
+to tls_sk_proto_close, and after that enter tls_sw_free_ctx_tx to kfree
+the entire struct tls_sw_context_tx (including ctx->encrypt_compl_lock).
 
-Reported-by: syzbot+39ba34a099ac2e9bd3cb@syzkaller.appspotmail.com
-Fixes: https://syzkaller.appspot.com/bug?extid=39ba34a099ac2e9bd3cb
-Signed-off-by: Manas Ghandat <ghandatmanas@gmail.com>
+Since ctx->encrypt_compl_lock has been freed, subsequent spin_unlock_bh
+will result in slab-use-after-free error. Due to SMP, even using
+spin_lock_bh does not prevent tls_sw_release_resources_tx from continuing
+on other CPUs. After tls_sw_release_resources_tx is woken up, there is no
+attempt to hold ctx->encrypt_compl_lock again, therefore everything
+described above is possible.
+
+The fix is to put complete(&ctx->async_wait.completion) after
+spin_unlock_bh, making the release after the unlock. Since complete is
+only executed if pending is 0, which means this is the last record, there
+is no need to worry about race condition causing duplicate completes.
+
+Since tls_sw_release_resources_tx freed all un-sent records in the
+ctx->tx_list, subsequent schedule transmission is meaningless, and
+the entire struct tls_sw_context_tx has been freed (including
+ctx->tx_bitmask and ctx->tx_work.work), continuing to execute
+subsequent code will cause use-after-free, so return directly.
+
+Reported-by: syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=29c22ea2d6b2c5fd2eae
+Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 ---
- fs/jfs/jfs_dmap.c | 57 ++++++++++++++++++++++++++---------------------
- 1 file changed, 31 insertions(+), 26 deletions(-)
+V1 -> V2: Fix possible use-after-free caused by test_and_set_bit
 
-diff --git a/fs/jfs/jfs_dmap.c b/fs/jfs/jfs_dmap.c
-index 88afd108c2dd..57fba21994c3 100644
---- a/fs/jfs/jfs_dmap.c
-+++ b/fs/jfs/jfs_dmap.c
-@@ -63,10 +63,10 @@
-  */
- static void dbAllocBits(struct bmap * bmp, struct dmap * dp, s64 blkno,
- 			int nblocks);
--static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval);
--static int dbBackSplit(dmtree_t * tp, int leafno);
--static int dbJoin(dmtree_t * tp, int leafno, int newval);
--static void dbAdjTree(dmtree_t * tp, int leafno, int newval);
-+static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval, bool is_ctl);
-+static int dbBackSplit(dmtree_t * tp, int leafno, bool is_ctl);
-+static int dbJoin(dmtree_t * tp, int leafno, int newval, bool is_ctl);
-+static void dbAdjTree(dmtree_t * tp, int leafno, int newval, bool is_ctl);
- static int dbAdjCtl(struct bmap * bmp, s64 blkno, int newval, int alloc,
- 		    int level);
- static int dbAllocAny(struct bmap * bmp, s64 nblocks, int l2nb, s64 * results);
-@@ -2096,7 +2096,7 @@ static int dbFreeDmap(struct bmap * bmp, struct dmap * dp, s64 blkno,
- 		 * system.
- 		 */
- 		if (dp->tree.stree[word] == NOFREE)
--			dbBackSplit((dmtree_t *) & dp->tree, word);
-+			dbBackSplit((dmtree_t *) & dp->tree, word, false);
+ net/tls/tls_sw.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+index 270712b8d391..b21f5fecc84e 100644
+--- a/net/tls/tls_sw.c
++++ b/net/tls/tls_sw.c
+@@ -441,6 +441,7 @@ static void tls_encrypt_done(void *data, int err)
+ 	struct sk_msg *msg_en;
+ 	bool ready = false;
+ 	struct sock *sk;
++	int async_notify;
+ 	int pending;
  
- 		dbAllocBits(bmp, dp, blkno, nblocks);
- 	}
-@@ -2182,7 +2182,7 @@ static void dbAllocBits(struct bmap * bmp, struct dmap * dp, s64 blkno,
- 			 * the binary system of the leaves if need be.
- 			 */
- 			dbSplit(tp, word, BUDMIN,
--				dbMaxBud((u8 *) & dp->wmap[word]));
-+				dbMaxBud((u8 *) & dp->wmap[word]),false);
+ 	msg_en = &rec->msg_encrypted;
+@@ -482,10 +483,13 @@ static void tls_encrypt_done(void *data, int err)
  
- 			word += 1;
- 		} else {
-@@ -2222,7 +2222,7 @@ static void dbAllocBits(struct bmap * bmp, struct dmap * dp, s64 blkno,
- 				 * system of the leaves to reflect the current
- 				 * allocation (size).
- 				 */
--				dbSplit(tp, word, size, NOFREE);
-+				dbSplit(tp, word, size, NOFREE, false);
+ 	spin_lock_bh(&ctx->encrypt_compl_lock);
+ 	pending = atomic_dec_return(&ctx->encrypt_pending);
++	async_notify = ctx->async_notify;
++	spin_unlock_bh(&ctx->encrypt_compl_lock);
  
- 				/* get the number of dmap words handled */
- 				nw = BUDSIZE(size, BUDMIN);
-@@ -2329,7 +2329,7 @@ static int dbFreeBits(struct bmap * bmp, struct dmap * dp, s64 blkno,
- 			/* update the leaf for this dmap word.
- 			 */
- 			rc = dbJoin(tp, word,
--				    dbMaxBud((u8 *) & dp->wmap[word]));
-+				    dbMaxBud((u8 *) & dp->wmap[word]),false);
- 			if (rc)
- 				return rc;
- 
-@@ -2362,7 +2362,7 @@ static int dbFreeBits(struct bmap * bmp, struct dmap * dp, s64 blkno,
- 
- 				/* update the leaf.
- 				 */
--				rc = dbJoin(tp, word, size);
-+				rc = dbJoin(tp, word, size, false);
- 				if (rc)
- 					return rc;
- 
-@@ -2514,16 +2514,16 @@ dbAdjCtl(struct bmap * bmp, s64 blkno, int newval, int alloc, int level)
- 		 * that it is at the front of a binary buddy system.
- 		 */
- 		if (oldval == NOFREE) {
--			rc = dbBackSplit((dmtree_t *) dcp, leafno);
-+			rc = dbBackSplit((dmtree_t *) dcp, leafno, true);
- 			if (rc) {
- 				release_metapage(mp);
- 				return rc;
- 			}
- 			oldval = dcp->stree[ti];
- 		}
--		dbSplit((dmtree_t *) dcp, leafno, dcp->budmin, newval);
-+		dbSplit((dmtree_t *) dcp, leafno, dcp->budmin, newval, true);
- 	} else {
--		rc = dbJoin((dmtree_t *) dcp, leafno, newval);
-+		rc = dbJoin((dmtree_t *) dcp, leafno, newval, true);
- 		if (rc) {
- 			release_metapage(mp);
- 			return rc;
-@@ -2554,7 +2554,7 @@ dbAdjCtl(struct bmap * bmp, s64 blkno, int newval, int alloc, int level)
- 				 */
- 				if (alloc) {
- 					dbJoin((dmtree_t *) dcp, leafno,
--					       oldval);
-+					       oldval, true);
- 				} else {
- 					/* the dbJoin() above might have
- 					 * caused a larger binary buddy system
-@@ -2564,9 +2564,9 @@ dbAdjCtl(struct bmap * bmp, s64 blkno, int newval, int alloc, int level)
- 					 */
- 					if (dcp->stree[ti] == NOFREE)
- 						dbBackSplit((dmtree_t *)
--							    dcp, leafno);
-+							    dcp, leafno, true);
- 					dbSplit((dmtree_t *) dcp, leafno,
--						dcp->budmin, oldval);
-+						dcp->budmin, oldval, true);
- 				}
- 
- 				/* release the buffer and return the error.
-@@ -2614,7 +2614,7 @@ dbAdjCtl(struct bmap * bmp, s64 blkno, int newval, int alloc, int level)
-  *
-  * serialization: IREAD_LOCK(ipbmap) or IWRITE_LOCK(ipbmap) held on entry/exit;
-  */
--static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval)
-+static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval, bool is_ctl)
- {
- 	int budsz;
- 	int cursz;
-@@ -2636,7 +2636,7 @@ static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval)
- 		while (cursz >= splitsz) {
- 			/* update the buddy's leaf with its new value.
- 			 */
--			dbAdjTree(tp, leafno ^ budsz, cursz);
-+			dbAdjTree(tp, leafno ^ budsz, cursz, is_ctl);
- 
- 			/* on to the next size and buddy.
- 			 */
-@@ -2648,7 +2648,7 @@ static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval)
- 	/* adjust the dmap tree to reflect the specified leaf's new
- 	 * value.
- 	 */
--	dbAdjTree(tp, leafno, newval);
-+	dbAdjTree(tp, leafno, newval, is_ctl);
- }
- 
- 
-@@ -2679,7 +2679,7 @@ static void dbSplit(dmtree_t * tp, int leafno, int splitsz, int newval)
-  *
-  * serialization: IREAD_LOCK(ipbmap) or IWRITE_LOCK(ipbmap) held on entry/exit;
-  */
--static int dbBackSplit(dmtree_t * tp, int leafno)
-+static int dbBackSplit(dmtree_t * tp, int leafno, bool is_ctl)
- {
- 	int budsz, bud, w, bsz, size;
- 	int cursz;
-@@ -2730,7 +2730,7 @@ static int dbBackSplit(dmtree_t * tp, int leafno)
- 				 * system in two.
- 				 */
- 				cursz = leaf[bud] - 1;
--				dbSplit(tp, bud, cursz, cursz);
-+				dbSplit(tp, bud, cursz, cursz, is_ctl);
- 				break;
- 			}
- 		}
-@@ -2758,7 +2758,7 @@ static int dbBackSplit(dmtree_t * tp, int leafno)
-  *
-  * RETURN VALUES: none
-  */
--static int dbJoin(dmtree_t * tp, int leafno, int newval)
-+static int dbJoin(dmtree_t * tp, int leafno, int newval, bool is_ctl)
- {
- 	int budsz, buddy;
- 	s8 *leaf;
-@@ -2813,12 +2813,12 @@ static int dbJoin(dmtree_t * tp, int leafno, int newval)
- 			if (leafno < buddy) {
- 				/* leafno is the left buddy.
- 				 */
--				dbAdjTree(tp, buddy, NOFREE);
-+				dbAdjTree(tp, buddy, NOFREE, is_ctl);
- 			} else {
- 				/* buddy is the left buddy and becomes
- 				 * leafno.
- 				 */
--				dbAdjTree(tp, leafno, NOFREE);
-+				dbAdjTree(tp, leafno, NOFREE, is_ctl);
- 				leafno = buddy;
- 			}
- 
-@@ -2831,7 +2831,7 @@ static int dbJoin(dmtree_t * tp, int leafno, int newval)
- 
- 	/* update the leaf value.
- 	 */
--	dbAdjTree(tp, leafno, newval);
-+	dbAdjTree(tp, leafno, newval, is_ctl);
- 
- 	return 0;
- }
-@@ -2852,15 +2852,20 @@ static int dbJoin(dmtree_t * tp, int leafno, int newval)
-  *
-  * RETURN VALUES: none
-  */
--static void dbAdjTree(dmtree_t * tp, int leafno, int newval)
-+static void dbAdjTree(dmtree_t * tp, int leafno, int newval, bool is_ctl)
- {
- 	int lp, pp, k;
--	int max;
-+	int max, size;
-+
-+	size = is_ctl ? CTLTREESIZE : TREESIZE;
- 
- 	/* pick up the index of the leaf for this leafno.
- 	 */
- 	lp = leafno + le32_to_cpu(tp->dmt_leafidx);
- 
-+	if (lp > size || lp < 0)
+-	if (!pending && ctx->async_notify)
++	if (!pending && async_notify) {
+ 		complete(&ctx->async_wait.completion);
+-	spin_unlock_bh(&ctx->encrypt_compl_lock);
 +		return;
-+
- 	/* is the current value the same as the old value ?  if so,
- 	 * there is nothing to do.
- 	 */
++	}
+ 
+ 	if (!ready)
+ 		return;
 -- 
-2.37.2
+2.39.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
