@@ -1,97 +1,136 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 8349FCDB483
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 20:10:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BFC6BCDB474
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue, 17 Oct 2023 20:19:30 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 026F541A04;
-	Tue, 17 Oct 2023 20:10:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 026F541A04
+	by smtp2.osuosl.org (Postfix) with ESMTP id 3E26540470;
+	Tue, 17 Oct 2023 20:19:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3E26540470
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=Kk2C6qDh
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HL924ta3GhdJ; Tue, 17 Oct 2023 20:10:27 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id terKrKJGpm34; Tue, 17 Oct 2023 20:19:29 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D7EEA4194E;
-	Tue, 17 Oct 2023 20:10:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D7EEA4194E
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D02C3400D1;
+	Tue, 17 Oct 2023 20:19:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D02C3400D1
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id BA31EC0071;
-	Tue, 17 Oct 2023 20:10:26 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7BB52C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A7B4DC0071;
+	Tue, 17 Oct 2023 20:19:28 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 578ADC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 20:10:25 +0000 (UTC)
+ Tue, 17 Oct 2023 20:19:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 3547081359
+ by smtp3.osuosl.org (Postfix) with ESMTP id 1AF246102E
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 20:10:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3547081359
+ Tue, 17 Oct 2023 20:19:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1AF246102E
+Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256
+ header.s=selector1 header.b=Kk2C6qDh
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0feoC34PER01
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6TEUEdhLJHsP
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 20:10:24 +0000 (UTC)
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
- [IPv6:2607:f8b0:4864:20::42c])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 18BA88134F
+ Tue, 17 Oct 2023 20:19:26 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05olkn2082a.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7d00::82a])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 623356102D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 20:10:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 18BA88134F
-Received: by mail-pf1-x42c.google.com with SMTP id
- d2e1a72fcca58-6bd73395bceso2294020b3a.0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 17 Oct 2023 13:10:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1697573423; x=1698178223;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=Uj2R21g4EPlt4YZKWi7SG89ievVQJ+iyFG5BwjhrmmE=;
- b=KUVMfOJT3YUBYmqfFCinKWdYmFQqkdQB/oZkIxJVV8VNn/penwcewImrWPDaHa4Chi
- 2nggZiVHxIjVIct6gtjPUsZ86uaopZC2Sb8BUP3+0/cUg6PHO3R40nuAzL4p+HVvq8EL
- 8bynwmPVFDR/MepHOneqh8csJGLsB+yNyNy2fVxxODIpVl88lUIoot7/CmmAuth3dbVw
- HB12I5Y70rcQI2GXeKvaCxfwInFCm6PwHg3G3+/jnj17ZNBS0Sm4aYwhWTDRZKnDFh1i
- 3T0v9dtGbH++kqvXU7uIlHtw6tGo90noH708xg4L/OQWfgPSx4iqGrLMhpUTpv+s+arB
- aUmw==
-X-Gm-Message-State: AOJu0Yx5LTU0/0RlPXsu73Ox+uCISUbhhNPNffCgakcmgC3VDs4Ez0S8
- XxH/Sijtia1qbeIBVR2ZbsM=
-X-Google-Smtp-Source: AGHT+IEPY0k7Zb1PMfxn6P2a1QNtfE7IToifhIIwsP0rg4ArLxFEVp2FOQ6vFHPhJI2ALpNnMSKmzw==
-X-Received: by 2002:a05:6a00:3408:b0:691:27b:15b4 with SMTP id
- cn8-20020a056a00340800b00691027b15b4mr3871596pfb.5.1697573423273; 
- Tue, 17 Oct 2023 13:10:23 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
- by smtp.gmail.com with ESMTPSA id
- z21-20020aa79f95000000b0069323619f69sm1918389pfr.143.2023.10.17.13.10.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Oct 2023 13:10:22 -0700 (PDT)
-Date: Tue, 17 Oct 2023 17:10:14 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
- s=2023; t=1697573418;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Uj2R21g4EPlt4YZKWi7SG89ievVQJ+iyFG5BwjhrmmE=;
- b=Sd7GNP/bf0yRIpIrDgRsW5XZ4eSKsUoJ5xRV2D58RK5XCT0LV2IxaO3HmNa60rGT2E3d5L
- jtdldngQhriPe+qNxE1kT0DMtqconE5I+up4eMlISXEI8569NwNjfV7GoHvR51wmEXnDgQ
- j0Awwtx/zDEM/wM1rwbOLFHJb8fxtJ+i1G2HDQzv3Iit94/AZTABUdDt0j4B2xHzadTkmd
- q6W+nawquOo//gCaRyawwJu7omaFskXMsQg2GgTH8CY6kPME9wleTHg4ppGpLSOoedSLe2
- 8ifxIM9dfCcdghArMGZ+4W1wU4pJWKcgmsdsM7mpNHOvJOvlBVolya0dupzNQQ==
-Authentication-Results: ORIGINATING;
- auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-From: "Ricardo B. Marliere" <ricardo@marliere.net>
-To: Juntong Deng <juntong.deng@outlook.com>
+ Tue, 17 Oct 2023 20:19:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 623356102D
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HchAAx481mdhwic1lrvObpqnDUWNR2wcCunlkbBxhCaP4A3cEFGzwHPZ5houPf7o/HGAKf3LTSojtByveJln0ObzXMnMhh49CfRiwbbI5sabAgg4o275DOmqZMUBjdb4SarMKnmV+3C/BEr7msnoC+5DpqwVRp1fFNQ2EeflqvBRY87xLHdZ9fVf86uFqvbh9G7St2UGab/F1USG6pHu+w5YTuO7gBYwm32hF6v19VaKrBOrYtG34ELSubHbEp3x3SVqd//H3Ty1B6teJrsD6zkwkzhAg8wDmvlpHHrMCjheoERvW7xDiP7GsEnKYLcimuw6naVp1atuv54lU5JOHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cDw4QNRhrpdcz12iAryqrnEdVrjJ07EfuZ/2BL8T3/U=;
+ b=ih/fFLFM+nX35G5EzVDhB50diQu+A+3LOC9HgByfqZ+eXOIbC6ihrVrIls6xXPwWYaIQfXOi5DZt37gIBaLiawPmE4KgQzqY7SgZtQ5sQOHsKJRWhsUtnC8NywsCu89xY0U+k3MLzOm1luuVcgR5cXgFBRifc8RX2kVw35g3Q5K7xm6lcK4SfUQHghpeQyUF4W8ul72hrAkTEzMFMVhy2aUT3qUzRa9sRM6+MmvwZvaEcWbbKeTtnwb7wVuE8YlL0GIDlk8P2xsDPoxgr7rW6Nvpe7ImfRZp5FZDsiTFtD/fiXT7KK1MCTBVBzcu015L+gBHURDtfSl9cC2SbUMeOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cDw4QNRhrpdcz12iAryqrnEdVrjJ07EfuZ/2BL8T3/U=;
+ b=Kk2C6qDhGw+jvIjBAR/R235zUfJXqvEdVstiGE7eVpRM0Py/Cl9w4rSqKKdDv74cGpZz6U+rK5o9wimtyAiz+YvZwbYabcjTM5FsIy0fKo70yywEJOJdhL81RNbOnVeyIkdwtvBzDgCVpMxwiPPqXK1/6kZ7dDoSdrESg1V0KwdwXGuIP0Zbrgz3SuqJM0VIifam6OtVrnjqq+uQZjPCbOtjg+pVvZUVRQzDMneLrCLaM+cQL4v53lz1gBeufZTDdVGdo3ftXHosLgqt/oU8vpQd0pDih81sGQKCj+lviS5YzswkKfzXWqfNm1rXXGg5FJes34k99lw3Vvad3vNhGg==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by DB8P193MB0600.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:15f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Tue, 17 Oct
+ 2023 20:19:21 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::af68:c2a:73ce:8e99]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::af68:c2a:73ce:8e99%3]) with mapi id 15.20.6886.034; Tue, 17 Oct 2023
+ 20:19:21 +0000
+Message-ID: <VI1P193MB0752C500BCA9E3193366E7D699D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Date: Wed, 18 Oct 2023 04:19:21 +0800
+User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC] mm/kasan: Add Allocation, Free, Error timestamps to KASAN
  report
-Message-ID: <eqinp4exznpgclzgz3ytjfdbpjffyyfn62dqfiaw2htk4ppa5p@ip25t7yczqc3>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>
 References: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <eqinp4exznpgclzgz3ytjfdbpjffyyfn62dqfiaw2htk4ppa5p@ip25t7yczqc3>
+From: Juntong Deng <juntong.deng@outlook.com>
+In-Reply-To: <eqinp4exznpgclzgz3ytjfdbpjffyyfn62dqfiaw2htk4ppa5p@ip25t7yczqc3>
+X-TMN: [YAWcUX6F5uacVXMXsIpXKn1iaTT7wF4S]
+X-ClientProxiedBy: LO4P265CA0281.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:37a::13) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <cfcf488a-3267-45bb-8cdf-bddd3320b7b9@outlook.com>
 MIME-Version: 1.0
-Content-Disposition: inline
-In-Reply-To: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|DB8P193MB0600:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70758ed8-4d02-4a36-fa0c-08dbcf4e5956
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ActTe+xHh6WkP3aW/tJQpEyG7+RSvBO1Co1mWEtQZiuEYx9J1c8Ia/7/uikbJnleKkJiidUt+kdwAr7WOduV1tz6yW1cdh7CbeYIl+XoLkmANpw3dsTkSX7775RXVoHhWp4qPXqFsZhFNC/kwNBuQJsS4HUKyeajSoWkhc627PU8sFsFX4CT6Z8UbbZviyk836T/SeEj0rCItxGfpouJu/hZqzMWclH8twyWjR4PiQ8a83zkaantFVlw60/QM5NfdGpx4Q84hZM8kek8nwJK+P34zY09BJFjLCiI3k3QOgWpmMPOGfr2fArH8DPRTLcopkNBKf8YbkqxCH7I+eDjLjHxyBgaNrz2rjMWBUKmsBXCUyb8/8A8U4W8kbWZVwlgBknPvEpKy9xObKlMCNRdDqyW0qElStiQkwRCm6S4n/8+3HGJ+rG0AfDAxNgEFZTXZTxb4hncYTO7FvXh+P6gS/JDcfxbjaMyR61mVUQFcEFDTqPxrkUEuL74sii+NPGaQ9GjD1QOt3h8g4z352qT0M2MBErCPfooy9W7qCnAKE+aSHr5f8WUwR/pBGxNU7JV
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmxhcnprWk9GeWhNem9idWkwbmVMVkxhSmExczNHSnZPUUNQc1BobllpcUZp?=
+ =?utf-8?B?RXRORVVraDNOK1U5aWdlVXlYZ2k5ejdpb1JGSGFyMWFFSWFtWllFb0hEaHNk?=
+ =?utf-8?B?TjNmV0FYRGlhMmFEWTRETGZRMVhpSFk3cUZRRkJWL0Q4SGI3TGhlSkMzRzdD?=
+ =?utf-8?B?MFZxY2RkcC9kYU5TQ1ZLV0tLUjlsVG5WZ1dzSXg4TytkUm51WGxIZlY2bFM3?=
+ =?utf-8?B?VEJ5bGQxZ2h0YUREeFlXZStHd3FHMlNWK2NSZWVYTzlsUit4M3RlekQ4ZENk?=
+ =?utf-8?B?cVdaaE11YXpqOUhFMzBHbjRXdU5CWWYrSHViK3RnQW1OU1UwdVVMQUQvK0hy?=
+ =?utf-8?B?UUd2SDF4UzVHTGg2STZKQUY2dzc1TlNjZnkycWtCc0ZPbzhWQmh6b0s0Nkpj?=
+ =?utf-8?B?NDhpeVhNWmNiaGNKLzdGazlUZUxnVzB6S05kVWM5eXVDUDhwSHVpNFozclRk?=
+ =?utf-8?B?aVVFUGozVGRoNW8rRENYUDF3RThxNzR0d0NHUmxZQ253NTllS1pvRjJNRnlV?=
+ =?utf-8?B?LzU1dSs0cjVMOWd2SElxOUlUQXdwQkdobG9ZMEs0dHcySU1UVFlnTE9rR215?=
+ =?utf-8?B?YTN3VUhsTTd5RHc1dytidlIzek5iekovdUk0Z2g1MDF0RDBPQjBsSXNZZWxk?=
+ =?utf-8?B?MWhkUW54cy9yMXBPN2Y2ZGxiMW5YWE82SjZWK0dLT2dXNFZUeS93RXJVWGlW?=
+ =?utf-8?B?VzV0RXB1UGhTV2w0NGNEYm05WDV5YmNJblJUR0lXL2xwNUZFYnFwbU9aSXBU?=
+ =?utf-8?B?aXRlM0pWS1lZc3RMUEh4cTZuZ2pkdklnempQeGR4MS8wbk1zbWRoa25rRFE4?=
+ =?utf-8?B?RzZqZzZjOFVRNlJRbXlPcllaOEVWV2ZrdFlGanpBSDIrSFk4d2dibzR6K3Vx?=
+ =?utf-8?B?a2pvUWVWWkZMTGtUbU9CR0JFOUlTRXFNTkx0RkdyWE9iNW5LeXViTlhnNEV4?=
+ =?utf-8?B?Tm5aRWVVMlVtZjBYQ0xjRnF1RzBwdGJjUUNzTy9UbFY4dGs4dERIVXJyZWZ6?=
+ =?utf-8?B?WllGWmtKQ3hMVFF4OHZyWFRvU3ViT2FEUEhyM3Q3RmFZYlk4RTUzNnp5S2dw?=
+ =?utf-8?B?NExwREQ3U1lya2t6bElLYzJuL0s0YkRBc2hNb2hzMFVpVFRuMGJ0aFRDLzly?=
+ =?utf-8?B?ZWNVSWhYV3RrdmduRG1nRStNKzVvcVZybkxGeEF2MFE1b2tyY3lDSnZtQWpo?=
+ =?utf-8?B?eWY1dE5QdW1uKzdEZE9zRGVoSXNBRlEybExTdmZtQ1ZUbUxDN3gwMHVCOVRX?=
+ =?utf-8?B?WitzcmFlbGtOdmh3MllTT1VIdVZlRlJSOTIrRFNuUFY5Um5kOTlUakNPeVgv?=
+ =?utf-8?B?bmRQSjRCMG5Cc01Pa3RONUZiSnRaS0ZZMHo2ZE1IQXZDUkF3eDZVTkp4Y2Nw?=
+ =?utf-8?B?aXJ6eW9rRmlya3g2Qll4OXRoRWordExDaHVvUEV3M3RjOFBYc1VWb3dIdVBo?=
+ =?utf-8?B?UkdGaUd3a0VYYXdVaU1uV3A2dlIzdi9Ea3NNOWJNeHZyOEZicks3RG83MUha?=
+ =?utf-8?B?NnFxOXF1SFZBTS9BQXFRYVpqT3dzUDQrbHZBckJqaktNVHN2bmR5Rm1jbytP?=
+ =?utf-8?B?Y3U2V2dOV2g3c0tlRjFINDJkNjNwWjJlVVFmbk81ZVFaelJhZ2RFSkxrSXpW?=
+ =?utf-8?Q?1iYt2nsbadS6MAN377Z7b8BYOH3cj5n92154z2/vCovw=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70758ed8-4d02-4a36-fa0c-08dbcf4e5956
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2023 20:19:21.8791 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P193MB0600
 Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  kasan-dev@googlegroups.com, linux-mm@kvack.org, ryabinin.a.a@gmail.com,
  glider@google.com, akpm@linux-foundation.org, vincenzo.frascino@arm.com,
@@ -109,23 +148,32 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 23/10/18 03:39AM, Juntong Deng wrote:
-> If the free time is slightly before the error time, then there is a
-> high probability that this is an error caused by race condition.
+On 2023/10/18 4:10, Ricardo B. Marliere wrote:
+> On 23/10/18 03:39AM, Juntong Deng wrote:
+>> If the free time is slightly before the error time, then there is a
+>> high probability that this is an error caused by race condition.
+>>
+>> If the free time is long before the error time, then this is obviously
+>> not caused by race condition, but by something else.
 > 
-> If the free time is long before the error time, then this is obviously
-> not caused by race condition, but by something else.
+> That sounds a bit arbitrary to me. How do you set the threshold for each
+> case? I mean, the fact remains: an invalid read after the object being
+> freed. Does it matter what it was caused by? It should be fixed
+> regardless.
 
-That sounds a bit arbitrary to me. How do you set the threshold for each
-case? I mean, the fact remains: an invalid read after the object being
-freed. Does it matter what it was caused by? It should be fixed
-regardless.
+There is no threshold, and the timestamps are there to make it easier
+for us to guess the cause of the error.
+
+More information (timestamps) can help us find the real cause of the
+error faster.
+
+We can only fix the error if we find the real cause of the error.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
