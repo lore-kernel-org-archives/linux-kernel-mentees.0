@@ -1,80 +1,96 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D3076CDB47E
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Oct 2023 01:26:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id C7267CDB483
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 19 Oct 2023 14:33:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5F4586F7B4;
-	Thu, 19 Oct 2023 01:26:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5F4586F7B4
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=sMU+hWZx
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4956F43001;
+	Thu, 19 Oct 2023 14:33:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4956F43001
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=HIqdfPsA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id YuaxiTANj08f; Thu, 19 Oct 2023 01:26:05 +0000 (UTC)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EIqw6B4saKMG; Thu, 19 Oct 2023 14:33:25 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 942396F78F;
-	Thu, 19 Oct 2023 01:26:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 942396F78F
+	by smtp2.osuosl.org (Postfix) with ESMTPS id EE341401B2;
+	Thu, 19 Oct 2023 14:33:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EE341401B2
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7750EC0039;
-	Thu, 19 Oct 2023 01:26:04 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 4A048C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B9080C0071;
+	Thu, 19 Oct 2023 14:33:24 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F390EC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Oct 2023 01:26:03 +0000 (UTC)
+ Thu, 19 Oct 2023 14:33:22 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 132DA83265
+ by smtp2.osuosl.org (Postfix) with ESMTP id D9FC143001
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Oct 2023 01:26:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 132DA83265
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=sMU+hWZx
+ Thu, 19 Oct 2023 14:33:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D9FC143001
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id FxITQW_f74Tw
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id jAypVzsGZeQ2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Oct 2023 01:26:01 +0000 (UTC)
-Received: from sin.source.kernel.org (sin.source.kernel.org
- [IPv6:2604:1380:40e1:4800::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2274083260
+ Thu, 19 Oct 2023 14:33:21 +0000 (UTC)
+Received: from mail-il1-x132.google.com (mail-il1-x132.google.com
+ [IPv6:2607:f8b0:4864:20::132])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id B2DF5401B2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 19 Oct 2023 01:26:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2274083260
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 01360CE27B1;
- Thu, 19 Oct 2023 01:25:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6704C433C8;
- Thu, 19 Oct 2023 01:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1697678756;
- bh=Bo2rNx1P5rqGaRjEElKR9ESp+uBQTFt4srxoPCP49qg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=sMU+hWZx+AHKSSgK5/4oSCK2E6eC9t2jpi3nyN5NybU+tl2tCFztBba96/APfBvvq
- u/qJp3EtjORVy7stL42taf3tyMTEI213hGi0U+r5iH2qAwdLwTfxURxu9Z29EDSRnS
- 5Kfkm6s2DzVngw5z1tzt9dguOMfONFXhab5MIE590zpON8/3hJnjVjg1JdmaSwcYe9
- RwIxwSU+x+FGYErCc5CwSe3ipiRRhmkAOM0F8me9v/oioEr+u+JZBe08YCfSfA8CJW
- HxPgYb+V5eGyrExTi/yKZG3TKXYJWyVcJQ4cSvoEreID/PpI8fhCDPx6Gj51r8/ym3
- u22ebC2xUj6+A==
-Date: Wed, 18 Oct 2023 18:25:55 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Juntong Deng <juntong.deng@outlook.com>
-Subject: Re: [PATCH v2] net/tls: Fix slab-use-after-free in tls_encrypt_done
-Message-ID: <20231018182555.28f1a774@kernel.org>
-In-Reply-To: <VI1P193MB0752321F24623E024C87886A99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-References: <VI1P193MB0752321F24623E024C87886A99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ Thu, 19 Oct 2023 14:33:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B2DF5401B2
+Received: by mail-il1-x132.google.com with SMTP id
+ e9e14a558f8ab-357ac7cd08aso475215ab.1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 19 Oct 2023 07:33:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1697726000; x=1698330800;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:in-reply-to:from:cc:to:content-language
+ :references:subject:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rigMbaQLfwz0k+SRDRDRe2hY0+O2wHTugmUq28DZnss=;
+ b=HIqdfPsAwca1sMq+iTEQaxhEF6oeHHGUSuf+bGo0sGU+3RJvGO2jbs8WqERriq0ujf
+ chcaPSqZTnqXQJANZiGfqi8Jezz9ZHMNCA+bhGXTyvUstgQol7kW5pI/sbr/6sH02jd3
+ /EYq81hS6UwnPX/3MN5lnJ6tHOCqRyluWj4Cg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1697726000; x=1698330800;
+ h=content-transfer-encoding:in-reply-to:from:cc:to:content-language
+ :references:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rigMbaQLfwz0k+SRDRDRe2hY0+O2wHTugmUq28DZnss=;
+ b=TAdD15teR6bRyg/jMH7YOmHwChgF3d9gX1YYf/rvh1rrOLgR1jW/fUD8sgF1GMUP3T
+ 4JPetoN8SCRg6dv5cPRS8fgueU/w58yTiXv/jKZaACY9939xlf3Y5sBSoQOe4omKKmEq
+ J02n4fjdj/XKbFBToGg3qXj58s2K5kuvRzQqrJBe8nShZ3p9Og9sxwAsorE4vOzBGGvu
+ c+aZW/iJdbXzNcn4SZr5eIaIBYqGfL452thXt64RzfOk/TKo2BDIihkK4hDPEeiTV+Zy
+ 09V08/OPdnsDjjX5c0+48qPYO8tkUrpJGByZ7Q+tFYnpttmrXiZju59+gbfMYTsrEyZM
+ w26g==
+X-Gm-Message-State: AOJu0Yw/y9Ov5DhDtXswEHH7zYRvvemXDxK1CPJxVpm3Snk8m7fpoL7O
+ eTvu7lWCcb2IgqguNiXsDRhbcNMK7LrhpFJLs1La1A==
+X-Google-Smtp-Source: AGHT+IHKxRtqUxMrvVKBaIu/AGObNeNK4fLKvgW83kNkZ+hZWa4uHyXuvqXGhPEyoJUXexPmQ9kXkw==
+X-Received: by 2002:a92:dc0c:0:b0:349:4e1f:e9a0 with SMTP id
+ t12-20020a92dc0c000000b003494e1fe9a0mr2609856iln.2.1697726000691; 
+ Thu, 19 Oct 2023 07:33:20 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1]) by smtp.gmail.com with ESMTPSA id
+ r5-20020a924405000000b00351287f213bsm1800512ila.14.2023.10.19.07.33.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Oct 2023 07:33:20 -0700 (PDT)
+Message-ID: <3371a658-c304-4f18-94f3-efd32d8ece7c@linuxfoundation.org>
+Date: Thu, 19 Oct 2023 08:33:19 -0600
 MIME-Version: 1.0
-Cc: syzbot+29c22ea2d6b2c5fd2eae@syzkaller.appspotmail.com,
- Sabrina Dubroca <sd@queasysnail.net>, borisp@nvidia.com,
- netdev@vger.kernel.org, john.fastabend@gmail.com, linux-kernel@vger.kernel.org,
- edumazet@google.com, pabeni@redhat.com,
- linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
+User-Agent: Mozilla Thunderbird
+Subject: Fwd: KTODO automated TODO lists
+References: <369bc919-1a1d-4f37-9cc9-742a86a41282@kadam.mountain>
+Content-Language: en-US
+To: linux-kernel-mentees@lists.linuxfoundation.org
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <369bc919-1a1d-4f37-9cc9-742a86a41282@kadam.mountain>
+X-Forwarded-Message-Id: <369bc919-1a1d-4f37-9cc9-742a86a41282@kadam.mountain>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -86,32 +102,46 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, 18 Oct 2023 00:22:15 +0800 Juntong Deng wrote:
-> In the current implementation, ctx->async_wait.completion is completed
-> after spin_lock_bh, which causes tls_sw_release_resources_tx to
-> continue executing and return to tls_sk_proto_cleanup, then return
-> to tls_sk_proto_close, and after that enter tls_sw_free_ctx_tx to kfree
-> the entire struct tls_sw_context_tx (including ctx->encrypt_compl_lock).
-> 
-> Since ctx->encrypt_compl_lock has been freed, subsequent spin_unlock_bh
-> will result in slab-use-after-free error. Due to SMP, even using
-> spin_lock_bh does not prevent tls_sw_release_resources_tx from continuing
-> on other CPUs. After tls_sw_release_resources_tx is woken up, there is no
-> attempt to hold ctx->encrypt_compl_lock again, therefore everything
-> described above is possible.
+Forwarding a message with information on how to find kernel
+tasks. I tried it and found 9 that are tagged KTODO
 
-Whoever triggered the Tx should wait for all outstanding encryption 
-to finish before exiting sendmsg() (or alike).  This looks like 
-a band-aid. Sabrina is working on fixes for the async code, lets
-get those in first before attempting spot fixes.
--- 
-pw-bot: cr
+thanks,
+-- Shuah
+
+-------- Forwarded Message --------
+Subject: KTODO automated TODO lists
+Date: Thu, 19 Oct 2023 07:11:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: ksummit@lists.linux.dev
+CC: outreachy@lists.linux.dev, kernel-janitors@vger.kernel.org
+
+Yesterday someone on my lists just sent an email looking for kernel
+tasks.  This was a university student in a kernel programming class.
+We also have kernel-janitors and outreachy and those people are always
+asking for small tasks.
+
+One thing that I sometimes say as a reviewer is "This isn't caused by to
+your patch but I noticed something wrong."  We could add that kind of
+thing to a todo list by using a KTODO line.
+
+KTODO: add check for failure in function_something()
+
+Then people can look on lore or use lei to find small tasks to work on
+or they could use lei.
+
+lei q -I https://lore.kernel.org/all/ -o ~/Mail/KTODO --dedupe=mid 'KTODO AND rt:6.month.ago..'
+
+Then grep ^KTODO ~/Mail/KTODO -R and cat the filename you want.
+
+regards,
+dan carpenter
+
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
