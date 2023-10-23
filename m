@@ -1,81 +1,133 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6C7AFC001E0
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Oct 2023 14:19:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 659C2C004C0
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 23 Oct 2023 16:31:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0683182D40;
-	Mon, 23 Oct 2023 14:19:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0683182D40
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jSECD4wA
+	by smtp4.osuosl.org (Postfix) with ESMTP id EA79142240;
+	Mon, 23 Oct 2023 16:31:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EA79142240
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=FAkDOcdg
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tQ1yHCNtLZZM; Mon, 23 Oct 2023 14:19:13 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id I3fiF4dKwPIc; Mon, 23 Oct 2023 16:31:28 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1DE7682977;
-	Mon, 23 Oct 2023 14:19:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1DE7682977
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EDE0F4223D;
+	Mon, 23 Oct 2023 16:31:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EDE0F4223D
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 0A998C0071;
-	Mon, 23 Oct 2023 14:19:13 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E0B2FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C6192C0071;
+	Mon, 23 Oct 2023 16:31:27 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 44E2DC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Oct 2023 14:19:11 +0000 (UTC)
+ Mon, 23 Oct 2023 16:31:27 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id BD05882BE7
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0C000417D7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Oct 2023 14:19:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BD05882BE7
+ Mon, 23 Oct 2023 16:31:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0C000417D7
+Authentication-Results: smtp2.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
+ header.s=selector1 header.b=FAkDOcdg
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 26g8veYv68T4
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id SNsgQ_pHHn0n
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Oct 2023 14:19:11 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org
- [IPv6:2604:1380:4601:e00::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 2443C82977
+ Mon, 23 Oct 2023 16:31:26 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03olkn20819.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaf::819])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id C248C4156F
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Oct 2023 14:19:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2443C82977
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by ams.source.kernel.org (Postfix) with ESMTP id 0C1EAB81E17;
- Mon, 23 Oct 2023 14:19:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEEF6C433C9;
- Mon, 23 Oct 2023 14:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698070747;
- bh=wLIy1aefQ4yhPBXOUHP6N6N5h16eUxi70U54zf14d2A=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=jSECD4wASSCL7oY68tn8qcx6oln6oYy1ZxEnvAJI1xnZESdsiwCidSTRatyXtnMZT
- npKxW0s+xXT1+Tqb4bTUgby0ZxrDZ5AVzLm+09XTOC1iXc0Q80hzQ0ve3IWS3/2X98
- v98oSgjiUN1nsLi73bn/6M97Ynw25ryU3HVhv1jNx8GA4l4e4aWXbfaCrRImVk+BG/
- U5p7YhpQ8SXIB1z8ti+C/9jE5WWSW6frwXxZGWL/ymHqNPh0OHjYr7du/IruudxXjs
- Ye6HCZefSYBT+6uW3ZVXWHTXhCmdBDJsm8q5FSVDDZUp5FShLMrt5sGrBhNa35MOi5
- lNZ+xLIamUQSA==
-Message-ID: <f22a0a5b-2813-4c59-9d30-af9f87a2f5aa@kernel.org>
-Date: Mon, 23 Oct 2023 08:19:06 -0600
+ Mon, 23 Oct 2023 16:31:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C248C4156F
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LIBRL51diRWfPLPYnY/OgI2HUg1EKW3Ljw9917Jts6ngXUIfgOh/H2TeHDSju/2Aik2Ww0WXzAB6Z7UtTAtvF6tS6XMpfzFTKhz6IPw0rQRbMzucMJrqI8fK/KqcORXoq3H18zM+w8O5Oq6nu1Zg8v4YvCSNW2/OtMggavfJnmoOLlTk0LovWlaL0oys37U98zui7SIg1GCCNc799FOWJr04oarv+oLFy/Eie5NfRz2Vbbf6z5MhXLNCAFAzHse5qCeyq+60EQTluY10gbSBwbxHYzhUgjUxBJ6G7NpidqLP9VBoNnPBhpw9pcGjj37C4M9vBWWsSuZ/m5axCTzaQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s95eaJEGpJhC8TWxE2w607MSyguwKVfTqdxhWFvhOZ0=;
+ b=g/VEB/5M+AjSSYldzq2anvrFh9w4ZGHyE6wiwnuwN8OujjRyqcreaSENFVU2jOam02Wqi3EXiQAdsdGBYEYg7LMoZb9JxBOj33hYoh8IWxYmTg24eHqppKwt7zgNNR3JNw9+uPRaCOlcLfFz7yGu32aSqjRbJkmFaEpwvZPe2fNZq2KKirEKKMLlkBsIACY75tyxmBiHO/4hzOOF6AaLNgns0rQarEO4TOh5mEyRGGVAMxz5HwpMs+XpePfUH1V225cpx2yI+HcAhY732sku7nXtipaZLq1KNkGkXijMOZ8HKtjYrXo2Nb//k5nSmGO9gO0zd0xfIh2Q0d8Xk4PQ2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s95eaJEGpJhC8TWxE2w607MSyguwKVfTqdxhWFvhOZ0=;
+ b=FAkDOcdgOCUxZYjOfRbD+0joFDNvEnkDIIGt0pY6ZES2HEble2G8uhzF4NXxAl0qbq8DZof9tyLgk/rn33e2tg2QWujV+opL67d0uZfQ8XCuPI2HqnyT9hxTjkv0W69RbZXgV4IBhr78nGgiyTAbCG2XIPgyjqqiVObOlGwQR1r77oqMqoTYZKoJnR4pTvtJUqgf/wYvF6th/Y9+CCkOKCxR1LIdBZLa8FE7+Tvkie7Xbf7BShS/JKcFjfURgCi9yec+uWj+IcRIF+4hOXSwEBeDDSabwri0+H0RvHJVu9/ZwGA6NQQTUbCToiBxV0kTFTT2wH/e71jWXmrKRsWW1A==
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+ by DU0PR10MB7213.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:44b::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Mon, 23 Oct
+ 2023 16:31:22 +0000
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97%6]) with mapi id 15.20.6907.032; Mon, 23 Oct 2023
+ 16:31:22 +0000
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: airlied@gmail.com
+Subject: [PATCH] drm: docs: Remove item from TODO list
+Date: Mon, 23 Oct 2023 22:00:56 +0530
+Message-ID: <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [HAAyx/D21wTyCOngo4h/ipmusX5hvObQ]
+X-ClientProxiedBy: JNXP275CA0045.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::33)
+ To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:42a::7)
+X-Microsoft-Original-Message-ID: <20231023163056.982019-1-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] selftests:net change ifconfig with ip command
-Content-Language: en-US
-To: Jiri Pirko <jiri@resnulli.us>, David Ahern <dsahern@kernel.org>
-References: <20231022113148.2682-1-swarupkotikalapudi@gmail.com>
- <fde654ce-e4b6-449c-94a9-eeaad1eed6b7@kernel.org>
- <ZTYc04N9VK7EarHY@nanopsycho>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <ZTYc04N9VK7EarHY@nanopsycho>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, edumazet@google.com,
- linux-kselftest@vger.kernel.org, kuba@kernel.org,
- Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>, pabeni@redhat.com,
- shuah@kernel.org, davem@davemloft.net,
- linux-kernel-mentees@lists.linuxfoundation.org
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|DU0PR10MB7213:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d54ce5a-d974-43f7-2f40-08dbd3e57de0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Kttb5VoGZbJld5FqFw1PkoQiuNyBP5lSGfS53Knxo4azekiJrdMnYPWWdwqzBSXY2zz0LwEgs5ELLQm/s/qkZxLRVoZnDaKfO41DqWjUoqKu9zI1hSPXZnx1NGucQldokc58NOAimGQ3SfWqhnHMgErXDo8PVWAJO1dK58teyWaMqtvwRLpr4RpIziOEpPNY7/w5xAglxgi4raeTRCRgCw905Erg9KagEh87cbb5ALkjHeGHfjJCDNfDcTRtabrTy8Z2O+7hIHhhvn8JB7U9yKT5k5RFPzYvv1HX4rbRaQUNeOGK109BYCjpV+Wbf9/XWS80vNU/cjjwKMzRWOVvBs9UPGUFCY9i0WG80gnDTZKoE4S9smyzya/VQb4oSq2XOVzuVCgsUtqPjS7HpXECNWrEikHLf0FyvD6hCijUy+wImU6j2T8rojNaLyFXPQFfbA4u9InEbzhxBDuyI+pgCZMm7LnZaLZ/+7RC9wW3/Gyofu/vnWCPGZAAwp0iNzaL+bbOc8wCCOGTrPX2OVArPisbSgRbF2ALmQC8ewc2yRHOCbNxNihcPXr42yI+kbISp/cWUhR1wO4sBG6MP0o0o3WignsLj8XE6LQVYo0TV+g=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hy6ykNdk035v4TxyydInsHzqx5BGU3qu3KuHrrTBWG87dmsZrQyPBnvkBlH/?=
+ =?us-ascii?Q?/5lbAF2oJ6Q7V1mjCW2u5/mpe0ik9XwkGYZLtQzVDY69RYc4C6F2+YwXVniD?=
+ =?us-ascii?Q?QoGmMNNO4ayIIhApmNjFSChDiIS8GtwFaPYuTHHSQIq9CjWE+ZRligONFuhr?=
+ =?us-ascii?Q?n0oXyot8ljr/DlWMNcX00dLyNvczcctzACQp+q4xYG0POZS3AKoq0Fa7RTyG?=
+ =?us-ascii?Q?Gqy2CHKfDReGD+woHrFFXZXHc2ApM633nkO+om3h9uiB4RkVV0c5/OGLRPvy?=
+ =?us-ascii?Q?Bjm8WJ/uJ8xGIe4FFIobwrGlp2cpGdVmdfJ6Gj7gUbuuigbInMJumZVGKqg9?=
+ =?us-ascii?Q?dnz1jNDjPWPkV0R6QecK0DarXmNmabeyFtQQ0JLvblWu9zNW2h2cqwohHWyZ?=
+ =?us-ascii?Q?d9gdSCyuLGiFfQswQ5WaGC/+plIah0QgdByRZC6FB9Tz7Enk9vgZ4bfvo5QI?=
+ =?us-ascii?Q?PLOoLSicpt4S6h0RVnlWmKZl9ZCzDlZXvIr3opBw6TWN1m/p4agl0QOqET0A?=
+ =?us-ascii?Q?0O7euRoQGzvhyxFXM/1CB5nw5/9/rqGnAPQKRkKAdHDjC+jh9aG9uZS8oLkj?=
+ =?us-ascii?Q?4hV/zUCni/BwONMGpasqZBADVdERpGvIEb3N7luwwWbaVlv7g5DNXpRDhvFw?=
+ =?us-ascii?Q?qfY6Xs8AQ9lUxjcjUVkvgl63wb9chbqBUr3Ggs2N4pPFIXd2k5mF2oO3oCap?=
+ =?us-ascii?Q?s27cCNGUKLb5GL6BQ14sk6ht6zz+2ARKypjwUuwaQN4QKWEhAMI4is5w2bqE?=
+ =?us-ascii?Q?tZlvgWVJp0vxblnw5KC0sBLQO8GOn3nKgvGsTIXR0jCTzVhK2i3Si0QUy/YE?=
+ =?us-ascii?Q?ahrzMMW7Ygn0ytOQVegBimaBQ0AmJGCdTKOYpAPW50bZOWOgODMewTXbJ74E?=
+ =?us-ascii?Q?heJ6PevDXcCvprkXfog0UidvvfWTWHZVY//Mh4o69DGfqfO0MQVLW4vyHeOn?=
+ =?us-ascii?Q?exvcT6vg1wix5MnZAFO98Y4VoDWF4LUlnGYeOpnnuzRhyIDBGNtHXHTuXbkr?=
+ =?us-ascii?Q?bshRz07QXWlTt0JKmLmr2THm4FmgzSdnMqO16pol/FPWJ/faPpdxKFDnOJqc?=
+ =?us-ascii?Q?1Uu+SDHDvNtbMBNBTg3RqJG267SKE1ffo4lmH9FbNIBkbtC0QOmz5ncEJ61R?=
+ =?us-ascii?Q?Gor3vCqwxtc2BmGf3M5NivDxJPE7BcKrY3X/XtoYr/ZnHT+mVWWh0C/w58Ks?=
+ =?us-ascii?Q?Z5Dj78vCAhrRMgO2n+Y0sZkbuSD1wE2wMtKZXppCW6UYSSzetyc9V1zL60s?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d54ce5a-d974-43f7-2f40-08dbd3e57de0
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2023 16:31:21.9175 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB7213
+Cc: neil.armstrong@linaro.org, dianders@chromium.org, tzimmermann@suse.de,
+ corbet@lwn.net, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-doc@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ linux-kernel@vger.kernel.org, mripard@kernel.org, christian.koenig@amd.com,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, Yuran Pereira <yuran.pereira@hotmail.com>, sam@ravnborg.org,
+ sumit.semwal@linaro.org, linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -93,18 +145,55 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 10/23/23 1:12 AM, Jiri Pirko wrote:
->> ip addr add ...
-> 
-> Why not "address" then? :)
+Since "Clean up checks for already prepared/enabled in panels" has
+already been done and merged [1], I think there is no longer a need
+for this item to be in the gpu TODO.
 
-no objection from me.
+[1] https://patchwork.freedesktop.org/patch/551421/
 
-> What's wrong with "a"?
+Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+---
+ Documentation/gpu/todo.rst | 25 -------------------------
+ 1 file changed, 25 deletions(-)
 
-1-letter commands can be ambiguous. Test scripts should be clear and
-obvious.
-
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 03fe5d1247be..280020b0ad4d 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -460,31 +460,6 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+ 
+ Level: Starter
+ 
+-Clean up checks for already prepared/enabled in panels
+-------------------------------------------------------
+-
+-In a whole pile of panel drivers, we have code to make the
+-prepare/unprepare/enable/disable callbacks behave as no-ops if they've already
+-been called. To get some idea of the duplicated code, try::
+-
+-  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+-  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+-
+-In the patch ("drm/panel: Check for already prepared/enabled in drm_panel")
+-we've moved this check to the core. Now we can most definitely remove the
+-check from the individual panels and save a pile of code.
+-
+-In adition to removing the check from the individual panels, it is believed
+-that even the core shouldn't need this check and that should be considered
+-an error if other code ever relies on this check. The check in the core
+-currently prints a warning whenever something is relying on this check with
+-dev_warn(). After a little while, we likely want to promote this to a
+-WARN(1) to help encourage folks not to rely on this behavior.
+-
+-Contact: Douglas Anderson <dianders@chromium.org>
+-
+-Level: Starter/Intermediate
+-
+ 
+ Core refactorings
+ =================
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
