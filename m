@@ -1,133 +1,133 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B071C25B48
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Oct 2023 17:04:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 64086C25B6B
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Oct 2023 21:26:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9B8F683F42;
-	Thu, 26 Oct 2023 17:04:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9B8F683F42
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=b4HUVQQ/
+	by smtp2.osuosl.org (Postfix) with ESMTP id E09B44031E;
+	Thu, 26 Oct 2023 21:26:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E09B44031E
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=uHekLsnV
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qVeaOjD8BZ56; Thu, 26 Oct 2023 17:04:13 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 19BB783F43;
-	Thu, 26 Oct 2023 17:04:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 19BB783F43
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oGtt35WbVWFm; Thu, 26 Oct 2023 21:26:03 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 90D3D400B9;
+	Thu, 26 Oct 2023 21:26:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 90D3D400B9
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E8C57C0039;
-	Thu, 26 Oct 2023 17:04:12 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 95D7FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C489C0071;
+	Thu, 26 Oct 2023 21:26:03 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id E95F1C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 17:04:11 +0000 (UTC)
+ Thu, 26 Oct 2023 21:26:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 5AE686FA35
+ by smtp4.osuosl.org (Postfix) with ESMTP id B2F8F41F73
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 17:04:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5AE686FA35
-Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
+ Thu, 26 Oct 2023 21:26:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B2F8F41F73
+Authentication-Results: smtp4.osuosl.org; dkim=pass (2048-bit key,
  unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
- header.s=selector1 header.b=b4HUVQQ/
+ header.s=selector1 header.b=uHekLsnV
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id F6bNkckAcjkp
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 4Zp-_9GwGSqV
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 17:04:10 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05olkn2081f.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::81f])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 8A9626FA33
+ Thu, 26 Oct 2023 21:26:02 +0000 (UTC)
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+ (mail-dbaeur03acsn20806.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1a::806])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id CF51241F58
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 17:04:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8A9626FA33
+ Thu, 26 Oct 2023 21:26:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CF51241F58
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RkGSRHXK2u2/AkNrPRaBWPxTN5U1bcm7lYpL/bncma7s5TVy7/ngv1BN1Dh1hkpzhvkMahl1PhPDEZNxgpjtmtzdbxLUIlUJiia5P3LxOw8B47isIiVgVnDd5ecVajgxB+qKhsioVX6tNsn6zhCQjTP4/XBtLbG7hcmqUhaxz44ZRV0fslXLqqz8dC2c8TH0IljQ6inZdFerzT09heIUwfQjD/r1S+ScauZW1Sdwp1/fQW8L2te8SqapZilRKOAjpDLhpsIEhQVIBiBrwR05GmhKKuGBSbF//n4R/SwCfKcCvKZv5F8W406+OI9E/UMSRV6dI71WbFWF9jT+BONlfg==
+ b=F4857gl0ZOIfwkYRGg/8E0G52L0KNWjT2dduxYHnsd/pMT6j3WvinU4Vh1tA49WOxF7Mmne3qvz+rSOtzLFoYhhEhE2d/WvsY/PnHBlbcWs28UKMHox9uNOLvLaH+MgFgxJu6PdJxvarauCvjMn+q6k6d1mmKnGR6SK7U93jqJzUYYw1SszbwJhS4ACrOW6kg6E20jeLVqJYmLEhNlVBRRDAPgVsRVvN1V53a03Onbd/FqQtXN7WZxMQ/q1l1S3DY30oZP8H8fAhuQUZCKG91f34SpuOcIld6OW43TK67W8xiskePRhXu30iqs2InVszGMaE7tPPfJ/4pC88Bt+zdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DySbyAS4MuNDdF8DJ1MsgZREpdIzLojtPz8AN28we9o=;
- b=EqAx3OPn7hW1OHH0H0n0PDbB6WUyLtDHX9LeI9WPvJISeNqEb5fhmvHaANVyPvhcVukohkymyvmth5UswPmsDuMlNrN9thBd5fMBUI9sooqk/2Y4u+CDtcXQ1vlRJG/F6PSGL4HL23PfSa6ZPGgKDj5NAuuJGQN0qR8mbdGDRvbBBLtL41R/cEAh3XNjHZj0GDJ/NS7iOI+aIhUpcH2IuXM0M1f7q5f28AtdFEe8pi04/81qsDhOiJ6y3KPBt1rVrDhWnoxH3ZxI5D+t6gtzLKxsSc0ChSNDglV4HOUZnDQQmKchTTxRCdOgaCy4LA8MGEuM8BZMQ6AT8smAmPFV6A==
+ bh=vvTDWnP6BP4i0z4ePFmSjQRmIPt/0p278Jda4TnVk8U=;
+ b=OXrG4lrrSKe9bXW+Y40j6XaDvLPzG+h9By8aR2KrpMnVe80/gstYJI8IhlZCPAoe64o2ujK2G6apwu+0LgINfvjMAUECHchPPXmS1UeNnSfgZG75mPs84b+k0kWIW35rCqJ7CiRBujDdMhi+C/uCbWdJD2YxD/3qwhYo65EbE2+FJvqDVZPhEf9iPWjCy1XFr9aAGOruwcApubm454Gc+Aog28ZhQg7faPfRFgwiAZYVa5YUn7Y8ngK2e37vIO75VhYRVDVxMQSmcbCge2TtXXpVtzl2hcpJmlR9l1qDprGnFVrL6ralwvp0UaCRdR8Jb7dSBs/j1OeE3EU3iVZZ0Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DySbyAS4MuNDdF8DJ1MsgZREpdIzLojtPz8AN28we9o=;
- b=b4HUVQQ/GEey28sZ3DdLM9ILiAldk6y4YaC/FU99jRF4PiDJEkMWdkDA+4xuLfA6ucLyPHw8ksus7b3PDcscj3/6WrQwCY9VeCd+tEpHzCImWdulPV97WbNCj4gsNJVmJ9XCmW8p2Z+h2t0Y+19+I00/ijIVVg0mJBUhFXJFPXyB2Cl7opL7oZwtkMxRHLQ9ZiDVmTBgHgTMWajW//5dF9MgVT/CMdeJcvTHirf3fc53xtriYLo+1qUP8yG0OBWjlGX4IYq19IjE3XUSDFIofuHehPxiOZZoWtg+fQTIMt50VMnke0yvaBzd7pNpR0LdM8WsmAIOzFNLm3i6vjTAkg==
+ bh=vvTDWnP6BP4i0z4ePFmSjQRmIPt/0p278Jda4TnVk8U=;
+ b=uHekLsnVB2Bp8+epGTB6sLSLdXJ4h2xxj6JvuTmrGeAN3WDlzRf1Jn0KoLdnv9VIzHWDDMWxv1BZeSPFxYBn6WLG+S/bJiY591TqcsuO3xVlu2/jWspzQOFjHDdLJTXetLjSyo1SmwrFEZm3KQ8LSFkuFoGUIsmyWwANGfqQrsGKq47KYupvH0ysRvivOXSJ81pERfdxlJ3W53EB5lQgMcxnxFexI07i7qaHf+5uiY4n7HgtppCMsH7T7sNVJZnKB7o3iLpuqXdWxYEM3Oc6DLIi5L9+8MHMYSOBo2gkxLULsX+ej3u97OcN31FsDPV5fBDAifZQVosvrzkAAKEMaQ==
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
- by AM0PR10MB3156.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17e::16) with
+ by DB4PR10MB7470.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3ce::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Thu, 26 Oct
- 2023 17:04:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.23; Thu, 26 Oct
+ 2023 21:25:57 +0000
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97%6]) with mapi id 15.20.6907.032; Thu, 26 Oct 2023
- 17:04:06 +0000
+ 21:25:57 +0000
 From: Yuran Pereira <yuran.pereira@hotmail.com>
 To: airlied@gmail.com
-Subject: [PATCH] drm/nouveau: Prevents NULL pointer dereference in
- nouveau_uvmm_sm_prepare
-Date: Thu, 26 Oct 2023 22:33:40 +0530
-Message-ID: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+Subject: [PATCH] drm/amdgpu: Fixes uninitialized variable usage in
+ amdgpu_dm_setup_replay
+Date: Fri, 27 Oct 2023 02:55:22 +0530
+Message-ID: <DB3PR10MB683590457246A6625BAA6102E8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.25.1
-X-TMN: [a4ahwLf7QLcym1MdXngeSfHtBkMIiJNr]
-X-ClientProxiedBy: JN2P275CA0003.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::15)
+X-TMN: [utdfQUfuOHrvZaYQtSo/S7KqlpK/7k6M]
+X-ClientProxiedBy: JN2P275CA0038.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::26)
  To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <20231026170340.1229132-1-yuran.pereira@hotmail.com>
+X-Microsoft-Original-Message-ID: <20231026212522.1242103-1-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AM0PR10MB3156:EE_
-X-MS-Office365-Filtering-Correlation-Id: f895dcd2-29f6-4ae9-586d-08dbd6459038
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|DB4PR10MB7470:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9ea3fef4-86f0-4657-ede0-08dbd66a2474
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4hf+MRy1VZqH34l9xHxRby1/Pdz7Ra2vKqsumcGu/7mLG0OJD9b/5vmGOKNmQbD12TgbxOx4cD+IY8emY+8fer6LTwWDafTKsQk5wI90QNvuzCtcoUDxxaFGkmxAHkwgKRVucY89JUGaKu+/rJ/CUx7WjjKshzTczo2IinSyZfacJ1nCf2RKx1bC76ohEUaS7WuiQvAdWz6rAwrY9hND/zzb9rrfvKU3se2fSwgCnRRduwM5nNLylw47wfqIo00huyWWqYohiARHzJUVghgdedy1cZfKIkP4PDYcTclcYArYUrftJeImWw/u86zUcwD7wi/A8w7LZ+JWrhq7nlohA8ezYIHdVQo/MbWusN2iQoK5Kz8GXglcdm2vjuIaUFl1mKiBSYYhmoj/f/b+u7JXf+EpLQYjx9g0QBH5LHT3M+p5Q/091/1SqRicMDHFr8Tz2y0VfZba7mymMkHDAhpSwenvct96YPAZZQYu5StbcEVNmMkkh4QVmNVV5o7HhLoxR6oH8EvrniDZcUd38aLdaqE7ctAceU+O80o6l+Xoh3Hd8wiBeq0Xo9XGAXOJAtXDpBwudlZvsiOE9iWJ+Xi03mYoYDdbE9Ht07KbrO0ntWQLAtywjabgFzk9vja3McZS
+X-Microsoft-Antispam-Message-Info: UrAQx8wOGD9DqIlXaZ2UI/Ax4EQiw34khcm/17TVVi9IcsTr3Cd6GCI0kJoNjpGqRyN+VI3nmOQid9ezvgkVs9y8nbFE8h9RQnME3JqSTgCBBept4fdbNpXfFQdCtR/xr2jq31Q1Bvt40kPUmleu9j2Q1UoXylIMeE/LYbR9eZsnHa1J4ObjMrJRnTFp/RML2wPF6JKrP3MmxDHJTuqAI5xTr6tqB3LTb0bLvRDzxpbc89O+8rUhDd7VLAWc2RARgwK3ByXU6UcJ8rIY6WmEjaQ9Jm5rscWfiqUxYxZL5rk9cTZYwYqcOBeUlhOBlHMK+jA561uRJPB3xh8T57s/7k48bEh+vx2sdLQ3VlM4B+Su7Lr24sCJ8ReC3JBJCaf0ovygpQPu8J0EUlUMuKyt8XIBf2GNfnrjukB7SHXus2gRHUIBmz10F9xAOsv+NeB1B91QVYuWHaKAMzOh4aumbDNwEA52UmLRU+HAEEdeC/F7diQSPdKuA2jUbu5hXGgTb1E16ZD5C6pBCtwqPvvntKBhuO3ba8wY3Lqa3S7fsnwsWK+AaxRVbug1xXFKgEv//7aSGYRxkVhePyxrinkUxfiWaGWeSNa5nWQtaswSraM8sWr7HriajIjKSAnVvCHZ
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a97BNOaUMumDoLUEiNtfOO6f1zfrvCzeExZHbuHXIzi7eRp2PiVFDlI0EKbH?=
- =?us-ascii?Q?oauibER/ofwErc6oZmI/jJD7Hq5//9obUYe9GJdVCvFLpZJUyoYq8ILgDXgI?=
- =?us-ascii?Q?pF7fsGxDstR/9pAVWLLMYjosw7FOxyqyLYTWlqVLGSwsjpl+TmvK3nOtIfWc?=
- =?us-ascii?Q?HpXOozcbEH48xMr7UKa+kErmDlrX7Yio5pQMLwyYfPiLQoexfOme4MFkj8TC?=
- =?us-ascii?Q?YdpYyRVmki7ZRXZATLMxgaMRW3OJvDGtb6PhphZdfaVDJ2JIDJJ9U6f7GDOT?=
- =?us-ascii?Q?rdhGu4nb2IlnWj+goQPt3c7SQ8aZsHRkbWYFILgOHj003bSpsGOlm+JBsNno?=
- =?us-ascii?Q?Ykvusgaoq+g3kbhc4qjF/E4C++iapsdXwWnsuwLn9hWX3ZcfDVU4YXUFhn7S?=
- =?us-ascii?Q?TSj8IRemeTx0Scy5V8uukbv/pyhuXthQadRQzXB9Sj5/Hw9xPBgg45N6aBWW?=
- =?us-ascii?Q?yJw9bxu+nw1Arth1rNfmDN6z1B+f96dUZdSi4rsQPc+YcwZX39/Xx/fwT/l2?=
- =?us-ascii?Q?6lXEl4H3PSomxBNuYewBTjg3qo+4JDDNBTdE8a9hHOC1A4wz2ajjXYzdHjTO?=
- =?us-ascii?Q?fNeKXBL23ou1hSmvDX3kXRsS3mMxWDAiSE8h91Gc+xr9p0MdkUvSgzktaBk3?=
- =?us-ascii?Q?dOf33ynFT4C5mXjR4Je4HAGBVU73M4voUYIxc/VuW7xznaMtp9X626qk/lpK?=
- =?us-ascii?Q?lTKwM8S5awzcchnLpEA2AD3G4PNKe1XjT2Kig9U8CSxRADlm8eaS3a8iHaLg?=
- =?us-ascii?Q?lIxzQluq5hp9jd3vfPX50csY8ndmWxRgy4YvfVBPvcQfo5kKDvln90lX/CRt?=
- =?us-ascii?Q?nqhWqdzo7IuLDkyczGj5e0o6zgedsEunjtbD7bdgkW6bkSEKOxFz/EIRoKvc?=
- =?us-ascii?Q?njgO6vMIwMsDT2qU6l7jLIoNw61bqMxvi9Irha50k1IDEJqWUtprInwDeFBm?=
- =?us-ascii?Q?vDxSMbsnIKoegfCt6A7JhAYFwNtWLjCBvzEzaL538pA2oUHm6fpEuth3cqFu?=
- =?us-ascii?Q?33F4f2nsZCxowj2j8ECE/0cSRfbbUUaj9kqWnglFbB4FRX5C62eGSziWt5Bs?=
- =?us-ascii?Q?Y0f+ANi3avufoFBSI5ixRuLJqlABMecgfzvv8YWmeJ9HEwIDNhl0WMPvJIIT?=
- =?us-ascii?Q?mVPwk5Ct/8IFSH8zyg+HM3CQhoEcMn29Ok8XMC0USFnqDuMlKBVkZQep2ELr?=
- =?us-ascii?Q?MjONvzPdgQs4kwCOrdiAEkXyvJFjVm2rQOkxwBqUtKRVdnaUEK/7gg84goo?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PFJvyyvt0T9qQRR5QyMFKcL7dZqC+CGMSS8JxDOFICdLjm2+77000u6u1711?=
+ =?us-ascii?Q?7C/0GzloFIGQN41Mc8NKqkwVAfhLVAyEsSIo8dSOsijOSKje3ZAgHy+1PSDG?=
+ =?us-ascii?Q?uGcvTj6XNuLajAFxuB6B/sRAQOovouEZMt/GV3Ba0Qjkz5aTkEKXqVW8htT1?=
+ =?us-ascii?Q?Z1bubkVKhTXmGaLE1zeHk+mbpV+LxcpY8DrHIjST4WvAdS6Zlp3uGx/XrGni?=
+ =?us-ascii?Q?/qZVpPfkVFAzxopR5AAkK/YSRdu/9TjD+O2m1NgQcm68jPxf0kiR+8ipRobW?=
+ =?us-ascii?Q?hhDGQ7zTIenALSLtXkS7niiQM3ipchgWilOywLq1Bhh6LpLgFUyZ9YDw9Q8L?=
+ =?us-ascii?Q?MpwEfeJdESRQxal5oxjO/aAe8cQuwJdoINBjV4O8B2Yth/eWwoCkwVXKHI/g?=
+ =?us-ascii?Q?vOdbt654oQC+k4TZ0ge+Mux4hL74uiqUZyAqYShtpLdkoGtFBfSmlpP9Cjqr?=
+ =?us-ascii?Q?HOOvmRItn5QT1QtK3usJPI8lRDQ5ipoZeUhSiQRgfw0WZaDj+lectLGWq6Kc?=
+ =?us-ascii?Q?TrYt51fYXFypxSNk+w5dhIm0UJ7g2yMrkQzDxsm7rcEnsfZtfYPQldw4ntC4?=
+ =?us-ascii?Q?OWTflb5a3GxwALDBZpMg4ngWOWGp2miGjZ+uqd1IBDZb3N6x7TVF+P5oVp/E?=
+ =?us-ascii?Q?mAMOMbIBHgQnsCLn9ZSdr/Zby2W+rSWSPBxGE+QGRUc3ejS0rAuY7Se3ILn3?=
+ =?us-ascii?Q?G5ihgcjL2iXr1AgNUC8D91H2f+7I3DKzP60Uqimh9brPpR/bVy33T/WMTuY2?=
+ =?us-ascii?Q?5l8bvzmAerbSjEpKz5KzI6n79wmOX+Uk5uGx1k8hcsO4IG5x2TH+avqzvWG6?=
+ =?us-ascii?Q?/K8130J10SsKjYtvk27FtdSrRNk6YG/sOBQyFKoKuYo0s/M4wG2KK4EA9neq?=
+ =?us-ascii?Q?Bf088RvEx9r2ubs+8FHt4W6iJV+p8nYak0z5Qoc3zL7T3TV6CT9QqXkM8UU8?=
+ =?us-ascii?Q?qHBrEJLobFz1UUCcZgbgSfw4TAhLGZoADWT3jd/EvMPjiZeQgbawIlxc9F4u?=
+ =?us-ascii?Q?lIfbZW0ekVqhm3nsTV4NCQOGMOhxXL1s6TyM6FnA3NvgbyoExyFVvZ04Q3wh?=
+ =?us-ascii?Q?cZGl1C62/elCv7uX+/pgj+ywZHymxGjBZQYQkmCWTlNhzaHCu+reOH5BzO1r?=
+ =?us-ascii?Q?lM3cuYI/5KPrxBSuOY1W5Ri4zE09iEU5jwBSZu9mWu8twAorVLpE1c/vRgsD?=
+ =?us-ascii?Q?4RIRHFd0zfk/ADlyIvxeMBCgAAR26aZiDpehQkF3gQsoxAeNruyubFAQWbQ?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f895dcd2-29f6-4ae9-586d-08dbd6459038
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea3fef4-86f0-4657-ede0-08dbd66a2474
 X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 17:04:06.7700 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 21:25:57.4774 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3156
-Cc: lyude@redhat.com, kherbst@redhat.com, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org, dakr@redhat.com,
- daniel@ffwll.ch, Yuran Pereira <yuran.pereira@hotmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR10MB7470
+Cc: sunpeng.li@amd.com, Bhawanpreet.Lakha@amd.com, Xinhui.Pan@amd.com,
+ Rodrigo.Siqueira@amd.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, alexander.deucher@amd.com,
+ Yuran Pereira <yuran.pereira@hotmail.com>, harry.wentland@amd.com,
+ christian.koenig@amd.com, linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -145,102 +145,52 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-There are instances where the "args" argument passed to
-nouveau_uvmm_sm_prepare() is NULL.
-
-I.e. when nouveau_uvmm_sm_prepare() is called from
-nouveau_uvmm_sm_unmap_prepare()
-
-```
-static int
-nouveau_uvmm_sm_unmap_prepare(struct nouveau_uvmm *uvmm,
-...
-{
-    return nouveau_uvmm_sm_prepare(uvmm, new, ops, NULL);
-}
-```
-
-The problem is that op_map_prepare() which nouveau_uvmm_sm_prepare
-calls, dereferences this value, which can lead to a NULL pointer
-dereference.
+Since `pr_config` is not initialized after its declaration, the
+following operations with `replay_enable_option` may be performed
+when `replay_enable_option` is holding junk values which could
+possibly lead to undefined behaviour
 
 ```
-static int
-op_map_prepare(struct nouveau_uvmm *uvmm,
-...
-{
     ...
-    uvma->region = args->region; <-- Dereferencing of possibly NULL pointer
-    uvma->kind = args->kind;     <--
+    pr_config.replay_enable_option |= pr_enable_option_static_screen;
     ...
-}
-```
 
-```
-static int
-nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
-...
-            struct uvmm_map_args *args)
-{
-    struct drm_gpuva_op *op;
-    u64 vmm_get_start = args ? args->addr : 0;
-    u64 vmm_get_end = args ? args->addr + args->range : 0;
-    int ret;
-
-    drm_gpuva_for_each_op(op, ops) {
-        switch (op->op) {
-        case DRM_GPUVA_OP_MAP: {
-            u64 vmm_get_range = vmm_get_end - vmm_get_start;
-
-            ret = op_map_prepare(uvmm, &new->map, &op->map, args); <---
-            if (ret)
-                goto unwind;
-
-            if (args && vmm_get_range) {
-                ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
-                               vmm_get_range);
-                if (ret) {
-                    op_map_prepare_unwind(new->map);
-                    goto unwind;
-                }
-            }
+    if (!pr_config.replay_timing_sync_supported)
+        pr_config.replay_enable_option &= ~pr_enable_option_general_ui;
     ...
 ```
 
-Since the switch "case DRM_GPUVA_OP_MAP", also NULL checks "args"
-after the call to op_map_prepare(), my guess is that we should
-probably relocate this check to a point before op_map_prepare()
-is called.
+This patch initializes `pr_config` after its declaration to ensure that
+it doesn't contain junk data, and prevent any undefined behaviour
 
-This patch ensures that the value of args is checked before
-calling op_map_prepare()
-
-Addresses-Coverity-ID: 1544574 ("Dereference after null check")
+Addresses-Coverity-ID: 1544428 ("Uninitialized scalar variable")
+Fixes: dede1fea4460 ("drm/amd/display: Add Freesync Panel DM code")
 Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_uvmm.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-index aae780e4a4aa..6baa481eb2c8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-@@ -620,11 +620,14 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
- 		case DRM_GPUVA_OP_MAP: {
- 			u64 vmm_get_range = vmm_get_end - vmm_get_start;
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+index 32d3086c4cb7..40526507f50b 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c
+@@ -23,6 +23,7 @@
+  *
+  */
  
-+			if (!args)
-+				goto unwind;
++#include <linux/string.h>
+ #include "amdgpu_dm_replay.h"
+ #include "dc.h"
+ #include "dm_helpers.h"
+@@ -74,6 +75,8 @@ bool amdgpu_dm_setup_replay(struct dc_link *link, struct amdgpu_dm_connector *ac
+ 	struct replay_config pr_config;
+ 	union replay_debug_flags *debug_flags = NULL;
+ 
++	memset(&pr_config, 0, sizeof(pr_config));
 +
- 			ret = op_map_prepare(uvmm, &new->map, &op->map, args);
- 			if (ret)
- 				goto unwind;
- 
--			if (args && vmm_get_range) {
-+			if (vmm_get_range) {
- 				ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
- 							   vmm_get_range);
- 				if (ret) {
+ 	// For eDP, if Replay is supported, return true to skip checks
+ 	if (link->replay_settings.config.replay_supported)
+ 		return true;
 -- 
 2.25.1
 
