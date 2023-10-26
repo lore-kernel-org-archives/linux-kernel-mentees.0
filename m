@@ -1,118 +1,133 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2527BC25B48
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Oct 2023 15:47:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 2B071C25B48
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu, 26 Oct 2023 17:04:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id BBF4B42D09;
-	Thu, 26 Oct 2023 15:47:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BBF4B42D09
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=DlDuIC86
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eU_ikH9w__1S; Thu, 26 Oct 2023 15:47:33 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9447442D06;
-	Thu, 26 Oct 2023 15:47:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9447442D06
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 71C2EC0071;
-	Thu, 26 Oct 2023 15:47:33 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EF602C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 15:47:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id CB08683E56
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 15:47:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CB08683E56
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9B8F683F42;
+	Thu, 26 Oct 2023 17:04:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9B8F683F42
 Authentication-Results: smtp1.osuosl.org;
- dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=DlDuIC86
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=b4HUVQQ/
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 9LOcWj6bRu4z
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qVeaOjD8BZ56; Thu, 26 Oct 2023 17:04:13 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 19BB783F43;
+	Thu, 26 Oct 2023 17:04:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 19BB783F43
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id E8C57C0039;
+	Thu, 26 Oct 2023 17:04:12 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 95D7FC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 15:47:31 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 0B93083CAE
+ Thu, 26 Oct 2023 17:04:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 5AE686FA35
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 15:47:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0B93083CAE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698335249;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fk2PSPwJDmK9xnue8X0u8askj/ho1m46L6G3QWm1uws=;
- b=DlDuIC86QgYi0tKvV8viWte9iTILKCx5p3bdaFqio0GcB2wYvl2utJWbfXyOs6mB08ySfq
- V0qlMboWrJts07Bm8V0/rkO4mMVSK/Z9QSAdzgPop11tfci2NNJQRkoqXFNCUl826pWF00
- eBRUTyg9XZzRci/aqIGbgxaBJ4WXWNs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-IEpUiDHDPkG2QDowGDJg5w-1; Thu, 26 Oct 2023 11:47:26 -0400
-X-MC-Unique: IEpUiDHDPkG2QDowGDJg5w-1
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-9b2cf504e3aso75293766b.2
+ Thu, 26 Oct 2023 17:04:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5AE686FA35
+Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
+ header.s=selector1 header.b=b4HUVQQ/
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id F6bNkckAcjkp
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Oct 2023 08:47:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698335245; x=1698940045;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fk2PSPwJDmK9xnue8X0u8askj/ho1m46L6G3QWm1uws=;
- b=W6hKYVvhe6YehLlmmx9r4iKGcyDM+Hs0/I7pKAYgPXSAtNO0cSP20f/rzz0PoBN5nw
- Y3p6O1770eJC7WheOfzUX8YK4FrxzNslFKUxIOZl5eTShm/6FOf1KqrmQ0jjxz6umpWH
- SBJ9kZknjGz8yvkuN6GWC8i/01geYFUGU8JWQOh41izJ6ZRMciXcCWX+evZrvtuidZOw
- bfP5licS7mMMaTY6XOtJiDgiC5wRvMm5aDpDqljGBEN5W3TeYJApwKoRMOZu/Qk/SHXI
- iNKb5spKBZssvsp8T0o311HJtVQ1dmML6TjAEKWlKAQWpyyUapfG/i0UUdFB0YRUghmS
- tVqw==
-X-Gm-Message-State: AOJu0Yya6yl0o4W2ito8s5a6QN2I6Lp+iBO5UsU0ndx5qj8mNwvgl0wl
- 0YP3KP+PzgaiklfOvNn2pbIZZvoxTLPds2BE3A55O7FDTJC7Pd2llkhogP+6lL68FpZsNTJuWqP
- OoLVg1tMf0PxtTdVAwc8SBjxiJ8qSamFliwAkJKvyPsW+sIXB
-X-Received: by 2002:a17:907:804:b0:9ba:65e:750e with SMTP id
- wv4-20020a170907080400b009ba065e750emr69514ejb.32.1698335245344; 
- Thu, 26 Oct 2023 08:47:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFIzu0aS0oc/2eHVO/DT6wawL1gzMdNRmV1kFde8qwDfqO5GBCHprOwhqQcajFXJJ0yJKHm2g==
-X-Received: by 2002:a17:907:804:b0:9ba:65e:750e with SMTP id
- wv4-20020a170907080400b009ba065e750emr69495ejb.32.1698335245019; 
- Thu, 26 Oct 2023 08:47:25 -0700 (PDT)
-Received: from redhat.com ([2a02:14f:17b:37eb:8e1f:4b3b:22c7:7722])
- by smtp.gmail.com with ESMTPSA id
- dn22-20020a05640222f600b005401a4184ddsm8499249edb.27.2023.10.26.08.47.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Oct 2023 08:47:24 -0700 (PDT)
-Date: Thu, 26 Oct 2023 11:47:18 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>
-Subject: Re: [PATCH v2] Fixing directly deferencing a __rcu pointer warning
-Message-ID: <20231026114632-mutt-send-email-mst@kernel.org>
-References: <20231025165002.64ab92e6d55d204b66e055f4@linux-foundation.org>
- <20231026121621.358388-1-singhabhinav9051571833@gmail.com>
- <20231026091222-mutt-send-email-mst@kernel.org>
- <CAGudoHFXH_FDgKRaJvVgQ3W8wD2TC=8yhiNm1NECApnQ-CNAZQ@mail.gmail.com>
- <20231026110925-mutt-send-email-mst@kernel.org>
- <dc028fd0-b188-435e-9dc3-f5de53dd9686@gmail.com>
+ Thu, 26 Oct 2023 17:04:10 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05olkn2081f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7d00::81f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8A9626FA33
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 26 Oct 2023 17:04:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8A9626FA33
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RkGSRHXK2u2/AkNrPRaBWPxTN5U1bcm7lYpL/bncma7s5TVy7/ngv1BN1Dh1hkpzhvkMahl1PhPDEZNxgpjtmtzdbxLUIlUJiia5P3LxOw8B47isIiVgVnDd5ecVajgxB+qKhsioVX6tNsn6zhCQjTP4/XBtLbG7hcmqUhaxz44ZRV0fslXLqqz8dC2c8TH0IljQ6inZdFerzT09heIUwfQjD/r1S+ScauZW1Sdwp1/fQW8L2te8SqapZilRKOAjpDLhpsIEhQVIBiBrwR05GmhKKuGBSbF//n4R/SwCfKcCvKZv5F8W406+OI9E/UMSRV6dI71WbFWF9jT+BONlfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DySbyAS4MuNDdF8DJ1MsgZREpdIzLojtPz8AN28we9o=;
+ b=EqAx3OPn7hW1OHH0H0n0PDbB6WUyLtDHX9LeI9WPvJISeNqEb5fhmvHaANVyPvhcVukohkymyvmth5UswPmsDuMlNrN9thBd5fMBUI9sooqk/2Y4u+CDtcXQ1vlRJG/F6PSGL4HL23PfSa6ZPGgKDj5NAuuJGQN0qR8mbdGDRvbBBLtL41R/cEAh3XNjHZj0GDJ/NS7iOI+aIhUpcH2IuXM0M1f7q5f28AtdFEe8pi04/81qsDhOiJ6y3KPBt1rVrDhWnoxH3ZxI5D+t6gtzLKxsSc0ChSNDglV4HOUZnDQQmKchTTxRCdOgaCy4LA8MGEuM8BZMQ6AT8smAmPFV6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DySbyAS4MuNDdF8DJ1MsgZREpdIzLojtPz8AN28we9o=;
+ b=b4HUVQQ/GEey28sZ3DdLM9ILiAldk6y4YaC/FU99jRF4PiDJEkMWdkDA+4xuLfA6ucLyPHw8ksus7b3PDcscj3/6WrQwCY9VeCd+tEpHzCImWdulPV97WbNCj4gsNJVmJ9XCmW8p2Z+h2t0Y+19+I00/ijIVVg0mJBUhFXJFPXyB2Cl7opL7oZwtkMxRHLQ9ZiDVmTBgHgTMWajW//5dF9MgVT/CMdeJcvTHirf3fc53xtriYLo+1qUP8yG0OBWjlGX4IYq19IjE3XUSDFIofuHehPxiOZZoWtg+fQTIMt50VMnke0yvaBzd7pNpR0LdM8WsmAIOzFNLm3i6vjTAkg==
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+ by AM0PR10MB3156.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.33; Thu, 26 Oct
+ 2023 17:04:07 +0000
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97%6]) with mapi id 15.20.6907.032; Thu, 26 Oct 2023
+ 17:04:06 +0000
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: airlied@gmail.com
+Subject: [PATCH] drm/nouveau: Prevents NULL pointer dereference in
+ nouveau_uvmm_sm_prepare
+Date: Thu, 26 Oct 2023 22:33:40 +0530
+Message-ID: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [a4ahwLf7QLcym1MdXngeSfHtBkMIiJNr]
+X-ClientProxiedBy: JN2P275CA0003.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::15)
+ To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:42a::7)
+X-Microsoft-Original-Message-ID: <20231026170340.1229132-1-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
-In-Reply-To: <dc028fd0-b188-435e-9dc3-f5de53dd9686@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Disposition: inline
-Cc: brauner@kernel.org, Mateusz Guzik <mjguzik@gmail.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, peterz@infradead.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- npiggin@gmail.com, mathieu.desnoyers@efficios.com, shakeelb@google.com,
- akpm@linux-foundation.org, surenb@google.com, michael.christie@oracle.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AM0PR10MB3156:EE_
+X-MS-Office365-Filtering-Correlation-Id: f895dcd2-29f6-4ae9-586d-08dbd6459038
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4hf+MRy1VZqH34l9xHxRby1/Pdz7Ra2vKqsumcGu/7mLG0OJD9b/5vmGOKNmQbD12TgbxOx4cD+IY8emY+8fer6LTwWDafTKsQk5wI90QNvuzCtcoUDxxaFGkmxAHkwgKRVucY89JUGaKu+/rJ/CUx7WjjKshzTczo2IinSyZfacJ1nCf2RKx1bC76ohEUaS7WuiQvAdWz6rAwrY9hND/zzb9rrfvKU3se2fSwgCnRRduwM5nNLylw47wfqIo00huyWWqYohiARHzJUVghgdedy1cZfKIkP4PDYcTclcYArYUrftJeImWw/u86zUcwD7wi/A8w7LZ+JWrhq7nlohA8ezYIHdVQo/MbWusN2iQoK5Kz8GXglcdm2vjuIaUFl1mKiBSYYhmoj/f/b+u7JXf+EpLQYjx9g0QBH5LHT3M+p5Q/091/1SqRicMDHFr8Tz2y0VfZba7mymMkHDAhpSwenvct96YPAZZQYu5StbcEVNmMkkh4QVmNVV5o7HhLoxR6oH8EvrniDZcUd38aLdaqE7ctAceU+O80o6l+Xoh3Hd8wiBeq0Xo9XGAXOJAtXDpBwudlZvsiOE9iWJ+Xi03mYoYDdbE9Ht07KbrO0ntWQLAtywjabgFzk9vja3McZS
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a97BNOaUMumDoLUEiNtfOO6f1zfrvCzeExZHbuHXIzi7eRp2PiVFDlI0EKbH?=
+ =?us-ascii?Q?oauibER/ofwErc6oZmI/jJD7Hq5//9obUYe9GJdVCvFLpZJUyoYq8ILgDXgI?=
+ =?us-ascii?Q?pF7fsGxDstR/9pAVWLLMYjosw7FOxyqyLYTWlqVLGSwsjpl+TmvK3nOtIfWc?=
+ =?us-ascii?Q?HpXOozcbEH48xMr7UKa+kErmDlrX7Yio5pQMLwyYfPiLQoexfOme4MFkj8TC?=
+ =?us-ascii?Q?YdpYyRVmki7ZRXZATLMxgaMRW3OJvDGtb6PhphZdfaVDJ2JIDJJ9U6f7GDOT?=
+ =?us-ascii?Q?rdhGu4nb2IlnWj+goQPt3c7SQ8aZsHRkbWYFILgOHj003bSpsGOlm+JBsNno?=
+ =?us-ascii?Q?Ykvusgaoq+g3kbhc4qjF/E4C++iapsdXwWnsuwLn9hWX3ZcfDVU4YXUFhn7S?=
+ =?us-ascii?Q?TSj8IRemeTx0Scy5V8uukbv/pyhuXthQadRQzXB9Sj5/Hw9xPBgg45N6aBWW?=
+ =?us-ascii?Q?yJw9bxu+nw1Arth1rNfmDN6z1B+f96dUZdSi4rsQPc+YcwZX39/Xx/fwT/l2?=
+ =?us-ascii?Q?6lXEl4H3PSomxBNuYewBTjg3qo+4JDDNBTdE8a9hHOC1A4wz2ajjXYzdHjTO?=
+ =?us-ascii?Q?fNeKXBL23ou1hSmvDX3kXRsS3mMxWDAiSE8h91Gc+xr9p0MdkUvSgzktaBk3?=
+ =?us-ascii?Q?dOf33ynFT4C5mXjR4Je4HAGBVU73M4voUYIxc/VuW7xznaMtp9X626qk/lpK?=
+ =?us-ascii?Q?lTKwM8S5awzcchnLpEA2AD3G4PNKe1XjT2Kig9U8CSxRADlm8eaS3a8iHaLg?=
+ =?us-ascii?Q?lIxzQluq5hp9jd3vfPX50csY8ndmWxRgy4YvfVBPvcQfo5kKDvln90lX/CRt?=
+ =?us-ascii?Q?nqhWqdzo7IuLDkyczGj5e0o6zgedsEunjtbD7bdgkW6bkSEKOxFz/EIRoKvc?=
+ =?us-ascii?Q?njgO6vMIwMsDT2qU6l7jLIoNw61bqMxvi9Irha50k1IDEJqWUtprInwDeFBm?=
+ =?us-ascii?Q?vDxSMbsnIKoegfCt6A7JhAYFwNtWLjCBvzEzaL538pA2oUHm6fpEuth3cqFu?=
+ =?us-ascii?Q?33F4f2nsZCxowj2j8ECE/0cSRfbbUUaj9kqWnglFbB4FRX5C62eGSziWt5Bs?=
+ =?us-ascii?Q?Y0f+ANi3avufoFBSI5ixRuLJqlABMecgfzvv8YWmeJ9HEwIDNhl0WMPvJIIT?=
+ =?us-ascii?Q?mVPwk5Ct/8IFSH8zyg+HM3CQhoEcMn29Ok8XMC0USFnqDuMlKBVkZQep2ELr?=
+ =?us-ascii?Q?MjONvzPdgQs4kwCOrdiAEkXyvJFjVm2rQOkxwBqUtKRVdnaUEK/7gg84goo?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f895dcd2-29f6-4ae9-586d-08dbd6459038
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2023 17:04:06.7700 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3156
+Cc: lyude@redhat.com, kherbst@redhat.com, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org, dakr@redhat.com,
+ daniel@ffwll.ch, Yuran Pereira <yuran.pereira@hotmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -130,57 +145,104 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Thu, Oct 26, 2023 at 09:07:46PM +0530, Abhinav Singh wrote:
-> On 10/26/23 20:47, Michael S. Tsirkin wrote:
-> > On Thu, Oct 26, 2023 at 04:06:24PM +0200, Mateusz Guzik wrote:
-> > > On 10/26/23, Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > On Thu, Oct 26, 2023 at 05:46:21PM +0530, Abhinav Singh wrote:
-> > > > > This patch fixes the warning about directly dereferencing a pointer
-> > > > > tagged with __rcu annotation.
-> > > > > 
-> > > > > Dereferencing the pointers tagged with __rcu directly should
-> > > > > always be avoided according to the docs. There is a rcu helper
-> > > > > functions rcu_dereference(...) to use when dereferencing a __rcu
-> > > > > pointer. This functions returns the non __rcu tagged pointer which
-> > > > > can be dereferenced just like a normal pointers.
-> > > > > 
-> > > > > Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> > > > 
-> > > > Well yes but these need to be called under rcu_read_lock.
-> > > > Who does it here?
-> > > > If no one then maybe you found an actual bug and we need to
-> > > > fix it not paper over it.
-> > > > 
-> > > 
-> > > There is no bug here.
-> > > 
-> > > p is the newly created thread, ->real_cred was initialized just prior
-> > > to this code and there is nobody to whack the creds from under it.
-> > > 
-> > > Second bit in the patch changes one real_parent deref, but leaves 2
-> > > others just above it. Once more no bug since the entire thing happens
-> > > under tasklist_lock, but the patch should either sort all these cases
-> > > or none.
-> Sparse reported 3 similar dereferencing warning this patch contains 2 fixes
-> for 2, but yeah I should fixed all 3 of them.
-> > > 
-> > > I think it would help if the submitter had shown warnings they see.
-> The warning message :- warning: dereference of noderef expression
-> > 
-> > Yes, and this must be tested under lockdep, which I think would
-> > spit out warnings for this patch.
-> Not sure, but I tested this with sparse (make C=2) and after the above
-> changes I dont get the warning.
+There are instances where the "args" argument passed to
+nouveau_uvmm_sm_prepare() is NULL.
 
-sparse is a static analysis tool. You should also actually
-test your patch.
+I.e. when nouveau_uvmm_sm_prepare() is called from
+nouveau_uvmm_sm_unmap_prepare()
 
-> > 
-> > What should be used here I'm not sure. IIUC rcu_dereference_protected(p, 1)
-> > is discouraged now?
-> > 
-> Not sure but I read that, rcu_dereference should be prefered when reading
-> and rcu_dereference_protected should when writing.
+```
+static int
+nouveau_uvmm_sm_unmap_prepare(struct nouveau_uvmm *uvmm,
+...
+{
+    return nouveau_uvmm_sm_prepare(uvmm, new, ops, NULL);
+}
+```
+
+The problem is that op_map_prepare() which nouveau_uvmm_sm_prepare
+calls, dereferences this value, which can lead to a NULL pointer
+dereference.
+
+```
+static int
+op_map_prepare(struct nouveau_uvmm *uvmm,
+...
+{
+    ...
+    uvma->region = args->region; <-- Dereferencing of possibly NULL pointer
+    uvma->kind = args->kind;     <--
+    ...
+}
+```
+
+```
+static int
+nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+...
+            struct uvmm_map_args *args)
+{
+    struct drm_gpuva_op *op;
+    u64 vmm_get_start = args ? args->addr : 0;
+    u64 vmm_get_end = args ? args->addr + args->range : 0;
+    int ret;
+
+    drm_gpuva_for_each_op(op, ops) {
+        switch (op->op) {
+        case DRM_GPUVA_OP_MAP: {
+            u64 vmm_get_range = vmm_get_end - vmm_get_start;
+
+            ret = op_map_prepare(uvmm, &new->map, &op->map, args); <---
+            if (ret)
+                goto unwind;
+
+            if (args && vmm_get_range) {
+                ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
+                               vmm_get_range);
+                if (ret) {
+                    op_map_prepare_unwind(new->map);
+                    goto unwind;
+                }
+            }
+    ...
+```
+
+Since the switch "case DRM_GPUVA_OP_MAP", also NULL checks "args"
+after the call to op_map_prepare(), my guess is that we should
+probably relocate this check to a point before op_map_prepare()
+is called.
+
+This patch ensures that the value of args is checked before
+calling op_map_prepare()
+
+Addresses-Coverity-ID: 1544574 ("Dereference after null check")
+Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+index aae780e4a4aa..6baa481eb2c8 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+@@ -620,11 +620,14 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+ 		case DRM_GPUVA_OP_MAP: {
+ 			u64 vmm_get_range = vmm_get_end - vmm_get_start;
+ 
++			if (!args)
++				goto unwind;
++
+ 			ret = op_map_prepare(uvmm, &new->map, &op->map, args);
+ 			if (ret)
+ 				goto unwind;
+ 
+-			if (args && vmm_get_range) {
++			if (vmm_get_range) {
+ 				ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
+ 							   vmm_get_range);
+ 				if (ret) {
+-- 
+2.25.1
 
 _______________________________________________
 Linux-kernel-mentees mailing list
