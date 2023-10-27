@@ -1,114 +1,99 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 6ACAFC25B67
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Oct 2023 07:00:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id CB1A0C25B67
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri, 27 Oct 2023 10:41:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EE034432A6;
-	Fri, 27 Oct 2023 07:00:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org EE034432A6
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KNTkAosU
+	by smtp1.osuosl.org (Postfix) with ESMTP id 5BD5D81E5A;
+	Fri, 27 Oct 2023 10:41:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5BD5D81E5A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XMYt/YuQ
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G5fk4M-q_H-X; Fri, 27 Oct 2023 07:00:32 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oqXJ_xICssFP; Fri, 27 Oct 2023 10:41:52 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6C8A7431E8;
-	Fri, 27 Oct 2023 07:00:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6C8A7431E8
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 011CA81E03;
+	Fri, 27 Oct 2023 10:41:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 011CA81E03
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 44358C0071;
-	Fri, 27 Oct 2023 07:00:32 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id E15E6C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CE030C0071;
+	Fri, 27 Oct 2023 10:41:51 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A0C64C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Oct 2023 07:00:30 +0000 (UTC)
+ Fri, 27 Oct 2023 10:41:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id A7DEB70560
+ by smtp1.osuosl.org (Postfix) with ESMTP id 7C38E81E22
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Oct 2023 07:00:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A7DEB70560
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com
- header.a=rsa-sha256 header.s=mimecast20190719 header.b=KNTkAosU
+ Fri, 27 Oct 2023 10:41:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7C38E81E22
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id k3XQ3c9gO1Zz
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ZMgbYOV9F_tZ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Oct 2023 07:00:30 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by smtp3.osuosl.org (Postfix) with ESMTPS id DFDA07055E
+ Fri, 27 Oct 2023 10:41:49 +0000 (UTC)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com
+ [IPv6:2a00:1450:4864:20::634])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id A23FC81E03
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Oct 2023 07:00:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DFDA07055E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1698390028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kneXyjLJZE3jGCsWvtlzo7wk7NDYW1E0EHUPjV/fnfg=;
- b=KNTkAosUznBMYUHCeEdKN81NjPW7wym7htMqKeI5TpiceCOk8Mu79XaRCzjG33WRvkY8pd
- vn2odBhkzqvdQZ1nRA8TkkntQ95An2nvx+YaTvl8ivp5Ca/TVYq0nl926hMJD2yzOAS568
- 8cHG9qHdb+oYIiY8fpyHpOYrVgAYqos=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-691-_f8YvahkMsCbkVm8LeZ4Ig-1; Fri, 27 Oct 2023 03:00:26 -0400
-X-MC-Unique: _f8YvahkMsCbkVm8LeZ4Ig-1
-Received: by mail-ed1-f72.google.com with SMTP id
- 4fb4d7f45d1cf-53e08e439c8so2036973a12.1
+ Fri, 27 Oct 2023 10:41:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A23FC81E03
+Received: by mail-ej1-x634.google.com with SMTP id
+ a640c23a62f3a-9bf0ac97fdeso295393766b.2
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Oct 2023 00:00:26 -0700 (PDT)
+ Fri, 27 Oct 2023 03:41:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698403308; x=1699008108;
+ darn=lists.linuxfoundation.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=jJlIxAlI3qqoojs2SPzt67107Ewh+X9coDI5REUO6oE=;
+ b=XMYt/YuQs4QrFt69drgf/PogCnjkZnP9rzSIoUZB3jhLdYo+QiVbpzQUCIZdBht+Oo
+ 9VeHXpo59/o7TZo3aN6HQC27YFGPQBiAhFI/CsqlqQu+dkPhq/NFKxEzneCEHd4a0IWs
+ TI0xc0zdlEh1ht9CaWao74R1SL1btmLKSGW2qyOVcjMhimC+32oJV1wTe7bmDvlCvMZs
+ MP39JFdksSJuX8H9ALosl2RB4A9cOpV6MsDlYnQ8pBpd5OjTrNHOZMMRUuSClVJ96DOq
+ gK505Sgp8HeO2jYoB2yOJ9specrQbxX/iL0xk2x21WYSI+ktx6lgRLg3ptwuDV8UMUPq
+ k6nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698390023; x=1698994823;
+ d=1e100.net; s=20230601; t=1698403308; x=1699008108;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kneXyjLJZE3jGCsWvtlzo7wk7NDYW1E0EHUPjV/fnfg=;
- b=VwWLb2ILaqKCg9IS1nhbqlcxbaXhqDMnEbcXYU45vYXbTOx7IwskgqwJVAdJx3imVM
- t2ngQzPL7P8gpsUnXdyG31QVN/HOpRMFNBzR7gXZ4oLMiIrhUXdaZD+eGKGNoYk5B2tN
- SxJ0kF7hrMqz33cmwQCyQlzF3ah9QudpdB3TlNVYmoHdb5FxTNVRpfBD66IYbUUzqxaI
- KnsOk76oGUzhlIoDYUzBGcGmbKXJ/JQ6Uc/pJuQUP7E79BkUINAcZg53USU6byI106ig
- X+eyhGrR7TdiLeNLLhB4bipMfoxu96XZay16GIvpOwX8qfKWaexNcxmUTtHLZM72iTQ5
- YnBg==
-X-Gm-Message-State: AOJu0YwUkR1RJnUXXUGMLVZVYt+duvPj6KGyffSEw/RApiVsIO327gIE
- +SxWO/yeuGsXxM2ENU82LlkGcqYo13dykNBetelwV49LPxztcCEf3eommlK3DumVaNs5hj1TcAu
- nuLZNVEG/jX6q8w91dAVwL63Ry1twSOnRZxc8TOgZQZe+pcYO
-X-Received: by 2002:a50:d4d7:0:b0:53d:e91b:7158 with SMTP id
- e23-20020a50d4d7000000b0053de91b7158mr2339291edj.0.1698390023675; 
- Fri, 27 Oct 2023 00:00:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFuPBIUVLzDiahv/oYNrf+QZILAUuEQMuZYQKJL5znspjpOYG05EoUK7ekAjj+2nvq2CSM7VQ==
-X-Received: by 2002:a50:d4d7:0:b0:53d:e91b:7158 with SMTP id
- e23-20020a50d4d7000000b0053de91b7158mr2339264edj.0.1698390023340; 
- Fri, 27 Oct 2023 00:00:23 -0700 (PDT)
-Received: from redhat.com ([2a02:14f:173:52a8:fc3f:6e84:948f:e841])
- by smtp.gmail.com with ESMTPSA id
- d25-20020a50cd59000000b0053e469f6505sm753876edj.26.2023.10.27.00.00.20
+ bh=jJlIxAlI3qqoojs2SPzt67107Ewh+X9coDI5REUO6oE=;
+ b=LDJjI0CXqxTQM8WaBVT5SFy1muYp9aOeXb122FXaWSy5u08RsUMgmXrJNpEaDYDQRL
+ qWHkzdAcJbXSG97Km+BKzggqpEVfMTNxWR/T9Qq7oj7zaqopvClj8V+XPTppiuzFhuna
+ ihhGP4tzjm7EoLiD2/nWk504aZS6PIACEdKCfJZZQjnTUo1X+vPFeFwQbh7/jhWPhTMT
+ AE+hDU2WJ5s+f4IcWrdk/AIy+4gccLlohmgElgbymUe1dXYVIchRpL6bYPh8IGXjAX/A
+ 3UZW00+jDcDAvPWF/S/o65JSR0Q8LndkiAfcMe4LeulojoD7IRaqbS8lErcpkBL+0Wz2
+ dl6A==
+X-Gm-Message-State: AOJu0YycdXAMoecedABQFbMOEU8KS4qwJ0D8nrS9yUGMx8A/UNHyBJJE
+ emwAqan076CCY7NWJdbvGw==
+X-Google-Smtp-Source: AGHT+IGG0dNg9Z43zdOJ+I4D2u9uJ72OdmCpwTt73ucvr6QlsbPcc81T7NTMWkn2PS2Ln1LhaE5qFw==
+X-Received: by 2002:a17:907:1ca3:b0:9bf:39f3:f11d with SMTP id
+ nb35-20020a1709071ca300b009bf39f3f11dmr1986424ejc.30.1698403307469; 
+ Fri, 27 Oct 2023 03:41:47 -0700 (PDT)
+Received: from p183 ([46.53.253.206]) by smtp.gmail.com with ESMTPSA id
+ qt7-20020a170906ece700b00988f168811bsm990259ejb.135.2023.10.27.03.41.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Oct 2023 00:00:22 -0700 (PDT)
-Date: Fri, 27 Oct 2023 03:00:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>
-Subject: Re: [PATCH v3] Fixing directly deferencing a __rcu pointer warning
-Message-ID: <20231027025029-mutt-send-email-mst@kernel.org>
-References: <20231026114632-mutt-send-email-mst@kernel.org>
- <20231027063713.1018624-1-singhabhinav9051571833@gmail.com>
- <db40353c-bee5-491c-b301-f994258ed0f9@gmail.com>
+ Fri, 27 Oct 2023 03:41:46 -0700 (PDT)
+Date: Fri, 27 Oct 2023 13:41:44 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+Subject: Re: [PATCH] selftests:proc ProtectionKey check in smpas test
+Message-ID: <397bbed6-9e9d-4aca-8b14-8b0f2d69d845@p183>
+References: <20231025193627.316508-1-swarupkotikalapudi@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <db40353c-bee5-491c-b301-f994258ed0f9@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Disposition: inline
-Cc: brauner@kernel.org, mjguzik@gmail.com, peterz@infradead.org,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
- npiggin@gmail.com, mathieu.desnoyers@efficios.com, shakeelb@google.com,
- akpm@linux-foundation.org, surenb@google.com, michael.christie@oracle.com
+In-Reply-To: <20231025193627.316508-1-swarupkotikalapudi@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, hughd@google.com,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, akpm@linux-foundation.org, shuah@kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -126,75 +111,85 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Fri, Oct 27, 2023 at 12:11:47PM +0530, Abhinav Singh wrote:
-> On 10/27/23 12:07, Abhinav Singh wrote:
-> > This patch fixes the warning about directly dereferencing a pointer
-> > tagged with __rcu annotation.
-> > 
-> > Dereferencing the pointers tagged with __rcu directly should
-> > always be avoided according to the docs.
+On Thu, Oct 26, 2023 at 01:06:27AM +0530, Swarup Laxman Kotiaklapudi wrote:
+> Check ProtectionKey field in /proc/*/smaps output,
+> if system supports page-based memory permissions.
 
+> --- a/tools/testing/selftests/proc/proc-empty-vm.c
+> +++ b/tools/testing/selftests/proc/proc-empty-vm.c
+> @@ -37,6 +37,7 @@
+>  #include <sys/types.h>
+>  #include <sys/wait.h>
+>  #include <unistd.h>
+> +#include "../kselftest.h"
 
+I'd rather not include stuff. The reason is that this include makes
+the test not (less) self-contained so it requires copying two files
+to some machine where it is broken for debugging.
 
-> There is a rcu helper
-> > functions rcu_dereference(...) to use when dereferencing a __rcu
-> > pointer. This functions returns the non __rcu tagged pointer which
-> > can be dereferenced just like a normal pointers.
-> > 
-> > 
-> > Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> > ---
-> >   kernel/fork.c | 8 ++++----
-> >   1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index 10917c3e1f03..e78649974669 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -2369,7 +2369,7 @@ __latent_entropy struct task_struct *copy_process(
-> >   	retval = -EAGAIN;
-> >   	if (is_rlimit_overlimit(task_ucounts(p), UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC))) {
-> > -		if (p->real_cred->user != INIT_USER &&
-> > +		if (rcu_dereference(p->real_cred)->user != INIT_USER &&
-> >   		    !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN))
-> >   			goto bad_fork_cleanup_count;
-> >   	}
-> > @@ -2690,9 +2690,9 @@ __latent_entropy struct task_struct *copy_process(
-> >   			 * tasklist_lock with adding child to the process tree
-> >   			 * for propagate_has_child_subreaper optimization.
-> >   			 */
-> > -			p->signal->has_child_subreaper = p->real_parent->signal->has_child_subreaper ||
-> > -							 p->real_parent->signal->is_child_subreaper;
-> > -			list_add_tail(&p->sibling, &p->real_parent->children);
-> > +			p->signal->has_child_subreaper = rcu_dereference(p->real_parent)->signal->has_child_subreaper ||
-> > +							rcu_dereference(p->real_parent)->signal->is_child_subreaper;
-> > +			list_add_tail(&p->sibling, &rcu_dereference(p->real_parent)->children);
-> >   			list_add_tail_rcu(&p->tasks, &init_task.tasks);
-> >   			attach_pid(p, PIDTYPE_TGID);
-> >   			attach_pid(p, PIDTYPE_PGID);
-> 
-> For this particular file I have resolved the rcu pointer dereferencing issue
-> and I have tested the above by using qemu using this command
-> qemu-system-x86_64 \
-> 	-m 2G \
-> 	-smp 2 \
-> 	-kernel /home/abhinav/linux_work/linux/arch/x86/boot/bzImage \
-> 	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-> 	-drive file=/home/abhinav/linux_work/boot_images/bullseye.img,format=raw \
-> 	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-> 	-net nic,model=e1000 \
-> 	-enable-kvm \
-> 	-nographic \
-> 	-pidfile vm.pid \
-> 	2>&1 | tee vm.log
-> it booted without any issues.
+> @@ -83,10 +84,7 @@ static const char proc_pid_smaps_vsyscall_1[] =
+>  "SwapPss:               0 kB\n"
+>  "Locked:                0 kB\n"
+>  "THPeligible:           0\n"
+> -/*
+> - * "ProtectionKey:" field is conditional. It is possible to check it as well,
+> - * but I don't have such machine.
+> - */
+> +"ProtectionKey:         0\n"
+>  ;
+>  
+>  static const char proc_pid_smaps_vsyscall_2[] =
+> @@ -113,10 +111,7 @@ static const char proc_pid_smaps_vsyscall_2[] =
+>  "SwapPss:               0 kB\n"
+>  "Locked:                0 kB\n"
+>  "THPeligible:           0\n"
+> -/*
+> - * "ProtectionKey:" field is conditional. It is possible to check it as well,
+> - * but I'm too tired.
+> - */
+> +"ProtectionKey:         0\n"
+>  ;
+>  
+>  static void sigaction_SIGSEGV(int _, siginfo_t *__, void *___)
+> @@ -241,13 +236,26 @@ static int test_proc_pid_smaps(pid_t pid)
+>  	} else {
+>  		ssize_t rv = read(fd, buf, sizeof(buf));
+>  		close(fd);
+> -		if (g_vsyscall == 0) {
+> -			assert(rv == 0);
+> -		} else {
+> -			size_t len = strlen(g_proc_pid_maps_vsyscall);
+> -			/* TODO "ProtectionKey:" */
+> -			assert(rv > len);
+> -			assert(memcmp(buf, g_proc_pid_maps_vsyscall, len) == 0);
+> +		assert(rv >= 0);
+> +		assert(rv <= sizeof(buf));
+> +		if (g_vsyscall != 0) {
+> +			int pkey = pkey_alloc(0, 0);
 
-Did you enable lockdep in your kernel?
-CONFIG_PROVE_LOCKING and CONFIG_PROVE_RCU in particular.
+I'd call syscall(). glibc might not have pkey_alloc(3) [[citation needed]]
+And I'd move this pkey support testing to the very beginning (like vsyscall).
 
--- 
-MST
+> +			if (pkey < 0) {
+> +				size_t len = strlen(g_proc_pid_maps_vsyscall);
 
+OK this test was broken, but it is not your fault. See my next patch.
+
+> +
+> +				assert(rv > len);
+> +				assert(memcmp(buf, g_proc_pid_maps_vsyscall, len) == 0);
+> +			} else {
+> +				pkey_free(pkey);
+> +				static const char * const S[] = {
+> +					"ProtectionKey:         0\n"
+> +				};
+> +				int i;
+> +
+> +				for (i = 0; i < ARRAY_SIZE(S); i++)
+> +					assert(memmem(buf, rv, S[i], strlen(S[i])));
+> +			}
+
+OK-ish.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
