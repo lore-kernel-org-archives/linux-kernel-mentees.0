@@ -1,133 +1,105 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B4724C0032E
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 05:25:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 283E9C0032E
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 10:23:14 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5894B81815;
-	Sat, 28 Oct 2023 05:25:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5894B81815
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=hjPae80b
+	by smtp4.osuosl.org (Postfix) with ESMTP id 92E7E42121;
+	Sat, 28 Oct 2023 10:23:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 92E7E42121
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=AOLYsyth
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tY02zp6s1Grf; Sat, 28 Oct 2023 05:25:10 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yBMvmi0Cb7rG; Sat, 28 Oct 2023 10:23:13 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 514BE812F5;
-	Sat, 28 Oct 2023 05:25:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 514BE812F5
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 400EF4211C;
+	Sat, 28 Oct 2023 10:23:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 400EF4211C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 2D280C0071;
-	Sat, 28 Oct 2023 05:25:10 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 16F49C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 221A9C0039;
+	Sat, 28 Oct 2023 10:23:13 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 9EA8FC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 05:25:09 +0000 (UTC)
+ Sat, 28 Oct 2023 10:23:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id E70FB812EE
+ by smtp3.osuosl.org (Postfix) with ESMTP id 6C6B360FEE
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 05:25:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E70FB812EE
+ Sat, 28 Oct 2023 10:23:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6C6B360FEE
+Authentication-Results: smtp3.osuosl.org;
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=AOLYsyth
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id mgj757TmWqKQ
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5yEP0hN7opRT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 05:25:08 +0000 (UTC)
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com
- (mail-db5eur01olkn082a.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe02::82a])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4F84C8123C
+ Sat, 28 Oct 2023 10:23:11 +0000 (UTC)
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 3C2F660FC7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 05:25:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4F84C8123C
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cb66q/VcmBHwC5yjQtggg5XnHBL5MSMJUhVMH5aT+C+MHb3GKCCiB4wzchUwzOn0G7JXFLax8xn5NcXXY8xVe02GTNwcc5gZyl0eS9ggaOKRAIf68pcxxlYRL7gdWoHxexHKpHINSedmQ2ew5LsfOsY47qirAgC8bsmQlJiEHoUvWejtWaapwMrmntcCQOmA/c8H9VY/slMWbsYDJq1bo/359y42fYZhDkPN6IyyoNlnYyCWzbuGL4XQzyx54tnvQnqQafqURMNXV2ca2mgCbN41c4yw4Jfhs5C57v6z+wMPojgqOlxYBMEsWLpiBfxL9PeIvowiHe2wRUs9kAotVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J0vU6QzwY0KgWTyrQQqWM9stWEifz+KR6QYp41Wr3/w=;
- b=WE2Z0feQkqxi6+kOdFT7TcagHRiQrRdxFWxjciCCi4rkPEtgUuL/fDKGBs6d4mwXSW61yVRWqoDs1khOxArctMpv2D2D+HPAGeA7BV7TSTPFiHa+02BBsoeTzuAobEJ7XBLFDfYmt8WIJ+zQBpCZtkdJciwenVbkuQvDWJKnzEaZMGddw++DzPTCPEbC25loE5LdU0y/KgoUInYzsAa31Cjqbga4l/5ugdomONQz0L/jkgXlbnC2ET4W54iZL5IlZk/5QeEivSHMde7y3nHqCTLPvjODIkZ4mB/y+02pzBoRzPp3VQ2mDaoP9S89QZj9a5Hf1P7ZMnmTxWqUX2EiVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J0vU6QzwY0KgWTyrQQqWM9stWEifz+KR6QYp41Wr3/w=;
- b=hjPae80bnwFnSF5Roo4ym/Z9+S0O9J0aFtcVMyoSmsaAi+0oLZqRhiTO5s/UjDEf7Juosp3wogtOSPrwuEeB/4BBAIDrNAx1/2ANX4jlml9gfLl9dR746Q1lRPynhpYzZcy7LUhhUhD0pfGSMgJJFP0t8/60fs/aWsJioDaz1ELm7pBGdlVdW+sifh9BFBzssQ5vqJu+yS+Ok9grr3wCjn+f5IfVmCvnN6H9iUu0I/lHsZEzWQbnj3MZ5n4jgJAyHIYHLYfJFCHSjcPKTvWAMGrJaD5Uz80xKt6qzI2X3tTH0TsI54SpC2Z6lGdtvdEV5aoKt5Q9rFrCgx0fSmMd5w==
-Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
- by DU0PR10MB6367.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:40d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.22; Sat, 28 Oct
- 2023 05:25:04 +0000
-Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6933.024; Sat, 28 Oct 2023
- 05:25:04 +0000
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: bpf@vger.kernel.org,
-	yonghong.song@linux.dev
-Subject: [PATCH bpf-next v3 2/2] selftests/bpf: Add malloc failure checks in
- bpf_iter
-Date: Sat, 28 Oct 2023 10:54:14 +0530
-Message-ID: <DB3PR10MB6835F0ECA792265FA41FC39BE8A3A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1698461732.git.yuran.pereira@hotmail.com>
-References: <cover.1698461732.git.yuran.pereira@hotmail.com>
-X-TMN: [bEIWiwKQSCkoEmLKktPbRwGxn5+fMSHi]
-X-ClientProxiedBy: JN3P275CA0002.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:70::6)
- To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <5f3b9bdf9b22e0b3bfd5e73a0ef15b68db3a381e.1698461732.git.yuran.pereira@hotmail.com>
+ Sat, 28 Oct 2023 10:23:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3C2F660FC7
+Received: by mail-io1-xd2e.google.com with SMTP id
+ ca18e2360f4ac-7a66bf80fa3so33392039f.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 28 Oct 2023 03:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698488590; x=1699093390;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kb55IUehlVDFui1W5Bu4cGzv/u+VjTYYaWK8F7NZpEw=;
+ b=AOLYsythQDT7R/hYRS9CqxA/9Kn+v/ifWF1HTA/JNj7gwJfjDPKo3aAtYwysQIvzB/
+ SARVsDnkSweTJ17/mH5wJod8tM12bzpwn4VdaMlaiQYL54LumcY8yTuIgeCPNHKEKFHq
+ 9Eo7HGF22ugvP/SohKuEr+da2Gmt2BLzwYgnr5pXo/Ly75cwqWLRtgsF6JIRKFz7WvQl
+ Qb4bL7ldsEYsPlpk/DBt0HaG2cbWI480DlGcaNxTLq+UXsgp9kxxOcD0s20qH81POxIB
+ eZI0LXHXMmKAHNQ+DWSg6OXFxaDeblQs0je5PZ1r7c/n3OfUtD7ZkN4YO1zhAys1lMYb
+ uisw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698488590; x=1699093390;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kb55IUehlVDFui1W5Bu4cGzv/u+VjTYYaWK8F7NZpEw=;
+ b=oXya6WMukHDrl2zqNLO6RN0t2RhEuJ53C5loqtehXU6T1IJK94XJ3vybhGFg0pt92a
+ YzWczO846WVyYGdO7VhCQqp2hbAF5tyd35eC0+LVotZVWfPeIPLMBHINqSoV+Dtx1c52
+ awuBqQzFs4T23rrQq1qJ5YEfelC6sHQ55QVHyyNDx4go35znv2j72RF2EZLXf+Z4BFc5
+ PUp3UX12eafDU1wgp+eN2o+U9VckLcwUGT0gQl9l0282dnbXdcEw57WVVRoBKuRl9ooi
+ QOddAzaJQkNQPbTrlyzDucxGvgp+trHxRGdutKlYYZdlpIHMac4+KzO2upBbegVrfkSW
+ WSAg==
+X-Gm-Message-State: AOJu0YyVV5g2KEOy8wWkRF1LYO17cGVs0CJiTTxZqcteYzb1Ya94siNz
+ xQDPiQfjmYHYe629nKEfbjA=
+X-Google-Smtp-Source: AGHT+IHeixX1hbPYYC1zBSVSB2/SC6Alo2uqS0ckaaWewKEhn82kZj6BhgrRpooEQkU8idBvXmwU2g==
+X-Received: by 2002:a92:d38f:0:b0:357:a23c:b99b with SMTP id
+ o15-20020a92d38f000000b00357a23cb99bmr5577483ilo.3.1698488590152; 
+ Sat, 28 Oct 2023 03:23:10 -0700 (PDT)
+Received: from abhinav.. ([103.75.161.210]) by smtp.gmail.com with ESMTPSA id
+ u188-20020a6379c5000000b0057c29fec795sm2187640pgc.37.2023.10.28.03.23.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Oct 2023 03:23:09 -0700 (PDT)
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+To: akpm@linux-foundation.org, brauner@kernel.org, surenb@google.com,
+ mst@redhat.com, michael.christie@oracle.com,
+ mathieu.desnoyers@efficios.com, mjguzik@gmail.com, npiggin@gmail.com,
+ shakeelb@google.com, peterz@infradead.org
+Subject: [PATCH v3] Fixing directly deferencing a __rcu pointer warning
+Date: Sat, 28 Oct 2023 15:52:47 +0530
+Message-Id: <20231028102247.404488-1-singhabhinav9051571833@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231027122221.GA24128@redhat.com>
+References: <20231027122221.GA24128@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|DU0PR10MB6367:EE_
-X-MS-Office365-Filtering-Correlation-Id: fbb9c629-068e-4bad-937f-08dbd7763d50
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: r1NgmA2FUg5Tr4C2YXh42Qef/ei7y8PCWjdvVnKgtrbOc13N1p6ZwSn9Rgxzqi4N12/Nk2GUinZu2qtnOXZB3ZK6hNCFbRCt+I4NSBp8EwZ8i/nagu1kDvqRwVRs66/5pRsvN942KEOQH7H4ygMi2BwtVYDXrZrO1H1OOu4h9TsnF14j2j0H2nzQHo/w/pgusUnucESqgzlciydWjZ5QB8/IOnObnoIE6Z4m97Mqhis3MT/ELeSj9oB6ZpsSDAOAHu3soY3NH9TqVWWPjyBFNSMNofb1MfFAt6Vw0Fhum4lJ37yPgmjrhJ2jkOU3yNq6yB+oYtBd7RqoEKw1CX2aZTBHzqRklKW09QiHibkA3BBb1Uf4ilZrzsorxsCxW6P57J2I18ZQ9/+6BdsFxS8yUAz8c8HfPZlzJwviB0w5NzTgjhJgOie3qa0CF6HAddc0hOmC7MCzW+0evJiLbBAv41DsnqAaeGUxmYLE5Is0LMrL5ew3Y1lvc8chmD5oVmEW8+lxLCv1GzabIZdCWVntcCfIEKcBMvyB26FxzBpPzra2TJZGtXnkk2LeeZa30MDMqZfvf+CMmNPwK1fmb2q0q+6BHaIX8EjH8DcBNmqUrX4DnqAG8kN7wDPqjYRRGfGB
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GX+9YO9hYVqgbPNybZEr4+PlJnAVmBHWMLr1AKk+lERQiQgIzZMMK77EeTPT?=
- =?us-ascii?Q?pvucvkpdZRosjkKSpOQ3YgELYr01tD0qfJGYdExYGjkcx71Z8I4A86fWO2bh?=
- =?us-ascii?Q?lKoZfuDAXG0PXZh5zo+eS+O6MA5QqAu+Ypkvh64oLaiYTDuC03H5ig4IJmsP?=
- =?us-ascii?Q?BtBKc35dTZ1QIdqd7rnWvPqD+oiCweRmGS9rXJviVl4HCS1cfp9iZzYxkVbs?=
- =?us-ascii?Q?kE8ACoWguWLG/NrkLCdYSp4Bsk2POhOQBuhDQ3vIf8wvMOsbdT6nbxqKPvQw?=
- =?us-ascii?Q?zM846zvaDhzxrJM3p7RAEwtx3d7kKh1eZi36SyTuEgQvL2LTnn8zuv2ke+3+?=
- =?us-ascii?Q?YT1GhtNrIeTghgx7DHkAZmXLBYX5aGItNcSTY4gMX6/rG1B8vB+MyjhKfZiw?=
- =?us-ascii?Q?nl5HPugsjmmwOJMcJz3G10oXoxcVwtfn0mGrQtYm9hDsHY6iKVM/I22Gmdko?=
- =?us-ascii?Q?1RN8zXsUnic3XtgBvhJ2vJEF91J2QD/HuIYx3X+PboeEbJPoj7Ds2M/eDWIr?=
- =?us-ascii?Q?CnQZdOdiT7hIlG9lvVJ7GIAn+Ea2bfVdWt7q+H4OMx7tDFX5pyIAUTjGn2T8?=
- =?us-ascii?Q?L7kMSJ6cUE634KoaZEA4WkCKXhxLQxTXz93qEDQuDGWIIB2tWBhndohrpPgi?=
- =?us-ascii?Q?KqANdT2kRnlIFXu6ndVsPxn0PIcpEytxjdJpkdoFHcU39PPZgyrkMlyXOOoy?=
- =?us-ascii?Q?D1q7xzmsABZbp+jEZkiqYaIU5HTlF11fRU3fX9XJN+oYGfRi8ZwZ4HNX4oOz?=
- =?us-ascii?Q?hb49RZnVU4tuMe2b2N1er1dz4sDPI3gQ7mTuaRjgVpBp3yOENeVZdlLx9BEN?=
- =?us-ascii?Q?PzAFFl91gPFTWHRhMZk6FdiOM2rdtR9TjZH4Y/LnpYdYlaSr2a2EscEFbdHA?=
- =?us-ascii?Q?Wom6dzCPnj1olagFZ+tH3r6rr/S1maLuDVGu7Id8uCP74Q+DqoEVQiy4U6uI?=
- =?us-ascii?Q?/TTS7/5uJhB6OFoIKxF4atvi/YQ4rt8Q5y+tKl/tbJ6uojKW9UjHtuLI8XHc?=
- =?us-ascii?Q?tOQVBsR6EeNJd9QuICwRlSD/xuPl+9ec7+R9t+TuVFFIvSDvjcwF5M29n6+I?=
- =?us-ascii?Q?Zg5Kqgebbcq2k5Irkkq1XQYBHBbSG6tp71KmllGb2Oko6LE6x5Sn8HPPCAfh?=
- =?us-ascii?Q?FITBJkJSz3QfT0GhhGESktpxGMsgOiJB+wCb3j5G/cXJJ/qPMvW/KPS8PJAV?=
- =?us-ascii?Q?rMvdfrAgV3F7vZaIG8ePw0kuETHyWlnBc6a5QZx3JY2IXl8lULEc/mLRIeU?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: fbb9c629-068e-4bad-937f-08dbd7763d50
-X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2023 05:25:04.0864 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6367
-Cc: haoluo@google.com, brauner@kernel.org, linux-kselftest@vger.kernel.org,
- iii@linux.ibm.com, daniel@iogearbox.net, linux-kernel@vger.kernel.org,
- sinquersw@gmail.com, john.fastabend@gmail.com, ast@kernel.org,
- kpsingh@kernel.org, song@kernel.org, sdf@google.com, jolsa@kernel.org,
- mykolal@fb.com, Yuran Pereira <yuran.pereira@hotmail.com>, shuah@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, kuifeng@meta.com
+Cc: Abhinav Singh <singhabhinav9051571833@gmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -145,49 +117,51 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Since some malloc calls in bpf_iter may at times fail,
-this patch adds the appropriate fail checks, and ensures that
-any previously allocated resource is appropriately destroyed
-before returning the function.
+This patch fixes the warning about directly dereferencing a pointer
+tagged with __rcu annotation.
 
-Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+Dereferencing the pointers tagged with __rcu directly should
+always be avoided according to the docs. There is a rcu helper
+function rcu_dereference(...) to use when dereferencing a __rcu
+pointer. This function returns the non __rcu tagged pointer which
+can be dereferenced just like a normal pointer.
+
+Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
 ---
- tools/testing/selftests/bpf/prog_tests/bpf_iter.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+v1 -> v2 : added rcu_dereference(...) at line 2694
+v2 -> v3 : added rcu_dereference(...) at line 2695
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/bpf_iter.c b/tools/testing/selftests/bpf/prog_tests/bpf_iter.c
-index 123a3502b8f0..1e02d1ba1c18 100644
---- a/tools/testing/selftests/bpf/prog_tests/bpf_iter.c
-+++ b/tools/testing/selftests/bpf/prog_tests/bpf_iter.c
-@@ -698,7 +698,7 @@ static void test_overflow(bool test_e2big_overflow, bool ret1)
- 		goto free_link;
+ kernel/fork.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 10917c3e1f03..e78649974669 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -2369,7 +2369,7 @@ __latent_entropy struct task_struct *copy_process(
  
- 	buf = malloc(expected_read_len);
--	if (!buf)
-+	if (!ASSERT_OK_PTR(buf, "malloc"))
- 		goto close_iter;
- 
- 	/* do read */
-@@ -868,6 +868,8 @@ static void test_bpf_percpu_hash_map(void)
- 
- 	skel->rodata->num_cpus = bpf_num_possible_cpus();
- 	val = malloc(8 * bpf_num_possible_cpus());
-+	if (!ASSERT_OK_PTR(val, "malloc"))
-+		goto out;
- 
- 	err = bpf_iter_bpf_percpu_hash_map__load(skel);
- 	if (!ASSERT_OK_PTR(skel, "bpf_iter_bpf_percpu_hash_map__load"))
-@@ -1044,6 +1046,8 @@ static void test_bpf_percpu_array_map(void)
- 
- 	skel->rodata->num_cpus = bpf_num_possible_cpus();
- 	val = malloc(8 * bpf_num_possible_cpus());
-+	if (!ASSERT_OK_PTR(val, "malloc"))
-+		goto out;
- 
- 	err = bpf_iter_bpf_percpu_array_map__load(skel);
- 	if (!ASSERT_OK_PTR(skel, "bpf_iter_bpf_percpu_array_map__load"))
+ 	retval = -EAGAIN;
+ 	if (is_rlimit_overlimit(task_ucounts(p), UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC))) {
+-		if (p->real_cred->user != INIT_USER &&
++		if (rcu_dereference(p->real_cred)->user != INIT_USER &&
+ 		    !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN))
+ 			goto bad_fork_cleanup_count;
+ 	}
+@@ -2690,9 +2690,9 @@ __latent_entropy struct task_struct *copy_process(
+ 			 * tasklist_lock with adding child to the process tree
+ 			 * for propagate_has_child_subreaper optimization.
+ 			 */
+-			p->signal->has_child_subreaper = p->real_parent->signal->has_child_subreaper ||
+-							 p->real_parent->signal->is_child_subreaper;
+-			list_add_tail(&p->sibling, &p->real_parent->children);
++			p->signal->has_child_subreaper = rcu_dereference(p->real_parent)->signal->has_child_subreaper ||
++							rcu_dereference(p->real_parent)->signal->is_child_subreaper;
++			list_add_tail(&p->sibling, &rcu_dereference(p->real_parent)->children);
+ 			list_add_tail_rcu(&p->tasks, &init_task.tasks);
+ 			attach_pid(p, PIDTYPE_TGID);
+ 			attach_pid(p, PIDTYPE_PGID);
 -- 
-2.25.1
+2.39.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
