@@ -1,161 +1,108 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25024C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 20:11:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id B1B15C4167D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 20:43:50 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 9E5DB4181F;
-	Sat, 28 Oct 2023 20:10:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9E5DB4181F
+	by smtp4.osuosl.org (Postfix) with ESMTP id 3B2BD4241A;
+	Sat, 28 Oct 2023 20:43:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3B2BD4241A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OvhKJM2u
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 312hZP4Ln_Zr; Sat, 28 Oct 2023 20:43:49 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id E95D642077;
+	Sat, 28 Oct 2023 20:43:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E95D642077
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id CC995C0039;
+	Sat, 28 Oct 2023 20:43:48 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 13885C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 28 Oct 2023 20:43:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id D118B4187C
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 28 Oct 2023 20:43:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D118B4187C
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=microsoft.com header.i=@microsoft.com header.a=rsa-sha256 header.s=selector2 header.b=bQKF0BIi
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=OvhKJM2u
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XWBAHoF4IYSc; Sat, 28 Oct 2023 20:10:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 10B1B41822;
-	Sat, 28 Oct 2023 20:10:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 10B1B41822
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id DCDB2C0039;
-	Sat, 28 Oct 2023 20:10:57 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A21DCC0032
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 6bE2OGKpRe7H
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 20:10:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 74F4883E84
+ Sat, 28 Oct 2023 20:43:45 +0000 (UTC)
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com
+ [IPv6:2607:f8b0:4864:20::42b])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 9BD1141869
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 20:10:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 74F4883E84
-Authentication-Results: smtp1.osuosl.org; dkim=pass (1024-bit key,
- unprotected) header.d=microsoft.com header.i=@microsoft.com
- header.a=rsa-sha256 header.s=selector2 header.b=bQKF0BIi
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0795LEoHj2kJ
+ Sat, 28 Oct 2023 20:43:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9BD1141869
+Received: by mail-pf1-x42b.google.com with SMTP id
+ d2e1a72fcca58-6bcbfecf314so894995b3a.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 20:10:55 +0000 (UTC)
-Received: from DM6FTOPR00CU001.outbound.protection.outlook.com
- (mail-centralusazlp170100001.outbound.protection.outlook.com
- [IPv6:2a01:111:f403:c111::1])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 956FE83E83
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 20:10:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 956FE83E83
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DRAJ4ZZJztNX2gunnXQiwi51v+80BWfhqYVvDF8W5nNjvtuY8rwcYt8S2cCxYXUnBcmO8aDaQhZ+gokF09fUE2nwnlOxPTSCN7yGTTuxeY6duDPwDf71IIBpSCJpfHoBkgkkIOQ0KprMWRelvV7U5aNlL1/hIPzyPcPAZrEXvM3a5EnqXhv+EHUunDfbrEEnpeYbNcBjaNpE4RPLh+jrCz9rvdkn4tDmEtb2cOpjCrwS+uv3DtTEMNPaEillgxPfIm3UfEGodm+A/AjMCUwnkLNcA3k35hYGbRqK/txHgneyT9lB9GA9zIbP6vIq2Gkv8NQeSBN+GXiyBql6t+D0MA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wAxaH+C/atGAZ/4bE2JC1CEluGL0FTddxhIxSSKsA2g=;
- b=MVBvFakVvO5LEpqErRvNzdJDtRjajJx6kO/OygPvTq7Xw6QjIudsxQyld9noZlg6eMt/hDJZH7c87ctsx2xxESuf/rfpnwS2qZGy8DQJGXfN2NZiKwYiOBSQkBthIoJtEYGUjvLHhNENMG+ouRep9HM4eX/kKtfKsdmkiiXl2emB2DJ2xxdyUDkD7l15n/snO6c1qcWMnwQZlhH9XSjs6P3ooOzMV1M2PGGe7SOpNayKc7IRhyLSsoExkxdDIrPQVRXmISUwO1kEhdymx+oieQQ2QkW3UgD0gofhdmWD7BS4nJh7Gw/kw/r++k1iYC57mLO16VagLfWsx04LuVrhyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wAxaH+C/atGAZ/4bE2JC1CEluGL0FTddxhIxSSKsA2g=;
- b=bQKF0BIiZRs2cXsoG50EDFUuuK7IDQ2z6Xiga5+182K5icjJWtEiHjx1it5MYssVPibM+SAx5U1x+sDyzdH65XCD4Nk0IhyJlGZoQ22xr0kUoLbgZBEaQNB441OlW8fRcuza+C/vsl8L/U1inpBnOxFrOZQVIzz1l34yNVJJJK8=
-Received: from SN6PR2101MB1693.namprd21.prod.outlook.com
- (2603:10b6:805:55::19) by DM4PR21MB3754.namprd21.prod.outlook.com
- (2603:10b6:8:a1::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.11; Sat, 28 Oct
- 2023 20:10:52 +0000
-Received: from SN6PR2101MB1693.namprd21.prod.outlook.com
- ([fe80::9ec1:1d74:55ab:f67a]) by SN6PR2101MB1693.namprd21.prod.outlook.com
- ([fe80::9ec1:1d74:55ab:f67a%4]) with mapi id 15.20.6954.012; Sat, 28 Oct 2023
- 20:10:52 +0000
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>, KY Srinivasan
- <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
- <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com"
- <hpa@zytor.com>, Nischala Yelchuri <Nischala.Yelchuri@microsoft.com>
-Subject: RE: [PATCH] Fixing warning cast removes address space '__iomem' of
- expression
-Thread-Topic: [PATCH] Fixing warning cast removes address space '__iomem' of
- expression
-Thread-Index: AQHaBm1F5Iw4pphf3EmudYnEmejGXLBfpSNQ
-Date: Sat, 28 Oct 2023 20:10:51 +0000
-Message-ID: <SN6PR2101MB16937C421EA9CDF373835360D7A3A@SN6PR2101MB1693.namprd21.prod.outlook.com>
-References: <20231024112832.737832-1-singhabhinav9051571833@gmail.com>
-In-Reply-To: <20231024112832.737832-1-singhabhinav9051571833@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=eb796e71-0ae8-4313-aa5f-f20ecb0d7941;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-10-28T19:57:35Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR2101MB1693:EE_|DM4PR21MB3754:EE_
-x-ms-office365-filtering-correlation-id: d49f054a-e76f-4a1f-c49e-08dbd7f1fc2b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +I2pa+F6nvrsW5KpKpAnK/2z+0j0jy7i7dZ4jcWrWPhI2pi6KKzrWsvHO564KM3g2tIuPfmIslCOPyDE0fZ7Loaene/cf8W2Yvur5fIYxUFUhvmH+t2Y7rx7OrBLtD9rifO/aZWv2KvnRFeq94BxBOi52XGihBhFZIYXZVJJg+Xf11FbE7HA/HT/2dxi7ppxKjgkwiNJuIlD1AXCsuIuA9qy4do2PYGC/Vhrh4++Y0v/rlDXeyM0FEVij3NhNK2FKiNLcWYTNywbDQ+0hZQSZYeL6sbIZohMnATk4/H7kK4YOkvPr9t/SEQWfs55wQ3+Xj7e+wl/dFV6iTpnUPLPvYpRIw855SI+rWR8nBRiqxn3outyufi/RsHbg9HkKWpIAtut+UK8igPTyDZMN8juyCuYmF/Te47RFjnii1+wUMipE/heOh7bIUWP11TMbXMPs8dXrZmD81iaHbMdaFRPt5V1ePvOhsY6XkI2g6nx4ofBp8dLIhldzGNmY3Jqhwor8FmmDKDjKRdb0Kus6BfnUc62daO4XdTridHGj3Rg8bXF5zPm/gKI5RlwnPiYcYTgZmlKhIHp1//bAoG8Ce+5c8xIHNQKD3zH1BMe2rHfNKmcbjXtp8g5kRLR8gAR+/pXDAocKLgDLpk5et0RGfBsS8a81wB6T7ElrcWOREmx70fmUniFEO6uRVuGWLTatajB
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR2101MB1693.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(366004)(136003)(396003)(39860400002)(376002)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(86362001)(33656002)(55016003)(71200400001)(83380400001)(6506007)(478600001)(10290500003)(2906002)(8990500004)(26005)(9686003)(41300700001)(5660300002)(316002)(8676002)(4326008)(8936002)(52536014)(38070700009)(54906003)(6636002)(64756008)(66446008)(66476007)(110136005)(921008)(7696005)(82960400001)(66946007)(66556008)(76116006)(122000001)(7416002)(38100700002)(82950400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tiHGeb1RwTldVFHw8TFVlUs6artpOTp0/dYS/T+PQ68oskXSzVxOjm8FesX1?=
- =?us-ascii?Q?4vJhTAqup2hEtjSNUIcILAtWdYHMqSdf5wo08nXtYSeFHjiiMklMlI5zNdEZ?=
- =?us-ascii?Q?nQnUoEWJH8zy2+eVgTivPeB0O0QMvaBUyF5RpxuojomSUMDPAe2PZCjULecO?=
- =?us-ascii?Q?YzEB208OnE68IEQZpUDcPl6Ljg0DY0jz58mczSjxb1cO/geRFQOd2PaX9LBy?=
- =?us-ascii?Q?q0hGBSIAqB9lRY2IuSJeA3d9/KyU+qDp399o2+c8r0h3e8UGpnFp+p4VwXs0?=
- =?us-ascii?Q?KCfOBsAO9/bKMOtW388mE83n7pWrc/EjMQPE2JqLn7xWNu8FFdCi4H4qlSPQ?=
- =?us-ascii?Q?gqoKjADCiZziBuLe0ik4DP1dhLDV2/91oc305PC4KFnb2ylST3A2B+ONKEvl?=
- =?us-ascii?Q?j1wnCizXrxWXQw60dB2P6WIgiOU1+vWVzhH+U5MIPi/spPNI0uo/YvKi3BBE?=
- =?us-ascii?Q?7sYSZNUKb0tpm2NaSS80b3JfpZumF8x+T5g+psvcyn2MDDkmtoKWi1vYV8fe?=
- =?us-ascii?Q?dqNb9rNwOvEZA/0cs++v3G2qAu5jOuzxLb+ZP71SmJGv/EOd3/U865C1Upxl?=
- =?us-ascii?Q?5PhPhrMeMcb/NuW1gPmh2R4lPOoRbjKZHZYsU1AZN+fCDR2L82PtLlTt1q7f?=
- =?us-ascii?Q?4R348T6xLqKGzmrJCkxEbXZVc0AxacP1lyejG7BAwUraRB4HDodoiOsB3ZLf?=
- =?us-ascii?Q?q8KxEx3ORAHpm4PRwsvGdBEoObsQ2nuBWK4szODWcBkzeYEtr9We1Uw6ayq8?=
- =?us-ascii?Q?ZXde4H+8peX+AImKkeBbHKlRCxx4izmfrAwXoRAY4dDI4g8z7hq//fdeX1iL?=
- =?us-ascii?Q?WxC3bjp/A/WHck49H1CRWqKaX5Q/qR9tFd0etEG0zTQzXVZ8aogRSly85s6s?=
- =?us-ascii?Q?BxoB4oBVG4n4VAHIZ1iM/SPfyLdFrvAu+IpelQv6UF9RU0QsKGj8RuotOWjE?=
- =?us-ascii?Q?0oSdy7Zevaxhci+4gy4/h6OaF5KEpnftCOzIFoc46QqP6Nywrr0y3myQFTEX?=
- =?us-ascii?Q?Vz4XfhzMirT9TiDRGLpBPRKyiwdZMGNhq7RZMO8NYHH0Or4r6nIRWflBhcKk?=
- =?us-ascii?Q?hrrkst2z6yxvFSkYDfs9Rk66NbCKYJUGqvldXXFryEsQJw+cX50vfBkt5HHL?=
- =?us-ascii?Q?1xLmELlf+jvkQvRTk9eCr6TSi+s2wISEaIZYD8Ht9A1ETlkj7u2UbzpSWxGB?=
- =?us-ascii?Q?VTsTnxCbRnfYQtO0wh/tNOX14S8TLswI1Q44pZ4xwlgm1qILYPSVnO4EKwTc?=
- =?us-ascii?Q?t6wz41TOETuxF8NfPt3rL977bdSiyhSGOUcO0JU1LWeoBlT/1HBUkW0zazbt?=
- =?us-ascii?Q?nofWBgwpbxF5x/Nw9eRCMGlwdRlvgPrj4K69jWstCTQbsIvxobKs9hGifZoE?=
- =?us-ascii?Q?SnlBFSsiwbaUdFoMgSkw+0VkerAST9KJhTU8UgwZE/++fCKzGrScihUyEn3H?=
- =?us-ascii?Q?f9VGwnEn2ot5yepBk9iwV+/R7Eg/YhnYeS8ad5DpG+BXbmYJXfloEvlqHcTG?=
- =?us-ascii?Q?5dwf+YLsbJQ0Y96NxLk6LkIYgx+Ipdc8saw7kTt59MwRVPgD0DE3m2scWwbl?=
- =?us-ascii?Q?ZRJ/AYnIvy5YWbCa5dDI6IHDYXqOcg9uz2BGq2CC48safe1Ith0LcV1MtQ82?=
- =?us-ascii?Q?mg=3D=3D?=
+ Sat, 28 Oct 2023 13:43:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698525825; x=1699130625;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ceYIwJI5/04/uPSpsws6LLcq3g+qs0ox6bPNsl8T5AI=;
+ b=OvhKJM2uqCBfxzea6jCFjUezOoL6v3dTRlgT5xqPCHRm1XK+1DLn/YGbjb16wC2r3w
+ IcYaZTaIWVMf3wsmiAr/FaWDDTh48+1CjCKYoYdPyBxTeC0pogBwfLOFtuFlkP75nbgr
+ 9Fhs1Y+62BaFQdHcdAC64yIaR2Page/vektSmOSU0vyCRZ2h+Vs5gCHqLtPkziwH6Rny
+ LTsjU/9WfsqjWij/kHLyUUEPy1rEwOttdwOn/CFSIagOK0Qw4YnMPsFCqw9iKi91VKuu
+ AFXb9i/U+SRZfGbzuqPb6vvLyYmT14GA13crDuk1gnq30EWm7DX1xdTAaxvvYcnI7Jf1
+ Z+GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698525825; x=1699130625;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ceYIwJI5/04/uPSpsws6LLcq3g+qs0ox6bPNsl8T5AI=;
+ b=lh02u9oR7TRkkwpqBRxdAqlq8O5h+u8By/OgqTiGBbz32XSqqCWNvvtTLKEWXgQkKD
+ l/df721KhBbnp7GB3l4iH7yZSxlnW8nN7EBJNJYqGK98oPcDxH90P8bNYHCvaN4dzx10
+ EidfmXMDnu2uZhwXJf/nC0oX0YXk0tv3BodfCkAo5ZWlG5xJQnlPwolerKcL8AjoXYiC
+ PRFYbLR7HMEtV+PhvmLZ2cntah/ZzrD5NVDKj9q7SVONcL0St8pdfd4KkGojxB61C79U
+ xpuQfeSeNKvsJbzuPvtI55nETfiWKHIjupFGm7orpRULx+DB0fgalYPULFokqg59yx9Y
+ r9Gg==
+X-Gm-Message-State: AOJu0Yxtas2dY7KPQuzn8EPpAP5FUARyxWDxX4V7k6zGNQukqaghPajc
+ 4SYd0AQehfftj71klokgdv8=
+X-Google-Smtp-Source: AGHT+IFJDgTO4GC29uJeMqClXt7FNH3XB7LXD899DW+Fr3mNR0Vlq1ylhWgG38hY5tD6bpvYyYIPpg==
+X-Received: by 2002:a17:90b:4cd0:b0:27d:2261:73e4 with SMTP id
+ nd16-20020a17090b4cd000b0027d226173e4mr6010666pjb.2.1698525824814; 
+ Sat, 28 Oct 2023 13:43:44 -0700 (PDT)
+Received: from [192.168.0.152] ([103.75.161.208])
+ by smtp.gmail.com with ESMTPSA id
+ x8-20020a17090a164800b00278ff752eacsm3362690pje.50.2023.10.28.13.43.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 28 Oct 2023 13:43:44 -0700 (PDT)
+Message-ID: <93115738-6919-4855-81b7-eb9b2fc60137@gmail.com>
+Date: Sun, 29 Oct 2023 02:13:32 +0530
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR2101MB1693.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d49f054a-e76f-4a1f-c49e-08dbd7f1fc2b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2023 20:10:52.0380 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FUrJCbESqBeR4Wn2pRpBfOI9IT/98y/vtMg0RRDlBL6rnMhwjh4uIOO/sxPPe0d7E1FioY9UXUvhHCtdh4kh5vwZ7ZIDGpEY2LOaOPnmmjw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR21MB3754
-Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Fixing directly deferencing a __rcu pointer warning
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20231027122221.GA24128@redhat.com>
+ <20231028102247.404488-1-singhabhinav9051571833@gmail.com>
+ <20231028081915-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+In-Reply-To: <20231028081915-mutt-send-email-mst@kernel.org>
+Cc: brauner@kernel.org, mjguzik@gmail.com, peterz@infradead.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org,
+ npiggin@gmail.com, mathieu.desnoyers@efficios.com, shakeelb@google.com,
+ akpm@linux-foundation.org, surenb@google.com, michael.christie@oracle.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -167,83 +114,109 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: "Michael Kelley \(LINUX\) via Linux-kernel-mentees"
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>
-Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-From: Abhinav Singh <singhabhinav9051571833@gmail.com> Sent: Tuesday, October 24, 2023 4:29 AM
+On 10/28/23 17:50, Michael S. Tsirkin wrote:
+> On Sat, Oct 28, 2023 at 03:52:47PM +0530, Abhinav Singh wrote:
+>> This patch fixes the warning about directly dereferencing a pointer
+>> tagged with __rcu annotation.
+>>
+>> Dereferencing the pointers tagged with __rcu directly should
+>> always be avoided according to the docs. There is a rcu helper
+>> function rcu_dereference(...) to use when dereferencing a __rcu
+>> pointer. This function returns the non __rcu tagged pointer which
+>> can be dereferenced just like a normal pointer.
+>>
+>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+>> ---
+>> v1 -> v2 : added rcu_dereference(...) at line 2694
+>> v2 -> v3 : added rcu_dereference(...) at line 2695
+>>
+>>   kernel/fork.c | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/kernel/fork.c b/kernel/fork.c
+>> index 10917c3e1f03..e78649974669 100644
+>> --- a/kernel/fork.c
+>> +++ b/kernel/fork.c
+>> @@ -2369,7 +2369,7 @@ __latent_entropy struct task_struct *copy_process(
+>>   
+>>   	retval = -EAGAIN;
+>>   	if (is_rlimit_overlimit(task_ucounts(p), UCOUNT_RLIMIT_NPROC, rlimit(RLIMIT_NPROC))) {
+>> -		if (p->real_cred->user != INIT_USER &&
+>> +		if (rcu_dereference(p->real_cred)->user != INIT_USER &&
+>>   		    !capable(CAP_SYS_RESOURCE) && !capable(CAP_SYS_ADMIN))
+>>   			goto bad_fork_cleanup_count;
+>>   	}
+>> @@ -2690,9 +2690,9 @@ __latent_entropy struct task_struct *copy_process(
+>>   			 * tasklist_lock with adding child to the process tree
+>>   			 * for propagate_has_child_subreaper optimization.
+>>   			 */
+>> -			p->signal->has_child_subreaper = p->real_parent->signal->has_child_subreaper ||
+>> -							 p->real_parent->signal->is_child_subreaper;
+>> -			list_add_tail(&p->sibling, &p->real_parent->children);
+>> +			p->signal->has_child_subreaper = rcu_dereference(p->real_parent)->signal->has_child_subreaper ||
+>> +							rcu_dereference(p->real_parent)->signal->is_child_subreaper;
+>> +			list_add_tail(&p->sibling, &rcu_dereference(p->real_parent)->children);
+>>   			list_add_tail_rcu(&p->tasks, &init_task.tasks);
+>>   			attach_pid(p, PIDTYPE_TGID);
+>>   			attach_pid(p, PIDTYPE_PGID);
+>> -- 
+>> 2.39.2
 > 
-
-Subject lines usually have a prefix to indicate the area of the kernel
-the patch is for.   We're not always super consistent with the prefixes, 
-but you can look at the commit log for a file to see what is
-typically used.  In this case, the prefix is usually "x86/hyperv:"
-
->
-> This patch fixes sparse complaining about the removal of __iomem address
-> space when casting the return value of this function ioremap_cache(...)
-> from `void __ioremap*` to `void*`.
-
-Should avoid wording like "this patch" in commit messages.  See
-the commit message guidelines in the "Describe your changes"
-section of Documentation/process/submitting-patches.rst.  A
-better approach is to just state the problem:  "Sparse complains
-about the removal .....".  Then describe the fix.  Also avoid 
-pronouns like "I" or "you".
-
 > 
-> I think there are two way of fixing it, first one is changing the
-> datatype of variable `ghcb_va` from `void*` to `void __iomem*` .
-> Second way of fixing it is using the memremap(...) which is
-> done in this patch.
+> You seem to just ignore review comments. NAK. I'm not going to review this anymore.
 > 
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> ---
->  arch/x86/hyperv/hv_init.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
-> index 21556ad87f4b..c14161add274 100644
-> --- a/arch/x86/hyperv/hv_init.c
-> +++ b/arch/x86/hyperv/hv_init.c
-> @@ -70,7 +70,7 @@ static int hyperv_init_ghcb(void)
-> 
->  	/* Mask out vTOM bit. ioremap_cache() maps decrypted */
+I m really sorry for ignorance and careless behaviour. This is 
+completely my fault, a maintainer has to do a lot of work and he cant 
+correct me all the times. On my defense I will only say that I was 
+really confused about a thing, instead of asking you question, I thought 
+of sending in another patch with some more information is a better 
+choice then a clearing my confusion by sending in a extra mail. You were 
+very concise and clear about your comments but MY stupidity was on 
+another level today. I m sorry for ignorant behaviour. And also thanks 
+and appreciate a lot for reviewing this patch till now to all the 
+maintainers.
 
-This comment mentions ioremap_cache().  Since you are changing
-to use memremap() instead, the comment should be updated to
-match.
+Not sure if this patch will be reviewed again or not, but I think I 
+should answer the queries.
 
->             ghcb_gpa &= ~ms_hyperv.shared_gpa_boundary;
-> -           ghcb_va = (void *)ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
-> +          ghcb_va = memremap(ghcb_gpa, HV_HYP_PAGE_SIZE, MEMREMAP_WB);
+The last patch I sent, I tested with `lockdep` on (I hope "test with 
+`lockdep on`" means booting the kernel with lockdep enabled),
+with these config options `CONFIG_PROVE_RCU` and `CONFIG_PROVE_LOCKING` 
+enabled and it booted just fine. To confirm if lockdep was really 
+enabled I found these paths inside the qemu virtual envirnoment
+/proc/lockdep
+/proc/lockdep_chains
+/proc/lockdep_stat
+/proc/locks
+/proc/lock_stats
 
-As noted in the comment, ioremap_cache() provides a mapping that
-accesses the memory as decrypted.  To be equivalent, the call to
-memremap() should include the MEMREMAP_DEC flag so that it
-also is assured of producing a decrypted mapping.
+I tested the above kernel using qemu with this command
+qemu-system-x86_64 \
+	-m 2G \
+	-smp 2 \
+	-kernel /home/abhinav/linux_work/linux/arch/x86/boot/bzImage \
+	-append "console=ttyS0 root=/dev/sda earlyprintk=serial   net.ifnames=0" \
+	-drive file=/home/abhinav/linux_work/boot_images/bullseye.img,format=raw \
+	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+	-net nic,model=e1000 \
+	-enable-kvm \
+	-nographic \
+	-pidfile vm.pid \
+	2>&1 | tee vm.log
 
-Also, corresponding to the current ioremap_cache() call here,
-there's an iounmap() call in hv_cpu_die().   To maintain proper
-pairing, that iounmap() call should be changed to memunmap().
+I did not get warning `the run-time "suspicious rcu_dereference_check() 
+usage"` as mentioned by Oleg Nesterov, which mean rcu_dereference(...) 
+it called inside of rcu read side critical sections.
 
-It turns out there are other occurrences of this same pattern in
-Hyper-V specific code in the Linux kernel.  See hv_synic_enable_regs(),
-for example.   Did "sparse" flag the same problem in those
-occurrences?  It turns out that Nischala Yelchuri at Microsoft is
-concurrently working on fixing this occurrence as well as the
-others we know about in Hyper-V specific code.
 
-Michael
 
-> 
-> --
-> 2.39.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
