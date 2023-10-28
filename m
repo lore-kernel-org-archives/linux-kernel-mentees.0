@@ -1,96 +1,161 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1CC99C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 18:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 25024C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 20:11:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9A97383C3D;
-	Sat, 28 Oct 2023 18:22:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9A97383C3D
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HBn9pcoJ
+	by smtp2.osuosl.org (Postfix) with ESMTP id 9E5DB4181F;
+	Sat, 28 Oct 2023 20:10:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 9E5DB4181F
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=microsoft.com header.i=@microsoft.com header.a=rsa-sha256 header.s=selector2 header.b=bQKF0BIi
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DVaO54Ah_Whj; Sat, 28 Oct 2023 18:22:47 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4D50583C3A;
-	Sat, 28 Oct 2023 18:22:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4D50583C3A
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XWBAHoF4IYSc; Sat, 28 Oct 2023 20:10:58 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 10B1B41822;
+	Sat, 28 Oct 2023 20:10:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 10B1B41822
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 28CF0C0039;
-	Sat, 28 Oct 2023 18:22:47 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DCDB2C0039;
+	Sat, 28 Oct 2023 20:10:57 +0000 (UTC)
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 02A9BC0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A21DCC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 18:22:44 +0000 (UTC)
+ Sat, 28 Oct 2023 20:10:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id CBDC883C3B
+ by smtp1.osuosl.org (Postfix) with ESMTP id 74F4883E84
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 18:22:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CBDC883C3B
+ Sat, 28 Oct 2023 20:10:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 74F4883E84
+Authentication-Results: smtp1.osuosl.org; dkim=pass (1024-bit key,
+ unprotected) header.d=microsoft.com header.i=@microsoft.com
+ header.a=rsa-sha256 header.s=selector2 header.b=bQKF0BIi
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id GQ85b9IOTV-H
+ with ESMTP id 0795LEoHj2kJ
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 18:22:43 +0000 (UTC)
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
- [IPv6:2607:f8b0:4864:20::434])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 4BC0083C3A
+ Sat, 28 Oct 2023 20:10:55 +0000 (UTC)
+Received: from DM6FTOPR00CU001.outbound.protection.outlook.com
+ (mail-centralusazlp170100001.outbound.protection.outlook.com
+ [IPv6:2a01:111:f403:c111::1])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 956FE83E83
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 18:22:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4BC0083C3A
-Received: by mail-pf1-x434.google.com with SMTP id
- d2e1a72fcca58-6b5cac99cfdso2886639b3a.2
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 11:22:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698517362; x=1699122162;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=AWZHwbHH5Jw6suHsJrDVFCqpyI99LB7jrpML+AzDazI=;
- b=HBn9pcoJmwVdfussQIVwCLXVQUfhniEJQLrr9bJfYPk1Dv3U9uHYK7Dy8DsAZbPL8d
- XQErjPIaTmjn1MVhX9fzqsy51MVmjuwc6RrTIMh+vvTFYtZ5mJlih5B4cXkvLR2auT2D
- eahznFJ2c/vGyH6RUgdPkKp/nfMECOKtjxKkdntHIRFRUBstWmGgYsTLUO/F+PZsJuw+
- T0/av6eiHoGyUBtRMbtFuQMH9NYzRBZYOj5xBDVmT2ia5FabZGazhzxoYhqcI2UbUWLZ
- swKGBkOskrQS3XISsodS3IlHBOIpS2hzIq146n4VnNI/r13EW+5HUCo4lvx+M7Q4Swj5
- i4Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698517362; x=1699122162;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AWZHwbHH5Jw6suHsJrDVFCqpyI99LB7jrpML+AzDazI=;
- b=OnJRO4WUHgjkpnU6v7pVvqOuRTKhulW+yOt1jLz/mRkESmGkAeeuda0l/IpEIUxQ8u
- dEbIxNsaQCtUcfVWf1niwtYHQPjyhxQbO3ipIVIF6XJdWXnFnEajbKs5LuP1abckP0hs
- GABt/TZCrf1ecs5WASYGgOfYfXL7+Q69tC9g6mHnjDJOI/9ehYbzbJ26gVU6ll/Nt4t0
- BpTvCeNO9HOcim4c0BvyYVtey9dtsC573cdEYXNGa7AuhOdmSTYTBeTDFuYFtiycVJRq
- QL9R5VRKPEIDzE73p62HSfZ8e5/N5/SfzdE/bgTX7VaSpQu+KL0xfgJ754QE5rlE/aPa
- 0C3Q==
-X-Gm-Message-State: AOJu0YzGJ5j95xVroe00kzUqY2Q/Ar9EkMMwOvzgfyKlpJB/a7llf3AG
- PxEJnRSHUdmv1t6f+O9O9SU=
-X-Google-Smtp-Source: AGHT+IGmVG198oKTgBduvZ9KtnDQa6FkYKviYi4bbFl/ltu6kcETf7NFbhU3hUiuMcamD3IPvLai6A==
-X-Received: by 2002:a05:6a00:1a4e:b0:693:4108:1eb7 with SMTP id
- h14-20020a056a001a4e00b0069341081eb7mr6203594pfv.30.1698517362472; 
- Sat, 28 Oct 2023 11:22:42 -0700 (PDT)
-Received: from swarup-virtual-machine.localdomain ([171.76.87.229])
- by smtp.gmail.com with ESMTPSA id
- m5-20020a655305000000b0056b6d1ac949sm2027330pgq.13.2023.10.28.11.22.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Oct 2023 11:22:41 -0700 (PDT)
-From: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
-To: corbet@lwn.net, yujie.liu@intel.com, linux-doc@vger.kernel.org,
- swarupkotikalapudi@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] scripts/kernel-doc: fix make htmldoc warning
-Date: Sat, 28 Oct 2023 23:52:31 +0530
-Message-Id: <20231028182231.123996-1-swarupkotikalapudi@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ Sat, 28 Oct 2023 20:10:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 956FE83E83
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DRAJ4ZZJztNX2gunnXQiwi51v+80BWfhqYVvDF8W5nNjvtuY8rwcYt8S2cCxYXUnBcmO8aDaQhZ+gokF09fUE2nwnlOxPTSCN7yGTTuxeY6duDPwDf71IIBpSCJpfHoBkgkkIOQ0KprMWRelvV7U5aNlL1/hIPzyPcPAZrEXvM3a5EnqXhv+EHUunDfbrEEnpeYbNcBjaNpE4RPLh+jrCz9rvdkn4tDmEtb2cOpjCrwS+uv3DtTEMNPaEillgxPfIm3UfEGodm+A/AjMCUwnkLNcA3k35hYGbRqK/txHgneyT9lB9GA9zIbP6vIq2Gkv8NQeSBN+GXiyBql6t+D0MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wAxaH+C/atGAZ/4bE2JC1CEluGL0FTddxhIxSSKsA2g=;
+ b=MVBvFakVvO5LEpqErRvNzdJDtRjajJx6kO/OygPvTq7Xw6QjIudsxQyld9noZlg6eMt/hDJZH7c87ctsx2xxESuf/rfpnwS2qZGy8DQJGXfN2NZiKwYiOBSQkBthIoJtEYGUjvLHhNENMG+ouRep9HM4eX/kKtfKsdmkiiXl2emB2DJ2xxdyUDkD7l15n/snO6c1qcWMnwQZlhH9XSjs6P3ooOzMV1M2PGGe7SOpNayKc7IRhyLSsoExkxdDIrPQVRXmISUwO1kEhdymx+oieQQ2QkW3UgD0gofhdmWD7BS4nJh7Gw/kw/r++k1iYC57mLO16VagLfWsx04LuVrhyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wAxaH+C/atGAZ/4bE2JC1CEluGL0FTddxhIxSSKsA2g=;
+ b=bQKF0BIiZRs2cXsoG50EDFUuuK7IDQ2z6Xiga5+182K5icjJWtEiHjx1it5MYssVPibM+SAx5U1x+sDyzdH65XCD4Nk0IhyJlGZoQ22xr0kUoLbgZBEaQNB441OlW8fRcuza+C/vsl8L/U1inpBnOxFrOZQVIzz1l34yNVJJJK8=
+Received: from SN6PR2101MB1693.namprd21.prod.outlook.com
+ (2603:10b6:805:55::19) by DM4PR21MB3754.namprd21.prod.outlook.com
+ (2603:10b6:8:a1::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.11; Sat, 28 Oct
+ 2023 20:10:52 +0000
+Received: from SN6PR2101MB1693.namprd21.prod.outlook.com
+ ([fe80::9ec1:1d74:55ab:f67a]) by SN6PR2101MB1693.namprd21.prod.outlook.com
+ ([fe80::9ec1:1d74:55ab:f67a%4]) with mapi id 15.20.6954.012; Sat, 28 Oct 2023
+ 20:10:52 +0000
+To: Abhinav Singh <singhabhinav9051571833@gmail.com>, KY Srinivasan
+ <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
+ "wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
+ <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com"
+ <hpa@zytor.com>, Nischala Yelchuri <Nischala.Yelchuri@microsoft.com>
+Subject: RE: [PATCH] Fixing warning cast removes address space '__iomem' of
+ expression
+Thread-Topic: [PATCH] Fixing warning cast removes address space '__iomem' of
+ expression
+Thread-Index: AQHaBm1F5Iw4pphf3EmudYnEmejGXLBfpSNQ
+Date: Sat, 28 Oct 2023 20:10:51 +0000
+Message-ID: <SN6PR2101MB16937C421EA9CDF373835360D7A3A@SN6PR2101MB1693.namprd21.prod.outlook.com>
+References: <20231024112832.737832-1-singhabhinav9051571833@gmail.com>
+In-Reply-To: <20231024112832.737832-1-singhabhinav9051571833@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=eb796e71-0ae8-4313-aa5f-f20ecb0d7941;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-10-28T19:57:35Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR2101MB1693:EE_|DM4PR21MB3754:EE_
+x-ms-office365-filtering-correlation-id: d49f054a-e76f-4a1f-c49e-08dbd7f1fc2b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: +I2pa+F6nvrsW5KpKpAnK/2z+0j0jy7i7dZ4jcWrWPhI2pi6KKzrWsvHO564KM3g2tIuPfmIslCOPyDE0fZ7Loaene/cf8W2Yvur5fIYxUFUhvmH+t2Y7rx7OrBLtD9rifO/aZWv2KvnRFeq94BxBOi52XGihBhFZIYXZVJJg+Xf11FbE7HA/HT/2dxi7ppxKjgkwiNJuIlD1AXCsuIuA9qy4do2PYGC/Vhrh4++Y0v/rlDXeyM0FEVij3NhNK2FKiNLcWYTNywbDQ+0hZQSZYeL6sbIZohMnATk4/H7kK4YOkvPr9t/SEQWfs55wQ3+Xj7e+wl/dFV6iTpnUPLPvYpRIw855SI+rWR8nBRiqxn3outyufi/RsHbg9HkKWpIAtut+UK8igPTyDZMN8juyCuYmF/Te47RFjnii1+wUMipE/heOh7bIUWP11TMbXMPs8dXrZmD81iaHbMdaFRPt5V1ePvOhsY6XkI2g6nx4ofBp8dLIhldzGNmY3Jqhwor8FmmDKDjKRdb0Kus6BfnUc62daO4XdTridHGj3Rg8bXF5zPm/gKI5RlwnPiYcYTgZmlKhIHp1//bAoG8Ce+5c8xIHNQKD3zH1BMe2rHfNKmcbjXtp8g5kRLR8gAR+/pXDAocKLgDLpk5et0RGfBsS8a81wB6T7ElrcWOREmx70fmUniFEO6uRVuGWLTatajB
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR2101MB1693.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230031)(366004)(136003)(396003)(39860400002)(376002)(346002)(230922051799003)(1800799009)(186009)(451199024)(64100799003)(86362001)(33656002)(55016003)(71200400001)(83380400001)(6506007)(478600001)(10290500003)(2906002)(8990500004)(26005)(9686003)(41300700001)(5660300002)(316002)(8676002)(4326008)(8936002)(52536014)(38070700009)(54906003)(6636002)(64756008)(66446008)(66476007)(110136005)(921008)(7696005)(82960400001)(66946007)(66556008)(76116006)(122000001)(7416002)(38100700002)(82950400001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?tiHGeb1RwTldVFHw8TFVlUs6artpOTp0/dYS/T+PQ68oskXSzVxOjm8FesX1?=
+ =?us-ascii?Q?4vJhTAqup2hEtjSNUIcILAtWdYHMqSdf5wo08nXtYSeFHjiiMklMlI5zNdEZ?=
+ =?us-ascii?Q?nQnUoEWJH8zy2+eVgTivPeB0O0QMvaBUyF5RpxuojomSUMDPAe2PZCjULecO?=
+ =?us-ascii?Q?YzEB208OnE68IEQZpUDcPl6Ljg0DY0jz58mczSjxb1cO/geRFQOd2PaX9LBy?=
+ =?us-ascii?Q?q0hGBSIAqB9lRY2IuSJeA3d9/KyU+qDp399o2+c8r0h3e8UGpnFp+p4VwXs0?=
+ =?us-ascii?Q?KCfOBsAO9/bKMOtW388mE83n7pWrc/EjMQPE2JqLn7xWNu8FFdCi4H4qlSPQ?=
+ =?us-ascii?Q?gqoKjADCiZziBuLe0ik4DP1dhLDV2/91oc305PC4KFnb2ylST3A2B+ONKEvl?=
+ =?us-ascii?Q?j1wnCizXrxWXQw60dB2P6WIgiOU1+vWVzhH+U5MIPi/spPNI0uo/YvKi3BBE?=
+ =?us-ascii?Q?7sYSZNUKb0tpm2NaSS80b3JfpZumF8x+T5g+psvcyn2MDDkmtoKWi1vYV8fe?=
+ =?us-ascii?Q?dqNb9rNwOvEZA/0cs++v3G2qAu5jOuzxLb+ZP71SmJGv/EOd3/U865C1Upxl?=
+ =?us-ascii?Q?5PhPhrMeMcb/NuW1gPmh2R4lPOoRbjKZHZYsU1AZN+fCDR2L82PtLlTt1q7f?=
+ =?us-ascii?Q?4R348T6xLqKGzmrJCkxEbXZVc0AxacP1lyejG7BAwUraRB4HDodoiOsB3ZLf?=
+ =?us-ascii?Q?q8KxEx3ORAHpm4PRwsvGdBEoObsQ2nuBWK4szODWcBkzeYEtr9We1Uw6ayq8?=
+ =?us-ascii?Q?ZXde4H+8peX+AImKkeBbHKlRCxx4izmfrAwXoRAY4dDI4g8z7hq//fdeX1iL?=
+ =?us-ascii?Q?WxC3bjp/A/WHck49H1CRWqKaX5Q/qR9tFd0etEG0zTQzXVZ8aogRSly85s6s?=
+ =?us-ascii?Q?BxoB4oBVG4n4VAHIZ1iM/SPfyLdFrvAu+IpelQv6UF9RU0QsKGj8RuotOWjE?=
+ =?us-ascii?Q?0oSdy7Zevaxhci+4gy4/h6OaF5KEpnftCOzIFoc46QqP6Nywrr0y3myQFTEX?=
+ =?us-ascii?Q?Vz4XfhzMirT9TiDRGLpBPRKyiwdZMGNhq7RZMO8NYHH0Or4r6nIRWflBhcKk?=
+ =?us-ascii?Q?hrrkst2z6yxvFSkYDfs9Rk66NbCKYJUGqvldXXFryEsQJw+cX50vfBkt5HHL?=
+ =?us-ascii?Q?1xLmELlf+jvkQvRTk9eCr6TSi+s2wISEaIZYD8Ht9A1ETlkj7u2UbzpSWxGB?=
+ =?us-ascii?Q?VTsTnxCbRnfYQtO0wh/tNOX14S8TLswI1Q44pZ4xwlgm1qILYPSVnO4EKwTc?=
+ =?us-ascii?Q?t6wz41TOETuxF8NfPt3rL977bdSiyhSGOUcO0JU1LWeoBlT/1HBUkW0zazbt?=
+ =?us-ascii?Q?nofWBgwpbxF5x/Nw9eRCMGlwdRlvgPrj4K69jWstCTQbsIvxobKs9hGifZoE?=
+ =?us-ascii?Q?SnlBFSsiwbaUdFoMgSkw+0VkerAST9KJhTU8UgwZE/++fCKzGrScihUyEn3H?=
+ =?us-ascii?Q?f9VGwnEn2ot5yepBk9iwV+/R7Eg/YhnYeS8ad5DpG+BXbmYJXfloEvlqHcTG?=
+ =?us-ascii?Q?5dwf+YLsbJQ0Y96NxLk6LkIYgx+Ipdc8saw7kTt59MwRVPgD0DE3m2scWwbl?=
+ =?us-ascii?Q?ZRJ/AYnIvy5YWbCa5dDI6IHDYXqOcg9uz2BGq2CC48safe1Ith0LcV1MtQ82?=
+ =?us-ascii?Q?mg=3D=3D?=
 MIME-Version: 1.0
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR2101MB1693.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d49f054a-e76f-4a1f-c49e-08dbd7f1fc2b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2023 20:10:52.0380 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FUrJCbESqBeR4Wn2pRpBfOI9IT/98y/vtMg0RRDlBL6rnMhwjh4uIOO/sxPPe0d7E1FioY9UXUvhHCtdh4kh5vwZ7ZIDGpEY2LOaOPnmmjw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR21MB3754
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -102,51 +167,83 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
+From: "Michael Kelley \(LINUX\) via Linux-kernel-mentees"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+Reply-To: "Michael Kelley \(LINUX\)" <mikelley@microsoft.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-make htmldocs has below warnings:
+From: Abhinav Singh <singhabhinav9051571833@gmail.com> Sent: Tuesday, October 24, 2023 4:29 AM
+> 
 
-..
-Variable length lookbehind is experimental in regex;
-marked by <-- HERE in m/(?<=^|\s)-Werror(?=$|\s)
-<-- HERE / at ./scripts/kernel-doc line 188.
-...
+Subject lines usually have a prefix to indicate the area of the kernel
+the patch is for.   We're not always super consistent with the prefixes, 
+but you can look at the commit log for a file to see what is
+typically used.  In this case, the prefix is usually "x86/hyperv:"
 
-"-Werror" option in make command,
-needs "-Werror" to have space before
-and after while running make command,
-hence space checking is sepratly done,
-and is not part of lookbehind regular expression.
+>
+> This patch fixes sparse complaining about the removal of __iomem address
+> space when casting the return value of this function ioremap_cache(...)
+> from `void __ioremap*` to `void*`.
 
-Below command also didn't
-show any error:
- make KCFLAGS="-Werror=return-type" W=1 kernel/fork.o
+Should avoid wording like "this patch" in commit messages.  See
+the commit message guidelines in the "Describe your changes"
+section of Documentation/process/submitting-patches.rst.  A
+better approach is to just state the problem:  "Sparse complains
+about the removal .....".  Then describe the fix.  Also avoid 
+pronouns like "I" or "you".
 
-Fixes: 91f950e8b9d8 ("scripts/kernel-doc: match -Werror flag strictly")
-Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> I think there are two way of fixing it, first one is changing the
+> datatype of variable `ghcb_va` from `void*` to `void __iomem*` .
+> Second way of fixing it is using the memremap(...) which is
+> done in this patch.
+> 
+> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+> ---
+>  arch/x86/hyperv/hv_init.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
+> index 21556ad87f4b..c14161add274 100644
+> --- a/arch/x86/hyperv/hv_init.c
+> +++ b/arch/x86/hyperv/hv_init.c
+> @@ -70,7 +70,7 @@ static int hyperv_init_ghcb(void)
+> 
+>  	/* Mask out vTOM bit. ioremap_cache() maps decrypted */
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index d660e1f4b483..aa9e3e198d12 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -185,7 +185,7 @@ if (defined($ENV{'KBUILD_VERBOSE'}) && $ENV{'KBUILD_VERBOSE'} =~ '1') {
- if (defined($ENV{'KCFLAGS'})) {
- 	my $kcflags = "$ENV{'KCFLAGS'}";
- 
--	if ($kcflags =~ /(?<=^|\s)-Werror(?=$|\s)/) {
-+	if ($kcflags =~ /(?<=^|)(\s)-Werror(?=$|)(\s)/) {
- 		$Werror = 1;
- 	}
- }
--- 
-2.34.1
+This comment mentions ioremap_cache().  Since you are changing
+to use memremap() instead, the comment should be updated to
+match.
+
+>             ghcb_gpa &= ~ms_hyperv.shared_gpa_boundary;
+> -           ghcb_va = (void *)ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
+> +          ghcb_va = memremap(ghcb_gpa, HV_HYP_PAGE_SIZE, MEMREMAP_WB);
+
+As noted in the comment, ioremap_cache() provides a mapping that
+accesses the memory as decrypted.  To be equivalent, the call to
+memremap() should include the MEMREMAP_DEC flag so that it
+also is assured of producing a decrypted mapping.
+
+Also, corresponding to the current ioremap_cache() call here,
+there's an iounmap() call in hv_cpu_die().   To maintain proper
+pairing, that iounmap() call should be changed to memunmap().
+
+It turns out there are other occurrences of this same pattern in
+Hyper-V specific code in the Linux kernel.  See hv_synic_enable_regs(),
+for example.   Did "sparse" flag the same problem in those
+occurrences?  It turns out that Nischala Yelchuri at Microsoft is
+concurrently working on fixing this occurrence as well as the
+others we know about in Hyper-V specific code.
+
+Michael
+
+> 
+> --
+> 2.39.2
 
 _______________________________________________
 Linux-kernel-mentees mailing list
