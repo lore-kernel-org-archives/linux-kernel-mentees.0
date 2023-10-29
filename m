@@ -1,115 +1,141 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id B45D1C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sat, 28 Oct 2023 21:26:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9B233C4167D
+	for <linux-kernel-mentees@archiver.kernel.org>; Sun, 29 Oct 2023 09:06:02 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 40F0B6132B;
-	Sat, 28 Oct 2023 21:26:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 40F0B6132B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=aJrmrOER
+	by smtp2.osuosl.org (Postfix) with ESMTP id 19E6843140;
+	Sun, 29 Oct 2023 09:06:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 19E6843140
+Authentication-Results: smtp2.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=Y6x7U5dJ
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 5-t0kIrDludA; Sun, 29 Oct 2023 09:06:00 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 64488400A6;
+	Sun, 29 Oct 2023 09:06:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 64488400A6
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 20FFBC0071;
+	Sun, 29 Oct 2023 09:06:00 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 526D5C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 29 Oct 2023 09:05:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 2809570455
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 29 Oct 2023 09:05:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2809570455
+Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256
+ header.s=selector1 header.b=Y6x7U5dJ
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id eKEXh1QTQ91U; Sat, 28 Oct 2023 21:26:32 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 0BB2261324;
-	Sat, 28 Oct 2023 21:26:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0BB2261324
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id E1927C0071;
-	Sat, 28 Oct 2023 21:26:31 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CF8E6C0032
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 2loJt_OQsGJw
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 21:26:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id A3AE342E18
+ Sun, 29 Oct 2023 09:05:58 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com
+ (mail-am7eur03olkn2081f.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7eaf::81f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 6021770451
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 21:26:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A3AE342E18
-Authentication-Results: smtp4.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=aJrmrOER
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Zl2GXa3StFwn
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 21:26:30 +0000 (UTC)
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com
- [IPv6:2607:f8b0:4864:20::62c])
- by smtp4.osuosl.org (Postfix) with ESMTPS id E1B0F42E11
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 21:26:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E1B0F42E11
-Received: by mail-pl1-x62c.google.com with SMTP id
- d9443c01a7336-1cc2b8deb23so2448315ad.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 28 Oct 2023 14:26:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1698528389; x=1699133189;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+3EhqydIk8cWL76gCn5A4FQeZ+oe6v5e7gK0rC5kDqw=;
- b=aJrmrOEROPMDZMs7XdQjnGt9BGs5Zx4U81rUDqkzStDycKXkyqlnl6VKMszmbwex2L
- YZ+aLYQAJOLxD/RyRMJEURnxnRkTNQQDRmBm/FbdVEFWOXpNbOMSyAK2IQCo+3Z/F0ED
- Xn7R/IX/CNknnnn1S3emhk84S+dia9Nlrg05zQeZeFgYz2Kt4r3iPprDQ7w5IGPN653u
- TYYMs7I+lf5hxCC/G5kKd3pvTaQRxja1YBVj/sVQ519uaYDh1q1Lc+vdsmyym8HiZWsq
- zgkJccxy3CgE/Wv6vpR7uLGcHRUMNBdVjdQ6RcYKCoDI6HK2HV7P7irUtrbGntSfhYCR
- J37Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1698528389; x=1699133189;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+3EhqydIk8cWL76gCn5A4FQeZ+oe6v5e7gK0rC5kDqw=;
- b=G+GbbKtXBBCTy4v0RP9pmNEd+Z0u/9PRz0kh72kshBWDQ5zRC+qy/AgzNIMhxae3yx
- wSIKsc8UgEtKS+OeUhDYXxh9jXirYFhkaY6zXksA6lvI03+Uq7yE03ItTubkDhbeAkzD
- Y3MZBsLSGPAJsyD4azRaSSTtG2BM6BiRReC5HH9rhILuNSlGSYd+Fxq19JjVJELfb4W/
- 5VqNFjl6GkRn88Eb5Z3Dv8heK2HZ+CG4MpfXu6ZWR1aN94MUP+O8PniAwtjqgiQmqppV
- qp5NH1hKR6YtQt8KtwFuCvQ3l19K50++PH45OfDX7sYUI9p3vHGhaRRdZ9fKgv4kBomj
- WH9A==
-X-Gm-Message-State: AOJu0Yw7s7rzXeCB6tVURH+Jcl8hzAqv831vPC56St/FAHKuY4lzhan7
- pGoGNrtEijVM4Cl5eCISGRY=
-X-Google-Smtp-Source: AGHT+IFJhiYxmbbhG89wSadf2t17HGRHnSMUp97sHZ9VZIMeyKHjtgzwFKu3r2YhZVGlGZpMGdFmXQ==
-X-Received: by 2002:a17:902:f213:b0:1c4:1cd3:8062 with SMTP id
- m19-20020a170902f21300b001c41cd38062mr6495445plc.2.1698528389175; 
- Sat, 28 Oct 2023 14:26:29 -0700 (PDT)
-Received: from [192.168.0.152] ([103.75.161.209])
- by smtp.gmail.com with ESMTPSA id
- 17-20020a170902c21100b001bbb8d5166bsm3607338pll.123.2023.10.28.14.26.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Oct 2023 14:26:28 -0700 (PDT)
-Message-ID: <19cec6f0-e176-4bcc-95a0-9d6eb0261ed1@gmail.com>
-Date: Sun, 29 Oct 2023 02:56:17 +0530
-MIME-Version: 1.0
+ Sun, 29 Oct 2023 09:05:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6021770451
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LTsRuNwZWOw9s/zmBwyVsdN7ICK0E5YNWi/TQgmgvsKI6RgPc1yngVCqULzDbnJ4B019xPGyrRhGEmTh5YX2pJXY4fXGkkVflsb9gXbfPD8z1ipuYQniG1E1mH2TUsa/TRVGUp0E9cgK2AVc+VP675N3tJOyCAJJXUkoklp06rSnZqHXNNNfPNLfz8/Ia5zy9QsqoAubq/FvAHh0pJNmejPGRMUgb8g2UTc0ToZSzdmaSF2EoRC/IJdDaHIcUYEWiM+vkEfClSC+69DId8DN8zF+Zduc50hDNCZfF+oHHx8ipRj/NZDVV297yAn22s9FY/9PjnY22jYNl0bP4CWi7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BcwMR/IiMmMF1IndFxlrpqJNTzSSs2/w/qmy+PcxA3o=;
+ b=COUz0dhvyYJ/5dim8K8HgeLiJoTM8VVn/5t5na1RT35gtRuhsYLd3YucEN/4Rs8P8YYV3h896EtdE7+tuZ/nS5v9xm8NcX/EQJUBLBc4zSNUjUtjSdqZdgYtlEfYwfQe+iyHLLaX8gt/Y6DnhscpsNFArM52Pp5y0NYJNSy7BYMsItWRu7p2ft3xigu53pGoOXYkJQOeU5d6k9DmymuMiOnIByZeRIyz7LGb5NXdm7elQMJQrlKNyn2VBVnDk9UcB3MomH4cAnjroTnQfE0/VzLVpD08s2ouzD3QLtBLTVi0ewp5cBvSVDaTxGg+1h3pw7AiQdiO8g2Pil+J5cM4Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BcwMR/IiMmMF1IndFxlrpqJNTzSSs2/w/qmy+PcxA3o=;
+ b=Y6x7U5dJf1g8DPwt9h2ZpacBizQNc0GUPDCpzq16vgBXULOFVCV74UMlv3q+iJObdkBIGv1byhx5WKo0PD/MrK7A1yM7I0Dtydzrlf/qP2NWb7uqGvdVlFVKuBun0FPEEXIN8jgqBnIgKfLJcJNuxwprmuNF1+LResOH+AbyHL6B10v8ZD2kHQcSbXB3U55iYp/cjxvpBc0xgbs3wHQ0wmCI8GHBvdXLbYkPHfyVVRPK2t8YCkQZkHf+yKl32GSzTBbFob5VSmIffYh8+8zNcil27EIrR2yFtRMolhIXfS/81A53k6+0ZOk28QVrjOjztmLYPhIiWHuQFlY4Wdqtsw==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by AS8P193MB2301.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:446::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.26; Sun, 29 Oct
+ 2023 09:05:54 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::2db3:2c11:bb43:c6e]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::2db3:2c11:bb43:c6e%5]) with mapi id 15.20.6933.025; Sun, 29 Oct 2023
+ 09:05:54 +0000
+Message-ID: <VI1P193MB07524EFBE97632D575A91EDB99A2A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Date: Sun, 29 Oct 2023 17:05:54 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Fixing warning cast removes address space '__iomem' of
- expression
-Content-Language: en-US
-To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>,
- KY Srinivasan <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- "wei.liu@kernel.org" <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "hpa@zytor.com" <hpa@zytor.com>,
- Nischala Yelchuri <Nischala.Yelchuri@microsoft.com>
-References: <20231024112832.737832-1-singhabhinav9051571833@gmail.com>
- <SN6PR2101MB16937C421EA9CDF373835360D7A3A@SN6PR2101MB1693.namprd21.prod.outlook.com>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <SN6PR2101MB16937C421EA9CDF373835360D7A3A@SN6PR2101MB1693.namprd21.prod.outlook.com>
-Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+Subject: Re: [RFC] mm/kasan: Add Allocation, Free, Error timestamps to KASAN
+ report
+To: Andrey Konovalov <andreyknvl@gmail.com>
+References: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CA+fCnZfn0RnnhifNxctrUaLEptE=z9L=e3BY_8tRH2UXZWAO6Q@mail.gmail.com>
+From: Juntong Deng <juntong.deng@outlook.com>
+In-Reply-To: <CA+fCnZfn0RnnhifNxctrUaLEptE=z9L=e3BY_8tRH2UXZWAO6Q@mail.gmail.com>
+X-TMN: [X5MALjLVTbXzlHngHlRqibWkaWE/JXzO]
+X-ClientProxiedBy: LO2P265CA0140.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:9f::32) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <c973be13-6cad-48b8-9dd3-8fd1ab737a38@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|AS8P193MB2301:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9e62cf3-f40d-4a8c-1997-08dbd85e4166
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uR4YyAFowSATC08xdLw6JLLMjjBxztUZ4zgUEcgVueiKgEafB+LzlhlIwGW8rhWQMlyatYtmNdSzMsJZwk6VkgrXePDuhFo6mA2g7RtAZeFN3Iv6Wj5Jen4htN/nQjc6gKwmR+b5xt1aQMEr4qPElidviKWho4Q4n0I/2CwfFJr1U+QPVl5jmWJG73rcZJnKjq4GGI6a2FvbKkEAVvhw7ziO0TilLdVGItvYaWA+NkWkLTRWBbVmIJfUPgvS+PHpVtGj583Nc4Z+4j4nULhE0WvlD8O6azFcGXVoYesfCR/wybB+VwtLffdRSAeBGAqqj70VHlq9hT3cLFCe4gRBL9qMu2A0Xw+407gOr0c+ABRmEEmN/QqJOepfA9zP5vPRLqmqsliTUuBPWYDkK0xuTHWr0RX9C5+k/b+iDkLsxYJMAbMWxXOGL43Mgtw8zUOhPGCsFMZAoYXfN8drFK0utryFgDGy45wEX+EUIgI3PYkEgDM+9OBxE2UlizCypZdCY7mUeck291PsQOkbtIE9r0+26SMJRRlZzSZzW7yDnp2egGqEiX8M1/1cqt9VnFvf
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZjhkT2hkNm9IMFM0WG1LVXdtRStRWlVJWnpTQk5vRkdvRkcxaHJsV1Yzd2tZ?=
+ =?utf-8?B?WlB6ZGs4NWdFM0VEc1FSd3Zzc3JpL0p4cE1zOUI4WHhSZitsUktBWi9RMXB6?=
+ =?utf-8?B?WnJhUUt2Yk9xRlA1d2REWGVlSFNSN3Jna3dtaXBCaHo4MmkrN3liOTNsaWNM?=
+ =?utf-8?B?TTBRdDlkL0Mza3R3S05PSFJoMit4aGhxR3FIbkhVVjA3NlpFN1dVbEhzakJR?=
+ =?utf-8?B?Mi9YdExyeHFiMVdCR2pBMWJPeENUUDBYRk54Q2RBSmJNN2ZhQ0ZxeHZmMEND?=
+ =?utf-8?B?Q25wSzVQdEVnNTJKMytubitvdmxYeEQvTjJqR0Z4R0MrMTRmTE5ZNTkrL2dU?=
+ =?utf-8?B?blR5T2RBSTJ4Z1paUGROME9GNjBwUnN5b25CSXVkcmVSckE1UEtTamw5bDBi?=
+ =?utf-8?B?R1ZtYkVNenFYdVRwL2xuMFA1SHpwVm1ZcVh4dUFhdWFxMXpFQXo3bHhZQkpa?=
+ =?utf-8?B?R1hNYW1vazhhR3I3YlNvWUh4eWhHajQ3a2h0Rjhuc0dLaVJFaEdNSnBCbnBa?=
+ =?utf-8?B?YUx4YlZjRmt5ZUJLa3RZRXlaaG0yWUxld2hWUUxCZUFJaUhSdjBzL3dwREJE?=
+ =?utf-8?B?dE5mbzVTZGVzTDRtTktrT1lhZEtMOXBOSmZxdDY0cWJyTWJoU3luVnJMcWxJ?=
+ =?utf-8?B?MXVDd2R4L0cvNnlPV0I1MEpZRUNnMXcyZkQzNWFYMjU2M1REaVhySTdZYy82?=
+ =?utf-8?B?REJ2S0w4VHFENmtST1ZkM1dFN2hCczkrZkdPay9pWFEwVVFDMXRlV3dqYitP?=
+ =?utf-8?B?Z1VLTE0yUG1yY0ZzSGF0ZjlZemRKTFFQREE2NDFZSnlPcnFMREN3YVY5UWdQ?=
+ =?utf-8?B?K1RPSEsxb0lBL3Q5OHhkbThOQmFhRE83N0JLLzQ3bXViRGgwcjdhU0Rpc01s?=
+ =?utf-8?B?aG4xNzNGNmhObVBLUlRJZ0RPUzZBL09NZnRIN2l0NDQwVVJSYkY4c09sc0Vm?=
+ =?utf-8?B?eTR3OWp1bDlEbDVrT2pKVmtTSDhZYkRqKzFuc2lyS2sycW1JbjJZLy90V1U1?=
+ =?utf-8?B?K1Q3UEdob3laelZTM2lYbmdjK3R3czhjUktidkxhZ1ZTeUhBTUJqaitkNTMw?=
+ =?utf-8?B?ZlUwblEraUY3OWFqRENwWFI5c0xzSG9rRlBrSWhhMEI0UVF6RkNLMUt0ZTMz?=
+ =?utf-8?B?bzBYQWhuNlBORVJscWFzN1FEVFN5RDdUaERmSTFDdDh6K1NQR1lWQlN6Z3dw?=
+ =?utf-8?B?SFdHMGlrK0F4M3NpUVhjbi9Qem1LbTc3ZHVWY0ZYdERvWVVBRzJTS1hESWJP?=
+ =?utf-8?B?cjJHQXdobWUreEJCMXl3ZWtpVVBTaXZwdUx1RFFodmpHdzhtekRhZlNxaXBr?=
+ =?utf-8?B?ZDVYMy9naW5lTy9UckJTNG5wTm5DeWFoMEE4QXpMMHhidURsVnBmY21BOHhF?=
+ =?utf-8?B?emdkTitGUTNsYUI4a0tNcGRMM3lqZVVKNGpMOWtnQVFhendGNENRa2ZjUjdN?=
+ =?utf-8?B?RE9CS2VlNm1uYk44dm5oOXFYOWdKVjVKUVY0T2NUdjV6ZVR1OUo1aVcrcENS?=
+ =?utf-8?B?RUFWZ0tja0FpNkdrajV0Vzk1dFZQNnFqT2d5NXRvNWcrN3JtQWl6bDF3bkdO?=
+ =?utf-8?B?YlBsSndFeFRBQ3pxRkdOakVQWldNNUQ2TmRKaUhkTWV1emZwK0NNTTVoZXJk?=
+ =?utf-8?Q?XyCnZoD6MmDboJxROAGwAZwvdvlEctRhI7szVah+gSN0=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9e62cf3-f40d-4a8c-1997-08dbd85e4166
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2023 09:05:54.2744 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P193MB2301
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org, ryabinin.a.a@gmail.com,
+ glider@google.com, akpm@linux-foundation.org, vincenzo.frascino@arm.com,
  "linux-kernel-mentees@lists.linuxfoundation.org"
- <linux-kernel-mentees@lists.linuxfoundation.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+ <linux-kernel-mentees@lists.linuxfoundation.org>, dvyukov@google.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -121,101 +147,43 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="utf-8"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 10/29/23 01:40, Michael Kelley (LINUX) wrote:
-> From: Abhinav Singh <singhabhinav9051571833@gmail.com> Sent: Tuesday, October 24, 2023 4:29 AM
->>
-> 
-> Subject lines usually have a prefix to indicate the area of the kernel
-> the patch is for.   We're not always super consistent with the prefixes,
-> but you can look at the commit log for a file to see what is
-> typically used.  In this case, the prefix is usually "x86/hyperv:"
-> 
->>
->> This patch fixes sparse complaining about the removal of __iomem address
->> space when casting the return value of this function ioremap_cache(...)
->> from `void __ioremap*` to `void*`.
-> 
-> Should avoid wording like "this patch" in commit messages.  See
-> the commit message guidelines in the "Describe your changes"
-> section of Documentation/process/submitting-patches.rst.  A
-> better approach is to just state the problem:  "Sparse complains
-> about the removal .....".  Then describe the fix.  Also avoid
-> pronouns like "I" or "you".
-> 
->>
->> I think there are two way of fixing it, first one is changing the
->> datatype of variable `ghcb_va` from `void*` to `void __iomem*` .
->> Second way of fixing it is using the memremap(...) which is
->> done in this patch.
->>
->> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
->> ---
->>   arch/x86/hyperv/hv_init.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/arch/x86/hyperv/hv_init.c b/arch/x86/hyperv/hv_init.c
->> index 21556ad87f4b..c14161add274 100644
->> --- a/arch/x86/hyperv/hv_init.c
->> +++ b/arch/x86/hyperv/hv_init.c
->> @@ -70,7 +70,7 @@ static int hyperv_init_ghcb(void)
->>
->>   	/* Mask out vTOM bit. ioremap_cache() maps decrypted */
-> 
-> This comment mentions ioremap_cache().  Since you are changing
-> to use memremap() instead, the comment should be updated to
-> match.
-> 
->>              ghcb_gpa &= ~ms_hyperv.shared_gpa_boundary;
->> -           ghcb_va = (void *)ioremap_cache(ghcb_gpa, HV_HYP_PAGE_SIZE);
->> +          ghcb_va = memremap(ghcb_gpa, HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-> 
-> As noted in the comment, ioremap_cache() provides a mapping that
-> accesses the memory as decrypted.  To be equivalent, the call to
-> memremap() should include the MEMREMAP_DEC flag so that it
-> also is assured of producing a decrypted mapping.
-> 
-> Also, corresponding to the current ioremap_cache() call here,
-> there's an iounmap() call in hv_cpu_die().   To maintain proper
-> pairing, that iounmap() call should be changed to memunmap().
-> 
-> It turns out there are other occurrences of this same pattern in
-> Hyper-V specific code in the Linux kernel.  See hv_synic_enable_regs(),
-> for example.Did "sparse" flag the same problem in those
-> occurrences?
-
-The particular warning msg for this case is like this "warning: cast 
-removes address space '__iomem' of expression". I only saw these warning 
-one time inside the arch/x86/ directory.
-
->It turns out that Nischala Yelchuri at Microsoft is
-> concurrently working on fixing this occurrence as well as the
-> others we know about in Hyper-V specific code.
-
-So should I continue or not with this patch?
-
-> 
-> Michael
-> 
->>
->> --
->> 2.39.2
-> 
-
-Thanks for taking out the time for reviewing this and giving the 
-suggestions.
-
-Thank You,
-Abhinav Singh
-
-
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+T24gMjAyMy8xMC8yNiAzOjIyLCBBbmRyZXkgS29ub3ZhbG92IHdyb3RlOgo+IE9uIFR1ZSwgT2N0
+IDE3LCAyMDIzIGF0IDk6NDDigK9QTSBKdW50b25nIERlbmcgPGp1bnRvbmcuZGVuZ0BvdXRsb29r
+LmNvbT4gd3JvdGU6Cj4+Cj4+IFRoZSBpZGVhIGNhbWUgZnJvbSB0aGUgYnVnIEkgd2FzIGZpeGlu
+ZyByZWNlbnRseSwKPj4gJ0tBU0FOOiBzbGFiLXVzZS1hZnRlci1mcmVlIFJlYWQgaW4gdGxzX2Vu
+Y3J5cHRfZG9uZScuCj4+Cj4+IFRoaXMgYnVnIGlzIGNhdXNlZCBieSBzdWJ0bGUgcmFjZSBjb25k
+aXRpb24sIHdoZXJlIHRoZSBkYXRhIHN0cnVjdHVyZQo+PiBpcyBmcmVlZCBlYXJseSBvbiBhbm90
+aGVyIENQVSwgcmVzdWx0aW5nIGluIHVzZS1hZnRlci1mcmVlLgo+Pgo+PiBMaWtlIHRoaXMgYnVn
+LCBzb21lIG9mIHRoZSB1c2UtYWZ0ZXItZnJlZSBidWdzIGFyZSBjYXVzZWQgYnkgcmFjZQo+PiBj
+b25kaXRpb24sIGJ1dCBpdCBpcyBub3QgZWFzeSB0byBxdWlja2x5IGNvbmNsdWRlIHRoYXQgdGhl
+IGNhdXNlIG9mIHRoZQo+PiB1c2UtYWZ0ZXItZnJlZSBpcyByYWNlIGNvbmRpdGlvbiBpZiBvbmx5
+IGxvb2tpbmcgYXQgdGhlIHN0YWNrIHRyYWNlLgo+Pgo+PiBJIGRpZCBub3QgdGhpbmsgdGhpcyB1
+c2UtYWZ0ZXItZnJlZSB3YXMgY2F1c2VkIGJ5IHJhY2UgY29uZGl0aW9uIGF0IHRoZQo+PiBiZWdp
+bm5pbmcsIGl0IHRvb2sgbWUgc29tZSB0aW1lIHRvIHJlYWQgdGhlIHNvdXJjZSBjb2RlIGNhcmVm
+dWxseSBhbmQKPj4gdGhpbmsgYWJvdXQgaXQgdG8gZGV0ZXJtaW5lIHRoYXQgaXQgd2FzIGNhdXNl
+ZCBieSByYWNlIGNvbmRpdGlvbi4KPj4KPj4gQnkgYWRkaW5nIHRpbWVzdGFtcHMgZm9yIEFsbG9j
+YXRpb24sIEZyZWUsIGFuZCBFcnJvciB0byB0aGUgS0FTQU4KPj4gcmVwb3J0LCBpdCB3aWxsIGJl
+IG11Y2ggZWFzaWVyIHRvIGRldGVybWluZSBpZiB1c2UtYWZ0ZXItZnJlZSBpcwo+PiBjYXVzZWQg
+YnkgcmFjZSBjb25kaXRpb24uCj4gCj4gQW4gYWx0ZXJuYXRpdmUgd291bGQgYmUgdG8gYWRkIHRo
+ZSBDUFUgbnVtYmVyIHRvIHRoZSBhbGxvYy9mcmVlIHN0YWNrCj4gdHJhY2VzLiBTb21ldGhpbmcg
+bGlrZToKPiAKPiBBbGxvY2F0ZWQgYnkgdGFzayA0MiBvbiBDUFUgMjoKPiAoc3RhY2sgdHJhY2Up
+Cj4gCj4gVGhlIGJhZCBhY2Nlc3Mgc3RhY2sgdHJhY2UgYWxyZWFkeSBwcmludHMgdGhlIENQVSBu
+dW1iZXIuCgpZZXMsIHRoYXQgaXMgYSBncmVhdCBpZGVhIGFuZCB0aGUgQ1BVIG51bWJlciB3b3Vs
+ZCBoZWxwIGEgbG90LgoKQnV0IEkgdGhpbmsgdGhlIENQVSBudW1iZXIgY2Fubm90IGNvbXBsZXRl
+bHkgcmVwbGFjZSB0aGUgZnJlZSB0aW1lc3RhbXAsCmJlY2F1c2Ugc29tZSBmcmVlaW5nIHJlYWxs
+eSBzaG91bGQgYmUgZG9uZSBhdCBhbm90aGVyIENQVS4KCldlIG5lZWQgdGhlIGZyZWUgdGltZXN0
+YW1wIHRvIGhlbHAgdXMgZGlzdGluZ3Vpc2ggd2hldGhlciBpdCB3YXMgZnJlZWQKYSBsb25nIHRp
+bWUgYWdvIG9yIHdoZXRoZXIgaXQgd2FzIGNhdXNlZCB0byBiZSBmcmVlZCBkdXJpbmcgdGhlCmN1
+cnJlbnQgb3BlcmF0aW9uLgoKSSB0aGluayBib3RoIHRoZSBDUFUgbnVtYmVyIGFuZCB0aGUgdGlt
+ZXN0YW1wIHNob3VsZCBiZSBkaXNwbGF5ZWQsIG1vcmUKaW5mb3JtYXRpb24gd291bGQgaGVscCB1
+cyBmaW5kIHRoZSByZWFsIGNhdXNlIG9mIHRoZSBlcnJvciBmYXN0ZXIuCgpTaG91bGQgSSBpbXBs
+ZW1lbnQgdGhlc2UgZmVhdHVyZXM/Cl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fCkxpbnV4LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJu
+ZWwtbWVudGVlc0BsaXN0cy5saW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhm
+b3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
