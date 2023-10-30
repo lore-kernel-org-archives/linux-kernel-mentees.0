@@ -1,153 +1,109 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id D5827C4708E
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Oct 2023 17:39:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 02525C4167D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon, 30 Oct 2023 19:39:23 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6058781FB3;
-	Mon, 30 Oct 2023 17:39:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6058781FB3
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=fsbmZH/8
+	by smtp3.osuosl.org (Postfix) with ESMTP id 80D4E60BE0;
+	Mon, 30 Oct 2023 19:39:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 80D4E60BE0
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SbQUZtqP
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pK9vEF2tfyEz; Mon, 30 Oct 2023 17:39:23 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4006581D24;
-	Mon, 30 Oct 2023 17:39:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4006581D24
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id k6AhvAvtW77c; Mon, 30 Oct 2023 19:39:21 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 61B7460BBA;
+	Mon, 30 Oct 2023 19:39:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 61B7460BBA
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 25018C0071;
-	Mon, 30 Oct 2023 17:39:23 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A088FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 3CE21C0071;
+	Mon, 30 Oct 2023 19:39:21 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 3E216C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Oct 2023 17:39:22 +0000 (UTC)
+ Mon, 30 Oct 2023 19:39:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 7B9E381EC7
+ by smtp3.osuosl.org (Postfix) with ESMTP id 0BF1F60BBA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Oct 2023 17:39:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7B9E381EC7
+ Mon, 30 Oct 2023 19:39:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0BF1F60BBA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id VuKL90vA6p4H
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8RftnK85yDSH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Oct 2023 17:39:21 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on20610.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7e8d::610])
- by smtp1.osuosl.org (Postfix) with ESMTPS id 5403481D24
+ Mon, 30 Oct 2023 19:39:18 +0000 (UTC)
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com
+ [IPv6:2607:f8b0:4864:20::1130])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 8ED4C60B23
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 30 Oct 2023 17:39:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5403481D24
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dv9SOBbIOyhLXsEN5aMwoN7Uupw9y4Cp5GNYfXUZCZAZfYzMNrwSj0zEdizvaqGig50w1CGS65oXa2yaFF8CYMgmOEj7nWzfaEPbolRd99yC9EhESqXquTPm/teUgeVxDGFxkLrCHtD91RQIo/nvYa+4q4Gt3E/Pthf/l3FdSl2rEPbb8OOCKal4MU+6IngiJnhO19yWQNPs3MiLGirMhx4QhVf0XjI07HB4rIDeCnIWuNr3IWzOFQp8G6hyCXKth16/ZxSp3Q0JyP5+wZLixGU9WOeeGz8mLbeFNWGuo0//0ajA/19Tlq2+ke5lxJqs1WnaVt4AFEGLOTHuTEDkSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W5EAt8PeKlQaEqmqYVtFlcxOQcpgbeMLP8rhx416CHs=;
- b=BUoactIDz+utPyvA+535MqKpPCRSiH/By9eg445Q2q3NI6MsM0VEIdDv/t3QrrbIOu/KHupONkxpL+IKG6g40XOGKbnI4Yx3MyiVAkNY5DZ/LYU8+5kmOgToMW9GzpBF1vWgN7h3imzSsNedK/r7wh7yo/KTiacZKknPBBdMwr9hEq7i09AQCHpG6wPqDqJH4cZ6cV4693kpnAA6lQdTTMwYL/Ug9CPVGQxSZtUo1kUz9rjVQFmKnzUY4LO7F3yvyJwvHO0kJt10Tg5eOBhr1jdFICi/c9swGxwUAp6dPRhoz45vSPObzwlqspduzXnKp9x2x/A+Tpy+QETmRUznsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W5EAt8PeKlQaEqmqYVtFlcxOQcpgbeMLP8rhx416CHs=;
- b=fsbmZH/8IhSF+nYR9yfC0jcfwV+8k8MorTmEkVBb+jjPiF/bcWqJci7TRPqlIhWB5LMDE1kVTXbMG1jIXJqectEBywV3GqdlD+bRvmM2Hp/cE53KI4lgg9jtRUq3DuL6jQbHFITnzv34E7/gLbkjVAQPsbSqPeh62WmrZnn4piQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH0PR12MB5284.namprd12.prod.outlook.com (2603:10b6:610:d7::13)
- by PH0PR12MB5608.namprd12.prod.outlook.com (2603:10b6:510:143::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Mon, 30 Oct
- 2023 17:39:17 +0000
-Received: from CH0PR12MB5284.namprd12.prod.outlook.com
- ([fe80::33ed:3162:e4ed:3569]) by CH0PR12MB5284.namprd12.prod.outlook.com
- ([fe80::33ed:3162:e4ed:3569%6]) with mapi id 15.20.6933.028; Mon, 30 Oct 2023
- 17:39:17 +0000
-Message-ID: <9ca19ca8-d3c6-4789-a9d8-4f1637bfa71e@amd.com>
-Date: Mon, 30 Oct 2023 13:39:15 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: remove redundant check
-Content-Language: en-US
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
- harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
- skhan@linuxfoundation.org
-References: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
-In-Reply-To: <20231030171748.35482-1-jose.pekkarinen@foxhound.fi>
-X-ClientProxiedBy: YQZPR01CA0171.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:8b::29) To CH0PR12MB5284.namprd12.prod.outlook.com
- (2603:10b6:610:d7::13)
+ Mon, 30 Oct 2023 19:39:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8ED4C60B23
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-5af6c445e9eso39198247b3.0
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 30 Oct 2023 12:39:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1698694757; x=1699299557;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jX7iUzZFcTBfQ+kYYju+3Vitfff4IDCKl0n/5TrIXLk=;
+ b=SbQUZtqPHaWaG6SouFNvi/PmLVbmKiZ8okN13jEv/GKyfsTGEOUJvEDwy1NeViqnT6
+ h1K8M5swQ6kNClamdSd15Cl8+Txke2Rt56ty9Scg0capDImN0dRO7ufcQ9EaZV8q9ifE
+ ckRkY1qPxAgsMsFiZ6uKuvmCAXTrbpPWEkZfw47LjMaehRFvbTz89TLkm0XHITzWfsTP
+ ZxzEhE1+rPer9cdByeVOrcz8cNDCiTai9QfZeaPrQlCFksiR6qw6PnBUUZxAl9+5Lt29
+ XVxJWjjGf0jtJ+D3gYnq98gN/Yln1FQRd2gRPEl9xWESD0RYo3gIns46PuF36haZaw23
+ 4qWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1698694757; x=1699299557;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jX7iUzZFcTBfQ+kYYju+3Vitfff4IDCKl0n/5TrIXLk=;
+ b=PatneNAF5HipBPFfZvQ6YSM4RqGYA7hgA+GfDucM6GMt2+Oj2D3Gzkrc7H5M5ncfmF
+ vZrt2aEY37ljX8jGWtaVTJeyoCPW+u7qXlG6HrGci6GIUDeoo/hThT12uHdsk25cQOEY
+ vzemPhDYQXWZtweeBOXuTgwAbR+wHYacmsvWkKv6RBbML3/Q08u3UohpWJcctdfKbw8+
+ 9ODw6wB0yOhtFoUxU0q1FtgVMCryj3OTtaa3/QQ4lhSERl8nrsydbXc3Sjp29cRZzlKy
+ qMsZvtayQx3kUl5LpjfMvpZ9c5yKz4YaVBJ7tMfNW0dLIhoVDdVdgJRpgbkUWH0K9m3Q
+ m0GQ==
+X-Gm-Message-State: AOJu0YybM8+3vWQ5W8JTqC8SqS/c4DNgZ5QicUAiGFMGNEiTJLeDKXv7
+ eYPAr47uwA/UVCM32owNs2U=
+X-Google-Smtp-Source: AGHT+IH4ij93XR8icYrangBvkwE5L8lhwK9+GXb1aipCMJo1v5brEu3650ZmOxGtu1dhENKQ8vuOXw==
+X-Received: by 2002:a05:6902:54f:b0:da0:6a55:b4d5 with SMTP id
+ z15-20020a056902054f00b00da06a55b4d5mr8492448ybs.46.1698694757335; 
+ Mon, 30 Oct 2023 12:39:17 -0700 (PDT)
+Received: from ?IPV6:2600:1700:6cf8:1240:5b04:e8d1:ce5:8164?
+ ([2600:1700:6cf8:1240:5b04:e8d1:ce5:8164])
+ by smtp.gmail.com with ESMTPSA id
+ k11-20020a056902024b00b00d7b9fab78bfsm62003ybs.7.2023.10.30.12.39.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Oct 2023 12:39:16 -0700 (PDT)
+Message-ID: <c3790110-43d8-4ec3-919c-8493eb9a6e38@gmail.com>
+Date: Mon, 30 Oct 2023 12:39:15 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR12MB5284:EE_|PH0PR12MB5608:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc5fd766-c755-403e-e62d-08dbd96f240e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Z2F2MJOJ4GcJXEkgGWzK3CPXPe5mdwEmFzHy/Q2Zgs+xhIWRmsY8dsjIre3wCxde8nvPzWCly1Y7qHsqRlKMVrbiJKkh91tU+epeSKI+gjf29p9S/cDU+Zc3zqQoJ7zlKxfvRG/xofXqY6Od0xOyXs3ZKEbNHBEWxOF1R9bS5UtfayFx3BQNekNXlYqiqu2+AEditbmLEAHe5SoKKmVsEgFC2xZKUGnWrFT4zHbSyLioe+aIdfPHV/olLqkrN7z75H3ztUp5jEMyN4gxNGqyo0Y4rHh2+2M1OUyeUdcmVE3inGRy4qkhUDTlxSjhgCbftfY8N0v9rmnfPQ2LRSJEAVv3HW71HeXz4qd4DAFAlruSr7azBKB0exa9OFIu6RNO2xRlqZ+6+HOcMNrzJGVJICPjgnipGkYqE5vKdDB4k4OYEg2oFetEJllE6qSuXy/AeZXZHJNelAIY+x6sozfj8r3trsSneN5HTOt1ohs7AJcI2UQV8FNpOeSenQIrLBMiD71cp6dOLRLaUpqjBMGEdE1F5fhS2FtnDSbngy7vPCXozgDakOIbmaz0YhTO5mGRbIbmD+erV6lcH8xjMXMQctY4mAMXty9rFgVIPQ56bBfcXITWhxLrBS7l/9HUhwNzUp66VBxBgAasvjx9XB9g60tnwNVcEe9fXf6zhTAR+OqN5U7L5O6iCPAmy43fPfd8
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR12MB5284.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230031)(39860400002)(346002)(396003)(376002)(366004)(136003)(230922051799003)(230173577357003)(230273577357003)(186009)(64100799003)(1800799009)(451199024)(83380400001)(26005)(2616005)(38100700002)(66946007)(66476007)(66556008)(316002)(5660300002)(8676002)(8936002)(4326008)(53546011)(44832011)(6506007)(6512007)(2906002)(6486002)(41300700001)(4001150100001)(478600001)(31696002)(86362001)(36756003)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T3FIaGtJZm5xamEzaGRaUHNHdzhkMkZKdWNCOTdsVUF2dFNqNlRFY0NlM1hu?=
- =?utf-8?B?US9CYkZIUmpLZUJ5SXB5OVd1Vlg5U0NmUlhxQnlHWXZEWitLOFdnQTVTalVU?=
- =?utf-8?B?VHhIa0VzbjZLSHNCRllBVU1DaUhHY1hZdEgxRlVHRkZuQnZoOWU2bmVyTk1j?=
- =?utf-8?B?Vzd0WmhFZk5ENlg5UTV0eWlPTkVhdFI4ZjE2QzMvdmxxZG8wU0NuUUZ4T0pj?=
- =?utf-8?B?R1BqZitSVWNyL2Y0UUhYbERqUi9NdmhteVU5S3g4cVcvMEpHZ3pyek1DYTZQ?=
- =?utf-8?B?RzlxQ3VQQTlPbXk5bmkwREprbXc3SnlNK0hIQ1NRMU9TcVQySXU4SG9qcVpa?=
- =?utf-8?B?dDIzMHJkd3gzOUVVZHpINzZ1ZTRxaHlxajB6Vmc2dllHRmZQbmQ4MC9KYTdK?=
- =?utf-8?B?dXJCRTVQb3QrSnFSOEdkVG1WbjVqVW9ZcjlLeGRlUm41a0NrUkV6bU5OT3NO?=
- =?utf-8?B?THJ5Y1EvOTFCZWpKQUVjSkpxU2VXOXJuTWk5eXg0UzJ6L0lBVEhQSWQ0b3VD?=
- =?utf-8?B?d2NhTUcrYjIwMWI3WEwzenZObTBuQWN1MTl2ZGJmQXA4eFJWOWRvR2xaVlRZ?=
- =?utf-8?B?c2JrbGJISnNOdkhVSXU4SUh6VVIvMVp3TzNmbGxITURLU2NSRTQ3T2puTC9j?=
- =?utf-8?B?d25QQzV2SkF1Tm9FTUZ0UU9RaXB3UnZrdE9GVlB4QnBuZ1NsNEVzcGVTOFdE?=
- =?utf-8?B?S1VEVWdwVWRzaHphVlY2RER1NkpQVm1sbGFQVnJrUVdWREoxUVhTaVcvNXFS?=
- =?utf-8?B?T0JMeURnRGdPMkhYMWM3dHJJeEJ2T2R2T3hsVnNsZ1oxTmlLZ0YvM01ZOWNj?=
- =?utf-8?B?VEJFdDgvNDZXdXhqeXhSMVhnL0hWbWZ2Tm1CSmNLUkwxUjBSRDFjYzZObzIy?=
- =?utf-8?B?Y2krMGpxbXNHU3Mwc2M0UXk4TFVyaXF6UUVpRmpWZ09Gc0QrbjUzWEpENVND?=
- =?utf-8?B?NWN3SnBNTTBFV2Y4aTFGSVpubVBOZmZmTEFFcG5EWjkwR25Da2toR2dOT1RF?=
- =?utf-8?B?WXZiWEVsSVR2RUJ5cFA5cXlkV2VHN1ZYYXJUaXB3ajlDOFd1M0RweXlaalo3?=
- =?utf-8?B?a0FOVlUwOENFaUlJb0svcGpROHFUZHdsb3BFQVFpck10Y3ZnbVZyVnBzUkJ0?=
- =?utf-8?B?akMvckU1b2QxbW1Kc2dWUVA5ZkV5U0kraVRSL3hSV21tZFJFUVJkeUtxakEw?=
- =?utf-8?B?NnFrMWRtdm9CSkpYTitIUmkveFJ2S3FrVHFycVVFbS9LNk5IZWg0TndyMW80?=
- =?utf-8?B?dVNBTFhEcEFTQnBJSlorbGZUbkhFY2phMldaQ0pqYnNLTGQ0MHFidnJ2K1Vt?=
- =?utf-8?B?YlNXT1hvaDQ4L0lvUmpKdW1EZTJhVi9ROUdmNGZzT0FFSS9jbnpGK2MvY0xn?=
- =?utf-8?B?UjVpcFFYdWQwVFNWS0c3MUh1S3hXM3htMU5xTTU1SjU5bVpUTUozaXpmeDRC?=
- =?utf-8?B?SDVJdktZdi9FeVZhQ2tsYjFWQ2ZhTmdLaldhSVNWQjJFTThVaEdZNG5ZdkFG?=
- =?utf-8?B?UzVTMDJLckVtWHRnbEIrRXdLUXcwRGhZKzlFNnJGWjJGb1hiRVk2a1Z2TmVS?=
- =?utf-8?B?WHc5ZVBZWTlsMW02N29nVWE1Lzloa0NsSzJ6M2d2WUVKNmFpa3ZXSlVZQU9S?=
- =?utf-8?B?Q3JMTVB0b20rbXVycGtTR25FRG5IK1JvejczU09kdGpXZEtxbE9kbGpPYnZC?=
- =?utf-8?B?eXR4dFVHNldMN29NbE90OE1SblZRcXc3d3pxVi9MS2R1WmkvbTFaQzJ4bzBR?=
- =?utf-8?B?VnV3dmRNb29MbHM1K09HSzNpSjJnNk5RSE8xbEMvTW9YaHZWaFRrVithVFpm?=
- =?utf-8?B?OEFiUzVLZXpDWmx2K0Q0ckI5V0xLNU40REpILzg0UkxIei96MjJCbzV6Z2tU?=
- =?utf-8?B?UzlGejdiS2NXWTVKc2tZWEFSZjZsZmh3eVl4Rm1MM2ZjcnN1Tit4dGV0WjZK?=
- =?utf-8?B?MGI3REhWWG04Z2tNSThyVW5XZkFuVVJ2ZFdWM2RoOFZMbXBvR1JSdlE2WXhY?=
- =?utf-8?B?TkpDR2pDdUZUbFNmdEFvUURHdGZwTjNIaDR4dGl6L0FKS0RzcjVQaU53M2lN?=
- =?utf-8?B?ajVHR2xyanlQVlZMREY5Q1RkVTdNb0JGK05rQXQ2V3pvSllMV3lFMXRoZGhO?=
- =?utf-8?Q?Tc/IxRUXEpCcx9FrO+k9l9eGp?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc5fd766-c755-403e-e62d-08dbd96f240e
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR12MB5284.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2023 17:39:17.4307 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TkAkzrt9Qh5WMdA3bqsD9q+hUNS68Fx5gVZ1MDS/eD/Jq7pA4O5s7ejDgLJ8UnYjVEm+5TE7HPufT/sAuAUpcw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5608
-Cc: dillon.varone@amd.com, linux-kernel-mentees@lists.linuxfoundation.org,
- dri-devel@lists.freedesktop.org, Xinhui.Pan@amd.com,
- linux-kernel@vger.kernel.org, samson.tam@amd.com, SyedSaaem.Rizvi@amd.com,
- stable@vger.kernel.org, daniel@ffwll.ch, george.shen@amd.com,
- alexander.deucher@amd.com, Jun.Lei@amd.com, airlied@gmail.com,
- christian.koenig@amd.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v3 1/2] selftests/bpf: Convert CHECK macros to
+ ASSERT_* macros in bpf_iter
+Content-Language: en-US
+To: Yuran Pereira <yuran.pereira@hotmail.com>, bpf@vger.kernel.org,
+ yonghong.song@linux.dev
+References: <cover.1698461732.git.yuran.pereira@hotmail.com>
+ <DB3PR10MB6835E9C8DFCA226DD6FEF914E8A3A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+From: Kui-Feng Lee <sinquersw@gmail.com>
+In-Reply-To: <DB3PR10MB6835E9C8DFCA226DD6FEF914E8A3A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+Cc: haoluo@google.com, brauner@kernel.org, iii@linux.ibm.com,
+ daniel@iogearbox.net, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, john.fastabend@gmail.com, ast@kernel.org,
+ kpsingh@kernel.org, song@kernel.org, sdf@google.com, jolsa@kernel.org,
+ mykolal@fb.com, shuah@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, kuifeng@meta.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -159,42 +115,266 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-From: Aurabindo Pillai via Linux-kernel-mentees
- <linux-kernel-mentees@lists.linuxfoundation.org>
-Reply-To: Aurabindo Pillai <aurabindo.pillai@amd.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"; Format="flowed"
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-CgpPbiAyMDIzLTEwLTMwIDEzOjE3LCBKb3PDqSBQZWtrYXJpbmVuIHdyb3RlOgo+IFRoaXMgcGF0
-Y2ggYWRkcmVzc2VzIHRoZSBmb2xsb3dpbmcgd2FybmluZyBzcG90dGVkIGJ5Cj4gdXNpbmcgY29j
-Y2luZWxsZSB3aGVyZSB0aGUgY2FzZSBjaGVja2VkIGRvZXMgdGhlIHNhbWUKPiB0aGFuIHRoZSBl
-bHNlIGNhc2UuCj4gCj4gZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9kY24zMi9k
-aXNwbGF5X21vZGVfdmJhX3V0aWxfMzIuYzo0NjY0OjgtMTA6IFdBUk5JTkc6IHBvc3NpYmxlIGNv
-bmRpdGlvbiB3aXRoIG5vIGVmZmVjdCAoaWYgPT0gZWxzZSkKPiAKPiBGaXhlczogOTc0Y2UxODEg
-KCJkcm0vYW1kL2Rpc3BsYXk6IEFkZCBjaGVjayBmb3IgUFN0YXRlIGNoYW5nZSBpbiBEQ04zMiIp
-Cj4gCj4gQ2M6IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmcKPiBTaWduZWQtb2ZmLWJ5OiBKb3PDqSBQ
-ZWtrYXJpbmVuIDxqb3NlLnBla2thcmluZW5AZm94aG91bmQuZmk+Cj4gLS0tCj4gICAuLi4vZHJt
-L2FtZC9kaXNwbGF5L2RjL2RtbC9kY24zMi9kaXNwbGF5X21vZGVfdmJhX3V0aWxfMzIuYyAgIHwg
-NCAtLS0tCj4gICAxIGZpbGUgY2hhbmdlZCwgNCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5L2RjL2RtbC9kY24zMi9kaXNwbGF5X21vZGVf
-dmJhX3V0aWxfMzIuYyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxheS9kYy9kbWwvZGNuMzIv
-ZGlzcGxheV9tb2RlX3ZiYV91dGlsXzMyLmMKPiBpbmRleCBlY2VhMDA4ZjE5ZDMuLmQ5NDBkZmE1
-YWU0MyAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2Rpc3BsYXkvZGMvZG1sL2Rj
-bjMyL2Rpc3BsYXlfbW9kZV92YmFfdXRpbF8zMi5jCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9kaXNwbGF5L2RjL2RtbC9kY24zMi9kaXNwbGF5X21vZGVfdmJhX3V0aWxfMzIuYwo+IEBAIC00
-NjYxLDEwICs0NjYxLDYgQEAgdm9pZCBkbWwzMl9DYWxjdWxhdGVNaW5BbmRNYXhQcmVmZXRjaE1v
-ZGUoCj4gICAJfSBlbHNlIGlmIChBbGxvd0ZvclBTdGF0ZUNoYW5nZU9yU3R1dHRlckluVkJsYW5r
-RmluYWwgPT0gZG1fcHJlZmV0Y2hfc3VwcG9ydF91Y2xrX2ZjbGtfYW5kX3N0dXR0ZXIpIHsKPiAg
-IAkJKk1pblByZWZldGNoTW9kZSA9IDA7Cj4gICAJCSpNYXhQcmVmZXRjaE1vZGUgPSAwOwo+IC0J
-fSBlbHNlIGlmIChBbGxvd0ZvclBTdGF0ZUNoYW5nZU9yU3R1dHRlckluVkJsYW5rRmluYWwgPT0K
-PiAtCQkJZG1fcHJlZmV0Y2hfc3VwcG9ydF91Y2xrX2ZjbGtfYW5kX3N0dXR0ZXJfaWZfcG9zc2li
-bGUpIHsKPiAtCQkqTWluUHJlZmV0Y2hNb2RlID0gMDsKPiAtCQkqTWF4UHJlZmV0Y2hNb2RlID0g
-MzsKPiAgIAl9IGVsc2Ugewo+ICAgCQkqTWluUHJlZmV0Y2hNb2RlID0gMDsKPiAgIAkJKk1heFBy
-ZWZldGNoTW9kZSA9IDM7CgpSZXZpZXdlZC1ieTogQXVyYWJpbmRvIFBpbGxhaSA8YXVyYWJpbmRv
-LnBpbGxhaUBhbWQuY29tPgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgta2VybmVsLW1l
-bnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91bmRh
-dGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+Acked-by: Kui-Feng Lee <thinker.li@gmail.com>
+
+On 10/27/23 22:24, Yuran Pereira wrote:
+> As it was pointed out by Yonghong Song [1], in the bpf selftests the use
+> of the ASSERT_* series of macros is preferred over the CHECK macro.
+> This patch replaces all CHECK calls in bpf_iter with the appropriate
+> ASSERT_* macros.
+> 
+> [1] https://lore.kernel.org/lkml/0a142924-633c-44e6-9a92-2dc019656bf2@linux.dev
+> 
+> Suggested-by: Yonghong Song <yonghong.song@linux.dev>
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>   .../selftests/bpf/prog_tests/bpf_iter.c       | 79 ++++++++-----------
+>   1 file changed, 35 insertions(+), 44 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/prog_tests/bpf_iter.c b/tools/testing/selftests/bpf/prog_tests/bpf_iter.c
+> index 1f02168103dd..123a3502b8f0 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/bpf_iter.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/bpf_iter.c
+> @@ -34,8 +34,6 @@
+>   #include "bpf_iter_ksym.skel.h"
+>   #include "bpf_iter_sockmap.skel.h"
+>   
+> -static int duration;
+> -
+>   static void test_btf_id_or_null(void)
+>   {
+>   	struct bpf_iter_test_kern3 *skel;
+> @@ -64,7 +62,7 @@ static void do_dummy_read_opts(struct bpf_program *prog, struct bpf_iter_attach_
+>   	/* not check contents, but ensure read() ends without error */
+>   	while ((len = read(iter_fd, buf, sizeof(buf))) > 0)
+>   		;
+> -	CHECK(len < 0, "read", "read failed: %s\n", strerror(errno));
+> +	ASSERT_GE(len, 0, "read");
+>   
+>   	close(iter_fd);
+>   
+> @@ -413,7 +411,7 @@ static int do_btf_read(struct bpf_iter_task_btf *skel)
+>   		goto free_link;
+>   	}
+>   
+> -	if (CHECK(err < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(err, 0, "read"))
+>   		goto free_link;
+>   
+>   	ASSERT_HAS_SUBSTR(taskbuf, "(struct task_struct)",
+> @@ -526,11 +524,11 @@ static int do_read_with_fd(int iter_fd, const char *expected,
+>   	start = 0;
+>   	while ((len = read(iter_fd, buf + start, read_buf_len)) > 0) {
+>   		start += len;
+> -		if (CHECK(start >= 16, "read", "read len %d\n", len))
+> +		if (!ASSERT_LT(start, 16, "read"))
+>   			return -1;
+>   		read_buf_len = read_one_char ? 1 : 16 - start;
+>   	}
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		return -1;
+>   
+>   	if (!ASSERT_STREQ(buf, expected, "read"))
+> @@ -571,8 +569,7 @@ static int do_read(const char *path, const char *expected)
+>   	int err, iter_fd;
+>   
+>   	iter_fd = open(path, O_RDONLY);
+> -	if (CHECK(iter_fd < 0, "open", "open %s failed: %s\n",
+> -		  path, strerror(errno)))
+> +	if (!ASSERT_GE(iter_fd, 0, "open"))
+>   		return -1;
+>   
+>   	err = do_read_with_fd(iter_fd, expected, false);
+> @@ -600,7 +597,7 @@ static void test_file_iter(void)
+>   	unlink(path);
+>   
+>   	err = bpf_link__pin(link, path);
+> -	if (CHECK(err, "pin_iter", "pin_iter to %s failed: %d\n", path, err))
+> +	if (!ASSERT_OK(err, "pin_iter"))
+>   		goto free_link;
+>   
+>   	err = do_read(path, "abcd");
+> @@ -651,12 +648,10 @@ static void test_overflow(bool test_e2big_overflow, bool ret1)
+>   	 * overflow and needs restart.
+>   	 */
+>   	map1_fd = bpf_map_create(BPF_MAP_TYPE_ARRAY, NULL, 4, 8, 1, NULL);
+> -	if (CHECK(map1_fd < 0, "bpf_map_create",
+> -		  "map_creation failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(map1_fd, 0, "bpf_map_create"))
+>   		goto out;
+>   	map2_fd = bpf_map_create(BPF_MAP_TYPE_ARRAY, NULL, 4, 8, 1, NULL);
+> -	if (CHECK(map2_fd < 0, "bpf_map_create",
+> -		  "map_creation failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(map2_fd, 0, "bpf_map_create"))
+>   		goto free_map1;
+>   
+>   	/* bpf_seq_printf kernel buffer is 8 pages, so one map
+> @@ -685,14 +680,12 @@ static void test_overflow(bool test_e2big_overflow, bool ret1)
+>   	/* setup filtering map_id in bpf program */
+>   	map_info_len = sizeof(map_info);
+>   	err = bpf_map_get_info_by_fd(map1_fd, &map_info, &map_info_len);
+> -	if (CHECK(err, "get_map_info", "get map info failed: %s\n",
+> -		  strerror(errno)))
+> +	if (!ASSERT_OK(err, "get_map_info"))
+>   		goto free_map2;
+>   	skel->bss->map1_id = map_info.id;
+>   
+>   	err = bpf_map_get_info_by_fd(map2_fd, &map_info, &map_info_len);
+> -	if (CHECK(err, "get_map_info", "get map info failed: %s\n",
+> -		  strerror(errno)))
+> +	if (!ASSERT_OK(err, "get_map_info"))
+>   		goto free_map2;
+>   	skel->bss->map2_id = map_info.id;
+>   
+> @@ -714,16 +707,14 @@ static void test_overflow(bool test_e2big_overflow, bool ret1)
+>   		while ((len = read(iter_fd, buf, expected_read_len)) > 0)
+>   			total_read_len += len;
+>   
+> -		CHECK(len != -1 || errno != E2BIG, "read",
+> -		      "expected ret -1, errno E2BIG, but get ret %d, error %s\n",
+> -			  len, strerror(errno));
+> +		ASSERT_EQ(len, -1, "read");
+> +		ASSERT_EQ(errno, E2BIG, "read");
+>   		goto free_buf;
+>   	} else if (!ret1) {
+>   		while ((len = read(iter_fd, buf, expected_read_len)) > 0)
+>   			total_read_len += len;
+>   
+> -		if (CHECK(len < 0, "read", "read failed: %s\n",
+> -			  strerror(errno)))
+> +		if (!ASSERT_GE(len, 0, "read"))
+>   			goto free_buf;
+>   	} else {
+>   		do {
+> @@ -732,8 +723,7 @@ static void test_overflow(bool test_e2big_overflow, bool ret1)
+>   				total_read_len += len;
+>   		} while (len > 0 || len == -EAGAIN);
+>   
+> -		if (CHECK(len < 0, "read", "read failed: %s\n",
+> -			  strerror(errno)))
+> +		if (!ASSERT_GE(len, 0, "read"))
+>   			goto free_buf;
+>   	}
+>   
+> @@ -836,7 +826,7 @@ static void test_bpf_hash_map(void)
+>   	/* do some tests */
+>   	while ((len = read(iter_fd, buf, sizeof(buf))) > 0)
+>   		;
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		goto close_iter;
+>   
+>   	/* test results */
+> @@ -917,7 +907,7 @@ static void test_bpf_percpu_hash_map(void)
+>   	/* do some tests */
+>   	while ((len = read(iter_fd, buf, sizeof(buf))) > 0)
+>   		;
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		goto close_iter;
+>   
+>   	/* test results */
+> @@ -983,17 +973,14 @@ static void test_bpf_array_map(void)
+>   	start = 0;
+>   	while ((len = read(iter_fd, buf + start, sizeof(buf) - start)) > 0)
+>   		start += len;
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		goto close_iter;
+>   
+>   	/* test results */
+>   	res_first_key = *(__u32 *)buf;
+>   	res_first_val = *(__u64 *)(buf + sizeof(__u32));
+> -	if (CHECK(res_first_key != 0 || res_first_val != first_val,
+> -		  "bpf_seq_write",
+> -		  "seq_write failure: first key %u vs expected 0, "
+> -		  " first value %llu vs expected %llu\n",
+> -		  res_first_key, res_first_val, first_val))
+> +	if (!ASSERT_EQ(res_first_key, 0, "bpf_seq_write") ||
+> +			!ASSERT_EQ(res_first_val, first_val, "bpf_seq_write"))
+>   		goto close_iter;
+>   
+>   	if (!ASSERT_EQ(skel->bss->key_sum, expected_key, "key_sum"))
+> @@ -1092,7 +1079,7 @@ static void test_bpf_percpu_array_map(void)
+>   	/* do some tests */
+>   	while ((len = read(iter_fd, buf, sizeof(buf))) > 0)
+>   		;
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		goto close_iter;
+>   
+>   	/* test results */
+> @@ -1131,6 +1118,7 @@ static void test_bpf_sk_storage_delete(void)
+>   	sock_fd = socket(AF_INET6, SOCK_STREAM, 0);
+>   	if (!ASSERT_GE(sock_fd, 0, "socket"))
+>   		goto out;
+> +
+>   	err = bpf_map_update_elem(map_fd, &sock_fd, &val, BPF_NOEXIST);
+>   	if (!ASSERT_OK(err, "map_update"))
+>   		goto out;
+> @@ -1151,14 +1139,19 @@ static void test_bpf_sk_storage_delete(void)
+>   	/* do some tests */
+>   	while ((len = read(iter_fd, buf, sizeof(buf))) > 0)
+>   		;
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		goto close_iter;
+>   
+>   	/* test results */
+>   	err = bpf_map_lookup_elem(map_fd, &sock_fd, &val);
+> -	if (CHECK(!err || errno != ENOENT, "bpf_map_lookup_elem",
+> -		  "map value wasn't deleted (err=%d, errno=%d)\n", err, errno))
+> -		goto close_iter;
+> +
+> +	 /* Note: The following assertions serve to ensure
+> +	  * the value was deleted. It does so by asserting
+> +	  * that bpf_map_lookup_elem has failed. This might
+> +	  * seem counterintuitive at first.
+> +	  */
+> +	ASSERT_ERR(err, "bpf_map_lookup_elem");
+> +	ASSERT_EQ(errno, ENOENT, "bpf_map_lookup_elem");
+>   
+>   close_iter:
+>   	close(iter_fd);
+> @@ -1203,17 +1196,15 @@ static void test_bpf_sk_storage_get(void)
+>   	do_dummy_read(skel->progs.fill_socket_owner);
+>   
+>   	err = bpf_map_lookup_elem(map_fd, &sock_fd, &val);
+> -	if (CHECK(err || val != getpid(), "bpf_map_lookup_elem",
+> -	    "map value wasn't set correctly (expected %d, got %d, err=%d)\n",
+> -	    getpid(), val, err))
+> +	if (!ASSERT_OK(err, "bpf_map_lookup_elem") ||
+> +			!ASSERT_EQ(val, getpid(), "bpf_map_lookup_elem"))
+>   		goto close_socket;
+>   
+>   	do_dummy_read(skel->progs.negate_socket_local_storage);
+>   
+>   	err = bpf_map_lookup_elem(map_fd, &sock_fd, &val);
+> -	CHECK(err || val != -getpid(), "bpf_map_lookup_elem",
+> -	      "map value wasn't set correctly (expected %d, got %d, err=%d)\n",
+> -	      -getpid(), val, err);
+> +	ASSERT_OK(err, "bpf_map_lookup_elem");
+> +	ASSERT_EQ(val, -getpid(), "bpf_map_lookup_elem");
+>   
+>   close_socket:
+>   	close(sock_fd);
+> @@ -1290,7 +1281,7 @@ static void test_bpf_sk_storage_map(void)
+>   	/* do some tests */
+>   	while ((len = read(iter_fd, buf, sizeof(buf))) > 0)
+>   		;
+> -	if (CHECK(len < 0, "read", "read failed: %s\n", strerror(errno)))
+> +	if (!ASSERT_GE(len, 0, "read"))
+>   		goto close_iter;
+>   
+>   	/* test results */
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
