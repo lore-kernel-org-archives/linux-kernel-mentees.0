@@ -1,77 +1,71 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9AAD3C4708E
-	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Nov 2023 17:54:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 343C3C41535
+	for <linux-kernel-mentees@archiver.kernel.org>; Wed,  1 Nov 2023 19:47:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 42BD7431DD;
-	Wed,  1 Nov 2023 17:54:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 42BD7431DD
-Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=gp/1JaVg
+	by smtp4.osuosl.org (Postfix) with ESMTP id B88124ECFD;
+	Wed,  1 Nov 2023 19:47:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B88124ECFD
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=jkGZ4Sqj
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DgN9lIbDcYZ3; Wed,  1 Nov 2023 17:54:19 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id l1dKpHSHZtc1; Wed,  1 Nov 2023 19:47:34 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id DE59F431BD;
-	Wed,  1 Nov 2023 17:54:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DE59F431BD
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 24D534EE49;
+	Wed,  1 Nov 2023 19:47:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 24D534EE49
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id C86D6C0072;
-	Wed,  1 Nov 2023 17:54:18 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 29D66C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id F00C6C0072;
+	Wed,  1 Nov 2023 19:47:33 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 44262C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Nov 2023 17:54:18 +0000 (UTC)
+ Wed,  1 Nov 2023 19:47:33 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id ECB897045D
+ by smtp2.osuosl.org (Postfix) with ESMTP id 1D6534199A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Nov 2023 17:54:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org ECB897045D
-Authentication-Results: smtp3.osuosl.org;
+ Wed,  1 Nov 2023 19:47:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1D6534199A
+Authentication-Results: smtp2.osuosl.org;
  dkim=pass (1024-bit key) header.d=linuxfoundation.org
  header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg
- header.b=gp/1JaVg
+ header.b=jkGZ4Sqj
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id tVcELBDuRvfx
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id ebDdvRzVL6hU
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Nov 2023 17:54:17 +0000 (UTC)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 2C3FD7045A
+ Wed,  1 Nov 2023 19:47:28 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 6F0FC402BC
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 Nov 2023 17:54:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2C3FD7045A
+ Wed,  1 Nov 2023 19:47:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6F0FC402BC
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sin.source.kernel.org (Postfix) with ESMTP id 64895CE1056;
- Wed,  1 Nov 2023 17:54:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C845C433C9;
- Wed,  1 Nov 2023 17:54:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 3DE3260F23;
+ Wed,  1 Nov 2023 19:47:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAFE7C433C8;
+ Wed,  1 Nov 2023 19:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1698861250;
- bh=JAumfjAMArYws76N389UqFy89DYhXF68dhxExokMXXI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gp/1JaVgjaX0aErHXARToRP3jqVB4mU1rKyb6acTpxhiky76TB9Au9YxcUcD2wkVf
- oQ0d2jabJM17qBhkJCxYSHCiUyVLvQm4o4onpY/I4xrc7/ku06ZJRZkOp/RPqQxAiu
- 1jzYI9CoeyudoOCLekiRugVrhVBBv6+BxDVgLgrM=
-Date: Wed, 1 Nov 2023 18:54:07 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
-Subject: Re: [PATCH] drivers core: lookup sysfs power group before removal
-Message-ID: <2023110139-dupe-snipping-5700@gregkh>
-References: <20231101173627.2658-1-jose.pekkarinen@foxhound.fi>
+ s=korg; t=1698868046;
+ bh=lFenhhJtxWo00pd4it4baM7oXMawAiQgg1gGB5VFXGQ=;
+ h=Date:From:To:Subject:From;
+ b=jkGZ4SqjTNFJrLdTolnKhhSfMaAY54SofxBGkpn2RXYdjwPEbIe2dQVwbQKXYOHxL
+ n24qLAxGHGfvhqGToWkhEGNm1oxnr6lDTf7RYpJnYs/kw3mOGTxnwWkD/ISuK6YdWE
+ E2zi1mErSOUxZ7/FA3g0yjkgpMEaDfWLZtwUsq4A=
+Date: Wed, 1 Nov 2023 15:47:25 -0400
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Subject: PSA: the linux-kernel-mentees list is migrating to lists.linux.dev
+Message-ID: <20231101-piculet-of-flawless-abundance-acd6cf@meerkat>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <20231101173627.2658-1-jose.pekkarinen@foxhound.fi>
-Cc: len.brown@intel.com, linux-pm@vger.kernel.org, rafael@kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+95f2e2439b97575ec3c0@syzkaller.appspotmail.com, pavel@ucw.cz,
- linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -83,55 +77,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 01, 2023 at 07:36:27PM +0200, Jos=E9 Pekkarinen wrote:
-> Hinted by syzboot, there is a few cases where the sysfs power group may
-> not be there, like the failure while adding it, or adding its runtime
-> group, or when the sysfs firmware loader fallback fail to populate. In
-> the last case, the device_del function will be called leading to attempt
-> to remove the sysfs group. This patch will lookup for it in advance to
-> grant that it is effectively there before cleaning it up.
-> =
+Hello, all:
 
-> Reported-by: syzbot+95f2e2439b97575ec3c0@syzkaller.appspotmail.com
-> =
+The mailman-2 system running on lists.linuxfoundation.org is being
+decommissioned, so all lists currently hosted there will be found new homes.
+*On November 7*, The linux-kernel-mentees list will be migrated to live on
+lists.linux.dev, but the impact of this move should be minor:
 
-> Signed-off-by: Jos=E9 Pekkarinen <jose.pekkarinen@foxhound.fi>
-> ---
->  drivers/base/power/sysfs.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> =
+1. The new canonical list address will be linux-kernel-mentees@lists.linux.dev.
 
-> diff --git a/drivers/base/power/sysfs.c b/drivers/base/power/sysfs.c
-> index a1474fb67db9..6601729c4698 100644
-> --- a/drivers/base/power/sysfs.c
-> +++ b/drivers/base/power/sysfs.c
-> @@ -834,5 +834,7 @@ void dpm_sysfs_remove(struct device *dev)
->  	dev_pm_qos_constraints_destroy(dev);
->  	rpm_sysfs_remove(dev);
->  	sysfs_unmerge_group(&dev->kobj, &pm_wakeup_attr_group);
-> -	sysfs_remove_group(&dev->kobj, &pm_attr_group);
-> +
-> +	if (kernfs_find_and_get((&dev->kobj)->sd, pm_attr_group.name))
-> +		sysfs_remove_group(&dev->kobj, &pm_attr_group);
+2. *The old address will continue to work* for the foreseeable future, so any
+   existing conversations can continue and any new messages sent to the old
+   list address will be properly delivered to all subscribers.
 
-What's to keep it from going away right after finding it?
+3. All members will be automatically subscribed to the new list, so no action
+   is required on anyone's part to keep receiving list mail.
 
-In other words, what is wrong with removing a group that is not there?
-What error happens?  It should be fine, or are you seeing real code
-failures somewhere?
+4. The archive on https://lore.kernel.org/linux-kernel-mentees/ will be
+   automatically updated to track the new list address.
 
-Also, I think you just leaked a reference count here, how was this
-tested?
+5. The List-ID header will change, regardless to which address the message is
+   sent:
 
-thanks,
+   before: List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
+    after: List-Id: <linux-kernel-mentees.lists.linux.dev>
 
-greg k-h
+   You will need to update your filtering rules if you filter based on the
+   contents of that header (on or after November 7).
+
+6. The mailman footer will no longer be added to message bodies.
+
+7. Subscribing and unsubscribing will be done using the mlmmj supported
+   commands, documented at https://subspace.kernel.org/subscribing.html
+
+Please let me know if you have any questions or concerns. Otherwise, I will
+follow up on November 7 after the move has been completed.
+
+Best regards,
+-K
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
