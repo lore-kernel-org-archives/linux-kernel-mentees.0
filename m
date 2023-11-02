@@ -4,124 +4,124 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id C55FDC4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Nov 2023 04:10:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7F8B3C0018C
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Nov 2023 04:10:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 644E14333D;
-	Thu,  2 Nov 2023 04:10:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 644E14333D
+	by smtp2.osuosl.org (Postfix) with ESMTP id 3017A43335;
+	Thu,  2 Nov 2023 04:10:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3017A43335
 Authentication-Results: smtp2.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=Vqg8YbzP
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=V6I4YWwo
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Of526cMaeO3d; Thu,  2 Nov 2023 04:10:29 +0000 (UTC)
+	with ESMTP id xVkjy90K6kOH; Thu,  2 Nov 2023 04:10:31 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 3F35643332;
-	Thu,  2 Nov 2023 04:10:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 3F35643332
+	by smtp2.osuosl.org (Postfix) with ESMTPS id DD7E943337;
+	Thu,  2 Nov 2023 04:10:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DD7E943337
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 6C1F5C0DD8;
-	Thu,  2 Nov 2023 04:10:25 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id A81C9C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B1CE9C008C;
+	Thu,  2 Nov 2023 04:10:30 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A35B2C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:10:24 +0000 (UTC)
+ Thu,  2 Nov 2023 04:10:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 8155770594
+ by smtp1.osuosl.org (Postfix) with ESMTP id 65F7184D2C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:10:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8155770594
-Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
+ Thu,  2 Nov 2023 04:10:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 65F7184D2C
+Authentication-Results: smtp1.osuosl.org; dkim=pass (2048-bit key,
  unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
- header.s=selector1 header.b=Vqg8YbzP
+ header.s=selector1 header.b=V6I4YWwo
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id XqdT8SrfS6ql
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id diepue3vc_Ur
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:10:19 +0000 (UTC)
+ Thu,  2 Nov 2023 04:10:28 +0000 (UTC)
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05olkn2082b.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::82b])
- by smtp3.osuosl.org (Postfix) with ESMTPS id EDA4970595
+ (mail-vi1eur05olkn20814.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7d00::814])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 911B184D26
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:10:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EDA4970595
+ Thu,  2 Nov 2023 04:10:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 911B184D26
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JLebc6O+aG/efxPzoplBZYbloa1qH+zMxHTtRceVl24kgEEvro8pRKPBWn4b73jwPtEUzxlvVDRr9aZcc0YhJmzoI3grtqWyuCauIvGQpRRDtccfpiIECe6GYYhS+905FCiCzgPTI6Br3Q6PErsptRGpnV2k4PB9+c9Pn+BcobjMsDd5IqO5nuxtURGl76Fzy9GRkhOo6nAaEVEDBt4EQRG9eV1DNE7PI+RykcZUhEdSOGBooJX5LacWO2B+/od385tbTvE4IDT/uW8v/leTEEfoRJCxBUmMqyrfXVQFiWmMXhpJovVhvCLP+26Pw8UXdXC4L6YO2LxCjVRx50mlZA==
+ b=HfneqyOdH5fRbvs1yriplmaZqHnguMmaBIOC6KmBPOhEry1WfZHM7fh1sxlZ5D/lC9ip4Cr0l9YWov2iCeCn0I+WfPk4uYu+nlhfDjLNuD1FOnKzey1tMPkoVF3sDAqfPumuL26ywfx5OWY5gaR8+knse1ZduxqYqOjS9UJpZRUev5oF7/shSu4Cle5g4SbHZn9Fq7E/Oxl33krgI+/hl0xwQd8EniuvKNrfPWoPM1lcmVcr6/MTJexkW64pUVIO36EP24Q4wI8IN4YDodxvR0C7NC7BSTV9DSieuzPgBAWUCfrJgeo3/JYVaJIsJKs4smoTK5q1uCdDK3tPqE6vpA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5D9faqvwN7odn+OIaTCNqi3uJC5WdGKT0RVYNo+RheU=;
- b=LTnxyOB1GbQ7LJqtS1qGvaii/wqiW892+di/Jxw6S1rIJiqUpW51pL+xfWkVDL3xujsIoXQOYNPNryTfi+lZQKikcHNeXv6GOE0YRSsrXUVv6y3kM7D9Q7gz/DF/FOjPjzBThC2KxdAuSEZQ0dxzjtkYLImANU+Su5rsJPyZYeHO+PNuHtzPKXs6cEaMyNrsky0PAF9/xIChiKLOurgDK4tGKPqOm3ViuTjJWT1DGaeKc+wSVSIql4Eb3KOxsQ4FTaOrsM0UDbkawy49FtmARFBt2+2lTOiaNsF5tJuAG0EwbOXdeD7VR+ZLIpaI3Xn947dJFDOJTnkjS+DvD1dNRA==
+ bh=W24hap0W9jjDGJfQThCIOravrPCXruxLA34CxH/jRBw=;
+ b=QoVBhg9tueGgpCauKi7G7Zmz2/sJ9Fmd0z8EgW7KQVKyJhs+5mu1zzRLw02HXt2CaYvKf1dsrN01DLlFXJfFXRLQ4vLrOO720u1BgJfnT5rOUnbAsBmNRR3HbUeRDVpPzDSAjbBE+uW3hihfhAlnuitaiDlVIulnEZcMyi8dG2hDHab80GtNK1uQFsgMNVHf9KtvUPhe93cdLwNo8tmLMO3CePoX11vo+NUVc1zAG4uoZBmDi9rRAfQOVRCWXOcmZ+JNEsMvZ2ZJAMgdb+1Bavtm1Xlw7aTFi7lIsxLHAOAln80ZD5svI2mE7Cyd7UjNGXPeeOFquGyYL26eghIkbg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5D9faqvwN7odn+OIaTCNqi3uJC5WdGKT0RVYNo+RheU=;
- b=Vqg8YbzPkLpGWC+sYI9gpSWo1JVJuPtN88I7PK/ZHepfNWCg/Rr6jA2kpHBfKDjHugAGVzu8l0SKKfQHRDDtVOPUZpDBIwxfApERp46EZApAzr9spy9xRSXgNj4WWqUSVFWeAVM7HmdSGT2aMH1mWpXytrWqWqShzUXvxWLf2wioPMfiUvuvzrDFAToXnqwGr6pIOJRrazFL3APRKm+tb/pUKuDfQqCEMG6I+6VOmyBH3lL9moXGR7hYePe9rKf2irhc2oCFB2DGyS/k2PNQInMhbgfYGFnMthw25/a0M8sVY8iXNsZ3XrZug/HaWIUvCJ+7CoPItP/QRZx6PS10rQ==
+ bh=W24hap0W9jjDGJfQThCIOravrPCXruxLA34CxH/jRBw=;
+ b=V6I4YWwodvX+K4EgrYtygh/6VgtW5Vi+Aye3eOHfIvx7rm6JxA0FN6O4TvHFZrea1dyTvomcz0zrsPH3eMnr834Bm8Od9ZMVHomrLlyb8aw+aUGa8zHsvPvhNG0rv4iFsKZxrwQyhFQcfVvllR61TnxbEOrlcLvzkVWVYZH7Bt8RsXqAVU6j0hBbU5JjEGJYUjEXZdZGZtm4scAsQyS2ZccD7CDWpewJrUDyOc1i0aFZmnR7KcWsWo+lMb56kvnwIXwxgYYutoPvOU0d97oowr7tg13F7jtaU2U3KLOBp+GRy+ergcm+PCH752Z9ZVIDiCsfOrRQoeq41SkdQi/VrQ==
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
  by GV1PR10MB5868.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:57::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.29; Thu, 2 Nov
- 2023 04:10:16 +0000
+ 2023 04:10:23 +0000
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.019; Thu, 2 Nov 2023
- 04:10:16 +0000
+ 04:10:23 +0000
 From: Yuran Pereira <yuran.pereira@hotmail.com>
 To: linux-crypto@vger.kernel.org,
 	herbert@gondor.apana.org.au
-Subject: [PATCH 2/7] crypto: Fixes uninitialized skcipher_walk use in
- des3_ede_glue
-Date: Thu,  2 Nov 2023 09:39:26 +0530
-Message-ID: <DB3PR10MB6835EB64DD7E871C722184ACE8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+Subject: [PATCH 4/7] crypto: Fixes uninitialized skcipher_walk use in
+ aesni-intel_glue
+Date: Thu,  2 Nov 2023 09:39:28 +0530
+Message-ID: <DB3PR10MB6835F2320CEC2E4B90F63D8BE8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231102040931.1556061-1-yuran.pereira@hotmail.com>
 References: <DB3PR10MB683562E7BD2DC73A48BEA3C8E8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
  <20231102040931.1556061-1-yuran.pereira@hotmail.com>
-X-TMN: [qMMSgV97n9JMWg2pFVIDSB+D1ewAymla]
+X-TMN: [Nw9jjA4e+f03mmGHMGJxhoHhWdnsHhbv]
 X-ClientProxiedBy: JN3P275CA0004.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:70::14)
  To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <20231102040931.1556061-2-yuran.pereira@hotmail.com>
+X-Microsoft-Original-Message-ID: <20231102040931.1556061-4-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|GV1PR10MB5868:EE_
-X-MS-Office365-Filtering-Correlation-Id: 133f025f-19b0-4b2a-315e-08dbdb599eb8
+X-MS-Office365-Filtering-Correlation-Id: ef5bc174-0e01-438f-2bf0-08dbdb59a2dd
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JpJPBhiV5CkJadCdNBCrPkKY0uLyXJE9c9whtg77RKbgdCWAcGdi3RZH6StLEMoKlGNhyMQY4vpXyiQ3U+k0pnm0XFUjFjEQi5UQp+AIHlXXM1UEbjGxyClpxIGgQQ4yXQI9rDpZJ619CU00AFFWTd6GSeRLZRXt1tJ9+ZsEwVgeSWXcX50HhgI36JAfX8GJhuBKb3cqF5+hv8zYWx7DjNuGKm4f1R5ic5NCQg2xgfBgb0DihtgpCeoPcRulLRAjSlZUfiD77x/iHP8guXjRht09X/1D/vTLx21LZhTINseStExDQO9/5jXO3pVi7+zhbZX7BFSUE9m9doXkGCbg7qzlBizyNdI2+b9dg+9D4wgX7hfHTJ2RwSGJ6gkyS/m8CYewccpNFjyeWPwLyiU6DPFK4tOzWjtbXZV9V84Zeutm/YXEwRchXbo/m3GZuzzUbamM/JhKqIH+ZYkwPPCGeK9M/CBwCCMCr0mpXI2C6BVl57/rFbIZRWKkP2P5IBdwTevhZRVa/27ug8XU9s85W+jDCRYy/2NKR3jUNj6G09VlxHtjTVwFsoTCQwPJFYdQql71V8UxFHNEti2bhFZw0vC9l3dqC2ZET8du97IXMgiKmBLDZyJSD+24sZr8eDmG
+X-Microsoft-Antispam-Message-Info: /Rz5TB3kfH4j/k/kntVlaEbc+utdxvPeul0sky2fpnoJjLPqXsxoJLLfOKpB54CHrLr7LGP6Z0UJiN9jae6XcXHItkVpdWO+RQvFm1AIH0PIQP5raxKCv5fsNuFc0OShXTOSLBygT0dt7CCS5IqqdcmsWoOOastvdtArumYW0BFA9EDMzaCqKl2PPmnQ+IAD6dXOux2HgkFU/jU26qg0RurGMlQU0KzlS/J9084ieCJgUtk4Eic1OVVNFkfC3wL4bIV3RMEBFPDzTj/9jVlEjYK6QVmhuvwR2eZah0e+Jm2GWY65KtDhHv6EFf2EZvU/CFOwr5MZoZybjpFVROk4s1Zck1CClzaPZFeIoNDGdNXcuhaw7FfTHd4YCcyttiLRxF1sRmSBoK1lOJxQ3QMU7GMeNnc6T6cBxJHiZ5NFcya7zg0p+CfwIgQ5/FwJPEcYlufGBeX0Z4UIx9j9mnhMnw9pMGXXtXZtflNdptwQF8XHljaFK/frntev/mjNPI2XUlMmKvInSDbx0JkyO9lB+1wgOCgflFLECjuhMfmXV5JI31opfRTR5iG74McHu8YN5Cn9aERonUKrOEnms3R/tpfh7wH80XxZsOc5vkpTGnQIRWqQ5eqAke2a/Llo14Y3
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9RkqZmRwxfsvzEA77eR8XLi8sCswBc6LiYSl1p7DKhzMXj+yCACLvpmyX9in?=
- =?us-ascii?Q?mN4TGtaNg+dVOYdmB6fSpfSR2VIxlRZhXgfbtFiELhcqaZRJY1gvFov1xYcu?=
- =?us-ascii?Q?yOQrscVVqkTwOegVrsYH/h3n5D3lLtO2YmP8dQ+bn0owPeFbS3CysECmOULz?=
- =?us-ascii?Q?fMf5GkGdKOnULIArzxORNQI7JPGOrDyJ3X1dW74PDOCdqgfFFyy3p14bx+jH?=
- =?us-ascii?Q?/7DDK34VbO7YHv5cJ0Wr8ajbcx/mSQc9nAHqUAtz4MzahatQ6ue8OY+wipFC?=
- =?us-ascii?Q?FsEBfEzbSVNuIMMNL8gr9sNOtcPg+6zJ83PlTwbqozZb0pkQ1wFCyY3ZlhY6?=
- =?us-ascii?Q?IJMIU6Eco+QrvKwbk0mtNh5Ji+shJxJfFZ4pRAOudafbxEXwgkOP7WenFMeX?=
- =?us-ascii?Q?opsdp1HETK5EvHrFR1v6TzUUxBX5ya8eqguX+fQwtLyfmSHhGKo0khVeY/r2?=
- =?us-ascii?Q?Ml5UmuegJGjpaZG8KlFPg6iEMdROOE96X9HsLBLffrFMdAn9OVj9yGGpkgRY?=
- =?us-ascii?Q?vJylAakxUYTOjBcg0yvECOYsD47C5CUJ/LacKFSJjE0NbIMJSADGYkt0G5Pi?=
- =?us-ascii?Q?uZ1Hf7XGXuDLU1AagrV94cMsY7S5jnGlM5g7BjzVNjqWfVaoJHGq7Yjgvp+X?=
- =?us-ascii?Q?9yYi3b0vzQFhwqmjyhEJ/XmbJVCennQ/1+0dnEn0QWio+Xl1Cgh02L7ydSiR?=
- =?us-ascii?Q?0q6R0HBsCvP2RrvovMboy2qo6Q3P0EGamY1m20zaIgC0lOhUjSp3Av3RTIoM?=
- =?us-ascii?Q?1+uKIyEPMzuxkey+vdVTfc/8fOGARlVwMuQX6yjq94wPXucPy4i6KXg1+y7A?=
- =?us-ascii?Q?sXhs2jVM70lDfbYPiBrf7ynNEqns8a3OTbv4Hgo9Q1YIa0pIWCZMEq+bKiS1?=
- =?us-ascii?Q?aiOWLgYnexujKh/s1Z9+4/OHGk4/+AqZ1yeDN+V2MsupR2QDk/gJUSLQ6Bv1?=
- =?us-ascii?Q?++xS9IX22Ovzf+2fyl9+0ZU/Zc1AMnjtWMdXu+q7eroQaLnFdkbB5YXo8GkO?=
- =?us-ascii?Q?reN8vAN5Vktz4cDocqJkvDmbgIJthYQuVzXMD/Q9BMK6+94GEw7rRUnRw0HK?=
- =?us-ascii?Q?rPtb6CxJKpdq6wjbLVi0PEEqKYei8Wvi+W0BjOmN0v1LGjVBbMrL5CCwLVW5?=
- =?us-ascii?Q?YdMcnLzLLK2wXNzDbb+YBfFURBK6BfLC3ohrQ6N1VesQN1KwDVaMAi7mZFoS?=
- =?us-ascii?Q?0lxSXjdO6sc9hPm09WB3XgKcw35Q2px2GfAhx6Rhbq5P/gBGulmFk0ZNT6k?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q2GtzcCIs7UQ/DnsopUK0QPcG4laFCp++HhmJQhz9lv4U1s3uC77jf5ZCQGT?=
+ =?us-ascii?Q?6wVfyOaxiPNszZAhvr74d7K/4t+rswUwS5SB8gcxB3ZehpTApKAXHLT+pbQR?=
+ =?us-ascii?Q?rCe2LoY0BSdQfthfFHcFIQLurXA7qlycyY+NzN/BqubnXv7y+Z5f+TxSZh9w?=
+ =?us-ascii?Q?FfHkmyYfLCceOcbhtnflBMrsKwagphOcw0ent25xMmG1mx/K4HVwyVWrKAZV?=
+ =?us-ascii?Q?rv32YTsRMMOvnbDFqleEHDj5RW/r2nrXAiYZ/bya+RxPR5cKo8RVbdFtGz7g?=
+ =?us-ascii?Q?OtG2rPjooK9P1uWP1qmPPQXMlU7qBIph5sK+Of/ZiKB+RagPBO462YZ3ZtYT?=
+ =?us-ascii?Q?9Q5/FhsbT19PuudNP436xhC0eB61iQEVT8D2a8/4shWmsQ7NQc+g+puNRFfU?=
+ =?us-ascii?Q?dO7dllcNTNBjhey9QI0XEvoRTrRw7nM+D+LYimea04YFYWyejk+GKb0LCuJM?=
+ =?us-ascii?Q?VEQ0figGDwZ0eukVExXVEHs87fmSaEqnnTyntHVvZr6RRYEawUrDBVKMsNvS?=
+ =?us-ascii?Q?IDuoBnUCn99LWZQ9JMPUPJX69Jyr2VQDmI7VlXsHDtKNY+n8sH8gd2DHr0Gb?=
+ =?us-ascii?Q?obRHDO0xA9u8UjvjAHwDGeDxxTafR9RmoAohQlM9Cpzyl5LubbIzoXBoNagE?=
+ =?us-ascii?Q?LihPTG4ZRx/hEbemMeS7KTzWq2kd/MJ5sEB5kTc2PBGKRKxCBbedcj0Idpra?=
+ =?us-ascii?Q?nvwqdvbPkjqh1rCJ27ONiaIvzspIR37ZVRma1vWjuOncMYbNMzOZEv2UL6QC?=
+ =?us-ascii?Q?djr2O+LGqgthNagcdnJ4UrMQ+4xt1rldw8kHjKZb6IZpQGdCuFenIgz5ZeNy?=
+ =?us-ascii?Q?/WD+1xQAtzfdKGTJcnp7Oi4fnkoF33lODC7g0uv3F14XEFEV1ZdI79+4EVNl?=
+ =?us-ascii?Q?4NR4Wes20rQReQ5xragiAIBWC8k+bOcmQJkk9MLG3fTIJUKFgMzuFLxq5x6R?=
+ =?us-ascii?Q?3iV7bUXgnXCbimfR57nNvuAJNzmmIvufGsMGHu53z0Xf28EfMyMAhgpJqG7C?=
+ =?us-ascii?Q?VB7PLCCrO1e0bfACiOyEtANjEO12otpnshbR0R9mvUmHgJA528KQDqb5zrxt?=
+ =?us-ascii?Q?njOwsUDaUQGNN7fhFQsHoSa6/OErf5/3WZ5cQX5vJ8GSdnqmSc/QKcy840Yb?=
+ =?us-ascii?Q?HXggVPM4Dvs4Vl+FUPLYXJTfUJRbePKV4atcFoix+7lKWHuPJfBM3QFs1R3g?=
+ =?us-ascii?Q?FMx/gj4nJaMdADJ6enAkIHi+JcxrDBLFcWwt6dZ0eusOZ+PiVmmJL4OdKOo?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 133f025f-19b0-4b2a-315e-08dbdb599eb8
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef5bc174-0e01-438f-2bf0-08dbdb59a2dd
 X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 04:10:16.7758 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 04:10:23.7072 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
@@ -148,9 +148,16 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 In the following functions:
- - `ecb_crypt`
+ - `sm4_avx_ctr_crypt`
+ - `ecb_encrypt`
+ - `ecb_decrypt`
  - `cbc_encrypt`
  - `cbc_decrypt`
+ - `cts_cbc_encrypt`
+ - `cts_cbc_decrypt`
+ - `ctr_crypt`
+ - `xctr_crypt`
+ - `xts_crypt`
 
 `struct skcipher_walk *walk` is not fully initialized before its use.
 
@@ -181,25 +188,25 @@ int skcipher_walk_done(struct skcipher_walk *walk, int err)
 To prevent this, this patch ensures that instances of
 `struct skcipher_walk` are correctly initialized prior to their use.
 
-Addresses-Coverity-IDs: 1434673 ("Unintialized scalar variable")
+Addresses-Coverity-IDs: 139545, 1508669 ("Unintialized scalar variable")
 Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
 ---
- arch/x86/crypto/des3_ede_glue.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/x86/crypto/aesni-intel_glue.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/arch/x86/crypto/des3_ede_glue.c b/arch/x86/crypto/des3_ede_glue.c
-index abb8b1fe123b..6f16b09b52fe 100644
---- a/arch/x86/crypto/des3_ede_glue.c
-+++ b/arch/x86/crypto/des3_ede_glue.c
-@@ -15,6 +15,7 @@
- #include <linux/init.h>
- #include <linux/module.h>
- #include <linux/types.h>
+diff --git a/arch/x86/crypto/aesni-intel_glue.c b/arch/x86/crypto/aesni-intel_glue.c
+index 39d6a62ac627..d2c5f00a33ff 100644
+--- a/arch/x86/crypto/aesni-intel_glue.c
++++ b/arch/x86/crypto/aesni-intel_glue.c
+@@ -35,6 +35,7 @@
+ #include <linux/workqueue.h>
+ #include <linux/spinlock.h>
+ #include <linux/static_call.h>
 +#include <linux/string.h>
  
- struct des3_ede_x86_ctx {
- 	struct des3_ede_ctx enc;
-@@ -70,6 +71,7 @@ static int ecb_crypt(struct skcipher_request *req, const u32 *expkey)
+ 
+ #define AESNI_ALIGN	16
+@@ -296,6 +297,7 @@ static int ecb_encrypt(struct skcipher_request *req)
  	unsigned int nbytes;
  	int err;
  
@@ -207,22 +214,72 @@ index abb8b1fe123b..6f16b09b52fe 100644
  	err = skcipher_walk_virt(&walk, req, false);
  
  	while ((nbytes = walk.nbytes)) {
-@@ -154,6 +156,7 @@ static int cbc_encrypt(struct skcipher_request *req)
+@@ -318,6 +320,7 @@ static int ecb_decrypt(struct skcipher_request *req)
  	unsigned int nbytes;
  	int err;
  
 +	memset(&walk, 0, sizeof(walk));
  	err = skcipher_walk_virt(&walk, req, false);
  
- 	while (walk.nbytes) {
-@@ -233,6 +236,7 @@ static int cbc_decrypt(struct skcipher_request *req)
+ 	while ((nbytes = walk.nbytes)) {
+@@ -340,6 +343,7 @@ static int cbc_encrypt(struct skcipher_request *req)
  	unsigned int nbytes;
  	int err;
  
 +	memset(&walk, 0, sizeof(walk));
  	err = skcipher_walk_virt(&walk, req, false);
  
- 	while (walk.nbytes) {
+ 	while ((nbytes = walk.nbytes)) {
+@@ -362,6 +366,7 @@ static int cbc_decrypt(struct skcipher_request *req)
+ 	unsigned int nbytes;
+ 	int err;
+ 
++	memset(&walk, 0, sizeof(walk));
+ 	err = skcipher_walk_virt(&walk, req, false);
+ 
+ 	while ((nbytes = walk.nbytes)) {
+@@ -387,6 +392,8 @@ static int cts_cbc_encrypt(struct skcipher_request *req)
+ 	struct skcipher_walk walk;
+ 	int err;
+ 
++	memset(&walk, 0, sizeof(walk));
++
+ 	skcipher_request_set_tfm(&subreq, tfm);
+ 	skcipher_request_set_callback(&subreq, skcipher_request_flags(req),
+ 				      NULL, NULL);
+@@ -443,6 +450,8 @@ static int cts_cbc_decrypt(struct skcipher_request *req)
+ 	struct skcipher_walk walk;
+ 	int err;
+ 
++	memset(&walk, 0, sizeof(walk));
++
+ 	skcipher_request_set_tfm(&subreq, tfm);
+ 	skcipher_request_set_callback(&subreq, skcipher_request_flags(req),
+ 				      NULL, NULL);
+@@ -515,6 +524,7 @@ static int ctr_crypt(struct skcipher_request *req)
+ 	unsigned int nbytes;
+ 	int err;
+ 
++	memset(&walk, 0, sizeof(walk));
+ 	err = skcipher_walk_virt(&walk, req, false);
+ 
+ 	while ((nbytes = walk.nbytes) > 0) {
+@@ -566,6 +576,7 @@ static int xctr_crypt(struct skcipher_request *req)
+ 	int err;
+ 	__le32 block[AES_BLOCK_SIZE / sizeof(__le32)];
+ 
++	memset(&walk, 0, sizeof(walk));
+ 	err = skcipher_walk_virt(&walk, req, false);
+ 
+ 	while ((nbytes = walk.nbytes) > 0) {
+@@ -912,6 +923,7 @@ static int xts_crypt(struct skcipher_request *req, bool encrypt)
+ 	if (req->cryptlen < AES_BLOCK_SIZE)
+ 		return -EINVAL;
+ 
++	memset(&walk, 0, sizeof(walk));
+ 	err = skcipher_walk_virt(&walk, req, false);
+ 	if (!walk.nbytes)
+ 		return err;
 -- 
 2.25.1
 
