@@ -1,79 +1,67 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E79DBC4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Nov 2023 04:20:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F8EFC4167B
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Nov 2023 04:47:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8BF5784CED;
-	Thu,  2 Nov 2023 04:20:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8BF5784CED
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=BTwbS13f
+	by smtp4.osuosl.org (Postfix) with ESMTP id 99BA142E46;
+	Thu,  2 Nov 2023 04:47:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 99BA142E46
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M045sYsFNP-k; Thu,  2 Nov 2023 04:20:48 +0000 (UTC)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MNKFsyTTcOsm; Thu,  2 Nov 2023 04:47:07 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 669DD84CB6;
-	Thu,  2 Nov 2023 04:20:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 669DD84CB6
+	by smtp4.osuosl.org (Postfix) with ESMTPS id AE28042DFC;
+	Thu,  2 Nov 2023 04:47:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AE28042DFC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 4BFB0C0039;
-	Thu,  2 Nov 2023 04:20:48 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id C1258C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DEF0C0039;
+	Thu,  2 Nov 2023 04:47:07 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id BF846C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:20:47 +0000 (UTC)
+ Thu,  2 Nov 2023 04:47:05 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 8B62E70597
+ by smtp4.osuosl.org (Postfix) with ESMTP id 9B4BB42DF7
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:20:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8B62E70597
-Authentication-Results: smtp3.osuosl.org;
- dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org
- header.a=rsa-sha256 header.s=k20201202 header.b=BTwbS13f
+ Thu,  2 Nov 2023 04:47:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9B4BB42DF7
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id nLgU7R1z7h5R
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id BbZnIMxGkezT
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:20:47 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by smtp3.osuosl.org (Postfix) with ESMTPS id F011570596
+ Thu,  2 Nov 2023 04:47:01 +0000 (UTC)
+X-Greylist: delayed 935 seconds by postgrey-1.37 at util1.osuosl.org;
+ Thu, 02 Nov 2023 04:47:01 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3210242DB9
+Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 3210242DB9
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:20:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F011570596
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 8DD1F60C21;
- Thu,  2 Nov 2023 04:20:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0672C433C8;
- Thu,  2 Nov 2023 04:20:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1698898845;
- bh=txrJlBB0Uz613TnTKBLK7e9nihyZmtdDBI+sCpPNnt8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BTwbS13fGaAJLxnc4pi0VX3VLVMDZ6et4pCX3CHqbAEMybAfp4b4JDBjGpZjP+i3n
- MTUkffkYFeq8gurYFgsV0/qfMuHG5TtKjO+fm5tRUJyQSMeLFzskbBj3N4AZB4Z2Uc
- kpiO2oZylgD5+j+hs4zmzG/7hID905PbDMgqnV+Sph+gWvOPtsU03jgCKR4Ns43sPI
- 86UXEdfJLdStgL8VhdFxWpLjCuEVNlff1PBNEe7JPQ1dee93BNFrqzuA4iptWi+FiA
- QI/uYpZZT75IOm1xJIeAZK83IwFNEfg3RIf7uU6/iopudX10OAlsfbAn1sEdtd8EQV
- nqfc/bAFy2YIg==
-Date: Wed, 1 Nov 2023 21:20:43 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Yuran Pereira <yuran.pereira@hotmail.com>
+ Thu,  2 Nov 2023 04:47:01 +0000 (UTC)
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+ by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+ id 1qyPLp-00DS8w-RW; Thu, 02 Nov 2023 12:30:38 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
+ Thu, 02 Nov 2023 12:30:44 +0800
+Date: Thu, 2 Nov 2023 12:30:44 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Eric Biggers <ebiggers@kernel.org>
 Subject: Re: [PATCH 0/7] crypto: Proper Initialization of `struct
  skcipher_walk` in x86 Glue Files
-Message-ID: <20231102042043.GD1498@sol.localdomain>
+Message-ID: <ZUMl9BJcEXta1Spg@gondor.apana.org.au>
 References: <DB3PR10MB683562E7BD2DC73A48BEA3C8E8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <20231102042043.GD1498@sol.localdomain>
 MIME-Version: 1.0
 Content-Disposition: inline
-In-Reply-To: <DB3PR10MB683562E7BD2DC73A48BEA3C8E8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-Cc: x86@kernel.org, herbert@gondor.apana.org.au, dave.hansen@linux.intel.com,
- linux-kernel@vger.kernel.org, mingo@redhat.com, bp@alien8.de,
- linux-crypto@vger.kernel.org, hpa@zytor.com, tglx@linutronix.de,
+In-Reply-To: <20231102042043.GD1498@sol.localdomain>
+Cc: x86@kernel.org, dave.hansen@linux.intel.com, linux-kernel@vger.kernel.org,
+ mingo@redhat.com, bp@alien8.de, linux-crypto@vger.kernel.org, hpa@zytor.com,
+ tglx@linutronix.de, Yuran Pereira <yuran.pereira@hotmail.com>,
  linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -92,34 +80,25 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hi Yuran,
+On Wed, Nov 01, 2023 at 09:20:43PM -0700, Eric Biggers wrote:
+>
+> Updating all callers of skcipher_walk_virt() seems like the wrong approach.
+> Shouldn't skcipher_walk_virt() be fixed to initialize the flags to 0 instead?
 
-On Thu, Nov 02, 2023 at 09:34:08AM +0530, Yuran Pereira wrote:
-> In multiple `*_encrypt`, `*_crypt`, `*_decrypt` functions within the x86/crypto
-> glue files, the `skcipher_walk` structs being used are not properly initialized
-> prior their usage which can lead to undefined behaviour if the `flags` field of
-> this structure were to contain junk values at the time of its usage.
-> 
-> This patch series ensures that instances of `struct skcipher_walk` are correctly
-> initialized across different x86/crypto glue files.
-> 
-> Yuran Pereira (7):
->   crypto: Fixes uninitialized skcipher_walk use in sm4_aesni_avx_glue
->   crypto: Fixes uninitialized skcipher_walk use in des3_ede_glue
->   crypto: Fixes uninitialized skcipher_walk use in chacha_glue
->   crypto: Fixes uninitialized skcipher_walk use in aesni-intel_glue
->   crypto: Fixes uninitialized skcipher_walk use in aria_aesni_avx2_glue
->   crypto: Fixes uninitialized skcipher_walk use in aria_aesni_avx_glue
->   crypto: Fixes uninitialized skcipher_walk use in aria_gfni_avx512_glue
+The bits of the flags that are used are initialised in skcipher_walk_next.
 
-Updating all callers of skcipher_walk_virt() seems like the wrong approach.
-Shouldn't skcipher_walk_virt() be fixed to initialize the flags to 0 instead?
+> Also, does this fix affect any behavior, or is it just to fix a KMSAN warning?
+> It needs to be fixed either way, but it's helpful to understand the effect of
+> the fix so that people can decide whether it needs to be backported or not.
 
-Also, does this fix affect any behavior, or is it just to fix a KMSAN warning?
-It needs to be fixed either way, but it's helpful to understand the effect of
-the fix so that people can decide whether it needs to be backported or not.
+Does this actually trigger a KMSAN warning? If so I'd like to see
+it.  If it's just a static analyser then I'm not applying this.
 
-- Eric
+Thanks,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
