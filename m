@@ -1,67 +1,134 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 1F8EFC4167B
-	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Nov 2023 04:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 5DACFC4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Thu,  2 Nov 2023 04:58:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 99BA142E46;
-	Thu,  2 Nov 2023 04:47:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 99BA142E46
+	by smtp1.osuosl.org (Postfix) with ESMTP id DC87A84E7F;
+	Thu,  2 Nov 2023 04:58:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DC87A84E7F
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=CBC8sZDm
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MNKFsyTTcOsm; Thu,  2 Nov 2023 04:47:07 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ma-3yoJmvnKt; Thu,  2 Nov 2023 04:58:05 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id AE28042DFC;
-	Thu,  2 Nov 2023 04:47:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AE28042DFC
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C830684E7E;
+	Thu,  2 Nov 2023 04:58:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C830684E7E
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7DEF0C0039;
-	Thu,  2 Nov 2023 04:47:07 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id A237EC0039;
+	Thu,  2 Nov 2023 04:58:04 +0000 (UTC)
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id BF846C0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id A4513C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:47:05 +0000 (UTC)
+ Thu,  2 Nov 2023 04:58:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id 9B4BB42DF7
+ by smtp4.osuosl.org (Postfix) with ESMTP id 78CA64EF8D
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:47:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9B4BB42DF7
+ Thu,  2 Nov 2023 04:58:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 78CA64EF8D
+Authentication-Results: smtp4.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
+ header.s=selector1 header.b=CBC8sZDm
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id BbZnIMxGkezT
+ with ESMTP id c4bRkQXds059
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:47:01 +0000 (UTC)
-X-Greylist: delayed 935 seconds by postgrey-1.37 at util1.osuosl.org;
- Thu, 02 Nov 2023 04:47:01 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3210242DB9
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 3210242DB9
+ Thu,  2 Nov 2023 04:58:02 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com
+ (mail-db5eur02olkn20831.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe12::831])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 87E0E4EF8B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  2 Nov 2023 04:47:01 +0000 (UTC)
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
- by formenos.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
- id 1qyPLp-00DS8w-RW; Thu, 02 Nov 2023 12:30:38 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
- Thu, 02 Nov 2023 12:30:44 +0800
-Date: Thu, 2 Nov 2023 12:30:44 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Eric Biggers <ebiggers@kernel.org>
+ Thu,  2 Nov 2023 04:58:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 87E0E4EF8B
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FaeDX7d/nCJVSRXqNyspVgzoeeE7SjqA8bTMC00aNWgARRaZKVHV/tSPnxiFgcQKeYG4cQ4YFDJYDRJEKVTyT/EzCrN3G2jYOn+ZMLZXeHORuGsM0UFUZaXd70Y9GSSNybG/1heSaUR6fKVsnzRYLoo590C4YK+UVGwhdmOhucq+dDNUmj/uiNkl3Nt87Y+u49h07iflmuW8ouy2rntbOoavW+GmpOTXE7GV/cfvLDIcMT5wXhsqWJJG1whPcFRRcMt/ZeXl1E9dC6DwfdV3LERyNqpagZVMzMAEoKB/u1rpVJUM5Eej4LsFiPb77sTWhO6sNk+Hs31IK5dhd/xeqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LBr0VFT4r19CBhKUiL6Ru+Sj7GMQEN00XcosNd6W2JA=;
+ b=GIkJEmSRpyloUiMbHO0MoTIsmwPLxL/1ssxNkSVLJiskbrUZW03RactZlgC3pZbXRVPwde/80GKzurKckZxlgVR8UWWizHGrMPv2mMlxu7yxU/RVjW8wyb5vCa5xOehGQj+90SRtBnsgBBM57vR/YhfyW/8kxWHW39KSC6GfUReugutSU9zbQQGgbuc+0szREBIq61BtnfrY6RYxeaK2YRE/W0wVG9wufHGYpluPebt6xK4sHKcmnm76ADrGjNx1l8MMs/V95fk4pA/XNSoUDcUudUl7EA3fuCGwKOmmQPb0MqzOLPEFROV73hKBSnN+URp8mBvVuvi2Ti45A+qepQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LBr0VFT4r19CBhKUiL6Ru+Sj7GMQEN00XcosNd6W2JA=;
+ b=CBC8sZDm3BjcUzomcUL/ubc5uodx660mv0IUwBiys2c8PWFl33TfNicTZZpwdG/k+8Aegm/wz/7me73Y6QrqArI5zUN4U3B7nW7HP/66rXhyyKCntdWfiiiK+3jo3DZbeDF/nHlTe+JBeZty05jhsMQ7iihFcCw/fi0cIoGjrvkiK+kzSkN7zPGRA07dv+WLFgE0CxdT/TI+NaX4K5Ii1uRmm7Q5q33hH66D6Iyy8X/062qNFV+W2MF3SUugQU/S/DMujY2Q3TfLk+2vQap9b7RNAd0JXO5KdWmtBV+vCLI+D63IOQRoRy20OFxWc0E1K5yOYM2E0bDYwpFhOpc6JA==
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+ by VI1PR10MB8302.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:1d1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Thu, 2 Nov
+ 2023 04:57:58 +0000
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.019; Thu, 2 Nov 2023
+ 04:57:57 +0000
+Date: Thu, 2 Nov 2023 10:27:41 +0530
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
 Subject: Re: [PATCH 0/7] crypto: Proper Initialization of `struct
  skcipher_walk` in x86 Glue Files
-Message-ID: <ZUMl9BJcEXta1Spg@gondor.apana.org.au>
+Message-ID: <DB3PR10MB683587925DA82E44BD8D5D6EE8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 References: <DB3PR10MB683562E7BD2DC73A48BEA3C8E8A6A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
  <20231102042043.GD1498@sol.localdomain>
-MIME-Version: 1.0
+ <ZUMl9BJcEXta1Spg@gondor.apana.org.au>
 Content-Disposition: inline
-In-Reply-To: <20231102042043.GD1498@sol.localdomain>
+In-Reply-To: <ZUMl9BJcEXta1Spg@gondor.apana.org.au>
+X-TMN: [8puoTSQyOB1q2X1jSitcHcx2dFrKxpY3]
+X-ClientProxiedBy: JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12)
+ To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:42a::7)
+X-Microsoft-Original-Message-ID: <20231102045741.GA1557102@nmj-network>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|VI1PR10MB8302:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e67d29f-4e24-47bb-b71e-08dbdb60478c
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: OeisqKZRZE1YbA6aalb2OBz+VucNtzPO4ajQ6Mker23MRECnT11YbMnz8fUWI45GE7pG6YERmDhLFDYs9obR2WxWnkFb6jEzA633gSyF55nBdh3axGRwrWpnL8j187RLsEfaCIpRGL0nIxtRpqf8WcCq3W+zYun8031eGeenmSRmi3DWEdn2EXVV/xO+BflxK7R5iXEdFG9xxxw1Kafcg8YYIC+VQJ0M8ejf52hrLzjKPTFMdyH9BohdMtJJxL8SYfDBU11XrSlJ+IlvYPYDsEBaJ83IESybU56DHHKflSOTOSN2AuDdSgMTADD6YP/QGvg18MBoZh8ezWA4a5ZEY6imVqZ6+WGBAniJYEYGDFiySuvkZOg6VyKnuP8jP2IoP4hpssr2jnOxsf3N9BCDd0SrBixzYjPzEfLo8Q1qrES758NZLOEqCia/Sp5iVe//6oiNTtWdD/5Py2D8Sd3PPFtdd8h6Co3ci1k60/ctYW2MlIdoRDw9iiNrp/Gsz4AsH+oovxLb5kGv0+YZSZdi/CaOGHfXIVH9mHyR7RwgvlwyK3Y3LHaLZw95Ym0znidm
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?q0I2aYVKCb6MAfnj4WXc6yrujt4pFyVscCsZpFql7dnPZC7yg+aIuM66Qb+2?=
+ =?us-ascii?Q?ThW7t+W1HTS3grCzuSWGbodZGTzDGp4GnNKefg+LdEl3FDJ4sIV6WyFtM50Q?=
+ =?us-ascii?Q?AUpwNJDvBC1X4nAOjsjVkUIh+yyJ82EeHrjBkylS990cihuj5mFK2VLjX1ff?=
+ =?us-ascii?Q?D/KQkiZ7yrJ8sI9Tbn3yf7XlDx9j/UQMqgNYYX7Xo1FuWXRelXQGzIzb74Kv?=
+ =?us-ascii?Q?JxiSRc0+DWENVDrzgBUTJA67JPEbcUbo8oC7XJ4xDGhEM/cx+rcJbT/3YXYn?=
+ =?us-ascii?Q?PY4k+Ubxmbm1eYG4jFWykPO1dVeYVFxasX1rmNrrPiqIJEOca4W2VMiR59O7?=
+ =?us-ascii?Q?zbgVRZds7KT9z/MYAOramwxVXhi83WTNlgqScSl0bq+Iy6goGh8fNdNZkykk?=
+ =?us-ascii?Q?7WgeDeCgT7eaBi9H706J79B+G6AWOn4Ye8uYFILAjgTxLeWV9jHecW+W89vC?=
+ =?us-ascii?Q?WffXpZHWPSjAGSV30ln8ylZrrja3uZt3dpJuC7GLtkzhL90efyWZh7ha/Ay3?=
+ =?us-ascii?Q?pIV7MYHjcPx0kLzF6jC2EOZ/MqIfO8GZNgJrxXKWHlFyBks03566snjUrodx?=
+ =?us-ascii?Q?UBY9JnC6+ehIf8UtcXB7NY/c/EU3wCXdg5QcGUb/nMTYuRrVjCRJAWLe0op9?=
+ =?us-ascii?Q?IxirFULMZ7XyZQs/pri/Ki6uYfgtDlmHwavY+w9u7DpTtaKYFOCYqMzyAu+m?=
+ =?us-ascii?Q?2a0tB53E4nxO6LwqtRpcnpfkNPQGLAowUR3yhAr9icLg8XLw6PFPSUQJM7Ze?=
+ =?us-ascii?Q?xh5x+KwDG+IooflvdW5pbosny8MKFf2brgHCZX8KbkYXFnSFMQ1UlM6UJ5cV?=
+ =?us-ascii?Q?NMk3DkszIGdsbR6aWW9TjlMEt49rIXrZ/ir2uilQLD/7OmgG+yHNgSHanqRB?=
+ =?us-ascii?Q?IQyG9oUe2X4HReRi/JrsDgIyKlEOlMsI3OBDHKI7T0dqw5qs9Y/x5TEXpGAz?=
+ =?us-ascii?Q?agpO6R3Vre+Q44irH1bE+ii9WuG3a2z5ZbvrtJhJYL2cQ1WKhaEl50qsLnm4?=
+ =?us-ascii?Q?6rID3XIY57Iwhw+gkPkJoZAWyXdTpCM1QZB7qR5YrcxP5u14IjINTshzqP2H?=
+ =?us-ascii?Q?9U9gJXNq4B0QOiIv9p0JktR2t8JkL3i39xA9boI0D0NjAO+JjZJAMjQgMH5h?=
+ =?us-ascii?Q?GNAwdt+/OwQn/BdeNjVOd2+WOp+P/mZAaHnX/lE/oDG4jSVAFA9GKCugNVeZ?=
+ =?us-ascii?Q?Gvp89Hi85KWUqpyikR73wAHkcVzqY9KvEzEiaIqKbVX0ikXd8e09ZhHP2W4?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e67d29f-4e24-47bb-b71e-08dbdb60478c
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2023 04:57:57.2829 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB8302
 Cc: x86@kernel.org, dave.hansen@linux.intel.com, linux-kernel@vger.kernel.org,
- mingo@redhat.com, bp@alien8.de, linux-crypto@vger.kernel.org, hpa@zytor.com,
- tglx@linutronix.de, Yuran Pereira <yuran.pereira@hotmail.com>,
+ Eric Biggers <ebiggers@kernel.org>, mingo@redhat.com, bp@alien8.de,
+ linux-crypto@vger.kernel.org, hpa@zytor.com, tglx@linutronix.de,
  linux-kernel-mentees@lists.linuxfoundation.org, davem@davemloft.net
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
@@ -80,25 +147,39 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On Wed, Nov 01, 2023 at 09:20:43PM -0700, Eric Biggers wrote:
+Hey Herbert,
+On Thu, Nov 02, 2023 at 12:30:44PM +0800, Herbert Xu wrote:
+> On Wed, Nov 01, 2023 at 09:20:43PM -0700, Eric Biggers wrote:
+> >
+> > Updating all callers of skcipher_walk_virt() seems like the wrong approach.
+> > Shouldn't skcipher_walk_virt() be fixed to initialize the flags to 0 instead?
+> 
+> The bits of the flags that are used are initialised in skcipher_walk_next.
 >
-> Updating all callers of skcipher_walk_virt() seems like the wrong approach.
-> Shouldn't skcipher_walk_virt() be fixed to initialize the flags to 0 instead?
+I noticed that, but since skcipher_walk_first can return with failure, there seems
+to be a chance that those bits are never initialized.
+> > Also, does this fix affect any behavior, or is it just to fix a KMSAN warning?
+> > It needs to be fixed either way, but it's helpful to understand the effect of
+> > the fix so that people can decide whether it needs to be backported or not.
+> 
+> Does this actually trigger a KMSAN warning? If so I'd like to see
+> it.  If it's just a static analyser then I'm not applying this.
+No, there is no KMSAN warning. As I mentioned in the individual patches,
+they're addressing "coverity" reports (so yes, static analyser).
 
-The bits of the flags that are used are initialised in skcipher_walk_next.
+Initially it did look like a false positive, but upon seeing that 
+skcipher_walk_first can return without ever calling skcipher_walk_next
+I thought that there might be an off-chance that skcipher_walk_virt
+returns without ever initializing those bits of the flag... hence this
+patch set.
 
-> Also, does this fix affect any behavior, or is it just to fix a KMSAN warning?
-> It needs to be fixed either way, but it's helpful to understand the effect of
-> the fix so that people can decide whether it needs to be backported or not.
+PS: I just saw Eric's reply, 
+> > Updating all callers of skcipher_walk_virt() seems like the wrong approach.
 
-Does this actually trigger a KMSAN warning? If so I'd like to see
-it.  If it's just a static analyser then I'm not applying this.
+and realized that maybe my approach is in fact an overkill. Maybe simply initializing 
+the flags would indeed suffice.
 
 Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
