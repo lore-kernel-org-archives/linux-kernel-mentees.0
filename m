@@ -1,130 +1,130 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 87D37C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Nov 2023 13:43:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 508A6C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Fri,  3 Nov 2023 14:14:40 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id AFDBA85433;
-	Fri,  3 Nov 2023 13:43:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AFDBA85433
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=Idr7FRmY
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id T9uwUR9cE_Ta; Fri,  3 Nov 2023 13:43:25 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D91268540F;
-	Fri,  3 Nov 2023 13:43:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D91268540F
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A419FC0039;
-	Fri,  3 Nov 2023 13:43:19 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 652B1C0032
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Nov 2023 13:43:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 40DC2613F0
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Nov 2023 13:43:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 40DC2613F0
-Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
- header.s=selector1 header.b=Idr7FRmY
+	by smtp3.osuosl.org (Postfix) with ESMTP id BFA0C708EA;
+	Fri,  3 Nov 2023 14:14:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BFA0C708EA
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=B+YzI/aS
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id a-HcT3VFwObz
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JVvJVTRavl3k; Fri,  3 Nov 2023 14:14:35 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9C676708D8;
+	Fri,  3 Nov 2023 14:14:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9C676708D8
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 8873EC0071;
+	Fri,  3 Nov 2023 14:14:35 +0000 (UTC)
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 316B2C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Nov 2023 13:43:16 +0000 (UTC)
-Received: from EUR03-DBA-obe.outbound.protection.outlook.com
- (mail-dbaeur03olkn20821.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe1a::821])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 76C0F708FE
+ Fri,  3 Nov 2023 14:14:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp2.osuosl.org (Postfix) with ESMTP id 0A43C436CA
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  3 Nov 2023 13:43:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 76C0F708FE
+ Fri,  3 Nov 2023 14:14:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0A43C436CA
+Authentication-Results: smtp2.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
+ header.s=selector1 header.b=B+YzI/aS
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id e-FZfYthVRDY
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  3 Nov 2023 14:14:33 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+ (mail-db3eur04olkn0808.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe0c::808])
+ by smtp2.osuosl.org (Postfix) with ESMTPS id 2B031432D1
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  3 Nov 2023 14:14:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2B031432D1
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GtkGPikIBz9e4jaBpEjx5FxhTRE64cbtont9BM9AVkXSICpOWhOKj0kLKcPJSZ/x70yxORDFEJh6o2hEYj/o9QyRaZ5T2K38EcKK/0V+q7/a0doU7MRvIA+O+X2amJiahyuKdCbO3YVuiWEqMg5YNoKyA2kTfjh5sYw3C96sNRWFmU8HQTH1JSpZ34VvDT4RvFSlxYa4njS+4YBOgLXL5Pt//0gfiAx3HjNO7N9o7VG+3NNlVIl2xkvQWsqBnoPCiIrB2Aw8hhKan/maVBBC3kQuVQFTZVgPWu5FanyF1+V1xrB4yxL9AxprvAb92zMaBfrgcPgYDrBS/ofDXQy5dQ==
+ b=axD8LArIxeWyQW08Em0pZmAwtOKI2jPukNQ07bUcHIjEel9rKPO0/o0QNamzCdn/WRKOiB6Ms4RRWtKTOlW9kwwRN26J/q+0OwyMu242xIAWHCdjQyux65l1QiLp9kULbP5uqezPWhmg2RTlfv2D2wsA0iFvvbSU7MDuRP16mqhG2bnke/COiD2F5qjhFK1qjQmO6X2oVfq7rdnmbITY9zs/J9GFdXUYfq7q88KOXYKbHWuTVExzNY+bOu6KvRdihc2lQIhATlHeW6RcxjEv31r/WRxWS965DKMomPCs0g+Xq9NYLUumjVythoiYTkTtBJjU4IVpnG+QARoY31gzDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jPsVOIHID35hRcUojOO6766waM0yw6oxof43PYpSfcI=;
- b=AV72krs1kaBvPogI1LM8WFTWBt6sN6X2/UVjMJz6wHxwxlwQaPpViWL2SPyiHWjmXwP2lPqbqiKpMQWWoWwXJKICfkBi7RLJmgLmhK7y8aNipxM1cyQq2HOGE38bEesUBwnHCEWIbduErpweYUP6lLpVDhPZL2nT/asP01E89HjPjp5+cJ4GlfRcyIkX1exH40ILEQQnpd/qEaxplrFa7Avq/SK+wTNbt8SroJz9Maq7MNGXo3qZRNifHMr5jws8ZRVWpa2A5M0MGMhOU+AkEYwwn4nfmMSkjDEfFPBQ1aDpBXXDck7Mtj0nAPdoM+KqLO6Mqa6rsQYhzA4d6DktnA==
+ bh=k+nXWJ9l2Nzvhb0DgkgpKphQ1eiIkENT9fRJZTinJT8=;
+ b=LmDh8LKpZV6Vqw348CM1M1FZcCdjhnaV1h0L14979DGeAzTu+kBXtfnj7I7yrrYtsumecCTz6xUdhMqz6jTHazNrySohB0CCuDpifQsbF3TLkBCNm/2t0hTcOexAdpDIR2HpPkhC8bygJmrH/rTyZ+M6I18VEn+2Z4iYSzxWO6Yiwyli+qthuPl5AVBuM210B3baRqhCXTsYu5dtNjEGfHJKdp4mn+xGNkspfNYANID81PjZnntbMZ1zzhHu4YL2okyLMEYl8nDMJy3KmeIkVQSr169/6cqPauHoSlW7XsrzehhljH1hWjpOf+teRGfZp7EVE4C7W7l9KopIxTZMgw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jPsVOIHID35hRcUojOO6766waM0yw6oxof43PYpSfcI=;
- b=Idr7FRmYj2UJofZDW0ZtSUPSHdafUToi7Saz2q9BcFS+3Vt+2nifb1MrMbvY+WctDFAFQ9xvlLoS+jXEpgS8Y4hJ8m8AvuT8w5mq9Eg/uWaxzIr/Ncidvi4POIrTmufkaj4tOfNLLZUsqDRx1+e8YKtHftpaSFYZ6XMzcp60spL//H2Rt2yp6iDu1G1OGsCwrmdqJEO0uLz0pRFpSPdSA6syzmh38ooxnTZW2LajFI7DKxtKCOqLCCPlIM6ngIEMA4IHkKudL1sW/wdG+cJHTLtOf4l+xyaqhxGna1T6NT41kUMawVkLAzlwA8rVHHS3vgfpMIFFYepv3S3XdYBY5Q==
+ bh=k+nXWJ9l2Nzvhb0DgkgpKphQ1eiIkENT9fRJZTinJT8=;
+ b=B+YzI/aSIpxsiqATQWeusHPeAPb76oNqTwTgDUADRJo6Lfzyuwe8WdL/RzuMmx/lRGiG6KjOHtqkGlMMV41jpZEGjjEmw3mcYsUcwncGL0+LxDJd9UkLVJYoBNGbuLFg62RlB2QjjCe15mVK6UnPk/FmoNsCzyyJpjAPnJnz+kypbErWwQuC0zPYuuUkJVafxGPqxQyxAPB7Ib94Zsf5QPOTwi4ns7+D42qnkbHt6ZFsq7Ful4oqS1uZze5I00z13//7W0NUvUv2MNIph8uSeuiMk5FyHlx1eQAEKbA/ause/WyDyHGuwFHUY9EWCBY0BmVf+6SAssF7FogCBEVl+A==
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
- by AM7PR10MB3876.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:175::24) with
+ by AM7PR10MB3938.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:14e::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.21; Fri, 3 Nov
- 2023 13:43:11 +0000
+ 2023 14:14:29 +0000
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.021; Fri, 3 Nov 2023
- 13:43:10 +0000
-Date: Fri, 3 Nov 2023 19:12:57 +0530
+ 14:14:29 +0000
 From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] Prevent out-of-bounds read/write in bcmasp_netfilt_rd
- and bcmasp_netfilt_wr
-Message-ID: <DB3PR10MB68352DF6CB458CCF97C416ECE8A5A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-References: <DB3PR10MB6835E073F668AD24F57AE64AE8A5A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <2023110301-purist-reputable-fab7@gregkh>
-Content-Disposition: inline
-In-Reply-To: <2023110301-purist-reputable-fab7@gregkh>
-X-TMN: [eSc+gEx1CmvjjVMBKhf6Xwx/G31TUnDs]
-X-ClientProxiedBy: JN3P275CA0012.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:70::13)
+To: gregkh@linuxfoundation.org,
+	yuran.pereira@hotmail.com
+Subject: Re: [PATCH] Prevent out-of-bounds read/write in bcmasp_netfilt_rd and
+ bcmasp_netfilt_wr
+Date: Fri,  3 Nov 2023 19:44:05 +0530
+Message-ID: <DB3PR10MB6835D962C88C7E862CBDE659E8A5A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <DB3PR10MB68352DF6CB458CCF97C416ECE8A5A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+References: <DB3PR10MB68352DF6CB458CCF97C416ECE8A5A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-TMN: [n6ln9tYHJudKv1i+74YC2EWF4ygHTFlw]
+X-ClientProxiedBy: JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12)
  To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <20231103134257.GA1618360@nmj-network>
+X-Microsoft-Original-Message-ID: <20231103141405.1620527-1-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AM7PR10MB3876:EE_
-X-MS-Office365-Filtering-Correlation-Id: 071a78ca-998e-4736-94bf-08dbdc72d1ae
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AM7PR10MB3938:EE_
+X-MS-Office365-Filtering-Correlation-Id: bddc0aac-398d-4d20-560f-08dbdc7730f1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: taaZlKXULBVnl0N5LRqaRG7/SnQHM+I0lW78LodA84iQJmD+v6t98+jqaViAM93QOVx7PnTdgbs3up2okkOM9aCj6jC6hm7DulIW2lCWLERpfMSJKLmTk8QJrRSuIfr8Kaqc4htMy+veAO786X22oYxhl4nsz0JCRjGz+bTYNyTbM8q+P6l2jahz1e21HhB/wNqV0UO2Elnnkv0jO8J8bSlK04QZ75yMwV7rroQyRfGAO1b/BVZMcwIrnwUnddAQhr/8xv8K+vjnOGWuE1Fwl9KWSyAmuKzsveS3NqlFRhZQV7MoV7es92kbkXZHcnSDGshLXT6hQwdgg8rUAd9PBqOsdXJMEx9D04VprjDX7B1cnTnHl0zahY58G646eX29BGHwu01gtSSjBD3NUt3gQ/hz5m5gI/oNI403a8M7X7XjZ+0KuI0uqRf1sAprWgrONqpbgOPR7MNTetMATwGRLpuQsAffqN46tqYw+MB/1Bvsbpt0voN2vfk7Iacul4NPbtlqg21RhVlB7hVubeADgHzzYWia/fXbWMpj6jgXAadtfpH7wdwQCpOhG8x3AfIP
+X-Microsoft-Antispam-Message-Info: GWyGL+9ZSiz0nBOn0Qemv0ABH+22oTVKog/Ah2zNuyynoDweW0IkUX95gD6NDb+/d2vizkYpso+tFa0ek/TbtgUKUfzwkVpm5IqNb6+ctrgmdc35s0ISylz3tgXlWORjggc8y4atRshQvEBh9ddlIenMF7MVZgLLKFs5IEZgr+AaokRSQ8m1dcfV+UNCK6nfc3OmPQhGMm9JyMqTx6McUnuU0MfeDpSKn71bHdgIF/+axSBIWG/4Z8S6CWZrvZmUwywBT7V0Ox+W6cHlSMqPvxLzi65jzoAMCfO31VOmsidFUB5ZMyao6Dk0AWQTmJXqR+NqxqYxZP8ukcYAqLXm56ejAywgY2JnDwJvfWU0lB92PUMxoOKlYYCI/Q6wJY/5UGukAKSk8BcOgLaF4qj/WZjfxiNXE/E8qkm/h+gwpy4tbJDbwHK8fzIt9vtiVRqxNG/gIIA01xR8Z3p9lwPn3OLkHNYP7Gr72yPtPosZvFYfgAuBE7yZ5ZC6Tv22wQ+mr1QOC1QDVA/FucCQPX9nfegYMxvZBUNxcdKTX0p3gU+fHJ+cDjbneHK2ovBMiirKoHUQquAATUgJvxh+y9vIjrDiDc8GU4mgDDfreI9I5p7YVtcvE7OU+QpD+0gfjkho
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8YaI9JifLYhhVft+b+g6EIQXkRZoXdopaNN79tYWQ09oW4WD4KrO2oP3sm1B?=
- =?us-ascii?Q?BKDkAdKZXzIxNq493Nmj8pzMXDsPUMPGeWRcjOPwI13VmlTVytByTCFz7Oh+?=
- =?us-ascii?Q?+18iX59khvgM0B1tfNDx+6Q35HnNiJAG8QGnmV//zC2UIdl0Cra9CiAfL+d0?=
- =?us-ascii?Q?whmYuV+/xrUZC2on690xGF2cZef0tvfFuqdA6/SE5t42mfuKKYoEiSkXzYpF?=
- =?us-ascii?Q?qla3io2h192XwysCtDMcIi0FPZ1ja2L328tCKDX04vp2r4XzCHD2r/XYZk6q?=
- =?us-ascii?Q?O/SjFQDjWFb1n+AKjDqM6Lsxjc+MiK6l72i3ACXiaF+QerGgaHI8vK6MbHoz?=
- =?us-ascii?Q?1C3uW4SAcr0BF0hoT/qeyGzRqgdow3RjG+SfwR8tsNwhFqh+3S3W7lIuAOVn?=
- =?us-ascii?Q?ss21XJ+sOGuWq86wNSe1M2jSqazwoIZsUz3Otvit7iU7ZWO5dBa0EcA7xLf0?=
- =?us-ascii?Q?sWZia4ay8WR33asz2e2RuzjyMypEliUSJiDd2UVy21ij37CoSYl5qCI5J71p?=
- =?us-ascii?Q?Nw0VgTTBnjKOhM96VydB15W+3LHHFwnDjx7wiDhqCXEPgs0knWaDjrPQnnS0?=
- =?us-ascii?Q?OnG8MqGt8vWp3gLlS9WeSoc38pg7QlLGgwLrJuQfzXyDbbUBTJ70NW5twL70?=
- =?us-ascii?Q?AQwKF/EpNL+hEFGsxH7l5lW//Hywooc1jHZnROmnBwTMGQi0jo4dZ7jpKCKN?=
- =?us-ascii?Q?Kt3H8L3bOvqxP+JkVgBZKD/UCaKLnb2lyKDQZURuUwD7nrRP1kXSxBhbJYpD?=
- =?us-ascii?Q?MZBX9iYd04TdRlYjeBk60DNr7s8nYGoPPyvnuVCs9c/BzXpwv4BRays7+4EF?=
- =?us-ascii?Q?UNk3pVn2/DehplZVP/L7ErhV0SANyJxdtRwbXsCtthXtS8+LhqUGprDDdz/v?=
- =?us-ascii?Q?ufIY4SksodD2SrPN9UxwDV40qtbBVx0kiSrLYRrzoCf8Zb+TnA3PquyVAhzn?=
- =?us-ascii?Q?6QWHkwiKF3xBEO7BsSgtd04zqRIP80u0ZH/XVSmUpKQYlRt4tmmNkD2EpdEw?=
- =?us-ascii?Q?6ZfETBScY4mlzkEQy6HOk2eZx2pav8sJcQsU1vSQf09nkL0GkO0DPQBOURzy?=
- =?us-ascii?Q?fxGF7JDsg/xfFfd2fJSlzcAXCbd0tjg6fOgig7oUMCOpxqsy/nNDkRqsHBSR?=
- =?us-ascii?Q?+WyWDvoA4dXm6Sd4nBo+t3Gwy9G6mpykCfNuNiy2I8q98zUKjBk62/ucslVR?=
- =?us-ascii?Q?AyEALU0+u8kA2LNweYZnGwVc+p+0mOx1YRYsG+BCGQCaYhUjtpTPvBPVrLI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jD0+3qHYkh/xb0Q/m4LUiy8I0NbzmKEBm0jSYUGoAEzkBt+oawIZBvpT0iBj?=
+ =?us-ascii?Q?a4yGNCMTJjJTYa9Dmp3jvNjuGVdolWCMyhSdRUtiCG95CoBuQvSfsI3KKzYa?=
+ =?us-ascii?Q?TGgONCMQ+gmiDBOl96kodiTpoAVsuV74MwV9tZ3r/fRKTTpd8lTYtA6FP1rn?=
+ =?us-ascii?Q?xSkISP+hIxy9/To0VW8+4LhLatsbirwF9qnALhSakB9H+T18qIcTG21Mcn4A?=
+ =?us-ascii?Q?61GAuf+5VZGH5nLemgaWtV08cMqaPr4+2Os9vb22z5bDOgdshPR6PknNofi4?=
+ =?us-ascii?Q?sBkNaZ+4A2KsmMOSzKSfCaoSMtv3hmIfjlxQ3AOgogrTSq7NgIsX8+iwhp5m?=
+ =?us-ascii?Q?SqfF0qDxEpSKYM6q5Jrcl9DoYBmBFdpqOYjkjuQmHnA2PPxIhCiOTlnqVlgQ?=
+ =?us-ascii?Q?q4rpPmKOL/44II8FcnNVN8HSfcz98ZOPONYIuZmBUcQOuKBSeeJmh6NguaH6?=
+ =?us-ascii?Q?pvBFIvCW/5pm/XAk2XtiweEEs1674lP5OV910UpFIF/kZg5NBtkz5X4PfY6b?=
+ =?us-ascii?Q?fYAp+3qi6VCQ+6CwaBKL3rmv73G1VjWeBtszw2ydmNWK+DJVr46nXYDIK7cj?=
+ =?us-ascii?Q?+w7JMyHMc3Esvh2fojZx3Oeo8rXw7CtQRYuZiijb8Afrp7t1vM+eRyG3nVPg?=
+ =?us-ascii?Q?xs1Mu4j/e9+K9Lw8AjAfxx2jl4pB2KQHPHoxtSrk94oW0JASQc6BEXELLBJ5?=
+ =?us-ascii?Q?KUzuBYap6l602AV7QognCG5BRVyBUw/tkqZQ/fUFYDEBPv6lFWV2Bw6FeMQ2?=
+ =?us-ascii?Q?mNbSba5zs7kUhwk/1SdleCekp1eJoYoeMz6PLffHoAIzJZO21gaedWaiUVX4?=
+ =?us-ascii?Q?SfQBUtx5bkd6ZbpWjyXxXo8F9QkRK4nrC8oR0zNzNkZqd6SsPSoMuFkSG5rk?=
+ =?us-ascii?Q?5/Dlwg61TYnO/wH6ryuJgiSIH+9ljfqUTGLME640QkIipa6RaPpNHhMwLgWy?=
+ =?us-ascii?Q?unJwDXkzNcaNNf+Y70umx9WGXEZXzn7ujJhygPWMeqhQR0bEghKyiRJMgEIx?=
+ =?us-ascii?Q?yPmnK+FNfeAqZWNRpebBmO+6fhCk3b/mQlBvWYWTBCS3B3QOMx1epWnpXJVs?=
+ =?us-ascii?Q?voSP2JmE54Bogwh+I7SxYKI2ihebs87hQwkpiZW5bwOdQOBpRSGfO9H/rDaW?=
+ =?us-ascii?Q?wu9T6Q2XoJq/TQI7+m37pGie2cRAkFPN+/pwhZ0dMWvoMydQuxYHuh5n1n0j?=
+ =?us-ascii?Q?hRGNu6EItFkMZw3Tq62pi/pDd7/hY4GRyXiuMpYqzJKAjK4tE/N7BBbjfNo?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 071a78ca-998e-4736-94bf-08dbdc72d1ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: bddc0aac-398d-4d20-560f-08dbdc7730f1
 X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2023 13:43:10.9058 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2023 14:14:28.9372 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB3876
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR10MB3938
 Cc: florian.fainelli@broadcom.com, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, justin.chen@broadcom.com, edumazet@google.com,
  bcm-kernel-feedback-list@broadcom.com, kuba@kernel.org, pabeni@redhat.com,
@@ -146,35 +146,29 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello Greg,
-On Fri, Nov 03, 2023 at 01:57:13PM +0100, Greg KH wrote:
-> >  	reg_offset = bcmasp_netfilt_get_reg_offset(priv, nfilt, reg_type,
-> >  						   offset);
-> > +	if (reg_offset < 0)
-> > +		return 0;
-> 
-> Shouldn't you return an error here?
-
-Yes, I think that makes sense. I might just return `reg_offset`
-since it is bound to be -EINVAL when bcmasp_netfilt_get_reg_offset
-fails.
-
-But that now makes me wonder whether the previous check in that
-function which currently returns 0, shouldn't be returning `-EINVAL`
-instead.
+I guess that explains why the first check returns 0.
 
 ```
-static u32 bcmasp_netfilt_rd(struct bcmasp_priv *priv,
+static int bcmasp_netfilt_wr_m_wake(struct bcmasp_priv *priv,
 ...
 {
-	if (!IS_ALIGNED(offset, 4) || offset > MAX_WAKE_FILTER_SIZE)
-		return 0;   <----- Should this one be -EINVAL?
-}
+		...
+        if (first_byte && (!IS_ALIGNED(offset, 4) || size < 3)) {
+            match_val = bcmasp_netfilt_rd(priv, nfilt,
+                              ASP_NETFILT_MATCH,
+                              ALIGN_DOWN(offset, 4));
+            mask_val = bcmasp_netfilt_rd(priv, nfilt,
+                             ASP_NETFILT_MASK,
+                             ALIGN_DOWN(offset, 4));
+        }
+
+        shift = (3 - (offset % 4)) * 8;
+        match_val &= ~GENMASK(shift + 7, shift);
+        mask_val &= ~GENMASK(shift + 7, shift);
+        match_val |= (u32)(*((u8 *)match) << shift);
+        mask_val |= (u32)(*((u8 *)mask) << shift);
+
 ```
-
-Thank you for the feedback.
-
-Yuran
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
