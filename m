@@ -4,106 +4,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 7BCB4C4167D
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Nov 2023 18:19:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 53287C4167B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Nov 2023 18:55:51 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EDF7F828B3;
-	Mon,  6 Nov 2023 18:19:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EDF7F828B3
+	by smtp1.osuosl.org (Postfix) with ESMTP id D50A881FB3;
+	Mon,  6 Nov 2023 18:55:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D50A881FB3
 Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=THFtCRNe
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RIa0++tJ
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rTKK8byexXSO; Mon,  6 Nov 2023 18:19:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C3F0F828AA;
-	Mon,  6 Nov 2023 18:19:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C3F0F828AA
+	with ESMTP id h-Lnb0QBQ6xg; Mon,  6 Nov 2023 18:55:50 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DC7C481F77;
+	Mon,  6 Nov 2023 18:55:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DC7C481F77
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 9CFBDC0039;
-	Mon,  6 Nov 2023 18:19:28 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id B69CBC0039;
+	Mon,  6 Nov 2023 18:55:49 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 7F8ACC0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id F3C2EC0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 18:19:27 +0000 (UTC)
+ Mon,  6 Nov 2023 18:55:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 4A58161201
+ by smtp3.osuosl.org (Postfix) with ESMTP id BC45A6121A
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 18:19:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4A58161201
+ Mon,  6 Nov 2023 18:55:48 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BC45A6121A
 Authentication-Results: smtp3.osuosl.org;
  dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=THFtCRNe
+ header.a=rsa-sha256 header.s=20230601 header.b=RIa0++tJ
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id WVyEIBKMrihw
+ with ESMTP id EJBVIzt8xbUD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 18:19:26 +0000 (UTC)
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
- [IPv6:2607:f8b0:4864:20::633])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 51C70611F3
+ Mon,  6 Nov 2023 18:55:48 +0000 (UTC)
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 1DB4A61164
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 18:19:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 51C70611F3
-Received: by mail-pl1-x633.google.com with SMTP id
- d9443c01a7336-1cc703d2633so7057415ad.0
+ Mon,  6 Nov 2023 18:55:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1DB4A61164
+Received: by mail-ot1-x331.google.com with SMTP id
+ 46e09a7af769-6ce2fc858feso2531437a34.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 06 Nov 2023 10:19:25 -0800 (PST)
+ Mon, 06 Nov 2023 10:55:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699294765; x=1699899565;
+ d=gmail.com; s=20230601; t=1699296947; x=1699901747;
  darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Tl8ZlpdAg7GwtfMnMLLp2fEwluCCUsAiPSPuqFG5Xz0=;
- b=THFtCRNeH+SQbD337iZI1YcbjptXFcLgotug1tuOUiQaYeYLUHRA0LaLWS/sx4jiZQ
- BgWZiJ5JomcEA38clRj5xgCHQpglmc0hDQb2nHvUOT4wP6zGzTDwXsKrmiQKiOcqy/NX
- US0T4wwAgd3bdGodTEb5OdPQ04K1CR5Y0wC6ySWoHOlusF4H2U2i/UTv9uBjUayp5SXw
- aPydAgbII9o8ejQjldhxxfyHEkphyBy1/nsMGoOLQ2kLxkbpgMVhQpwmA99kq+IMUuRd
- 2C8tyKeSP2UpPBNXXZlCcMEycVxNvEsqaRLMMKeJ6DZeWC65olbkjA1nPKoxF/D4l/t2
- 3/Ow==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zlsdHfJoSxj4C6+EWFlQXpykD0ggHxFHCNPoza6FO40=;
+ b=RIa0++tJQz6Dcll2N2jKTn8XupzDkOzxQTJn9DqRVPI8NSntnM/faf4yIxOaFKnwH6
+ G1tUisYf4+shf/JQTFhrlldioagAXsDwVmhpDx4dGYZ2qvZy1wWpeiXcAOyKDxRHBmFG
+ RVwK4/GZGQ+LpUIanSLXfu4RYYBxgstXWTELerGZXKa8nI10FTzj64ZSO6fnH1YquNeY
+ +4/BFzCf14cazsygBvn0dlL3bhd1nwPO0FOUv4Aq8foR9DpJnkSCctHEEvH1tWIM9uIB
+ yruNt06LxxUy1Qvari0wIa+yfg9RlQ0VgzZZ87S6Ta4sMezh6/cDUKp76m4wH8VmSaZ6
+ b0kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699294765; x=1699899565;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Tl8ZlpdAg7GwtfMnMLLp2fEwluCCUsAiPSPuqFG5Xz0=;
- b=uNU28V6ZN2Qczk42/D8AdhFwVzBEiIFMSEfpKtU/Xc4vr2++bo7UZBhI9HE31HYy9B
- O8p0SZmv2GIUQ9QkX6Xk4iDW7vi4wfl2G+NmMozYqeaLenaSX6eRRPS2aCSIWCezfEjW
- zQWvoSbkNqZaRjssf8HX+1s35c+RTAP2AHNJQl9uFlTK1sY/kW9bnFcYEosuT3m5lqqB
- xA5GtkNNpZvCJZxDnL60AxzP4zr+kHJk+zR3tnXFVTv+S+QKXFWDLsHcZZPqHny8+B3X
- nadyZDotDfNuLuSTUgOgrGiI+alvWd5Kyq1FPIEUC7v2zymSKzIs0hFbqSNNo4MR/qJP
- vP9A==
-X-Gm-Message-State: AOJu0YxkYlscaI2pvhAHeB1xEM4i4jaUIPthHkgcw3ynHxJopeDUoQLw
- qRT7lOe9UgCMCuiNoGR+W5M=
-X-Google-Smtp-Source: AGHT+IGZuMNhI2zZQoFqXXq3E+/brKmtT53P7YA09Nfn+zaDB3yG15dLm3XBrAxgDZ/f+n0Zz0X0rQ==
-X-Received: by 2002:a17:902:f213:b0:1c4:1cd3:8062 with SMTP id
- m19-20020a170902f21300b001c41cd38062mr31371603plc.2.1699294765189; 
- Mon, 06 Nov 2023 10:19:25 -0800 (PST)
-Received: from [192.168.0.152] ([103.75.161.211])
- by smtp.gmail.com with ESMTPSA id
- u14-20020a170902e5ce00b001c9b35287aesm6204407plf.88.2023.11.06.10.19.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Nov 2023 10:19:24 -0800 (PST)
-Message-ID: <ba31f441-80cd-4745-b425-23e5b9e0f9c0@gmail.com>
-Date: Mon, 6 Nov 2023 23:49:14 +0530
+ d=1e100.net; s=20230601; t=1699296947; x=1699901747;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=zlsdHfJoSxj4C6+EWFlQXpykD0ggHxFHCNPoza6FO40=;
+ b=L8bzuwtD+XlIFJW51v5wnXZKg+W6AwpJLa3uooZMZQT8UKvs1bGl2FUybrm5vyNbQI
+ GQYpqWHqsor4NZz/FDZDFrpuo2U2/68ZF6OzJCDqlAwDYrQrp5S5V6bwnW3LQv2RJzgW
+ X8LZJ/5gOMZ4ZNgdw1oLfxNsEwv88U62dUfLw+pSsu+3RHvLLxA4h1Juk7YTylpklgo/
+ q44w4E5Z8Wcg6+cpg3zl+P9Prs6ctyoxOhbkZ7gkmsCuq7RtIetN9OmeECKQA6tszB1t
+ vA9aCPReEJQ2XJdDD+pMte9uFu5ddAkDiY1rIOLUfG/oOdD7KEUNivEkSnPN6opNUX4l
+ vvyA==
+X-Gm-Message-State: AOJu0YzUXkcxm+4Q9UFXRZ1tBZ6SY1lFtNlcpR5E/Xg1fzl2PQQ+KXMy
+ B3gDs3J9MEKq6j2HjQwxTXGmtM3IVgqcOwvgJAA=
+X-Google-Smtp-Source: AGHT+IEkR6x1Zh0ykYQTzXTD4aBkfgt5NssWzvOEVxyh8znMkwhiQwaf9MnzYBKcCskVrhA5ssog/3XBzYOv9A5C9pw=
+X-Received: by 2002:a05:6871:a002:b0:1e9:8885:b537 with SMTP id
+ vp2-20020a056871a00200b001e98885b537mr555442oab.41.1699296947029; Mon, 06 Nov
+ 2023 10:55:47 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
-Content-Language: en-US
-To: Jani Nikula <jani.nikula@linux.intel.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
- daniel@ffwll.ch
 References: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
- <87sf5jyvkt.fsf@intel.com> <a2310260-ba15-428e-9fd1-08abb9565b18@gmail.com>
- <87h6lyzvg8.fsf@intel.com>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <87h6lyzvg8.fsf@intel.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+In-Reply-To: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 6 Nov 2023 13:55:36 -0500
+Message-ID: <CADnq5_OkWD3YmCKgXbtk=Gnba3AgAiAWp2z_nzHQvRfEOsdXVg@mail.gmail.com>
+Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
+To: Abhinav Singh <singhabhinav9051571833@gmail.com>
+Cc: airlied@gmail.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, alexander.deucher@amd.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,99 +105,47 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset="us-ascii"; Format="flowed"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-On 11/6/23 22:10, Jani Nikula wrote:
-> On Mon, 06 Nov 2023, Abhinav Singh <singhabhinav9051571833@gmail.com> wrote:
->> On 11/6/23 16:53, Jani Nikula wrote:
->>> On Fri, 03 Nov 2023, Abhinav Singh <singhabhinav9051571833@gmail.com> wrote:
->>>> sparse static analysis tools generate a warning with this message
->>>> "Using plain integer as NULL pointer". In this case this warning is
->>>> being shown because we are trying to intialize a pointer to NULL using
->>>> integer value 0.
->>>>
->>>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
->>>> ---
->>>>    drivers/gpu/drm/radeon/clearstate_evergreen.h | 8 ++++----
->>>>    1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/radeon/clearstate_evergreen.h b/drivers/gpu/drm/radeon/clearstate_evergreen.h
->>>> index 63a1ffbb3ced..3b645558f133 100644
->>>> --- a/drivers/gpu/drm/radeon/clearstate_evergreen.h
->>>> +++ b/drivers/gpu/drm/radeon/clearstate_evergreen.h
->>>> @@ -1049,7 +1049,7 @@ static const struct cs_extent_def SECT_CONTEXT_defs[] =
->>>>        {SECT_CONTEXT_def_5, 0x0000a29e, 5 },
->>>>        {SECT_CONTEXT_def_6, 0x0000a2a5, 56 },
->>>>        {SECT_CONTEXT_def_7, 0x0000a2de, 290 },
->>>> -    { 0, 0, 0 }
->>>> +    { NULL, 0, 0 }
->>>
->>> Random drive-by comment:
->>>
->>> I'd just use {} as the sentinel.
->>>
->>> BR,
->>> Jani.
->>>
->>>>    };
->>>>    static const u32 SECT_CLEAR_def_1[] =
->>>>    {
->>>> @@ -1060,7 +1060,7 @@ static const u32 SECT_CLEAR_def_1[] =
->>>>    static const struct cs_extent_def SECT_CLEAR_defs[] =
->>>>    {
->>>>        {SECT_CLEAR_def_1, 0x0000ffc0, 3 },
->>>> -    { 0, 0, 0 }
->>>> +    { NULL, 0, 0 }
->>>>    };
->>>>    static const u32 SECT_CTRLCONST_def_1[] =
->>>>    {
->>>> @@ -1070,11 +1070,11 @@ static const u32 SECT_CTRLCONST_def_1[] =
->>>>    static const struct cs_extent_def SECT_CTRLCONST_defs[] =
->>>>    {
->>>>        {SECT_CTRLCONST_def_1, 0x0000f3fc, 2 },
->>>> -    { 0, 0, 0 }
->>>> +    { NULL, 0, 0 }
->>>>    };
->>>>    static const struct cs_section_def evergreen_cs_data[] = {
->>>>        { SECT_CONTEXT_defs, SECT_CONTEXT },
->>>>        { SECT_CLEAR_defs, SECT_CLEAR },
->>>>        { SECT_CTRLCONST_defs, SECT_CTRLCONST },
->>>> -    { 0, SECT_NONE }
->>>> +    { NULL, SECT_NONE }
->>>>    };
->>>> --
->>>> 2.39.2
->>>>
->>>
->> Hi, Thanks for dropping by and the suggestion. I thought of using NULL
->> instead of {} is because, first the warning itself says that 0 is used
->> to intialize pointers with NULL, and second due this link
->> https://www.spinics.net/lists/linux-sparse/msg10066.html where linus is
->> talking about not using 0 NULL intialization of pointer variable and he
->> thinks this is a legitimate issue and not some false positive
-> 
-> But... {} is neither of those things. It's empty initialization instead
-> of 0. It's valid in GCC and C23, and used all over the place in the
-> kernel.
-> 
-> BR,
-> Jani.
-> 
-> 
-> 
-If I understand correctly you want to me change from this "{ NULL, 
-SECT_NONE }" to "{}" right? If yes, then according to what I read from 
-some online, it is better to intialize variables especially pointer 
-because in some cases a non initialized pointer doesnt always point to 
-NULL. Not sure if this applies in kernel space as well. But yeah my 
-knowledge is pretty limited in C in user space and in kernel space it is 
-even more limited :)
-
-_______________________________________________
-Linux-kernel-mentees mailing list
-Linux-kernel-mentees@lists.linuxfoundation.org
-https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
+QXBwbGllZC4gIFRoaXMgbWF0Y2hlcyB3aGF0IHdlIGFscmVhZHkgZG8gaW4gdGhlIG90aGVyIGNs
+ZWFyIHN0YXRlIGhlYWRlcnMuCgpBbGV4CgpPbiBGcmksIE5vdiAzLCAyMDIzIGF0IDEyOjAw4oCv
+UE0gQWJoaW5hdiBTaW5naAo8c2luZ2hhYmhpbmF2OTA1MTU3MTgzM0BnbWFpbC5jb20+IHdyb3Rl
+Ogo+Cj4gc3BhcnNlIHN0YXRpYyBhbmFseXNpcyB0b29scyBnZW5lcmF0ZSBhIHdhcm5pbmcgd2l0
+aCB0aGlzIG1lc3NhZ2UKPiAiVXNpbmcgcGxhaW4gaW50ZWdlciBhcyBOVUxMIHBvaW50ZXIiLiBJ
+biB0aGlzIGNhc2UgdGhpcyB3YXJuaW5nIGlzCj4gYmVpbmcgc2hvd24gYmVjYXVzZSB3ZSBhcmUg
+dHJ5aW5nIHRvIGludGlhbGl6ZSBhIHBvaW50ZXIgdG8gTlVMTCB1c2luZwo+IGludGVnZXIgdmFs
+dWUgMC4KPgo+IFNpZ25lZC1vZmYtYnk6IEFiaGluYXYgU2luZ2ggPHNpbmdoYWJoaW5hdjkwNTE1
+NzE4MzNAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2NsZWFyc3Rh
+dGVfZXZlcmdyZWVuLmggfCA4ICsrKystLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlv
+bnMoKyksIDQgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Jh
+ZGVvbi9jbGVhcnN0YXRlX2V2ZXJncmVlbi5oIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jbGVh
+cnN0YXRlX2V2ZXJncmVlbi5oCj4gaW5kZXggNjNhMWZmYmIzY2VkLi4zYjY0NTU1OGYxMzMgMTAw
+NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jbGVhcnN0YXRlX2V2ZXJncmVlbi5o
+Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jbGVhcnN0YXRlX2V2ZXJncmVlbi5oCj4g
+QEAgLTEwNDksNyArMTA0OSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY3NfZXh0ZW50X2RlZiBT
+RUNUX0NPTlRFWFRfZGVmc1tdID0KPiAgICAgIHtTRUNUX0NPTlRFWFRfZGVmXzUsIDB4MDAwMGEy
+OWUsIDUgfSwKPiAgICAgIHtTRUNUX0NPTlRFWFRfZGVmXzYsIDB4MDAwMGEyYTUsIDU2IH0sCj4g
+ICAgICB7U0VDVF9DT05URVhUX2RlZl83LCAweDAwMDBhMmRlLCAyOTAgfSwKPiAtICAgIHsgMCwg
+MCwgMCB9Cj4gKyAgICB7IE5VTEwsIDAsIDAgfQo+ICB9Owo+ICBzdGF0aWMgY29uc3QgdTMyIFNF
+Q1RfQ0xFQVJfZGVmXzFbXSA9Cj4gIHsKPiBAQCAtMTA2MCw3ICsxMDYwLDcgQEAgc3RhdGljIGNv
+bnN0IHUzMiBTRUNUX0NMRUFSX2RlZl8xW10gPQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGNzX2V4
+dGVudF9kZWYgU0VDVF9DTEVBUl9kZWZzW10gPQo+ICB7Cj4gICAgICB7U0VDVF9DTEVBUl9kZWZf
+MSwgMHgwMDAwZmZjMCwgMyB9LAo+IC0gICAgeyAwLCAwLCAwIH0KPiArICAgIHsgTlVMTCwgMCwg
+MCB9Cj4gIH07Cj4gIHN0YXRpYyBjb25zdCB1MzIgU0VDVF9DVFJMQ09OU1RfZGVmXzFbXSA9Cj4g
+IHsKPiBAQCAtMTA3MCwxMSArMTA3MCwxMSBAQCBzdGF0aWMgY29uc3QgdTMyIFNFQ1RfQ1RSTENP
+TlNUX2RlZl8xW10gPQo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IGNzX2V4dGVudF9kZWYgU0VDVF9D
+VFJMQ09OU1RfZGVmc1tdID0KPiAgewo+ICAgICAge1NFQ1RfQ1RSTENPTlNUX2RlZl8xLCAweDAw
+MDBmM2ZjLCAyIH0sCj4gLSAgICB7IDAsIDAsIDAgfQo+ICsgICAgeyBOVUxMLCAwLCAwIH0KPiAg
+fTsKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBjc19zZWN0aW9uX2RlZiBldmVyZ3JlZW5fY3NfZGF0
+YVtdID0gewo+ICAgICAgeyBTRUNUX0NPTlRFWFRfZGVmcywgU0VDVF9DT05URVhUIH0sCj4gICAg
+ICB7IFNFQ1RfQ0xFQVJfZGVmcywgU0VDVF9DTEVBUiB9LAo+ICAgICAgeyBTRUNUX0NUUkxDT05T
+VF9kZWZzLCBTRUNUX0NUUkxDT05TVCB9LAo+IC0gICAgeyAwLCBTRUNUX05PTkUgfQo+ICsgICAg
+eyBOVUxMLCBTRUNUX05PTkUgfQo+ICB9Owo+IC0tCj4gMi4zOS4yCj4KX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18KTGludXgta2VybmVsLW1lbnRlZXMgbWFp
+bGluZyBsaXN0CkxpbnV4LWtlcm5lbC1tZW50ZWVzQGxpc3RzLmxpbnV4Zm91bmRhdGlvbi5vcmcK
+aHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vbGludXgt
+a2VybmVsLW1lbnRlZXMK
