@@ -4,95 +4,126 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id E346BC4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Nov 2023 21:37:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 4334DC4167B
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Nov 2023 22:22:19 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 87183420E4;
-	Mon,  6 Nov 2023 21:37:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 87183420E4
+	by smtp4.osuosl.org (Postfix) with ESMTP id 538A8410BA;
+	Mon,  6 Nov 2023 22:22:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 538A8410BA
 Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SsnKkUjt
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=t/k/8aZ0
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id T0MIgzziZ-8n; Mon,  6 Nov 2023 21:37:29 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 74A0B4207F;
-	Mon,  6 Nov 2023 21:37:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 74A0B4207F
+	with ESMTP id A4RASTzr1YnR; Mon,  6 Nov 2023 22:22:17 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 32D224213C;
+	Mon,  6 Nov 2023 22:22:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 32D224213C
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 3E354C0071;
-	Mon,  6 Nov 2023 21:37:29 +0000 (UTC)
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
- by lists.linuxfoundation.org (Postfix) with ESMTP id EF98FC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 118A5C0039;
+	Mon,  6 Nov 2023 22:22:17 +0000 (UTC)
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 02177C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 21:37:27 +0000 (UTC)
+ Mon,  6 Nov 2023 22:22:15 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp4.osuosl.org (Postfix) with ESMTP id CB00E4207F
+ by smtp1.osuosl.org (Postfix) with ESMTP id D3D2A829FD
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 21:37:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CB00E4207F
+ Mon,  6 Nov 2023 22:22:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D3D2A829FD
+Authentication-Results: smtp1.osuosl.org; dkim=pass (2048-bit key,
+ unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
+ header.s=selector1 header.b=t/k/8aZ0
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Gwhy-Cvx2Uby
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id IQfxyKiG-pZa
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 21:37:27 +0000 (UTC)
-Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com
- [IPv6:2001:4860:4864:20::32])
- by smtp4.osuosl.org (Postfix) with ESMTPS id 0D78B408E3
+ Mon,  6 Nov 2023 22:22:13 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com
+ (mail-vi1eur05olkn20822.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:7d00::822])
+ by smtp1.osuosl.org (Postfix) with ESMTPS id 626D382835
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  6 Nov 2023 21:37:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0D78B408E3
-Received: by mail-oa1-x32.google.com with SMTP id
- 586e51a60fabf-1f04c5ed8d7so2922332fac.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 06 Nov 2023 13:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699306646; x=1699911446;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OphoK9q7a6dBe49RqxvB+ZhnnNOavYr9X32u348/Dmw=;
- b=SsnKkUjtgKblQEbKzmW8NMNhxwGm2AhFrEkFijgYd5/wmgAYrNLBMKNGy6Hh0VtDlX
- 1Itcm6/OxIXoNQct1WFy9a5UucWDM0gWcHniixbDNhdFd5jYz2fmIBhNRtAclB/Qf5tr
- Abq/xleyxTLTDClAD0WWPhULzPepaBcRVDg5AwiiksRaSfu0VbdmnAiEtaX6sXtJaMZI
- 88T4RHPMAc/PV/hSuXHB9M392oeQrGAX765gz7We3QXmZE2yMXC33cyKI93Ev/a88/Wa
- v0IFpR2uyQyJMQ2ktJAnY1YzZ3JIgCVNfwdpykMhnXuC6Rg6HGky9rUjcYbHjiGTQTSD
- blgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699306646; x=1699911446;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OphoK9q7a6dBe49RqxvB+ZhnnNOavYr9X32u348/Dmw=;
- b=vTJEfKazS5kfkG3i9OQ+aMN6/R+Di76jO+kbuJG6VwKFT+KrhVEUyGiwhmAIch8e/7
- wLK0FvALuykdoLmTr+h73EhxYXzTD2Hp3gxktu66JSaNUOfxEwfA47vZqWr3ytUJsrrc
- TpGtTifSwrvYFi9Q6yFcIm9u25Wra0WfzNlI0UU6rrn+do0OH0VJl/0gg9E8xGcLdapy
- jjIxj135iyFQ3sXNNg4Oc3akXJ0pjGntfroedFtM9InNbibVYTvtsqVKkOKt6NeZ+vUg
- THK9MsmaLuNWmYtece/wjFi1lLlwtRPo7RqtonNx2ISgd8wzk81rXG+XFdendnDy3Knh
- Cvng==
-X-Gm-Message-State: AOJu0YwB7gEils8Escgr0wJjKcX86dXgcnOepN2yG0M5Ec0k9EYGbR3t
- arnD2EX7Y6XVS6s7rOEDDs8bgYv8m4Flm76pPQ8=
-X-Google-Smtp-Source: AGHT+IEP1XqEthoQJtfpl0npA4ae93Dzz/ImFHkuNMcwaOYVT9bgazTQ4NPqNXzu0dmR/IWccQ3n4KaVPdI0Je829g8=
-X-Received: by 2002:a05:6871:339e:b0:1e9:b0fa:de48 with SMTP id
- ng30-20020a056871339e00b001e9b0fade48mr1089412oac.47.1699306645891; Mon, 06
- Nov 2023 13:37:25 -0800 (PST)
+ Mon,  6 Nov 2023 22:22:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 626D382835
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VQwQen2eWBXacKp2g9IS6sLAtePUl34sFuXyQkGzESejwDQwbILrflCXjoQ2e6y5HmaGl21PAVQg280oLexewbA+qowYQKuzNr8y5xutW3ZOvbXR5x5ZssMiWTh1NdehH5c6mS8D3uiKnGc9WlEU4VPZ779sfu0UbbzhMik/UK6p+HGHsUTrJmRkrRTtBBRVdKMZ+4pa0Ppipx69WMeeEkoEm81XNtBnWckHaOOwwhv+jeJwBggK1GQLcrTD9FfThIcPa3/AEU7UPAc5+SefECrutPp+6utE93/Me2ZX14nYqxUiyrWSxeYEchz2gz03LFF6Aim3e106loQFVnY2qQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KYgAhFYQrRNovxRm5bsWSiueE9LZzAsAZj+6d0TdFp8=;
+ b=csDwMw8Q5QpKI82LXofFoC0CchNwm9cvr4K3H5pQR8W1Ph726IDPT0VRwUov5QXDAco/kzve8i0VhDuUYiqplEA6XpZBJZFLJNbcF00JQRAJMQfYRa1ceWRZhPTuq7TN4wUpKw7LRjlSeMW7Z389hVEWSypO7Ao2omDl7zXFqKJij4Q054xJZ/4mKAdBN+bmWoa4siHngjbxeA75Tu4FuurXODOL0RSQRuyy78KzvklRbimvG2LmqMGbzrU1JCLe8D4f4leTFBMaEYZVK3RZR6KdNRv5wagFRIi1nA6MtKns2NeF3AqH+t2WxFKMhpCKv/doXo/jVtNIaUIS7rY5/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KYgAhFYQrRNovxRm5bsWSiueE9LZzAsAZj+6d0TdFp8=;
+ b=t/k/8aZ0GwkJ+Uc+mwOmas7L7GSDd8A7DXKMTepTc7SxQhRK7iPjnDJgzY0HXr/fAa7sjC8oA9+zjg9uG955sbmc/2EcV4wYPuAAkuhD/yP5xXWB4UN5skPTh95rzNZJ/jppeTD2B/KLZ57CUAKk115fSsHWD8jOVRYKUwncpdl+rm8pMCZWU1xyqnPL6rAexAaZGlpOA/eB1OfxdbYriojor93Bpn0RxM8F9EYC4ezBYtGUr4ucshSSAzWHAeoa5LNDzL0WRaxa+jOAS6emIpnx+MLU3BZukbDf0+0/QEHarevoBVmJv5/lQPZriWs4CUVhxEqzk+9P5QUUR/P/mQ==
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+ by AS8PR10MB6993.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5a4::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 22:22:09 +0000
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.028; Mon, 6 Nov 2023
+ 22:22:09 +0000
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: linux-bluetooth@vger.kernel.org
+Subject: [PATCH 0/2] Bluetooth: Add documentation and replace printk calls
+Date: Tue,  7 Nov 2023 03:51:47 +0530
+Message-ID: <DB3PR10MB6835C002EB4C5A05AD17610BE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [MAvBBO600D5xPui3UmRVquZ0wutlUJDq]
+X-ClientProxiedBy: JN2P275CA0018.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:3::30)
+ To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:42a::7)
+X-Microsoft-Original-Message-ID: <20231106222147.1793535-1-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
-References: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
- <CADnq5_OkWD3YmCKgXbtk=Gnba3AgAiAWp2z_nzHQvRfEOsdXVg@mail.gmail.com>
- <3b92b89b-ca72-4012-b4f2-0b19e4ba9153@gmail.com>
-In-Reply-To: <3b92b89b-ca72-4012-b4f2-0b19e4ba9153@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 6 Nov 2023 16:37:14 -0500
-Message-ID: <CADnq5_PXRN+PL4wp+sWOXs2L5nQiRmfrw4065R1TE4YKw-ZeUA@mail.gmail.com>
-Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>
-Cc: airlied@gmail.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- daniel@ffwll.ch, alexander.deucher@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AS8PR10MB6993:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8194ab6-2933-4c55-32e5-08dbdf16d0df
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: kwRtveDDQb1w6KYZ45UYKRks5m5R3vJFWo3uFRR1n+wEZG5im/1GG3B3dZyXxV8/k5sCTJbUQzqvvLVuZURJHfxZPZQI4eoRB94oLmDeyydPfWoXcvSzcP7YveFgPIWzuJ9OCt8Dd66KdBLkBScuhOvfnQoBnsxB/j6KBr+QoUQH2+17Y41E+QBpXPhhyZjd8WMA45IH5J23TtCwEs/yQnR6eFZhq8AvB7GrFZjiTZm7m4ly12PTHYLp87uuNCPK9XwsLmGZrbIWef10lsJiH7cZKR/MOVzjcWb1Eycdbww42W0HRGoUaz2n/tFNbPXfuZvbDykNPv6NKUXQe1PVW6Nr7vdPQ+1ouDCZLdx25FesLpaR+D4eMZVRlvPpL4s4VnAheXr2Mcjq0Saw8UAHj8fRitf+BcbjA2jPiiEBuC5wkdCHkzZ6VydyuDs7L51j5KRwcmNi6GoCWUJpGjS3WEkhOS50K7m1jaMBWwgdqRe57HTqVx0igdkfringCA/+YAs5EHZ0b4q72L31JRuyuzzYTS6iXSDR4mgUk69fpwcGJyRQuh9/psfWGhKfzC2et/9OR3o/+9bQ6tbB8mWbGkFKH3rOlpQNkBqC0WKKQAo=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mW2HlB7/N3Ly1f3Hs4K+t4tA+VjMa5P76Sz6xGLFRQdsNHlQKaVF9Mkv/psW?=
+ =?us-ascii?Q?mJ1K+jLntYjv+GewSgU7upqJvYxQq/NzThaNPTCwmiiHCEJ3N4wBgIARdawV?=
+ =?us-ascii?Q?FpPZ1I2oU9mdCk3vUA+Ysk3zkq6FoyDb1zJ8RpdiNZ3M7J/9ujOwTSR1G9ac?=
+ =?us-ascii?Q?TOovAb8PJhAyrekUvlB327hCcbPb6CAJjZmGkE3WWXBF/mYPVEEV7F+OJQZD?=
+ =?us-ascii?Q?77uNBY4jEDpXythwNKWFwSZWS1JxBsk0GSW8U3aDQ15H9bR1qUhuyP8eFSXd?=
+ =?us-ascii?Q?uE7FfGtIrS/BTsCZp+Q5zleKpDnL/Qxgm1lCUwgUAR77U74Y25CLpDLFlWy/?=
+ =?us-ascii?Q?d1IsZAJMFYDmLCv0gJIr6z1ybL64nC7A/lGtfOj57oi+40SmtbqzVxb9l2zs?=
+ =?us-ascii?Q?C2ylhs1PkDfcS7gbTfbUD/7+ES/RjFDb5NugfPzkpo1mmGb2Jc++RA9RitAg?=
+ =?us-ascii?Q?ktIwUXFlsZkQFBvAAQiv6NK63bxxLYKPrR1WUmRMZ0ouqcxCuWB6qTqaMD5K?=
+ =?us-ascii?Q?p61iMh6+uCm/R6pj6bPcof9DMGvfZJWz6u0QeBJHOWvtX/YcyojWj8TPRG9E?=
+ =?us-ascii?Q?i7bSFfZS8vR4kGBOk6B1o4odRmVvpjweAh26/5RmiJUVYazf24mgzGOQh+CW?=
+ =?us-ascii?Q?vdKdImpBdKOWXhgZTRLeLXWwzW5Yg/5bXsoS3X7bMDOks4UUh8JnkUPQwpiI?=
+ =?us-ascii?Q?ZK36wgEkolEEzGUTWhu6SUnSrDAMoShGGaWKJz2/UC66SDyxq6WL9MXdFqR/?=
+ =?us-ascii?Q?geLzvkWq++sEtE+jYKfEJNeTWpw8wfzj+229+LH+ymfi4zHrnDFDDaRtR/pz?=
+ =?us-ascii?Q?eqqU4Fx+FKMVtdvIAGYRhnt2HMm/3JJNpxm7pqPaoCBTUW9g+MWaG/ZYstAZ?=
+ =?us-ascii?Q?vgXTabY2rVbfLuJFPxxAwJXdTKhI4SgD69OvGTbulkOAHnjQYGesqN1tiNlR?=
+ =?us-ascii?Q?uvUIE4IcU5B1ho/c1wZfrjurbLsCP5am2jcyhM3Ox0TwN0Lr8uiy4dp5h5xw?=
+ =?us-ascii?Q?jpJKQl9HbLQvfhWIbHImpOirVQGKn2+l2M7gJi4JXcw+VL4zrMzpNWclUkIh?=
+ =?us-ascii?Q?3ldAwoaehx5gSRV9J6r4gwHm7FSol+2V2H9E8Nk4afi4X773aj/cHtlbRB18?=
+ =?us-ascii?Q?dx3QkDXJuuvQ6YJellmNXMOD6+WH1ZBwHRpSmKfE/bN1colfjrWpvsSauuM2?=
+ =?us-ascii?Q?xrt191JlAmLTLiu4az7J6CbrKp5Xwi520/W1gnx0H+Bk7BbrFofvsnH3yqI?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8194ab6-2933-4c55-32e5-08dbdf16d0df
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 22:22:09.5928 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6993
+Cc: johan.hedberg@gmail.com, marcel@holtmann.org, linux-kernel@vger.kernel.org,
+ luiz.dentz@gmail.com, Yuran Pereira <yuran.pereira@hotmail.com>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -104,56 +135,27 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gTW9uLCBOb3YgNiwgMjAyMyBhdCA0OjIw4oCvUE0gQWJoaW5hdiBTaW5naAo8c2luZ2hhYmhp
-bmF2OTA1MTU3MTgzM0BnbWFpbC5jb20+IHdyb3RlOgo+Cj4gT24gMTEvNy8yMyAwMDoyNSwgQWxl
-eCBEZXVjaGVyIHdyb3RlOgo+ID4gQXBwbGllZC4gIFRoaXMgbWF0Y2hlcyB3aGF0IHdlIGFscmVh
-ZHkgZG8gaW4gdGhlIG90aGVyIGNsZWFyIHN0YXRlIGhlYWRlcnMuCj4gPgo+ID4gQWxleAo+ID4K
-PiA+IE9uIEZyaSwgTm92IDMsIDIwMjMgYXQgMTI6MDDigK9QTSBBYmhpbmF2IFNpbmdoCj4gPiA8
-c2luZ2hhYmhpbmF2OTA1MTU3MTgzM0BnbWFpbC5jb20+IHdyb3RlOgo+ID4+Cj4gPj4gc3BhcnNl
-IHN0YXRpYyBhbmFseXNpcyB0b29scyBnZW5lcmF0ZSBhIHdhcm5pbmcgd2l0aCB0aGlzIG1lc3Nh
-Z2UKPiA+PiAiVXNpbmcgcGxhaW4gaW50ZWdlciBhcyBOVUxMIHBvaW50ZXIiLiBJbiB0aGlzIGNh
-c2UgdGhpcyB3YXJuaW5nIGlzCj4gPj4gYmVpbmcgc2hvd24gYmVjYXVzZSB3ZSBhcmUgdHJ5aW5n
-IHRvIGludGlhbGl6ZSBhIHBvaW50ZXIgdG8gTlVMTCB1c2luZwo+ID4+IGludGVnZXIgdmFsdWUg
-MC4KPiA+Pgo+ID4+IFNpZ25lZC1vZmYtYnk6IEFiaGluYXYgU2luZ2ggPHNpbmdoYWJoaW5hdjkw
-NTE1NzE4MzNAZ21haWwuY29tPgo+ID4+IC0tLQo+ID4+ICAgZHJpdmVycy9ncHUvZHJtL3JhZGVv
-bi9jbGVhcnN0YXRlX2V2ZXJncmVlbi5oIHwgOCArKysrLS0tLQo+ID4+ICAgMSBmaWxlIGNoYW5n
-ZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+Pgo+ID4+IGRpZmYgLS1naXQg
-YS9kcml2ZXJzL2dwdS9kcm0vcmFkZW9uL2NsZWFyc3RhdGVfZXZlcmdyZWVuLmggYi9kcml2ZXJz
-L2dwdS9kcm0vcmFkZW9uL2NsZWFyc3RhdGVfZXZlcmdyZWVuLmgKPiA+PiBpbmRleCA2M2ExZmZi
-YjNjZWQuLjNiNjQ1NTU4ZjEzMyAxMDA2NDQKPiA+PiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vcmFk
-ZW9uL2NsZWFyc3RhdGVfZXZlcmdyZWVuLmgKPiA+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vcmFk
-ZW9uL2NsZWFyc3RhdGVfZXZlcmdyZWVuLmgKPiA+PiBAQCAtMTA0OSw3ICsxMDQ5LDcgQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBjc19leHRlbnRfZGVmIFNFQ1RfQ09OVEVYVF9kZWZzW10gPQo+ID4+
-ICAgICAgIHtTRUNUX0NPTlRFWFRfZGVmXzUsIDB4MDAwMGEyOWUsIDUgfSwKPiA+PiAgICAgICB7
-U0VDVF9DT05URVhUX2RlZl82LCAweDAwMDBhMmE1LCA1NiB9LAo+ID4+ICAgICAgIHtTRUNUX0NP
-TlRFWFRfZGVmXzcsIDB4MDAwMGEyZGUsIDI5MCB9LAo+ID4+IC0gICAgeyAwLCAwLCAwIH0KPiA+
-PiArICAgIHsgTlVMTCwgMCwgMCB9Cj4gPj4gICB9Owo+ID4+ICAgc3RhdGljIGNvbnN0IHUzMiBT
-RUNUX0NMRUFSX2RlZl8xW10gPQo+ID4+ICAgewo+ID4+IEBAIC0xMDYwLDcgKzEwNjAsNyBAQCBz
-dGF0aWMgY29uc3QgdTMyIFNFQ1RfQ0xFQVJfZGVmXzFbXSA9Cj4gPj4gICBzdGF0aWMgY29uc3Qg
-c3RydWN0IGNzX2V4dGVudF9kZWYgU0VDVF9DTEVBUl9kZWZzW10gPQo+ID4+ICAgewo+ID4+ICAg
-ICAgIHtTRUNUX0NMRUFSX2RlZl8xLCAweDAwMDBmZmMwLCAzIH0sCj4gPj4gLSAgICB7IDAsIDAs
-IDAgfQo+ID4+ICsgICAgeyBOVUxMLCAwLCAwIH0KPiA+PiAgIH07Cj4gPj4gICBzdGF0aWMgY29u
-c3QgdTMyIFNFQ1RfQ1RSTENPTlNUX2RlZl8xW10gPQo+ID4+ICAgewo+ID4+IEBAIC0xMDcwLDEx
-ICsxMDcwLDExIEBAIHN0YXRpYyBjb25zdCB1MzIgU0VDVF9DVFJMQ09OU1RfZGVmXzFbXSA9Cj4g
-Pj4gICBzdGF0aWMgY29uc3Qgc3RydWN0IGNzX2V4dGVudF9kZWYgU0VDVF9DVFJMQ09OU1RfZGVm
-c1tdID0KPiA+PiAgIHsKPiA+PiAgICAgICB7U0VDVF9DVFJMQ09OU1RfZGVmXzEsIDB4MDAwMGYz
-ZmMsIDIgfSwKPiA+PiAtICAgIHsgMCwgMCwgMCB9Cj4gPj4gKyAgICB7IE5VTEwsIDAsIDAgfQo+
-ID4+ICAgfTsKPiA+PiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY3Nfc2VjdGlvbl9kZWYgZXZlcmdy
-ZWVuX2NzX2RhdGFbXSA9IHsKPiA+PiAgICAgICB7IFNFQ1RfQ09OVEVYVF9kZWZzLCBTRUNUX0NP
-TlRFWFQgfSwKPiA+PiAgICAgICB7IFNFQ1RfQ0xFQVJfZGVmcywgU0VDVF9DTEVBUiB9LAo+ID4+
-ICAgICAgIHsgU0VDVF9DVFJMQ09OU1RfZGVmcywgU0VDVF9DVFJMQ09OU1QgfSwKPiA+PiAtICAg
-IHsgMCwgU0VDVF9OT05FIH0KPiA+PiArICAgIHsgTlVMTCwgU0VDVF9OT05FIH0KPiA+PiAgIH07
-Cj4gPj4gLS0KPiA+PiAyLjM5LjIKPiA+Pgo+IEhpIEFsZXgsIHRoYW5rcyBmb3IgbG9va2luZyBp
-bnRvIHRoaXMuIEJ5IGFwcGxpZWQgeW91IG1lYW4gdGhpcyBwYXRjaCBpcwo+IGFjY2VwdGVkIGFu
-ZCBpdCBoYXMgYmVlbiBtZXJnZWQ/CgpZZXMuICBPbmNlIGl0IG1ha2VzIGl0IHRocm91Z2ggb3Vy
-IENJIHN5c3RlbSwgaXQgd2lsbCBzaG93IHVwIGluIG15CmRybS1uZXh0IHRyZWUuCgpBbGV4Cl9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4LWtlcm5l
-bC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5saW51eGZv
-dW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xp
-c3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
+The following patchset adds documentation to exported functions in
+`net/bluetooth/lib.c` and ensures that `bt_*` logging functions are
+calling the correct pr_* function as opposed to `printk(KERN_*`.
+
+Yuran Pereira (2):
+  Bluetooth: Add documentation to exported functions in lib
+  Bluetooth: Replaces printk with pr_debug in bt_dbg
+
+ net/bluetooth/lib.c | 71 ++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 67 insertions(+), 4 deletions(-)
+
+-- 
+2.25.1
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
