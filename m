@@ -1,130 +1,127 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 782D2C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Sun,  5 Nov 2023 07:48:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id A69EAC4167D
+	for <linux-kernel-mentees@archiver.kernel.org>; Mon,  6 Nov 2023 00:48:56 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0F54F41BA3;
-	Sun,  5 Nov 2023 07:48:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0F54F41BA3
-Authentication-Results: smtp4.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=crOON4a6
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2063261072;
+	Mon,  6 Nov 2023 00:48:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2063261072
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=uRLcwQOl
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id FM1i44_0RNia; Sun,  5 Nov 2023 07:48:40 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 51z-FIkBOxie; Mon,  6 Nov 2023 00:48:55 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D3FBC41B91;
-	Sun,  5 Nov 2023 07:48:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D3FBC41B91
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 031886104B;
+	Mon,  6 Nov 2023 00:48:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 031886104B
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id A66F9C0071;
-	Sun,  5 Nov 2023 07:48:39 +0000 (UTC)
+	by lists.linuxfoundation.org (Postfix) with ESMTP id C27F4C0071;
+	Mon,  6 Nov 2023 00:48:54 +0000 (UTC)
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 3C089C0032
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6BB60C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  5 Nov 2023 07:48:38 +0000 (UTC)
+ Mon,  6 Nov 2023 00:48:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id 1E48B60FBF
+ by smtp3.osuosl.org (Postfix) with ESMTP id 34B466106C
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  5 Nov 2023 07:48:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1E48B60FBF
-Authentication-Results: smtp3.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
- header.s=selector1 header.b=crOON4a6
+ Mon,  6 Nov 2023 00:48:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 34B466106C
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8rrWmb0FGPDL
+ with ESMTP id sYgxKJ-sFEHf
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  5 Nov 2023 07:48:37 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur05olkn20813.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:7d00::813])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 84AFB60E5F
+ Mon,  6 Nov 2023 00:48:52 +0000 (UTC)
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com
+ (mail-ve1eur01olkn0803.outbound.protection.outlook.com
+ [IPv6:2a01:111:f400:fe1f::803])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 313376104B
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  5 Nov 2023 07:48:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 84AFB60E5F
+ Mon,  6 Nov 2023 00:48:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 313376104B
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ja7BVKBgUhF8Zh90itUbd2XBuFS3QUiUowEfyuW7jJrMEhY04d5YzPZtB9+IV00RK6SDpfxN9NjuFUALId6hou+sADik435YjSs8H1vVMPjJW68xNQ/NGBArSzslpGTXDGDLF49lRIGaVPPsgbJiIjHX8/xHk5ZsP3gfbN8FJR0XgztkEJOGl7ABOz0xK+PhGhXyLY2Bixb6TD2Llvee8LovGDKFFza4DMNOOs68QREUh8TRiURubYsC50/0pvy/uvh5FZcNyzILLamLc3Ey8UMbT/mEA0Tx2oZRPGd4YtuXQ6h1xfsGPiLk7UhijpvBfNFKxoKEIEAtJPNgFPgXnA==
+ b=e5dEGCnnIx0zhTij+rxwvCezb+TzYqJS1OdwG5kZSQFZuXjrbuWdSDE3bokUd2I+GFs5kazr4NwEezqB3hdwx3IRQuJkLgtZsAJJPz6PNChWSZAf/ysDucIz38yZLHrW9cR5q8ossEadhbROdCIyr+Y63QE3yK6QkA4d0zHg1IVuh1ApcH0h3EwmEZUuH9drCfxcoL9VvfwDGgsBPwbNjbXYx3nU53TG92eXaslEgXMZfvtTPBKe1ioLVg3YQaV/h7uucj8fc1xd42JOVoc5bSPMME7PMFhgnx+JStWwUsmTl1O8xR1AGn2dPlsFeQ+k564cnhL6O13HYI/b3bzJMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ie0ZVXDVNlkfX5PeUREiXs2GJNaMdWdi8ek50QVOgoA=;
- b=VY9rFXRhiDCFnjjF4NZ6ZUX4lACLeaevfw9rs1Y0jpSrvik7B7Gufd7mbqIE2tJ1ywE+O7J2dLql1Mx7W4WgXcVvrdA3PfgCqWGElPYsaxVKUSI+nrFFgYbWaJ7d494oFtSNQJF3w06OYzGxwKp7FnlxNbEo8Ve+JG+ovidftM0o/cSmqJXQssCuDWDUvA9u8QVY2VqcnthYADCJ3SAmkX3bazhgEFCP3d4a6i44nC7B4ab6sqjeaDJ2M5avUxtytkcw4pGN9J6a404bxIKgT3BHFRtFKChq7fjO/vGdPAd3dt9hDvZKW9w218KnlRvfKy8aPRiE0DUny/LTcsmR0A==
+ bh=T1xgs2hBl2+O7OTROe3pEMi5ZTZC4DqC/vNTz7mTcdY=;
+ b=MNbGyl72ETYufh+iWNI2H1ZGteGes5Umo+2E8eNr9gejZl430bKBADrguuwdApcDZ+Dho1REXpoWng1nGgrU+j0yMI/pys4nDzzUL/IeqZmp6+wqHP3omC1fpsloiGZ+7eQnVwRuLI5e1/almizhJyDu/q0P+RsGsQO5oDxPXfCQ5G9eZn4e8U3QFWLNlr0h5zBe4JOmZuWBtQ6tjs3VQrnwnHnwfo32ulshYYP8wbTO647sN+ePWFvpFFMujNn0W5kEN5U/ljQP6qxMpArG3G3hyt1IPNa/pGGyUlhfJWHNCEC0JAr1IWOX3y2G6ctB0cFtAXDlemj8KS84U79IVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ie0ZVXDVNlkfX5PeUREiXs2GJNaMdWdi8ek50QVOgoA=;
- b=crOON4a6XPuQX6O6TNrotaUQHwBnm1JLyLKSUUod+JFUsbC1kzooD53iVDHo85kH4AAECHBND9bE42XLXtl7koguR84Z7exsZHgu7x0lVoLGGs88dVfViVm3LFL8kQoTV5a9SJFk5iDe1IsLJTA5CfNPhbNztOQbhoqlDtAcqTTjKPXoS2EHds5CxbXCwbmkpuGTwfkAfb5URg02JsR3wagc4sOGbAF2eyNlJ7kbik/6V4D9nP8dC2uubEipDvdMI8zxQeZoEXA1A0HwBYMErU3ubmBLLUss+8lIE5l5xs2k6LzDc3jTTmQ00fsG/iwZWaXU0KqlevcC1D/mntN9hQ==
+ bh=T1xgs2hBl2+O7OTROe3pEMi5ZTZC4DqC/vNTz7mTcdY=;
+ b=uRLcwQOl5tW7MkMarDmcEyn+MZiEo+ZBCYfRrEy2GU45k8RGq/gPesuNDLiYTzMEmfxkilJEvcRODbvkEQiBhJO3tnnPjD+npSm4sQ2G0/7JhqbaTpaiGlkqYWNiE6RypSaqTiSvncxl5/Xusv2fzU0ILTtRUpnj2n2XHLbPXWIcftoUinOzxGLtYLhvyJXIu6EBe7IxYZQ4d8cISLoI8/yZF0QFccCHbVmchsQDMYvXbSNRWVG3Di83MNTbO1KR7Voc3rNQr49UPtH4xdLGR2rTs0kMgU1j9fpfQe/lfZUoMBrlp6RBTPrEVtlMobgbKw9aJYBO86lxgXfUjq3LzA==
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
- by VE1PR10MB3808.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:160::19) with
+ by GV1PR10MB5940.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:5c::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.21; Sun, 5 Nov
- 2023 07:48:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Mon, 6 Nov
+ 2023 00:48:48 +0000
 Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.027; Sun, 5 Nov 2023
- 07:48:31 +0000
+ ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.028; Mon, 6 Nov 2023
+ 00:48:47 +0000
 From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: kgdb-bugreport@lists.sourceforge.net
-Subject: [PATCH] kdb: Corrects comment for kdballocenv
-Date: Sun,  5 Nov 2023 13:18:08 +0530
-Message-ID: <DB3PR10MB6835B383B596133EDECEA98AE8ABA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+To: richardcochran@gmail.com,
+	netdev@vger.kernel.org
+Subject: [PATCH] Fixes a null pointer dereference in ptp_ioctl
+Date: Mon,  6 Nov 2023 06:18:29 +0530
+Message-ID: <DB3PR10MB683554F488A562C8A89286C2E8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.25.1
-X-TMN: [iqloYnYSmAahuE+0adb40GIywgtCzLXG]
-X-ClientProxiedBy: JNAP275CA0064.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4f::20)
+X-TMN: [XSiyIhcMB24S5xYVxYNrxhPtTaffsMoh]
+X-ClientProxiedBy: JNXP275CA0042.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:18::30)
  To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
  (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <20231105074808.1715645-1-yuran.pereira@hotmail.com>
+X-Microsoft-Original-Message-ID: <20231106004829.1749714-1-yuran.pereira@hotmail.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|VE1PR10MB3808:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47881ade-bdeb-4577-dcfe-08dbddd39a27
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|GV1PR10MB5940:EE_
+X-MS-Office365-Filtering-Correlation-Id: 236a2fd7-6ce8-4c35-bda6-08dbde6222c9
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ihbH3rQVLn/WyOwcJCLF3Gfq9po2GeNqtx8TlFkE+r68Ghwl/cl/zPQgijSJe0U7x/7XmkGAnXtmuyImEqzSvyqIx1NDMFNElScc10rmZa+TqUU4jSt/OKENLXzs8rZ/Fm+1bEUNdAWL4BTR00iacYK7mC6O4GVlNqdwXdP+E0V/iA7YkfPSG3Ld9VzcQL432XVEF7bd5HzVtkxEGGZeDXCbv5qv8UPOFYQ6OSa/m2xghngwUKbvU2oCQ1rg61vL7khOHq6T2Nt3bsKe6OtfG3vBVMtINl2IHFFKayFTBeXnRRs8crm73YAD/y26Q4u2/SbBCbpiz1judv/8luFBPGf1n9uCXrpO4nmTgrj/LXFmOmfS60yDBSlzxBB9yBtH/FKztOd4jljyFENwjcCLfdRA20cV38O5e4AkF4CD4HpbUmAKKWc7tYsqQHL6qdEwiyXi62jEpX4oBXRLCLh2Bl/r6upyXZEOSsHZZlIBdzBbD8PZDj3mnKmExIqc6MAixIVywr6mMSxIpIx64DXxwgb+Ibx5n9GqukEJLz7X/4+fxQ8js0LWrlET9vnu/6D6rg0JDrzhFY1c3bEp4491wcvZf4Djp6fVtKQ6jISIZPIAE4BJ75JmI9axHhxUMKjP
+X-Microsoft-Antispam-Message-Info: LC03cMxh9dSG+TeemuqOQmCegU9p99+Q7tfVXdPgqvI8p9bjz7IjAJTM4r8BIeIGDOO0KiLxLRelka4/PnE9Lia+YEpR26Vj+LwQLZ5N8edzYyNmt9SFxzdPYw4SLO/jbtrv7OuFhyR7XWARZxCCAZ4A1/FjJ4q8VexYkcIMboYwli99fdzmoU6bRVYbrtAgR631mTn6hnR9GDV3bW+U5xZiW21ZF7HmD4YVvxi8VxTfydwn+ehV4cUbH3cZ83lPXhra0jrLRguWjvdj36Ps+1R6H5sosLaEvFJycEeF+rjjUbJOO5MB+0sfNavmY7aVn0fck847i9D6wAP5bZ/Dywn8V67upzUC+cF9raBXnZWju5l8Os1rk0Cq2g2KCl6CvEl8djgyQtTCOwu6U5MwdZLC/BiS4CqsKfkklTLZCQufO/OtS4xptoXkJP1h0Ok5sAwZN0R7uDa1zHqNr4Zh96r1wyFjcPF8+ZQGiI/JIzBN0ZME/exElZk/UxQm706S2uFd9xTpSwptBRLhF/3Hhvpvx9OROlaJDGHzV07tFfQrb3CibFMNDdHVvskfMTzt1jaXeRuzwM1yWpNePLyXNCRHN6LlLR6OE6NYAFs9SjmfhvL8/3KylAByUb30ZzL9
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qoVwU08jxhvxKriMJz2yXbBI0lomWLkGnOaJxABoO9rEU4hpNUFfiGVMUxTP?=
- =?us-ascii?Q?+wKLqqhQDnGsvH++oqcih7jycj6g9ygGmnfJ1rSkg3/SQxOb0Wi/agmezHW7?=
- =?us-ascii?Q?mWWmvLyRE+vwjcRDBMjX9b5mj6hKUKzpknJlSP7aiILd86FCsUIu2ZdXkRJX?=
- =?us-ascii?Q?MJH9xs0fmYfdg1G2P/6yhLSYzqrk/v1C4R9duuu3SvIpS6Dflp9Bkh+88s0Q?=
- =?us-ascii?Q?bMPdpZbzPeziRmZCZv1VCLBjxFtpbsC7HWZrjdaSh1Sr91txD4p+uLfzuEnJ?=
- =?us-ascii?Q?eOe0r+2AdpvjZTIhy1x0l+zBj4evQ1HaUX5BX/NGlNkRFU9RtTHtQZt/6Ldn?=
- =?us-ascii?Q?bXpuyBZGzPBUlr4dVB6ca7QeVfdkrqNqe8Dz74IpTAMTc0PfUkzT03qUQae7?=
- =?us-ascii?Q?wRfd4DWJGLONV/ZuVlMxtYbwQq464AOJyZr4eUWt5UawL7t0Bd98gl5ZY/jN?=
- =?us-ascii?Q?/9HTLvq7vym2YwLn3DeE07++MX6x4X2+BAs2NLnN5arUdpEKoE4QyHItOQJQ?=
- =?us-ascii?Q?yMYPPL/25OdZBsPkv8pXsUo2HsIaxDk2XMe75JspiAz7e/lSbwppNhnbZAlq?=
- =?us-ascii?Q?lUuE9gtnNCHu4tYPiG4WZ/lS7zdt8njXMuItkXuL+KkYm0zxq49Gy4TqiUlE?=
- =?us-ascii?Q?BbT8uz0Bsp6Ct+g18KbPang1TxODcQNPt3Qh9z1rqqvVJYkW4chDPR4BRc/p?=
- =?us-ascii?Q?tpIYU7i637pcdnXTbSJZx2nYsBnItxurqLe3y9ldK1A7ObQkzkoWS6Q9Wzgy?=
- =?us-ascii?Q?/AO7hL8ynLzrbbfVsxa52X3hNLNCpyysddA4ExMQVcMmZWBAXUj9Y/RtBU7F?=
- =?us-ascii?Q?KdpfQOtLDZwKYN+UUnuENn7xBOXKKDMerhOrz9278TJ9B1w0oRwBAq+00wTs?=
- =?us-ascii?Q?JLaoBo/Il4wuQjgq7VVEuz2ob+TH/WAyLMTfmRwuv6DODNpOM4TLny1KD1jz?=
- =?us-ascii?Q?kkYR7MKHIhxKZei1GVVzSCLec/ohqxgao8RMGc8p+AKUKzE0xeX0DCpCHUZ5?=
- =?us-ascii?Q?gN6osquZM2XJYP09072U7MeH84vGChmES25gxHSOTMRaOSFCmICp9e8KK9Xq?=
- =?us-ascii?Q?GhCxZj05Z73+jEdtrDSNbN9HiJhxSQHzNsNt0FkzJRxIUPRbF1tRKzUl6xM+?=
- =?us-ascii?Q?xNgJFCRQk2esTvHITp6pkTZRIEYS70IFeohoS6HbbVUkH2sN8abbrVohmA7O?=
- =?us-ascii?Q?DsBekjt4DVS5gBKyJrKE2+g4WADV1A3/UGqk2HgNtNfaKyVLAhmSJpHUv78?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?DVDxYuoRKfyZ5lUcvRny5gUK2BAFvugBzhkoNtH+ghSVKC1GXLxOot5MfBlN?=
+ =?us-ascii?Q?d6D1w9mFbNx+Ykk6EquENAQA7IdCUGNL6j0QnsIhfuK5QiotIeam43igl5gV?=
+ =?us-ascii?Q?8QfV0EXzJb7pZAC99IWTd42/og920cP1Q8wFZ8jMx+T9CuCkQs8ocHRXvVmg?=
+ =?us-ascii?Q?ZAnONZD3WsipbOSCzGyOtXzdSFhN7u1Bj1TzBeADIXUpzDc934OAlH+9AOih?=
+ =?us-ascii?Q?Lfut9sO+RUdgUJG90+VR/hcK/7PI0FT/8keTeiGhPAMhxJpmBRwqV8xB0b/C?=
+ =?us-ascii?Q?n/lcBJuxFzVB7/20mwdMU3O5JvVCfNBkSmlToxn2DV84NIg1WPnGpcgHuliU?=
+ =?us-ascii?Q?+w3cQroWow1AU2bNpUX+7wpsF7q46xpCyFt9oagYozKSCntg6mCelp9rC2IN?=
+ =?us-ascii?Q?56mLtlJyHHrUoZiKBfPo3QWVevF/mj2ObyLqcIpzOmZ0Vp+rQxdL8h6DGOIV?=
+ =?us-ascii?Q?UydysNLwboJFdfUp+nJXpeGWOnS2qLPIMsngqSiM5wiz4s4+Pt7OWp2jdUdG?=
+ =?us-ascii?Q?tPKNrlrPiIyA2JHwr67O2nqkBZ9XpCXv3lIxD64HhOyg7A8uUkWP8KK6F/nJ?=
+ =?us-ascii?Q?Nu0esvTh+kX6E3sbzvjSPeLXBopDDp9Zn/zjSaqTgNGjXwB0QZ319JB95xq4?=
+ =?us-ascii?Q?2j4gP0FkK+cdilHKthzZ+x1ZKReLJn5xfGT7Zi30xx7p+ys3BE6mP2cvKzaC?=
+ =?us-ascii?Q?JMOM8Xn1wZvzaqZzItrmVvR+7t3iFVV5N3WRJbC0jqoZVL+J5Z9PUyJa7gf3?=
+ =?us-ascii?Q?Y5H1iQ0GGZj+RVZirFWfWzedYGaDT9SLguZsexymGP6kFTrH8EsxCT8hvQkf?=
+ =?us-ascii?Q?PUJZld6ASDQC87WhjTwmcDS8d0mkUJAHmWtldsXu0j3lvvIEDARWBZ/T5M3S?=
+ =?us-ascii?Q?DpsT693miTbIOn7pdOEz8p/DjUqGHQydFXEpKdqF/aw2YZI0fQPY8D5N4q/x?=
+ =?us-ascii?Q?Nws5hwfYf+udjh12e68lJ7R1HBiHUHljq3/i07B5AWE/FlVyo1zdTtx9kw2C?=
+ =?us-ascii?Q?cxU1BaEvekYQd1F8iTRfPO6p8bKYXoO9FKEdXp/Vb+q1eoV4eewcWg5qfn5l?=
+ =?us-ascii?Q?ssJLIjP/akLPmFes4tXt5GKMVcOoRAhqwGNKhsYFqWLzMfl+dClWGc5ea6Mf?=
+ =?us-ascii?Q?PRMR3Wcx5GupWD/ZID3+OoWDolFbyMYZESRyBQRmFThcqTn1yU0fMXfVVX20?=
+ =?us-ascii?Q?gxC+m+pVCtFRjZaM3nGzT52m9EKD0Zw/3qzdEya6WN8/pFEAUqKUF3D+MA8?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47881ade-bdeb-4577-dcfe-08dbddd39a27
+X-MS-Exchange-CrossTenant-Network-Message-Id: 236a2fd7-6ce8-4c35-bda6-08dbde6222c9
 X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2023 07:48:31.2994 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2023 00:48:47.8133 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR10MB3808
-Cc: daniel.thompson@linaro.org, linux-kernel@vger.kernel.org,
- dianders@chromium.org, jason.wessel@windriver.com,
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5940
+Cc: syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com,
  Yuran Pereira <yuran.pereira@hotmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -142,36 +139,57 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-This patch corrects the comment for the kdballocenv function.
-The previous comment incorrectly described the function's
-parameters and return values.
+Syzkaller found a null pointer dereference in ptp_ioctl
+originating from the lack of a null check for tsevq.
+
+```
+general protection fault, probably for non-canonical
+	address 0xdffffc000000020b: 0000 [#1] PREEMPT SMP KASAN
+KASAN: probably user-memory-access in range
+	[0x0000000000001058-0x000000000000105f]
+CPU: 0 PID: 5053 Comm: syz-executor353 Not tainted
+	6.6.0-syzkaller-10396-g4652b8e4f3ff #0
+Hardware name: Google Google Compute Engine/Google Compute Engine,
+	BIOS Google 10/09/2023
+RIP: 0010:ptp_ioctl+0xcb7/0x1d10 drivers/ptp/ptp_chardev.c:476
+...
+Call Trace:
+ <TASK>
+ posix_clock_ioctl+0xf8/0x160 kernel/time/posix-clock.c:86
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+```
+
+This patch fixes the issue by adding a check for tsevq and
+ensuring ptp_ioctl returns with an error if tsevq is null.
+
+Dashboard link: https://syzkaller.appspot.com/bug?extid=8a78ecea7ac1a2ea26e5
+Reported-by: syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com
+Fixes: c5a445b1e934 ("ptp: support event queue reader channel masks")
 
 Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
 ---
- kernel/debug/kdb/kdb_main.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/ptp/ptp_chardev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/kernel/debug/kdb/kdb_main.c b/kernel/debug/kdb/kdb_main.c
-index 438b868cbfa9..1aab8a05a145 100644
---- a/kernel/debug/kdb/kdb_main.c
-+++ b/kernel/debug/kdb/kdb_main.c
-@@ -272,11 +272,12 @@ char *kdbgetenv(const char *match)
-  * kdballocenv - This function is used to allocate bytes for
-  *	environment entries.
-  * Parameters:
-- *	match	A character string representing a numeric value
-- * Outputs:
-- *	*value  the unsigned long representation of the env variable 'match'
-+ *	bytes	The number of bytes to allocate in the static buffer.
-+ *
-  * Returns:
-- *	Zero on success, a kdb diagnostic on failure.
-+ *   A pointer to the allocated space in the buffer on success.
-+ *   NULL if bytes > size available in the envbuffer.
-+ *
-  * Remarks:
-  *	We use a static environment buffer (envbuffer) to hold the values
-  *	of dynamically generated environment variables (see kdb_set).  Buffer
+diff --git a/drivers/ptp/ptp_chardev.c b/drivers/ptp/ptp_chardev.c
+index 282cd7d24077..5b36c34629a0 100644
+--- a/drivers/ptp/ptp_chardev.c
++++ b/drivers/ptp/ptp_chardev.c
+@@ -173,6 +173,8 @@ long ptp_ioctl(struct posix_clock_context *pccontext, unsigned int cmd,
+ 	int enable, err = 0;
+ 
+ 	tsevq = pccontext->private_clkdata;
++	if (!tsevq)
++		return -EINVAL;
+ 
+ 	switch (cmd) {
+ 
 -- 
 2.25.1
 
