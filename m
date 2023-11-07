@@ -1,109 +1,114 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF56358AA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA18358B2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oOcX6UKm"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JtLNtThK"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 05394606F5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:13:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 05394606F5
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oOcX6UKm
+	by smtp4.osuosl.org (Postfix) with ESMTP id 318B340983
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:37:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 318B340983
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=JtLNtThK
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hy_xTp6xvlwn
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id oIp6kL1U2IIR
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  7 Nov 2023 18:13:26 +0000 (UTC)
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 10E4A606EC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:13:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 10E4A606EC
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id A7EFECE0F93;
-	Tue,  7 Nov 2023 18:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71478C433CA;
-	Tue,  7 Nov 2023 18:13:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1699380802;
-	bh=gazaRc+aEiIyTzNinDjx0ki65vH/wKHbHk/6Ydw3L4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oOcX6UKm4/PBOxQiHjHPNKhhHh8phKJLtEmQmdaIx/e2sKj7d2IAKTNYQvTivuHUn
-	 xraxU6y5AcfE409OESVyY5/VZ252r+5wV3YgMD5VkT6UM5y8QAwvaCTdgFFNrNTLBj
-	 EdtMiqBCv1CN+yhovvAYxyu4j+UAUaXDk8pJPQig=
-Date: Tue, 7 Nov 2023 19:13:13 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Yuran Pereira <yuran.pereira@hotmail.com>
-Cc: linux-bluetooth@vger.kernel.org, johan.hedberg@gmail.com,
-	marcel@holtmann.org, linux-kernel@vger.kernel.org,
-	luiz.dentz@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 2/2] Bluetooth: Replaces printk with pr_debug in bt_dbg
-Message-ID: <2023110752-laundry-stiffness-9f34@gregkh>
-References: <DB3PR10MB6835C002EB4C5A05AD17610BE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <DB3PR10MB6835DE6D279B65EC040B92AEE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <2023110752-headset-gains-41a7@gregkh>
- <DB3PR10MB6835DDFE9086DAC4B01C7508E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+	Tue,  7 Nov 2023 18:37:20 +0000 (UTC)
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1545D40981
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:37:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1545D40981
+Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-45d9ceeb8b8so1711971137.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Nov 2023 10:37:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1699382238; x=1699987038; darn=lists.linuxfoundation.org;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pGe+8KAfcoYncVaF1WDluZGp6nq86LlBM7gCmB2IIRo=;
+        b=JtLNtThKjSAA1m1Ow+9/r+GbB++Q5NhNOpGxRKPH9ZrJf2GRIknHwxRHUz+xa/P5Sj
+         1+bvXvSAu61bgzb8GpRpQdXen50/1wnm1Na4zEQUz3iA/5x+aqeEugq/VjBcS44Z2cp/
+         j3UPR54D7Y6tCyGNmpHj9VSbngB6Ct0r+0+YY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699382238; x=1699987038;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pGe+8KAfcoYncVaF1WDluZGp6nq86LlBM7gCmB2IIRo=;
+        b=M880iuoa941EjjPLHHLk6I+lNDEsxlMAwgHey+QSmK2rMTttJBlSmBIPwBrMaL+Jo/
+         O9qyK9NLH18m81cH8f1SkwQyQ96sPRyTEdiZ7cOOQEcJz2MJZ01vqh8cclGpDz4pqrfq
+         dzkqbCuy5V717Neg4OPlCPdYWcRlL1s7iEM9LX3FV9LBbq2yU9bAKkdyCpwowilVKj3o
+         rEuIxCCWHCY4f91uNqY3pPRv9cTS3eHPyKOopoTuij9xhnAdj3rMKG2mgHUSVTZUh8Sj
+         heiolg8E+uaA0mJuKd5sLujCGg5gAeWfaiqaSW0x/dCiwg9sCK6A+Kzm18s0ZeA0w4Ma
+         SwOA==
+X-Gm-Message-State: AOJu0Yz1QlHSdREJPlBq2Gxgu/w3C2TF8eBzfcjMuQj7IexgFoHT5VB5
+	jkEKS5GoP0HiqhnZ45hwOlBgNpuFdoWVxLnblfbaOg8dN6LI4G/Vf8w=
+X-Google-Smtp-Source: AGHT+IG9yU5+mm6OtCCxWQHd1OGrWt9NcMUGn2or/vjZZCOee2u7G4XP8plVGixVXRCXeWwEn1uba2hMKFe1IFKoWtM=
+X-Received: by 2002:a67:ef5c:0:b0:45d:73a7:121 with SMTP id
+ k28-20020a67ef5c000000b0045d73a70121mr13823605vsr.11.1699382238543; Tue, 07
+ Nov 2023 10:37:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB3PR10MB6835DDFE9086DAC4B01C7508E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+References: <20231101-piculet-of-flawless-abundance-acd6cf@meerkat>
+In-Reply-To: <20231101-piculet-of-flawless-abundance-acd6cf@meerkat>
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Date: Tue, 7 Nov 2023 13:37:07 -0500
+Message-ID: <CAMwyc-TzGmNZ7Kq7-kmTv4M=hu1A+t76KsVJ8w_YaLdf3tbyDA@mail.gmail.com>
+Subject: Re: PSA: the linux-kernel-mentees list is migrating to lists.linux.dev
+To: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 07, 2023 at 09:32:51PM +0530, Yuran Pereira wrote:
-> Hello Greg,
-> On Tue, Nov 07, 2023 at 07:31:27AM +0100, Greg KH wrote:
-> > 
-> > You might have just changed the functionality here, are you SURE this is
-> > identical to the original code?  How was it tested?
-> > 
-> > I'm not saying this is a bad idea to do, just be aware of the
-> > consequences for this change and document it properly (hint, the
-> > changelog does not document the user-visible change that just happened.)
-> > 
-> > Note, pr_debug() is NOT identical to printk(), look at the source for
-> > the full details.
-> > 
-> 
-> Thank you for the heads-up. 
-> Yes, you're right.
-> 
-> I just took another look and it seems that using pr_debug here
-> does defeat the purpose of bt_dbg which was created for situations
-> where `DYNAMIC_DEBUG` and `DEBUG` are disabled.
-> 
-> The likely equivalent would have been `pr_devel` but that also
-> depends on `DEBUG`.
-> 
-> Do you think that a new `pr_devel_uncond` like the one below
-> (only to be used in exceptional scenarios) would be a good idea?
-> 
-> ```
-> #define pr_devel_uncond(fmt, ...) \
->     printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-> ```
-> 
-> This would neither depend on `DYNAMIC_DEBUG` nor on `DEBUG`.
+On Wed, 1 Nov 2023 at 15:47, Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
+> The mailman-2 system running on lists.linuxfoundation.org is being
+> decommissioned, so all lists currently hosted there will be found new homes.
+> *On November 7*, The linux-kernel-mentees list will be migrated to live on
+> lists.linux.dev, but the impact of this move should be minor:
 
-No, not at all, the bluetooth subsystem should move to actually use the
-proper dynamic debug infrastructure and not have their own "special"
-subsystem loging macros/functions.  What you are doing here is the
-proper way forward, BUT you need to make everyone aware that it is going
-to change how things work from what they do today.
+This work is now complete. This message is partly a test to ensure
+that delivery to the old address still works. There will also be
+another test message to make sure the *new* address works as well.
 
-In other words, it's not just a "trivial" change, you need to get
-approval to change this type of functionality from the Bluetooth
-developers/maintainers.
+To remind everyone, this is the impact of this change:
 
-thanks,
+> 1. The new canonical list address will be linux-kernel-mentees@lists.linux.dev.
+>
+> 2. *The old address will continue to work* for the foreseeable future, so any
+>    existing conversations can continue and any new messages sent to the old
+>    list address will be properly delivered to all subscribers.
+>
+> 3. All members will be automatically subscribed to the new list, so no action
+>    is required on anyone's part to keep receiving list mail.
+>
+> 4. The archive on https://lore.kernel.org/linux-kernel-mentees/ will be
+>    automatically updated to track the new list address.
+>
+> 5. The List-ID header will change, regardless to which address the message is
+>    sent:
+>
+>    before: List-Id: <linux-kernel-mentees.lists.linuxfoundation.org>
+>     after: List-Id: <linux-kernel-mentees.lists.linux.dev>
+>
+>    You will need to update your filtering rules if you filter based on the
+>    contents of that header (on or after November 7).
+>
+> 6. The mailman footer will no longer be added to message bodies.
+>
+> 7. Subscribing and unsubscribing will be done using the mlmmj supported
+>    commands, documented at https://subspace.kernel.org/subscribing.html
 
-greg k-h
+The archives on lore.kernel.org/linux-kernel-mentees should be
+tracking the new list location as well.
+
+With any concerns or problems, please reach out to helpdesk@kernel.org.
+
+Best regards,
+-K
