@@ -1,109 +1,73 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 52906C4167B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 06:04:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 14D87C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 06:31:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id D24FA61343;
-	Tue,  7 Nov 2023 06:03:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D24FA61343
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FhwEceCg
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9C3314092A;
+	Tue,  7 Nov 2023 06:31:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9C3314092A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Jf1/0XV+
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JTylA3IV53Ic; Tue,  7 Nov 2023 06:03:58 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9EDBD61342;
-	Tue,  7 Nov 2023 06:03:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9EDBD61342
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2N1zdY-wDzJQ; Tue,  7 Nov 2023 06:31:38 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7AB3040912;
+	Tue,  7 Nov 2023 06:31:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7AB3040912
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 69BBFC0039;
-	Tue,  7 Nov 2023 06:03:58 +0000 (UTC)
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [IPv6:2605:bc80:3010::138])
- by lists.linuxfoundation.org (Postfix) with ESMTP id CE783C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 528F9C0071;
+	Tue,  7 Nov 2023 06:31:38 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 61E49C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 06:03:56 +0000 (UTC)
+ Tue,  7 Nov 2023 06:31:37 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp1.osuosl.org (Postfix) with ESMTP id 958C48243B
+ by smtp4.osuosl.org (Postfix) with ESMTP id 28A9C40912
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 06:03:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 958C48243B
-Authentication-Results: smtp1.osuosl.org;
- dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
- header.a=rsa-sha256 header.s=20230601 header.b=FhwEceCg
+ Tue,  7 Nov 2023 06:31:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 28A9C40912
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id EzFLzq57Imol
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HokaJwTQpQ9x
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 06:03:53 +0000 (UTC)
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com
- [IPv6:2607:f8b0:4864:20::531])
- by smtp1.osuosl.org (Postfix) with ESMTPS id B5A4D8212E
+ Tue,  7 Nov 2023 06:31:34 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id 26395417A1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 06:03:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B5A4D8212E
-Received: by mail-pg1-x531.google.com with SMTP id
- 41be03b00d2f7-51f64817809so488916a12.1
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 06 Nov 2023 22:03:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1699337033; x=1699941833;
- darn=lists.linuxfoundation.org; 
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=lKFEEOwu+JwvBa63rAI+zxMPRAeyFot/drhB3OU5pF8=;
- b=FhwEceCgLSZaxPlVD/m1fogm5reOGAOcDLVt4cod18CuegHrNkGMOHJ88aUouHISZ9
- KASu0WDEPLgpAa2VmJkGrY21LZw5y/5QZfAm9Uuqcoss3xj6tQr1dQhyisxrfOQzecK1
- tlp0GBUJc9PiSryCyRuzqXzokzimd6BFgLmfStu/D85LlXY6q/qDeKDRUJtej0K6xCX5
- NNWIzBku/ZBTjpC0zy6XEViseuTbZiK1KYqcEvXK60tfeqgntfxLuzF8I21NG8zWJNqM
- cCOPDJiBpzATaCFJ2gWOzxHwb52dVTFjOp5IuaP3tgL4tunGLVbEsf9DG95L6A663EOt
- ZEcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699337033; x=1699941833;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lKFEEOwu+JwvBa63rAI+zxMPRAeyFot/drhB3OU5pF8=;
- b=wArozEt5Koqew5tXMf/VIchEtSLB6VuyKp8Mhh8NcTdMlHszQSK4VpW4c+QlxBmxeT
- kMEileYjdU+Kf0ALFIa2MFOC+qtugHLMyoC6xxP6jx3KxeZ5/PCCEAOQzLEdvobOaZ8m
- a/lhB9xWf0QkHCuVbj6EXNcukplalRy6ubaurFQcaraPa5CMSclDAYhc/Q/rX8eX6o+T
- LZja4K8RsJYx4MxvKAJRXKiIpq2TtnrI+1auI/+XcG06ShT7HjY6o952SJLwhl5bPw6y
- Z5kCwF9QRgvnY7nQUxdaBlbUv9j4Aq+DOTYg69+LNP3jhLPDAJv8dvGHf7XSQ5ERHB/k
- vynQ==
-X-Gm-Message-State: AOJu0Yy9Mxvbd7TAvo2MfhwNSMJ7JCrkfhiKIZQ1TGRKWN6SioJyjhaA
- 1vO80ILW+TrVJs/kv+FbtPs=
-X-Google-Smtp-Source: AGHT+IEYjDnHlZaeLjHfEXLGnwRtpD+SbIvNxQUtdUAz9T0ERhq0lqVvZiRjtyeTQBeHaCk0XeNZnw==
-X-Received: by 2002:a17:903:32d2:b0:1cc:32c6:e5fa with SMTP id
- i18-20020a17090332d200b001cc32c6e5famr28596508plr.6.1699337032527; 
- Mon, 06 Nov 2023 22:03:52 -0800 (PST)
-Received: from [192.168.0.152] ([103.75.161.209])
- by smtp.gmail.com with ESMTPSA id
- g9-20020a170902c38900b001c726147a45sm6840474plg.190.2023.11.06.22.03.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Nov 2023 22:03:52 -0800 (PST)
-Message-ID: <d252d281-96a5-404c-a6a2-fbaa65bea28a@gmail.com>
-Date: Tue, 7 Nov 2023 11:33:41 +0530
+ Tue,  7 Nov 2023 06:31:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 26395417A1
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by ams.source.kernel.org (Postfix) with ESMTP id 338F7B815FC;
+ Tue,  7 Nov 2023 06:31:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A17DC433C7;
+ Tue,  7 Nov 2023 06:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1699338690;
+ bh=ZbbXEst1MN/YJ42gHNB9eN+R+I0GdIoD7UuNAgu6/yQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Jf1/0XV+gkdPJBLGuEoR2UXNy7zwrTPyTD2jOyIuNHR0KzHKF1XISytb25na/r5Y8
+ kvuGsJd5Cqg2pk8fq1Cvtlqb4iRJjEd31GSk+J+l9rmMKy5V2eKeG0JRudF/+lFLza
+ iqNbYODmazsUFGcYdSb0qQH20121Fnr2zo4JY9v4=
+Date: Tue, 7 Nov 2023 07:31:27 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yuran Pereira <yuran.pereira@hotmail.com>
+Subject: Re: [PATCH 2/2] Bluetooth: Replaces printk with pr_debug in bt_dbg
+Message-ID: <2023110752-headset-gains-41a7@gregkh>
+References: <DB3PR10MB6835C002EB4C5A05AD17610BE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <DB3PR10MB6835DE6D279B65EC040B92AEE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: gpu: Fix warning using plain integer as NULL
-Content-Language: en-US
-To: Alex Deucher <alexdeucher@gmail.com>
-References: <20231103155013.332367-1-singhabhinav9051571833@gmail.com>
- <CADnq5_OkWD3YmCKgXbtk=Gnba3AgAiAWp2z_nzHQvRfEOsdXVg@mail.gmail.com>
- <3b92b89b-ca72-4012-b4f2-0b19e4ba9153@gmail.com>
- <CADnq5_PXRN+PL4wp+sWOXs2L5nQiRmfrw4065R1TE4YKw-ZeUA@mail.gmail.com>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <CADnq5_PXRN+PL4wp+sWOXs2L5nQiRmfrw4065R1TE4YKw-ZeUA@mail.gmail.com>
-Cc: airlied@gmail.com, Xinhui.Pan@amd.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- daniel@ffwll.ch, alexander.deucher@amd.com,
- linux-kernel-mentees@lists.linuxfoundation.org, christian.koenig@amd.com
+Content-Disposition: inline
+In-Reply-To: <DB3PR10MB6835DE6D279B65EC040B92AEE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+Cc: johan.hedberg@gmail.com, marcel@holtmann.org, linux-kernel@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, luiz.dentz@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -115,59 +79,50 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gMTEvNy8yMyAwMzowNywgQWxleCBEZXVjaGVyIHdyb3RlOgo+IE9uIE1vbiwgTm92IDYsIDIw
-MjMgYXQgNDoyMOKAr1BNIEFiaGluYXYgU2luZ2gKPiA8c2luZ2hhYmhpbmF2OTA1MTU3MTgzM0Bn
-bWFpbC5jb20+IHdyb3RlOgo+Pgo+PiBPbiAxMS83LzIzIDAwOjI1LCBBbGV4IERldWNoZXIgd3Jv
-dGU6Cj4+PiBBcHBsaWVkLiAgVGhpcyBtYXRjaGVzIHdoYXQgd2UgYWxyZWFkeSBkbyBpbiB0aGUg
-b3RoZXIgY2xlYXIgc3RhdGUgaGVhZGVycy4KPj4+Cj4+PiBBbGV4Cj4+Pgo+Pj4gT24gRnJpLCBO
-b3YgMywgMjAyMyBhdCAxMjowMOKAr1BNIEFiaGluYXYgU2luZ2gKPj4+IDxzaW5naGFiaGluYXY5
-MDUxNTcxODMzQGdtYWlsLmNvbT4gd3JvdGU6Cj4+Pj4KPj4+PiBzcGFyc2Ugc3RhdGljIGFuYWx5
-c2lzIHRvb2xzIGdlbmVyYXRlIGEgd2FybmluZyB3aXRoIHRoaXMgbWVzc2FnZQo+Pj4+ICJVc2lu
-ZyBwbGFpbiBpbnRlZ2VyIGFzIE5VTEwgcG9pbnRlciIuIEluIHRoaXMgY2FzZSB0aGlzIHdhcm5p
-bmcgaXMKPj4+PiBiZWluZyBzaG93biBiZWNhdXNlIHdlIGFyZSB0cnlpbmcgdG8gaW50aWFsaXpl
-IGEgcG9pbnRlciB0byBOVUxMIHVzaW5nCj4+Pj4gaW50ZWdlciB2YWx1ZSAwLgo+Pj4+Cj4+Pj4g
-U2lnbmVkLW9mZi1ieTogQWJoaW5hdiBTaW5naCA8c2luZ2hhYmhpbmF2OTA1MTU3MTgzM0BnbWFp
-bC5jb20+Cj4+Pj4gLS0tCj4+Pj4gICAgZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jbGVhcnN0YXRl
-X2V2ZXJncmVlbi5oIHwgOCArKysrLS0tLQo+Pj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2Vy
-dGlvbnMoKyksIDQgZGVsZXRpb25zKC0pCj4+Pj4KPj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
-cHUvZHJtL3JhZGVvbi9jbGVhcnN0YXRlX2V2ZXJncmVlbi5oIGIvZHJpdmVycy9ncHUvZHJtL3Jh
-ZGVvbi9jbGVhcnN0YXRlX2V2ZXJncmVlbi5oCj4+Pj4gaW5kZXggNjNhMWZmYmIzY2VkLi4zYjY0
-NTU1OGYxMzMgMTAwNjQ0Cj4+Pj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jbGVhcnN0
-YXRlX2V2ZXJncmVlbi5oCj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3JhZGVvbi9jbGVhcnN0
-YXRlX2V2ZXJncmVlbi5oCj4+Pj4gQEAgLTEwNDksNyArMTA0OSw3IEBAIHN0YXRpYyBjb25zdCBz
-dHJ1Y3QgY3NfZXh0ZW50X2RlZiBTRUNUX0NPTlRFWFRfZGVmc1tdID0KPj4+PiAgICAgICAge1NF
-Q1RfQ09OVEVYVF9kZWZfNSwgMHgwMDAwYTI5ZSwgNSB9LAo+Pj4+ICAgICAgICB7U0VDVF9DT05U
-RVhUX2RlZl82LCAweDAwMDBhMmE1LCA1NiB9LAo+Pj4+ICAgICAgICB7U0VDVF9DT05URVhUX2Rl
-Zl83LCAweDAwMDBhMmRlLCAyOTAgfSwKPj4+PiAtICAgIHsgMCwgMCwgMCB9Cj4+Pj4gKyAgICB7
-IE5VTEwsIDAsIDAgfQo+Pj4+ICAgIH07Cj4+Pj4gICAgc3RhdGljIGNvbnN0IHUzMiBTRUNUX0NM
-RUFSX2RlZl8xW10gPQo+Pj4+ICAgIHsKPj4+PiBAQCAtMTA2MCw3ICsxMDYwLDcgQEAgc3RhdGlj
-IGNvbnN0IHUzMiBTRUNUX0NMRUFSX2RlZl8xW10gPQo+Pj4+ICAgIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgY3NfZXh0ZW50X2RlZiBTRUNUX0NMRUFSX2RlZnNbXSA9Cj4+Pj4gICAgewo+Pj4+ICAgICAg
-ICB7U0VDVF9DTEVBUl9kZWZfMSwgMHgwMDAwZmZjMCwgMyB9LAo+Pj4+IC0gICAgeyAwLCAwLCAw
-IH0KPj4+PiArICAgIHsgTlVMTCwgMCwgMCB9Cj4+Pj4gICAgfTsKPj4+PiAgICBzdGF0aWMgY29u
-c3QgdTMyIFNFQ1RfQ1RSTENPTlNUX2RlZl8xW10gPQo+Pj4+ICAgIHsKPj4+PiBAQCAtMTA3MCwx
-MSArMTA3MCwxMSBAQCBzdGF0aWMgY29uc3QgdTMyIFNFQ1RfQ1RSTENPTlNUX2RlZl8xW10gPQo+
-Pj4+ICAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY3NfZXh0ZW50X2RlZiBTRUNUX0NUUkxDT05TVF9k
-ZWZzW10gPQo+Pj4+ICAgIHsKPj4+PiAgICAgICAge1NFQ1RfQ1RSTENPTlNUX2RlZl8xLCAweDAw
-MDBmM2ZjLCAyIH0sCj4+Pj4gLSAgICB7IDAsIDAsIDAgfQo+Pj4+ICsgICAgeyBOVUxMLCAwLCAw
-IH0KPj4+PiAgICB9Owo+Pj4+ICAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgY3Nfc2VjdGlvbl9kZWYg
-ZXZlcmdyZWVuX2NzX2RhdGFbXSA9IHsKPj4+PiAgICAgICAgeyBTRUNUX0NPTlRFWFRfZGVmcywg
-U0VDVF9DT05URVhUIH0sCj4+Pj4gICAgICAgIHsgU0VDVF9DTEVBUl9kZWZzLCBTRUNUX0NMRUFS
-IH0sCj4+Pj4gICAgICAgIHsgU0VDVF9DVFJMQ09OU1RfZGVmcywgU0VDVF9DVFJMQ09OU1QgfSwK
-Pj4+PiAtICAgIHsgMCwgU0VDVF9OT05FIH0KPj4+PiArICAgIHsgTlVMTCwgU0VDVF9OT05FIH0K
-Pj4+PiAgICB9Owo+Pj4+IC0tCj4+Pj4gMi4zOS4yCj4+Pj4KPj4gSGkgQWxleCwgdGhhbmtzIGZv
-ciBsb29raW5nIGludG8gdGhpcy4gQnkgYXBwbGllZCB5b3UgbWVhbiB0aGlzIHBhdGNoIGlzCj4+
-IGFjY2VwdGVkIGFuZCBpdCBoYXMgYmVlbiBtZXJnZWQ/Cj4gCj4gWWVzLiAgT25jZSBpdCBtYWtl
-cyBpdCB0aHJvdWdoIG91ciBDSSBzeXN0ZW0sIGl0IHdpbGwgc2hvdyB1cCBpbiBteQo+IGRybS1u
-ZXh0IHRyZWUuCj4gCj4gQWxleApPa2F5LCB0aGlzIGlzIG15IGZpcnN0IHBhdGNoIHRvIGdldCBp
-bnRvIGtlcm5lbCA6KQpUaGFuayB5b3Ugb25jZSBhZ2FpbiBmb3IgeW91ciB0aW1lIHdpdGggdGhp
-cyBwYXRjaCBhbmQgYWNjZXB0aW5nIGl0LgpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXwpMaW51eC1rZXJuZWwtbWVudGVlcyBtYWlsaW5nIGxpc3QKTGludXgt
-a2VybmVsLW1lbnRlZXNAbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxp
-bnV4Zm91bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9saW51eC1rZXJuZWwtbWVudGVlcwo=
+On Tue, Nov 07, 2023 at 03:56:08AM +0530, Yuran Pereira wrote:
+> bt_dbg() uses printk, as opposed to other functions in this file
+> which use pr_* family of logging functions.
+> 
+> This patch changes that by replacing `printk(KERN_DEBUG` with
+> the equivalent pr_debug() call which makes the overall file
+> look more uniform and cleaner.
+> 
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>  net/bluetooth/lib.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/net/bluetooth/lib.c b/net/bluetooth/lib.c
+> index 063032fe9c68..96ba39f8b461 100644
+> --- a/net/bluetooth/lib.c
+> +++ b/net/bluetooth/lib.c
+> @@ -329,7 +329,7 @@ void bt_dbg(const char *format, ...)
+>  	vaf.fmt = format;
+>  	vaf.va = &args;
+>  
+> -	printk(KERN_DEBUG pr_fmt("%pV"), &vaf);
+> +	pr_debug("%pV", &vaf);
+
+You might have just changed the functionality here, are you SURE this is
+identical to the original code?  How was it tested?
+
+I'm not saying this is a bad idea to do, just be aware of the
+consequences for this change and document it properly (hint, the
+changelog does not document the user-visible change that just happened.)
+
+Note, pr_debug() is NOT identical to printk(), look at the source for
+the full details.
+
+thanks,
+
+greg k-h
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
