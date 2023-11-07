@@ -1,153 +1,109 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED592E401
-	for <linux-kernel-mentees@lists.linux.dev>; Tue,  7 Nov 2023 18:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF56358AA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:13:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RyYdv/i9"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-692c02adeefso5155810b3a.3
-        for <linux-kernel-mentees@lists.linux.dev>; Tue, 07 Nov 2023 10:03:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699380230; x=1699985030; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=+7XZp8TY75sF7U5h9nw0ejrOlAspCCqCAM2E9Vc6lJo=;
-        b=RyYdv/i9MiSWG73CJ9wXrtc7QcXT8Pmvjckz/CJpu12VqmVaG7DeqVaqVgZJ+NX3np
-         Fl33zDmLPWsfJNrAM/jilSFfnSRqb3KpZ/ycEosaJVAVpmNzXXWVxyMu/8KUZE/pvEPZ
-         yxmSHrStpEYXuIHbMClNwlRzZ716By7qUg4aNfauKa1WuThSd6A8jdgKYtYDCztii/0X
-         e0EytQaJlN5hapsb+WFOa3Gemh6Z/g4p56WY3y7DfCaQQhg/mwZx6vVYtJa2C1Oa1N8y
-         IZOjP9fXUW3JfeZU9K9LkSXagsSTYGC+Tg3yvuq4qXSIWFJYLjnabxQGOlsY0HtEDfms
-         RaXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699380230; x=1699985030;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+7XZp8TY75sF7U5h9nw0ejrOlAspCCqCAM2E9Vc6lJo=;
-        b=uEJSCjhPrVXZKrMxPqCmqfLhrba+I+/tXwV0vKAxjOKyT0tZy9kI/kgLOA4hfVUiRi
-         6DOWMgnRT8lS0u7q9n4OBgwUMecvmTWSzpFz8UKXS535G6EW+XJcMhAVIpqzgd3piqyw
-         TryHUMwT7JPZx+oQ0lYlqlaisM5Uoya6Z3bx3EdaVfHO32kGR8fgE+FfdK30qs/3R713
-         moax8Ze8+MvVQIxU1XxjPyjQV/nVNS5sfBROtnwVYYuHJtdmUqWLTcJNxweSaoikvbgu
-         EdjSv8jWNRiPCytbaX3JnOypeTco2MCJm7TF8QaqlG2zPCJOVOH0wAAbVQDGnoUoYgeH
-         pQaA==
-X-Gm-Message-State: AOJu0YxYOKLNrctFV+3leDlFScZ8DAkROudDtUyDTWZRibOYGpp/I4pU
-	gv1xiFjoXPgFmdS2zdCnKYo=
-X-Google-Smtp-Source: AGHT+IGQmOk5Vlvefa201+fp88HLQxdIENvDptE6tnHClw/M6ybyq5Z+coNiU1SmroFLsDGsbOeZqA==
-X-Received: by 2002:a05:6a20:8f03:b0:12f:c0c1:d70 with SMTP id b3-20020a056a208f0300b0012fc0c10d70mr34253111pzk.40.1699380230066;
-        Tue, 07 Nov 2023 10:03:50 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u17-20020a056a00125100b0069102aa1918sm7457304pfi.48.2023.11.07.10.03.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 10:03:49 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f98d840d-f3ff-47e1-b609-2cfe33c65cb5@roeck-us.net>
-Date: Tue, 7 Nov 2023 10:03:47 -0800
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oOcX6UKm"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 05394606F5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:13:27 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 05394606F5
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oOcX6UKm
+X-Virus-Scanned: amavisd-new at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.401
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hy_xTp6xvlwn
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Tue,  7 Nov 2023 18:13:26 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 10E4A606EC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 18:13:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 10E4A606EC
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id A7EFECE0F93;
+	Tue,  7 Nov 2023 18:13:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71478C433CA;
+	Tue,  7 Nov 2023 18:13:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699380802;
+	bh=gazaRc+aEiIyTzNinDjx0ki65vH/wKHbHk/6Ydw3L4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oOcX6UKm4/PBOxQiHjHPNKhhHh8phKJLtEmQmdaIx/e2sKj7d2IAKTNYQvTivuHUn
+	 xraxU6y5AcfE409OESVyY5/VZ252r+5wV3YgMD5VkT6UM5y8QAwvaCTdgFFNrNTLBj
+	 EdtMiqBCv1CN+yhovvAYxyu4j+UAUaXDk8pJPQig=
+Date: Tue, 7 Nov 2023 19:13:13 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yuran Pereira <yuran.pereira@hotmail.com>
+Cc: linux-bluetooth@vger.kernel.org, johan.hedberg@gmail.com,
+	marcel@holtmann.org, linux-kernel@vger.kernel.org,
+	luiz.dentz@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 2/2] Bluetooth: Replaces printk with pr_debug in bt_dbg
+Message-ID: <2023110752-laundry-stiffness-9f34@gregkh>
+References: <DB3PR10MB6835C002EB4C5A05AD17610BE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <DB3PR10MB6835DE6D279B65EC040B92AEE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <2023110752-headset-gains-41a7@gregkh>
+ <DB3PR10MB6835DDFE9086DAC4B01C7508E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/pm: clean up redundant comparisons with 0
-Content-Language: en-US
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, skhan@linuxfoundation.org, airlied@gmail.com,
- daniel@ffwll.ch, jdelvare@suse.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-References: <20231107082910.92508-1-jose.pekkarinen@foxhound.fi>
- <98e8490e-6608-47a8-890c-f1fe894dac7f@roeck-us.net>
- <65d132b0dbef66039fd6938ecbc2bf68@foxhound.fi>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <65d132b0dbef66039fd6938ecbc2bf68@foxhound.fi>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB3PR10MB6835DDFE9086DAC4B01C7508E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
 
-On 11/7/23 09:26, José Pekkarinen wrote:
-> On 2023-11-07 16:08, Guenter Roeck wrote:
->> On 11/7/23 00:29, José Pekkarinen wrote:
->>> There is a couple of function return checks of functions that return
->>> unsigned values, and local variables to hold them are also unsigned, so
->>> checking if they are negative will always return false. This patch will
->>> remove them, as well as the never reached code.
->>>
->>> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2801:5-8: WARNING: Unsigned expression compared with zero: val < 0
->>> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2814:5-8: WARNING: Unsigned expression compared with zero: val < 0
->>>
->>> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
->>> ---
->>>   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ----
->>>   1 file changed, 4 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->>> index 8bb2da13826f..e7bb1d324084 100644
->>> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->>> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->>> @@ -2798,8 +2798,6 @@ static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
->>>       unsigned int val;
->>>         val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_AVG_POWER);
->>> -    if (val < 0)
->>> -        return val;
->>>
->>
->> This is reporting errors returned from amdgpu_hwmon_get_power() as
->> large integers.
+On Tue, Nov 07, 2023 at 09:32:51PM +0530, Yuran Pereira wrote:
+> Hello Greg,
+> On Tue, Nov 07, 2023 at 07:31:27AM +0100, Greg KH wrote:
+> > 
+> > You might have just changed the functionality here, are you SURE this is
+> > identical to the original code?  How was it tested?
+> > 
+> > I'm not saying this is a bad idea to do, just be aware of the
+> > consequences for this change and document it properly (hint, the
+> > changelog does not document the user-visible change that just happened.)
+> > 
+> > Note, pr_debug() is NOT identical to printk(), look at the source for
+> > the full details.
+> > 
 > 
->      Alright, that case it is a false positive, thanks for the comment!
+> Thank you for the heads-up. 
+> Yes, you're right.
 > 
+> I just took another look and it seems that using pr_debug here
+> does defeat the purpose of bt_dbg which was created for situations
+> where `DYNAMIC_DEBUG` and `DEBUG` are disabled.
+> 
+> The likely equivalent would have been `pr_devel` but that also
+> depends on `DEBUG`.
+> 
+> Do you think that a new `pr_devel_uncond` like the one below
+> (only to be used in exceptional scenarios) would be a good idea?
+> 
+> ```
+> #define pr_devel_uncond(fmt, ...) \
+>     printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+> ```
+> 
+> This would neither depend on `DYNAMIC_DEBUG` nor on `DEBUG`.
 
+No, not at all, the bluetooth subsystem should move to actually use the
+proper dynamic debug infrastructure and not have their own "special"
+subsystem loging macros/functions.  What you are doing here is the
+proper way forward, BUT you need to make everyone aware that it is going
+to change how things work from what they do today.
 
-No, it isn't a false positive. The fix is wrong. The variable should be declared
-'int val', not 'unsigned int val'.
+In other words, it's not just a "trivial" change, you need to get
+approval to change this type of functionality from the Bluetooth
+developers/maintainers.
 
-Guenter
+thanks,
 
+greg k-h
