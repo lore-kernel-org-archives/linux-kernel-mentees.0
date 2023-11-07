@@ -1,113 +1,173 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EF536AF1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 19:34:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96BF4358AF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 20:49:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKHX/0bx"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="hqSXVrbA"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 97C9F80BFC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 19:34:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 97C9F80BFC
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fKHX/0bx
+	by smtp2.osuosl.org (Postfix) with ESMTP id D97B540146
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 20:49:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D97B540146
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=hqSXVrbA
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -1.227
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oHt0KwlLtsBm
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 19P2at5JSWOP
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  7 Nov 2023 19:34:57 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 704BD80BE6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 19:34:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 704BD80BE6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699385697; x=1730921697;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=91osQpReCsR7gq9k1QepRGDJYtuDgzaUF/hpb6LJpqo=;
-  b=fKHX/0bx8sjrTdE2OH1oRh4bDF37yD2qmE5J0OmZHE9zvzvpiCRerVk8
-   fdZZBGRWH427AjQCjwyUvzrvpQ1CvQZsbzedznmWkkeLLsC/huiLBSCgb
-   wVmHq9tsnwu5n8eITAqUhKCe15AaU2gTUXejVhePbZAdCOYkggVcwB2qf
-   44UAvp/I/LPMiB0ddjrPKlZsXCwtbtJZUUbPFWuY4MsSi9lq8RAI0GSiw
-   KuaaUHm0UMfPp36hONhCJX/j+iZPfPTUuQBNdyr8oerXv6n3ENI+mNzYu
-   KOEQGWYyhdt3hPVMN1hcCp+gt1/GsdAmPTkawgGKm1pNENFWvRHYA8ctq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2539086"
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="2539086"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2023 11:34:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="828720602"
-X-IronPort-AV: E=Sophos;i="6.03,284,1694761200"; 
-   d="scan'208";a="828720602"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Nov 2023 11:34:53 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r0Rqc-0007MC-2j;
-	Tue, 07 Nov 2023 19:34:50 +0000
-Date: Wed, 8 Nov 2023 03:34:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Jeff LaBundy <jeff@labundy.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
+	Tue,  7 Nov 2023 20:49:09 +0000 (UTC)
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01olkn080b.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe02::80b])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A716E40004
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  7 Nov 2023 20:49:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A716E40004
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=la779b/t01xjaBIE/5uFHz5GT7hX7wsHGJTdcCcUsqUyML7QRNn//mKXF+EyJyx6Pnr7+hebuoIAT1EXkeyXSH8eiSHXZfksqdWZyF6bd6fvAZdbH2sti+WzlYhhL9BwgOWsWgKxTmJq4WgvHV6fWmAqNmt6cRPsuwBUa03/YCvJaG8mtz2tvuLKCBpDpRj+PctQ1waQN4+MMPoNMhgbJmh3FwrFwYJQQ/HxWCm7JhTJOuwNLWPm6qDVzDYeWNNfsIrbEfSMBvWo+z4ddOS2cRGh16f/PuM0o1xccE7QNGMnWxxnuvYdpJYzsKqcqsn8xFj2nUukgCu5QJ1rcVcfvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ef5iHiCKbRYWS5/Qdr3Ca5Osk+32uM084HHn4E63OBQ=;
+ b=cppQCEqaS31ue5xaa2XRUX2O7f3ptk7NWVNlQqEn/ZFWvjVJeVMcZz2Mwa2ZO1sWA4L9wKpgPHy5hKTDGi0MnnlTfXd37uMACYq167cK1rBS8pLS6tvB1JoBJJwRKl0KDEOE33I8SU/lvLsPEenG9hHaMQgA+2EAKqpwBzBjB9a2KDoZoJrtO8fmIf6zzNBAvCxg/1plirxk8BQaPq04rOOsfdTP16qzA8p/87Njp95WfBsD6WgYjtSa3MTWqeNtDf3oXK28Kwk7CX1nxv/23z/fDiF3rv8GO/1yK8e26fYeLDdSLWg9IsXrxn9zjbafamjDrbAsUvNCZENpDW/hpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ef5iHiCKbRYWS5/Qdr3Ca5Osk+32uM084HHn4E63OBQ=;
+ b=hqSXVrbA+ZHIFdYaA6S1NmolrQTqqs9HrNzNkNsSw4q8gohMBP1bq6/VFI/lbGrenfg6mJtVMR00VDsfaFygA6ZFOpYwmqM5tnhCzsZorSg0tXzI9SoogsT6npsdtpC5T4aeTAK7uNzYdfJ1uIh/RvxSVb2ozqtM8C5gLXPRrLrKEs4ExvWWr0ryAZW0zYpto8aNu4rejcKx+XFrcYYylvNpiFxV8zzW1t61W4D7uczo7XoWhWf3xEE2AqKT1PZwlo6KWOL3PLTDG5wBxyHDN91ym6KVZR/HdEyIa9k5mixHgj23XajzUYtWLlpUWCIRU/eIlvLNuXa8qXjKb9z+dg==
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+ by AS4PR10MB6277.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:58c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Tue, 7 Nov
+ 2023 20:49:06 +0000
+Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.028; Tue, 7 Nov 2023
+ 20:49:06 +0000
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: richardcochran@gmail.com,
+	netdev@vger.kernel.org
+Cc: Yuran Pereira <yuran.pereira@hotmail.com>,
+	eadavis@qq.com,
+	davem@davemloft.net,
+	reibax@gmail.com,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
-Message-ID: <202311080319.73n9aQfj-lkp@intel.com>
-References: <20231106164134.114668-2-anshulusr@gmail.com>
+	syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com
+Subject: [PATCH RESEND] ptp: Fixes a null pointer dereference in ptp_ioctl
+Date: Wed,  8 Nov 2023 02:18:36 +0530
+Message-ID:
+ <DB3PR10MB6835D68E7E632532155AE585E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [B6YInlTCs1itY/5b2VoSgRX8XVO9e89Q]
+X-ClientProxiedBy: JNAP275CA0047.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::8)
+ To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
+X-Microsoft-Original-Message-ID:
+ <20231107204836.1849214-1-yuran.pereira@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231106164134.114668-2-anshulusr@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AS4PR10MB6277:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0efd67a0-a413-4c91-51d1-08dbdfd2fbc4
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	UBOAbIPrBjHr6/Z7piI0E4eatt5N+ejzLjXWNDC6i0B/NaVdqq3AK3xAlBG8YB6SJDsrZinmneZrrXk4zVpfoksKvt39cZ/l7Ls6yiDec3VENs6HvhlDECcmhVVA8XgDyNPCwvQLxT3KQUu1X1/MzI9JyYjYBa+J1gCfihZIdMG2hW4KQ1+V45N/g13AG7QjR8V2cPM2JTQAPG1cVHDpURxdQsQjP+qOdXhEjuepcOrUJ4Th7YeabfIja46BiwVMDAHOBoHaWk4lTYWSMPMzOgdMAo20nx+yx6PDU2cVaKMiYzSRPsurcF9BJcPh3Ha3q9xtT/7+3DOGIoQ8T00GUf9lHa/pMPse6GogjWq+YtwJ0RGCZMCRnx0I31bQuGTzCZ2y7JaBCF2TUj7NX2drc/JDnXb9XQSNJGVSV7vUqH8cSrqZZ1ikLcDb34bIlcQC4jzYYj0PDiYO2x0IvyN4YFgvCBoixwo//qABOZtN9rG22gGzaEOD+R8FQEr4v1kaTEtaSHlhQkviG3PlCqZzjIMp+skUAbRIHHlxsOZT1qe1BTKtmxwjc6iuVM/Rvxfo73YN5+3sfeqhHFp4AXmt5woO7gclLaHgvEdkEJujv8fUAIoBOcMgqoooMQs95Bzn
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?C4krEYX4C6kZRUJfnQm2GgGxaATTS2ck86KNE6G/RL23bYyNfCbSNVLHF5z1?=
+ =?us-ascii?Q?KPWlddNXjoym1Vhy4ixAM3RZAPul6a6MgQ/IBBYKwESzZ5b6kQa0/ok+WLTc?=
+ =?us-ascii?Q?LKAdDVmBd4ZcCZHfdP1MzrumfYRhoOZbDLYBSBv/PWlIGND+j/sLIQv7t757?=
+ =?us-ascii?Q?H1HGMsN/YMNxStUFoT095mt0d+oQFzy4eDjTfYj82ySEh7xwfRYuhRgx+fEE?=
+ =?us-ascii?Q?RJ5A3K+DnHobISWc/VokVHT8W3/wiUQW9ft3Inv6Ifrpe6E/S0Py4A3PyfNl?=
+ =?us-ascii?Q?xiqAFTJnJIde2u5lTx0robLJ+Kv06PODSyuvM4Zwz+hyMDQBDiha8TbFTDHX?=
+ =?us-ascii?Q?qKs/j3h80OnGYz5kk/GiMZH7tHFlWb9eKBC9CNz4zxyqYfpnY5H0/N8hJW8c?=
+ =?us-ascii?Q?cNvlk2Rq08kZpXPVAjz6nhjqvbcBmPw3yXhhgLDCTJJCUP0sKydoho4KdC5T?=
+ =?us-ascii?Q?sJTC4/0y6OEzh3vkjT3XtUpWtbkuD3USbkHMoBBGdIGwU3mGFVjXL4Hivz3E?=
+ =?us-ascii?Q?YYv0UfM+linU++8cLMwg1PZK7gHodwERC/3klnQ76vwQIe6pKX+uCUCIa2Zk?=
+ =?us-ascii?Q?zSOi4o6KdRwHRQuZJPC0meOYgo9WRWRQg1n+OkSxP8Ru8n1VCPRfC0t69vr7?=
+ =?us-ascii?Q?AI+fW72sy2iYi+rvmPe3s0PsM9Hp3XDUMT+rTKeGZ9ffTQM9SZDtUViP9Pmb?=
+ =?us-ascii?Q?ArDsTLbtBzzcyCO30wB3+LhM84HcmO5i3YhkezZWnP6hYazn9DIV2obePtE6?=
+ =?us-ascii?Q?mgruUzia4LJPYobHbCvr9D9IrWQWXbRerCWVbckoDTx2j266lpsxwEIdwfS0?=
+ =?us-ascii?Q?a9NtkNz4E1EoRcciK34LJL6gOScN/uQiteq7ipst3fg1N2cE00SPpL9NJEjZ?=
+ =?us-ascii?Q?Pcccr2nbwtDJG93ZjNsMtc9dx8pgmOcIvhLMDxSJHZHvnB8zFSbbdGg0MsQO?=
+ =?us-ascii?Q?PjDbqaOmr6OkrOWWEG6csyf739GBu1q02/86T8Tm/3p7XPEihkx7uWjHhppk?=
+ =?us-ascii?Q?kwenoDNPhb7+ZlOaTTErfEyaTYO1/pOu2hA/3iRDCsuOOHjyQXIHraHrTVSJ?=
+ =?us-ascii?Q?C5dv32W0bMAh3SJMkZuKo8p4yAOLVfKqDGqljNT/d88pktHPhnr9Z6RJBE8+?=
+ =?us-ascii?Q?V+cAV8RAjt+mzRUMW4cB7CQK12COsG3lKQHnt6j6BLRE8iirCIF3l6mO9Eyw?=
+ =?us-ascii?Q?Nq9ocTMI5dYe14e9d4v/WtGgdAxwWuNqHTJfL8dtu+Zp22VLnZT4fP9svSU?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0efd67a0-a413-4c91-51d1-08dbdfd2fbc4
+X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 20:49:06.6723
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB6277
 
-Hi Anshul,
+Syzkaller found a null pointer dereference in ptp_ioctl
+originating from the lack of a null check for tsevq.
 
-kernel test robot noticed the following build errors:
+```
+general protection fault, probably for non-canonical
+	address 0xdffffc000000020b: 0000 [#1] PREEMPT SMP KASAN
+KASAN: probably user-memory-access in range
+	[0x0000000000001058-0x000000000000105f]
+CPU: 0 PID: 5053 Comm: syz-executor353 Not tainted
+	6.6.0-syzkaller-10396-g4652b8e4f3ff #0
+Hardware name: Google Google Compute Engine/Google Compute Engine,
+	BIOS Google 10/09/2023
+RIP: 0010:ptp_ioctl+0xcb7/0x1d10 drivers/ptp/ptp_chardev.c:476
+...
+Call Trace:
+ <TASK>
+ posix_clock_ioctl+0xf8/0x160 kernel/time/posix-clock.c:86
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+```
 
-[auto build test ERROR on dtor-input/next]
-[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v6.6 next-20231107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This patch fixes the issue by adding a check for tsevq and
+ensuring ptp_ioctl returns with an error if tsevq is null.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231107-004813
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231106164134.114668-2-anshulusr%40gmail.com
-patch subject: [PATCH v7 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231108/202311080319.73n9aQfj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231108/202311080319.73n9aQfj-lkp@intel.com/reproduce)
+Reported-by: syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=8a78ecea7ac1a2ea26e5
+Fixes: c5a445b1e934 ("ptp: support event queue reader channel masks")
+Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+---
+ drivers/ptp/ptp_chardev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311080319.73n9aQfj-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> make[6]: *** No rule to make target 'drivers/input/joystick/adafruit_seesaw.o', needed by 'drivers/input/joystick/built-in.a'.
-   make[6]: Target 'drivers/input/joystick/' not remade because of errors.
-
+diff --git a/drivers/ptp/ptp_chardev.c b/drivers/ptp/ptp_chardev.c
+index 282cd7d24077..5b36c34629a0 100644
+--- a/drivers/ptp/ptp_chardev.c
++++ b/drivers/ptp/ptp_chardev.c
+@@ -173,6 +173,8 @@ long ptp_ioctl(struct posix_clock_context *pccontext, unsigned int cmd,
+ 	int enable, err = 0;
+ 
+ 	tsevq = pccontext->private_clkdata;
++	if (!tsevq)
++		return -EINVAL;
+ 
+ 	switch (cmd) {
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
