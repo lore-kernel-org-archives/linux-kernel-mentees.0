@@ -1,98 +1,102 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73413C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 17:46:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id BABD9C4167B
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 17:47:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 27C9561454;
-	Tue,  7 Nov 2023 17:46:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 27C9561454
-Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=eMA2sBB6
+	by smtp1.osuosl.org (Postfix) with ESMTP id 6C35881EEA;
+	Tue,  7 Nov 2023 17:47:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6C35881EEA
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=plBotkHA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id InryEIhAc61K; Tue,  7 Nov 2023 17:46:12 +0000 (UTC)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sb4Jl35J_Csn; Tue,  7 Nov 2023 17:47:40 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 2500D61451;
-	Tue,  7 Nov 2023 17:46:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2500D61451
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 4943881ECC;
+	Tue,  7 Nov 2023 17:47:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4943881ECC
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id ECC21C0039;
-	Tue,  7 Nov 2023 17:46:11 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 18B71C0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id 35B90C0039;
+	Tue,  7 Nov 2023 17:47:40 +0000 (UTC)
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [IPv6:2605:bc80:3010::137])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 0DE06C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:46:11 +0000 (UTC)
+ Tue,  7 Nov 2023 17:47:39 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id D5B8661454
+ by smtp4.osuosl.org (Postfix) with ESMTP id DDEFC42200
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:46:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D5B8661454
+ Tue,  7 Nov 2023 17:47:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DDEFC42200
+Authentication-Results: smtp4.osuosl.org;
+ dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org
+ header.a=rsa-sha256 header.s=google header.b=plBotkHA
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H4EUt_Q1x3GH
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id y8G18qln3DjW
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:46:10 +0000 (UTC)
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
- [IPv6:2a00:1450:4864:20::62f])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 11F6561451
+ Tue,  7 Nov 2023 17:47:38 +0000 (UTC)
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com
+ [IPv6:2a00:1450:4864:20::632])
+ by smtp4.osuosl.org (Postfix) with ESMTPS id B530C421F1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:46:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 11F6561451
-Received: by mail-ej1-x62f.google.com with SMTP id
- a640c23a62f3a-9d2e6c8b542so906838266b.0
+ Tue,  7 Nov 2023 17:47:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B530C421F1
+Received: by mail-ej1-x632.google.com with SMTP id
+ a640c23a62f3a-9dd6dc9c00cso640586766b.3
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 07 Nov 2023 09:46:09 -0800 (PST)
+ Tue, 07 Nov 2023 09:47:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1699379168; x=1699983968;
+ d=linaro.org; s=google; t=1699379256; x=1699984056;
  darn=lists.linuxfoundation.org; 
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=/phQShbLiFQzOkp+07zaJC2xh5u6a3NtoTaiSALQ5P4=;
- b=eMA2sBB6+29ecc+PiqUZ3kg2G0/m8YdCS3+YQyP4kfX0/PuEzIGtF+0fV4yH28BlDa
- wozxO99aOCKN4Qgv9dxTDKh9dK+PBInVLeHIrmznKQT6WDcKdUmM1vnNxO3kRQg1ckQA
- fe1j8madpQZxchhuOcIyyJf96IqjHovuowX+24u+AGY2EduErRmVE247JQH254gfWErO
- n57zY8NwcYaWM7xgXuTgd3qA+v9hTAh+tMVRbLPeAhlzbWu206K2hzjMHGFSLeyxbrU8
- RDg2Px3yndwIzvwzEhCrwdzAxl04biO/iagSi8YsJ8kGz+TquAJiX2xjpZizo4VgUDN4
- m3gA==
+ bh=WSmUDYezrRMsQxCZGKuJaXceyDK4AjhEJzY0uxoMoug=;
+ b=plBotkHAB6PnF1SQvT58jdcdaj+ieHdD18qFuC/aaxgJjtmE4faw3elzUuHZETjB+s
+ ItIoIV6mDDzl0qUGBeY7Uade4Zj7ZwWPcSN+nGPQMvbrAT6uIL65lNk6qJequDg0ZX6I
+ PRiOPzxh7vQsbC5b03NR8vZb9gv3at12O2Nij6eUOGcmtkWqfZY1rpd8xVCnpx2/r0pu
+ haRG3ZWcbunMPor3DXwHbN8QqTtGuTRX9ThyNkEGmCRAHC2DcST//sF1fYZrUqHn9UH7
+ cZjHkkcPWhup8cdPwI8aGeWZ7QLRRDGGCX3n5Z7LdM9SIxvY+vxvktufSOmKQnkyXmwh
+ Q9iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1699379168; x=1699983968;
+ d=1e100.net; s=20230601; t=1699379256; x=1699984056;
  h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
  :to:content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/phQShbLiFQzOkp+07zaJC2xh5u6a3NtoTaiSALQ5P4=;
- b=YWNt/d5NV8X0jkVvDktn9v/ccSzH/6xm6v0+9ntjnucr496yb0G9r5+xepKM5EhkWW
- W9VM5USdnH9Dd2zhSKToCbyIU7B3RXvV5hQyf7GStU3mxwyI7HRlCX8522IwyoNuHBqQ
- 3KPjEhmjlGo1eQJH9S//fYN4sl8huC03pG93neNUBImyQZXFGPPoaKONCwaTzHCRTIWK
- URiNXhM4vsHpi1O5HUkxH9syWAu3FlAeIIl77VAcwIV7RHFKebKOsgTv570iHUPMlvgm
- yTXz6ixbxFKK5wmNPUMiyatdudnFwv2X9SbWoZBB55JZ4PxpGwqSS2rod+hPe9VQQno1
- qpDw==
-X-Gm-Message-State: AOJu0YzgSvOsvbdp9ZczGVZ9/HyJHWtVbf9KjMGdC4qEejXWfuHtpBQN
- jUP2VitGTlMOjirb2MuUzgpFxw==
-X-Google-Smtp-Source: AGHT+IE6U4ZE0F76e4gyMzHtlTFPYuHPtbb89mz7h0vnkXm+UZtdMOyfWkyQ1nm5YlDkhmOXKORO4A==
-X-Received: by 2002:a17:907:9603:b0:9d3:f436:6807 with SMTP id
- gb3-20020a170907960300b009d3f4366807mr18756477ejc.42.1699379168133; 
- Tue, 07 Nov 2023 09:46:08 -0800 (PST)
+ bh=WSmUDYezrRMsQxCZGKuJaXceyDK4AjhEJzY0uxoMoug=;
+ b=pJ9m02/7SZ9IsQ0c7SwJqExYUX5ihVCXLCu9I95qORa1MbRx6VX0R6PosQHkdZFgZk
+ FJghsXZksG4sCVT0s78Hu/P4ngsXRcT1CugF8HTiiZOPjXtXoEopofOCguILAbptchQ3
+ PN7OP3R/8DE7BSdQRm6/kUa2kGWDHADCNBpTFYys1fKD1I+Wd93H9Shb9ABpp+StLFas
+ jQnLtw1lUlDh1juH2wA0eMh1OEiNNpL7WNumn6aQ7gwcjzB4wnSDgBsLR8iLbpHLAmK+
+ 8j1zkJMb/9Y+klsS9iX+5g2SFSh9d+ZNA4yCCCXRaO0rXcwlQN2JITZDwMKWD7waH2mw
+ 5mxQ==
+X-Gm-Message-State: AOJu0YxFBc+PXQ0WpOIThvnkiYMhIQcbjEj3zmbZh53UCmqwnTMj6lnh
+ aD6Qd+dTesldEYSqauVzmSqhsA==
+X-Google-Smtp-Source: AGHT+IHZt7HQgSljJImaRxyY9TMyowW0nqCjfkOaHJNL5xG/2Y1xYnrOOIiXaOSqEyyvpJZDCaX2wA==
+X-Received: by 2002:a17:907:3f03:b0:9be:aebc:d479 with SMTP id
+ hq3-20020a1709073f0300b009beaebcd479mr16973571ejc.19.1699379255769; 
+ Tue, 07 Nov 2023 09:47:35 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.126])
  by smtp.gmail.com with ESMTPSA id
- ox11-20020a170907100b00b009dd949b75c7sm1288243ejb.151.2023.11.07.09.46.06
+ ox11-20020a170907100b00b009dd949b75c7sm1288243ejb.151.2023.11.07.09.47.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Nov 2023 09:46:07 -0800 (PST)
-Message-ID: <87762a47-9caf-435a-9b73-397384660b11@linaro.org>
-Date: Tue, 7 Nov 2023 18:46:06 +0100
+ Tue, 07 Nov 2023 09:47:35 -0800 (PST)
+Message-ID: <1d5d1357-0b53-4639-add9-2b3f38aae744@linaro.org>
+Date: Tue, 7 Nov 2023 18:47:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add asair
+Subject: Re: [PATCH 2/3] dt-bindings: trivial-devices: add asair,ags02ma
 Content-Language: en-US
 To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
  linux-iio@vger.kernel.org, devicetree@vger.kernel.org
 References: <20231107173100.62715-1-anshulusr@gmail.com>
+ <20231107173100.62715-2-anshulusr@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -138,7 +142,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231107173100.62715-1-anshulusr@gmail.com>
+In-Reply-To: <20231107173100.62715-2-anshulusr@gmail.com>
 Cc: Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -162,31 +166,33 @@ Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
 On 07/11/2023 18:30, Anshul Dalal wrote:
-> Aosong Electronic Co., LTD. is a supplier for MEMS sensors such as AHT20
-> temperature and humidity sensor under the name Asair
-
-The name of the company is Aosong Electronic or Asair? What does Asair
-stands for? Sensors name? Then it is not a vendor prefix.
-
+> Add bindings for Asair AGS02MA TVOC sensor to trivial devices.
+> 
+> The sensor communicates over i2c with the default address 0x1a.
+> TVOC values can be read in the units of ppb and ug/m^3 at register 0x00.
+> 
+> Datasheet:
+>   https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
+> Product-Page:
+>   http://www.aosong.com/m/en/products-33.html
 > 
 > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
 >  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 573578db9509..df3204f9dda6 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -143,6 +143,8 @@ patternProperties:
->      description: Artesyn Embedded Technologies Inc.
->    "^asahi-kasei,.*":
->      description: Asahi Kasei Corp.
-> +  "^asair,.*":
-> +    description: Aosong Electronic Co., Ltd.
->    "^asc,.*":
->      description: All Sensors Corporation
->    "^asix,.*":
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+> index cd58179ae337..9cd67b758a88 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -47,6 +47,8 @@ properties:
+>            - adi,lt7182s
+>              # AMS iAQ-Core VOC Sensor
+>            - ams,iaq-core
+> +            # TVOC (Total Volatile Organic Compounds) i2c sensor
+> +          - asair,ags02ma
+
+I think you miss VDD supply.
 
 Best regards,
 Krzysztof
