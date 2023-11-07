@@ -1,86 +1,149 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 72ED1C4332F
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 17:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 73413C4332F
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 17:46:13 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1A8BC81EB5;
-	Tue,  7 Nov 2023 17:39:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1A8BC81EB5
+	by smtp3.osuosl.org (Postfix) with ESMTP id 27C9561454;
+	Tue,  7 Nov 2023 17:46:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 27C9561454
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=eMA2sBB6
 X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HiRSpGE6Rs3h; Tue,  7 Nov 2023 17:38:57 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id InryEIhAc61K; Tue,  7 Nov 2023 17:46:12 +0000 (UTC)
 Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [140.211.9.56])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 401C2817AE;
-	Tue,  7 Nov 2023 17:38:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 401C2817AE
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2500D61451;
+	Tue,  7 Nov 2023 17:46:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2500D61451
 Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 1CCA3C0039;
-	Tue,  7 Nov 2023 17:38:57 +0000 (UTC)
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [IPv6:2605:bc80:3010::136])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 574ADC0032
+	by lists.linuxfoundation.org (Postfix) with ESMTP id ECC21C0039;
+	Tue,  7 Nov 2023 17:46:11 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 18B71C0032
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:38:55 +0000 (UTC)
+ Tue,  7 Nov 2023 17:46:11 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by smtp3.osuosl.org (Postfix) with ESMTP id ACB6C61401
+ by smtp3.osuosl.org (Postfix) with ESMTP id D5B8661454
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:38:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org ACB6C61401
+ Tue,  7 Nov 2023 17:46:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D5B8661454
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id gfK3AnX8L80z
+ with ESMTP id H4EUt_Q1x3GH
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:38:52 +0000 (UTC)
-X-Greylist: delayed 602 seconds by postgrey-1.37 at util1.osuosl.org;
- Tue, 07 Nov 2023 17:38:52 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9480A61029
-Received: from 8.mo584.mail-out.ovh.net (8.mo584.mail-out.ovh.net
- [188.165.33.112])
- by smtp3.osuosl.org (Postfix) with ESMTPS id 9480A61029
+ Tue,  7 Nov 2023 17:46:10 +0000 (UTC)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com
+ [IPv6:2a00:1450:4864:20::62f])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id 11F6561451
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:38:52 +0000 (UTC)
-Received: from director6.ghost.mail-out.ovh.net (unknown [10.109.146.122])
- by mo584.mail-out.ovh.net (Postfix) with ESMTP id C70CD28AE4
+ Tue,  7 Nov 2023 17:46:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 11F6561451
+Received: by mail-ej1-x62f.google.com with SMTP id
+ a640c23a62f3a-9d2e6c8b542so906838266b.0
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 17:20:10 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-ch27t (unknown [10.110.171.220])
- by director6.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 3002E1FD2F;
- Tue,  7 Nov 2023 17:20:10 +0000 (UTC)
-Received: from RCM-web9.webmail.mail.ovh.net ([151.80.29.21])
- by ghost-submission-6684bf9d7b-ch27t with ESMTPSA
- id sbZmCcpxSmVvfwEAiK7Wbg
- (envelope-from <jose.pekkarinen@foxhound.fi>); Tue, 07 Nov 2023 17:20:10 +0000
+ Tue, 07 Nov 2023 09:46:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1699379168; x=1699983968;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/phQShbLiFQzOkp+07zaJC2xh5u6a3NtoTaiSALQ5P4=;
+ b=eMA2sBB6+29ecc+PiqUZ3kg2G0/m8YdCS3+YQyP4kfX0/PuEzIGtF+0fV4yH28BlDa
+ wozxO99aOCKN4Qgv9dxTDKh9dK+PBInVLeHIrmznKQT6WDcKdUmM1vnNxO3kRQg1ckQA
+ fe1j8madpQZxchhuOcIyyJf96IqjHovuowX+24u+AGY2EduErRmVE247JQH254gfWErO
+ n57zY8NwcYaWM7xgXuTgd3qA+v9hTAh+tMVRbLPeAhlzbWu206K2hzjMHGFSLeyxbrU8
+ RDg2Px3yndwIzvwzEhCrwdzAxl04biO/iagSi8YsJ8kGz+TquAJiX2xjpZizo4VgUDN4
+ m3gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699379168; x=1699983968;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+ :to:content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/phQShbLiFQzOkp+07zaJC2xh5u6a3NtoTaiSALQ5P4=;
+ b=YWNt/d5NV8X0jkVvDktn9v/ccSzH/6xm6v0+9ntjnucr496yb0G9r5+xepKM5EhkWW
+ W9VM5USdnH9Dd2zhSKToCbyIU7B3RXvV5hQyf7GStU3mxwyI7HRlCX8522IwyoNuHBqQ
+ 3KPjEhmjlGo1eQJH9S//fYN4sl8huC03pG93neNUBImyQZXFGPPoaKONCwaTzHCRTIWK
+ URiNXhM4vsHpi1O5HUkxH9syWAu3FlAeIIl77VAcwIV7RHFKebKOsgTv570iHUPMlvgm
+ yTXz6ixbxFKK5wmNPUMiyatdudnFwv2X9SbWoZBB55JZ4PxpGwqSS2rod+hPe9VQQno1
+ qpDw==
+X-Gm-Message-State: AOJu0YzgSvOsvbdp9ZczGVZ9/HyJHWtVbf9KjMGdC4qEejXWfuHtpBQN
+ jUP2VitGTlMOjirb2MuUzgpFxw==
+X-Google-Smtp-Source: AGHT+IE6U4ZE0F76e4gyMzHtlTFPYuHPtbb89mz7h0vnkXm+UZtdMOyfWkyQ1nm5YlDkhmOXKORO4A==
+X-Received: by 2002:a17:907:9603:b0:9d3:f436:6807 with SMTP id
+ gb3-20020a170907960300b009d3f4366807mr18756477ejc.42.1699379168133; 
+ Tue, 07 Nov 2023 09:46:08 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.126])
+ by smtp.gmail.com with ESMTPSA id
+ ox11-20020a170907100b00b009dd949b75c7sm1288243ejb.151.2023.11.07.09.46.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Nov 2023 09:46:07 -0800 (PST)
+Message-ID: <87762a47-9caf-435a-9b73-397384660b11@linaro.org>
+Date: Tue, 7 Nov 2023 18:46:06 +0100
 MIME-Version: 1.0
-Date: Tue, 07 Nov 2023 19:20:09 +0200
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] drivers core: lookup sysfs power group before removal
-In-Reply-To: <2023110706-mustiness-arbitrary-fc9f@gregkh>
-References: <20231101173627.2658-1-jose.pekkarinen@foxhound.fi>
- <2023110139-dupe-snipping-5700@gregkh>
- <835b2930c710381b8da38eca821aa92d@foxhound.fi>
- <2023110353-bring-contented-c9f8@gregkh>
- <e13104c9e55b0bd8eee0a333b3ed7975@foxhound.fi>
- <2023110706-mustiness-arbitrary-fc9f@gregkh>
-User-Agent: Roundcube Webmail/1.4.15
-Message-ID: <e8dccfb0ec240014a98660493aa34fc2@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 45.141.215.21
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-X-Ovh-Tracer-Id: 8199366075018552835
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddujedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpgeehrddugedurddvudehrddvuddpudehuddrkedtrddvledrvddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdfovfetjfhoshhtpehmohehkeegpdhmohguvgepshhmthhpohhuth
-Cc: len.brown@intel.com, linux-pm@vger.kernel.org, rafael@kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+95f2e2439b97575ec3c0@syzkaller.appspotmail.com, pavel@ucw.cz,
- linux-kernel-mentees@lists.linuxfoundation.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add asair
+Content-Language: en-US
+To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org
+References: <20231107173100.62715-1-anshulusr@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231107173100.62715-1-anshulusr@gmail.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -92,74 +155,43 @@ List-Post: <mailto:linux-kernel-mentees@lists.linuxfoundation.org>
 List-Help: <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=help>
 List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees>, 
  <mailto:linux-kernel-mentees-request@lists.linuxfoundation.org?subject=subscribe>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="utf-8"; Format="flowed"
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-T24gMjAyMy0xMS0wNyAxMTo1MywgR3JlZyBLSCB3cm90ZToKPiBPbiBUdWUsIE5vdiAwNywgMjAy
-MyBhdCAxMDo1NjoyMEFNICswMjAwLCBKb3PDqSBQZWtrYXJpbmVuIHdyb3RlOgo+PiBPbiAyMDIz
-LTExLTAzIDIwOjM2LCBHcmVnIEtIIHdyb3RlOgo+PiA+IE9uIEZyaSwgTm92IDAzLCAyMDIzIGF0
-IDA3OjQ5OjM5UE0gKzAyMDAsIEpvc8OpIFBla2thcmluZW4gd3JvdGU6Cj4+ID4gPiBPbiAyMDIz
-LTExLTAxIDE5OjU0LCBHcmVnIEtIIHdyb3RlOgo+PiA+ID4gPiBPbiBXZWQsIE5vdiAwMSwgMjAy
-MyBhdCAwNzozNjoyN1BNICswMjAwLCBKb3PDqSBQZWtrYXJpbmVuIHdyb3RlOgo+PiA+ID4gPiA+
-IEhpbnRlZCBieSBzeXpib290LCB0aGVyZSBpcyBhIGZldyBjYXNlcyB3aGVyZSB0aGUgc3lzZnMg
-cG93ZXIgZ3JvdXAKPj4gPiA+ID4gPiBtYXkKPj4gPiA+ID4gPiBub3QgYmUgdGhlcmUsIGxpa2Ug
-dGhlIGZhaWx1cmUgd2hpbGUgYWRkaW5nIGl0LCBvciBhZGRpbmcgaXRzIHJ1bnRpbWUKPj4gPiA+
-ID4gPiBncm91cCwgb3Igd2hlbiB0aGUgc3lzZnMgZmlybXdhcmUgbG9hZGVyIGZhbGxiYWNrIGZh
-aWwgdG8gcG9wdWxhdGUuIEluCj4+ID4gPiA+ID4gdGhlIGxhc3QgY2FzZSwgdGhlIGRldmljZV9k
-ZWwgZnVuY3Rpb24gd2lsbCBiZSBjYWxsZWQgbGVhZGluZyB0bwo+PiA+ID4gPiA+IGF0dGVtcHQK
-Pj4gPiA+ID4gPiB0byByZW1vdmUgdGhlIHN5c2ZzIGdyb3VwLiBUaGlzIHBhdGNoIHdpbGwgbG9v
-a3VwIGZvciBpdCBpbiBhZHZhbmNlIHRvCj4+ID4gPiA+ID4gZ3JhbnQgdGhhdCBpdCBpcyBlZmZl
-Y3RpdmVseSB0aGVyZSBiZWZvcmUgY2xlYW5pbmcgaXQgdXAuCj4+ID4gPiA+ID4KPj4gPiA+ID4g
-PiBSZXBvcnRlZC1ieTogc3l6Ym90Kzk1ZjJlMjQzOWI5NzU3NWVjM2MwQHN5emthbGxlci5hcHBz
-cG90bWFpbC5jb20KPj4gPiA+ID4gPgo+PiA+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEpvc8OpIFBl
-a2thcmluZW4gPGpvc2UucGVra2FyaW5lbkBmb3hob3VuZC5maT4KPj4gPiA+ID4gPiAtLS0KPj4g
-PiA+ID4gPiAgZHJpdmVycy9iYXNlL3Bvd2VyL3N5c2ZzLmMgfCA0ICsrKy0KPj4gPiA+ID4gPiAg
-MSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+PiA+ID4gPiA+
-Cj4+ID4gPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvYmFzZS9wb3dlci9zeXNmcy5jIGIvZHJp
-dmVycy9iYXNlL3Bvd2VyL3N5c2ZzLmMKPj4gPiA+ID4gPiBpbmRleCBhMTQ3NGZiNjdkYjkuLjY2
-MDE3MjljNDY5OCAxMDA2NDQKPj4gPiA+ID4gPiAtLS0gYS9kcml2ZXJzL2Jhc2UvcG93ZXIvc3lz
-ZnMuYwo+PiA+ID4gPiA+ICsrKyBiL2RyaXZlcnMvYmFzZS9wb3dlci9zeXNmcy5jCj4+ID4gPiA+
-ID4gQEAgLTgzNCw1ICs4MzQsNyBAQCB2b2lkIGRwbV9zeXNmc19yZW1vdmUoc3RydWN0IGRldmlj
-ZSAqZGV2KQo+PiA+ID4gPiA+ICAJZGV2X3BtX3Fvc19jb25zdHJhaW50c19kZXN0cm95KGRldik7
-Cj4+ID4gPiA+ID4gIAlycG1fc3lzZnNfcmVtb3ZlKGRldik7Cj4+ID4gPiA+ID4gIAlzeXNmc191
-bm1lcmdlX2dyb3VwKCZkZXYtPmtvYmosICZwbV93YWtldXBfYXR0cl9ncm91cCk7Cj4+ID4gPiA+
-ID4gLQlzeXNmc19yZW1vdmVfZ3JvdXAoJmRldi0+a29iaiwgJnBtX2F0dHJfZ3JvdXApOwo+PiA+
-ID4gPiA+ICsKPj4gPiA+ID4gPiArCWlmIChrZXJuZnNfZmluZF9hbmRfZ2V0KCgmZGV2LT5rb2Jq
-KS0+c2QsIHBtX2F0dHJfZ3JvdXAubmFtZSkpCj4+ID4gPiA+ID4gKwkJc3lzZnNfcmVtb3ZlX2dy
-b3VwKCZkZXYtPmtvYmosICZwbV9hdHRyX2dyb3VwKTsKPj4gPiA+ID4KPj4gPiA+ID4gV2hhdCdz
-IHRvIGtlZXAgaXQgZnJvbSBnb2luZyBhd2F5IHJpZ2h0IGFmdGVyIGZpbmRpbmcgaXQ/Cj4+ID4g
-PiA+Cj4+ID4gPiA+IEluIG90aGVyIHdvcmRzLCB3aGF0IGlzIHdyb25nIHdpdGggcmVtb3Zpbmcg
-YSBncm91cCB0aGF0IGlzIG5vdCB0aGVyZT8KPj4gPiA+ID4gV2hhdCBlcnJvciBoYXBwZW5zPyAg
-SXQgc2hvdWxkIGJlIGZpbmUsIG9yIGFyZSB5b3Ugc2VlaW5nIHJlYWwgY29kZQo+PiA+ID4gPiBm
-YWlsdXJlcyBzb21ld2hlcmU/Cj4+ID4gPgo+PiA+ID4gICAgIE5vLCB0aGlzIGlzIGp1c3QgaGl0
-dGluZyBhIHdhcm5pbmcgdGhhdCBzeXNib3QgY29tcGxhaW5zIGFib3V0IGJ5Cj4+ID4gPiBzZXR0
-aW5nIHBhbmljIG9uIHdhcm5pbmcsIG5vIGJpZyBkZWFsLCB0aG91Z2ggaXQgY2FuIGJlIGEgd3Jv
-bmcKPj4gPiA+IGJlaGF2aW91cgo+PiA+ID4gaW4gdWVhZ2xlLWF0bSBkcml2ZXIsIHNpbmNlIGl0
-IGRlZmluZXMgdG8gZGlzY29ubmVjdCB0aGUgZGV2aWNlIGlmIHRoZQo+PiA+ID4gZmlybXdhcmUg
-aXMgbm90IHRoZXJlLCBubyBtYXR0ZXIgdGhlIHN5c2ZzIGZhbGxiYWNrLgo+PiA+Cj4+ID4gVGhl
-biBmaXggdGhlIGRyaXZlciBwbGVhc2UuCj4+IAo+PiAgICAgSSdtIGFmcmFpZCBJIHdhcyB3cm9u
-ZyBpbiB0aGUgYXNzdW1wdGlvbiB0aGF0IHRoZSBwcm9iZSByZXR1cm4gCj4+IHZhbHVlCj4+IG9m
-IHRoZSBkcml2ZXIgd291bGQgaW5mbHVlbmNlIHRoZSB0ZXN0aW5nIHJlc3VsdCwgc28gdGhpcyBu
-byBsb25nZXIgCj4+IHNlZW1zCj4+IGZpeGFibGUgZnJvbSBkcml2ZXIgc2lkZS4KPiAKPiBXaHkg
-aXMgaXQgbm90IGZpeGFibGUgZnJvbSB0aGUgZHJpdmVyIHNpZGU/ICBJdCBpcyB0aGUgY29kZSB0
-aGF0IGlzCj4gY3JlYXRpbmcsIGFuZCB0aGVuIHJlbW92aW5nLCB0aGUgZmlsZXMsIG5vdCB0aGUg
-ZHJpdmVyIGNvcmUsIG9yIGFtIEkKPiBtaXNzaW5nIHNvbWV0aGluZyBoZXJlPwoKICAgICBJIGRv
-bid0IHRoaW5rIHRoaXMgaXMgbXVjaCBvZiBhIHByb2JsZW0gc2luY2UgdGhlIHNpdHVhdGlvbiBp
-cyAKdW5saWtlbHkgdG8KaGFwcGVuLiBUaGUgcmVwcm9kdWNlciBpcyBhdHRlbXB0aW5nIHRvIHJl
-Z2lzdGVyIGEgc2ltdWxhdGVkIHVlYWdsZSAKbW9kZW0gYW5kCmNoZWNrcyBpZiB0aGUgZGV2aWNl
-IGJlY29tZXMgcmVhZHkuIElmIGl0IGRvZXNuJ3QgZm9yIGFueSByZWFzb24sIGluIAp0aGlzIGNh
-c2UsCnRoZSBsYWNrIG9mIHRoZSBmaXJtd2FyZSwgaXQganVzdCBkaXNjb25uZWN0IGl0IGFuZCB0
-cnkgdG8gcG9wdWxhdGUgaXQgCmFnYWluLgpBZnRlciBhIGZldyBtaW51dGVzIGJhbmdpbmcgdGhl
-IGtlcm5lbCB0aGlzIHdheSBpdCBoaXRzIHRoZSBzaXR1YXRpb24gCndoZXJlIHRoZQphc3luY2hy
-b25vdXMgZmlybXdhcmUgbG9hZGVyIGRpZG4ndCB5ZXQgcG9wdWxhdGUgdGhlIHN5c2ZzIGZpbGVz
-IGJlZm9yZSAKdGhlCmRldmljZSBpcyBnZXR0aW5nIHJlbW92ZWQsIGFuZCBoaXQgdGhlIHdhcm5p
-bmcgb2YgbWlzc2luZyB0aGUgcG93ZXIgCmF0dHJpYnV0ZXMKaW4gc3lzZnMsIHdoaWxlIHJlbW92
-aW5nIHRoZSBzeXNmcyBncm91cHMuIElmIGl0IGlzIGEgcHJvYmxlbSwgaXQgaXMgCmNlcnRhaW5s
-eQpub3QgYSB0b3AgcHJpb3JpdHkgcHJvYmxlbSB0byBzb2x2ZSBmb3Igc3VyZS4KCiAgICAgSm9z
-w6kuCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkxpbnV4
-LWtlcm5lbC1tZW50ZWVzIG1haWxpbmcgbGlzdApMaW51eC1rZXJuZWwtbWVudGVlc0BsaXN0cy5s
-aW51eGZvdW5kYXRpb24ub3JnCmh0dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWls
-bWFuL2xpc3RpbmZvL2xpbnV4LWtlcm5lbC1tZW50ZWVzCg==
+On 07/11/2023 18:30, Anshul Dalal wrote:
+> Aosong Electronic Co., LTD. is a supplier for MEMS sensors such as AHT20
+> temperature and humidity sensor under the name Asair
+
+The name of the company is Aosong Electronic or Asair? What does Asair
+stands for? Sensors name? Then it is not a vendor prefix.
+
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 573578db9509..df3204f9dda6 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -143,6 +143,8 @@ patternProperties:
+>      description: Artesyn Embedded Technologies Inc.
+>    "^asahi-kasei,.*":
+>      description: Asahi Kasei Corp.
+> +  "^asair,.*":
+> +    description: Aosong Electronic Co., Ltd.
+>    "^asc,.*":
+>      description: All Sensors Corporation
+>    "^asix,.*":
+
+Best regards,
+Krzysztof
+
+_______________________________________________
+Linux-kernel-mentees mailing list
+Linux-kernel-mentees@lists.linuxfoundation.org
+https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
