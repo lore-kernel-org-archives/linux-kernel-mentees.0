@@ -1,133 +1,104 @@
 Return-Path: <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.lore.kernel.org (Postfix) with ESMTPS id 46EF9C4167B
-	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 16:03:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTPS id 9F137C4167D
+	for <linux-kernel-mentees@archiver.kernel.org>; Tue,  7 Nov 2023 17:33:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BC709612FF;
-	Tue,  7 Nov 2023 16:03:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BC709612FF
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2114882021;
+	Tue,  7 Nov 2023 17:33:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2114882021
+Authentication-Results: smtp1.osuosl.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JGlAI+o+
+X-Virus-Scanned: amavisd-new at osuosl.org
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id G06rz_zdyeq6; Tue,  7 Nov 2023 17:33:23 +0000 (UTC)
+Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id F209B81E77;
+	Tue,  7 Nov 2023 17:33:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F209B81E77
+Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
+	by lists.linuxfoundation.org (Postfix) with ESMTP id DAAFEC0039;
+	Tue,  7 Nov 2023 17:33:22 +0000 (UTC)
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+ by lists.linuxfoundation.org (Postfix) with ESMTP id 6E8D5C0032
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  7 Nov 2023 17:33:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by smtp3.osuosl.org (Postfix) with ESMTP id 371BA613FC
+ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  7 Nov 2023 17:33:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 371BA613FC
 Authentication-Results: smtp3.osuosl.org;
-	dkim=fail reason="signature verification failed" (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=c8V17P38
+ dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com
+ header.a=rsa-sha256 header.s=20230601 header.b=JGlAI+o+
 X-Virus-Scanned: amavisd-new at osuosl.org
 Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qGwGYvC9Y_v3; Tue,  7 Nov 2023 16:03:37 +0000 (UTC)
-Received: from lists.linuxfoundation.org (lf-lists.osuosl.org [IPv6:2605:bc80:3010:104::8cd3:938])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id A351E61170;
-	Tue,  7 Nov 2023 16:03:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A351E61170
-Received: from lf-lists.osuosl.org (localhost [127.0.0.1])
-	by lists.linuxfoundation.org (Postfix) with ESMTP id 7A1F1C0071;
-	Tue,  7 Nov 2023 16:03:36 +0000 (UTC)
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [IPv6:2605:bc80:3010::133])
- by lists.linuxfoundation.org (Postfix) with ESMTP id 5A6F8C0032
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 8gBLFaf7o97Q
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 16:03:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by smtp2.osuosl.org (Postfix) with ESMTP id 1F3B141840
+ Tue,  7 Nov 2023 17:33:20 +0000 (UTC)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by smtp3.osuosl.org (Postfix) with ESMTPS id A4B86611B4
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 16:03:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1F3B141840
-Authentication-Results: smtp2.osuosl.org; dkim=pass (2048-bit key,
- unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256
- header.s=selector1 header.b=c8V17P38
-X-Virus-Scanned: amavisd-new at osuosl.org
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id jx0JDzMDZJsD
+ Tue,  7 Nov 2023 17:33:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A4B86611B4
+Received: by mail-pj1-x102b.google.com with SMTP id
+ 98e67ed59e1d1-280cc5f3fdcso5467143a91.1
  for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 16:03:34 +0000 (UTC)
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
- (mail-vi1eur04olkn082c.outbound.protection.outlook.com
- [IPv6:2a01:111:f400:fe0e::82c])
- by smtp2.osuosl.org (Postfix) with ESMTPS id F3879417EB
- for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  7 Nov 2023 16:03:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F3879417EB
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OrUK+c7HWbJbCsb0SfSDTMA/R89N4hOEyA99Hh+t167WDg0tOe10zQCmILfPWuSRTzz1zaBwwpklelxfjruIQ01R39z06twiobxy8Fffz88GO3DnWhyA61kxFAwXTQwn1S4VPAAQ4591+HPpo85CgQ3BWQGTaLP6oC595N3PiAD/SDPvScbJ8pFqmocFfyt0c+jkRshuf/1KWquuNOhcIAtGNiVUe1BE1EgNOHvJZku467sRb6HhNzdfZobi5+2Hqf8sPPSnTp8BbLvPo5xqquVNbq0kebQA5dp9M/U2yKdpv3xYqHc2S291bFhB5zzP0nfnBrMCC5NnbMeBIR61GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hrNg2Yx16ALOv/5T+VF5KpGF6ySyt3tHhxiBY1U1afU=;
- b=eFJmwPz2Z3m/Bnl2SyvVuDvVi/Hn+WMj5M5iN0hc9pJGWh9suNdIlXxNiLMYJbjH2yVBx4Z3Qm8pRbsW407h/p00GehxeeQ3K9VZr1JgGqd9ZD8uV7ro5U6bvPR0EcUpY4oO6zC3tf5KC4ZBQALMZGF3xcgaaqCCSzfYu50ucTgus5n5LY8r6t2LN72sGmsW2ODt7nVyJnpRlUSVcL4qrtNtF2Oy3cjweZgRcZGKVYABA6rx4eXSw0STqIp9BG7z/LH6Pf01W6sKsFHhpZ1iimwdVFr96FzLLvA5KhxpKT2dwv29kSigyX8XfVMfqwIg5QMGla9TS1T7ke7Xfy9wNQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hrNg2Yx16ALOv/5T+VF5KpGF6ySyt3tHhxiBY1U1afU=;
- b=c8V17P38yBQ0ykbBpDSSebQycy5DitbFSKNehvlEfaYoSXuI3v5y8Mi7qi5hIj+wRYL/mhP+v1vAzgSTwE/0qOGGtprmYsbgLJb3NX9JgK8g8pelnl0red5p7L7138M6rctRYS5C7wtm2oDWy67Q7by3TilMq3XJbx6HGAmnVkjv1w54f7cS6ywii/giZgCWOGV7wocUYLcliNSQVZ5rSCge4lYNRQZ1k8iv6V92Gof+JDvaEEI5anvEpinpkaL1LW8w56xH2tXZC0YZ3YpwNiIr9j0xyEo9dRLb/9m1NN4GH8VqkyXTmek+C50U2V6WHZPQ1zsGjNq3nUE4yu8h5A==
-Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:42a::7)
- by AS2PR10MB6352.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:553::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Tue, 7 Nov
- 2023 16:03:30 +0000
-Received: from DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97]) by DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::e2b0:8d7e:e293:bd97%7]) with mapi id 15.20.6954.028; Tue, 7 Nov 2023
- 16:03:30 +0000
-Date: Tue, 7 Nov 2023 21:32:51 +0530
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] Bluetooth: Replaces printk with pr_debug in bt_dbg
-Message-ID: <DB3PR10MB6835DDFE9086DAC4B01C7508E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-References: <DB3PR10MB6835C002EB4C5A05AD17610BE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <DB3PR10MB6835DE6D279B65EC040B92AEE8AAA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <2023110752-headset-gains-41a7@gregkh>
-Content-Disposition: inline
-In-Reply-To: <2023110752-headset-gains-41a7@gregkh>
-X-TMN: [rKAWAmNPu1bZKfJOOMH+WvXj61cZGijA]
-X-ClientProxiedBy: JN3P275CA0017.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:71::16)
- To DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:42a::7)
-X-Microsoft-Original-Message-ID: <20231107160251.GA1836272@nmj-network>
+ Tue, 07 Nov 2023 09:33:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1699378400; x=1699983200;
+ darn=lists.linuxfoundation.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OfvBeM19p1hbFY3xaolUZcqgGO7w8iDi+t8l9XRgS0A=;
+ b=JGlAI+o+j+8OUrv0Amwwbu11oi9ttPsxAp3Bwg6WfZHc7xQOnHSXaqZQwFbpQTW4RA
+ NkBYQyjdvvTFwey+ZLjLPgrcO9zLold3T0/RbXT03O3hT/xdB2JCfhIKQK3tczymF4kW
+ RY7pFByb02dcJMVINUxMLYN3mad25a9c1ekBTLUnb9Bpk7A6jcEj8atK8b1NxcYfDWbY
+ Fbzp+SwPwCjg8WuFofvM0C5cUoyAInyryE5BUyffgDcTQS9ofvy2VK7Xb1YYAlyt/30Y
+ NeuNxRQfaK4nyCS44bVZhltmXl5wClonMJgpjcbX28ch+33ARBkrLrMYyn86mq03tAD5
+ spEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1699378400; x=1699983200;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OfvBeM19p1hbFY3xaolUZcqgGO7w8iDi+t8l9XRgS0A=;
+ b=acdYfAs6uG6ZQTpYp+g+0u9sWvdqcgLqBewUF4SxMUDVmR72gc/AwzixhzCQnysB8S
+ f37N6gm9mp6MraQUGJUaOCG/XmH3jAyZJ2k2a6Dm+8QrUNARYMjc/53a3gxZh17R2fg/
+ BfmxLpaJQAE5Vmhpr27iogBxV0yK7AcAr6rWjVYAz0QmA0Bf+Va0BZnDks2Hg+sR8ORN
+ 5pe70BsLYjMKoZSAQYLMfkhGzTjZVECcd07oR+ICIs6QXgXrM5K6EsfHGkKpVyyBVd8a
+ Jf4GMIxWo5oI8HUN1siFCWfrfnJ/4Nxk0fHJJB2CdMefc5YTTdk6ZDlLVo8WkM3lbrmE
+ r9gQ==
+X-Gm-Message-State: AOJu0YwP+T+skNEvFTkVrCiyD8dRv2NmJUdIULVIdHeTjfLfOGFIxTFb
+ HqfD6iXlDPCVw8nu7uq/Lxs=
+X-Google-Smtp-Source: AGHT+IGR3+HJYG52VcNjUg0FdvJh9y+cC7+ByeGqBIax5M2hvjKP6JYJ9GFht6qdSvm4/gNZEHkltA==
+X-Received: by 2002:a17:90b:3eca:b0:280:f534:6b9c with SMTP id
+ rm10-20020a17090b3eca00b00280f5346b9cmr6194419pjb.21.1699378399965; 
+ Tue, 07 Nov 2023 09:33:19 -0800 (PST)
+Received: from archlinux.srmu.edu.in ([59.152.80.69])
+ by smtp.gmail.com with ESMTPSA id
+ a13-20020a170902b58d00b001c9db5e2929sm103116pls.93.2023.11.07.09.33.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 07 Nov 2023 09:33:19 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: [PATCH 1/3] dt-bindings: vendor-prefixes: add asair
+Date: Tue,  7 Nov 2023 23:00:53 +0530
+Message-ID: <20231107173100.62715-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PR10MB6835:EE_|AS2PR10MB6352:EE_
-X-MS-Office365-Filtering-Correlation-Id: adc8a9d6-7877-439e-3748-08dbdfab1585
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N8q8/bLU6fZC5wF0QfWOQLR7j2UPbAkQK+bdJ/xW8/aXBKNy7jGLoXsNE4V3/ztWe9aCavoLZtZHIwei5sKbo5b3LFKcyXyNxWcMXC3wS/NJ5r91eMxDoZB19ilosnP5G5rZa1JOgSUagg6YWomYAO48Cpz6i5xwtpmjAKzXVuavyynZzR9OvTIn4LknF0T6k8XpzHThqtovj4d8GAEeuqxDbZuX4rUGQhtHaFaov9ttLveLi/AN8z4BI19k6gmNQpUekN6yAZZXWIZ74vjHAbLVceC09ksolFFcDXO8uPQ27jnBnaj4dkm+BM5T7yAHhsdRFIT8sLzk+2yaU6CP87t9sflTCjPfPN1MQF4FoejywpQWDwYujWjTECvNP5v2RdDtfpr26GcNw4a1T1DO+qpD4EUgNkD0kOfIHKPt19DfFRNN2w0mZdaLLlqUF4IXGK2a+p0pk1tO7x2doKj2v6lN89XBSab4BxE9UjcMK6g86k2z21JZnEsKfdpnBxQFtqooefSNAh79nSySqly+RlagPQdSOqk2daTFfxXMPPX9ahysheen28lMIiSr3ELl
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?cYIejzL+m48vq3IINFpprRXKg8nxBrQRb2pqo6KpMustGTqrBK9NBD/MJFsr?=
- =?us-ascii?Q?xiapGFUqJ4oUKyS+n7pCXpkmaCEwcOfaF2V4TtSR1nJ7hZ5VOT09Yb1GxTuN?=
- =?us-ascii?Q?DhPj923xYnIQRVC5U9QaWLh3O2yjUvoGnOTVmSfg9iD3bj6MDUqtxIo3arS0?=
- =?us-ascii?Q?EWnYAQ2YOENqI05nnlNtHgn9WDAwMxNoCwWMMHFsPIaSevoVpOvPYh2XPzLA?=
- =?us-ascii?Q?OqBrTsL5+0Ao9v1lEtPX3TDR3t317lhuoN3sJdfm5WG90FdDB7S7lHY76DDJ?=
- =?us-ascii?Q?ykWJReYhkDPVeEfGrymzPySNA5WXgrnKpFKhAlkwmyw6H3SvNlgameX2TDVf?=
- =?us-ascii?Q?+VsIog3z3y+yIo5a4Z5PfgeVwD+Tvug1WP/Y22vuk4KnvnAkIxB4lam8LHf2?=
- =?us-ascii?Q?tYYVnQS+kRoqweBY6k8mYwL1oLXm3NtrpVO1EEALO6eTp+rCWPF3chuaIfo1?=
- =?us-ascii?Q?gygkpLYqpZanU0/MK39mQQjmWgcd2TtwezDaav6J6D/Ruw52a/R5sxlswUEK?=
- =?us-ascii?Q?HBdrjqyXvjx7Adj4Z0v9hOvWW7equlzsaXAA0NJSQK1yZuTATUX36DvRED08?=
- =?us-ascii?Q?LeUycSIzaSXcsCA9B68Ms75cbrXsi1ivDTkG71vkoPKpvmx67mMgx5+Atjv8?=
- =?us-ascii?Q?RMi61/GiVeTwqEvxVVA8SJBJfIDmxoEPXHxfZx/e8rc36B98ouItr+rAhuCX?=
- =?us-ascii?Q?g5n7eFitvzrPkPNussaxd8sPHKMXpTS6cOLiTYOll8wWOONQEtuGYVtwvQCJ?=
- =?us-ascii?Q?0i2lI4dN2suoU5GMq4q+DWPMTOXRswLK4EHK4KhM4q75K2AOfbnvZlmRTk1a?=
- =?us-ascii?Q?Z8poV6LDQzV1lsRBX5dgdkJZKlsrN/cEtE1d+d41SrGWTCOrBm3xQ2hCsFwp?=
- =?us-ascii?Q?1T0KApZS9MGK7Ub8PcJlmHPX1kMEIyEc+wmAk/J1tHXpC4KVLHo5WpcfPVBQ?=
- =?us-ascii?Q?x9lbDKT563S5lZktNte4q5JzQQ3aQxkMk7P69SkmOPXfPWFaRO0rZdm4VyS0?=
- =?us-ascii?Q?LcjP7Unej5bAFpzXLve7NMJR2Eg/43ls2/jw6Iip+vNupSjFy21WOBb9nv7D?=
- =?us-ascii?Q?9CVnYHoq7R1F6d9eNfceiJvNrFT23JVtrFF7GzzVJk8+N0qEof7IqHA/h5jm?=
- =?us-ascii?Q?mtNIyhwPHJcN6pktFoCbv8uT+Lmz+AFQvmIy+M8yvT8QOK2G3wUbH1CGCYXA?=
- =?us-ascii?Q?kPVt/qIpt7wiDzdEay/x0heHS8021pEDvYosP8V9qstEZ/5isPymP7pAZR0?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: adc8a9d6-7877-439e-3748-08dbdfab1585
-X-MS-Exchange-CrossTenant-AuthSource: DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2023 16:03:30.1291 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB6352
-Cc: johan.hedberg@gmail.com, marcel@holtmann.org, linux-kernel@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, luiz.dentz@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org
+Cc: Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Anshul Dalal <anshulusr@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Jonathan Cameron <jic23@kernel.org>
 X-BeenThere: linux-kernel-mentees@lists.linuxfoundation.org
 X-Mailman-Version: 2.1.15
 Precedence: list
@@ -145,39 +116,30 @@ Errors-To: linux-kernel-mentees-bounces@lists.linuxfoundation.org
 Sender: "Linux-kernel-mentees"
  <linux-kernel-mentees-bounces@lists.linuxfoundation.org>
 
-Hello Greg,
-On Tue, Nov 07, 2023 at 07:31:27AM +0100, Greg KH wrote:
-> 
-> You might have just changed the functionality here, are you SURE this is
-> identical to the original code?  How was it tested?
-> 
-> I'm not saying this is a bad idea to do, just be aware of the
-> consequences for this change and document it properly (hint, the
-> changelog does not document the user-visible change that just happened.)
-> 
-> Note, pr_debug() is NOT identical to printk(), look at the source for
-> the full details.
-> 
+Aosong Electronic Co., LTD. is a supplier for MEMS sensors such as AHT20
+temperature and humidity sensor under the name Asair
 
-Thank you for the heads-up. 
-Yes, you're right.
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I just took another look and it seems that using pr_debug here
-does defeat the purpose of bt_dbg which was created for situations
-where `DYNAMIC_DEBUG` and `DEBUG` are disabled.
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 573578db9509..df3204f9dda6 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -143,6 +143,8 @@ patternProperties:
+     description: Artesyn Embedded Technologies Inc.
+   "^asahi-kasei,.*":
+     description: Asahi Kasei Corp.
++  "^asair,.*":
++    description: Aosong Electronic Co., Ltd.
+   "^asc,.*":
+     description: All Sensors Corporation
+   "^asix,.*":
+-- 
+2.42.0
 
-The likely equivalent would have been `pr_devel` but that also
-depends on `DEBUG`.
-
-Do you think that a new `pr_devel_uncond` like the one below
-(only to be used in exceptional scenarios) would be a good idea?
-
-```
-#define pr_devel_uncond(fmt, ...) \
-    printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-```
-
-This would neither depend on `DYNAMIC_DEBUG` nor on `DEBUG`.
 _______________________________________________
 Linux-kernel-mentees mailing list
 Linux-kernel-mentees@lists.linuxfoundation.org
