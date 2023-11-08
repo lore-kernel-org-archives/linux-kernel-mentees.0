@@ -1,127 +1,105 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from 6.mo561.mail-out.ovh.net (6.mo561.mail-out.ovh.net [188.165.43.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1054514261
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsAhRyD8"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id ACA9561075
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:51:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org ACA9561075
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hsAhRyD8
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id I4aWWEyr-tVC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  8 Nov 2023 10:51:00 +0000 (UTC)
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 1BD9F6104A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:50:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1BD9F6104A
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cc13149621so14517045ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Nov 2023 02:50:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699440659; x=1700045459; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bt2bvDjEv0HiaQYd0c4TjFAx6Nfzvf1eIcmbOTXqPwE=;
-        b=hsAhRyD8Wl5YNQKbS0T6VDQlyudtYAvu2ywvGbI2uIm0Z29+LQIOLZevDnU39xtj1/
-         E5B8KNu0YxnUb3N9CvX7uX5MsSgGRw6MIKxnLDFfDGgBjHU9iOR4al9tlA57F5H2VHNT
-         Afswm8HZkAYGpgsseW2dSygrJv/bQi6Tfx6/3Q9IW5yoAJSE3npAr2MqtLml5I7Cg76k
-         zWb34TcFIyARqaZFh34t/ZaEvKd0Lh4pQSEerbei5gFSk4X4VvRWUTqJLB3MUIC+i0Ln
-         i767X0PVfH5oGmvkzAleV935xFg6B6MacKyj7Nme9KMdwF/KbSiNwA3w8wSYBYjqBla1
-         7CZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699440659; x=1700045459;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bt2bvDjEv0HiaQYd0c4TjFAx6Nfzvf1eIcmbOTXqPwE=;
-        b=YXjvD5t3MeSueB8hAcahzZsE3pkeRg+/d8Z4uGa9qDisSUybJtLcjkq651SU/HnFs4
-         3xUNyNeSyq1yOWWkjqn/F7/3EHgd2r/ntzcU4X1JcSOj99Y8HotSLo4Pq2DllheJfMou
-         R+IIxMUD5Ol3gO1t4JysxtW46E+l+DcsPyNJABjmd4WcmxhKciDmpynlp1P2tJMpe5Qa
-         dtumKl4herhcdw+1u07uNEX5h/EmJfei5cMMNDffotjGdN8f5VDf6U1RcSOau0UK0LKA
-         1iFINp80RJtlV8yUkm/darXF6yC+FoNZDaXYtHHgFEwtZfhYnjW0yyjHhrT+YQJgJDZX
-         nxWg==
-X-Gm-Message-State: AOJu0YxHe56WESvzwdMLoK/mNleSFNc+T4ov8QRzC71sjivHSKBu+KL8
-	dpCY4gJ2zIkJ1nHz16dHeXE=
-X-Google-Smtp-Source: AGHT+IELClSbAQz1V/0drxjg1UD4ziQ+8CYyLr/3Fhum171i0Mlj3ge6042agi3t4nhAvWOeigTzjQ==
-X-Received: by 2002:a05:6a20:4304:b0:16e:26fd:7c02 with SMTP id h4-20020a056a20430400b0016e26fd7c02mr1709920pzk.2.1699440659349;
-        Wed, 08 Nov 2023 02:50:59 -0800 (PST)
-Received: from [192.168.0.152] ([103.75.161.208])
-        by smtp.gmail.com with ESMTPSA id fn3-20020a056a002fc300b0068fe9c7b199sm8728468pfb.105.2023.11.08.02.50.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 02:50:58 -0800 (PST)
-Message-ID: <35c77f16-d01f-4dfd-96a7-2f6210e40e94@gmail.com>
-Date: Wed, 8 Nov 2023 16:20:48 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5E4D505
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Nov 2023 11:50:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from director8.ghost.mail-out.ovh.net (unknown [10.108.1.219])
+	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 65627285AC
+	for <linux-kernel-mentees@lists.linux.dev>; Wed,  8 Nov 2023 07:02:58 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-lkwnp (unknown [10.110.115.9])
+	by director8.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9A5291FD24;
+	Wed,  8 Nov 2023 07:02:57 +0000 (UTC)
+Received: from RCM-web9.webmail.mail.ovh.net ([151.80.29.21])
+	by ghost-submission-6684bf9d7b-lkwnp with ESMTPSA
+	id nOucGqEyS2V5+woArb8c/A
+	(envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 08 Nov 2023 07:02:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs : Fix warning using plain integer as NULL
-Content-Language: en-US
-To: viro@zeniv.linux.org.uk, brauner@kernel.org, dan.j.williams@intel.com,
- willy@infradead.org, jack@suse.cz
-Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231108101518.e4nriftavrhw45xk@quack3>
- <20231108104730.1007713-1-singhabhinav9051571833@gmail.com>
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <20231108104730.1007713-1-singhabhinav9051571833@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Date: Wed, 08 Nov 2023 09:02:56 +0200
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, skhan@linuxfoundation.org, airlied@gmail.com,
+ daniel@ffwll.ch, jdelvare@suse.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] drm/amd/pm: clean up redundant comparisons with 0
+In-Reply-To: <f98d840d-f3ff-47e1-b609-2cfe33c65cb5@roeck-us.net>
+References: <20231107082910.92508-1-jose.pekkarinen@foxhound.fi>
+ <98e8490e-6608-47a8-890c-f1fe894dac7f@roeck-us.net>
+ <65d132b0dbef66039fd6938ecbc2bf68@foxhound.fi>
+ <f98d840d-f3ff-47e1-b609-2cfe33c65cb5@roeck-us.net>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <b15e6759f51beed255036b9b3c7c6740@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 192.42.116.216
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 3648478649106343617
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddukedguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpudelvddrgedvrdduudeirddvudeipdduhedurdektddrvdelrddvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeiuddpmhhouggvpehsmhhtphhouhht
 
-On 11/8/23 16:17, Abhinav Singh wrote:
-> Sparse static analysis tools generate a warning with this message
-> "Using plain integer as NULL pointer". In this case this warning is
-> being shown because we are trying to initialize  pointer to NULL using
-> integer value 0.
+On 2023-11-07 20:03, Guenter Roeck wrote:
+> On 11/7/23 09:26, José Pekkarinen wrote:
+>> On 2023-11-07 16:08, Guenter Roeck wrote:
+>>> On 11/7/23 00:29, José Pekkarinen wrote:
+>>>> There is a couple of function return checks of functions that return
+>>>> unsigned values, and local variables to hold them are also unsigned, 
+>>>> so
+>>>> checking if they are negative will always return false. This patch 
+>>>> will
+>>>> remove them, as well as the never reached code.
+>>>> 
+>>>> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2801:5-8: WARNING: Unsigned 
+>>>> expression compared with zero: val < 0
+>>>> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2814:5-8: WARNING: Unsigned 
+>>>> expression compared with zero: val < 0
+>>>> 
+>>>> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+>>>> ---
+>>>>   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ----
+>>>>   1 file changed, 4 deletions(-)
+>>>> 
+>>>> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c 
+>>>> b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>>>> index 8bb2da13826f..e7bb1d324084 100644
+>>>> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>>>> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+>>>> @@ -2798,8 +2798,6 @@ static ssize_t 
+>>>> amdgpu_hwmon_show_power_avg(struct device *dev,
+>>>>       unsigned int val;
+>>>>         val = amdgpu_hwmon_get_power(dev, 
+>>>> AMDGPU_PP_SENSOR_GPU_AVG_POWER);
+>>>> -    if (val < 0)
+>>>> -        return val;
+>>>> 
+>>> 
+>>> This is reporting errors returned from amdgpu_hwmon_get_power() as
+>>> large integers.
+>> 
+>>      Alright, that case it is a false positive, thanks for the 
+>> comment!
+>> 
 > 
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> ---
->   fs/dax.c       | 2 +-
->   fs/direct-io.c | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 3380b43cb6bb..423fc1607dfa 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -1128,7 +1128,7 @@ static int dax_iomap_copy_around(loff_t pos, uint64_t length, size_t align_size,
->   	/* zero the edges if srcmap is a HOLE or IOMAP_UNWRITTEN */
->   	bool zero_edge = srcmap->flags & IOMAP_F_SHARED ||
->   			 srcmap->type == IOMAP_UNWRITTEN;
-> -	void *saddr = 0;
-> +	void *saddr = NULL;
->   	int ret = 0;
->   
->   	if (!zero_edge) {
-> diff --git a/fs/direct-io.c b/fs/direct-io.c
-> index 20533266ade6..60456263a338 100644
-> --- a/fs/direct-io.c
-> +++ b/fs/direct-io.c
-> @@ -1114,7 +1114,7 @@ ssize_t __blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
->   	loff_t offset = iocb->ki_pos;
->   	const loff_t end = offset + count;
->   	struct dio *dio;
-> -	struct dio_submit sdio = { 0, };
-> +	struct dio_submit sdio = { NULL, };
->   	struct buffer_head map_bh = { 0, };
->   	struct blk_plug plug;
->   	unsigned long align = offset | iov_iter_alignment(iter);
-Thanks a lot  maintainers for looking into this patch and accepting this 
-patch.
+> No, it isn't a false positive. The fix is wrong. The variable should be 
+> declared
+> 'int val', not 'unsigned int val'.
 
-BR
-Abhinav
+     Sorry I may have missunderstood your comment, I certainly can do the
+minor fix then.
+
+     Thanks!
+
+     José.
