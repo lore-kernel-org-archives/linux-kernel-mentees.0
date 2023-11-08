@@ -1,233 +1,127 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B013D11194
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B982B13FE2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:47:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsXZ4N6M"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3bepOA9"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 4FD1F812A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:26:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4FD1F812A1
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GsXZ4N6M
+	by smtp3.osuosl.org (Postfix) with ESMTP id 1958360783
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:47:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1958360783
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=h3bepOA9
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.402
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rqETfPJFNJNE
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7DMcYx_eW2-s
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  8 Nov 2023 10:26:15 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 48589812A0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:26:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 48589812A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699439175; x=1730975175;
-  h=message-id:date:subject:from:to:cc:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=l1TTxiZ+DDIKIn/pc9hxWk3CYNWiFS9q58Tx2er9QDw=;
-  b=GsXZ4N6MTqB0+vFShLO5+d6Nhw/opA1PqtzCef5Os7Q8rFBeyyfchDLv
-   qIUv024JYaLUPIMCG0pbUUzuavTHFu28ZFe9+2VrdvLMVqGTyMtVu+YzM
-   5njLQ+B/Hwb3C5HXl1uEyqpccPkAIhK+OCUBIOCErqwoLpqd22hchmPvq
-   MA9BXhfIne4KiSKnbnf4KDY9zb6wYom/swkmNqXyZazjo62NC55OPV9f8
-   GlrVp+HekriIdBChVIT5YgbG3vlLBpgWSityIw4xBrmb3s8iym22yhBiR
-   S/q1T7O/NoZOyA9EPjfGvpmnO9sEwPfDGokSJTjfqIkyiDaH8veM1Hva1
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="386906479"
-X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="386906479"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 02:26:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="828927755"
-X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
-   d="scan'208";a="828927755"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmsmga008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Nov 2023 02:26:14 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Wed, 8 Nov 2023 02:26:13 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Wed, 8 Nov 2023 02:26:13 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Wed, 8 Nov 2023 02:26:13 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NMaTiUVzd/FmsqhFYRD64/Rzpymy7e8MLijCjr5bvtkMQ0JR3qthKEIvpQ8useUAntu7KsZKmIbyjBrRIvEE0ukZjxCy3KJDDkxcwDFlZ60Lf4fExCs+7LBgjCirWlcA+7t1aC8ZQoiRW0/i9bZJeof7Gc+y15GT6tuDGKYQRP5ZHisu1CVoieQtuPlsBApcncaQJBQoWf747uqi2b9hQsALYjsqeB3N63yXWsyHjZMi5lF8STb7WvshgtzExkfc1XFrjgPBS8fVMiqpSJHS/GbhL+KjVLqT70gQsS+bXEoHQ8FIrOsJBIgSih5flPQ1SeP4UVcj+pH2LEGe87h7mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x1F+EBgVSRUnzRgxtvzb6A4rG1O/po8lqF43QYCoeEM=;
- b=OFjKga5lZUiDNjk3eCK2KEcWe3/dbSi+EqbYUyDlaNFK5E1woA9vzayPDRhdNphxaXgGOVqDdmG+KKGB8jxu0dRsBijQoDoU0M9HJgqn8Tju9/jkW3aUrAoIm+pHQUg4dRyS4aHAe9Ai0su1BFT9xds9pZuPGrQ6qr7d2XMvQc13bDHSQhDgkGwB4kw1HTX1kJfRAuG39bSXBulpcM0FG0zDOsCHvkGE2J1d2tLV4uJDpcUTVVkZS6cs7j5XfywtufOceoriB7Jt+7EKLg48gwh4c19z7bafnZ+3lln/99VX7Fop0dH8/YO+pLGe3AGIdEb5ZIBQB/WEToY/MU4P/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BYAPR11MB3672.namprd11.prod.outlook.com (2603:10b6:a03:fa::30)
- by SN7PR11MB7993.namprd11.prod.outlook.com (2603:10b6:806:2e5::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Wed, 8 Nov
- 2023 10:26:11 +0000
-Received: from BYAPR11MB3672.namprd11.prod.outlook.com
- ([fe80::4bff:ef3:3532:d7eb]) by BYAPR11MB3672.namprd11.prod.outlook.com
- ([fe80::4bff:ef3:3532:d7eb%5]) with mapi id 15.20.6954.029; Wed, 8 Nov 2023
- 10:26:11 +0000
-Message-ID: <5a289765-638a-2a8c-b56d-fc323a69fe2b@intel.com>
-Date: Wed, 8 Nov 2023 11:26:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH RESEND] ptp: Fixes a null pointer dereference in ptp_ioctl
-Content-Language: en-US
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-To: Yuran Pereira <yuran.pereira@hotmail.com>, <richardcochran@gmail.com>,
-	<netdev@vger.kernel.org>
-CC: <eadavis@qq.com>, <davem@davemloft.net>, <reibax@gmail.com>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-kernel-mentees@lists.linuxfoundation.org>,
-	<syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com>
-References: <DB3PR10MB6835D68E7E632532155AE585E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <70911c92-4272-cff6-857e-c95842b644c8@intel.com>
-In-Reply-To: <70911c92-4272-cff6-857e-c95842b644c8@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0194.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::8) To BYAPR11MB3672.namprd11.prod.outlook.com
- (2603:10b6:a03:fa::30)
+	Wed,  8 Nov 2023 10:47:53 +0000 (UTC)
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6D09F60761
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 10:47:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6D09F60761
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6bd20c30831so1253909b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Nov 2023 02:47:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699440473; x=1700045273; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sbWdFo7miza+LJDE+FII5IkRlW+z6I8tgEOAp/fAi2E=;
+        b=h3bepOA9O516bdUoEdVhm1R98/PIEssLJpa/ywdtp52RFOIPqkYZuwLxHjLmmInpUq
+         OfC1zHKu2imBrLgIDcYC0GP0LYKeAB4dPUI4F1BEPARViXZWiLOpj8Bl5DZEfKDSCf2t
+         hJ1p08uksUQCwMfe8wirkmT5+LFyKXQOEE43aLVHvQGJrjrFdmZpQejKlBFAEtQItPh+
+         jE0vL1exJJtXLA4VctLnTcS958uVcWuSn9u5l+lrRoQb7GXBW5nPoSbS8Ua+ZUyQ2jvZ
+         I3cRiFpDwUQG3je9PExg996RPLBcWYbJrm/RGKWm0N8poJOU3gCzx6FnDVeH0XV2f+68
+         E2Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699440473; x=1700045273;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sbWdFo7miza+LJDE+FII5IkRlW+z6I8tgEOAp/fAi2E=;
+        b=i4uinuORJMu/mzXlkVX5bKECm9A8A6PfW53BMnpo/988FnRiO4ZsC79G3s4UJkbrYe
+         iON1+WXhDmXUJ0bTPR7ZAcN6N6aP1flLgAVpgdA3N37gUnGHGbfArp5HaFHq/D4v1xR8
+         m1TYkvmO4l5IT7rN96M3ThKpTiC2vwjB9Kf02Y7BpG7uR69KxSTFcBzMP5zKL0SuOgC6
+         j6sk595NR1fBmxIWxY7WkEf4jCrzysdJCn53G7NvqejcKG4DwhjcJ9X6NxO7WRi5P4rX
+         Q+o+W1Y4CPyZ7+YU6tCiKFbv50/oNls/qskzO+T0Hai9huz6gLzVNzbB95JFRQW/5gCu
+         8qVQ==
+X-Gm-Message-State: AOJu0YzaDhloxlwLAyQT1N8iIJP9fC4+uRIygifr3b1fy1OWZoDdNyJ3
+	ZSaJC49ynSAoV446MgClTmc=
+X-Google-Smtp-Source: AGHT+IEakTnfI52C8pPf0ICMAQ0OdKNwvumwvOelYpYlFppmk3T3eTha1MxYy4JkbmVoaKhG3s9jxw==
+X-Received: by 2002:a62:ab12:0:b0:68f:c8b3:3077 with SMTP id p18-20020a62ab12000000b0068fc8b33077mr1611102pff.1.1699440472652;
+        Wed, 08 Nov 2023 02:47:52 -0800 (PST)
+Received: from abhinav.. ([103.75.161.208])
+        by smtp.gmail.com with ESMTPSA id fm26-20020a056a002f9a00b00694fee1011asm8617933pfb.208.2023.11.08.02.47.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 02:47:52 -0800 (PST)
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+To: viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	dan.j.williams@intel.com,
+	willy@infradead.org,
+	jack@suse.cz
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Abhinav Singh <singhabhinav9051571833@gmail.com>
+Subject: [PATCH] fs : Fix warning using plain integer as NULL
+Date: Wed,  8 Nov 2023 16:17:30 +0530
+Message-Id: <20231108104730.1007713-1-singhabhinav9051571833@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231108101518.e4nriftavrhw45xk@quack3>
+References: <20231108101518.e4nriftavrhw45xk@quack3>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3672:EE_|SN7PR11MB7993:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef328df7-752f-457c-572f-08dbe04520b6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nj1kmUIA4wO7q5bOYhse3aFGQh3y1w2LoKk8nwJhCZ4oLvB35Sr/OZ4GJEl9g8GEo/7jq3KGM3ZIViy75UTK5Z/CQJRn3Pzs9xTz35V1EF1nk4CSaioM1iilPS1+z7Q7ivyMRtdR7AYibfiWZmhCFciTO0U4eG0ZWn2OeTqQud8gv0tl9WqekHtPHrhPzW+RuzfxoF5G4qUCHy7kXWD9gvlablBR/7426t7E1RnCK2jz/czi+QnVz536xJ1ba6QPdS46bOYqvevF6A1xG8ZHAubdvowtYi8iaDMZPgtCRvw2m7Jh/EbG3Tsa+AdnuuhpaWXK0BLAbEoS45mVplDCC30GQGPa4G3FMkODEOKx9umN6SIcLRND5O8k/R+zoXExP3O72EAfe98linazsw91uzjoNofuqnJ23EbNyeMT1VCdgHrScet2nPWClO3hgLoYUO7r+9ze4PbwpyoLUN3db0CXN161ECQpFNXY3FgqbwA+dZHhaZsiL0HJ/hbsNtx/XfnEbYOwcd8Sc0mBS5Ug8ivFyG8zfYmQ8cC0DgjmcXFY0f7iU0UyIri7mmJlzVRXtX/+3sg4qWXhoaY+8migPM3dt1c26ny7/7SmFAriV3PRSd0Q7rOWmoCsOoYfhigjizNOt76mK+tH11Z/eHLkr8MNX3t9zL/fjDKeoUXO0Y4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3672.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(376002)(396003)(366004)(136003)(230922051799003)(186009)(64100799003)(1800799009)(451199024)(36756003)(83380400001)(38100700002)(45080400002)(82960400001)(478600001)(6506007)(6666004)(5660300002)(966005)(53546011)(6486002)(26005)(66476007)(6512007)(66556008)(2616005)(66946007)(316002)(2906002)(4326008)(8676002)(86362001)(31696002)(41300700001)(8936002)(31686004)(99710200001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHhiUDljTndZMkYyK1cwd21sZlkvTFNMSWoxbURQR0FKdi90bVJFWEQySFkv?=
- =?utf-8?B?NzYvWmZxSnhkV25Nc2JFaEQ3NlpmVDdEcWdGQ1VQL1lkaWJ6aXcwTHhOVFJ1?=
- =?utf-8?B?VlpCOU1CQWl0eVFtNXZjcUFLdURqWjAvKzBZeDhET1ZDZDRiK3dyU3JieUcv?=
- =?utf-8?B?aWVWOTA1NVpqUC9qdHVKZFZ3NkRzeEZ4clNqV3F0Nk8wVGQwcFN4VmorTDB5?=
- =?utf-8?B?cmRpQXNGNXdFeE14blQrVTJKU1NjQ0pQN0pabkpyV1dra29wWXVGVXhPQ0V2?=
- =?utf-8?B?aXdHd3FWaU5FcU90QjJmMmxMUUptTlpacWVra1lvVmZUTW1KcGsyQkRMWDA5?=
- =?utf-8?B?WUVJcjFVYndpakcwSjZNWXVGcHhqeGk5WFkxSUZSTklYTTlXTkErSm82UmJo?=
- =?utf-8?B?aG1BeUNVVE56bFpHbVpnNDEyVHk5czhCWHBZSExRY3dMV2ZKVnNxQTVRelkv?=
- =?utf-8?B?dVJtWUt5S1d4SjJ3cHhyb0NZc0tkT3dhbmtDZEpqOFl2UmNBeDFGdFV0UFF4?=
- =?utf-8?B?ZXBXSHBERFduSXFEVkRrd1ZtTHByUFk5dG9VQmR5eWpDbkxBVzJGUmhQcklu?=
- =?utf-8?B?RzZWQ1ljb0J3ZWFnMUhMNFBaeVBSbU0wMDJadFdIS3paOTlWRGJ2eEs4QWNm?=
- =?utf-8?B?cGhLUndxUC9IQVM0ZW5oNnNxZFF1SGdUeXhWRG43RzcycGNTNlNHNndDa2ly?=
- =?utf-8?B?UHUvc3ptbjkySlM3RElKMVFkY1Fmd08xcmFlM2dnVU5tVDYreElLcnd6RzQv?=
- =?utf-8?B?REV1UEJNbDQrdXVzeUJwaThpRENrWDc0SGR5QmxNSkM3VG9nUjFKVVpOMldm?=
- =?utf-8?B?cS9GdC83NXMwcUZTdjdHOVdFNnRPdG90aWNIZ09SckdPM0pwYVBhNnlNQ0lD?=
- =?utf-8?B?ZWppeURsQXNFaElRbVBBaDh5U09SRURBZzNrTHlVdlpiOXh2SHZ6akpWWDA4?=
- =?utf-8?B?c0FNTCtKM0x5amE5d3F1OTRFMit1K2t5dC80Y0JqTmVwSnp0dm5VNUlzS1Z4?=
- =?utf-8?B?ZzZIL1AvS2FmeHNiUEIxdDFtdFgydE4xY1Y2NGNNNGtUWFNla0N3blJCUVcy?=
- =?utf-8?B?MGZuQXNubldQZDFuZzR6VFR2YWV1U1JUZ2tkd2U5dDZmbkF6U0FqcVYxcDVO?=
- =?utf-8?B?WTYxdjhhdW1FbDZsWTh3U2RDY21vUGQvcEU0d2tFbXNjYTlITWwvbHlXRUpK?=
- =?utf-8?B?aU91eE13djZnZFdjWncxc3ZRbVJaN0pxa3F2OHg2RU9jZzBRUjhDT3FZYlZM?=
- =?utf-8?B?L2VUTUxFaFI2OGhUYWFwR2FyNzBlL1Jnbk9xeE1rM2l2eUNCb3Fhbnp2QUJs?=
- =?utf-8?B?YXhKR2d6a0RDbDV5TWdrZEt4ZzZYeGRpUXh4Y1hSS0ZyYmEvYzFFbEpnaXYz?=
- =?utf-8?B?bGZxNXNiK0tWa0paNHNxNHNVMGxQUm84Ymc1SERFTjRUb3NCKzB1TTJlMGFu?=
- =?utf-8?B?THhxeDU1Q2pZbnY2ZDFYM2R3MDk3UzZQNDlQSnBJRCtmclQ0QlVFM1lxTS96?=
- =?utf-8?B?c2dFdlM5RUdlVTJmSkRtUVBqaDdHZGhKdmRyekN2Z2J4SGpRWnAzTFFGbEJW?=
- =?utf-8?B?OVVrZEFKTUVWUG85SnRSTzNKVTVzeFpwRmdUR0JHemgwMnIyMkp1cEhtYW9D?=
- =?utf-8?B?VU1KdDg2YkpobzN0Vm1GSkZFSWxWWUpWTStZWUZ3SFk4TlZ1MXM5NTMxOUdr?=
- =?utf-8?B?UWU4WU5zSkt0OFBZak1YZGU0Q1VXazdBekJFZ1RWc05qVzZZYXFJeVJKVmwr?=
- =?utf-8?B?R3pTNVB2Z3lGY0VUU2w0TTBPYTl0ZWZROCtXd01mSWdXWTFGb01aVmovN1p3?=
- =?utf-8?B?MXI5S01kLzhpNmU5THFqanFnVk55ZHhxV0VHc2hVN3NiakkrSkx1bkZpMEc4?=
- =?utf-8?B?YmdEbS9zNDdjOHdhbkRldXpKT2pUVWtxc1FYRkJzRmd4ZUJ0MjZYZmZRK0xv?=
- =?utf-8?B?Tm9uVTdsQ0RmL25kcERDczNlUHBlWmMrbjBIZkgzbzlkZ0NFYmpsSFMxdlRX?=
- =?utf-8?B?R0hwMEtJYlNjaFlqSytvd3hSYVprQjdTbllqR0QwY2JZSEYrMWk0QldrTTNO?=
- =?utf-8?B?SlMvelpscHd1d3B4b1NrcTdpTWhvTHhvdWw0STdNaG9iZjNmeVFqOTV2eVpH?=
- =?utf-8?B?YXkwMkVwSkNXcWpKRmQ5MWJqOWFIdHpQenNuendnYW9BcXpJSGhwYmhZNjJy?=
- =?utf-8?B?eUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef328df7-752f-457c-572f-08dbe04520b6
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3672.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 10:26:11.0117
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 25ky7trHEEuDqHNVCnUasPQikgjVNIYVha507hHN0DPSkiDJd8qniamcR+TDcmetUlDNU8mENF2E+V3vhpLu+wRxfU6UuxYy3l5/PjL2qDM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7993
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 11/8/23 11:15, Przemek Kitszel wrote:
-> On 11/7/23 21:48, Yuran Pereira wrote:
->> Syzkaller found a null pointer dereference in ptp_ioctl
+Sparse static analysis tools generate a warning with this message
+"Using plain integer as NULL pointer". In this case this warning is
+being shown because we are trying to initialize  pointer to NULL using
+integer value 0.
 
-Ugh, I just noticed that this is a fixed version of previous attempt,
-for those please always bump version and include changelog, please
-also comply with:
-https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
+Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+Reviewed-by: Jan Kara <jack@suse.cz>
+---
+ fs/dax.c       | 2 +-
+ fs/direct-io.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-if only to don't fool random reviewers
-(I somewhat assumed that you have just rebased some old patch,
-PATCH RESEND was misleading here)
+diff --git a/fs/dax.c b/fs/dax.c
+index 3380b43cb6bb..423fc1607dfa 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -1128,7 +1128,7 @@ static int dax_iomap_copy_around(loff_t pos, uint64_t length, size_t align_size,
+ 	/* zero the edges if srcmap is a HOLE or IOMAP_UNWRITTEN */
+ 	bool zero_edge = srcmap->flags & IOMAP_F_SHARED ||
+ 			 srcmap->type == IOMAP_UNWRITTEN;
+-	void *saddr = 0;
++	void *saddr = NULL;
+ 	int ret = 0;
+ 
+ 	if (!zero_edge) {
+diff --git a/fs/direct-io.c b/fs/direct-io.c
+index 20533266ade6..60456263a338 100644
+--- a/fs/direct-io.c
++++ b/fs/direct-io.c
+@@ -1114,7 +1114,7 @@ ssize_t __blockdev_direct_IO(struct kiocb *iocb, struct inode *inode,
+ 	loff_t offset = iocb->ki_pos;
+ 	const loff_t end = offset + count;
+ 	struct dio *dio;
+-	struct dio_submit sdio = { 0, };
++	struct dio_submit sdio = { NULL, };
+ 	struct buffer_head map_bh = { 0, };
+ 	struct blk_plug plug;
+ 	unsigned long align = offset | iov_iter_alignment(iter);
+-- 
+2.39.2
 
->> originating from the lack of a null check for tsevq.
->>
->> ```
->> general protection fault, probably for non-canonical
->>     address 0xdffffc000000020b: 0000 [#1] PREEMPT SMP KASAN
->> KASAN: probably user-memory-access in range
->>     [0x0000000000001058-0x000000000000105f]
->> CPU: 0 PID: 5053 Comm: syz-executor353 Not tainted
->>     6.6.0-syzkaller-10396-g4652b8e4f3ff #0
->> Hardware name: Google Google Compute Engine/Google Compute Engine,
->>     BIOS Google 10/09/2023
->> RIP: 0010:ptp_ioctl+0xcb7/0x1d10 drivers/ptp/ptp_chardev.c:476
->> ...
->> Call Trace:
->>   <TASK>
->>   posix_clock_ioctl+0xf8/0x160 kernel/time/posix-clock.c:86
->>   vfs_ioctl fs/ioctl.c:51 [inline]
->>   __do_sys_ioctl fs/ioctl.c:871 [inline]
->>   __se_sys_ioctl fs/ioctl.c:857 [inline]
->>   __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
->>   do_syscall_x64 arch/x86/entry/common.c:51 [inline]
->>   do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:82
->>   entry_SYSCALL_64_after_hwframe+0x63/0x6b
->> ```
->>
->> This patch fixes the issue by adding a check for tsevq and
->> ensuring ptp_ioctl returns with an error if tsevq is null.
->>
->> Reported-by: syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com
->> Closes: https://syzkaller.appspot.com/bug?extid=8a78ecea7ac1a2ea26e5
->> Fixes: c5a445b1e934 ("ptp: support event queue reader channel masks")
->> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
->> ---
->>   drivers/ptp/ptp_chardev.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/ptp/ptp_chardev.c b/drivers/ptp/ptp_chardev.c
->> index 282cd7d24077..5b36c34629a0 100644
->> --- a/drivers/ptp/ptp_chardev.c
->> +++ b/drivers/ptp/ptp_chardev.c
->> @@ -173,6 +173,8 @@ long ptp_ioctl(struct posix_clock_context 
->> *pccontext, unsigned int cmd,
->>       int enable, err = 0;
->>       tsevq = pccontext->private_clkdata;
->> +    if (!tsevq)
->> +        return -EINVAL;
->>       switch (cmd) {
-> 
-> Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-> 
-
-Still applies, code is fine, thanks!
