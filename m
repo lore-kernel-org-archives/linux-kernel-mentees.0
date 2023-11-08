@@ -1,124 +1,203 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2109010FE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 00:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122C9645
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 00:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0lu9RZh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTxgf4Jh"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8778E81E17
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 00:34:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8778E81E17
+	by smtp1.osuosl.org (Postfix) with ESMTP id 75F6881774
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 00:55:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 75F6881774
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m0lu9RZh
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QTxgf4Jh
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pVPqjRiUJEVf
+	with ESMTP id pP76aFpWrlTA
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  8 Nov 2023 00:34:20 +0000 (UTC)
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E503281E14
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 00:34:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E503281E14
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1cc37fb1310so45560665ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Nov 2023 16:34:19 -0800 (PST)
+	Wed,  8 Nov 2023 00:55:17 +0000 (UTC)
+Received: from mail-oa1-x32.google.com (mail-oa1-x32.google.com [IPv6:2001:4860:4864:20::32])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2610C8176D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 00:55:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2610C8176D
+Received: by mail-oa1-x32.google.com with SMTP id 586e51a60fabf-1e9bb3a0bfeso3830547fac.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 07 Nov 2023 16:55:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699403659; x=1700008459; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo+wNYvdH42XBot0MOWGC8vCva7jElVxl1Yf8J6aNZU=;
-        b=m0lu9RZhxmulIiFqupszgzaRLRONkNYUvdT8CMsKLk/UNgO2uonTaXBjlGXtob7dRf
-         VgZfG8QyLoqDtnGRpKqJCAEb2IoXeR9+xR3/ud9ar6N4vLFGOQdXoiUzOdisJSAGDor6
-         sosQqpzYXSvfG3KGxGE3wJTcIB/DUpBOXhgoYewzFWm0Cyw2ZbLNvbaZREtSfzJXWqB1
-         dJi2rTDV59ExW8FMVUU9cuTul24ljpbyf4IB5HeucBt0LwD+4q1Q7vrilmCdng1wSM3k
-         bhpCudHKVOAJh4v2HSleyNf8fHqDh8OhStFaxyne7fHHJ88Hgr5ULG3teB4oAcuLD0NW
-         +56g==
+        d=gmail.com; s=20230601; t=1699404916; x=1700009716; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nBwW2x1NB7Zv9x5MLA+XOPhgMD9GcocogtWLN68fSio=;
+        b=QTxgf4JhL7UM2BiejkNkZL0cwqg3NxYNwlkC9qUlVdZnivc7mBqCOihSfzwcueDI6n
+         GYSII9rlj1DoccmxgiUIelb8he7PGwHYejQUlw2hKsPArWVj5PwdkRvWumntJZw7FtCa
+         yzMORuModS2d74Yphtdb6otAAA5GlEgXsdjD5SknkbuM0nbR8beHLdFBKjF4nsIpcwce
+         EBjb4TshVLX90/F2zJ3ql0BmpxaO6oipnCDLIEMDJa9I2fcPRnXRPgyd7kZYU5yxL/ch
+         byvSgnfEdNtkrgHSSG1t1dSleJDOKI1RLvnyo517emgYPzK8wA3sOd3QM1XXoRToOLpV
+         T5lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699403659; x=1700008459;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo+wNYvdH42XBot0MOWGC8vCva7jElVxl1Yf8J6aNZU=;
-        b=lD9peSvttHLy0DNzYZuii1jfOooZL2VIpm3W5X5ICWQlMJj63EbFBgtgMOBGCpizip
-         sAdRDHBf+gOE2JPsV8rsPpblgCjpaLSDRbjhtSGeNRbuCr03I0wOYtH/74CvmFu3SX1W
-         3IPOGWYtUBYqlGvcO6E3vLn3dEbo7d7Dpvn6M2k9aIQPRYmi0fQHNCf7lGbxu1eOZ3H6
-         P/sTOnEbKlRTSRUA1b/o8WuF0UebiSfM5TWXMoeZ8fwEeDNRD0Bzxb5YDCwBwyqII0OE
-         sLyZYE0/DfbnorS7ssRcB7SIPJQ6w/BuJAtaiQhu53RgyhTQHQyAAKWydQcZWa+rrYKm
-         QJzg==
-X-Gm-Message-State: AOJu0Yxy25CPrz1k9Kk2jx3nYoznRnyjPfTDXICLhm1sY5Ph+kMakCZN
-	GJsV8qeRbnEVDHytFqi1CuM=
-X-Google-Smtp-Source: AGHT+IFDPzQtLh6+yY5GKCHMN9W6XwtxJ90L36jbtGh9dSGXzUV4r7YpeRT7sM7ArPOdn2NSQT8ExQ==
-X-Received: by 2002:a17:902:e9c5:b0:1cc:4ff3:c837 with SMTP id 5-20020a170902e9c500b001cc4ff3c837mr517996plk.68.1699403659132;
-        Tue, 07 Nov 2023 16:34:19 -0800 (PST)
-Received: from [10.3.171.174] ([103.4.222.252])
-        by smtp.gmail.com with ESMTPSA id j24-20020a170902759800b001c47541ecd7sm396385pll.250.2023.11.07.16.34.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 16:34:18 -0800 (PST)
-Message-ID: <f66cab34-266d-4e9f-b53f-26a2948f863f@gmail.com>
-Date: Wed, 8 Nov 2023 06:02:52 +0530
+        d=1e100.net; s=20230601; t=1699404916; x=1700009716;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nBwW2x1NB7Zv9x5MLA+XOPhgMD9GcocogtWLN68fSio=;
+        b=k5MClN2WLi5LbmpyhgmFmPRrkE88jgunLeF7/d404GeGei5gosV69Fgd+vaMmBDX3W
+         TxO8FPXWflnrzSdei/EC7wIezUgpagUn0Y17qVNvf7qdZOaXLJh5bfw1SV5KSaJwREiE
+         U9BkNQTaeiKG2pDJbvSkBZbPh1Lr6FSpgk+flFsXEzYNbmuEwVaxkaGmyVkkp2qUzMRc
+         Ki9jQXM5x+e0v+nPcdrwjB0j6F5z1YfWydHzcqu7/ahXmxT1zpbzdjf2DjdyBcAVi3HO
+         OTzl4b+gIxRXoau/FGa92TVNM4aVdb+YG+lWcJv+Y7xPzzL5QQ923Je3e1fNiGsEylgm
+         dldA==
+X-Gm-Message-State: AOJu0Ywmsmd5KbbbCsOYfcczTznSeIYRawmiiibzxqB5Y3XshAephPby
+	8/rifnaKzoYxqra0pTxllk2q27DMg6fmHBb1
+X-Google-Smtp-Source: AGHT+IEEZT9EznDaRpIPe/oGe4godmJbxmua7mNLjGmR//N7q4uG+t9wAoPFiZH0Md3h2/YhHGGvhg==
+X-Received: by 2002:a05:6870:2188:b0:1e9:9179:4c6f with SMTP id l8-20020a056870218800b001e991794c6fmr366225oae.49.1699404915998;
+        Tue, 07 Nov 2023 16:55:15 -0800 (PST)
+Received: from archlinux.srmu.edu.in ([103.4.222.252])
+        by smtp.gmail.com with ESMTPSA id g5-20020a631105000000b005bd11296584sm1939468pgl.53.2023.11.07.16.55.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Nov 2023 16:55:15 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	"Conor Dooley" <conor+dt@kernel.org>,
+	"Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+	"Conor Dooley" <conor.dooley@microchip.com>,
+	"Rob Herring" <robh+dt@kernel.org>,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+	"Jeff LaBundy" <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v8 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date: Wed,  8 Nov 2023 06:23:35 +0530
+Message-ID: <20231108005337.45069-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: add asair
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231107173100.62715-1-anshulusr@gmail.com>
- <87762a47-9caf-435a-9b73-397384660b11@linaro.org>
-Content-Language: en-US
-From: Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <87762a47-9caf-435a-9b73-397384660b11@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/7/23 23:16, Krzysztof Kozlowski wrote:
-> On 07/11/2023 18:30, Anshul Dalal wrote:
->> Aosong Electronic Co., LTD. is a supplier for MEMS sensors such as AHT20
->> temperature and humidity sensor under the name Asair
-> 
-> The name of the company is Aosong Electronic or Asair? What does Asair
-> stands for? Sensors name? Then it is not a vendor prefix.
-> 
+Adds bindings for the Adafruit Seesaw Gamepad.
 
-Asair is the brand name under which Aosong Electronics sells their
-products. I thought Asair would be the better choice since
-all their products use that as the manufacturer name instead of Aosong
-as well as all the retail suppliers of their sensors.
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
 
->>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
->> ---
->>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> index 573578db9509..df3204f9dda6 100644
->> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->> @@ -143,6 +143,8 @@ patternProperties:
->>      description: Artesyn Embedded Technologies Inc.
->>    "^asahi-kasei,.*":
->>      description: Asahi Kasei Corp.
->> +  "^asair,.*":
->> +    description: Aosong Electronic Co., Ltd.
->>    "^asc,.*":
->>      description: All Sensors Corporation
->>    "^asix,.*":
-> 
-> Best regards,
-> Krzysztof
-> 
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
+
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+---
+
+Changes for v8:
+- no updates
+
+Changes for v7:
+- no updates
+
+Changes for v6:
+- no updates
+
+Changes for v5:
+- Added link to the datasheet
+
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
+
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
+
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
+---
+ .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
+ 1 file changed, 60 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..3f0d1c5a3b9b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit percision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.0
+
