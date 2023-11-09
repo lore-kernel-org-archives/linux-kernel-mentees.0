@@ -1,139 +1,86 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from 3.mo575.mail-out.ovh.net (3.mo575.mail-out.ovh.net [46.105.58.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514E9374EF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 19:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MzDlPXx5"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A2492401A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 19:00:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A2492401A3
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=MzDlPXx5
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fwHcUPwe6Oui
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id AB83140147
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  8 Nov 2023 19:00:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AB83140147
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1f066fc2a28so3672016fac.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 08 Nov 2023 11:00:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699470031; x=1700074831; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=otxnVkd8YgWVTzG3H7cvr+93qyokKFzdStJbXRE7UUc=;
-        b=MzDlPXx5w3v/gE+BzeH8UyIvmJCwKlcvsXMcpuomCd+/M+SV5HHUD1X5SKxOf3+zHR
-         ENBDleVAZD/lVPehLuauXz0cBhWZ5kdIa4lYp0m6OEyoFUfNCoQumcgKLZiKsae7IkNw
-         +rw/d2BjsCym0DvtYJc2NG5RwX81MBysLLKhE76JvsCpxzJeEbhpm8F2wEhODoilXIZB
-         U4nhjjTbLLmfDomZOmWeg/pCpvlkD6H14J03wLtQ0RX0lhbfR4tIUSF6qGI5UKsYyTaI
-         EX3CMmN9PeSQ8vJa1wXnI9Zmmi5m5eRYaMCc9WcYTTRpX+uxHptw7DM/tFfbejn05+gt
-         ckfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699470031; x=1700074831;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=otxnVkd8YgWVTzG3H7cvr+93qyokKFzdStJbXRE7UUc=;
-        b=l1IO0pHH0uGWJ+OxUvMhx5OIAiITl4/3DdsbFEbzhUMP2cQfM0eglghcO1hKsMUrbc
-         5hNBTjIwNkmj6LBoULvBN4EhjOX2sLuHuNuVUvl+EsNkoKWEpeQU30jF3xZkY9GYUTYT
-         On8USBJWMZwLPauBSAhFLdTHsPJLWo5aVTFFns+XLbjC94Ek6s/dh8ghbZWDx4i3/Tnj
-         8iBQUh7wI4os1Dgug/bi2JnLCAg7yl4qhlbTXiaJzHBYAzp6sdHF5BYC8smpRKoEuw4X
-         U0m0kl12I726idRg1NzSLFDbIktodhdcYahf7nNhFCr5HdXyIUYFQ8ziVSpem7lw6TZB
-         Sfdw==
-X-Gm-Message-State: AOJu0YyYKJpdr1Rwa+F84CQ1rX6jHOr1Sh09oruavVmRKcZqyxhY8R7n
-	BjPI5nKRde54YCE4TrCniG7wGu3zyHvKBkaw+AY=
-X-Google-Smtp-Source: AGHT+IHvpi3a4SBVR+ik6OpPcUARXpDbAmpBYewfy5UA+w+qqJFFTZ6OeD4JVSJcj/4uYdeGrClnwBQQdXADX431yUk=
-X-Received: by 2002:a05:6870:470b:b0:1e9:d158:2465 with SMTP id
- b11-20020a056870470b00b001e9d1582465mr3028814oaq.17.1699470031642; Wed, 08
- Nov 2023 11:00:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A012D294
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Nov 2023 08:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from director4.ghost.mail-out.ovh.net (unknown [10.109.138.52])
+	by mo575.mail-out.ovh.net (Postfix) with ESMTP id 5DCC2218C5
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Nov 2023 08:43:52 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-v4d2x (unknown [10.110.171.163])
+	by director4.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 3B4F01FE30;
+	Thu,  9 Nov 2023 08:43:51 +0000 (UTC)
+Received: from RCM-web5.webmail.mail.ovh.net ([51.255.71.60])
+	by ghost-submission-6684bf9d7b-v4d2x with ESMTPSA
+	id xetbDMebTGXnFgAAqsDEaA
+	(envelope-from <jose.pekkarinen@foxhound.fi>); Thu, 09 Nov 2023 08:43:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231029093926.137766-1-jose.pekkarinen@foxhound.fi>
- <d56cd927-49fc-cb4e-8abd-abc539e4d276@amd.com> <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
-In-Reply-To: <e095fae915d44ccc186d5e5ee74ec119@foxhound.fi>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 8 Nov 2023 14:00:19 -0500
-Message-ID: <CADnq5_NjUnC_nsaDCgma8u=eBKv4qMb1L214QEY9S75tA=2vTA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: remove duplicated argument
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>, sunran001@208suo.com, sunpeng.li@amd.com, 
-	qingqing.zhuo@amd.com, Xinhui.Pan@amd.com, Rodrigo.Siqueira@amd.com, 
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	Zhongwei.Zhang@amd.com, alex.hung@amd.com, Yao.Wang1@amd.com, 
-	dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org, 
-	alexander.deucher@amd.com, Jun.Lei@amd.com, christian.koenig@amd.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 Nov 2023 10:43:50 +0200
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, skhan@linuxfoundation.org, airlied@gmail.com,
+ daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array
+ members
+In-Reply-To: <2023110835-magnolia-prune-02d0@gregkh>
+References: <20231108065436.13969-1-jose.pekkarinen@foxhound.fi>
+ <2023110835-magnolia-prune-02d0@gregkh>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 185.220.102.8
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 11224940598066063041
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddvtddguddvtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigohhitgfgsehtkehjtddtreejnecuhfhrohhmpeflohhsrocurfgvkhhkrghrihhnvghnuceojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqnecuggftrfgrthhtvghrnhepheeiudelueefgefgueehgfeukeejgedthedufedvudetfeduveekleefudehjedtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpudekhedrvddvtddruddtvddrkedphedurddvheehrdejuddriedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehjeehpdhmohguvgepshhmthhpohhuth
 
-Applied.  Thanks!
+On 2023-11-08 09:29, Greg KH wrote:
+> On Wed, Nov 08, 2023 at 08:54:35AM +0200, José Pekkarinen wrote:
+>> The following case seems to be safe to be replaced with a flexible 
+>> array
+>> to clean up the added coccinelle warning. This patch will just do it.
+>> 
+>> drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h:76:38-63: 
+>> WARNING use flexible-array member instead 
+>> (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+>> 
+>> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+>> ---
+>>  drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h 
+>> b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> index c7b61222d258..1ce4087005f0 100644
+>> --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+>> @@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
+>> 
+>>  struct smu8_ih_meta_data {
+>>  	uint32_t command;
+>> -	struct smu8_register_index_data_pair register_index_value_pair[1];
+>> +	struct smu8_register_index_data_pair register_index_value_pair[];
+> 
+> Did you just change this structure size without any need to change any
+> code as well?  How was this tested?
 
-On Wed, Nov 8, 2023 at 3:52=E2=80=AFAM Jos=C3=A9 Pekkarinen
-<jose.pekkarinen@foxhound.fi> wrote:
->
-> On 2023-10-30 15:54, Aurabindo Pillai wrote:
-> > On 10/29/2023 5:39 AM, Jos=C3=A9 Pekkarinen wrote:
-> >> Spotted by coccicheck, there is a redundant check for
-> >> v->SourcePixelFormat[k] !=3D dm_444_16. This patch will
-> >> remove it. The corresponding output follows.
-> >>
-> >> drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c:5130:86=
--122:
-> >> duplicated argument to && or ||
-> >>
-> >> Signed-off-by: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
-> >> ---
-> >>   drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c | 2
-> >> +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git
-> >> a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> index ad741a723c0e..3686f1e7de3a 100644
-> >> --- a/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> +++ b/drivers/gpu/drm/amd/display/dc/dml/dcn30/display_mode_vba_30.c
-> >> @@ -5128,7 +5128,7 @@ void
-> >> dml30_ModeSupportAndSystemConfigurationFull(struct display_mode_lib
-> >> *mode_l
-> >>                      ViewportExceedsSurface =3D true;
-> >>              if (v->SourcePixelFormat[k] !=3D dm_444_64 &&
-> >> v->SourcePixelFormat[k] !=3D dm_444_32 && v->SourcePixelFormat[k] !=3D
-> >> dm_444_16
-> >> -                            && v->SourcePixelFormat[k] !=3D dm_444_16=
- &&
-> >> v->SourcePixelFormat[k] !=3D dm_444_8 && v->SourcePixelFormat[k] !=3D
-> >> dm_rgbe) {
-> >> +                            && v->SourcePixelFormat[k] !=3D dm_444_8 =
-&& v->SourcePixelFormat[k]
-> >> !=3D dm_rgbe) {
-> >>                      if (v->ViewportWidthChroma[k] > v->SurfaceWidthC[=
-k] ||
-> >> v->ViewportHeightChroma[k] > v->SurfaceHeightC[k]) {
-> >>                              ViewportExceedsSurface =3D true;
-> >>                      }
-> >
-> > Thanks for catching.
-> >
-> > Reviewed-by: Aurabindo Pillai <aurabindo.pillai@amd.com>
->
->      Sorry to bring this up, I just wanted to check whether this
-> has been applied in the following pulls or not.
->
->      Thanks!
->
->      Jos=C3=A9.
+     I didn't find any use of that struct member, if I missed
+something here, please let me know and I'll happily address any
+needed further work.
+
+     José.
