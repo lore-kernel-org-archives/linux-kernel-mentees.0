@@ -1,161 +1,87 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49F24D2E5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 08:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9526010A19
+	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Nov 2023 09:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JlTN4TEe"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B1F1241521
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 08:44:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B1F1241521
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=JlTN4TEe
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NL2ntGJva3tI
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  9 Nov 2023 08:44:02 +0000 (UTC)
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D378E414C3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 08:44:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D378E414C3
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-53dd752685fso849266a12.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 09 Nov 2023 00:44:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699519440; x=1700124240; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=35vsNanmShIbsIQ/CaOWaGcxfHxAFdyQE7/ZwF1aI9o=;
-        b=JlTN4TEeJUI3KupOP+BiD6goLyQOKww2pvWhGE1eXJ++VJ0HkUzNbCRgTX0nuuOx55
-         WnYbXGoqcBSM6mEoOSEW2LEZ7TPjOphuH3LOnlUv7UXM7R9jPi7f0JeEFKV++Bif2VUt
-         FA8liclPnjAhcwPU2bl1WCDlK3azUXZUpzHsYrZjuAyBBYZK5LvEuqkduZepx8vb5enf
-         waT4moE0LuQo+3P2W9Z6bCQliFP9tKQrg/nzpyqkoKaqmaY0hktz/bTmEcZfF6pYrOIf
-         GfAcrmroLy7HyWRYhja/K6uQYlWdu7XnPlr/ZLnsG1U3dmlgc+XoHQcy/oidAQpvV06V
-         Hjqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699519440; x=1700124240;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=35vsNanmShIbsIQ/CaOWaGcxfHxAFdyQE7/ZwF1aI9o=;
-        b=e8KdGsEkXiK9u3z+ELa2OKqhSjuXlhq8akwcZE5Y1Q0h2L60p5LGXSstXpW7i8cHhl
-         4azOxwYRmN56F2sObJV2K7qDPZFNH8iDLl/l3uciWT6Q8azw4Ok9Kgi61qpXTVZWiPQy
-         MXV2Msq7kEGwf9DRkju5CGw/eHiWustM8GlA4srnY0x+kjJ1h820/HEQ/nn9MccjHI1p
-         FXCBd2j1PuqzkgR7htLo9LYlr9dSSo+g1XQgADFlZfF8Kj9bPAfkEfi0lJ71wFSMmtUx
-         lwzJOTCzy71zpWnND2h5NjKqlnySSE1l5Qg20lT+P+qN6xCdGnux16muewK5C1Ocv43k
-         cszg==
-X-Gm-Message-State: AOJu0Yw8yYcxCf0xUK4bxt3E3pm6MZvgLNn8onYHusPmzpl742JfUyw3
-	PWkxa0zC6BrTIybBbOleWi5Fvw==
-X-Google-Smtp-Source: AGHT+IGilTG5PLIakSWfbBOmuwSzVn9Q4vpK27yeci9NBpkgiiCW6FWBLz5hddciO7gi9FNUwOfEmw==
-X-Received: by 2002:a50:c04b:0:b0:53e:343a:76bf with SMTP id u11-20020a50c04b000000b0053e343a76bfmr3789177edd.1.1699519440066;
-        Thu, 09 Nov 2023 00:44:00 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id g15-20020a50d0cf000000b0053e408aec8bsm8089767edf.6.2023.11.09.00.43.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 00:43:59 -0800 (PST)
-Message-ID: <5b4b1bf9-67d5-4b27-ac68-cb6e26716d67@linaro.org>
-Date: Thu, 9 Nov 2023 09:43:57 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fp3XYzZk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA174C433C7;
+	Thu,  9 Nov 2023 09:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1699520801;
+	bh=aREHLc+TYmAypcve6YQJsCcETJWSOyfcp56f4SIqchQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fp3XYzZkaZD54ayEILKaIbNnDFFW7dBkAuLI6XzNQ4vw7zZIN1v7lqnMcaaL0xJeL
+	 4r9vJXXwNQ1/I7fAwy8IXuQ1EXAUxeGFcOqYkdd1h1z4E/v70vNUdSR6kwjT/f8FIU
+	 KSPiqU78Bh19szmFZANlOMP1y3CHm/nHjxVsAVC0=
+Date: Thu, 9 Nov 2023 10:06:38 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
+Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+	Xinhui.Pan@amd.com, skhan@linuxfoundation.org, airlied@gmail.com,
+	daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array
+ members
+Message-ID: <2023110916-tinfoil-concur-77d8@gregkh>
+References: <20231108065436.13969-1-jose.pekkarinen@foxhound.fi>
+ <2023110835-magnolia-prune-02d0@gregkh>
+ <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: trivial-devices: add asair,ags02ma
-Content-Language: en-US
-To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231107173100.62715-1-anshulusr@gmail.com>
- <20231107173100.62715-2-anshulusr@gmail.com>
- <1d5d1357-0b53-4639-add9-2b3f38aae744@linaro.org>
- <90cacd34-4812-4792-9bf0-362200431452@gmail.com>
- <77e1d308-6ac3-4200-b72a-6d5717869b06@linaro.org>
- <7501036c-4e1f-4993-97a7-6c36c7cc8358@gmail.com>
- <6f654341-a9c0-4412-ac87-5800d6122023@linaro.org>
- <e192a58e-47f8-4410-81a5-de1ebab3251d@gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <e192a58e-47f8-4410-81a5-de1ebab3251d@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
 
-On 08/11/2023 13:53, Anshul Dalal wrote:
->> If you are unsure and you just work on some sensor not used for final
->> product, I think it's fine as is, so to add the regulator later if ever
->> needed.
+On Thu, Nov 09, 2023 at 10:43:50AM +0200, José Pekkarinen wrote:
+> On 2023-11-08 09:29, Greg KH wrote:
+> > On Wed, Nov 08, 2023 at 08:54:35AM +0200, José Pekkarinen wrote:
+> > > The following case seems to be safe to be replaced with a flexible
+> > > array
+> > > to clean up the added coccinelle warning. This patch will just do it.
+> > > 
+> > > drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h:76:38-63:
+> > > WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+> > > 
+> > > Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> > > ---
+> > >  drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> > > b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> > > index c7b61222d258..1ce4087005f0 100644
+> > > --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> > > +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
+> > > @@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
+> > > 
+> > >  struct smu8_ih_meta_data {
+> > >  	uint32_t command;
+> > > -	struct smu8_register_index_data_pair register_index_value_pair[1];
+> > > +	struct smu8_register_index_data_pair register_index_value_pair[];
+> > 
+> > Did you just change this structure size without any need to change any
+> > code as well?  How was this tested?
 > 
-> No problem, I can add the required properties in the next patch version.
-> I need to make a few changes to the driver anyways.
-> 
-> Just out of curiosity, the sensor supports reassigning of the i2c
-> address by writing to the 0x21 register from the default address of
-> 0x1a. 
+>     I didn't find any use of that struct member, if I missed
+> something here, please let me know and I'll happily address any
+> needed further work.
 
-You can list allowed addresses, but we rarely do it.
+I don't think this is even a variable array.  It's just a one element
+one, which is fine, don't be confused by the coccinelle "warning" here,
+it's fired many false-positives and you need to verify this properly
+with the driver authors first before changing anything.
 
-> Is there some way to represent this in the binding.
-> For future reference, is there some exhaustive list or specification
-> document for all the allowed properties.
+In short, you just changed the size of this structure, are you _sure_
+you can do that?  And yes, it doesn't look like this field is used, but
+the structure is, so be careful.
 
-Any property could be allowed so the is no list of them.
+thanks,
 
-dt-extract-props -v Documentation/devicetree/bindings/
-
-Best regards,
-Krzysztof
-
+greg k-h
