@@ -1,132 +1,177 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B73A20334
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Nov 2023 15:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E9D36B12
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 19:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eMPUiGTQ"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6ce2b6b3cb6so561123a34.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 09 Nov 2023 07:40:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699544451; x=1700149251; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6tJ1Dsj0sBlosFzA+sYRVfNMl8UsSGIcTKFZYaCY0JM=;
-        b=eMPUiGTQXHBTz3ATj1k22e09X0SKPiq0F+7aPXWxdfdnw5PqYj66FyVPMoYT+dZR9g
-         0a9hm+6zJ2FlhBE4U7b1mxS+r6Se7sgHXil3i5HlpWWHTW501DqKpKpJvlewYAkVLTTH
-         ++dZ6urpRGDWKNSfbKgzXHAeRdYkjcvi5plh042E8P7Z7rJ5AnYSvq2UdrMrMyZYTyk4
-         aVSIQak62t9cvsKsPYofQafvVby2/1kTbBJ+otgpy1hbUM7WCX49s59NuD32Xl18ML6i
-         ZzHHODTKnsNb60FIRwa9+ynp0pyoeHRyIFn1ossI/hl0toveUUgUq+gDewIPKvuB/L/H
-         B0og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699544451; x=1700149251;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6tJ1Dsj0sBlosFzA+sYRVfNMl8UsSGIcTKFZYaCY0JM=;
-        b=mN0n0uisAIb83tXBlk4VGRlz34j13zqZQhV0T5oIt5eNFhlgbebygCjtT91iz08jQz
-         bjRf5M5124CdbM1ogg1yr5XjLtrKuRJ7tfwSsxyz67dUCSCySAb/+xPO3cekvqn18Uq8
-         8peQF2OO4EDxFqFRd1HchwMXT9uN9PdHTSwkMKYAcrp42WpaPz1d46So269yTLMFHf64
-         soW8HVUKByR691tm+jzNGuhBRGDJeIcjjL0cQsgR9z1pjRut3noTQ6HWKzccC0tnXon1
-         b0yx2L1W+bpv8nxpyWp8NvFohIhmXLNosmp/KkwG1Y+lxVw70t8/eEm/HbXzr1MwkykH
-         LKIw==
-X-Gm-Message-State: AOJu0YysaRbVwU3oXVNYL8fKwBirJEkZNmYFtvVaAaJ0oOVoCskOXdk/
-	Wt02qnk1usJhsbnfOfrBq5lAxHBpd7VmT8s6qmQ=
-X-Google-Smtp-Source: AGHT+IHGb5T1Tjsn2NDbFSsu++9csRaaO97POdLeDCVVirsyx83kvphtEll/o76pdM1pmmV6U7zau4teA/GgQfxY/S0=
-X-Received: by 2002:a05:6870:f602:b0:1e9:9bec:c01d with SMTP id
- ek2-20020a056870f60200b001e99becc01dmr5837083oab.6.1699544451085; Thu, 09 Nov
- 2023 07:40:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="FlJeYPUj"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id B027760EC5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 19:40:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B027760EC5
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=FlJeYPUj
+X-Virus-Scanned: amavisd-new at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: 0.208
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id yhdvX7MxdHbl
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Thu,  9 Nov 2023 19:40:46 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03olkn20824.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaf::824])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 61C1860BAD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 19:40:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 61C1860BAD
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EZbupBHvb92vBUFavxU4JKjZFGUxqcaDwHjwqhKqbAs05KFSlq0NqYCZgLupCmF2NqIhc9n67xgnZh6yNd1UvYzUeuS0RQI3rCVXciaER6HR+53Qm+hVogdYtNXnfIdX6O4fsrJOHFqSTQgxGQitPyRuCqNIVetQuEhuxva4YS83VelqHgXdhlZNQ7OD26biDE8GVIpZFhG0JEfA+xSMu+oeKoG0QL+MCx2okma7VoevzKrZFeX61pP9a0MZcOmz5uWPuLGuS092YNY85KCaKWk9naJFFXswawDJXg9YHlGCqd1pHSwEdIAwvzBJ7njg95ZpaQqtqluGAS2mRJW/Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ju3R0st0ZQn+AXhm48Knsa6M6ne0uCfsimXRBRZj5Uo=;
+ b=KFUKeQ+C1rF/BfS9DTqS+L8QjdnI7ZbuhQdG1bJeESHo9rgQRhzw9yPjb+W3b9XENgpuM/73yp0zQcPz7ZPKcAQVBWW0yYxIrJQ1/HjXTcf2hOZTbvM3gqZq0octq6O3IJwA7xFwn6vRe1cshx5vPsmSuvdIgFHdiYuEvkpmWaf7IZEjzU0sHDqSkDE77YSEZTDY7mLFkEd8ZQ1TvcEIB+0v4CJTM5DOzIXlFDnWdzNf0dMu7/7nN6EjBMMb+HFHFQVk+E+a59i7RRjTfGE7fgX3uisTo+hmmExoxmrHQBWvDGgcXflzfd9wJP7YZBMhdBJhA1+aVRM71xxFhYmFUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ju3R0st0ZQn+AXhm48Knsa6M6ne0uCfsimXRBRZj5Uo=;
+ b=FlJeYPUj3O2cLFZwOhisgdNXSummaSbW0bmi7x3tAbSpMp1txGyqcjtZg1PfPNDqn7gJUeXZ7tfYzahDQNwZ6PLAmjCOf9PlAlYR3+ndelTZp+zai36rB0/DzWKtxITSomaEmR8FiqE91DbLtX2+tLVA14010ZjiwuWyZXhZhoByVhw74f6WhZOWSuNuteuHgd87V9Ah1BzVudcyUEyn7nsP6lumSouqtVmGy1OcKGy2B6PRXqcUNNz8Ef6Akb34d+WbKIye6ORpcEiOhnEVFYn0cJbpNquXQwOmP1INw4ryau/Yt7cmNevJ3IztlaLAvPmliyMbvnzdnYPVx6XhMQ==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by DB9P193MB1274.EURP193.PROD.OUTLOOK.COM (2603:10a6:10:250::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.18; Thu, 9 Nov
+ 2023 19:40:42 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::2db3:2c11:bb43:c6e]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::2db3:2c11:bb43:c6e%6]) with mapi id 15.20.6954.029; Thu, 9 Nov 2023
+ 19:40:42 +0000
+Message-ID:
+ <VI1P193MB07522256FD0E0F148F19947A99AFA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Date: Fri, 10 Nov 2023 03:40:42 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] mm/kasan: Add Allocation, Free, Error timestamps to KASAN
+ report
+To: Andrey Konovalov <andreyknvl@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, vincenzo.frascino@arm.com,
+ akpm@linux-foundation.org, kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-kernel-mentees@lists.linuxfoundation.org"
+ <linux-kernel-mentees@lists.linuxfoundation.org>
+References: <VI1P193MB075256E076A09E5B2EF7A16F99D6A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CA+fCnZfn0RnnhifNxctrUaLEptE=z9L=e3BY_8tRH2UXZWAO6Q@mail.gmail.com>
+ <VI1P193MB07524EFBE97632D575A91EDB99A2A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CACT4Y+a+xfzXBgqVz3Gxv4Ri1CqHTV1m=i=h4j5KWxsmdP+t5A@mail.gmail.com>
+ <VI1P193MB075221DDE87BE09A4E7CBB1A99A1A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CACT4Y+bxMKEVUhu-RDvOMcbah=iYCWdXFZDU0JN3D7OP26Q_Dw@mail.gmail.com>
+ <VI1P193MB0752753CB059C9A4420C875799A1A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CACT4Y+ZS5cz9wZgxLVo2EsGtt-tkFXkFPA6CGAA8Gy7+sEyDUQ@mail.gmail.com>
+ <CA+fCnZdRWs=P4EgzC9sSDLfO=Bxbs9FyeOcqAiY8pzvMLUX=Aw@mail.gmail.com>
+From: Juntong Deng <juntong.deng@outlook.com>
+In-Reply-To: <CA+fCnZdRWs=P4EgzC9sSDLfO=Bxbs9FyeOcqAiY8pzvMLUX=Aw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TMN: [VN+pHvkej8G0MIcQwQqeCZ+1nXckMvoM]
+X-ClientProxiedBy: LO6P123CA0048.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:310::15) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID:
+ <d5686cc4-27ba-43d3-84a6-2baee5d50f46@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231108065436.13969-1-jose.pekkarinen@foxhound.fi>
- <2023110835-magnolia-prune-02d0@gregkh> <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
- <2023110916-tinfoil-concur-77d8@gregkh> <ee757d648a601ba3530e0eeb1c5d178e@foxhound.fi>
-In-Reply-To: <ee757d648a601ba3530e0eeb1c5d178e@foxhound.fi>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 9 Nov 2023 10:40:39 -0500
-Message-ID: <CADnq5_PGyR=6iyFNrmjcimFc+y7ietqVybV89z3zqUcxbkJSNA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array members
-To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Xinhui.Pan@amd.com, 
-	linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, skhan@linuxfoundation.org, 
-	alexander.deucher@amd.com, evan.quan@amd.com, christian.koenig@amd.com, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|DB9P193MB1274:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd965661-6d58-4290-49ea-08dbe15bc230
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	n3N3czyPIgl66vrLWbawbkOJIeGIf98lKKi9PFKtwUeJCNHKPSVqXpBG2iTTWwoO5o6woUk0KTsujwOLL+PEVuJ8H7W9c+3YKB+OfY/WsNKPZlDEqKmqX27CJ5BowtkKud8p7SphK9RODQLe3pyCc1uOyQVjH/XnfiuSu/qYbBebhGaRmtyHwGpKE2DJkP7FF7KoCMdoSu1DesH20ZYRjn61IAZdBoCGL5a0Jayz+aEKa37d0F1d0iRW7NXUBVHIWNvTNW+AJgQwWC5lFK6H+93purst4ZUuLdbFLkRdkzJcEjD4KuLo9+ZpLb+pCK/o8EgkfxhC0tyCt9KbMJ59eDZI6gXpuukiTcwNz09bgaHOMbqhrPFuQyYcka7o7t6W8lElCq9MIHNkvnEt/XZuHZvTOQI6yiSLJxrTkEArp0IoqT7jaonmzmT1ROOp8q5Ru5eLy+gNW9KL0+FSPgcYJrvE1a1rDxBmeU+m3CjmELxJ66q86p1Ims+lh0S1DQ9NRS8TNfvTwZBl7xIwN89z5QF6gDfCZucKJ/hQPh3XncDuy5ApZY2b8rSNOMhnUEsc
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RTRIa3IyTHBFYzVpaEhOUmU3eGIwcmxhQUN4VHI0SklTQVgzc1BaUTZ0RFZE?=
+ =?utf-8?B?eWtPamp0ek5nSnBndnMzcjFtRzF6VXVhNjRpZ1JVbzNRSFBKM3ZmallkaENO?=
+ =?utf-8?B?YktrM3NVWUUrd205K0JTb1FGUFBFZ3pweTJNSFJmcUVyNmJvMTQ4a3N0bHJQ?=
+ =?utf-8?B?RVR1aS93WkFpait1Qm80UGc3ZlI2WGsrTEVFR2RjMXBGNDFJTXhldFZibjdw?=
+ =?utf-8?B?Tks1RURQQ0tOdkNGR0g5cWNCL2dpT09FYzRmcHhFZEJlZm9aUDdEOU4zTFkx?=
+ =?utf-8?B?Q3dhcHVoa2hteW01Z0pFTzRBbVk0c1VwYkVWVTZEQklZcnhzRzRyM3IwWkw0?=
+ =?utf-8?B?Vm5LdVF5TTZ1VlJOTGFSbXhFeHNUK2V1OWpOdnJJbUNnVnFOZXE1ckVmWXhz?=
+ =?utf-8?B?QWg1NkZ5S2FLbUtybEdkdVc3TzNzRzlZU2wzMGdtYS8vWmJCSGdkQ3Q4cW04?=
+ =?utf-8?B?QVFlQWV5bGRTQmR5ZVhNNnM3YTZiVUJVa0RVWW8vTG0rYVMyVU1HZ2lGM0lx?=
+ =?utf-8?B?aHgvdm13V1U0NWM1ZmNQQlRMNnUxeWQ1ZUZlRURiSmV5Vks4eDZ1REtnaGt6?=
+ =?utf-8?B?a2JrMjJFZmI3SktvMmxuRVFnSDdJRmFuM09zOGtVcEYrL0ZPakVCV1Vaclph?=
+ =?utf-8?B?R1E5YlhLY2RRWmQybG4rYjc3Q0xxUEhpcVBGR0dzeEg1dVl1K1k2YkkxNzlG?=
+ =?utf-8?B?aDgwNG4wMFFFa1BEL0g2Zlo0TDMvZmhmN2pacEJpeGM3OGREWkNxcVVWQzVp?=
+ =?utf-8?B?aEFhUU1semJ2L0k1L3ZZUzYzdWd3eENRQUp3endrcmJCQnpzY05GVy9MZ3dP?=
+ =?utf-8?B?MmsxQkJJU1Q3KzNIT0o3MHJmYzZyT1kzbnBJNERqZEpJdlB3cjdVM2FURWtX?=
+ =?utf-8?B?K0sxZmpXN1N3WVhxT2dabTJKT3pnSC9zSUlVY1pobWViU1NWSDUyQ2tXZjNs?=
+ =?utf-8?B?TE02V0NPOGNMallBaXBCdFNwenlvblRkOWZQd25XYllGaVcyYmVvWFlUa1cw?=
+ =?utf-8?B?U2hQNjJHRW9yNlplSzRyZWNwVzN2VnhhanJ1b29ldlh5Q3c2SThTZm9YUWtJ?=
+ =?utf-8?B?RXJpSUF4RGU3V3k2T2ZFYVFxL0JBSE9MblpHUDQxVkJqenovOXBlbFNlNG1F?=
+ =?utf-8?B?WmpHVEE3OUxmNHVRSTI0aFA3ZW5sK3lnK2pkQ2NvSEw3QjNNUXJkS2kvSHdJ?=
+ =?utf-8?B?WmUzUm83K0d2Q0FocG1Da3hHV2NSZG9pSDB2WVBaWFIwNC9aa25EMC9BaCsv?=
+ =?utf-8?B?cDdnRjhoSHQ2NTdMNnFmb2drdUpHb3E1Sm1vcTcxT3dETmpQSzB0OHBIL2pG?=
+ =?utf-8?B?bjM4Uk1hWFRHdmtBaWdLeE1ybDROeFd1bndqUkVPdE5ZdjhJRHFmZGtSTEtW?=
+ =?utf-8?B?dDl0bVFOUTc1WDAvb3dPYnM1RzJPVkJaYUtxV2VYa0RoeDhTZkFJMzdnb1BI?=
+ =?utf-8?B?TXJ0dnZiVHNvTGxmZFE4N3VyM2EvMDdEQ1M2RjI4dUhUNVBwb3FxYUZoWS9U?=
+ =?utf-8?B?a0Z3dXJwVCs5VTJYN3RuUHpSbU9nUXByeGtUS0d5VGc3VzR1Q1B1cU1keHlh?=
+ =?utf-8?B?UG5PQ21nZkNPSVBoQmtnOGNXT2RRaFM1UHAyVUUyYUJaSmxEYkY4MHVCYWtp?=
+ =?utf-8?Q?jlRxX+bYmueb2aavr9LbRT7BZLPODcLGy5gCZDCep6Dk=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd965661-6d58-4290-49ea-08dbe15bc230
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2023 19:40:42.4396
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P193MB1274
 
-On Thu, Nov 9, 2023 at 7:14=E2=80=AFAM Jos=C3=A9 Pekkarinen
-<jose.pekkarinen@foxhound.fi> wrote:
->
-> On 2023-11-09 11:06, Greg KH wrote:
-> > On Thu, Nov 09, 2023 at 10:43:50AM +0200, Jos=C3=A9 Pekkarinen wrote:
-> >> On 2023-11-08 09:29, Greg KH wrote:
-> >> > On Wed, Nov 08, 2023 at 08:54:35AM +0200, Jos=C3=A9 Pekkarinen wrote=
-:
-> >> > > The following case seems to be safe to be replaced with a flexible
-> >> > > array
-> >> > > to clean up the added coccinelle warning. This patch will just do =
-it.
-> >> > >
-> >> > > drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h:76:38-63:
-> >> > > WARNING use flexible-array member instead (https://www.kernel.org/=
-doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> >> > >
-> >> > > Signed-off-by: Jos=C3=A9 Pekkarinen <jose.pekkarinen@foxhound.fi>
-> >> > > ---
-> >> > >  drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
-> >> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> > >
-> >> > > diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> >> > > b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> >> > > index c7b61222d258..1ce4087005f0 100644
-> >> > > --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> >> > > +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> >> > > @@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
-> >> > >
-> >> > >  struct smu8_ih_meta_data {
-> >> > >          uint32_t command;
-> >> > > -        struct smu8_register_index_data_pair register_index_value=
-_pair[1];
-> >> > > +        struct smu8_register_index_data_pair register_index_value=
-_pair[];
-> >> >
-> >> > Did you just change this structure size without any need to change a=
-ny
-> >> > code as well?  How was this tested?
-> >>
-> >>     I didn't find any use of that struct member, if I missed
-> >> something here, please let me know and I'll happily address any
-> >> needed further work.
-> >
-> > I don't think this is even a variable array.  It's just a one element
-> > one, which is fine, don't be confused by the coccinelle "warning" here,
-> > it's fired many false-positives and you need to verify this properly
-> > with the driver authors first before changing anything.
->
->       My apologies to you, and anybody that feels the same, it is not my
-> intention to bother with mistaken patches, I just assume that this patch
-> or any other from me, will go to review process, where it should be fine
-> if the patch is right, wrong, need further work, or further testing
-> either
-> from my side or anybody else, and at the end of the day I need to do
-> patches if I want to find my mentorship patches, and graduate.
->
-> > In short, you just changed the size of this structure, are you _sure_
-> > you can do that?  And yes, it doesn't look like this field is used, but
-> > the structure is, so be careful.
->
->      I don't know, let check it out together and see where this goes.
+On 2023/11/2 22:58, Andrey Konovalov wrote:
+> On Tue, Oct 31, 2023 at 10:46 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+>>
+>>>>>> There is also an aspect of memory consumption. KASAN headers increase
+>>>>>> the size of every heap object. So we tried to keep them as compact as
+>>>>>> possible. At some point CPU numbers and timestamps (IIRC) were already
+>>>>>> part of the header, but we removed them to shrink the header to 16
+>>>>>> bytes.
+> 
+>>> Do you think it is worth using the extra bytes to record more
+>>> information? If this is a user-configurable feature.
+>>
+>> If it's user-configurable, then it is OK.
+> 
+> FWIW, Generic KASAN already stores the auxiliary stack handles in the
+> redzone, so the size of the redzone header is 24 bytes. Perhaps, we
+> should hide them under a config as well.
+> 
+> However, the increase of the redzone header size will only affect
+> small kmalloc allocations (<= 16 bytes, as kmalloc allocations are
+> aligned to the size of the object and the redzone is thus as big as
+> the object anyway) and small non-kmalloc slab allocations (<= 64
+> bytes, for which optimal_redzone returns 16). So I don't think adding
+> new fields to the redzone will increase the memory usage by much. But
+> this needs to be tested to make sure.
 
-I think it may have been used with the SMU firmware.  I'll need to
-check with that team to determine if this was meant to be a variable
-sized array or not.
+Yes, I read the design documentation and source code of KASAN
+in depth today.
 
-Alex
+Currently in Generic mode, the alloc meta is stored in the redzone
+(unless it doesn't fit) and the free meta is stored in the object
+(or in the redzone if it cannot be stored in the object).
+
+Therefore, I also think that using a few extra bytes to record more
+information may consume less extra memory than we expected.
+
+I am trying to implement the feature to let KASAN record more
+information (configurable) and test it, I will send an PATCH RFC
+when I am done.
+
+Thanks.
