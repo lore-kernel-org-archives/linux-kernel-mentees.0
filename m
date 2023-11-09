@@ -1,66 +1,66 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4C1111B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 09:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFC71944B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 10:27:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V/fdheDu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wtYC9a8Y"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 131DE610CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 09:24:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 131DE610CC
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=V/fdheDu
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2287940136
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 10:27:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2287940136
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=wtYC9a8Y
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id pMOsCpHbyBUA
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id TsWULmILIb47
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  9 Nov 2023 09:24:15 +0000 (UTC)
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 1FDC660ED4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 09:24:14 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1FDC660ED4
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5bdc18756a3so502996a12.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 09 Nov 2023 01:24:14 -0800 (PST)
+	Thu,  9 Nov 2023 10:27:11 +0000 (UTC)
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 837E8400EA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 10:27:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 837E8400EA
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-32fe1a29010so386239f8f.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 09 Nov 2023 02:27:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699521854; x=1700126654; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1699525629; x=1700130429; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=s9z5YMQfnjQ/GY0LeFlyZmhpmN5+9DIXygr9TI/NBP0=;
-        b=V/fdheDuxlvSFCdUJ6SDB7hDVQJx455x5vk1tkSoK7uoyxrfZjzKDeRiWAggTOQV5R
-         YkwhaNgcvK6d23wFd5OhpECgBab6dXEImJBHB/Iy6PvkJLtblHY+kT7Peu2IuP2OHKJk
-         kdAuw9kERiTIbMMJItvbwiasDgfh1bvwKrQ6hv8qZGHfaNw8BKt+ZEQe0W7OkJ4kIhzD
-         kno8XS23YHSyQp6wKqycz8pN6zWQ6cshTJR2tbP+OJ4Sg6Lbmkqn/mb4DemjYxX8xj7S
-         5ZK0cqfzUTZgenubDAD4clAjH6JxENOCGfxSLTuhzlQTcvrVvEAlFaDpjVVIAyEoImIn
-         rr3A==
+        bh=xPjZqSoOPUFNGMJDM83VjmMrlwNr9JDON4HQIlUKGKY=;
+        b=wtYC9a8YMFRd7pCgBv2OeW1AYcXFg44HQB8/7/lRFVNGCI3tW6blVYUr+5Z/wAD7Pk
+         8pt4Ib63BKL9qrwZ7SsH8HWQS6rOoh10g8x5bymXQYdZ4Z108m44kxMr9uobinAq+C/S
+         vzR6zopuFZP60zTu+jDoSUj1IzYmmSUoS131H4J8e3wrPARAR+skJ95QHOnhXCxG5qSS
+         4JTbFen1GCmkxHUicHjBK+OVnYviLx3Z2m85KAHndAV28Sh0+wDkPIkjekuJDElsyGQs
+         b2mZXU66i8doQ52/dl55os/s7DaLQNJEAp/Jd+ySBfwXe9LnqXj7XwogPhDH31h+K7/k
+         BN1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699521854; x=1700126654;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1699525629; x=1700130429;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s9z5YMQfnjQ/GY0LeFlyZmhpmN5+9DIXygr9TI/NBP0=;
-        b=tJfRowhX9+0/cDTsepCh3jH1lSJ+ZMI2gaWS+MLvWs8bUgHIIkqXXjLweL8/2WYBaj
-         h7E1VI9uBYq9BQmreb0wxcY0vjnL1hTQ+zdbQWxc/aarS6i2oEcTsbWlCao0a6X4dkVp
-         Tpmz9L7xEp44XtYcowo4dto0yCZGlwT5gDqzJCtu9pUuyOKyU4pCBAyDpZBZOPSxwIA4
-         4+TUA2ujq/pgMRy2x3GKeGXZ6PV6gCfQBLZT312xOYbI3xj15cMSfzoFI1o2Wza9PTT/
-         +IOENff+J8aIPQb2U9mEQmlUF1mjp3al5i5yrIhBLjpX1xGYrQP5PNCh8BgKamC/AVoN
-         F9Xg==
-X-Gm-Message-State: AOJu0YwCQPmacmukMWBAjr2og4Bbm1tII2tslAvBKbm+qsL6U7OimQAx
-	Uh/pnh+D3Dofp7JK3kbr5ic=
-X-Google-Smtp-Source: AGHT+IENlNBi+FriuTiTX+gb9LYPZEJOn3W+qGieoAr6eCO/lUZaRo1Awj8aaYwZJVxrv6apffV17Q==
-X-Received: by 2002:a17:903:48f:b0:1ca:e4b:148d with SMTP id jj15-20020a170903048f00b001ca0e4b148dmr3491122plb.65.1699521854398;
-        Thu, 09 Nov 2023 01:24:14 -0800 (PST)
-Received: from ?IPV6:2401:4900:2353:8963:b940:1ac0:2fbc:6b6? ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
-        by smtp.gmail.com with ESMTPSA id h21-20020a170902eed500b001bf846dd2d0sm3066878plb.13.2023.11.09.01.24.08
+        bh=xPjZqSoOPUFNGMJDM83VjmMrlwNr9JDON4HQIlUKGKY=;
+        b=FMvVrJbL2PGyMDjpKYVFtBN1Jgo1bBgVT/TEe4HTJGTg7k4qVhFoIB2merGaYCRJU6
+         gDg2rT6ySym9z4vBaiJuCqwnHHCJ34fRAm9qZ0KTm4wWmuCEiyJAoNOsiGWJfD0ml7Lz
+         NB0wmZbte/hJ+WbOHMYi4kZUxF44Lg8o2lDSJUcS/UrNe3KDIboXj7Z1xHqcoRQ1/jQc
+         zu30Bxmng+cNgvXTjpLmxTCMqkePgIU6NPBQeXZ//LeRvHWtj0xsFEhDBVyv66pyzS2i
+         nfDK86Baidi3iFJ9zBiVjvTp6E9vnyg95S4Nbq/N3lefeompvtbsbFlRM0livuIj9zWx
+         yfOw==
+X-Gm-Message-State: AOJu0YxSTONFvQtqHzXZTx4vT6ADG3LXpeiVGLc9xR/MxTe02htzSKnL
+	vJ44ojEb2VFRPJPM21SnLJRyYw==
+X-Google-Smtp-Source: AGHT+IHDfZPEt8fjvIOuKozIo0wUuMjDPZMUhrM6VSOGwD64Tmr4U/laOnrM1sIddBTVvWmXzzPCxg==
+X-Received: by 2002:a5d:6483:0:b0:32f:7ae7:da49 with SMTP id o3-20020a5d6483000000b0032f7ae7da49mr3137589wri.51.1699525629601;
+        Thu, 09 Nov 2023 02:27:09 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.126])
+        by smtp.gmail.com with ESMTPSA id s1-20020adff801000000b003313069be5dsm2519379wrp.46.2023.11.09.02.27.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 01:24:13 -0800 (PST)
-Message-ID: <1ceb75c6-e65c-4c82-ba7f-7eb5dfb65018@gmail.com>
-Date: Thu, 9 Nov 2023 14:52:40 +0530
+        Thu, 09 Nov 2023 02:27:09 -0800 (PST)
+Message-ID: <f7fea4d1-c1ae-4ab5-bcbd-30683ad7a349@linaro.org>
+Date: Thu, 9 Nov 2023 11:27:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -68,60 +68,103 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] iio: light: driver for Lite-On ltr390
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>,
+Subject: Re: [PATCH 1/2] dt-bindings: iio: light: add ltr390
+Content-Language: en-US
+To: Anshul Dalal <anshulusr@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
  Lars-Peter Clausen <lars@metafoo.de>, Shuah Khan
  <skhan@linuxfoundation.org>, linux-kernel-mentees@lists.linuxfoundation.org,
  linux-kernel@vger.kernel.org
 References: <20231109090456.814230-1-anshulusr@gmail.com>
- <20231109090456.814230-2-anshulusr@gmail.com>
- <CACRpkdYtawfonnkGXzTD65fx4CMbbTaXe359tm7=57saHSNfqA@mail.gmail.com>
-Content-Language: en-US
-From: Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <CACRpkdYtawfonnkGXzTD65fx4CMbbTaXe359tm7=57saHSNfqA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231109090456.814230-1-anshulusr@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hello Linus,
+On 09/11/2023 10:04, Anshul Dalal wrote:
+> Add binding for Lite-On LTR390 which is an Ambient/UV light sensor that
+> communicates over i2c with an address of 0x53.
+> 
+> Datasheet:
+>   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
-On 11/9/23 14:49, Linus Walleij wrote:
-> Hi Anshul,
-> 
-> thanks for your patch!
-> 
-> Overall this looks good to me.
-> 
-> On Thu, Nov 9, 2023 at 10:07 AM Anshul Dalal <anshulusr@gmail.com> wrote:
-> 
->> Implements driver for the Ambient/UV Light sensor LTR390.
->> The driver exposes two ways of getting sensor readings:
->>   1. Raw UV Counts directly from the sensor
->>   2. The computed UV Index value with a percision of 2 decimal places
->>
->> NOTE: Ambient light sensing has not been implemented yet.
->>
->> Datasheet:
->>   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
->>
->> Driver tested on RPi Zero 2W
->>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> (...)
-> 
->> +#define LTR390_FRCTIONAL_PERCISION 100
-> 
-> This define is just too hard for me to read, can you rename it?
-> 
-> Does it mean LTR390_FRACTIONAL_PRECISION? It's fine to spell it out like
-> that instead.
 
-Yes indeed, that typo would be fixed in the next revision.
+> +  interrupts:
+> +    maxItems: 1
+> +    description: |
+> +      Level interrupt pin with open drain output.
+> +      The sensor pulls this pin low when the measured reading is greater than
+> +      some configured threshold.
+> +
+> +  vdd-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        light-sensor@53 {
+> +            compatible = "liteon,ltr390";
+> +            reg = <0x53>;
 
-Thanks for the review.
+Please extend the example to be complete - interrupts and vdd-supply.
 
-Best wishes,
-Anshul
+Best regards,
+Krzysztof
+
