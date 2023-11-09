@@ -1,87 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9526010A19
-	for <linux-kernel-mentees@lists.linux.dev>; Thu,  9 Nov 2023 09:06:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4C410A23
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 09:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fp3XYzZk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA174C433C7;
-	Thu,  9 Nov 2023 09:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1699520801;
-	bh=aREHLc+TYmAypcve6YQJsCcETJWSOyfcp56f4SIqchQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fp3XYzZkaZD54ayEILKaIbNnDFFW7dBkAuLI6XzNQ4vw7zZIN1v7lqnMcaaL0xJeL
-	 4r9vJXXwNQ1/I7fAwy8IXuQ1EXAUxeGFcOqYkdd1h1z4E/v70vNUdSR6kwjT/f8FIU
-	 KSPiqU78Bh19szmFZANlOMP1y3CHm/nHjxVsAVC0=
-Date: Thu, 9 Nov 2023 10:06:38 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
-Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
-	Xinhui.Pan@amd.com, skhan@linuxfoundation.org, airlied@gmail.com,
-	daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] drm/amd/pm: replace 1-element arrays with flexible-array
- members
-Message-ID: <2023110916-tinfoil-concur-77d8@gregkh>
-References: <20231108065436.13969-1-jose.pekkarinen@foxhound.fi>
- <2023110835-magnolia-prune-02d0@gregkh>
- <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L7pg5Z6n"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id CB26E6124A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 09:06:50 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CB26E6124A
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=L7pg5Z6n
+X-Virus-Scanned: amavisd-new at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id z8nJHo-C9gno
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Thu,  9 Nov 2023 09:06:49 +0000 (UTC)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D8A3760F2A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 09:06:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D8A3760F2A
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1cc2575dfc7so5216905ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 09 Nov 2023 01:06:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699520809; x=1700125609; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z5YF1mhym/Q5SMEev62zt7snyiNJO7d0PvYNhuYeeqE=;
+        b=L7pg5Z6nE2Qr+dGJd8NnDsaI/UQ5CSWtZ1shfQIU53Qb4LWx8Az5NWm8MfxBlVoRxO
+         iEBMZT6A7kIhgA1+qXuFWvpA94zUH93g4D1SaRDB/EXoWBo+c4luuB+NjHE+NigI62Yd
+         8KE2OodfFFbjVrCn9vISciBfJforWEw8zAAX64aeUPWK2TNvj8ckFNFmsjtuIjusvum1
+         7Ablpx1noEn5JZ8U6FjgJA06TzrWl/xlIn0UKVdQQHXv1fNRHG+4kD/yRyeNJCcm9IRX
+         xGfkwUik4dUN1qD9if9emfGzFZDR+ER8uu/H4V8VKMeb4xpP5f9kW6Wu61l49+uJzdwN
+         9+iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699520809; x=1700125609;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z5YF1mhym/Q5SMEev62zt7snyiNJO7d0PvYNhuYeeqE=;
+        b=OcM1KAD8SsHeXvGwpuHF1INq3z0I4/u1ty84O0sUpb1JlExtAJCK3gSohD0Pa1B9kD
+         GwrNZmKqzbj5iwcy8gAQsZPK8HbXqGMs3GWyvspUur8pffpPUQGdp6hKRl3eNufBQxvV
+         jPdj/jnyV+KpKfnt4v4o17SbTNdrx2VWOChDZR2erzFSfi/NSmClhjQFxdqdeF9TLYc5
+         LGH8og9EAXl6bqFEBilUrGtsPVCMwYMgms/hpLbq6ElbSf72ujXCHla5UEiK2iny8K4h
+         XbfyWZTtnvwJqIgivXZLVMg9NJLRR9NZXqvcTrT2S5gkd/g7e6xJvSJWVVnGoPTdZVsK
+         u+Bw==
+X-Gm-Message-State: AOJu0YzjcvZUtUeVUaY9w4TlO6KRV3lM+DCHm34K7LjwUp/9Tn3fvHE8
+	YZhCeJILp8DTss0aJtd8Viw=
+X-Google-Smtp-Source: AGHT+IHpxuw4Y0T35Aw4w3pOI3If9f2PAE66GTL8rfrzRIIwH9aos1ks47m6+jp20RSPJRwFSOKbmw==
+X-Received: by 2002:a17:903:2447:b0:1cc:2f9d:6e9b with SMTP id l7-20020a170903244700b001cc2f9d6e9bmr5530340pls.20.1699520809131;
+        Thu, 09 Nov 2023 01:06:49 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
+        by smtp.gmail.com with ESMTPSA id jj17-20020a170903049100b001b06c106844sm3036318plb.151.2023.11.09.01.06.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 01:06:48 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: iio: light: add ltr390
+Date: Thu,  9 Nov 2023 14:34:53 +0530
+Message-ID: <20231109090456.814230-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1b20f2e4ddc0b0e94aa9a1f9c76ff75c@foxhound.fi>
 
-On Thu, Nov 09, 2023 at 10:43:50AM +0200, José Pekkarinen wrote:
-> On 2023-11-08 09:29, Greg KH wrote:
-> > On Wed, Nov 08, 2023 at 08:54:35AM +0200, José Pekkarinen wrote:
-> > > The following case seems to be safe to be replaced with a flexible
-> > > array
-> > > to clean up the added coccinelle warning. This patch will just do it.
-> > > 
-> > > drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h:76:38-63:
-> > > WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> > > 
-> > > Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
-> > > ---
-> > >  drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> > > b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> > > index c7b61222d258..1ce4087005f0 100644
-> > > --- a/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> > > +++ b/drivers/gpu/drm/amd/pm/powerplay/smumgr/smu8_smumgr.h
-> > > @@ -73,7 +73,7 @@ struct smu8_register_index_data_pair {
-> > > 
-> > >  struct smu8_ih_meta_data {
-> > >  	uint32_t command;
-> > > -	struct smu8_register_index_data_pair register_index_value_pair[1];
-> > > +	struct smu8_register_index_data_pair register_index_value_pair[];
-> > 
-> > Did you just change this structure size without any need to change any
-> > code as well?  How was this tested?
-> 
->     I didn't find any use of that struct member, if I missed
-> something here, please let me know and I'll happily address any
-> needed further work.
+Add binding for Lite-On LTR390 which is an Ambient/UV light sensor that
+communicates over i2c with an address of 0x53.
 
-I don't think this is even a variable array.  It's just a one element
-one, which is fine, don't be confused by the coccinelle "warning" here,
-it's fired many false-positives and you need to verify this properly
-with the driver authors first before changing anything.
+Datasheet:
+  https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
 
-In short, you just changed the size of this structure, are you _sure_
-you can do that?  And yes, it doesn't look like this field is used, but
-the structure is, so be careful.
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+---
+ .../bindings/iio/light/liteon,ltr390.yaml     | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
 
-thanks,
+diff --git a/Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml b/Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
+new file mode 100644
+index 000000000000..90c20076b6c5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/light/liteon,ltr390.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Lite-On LTR390 ALS and UV Sensor
++
++description: |
++  The Lite-On LTR390 is an ALS (Ambient Light Sensor) and a UV sensor in a
++  single package with i2c address of 0x53.
++
++  Datasheet: https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++properties:
++  compatible:
++    enum:
++      - liteon,ltr390
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description: |
++      Level interrupt pin with open drain output.
++      The sensor pulls this pin low when the measured reading is greater than
++      some configured threshold.
++
++  vdd-supply: true
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        light-sensor@53 {
++            compatible = "liteon,ltr390";
++            reg = <0x53>;
++        };
++    };
+-- 
+2.42.0
 
-greg k-h
