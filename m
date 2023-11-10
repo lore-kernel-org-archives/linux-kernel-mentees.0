@@ -1,108 +1,168 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2088.outbound.protection.outlook.com [40.107.93.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA4538DEE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 21:51:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE22D269
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Nov 2023 08:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEsuZfkl"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CDF73614BA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 21:51:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CDF73614BA
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TEsuZfkl
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d2PYZQW8dX6m
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu,  9 Nov 2023 21:51:05 +0000 (UTC)
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3A28B614A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  9 Nov 2023 21:51:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3A28B614A3
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6bf20d466cdso302827b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 09 Nov 2023 13:51:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699566664; x=1700171464; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L3szXkniAOBIgjKGY87jgy200/6D2pD1Gf60eUObSNU=;
-        b=TEsuZfkl5gYr9hnR9ZrZHiwv1+YgR7joCoN3/47wL+/oxMjx/73y3KJrOjfypwPljN
-         cDQzUyqKfV4VjmSEhBJYx/P2Z3MSQ9feBupX7DJFU8mXUogI2Qx2V1bG8YbaRyOSuP29
-         tR1jUWcp4xWBwl3eH7NUjUu3vgs3FTedNvpiXTf9CLa6EaPAm43yqiwXSdYM+1iqkTfY
-         dchCpWeRwkj1+QK1WYW/WibTG1JI7Jp5fKVUfxOafs/5KKe4zM52vPHZ7NEhYbQ3pdp8
-         lTieRy+ECcfKCgR00Noequ30f7kAo6x1X/Xa95aEfHCBquAtlYNxK+Hz3H4g00pOVCMp
-         /VAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699566664; x=1700171464;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L3szXkniAOBIgjKGY87jgy200/6D2pD1Gf60eUObSNU=;
-        b=cgG0iu0/gum9EC2gnpzZyOHgJC8HLzR5Zv+ao1GcFYAFh6LlE9Ktn9q3kul53EGP8T
-         VHczn205dCblNUqgzJxAI2NjH7GDSMC2FEoCtNKwSrVfxFbfMjtqsXA8Au3M3dMeH40+
-         8yadd2mjXzcdhOlrOT4Dl0jgtTVYTEPV3d8yKZ2qhS6NrJcSq10QGIiXDd+K2Lk48XNO
-         BN3POf+kwf3N3EUtyiFkFK1MFQoatQgzZ8UF7Qgz0D0+ihxicqiBCI2ewC20LmY7q8X2
-         AGFcQCenOhsllSPlQNsJZzZakE1aOazLThfg7FHJ1EqrBvtAC8yoHJz15Bh4EBfBtrIK
-         V9cA==
-X-Gm-Message-State: AOJu0YxkpgAnqT6noPpi40nrveNMizdHa4N2YWrw/1CP9MncER1eHoWu
-	QTIAkRX8EtjwEVMmFVrZ8WwxR1FGUs+Lwg==
-X-Google-Smtp-Source: AGHT+IEd0buHmeHhN+KsS1tLtsAX++VUah6xMKe0RHbXybUhB6qDxOkFThOVGQgMY3hx2V0ze4Bgpw==
-X-Received: by 2002:a05:6a21:7892:b0:163:57ba:2ad4 with SMTP id bf18-20020a056a21789200b0016357ba2ad4mr7216517pzc.2.1699566664076;
-        Thu, 09 Nov 2023 13:51:04 -0800 (PST)
-Received: from abhinav.. ([2402:3a80:196c:ea3:dae1:648f:ab89:4dd0])
-        by smtp.gmail.com with ESMTPSA id x20-20020aa784d4000000b006bb5ff51177sm11214827pfn.194.2023.11.09.13.50.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 13:51:03 -0800 (PST)
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-To: oliver@neukum.org,
-	aliakc@web.de,
-	lenehan@twibble.org,
-	jejb@linux.ibm.com,
-	martin.petersen@oracle.com
-Cc: linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Abhinav Singh <singhabhinav9051571833@gmail.com>
-Subject: [PATCH] driver: scsi: Fix warning using plain integer as NULL
-Date: Fri, 10 Nov 2023 03:20:49 +0530
-Message-Id: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="oJl3xaKr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GMmG3m8COV8f9YJKnJQwY9LDRPFJtDyI7dXcBZ2FxywP2IgloWX8cShOfy6vDmveKXZrE1nQYeWz4ynkZaV+HVYaZ3i6tP1z9fd5qbeGSeBDp3e1hntfxA8DsBVaudab6ngepF18enalmSqZ0MAowSdP+AgoPlLuqvOFsOD9mfa43af7hQqtqzH+W2h9k46whlTjrS2eAE5O2ysHBLRNK7i1FNzr3rAAixmFfdQuXEkSmV5n2qbZ4YkvIwHT33l4AAEbrja04YzyfOokyPQMfq8tTE0neQfTGlr7XdLd9LSZJU6JSZPp11oiDKTKCRE6TZ+wdCfqFT4KJi5cIWO2bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZCiYDQyGe4rHbWT9wIjpaOWhtBBmZdBt0P6F36xj21M=;
+ b=H9jlIBMKrpIt1UWZ0W6ukB6Zz1op9w2UsCiPla8m9KZQkESg3REzuUw80BSL2Z0lHxIKY9Kbrfc+Krd9HBsKC3PR9fSVopkGcmTCT4Uy3GMF+U5M1dvxfRm6CtN05gB1vD6UPzZtdB6b//i09HCehZbcokZF2kkCmCicsqRPzYLgFMD2FmmEu6pKVPvvGCuvFcp7tFZGgRf+cJB5TXGrQQL1sgSmvYp2o7vODNz0B2x+dvcS28qV0MhvLQYB9O0LiOAwrtYWqgCVpZSEj29OgzNg/GOZE95wa1Yw1j4Tfr3aINN8KE5lGi54A+cIaYmjUvtUpDt5crpbXEkIHAIwpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZCiYDQyGe4rHbWT9wIjpaOWhtBBmZdBt0P6F36xj21M=;
+ b=oJl3xaKrKpc3QmNlq+O4qJQxbUiQ3jZ8pKSGsS51CC8u3Nfp+zkcOaMmNeUfMZ2QPExVulpI/N8A/nx2EDqUbcI/JwEX2V8CmJXBSXupnoiESUi243H1Ir04YTPfuiMnFTFboBKsriEAwVBgjjjvNyb7qceFlACBWQDaCTAdNIQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com (2603:10b6:a03:a6::22)
+ by MN0PR12MB6126.namprd12.prod.outlook.com (2603:10b6:208:3c6::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.18; Fri, 10 Nov
+ 2023 08:25:40 +0000
+Received: from BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::c258:1e94:a85b:1510]) by BYAPR12MB4614.namprd12.prod.outlook.com
+ ([fe80::c258:1e94:a85b:1510%4]) with mapi id 15.20.6977.019; Fri, 10 Nov 2023
+ 08:25:39 +0000
+Message-ID: <6e26746d-5e4a-cc9e-fe5f-20187313fbfe@amd.com>
+Date: Fri, 10 Nov 2023 13:55:22 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.1
+Subject: Re: [PATCH] drm/amd/pm: make power values signed
+Content-Language: en-US
+To: =?UTF-8?Q?Jos=c3=a9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ Xinhui.Pan@amd.com, skhan@linuxfoundation.org
+Cc: jdelvare@suse.com, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel@ffwll.ch, airlied@gmail.com, linux@roeck-us.net,
+ linux-kernel-mentees@lists.linux.dev
+References: <20231109084110.4056-1-jose.pekkarinen@foxhound.fi>
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <20231109084110.4056-1-jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BMXP287CA0005.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:b00:2c::19) To BYAPR12MB4614.namprd12.prod.outlook.com
+ (2603:10b6:a03:a6::22)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB4614:EE_|MN0PR12MB6126:EE_
+X-MS-Office365-Filtering-Correlation-Id: e45df5a9-eb37-46dd-4bec-08dbe1c69f23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	8Fm4F4DgqL0zvRXIa177oFSbFh+uPX7zV3nyLy0i2PirnkkSFgiTow9IQNuIU7S1T5LJNPAIAZYKQB+qety4b7xvanQDijefq6avS6sJ1Q7fZn4YTJcDX++sNQa3vt+QHcrjXQ9zatWhS3wGEq4urrSlzLJfr+V9hjM5kNMdPi0PDWaWTXge2xmCQgFbAw1RgOhWWDeAdZmmOKJFNRKK4HR03fAfH4Asgf1zuKbJ9V89bWQDZ+bon6rSrJ3Pigv4yCyC7otngWp/MiD8+sNkMWTSDgJJHmaWbesytuw9FNrabi2ud5sNSDzGfMOe94/MFCQOFC1amQ7lGPQEOPJyvQa4HcwUDBf+aNW5dS74acZVc+dBEWcxoMR3f+EhnFLwjepDbxsLnQJXnUzuROKT6knLCz6WMqkatsq2sdaO3fSAdxQPmVDuQnmRHfewempAt0Vi9wFJv4v6XRE6uC6sdfyl+etWDQfm6O1wZiooajbC1rZ8irFpJnds3lBIEUuUwe09BZVtpoFA6kgKRcyL3cCbLTa7wQtdWxvNkYpUNrGQSDwvcQUW/sMWzqcPzgNduoc9dPZEAai1qdn4ADpUQuV2I7o3eZKDbb1HtRej5LDqwtJWp7BO7YfhCjGIqx6Z46rfiPgY67D6ozxLxxHFKubZaEM56SeFQzoK/gSSiDg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB4614.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39860400002)(396003)(366004)(230922051799003)(230273577357003)(230173577357003)(1800799009)(64100799003)(451199024)(186009)(4326008)(316002)(8676002)(7416002)(478600001)(966005)(8936002)(83380400001)(66946007)(6666004)(6506007)(6512007)(53546011)(2616005)(6486002)(66556008)(66476007)(31686004)(41300700001)(2906002)(26005)(86362001)(31696002)(38100700002)(36756003)(5660300002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M3NWUUNqTTZyUWZ3V3M1dEM2Z01LNC9XT01ENGtpczkweUdzNzV4cFE0OFg0?=
+ =?utf-8?B?b1hQbUZXTzIvTWY2T0J6K0NNNTBpNGc2bmpxTmNsbzhrbG54UEJzc0puQ3RM?=
+ =?utf-8?B?SDZsdjFnZTdGRmlKU1VlNWlkc3FRcEdBaG1aZy93SzRNUjlIRGJENTk1QldY?=
+ =?utf-8?B?UlEyS1VrSDlwWlFnTjVrM0JabU9kTmpKb3hFWGhsVVBnYysxTjV2MjJKQ0x1?=
+ =?utf-8?B?UkhyYUpiWkxFSU9aTjh6WHpBRDJjSTFVMW54Yzg0V2R1RUJTWTFYeU9MTmNx?=
+ =?utf-8?B?dmNDSnhTNUdVa0Y2aytUN0NUREwyZk5CbTdSN1EyTGI0Skl0bzhiYTdiaEZY?=
+ =?utf-8?B?MnQyWkhnVDR0Z2F2d25PMXBXUlpkS1ZWaWR6VlVmNmxranFzRmlyNHdlVWNO?=
+ =?utf-8?B?aERBNlE5VVVSaVBtZzByRzBHL25tS1NlQU05Y0poT29JN2hhVVZNeDE4UFEv?=
+ =?utf-8?B?UDVrWlNxSWF6UUhRSXhES0ZQOWNHZnZaRmpsU1ZjQ1cySitsZzdkeTVadVBL?=
+ =?utf-8?B?TTJ2ZHFWY1YwUy9jUk9LUGp1ZEhJenFiOE1yaEdsS0ppS0pWSGxDVEx2UFVn?=
+ =?utf-8?B?SWlNbVJMeFJ3cnVYWERDMzdjN212VlZzOHA2TmV6bFdQVHlraXdHaVBjanEx?=
+ =?utf-8?B?VDhIeFhUVkJsK1pOSDNBaXJ0U0hzV1JRSUUzRGpkUHRndVZPUmFMTFB4UUM2?=
+ =?utf-8?B?TTdwRkF5YW5reTY5djlZcWYxOEFORUx1U2tqMlpKeFhlR1RuMVBmb2pnVXpR?=
+ =?utf-8?B?dU1lbDNBY2FOZnRLM3pHQzBpRnJSd05wUno1b043ZUJxYUZPNGpINGJ1QURB?=
+ =?utf-8?B?YTU5UkN5S1NNSmU0VmpoOEkxaWs0ajVnRE15UlE0OFlOQm1GVjNGbWQ0Wm9z?=
+ =?utf-8?B?eTlFank0S293THh6bVB0Q1FDRGdsVkFWRXhCK2creFBHaC9INWdya3BQbE42?=
+ =?utf-8?B?THZxQkpsNDFnWGlvZmlzQUoyQ2k3aHJiV2paWFYzVHU1dGtJMWltOWpjTVBI?=
+ =?utf-8?B?eGNtL3RBR2F0NzIwcnNadjdTRDY1dVpKckN4RjkzVmVHc3JzeEdqRHBtQ3RL?=
+ =?utf-8?B?OEtaczR2M0pjTGNLeDJyWnAvQjBhQkhMTkNUWWNhcjcvYUVjak5aYjF6S3Vo?=
+ =?utf-8?B?M3RBV1pUc01lRm54Vi91VkxKd1lRTjN2T0FkVGNuL1dIQ3JMdmMrb0ZtTVFI?=
+ =?utf-8?B?elBsUjc4WWhtODZ0NWV6dGk0MjFIZGdKaVE0elk0a28wKzd1ZGdpZlFZS05Z?=
+ =?utf-8?B?MWJHK0cwNU16UW5ua3BYOEJrRmF4b3hoVGl6QU1zN21yZmoyMmVmS0huazhS?=
+ =?utf-8?B?U2cyUnlwc2R6NkdyYW5lZ1BPUk16SlZZaEpvSnhIc2U3VFExZS90eFp5Y01O?=
+ =?utf-8?B?M2ZEL1VJSDNSTXk2UmZlVFc1NDFMQXRyYmRzalpva1JhRTZYdDVOQVcyMlFy?=
+ =?utf-8?B?T2IzcUtDazZWMEhZaElBY1Fkd29zQU1TeXptbTZDaGgyOHdtTmh6QlRnQkQ1?=
+ =?utf-8?B?bTB0MVNtcU9MdFpGUDRSUkkyNXljMXJQRGplY1ZXMUZzYXkrSlBpYm5RcDNX?=
+ =?utf-8?B?Yi8zeEZiZ1NZOWRyWXBPY1N6UjFPVVErRlpCMW9uSU8zUEFlMkdlQVRPRU9w?=
+ =?utf-8?B?bDdjU0lQRXI0ZFUyNmxNRGQ1eEFmUE96RmNNUDZyZHRCcHZaSkFMbFczMnQz?=
+ =?utf-8?B?UjZqa0JjYmVtbnR6TnRTZWJsWDhZTlk0SlIzTmtwakVWSkhGU0dQOWkvKzkw?=
+ =?utf-8?B?R3RLTm5jTUhZMGJVcGFDOFpsTVBRdVVHUm03WlRVMDBzZlNLQndEc3pyeVVM?=
+ =?utf-8?B?OUNEZEY1UFQ2dlVOY1NzelJDSDg2TUtab3RLbEhSUXpUd1orM3c0NkV3aDFn?=
+ =?utf-8?B?QTZLaUNvdEliZFFMMXNMdWovMUppNnFraVltaTk3RGQ3bHQ4em9RRHBsMGJw?=
+ =?utf-8?B?V3pGeGRnUjVLMnBEc21VZHFWenRrWHY4Um9FU0c5RGVLZERvWGxNNDFZTm1q?=
+ =?utf-8?B?VGFGYXR5N00yUHV4L2RBVjUxbGNaVFVzM2hncm5PNHdCT2pwVnl3VmZvNjM1?=
+ =?utf-8?B?OGh3aGh3eWQ2Wm5rSjBnbG50SUx4djd6c3dxaGtJZXJGalZPbWk3dDBhNjBi?=
+ =?utf-8?Q?g7Uq+cCSkDTGzuzfg07pURi4x?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e45df5a9-eb37-46dd-4bec-08dbe1c69f23
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB4614.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 08:25:39.6398
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lzxh9P8mZGMViKlyxT8XpvmMUdw0XUG6d8rmJDwKhDp4Bl3XIjue5eUblWWPjtNy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6126
 
-Sparse static analysis tools generate a warning with this message
-"Using plain integer as NULL pointer". In this case this warning is
-being shown because we are trying to initialize  pointer to NULL using
-integer value 0.
 
-Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
----
- drivers/scsi/dc395x.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/scsi/dc395x.c b/drivers/scsi/dc395x.c
-index c8e86f8a631e..d108a86e196e 100644
---- a/drivers/scsi/dc395x.c
-+++ b/drivers/scsi/dc395x.c
-@@ -1366,7 +1366,7 @@ static u8 start_scsi(struct AdapterCtlBlk* acb, struct DeviceCtlBlk* dcb,
- 			"command while another command (0x%p) is active.",
- 			srb->cmd,
- 			acb->active_dcb->active_srb ?
--			    acb->active_dcb->active_srb->cmd : 0);
-+			    acb->active_dcb->active_srb->cmd : NULL);
- 		return 1;
- 	}
- 	if (DC395x_read16(acb, TRM_S1040_SCSI_STATUS) & SCSIINTERRUPT) {
--- 
-2.39.2
+On 11/9/2023 2:11 PM, José Pekkarinen wrote:
+> The following patch will convert the power values returned by
+> amdgpu_hwmon_get_power to signed, fixing the following warnings reported
+> by coccinelle:
+> 
+> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2801:5-8: WARNING: Unsigned expression compared with zero: val < 0
+> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2814:5-8: WARNING: Unsigned expression compared with zero: val < 0
+> 
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> ---
+>   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> index e7bb1d324084..913ff62d5d5e 100644
+> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
+> @@ -2795,7 +2795,7 @@ static ssize_t amdgpu_hwmon_show_power_avg(struct device *dev,
+>   					   struct device_attribute *attr,
+>   					   char *buf)
+>   {
+> -	unsigned int val;
+> +	int val;
 
+Hi Alex,
+
+It's a different code in drm-next.
+
+https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/pm/amdgpu_pm.c#L2936
+
+Thanks,
+Lijo
+
+>   
+>   	val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_AVG_POWER);
+>   
+> @@ -2806,7 +2806,7 @@ static ssize_t amdgpu_hwmon_show_power_input(struct device *dev,
+>   					     struct device_attribute *attr,
+>   					     char *buf)
+>   {
+> -	unsigned int val;
+> +	int val;
+>   
+>   	val = amdgpu_hwmon_get_power(dev, AMDGPU_PP_SENSOR_GPU_INPUT_POWER);
+>   
