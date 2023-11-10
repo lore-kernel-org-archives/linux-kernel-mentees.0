@@ -1,48 +1,77 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E89DF62
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 08:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87DFCA44
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 08:45:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a7GDCKJX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JT329DQr"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 0D0F28332A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 08:40:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0D0F28332A
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=a7GDCKJX
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5BDB740947
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 08:45:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5BDB740947
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=JT329DQr
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kgFAUw1k_J-J
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YR-up1KWixro
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 10 Nov 2023 08:40:30 +0000 (UTC)
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 95E7C8305A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 08:40:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 95E7C8305A
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 5D33B619C4;
-	Fri, 10 Nov 2023 08:40:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F1B02C433C9;
-	Fri, 10 Nov 2023 08:40:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699605629;
-	bh=saabdHyMdvYng2Dm3AITfV8opude96FOgCmZKQQ9Eew=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=a7GDCKJXsxeZRLI4Kdg05bO/fVQCEWG0xKShB+lG5QpJOLheLL9wPxRJvtSaIFCBz
-	 xx55YTy6+GYLQXEqALeON+ZnzpFKYRLfpCXK7p9dzuBONrM8gT8TgLJKNWwHltfN1S
-	 IQ08kx8R6YYKXktp4anXEQOHrCxp9p9k2NSS9CxA+dkphakXtjGzV1SrDuQZpbfN1a
-	 lci16sUuG8TmkCQ88IFXgMZrbMKDKWTFR6HPadG2fNRdLveksmr86MJcIF5Vsg1VLV
-	 IVGmoHaop+U2L94HNAfvjJaiIK9liCkHiGR0yKGlaDncsrXEIgCWTUcVg4fxg1iKIa
-	 HKoD/N6+2knpw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D3AA8C4166E;
-	Fri, 10 Nov 2023 08:40:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	Fri, 10 Nov 2023 08:45:40 +0000 (UTC)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5C5D940902
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 08:45:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5C5D940902
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c9b7c234a7so16146045ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 00:45:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699605940; x=1700210740; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tQwwNNq0rca7smlg942N55FBCyeR6HoarsSMcpeyXfo=;
+        b=JT329DQrudNxEsQvt35LH3sEruGoTbzKcAJsWkaN2HULm3XLKx6rs2hztzFn0DGArM
+         hNWIK19ZpXBJtHRX+4lU6aqb1bzn/jGqreZcgy0GEE+6Sqzp3G0TCfNuC4JDhc5rh3ye
+         wo1g6JUMlsAxAGwbCxo7F3Ji+RHo4G0btWB/oCB29Dp/RREoiMcz53TX5OycMeRN94sf
+         3eVosK8pKatdn/UELpBmICZnGdkanOsOBHZQvDC8LsmfYqWzH0oDTMQb/0Jhkhi88Hhn
+         mP3FzKBEG4UAnpt6DPID4RH9SbZ4fXTLZ8J/4bJqC4lqZsWgRuH+S+mgnA4rMLIzpw3C
+         5LmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699605940; x=1700210740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tQwwNNq0rca7smlg942N55FBCyeR6HoarsSMcpeyXfo=;
+        b=KmW3q9p8Tf3WCPvUNMdF0L8UJhzgGSKsSWrDZsa1MEoO+TkIGFLTwDa5DY1xarxUhu
+         uS1nGnKINzkjRFMH9sqcoJ6NynrS8XN7K/4WEqF3gJhExB/gjNAkW9os7cVJGBGwJO4T
+         WuKO9lfvHnIcihDRw5DcwdlrX4ppYU0vwK1jgc7hJcIMTSaML7silK1Da47BKLL0XonY
+         BWNpOAT2grTCvRArJuAofyscAmNVw0m/tPKZCsT1WBcaSuSDQ4rmPePw7sB8m+A+DjRY
+         gdRyn0gQd5vdtPbVWfSgpY+DjDj7BXtznvhfXLzAQO6wXcx66kjRsZCf1h7YjzSAOGEO
+         jHnw==
+X-Gm-Message-State: AOJu0YxJWn+6qFA0Gt5/kRudMs7lHPPgukjzeZt0Uu4VjZj29bFYWpah
+	8im4rUcZL/RKMK8NxeHn4vo=
+X-Google-Smtp-Source: AGHT+IEGsLh5TZE/KmGOm61zWeBJcHj83BW7ZKiroop3egiA5LcitDOFLwDoJxqbVdZ2nNAnhTue6g==
+X-Received: by 2002:a17:902:6803:b0:1cc:d981:a3a4 with SMTP id h3-20020a170902680300b001ccd981a3a4mr5920416plk.31.1699605939651;
+        Fri, 10 Nov 2023 00:45:39 -0800 (PST)
+Received: from ubuntu.. ([110.44.116.44])
+        by smtp.gmail.com with ESMTPSA id y7-20020a1709029b8700b001c611e9a5fdsm4839413plp.306.2023.11.10.00.45.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Nov 2023 00:45:39 -0800 (PST)
+From: Dipendra Khadka <kdipendra88@gmail.com>
+To: kuba@kernel.org,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com
+Cc: Dipendra Khadka <kdipendra88@gmail.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	syzbot+44c2416196b7c607f226@syzkaller.appspotmail.com
+Subject: [PATCH] Fixes the null pointer deferences in nsim_bpf
+Date: Fri, 10 Nov 2023 08:44:26 +0000
+Message-Id: <20231110084425.2123-1-kdipendra88@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -50,60 +79,52 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH RESEND] ptp: Fixes a null pointer dereference in ptp_ioctl
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <169960562886.22093.15188059654948446469.git-patchwork-notify@kernel.org>
-Date: Fri, 10 Nov 2023 08:40:28 +0000
-References: <DB3PR10MB6835D68E7E632532155AE585E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <DB3PR10MB6835D68E7E632532155AE585E8A9A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-To: Yuran Pereira <yuran.pereira@hotmail.com>
-Cc: richardcochran@gmail.com, netdev@vger.kernel.org, eadavis@qq.com,
- davem@davemloft.net, reibax@gmail.com, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+8a78ecea7ac1a2ea26e5@syzkaller.appspotmail.com
 
-Hello:
+Syzkaller found a null pointer dereference in nsim_bpf
+originating from the lack of a null check for state.
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+This patch fixes the issue by adding a check for state
+in two functions nsim_prog_set_loaded and nsim_setup_prog_hw_checks
 
-On Wed,  8 Nov 2023 02:18:36 +0530 you wrote:
-> Syzkaller found a null pointer dereference in ptp_ioctl
-> originating from the lack of a null check for tsevq.
-> 
-> ```
-> general protection fault, probably for non-canonical
-> 	address 0xdffffc000000020b: 0000 [#1] PREEMPT SMP KASAN
-> KASAN: probably user-memory-access in range
-> 	[0x0000000000001058-0x000000000000105f]
-> CPU: 0 PID: 5053 Comm: syz-executor353 Not tainted
-> 	6.6.0-syzkaller-10396-g4652b8e4f3ff #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine,
-> 	BIOS Google 10/09/2023
-> RIP: 0010:ptp_ioctl+0xcb7/0x1d10 drivers/ptp/ptp_chardev.c:476
-> ...
-> Call Trace:
->  <TASK>
->  posix_clock_ioctl+0xf8/0x160 kernel/time/posix-clock.c:86
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:871 [inline]
->  __se_sys_ioctl fs/ioctl.c:857 [inline]
->  __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
->  do_syscall_x64 arch/x86/entry/common.c:51 [inline]
->  do_syscall_64+0x3f/0x110 arch/x86/entry/common.c:82
->  entry_SYSCALL_64_after_hwframe+0x63/0x6b
-> ```
-> 
-> [...]
+Reported-by: syzbot+44c2416196b7c607f226@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com./bug?extid=44c2416196b7c607f226
 
-Here is the summary with links:
-  - [RESEND] ptp: Fixes a null pointer dereference in ptp_ioctl
-    https://git.kernel.org/netdev/net/c/8a4f030dbced
+Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+---
+ drivers/net/netdevsim/bpf.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-You are awesome, thank you!
+diff --git a/drivers/net/netdevsim/bpf.c b/drivers/net/netdevsim/bpf.c
+index f60eb97e3a62..e407efb0e3de 100644
+--- a/drivers/net/netdevsim/bpf.c
++++ b/drivers/net/netdevsim/bpf.c
+@@ -97,7 +97,8 @@ static void nsim_prog_set_loaded(struct bpf_prog *prog, bool loaded)
+ 		return;
+ 
+ 	state = prog->aux->offload->dev_priv;
+-	state->is_loaded = loaded;
++	if (state)
++		state->is_loaded = loaded;
+ }
+ 
+ static int
+@@ -317,10 +318,12 @@ nsim_setup_prog_hw_checks(struct netdevsim *ns, struct netdev_bpf *bpf)
+ 	}
+ 
+ 	state = bpf->prog->aux->offload->dev_priv;
+-	if (WARN_ON(strcmp(state->state, "xlated"))) {
+-		NSIM_EA(bpf->extack, "offloading program in bad state");
+-		return -EINVAL;
+-	}
++	if (state) {
++		if (WARN_ON(strcmp(state->state, "xlated"))) {
++			NSIM_EA(bpf->extack, "offloading program in bad state");
++			return -EINVAL;
++		}
++	}
+ 	return 0;
+ }
+ 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.34.1
 
