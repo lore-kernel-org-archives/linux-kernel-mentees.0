@@ -1,93 +1,88 @@
-Received: from 4.mo561.mail-out.ovh.net (4.mo561.mail-out.ovh.net [178.33.46.10])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A794D1640A
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Nov 2023 11:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from director3.ghost.mail-out.ovh.net (unknown [10.108.20.204])
-	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 229ED271C1
-	for <linux-kernel-mentees@lists.linux.dev>; Fri, 10 Nov 2023 11:27:24 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-2pfnd (unknown [10.110.103.155])
-	by director3.ghost.mail-out.ovh.net (Postfix) with ESMTPS id F29D91FE99;
-	Fri, 10 Nov 2023 11:27:23 +0000 (UTC)
-Received: from RCM-web4.webmail.mail.ovh.net ([176.31.235.81])
-	by ghost-submission-6684bf9d7b-2pfnd with ESMTPSA
-	id SggZOpsTTmU0owAAFXiS3w
-	(envelope-from <jose.pekkarinen@foxhound.fi>); Fri, 10 Nov 2023 11:27:23 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA98D3A28E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 19:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T8UeBQHa"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2701942420
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 19:12:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2701942420
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T8UeBQHa
+X-Virus-Scanned: amavisd-new at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.401
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sFOwA6wODbn2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Fri, 10 Nov 2023 19:12:29 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 86C5C4241A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 10 Nov 2023 19:12:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 86C5C4241A
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 835C0CE1724;
+	Fri, 10 Nov 2023 19:12:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BBA9C433C7;
+	Fri, 10 Nov 2023 19:12:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699643544;
+	bh=IDkJf9q/qJFiQ7tkUVGvravDFMJPMy5QQpsSAsjYTNc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=T8UeBQHaCQwHes7sv1XY8YK0kaIOgq3TLAflaNs33FHhx53cKPFv9YbTCaLkMgM58
+	 Yul3LTQSzhK4A7lXCWHmy3dP4vljIjIXnT/16XJwwefFKxJsBE+u+auaenycQi8HRz
+	 65qVGY3vZIC1rtVWDO7oagtYjCR7Ueir60ZdaPuXHlex3OwPpN0ZMJLNq0cJIssIwc
+	 ON+jYNqR57YWBlLA+ZSI3ddi3JPbsaCYSBtVcClHB0/UjjD+I6+Mc1t52SGjQpzFNW
+	 rpqz6ChRBUITHhE6se6UBFO9tf2pli7l8CWhMcEQNIQwbMKsvRXAmOTuVodsfCb6l7
+	 IRAwqF6RIrQcg==
+Date: Fri, 10 Nov 2023 11:12:23 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Dipendra Khadka <kdipendra88@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+44c2416196b7c607f226@syzkaller.appspotmail.com, Stanislav Fomichev
+ <sdf@fomichev.me>
+Subject: Re: [PATCH v2] Fixes the null pointer deferences in nsim_bpf
+Message-ID: <20231110111223.692adbd7@kernel.org>
+In-Reply-To: <20231110111823.2775-1-kdipendra88@gmail.com>
+References: <20231110084425.2123-1-kdipendra88@gmail.com>
+	<20231110111823.2775-1-kdipendra88@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 10 Nov 2023 13:27:23 +0200
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: "Lazar, Lijo" <lijo.lazar@amd.com>
-Cc: evan.quan@amd.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, skhan@linuxfoundation.org, jdelvare@suse.com,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@gmail.com,
- linux@roeck-us.net, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] drm/amd/pm: make power values signed
-In-Reply-To: <6e26746d-5e4a-cc9e-fe5f-20187313fbfe@amd.com>
-References: <20231109084110.4056-1-jose.pekkarinen@foxhound.fi>
- <6e26746d-5e4a-cc9e-fe5f-20187313fbfe@amd.com>
-User-Agent: Roundcube Webmail/1.4.15
-Message-ID: <334c8e5e3fcc99752d28ecf0937c53dd@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 185.220.102.4
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 1413004385302324929
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedruddvfedgvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeetveejleefudduueehfedvjeekteevhefhtdffkedvffegieejgeettdeuueeiteenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucfkphepuddvjedrtddrtddruddpudekhedrvddvtddruddtvddrgedpudejiedrfedurddvfeehrdekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeiuddpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2023-11-10 10:25, Lazar, Lijo wrote:
-> On 11/9/2023 2:11 PM, José Pekkarinen wrote:
->> The following patch will convert the power values returned by
->> amdgpu_hwmon_get_power to signed, fixing the following warnings 
->> reported
->> by coccinelle:
->> 
->> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2801:5-8: WARNING: Unsigned 
->> expression compared with zero: val < 0
->> drivers/gpu/drm/amd/pm/amdgpu_pm.c:2814:5-8: WARNING: Unsigned 
->> expression compared with zero: val < 0
->> 
->> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
->> ---
->>   drivers/gpu/drm/amd/pm/amdgpu_pm.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/amd/pm/amdgpu_pm.c 
->> b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> index e7bb1d324084..913ff62d5d5e 100644
->> --- a/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> +++ b/drivers/gpu/drm/amd/pm/amdgpu_pm.c
->> @@ -2795,7 +2795,7 @@ static ssize_t 
->> amdgpu_hwmon_show_power_avg(struct device *dev,
->>   					   struct device_attribute *attr,
->>   					   char *buf)
->>   {
->> -	unsigned int val;
->> +	int val;
+On Fri, 10 Nov 2023 11:18:23 +0000 Dipendra Khadka wrote:
+> Syzkaller found a null pointer dereference in nsim_bpf
+> originating from the lack of a null check for state.
 > 
-> Hi Alex,
+> This patch fixes the issue by adding a check for state
+> in two functions nsim_prog_set_loaded() and nsim_setup_prog_hw_checks()
 > 
-> It's a different code in drm-next.
-> 
-> https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/pm/amdgpu_pm.c#L2936
+> Reported-by: syzbot+44c2416196b7c607f226@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com./bug?extid=44c2416196b7c607f226
+> Fixes: 31d3ad832948 ("netdevsim: add bpf offload support")
 
-     I checked it, and ssize_t also removes the warning,
-so you can stay with whatever is in the amd-staging-drm-next
-tree and ignore this.
+Don't think so. It's probably due to Stan's extensions / reuse of 
+the offload infra.
 
-     Thanks!
+Please put more effort into figuring out when and why this started
+happening. Describe your findings in the commit message.
 
-     José.
+Current patch looks too much like a bandaid.
+
+Before you repost read:
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
+-- 
+pw-bot: cr
+pv-bot: syz
+pv-bot: 24h
