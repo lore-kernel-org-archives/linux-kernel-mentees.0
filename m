@@ -1,132 +1,88 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DB51401F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 08:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A0E1CA90
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 11:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQaAUdkc"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="bqLWN397"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5A539812E2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 08:25:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5A539812E2
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8F5DF81EBB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 11:40:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8F5DF81EBB
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CQaAUdkc
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=bqLWN397
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.999
+X-Spam-Score: -1.898
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id C4FuhKESmLGm
+	with ESMTP id pqvr72iojhll
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 13 Nov 2023 08:25:00 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 63B84812D2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 08:25:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 63B84812D2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699863900; x=1731399900;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=kGU4JUG2Lr96HBJbf/kazk1tGm2ODqpAeWA0HE3tUjU=;
-  b=CQaAUdkchFAkhhRHNDDDmyuE94CxKfXT2XsxGkn2R4fmqLrT/VF7g3KP
-   BYAG12T5mPvJYuH6ITy62Aho+cmtow4q2VYVrGz0msa8sOwu0Lb2bgdjB
-   vTzqK7KZKkc93GqeubNl6Oo65duXuwAaqkpQ07kWAyEU+r2Ha/JHsJbXm
-   8zAl6K0ZQHHkX+f75+40vahITNzkWbLfdEyow9GUzWWWLZj6iYudrZb6a
-   CQG8LYN2aPTakjB4QGrPf2u05yaTUPeQ0dUy8kccaI83iGs1QC8i3UXJO
-   kYHzzw9oYolvBvdKdS5W+ZZo4gPZ/0HlwN8Ae8en8FMt2o8/vRDS4BdUx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="375421981"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="375421981"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 00:24:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="740700336"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="740700336"
-Received: from rdegreef-mobl2.ger.corp.intel.com (HELO [10.251.217.208]) ([10.251.217.208])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 00:24:55 -0800
-Message-ID: <f229d1ed-b71e-434a-acca-06ee81826260@linux.intel.com>
-Date: Mon, 13 Nov 2023 09:24:50 +0100
+	Mon, 13 Nov 2023 11:40:32 +0000 (UTC)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 33A4081EA6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 11:40:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 33A4081EA6
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9d0b4dfd60dso655376566b.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 Nov 2023 03:40:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1699875630; x=1700480430; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kcfo06z3VKyoxsYU8zgKDhKubrv1hrF7Xmq5SMl2yWI=;
+        b=bqLWN397/uK530FPsUiYkQjtpD/l4XCMgVbwe95U7aF+kEV38XgDsspUxk6vs+Rh56
+         qqkTQQss7yizJfjIPxnLxFjAbM4aHZGb1YXIN+xvoWXdsy1QCrbUv66cjflf4musPY9z
+         1B9nd6vxUgFIjUw9yv7y4zy9dl8g98dlThWZDtf3v/Q6nnLeIHcrCOzG60rVUe52m8+u
+         xnpugkeJeqFZEfF5Qaw53CDCoWSJ9Xj3C+72YNKz25MnhsegYWwSeTOWzIcgz26xynnM
+         9AyF3Pc022pwVrHFfMr3WVD/yNeZo/ngjzMiee1OS0UKDmPd2OVBw/zqpFNledLdp/QL
+         MOSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699875630; x=1700480430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kcfo06z3VKyoxsYU8zgKDhKubrv1hrF7Xmq5SMl2yWI=;
+        b=tpE5yxR/ngkfyVyRBWC7uKWivqjoXiJ/yoFUTZcxSRPZ/PAJxLxXCguCFgJTz0dFVH
+         P/cvVc1MubC+iKSmygNcQ2h/7R9waTLhZhfBSbjw6OC04Ya6jMl7XhjOuEG/pK+wewXW
+         1WdrhdPbJbEoTu1qRbIewGoa5pOmOMiB+i7YoRxWkY4XnFezOweWAhZdngq5HggQcGXA
+         FepDCIvfkjGMO2rFlbExm8NKnEHSL5RuiXhzOdmxvdM6nYiarCtpX7UumdWwFmvimmgu
+         /GuiOnYXPncQ9kPBgsjoSgbbu1OyX426ym2WyxivfK7HHYDzdBKBshwvO2AaTU5FfJCg
+         euhA==
+X-Gm-Message-State: AOJu0Yz58qQHAeCUUvToYL9EA4AvV5hslzMdcfD3JK3gTzZfCi7vXNhA
+	bX8IYuvRdTEXx8nb9nSNU8VQpA==
+X-Google-Smtp-Source: AGHT+IEBT3TFb3SwcXqFbW5/DCGX2SiAFfB/PjNEjF50lkStEsyUZV4qdakXeb7JCvQ3WqOAXHThQQ==
+X-Received: by 2002:a17:906:793:b0:9b2:c583:cd71 with SMTP id l19-20020a170906079300b009b2c583cd71mr4538349ejc.50.1699875629620;
+        Mon, 13 Nov 2023 03:40:29 -0800 (PST)
+Received: from localhost ([86.61.181.4])
+        by smtp.gmail.com with ESMTPSA id se10-20020a170906ce4a00b0099cce6f7d50sm3928489ejb.64.2023.11.13.03.40.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 03:40:29 -0800 (PST)
+Date: Mon, 13 Nov 2023 12:40:28 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] netlink: specs: devlink: add missing attributes in
+ devlink.yaml and re-generate the related code
+Message-ID: <ZVILLK480K6Go2wN@nanopsycho>
+References: <20231112092352.20072-1-swarupkotikalapudi@gmail.com>
+ <20231112124648.2e11ec25@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver: gpu: Fixing warning directly dereferencing a rcu
- pointer
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>, kherbst@redhat.com,
- lyude@redhat.com, dakr@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: nouveau@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20231113081040.2947143-1-singhabhinav9051571833@gmail.com>
-Content-Language: en-US
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-In-Reply-To: <20231113081040.2947143-1-singhabhinav9051571833@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231112124648.2e11ec25@kernel.org>
 
-Hey,
-
-Den 2023-11-13 kl. 09:10, skrev Abhinav Singh:
-> This patch fixes a sparse warning with this message
-> "warning:dereference of noderef expression". In this context it means we
-> are dereferencing a __rcu tagged pointer directly.
+Sun, Nov 12, 2023 at 09:46:48PM CET, kuba@kernel.org wrote:
+>On Sun, 12 Nov 2023 14:53:52 +0530 Swarup Laxman Kotiaklapudi wrote:
+>> Add missing attributes in devlink.yaml.
 >
-> We should not be directly dereferencing a rcu pointer, rather we should
-> be using rcu helper function rcu_dereferece() inside rcu read critical
-> section to get a normal pointer which can be dereferenced.
->
-> I tested with qemu with this command
-> qemu-system-x86_64 \
-> 	-m 2G \
-> 	-smp 2 \
-> 	-kernel bzImage \
-> 	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-> 	-drive file=bullseye.img,format=raw \
-> 	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-> 	-net nic,model=e1000 \
-> 	-enable-kvm \
-> 	-nographic \
-> 	-pidfile vm.pid \
-> 	2>&1 | tee vm.log
-> with lockdep enabled.
->
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
-> ---
->   drivers/gpu/drm/nouveau/nv04_fence.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c b/drivers/gpu/drm/nouveau/nv04_fence.c
-> index 5b71a5a5cd85..e62bad1ac720 100644
-> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
-> @@ -39,7 +39,9 @@ struct nv04_fence_priv {
->   static int
->   nv04_fence_emit(struct nouveau_fence *fence)
->   {
-> -	struct nvif_push *push = fence->channel->chan.push;
-> +	rcu_read_lock();
-> +	struct nvif_push *push = rcu_dereference(fence->channel)->chan.push;
-> +	rcu_read_unlock();
->   	int ret = PUSH_WAIT(push, 2);
->   	if (ret == 0) {
->   		PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
+>For merging you'll need to repost CCing netdev@
 
-I'm not an expert in nouveau fence channel lifetime, but I'm pretty sure 
-this should probably be a rcu_dereference_protected, since a fence 
-likely can't lose its channel before its command to signal is submitted.
-
-But in case it's not, I would at least advise to check for 
-fence->channel lifetime before submitting a patch like this. At least 
-the original code warned about it not being 100% correct.
-
-Cheers,
-
-~Maarten
-
+scripts/get_maintainer.pl is a friend.
