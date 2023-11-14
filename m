@@ -1,257 +1,163 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2062.outbound.protection.outlook.com [40.107.244.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B862FC2B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 20:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8558F3C27
+	for <linux-kernel-mentees@lists.linux.dev>; Tue, 14 Nov 2023 21:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FrOqs8Mg"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 45F5A400FE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 20:32:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 45F5A400FE
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=FrOqs8Mg
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.1
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IeNKYWID5sn6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 14 Nov 2023 20:32:16 +0000 (UTC)
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A2542400C1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 20:32:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A2542400C1
-Received: by mail-ot1-x336.google.com with SMTP id 46e09a7af769-6ce2988d62eso3576120a34.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 12:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699993935; x=1700598735; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B76Bj7QSkdqe5RgWuzmisGli3L6/dGQzU+oDX8ILkao=;
-        b=FrOqs8Mg5fufTD4ms7nK84Lo+mm4DEE8idogJLWcJyfRyqhBHRWpuIFXsErdZ+MuuA
-         TvRUGEx9wd2cIthM5uzDbWK2aDR5WuGNkiv0aFbCmiBhjiedbdB1eABOmyTwHkoWDxL8
-         2+0o8MF2NKfklFGguV6Wu47kMMuGUVazABKKE3z6g+Mx7i6ioT3wBGKaJifdl7uLOUrM
-         Cuxq2ogNqRm72ffuLL5tc9mdVh2+D4tDJjlSPcbUKmL4kDy8ypLfnGDhiiYDCJH6DIbw
-         4BWlM5os+EU4Hzpgv/BCHyk3NgVRgUUl7IberDEOpFU3bneX7ms/AtVzvBW6XfrRWd/4
-         /8JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699993935; x=1700598735;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B76Bj7QSkdqe5RgWuzmisGli3L6/dGQzU+oDX8ILkao=;
-        b=nTtOxe8a6tLp4zXJ88EvOU3LrWwjQIuqarSvDCnXLJwx4G7HOpGcNAS1ylLY6v3STO
-         LUQhkmS5H6+ppGI2VjLLcQZGv+aFpC4K/xyxQjYuGvQgitT9LV10K6usVBkHDVZHtPas
-         KiJssCjNJFjLQwBkqBYwVcbaeZu+8ZAL+hdkaw3roRwoGjtCj7z7Vlap1F5jQur3i1AY
-         ofkkGJqr5zJIH85Zy8FtbMD9zoOfiBOE7wuluzC4jhFUyVjKc9bYqxLAdQqxELq0JqCO
-         FN2LjY2lLOZEhIbmIbNqYVBHN2+6Xi+UfmMW7JXAq+oc649HDNoARo31OlN4lkfe7c0Y
-         e2QA==
-X-Gm-Message-State: AOJu0YwISppzkQzeI5b3NPbelsePyFYnt6WoGOGAv3IlyFPnGZzarj+z
-	kSy5FtU9QQHF6Tu+Ms+A3kxQ+w==
-X-Google-Smtp-Source: AGHT+IHWuJowqXdwedX9Bz2Qb/ucm0pdfbQO5Zy4r7Im9oftuEVjqUAp1mE8lMHliIP5TnecnFZjZQ==
-X-Received: by 2002:a05:6830:18fc:b0:6d3:2960:c49 with SMTP id d28-20020a05683018fc00b006d329600c49mr3456703otf.26.1699993935462;
-        Tue, 14 Nov 2023 12:32:15 -0800 (PST)
-Received: from [172.25.83.73] ([12.186.190.1])
-        by smtp.gmail.com with ESMTPSA id h13-20020a0ceecd000000b00671b009412asm3132110qvs.141.2023.11.14.12.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 12:32:14 -0800 (PST)
-Message-ID: <f8c3910a-ee05-4478-aeff-6f6bf6e1c6a4@linaro.org>
-Date: Tue, 14 Nov 2023 21:32:14 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="JbCyR7Wd"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NWN/j3etZd+47G+ZvneYvfMBK4DNRKWfhc4VBJt16GoXdPwkPmkcBz56w0ZMWjbLKK0LjQyk9zTj3KmY8gIlO3CondyNxxtMiZ1Yvj5vZxHDS4/J7xEeQ9kJuogMgY+8SppTHotASdEB3J2T5TyhNim9dnmembg1jcgLtE2l8LqPWOrHx8jEytFc+//IB7ehnymurVRO6VErKBD0LTokrnQOPBiyp+PLczEPcvmQ6xXtOPc4PLMCI8Xury32MQ4CZqFUGLVy3rVUaEyMYdfty/6C1Oz+xgEHB27awFgKn68KZnGhTBIrtwozXRQnf1NmJiXUhkE1wy7mUdu5hZUZig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bMy3a6q41TetShNkIiUHauKfv/BFEDOhF0VSlxLQSzk=;
+ b=asD5EPwTWS5t4mbuYHvgvzpA0jHDCfzPLgJ+sAUSwSdO2ZiN2Nm/d1sjeieYP/Wvv/ttxoi93i69cRCoQI5366Xxk3qW8rby84YTWKHY+YbDQk0FK88CLIyWjo63i/svpyUlfK7NJLJl3TeMvrhiVUauAaaXHT+X8jFZDcdK8sulsf2aN+qIvL2Ds/RRHj3iZe+Nj4Y/AktveI2S4Rb/tdbI4HsHPv/zoVrajvuO4i8nzF+YH28iOLc83aHwXzjIyzOnO+HWJ1+9Hvj6Ubqk2eRadrZSzDKnMSiZiG34P0ICqPJ/3KD8VhPe/RfqlsgBOFcQAUSUm1XbITNDlgBGeg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bMy3a6q41TetShNkIiUHauKfv/BFEDOhF0VSlxLQSzk=;
+ b=JbCyR7WdOyRfIqqlq458NzVyMF36L2tBRxGaYIU+FlJZJpz3jYo5AUBTfyZoWEKoKKw2JQ24kGn7v0dsmv8b1Gmx20/rFeVpeCJry9Ty/hprgKhRaIDmBf/1noaZ5VsUFdVOAxOhQF0rq3F3zXz/d4Brfs7AaWTHM5yTAreBWg4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com (2603:10b6:8:a2::11) by
+ DM4PR12MB5722.namprd12.prod.outlook.com (2603:10b6:8:5d::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7002.17; Tue, 14 Nov 2023 21:01:19 +0000
+Received: from DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5588:7117:d54e:9466]) by DM4PR12MB6280.namprd12.prod.outlook.com
+ ([fe80::5588:7117:d54e:9466%7]) with mapi id 15.20.7002.015; Tue, 14 Nov 2023
+ 21:01:17 +0000
+Message-ID: <689f3862-09d5-448d-b418-fd52d7288106@amd.com>
+Date: Tue, 14 Nov 2023 16:01:14 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/amd/display: fix NULL dereference
+Content-Language: en-US
+To: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
+ harry.wentland@amd.com, sunpeng.li@amd.com, Rodrigo.Siqueira@amd.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ skhan@linuxfoundation.org
+Cc: airlied@gmail.com, daniel@ffwll.ch, Wayne.Lin@amd.com,
+ qingqing.zhuo@amd.com, lyude@redhat.com, srinivasan.shanmugam@amd.com,
+ aurabindo.pillai@amd.com, sungjoon.kim@amd.com, wenjing.liu@amd.com,
+ mikita.lipski@amd.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev
+References: <20231114152751.30167-1-jose.pekkarinen@foxhound.fi>
+From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+In-Reply-To: <20231114152751.30167-1-jose.pekkarinen@foxhound.fi>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT4PR01CA0068.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:111::28) To DM4PR12MB6280.namprd12.prod.outlook.com
+ (2603:10b6:8:a2::11)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Anshul Dalal <anshulusr@gmail.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jeff LaBundy <jeff@labundy.com>,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231108005337.45069-1-anshulusr@gmail.com>
- <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6280:EE_|DM4PR12MB5722:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1601b413-be29-416a-d365-08dbe554d899
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	HpRsVqnykqLEuNaveGV9tMyITIUBj9SxE/MAPymLDIeAmB5TSxTJaT0sVBSt2OTwso5rILcESBf7EgUAuetL9l9/cNGKApaVCrmaZCAh/aThD1uTSVdIWv2Jr9045fj7DjyK+h8A1HJCdNZnOjazEmyMabTI510kMQrkq8XlEF20ci6iX1sTRXyKV3dLZBSMYRinBEdXoUPJqOEqvF93B1WmjzGz7wCXVk6QbRn1juewxL64C8mqJdQ4obH5ROo4VhMtIY/pXNLIIepvFdiqbA2mGgTCCPM0dx2IcQ3BUaTgxNzklxTWnXLfoMsko9lxjgfvZ0wMWVWOUrdsqdBagmbEE52kqqbKiRC2rg9FdLXw8HG4HETFHFviipERbuprpQbbDAPUZBHFzOvVSzs0oU8SHYZ8HtqU4R1d3GLo9pT4Badh8rRDJ4jcRXqaZTsW5KMU7oJ8E0Pr4MR/tlupNFAa8FdTsqcNvdYQXqKW4e5TJy/Uq12WfUSXC8gFiPNtG2yAO6pbdXJEEh+2I8zXO9qXcjs2/Elg2Kak5W1t16w87/DCXG13ND1uQ5MySSuhxMZBNzjFsDKGpa4K+1TX1CEtDfAg2war7fAdTQjwVhrwiJsEdzbve0YiVh5QZDk+wvYptUqvLVEplk8hwcTZow==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6280.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(39860400002)(396003)(376002)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(53546011)(6506007)(6666004)(2616005)(6512007)(83380400001)(44832011)(8936002)(5660300002)(4326008)(8676002)(41300700001)(2906002)(6486002)(478600001)(316002)(86362001)(66476007)(66556008)(66946007)(31696002)(36756003)(38100700002)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?emdFVGd3YUJaZmJ5TEF3MGRwRkc1YmY0aExRbHBZMWF4WVVyYnd2b25zMldo?=
+ =?utf-8?B?b0xWeWdmL2hjVC9XZ2xDVXRHcjl1QUsrbEpEbHpzSlJrVWg1NEZOOWVJTXkx?=
+ =?utf-8?B?S0VmRm81VXhJU05McGIrS203NmJqNjdGZXBHejV2K3hyL3FPcTIxRk56KzZO?=
+ =?utf-8?B?NWViNFlxYjlJU1pQMTdlWVBvWHQ4ejBWYnBxS0U1citlbk9KbU9zZ1pQTWhW?=
+ =?utf-8?B?MG55c1JrRWJpcVB5eEcvM3dVYTZ2d1FsWnl2bUNwME53VzNiQUw5NTQ1ZnlE?=
+ =?utf-8?B?eExvSS9Hb2JiL05Ra0RNYTMramdVb3pMRVZiajZib2E0VmEwVWtpRy8reVhv?=
+ =?utf-8?B?ckdKWTBuOWY3Zzk5NDRadEgvdXRKSTJFWlM3SS91MDV2OVRBY1FZcVI4WGZt?=
+ =?utf-8?B?K2czR3Q1RFNUMFh0amZwZ3huL1ZTREdSRFFtY2VONFdjMkRENUdxRzN6Mk5k?=
+ =?utf-8?B?YXBoQi9MRnFhOW1wTkllU0RpQUc3SlBzVkxla3hicG8rdzhML3R3QTN3d2po?=
+ =?utf-8?B?eGRLM0s1Um9neUQ3WWNFekpmN3h4NW5rM3BaK3RRLzcxMGhYOUVYUmJySzIr?=
+ =?utf-8?B?SERqV2J4QllvWmwwMWJpTEU3cE5ERjBwaE42Q0xWY2o5UDJoNWZBSFV6NDdW?=
+ =?utf-8?B?M3lSaFR3ZmRONml3aE96M2tOL3pJZVhlWU9ncTNJWS9PVk4ybXMvSnFFMlRq?=
+ =?utf-8?B?SUg4cjBFU0huL2ZHa2F6TkRxUTIwMURSVmJCQ3dzNlZXbzFnbFNETEJjY0Nx?=
+ =?utf-8?B?elRZKzVWRE5mRW1pYXExSUg2V2N1K2VSUXZhUk5KMGNwM042dGN5eDV1L0Jz?=
+ =?utf-8?B?MU9odjZNV0F6cjlwbjZGN1ZCKzRHT2dOSkkxQWRzbzc3eE1ndmN2NitOMWNq?=
+ =?utf-8?B?cU5nemd0MHJRZklXZjllR2Y0MVNQSmVBUGQwSEhwektlNGxoeFJ2QzhCRGFZ?=
+ =?utf-8?B?SGwxc2tqSXdUaWtpR2pXUnY1MnFPSDJxbk5RUlJMbHpyNWdjL2JtbmVZY2NK?=
+ =?utf-8?B?WkVIWmt2TlR4M2V6RDB4SHQzMjNkTHh2bUpFSmgvaHg0SnowNmlSdnRzaFJW?=
+ =?utf-8?B?bkFqd2dwb3RpRzZUWWU4VHYzMlZkRHB5WUlFMzZNSUNBWGk3QUhDSmJVbjZG?=
+ =?utf-8?B?VjF0Z0wvcTNhMm1ubmxIdVA2Z1lzWDJ6Uk10ZjZtcjVHWC85NFQwc1ZEWW1W?=
+ =?utf-8?B?bElpL3Z4TEYrM202d3JtaTdmTnU5RERiemc2K1l4dFVRa0JISXNhWHk3dnd2?=
+ =?utf-8?B?eGFwd1pvYnZnZzF4dHg0WmtjdDFJamNGVWNZdEhrWldBNnBQbGM4TnFIbi9O?=
+ =?utf-8?B?OTRRM2g2QWNxSUxoTmpDNEs4V05PZ2lDbVNJenlhR1JVLzVjRkRTcG9FWW5K?=
+ =?utf-8?B?QWdrQ3JvS1RFVlNXVTV0T1BCTzltdmVmYUlEakxUS1M5RFVZSmplQVdoQkc0?=
+ =?utf-8?B?U0tmTllQL3ArL0FEREdtNVNnQlppRXNvUHEyZThvQjVUZmY4bWIxclRwdnNN?=
+ =?utf-8?B?LzNhU1lCSVFRQk10WFFGd0VGMEJrRkFuWm5YSzV6SzhnWnNsN1lBVkJ6dTZC?=
+ =?utf-8?B?NEhjb0F1cVhySmNxMnV5eUtSMGswK1psL25CTFBzdjBRY0ZoSURnZkk1Z3gv?=
+ =?utf-8?B?c21rRDNjSGVRaHpjSUxaZTRzbzBwWnpKZ1BtdUtrUmg4N3p3Q2toYWhFeU1J?=
+ =?utf-8?B?OXRRNEhOM1JQa0xnbUxiOUkrcjlDb29LM2NpN1J0L1JGeFBmNXd0NkxmcWZq?=
+ =?utf-8?B?a0Z6UW9VK2FDS3JMMElFSTlFbGRjeEwwR0xpd1JGWVFmOEJEZ3VQNXVOc1NL?=
+ =?utf-8?B?UE1icXV3VFBtYUxBd3JBZlpHcCs2SnNiWE5jTDR6elNJbkYzQ042MGx1NFdt?=
+ =?utf-8?B?STM5RnNjMEFGR052MlFUd25EdVJrUllRUnpkWlptekxRYkc4Y2xRdG1CS0Vi?=
+ =?utf-8?B?YkZaK3d0V01YaEQ2QkxhTHlHM2tmckdyMGVqMnYrbE1hMUd5RkE5cUdMK3B0?=
+ =?utf-8?B?YldiemNqb00vM0E2a2cxZVZZSWlLd0xGajhQd01KTTdNK1BueGd0aHJrL2VY?=
+ =?utf-8?B?MVh6NitsaDNOd2U3YWFZWmZBYXhVM295dDZDMCtBTGZlaldkWGtTMjlmcDJX?=
+ =?utf-8?Q?ncgwtksjb9BtFb3wWRD/uctj3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1601b413-be29-416a-d365-08dbe554d899
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6280.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 21:01:17.8398
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uc+Sp1/+ev8TMDIRsmEmV1xr3Lz1dW8u228QxJRzblLTM8BlL3EoSPMjufZUQVYSQg/8LtWKqEYMByfrIe22Aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5722
 
-On 14/11/2023 20:20, Thomas Weißschuh wrote:
-> On 2023-11-08 06:23:35+0530, Anshul Dalal wrote:
->> Adds bindings for the Adafruit Seesaw Gamepad.
->>
->> The gamepad functions as an i2c device with the default address of 0x50
->> and has an IRQ pin that can be enabled in the driver to allow for a rising
->> edge trigger on each button press or joystick movement.
->>
->> Product page:
->>   https://www.adafruit.com/product/5743
->> Arduino driver:
->>   https://github.com/adafruit/Adafruit_Seesaw
->>
->> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
->> ---
->>
->> Changes for v8:
->> - no updates
->>
->> Changes for v7:
->> - no updates
->>
->> Changes for v6:
->> - no updates
->>
->> Changes for v5:
->> - Added link to the datasheet
->>
->> Changes for v4:
->> - Fixed the URI for the id field
->> - Added `interrupts` property
->>
->> Changes for v3:
->> - Updated id field to reflect updated file name from previous version
->> - Added `reg` property
->>
->> Changes for v2:
->> - Renamed file to `adafruit,seesaw-gamepad.yaml`
->> - Removed quotes for `$id` and `$schema`
->> - Removed "Bindings for" from the description
->> - Changed node name to the generic name "joystick"
->> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->>   'adafruit,seesaw_gamepad'
->> ---
->>  .../input/adafruit,seesaw-gamepad.yaml        | 60 +++++++++++++++++++
->>  1 file changed, 60 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> new file mode 100644
->> index 000000000000..3f0d1c5a3b9b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
->> @@ -0,0 +1,60 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Adafruit Mini I2C Gamepad with seesaw
->> +
->> +maintainers:
->> +  - Anshul Dalal <anshulusr@gmail.com>
->> +
->> +description: |
->> +  Adafruit Mini I2C Gamepad
->> +
->> +    +-----------------------------+
->> +    |   ___                       |
->> +    |  /   \               (X)    |
->> +    | |  S  |  __   __  (Y)   (A) |
->> +    |  \___/  |ST| |SE|    (B)    |
->> +    |                             |
->> +    +-----------------------------+
->> +
->> +  S -> 10-bit percision bidirectional analog joystick
->> +  ST -> Start
->> +  SE -> Select
->> +  X, A, B, Y -> Digital action buttons
->> +
->> +  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
->> +  Product page: https://www.adafruit.com/product/5743
->> +  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
->> +
->> +properties:
->> +  compatible:
->> +    const: adafruit,seesaw-gamepad
+On 11/14/23 10:27, José Pekkarinen wrote:
+> The following patch will fix a minor issue where a debug message is
+> referencing an struct that has just being checked whether is null or
+> not. This has been noticed by using coccinelle, in the following output:
 > 
-> I don't really have any clue about devicetree, but shouldn't the actual
-> driver have an id-table for this "compatible"?
+> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c:540:25-29: ERROR: aconnector is NULL but dereferenced.
+> 
+> Fixes: 5d72e247e58c9 ("drm/amd/display: switch DC over to the new DRM logging macros")
 
-It should, why was it dropped?
+You only need the first 12 characters of the hash here. I have fixed it
+for you and applied the patch in this case. But, in the future please
+test your patches against `./scripts/checkpatch.pl` before submitting
+them.
 
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
+> ---
+> [v1 -> v2]: Remove the debugging message, requested by Hamza
 > 
-> It had one up to v5 of the patchset.
+>   drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> Jeff had some comments about the OF aspect [0], but to me the state now
-> seems incorrect.
-> Maybe the DT can be dropped completely?
-> 
-> Jeff, could you advise?
-> 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +    description:
->> +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
-> 
-> Interrupts are not supported yet by the driver.
-> Should the property be there already?
-
-Bindings describe the hardware, no the driver. If the hardware has
-interrupt line, it should be described here.
-
-
-Best regards,
-Krzysztof
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> index ed784cf27d39..c7a29bb737e2 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+> @@ -536,11 +536,8 @@ bool dm_helpers_dp_read_dpcd(
+>   
+>   	struct amdgpu_dm_connector *aconnector = link->priv;
+>   
+> -	if (!aconnector) {
+> -		drm_dbg_dp(aconnector->base.dev,
+> -			   "Failed to find connector for link!\n");
+> +	if (!aconnector)
+>   		return false;
+> -	}
+>   
+>   	return drm_dp_dpcd_read(&aconnector->dm_dp_aux.aux, address, data,
+>   				size) == size;
+-- 
+Hamza
 
