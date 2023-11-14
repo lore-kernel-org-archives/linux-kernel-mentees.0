@@ -1,215 +1,424 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D282AEFA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 16:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F3E33CFC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 19:08:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MOBhll3t"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="QWhmlB5s"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id B915382123
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 16:24:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B915382123
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8A40D81EFA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 19:08:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8A40D81EFA
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=MOBhll3t
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.a=rsa-sha256 header.s=mail header.b=QWhmlB5s
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.1
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9AFiW5POOVCL
+	with ESMTP id 4LaMipdcisPA
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 14 Nov 2023 16:24:07 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A50C5820F7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 16:24:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A50C5820F7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699979045;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OMAt2bbB2OtDJnSmDdv+SlogJ2MSXP9BdKgitEjjES4=;
-	b=MOBhll3t70mujD+V3M6p6KdQro+7Ycw5hYiOhhdGMsMshPkfC6L9yWklMZQmJPu0Ty2gG/
-	k/6I+s2QNBHbFnEoS38oTelU9LexWA+chTe1ANEES6HFbJpLTD6Ck0lH3TWD4cr2YEYskD
-	J2zNsc8t9ymHmBqsOwYwWb3ElnC8Wnc=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-460-PYJUTvZfNOCzeR46YauqUQ-1; Tue, 14 Nov 2023 11:24:04 -0500
-X-MC-Unique: PYJUTvZfNOCzeR46YauqUQ-1
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-66d159f725cso73805496d6.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 08:24:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699979043; x=1700583843;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OMAt2bbB2OtDJnSmDdv+SlogJ2MSXP9BdKgitEjjES4=;
-        b=WAOYdYUzbdkN5SNOglyPos9Fe68Ynn4AMYEtm9GjJVEzaa2eJW5wJ4NJrj2ZOXrqiS
-         uY8eMYQAW3j3XLBErG37OnU2jaJJ7B0860/69giqrYjIOkEMyZJl3gxfzg2yw5JSG0Ks
-         hS9f6oWBI0RN+khzm5yZw9t7A3hlBtTqSwbLeLMKAzWdGQT1C45Rt87ZKlchythsaYo5
-         9WLweifH4L1LjJHwRQDkM4rew/cqCz/L9JdQVYEkbh6sxLdLKSyL6z7rypJCzq9VnWKL
-         djZ0lF8LHNcrqACPdTW5aBLAuFhiGIHFJ5NjGzcIPyjaA5EHzSMx0RMSpbscVvTCUjIK
-         5HJw==
-X-Gm-Message-State: AOJu0Yy11pRW0qq0HU4vUR/1VK4x0ztLocQsxebk5BT0aQKa290+y9Yo
-	W/2V6Dns0YuoEpXDKyJqoQ9eZX3afn5XhH38BVEWC62CMKMEm1UHxK8ij9JOhcFAgDzSlamnoe8
-	nqMhnneGUQ//b8y/VC4NiTVZpo1OoY7pgsLtx9NgY0jC38qT3
-X-Received: by 2002:a05:6214:326:b0:66d:630a:79b9 with SMTP id j6-20020a056214032600b0066d630a79b9mr2571519qvu.40.1699979043489;
-        Tue, 14 Nov 2023 08:24:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHi30kHAx5KL8eGl/LlTeExArejiri6J6i2eS/UN/F1fLR88NH5AhNiHw7NXj2GlJ54m2/4ew==
-X-Received: by 2002:a05:6214:326:b0:66d:630a:79b9 with SMTP id j6-20020a056214032600b0066d630a79b9mr2571490qvu.40.1699979043228;
-        Tue, 14 Nov 2023 08:24:03 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b? ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
-        by smtp.gmail.com with ESMTPSA id ee11-20020a0562140a4b00b0066d0ab215b5sm3054571qvb.13.2023.11.14.08.24.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Nov 2023 08:24:02 -0800 (PST)
-Message-ID: <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
-Date: Tue, 14 Nov 2023 17:23:59 +0100
+	Tue, 14 Nov 2023 19:08:00 +0000 (UTC)
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 2145881EDD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 14 Nov 2023 19:07:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2145881EDD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1699988874;
+	bh=SYGluN3+4eLJfq22jk0bwc/x8ZAsdhZvXpbOhM3QM08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QWhmlB5sfntwHNnwjF3kgTBZ9EsKDPxtPP/rsElLiZ+4IM+G1LxbgQLTglDj/zf/o
+	 uPDylesv+SAAd8SBnOuNro6NXN8fHkvxJwRKlnzT3abEdjragcsb75obLkj/vi1pXr
+	 oBC6RKTUZV68Jul3EPrbLV+mpK2jADhY1nGAIrZQ=
+Date: Tue, 14 Nov 2023 20:07:53 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	Conor Dooley <conor+dt@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeff LaBundy <jeff@labundy.com>, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v8 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <6384a19d-8b47-43ce-a8ad-16843b8fabf2@t-8ch.de>
+References: <20231108005337.45069-1-anshulusr@gmail.com>
+ <20231108005337.45069-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/nouveau: Prevents NULL pointer dereference in
- nouveau_uvmm_sm_prepare
-To: Yuran Pereira <yuran.pereira@hotmail.com>, airlied@gmail.com
-Cc: kherbst@redhat.com, lyude@redhat.com, daniel@ffwll.ch,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231108005337.45069-2-anshulusr@gmail.com>
 
-Hi Yuran,
+On 2023-11-08 06:23:36+0530, Anshul Dalal wrote:
+> Adds a driver for a mini gamepad that communicates over i2c, the gamepad
+> has bidirectional thumb stick input and six buttons.
 
-On 10/26/23 19:03, Yuran Pereira wrote:
-> There are instances where the "args" argument passed to
-> nouveau_uvmm_sm_prepare() is NULL.
-> 
-> I.e. when nouveau_uvmm_sm_prepare() is called from
-> nouveau_uvmm_sm_unmap_prepare()
-> 
-> ```
-> static int
-> nouveau_uvmm_sm_unmap_prepare(struct nouveau_uvmm *uvmm,
-> ...
-> {
->      return nouveau_uvmm_sm_prepare(uvmm, new, ops, NULL);
-> }
-> ```
-> 
-> The problem is that op_map_prepare() which nouveau_uvmm_sm_prepare
-> calls, dereferences this value, which can lead to a NULL pointer
-> dereference.
+With or without the tiny nitpicks mentioned below:
 
-op_map_prepare() can't be called with `args` being NULL, since when called
-through nouveau_uvmm_sm_unmap_prepare() we can't hit the DRM_GPUVA_OP_MAP
-case at all.
+Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
 
-Unmapping something never leads to a new mapping being created, it can lead
-to remaps though.
+> The gamepad chip utilizes the open framework from Adafruit called 'Seesaw'
+> to transmit the ADC data for the joystick and digital pin state for the
+> buttons. I have only implemented the functionality required to receive the
+> thumb stick and button state.
 
-> 
-> ```
-> static int
-> op_map_prepare(struct nouveau_uvmm *uvmm,
-> ...
-> {
->      ...
->      uvma->region = args->region; <-- Dereferencing of possibly NULL pointer
->      uvma->kind = args->kind;     <--
->      ...
-> }
-> ```
-> 
-> ```
-> static int
-> nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
-> ...
->              struct uvmm_map_args *args)
-> {
->      struct drm_gpuva_op *op;
->      u64 vmm_get_start = args ? args->addr : 0;
->      u64 vmm_get_end = args ? args->addr + args->range : 0;
->      int ret;
-> 
->      drm_gpuva_for_each_op(op, ops) {
->          switch (op->op) {
->          case DRM_GPUVA_OP_MAP: {
->              u64 vmm_get_range = vmm_get_end - vmm_get_start;
-> 
->              ret = op_map_prepare(uvmm, &new->map, &op->map, args); <---
->              if (ret)
->                  goto unwind;
-> 
->              if (args && vmm_get_range) {
->                  ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
->                                 vmm_get_range);
->                  if (ret) {
->                      op_map_prepare_unwind(new->map);
->                      goto unwind;
->                  }
->              }
->      ...
-> ```
-> 
-> Since the switch "case DRM_GPUVA_OP_MAP", also NULL checks "args"
+[..]
 
-This check is not required for the reason given above. If you like, you
-can change this patch up to remove the args check and add a comment like:
-
-/* args can't be NULL when called for a map operation. */
-
-> after the call to op_map_prepare(), my guess is that we should
-> probably relocate this check to a point before op_map_prepare()
-> is called.
-
-Yeah, I see how this unnecessary check made you think so.
-
-- Danilo
-
-> 
-> This patch ensures that the value of args is checked before
-> calling op_map_prepare()
-> 
-> Addresses-Coverity-ID: 1544574 ("Dereference after null check")
-> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
-> ---
->   drivers/gpu/drm/nouveau/nouveau_uvmm.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> index aae780e4a4aa..6baa481eb2c8 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
-> @@ -620,11 +620,14 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
->   		case DRM_GPUVA_OP_MAP: {
->   			u64 vmm_get_range = vmm_get_end - vmm_get_start;
->   
-> +			if (!args)
-> +				goto unwind;
+> diff --git a/drivers/input/joystick/adafruit-seesaw.c b/drivers/input/joystick/adafruit-seesaw.c
+> new file mode 100644
+> index 000000000000..8e8ef26a585f
+> --- /dev/null
+> +++ b/drivers/input/joystick/adafruit-seesaw.c
+> @@ -0,0 +1,315 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
+> + *
+> + * Driver for Adafruit Mini I2C Gamepad
+> + *
+> + * Based on the work of:
+> + *	Oleh Kravchenko (Sparkfun Qwiic Joystick driver)
+> + *
+> + * Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
+> + * Product page: https://www.adafruit.com/product/5743
+> + * Firmware and hardware sources: https://github.com/adafruit/Adafruit_Seesaw
+> + *
+> + * TODO:
+> + *	- Add interrupt support
+> + */
 > +
->   			ret = op_map_prepare(uvmm, &new->map, &op->map, args);
->   			if (ret)
->   				goto unwind;
->   
-> -			if (args && vmm_get_range) {
-> +			if (vmm_get_range) {
->   				ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
->   							   vmm_get_range);
->   				if (ret) {
+> +#include <asm-generic/unaligned.h>
 
+#include <asm/unaligned.h>
+
+> +#include <linux/bits.h>
+> +#include <linux/delay.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input.h>
+> +#include <linux/input/sparse-keymap.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +
+> +#define SEESAW_DEVICE_NAME	     "seesaw-gamepad"
+> +
+> +#define SEESAW_STATUS_BASE	     0x00
+> +#define SEESAW_GPIO_BASE	     0x01
+> +#define SEESAW_ADC_BASE		     0x09
+> +
+> +#define SEESAW_GPIO_DIRCLR_BULK	     0x03
+> +#define SEESAW_GPIO_BULK	     0x04
+> +#define SEESAW_GPIO_BULK_SET	     0x05
+> +#define SEESAW_GPIO_PULLENSET	     0x0b
+> +
+> +#define SEESAW_STATUS_HW_ID	     0x01
+> +#define SEESAW_STATUS_SWRST	     0x7f
+> +
+> +#define SEESAW_ADC_OFFSET	     0x07
+> +
+> +#define SEESAW_BUTTON_A		     0x05
+> +#define SEESAW_BUTTON_B		     0x01
+> +#define SEESAW_BUTTON_X		     0x06
+> +#define SEESAW_BUTTON_Y		     0x02
+> +#define SEESAW_BUTTON_START	     0x10
+> +#define SEESAW_BUTTON_SELECT	     0x00
+> +
+> +#define SEESAW_ANALOG_X		     0x0e
+> +#define SEESAW_ANALOG_Y		     0x0f
+> +
+> +#define SEESAW_JOYSTICK_MAX_AXIS     1023
+> +#define SEESAW_JOYSTICK_FUZZ	     2
+> +#define SEESAW_JOYSTICK_FLAT	     4
+> +
+> +#define SEESAW_GAMEPAD_POLL_INTERVAL 16
+> +#define SEESAW_GAMEPAD_POLL_MIN	     8
+> +#define SEESAW_GAMEPAD_POLL_MAX	     32
+> +
+> +static const u32 SEESAW_BUTTON_MASK =
+> +	BIT(SEESAW_BUTTON_A) | BIT(SEESAW_BUTTON_B) | BIT(SEESAW_BUTTON_X) |
+> +	BIT(SEESAW_BUTTON_Y) | BIT(SEESAW_BUTTON_START) |
+> +	BIT(SEESAW_BUTTON_SELECT);
+> +
+> +struct seesaw_gamepad {
+> +	struct input_dev *input_dev;
+
+This field is not used, but it doesn't hurt.
+If you remove the field you can get rid of the whole struct itself.
+
+> +	struct i2c_client *i2c_client;
+> +};
+> +
+> +struct seesaw_data {
+> +	u16 x;
+> +	u16 y;
+> +	u32 button_state;
+> +};
+> +
+> +struct seesaw_button_description {
+> +	unsigned int code;
+> +	unsigned int bit;
+> +};
+
+Not used anymore.
+
+> +
+> +static const struct key_entry seesaw_buttons_new[] = {
+> +	{ KE_KEY, SEESAW_BUTTON_A, .keycode = BTN_SOUTH },
+> +	{ KE_KEY, SEESAW_BUTTON_B, .keycode = BTN_EAST },
+> +	{ KE_KEY, SEESAW_BUTTON_X, .keycode = BTN_NORTH },
+> +	{ KE_KEY, SEESAW_BUTTON_Y, .keycode = BTN_WEST },
+> +	{ KE_KEY, SEESAW_BUTTON_START, .keycode = BTN_START },
+> +	{ KE_KEY, SEESAW_BUTTON_SELECT, .keycode = BTN_SELECT },
+> +	{ KE_END, 0 },
+
+No comma after sentinel element.
+
+> +};
+> +
+> +static int seesaw_register_read(struct i2c_client *client, u8 register_high,
+> +				u8 register_low, char *buf, int count)
+> +{
+> +	int ret;
+> +	u8 register_buf[2] = { register_high, register_low };
+> +
+> +	struct i2c_msg message_buf[2] = {
+> +		{
+> +			.addr = client->addr,
+> +			.flags = client->flags,
+> +			.len = sizeof(register_buf),
+> +			.buf = register_buf
+
+Commas after normal last elements.
+
+> +		},
+> +		{
+> +			.addr = client->addr,
+> +			.flags = client->flags | I2C_M_RD,
+> +			.len = count,
+> +			.buf = buf
+
+Same as above.
+
+> +		},
+> +	};
+> +	ret = i2c_transfer(client->adapter, message_buf,
+> +			   ARRAY_SIZE(message_buf));
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int seesaw_register_write_u8(struct i2c_client *client, u8 register_high,
+> +				    u8 register_low, u8 value)
+> +{
+> +	int ret;
+> +	u8 write_buf[3] = { register_high, register_low, value };
+> +
+> +	ret = i2c_master_send(client, write_buf, sizeof(write_buf));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int seesaw_register_write_u32(struct i2c_client *client,
+> +				     u8 register_high, u8 register_low,
+> +				     u32 value)
+> +{
+> +	int ret;
+> +	u8 write_buf[6] = { register_high, register_low };
+> +
+> +	put_unaligned_be32(value, write_buf + 2);
+> +	ret = i2c_master_send(client, write_buf, sizeof(write_buf));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static int seesaw_read_data(struct i2c_client *client, struct seesaw_data *data)
+> +{
+> +	int ret;
+> +	__be16 adc_data;
+> +	__be32 read_buf;
+> +
+> +	ret = seesaw_register_read(client, SEESAW_GPIO_BASE, SEESAW_GPIO_BULK,
+> +				   (char *)&read_buf, sizeof(read_buf));
+> +	if (ret)
+> +		return ret;
+> +
+> +	data->button_state = ~be32_to_cpu(read_buf);
+> +
+> +	ret = seesaw_register_read(client, SEESAW_ADC_BASE,
+> +				   SEESAW_ADC_OFFSET + SEESAW_ANALOG_X,
+> +				   (char *)&adc_data, sizeof(adc_data));
+> +	if (ret)
+> +		return ret;
+> +	/*
+> +	 * ADC reads left as max and right as 0, must be reversed since kernel
+> +	 * expects reports in opposite order.
+> +	 */
+> +	data->x = SEESAW_JOYSTICK_MAX_AXIS - be16_to_cpu(adc_data);
+> +
+> +	ret = seesaw_register_read(client, SEESAW_ADC_BASE,
+> +				   SEESAW_ADC_OFFSET + SEESAW_ANALOG_Y,
+> +				   (char *)&adc_data, sizeof(adc_data));
+> +	if (ret)
+> +		return ret;
+> +	data->y = be16_to_cpu(adc_data);
+> +
+> +	return 0;
+> +}
+> +
+> +static void seesaw_poll(struct input_dev *input)
+> +{
+> +	int err, i;
+> +	struct seesaw_gamepad *private = input_get_drvdata(input);
+> +	struct seesaw_data data;
+> +
+> +	err = seesaw_read_data(private->i2c_client, &data);
+> +	if (err) {
+> +		dev_err_ratelimited(&input->dev,
+> +				    "failed to read joystick state: %d\n", err);
+> +		return;
+> +	}
+> +
+> +	input_report_abs(input, ABS_X, data.x);
+> +	input_report_abs(input, ABS_Y, data.y);
+> +
+> +	for_each_set_bit(i, (long *)&SEESAW_BUTTON_MASK,
+> +			 BITS_PER_TYPE(SEESAW_BUTTON_MASK)) {
+> +		if (!sparse_keymap_report_event(
+> +			    input, i, data.button_state & BIT(i), false)) {
+> +			dev_err_ratelimited(&input->dev,
+> +					    "failed to report keymap event");
+> +			return;
+
+I would drop this return. Report as much data as possible.
+
+> +		};
+> +	}
+> +
+> +	input_sync(input);
+> +}
+> +
+> +static int seesaw_probe(struct i2c_client *client)
+> +{
+> +	int ret;
+> +	u8 hardware_id;
+> +	struct seesaw_gamepad *seesaw;
+> +
+> +	ret = seesaw_register_write_u8(client, SEESAW_STATUS_BASE,
+> +				       SEESAW_STATUS_SWRST, 0xFF);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Wait for the registers to reset before proceeding */
+> +	usleep_range(10000, 15000);
+
+This would be a very tiny bit clearer:
+
+usleep_range(10 * MSEC_PER_USEC, 15 * MSEC_PER_USEC);
+
+> +
+> +	seesaw = devm_kzalloc(&client->dev, sizeof(*seesaw), GFP_KERNEL);
+> +	if (!seesaw)
+> +		return -ENOMEM;
+> +
+> +	ret = seesaw_register_read(client, SEESAW_STATUS_BASE,
+> +				   SEESAW_STATUS_HW_ID, &hardware_id,
+> +				   sizeof(hardware_id));
+> +	if (ret)
+> +		return ret;
+> +
+> +	dev_dbg(&client->dev, "Adafruit Seesaw Gamepad, Hardware ID: %02x\n",
+> +		hardware_id);
+> +
+> +	/* Set Pin Mode to input and enable pull-up resistors */
+> +	ret = seesaw_register_write_u32(client, SEESAW_GPIO_BASE,
+> +					SEESAW_GPIO_DIRCLR_BULK,
+> +					SEESAW_BUTTON_MASK);
+> +	if (ret)
+> +		return ret;
+> +	ret = seesaw_register_write_u32(client, SEESAW_GPIO_BASE,
+> +					SEESAW_GPIO_PULLENSET,
+> +					SEESAW_BUTTON_MASK);
+> +	if (ret)
+> +		return ret;
+> +	ret = seesaw_register_write_u32(client, SEESAW_GPIO_BASE,
+> +					SEESAW_GPIO_BULK_SET,
+> +					SEESAW_BUTTON_MASK);
+> +	if (ret)
+> +		return ret;
+> +
+> +	seesaw->i2c_client = client;
+> +	seesaw->input_dev = devm_input_allocate_device(&client->dev);
+> +	if (!seesaw->input_dev)
+> +		return -ENOMEM;
+> +
+> +	seesaw->input_dev->id.bustype = BUS_I2C;
+> +	seesaw->input_dev->name = "Adafruit Seesaw Gamepad";
+> +	seesaw->input_dev->phys = "i2c/" SEESAW_DEVICE_NAME;
+> +	input_set_drvdata(seesaw->input_dev, seesaw);
+> +	input_set_abs_params(seesaw->input_dev, ABS_X, 0,
+> +			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
+> +			     SEESAW_JOYSTICK_FLAT);
+> +	input_set_abs_params(seesaw->input_dev, ABS_Y, 0,
+> +			     SEESAW_JOYSTICK_MAX_AXIS, SEESAW_JOYSTICK_FUZZ,
+> +			     SEESAW_JOYSTICK_FLAT);
+> +
+> +	ret = sparse_keymap_setup(seesaw->input_dev, seesaw_buttons_new, NULL);
+> +	if (ret) {
+> +		dev_err(&client->dev,
+> +			"failed to set up input device keymap: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = input_setup_polling(seesaw->input_dev, seesaw_poll);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to set up polling: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	input_set_poll_interval(seesaw->input_dev, SEESAW_GAMEPAD_POLL_INTERVAL);
+> +	input_set_max_poll_interval(seesaw->input_dev, SEESAW_GAMEPAD_POLL_MAX);
+> +	input_set_min_poll_interval(seesaw->input_dev, SEESAW_GAMEPAD_POLL_MIN);
+> +
+> +	ret = input_register_device(seesaw->input_dev);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to register joystick: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct i2c_device_id seesaw_id_table[] = {
+> +	{ SEESAW_DEVICE_NAME, 0 },
+> +	{ /* Sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, seesaw_id_table);
+> +
+> +static struct i2c_driver seesaw_driver = {
+> +	.driver = {
+> +		.name = SEESAW_DEVICE_NAME,
+> +	},
+> +	.id_table = seesaw_id_table,
+> +	.probe = seesaw_probe,
+> +};
+> +module_i2c_driver(seesaw_driver);
+> +
+> +MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
+> +MODULE_DESCRIPTION("Adafruit Mini I2C Gamepad driver");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.42.0
+> 
