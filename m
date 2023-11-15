@@ -1,174 +1,150 @@
-Received: from 13.mo584.mail-out.ovh.net (13.mo584.mail-out.ovh.net [178.33.251.8])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9E64683
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 07:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from director1.ghost.mail-out.ovh.net (unknown [10.108.1.93])
-	by mo584.mail-out.ovh.net (Postfix) with ESMTP id B40BB24CF3
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 06:55:17 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-kk79p (unknown [10.110.103.209])
-	by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id CCDBC1FE63;
-	Wed, 15 Nov 2023 06:55:14 +0000 (UTC)
-Received: from foxhound.fi ([37.59.142.109])
-	by ghost-submission-6684bf9d7b-kk79p with ESMTPSA
-	id dYJtK1JrVGU8rBAAqzq3ag
-	(envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 15 Nov 2023 06:55:14 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-109S0036636ec59-b412-492a-b5ae-5815ec344a16,
-                    1B5EDD6806DE6C3B4F01E8E4F83C0687A6DCEFC3) smtp.auth=jose.pekkarinen@foxhound.fi
-X-OVh-ClientIp:87.94.111.222
-From: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: akpm@linux-foundation.org,
-	skhan@linuxfoundation.org
-Cc: =?UTF-8?q?Jos=C3=A9=20Pekkarinen?= <jose.pekkarinen@foxhound.fi>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com
-Subject: [PATCH] mm/pgtable: return null if no ptl in __pte_offset_map_lock
-Date: Wed, 15 Nov 2023 08:55:05 +0200
-Message-Id: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D213F4687
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Nov 2023 09:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="IW542DAi"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5AAEA60B21
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Nov 2023 09:09:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5AAEA60B21
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=IW542DAi
+X-Virus-Scanned: amavisd-new at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.227
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id quIexK5sFHYT
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Wed, 15 Nov 2023 09:09:32 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02acsn20805.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe12::805])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 968E760B06
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Nov 2023 09:09:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 968E760B06
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Npdft/OGYuMbmyAUX0ZvKN51KFI/lSAI0Wtst8V2Ct9zVLJZKrgvpJl2Yt5OgQjleoSZHrjVWu/MiSbgMLs6liphGqlG5FS3E86u0e+NC/NkN06KYopI2Zp6BLmRffaEN0OSgz4z/g6w7fUrqjwHF86G1DwpoYUlRNJ5pLXsvq9yAsjP7VATY0JddW8g38AVIlaNTLl6QFRfy8Lf2IYkJ/aHxta37cnoMFlnhd0syrmxNoGLDWtsyEByMbvVhg4Epws9C0yfJxAgnGNOmYaBqfLSq096YSZ6rykdpen6XoKDK5UqC46+VzVbYVun2ar9SnXK6qTF6ZBa0j0fwY1Zqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BVufSnjklVtqYF/i2zyON1MCgifDrEx/Ju38yb3+pAM=;
+ b=S7HXj9W6fd5f2lDgomLVneLC/IJdwkIjOsoJGLmeiowJucva6gD9UIs0roJrPJxU+WCU0lxX90EvDoHvcq50jfpt7EA6tGp/pQeYjf3Nu4fSyqMEf8zHUP/SdHfdvB1dv7vrcAuPaVXm3UT/LVoVPrtJgymsNtRWxDevjZCCxkGuUf8V4XgFYEboa63qiVN17SPWstgrISCa3k6pYptuNK0Wn656DNbGEjtvaMX3qOuXYpxTS8z0Kej2veIfNpImoDcir+vTDobmQ0+0nMKXQQLctDOA7jf0+EzMS4/N8YrcDrsRnZeV7M10fcy0gDdFPSzOyXnf7qX7nVZLrT7vJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BVufSnjklVtqYF/i2zyON1MCgifDrEx/Ju38yb3+pAM=;
+ b=IW542DAiHHO6tkqqS6GfvEVWMmSOuNXJ5oa2Z8S8OFxVhBy3EfOPDCX3z0JLzJvGX8iopHkpAGt1uBY9qTF2Vx7snr+dQEc1p45F9sRcHrp4FDvqm0OadG57rXWguJ8y5ao3zEQR750ERcXiG7LRGleJVNdYimiHZ10st3pN+Z2NCKbpncaCDKHOjYCGt0QvVuK+IASENuey2EVfrsaoUIMT6xZs3M4FY/+e54g6T6hnN58jBpulqFgmccw9tWz3zd7omASdQRhYFaHZfAiBiIfx4p5AbSVEB/bMxQz5TXjMqWL1bVgdk+zXEGyqt7TmoEaAbuDmMpFdIP0arkp2gg==
+Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
+ by GV1PR10MB5937.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:59::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
+ 2023 09:09:14 +0000
+Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c45:bfdf:a384:5450]) by GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c45:bfdf:a384:5450%6]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
+ 09:09:14 +0000
+Date: Wed, 15 Nov 2023 14:38:12 +0530
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: airlied@gmail.com, kherbst@redhat.com, lyude@redhat.com,
+	daniel@ffwll.ch, sumit.semwal@linaro.org, christian.koenig@amd.com,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] drm/nouveau: Prevents NULL pointer dereference in
+ nouveau_uvmm_sm_prepare
+Message-ID:
+ <GV1PR10MB6563980A0097762C6868E2DCE8B1A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+References: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
+ <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
+X-TMN: [6Iqutr5U9611Hn/yxu9KtnQuiFevF5DX]
+X-ClientProxiedBy: JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22)
+ To GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
+X-Microsoft-Original-Message-ID: <20231115090812.GA2381420@nmj-network>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 7734087937806738971
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudefhedgfeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeevveeileeukeefjeevkeffudehhedtvdeuhffgteelvdejieefheffveelhfekheenucffohhmrghinhepshihiihkrghllhgvrhdrrghpphhsphhothdrtghomhenucfkphepuddvjedrtddrtddruddpkeejrdelgedrudduuddrvddvvddpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekgedpmhhouggvpehsmhhtphhouhht
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR10MB6563:EE_|GV1PR10MB5937:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8d6aafc1-a82f-4db3-7b09-08dbe5ba6e59
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	aM6hab7v2ftiW148wwotWQ8J/R3WvAn6+iq+8Id/xRZUpKp51RLxQLSQMyhoUlfTTSDZn59/IvTPYPqFwRm+y4wVjIO47TDebKb3+B/eMWx6aeBn8YqdBgyRd6biwtNGY3ED7FgT8B1GTm5oOmKk9nzG3/F6hfbi2Rarx+GN+FAFgeAtX/NquGI2XfRutVUa6N9exKA5vN9fgcwlNZrAflM/Damdhkyn+WtJVlZvvJyKbTTQYB1PUQmCiumn0O6Edq4c/OoVMDLrzNUAgdgSnCe9XPVcKn5cfeGVAQ58IPbmT67lJ0VyZp1vvcxlR2qewFfT+u70//3IYLCM0tk9B20c7ji3pEpO0LHNnzRv4p1IjORUPA+s2cHW4cORL/8dmgazbesBJzXjdL1bKs7QU2tPXbjkSVD6zt1QXsSus16UvUT1kR4grfhdby9VMvzRcPJOfTcxokOBGoovBJ4tFjv4Fj2i0qa6++EA9xQnCux7z3cKfm8mw6auS6gxk/iK+E8816um045AlEx9Xb6/Ud7SD8ywrbKUgyzPatOO0IFbUkohFgc8fr6fqCS9Cvy+
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?h3CH4Q8PKXybcKFv5OAy88ojmkvCZdx3xRLcOSq3Dg8uWYc6gd0vc9DLp5Sl?=
+ =?us-ascii?Q?fGXNnW/CgZq8fxsIIrZU34+mfUiCRuLzLWZUfJ/x9FkBlIJ2A3J5t0iG/1K/?=
+ =?us-ascii?Q?QarvwQcKo2jXvtiYyL6NiZC9LChAtgoh4JNNSBmxtI4cEaVOxdC3GAbC92ZB?=
+ =?us-ascii?Q?ZEqP/lv7pwUOF/mss5m29Ll+7aaI0QrjAR+e8wHNmGRu4PuV7HZt2R3zuxQ2?=
+ =?us-ascii?Q?XwgQx3spbofO7R+HhzAgTL+v/+kp9nWweGDG5GyTgONKN+8yoiO8vRIf3Fw6?=
+ =?us-ascii?Q?xg7pn3ja3dg3woIpghFB/ae2syrmkdtxyeDQx8CXLNujj2NrfuBnN6PE+E49?=
+ =?us-ascii?Q?JQokkvfjKqUtjv4eb97fXjYMeIryKSHH8iMLOSdebmlvlMYplByNvepqTdHM?=
+ =?us-ascii?Q?D/AdSJgnjBygjVkpDi0nAeAEmulxndx48EYu1NCpnktxWEngjdYH9CzqLux7?=
+ =?us-ascii?Q?3tXuYCpQIXtjiO9yQltTe3euMS8eZLJSSrJusybM1Mj5WxOQJe59NDXpFE4Y?=
+ =?us-ascii?Q?FprLe9R4blEC21fH5RxEJFAlFTErdVn+hRnJz7uExTiNolEuy5GMTcZ358nS?=
+ =?us-ascii?Q?YmpI4iuxuaCjb5s/yjOCDcLrYnVt5AD15TnlCWT4elgOllG3EXB3JZxza6Xf?=
+ =?us-ascii?Q?VmPyIvoQ4xzX26FxvYzt9G31Aimj0c/vd01IF+mPwM1pfSV0JEXO00yPwVt3?=
+ =?us-ascii?Q?TrI9cYDEQCAHeulxiA/d30T7DKwNk8iCEUtDAbcQkd11UX1uQXSKA3asnHiF?=
+ =?us-ascii?Q?IK/8iCZBuxblC3StJyMS7QBd+2AQP26nZDhqM7/qfHozHYzTjJ1KCUKgl9CC?=
+ =?us-ascii?Q?7tPBYAAH2N8vzEWT6FO0JubLGnug66LJiOciqm+w1eR7q1c6Faha9eBf0CP2?=
+ =?us-ascii?Q?+LuaKFpairwXlsS1b7JCssm1xDiSNASWZaSD47Yp1fRSh8MzvGgLFT1USyZh?=
+ =?us-ascii?Q?Ya1tzuzIkNZrpQpCwoB5xfBX9M8xTOOwWFssaBqZvqcNr8w4fWegjrddaq6P?=
+ =?us-ascii?Q?SmMe9/p4xi7eHrUNJHf9Zw6Sf6mAQ6PAqIfW/N1Zf03Rb6aPqtnAeFGFcJrR?=
+ =?us-ascii?Q?qPysucbZaQoHnlYuKFrWxMyahVECcxomffCtSucwzvk2gVUjjT1xgDJx8kiQ?=
+ =?us-ascii?Q?yy6SzYYuJsz5HT1ocjw4ZC+xF27zrzIVvq7IdJwvVCSvkQ89ElcTNxLl8Zf5?=
+ =?us-ascii?Q?/1wZltK3VLf26dKRZ5sPOGeIB+ZxblV2rTKPURMQRdQE1gYr26CKPLY2jwI?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d6aafc1-a82f-4db3-7b09-08dbe5ba6e59
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 09:09:14.3652
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5937
 
-Documentation of __pte_offset_map_lock suggest there is situations where
-a pmd may not have a corresponding page table, in which case it should
-return NULL without changing ptlp. Syzbot found its ways to produce a
-NULL dereference in the function showing this case. This patch will
-provide the exit path suggested if this unlikely situation turns up. The
-output of the kasan null-ptr-report follows:
+Hello Danilo,
+On Tue, Nov 14, 2023 at 05:23:59PM +0100, Danilo Krummrich wrote:
+> Hi Yuran,
+> 
+> op_map_prepare() can't be called with `args` being NULL, since when called
+> through nouveau_uvmm_sm_unmap_prepare() we can't hit the DRM_GPUVA_OP_MAP
+> case at all.
+> 
+> Unmapping something never leads to a new mapping being created, it can lead
+> to remaps though.
+> 
+Yes, you're right. I certainly hadn't noticed that when I first
+submitted this patch.
+> 
+> This check is not required for the reason given above. If you like, you
+> can change this patch up to remove the args check and add a comment like:
+> 
+> /* args can't be NULL when called for a map operation. */
+> 
+Sure, I'll do that, sounds reasonable.
 
-Unable to handle kernel paging request at virtual address dfff800000000004
-KASAN: null-ptr-deref in range [0x0000000000000020-0x0000000000000027]
-Mem abort info:
-  ESR = 0x0000000096000005
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x05: level 1 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
-  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-[dfff800000000004] address between user and kernel address ranges
-Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 7952 Comm: syz-executor682 Not tainted 6.6.0-rc6-syzkaller-g78124b0c1d10 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
-pstate: 804000c5 (Nzcv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : __lock_acquire+0x104/0x75e8 kernel/locking/lockdep.c:5004
-lr : lock_acquire+0x23c/0x71c kernel/locking/lockdep.c:5753
-sp : ffff800098f26d40
-x29: ffff800098f27000 x28: ffff8000808df4bc x27: ffff7000131e4e18
-x26: 1ffff00011c340b9 x25: 0000000000000000 x24: 0000000000000000
-x23: ffff7000131e4dd0 x22: 0000000000000000 x21: 0000000000000000
-x20: 0000000000000000 x19: 0000000000000022 x18: ffff800098f27750
-x17: 0000ffff833dafff x16: ffff80008a632120 x15: 0000000000000001
-x14: ffff80008e1a05d0 x13: ffff800098f26e80 x12: dfff800000000000
-x11: ffff800080319468 x10: ffff80008e1a05cc x9 : 00000000000000f3
-x8 : 0000000000000004 x7 : ffff8000808df4bc x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
-x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000022
-Call trace:
- __lock_acquire+0x104/0x75e8 kernel/locking/lockdep.c:5004
- lock_acquire+0x23c/0x71c kernel/locking/lockdep.c:5753
- __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
- _raw_spin_lock+0x48/0x60 kernel/locking/spinlock.c:154
- spin_lock include/linux/spinlock.h:351 [inline]
- __pte_offset_map_lock+0x154/0x360 mm/pgtable-generic.c:373
- pte_offset_map_lock include/linux/mm.h:2939 [inline]
- filemap_map_pages+0x698/0x11f0 mm/filemap.c:3582
- do_fault_around mm/memory.c:4525 [inline]
- do_read_fault mm/memory.c:4558 [inline]
- do_fault mm/memory.c:4705 [inline]
- do_pte_missing mm/memory.c:3669 [inline]
- handle_pte_fault mm/memory.c:4978 [inline]
- __handle_mm_fault mm/memory.c:5119 [inline]
- handle_mm_fault+0x326c/0x49fc mm/memory.c:5284
- faultin_page mm/gup.c:956 [inline]
- __get_user_pages+0x3e0/0xa24 mm/gup.c:1239
- populate_vma_page_range+0x254/0x328 mm/gup.c:1666
- __mm_populate+0x240/0x3d8 mm/gup.c:1775
- mm_populate include/linux/mm.h:3305 [inline]
- vm_mmap_pgoff+0x2bc/0x3d4 mm/util.c:551
- ksys_mmap_pgoff+0xd0/0x5b0 mm/mmap.c:1400
- __do_sys_mmap arch/arm64/kernel/sys.c:28 [inline]
- __se_sys_mmap arch/arm64/kernel/sys.c:21 [inline]
- __arm64_sys_mmap+0xf8/0x110 arch/arm64/kernel/sys.c:21
- __invoke_syscall arch/arm64/kernel/syscall.c:37 [inline]
- invoke_syscall+0x98/0x2b8 arch/arm64/kernel/syscall.c:51
- el0_svc_common+0x130/0x23c arch/arm64/kernel/syscall.c:136
- do_el0_svc+0x48/0x58 arch/arm64/kernel/syscall.c:155
- el0_svc+0x54/0x158 arch/arm64/kernel/entry-common.c:678
- el0t_64_sync_handler+0x84/0xfc arch/arm64/kernel/entry-common.c:696
- el0t_64_sync+0x190/0x194 arch/arm64/kernel/entry.S:595
-Code: b006f948 b943a108 34000208 d343fe68 (386c6908)
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:   b006f948        adrp    x8, 0xdf29000
-   4:   b943a108        ldr     w8, [x8, #928]
-   8:   34000208        cbz     w8, 0x48
-   c:   d343fe68        lsr     x8, x19, #3
-* 10:   386c6908        ldrb    w8, [x8, x12] <-- trapping instruction
+Thank you for your feedback.
 
-Reported-by: syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com
-Fixes: 0d940a9b270b9 ("mm/pgtable: allow pte_offset_map[_lock]() to fail")
-Closes: https://syzkaller.appspot.com/bug?id=7494636a5865150aecc6e480e0e7e17f2980ad8d
-Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
----
- include/linux/mm.h   | 4 ++--
- mm/pgtable-generic.c | 2 ++
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 418d26608ece..38d876529e1f 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2854,7 +2854,7 @@ void ptlock_free(struct ptdesc *ptdesc);
- 
- static inline spinlock_t *ptlock_ptr(struct ptdesc *ptdesc)
- {
--	return ptdesc->ptl;
-+	return (likely(ptdesc)) ? ptdesc->ptl : NULL;
- }
- #else /* ALLOC_SPLIT_PTLOCKS */
- static inline void ptlock_cache_init(void)
-@@ -2872,7 +2872,7 @@ static inline void ptlock_free(struct ptdesc *ptdesc)
- 
- static inline spinlock_t *ptlock_ptr(struct ptdesc *ptdesc)
- {
--	return &ptdesc->ptl;
-+	return (likely(ptdesc)) ? &ptdesc->ptl : NULL;
- }
- #endif /* ALLOC_SPLIT_PTLOCKS */
- 
-diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-index 4fcd959dcc4d..7796339d7ef2 100644
---- a/mm/pgtable-generic.c
-+++ b/mm/pgtable-generic.c
-@@ -370,6 +370,8 @@ pte_t *__pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
- 	if (unlikely(!pte))
- 		return pte;
- 	ptl = pte_lockptr(mm, &pmdval);
-+	if (unlikely(!ptl))
-+		return NULL;
- 	spin_lock(ptl);
- 	if (likely(pmd_same(pmdval, pmdp_get_lockless(pmd)))) {
- 		*ptlp = ptl;
--- 
-2.39.2
-
+Yuran
+> 
+> Yeah, I see how this unnecessary check made you think so.
+> 
+> - Danilo
+> 
+> 
