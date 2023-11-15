@@ -1,123 +1,86 @@
-Received: from 19.mo581.mail-out.ovh.net (19.mo581.mail-out.ovh.net [178.33.251.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530A520B37
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 16:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from director5.ghost.mail-out.ovh.net (unknown [10.109.156.25])
-	by mo581.mail-out.ovh.net (Postfix) with ESMTP id C30FE28A8F
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 16:05:32 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-k8mr2 (unknown [10.108.4.159])
-	by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id D06841FE53;
-	Wed, 15 Nov 2023 16:05:31 +0000 (UTC)
-Received: from RCM-web2.webmail.mail.ovh.net ([176.31.232.109])
-	by ghost-submission-6684bf9d7b-k8mr2 with ESMTPSA
-	id ayhHFUvsVGXUOSsAdDy9bg
-	(envelope-from <jose.pekkarinen@foxhound.fi>); Wed, 15 Nov 2023 16:05:31 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E2B39FC3
+	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 16:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gH/gbnwT"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7788ebea620so460796285a.3
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 08:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700067462; x=1700672262; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1x9R1YSMtIDXOY8NGRNz1DEQdPm/O2O78pgU5S8Hxw4=;
+        b=gH/gbnwT4zFIP2ZnBw0q1bhuc1jF3sTs0iHSpw/ih864felLmvkQuRFe34dNTP44B9
+         14NrifVQHCA7BMLErhsSBYa/XVMYXx2ucRSqY+Ls2CksGBa0Xr19ApWyEeHXw1z+7Hdo
+         AddJwU2S9Vcjpl6x890W/E6jyKduD+p/XQj32jDR4yJ89SooUZyRDirlqfs4pZauN7Cn
+         arhOiZcgWFOtlXZUVWiNfy5Kkf9F6JbwBASlu32aWTfSLwZDxKcwcq/hH6LugsPojgtS
+         Q+GCGONbA2giJl3bRyviEFHqr6jR92Rt0n4+437WU3OAwf1tsPN7tP9X1ciZcOTx256y
+         DlDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700067462; x=1700672262;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1x9R1YSMtIDXOY8NGRNz1DEQdPm/O2O78pgU5S8Hxw4=;
+        b=kBf8ZigXuWh8bkyMHx3bo6npjSVw6tfqtgFcuAExx4XR6KZfAsTKjF905wpo38IVOj
+         AZTI9PHya7vozPzwl7j9np5hiKV+0PTLCItTDz1AjJkSGBe6rH3r+Gooq0XGlMpYwbcC
+         wY6ENvsCiKfRdGW6EkAB8O9BVlg4DkjhXplqUL+YoeIcLFHCbRlQ3sveG/cZ/g8tBgIQ
+         zDuE7rep2jSGy195ajrLk7xkcLUWK2tfCEkx2J6beWa5zlkejkjQ59sR9tyjzBLVyLa+
+         t7nvFYDTOuAptzRLLmD2wKYFfMrcwrjp1rjXqKpzCMBmMK8siiTuzepPIuSGlWDXyIlZ
+         jN5A==
+X-Gm-Message-State: AOJu0YwkAvTWwAkbblBNY4qHUxxvH8FNXSSRfHIC/99DL9F3yXKe7FBK
+	LmnR+ghCV/x6vx02PHqD7bw=
+X-Google-Smtp-Source: AGHT+IFz+mw4hPmT4In3mdPGGl4jilSo2flRmV/qc0FnnkrlDaXtzRHshv+tlmwNmEUBGLkOQhhwWg==
+X-Received: by 2002:a05:6214:c25:b0:66d:1624:2203 with SMTP id a5-20020a0562140c2500b0066d16242203mr6753177qvd.20.1700067461669;
+        Wed, 15 Nov 2023 08:57:41 -0800 (PST)
+Received: from google.com ([12.186.190.1])
+        by smtp.gmail.com with ESMTPSA id a5-20020ad441c5000000b0065af366bdc1sm655942qvq.103.2023.11.15.08.57.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 08:57:41 -0800 (PST)
+Date: Wed, 15 Nov 2023 16:57:38 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
+Cc: skhan@linuxfoundation.org, rrangel@chromium.org,
+	jefferymiller@google.com, linux-input@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH RESEND] Input: synaptics: enable InterTouch for ThinkPad
+ L14 G1
+Message-ID: <ZVT4gorWmFwNvGU4@google.com>
+References: <20231114063607.71772-1-jose.pekkarinen@foxhound.fi>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 15 Nov 2023 18:05:30 +0200
-From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: akpm@linux-foundation.org, skhan@linuxfoundation.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linux.dev,
- syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com, Hugh Dickins
- <hughd@google.com>
-Subject: Re: [PATCH] mm/pgtable: return null if no ptl in
- __pte_offset_map_lock
-In-Reply-To: <ZVTTbuviH9/RWYyI@casper.infradead.org>
-References: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi>
- <ZVTTbuviH9/RWYyI@casper.infradead.org>
-User-Agent: Roundcube Webmail/1.4.15
-Message-ID: <1c4cb1959829ecf4f0c59691d833618c@foxhound.fi>
-X-Sender: jose.pekkarinen@foxhound.fi
-Organization: Foxhound Ltd.
-X-Originating-IP: 185.220.100.249
-X-Webmail-UserID: jose.pekkarinen@foxhound.fi
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 17026984294489761383
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudefiedgjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpudekhedrvddvtddruddttddrvdegledpudejiedrfedurddvfedvrddutdelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehkedupdhmohguvgepshhmthhpohhuth
+In-Reply-To: <20231114063607.71772-1-jose.pekkarinen@foxhound.fi>
 
-On 2023-11-15 16:19, Matthew Wilcox wrote:
-> On Wed, Nov 15, 2023 at 08:55:05AM +0200, JosÃ© Pekkarinen wrote:
->> Documentation of __pte_offset_map_lock suggest there is situations 
->> where
+On Tue, Nov 14, 2023 at 08:36:07AM +0200, José Pekkarinen wrote:
+> Observed on dmesg of my laptop I see the following
+> output:
 > 
-> You should have cc'd Hugh who changed all this code recently.
-
-     Hi,
-
-     Sorry, he seems to be missing if I run get_maintainer.pl:
-
-$ ./scripts/get_maintainer.pl include/linux/mm.h
-Andrew Morton <akpm@linux-foundation.org> (maintainer:MEMORY MANAGEMENT)
-linux-mm@kvack.org (open list:MEMORY MANAGEMENT)
-linux-kernel@vger.kernel.org (open list)
-
->> a pmd may not have a corresponding page table, in which case it should
->> return NULL without changing ptlp. Syzbot found its ways to produce a
->> NULL dereference in the function showing this case. This patch will
->> provide the exit path suggested if this unlikely situation turns up. 
->> The
->> output of the kasan null-ptr-report follows:
+> [   19.898700] psmouse serio1: synaptics: queried max coordinates: x [..5678], y [..4694]
+> [   19.936057] psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1162..]
+> [   19.936076] psmouse serio1: synaptics: Your touchpad (PNP: LEN0411 PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
+> [   20.008901] psmouse serio1: synaptics: Touchpad model: 1, fw: 10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board id: 3471, fw id: 2909640
+> [   20.008925] psmouse serio1: synaptics: serio: Synaptics pass-through port at isa0060/serio1/input0
+> [   20.053344] input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input7
+> [   20.397608] mousedev: PS/2 mouse device common for all mice
 > 
-> There's no need to include all this nonsense in the changelog.
-
-     No problem, we can clean the patch if we find there is something
-worth upstreaming.
-
->>  spin_lock include/linux/spinlock.h:351 [inline]
->>  __pte_offset_map_lock+0x154/0x360 mm/pgtable-generic.c:373
->>  pte_offset_map_lock include/linux/mm.h:2939 [inline]
->>  filemap_map_pages+0x698/0x11f0 mm/filemap.c:3582
+> This patch will add its pnp id to the smbus list to
+> produce the setup of intertouch for the device.
 > 
-> This was the only interesting part.
-> 
->> +++ b/include/linux/mm.h
->> @@ -2854,7 +2854,7 @@ void ptlock_free(struct ptdesc *ptdesc);
->> 
->>  static inline spinlock_t *ptlock_ptr(struct ptdesc *ptdesc)
->>  {
->> -	return ptdesc->ptl;
->> +	return (likely(ptdesc)) ? ptdesc->ptl : NULL;
->>  }
-> 
-> I don't think we should be changing ptlock_ptr().
+> Signed-off-by: José Pekkarinen <jose.pekkarinen@foxhound.fi>
 
-     This is where the null ptr dereference originates, so the only
-alternative I can think of is to protect the life cycle of the ptdesc
-to prevent it to die between the pte check and the spin_unlock of
-__pte_offset_map_lock. Would that work for you?
+Applied, thank you.
 
->> +++ b/mm/pgtable-generic.c
->> @@ -370,6 +370,8 @@ pte_t *__pte_offset_map_lock(struct mm_struct *mm, 
->> pmd_t *pmd,
->>  	if (unlikely(!pte))
->>  		return pte;
->>  	ptl = pte_lockptr(mm, &pmdval);
->> +	if (unlikely(!ptl))
->> +		return NULL;
->>  	spin_lock(ptl);
-> 
-> I don't understand how this could possibly solve the problem.  If 
-> there's
-> no PTE level, then __pte_offset_map() should return NULL and we'd 
-> already
-> return due to the check for !pte.
-
-     I tested the syzbot reproducer in x86 and it doesn't produce this 
-kasan
-report anymore.
-
-     JosÃ©.
+-- 
+Dmitry
