@@ -1,87 +1,181 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DBE2770E
-	for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 14:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9774A2FC2A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Nov 2023 14:39:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CkLWirzP"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=8wVh7DNUM7SnBmRuhtk1Q8XS+buoIAZhntJMpDAZN9s=; b=CkLWirzPtZyuIqJtO/yj4dR8ED
-	VmPqsDv+N0TdxUVmsRFwrWQj428Pmah59NVEjJB74wg7JRFWMvDES4RAXI9s7RpUvvjsPrNIaaXVg
-	N4T8JsQefBRczx7SkSy1sCw/4fIDjOfo6LYqXqTQDZtZppFsQ5g7OUqg31qMMKPCBM4LATNf2eueY
-	0ZKJKBE/hNWqK1goS88kx5kDx3DD1zY6cawzbRihDONBejLL2aXY9GaNa8LZigajivqS5JyVvHK20
-	qcUrWVVlFGUmCAfPwFZSQa/9cUWiN1fNuN1bmLu26zaIonEcKla7dquCqe2QTG+ymhPukrViod3+v
-	YRk+8CXw==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1r3Gjm-00EekH-Dv; Wed, 15 Nov 2023 14:19:26 +0000
-Date: Wed, 15 Nov 2023 14:19:26 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: =?iso-8859-1?Q?Jos=E9?= Pekkarinen <jose.pekkarinen@foxhound.fi>
-Cc: akpm@linux-foundation.org, skhan@linuxfoundation.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com,
-	Hugh Dickins <hughd@google.com>
-Subject: Re: [PATCH] mm/pgtable: return null if no ptl in
- __pte_offset_map_lock
-Message-ID: <ZVTTbuviH9/RWYyI@casper.infradead.org>
-References: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZCHf3pqh"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 18CF1421DE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Nov 2023 14:39:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 18CF1421DE
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ZCHf3pqh
+X-Virus-Scanned: amavisd-new at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.401
+X-Spam-Level:
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qMKdAMX5BxIW
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Wed, 15 Nov 2023 14:39:03 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7EEC8421DC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 Nov 2023 14:39:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7EEC8421DC
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 8382ACE1DC2;
+	Wed, 15 Nov 2023 14:38:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B14A5C433C8;
+	Wed, 15 Nov 2023 14:38:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700059137;
+	bh=V6YbwlGcrf2Z9pv+riw05AJ1AB+MKCO/JbUd36Barhs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZCHf3pqhF4URY84pt75400f8LCvqCFX9rOe1/AJnXhtMQQYT0KHbR4ow9znYb58lx
+	 JmcfqiDM8oTaMGjZPmLodk6uwmKBauUUrk91Wo3fDSTpmnfUHsIoLoNgt536vSprve
+	 CBk56G0MBPrhaDxO/zt5Kaw9khOJiAENffeXtryF6cLWyb7rJamSLh4WMOjBPSM1ho
+	 cL3vzpvromKAMWA9+rR7s1VjI8fbHbxP6ZQrbFXDan8nX1C5BbSjFe7KXGgFNOlAGf
+	 tzB9NT+Hk6oNGAlM8KiXkTqqq78emc5aQjWj5to/KieCytTXdSngjnPmd0tlqNkbU+
+	 4MmvO85fN9CZQ==
+Date: Wed, 15 Nov 2023 14:38:54 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: trivial-devices: add aosong,ags02ma
+Message-ID: <20231115-stability-arrive-e0458f6f7b0f@squawk>
+References: <20231115125810.1394854-1-anshulusr@gmail.com>
+ <20231115125810.1394854-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1U46IvZoQyzS/ftn"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi>
+In-Reply-To: <20231115125810.1394854-2-anshulusr@gmail.com>
 
-On Wed, Nov 15, 2023 at 08:55:05AM +0200, José Pekkarinen wrote:
-> Documentation of __pte_offset_map_lock suggest there is situations where
 
-You should have cc'd Hugh who changed all this code recently.
+--1U46IvZoQyzS/ftn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> a pmd may not have a corresponding page table, in which case it should
-> return NULL without changing ptlp. Syzbot found its ways to produce a
-> NULL dereference in the function showing this case. This patch will
-> provide the exit path suggested if this unlikely situation turns up. The
-> output of the kasan null-ptr-report follows:
+On Wed, Nov 15, 2023 at 06:28:07PM +0530, Anshul Dalal wrote:
+> Add bindings for Aosong AGS02MA TVOC sensor.
+>=20
+> The sensor communicates over i2c with the default address 0x1a.
+> TVOC values can be read in the units of ppb and ug/m^3 at register 0x00.
+>=20
+> Datasheet:
+>   https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
+> Product-Page:
+>   http://www.aosong.com/m/en/products-33.html
+>=20
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> ---
+>=20
+> Changes for v2:
+> - Removed device from trivial-devices
 
-There's no need to include all this nonsense in the changelog.
+Your $subject still says "trivial-devices" though, so please fix that in
+your next submission.
 
->  spin_lock include/linux/spinlock.h:351 [inline]
->  __pte_offset_map_lock+0x154/0x360 mm/pgtable-generic.c:373
->  pte_offset_map_lock include/linux/mm.h:2939 [inline]
->  filemap_map_pages+0x698/0x11f0 mm/filemap.c:3582
+> - Added standalone binding with vdd-supply property
+> ---
+>  .../bindings/iio/chemical/aosong,ags02ma.yaml | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/chemical/aosong=
+,ags02ma.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/chemical/aosong,ags02m=
+a.yaml b/Documentation/devicetree/bindings/iio/chemical/aosong,ags02ma.yaml
+> new file mode 100644
+> index 000000000000..4a0278c6318c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/chemical/aosong,ags02ma.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/chemical/aosong,ags02ma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aosong AGS02MA VOC Sensor
+> +
+> +description: |
+> +  AGS02MA is an TVOC (Total Volatile Organic Compounds) i2c sensor with =
+default
+> +  address of 0x1a.
+> +
+> +  Datasheet:
+> +    https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
+> +
+> +maintainers:
+> +  - Anshul Dalal <anshulusr@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aosong,ags02ma
+> +      - asair,ags02ma
 
-This was the only interesting part.
+Why do you have two compatibles for the same device? Please document and
+use only one of these. The aoson website says:
+"Guangzhou ASAIR Electronic Co., Ltd"
+so I suspect "asair" is a more apt vendor prefix.
 
-> +++ b/include/linux/mm.h
-> @@ -2854,7 +2854,7 @@ void ptlock_free(struct ptdesc *ptdesc);
->  
->  static inline spinlock_t *ptlock_ptr(struct ptdesc *ptdesc)
->  {
-> -	return ptdesc->ptl;
-> +	return (likely(ptdesc)) ? ptdesc->ptl : NULL;
->  }
 
-I don't think we should be changing ptlock_ptr().
+Thanks,
+Conor.
 
-> +++ b/mm/pgtable-generic.c
-> @@ -370,6 +370,8 @@ pte_t *__pte_offset_map_lock(struct mm_struct *mm, pmd_t *pmd,
->  	if (unlikely(!pte))
->  		return pte;
->  	ptl = pte_lockptr(mm, &pmdval);
-> +	if (unlikely(!ptl))
-> +		return NULL;
->  	spin_lock(ptl);
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        light-sensor@1a {
+> +            compatible =3D "aosong,ags02ma";
+> +            reg =3D <0x1a>;
+> +            vdd-supply =3D <&vdd_regulator>;
+> +        };
+> +    };
+> --=20
+> 2.42.0
+>=20
 
-I don't understand how this could possibly solve the problem.  If there's
-no PTE level, then __pte_offset_map() should return NULL and we'd already
-return due to the check for !pte.
+--1U46IvZoQyzS/ftn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVTX6AAKCRB4tDGHoIJi
+0p8YAP97yIsknJKuaKNoFLpkjtdd7KHr4eWGOq6p5+3kJSLLdQEArd6XtnHdgfui
+DfxPLrSxiaGIQHzHgjrlBCnSVV4pLAU=
+=f488
+-----END PGP SIGNATURE-----
+
+--1U46IvZoQyzS/ftn--
