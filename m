@@ -1,183 +1,193 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51092847D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Nov 2023 03:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A75EAE4
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Nov 2023 07:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="Pd69ZkF5"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id CE43B404F5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Nov 2023 03:23:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CE43B404F5
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=Pd69ZkF5
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -1.227
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zinAtiKMKzkv
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 16 Nov 2023 03:23:12 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03olkn2082c.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaf::82c])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CCA2E40360
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Nov 2023 03:23:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CCA2E40360
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EwPrRS6O+siegdK2UwgZ7Xd7jYHivMKanZHUyEiUjwz1wNCtQQRF12EWLyy5AnwmjnbfsglSSeqG4nUyBwSJ/nXpygflqnPjPYLWDxZFi9GojVzmcheDPCzkrFbRN6qnsz/r7b1PqHwuVT+Gj+o4b+XkCzT2xNTJJ7MRL1sRnOgflY9V0VGPLwU2fozZMAeTPWPV5Fk//mLUsKybmvAAQv3CeC7ydSsOPwai3ME1xDvXX4EZYh6I6WMDXItczb6aGU1mc/LylKCskyVEBpOvj1vNqutMzm3hIsaoGz8ZzAkN2kqXEGRcB2yoRUVgZ/CJJGtlpVIAty5n6R+YKn7/bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SEV6FSvKBUg1qgQLg6TT1AC2iHwQLooeot5R9UOQzCQ=;
- b=CXp4t9LFA8qizmseF/6DYraK6lwG6H9kvZh6zYxU2L75XN12RNcVmsGxG7Cpgbp9CrNozyOKdDTezWMcaTVOh/UY6rWky/PffoKK3nw0fXWsohrl/7sdBrUFh+huxu5ED2PpOCmpT33O8ty5lk3Y/eCvcNX1dc/oAjsW9Z8TeNBKwLQW6EyhSQh9qtsytYJF+r4Ox6SCQQaihjx5zXsfomGvbzGB9EyKT+gYRKMZKJX27/Su6pYfna6N3YKMQratqvy2Xq+C51m1lMQvLWT1cNQWx/OVuR3+JJ9hFCInaJXaxaK+3vk3mu8tLG20MdKgjENboKR0HDHVDptUaOnXVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SEV6FSvKBUg1qgQLg6TT1AC2iHwQLooeot5R9UOQzCQ=;
- b=Pd69ZkF58wbDXztHq/KKSSQMQRPk2wRNSa2/DVMJoXXJMTh0WR6CUaRps7gYbV4wAHvnQ8LqU6JaQvXEU6ccPsP2LjktWvdoCrVcDbXMtK0K82PVumOWMZ2Tan496ZdqO1XakmcfbteP00oa0uNY0Mi9SNeg8ZyRAoJeDlpnJjwzZR6CTDRfNmucgudMR62JJC6EStrWnyGWqMPRLAt0pKvxGcVFMrfYLwYxW0koAwF2CFxvJDi/LWfJu623MaWsqSHt9LL6MN1h0PGjr7AN7147FQPF8EwuzMwv/3/hB2cMspjtwqf1i1DWe/htFRSQavILp3+P0VVRK7l6yz+n4g==
-Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
- by GVXPR10MB6006.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6977.31; Thu, 16 Nov 2023 03:23:06 +0000
-Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c45:bfdf:a384:5450]) by GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c45:bfdf:a384:5450%7]) with mapi id 15.20.7002.021; Thu, 16 Nov 2023
- 03:23:06 +0000
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: bpf@vger.kernel.org
-Cc: Yuran Pereira <yuran.pereira@hotmail.com>,
-	andrii@kernel.org,
-	mykolal@fb.com,
-	ast@kernel.org,
-	martin.lau@linux.dev,
-	song@kernel.org,
-	yonghong.song@linux.dev,
-	john.fastabend@gmail.com,
-	kpsingh@kernel.org,
-	sdf@google.com,
-	haoluo@google.com,
-	jolsa@kernel.org,
-	shuah@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH bpf-next 4/4] selftests/bpf: Replaces the usage of CHECK calls for ASSERTs in vmlinux
-Date: Thu, 16 Nov 2023 08:52:43 +0530
-Message-ID:
- <GV1PR10MB656384C49CCCC553BEA0BD70E8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-References: <GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [iMtSmVnLqn/2ghnN2cAbiWv5/xBu1pCR]
-X-ClientProxiedBy: JNAP275CA0032.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4d::9)
- To GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
-X-Microsoft-Original-Message-ID:
- <20231116032243.71104-1-yuran.pereira@hotmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UA3Y3LbA"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5869914484fso262234eaf.0
+        for <linux-kernel-mentees@lists.linux.dev>; Wed, 15 Nov 2023 23:23:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1700119425; x=1700724225; darn=lists.linux.dev;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Va0DhdP1S+FQZDKLtRJCi2/YvbWjCbaUD3edV3P6ZW0=;
+        b=UA3Y3LbAIhM1UjLR/mBLQD01qHTj8nwqVdtQ1XG4jXb5f7P72EJ5vuV6zaeM5V7TBU
+         Ajfxmm6ktNPX2DaYyQOq1p7agej0Pkve7eKZXSIQEkaeHAq6cK5LU7Amvfv6ugRn6y5q
+         JQwTRfe6nGgHdXrwq+imJJZsciVHZcSXPiIDKMqa1B+zAPnI0oIrYEboQGqPlPcqyr1Y
+         yjtKz4Dzk+Yyd7cuzAjzoXO12vLhYehIXc1hzOpJdBJzhKmwFYW5tx6S3XZpnF+QnS0Q
+         xn85kf0ACEE2UMv6jMn5TRrqk8z8ZoyPBDVuBhTqK5lrVsjLEhuOfq6Um3RV02hbGVRZ
+         LdRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700119425; x=1700724225;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Va0DhdP1S+FQZDKLtRJCi2/YvbWjCbaUD3edV3P6ZW0=;
+        b=Wc8ks8CVw6tCmpbwJpuKt5V0PL3HuSu7Gj51A35pk2+rDfLoCDeaIcDFEpoEPamv0u
+         +fan2d5garBF8LYr5ZFW1Y2HQ5i7vii/wfmrx0/satAO3N1dq1Ic9i85Q+7tiOe1D6+e
+         beQzSGeRFowaHFL6kdZPkApK3Tf0yymJUkEFz67mXG6bsF/haybGlAa3FHKQd/I+3tzF
+         hY98qmdIJZYGnfpjJgyUzw7AahpWxODmfeOgJb8IZxoXIj0FmIX23m5B4qFHOL8R7wse
+         yKRPyNjX2K1ZxBKjvrpd/r7GG/wji5u2PpW6IWnfW4tGyIDFrTwhOt5iWmRqIhacQPJh
+         Zqfw==
+X-Gm-Message-State: AOJu0YwYYUwUf1S7Z4aLUL7U+B63LGZC2ditOhbgbwZgDWOsrGtmskHr
+	3+pJQnelWVcIHNRWLCow3oE1PQ==
+X-Google-Smtp-Source: AGHT+IFSAc6weOLxIXxlEk0KaE5PBqOJ7TzepsRHqTgJYwW0yLdvhy899q5xQ6nAdaw8HNmFAj7psw==
+X-Received: by 2002:a4a:d2c1:0:b0:57b:6451:8c64 with SMTP id j1-20020a4ad2c1000000b0057b64518c64mr15059639oos.9.1700119424429;
+        Wed, 15 Nov 2023 23:23:44 -0800 (PST)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id a31-20020a4a98a2000000b0058737149513sm990159ooj.24.2023.11.15.23.23.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 23:23:43 -0800 (PST)
+Date: Wed, 15 Nov 2023 23:23:32 -0800 (PST)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.attlocal.net
+To: Matthew Wilcox <willy@infradead.org>
+cc: =?ISO-8859-15?Q?Jos=E9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>, 
+    akpm@linux-foundation.org, skhan@linuxfoundation.org, linux-mm@kvack.org, 
+    linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+    syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com, 
+    Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>
+Subject: Re: [PATCH] mm/pgtable: return null if no ptl in
+ __pte_offset_map_lock
+In-Reply-To: <ZVUWLgFgu+jE3QmW@casper.infradead.org>
+Message-ID: <515cb9c1-abcd-c3f3-cc0d-c3cd248b9d6f@google.com>
+References: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi> <ZVTTbuviH9/RWYyI@casper.infradead.org> <1c4cb1959829ecf4f0c59691d833618c@foxhound.fi> <ZVUWLgFgu+jE3QmW@casper.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR10MB6563:EE_|GVXPR10MB6006:EE_
-X-MS-Office365-Filtering-Correlation-Id: 777e759c-2e07-4ddd-0741-08dbe653596c
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	dxEroqIItCupgcP7+UoT7Y8mfgqpx/aVbWB5m9OPjaX/+Tt2Ip+FQPKgZrX4to8Ex9oFoeftYwqkoJvwdmhQgEmmxHxZjigqB+KXzrGUzssm8DL3OcQzXKn6uy9+AsqIKuPy2DitQyJ20cbWmLFv/1ewWpkw2jsUN7Ki8QscHgrQ9aeiegNb4E3YHhHdK1aeOPw2EPLQ94+St8SBC582OSRS4juQoeEqqz0wwYjzdAOcrtwxBW7JxYr2dGtbspae6C88kWUZHwzChbrDihmxfUhjtlhpH0dnUy6INVFJIw1IrbqaZJ1+v8uzVJl04USE3k6ydiGfj/K+Y9BTfmnvNrPMo/Z5EPcBHxW38MbrmpaOnhPXbZhbZDUfV0A7WKpNJLDtIkrqSJetXBSEr29p0tXIl7Ds6a1BTaTUU+AanXbps1ujajoCNE5n2Lmio+VELjmkUgWuzLxIY27EXqC5/rCE0IPd1EkflT1VAQmr1veVjDxDKuhU2BqIMWYgsh/9i4iFBopB0YPnpzCo7due6IfivYBbmRrHMnpLVMn0Tlw7p7OfA1P0JDdLqPFRQVPxruK0czmrTgPwwjRVLBJ9LDGCkjdvoT9TeWXmgxtOc04=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NxeMUoE1m6pFTGnMmXhur84xft9QEpoRRTqawZh7guUqeK6ljwdT8NgGVk3+?=
- =?us-ascii?Q?OEqvWiwoqMbfhn1DHElq2KOannlNSpbRa84f3Gh9SYhfhzR8rB7aGaQpi1zk?=
- =?us-ascii?Q?3iTMHCrv1ctntl/m7iJjNlaMLvYGfXb33VjUO0Zx8RefgnVWdKThlR1lESZJ?=
- =?us-ascii?Q?PDBWm3mt55EJnzm6pEAJlCZNKfIpy0WP5CmjjkferJdQfmQ4Oo1g7P4MZWBA?=
- =?us-ascii?Q?7vpFE7C68ALxPros8M2tPDX8BWgtGgWG7OJeWebxF1CMw897R03SiJAjuBMV?=
- =?us-ascii?Q?lQVrwew/+r3iPE7KcPZHJqVUNsoFPasHSlQzW1ChWjnixm1Uti3kdcLe/QFv?=
- =?us-ascii?Q?d/gFqa/K02EJxvnwkFIdffAtYREO/kJrL1lE/Ue6Qm+dcYvNFZqZ+NONvsJj?=
- =?us-ascii?Q?N1Bs8Pd0RL4yWBoffq+rYjjcIyaWUZ2LpP9XosxgylVWxcYKKhv4BFKN1pfW?=
- =?us-ascii?Q?pZbjg8f4IuHMQdUgbdCfHEtqsqwGWY1Opbo5xuB75hlyJN1ctkMi3fjgpcBr?=
- =?us-ascii?Q?v5P/NY8/3e59NrRZQ1HGGwYwE1ZZ53l/4M9hBLd1w4HqlkXmuKkMDKf/ZDLr?=
- =?us-ascii?Q?i8lyeLKbdV4JLTKPoa7yUmBxy0orLQF+zWJ59HorXp6h9J/5LGnQtP5TrVku?=
- =?us-ascii?Q?FUPv9752te4UGwRmvGU9JuAv5DntQoKR60+Z7Mb/opuAuBFtLFj//IE2Otq/?=
- =?us-ascii?Q?lTL3sC1YoeygvQ3+r0uXRNmHjQdxsumvIwTMiLTSz36e257L8I8sfVh68QUr?=
- =?us-ascii?Q?8HCetrAYKw6gkcnKi/ozFTH1/FUPIGmarstq6Kp9w5m4VIyL+aEAv/epYN4k?=
- =?us-ascii?Q?nUVuddxwMhOZMZ/rdyQRGyMtbmah8o+UEolrAlDLDMF4wCQmdc8LSgf6VBYs?=
- =?us-ascii?Q?4aVtPkurf01UyYHtR2EHvb11LeGiOAK+F65XZcNxV4V79SG/7dzeCXpz82nU?=
- =?us-ascii?Q?O7ckhWcTDbqEN10szexLTQCHHpnXKYzQS+KVTCcMBlgiGOT4GSIilpOj3xF2?=
- =?us-ascii?Q?1DO9ajsGgQc/4c0IxRi03RIKfBp+GnW2xncFGNDQ+QQUaY60qMt913/vXNIc?=
- =?us-ascii?Q?wscymakyNji41VOD6jwdZ6e3ZsB2doWuitnIH/TTkP1xNN+2P0+0ysBJCzs9?=
- =?us-ascii?Q?PZaDQ//saONJKCeDmQ+URy3/dvyAwHAPjhVDhI+UmVRuT7IcxmvC0RhI9Rik?=
- =?us-ascii?Q?eSS94HCZCqL/mUu5/A7+b6zMrl9VJjjv1SD5DHswbydJfD+8RFdwK64IX5o?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 777e759c-2e07-4ddd-0741-08dbe653596c
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2023 03:23:06.2889
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB6006
+Content-Type: multipart/mixed; boundary="-1463753983-726823796-1700119423=:27830"
 
-vmlinux.c uses the `CHECK` calls even though the use of ASSERT_ series
-of macros is preferred in the bpf selftests.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-This patch replaces all `CHECK` calls for equivalent `ASSERT_`
-macro calls.
+---1463753983-726823796-1700119423=:27830
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+On Wed, 15 Nov 2023, Matthew Wilcox wrote:
+> On Wed, Nov 15, 2023 at 06:05:30PM +0200, Jos=E9 Pekkarinen wrote:
+>=20
+> > > I don't think we should be changing ptlock_ptr().
+> >=20
+> >     This is where the null ptr dereference originates, so the only
+> > alternative I can think of is to protect the life cycle of the ptdesc
+> > to prevent it to die between the pte check and the spin_unlock of
+> > __pte_offset_map_lock. Would that work for you?
+
+Thanks for pursuing this, Jos=E9, but I agree with Matthew: I don't
+think your patch is right at all.  The change in ptlock_ptr() did not
+make sense to me, and the change in __pte_offset_map_lock() leaves us
+still wondering what has gone wrong (and misses an rcu_read_unlock()).
+
+You mentioned "I tested the syzbot reproducer in x86 and it doesn't
+produce this kasan report anymore": are you saying that you were able
+to reproduce the issue on x86 (without your patch)?  That would be very
+interesting (and I think would disprove my hypothesis below).  I ought
+to try on x86 if you managed to reproduce on it, but it's not worth
+the effort if you did not.  If you have an x86 stack and registers,
+please show (though I'm uncertain how much KASAN spoils the output).
+
+>=20
+> Ah!  I think I found the problem.
+>=20
+> If ALLOC_SPLIT_PTLOCKS is not set, there is no problem as ->ptl
+> is embedded in the struct page.  But if ALLOC_SPLIT_PTLOCKS is set
+> (eg you have LOCKDEP enabled), we can _return_ a NULL pointer from
+> ptlock_ptr.  The NULL pointer dereference isn't in ptlock_ptr(), it's
+> in __pte_offset_map_lock().
+>=20
+> So, how to solve this?  We can't just check the ptl against NULL; the
+> memory that ptl points to may have been freed.  We could grab a reference
+> to the pmd_page, possibly conditionally on ALLOC_SPLIT_LOCK being set,
+> but that will slow down everything.  We could make page_ptl_cachep
+> SLAB_TYPESAFE_BY_RCU, preventing the memory from being freed (even if
+> the lock might not be associated with this page any more).
+
+But I don't think that's quite right either: or, I hope it's not right,
+because it would say that all my business of rcu_read_lock() and
+pte_free_defer() etc was a failing waste of everyone's time: if the
+page table (and/or its lock) can be freed while someone is in that RCU-
+protected area, then I've simply got it wrong.
+
+What I thought, when yesterday's flurry of syzbot messages came in,
+was perhaps the problem is at the other end - when the new page table
+is allocated, rather than when it's being freed: a barrier missing there?
+
+But pmd_install() does have an smp_wmb(), with a (suspiciously) long
+comment about why no smp_rmb()s are needed, except on alpha.
+
+I'm not much good on barriers, but the thought now in my mind is that
+that comment is not quite accurate: that at the bottom level an smp_rmb()
+is (very seldom!) needed - not just to avoid a NULL (or previous garbage)
+ptl pointer in the ALLOC_SPLIT_LOCK case, but to make sure that the ptl
+is visibly correctly initialized (or would spin_lock on it achieve that?);
+and that what pte_offset_map() points to is visibly empty.  (I'm imagining
+stale cache lines left behind on the oopsing CPU, which need to be
+refetched after pmdval has been read.)
+
+And that this issue has, strictly speaking, always been there, but in
+practice never a problem, because of mmap_lock held for write while (or
+prior to) freeing page table, and racers holding mmap_lock for read
+(vma lock not changing the calculus); but collapse_pte_mapped_thp()
+can now be done with mmap_lock for read, letting those racers in
+(and maybe your filemap_map_pages() has helped speed these races up -
+any blame I can shift on to you, the better ;)
+
+But I may well be spouting nonsense.  And even if I'm right, is adding
+an smp_rmb() in there too high a price to pay on some architectures?
+
+I did make an attempt to reproduce on an arm64, but there's too much
+more I'd need to muck around with to get it working right.  Let's ask for
+a syz test on top of v6.7-rc1 - hmm, how do I tell syzbot that it's arm64
+that it needs to try on?  I hope it gets that from the Cc'ed syz number.
+
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git=
+ b85ea95d086471afb4ad062012a4d73cd328fa86
+
+[PATCH] mm/pgtable: smp_rmb() to match smp_wmb() in pmd_install()
+
+Not-Yet-Signed-off-by: Hugh Dickins <hughd@google.com>
 ---
- tools/testing/selftests/bpf/prog_tests/vmlinux.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ mm/memory.c          | 2 ++
+ mm/pgtable-generic.c | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/vmlinux.c b/tools/testing/selftests/bpf/prog_tests/vmlinux.c
-index 72310cfc6474..6fb2217d940b 100644
---- a/tools/testing/selftests/bpf/prog_tests/vmlinux.c
-+++ b/tools/testing/selftests/bpf/prog_tests/vmlinux.c
-@@ -16,27 +16,27 @@ static void nsleep()
- 
- void test_vmlinux(void)
- {
--	int duration = 0, err;
-+	int err;
- 	struct test_vmlinux* skel;
- 	struct test_vmlinux__bss *bss;
- 
- 	skel = test_vmlinux__open_and_load();
--	if (CHECK(!skel, "skel_open", "failed to open skeleton\n"))
-+	if (!ASSERT_OK_PTR(skel, "test_vmlinux__open_and_load"))
- 		return;
- 	bss = skel->bss;
- 
- 	err = test_vmlinux__attach(skel);
--	if (CHECK(err, "skel_attach", "skeleton attach failed: %d\n", err))
-+	if (!ASSERT_OK(err, "test_vmlinux__attach"))
- 		goto cleanup;
- 
- 	/* trigger everything */
- 	nsleep();
- 
--	CHECK(!bss->tp_called, "tp", "not called\n");
--	CHECK(!bss->raw_tp_called, "raw_tp", "not called\n");
--	CHECK(!bss->tp_btf_called, "tp_btf", "not called\n");
--	CHECK(!bss->kprobe_called, "kprobe", "not called\n");
--	CHECK(!bss->fentry_called, "fentry", "not called\n");
-+	ASSERT_TRUE(bss->tp_called, "tp");
-+	ASSERT_TRUE(bss->raw_tp_called, "raw_tp");
-+	ASSERT_TRUE(bss->tp_btf_called, "tp_btf");
-+	ASSERT_TRUE(bss->kprobe_called, "kprobe");
-+	ASSERT_TRUE(bss->fentry_called, "fentry");
- 
- cleanup:
- 	test_vmlinux__destroy(skel);
--- 
-2.25.1
-
+diff --git a/mm/memory.c b/mm/memory.c
+index 1f18ed4a5497..8939357f1509 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -425,6 +425,8 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgta=
+ble_t *pte)
+ =09=09 * being the notable exception) will already guarantee loads are
+ =09=09 * seen in-order. See the alpha page table accessors for the
+ =09=09 * smp_rmb() barriers in page table walking code.
++=09=09 *
++=09=09 * See __pte_offset_map() for the smp_rmb() at the pte level.
+ =09=09 */
+ =09=09smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
+ =09=09pmd_populate(mm, pmd, *pte);
+diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
+index 4fcd959dcc4d..3330b666e9c3 100644
+--- a/mm/pgtable-generic.c
++++ b/mm/pgtable-generic.c
+@@ -297,6 +297,11 @@ pte_t *__pte_offset_map(pmd_t *pmd, unsigned long addr=
+, pmd_t *pmdvalp)
+ =09=09pmd_clear_bad(pmd);
+ =09=09goto nomap;
+ =09}
++=09/*
++=09 * Pair with the smp_wmb() in pmd_install(): make sure that the
++=09 * page table lock and page table contents are visibly initialized.
++=09 */
++=09smp_rmb();
+ =09return __pte_map(&pmdval, addr);
+ nomap:
+ =09rcu_read_unlock();
+--=20
+2.35.3
+---1463753983-726823796-1700119423=:27830--
