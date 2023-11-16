@@ -1,91 +1,73 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 4.mo561.mail-out.ovh.net (4.mo561.mail-out.ovh.net [178.33.46.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A9F125BE
-	for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Nov 2023 08:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TiksqvsI"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-1ef9f1640a5so252764fac.3
-        for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Nov 2023 00:26:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1700123211; x=1700728011; darn=lists.linux.dev;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u2XmX2KrWi1y3m2X9AnU9wT0fC0eZs76Gy7YyWSbakc=;
-        b=TiksqvsI2S8xaC1Cr5yYskWbEehfuf7EfcsBM42ml01507BamOTMQa2ax0t6wLfDqI
-         rEPr/8Fdp5Tp9ksTmwNKUP4aw/iZsH4gWKdphVXUWMGx56rHsIapPDRl1ZXhRDLCTMT/
-         ZT7boic2fh8LNb3F4lz6vs1bYIFXmo/E4AIndqkmntemT+p6V2d6g61gOH0aT00HVakF
-         9Ei61JSAmPOw/m39yMXNBCFn7DZDMetDYlNU+CjKBW94cb9VRanVySwW5zBmJ8GWpVg2
-         Mf4d45ofQ67svRaJePJ7CYNR83cBlWzEC4R294ZOuDj6i+92Abs4s+Wb8/kVEtYvdzWI
-         +unA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700123211; x=1700728011;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u2XmX2KrWi1y3m2X9AnU9wT0fC0eZs76Gy7YyWSbakc=;
-        b=GegJJLgkPpvlM8VRacyPGcPubUNFAztJoEIpYzDlkJTSr7pWwifWE4k71rDZawl8pE
-         pzf5eW9sx14FUdoLNoNjqh2ZnKh+5nbF4lfO/y6HdBwhW3qIhHwl3/OPizSwKSnkjAQn
-         d2FhWt1BPR/jUPj+kVuzcvAq8NqAYa4TN4hC0/J/KO7viQ5TTnK4ANl1SVuu9cBlirST
-         kto9ywZqHgiuRNVY8DdVKCBiS9trZfRGWD3YRWQ8hPIeRJwYylkJZvvKajZlBfsIeSng
-         GZhJc7acgvvRS0RoD6EWZVa/9ujL+iMro25SzFxOS8weHzer27zoCGLFCJiIWy23mr3U
-         YgEg==
-X-Gm-Message-State: AOJu0YxaC6PdBCutVHJPRCFU5M44JZ5B9Lo4yG4YwYeu2cU3WQQYFnEm
-	zSyV5Yq+7CzfyqUHdWIqajcgxg==
-X-Google-Smtp-Source: AGHT+IE7w+1n0Rumu6tiZ0oCMxAY+y3dimDmUbr8EZaTXEn4BDvU7a/l/yvMSZ7+Fe7ajPFFqQFb4Q==
-X-Received: by 2002:a05:6870:3127:b0:1ef:cb8c:cebd with SMTP id v39-20020a056870312700b001efcb8ccebdmr17440326oaa.59.1700123210697;
-        Thu, 16 Nov 2023 00:26:50 -0800 (PST)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id y4-20020a056870a34400b001e9ce1b5e8fsm2062976oak.15.2023.11.16.00.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 00:26:49 -0800 (PST)
-Date: Thu, 16 Nov 2023 00:26:39 -0800 (PST)
-From: Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.attlocal.net
-To: Hugh Dickins <hughd@google.com>
-cc: Matthew Wilcox <willy@infradead.org>, 
-    =?ISO-8859-15?Q?Jos=E9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>, 
-    akpm@linux-foundation.org, skhan@linuxfoundation.org, linux-mm@kvack.org, 
-    linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
-    syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com, 
-    Jann Horn <jannh@google.com>
-Subject: Re: [PATCH] mm/pgtable: return null if no ptl in
- __pte_offset_map_lock
-In-Reply-To: <515cb9c1-abcd-c3f3-cc0d-c3cd248b9d6f@google.com>
-Message-ID: <1b7019f3-0abf-a2f5-46ae-373af2043e56@google.com>
-References: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi> <ZVTTbuviH9/RWYyI@casper.infradead.org> <1c4cb1959829ecf4f0c59691d833618c@foxhound.fi> <ZVUWLgFgu+jE3QmW@casper.infradead.org> <515cb9c1-abcd-c3f3-cc0d-c3cd248b9d6f@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB98CEAD0
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Nov 2023 10:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from director7.ghost.mail-out.ovh.net (unknown [10.109.146.211])
+	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 7934B29A5A
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 16 Nov 2023 10:04:36 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-25wj5 (unknown [10.110.171.249])
+	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8A1901FDCE;
+	Thu, 16 Nov 2023 10:04:35 +0000 (UTC)
+Received: from RCM-web9.webmail.mail.ovh.net ([151.80.29.21])
+	by ghost-submission-6684bf9d7b-25wj5 with ESMTPSA
+	id R6B7IDPpVWVIRQAAyXHhzg
+	(envelope-from <jose.pekkarinen@foxhound.fi>); Thu, 16 Nov 2023 10:04:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="-1463753983-898050368-1700123209=:31351"
+Date: Thu, 16 Nov 2023 12:04:35 +0200
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: Hugh Dickins <hughd@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>, akpm@linux-foundation.org,
+ skhan@linuxfoundation.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev,
+ syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com, Jann Horn
+ <jannh@google.com>
+Subject: Re: [PATCH] mm/pgtable: return null if no ptl in
+ __pte_offset_map_lock
+In-Reply-To: <515cb9c1-abcd-c3f3-cc0d-c3cd248b9d6f@google.com>
+References: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi>
+ <ZVTTbuviH9/RWYyI@casper.infradead.org>
+ <1c4cb1959829ecf4f0c59691d833618c@foxhound.fi>
+ <ZVUWLgFgu+jE3QmW@casper.infradead.org>
+ <515cb9c1-abcd-c3f3-cc0d-c3cd248b9d6f@google.com>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <3cd8b7048ee38f5c5e6f9f6c5dab2deb@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 192.42.116.185
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 16804056113005307546
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudefkedguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpedtfeejledvieegvdfgfeeugedtteffjeetgefffeehveduhedtleehffduudfgjeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhsvghtuhhppghusghunhhtuhdqhhhoshhtpghqvghmuhdqvhhmpgigkeeiqdeigedqkhgvrhhnvghlrdhmugenucfkphepuddvjedrtddrtddruddpudelvddrgedvrdduudeirddukeehpdduhedurdektddrvdelrddvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdqmhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheeiuddpmhhouggvpehsmhhtphhouhht
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
----1463753983-898050368-1700123209=:31351
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Wed, 15 Nov 2023, Hugh Dickins wrote:
+On 2023-11-16 07:23, Hugh Dickins wrote:
 > On Wed, 15 Nov 2023, Matthew Wilcox wrote:
-> > On Wed, Nov 15, 2023 at 06:05:30PM +0200, Jos=E9 Pekkarinen wrote:
-> >=20
-> > > > I don't think we should be changing ptlock_ptr().
-> > >=20
-> > >     This is where the null ptr dereference originates, so the only
-> > > alternative I can think of is to protect the life cycle of the ptdesc
-> > > to prevent it to die between the pte check and the spin_unlock of
-> > > __pte_offset_map_lock. Would that work for you?
->=20
-> Thanks for pursuing this, Jos=E9, but I agree with Matthew: I don't
+>> On Wed, Nov 15, 2023 at 06:05:30PM +0200, José Pekkarinen wrote:
+>> 
+>> > > I don't think we should be changing ptlock_ptr().
+>> >
+>> >     This is where the null ptr dereference originates, so the only
+>> > alternative I can think of is to protect the life cycle of the ptdesc
+>> > to prevent it to die between the pte check and the spin_unlock of
+>> > __pte_offset_map_lock. Would that work for you?
+> 
+> Thanks for pursuing this, José, but I agree with Matthew: I don't
 > think your patch is right at all.  The change in ptlock_ptr() did not
 > make sense to me, and the change in __pte_offset_map_lock() leaves us
 > still wondering what has gone wrong (and misses an rcu_read_unlock()).
->=20
+> 
 > You mentioned "I tested the syzbot reproducer in x86 and it doesn't
 > produce this kasan report anymore": are you saying that you were able
 > to reproduce the issue on x86 (without your patch)?  That would be very
@@ -93,112 +75,127 @@ On Wed, 15 Nov 2023, Hugh Dickins wrote:
 > to try on x86 if you managed to reproduce on it, but it's not worth
 > the effort if you did not.  If you have an x86 stack and registers,
 > please show (though I'm uncertain how much KASAN spoils the output).
->=20
-> >=20
-> > Ah!  I think I found the problem.
-> >=20
-> > If ALLOC_SPLIT_PTLOCKS is not set, there is no problem as ->ptl
-> > is embedded in the struct page.  But if ALLOC_SPLIT_PTLOCKS is set
-> > (eg you have LOCKDEP enabled), we can _return_ a NULL pointer from
-> > ptlock_ptr.  The NULL pointer dereference isn't in ptlock_ptr(), it's
-> > in __pte_offset_map_lock().
-> >=20
-> > So, how to solve this?  We can't just check the ptl against NULL; the
-> > memory that ptl points to may have been freed.  We could grab a referen=
-ce
-> > to the pmd_page, possibly conditionally on ALLOC_SPLIT_LOCK being set,
-> > but that will slow down everything.  We could make page_ptl_cachep
-> > SLAB_TYPESAFE_BY_RCU, preventing the memory from being freed (even if
-> > the lock might not be associated with this page any more).
->=20
-> But I don't think that's quite right either: or, I hope it's not right,
-> because it would say that all my business of rcu_read_lock() and
-> pte_free_defer() etc was a failing waste of everyone's time: if the
-> page table (and/or its lock) can be freed while someone is in that RCU-
-> protected area, then I've simply got it wrong.
->=20
-> What I thought, when yesterday's flurry of syzbot messages came in,
-> was perhaps the problem is at the other end - when the new page table
-> is allocated, rather than when it's being freed: a barrier missing there?
->=20
-> But pmd_install() does have an smp_wmb(), with a (suspiciously) long
-> comment about why no smp_rmb()s are needed, except on alpha.
->=20
-> I'm not much good on barriers, but the thought now in my mind is that
-> that comment is not quite accurate: that at the bottom level an smp_rmb()
-> is (very seldom!) needed - not just to avoid a NULL (or previous garbage)
-> ptl pointer in the ALLOC_SPLIT_LOCK case, but to make sure that the ptl
-> is visibly correctly initialized (or would spin_lock on it achieve that?)=
-;
-> and that what pte_offset_map() points to is visibly empty.  (I'm imaginin=
-g
-> stale cache lines left behind on the oopsing CPU, which need to be
-> refetched after pmdval has been read.)
->=20
-> And that this issue has, strictly speaking, always been there, but in
-> practice never a problem, because of mmap_lock held for write while (or
-> prior to) freeing page table, and racers holding mmap_lock for read
-> (vma lock not changing the calculus); but collapse_pte_mapped_thp()
-> can now be done with mmap_lock for read, letting those racers in
-> (and maybe your filemap_map_pages() has helped speed these races up -
-> any blame I can shift on to you, the better ;)
->=20
-> But I may well be spouting nonsense.  And even if I'm right, is adding
-> an smp_rmb() in there too high a price to pay on some architectures?
->=20
-> I did make an attempt to reproduce on an arm64, but there's too much
-> more I'd need to muck around with to get it working right.  Let's ask for
-> a syz test on top of v6.7-rc1 - hmm, how do I tell syzbot that it's arm64
-> that it needs to try on?  I hope it gets that from the Cc'ed syz number.
 
-Syzbot couldn't do it from this mail, but did it from the original thread:
-https://lore.kernel.org/linux-mm/000000000000ba0007060a40644f@google.com/
-tells us that I was spouting nonsense: this patch does not fix it.
-I have no further idea yet.
+     Hi,
 
->=20
-> #syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.g=
-it b85ea95d086471afb4ad062012a4d73cd328fa86
->=20
-> [PATCH] mm/pgtable: smp_rmb() to match smp_wmb() in pmd_install()
->=20
-> Not-Yet-Signed-off-by: Hugh Dickins <hughd@google.com>
-> ---
->  mm/memory.c          | 2 ++
->  mm/pgtable-generic.c | 5 +++++
->  2 files changed, 7 insertions(+)
->=20
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 1f18ed4a5497..8939357f1509 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -425,6 +425,8 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pg=
-table_t *pte)
->  =09=09 * being the notable exception) will already guarantee loads are
->  =09=09 * seen in-order. See the alpha page table accessors for the
->  =09=09 * smp_rmb() barriers in page table walking code.
-> +=09=09 *
-> +=09=09 * See __pte_offset_map() for the smp_rmb() at the pte level.
->  =09=09 */
->  =09=09smp_wmb(); /* Could be smp_wmb__xxx(before|after)_spin_lock */
->  =09=09pmd_populate(mm, pmd, *pte);
-> diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-> index 4fcd959dcc4d..3330b666e9c3 100644
-> --- a/mm/pgtable-generic.c
-> +++ b/mm/pgtable-generic.c
-> @@ -297,6 +297,11 @@ pte_t *__pte_offset_map(pmd_t *pmd, unsigned long ad=
-dr, pmd_t *pmdvalp)
->  =09=09pmd_clear_bad(pmd);
->  =09=09goto nomap;
->  =09}
-> +=09/*
-> +=09 * Pair with the smp_wmb() in pmd_install(): make sure that the
-> +=09 * page table lock and page table contents are visibly initialized.
-> +=09 */
-> +=09smp_rmb();
->  =09return __pte_map(&pmdval, addr);
->  nomap:
->  =09rcu_read_unlock();
-> --=20
-> 2.35.3
----1463753983-898050368-1700123209=:31351--
+     Yes, I have a local setup based in [1], where I can spin a small
+vm, build the reproducer and run it in. The only thing I took from
+the webpage is the kernel config file, and the image I made it locally
+by debootstrapping and running the modifications in create-image.sh
+manually, the kasan report follows:
+
+[  111.408746][ T8885] general protection fault, probably for 
+non-canonical address 0xdffffc0000000005: 0000 [#1] PREEMPT SMP KASAN 
+NOPTI
+[  111.413181][ T8885] KASAN: null-ptr-deref in range 
+[0x0000000000000028-0x000000000000002f]
+[  111.413181][ T8885] CPU: 1 PID: 8885 Comm: handle_kernel_p Not 
+tainted 6.7.0-rc1-00007-ge612cb00e200 #6
+[  111.413181][ T8885] Hardware name: QEMU Standard PC (i440FX + PIIX, 
+1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[  111.413181][ T8885] RIP: 0010:__pte_offset_map_lock+0xfa/0x310
+[  111.423642][ T8885] Code: 48 c1 e8 03 80 3c 10 00 0f 85 12 02 00 00 
+4c 03 3d db 92 cf 0b 48 b8 00 00 00 00 00 fc ff df 49 8d 7f 28 48 89 fa 
+48 c1 ea 03 <80> 3c 02 00 0f 85 e2 01 00 00 4d 8b 7f 28 4c 89 ff e8 f0 
+a1 3a 09
+[  111.423642][ T8885] RSP: 0018:ffffc90005baf738 EFLAGS: 00010216
+[  111.423642][ T8885] RAX: dffffc0000000000 RBX: 0005800000000067 RCX: 
+ffffffff81ada02e
+[  111.423642][ T8885] RDX: 0000000000000005 RSI: ffffffff81ad9f0f RDI: 
+0000000000000028
+[  111.423642][ T8885] RBP: ffff8880224c4800 R08: 0000000000000007 R09: 
+0000000000000000
+[  111.423642][ T8885] R10: 0000000000000000 R11: 0000000000000000 R12: 
+0005088000000a80
+[  111.423642][ T8885] R13: 1ffff92000b75ee9 R14: ffffc90005bafa88 R15: 
+0000000000000000
+[  111.423642][ T8885] FS:  00007f8d3972c6c0(0000) 
+GS:ffff888069700000(0000) knlGS:0000000000000000
+[  111.423642][ T8885] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  111.423642][ T8885] CR2: 00007f8d3970af78 CR3: 00000000224d6000 CR4: 
+00000000000006f0
+[  111.423642][ T8885] Call Trace:
+[  111.423642][ T8885]  <TASK>
+[  111.423642][ T8885]  ? show_regs+0x8f/0xa0
+[  111.423642][ T8885]  ? die_addr+0x4f/0xd0
+[  111.423642][ T8885]  ? exc_general_protection+0x150/0x220
+[  111.423642][ T8885]  ? asm_exc_general_protection+0x26/0x30
+[  111.423642][ T8885]  ? __pte_offset_map_lock+0x1de/0x310
+[  111.423642][ T8885]  ? __pte_offset_map_lock+0xbf/0x310
+[  111.423642][ T8885]  ? __pte_offset_map_lock+0xfa/0x310
+[  111.423642][ T8885]  ? __pte_offset_map_lock+0xbf/0x310
+[  111.423642][ T8885]  ? __pfx___pte_offset_map_lock+0x10/0x10
+[  111.423642][ T8885]  filemap_map_pages+0x336/0x13b0
+[  111.423642][ T8885]  ? __pfx_filemap_map_pages+0x10/0x10
+[  111.423642][ T8885]  ? rcu_read_unlock+0x33/0xb0
+[  111.423642][ T8885]  do_fault+0x86a/0x1350
+[  111.423642][ T8885]  __handle_mm_fault+0xe53/0x23a0
+[  111.423642][ T8885]  ? __pfx___handle_mm_fault+0x10/0x10
+[  111.483413][ T8885]  handle_mm_fault+0x369/0x890
+[  111.483413][ T8885]  __get_user_pages+0x46d/0x15d0
+[  111.483413][ T8885]  ? __pfx___get_user_pages+0x10/0x10
+[  111.483413][ T8885]  populate_vma_page_range+0x2de/0x420
+[  111.483413][ T8885]  ? __pfx_populate_vma_page_range+0x10/0x10
+[  111.483413][ T8885]  ? __pfx_find_vma_intersection+0x10/0x10
+[  111.483413][ T8885]  ? vm_mmap_pgoff+0x299/0x3c0
+[  111.483413][ T8885]  __mm_populate+0x1da/0x380
+[  111.483413][ T8885]  ? __pfx___mm_populate+0x10/0x10
+[  111.483413][ T8885]  ? up_write+0x1b3/0x520
+[  111.483413][ T8885]  vm_mmap_pgoff+0x2d1/0x3c0
+[  111.483413][ T8885]  ? __pfx_vm_mmap_pgoff+0x10/0x10
+[  111.483413][ T8885]  ksys_mmap_pgoff+0x7d/0x5b0
+[  111.483413][ T8885]  __x64_sys_mmap+0x125/0x190
+[  111.483413][ T8885]  do_syscall_64+0x45/0xf0
+[  111.483413][ T8885]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+[  111.483413][ T8885] RIP: 0033:0x7f8d39831559
+[  111.483413][ T8885] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 
+00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 
+24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 77 08 0d 00 f7 d8 64 
+89 01 48
+[  111.483413][ T8885] RSP: 002b:00007f8d3972be78 EFLAGS: 00000216 
+ORIG_RAX: 0000000000000009
+[  111.483413][ T8885] RAX: ffffffffffffffda RBX: 00007f8d3972c6c0 RCX: 
+00007f8d39831559
+[  111.483413][ T8885] RDX: b635773f07ebbeea RSI: 0000000000b36000 RDI: 
+0000000020000000
+[  111.483413][ T8885] RBP: 00007f8d3972bea0 R08: 00000000ffffffff R09: 
+0000000000000000
+[  111.483413][ T8885] R10: 0000000000008031 R11: 0000000000000216 R12: 
+ffffffffffffff80
+[  111.483413][ T8885] R13: 0000000000000000 R14: 00007fffcef921d0 R15: 
+00007f8d3970c000
+[  111.483413][ T8885]  </TASK>
+[  111.483413][ T8885] Modules linked in:
+[  111.763549][ T8885] ---[ end trace 0000000000000000 ]---
+[  111.773557][ T8885] RIP: 0010:__pte_offset_map_lock+0xfa/0x310
+[  111.776045][ T8885] Code: 48 c1 e8 03 80 3c 10 00 0f 85 12 02 00 00 
+4c 03 3d db 92 cf 0b 48 b8 00 00 00 00 00 fc ff df 49 8d 7f 28 48 89 fa 
+48 c1 ea 03 <80> 3c 02 00 0f 85 e2 01 00 00 4d 8b 7f 28 4c 89 ff e8 f0 
+a1 3a 09
+[  111.805040][ T8885] RSP: 0018:ffffc90005baf738 EFLAGS: 00010216
+[  111.820041][ T8885] RAX: dffffc0000000000 RBX: 0005800000000067 RCX: 
+ffffffff81ada02e
+[  111.837884][ T8885] RDX: 0000000000000005 RSI: ffffffff81ad9f0f RDI: 
+0000000000000028
+[  111.855313][ T8885] RBP: ffff8880224c4800 R08: 0000000000000007 R09: 
+0000000000000000
+[  111.878314][ T8885] R10: 0000000000000000 R11: 0000000000000000 R12: 
+0005088000000a80
+[  111.910624][ T8885] R13: 1ffff92000b75ee9 R14: ffffc90005bafa88 R15: 
+0000000000000000
+[  111.923627][ T8885] FS:  00007f8d3972c6c0(0000) 
+GS:ffff888069700000(0000) knlGS:0000000000000000
+[  111.932017][ T8885] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  111.941166][ T8885] CR2: 00007fa26ac38178 CR3: 00000000224d6000 CR4: 
+00000000000006f0
+[  111.950619][ T8885] Kernel panic - not syncing: Fatal exception
+[  111.953981][ T8885] Kernel Offset: disabled
+[  111.953981][ T8885] Rebooting in 86400 seconds..
+
+     I can test some patches for you if it helps finding out
+the issue.
+
+[1] 
+https://github.com/google/syzkaller/blob/master/docs/linux/setup_ubuntu-host_qemu-vm_x86-64-kernel.md
+
+     José.
