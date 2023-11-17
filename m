@@ -1,250 +1,131 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E05EE545
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 19:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A319F43AD8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 19:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="eWcPjy6o"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="Iz3/WjCI"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C66C6421DB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 19:23:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C66C6421DB
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=eWcPjy6o
+	by smtp1.osuosl.org (Postfix) with ESMTP id 0D6C58315C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 19:37:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0D6C58315C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=Iz3/WjCI
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.307
+X-Spam-Score: -1.227
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id XFAxlrJc_ZSD
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id y-OWWtHSbo6B
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 17 Nov 2023 19:23:25 +0000 (UTC)
-Received: from mail.subdimension.ro (unknown [IPv6:2a01:7e01:e001:1d1::2])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 95D4741F06
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 19:23:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 95D4741F06
-Received: from localhost.localdomain (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id 89D6A28F040;
-	Fri, 17 Nov 2023 19:23:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1700249002;
-	bh=WwNgEfUL7AsMa3dejpCXesMzNmnY3tanbmMGBdRVRRk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eWcPjy6oa2wGm6i6YN7h+qOwT4PpafXPQXgnBF2A+XfsBzlnHgc7h3NCdY/bdKoZX
-	 /R9NJN84MxcfzNqHZ2aKpnxWI7lGANPkPXTzVIAl4F1U3+4h+/kerutPTfR7O0RXNM
-	 TIa0Taqp7OuUGUFK9nl147Fdv2c5JXhsEi2U3SJU=
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Petre Rodan <petre.rodan@subdimension.ro>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v2 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Date: Fri, 17 Nov 2023 21:22:57 +0200
-Message-ID: <20231117192305.17612-1-petre.rodan@subdimension.ro>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231117164232.8474-1-petre.rodan@subdimension.ro>
-References: <20231117164232.8474-1-petre.rodan@subdimension.ro>
+	Fri, 17 Nov 2023 19:37:31 +0000 (UTC)
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05olkn20801.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1a::801])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id DD899830C0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 19:37:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org DD899830C0
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mKUwi4ki6e0aaaWxLlSh1j3SGVIEHIHBJi+BrGHGcOj6XcKnZ95w4Wrcvk79Ef8uTcMWI3IUkN/1hK1YVeTM2mJU9HC4mwCxNb11e85gCse9URuW4XlIIp21JlZflGfo/KG5ANMHmEfcK5kfW0n2JUgeFsian1fn+H9MvzwvzWwLY3xvjoKmEA5PjAuXddkBlsUeiON0F9Huix6ocxb32WCRfWWEcfd93n321NVuY4U6J0wX4AFXaCp/JRSQoNnUnSnFpFBnSc0ooGxxHUD6ffIaQG8DCf3dgvL3MHZotJpwMugQzYBThQQWZurkg2DEHrvG9OsXPhbootInXQzDIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o7vtm5M+DrnHxDLH1kSsteR4p+8R9btkNm9QT0DIVUA=;
+ b=KJhlK/yaeiM9NjkdME7ILi+xajng0fdA+94vGJpiePT7cGxy9GDeGGed5hj6dU8JNoQkVHaDzPSXQDymgbtNQQdP67uaUypiL3BGVO5neTbkHQjujJ+VtFjUfP8YJT2yA1GfjknFzmAFABOs2uqpDIa3EXb+fan9Fj8gPXgd6E6lnMZMntlGRKzQwriNTTT1lp51d6psaqhsm1vWmQXqbKo/TzVLZLsWpTDl7tX/OGh0M161IG8AoAWYONumjMQzRZlZXrj+bX3DWg356zz4FzQtP7M3d+ktP2RgGBsxc4smHcKoABjVlKa3xFZl8UvmzM5N2+EUM86+ScwySBFjlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o7vtm5M+DrnHxDLH1kSsteR4p+8R9btkNm9QT0DIVUA=;
+ b=Iz3/WjCInj1BxgdRsW2XFTV0MzWcQhStEevv6E+V75iDnKpz2Yk0iDljYw9N7txWXyxOG5f2elN6Tcmdd+Uul8xhYtvl6pSreNbvzPRFJnCqUgVHb5i8nobOn3s2UQGVCtFFm9cKZkBJeAJHV2KBHNSEJmIDMzWAlop7P9ud8uP47UyUs+JpdWbNWAfv8/+b2woNAvg3BFBtfiBy62iIyi/4CrM+KC5i96x2DShPmzNelshCUhaQ0FusozLU0EMa2HB0m5k3zj2h5QJ1fAuGbnlI7O2iWrZG/lrA0irsX86pVIfgJ2CC2NoZlzMCZK92mjr8yf1A2Phd6gFY5ntqqw==
+Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
+ by AS2PR10MB6520.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:55c::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Fri, 17 Nov
+ 2023 19:37:26 +0000
+Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c45:bfdf:a384:5450]) by GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c45:bfdf:a384:5450%7]) with mapi id 15.20.7002.025; Fri, 17 Nov 2023
+ 19:37:26 +0000
+Date: Sat, 18 Nov 2023 01:07:02 +0530
+From: Yuran Pereira <yuran.pereira@hotmail.com>
+To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc: bpf@vger.kernel.org, andrii@kernel.org, mykolal@fb.com, ast@kernel.org,
+	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH bpf-next 0/4] selftests/bpf: Update multiple prog_tests
+ to use ASSERT_ macros
+Message-ID:
+ <GV1PR10MB656347ACF4A078EAC2677797E8B7A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+References: <GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+ <CAEf4Bza4fejyKRCdcq0WwrvZ-p8JbMq0MPQB_BGzaxPGHT2EoQ@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEf4Bza4fejyKRCdcq0WwrvZ-p8JbMq0MPQB_BGzaxPGHT2EoQ@mail.gmail.com>
+X-TMN: [IgT1M9sFBSBG7EozLlGnd2SqZnGdBRVN]
+X-ClientProxiedBy: JN3P275CA0019.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:71::13)
+ To GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
+X-Microsoft-Original-Message-ID: <20231117193702.GA158015@nmj-network>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1PR10MB6563:EE_|AS2PR10MB6520:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9196034b-9dcc-4876-9dd4-08dbe7a4a039
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	4Ly7ewqE2Uu8M0j3frmYtYTf91oGABZjMv5T8WJyTR3jdANCU5W+1zhf5w0+IeVh25xFJ4OZBJZneZyj9E/2x4/GpG+zYtpynR9bd4/fL4UnJyLfvyAwk9jAW1UIpddeYXebCWI/mr2FtAMfQjknHh0XemDKTe4pv175XHpjoylCieXBQ9OTHmKSSzqH+R1I9XsvMIhi8svalWUqGsWaCG22bJGflsm/LoOmaR11LvqmW4sCtIDLNluGYLpyjLxrfWSzNC2G1cSSTWlOsIjjdZk5QK6Dt/+U4Ga4hnLa3/mGxEaOKPc4trcmSVT1wfCqaIHdjIfKZLXIEVNaVW5S3SpdEupv+87n4B5zUgOyLmLcFgIHlh2P9FPn1LnrWm8/L5Xp08Tc6eGVvc+lO9uJehOC/yFCKR8PJjWPTV2+8f52TUwZteQPhx7kTSv9jXKe3eKIPjP9vB9nwYxgt8AVqRKs3S2gYKAW8mkdd2DPhZNf5e8JBFg9TDPkZZKqlUNtCKCYTqwzU1Yf4oB1hG1ZYpMNipOC+/fvBRtD9u+/1R93QeMfSndlwyzhX2X+bNJk
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4ypphGV1dwvqPMsuJriQ40SGbjBUY/zBAPnx5UlZ+s2a8jxvw8OKzZKCYxSF?=
+ =?us-ascii?Q?WmE1YX/dp4U1YQQCIv6JD9OzlpSDMX4KfVbY/c7rs0v4kZDLPj5XLWpGRYAr?=
+ =?us-ascii?Q?o3rzESkojp6sbZ2PF9AJ9/3718Sar6YFkfN8DUuu0KqElWZSZBxopD/dJ7zq?=
+ =?us-ascii?Q?Nl+2/1li2nAo5HbCcMMvgbO32GW+O7sHJA+IKdqgaLp2q5pWWBLiP2EjbvSJ?=
+ =?us-ascii?Q?Jg4767fByd1NCe6n42SnsXN2i0n1gqqfISwq33iNketQa4X6aoaA70NhJrUQ?=
+ =?us-ascii?Q?PmDn+LLeOgqLlbwFSeSWC+BGnNQUp3n/eYEg0QOKzR0aDtuGOcyW57djT5mk?=
+ =?us-ascii?Q?S1F+wUfkf9A7KPnJCsIVsfDGY5zXHs0x+Br8xkTAXhqBa0TrDwZfX3dNeeQ1?=
+ =?us-ascii?Q?gmaJX/yoevODHxw1usd5vOeIwRS2bjAaZzc1XT8tHPPxvBaeyZOU+di1SZEa?=
+ =?us-ascii?Q?FvrtjUx0hnwTS1LfE5oi7SCQ7thu75diBBP6YT8lZ/qB3rowixQnEPOYco3a?=
+ =?us-ascii?Q?f+8OqQe5asHGTKbrOle5BH6VH0N3fr3VVc4QNqJse0AUZ4Yk/NpFnCN3cFPp?=
+ =?us-ascii?Q?LVkIgfDG9bEomAlc9G7vDPaw2amE8AaFWaGTQ4h+m5wQ26+o/J8nt+yeQNP0?=
+ =?us-ascii?Q?9xn+KJPvIKBFFL9BIhfbL04+J1M7lAhoPE13M4/sBdoC3Pn+77Utqx/Np/R1?=
+ =?us-ascii?Q?lxWQByuJqJglq0uockM3WyGuGFXtRY0HhxxhoOCk+EZh7CnRbkt37xI13vUf?=
+ =?us-ascii?Q?puiZMXHGXSiU+IxQW2X09YFkI55Tw1wo4Hu20nu3tvGmRbD0GTpPUAJ5Zv5p?=
+ =?us-ascii?Q?bwaZPRvOgmnss9wy3x7BCI4dliYtWnGbSPPRZgqd3W9l/zI79ZifQ7qr6rrS?=
+ =?us-ascii?Q?K/ol62MRRLs4ZiiBM5tvbbuxAErn94U5gcsQu7Goe0Q2tRjc1UfpCKVS6HOp?=
+ =?us-ascii?Q?Zq/Fugvx6JspI7aCDKEIxZkvmP/Q/E6+KOAk2QesuN1Y3NMu1o31nVUbRRfa?=
+ =?us-ascii?Q?9bifPKXjrj8s5Nt4PgQT1H2G356XasbdWpW29RzEKXA168E/8uNr4B/KCiGW?=
+ =?us-ascii?Q?UNEimtrpdhKZ2zqynqjGpeyC3RWIBBT+yPWPSygW6VS9hM0aKLb0vREu65Ko?=
+ =?us-ascii?Q?A1DQbE7PtutniyrP8DSe6i6Vao3e4Zqx90gLHOJY3Sd/XiBsaVTKIxXf1hb+?=
+ =?us-ascii?Q?5ZhS0bcL1hdSccziNIC2SFfCzxR8Y4wlmldezFIkJjnmE5hZjgK+PKgMZ8w?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9196034b-9dcc-4876-9dd4-08dbe7a4a039
+X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 19:37:26.5537
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB6520
 
-Adds binding for digital Honeywell TruStability HSC and SSC series pressure 
-and temperature sensors.
+Hello Andrii,
+On Fri, Nov 17, 2023 at 12:18:40PM -0500, Andrii Nakryiko wrote:
+> 
+> It seems like you introduced a few failures in selftests, please take
+> a look at [0] and fix them, thanks!
+> 
+Thank you for letting me know. I will see what's wrong
+and submit a v2 ASAP.
 
-Datasheet:
- [HSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
- [SSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
-
-Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
----
-
-Changes for v2:
-- Removed redundant quotations reported by robh's bot
-- Fixed yamllint warnings
-
-I'm failing to run 'make DT_CHECKER_FLAGS=-m dt_binding_check' due to
-python errors and exceptions
----
- .../iio/pressure/honeywell,hsc030pa.yaml      | 156 ++++++++++++++++++
- 1 file changed, 156 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
-
-diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
-new file mode 100644
-index 000000000000..c7e5d3bd5ef4
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
-@@ -0,0 +1,156 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/pressure/honeywell,hsc030pa.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Honeywell TruStability HSC and SSC pressure sensor families
-+
-+description: |
-+  support for Honeywell TruStability HSC and SSC digital pressure sensor
-+  families.
-+
-+  These sensors have either an I2C, an SPI or an analog interface. Only the
-+  digital versions are supported by this driver.
-+
-+  There are 118 models with different pressure ranges available in each family.
-+  The vendor calls them "HSC series" and "SSC series". All of them have an
-+  identical programming model but differ in pressure range, unit and transfer
-+  function.
-+
-+  To support different models one need to specify the pressure range as well as
-+  the transfer function. Pressure range can either be provided via range_str or
-+  in case it's a custom chip via numerical range limits converted to pascals.
-+
-+  The transfer function defines the ranges of raw conversion values delivered
-+  by the sensor. pmin-pascal and pmax-pascal corespond to the minimum and
-+  maximum pressure that can be measured.
-+
-+  Specifications about the devices can be found at:
-+  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
-+  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
-+
-+maintainers:
-+  - Petre Rodan <petre.rodan@subdimension.ro>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - honeywell,hsc
-+      - honeywell,ssc
-+
-+  reg:
-+    maxItems: 1
-+
-+  honeywell,transfer-function:
-+    description: |
-+      Transfer function which defines the range of valid values delivered by
-+      the sensor.
-+      0 - A, 10% to 90% of 2^14
-+      1 - B, 5% to 95% of 2^14
-+      2 - C, 5% to 85% of 2^14
-+      3 - F, 4% to 94% of 2^14
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+  honeywell,range_str:
-+    description: |
-+      Five character string that defines "pressure range, unit and type"
-+      as part of the device nomenclature. In the unlikely case of a custom
-+      chip, set to "NA" and provide honeywell,pmin-pascal honeywell,pmax-pascal
-+    enum: [001BA, 1.6BA, 2.5BA, 004BA, 006BA, 010BA, 1.6MD, 2.5MD, 004MD,
-+           006MD, 010MD, 016MD, 025MD, 040MD, 060MD, 100MD, 160MD, 250MD,
-+           400MD, 600MD, 001BD, 1.6BD, 2.5BD, 004BD, 2.5MG, 004MG, 006MG,
-+           010MG, 016MG, 025MG, 040MG, 060MG, 100MG, 160MG, 250MG, 400MG,
-+           600MG, 001BG, 1.6BG, 2.5BG, 004BG, 006BG, 010BG, 100KA, 160KA,
-+           250KA, 400KA, 600KA, 001GA, 160LD, 250LD, 400LD, 600LD, 001KD,
-+           1.6KD, 2.5KD, 004KD, 006KD, 010KD, 016KD, 025KD, 040KD, 060KD,
-+           100KD, 160KD, 250KD, 400KD, 250LG, 400LG, 600LG, 001KG, 1.6KG,
-+           2.5KG, 004KG, 006KG, 010KG, 016KG, 025KG, 040KG, 060KG, 100KG,
-+           160KG, 250KG, 400KG, 600KG, 001GG, 015PA, 030PA, 060PA, 100PA,
-+           150PA, 0.5ND, 001ND, 002ND, 004ND, 005ND, 010ND, 020ND, 030ND,
-+           001PD, 005PD, 015PD, 030PD, 060PD, 001NG, 002NG, 004NG, 005NG,
-+           010NG, 020NG, 030NG, 001PG, 005PG, 015PG, 030PG, 060PG, 100PG,
-+           150PG, NA]
-+    $ref: /schemas/types.yaml#/definitions/string
-+
-+  honeywell,pmin-pascal:
-+    description: |
-+      Minimum pressure value the sensor can measure in pascal.
-+      To be specified only if honeywell,range_str is set to "NA".
-+    $ref: /schemas/types.yaml#/definitions/int32
-+
-+  honeywell,pmax-pascal:
-+    description: |
-+      Maximum pressure value the sensor can measure in pascal.
-+      To be specified only if honeywell,range_str is set to "NA".
-+    $ref: /schemas/types.yaml#/definitions/int32
-+
-+  vdd-supply:
-+    description: |
-+      Provide VDD power to the sensor (either 3.3V or 5V depending on the chip).
-+      Optional, activate only if required by the target board.
-+
-+  spi-max-frequency:
-+    description: SPI clock to be kept between 50 and 800kHz
-+
-+  clock-frequency:
-+    description: i2c clock to be kept between 100 and 400kHz
-+
-+required:
-+  - compatible
-+  - reg
-+  - honeywell,transfer-function
-+  - honeywell,range_str
-+  - clock-frequency
-+  - spi-max-frequency
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+        status = "okay";
-+        clock-frequency = <400000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        HSCMRNN030PA2A3@28 {
-+          status = "okay";
-+          compatible = "honeywell,hsc";
-+          reg = <0x28>;
-+
-+          honeywell,transfer-function = <0>;
-+          honeywell,range_str = "030PA";
-+        };
-+    };
-+
-+    spi {
-+        # note that MOSI is not required by this sensor
-+        status = "okay";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        HSCMLNN100PASA3@0 {
-+          status = "okay";
-+          compatible = "honeywell,hsc";
-+          reg = <0>;
-+          spi-max-frequency = <800000>;
-+
-+          honeywell,transfer-function = <0>;
-+          honeywell,range_str = "100PA";
-+        };
-+
-+        HSC_CUSTOM_CHIP@0 {
-+          status = "okay";
-+          compatible = "honeywell,hsc";
-+          reg = <1>;
-+          spi-max-frequency = <800000>;
-+
-+          honeywell,transfer-function = <0>;
-+          honeywell,range_str = "NA";
-+          honeywell,pmin-pascal = <0>;
-+          honeywell,pmax-pascal = <206850>;
-+        };
-+
-+    };
--- 
-2.41.0
-
+Thanks,
+Yuran Pereira
