@@ -1,406 +1,263 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from 16.mo581.mail-out.ovh.net (16.mo581.mail-out.ovh.net [46.105.72.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D2DDF69
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 07:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKtK74Ob"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DF48C40165
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 07:47:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DF48C40165
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nKtK74Ob
-X-Virus-Scanned: amavisd-new at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RLxn8h4LsNlD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 17 Nov 2023 07:47:44 +0000 (UTC)
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 05DFA40138
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 07:47:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 05DFA40138
-Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6b1d1099a84so1645896b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 16 Nov 2023 23:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700207263; x=1700812063; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0m7RBqHKFE6z7TEklxK9RLQxemjN8YO2rPkrL7zLXKE=;
-        b=nKtK74Ob3IqqU/xiErWtoLLRwS7M4kdYQqf5H1gg3s2Y571KOt1+KPyd5Hi1xrpo4D
-         o6KMVEUBHjEyvpHu+fJsew5gefSKfaJinSQtJlQUXIs3O9GNVPt6k0s+TT39O37V1FPH
-         saR2I+hbz7GYwfWAOX22P9R1owky0HJVhUtzArRsFzPDiaXKtEvVO+Fxb4dGD+1S0T6+
-         fsINeTbjGNHqHGVW/heOJbgc5sk68eDLIs8mObyXe5TkQbkgp93nP1QLliFk279youxQ
-         tXI3bNIpM/e09SjZO9AAotntv1Rhj5XeTZwSbQaQYKjFKK0/libCkzak61DM4/2jmGu6
-         nkTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700207263; x=1700812063;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0m7RBqHKFE6z7TEklxK9RLQxemjN8YO2rPkrL7zLXKE=;
-        b=FdY0HgFVg3tH6yydH/wR1eI70/5VSd0RknD5p0XT2tKV1zDIrc6Csu73UiVSyqSbJv
-         +XEvjgl7PHvjSncIIf3EINRAIjWjitZojEP4Ch5cPzDzY7l2UvkF5+jkJOWtzOavQx7H
-         M0oqP+rWkrqhpW5Rj9TuoVtpdA1S2YA6AF6XQCI/3JDJLodVIofePd/VXNQDM9JP1eAo
-         WRLVuCBfBxqUwYa5tNr0+taclvpM2A8/hLQOrBuQhMjJvmf9YTsa9UBSHn4oR5Zi5+Bm
-         2MHt+F9YC5EMlWKK+k3RYtumTHgCsrNa47dPsHjMystC58Vatc+s9x1KHyD3ffth13hS
-         GiAw==
-X-Gm-Message-State: AOJu0YzCSkIRMHLCAY2E0pcfgvO7HLYEmyM0RJhw9dcfA5nRs8Y2d8RY
-	ZoXBE+jFoZBEZdfgMDK9XV76KFoBIdIdTw==
-X-Google-Smtp-Source: AGHT+IEGzv68xaKRYz7wo3ZbstXcwHdt9YtpzlYI45oUgjPeUPATYsUGI3A4OxMt0e6gCnRkft2PrA==
-X-Received: by 2002:a05:6a00:398c:b0:6c3:44e2:3e96 with SMTP id fi12-20020a056a00398c00b006c344e23e96mr20588976pfb.27.1700207263261;
-        Thu, 16 Nov 2023 23:47:43 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
-        by smtp.gmail.com with ESMTPSA id p16-20020a056a000a1000b006b5922221f4sm870110pfh.8.2023.11.16.23.47.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 23:47:41 -0800 (PST)
-From: Anshul Dalal <anshulusr@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Anshul Dalal <anshulusr@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
-Date: Fri, 17 Nov 2023 13:15:53 +0530
-Message-ID: <20231117074554.700970-2-anshulusr@gmail.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <20231117074554.700970-1-anshulusr@gmail.com>
-References: <20231117074554.700970-1-anshulusr@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C103412E47
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Nov 2023 09:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxhound.fi
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from director10.ghost.mail-out.ovh.net (unknown [10.108.1.121])
+	by mo581.mail-out.ovh.net (Postfix) with ESMTP id 293102AC5D
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 17 Nov 2023 09:16:05 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-f89jd (unknown [10.110.115.159])
+	by director10.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 890EE1FE9E;
+	Fri, 17 Nov 2023 09:16:04 +0000 (UTC)
+Received: from RCM-web5.webmail.mail.ovh.net ([51.255.71.60])
+	by ghost-submission-6684bf9d7b-f89jd with ESMTPSA
+	id Md/vH1QvV2XiGwAABl2Rdg
+	(envelope-from <jose.pekkarinen@foxhound.fi>); Fri, 17 Nov 2023 09:16:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Date: Fri, 17 Nov 2023 11:16:04 +0200
+From: =?UTF-8?Q?Jos=C3=A9_Pekkarinen?= <jose.pekkarinen@foxhound.fi>
+To: Hugh Dickins <hughd@google.com>
+Cc: Matthew Wilcox <willy@infradead.org>, akpm@linux-foundation.org,
+ skhan@linuxfoundation.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linux.dev,
+ syzbot+89edd67979b52675ddec@syzkaller.appspotmail.com, Jann Horn
+ <jannh@google.com>
+Subject: Re: [PATCH] mm/pgtable: return null if no ptl in
+ __pte_offset_map_lock
+In-Reply-To: <74a866a0-3211-7e31-1dc3-7c96da340332@google.com>
+References: <20231115065506.19780-1-jose.pekkarinen@foxhound.fi>
+ <ZVTTbuviH9/RWYyI@casper.infradead.org>
+ <1c4cb1959829ecf4f0c59691d833618c@foxhound.fi>
+ <ZVUWLgFgu+jE3QmW@casper.infradead.org>
+ <515cb9c1-abcd-c3f3-cc0d-c3cd248b9d6f@google.com>
+ <3cd8b7048ee38f5c5e6f9f6c5dab2deb@foxhound.fi>
+ <74a866a0-3211-7e31-1dc3-7c96da340332@google.com>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <22784510ce7576e173cb2c0d6e1df0b6@foxhound.fi>
+X-Sender: jose.pekkarinen@foxhound.fi
+Organization: Foxhound Ltd.
+X-Originating-IP: 195.160.220.104
+X-Webmail-UserID: jose.pekkarinen@foxhound.fi
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 3410350819933529754
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvkedrudegtddgtddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihoihgtgfesthekjhdttderjeenucfhrhhomheplfhoshorucfrvghkkhgrrhhinhgvnhcuoehjohhsvgdrphgvkhhkrghrihhnvghnsehfohighhhouhhnugdrfhhiqeenucggtffrrghtthgvrhhnpeekhfeguddufeegvdelgedtvdffgeehvddtkeevkeejvedvgeeitdefleehtdeitdenucfkphepuddvjedrtddrtddruddpudelhedrudeitddrvddvtddruddtgedphedurddvheehrdejuddriedtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeojhhoshgvrdhpvghkkhgrrhhinhgvnhesfhhogihhohhunhgurdhfiheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlqdhmvghnthgvvghssehlihhsthhsrdhlihhnuhigrdguvghvpdfovfetjfhoshhtpehmohehkedupdhmohguvgepshhmthhpohhuth
 
-Implements driver for the Ambient/UV Light sensor LTR390.
-The driver exposes two ways of getting sensor readings:
-  1. Raw UV Counts directly from the sensor
-  2. The computed UV Index value with a percision of 2 decimal places
+On 2023-11-17 08:13, Hugh Dickins wrote:
+> On Thu, 16 Nov 2023, José Pekkarinen wrote:
+>> On 2023-11-16 07:23, Hugh Dickins wrote:
+>> > On Wed, 15 Nov 2023, Matthew Wilcox wrote:
+>> >> On Wed, Nov 15, 2023 at 06:05:30PM +0200, José Pekkarinen wrote:
+>> >>
+>> >> > > I don't think we should be changing ptlock_ptr().
+>> >> >
+>> >> >     This is where the null ptr dereference originates, so the only
+>> >> > alternative I can think of is to protect the life cycle of the ptdesc
+>> >> > to prevent it to die between the pte check and the spin_unlock of
+>> >> > __pte_offset_map_lock. Would that work for you?
+>> >
+>> > Thanks for pursuing this, José, but I agree with Matthew: I don't
+>> > think your patch is right at all.  The change in ptlock_ptr() did not
+>> > make sense to me, and the change in __pte_offset_map_lock() leaves us
+>> > still wondering what has gone wrong (and misses an rcu_read_unlock()).
+>> >
+>> > You mentioned "I tested the syzbot reproducer in x86 and it doesn't
+>> > produce this kasan report anymore": are you saying that you were able
+>> > to reproduce the issue on x86 (without your patch)?  That would be very
+>> > interesting (and I think would disprove my hypothesis below).  I ought
+>> > to try on x86 if you managed to reproduce on it, but it's not worth
+>> > the effort if you did not.  If you have an x86 stack and registers,
+>> > please show (though I'm uncertain how much KASAN spoils the output).
+>> 
+>>     Hi,
+>> 
+>>     Yes, I have a local setup based in [1], where I can spin a small
+>> vm, build the reproducer and run it in. The only thing I took from
+>> the webpage is the kernel config file, and the image I made it locally
+>> by debootstrapping and running the modifications in create-image.sh
+>> manually, the kasan report follows:
+>> 
+>> [  111.408746][ T8885] general protection fault, probably for 
+>> non-canonical
+>> address 0xdffffc0000000005: 0000 [#1] PREEMPT SMP KASAN NOPTI
+>> [  111.413181][ T8885] KASAN: null-ptr-deref in range
+>> [0x0000000000000028-0x000000000000002f]
+>> [  111.413181][ T8885] CPU: 1 PID: 8885 Comm: handle_kernel_p Not 
+>> tainted
+>> 6.7.0-rc1-00007-ge612cb00e200 #6
+>> [  111.413181][ T8885] Hardware name: QEMU Standard PC (i440FX + PIIX, 
+>> 1996),
+>> BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+>> [  111.413181][ T8885] RIP: 0010:__pte_offset_map_lock+0xfa/0x310
+>> [  111.423642][ T8885] Code: 48 c1 e8 03 80 3c 10 00 0f 85 12 02 00 00 
+>> 4c 03
+>> 3d db 92 cf 0b 48 b8 00 00 00 00 00 fc ff df 49 8d 7f 28 48 89 fa 48 
+>> c1 ea 03
+>> <80> 3c 02 00 0f 85 e2 01 00 00 4d 8b 7f 28 4c 89 ff e8 f0 a1 3a 09
+>> [  111.423642][ T8885] RSP: 0018:ffffc90005baf738 EFLAGS: 00010216
+>> [  111.423642][ T8885] RAX: dffffc0000000000 RBX: 0005800000000067 
+>> RCX:
+>> ffffffff81ada02e
+>> [  111.423642][ T8885] RDX: 0000000000000005 RSI: ffffffff81ad9f0f 
+>> RDI:
+>> 0000000000000028
+>> [  111.423642][ T8885] RBP: ffff8880224c4800 R08: 0000000000000007 
+>> R09:
+>> 0000000000000000
+>> [  111.423642][ T8885] R10: 0000000000000000 R11: 0000000000000000 
+>> R12:
+>> 0005088000000a80
+>> [  111.423642][ T8885] R13: 1ffff92000b75ee9 R14: ffffc90005bafa88 
+>> R15:
+>> 0000000000000000
+>> [  111.423642][ T8885] FS:  00007f8d3972c6c0(0000) 
+>> GS:ffff888069700000(0000)
+>> knlGS:0000000000000000
+>> [  111.423642][ T8885] CS:  0010 DS: 0000 ES: 0000 CR0: 
+>> 0000000080050033
+>> [  111.423642][ T8885] CR2: 00007f8d3970af78 CR3: 00000000224d6000 
+>> CR4:
+>> 00000000000006f0
+>> [  111.423642][ T8885] Call Trace:
+>> [  111.423642][ T8885]  <TASK>
+>> [  111.423642][ T8885]  ? show_regs+0x8f/0xa0
+>> [  111.423642][ T8885]  ? die_addr+0x4f/0xd0
+>> [  111.423642][ T8885]  ? exc_general_protection+0x150/0x220
+>> [  111.423642][ T8885]  ? asm_exc_general_protection+0x26/0x30
+>> [  111.423642][ T8885]  ? __pte_offset_map_lock+0x1de/0x310
+>> [  111.423642][ T8885]  ? __pte_offset_map_lock+0xbf/0x310
+>> [  111.423642][ T8885]  ? __pte_offset_map_lock+0xfa/0x310
+>> [  111.423642][ T8885]  ? __pte_offset_map_lock+0xbf/0x310
+>> [  111.423642][ T8885]  ? __pfx___pte_offset_map_lock+0x10/0x10
+>> [  111.423642][ T8885]  filemap_map_pages+0x336/0x13b0
+>> [  111.423642][ T8885]  ? __pfx_filemap_map_pages+0x10/0x10
+>> [  111.423642][ T8885]  ? rcu_read_unlock+0x33/0xb0
+>> [  111.423642][ T8885]  do_fault+0x86a/0x1350
+>> [  111.423642][ T8885]  __handle_mm_fault+0xe53/0x23a0
+>> [  111.423642][ T8885]  ? __pfx___handle_mm_fault+0x10/0x10
+>> [  111.483413][ T8885]  handle_mm_fault+0x369/0x890
+>> [  111.483413][ T8885]  __get_user_pages+0x46d/0x15d0
+>> [  111.483413][ T8885]  ? __pfx___get_user_pages+0x10/0x10
+>> [  111.483413][ T8885]  populate_vma_page_range+0x2de/0x420
+>> [  111.483413][ T8885]  ? __pfx_populate_vma_page_range+0x10/0x10
+>> [  111.483413][ T8885]  ? __pfx_find_vma_intersection+0x10/0x10
+>> [  111.483413][ T8885]  ? vm_mmap_pgoff+0x299/0x3c0
+>> [  111.483413][ T8885]  __mm_populate+0x1da/0x380
+>> [  111.483413][ T8885]  ? __pfx___mm_populate+0x10/0x10
+>> [  111.483413][ T8885]  ? up_write+0x1b3/0x520
+>> [  111.483413][ T8885]  vm_mmap_pgoff+0x2d1/0x3c0
+>> [  111.483413][ T8885]  ? __pfx_vm_mmap_pgoff+0x10/0x10
+>> [  111.483413][ T8885]  ksys_mmap_pgoff+0x7d/0x5b0
+>> [  111.483413][ T8885]  __x64_sys_mmap+0x125/0x190
+>> [  111.483413][ T8885]  do_syscall_64+0x45/0xf0
+>> [  111.483413][ T8885]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
+>> [  111.483413][ T8885] RIP: 0033:0x7f8d39831559
+>> [  111.483413][ T8885] Code: 08 89 e8 5b 5d c3 66 2e 0f 1f 84 00 00 00 
+>> 00 00
+>> 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 
+>> 08 0f 05
+>> <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 77 08 0d 00 f7 d8 64 89 01 48
+>> [  111.483413][ T8885] RSP: 002b:00007f8d3972be78 EFLAGS: 00000216 
+>> ORIG_RAX:
+>> 0000000000000009
+>> [  111.483413][ T8885] RAX: ffffffffffffffda RBX: 00007f8d3972c6c0 
+>> RCX:
+>> 00007f8d39831559
+>> [  111.483413][ T8885] RDX: b635773f07ebbeea RSI: 0000000000b36000 
+>> RDI:
+>> 0000000020000000
+>> [  111.483413][ T8885] RBP: 00007f8d3972bea0 R08: 00000000ffffffff 
+>> R09:
+>> 0000000000000000
+>> [  111.483413][ T8885] R10: 0000000000008031 R11: 0000000000000216 
+>> R12:
+>> ffffffffffffff80
+>> [  111.483413][ T8885] R13: 0000000000000000 R14: 00007fffcef921d0 
+>> R15:
+>> 00007f8d3970c000
+>> [  111.483413][ T8885]  </TASK>
+>> [  111.483413][ T8885] Modules linked in:
+>> [  111.763549][ T8885] ---[ end trace 0000000000000000 ]---
+>> [  111.773557][ T8885] RIP: 0010:__pte_offset_map_lock+0xfa/0x310
+>> [  111.776045][ T8885] Code: 48 c1 e8 03 80 3c 10 00 0f 85 12 02 00 00 
+>> 4c 03
+>> 3d db 92 cf 0b 48 b8 00 00 00 00 00 fc ff df 49 8d 7f 28 48 89 fa 48 
+>> c1 ea 03
+>> <80> 3c 02 00 0f 85 e2 01 00 00 4d 8b 7f 28 4c 89 ff e8 f0 a1 3a 09
+>> [  111.805040][ T8885] RSP: 0018:ffffc90005baf738 EFLAGS: 00010216
+>> [  111.820041][ T8885] RAX: dffffc0000000000 RBX: 0005800000000067 
+>> RCX:
+>> ffffffff81ada02e
+>> [  111.837884][ T8885] RDX: 0000000000000005 RSI: ffffffff81ad9f0f 
+>> RDI:
+>> 0000000000000028
+>> [  111.855313][ T8885] RBP: ffff8880224c4800 R08: 0000000000000007 
+>> R09:
+>> 0000000000000000
+>> [  111.878314][ T8885] R10: 0000000000000000 R11: 0000000000000000 
+>> R12:
+>> 0005088000000a80
+>> [  111.910624][ T8885] R13: 1ffff92000b75ee9 R14: ffffc90005bafa88 
+>> R15:
+>> 0000000000000000
+>> [  111.923627][ T8885] FS:  00007f8d3972c6c0(0000) 
+>> GS:ffff888069700000(0000)
+>> knlGS:0000000000000000
+>> [  111.932017][ T8885] CS:  0010 DS: 0000 ES: 0000 CR0: 
+>> 0000000080050033
+>> [  111.941166][ T8885] CR2: 00007fa26ac38178 CR3: 00000000224d6000 
+>> CR4:
+>> 00000000000006f0
+>> [  111.950619][ T8885] Kernel panic - not syncing: Fatal exception
+>> [  111.953981][ T8885] Kernel Offset: disabled
+>> [  111.953981][ T8885] Rebooting in 86400 seconds..
+>> 
+>>     I can test some patches for you if it helps finding out
+>> the issue.
+> 
+> Thanks a lot, and you'll see that I've just asked syzbot to try what
+> I now believe is the correct fix: over in the other thread, since it
+> didn't recognize yesterday's when I sent from this thread.  Please
+> give that a try yourself, if you have time - thanks.
+> 
+> It turned out that all that I needed was your assurance that you had
+> the repro working on x86 - I guess I'm simply too x86-centric, and
+> had assumed that syzbot's arm64 report implied something special on
+> arm, such as the subtler barriers there.
+> 
+> I gave repro a try on bare metal x86, and it reproduced within a 
+> minute:
+> though in my case not quite the stack trace you and syzbot reported,
+> but a more obvious oops in pmd_install().  Depending on one's
+> "memory model", the macro pfn_to_page() can be more or less strict:
+> in my case it was strict, and pmd_install() oopsed right there in
+> pmd_populate(); whereas in your case pmd_populate() uncomplainingly
+> puts something silly into the pmd entry, leaving 
+> __pte_offset_map_lock()
+> to stumble on that immediately afterwards.  (Neither KASAN nor lockdep
+> required - though lockdep's spinlock pointer probably helps to make the
+> badness more obvious, if pmd_install() did not crash already.)
+> 
+> The problem is simply that filemap_map_pmd() assumed that prealloc_pte
+> is supplied with a preallocated page table whenever pmd_none(); but if
+> it has racily become pmd_none() since the preallocation decision, then
+> the oops.  My changes have certainly provided an easy way to get that
+> race, but if I'm not mistaken, there was already another such race,
+> with the possible bug going back to 5.12.
+> 
+> I'll work on the commit message while waiting to hear from syzbot.
 
-NOTE: Ambient light sensing has not been implemented yet.
+     Yep, your solution works for me also. Thanks!
 
-Datasheet:
-  https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
-
-Driver tested on RPi Zero 2W
-
-Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
----
-
-Changes for v2:
-- Fixed typo in `LTR390_FRACTIONAL_PRECISION`
-- Added of_device_id
----
- MAINTAINERS                |   7 ++
- drivers/iio/light/Kconfig  |  11 ++
- drivers/iio/light/Makefile |   1 +
- drivers/iio/light/ltr390.c | 232 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 251 insertions(+)
- create mode 100644 drivers/iio/light/ltr390.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81d5fc0bba68..c9f2238673f0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12484,6 +12484,13 @@ S:	Maintained
- W:	http://linux-test-project.github.io/
- T:	git https://github.com/linux-test-project/ltp.git
- 
-+LTR390 AMBIENT/UV LIGHT SENSOR DRIVER
-+M:	Anshul Dalal <anshulusr@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
-+F:	drivers/iio/light/ltr390.c
-+
- LYNX 28G SERDES PHY DRIVER
- M:	Ioana Ciornei <ioana.ciornei@nxp.com>
- L:	netdev@vger.kernel.org
-diff --git a/drivers/iio/light/Kconfig b/drivers/iio/light/Kconfig
-index 45edba797e4c..61993ae79afe 100644
---- a/drivers/iio/light/Kconfig
-+++ b/drivers/iio/light/Kconfig
-@@ -347,6 +347,17 @@ config SENSORS_LM3533
- 	  changes. The ALS-control output values can be set per zone for the
- 	  three current output channels.
- 
-+config LTR390
-+	tristate "LTR-390UV-01 ambient light and UV sensor"
-+	depends on I2C
-+	select REGMAP_I2C
-+	help
-+	  If you say yes here you get support for the Lite-On LTR-390UV-01
-+	  ambient light and UV sensor.
-+
-+	  This driver can also be built as a module.  If so, the module
-+	  will be called ltr390.
-+
- config LTR501
- 	tristate "LTR-501ALS-01 light sensor"
- 	depends on I2C
-diff --git a/drivers/iio/light/Makefile b/drivers/iio/light/Makefile
-index c0db4c4c36ec..550f8b408bc2 100644
---- a/drivers/iio/light/Makefile
-+++ b/drivers/iio/light/Makefile
-@@ -30,6 +30,7 @@ obj-$(CONFIG_SENSORS_ISL29028)	+= isl29028.o
- obj-$(CONFIG_ISL29125)		+= isl29125.o
- obj-$(CONFIG_JSA1212)		+= jsa1212.o
- obj-$(CONFIG_SENSORS_LM3533)	+= lm3533-als.o
-+obj-$(CONFIG_LTR390)		+= ltr390.o
- obj-$(CONFIG_LTR501)		+= ltr501.o
- obj-$(CONFIG_LTRF216A)		+= ltrf216a.o
- obj-$(CONFIG_LV0104CS)		+= lv0104cs.o
-diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
-new file mode 100644
-index 000000000000..67ca028ce828
---- /dev/null
-+++ b/drivers/iio/light/ltr390.c
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * IIO driver for Lite-On LTR390 ALS and UV sensor
-+ * (7-bit I2C slave address 0x53)
-+ *
-+ * Based on the work of:
-+ *   Shreeya Patel and Shi Zhigang (LTRF216 Driver)
-+ *
-+ * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
-+ *
-+ * Datasheet:
-+ *   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
-+ *
-+ * TODO:
-+ *   - Support for configurable gain and resolution
-+ *   - Sensor suspend/resume support
-+ *   - Add support for reading the ALS
-+ *   - Interrupt support
-+ */
-+
-+#include <asm/unaligned.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/iio/iio.h>
-+#include <linux/math.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/regmap.h>
-+
-+#define LTR390_DEVICE_NAME	    "ltr390"
-+
-+#define LTR390_MAIN_CTRL	    0x00
-+#define LTR390_PART_ID		    0x06
-+#define LTR390_UVS_DATA		    0x10
-+
-+#define LTR390_SW_RESET		    BIT(4)
-+#define LTR390_UVS_MODE		    BIT(3)
-+#define LTR390_SENSOR_ENABLE	    BIT(1)
-+
-+#define LTR390_PART_NUMBER_ID	    0xb
-+#define LTR390_FRACTIONAL_PERCISION 100
-+
-+/*
-+ * At 20-bit resolution (integration time: 400ms) and 18x gain, 2300 counts of
-+ * the sensor are equal to 1 UV Index [Datasheet Page#8].
-+ *
-+ * For the default resolution of 18-bit (integration time: 100ms) and default
-+ * gain of 3x, the counts/uvi are calculated as follows:
-+ * 2300 / ((3/18) * (100/400)) = 95.83
-+ */
-+#define LTR390_COUNTS_PER_UVI 96
-+
-+/*
-+ * Window Factor is needed when the device is under Window glass with coated
-+ * tinted ink. This is to compensate for the light loss due to the lower
-+ * transmission rate of the window glass and helps * in calculating lux.
-+ */
-+#define LTR390_WINDOW_FACTOR 1
-+
-+struct ltr390_data {
-+	struct regmap *regmap;
-+	struct i2c_client *client;
-+	struct mutex lock;
-+};
-+
-+static const struct regmap_config ltr390_regmap_config = {
-+	.name = LTR390_DEVICE_NAME,
-+	.reg_bits = 8,
-+	.reg_stride = 1,
-+	.val_bits = 8,
-+};
-+
-+static int ltr390_register_read(struct ltr390_data *data, u8 register_address)
-+{
-+	struct device *dev = &data->client->dev;
-+	int ret;
-+	u8 recieve_buffer[3];
-+
-+	mutex_lock(&data->lock);
-+
-+	ret = regmap_bulk_read(data->regmap, register_address, recieve_buffer,
-+			       sizeof(recieve_buffer));
-+	if (ret) {
-+		dev_err(dev, "failed to read measurement data: %d\n", ret);
-+		mutex_unlock(&data->lock);
-+		return ret;
-+	}
-+
-+	mutex_unlock(&data->lock);
-+	return get_unaligned_le24(recieve_buffer);
-+}
-+
-+static int ltr390_get_uv_index(struct ltr390_data *data)
-+{
-+	int ret;
-+	int uv_index;
-+
-+	ret = ltr390_register_read(data, LTR390_UVS_DATA);
-+	if (ret < 0)
-+		return ret;
-+
-+	uv_index = DIV_ROUND_CLOSEST(ret * LTR390_FRACTIONAL_PERCISION *
-+					     LTR390_WINDOW_FACTOR,
-+				     LTR390_COUNTS_PER_UVI);
-+
-+	return uv_index;
-+}
-+
-+static int ltr390_read_raw(struct iio_dev *iio_device,
-+			   struct iio_chan_spec const *chan, int *val,
-+			   int *val2, long mask)
-+{
-+	int ret;
-+	struct ltr390_data *data = iio_priv(iio_device);
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_PROCESSED:
-+		ret = ltr390_get_uv_index(data);
-+		if (ret < 0)
-+			return ret;
-+		*val = ret;
-+		*val2 = LTR390_FRACTIONAL_PERCISION;
-+		return IIO_VAL_FRACTIONAL;
-+	case IIO_CHAN_INFO_RAW:
-+		ret = ltr390_register_read(data, LTR390_UVS_DATA);
-+		if (ret < 0)
-+			return ret;
-+		*val = ret;
-+		return IIO_VAL_INT;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct iio_info ltr390_info = {
-+	.read_raw = ltr390_read_raw,
-+};
-+
-+static const struct iio_chan_spec ltr390_channels[] = {
-+	{
-+		.type = IIO_UVINDEX,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED)
-+	},
-+	{
-+		.type = IIO_INTENSITY,
-+		.channel2 = IIO_MOD_LIGHT_UV,
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW)
-+	},
-+};
-+
-+static int ltr390_probe(struct i2c_client *client)
-+{
-+	struct ltr390_data *data;
-+	struct iio_dev *indio_dev;
-+	int ret, part_number;
-+
-+	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	data = iio_priv(indio_dev);
-+
-+	data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
-+	if (IS_ERR(data->regmap))
-+		return dev_err_probe(&client->dev, PTR_ERR(data->regmap),
-+				     "regmap initialization failed\n");
-+
-+	data->client = client;
-+	i2c_set_clientdata(client, indio_dev);
-+	mutex_init(&data->lock);
-+
-+	indio_dev->info = &ltr390_info;
-+	indio_dev->channels = ltr390_channels;
-+	indio_dev->num_channels = ARRAY_SIZE(ltr390_channels);
-+	indio_dev->name = LTR390_DEVICE_NAME;
-+
-+	ret = regmap_read(data->regmap, LTR390_PART_ID, &part_number);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to get sensor's part id: %d",
-+			ret);
-+		return ret;
-+	}
-+	/* Lower 4 bits of `part_number` change with hardware revisions */
-+	if (part_number >> 4 != LTR390_PART_NUMBER_ID) {
-+		dev_err(&client->dev, "received invalid product id: 0x%x",
-+			part_number);
-+		return -ENODEV;
-+	}
-+	dev_dbg(&client->dev, "LTR390, product id: 0x%x\n", part_number);
-+
-+	/* reset sensor, chip fails to respond to this, so ignore any errors */
-+	regmap_set_bits(data->regmap, LTR390_MAIN_CTRL, LTR390_SW_RESET);
-+
-+	/* Wait for the registers to reset before proceeding */
-+	usleep_range(1000, 2000);
-+
-+	ret = regmap_set_bits(data->regmap, LTR390_MAIN_CTRL,
-+			      LTR390_SENSOR_ENABLE | LTR390_UVS_MODE);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to enable the sensor: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return devm_iio_device_register(&client->dev, indio_dev);
-+}
-+
-+static const struct i2c_device_id ltr390_id[] = {
-+	{ LTR390_DEVICE_NAME, 0 },
-+	{ /* Sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(i2c, ltr390_id);
-+
-+static const struct of_device_id ltr390_of_table[] = {
-+	{ .compatible = "liteon,ltr390"},
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ltr390_id_table);
-+
-+static struct i2c_driver ltr390_driver = {
-+	.driver = {
-+		.name = LTR390_DEVICE_NAME,
-+		.of_match_table = ltr390_of_table,
-+	},
-+	.probe = ltr390_probe,
-+	.id_table = ltr390_id,
-+};
-+
-+module_i2c_driver(ltr390_driver);
-+
-+MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
-+MODULE_DESCRIPTION("Lite-On LTR390 ALS and UV sensor Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.42.1
-
+     José.
