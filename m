@@ -1,127 +1,200 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F40F30FBC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 17:18:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4AA433BB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 18:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DcTf88U5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZU7EJ5P"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id EE6A6612D1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 17:18:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EE6A6612D1
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DcTf88U5
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1375841F57
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 18:14:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1375841F57
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PZU7EJ5P
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nvKLe6RupogH
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EJTyGv3lgLuN
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 17 Nov 2023 17:18:55 +0000 (UTC)
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 020DB610E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 17:18:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 020DB610E3
-Received: by mail-lf1-x135.google.com with SMTP id 2adb3069b0e04-507bd19eac8so2962608e87.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 09:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700241533; x=1700846333; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U9nuRLJ1S3+EQkuj+oZlqv6qH4dTQ9g11Gi/7PxPR84=;
-        b=DcTf88U5WZiOz64EHN/Wm5oRFrqBNH5Gb9N4G+cm4nDP/0X8CHSjkRFScvjGxFxxWD
-         ySaS3spgCcro2Tkd/pM3PN5NAR+WuxPtP1Yvt09pPzXz83s9Jt1T/srD0D3XNrefY/7Q
-         Ntc9VUi3q623yrmPngsfHdovQOgph3fcBHYYGb44sl3XRmG3gpTnzWqzFJeTG/IrL108
-         H0zK/mG612TrIdb50G+xYMNMesNlWeLuuS7fzf4Z7AkqOZDFOIEs8DzQbakEn/55oM01
-         0ub4Wto2wS4BuSmN85+phz3MgShhvVe4gm/IYm2rcd1BUQ9pxC/p9y024ECZvx0iR2xq
-         rhSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700241533; x=1700846333;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U9nuRLJ1S3+EQkuj+oZlqv6qH4dTQ9g11Gi/7PxPR84=;
-        b=BIZgX5QwX5gVG/y78vv0vZ58DSWFLPj2/T3ZJISQVyz0jTd7pawdU+Wi3d65TcEKux
-         DodQ0YOwNVc24YgkuCIf0m3nFvCdpTpvRpwXIpuokSBibTKhJOFGkOnS2KQasluKVrlp
-         N6bhiXCYc3urvIHrKRTbk/dIxeHzo67FXZHJJjvHmF+tFlM5gmhd8S1eYkCmta9AdOdi
-         hM1vBMeJ4eOHmYxElUMwodvSAcAw45RqJFYfC5GJO8v3TFpPRqR/7BGdFAbZysqwj65P
-         QT3BvtcjWbikdT8x0V01BgIr+MXDtUuBv6NWoezs+SJaP5djvIbrDbSCHbrnKe3hNK0r
-         vtpg==
-X-Gm-Message-State: AOJu0Yy0TBGf1iiYNYDerFo+rp3ZpAyC9lnWP9DCWHkxbms2dd0qNxlj
-	v5znt/+Yw/gluV36lh07LH5cVBivv4CFlgRQxtY=
-X-Google-Smtp-Source: AGHT+IGq1tPI4eYPfs2NVjkrFJlW/fMIxp0l26ixli8xQwPegejmJBL93pwV0xOpLM1ZMIhDqDpLWn+dVDVC1wp/JtI=
-X-Received: by 2002:ac2:547c:0:b0:50a:763f:ecf1 with SMTP id
- e28-20020ac2547c000000b0050a763fecf1mr176643lfn.12.1700241532550; Fri, 17 Nov
- 2023 09:18:52 -0800 (PST)
+	Fri, 17 Nov 2023 18:14:24 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D234341F0E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 18:14:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D234341F0E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700244865; x=1731780865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ak/qyDh8KxPCYfBsG+uj8tlB3hidZzbgTQrrCKymJ8o=;
+  b=PZU7EJ5PYnQAMGQTmlAoqLM3pIfH0m8XBol9Bzhf499uq3XBoYPodlK7
+   WrrCiAGNva6yxcCD9/mBt4mn8LHYcYybvpUcNjPeQAEClURgbSdqydAgB
+   Ks7aEcO18Tc73mDgryNMI+yAyxS8hE6WkmksEUGTBhAZ64iQ8/fkyOlLA
+   u4NsbK6aoSwii925W2nMb/Uw8sLzY8XU0Wd4E4QENOjFp9UcD15ruVh7f
+   OCrL9VNhIJat9YUt/cPaS/QtsmdrXN9PpJa8cA3wfTjA1MTc25BtwEjlW
+   J87fMcN1NXUCLZ4uMqkTgudbkK9Tx5PRacEsN1oDAAu+4q7FaDY8FG9Kv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="12896397"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="12896397"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 10:14:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="1012995103"
+X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
+   d="scan'208";a="1012995103"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 17 Nov 2023 10:14:20 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r43Lr-00031r-1Z;
+	Fri, 17 Nov 2023 18:14:17 +0000
+Date: Sat, 18 Nov 2023 02:13:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Anshul Dalal <anshulusr@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
+Message-ID: <202311180127.eL4Rof8A-lkp@intel.com>
+References: <20231117074554.700970-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Fri, 17 Nov 2023 12:18:40 -0500
-Message-ID: <CAEf4Bza4fejyKRCdcq0WwrvZ-p8JbMq0MPQB_BGzaxPGHT2EoQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 0/4] selftests/bpf: Update multiple prog_tests to
- use ASSERT_ macros
-To: Yuran Pereira <yuran.pereira@hotmail.com>
-Cc: bpf@vger.kernel.org, andrii@kernel.org, mykolal@fb.com, ast@kernel.org, 
-	martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com, 
-	haoluo@google.com, jolsa@kernel.org, shuah@kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231117074554.700970-2-anshulusr@gmail.com>
 
-On Wed, Nov 15, 2023 at 10:14=E2=80=AFPM Yuran Pereira
-<yuran.pereira@hotmail.com> wrote:
->
-> Multiple files/programs in `tools/testing/selftests/bpf/prog_tests/` stil=
-l
-> heavily use the `CHECK` macro, even when better `ASSERT_` alternatives ar=
-e
-> available.
->
-> As it was already pointed out by Yonghong Song [1] in the bpf selftests t=
-he use
-> of the ASSERT_* series of macros is preferred over the CHECK macro.
->
-> This patchset replaces the usage of `CHECK(` macros to the equivalent `AS=
-SERT_`
-> family of macros in the following prog_tests:
-> - bind_perm.c
-> - bpf_obj_id.c
-> - bpf_tcp_ca.c
-> - vmlinux.c
->
-> [1] https://lore.kernel.org/lkml/0a142924-633c-44e6-9a92-2dc019656bf2@lin=
-ux.dev
->
-> Yuran Pereira (4):
->   Replaces the usage of CHECK calls for ASSERTs in bpf_tcp_ca
->   Replaces the usage of CHECK calls for ASSERTs in bind_perm
->   Replaces the usage of CHECK calls for ASSERTs in bpf_obj_id
->   selftests/bpf: Replaces the usage of CHECK calls for ASSERTs in
->     vmlinux
->
->  .../selftests/bpf/prog_tests/bind_perm.c      |   6 +-
->  .../selftests/bpf/prog_tests/bpf_obj_id.c     | 204 +++++++-----------
->  .../selftests/bpf/prog_tests/bpf_tcp_ca.c     |  48 ++---
->  .../selftests/bpf/prog_tests/vmlinux.c        |  16 +-
->  4 files changed, 105 insertions(+), 169 deletions(-)
->
-> --
-> 2.25.1
->
+Hi Anshul,
 
-It seems like you introduced a few failures in selftests, please take
-a look at [0] and fix them, thanks!
+kernel test robot noticed the following build errors:
 
-  [0] https://github.com/kernel-patches/bpf/actions/runs/6885976657/job/187=
-31029901
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on robh/for-next linus/master v6.7-rc1 next-20231117]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/iio-light-driver-for-Lite-On-ltr390/20231117-154922
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20231117074554.700970-2-anshulusr%40gmail.com
+patch subject: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20231118/202311180127.eL4Rof8A-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231118/202311180127.eL4Rof8A-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311180127.eL4Rof8A-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/iio/light/ltr390.c:23:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/iio/light/ltr390.c:23:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/iio/light/ltr390.c:23:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:337:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/iio/light/ltr390.c:217:25: error: use of undeclared identifier 'ltr390_id_table'; did you mean 'ltr390_of_table'?
+     217 | MODULE_DEVICE_TABLE(of, ltr390_id_table);
+         |                         ^~~~~~~~~~~~~~~
+         |                         ltr390_of_table
+   include/linux/module.h:244:15: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^
+   drivers/iio/light/ltr390.c:213:34: note: 'ltr390_of_table' declared here
+     213 | static const struct of_device_id ltr390_of_table[] = {
+         |                                  ^
+   6 warnings and 1 error generated.
+
+
+vim +217 drivers/iio/light/ltr390.c
+
+   212	
+   213	static const struct of_device_id ltr390_of_table[] = {
+   214		{ .compatible = "liteon,ltr390"},
+   215		{ /* Sentinel */ }
+   216	};
+ > 217	MODULE_DEVICE_TABLE(of, ltr390_id_table);
+   218	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
