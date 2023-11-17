@@ -1,136 +1,251 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D2B36AE0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 14:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2B93EA91
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 16:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cGfak7Pu"
+	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="KzLG9mzb"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 83BED80E7F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 14:24:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 83BED80E7F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cGfak7Pu
+	by smtp2.osuosl.org (Postfix) with ESMTP id A970A40AA3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 16:50:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A970A40AA3
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=KzLG9mzb
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -1.307
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id yaYIztDtdFFd
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cDJEd2AZklHl
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 17 Nov 2023 14:24:53 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 748E580BCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 14:24:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 748E580BCE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700231093; x=1731767093;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KkQB0JC1sh9iALs/FsLxS+o9qCBJEgLAxvhigYsmDTs=;
-  b=cGfak7PuD7KUSEHeSN+Ic7vG2qW/pNWNpWWPCPz38pWfzPMaubmULJ4Z
-   HP3fM8fWz98xciyQYZFbjElnzHGwJqbvq541fIcO6zxFLfAW8cVxa1LFD
-   layonwZRZ67KaOvJOwlnp/eKDMHS1w3NuuY9y7C0BkJK6K1AWxe25PcbM
-   tw5OvlUQdJMhk5OCH1OHaYwB4Z3VQbK8U09ptgBdmSZIUzqh/3hswuIjM
-   MuNJ2Rb3xkzVkFiGhZME1hfLklpWLz6MR0uzF8JHa0B27CmPAmloicH7O
-   LxMxEsyymB6Bl+CnHpdtbbYy2vwN7HfNuV1SP2Aac+Eq5Tv4eu8jyh8VB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="390163907"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="390163907"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 06:24:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="889255853"
-X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="889255853"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 17 Nov 2023 06:24:48 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3zlz-0002qh-1u;
-	Fri, 17 Nov 2023 14:24:43 +0000
-Date: Fri, 17 Nov 2023 22:23:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Fri, 17 Nov 2023 16:50:57 +0000 (UTC)
+X-Greylist: delayed 466 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 17 Nov 2023 16:50:57 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 158B540103
+Received: from mail.subdimension.ro (unknown [IPv6:2a01:7e01:e001:1d1::2])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 158B540103
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 16:50:56 +0000 (UTC)
+Received: from localhost.localdomain (unknown [188.24.94.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.subdimension.ro (Postfix) with ESMTPSA id 9F67828F040;
+	Fri, 17 Nov 2023 16:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
+	s=skycaves; t=1700239386;
+	bh=QT8vpu+ylcxkag8lhmcsJJ4NYnz4R5VzA35fbKzvegw=;
+	h=From:To:Cc:Subject:Date;
+	b=KzLG9mzbk+hWS8oRpqEdF1tdUD+MXGnWAHpfXJv9gHmgxJRzWGsSxxrsd0Nekco0C
+	 6M/W5hHuVzMAim1hPU9h6PetYh7L3opB3w3T04s8eC5mjMKYmzyz8LiDcMt05yfQ6J
+	 +YEWRAUQJRymrrJCaWtQllJD9LB/xMl0234dafvs=
+From: Petre Rodan <petre.rodan@subdimension.ro>
+To: petre.rodan@subdimension.ro,
+	linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Conor Dooley <conor+dt@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
-Message-ID: <202311172224.S2IXNUii-lkp@intel.com>
-References: <20231117074554.700970-2-anshulusr@gmail.com>
+	Jonathan Cameron <jic23@kernel.org>
+Subject: [PATCH 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
+Date: Fri, 17 Nov 2023 18:42:05 +0200
+Message-ID: <20231117164232.8474-1-petre.rodan@subdimension.ro>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231117074554.700970-2-anshulusr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Anshul,
+Adds binding for digital Honeywell TruStability HSC and SSC series
+pressure and temperature sensors.
 
-kernel test robot noticed the following build errors:
+Datasheet:
+ [HSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
+ [SSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on robh/for-next linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
+---
+ .../iio/pressure/honeywell,hsc030pa.yaml     | 166 ++++++++++++++++++
+ 1 file changed, 166 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/pressure/honeywell,hsc0030pa.yaml
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/iio-light-driver-for-Lite-On-ltr390/20231117-154922
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231117074554.700970-2-anshulusr%40gmail.com
-patch subject: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
-config: xtensa-randconfig-r081-20231117 (https://download.01.org/0day-ci/archive/20231117/202311172224.S2IXNUii-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231117/202311172224.S2IXNUii-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311172224.S2IXNUii-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/iio/light/ltr390.c:23:
->> drivers/iio/light/ltr390.c:217:25: error: 'ltr390_id_table' undeclared here (not in a function); did you mean 'ltr390_of_table'?
-     217 | MODULE_DEVICE_TABLE(of, ltr390_id_table);
-         |                         ^~~~~~~~~~~~~~~
-   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |               ^~~~
->> include/linux/module.h:244:21: error: '__mod_of__ltr390_id_table_device_table' aliased to undefined symbol 'ltr390_id_table'
-     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
-         |                     ^~~~~~
-   drivers/iio/light/ltr390.c:217:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
-     217 | MODULE_DEVICE_TABLE(of, ltr390_id_table);
-         | ^~~~~~~~~~~~~~~~~~~
-
-
-vim +217 drivers/iio/light/ltr390.c
-
-   212	
-   213	static const struct of_device_id ltr390_of_table[] = {
-   214		{ .compatible = "liteon,ltr390"},
-   215		{ /* Sentinel */ }
-   216	};
- > 217	MODULE_DEVICE_TABLE(of, ltr390_id_table);
-   218	
-
+diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
+new file mode 100644
+index 000000000000..777710790696
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
+@@ -0,0 +1,166 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/pressure/honeywell,hsc030pa.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Honeywell TruStability HSC and SSC pressure sensor families
++
++maintainers:
++  - Petre Rodan <petre.rodan@subdimension.ro>
++
++description: |
++  support for Honeywell TruStability HSC and SSC digital pressure sensor
++  families.
++
++  These sensors have either an I2C, an SPI or an analog interface. Only the
++  digital versions are supported by this driver.
++
++  There are 118 models with different pressure ranges available in each family.
++  The vendor calls them "HSC series" and "SSC series". All of them have an
++  identical programming model but differ in pressure range, unit and transfer
++  function.
++
++  To support different models one need to specify the pressure range as well as
++  the transfer function. Pressure range can either be provided via range_str or
++  in case it's a custom chip via numerical range limits converted to pascals.
++
++  The transfer function defines the ranges of raw conversion values delivered
++  by the sensor. pmin-pascal and pmax-pascal corespond to the minimum and
++  maximum pressure that can be measured.
++
++  Specifications about the devices can be found at:
++  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
++  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
++
++properties:
++  compatible:
++    enum:
++      - honeywell,hsc
++      - honeywell,ssc
++
++  reg:
++    maxItems: 1
++
++  honeywell,transfer-function:
++    description: |
++      Transfer function which defines the range of valid values delivered by
++      the sensor.
++      0 - A, 10% to 90% of 2^14
++      1 - B, 5% to 95% of 2^14
++      2 - C, 5% to 85% of 2^14
++      3 - F, 4% to 94% of 2^14
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  honeywell,range_str:
++    description: |
++      Five character string that defines "pressure range, unit and type"
++      as part of the device nomenclature. In the unlikely case of a custom
++      chip, set to "NA" and provide honeywell,pmin-pascal honeywell,pmax-pascal
++    enum: [ "001BA", "1.6BA", "2.5BA", "004BA", "006BA", "010BA", "1.6MD",
++            "2.5MD", "004MD", "006MD", "010MD", "016MD", "025MD", "040MD",
++            "060MD", "100MD", "160MD", "250MD", "400MD", "600MD", "001BD",
++            "1.6BD", "2.5BD", "004BD", "2.5MG", "004MG", "006MG", "010MG",
++            "016MG", "025MG", "040MG", "060MG", "100MG", "160MG", "250MG",
++            "400MG", "600MG", "001BG", "1.6BG", "2.5BG", "004BG", "006BG",
++            "010BG", "100KA", "160KA", "250KA", "400KA", "600KA", "001GA",
++            "160LD", "250LD", "400LD", "600LD", "001KD", "1.6KD", "2.5KD",
++            "004KD", "006KD", "010KD", "016KD", "025KD", "040KD", "060KD",
++            "100KD", "160KD", "250KD", "400KD", "250LG", "400LG", "600LG",
++            "001KG", "1.6KG", "2.5KG", "004KG", "006KG", "010KG", "016KG",
++            "025KG", "040KG", "060KG", "100KG", "160KG", "250KG", "400KG",
++            "600KG", "001GG", "015PA", "030PA", "060PA", "100PA", "150PA",
++            "0.5ND", "001ND", "002ND", "004ND", "005ND", "010ND", "020ND",
++            "030ND", "001PD", "005PD", "015PD", "030PD", "060PD", "001NG",
++            "002NG", "004NG", "005NG", "010NG", "020NG", "030NG", "001PG",
++            "005PG", "015PG", "030PG", "060PG", "100PG", "150PG", "NA" ]
++    $ref: /schemas/types.yaml#/definitions/string
++
++  honeywell,pmin-pascal:
++    description: |
++      Minimum pressure value the sensor can measure in pascal.
++      To be specified only if honeywell,range_str is set to "NA".
++    $ref: /schemas/types.yaml#/definitions/int32
++
++  honeywell,pmax-pascal:
++    description: |
++      Maximum pressure value the sensor can measure in pascal.
++      To be specified only if honeywell,range_str is set to "NA".
++    $ref: /schemas/types.yaml#/definitions/int32
++
++  vdd-supply:
++    description: |
++      Provide VDD power to the sensor (either 3.3V or 5V depending on the chip).
++      Optional, activate only if required by the target board.
++
++  spi-max-frequency:
++    description: SPI clock to be kept between 50 and 800kHz
++
++  clock-frequency:
++    description: i2c clock to be kept between 100 and 400kHz
++
++required:
++  - compatible
++  - reg
++  - honeywell,transfer-function
++  - honeywell,range_str
++  - clock-frequency
++  - spi-max-frequency
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++        status = "okay";
++        clock-frequency = <400000>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        HSCMRNN030PA2A3@28 {
++          status = "okay";
++          compatible = "honeywell,hsc";
++          reg = <0x28>;
++          honeywell,transfer-function = <0>;
++          honeywell,range_str = "030PA";
++          honeywell,pmin-pascal = <0>;
++          honeywell,pmax-pascal = <206850>;
++
++		      //vdd-supply = <&foo>;
++        };
++    };
++
++    spi {
++        # note that MOSI is not required by this sensor
++        status = "okay";
++        #address-cells = <1>;
++        #size-cells = <0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&spi0_pins>;
++
++        channel@0{
++          status = "disabled";
++          reg = <0>;
++        };
++
++        HSCMLNN100PASA3@0 {
++          status = "okay";
++          compatible = "honeywell,hsc";
++		      reg = <0>;
++		      spi-max-frequency = <800000>;
++
++		      honeywell,transfer-function = <0>;
++		      honeywell,range_str = "100PA";
++
++		      // in case of a custom range, use NA as range_str
++		      // and populate pmin-pascal and pmax-pascal
++		      // with the range limits converted into pascals
++		      //honeywell,range_str = "NA";
++		      //honeywell,pmin-pascal = <0>;
++		      //honeywell,pmax-pascal = <206850>;
++
++		      //vdd-supply = <&foo>;
++	      };
++    };
++
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.41.0
+
