@@ -1,251 +1,233 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2B93EA91
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 16:50:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="KzLG9mzb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AAA3DB9C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 17:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A970A40AA3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 16:50:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A970A40AA3
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=KzLG9mzb
+	by smtp4.osuosl.org (Postfix) with ESMTP id 117DC41F8A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 17:12:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 117DC41F8A
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.307
+X-Spam-Score: -1.148
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cDJEd2AZklHl
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KG-2gr-OpRc6
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 17 Nov 2023 16:50:57 +0000 (UTC)
-X-Greylist: delayed 466 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 17 Nov 2023 16:50:57 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 158B540103
-Received: from mail.subdimension.ro (unknown [IPv6:2a01:7e01:e001:1d1::2])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 158B540103
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 16:50:56 +0000 (UTC)
-Received: from localhost.localdomain (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id 9F67828F040;
-	Fri, 17 Nov 2023 16:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1700239386;
-	bh=QT8vpu+ylcxkag8lhmcsJJ4NYnz4R5VzA35fbKzvegw=;
-	h=From:To:Cc:Subject:Date;
-	b=KzLG9mzbk+hWS8oRpqEdF1tdUD+MXGnWAHpfXJv9gHmgxJRzWGsSxxrsd0Nekco0C
-	 6M/W5hHuVzMAim1hPU9h6PetYh7L3opB3w3T04s8eC5mjMKYmzyz8LiDcMt05yfQ6J
-	 +YEWRAUQJRymrrJCaWtQllJD9LB/xMl0234dafvs=
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: petre.rodan@subdimension.ro,
-	linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Date: Fri, 17 Nov 2023 18:42:05 +0200
-Message-ID: <20231117164232.8474-1-petre.rodan@subdimension.ro>
-X-Mailer: git-send-email 2.41.0
+	Fri, 17 Nov 2023 17:12:32 +0000 (UTC)
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 480FC41F89
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 17:12:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 480FC41F89
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1f54c538869so1156909fac.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 Nov 2023 09:12:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700241151; x=1700845951;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OHpWF40Psue4iYs7GDYLAb9ynetukRiq2wSf871YtEA=;
+        b=TnW4LhT7xcoKSDUY2xJOzlmuhOR6uciDV+pVnPbzPCDAuoo+UwfqJV5s+DaDSYuR4W
+         Qhqr4cg7FGNsuw7t0n0vIzqvvjuHVbwYAXuEDRIDWXLrImiANZZEHs1i8fyzriBhoAw4
+         OxO8sbtORrX2mSJ7ckxLcIwYpIWNO7WfDEmDuT76unitP39HISFHySr5q1hZutB4c6Dg
+         6xZjgr7cGCKAsWnULUTVYG0WKWuK4TrPgbskzkuVQiBU3dmHz8R92CcA28VN+C8qecog
+         6cnwBXkds2/NWiFPsMQaBMa0lHlzgIgO+AeHO8oxxso1ocOxUX1qMUz4g1cOxKy35Tkh
+         4uzA==
+X-Gm-Message-State: AOJu0Yw+YDZvGt/U9PZkJqL+8yi+7YXQvs5uGBQvDJ9E7vF5s0neHFt4
+	s08h1T3XjVIz4gHoAbVZYw==
+X-Google-Smtp-Source: AGHT+IH/jdv4qSls6Kn12V0R5hrDl3D2yOUemeSlHsRbA2tNpgaFL/KXLQJ0LwQCyex0rsjc6sEJhw==
+X-Received: by 2002:a05:6870:5cc6:b0:1f5:acc6:ae75 with SMTP id et6-20020a0568705cc600b001f5acc6ae75mr2548489oab.28.1700241151062;
+        Fri, 17 Nov 2023 09:12:31 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id p21-20020a056830339500b006ce2bb62ffasm296154ott.63.2023.11.17.09.12.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Nov 2023 09:12:30 -0800 (PST)
+Received: (nullmailer pid 1847521 invoked by uid 1000);
+	Fri, 17 Nov 2023 17:12:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Rob Herring <robh@kernel.org>
+To: Petre Rodan <petre.rodan@subdimension.ro>
+Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>
+In-Reply-To: <20231117164232.8474-1-petre.rodan@subdimension.ro>
+References: <20231117164232.8474-1-petre.rodan@subdimension.ro>
+Message-Id: <170024114927.1847041.4761687599216072885.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
+Date: Fri, 17 Nov 2023 11:12:29 -0600
 
-Adds binding for digital Honeywell TruStability HSC and SSC series
-pressure and temperature sensors.
 
-Datasheet:
- [HSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
- [SSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
+On Fri, 17 Nov 2023 18:42:05 +0200, Petre Rodan wrote:
+> Adds binding for digital Honeywell TruStability HSC and SSC series
+> pressure and temperature sensors.
+> 
+> Datasheet:
+>  [HSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
+>  [SSC] https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
+> 
+> Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
+> ---
+>  .../iio/pressure/honeywell,hsc030pa.yaml     | 166 ++++++++++++++++++
+>  1 file changed, 166 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/pressure/honeywell,hsc0030pa.yaml
+> 
 
-Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
----
- .../iio/pressure/honeywell,hsc030pa.yaml     | 166 ++++++++++++++++++
- 1 file changed, 166 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/pressure/honeywell,hsc0030pa.yaml
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
-new file mode 100644
-index 000000000000..777710790696
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
-@@ -0,0 +1,166 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/pressure/honeywell,hsc030pa.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Honeywell TruStability HSC and SSC pressure sensor families
-+
-+maintainers:
-+  - Petre Rodan <petre.rodan@subdimension.ro>
-+
-+description: |
-+  support for Honeywell TruStability HSC and SSC digital pressure sensor
-+  families.
-+
-+  These sensors have either an I2C, an SPI or an analog interface. Only the
-+  digital versions are supported by this driver.
-+
-+  There are 118 models with different pressure ranges available in each family.
-+  The vendor calls them "HSC series" and "SSC series". All of them have an
-+  identical programming model but differ in pressure range, unit and transfer
-+  function.
-+
-+  To support different models one need to specify the pressure range as well as
-+  the transfer function. Pressure range can either be provided via range_str or
-+  in case it's a custom chip via numerical range limits converted to pascals.
-+
-+  The transfer function defines the ranges of raw conversion values delivered
-+  by the sensor. pmin-pascal and pmax-pascal corespond to the minimum and
-+  maximum pressure that can be measured.
-+
-+  Specifications about the devices can be found at:
-+  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
-+  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
-+
-+properties:
-+  compatible:
-+    enum:
-+      - honeywell,hsc
-+      - honeywell,ssc
-+
-+  reg:
-+    maxItems: 1
-+
-+  honeywell,transfer-function:
-+    description: |
-+      Transfer function which defines the range of valid values delivered by
-+      the sensor.
-+      0 - A, 10% to 90% of 2^14
-+      1 - B, 5% to 95% of 2^14
-+      2 - C, 5% to 85% of 2^14
-+      3 - F, 4% to 94% of 2^14
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+
-+  honeywell,range_str:
-+    description: |
-+      Five character string that defines "pressure range, unit and type"
-+      as part of the device nomenclature. In the unlikely case of a custom
-+      chip, set to "NA" and provide honeywell,pmin-pascal honeywell,pmax-pascal
-+    enum: [ "001BA", "1.6BA", "2.5BA", "004BA", "006BA", "010BA", "1.6MD",
-+            "2.5MD", "004MD", "006MD", "010MD", "016MD", "025MD", "040MD",
-+            "060MD", "100MD", "160MD", "250MD", "400MD", "600MD", "001BD",
-+            "1.6BD", "2.5BD", "004BD", "2.5MG", "004MG", "006MG", "010MG",
-+            "016MG", "025MG", "040MG", "060MG", "100MG", "160MG", "250MG",
-+            "400MG", "600MG", "001BG", "1.6BG", "2.5BG", "004BG", "006BG",
-+            "010BG", "100KA", "160KA", "250KA", "400KA", "600KA", "001GA",
-+            "160LD", "250LD", "400LD", "600LD", "001KD", "1.6KD", "2.5KD",
-+            "004KD", "006KD", "010KD", "016KD", "025KD", "040KD", "060KD",
-+            "100KD", "160KD", "250KD", "400KD", "250LG", "400LG", "600LG",
-+            "001KG", "1.6KG", "2.5KG", "004KG", "006KG", "010KG", "016KG",
-+            "025KG", "040KG", "060KG", "100KG", "160KG", "250KG", "400KG",
-+            "600KG", "001GG", "015PA", "030PA", "060PA", "100PA", "150PA",
-+            "0.5ND", "001ND", "002ND", "004ND", "005ND", "010ND", "020ND",
-+            "030ND", "001PD", "005PD", "015PD", "030PD", "060PD", "001NG",
-+            "002NG", "004NG", "005NG", "010NG", "020NG", "030NG", "001PG",
-+            "005PG", "015PG", "030PG", "060PG", "100PG", "150PG", "NA" ]
-+    $ref: /schemas/types.yaml#/definitions/string
-+
-+  honeywell,pmin-pascal:
-+    description: |
-+      Minimum pressure value the sensor can measure in pascal.
-+      To be specified only if honeywell,range_str is set to "NA".
-+    $ref: /schemas/types.yaml#/definitions/int32
-+
-+  honeywell,pmax-pascal:
-+    description: |
-+      Maximum pressure value the sensor can measure in pascal.
-+      To be specified only if honeywell,range_str is set to "NA".
-+    $ref: /schemas/types.yaml#/definitions/int32
-+
-+  vdd-supply:
-+    description: |
-+      Provide VDD power to the sensor (either 3.3V or 5V depending on the chip).
-+      Optional, activate only if required by the target board.
-+
-+  spi-max-frequency:
-+    description: SPI clock to be kept between 50 and 800kHz
-+
-+  clock-frequency:
-+    description: i2c clock to be kept between 100 and 400kHz
-+
-+required:
-+  - compatible
-+  - reg
-+  - honeywell,transfer-function
-+  - honeywell,range_str
-+  - clock-frequency
-+  - spi-max-frequency
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+        status = "okay";
-+        clock-frequency = <400000>;
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        HSCMRNN030PA2A3@28 {
-+          status = "okay";
-+          compatible = "honeywell,hsc";
-+          reg = <0x28>;
-+          honeywell,transfer-function = <0>;
-+          honeywell,range_str = "030PA";
-+          honeywell,pmin-pascal = <0>;
-+          honeywell,pmax-pascal = <206850>;
-+
-+		      //vdd-supply = <&foo>;
-+        };
-+    };
-+
-+    spi {
-+        # note that MOSI is not required by this sensor
-+        status = "okay";
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        pinctrl-names = "default";
-+        pinctrl-0 = <&spi0_pins>;
-+
-+        channel@0{
-+          status = "disabled";
-+          reg = <0>;
-+        };
-+
-+        HSCMLNN100PASA3@0 {
-+          status = "okay";
-+          compatible = "honeywell,hsc";
-+		      reg = <0>;
-+		      spi-max-frequency = <800000>;
-+
-+		      honeywell,transfer-function = <0>;
-+		      honeywell,range_str = "100PA";
-+
-+		      // in case of a custom range, use NA as range_str
-+		      // and populate pmin-pascal and pmax-pascal
-+		      // with the range limits converted into pascals
-+		      //honeywell,range_str = "NA";
-+		      //honeywell,pmin-pascal = <0>;
-+		      //honeywell,pmax-pascal = <206850>;
-+
-+		      //vdd-supply = <&foo>;
-+	      };
-+    };
-+
--- 
-2.41.0
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:60:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:61:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:62:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:63:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:64:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:65:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:66:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:67:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:68:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:69:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:70:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:71:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:72:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:73:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:74:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:75:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:13: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:22: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:31: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:40: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:49: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:58: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:76:67: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:130:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+
+dtschema/dtc warnings/errors:
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.example.dts'
+Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:130:1: found a tab character where an indentation space is expected
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+./Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml:130:1: found a tab character where an indentation space is expected
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml: ignoring, error parsing file
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231117164232.8474-1-petre.rodan@subdimension.ro
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
