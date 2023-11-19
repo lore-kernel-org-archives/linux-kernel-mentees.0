@@ -1,155 +1,109 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4EF1100
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Nov 2023 02:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3161848
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Nov 2023 02:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7mlOkGb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eUZQPlde"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9C7DA82083
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Nov 2023 02:08:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9C7DA82083
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=G7mlOkGb
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9296360B4C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Nov 2023 02:57:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9296360B4C
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eUZQPlde
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.399
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x6zDWqxccpwG
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HmjTHcjYodn2
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun, 19 Nov 2023 02:08:55 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CB65F82073
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Nov 2023 02:08:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CB65F82073
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700359734; x=1731895734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iL57WeLHJ6iHCTgU+X14uMPm3VyxY0+gO4K+uTWc0tA=;
-  b=G7mlOkGbS17qxvfDq4N4O9BFhf2WeiHglcaO48pDwDkkwHQStaZ2nRtJ
-   nhnjFXirgkUwH8daSaUSMO01JGv8uYRS2fT6+6TDTWVPhO+fUmYwdnA6+
-   /7UEiLDpjUypDypbG50GEXFyX8gKuaWyHiKAa7dnx1vZSG202cT0k4Ggj
-   rINJM8LI2JcCzrGDRan4ivCvkFajlUZM6NZxabGgwQvTnyDpgdwVGiy7z
-   55Tkzqrdk3VBcwrMO9SmP6FdVIveeYrKEJS48meMfZMiHwSuM68dpM/FU
-   /4QaPw+IIi301eOxoi7dBYVyeDXhsEdnC4yQg5KWjzThrnJp5xTjjghSG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="381855779"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="381855779"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 18:08:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10898"; a="883506687"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="883506687"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2023 18:08:50 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r4XEt-0004X3-27;
-	Sun, 19 Nov 2023 02:08:47 +0000
-Date: Sun, 19 Nov 2023 10:08:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sun, 19 Nov 2023 02:57:39 +0000 (UTC)
+Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BD08A60B3C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 19 Nov 2023 02:57:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BD08A60B3C
+Received: by mail-qv1-xf2e.google.com with SMTP id 6a1803df08f44-66d122e0c85so5916746d6.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 Nov 2023 18:57:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700362657; x=1700967457; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oZtE1sXq/6EOMIXLdRyz9i4gTsfOOa5vBqb4CxOsnD8=;
+        b=eUZQPldeSyV9+WF2PIcwaZ8mVrrm+3IWzrMYu2AaEcsScVc+oP2h3h3oqA+fTnMQmn
+         m7kF6gF+Upgnl1+aaxHy2LOUFQ0One/l/Rx3hfaCBG8i9mYbE2mR65m/uzPu9yWRbdC9
+         jSXZ+jq0eLk438pELGXVUU8oOmpoxKT9wO+uOiGVj95Mm1gPDGAqtb2zy1YWUYQ57Zc0
+         lqFg7O3oh3Iv6QnZD14V/9rcjqxCg1DkWtOnaNxFYnBHQiX9Zchufqq79uFEI4JLPqc8
+         j7Pm2I6OGxrc3iMWTnxwLcYFNX2lQ2o4Ha9HsotBK2KtzVhZQPjcrJSIifkJKJPxy4x6
+         eiTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700362657; x=1700967457;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oZtE1sXq/6EOMIXLdRyz9i4gTsfOOa5vBqb4CxOsnD8=;
+        b=huwbn3GBjML5jBDejjDsuguARh7gnGimPWS3aauEQqXfQXbUqiq+xqGzHXXxr899W3
+         2N+Jz1Kicb2oLZcPp4kpv0CP8Fokt1UI4Zx5Zevf8H6km4CVE4iDjP9L1FkI9NJpURVm
+         BExbXWGfvjdq/MvJTJeNIw1GWqOtPPEZdyBki4E3FlCoBv74Fzr8c3DNeRSZaR947MSJ
+         oJNtSvAsh0T+xfF1wdR9NrEyMXFzGbeIVaWZ+iOTIHOFU6USalBr2O2i+eUAcrbj0EZ6
+         DoZkJGjH3DGGZsuzS1C+pXRoeAADeviadrx+dA+eq4rlx6jldM585bpQVrn5gPt8gcVP
+         QvUA==
+X-Gm-Message-State: AOJu0Yz8tX/QWM3SbgtydcbNukKj5+5wutc4aDrYzHebf6CuC8rJcLm5
+	sr3lpWDdGBefBR1LSZYGNEQ=
+X-Google-Smtp-Source: AGHT+IGsCz7CzJEySl9vTXD9oR675mUX+GIN+013Sa73Md7ITvqJ85j1quqU97PyP/rhWDv6giTJKg==
+X-Received: by 2002:ad4:5f08:0:b0:677:f79a:17f0 with SMTP id fo8-20020ad45f08000000b00677f79a17f0mr5498448qvb.25.1700362657542;
+        Sat, 18 Nov 2023 18:57:37 -0800 (PST)
+Received: from angquan-linux.. ([72.36.119.4])
+        by smtp.gmail.com with ESMTPSA id v6-20020a0ccd86000000b0065b0771f2edsm1831981qvm.136.2023.11.18.18.57.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Nov 2023 18:57:37 -0800 (PST)
+From: angquan yu <angquan21@gmail.com>
+X-Google-Original-From: angquan yu
+To: linux-kselftest@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	shuah@kernal.org,
+	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] iio: dac: driver for MCP4821
-Message-ID: <202311190944.LgtvolpG-lkp@intel.com>
-References: <20231117073040.685860-2-anshulusr@gmail.com>
+	angquan yu <angquan21@gmail.com>
+Subject: [PATCH] [PATCH,breakpoints] selftests/breakpoints: Fix format specifier in ksft_print_msg in step_after_suspend_test.c
+Date: Sat, 18 Nov 2023 20:57:31 -0600
+Message-Id: <20231119025731.38846-1-angquan21@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231117073040.685860-2-anshulusr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Anshul,
+From: angquan yu <angquan21@gmail.com>
 
-kernel test robot noticed the following build warnings:
+In the function 'tools/testing/selftests/breakpoints/run_test' within step_after_suspend_test.c, the ksft_print_msg function call incorrectly used '$s' as a format specifier. This commit corrects this typo to use the proper '%s' format specifier, ensuring the error message from waitpid() is correctly displayed.
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.7-rc1 next-20231117]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The issue manifested as a compilation warning (too many arguments for format [-Wformat-extra-args]), potentially obscuring actual runtime errors and complicating debugging processes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/iio-dac-driver-for-MCP4821/20231117-153451
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231117073040.685860-2-anshulusr%40gmail.com
-patch subject: [PATCH 2/2] iio: dac: driver for MCP4821
-config: i386-randconfig-061-20231119 (https://download.01.org/0day-ci/archive/20231119/202311190944.LgtvolpG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231119/202311190944.LgtvolpG-lkp@intel.com/reproduce)
+This fix enhances the clarity of error messages during test failures and ensures compliance with standard C format string conventions.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311190944.LgtvolpG-lkp@intel.com/
+Signed-off-by: angquan yu <angquan21@gmail.com>
+---
+ tools/testing/selftests/breakpoints/step_after_suspend_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/dac/mcp4821.c:120:27: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] write_val @@     got unsigned long @@
-   drivers/iio/dac/mcp4821.c:120:27: sparse:     expected restricted __be16 [usertype] write_val
-   drivers/iio/dac/mcp4821.c:120:27: sparse:     got unsigned long
->> drivers/iio/dac/mcp4821.c:122:35: sparse: sparse: invalid assignment: |=
->> drivers/iio/dac/mcp4821.c:122:35: sparse:    left side has type restricted __be16
->> drivers/iio/dac/mcp4821.c:122:35: sparse:    right side has type unsigned long
->> drivers/iio/dac/mcp4821.c:123:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] write_val @@
-   drivers/iio/dac/mcp4821.c:123:36: sparse:     expected unsigned short [usertype] val
-   drivers/iio/dac/mcp4821.c:123:36: sparse:     got restricted __be16 [usertype] write_val
-   drivers/iio/dac/mcp4821.c: note: in included file (through include/linux/rculist.h, include/linux/pid.h, include/linux/sched.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +120 drivers/iio/dac/mcp4821.c
-
-   106	
-   107	static int mcp4821_write_raw(struct iio_dev *indio_dev,
-   108				     struct iio_chan_spec const *chan, int val,
-   109				     int val2, long mask)
-   110	{
-   111		struct mcp4821_state *state;
-   112		__be16 write_val;
-   113		u8 write_buffer[2];
-   114		int ret;
-   115		bool is_value_valid = val >= 0 && val < BIT(chan->scan_type.realbits) &&
-   116				      val2 == 0;
-   117		if (mask == IIO_CHAN_INFO_RAW && is_value_valid) {
-   118			state = iio_priv(indio_dev);
-   119	
- > 120			write_val = MCP4821_ACTIVE_MODE | val << chan->scan_type.shift;
-   121			if (chan->channel)
- > 122				write_val |= MCP4802_SECOND_CHAN;
- > 123			put_unaligned_be16(write_val, write_buffer);
-   124			ret = spi_write(state->spi, write_buffer, sizeof(write_buffer));
-   125			if (ret) {
-   126				dev_err(&state->spi->dev,
-   127					"Failed to write to device: %d", ret);
-   128				return ret;
-   129			}
-   130	
-   131			mutex_lock(&state->lock);
-   132			state->dac_value[chan->channel] = val;
-   133			mutex_unlock(&state->lock);
-   134			return 0;
-   135		} else {
-   136			return -EINVAL;
-   137		}
-   138	}
-   139	
-
+diff --git a/tools/testing/selftests/breakpoints/step_after_suspend_test.c b/tools/testing/selftests/breakpoints/step_after_suspend_test.c
+index 2cf6f10ab..b8703c499 100644
+--- a/tools/testing/selftests/breakpoints/step_after_suspend_test.c
++++ b/tools/testing/selftests/breakpoints/step_after_suspend_test.c
+@@ -89,7 +89,7 @@ int run_test(int cpu)
+ 
+ 	wpid = waitpid(pid, &status, __WALL);
+ 	if (wpid != pid) {
+-		ksft_print_msg("waitpid() failed: $s\n", strerror(errno));
++		ksft_print_msg("waitpid() failed: %s\n", strerror(errno));
+ 		return KSFT_FAIL;
+ 	}
+ 	if (WIFEXITED(status)) {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
