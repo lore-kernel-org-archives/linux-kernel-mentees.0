@@ -1,153 +1,178 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51267475
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 14:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7511CFBD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 15:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="OE1vLD/7"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sK17G8fl"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 569FB4057C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 14:40:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 569FB4057C
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=OE1vLD/7
+	by smtp1.osuosl.org (Postfix) with ESMTP id 59231812E2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 15:23:13 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 59231812E2
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=sK17G8fl
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IkkjAEw5Wvl9
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id INgjPQ0hSY4i
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 20 Nov 2023 14:40:56 +0000 (UTC)
-Received: from mail.subdimension.ro (skycaves.subdimension.ro [172.104.132.142])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E543040543
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 14:40:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E543040543
-Received: from sunspire (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id 4CF5B28EE6F;
-	Mon, 20 Nov 2023 14:40:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1700491253;
-	bh=LZcQN0TV9+lj9l4R7rlzQvmMSI32m2CgUuGmtP41lVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OE1vLD/7KzBE8RbeLZZpdiYT7ke6zXjS4+9zU+J7Leev6ut2AAyXMbTRCHEtkTRtv
-	 21ZbzmEGQhJgni3+H3bs1xIL6A8WjRqH4O5n3EYbWu+4KZ2j4838rmccWyNyO6DFQk
-	 Pne+WpkNO0jdeaQg62tLstSC/fzMQZaXTx01oelY=
-Date: Mon, 20 Nov 2023 16:40:51 +0200
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Message-ID: <ZVtv8x8LqGMhCisw@sunspire>
-References: <20231117164232.8474-1-petre.rodan@subdimension.ro>
- <20231117192305.17612-1-petre.rodan@subdimension.ro>
- <5b2e4b05-9408-48ea-92ac-15883e102013@linaro.org>
- <ZVtiVM2Gm1x1j_G1@sunspire>
- <8aa11758-5eee-427b-adcb-c3578a521daf@linaro.org>
+	Mon, 20 Nov 2023 15:23:12 +0000 (UTC)
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [IPv6:2001:41d0:203:375::b7])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id A777E817B5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 15:23:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A777E817B5
+Message-ID: <14c7dea0-242c-4b47-929c-7cbd1d7e202a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1700493788;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IiHEeRIW4PiYmJMxEUYlbJ9aO6ly6BInuCc931k4EN8=;
+	b=sK17G8fl/Gww8T6qBYhVT6o7jYn3w9ZawQPkHKsYWKEdHz88crw/aEDIcWtpoQWWVHrN5v
+	86XXo4wLHDLhzzwYn/fw8QJZBxHIAF4kGbFT3TJPbyvA3o48+lIQP3wjR0t6CdGDkUYYrX
+	8/2PnvIbOrZ/SGqMJCMIWk3CxWEWPME=
+Date: Mon, 20 Nov 2023 07:22:59 -0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8aa11758-5eee-427b-adcb-c3578a521daf@linaro.org>
+Subject: Re: [PATCH bpf-next v2 1/4] selftests/bpf: Replaces the usage of
+ CHECK calls for ASSERTs in bpf_tcp_ca
+Content-Language: en-GB
+To: Yuran Pereira <yuran.pereira@hotmail.com>, bpf@vger.kernel.org
+Cc: andrii@kernel.org, andrii.nakryiko@gmail.com, mykolal@fb.com,
+ ast@kernel.org, martin.lau@linux.dev, song@kernel.org,
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+ haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <GV1PR10MB6563AECF8E94798A1E5B36A4E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+ <GV1PR10MB6563A7938B9B403861CA88F3E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <GV1PR10MB6563A7938B9B403861CA88F3E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
 
-Hello!
+On 11/18/23 1:42 PM, Yuran Pereira wrote:
+> bpf_tcp_ca uses the `CHECK` calls even though the use of
+> ASSERT_ series of macros is preferred in the bpf selftests.
+>
+> This patch replaces all `CHECK` calls for equivalent `ASSERT_`
+> macro calls.
+>
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>   .../selftests/bpf/prog_tests/bpf_tcp_ca.c     | 50 +++++++++----------
+>   1 file changed, 23 insertions(+), 27 deletions(-)
+>
+> diff --git a/tools/testing/selftests/bpf/prog_tests/bpf_tcp_ca.c b/tools/testing/selftests/bpf/prog_tests/bpf_tcp_ca.c
+> index 4aabeaa525d4..6d610b66ec38 100644
+> --- a/tools/testing/selftests/bpf/prog_tests/bpf_tcp_ca.c
+> +++ b/tools/testing/selftests/bpf/prog_tests/bpf_tcp_ca.c
+> @@ -20,15 +20,14 @@
+>   
+>   static const unsigned int total_bytes = 10 * 1024 * 1024;
+>   static int expected_stg = 0xeB9F;
+> -static int stop, duration;
+> +static int stop;
+>   
+> [...]
+> @@ -108,26 +107,27 @@ static void do_test(const char *tcp_ca, const struct bpf_map *sk_stg_map)
+>   	sa6.sin6_family = AF_INET6;
+>   	sa6.sin6_addr = in6addr_loopback;
+>   	err = bind(lfd, (struct sockaddr *)&sa6, addrlen);
+> -	if (CHECK(err == -1, "bind", "errno:%d\n", errno))
+> +	if (!ASSERT_NEQ(err, -1, "bind"))
+>   		goto done;
+> +
+>   	err = getsockname(lfd, (struct sockaddr *)&sa6, &addrlen);
+> -	if (CHECK(err == -1, "getsockname", "errno:%d\n", errno))
+> +	if (!ASSERT_NEQ(err, -1, "getsockname"))
+>   		goto done;
+> +
+>   	err = listen(lfd, 1);
+> -	if (CHECK(err == -1, "listen", "errno:%d\n", errno))
+> +	if (!ASSERT_NEQ(err, -1, "listen"))
+>   		goto done;
+>   
+>   	if (sk_stg_map) {
+>   		err = bpf_map_update_elem(bpf_map__fd(sk_stg_map), &fd,
+>   					  &expected_stg, BPF_NOEXIST);
+> -		if (CHECK(err, "bpf_map_update_elem(sk_stg_map)",
+> -			  "err:%d errno:%d\n", err, errno))
+> +		if (!ASSERT_OK(err, "bpf_map_update_elem(sk_stg_map)"))
+>   			goto done;
+>   	}
+>   
+>   	/* connect to server */
+>   	err = connect(fd, (struct sockaddr *)&sa6, addrlen);
+> -	if (CHECK(err == -1, "connect", "errno:%d\n", errno))
+> +	if (!ASSERT_NEQ(err, -1, "connect"))
+>   		goto done;
+>   
+>   	if (sk_stg_map) {
+> @@ -135,14 +135,13 @@ static void do_test(const char *tcp_ca, const struct bpf_map *sk_stg_map)
+>   
+>   		err = bpf_map_lookup_elem(bpf_map__fd(sk_stg_map), &fd,
+>   					  &tmp_stg);
+> -		if (CHECK(!err || errno != ENOENT,
+> -			  "bpf_map_lookup_elem(sk_stg_map)",
+> -			  "err:%d errno:%d\n", err, errno))
+> +		if (!ASSERT_NEQ(err, 0, "bpf_map_lookup_elem(sk_stg_map)") ||
 
-On Mon, Nov 20, 2023 at 03:04:07PM +0100, Krzysztof Kozlowski wrote:
-> On 20/11/2023 14:42, Petre Rodan wrote:
-> 
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    enum:
-> >>> +      - honeywell,hsc
-> >>
-> >> Way too generic
-> > 
-> > I'm new to this, please excuse my ignorance.
-> > my driver covers all Honeywell pressure sensors under the "TruStability board mount HSC/SSC" moniker.
-> 
-> We talk here about bindings, not driver. For the driver you can use
-> whatever name is approved by reviewers of your driver.
-> 
-> > that is why my intention was to provide a rather generic name for the driver itself.
-> > are you afraid that they will come up with a different device that they will call "hsc" in the future?
-> > in this case honeywell,trustability-hsc would be fine?
-> > 
-> > as I see you prefer to target a particular chip, but I am a bit afraid that the end-user will be confused by needing to set up something like
-> > 
-> > pressure@28 {
-> > 	compatible = "honeywell,hsc030pa";
-> 
-> The compatible should be specific, thus for example match exact model
-> number.
+!ASSERT_ERR(err, "bpf_map_lookup_elem(sk_stg_map)")
+might be simpler than !ASSERT_NEQ(..).
 
-there are an infinite number of combinations of 4 transfer functions and 118 ranges + one custom range, so providing an array with all specific chips that could end up as compatible is out of the question.
-I was aiming at providing a generic name for the binding and get the transfer function and the pressure range as required parameters.
+> +				!ASSERT_EQ(errno, ENOENT, "bpf_map_lookup_elem(sk_stg_map)"))
+>   			goto done;
+>   	}
+>   
+>   	err = pthread_create(&srv_thread, NULL, server, (void *)(long)lfd);
+> -	if (CHECK(err != 0, "pthread_create", "err:%d errno:%d\n", err, errno))
+> +	if (!ASSERT_OK(err, "pthread_create"))
+>   		goto done;
+>   
+>   	/* recv total_bytes */
+> @@ -156,13 +155,12 @@ static void do_test(const char *tcp_ca, const struct bpf_map *sk_stg_map)
+>   		bytes += nr_recv;
+>   	}
+>   
+> -	CHECK(bytes != total_bytes, "recv", "%zd != %u nr_recv:%zd errno:%d\n",
+> -	      bytes, total_bytes, nr_recv, errno);
+> +	ASSERT_EQ(bytes, total_bytes, "recv");
+>   
+>   	WRITE_ONCE(stop, 1);
+> -	pthread_join(srv_thread, &thread_ret);
+> -	CHECK(IS_ERR(thread_ret), "pthread_join", "thread_ret:%ld",
+> -	      PTR_ERR(thread_ret));
+> +	err = pthread_join(srv_thread, &thread_ret);
+> +	ASSERT_OK(err, "pthread_join");
 
-> If you can guarantee that all devices from given family are the same in
-> respect of programming model and hardware requirements (e.g. supplies),
-> then you could go with family name. However such guarantees are rarely
-> given.
+The above is not equivalent to the original code.
+The original didn't check pthread_join() return as it
+is very very unlikely to fail. And check 'thread_ret'
+is still needed.
 
-I see your point.
+> +
+>   done:
+>   	close(lfd);
+>   	close(fd);
+> @@ -174,7 +172,7 @@ static void test_cubic(void)
+>   	struct bpf_link *link;
+>   
+>   	cubic_skel = bpf_cubic__open_and_load();
+> -	if (CHECK(!cubic_skel, "bpf_cubic__open_and_load", "failed\n"))
+> +	if (!ASSERT_OK_PTR(cubic_skel, "bpf_cubic__open_and_load"))
+>   		return;
 
-> Therefore for mprls0025pa I agreed for using one specific model
-> for entire family.
-> 
-> https://lore.kernel.org/all/d577bc44-780f-f25d-29c6-ed1d353b540c@linaro.org/
-> 
-> 
-> > 	reg = <0x28>;
-> > 	honeywell,transfer-function = <0>;
-> > 	honeywell,pressure-range = "250MD";
-> > };
-> > 
-> > ie. specifying "hsc030pa" as driver while his chip is not in the 030PA range, but 250MD.
-> > 
-> > so do you prefer
-> >  honeywell,trustability-hsc  OR
-> >  honeywell,hsc030pa
-> 
-> I think the latter, just like we did for mprls0025pa. How many devices
-> do you have there?
+[...]
 
-both hsc and ssc have 118 ranges, 4 transfer functions and both can be requested from the manufacturer with custom measurement ranges.
-
-ok,I will rename hsc->hsc030pa in the code as you requested.
-
-> >>> +  honeywell,pmin-pascal:
-> >>> +    description: |
-> >>> +      Minimum pressure value the sensor can measure in pascal.
-> >>> +      To be specified only if honeywell,range_str is set to "NA".
-> >>> +    $ref: /schemas/types.yaml#/definitions/int32
-> >>
-> >> That's uint32. Why do you need negative values?
-> > 
-> > signed int32 is intentional. some chips have two physical input ports and measure a pressure differential in which case pmin is negative.
-> > see either of the pdfs at page 14, table 8, column 2, row 7+
-> 
-> Then the best would be to change the type in other bindings to have
-> int32 everywhere... but dtschema also requires unt32:
-> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml
-
-yeah, and also '-kpascal' might be too coarse of a unit when we talk about sensors that have a -125 .. 125 pascal measurement range as '0.5ND' has.
-
-cheers,
-peter
-
--- 
-petre rodan
