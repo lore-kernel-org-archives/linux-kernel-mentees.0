@@ -1,64 +1,141 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CF320F1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 04:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90F410F2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 04:57:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tom-fitzhenry.me.uk header.i=@tom-fitzhenry.me.uk header.b="hTQ/+wow"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ap4gfEVJ"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EEC8681489
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 04:26:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EEC8681489
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2A2AF817AD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 04:57:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2A2AF817AD
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tom-fitzhenry.me.uk header.i=@tom-fitzhenry.me.uk header.a=rsa-sha256 header.s=mythic-beasts-k1 header.b=hTQ/+wow
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Ap4gfEVJ
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.402
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id md1lsP-FQupw
+	with ESMTP id wZLrwayXPbYA
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 20 Nov 2023 04:26:36 +0000 (UTC)
-X-Greylist: delayed 529 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 20 Nov 2023 04:26:36 UTC
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5F7B48146F
-Received: from mx1.mythic-beasts.com (mx1.mythic-beasts.com [IPv6:2a00:1098:0:86:1000:0:2:1])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5F7B48146F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 04:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=tom-fitzhenry.me.uk; s=mythic-beasts-k1; h=Date:Subject:To:From;
-	bh=PF8OjO8c7erf1om3rhrjk7pSuZlvp3jAiSRCfEz0K14=; b=hTQ/+wown69y+zfD5Kfn0m1xcf
-	+GIGSHtANnev5XxSBf4rJRb9b0JqDxuaaqJF0X0SnSz6wQbF0ilbYxGR7/rN32EUwIYV3pwmMDmLO
-	WvaYMMMQd8iDHG+K7DW/c21dLA+RyV2Cj0e7OM5eftRJfnkQD3njD67Epncc+uWBND1n6Y0qdVmOT
-	lBqc95uKQvkPeft8zzQ5cNhFaAkZVQhN57tZHgJFaRujeoE4yRth9NZPyC+BFRhql5B60qZsSzBrr
-	BRmNpd7qGwuH0N4BH7zgVAQCV5lo63Dlr4GCK3POWJH2qzZuzIQ1T7oHLYzadcIqwxp/vt8hDWKwH
-	I4CnEyPg==;
-Received: by mailhub-cam-d.mythic-beasts.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <tom@tom-fitzhenry.me.uk>)
-	id 1r4vjj-00BoLo-LQ; Mon, 20 Nov 2023 04:18:16 +0000
-User-agent: mu4e 1.10.8; emacs 29.1
-From: Tom Fitzhenry <tom@tom-fitzhenry.me.uk>
-To: vincenzopalazzodev@gmail.com
-Cc: bhelgaas@google.com,broonie@kernel.org,heiko@sntech.de,kw@linux.com,lgirdwood@gmail.com,linux-arm-kernel@lists.infradead.org,linux-kernel-mentees@lists.linuxfoundation.org,linux-kernel@vger.kernel.org,linux-pci@vger.kernel.org,linux-rockchip@lists.infradead.org,lpieralisi@kernel.org,robh@kernel.org,shawn.lin@rock-chips.com,skhan@linuxfoundation.org,strit@manjaro.org
-Subject: Re: [PATCH v1] drivers: pci: introduce configurable delay for
- Rockchip PCIe bus scan
-In-Reply-To: <20230509153912.515218-1-vincenzopalazzodev@gmail.com>
-Date: Mon, 20 Nov 2023 15:15:30 +1100
-Message-ID: <87a5r983ea.fsf@tom-fitzhenry.me.uk>
+	Mon, 20 Nov 2023 04:57:50 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id B703A817AB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 04:57:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B703A817AB
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 7194AB80E3B;
+	Mon, 20 Nov 2023 04:57:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05502C433C7;
+	Mon, 20 Nov 2023 04:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700456266;
+	bh=D8GkFkadiMvyfeHxVlRTuBngO0W+nbZFP1V6zF4gWgY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Ap4gfEVJl+R+eIh1mutUrAjpACp5P0jiwpxn/rx78T/sultv9oQKN/7Da6gpCcusv
+	 037av/hc14u38aufL6LrpScArXelj8mceylftyLmIlYfBu9bD1y9OHR6TnG320DooP
+	 dFOZrgzVGRmYh6/j4UCu2mgfyElARiKd9UvsnL8bP/rWoiogK5tSngLLZ8hg8iiQ1t
+	 V+ygjmbszOjGa+qvtEEgtT0yec1c5TNAYr6H9jF0lSBj+UpheeqtLEKMTsxnEO41jG
+	 9Cj6UpuJVeoFqa5HQpp8kyr0G7GOEDKMUa2EFhwkEYto150rFFDFSgFqWbxAjKOg8n
+	 SuxGIQYEf86FA==
+Date: Mon, 20 Nov 2023 13:57:42 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Yuran Pereira <yuran.pereira@hotmail.com>
+Cc: linux-trace-kernel@vger.kernel.org, mark.rutland@arm.com,
+ rostedt@goodmis.org, mhiramat@kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] ftrace: Replaces simple_strtoul in ftrace
+Message-Id: <20231120135742.0abfc6bb7ccdd985990c68a4@kernel.org>
+In-Reply-To: <GV1PR10MB656333529A8D7B8AFB28D238E8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+References: <GV1PR10MB656333529A8D7B8AFB28D238E8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-BlackCat-Spam-Score: 0
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-My RockPro64 occasionally failed on boot with this crash dump, at least
-since Linux 5.15. Since Linux 6.5, every boot fails in this manner.
+On Mon, 20 Nov 2023 05:46:13 +0530
+Yuran Pereira <yuran.pereira@hotmail.com> wrote:
 
-I applied a similar patch[0] against Linux 6.6 that sleeps during probe,
-and I'm now able to boot successfully each time.
+> The function simple_strtoul performs no error checking in scenarios
+> where the input value overflows the intended output variable.
+> This results in this function successfully returning, even when the
+> output does not match the input string (aka the function returns
+> successfully even when the result is wrong).
+> 
+> Or as it was mentioned [1], "...simple_strtol(), simple_strtoll(),
+> simple_strtoul(), and simple_strtoull() functions explicitly ignore
+> overflows, which may lead to unexpected results in callers."
+> Hence, the use of those functions is discouraged.
+> 
+> This patch replaces all uses of the simple_strtoul with the safer
+> alternatives kstrtoul and kstruint.
+> 
+> Callers affected:
+> - add_rec_by_index
+> - set_graph_max_depth_function
+> 
+> Side effects of this patch:
+> - Since `fgraph_max_depth` is an `unsigned int`, this patch uses
+>   kstrtouint instead of kstrtoul to avoid any compiler warnings
+>   that could originate from calling the latter.
+> - This patch ensures that the callers of kstrtou* return accordingly
+>   when kstrtoul and kstruint fail for some reason.
+>   In this case, both callers this patch is addressing return 0 on error.
+> 
+> [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+> 
 
-0. https://gitlab.manjaro.org/manjaro-arm/packages/core/linux/-/blob/44e81d83b7e002e9955ac3c54e276218dc9ac76d/1005-rk3399-rp64-pcie-Reimplement-rockchip-PCIe-bus-scan-delay.patch
+This looks good to me.
+
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+Thank you!
+
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+> ---
+>  kernel/trace/ftrace.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
+> index 8de8bec5f366..70217ee97322 100644
+> --- a/kernel/trace/ftrace.c
+> +++ b/kernel/trace/ftrace.c
+> @@ -4233,12 +4233,12 @@ static int
+>  add_rec_by_index(struct ftrace_hash *hash, struct ftrace_glob *func_g,
+>  		 int clear_filter)
+>  {
+> -	long index = simple_strtoul(func_g->search, NULL, 0);
+> +	long index;
+>  	struct ftrace_page *pg;
+>  	struct dyn_ftrace *rec;
+>  
+>  	/* The index starts at 1 */
+> -	if (--index < 0)
+> +	if (kstrtoul(func_g->search, 0, &index) || --index < 0)
+>  		return 0;
+>  
+>  	do_for_each_ftrace_rec(pg, rec) {
+> @@ -5810,9 +5810,8 @@ __setup("ftrace_graph_notrace=", set_graph_notrace_function);
+>  
+>  static int __init set_graph_max_depth_function(char *str)
+>  {
+> -	if (!str)
+> +	if (!str || kstrtouint(str, 0, &fgraph_max_depth))
+>  		return 0;
+> -	fgraph_max_depth = simple_strtoul(str, NULL, 0);
+>  	return 1;
+>  }
+>  __setup("ftrace_graph_max_depth=", set_graph_max_depth_function);
+> -- 
+> 2.25.1
+> 
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
