@@ -1,159 +1,133 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547BC30656
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 18:25:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E1B328C9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 19:00:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="morhvBQT"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LXLgLVWq"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B661860ED1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 18:25:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B661860ED1
+	by smtp3.osuosl.org (Postfix) with ESMTP id 85DE760F06
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 19:00:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 85DE760F06
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=morhvBQT
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=LXLgLVWq
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.1
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id G6p_eOSGnwsA
+	with ESMTP id Yc5_hJwjM_SY
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 20 Nov 2023 18:25:12 +0000 (UTC)
-Received: from mail.subdimension.ro (skycaves.subdimension.ro [172.104.132.142])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id B698B60EAA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 18:25:12 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B698B60EAA
-Received: from sunspire (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id 2E5CC28EE6F;
-	Mon, 20 Nov 2023 18:25:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1700504710;
-	bh=TqPCYi/lfIqtwCO6M0vvyzzQcnlSevyzaWBJMKt67zI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=morhvBQTAbQh5MbTCeiLvnMOThf9SrBu76IjYpU/VGqvGd24SDnqdEqtQQaQ2hFa/
-	 1WdwaPW+9Yu7PczCiWz9tozCinhRSKceEkYghEO3wtCSk7fc/RtVnhLVAUiIFG8uh1
-	 F/irdTFARvvIzQ0nuW/UY/DlQAbrnMdzKlXufW5s=
-Date: Mon, 20 Nov 2023 20:25:08 +0200
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Message-ID: <ZVukhMcY8A3Crxc_@sunspire>
-References: <20231117164232.8474-1-petre.rodan@subdimension.ro>
- <20231117192305.17612-1-petre.rodan@subdimension.ro>
- <5b2e4b05-9408-48ea-92ac-15883e102013@linaro.org>
- <ZVtiVM2Gm1x1j_G1@sunspire>
- <8aa11758-5eee-427b-adcb-c3578a521daf@linaro.org>
- <ZVtv8x8LqGMhCisw@sunspire>
- <20231120173929.00006a6d@Huawei.com>
+	Mon, 20 Nov 2023 19:00:28 +0000 (UTC)
+X-Greylist: delayed 12930 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 20 Nov 2023 19:00:28 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 176A960F02
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 176A960F02
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 19:00:27 +0000 (UTC)
+Message-ID: <be025c4d-4602-4b2f-963c-5ec2561cc255@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1700506824;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jfwHLBU/eMYU2BU5PuQp1CafAYg938BQTjSvVXHWz4g=;
+	b=LXLgLVWq5d+Vt3kcSsr/102ISqSrsb2lZKMQtSIc6oXuNTEevMqOjFf0A2S5Qa8E8ymmfl
+	HtJX1uvCKr4/QI3sG4lwRY4oyVYmmHNEcjYuuiuSfBUoSyEO60ybTCWPO0RZ6nC4JG7p9E
+	aGJElRS3bcHtUTeQQE1jKb8w/N/R/UA=
+Date: Mon, 20 Nov 2023 11:00:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231120173929.00006a6d@Huawei.com>
+Subject: Re: [PATCH bpf-next v2 1/4] selftests/bpf: Replaces the usage of
+ CHECK calls for ASSERTs in bpf_tcp_ca
+Content-Language: en-GB
+To: Yuran Pereira <yuran.pereira@hotmail.com>
+Cc: bpf@vger.kernel.org, andrii@kernel.org, andrii.nakryiko@gmail.com,
+ mykolal@fb.com, ast@kernel.org, martin.lau@linux.dev, song@kernel.org,
+ john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+ haoluo@google.com, jolsa@kernel.org, shuah@kernel.org,
+ linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <GV1PR10MB6563AECF8E94798A1E5B36A4E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+ <GV1PR10MB6563A7938B9B403861CA88F3E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+ <14c7dea0-242c-4b47-929c-7cbd1d7e202a@linux.dev>
+ <GV1PR10MB6563596BC3E2B01F664010C7E8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <GV1PR10MB6563596BC3E2B01F664010C7E8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-Hello!
+On 11/20/23 12:15 PM, Yuran Pereira wrote:
+> Hello Yonghong,
+> On Mon, Nov 20, 2023 at 07:22:59AM -0800, Yonghong Song wrote:
+>>> -		if (CHECK(!err || errno != ENOENT,
+>>> -			  "bpf_map_lookup_elem(sk_stg_map)",
+>>> -			  "err:%d errno:%d\n", err, errno))
+>>> +		if (!ASSERT_NEQ(err, 0, "bpf_map_lookup_elem(sk_stg_map)") ||
+>> !ASSERT_ERR(err, "bpf_map_lookup_elem(sk_stg_map)")
+>> might be simpler than !ASSERT_NEQ(..).
+>>
+> Sure, that makes sense. I'll change it in v3.
+>>> -	pthread_join(srv_thread, &thread_ret);
+>>> -	CHECK(IS_ERR(thread_ret), "pthread_join", "thread_ret:%ld",
+>>> -	      PTR_ERR(thread_ret));
+>>> +	err = pthread_join(srv_thread, &thread_ret);
+>>> +	ASSERT_OK(err, "pthread_join");
+>> The above is not equivalent to the original code.
+>> The original didn't check pthread_join() return as it
+>> is very very unlikely to fail. And check 'thread_ret'
+>> is still needed.
+>>
+> Yes that is true, but the v1 [1] broke the tests because the
+> ASSERT_OK_PTR(thread_ret, "pthread_join") kept failing, even
+> though all the asserts within the `server()` function itself
+> passed.
+>
+> Also, isn't asserting `thread_ret` technically checking the
+> `server()` function instead of `pthread_join`? So should we
+> have two asserts here? One for `server` and one for `pthread_join`
+> or is it not necessary?
+> i.e:
+> ```
+> ASSERT_OK_PTR(thread_ret, "server");
+> ASSERT_OK(err, "pthread_join");
+> ```
 
-On Mon, Nov 20, 2023 at 05:39:29PM +0000, Jonathan Cameron wrote:
-> On Mon, 20 Nov 2023 16:40:51 +0200
-> Petre Rodan <petre.rodan@subdimension.ro> wrote:
-> 
-> > Hello!
-> > 
-> > On Mon, Nov 20, 2023 at 03:04:07PM +0100, Krzysztof Kozlowski wrote:
-> > > On 20/11/2023 14:42, Petre Rodan wrote:
-> > >   
-> > > >>> +properties:
-> > > >>> +  compatible:
-> > > >>> +    enum:
-> > > >>> +      - honeywell,hsc  
-> > > >>
-> > > >> Way too generic  
-> > > > 
-> > > > I'm new to this, please excuse my ignorance.
-> > > > my driver covers all Honeywell pressure sensors under the "TruStability board mount HSC/SSC" moniker.  
-> > > 
-> > > We talk here about bindings, not driver. For the driver you can use
-> > > whatever name is approved by reviewers of your driver.
-> > >   
-> > > > that is why my intention was to provide a rather generic name for the driver itself.
-> > > > are you afraid that they will come up with a different device that they will call "hsc" in the future?
-> > > > in this case honeywell,trustability-hsc would be fine?
-> > > > 
-> > > > as I see you prefer to target a particular chip, but I am a bit afraid that the end-user will be confused by needing to set up something like
-> > > > 
-> > > > pressure@28 {
-> > > > 	compatible = "honeywell,hsc030pa";  
-> > > 
-> > > The compatible should be specific, thus for example match exact model
-> > > number.  
-> > 
-> > there are an infinite number of combinations of 4 transfer functions and 118 ranges + one custom range, so providing an array with all specific chips that could end up as compatible is out of the question.
-> > I was aiming at providing a generic name for the binding and get the transfer function and the pressure range as required parameters.
-> > 
-> > > If you can guarantee that all devices from given family are the same in
-> > > respect of programming model and hardware requirements (e.g. supplies),
-> > > then you could go with family name. However such guarantees are rarely
-> > > given.  
-> > 
-> > I see your point.
-> > 
-> > > Therefore for mprls0025pa I agreed for using one specific model
-> > > for entire family.
-> > > 
-> > > https://lore.kernel.org/all/d577bc44-780f-f25d-29c6-ed1d353b540c@linaro.org/
-> > > 
-> > >   
-> > > > 	reg = <0x28>;
-> > > > 	honeywell,transfer-function = <0>;
-> > > > 	honeywell,pressure-range = "250MD";
-> > > > };
-> > > > 
-> > > > ie. specifying "hsc030pa" as driver while his chip is not in the 030PA range, but 250MD.
-> > > > 
-> > > > so do you prefer
-> > > >  honeywell,trustability-hsc  OR
-> > > >  honeywell,hsc030pa  
-> > > 
-> > > I think the latter, just like we did for mprls0025pa. How many devices
-> > > do you have there?  
-> > 
-> > both hsc and ssc have 118 ranges, 4 transfer functions and both can be requested from the manufacturer with custom measurement ranges.
-> > 
-> > ok,I will rename hsc->hsc030pa in the code as you requested.
-> 
-> Where does pa come from? 
+As I mentioned, checking return value of pthread_join()
+is not critical as in general pthread_join() not fail.
+The test is not to test pthread_join() and if pthread_join()
+fails it would be an even bigger problem affecting many other
+tests.
 
-honeywell,hsc030pa was provided as an equivalent to honeywell,mprls0025pa (which is already in the repo).
+>
+> Upon taking a second look, I now think that the reason why
+> `ASSERT_OK_PTR(thread_ret, "pthread_join");` failed in v1 might
+> have been because it calls `libbpf_get_error` which returns
+> `-errno` when the pointer is `NULL`.
+>
+> Since `server`'s return value is not a bpf address, which
+> `ASSERT_OK_PTR` expects it to be, do you that think we should
+> explicitly set `errno = 0` prior to returning NULL on server?
+> That way that assert would pass even when the pointer is NULL
+> (which is the case when `server` returns successfuly).
 
-'030PA' and '0025PA' define the pressure range (0-30, 0-25), the unit of measure (Psi) and the measurement type (Absolute) for a particular chip in the honeywell catalog. (please ignore the psi part, we convert everything to pascals).
-but both my driver and Andreas Klinger's mprls0025pa actually provide a generic abstraction layer for entire series of sensors.
+Let us just do
 
-> If we are going generic, feels like trustability-ssc etc are more representative
-> and matches the datasheet cover page.
-
-Krzysztof voted for non-generic, honeywell,mprls0025pa is already set up non-generic, my intent was to go generic.
-
-I'll rewrite the code to whatever you guys feel is best.
-
-peter
+   ASSERT_OK(IS_ERR(thread_ret), "thread_ret")
 
 
--- 
-petre rodan
+>
+> [1] - https://lore.kernel.org/lkml/GV1PR10MB6563A0BE91080E6E8EC2651DE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM/
+>
+> As always, thank you for your feedback.
+>
+> Yuran Pereira
+>
