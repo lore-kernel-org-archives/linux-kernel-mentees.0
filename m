@@ -1,110 +1,160 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7640C1DFDE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:19:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C29423769
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id D7EE9405B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:19:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D7EE9405B2
+	by smtp4.osuosl.org (Postfix) with ESMTP id C6C154155E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:57:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C6C154155E
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.151
+X-Spam-Score: -4.198
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EP3XwY2E6BEB
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FjOztvIoMXMP
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 20 Nov 2023 17:19:07 +0000 (UTC)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 01F664040D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:19:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 01F664040D
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-7afff3ea94dso169365139f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 09:19:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700500746; x=1701105546;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oyclGiDya5ElTdlrbB14+3v/ARVDiHt2Ibniy8Hf1lw=;
-        b=J960wdFd7MYG0SAOwua6eBimVhSj+xN5FnU5gheLCY5kJNjtyxenCE//zYFuu3GxId
-         hcvXOaTsr5Jj9eeupBzv7SydID7XD8X4/RXcau7DEEYBP1t3U+bsNDiAGyLtB1J4VxQD
-         /+8h+ve8ej38868nsSvUnlO3YyFwhybLAdZ834Etbx9qQDIotd5rE7ufMVAmedCu5XLf
-         SOPGEd8TIBK1wl593zXJFlaQgG4xUPtGAhUQyft3UIGxq6Zyzewem6/b+5CBHVFtIf70
-         4Kus/fcwaq3SQ9Nu4agQUD0SO5YJrXHy90OqLIqDs+daoHqVO5stuixB7hoqrlcH43vJ
-         iLqA==
-X-Gm-Message-State: AOJu0YzcUTTnshaCu/3SsTOc3TmBkK8z3BLX7++yuZiWN1qCTLBsEl4e
-	IVi0f/1nLOcNCIJzerS9Ag==
-X-Google-Smtp-Source: AGHT+IGNqd6Hys+K1K83ex6FyIigc5GrfZUb/ep+oTstiRwKRhxOw7OPOP+jex+P9qmBuMGob+wskQ==
-X-Received: by 2002:a05:6602:3718:b0:7a9:4268:fc26 with SMTP id bh24-20020a056602371800b007a94268fc26mr10884199iob.10.1700500745982;
-        Mon, 20 Nov 2023 09:19:05 -0800 (PST)
-Received: from herring.priv ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id b17-20020a056638389100b0042b1061c6a8sm2141009jav.84.2023.11.20.09.19.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 09:19:05 -0800 (PST)
-Received: (nullmailer pid 2370658 invoked by uid 1000);
-	Mon, 20 Nov 2023 17:19:03 -0000
-Date: Mon, 20 Nov 2023 10:19:03 -0700
-From: Rob Herring <robh@kernel.org>
+	Mon, 20 Nov 2023 17:57:33 +0000 (UTC)
+X-Greylist: delayed 1079 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 20 Nov 2023 17:57:33 UTC
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3DB224154E
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 3DB224154E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:57:32 +0000 (UTC)
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SYvqP0j59z6K9Jr;
+	Tue, 21 Nov 2023 01:38:09 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Mon, 20 Nov
+ 2023 17:39:30 +0000
+Date: Mon, 20 Nov 2023 17:39:29 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 To: Petre Rodan <petre.rodan@subdimension.ro>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-kernel-mentees@lists.linuxfoundation.org, Jonathan Cameron <jic23@kernel.org>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	<linux-kernel@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Lars-Peter
+ Clausen" <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+	<linux-kernel-mentees@lists.linuxfoundation.org>, Jonathan Cameron
+	<jic23@kernel.org>
 Subject: Re: [PATCH v2 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Message-ID: <20231120171903.GA2318732-robh@kernel.org>
+Message-ID: <20231120173929.00006a6d@Huawei.com>
+In-Reply-To: <ZVtv8x8LqGMhCisw@sunspire>
 References: <20231117164232.8474-1-petre.rodan@subdimension.ro>
- <20231117192305.17612-1-petre.rodan@subdimension.ro>
- <20231119134939.GA8784-robh@kernel.org>
- <ZVpswo3MSScT43Bo@sunspire>
+	<20231117192305.17612-1-petre.rodan@subdimension.ro>
+	<5b2e4b05-9408-48ea-92ac-15883e102013@linaro.org>
+	<ZVtiVM2Gm1x1j_G1@sunspire>
+	<8aa11758-5eee-427b-adcb-c3578a521daf@linaro.org>
+	<ZVtv8x8LqGMhCisw@sunspire>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZVpswo3MSScT43Bo@sunspire>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
 
-On Sun, Nov 19, 2023 at 10:14:58PM +0200, Petre Rodan wrote:
+On Mon, 20 Nov 2023 16:40:51 +0200
+Petre Rodan <petre.rodan@subdimension.ro> wrote:
+
+> Hello!
 > 
-> Good morning!
-> 
-> On Sun, Nov 19, 2023 at 07:49:39AM -0600, Rob Herring wrote:
-> > On Fri, Nov 17, 2023 at 09:22:57PM +0200, Petre Rodan wrote:
-> > > Adds binding for digital Honeywell TruStability HSC and SSC series pressure 
-> > > and temperature sensors.
+> On Mon, Nov 20, 2023 at 03:04:07PM +0100, Krzysztof Kozlowski wrote:
+> > On 20/11/2023 14:42, Petre Rodan wrote:
+> >   
+> > >>> +properties:
+> > >>> +  compatible:
+> > >>> +    enum:
+> > >>> +      - honeywell,hsc  
+> > >>
+> > >> Way too generic  
 > > > 
-> [..]
-> > > Changes for v2:
-> > > - Removed redundant quotations reported by robh's bot
-> > > - Fixed yamllint warnings
-> > > 
-> > > I'm failing to run 'make DT_CHECKER_FLAGS=-m dt_binding_check' due to
-> > > python errors and exceptions
+> > > I'm new to this, please excuse my ignorance.
+> > > my driver covers all Honeywell pressure sensors under the "TruStability board mount HSC/SSC" moniker.  
 > > 
-> > What exceptions?
+> > We talk here about bindings, not driver. For the driver you can use
+> > whatever name is approved by reviewers of your driver.
+> >   
+> > > that is why my intention was to provide a rather generic name for the driver itself.
+> > > are you afraid that they will come up with a different device that they will call "hsc" in the future?
+> > > in this case honeywell,trustability-hsc would be fine?
+> > > 
+> > > as I see you prefer to target a particular chip, but I am a bit afraid that the end-user will be confused by needing to set up something like
+> > > 
+> > > pressure@28 {
+> > > 	compatible = "honeywell,hsc030pa";  
+> > 
+> > The compatible should be specific, thus for example match exact model
+> > number.  
 > 
-> thanks for asking.
+> there are an infinite number of combinations of 4 transfer functions and 118 ranges + one custom range, so providing an array with all specific chips that could end up as compatible is out of the question.
+> I was aiming at providing a generic name for the binding and get the transfer function and the pressure range as required parameters.
 > 
-> first off, installed packages. the first 4 are not part of the 
-> official Gentoo repo, so I might have prepared them with missing 
-> options if any where not included by default.
-> I know nothing about python.
+> > If you can guarantee that all devices from given family are the same in
+> > respect of programming model and hardware requirements (e.g. supplies),
+> > then you could go with family name. However such guarantees are rarely
+> > given.  
 > 
-> $ equery l dtschema pylibfdt ruamel-yaml yamllint jsonschema python 
-> [I-O] [  ] dev-python/dtschema-2023.9:0
-> [I-O] [  ] dev-python/pylibfdt-1.7.0_p1:0
-> [I-O] [  ] dev-python/ruamel-yaml-0.18.5:0
-> [I-O] [  ] dev-python/yamllint-1.33.0:0
-> [IP-] [  ] dev-python/jsonschema-4.19.1:0
+> I see your point.
+> 
+> > Therefore for mprls0025pa I agreed for using one specific model
+> > for entire family.
+> > 
+> > https://lore.kernel.org/all/d577bc44-780f-f25d-29c6-ed1d353b540c@linaro.org/
+> > 
+> >   
+> > > 	reg = <0x28>;
+> > > 	honeywell,transfer-function = <0>;
+> > > 	honeywell,pressure-range = "250MD";
+> > > };
+> > > 
+> > > ie. specifying "hsc030pa" as driver while his chip is not in the 030PA range, but 250MD.
+> > > 
+> > > so do you prefer
+> > >  honeywell,trustability-hsc  OR
+> > >  honeywell,hsc030pa  
+> > 
+> > I think the latter, just like we did for mprls0025pa. How many devices
+> > do you have there?  
+> 
+> both hsc and ssc have 118 ranges, 4 transfer functions and both can be requested from the manufacturer with custom measurement ranges.
+> 
+> ok,I will rename hsc->hsc030pa in the code as you requested.
 
-4.18 and later are not supported.
+Where does pa come from? 
 
-Apparently behavior we relied on in pre-4.18 was "wrong" usage... 4.18 
-also makes rust a hard dependency. That's a problem for any arch without 
-LLVM support.
+If we are going generic, feels like trustability-ssc etc are more representative
+and matches the datasheet cover page.
 
-Installing via pip will check this dependency.
 
-Rob
+> 
+> > >>> +  honeywell,pmin-pascal:
+> > >>> +    description: |
+> > >>> +      Minimum pressure value the sensor can measure in pascal.
+> > >>> +      To be specified only if honeywell,range_str is set to "NA".
+> > >>> +    $ref: /schemas/types.yaml#/definitions/int32  
+> > >>
+> > >> That's uint32. Why do you need negative values?  
+> > > 
+> > > signed int32 is intentional. some chips have two physical input ports and measure a pressure differential in which case pmin is negative.
+> > > see either of the pdfs at page 14, table 8, column 2, row 7+  
+> > 
+> > Then the best would be to change the type in other bindings to have
+> > int32 everywhere... but dtschema also requires unt32:
+> > https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/property-units.yaml  
+> 
+> yeah, and also '-kpascal' might be too coarse of a unit when we talk about sensors that have a -125 .. 125 pascal measurement range as '0.5ND' has.
+> 
+> cheers,
+> peter
+> 
+
