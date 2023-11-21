@@ -1,115 +1,153 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47F61B288
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 06:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8007F2D603
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 09:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qgqcvbKw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDu9V0Ku"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5CDD760FDB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 06:49:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5CDD760FDB
+	by smtp3.osuosl.org (Postfix) with ESMTP id E37AE60FEB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 08:59:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E37AE60FEB
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qgqcvbKw
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fDu9V0Ku
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
 	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id k_O3uMpkz4gW
+	with ESMTP id nUiKnOwbZhy0
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 21 Nov 2023 06:49:50 +0000 (UTC)
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E1EA460FCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 06:49:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E1EA460FCE
-Message-ID: <11bf3c0f-f78b-4dd3-97d3-c39b5b2ae7bd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1700549386;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9BS9UBYsSndFAg/kFykIgLfKwkfc0tziM6o2ZmXP0yc=;
-	b=qgqcvbKwWn9QXxkyQuD1VkO3P4AyGBcuxrKWDxsoKY9R187ET2HSTLU1/mpggl0ZFcCOSo
-	J4HWCyhfEAj0QBgrQ9Otqfwl3Odl6dBAXBJfOD8Jn+f/+BDybL5NQDEZn7c5MB2AuPHU+4
-	MZlYVZ0uuDvxw/O3hNk3Sj1YR8igVLc=
-Date: Mon, 20 Nov 2023 22:49:39 -0800
+	Tue, 21 Nov 2023 08:59:59 +0000 (UTC)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 0A8F460FEA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 08:59:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 0A8F460FEA
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1cf73e25b72so118535ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 00:59:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700557198; x=1701161998; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jJ/AFKPeVxjAnYg0rcHdI79h+dhe0CVTx872xJ/48GQ=;
+        b=fDu9V0Kuuu0H1ns3gYS1vz3/J+4yGrtS2Gr0k+htCozgzK/OHgkSgAhlgjraRd1Be1
+         +DzmadlnmbqSeHo8GiRoXrX13b1Rx1ePdS3uB65yZc6GAv7670joeMBw5mu4dafvkntZ
+         IBW+cEzJN48TgObeE3sefSi3x1sSXBV00mI4/t4kdR5ILkTNmMyeUWMXsKO9AYMz9A/S
+         HjZl98D0hoNgiUWtJkHj8LmOrD9ubxL28aSWbhg0MU4nt9BsgbHFqfww+O0oxp6fMTuJ
+         v48vJgD5tQBgO2xqaqWUUPfOg0B3fDUHNxqCXdM2Od7OEQ/mtJCWRDV82ALA4CLg/oXU
+         dCnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700557198; x=1701161998;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jJ/AFKPeVxjAnYg0rcHdI79h+dhe0CVTx872xJ/48GQ=;
+        b=CRzJ5Ydlvee5OVoEcw9jQ7NqEUJwxCCJSGwIfYAX/LsiPr8a8ILAQBhl3FGpRBaJ8J
+         uTi85kbbmIVdcXuk3vdrknaTNKyeVZqhma23j+P4xie4HBORFStznzwtoARhSlJvHnUS
+         4SPJyUg/z/FUug6i8ZHJhjLzaEbGnHxYIXNhWO/nKzhbeLs7nwGJSfRrszu9UnDoXeiu
+         85XTpFc8URRqSXeGjOlZmdH2hRsA62pH9y0OajNEm7oMSj/EFHOK0UrCL8xqAPnvtG1+
+         d7+chDhu6l9zEeWbSC6Nya/5KRm4XMjDLP/VVOa5ymdlnQ9pGOxB3Ff82b37kfcLtJTN
+         Q6qw==
+X-Gm-Message-State: AOJu0YzgDJWXN1q71S1TO30mm5/SwmklSAF7fK2P7o1AmubtS1HNp4/S
+	RIU9KIHw+hLL/sWNJuJgYRQ=
+X-Google-Smtp-Source: AGHT+IHuciNeLfXvkTnSw1GZl4bJP7c7mXwIB2Y7kIFG4zpwMN7QUV1San6rTxEbjcx5PX2Gvul0Yg==
+X-Received: by 2002:a17:902:eccd:b0:1cf:6a75:e989 with SMTP id a13-20020a170902eccd00b001cf6a75e989mr3141227plh.6.1700557198184;
+        Tue, 21 Nov 2023 00:59:58 -0800 (PST)
+Received: from [192.168.0.152] ([103.75.161.209])
+        by smtp.gmail.com with ESMTPSA id y4-20020a17090322c400b001bbb7af4963sm7401133plg.68.2023.11.21.00.59.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 00:59:57 -0800 (PST)
+Message-ID: <38a45214-7cd0-482a-a330-65c5be488fba@gmail.com>
+Date: Tue, 21 Nov 2023 14:29:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v3 0/4] selftests/bpf: Update multiple prog_tests
- to use ASSERT_ macros
-Content-Language: en-GB
-To: Yuran Pereira <yuran.pereira@hotmail.com>, bpf@vger.kernel.org
-Cc: andrii@kernel.org, ast@kernel.org, haoluo@google.com,
- john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- martin.lau@linux.dev, mykolal@fb.com, sdf@google.com, shuah@kernel.org,
- song@kernel.org
-References: <GV1PR10MB6563BEFEA4269E1DDBC264B1E8BBA@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <GV1PR10MB6563BEFEA4269E1DDBC264B1E8BBA@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] driver: gpu: Fixing warning directly dereferencing a
+ rcu pointer
+Content-Language: en-US
+To: Danilo Krummrich <dakr@redhat.com>, kherbst@redhat.com, lyude@redhat.com,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <8e9efe54-2799-4539-a8b0-aa199f8052f6@redhat.com>
+ <20231113191303.3277733-1-singhabhinav9051571833@gmail.com>
+ <0754e669-8b00-461c-b6fe-79c659bf59a3@redhat.com>
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+In-Reply-To: <0754e669-8b00-461c-b6fe-79c659bf59a3@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
+On 11/21/23 06:50, Danilo Krummrich wrote:
+> On 11/13/23 20:13, Abhinav Singh wrote:
+>> This patch fixes a sparse warning with this message
+>> "warning:dereference of noderef expression". In this context it means we
+>> are dereferencing a __rcu tagged pointer directly.
+>>
+>> We should not be directly dereferencing a rcu pointer. To get a normal
+>> (non __rcu tagged pointer) from a __rcu tagged pointer we are using the
+>> function unrcu_pointer(...). The non __rcu tagged pointer then can be
+>> dereferenced just like a normal pointer.
+>>
+>> I tested with qemu with this command
+>> qemu-system-x86_64 \
+>>     -m 2G \
+>>     -smp 2 \
+>>     -kernel bzImage \
+>>     -append "console=ttyS0 root=/dev/sda earlyprintk=serial 
+>> net.ifnames=0" \
+>>     -drive file=bullseye.img,format=raw \
+>>     -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
+>>     -net nic,model=e1000 \
+>>     -enable-kvm \
+>>     -nographic \
+>>     -pidfile vm.pid \
+>>     2>&1 | tee vm.log
+>> with lockdep enabled.
+>>
+>> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+> 
+> Applied, thanks!
+> 
+> There are a few more such occurrences. [1][2] Plan to fix them as well?
+> 
+> [1] 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nv10_fence.c#L35
+> [2] 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nv84_fence.c#L88
+> 
+>> ---
+>> v1 -> v2 : Replaced the rcu_dereference(...) with unrcu_pointer(...) and
+>>             also removed the rcu locking and unlocking function call.
+>> v2 -> v3 : Changed the description of the patch to match it with the 
+>> actual
+>>        implementation.
+>>
+>>   drivers/gpu/drm/nouveau/nv04_fence.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c 
+>> b/drivers/gpu/drm/nouveau/nv04_fence.c
+>> index 5b71a5a5cd85..cdbc75e3d1f6 100644
+>> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
+>> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
+>> @@ -39,7 +39,7 @@ struct nv04_fence_priv {
+>>   static int
+>>   nv04_fence_emit(struct nouveau_fence *fence)
+>>   {
+>> -    struct nvif_push *push = fence->channel->chan.push;
+>> +    struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
+>>       int ret = PUSH_WAIT(push, 2);
+>>       if (ret == 0) {
+>>           PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
+> 
+Thanks a lot for merging this.
+Yeah sure I will submit the patch for the issues soon.
 
-On 11/20/23 7:03 PM, Yuran Pereira wrote:
-> Multiple files/programs in `tools/testing/selftests/bpf/prog_tests/` still
-> heavily use the `CHECK` macro, even when better `ASSERT_` alternatives are
-> available.
->
-> As it was already pointed out by Yonghong Song [1] in the bpf selftests the use
-> of the ASSERT_* series of macros is preferred over the CHECK macro.
->
-> This patchset replaces the usage of `CHECK(` macros to the equivalent `ASSERT_`
-> family of macros in the following prog_tests:
-> - bind_perm.c
-> - bpf_obj_id.c
-> - bpf_tcp_ca.c
-> - vmlinux.c
->
-> [1] https://lore.kernel.org/lkml/0a142924-633c-44e6-9a92-2dc019656bf2@linux.dev
->
-> Changes in v3:
-> - Addressed the following points mentioned by Yonghong Song
-> - Improved `bpf_map_lookup_elem` assertion in bpf_tcp_ca.
-> - Replaced assertion introduced in v2 with one that checks `thread_ret`
->    instead of `pthread_join`. This ensures that `server`'s return value
->    (thread_ret) is the one being checked, as oposed to `pthread_join`'s
->    return value, since the latter one is less likely to fail.
->
-> Changes in v2:
-> - Fixed pthread_join assertion that broke the previous test
->
-> Previous version:
-> v2 - https://lore.kernel.org/lkml/GV1PR10MB6563AECF8E94798A1E5B36A4E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
-> v1 - https://lore.kernel.org/lkml/GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
->
-> Yuran Pereira (4):
->    Replaces the usage of CHECK calls for ASSERTs in bpf_tcp_ca
->    Replaces the usage of CHECK calls for ASSERTs in bind_perm
->    Replaces the usage of CHECK calls for ASSERTs in bpf_obj_id
->    selftests/bpf: Replaces the usage of CHECK calls for ASSERTs in
->      vmlinux
->
->   .../selftests/bpf/prog_tests/bind_perm.c      |   6 +-
->   .../selftests/bpf/prog_tests/bpf_obj_id.c     | 204 +++++++-----------
->   .../selftests/bpf/prog_tests/bpf_tcp_ca.c     |  48 ++---
->   .../selftests/bpf/prog_tests/vmlinux.c        |  16 +-
->   4 files changed, 105 insertions(+), 169 deletions(-)
->
-Ack for the whole series:
-Acked-by: Yonghong Song <yonghong.song@linux.dev>
-
-Yuran, next time when you submit patches, you can carry 'Acked-by' tag
-from previous revision if there are no significant changes. This will
-reduce some of reviewers and maintainers' work.
-
+Regards,
+Abhinav Singh
