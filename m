@@ -1,167 +1,231 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6390487A0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 11:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6254A9AE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 12:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDz6tFSs"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6335581886
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 11:37:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6335581886
+	by smtp1.osuosl.org (Postfix) with ESMTP id BFEE081400
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 12:35:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BFEE081400
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jDz6tFSs
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.151
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0R7nS5cxLjv6
+	with ESMTP id Wx-K73m3t8Lm
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 21 Nov 2023 11:37:32 +0000 (UTC)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 6FA52817A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 11:37:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6FA52817A3
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-7a66aa8ebb7so215206139f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 03:37:32 -0800 (PST)
+	Tue, 21 Nov 2023 12:35:55 +0000 (UTC)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D530C81386
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 12:35:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D530C81386
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1cf6373ce31so13562205ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 04:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700570155; x=1701174955; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BVHOuGYwxoI/ien1Js+ADNjcb3WBPI5CxYXxkzPCUlo=;
+        b=jDz6tFSsDC91B9G/AEnaHbbrTRpDvdmMUOdx+CgMVf41yLW58iBrt/vDGRIUSV4ROo
+         Vx+TQFv7l4coYaEezaRE9pa+L4UhqKNSIoku+jiQFRiyRmZg+m52tks2o+vTMA7AIixI
+         uKBNpouU/RzljZGAnwmrpslXE2XpuCRkVZtNk48UHJEOY8/xpc4I/DWPOU49ZXsqFrcE
+         V9/E04ChM8QrsHgtQkQYdctJ1bsoeouoOYJwG3ljWZcqlv8zTH9sE0Ogul2nCM6dKilM
+         uXTOFhww2n0uFw26HGVHefX8npdZPYrvf63J4x2bXpuqlApXkmrnTkKJQg+4EYUDs/k4
+         OK4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700566651; x=1701171451;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jxdRsb+4u+iDRHXDxaazTznHq5QV0/4kpZbydWlBH4k=;
-        b=IS2LwY1l2OeGHVRtLU6ozaiwEKto29RDbLLp9hRH/0YNyNeSOWxUnUgqfdaL2UCKtK
-         zdy08+a9QW0XvNAzWnZYndmAOZ7ZNIfvevi+3Yy0zUbFDK9vx8kWT015cxzMzc47rv2L
-         ydVRDMKbyrPR0DVUSYbpW23VFBa5KsLy/w0frd0dkhRFxTOah4Ebjsbh2vE57TdP36Mz
-         +vddQm0XXTXSnru/2VGNBTnJ1Mce/TpLQLn+XJCkbbOSOAFK54BQIt4V08RgtQBud/6y
-         2lNC2X+XJkVGi2u8kMwL9wnCwQWy2IBrdSgPkZH/eZODg4eqfb0ONT/EgKNWAh98TILy
-         dsig==
-X-Gm-Message-State: AOJu0YxNoFpo3ZfAzaPgCRwjUH42+WyuqP/+8dlWGje17uIK+GqWhAhc
-	wRzNTnhYQ0z1viZcNBHH2g==
-X-Google-Smtp-Source: AGHT+IF9RwR/tdwpnUsKSCPwqO9C9QV8Z9hofoZuMU2wzV56JcTooNqaq/juo/EIVhFfdZm0D55nKQ==
-X-Received: by 2002:a6b:d316:0:b0:794:eaef:f43e with SMTP id s22-20020a6bd316000000b00794eaeff43emr10576258iob.1.1700566651419;
-        Tue, 21 Nov 2023 03:37:31 -0800 (PST)
-Received: from herring.priv ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id s8-20020a056602240800b0079ab2787139sm2853899ioa.7.2023.11.21.03.37.29
+        d=1e100.net; s=20230601; t=1700570155; x=1701174955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BVHOuGYwxoI/ien1Js+ADNjcb3WBPI5CxYXxkzPCUlo=;
+        b=OBOHGEyXQb/WVhrQX+ZnKnJeoVR6C7shqhKZTIe7ind3gropQzukUFP2fiZwhJkQRJ
+         PT3YD2YjGBKcuhOZa079KdRNueM0ZUw7Zjs+rXYE3urM+9dIDc8MVP0ZBPbt6LcklA8z
+         Ti58tqOr5JbNpFOGhhfWCmA9qSWjXU81kIhOUBfTkFp1FHcIUueW4f73vMx8y9WqIY+4
+         At784ujRPR+N+5TDGJ+mjybLkq87XqQFhUpLMRSEuYktauMlmC7O1xCRSlmBBxoE4MbL
+         3xg+hpokHxDzzioxYJQWlc1xEO5Rh9yEQc6+03aPdz9r81XR3qGHNQiRO5R3Gi+/DI6s
+         1gFQ==
+X-Gm-Message-State: AOJu0YwC9nDcGq9DZ4x2L2OsY4dWYHSBIopbr6Lmn/uJU7tnXq0VovwA
+	ugYKijqfEpNa4LuQS1cus7k=
+X-Google-Smtp-Source: AGHT+IEfyBmj0fJQWwLMQun9Vu8GL+cZJg4GfHD8QDRj93peVGM3TZ0cfFQuRioVmCCdTQ+RAOYctw==
+X-Received: by 2002:a17:903:32c4:b0:1cc:36fb:22ae with SMTP id i4-20020a17090332c400b001cc36fb22aemr4178526plr.2.1700570155041;
+        Tue, 21 Nov 2023 04:35:55 -0800 (PST)
+Received: from archlinux.srmu.edu.in ([103.4.221.252])
+        by smtp.gmail.com with ESMTPSA id e8-20020a170902744800b001c3f7fd1ef7sm7846614plt.12.2023.11.21.04.35.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 03:37:30 -0800 (PST)
-Received: (nullmailer pid 1352673 invoked by uid 1000);
-	Tue, 21 Nov 2023 11:37:28 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Tue, 21 Nov 2023 04:35:54 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	"Conor Dooley" <conor+dt@kernel.org>,
+	"Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+	"Conor Dooley" <conor.dooley@microchip.com>,
+	"Rob Herring" <robh+dt@kernel.org>,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+	"Jeff LaBundy" <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v10 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date: Tue, 21 Nov 2023 18:04:07 +0530
+Message-ID: <20231121123409.2231115-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Anshul Dalal <anshulusr@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-kernel-mentees@lists.linuxfoundation.org, Conor Dooley <conor.dooley@microchip.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeff LaBundy <jeff@labundy.com>, devicetree@vger.kernel.org, linux-input@vger.kernel.org, =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20231121101751.2189965-1-anshulusr@gmail.com>
-References: <20231121101751.2189965-1-anshulusr@gmail.com>
-Message-Id: <170056664884.1352637.4950371378934551272.robh@kernel.org>
-Subject: Re: [PATCH v9 1/2] dt-bindings: input: bindings for Adafruit
- Seesaw Gamepad
-Date: Tue, 21 Nov 2023 04:37:28 -0700
+Content-Transfer-Encoding: 8bit
 
+Adds bindings for the Adafruit Seesaw Gamepad.
 
-On Tue, 21 Nov 2023 15:47:48 +0530, Anshul Dalal wrote:
-> Adds bindings for the Adafruit Seesaw Gamepad.
-> 
-> The gamepad functions as an i2c device with the default address of 0x50
-> and has an IRQ pin that can be enabled in the driver to allow for a rising
-> edge trigger on each button press or joystick movement.
-> 
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> 
-> ---
-> 
-> Changes for v9:
-> - Added interrupt in example
-> 
-> v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
-> 
-> Changes for v8:
-> - no updates
-> 
-> v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
-> 
-> Changes for v7:
-> - no updates
-> 
-> v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
-> 
-> Changes for v6:
-> - no updates
-> 
-> v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
-> 
-> Changes for v5:
-> - Added link to the datasheet
-> 
-> v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
-> 
-> Changes for v4:
-> - Fixed the URI for the id field
-> - Added `interrupts` property
-> 
-> v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
-> 
-> Changes for v3:
-> - Updated id field to reflect updated file name from previous version
-> - Added `reg` property
-> 
-> v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
-> 
-> Changes for v2:
-> - Renamed file to `adafruit,seesaw-gamepad.yaml`
-> - Removed quotes for `$id` and `$schema`
-> - Removed "Bindings for" from the description
-> - Changed node name to the generic name "joystick"
-> - Changed compatible to 'adafruit,seesaw-gamepad' instead of
->   'adafruit,seesaw_gamepad'
-> 
-> v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
-> ---
->  .../input/adafruit,seesaw-gamepad.yaml        | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
-> 
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
 
-yamllint warnings/errors:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.example.dts:30.34-35 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1424: dt_binding_check] Error 2
-make: *** [Makefile:234: __sub-make] Error 2
+---
 
-doc reference errors (make refcheckdocs):
+Changes for v10:
+- Added interrupt-controller/irq.h header
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231121101751.2189965-1-anshulusr@gmail.com
+v9: https://lore.kernel.org/lkml/20231121101751.2189965-1-anshulusr@gmail.com/
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+Changes for v9:
+- Added interrupt in example
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
 
-pip3 install dtschema --upgrade
+Changes for v8:
+- no updates
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
+
+Changes for v7:
+- no updates
+
+v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
+
+Changes for v6:
+- no updates
+
+v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
+
+Changes for v5:
+- Added link to the datasheet
+
+v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
+
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
+
+v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
+
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
+
+v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
+
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
+
+v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
+---
+ .../input/adafruit,seesaw-gamepad.yaml        | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..5e86f6de6978
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit precision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            interrupts = <18 IRQ_TYPE_EDGE_RISING>;
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.1
 
