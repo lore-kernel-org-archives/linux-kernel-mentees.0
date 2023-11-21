@@ -1,66 +1,66 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152333C6B2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 10:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E61038FB1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 10:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pcqQY5jM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jKlQY1WC"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9E2D460A89
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 10:02:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9E2D460A89
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pcqQY5jM
+	by smtp1.osuosl.org (Postfix) with ESMTP id AAB7081DEB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 10:03:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AAB7081DEB
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=jKlQY1WC
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 2WK1jouhpH8A
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 2ubYok1s-B6V
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 21 Nov 2023 10:02:25 +0000 (UTC)
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9703C607EC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 10:02:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9703C607EC
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-3316bb1303bso2427689f8f.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 02:02:24 -0800 (PST)
+	Tue, 21 Nov 2023 10:03:46 +0000 (UTC)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 74F3381CE3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 10:03:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 74F3381CE3
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-4079ed65582so21702885e9.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 02:03:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700560942; x=1701165742; darn=lists.linuxfoundation.org;
+        d=linaro.org; s=google; t=1700561024; x=1701165824; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1Or4yU7YP2qWPAmcKnNnm3DKwQcR/5HFP/IdH9q7mtM=;
-        b=pcqQY5jM8ZbkXOKGGjUWlSNsCIGJCJRDMR0N94GMT4dST6sJ49AYoGYrTupE5eMAR0
-         WoCtp2yiBfQkrKdA54iJqtrk1KORxjAaDc2exld90mSEe3jRB6/+6KaWjRJN/hItSXLv
-         96TM/rswCX+abcharWND/5bdI4U7kojTuhJV8lVg/5FHxc/4uCLsFFrGBdlNxlq/n6uH
-         d7Y9GXr7dFpAPhAVoKvWL5/HoqgFU2sHXs4YynalG394cSHb1l4qP9d0anu5gUncW7lz
-         FgdvLCES0pW3egYThRHDHazqyb14edsDhmysoaB5ftQ23bQY2EZdrOThbxuwHKEPyrVf
-         Riog==
+        bh=KSPF/grxFm7m3wG/FFuR6bSlKNaZQfp6EMzZo9vGXZQ=;
+        b=jKlQY1WCT0SRTtGN3Fz/27OMbiEdjnX549RI9Y2RrdT8qfvXU4yPCzx9JBP1tHVr11
+         PaLtXai4+b62d/tjga5laIc/2iCsKErtN4FMw1Ot6p+YWlA6B+rfpCMpptRu+Jni4x++
+         2my/4XmH3RAypeew683OrX9k2IBbVk7DKr6jE9PdEL4/pAD6S0pmM82HvvOVPLD5FmWy
+         5ogQlFMwSH8EBHe3VIkup8XcEnaUQxtrL2qzJEoPeAn1vZr1sBETUS16wUHhV33+rEv/
+         jJCI3JkGZprAl13NpVkSkGtwRITZe9rjVPj3L9ZUPrItM/fUmUHPPRir2Ty/inU69caX
+         0CxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700560942; x=1701165742;
+        d=1e100.net; s=20230601; t=1700561024; x=1701165824;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Or4yU7YP2qWPAmcKnNnm3DKwQcR/5HFP/IdH9q7mtM=;
-        b=Y+r5iHnUJRWcp4ldMFhv8Cf8hf1OamOUxZQlZviDMNeLqEo+gFpe/7GXc7jgvH2ohB
-         +TtalYLtld3PNd8iSt7sIDgBTFQbUGRaNErwsprYaqR4nBlPsihpXzsXimi6u32wTVX0
-         7L+DSySFYi9/KUe6+UXP1aJRUzVGpCvFBSIbliN3dAYTqlGB4FruYYXiMUi8nuNEeVK6
-         hpyQX0E2wLpkBc1MdYv42K6eLq3LZttB1T95eVzm2CGI6f0Qa/8UcQsf7mQj+WPb4n9G
-         hXQyuN8cbt5aaHzNeUdB3dkIMA6BhqvhVUswG25/r/vZmGIkcLp+9q2uAyRIuYvK4nGY
-         h5Yg==
-X-Gm-Message-State: AOJu0YzCrK6WFF3+6Q8+S675kKZYyEdzsihCfEOVlj5N2Oc8Rn3RZItx
-	BSDhJ9v507XsOyb2TEHg9mmSEQ==
-X-Google-Smtp-Source: AGHT+IHEVRQo8kWRweOKmJFiBoiZnXh1CDEPQAVKTDY0u3kIV5homuoooBj4Umdadkp865Ru1BWEpA==
-X-Received: by 2002:adf:f348:0:b0:332:cc85:70ce with SMTP id e8-20020adff348000000b00332cc8570cemr1486798wrp.33.1700560942051;
-        Tue, 21 Nov 2023 02:02:22 -0800 (PST)
+        bh=KSPF/grxFm7m3wG/FFuR6bSlKNaZQfp6EMzZo9vGXZQ=;
+        b=izgH6no9nuVdEsrgSYT/7KdznW40laOKSQbyZY/t8CM2iJcTwGIF3w2NBAad42jdpQ
+         /PRlzwnsb6hrsB+fF0hszfNJ8SeUWg4yujboc30Fbx2/GQLBdxSCbe+meywdgs+YCvbI
+         B9N01iDBkDXOZ9ItJOEYycTyzsVLvd3EfGbnEa5UpqwKBk0uH+cqYhFFS4IziGQvcOnv
+         lJcYVgLnM3I7OM7NGBxAQdFyX0LPLv8CmbzeLUFqyrxaM+yKVCcLhWmNKM1tOp1jDX2u
+         7FH4ckpLlxQFWinMH0+y0c0p6LIpXGKjIudNtYV2jvtAGDP3vrV1XoA19FSN14ZTGUPN
+         3/Ig==
+X-Gm-Message-State: AOJu0YzxUJ41zZ91iE/05eROuJh2sKHAqDL/8lTUqcEYk5cz395dZr2/
+	f5ZMD0Kip+Kp9ixsyUhPxGx0ig==
+X-Google-Smtp-Source: AGHT+IEtYJbVekFHWHyAZnHFqU5Afak4DEOfkzR0EXztWPL9PN0Gq08Dn4Wq+in66Ud3Ppm41TuBWA==
+X-Received: by 2002:a05:600c:a05:b0:406:177e:5de8 with SMTP id z5-20020a05600c0a0500b00406177e5de8mr7707325wmp.35.1700561023562;
+        Tue, 21 Nov 2023 02:03:43 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.11])
-        by smtp.gmail.com with ESMTPSA id f12-20020adff44c000000b003313e4dddecsm13821903wrp.108.2023.11.21.02.02.20
+        by smtp.gmail.com with ESMTPSA id f12-20020adff44c000000b003313e4dddecsm13821903wrp.108.2023.11.21.02.03.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 02:02:21 -0800 (PST)
-Message-ID: <4b0f14c4-71d1-498e-a94f-20c9c7f2316e@linaro.org>
-Date: Tue, 21 Nov 2023 11:02:20 +0100
+        Tue, 21 Nov 2023 02:03:43 -0800 (PST)
+Message-ID: <81149957-0403-4e41-8405-77ef8bfa3c8c@linaro.org>
+Date: Tue, 21 Nov 2023 11:03:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: vendor-prefixes: add aosong
+Subject: Re: [PATCH v3 2/3] dt-bindings: iio: chemical: add aosong,ags02ma
 Content-Language: en-US
 To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
  linux-iio@vger.kernel.org, devicetree@vger.kernel.org
@@ -78,6 +78,7 @@ Cc: Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Jonathan Cameron <jic23@kernel.org>
 References: <20231121095800.2180870-1-anshulusr@gmail.com>
+ <20231121095800.2180870-2-anshulusr@gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -123,20 +124,75 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231121095800.2180870-1-anshulusr@gmail.com>
+In-Reply-To: <20231121095800.2180870-2-anshulusr@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 21/11/2023 10:57, Anshul Dalal wrote:
-> Aosong Electronic Co., LTD. is a supplier for MEMS sensors such as AHT20
-> temperature and humidity sensor under the brand name Asair
+> Add bindings for Aosong AGS02MA TVOC sensor.
 > 
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> ---
+> The sensor communicates over i2c with the default address 0x1a.
+> TVOC values can be read in the units of ppb and ug/m^3 at register 0x00.
+> 
+> Datasheet:
+>   https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
+> Product-Page:
+>   http://www.aosong.com/m/en/products-33.html
 > 
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +---
+> +$id: http://devicetree.org/schemas/iio/chemical/aosong,ags02ma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Aosong AGS02MA VOC Sensor
+> +
+> +description: |
+> +  AGS02MA is an TVOC (Total Volatile Organic Compounds) i2c sensor with default
+> +  address of 0x1a.
+
+What does it measure? Light?
+
+> +
+> +  Datasheet:
+> +    https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
+> +
+> +maintainers:
+> +  - Anshul Dalal <anshulusr@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - aosong,ags02ma
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        light-sensor@1a {
+
+
+You called it chemical, so why this is here light-sensor?
+
+> +            compatible = "aosong,ags02ma";
+> +            reg = <0x1a>;
+> +            vdd-supply = <&vdd_regulator>;
+> +        };
+> +    };
 
 Best regards,
 Krzysztof
