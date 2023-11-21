@@ -1,151 +1,115 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D1825CAF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 01:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47F61B288
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 06:49:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BpNSQjRI"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qgqcvbKw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 734F440321
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 01:20:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 734F440321
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BpNSQjRI
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5CDD760FDB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 06:49:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5CDD760FDB
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qgqcvbKw
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hp4lKVzKODmv
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id k_O3uMpkz4gW
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 21 Nov 2023 01:20:51 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 56A854030E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 01:20:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 56A854030E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700529650;
+	Tue, 21 Nov 2023 06:49:50 +0000 (UTC)
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id E1EA460FCE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 06:49:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E1EA460FCE
+Message-ID: <11bf3c0f-f78b-4dd3-97d3-c39b5b2ae7bd@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1700549386;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kCIj+Yck5hQUwyiYPGShSSX7xq3O6mmynZaUoJB6T40=;
-	b=BpNSQjRIRB9TcxoqSB8m7P6F1HKoswoaSXB82Cj/4R7TkV11MIVdmYODKio/aeSBCPtgFH
-	RNghLu4TioYUbgRTnhgGbk1yxhEWmhsL/RNDlh/xKczQOHc/8Av4suJfcwsNhuqabwV43k
-	+44V/gZJfuvTVDyPwUdArYCOwsHeOEs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-657-8DTV8gxyP5CWvfCHXTrCvw-1; Mon, 20 Nov 2023 20:20:48 -0500
-X-MC-Unique: 8DTV8gxyP5CWvfCHXTrCvw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a003328902dso80297466b.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 Nov 2023 17:20:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700529647; x=1701134447;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kCIj+Yck5hQUwyiYPGShSSX7xq3O6mmynZaUoJB6T40=;
-        b=WNsgdh05bbR6r2dY3gUqxOduYW1FjmhUDAa2/2Tyv10EIxXKplDklv/lSouUZrlUYS
-         TsLbvALy68nXrIFLj/kYTOcjall8XIeVD8kGVXUxIpYNdCaMb+b/XhEkisnwVluUZ0Lr
-         rbrrtC+9X6mNqbfKOz+fUYmLZynj9rbGUPNOQJgow/QY5UVrDeMhqnm4XcIxvXnD6GEG
-         MFoSTGDG76pVpTsMqqvTNMZvEbLgTAIaNMKP5rq3wiACDXUN8N1B068dLGRhoenAnj/w
-         NtGc0Gi4GdFnAMfzn8Rg3VPUx1+5Vu+lRFZZfghCHDJLxVcFBs7VUBGSjkNwMI7F2MPc
-         KCbQ==
-X-Gm-Message-State: AOJu0YyAfqltHhG4Yr6VgAw+9lyTnz0vQUzwDCj5jUMfuDUonyLKCMSv
-	FlPsPpFYGr+9peBwwNn73zIPKPJYobqJLHVy2GOgaKBGaBO+1D3xNNydujFd4rlTvduOTj1CEl8
-	teC8z7MN2n513LqA1pP+dAqbQh6veEFJLCCfVqEro0BU/zXqW
-X-Received: by 2002:a17:907:75c2:b0:a00:5a2:1270 with SMTP id jl2-20020a17090775c200b00a0005a21270mr1978739ejc.21.1700529647758;
-        Mon, 20 Nov 2023 17:20:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEyBCCXNkml7//Jq8+SMQnK5DKpWB+c9i7u+CTdreYkrRUsU87iIOGRCYGYKmhOrD1fz3e5Zg==
-X-Received: by 2002:a17:907:75c2:b0:a00:5a2:1270 with SMTP id jl2-20020a17090775c200b00a0005a21270mr1978732ejc.21.1700529647502;
-        Mon, 20 Nov 2023 17:20:47 -0800 (PST)
-Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b? ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
-        by smtp.gmail.com with ESMTPSA id s2-20020a1709066c8200b009e656ce2930sm4468816ejr.60.2023.11.20.17.20.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 17:20:46 -0800 (PST)
-Message-ID: <0754e669-8b00-461c-b6fe-79c659bf59a3@redhat.com>
-Date: Tue, 21 Nov 2023 02:20:45 +0100
+	bh=9BS9UBYsSndFAg/kFykIgLfKwkfc0tziM6o2ZmXP0yc=;
+	b=qgqcvbKwWn9QXxkyQuD1VkO3P4AyGBcuxrKWDxsoKY9R187ET2HSTLU1/mpggl0ZFcCOSo
+	J4HWCyhfEAj0QBgrQ9Otqfwl3Odl6dBAXBJfOD8Jn+f/+BDybL5NQDEZn7c5MB2AuPHU+4
+	MZlYVZ0uuDvxw/O3hNk3Sj1YR8igVLc=
+Date: Mon, 20 Nov 2023 22:49:39 -0800
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] driver: gpu: Fixing warning directly dereferencing a
- rcu pointer
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>, kherbst@redhat.com,
- lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <8e9efe54-2799-4539-a8b0-aa199f8052f6@redhat.com>
- <20231113191303.3277733-1-singhabhinav9051571833@gmail.com>
-From: Danilo Krummrich <dakr@redhat.com>
-Organization: RedHat
-In-Reply-To: <20231113191303.3277733-1-singhabhinav9051571833@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Subject: Re: [PATCH bpf-next v3 0/4] selftests/bpf: Update multiple prog_tests
+ to use ASSERT_ macros
+Content-Language: en-GB
+To: Yuran Pereira <yuran.pereira@hotmail.com>, bpf@vger.kernel.org
+Cc: andrii@kernel.org, ast@kernel.org, haoluo@google.com,
+ john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ martin.lau@linux.dev, mykolal@fb.com, sdf@google.com, shuah@kernel.org,
+ song@kernel.org
+References: <GV1PR10MB6563BEFEA4269E1DDBC264B1E8BBA@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yonghong Song <yonghong.song@linux.dev>
+In-Reply-To: <GV1PR10MB6563BEFEA4269E1DDBC264B1E8BBA@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On 11/13/23 20:13, Abhinav Singh wrote:
-> This patch fixes a sparse warning with this message
-> "warning:dereference of noderef expression". In this context it means we
-> are dereferencing a __rcu tagged pointer directly.
-> 
-> We should not be directly dereferencing a rcu pointer. To get a normal
-> (non __rcu tagged pointer) from a __rcu tagged pointer we are using the
-> function unrcu_pointer(...). The non __rcu tagged pointer then can be
-> dereferenced just like a normal pointer.
-> 
-> I tested with qemu with this command
-> qemu-system-x86_64 \
-> 	-m 2G \
-> 	-smp 2 \
-> 	-kernel bzImage \
-> 	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-> 	-drive file=bullseye.img,format=raw \
-> 	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-> 	-net nic,model=e1000 \
-> 	-enable-kvm \
-> 	-nographic \
-> 	-pidfile vm.pid \
-> 	2>&1 | tee vm.log
-> with lockdep enabled.
-> 
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
 
-Applied, thanks!
+On 11/20/23 7:03 PM, Yuran Pereira wrote:
+> Multiple files/programs in `tools/testing/selftests/bpf/prog_tests/` still
+> heavily use the `CHECK` macro, even when better `ASSERT_` alternatives are
+> available.
+>
+> As it was already pointed out by Yonghong Song [1] in the bpf selftests the use
+> of the ASSERT_* series of macros is preferred over the CHECK macro.
+>
+> This patchset replaces the usage of `CHECK(` macros to the equivalent `ASSERT_`
+> family of macros in the following prog_tests:
+> - bind_perm.c
+> - bpf_obj_id.c
+> - bpf_tcp_ca.c
+> - vmlinux.c
+>
+> [1] https://lore.kernel.org/lkml/0a142924-633c-44e6-9a92-2dc019656bf2@linux.dev
+>
+> Changes in v3:
+> - Addressed the following points mentioned by Yonghong Song
+> - Improved `bpf_map_lookup_elem` assertion in bpf_tcp_ca.
+> - Replaced assertion introduced in v2 with one that checks `thread_ret`
+>    instead of `pthread_join`. This ensures that `server`'s return value
+>    (thread_ret) is the one being checked, as oposed to `pthread_join`'s
+>    return value, since the latter one is less likely to fail.
+>
+> Changes in v2:
+> - Fixed pthread_join assertion that broke the previous test
+>
+> Previous version:
+> v2 - https://lore.kernel.org/lkml/GV1PR10MB6563AECF8E94798A1E5B36A4E8B6A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+> v1 - https://lore.kernel.org/lkml/GV1PR10MB6563FCFF1C5DEBE84FEA985FE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
+>
+> Yuran Pereira (4):
+>    Replaces the usage of CHECK calls for ASSERTs in bpf_tcp_ca
+>    Replaces the usage of CHECK calls for ASSERTs in bind_perm
+>    Replaces the usage of CHECK calls for ASSERTs in bpf_obj_id
+>    selftests/bpf: Replaces the usage of CHECK calls for ASSERTs in
+>      vmlinux
+>
+>   .../selftests/bpf/prog_tests/bind_perm.c      |   6 +-
+>   .../selftests/bpf/prog_tests/bpf_obj_id.c     | 204 +++++++-----------
+>   .../selftests/bpf/prog_tests/bpf_tcp_ca.c     |  48 ++---
+>   .../selftests/bpf/prog_tests/vmlinux.c        |  16 +-
+>   4 files changed, 105 insertions(+), 169 deletions(-)
+>
+Ack for the whole series:
+Acked-by: Yonghong Song <yonghong.song@linux.dev>
 
-There are a few more such occurrences. [1][2] Plan to fix them as well?
-
-[1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nv10_fence.c#L35
-[2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/nv84_fence.c#L88
-
-> ---
-> v1 -> v2 : Replaced the rcu_dereference(...) with unrcu_pointer(...) and
->             also removed the rcu locking and unlocking function call.
-> v2 -> v3 : Changed the description of the patch to match it with the actual
-> 	   implementation.
-> 
->   drivers/gpu/drm/nouveau/nv04_fence.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/nv04_fence.c b/drivers/gpu/drm/nouveau/nv04_fence.c
-> index 5b71a5a5cd85..cdbc75e3d1f6 100644
-> --- a/drivers/gpu/drm/nouveau/nv04_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nv04_fence.c
-> @@ -39,7 +39,7 @@ struct nv04_fence_priv {
->   static int
->   nv04_fence_emit(struct nouveau_fence *fence)
->   {
-> -	struct nvif_push *push = fence->channel->chan.push;
-> +	struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
->   	int ret = PUSH_WAIT(push, 2);
->   	if (ret == 0) {
->   		PUSH_NVSQ(push, NV_SW, 0x0150, fence->base.seqno);
+Yuran, next time when you submit patches, you can carry 'Acked-by' tag
+from previous revision if there are no significant changes. This will
+reduce some of reviewers and maintainers' work.
 
