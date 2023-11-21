@@ -1,129 +1,121 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C763584DE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3925645D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="Mjmosxud"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNzzSA8P"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id E7EFB40363
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:04:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E7EFB40363
+	by smtp2.osuosl.org (Postfix) with ESMTP id 297AE401CC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:52:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 297AE401CC
 Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=Mjmosxud
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GNzzSA8P
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.227
+X-Spam-Score: -4.401
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zJD3VnJPiCHO
+	with ESMTP id ZSOR2KCQbrvM
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 21 Nov 2023 22:04:51 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02olkn2082f.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe16::82f])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E3B6D401CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:04:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E3B6D401CC
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IqROlfJ2TZbUq3rr39xx/doOiGyFupdPMuumIoMGM1EEaaacNCrIu+F3VzSnc685fkPlGyL4PKJ/fPogv+QJWzFi3ebq98x6CE6Te54rEY+kFYINlaPS+lGNG9gRApmuE998H5qcsug6g2djKDI86GCJJo2wvso7kH8Ys0VFuU23G5ome9rjMlw947nvvsO6LgrSWYOfBQoDEmABMNuwP/+E+mshqGx6F0ZzVxpjkeccyAJ6lKr8zTGTugI3o+CZVziYDsC3zyKRgV8LlN56NmzcgQaaCBzWmp0zeetVu576HYOPSeXheiW5O1Brd9V12RCzCoXusQl7eflyPck+Cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/Mpxw1ESlYWIati3JK8aJuXqpkEJ3t+k9eoKtet8dpw=;
- b=KQlgbQiTDb/G2a/hnpaMXi2fZL7zG6FnEA0sU6CRRfBIrC3Btb4qIil/u6M/G41QNhvl2R7aeUTeL54rtx1Pnk8h/OpAnIFEMYapHavWTVyr+L85A8ZRcD3BBGyPDu139dD+qE/2fZfQXghPT+/Yt+mzhDjCHh8hhEr4Fv83juS9J4xftdlNzCvNIuhcqgPH6/X9vDmBNa+xbdb/kgO0OoLuZyOu+L4N/vwAVrbqL6I6TfX61VUqneIlLKlstjrs8sThWkvGaYVijHJVxcTwBuIwDqmOe4goaWwc0GZxfvdGIB2EVO73XtAjVSOQ/eqzDkn8NEKk+fagBQJmtHGXfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/Mpxw1ESlYWIati3JK8aJuXqpkEJ3t+k9eoKtet8dpw=;
- b=Mjmosxud8hdSYgKJYd9+Km72QoXYoNMpKAllUOJj7mX4KJ5zM8ZSe0mE+CBccWJMcalfbKvgsdpxjdikP6vO7PeUBL1Lm9RWKTzH7yNAihwLIF+3ByK2MIg+NFyBCafJwIo8Y0wAJJi9nywtk6th1eVwHEaBNoXDkEe/kJ3acD8L2QawZht1uz4KcjorUuBocJ1M0tGTNVGCu6DR8EsIO14Iy09qoqav1RGwArYTHToPkSSo9WtIPPnXlVmZJY1HsYaKBdXKMjPhmZGfhn9RhKImc2bXq06U0HM1eB8040GylP52T6iP3pb/72okUV5qrNkq6QUKXOH/6BXWFJmygw==
-Received: from DU0PR10MB6558.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:405::20)
- by AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:144::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
- 2023 22:04:46 +0000
-Received: from DU0PR10MB6558.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3f75:4763:843c:a330]) by DU0PR10MB6558.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::3f75:4763:843c:a330%5]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 22:04:46 +0000
-Date: Wed, 22 Nov 2023 03:34:29 +0530
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: Yonghong Song <yonghong.song@linux.dev>
-Cc: bpf@vger.kernel.org, andrii@kernel.org, ast@kernel.org,
-	haoluo@google.com, john.fastabend@gmail.com, jolsa@kernel.org,
-	kpsingh@kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	martin.lau@linux.dev, mykolal@fb.com, sdf@google.com,
-	shuah@kernel.org, song@kernel.org
-Subject: Re: [PATCH bpf-next v3 0/4] selftests/bpf: Update multiple
- prog_tests to use ASSERT_ macros
-Message-ID:
- <DU0PR10MB6558D41ADAD7B5B9CDB43CC2E8BBA@DU0PR10MB6558.EURPRD10.PROD.OUTLOOK.COM>
-References: <GV1PR10MB6563BEFEA4269E1DDBC264B1E8BBA@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
- <11bf3c0f-f78b-4dd3-97d3-c39b5b2ae7bd@linux.dev>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <11bf3c0f-f78b-4dd3-97d3-c39b5b2ae7bd@linux.dev>
-X-TMN: [oKT/7LovT6WUlYTz9u2iJhY3GSaipBUh]
-X-ClientProxiedBy: JNAP275CA0007.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::12)
- To DU0PR10MB6558.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:405::20)
-X-Microsoft-Original-Message-ID: <20231121220429.GA465153@nmj-network>
+	Tue, 21 Nov 2023 22:52:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D0776400D8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:52:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D0776400D8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700607144; x=1732143144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7S8HcKQ5GauB14UB7Q9FL/WHd07QSS8icHvhl2hO0n4=;
+  b=GNzzSA8PPLCLFZGYzJb6jalvzNrCd75tqIXJeFFZmlLx8RF6xANaEdBP
+   OtW9XMEe2AbhxvtzG+Pzfue6+ITc3yRPpn6/keWqpt7FyEoR3N3oM9+X7
+   D8nci/p9UMRmhuKSwc9rXa4xf2aGBqaMSEn0TqXc6QfNdCIIxoGCqTfWX
+   388iNr1h7kjbUlesR9giZdSEpT3f1gw/hJ24LWH2NHG7vLIqGs6HgZQ1X
+   et7A0UfLbUZ/6jUtMxZWlArHv0tEXZSfMK8UM25iajnUG5z+1jJwxAA2b
+   2Y8PpCulTFY8EV5h/toJssH57kYEG+068kqC/K4bKHMCeWHURUzRaGy35
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="395860399"
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="395860399"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:52:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
+   d="scan'208";a="15045297"
+Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2023 14:52:21 -0800
+Received: from kbuild by b8de5498638e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r5ZbO-0008N2-2m;
+	Tue, 21 Nov 2023 22:52:18 +0000
+Date: Wed, 22 Nov 2023 06:52:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <202311220544.BV7xhjMy-lkp@intel.com>
+References: <20231121123409.2231115-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR10MB6558:EE_|AM0PR10MB3971:EE_
-X-MS-Office365-Filtering-Correlation-Id: 573e870d-7b31-4312-072e-08dbeadddf4d
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	JloLnv/Vs6Dh0DxaR4H+iCZXIfMKUuwHdKLT1X7q7Pca9AckDi8uLeHRSPZ4MxvQgPZexz0uOyr/qjtKtMeyCxqFxO4fWPJMiQqvOqBS3nip4qDUiMsIj9iqeGr5By9/Fwqzg36nmRRKzWXqVzXKm6Npj8nnSgBvPWXHSYt+uTkMiDaa9YQa2uDb0u99FOzxnLyj8Snfppo4mUznkGFq+DmFKPItN7PP8fUyLnjWU4Zxq/mlTKwMClWs9YCJQGy/du8/GY7yGHYUod5XXVnSve6Ng/6kzDVP/uKN1VnNhlL7boYx3uq9jJ9CNK7SMbkUayFPp/zlpG2gsFMGncKfiTw7u6U5m6fm4FPWtb890RM05x0hU0wXLccuyr7ZsJl6sm8iDMUGZK6UrKeeXGHye2EdfSG10cHdBNcUGLSJ2b+EJ7ElHlNlI2XvM23VHrqrbIhXxNEnKVBot/UUL862eXi1YTA7oG8ghZUpGDacuwOXbk6ysV4i5aQbNyHHoLvQZilFXTX4FlPOe/1vh3S1U0L2gmqnf1kAsd29FaSJ+8VD90LCNZx/Mp1GZwxh+s1k
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?1k4DTXusypQ5D1g6DMuyjUUpI0jT/fJU4opsKJ2U6t+Jz2y9HjnnCP9bm+8H?=
- =?us-ascii?Q?KyVZWyE+Ra9awzMWNJSUhPUFEK28DxuRTFPBol/T8/854ktmJGbi5uXWxJi+?=
- =?us-ascii?Q?gLl6S8yV9dbpEAuZBUFu+3U028WVZqPWTI8dXE2KVZXnYvelpjTmI3I6Baen?=
- =?us-ascii?Q?FhW8BZbdTJDpRun1BaVqgzQm1Kodbs/jqiFY87jDEEARuCJLj/BFzh1PKvZy?=
- =?us-ascii?Q?dV6IcXrSgQapH6i+5FB0qYzCCtC3JQY3aw8B6ToLM7QWRqJCUghV2UAEdYju?=
- =?us-ascii?Q?aGEnbYpcuddRvO/QToD3amAfbo3U5x6/TDr8Z1qShVyDi27QPVNK3k2pVD5m?=
- =?us-ascii?Q?y+aJqio9VS5YTsHfNkHsEeAerJXNj9dTthUcsi2KU9PNlsRKH8lQSLJgu5PL?=
- =?us-ascii?Q?r/CTwPBCQX6pcvPeOa1Pp1ZtOZa+ufI6lCk6CR6clvB5T0vesC/sp1qOSg1H?=
- =?us-ascii?Q?nwrZC+5mG3CeQszeGwoRAiKRsg1XxdoN7KQoSCbO/0vfKbIMbZLcORer5VOx?=
- =?us-ascii?Q?+kKR+GN7nRl/Ve88ygaaj7kKqprLU4o6PpvdikzcO6zGzcWm4iIZWS4avPWX?=
- =?us-ascii?Q?OGg/COw35XTN74xfmf6PrBmVKe6CqUnQ1/+cZV0QszArNfno6YaW1VUunAm6?=
- =?us-ascii?Q?9ncH9bu3bPTAPD/zkObw5Cx96fe74QKS0khzaGzP7PpZNRxAHRJG6rU58guE?=
- =?us-ascii?Q?Oq0/WvvrfuWQbdbInNKCBh83u6Zds20rq6D5SkRH61UtTEvQPVuJT83B0GTB?=
- =?us-ascii?Q?2x7jH1hNm5AtrMWK7IBp5Y3aZuFPZef2GiiSWQoj0M2hmBJGsqvubp9ifBSQ?=
- =?us-ascii?Q?lRv09HtGq86/BV+ZBUol4l7f09oOR3MLa8o/C+kk9+zID/3Tk0UMucwW4UUZ?=
- =?us-ascii?Q?VyQgHgcIaypPb379zzyF0m0Rm8OX5a2bHNIZd2wJCq2bE7gnEdGPUEjXljNT?=
- =?us-ascii?Q?ka0GKrp6XRkWd2UXfziq71VpopWwNVTCWenXNQ9ED4/wlyXUC90uJAFXBzKL?=
- =?us-ascii?Q?xxM9DAd0cCqlrCbMUegkaGWjS/2L1Q7XcHbBlFWsTUeu00ienHNxgF0f69i+?=
- =?us-ascii?Q?DF6G/9QU7qYJEl99OcACoPnP/FcDBlXepZJzaK+/SC48HEtIyN5rMZP3KBMo?=
- =?us-ascii?Q?IjdaMCQ8iTqbKVKPGD7oPqW+Q9genwVWhA8QnyAyX+eGUdFvq2C0uTnKTkbl?=
- =?us-ascii?Q?XRNOszSK0yOsXJG56wbOsNn8/jY7kWz8uDBLIagLgDCI0Xk52hLhNEhex2o?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 573e870d-7b31-4312-072e-08dbeadddf4d
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR10MB6558.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 22:04:46.2704
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3971
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121123409.2231115-2-anshulusr@gmail.com>
 
-On Mon, Nov 20, 2023 at 10:49:39PM -0800, Yonghong Song wrote:
-> Yuran, next time when you submit patches, you can carry 'Acked-by' tag
-> from previous revision if there are no significant changes. This will
-> reduce some of reviewers and maintainers' work.
-> 
-Alright, I will keep that in mind in the future.
+Hi Anshul,
 
-Thanks,
-Yuran Pereira
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.7-rc2 next-20231121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231121-204243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231121123409.2231115-2-anshulusr%40gmail.com
+patch subject: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
+config: alpha-randconfig-r112-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220544.BV7xhjMy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220544.BV7xhjMy-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311220544.BV7xhjMy-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/input/joystick/adafruit-seesaw.c:300:34: warning: 'seesaw_of_table' defined but not used [-Wunused-const-variable=]
+     300 | static const struct of_device_id seesaw_of_table[] = {
+         |                                  ^~~~~~~~~~~~~~~
+
+
+vim +/seesaw_of_table +300 drivers/input/joystick/adafruit-seesaw.c
+
+   299	
+ > 300	static const struct of_device_id seesaw_of_table[] = {
+   301		{ .compatible = "adafruit,seesaw-gamepad"},
+   302		{ /* Sentinel */ }
+   303	};
+   304	MODULE_DEVICE_TABLE(of, seesaw_of_table);
+   305	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
