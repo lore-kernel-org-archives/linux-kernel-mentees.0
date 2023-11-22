@@ -1,121 +1,248 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3925645D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878038472
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 02:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNzzSA8P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U8qKtdM1"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 297AE401CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:52:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 297AE401CC
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GNzzSA8P
+	by smtp3.osuosl.org (Postfix) with ESMTP id F308660FE1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 02:28:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F308660FE1
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=U8qKtdM1
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ZSOR2KCQbrvM
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id f-z--i7PM2wa
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 21 Nov 2023 22:52:25 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id D0776400D8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 22:52:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D0776400D8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700607144; x=1732143144;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7S8HcKQ5GauB14UB7Q9FL/WHd07QSS8icHvhl2hO0n4=;
-  b=GNzzSA8PPLCLFZGYzJb6jalvzNrCd75tqIXJeFFZmlLx8RF6xANaEdBP
-   OtW9XMEe2AbhxvtzG+Pzfue6+ITc3yRPpn6/keWqpt7FyEoR3N3oM9+X7
-   D8nci/p9UMRmhuKSwc9rXa4xf2aGBqaMSEn0TqXc6QfNdCIIxoGCqTfWX
-   388iNr1h7kjbUlesR9giZdSEpT3f1gw/hJ24LWH2NHG7vLIqGs6HgZQ1X
-   et7A0UfLbUZ/6jUtMxZWlArHv0tEXZSfMK8UM25iajnUG5z+1jJwxAA2b
-   2Y8PpCulTFY8EV5h/toJssH57kYEG+068kqC/K4bKHMCeWHURUzRaGy35
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="395860399"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="395860399"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 14:52:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="15045297"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Nov 2023 14:52:21 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5ZbO-0008N2-2m;
-	Tue, 21 Nov 2023 22:52:18 +0000
-Date: Wed, 22 Nov 2023 06:52:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
-Message-ID: <202311220544.BV7xhjMy-lkp@intel.com>
-References: <20231121123409.2231115-2-anshulusr@gmail.com>
+	Wed, 22 Nov 2023 02:28:07 +0000 (UTC)
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 334A1606D3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 02:28:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 334A1606D3
+Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-5c1acc1fa98so306495a12.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 21 Nov 2023 18:28:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700620086; x=1701224886; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kfTZswEnYt7aHpTJOx6kD98hPK28QoQ/YumgrlaBkC0=;
+        b=U8qKtdM1TFxlrcJMyNGwg1peOqS7TYEvkm4XvNPD+qTDxHB4A8RZQaoKxS/EIOGa2G
+         HBFmYKPuihMfHIUBFd7YJ+WhuvU1Kz4iw4X99Tib6tK0fGFR8x9G5rEnvqSxwnhWl3xT
+         X2EPn8BC+j1+vdx1VdUnigqj12TsrGzVL8ZQGuDYHfABEjoluRpKo4IkxkeCsoAO5VIv
+         1AC1uuRO/GX0agC+DHroY23npic23pfoSI0tyZJs+ZQGjggSs548s2SPNMTrU3BbjIP3
+         tb2VgnbO32EyWP5fVeC9dsghaBzPa/33Ub/72eIFzFS5Aq3ll7rGySLTbDKxRX2CEyJu
+         Q2Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700620086; x=1701224886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kfTZswEnYt7aHpTJOx6kD98hPK28QoQ/YumgrlaBkC0=;
+        b=DkN9pYKhSJAI1mnpJ9p/fZdfZE4wJBNxLHUwgQ5H1gg6f5ISVmFQMe6TKa1IePeseq
+         H+hkP1145H5cm9dpN1I3bP5du7dXifQ5/XuivslhjVhiqw92oaZElDF5COXEmVQAoCru
+         l9YC48Byb63iG5o3Ur2EMFdRN90LQCkQvnwbIILu1ece7n8plSx7ToGenQizgUPbQH06
+         Uw6bWh6i1SLqhXHBVm81QEpqNYwu6kqywpJ9LVHIDsvnst9kdCPeugHgQrafeN9LPC4v
+         r935KS12TmTN0FKNVGKH25A9vX/KLHdP3BbIE57RhIxPRlgUq2Poc+WABNOfuyKbeRXs
+         C7Yg==
+X-Gm-Message-State: AOJu0YxxIB+gIFtbCtD7smy0peniA7cYlDVNA98eNWQrDkFzUkU/zDco
+	BhTcQ5Vd/+2j6Rv46lsmKKdW/9V8WQIS+WP1530=
+X-Google-Smtp-Source: AGHT+IHAMQ+tOeNRO2k3sRkUVDLcsPWJuo4/OHgwq3ka2J+5TxYjwdPReGcf9/rYE3eK82vEcdhwoQgJh8lBrOuobi0=
+X-Received: by 2002:a17:90a:fe90:b0:280:4a23:3c84 with SMTP id
+ co16-20020a17090afe9000b002804a233c84mr6491607pjb.22.1700620086495; Tue, 21
+ Nov 2023 18:28:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231121123409.2231115-2-anshulusr@gmail.com>
+References: <VI1P193MB0752C0ADCF4F90AE8368C0B399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+In-Reply-To: <VI1P193MB0752C0ADCF4F90AE8368C0B399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Wed, 22 Nov 2023 03:27:55 +0100
+Message-ID: <CA+fCnZfBM=UU0AyArERNMxBMeaPvbV-e6uyQDpwgqA5c6_f_DQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kasan: Improve free meta storage in Generic KASAN
+To: Juntong Deng <juntong.deng@outlook.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
+	vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Anshul,
+On Tue, Nov 21, 2023 at 10:42=E2=80=AFPM Juntong Deng <juntong.deng@outlook=
+.com> wrote:
+>
+> Currently free meta can only be stored in object if the object is
+> not smaller than free meta.
+>
+> After the improvement, even when the object is smaller than free meta,
+> it is still possible to store part of the free meta in the object,
+> reducing the increased size of the redzone.
+>
+> Example:
+>
+> free meta size: 16 bytes
+> alloc meta size: 16 bytes
+> object size: 8 bytes
+> optimal redzone size (object_size <=3D 64): 16 bytes
+>
+> Before improvement:
+> actual redzone size =3D alloc meta size + free meta size =3D 32 bytes
+>
+> After improvement:
+> actual redzone size =3D alloc meta size + (free meta size - object size)
+>                     =3D 24 bytes
+>
+> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 
-kernel test robot noticed the following build warnings:
+I think this change as is does not work well with slub_debug.
 
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.7-rc2 next-20231121]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+slub_debug puts its metadata (redzone, tracks, and orig_size) right
+after the object (see calculate_sizes and the comment before
+check_pad_bytes). With the current code, KASAN's free meta either fits
+within the object or is placed after the slub_debug metadata and
+everything works well. With this change, KASAN's free meta tail goes
+right past object_size, overlaps with the slub_debug metadata, and
+thus can corrupt it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231121-204243
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20231121123409.2231115-2-anshulusr%40gmail.com
-patch subject: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
-config: alpha-randconfig-r112-20231122 (https://download.01.org/0day-ci/archive/20231122/202311220544.BV7xhjMy-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231122/202311220544.BV7xhjMy-lkp@intel.com/reproduce)
+Thus, to make this patch work properly, we need to carefully think
+about all metadatas layout and teach slub_debug that KASAN's free meta
+can go past object_size. Possibly, adjusting s->inuse by the size of
+KASAN's metas (along with moving kasan_cache_create and fixing up
+set_orig_size) would be enough. But I'm not familiar with the
+slub_debug code enough to be sure.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311220544.BV7xhjMy-lkp@intel.com/
+If you decide to proceed with improving this change, I've left some
+comments for the current code below.
 
-All warnings (new ones prefixed by >>):
+Thank you!
 
->> drivers/input/joystick/adafruit-seesaw.c:300:34: warning: 'seesaw_of_table' defined but not used [-Wunused-const-variable=]
-     300 | static const struct of_device_id seesaw_of_table[] = {
-         |                                  ^~~~~~~~~~~~~~~
+> ---
+> V1 -> V2: Make kasan_metadata_size() adapt to the improved
+> free meta storage
+>
+>  mm/kasan/generic.c | 50 +++++++++++++++++++++++++++++++---------------
+>  1 file changed, 34 insertions(+), 16 deletions(-)
+>
+> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> index 4d837ab83f08..802c738738d7 100644
+> --- a/mm/kasan/generic.c
+> +++ b/mm/kasan/generic.c
+> @@ -361,6 +361,8 @@ void kasan_cache_create(struct kmem_cache *cache, uns=
+igned int *size,
+>  {
+>         unsigned int ok_size;
+>         unsigned int optimal_size;
+> +       unsigned int rem_free_meta_size;
+> +       unsigned int orig_alloc_meta_offset;
+>
+>         if (!kasan_requires_meta())
+>                 return;
+> @@ -394,6 +396,9 @@ void kasan_cache_create(struct kmem_cache *cache, uns=
+igned int *size,
+>                 /* Continue, since free meta might still fit. */
+>         }
+>
+> +       ok_size =3D *size;
+> +       orig_alloc_meta_offset =3D cache->kasan_info.alloc_meta_offset;
+> +
+>         /*
+>          * Add free meta into redzone when it's not possible to store
+>          * it in the object. This is the case when:
+> @@ -401,21 +406,26 @@ void kasan_cache_create(struct kmem_cache *cache, u=
+nsigned int *size,
+>          *    be touched after it was freed, or
+>          * 2. Object has a constructor, which means it's expected to
+>          *    retain its content until the next allocation, or
+
+Please drop "or" on the line above.
+
+> -        * 3. Object is too small.
+>          * Otherwise cache->kasan_info.free_meta_offset =3D 0 is implied.
+> +        * Even if the object is smaller than free meta, it is still
+> +        * possible to store part of the free meta in the object.
+>          */
+> -       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
+> -           cache->object_size < sizeof(struct kasan_free_meta)) {
+> -               ok_size =3D *size;
+> -
+> +       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
+>                 cache->kasan_info.free_meta_offset =3D *size;
+>                 *size +=3D sizeof(struct kasan_free_meta);
+> +       } else if (cache->object_size < sizeof(struct kasan_free_meta)) {
+> +               rem_free_meta_size =3D sizeof(struct kasan_free_meta) -
+> +                                                               cache->ob=
+ject_size;
+> +               *size +=3D rem_free_meta_size;
+> +               if (cache->kasan_info.alloc_meta_offset !=3D 0)
+> +                       cache->kasan_info.alloc_meta_offset +=3D rem_free=
+_meta_size;
+> +       }
+>
+> -               /* If free meta doesn't fit, don't add it. */
+> -               if (*size > KMALLOC_MAX_SIZE) {
+> -                       cache->kasan_info.free_meta_offset =3D KASAN_NO_F=
+REE_META;
+> -                       *size =3D ok_size;
+> -               }
+> +       /* If free meta doesn't fit, don't add it. */
+> +       if (*size > KMALLOC_MAX_SIZE) {
+> +               cache->kasan_info.free_meta_offset =3D KASAN_NO_FREE_META=
+;
+> +               cache->kasan_info.alloc_meta_offset =3D orig_alloc_meta_o=
+ffset;
+> +               *size =3D ok_size;
+>         }
+>
+>         /* Calculate size with optimal redzone. */
+> @@ -464,12 +474,20 @@ size_t kasan_metadata_size(struct kmem_cache *cache=
+, bool in_object)
+>         if (in_object)
+>                 return (info->free_meta_offset ?
+>                         0 : sizeof(struct kasan_free_meta));
+
+This needs to be changed as well to something like min(cache->object,
+sizeof(struct kasan_free_meta)). However, with the slub_debug
+conflicts I mentioned above, we might need to change this to something
+else.
 
 
-vim +/seesaw_of_table +300 drivers/input/joystick/adafruit-seesaw.c
 
-   299	
- > 300	static const struct of_device_id seesaw_of_table[] = {
-   301		{ .compatible = "adafruit,seesaw-gamepad"},
-   302		{ /* Sentinel */ }
-   303	};
-   304	MODULE_DEVICE_TABLE(of, seesaw_of_table);
-   305	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> -       else
+> -               return (info->alloc_meta_offset ?
+> -                       sizeof(struct kasan_alloc_meta) : 0) +
+> -                       ((info->free_meta_offset &&
+> -                       info->free_meta_offset !=3D KASAN_NO_FREE_META) ?
+> -                       sizeof(struct kasan_free_meta) : 0);
+> +       else {
+> +               size_t alloc_meta_size =3D info->alloc_meta_offset ?
+> +                                                               sizeof(st=
+ruct kasan_alloc_meta) : 0;
+> +               size_t free_meta_size =3D 0;
+> +
+> +               if (info->free_meta_offset !=3D KASAN_NO_FREE_META) {
+> +                       if (info->free_meta_offset)
+> +                               free_meta_size =3D sizeof(struct kasan_fr=
+ee_meta);
+> +                       else if (cache->object_size < sizeof(struct kasan=
+_free_meta))
+> +                               free_meta_size =3D sizeof(struct kasan_fr=
+ee_meta) -
+> +                                                                       c=
+ache->object_size;
+> +               }
+> +               return alloc_meta_size + free_meta_size;
+> +       }
+>  }
+>
+>  static void __kasan_record_aux_stack(void *addr, bool can_alloc)
+> --
+> 2.39.2
