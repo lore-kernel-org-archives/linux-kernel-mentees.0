@@ -1,128 +1,230 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CE04AF64
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 16:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A8F6FCE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 18:47:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGz+IzVJ"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="D9eNX2KA"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C30E081E2F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 16:13:17 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C30E081E2F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YGz+IzVJ
+	by smtp3.osuosl.org (Postfix) with ESMTP id A9099611B4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 18:47:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A9099611B4
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=D9eNX2KA
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8ShqzCTgnjqq
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PRvzztIV0Vbk
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 22 Nov 2023 16:13:17 +0000 (UTC)
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id F17C28174A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 16:13:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F17C28174A
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cf6bdf8274so7549705ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 08:13:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700669596; x=1701274396; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IoVmD+VTOG0LFwMmHOyCBmPi9IZVbmlhZU/3heFnccs=;
-        b=YGz+IzVJPjpVxwhCoY19AhhU1fnaK1cfq62VG+EqsGGRlcWbtdJJXV8h+ZUoyXYwy1
-         2X770Up5TrT3ypi1NtRrYJ4wZ8kfZ//EJAtxGGYQyYHIzEsyKNbdpCFHTk7JV5ArVuH2
-         ZQJQPMdpi+x5FJBQtf8QUmTc521OobZztgL4gvlVfbry+YzN2y21DNAj9IHve6+Vt5pj
-         2hGZgtzMTrnPyTTkBUgejf/6Far7TRPOpNBezQER9R7nEY8rQ9OKrXtg/CVGomXWhbng
-         F1+XQ9zJvXkhaRCz48ggPtAnIbJhfgxCcnV+F6Iosgqw3HPbigL+DUwPXPJMXIMAMSlS
-         YT+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700669596; x=1701274396;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IoVmD+VTOG0LFwMmHOyCBmPi9IZVbmlhZU/3heFnccs=;
-        b=FzIfLg13YHAS1Zt3I44GjV+8kxfcOTYIXbT9v/SFeV7cL8OeAP4q5tyQwZKrupFiCy
-         aHefDC3rdk5Dvv+08tW2PRlsU1gD9AQTm7E6RkNhXu39EZQ9OxtvY4S7z/t+RXIz36iX
-         xjDofuXcukgBO4uvUcXRtynp9hB0HTUtsh4HaULwqVhmsMr0zGtzqflRUE7594A30Dq1
-         KDt0ND6oJbEvrYmenKP7uJRUu/Jg/2Cr412JYEzWgpO5Mm7A4aeoZJby912jCnJSh9b0
-         ghk9uaVxp2/t6TJn97G2wEw7HuZxxYhHGQUd2OJV2BwPhr2p9xhtE+FIIQIaJb+ce4kI
-         UytA==
-X-Gm-Message-State: AOJu0YzUZoAJd2CDPHBQ6gCNU0kD4r5AriZFCb7+PrvfyU4RgUwwSZ00
-	JoZrT6BC2ljcvaMxq+HyNj4=
-X-Google-Smtp-Source: AGHT+IFsgXMoN1R9EYrpdelZJS8IU3T+gk7YiDhb8jEIJjGE8qV1tfyECMvAlXEdvK/FIqGa+Vqugw==
-X-Received: by 2002:a17:902:c40f:b0:1cf:792d:93d3 with SMTP id k15-20020a170902c40f00b001cf792d93d3mr3120269plk.4.1700669596158;
-        Wed, 22 Nov 2023 08:13:16 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:313d:d4a3:2c73:a19b:b896:ebbe])
-        by smtp.gmail.com with ESMTPSA id jk21-20020a170903331500b001cc311ef152sm9875626plb.286.2023.11.22.08.13.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 08:13:15 -0800 (PST)
-From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-To: ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org
-Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
-	linux-media@vger.kernel.org,
+	Wed, 22 Nov 2023 18:47:30 +0000 (UTC)
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn20814.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1b::814])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id CE6ED61186
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 18:47:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CE6ED61186
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TO6s2M75oijk/6jx5ac/dtlHQVOZFkyzvUMxVPG3LJ0M2Cw06/MuYc4rSHAmEGqTD3JGTGyh85VqUlZH1Eow016cxu0LUTZxuZCadEbtCZeQcqzElwnhB/dyCdWmQMVwjcx68jMpQPhyj4z3jdH5lV1/h/srPaIeQVv+MRuUjOKJdhuMhhYMGmWvslCt7NDPqLiDKWOvWQuaNEq9yyI0ALAMnNdqocJcqJCi70xrBfVNgqSrmg5ahhp83zYXn2cU19sLYjZRUum8aqu1tjvHCNC8Lr8rjJahlUuHnGtTks75+DCltEGh+9A2Q1Ht9s07HnLao2oyIx9geu+bxEwZlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NAdaREqpc9sX3X6h2LLoWCzx5FXjxLWvu7E/lWR5lEU=;
+ b=IhDR4kZ2gqcuGKjsQ39wPU6gYTXND6EUfl+VAF8n5W6KvFSrb+V8xCgzww/80eWEim8W9TDmSmv10fNg+7vvg12C1EuZXA0ACirag601kEYLpfAjLv0DSEsaVDC5y2c8efAhhEH/h6ywIpTE60NmLPBJRdgSnbgFUpCvaY/QKbztsBeJTc4iB2xau7Up7uMZ/TW/B+FUPVmVQb8wRx3FIrDhZ7s42ycnvV71crd1oUSyB0XrLxS74delr8okVfsveCNYEXIOiPUfXaOPou/LLBRY8/nQmLzNcS4Z+8mQGC/qe73ZOL17OjgyYHWjegWypFM2snisJWbt1natxZreZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NAdaREqpc9sX3X6h2LLoWCzx5FXjxLWvu7E/lWR5lEU=;
+ b=D9eNX2KA2+E90oU7Zy0iMUwchXdD1bIQpAZfvW0rsKBeLeeHK7lzp0T1icuKjtHa+o3vkLt8EwZIpb+jolZ47B/lvoEgs/qJ4Rgu1s+e3BKgWi5nDh8YnEx2uO1G5tTcKTDIuO94VrMVoNBS/tcVJfOLnTvTQ+Df0EN01LHrDWplTvt5ePd0c5QLKyMrfp7lk9aHWeF6ea+QEbHA/Gp0Nd6TCc+LuKL77dOV/7/ziVxYlzrDGissajfJHnISjaCtRn+Z+LAZ5P4SfG15MkWgpGvyBP+kkStuK/Qe34yOEgBi74uOfOMXBgw2X/YjWufgzRLuUNSCZA2t6ovUMuIq0g==
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by PAXP193MB1215.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:151::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Wed, 22 Nov
+ 2023 18:47:25 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::fdd2:7dbf:e16c:f4a4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::fdd2:7dbf:e16c:f4a4%5]) with mapi id 15.20.7025.020; Wed, 22 Nov 2023
+ 18:47:25 +0000
+From: Juntong Deng <juntong.deng@outlook.com>
+To: ryabinin.a.a@gmail.com,
+	glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	akpm@linux-foundation.org
+Cc: kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Phillip Potter <phil@philpotter.co.uk>
-Subject: [PATCH V2] media: stk1160: Fixed high volume of stk1160_dbg messages
-Date: Wed, 22 Nov 2023 21:43:04 +0530
-Message-Id: <20231122161304.12434-1-ghanshyam1898@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v3] kasan: Improve free meta storage in Generic KASAN
+Date: Wed, 22 Nov 2023 18:46:31 +0000
+Message-ID:
+ <VI1P193MB0752675D6E0A2D16CE656F8299BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.39.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [8w/MP3zGraWS4uWjx/FVeWYwAJLviw+P]
+X-ClientProxiedBy: LO4P123CA0670.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:351::16) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID:
+ <20231122184631.32266-1-juntong.deng@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PAXP193MB1215:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe5204d0-7ac3-4dc4-126e-08dbeb8b77e5
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	FhFwHOj97K3IaSouKOz2ZtU+bW284QYopMpEajKo9iqFb8wTBwfOL87yi3PqxkkPGSJAq1AiRorWmvjTNblB577xrfAtJhTprHIPOWHcUAuwIPaVQOPJZDyHdkF5WWzIiqJSe1XBx5dswX9yK9LM6hSIkPGlWYAFu63R1eXIsid1wY2g35wnC554gYlRUyN93mOy+l2OPvJxBPnuCzHwMr18etiyWNrCbYZgOg7rjEfQZxBwRSSsLK++26Jdd4IuweZgP1SKrl91ykfl4LRMRnv/sg8Bk0DNiBTQrYGWouG8GHnXLXLzuRUUDJwsBRiq8PJef9m0sCixlGTgzCzPRLlHNT287MrR7nA7kJIaZjNbj7X+RjHtNEn10nVdanb93MgpGZutPV63dX+9l/+nGXhW+4OSfqXWgI3ZU5EQysQrFfAz6b0fF4ulS/jfyquuLm3vuYvK6v4CXrlQ04FZ75Lts8DoZavZ4sZhCFGC9pko3upacnB6uw9yUACm/6gl1Q4YijPyejsR1g1D3ki/dNViOG/crz3msdWT4XQ806viDcqfGC01sDiSZMAaNxcd
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NykJukja7eguyySaGEKB75IHOb29H2Xo67LGOQGcfROv03MsIXaQi06/j7BX?=
+ =?us-ascii?Q?JHxfccaF2Qy7tUNbZ/iujsiadwbcnepdGkulfvYcU5VbK3M28QL+wckQQWTi?=
+ =?us-ascii?Q?D8z/m7pLhhbZ0PkOYVMKeuNgPujR68cCbVCBhJGzG81aIidGjnmnH2vnH+7G?=
+ =?us-ascii?Q?fZ3d1bOl+gf5zrZ+oA/f2HwvHEuggq1qXREV/krvxZh1BuL4GaVkGOBKJ2lw?=
+ =?us-ascii?Q?SOlHZ1nfBXSdCPp2H9EGjbPhbB6zNdMH9EjyRDpt0j4I/PkiHsBGiotRdE4v?=
+ =?us-ascii?Q?NHqsCM4VeajXTfWgv5FnG8tkNZ5E4+GIPSts+VwcnSZ3caU9FmUo7CvSnZns?=
+ =?us-ascii?Q?3NyybYNijhnlCtKPzSLFiZR686XcTvIIXWVGFs/i0bVGw8zyvYa1fnTRNIZs?=
+ =?us-ascii?Q?beFnTOpNQos4wcdaMN4Ien/3Y1jfUpfYqFjhND58r0pfIjOUYjMT0sd89yEo?=
+ =?us-ascii?Q?Y2PJGXC61iVbEcuVwKF/Y7tJA0uPjV0T9iqNcVKXcpOx9SLBdxKclrFT7LCB?=
+ =?us-ascii?Q?+o2gBO1xHu4tomRcMgGJ4xhMkb+NtsGvBqOA4eeursAmS6t3OpA7GgBKTs43?=
+ =?us-ascii?Q?SIPSQcPdKQ8Wom9jPxi7vZIDZc+gT6u/x4Kp0JSfcrQOkDI0lBqIeuHBosrn?=
+ =?us-ascii?Q?unP2z6MYwqRnX91P3BhAV8EQkHVfOVvv13OMYEvXEjXUnzXGkrx06Cz7PDPf?=
+ =?us-ascii?Q?M0no9FEbqbMEhmlaf9kaj6eQH/7vdWEuW1wZr7RATE/bqmQjtExXlxCjY+FV?=
+ =?us-ascii?Q?V2Ewws6MU2EAtuFv6B8y2RhgFSaZQwnkOSQObk1xau+ucPtEvgYcMjnsJ/Sn?=
+ =?us-ascii?Q?t5bh1XYZFLtS+njieX6Zc1B+JcbnmNMnkbGuo3RD/eK9slOt2YC6l9FKGX+l?=
+ =?us-ascii?Q?W8GLQ0xmVZycCXXnwhTOYTxJeZfiIKdVUbXIFj8+B1C6urrZxtxWWjwG0ENk?=
+ =?us-ascii?Q?PfRXbSqNpNRXeje+tCGkak9sYaUk+QYfRT/Ybo4FQokzD/Mc8WN+nbU37f1b?=
+ =?us-ascii?Q?i6BnybE1bGKjE6gi3qxuhybSHWMgdIYOBu1jUIar8FJ79KAFK/3gD8lNG2P4?=
+ =?us-ascii?Q?LjbaSOZbv4YtYcLK8bG4gwl8psg2JR3bu0vosRppFMqrZmqqGO96onQ3m/re?=
+ =?us-ascii?Q?fzZ4isoJOhK1IgIdzeBq6JxKFjYaU5iPjKt5jLgNi/y1/PZ6u2NzYhoO+GE+?=
+ =?us-ascii?Q?dTpn0pCGWey8LamIbCs8N0cZFoLY5h0osxFcvBTNWTJSTuVtRhdzVm1JBgU?=
+ =?us-ascii?Q?=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe5204d0-7ac3-4dc4-126e-08dbeb8b77e5
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 18:47:25.1541
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB1215
 
-The function stk1160_dbg gets called too many times, which causes
-the output to get flooded with messages. Since stk1160_dbg uses
-printk, it is now replaced with dev_warn_ratelimited.
+Currently free meta can only be stored in object if the object is
+not smaller than free meta.
 
-Suggested-by: Phillip Potter <phil@philpotter.co.uk>
-Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+After the improvement, when the object is smaller than free meta and
+SLUB DEBUG is not enabled, it is possible to store part of the free
+meta in the object, reducing the increased size of the red zone.
+
+Example:
+
+free meta size: 16 bytes
+alloc meta size: 16 bytes
+object size: 8 bytes
+optimal redzone size (object_size <= 64): 16 bytes
+
+Before improvement:
+actual redzone size = alloc meta size + free meta size = 32 bytes
+
+After improvement:
+actual redzone size = alloc meta size + (free meta size - object size)
+                    = 24 bytes
+
+Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 ---
-v2:
-Thanks for your suggestions Phillip. I have updated the TODO comment and 
-used dev_warn_ratelimited for inclusion of kernel warning.
+V2 -> V3: When SLUB DEBUG is enabled, the previous free meta
+storage method continues to be used. Cancel the change to
+kasan_metadata_size().
 
- drivers/media/usb/stk1160/stk1160-video.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+V1 -> V2: Make kasan_metadata_size() adapt to the improved
+free meta storage
 
-diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-index f5b75f380c19..a8e0d352a68c 100644
---- a/drivers/media/usb/stk1160/stk1160-video.c
-+++ b/drivers/media/usb/stk1160/stk1160-video.c
-@@ -105,6 +105,16 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
- 	u8 *dst = buf->mem;
- 	int remain;
+ mm/kasan/generic.c | 39 +++++++++++++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 10 deletions(-)
+
+diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+index 4d837ab83f08..97713251053c 100644
+--- a/mm/kasan/generic.c
++++ b/mm/kasan/generic.c
+@@ -361,6 +361,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+ {
+ 	unsigned int ok_size;
+ 	unsigned int optimal_size;
++	unsigned int rem_free_meta_size;
++	unsigned int orig_alloc_meta_offset;
  
-+	/*
-+	 * TODO: These stk1160_dbg are very spammy!
-+	 * We should check why we are getting them.
-+	 *
-+	 * UPDATE: One of the reasons (the only one?) for getting these
-+	 * is incorrect standard (mismatch between expected and configured).
-+	 * So perhaps, we could add a counter for errors. When the counter
-+	 * reaches some value, we simply stop streaming.
-+	 */
-+
- 	len -= 4;
- 	src += 4;
- 
-@@ -140,7 +150,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
- 
- 	/* Let the bug hunt begin! sanity checks! */
- 	if (lencopy < 0) {
--		printk_ratelimited("copy skipped: negative lencopy\n");
-+		dev_warn_ratelimited(dev, "copy skipped: negative lencopy\n");
+ 	if (!kasan_requires_meta())
  		return;
+@@ -394,6 +396,9 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+ 		/* Continue, since free meta might still fit. */
  	}
  
++	ok_size = *size;
++	orig_alloc_meta_offset = cache->kasan_info.alloc_meta_offset;
++
+ 	/*
+ 	 * Add free meta into redzone when it's not possible to store
+ 	 * it in the object. This is the case when:
+@@ -401,23 +406,37 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+ 	 *    be touched after it was freed, or
+ 	 * 2. Object has a constructor, which means it's expected to
+ 	 *    retain its content until the next allocation, or
+-	 * 3. Object is too small.
++	 * 3. Object is too small and SLUB DEBUG is enabled. Avoid
++	 *    free meta that exceeds the object size corrupts the
++	 *    SLUB DEBUG metadata.
+ 	 * Otherwise cache->kasan_info.free_meta_offset = 0 is implied.
++	 * If the object is smaller than the free meta and SLUB DEBUG
++	 * is not enabled, it is still possible to store part of the
++	 * free meta in the object.
+ 	 */
+-	if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
+-	    cache->object_size < sizeof(struct kasan_free_meta)) {
+-		ok_size = *size;
+-
++	if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
+ 		cache->kasan_info.free_meta_offset = *size;
+ 		*size += sizeof(struct kasan_free_meta);
+-
+-		/* If free meta doesn't fit, don't add it. */
+-		if (*size > KMALLOC_MAX_SIZE) {
+-			cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
+-			*size = ok_size;
++	} else if (cache->object_size < sizeof(struct kasan_free_meta)) {
++		if (__slub_debug_enabled()) {
++			cache->kasan_info.free_meta_offset = *size;
++			*size += sizeof(struct kasan_free_meta);
++		} else {
++			rem_free_meta_size = sizeof(struct kasan_free_meta) -
++									cache->object_size;
++			*size += rem_free_meta_size;
++			if (cache->kasan_info.alloc_meta_offset != 0)
++				cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
+ 		}
+ 	}
+ 
++	/* If free meta doesn't fit, don't add it. */
++	if (*size > KMALLOC_MAX_SIZE) {
++		cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
++		cache->kasan_info.alloc_meta_offset = orig_alloc_meta_offset;
++		*size = ok_size;
++	}
++
+ 	/* Calculate size with optimal redzone. */
+ 	optimal_size = cache->object_size + optimal_redzone(cache->object_size);
+ 	/* Limit it with KMALLOC_MAX_SIZE (relevant for SLAB only). */
 -- 
-2.25.1
+2.39.2
 
