@@ -1,76 +1,74 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A8F6FCE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 18:47:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D97658AA1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 20:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="D9eNX2KA"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="c4Buh0Rw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A9099611B4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 18:47:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A9099611B4
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=D9eNX2KA
+	by smtp2.osuosl.org (Postfix) with ESMTP id C72AB416E7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 20:01:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C72AB416E7
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=outlook.com header.i=@outlook.com header.a=rsa-sha256 header.s=selector1 header.b=c4Buh0Rw
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id PRvzztIV0Vbk
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AAtJl9k9gVTi
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 22 Nov 2023 18:47:30 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn20814.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e1b::814])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id CE6ED61186
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 18:47:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CE6ED61186
+	Wed, 22 Nov 2023 20:01:21 +0000 (UTC)
+Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02acsn20807.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe16::807])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 39BF3402E6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 22 Nov 2023 20:01:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 39BF3402E6
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TO6s2M75oijk/6jx5ac/dtlHQVOZFkyzvUMxVPG3LJ0M2Cw06/MuYc4rSHAmEGqTD3JGTGyh85VqUlZH1Eow016cxu0LUTZxuZCadEbtCZeQcqzElwnhB/dyCdWmQMVwjcx68jMpQPhyj4z3jdH5lV1/h/srPaIeQVv+MRuUjOKJdhuMhhYMGmWvslCt7NDPqLiDKWOvWQuaNEq9yyI0ALAMnNdqocJcqJCi70xrBfVNgqSrmg5ahhp83zYXn2cU19sLYjZRUum8aqu1tjvHCNC8Lr8rjJahlUuHnGtTks75+DCltEGh+9A2Q1Ht9s07HnLao2oyIx9geu+bxEwZlA==
+ b=KI9pfK3IzCKmskNuLLNjWKOsXkgT1qgimoPsE6w9Na3/r0eaq2xy9Dzjcr8CO4MqHx436SchNc2V0apf29gcuYn/XJhuBH0lieR6+TxOmeW8P3/lQDp2PM3mfm/5kthwWOseCOFtwql6WoASdJ7l0YyMzePcO4Hjuq+/A8dXV6z1kxm+ycZ8J4iU/2FseCVHZSS+Q6Pyt3n5KUzN1VrzQzohNQhzQmlyQjL7OKtkCI1ybiD3q0oxGEzltFCxDuIF0k7/VU8v/0LqO/oVDcHD8r6va+3NZc0BtlPG6stQYatX49nZJ7E/teHQgWUIkzclMevJ4dSBTUqk8n2f4vpluA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NAdaREqpc9sX3X6h2LLoWCzx5FXjxLWvu7E/lWR5lEU=;
- b=IhDR4kZ2gqcuGKjsQ39wPU6gYTXND6EUfl+VAF8n5W6KvFSrb+V8xCgzww/80eWEim8W9TDmSmv10fNg+7vvg12C1EuZXA0ACirag601kEYLpfAjLv0DSEsaVDC5y2c8efAhhEH/h6ywIpTE60NmLPBJRdgSnbgFUpCvaY/QKbztsBeJTc4iB2xau7Up7uMZ/TW/B+FUPVmVQb8wRx3FIrDhZ7s42ycnvV71crd1oUSyB0XrLxS74delr8okVfsveCNYEXIOiPUfXaOPou/LLBRY8/nQmLzNcS4Z+8mQGC/qe73ZOL17OjgyYHWjegWypFM2snisJWbt1natxZreZQ==
+ bh=ku+6B/f2hbZg/RMFnqksMlwNqWlAh1NeLIbus46z+zQ=;
+ b=g+UUrIULqN9hItuSOygRXZMgnNoeE8T7Al2rtYt2ujL/5n/gq1WQqH+BC4zMzLi7frvAi7fmCnqvefFh49SgzDqU7KWthU3zfgmrPaNrRw4ASOQ0VT6q3Q7me1DFgzSO1Ur2oa5RRKZS6K0jAvcsflyJEUpqqIFN18MjPLrlt9kkNjZKXqNLQJNaj1ynBw9uHg1MmmNo+/WMDCufYke+Qxj7ThiwQoHGZ63UpxL64+nxI1MPgCY50QIUfxz+lICf+6mI1WYSMetZrxz5S+20B7J4wvWW5l+gA2Inx3v1CJC47kjLIii/zjf3HiBLE+6GreWhLezOGB0v6JxLUVm3og==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NAdaREqpc9sX3X6h2LLoWCzx5FXjxLWvu7E/lWR5lEU=;
- b=D9eNX2KA2+E90oU7Zy0iMUwchXdD1bIQpAZfvW0rsKBeLeeHK7lzp0T1icuKjtHa+o3vkLt8EwZIpb+jolZ47B/lvoEgs/qJ4Rgu1s+e3BKgWi5nDh8YnEx2uO1G5tTcKTDIuO94VrMVoNBS/tcVJfOLnTvTQ+Df0EN01LHrDWplTvt5ePd0c5QLKyMrfp7lk9aHWeF6ea+QEbHA/Gp0Nd6TCc+LuKL77dOV/7/ziVxYlzrDGissajfJHnISjaCtRn+Z+LAZ5P4SfG15MkWgpGvyBP+kkStuK/Qe34yOEgBi74uOfOMXBgw2X/YjWufgzRLuUNSCZA2t6ovUMuIq0g==
+ bh=ku+6B/f2hbZg/RMFnqksMlwNqWlAh1NeLIbus46z+zQ=;
+ b=c4Buh0RwETylyjx0EgNrPkGMKcKubiM7e/TCqH7BaV+tPfT6mu3AHsTCUj8gCt30IfE7iaILURIBLcfbA+6uN97FTf7GCEOkP2UZL+u+PBkJ48kwA4cc8vFIiL2yeXVxXkr63u6bFtRS1Z38zCvoqBqrZ+eqUa+iZNopMkEx25orNuilper2aT7yVRSOTITaP+6itYkkkPSy07EX9rFSUnNP8YyHgkEHDtk+r3apSIlUHOIt393HKQs0jcj8xzKYqjxvCMYwkuTzeGnX2CDy8VNsdqQgdVOTfwZmhNYI/WJfY2zRu0ZIjTPhAO3qrhJx/VbRXseazmzf6++aD8RpYg==
 Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by PAXP193MB1215.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:151::20) with
+ by AM8P193MB1107.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ed::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Wed, 22 Nov
- 2023 18:47:25 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 20:01:17 +0000
 Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
  ([fe80::fdd2:7dbf:e16c:f4a4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
  ([fe80::fdd2:7dbf:e16c:f4a4%5]) with mapi id 15.20.7025.020; Wed, 22 Nov 2023
- 18:47:25 +0000
+ 20:01:17 +0000
 From: Juntong Deng <juntong.deng@outlook.com>
-To: ryabinin.a.a@gmail.com,
-	glider@google.com,
-	andreyknvl@gmail.com,
+To: glider@google.com,
+	elver@google.com,
 	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
 	akpm@linux-foundation.org
 Cc: kasan-dev@googlegroups.com,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3] kasan: Improve free meta storage in Generic KASAN
-Date: Wed, 22 Nov 2023 18:46:31 +0000
+Subject: [PATCH] kfence: Replace local_clock() with ktime_get_boot_fast_ns()
+Date: Wed, 22 Nov 2023 20:00:26 +0000
 Message-ID:
- <VI1P193MB0752675D6E0A2D16CE656F8299BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <VI1P193MB0752A2F21C050D701945B62799BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.39.2
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [8w/MP3zGraWS4uWjx/FVeWYwAJLviw+P]
-X-ClientProxiedBy: LO4P123CA0670.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:351::16) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-TMN: [78f8OsnKq6VggDlHJdXdRclrcXszWgly]
+X-ClientProxiedBy: LO2P265CA0056.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:60::20) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
  (2603:10a6:800:32::19)
 X-Microsoft-Original-Message-ID:
- <20231122184631.32266-1-juntong.deng@outlook.com>
+ <20231122200026.105411-1-juntong.deng@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,152 +77,74 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PAXP193MB1215:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe5204d0-7ac3-4dc4-126e-08dbeb8b77e5
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|AM8P193MB1107:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef9e6723-a192-4f11-f7ae-08dbeb95c9e2
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	FhFwHOj97K3IaSouKOz2ZtU+bW284QYopMpEajKo9iqFb8wTBwfOL87yi3PqxkkPGSJAq1AiRorWmvjTNblB577xrfAtJhTprHIPOWHcUAuwIPaVQOPJZDyHdkF5WWzIiqJSe1XBx5dswX9yK9LM6hSIkPGlWYAFu63R1eXIsid1wY2g35wnC554gYlRUyN93mOy+l2OPvJxBPnuCzHwMr18etiyWNrCbYZgOg7rjEfQZxBwRSSsLK++26Jdd4IuweZgP1SKrl91ykfl4LRMRnv/sg8Bk0DNiBTQrYGWouG8GHnXLXLzuRUUDJwsBRiq8PJef9m0sCixlGTgzCzPRLlHNT287MrR7nA7kJIaZjNbj7X+RjHtNEn10nVdanb93MgpGZutPV63dX+9l/+nGXhW+4OSfqXWgI3ZU5EQysQrFfAz6b0fF4ulS/jfyquuLm3vuYvK6v4CXrlQ04FZ75Lts8DoZavZ4sZhCFGC9pko3upacnB6uw9yUACm/6gl1Q4YijPyejsR1g1D3ki/dNViOG/crz3msdWT4XQ806viDcqfGC01sDiSZMAaNxcd
+	UQAKRaIiU0gcqyk0DgShAMOy5HEjCltLkRQNeJ9CHrCE+vp7sI5YT4qJmmnjNpE6C6vboZxzf0dtu3spAdvzqRl7Pmk+bYwNQFOmuVcJCpkoKbWqi4VjAziSqSvI9JCYMQdyKo3vXMMy0O9urY7w/b1OzIn8j98w1q1/I8n+k6vApO+27uqh8RNR8+yC5sU6/g3/I//ATJpLuipU6Ke8fhNunyzwhLk76LuR95szd/I1o1QPbq29t9rZ6/XTBo6LoDPCgBGrNI5pGJv7dp/9bxM7aLhB0DaQU8oIRVuG+XQBYJWDYGppMakFw34EqPwFIHoELg9hcG/j6VKuC47+awQqVPlpskw3wPfjlcIhOcW6IyN9XV4GfI+yiFcqGNNv8pwlFmgeirtc3jlBh9QXtmLbMiNAmTcx+gT0kXkAFaU2Ctw/Sur5UbmF0Z7fwAZLWwM/qKAy7VaXIsg/Lx/FOCu7iqUz529hCXb1iERlkNhY7QeNmvzbBHcrkCTCeGNWTqUonOv7out/aM2M1vEnq7pagqP+Ve5oisdagnobH62WCMZr8p2RtldQ3fsJZd1A
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NykJukja7eguyySaGEKB75IHOb29H2Xo67LGOQGcfROv03MsIXaQi06/j7BX?=
- =?us-ascii?Q?JHxfccaF2Qy7tUNbZ/iujsiadwbcnepdGkulfvYcU5VbK3M28QL+wckQQWTi?=
- =?us-ascii?Q?D8z/m7pLhhbZ0PkOYVMKeuNgPujR68cCbVCBhJGzG81aIidGjnmnH2vnH+7G?=
- =?us-ascii?Q?fZ3d1bOl+gf5zrZ+oA/f2HwvHEuggq1qXREV/krvxZh1BuL4GaVkGOBKJ2lw?=
- =?us-ascii?Q?SOlHZ1nfBXSdCPp2H9EGjbPhbB6zNdMH9EjyRDpt0j4I/PkiHsBGiotRdE4v?=
- =?us-ascii?Q?NHqsCM4VeajXTfWgv5FnG8tkNZ5E4+GIPSts+VwcnSZ3caU9FmUo7CvSnZns?=
- =?us-ascii?Q?3NyybYNijhnlCtKPzSLFiZR686XcTvIIXWVGFs/i0bVGw8zyvYa1fnTRNIZs?=
- =?us-ascii?Q?beFnTOpNQos4wcdaMN4Ien/3Y1jfUpfYqFjhND58r0pfIjOUYjMT0sd89yEo?=
- =?us-ascii?Q?Y2PJGXC61iVbEcuVwKF/Y7tJA0uPjV0T9iqNcVKXcpOx9SLBdxKclrFT7LCB?=
- =?us-ascii?Q?+o2gBO1xHu4tomRcMgGJ4xhMkb+NtsGvBqOA4eeursAmS6t3OpA7GgBKTs43?=
- =?us-ascii?Q?SIPSQcPdKQ8Wom9jPxi7vZIDZc+gT6u/x4Kp0JSfcrQOkDI0lBqIeuHBosrn?=
- =?us-ascii?Q?unP2z6MYwqRnX91P3BhAV8EQkHVfOVvv13OMYEvXEjXUnzXGkrx06Cz7PDPf?=
- =?us-ascii?Q?M0no9FEbqbMEhmlaf9kaj6eQH/7vdWEuW1wZr7RATE/bqmQjtExXlxCjY+FV?=
- =?us-ascii?Q?V2Ewws6MU2EAtuFv6B8y2RhgFSaZQwnkOSQObk1xau+ucPtEvgYcMjnsJ/Sn?=
- =?us-ascii?Q?t5bh1XYZFLtS+njieX6Zc1B+JcbnmNMnkbGuo3RD/eK9slOt2YC6l9FKGX+l?=
- =?us-ascii?Q?W8GLQ0xmVZycCXXnwhTOYTxJeZfiIKdVUbXIFj8+B1C6urrZxtxWWjwG0ENk?=
- =?us-ascii?Q?PfRXbSqNpNRXeje+tCGkak9sYaUk+QYfRT/Ybo4FQokzD/Mc8WN+nbU37f1b?=
- =?us-ascii?Q?i6BnybE1bGKjE6gi3qxuhybSHWMgdIYOBu1jUIar8FJ79KAFK/3gD8lNG2P4?=
- =?us-ascii?Q?LjbaSOZbv4YtYcLK8bG4gwl8psg2JR3bu0vosRppFMqrZmqqGO96onQ3m/re?=
- =?us-ascii?Q?fzZ4isoJOhK1IgIdzeBq6JxKFjYaU5iPjKt5jLgNi/y1/PZ6u2NzYhoO+GE+?=
- =?us-ascii?Q?dTpn0pCGWey8LamIbCs8N0cZFoLY5h0osxFcvBTNWTJSTuVtRhdzVm1JBgU?=
+	=?us-ascii?Q?Eth6GuGvWtSiV7pZfMXjwvMT9vDzXPBrOtul90+uwKNpIdxDjqAJDOSK0fh9?=
+ =?us-ascii?Q?TJs0KqaOg2yBbJWG7Yem4LJ3WDxKIZAn8e3JYBOmFzHzws3PAvqnePAtzzIZ?=
+ =?us-ascii?Q?L1QY+QkUtTSFgjBKZgEKAOTfuG3Bpyxl6YgAejUEgRwQM+/VXxDi7C236Yvv?=
+ =?us-ascii?Q?PFaz6aRyQwiJtKphARUdda2M9QrgoJeHigJPGPzZlFbeW9iXaUpinyIYTt00?=
+ =?us-ascii?Q?U38Zkae+NkBwU5cyLNWb+sW4pZeruc8yEfDZpLuAbw35YhQeXiYzPxn6u0WQ?=
+ =?us-ascii?Q?0WIaz6Z6va+2ks+071KU1CATwLOSN22/F51O4FR1dx0M5NehKilNZE59P52d?=
+ =?us-ascii?Q?BXUVevCLEdPs7t8zxNFDiRFY5EZ2Ks98ZIxDb31/UHT5BGVJoTK3Vty+U4Rp?=
+ =?us-ascii?Q?burBJj7WPbEfEWrxn1c48F8LzOUCQuHW7rTDQMAxiLjjppec/DT6VjfSDDag?=
+ =?us-ascii?Q?BwFrESAvaX6jkxGpCUCIcRmXTAyYNeLuI4sFqc7mzDmUFllofx6jWJ0nvGJi?=
+ =?us-ascii?Q?HzNUkCn2R3I0fG+ik08g+0Aaes3uBo2vG4/Brj8Jy+HlPHS1AxWj1D5pFE8I?=
+ =?us-ascii?Q?Ct0/W1U8nvSM6PZhnWGZAmVd5VGiMTnSiGsuPGf5bN0RJGCZ4pg5BDfHhXhU?=
+ =?us-ascii?Q?qqaj1oJzO/+X+EB+rHKjf528WUX3Dwwwgyfytos1mQuSQrvxvqrvn+YonnFl?=
+ =?us-ascii?Q?DPV24MZgiMXucc9RAMAHiwWiDm2u0x/SSA0lrWlb+bjJx1QeXVeHI4StvuD5?=
+ =?us-ascii?Q?b2xDetXCHqlbpRZZuBKE/VxUB3ZJ3mbfWvrvbOV/F6OhoUOdUoEw0gJT1KzT?=
+ =?us-ascii?Q?UbSI+bVpmQdzt74w2QPb+J8L6CiumS5b1iriS3RplqIVcud09h6hrO/YAD0R?=
+ =?us-ascii?Q?jA+2x+CMmnGOjMfqidpCQjqDnC8RVp7SeKOfPDT7zKa50/Q0Y0rG+grzhSU0?=
+ =?us-ascii?Q?rmAlUu6vG8rgDPWLeAhioxwtIjXR2t1G0zF8qEcfz1WZ7fqhrCI0wJWOP48R?=
+ =?us-ascii?Q?J6gJaaRPesxN6kPO+4i3TJ1qNcyLZeGuWKLkMHyLxi/79vNox06FuAwVGsgl?=
+ =?us-ascii?Q?Ou1XoKr0eqVXBi/UVNLOmdGzOzyBBIsAe2nshn0B0rPtQPHtcpWb52HhWgDO?=
+ =?us-ascii?Q?gZz+EGrkbEpDL2MAxpaEENBlksuQ/XA5H5ypzcX40FBT3kU93oL8k1tzNO4w?=
+ =?us-ascii?Q?bL7ZRsUpOPcFHLFQU5CwnxClflFwd7dLFWgtXRQEffQZVXBmrHSM07xcGcc?=
  =?us-ascii?Q?=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe5204d0-7ac3-4dc4-126e-08dbeb8b77e5
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef9e6723-a192-4f11-f7ae-08dbeb95c9e2
 X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 18:47:25.1541
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 20:01:17.6566
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB1215
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P193MB1107
 
-Currently free meta can only be stored in object if the object is
-not smaller than free meta.
+The time obtained by local_clock() is the local CPU time, which may
+drift between CPUs and is not suitable for comparison across CPUs.
 
-After the improvement, when the object is smaller than free meta and
-SLUB DEBUG is not enabled, it is possible to store part of the free
-meta in the object, reducing the increased size of the red zone.
+It is possible for allocation and free to occur on different CPUs,
+and using local_clock() to record timestamps may cause confusion.
 
-Example:
+ktime_get_boot_fast_ns() is based on clock sources and can be used
+reliably and accurately for comparison across CPUs.
 
-free meta size: 16 bytes
-alloc meta size: 16 bytes
-object size: 8 bytes
-optimal redzone size (object_size <= 64): 16 bytes
-
-Before improvement:
-actual redzone size = alloc meta size + free meta size = 32 bytes
-
-After improvement:
-actual redzone size = alloc meta size + (free meta size - object size)
-                    = 24 bytes
-
-Suggested-by: Dmitry Vyukov <dvyukov@google.com>
 Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
 ---
-V2 -> V3: When SLUB DEBUG is enabled, the previous free meta
-storage method continues to be used. Cancel the change to
-kasan_metadata_size().
+ mm/kfence/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-V1 -> V2: Make kasan_metadata_size() adapt to the improved
-free meta storage
-
- mm/kasan/generic.c | 39 +++++++++++++++++++++++++++++----------
- 1 file changed, 29 insertions(+), 10 deletions(-)
-
-diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-index 4d837ab83f08..97713251053c 100644
---- a/mm/kasan/generic.c
-+++ b/mm/kasan/generic.c
-@@ -361,6 +361,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- {
- 	unsigned int ok_size;
- 	unsigned int optimal_size;
-+	unsigned int rem_free_meta_size;
-+	unsigned int orig_alloc_meta_offset;
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 3872528d0963..041c03394193 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -295,7 +295,7 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
+ 	track->num_stack_entries = num_stack_entries;
+ 	track->pid = task_pid_nr(current);
+ 	track->cpu = raw_smp_processor_id();
+-	track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
++	track->ts_nsec = ktime_get_boot_fast_ns();
  
- 	if (!kasan_requires_meta())
- 		return;
-@@ -394,6 +396,9 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 		/* Continue, since free meta might still fit. */
- 	}
- 
-+	ok_size = *size;
-+	orig_alloc_meta_offset = cache->kasan_info.alloc_meta_offset;
-+
  	/*
- 	 * Add free meta into redzone when it's not possible to store
- 	 * it in the object. This is the case when:
-@@ -401,23 +406,37 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 	 *    be touched after it was freed, or
- 	 * 2. Object has a constructor, which means it's expected to
- 	 *    retain its content until the next allocation, or
--	 * 3. Object is too small.
-+	 * 3. Object is too small and SLUB DEBUG is enabled. Avoid
-+	 *    free meta that exceeds the object size corrupts the
-+	 *    SLUB DEBUG metadata.
- 	 * Otherwise cache->kasan_info.free_meta_offset = 0 is implied.
-+	 * If the object is smaller than the free meta and SLUB DEBUG
-+	 * is not enabled, it is still possible to store part of the
-+	 * free meta in the object.
- 	 */
--	if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
--	    cache->object_size < sizeof(struct kasan_free_meta)) {
--		ok_size = *size;
--
-+	if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
- 		cache->kasan_info.free_meta_offset = *size;
- 		*size += sizeof(struct kasan_free_meta);
--
--		/* If free meta doesn't fit, don't add it. */
--		if (*size > KMALLOC_MAX_SIZE) {
--			cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
--			*size = ok_size;
-+	} else if (cache->object_size < sizeof(struct kasan_free_meta)) {
-+		if (__slub_debug_enabled()) {
-+			cache->kasan_info.free_meta_offset = *size;
-+			*size += sizeof(struct kasan_free_meta);
-+		} else {
-+			rem_free_meta_size = sizeof(struct kasan_free_meta) -
-+									cache->object_size;
-+			*size += rem_free_meta_size;
-+			if (cache->kasan_info.alloc_meta_offset != 0)
-+				cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
- 		}
- 	}
- 
-+	/* If free meta doesn't fit, don't add it. */
-+	if (*size > KMALLOC_MAX_SIZE) {
-+		cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
-+		cache->kasan_info.alloc_meta_offset = orig_alloc_meta_offset;
-+		*size = ok_size;
-+	}
-+
- 	/* Calculate size with optimal redzone. */
- 	optimal_size = cache->object_size + optimal_redzone(cache->object_size);
- 	/* Limit it with KMALLOC_MAX_SIZE (relevant for SLAB only). */
+ 	 * Pairs with READ_ONCE() in
 -- 
 2.39.2
 
