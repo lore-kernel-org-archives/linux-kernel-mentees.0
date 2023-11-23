@@ -1,88 +1,147 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459AD35F17
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 16:04:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644BF4B5B9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 18:04:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X76yXXE8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VN0je9TA"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id C308E6134B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 16:04:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C308E6134B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=X76yXXE8
+	by smtp2.osuosl.org (Postfix) with ESMTP id D432141633
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 18:04:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D432141633
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VN0je9TA
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9fwhnOpwUJdQ
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id QYyK9VUrA3up
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 23 Nov 2023 16:04:29 +0000 (UTC)
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 943586133C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 16:04:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 943586133C
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5bdfbd69bd5so1554101a12.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 08:04:29 -0800 (PST)
+	Thu, 23 Nov 2023 18:04:03 +0000 (UTC)
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 883E840519
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 18:04:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 883E840519
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-5aa481d53e5so792396a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 10:04:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700755469; x=1701360269; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1nBMYi0DQuFagtnZx4pcIi3eC9Jxr33rON8i5DT6+5o=;
-        b=X76yXXE88dIuEfwDaqTkUQlfaMQKKc8hEre5Yy3fLzLs8l/WJvsyNjOApLVCBGdtBF
-         8iAKYkbzdhnX3hCt2wmKTt2utg/Ckhp0K1wPgvRdrSCWOx/YZydL1DRp0Cfv2JMyB6nt
-         SzTU0gzG3riqhPCsG95Tajk8ZbR8I2YrqnlgHo6PirOsLDZhR7bseJjtefWkimRHTBdP
-         cxhGfmbLblHT/JwReFgNkz2EhATqUwgK+qUVw19Lo1ZnNfReunHSjfaV3f4gCHyxov0z
-         tnv5ZclpWFx08su3f6EKLpM2yOVfcjp9ttwruuaGvOsKD+JrsinkTFQpQWaOtNYshNRj
-         h2fA==
+        d=gmail.com; s=20230601; t=1700762643; x=1701367443; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=stx+9AzS1hxNweTdFlkIrchUwRIllZD+BwM1bokQ+ic=;
+        b=VN0je9TAz2WqiK6oCjO7Hs0V0O1MW/BX7fpUae3U+Qc8RsfKIkzzIavi5zf50pDPSl
+         5MABd9DWne6JlL9nGaKXLjdKNmkVFqWVv3v4O08PVYT83ZLrp/DE7TnRELO887gkhwZr
+         +mc3hwphltrbYN5fGcsLdvz1OiaUzkghPcDWNdi4WuV99rkYEHp7VejDvNNFwG/a4QKf
+         7VbttJBqyvpJNuWRPeqWBx/L0hvxYGFkZK3s10X38joKYWrP//QmFo7q2yZB9blVCLuy
+         hN4GlNk1pNpxSPGlGRZET6NQXvYcIlg3jNRa3z75dxwAPz0Qy/7K1fIAp5Z5JGEvGUW7
+         oUTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700755469; x=1701360269;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1nBMYi0DQuFagtnZx4pcIi3eC9Jxr33rON8i5DT6+5o=;
-        b=vJ2ltNL9i9hirNjFhqdrXeuQT7ZIgq+UUMB5aX08fxkiQuerdw+PEGoVUO5a1aHsLp
-         GG5ABxARr4Ba9bQ/AT/x9wOWu1PcyqdNS1/ynKesrAgSebsPQEXMaKBb/iVg/cfqFNrr
-         b+FYtzSHs0I+a+ZUJP3IQ80rGD8M0sqQ4u431PfZh4ebgAfCr0soUE/relxVMNoUAcWg
-         sK8i2vqwpvdBxLjbbld9NpW6ssTdKJ64l9yAdN+WXwt2r/IKfMcJReq3S6oaO+7IT01/
-         19legil/yOn/4aqB3bGWJNNcXz3HgPUUB1vAO00+/GYE9iusI55I2CmOXF7MxmtU89md
-         U9/Q==
-X-Gm-Message-State: AOJu0Yw1x6RBorz7EXo23fsoTNGkIOh8WZB7UcmGy7rE/D3W9o5TRjK6
-	76LZ5cOUBEWDUR5/UVkVFfQGacnVTnRnaboWTKM=
-X-Google-Smtp-Source: AGHT+IELrLprCSfFy6ldKP5CNjX12ykqpJOPuv3JZvYvGdgFBhURFR37CmAyCcv5mXBQTvoPa2KWCe0M2Shro7gi0qs=
-X-Received: by 2002:a17:90b:3b51:b0:280:a002:be85 with SMTP id
- ot17-20020a17090b3b5100b00280a002be85mr4198623pjb.20.1700755468832; Thu, 23
- Nov 2023 08:04:28 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700762643; x=1701367443;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=stx+9AzS1hxNweTdFlkIrchUwRIllZD+BwM1bokQ+ic=;
+        b=Yt9e5w4/hZaAINImWeteUh4S2woe45mfARr3OvAT8UjFKwFBqrdt9N26aUfC3w0fBj
+         xPjc8vP6nkgtL6GHTalPuTdiMwwmK6NxKOSQDRQ0ctjPfm4XSaI9Yntre4yvC4Op057R
+         tOVrN9Q5xaq+zTDbAsGSFUhH2S89OfOawEpP3brDPkEMmySI1sg/1Kjo5tAt5SjCuR4P
+         9rGltGkfuAATE+pJWnjHS8FBeg8p8ce8M2wUb2YeQs6xLc690Wf4tc1wsN4/JfQnyfED
+         n94x8EkWsH+xQpK0kMHNJo7g662TEG5hwYp9+05vvp07sOGw6kDSQ0XpuqWeV5/3OFxk
+         +fiw==
+X-Gm-Message-State: AOJu0Yz+5Lg/XDyB0xInidQnzSUI3t4K8m6Rc2LaHifW6U9ZdrMFrP1c
+	wJyePuXTDQL4M6D5EEwDh9E=
+X-Google-Smtp-Source: AGHT+IHrWhEj86WzYWL6a84JcO1BoWmYmVa5WsWZqLO6yNPj2DSpacRa6t4UcmaO09lhMDici3w3bw==
+X-Received: by 2002:a17:90b:3005:b0:27d:3be:8e13 with SMTP id hg5-20020a17090b300500b0027d03be8e13mr226491pjb.12.1700762642776;
+        Thu, 23 Nov 2023 10:04:02 -0800 (PST)
+Received: from swarup-virtual-machine ([171.76.83.22])
+        by smtp.gmail.com with ESMTPSA id fs14-20020a17090af28e00b002839815d352sm1809723pjb.25.2023.11.23.10.04.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 10:04:02 -0800 (PST)
+Date: Thu, 23 Nov 2023 23:33:57 +0530
+From: swarup <swarupkotikalapudi@gmail.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH net-next v3] netlink: specs: devlink: add some(not all)
+ missing attributes in devlink.yaml
+Message-ID: <ZV+UDY0B8AEkdVxc@swarup-virtual-machine>
+References: <20231123100119.148324-1-swarupkotikalapudi@gmail.com>
+ <ZV8lf8L8Me+T7iIW@nanopsycho>
+ <ZV9FnjRH6VTwWaaX@swarup-virtual-machine>
+ <ZV9MpLBwS1ndszzf@nanopsycho>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <VI1P193MB0752675D6E0A2D16CE656F8299BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
- <VI1P193MB0752282E559B37F12EB7982599B9A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-In-Reply-To: <VI1P193MB0752282E559B37F12EB7982599B9A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 23 Nov 2023 17:04:17 +0100
-Message-ID: <CA+fCnZdTo0giqBjukHYpwjGL97NnVtmenHkg1YBi1Su+DoZf4g@mail.gmail.com>
-Subject: Re: [PATCH v3] kasan: Improve free meta storage in Generic KASAN
-To: Juntong Deng <juntong.deng@outlook.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
-	vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZV9MpLBwS1ndszzf@nanopsycho>
 
-On Thu, Nov 23, 2023 at 11:43=E2=80=AFAM Juntong Deng <juntong.deng@outlook=
-.com> wrote:
->
-> Can someone help to apply the new version of the patch to linux-next?
-> to replace the buggy version of the patch.
+On Thu, Nov 23, 2023 at 01:59:16PM +0100, Jiri Pirko wrote:
+> Thu, Nov 23, 2023 at 01:29:18PM CET, swarupkotikalapudi@gmail.com wrote:
+> >On Thu, Nov 23, 2023 at 11:12:15AM +0100, Jiri Pirko wrote:
+> >> Thu, Nov 23, 2023 at 11:01:19AM CET, swarupkotikalapudi@gmail.com wrote:
+> >> >Add some missing(not all) attributes in devlink.yaml.
+> >> >
+> >> >Re-generate the related devlink-user.[ch] code.
+> >> >
+> >> >enum have been given name as devlink_stats(for trap stats)
+> >> >and devlink_trap_metadata_type(for trap metadata type)
+> >> >
+> >> >Test result with trap-get command:
+> >> >  $ sudo ./tools/net/ynl/cli.py \
+> >> >   --spec Documentation/netlink/specs/devlink.yaml \
+> >> >   --do trap-get --json '{"bus-name": "netdevsim", \
+> >> >                          "dev-name": "netdevsim1", \
+> >> >   "trap-name": "ttl_value_is_too_small"}' --process-unknown
+> >> > {'attr-stats': {'rx-bytes': 47918326, 'rx-dropped': 21,
+> >> >                'rx-packets': 337453},
+> >> > 'bus-name': 'netdevsim',
+> >> > 'dev-name': 'netdevsim1',
+> >> > 'trap-action': 'trap',
+> >> > 'trap-generic': True,
+> >> > 'trap-group-name': 'l3_exceptions',
+> >> > 'trap-metadata': {'metadata-type-in-port': True},
+> >> > 'trap-name': 'ttl_value_is_too_small',
+> >> > 'trap-type': 'exception'}
+> >> 
+> >> 1. You have to maintain 24 hours between submission of one
+> >> patch/patchset:
+> >> https://www.kernel.org/doc/html/v6.6/process/maintainer-netdev.html
+> >> 2. You didn't address my comment to last version
+> >> 
+> >Hi Jiri,
+> >
+> >I have read the above link, but missed the constraint
+> >of 24 hour gap between patches.
+> >I will be careful and not send the patch again within 24 hours.
+> >
+> >I could not understand your 2nd point.
+> >Does it mean i should not include
+> >test result e.g. "Test result with trap-get command: ...."
+> 
+> Does not make sense to me. If you put it like this, it implicates that
+> the trap attributes are the ones you are introducing in this patch.
+> However, you introduce much more.
+> 
+> 
+> >Or
+> >If it is something else, please elabroate more, which helps me to address your comment.
+> >
+> >I will try to clarify review comment, henceforth before sending new patchset for review.
+> >
+> >Thanks,
+> >Swarup
 
-It should appear there naturally once Andrew picks it up into the mm
-tree. It's the holiday time right now, so I would expect this will
-happen in a few days.
+Hi Jiri,
+
+I will submit a patch which has only trap attribute only changed.
+
+Thanks for the clarification.
+
+Thanks,
+Swarup
