@@ -1,136 +1,272 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4512B241F5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 12:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2DC2FC53
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 14:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="rMwOvEqB"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1cWTc6VQ"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id AA9FF4023F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 12:59:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AA9FF4023F
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=rMwOvEqB
+	by smtp1.osuosl.org (Postfix) with ESMTP id 19F23820DB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 14:59:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 19F23820DB
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=1cWTc6VQ
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.898
+X-Spam-Score: -17.601
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id rq2-G9DS05pf
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id F2esLTekxInF
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 23 Nov 2023 12:59:20 +0000 (UTC)
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 2D8D84013D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 12:59:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2D8D84013D
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9e1021dbd28so105961366b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 04:59:19 -0800 (PST)
+	Thu, 23 Nov 2023 14:59:33 +0000 (UTC)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AEAE8820B5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 14:59:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AEAE8820B5
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-50aba9b8955so2838e87.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 06:59:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1700744358; x=1701349158; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m3lEDfMbf4/5n8hKchOxqlgfXgkFHsFTDF69zq4AYLI=;
-        b=rMwOvEqBMVgw5vb4Zo75xi2nDkjUdewI7FOQMOeGrK9Fm2MjFEaO9JFskCvjh415+j
-         GtYcnn4JmDGUzEkMDP026X2neiwB3VgTnDNEo5QXYs0PUUSUJ+4NpltlUDOiO4L/l46x
-         zEJz9d3ykgBfleorvtsPnV3hqGWaHbPDT8NcB1U+hNpo7YONEOkJ/nk/+NYel36CfiOQ
-         HhNGdCHqZlZYOg9MmqlZ2H+z0d7j1AH00Hb0fhWi9Sz3V5YaccmS/ODQIUkL0B1qsiuz
-         lM2wZEg3Hux/Ce4ot9mOM+g4Pm48O2CGl//hjFAR50MWdAw6VY2872EQuHt5I/0Y8bYS
-         wz4w==
+        d=google.com; s=20230601; t=1700751570; x=1701356370; darn=lists.linuxfoundation.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=rjsWntyf3ek48ZMQ86Tl47VHUhxQBToAw1VMl26tGwI=;
+        b=1cWTc6VQO8lEO5PCCOxItNNYt81QRuBepTO7BUCK7nr0wbUKjGW994Df4X5TL03P5R
+         mq/QQ0a4JhoaFidqmA7ofz1rsmVFCg1RZcsSCdk3n36wvHGl4/ZqLPm6P5r8Huj3pjjL
+         LRYhwc6qfwYoFehZbKlaG36rthH7dC32xlG990H2uOKftETKsn+sYsuxEuBwGwu+/v64
+         KY0UBIGQEufRTwsk5Xp1DgTSaSDxloIEKIYFn4N+/D0Kp6oqYPdU+mHUo/Q/yIBIIzPb
+         OVQznw26HfQpEd4VxtfxnL+z7Uc82j6VkZ1dYtGUyLMv7Zf2rWNgJ1bhYzeMPsYfeKT0
+         Rh3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700744358; x=1701349158;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m3lEDfMbf4/5n8hKchOxqlgfXgkFHsFTDF69zq4AYLI=;
-        b=hN+aR2x9j0AlDV6eTBUngQGUrsslGOxoOnRi7OYozQlMPOE8cHIA4epVWqYgs0V1jO
-         jpp3ngRMVx3I8teMa7KgRXoxIxMOkW6pwtWHuIuc3D4bw0yVvPTCsRrdWLxpBgcgGy3U
-         VCO7A6oQkZSKF6Py6Bd0FfuzCNXjTMiVEFTwtOJ9/m6WTcOOAdakRtdMgngV4fk8jTyN
-         djN2B41tZdh3DRtCH7TSFsl7BL7EnHPX4zzUIezWbcbRt2mvCaBKnrW+af04HO1fPGsp
-         CvfSSB9Zkc9ZG1CQhOYluz8MspddtppvQH8kbVTuPsKayGrAln9/oBqQyW/LVTOQe3fP
-         +gag==
-X-Gm-Message-State: AOJu0Yzuo6UzpfkzFlBGsMTyMnfchtrlu0b8vsn7SSxlt34pKF9zZe/t
-	/d7wMSOGEZX/H7Fgm9FOP/OaQw==
-X-Google-Smtp-Source: AGHT+IEbbo+OCSVPb1MOZP7avY+hyd5lsGE7mpvnDA3Rh4qtJkO8g2wvOdUN7rUznRa1G2yr+69jZA==
-X-Received: by 2002:a17:906:6958:b0:a03:cde5:e02f with SMTP id c24-20020a170906695800b00a03cde5e02fmr4192652ejs.38.1700744357954;
-        Thu, 23 Nov 2023 04:59:17 -0800 (PST)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id g1-20020a170906348100b009de3641d538sm747565ejb.134.2023.11.23.04.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 04:59:17 -0800 (PST)
-Date: Thu, 23 Nov 2023 13:59:16 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: swarup <swarupkotikalapudi@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH net-next v3] netlink: specs: devlink: add some(not all)
- missing attributes in devlink.yaml
-Message-ID: <ZV9MpLBwS1ndszzf@nanopsycho>
-References: <20231123100119.148324-1-swarupkotikalapudi@gmail.com>
- <ZV8lf8L8Me+T7iIW@nanopsycho>
- <ZV9FnjRH6VTwWaaX@swarup-virtual-machine>
+        d=1e100.net; s=20230601; t=1700751570; x=1701356370;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rjsWntyf3ek48ZMQ86Tl47VHUhxQBToAw1VMl26tGwI=;
+        b=UJGmpHdnhZoVIb3xlMhzQS4eAAnRdv+p7ssOhOWuKWlfFay5rYkM1lq2JUifYP81/H
+         HzLVlQZfoi48SQ9FMhuIGXUSbMMQfI/xy7egAOGkzOLmX/vA5YBKsQBqUJ8EPLSY2aDy
+         xJz8pkbWdFtNgz1pzcTCaLVN4IB460KGQmpPX0Z5rcfFxf1JF0hQlf2euLna2SqBpBOC
+         lOmexacQfCvOh/ZLM9ek1KOtfHeMRBRUV//6TvIaTiagsnJaS3h7/7jHo0oBOVznEj97
+         k/qJiafjm36XddVd6IKoB3bJ/7eWdunvHtgqCb9hID4IlwHju4ZCmxsZbsAJ+Um324e4
+         DDvQ==
+X-Gm-Message-State: AOJu0YwwolJ1QuG2bmL3EY49gBC+4MIk+DfTQCFzdNC1+xjj8oc/Jt1I
+	mAEmCkO5ZLUM6Bbm8vDhkpMv2/BnE0LGF1d8lGjQag==
+X-Google-Smtp-Source: AGHT+IHIl/WBZ2iDyzl0IR+ziEaFAWIlCfOa3lmlYRCwgZw978+0QVt/5bBPs7XrHN1JL0NxP4OnuWDIrySOcoIbrbs=
+X-Received: by 2002:a19:ad43:0:b0:504:7b50:ec9a with SMTP id
+ s3-20020a19ad43000000b005047b50ec9amr144412lfd.1.1700751569826; Thu, 23 Nov
+ 2023 06:59:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZV9FnjRH6VTwWaaX@swarup-virtual-machine>
+References: <VI1P193MB0752058FAECD2AC1E5E68D7399B3A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CACT4Y+Ya4yTvAmaELJN5st3GJYo1KKzC9qw9sdD0g3jb48O7tg@mail.gmail.com>
+ <VI1P193MB075265616010AF82CE201ADD99B1A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CACT4Y+ZE8DO1u6NHATXC9tfcVS4diM0LO4r3cQ15HaGHVoFAbQ@mail.gmail.com> <VI1P193MB075296EFE305E5A6C3A4701699B9A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+In-Reply-To: <VI1P193MB075296EFE305E5A6C3A4701699B9A@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Thu, 23 Nov 2023 15:59:17 +0100
+Message-ID: <CACT4Y+akBeAOBhyxj4jBmOOS73+yVRJvh0rSXfDV8dt_aAGkwg@mail.gmail.com>
+Subject: Re: [RFC PATCH] kasan: Record and report more information
+To: Juntong Deng <juntong.deng@outlook.com>, Marco Elver <elver@google.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, 
+	vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thu, Nov 23, 2023 at 01:29:18PM CET, swarupkotikalapudi@gmail.com wrote:
->On Thu, Nov 23, 2023 at 11:12:15AM +0100, Jiri Pirko wrote:
->> Thu, Nov 23, 2023 at 11:01:19AM CET, swarupkotikalapudi@gmail.com wrote:
->> >Add some missing(not all) attributes in devlink.yaml.
->> >
->> >Re-generate the related devlink-user.[ch] code.
->> >
->> >enum have been given name as devlink_stats(for trap stats)
->> >and devlink_trap_metadata_type(for trap metadata type)
->> >
->> >Test result with trap-get command:
->> >  $ sudo ./tools/net/ynl/cli.py \
->> >   --spec Documentation/netlink/specs/devlink.yaml \
->> >   --do trap-get --json '{"bus-name": "netdevsim", \
->> >                          "dev-name": "netdevsim1", \
->> >   "trap-name": "ttl_value_is_too_small"}' --process-unknown
->> > {'attr-stats': {'rx-bytes': 47918326, 'rx-dropped': 21,
->> >                'rx-packets': 337453},
->> > 'bus-name': 'netdevsim',
->> > 'dev-name': 'netdevsim1',
->> > 'trap-action': 'trap',
->> > 'trap-generic': True,
->> > 'trap-group-name': 'l3_exceptions',
->> > 'trap-metadata': {'metadata-type-in-port': True},
->> > 'trap-name': 'ttl_value_is_too_small',
->> > 'trap-type': 'exception'}
->> 
->> 1. You have to maintain 24 hours between submission of one
->> patch/patchset:
->> https://www.kernel.org/doc/html/v6.6/process/maintainer-netdev.html
->> 2. You didn't address my comment to last version
->> 
->Hi Jiri,
+On Thu, 23 Nov 2023 at 11:06, Juntong Deng <juntong.deng@outlook.com> wrote:
 >
->I have read the above link, but missed the constraint
->of 24 hour gap between patches.
->I will be careful and not send the patch again within 24 hours.
+> On 2023/11/20 19:06, Dmitry Vyukov wrote:
+> > On Wed, 15 Nov 2023 at 22:53, Juntong Deng <juntong.deng@outlook.com> wrote:
+> >>
+> >> On 2023/11/14 15:27, Dmitry Vyukov wrote:
+> >>> On Mon, 13 Nov 2023 at 22:17, Juntong Deng <juntong.deng@outlook.com> wrote:
+> >>>>
+> >>>> Record and report more information to help us find the cause of
+> >>>> the bug (for example, bugs caused by subtle race condition).
+> >>>>
+> >>>> This patch adds recording and showing CPU number and timestamp at
+> >>>> allocation and free (controlled by CONFIG_KASAN_EXTRA_INFO), and
+> >>>> adds recording and showing timestamp at error occurrence (CPU number
+> >>>> is already shown by dump_stack_lvl). The timestamps in the report use
+> >>>> the same format and source as printk.
+> >>>>
+> >>>> In order to record CPU number and timestamp at allocation and free,
+> >>>> corresponding members need to be added to the relevant data structures,
+> >>>> which may lead to increased memory consumption.
+> >>>>
+> >>>> In Generic KASAN, members are added to struct kasan_track. Since in
+> >>>> most cases, alloc meta is stored in the redzone and free meta is
+> >>>> stored in the object or the redzone, memory consumption will not
+> >>>> increase much.
+> >>>>
+> >>>> In SW_TAGS KASAN and HW_TAGS KASAN, members are added to
+> >>>> struct kasan_stack_ring_entry. Memory consumption increases as the
+> >>>> size of struct kasan_stack_ring_entry increases (this part of the
+> >>>> memory is allocated by memblock), but since this is configurable,
+> >>>> it is up to the user to choose.
+> >>>>
+> >>>> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+> >>>> ---
+> >>>>    lib/Kconfig.kasan      | 11 +++++++++++
+> >>>>    mm/kasan/common.c      |  5 +++++
+> >>>>    mm/kasan/kasan.h       |  9 +++++++++
+> >>>>    mm/kasan/report.c      | 28 ++++++++++++++++++++++------
+> >>>>    mm/kasan/report_tags.c | 18 ++++++++++++++++++
+> >>>>    mm/kasan/tags.c        | 15 +++++++++++++++
+> >>>>    6 files changed, 80 insertions(+), 6 deletions(-)
+> >>>>
+> >>>> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> >>>> index fdca89c05745..d9611564b339 100644
+> >>>> --- a/lib/Kconfig.kasan
+> >>>> +++ b/lib/Kconfig.kasan
+> >>>> @@ -207,4 +207,15 @@ config KASAN_MODULE_TEST
+> >>>>             A part of the KASAN test suite that is not integrated with KUnit.
+> >>>>             Incompatible with Hardware Tag-Based KASAN.
+> >>>>
+> >>>> +config KASAN_EXTRA_INFO
+> >>>> +       bool "Record and report more information"
+> >>>> +       depends on KASAN
+> >>>> +       help
+> >>>> +         Record and report more information to help us find the cause of
+> >>>> +         the bug. The trade-off is potentially increased memory consumption
+> >>>> +         (to record more information).
+> >>>> +
+> >>>> +         Currently the CPU number and timestamp are additionally recorded
+> >>>> +         at allocation and free.
+> >>>
+> >>> Hi Juntong,
+> >>>
+> >>> Thanks for working on this.
+> >>>
+> >>
+> >>
+> >> Thanks for your reply!
+> >>
+> >>
+> >>> As a KASAN developer I understand what this is doing, but I am trying
+> >>> to think from a position of a user that does not know details of KASAN
+> >>> implementation. From this position it may be useful to say somewhere
+> >>> that information is recorded "per heap allocation". Perhaps something
+> >>> like:
+> >>>
+> >>> "Currently the CPU number and timestamp are additionally recorded for
+> >>> each heap block at allocation and free time".
+> >>
+> >>
+> >> Yes, I agree, that is a better expression.
+> >>
+> >>
+> >>>
+> >>> Also it's unclear what the memory consumption increase is. You say
+> >>> "potentially|, so may it not increase at all? If it increases, by how
+> >>> much? I obviously want more information, if I can afford it, but I
+> >>> can't understand if I can or not based on this description. I would
+> >>> assume that this may be a problem only for small/embedded devices.
+> >>> Can we provide some ballpark estimation of the memory consumption
+> >>> increase? And somehow say that's probably not an issue for larger
+> >>> machines?
+> >>>
+> >>
+> >>
+> >> How about this expression?
+> >>
+> >> Currently, in order to record CPU number and timestamp, the data
+> >> structure to record allocation and free information will increase
+> >> by 12 bytes.
+> >>
+> >> In Generic KASAN, this affects all allocations less than 32 bytes.
+> >> In SW_TAGS KASAN and HW_TAGS KASAN, depending on the stack_ring_size
+> >> boot parameter increases the memory consumption by
+> >> 12 * stack_ring_size bytes.
+> >
+> > Let's go with this version.
+> >
+> >
+> >>>>    endif # KASAN
+> >>>> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> >>>> index 256930da578a..7a81566d9d66 100644
+> >>>> --- a/mm/kasan/common.c
+> >>>> +++ b/mm/kasan/common.c
+> >>>> @@ -20,6 +20,7 @@
+> >>>>    #include <linux/module.h>
+> >>>>    #include <linux/printk.h>
+> >>>>    #include <linux/sched.h>
+> >>>> +#include <linux/sched/clock.h>
+> >>>>    #include <linux/sched/task_stack.h>
+> >>>>    #include <linux/slab.h>
+> >>>>    #include <linux/stacktrace.h>
+> >>>> @@ -50,6 +51,10 @@ void kasan_set_track(struct kasan_track *track, gfp_t flags)
+> >>>>    {
+> >>>>           track->pid = current->pid;
+> >>>>           track->stack = kasan_save_stack(flags, true);
+> >>>> +#ifdef CONFIG_KASAN_EXTRA_INFO
+> >>>> +       track->cpu = raw_smp_processor_id();
+> >>>> +       track->ts_nsec = local_clock();
+> >>>
+> >>> What does "local_" mean? Is this clock value comparable across CPUs?
+> >>>
+> >>
+> >>
+> >> No, local_clock is the local CPU clock and cannot be used for comparison
+> >> across CPUs, I made a mistake here.
+> >>
+> >> I delved into the clock subsystem of the Linux kernel today and I found
+> >> that we have two choices.
+> >>
+> >> - sched_clock(): based on jiffies, high performance, but on some
+> >> hardware, it will drift between CPUs.
+> >>
+> >> - ktime_get_boot_fast_ns(): based on clocksource, highly accurate,
+> >> can be compared between CPUs, but performance is worse (seqlock).
+> >>
+> >> I tested 100000 calls respectively on my laptop, the average of
+> >> sched_clock() is 17ns and the average of ktime_get_boot_fast_ns()
+> >> is 25ns.
+> >>
+> >> ktime_get_boot_fast_ns() takes about 1.5 times as long as sched_clock().
+> >>
+> >> With Generic KASAN enabled, the average of one memory allocation is
+> >> 3512ns on my laptop.
+> >>
+> >> Personally, I prefer ktime_get_boot_fast_ns() because it is more
+> >> accurate and the extra time is insignificant for the time required for
+> >> one memory allocation with Generic KASAN enabled.
+> >>
+> >> But maybe using ktime_get_boot_fast_ns() would have a more serious
+> >> impact on small/embedded devices.
+> >>
+> >> Which do you think is the better choice?
+> >
+> > I don't have a strong preference.
+> >
+> > Re drift of sched_clock(), do you mean unsynchronized RDTSC on
+> > different cores? I had the impression that RDTSC is synchronized
+> > across cores on all recent CPUs/systems.
+> >
 >
->I could not understand your 2nd point.
->Does it mean i should not include
->test result e.g. "Test result with trap-get command: ...."
+>
+> After discussions with Marco Elver, I now think that perhaps continuing
+> to use local_clock() is a better option.
+>
+> The full discussion with Marco Elver can be found at
+> https://groups.google.com/g/kasan-dev/c/zmxwYv8wZTg
+>
+> Because local_clock() is the clock source used by printk and is the
+> default clock source for ftrace.
+>
+> Using local_clock() as the clock source for KASAN reports makes it
+> easier to correlate the timestamps of allocations, frees, and errors
+> with the timestamps of other events in the system.
+>
+> This is perhaps more important than being able to accurately compare
+> across CPUs.
+>
+> What do you think?
 
-Does not make sense to me. If you put it like this, it implicates that
-the trap attributes are the ones you are introducing in this patch.
-However, you introduce much more.
 
-
->Or
->If it is something else, please elabroate more, which helps me to address your comment.
->
->I will try to clarify review comment, henceforth before sending new patchset for review.
->
->Thanks,
->Swarup
+If other similar tools (kfence, ftrace, printk) use local_clock(),
+then it's reasonable to use it in kasan as well.
