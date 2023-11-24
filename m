@@ -1,71 +1,72 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD3A944F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 07:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C90288D7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 13:20:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1SqGPKD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfmJ1M30"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A934A41B60
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 07:57:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A934A41B60
+	by smtp4.osuosl.org (Postfix) with ESMTP id 429D341E65
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 13:20:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 429D341E65
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c1SqGPKD
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FfmJ1M30
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.399
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id R7AVhiGmxB90
+	with ESMTP id 1wzlvyDZfZZT
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 24 Nov 2023 07:57:40 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0DA8F418A4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 07:57:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0DA8F418A4
+	Fri, 24 Nov 2023 13:20:05 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0519441E55
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 13:20:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0519441E55
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700812660; x=1732348660;
+  t=1700832004; x=1732368004;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DKmAQ2qYw1sLOGN0fetMZdbxePUZXL0fXN+bc7UmtX0=;
-  b=c1SqGPKDhIZGlGoym2gS28XBg19DqqDRvsLMHol3/0sEhYOh5/R/FEWn
-   Eo8DvDXknOcqFpWEYNKKuRuBj3DYl1TECHPr2tzqTcsqhr/na5Of44zEW
-   4u+ic1/pmC5sm7EMuSA3sVylSlQqPaXXyhAXAe7CAo0W68pbnNi8lc/HJ
-   wTFx0z7D4k++/FSjSIA5tqXRMwhRoqw9kCfPVyWjYQ0BM0UR/3fdCHyws
-   g/ukA4xreS+MKLWCCwHohOseKig2EMGivzl6ybdTWAFofWSdkqQHR4OFQ
-   JIzWH21st2hWEFmgqMQgsxlyrnW72280tUN5vqtH2e6PWAMUi0AQ1ward
+  bh=peRuZaBCZzr/v4C9Q1MvL6hloPYVyHK9MBs7TTjylkU=;
+  b=FfmJ1M30AnScMlYYLXf4c5B44Usi89tmrzsezpgUYObCi0IqVHS7Vg29
+   WqXYpJp+ruO1P5w+9NVMimV7KrSn6Zb+D/avMALgGVYlTiIsNBpoDn576
+   W86gc0PyxYbLKgD8W+Z+SY4pudi24GLvW5lxjdGuCmCOCJqqOOwnPXhxM
+   xv/Os3cPrIXZF6W6BnzaD9M7HQLDTi2p+HpsoqBKKg8XN8JQHmc8zTFmJ
+   HG+UFFerjThq0pxPcSGIMLisWTIRmb1ukT+P9q1IJVUqX67nk1dBARK/S
+   8lOcTw5YafoMOz3NTfabCgj8xpXIHRcq/Z7F56k+/mtjJ+nwAtKmeN5zs
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="395199307"
-X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
-   d="scan'208";a="395199307"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 23:57:38 -0800
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="382823365"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="382823365"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:20:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767393124"
-X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
-   d="scan'208";a="767393124"
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="885274437"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="885274437"
 Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 23 Nov 2023 23:57:35 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 24 Nov 2023 05:20:00 -0800
 Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1r6R49-0002F4-1m;
-	Fri, 24 Nov 2023 07:57:33 +0000
-Date: Fri, 24 Nov 2023 15:56:33 +0800
+	id 1r6W69-0002nb-2u;
+	Fri, 24 Nov 2023 13:19:57 +0000
+Date: Fri, 24 Nov 2023 21:19:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v3 3/3] iio: chemical: add support for Aosong AGS02MA
-Message-ID: <202311241129.HrMrED0B-lkp@intel.com>
-References: <20231121095800.2180870-3-anshulusr@gmail.com>
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Jeff LaBundy <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw
+ Gamepad
+Message-ID: <202311241512.0CL83yG6-lkp@intel.com>
+References: <20231121123409.2231115-2-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,48 +75,117 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231121095800.2180870-3-anshulusr@gmail.com>
+In-Reply-To: <20231121123409.2231115-2-anshulusr@gmail.com>
 
 Hi Anshul,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.7-rc2 next-20231124]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus hid/for-next linus/master v6.7-rc2 next-20231124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/dt-bindings-iio-chemical-add-aosong-ags02ma/20231121-180435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231121095800.2180870-3-anshulusr%40gmail.com
-patch subject: [PATCH v3 3/3] iio: chemical: add support for Aosong AGS02MA
-config: s390-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241129.HrMrED0B-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/input-joystick-driver-for-Adafruit-Seesaw-Gamepad/20231121-204243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20231121123409.2231115-2-anshulusr%40gmail.com
+patch subject: [PATCH v10 2/2] input: joystick: driver for Adafruit Seesaw Gamepad
+config: hexagon-randconfig-r123-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241512.0CL83yG6-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241129.HrMrED0B-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241512.0CL83yG6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311241129.HrMrED0B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241512.0CL83yG6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/chemical/ags02ma.c:150:34: warning: unused variable 'ags02ma_of_table' [-Wunused-const-variable]
-     150 | static const struct of_device_id ags02ma_of_table[] = {
+   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/input/joystick/adafruit-seesaw.c:21:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/input/joystick/adafruit-seesaw.c:300:34: warning: unused variable 'seesaw_of_table' [-Wunused-const-variable]
+     300 | static const struct of_device_id seesaw_of_table[] = {
          |                                  ^
-   1 warning generated.
+   7 warnings generated.
 
 
-vim +/ags02ma_of_table +150 drivers/iio/chemical/ags02ma.c
+vim +/seesaw_of_table +300 drivers/input/joystick/adafruit-seesaw.c
 
-   149	
- > 150	static const struct of_device_id ags02ma_of_table[] = {
-   151		{ .compatible = "aosong,ags02ma"},
-   152		{ /* Sentinel */ }
-   153	};
-   154	MODULE_DEVICE_TABLE(of, ags02ma_of_table);
-   155	
+   299	
+ > 300	static const struct of_device_id seesaw_of_table[] = {
+   301		{ .compatible = "adafruit,seesaw-gamepad"},
+   302		{ /* Sentinel */ }
+   303	};
+   304	MODULE_DEVICE_TABLE(of, seesaw_of_table);
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
