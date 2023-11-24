@@ -1,77 +1,71 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1353B4A98C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 18:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD3A944F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 07:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="di9T1HVL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1SqGPKD"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8135841FD7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 18:15:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8135841FD7
+	by smtp4.osuosl.org (Postfix) with ESMTP id A934A41B60
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 07:57:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A934A41B60
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=di9T1HVL
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=c1SqGPKD
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.898
+X-Spam-Score: -4.399
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DyGBH2Sq6F6C
+	with ESMTP id R7AVhiGmxB90
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 23 Nov 2023 18:15:25 +0000 (UTC)
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id ACEC441FC6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 18:15:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org ACEC441FC6
-Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-a00ac0101d9so155616466b.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 23 Nov 2023 10:15:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1700763322; x=1701368122; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTg9/NNZBMLZtAkv1MI2zSvlUaZGK/O1RTlt+dC1O7k=;
-        b=di9T1HVL4K6cFkF4nBaIi18pwtMARqrmBIO/AYUeJCKG+ZFXUuyPdhxX0nGwQcRmg5
-         J0yCI7wJhuWuM8yRtg/OanS63oUwQsjii/v5X3xekWSA9COhd7fXnX4fIfZGqqSqcNvz
-         d/alxegte9RvmlxzgIS7nptFwwoZY3rsJFDgreG2FRkRuv+KtwsRNeyq8XgHZFYJVLQS
-         Z1n3FqnE0BjxTbaidnw5md351Tc7vqHBUahjiBCirU6CQ5TsXgtjBBjJVjqf1v+yIpbC
-         eAi0PqRmuwy1Ka+Iu6S7/Y4Uc6HGAIdxGeMYu2n+FmWN52X3gcWfYMNoLvoF6BrtgwNy
-         U2KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700763322; x=1701368122;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cTg9/NNZBMLZtAkv1MI2zSvlUaZGK/O1RTlt+dC1O7k=;
-        b=Pj53ZP593ItyCM34+K666GWkkZBeZyTrAvPeakvg+2UfWm2xZEk1ILpyHY+pG6JIhC
-         +86ubYfuWvfwDJphY5AipFgtzB3LOSAy0ivdRAWJW8F4HHW4jxTLFftd+V9/PebtQInc
-         PrEixkQD/Sl/zvLfQsuPMIXQ6LKPUUDNCzoezeVjQK+uiyB3CeeUKQDNQZj7aLVJDNoi
-         AQW19KeNooc2b0/pyjoazPy+/N2xcaqTnTwwcXhh58hsAmgPvhEgUHHD8QyDob78AzUs
-         G4AxjyOlWPiHKPxTMgmmqRmo9prrwV6Kjk77J/C8mxUJlVMmmzRBbQ3H1AWV905AgSjI
-         SpEg==
-X-Gm-Message-State: AOJu0YzS4omONgprU2LKlfcbM+uhM59gefkpeh9PP31QeTXVzBXdHdPZ
-	WjtSSbSOEsH8XeUz+lqnUJ4rMw==
-X-Google-Smtp-Source: AGHT+IFhTRcigICH4DZrP5h/NtNQIkWD66iM2JYoZPmL7PNXFy0ysaEr+1AtehXHTiPeYDa1SDf2+w==
-X-Received: by 2002:a17:906:ae8c:b0:9fc:9a03:cc23 with SMTP id md12-20020a170906ae8c00b009fc9a03cc23mr86898ejb.21.1700763322253;
-        Thu, 23 Nov 2023 10:15:22 -0800 (PST)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id f4-20020a170906560400b009fcb5fcfbe6sm1057278ejq.220.2023.11.23.10.15.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 10:15:21 -0800 (PST)
-Date: Thu, 23 Nov 2023 19:15:20 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: swarup <swarupkotikalapudi@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH net-next v3] netlink: specs: devlink: add some(not all)
- missing attributes in devlink.yaml
-Message-ID: <ZV+WuPT9f5pDiHft@nanopsycho>
-References: <20231123100119.148324-1-swarupkotikalapudi@gmail.com>
- <ZV8lf8L8Me+T7iIW@nanopsycho>
- <ZV9FnjRH6VTwWaaX@swarup-virtual-machine>
- <ZV9MpLBwS1ndszzf@nanopsycho>
- <ZV+UDY0B8AEkdVxc@swarup-virtual-machine>
+	Fri, 24 Nov 2023 07:57:40 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0DA8F418A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 24 Nov 2023 07:57:39 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0DA8F418A4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700812660; x=1732348660;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DKmAQ2qYw1sLOGN0fetMZdbxePUZXL0fXN+bc7UmtX0=;
+  b=c1SqGPKDhIZGlGoym2gS28XBg19DqqDRvsLMHol3/0sEhYOh5/R/FEWn
+   Eo8DvDXknOcqFpWEYNKKuRuBj3DYl1TECHPr2tzqTcsqhr/na5Of44zEW
+   4u+ic1/pmC5sm7EMuSA3sVylSlQqPaXXyhAXAe7CAo0W68pbnNi8lc/HJ
+   wTFx0z7D4k++/FSjSIA5tqXRMwhRoqw9kCfPVyWjYQ0BM0UR/3fdCHyws
+   g/ukA4xreS+MKLWCCwHohOseKig2EMGivzl6ybdTWAFofWSdkqQHR4OFQ
+   JIzWH21st2hWEFmgqMQgsxlyrnW72280tUN5vqtH2e6PWAMUi0AQ1ward
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="395199307"
+X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
+   d="scan'208";a="395199307"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2023 23:57:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767393124"
+X-IronPort-AV: E=Sophos;i="6.04,223,1695711600"; 
+   d="scan'208";a="767393124"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 23 Nov 2023 23:57:35 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6R49-0002F4-1m;
+	Fri, 24 Nov 2023 07:57:33 +0000
+Date: Fri, 24 Nov 2023 15:56:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v3 3/3] iio: chemical: add support for Aosong AGS02MA
+Message-ID: <202311241129.HrMrED0B-lkp@intel.com>
+References: <20231121095800.2180870-3-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -80,74 +74,49 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZV+UDY0B8AEkdVxc@swarup-virtual-machine>
+In-Reply-To: <20231121095800.2180870-3-anshulusr@gmail.com>
 
-Thu, Nov 23, 2023 at 07:03:57PM CET, swarupkotikalapudi@gmail.com wrote:
->On Thu, Nov 23, 2023 at 01:59:16PM +0100, Jiri Pirko wrote:
->> Thu, Nov 23, 2023 at 01:29:18PM CET, swarupkotikalapudi@gmail.com wrote:
->> >On Thu, Nov 23, 2023 at 11:12:15AM +0100, Jiri Pirko wrote:
->> >> Thu, Nov 23, 2023 at 11:01:19AM CET, swarupkotikalapudi@gmail.com wrote:
->> >> >Add some missing(not all) attributes in devlink.yaml.
->> >> >
->> >> >Re-generate the related devlink-user.[ch] code.
->> >> >
->> >> >enum have been given name as devlink_stats(for trap stats)
->> >> >and devlink_trap_metadata_type(for trap metadata type)
->> >> >
->> >> >Test result with trap-get command:
->> >> >  $ sudo ./tools/net/ynl/cli.py \
->> >> >   --spec Documentation/netlink/specs/devlink.yaml \
->> >> >   --do trap-get --json '{"bus-name": "netdevsim", \
->> >> >                          "dev-name": "netdevsim1", \
->> >> >   "trap-name": "ttl_value_is_too_small"}' --process-unknown
->> >> > {'attr-stats': {'rx-bytes': 47918326, 'rx-dropped': 21,
->> >> >                'rx-packets': 337453},
->> >> > 'bus-name': 'netdevsim',
->> >> > 'dev-name': 'netdevsim1',
->> >> > 'trap-action': 'trap',
->> >> > 'trap-generic': True,
->> >> > 'trap-group-name': 'l3_exceptions',
->> >> > 'trap-metadata': {'metadata-type-in-port': True},
->> >> > 'trap-name': 'ttl_value_is_too_small',
->> >> > 'trap-type': 'exception'}
->> >> 
->> >> 1. You have to maintain 24 hours between submission of one
->> >> patch/patchset:
->> >> https://www.kernel.org/doc/html/v6.6/process/maintainer-netdev.html
->> >> 2. You didn't address my comment to last version
->> >> 
->> >Hi Jiri,
->> >
->> >I have read the above link, but missed the constraint
->> >of 24 hour gap between patches.
->> >I will be careful and not send the patch again within 24 hours.
->> >
->> >I could not understand your 2nd point.
->> >Does it mean i should not include
->> >test result e.g. "Test result with trap-get command: ...."
->> 
->> Does not make sense to me. If you put it like this, it implicates that
->> the trap attributes are the ones you are introducing in this patch.
->> However, you introduce much more.
->> 
->> 
->> >Or
->> >If it is something else, please elabroate more, which helps me to address your comment.
->> >
->> >I will try to clarify review comment, henceforth before sending new patchset for review.
->> >
->> >Thanks,
->> >Swarup
->
->Hi Jiri,
->
->I will submit a patch which has only trap attribute only changed.
->
->Thanks for the clarification.
+Hi Anshul,
 
-Better to just remove the "test result" from the description.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.7-rc2 next-20231124]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/dt-bindings-iio-chemical-add-aosong-ags02ma/20231121-180435
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20231121095800.2180870-3-anshulusr%40gmail.com
+patch subject: [PATCH v3 3/3] iio: chemical: add support for Aosong AGS02MA
+config: s390-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231124/202311241129.HrMrED0B-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231124/202311241129.HrMrED0B-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241129.HrMrED0B-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/chemical/ags02ma.c:150:34: warning: unused variable 'ags02ma_of_table' [-Wunused-const-variable]
+     150 | static const struct of_device_id ags02ma_of_table[] = {
+         |                                  ^
+   1 warning generated.
 
 
->
->Thanks,
->Swarup
+vim +/ags02ma_of_table +150 drivers/iio/chemical/ags02ma.c
+
+   149	
+ > 150	static const struct of_device_id ags02ma_of_table[] = {
+   151		{ .compatible = "aosong,ags02ma"},
+   152		{ /* Sentinel */ }
+   153	};
+   154	MODULE_DEVICE_TABLE(of, ags02ma_of_table);
+   155	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
