@@ -1,148 +1,123 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3389B9460
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 09:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF97BC147
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 10:03:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7s/mMnB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W8xDsvcR"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A279C4016B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 09:10:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A279C4016B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e7s/mMnB
+	by smtp4.osuosl.org (Postfix) with ESMTP id 2E8104210A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 10:03:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2E8104210A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=W8xDsvcR
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 78moBqLVSinJ
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id te2opG9br6nN
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 25 Nov 2023 09:10:38 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0F7EA400C5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 09:10:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0F7EA400C5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700903438; x=1732439438;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QdzRfqqMDGrm6F4e1ZpjewvxXCLTWBlTVCn5Wi8ZJlM=;
-  b=e7s/mMnBJ3LSTDzQReTmxoP37d2f9fMSSF7X+4mCbPJcKs7vg0xuJRRR
-   AxV2BaHPekBCiUJvBrDXTrm67158vf0hb1ZqGRAIyDT8VT4OLSeRUPe5R
-   9R9bS+G8xUXiCcG14I6MQ1OQCz1yr+Y8P4EMzVxqRNu6f4FA+k482SzaE
-   FBDnDkX4Wb1Pl98qrgqrVhiVjkS4qvfaTe0pskBXmUMujgEc/NbpqpHSR
-   iO8Wck9/Ln/GhcCgKu6j1t4MDlMviYdV6vnn0T6vd8jUe8bpf22fvIdr0
-   CWQid8+QSi1xLS5eA9b5nB0QDaZgECXFXjUddXjmsblh4a+U81y1ywuF1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="392268732"
-X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="392268732"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2023 01:10:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="1099303470"
-X-IronPort-AV: E=Sophos;i="6.04,226,1695711600"; 
-   d="scan'208";a="1099303470"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Nov 2023 01:10:18 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r6og4-0003p9-1e;
-	Sat, 25 Nov 2023 09:10:16 +0000
-Date: Sat, 25 Nov 2023 17:10:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshul Dalal <anshulusr@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Anshul Dalal <anshulusr@gmail.com>,
+	Sat, 25 Nov 2023 10:03:35 +0000 (UTC)
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 45F95420F7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 10:03:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 45F95420F7
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2854757f0f8so2184637a91.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 02:03:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700906614; x=1701511414; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QSDxTyLFtsnYDHG0zEBI3s1d8zvOlEcq91cg6PyUPyY=;
+        b=W8xDsvcRp+W2/PtArnfVxJC1FmWS7ONzUdmXR9Ixq+G3lchlXyu8Ni/qfFuSbOpJA9
+         PgCgkyhKhZR+fo90/lxIGvwRKzMRXsFUzuYxAtSUdgoa6mmT8G2xnstM7gJ+lQbekkMs
+         W9XCjyYYYeuM7ZGni3PhXZvF3yPOCfqzvnj7YeW0Qe1i3xABvpWKMYK48XH+By94lpbv
+         upTOkCbc6EgB7/J0ipj9NN0PT5etOJgFc2EzeBoOQIp/Vq+OYXWquED9jx5+Au2zrsNE
+         KDnUKvps8DCKgrYUzgJu4qnjDPWyCa1ohH1MEnH4K0CxZ0DG823QniRki0HfgEQPqRc2
+         IglA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700906614; x=1701511414;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QSDxTyLFtsnYDHG0zEBI3s1d8zvOlEcq91cg6PyUPyY=;
+        b=Cae2oPSpvDs6txhfrw1BvqVhLVTz/G1eNaqPHo376oXnYoUY3rDvcBtluGmvx8mL5+
+         FznX1gePRi7FHrUldVIcyO2BMyqZtmHegPkdX30trcfYp8hgyZVYX/MhfeAxR3hyMBgf
+         1hfS3tlMUwbilejaTP1PPLb+e/svFBTarqY78GiNwcPhVMSNRZrH3A6lBqonhcDlh4Gd
+         9Gx3sNzNsnI2Yv2tUh1GcNNqTXZw0oIPqZKiEogd82x+TqBlEm5Kx9HIgQbH33c7iEtr
+         SiayjAraLDgIkALfSRxYxh7MzDJUME3l39eBEN724RYcKX9fRo01NZKMcKBBkyRNkgx/
+         /QfA==
+X-Gm-Message-State: AOJu0Yx6cKRniT6QHJEeMr7SDXqSng7QZ+eS25Ng3uZ785dIWNwsYn6p
+	xT9dUc1MAF3L+7KhZ49a2X0=
+X-Google-Smtp-Source: AGHT+IE8P/9A9uFEhLK2eEUUCihHCn1yCc5ffgail4ByFUf22HfJlKgVqAX//mogYWt7YzUIR8PdxA==
+X-Received: by 2002:a17:90b:3ec8:b0:285:936a:86b5 with SMTP id rm8-20020a17090b3ec800b00285936a86b5mr3655332pjb.20.1700906614498;
+        Sat, 25 Nov 2023 02:03:34 -0800 (PST)
+Received: from archlinux.srmist.edu.in ([103.4.222.252])
+        by smtp.gmail.com with ESMTPSA id h24-20020a17090adb9800b0028593e9eaadsm2049035pjv.31.2023.11.25.02.03.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Nov 2023 02:03:34 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v3 3/3] iio: chemical: add support for Aosong AGS02MA
-Message-ID: <202311251636.m0yt3fIb-lkp@intel.com>
-References: <20231121095800.2180870-3-anshulusr@gmail.com>
+Subject: [PATCH v4 1/3] dt-bindings: vendor-prefixes: add aosong
+Date: Sat, 25 Nov 2023 15:31:36 +0530
+Message-ID: <20231125100139.193584-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231121095800.2180870-3-anshulusr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Anshul,
+Aosong Electronic Co., LTD. is a supplier for MEMS sensors such as AHT20
+temperature and humidity sensor under the brand name Asair
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+---
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.7-rc2 next-20231124]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Changes for v4:
+- no updates
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshul-Dalal/dt-bindings-iio-chemical-add-aosong-ags02ma/20231121-180435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231121095800.2180870-3-anshulusr%40gmail.com
-patch subject: [PATCH v3 3/3] iio: chemical: add support for Aosong AGS02MA
-config: arm-randconfig-r081-20231123 (https://download.01.org/0day-ci/archive/20231125/202311251636.m0yt3fIb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231125/202311251636.m0yt3fIb-lkp@intel.com/reproduce)
+v3: https://lore.kernel.org/lkml/20231121095800.2180870-1-anshulusr@gmail.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311251636.m0yt3fIb-lkp@intel.com/
+Changes for v3:
+- no updates
 
-New smatch warnings:
-drivers/iio/chemical/ags02ma.c:53 ags02ma_register_read() warn: unsigned 'ret' is never less than zero.
+v2: https://lore.kernel.org/lkml/20231115125810.1394854-1-anshulusr@gmail.com/
 
-Old smatch warnings:
-drivers/iio/chemical/ags02ma.c:63 ags02ma_register_read() warn: unsigned 'ret' is never less than zero.
+Changes for v2:
+- Changed vendor prefix from asair to aosong
 
-vim +/ret +53 drivers/iio/chemical/ags02ma.c
+v1: https://lore.kernel.org/lkml/20231107173100.62715-1-anshulusr@gmail.com/
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-    45	
-    46	static u32 ags02ma_register_read(struct i2c_client *client, u8 reg, u16 delay)
-    47	{
-    48		u32 ret;
-    49		u8 crc;
-    50		struct ags02ma_reading read_buffer;
-    51	
-    52		ret = i2c_master_send(client, &reg, sizeof(reg));
-  > 53		if (ret < 0) {
-    54			dev_err(&client->dev,
-    55				"Failed to send data to register 0x%x: %d", reg, ret);
-    56			return ret;
-    57		}
-    58	
-    59		/* Processing Delay, Check Table 7.7 in the datasheet */
-    60		msleep_interruptible(delay);
-    61	
-    62		ret = i2c_master_recv(client, (u8 *)&read_buffer, sizeof(read_buffer));
-    63		if (ret < 0) {
-    64			dev_err(&client->dev,
-    65				"Failed to receive from register 0x%x: %d", reg, ret);
-    66			return ret;
-    67		}
-    68		ret = be32_to_cpu(read_buffer.data);
-    69	
-    70		crc = crc8(ags02ma_crc8_table, (u8 *)&read_buffer.data,
-    71			   sizeof(read_buffer.data), AGS02MA_CRC8_INIT);
-    72		if (crc != read_buffer.crc) {
-    73			dev_err(&client->dev, "CRC error\n");
-    74			return -EIO;
-    75		}
-    76	
-    77		return ret;
-    78	}
-    79	
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 573578db9509..48d4ff635562 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -117,6 +117,8 @@ patternProperties:
+     description: Andes Technology Corporation
+   "^anvo,.*":
+     description: Anvo-Systems Dresden GmbH
++  "^aosong,.*":
++    description: Guangzhou Aosong Electronic Co., Ltd.
+   "^apm,.*":
+     description: Applied Micro Circuits Corporation (APM)
+   "^apple,.*":
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.1
+
