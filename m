@@ -1,66 +1,66 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352682F876
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510142FC35
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQrkcuYq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eY2Zgu/M"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 943F74016C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:36:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 943F74016C
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OQrkcuYq
+	by smtp1.osuosl.org (Postfix) with ESMTP id E427F81764
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:37:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E427F81764
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eY2Zgu/M
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nw21dmRP39qu
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ta1OqO3zZgey
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 25 Nov 2023 19:36:54 +0000 (UTC)
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A1E85400EF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:36:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A1E85400EF
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6cb90b33c1dso749429b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 11:36:54 -0800 (PST)
+	Sat, 25 Nov 2023 19:37:47 +0000 (UTC)
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 3CE618174D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:37:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3CE618174D
+Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-55b5a37acb6so520468a12.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 11:37:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700941014; x=1701545814; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1700941066; x=1701545866; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=7mSy6AtK6hcZt+Drsghr+39VrktzL88A/9JIeiEL+z4=;
-        b=OQrkcuYq7IMzosIitTKc4m0oM05Wnx1MoM1L02ppq0U8F+MkBvKkx2Qw2cj84G65Iz
-         ZTDuDH8JyfeBe9E4/eKgv5EW3Vmy9H4fRjoINl3jwpvEx3Y7fvfsjCgmdupY4rZlj5U9
-         9mJKFHgWYPdI3qPMxBB4W/wdBPEhxiOnSnw9VwiHSHYKxPxYAK9BWVEWu53B6DDDSfW2
-         7su+G8xN/Nma4D4vPZcpnhMQoMj9aB1rfM52K7IOwSAjjMvSwW5vR16Iql9Fd4mkJM2U
-         OuDM6I34s9E+r3BUkEdxAHL6ALA28wqx5JmKCqMilatLUyMaO0e3Ln/QcsWK52EjKOVh
-         m34Q==
+        bh=lDIBxA9kD5zfBqSmoblE0Q36en0y2Rsc1kRyQf2RpvI=;
+        b=eY2Zgu/MzwM2Web9QE5HkFzRZT5tKFqiIlPDgUIGhpI09nGI+0AhXnfUCMdTvcsbrj
+         NGe/iij1ycWC4j+khczhOVxDrZCjd/EeCqrKWS2GuOWl9TKNDtkF/1bgde9VdCl1A319
+         d+C6bxIn9xgmEr8lZ3Z2SfAcWxqe/FyzyyLpryFG5G3Y8l+609qx7vYDMzZWuFcb0deb
+         HdfQsLXy5zeNPQswfbwuAIy1sCuQPq6nEIvZP2yT2ZRRLQrStw11bHsAjaWsdL0/dkSG
+         YyTMgWBQt0Cspr5kjUdKipZvfwJT2KpPmGNJ+QLZjdFdnUOws74LbPc4QRi6ZeIy1/+/
+         47kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700941014; x=1701545814;
+        d=1e100.net; s=20230601; t=1700941066; x=1701545866;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7mSy6AtK6hcZt+Drsghr+39VrktzL88A/9JIeiEL+z4=;
-        b=BQl3uezUchXepUOequCSimoyGIhcQqUOfLTH0Xl9VzyJhTPoHcHB7M8MX2/kz8y3AL
-         lW/+A9ObEphZ7K3psEYXwDmjjaWJQmYvMpex+rFmWd6CsshO1bUn/j6l1rdnevHhUxV4
-         lDvYbujRXGk4B3PqrHP38VAwH73yseRIjTW7qywGsbCRUML0Dgz55t9MZyTvKrRXd1gw
-         YmXB2UkvC67Ivnzsn8BtJC4LbWG2c67MdW11hKFYfSkdc31oOtQNaPpGLgGN29xuT9Og
-         t09HNLQ+HPSOZZgDBTPqW1rLD1OtdHR8O1xD7XfeYIhL1zDLVQBWp6gQSbnNoaFeY6BV
-         WPsg==
-X-Gm-Message-State: AOJu0YzpCSWCJfVOYSEfgCQYFInrB9LBk8ABBlq2+ptop5zF4yXCvZjo
-	xrILwpWNldfYfaRXs5dRnAw=
-X-Google-Smtp-Source: AGHT+IFIYPXLZu1LFRAkgi5+zqXfm64WTV8o7ktHpacr0iImqsrY5DIuF+3qzI3NBYATNESj4FLsUw==
-X-Received: by 2002:a05:6a20:7f8c:b0:18b:8158:dfa4 with SMTP id d12-20020a056a207f8c00b0018b8158dfa4mr9909038pzj.5.1700941013947;
-        Sat, 25 Nov 2023 11:36:53 -0800 (PST)
+        bh=lDIBxA9kD5zfBqSmoblE0Q36en0y2Rsc1kRyQf2RpvI=;
+        b=woLHzmkJ2whJmu5eU66KOteRFHWW5tnLoTI7hikWUETIw1R2mTPe8kdICDpeiE1FT6
+         ambqs1NS3CTcG83y+hc01XtvnPkfhvu0M//sza2X3rLiI5ZAzdAWpJMlBt6rDp4Tus/o
+         oBIJo7rlpcx3W328offPQ1ZQMJgZjM9vG/33sbk8fqhlY0z+WWo2PhDME9o6/L+le+fs
+         RGz6HM210N49hMIZ/EscQAwPROOcIf0luv/9YFiWNUe7P0iTCZ4uGEuy22efZ9Lc2vp5
+         iiIUh5h8rhSC45/swdjfmGyGqsBD2N2E2S9AJK6s9Bhc0kjVZenFrkJR+NjEE4UxdCiK
+         nQFw==
+X-Gm-Message-State: AOJu0Yzw80FC15C2tEHtRUpVCEYZxu4NWwlE5FytOUvHzuZ4aFyye7Rx
+	h3dBllmJbBL1o80MRRTF7Z1Q1+j1TbhrMA==
+X-Google-Smtp-Source: AGHT+IENJDWPrj2AQtMqCZGty34ui9ZnqiqL7t6IzyBzgSeVGbG1NqW6Cf2dyMipIYQ2x4bWMQ504g==
+X-Received: by 2002:a05:6a00:1514:b0:6cb:d24b:894c with SMTP id q20-20020a056a00151400b006cbd24b894cmr8555929pfu.2.1700941066463;
+        Sat, 25 Nov 2023 11:37:46 -0800 (PST)
 Received: from [192.168.0.152] ([103.75.161.210])
-        by smtp.gmail.com with ESMTPSA id x23-20020aa793b7000000b006cb638ba1aasm4610588pff.49.2023.11.25.11.36.50
+        by smtp.gmail.com with ESMTPSA id x23-20020aa793b7000000b006cb638ba1aasm4610588pff.49.2023.11.25.11.37.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Nov 2023 11:36:53 -0800 (PST)
-Message-ID: <aaf69d6b-55ea-44de-b6c4-0eddd2b0aa0c@gmail.com>
-Date: Sun, 26 Nov 2023 01:06:48 +0530
+        Sat, 25 Nov 2023 11:37:46 -0800 (PST)
+Message-ID: <af53864a-39df-4530-bf3f-5277be8f0d4d@gmail.com>
+Date: Sun, 26 Nov 2023 01:07:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -68,19 +68,19 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver: scsi: Fix warning using plain integer as NULL
+Subject: Re: [PATCH] driver : edac : Fix warning using plain integer as NULL
 Content-Language: en-US
-To: oliver@neukum.org, aliakc@web.de, lenehan@twibble.org,
- jejb@linux.ibm.com, martin.petersen@oracle.com
-Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: tony.luck@intel.com, qiuxu.zhuo@intel.com, bp@alien8.de,
+ james.morse@arm.com, mchehab@kernel.org, rric@kernel.org
+Cc: linux-edac@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
+References: <20231109212157.1454726-1-singhabhinav9051571833@gmail.com>
 From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
+In-Reply-To: <20231109212157.1454726-1-singhabhinav9051571833@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/10/23 03:20, Abhinav Singh wrote:
+On 11/10/23 02:51, Abhinav Singh wrote:
 > Sparse static analysis tools generate a warning with this message
 > "Using plain integer as NULL pointer". In this case this warning is
 > being shown because we are trying to initialize  pointer to NULL using
@@ -88,23 +88,73 @@ On 11/10/23 03:20, Abhinav Singh wrote:
 > 
 > Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
 > ---
->   drivers/scsi/dc395x.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/edac/i7core_edac.c |  2 +-
+>   drivers/edac/sb_edac.c     | 10 +++++-----
+>   2 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/scsi/dc395x.c b/drivers/scsi/dc395x.c
-> index c8e86f8a631e..d108a86e196e 100644
-> --- a/drivers/scsi/dc395x.c
-> +++ b/drivers/scsi/dc395x.c
-> @@ -1366,7 +1366,7 @@ static u8 start_scsi(struct AdapterCtlBlk* acb, struct DeviceCtlBlk* dcb,
->   			"command while another command (0x%p) is active.",
->   			srb->cmd,
->   			acb->active_dcb->active_srb ?
-> -			    acb->active_dcb->active_srb->cmd : 0);
-> +			    acb->active_dcb->active_srb->cmd : NULL);
->   		return 1;
->   	}
->   	if (DC395x_read16(acb, TRM_S1040_SCSI_STATUS) & SCSIINTERRUPT) {
-Hello maintainers, any reviews or comments on this.
+> diff --git a/drivers/edac/i7core_edac.c b/drivers/edac/i7core_edac.c
+> index 23d25724bae4..08bf20c60111 100644
+> --- a/drivers/edac/i7core_edac.c
+> +++ b/drivers/edac/i7core_edac.c
+> @@ -376,7 +376,7 @@ static const struct pci_id_table pci_dev_table[] = {
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_i7core_nehalem),
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_lynnfield),
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_i7core_westmere),
+> -	{0,}			/* 0 terminated list. */
+> +	{NULL,}			/* 0 terminated list. */
+>   };
+>   
+>   /*
+> diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
+> index 0c779a0326b6..a3f50a66de33 100644
+> --- a/drivers/edac/sb_edac.c
+> +++ b/drivers/edac/sb_edac.c
+> @@ -439,7 +439,7 @@ static const struct pci_id_descr pci_dev_descr_sbridge[] = {
+>   
+>   static const struct pci_id_table pci_dev_descr_sbridge_table[] = {
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_sbridge, ARRAY_SIZE(pci_dev_descr_sbridge), 1, SANDY_BRIDGE),
+> -	{0,}			/* 0 terminated list. */
+> +	{NULL,}			/* 0 terminated list. */
+>   };
+>   
+>   /* This changes depending if 1HA or 2HA:
+> @@ -505,7 +505,7 @@ static const struct pci_id_descr pci_dev_descr_ibridge[] = {
+>   
+>   static const struct pci_id_table pci_dev_descr_ibridge_table[] = {
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_ibridge, 12, 2, IVY_BRIDGE),
+> -	{0,}			/* 0 terminated list. */
+> +	{NULL,}			/* 0 terminated list. */
+>   };
+>   
+>   /* Haswell support */
+> @@ -576,7 +576,7 @@ static const struct pci_id_descr pci_dev_descr_haswell[] = {
+>   
+>   static const struct pci_id_table pci_dev_descr_haswell_table[] = {
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_haswell, 13, 2, HASWELL),
+> -	{0,}			/* 0 terminated list. */
+> +	{NULL,}			/* 0 terminated list. */
+>   };
+>   
+>   /* Knight's Landing Support */
+> @@ -620,7 +620,7 @@ static const struct pci_id_descr pci_dev_descr_knl[] = {
+>   
+>   static const struct pci_id_table pci_dev_descr_knl_table[] = {
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_knl, ARRAY_SIZE(pci_dev_descr_knl), 1, KNIGHTS_LANDING),
+> -	{0,}
+> +	{NULL,}
+>   };
+>   
+>   /*
+> @@ -686,7 +686,7 @@ static const struct pci_id_descr pci_dev_descr_broadwell[] = {
+>   
+>   static const struct pci_id_table pci_dev_descr_broadwell_table[] = {
+>   	PCI_ID_TABLE_ENTRY(pci_dev_descr_broadwell, 10, 2, BROADWELL),
+> -	{0,}			/* 0 terminated list. */
+> +	{NULL,}			/* 0 terminated list. */
+>   };
+>   
+>   
+Hello maintainers, any reviews or comments
 
 Thank You,
 Abhinav Singh
