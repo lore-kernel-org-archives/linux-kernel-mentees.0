@@ -1,45 +1,45 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01AEAD4C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 11:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66019D530
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 12:07:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pZxw/pfQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijLyFy/Z"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 5B49882169
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 11:36:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5B49882169
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=pZxw/pfQ
+	by smtp4.osuosl.org (Postfix) with ESMTP id E58AA4015A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 12:07:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E58AA4015A
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=ijLyFy/Z
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jDtzkivAk8Vd
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id dtdmQeTpenpD
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 25 Nov 2023 11:36:25 +0000 (UTC)
+	Sat, 25 Nov 2023 12:07:53 +0000 (UTC)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 5464882158
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 11:36:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 5464882158
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A6BB9400C8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 12:07:53 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A6BB9400C8
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3EEA7603E0;
-	Sat, 25 Nov 2023 11:36:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4989AC433C7;
-	Sat, 25 Nov 2023 11:36:20 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id E1A1360BDC;
+	Sat, 25 Nov 2023 12:07:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49DF2C433C7;
+	Sat, 25 Nov 2023 12:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700912183;
-	bh=aCwCQvlfp9RlSvy/8J0HTVolXv3WTuhEcuknlDUIbko=;
+	s=k20201202; t=1700914072;
+	bh=D4kxke8I3u5kGrzOOHNBlvZ51Ki1vGdPFs5hwb4dDbs=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pZxw/pfQvVAlZYNi2K0gVG5mHhMKiATOenG9idjwmEqla54ee+Dajv1wLTV7OlNup
-	 /KkLSouuwAwxp2jQljbURTM2EDN5gqsZ1Ixi6ewNOF3nogJQZ7mb/IJ3J3aJORex6D
-	 /b4Rpg9P6n/FECD4vMXelSwFffToD1cFcqh17e5oMgGGk2uIDNobxnAgBIDWlr32EE
-	 EJcGDxM1LHdx6JKOrDJPNqatQaTiOAsspLKCwa6v/9g0SjglExjMgMEa2AMFviF3+F
-	 2O4f+3jeTMkRgdyACtsaCJWll3p7rKUXpmKWX2B+hhNittRpNuZdlaq5HKs9hbon6x
-	 C0eidqIl4PGow==
-Date: Sat, 25 Nov 2023 11:36:17 +0000
+	b=ijLyFy/ZtJRy6r9c6iO9ei8RPEudxWqyIYBBykt5rjPo695Qm5s3h7oxloOtucRfm
+	 o+OTQ+rzXrZXtoMhhHDpx9vqjJ6DHz7SuVMCykhGi+/7MmbKrSoNJuEz4vDumxSZel
+	 doOZXOpIAwfsVQiXRIls58IY5bDqHAYceYGRP/MpEsBdytonerHnulaTJlwVKVvvbh
+	 kEspLTFEdtI4FMSnFZ1T9rblRjDO9NR6Oqu6cDiV92/n0isG65dGb6u3ohAKb/XU3B
+	 GxLVvya9b1PFCoM+XyibJ0VyS06XmBEGE57RxysWUgA+1muRcwOntPlD+QCqB1qFlP
+	 wBGsWfadxVY0A==
+Date: Sat, 25 Nov 2023 12:07:44 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: Anshul Dalal <anshulusr@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
@@ -48,10 +48,11 @@ Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
  Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-kernel-mentees@lists.linuxfoundation.org, Shuah Khan
  <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] dt-bindings: iio: dac: add MCP4821
-Message-ID: <20231125113617.4d626bb2@jic23-huawei>
-In-Reply-To: <20231117073040.685860-1-anshulusr@gmail.com>
+Subject: Re: [PATCH 2/2] iio: dac: driver for MCP4821
+Message-ID: <20231125120744.23b0893d@jic23-huawei>
+In-Reply-To: <20231117073040.685860-2-anshulusr@gmail.com>
 References: <20231117073040.685860-1-anshulusr@gmail.com>
+	<20231117073040.685860-2-anshulusr@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -62,92 +63,387 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 17 Nov 2023 13:00:37 +0530
+On Fri, 17 Nov 2023 13:00:38 +0530
 Anshul Dalal <anshulusr@gmail.com> wrote:
 
-> Adds support for MCP48xx series of DACs.
+Hi Anshul,
+
+Comments inline.
+
+> Adds driver for the MCP48xx series of DACs.
+> 
+> Device uses a simplex SPI channel.
+> To set the value of an output channel, a 16-bit
+> data of following format must be written:
+
+Wrap anything that isn't specifically formatted at 75 chars not this short.  
+I could fix that whilst applying but you are going to be doing a v2 anyway
+so you can tidy it up :)
+
+> 
+> Bit field | Description
+> 15 [MSB]  | Channel selection bit
+>             0 -> Channel A
+>             1 -> Channel B
+> 13        | Output Gain Selection bit
+>             0 -> 2x Gain (Vref = 4.096V)
+>             1 -> 1x Gain (Vref = 2.048V)
+> 12        | Output Shutdown Control bit
+>             0 -> Shutdown the selected channel
+>             1 -> Active mode operation
+> 11-0 [LSB]| DAC Input Data bits
+>             Value's big endian representation is
+>             taken as input for the selected DAC
+>             channel.
+>             For devices with a resolution of less
+>             than 12-bits, only the x most
+>             significant bits are considered where
+>             x is the resolution of the device.
+> Reference: Page#22 [MCP48x2 Datasheet]
+> 
+> Supported devices:
+>   +---------+--------------+-------------+
+>   | Device  |  Resolution  |   Channels  |
+>   |---------|--------------|-------------|
+>   | MCP4801 |     8-bit    |      1      |
+>   | MCP4811 |    10-bit    |      1      |
+>   | MCP4821 |    12-bit    |      1      |
+>   | MCP4802 |     8-bit    |      2      |
+>   | MCP4812 |    10-bit    |      2      |
+>   | MCP4822 |    12-bit    |      2      |
+>   +---------+--------------+-------------+
+> 
+> Devices tested:
+>   MCP4821 [12-bit single channel]
+>   MCP4802 [8-bit dual channel]
+> 
+> Tested on Raspberry Pi Zero 2W
 > 
 > Datasheet:
 >   [MCP48x1] https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf
 >   [MCP48x2] https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf
+So Datasheet is part of the tag block so no line break between this
+and sign off.  The way to format this is to add two entries and apply comments
+after them.  Don't worry about long lines for this.
+
 > 
+
+Datasheet: https//.... #MCP48x1
+Datasheet: https//.... #MCP48x2
+Signed-off-by: ...
+
 > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-Hi Anshul,
+...
 
-Usually we mark vdd-supply as required given I guess device doesn't work
-without a supply. Obviously we don't actually have to provide it in a binding
-if the supply is always on and we are fine with a stub regulator being
-provided by the regulator subsystem.
+> diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
+> index 93b8be183de6..f5adc364de30 100644
+> --- a/drivers/iio/dac/Kconfig
+> +++ b/drivers/iio/dac/Kconfig
+> @@ -400,6 +400,16 @@ config MCP4728
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called mcp4728.
+>  
+> +config MCP4821
+> +	tristate "MCP4801/11/21/02/12/22 DAC driver"
+> +	depends on SPI
+> +	help
+> +	  Say yes here to build the driver for the Microchip MCP4801
+> +	  MCP4811, MCP4821, MCP4802, MCP4812 and MCP4822 DAC devices.
 
-There was some discussion about this a while back and conclusion was
-mark them required in bindings anyway.  We haven't yet updated this in all
-the older IIO bindings and it's a minor thing, but given the build warning
-on patch 2 you are going around again so might as well tidy that up!
+Numeric order her as well please.
 
-Jonathan
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called mcp4821.
+> +
+>  config MCP4922
+>  	tristate "MCP4902, MCP4912, MCP4922 DAC driver"
+>  	depends on SPI
 
+...
 
-> ---
->  .../bindings/iio/dac/microchip,mcp4821.yaml   | 63 +++++++++++++++++++
->  1 file changed, 63 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml b/Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
+> diff --git a/drivers/iio/dac/mcp4821.c b/drivers/iio/dac/mcp4821.c
 > new file mode 100644
-> index 000000000000..904de15300bd
+> index 000000000000..d08acf6b8993
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
-> @@ -0,0 +1,63 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/dac/microchip,mcp4821.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/iio/dac/mcp4821.c
+> @@ -0,0 +1,207 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
+> + *
+> + * Driver for Microchip MCP4801, MCP4811, MCP4821, MCP4802, MCP4812 and MCP4822
+> + *
+> + * Based on the work of:
+> + *	Michael Welling (MCP4922 Driver)
+> + *
+> + * Datasheet:
+> + *	MCP48x1: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf
+> + *	MCP48x2: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf
+> + *
+> + * TODO:
+> + *	- Configurable gain
+> + *	- Regulator control
+> + */
 > +
-> +title: Microchip MCP4821 and similar DACs
-> +
-> +description: |
-> +  Supports MCP48x1 (single channel) and MCP48x2 (dual channel) series of DACs.
-> +  Device supports simplex communication over SPI in Mode 0,1 and Mode 1,1.
-> +
-> +  +---------+--------------+-------------+
-> +  | Device  |  Resolution  |   Channels  |
-> +  |---------|--------------|-------------|
-> +  | MCP4801 |     8-bit    |      1      |
-> +  | MCP4811 |    10-bit    |      1      |
-> +  | MCP4821 |    12-bit    |      1      |
-> +  | MCP4802 |     8-bit    |      2      |
-> +  | MCP4812 |    10-bit    |      2      |
-> +  | MCP4822 |    12-bit    |      2      |
-> +  +---------+--------------+-------------+
-> +
-> +  Datasheet:
-> +    MCP48x1: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf
-> +    MCP48x2: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf
-> +
-> +maintainers:
-> +  - Anshul Dalal <anshulusr@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - microchip,mcp4801
-> +      - microchip,mcp4811
-> +      - microchip,mcp4821
-> +      - microchip,mcp4802
-> +      - microchip,mcp4812
-> +      - microchip,mcp4822
+> +#include <asm/unaligned.h>
+So in IIO at least header ordering is normally (each block alphabetical)
 
-Whilst I understand the reasoning of keeping these grouped by number of channels,
-I'd still rather see them in numeric order here and probably also in the table above.
-Given that grouping by resolution rather than channels would also be a valid choice,
-I don't see a strong reason to keep them out of order.
+linux/*.h
 
-Also, manufacturers often get creative with numbering (when they run of out of digits
-for example - maybe they'll do a 16 channel variant one day and then be stuck) so
-trying to group things is often a loosing game long term!
+linux/iio/*.h (it's an IIO driver so sometimes good to separate these out)
+
+asm/*.h (these are effectively even more specific so we put them in their own block.
+
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/types.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#define MCP4821_ACTIVE_MODE BIT(12)
+> +#define MCP4802_SECOND_CHAN BIT(15)
+> +#define MCP4821_CHAN_NUM    1
+Not used so drop this.
+
+> +
+> +/* DAC uses an internal Voltage reference of 4.096V at a gain of 2x */
+> +#define MCP4821_2X_GAIN_VREF_MV 4096
+> +
+> +enum mcp4821_supported_drvice_ids {
+> +	ID_MCP4801,
+> +	ID_MCP4811,
+> +	ID_MCP4821,
+> +	ID_MCP4802,
+
+Numeric order preferred throughout if we have long lists like this.
+
+> +	ID_MCP4812,
+> +	ID_MCP4822,
+> +};
+> +
+> +static int mcp4821_chan_count(enum mcp4821_supported_drvice_ids device_id)
+> +{
+> +	switch (device_id) {
+> +	case ID_MCP4801:
+> +	case ID_MCP4811:
+> +	case ID_MCP4821:
+> +		return 1;
+> +	default:
+
+I'd rather see this explicit for each device even though it's a few more lines
+of code.
+
+> +		return 2;
+> +	}
+> +}
+> +
+> +struct mcp4821_state {
+> +	struct spi_device *spi;
+> +	struct mutex lock;
+
+All locks need to have a comment describing the scope of data they are protecting.
+
+> +	u16 dac_value[2];
+> +};
+> +
+> +#define MCP4821_CHAN(channel_id, resolution)				\
+> +	{								\
+> +		.type = IIO_VOLTAGE,					\
+> +		.output = 1,						\
+> +		.indexed = 1,						\
+> +		.channel = (channel_id),				\
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
+> +		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE),	\
+> +		.scan_type = {						\
+> +			.sign = 'u',					\
+> +			.realbits = (resolution),			\
+> +			.storagebits = 16,				\
+> +			.shift = 12 - (resolution),			\
+> +		},							\
+> +	}
+> +
+> +static const struct iio_chan_spec mcp4821_channels[6][2] = {
+> +	[ID_MCP4801] = { MCP4821_CHAN(0, 8), {} },
+
+C will fill in the second entry with zeros without needing a {} and
+as we don't care about it anyway, just don't bother adding the {} placeholder,
+making it a bit neater.
+
+> +	[ID_MCP4811] = { MCP4821_CHAN(0, 10), {} },
+> +	[ID_MCP4821] = { MCP4821_CHAN(0, 12), {} },
+> +	[ID_MCP4802] = { MCP4821_CHAN(0, 8), MCP4821_CHAN(1, 8) },
+> +	[ID_MCP4812] = { MCP4821_CHAN(0, 10), MCP4821_CHAN(1, 10) },
+> +	[ID_MCP4822] = { MCP4821_CHAN(0, 12), MCP4821_CHAN(1, 12) },
+> +};
+> +
+> +static int mcp4821_read_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan, int *val,
+> +			    int *val2, long mask)
+> +{
+> +	struct mcp4821_state *state;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		state = iio_priv(indio_dev);
+> +		mutex_lock(&state->lock);
+
+Can use the new auto cleanup stuff for this to shorten things a tiny bit.
+
+		scoped_guard(mutex, &state->lock)
+			*val = state->dac_channel[chan->channel];
+
+Obviously very minor advantage here so I don't mind either way.
+
+> +		*val = state->dac_value[chan->channel];
+> +		mutex_unlock(&state->lock);
+> +		return IIO_VAL_INT;
+> +	case IIO_CHAN_INFO_SCALE:
+> +		*val = MCP4821_2X_GAIN_VREF_MV;
+> +		*val2 = chan->scan_type.realbits;
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int mcp4821_write_raw(struct iio_dev *indio_dev,
+> +			     struct iio_chan_spec const *chan, int val,
+> +			     int val2, long mask)
+> +{
+> +	struct mcp4821_state *state;
+> +	__be16 write_val;
+> +	u8 write_buffer[2];
+
+type of these two is backwards.  you are build the value in write_val, so that should
+just be a u16, then converting it to be16 so write_buffer should be __be16
+
+> +	int ret;
+> +	bool is_value_valid = val >= 0 && val < BIT(chan->scan_type.realbits) &&
+> +			      val2 == 0;
+> +	if (mask == IIO_CHAN_INFO_RAW && is_value_valid) {
+> +		state = iio_priv(indio_dev);
+> +
+> +		write_val = MCP4821_ACTIVE_MODE | val << chan->scan_type.shift;
+> +		if (chan->channel)
+> +			write_val |= MCP4802_SECOND_CHAN;
+> +		put_unaligned_be16(write_val, write_buffer);
+
+
+
+> +		ret = spi_write(state->spi, write_buffer, sizeof(write_buffer));
+> +		if (ret) {
+> +			dev_err(&state->spi->dev,
+> +				"Failed to write to device: %d", ret);
+> +			return ret;
+> +		}
+> +
+> +		mutex_lock(&state->lock);
+
+As above if you want to.
+
+
+> +		state->dac_value[chan->channel] = val;
+> +		mutex_unlock(&state->lock);
+> +		return 0;
+> +	} else {
+> +		return -EINVAL;
+Flip this and separate the unrelated conditions.
+	if (mask != IIO_CHAN_INFO_RAW)
+		return -EINVAL;
+
+	if (!is_value_valid)
+		return -EINVAL;
+
+	...
+
+reduces unnecessary indent and generally puts the errors 'out of line' which
+is common kernel approach and generally 'what we expect to see' when reviewing.
+
+
+> +	}
+> +}
+> +
+> +static const struct iio_info mcp4821_info = {
+> +	.read_raw = &mcp4821_read_raw,
+> +	.write_raw = &mcp4821_write_raw,
+> +};
+> +
+> +static int mcp4821_probe(struct spi_device *spi)
+> +{
+> +	struct iio_dev *indio_dev;
+> +	struct mcp4821_state *state;
+> +	const struct spi_device_id *id;
+> +
+> +	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*state));
+> +	if (indio_dev == NULL) {
+> +		dev_err(&spi->dev, "Failed to allocate iio device\n");
+> +		return -ENOMEM;
+		return dev_err_probe(&spi->dev, -ENOMEM,
+				     "failed to allocate IIO device\n");
+
+However that's very unlikely to ever happen, so you could just not bother
+with the message.
+
+> +	}
+> +
+> +	state = iio_priv(indio_dev);
+> +	spi_set_drvdata(spi, indio_dev);
+
+Why?
+
+> +	id = spi_get_device_id(spi);
+For dt bindings this relies on the fallback of breaking up the compatible.
+That's fragile, so add the data to the of_table as well + use pointers
+not enum values so that you can then use spi_get_device_match_data()
+which handles other firmware types as well and falls back to what you
+have here.
+
+> +
+> +	state->spi = spi;
+> +	mutex_init(&state->lock);
+> +
+> +	indio_dev->name = id->name;
+
+Also fragile (very weird things happen if you end up with fallback DT compatibles
+in the future).  So embed a string in a device specific structure as described
+below.
+
+> +	indio_dev->info = &mcp4821_info;
+> +	indio_dev->modes = INDIO_DIRECT_MODE;
+> +	indio_dev->channels = mcp4821_channels[id->driver_data];
+> +	indio_dev->num_channels = mcp4821_chan_count(id->driver_data);
+Combine channels and chan_count as static data in a
+struct mcp4821_info {
+	struct iio_chan_spec channels];
+	int num_channels;
+	const char *name;
+}
+> +	return devm_iio_device_register(&spi->dev, indio_dev);
+> +}
+> +
+> +static const struct spi_device_id mcp4821_id_table[] = {
+> +	{ "mcp4801", ID_MCP4801},
+use &mcp4821_data[ID_MCP4801] etc in here.. (with cast as needed, lots of
+examples in tree...
+> +	{ "mcp4811", ID_MCP4811},
+> +	{ "mcp4821", ID_MCP4821},
+> +	{ "mcp4802", ID_MCP4802},
+> +	{ "mcp4812", ID_MCP4812},
+> +	{ "mcp4822", ID_MCP4822},
+> +	{ /* Sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, mcp4821_id_table);
+> +
+> +static const struct of_device_id mcp4821_of_table[] = {
+> +	{ .compatible = "microchip,mcp4801"},
+and provide the data here as well. 
+> +	{ .compatible = "microchip,mcp4811"},
+> +	{ .compatible = "microchip,mcp4821"},
+...
+
+Thanks,
 
 Jonathan
 
 
->
