@@ -1,171 +1,110 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E670CA69
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:21:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352682F876
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sb6FVtOk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQrkcuYq"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 9C34860A5B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:21:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9C34860A5B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Sb6FVtOk
+	by smtp2.osuosl.org (Postfix) with ESMTP id 943F74016C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:36:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 943F74016C
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OQrkcuYq
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 1YxL3EzACG4b
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nw21dmRP39qu
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 25 Nov 2023 19:21:35 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6644960A5D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:21:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6644960A5D
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 8A4EEB829A5;
-	Sat, 25 Nov 2023 19:21:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6713C433C8;
-	Sat, 25 Nov 2023 19:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700940092;
-	bh=1WVqsLzDFggpUKiGezfN49UcPqnUKcOjEe2mjRbMP68=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Sb6FVtOkCPaRpLPtg39IxHFpRR+ZGljFDCKQdlnhkgIeNSWBwB8bJiHn/DNCTCLL3
-	 Vvpv8lcYUzPEN/+Ng0TTHMD2H73NK7lTGl0ULecuSORNkbRfSxaWcrieVlh+JbM/W9
-	 ZdrXI/JuVoXZj7bwqR0aFJhKm1UuL9IZma45ZcosTtpLwkDrdQ8QGHYWLqYFHv8VxK
-	 H8VO6ytzhzA4YaAcZKB4k9fdulwhI3qMqCe+KKiQFpKfbp0uydnFmZzl8jspqFFQPc
-	 sA/CP+YskZm8IzezzUj894fdmqenyp66/QYTPogPFsQV1f0U0mUwM+4qGrTcjswtfs
-	 xB6F4ROhy8hvA==
-Date: Sat, 25 Nov 2023 19:21:26 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Petre Rodan <petre.rodan@subdimension.ro>
-Cc: Jonathan Cameron <Jonathan.Cameron@Huawei.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, Conor Dooley
- <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Message-ID: <20231125192126.55cda541@jic23-huawei>
-In-Reply-To: <ZVukhMcY8A3Crxc_@sunspire>
-References: <20231117164232.8474-1-petre.rodan@subdimension.ro>
-	<20231117192305.17612-1-petre.rodan@subdimension.ro>
-	<5b2e4b05-9408-48ea-92ac-15883e102013@linaro.org>
-	<ZVtiVM2Gm1x1j_G1@sunspire>
-	<8aa11758-5eee-427b-adcb-c3578a521daf@linaro.org>
-	<ZVtv8x8LqGMhCisw@sunspire>
-	<20231120173929.00006a6d@Huawei.com>
-	<ZVukhMcY8A3Crxc_@sunspire>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	Sat, 25 Nov 2023 19:36:54 +0000 (UTC)
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id A1E85400EF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 19:36:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A1E85400EF
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6cb90b33c1dso749429b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 11:36:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700941014; x=1701545814; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7mSy6AtK6hcZt+Drsghr+39VrktzL88A/9JIeiEL+z4=;
+        b=OQrkcuYq7IMzosIitTKc4m0oM05Wnx1MoM1L02ppq0U8F+MkBvKkx2Qw2cj84G65Iz
+         ZTDuDH8JyfeBe9E4/eKgv5EW3Vmy9H4fRjoINl3jwpvEx3Y7fvfsjCgmdupY4rZlj5U9
+         9mJKFHgWYPdI3qPMxBB4W/wdBPEhxiOnSnw9VwiHSHYKxPxYAK9BWVEWu53B6DDDSfW2
+         7su+G8xN/Nma4D4vPZcpnhMQoMj9aB1rfM52K7IOwSAjjMvSwW5vR16Iql9Fd4mkJM2U
+         OuDM6I34s9E+r3BUkEdxAHL6ALA28wqx5JmKCqMilatLUyMaO0e3Ln/QcsWK52EjKOVh
+         m34Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700941014; x=1701545814;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7mSy6AtK6hcZt+Drsghr+39VrktzL88A/9JIeiEL+z4=;
+        b=BQl3uezUchXepUOequCSimoyGIhcQqUOfLTH0Xl9VzyJhTPoHcHB7M8MX2/kz8y3AL
+         lW/+A9ObEphZ7K3psEYXwDmjjaWJQmYvMpex+rFmWd6CsshO1bUn/j6l1rdnevHhUxV4
+         lDvYbujRXGk4B3PqrHP38VAwH73yseRIjTW7qywGsbCRUML0Dgz55t9MZyTvKrRXd1gw
+         YmXB2UkvC67Ivnzsn8BtJC4LbWG2c67MdW11hKFYfSkdc31oOtQNaPpGLgGN29xuT9Og
+         t09HNLQ+HPSOZZgDBTPqW1rLD1OtdHR8O1xD7XfeYIhL1zDLVQBWp6gQSbnNoaFeY6BV
+         WPsg==
+X-Gm-Message-State: AOJu0YzpCSWCJfVOYSEfgCQYFInrB9LBk8ABBlq2+ptop5zF4yXCvZjo
+	xrILwpWNldfYfaRXs5dRnAw=
+X-Google-Smtp-Source: AGHT+IFIYPXLZu1LFRAkgi5+zqXfm64WTV8o7ktHpacr0iImqsrY5DIuF+3qzI3NBYATNESj4FLsUw==
+X-Received: by 2002:a05:6a20:7f8c:b0:18b:8158:dfa4 with SMTP id d12-20020a056a207f8c00b0018b8158dfa4mr9909038pzj.5.1700941013947;
+        Sat, 25 Nov 2023 11:36:53 -0800 (PST)
+Received: from [192.168.0.152] ([103.75.161.210])
+        by smtp.gmail.com with ESMTPSA id x23-20020aa793b7000000b006cb638ba1aasm4610588pff.49.2023.11.25.11.36.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Nov 2023 11:36:53 -0800 (PST)
+Message-ID: <aaf69d6b-55ea-44de-b6c4-0eddd2b0aa0c@gmail.com>
+Date: Sun, 26 Nov 2023 01:06:48 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] driver: scsi: Fix warning using plain integer as NULL
+Content-Language: en-US
+To: oliver@neukum.org, aliakc@web.de, lenehan@twibble.org,
+ jejb@linux.ibm.com, martin.petersen@oracle.com
+Cc: linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
+From: Abhinav Singh <singhabhinav9051571833@gmail.com>
+In-Reply-To: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 20 Nov 2023 20:25:08 +0200
-Petre Rodan <petre.rodan@subdimension.ro> wrote:
+On 11/10/23 03:20, Abhinav Singh wrote:
+> Sparse static analysis tools generate a warning with this message
+> "Using plain integer as NULL pointer". In this case this warning is
+> being shown because we are trying to initialize  pointer to NULL using
+> integer value 0.
+> 
+> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+> ---
+>   drivers/scsi/dc395x.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/scsi/dc395x.c b/drivers/scsi/dc395x.c
+> index c8e86f8a631e..d108a86e196e 100644
+> --- a/drivers/scsi/dc395x.c
+> +++ b/drivers/scsi/dc395x.c
+> @@ -1366,7 +1366,7 @@ static u8 start_scsi(struct AdapterCtlBlk* acb, struct DeviceCtlBlk* dcb,
+>   			"command while another command (0x%p) is active.",
+>   			srb->cmd,
+>   			acb->active_dcb->active_srb ?
+> -			    acb->active_dcb->active_srb->cmd : 0);
+> +			    acb->active_dcb->active_srb->cmd : NULL);
+>   		return 1;
+>   	}
+>   	if (DC395x_read16(acb, TRM_S1040_SCSI_STATUS) & SCSIINTERRUPT) {
+Hello maintainers, any reviews or comments on this.
 
-> Hello!
-> 
-> On Mon, Nov 20, 2023 at 05:39:29PM +0000, Jonathan Cameron wrote:
-> > On Mon, 20 Nov 2023 16:40:51 +0200
-> > Petre Rodan <petre.rodan@subdimension.ro> wrote:
-> >   
-> > > Hello!
-> > > 
-> > > On Mon, Nov 20, 2023 at 03:04:07PM +0100, Krzysztof Kozlowski wrote:  
-> > > > On 20/11/2023 14:42, Petre Rodan wrote:
-> > > >     
-> > > > >>> +properties:
-> > > > >>> +  compatible:
-> > > > >>> +    enum:
-> > > > >>> +      - honeywell,hsc    
-> > > > >>
-> > > > >> Way too generic    
-> > > > > 
-> > > > > I'm new to this, please excuse my ignorance.
-> > > > > my driver covers all Honeywell pressure sensors under the "TruStability board mount HSC/SSC" moniker.    
-> > > > 
-> > > > We talk here about bindings, not driver. For the driver you can use
-> > > > whatever name is approved by reviewers of your driver.
-> > > >     
-> > > > > that is why my intention was to provide a rather generic name for the driver itself.
-> > > > > are you afraid that they will come up with a different device that they will call "hsc" in the future?
-> > > > > in this case honeywell,trustability-hsc would be fine?
-> > > > > 
-> > > > > as I see you prefer to target a particular chip, but I am a bit afraid that the end-user will be confused by needing to set up something like
-> > > > > 
-> > > > > pressure@28 {
-> > > > > 	compatible = "honeywell,hsc030pa";    
-> > > > 
-> > > > The compatible should be specific, thus for example match exact model
-> > > > number.    
-> > > 
-> > > there are an infinite number of combinations of 4 transfer functions and 118 ranges + one custom range, so providing an array with all specific chips that could end up as compatible is out of the question.
-> > > I was aiming at providing a generic name for the binding and get the transfer function and the pressure range as required parameters.
-> > >   
-> > > > If you can guarantee that all devices from given family are the same in
-> > > > respect of programming model and hardware requirements (e.g. supplies),
-> > > > then you could go with family name. However such guarantees are rarely
-> > > > given.    
-> > > 
-> > > I see your point.
-> > >   
-> > > > Therefore for mprls0025pa I agreed for using one specific model
-> > > > for entire family.
-> > > > 
-> > > > https://lore.kernel.org/all/d577bc44-780f-f25d-29c6-ed1d353b540c@linaro.org/
-> > > > 
-> > > >     
-> > > > > 	reg = <0x28>;
-> > > > > 	honeywell,transfer-function = <0>;
-> > > > > 	honeywell,pressure-range = "250MD";
-> > > > > };
-> > > > > 
-> > > > > ie. specifying "hsc030pa" as driver while his chip is not in the 030PA range, but 250MD.
-> > > > > 
-> > > > > so do you prefer
-> > > > >  honeywell,trustability-hsc  OR
-> > > > >  honeywell,hsc030pa    
-> > > > 
-> > > > I think the latter, just like we did for mprls0025pa. How many devices
-> > > > do you have there?    
-> > > 
-> > > both hsc and ssc have 118 ranges, 4 transfer functions and both can be requested from the manufacturer with custom measurement ranges.
-> > > 
-> > > ok,I will rename hsc->hsc030pa in the code as you requested.  
-> > 
-> > Where does pa come from?   
-> 
-> honeywell,hsc030pa was provided as an equivalent to honeywell,mprls0025pa (which is already in the repo).
-> 
-> '030PA' and '0025PA' define the pressure range (0-30, 0-25), the unit of measure (Psi) and the measurement type (Absolute) for a particular chip in the honeywell catalog. (please ignore the psi part, we convert everything to pascals).
-> but both my driver and Andreas Klinger's mprls0025pa actually provide a generic abstraction layer for entire series of sensors.
-
-ah ok. That's fine then - searching the datasheet I found didn't include that particular
-string, so I was rather confused.
-
-I'm fine with specific now you've explained where it came from!
-
-Jonathan
-
-> 
-> > If we are going generic, feels like trustability-ssc etc are more representative
-> > and matches the datasheet cover page.  
-> 
-> Krzysztof voted for non-generic, honeywell,mprls0025pa is already set up non-generic, my intent was to go generic.
-> 
-> I'll rewrite the code to whatever you guys feel is best.
-> 
-> peter
-> 
-> 
-
+Thank You,
+Abhinav Singh
