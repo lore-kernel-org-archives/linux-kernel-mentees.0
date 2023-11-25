@@ -1,163 +1,82 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35AE9A53
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 22:39:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="otEgidex"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1531595
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 23:21:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9E0CC814B8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 22:39:53 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9E0CC814B8
-Authentication-Results: smtp1.osuosl.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NETORG5796793-onmicrosoft-com header.b=otEgidex
+	by smtp2.osuosl.org (Postfix) with ESMTP id 90B1F400C6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 23:21:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 90B1F400C6
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.702
+X-Spam-Score: 0.856
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id x3w4KRxmCfke
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id F8L2-2yW7k9X
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 25 Nov 2023 22:39:52 +0000 (UTC)
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2062b.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8c::62b])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 9F69D814A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 22:39:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9F69D814A1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ocpls+Kd9u5f9xpTVIKs+rPrXWrcsed31qUjmAgDLXEEPj9Wrwe5LBMAoO0aG6+MkNOX5SXai1D663uk9mZByk6/lnpQbUoLDXwA/ddNPC6EKgV2r9bxjsiIXhJFsVSI8cKQHYwnmXo0cf5TzEv6grjdQQbum6mjpoq/a7iazrNqQhyAda45pitm6mcEe0bTDSIuy0Gic2eSAL1ewF9wbWclWrMtYPccozw4LxjyzS7KS8VsyHjHIJoNIvITL/igHwgb0k9ZGzpKu2MBIhGBE6FaRPq9RaEy8rjA9uOk1SGAHbVrXB3wUVvhIcCkhljWn9yjVZtZ+SzxFtUVtairUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lc8h7MyMCFM/s74QT6QBbByTMUt01ouZCRThragDUuY=;
- b=MSjVq7E1rzDqoWydg+ssWFU6BfTmZpJxfpOJAKU3bMN/fbepguiwfXyiMhEqQvGOi+7xG5SSj5+cfkPmbPDXfTbn3fVn0zkzmjffBLC26SkyBcfCmvd+pzmX6/WABJ46Xu7AsIlMa8B5zNc2iNmHaYUDBrFX3amzSGfFHgKYip9OEo8BO+RZ6R66ZxeYEpSFEsc3LeLsxLnCrvUWi/pPyu/SsP74PYdgNCdEn4eUKoLcpqTdabC1wSbr2+hQhIT3DTctBfYLwIc4yBK9E/e0zTyIr6QtVPLB/3BWO7HYs/NkQKkG+1cZ4zXr3sASsRWvrcDVGgq64PwY7xHR27xk/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Lc8h7MyMCFM/s74QT6QBbByTMUt01ouZCRThragDUuY=;
- b=otEgidex7JmNiw0urAqKVcOMX+3VjX1EHpTYkXWHRA4ElmFGVKsunpZnfJ0hxpnaRlH/QkNun9jB+e3DBTjS7I47Q9wV+MCar/HBEK5DIVVrzFjAoicYG3OM/fpi82wj2Lcb/n9WyTENO2UCQTL9nwYxpeCAFhedm8AWsk+Dbtw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=labundy.com;
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21) by CO1PR08MB7256.namprd08.prod.outlook.com
- (2603:10b6:303:f2::11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.25; Sat, 25 Nov
- 2023 22:39:48 +0000
-Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
- ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7025.022; Sat, 25 Nov 2023
- 22:39:47 +0000
-Date: Sat, 25 Nov 2023 16:39:44 -0600
-From: Jeff LaBundy <jeff@labundy.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] input: joystick: driver for Adafruit Seesaw
- Gamepad
-Message-ID: <ZWJ3sFfrVQA3djmi@nixie71>
-References: <20231027051819.81333-1-anshulusr@gmail.com>
- <20231027051819.81333-2-anshulusr@gmail.com>
- <d1dd2142-546f-42b7-8966-ab75fd4f8817@t-8ch.de>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d1dd2142-546f-42b7-8966-ab75fd4f8817@t-8ch.de>
-X-ClientProxiedBy: DM6PR02CA0121.namprd02.prod.outlook.com
- (2603:10b6:5:1b4::23) To SN4PR0801MB3774.namprd08.prod.outlook.com
- (2603:10b6:803:43::21)
+	Sat, 25 Nov 2023 23:21:07 +0000 (UTC)
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 421C2400B8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 23:21:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 421C2400B8
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-1cfc42c748eso488295ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 15:21:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700954466; x=1701559266;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=P8irKbRQf4ulqP864AaN8Yh83B8c2j63BxzIEMPOYPM=;
+        b=Z18gNbG6mXZXRDGJa93eTjjSBzvCHZQI7zd99dC7aTyk3zkVms9uKhGOtlN9M0Rhss
+         sZkW9ToK+TXXOxD6W2f/e4jt+T4H8C7U6IQl8UpIWKmc4paw3KK/0CvKXwV0FBfxwq8a
+         CJ59CrUNgcxmScnTSWqWYWnWZgnsNyj3Q7R04ueRYxSGZqoxRF69N3xJh4V/atwHh8b2
+         3+Blam2a/MgBQ86pFw/ENB/lwGhQivWCBd5ONNUWU1HDup7bpiQ7b+bEvDsqOSQnCpRy
+         FQSqZ0GRpjOAwzy8aCDM/tZD4VwtdSkCeN5aL6NJz7RVY2PTqOBnfgn2cUJnm975UccX
+         o0oA==
+X-Gm-Message-State: AOJu0YxLOycqjo7+imf/oDDpRwGLoLe4iUIkWPvc4/15VXHVAwAPVvPl
+	V/7agdRVyFke1BQBmjNSiElGZsO38tdtUj2ElwZ918Whieu6
+X-Google-Smtp-Source: AGHT+IFetQ4Ea4jYYNu4u1E8cYyU5EKkb9XFCyMuTXo4Yo84ERnycivmlcdAMjCkdweSpyAyN58iIPW0zBpeCEXnglUtqHcV13Dm
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|CO1PR08MB7256:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b7fc18b-73e4-4e5d-5c71-08dbee076da5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	kSbTiM/HpFODn3mtmdqA1DHi1VXuX+fsj1LKIezLoZgnhaU1JJuwznjWXXA5G2/tQjYWJ6fEMfaSACu4w6BxphjdCON/zHTDT66lVzC2Tj+cex41UrDCFbgtCzriTn9irJN3S699qNHa04KbMx0mNxkhvLCkoV233LNbUWaEGgrgs1e/f//Xb++mnwNWm/1YvdRisPLbk8erDqa7hRwa6iqz2hc/aisYVtZeDpkTgD33PCJV5Ze/dBUUfnRTnLl7w/6YU7FSqGu73OAR4nofvZlY1v/imORt6c5XkAr8ipFoVxXl7n0vuBv2zyFuwFfzLiEGWmw3kfxkq6g6vUUIa0AD43+TpGf6uhcKDXkYlvWHXUSQZL8hsKzBUCpFDYwPctaJa/qgSd1JOr4jOJ2g2fT522uKRBZKgHozZhsk4RH6s47hT+FbCMFor+msN1pvxXvjU4QE/cEb8/vIGHqqjlrQrmMuZQeuUb8ftycy1IC5HnE7BMWShrW73Ua874NEAy7qcGFpLFAvm7G1UrsmSqyx0+AbsQ2/Jc/5cHP75ecfPRfsup0RRdPXoSO2lNi9
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(346002)(366004)(396003)(136003)(39830400003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(38100700002)(33716001)(86362001)(41300700001)(4326008)(8936002)(8676002)(6916009)(54906003)(66476007)(316002)(66556008)(66946007)(9686003)(6512007)(6666004)(6506007)(478600001)(6486002)(5660300002)(7416002)(2906002)(4744005)(26005)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?bG9E84EpC2FUR3qvcvhyQ/gKOfxlfgvVKuQC8p72HGlGVwUdHWa1x+0MwQ?=
- =?iso-8859-1?Q?Dme/m96Tugaz+qIxN+iCJkPNaRS7Q0irTAV6NFde1LIbS7zyDe21bd0Juk?=
- =?iso-8859-1?Q?beJNYOms+VX+VdiscV5oQ6cI/zdosiduF62UiSlsQqENzYICzw4wCrZW4/?=
- =?iso-8859-1?Q?QsOfMo8yQVdcVCOQkJbqRQAJu4fn8dG17Z/5aRcfbpDerjxC8BWa1tzcXx?=
- =?iso-8859-1?Q?f4uoBCraOUMlNKYjThvJb4rlt32/t0jvB72thtHXEj4zcxU0AHvcLqsX2w?=
- =?iso-8859-1?Q?8cILi9d4FVMiAw65qhXvxUnGCWly+rXiAqyCbQXVgbcKOdWhpuX5DIpHQf?=
- =?iso-8859-1?Q?GHSDoRfCYh7eS4L09k/ahZbPylZ5a0ALsHqi5b42pn8XU+z2Hu9S5XM9Wm?=
- =?iso-8859-1?Q?xSnnwglDQqUQZ416fjzC2vnDrreZCLvITX9wONFeAt5uwNZyvKckiaHIHg?=
- =?iso-8859-1?Q?xSxuIjuHBUtbglpZlaUf9dmznBdE3DqEzERKYzYXc5zYfLDOfACHlMztho?=
- =?iso-8859-1?Q?iDpTecp3jYCnOjjlWr2jk+3uHaWfJ9+GMTWC5zFr0zhKp4KfWAiAXNhRjX?=
- =?iso-8859-1?Q?+VEg3h7j1kHOyFjT2ii1pr3rS6Uu7pJjdR3t5AvwlIAQmesCN/mjP0QyCp?=
- =?iso-8859-1?Q?ZK5p8LcTgNDwAhAR49pCB38FsrnBPsM0KjjYdIGQmzH7hzV5skiMcUAsnd?=
- =?iso-8859-1?Q?WAsg8Wrtoc02xRh3SNCSxTNAWWC3rpLFgST6OfzRZf5xRmQj+xPf0We5QP?=
- =?iso-8859-1?Q?JZsrQdyAlxS/81R2GsnHrqAqULN1afv/0anr3b/BQ9N1JvwE1pz5kdMj0s?=
- =?iso-8859-1?Q?P3iqMnS2zy01NnDQIP4cVFO/iy8xzCp2Wl8lrp6fCgcmyqJNnyJfona8Go?=
- =?iso-8859-1?Q?pco1i0GD5LWqOUH+T+5nqgUjiiHuyuwweA8xEKBm4eZ1iX5ADwk5uX0VqV?=
- =?iso-8859-1?Q?WmuyH+D0SnQqzxZBXYJuJR2F3o/AXqqvqo4MbZKgaxaQqc6sK5Cz75NF2T?=
- =?iso-8859-1?Q?q95JBqAw8Keu8eTZUBzd9ibnwRzbgY3eZMSk8ykhEU+KA9PkrEeTPs48aE?=
- =?iso-8859-1?Q?jjN5+kT2G9I+iySZ0vF4jFTNE2M+JWpl2lmkm67Zr6FrH0ijrg2zxu4WzC?=
- =?iso-8859-1?Q?dsYxMTG8QPhSIStMS8q120hxmK6ILkl3R9HQF3AYJKTGHz8IsJvi9qKGid?=
- =?iso-8859-1?Q?y0+A3noG/qR7E6q+BEwlXxf00Z13hX2nqjLQgZm2vaTS1hk1H88X3FpIHM?=
- =?iso-8859-1?Q?2WhvWaXqjSliqqa/lPoOWaLLyYo+hJjI2bSLYshAZHGiX6r9pBlML9VSbL?=
- =?iso-8859-1?Q?hCAbQcUsbzMRK64+Ph1nYs3zc6BjijanCIXzE0D1iWGL2Xv43bJhEF6r1e?=
- =?iso-8859-1?Q?qPlP1HGgOLKxkUQwWLgR7QxnxJiORiLJu4WD3s5OvAcz27azCh2f/HgTyp?=
- =?iso-8859-1?Q?Jmk8okUJe0KIYZEiR3mWd5TsMMibRWtZ4V/f9txWB4WdfLfDLFj1gu+niv?=
- =?iso-8859-1?Q?7GfS7RsoMaUEq2CXalLT6EzjS5jNCXBY5ZZaEzWPjzHo/bflAlqMhmqrvi?=
- =?iso-8859-1?Q?evwUSMMNVJMBAsME2uIp1dwwOBF7yoMYGHL+spuhBXJXzNHxWCMRUdmoTW?=
- =?iso-8859-1?Q?3Lmb8FJkXwSJG/Y5ezt6uZPwkYTuRTbmYX?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b7fc18b-73e4-4e5d-5c71-08dbee076da5
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2023 22:39:47.6645
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wj7QxmTzqplEy0Xx2bCXRQcSdE7KYzZY7dfPoHnBlmLpPuCTY5l4QQAruGChyYdkBVIq+kos21c/PoK8kZfFgg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR08MB7256
+X-Received: by 2002:a17:902:f68e:b0:1cc:20dd:8811 with SMTP id
+ l14-20020a170902f68e00b001cc20dd8811mr1631703plg.5.1700954466756; Sat, 25 Nov
+ 2023 15:21:06 -0800 (PST)
+Date: Sat, 25 Nov 2023 15:21:06 -0800
+In-Reply-To: <000000000000459c6205ea318e35@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c52fdb060b02522a@google.com>
+Subject: Re: [syzbot] [jfs?] UBSAN: array-index-out-of-bounds in xtSearch
+From: syzbot <syzbot+76a072c2f8a60280bd70@syzkaller.appspotmail.com>
+To: cuigaosheng1@huawei.com, dave.kleikamp@oracle.com, ghandatmanas@gmail.com, 
+	jfs-discussion@lists.sourceforge.net, juntong.deng@outlook.com, 
+	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, shaggy@kernel.org, 
+	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Thomas and Anshul,
+syzbot suspects this issue was fixed by commit:
 
-On Fri, Oct 27, 2023 at 06:14:58AM +0000, Thomas Weiﬂschuh wrote:
+commit a779ed754e52d582b8c0e17959df063108bd0656
+Author: Dave Kleikamp <dave.kleikamp@oracle.com>
+Date:   Thu Oct 5 14:16:14 2023 +0000
 
-[...]
+    jfs: define xtree root and page independently
 
-> > +struct seesaw_data {
-> > +	__be16 x;
-> > +	__be16 y;
-> 
-> The fact that these are big endian is now an implementation detail
-> hidden within seesaw_read_data(), so the __be16 can go away.
-> 
-> > +	u32 button_state;
-> > +} __packed;
-> 
-> While this was requested by Jeff I don't think it's correct.
-> The struct is never received in this form from the device.
-> I guess he also got confused, like me, by the fact that data is directly
-> read into the fields of the struct.
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16eb55af680000
+start commit:   72a85e2b0a1e Merge tag 'spi-fix-v6.2-rc1' of git://git.ker..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e2d7bfa2d6d5a76
+dashboard link: https://syzkaller.appspot.com/bug?extid=76a072c2f8a60280bd70
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15802088480000
 
-Apologies for some confusion on my part here; Thomas is correct and
-my comment can be disregarded. Originally I thought this struct was
-mapped to a continguous range of registers, but after studying the
-documentation some more, that is clearly not the case :)
+If the result looks correct, please mark the issue as fixed by replying with:
 
-Kind regards,
-Jeff LaBundy
+#syz fix: jfs: define xtree root and page independently
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
