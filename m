@@ -1,82 +1,232 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F1531595
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 23:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5C01FD6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 04:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.b="vFM4tTWm"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 90B1F400C6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 23:21:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 90B1F400C6
+	by smtp3.osuosl.org (Postfix) with ESMTP id BFD3460AA4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 04:10:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BFD3460AA4
+Authentication-Results: smtp3.osuosl.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=NETORG5796793.onmicrosoft.com header.i=@NETORG5796793.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NETORG5796793-onmicrosoft-com header.b=vFM4tTWm
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 0.856
+X-Spam-Score: -1.702
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id F8L2-2yW7k9X
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id iEOp13lv3v25
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 25 Nov 2023 23:21:07 +0000 (UTC)
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 421C2400B8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 23:21:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 421C2400B8
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-1cfc42c748eso488295ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 25 Nov 2023 15:21:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700954466; x=1701559266;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P8irKbRQf4ulqP864AaN8Yh83B8c2j63BxzIEMPOYPM=;
-        b=Z18gNbG6mXZXRDGJa93eTjjSBzvCHZQI7zd99dC7aTyk3zkVms9uKhGOtlN9M0Rhss
-         sZkW9ToK+TXXOxD6W2f/e4jt+T4H8C7U6IQl8UpIWKmc4paw3KK/0CvKXwV0FBfxwq8a
-         CJ59CrUNgcxmScnTSWqWYWnWZgnsNyj3Q7R04ueRYxSGZqoxRF69N3xJh4V/atwHh8b2
-         3+Blam2a/MgBQ86pFw/ENB/lwGhQivWCBd5ONNUWU1HDup7bpiQ7b+bEvDsqOSQnCpRy
-         FQSqZ0GRpjOAwzy8aCDM/tZD4VwtdSkCeN5aL6NJz7RVY2PTqOBnfgn2cUJnm975UccX
-         o0oA==
-X-Gm-Message-State: AOJu0YxLOycqjo7+imf/oDDpRwGLoLe4iUIkWPvc4/15VXHVAwAPVvPl
-	V/7agdRVyFke1BQBmjNSiElGZsO38tdtUj2ElwZ918Whieu6
-X-Google-Smtp-Source: AGHT+IFetQ4Ea4jYYNu4u1E8cYyU5EKkb9XFCyMuTXo4Yo84ERnycivmlcdAMjCkdweSpyAyN58iIPW0zBpeCEXnglUtqHcV13Dm
+	Sun, 26 Nov 2023 04:10:45 +0000 (UTC)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2061d.outbound.protection.outlook.com [IPv6:2a01:111:f400:7e8a::61d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 5C2E3607A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 04:10:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 5C2E3607A4
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FmjC6CKacskh5wIIq3uQ2imKUnCth1HT6E2HFahnlgKyIC4jFgI3+Yn8q4tg5LTeJzauarQ4XaU3+huZ7fg4nCn0CrSusA//ibTthuuDFAyzMHNmZ7MQfWh9AFasJS9iFm9sfCUuEmRL1W21cTFMWZkQdBdmYsowzTSZYFBDD2173JOhEDyk2/lkPxokAu9V+q/5XfwZmTGN84peDkYTtypjRZIkg1UwGVeu7FAQ/OEiT0fWjlgj8owBKqI9G9Wf/Lcwfqex99oyjlSUSjRNAblOPNSlFgyJ+N2YprJ7rlrcl2sxDhG91Zds2s5hj1//1Y/V/wgnPUHlDAJHNp1MOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cOx43Rm564whuojAtVKnnB22TdJx4wnlEB6caKxekrY=;
+ b=ggKZpM5dcRnhacMQajPU63/DYvZeRQO1LFC/irUpQyz6Qcz8Am+N6yIOTj0GYZ1pZtDSIUEtmJuEWxlDPrKUKqUVA8mtQRj97BsyMnfVVHQQPrM2TTrc07xcfDY7Qf9k4e1SfsB33SkyR0ASkXlzc6slN9MMpQ+6ijpM1fSZfR9n6z5RLlkZ7Cy9wQ5Ek8M0Kwi2gjoxpmZyomcJjBSwT4+T23sZCxTj1adIYxD+0v8HJo1VlgNmUekNEIi4nTGb01V03fHoeuqVtKTWiEjVJ2a6rGVss5/Z3HG/8zU47AeeN7/X/UJPwTlid7/Fl5WrQWtf0dS6cIZfNNri1ccPxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cOx43Rm564whuojAtVKnnB22TdJx4wnlEB6caKxekrY=;
+ b=vFM4tTWmybjovR/L8byD4QEywL73SufMfiPmTp7PfpqQ5vOlpDj1MyjoMrxGbYIm9KeL8eHNFOEtkRT866oQx1IyEvQ5BviBJAz/+0Ewm1ZQJY8yuBIxbojBwO67QydvzBQTRtzvHY5JvewPUIM5MX3JCe0sG6HzpD3ypGRhaYc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=labundy.com;
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21) by DM3PR08MB9645.namprd08.prod.outlook.com
+ (2603:10b6:8:1ae::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19; Sun, 26 Nov
+ 2023 04:10:40 +0000
+Received: from SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::36f2:78d1:ad7d:66da]) by SN4PR0801MB3774.namprd08.prod.outlook.com
+ ([fe80::36f2:78d1:ad7d:66da%4]) with mapi id 15.20.7025.022; Sun, 26 Nov 2023
+ 04:10:39 +0000
+Date: Sat, 25 Nov 2023 22:10:33 -0600
+From: Jeff LaBundy <jeff@labundy.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v8 1/2] dt-bindings: input: bindings for Adafruit Seesaw
+ Gamepad
+Message-ID: <ZWLFOV/U90bhm4ow@nixie71>
+References: <20231108005337.45069-1-anshulusr@gmail.com>
+ <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0defc0e3-dc15-459d-9e71-64f3c38a6931@t-8ch.de>
+X-ClientProxiedBy: SN7PR04CA0061.namprd04.prod.outlook.com
+ (2603:10b6:806:121::6) To SN4PR0801MB3774.namprd08.prod.outlook.com
+ (2603:10b6:803:43::21)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a17:902:f68e:b0:1cc:20dd:8811 with SMTP id
- l14-20020a170902f68e00b001cc20dd8811mr1631703plg.5.1700954466756; Sat, 25 Nov
- 2023 15:21:06 -0800 (PST)
-Date: Sat, 25 Nov 2023 15:21:06 -0800
-In-Reply-To: <000000000000459c6205ea318e35@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c52fdb060b02522a@google.com>
-Subject: Re: [syzbot] [jfs?] UBSAN: array-index-out-of-bounds in xtSearch
-From: syzbot <syzbot+76a072c2f8a60280bd70@syzkaller.appspotmail.com>
-To: cuigaosheng1@huawei.com, dave.kleikamp@oracle.com, ghandatmanas@gmail.com, 
-	jfs-discussion@lists.sourceforge.net, juntong.deng@outlook.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, shaggy@kernel.org, 
-	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN4PR0801MB3774:EE_|DM3PR08MB9645:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1be0dff7-ff30-4186-4fbd-08dbee35a662
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	whkkBWY1IYyE5Tkk0QpvkpcJjF4Xjo3VuKfr+bl/KgvSCQF4qDnVtadlRZa2NQBzUNudOtDfjeNbmTUxTeUBcy9eYMfVRK7z3GfjNIpMkPeZkQrHQJ4zoaSDJP+szzEtk1Qnujwg4Y5UQK5IxFJZ+ZQfhJYJnw+BgSgnjaIirW82P754RZ7zClkUzJh3zRbEraC/lQn8ed96u4DlJRqmQPgnrYWw0Q4PHYsJYKw3IG7yFl0iNYnfPZJkhcAs4PExxw8readcEh9oenT1ptMPF40k45AXekanh55fpFpoAOdjlFgAu8Cs7Ce6+3bIwRykNlO9Pf/bQdhIVNYM7cDSJ+F1N+KIAPwazwXdOX6G+KVEKDmeEYKu3fCKpLFdsjWZXlWbcxqP2hokQv3u2fv6nigX2WYPoTXNTVUNBq/oM5kuLFoOYPAecSDO32M5PSA9zVVP132ltkYSCoM+knMFmsjRldm3biG3dDOEzftdGhu568MSKJY7mPjOfTU618KcNWGHIkGq/Fa7XeUqbEF4xVHUm40syKLIjeiH7dzcG8k=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR0801MB3774.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(376002)(136003)(346002)(39830400003)(366004)(396003)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(66556008)(38100700002)(66476007)(54906003)(86362001)(6512007)(478600001)(6506007)(6666004)(33716001)(6486002)(9686003)(66946007)(2906002)(7416002)(66574015)(316002)(26005)(5660300002)(8936002)(41300700001)(8676002)(6916009)(966005)(4326008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?+ytXkehfYEaVCzuQlgU2OSjeAoNFUDRA3hRSydBszJzZ18EG4jlqsXc+Y4?=
+ =?iso-8859-1?Q?ROCRQQQS1ifstgPhZVytKmdFIOMAECagGTJRanTWwgivA1ubuH2KykjIJ4?=
+ =?iso-8859-1?Q?gXs2MOBmNaMnbD0RCr2EsQsDKx4nyi5jjqViKYz13R2l4JxpYEkoFkDyZD?=
+ =?iso-8859-1?Q?k1Eye5jARPq8d74zfqbCDnKaz6hhbq/6BIssyjSg1Q4C8Mqk0vtpHOSHAk?=
+ =?iso-8859-1?Q?hMKfUL7+328Pz1ylkbsQ16egnzxxSiQCOUAuX+mWSKWMqzOV6tpWAtLVyi?=
+ =?iso-8859-1?Q?ZSBBed+my3KR8kttzk1fFjwuoHBMgEf71N0CRYRzxjjrFMnjBaxrhcetcb?=
+ =?iso-8859-1?Q?BdxcEUqCN73eGnYN7cHIyPEK7sYj1/rm+3DRjVrCw3edFcZm5D/7iO2Tu1?=
+ =?iso-8859-1?Q?PL00KU9Mtwg0B4OYG63OqtVKBhCkPb9i9qA5e32E9g/5PHOVEwojtE33Nv?=
+ =?iso-8859-1?Q?kHi8azzL6THK+Y6WzAEGdxJSpwkjtXCft4Man+e9Pnf+6NkCoumQH5Htdw?=
+ =?iso-8859-1?Q?1sx3XeQeHMdymLwxrK/ds6TaoC96nkisgar62oN/pxvE6KWxwJ3ZaJlPuZ?=
+ =?iso-8859-1?Q?ypFSvTUBTpWIF2NOimkzG5X7HWR7NBCZSg6XBL+fQWHxZrVTX2ir/eJdQI?=
+ =?iso-8859-1?Q?RIUf68dYHS/BUqrDaXRKgKc6SYGeWiNYIu5q7Tlvscwy5MmmdT2uxzYhfz?=
+ =?iso-8859-1?Q?OPhPP5tnDpgp0seo9dBWTlpvc1d/u5vbXIvkIjZl1o2El6dv2/FHQltBhu?=
+ =?iso-8859-1?Q?VBl+CYZBYz+dPwF1OA3+cocVPSgeZtce87oTRiPs80qzh3XtAcsUXHzhWV?=
+ =?iso-8859-1?Q?MWcaRfc/0/Mt8/XvB9kbZu81sqThOOi+YJ/BmoRKRrd//UwNyxyAelAHuM?=
+ =?iso-8859-1?Q?mDLXmZRs5m9r2w0gQluqVCdutqN93xDC+UDtMH1tK2h0dR6tTW2qyOfVGK?=
+ =?iso-8859-1?Q?WkGO6fdmEvaRg/+BCFrjjixJnVj+lw9gA6ID0HWKQ7qd2JpsXTsndXqXEh?=
+ =?iso-8859-1?Q?CAaDY+2ewUN/cCutxiuyS+LpdqS1ghztMS7eUtb3CF7hRsEKprNHno7Pgg?=
+ =?iso-8859-1?Q?rQqMMWMBzKtY9NxO7ujOuarMlGyQdnCBdVxUyRgkvv56oy3kWIHttRFRjr?=
+ =?iso-8859-1?Q?5k8UUHPhQdHBaIXqLWu085NC7AKraRDvUVrHpsXkqf4WfrfQIsnjKKa1Zo?=
+ =?iso-8859-1?Q?nL1k7EWX4gG+klAttgklErZ0upYKC3c/0yETDcMJPvJXYXpH9yGiqRhCRE?=
+ =?iso-8859-1?Q?tl+GFKWtw3H4HF1X46NDrdr1iHXmZzTIVD7DzBDvHhamZyZvXVck4FYn4s?=
+ =?iso-8859-1?Q?XCTJh+qUGPNngrWJK4vXqj0iWGFq5li3CmOMRGK/vG8Io0UW/FxUCcxro2?=
+ =?iso-8859-1?Q?VZpuD3ynj9+X3qcdG57NoTEQ2xOHeuUZWv0EA2IgJmnwXBxCGt2IPQzDOA?=
+ =?iso-8859-1?Q?f5gFbNkoeEWHhuRfESsLa1WM2rVR9p17EeJla4KTorHYBjtE3myAafI6SE?=
+ =?iso-8859-1?Q?L4ZuJsmrAnkpVQyUpFAYFmaOW5Eu82TaeP8CZavd+77kYKBAKZh9VJCi8A?=
+ =?iso-8859-1?Q?GHyfDQYq1BkEa+VWV4czOj6E2BtN7QId4YmSgAbwUUU9abQye5Yaj/gniU?=
+ =?iso-8859-1?Q?uHcXZ9ilKPTE6azG6ljC1DN0oJq/JZVqBF?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1be0dff7-ff30-4186-4fbd-08dbee35a662
+X-MS-Exchange-CrossTenant-AuthSource: SN4PR0801MB3774.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2023 04:10:39.6603
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZeZFvRfx+K70dYnEV8wtl9ys3fkeUkTjUWYt9eIxTOmI2O4IhpVootleH2wY/uRH6FxTpDm6Z6jPzwNfMAyCqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR08MB9645
 
-syzbot suspects this issue was fixed by commit:
+Hi Thomas and Anshul,
 
-commit a779ed754e52d582b8c0e17959df063108bd0656
-Author: Dave Kleikamp <dave.kleikamp@oracle.com>
-Date:   Thu Oct 5 14:16:14 2023 +0000
+On Tue, Nov 14, 2023 at 08:20:46PM +0100, Thomas Weißschuh wrote:
+> On 2023-11-08 06:23:35+0530, Anshul Dalal wrote:
+> > Adds bindings for the Adafruit Seesaw Gamepad.
+> > 
+> > The gamepad functions as an i2c device with the default address of 0x50
+> > and has an IRQ pin that can be enabled in the driver to allow for a rising
+> > edge trigger on each button press or joystick movement.
+> > 
+> > Product page:
+> >   https://www.adafruit.com/product/5743
+> > Arduino driver:
+> >   https://github.com/adafruit/Adafruit_Seesaw
+> > 
+> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> > ---
 
-    jfs: define xtree root and page independently
+[...]
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16eb55af680000
-start commit:   72a85e2b0a1e Merge tag 'spi-fix-v6.2-rc1' of git://git.ker..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4e2d7bfa2d6d5a76
-dashboard link: https://syzkaller.appspot.com/bug?extid=76a072c2f8a60280bd70
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15802088480000
+> > +properties:
+> > +  compatible:
+> > +    const: adafruit,seesaw-gamepad
+> 
+> I don't really have any clue about devicetree, but shouldn't the actual
+> driver have an id-table for this "compatible"?
+> 
+> It had one up to v5 of the patchset.
+> 
+> Jeff had some comments about the OF aspect [0], but to me the state now
+> seems incorrect.
+> Maybe the DT can be dropped completely?
+> 
+> Jeff, could you advise?
 
-If the result looks correct, please mark the issue as fixed by replying with:
+My original comment was merely to say that this driver doesn't need an
+entire binding because it is easily covered by trivial-devices.yaml. The
+whole point of that binding is to save the trouble of writing a new file
+such as this for trivial devices with this same set of common properties.
 
-#syz fix: jfs: define xtree root and page independently
+I don't feel strongly about _not_ adding a new binding for this device,
+it just seems like unnecessary work for all involved. If the maintainers
+do not mind, then I don't either :)
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Taking things a step further, this driver really doesn't need to define
+an of_device_id struct either, because I seem to recall that OF can still
+bind to drivers with "compatible" strings specified in the i2c_device_id
+struct.
+
+At any rate, this version is most certainly broken because the compatible
+string defined in this binding does not match SEESAW_DEVICE_NAME specified
+in the driver's i2c_device_id struct, and there is no of_device_id struct.
+So there is no way the driver would bind if this binding were followed in
+earnest.
+
+I see this has been addressed in the latest version, so I will take a look
+at that one.
+
+> 
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +    description:
+> > +      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
+> 
+> Interrupts are not supported yet by the driver.
+> Should the property be there already?
+> 
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        joystick@50 {
+> > +            compatible = "adafruit,seesaw-gamepad";
+> > +            reg = <0x50>;
+> > +        };
+> > +    };
+> > -- 
+> > 2.42.0
+> 
+> [0] https://lore.kernel.org/lkml/ZTWza+S+t+UZKlwu@nixie71/
+
+Kind regards,
+Jeff LaBundy
