@@ -1,141 +1,93 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E0315C0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 14:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F8312E52
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 20:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tq0YVpTn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KpWdUeGl"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 67951404BF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 14:57:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 67951404BF
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Tq0YVpTn
+	by smtp2.osuosl.org (Postfix) with ESMTP id C3D78400D7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 20:08:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C3D78400D7
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=KpWdUeGl
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lJyr0BkHNmKD
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id dl0csuEUGYMS
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun, 26 Nov 2023 14:57:37 +0000 (UTC)
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B9B3B4035D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 14:57:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B9B3B4035D
-Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1cfa7be5650so4568575ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 06:57:37 -0800 (PST)
+	Sun, 26 Nov 2023 20:08:17 +0000 (UTC)
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4D37740017
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 20:08:17 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4D37740017
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-da0359751dbso2646133276.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 12:08:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701010657; x=1701615457; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ds6jz8XiqF0ADftYJN+hp07WDKExgCoZRBZ98zeNhK8=;
-        b=Tq0YVpTn9HRRXuBQbsIkxrsM0iBwGaZlXlHQUghbZQ5gEKK0oQ0povakVo4mtxGtlq
-         6pTdhV40QP+78M+GF62EQ8K3WaE9KP0G+NTsNZ9Sg0XkULDuzThCPCn/oeo1fJ7+gPl7
-         N+5mgEqVLyZQD6o+B4f6eRpZHuHsMW+vHsEuhvT11B7zysFg9qG8R9DsK9Hsq432afAn
-         hF+vAyAN7FTMG5tK6g8KjtxaweYzX8/b2fu+3SIDFExEJcHHgNmTGMe1HyVI5ZFC7HDw
-         UCF9MTr+Syu50ygP8N84FB1B6zJaCxm9UGSJC5J98MS2mYLDwUYAOWMW7njWBjjVLrll
-         XfbA==
+        d=linaro.org; s=google; t=1701029296; x=1701634096; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oY/+6Vdf/DK4Vduwgn3n01nTcjhDvzNRLJfMJ/HHsLw=;
+        b=KpWdUeGljxUxZi1bNxtbykQ0r0kcRkw7rOe9vqGOR+UrcxCU4QwxwL5CFo4HcY4Dlm
+         Y7Zdwu9xRoL2RjB9jV5M3zdpEc4iidgEjy3EJ1vQhoQ42g8CwMFIkAwx+DFBwXZDRxPx
+         lBAtIY4dIL2F4OGKKt3PWLHFLLDQ+RfiblbWKFynQ+jjLE7PeTvM6tnuSNcmVp/7yppN
+         nBQLTuC75a5vK+sCA3iR2AJJGNoFwrOsle7XARDxg/swAZ2mIQl0dRDPhNs7+80dtj6t
+         uXvjUbttzT4Hn2k5h068aVIpfhbu883w4Yhnv/OAo++j69Jf0k89viLIVBXQOv3TTH5S
+         0L3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701010657; x=1701615457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ds6jz8XiqF0ADftYJN+hp07WDKExgCoZRBZ98zeNhK8=;
-        b=aWCFTmvjjfyS6auusghB5kjzcc2JpTd61wvVTFsN5pFYl8hs53jx+qMiLgy5aep19s
-         qB+Mr5b7yxcyCMJQoe+BeFMzoCX4ofQ9U/6eOD+Z+WHy3tP0HrwBNv1NJ/8NYzeyTRwM
-         6KsewzvN9t0z3I1v+iE8pVM0JaM4milULc3014SY5IFxPTWpZhwhVKsJpATZtuanzShp
-         wUAwhUq3ly0+Lo/MV7wm8VU74EkQXaWw0cHdC3hydhDM7+bq9onwG4tUhFMS3GUzkuR+
-         WXO1FKBrRAWPWk7q/UodZ1rG7gH/8Xx2BDsYZJvXhMAyVvVupJ3Va/l3SxhUVtvOMlVQ
-         A2Kw==
-X-Gm-Message-State: AOJu0YzDX7Oc82l8+omfBSySwOmW7S7Nx8Pt+tDPyCPkjdwBZ58tSZcb
-	27eORkHkAZEsa4Kad9+5dZc=
-X-Google-Smtp-Source: AGHT+IHfTmf4escnImpLTzKE4gnb2lDqdXKrQ5LQmUVS/atAbTu2PTrA6K046ATTWXWsoyAbE4pjZQ==
-X-Received: by 2002:a17:903:183:b0:1ce:5b6e:bae1 with SMTP id z3-20020a170903018300b001ce5b6ebae1mr10929057plg.3.1701010657137;
-        Sun, 26 Nov 2023 06:57:37 -0800 (PST)
-Received: from abhinav.. ([103.75.161.210])
-        by smtp.gmail.com with ESMTPSA id t8-20020a170902bc4800b001cc131c65besm6470070plz.168.2023.11.26.06.57.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 06:57:36 -0800 (PST)
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-To: kherbst@redhat.com,
-	lyude@redhat.com,
-	dakr@redhat.com,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Abhinav Singh <singhabhinav9051571833@gmail.com>
-Subject: [PATCH] driver: gpu: Fix warning directly dereferencing a rcu pointer
-Date: Sun, 26 Nov 2023 20:27:23 +0530
-Message-Id: <20231126145723.388162-1-singhabhinav9051571833@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1701029296; x=1701634096;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oY/+6Vdf/DK4Vduwgn3n01nTcjhDvzNRLJfMJ/HHsLw=;
+        b=D3VKByR3dGBm9I0dJqS+h3slhMdF3oI6x/rPGYDtm+2giSJybHzc8h8yVmYhOSR5rf
+         gZ/64ADNjeJ1CbVc5dgWILpymEBRDZrjGd6H5jVepWlBu8RV2yax+6mMUhnQVhnN+eNT
+         nEGeSxnGPhbpLlyAzxIacgWqqEWTNREqkyb2GHqVku5jFXHt95oy/KNYL1ijYuxJiLSa
+         gavGqmN+biNO+bHsdxW7OxkerGLT82ixLzy/ZA2oZDuo9LuIRK2uPvY844+0UKOmLdNH
+         G+0ONfxEKf5hJJ3QqqJTucU38tbcqTguAGqPITAoh23iVpuaot2WB6GOSykOnN8TOOLF
+         v+8g==
+X-Gm-Message-State: AOJu0Yyo9gD3A8vPR69Tydj/LrB68NQ0ZK7VT9eKvHJ+PFJifXBHCcJG
+	Q3KY868zG6IfNsOjEvwWFqGtVm8fgDX3wNUGvEGzoQ==
+X-Google-Smtp-Source: AGHT+IFFBCc7DEmI9LRDuJXBegkzaw0XRK2lD9elEp31ICkd9wVkz9h0c066lGIr5re94D7Av79NdJLG0iWp7EOCIMM=
+X-Received: by 2002:a05:690c:2b0b:b0:5ce:2148:d4bd with SMTP id
+ em11-20020a05690c2b0b00b005ce2148d4bdmr5935726ywb.4.1701029296078; Sun, 26
+ Nov 2023 12:08:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231126103029.851742-1-anshulusr@gmail.com>
+In-Reply-To: <20231126103029.851742-1-anshulusr@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 26 Nov 2023 21:08:03 +0100
+Message-ID: <CACRpkdayV=KUv4j+af_HSEtz05kmg+g-UTOjENsGuS4xtsdTNQ@mail.gmail.com>
+Subject: Re: [PATCH v1] dt-bindings: input: convert gpio-mouse to json-schema
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix a sparse warning with this message
-"warning:dereference of noderef expression". In this context it means we
-are dereferencing a __rcu tagged pointer directly.
+On Sun, Nov 26, 2023 at 11:32=E2=80=AFAM Anshul Dalal <anshulusr@gmail.com>=
+ wrote:
 
-We should not be directly dereferencing a rcu pointer. To get a normal
-(non __rcu tagged pointer) from a __rcu tagged pointer we are using the
-function unrcu_pointer(...). The non __rcu tagged pointer then can be
-dereferenced just like a normal pointer.
+> Convert device tree binding documentation for GPIO attached mouse to
+> json-schema.
+>
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
-I tested with qemu with this command 
-qemu-system-x86_64 \
-	-m 2G \
-	-smp 2 \
-	-kernel bzImage \
-	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-	-drive file=bullseye.img,format=raw \
-	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-	-net nic,model=e1000 \
-	-enable-kvm \
-	-nographic \
-	-pidfile vm.pid \
-	2>&1 | tee vm.log
-with lockdep enabled.
+Nice work! It looks flawless, making good use of default typing suffixes
+-ms -gpios.
 
-Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
----
- drivers/gpu/drm/nouveau/nv10_fence.c | 2 +-
- drivers/gpu/drm/nouveau/nv84_fence.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/gpu/drm/nouveau/nv10_fence.c b/drivers/gpu/drm/nouveau/nv10_fence.c
-index c6a0db5b9e21..845b64c079ed 100644
---- a/drivers/gpu/drm/nouveau/nv10_fence.c
-+++ b/drivers/gpu/drm/nouveau/nv10_fence.c
-@@ -32,7 +32,7 @@
- int
- nv10_fence_emit(struct nouveau_fence *fence)
- {
--	struct nvif_push *push = fence->channel->chan.push;
-+	struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
- 	int ret = PUSH_WAIT(push, 2);
- 	if (ret == 0) {
- 		PUSH_MTHD(push, NV06E, SET_REFERENCE, fence->base.seqno);
-diff --git a/drivers/gpu/drm/nouveau/nv84_fence.c b/drivers/gpu/drm/nouveau/nv84_fence.c
-index 812b8c62eeba..d42e72e23dec 100644
---- a/drivers/gpu/drm/nouveau/nv84_fence.c
-+++ b/drivers/gpu/drm/nouveau/nv84_fence.c
-@@ -85,7 +85,7 @@ nv84_fence_chid(struct nouveau_channel *chan)
- static int
- nv84_fence_emit(struct nouveau_fence *fence)
- {
--	struct nouveau_channel *chan = fence->channel;
-+	struct nouveau_channel *chan = unrcu_pointer(fence->channel);
- 	struct nv84_fence_chan *fctx = chan->fence;
- 	u64 addr = fctx->vma->addr + nv84_fence_chid(chan) * 16;
- 
--- 
-2.39.2
-
+Yours,
+Linus Walleij
