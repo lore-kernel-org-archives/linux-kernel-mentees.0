@@ -1,57 +1,78 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992D27470
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 10:15:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549CF3D71
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 10:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="RFpK01v5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KePo2YHs"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 01B63813E3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 10:15:13 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 01B63813E3
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=RFpK01v5
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9F9A3403EC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 10:32:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9F9A3403EC
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=KePo2YHs
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.307
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nLWBHFIEpi3h
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id PK7MiOyej49o
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun, 26 Nov 2023 10:15:11 +0000 (UTC)
-Received: from mail.subdimension.ro (unknown [IPv6:2a01:7e01:e001:1d1::2])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 39487813E0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 10:15:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 39487813E0
-Received: from localhost.localdomain (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id 0017C28EE6F;
-	Sun, 26 Nov 2023 10:15:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1700993708;
-	bh=X1if6+dXyS4IOu9VJ6YZavnsWFjbh6L8Mr4n8bVqe0s=;
-	h=From:To:Cc:Subject:Date;
-	b=RFpK01v5J+7E48GWNUmJ0MOfGERXNkEfcB2+TG72WmLHDg/nRBPY11jExsQP/sdv8
-	 JrUOZUnWZDeK/mzmq+e9lCeN2Jh6deUyBloVZUGBmGGY7ZdMIgB3s1F07DAG6jSUle
-	 mMMJsWHt3ovYzUOlQ0TbHpuV1DIah5sk8KTJNhf8=
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
+	Sun, 26 Nov 2023 10:32:25 +0000 (UTC)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 818C640384
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 10:32:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 818C640384
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6ccc9e6a38aso672193b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 02:32:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700994745; x=1701599545; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pYYLfoXXiYjdK9YQOq39bQN3tBvwmAisCa8zX9rA7UU=;
+        b=KePo2YHskH8s7ROERrLEwKaPEwJfnErxaYIBR5Og3OuFqprpoeDLUQQhwAAnZEKqVD
+         kd/rueQlT9N2t2ERp4NoGyAmNsM6s2uxyXMAWAQI16NJ/n5VL1CN3HBC6t/z0wVLiYND
+         UT0fif4BAQVLmrlzzVwXvGylVjA3FIPycDsKGUrcNW2cTcbhF/QSvs4BdhalcgGEgYdN
+         wojFxCKz1EUojddWyMz3x+YU139zqIVCt3gLK+Aof/BBLqjR/pMYBEHok9Y4HhSsB/k5
+         I14s48gJQt0dum7XSgx9/6RFOaoVCOw7VVEalu9i8y+kDsLjw6mcdNSTbAz09IvTPAV3
+         Zmjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700994745; x=1701599545;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pYYLfoXXiYjdK9YQOq39bQN3tBvwmAisCa8zX9rA7UU=;
+        b=Cy4V01/vCElg+WJn2epfqJndiDMIXHZz5U+1y7CcMlmJLbv+khuZqhnBY2CyXGnJ2L
+         tbEFCSHLYLPDpJIs9clgZIF3b/2ajKgh9YBVLKEU2omHZVvvhVFPUSydn9jsFaNMNfT9
+         qfq7CU0RmUqrDwCZTKNaXszJoKvsPYHTtkuksyAVQYkVvcirf3G8DCAy+u/2Whf1GCAZ
+         +HZYCmcJBf9BZDo3bz1yCeu5uuq2ZulbTL+3T/lyeMdMqNIV3P8ddUuBKGMBmJ/FR86j
+         lr5uZ7mjPi/I5wFSe25XF7MkPtsYPWPXc9Y0qfJWkgv9gY5tULMaGn1jAsBoZvuSfb9X
+         SYqg==
+X-Gm-Message-State: AOJu0Yyb4xNRAZzhuf9P0CuNqz53Eto5YBB+h9ou/NjVG3/6jfESEU3B
+	bvFAhJWvWdkjD7orW+dg8go=
+X-Google-Smtp-Source: AGHT+IE67x1qv6fGGSUzhs++tms/1fww89kbm04xEbpSjMTejEHRsUZPzg8lZ6XcRVFEs4+Ywnjwjw==
+X-Received: by 2002:a05:6a20:3ca5:b0:18b:3158:4231 with SMTP id b37-20020a056a203ca500b0018b31584231mr12621747pzj.16.1700994744663;
+        Sun, 26 Nov 2023 02:32:24 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
+        by smtp.gmail.com with ESMTPSA id s10-20020a17090aba0a00b002858612349asm3931188pjr.38.2023.11.26.02.32.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 02:32:24 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
 	devicetree@vger.kernel.org
-Cc: Petre Rodan <petre.rodan@subdimension.ro>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v3 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Date: Sun, 26 Nov 2023 12:14:38 +0200
-Message-ID: <20231126101443.13880-1-petre.rodan@subdimension.ro>
-X-Mailer: git-send-email 2.41.0
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v1] dt-bindings: input: convert gpio-mouse to json-schema
+Date: Sun, 26 Nov 2023 16:00:28 +0530
+Message-ID: <20231126103029.851742-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -60,172 +81,129 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds binding for digital Honeywell TruStability HSC and SSC series
-pressure and temperature sensors. 
-Communication is one way. The sensor only requires 4 bytes worth of
-clock signals on both i2c and spi in order to push the data out.
-The i2c address is hardcoded and depends on the part number.
-There is no additional GPIO control.
+Convert device tree binding documentation for GPIO attached mouse to
+json-schema.
 
-Datasheet:
-https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf [HSC]
-Datasheet:
-https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf [SSC]
-Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 ---
-V2: - fix yaml struct
-    - cleanup based on Krzysztof's review
-V3: - rename range_str -> honeywell,pressure-triplet to define the string
-       containing the pressure range, measurement unit and type
-    - honeywell,pmax-pascal becomes uint32 (Krzysztof)
-    - pmin-pascal still needs type change to int32 
-       for kpascal in the schema.
-       be so kind and add 'pascal' as well since there are sensors with 
-       a full scale span of mere 320 pascals with 14bits of precision.
----
- .../iio/pressure/honeywell,hsc030pa.yaml      | 133 ++++++++++++++++++
- 1 file changed, 133 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
+ .../devicetree/bindings/input/gpio-mouse.txt  | 32 ---------
+ .../devicetree/bindings/input/gpio-mouse.yaml | 68 +++++++++++++++++++
+ 2 files changed, 68 insertions(+), 32 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/gpio-mouse.txt
+ create mode 100644 Documentation/devicetree/bindings/input/gpio-mouse.yaml
 
-diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
+diff --git a/Documentation/devicetree/bindings/input/gpio-mouse.txt b/Documentation/devicetree/bindings/input/gpio-mouse.txt
+deleted file mode 100644
+index 519510a11af9..000000000000
+--- a/Documentation/devicetree/bindings/input/gpio-mouse.txt
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Device-Tree bindings for GPIO attached mice
+-
+-This simply uses standard GPIO handles to define a simple mouse connected
+-to 5-7 GPIO lines.
+-
+-Required properties:
+-	- compatible: must be "gpio-mouse"
+-	- scan-interval-ms: The scanning interval in milliseconds
+-	- up-gpios: GPIO line phandle to the line indicating "up"
+-	- down-gpios: GPIO line phandle to the line indicating "down"
+-	- left-gpios: GPIO line phandle to the line indicating "left"
+-	- right-gpios: GPIO line phandle to the line indicating "right"
+-
+-Optional properties:
+-	- button-left-gpios: GPIO line handle to the left mouse button
+-	- button-middle-gpios: GPIO line handle to the middle mouse button
+-	- button-right-gpios: GPIO line handle to the right mouse button
+-Example:
+-
+-#include <dt-bindings/gpio/gpio.h>
+-
+-gpio-mouse {
+-	compatible = "gpio-mouse";
+-	scan-interval-ms = <50>;
+-	up-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
+-	down-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+-	left-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
+-	right-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
+-	button-left-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+-	button-middle-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
+-	button-right-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
+-};
+diff --git a/Documentation/devicetree/bindings/input/gpio-mouse.yaml b/Documentation/devicetree/bindings/input/gpio-mouse.yaml
 new file mode 100644
-index 000000000000..47f7a8202847
+index 000000000000..3928ec6aff1d
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
-@@ -0,0 +1,133 @@
++++ b/Documentation/devicetree/bindings/input/gpio-mouse.yaml
+@@ -0,0 +1,68 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/iio/pressure/honeywell,hsc030pa.yaml#
++$id: http://devicetree.org/schemas/input/gpio-mouse.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Honeywell TruStability HSC and SSC pressure sensor series
++title: GPIO attached mouse
 +
 +description: |
-+  support for Honeywell TruStability HSC and SSC digital pressure sensor
-+  series.
-+
-+  These sensors have either an I2C, an SPI or an analog interface. Only the
-+  digital versions are supported by this driver.
-+
-+  There are 118 models with different pressure ranges available in each family.
-+  The vendor calls them "HSC series" and "SSC series". All of them have an
-+  identical programming model but differ in pressure range, unit and transfer
-+  function.
-+
-+  To support different models one needs to specify the pressure range as well
-+  as the transfer function. Pressure range can either be provided via
-+  pressure-triplet (directly extracted from the part number) or in case it's
-+  a custom chip via numerical range limits converted to pascals.
-+
-+  The transfer function defines the ranges of raw conversion values delivered
-+  by the sensor. pmin-pascal and pmax-pascal corespond to the minimum and
-+  maximum pressure that can be measured.
-+
-+  Please note that in case of an SPI-based sensor, the clock signal should not
-+  exceed 800kHz and the MOSI signal is not required.
-+
-+  Specifications about the devices can be found at:
-+  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
-+  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
++  This simply uses standard GPIO handles to define a simple mouse connected
++  to 5-7 GPIO lines.
 +
 +maintainers:
-+  - Petre Rodan <petre.rodan@subdimension.ro>
++  - Anshul Dalal <anshulusr@gmail.com>
 +
 +properties:
 +  compatible:
-+    const: honeywell,hsc030pa
++    const: gpio-mouse
 +
-+  reg:
++  scan-interval-ms:
 +    maxItems: 1
 +
-+  honeywell,transfer-function:
-+    description: |
-+      Transfer function which defines the range of valid values delivered by
-+      the sensor.
-+      0 - A, 10% to 90% of 2^14
-+      1 - B, 5% to 95% of 2^14
-+      2 - C, 5% to 85% of 2^14
-+      3 - F, 4% to 94% of 2^14
-+    $ref: /schemas/types.yaml#/definitions/uint32
++  up-gpios:
++    maxItems: 1
 +
-+  honeywell,pressure-triplet:
-+    description: |
-+      Case-sensitive five character string that defines pressure range, unit
-+      and type as part of the device nomenclature. In the unlikely case of a
-+      custom chip, set to "NA" and provide pmin-pascal and pmax-pascal.
-+    enum: [001BA, 1.6BA, 2.5BA, 004BA, 006BA, 010BA, 1.6MD, 2.5MD, 004MD,
-+           006MD, 010MD, 016MD, 025MD, 040MD, 060MD, 100MD, 160MD, 250MD,
-+           400MD, 600MD, 001BD, 1.6BD, 2.5BD, 004BD, 2.5MG, 004MG, 006MG,
-+           010MG, 016MG, 025MG, 040MG, 060MG, 100MG, 160MG, 250MG, 400MG,
-+           600MG, 001BG, 1.6BG, 2.5BG, 004BG, 006BG, 010BG, 100KA, 160KA,
-+           250KA, 400KA, 600KA, 001GA, 160LD, 250LD, 400LD, 600LD, 001KD,
-+           1.6KD, 2.5KD, 004KD, 006KD, 010KD, 016KD, 025KD, 040KD, 060KD,
-+           100KD, 160KD, 250KD, 400KD, 250LG, 400LG, 600LG, 001KG, 1.6KG,
-+           2.5KG, 004KG, 006KG, 010KG, 016KG, 025KG, 040KG, 060KG, 100KG,
-+           160KG, 250KG, 400KG, 600KG, 001GG, 015PA, 030PA, 060PA, 100PA,
-+           150PA, 0.5ND, 001ND, 002ND, 004ND, 005ND, 010ND, 020ND, 030ND,
-+           001PD, 005PD, 015PD, 030PD, 060PD, 001NG, 002NG, 004NG, 005NG,
-+           010NG, 020NG, 030NG, 001PG, 005PG, 015PG, 030PG, 060PG, 100PG,
-+           150PG, NA]
-+    $ref: /schemas/types.yaml#/definitions/string
++  down-gpios:
++    maxItems: 1
 +
-+  honeywell,pmin-pascal:
-+    description: |
-+      Minimum pressure value the sensor can measure in pascal.
-+      To be specified only if honeywell,pressure-triplet is set to "NA".
-+    $ref: /schemas/types.yaml#/definitions/int32
++  left-gpios:
++    maxItems: 1
 +
-+  honeywell,pmax-pascal:
-+    description: |
-+      Maximum pressure value the sensor can measure in pascal.
-+      To be specified only if honeywell,pressure-triplet is set to "NA".
-+    $ref: /schemas/types.yaml#/definitions/uint32
++  right-gpios:
++    maxItems: 1
 +
-+  vdd-supply:
-+    description:
-+      Provide VDD power to the sensor (either 3.3V or 5V depending on the chip)
++  button-left-gpios:
++    maxItems: 1
 +
-+  spi-max-frequency:
-+    maximum: 800000
++  button-middle-gpios:
++    maxItems: 1
++
++  button-right-gpios:
++    maxItems: 1
 +
 +required:
 +  - compatible
-+  - reg
-+  - honeywell,transfer-function
-+  - honeywell,pressure-triplet
++  - scan-interval-ms
++  - up-gpios
++  - down-gpios
++  - left-gpios
++  - right-gpios
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++    #include <dt-bindings/gpio/gpio.h>
 +
-+        pressure@28 {
-+            compatible = "honeywell,hsc030pa";
-+            reg = <0x28>;
-+            honeywell,transfer-function = <0>;
-+            honeywell,pressure-triplet = "030PA";
-+        };
++    gpio-mouse {
++        compatible = "gpio-mouse";
++        scan-interval-ms = <50>;
++        up-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
++        down-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
++        left-gpios = <&gpio0 2 GPIO_ACTIVE_LOW>;
++        right-gpios = <&gpio0 3 GPIO_ACTIVE_LOW>;
++        button-left-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
++        button-middle-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>;
++        button-right-gpios = <&gpio0 6 GPIO_ACTIVE_LOW>;
 +    };
-+  - |
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        pressure@0 {
-+            compatible = "honeywell,hsc030pa";
-+            reg = <0>;
-+            spi-max-frequency = <800000>;
-+            honeywell,transfer-function = <0>;
-+            honeywell,pressure-triplet = "NA";
-+            honeywell,pmin-pascal = <0>;
-+            honeywell,pmax-pascal = <200000>;
-+        };
-+    };
-+...
 -- 
-2.41.0
+2.42.1
 
