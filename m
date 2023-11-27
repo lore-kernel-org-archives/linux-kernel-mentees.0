@@ -1,66 +1,66 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C9928DA4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 13:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B543174D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 15:49:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iezUE9BS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HiQBwmi6"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EB178813DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 13:02:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EB178813DD
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=iezUE9BS
+	by smtp4.osuosl.org (Postfix) with ESMTP id D9F24402D6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 15:49:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D9F24402D6
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HiQBwmi6
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id o1kQYZZZlgOd
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fFsGANRkGxCY
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 27 Nov 2023 13:02:23 +0000 (UTC)
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 62F73813DC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 13:02:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 62F73813DC
-Received: by mail-lf1-x131.google.com with SMTP id 2adb3069b0e04-50baa1ca01cso2531650e87.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 05:02:23 -0800 (PST)
+	Mon, 27 Nov 2023 15:49:20 +0000 (UTC)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id A945C402D4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 15:49:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A945C402D4
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6cbb71c3020so3689152b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 07:49:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701090141; x=1701694941; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20230601; t=1701100160; x=1701704960; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lA+02KCQo6+QvQX9sOdU+Mxu9MJuDsUaov52eslYYVc=;
-        b=iezUE9BSGnJ11KSj7LlHWbJfS5nWrcrL/rPhzYRYgYLhisbPgVTcbJlILR+XjPLiFM
-         o0U8aupj7qNZlgeSoHV2C1Xo/x9LmQVwAnDuNhxMD1hKmawNMt1TuCiSlTWTWNpZTsuC
-         5snpXvdTi0G/GcUqSIOBnZ2vz1cWPgfibRjJMXYbjxg2YF5OG/OIteb558UFQ0MfhJQW
-         rfCOCJeXtG4nKsxr17c2neFP4YkeaeJP7pq4nzmifoVGEn3pyhlYx8dNQ+Rx1g/ai7j+
-         UhF3eekpD4Xs7vafJFFB5uYiW0KjHNeC1+yrot4O5n0wdkgMENr6F441E29w24B2+h3W
-         DrEQ==
+        bh=SVraQ5x1AlroeiisGiemyiPSQyAwtn5m3q3wzSpg2DA=;
+        b=HiQBwmi61Mh5DX/9lnGXXPsNEsF9Hw4IdFhvex7YD87+v6HwopsnRiyNV4a+0vNHXO
+         D/2mHzfWLdKzpJ3eDn+kh9TyRzxc09y74MoIU3RXfjJ+Bt3JmC7nof3HkIfqe1L6BAyk
+         jL7h9TFMNrh/MA279JfqfZSNbgBRTc5qvDPlrstVWXjB+O81oscrXh8uzz6JLlWu+148
+         DUtl0idiTuijtA0uGiKprv8Bhil/wELoKYBwKaf5D5TtwkydgavXURvxFRMfrCdROFYc
+         B37TRTEu7JfRVX7dIXfzn7YpJxItaioa+S7/Gr2bIzRcmxk6ZsgsioV8tcPqCwkUq29C
+         x8hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701090141; x=1701694941;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701100160; x=1701704960;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lA+02KCQo6+QvQX9sOdU+Mxu9MJuDsUaov52eslYYVc=;
-        b=jc0Ftogo8N7KJvBEgMeoSRVxJGNRxGCm/kA3y2y9RHILcmtVkaj6vUR24bSUcS0fOF
-         bPw7DxL3n/2uX/ss7j2RALAPXMAuSeAsEwWEcdNtlU4GzuLAe5MJF5KKX7qVL7UlJSS2
-         OXUx/lncvhtAV9M+/oWDzNIzONmOdWccFjJA0wrvXTRbQuvqqZ96AKIQw2VzsrWulReS
-         KEvQ08Th1sst/yDlcLhxNGGYi+ted0QW85wCeBqBZR0+BngMwP8/DXtusYtmwFEizB2U
-         Q4nLOyJy5ktmNdN60dDoqMi9Oli8ZwIeI+fa3rAqcFDM+ktFPEarx7y3Ix9RSb5rxBPl
-         sffA==
-X-Gm-Message-State: AOJu0YwqqRK1DhSxq5lKyB6p9NZ7xinCeFJeE1A/QYZQhF45CpAMpaHe
-	N1R8g/nw194o4TLY8rh/3ZFo2Q==
-X-Google-Smtp-Source: AGHT+IGpjDGvw23ZeXNGppBJcUUfTCohfqmZ72dpIMAAhHhUrgL63h+PP5/mZpH4BBSeKOl+7skxew==
-X-Received: by 2002:a05:6512:ba3:b0:50a:756c:dfc3 with SMTP id b35-20020a0565120ba300b0050a756cdfc3mr10083849lfv.3.1701090136447;
-        Mon, 27 Nov 2023 05:02:16 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id h14-20020aa7c94e000000b00548a57d4f7bsm5268218edt.36.2023.11.27.05.02.15
+        bh=SVraQ5x1AlroeiisGiemyiPSQyAwtn5m3q3wzSpg2DA=;
+        b=VTQWSHIl6m+rd37XRnXjsadaRStBpa89uRtixTK2Njwl9MY2NkZ39QjYU7HzVMkPOZ
+         EnHUY072FcK5fjyJmC2UGEJb5WvK2JLlYI8IKnyJCCzkvLw2dUeBHgtEmog3OA09PCkY
+         P5BSPnJwZYDy/fkqcUv9ZPfAlDJzi9eGFt3HNEA+kc3O18OOatSy8lLWjI6OEs3HSnVO
+         0EAPD5Tzurrgcjq+wCdU2Z4bZwl9Cug61lCDLisnEgVN0wDRKRg1RAlduaGdBVyXWjth
+         zG/lnIo9KmUFjh0xAuHCWTPPphySYEcSF/Fx752zdCWiy4Uig6z9tREgI+RjohkNuLbB
+         puLw==
+X-Gm-Message-State: AOJu0Yy+8zrjnNaUr09U7Vjx/+mWx0oSEy2EHLt4Cpp1xjSg8D0zUFmV
+	9oJFqDddp7P5TURdfqFsJ7E=
+X-Google-Smtp-Source: AGHT+IHguMuvdY34htuBcWtvgmLZwEU9YNFuDK7y1xqDQnfw31S+qDKdA5lEKhUJyHKcjkTZiIyc6A==
+X-Received: by 2002:a05:6a20:5482:b0:18c:21aa:6a3f with SMTP id i2-20020a056a20548200b0018c21aa6a3fmr13984345pzk.8.1701100159790;
+        Mon, 27 Nov 2023 07:49:19 -0800 (PST)
+Received: from ?IPV6:2401:4900:2353:8963:b940:1ac0:2fbc:6b6? ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
+        by smtp.gmail.com with ESMTPSA id s15-20020a63524f000000b0059cc2f1b7basm7745403pgl.11.2023.11.27.07.49.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 05:02:15 -0800 (PST)
-Message-ID: <cb988ec7-ced6-4f5e-b2ef-e0ed150ed35f@linaro.org>
-Date: Mon, 27 Nov 2023 14:02:14 +0100
+        Mon, 27 Nov 2023 07:49:19 -0800 (PST)
+Message-ID: <f6ced6e9-65d2-4bbc-9792-473465bad547@gmail.com>
+Date: Mon, 27 Nov 2023 21:17:25 +0530
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -68,92 +68,271 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
+Subject: Re: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
 Content-Language: en-US
-To: Petre Rodan <petre.rodan@subdimension.ro>
+To: Jonathan Cameron <jic23@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
  devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
  Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-kernel-mentees@lists.linuxfoundation.org,
- Jonathan Cameron <jic23@kernel.org>
-References: <20231126101443.13880-1-petre.rodan@subdimension.ro>
- <8641e35a-d481-4c27-b450-9ee72ae769b5@linaro.org> <ZWSQPrExmcT5kPit@sunspire>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZWSQPrExmcT5kPit@sunspire>
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20231117074554.700970-1-anshulusr@gmail.com>
+ <20231117074554.700970-2-anshulusr@gmail.com>
+ <20231125140641.08284929@jic23-huawei>
+From: Anshul Dalal <anshulusr@gmail.com>
+In-Reply-To: <20231125140641.08284929@jic23-huawei>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 27/11/2023 13:49, Petre Rodan wrote:
-> On Mon, Nov 27, 2023 at 09:06:54AM +0100, Krzysztof Kozlowski wrote:
->> On 26/11/2023 11:14, Petre Rodan wrote:
->>> +  honeywell,pmin-pascal:
->>> +    description: |
->>> +      Minimum pressure value the sensor can measure in pascal.
->>> +      To be specified only if honeywell,pressure-triplet is set to "NA".
->>> +    $ref: /schemas/types.yaml#/definitions/int32
->>> +
->>> +  honeywell,pmax-pascal:
->>> +    description: |
->>> +      Maximum pressure value the sensor can measure in pascal.
->>> +      To be specified only if honeywell,pressure-triplet is set to "NA".
->>> +    $ref: /schemas/types.yaml#/definitions/uint32
+On 11/25/23 19:36, Jonathan Cameron wrote:
+> On Fri, 17 Nov 2023 13:15:53 +0530
+> Anshul Dalal <anshulusr@gmail.com> wrote:
+> 
+>> Implements driver for the Ambient/UV Light sensor LTR390.
+>> The driver exposes two ways of getting sensor readings:
+>>   1. Raw UV Counts directly from the sensor
+>>   2. The computed UV Index value with a percision of 2 decimal places
 >>
->> Sent a pull request:
->> https://github.com/devicetree-org/dt-schema/pull/118
->> Once it get merged, both $ref could be dropped.
-> 
-> thank your for the PR.
-> 
-> in patternProperties, please also add the int32 type for pascal.
-> your patch seems to cover kilopascal only.
+>> NOTE: Ambient light sensing has not been implemented yet.
+>>
+>> Datasheet:
+>>   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
+> Make this a formal Datasheet tag, just before the Signed-off-by below
 
-Did you just speak to yourself? Otherwise I don't get it.
+Thanks for pointing it out, I was unaware of the standard formal tags.
+Is there any resource that lists out the formal tags that I can refer to.
 
+>>
+>> Driver tested on RPi Zero 2W
+>>
+>> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+> 
+> Hi Anshul,
+> 
+> Some comments on this one inline.  Some of these overlap with comments on the
+> other drivers you've submitted. Normally I'd moan about sending too many drivers
+> at a time, but fair enough given you sent them out over a couple of weeks and just
+> happened to hit time when I was travelling.
+> 
+> My main question in here is why have the two channels - conversion looks linear
+> so you should be fine exposing IIO_CHAN_INFO_RAW + IIO_CHAN_INFO_SCALE on a
+> single channel and leaving userspace to do the maths.
+> 
+> Jonathan
+
+This driver was my first time working with the IIO subsystem and wasn't
+sure about the correct way to use the channels. This should be fixed in
+the next revision with the UV index being reported in the following channel:
+
+static const struct iio_chan_spec ltr390_channel = {
+	.type = IIO_UVINDEX,
+	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE)
+};
+
+With data being reported as:
+
+case IIO_CHAN_INFO_RAW:
+	ret = ltr390_register_read(data, LTR390_UVS_DATA);
+	if (ret < 0)
+		return ret;
+	*val = ret;
+	return IIO_VAL_INT;
+case IIO_CHAN_INFO_SCALE:
+	*val = LTR390_WINDOW_FACTOR;
+	*val2 = LTR390_COUNTS_PER_UVI;
+	return IIO_VAL_FRACTIONAL;
+
+>> diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
+>> new file mode 100644
+>> index 000000000000..67ca028ce828
+>> --- /dev/null
+>> +++ b/drivers/iio/light/ltr390.c
+>> @@ -0,0 +1,232 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +/*
+>> + * IIO driver for Lite-On LTR390 ALS and UV sensor
+>> + * (7-bit I2C slave address 0x53)
+>> + *
+>> + * Based on the work of:
+>> + *   Shreeya Patel and Shi Zhigang (LTRF216 Driver)
+>> + *
+>> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
+>> + *
+>> + * Datasheet:
+>> + *   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
+>> + *
+>> + * TODO:
+>> + *   - Support for configurable gain and resolution
+> 
+> Not using PROCESSED will help with this, so I'd drop that even in this initial
+> driver.
+>>> + *   - Sensor suspend/resume support
+>> + *   - Add support for reading the ALS
+>> + *   - Interrupt support
+> 
+>> + */
+>> +
+>> +#include <asm/unaligned.h>
+> 
+> Put this in a block of includes after the linux ones.
+> 
+>> +#include <linux/delay.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/iio/iio.h>
+>> +#include <linux/math.h>
+>> +#include <linux/module.h>
+>> +#include <linux/mutex.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +#define LTR390_DEVICE_NAME	    "ltr390"
+>> +
+>> +#define LTR390_MAIN_CTRL	    0x00
+>> +#define LTR390_PART_ID		    0x06
+>> +#define LTR390_UVS_DATA		    0x10
+>> +
+>> +#define LTR390_SW_RESET		    BIT(4)
+>> +#define LTR390_UVS_MODE		    BIT(3)
+>> +#define LTR390_SENSOR_ENABLE	    BIT(1)
+>> +
+>> +#define LTR390_PART_NUMBER_ID	    0xb
+>> +#define LTR390_FRACTIONAL_PERCISION 100
+>> +
+>> +/*
+>> + * At 20-bit resolution (integration time: 400ms) and 18x gain, 2300 counts of
+>> + * the sensor are equal to 1 UV Index [Datasheet Page#8].
+>> + *
+>> + * For the default resolution of 18-bit (integration time: 100ms) and default
+>> + * gain of 3x, the counts/uvi are calculated as follows:
+>> + * 2300 / ((3/18) * (100/400)) = 95.83
+>> + */
+>> +#define LTR390_COUNTS_PER_UVI 96
+>> +
+>> +/*
+>> + * Window Factor is needed when the device is under Window glass with coated
+>> + * tinted ink. This is to compensate for the light loss due to the lower
+>> + * transmission rate of the window glass and helps * in calculating lux.
+>> + */
+>> +#define LTR390_WINDOW_FACTOR 1
+>> +
+>> +struct ltr390_data {
+>> +	struct regmap *regmap;
+>> +	struct i2c_client *client;
+>> +	struct mutex lock;
+> 
+> All locks need a comment explaining the scope of data they protect.
+> Note that regmap and the i2c bus will have their own locks by default
+> so I'm not sure you need one here at all as I'm not seeing read modify write
+> cycles or anything like that (I might be missing one though!)
+
+My goal with the mutex was to protect the sysfs though that might be
+unnecessary.
+
+>> +};
+>> +
+>> +static const struct regmap_config ltr390_regmap_config = {
+>> +	.name = LTR390_DEVICE_NAME,
+>> +	.reg_bits = 8,
+>> +	.reg_stride = 1,
+>> +	.val_bits = 8,
+>> +};
+>> +
+>> +static int ltr390_register_read(struct ltr390_data *data, u8 register_address)
+>> +{
+>> +	struct device *dev = &data->client->dev;
+>> +	int ret;
+>> +	u8 recieve_buffer[3];
+>> +
+>> +	mutex_lock(&data->lock);
+> 
+> guard(mutex)(&data->lock); 
+> here then you can just return directly without worrying about manual
+> unlocking of the mutex.  This stuff is fairly new in the kernel but very
+> useful for cases like this!  I have a set of driver cleanup that I'll send
+> out that does this in a few IIO drivers, once I've caught up with reviews etc.
+> 
+> This isn't a critical path where we have to care that we will then unlock
+> after the maths to extract value in the final line of the function.
+> 
+>> +
+>> +	ret = regmap_bulk_read(data->regmap, register_address, recieve_buffer,
+>> +			       sizeof(recieve_buffer));
+>> +	if (ret) {
+>> +		dev_err(dev, "failed to read measurement data: %d\n", ret);
+>> +		mutex_unlock(&data->lock);
+>> +		return ret;
+>> +	}
+>> +
+>> +	mutex_unlock(&data->lock);
+>> +	return get_unaligned_le24(recieve_buffer);
+>> +}
+>> +
+>> +static int ltr390_get_uv_index(struct ltr390_data *data)
+>> +{
+>> +	int ret;
+>> +	int uv_index;
+>> +
+>> +	ret = ltr390_register_read(data, LTR390_UVS_DATA);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	uv_index = DIV_ROUND_CLOSEST(ret * LTR390_FRACTIONAL_PERCISION *
+>> +					     LTR390_WINDOW_FACTOR,
+>> +				     LTR390_COUNTS_PER_UVI);
+> 
+> This looks like a linear conversion.  Perhaps make it a userspace problem
+> as division much easier in userspace where floating point is available.
+> 
+>> +
+>> +	return uv_index;
+>> +}
+>> +
+> 
+>> +
+>> +static const struct iio_chan_spec ltr390_channels[] = {
+>> +	{
+>> +		.type = IIO_UVINDEX,
+>> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED)
+>> +	},
+>> +	{
+>> +		.type = IIO_INTENSITY,
+>> +		.channel2 = IIO_MOD_LIGHT_UV,
+>> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW)
+>> +	},
+>> +};
+>> +
+>> +static int ltr390_probe(struct i2c_client *client)
+>> +{
+>> +	struct ltr390_data *data;
+>> +	struct iio_dev *indio_dev;
+>> +	int ret, part_number;
+>> +
+>> +	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+>> +	if (!indio_dev)
+>> +		return -ENOMEM;
+>> +
+>> +	data = iio_priv(indio_dev);
+>> +
+>> +	data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
+>> +	if (IS_ERR(data->regmap))
+>> +		return dev_err_probe(&client->dev, PTR_ERR(data->regmap),
+> There are quite a few &client->dev in here. I'd introduce
+> struct device *dev = &client->dev;
+> as a local variable then use that to shorten all those lines a little.
+> 
+>> +				     "regmap initialization failed\n");
+>> +
+>> +	data->client = client;
+>> +	i2c_set_clientdata(client, indio_dev);
+> 
+> Why set this? I don' think you are using it.
+> 
+
+It seems to be necessary for regmap to work properly, I tested without
+it and I get an EREMOTEIO(121) when reading the part id.
+
+>> [..]
+
+Thanks for the review,
 Best regards,
-Krzysztof
-
+Anshul
