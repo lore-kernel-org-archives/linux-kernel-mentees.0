@@ -1,338 +1,229 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B543174D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 15:49:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9E4358BD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 16:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HiQBwmi6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ly1oY7XN"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D9F24402D6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 15:49:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D9F24402D6
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HiQBwmi6
+	by smtp2.osuosl.org (Postfix) with ESMTP id D528B405D6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 16:13:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D528B405D6
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ly1oY7XN
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fFsGANRkGxCY
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sLw8biopa4zk
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 27 Nov 2023 15:49:20 +0000 (UTC)
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A945C402D4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 15:49:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A945C402D4
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6cbb71c3020so3689152b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 07:49:20 -0800 (PST)
+	Mon, 27 Nov 2023 16:13:56 +0000 (UTC)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6F02640015
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 16:13:56 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6F02640015
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6cbe5b6ec62so3348644b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 08:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701100160; x=1701704960; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SVraQ5x1AlroeiisGiemyiPSQyAwtn5m3q3wzSpg2DA=;
-        b=HiQBwmi61Mh5DX/9lnGXXPsNEsF9Hw4IdFhvex7YD87+v6HwopsnRiyNV4a+0vNHXO
-         D/2mHzfWLdKzpJ3eDn+kh9TyRzxc09y74MoIU3RXfjJ+Bt3JmC7nof3HkIfqe1L6BAyk
-         jL7h9TFMNrh/MA279JfqfZSNbgBRTc5qvDPlrstVWXjB+O81oscrXh8uzz6JLlWu+148
-         DUtl0idiTuijtA0uGiKprv8Bhil/wELoKYBwKaf5D5TtwkydgavXURvxFRMfrCdROFYc
-         B37TRTEu7JfRVX7dIXfzn7YpJxItaioa+S7/Gr2bIzRcmxk6ZsgsioV8tcPqCwkUq29C
-         x8hw==
+        d=gmail.com; s=20230601; t=1701101636; x=1701706436; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8Y+/hfdU1/FxZi+VliIj7cuRUi8YqKczVoB/rQ19O4=;
+        b=ly1oY7XNCJdDlxk8+XsaYA4aURpK0cxujAJtseIkw/ChHsYyEovJgtpbBNpq4/HjJF
+         Z1+vHhFPuDBago6H8jAN8HUhv3dUa+jTzetD17/Y9Lpj/M8spOE+2vNdx64/cj1KBdJ3
+         dICAAOfI0HxYv6dzg29jkgw6DEqUvdhE0qKs6vPC7XrRN8AsRsuc4/gsfuM5d5OpLpBO
+         fH6xV7E8yJlAn4Gr7BXjPZRuvSElhLBVa8DzPqa2NQVLSqQhLfjAriYTCdKEj88/mq0Q
+         WiovyJ9p5g1OqqUjIB79dibaB1doXiA8S4OLDEhGJBKSmwcb6BMbdXej5WIfmiJvvPQI
+         aeDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701100160; x=1701704960;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SVraQ5x1AlroeiisGiemyiPSQyAwtn5m3q3wzSpg2DA=;
-        b=VTQWSHIl6m+rd37XRnXjsadaRStBpa89uRtixTK2Njwl9MY2NkZ39QjYU7HzVMkPOZ
-         EnHUY072FcK5fjyJmC2UGEJb5WvK2JLlYI8IKnyJCCzkvLw2dUeBHgtEmog3OA09PCkY
-         P5BSPnJwZYDy/fkqcUv9ZPfAlDJzi9eGFt3HNEA+kc3O18OOatSy8lLWjI6OEs3HSnVO
-         0EAPD5Tzurrgcjq+wCdU2Z4bZwl9Cug61lCDLisnEgVN0wDRKRg1RAlduaGdBVyXWjth
-         zG/lnIo9KmUFjh0xAuHCWTPPphySYEcSF/Fx752zdCWiy4Uig6z9tREgI+RjohkNuLbB
-         puLw==
-X-Gm-Message-State: AOJu0Yy+8zrjnNaUr09U7Vjx/+mWx0oSEy2EHLt4Cpp1xjSg8D0zUFmV
-	9oJFqDddp7P5TURdfqFsJ7E=
-X-Google-Smtp-Source: AGHT+IHguMuvdY34htuBcWtvgmLZwEU9YNFuDK7y1xqDQnfw31S+qDKdA5lEKhUJyHKcjkTZiIyc6A==
-X-Received: by 2002:a05:6a20:5482:b0:18c:21aa:6a3f with SMTP id i2-20020a056a20548200b0018c21aa6a3fmr13984345pzk.8.1701100159790;
-        Mon, 27 Nov 2023 07:49:19 -0800 (PST)
-Received: from ?IPV6:2401:4900:2353:8963:b940:1ac0:2fbc:6b6? ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
-        by smtp.gmail.com with ESMTPSA id s15-20020a63524f000000b0059cc2f1b7basm7745403pgl.11.2023.11.27.07.49.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 07:49:19 -0800 (PST)
-Message-ID: <f6ced6e9-65d2-4bbc-9792-473465bad547@gmail.com>
-Date: Mon, 27 Nov 2023 21:17:25 +0530
+        d=1e100.net; s=20230601; t=1701101636; x=1701706436;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m8Y+/hfdU1/FxZi+VliIj7cuRUi8YqKczVoB/rQ19O4=;
+        b=vGym/2+z1gu1ISXsADoFFXUy+QiU1Qqz4TYXQVImaJa6UdPXzEa9kTrjh11t4/ycMm
+         P7fsCmA8LprjzaKPfBRV+/vIvxFJ4//Ia7MpHr8qf1FU1wLbdWKrZQOGkM38shi4sIO8
+         oBqtVi+vhOZMUGFUTsgL/HobJFI8SgXcRB5CxInFP7xn/ppPDemgw7XLBUEq8ntPAt/O
+         UZA0de7abQaSFC0ItGLRXAlUErUk2IJsZjJkubhtcYOqBOw06hlfnAEgnyN3S2yfg4dP
+         jAuwVgzF25ObGD+b/3GKszoRx0EIUAZNixN4xv8p4N5RzV89iarOjJ2MCuiveFcj7Y5o
+         MP8g==
+X-Gm-Message-State: AOJu0YwJ9ibOGYChjroArSg/d6yPLonpyQ67GWeB5ta4BK6dzOA5zpaz
+	hkupNldvDdrONp9HrTyyaSk=
+X-Google-Smtp-Source: AGHT+IHvuGZIsXw6I2fqnukGj9fiXf1SOYmJVzN0HXKYP/vLOR2dWrVgP03mT4QP79jk/BA//dgPaw==
+X-Received: by 2002:a05:6a20:d704:b0:189:c0e1:4979 with SMTP id iz4-20020a056a20d70400b00189c0e14979mr15074487pzb.29.1701101635605;
+        Mon, 27 Nov 2023 08:13:55 -0800 (PST)
+Received: from localhost.localdomain ([2401:4900:2353:8963:b940:1ac0:2fbc:6b6])
+        by smtp.gmail.com with ESMTPSA id v1-20020a632f01000000b005898df17ea4sm7740194pgv.27.2023.11.27.08.13.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 08:13:55 -0800 (PST)
+From: Anshul Dalal <anshulusr@gmail.com>
+To: linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Anshul Dalal <anshulusr@gmail.com>,
+	"Conor Dooley" <conor+dt@kernel.org>,
+	"Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	linux-kernel@vger.kernel.org,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+	"Conor Dooley" <conor.dooley@microchip.com>,
+	"Rob Herring" <robh+dt@kernel.org>,
+	"Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+	"Jeff LaBundy" <jeff@labundy.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v11 1/2] dt-bindings: input: bindings for Adafruit Seesaw Gamepad
+Date: Mon, 27 Nov 2023 21:41:53 +0530
+Message-ID: <20231127161158.1651716-1-anshulusr@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
-Content-Language: en-US
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20231117074554.700970-1-anshulusr@gmail.com>
- <20231117074554.700970-2-anshulusr@gmail.com>
- <20231125140641.08284929@jic23-huawei>
-From: Anshul Dalal <anshulusr@gmail.com>
-In-Reply-To: <20231125140641.08284929@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/25/23 19:36, Jonathan Cameron wrote:
-> On Fri, 17 Nov 2023 13:15:53 +0530
-> Anshul Dalal <anshulusr@gmail.com> wrote:
-> 
->> Implements driver for the Ambient/UV Light sensor LTR390.
->> The driver exposes two ways of getting sensor readings:
->>   1. Raw UV Counts directly from the sensor
->>   2. The computed UV Index value with a percision of 2 decimal places
->>
->> NOTE: Ambient light sensing has not been implemented yet.
->>
->> Datasheet:
->>   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
-> Make this a formal Datasheet tag, just before the Signed-off-by below
+Adds bindings for the Adafruit Seesaw Gamepad.
 
-Thanks for pointing it out, I was unaware of the standard formal tags.
-Is there any resource that lists out the formal tags that I can refer to.
+The gamepad functions as an i2c device with the default address of 0x50
+and has an IRQ pin that can be enabled in the driver to allow for a rising
+edge trigger on each button press or joystick movement.
 
->>
->> Driver tested on RPi Zero 2W
->>
->> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> 
-> Hi Anshul,
-> 
-> Some comments on this one inline.  Some of these overlap with comments on the
-> other drivers you've submitted. Normally I'd moan about sending too many drivers
-> at a time, but fair enough given you sent them out over a couple of weeks and just
-> happened to hit time when I was travelling.
-> 
-> My main question in here is why have the two channels - conversion looks linear
-> so you should be fine exposing IIO_CHAN_INFO_RAW + IIO_CHAN_INFO_SCALE on a
-> single channel and leaving userspace to do the maths.
-> 
-> Jonathan
+Product page:
+  https://www.adafruit.com/product/5743
+Arduino driver:
+  https://github.com/adafruit/Adafruit_Seesaw
 
-This driver was my first time working with the IIO subsystem and wasn't
-sure about the correct way to use the channels. This should be fixed in
-the next revision with the UV index being reported in the following channel:
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
-static const struct iio_chan_spec ltr390_channel = {
-	.type = IIO_UVINDEX,
-	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE)
-};
+---
 
-With data being reported as:
+Changes for v11:
+- no updates
 
-case IIO_CHAN_INFO_RAW:
-	ret = ltr390_register_read(data, LTR390_UVS_DATA);
-	if (ret < 0)
-		return ret;
-	*val = ret;
-	return IIO_VAL_INT;
-case IIO_CHAN_INFO_SCALE:
-	*val = LTR390_WINDOW_FACTOR;
-	*val2 = LTR390_COUNTS_PER_UVI;
-	return IIO_VAL_FRACTIONAL;
+Changes for v10:
+- Added interrupt-controller/irq.h header
 
->> diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
->> new file mode 100644
->> index 000000000000..67ca028ce828
->> --- /dev/null
->> +++ b/drivers/iio/light/ltr390.c
->> @@ -0,0 +1,232 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * IIO driver for Lite-On LTR390 ALS and UV sensor
->> + * (7-bit I2C slave address 0x53)
->> + *
->> + * Based on the work of:
->> + *   Shreeya Patel and Shi Zhigang (LTRF216 Driver)
->> + *
->> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
->> + *
->> + * Datasheet:
->> + *   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
->> + *
->> + * TODO:
->> + *   - Support for configurable gain and resolution
-> 
-> Not using PROCESSED will help with this, so I'd drop that even in this initial
-> driver.
->>> + *   - Sensor suspend/resume support
->> + *   - Add support for reading the ALS
->> + *   - Interrupt support
-> 
->> + */
->> +
->> +#include <asm/unaligned.h>
-> 
-> Put this in a block of includes after the linux ones.
-> 
->> +#include <linux/delay.h>
->> +#include <linux/i2c.h>
->> +#include <linux/iio/iio.h>
->> +#include <linux/math.h>
->> +#include <linux/module.h>
->> +#include <linux/mutex.h>
->> +#include <linux/regmap.h>
->> +
->> +#define LTR390_DEVICE_NAME	    "ltr390"
->> +
->> +#define LTR390_MAIN_CTRL	    0x00
->> +#define LTR390_PART_ID		    0x06
->> +#define LTR390_UVS_DATA		    0x10
->> +
->> +#define LTR390_SW_RESET		    BIT(4)
->> +#define LTR390_UVS_MODE		    BIT(3)
->> +#define LTR390_SENSOR_ENABLE	    BIT(1)
->> +
->> +#define LTR390_PART_NUMBER_ID	    0xb
->> +#define LTR390_FRACTIONAL_PERCISION 100
->> +
->> +/*
->> + * At 20-bit resolution (integration time: 400ms) and 18x gain, 2300 counts of
->> + * the sensor are equal to 1 UV Index [Datasheet Page#8].
->> + *
->> + * For the default resolution of 18-bit (integration time: 100ms) and default
->> + * gain of 3x, the counts/uvi are calculated as follows:
->> + * 2300 / ((3/18) * (100/400)) = 95.83
->> + */
->> +#define LTR390_COUNTS_PER_UVI 96
->> +
->> +/*
->> + * Window Factor is needed when the device is under Window glass with coated
->> + * tinted ink. This is to compensate for the light loss due to the lower
->> + * transmission rate of the window glass and helps * in calculating lux.
->> + */
->> +#define LTR390_WINDOW_FACTOR 1
->> +
->> +struct ltr390_data {
->> +	struct regmap *regmap;
->> +	struct i2c_client *client;
->> +	struct mutex lock;
-> 
-> All locks need a comment explaining the scope of data they protect.
-> Note that regmap and the i2c bus will have their own locks by default
-> so I'm not sure you need one here at all as I'm not seeing read modify write
-> cycles or anything like that (I might be missing one though!)
+Changes for v9:
+- Added interrupt in example
 
-My goal with the mutex was to protect the sysfs though that might be
-unnecessary.
+Changes for v8:
+- no updates
 
->> +};
->> +
->> +static const struct regmap_config ltr390_regmap_config = {
->> +	.name = LTR390_DEVICE_NAME,
->> +	.reg_bits = 8,
->> +	.reg_stride = 1,
->> +	.val_bits = 8,
->> +};
->> +
->> +static int ltr390_register_read(struct ltr390_data *data, u8 register_address)
->> +{
->> +	struct device *dev = &data->client->dev;
->> +	int ret;
->> +	u8 recieve_buffer[3];
->> +
->> +	mutex_lock(&data->lock);
-> 
-> guard(mutex)(&data->lock); 
-> here then you can just return directly without worrying about manual
-> unlocking of the mutex.  This stuff is fairly new in the kernel but very
-> useful for cases like this!  I have a set of driver cleanup that I'll send
-> out that does this in a few IIO drivers, once I've caught up with reviews etc.
-> 
-> This isn't a critical path where we have to care that we will then unlock
-> after the maths to extract value in the final line of the function.
-> 
->> +
->> +	ret = regmap_bulk_read(data->regmap, register_address, recieve_buffer,
->> +			       sizeof(recieve_buffer));
->> +	if (ret) {
->> +		dev_err(dev, "failed to read measurement data: %d\n", ret);
->> +		mutex_unlock(&data->lock);
->> +		return ret;
->> +	}
->> +
->> +	mutex_unlock(&data->lock);
->> +	return get_unaligned_le24(recieve_buffer);
->> +}
->> +
->> +static int ltr390_get_uv_index(struct ltr390_data *data)
->> +{
->> +	int ret;
->> +	int uv_index;
->> +
->> +	ret = ltr390_register_read(data, LTR390_UVS_DATA);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	uv_index = DIV_ROUND_CLOSEST(ret * LTR390_FRACTIONAL_PERCISION *
->> +					     LTR390_WINDOW_FACTOR,
->> +				     LTR390_COUNTS_PER_UVI);
-> 
-> This looks like a linear conversion.  Perhaps make it a userspace problem
-> as division much easier in userspace where floating point is available.
-> 
->> +
->> +	return uv_index;
->> +}
->> +
-> 
->> +
->> +static const struct iio_chan_spec ltr390_channels[] = {
->> +	{
->> +		.type = IIO_UVINDEX,
->> +		.info_mask_separate = BIT(IIO_CHAN_INFO_PROCESSED)
->> +	},
->> +	{
->> +		.type = IIO_INTENSITY,
->> +		.channel2 = IIO_MOD_LIGHT_UV,
->> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW)
->> +	},
->> +};
->> +
->> +static int ltr390_probe(struct i2c_client *client)
->> +{
->> +	struct ltr390_data *data;
->> +	struct iio_dev *indio_dev;
->> +	int ret, part_number;
->> +
->> +	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
->> +	if (!indio_dev)
->> +		return -ENOMEM;
->> +
->> +	data = iio_priv(indio_dev);
->> +
->> +	data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
->> +	if (IS_ERR(data->regmap))
->> +		return dev_err_probe(&client->dev, PTR_ERR(data->regmap),
-> There are quite a few &client->dev in here. I'd introduce
-> struct device *dev = &client->dev;
-> as a local variable then use that to shorten all those lines a little.
-> 
->> +				     "regmap initialization failed\n");
->> +
->> +	data->client = client;
->> +	i2c_set_clientdata(client, indio_dev);
-> 
-> Why set this? I don' think you are using it.
-> 
+Changes for v7:
+- no updates
 
-It seems to be necessary for regmap to work properly, I tested without
-it and I get an EREMOTEIO(121) when reading the part id.
+Changes for v6:
+- no updates
 
->> [..]
+Changes for v5:
+- Added link to the datasheet
 
-Thanks for the review,
-Best regards,
-Anshul
+Changes for v4:
+- Fixed the URI for the id field
+- Added `interrupts` property
+
+Changes for v3:
+- Updated id field to reflect updated file name from previous version
+- Added `reg` property
+
+Changes for v2:
+- Renamed file to `adafruit,seesaw-gamepad.yaml`
+- Removed quotes for `$id` and `$schema`
+- Removed "Bindings for" from the description
+- Changed node name to the generic name "joystick"
+- Changed compatible to 'adafruit,seesaw-gamepad' instead of
+  'adafruit,seesaw_gamepad'
+
+Previous versions:
+v10: https://lore.kernel.org/lkml/20231121123409.2231115-1-anshulusr@gmail.com/
+v9: https://lore.kernel.org/lkml/20231121101751.2189965-1-anshulusr@gmail.com/
+v8: https://lore.kernel.org/lkml/20231108005337.45069-1-anshulusr@gmail.com/
+v7: https://lore.kernel.org/lkml/20231106164134.114668-1-anshulusr@gmail.com/
+v6: https://lore.kernel.org/lkml/20231027051819.81333-1-anshulusr@gmail.com/
+v5: https://lore.kernel.org/lkml/20231017034356.1436677-1-anshulusr@gmail.com/
+v4: https://lore.kernel.org/lkml/20231010184827.1213507-1-anshulusr@gmail.com/
+v3: https://lore.kernel.org/linux-input/20231008185709.2448423-1-anshulusr@gmail.com/
+v2: https://lore.kernel.org/linux-input/20231008172435.2391009-1-anshulusr@gmail.com/
+v1: https://lore.kernel.org/linux-input/20231007144052.1535417-1-anshulusr@gmail.com/
+
+---
+ .../input/adafruit,seesaw-gamepad.yaml        | 63 +++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+
+diff --git a/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+new file mode 100644
+index 000000000000..5e86f6de6978
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adafruit,seesaw-gamepad.yaml
+@@ -0,0 +1,63 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/adafruit,seesaw-gamepad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Adafruit Mini I2C Gamepad with seesaw
++
++maintainers:
++  - Anshul Dalal <anshulusr@gmail.com>
++
++description: |
++  Adafruit Mini I2C Gamepad
++
++    +-----------------------------+
++    |   ___                       |
++    |  /   \               (X)    |
++    | |  S  |  __   __  (Y)   (A) |
++    |  \___/  |ST| |SE|    (B)    |
++    |                             |
++    +-----------------------------+
++
++  S -> 10-bit precision bidirectional analog joystick
++  ST -> Start
++  SE -> Select
++  X, A, B, Y -> Digital action buttons
++
++  Datasheet: https://cdn-learn.adafruit.com/downloads/pdf/gamepad-qt.pdf
++  Product page: https://www.adafruit.com/product/5743
++  Arduino Driver: https://github.com/adafruit/Adafruit_Seesaw
++
++properties:
++  compatible:
++    const: adafruit,seesaw-gamepad
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++    description:
++      The gamepad's IRQ pin triggers a rising edge if interrupts are enabled.
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        joystick@50 {
++            compatible = "adafruit,seesaw-gamepad";
++            interrupts = <18 IRQ_TYPE_EDGE_RISING>;
++            reg = <0x50>;
++        };
++    };
+-- 
+2.42.1
+
