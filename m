@@ -1,325 +1,142 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39AD538A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 04:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C048FBFF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 07:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pxwaa7Ox"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PRFD41aW"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 566F3812E2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 04:34:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 566F3812E2
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9D0F281220
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 07:13:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9D0F281220
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=Pxwaa7Ox
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=PRFD41aW
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -17.601
+X-Spam-Score: -2.1
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gi9XHYQM-9kE
+	with ESMTP id 2rm8JbIN3B3r
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 27 Nov 2023 04:34:38 +0000 (UTC)
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1A7F4812DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 04:34:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1A7F4812DD
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50babb66dedso2386e87.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 20:34:37 -0800 (PST)
+	Mon, 27 Nov 2023 07:13:23 +0000 (UTC)
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id D60AC81092
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 Nov 2023 07:13:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D60AC81092
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a03a9009572so520222466b.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 26 Nov 2023 23:13:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701059676; x=1701664476; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IXbKy2pJw1weWM2AUX6qsAkpX0IgEY8LocF0NM/epjw=;
-        b=Pxwaa7OxtRumTbzrMZMRUjDKLXgw5AQDxkMNgxJRs75I6ez4fGPd6zMoKtFjyWavjo
-         GSADYThiNinRuiKOu6nuP1L/HdRJyLK5SLE5wg0FXBz6QhEWbmGM+QLsLFXej6ubBEU7
-         aqTBGk//qASYOdr0agciS8R1/9AWQI5l+HX5C7utGzvs4Iznb0cDSk5+0OvHokFvaG/y
-         BdGmU6lzvZixiWZw+RB2yT+oFPfaHv4TvN04nb5hC2Sk1BThMya7+Zz49Sy25Al+JHGr
-         ZV5D/niDNt0p2ky/rDDsetsLLYwoM7xu/sCLo/sZH69yoZ62DYwlaPKhQS7DlEKHyHq6
-         kGjw==
+        d=linaro.org; s=google; t=1701069201; x=1701674001; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tbVe3tMYTyb/FdyH9uKkvXaSbuVFLhVdV8vu0G4f77c=;
+        b=PRFD41aW4Qcb6jdwjNOE8bF/aJcZSqq81r2yxMPjxEPVhm+/xZRBoiNwYkhiwOzI4m
+         FDeM068LT9rkmSHF7plV/dXcgu6atOdIg5UsQoHnKkzBe362aYGAM6L1SIaPne6zvzkJ
+         uyQd1h4+JCNJE9XLZhEBUV40Y0OuJdeRSfxILQL3KznRvDXFA6fszSR/na+y4gq8AZUi
+         UaJzcmy9jyj1+muTP1FXf82TIHd7g671QML6cunLHh4qn7ldw4QCgyP8lIStxBXtKOnN
+         4Ufm4ZoRSnmX4LAz3/VUsCW1OqoMg8jceNYUgc6rRydQYVKJaWZ5hrFA5wLgqUErHGb0
+         aJvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701059676; x=1701664476;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IXbKy2pJw1weWM2AUX6qsAkpX0IgEY8LocF0NM/epjw=;
-        b=MGTjbwguEm3Hxk1oN2buPClmKzIl23n5gMQ9joDnNx2bxo1tOWLtiEi+0+Oc//o2Ln
-         ckljOgm/79GehD3k6k8FoWpLp4tTEM3mgqSE3MpLrC7NdYQ0mUPVIuJ0FfHkPcuus9ye
-         qQ4CczXfJES+8G6VL6cClpQLPfEIzcmIYVCbMhTTporyls33T1GoblTkoMknrvWn5cHC
-         0fdIm6QixpDxrRaG4wVfiqHT48znPdWZg//1FFWZoJxIpPmvAf7l++N9fRIoOfbJUnf1
-         nGtrxhyQqmK+VV7NqtovX9BGZXEGnhgOUpmdmrzrQ54Nu0l+UPSW13t/eqY4kHjixbwT
-         6/kg==
-X-Gm-Message-State: AOJu0YyvScI0MkMJGRHlFx2fM665xj6K/pMnl92H/Sbjjs1wNb14/7TD
-	MzcB5SyKhZEFb22liiButxzlAkeC/7nN+xy8PRpm6g==
-X-Google-Smtp-Source: AGHT+IFhdT60DfmJFK01YP5LJxJl2q5WHKddBuvyqA3O+DhvY0L2910Po9fgOI0KxYcxbbBEVJoe6jXahBGdrtcbosA=
-X-Received: by 2002:a05:6512:239e:b0:501:a2b9:6046 with SMTP id
- c30-20020a056512239e00b00501a2b96046mr452354lfv.7.1701059675534; Sun, 26 Nov
- 2023 20:34:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701069201; x=1701674001;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tbVe3tMYTyb/FdyH9uKkvXaSbuVFLhVdV8vu0G4f77c=;
+        b=mvK4MQFC5FI6/YzmuMJU7I0i/SUO4U7SItapX2JcYHd8arHkbWCOyRH0Rs9P+Eci4q
+         tUA0KXcjxmz94zyhTj0UurNQ9447sqfbs46pZzUCK9VTJoF5+3M3MHHzFJiQBCOaQc/e
+         3WtpToh4R2qr5EuQGjEGhGGxCvndGmjiJrFfGxxcNC344wn6I8NloAy5iPeRHlNhhEHp
+         Ti2D3BRvaQZfFc4nuHpWUe9xOZJOgFT6lmxpvMrBB5NJaTbbg2CHVcaCSbwhdIE14Z3m
+         wFW1OzKqrwbZSHLokyVv+kDOhjhtX81hSp/wt/Atfu03fPMqhrpQCEIuRKhSiPcLxxXz
+         9dbQ==
+X-Gm-Message-State: AOJu0YzdePMFJ6bMZyqK9SMNaOWYDGRzq6YOml7UNyD6IOgYuVypQIVI
+	JROGRPEmSLqlaeQvNSErWkjJ0A==
+X-Google-Smtp-Source: AGHT+IFMWMOURpwMpS2lIps1zBs+bISU7TKXOjGiHwV+YM/N16bzmWCwCmoAHjVdg4aUdQfxVq4JlA==
+X-Received: by 2002:a17:906:20d7:b0:a10:172b:4cfe with SMTP id c23-20020a17090620d700b00a10172b4cfemr967159ejc.11.1701069200994;
+        Sun, 26 Nov 2023 23:13:20 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.109])
+        by smtp.gmail.com with ESMTPSA id mm21-20020a170906cc5500b009fd490c4cb6sm5366758ejb.39.2023.11.26.23.13.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Nov 2023 23:13:20 -0800 (PST)
+Message-ID: <c4cdfe7f-fd83-47ba-a377-54d0934e8d76@linaro.org>
+Date: Mon, 27 Nov 2023 08:13:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <VI1P193MB07529BC28E5B333A8526BEBD99BEA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-In-Reply-To: <VI1P193MB07529BC28E5B333A8526BEBD99BEA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Mon, 27 Nov 2023 05:34:22 +0100
-Message-ID: <CACT4Y+aVjKTxTamnybC9gS7uvSodYjvHst9obo=GjJ_km-_pdw@mail.gmail.com>
-Subject: Re: [PATCH v2] kasan: Record and report more information
-To: Juntong Deng <juntong.deng@outlook.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, 
-	vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] dt-bindings: input: convert gpio-mouse to json-schema
+Content-Language: en-US
+To: Anshul Dalal <anshulusr@gmail.com>, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Linus Walleij
+ <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231126103029.851742-1-anshulusr@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231126103029.851742-1-anshulusr@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 26 Nov 2023 at 23:25, Juntong Deng <juntong.deng@outlook.com> wrote:
->
-> Record and report more information to help us find the cause of the
-> bug and to help us correlate the error with other system events.
->
-> This patch adds recording and showing CPU number and timestamp at
-> allocation and free (controlled by CONFIG_KASAN_EXTRA_INFO). The
-> timestamps in the report use the same format and source as printk.
->
-> Error occurrence timestamp is already implicit in the printk log,
-> and CPU number is already shown by dump_stack_lvl, so there is no
-> need to add it.
->
-> In order to record CPU number and timestamp at allocation and free,
-> corresponding members need to be added to the relevant data structures,
-> which will lead to increased memory consumption.
->
-> In Generic KASAN, members are added to struct kasan_track. Since in
-> most cases, alloc meta is stored in the redzone and free meta is
-> stored in the object or the redzone, memory consumption will not
-> increase much.
->
-> In SW_TAGS KASAN and HW_TAGS KASAN, members are added to
-> struct kasan_stack_ring_entry. Memory consumption increases as the
-> size of struct kasan_stack_ring_entry increases (this part of the
-> memory is allocated by memblock), but since this is configurable,
-> it is up to the user to choose.
->
-> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+On 26/11/2023 11:30, Anshul Dalal wrote:
+> Convert device tree binding documentation for GPIO attached mouse to
+> json-schema.
+> 
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 > ---
-> V1 -> V2: Use bit field to reduce memory consumption. Add more detailed
-> config help. Cancel printing of redundant error occurrence timestamp.
->
->  lib/Kconfig.kasan      | 21 +++++++++++++++++++++
->  mm/kasan/common.c      | 10 ++++++++++
->  mm/kasan/kasan.h       | 10 ++++++++++
->  mm/kasan/report.c      |  6 ++++++
->  mm/kasan/report_tags.c | 16 ++++++++++++++++
->  mm/kasan/tags.c        | 17 +++++++++++++++++
->  6 files changed, 80 insertions(+)
->
-> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index 935eda08b1e1..8653f5c38be7 100644
-> --- a/lib/Kconfig.kasan
-> +++ b/lib/Kconfig.kasan
-> @@ -207,4 +207,25 @@ config KASAN_MODULE_TEST
->           A part of the KASAN test suite that is not integrated with KUnit.
->           Incompatible with Hardware Tag-Based KASAN.
->
-> +config KASAN_EXTRA_INFO
-> +       bool "Record and report more information"
-> +       depends on KASAN
-> +       help
-> +         Record and report more information to help us find the cause of the
-> +         bug and to help us correlate the error with other system events.
-> +
-> +         Currently, the CPU number and timestamp are additionally
-> +         recorded for each heap block at allocation and free time, and
-> +         8 bytes will be added to each metadata structure that records
-> +         allocation or free information.
-> +
-> +         In Generic KASAN, each kmalloc-8 and kmalloc-16 object will add
-> +         16 bytes of additional memory consumption, and each kmalloc-32
-> +         object will add 8 bytes of additional memory consumption, not
-> +         affecting other larger objects.
-> +
-> +         In SW_TAGS KASAN and HW_TAGS KASAN, depending on the stack_ring_size
-> +         boot parameter, it will add 8 * stack_ring_size bytes of additional
-> +         memory consumption.
-> +
->  endif # KASAN
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index b5d8bd26fced..2f0884c762b7 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -20,6 +20,7 @@
->  #include <linux/module.h>
->  #include <linux/printk.h>
->  #include <linux/sched.h>
-> +#include <linux/sched/clock.h>
->  #include <linux/sched/task_stack.h>
->  #include <linux/slab.h>
->  #include <linux/stackdepot.h>
-> @@ -49,6 +50,15 @@ depot_stack_handle_t kasan_save_stack(gfp_t flags, depot_flags_t depot_flags)
->
->  void kasan_set_track(struct kasan_track *track, gfp_t flags)
->  {
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +       u32 cpu = raw_smp_processor_id();
-> +       u64 ts_nsec = local_clock();
-> +       unsigned long rem_usec = do_div(ts_nsec, NSEC_PER_SEC) / 1000;
-> +
-> +       track->cpu = cpu;
-> +       track->ts_sec = ts_nsec;
-> +       track->ts_usec = rem_usec;
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->         track->pid = current->pid;
->         track->stack = kasan_save_stack(flags,
->                         STACK_DEPOT_FLAG_CAN_ALLOC | STACK_DEPOT_FLAG_GET);
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index b29d46b83d1f..2a37baa4ce2f 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -187,6 +187,11 @@ static inline bool kasan_requires_meta(void)
->  struct kasan_track {
->         u32 pid;
->         depot_stack_handle_t stack;
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +       u64 cpu:20;
-> +       u64 ts_sec:22;
-> +       u64 ts_usec:22;
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->  };
->
->  enum kasan_report_type {
-> @@ -278,6 +283,11 @@ struct kasan_stack_ring_entry {
->         u32 pid;
->         depot_stack_handle_t stack;
->         bool is_free;
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +       u64 cpu:20;
-> +       u64 ts_sec:22;
-> +       u64 ts_usec:22;
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->  };
->
->  struct kasan_stack_ring {
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index e77facb62900..8cd8f6e5cf24 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -262,7 +262,13 @@ static void print_error_description(struct kasan_report_info *info)
->
->  static void print_track(struct kasan_track *track, const char *prefix)
->  {
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +       pr_err("%s by task %u on cpu %d at %u.%06us:\n",
-> +                       prefix, track->pid, track->cpu,
-> +                       track->ts_sec, track->ts_usec);
-> +#else
->         pr_err("%s by task %u:\n", prefix, track->pid);
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->         if (track->stack)
->                 stack_depot_print(track->stack);
->         else
-> diff --git a/mm/kasan/report_tags.c b/mm/kasan/report_tags.c
-> index 55154743f915..bf895b1d2dc2 100644
-> --- a/mm/kasan/report_tags.c
-> +++ b/mm/kasan/report_tags.c
-> @@ -27,6 +27,16 @@ static const char *get_common_bug_type(struct kasan_report_info *info)
->         return "invalid-access";
->  }
->
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +static void kasan_complete_extra_report_info(struct kasan_track *track,
-> +                                        struct kasan_stack_ring_entry *entry)
-> +{
-> +       track->cpu = entry->cpu;
-> +       track->ts_sec = entry->ts_sec;
-> +       track->ts_usec = entry->ts_usec;
-> +}
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
-> +
->  void kasan_complete_mode_report_info(struct kasan_report_info *info)
->  {
->         unsigned long flags;
-> @@ -73,6 +83,9 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
->
->                         info->free_track.pid = entry->pid;
->                         info->free_track.stack = entry->stack;
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +                       kasan_complete_extra_report_info(&info->free_track, entry);
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->                         free_found = true;
->
->                         /*
-> @@ -88,6 +101,9 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
->
->                         info->alloc_track.pid = entry->pid;
->                         info->alloc_track.stack = entry->stack;
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +                       kasan_complete_extra_report_info(&info->alloc_track, entry);
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->                         alloc_found = true;
->
->                         /*
-> diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-> index 739ae997463d..c172e115b9bb 100644
-> --- a/mm/kasan/tags.c
-> +++ b/mm/kasan/tags.c
-> @@ -13,6 +13,7 @@
->  #include <linux/memblock.h>
->  #include <linux/memory.h>
->  #include <linux/mm.h>
-> +#include <linux/sched/clock.h>
->  #include <linux/stackdepot.h>
->  #include <linux/static_key.h>
->  #include <linux/string.h>
-> @@ -93,6 +94,19 @@ void __init kasan_init_tags(void)
->         }
->  }
->
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +static void save_extra_info(struct kasan_stack_ring_entry *entry)
-> +{
-> +       u32 cpu = raw_smp_processor_id();
-> +       u64 ts_nsec = local_clock();
-> +       unsigned long rem_usec = do_div(ts_nsec, NSEC_PER_SEC) / 1000;
-> +
-> +       entry->cpu = cpu;
-> +       entry->ts_sec = ts_nsec;
-> +       entry->ts_usec = rem_usec;
 
-I would timestamp as a single field in all structs and convert it to
-sec/usec only when we print it. It would make all initialization and
-copying shorter. E.g. this function can be just:
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-       entry->cpu = raw_smp_processor_id();
-       entry->timestamp = local_clock() / 1024;
+Best regards,
+Krzysztof
 
-Dividing by 1024 is much faster and gives roughly the same precision.
-This can be unscaled during reporting:
-
-       u64 sec = entry->timestamp * 1024;
-       unsigned long usec = do_div(sec, NSEC_PER_SEC) / 1000;
-
-But otherwise the patch looks good to me.
-
-Reviewed-by: Dmitry Vyukov <dvyukov@google.com>
-
-> +}
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
-> +
->  static void save_stack_info(struct kmem_cache *cache, void *object,
->                         gfp_t gfp_flags, bool is_free)
->  {
-> @@ -128,6 +142,9 @@ static void save_stack_info(struct kmem_cache *cache, void *object,
->         entry->pid = current->pid;
->         entry->stack = stack;
->         entry->is_free = is_free;
-> +#ifdef CONFIG_KASAN_EXTRA_INFO
-> +       save_extra_info(entry);
-> +#endif /* CONFIG_KASAN_EXTRA_INFO */
->
->         entry->ptr = object;
->
-> --
-> 2.39.2
->
