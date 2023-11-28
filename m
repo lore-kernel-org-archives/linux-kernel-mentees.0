@@ -1,74 +1,77 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C80444C9B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:49:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E16481B8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ewK5XUWu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SnlalIRp"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 223034012B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:49:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 223034012B
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ewK5XUWu
+	by smtp4.osuosl.org (Postfix) with ESMTP id CCDD041797
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:11:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CCDD041797
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SnlalIRp
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id vBymEXsKTRlp
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Vf_aXGPPQgkR
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 28 Nov 2023 21:49:04 +0000 (UTC)
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1FB9D400FF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:49:03 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1FB9D400FF
-Received: by mail-qk1-x735.google.com with SMTP id af79cd13be357-77d84f8808dso241036185a.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 13:49:03 -0800 (PST)
+	Tue, 28 Nov 2023 22:11:35 +0000 (UTC)
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1C689417B0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:11:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1C689417B0
+Received: by mail-qk1-x72c.google.com with SMTP id af79cd13be357-77d67000b69so343288785a.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 14:11:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701208143; x=1701812943; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1701209493; x=1701814293; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9gRjgH2cK5ajZRSCUmFV/9aCVUL7685vwmsd3v9kOPs=;
-        b=ewK5XUWukGOJF9ZrK2RpKsdFT8aVAaPMAXuJypnYpLy8YkryGP4GUlb1foG7UfiZ4C
-         IH05HSryywzyfC0jHVUFxY+ImOhNddJnyc2uiaI5JqEBBUNFeLH8aTin5b9QmF/KcvrL
-         jfOmwASguMYp/SFFWe50CX5pyDs5Im/DNdEgh43WiG84o4Bv+tZR4jOFBkVX6SXyTaGG
-         LswAjH0YGUZl1GiuJlOmOdurCFO5XQSB3HK07E97HyVTaFMU2JxoCQqyILF8cpfTNa+q
-         843rPDICqqvrzoISYDtueofTtiS2gJ3E4+4k+qgLeEI9E5C+0b7qu/PSnniAPal0Q9/h
-         QJOQ==
+        bh=smmd9kiR3daHT08sErSgxntxOfc7UlUmITupKqw2V0c=;
+        b=SnlalIRpCUyhvfb/c5kaTigraAtB63yT9WVM3PQE+7eOhq/dmR69/Eb9i4QmBaaMXj
+         PPIgjzmAqRYzK2VwK25zS+qUxeGiZaOLg4I2TlJNKKBTqHjr5uhPZBD16lgL0nczfY4N
+         wyLC4p1USM/rF8q1WRr6QzO0dCg7UNMOOCikfZ3Z9vm1ZYjsBKae9JWJoKVMqhCF9c5/
+         7Eau1c0QkNDchsTE4IOlX+M0MtdC+Ht2ovFoza+DJiIEq9pvvfpm3hla4X26eDtwVR2+
+         sZfXattIuixovyZ2bNNyXxbafuTV2k2j3qohHGO2hHg66r6TndyGeSXG7pfLPhn2Qsd3
+         bUGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701208143; x=1701812943;
+        d=1e100.net; s=20230601; t=1701209493; x=1701814293;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9gRjgH2cK5ajZRSCUmFV/9aCVUL7685vwmsd3v9kOPs=;
-        b=UCUp9m5OBQHG7KQ02WLdW6WIMAwTDWOKxPSOpqbYzMSJE2MlEw57htElPJLmABYUd4
-         88RL4w4Nouq1eSQfkmosFUPJFzd50ahq8rJWcVBQcYL/NEkCtHYsjwOzqbQUaU55pRmN
-         OU82wo/G0nSfdgTuUoJd178WsmdsqayVFKw/n2Pzmj+aPNnxLoiIjGw37LNdwHh3xE+H
-         5oyLIYpv6NLLzys2m+FJf/PfjDLmMUQ9BAvV/uwVBsjlrhINcWO13YX5p94CSsr7yVzI
-         Bi/r1jI32HF9u2ow9YgEZHQTse0bVSUMT8f4VcO5q5sj6jKtqtR4GKKgd3rnTvFgz+vO
-         QVlw==
-X-Gm-Message-State: AOJu0YzNpHtYPdha0zbQ1G5lkMbYrC19Mg6BuniZtWCN8llzgiTQ46Bp
-	gkBmEq1wdhPukI2qhSK5eM8=
-X-Google-Smtp-Source: AGHT+IF0QxaAgFEtr+edYeVMZIhTSIblAJXMe9mRtYqbJ1nR/ptVUp8eCqEDMQecAM9siqeXFXzZUQ==
-X-Received: by 2002:a05:620a:2d89:b0:77b:9bf8:b0e3 with SMTP id tr9-20020a05620a2d8900b0077b9bf8b0e3mr14237057qkn.27.1701208142987;
-        Tue, 28 Nov 2023 13:49:02 -0800 (PST)
+        bh=smmd9kiR3daHT08sErSgxntxOfc7UlUmITupKqw2V0c=;
+        b=aEU9FcUdITNBOMbk6uMKjbrw9e6x1IWNZYBm4X4x3UApoIUvjx0NDlwVZ+ic+nf42v
+         sp+sRPwE8w9tdam/2TQRMrYjlQVZtQSBJOL8Ew2Vpczm8boxwEe1X2sMi2H0l5EfIs1d
+         TlZ1blpuofSRX3TgXhYGWpE0/CSZukTQmA5hr/SIuFOvZnhDVJBBFTt/hiXvu+mI1tuN
+         1pVX7/Sd1nAbw0oGey9fL9h2t8u7vs/ePQnKZSGp0mNIoCnsf3iM+tJEJLxZp4LEpLYo
+         HInkLQEgS8yReu56Hp/iexFA2o5/k327pVq89Y3n7d9a6eiNUSrItOh/GAg93qGdCgNL
+         Q4WA==
+X-Gm-Message-State: AOJu0YyqI+jOVGKsXaA3ttDX552FblRxxIHoWeynHyQK/gN5FHCpnGbH
+	bDIGYy7BQxtTeCdaqMNW7dg=
+X-Google-Smtp-Source: AGHT+IHHqwVc8SvRXmif3h+061EREXCzwmz1UC8lMM25VJt2rpTg19U4o5b4qIr0XZad2Fj2jk4P1g==
+X-Received: by 2002:a05:620a:8718:b0:77d:5c49:b4f3 with SMTP id px24-20020a05620a871800b0077d5c49b4f3mr15289011qkn.47.1701209493722;
+        Tue, 28 Nov 2023 14:11:33 -0800 (PST)
 Received: from angquan-linux.. ([72.36.119.4])
-        by smtp.gmail.com with ESMTPSA id ea11-20020a05620a488b00b0077d93c7c785sm3131141qkb.119.2023.11.28.13.49.02
+        by smtp.gmail.com with ESMTPSA id ea11-20020a05620a488b00b0077d93c7c785sm3144056qkb.119.2023.11.28.14.11.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 13:49:02 -0800 (PST)
+        Tue, 28 Nov 2023 14:11:33 -0800 (PST)
 From: angquan yu <angquan21@gmail.com>
 X-Google-Original-From: angquan yu
 To: skhan@linuxfoundation.org
 Cc: shuah@kernel.org,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	kvm@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	angquan yu <angquan21@gmail.com>
-Subject: [PATCH] selftests/breakpoints: Fix format specifier in ksft_print_msg in step_after_suspend_test.c
-Date: Tue, 28 Nov 2023 15:48:54 -0600
-Message-Id: <20231128214854.60362-1-angquan21@gmail.com>
+Subject: [PATCH] Resolve Macro Expansion Warning in nx_huge_pages_test.c
+Date: Tue, 28 Nov 2023 16:11:05 -0600
+Message-Id: <20231128221105.63093-1-angquan21@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -80,37 +83,42 @@ Content-Transfer-Encoding: 8bit
 
 From: angquan yu <angquan21@gmail.com>
 
-In the function 'tools/testing/selftests/breakpoints/run_test' within
-step_after_suspend_test.c, the ksft_print_msg function call incorrectly
-used '$s' as a format specifier. This commit corrects this typo to use the
-proper '%s' format specifier, ensuring the error message from
-waitpid() is correctly displayed.
+This commit fixes a compiler warning in the file
+x86_64/nx_huge_pages_test.c, which was caused by improper
+macro expansion of '__TEST_REQUIRE'.
 
-The issue manifested as a compilation warning (too many arguments
-for format [-Wformat-extra-args]), potentially obscuring actual
-runtime errors and complicating debugging processes.
+Warning addressed:
+- The warning was triggered by the expansion of the '__TEST_REQUIRE'
+macro, indicating a potential issue in how the macro was being
+used or expanded.
 
-This fix enhances the clarity of error messages during test failures
-and ensures compliance with standard C format string conventions.
+Changes made:
+- Modified the usage of the '__TEST_REQUIRE' macro to ensure proper
+expansion. This involved explicitly passing the expected magic token
+(MAGIC_TOKEN) and a descriptive error message to the macro.
+- The fix enhances clarity in the macro usage and ensures that
+the compiler correctly interprets the intended logic, thereby
+resolving the warning.
 
 Signed-off-by: angquan yu <angquan21@gmail.com>
 ---
- tools/testing/selftests/breakpoints/step_after_suspend_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/breakpoints/step_after_suspend_test.c b/tools/testing/selftests/breakpoints/step_after_suspend_test.c
-index 2cf6f10ab..b8703c499 100644
---- a/tools/testing/selftests/breakpoints/step_after_suspend_test.c
-+++ b/tools/testing/selftests/breakpoints/step_after_suspend_test.c
-@@ -89,7 +89,7 @@ int run_test(int cpu)
+diff --git a/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c b/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
+index 18ac5c195..323ede6b6 100644
+--- a/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
++++ b/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
+@@ -259,7 +259,8 @@ int main(int argc, char **argv)
+ 	__TEST_REQUIRE(token == MAGIC_TOKEN,
+ 		       "This test must be run with the magic token %d.\n"
+ 		       "This is done by nx_huge_pages_test.sh, which\n"
+-		       "also handles environment setup for the test.");
++		       "also handles environment setup for the test.",
++			   MAGIC_TOKEN);
  
- 	wpid = waitpid(pid, &status, __WALL);
- 	if (wpid != pid) {
--		ksft_print_msg("waitpid() failed: $s\n", strerror(errno));
-+		ksft_print_msg("waitpid() failed: %s\n", strerror(errno));
- 		return KSFT_FAIL;
- 	}
- 	if (WIFEXITED(status)) {
+ 	run_test(reclaim_period_ms, false, reboot_permissions);
+ 	run_test(reclaim_period_ms, true, reboot_permissions);
 -- 
 2.39.2
 
