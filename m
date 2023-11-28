@@ -1,63 +1,63 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7655A42A8E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2D535268
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:36:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlPuau6H"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yod0zUUn"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 7C53C60BF8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:29:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7C53C60BF8
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TlPuau6H
+	by smtp2.osuosl.org (Postfix) with ESMTP id 789974012E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:36:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 789974012E
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Yod0zUUn
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SdsXuAJKoLkD
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id a-xvgj0bmV9z
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 28 Nov 2023 21:29:45 +0000 (UTC)
-Received: from mail-oo1-xc30.google.com (mail-oo1-xc30.google.com [IPv6:2607:f8b0:4864:20::c30])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id CDFE960BD8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:29:44 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CDFE960BD8
-Received: by mail-oo1-xc30.google.com with SMTP id 006d021491bc7-58d54612d9cso2003893eaf.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 13:29:44 -0800 (PST)
+	Tue, 28 Nov 2023 21:36:18 +0000 (UTC)
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 87C39400FF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 21:36:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 87C39400FF
+Received: by mail-qk1-x732.google.com with SMTP id af79cd13be357-77d85cf1ff5so226134485a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 13:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701206984; x=1701811784; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1701207377; x=1701812177; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=50NgtX7SvQ7Ubnw7wnZdr9/ovViujYpH8S6F31BeVuI=;
-        b=TlPuau6HiSV2V27MTLu7lEmYcqXZ3JYJwggYOf1du2lYSCsHMqA6TfcEOB5G4x1bJc
-         yjjB+sFbtNSbSgNViNmQM//o6RX/wxtvcWsW7IohvBGlIKQDOXDoR70NMrUS2EeSpHbr
-         JeVst6Pc2z6p9unat0YSJqd8+Q7oPmj1kIjOz7eLmXvH2YbEy0OUmoC26kzEThojHGfR
-         WwICJ5qON5Tlow6i9rAN2junVwCmxAXAT5TcuVOUlJFBBNlTQuZYo98txskOmd0hveoa
-         JGzoNo8iHFv2CbWkMExSb9UTWHB4hhpmiMV7cgFoj7gKXjsQ+zoxVycUigGLGhs66N9w
-         WD1A==
+        bh=9+7egZpgbxWlQy7x1pNLLDFc7cb12zF09MZ6gXGVBBI=;
+        b=Yod0zUUnnx/bAG9eCw/jZE/WyLPJdLg9lCfGTjwUPcKq3AifH/3h1BWK8xP7tM/GpP
+         PtusO8Y1X1IzLfw4qnKXMkHzhBDNFqvBZIV/G3ppVOqRL9IVCAADeY82xX6ek3yHK5Oe
+         kepYJgCO9RZB7kLRtvjYwe9ZH0/L+bd0xeBzmjiiV+69wqJXLHmfBVMwV6pnbephJxGA
+         AXjN3il8L3uKbNCKIQEZcojOsMZBZSyzpt5dSvGUISjfdm12MXd3U3i5oeoWpJfaoeh8
+         Y0DkZcadBTs4bLErdoEITnZGg0LkzuZEfYUuNlhw3qKWxKBCjDM2y34w85ZVmGRyzb+S
+         vx/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701206984; x=1701811784;
+        d=1e100.net; s=20230601; t=1701207377; x=1701812177;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=50NgtX7SvQ7Ubnw7wnZdr9/ovViujYpH8S6F31BeVuI=;
-        b=go5SJ5BJLiTjrO69rVxTeyGoB0ADACpUJtVfu18sCxNfSU/OiX2A7j7nDUK6Krr05n
-         84/K/SM99onN5DJOM/fGTy2mXC7+Iv+jeSkrxc+bb69QgEBl+qt1zBvbTR6J9QgiDx7y
-         I5QA/1Fvw/DzOLrPJlHF6JqNNp3exAO9nfKtcwJL6rhPqxfedJkNa/SfObTh5gke15/Z
-         bxuMa0uaX8OGzulAKhXTilVpiIEyWKoDfwjd1vvPw61D/uMQhcAcKAToCl0xgcROrws2
-         4ASWQmZAB14TxoATGSqclvLEpEWCsrt2EtQNP3xUSsMTethlU0zOw2Xj8JRi2csOJTCa
-         1n/g==
-X-Gm-Message-State: AOJu0Yy461pe0Sx3Qih54TnZJNIdQmZyQzf1bb47TVAUdURZX9dLn+v8
-	EJeZ9HukFVq8V931giTWybQ=
-X-Google-Smtp-Source: AGHT+IGoswHYUfxHCB9J9zdO0iBkdDHzl9EW8tcmrjnfJTMp+HEs56LooAoxnz1sJN9WJ+Oji2aJaw==
-X-Received: by 2002:a05:6358:106:b0:16e:13c:ba48 with SMTP id f6-20020a056358010600b0016e013cba48mr16308704rwa.0.1701206983758;
-        Tue, 28 Nov 2023 13:29:43 -0800 (PST)
+        bh=9+7egZpgbxWlQy7x1pNLLDFc7cb12zF09MZ6gXGVBBI=;
+        b=NN8ozt/LrBtaahEV0wmyT7OS0IDJPLJqXWPUbTgzb7/HuBEWcgC5VLguD8ww0PUnCz
+         oSs0Bonby/2A6K372IHtuFS+5XtK5jdzgxMG/+NKc0dQwMttmIOnEgh8vJxGqHf9RX5P
+         iLwr4/4/WZKMm8I90LzhF9AMy52OaKy40v+0Ja5u/L+OAIW+vrOkEATQLNjHZlJJRfsZ
+         zPOdsJbeFkQ6qH0ZUTOA9T8W6N+ZeU5pXFz2FstdswIBJzWt70UXCAfbgUwJPwGqrRH0
+         wiNIK8jInVWUwYxGmhScvsDxM9Z0Pph5BHFDUlpju7I/Q7h3RUjv2ahYmhIIsRpj5YtR
+         hOXg==
+X-Gm-Message-State: AOJu0YwfOAmjqN/3DbnLNYrhbc9QrfLQDdi8mn9DBMXM9qk2GsBJ3OyW
+	cTrrOMV/gZs5nepKHPczGdM=
+X-Google-Smtp-Source: AGHT+IGezPzPpBB7DD09TuoxH+6HfyyvNO4ke1lW5qOxroc6VuYdtXuB6VytQfYAYI66586Qug016w==
+X-Received: by 2002:a05:620a:852f:b0:778:9156:3f07 with SMTP id pe47-20020a05620a852f00b0077891563f07mr16334065qkn.24.1701207377382;
+        Tue, 28 Nov 2023 13:36:17 -0800 (PST)
 Received: from angquan-linux.. ([72.36.119.4])
-        by smtp.gmail.com with ESMTPSA id t2-20020ac87602000000b00421c272bcbasm4880712qtq.11.2023.11.28.13.29.42
+        by smtp.gmail.com with ESMTPSA id q5-20020a05620a0c8500b00775bb02893esm4819851qki.96.2023.11.28.13.36.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 13:29:43 -0800 (PST)
+        Tue, 28 Nov 2023 13:36:17 -0800 (PST)
 From: angquan yu <angquan21@gmail.com>
 X-Google-Original-From: angquan yu
 To: skhan@linuxfoundation.org
@@ -66,9 +66,9 @@ Cc: shuah@kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	angquan yu <angquan21@gmail.com>
-Subject: [PATCH] Resolve 'Unused Result' Warning from proc-empty-vm.c
-Date: Tue, 28 Nov 2023 15:29:27 -0600
-Message-Id: <20231128212927.59313-1-angquan21@gmail.com>
+Subject: [PATCH] Fix Format String Warning in breakpoint_test
+Date: Tue, 28 Nov 2023 15:36:07 -0600
+Message-Id: <20231128213607.59587-1-angquan21@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -76,48 +76,57 @@ List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: angquan yu <angquan21@gmail.com>
 
-In tools/testing/selftests/proc/proc-empty->because the return value
-of a write call was being ignored. This call was partof a conditional
-debugging block (if (0) { ... }), which meant it would neveractually
-execute.
+This commit resolves a compiler warning regardingthe
+use of non-literal format strings in breakpoint_test.c.
 
-This patch removes the unused debug write call. This cleanup resolves
-the compi>warning about ignoring the result of write declared with
-the warn_unused_resultattribute.
+The functions `ksft_test_result_pass` and `ksft_test_result_fail`
+were previously called with a variable `msg` directly, which could
+potentially lead to format string vulnerabilities.
 
-Removing this code also improves the clarity and maintainability of
-the function, as it eliminates a non-functional block of code.
+Changes made:
+- Modified the calls to `ksft_test_result_pass` and `ksft_test_result_fail`
+by adding a "%s" format specifier. This explicitly declares `msg` as a
+string argument, adhering to safer coding practices and resolving
+the compiler warning.
 
-This is original warning: proc-empty-vm.c: In function
-‘test_proc_pid_statm’ :proc-empty-vm.c:385:17:
-warning: ignoring return value of ‘write’
-declared with>385 |                 write(1, buf, rv);|
+This change does not affect the functional behavior of the code but ensures
+better code safety and compliance with recommended C programming standards.
+
+The previous warning is "breakpoint_test.c:287:17:
+warning: format not a string literal and no format arguments
+[-Wformat-security]
+  287 |                 ksft_test_result_pass(msg);
+      |                 ^~~~~~~~~~~~~~~~~~~~~
+breakpoint_test.c:289:17: warning: format not a string literal
+and no format arguments [-Wformat-security]
+  289 |                 ksft_test_result_fail(msg);
+      |    "
 
 Signed-off-by: angquan yu <angquan21@gmail.com>
 ---
- tools/testing/selftests/proc/proc-empty-vm.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tools/testing/selftests/breakpoints/breakpoint_test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/proc/proc-empty-vm.c b/tools/testing/selftests/proc/proc-empty-vm.c
-index 5e7020630..d231e61e4 100644
---- a/tools/testing/selftests/proc/proc-empty-vm.c
-+++ b/tools/testing/selftests/proc/proc-empty-vm.c
-@@ -383,8 +383,10 @@ static int test_proc_pid_statm(pid_t pid)
- 	assert(rv <= sizeof(buf));
- 	if (0) {
- 		ssize_t written = write(1, buf, rv);
-+
- 		if (written == -1) {
- 			perror("write failed to /proc/${pid}");
-+			return EXIT_FAILURE;
- 		}
- 	}
+diff --git a/tools/testing/selftests/breakpoints/breakpoint_test.c b/tools/testing/selftests/breakpoints/breakpoint_test.c
+index 3266cc929..d46962a24 100644
+--- a/tools/testing/selftests/breakpoints/breakpoint_test.c
++++ b/tools/testing/selftests/breakpoints/breakpoint_test.c
+@@ -284,9 +284,9 @@ static void check_success(const char *msg)
+ 	nr_tests++;
  
+ 	if (ret)
+-		ksft_test_result_pass(msg);
++		ksft_test_result_pass("%s", msg);
+ 	else
+-		ksft_test_result_fail(msg);
++		ksft_test_result_fail("%s", msg);
+ }
+ 
+ static void launch_instruction_breakpoints(char *buf, int local, int global)
 -- 
 2.39.2
 
