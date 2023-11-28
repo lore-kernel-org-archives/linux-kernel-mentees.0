@@ -1,127 +1,118 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19333526B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180155024A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V0qTYtmG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlZ6FgSq"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3433A4093C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:46:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 3433A4093C
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8E7914093C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:51:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8E7914093C
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=V0qTYtmG
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IlZ6FgSq
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.101
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id hHU9TJsPA_NE
+	with ESMTP id i8ADzRY446kQ
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 28 Nov 2023 22:46:25 +0000 (UTC)
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7BAC84091B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:46:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7BAC84091B
-Received: by mail-qv1-xf35.google.com with SMTP id 6a1803df08f44-67a2443658aso17797996d6.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 14:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701211584; x=1701816384; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qhpsd/CJqEzY2wViCgUIbvNNXzGivZKIEmu3PQkzhVE=;
-        b=V0qTYtmG0iJRYGoeSxHJm+tiSw7rV+jr1yEeW975zCZSYIbJcpirU7TfMN3Ari9pYq
-         s0k/xa8HstMY6Prx/qNl5vBKxVqVVslq3lDNt7RK9MmGYWEXiu+tUJ/HZWYbtbbtmqSs
-         zJvuXZ8j0c20NEOUte5qzqedNpxj12EumDqIXynyOKJuzASiWWFexRlQPp1a0Kcowemg
-         fmT2KT8kDiTsAO1qPtA0G+DzLvlhP9Q+ADKpMHHbepIAH0yD48JkVquiNpeNu3P2Aqob
-         +QQFU5r8ACZCeMkFr+tI/g+H3TXnS5MFwagKJaTLEfOtR/1/9HmO/c0N3E4Nm1zMyhSl
-         KxNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701211584; x=1701816384;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qhpsd/CJqEzY2wViCgUIbvNNXzGivZKIEmu3PQkzhVE=;
-        b=QPMZzEFFn53ZvukVzAjNNmq1Rqk1RKLcZFfhoKGkHpVV1YE6X/iPzEQnzBLcYGdTze
-         2kVmyPg/saO39Rg0RPCBKZhcS3mHs2l4xy4G+fdMGRii6QeiarVrLErTrFnujeQBOMPC
-         gb+p1ey5rPJRRHhQ3wrv5byFsuCwGG56fZ4W9htCLvgTJdasXtOe5u1lmNvQxpzJYroN
-         8GM035XbYAkTXBFmqLCgHIyKcnsgtox6tlLgwzhB4kMydC1Dsl12f5f9h7WvrZdWuBHf
-         7y2/bhYAcY4vQKK6G8lTHlw2FPncJCsktWCliwm5WalysmyrXzdFnL1Fk7u/5Ns5GZjP
-         +JgQ==
-X-Gm-Message-State: AOJu0YxIDtA9qMb/cNku9rSsG7cfo8CrrXt/jfRpajshCAyoDYLb4GSC
-	paYjrgSC6IL6RZ83yMzuPbQ=
-X-Google-Smtp-Source: AGHT+IE6pRwhOTqRhINFN2eazXP7q4ErDCKPBsRwJZFUkJDiwFErGp8qdvqAseNy6DBU+RYnFDa6hQ==
-X-Received: by 2002:a05:6214:806:b0:67a:590a:18f6 with SMTP id df6-20020a056214080600b0067a590a18f6mr3626618qvb.51.1701211584122;
-        Tue, 28 Nov 2023 14:46:24 -0800 (PST)
-Received: from angquan-linux.. ([72.36.119.4])
-        by smtp.gmail.com with ESMTPSA id em15-20020ad44f8f000000b0067a543e6379sm1336565qvb.75.2023.11.28.14.46.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 14:46:23 -0800 (PST)
-From: angquan yu <angquan21@gmail.com>
-X-Google-Original-From: angquan yu
-To: skhan@linuxfoundation.org
-Cc: shuah@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	Tue, 28 Nov 2023 22:51:10 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 5D10C409C3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:51:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5D10C409C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701211871; x=1732747871;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ztBJ4WMhhTqyzABcnjcpzEitF6N0C+6gJOSX759StWI=;
+  b=IlZ6FgSqOABgY+QF66DlTm3XvCjwgKPPbf9fLxy5u8+raS1Ul55YtFNy
+   asIwZWYNlT7xSCbbN8+y7Wa3EcSn9pl70FvZHBw6HL4nfFIamnCR5Af5c
+   BXUi4lXUQdqnXTbPv9mtTOhnTuaVkQM3vNKo/kLRCPnBONltzhN+g1S9w
+   GUvOuysubuEkRJQn0yBUJQ0tyebSQsU3VN1/ODk9QzZHVgIcRzPMwfu1R
+   w+UAnrl256jX9Pl/PnbyVNxzXcrL5SsMjgEXnMTIgSx7vD9ms7vUxdpTl
+   nC/Ln3hFIuOWjhAdFBqMaFixDnNO5V4V8U/9BvgnERtd6jqAdBo9m5Ogp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="6304150"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="6304150"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:51:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="839215213"
+X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
+   d="scan'208";a="839215213"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Nov 2023 14:51:05 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r86v1-0008Dw-0R;
+	Tue, 28 Nov 2023 22:51:03 +0000
+Date: Wed, 29 Nov 2023 06:50:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Petre Rodan <petre.rodan@subdimension.ro>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Petre Rodan <petre.rodan@subdimension.ro>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	angquan yu <angquan21@gmail.com>
-Subject: [PATCH] Fix Format String Warnings in lam.c
-Date: Tue, 28 Nov 2023 16:46:07 -0600
-Message-Id: <20231128224607.71334-1-angquan21@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	Jonathan Cameron <jic23@kernel.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
+Message-ID: <202311290346.3SedpbhM-lkp@intel.com>
+References: <20231128124042.22744-1-petre.rodan@subdimension.ro>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128124042.22744-1-petre.rodan@subdimension.ro>
 
-From: angquan yu <angquan21@gmail.com>
+Hi Petre,
 
-This commit addresses compiler warnings in lam.c related to the usage
-of non-literal format strings without format arguments in the
-'run_test' function.
+kernel test robot noticed the following build warnings:
 
-Warnings fixed:
-- Resolved warnings indicating that 'ksft_test_result_skip' and
-'ksft_test_result' were called with 't->msg' as a format string without
-accompanying format arguments.
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.7-rc3 next-20231128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Changes made:
-- Modified the calls to 'ksft_test_result_skip' and 'ksft_test_result'
-to explicitly include a format specifier ("%s") for 't->msg'.
-- This ensures that the string is safely treated as a format argument,
-adhering to safer coding practices and resolving the compiler warnings.
+url:    https://github.com/intel-lab-lkp/linux/commits/Petre-Rodan/iio-pressure-driver-for-Honeywell-HSC-SSC-series-pressure-sensors/20231128-204804
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20231128124042.22744-1-petre.rodan%40subdimension.ro
+patch subject: [PATCH v4 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231129/202311290346.3SedpbhM-lkp@intel.com/reproduce)
 
-Signed-off-by: angquan yu <angquan21@gmail.com>
----
- tools/testing/selftests/x86/lam.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311290346.3SedpbhM-lkp@intel.com/
 
-diff --git a/tools/testing/selftests/x86/lam.c b/tools/testing/selftests/x86/lam.c
-index 8f9b06d9c..215b8150b 100644
---- a/tools/testing/selftests/x86/lam.c
-+++ b/tools/testing/selftests/x86/lam.c
-@@ -817,7 +817,7 @@ static void run_test(struct testcases *test, int count)
- 
- 		/* return 3 is not support LA57, the case should be skipped */
- 		if (ret == 3) {
--			ksft_test_result_skip(t->msg);
-+			ksft_test_result_skip("%s", t->msg);
- 			continue;
- 		}
- 
-@@ -826,7 +826,7 @@ static void run_test(struct testcases *test, int count)
- 		else
- 			ret = !(t->expected);
- 
--		ksft_test_result(ret, t->msg);
-+		ksft_test_result(ret, "%s", t->msg);
- 	}
- }
- 
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+>> Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
+   	hint: Standard unit suffix properties don't need a type $ref
+   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+
 -- 
-2.39.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
