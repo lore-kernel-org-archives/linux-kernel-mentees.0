@@ -1,142 +1,127 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923061878
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 01:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA530539C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 03:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wuzAKavw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKFU3rX7"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F275E60C08
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 01:21:34 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F275E60C08
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=wuzAKavw
+	by smtp4.osuosl.org (Postfix) with ESMTP id 6280A408D3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 03:36:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6280A408D3
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HKFU3rX7
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -9.601
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 8hwI-_d3Mrc3
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id zKVBEztGMzxV
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 29 Nov 2023 01:21:34 +0000 (UTC)
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id F30C860BA1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 01:21:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F30C860BA1
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-db49a6b9be5so3913434276.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 17:21:33 -0800 (PST)
+	Wed, 29 Nov 2023 03:36:28 +0000 (UTC)
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B19614088F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 03:36:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B19614088F
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-5cd0af4a7d3so65093577b3.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 19:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1701220893; x=1701825693; darn=lists.linuxfoundation.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8xaAjFqVU5qqDjrAOLsosHck+47UkrNNUxTMBaKXJJI=;
-        b=wuzAKavwilfTTcDI8S4XLUfyghFvQWvoX4PHgk6P36kRSnYea4ZMvamzeYH7T4ATz3
-         6n5hz4+gV+ruJa6Un8VxFRh5ejq17mFhFoZc33edMEddI25sj1XxxkuNsaUXpNA/Y8/i
-         KmBhWEvrNbZAhSYOPsp4EHpHElNZdft4fq9rxwiUadV95ln+IjBEnSvaMiNZHwBtBRUN
-         UEcfR4q5mFrKi0i2ScTpy6cBTcnoNoxm2Jh11XTanCVVC4GutL1SBAnW2zNUGbYdlH9l
-         X1/SI4mmm1GvKbYWNRDQXcUqEFCiBCPLMMHij4RLzWEL5mUsuGkZuGessgLbSWwkJpcO
-         GJeg==
+        d=gmail.com; s=20230601; t=1701228987; x=1701833787; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qhpsd/CJqEzY2wViCgUIbvNNXzGivZKIEmu3PQkzhVE=;
+        b=HKFU3rX7ayccr4X5tn8HaZD3oP85eqQ9kdGCCMBf0qnKo6YHBq8Ie5rc6obiwQ7n2b
+         mx/CHfnGCSiWXeOAJe5AB7sQSRsRaBmeZM7x/FyBRDm5ycR0ns36+1WY8K1jJ1Z2RUy3
+         Q5MuiveZazLN2rNGW2FzvExf7A9NqO425zQZd6qKMhfYkY5sYHwIrdrMXrwm/wcdx0Ro
+         2d5bMWhBcn/e9KTD9kUA3ZS7f5M4oyV05PyBJDSKPGDMuPMKI8b+Z9rqVqfey6FCIDyG
+         3ZjBLB/yxfuCqLBIdTU+dg0O/p4wjnbHHfWxEdOehLfAz/5bHgWQB2qkA4MzF8kTB5HB
+         KwEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701220893; x=1701825693;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8xaAjFqVU5qqDjrAOLsosHck+47UkrNNUxTMBaKXJJI=;
-        b=PPTstSOccKg8CyPkVRsqoxfLdiwchfa3T+dGLAKC4Ho0F2vYfPfnJ53w6L1fBNenA1
-         9uSRDUb5pOEc5ybQX6MG5VMfFyp2RWoIxVQSwGUWvVUArQuscMk2meExbJ1Bw7ChoNVz
-         DU+op+O51YoSCZBOuYW4MxdODc6I+xpyrRm5Edcc2dTZn4OXlkV8fTPjO+g7DbD5MP6H
-         cJetyd1gCxeg328YQABlEvixxhtFPD5JhrFm5b5cEyCuGsF5oAF3x6IwcFcZjUOJuIso
-         qjUFTezPp+IGrDrvMYwKaS6s67OZIsIETWlDihW/yZGEFLe1z5z9Ygvcbi8clKVFoX3K
-         jVnA==
-X-Gm-Message-State: AOJu0YzZYnFgssnD2HnQhRr24qtiTFAgarSUB77tHZFq0+Q/+IGy4lhg
-	jych8aWbtO4BUvnFZZgH/Smig4MEl+k=
-X-Google-Smtp-Source: AGHT+IGpd9WstVZO70Jt8U6PKwHv8oE/6qIUi7h3VLJVSM8jUfzJpaYP6i8qC329knKj6ZItVSI11Idz3Bs=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a25:d114:0:b0:d9a:5e8f:1562 with SMTP id
- i20-20020a25d114000000b00d9a5e8f1562mr506949ybg.6.1701220892813; Tue, 28 Nov
- 2023 17:21:32 -0800 (PST)
-Date: Tue, 28 Nov 2023 17:21:31 -0800
-In-Reply-To: <20231128221105.63093-1-angquan21@gmail.com>
+        d=1e100.net; s=20230601; t=1701228987; x=1701833787;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qhpsd/CJqEzY2wViCgUIbvNNXzGivZKIEmu3PQkzhVE=;
+        b=cIsoD4lP2WkrKg92OKMBzI2TQH17H7gshN6PGEPCFDL44eoLwNMSGULqcJQGl16Euq
+         E39Fqc7RIhdztUH+nNjytlTKK5P4HFb1DdPf7LKDv4V1ik3xaXDWU1Fn8tkisEKkDysr
+         1BzsfxunhMiArauPyuLY/kblgMwNT/47qVdlzyB9qgEk/jik6yvpmVz7ezPkYnQlqalY
+         J0+IrOZupQyG4ThaEghFPpKeArspsY0Z4OpPrAPFFJwyNRXJ4cxVScLn+MXu4tZCEh2z
+         MH2/zjB85hD1JA+aKVUKwgj7iRZrLzp7DKAfX3elVo++UJI1klj8ldRa8KRVwGT3S2G+
+         NPzA==
+X-Gm-Message-State: AOJu0YwM421Iy+d7MLxge7sBDBGpcAZ1YiFMFhkhBGZ6RrBBx9NttOqZ
+	oC/NDlequ9UC10SjR4/ysHY=
+X-Google-Smtp-Source: AGHT+IEYDxU9JuPKASBFJDFF8v4y5UuoZ6eVXG8K+0j41N8DcXcmVAbDc+BthCLyChsaWyTYWMk5pg==
+X-Received: by 2002:a0d:c983:0:b0:5c9:86c:216c with SMTP id l125-20020a0dc983000000b005c9086c216cmr17462276ywd.46.1701228987546;
+        Tue, 28 Nov 2023 19:36:27 -0800 (PST)
+Received: from angquan-linux.. ([72.36.119.4])
+        by smtp.gmail.com with ESMTPSA id a24-20020a0ca998000000b00677a12f11bcsm5726238qvb.24.2023.11.28.19.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 19:36:27 -0800 (PST)
+From: angquan yu <angquan21@gmail.com>
+X-Google-Original-From: angquan yu
+To: skhan@linuxfoundation.org
+Cc: shuah@kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	angquan yu <angquan21@gmail.com>
+Subject: [PATCH] selftests:x86: Fix Format String Warnings in lam.c
+Date: Tue, 28 Nov 2023 21:36:15 -0600
+Message-Id: <20231129033615.5083-1-angquan21@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20231128221105.63093-1-angquan21@gmail.com>
-Message-ID: <ZWaSG4i6dsvj_qvP@google.com>
-Subject: Re: [PATCH] Resolve Macro Expansion Warning in nx_huge_pages_test.c
-From: Sean Christopherson <seanjc@google.com>
-To: angquan yu <angquan21@gmail.com>
-Cc: skhan@linuxfoundation.org, shuah@kernel.org, pbonzini@redhat.com, 
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-For the shortlog, specify the scope/domain/namespace of the patch.  For KVM
-selftests, that's "KVM: selftests:".  And ideally, describe the impact of the
-change in a more conversational way, as opposed to stating the literal effect of
-the patch.  Stating that the patch fixes a warning is obviously accurate, but it
-doesn't provide any insight as to the severity of the issue, i.e. what's actually
-broken and being fixed.
+From: angquan yu <angquan21@gmail.com>
 
-E.g.
+This commit addresses compiler warnings in lam.c related to the usage
+of non-literal format strings without format arguments in the
+'run_test' function.
 
-  KVM: selftests: Actually print out magic token in NX hugepages skip message
+Warnings fixed:
+- Resolved warnings indicating that 'ksft_test_result_skip' and
+'ksft_test_result' were called with 't->msg' as a format string without
+accompanying format arguments.
 
-On Tue, Nov 28, 2023, angquan yu wrote:
-> From: angquan yu <angquan21@gmail.com>
-> 
-> This commit fixes a compiler warning in the file
-> x86_64/nx_huge_pages_test.c, which was caused by improper
-> macro expansion of '__TEST_REQUIRE'.
-> 
-> Warning addressed:
-> - The warning was triggered by the expansion of the '__TEST_REQUIRE'
-> macro, indicating a potential issue in how the macro was being
-> used or expanded.
-> 
-> Changes made:
-> - Modified the usage of the '__TEST_REQUIRE' macro to ensure proper
-> expansion. This involved explicitly passing the expected magic token
-> (MAGIC_TOKEN) and a descriptive error message to the macro.
-> - The fix enhances clarity in the macro usage and ensures that
-> the compiler correctly interprets the intended logic, thereby
-> resolving the warning.
+Changes made:
+- Modified the calls to 'ksft_test_result_skip' and 'ksft_test_result'
+to explicitly include a format specifier ("%s") for 't->msg'.
+- This ensures that the string is safely treated as a format argument,
+adhering to safer coding practices and resolving the compiler warnings.
 
-Fixing warnings is nice, but warnings are a means to an end, i.e. they identify
-things that *might* be actual problems.  The real issue is that the test will
-spit out garbage instead of the magic number.
+Signed-off-by: angquan yu <angquan21@gmail.com>
+---
+ tools/testing/selftests/x86/lam.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-All that said, applied to kvm-x86 selftests, with a heavily rewritten shortlog
-and changelog (I had the same fix locally, so more or less just grabbed what I
-had already written).
+diff --git a/tools/testing/selftests/x86/lam.c b/tools/testing/selftests/x86/lam.c
+index 8f9b06d9c..215b8150b 100644
+--- a/tools/testing/selftests/x86/lam.c
++++ b/tools/testing/selftests/x86/lam.c
+@@ -817,7 +817,7 @@ static void run_test(struct testcases *test, int count)
+ 
+ 		/* return 3 is not support LA57, the case should be skipped */
+ 		if (ret == 3) {
+-			ksft_test_result_skip(t->msg);
++			ksft_test_result_skip("%s", t->msg);
+ 			continue;
+ 		}
+ 
+@@ -826,7 +826,7 @@ static void run_test(struct testcases *test, int count)
+ 		else
+ 			ret = !(t->expected);
+ 
+-		ksft_test_result(ret, t->msg);
++		ksft_test_result(ret, "%s", t->msg);
+ 	}
+ }
+ 
+-- 
+2.39.2
 
-Thanks!
-
-[1/1] KVM: selftests: Actually print out magic token in NX hugepages skip message
-      https://github.com/kvm-x86/linux/commit/3b99d46a1170
-
-> 
-> Signed-off-by: angquan yu <angquan21@gmail.com>
-> ---
->  tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c b/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
-> index 18ac5c195..323ede6b6 100644
-> --- a/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
-> +++ b/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
-> @@ -259,7 +259,8 @@ int main(int argc, char **argv)
->  	__TEST_REQUIRE(token == MAGIC_TOKEN,
->  		       "This test must be run with the magic token %d.\n"
->  		       "This is done by nx_huge_pages_test.sh, which\n"
-> -		       "also handles environment setup for the test.");
-> +		       "also handles environment setup for the test.",
-> +			   MAGIC_TOKEN);
->  
->  	run_test(reclaim_period_ms, false, reboot_permissions);
->  	run_test(reclaim_period_ms, true, reboot_permissions);
-> -- 
-> 2.39.2
-> 
