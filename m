@@ -1,118 +1,142 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180155024A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923061878
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 01:21:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlZ6FgSq"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wuzAKavw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8E7914093C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:51:11 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8E7914093C
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IlZ6FgSq
+	by smtp3.osuosl.org (Postfix) with ESMTP id F275E60C08
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 01:21:34 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F275E60C08
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=wuzAKavw
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -9.601
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id i8ADzRY446kQ
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 8hwI-_d3Mrc3
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 28 Nov 2023 22:51:10 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 5D10C409C3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 22:51:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5D10C409C3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701211871; x=1732747871;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ztBJ4WMhhTqyzABcnjcpzEitF6N0C+6gJOSX759StWI=;
-  b=IlZ6FgSqOABgY+QF66DlTm3XvCjwgKPPbf9fLxy5u8+raS1Ul55YtFNy
-   asIwZWYNlT7xSCbbN8+y7Wa3EcSn9pl70FvZHBw6HL4nfFIamnCR5Af5c
-   BXUi4lXUQdqnXTbPv9mtTOhnTuaVkQM3vNKo/kLRCPnBONltzhN+g1S9w
-   GUvOuysubuEkRJQn0yBUJQ0tyebSQsU3VN1/ODk9QzZHVgIcRzPMwfu1R
-   w+UAnrl256jX9Pl/PnbyVNxzXcrL5SsMjgEXnMTIgSx7vD9ms7vUxdpTl
-   nC/Ln3hFIuOWjhAdFBqMaFixDnNO5V4V8U/9BvgnERtd6jqAdBo9m5Ogp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="6304150"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="6304150"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 14:51:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="839215213"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="839215213"
-Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Nov 2023 14:51:05 -0800
-Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r86v1-0008Dw-0R;
-	Tue, 28 Nov 2023 22:51:03 +0000
-Date: Wed, 29 Nov 2023 06:50:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Petre Rodan <petre.rodan@subdimension.ro>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Petre Rodan <petre.rodan@subdimension.ro>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Message-ID: <202311290346.3SedpbhM-lkp@intel.com>
-References: <20231128124042.22744-1-petre.rodan@subdimension.ro>
+	Wed, 29 Nov 2023 01:21:34 +0000 (UTC)
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id F30C860BA1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 01:21:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F30C860BA1
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-db49a6b9be5so3913434276.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 Nov 2023 17:21:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701220893; x=1701825693; darn=lists.linuxfoundation.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8xaAjFqVU5qqDjrAOLsosHck+47UkrNNUxTMBaKXJJI=;
+        b=wuzAKavwilfTTcDI8S4XLUfyghFvQWvoX4PHgk6P36kRSnYea4ZMvamzeYH7T4ATz3
+         6n5hz4+gV+ruJa6Un8VxFRh5ejq17mFhFoZc33edMEddI25sj1XxxkuNsaUXpNA/Y8/i
+         KmBhWEvrNbZAhSYOPsp4EHpHElNZdft4fq9rxwiUadV95ln+IjBEnSvaMiNZHwBtBRUN
+         UEcfR4q5mFrKi0i2ScTpy6cBTcnoNoxm2Jh11XTanCVVC4GutL1SBAnW2zNUGbYdlH9l
+         X1/SI4mmm1GvKbYWNRDQXcUqEFCiBCPLMMHij4RLzWEL5mUsuGkZuGessgLbSWwkJpcO
+         GJeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701220893; x=1701825693;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8xaAjFqVU5qqDjrAOLsosHck+47UkrNNUxTMBaKXJJI=;
+        b=PPTstSOccKg8CyPkVRsqoxfLdiwchfa3T+dGLAKC4Ho0F2vYfPfnJ53w6L1fBNenA1
+         9uSRDUb5pOEc5ybQX6MG5VMfFyp2RWoIxVQSwGUWvVUArQuscMk2meExbJ1Bw7ChoNVz
+         DU+op+O51YoSCZBOuYW4MxdODc6I+xpyrRm5Edcc2dTZn4OXlkV8fTPjO+g7DbD5MP6H
+         cJetyd1gCxeg328YQABlEvixxhtFPD5JhrFm5b5cEyCuGsF5oAF3x6IwcFcZjUOJuIso
+         qjUFTezPp+IGrDrvMYwKaS6s67OZIsIETWlDihW/yZGEFLe1z5z9Ygvcbi8clKVFoX3K
+         jVnA==
+X-Gm-Message-State: AOJu0YzZYnFgssnD2HnQhRr24qtiTFAgarSUB77tHZFq0+Q/+IGy4lhg
+	jych8aWbtO4BUvnFZZgH/Smig4MEl+k=
+X-Google-Smtp-Source: AGHT+IGpd9WstVZO70Jt8U6PKwHv8oE/6qIUi7h3VLJVSM8jUfzJpaYP6i8qC329knKj6ZItVSI11Idz3Bs=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:d114:0:b0:d9a:5e8f:1562 with SMTP id
+ i20-20020a25d114000000b00d9a5e8f1562mr506949ybg.6.1701220892813; Tue, 28 Nov
+ 2023 17:21:32 -0800 (PST)
+Date: Tue, 28 Nov 2023 17:21:31 -0800
+In-Reply-To: <20231128221105.63093-1-angquan21@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128124042.22744-1-petre.rodan@subdimension.ro>
+Mime-Version: 1.0
+References: <20231128221105.63093-1-angquan21@gmail.com>
+Message-ID: <ZWaSG4i6dsvj_qvP@google.com>
+Subject: Re: [PATCH] Resolve Macro Expansion Warning in nx_huge_pages_test.c
+From: Sean Christopherson <seanjc@google.com>
+To: angquan yu <angquan21@gmail.com>
+Cc: skhan@linuxfoundation.org, shuah@kernel.org, pbonzini@redhat.com, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Petre,
+For the shortlog, specify the scope/domain/namespace of the patch.  For KVM
+selftests, that's "KVM: selftests:".  And ideally, describe the impact of the
+change in a more conversational way, as opposed to stating the literal effect of
+the patch.  Stating that the patch fixes a warning is obviously accurate, but it
+doesn't provide any insight as to the severity of the issue, i.e. what's actually
+broken and being fixed.
 
-kernel test robot noticed the following build warnings:
+E.g.
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on robh/for-next linus/master v6.7-rc3 next-20231128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+  KVM: selftests: Actually print out magic token in NX hugepages skip message
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Petre-Rodan/iio-pressure-driver-for-Honeywell-HSC-SSC-series-pressure-sensors/20231128-204804
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20231128124042.22744-1-petre.rodan%40subdimension.ro
-patch subject: [PATCH v4 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-compiler: loongarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231129/202311290346.3SedpbhM-lkp@intel.com/reproduce)
+On Tue, Nov 28, 2023, angquan yu wrote:
+> From: angquan yu <angquan21@gmail.com>
+> 
+> This commit fixes a compiler warning in the file
+> x86_64/nx_huge_pages_test.c, which was caused by improper
+> macro expansion of '__TEST_REQUIRE'.
+> 
+> Warning addressed:
+> - The warning was triggered by the expansion of the '__TEST_REQUIRE'
+> macro, indicating a potential issue in how the macro was being
+> used or expanded.
+> 
+> Changes made:
+> - Modified the usage of the '__TEST_REQUIRE' macro to ensure proper
+> expansion. This involved explicitly passing the expected magic token
+> (MAGIC_TOKEN) and a descriptive error message to the macro.
+> - The fix enhances clarity in the macro usage and ensures that
+> the compiler correctly interprets the intended logic, thereby
+> resolving the warning.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311290346.3SedpbhM-lkp@intel.com/
+Fixing warnings is nice, but warnings are a means to an end, i.e. they identify
+things that *might* be actual problems.  The real issue is that the test will
+spit out garbage instead of the magic number.
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
->> Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmin-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
-   Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml: properties:honeywell,pmax-pascal: '$ref' should not be valid under {'const': '$ref'}
-   	hint: Standard unit suffix properties don't need a type $ref
-   	from schema $id: http://devicetree.org/meta-schemas/core.yaml#
+All that said, applied to kvm-x86 selftests, with a heavily rewritten shortlog
+and changelog (I had the same fix locally, so more or less just grabbed what I
+had already written).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
+
+[1/1] KVM: selftests: Actually print out magic token in NX hugepages skip message
+      https://github.com/kvm-x86/linux/commit/3b99d46a1170
+
+> 
+> Signed-off-by: angquan yu <angquan21@gmail.com>
+> ---
+>  tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c b/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
+> index 18ac5c195..323ede6b6 100644
+> --- a/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
+> +++ b/tools/testing/selftests/kvm/x86_64/nx_huge_pages_test.c
+> @@ -259,7 +259,8 @@ int main(int argc, char **argv)
+>  	__TEST_REQUIRE(token == MAGIC_TOKEN,
+>  		       "This test must be run with the magic token %d.\n"
+>  		       "This is done by nx_huge_pages_test.sh, which\n"
+> -		       "also handles environment setup for the test.");
+> +		       "also handles environment setup for the test.",
+> +			   MAGIC_TOKEN);
+>  
+>  	run_test(reclaim_period_ms, false, reboot_permissions);
+>  	run_test(reclaim_period_ms, true, reboot_permissions);
+> -- 
+> 2.39.2
+> 
