@@ -1,113 +1,240 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7E832C86
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 14:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B6B36B05
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 17:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="ZTmzk8kU"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 49251614DB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 14:40:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 49251614DB
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4FD4C4011A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 17:04:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4FD4C4011A
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=ZTmzk8kU
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.148
+X-Spam-Score: -1.307
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id BvyQOCdEO5Zb
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id awOmJ3kHm7Dy
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 29 Nov 2023 14:40:47 +0000 (UTC)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 4F68B60B53
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 14:40:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 4F68B60B53
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6ce353df504so4101133a34.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 06:40:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701268846; x=1701873646;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bO94KdlO8mVlN8Xbd3EfX+TnJ2prZZJzJhNbB54uzYo=;
-        b=pKl+P8365EgPPRsCwi6r4TX1ou+MIKR8OZykva28rauzDdAGxFWRtI8yEPOhY4l5/a
-         DtYzAH23FAiGFUDgF6r+OmTap4cHgnCntN+IZlzABCq1/i3PZDYMS5pPUpZeMmyaU3Lt
-         rkAZGKc5LpLRMJ3w7q/X2bOBWNWl12jqndMHmWacFL3DJslUmvqJylfmxcEUbf3+nKLy
-         Mc/iFw1E5MIgwull7lwTBYPU67FuO71qdy/YtR5+kZeZqfswZCV5QWJzN4NMugcmrrf5
-         m2TiO/inRds4ud4dItZKcV/hxKZUSobNuyQHTqLF3pfxuZ/OifsjU39EgEGrgXBlV02h
-         oBew==
-X-Gm-Message-State: AOJu0YyzquOUJJeFmdEhv/v7jKKgBvHEiT4nIxF3Den9vRGMb8ErYt+t
-	00lyrV3Cgatk0AJTGnxbLw==
-X-Google-Smtp-Source: AGHT+IGYvYldn7DE9VXqFB9FiYafhMdPpg0tpckV2bRzSGNRrXS4R7SnmD/3iH0hot54xLh8GfPUWA==
-X-Received: by 2002:a9d:7359:0:b0:6b8:6f94:d3a2 with SMTP id l25-20020a9d7359000000b006b86f94d3a2mr19334114otk.25.1701268846012;
-        Wed, 29 Nov 2023 06:40:46 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id a3-20020a056830100300b006cdf9935af2sm1967422otp.53.2023.11.29.06.40.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 06:40:45 -0800 (PST)
-Received: (nullmailer pid 2439634 invoked by uid 1000);
-	Wed, 29 Nov 2023 14:40:44 -0000
-Date: Wed, 29 Nov 2023 08:40:44 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Petre Rodan <petre.rodan@subdimension.ro>
-Cc: Petre Rodan <petre.rodan@subdimension.ro>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-kernel-mentees@lists.linuxfoundation.org, Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH v5 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
-Message-ID: <20231129144044.GA2320975-robh@kernel.org>
-References: <20231129070432.1437-1-petre.rodan@subdimension.ro>
- <adf1e932-a201-475e-a562-4e35954159ee@linaro.org>
- <ZWb59iEftxX6mQdJ@sunspire>
- <99e89fb4-e99e-4a0f-8058-0ef6f04d61d8@linaro.org>
+	Wed, 29 Nov 2023 17:04:38 +0000 (UTC)
+Received: from mail.subdimension.ro (unknown [IPv6:2a01:7e01:e001:1d1::2])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 426854026A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 17:04:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 426854026A
+Received: from localhost.localdomain (unknown [188.24.94.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.subdimension.ro (Postfix) with ESMTPSA id 0D5A728EE6F;
+	Wed, 29 Nov 2023 17:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
+	s=skycaves; t=1701277475;
+	bh=gPpPxga2dDY1V7HrEM99t1yGm2FFC/JlYq+Sm++MjpE=;
+	h=From:To:Cc:Subject:Date;
+	b=ZTmzk8kUv1hzSWM744cFaZRNHxTDg430c5rMDv1rg0l3W1ENNd/18e9xIYpYNvvsi
+	 20LPwuZZpdHonO5RGYkmZlR7bpfGvfRiNA2q87pdSmzteqxLq6TFVHCOFm9Sv/nwXJ
+	 UkIHVPXRQxwKt69OD87dvSqLQsyxJY7M/zR0c0JM=
+From: Petre Rodan <petre.rodan@subdimension.ro>
+To: linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: Petre Rodan <petre.rodan@subdimension.ro>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Jonathan Cameron <jic23@kernel.org>
+Subject: [PATCH v6 1/2] dt-bindings: iio: pressure: add honeywell,hsc030
+Date: Wed, 29 Nov 2023 19:04:11 +0200
+Message-ID: <20231129170425.3562-1-petre.rodan@subdimension.ro>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99e89fb4-e99e-4a0f-8058-0ef6f04d61d8@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 29, 2023 at 09:47:57AM +0100, Krzysztof Kozlowski wrote:
-> On 29/11/2023 09:44, Petre Rodan wrote:
-> > 
-> > hi,
-> > 
-> > On Wed, Nov 29, 2023 at 09:04:17AM +0100, Krzysztof Kozlowski wrote:
-> >> On 29/11/2023 08:04, Petre Rodan wrote:
-> >>> Adds binding for digital Honeywell TruStability HSC and SSC series
-> >>> pressure and temperature sensors.
-> >>> Communication is one way. The sensor only requires 4 bytes worth of
-> >>> clock pulses on both i2c and spi in order to push the data out.
-> >>> The i2c address is hardcoded and depends on the part number.
-> >>> There is no additional GPIO control.
-> >>
-> >> Your threading is broken (not existing) since v4, making it difficult to
-> >> apply the patchset. Please fix it when sending v6.
-> > 
-> > I'm confused.
-> > 
-> > you mean the lack of 'In-Reply-To' and 'References' headers in the emails
-> > `git send-email` is generating?
-> > I've added them for v2, but was told that was a mistake [1]
-> > 
-> > [1] https://lore.kernel.org/lkml/20231125191915.7f1f2dc4@jic23-huawei/
+Adds binding for digital Honeywell TruStability HSC and SSC series
+pressure and temperature sensors.
+Communication is one way. The sensor only requires 4 bytes worth of
+clock pulses on both i2c and spi in order to push the data out.
+The i2c address is hardcoded and depends on the part number.
+There is no additional GPIO control.
 
-The instructions there were don't thread v2 to v1. Here, we're talking 
-about threading within this version.
+Datasheet:
+https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf [HSC]
+Datasheet:
+https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf [SSC]
+Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
+---
+v2: - fix yaml struct
+    - cleanup based on Krzysztof's review
+v3: - rename range_str -> honeywell,pressure-triplet to define the string
+       containing the pressure range, measurement unit and type
+    - honeywell,pmax-pascal becomes uint32
+v4: - added enum to honeywell,transfer-function
+v5: - removed pmin-pascal, pmax-pascal $ref
+    - added pmin-pascal, pmax-pascal constraints
+v6  - no change
+---
+ .../iio/pressure/honeywell,hsc030pa.yaml      | 142 ++++++++++++++++++
+ 1 file changed, 142 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
 
-> > 
-> > I'm probably misunderstanding something.
-> > also, I hope v5 is flawless enough.
-> 
-> No, v5 is still wrong. Patchset should be threaded. Open lore.kernel.org
-> and look how patchsets are organized and how your patchset is done.
-> 
-> It is as simple as:
-> git format-patch -v6 -2
-> scripts/get_maintainers.pl
-> git send-email v6*
+diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
+new file mode 100644
+index 000000000000..65a24ed67b3c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,hsc030pa.yaml
+@@ -0,0 +1,142 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/pressure/honeywell,hsc030pa.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Honeywell TruStability HSC and SSC pressure sensor series
++
++description: |
++  support for Honeywell TruStability HSC and SSC digital pressure sensor
++  series.
++
++  These sensors have either an I2C, an SPI or an analog interface. Only the
++  digital versions are supported by this driver.
++
++  There are 118 models with different pressure ranges available in each family.
++  The vendor calls them "HSC series" and "SSC series". All of them have an
++  identical programming model but differ in pressure range, unit and transfer
++  function.
++
++  To support different models one needs to specify the pressure range as well
++  as the transfer function. Pressure range can either be provided via
++  pressure-triplet (directly extracted from the part number) or in case it's
++  a custom chip via numerical range limits converted to pascals.
++
++  The transfer function defines the ranges of raw conversion values delivered
++  by the sensor. pmin-pascal and pmax-pascal corespond to the minimum and
++  maximum pressure that can be measured.
++
++  Please note that in case of an SPI-based sensor, the clock signal should not
++  exceed 800kHz and the MOSI signal is not required.
++
++  Specifications about the devices can be found at:
++  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-hsc-series/documents/sps-siot-trustability-hsc-series-high-accuracy-board-mount-pressure-sensors-50099148-a-en-ciid-151133.pdf
++  https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/trustability-ssc-series/documents/sps-siot-trustability-ssc-series-standard-accuracy-board-mount-pressure-sensors-50099533-a-en-ciid-151134.pdf
++
++maintainers:
++  - Petre Rodan <petre.rodan@subdimension.ro>
++
++properties:
++  compatible:
++    const: honeywell,hsc030pa
++
++  reg:
++    maxItems: 1
++
++  honeywell,transfer-function:
++    description: |
++      Transfer function which defines the range of valid values delivered by
++      the sensor.
++      0 - A, 10% to 90% of 2^14
++      1 - B, 5% to 95% of 2^14
++      2 - C, 5% to 85% of 2^14
++      3 - F, 4% to 94% of 2^14
++    enum: [0, 1, 2, 3]
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  honeywell,pressure-triplet:
++    description: |
++      Case-sensitive five character string that defines pressure range, unit
++      and type as part of the device nomenclature. In the unlikely case of a
++      custom chip, set to "NA" and provide pmin-pascal and pmax-pascal.
++    enum: [001BA, 1.6BA, 2.5BA, 004BA, 006BA, 010BA, 1.6MD, 2.5MD, 004MD,
++           006MD, 010MD, 016MD, 025MD, 040MD, 060MD, 100MD, 160MD, 250MD,
++           400MD, 600MD, 001BD, 1.6BD, 2.5BD, 004BD, 2.5MG, 004MG, 006MG,
++           010MG, 016MG, 025MG, 040MG, 060MG, 100MG, 160MG, 250MG, 400MG,
++           600MG, 001BG, 1.6BG, 2.5BG, 004BG, 006BG, 010BG, 100KA, 160KA,
++           250KA, 400KA, 600KA, 001GA, 160LD, 250LD, 400LD, 600LD, 001KD,
++           1.6KD, 2.5KD, 004KD, 006KD, 010KD, 016KD, 025KD, 040KD, 060KD,
++           100KD, 160KD, 250KD, 400KD, 250LG, 400LG, 600LG, 001KG, 1.6KG,
++           2.5KG, 004KG, 006KG, 010KG, 016KG, 025KG, 040KG, 060KG, 100KG,
++           160KG, 250KG, 400KG, 600KG, 001GG, 015PA, 030PA, 060PA, 100PA,
++           150PA, 0.5ND, 001ND, 002ND, 004ND, 005ND, 010ND, 020ND, 030ND,
++           001PD, 005PD, 015PD, 030PD, 060PD, 001NG, 002NG, 004NG, 005NG,
++           010NG, 020NG, 030NG, 001PG, 005PG, 015PG, 030PG, 060PG, 100PG,
++           150PG, NA]
++    $ref: /schemas/types.yaml#/definitions/string
++
++  honeywell,pmin-pascal:
++    description: |
++      Minimum pressure value the sensor can measure in pascal.
++      To be specified only if honeywell,pressure-triplet is set to "NA".
++
++  honeywell,pmax-pascal:
++    description: |
++      Maximum pressure value the sensor can measure in pascal.
++      To be specified only if honeywell,pressure-triplet is set to "NA".
++
++  vdd-supply:
++    description:
++      Provide VDD power to the sensor (either 3.3V or 5V depending on the chip)
++
++  spi-max-frequency:
++    maximum: 800000
++
++required:
++  - compatible
++  - reg
++  - honeywell,transfer-function
++  - honeywell,pressure-triplet
++
++additionalProperties: false
++
++dependentSchemas:
++  honeywell,pmin-pascal:
++    properties:
++      honeywell,pressure-triplet:
++        const: NA
++  honeywell,pmax-pascal:
++    properties:
++      honeywell,pressure-triplet:
++        const: NA
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pressure@28 {
++            compatible = "honeywell,hsc030pa";
++            reg = <0x28>;
++            honeywell,transfer-function = <0>;
++            honeywell,pressure-triplet = "030PA";
++        };
++    };
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pressure@0 {
++            compatible = "honeywell,hsc030pa";
++            reg = <0>;
++            spi-max-frequency = <800000>;
++            honeywell,transfer-function = <0>;
++            honeywell,pressure-triplet = "NA";
++            honeywell,pmin-pascal = <0>;
++            honeywell,pmax-pascal = <200000>;
++        };
++    };
++...
+-- 
+2.41.0
 
-By default, git does the right thing, but the '--thread' option could be 
-changed in your config. Note both commands can do the threading. If you 
-are mucking with 'In-Reply-To' then it is probably wrong.
-
-Rob
