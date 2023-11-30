@@ -1,73 +1,73 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC1E2B9D1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 23:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80912369
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Nov 2023 00:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F86OEvDW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G6JD5hZn"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 8B49584417
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 23:52:50 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8B49584417
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=F86OEvDW
+	by smtp2.osuosl.org (Postfix) with ESMTP id 073D040116
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Nov 2023 00:09:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 073D040116
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=G6JD5hZn
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WgCfQw2NVDcS
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id fR2kreBGXtQK
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 29 Nov 2023 23:52:49 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A0F7484413
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 23:52:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A0F7484413
+	Thu, 30 Nov 2023 00:09:03 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CBE0340111
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 Nov 2023 00:09:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CBE0340111
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701301968;
+	s=mimecast20190719; t=1701302941;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0DMKF7ZGyx5GoQuAFp4AyN/BySHZDI7ZFOdXRc26u9o=;
-	b=F86OEvDWLMi2LymUr2Bo0CDBlnprbBqOkCUK1PJeB4WcsmmTL34NT/lZhceg1EIZ8iWM6G
-	llaFHTShyBrAguVa9CSa4wPkJgJCM9IPjJgSNiKZa32AXixHmkLpR4dXJ3qLXu3jrcvwyZ
-	szfXvZs4IQb+fjZI6aR4k/mFoudecp4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=dCyXRa/HRcuMhxSELQ2U4bOOtsV2/Jacvl5LozlvP7c=;
+	b=G6JD5hZnPqlRG9zvYxRzrYwIzf0xOcBA+oIU+yJNHc8W8UF6myjqQaNXFzRsjv1J5CmMCc
+	eo9Qj5aCci6RH1Wr0Ip+SzKpq7Vzv3D7zHwoiIUJ6TrLaOH1cgLzg7TyUeAhtp0rPJQWC1
+	d1JP5THAMZliV6K3qhxKLOZMeXjBjUY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-573-hvXwgCIfO6adftrFTv_5Rw-1; Wed, 29 Nov 2023 18:52:45 -0500
-X-MC-Unique: hvXwgCIfO6adftrFTv_5Rw-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a172dfcf438so23020166b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 15:52:45 -0800 (PST)
+ us-mta-352-DEv0Iox9NwijER_qct3g7Q-1; Wed, 29 Nov 2023 19:09:00 -0500
+X-MC-Unique: DEv0Iox9NwijER_qct3g7Q-1
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-a177760d469so33897666b.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 Nov 2023 16:08:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701301964; x=1701906764;
+        d=1e100.net; s=20230601; t=1701302939; x=1701907739;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0DMKF7ZGyx5GoQuAFp4AyN/BySHZDI7ZFOdXRc26u9o=;
-        b=Q+YLZ+Lt97ykYTf8bMDIUde94PoaAsav6xA/OO+2gRPOaqIOfR47A2fSfnP9h3GG7G
-         GVEpYdBonLfLBhyWZKfi/cdF/4Km4n7hrdKVnpeVFYXBhLMbfm2vT0NuFZUgo8YKpN1O
-         yXcSsOkO6MrBCZi5ZXc/wiOqs9eQ4ty5Qo1EoK/Dn9wSwJ5ySGVX4pHm9TYK381Gw7Bd
-         sss/Xtbf3JuOdBmXoSSzOvYQRh2yXFuPOPspk8lhZWh+acKszedk4iiakZRIz8Tb2cL5
-         BR+QcXElxBcp2Q7pBjDuiHCP+yQFi2/j3jtAq/uHvmImhLe/xTB6CrIcWGKdjU/0A9GA
-         kSJA==
-X-Gm-Message-State: AOJu0YyXXrQTfx318UlHTS+OonOpe1WZLPO6p4UxR2vQbEQ804Ed5z7W
-	oCs0Tiu6X2nPRchEgydZPS07iJhzd2bIiKyhJ5SUjMNOPV8eCrDsyTOFvPnHOtu+fCBMc5rheJh
-	WqymXEnSKwCgggnzAPTVgtR6dXxko1P+7SruA6lUpQhuuJsc3
-X-Received: by 2002:a17:907:d407:b0:a02:ad84:3ab3 with SMTP id vi7-20020a170907d40700b00a02ad843ab3mr14530386ejc.44.1701301964732;
-        Wed, 29 Nov 2023 15:52:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH7Ukuv1GKWzasfo9LAPEUmsG843xaS5Q/R1hpoDiLL/MvrRWEV6+4Y1JuxN9p0wrwz093U2A==
-X-Received: by 2002:a17:907:d407:b0:a02:ad84:3ab3 with SMTP id vi7-20020a170907d40700b00a02ad843ab3mr14530375ejc.44.1701301964478;
-        Wed, 29 Nov 2023 15:52:44 -0800 (PST)
+        bh=dCyXRa/HRcuMhxSELQ2U4bOOtsV2/Jacvl5LozlvP7c=;
+        b=DlsL10HmyoOMLuwhKorDQJc1sJKMjB7RlTR9ubhzarY0N+sKirbEGn/3Ct21VUCmoG
+         Thk87pM1wNJabke7ex1zmmZycAyRGcBIVKUnqNJ0ETuhDNVAgIav+tmaK0oMOn2ag5om
+         Q9ECsIzJOOjIvityUpbohHlkAxMpKfJxnMFpXeRC0d3MpeaXN12PQ3mTvS6qQeOtlLGA
+         yCfTg82ilktOChPZptriAm+BqOHnhrGGe4yq2PS260xU/bOWmmX7YvBRL3DeeNhiEJYp
+         jZYe6ZuzQ/uP7Wqjlt0Tdw8ENRbdv8qzP7bom58sIJv+7xbNTCxdOzMtoPLkVsU9eZcb
+         bQIA==
+X-Gm-Message-State: AOJu0YxFQ/xzwXlljLvSHNbb+qHt45VRA9KxlsfuvxFbH1+i5sXCJpO2
+	gpsjqbvJ4xcdqzjRCLLS/Wf6UmGvqILyi55+pBsRRmfsDFq9Uqnnab5RBoS93fVbqqiifIfqmom
+	jWMMJLKhdYNijvK1I6Q/OHIvLzjV3WZjxHG75yd2QEAMKEPBX
+X-Received: by 2002:a17:906:a8d:b0:9fe:1681:22c7 with SMTP id y13-20020a1709060a8d00b009fe168122c7mr13130037ejf.26.1701302939160;
+        Wed, 29 Nov 2023 16:08:59 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHtKQWiKVVfzSK2WurxuaaT+/mGIK3WRsRM0Q64/jn5Kal8vzUIheow6+DDV7rwbMg1GSX59w==
+X-Received: by 2002:a17:906:a8d:b0:9fe:1681:22c7 with SMTP id y13-20020a1709060a8d00b009fe168122c7mr13130025ejf.26.1701302938899;
+        Wed, 29 Nov 2023 16:08:58 -0800 (PST)
 Received: from ?IPV6:2a02:810d:4b3f:de9c:abf:b8ff:feee:998b? ([2a02:810d:4b3f:de9c:abf:b8ff:feee:998b])
-        by smtp.gmail.com with ESMTPSA id qc14-20020a170906d8ae00b009a9fbeb15f2sm15030ejb.62.2023.11.29.15.52.43
+        by smtp.gmail.com with ESMTPSA id ay19-20020a170906d29300b00a0c3b122a1esm26634ejb.63.2023.11.29.16.08.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 15:52:44 -0800 (PST)
-Message-ID: <f5a69710-f1a6-444d-9d2a-7c07589a2bdc@redhat.com>
-Date: Thu, 30 Nov 2023 00:52:42 +0100
+        Wed, 29 Nov 2023 16:08:58 -0800 (PST)
+Message-ID: <feefd689-780c-4314-a020-00826e09472a@redhat.com>
+Date: Thu, 30 Nov 2023 01:08:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -75,89 +75,64 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver: gpu: Fix warning directly dereferencing a rcu
- pointer
-To: Abhinav Singh <singhabhinav9051571833@gmail.com>
+Subject: Re: [PATCH] drm/nouveau: Removes unnecessary args check in
+ nouveau_uvmm_sm_prepare
+To: Yuran Pereira <yuran.pereira@hotmail.com>
 Cc: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231126145723.388162-1-singhabhinav9051571833@gmail.com>
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org, nouveau@lists.freedesktop.org
+References: <GV1PR10MB65637F4BAABFE2D8E261E1DCE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
 From: Danilo Krummrich <dakr@redhat.com>
 Organization: RedHat
-In-Reply-To: <20231126145723.388162-1-singhabhinav9051571833@gmail.com>
+In-Reply-To: <GV1PR10MB65637F4BAABFE2D8E261E1DCE8B0A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Abhinav,
-
-Thanks for sending this follow-up patch.
-
-On 11/26/23 15:57, Abhinav Singh wrote:
-> Fix a sparse warning with this message
-> "warning:dereference of noderef expression". In this context it means we
-> are dereferencing a __rcu tagged pointer directly.
+On 11/16/23 21:52, Yuran Pereira wrote:
+> Checking `args` after calling `op_map_prepare` is unnecessary since
+> if `op_map_prepare` was to be called with  NULL args, it would lead
+> to a NULL pointer dereference, thus never hitting that check.
 > 
-> We should not be directly dereferencing a rcu pointer. To get a normal
-> (non __rcu tagged pointer) from a __rcu tagged pointer we are using the
-> function unrcu_pointer(...). The non __rcu tagged pointer then can be
-> dereferenced just like a normal pointer.
-
-Can you please add a brief explanation why unrcu_pointer() is fine here?
-
+> Hence this check can be removed, and a note added to remind users of
+> this function to ensure that args != NULL when calling this function
+> for a map operation as it was suggested  by Danilo [1]
 > 
-> I tested with qemu with this command
-> qemu-system-x86_64 \
-> 	-m 2G \
-> 	-smp 2 \
-> 	-kernel bzImage \
-> 	-append "console=ttyS0 root=/dev/sda earlyprintk=serial net.ifnames=0" \
-> 	-drive file=bullseye.img,format=raw \
-> 	-net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
-> 	-net nic,model=e1000 \
-> 	-enable-kvm \
-> 	-nographic \
-> 	-pidfile vm.pid \
-> 	2>&1 | tee vm.log
-> with lockdep enabled.
-
-How is that relevant for this patch?
-
-- Danilo
-
+> [1] https://lore.kernel.org/lkml/6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com
 > 
-> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
+> Suggested-by: Danilo Krummrich <dakr@redhat.com>
+> Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
+
+Applied to drm-misc-next.
+
 > ---
->   drivers/gpu/drm/nouveau/nv10_fence.c | 2 +-
->   drivers/gpu/drm/nouveau/nv84_fence.c | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/nouveau/nouveau_uvmm.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/nouveau/nv10_fence.c b/drivers/gpu/drm/nouveau/nv10_fence.c
-> index c6a0db5b9e21..845b64c079ed 100644
-> --- a/drivers/gpu/drm/nouveau/nv10_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nv10_fence.c
-> @@ -32,7 +32,7 @@
->   int
->   nv10_fence_emit(struct nouveau_fence *fence)
->   {
-> -	struct nvif_push *push = fence->channel->chan.push;
-> +	struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
->   	int ret = PUSH_WAIT(push, 2);
->   	if (ret == 0) {
->   		PUSH_MTHD(push, NV06E, SET_REFERENCE, fence->base.seqno);
-> diff --git a/drivers/gpu/drm/nouveau/nv84_fence.c b/drivers/gpu/drm/nouveau/nv84_fence.c
-> index 812b8c62eeba..d42e72e23dec 100644
-> --- a/drivers/gpu/drm/nouveau/nv84_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nv84_fence.c
-> @@ -85,7 +85,7 @@ nv84_fence_chid(struct nouveau_channel *chan)
->   static int
->   nv84_fence_emit(struct nouveau_fence *fence)
->   {
-> -	struct nouveau_channel *chan = fence->channel;
-> +	struct nouveau_channel *chan = unrcu_pointer(fence->channel);
->   	struct nv84_fence_chan *fctx = chan->fence;
->   	u64 addr = fctx->vma->addr + nv84_fence_chid(chan) * 16;
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_uvmm.c b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> index 5cf892c50f43..c8c3f1b1b604 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_uvmm.c
+> @@ -604,6 +604,10 @@ op_unmap_prepare(struct drm_gpuva_op_unmap *u)
+>   	drm_gpuva_unmap(u);
+>   }
 >   
+> +/*
+> + * Note: @args should not be NULL when calling for
+> + * a map operation.
+> + */
+>   static int
+>   nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+>   			struct nouveau_uvma_prealloc *new,
+> @@ -624,7 +628,7 @@ nouveau_uvmm_sm_prepare(struct nouveau_uvmm *uvmm,
+>   			if (ret)
+>   				goto unwind;
+>   
+> -			if (args && vmm_get_range) {
+> +			if (vmm_get_range) {
+>   				ret = nouveau_uvmm_vmm_get(uvmm, vmm_get_start,
+>   							   vmm_get_range);
+>   				if (ret) {
 
