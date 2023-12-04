@@ -1,173 +1,145 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9923290E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  3 Dec 2023 08:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405F1EB2B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 10:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SItfbPsn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCeo5emh"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2DAE660F10
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  3 Dec 2023 08:12:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2DAE660F10
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SItfbPsn
+	by smtp4.osuosl.org (Postfix) with ESMTP id 897C8404B6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 10:05:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 897C8404B6
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LCeo5emh
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id M9DKXnO4fN1r
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WHeM-Ujumhq8
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun,  3 Dec 2023 08:12:07 +0000 (UTC)
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 11F6A60F0D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  3 Dec 2023 08:12:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 11F6A60F0D
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-286838371faso164109a91.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 03 Dec 2023 00:12:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701591126; x=1702195926; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=o/vcuqZ4fJLLKaosyQPQg2UkPXyexycK32D3E42tjTI=;
-        b=SItfbPsnEf0C4/3DW6yWLSNiAl7rxybBJCGfK8Y+rt9FrNbpSkre8sCT2cutxBo5iq
-         wChf/xZlPn1zDA/Mg4r/h66K0zg7AHx6nEbO2Rn8gr1u9oJIXJblV8OLmGVpT05qspVw
-         ZoZasDZqXh56coCV8nI0EsHg03A8kvFnA2s862ODDkjVSnDhggiD+MiHZOVRH50gU4sr
-         eFJZUuQuAZYgbki+nRWKDyAWvJOVeMAcGPJ8Y1yFIGskC4pf6129Tush7L8mVZVPn6nN
-         jeYdXsCE9aIWt8Vc48hgqlwqM4h2kLKKMTXEllJQTrnZnJBDq94zDF8zEhqozhh+WZBI
-         +9cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701591126; x=1702195926;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o/vcuqZ4fJLLKaosyQPQg2UkPXyexycK32D3E42tjTI=;
-        b=Xz0lXho4NJmST37/ejGQ8CAA9S9wpA7Zotx2fVqu77eRnHt5d9u0ro2KIfuBCKknHP
-         hAsAy0of0Set/6tPmGVAPYCE7A3EdEY4cKf0p6BJ+9teIwh4VHYwWBQFVL7buZPFddvM
-         3vtriMIMhpm+7KEjJtMQ006gbC5nNWsqD0YMqDBKtdjHK2yz4reyN8pud28GfnpQf90a
-         7at2eNvGWcnFN/VS0N43BCIW5WhnhI/uyQ2FMsTMNUaCHBcd3BP5et5gZdoe3LmQLmUM
-         tZW6VeyJMRIRyph46VqPlkcA6NyAjwpbOyRglmD6UWEeZmbyKMaMXU4QHqiFoGI+1wTP
-         v0+A==
-X-Gm-Message-State: AOJu0YxLD/RTXuZiZKakTkgjr9ZxZZAvedNFvmyDVamKudKNsMC8SIi0
-	8zFl7wR02ThHQnSLF09hg6w=
-X-Google-Smtp-Source: AGHT+IE6jDWJnhDlocs06VpaYFk7tPb3o8MK+SewA2ckAVy/M4/ZakP8Bj6Mei+J9VnyXmmjhg+BTQ==
-X-Received: by 2002:a17:903:2308:b0:1ce:63bf:e4c9 with SMTP id d8-20020a170903230800b001ce63bfe4c9mr34229294plh.0.1701591126293;
-        Sun, 03 Dec 2023 00:12:06 -0800 (PST)
-Received: from [192.168.0.152] ([103.75.161.210])
-        by smtp.gmail.com with ESMTPSA id ay7-20020a1709028b8700b001acae9734c0sm6216064plb.266.2023.12.03.00.12.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Dec 2023 00:12:05 -0800 (PST)
-Message-ID: <b5b06804-a8a1-44d9-8e85-063d2cca2f91@gmail.com>
-Date: Sun, 3 Dec 2023 13:41:59 +0530
+	Mon,  4 Dec 2023 10:05:30 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7DED4404AF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 10:05:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7DED4404AF
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id D65B6B80CC3;
+	Mon,  4 Dec 2023 10:05:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33789C433C7;
+	Mon,  4 Dec 2023 10:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701684327;
+	bh=TjbVpp0w/mr0UQlKAwP4FFpH3IWzsJ2Rxf+6614AKw4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LCeo5emhYBiylF4hn4+CLQjHs53oxcvqzN6JNW4byYOf8eYp9U98no67sD6bozjNo
+	 5bdXsgeseUO4kEa6zkVHbKkI7rsY8QbHAj+xI8C0NPgjGJHi4ARMKiNyZin6vzPSOM
+	 cQ/9IjtcLf82phzN1tyCG6IYmyF3rcMa6xpdNUBkzmFInDyF2ovoAwtdQbMS+PPPq+
+	 DFvxk2tG5Ll7GaA5StWiAF9g1W1PwG4tlKjfbHgu3PXVS8ZvzYtYpD2CYDRqKcWKt3
+	 EcAg9hyL+mAXykW5rC5IHjO8lSHVEU4sJqzb7kQz+H1zH61AyrFd+7KZuzKt3tDqA3
+	 ZEFenR3p1m8Dg==
+Date: Mon, 4 Dec 2023 10:05:17 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Shuah Khan
+ <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
+Message-ID: <20231204100517.30df720e@jic23-huawei>
+In-Reply-To: <f6ced6e9-65d2-4bbc-9792-473465bad547@gmail.com>
+References: <20231117074554.700970-1-anshulusr@gmail.com>
+	<20231117074554.700970-2-anshulusr@gmail.com>
+	<20231125140641.08284929@jic23-huawei>
+	<f6ced6e9-65d2-4bbc-9792-473465bad547@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] driver: gpu: Fix warning directly dereferencing a rcu
- pointer
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: kherbst@redhat.com, lyude@redhat.com, airlied@gmail.com, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231126145723.388162-1-singhabhinav9051571833@gmail.com>
- <f5a69710-f1a6-444d-9d2a-7c07589a2bdc@redhat.com>
-Content-Language: en-US
-From: Abhinav Singh <singhabhinav9051571833@gmail.com>
-In-Reply-To: <f5a69710-f1a6-444d-9d2a-7c07589a2bdc@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 11/30/23 05:22, Danilo Krummrich wrote:
-> Hi Abhinav,
-> 
-> Thanks for sending this follow-up patch.
-> 
-> On 11/26/23 15:57, Abhinav Singh wrote:
->> Fix a sparse warning with this message
->> "warning:dereference of noderef expression". In this context it means we
->> are dereferencing a __rcu tagged pointer directly.
->>
->> We should not be directly dereferencing a rcu pointer. To get a normal
->> (non __rcu tagged pointer) from a __rcu tagged pointer we are using the
->> function unrcu_pointer(...). The non __rcu tagged pointer then can be
->> dereferenced just like a normal pointer.
-> 
-> Can you please add a brief explanation why unrcu_pointer() is fine here?
-Is this description okay
-"The reason for using unrcu_pointer(...) instead of rcu_dereference(...)
-or rcu_dereference_protected(...) is because, before nv10_fence_emit() 
-and nv_04_fence_emit() did not add this fence to the fence context's
-pending list, thus channel doesn't need any protection" ?
-> 
->>
->> I tested with qemu with this command
->> qemu-system-x86_64 \
->>     -m 2G \
->>     -smp 2 \
->>     -kernel bzImage \
->>     -append "console=ttyS0 root=/dev/sda earlyprintk=serial 
->> net.ifnames=0" \
->>     -drive file=bullseye.img,format=raw \
->>     -net user,host=10.0.2.10,hostfwd=tcp:127.0.0.1:10021-:22 \
->>     -net nic,model=e1000 \
->>     -enable-kvm \
->>     -nographic \
->>     -pidfile vm.pid \
->>     2>&1 | tee vm.log
->> with lockdep enabled.
-> 
-> How is that relevant for this patch?
-> 
-> - Danilo
-To test rcu related code lockdep must be enabled, it gives any warning 
-or error message if we are dealing inappropriately with rcu pointers. So 
-I tested this lockdep enabled. I added the test description in this 
-patch as well 
-https://lore.kernel.org/all/0754e669-8b00-461c-b6fe-79c659bf59a3@redhat.com/ 
-which is very similar to this patch so I thought I should here as well. 
-Is it not relevant here?
 
-Thank You,
-Abhinav Singh
+> >> +struct ltr390_data {
+> >> +	struct regmap *regmap;
+> >> +	struct i2c_client *client;
+> >> +	struct mutex lock;  
+> > 
+> > All locks need a comment explaining the scope of data they protect.
+> > Note that regmap and the i2c bus will have their own locks by default
+> > so I'm not sure you need one here at all as I'm not seeing read modify write
+> > cycles or anything like that (I might be missing one though!)  
 > 
->>
->> Signed-off-by: Abhinav Singh <singhabhinav9051571833@gmail.com>
->> ---
->>   drivers/gpu/drm/nouveau/nv10_fence.c | 2 +-
->>   drivers/gpu/drm/nouveau/nv84_fence.c | 2 +-
->>   2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/nouveau/nv10_fence.c 
->> b/drivers/gpu/drm/nouveau/nv10_fence.c
->> index c6a0db5b9e21..845b64c079ed 100644
->> --- a/drivers/gpu/drm/nouveau/nv10_fence.c
->> +++ b/drivers/gpu/drm/nouveau/nv10_fence.c
->> @@ -32,7 +32,7 @@
->>   int
->>   nv10_fence_emit(struct nouveau_fence *fence)
->>   {
->> -    struct nvif_push *push = fence->channel->chan.push;
->> +    struct nvif_push *push = unrcu_pointer(fence->channel)->chan.push;
->>       int ret = PUSH_WAIT(push, 2);
->>       if (ret == 0) {
->>           PUSH_MTHD(push, NV06E, SET_REFERENCE, fence->base.seqno);
->> diff --git a/drivers/gpu/drm/nouveau/nv84_fence.c 
->> b/drivers/gpu/drm/nouveau/nv84_fence.c
->> index 812b8c62eeba..d42e72e23dec 100644
->> --- a/drivers/gpu/drm/nouveau/nv84_fence.c
->> +++ b/drivers/gpu/drm/nouveau/nv84_fence.c
->> @@ -85,7 +85,7 @@ nv84_fence_chid(struct nouveau_channel *chan)
->>   static int
->>   nv84_fence_emit(struct nouveau_fence *fence)
->>   {
->> -    struct nouveau_channel *chan = fence->channel;
->> +    struct nouveau_channel *chan = unrcu_pointer(fence->channel);
->>       struct nv84_fence_chan *fctx = chan->fence;
->>       u64 addr = fctx->vma->addr + nv84_fence_chid(chan) * 16;
+> My goal with the mutex was to protect the sysfs though that might be
+> unnecessary.
+
+Ok.  So, there is nothing stopping multiple parallel sysfs accesses, but
+what you'll actually be protecting is either device or driver state, not
+sysfs as such.
+
 > 
+> >> +};
+> >> +
+> >> +static const struct regmap_config ltr390_regmap_config = {
+> >> +	.name = LTR390_DEVICE_NAME,
+> >> +	.reg_bits = 8,
+> >> +	.reg_stride = 1,
+> >> +	.val_bits = 8,
+> >> +};
+> >> +
+
+
+> >> +static int ltr390_probe(struct i2c_client *client)
+> >> +{
+> >> +	struct ltr390_data *data;
+> >> +	struct iio_dev *indio_dev;
+> >> +	int ret, part_number;
+> >> +
+> >> +	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
+> >> +	if (!indio_dev)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	data = iio_priv(indio_dev);
+> >> +
+> >> +	data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
+> >> +	if (IS_ERR(data->regmap))
+> >> +		return dev_err_probe(&client->dev, PTR_ERR(data->regmap),  
+> > There are quite a few &client->dev in here. I'd introduce
+> > struct device *dev = &client->dev;
+> > as a local variable then use that to shorten all those lines a little.
+> >   
+> >> +				     "regmap initialization failed\n");
+> >> +
+> >> +	data->client = client;
+> >> +	i2c_set_clientdata(client, indio_dev);  
+> > 
+> > Why set this? I don' think you are using it.
+> >   
+> 
+> It seems to be necessary for regmap to work properly, I tested without
+> it and I get an EREMOTEIO(121) when reading the part id.
+
+That's weird given regmap will have no understanding of an iio_dev.
+
+If you can do some more debugging on where that error is coming from
+in regmap that would be great.
+
+I suspect it's coming from down in the bus master which should not
+be touching this at all.  What is the i2c master in this case?
+
+Jonathan
+
+
+> 
+> >> [..]  
+> 
+> Thanks for the review,
+> Best regards,
+> Anshul
 
