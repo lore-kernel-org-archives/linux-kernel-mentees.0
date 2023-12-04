@@ -1,145 +1,93 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405F1EB2B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 10:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D656224D2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 12:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCeo5emh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p8nq7UXm"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 897C8404B6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 10:05:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 897C8404B6
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9749F4096E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 12:14:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9749F4096E
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=LCeo5emh
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=p8nq7UXm
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.401
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id WHeM-Ujumhq8
+	with ESMTP id FQQlWuOo7cVe
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon,  4 Dec 2023 10:05:30 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7DED4404AF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 10:05:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7DED4404AF
+	Mon,  4 Dec 2023 12:14:42 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 315C54094F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Dec 2023 12:14:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 315C54094F
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id D65B6B80CC3;
-	Mon,  4 Dec 2023 10:05:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33789C433C7;
-	Mon,  4 Dec 2023 10:05:22 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id 92E86B80DC7;
+	Mon,  4 Dec 2023 12:14:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D19C433C8;
+	Mon,  4 Dec 2023 12:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701684327;
-	bh=TjbVpp0w/mr0UQlKAwP4FFpH3IWzsJ2Rxf+6614AKw4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LCeo5emhYBiylF4hn4+CLQjHs53oxcvqzN6JNW4byYOf8eYp9U98no67sD6bozjNo
-	 5bdXsgeseUO4kEa6zkVHbKkI7rsY8QbHAj+xI8C0NPgjGJHi4ARMKiNyZin6vzPSOM
-	 cQ/9IjtcLf82phzN1tyCG6IYmyF3rcMa6xpdNUBkzmFInDyF2ovoAwtdQbMS+PPPq+
-	 DFvxk2tG5Ll7GaA5StWiAF9g1W1PwG4tlKjfbHgu3PXVS8ZvzYtYpD2CYDRqKcWKt3
-	 EcAg9hyL+mAXykW5rC5IHjO8lSHVEU4sJqzb7kQz+H1zH61AyrFd+7KZuzKt3tDqA3
-	 ZEFenR3p1m8Dg==
-Date: Mon, 4 Dec 2023 10:05:17 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Anshul Dalal <anshulusr@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/2] iio: light: driver for Lite-On ltr390
-Message-ID: <20231204100517.30df720e@jic23-huawei>
-In-Reply-To: <f6ced6e9-65d2-4bbc-9792-473465bad547@gmail.com>
-References: <20231117074554.700970-1-anshulusr@gmail.com>
-	<20231117074554.700970-2-anshulusr@gmail.com>
-	<20231125140641.08284929@jic23-huawei>
-	<f6ced6e9-65d2-4bbc-9792-473465bad547@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	s=k20201202; t=1701692079;
+	bh=UO++fzPbk7oE2nPQaJdRbj1/Gln8Y85B2q+MfxWqQhE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p8nq7UXmsenLOa7cAonkmS0cjI3t+0bc5HMHksyIHgYSvDtOVHSg0hTVbW96bdWrs
+	 UKQ5TiexUr3/G5zwi3cgjse5BMGZfYczPR5AbUkWo7oQPQ0DSnTIcLwcReyiV6TG6x
+	 MaFhAEMm83Xdyd9pVvJCtmLqN9dFP5/FdZUSSPmBi1pqo78B1swA3pzZlxBHWUgyGD
+	 rP6fkDP6mAcn1fMZtL/hTp3TyEonz9GeCuJFc+9Cmagm+ZbvswIjMxbXpF8cP68wsQ
+	 DrU/tb4dNgkRwyEsVQemEHsTh0yNxOyFoulIAJ3R0vowBqfY/PXV1auGd/t24YhNR5
+	 eWwpCSzq0disA==
+Date: Mon, 4 Dec 2023 12:14:33 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rajeshwar Shinde <coolrrsh@gmail.com>
+Cc: linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v2] spi: spi-mpc512x-psc: Fix an unsigned comparison that
+ can never be negative
+Message-ID: <b7b27bf6-3e17-4392-804e-c46324a5bdd6@sirena.org.uk>
+References: <20230813141207.150336-1-coolrrsh@gmail.com>
+ <CA+VNjV1=xVyRkvB6RAnLySAOzS=X1XiJihrtiMx3Jmifpdq9ng@mail.gmail.com>
+ <df10d700-3f3f-4665-9197-534abc24523a@sirena.org.uk>
+ <CA+VNjV1K6WoKPqP4zrax5SOF3UFCiJ5oYA=YamjZwfZ5fkEHWg@mail.gmail.com>
+ <ZPTAQWZ0XoL9zfW7@finisterre.sirena.org.uk>
+ <CA+VNjV3_JRvhjanLEdYRnxcTZv2pv307utD-bpmy_7QFT3Y+Pg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lu5MX3pFXYQCC8VH"
+Content-Disposition: inline
+In-Reply-To: <CA+VNjV3_JRvhjanLEdYRnxcTZv2pv307utD-bpmy_7QFT3Y+Pg@mail.gmail.com>
+X-Cookie: For office use only.
 
 
-> >> +struct ltr390_data {
-> >> +	struct regmap *regmap;
-> >> +	struct i2c_client *client;
-> >> +	struct mutex lock;  
-> > 
-> > All locks need a comment explaining the scope of data they protect.
-> > Note that regmap and the i2c bus will have their own locks by default
-> > so I'm not sure you need one here at all as I'm not seeing read modify write
-> > cycles or anything like that (I might be missing one though!)  
-> 
-> My goal with the mutex was to protect the sysfs though that might be
-> unnecessary.
+--lu5MX3pFXYQCC8VH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Ok.  So, there is nothing stopping multiple parallel sysfs accesses, but
-what you'll actually be protecting is either device or driver state, not
-sysfs as such.
+On Sat, Dec 02, 2023 at 10:00:21AM +0530, Rajeshwar Shinde wrote:
+> Remainder
 
-> 
-> >> +};
-> >> +
-> >> +static const struct regmap_config ltr390_regmap_config = {
-> >> +	.name = LTR390_DEVICE_NAME,
-> >> +	.reg_bits = 8,
-> >> +	.reg_stride = 1,
-> >> +	.val_bits = 8,
-> >> +};
-> >> +
+Seriously, please read and act on what I'm writing.
 
+--lu5MX3pFXYQCC8VH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> >> +static int ltr390_probe(struct i2c_client *client)
-> >> +{
-> >> +	struct ltr390_data *data;
-> >> +	struct iio_dev *indio_dev;
-> >> +	int ret, part_number;
-> >> +
-> >> +	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-> >> +	if (!indio_dev)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	data = iio_priv(indio_dev);
-> >> +
-> >> +	data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
-> >> +	if (IS_ERR(data->regmap))
-> >> +		return dev_err_probe(&client->dev, PTR_ERR(data->regmap),  
-> > There are quite a few &client->dev in here. I'd introduce
-> > struct device *dev = &client->dev;
-> > as a local variable then use that to shorten all those lines a little.
-> >   
-> >> +				     "regmap initialization failed\n");
-> >> +
-> >> +	data->client = client;
-> >> +	i2c_set_clientdata(client, indio_dev);  
-> > 
-> > Why set this? I don' think you are using it.
-> >   
-> 
-> It seems to be necessary for regmap to work properly, I tested without
-> it and I get an EREMOTEIO(121) when reading the part id.
+-----BEGIN PGP SIGNATURE-----
 
-That's weird given regmap will have no understanding of an iio_dev.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmVtwqgACgkQJNaLcl1U
+h9BNwQf/S63rsI3fLUB10zkKjnEZzXJtFIBDO3bgRpZCsA5nS8LvamCOJiDRzKOv
+/OZyxrDCvji9tZw9iUUvOi8Cq4s4Xx0GiJUl896iJ3vJOupYes1xhl1b4YvrNnWo
+K4z+5STjLLGHEjrljSxORNEN5LdAfxfQQgT97mqNdlRc0dEBrhxe54CQmr2aqWby
++3Oq2mBFW6R0FRPqsd7BMrlOk6wY+pnAxZ46eMuEKInbaDUeCAQoSejhJyyYC6Bh
+4KXuPb8arFpWhgv/MAbjb0PqGWH2RkHyJVQ4vITDhU7WO88RB9PMW6/f+kLySXYq
+pWIPx37qTD0bb+Gi+UWiNLepWg6Y2g==
+=tK58
+-----END PGP SIGNATURE-----
 
-If you can do some more debugging on where that error is coming from
-in regmap that would be great.
-
-I suspect it's coming from down in the bus master which should not
-be touching this at all.  What is the i2c master in this case?
-
-Jonathan
-
-
-> 
-> >> [..]  
-> 
-> Thanks for the review,
-> Best regards,
-> Anshul
-
+--lu5MX3pFXYQCC8VH--
