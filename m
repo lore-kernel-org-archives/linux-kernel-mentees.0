@@ -1,101 +1,108 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0256FA1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 03:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DCF8182B3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 07:52:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="omyYhveJ"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="H5rLv/l1"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C5B5940462
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 03:21:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org C5B5940462
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.a=rsa-sha256 header.s=corp-2023-11-20 header.b=omyYhveJ
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9DD3560BAA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 07:52:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9DD3560BAA
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=H5rLv/l1
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.799
+X-Spam-Score: -1.898
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fqfEfFuLtw2v
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id lfmaeUEddaAQ
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  6 Dec 2023 03:21:05 +0000 (UTC)
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 52A9C40289
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 03:21:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 52A9C40289
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B61xv4n019441;
-	Wed, 6 Dec 2023 03:16:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2023-11-20;
- bh=gHF9gt+wxPSycQDz96zpJxYO1dVGhK3QJDsE/GyVbXc=;
- b=omyYhveJiYSzaagBU1EnhSGJWf5fhaThHmoBF0Mu++Z4D3DXyDr26PxS7XBzW+xUvLi8
- qxPfRLOWe/Ea4PXy5OD4cATXzSK5W5za29TkxTEcisU7JF7JhSVsryf5Yb1dQknxY30L
- 626ZzcTbovkjgaonyCC6DpxdqCncK6d5CkHkhNtrjI6bgzQRJWRlhmAbNeWjdxoVOMXG
- Cl+lVKlAHJoE5Y6/mOMKxPhqL1eaWSAX74e9qyWGBZndcNOs8ATl8LoQiSqbw3I9z/GX
- Assyxgxay1gHR7wLIBXKNRPnOkhRavuEUAnE0eoSGGjk5n6YRBENq64VOpwlmHSsbtms uQ== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3utdc187c7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 06 Dec 2023 03:16:15 +0000
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3B62PYHM036596;
-	Wed, 6 Dec 2023 03:16:13 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3utan96859-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 06 Dec 2023 03:16:13 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3B63GCYP014062;
-	Wed, 6 Dec 2023 03:16:13 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3utan9684d-4;
-	Wed, 06 Dec 2023 03:16:13 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: oliver@neukum.org, aliakc@web.de, lenehan@twibble.org, jejb@linux.ibm.com,
-        Abhinav Singh <singhabhinav9051571833@gmail.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] driver: scsi: Fix warning using plain integer as NULL
-Date: Tue,  5 Dec 2023 22:16:01 -0500
-Message-ID: <170182644884.1446429.3315147571093159185.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
-References: <20231109215049.1466431-1-singhabhinav9051571833@gmail.com>
+	Wed,  6 Dec 2023 07:51:59 +0000 (UTC)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 74EB360B65
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 07:51:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 74EB360B65
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-a195a1474easo43812566b.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 05 Dec 2023 23:51:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1701849117; x=1702453917; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eFp5uRjObHI5sx2KkKwRQYb2OVirn1mK3AeigSWlk4s=;
+        b=H5rLv/l1x2gSjGiD25O/iClp5LTzDEgbzX5Mv2frTQV1pkiCLVzersyOi20f7O/0i8
+         bcMRY2wF9tYARH7sNnuS2It2sr2UjWK5T1mcXMh29V8L+MWcsvzgBcT+eF23260oqAQH
+         hCS5vjR5+MJkQ/Nsi3i+MTUG8mCEL8e0Tyoq3J1NudiLBwSkrV2QIMDCll18pP/QHTDH
+         NLN3o+fSMvfjzaywouGR4gP1Bd1RmbOcySup9LFNOaZ4sJrj+D4rdcD4AmLuVYAB5om+
+         CE8lfxW8CeT2tvaAVB6dANmSxa6qJzK5QMksrXr0JNN+hrxB17RM+MXnSNEE2Fcq5N1e
+         /oeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701849117; x=1702453917;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eFp5uRjObHI5sx2KkKwRQYb2OVirn1mK3AeigSWlk4s=;
+        b=RoveeC1sqk0h6ObBcqCSOuGEzrYqgNxdF5u5IGZXh7rspszu9SGNTJl9bl0drbxcdp
+         ZpCIUo3mnWUAd9jm/SOv8UKTapGE3tlRWCrZSg7+mRkwHoJw1fAhZt5lGfr/rPSMs7je
+         SLcKUpoEH215wbtnF4oP+jUiAEp4JFc5uPvyc4iU23g/YT/FRtTOUP91xyUcDuDrNFzj
+         28n5+txQyVHF0qhf/mbECSjgPCdCcWGhrbrQUGAJCt5LBkNXq28DVz8/vqcR++8rHDYu
+         EXKalyonWyOIGjorkidtdVgsyHGLduzEe+htnASBxTlGEVL5jpIhODIVPGu0NuL/vn++
+         tV+Q==
+X-Gm-Message-State: AOJu0YwbMiNLUxnomJVsYizAYY2EhaznnUP4ZcBv8EwKx2x4olUF/aZi
+	Ugo5HiJMhrLsZowceieIHC5XrQ==
+X-Google-Smtp-Source: AGHT+IHMzuY1meGvg3Pi+vDkWvago2/oB4Ztcse2n8A7UWRnbPN+dQ+ogzUsnIcWjEorXoxs4+bAgA==
+X-Received: by 2002:a17:906:1cd:b0:a02:9891:29ba with SMTP id 13-20020a17090601cd00b00a02989129bamr269843ejj.15.1701849116698;
+        Tue, 05 Dec 2023 23:51:56 -0800 (PST)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id q14-20020a1709064c8e00b009fc42f37970sm7915855eju.171.2023.12.05.23.51.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Dec 2023 23:51:56 -0800 (PST)
+Date: Wed, 6 Dec 2023 08:51:54 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	netdev@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH net-next v5] netlink: specs: devlink: add some(not all)
+ missing attributes in devlink.yaml
+Message-ID: <ZXAoGhUnBFzQxD0f@nanopsycho>
+References: <20231202123048.1059412-1-swarupkotikalapudi@gmail.com>
+ <20231205191944.6738deb7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-06_01,2023-12-05_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0
- mlxlogscore=690 suspectscore=0 adultscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2312060026
-X-Proofpoint-GUID: Bp8fEVr36pMoA9ITtrjNJwmahn1FZ15a
-X-Proofpoint-ORIG-GUID: Bp8fEVr36pMoA9ITtrjNJwmahn1FZ15a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205191944.6738deb7@kernel.org>
 
-On Fri, 10 Nov 2023 03:20:49 +0530, Abhinav Singh wrote:
+Wed, Dec 06, 2023 at 04:19:44AM CET, kuba@kernel.org wrote:
+>On Sat,  2 Dec 2023 18:00:48 +0530 Swarup Laxman Kotiaklapudi wrote:
+>> Add some missing(not all) attributes in devlink.yaml.
+>
+>Hi Jiri,
+>
+>Do you want to take a closer look at the spec here?
+>Looks fine to me, on a quick scroll.
 
-> Sparse static analysis tools generate a warning with this message
-> "Using plain integer as NULL pointer". In this case this warning is
-> being shown because we are trying to initialize  pointer to NULL using
-> integer value 0.
-> 
-> 
+Yep, will do that later today.
 
-Applied to 6.8/scsi-queue, thanks!
+>
+>> Suggested-by: Jiri Pirko <jiri@resnulli.us>
+>> Suggested-by: Jakub Kicinski <kuba@kernel.org>
+>> Fixes: f2f9dd164db0 ("netlink: specs: devlink: add the remaining command to generate complete split_ops")
+>
+>I'll drop these when / if applying, FWIW. 
+>
+>Swarup, for future reference if there are comments / changes suggested
+>during normal review process you don't have to add the Suggested-by
 
-[1/1] driver: scsi: Fix warning using plain integer as NULL
-      https://git.kernel.org/mkp/scsi/c/f38d4eda25e2
+My "suggested-by" is probably fine as I suggested Swarup to make the patch :)
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+
+>tag. The expectation is that the reviewer will send a Reviewed-by tag
+>themselves at the end instead.
