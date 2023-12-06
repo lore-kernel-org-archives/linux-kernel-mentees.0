@@ -1,152 +1,712 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9629431A90
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 11:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2AC374E9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 13:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aKhT4XRE"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="HvI9qH1g"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1B1B340308
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 11:37:59 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1B1B340308
+	by smtp4.osuosl.org (Postfix) with ESMTP id 149CD418B8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 13:18:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 149CD418B8
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=aKhT4XRE
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=HvI9qH1g
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -1.898
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id de2xqeooOTSP
+	with ESMTP id NK1jbqcdirYi
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed,  6 Dec 2023 11:37:57 +0000 (UTC)
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7D3E9402EB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 11:37:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7D3E9402EB
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-3333074512bso345301f8f.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Dec 2023 03:37:57 -0800 (PST)
+	Wed,  6 Dec 2023 13:18:32 +0000 (UTC)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D90FD41805
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Dec 2023 13:18:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D90FD41805
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50bf2d9b3fdso4937702e87.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 06 Dec 2023 05:18:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701862675; x=1702467475; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UsKZRR7fb35TZGm9xzU+NNHL9tg4Q2nzB0Mt74LhSX4=;
-        b=aKhT4XREn2VtV9JWsPwtrXh1mvDDHZL9+Mg4Mx9jGGytitcYZCrjtTgnyQpOlkrSVy
-         529+SDA+ryEBvS4inRCHjZyt1WxPLmVlQCdkZWNVziXkl1Okm88Mf9S+iEAqqpp6ZsLX
-         AkDrt9QxIG7PnLdCmrk11HzG4DvYAdj+8tNlrGT5X8TM7B8rxLxv69K1T+TuKcajPKCb
-         ji+++tw3oZNJ9bwhiPCCABW6fpU7FGfICxnb9BJF5to0r6wG7bsLh2RcM3iVantkhzIC
-         bGSwwaCVCNeiGS9Dp1ly8UjQElkPVhSZDUNUxfvWdtduPBCLhZiCKzmNDPHJuJOshpr+
-         mpkw==
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1701868709; x=1702473509; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vDTwDHCRWuW+8SGUNCtXjlLkMIUYse8e7FHqjq0scEQ=;
+        b=HvI9qH1gUtW2SFOAfNBOuMlVL6F2wtOrCAwyAAW7h+AT9z3cEsFAb0osO9vI3JDO4e
+         wUNw8n28GCTCYheK4LVTC4VakO/+24n1VbHLgXL+lLkLKmMizpg23h+2tOv6l6VNcDkB
+         7dvsdAqcCamLqsKXN0GpQReKADp3DFbg7Mnjsjs3TK3FwpatlQiaYMx+4lOJFxBqYcQc
+         KfEwsJ3CKsyOYepeSgQhlAAgatEBfWYiJ854p7mcKsujyA6qKx0JF7n5uh42EvFWP4ar
+         44nX3kFtou8Us3Nxkfgd+HD4dWVydqhJ8mAWjgAd8ojhUAzj0vgfKlIOorFe8OxWnM6G
+         mWxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701862675; x=1702467475;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UsKZRR7fb35TZGm9xzU+NNHL9tg4Q2nzB0Mt74LhSX4=;
-        b=vuUL+iMhlWGwNNdR1VwkEcDbO9TEekTIO2aD9SnUTalzuA4QPLVCBY9t+zsmlfZdVr
-         AB9TiDFCc9C7yBUnu2xRVfLCfKKR06vtTG1xFfyUUqZKpH16FoK2MFxLMkc9gO4rKgbx
-         1/7zs0ts3GtrOHIhHcblYOu+vSTCHJehb5YAauzofH/EYT44uvOXQcVc9ECP8Z8Dp6pq
-         Gr67spdpVhzkHECPtZHG9y1r0PVh1yMkaIlDsWELSLZ4pswlm4Ma6EbVByjyK6xSHmsG
-         P5isBCwc1ZJm51ZTDfJHO+yWx647pIEtNqieeS3xsRwtRTQM57s3tzGq3drH/lE/K1v/
-         W+5w==
-X-Gm-Message-State: AOJu0YwC3VMUVg9WsCDO5GQgHPHcV8rBdBfkMZ4hd1ZQBJjjxeI0ax+w
-	5N4c2mfSOtYMZhSignOy5s8ibQ==
-X-Google-Smtp-Source: AGHT+IGtAUsYbhUVYEL0MZxwr4M0sLnELDMNsFle3FJdHz2OEGubCuMsgvDyo+NQ/Uio0wU7tRjUGg==
-X-Received: by 2002:a05:600c:4749:b0:40b:5e26:2379 with SMTP id w9-20020a05600c474900b0040b5e262379mr1281084wmo.42.1701862675544;
-        Wed, 06 Dec 2023 03:37:55 -0800 (PST)
-Received: from aspen.lan (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
-        by smtp.gmail.com with ESMTPSA id bh6-20020a05600c3d0600b0040b54335d57sm17055244wmb.17.2023.12.06.03.37.54
+        d=1e100.net; s=20230601; t=1701868709; x=1702473509;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDTwDHCRWuW+8SGUNCtXjlLkMIUYse8e7FHqjq0scEQ=;
+        b=lZVvawE9Cx4bWdZJbhuS3Uv57JHTcziFUj5YU6Q4k4G6BL7T7lJBGAhonC+gKaZUKX
+         KALT+Q5fmaXog4bHx/IyVQYTA6QkhTGdy4tHNfFfm9QNJ5rLgXcC1/dETMc581DQ4Ugi
+         Uy1YAqTwIpSTLTgsKdCl7Te6aqD8wDBpkKb++v+48gr+byTlk26ZIPduodaKCpJqlsXk
+         cW1zjfmTtvovQxFzpMMAnQP6AbE8Y83AoPYzGosbvzoI/86a0s8oy+nP+pbWMdOmw3pw
+         toIDV0Oc26WR7zhtnD65c+CEiWIz/EaCOiEyEDEiuVLShMXCduRGN+r7zEgvQXRctcX6
+         b7kA==
+X-Gm-Message-State: AOJu0YxhENMSbEQn0kFWH0Ulqp044rmk3uCZQmWgUg9E4mHGTJIiSoer
+	hxMIRryakUfvGmjLaRIowIvNuw==
+X-Google-Smtp-Source: AGHT+IHGPdAmhlvXT+Vge0GRetYiSG4tNh3rzPhqCs5f/AhesQOITByE07cRqXmOYPJ/q2WjehDG6A==
+X-Received: by 2002:a05:6512:1254:b0:50b:efbb:c59e with SMTP id fb20-20020a056512125400b0050befbbc59emr793735lfb.29.1701868709129;
+        Wed, 06 Dec 2023 05:18:29 -0800 (PST)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id h10-20020a50ed8a000000b0054cc903baadsm2423798edr.30.2023.12.06.05.18.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 03:37:55 -0800 (PST)
-Date: Wed, 6 Dec 2023 11:37:53 +0000
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Yuran Pereira <yuran.pereira@hotmail.com>,
-	kgdb-bugreport@lists.sourceforge.net,
-	linux-trace-kernel@vger.kernel.org, jason.wessel@windriver.com,
-	rostedt@goodmis.org, mhiramat@kernel.org,
-	linux-kernel@vger.kernel.org,
+        Wed, 06 Dec 2023 05:18:28 -0800 (PST)
+Date: Wed, 6 Dec 2023 14:18:27 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 2/2] trace: kdb: Replace simple_strtoul with kstrtoul in
- kdb_ftdump
-Message-ID: <20231206113753.GB81045@aspen.lan>
-References: <GV1PR10MB65635561FB160078C3744B5FE8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
- <GV1PR10MB6563DC208657E86715361E94E8B4A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
- <CAD=FV=XpK0T-oPi2Q6-9jELFseSsvgkFtRuXP1LXK6PbV_MwCg@mail.gmail.com>
+Subject: Re: [PATCH net-next v5] netlink: specs: devlink: add some(not all)
+ missing attributes in devlink.yaml
+Message-ID: <ZXB0oyBiE0C/5laE@nanopsycho>
+References: <20231202123048.1059412-1-swarupkotikalapudi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD=FV=XpK0T-oPi2Q6-9jELFseSsvgkFtRuXP1LXK6PbV_MwCg@mail.gmail.com>
+In-Reply-To: <20231202123048.1059412-1-swarupkotikalapudi@gmail.com>
 
-On Tue, Dec 05, 2023 at 01:41:57PM -0800, Doug Anderson wrote:
-> Hi,
+Sat, Dec 02, 2023 at 01:30:48PM CET, swarupkotikalapudi@gmail.com wrote:
+>Add some missing(not all) attributes in devlink.yaml.
 >
-> On Sun, Nov 19, 2023 at 4:10 PM Yuran Pereira <yuran.pereira@hotmail.com> wrote:
-> >
-> > The function simple_strtoul performs no error checking in scenarios
-> > where the input value overflows the intended output variable.
-> > This results in this function successfully returning, even when the
-> > output does not match the input string (aka the function returns
-> > successfully even when the result is wrong).
-> >
-> > Or as it was mentioned [1], "...simple_strtol(), simple_strtoll(),
-> > simple_strtoul(), and simple_strtoull() functions explicitly ignore
-> > overflows, which may lead to unexpected results in callers."
-> > Hence, the use of those functions is discouraged.
-> >
-> > This patch replaces all uses of the simple_strtoul with the safer
-> > alternatives kstrtoint and kstrtol.
-> >
-> > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
-> >
-> > Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
-> > ---
-> >  kernel/trace/trace_kdb.c | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/kernel/trace/trace_kdb.c b/kernel/trace/trace_kdb.c
-> > index 59857a1ee44c..3891f885e4a6 100644
-> > --- a/kernel/trace/trace_kdb.c
-> > +++ b/kernel/trace/trace_kdb.c
-> > @@ -96,23 +96,21 @@ static int kdb_ftdump(int argc, const char **argv)
-> >  {
-> >         int skip_entries = 0;
-> >         long cpu_file;
-> > -       char *cp;
-> > +       int err;
-> >         int cnt;
-> >         int cpu;
-> >
-> >         if (argc > 2)
-> >                 return KDB_ARGCOUNT;
-> >
-> > -       if (argc) {
-> > -               skip_entries = simple_strtol(argv[1], &cp, 0);
-> > -               if (*cp)
-> > +       if (argc)
-> > +               if (kstrtoint(argv[1], 0, &skip_entries))
-> >                         skip_entries = 0;
-> > -       }
+>Re-generate the related devlink-user.[ch] code.
 >
-> Similar nit about braces as in patch #1. tl;dr is change the above to:
+>Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+>Suggested-by: Jiri Pirko <jiri@resnulli.us>
+>Suggested-by: Jakub Kicinski <kuba@kernel.org>
+>Fixes: f2f9dd164db0 ("netlink: specs: devlink: add the remaining command to generate complete split_ops")
+
+Remove the fixes tag. This patch is not a fix.
+
+Overall, looks okay. I found couple of issues below, also pointed out
+couple of nits to change:
+
+
+>---
+>V5:
+>  - Keep stats enum as unnamed in /uapi/linux/devlink.h 
+>    to avoid kernel build failure
+>V4: https://lore.kernel.org/all/20231126105246.195288-1-swarupkotikalapudi@gmail.com/ 
+>  - Change the commit message
+>V3: https://lore.kernel.org/all/20231123100119.148324-1-swarupkotikalapudi@gmail.com/
+>  - enum name added for stats and trap-metadata enum used by trap command
+>    in include/uapi/linux/devlink.h
+>  - Fix generated userspace file's compilation issue
+>    due to V1 and V2 patchset
+>  - Move some attributes e.g. nested-devlink and param again as a TODO,
+>    which needs some discussion and will be fixed in a new patchset
+>V2: https://lore.kernel.org/all/20231122143033.89856-1-swarupkotikalapudi@gmail.com/
+>  - Rebase to net-next tree
+>  - param-value-data data type is dynamic, hence to accomndate
+>    all data type make it as string type
+>  - Change nested attribute to use correct fields
+>    based on driver code e.g. region-snapshots,
+>    region-snapshot, region-chunks, region-chunk,
+>    linecard-supported-types, health-reporter,
+>    linecard-supported-types, nested-devlink
+>    and param's attributes
+>V1: https://lore.kernel.org/all/ZVNPi7pmJIDJ6Ms7@swarup-virtual-machine/
 >
-> if (argc && kstrtoint(argv[1], 0, &skip_entries))
->   skip_entries = 0;
+> Documentation/netlink/specs/devlink.yaml | 330 ++++++++++++++++++-----
+> tools/net/ynl/generated/devlink-user.c   | 223 +++++++++++++++
+> tools/net/ynl/generated/devlink-user.h   | 105 +++++++-
+> 3 files changed, 595 insertions(+), 63 deletions(-)
+>
+>diff --git a/Documentation/netlink/specs/devlink.yaml b/Documentation/netlink/specs/devlink.yaml
+>index 43067e1f63aa..2fee16509e82 100644
+>--- a/Documentation/netlink/specs/devlink.yaml
+>+++ b/Documentation/netlink/specs/devlink.yaml
+>@@ -75,6 +75,14 @@ definitions:
+>         name: ipsec-crypto-bit
+>       -
+>         name: ipsec-packet-bit
+>+  -
+>+    type: enum
+>+    name: rate-type
+>+    entries:
+>+      -
+>+        name: leaf
+>+      -
+>+        name: node
+>   -
+>     type: enum
+>     name: sb-threshold-type
+>@@ -111,6 +119,16 @@ definitions:
+>         name: none
+>       -
+>         name: basic
+>+  -
+>+    type: enum
+>+    name: dpipe-header-id
+>+    entries:
+>+      -
+>+        name: ethernet
+>+      -
+>+        name: ipv4
+>+      -
+>+        name: ipv6
+>   -
+>     type: enum
+>     name: dpipe-match-type
+>@@ -174,7 +192,16 @@ definitions:
+>         name: trap
+>       -
+>         name: mirror
+>-
+>+  -
+>+    type: enum
+>+    name: trap-type
+>+    entries:
+>+      -
+>+        name: drop
+>+      -
+>+        name: exception
+>+      -
+>+        name: control
+> attribute-sets:
+>   -
+>     name: devlink
+>@@ -194,23 +221,44 @@ attribute-sets:
+>         name: port-type
+>         type: u16
+>         enum: port-type
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: port-desired-type
+>+        type: u16
+>+      -
+>+        name: port-netdev-ifindex
+>+        type: u32
+>+      -
+>+        name: port-netdev-name
+>+        type: string
+>+      -
+>+        name: port-ibdev-name
+>+        type: string
+>       -
+>         name: port-split-count
+>         type: u32
+>         value: 9
 
-Surely that should be:
-
-if (...)
-	return KDB_BADINT;
-
-There seems little point switching to a "safer" API if we just ignore the
-errors it provides us.
+In general, when you remove fill-up the gaps, please remove the "value"
+from the next attr after the gap. It is no longer needed. This applies
+to all the gaps you fill in this file.
 
 
-Daniel.
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: port-split-group
+>+        type: u32
+>       -
+>         name: sb-index
+>         type: u32
+>         value: 11
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: sb-size
+>+        type: u32
+>+      -
+>+        name: sb-ingress-pool-count
+>+        type: u16
+>+      -
+>+        name: sb-egress-pool-count
+>+        type: u16
+>+      -
+>+        name: sb-ingress-tc-count
+>+        type: u16
+>+      -
+>+        name: sb-egress-tc-count
+>+        type: u16
+>       -
+>         name: sb-pool-index
+>         type: u16
+>@@ -233,15 +281,17 @@ attribute-sets:
+>         name: sb-tc-index
+>         type: u16
+>         value: 22
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: sb-occ-cur
+>+        type: u32
+>+      -
+>+        name: sb-occ-max
+>+        type: u32
+>       -
+>         name: eswitch-mode
+>         type: u16
+>         value: 25
+>         enum: eswitch-mode
+>-
+>       -
+>         name: eswitch-inline-mode
+>         type: u16
+>@@ -347,6 +397,7 @@ attribute-sets:
+>       -
+>         name: dpipe-header-id
+>         type: u32
+>+        enum: dpipe-header-id
+>       -
+>         name: dpipe-header-fields
+>         type: nest
+>@@ -433,23 +484,27 @@ attribute-sets:
+>         name: port-flavour
+>         type: u16
+>         enum: port-flavour
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: port-number
+>+        type: u32
+>+      -
+>+        name: port-split-subport-number
+>+        type: u32
+>+      -
+>+        name: param
+>+        type: nest
+>+        nested-attributes: dl-param
+>       -
+>         name: param-name
+>         type: string
+>         value: 81
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: param-generic
+>+        type: flag
+>       -
+>         name: param-type
+>         type: u8
+>         value: 83
+>-
+>-      # TODO: fill in the attributes in between
+>-
+
+Don't remove this TODO comment. You still are missing couple of
+attributes here.
+
+
+>       -
+>         name: param-value-cmode
+>         type: u8
+>@@ -458,16 +513,32 @@ attribute-sets:
+>       -
+>         name: region-name
+>         type: string
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: region-size
+>+        type: u64
+>+      -
+>+        name: region-snapshots
+>+        type: nest
+>+        nested-attributes: dl-region-snapshots
+>+      -
+>+        name: region-snapshot
+>+        type: nest
+>+        nested-attributes: dl-region-snapshot
+>       -
+>         name: region-snapshot-id
+>         type: u32
+>         value: 92
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: region-chunks
+>+        type: nest
+>+        nested-attributes: dl-region-chunks
+>+      -
+>+        name: region-chunk
+>+        type: nest
+>+        nested-attributes: dl-region-chunk
+>+      -
+>+        name: region-chunk-data
+>+        type: binary
+>       -
+>         name: region-chunk-addr
+>         type: u64
+>@@ -502,9 +573,9 @@ attribute-sets:
+>       -
+>         name: info-version-value
+>         type: string
+>-
+>-      # TODO: fill in the attributes in between
+>-
+>+      -
+>+        name: sb-pool-cell-size
+>+        type: u32
+>       -
+>         name: fmsg
+>         type: nest
+>@@ -525,15 +596,31 @@ attribute-sets:
+>       -
+>         name: fmsg-obj-name
+>         type: string
+>-
+>+      -
+>+        name: fmsg-obj-value-type
+>+        type: u8
+
+Empty line there please.
+
+>       # TODO: fill in the attributes in between
+
+Empty line there please.
+
+
+>+      -
+>+        name: health-reporter
+>+        type: nest
+>+        nested-attributes: dl-health-reporter
+
+You need to specify "value: 114" for this attr, there is still a gap
+in front of it.
+
+> 
+>       -
+>         name: health-reporter-name
+>         type: string
+>         value: 115
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: health-reporter-state
+>+        type: u8
+>+      -
+>+        name: health-reporter-err-count
+>+        type: u64
+>+      -
+>+        name: health-reporter-recover-count
+>+        type: u64
+>+      -
+>+        name: health-reporter-dump-ts
+>+        type: u64
+> 
+>       -
+>         name: health-reporter-graceful-period
+>@@ -548,15 +635,27 @@ attribute-sets:
+>       -
+>         name: flash-update-component
+>         type: string
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: flash-update-status-msg
+>+        type: string
+>+      -
+>+        name: flash-update-status-done
+>+        type: u64
+>+      -
+>+        name: flash-update-status-total
+>+        type: u64
+> 
+
+Could you please make sure that the consistency in empty lines between
+attributes is maintained after this patch is applied. For example, the
+empty line above should be removed. Please check the rest of the file.
+
+
+>       -
+>         name: port-pci-pf-number
+>         type: u16
+>         value: 127
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: port-pci-vf-number
+>+        type: u16
+>+      -
+>+        name: stats
+>+        type: nest
+>+        nested-attributes: dl-attr-stats
+> 
+>       -
+>         name: trap-name
+>@@ -566,8 +665,17 @@ attribute-sets:
+>         name: trap-action
+>         type: u8
+>         enum: trap-action
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: trap-type
+>+        type: u8
+>+        enum: trap-type
+>+      -
+>+        name: trap-generic
+>+        type: flag
+>+      -
+>+        name: trap-metadata
+>+        type: nest
+>+        nested-attributes: dl-trap-metadata
+> 
+>       -
+>         name: trap-group-name
+>@@ -577,8 +685,9 @@ attribute-sets:
+>       -
+>         name: reload-failed
+>         type: u8
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: health-reporter-dump-ts-ns
+>+        type: u64
+> 
+>       -
+>         name: netns-fd
+>@@ -591,8 +700,6 @@ attribute-sets:
+>         name: netns-id
+>         type: u32
+> 
+>-      # TODO: fill in the attributes in between
+>-
+>       -
+>         name: health-reporter-auto-dump
+>         type: u8
+>@@ -610,15 +717,26 @@ attribute-sets:
+>         name: port-function
+>         type: nest
+>         nested-attributes: dl-port-function
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: info-board-serial-number
+>+        type: string
+>+      -
+>+        name: port-lanes
+>+        type: u32
+>+      -
+>+        name: port-splittable
+>+        type: u8
+>+      -
+>+        name: port-external
+>+        type: u8
+> 
+>       -
+>         name: port-controller-number
+>         type: u32
+>         value: 150
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: flash-update-status-timeout
+>+        type: u64
+> 
+>       -
+>         name: flash-update-overwrite-mask
+>@@ -674,14 +792,14 @@ attribute-sets:
+>         multi-attr: true
+>         nested-attributes: dl-reload-act-stats
+> 
+>-      # TODO: fill in the attributes in between
+>-
+>       -
+>         name: port-pci-sf-number
+>         type: u32
+>         value: 164
+>-
+>-      # TODO: fill in the attributes in between
+>+      -
+>+        name: rate-type
+>+        type: u16
+>+        enum: rate-type
+> 
+>       -
+>         name: rate-tx-share
+>@@ -697,22 +815,28 @@ attribute-sets:
+>         name: rate-parent-node-name
+>         type: string
+> 
+>-      # TODO: fill in the attributes in between
+>+      -
+>+         name: region-max-snapshots
+>+         type: u32
+> 
+>       -
+>         name: linecard-index
+>         type: u32
+>         value: 171
+> 
+>-      # TODO: fill in the attributes in between
+>+      -
+>+         name: linecard-state
+>+         type: u8
+> 
+>       -
+>         name: linecard-type
+>         type: string
+>         value: 173
+>-
+>+      -
+>+        name: linecard-supported-types
+>+        type: nest
+>+        nested-attributes: dl-linecard-supported-types
+
+Empty line here please.
+
+>       # TODO: fill in the attributes in between
+>-
+
+Don't remove the empty line.
+
+>       -
+>         name: selftests
+>         type: nest
+>@@ -727,7 +851,6 @@ attribute-sets:
+>       -
+>         name: region-direct
+>         type: flag
+>-
+
+Don't remove the empty line.
+
+
+>   -
+>     name: dl-dev-stats
+>     subset-of: devlink
+>@@ -1004,7 +1127,43 @@ attribute-sets:
+>     attributes:
+>       -
+>         name: resource
+>-
+
+Again, could you please maintain consistency with empty lines between
+the subsets?
+
+
+>+  -
+>+    name: dl-param
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: param-name
+>+      -
+>+        name: param-generic
+>+      -
+>+        name: param-type
+>+      # TODO: fill in the attribute param-value-list
+>+  -
+>+    name: dl-region-snapshots
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: region-snapshot
+>+  -
+>+    name: dl-region-snapshot
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: region-snapshot-id
+>+  -
+>+    name: dl-region-chunks
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: region-chunk
+>+  -
+>+    name: dl-region-chunk
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: region-chunk-data
+>+      -
+>+        name: region-chunk-addr
+>   -
+>     name: dl-fmsg
+>     subset-of: devlink
+>@@ -1019,7 +1178,58 @@ attribute-sets:
+>         name: fmsg-nest-end
+>       -
+>         name: fmsg-obj-name
+>-
+>+  -
+>+    name: dl-health-reporter
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: health-reporter-name
+>+      -
+>+        name: health-reporter-state
+>+      -
+>+        name: health-reporter-err-count
+>+      -
+>+        name: health-reporter-recover-count
+>+      -
+>+        name: health-reporter-graceful-period
+>+      -
+>+        name: health-reporter-auto-recover
+>+      -
+>+        name: health-reporter-dump-ts
+>+      -
+>+        name: health-reporter-dump-ts-ns
+>+      -
+>+        name: health-reporter-auto-dump
+>+  -
+>+    name: dl-attr-stats
+>+    name-prefix: devlink-attr-
+>+    attributes:
+>+      - name: stats-rx-packets
+>+        type: u64
+>+        value: 0
+
+
+Why is 0 needed here?
+
+
+>+      -
+>+        name: stats-rx-bytes
+>+        type: u64
+>+      -
+>+        name: stats-rx-dropped
+>+        type: u64
+>+  -
+>+    name: dl-trap-metadata
+>+    name-prefix: devlink-attr-
+>+    attributes:
+>+      -
+>+        name: trap-metadata-type-in-port
+>+        type: flag
+>+        value: 0
+
+Why is 0 needed here?
+
+
+
+>+      -
+>+        name: trap-metadata-type-fa-cookie
+>+        type: flag
+>+  -
+>+    name: dl-linecard-supported-types
+>+    subset-of: devlink
+>+    attributes:
+>+      -
+>+        name: linecard-type
+>   -
+>     name: dl-selftest-id
+>     name-prefix: devlink-attr-selftest-id-
+
+[...]
