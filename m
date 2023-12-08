@@ -1,63 +1,64 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10FB14F61
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Dec 2023 10:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8288F14008
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Dec 2023 10:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SEX71g4C"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jra3tR1S"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4E6BC41F6D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Dec 2023 10:24:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4E6BC41F6D
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0EAAA41F6D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Dec 2023 10:24:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0EAAA41F6D
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=SEX71g4C
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Jra3tR1S
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id lXK-7Ra7IYnU
+	with ESMTP id 9wzS6yEvi5W7
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri,  8 Dec 2023 10:24:25 +0000 (UTC)
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 5963041E66
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Dec 2023 10:24:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5963041E66
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1d06d42a58aso17415765ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 08 Dec 2023 02:24:25 -0800 (PST)
+	Fri,  8 Dec 2023 10:24:30 +0000 (UTC)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id C97E941E66
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  8 Dec 2023 10:24:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org C97E941E66
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1d048d38881so14394045ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 08 Dec 2023 02:24:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702031065; x=1702635865; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qh6Ho7FMXEpXQf4LtvO8/eRoMKW6RHIURVqHusV8P5Y=;
-        b=SEX71g4CCmWVRA5QnTBfdgJVL+KOTW/2YRe3bhT1eSIDgaVPjN6Uf0FdYVKAcbyneU
-         4zJXrPS1lGkylmMRhdc8MMssXJs4etlinLh69pi6j8+ap2jf8kzuAzxuzoJ/ETiaul+z
-         hBRhmA8IRg+/1lLTzDsAeT0bPPWRE4U6KYLNgwoZrg31NTYUQncVYNJt2PUK/vr2CwMv
-         DytmV48hovit36/gv/8FTryVjbxsYc+vbSQVZlVCoTWsSREiTJpZATWjUdfGtCjcfB3g
-         ButtV32QbapihcYKK6ThHmx32FzC3TeYaXt5+8/MeT9UUdchkZGpDmo/vOkeH75MpGe2
-         2Gww==
+        d=gmail.com; s=20230601; t=1702031070; x=1702635870; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V4QxlHi4/ZvraCu8KWHK0ZLMjQ5vfM8a7X0PIfYoVNY=;
+        b=Jra3tR1SRxyt8QlbBps+WCoep7arQ1f/hlP8cHllMo+CZU9Lj9C5imeaSK7BhJz4e7
+         nTZuiiRDF3x5xf3cBP3QS8bW0GR4S0XVvIZunuGPsg4ect0+Th32zwIDbnnybrXTqf7u
+         KgTxf3f9RBGPvDxvS42k3PuU5P/gTGsfKYtE7n0q4AeQEWdGTtoKWfinKni1nX8Zt3QF
+         fcWqPuN4wCZnA9/LNru21o+J3fnxo5nT6Vo4RdvNI/4SBa9Mlwq8v5fcsCLpHwJMP4To
+         /iwyc6aRplf2AREB+Tgnzf2ePtjzLE71SwCRcvv2Fjg3PqcYz5ZVJjwEPcj3qavVz7y5
+         IWlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702031065; x=1702635865;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Qh6Ho7FMXEpXQf4LtvO8/eRoMKW6RHIURVqHusV8P5Y=;
-        b=ZEMzHeRNfk9/kjJG5bmwkZfOFQVFrA9LTDSNu5r1s/QfNT8RLvaQu2xNhILKc0K1nr
-         j//2lbV8ldZR+zvhdOxfRQPJ2yDeDM4jIPtciZblxTw7HnbzAr66Z86iPOyVu2Zy+iIH
-         03J3j2VFxz8wuBwm+1NdjF7A0GxNP9//wnoqmOY0YOKJpkHg1KywUEkv2jOCuE8nkJ57
-         +K4q5p6/bjSbLeObhbsl6MVo5Sq3fgJH++Iv6nWIWy1FLaweUuEyztcmP0nl2zh60Npl
-         020bWiGnqt9as/0vCf5XwFdMuRyZJRioyFayZPWs47AZwLu4VXb/2b7HDqsD2GLZYyx2
-         ScFg==
-X-Gm-Message-State: AOJu0Yyh2q+AXAncMtyUXbXJXA0ewMIvghzglTZVsWOclEQ70htpF/Ci
-	lJjeuaxqbaKx+aEvI7g5zNk=
-X-Google-Smtp-Source: AGHT+IFDRt620D36MLt/MRylsEHRaxp0S3JiiobHb5xw1MMVDzvHvtCz+7Jc58Sa7fyDaqtFeSWMaA==
-X-Received: by 2002:a17:902:c950:b0:1d0:af28:4603 with SMTP id i16-20020a170902c95000b001d0af284603mr4862870pla.32.1702031064618;
-        Fri, 08 Dec 2023 02:24:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702031070; x=1702635870;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V4QxlHi4/ZvraCu8KWHK0ZLMjQ5vfM8a7X0PIfYoVNY=;
+        b=HfX0LZWI/KAnWd0nuTzfTRH+2mHwnrR5Rl3vDRLB+N2BDttvyW6M0Tv0UkJSQjsS1C
+         eItRkYk82QSSag9+f4VFRRpAchCyuj8Q3PgxV90nYsst8ebXpZ7JRaN1FzihUs6REYuf
+         MqErH46cjYjZl9K6pcHmJtgc1BprLfta5ITbnfsf0upQot3wosIanhbLxpiYN5+lvgc7
+         0ErgTcS8BJFL9pZhaf5piaRMAqIKs/dvVYvcCRsoF7abMLpsg20EsHooX2wrv1nDUQRU
+         +fJRuWZ0KZfNwZF8bV/0wFsEEcHSiWTZYaqLHTdDnUmLaXgMVaZ4h5JsS250EIjABgAh
+         HwTA==
+X-Gm-Message-State: AOJu0YwWVtulsDa6FUgpxKUD8WC/RuOwfhLIhUWHrI1A3fCyDDtQucfp
+	3zFAh2UdAn/V1vQ9SeNiFGc=
+X-Google-Smtp-Source: AGHT+IH0iM2YxIoeMUyD4D/y5O89usEV9cth/XNbYaLpNCun+MjC9T3oxVYyXPl0IYTEJTos9QLtXg==
+X-Received: by 2002:a17:902:e5cc:b0:1d0:7249:a900 with SMTP id u12-20020a170902e5cc00b001d07249a900mr3842595plf.103.1702031070103;
+        Fri, 08 Dec 2023 02:24:30 -0800 (PST)
 Received: from localhost.localdomain ([2401:4900:6277:8af4:45bc:8bc9:c94a:54d2])
-        by smtp.gmail.com with ESMTPSA id g13-20020a170902d5cd00b001d1d6f6b67dsm1337033plh.147.2023.12.08.02.24.18
+        by smtp.gmail.com with ESMTPSA id g13-20020a170902d5cd00b001d1d6f6b67dsm1337033plh.147.2023.12.08.02.24.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 02:24:24 -0800 (PST)
+        Fri, 08 Dec 2023 02:24:29 -0800 (PST)
 From: Anshul Dalal <anshulusr@gmail.com>
 To: linux-kernel@vger.kernel.org,
 	linux-iio@vger.kernel.org,
@@ -68,12 +69,13 @@ Cc: Anshul Dalal <anshulusr@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 1/2] dt-bindings: iio: light: add ltr390
-Date: Fri,  8 Dec 2023 15:52:09 +0530
-Message-ID: <20231208102211.413019-1-anshulusr@gmail.com>
+	Jonathan Cameron <jic23@kernel.org>
+Subject: [PATCH v3 2/2] iio: light: driver for Lite-On ltr390
+Date: Fri,  8 Dec 2023 15:52:10 +0530
+Message-ID: <20231208102211.413019-2-anshulusr@gmail.com>
 X-Mailer: git-send-email 2.42.1
+In-Reply-To: <20231208102211.413019-1-anshulusr@gmail.com>
+References: <20231208102211.413019-1-anshulusr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -82,90 +84,299 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add binding for Lite-On LTR390 which is an Ambient/UV light sensor that
-communicates over i2c with an address of 0x53.
+Implements driver for the Ambient/UV Light sensor LTR390.
+The driver exposes two ways of getting sensor readings:
+  1. Raw UV Counts directly from the sensor
+  2. The computed UV Index value with a percision of 2 decimal places
+
+[NOTE] Ambient light sensing has not been implemented yet.
+
+Driver tested on RPi Zero 2W
 
 Datasheet: https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 ---
 
 Changes for v3:
-- no updates
+- Formatted header includes
+- Replaced instances of LTR390_DEVICE_NAME with "ltr390"
+- Use shorthand macro 'guard' for mutex
+- Replace instances of `dev_err` followed by a return with `dev_err_probe`
+- Separate channel for UV Index into a IIO_CHAN_INFO_RAW and _SCALE
+- Remove unused IIO_INTENSITY channel
+- Warn on invalid product id instead of exiting
+- Changed `ltr390_id_table` to `ltr390_of_table` [TYPO]
+  > MODULE_DEVICE_TABLE(of, ltr390_of_table)
+- Removed of_match_ptr
 
 Changes for v2:
-- Added missing properties in the example
+- Fixed typo in `LTR390_FRACTIONAL_PRECISION`
+- Added of_device_id
 
 Previous versions:
-v2: https://lore.kernel.org/lkml/20231117074554.700970-1-anshulusr@gmail.com/
-v1: https://lore.kernel.org/lkml/20231109090456.814230-1-anshulusr@gmail.com/
+v2: https://lore.kernel.org/lkml/20231117074554.700970-2-anshulusr@gmail.com/
+v1: https://lore.kernel.org/lkml/20231109090456.814230-2-anshulusr@gmail.com/
 ---
- .../bindings/iio/light/liteon,ltr390.yaml     | 56 +++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
+ MAINTAINERS                |   7 ++
+ drivers/iio/light/Kconfig  |  11 +++
+ drivers/iio/light/Makefile |   1 +
+ drivers/iio/light/ltr390.c | 195 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 214 insertions(+)
+ create mode 100644 drivers/iio/light/ltr390.c
 
-diff --git a/Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml b/Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 81d5fc0bba68..c9f2238673f0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12484,6 +12484,13 @@ S:	Maintained
+ W:	http://linux-test-project.github.io/
+ T:	git https://github.com/linux-test-project/ltp.git
+ 
++LTR390 AMBIENT/UV LIGHT SENSOR DRIVER
++M:	Anshul Dalal <anshulusr@gmail.com>
++L:	linux-iio@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
++F:	drivers/iio/light/ltr390.c
++
+ LYNX 28G SERDES PHY DRIVER
+ M:	Ioana Ciornei <ioana.ciornei@nxp.com>
+ L:	netdev@vger.kernel.org
+diff --git a/drivers/iio/light/Kconfig b/drivers/iio/light/Kconfig
+index 45edba797e4c..61993ae79afe 100644
+--- a/drivers/iio/light/Kconfig
++++ b/drivers/iio/light/Kconfig
+@@ -347,6 +347,17 @@ config SENSORS_LM3533
+ 	  changes. The ALS-control output values can be set per zone for the
+ 	  three current output channels.
+ 
++config LTR390
++	tristate "LTR-390UV-01 ambient light and UV sensor"
++	depends on I2C
++	select REGMAP_I2C
++	help
++	  If you say yes here you get support for the Lite-On LTR-390UV-01
++	  ambient light and UV sensor.
++
++	  This driver can also be built as a module.  If so, the module
++	  will be called ltr390.
++
+ config LTR501
+ 	tristate "LTR-501ALS-01 light sensor"
+ 	depends on I2C
+diff --git a/drivers/iio/light/Makefile b/drivers/iio/light/Makefile
+index c0db4c4c36ec..550f8b408bc2 100644
+--- a/drivers/iio/light/Makefile
++++ b/drivers/iio/light/Makefile
+@@ -30,6 +30,7 @@ obj-$(CONFIG_SENSORS_ISL29028)	+= isl29028.o
+ obj-$(CONFIG_ISL29125)		+= isl29125.o
+ obj-$(CONFIG_JSA1212)		+= jsa1212.o
+ obj-$(CONFIG_SENSORS_LM3533)	+= lm3533-als.o
++obj-$(CONFIG_LTR390)		+= ltr390.o
+ obj-$(CONFIG_LTR501)		+= ltr501.o
+ obj-$(CONFIG_LTRF216A)		+= ltrf216a.o
+ obj-$(CONFIG_LV0104CS)		+= lv0104cs.o
+diff --git a/drivers/iio/light/ltr390.c b/drivers/iio/light/ltr390.c
 new file mode 100644
-index 000000000000..5d98ef2af74d
+index 000000000000..49dfd2bdd1ee
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/light/liteon,ltr390.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/light/liteon,ltr390.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/iio/light/ltr390.c
+@@ -0,0 +1,195 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * IIO driver for Lite-On LTR390 ALS and UV sensor
++ * (7-bit I2C slave address 0x53)
++ *
++ * Based on the work of:
++ *   Shreeya Patel and Shi Zhigang (LTRF216 Driver)
++ *
++ * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
++ *
++ * Datasheet:
++ *   https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
++ *
++ * TODO:
++ *   - Support for configurable gain and resolution
++ *   - Sensor suspend/resume support
++ *   - Add support for reading the ALS
++ *   - Interrupt support
++ */
 +
-+title: Lite-On LTR390 ALS and UV Sensor
++#include <linux/i2c.h>
++#include <linux/math.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/regmap.h>
 +
-+description: |
-+  The Lite-On LTR390 is an ALS (Ambient Light Sensor) and a UV sensor in a
-+  single package with i2c address of 0x53.
++#include <linux/iio/iio.h>
 +
-+  Datasheet:
-+    https://optoelectronics.liteon.com/upload/download/DS86-2015-0004/LTR-390UV_Final_%20DS_V1%201.pdf
++#include <asm/unaligned.h>
 +
-+maintainers:
-+  - Anshul Dalal <anshulusr@gmail.com>
++#define LTR390_MAIN_CTRL      0x00
++#define LTR390_PART_ID	      0x06
++#define LTR390_UVS_DATA	      0x10
 +
-+properties:
-+  compatible:
-+    enum:
-+      - liteon,ltr390
++#define LTR390_SW_RESET	      BIT(4)
++#define LTR390_UVS_MODE	      BIT(3)
++#define LTR390_SENSOR_ENABLE  BIT(1)
 +
-+  reg:
-+    maxItems: 1
++#define LTR390_PART_NUMBER_ID 0xb
 +
-+  interrupts:
-+    maxItems: 1
-+    description: |
-+      Level interrupt pin with open drain output.
-+      The sensor pulls this pin low when the measured reading is greater than
-+      some configured threshold.
++/*
++ * At 20-bit resolution (integration time: 400ms) and 18x gain, 2300 counts of
++ * the sensor are equal to 1 UV Index [Datasheet Page#8].
++ *
++ * For the default resolution of 18-bit (integration time: 100ms) and default
++ * gain of 3x, the counts/uvi are calculated as follows:
++ * 2300 / ((3/18) * (100/400)) = 95.83
++ */
++#define LTR390_COUNTS_PER_UVI 96
 +
-+  vdd-supply: true
++/*
++ * Window Factor is needed when the device is under Window glass with coated
++ * tinted ink. This is to compensate for the light loss due to the lower
++ * transmission rate of the window glass and helps * in calculating lux.
++ */
++#define LTR390_WINDOW_FACTOR 1
 +
-+required:
-+  - compatible
-+  - reg
++struct ltr390_data {
++	struct regmap *regmap;
++	struct i2c_client *client;
++	/* Protects device from simulataneous reads */
++	struct mutex lock;
++};
 +
-+additionalProperties: false
++static const struct regmap_config ltr390_regmap_config = {
++	.name = "ltr390",
++	.reg_bits = 8,
++	.reg_stride = 1,
++	.val_bits = 8,
++};
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
++static int ltr390_register_read(struct ltr390_data *data, u8 register_address)
++{
++	struct device *dev = &data->client->dev;
++	int ret;
++	u8 recieve_buffer[3];
 +
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	guard(mutex)(&data->lock);
 +
-+        light-sensor@53 {
-+            compatible = "liteon,ltr390";
-+            reg = <0x53>;
-+            interrupts = <18 IRQ_TYPE_EDGE_FALLING>;
-+            vdd-supply = <&vdd_regulator>;
-+        };
-+    };
++	ret = regmap_bulk_read(data->regmap, register_address, recieve_buffer,
++			       sizeof(recieve_buffer));
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to read measurement data");
++
++	return get_unaligned_le24(recieve_buffer);
++}
++
++static int ltr390_read_raw(struct iio_dev *iio_device,
++			   struct iio_chan_spec const *chan, int *val,
++			   int *val2, long mask)
++{
++	int ret;
++	struct ltr390_data *data = iio_priv(iio_device);
++
++	switch (mask) {
++	case IIO_CHAN_INFO_RAW:
++		ret = ltr390_register_read(data, LTR390_UVS_DATA);
++		if (ret < 0)
++			return ret;
++		*val = ret;
++		return IIO_VAL_INT;
++	case IIO_CHAN_INFO_SCALE:
++		*val = LTR390_WINDOW_FACTOR;
++		*val2 = LTR390_COUNTS_PER_UVI;
++		return IIO_VAL_FRACTIONAL;
++	default:
++		return -EINVAL;
++	}
++}
++
++static const struct iio_info ltr390_info = {
++	.read_raw = ltr390_read_raw,
++};
++
++static const struct iio_chan_spec ltr390_channel = {
++	.type = IIO_UVINDEX,
++	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE)
++};
++
++static int ltr390_probe(struct i2c_client *client)
++{
++	struct ltr390_data *data;
++	struct iio_dev *indio_dev;
++	struct device *dev;
++	int ret, part_number;
++
++	dev = &client->dev;
++	indio_dev = devm_iio_device_alloc(dev, sizeof(*data));
++	if (!indio_dev)
++		return -ENOMEM;
++
++	data = iio_priv(indio_dev);
++
++	data->regmap = devm_regmap_init_i2c(client, &ltr390_regmap_config);
++	if (IS_ERR(data->regmap))
++		return dev_err_probe(dev, PTR_ERR(data->regmap),
++				     "regmap initialization failed\n");
++
++	data->client = client;
++	mutex_init(&data->lock);
++
++	indio_dev->info = &ltr390_info;
++	indio_dev->channels = &ltr390_channel;
++	indio_dev->num_channels = 1;
++	indio_dev->name = "ltr390";
++
++	ret = regmap_read(data->regmap, LTR390_PART_ID, &part_number);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "failed to get sensor's part id\n");
++	/* Lower 4 bits of `part_number` change with hardware revisions */
++	if (part_number >> 4 != LTR390_PART_NUMBER_ID)
++		dev_info(dev, "received invalid product id: 0x%x", part_number);
++	dev_dbg(dev, "LTR390, product id: 0x%x\n", part_number);
++
++	/* reset sensor, chip fails to respond to this, so ignore any errors */
++	regmap_set_bits(data->regmap, LTR390_MAIN_CTRL, LTR390_SW_RESET);
++
++	/* Wait for the registers to reset before proceeding */
++	usleep_range(1000, 2000);
++
++	ret = regmap_set_bits(data->regmap, LTR390_MAIN_CTRL,
++			      LTR390_SENSOR_ENABLE | LTR390_UVS_MODE);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to enable the sensor\n");
++
++	return devm_iio_device_register(dev, indio_dev);
++}
++
++static const struct i2c_device_id ltr390_id[] = {
++	{ "ltr390" },
++	{ /* Sentinel */ }
++};
++MODULE_DEVICE_TABLE(i2c, ltr390_id);
++
++static const struct of_device_id ltr390_of_table[] = {
++	{ .compatible = "liteon,ltr390" },
++	{ /* Sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, ltr390_of_table);
++
++static struct i2c_driver ltr390_driver = {
++	.driver = {
++		.name = "ltr390",
++		.of_match_table = ltr390_of_table,
++	},
++	.probe = ltr390_probe,
++	.id_table = ltr390_id,
++};
++module_i2c_driver(ltr390_driver);
++
++MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
++MODULE_DESCRIPTION("Lite-On LTR390 ALS and UV sensor Driver");
++MODULE_LICENSE("GPL");
 -- 
 2.42.1
 
