@@ -1,73 +1,74 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBAC2137C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 09:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491FA3B184
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 12:20:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="J2wqU7nI"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UbmbzrBv"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id F1B6D81BB4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 09:46:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F1B6D81BB4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=J2wqU7nI
+	by smtp4.osuosl.org (Postfix) with ESMTP id BE7D0418FF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 12:20:24 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org BE7D0418FF
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=UbmbzrBv
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.898
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id gl926xF9SRTR
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id GTwpMXkvg0hp
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 11 Dec 2023 09:46:22 +0000 (UTC)
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7F3C681BB2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 09:46:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7F3C681BB2
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-a1f8510883aso225345066b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 01:46:21 -0800 (PST)
+	Mon, 11 Dec 2023 12:20:22 +0000 (UTC)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D7284404E7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 12:20:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D7284404E7
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-6cea1522303so2647738b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 04:20:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1702287980; x=1702892780; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1702297222; x=1702902022; darn=lists.linuxfoundation.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xei4Fs8F5vzG7GSLsaxIgBQ24qq9i/olJ2HxLT2JYFc=;
-        b=J2wqU7nI6V4sIdT1zNBU4r9mNI2axaSrU982sOeCKsQ2Dd8VFYXt8wqGho3DKE91SL
-         s9f7DV992XEhi3tKCr00CNTmOPLUzzf2saHgahIltOh3aV6H3Muv3C9cSI+0+rRdDhEh
-         w8HNj5/9518QO+/W5RnqFcV/ZFYoY63DoVkArKttOQigpvH2wDA7nST2K1D602hYhN4o
-         CyYWaTZXtBHzW5xMux5ZMzX857RNscUDGZYczLxuS4m14FrtuySqrVEZQ0PQnA7eV7tY
-         c87uUw86dEl2DeyC12UKtb9/baSMwgmDsBp60ACAABT6wp2Z0wLmvq6E+m3b6OpRlUo4
-         XC6w==
+        bh=vHNc2iZRlEJ/g06n4SjPSJU8dGxpln3/T5FnwmRNBng=;
+        b=UbmbzrBvZ4ur9csoB2RFsRUujyV/n+fQhUn80H0gpi4p45Qr08qBU+OnHxrdDUnfIG
+         A+Wj4Ie/fsDPtjX7uvPoY/w+EdqSPgfK+cFQLhB/pF6/kK8AbyFK6dJVwLEhC/aX0Q2B
+         SSwE1Y8DmYgGXcUSQUJasE3txH+XGjHCPv90oISov3q715O+soYHHrmz5Lboct+BOKYH
+         tHjb7RlIYPON7iJXF7qoFEWu042O8w6gRETzs/mdOffvLt6NisKGGeVQXvY73lo9t1Vy
+         Sy7MM5MOT13WIlVIQPlEmW5Fmx1T2+d9AxvN74Ykrwvuz1yBaGyAECM6g+XZhWibinW7
+         60ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702287980; x=1702892780;
+        d=1e100.net; s=20230601; t=1702297222; x=1702902022;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xei4Fs8F5vzG7GSLsaxIgBQ24qq9i/olJ2HxLT2JYFc=;
-        b=DcML673ruNl5nDEZRllqzov6YHVLxbfovTWGPhow1wc7O7OisljInadZprCE5tckyy
-         OPqvorAxxSu+O0TzwDclVO0ozLGRYNngw0sqQLAk9upecXuMaEL0JSZacw0X1a6F49I3
-         8HEYtHGopIgc41x8wVY17a+23wGETwpY4oppvHKfPP6EBwDSHLuBUSlKQtllkSb95pJH
-         dOpb40gF0poOrNxrrCXZEPM7jQt4WnOJCgtGf95tdzSNDzV6j44lxarK1NYAKbiPWwLW
-         Tk2bQlRjoPhs3IHXrtVZZNupZkc1Dk5lNf/YET74mW4vE5Zdw5qEpCncxNulD7vqqgYK
-         K8GQ==
-X-Gm-Message-State: AOJu0YxYgh4UKHN4o3bmDDlim3+9ci+/L7CIn4k1dVVw0dwXGWpPoKMW
-	zmzZtrsF3gS4mg6EpgIcBKUUbQ==
-X-Google-Smtp-Source: AGHT+IH/K8msY+Sd8aEiV+oXlbYQSc+VUqKsR26+d+2xoowNlOE/ijN2E9cdEpChMNvpYfOGO0B4ag==
-X-Received: by 2002:a17:907:6d21:b0:a1f:6644:602b with SMTP id sa33-20020a1709076d2100b00a1f6644602bmr1337675ejc.59.1702287979826;
-        Mon, 11 Dec 2023 01:46:19 -0800 (PST)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id cw15-20020a170907160f00b00a1937153bddsm4508049ejd.20.2023.12.11.01.46.19
+        bh=vHNc2iZRlEJ/g06n4SjPSJU8dGxpln3/T5FnwmRNBng=;
+        b=Kz2PmwiAVea4XKVqRzKB7ziQOsKM1IQbamrW9Hk6T8FYgu2CqTSkSuKJMVyheOQE/B
+         lGyqYboJ2n9Z7zsCr7QwqK6abHvoHrirx4V0bH3omQtG+Hw9jZ3koAFz5wfYSs8z7y63
+         FnclGBUAKmL4JnsWcjvl7VtzBsR8JJectCA2okJvhMSwwMDKjO675B92+3GJjXl4KJnO
+         nK1JZsRZ8PcwRhNQDdSvc10f2ipnUasL+ziKCA3NHU3rKmMkQhQNTxgZVamwYWHTBUgB
+         PC0aXbmIOqMFdRJ2B5SrfXuWZTy8St7gaI3e814JVoYwVnB2X0oRTTXHm1o1V4qhjsUe
+         SyIw==
+X-Gm-Message-State: AOJu0Yx0cs+c4wKbVazCmcvu0UmRkq9QEmYmL81ePejAvdNFn3/F6yOh
+	1TVL00Nc0N7UMC0utrsKpfw=
+X-Google-Smtp-Source: AGHT+IHDDnDuhytKPqmRZYK9u+TGoPLU3H6E0QcxKDEiUTjmLl5CyKvnSi7DxMo4A3FEwKlMOfOtbQ==
+X-Received: by 2002:a05:6a00:6004:b0:6ce:f65b:a6ef with SMTP id fo4-20020a056a00600400b006cef65ba6efmr1004974pfb.12.1702297222176;
+        Mon, 11 Dec 2023 04:20:22 -0800 (PST)
+Received: from swarup-virtual-machine ([171.76.80.2])
+        by smtp.gmail.com with ESMTPSA id b8-20020aa78108000000b006ce7bd009c0sm6342198pfi.149.2023.12.11.04.20.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 01:46:19 -0800 (PST)
-Date: Mon, 11 Dec 2023 10:46:18 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+        Mon, 11 Dec 2023 04:20:21 -0800 (PST)
+Date: Mon, 11 Dec 2023 17:50:13 +0530
+From: swarup <swarupkotikalapudi@gmail.com>
+To: Jiri Pirko <jiri@resnulli.us>
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	pabeni@redhat.com, netdev@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [PATCH net-next v6] netlink: specs: devlink: add some(not all)
  missing attributes in devlink.yaml
-Message-ID: <ZXbaauFOfttLCe78@nanopsycho>
+Message-ID: <ZXb+fRawVUgU+lrX@swarup-virtual-machine>
 References: <20231208182515.1206616-1-swarupkotikalapudi@gmail.com>
+ <ZXbaauFOfttLCe78@nanopsycho>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -76,19 +77,28 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208182515.1206616-1-swarupkotikalapudi@gmail.com>
+In-Reply-To: <ZXbaauFOfttLCe78@nanopsycho>
 
-Fri, Dec 08, 2023 at 07:25:15PM CET, swarupkotikalapudi@gmail.com wrote:
->Add some missing(not all) attributes in devlink.yaml.
->
->Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
->Suggested-by: Jiri Pirko <jiri@resnulli.us>
->---
->V6:
->  - Fix review comments
+esOn Mon, Dec 11, 2023 at 10:46:18AM +0100, Jiri Pirko wrote:
+> Fri, Dec 08, 2023 at 07:25:15PM CET, swarupkotikalapudi@gmail.com wrote:
+> >Add some missing(not all) attributes in devlink.yaml.
+> >
+> >Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+> >Suggested-by: Jiri Pirko <jiri@resnulli.us>
+> >---
+> >V6:
+> >  - Fix review comments
+> 
+> Would be nice to list what changes you actually did.
+> 
+> Nevertheless, patch looks fine to me.
+> 
+> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
 
-Would be nice to list what changes you actually did.
+Hi Jiri,
 
-Nevertheless, patch looks fine to me.
+Do you mean in the commit message, i should have listed all the changes?
+Please clarify, if required i update the commit message.
 
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+Thanks,
+Swarup
