@@ -1,115 +1,115 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0833B7A7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 12:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D409B674
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Dec 2023 03:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="f+jqpmQR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hLDf8MTK"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 3BB808215E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 12:35:18 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3BB808215E
+	by smtp1.osuosl.org (Postfix) with ESMTP id CB68181377
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Dec 2023 03:20:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CB68181377
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=f+jqpmQR
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=hLDf8MTK
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.898
+X-Spam-Score: -4.401
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fJMJOMkIyeX5
+	with ESMTP id zCD4n1JYRy2j
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 11 Dec 2023 12:35:17 +0000 (UTC)
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7563A8269C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 12:35:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7563A8269C
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-550dd0e3304so2734489a12.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 11 Dec 2023 04:35:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1702298114; x=1702902914; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=okeZz+/5q28Go+s8k/ynMlYtWODeKp/iZbr3JW3CH84=;
-        b=f+jqpmQRBcduxZG7uXcUVdc3DP9pbkS6dvT0IqD5C55A62v70zQOtcp5G27D0i/HoP
-         3EcAy6bbnzjGsqgkSb1LVcoZaRhnWcoeHaXv6WhUsw/w7zH6iU+kUEuOP7R9a0yNR9ow
-         er5ihLzrQIAhmy4CvXRyPyALmMK5wOQF92zz3ASS9yPDXvcu5GekRF0SNdgm/k+V/vHa
-         ZG/jT8LqcUa2uNyhAusp4DIbx08LM6bTNG/Tao9osV9fhsWyvvJBK0Jt7StG5lB7l6xu
-         ntB9WlnHOHqGim7VIw/hXz113gn6DIlvdzEibbR9zqIIKWkGnDgIycO3ezwE/0nkpLyq
-         KLFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702298114; x=1702902914;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=okeZz+/5q28Go+s8k/ynMlYtWODeKp/iZbr3JW3CH84=;
-        b=IXZV1206aJTphxzSj6zDuWIxV6no7eb3e5ORjZ7ogFFL9KkOCT0Zi2Odvs9JaJ/+YC
-         sYPInRLBlrneRovsXEjVSnMeS+Lf1Z79QHpatnSm6x9Iq5zMJXIxpGoSak4Hd+E0kOtP
-         4uA1x1S/BdnQNB+qe5pwa8pD3uEr+6ehn/T53U+36ANVQKA3z6L2URUAUSfD+t7Lnx/n
-         sU/pSRFkzSqJSNr3OgghLyPF6DmrrQQNRNlG/17St4avYxEq4c20MrQnYuKRubxqh+Gs
-         2Dw3BL26Qa7pItCxMWPgRXRVCaiyAEFech6Jl0jBiF+dCAMDP/3uGKgo20CYeewz+5xH
-         8yKQ==
-X-Gm-Message-State: AOJu0Yx3EYXe9By5bTefMvNgjPgxuBgwEVtuPxZYdOfKVOHSHXuGCq1q
-	2cerWpoF6A+GrN9jwCwEqib2ww==
-X-Google-Smtp-Source: AGHT+IEeNSumf/Z5NdDQ1ZCLP4y0DB4LAifdgyxvXATDzBm3pM14+UCAg7G1tScr8WOo3kRn3GhEgQ==
-X-Received: by 2002:a17:906:3519:b0:a00:152a:1ec4 with SMTP id r25-20020a170906351900b00a00152a1ec4mr2373236eja.11.1702298113511;
-        Mon, 11 Dec 2023 04:35:13 -0800 (PST)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id so7-20020a170907390700b00a1f747f762asm4092619ejc.112.2023.12.11.04.35.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 04:35:12 -0800 (PST)
-Date: Mon, 11 Dec 2023 13:35:11 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: swarup <swarupkotikalapudi@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH net-next v6] netlink: specs: devlink: add some(not all)
- missing attributes in devlink.yaml
-Message-ID: <ZXcB/6tv/kuX4R91@nanopsycho>
-References: <20231208182515.1206616-1-swarupkotikalapudi@gmail.com>
- <ZXbaauFOfttLCe78@nanopsycho>
- <ZXb+fRawVUgU+lrX@swarup-virtual-machine>
+	Tue, 12 Dec 2023 03:20:28 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 7F7A6812A8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 12 Dec 2023 03:20:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7F7A6812A8
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by ams.source.kernel.org (Postfix) with ESMTP id 715BEB8117E;
+	Tue, 12 Dec 2023 03:20:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C9649C433C8;
+	Tue, 12 Dec 2023 03:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702351225;
+	bh=904puYQsBkTzdQniJcHEpofJ4NJsJwMekQa4mCR3E14=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=hLDf8MTKoBe9N13ZOLtRMd4a27X7dDciTAWhBRDbjzQgl7vI+B0QZrrQhjqLHldxz
+	 prC8+x9j+2zpP+73a4xcQO1Rfw9KWtuUCyZ3g9907NDAJVgOzPj3n0BviMoK8tbi1H
+	 maam3lxNvJYvPnKjCNBVhPPaqqv/yub2/KxJeYiR0lwy1UMJsDuJYZx1WghDfG+4bj
+	 tVhW3DGp0ANzRpieDyKmrTiDE321U4Z4R0h/SecrZP3a3DC4sf6nhXTM1jzpkhH37F
+	 Hkgl+MzAv4KIWwev3m0aiBmCG2e2FEhukatxWzdjQyT0OwhhkgjkCrHTL9RSLxcN8t
+	 cx5fTl4gRIlOg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B16ABDD4F0E;
+	Tue, 12 Dec 2023 03:20:25 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXb+fRawVUgU+lrX@swarup-virtual-machine>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v6] netlink: specs: devlink: add some(not all)
+ missing attributes in devlink.yaml
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170235122572.10568.5224501495681522792.git-patchwork-notify@kernel.org>
+Date: Tue, 12 Dec 2023 03:20:25 +0000
+References: <20231208182515.1206616-1-swarupkotikalapudi@gmail.com>
+In-Reply-To: <20231208182515.1206616-1-swarupkotikalapudi@gmail.com>
+To: swarup <swarupkotikalapudi@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, jiri@resnulli.us, netdev@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
 
-Mon, Dec 11, 2023 at 01:20:13PM CET, swarupkotikalapudi@gmail.com wrote:
->esOn Mon, Dec 11, 2023 at 10:46:18AM +0100, Jiri Pirko wrote:
->> Fri, Dec 08, 2023 at 07:25:15PM CET, swarupkotikalapudi@gmail.com wrote:
->> >Add some missing(not all) attributes in devlink.yaml.
->> >
->> >Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
->> >Suggested-by: Jiri Pirko <jiri@resnulli.us>
->> >---
->> >V6:
->> >  - Fix review comments
->> 
->> Would be nice to list what changes you actually did.
->> 
->> Nevertheless, patch looks fine to me.
->> 
->> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
->
->Hi Jiri,
->
->Do you mean in the commit message, i should have listed all the changes?
+Hello:
 
-In the changelog (the line I commented), you should try to describe what
-exactly did you change from the last version, so the reviewer knows what
-to focus on and what to expect.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
->Please clarify, if required i update the commit message.
+On Fri,  8 Dec 2023 23:55:15 +0530 you wrote:
+> Add some missing(not all) attributes in devlink.yaml.
+> 
+> Signed-off-by: Swarup Laxman Kotiaklapudi <swarupkotikalapudi@gmail.com>
+> Suggested-by: Jiri Pirko <jiri@resnulli.us>
+> ---
+> V6:
+>   - Fix review comments
+> V5:
+>   - https://lore.kernel.org/all/20231202123048.1059412-1-swarupkotikalapudi@gmail.com/
+>     Keep stats enum as unnamed in /uapi/linux/devlink.h
+>     to avoid kernel build failure
+> V4: https://lore.kernel.org/all/20231126105246.195288-1-swarupkotikalapudi@gmail.com/
+>   - Change the commit message
+> V3: https://lore.kernel.org/all/20231123100119.148324-1-swarupkotikalapudi@gmail.com/
+>   - enum name added for stats and trap-metadata enum used by trap command
+>     in include/uapi/linux/devlink.h
+>   - Fix generated userspace file's compilation issue
+>     due to V1 and V2 patchset
+>   - Move some attributes e.g. nested-devlink and param again as a TODO,
+>     which needs some discussion and will be fixed in a new patchset
+> V2: https://lore.kernel.org/all/20231122143033.89856-1-swarupkotikalapudi@gmail.com/
+>   - Rebase to net-next tree
+>   - param-value-data data type is dynamic, hence to accomndate
+>     all data type make it as string type
+>   - Change nested attribute to use correct fields
+>     based on driver code e.g. region-snapshots,
+>     region-snapshot, region-chunks, region-chunk,
+>     linecard-supported-types, health-reporter,
+>     linecard-supported-types, nested-devlink
+>     and param's attributes
+> V1: https://lore.kernel.org/all/ZVNPi7pmJIDJ6Ms7@swarup-virtual-machine/
+> 
+> [...]
 
-No, next time.
+Here is the summary with links:
+  - [net-next,v6] netlink: specs: devlink: add some(not all) missing attributes in devlink.yaml
+    https://git.kernel.org/netdev/net-next/c/68c84289bcc0
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
->
->Thanks,
->Swarup
