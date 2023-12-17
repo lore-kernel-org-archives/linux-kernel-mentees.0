@@ -1,366 +1,109 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6273EA62
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Dec 2023 16:25:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF162FE2E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Dec 2023 14:46:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h9J2DsYx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L61K4gga"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C1E5E813B5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Dec 2023 16:25:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C1E5E813B5
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=h9J2DsYx
+	by smtp4.osuosl.org (Postfix) with ESMTP id D8C62415EC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Dec 2023 14:46:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D8C62415EC
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=L61K4gga
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id QyvpOeBAgJyo
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cP_4OU61a368
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 15 Dec 2023 16:25:36 +0000 (UTC)
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id CF1B981387
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Dec 2023 16:25:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org CF1B981387
-Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1d393e5d325so2261015ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 15 Dec 2023 08:25:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702657536; x=1703262336; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=42Ib9M9xg38B/QbmBOXK61x/WxHHrbWgabum0nBmkMI=;
-        b=h9J2DsYxU/3mF/snugJJNuO6Bx7iHpLqtE2qH1gfGjXVjIXwO4CGDfugp3AdZzTYy/
-         tIjkxtyevNYJep/wISegawtJbiB3KhNpAdkDYampGZcwZ1m2ylnyhVUc2aL7zhpA07lt
-         mayhi+0ajR4jGtiq/767w6hnmiZNh5t3ztHVinmEQOSpW+SauHarK/Gz8ck/FQevwUSm
-         FO3GplvbXwiKrUQwNT+Aboz4JRj2wC9Rx3XRbcjdVcIiW5Otw04hhd7m6JaO/rJtWqej
-         xnNYLFKKRWe7deU70Wvhhm7Ed4opvx3vJQu5C/GMB+CGLm+ps7qFI3Ih7Hd9P2Kydb9a
-         WrBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702657536; x=1703262336;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=42Ib9M9xg38B/QbmBOXK61x/WxHHrbWgabum0nBmkMI=;
-        b=ndHmCMgHEeT3N3fAcUYaunle7y1dYMgsdciI9mvLEEra3vyRFpaS06pcJ8+eqCJWdv
-         D3tosoP5KNOg7IIkm3u/h05sHY1eicKuPbRi+JIOrolYMyLpKtZuxaG8CGgzMN2DHLmE
-         F2chO60LfD8IGnumRqFderu6cTbCJl+1BaHo7jHBgvhRe682lpNSxfr7G6dCZExiLY3F
-         WuLsMfxmt/970FBIO4WCvHlbf85RUAgbd+nCPIKUohsIPVQRD5IAQWJC3s2kbV4Stomw
-         PwNAyxIxI4Z6CnWOANDsJze6TvTnw2VoLgtQNFX20HULYyV6J51Vsz71efSn1eNHYemm
-         Qv4Q==
-X-Gm-Message-State: AOJu0YygtIJbHhBtLSP8LknOjPJe+JF+zsISRBV0ASeKthQHkD1flj/d
-	p++bysYmsLad+MsHnRae+dE=
-X-Google-Smtp-Source: AGHT+IHAzlqLfSUjVD+t87pazfdcFu3bvkezL0AmisAGvfMeWZ/R/akVDuZqnZyyhmt5R+6mI2CA/Q==
-X-Received: by 2002:a17:902:9893:b0:1d3:7c16:91d6 with SMTP id s19-20020a170902989300b001d37c1691d6mr1267651plp.115.1702657536101;
-        Fri, 15 Dec 2023 08:25:36 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:581e:798e:871c:98db:5638:a4])
-        by smtp.gmail.com with ESMTPSA id s16-20020a170902989000b001bb750189desm14468665plp.255.2023.12.15.08.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 08:25:35 -0800 (PST)
-From: Anshul Dalal <anshulusr@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: Anshul Dalal <anshulusr@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Jonathan Cameron <jic23@kernel.org>
-Subject: [PATCH v5 3/3] iio: chemical: add support for Aosong AGS02MA
-Date: Fri, 15 Dec 2023 21:53:11 +0530
-Message-ID: <20231215162312.143568-3-anshulusr@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231215162312.143568-1-anshulusr@gmail.com>
+	Sun, 17 Dec 2023 14:46:01 +0000 (UTC)
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 67499415EA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Dec 2023 14:46:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 67499415EA
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 49D2CCE0B53;
+	Sun, 17 Dec 2023 14:45:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05EDAC433C7;
+	Sun, 17 Dec 2023 14:45:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702824356;
+	bh=kVuXjANOUieH9LrXbZoogYCG3uzkAL+/ag6djbg25Og=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=L61K4ggaBYJDjrStvfKdJFi1QM0XjOPUHNMECn+3mLPV527Iv0+Ex2jO4zHYaRvOE
+	 VKelZxqO8ycWZvgcyzEluwDE5VvpsDWbcz/7k8YVbIm7x+wMpS55oFFHXbhwpMbwye
+	 B4bLSrqCOpqW1+PewwqwYbUh/g8Jmyd4ywY74hFowqMFOLXTzwlL78BXwb9gs77MII
+	 3otY2EC/oaNp+4IRV7rl6aCo989eyf0UD2tteDfVxNptTJzNxKw95Idn7plbDVjNlG
+	 QNWOeUe1rQuryOU7v1SRDmEWs5RY9AIf76/W4foZ6UAm7TooEHAGOlt2X9zG+ejf8K
+	 7EiO4NODTWMYg==
+Date: Sun, 17 Dec 2023 14:45:42 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Anshul Dalal <anshulusr@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v5 3/3] iio: chemical: add support for Aosong AGS02MA
+Message-ID: <20231217144542.0794bd0e@jic23-huawei>
+In-Reply-To: <20231215162312.143568-3-anshulusr@gmail.com>
 References: <20231215162312.143568-1-anshulusr@gmail.com>
+	<20231215162312.143568-3-anshulusr@gmail.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-A simple driver for the TVOC (Total Volatile Organic Compounds)
-sensor from Aosong: AGS02MA
+On Fri, 15 Dec 2023 21:53:11 +0530
+Anshul Dalal <anshulusr@gmail.com> wrote:
 
-Steps in reading the VOC sensor value over i2c:
-  1. Read 5 bytes from the register `AGS02MA_TVOC_READ_REG` [0x00]
-  2. The first 4 bytes are taken as the big endian sensor data with final
-     byte being the CRC
-  3. The CRC is verified and the value is returned over an
-     `IIO_CHAN_INFO_RAW` channel as percents
+> A simple driver for the TVOC (Total Volatile Organic Compounds)
+> sensor from Aosong: AGS02MA
+> 
+> Steps in reading the VOC sensor value over i2c:
+>   1. Read 5 bytes from the register `AGS02MA_TVOC_READ_REG` [0x00]
+>   2. The first 4 bytes are taken as the big endian sensor data with final
+>      byte being the CRC
+>   3. The CRC is verified and the value is returned over an
+>      `IIO_CHAN_INFO_RAW` channel as percents
+> 
+> Tested on Raspberry Pi Zero 2W
+> 
+> Datasheet: https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
+> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 
-Tested on Raspberry Pi Zero 2W
+Hi Anshul, Just one trivial thing. I'll fix up whilst applying.
 
-Datasheet: https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
-Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
----
+Applied to the togreg branch of iio.git. Will be initially pushed out as testing
+for 0-day to see if it can find anything we missed.
 
-Changes for v5:
-- Removed AGS02MA_DEVICE_NAME define
-- Saperated return value from data in
-  `ags02ma_register_read`
-- Added IIO_CHAN_INFO_SCALE for ppb to percent conversion
-- Changed `ags02ma_channels` (iio_chan_spec[1]) to
-  `ags02ma_channel` (iio_chan_spec) since only driver only
-  uses a single channel
-- Use `dev_err_probe` instead of `dev_err`
-- removed unnecessary `i2c_set_clientdata(..)`
-- Removed `of_match_ptr(..)`
+Thanks,
 
-Changes for v4:
-- Fixed warning: unused variable 'ags02ma_of_table'
-- Fixed warning: unsigned 'ret' is never less than zero in
-  `ags02ma_register_read`
+Jonathan
 
-Changes for v3:
-- Added of_device_id
+> +
+> +static const struct iio_info ags02ma_info = {
+> +	.read_raw = ags02ma_read_raw,
+> +};
+> +
+> +static const struct iio_chan_spec ags02ma_channel = {
+> +	.type = IIO_CONCENTRATION,
+> +	.channel2 = IIO_MOD_VOC,
+> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE)
 
-Changes for v2:
-- Fixed Kconfig not selecting CRC8 (used to be `select crc8`)
-- Changed instances of asair to aosong
-- Report raw readings in percents instead of ppb
-- Added myself as maintainer for the device binding
+Comma after this line. I'll fix up if there isn't much else.
+The reason for this is that it is very plausible we'll add more to this
+channel description in the future and the absence of the comma would make that
+messier.
 
-Previous versions:
-v4: https://lore.kernel.org/lkml/20231125100139.193584-3-anshulusr@gmail.com/
-v3: https://lore.kernel.org/lkml/20231121095800.2180870-3-anshulusr@gmail.com/
-v2: https://lore.kernel.org/lkml/20231115125810.1394854-3-anshulusr@gmail.com/
-v1: https://lore.kernel.org/lkml/20231107173100.62715-3-anshulusr@gmail.com/
----
- MAINTAINERS                    |   7 ++
- drivers/iio/chemical/Kconfig   |  11 +++
- drivers/iio/chemical/Makefile  |   1 +
- drivers/iio/chemical/ags02ma.c | 164 +++++++++++++++++++++++++++++++++
- 4 files changed, 183 insertions(+)
- create mode 100644 drivers/iio/chemical/ags02ma.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81d5fc0bba68..ba3c950aca1b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3028,6 +3028,13 @@ S:	Supported
- W:	http://www.akm.com/
- F:	drivers/iio/magnetometer/ak8974.c
- 
-+AOSONG AGS02MA TVOC SENSOR DRIVER
-+M:	Anshul Dalal <anshulusr@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/iio/chemical/aosong,ags02ma.yaml
-+F:	drivers/iio/chemical/ags02ma.c
-+
- ASC7621 HARDWARE MONITOR DRIVER
- M:	George Joseph <george.joseph@fairview5.com>
- L:	linux-hwmon@vger.kernel.org
-diff --git a/drivers/iio/chemical/Kconfig b/drivers/iio/chemical/Kconfig
-index c30657e10ee1..02649ab81b3c 100644
---- a/drivers/iio/chemical/Kconfig
-+++ b/drivers/iio/chemical/Kconfig
-@@ -5,6 +5,17 @@
- 
- menu "Chemical Sensors"
- 
-+config AOSONG_AGS02MA
-+	tristate "Aosong AGS02MA TVOC sensor driver"
-+	depends on I2C
-+	select CRC8
-+	help
-+	  Say Y here to build support for Aosong AGS02MA TVOC (Total Volatile
-+	  Organic Compounds) sensor.
-+
-+	  To compile this driver as module, choose M here: the module will be
-+	  called ags02ma.
-+
- config ATLAS_PH_SENSOR
- 	tristate "Atlas Scientific OEM SM sensors"
- 	depends on I2C
-diff --git a/drivers/iio/chemical/Makefile b/drivers/iio/chemical/Makefile
-index a11e777a7a00..2f3dee8bb779 100644
---- a/drivers/iio/chemical/Makefile
-+++ b/drivers/iio/chemical/Makefile
-@@ -4,6 +4,7 @@
- #
- 
- # When adding new entries keep the list in alphabetical order
-+obj-$(CONFIG_AOSONG_AGS02MA)	+= ags02ma.o
- obj-$(CONFIG_ATLAS_PH_SENSOR)	+= atlas-sensor.o
- obj-$(CONFIG_ATLAS_EZO_SENSOR)	+= atlas-ezo-sensor.o
- obj-$(CONFIG_BME680) += bme680_core.o
-diff --git a/drivers/iio/chemical/ags02ma.c b/drivers/iio/chemical/ags02ma.c
-new file mode 100644
-index 000000000000..b2fe056083b3
---- /dev/null
-+++ b/drivers/iio/chemical/ags02ma.c
-@@ -0,0 +1,164 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
-+ *
-+ * Driver for Aosong AGS02MA
-+ *
-+ * Datasheet:
-+ *   https://asairsensors.com/wp-content/uploads/2021/09/AGS02MA.pdf
-+ * Product Page:
-+ *   http://www.aosong.com/m/en/products-33.html
-+ */
-+
-+#include <linux/crc8.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+
-+#include <linux/iio/iio.h>
-+
-+#define AGS02MA_TVOC_READ_REG		   0x00
-+#define AGS02MA_VERSION_REG		   0x11
-+
-+#define AGS02MA_VERSION_PROCESSING_DELAY   30
-+#define AGS02MA_TVOC_READ_PROCESSING_DELAY 1500
-+
-+#define AGS02MA_CRC8_INIT		   0xff
-+#define AGS02MA_CRC8_POLYNOMIAL		   0x31
-+
-+DECLARE_CRC8_TABLE(ags02ma_crc8_table);
-+
-+struct ags02ma_data {
-+	struct i2c_client *client;
-+};
-+
-+struct ags02ma_reading {
-+	__be32 data;
-+	u8 crc;
-+} __packed;
-+
-+static int ags02ma_register_read(struct i2c_client *client, u8 reg, u16 delay,
-+				 u32 *val)
-+{
-+	int ret;
-+	u8 crc;
-+	struct ags02ma_reading read_buffer;
-+
-+	ret = i2c_master_send(client, &reg, sizeof(reg));
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"Failed to send data to register 0x%x: %d", reg, ret);
-+		return ret;
-+	}
-+
-+	/* Processing Delay, Check Table 7.7 in the datasheet */
-+	msleep_interruptible(delay);
-+
-+	ret = i2c_master_recv(client, (u8 *)&read_buffer, sizeof(read_buffer));
-+	if (ret < 0) {
-+		dev_err(&client->dev,
-+			"Failed to receive from register 0x%x: %d", reg, ret);
-+		return ret;
-+	}
-+
-+	crc = crc8(ags02ma_crc8_table, (u8 *)&read_buffer.data,
-+		   sizeof(read_buffer.data), AGS02MA_CRC8_INIT);
-+	if (crc != read_buffer.crc) {
-+		dev_err(&client->dev, "CRC error\n");
-+		return -EIO;
-+	}
-+
-+	*val = be32_to_cpu(read_buffer.data);
-+	return 0;
-+}
-+
-+static int ags02ma_read_raw(struct iio_dev *iio_device,
-+			    struct iio_chan_spec const *chan, int *val,
-+			    int *val2, long mask)
-+{
-+	int ret;
-+	struct ags02ma_data *data = iio_priv(iio_device);
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		ret = ags02ma_register_read(data->client, AGS02MA_TVOC_READ_REG,
-+					    AGS02MA_TVOC_READ_PROCESSING_DELAY,
-+					    val);
-+		if (ret < 0)
-+			return ret;
-+		return IIO_VAL_INT;
-+	case IIO_CHAN_INFO_SCALE:
-+		/* The sensor reads data as ppb */
-+		*val = 0;
-+		*val2 = 100;
-+		return IIO_VAL_INT_PLUS_NANO;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct iio_info ags02ma_info = {
-+	.read_raw = ags02ma_read_raw,
-+};
-+
-+static const struct iio_chan_spec ags02ma_channel = {
-+	.type = IIO_CONCENTRATION,
-+	.channel2 = IIO_MOD_VOC,
-+	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE)
-+};
-+
-+static int ags02ma_probe(struct i2c_client *client)
-+{
-+	int ret;
-+	struct ags02ma_data *data;
-+	struct iio_dev *indio_dev;
-+	u32 version;
-+
-+	indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*data));
-+	if (!indio_dev)
-+		return -ENOMEM;
-+
-+	crc8_populate_msb(ags02ma_crc8_table, AGS02MA_CRC8_POLYNOMIAL);
-+
-+	ret = ags02ma_register_read(client, AGS02MA_VERSION_REG,
-+				    AGS02MA_VERSION_PROCESSING_DELAY, &version);
-+	if (ret < 0)
-+		return dev_err_probe(&client->dev, ret,
-+			      "Failed to read device version\n");
-+	dev_dbg(&client->dev, "Aosong AGS02MA, Version: 0x%x", version);
-+
-+	data = iio_priv(indio_dev);
-+	data->client = client;
-+	indio_dev->info = &ags02ma_info;
-+	indio_dev->channels = &ags02ma_channel;
-+	indio_dev->num_channels = 1;
-+	indio_dev->name = "ags02ma";
-+
-+	return devm_iio_device_register(&client->dev, indio_dev);
-+}
-+
-+static const struct i2c_device_id ags02ma_id_table[] = {
-+	{ "ags02ma" },
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(i2c, ags02ma_id_table);
-+
-+static const struct of_device_id ags02ma_of_table[] = {
-+	{ .compatible = "aosong,ags02ma" },
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ags02ma_of_table);
-+
-+static struct i2c_driver ags02ma_driver = {
-+	.driver = {
-+		.name = "ags02ma",
-+		.of_match_table = ags02ma_of_table,
-+	},
-+	.id_table = ags02ma_id_table,
-+	.probe = ags02ma_probe,
-+};
-+module_i2c_driver(ags02ma_driver);
-+
-+MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
-+MODULE_DESCRIPTION("Aosong AGS02MA TVOC Driver");
-+MODULE_LICENSE("GPL");
--- 
-2.43.0
+> +};
 
