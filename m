@@ -1,63 +1,63 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEA24238C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB2849899
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvEe+ilp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XBYUHxUe"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5794D419CF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:17:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5794D419CF
+	by smtp2.osuosl.org (Postfix) with ESMTP id 2CAA1400D1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:32:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2CAA1400D1
 Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OvEe+ilp
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XBYUHxUe
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
 	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id JHJZ7B2rcKQd
+	with ESMTP id 4TvR4iMfIgcT
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 18 Dec 2023 15:17:26 +0000 (UTC)
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id AF449419BD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:17:26 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AF449419BD
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1d3b547cd4cso4273415ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 07:17:26 -0800 (PST)
+	Mon, 18 Dec 2023 15:32:16 +0000 (UTC)
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 37CBB400BA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:32:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 37CBB400BA
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1d098b87eeeso27136125ad.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 07:32:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702912646; x=1703517446; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1702913535; x=1703518335; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7sSlpTRou09JsVwTLNvbg+U7lQZsRkp+48aYZvwXB/s=;
-        b=OvEe+ilpFTsukYB9WKbZI0De/bwIY87mxuRuVlRMWv+HvQU4X/cBOMIyjp199uq9Oa
-         qssQ09jrq+wU0kK8ty0V104PsHe3hY6xJ0faOHIAH+hHd2rm4lvfc0LiLQPTK8HwGG+H
-         V0KxLKVGiBRWa0DWxaHj/TKJvNwqV97PoD5B48UZDFJ93yAAxM/CGXwlvnAcVsEi7j8+
-         8GAdbHhSTMMr+SuGZQ7WB3t1HY/GeWXASFlamfWj0ruyS1OEswc3FVbEH48immfG91mM
-         Wt09acbmiZm19JDg8wT33UCe1tOD7c6PeGcaxHYvcEHo6QT8Xv8LkgGG6LkKZsa67cQn
-         UeVw==
+        bh=LPnry4ABNCRoEF7YlhZVOqsWCrakY3lvjh/I9JX4fyE=;
+        b=XBYUHxUe75r5GULWrATAyzaYcG63k2rJ9EWk2WnmkmMaa1QaDW1JCQRXx2qP6iYTTK
+         2HE1Xz9l/OQjR+6OLg8BbQG/xlW6QL0dZmZ+ic2moLDkVQH5tbGU17gfweT87x6mhIJI
+         +Sykk4vIu6cCQF6DnVVuCoLNqQNVTNyEvzzbeH9oUHuoEuWMVi/CzPXGFwul7GZVU4bX
+         OdusGIOFg4j6+mf3GqqvymiyosvzgayDY1c01EVprQOCpnnQnSjXAr9NxYr/Nmcs1QDt
+         +XDfBdmDNuuA+W5AkDHC6XIb9P5iJtNMwJ5lAecuXwatmjoyRvmS5M7+azrG7hWHnP2x
+         BJWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702912646; x=1703517446;
+        d=1e100.net; s=20230601; t=1702913535; x=1703518335;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7sSlpTRou09JsVwTLNvbg+U7lQZsRkp+48aYZvwXB/s=;
-        b=ZpUtlA2WRLlpE1sbIdQCwBhy1Jm6gRm/zVlb7t/2K7PDgEOPg9df59LCO6AzdwFg/I
-         WBtMUiDCrnn5EcL44v3wsRa7JJIFH5fgKxtNEZzVwuE9q19idV+yE+3X2bE9toB8DGaB
-         ASZ+LBTy/2DzDROy8mSYhM0hU4QFv/fLVYsvaazQ2fa1QZh0kEhwMuqbOyZ776S6DygK
-         QqUlDt5HU+ECujFIKvNNzeanUhoE59RXKPXLK1iMe5m+k6vD6AmqBdGFHBe1j/EPFS3p
-         kKkDnn52nPIVOL9IxTaNjf7RU+6xFZzQjYhhF0kOzVVGlnvA5pnZjvrsk6OziydFhq5x
-         +Vvw==
-X-Gm-Message-State: AOJu0Yzgz0BY0BqkDDncUQSk6EztXYbVTa4aBPl8JwYepyGeRtYb2VaK
-	HRIQ/TPvhj+PpOL/DGiugCc=
-X-Google-Smtp-Source: AGHT+IGe3IJac/lizAUEvlaMq23plr5Jr6d91eSJPJSnKbCGX35B0n+f/GzjuWPVTiDYXG5ZjltwNA==
-X-Received: by 2002:a17:90a:c7c3:b0:28b:7ee0:4ef0 with SMTP id gf3-20020a17090ac7c300b0028b7ee04ef0mr667374pjb.39.1702912645812;
-        Mon, 18 Dec 2023 07:17:25 -0800 (PST)
-Received: from ubuntu.. ([202.166.220.102])
-        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm10514190pjy.10.2023.12.18.07.17.22
+        bh=LPnry4ABNCRoEF7YlhZVOqsWCrakY3lvjh/I9JX4fyE=;
+        b=FmfFRRY1qI0nKZCewbzkEfICNwPwFPWtrORi3aHUu3wZFXrsV0mceg3L3J5RPXsntw
+         pBpTWe7Dp+zuXblNF0wrIunXKEkEeJoEPjpjFG8uvrpqb6LzfX5TAZ6uZaxF3ll2mnpT
+         2k1r0DJ/6KtVx8k1eZQeDR1Df5A2Ck6+RCWRFD7g8Y5ObmbgtPkKMjTiyvMjEqhOX/nd
+         D5TsQ9nMe+oeYCU8AIeInvpGQ4bsfppc15dGOq97stsY1sMC9rKLJMckw/GudNEGajy6
+         VyggfrCEgznJ19l6fGEf91iYJ66b+OFzSpQXNyNyF25f8VBecHjEekVCksC8TDxEFN3E
+         M7KQ==
+X-Gm-Message-State: AOJu0YyhLe+DGxzAlUOcmNx1bAyEPIDaFqzJdmkgbokO6jZnKfBXrG32
+	d2yLJy0qKO6glpgO7nnj/D0=
+X-Google-Smtp-Source: AGHT+IGR6fcR7dY6sUS+4s0yRsbTxaaJhn99EhB3+ag/KdKrhMD/ddYr9LLElMWyaO+iubF7GhPEWA==
+X-Received: by 2002:a17:903:2b0e:b0:1d3:6b17:5eb with SMTP id mc14-20020a1709032b0e00b001d36b1705ebmr10352773plb.49.1702913535439;
+        Mon, 18 Dec 2023 07:32:15 -0800 (PST)
+Received: from ubuntu.. ([110.44.116.44])
+        by smtp.gmail.com with ESMTPSA id g3-20020a170902740300b001d39d4fa323sm4358415pll.55.2023.12.18.07.32.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 07:17:25 -0800 (PST)
+        Mon, 18 Dec 2023 07:32:15 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -68,9 +68,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] drivers: staging: media: atomisp: pci: Fixes spelling mistakes in ia_css_irq.h
-Date: Mon, 18 Dec 2023 15:17:04 +0000
-Message-Id: <20231218151704.449883-1-kdipendra88@gmail.com>
+Subject: [PATCH] drivers: staging: media: atomisp: pci: Fixes a spelling mistake in sh_css_defs.h
+Date: Mon, 18 Dec 2023 15:32:00 +0000
+Message-Id: <20231218153200.450148-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -80,47 +80,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The script checkpatch.pl reported spelling errors
-in ia_css_irq.h as below:
+The script checkpatch.pl reported a spelling error
+in sh_css_defs.h as below:
 
 '''
-WARNING: Possible repeated word: 'in'
-        /** the input system in in error */
-
-WARNING: Possible repeated word: 'in'
-        /** the input formatter in in error */
-
-WARNING: Possible repeated word: 'in'
-        /** the dma in in error */
+WARNING: 'upto' may be misspelled - perhaps 'up to'?
+/* The FPGA system (vec_nelems == 16) only supports upto 5MP */
+                                                    ^^^^
 '''
 
-This patch corrects spelling errors,
-changing "in" to "is" in all three comments.
+This patch corrects a spelling error,
+changing "upto" to "up to".
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css_defs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
-index 26b1b3c8ba62..00e2fd1f9647 100644
---- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
-+++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
-@@ -84,11 +84,11 @@ enum ia_css_irq_info {
- 	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
- 	/** ISP binary statistics are ready */
- 	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
--	/** the input system in in error */
-+	/** the input system is in error */
- 	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
--	/** the input formatter in in error */
-+	/** the input formatter is in error */
- 	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
--	/** the dma in in error */
-+	/** the dma is in error */
- 	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
- 	/** end-of-frame events are ready in the isys_event queue */
- };
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_defs.h b/drivers/staging/media/atomisp/pci/sh_css_defs.h
+index 7eb10b226f0a..2afde974e75d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_defs.h
++++ b/drivers/staging/media/atomisp/pci/sh_css_defs.h
+@@ -131,7 +131,7 @@ RGB[0,8191],coef[-8192,8191] -> RGB[0,8191]
+  * invalid rows/columns that result from filter initialization are skipped. */
+ #define SH_CSS_MIN_DVS_ENVELOPE           12U
+ 
+-/* The FPGA system (vec_nelems == 16) only supports upto 5MP */
++/* The FPGA system (vec_nelems == 16) only supports up to 5MP */
+ #define SH_CSS_MAX_SENSOR_WIDTH           4608
+ #define SH_CSS_MAX_SENSOR_HEIGHT          3450
+ 
 -- 
 2.34.1
 
