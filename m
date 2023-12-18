@@ -1,207 +1,126 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002F213AFA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 01:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEA24238C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="YORDMHRg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OvEe+ilp"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 78E96607AA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 01:29:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 78E96607AA
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=YORDMHRg
+	by smtp2.osuosl.org (Postfix) with ESMTP id 5794D419CF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:17:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5794D419CF
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OvEe+ilp
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.9
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zfDoEpGMrev3
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id JHJZ7B2rcKQd
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 18 Dec 2023 01:29:53 +0000 (UTC)
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 26EE86077D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 01:29:52 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 26EE86077D
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2cc5ee69960so12435481fa.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 17 Dec 2023 17:29:52 -0800 (PST)
+	Mon, 18 Dec 2023 15:17:26 +0000 (UTC)
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id AF449419BD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 15:17:26 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AF449419BD
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1d3b547cd4cso4273415ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 18 Dec 2023 07:17:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1702862991; x=1703467791; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=goOkV/j+8n7xf5oq2/AgXGIm/vSbN9pRUXbhB8YUgtM=;
-        b=YORDMHRgfgWu59UibZPgUnou4KWFi9gpNNqScFWx04o+ZHCkZ3l/pqrr7WuZSe5EzF
-         LlEJFvy1D/BygjIDCMbPOBg0MXvC3hy57yzbnVZGnNkHAcm/jmMLyOPtaSHgmEDVHwl1
-         Pi2FCGoL5rS8exA6U9GS8NtGC9I5BN44SzJkfGM2wNmU53ZAcXISW50K+rTFJEwmM2ka
-         c9iiVDd/QTlncvK5uvv9m+hlBYipc964IYGkNMUqzR9n4JXieT/yaZfFiSddRBeM8Qyh
-         QrHWYV8GZOLQouzwxt5sTasyFu21reoZ5F2oW9jrveR4vCsyOOHtqCiRJalc6cj9Rdiy
-         T26A==
+        d=gmail.com; s=20230601; t=1702912646; x=1703517446; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sSlpTRou09JsVwTLNvbg+U7lQZsRkp+48aYZvwXB/s=;
+        b=OvEe+ilpFTsukYB9WKbZI0De/bwIY87mxuRuVlRMWv+HvQU4X/cBOMIyjp199uq9Oa
+         qssQ09jrq+wU0kK8ty0V104PsHe3hY6xJ0faOHIAH+hHd2rm4lvfc0LiLQPTK8HwGG+H
+         V0KxLKVGiBRWa0DWxaHj/TKJvNwqV97PoD5B48UZDFJ93yAAxM/CGXwlvnAcVsEi7j8+
+         8GAdbHhSTMMr+SuGZQ7WB3t1HY/GeWXASFlamfWj0ruyS1OEswc3FVbEH48immfG91mM
+         Wt09acbmiZm19JDg8wT33UCe1tOD7c6PeGcaxHYvcEHo6QT8Xv8LkgGG6LkKZsa67cQn
+         UeVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702862991; x=1703467791;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=goOkV/j+8n7xf5oq2/AgXGIm/vSbN9pRUXbhB8YUgtM=;
-        b=KeXYttHUfnlztMScV/TIcB9UAyb851txZdBHp61JEjGP7nKBZ56OJCySvLejuYQgWH
-         10+NVCjiid/2q4zeQIaAI29zeUSgFu6lcAC0oltGct6nM3xPVIIoBBCg9bAn6RlykI4k
-         S4gTuOn1r8x8h0P8xxy8aYkAFv3/rLaQrAJInthf/HsSXeXNVl4Nx51+x6NDbu9Lbvdt
-         0zFF5Hdsf5B93WD/AtuDrnSxhSnZmMiST7jUFlhDSjudiyhl2Rfwug49RYVjNhRusYQe
-         syatiWRbHgT7K99er7rMHhR5Nxz/ZJ1YB7SL8x5ovK2OAP+GtSoP18SsZVhQ+xSMFvwA
-         arxw==
-X-Gm-Message-State: AOJu0Yzesm/cGs1sGVq5Naw9HZ7ynUHi98/gqu2GjzM3TP99mPyCKFMN
-	PNJaNAF88utERx2RRxDfnLn8CqjJOV5dvYIy8hLNpw==
-X-Google-Smtp-Source: AGHT+IFsnUmP4WLJVbSaMw1tBicScccBZbSsI3uJUUJztiqfMXzdxrYXqW2/6AbAT1zDEmkwzr/JB3S9NYJXdyvc3bg=
-X-Received: by 2002:a2e:9dd5:0:b0:2cc:6066:3c19 with SMTP id
- x21-20020a2e9dd5000000b002cc60663c19mr587687ljj.64.1702862990901; Sun, 17 Dec
- 2023 17:29:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702912646; x=1703517446;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7sSlpTRou09JsVwTLNvbg+U7lQZsRkp+48aYZvwXB/s=;
+        b=ZpUtlA2WRLlpE1sbIdQCwBhy1Jm6gRm/zVlb7t/2K7PDgEOPg9df59LCO6AzdwFg/I
+         WBtMUiDCrnn5EcL44v3wsRa7JJIFH5fgKxtNEZzVwuE9q19idV+yE+3X2bE9toB8DGaB
+         ASZ+LBTy/2DzDROy8mSYhM0hU4QFv/fLVYsvaazQ2fa1QZh0kEhwMuqbOyZ776S6DygK
+         QqUlDt5HU+ECujFIKvNNzeanUhoE59RXKPXLK1iMe5m+k6vD6AmqBdGFHBe1j/EPFS3p
+         kKkDnn52nPIVOL9IxTaNjf7RU+6xFZzQjYhhF0kOzVVGlnvA5pnZjvrsk6OziydFhq5x
+         +Vvw==
+X-Gm-Message-State: AOJu0Yzgz0BY0BqkDDncUQSk6EztXYbVTa4aBPl8JwYepyGeRtYb2VaK
+	HRIQ/TPvhj+PpOL/DGiugCc=
+X-Google-Smtp-Source: AGHT+IGe3IJac/lizAUEvlaMq23plr5Jr6d91eSJPJSnKbCGX35B0n+f/GzjuWPVTiDYXG5ZjltwNA==
+X-Received: by 2002:a17:90a:c7c3:b0:28b:7ee0:4ef0 with SMTP id gf3-20020a17090ac7c300b0028b7ee04ef0mr667374pjb.39.1702912645812;
+        Mon, 18 Dec 2023 07:17:25 -0800 (PST)
+Received: from ubuntu.. ([202.166.220.102])
+        by smtp.gmail.com with ESMTPSA id f11-20020a17090aec8b00b0028ae8284840sm10514190pjy.10.2023.12.18.07.17.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 07:17:25 -0800 (PST)
+From: Dipendra Khadka <kdipendra88@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: Dipendra Khadka <kdipendra88@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] drivers: staging: media: atomisp: pci: Fixes spelling mistakes in ia_css_irq.h
+Date: Mon, 18 Dec 2023 15:17:04 +0000
+Message-Id: <20231218151704.449883-1-kdipendra88@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231217180836.584828-1-anshulusr@gmail.com> <CAMknhBGR7WS46J+MeqY51RhMb78AoUO6URaFxw2M83P29fqzdQ@mail.gmail.com>
-In-Reply-To: <CAMknhBGR7WS46J+MeqY51RhMb78AoUO6URaFxw2M83P29fqzdQ@mail.gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Sun, 17 Dec 2023 19:29:40 -0600
-Message-ID: <CAMknhBHoK-ZB1MpJmM3jbbBpyCbRYcRWPG02fxJ5OY6PLB7ZEg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: iio: dac: add MCP4821
-To: Anshul Dalal <anshulusr@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, devicetree@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	linux-kernel-mentees@lists.linuxfoundation.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 17, 2023 at 7:25=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> On Sun, Dec 17, 2023 at 12:11=E2=80=AFPM Anshul Dalal <anshulusr@gmail.co=
-m> wrote:
-> >
-> > Adds support for MCP48xx series of DACs.
-> >
-> > Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf =
-#MCP48x1
-> > Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.p=
-df #MCP48x2
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> >
-> > ---
-> >
-> > Changes for v2:
-> > - Changed order in device table to numerical
-> > - Made vdd_supply required
-> > - Added 'Reviewed-by: Conor Dooley'
-> >
-> > Previous versions:
-> > v1: https://lore.kernel.org/lkml/20231117073040.685860-1-anshulusr@gmai=
-l.com/
-> > ---
-> >  .../bindings/iio/dac/microchip,mcp4821.yaml   | 64 +++++++++++++++++++
-> >  1 file changed, 64 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/iio/dac/microchip=
-,mcp4821.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/iio/dac/microchip,mcp482=
-1.yaml b/Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
-> > new file mode 100644
-> > index 000000000000..97da9f9ef450
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
-> > @@ -0,0 +1,64 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/iio/dac/microchip,mcp4821.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Microchip MCP4821 and similar DACs
-> > +
-> > +description: |
-> > +  Supports MCP48x1 (single channel) and MCP48x2 (dual channel) series =
-of DACs.
-> > +  Device supports simplex communication over SPI in Mode 0,1 and Mode =
-1,1.
->
-> It seems like SPI modes usually only have one number in them, i.e.
-> mode 1 and mode 3 in this case, I'm guessing.
+The script checkpatch.pl reported spelling errors
+in ia_css_irq.h as below:
 
-Oh, and doesn't this mean that we need to include spi-cpha and
-spi-cpol properties since they aren't implicit in the bindings anymore
-since [1]?
+'''
+WARNING: Possible repeated word: 'in'
+        /** the input system in in error */
 
-[1]: https://lore.kernel.org/all/20220722191539.90641-2-krzysztof.kozlowski=
-@linaro.org/
+WARNING: Possible repeated word: 'in'
+        /** the input formatter in in error */
 
->
-> > +
-> > +  +---------+--------------+-------------+
-> > +  | Device  |  Resolution  |   Channels  |
-> > +  |---------|--------------|-------------|
-> > +  | MCP4801 |     8-bit    |      1      |
-> > +  | MCP4802 |     8-bit    |      2      |
-> > +  | MCP4811 |    10-bit    |      1      |
-> > +  | MCP4812 |    10-bit    |      2      |
-> > +  | MCP4821 |    12-bit    |      1      |
-> > +  | MCP4822 |    12-bit    |      2      |
-> > +  +---------+--------------+-------------+
-> > +
-> > +  Datasheet:
-> > +    MCP48x1: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.p=
-df
-> > +    MCP48x2: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249=
-B.pdf
-> > +
-> > +maintainers:
-> > +  - Anshul Dalal <anshulusr@gmail.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - microchip,mcp4801
-> > +      - microchip,mcp4802
-> > +      - microchip,mcp4811
-> > +      - microchip,mcp4812
-> > +      - microchip,mcp4821
-> > +      - microchip,mcp4822
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  vdd-supply: true
->
-> What about the SHDN and LDAC pins? It seems like all should have an
-> ldac-gpios property and MCP48x1 should have a shdn-gpios property for
-> these.
->
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - vdd-supply
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    spi {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        dac@0 {
-> > +            compatible =3D "microchip,mcp4821";
-> > +            reg =3D <0>;
-> > +            vdd-supply =3D <&vdd_regulator>;
-> > +        };
-> > +    };
-> > --
-> > 2.43.0
-> >
-> >
+WARNING: Possible repeated word: 'in'
+        /** the dma in in error */
+'''
+
+This patch corrects spelling errors,
+changing "in" to "is" in all three comments.
+
+Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+index 26b1b3c8ba62..00e2fd1f9647 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
+@@ -84,11 +84,11 @@ enum ia_css_irq_info {
+ 	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
+ 	/** ISP binary statistics are ready */
+ 	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
+-	/** the input system in in error */
++	/** the input system is in error */
+ 	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
+-	/** the input formatter in in error */
++	/** the input formatter is in error */
+ 	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
+-	/** the dma in in error */
++	/** the dma is in error */
+ 	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
+ 	/** end-of-frame events are ready in the isys_event queue */
+ };
+-- 
+2.34.1
+
