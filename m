@@ -1,82 +1,58 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEE113FE5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 09:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8F11A70B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 13:02:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FQcPl/t7"
+	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="W2nsSUMY"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4579841BAF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 09:05:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4579841BAF
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FQcPl/t7
+	by smtp2.osuosl.org (Postfix) with ESMTP id DCB5B409C8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 13:02:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org DCB5B409C8
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=W2nsSUMY
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.306
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id m2oJSQXbbxHe
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id mHpjSLgKoYYS
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 19 Dec 2023 09:05:30 +0000 (UTC)
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D70F841B98
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 09:05:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D70F841B98
-Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-28659348677so2875714a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 01:05:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702976729; x=1703581529; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2RLnTM9hjajMKJc80SIhIAZVDAf5ep5ng+fKQDIUZn0=;
-        b=FQcPl/t7a/GOEWg2IX2+fRwemT48CgFkO8hDotfuxHWwOFiouqFlZhwMqTrjDY7BIA
-         SbbxABxqfDyDrZf63nhgfqz/Tizh3SJQRwIVfMhVz+aTxxKnDeAK+EiJIpLgIAppl3X2
-         qZrGbYwMlCT+aPUASE+EqDniJmNTue4quM3JyfDbB71PrcdCsATYitqt0RmQ9DcZ7M0O
-         M8HBkwZ3dO7Fa9CbVf5BLQWvNoYIKvuex4+aXFRUd4SobMEraKM2Td3qJCLJXab7QNi/
-         i+xFUJNeKPApn0ztOli+dXdJndOYmJAnkRoh4QA7cJXf9HW9WT+Dzex9vfSVBloJFBNf
-         fFvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702976729; x=1703581529;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2RLnTM9hjajMKJc80SIhIAZVDAf5ep5ng+fKQDIUZn0=;
-        b=aqiL8D0PkobYP/GMg/v518ugRI7NWz4fXekATE0+zIG2uTMr/mD1+06nQvPCqTh/Tg
-         5APUQYb9oUXUWXiqeE5d8U3xKfok6fbfHy+CJ4kbkML6phyPOjTeHMYhULF2ya6px+LA
-         viqQFSNrB9l3emwWZ+GB1FteKhvGyyiLbkWKfuoul1ms3ElfoMJGRM4njfcf+nXXBSDw
-         CwsWFB6hkBm2GS2Wdocubo6Ari5Mdb59uJF3WFzs7ib7QafokBhIu1wrwK3uDJISt0Fm
-         jzfAMAbpjBHnhLgxw5v95wf5q5fy9NywC5YBK6tq6+LJfEbIE2A4MjQTaaZTZGL47lhg
-         hviw==
-X-Gm-Message-State: AOJu0Yw8dZI1X+2R+Awf/q3GF5gpD4KIqnVy9QjYf8E9VfHN9pxX8OIC
-	ISViF5gViMEk16eg1ZncHqLTW36Azq1IMSiI
-X-Google-Smtp-Source: AGHT+IFkYSThzHRmS+ABfRivKweFLWfSt7k8iCk93TjRMJ1uIzXqKP9fmwKO9VZIttBc2pAB8jYolQ==
-X-Received: by 2002:a17:90a:f98d:b0:28b:bc34:edb4 with SMTP id cq13-20020a17090af98d00b0028bbc34edb4mr750814pjb.10.1702976729011;
-        Tue, 19 Dec 2023 01:05:29 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:581e:798e:871c:98db:5638:a4])
-        by smtp.gmail.com with ESMTPSA id f4-20020a17090aec8400b0028bbd9872d5sm806776pjy.12.2023.12.19.01.05.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 01:05:28 -0800 (PST)
-From: Anshul Dalal <anshulusr@gmail.com>
+	Tue, 19 Dec 2023 13:02:45 +0000 (UTC)
+Received: from mail.subdimension.ro (unknown [IPv6:2a01:7e01:e001:1d1::2])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id F1C064098F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Dec 2023 13:02:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F1C064098F
+Received: from localhost.localdomain (unknown [188.24.94.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.subdimension.ro (Postfix) with ESMTPSA id 8720728B538;
+	Tue, 19 Dec 2023 13:02:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
+	s=skycaves; t=1702990961;
+	bh=4bK2V3kb7TBdDicl8Aw4xuY1tgwPNmoDdxc6Bayl400=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=W2nsSUMYMnOWAI03305s0KhwOJDTIYVozOhij181oBgbV1KJWi6nvt3jyjb3rFkJq
+	 rXzHGB+/azijD3ZUYcW6S8V7hXoRD4/6gtAy9aCmfOUnQGOGsyZwCL0w8pxvrF60cr
+	 qVuK2az3RrlfmyYeGEcc9CsLY8L1KfhfxlxAFf2A=
+From: Petre Rodan <petre.rodan@subdimension.ro>
 To: linux-kernel@vger.kernel.org,
 	linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org
-Cc: Anshul Dalal <anshulusr@gmail.com>,
+Cc: Petre Rodan <petre.rodan@subdimension.ro>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Rob Herring <robh+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v4 2/2] iio: dac: driver for MCP4821
-Date: Tue, 19 Dec 2023 14:32:51 +0530
-Message-ID: <20231219090252.818754-2-anshulusr@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231219090252.818754-1-anshulusr@gmail.com>
-References: <20231219090252.818754-1-anshulusr@gmail.com>
+	Jonathan Cameron <jic23@kernel.org>
+Subject: [PATCH 1/2] dt-bindings: iio: pressure: honeywell,mprls0025pa
+Date: Tue, 19 Dec 2023 15:02:20 +0200
+Message-ID: <20231219130230.32584-2-petre.rodan@subdimension.ro>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231219130230.32584-1-petre.rodan@subdimension.ro>
+References: <20231219130230.32584-1-petre.rodan@subdimension.ro>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -85,361 +61,119 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds driver for the MCP48xx series of DACs.
+ChangeLog
+ - add honeywell,pressure-triplet property that autoconfigures pmin, pmax
+    just like the hsc030pa sensor driver
+ - add support for spi-based sensors
 
-Device uses a simplex SPI channel. To set the value of an output channel,
-a 16-bit data of following format must be written:
-
-Bit field | Description
-15 [MSB]  | Channel selection bit
-            0 -> Channel A
-            1 -> Channel B
-13        | Output Gain Selection bit
-            0 -> 2x Gain (Vref = 4.096V)
-            1 -> 1x Gain (Vref = 2.048V)
-12        | Output Shutdown Control bit
-            0 -> Shutdown the selected channel
-            1 -> Active mode operation
-11-0 [LSB]| DAC Input Data bits
-            Value's big endian representation is taken as input for the
-            selected DAC channel. For devices with a resolution of less
-            than 12-bits, only the x most significant bits are considered
-            where x is the resolution of the device.
-Reference: Page#22 [MCP48x2 Datasheet]
-
-Supported devices:
-  +---------+--------------+-------------+
-  | Device  |  Resolution  |   Channels  |
-  |---------|--------------|-------------|
-  | MCP4801 |     8-bit    |      1      |
-  | MCP4802 |     8-bit    |      2      |
-  | MCP4811 |    10-bit    |      1      |
-  | MCP4812 |    10-bit    |      2      |
-  | MCP4821 |    12-bit    |      1      |
-  | MCP4822 |    12-bit    |      2      |
-  +---------+--------------+-------------+
-
-Devices tested:
-  MCP4821 [12-bit single channel]
-  MCP4802 [8-bit dual channel]
-
-Tested on Raspberry Pi Zero 2W
-
-Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf #MCP48x1
-Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf #MCP48x2
-Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-
+Datasheet:
+https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/micropressure-mpr-series/documents/sps-siot-mpr-series-datasheet-32332628-ciid-172626.pdf
+Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
 ---
+ .../iio/pressure/honeywell,mprls0025pa.yaml   | 60 ++++++++++++++++---
+ 1 file changed, 52 insertions(+), 8 deletions(-)
 
-Changes for v3,4:
-- no updates
-
-Changes for v2:
-- Changed device ordering to numerical
-- Fixed ordering of headers
-- Added struct mcp4821_chip_info instead of relying on driver_data from
-  spi device ids
-- Use scoped_guards for all mutex locks
-- Changed write_val from __be16 to u16 in mcp4821_write_raw
-  Fixes sparse warning: incorrect type in assignment
-
-Previous versions:
-v3: https://lore.kernel.org/lkml/20231218164735.787199-2-anshulusr@gmail.com/
-v2: https://lore.kernel.org/lkml/20231217180836.584828-2-anshulusr@gmail.com/
-v1: https://lore.kernel.org/lkml/20231117073040.685860-2-anshulusr@gmail.com/
----
- MAINTAINERS               |   7 ++
- drivers/iio/dac/Kconfig   |  10 ++
- drivers/iio/dac/Makefile  |   1 +
- drivers/iio/dac/mcp4821.c | 228 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 246 insertions(+)
- create mode 100644 drivers/iio/dac/mcp4821.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 81d5fc0bba68..8d9274c33c6e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13029,6 +13029,13 @@ F:	Documentation/ABI/testing/sysfs-bus-iio-potentiometer-mcp4531
- F:	drivers/iio/potentiometer/mcp4018.c
- F:	drivers/iio/potentiometer/mcp4531.c
+diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
+index d9e903fbfd99..7c4be2dec174 100644
+--- a/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
++++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
+@@ -53,33 +53,59 @@ properties:
+   honeywell,pmin-pascal:
+     description:
+       Minimum pressure value the sensor can measure in pascal.
++      To be specified only if honeywell,pressure-triplet is set to "NA".
  
-+MCP4821 DAC DRIVER
-+M:	Anshul Dalal <anshulusr@gmail.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
-+F:	drivers/iio/dac/mcp4821.c
-+
- MCR20A IEEE-802.15.4 RADIO DRIVER
- M:	Stefan Schmidt <stefan@datenfreihafen.org>
- L:	linux-wpan@vger.kernel.org
-diff --git a/drivers/iio/dac/Kconfig b/drivers/iio/dac/Kconfig
-index 93b8be183de6..34eb40bb9529 100644
---- a/drivers/iio/dac/Kconfig
-+++ b/drivers/iio/dac/Kconfig
-@@ -400,6 +400,16 @@ config MCP4728
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called mcp4728.
+   honeywell,pmax-pascal:
+     description:
+       Maximum pressure value the sensor can measure in pascal.
++      To be specified only if honeywell,pressure-triplet is set to "NA".
  
-+config MCP4821
-+	tristate "MCP4801/02/11/12/21/22 DAC driver"
-+	depends on SPI
-+	help
-+	  Say yes here to build the driver for the Microchip MCP4801
-+	  MCP4802, MCP4811, MCP4812, MCP4821 and MCP4822 DAC devices.
+   honeywell,transfer-function:
+     description: |
+-      Transfer function which defines the range of valid values delivered by the
+-      sensor.
++      Transfer function which defines the range of valid values delivered by
++      the sensor.
+       1 - A, 10% to 90% of 2^24 (1677722 .. 15099494)
+       2 - B, 2.5% to 22.5% of 2^24 (419430 .. 3774874)
+       3 - C, 20% to 80% of 2^24 (3355443 .. 13421773)
++    enum: [1, 2, 3]
+     $ref: /schemas/types.yaml#/definitions/uint32
+ 
++  honeywell,pressure-triplet:
++    description: |
++      Case-sensitive five character string that defines pressure range, unit
++      and type as part of the device nomenclature. In the unlikely case of a
++      custom chip, set to "NA" and provide pmin-pascal and pmax-pascal.
++    enum: [0001BA, 01.6BA, 02.5BA, 0060MG, 0100MG, 0160MG, 0250MG, 0400MG,
++           0600MG, 0001BG, 01.6BG, 02.5BG, 0100KA, 0160KA, 0250KA, 0006KG,
++           0010KG, 0016KG, 0025KG, 0040KG, 0060KG, 0100KG, 0160KG, 0250KG,
++           0015PA, 0025PA, 0030PA, 0001PG, 0005PG, 0015PG, 0030PG, 0300YG,
++           NA]
++    $ref: /schemas/types.yaml#/definitions/string
 +
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called mcp4821.
++  spi-max-frequency:
++    maximum: 800000
 +
- config MCP4922
- 	tristate "MCP4902, MCP4912, MCP4922 DAC driver"
- 	depends on SPI
-diff --git a/drivers/iio/dac/Makefile b/drivers/iio/dac/Makefile
-index 5b2bac900d5a..55bf89739d14 100644
---- a/drivers/iio/dac/Makefile
-+++ b/drivers/iio/dac/Makefile
-@@ -42,6 +42,7 @@ obj-$(CONFIG_MAX5522) += max5522.o
- obj-$(CONFIG_MAX5821) += max5821.o
- obj-$(CONFIG_MCP4725) += mcp4725.o
- obj-$(CONFIG_MCP4728) += mcp4728.o
-+obj-$(CONFIG_MCP4821) += mcp4821.o
- obj-$(CONFIG_MCP4922) += mcp4922.o
- obj-$(CONFIG_STM32_DAC_CORE) += stm32-dac-core.o
- obj-$(CONFIG_STM32_DAC) += stm32-dac.o
-diff --git a/drivers/iio/dac/mcp4821.c b/drivers/iio/dac/mcp4821.c
-new file mode 100644
-index 000000000000..7384df71f702
---- /dev/null
-+++ b/drivers/iio/dac/mcp4821.c
-@@ -0,0 +1,228 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
-+ *
-+ * Driver for Microchip MCP4801, MCP4802, MCP4811, MCP4812, MCP4821 and MCP4822
-+ *
-+ * Based on the work of:
-+ *	Michael Welling (MCP4922 Driver)
-+ *
-+ * Datasheet:
-+ *	MCP48x1: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf
-+ *	MCP48x2: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf
-+ *
-+ * TODO:
-+ *	- Configurable gain
-+ *	- Regulator control
-+ */
+   vdd-supply:
+     description: provide VDD power to the sensor.
+ 
+ required:
+   - compatible
+   - reg
+-  - honeywell,pmin-pascal
+-  - honeywell,pmax-pascal
++  - honeywell,pressure-triplet
+   - honeywell,transfer-function
+-  - vdd-supply
+ 
+ additionalProperties: false
+ 
++dependentSchemas:
++  honeywell,pmin-pascal:
++    properties:
++      honeywell,pressure-triplet:
++        const: NA
++  honeywell,pmax-pascal:
++    properties:
++      honeywell,pressure-triplet:
++        const: NA
 +
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/spi/spi.h>
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+@@ -93,10 +119,28 @@ examples:
+             reg = <0x18>;
+             reset-gpios = <&gpio3 19 GPIO_ACTIVE_HIGH>;
+             interrupt-parent = <&gpio3>;
+-            interrupts = <21 IRQ_TYPE_EDGE_FALLING>;
+-            honeywell,pmin-pascal = <0>;
+-            honeywell,pmax-pascal = <172369>;
++            interrupts = <21 IRQ_TYPE_EDGE_RISING>;
 +
-+#include <linux/iio/iio.h>
-+#include <linux/iio/types.h>
++            honeywell,pressure-triplet = "0025PA";
+             honeywell,transfer-function = <1>;
+             vdd-supply = <&vcc_3v3>;
+         };
+     };
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
 +
-+#include <asm/unaligned.h>
++        pressure@0 {
++            compatible = "honeywell,mprls0025pa";
++            reg = <0>;
++            spi-max-frequency = <800000>;
++            reset-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
++            interrupt-parent = <&gpio0>;
++            interrupts = <30 IRQ_TYPE_EDGE_RISING>;
 +
-+#define MCP4821_ACTIVE_MODE BIT(12)
-+#define MCP4802_SECOND_CHAN BIT(15)
-+
-+/* DAC uses an internal Voltage reference of 4.096V at a gain of 2x */
-+#define MCP4821_2X_GAIN_VREF_MV 4096
-+
-+enum mcp4821_supported_drvice_ids {
-+	ID_MCP4801,
-+	ID_MCP4802,
-+	ID_MCP4811,
-+	ID_MCP4812,
-+	ID_MCP4821,
-+	ID_MCP4822,
-+};
-+
-+struct mcp4821_state {
-+	struct spi_device *spi;
-+	// Protects dac_value
-+	struct mutex lock;
-+	u16 dac_value[2];
-+};
-+
-+struct mcp4821_chip_info {
-+	const char *name;
-+	int num_channels;
-+	const struct iio_chan_spec channels[2];
-+};
-+
-+#define MCP4821_CHAN(channel_id, resolution)                          \
-+	{                                                             \
-+		.type = IIO_VOLTAGE, .output = 1, .indexed = 1,       \
-+		.channel = (channel_id),                              \
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),         \
-+		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE), \
-+		.scan_type = {                                        \
-+			.sign = 'u',                                  \
-+			.realbits = (resolution),                     \
-+			.storagebits = 16,                            \
-+			.shift = 12 - (resolution),                   \
-+		},                                                    \
-+	}
-+
-+static const struct mcp4821_chip_info mcp4821_chip_info_table[6] = {
-+	[ID_MCP4801] = {
-+			.name = "mcp4801",
-+			.num_channels = 1,
-+			.channels = { MCP4821_CHAN(0, 8) }
-+			},
-+	[ID_MCP4802] = {
-+			.name = "mcp4802",
-+			.num_channels = 2,
-+			.channels = { MCP4821_CHAN(0, 8),
-+				       MCP4821_CHAN(1, 8) }
-+			},
-+	[ID_MCP4811] = {
-+			.name = "mcp4811",
-+			.num_channels = 1,
-+			.channels = { MCP4821_CHAN(0, 10) }
-+			},
-+	[ID_MCP4812] = {
-+			.name = "mcp4812",
-+			.num_channels = 2,
-+			.channels = { MCP4821_CHAN(0, 10),
-+				       MCP4821_CHAN(1, 10) }
-+			},
-+	[ID_MCP4821] = {
-+			.name = "mcp4821",
-+			.num_channels = 1,
-+			.channels = { MCP4821_CHAN(0, 12) }
-+			},
-+	[ID_MCP4822] = {
-+			.name = "mcp4822",
-+			.num_channels = 2,
-+			.channels = { MCP4821_CHAN(0, 12),
-+				       MCP4821_CHAN(1, 12) }
-+			},
-+};
-+
-+static int mcp4821_read_raw(struct iio_dev *indio_dev,
-+			    struct iio_chan_spec const *chan, int *val,
-+			    int *val2, long mask)
-+{
-+	struct mcp4821_state *state;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW:
-+		state = iio_priv(indio_dev);
-+		scoped_guard(mutex, &state->lock)
-+			*val = state->dac_value[chan->channel];
-+		return IIO_VAL_INT;
-+	case IIO_CHAN_INFO_SCALE:
-+		*val = MCP4821_2X_GAIN_VREF_MV;
-+		*val2 = chan->scan_type.realbits;
-+		return IIO_VAL_FRACTIONAL_LOG2;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int mcp4821_write_raw(struct iio_dev *indio_dev,
-+			     struct iio_chan_spec const *chan, int val,
-+			     int val2, long mask)
-+{
-+	struct mcp4821_state *state;
-+	u16 write_val;
-+	__be16 write_buffer;
-+	int ret;
-+	bool is_value_valid = val >= 0 && val < BIT(chan->scan_type.realbits) &&
-+			      val2 == 0;
-+
-+	if (!is_value_valid)
-+		return -EINVAL;
-+	if (mask != IIO_CHAN_INFO_RAW)
-+		return -EINVAL;
-+
-+	state = iio_priv(indio_dev);
-+	write_val = MCP4821_ACTIVE_MODE | val << chan->scan_type.shift;
-+	if (chan->channel)
-+		write_val |= MCP4802_SECOND_CHAN;
-+	put_unaligned_be16(write_val, &write_buffer);
-+	ret = spi_write(state->spi, &write_buffer, sizeof(write_buffer));
-+	if (ret) {
-+		dev_err(&state->spi->dev, "Failed to write to device: %d", ret);
-+		return ret;
-+	}
-+
-+	scoped_guard(mutex, &state->lock)
-+		state->dac_value[chan->channel] = val;
-+	return 0;
-+}
-+
-+static const struct iio_info mcp4821_info = {
-+	.read_raw = &mcp4821_read_raw,
-+	.write_raw = &mcp4821_write_raw,
-+};
-+
-+static int mcp4821_probe(struct spi_device *spi)
-+{
-+	struct iio_dev *indio_dev;
-+	struct mcp4821_state *state;
-+	const struct mcp4821_chip_info *info;
-+
-+	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*state));
-+	if (indio_dev == NULL)
-+		return -ENOMEM;
-+
-+	state = iio_priv(indio_dev);
-+	state->spi = spi;
-+	mutex_init(&state->lock);
-+
-+	info = spi_get_device_match_data(spi);
-+	indio_dev->name = info->name;
-+	indio_dev->info = &mcp4821_info;
-+	indio_dev->modes = INDIO_DIRECT_MODE;
-+	indio_dev->channels = info->channels;
-+	indio_dev->num_channels = info->num_channels;
-+	return devm_iio_device_register(&spi->dev, indio_dev);
-+}
-+
-+#define MCP4821_COMPATIBLE(of_compatible, id)        \
-+	{                                            \
-+		.compatible = of_compatible,         \
-+		.data = &mcp4821_chip_info_table[id] \
-+	}
-+
-+static const struct of_device_id mcp4821_of_table[] = {
-+	MCP4821_COMPATIBLE("microchip,mcp4801", ID_MCP4801),
-+	MCP4821_COMPATIBLE("microchip,mcp4802", ID_MCP4802),
-+	MCP4821_COMPATIBLE("microchip,mcp4811", ID_MCP4811),
-+	MCP4821_COMPATIBLE("microchip,mcp4812", ID_MCP4812),
-+	MCP4821_COMPATIBLE("microchip,mcp4821", ID_MCP4821),
-+	MCP4821_COMPATIBLE("microchip,mcp4822", ID_MCP4822),
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, mcp4821_of_table);
-+
-+static const struct spi_device_id mcp4821_id_table[] = {
-+	{ "mcp4801", (kernel_ulong_t)&mcp4821_chip_info_table[ID_MCP4801]},
-+	{ "mcp4802", (kernel_ulong_t)&mcp4821_chip_info_table[ID_MCP4802]},
-+	{ "mcp4811", (kernel_ulong_t)&mcp4821_chip_info_table[ID_MCP4811]},
-+	{ "mcp4812", (kernel_ulong_t)&mcp4821_chip_info_table[ID_MCP4812]},
-+	{ "mcp4821", (kernel_ulong_t)&mcp4821_chip_info_table[ID_MCP4821]},
-+	{ "mcp4822", (kernel_ulong_t)&mcp4821_chip_info_table[ID_MCP4822]},
-+	{ /* Sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(spi, mcp4821_id_table);
-+
-+static struct spi_driver mcp4821_driver = {
-+	.driver = {
-+		.name = "mcp4821",
-+		.of_match_table = mcp4821_of_table,
-+	},
-+	.probe = mcp4821_probe,
-+	.id_table = mcp4821_id_table,
-+};
-+module_spi_driver(mcp4821_driver);
-+
-+MODULE_AUTHOR("Anshul Dalal <anshulusr@gmail.com>");
-+MODULE_DESCRIPTION("Microchip MCP4821 DAC Driver");
-+MODULE_LICENSE("GPL");
++            honeywell,pressure-triplet = "0015PA";
++            honeywell,transfer-function = <1>;
++        };
++    };
++...
 -- 
-2.43.0
+2.41.0
 
