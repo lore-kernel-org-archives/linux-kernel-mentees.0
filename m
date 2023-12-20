@@ -1,96 +1,279 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CBF39ADC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 13:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D26C38FBF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:23:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgA9jFD5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rIcnAC2v"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 92396810AA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 13:58:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 92396810AA
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=mgA9jFD5
+	by smtp2.osuosl.org (Postfix) with ESMTP id 82709404FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:23:44 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 82709404FE
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=rIcnAC2v
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id nMV2ISSrqXQo
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aX4Ik875ZGVF
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 20 Dec 2023 13:58:29 +0000 (UTC)
+	Wed, 20 Dec 2023 14:23:43 +0000 (UTC)
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AABB481091
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 13:58:29 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AABB481091
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7884043662
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:23:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7884043662
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 9B3D4615C4;
-	Wed, 20 Dec 2023 13:58:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA80C433C8;
-	Wed, 20 Dec 2023 13:58:27 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 91AE56164F;
+	Wed, 20 Dec 2023 14:23:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A75C7C433C7;
+	Wed, 20 Dec 2023 14:23:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703080708;
-	bh=siuPVaQbyp9Y+DByvHYZF7aijD5vvRxGyIuV/JOPGN8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mgA9jFD5LL9kzW35wjHfO1U3CHYJw9R2Jft5l4/Wt57hFkdnWw7aXEgLRTjjJzhqJ
-	 mhfLBCpI0Y54M6Lg5boqQpRylW9xx4yC84/MOfVDEWctvaQG7B/A3oZdonxQltyDBJ
-	 UPsAoLQOLiP3VogNXjIfbzBhNO0y7b77eiQzRZU6pEHgMECZBavQhhVxE+7fnIjglW
-	 As6IK8oL1WBTvpEnN+L1s61ZDS3JRfFzEFw2Voh/wmy8BrbI+4vVnfjvWlTVMbO0Qr
-	 1ynjAVjlSD9lKwrMGG/xX6lg6wKqynZYIqgtPHta8W/z88wIkk1Plh5awJWRPXa6Nr
-	 /+rVQAEX/qjqg==
-Received: (nullmailer pid 116540 invoked by uid 1000);
-	Wed, 20 Dec 2023 13:58:26 -0000
-Date: Wed, 20 Dec 2023 07:58:26 -0600
-From: Rob Herring <robh@kernel.org>
+	s=k20201202; t=1703082222;
+	bh=b23XVGoTRCwlUJUHTcAJAYOiRsE9M2whf1frNvIcKcQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rIcnAC2vCYXfrZTmM7pKqz84r6GVLJ+T0cDHNYXWpOIRfGHvwwpKwAtozbSRgl150
+	 PRPn2F1UIx72z1u/N1pTm2D8Upjhs8yH+Y9t9LkgL9Idwp3ithTIIL9vyNizDUPj+1
+	 yWKG3Y8aXNJ+dGgzg+/gCZ9kb94OvgKNXXCDtL8wKgn7itn+sZEgUyDnkUIqZ2xVn4
+	 NEj20kv9t1EGyrnUwQUWtCaH/QIXsw8hZUOmeyLcSaFKJFsISt/pHXpVttKsUwwrTS
+	 Z/UkBQBiyNXrwZtG7oXT18wicqK5a5b+SB2whoryPLdNnEQuDZ0OEw98+VtIPSy5as
+	 2zcj3JZDLiCHg==
+Date: Wed, 20 Dec 2023 14:23:26 +0000
+From: Jonathan Cameron <jic23@kernel.org>
 To: Anshul Dalal <anshulusr@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, devicetree@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, Shuah Khan <skhan@linuxfoundation.org>, Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: iio: dac: add MCP4821
-Message-ID: <170308069917.116385.808780928089948753.robh@kernel.org>
-References: <20231219090252.818754-1-anshulusr@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org, Shuah Khan
+ <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v2 2/2] iio: dac: driver for MCP4821
+Message-ID: <20231220142326.138763a4@jic23-huawei>
+In-Reply-To: <20231217180836.584828-2-anshulusr@gmail.com>
+References: <20231217180836.584828-1-anshulusr@gmail.com>
+	<20231217180836.584828-2-anshulusr@gmail.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231219090252.818754-1-anshulusr@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sun, 17 Dec 2023 23:38:34 +0530
+Anshul Dalal <anshulusr@gmail.com> wrote:
 
-On Tue, 19 Dec 2023 14:32:50 +0530, Anshul Dalal wrote:
-> Adds support for MCP48xx series of DACs.
+> Adds driver for the MCP48xx series of DACs.
+> 
+> Device uses a simplex SPI channel. To set the value of an output channel,
+> a 16-bit data of following format must be written:
+> 
+> Bit field | Description
+> 15 [MSB]  | Channel selection bit
+>             0 -> Channel A
+>             1 -> Channel B
+> 13        | Output Gain Selection bit
+>             0 -> 2x Gain (Vref = 4.096V)
+>             1 -> 1x Gain (Vref = 2.048V)
+> 12        | Output Shutdown Control bit
+>             0 -> Shutdown the selected channel
+>             1 -> Active mode operation
+> 11-0 [LSB]| DAC Input Data bits
+>             Value's big endian representation is taken as input for the
+>             selected DAC channel. For devices with a resolution of less
+>             than 12-bits, only the x most significant bits are considered
+>             where x is the resolution of the device.
+> Reference: Page#22 [MCP48x2 Datasheet]
+> 
+> Supported devices:
+>   +---------+--------------+-------------+
+>   | Device  |  Resolution  |   Channels  |
+>   |---------|--------------|-------------|
+>   | MCP4801 |     8-bit    |      1      |
+>   | MCP4802 |     8-bit    |      2      |
+>   | MCP4811 |    10-bit    |      1      |
+>   | MCP4812 |    10-bit    |      2      |
+>   | MCP4821 |    12-bit    |      1      |
+>   | MCP4822 |    12-bit    |      2      |
+>   +---------+--------------+-------------+
+> 
+> Devices tested:
+>   MCP4821 [12-bit single channel]
+>   MCP4802 [8-bit dual channel]
+> 
+> Tested on Raspberry Pi Zero 2W
 > 
 > Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf #MCP48x1
 > Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf #MCP48x2
 > Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
 > 
-> ---
-> 
-> Changes for v4:
-> - Removed 'Reviewed-by: Conor Dooley' due to changes
-> - Renamed shdn-gpios to powerdown-gpios to conform to
->   gpio-consumer-common.yaml
-> 
-> Changes for v3:
-> - Added gpios for ldac and shutdown pins
-> - Added spi-cpha and spi-cpol for the SPI mode 0 and 3
-> 
-> Changes for v2:
-> - Changed order in device table to numerical
-> - Made vdd_supply required
-> - Added 'Reviewed-by: Conor Dooley'
-> 
-> Previous versions:
-> v3: https://lore.kernel.org/lkml/20231218164735.787199-1-anshulusr@gmail.com/
-> v2: https://lore.kernel.org/lkml/20231217180836.584828-1-anshulusr@gmail.com/
-> v1: https://lore.kernel.org/lkml/20231117073040.685860-1-anshulusr@gmail.com/
-> ---
->  .../bindings/iio/dac/microchip,mcp4821.yaml   | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/dac/microchip,mcp4821.yaml
-> 
+>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Hi Anshul,
 
+Various minor comments inline.
+
+Thanks,
+
+Jonathan
+
+> diff --git a/drivers/iio/dac/mcp4821.c b/drivers/iio/dac/mcp4821.c
+> new file mode 100644
+> index 000000000000..7384df71f702
+> --- /dev/null
+> +++ b/drivers/iio/dac/mcp4821.c
+> @@ -0,0 +1,228 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2023 Anshul Dalal <anshulusr@gmail.com>
+> + *
+> + * Driver for Microchip MCP4801, MCP4802, MCP4811, MCP4812, MCP4821 and MCP4822
+> + *
+> + * Based on the work of:
+> + *	Michael Welling (MCP4922 Driver)
+> + *
+> + * Datasheet:
+> + *	MCP48x1: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf
+> + *	MCP48x2: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf
+> + *
+> + * TODO:
+> + *	- Configurable gain
+> + *	- Regulator control
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/of.h>
+> +#include <linux/spi/spi.h>
+> +
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/types.h>
+> +
+> +#include <asm/unaligned.h>
+> +
+> +#define MCP4821_ACTIVE_MODE BIT(12)
+> +#define MCP4802_SECOND_CHAN BIT(15)
+> +
+> +/* DAC uses an internal Voltage reference of 4.096V at a gain of 2x */
+> +#define MCP4821_2X_GAIN_VREF_MV 4096
+> +
+> +enum mcp4821_supported_drvice_ids {
+> +	ID_MCP4801,
+> +	ID_MCP4802,
+> +	ID_MCP4811,
+> +	ID_MCP4812,
+> +	ID_MCP4821,
+> +	ID_MCP4822,
+> +};
+> +
+> +struct mcp4821_state {
+> +	struct spi_device *spi;
+> +	// Protects dac_value
+/* Protects dac_value */
+
+However I'm not clear why a u16 array needs protecting?
+Whilst in theory the compiler might be annoying and do torn writes
+(write it as 2 1 byte values) that's pretty unlikely and
+we don't normally bother to protect against that.
+
+> +	struct mutex lock;
+> +	u16 dac_value[2];
+> +};
+> +
+> +struct mcp4821_chip_info {
+> +	const char *name;
+> +	int num_channels;
+> +	const struct iio_chan_spec channels[2];
+> +};
+> +
+> +#define MCP4821_CHAN(channel_id, resolution)                          \
+> +	{                                                             \
+> +		.type = IIO_VOLTAGE, .output = 1, .indexed = 1,       \
+> +		.channel = (channel_id),                              \
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),         \
+> +		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE), \
+> +		.scan_type = {                                        \
+> +			.sign = 'u',                                  \
+
+Not used so don't bother setting it until you add buffered support.
+
+> +			.realbits = (resolution),                     \
+> +			.storagebits = 16,                            \
+
+Not used, so don't bother setting it.
+
+> +			.shift = 12 - (resolution),                   \
+> +		},                                                    \
+> +	}
+
+> +static int mcp4821_read_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan, int *val,
+> +			    int *val2, long mask)
+> +{
+> +	struct mcp4821_state *state;
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		state = iio_priv(indio_dev);
+> +		scoped_guard(mutex, &state->lock)
+> +			*val = state->dac_value[chan->channel];
+> +		return IIO_VAL_INT;
+> +	case IIO_CHAN_INFO_SCALE:
+> +		*val = MCP4821_2X_GAIN_VREF_MV;
+> +		*val2 = chan->scan_type.realbits;
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int mcp4821_write_raw(struct iio_dev *indio_dev,
+> +			     struct iio_chan_spec const *chan, int val,
+> +			     int val2, long mask)
+> +{
+> +	struct mcp4821_state *state;
+> +	u16 write_val;
+> +	__be16 write_buffer;
+> +	int ret;
+> +	bool is_value_valid = val >= 0 && val < BIT(chan->scan_type.realbits) &&
+> +			      val2 == 0;
+> +
+> +	if (!is_value_valid)
+
+Check the opposite and drop the local variable that adds nothing.
+
+	if ((val < 0) || (val >= BIT(chan_type).realbits)) || (val2 != 0))
+or split it up into checks on val2 in one check then on val in the other.
+ 
+> +		return -EINVAL;
+> +	if (mask != IIO_CHAN_INFO_RAW)
+> +		return -EINVAL;
+> +
+> +	state = iio_priv(indio_dev);
+I'd do this at point of local variable declaration above.
+
+struct mcp4821_state *state = iio_priv(indio_dev);
+
+> +	write_val = MCP4821_ACTIVE_MODE | val << chan->scan_type.shift;
+> +	if (chan->channel)
+> +		write_val |= MCP4802_SECOND_CHAN;
+> +	put_unaligned_be16(write_val, &write_buffer);
+It's aligned given it's a __be16
+
+> +	ret = spi_write(state->spi, &write_buffer, sizeof(write_buffer));
+> +	if (ret) {
+> +		dev_err(&state->spi->dev, "Failed to write to device: %d", ret);
+> +		return ret;
+> +	}
+> +
+> +	scoped_guard(mutex, &state->lock)
+> +		state->dac_value[chan->channel] = val;
+
+> +	return 0;
+> +}
+> +
+
+Jonathan
