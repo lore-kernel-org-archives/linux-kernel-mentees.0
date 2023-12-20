@@ -1,45 +1,45 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E602939AF7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:26:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE5C3EA92
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lME0Uujr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxWsQQdj"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 65807418ED
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:26:58 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 65807418ED
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=lME0Uujr
+	by smtp3.osuosl.org (Postfix) with ESMTP id 97FB761055
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:49:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 97FB761055
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cxWsQQdj
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DYjzT7kaSvaV
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id V8xMDGmTuk8W
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 20 Dec 2023 14:26:57 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6FEBB4189E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:26:57 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6FEBB4189E
+	Wed, 20 Dec 2023 14:49:07 +0000 (UTC)
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 905C561048
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:49:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 905C561048
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id BFCB5B81D76;
-	Wed, 20 Dec 2023 14:26:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46C9BC433C7;
-	Wed, 20 Dec 2023 14:26:49 +0000 (UTC)
+	by ams.source.kernel.org (Postfix) with ESMTP id 76700B81D92;
+	Wed, 20 Dec 2023 14:49:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F5FC433C8;
+	Wed, 20 Dec 2023 14:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703082414;
-	bh=ACSAlCfkl6Oembs96AIka+WCm/EX8xaNKzVQV9k6Pgk=;
+	s=k20201202; t=1703083744;
+	bh=Zpqr2IduaIi/eJ/LAgUU9AcGnT1pYkcj9gSp3Y9liBQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lME0Uujr7IM1G7b832SNrxZn18Q9EY0WAkvH4/aZq74jJNTpCH3Sde26A6MBnScZU
-	 q7h0NsgVhA+Pdir/XPdD4lfhR8BuaPlwFDS2Gb9tSYY/l6Bco5D8frPQL2CtkRQWH/
-	 bvqB7vG/uCOCtQN4soc/yxWUyJH5r/dsIcaypdv94EW9XCyOffxM9/GpYRgjWArxUc
-	 xDypCsQt50Yeh5VyUhCY4P4+IJyy+OqUIJevpAUMO/OTXImTZLtB2CvFVWKKk3sE+5
-	 vdSmra5TM4UKRhy1frsuR9MQ6i02jx6WcceU2I7MDzmDXs7gE4IP+j02dMYSUv4f09
-	 Qb6ZECqksBm/g==
-Date: Wed, 20 Dec 2023 14:26:38 +0000
+	b=cxWsQQdjxVAgGtLFajkjfRxEgGKU0IxwFKluuoVH+lIwLTGobBcQSdLuaxKRJQJYr
+	 tPXBZMkWos12ATD7kurnjiawElKvVNjngtlOkI9qF68mVExoym4AKyDstMSbaEJq9A
+	 sSQ1mcLeiaqJgJg801kSvb5adToVQtt9sAJMssLXzR+mYZ4aFXe5WQnSZt/vF6Y6/r
+	 PN0TI3kEZmmbJAk+L+K0sb8W6xvMV/9gPME+/YFkWLf3LzQZMxqTm4vnzPvEH2ZwwZ
+	 S/ASyHQS0LPmKoWE2K7jujnSJzEhsOYJIHmRqt9IGUMfFMDPPXRyiLZIYBlLMkhpwd
+	 VULPoB4hOcvlw==
+Date: Wed, 20 Dec 2023 14:48:49 +0000
 From: Jonathan Cameron <jic23@kernel.org>
 To: Anshul Dalal <anshulusr@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
@@ -48,11 +48,11 @@ Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
  Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  linux-kernel-mentees@lists.linuxfoundation.org, Shuah Khan
  <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v3 2/2] iio: dac: driver for MCP4821
-Message-ID: <20231220142638.7739c5d7@jic23-huawei>
-In-Reply-To: <20231218164735.787199-2-anshulusr@gmail.com>
-References: <20231218164735.787199-1-anshulusr@gmail.com>
-	<20231218164735.787199-2-anshulusr@gmail.com>
+Subject: Re: [PATCH v4 2/2] iio: dac: driver for MCP4821
+Message-ID: <20231220144849.0189a16a@jic23-huawei>
+In-Reply-To: <20231219090252.818754-2-anshulusr@gmail.com>
+References: <20231219090252.818754-1-anshulusr@gmail.com>
+	<20231219090252.818754-2-anshulusr@gmail.com>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -63,7 +63,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 18 Dec 2023 22:17:34 +0530
+On Tue, 19 Dec 2023 14:32:51 +0530
 Anshul Dalal <anshulusr@gmail.com> wrote:
 
 > Adds driver for the MCP48xx series of DACs.
@@ -112,9 +112,6 @@ Anshul Dalal <anshulusr@gmail.com> wrote:
 > 
 > ---
 > 
-> Changes for v3:
+> Changes for v3,4:
 > - no updates
->
-Oops. I reviewed v2.  Please find comments there.
-
-Jonathan
+Comments were on v2 from me.  
