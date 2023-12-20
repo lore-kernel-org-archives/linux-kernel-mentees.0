@@ -1,58 +1,56 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE5C3EA92
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:49:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEA941C9D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 15:17:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxWsQQdj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YzUyk4tN"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 97FB761055
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:49:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 97FB761055
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cxWsQQdj
+	by smtp4.osuosl.org (Postfix) with ESMTP id 8C2FC41B23
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 15:17:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8C2FC41B23
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=YzUyk4tN
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id V8xMDGmTuk8W
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id h8bWo40YPlrk
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 20 Dec 2023 14:49:07 +0000 (UTC)
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 905C561048
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 14:49:07 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 905C561048
+	Wed, 20 Dec 2023 15:17:00 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 6111D41A06
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 15:17:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6111D41A06
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by ams.source.kernel.org (Postfix) with ESMTP id 76700B81D92;
-	Wed, 20 Dec 2023 14:49:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F5FC433C8;
-	Wed, 20 Dec 2023 14:49:00 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTP id 3654B616BC;
+	Wed, 20 Dec 2023 15:16:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14BCBC433CA;
+	Wed, 20 Dec 2023 15:16:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703083744;
-	bh=Zpqr2IduaIi/eJ/LAgUU9AcGnT1pYkcj9gSp3Y9liBQ=;
+	s=k20201202; t=1703085418;
+	bh=kbZ8Z22LWHTtUccjSUa1Yoqq/QsxCB9CBO/jZv+JC8k=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cxWsQQdjxVAgGtLFajkjfRxEgGKU0IxwFKluuoVH+lIwLTGobBcQSdLuaxKRJQJYr
-	 tPXBZMkWos12ATD7kurnjiawElKvVNjngtlOkI9qF68mVExoym4AKyDstMSbaEJq9A
-	 sSQ1mcLeiaqJgJg801kSvb5adToVQtt9sAJMssLXzR+mYZ4aFXe5WQnSZt/vF6Y6/r
-	 PN0TI3kEZmmbJAk+L+K0sb8W6xvMV/9gPME+/YFkWLf3LzQZMxqTm4vnzPvEH2ZwwZ
-	 S/ASyHQS0LPmKoWE2K7jujnSJzEhsOYJIHmRqt9IGUMfFMDPPXRyiLZIYBlLMkhpwd
-	 VULPoB4hOcvlw==
-Date: Wed, 20 Dec 2023 14:48:49 +0000
+	b=YzUyk4tNc1EhXC9S1JGsjUghj0ibkMs9QQsOwaK6bZpgHUUqpQ3DAuaKtxd2vNIEv
+	 nJbQrW3jwQ8sfcXhkueQl4LLVSmNmCyscYEQKP4cGpOY2taNAwYB9g/LGID4zL0a+8
+	 GyzmxZaX2pJER8NGIPTvyXo4i7HPmq2fgXGT5LI0goOkk62+zRi9E6f6mIaNu1448R
+	 1UUdn5exPf1ccKGyX34AZzITKnDN8qAPg6ZiBAOtJA4nSagEYXXeeMpHcod1DP+/VN
+	 qKXn8veGLyC06x4XTnhIaH1uuEyMU8Cq81oPtpCMv8Csy54ndeSc33rhJz0UJklBgZ
+	 b2mRO+L/fnApw==
+Date: Wed, 20 Dec 2023 15:16:45 +0000
 From: Jonathan Cameron <jic23@kernel.org>
-To: Anshul Dalal <anshulusr@gmail.com>
+To: Petre Rodan <petre.rodan@subdimension.ro>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
  devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel-mentees@lists.linuxfoundation.org, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v4 2/2] iio: dac: driver for MCP4821
-Message-ID: <20231220144849.0189a16a@jic23-huawei>
-In-Reply-To: <20231219090252.818754-2-anshulusr@gmail.com>
-References: <20231219090252.818754-1-anshulusr@gmail.com>
-	<20231219090252.818754-2-anshulusr@gmail.com>
+ Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH 1/2] dt-bindings: iio: pressure: honeywell,mprls0025pa
+Message-ID: <20231220151645.16ada807@jic23-huawei>
+In-Reply-To: <20231219130230.32584-2-petre.rodan@subdimension.ro>
+References: <20231219130230.32584-1-petre.rodan@subdimension.ro>
+	<20231219130230.32584-2-petre.rodan@subdimension.ro>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -63,55 +61,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Dec 2023 14:32:51 +0530
-Anshul Dalal <anshulusr@gmail.com> wrote:
+On Tue, 19 Dec 2023 15:02:20 +0200
+Petre Rodan <petre.rodan@subdimension.ro> wrote:
 
-> Adds driver for the MCP48xx series of DACs.
+> ChangeLog
+
+The whole patch description describes changes, so no need for a Changelog heading.
+
+>  - add honeywell,pressure-triplet property that autoconfigures pmin, pmax
+>     just like the hsc030pa sensor driver
+
+Why?  Needs an explanation of why this binding is better and easier to use
++ how backwards compatibility is maintained.
+
+>  - add support for spi-based sensors
 > 
-> Device uses a simplex SPI channel. To set the value of an output channel,
-> a 16-bit data of following format must be written:
-> 
-> Bit field | Description
-> 15 [MSB]  | Channel selection bit
->             0 -> Channel A
->             1 -> Channel B
-> 13        | Output Gain Selection bit
->             0 -> 2x Gain (Vref = 4.096V)
->             1 -> 1x Gain (Vref = 2.048V)
-> 12        | Output Shutdown Control bit
->             0 -> Shutdown the selected channel
->             1 -> Active mode operation
-> 11-0 [LSB]| DAC Input Data bits
->             Value's big endian representation is taken as input for the
->             selected DAC channel. For devices with a resolution of less
->             than 12-bits, only the x most significant bits are considered
->             where x is the resolution of the device.
-> Reference: Page#22 [MCP48x2 Datasheet]
-> 
-> Supported devices:
->   +---------+--------------+-------------+
->   | Device  |  Resolution  |   Channels  |
->   |---------|--------------|-------------|
->   | MCP4801 |     8-bit    |      1      |
->   | MCP4802 |     8-bit    |      2      |
->   | MCP4811 |    10-bit    |      1      |
->   | MCP4812 |    10-bit    |      2      |
->   | MCP4821 |    12-bit    |      1      |
->   | MCP4822 |    12-bit    |      2      |
->   +---------+--------------+-------------+
-> 
-> Devices tested:
->   MCP4821 [12-bit single channel]
->   MCP4802 [8-bit dual channel]
-> 
-> Tested on Raspberry Pi Zero 2W
-> 
-> Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/22244B.pdf #MCP48x1
-> Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/20002249B.pdf #MCP48x2
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> 
+Two things, two patches.
+
+> Datasheet:
+
+It's a formal tag, so no line break (Even if checkpatch complains!)
+
+> https://prod-edam.honeywell.com/content/dam/honeywell-edam/sps/siot/en-us/products/sensors/pressure-sensors/board-mount-pressure-sensors/micropressure-mpr-series/documents/sps-siot-mpr-series-datasheet-32332628-ciid-172626.pdf
+> Signed-off-by: Petre Rodan <petre.rodan@subdimension.ro>
 > ---
+>  .../iio/pressure/honeywell,mprls0025pa.yaml   | 60 ++++++++++++++++---
+>  1 file changed, 52 insertions(+), 8 deletions(-)
 > 
-> Changes for v3,4:
-> - no updates
-Comments were on v2 from me.  
+> diff --git a/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml b/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
+> index d9e903fbfd99..7c4be2dec174 100644
+> --- a/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
+> +++ b/Documentation/devicetree/bindings/iio/pressure/honeywell,mprls0025pa.yaml
+> @@ -53,33 +53,59 @@ properties:
+>    honeywell,pmin-pascal:
+>      description:
+>        Minimum pressure value the sensor can measure in pascal.
+> +      To be specified only if honeywell,pressure-triplet is set to "NA".
+That just added a backwards compatibility break.  It would be fine
+if there was a default: NA for honeywell,pressure-triplet or a check that either
+one or the other was supplied (which I'd prefer).  Thus old bindings will work
+and new ones also supported.
+
+>  
+>    honeywell,pmax-pascal:
+>      description:
+>        Maximum pressure value the sensor can measure in pascal.
+> +      To be specified only if honeywell,pressure-triplet is set to "NA".
+>  
+>    honeywell,transfer-function:
+>      description: |
+> -      Transfer function which defines the range of valid values delivered by the
+> -      sensor.
+> +      Transfer function which defines the range of valid values delivered by
+> +      the sensor.
+>        1 - A, 10% to 90% of 2^24 (1677722 .. 15099494)
+>        2 - B, 2.5% to 22.5% of 2^24 (419430 .. 3774874)
+>        3 - C, 20% to 80% of 2^24 (3355443 .. 13421773)
+> +    enum: [1, 2, 3]
+>      $ref: /schemas/types.yaml#/definitions/uint32
+>  
+> +  honeywell,pressure-triplet:
+> +    description: |
+> +      Case-sensitive five character string that defines pressure range, unit
+> +      and type as part of the device nomenclature. In the unlikely case of a
+> +      custom chip, set to "NA" and provide pmin-pascal and pmax-pascal.
+
+Should not need to set to NA, just don't provide it.
+
+> +    enum: [0001BA, 01.6BA, 02.5BA, 0060MG, 0100MG, 0160MG, 0250MG, 0400MG,
+> +           0600MG, 0001BG, 01.6BG, 02.5BG, 0100KA, 0160KA, 0250KA, 0006KG,
+> +           0010KG, 0016KG, 0025KG, 0040KG, 0060KG, 0100KG, 0160KG, 0250KG,
+> +           0015PA, 0025PA, 0030PA, 0001PG, 0005PG, 0015PG, 0030PG, 0300YG,
+> +           NA]
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +
+> +  spi-max-frequency:
+> +    maximum: 800000
+> +
+>    vdd-supply:
+>      description: provide VDD power to the sensor.
+>  
+>  required:
+>    - compatible
+>    - reg
+> -  - honeywell,pmin-pascal
+> -  - honeywell,pmax-pascal
+> +  - honeywell,pressure-triplet
+>    - honeywell,transfer-function
+> -  - vdd-supply
+>  
+>  additionalProperties: false
+>  
+> +dependentSchemas:
+> +  honeywell,pmin-pascal:
+> +    properties:
+> +      honeywell,pressure-triplet:
+> +        const: NA
+> +  honeywell,pmax-pascal:
+> +    properties:
+> +      honeywell,pressure-triplet:
+> +        const: NA
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/gpio/gpio.h>
+> @@ -93,10 +119,28 @@ examples:
+>              reg = <0x18>;
+>              reset-gpios = <&gpio3 19 GPIO_ACTIVE_HIGH>;
+>              interrupt-parent = <&gpio3>;
+> -            interrupts = <21 IRQ_TYPE_EDGE_FALLING>;
+> -            honeywell,pmin-pascal = <0>;
+> -            honeywell,pmax-pascal = <172369>;
+> +            interrupts = <21 IRQ_TYPE_EDGE_RISING>;
+> +
+> +            honeywell,pressure-triplet = "0025PA";
+>              honeywell,transfer-function = <1>;
+>              vdd-supply = <&vcc_3v3>;
+>          };
+>      };
+> +  - |
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pressure@0 {
+> +            compatible = "honeywell,mprls0025pa";
+> +            reg = <0>;
+> +            spi-max-frequency = <800000>;
+> +            reset-gpios = <&gpio1 28 GPIO_ACTIVE_HIGH>;
+> +            interrupt-parent = <&gpio0>;
+> +            interrupts = <30 IRQ_TYPE_EDGE_RISING>;
+> +
+> +            honeywell,pressure-triplet = "0015PA";
+> +            honeywell,transfer-function = <1>;
+> +        };
+> +    };
+> +...
+
