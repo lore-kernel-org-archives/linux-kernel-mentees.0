@@ -1,117 +1,135 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD3F47A42
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 17:25:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D416ABAB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Dec 2023 11:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="LAiFO9Ms"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EUoPh49m"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 2BD26400D9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 17:25:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2BD26400D9
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=LAiFO9Ms
+	by smtp4.osuosl.org (Postfix) with ESMTP id CA0E441779
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Dec 2023 11:04:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CA0E441779
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=EUoPh49m
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MZNMJeSQO8lz
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id HDskUqEAOdDq
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 20 Dec 2023 17:25:31 +0000 (UTC)
-Received: from mail.subdimension.ro (skycaves.subdimension.ro [172.104.132.142])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 1974C400C5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 20 Dec 2023 17:25:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 1974C400C5
-Received: from sunspire (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id 7DCC028B50B;
-	Wed, 20 Dec 2023 17:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1703093127;
-	bh=y5vShnC08AKzTQTcRg4gInuuznDW1Uhrzwdu10+dvQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LAiFO9MsEhzkYDFMwKcQf8wB8L61698RXerZe5mkKVqD7q7L6+KpiDJ36UiVpPXNQ
-	 eL2NBJvAHSqynMCmNd5fG4bQO75+c2zIhHKG9VMTBwZc6chzs4ymLOORwUz3kLoX7U
-	 vxV6VFMJQKEEQaTMaTQJnx8a8FGvOTs7jWipV4qo=
-Date: Wed, 20 Dec 2023 19:25:25 +0200
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: Jonathan Cameron <jic23@kernel.org>
+	Thu, 21 Dec 2023 11:04:34 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id F0F304172F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 21 Dec 2023 11:04:33 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F0F304172F
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id C475F618F4;
+	Thu, 21 Dec 2023 11:04:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B35C433C7;
+	Thu, 21 Dec 2023 11:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1703156672;
+	bh=TDLMCFaG9iF23iCXhZOU0JoIuuWfRNEqblfM8hy8xvs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EUoPh49m8aTvyeCHkfDHfKZrqlD/vPcrGAerxnsdXEcMdnehbZ3ZEedRcT1OtQ2J/
+	 hJRc3dC2F3YN3nyu2jmduA/FVttZ1TTXkHraK5E6+QdibhLxoKuA98BGE4VsVwJCCV
+	 qj1VT5X1K4Tq4yugwZRBHpi9q5FRsdaxYACIA/m+jdWCYe3wH9g7OCUcsto03Xryio
+	 Uz/ws5qB2TKkbDVBQZ9fK1ycCAsVvyepgD713pQ5nCYHsG0wjwoPR19xkWk80gsVc9
+	 SUr1+j24/QRRKO0orl6aDu4DFOcLKqm9u2/qNugYpjZuYKVR7d9/ZOlk4Mfz5Ybrvm
+	 jp4IMblXnLNdg==
+Date: Thu, 21 Dec 2023 11:04:17 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Petre Rodan <petre.rodan@subdimension.ro>
 Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh+dt@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org
 Subject: Re: [PATCH 1/2] dt-bindings: iio: pressure: honeywell,mprls0025pa
-Message-ID: <ZYMjhfAbWfw9vUdd@sunspire>
+Message-ID: <20231221110417.0bd5b002@jic23-huawei>
+In-Reply-To: <ZYMjhfAbWfw9vUdd@sunspire>
 References: <20231219130230.32584-1-petre.rodan@subdimension.ro>
- <20231219130230.32584-2-petre.rodan@subdimension.ro>
- <20231220151645.16ada807@jic23-huawei>
+	<20231219130230.32584-2-petre.rodan@subdimension.ro>
+	<20231220151645.16ada807@jic23-huawei>
+	<ZYMjhfAbWfw9vUdd@sunspire>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Yqw49bkJ6dzp0cuL"
-Content-Disposition: inline
-In-Reply-To: <20231220151645.16ada807@jic23-huawei>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Wed, 20 Dec 2023 19:25:25 +0200
+Petre Rodan <petre.rodan@subdimension.ro> wrote:
+
+> hi Jonathan,
+> 
+> On Wed, Dec 20, 2023 at 03:16:45PM +0000, Jonathan Cameron wrote:
+> > On Tue, 19 Dec 2023 15:02:20 +0200
+> > Petre Rodan <petre.rodan@subdimension.ro> wrote:  
+> > >    honeywell,pmin-pascal:
+> > >      description:
+> > >        Minimum pressure value the sensor can measure in pascal.
+> > > +      To be specified only if honeywell,pressure-triplet is set to "NA".  
+> > That just added a backwards compatibility break.  It would be fine
+> > if there was a default: NA for honeywell,pressure-triplet or a check that either
+> > one or the other was supplied (which I'd prefer).  Thus old bindings will work
+> > and new ones also supported.  
+> 
+> ok, I see your reasoning. but in this second scenario that you prefer how can we
+> propery define the 'required:' block? an equivalent to
+> 
+> required:
+>   - compatible
+>   - reg
+>   - (honeywell,pmin-pascal && honeywell,pmax-pascal) || honeywell,pressure-triplet
+>   - honeywell,transfer-function
+
+Yes, it would end up something like that.  There are exclusive or examples in tree.
+I think something like dac/adi,ad3552r.yaml
+ should work.
+
+oneOf:
+  - required:
+      - honeywell,pmin-pascal
+      - honeywell,pmax-pascal
+  - required:
+      - honeywell,pressure-triplet
+
+but you will want to try all the cases to make sure that works (my ability to
+figure these ones out is tricky).
+
++ you ideally want to exclude them all being set which is fiddlier.
+
+Some similar examples but they are based on a value in the property. I'm not
+sure how you check for it just being defined.
+
+Something along lines of.
+
+allOf:
+  - if:
+      properties:
+        honeywell,pressure-triplet
+    then:
+      properties:
+        honeywell,pmin-pascal: false
+        honeywell,pmax-pascal: false
+
+Might work?  I always end up trawling the kernel to find a similar example for cases but
+can't find anything closer right now.
+
+Jonathan
+
+   
 
 
---Yqw49bkJ6dzp0cuL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
+> 
+> 
+> thanks,
+> peter
 
-hi Jonathan,
-
-On Wed, Dec 20, 2023 at 03:16:45PM +0000, Jonathan Cameron wrote:
-> On Tue, 19 Dec 2023 15:02:20 +0200
-> Petre Rodan <petre.rodan@subdimension.ro> wrote:
-> >    honeywell,pmin-pascal:
-> >      description:
-> >        Minimum pressure value the sensor can measure in pascal.
-> > +      To be specified only if honeywell,pressure-triplet is set to "NA".
-> That just added a backwards compatibility break.  It would be fine
-> if there was a default: NA for honeywell,pressure-triplet or a check that either
-> one or the other was supplied (which I'd prefer).  Thus old bindings will work
-> and new ones also supported.
-
-ok, I see your reasoning. but in this second scenario that you prefer how can we
-propery define the 'required:' block? an equivalent to
-
-required:
-  - compatible
-  - reg
-  - (honeywell,pmin-pascal && honeywell,pmax-pascal) || honeywell,pressure-triplet
-  - honeywell,transfer-function
-
-
-thanks,
-peter
-
---Yqw49bkJ6dzp0cuL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE2Ap/wXYVGTXsPl+pzyaZmYROfzAFAmWDI4AACgkQzyaZmYRO
-fzB5ZA/8CeVKGy6zmv8F+NAtQkXHE+1XinZxdiHRwHo49Uj2sWnJnTCGg6JwocsQ
-ULmY/Kv81xgNGVbSC/MxDEnrwfKQ755pq/vLqLZAeUeRVKXLAQEfwYMXpLflFKYI
-Ct2YUPMacqOY+VyIuRCH619LAjcd25s1QfgrkqHJFvzv2cZh/Fcf89Sqc+hFSuPi
-0BGzR55VvW1D2TXcjycKD/DbUOUeVDcBbYqmu7wlnHo02w9N+KD2BXwbkgqhI22Z
-Jsgh+b0pufCdFmKuXAoWFnwgw/tB1+pvqNnVDiic8VxOzjKEvYpkyQwrbtGv/Osa
-7rG6NFtfgqEnLPOmO5S3rYhnfe8o69yMkWB3tfO2thf/7Z4v88jIPzFhqTMsyQTg
-eyqCBIzr/9fnDXyak3hdjSqpZKhiEg1DU2XBWT2wmL7baNCF+Yn7IRQ70tPEf8yp
-R83Hmp67TykKFBsBXU7HW7fBK1BGc+SQLlY/d1wJ1BOKlEplPBqCm5af1I9do5lP
-YIBnV54sReWPHb7TpcW9b+4ajmy8ACDXL7jNTZ2X2LdA40VehV1i9Qzep4E2ypph
-PjrrVnsBIIn1JgeI7PmPdyd6ybH4wDkdOuWE1IqC2S7/+2FBce6gCv7Y44jYjrkF
-ad0dhJAPciHBmNteBujC/qbCBz8j1ebGNyxHIokRLMA/Z6uesEg=
-=Ho9j
------END PGP SIGNATURE-----
-
---Yqw49bkJ6dzp0cuL--
