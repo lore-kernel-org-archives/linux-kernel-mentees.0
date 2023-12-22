@@ -1,63 +1,63 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3333C2E64E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 19:40:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5EF2FC32
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 20:15:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QhOMY/un"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QhrtYyUu"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 81AC283F65
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 19:40:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 81AC283F65
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QhOMY/un
+	by smtp3.osuosl.org (Postfix) with ESMTP id BC6DF61B13
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 20:15:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BC6DF61B13
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QhrtYyUu
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id c2FNADMV143c
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hyJ2CupMMiHR
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 22 Dec 2023 19:40:55 +0000 (UTC)
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D1C4B83F64
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 19:40:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D1C4B83F64
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6d47bb467a9so2371307b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 11:40:54 -0800 (PST)
+	Fri, 22 Dec 2023 20:15:18 +0000 (UTC)
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 31B75615EE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 20:15:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 31B75615EE
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1d3eae5c1d7so15049125ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 12:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703274054; x=1703878854; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1703276117; x=1703880917; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MgevCgufJPPvCi62nf9pb7fjA62h0EtwHE1dYgT7BS8=;
-        b=QhOMY/unTadI9T21SYZO8NCT9C/b5jYyQVVmVZMbR3JoB8vdRGy7czqxB8XmyeAUqG
-         4n5ifh2JaeIazvHreh9u/dHqRaytFLS/xlNs+w1dEwBYPgXQonHq3bWRQar5WxaBfE/i
-         V/Orzr8u2ix0aGRIRAbp87Bkoro5SndkaNWGn0dwcSvaTdsHW1deAAGbv54NkOxb9Hoz
-         G29dxTFa2U0qPBL2dfko95t2OOrjLLJezpe8VOo3Mg5bgFdA7fE82CbbcQhkzP46Qs1b
-         IlmiKwdTdK9aQiGPnkzZtNHz2W/MQYDLgszzjc+W7joSVTyPkHSQ57NJJg3KdI0cxZQ7
-         P9zA==
+        bh=XLrEctJKTdv+9DQYIiqT5d8pIz5ARZucJNkVZeQocxI=;
+        b=QhrtYyUul3bW3EZboO8bhHPtKxfJpPvgm1gzKPXQl+jr1G28euD54AhQ9bzdDLXeg9
+         ysDsu+IIKv9mIlvQCvFzhJtvuVEDZtTiXkrTd55D8XXGEbPQaY9oO5eF5UdjcRK891vi
+         zxOAyBkpYrZBNQOkHBHkWpL8k7v+k3CGs6Js4prMEmJMwSu0jAidqAvMGEcrv2KdKrBm
+         OJHbapPbNLZCNrLpiDZsEIhX+fBGXeSMDxuHvtNa0D7sGdxIsos7U7FKkmzTjooLtyPC
+         zXFqJOz08PcMJOiuw+h5w5T45e0dX+m2lIe53/m3Ro0N7MB18zQNa45zPW/e+T6MIyii
+         axUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703274054; x=1703878854;
+        d=1e100.net; s=20230601; t=1703276117; x=1703880917;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MgevCgufJPPvCi62nf9pb7fjA62h0EtwHE1dYgT7BS8=;
-        b=HOoF0AMrEhgcRQ+TbotP2kH3Ja+e3nXbzm0pImAIJNFDYejJ2ZC5BT3aqNJiGuLftm
-         XprlpM7nw8QSPRHVNcA/4jiI0opE9U0I3R75WbuZGh7rYLpxHC3BRFHPkyrqcKAb2+EF
-         A6iQybtYq9mLjiFYo082TeJ9W/UKiA4bxXY9n60kIgcNDX10hRRhb5djTkcCKShzl6dJ
-         SnxHSvxUB9KOomRXGQ7d9sEz2Kuk8E9VWWOzvKcMSOI9B9B8RzKjOg+8/jpfuPdhJqvb
-         DH5AVxRYrlEGduo9dKGGow/eNlJG/N7OpGqaxaZAcd+lgJZiaAsjgTU99Cfp0H9yABAA
-         C4bw==
-X-Gm-Message-State: AOJu0YwNR3sXFiSqBGATuzN91J2r6l06hdsdpu7MRC1VVUAuoBvO7+0E
-	x0qBrah5tsMGGHIHm+CQnjw=
-X-Google-Smtp-Source: AGHT+IEChco+TUdIxGydxRNJBv8sAOqipeg8/E4HlGZdHD5+cDoRWB0XW8k9CliFNZgR0E964Cc1mw==
-X-Received: by 2002:a05:6a20:7287:b0:190:38cf:15b5 with SMTP id o7-20020a056a20728700b0019038cf15b5mr3663674pzk.20.1703274054099;
-        Fri, 22 Dec 2023 11:40:54 -0800 (PST)
+        bh=XLrEctJKTdv+9DQYIiqT5d8pIz5ARZucJNkVZeQocxI=;
+        b=iEBQBL7Nv2DgLEzYY9UmyoBLRc1Zx63D5gOIhgkarYD8tc5mrjcNtp1SDUHQB4xksC
+         qRCDsnuWzfyaLSFyM0DSl93xdvPxSzb7ITkLgkQ/m2xcDzLxmkDIzBNABrGyfKGi8/U5
+         Z1XENX10lXsM1ldL1rJSHvkeZQnWYuF5hd28TCsBkAsXsMDM94XCGsGbMU7f4QNXuk4I
+         K/Tv3fM+F1AG7DVNmnadFc3xOo7moCS0gly3WwIEWeRSm7Y2qUEEvhK7ViC1fGqEsOMB
+         COFzsqqcBgmUZI3jizS19aP7uNb+y5gp/NTSnaCYko6ghJEoM9nL3olMbZe4KASLGBpJ
+         6Mjw==
+X-Gm-Message-State: AOJu0YywgJ9WqPi0RmB4FFBUnq34OZcudOtGWgga3d/NGxNP37euGnoT
+	Uv3O48qmYwAzUKvbKMYDB+U=
+X-Google-Smtp-Source: AGHT+IEIokT7TBCD1z0pxoBMQ+BF23UOr1l/aVdCm8o0pnIaamekIXFExQ3ix1pzgG1NcmHoUDZFlw==
+X-Received: by 2002:a17:902:7085:b0:1d4:8c4:5e07 with SMTP id z5-20020a170902708500b001d408c45e07mr1149471plk.23.1703276112357;
+        Fri, 22 Dec 2023 12:15:12 -0800 (PST)
 Received: from ubuntu.. ([202.166.220.102])
-        by smtp.gmail.com with ESMTPSA id h24-20020a631218000000b005c6746620cfsm3630831pgl.51.2023.12.22.11.40.50
+        by smtp.gmail.com with ESMTPSA id b16-20020a170903229000b001cc1dff5b86sm3792746plh.244.2023.12.22.12.15.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 11:40:53 -0800 (PST)
+        Fri, 22 Dec 2023 12:15:12 -0800 (PST)
 From: Dipendra Khadka <kdipendra88@gmail.com>
 To: hdegoede@redhat.com,
 	mchehab@kernel.org,
@@ -69,9 +69,9 @@ Cc: Dipendra Khadka <kdipendra88@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media: atomisp: pci: isp2400_input_system_public.h
-Date: Fri, 22 Dec 2023 19:40:35 +0000
-Message-Id: <20231222194036.1984-1-kdipendra88@gmail.com>
+Subject: [PATCH] staging: media: atomisp: pci: Fix spelling mistake in isp2400_input_system_global.h
+Date: Fri, 22 Dec 2023 20:15:03 +0000
+Message-Id: <20231222201503.2337-1-kdipendra88@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -81,35 +81,36 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The script checkpatch.pl reported repeadted
-word 'of' in isp2400_input_system_public.h
-as below:
+The script checkpatch.pl reported a spelling error
+in isp2400_input_system_global.h as below:
 
 '''
-WARNING: Possible repeated word: 'of'
-/*! Read from a control register PORT[port_ID] of of RECEIVER[ID]
+WARNING: 'upto' may be misspelled - perhaps 'up to'?
+//MIPI allows upto 4 channels.
+              ^^^^
 '''
 
-This patch removes one 'of'.
+This patch corrects a spelling error,
+changing "upto" to "up to".
 
 Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/isp2400_input_system_public.h | 2 +-
+ drivers/staging/media/atomisp/pci/isp2400_input_system_global.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-index 447c7c5c55a1..523c948923f3 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_public.h
-@@ -163,7 +163,7 @@ STORAGE_CLASS_INPUT_SYSTEM_H void receiver_port_reg_store(
-     const hrt_address			reg,
-     const hrt_data				value);
+diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
+index 61f23814e2fd..3ff61faf0621 100644
+--- a/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
++++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_global.h
+@@ -19,7 +19,7 @@
+ #define		N_CSI_PORTS (3)
+ //AM: Use previous define for this.
  
--/*! Read from a control register PORT[port_ID] of of RECEIVER[ID]
-+/*! Read from a control register PORT[port_ID] of RECEIVER[ID]
- 
-  \param	ID[in]				RECEIVER identifier
-  \param	port_ID[in]			mipi PORT identifier
+-//MIPI allows upto 4 channels.
++//MIPI allows up to 4 channels.
+ #define		N_CHANNELS  (4)
+ // 12KB = 256bit x 384 words
+ #define		IB_CAPACITY_IN_WORDS (384)
 -- 
 2.34.1
 
