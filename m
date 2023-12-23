@@ -1,92 +1,122 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616B66FD9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 07:24:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AF08F6C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 08:14:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OILa95dz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nw57n8H2"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EA6EA42854
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 07:24:43 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EA6EA42854
+	by smtp4.osuosl.org (Postfix) with ESMTP id E1F0C42204
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 08:14:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E1F0C42204
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=OILa95dz
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Nw57n8H2
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id fEcdmIkopWSC
+	with ESMTP id J5GNRnHDrZbe
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 23 Dec 2023 07:24:42 +0000 (UTC)
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id B9DD242853
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 07:24:42 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B9DD242853
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1d3d0faf262so20302155ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 22 Dec 2023 23:24:42 -0800 (PST)
+	Sat, 23 Dec 2023 08:14:05 +0000 (UTC)
+Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0300D42127
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 08:14:04 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0300D42127
+Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-1d3eb299e2eso15974425ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 00:14:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703316282; x=1703921082; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jORh9fw7nr/hSfxeUA6D1R76ciFhMQw7mZ7t5scr0gE=;
-        b=OILa95dzOIdpyFWEplX5tDRaQz78HA5H9XirLDiws2Sfd0kdJPG5WoKO+4TAWjpR4H
-         a+Jg6iaZSPqEN3PFuOJ9Bk/imuJxpFlHlPVUdXkGIbo+RNPBd0XDtf12zb5MrMk5nHHX
-         eOz1DsnK9Ae5FhzbHgMVWNYUnW6i4bTQyw7brvk5GtpU3bMkYrAWh29Ttpu8LiP8F+8T
-         +dmGssZfopYALuQUCjaH7XuBO8ph9XN4cda8fU3y7u2lTAbe46kYn0oa1tNHz1rg5shw
-         SuaBwDsu7cdIe9PdXnX1ZzS7Smlhe9ygMgy6GviLIkVnk/0t/VJsrg0hRzBgSQQ5YdNX
-         J7eA==
+        d=gmail.com; s=20230601; t=1703319244; x=1703924044; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kWY/DrbKpHrD7fzJ1z2jZBqElDolNrxGwdlBP2/yWF8=;
+        b=Nw57n8H2lrhRmq3P5cOLzPM/wttrsjAhmfHIfPTauYI7gqh9kQQjGVxiMIh5jSDLAx
+         uxYUw/npI8eYXWJOzRmMNW0F6JZAzlwJLjIFbzmvKfzr0sUqSdUuhMKyDBW4/cyYnsus
+         U1XHF0bWGrOXH1Pu38lmpWuge3KBA5xNz3fSXR776tPEZzM4zp+kzjWSKTo3nGg3VOUT
+         oITDp+/RRKbsOVyw29ITd1ktJ5GTRKmFbNPqtpQyFn280sAbVcOStrC5xchexW6wkFG3
+         WyFk5M7qn3jVgg4OVMGdY816BrLz5ekikIniwZJPTtv9FUI0QyCaLIRd7e8y6Pa6Zneu
+         MN6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703316282; x=1703921082;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jORh9fw7nr/hSfxeUA6D1R76ciFhMQw7mZ7t5scr0gE=;
-        b=WkXVD3ITGp3qShB7AurEN+StC8WKoOXcCKpBSXJHjwHpvAhHUhleg3ErZVsX7DgOon
-         v3RUhm40z8eiqzSYysagP14V+aqp/XroJro9hRsFMKd1R8KrdyytNCNiOAm+ZtY6Q+BK
-         J/3Tc+WNNQVSs+sb/h04xSQmd+mzjoc340fEgDYHweDv7p3RYch0jDExCmk0Nw3AymfV
-         g8Z9lLCfss5cGNkGkgU5Q1WxmeWDDZFHXSiE32AtFYi4E0QvuJWPzNvmXtw5kNv2CMWr
-         aCsPON39KdaGuXIpF6cM9TnRdyLA4Nt17yvmifHUZk63uFZDwvdunrTAntbQpldTbjz5
-         fwKA==
-X-Gm-Message-State: AOJu0YwpabmWUwMRAJJHC+2lX07g1FrRXHH9CuV1jEWrWx78AjjO7tZZ
-	Y29iGpz9q9hhheOtmzISNAY=
-X-Google-Smtp-Source: AGHT+IHDROTw+qUqQ5s2W41ci3hSL+ozkJgbTmX4v4D4Q+t8ankXeHjijUG90Hp1ejTPeq/3YR7fqg==
-X-Received: by 2002:a17:902:e88f:b0:1c9:c6f4:e0c3 with SMTP id w15-20020a170902e88f00b001c9c6f4e0c3mr3346030plg.62.1703316281854;
-        Fri, 22 Dec 2023 23:24:41 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:6810:f806:ab04:8efd])
-        by smtp.gmail.com with ESMTPSA id q17-20020a170902dad100b001d3f42edb4dsm4483746plx.294.2023.12.22.23.24.40
+        d=1e100.net; s=20230601; t=1703319244; x=1703924044;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kWY/DrbKpHrD7fzJ1z2jZBqElDolNrxGwdlBP2/yWF8=;
+        b=ZPPAmUrcO06GTt2ARe22vh8f4sgcTQyBhxVRMAV63jI4gNLz5YgrAkcr6nYYnwn7Jo
+         qmNfB31qsI15u3HaB0fUc6m4gzREdTwh576xWnxzuQB+tX29uXoRIuWgkVrlOofDq+B9
+         PxV7JgjHZa/Ps5WnH0bBbWPrQ5KUCEeuDy7/84cho/QLywyUq3ts/fiEqFevKSXMeoIq
+         LKgBxooaj7KIunpLJOVpJfcCc4WQo5WCwppJ0k9C4ZS9x7xixkyrc/47ewiyBintpbFR
+         1uq6uFfRLgUxaAq04Q3R8SR5vw3zwUPuudWcLs+2IPmAiiPk1rsFAaWEuW2pAQiWF1yb
+         bPBA==
+X-Gm-Message-State: AOJu0YzS3nw/oCy9af2rL4wZLeOcU/X6S8zRUYp6K01igBGwDGTAAdX/
+	w1BOwRm/DTYl6FThT+Gmb0A=
+X-Google-Smtp-Source: AGHT+IEbzbGvxC0VlmUd4kvcsYMPpJni2HxqelHej4BgKav2uvZ4yLinClyCCZgffXUfCLVIYLFwuQ==
+X-Received: by 2002:a17:90b:f0c:b0:28c:2b2c:1bf4 with SMTP id br12-20020a17090b0f0c00b0028c2b2c1bf4mr115808pjb.15.1703319243544;
+        Sat, 23 Dec 2023 00:14:03 -0800 (PST)
+Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
+        by smtp.gmail.com with ESMTPSA id pb11-20020a17090b3c0b00b0028c2e36c449sm750776pjb.51.2023.12.23.00.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 23:24:41 -0800 (PST)
-Date: Fri, 22 Dec 2023 23:24:38 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Anshul Dalal <anshulusr@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+        Sat, 23 Dec 2023 00:14:03 -0800 (PST)
+From: Dipendra Khadka <kdipendra88@gmail.com>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	hpa@redhat.com
+Cc: Dipendra Khadka <kdipendra88@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v1] dt-bindings: input: convert drv266x to json-schema
-Message-ID: <ZYaLNkYRt_WHzvCD@google.com>
-References: <20231221183109.684325-1-anshulusr@gmail.com>
+Subject: [PATCH] staging: media/atomisp/pci/isp/kernels/macc/macc_1.0: Fix spelling mistakes in ia_css_macc_table.host.c
+Date: Sat, 23 Dec 2023 13:58:54 +0545
+Message-Id: <20231223081354.83318-1-kdipendra88@gmail.com>
+X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231221183109.684325-1-anshulusr@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 22, 2023 at 12:01:08AM +0530, Anshul Dalal wrote:
-> Convert devicetree binding documentation for ti drv2665 and drv2667
-> haptics driver to json-schema. The previously two separate bindings have
-> been merged into a single drv266x.yaml.
-> 
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
+codespell reported following spelling mistake
+in ia_css_macc_table.host.c below:
 
-Applied, thank you.
+'''
+./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:22: matix ==> matrix
+./isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c:39: matix ==> matrix
+'''
+This patch fixes these spelling mistakes.
 
+Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+---
+ .../pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+index 946b074e8288..d25bf59273ba 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc_table.host.c
+@@ -19,7 +19,7 @@
+ 
+ /* Multi-Axes Color Correction table for ISP1.
+  *	64values = 2x2matrix for 16area, [s2.13]
+- *	ineffective: 16 of "identity 2x2 matix" {8192,0,0,8192}
++ *	ineffective: 16 of "identity 2x2 matrix" {8192,0,0,8192}
+  */
+ const struct ia_css_macc_table default_macc_table = {
+ 	{
+@@ -36,7 +36,7 @@ const struct ia_css_macc_table default_macc_table = {
+ 
+ /* Multi-Axes Color Correction table for ISP2.
+  *	64values = 2x2matrix for 16area, [s1.12]
+- *	ineffective: 16 of "identity 2x2 matix" {4096,0,0,4096}
++ *	ineffective: 16 of "identity 2x2 matrix" {4096,0,0,4096}
+  */
+ const struct ia_css_macc_table default_macc2_table = {
+ 	{
 -- 
-Dmitry
+2.39.2 (Apple Git-143)
+
