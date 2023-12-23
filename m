@@ -1,154 +1,157 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BADCA48
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 11:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F2DD51D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 13:59:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.b="CvsPqXcx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QoElHdvv"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id CEE0560A89
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 11:28:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org CEE0560A89
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key) header.d=subdimension.ro header.i=@subdimension.ro header.a=rsa-sha256 header.s=skycaves header.b=CvsPqXcx
+	by smtp2.osuosl.org (Postfix) with ESMTP id 99776400CE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 13:59:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 99776400CE
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QoElHdvv
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Y-_mLBs1dySs
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6HEeFNJp9VuD
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 23 Dec 2023 11:28:39 +0000 (UTC)
-Received: from mail.subdimension.ro (skycaves.subdimension.ro [172.104.132.142])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EED546080A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 11:28:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EED546080A
-Received: from sunspire (unknown [188.24.94.216])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.subdimension.ro (Postfix) with ESMTPSA id DCC4C28B50B;
-	Sat, 23 Dec 2023 11:28:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=subdimension.ro;
-	s=skycaves; t=1703330915;
-	bh=tyq/SFLVFCfVcWDSy5Zz18uYm50FbtZ+D4ug29R/3hM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CvsPqXcxb3B72bINV6ivnWd8tmJe0UYBCKVmSCtdv5Brqygcg7ery77N/yJPgiP/8
-	 gvpXSUcSK2wzhn1UNFTTFODwiEc5KoHfgTogKRN0TrOkpoDhM48ERhW+nPWq2ApALE
-	 q7OAPc8eenqaPo5BqDmCvbcq0ywxnI0MuChrdmpc=
-Date: Sat, 23 Dec 2023 13:28:33 +0200
-From: Petre Rodan <petre.rodan@subdimension.ro>
-To: Conor Dooley <conor@kernel.org>
-Cc: Jonathan Cameron <jic23@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH 1/2] dt-bindings: iio: pressure: honeywell,mprls0025pa
-Message-ID: <ZYbEYagM8qBf_cGB@sunspire>
-References: <20231219130230.32584-1-petre.rodan@subdimension.ro>
- <20231219130230.32584-2-petre.rodan@subdimension.ro>
- <20231220151645.16ada807@jic23-huawei>
- <ZYMjhfAbWfw9vUdd@sunspire>
- <20231221110417.0bd5b002@jic23-huawei>
- <20231222-thread-secret-d8b49c896249@spud>
+	Sat, 23 Dec 2023 13:59:20 +0000 (UTC)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 0BA8340399
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 13:59:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0BA8340399
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3bb945f88b4so562272b6e.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 05:59:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703339959; x=1703944759; darn=lists.linuxfoundation.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gFN/JWUQNBbz2Rt0TnEnzTMVqwHhg8TmRPTdu1IMZhk=;
+        b=QoElHdvvzrt0WMcTOW9ftZz8tourjPirwFksaraSaT2bFG3HdIppxrePMM4tdyCV5R
+         lyP7gtOgsiUhVb6yUNp1dG+sSEkk5EAWKQ1Y4tuYjyHbQXRnep70k1D6yOiEsZH2899K
+         AiMesY7taFcaxVoKIVZDb0pIXas/0ICLdN3L2BVes5JP30EVnvReDqPo8Za1TjchqaGa
+         tT6xsqrGQ0W4NQxhH8KySsNivCCnlG0clBIo+hJOuOmRI/Kva/1tbMSbT6Zzq8yxODc+
+         2+c6bZHaVnRH7qrZnhiJ2UkATDUgN5H/+aJcGqWQG6+hxXQFiTWAUchlje52733xj0RL
+         cY6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703339959; x=1703944759;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gFN/JWUQNBbz2Rt0TnEnzTMVqwHhg8TmRPTdu1IMZhk=;
+        b=tt/CE7FfniBY+rZVx5qzmzeH3SlC1RW6vBqgmQjOIH5xUgcNYC2XCECs4qjHO2CgfF
+         Ok+s64NFhyk+BXgp+oNmo2iuUPREuXkoE+QsmiH+4bTyy87oy2gxUhz6ODvdiqdz1BRs
+         D9uUmKLXMLm/6jsgpho3w509cPqQ8JMLKtcsBDgjiBpuemqPZx721abpVuPBDbNRVoqB
+         A+e/QH0Y7WuW9XmBA8UaqJYfPeoxABJqJozHml+X709h37Tc/sZTvE1zOLatGorqpgUM
+         ZjSZ0m99kviLhomNj+dqUy24bR4qhYl3NswFwzDUade/ImCWWyd3RZ+USJSE5x1cSnQg
+         IY+Q==
+X-Gm-Message-State: AOJu0YxZuorZ7eYL4cc+/1/GvYjbQrwxISS6LT7qV2BdzGDjN2+3J400
+	GRC6+tYCuT31wlBn6faBoOzNcwVNbVyuV+Xi/9M=
+X-Google-Smtp-Source: AGHT+IHwz+pyBOWd/p0WXliaxQNFzW48D6/37njGjyW5fHA3ep7uDmOJXRWiBiR23Yq9jf7X7MRC/eVJww1g5qgf9YI=
+X-Received: by 2002:a05:6808:1303:b0:3b8:b063:6665 with SMTP id
+ y3-20020a056808130300b003b8b0636665mr2526149oiv.92.1703339959003; Sat, 23 Dec
+ 2023 05:59:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4DK7OCvB3rAHTaK+"
-Content-Disposition: inline
-In-Reply-To: <20231222-thread-secret-d8b49c896249@spud>
+References: <20231223051108.74711-1-kdipendra88@gmail.com> <d1c18155-9c8e-4164-a2bf-5eab3d42995d@infradead.org>
+ <e7a46035-9c5e-495d-8f20-73dca4fec068@redhat.com>
+In-Reply-To: <e7a46035-9c5e-495d-8f20-73dca4fec068@redhat.com>
+From: Dipendra Khadka <kdipendra88@gmail.com>
+Date: Sat, 23 Dec 2023 19:44:07 +0545
+Message-ID: <CAEKBCKPA0-VKA_r+YsGVb0cTKEQpV0dXwU8ARZ07LGmWuH2_OQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: pci: Fix spelling mistake in ia_css_acc_types.h
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	gregkh@linuxfoundation.org, hpa@redhat.com, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
---4DK7OCvB3rAHTaK+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sat, 23 Dec 2023 at 16:10, Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi,
+>
+> On 12/23/23 06:18, Randy Dunlap wrote:
+> > Hi Dipendra,
+> >
+> > On 12/22/23 21:11, Dipendra Khadka wrote:
+> >> codespell reported spelling mistakes in
+> >> ia_css_acc_types.h as below:
+> >>
+> >> '''
+> >> ia_css_acc_types.h:87: cummulative ==> cumulative
+> >> ia_css_acc_types.h:411: descibes ==> describes
+> >> '''
+> >>
+> >> This patch fixes these spelling mistakes.
+> >>
+> >> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+> >
+> > This patch is an improvement so it could be merged as is IMO.
+> > But...
+> >
+> >> ---
+> >> v2:
+> >>  - Previously only corrected spelling  mistake reported by checkpatch.pl.
+> >>  - All spelling mistakes reported by codespell are fixed.
+> >> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
+> >>
+> >>  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> >> index d6e52b4971d6..1dc2085ecd61 100644
+> >> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> >> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+> >> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
+> >>              memory_offsets;  /** offset wrt hdr in bytes */
+> >>      u32 prog_name_offset;  /** offset wrt hdr in bytes */
+> >>      u32 size;                       /** Size of blob */
+> >> -    u32 padding_size;       /** total cummulative of bytes added due to section alignment */
+> >> +    u32 padding_size;       /** total cumulative of bytes added due to section alignment */
+> >
+> > I apologize for not looking at your v1 patch carefully.
+> > The comment above would be much better as
+> >
+> >                               /** total accumulation of bytes added due to section alignment */
+>
+> I agree that that is better. Dipendra can you please send a v3
+> using the new text suggested by Randy ?
 
+Sure,let me send a v3 with the new text suggested by Randy.
 
-hello Conor,
+Regards,
 
-On Fri, Dec 22, 2023 at 03:27:36PM +0000, Conor Dooley wrote:
-> > >   - (honeywell,pmin-pascal && honeywell,pmax-pascal) || honeywell,pre=
-ssure-triplet
-> > Yes, it would end up something like that.  There are exclusive or examp=
-les in tree.
+Dipendra
 
-> > oneOf:
-> >   - required:
-> >       - honeywell,pmin-pascal
-> >       - honeywell,pmax-pascal
-> >   - required:
-> >       - honeywell,pressure-triplet
-> >=20
-> > but you will want to try all the cases to make sure that works (my abil=
-ity to
-> > figure these ones out is tricky).
-> >=20
-> > + you ideally want to exclude them all being set which is fiddlier.
-> >=20
-> > Some similar examples but they are based on a value in the property. I'=
-m not
-> > sure how you check for it just being defined.
-> >=20
-> > Something along lines of.
-> >=20
-> > allOf:
-> >   - if:
-> >       properties:
-> >         honeywell,pressure-triplet
-> >     then:
-> >       properties:
-> >         honeywell,pmin-pascal: false
-> >         honeywell,pmax-pascal: false
-> >=20
-> > Might work?  I always end up trawling the kernel to find a similar exam=
-ple for cases but
-> > can't find anything closer right now.
->=20
-> I hate to admit it, but I'm not great at expressing these in the minimum
-> forms either, but I think you're missing a "required" from here, in place
-> of the "properties":
-> allOf:
->   - if:
->       required:
->         - honeywell,pressure-triplet
->     then:
->       properties:
->         honeywell,pmin-pascal: false
->         honeywell,pmax-pascal: false
-
-thank you both for the above ruleset, it works like magic.
-
-I spent hours trying to figure out the proper syntax but never got it right.
-
-Merry Christmas!
-peter
-
---4DK7OCvB3rAHTaK+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE2Ap/wXYVGTXsPl+pzyaZmYROfzAFAmWGxGEACgkQzyaZmYRO
-fzCbHhAA5ATXnLeJ2weA1puuj2nWSIT+NzkW7qN+YA8ah40jN0fhZ0RYu9YZHw4I
-UiByARIqEs9WeXoGIztFpZUxQRyuH8yxnGzlmPIcN09HCHzIFGrvHiFdtCDgNTSb
-koU9ri20O9Mi42GYBLLmTToE7HcW/nuJhf4S4UxmszR7YsNMtUIxpX6a48xz+9Go
-++MnlvXi/1P4Xqv69QZmPPYLHakFSYoBWW0A6i9s1JlUa7Nhw3w1EU1Llaw9KxwD
-xsrr2Q5obxn4vs0dAmJRD9pZQb7NOkTjXTJSfFLMMi0+nvxsZYNlgvBq+EhWNkqe
-gKnzYMkKlsKKnwDL+6lCC+UCkastZQAYeSDbYQJ2TszU7+ibs5uNEhNjb1wey3RE
-fJXQD/umNCD1phl85vNTF+KGW21zuGeI++DmPmkgXb03EkKZFcTVo0P6C086UzFv
-X+SOSdJkwI+3HpdUWiqhCs7yj6Fbfn3SaY6D1DGok2jhtAEqvPQmfz19ynzz9cR4
-uVLtrEftuL87U2+xz7efp4ilq5K//wpOCgZxn/Kkzb5ApOpiALcobVw4KTCIQ0q8
-+GpGNXSQBGaDezMaEnC07u4/LcaFRuDue5uEgfJz5vnb7k6aukB5ii4eH0pjDh0E
-/rtmJWzKiZiVE84E2p5QZjjSp3AmV6lzn8+DcA5qySn0d0fBPa0=
-=gFxs
------END PGP SIGNATURE-----
-
---4DK7OCvB3rAHTaK+--
+>
+> Regards,
+>
+> Hans
+>
+>
+>
+> >>      u32 icache_source;      /** Position of icache in blob */
+> >>      u32 icache_size;        /** Size of icache section */
+> >>      u32 icache_padding;/** bytes added due to icache section alignment */
+> >> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
+> >>  };
+> >>
+> >>  /* Acceleration firmware descriptor.
+> >> -  * This descriptor descibes either SP code (stand-alone), or
+> >> +  * This descriptor describes either SP code (stand-alone), or
+> >>    * ISP code (a separate pipeline stage).
+> >>    */
+> >>  struct ia_css_acc_fw_hdr {
+> >
+>
