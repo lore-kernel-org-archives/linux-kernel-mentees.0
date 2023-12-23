@@ -1,112 +1,162 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC228F5B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 09:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9A8D278
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 10:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nbnRu80F"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g7PGdNOR"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 352B942207
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 09:15:32 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 352B942207
+	by smtp4.osuosl.org (Postfix) with ESMTP id B3A894214A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 10:25:57 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B3A894214A
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nbnRu80F
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=g7PGdNOR
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
 	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id b1MmUjpOJYwZ
+	with ESMTP id E_pODpA5F-iB
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sat, 23 Dec 2023 09:15:31 +0000 (UTC)
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 678F942201
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 09:15:31 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 678F942201
-Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-35fe8a4b311so3361775ab.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 01:15:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703322930; x=1703927730; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EqU4At89cLX9pipG5dJk4yhFSAyDFeGlPgFtPpbBGJM=;
-        b=nbnRu80FNz+rvErIR8r10JuUJDqJX8mbS7Y3vjkZQRKbBpUEoPHEa1prKItNZ+RAcP
-         7hx+M7uSjwL6LsazTCp/cIvA1jzvla5hNZfBd8Dt4yREM13ZgNIjz0wz31OX/+7MCHwa
-         ojBKH+1w2ebhurDpEEkKk8nVDqrasha7FTFyT5bIdbyFCGhEJ6fybB1LB6SGQrFN1fnu
-         cl3vbZXaHiRlk4YMEZRA9xGYPx/yNODcH6VE0bnoJSfxst2uwegKERLRofjxh/YZ6cCg
-         bh/FfmohMYZINqM51hNvZSbSBP0DS+9NoDrgAAUo+AVwK0QZcJxhZ26sL/C8Bs4Rfv0R
-         AYgg==
+	Sat, 23 Dec 2023 10:25:55 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 90C5E421D1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 10:25:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 90C5E421D1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703327151;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GoKXir54x/dEEkfvtrxnT2ENR9sxqwMkgds0ZkJeGss=;
+	b=g7PGdNOROm/CI8Qa7VoGGTRnFZPoBByiUBFxRU9HXivBPRrAy+W3KiEyPPnK6OCO8lUiKD
+	sRNXOBGOEa32z9/gk5tNEpD4WnIuJ5mNDHaWnoH0UdY/XuZCBiXYVG+0IxC/88LXZYLwjq
+	7H0e/IEDodMCsTpkceYiyre3Bpv6eUA=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-290-itP1sixHOauzDfV2wXSiJA-1; Sat, 23 Dec 2023 05:25:48 -0500
+X-MC-Unique: itP1sixHOauzDfV2wXSiJA-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a26d99fe6d7so10385866b.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 23 Dec 2023 02:25:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703322930; x=1703927730;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EqU4At89cLX9pipG5dJk4yhFSAyDFeGlPgFtPpbBGJM=;
-        b=Ml2CS0nVSvQsaBvKJkad0GgtBzj7eqEVltEtDq+OPaInjkHR+eO89KFV8gwlZBWz5v
-         ka33I81C5eQ8vnpd/DiUQhYbKWewr3bJ41oztSo5P2wvGxTKBrwc+nDJn+VNoYjvaKJU
-         1DeUgshaEqFPUDIswjU+AYs56kFTFqaEFBkiMcA76PrsSDZMRMbja8GoAYx13LB7rfBo
-         A6An61yUoubr2Hc8rGi4n+wWydRE/RUfu1kRR5pOcKyiCfYHqqz/+Isiuv8JWaiI6ule
-         NKWGNduNIW5N0etsuiVGwy7LFPxyurstt6Ng2rfmE59xzUP3olY7qWxLQjj+GYNNAPXG
-         NY4A==
-X-Gm-Message-State: AOJu0YxrtoAc0GyqGkKm7yzPpwO+2TL90XdgzH9v+wedW9xZIrbcnYh5
-	Nao4dSIGXhg2uu0Z3KCrN7w=
-X-Google-Smtp-Source: AGHT+IGYqnq6An6iJM9CoXnlhddaGq6k5UXUB0u+ZIzGyEqqwpf89ybQ9Sp/R+KHDStSKxfSMQIumQ==
-X-Received: by 2002:a05:6e02:1be5:b0:35d:59a2:1281 with SMTP id y5-20020a056e021be500b0035d59a21281mr3730843ilv.45.1703322930322;
-        Sat, 23 Dec 2023 01:15:30 -0800 (PST)
-Received: from localhost.localdomain ([2400:1a00:b060:2b26:f462:e3d9:c28:4c99])
-        by smtp.gmail.com with ESMTPSA id p6-20020a170902eac600b001d365153d09sm4711179pld.184.2023.12.23.01.15.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Dec 2023 01:15:29 -0800 (PST)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	hpa@redhat.com
-Cc: Dipendra Khadka <kdipendra88@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] staging: media/atomisp/pci/runtime/binary/src: Fix spelling mistake in binary.c
-Date: Sat, 23 Dec 2023 15:00:21 +0545
-Message-Id: <20231223091521.85467-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+        d=1e100.net; s=20230601; t=1703327147; x=1703931947;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GoKXir54x/dEEkfvtrxnT2ENR9sxqwMkgds0ZkJeGss=;
+        b=kZbGCFE0+bKc06h3iMJNSQFv3FjR6XdVaa6UKK2/yxC8gllxk+xyrNHyRWPI+AVYZL
+         Qh4TrJ/V1jRMNEE1W9Q18oZkZx3VxsWiFtjLhgzZQEfLeqDgG6XOwKOyJ35H3z6bCoeJ
+         1/ULUs/avaXxnY/gJ/wXgiRNWAORQUWrR7yUJ1ZOGp2Ete+M+iTQxI92fbQ/lZXmENUh
+         1GEN1w/Yz31UfOSMA86knUIIAfMfAdc9+WpLZCC4GZHOMfHaNRQQVckVpGyDmd3AoiE2
+         kECLTQLp9MR2ZpHyKyWBnkOFzzRIj/VzHDD0YZYNtlaKrybHP8nFsdwhlNbc2+y8B0vA
+         FZ0w==
+X-Gm-Message-State: AOJu0YxIxzoWAriuoejbNLvLM0bMRwkixS062NkaqDgM6XGy12TzJf06
+	in1YbzbXV/ON4iTdrATBq1Lm2H0PVV26wOwZA27e6eldnKFbbtjqI6+9M2KrRNki20U2uw3Uv/Q
+	lrVvRItWOUCUlzJOgdu8ezVjyMuZmrKcYME7czN3zRukSbc9ARXgJQYNF
+X-Received: by 2002:a17:906:48:b0:a26:9734:d074 with SMTP id 8-20020a170906004800b00a269734d074mr1256577ejg.21.1703327147451;
+        Sat, 23 Dec 2023 02:25:47 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFfYBntxU/LEH18ZD4tGgJi1jr2AFoUSUHqm44HH3HbItCx3zDGERqgnKjQD0P1rx5/Ye1TzA==
+X-Received: by 2002:a17:906:48:b0:a26:9734:d074 with SMTP id 8-20020a170906004800b00a269734d074mr1256569ejg.21.1703327146994;
+        Sat, 23 Dec 2023 02:25:46 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id ex17-20020a170907955100b00a269fa0d305sm2923466ejc.8.2023.12.23.02.25.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 23 Dec 2023 02:25:46 -0800 (PST)
+Message-ID: <e7a46035-9c5e-495d-8f20-73dca4fec068@redhat.com>
+Date: Sat, 23 Dec 2023 11:25:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: media: atomisp: pci: Fix spelling mistake in
+ ia_css_acc_types.h
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20231223051108.74711-1-kdipendra88@gmail.com>
+ <d1c18155-9c8e-4164-a2bf-5eab3d42995d@infradead.org>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <d1c18155-9c8e-4164-a2bf-5eab3d42995d@infradead.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-codespell reported following spelling mistake
-in runtime/binary/src as below:
+Hi,
 
-'''
-./runtime/binary/src/binary.c:537: spcification ==> specification
-'''
-This patch fixes thisspelling mistake.
+On 12/23/23 06:18, Randy Dunlap wrote:
+> Hi Dipendra,
+> 
+> On 12/22/23 21:11, Dipendra Khadka wrote:
+>> codespell reported spelling mistakes in
+>> ia_css_acc_types.h as below:
+>>
+>> '''
+>> ia_css_acc_types.h:87: cummulative ==> cumulative
+>> ia_css_acc_types.h:411: descibes ==> describes
+>> '''
+>>
+>> This patch fixes these spelling mistakes.
+>>
+>> Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
+> 
+> This patch is an improvement so it could be merged as is IMO.
+> But...
+> 
+>> ---
+>> v2:
+>>  - Previously only corrected spelling  mistake reported by checkpatch.pl.
+>>  - All spelling mistakes reported by codespell are fixed.
+>> v1: https://lore.kernel.org/lkml/20231222200350.2024-1-kdipendra88@gmail.com/
+>>
+>>  drivers/staging/media/atomisp/pci/ia_css_acc_types.h | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+>> index d6e52b4971d6..1dc2085ecd61 100644
+>> --- a/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+>> +++ b/drivers/staging/media/atomisp/pci/ia_css_acc_types.h
+>> @@ -84,7 +84,7 @@ struct ia_css_blob_info {
+>>  		memory_offsets;  /** offset wrt hdr in bytes */
+>>  	u32 prog_name_offset;  /** offset wrt hdr in bytes */
+>>  	u32 size;			/** Size of blob */
+>> -	u32 padding_size;	/** total cummulative of bytes added due to section alignment */
+>> +	u32 padding_size;	/** total cumulative of bytes added due to section alignment */
+> 
+> I apologize for not looking at your v1 patch carefully.
+> The comment above would be much better as
+> 
+> 				/** total accumulation of bytes added due to section alignment */
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I agree that that is better. Dipendra can you please send a v3
+using the new text suggested by Randy ?
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index 0f3729e55e14..130662f8e768 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -534,7 +534,7 @@ ia_css_binary_uninit(void) {
- static int
- binary_grid_deci_factor_log2(int width, int height)
- {
--	/* 3A/Shading decimation factor spcification (at August 2008)
-+	/* 3A/Shading decimation factor specification (at August 2008)
- 	 * ------------------------------------------------------------------
- 	 * [Image Width (BQ)] [Decimation Factor (BQ)] [Resulting grid cells]
- 	 * 1280 ?c             32                       40 ?c
--- 
-2.39.2 (Apple Git-143)
+Regards,
+
+Hans
+
+
+
+>>  	u32 icache_source;	/** Position of icache in blob */
+>>  	u32 icache_size;	/** Size of icache section */
+>>  	u32 icache_padding;/** bytes added due to icache section alignment */
+>> @@ -408,7 +408,7 @@ struct ia_css_acc_sp {
+>>  };
+>>  
+>>  /* Acceleration firmware descriptor.
+>> -  * This descriptor descibes either SP code (stand-alone), or
+>> +  * This descriptor describes either SP code (stand-alone), or
+>>    * ISP code (a separate pipeline stage).
+>>    */
+>>  struct ia_css_acc_fw_hdr {
+> 
 
