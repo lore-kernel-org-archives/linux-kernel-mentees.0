@@ -1,72 +1,72 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FF31C2F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A3A20F0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:50:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fKxsTxXD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jEqTO7ik"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 04136409A2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:50:30 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 04136409A2
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=fKxsTxXD
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9A27482142
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:50:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9A27482142
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jEqTO7ik
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id IL90-j3nJKvE
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 7wEkPdnUnzOP
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun, 31 Dec 2023 09:50:29 +0000 (UTC)
+	Sun, 31 Dec 2023 09:50:42 +0000 (UTC)
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id F238040997
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:50:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org F238040997
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AE70F82093
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:50:42 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AE70F82093
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704016227;
+	s=mimecast20190719; t=1704016241;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kEf7d/YGdeFm03zUvPaO/2U+4jX1XrcVLrOXY0pw9B4=;
-	b=fKxsTxXDR2rhd39UBTE002xGvUfEBsmXtgvkhZraOkYRUj7ZXREVN3Yofvpty62XfLaOCT
-	oJvavVtaRW1le46LZhKGPyHbW1AFH2QeJswG5TRxguuGMvZcbtI2mG8yDgErKuSd/Cv6YJ
-	OUfcdYh6uLRv3OYszSwVfbdsg+jD9PQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=UW78e+F1YtmVSX3HESxIca4JE3o6LIXx9/gPDIVdjGs=;
+	b=jEqTO7ikxageMO7FExPqalPI3pUrX6MGGw20dq5BzvDUxIgWkFRjchUXXnpAuihxq+nIsi
+	fqzvLsQGSCNB1t3WgcGBwbyhlgIW0m4FaXUsWc6qFAtUb5EtLqFpLHoWVxIsiH7fjMF2Yf
+	FRlIMMaNY8rlpOb92Z8UxafZ5ZEoBBo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-114-QA2ybDWLOS2-uJm7FHjhQg-1; Sun, 31 Dec 2023 04:50:25 -0500
-X-MC-Unique: QA2ybDWLOS2-uJm7FHjhQg-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-555e8b639abso645027a12.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 01:50:25 -0800 (PST)
+ us-mta-46-VjhwfM2mOf25AKvAMxw-Rw-1; Sun, 31 Dec 2023 04:50:40 -0500
+X-MC-Unique: VjhwfM2mOf25AKvAMxw-Rw-1
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-553b6a33a58so9603060a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 01:50:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704016225; x=1704621025;
+        d=1e100.net; s=20230601; t=1704016239; x=1704621039;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kEf7d/YGdeFm03zUvPaO/2U+4jX1XrcVLrOXY0pw9B4=;
-        b=YkBI2A1+gpmHj57gW4rV166ci2rovQKzHaye1FTBLEUyxKnr/0gP0zSAUC0T2mmEFc
-         b1bvg7o5/Pdyft+nXQOiXi9/1EAi2rnQNb9BVTKhNirE8kfu3/UULtQwAaR0Jct1d6jK
-         JnPbAVhOgZtKSbgml99R3Zkkb5QnSTDIQ2MYdUt3pox4BIDgKOeETjy0LN4S4+FDMYwt
-         XDfw6cGQQIeFoo6mugqBMjEvkGtTw4XZHPAqTo9B59emUzbwUS5OEPFH639jo11dLGcs
-         xXV6zpYcdDmjJoNOhLDscN9JycC/Y8E3twAZwMbx7iZJ2vJPbI+vhMrhf1V3YGjEtfBG
-         MMyQ==
-X-Gm-Message-State: AOJu0Yz5t3BMAd/ALQjrl4gzzlXFkReUe0Yvp7ah0b3rIj+nxMbC/Zzu
-	gR9DyIMaDcGoc/0bXYanyxW+yn7RVMey7JDIHzYBGfafa48jbUOB+V7vjGHxPqx3y+h4+nbHqjJ
-	0Q4XkZ9R1YeGiq50DrFQmkoc3IBJpn67Gj3BJAme8GuBt1WfdOmFfTRkz
-X-Received: by 2002:a05:6402:308b:b0:555:aa7f:d497 with SMTP id de11-20020a056402308b00b00555aa7fd497mr2093641edb.78.1704016224822;
-        Sun, 31 Dec 2023 01:50:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF3d64gvre5UEtDcBCBGdINd+i9LVRHckeXIouY1yFGpHks7z/uFszsGDHYUupOFufsytkjmw==
-X-Received: by 2002:a05:6402:308b:b0:555:aa7f:d497 with SMTP id de11-20020a056402308b00b00555aa7fd497mr2093638edb.78.1704016224521;
-        Sun, 31 Dec 2023 01:50:24 -0800 (PST)
+        bh=UW78e+F1YtmVSX3HESxIca4JE3o6LIXx9/gPDIVdjGs=;
+        b=GeaJvRBsSMEnOHUot/BZzvEo67c5HgHn/A9fZ+xoJwv4/RTw7kPhr4uqTL4FjEnUwA
+         7Zb7RQlcwh3/YVTxbngTl85FYkt1Oq0kFSo0LA7ICccDXxHq2ztXfZhpbRX3sS0GPX2A
+         3flkNQaS9BaFBUklR3opqNRZnal3UQ4vjoyvGtrxU7kqcXH+hHHbQav/V+D+jVUOMo+v
+         W9iMj+eusKXDWQOpXa/dfotK8KEpBZgdXmPDTUBrB86UR/6wT2SHxQLGyKrrh9oL2I/L
+         /I2tgm4k0ceP6vj0TnW5OAZX125zEASQQvE8Y6STmWD0011zfwj4UCSgluZ1wLtWspvL
+         M3Aw==
+X-Gm-Message-State: AOJu0Yya9d6qbr0I01Wc2Fsosf/9OvLn/mNY+HNK/vek/1hQEQRf1wr3
+	iqoxXAplWt0K2a6yRHjBsUutEbfkG74QAIhEbft98Zaf10R77ZSYs81r1eLZJaXIlnBSW0jO5TG
+	xjeV6f19pkUrxwReIIe3q9bI40lZlipOwiXqHeeTnC/61YtZYCRHkaPeL
+X-Received: by 2002:a50:9f68:0:b0:555:936f:f36 with SMTP id b95-20020a509f68000000b00555936f0f36mr4604200edf.4.1704016238999;
+        Sun, 31 Dec 2023 01:50:38 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHAuVkeWzkV4UGpkYWL73BOOO7hj+mxu0DEI4qYXOLBU8Dgrsj+nfHlo9Gaj/b0bNZSUej77Q==
+X-Received: by 2002:a50:9f68:0:b0:555:936f:f36 with SMTP id b95-20020a509f68000000b00555936f0f36mr4604191edf.4.1704016238710;
+        Sun, 31 Dec 2023 01:50:38 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.50.23
+        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.50.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 01:50:24 -0800 (PST)
-Message-ID: <7e1cd3de-053a-4664-a728-1d5999f4d354@redhat.com>
-Date: Sun, 31 Dec 2023 10:50:23 +0100
+        Sun, 31 Dec 2023 01:50:38 -0800 (PST)
+Message-ID: <70dd9eaa-4e41-4f4a-8dc6-a8e987b0c442@redhat.com>
+Date: Sun, 31 Dec 2023 10:50:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,15 +74,15 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media/atomisp/pci/isp/kernels/hdr: Fix spelling
- mistakes in ia_css_hdr_types.h
+Subject: Re: [PATCH] staging: media/atomisp/pci/runtime/binary/src: Fix
+ spelling mistake in binary.c
 To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223083157.84090-1-kdipendra88@gmail.com>
+References: <20231223091521.85467-1-kdipendra88@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231223083157.84090-1-kdipendra88@gmail.com>
+In-Reply-To: <20231223091521.85467-1-kdipendra88@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -91,15 +91,14 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12/23/23 09:31, Dipendra Khadka wrote:
+On 12/23/23 10:15, Dipendra Khadka wrote:
 > codespell reported following spelling mistake
-> in ia_css_hdr_types.h below:
+> in runtime/binary/src as below:
 > 
 > '''
-> ./isp/kernels/hdr/ia_css_hdr_types.h:60: paramterers ==> parameters
-> ./isp/kernels/hdr/ia_css_hdr_types.h:62: Currenly ==> Currently
+> ./runtime/binary/src/binary.c:537: spcification ==> specification
 > '''
-> This patch fixes these spelling mistakes.
+> This patch fixes thisspelling mistake.
 > 
 > Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
@@ -119,23 +118,20 @@ Hans
 
 
 > ---
->  .../media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h      | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
-> index 175c301ee96a..ecc98686f5cf 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/hdr/ia_css_hdr_types.h
-> @@ -57,9 +57,9 @@ struct ia_css_hdr_exclusion_params {
->  };
->  
->  /**
-> - * \brief HDR public paramterers.
-> + * \brief HDR public parameters.
->   * \details Struct with all parameters for HDR that can be seet from
-> - * the CSS API. Currenly, only test parameters are defined.
-> + * the CSS API. Currently, only test parameters are defined.
->   */
->  struct ia_css_hdr_config {
->  	struct ia_css_hdr_irradiance_params irradiance; /** HDR irradiance parameters */
+> diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+> index 0f3729e55e14..130662f8e768 100644
+> --- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+> +++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+> @@ -534,7 +534,7 @@ ia_css_binary_uninit(void) {
+>  static int
+>  binary_grid_deci_factor_log2(int width, int height)
+>  {
+> -	/* 3A/Shading decimation factor spcification (at August 2008)
+> +	/* 3A/Shading decimation factor specification (at August 2008)
+>  	 * ------------------------------------------------------------------
+>  	 * [Image Width (BQ)] [Decimation Factor (BQ)] [Resulting grid cells]
+>  	 * 1280 ?c             32                       40 ?c
 
