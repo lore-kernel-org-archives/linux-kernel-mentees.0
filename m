@@ -1,72 +1,72 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C454184C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFA71873
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:39:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BIfymaVE"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="al0S0BLw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9BCAA81F41
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:39:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9BCAA81F41
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BIfymaVE
+	by smtp3.osuosl.org (Postfix) with ESMTP id 81B2A607C0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:39:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 81B2A607C0
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=al0S0BLw
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id DlqiC0yTzK5G
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sGDMgmDn00JH
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun, 31 Dec 2023 09:39:08 +0000 (UTC)
+	Sun, 31 Dec 2023 09:39:18 +0000 (UTC)
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 775A881C67
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:39:08 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 775A881C67
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 830C860783
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:39:18 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 830C860783
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704015547;
+	s=mimecast20190719; t=1704015557;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HdM5Vkomds4h/QuK6n7mA0GCkNM9rwKnYx1KoPXzk3M=;
-	b=BIfymaVEjZxIS0yZktcgfzUIOJ+pshNWEE9Ig7XtJjos9IQGrCzgXEMAp7a8PMM0IfpmL/
-	Jdkyqj6YRgUIBiU/0CZ8homJeVH28STPFXpe7XQ0z7+mkMFp3+tyz2U8UUZ5aHs+v17+bv
-	QoHxIWxw8jOhVE+SxpmygzDRQbFHCqw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=MSsXgXAWfLN2ei8onO/BaPZdF6p5wfeK/YpnlP6sL2w=;
+	b=al0S0BLw6ZwJNGRWCv4uyDM6uP4k0wZ81/TuhrK9f8Pb0tNG2KcthayAAXnr9qROgQGSP4
+	DY5PUVl3QZ99Uxu58jF5ajZJ7fE5IfBVd7HxPg+EuuigVDch4pLxOx3zoYBb/MvAqTzkaI
+	+LZ61aGmIusWP9T86g3mi63MamZlEF0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-323-SaI6MDT2O525Fiq8rOELFA-1; Sun, 31 Dec 2023 04:39:05 -0500
-X-MC-Unique: SaI6MDT2O525Fiq8rOELFA-1
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-555f630f901so518187a12.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 01:39:05 -0800 (PST)
+ us-mta-79-3LCEO-QTNJOupSViToQ_cA-1; Sun, 31 Dec 2023 04:39:15 -0500
+X-MC-Unique: 3LCEO-QTNJOupSViToQ_cA-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5551f8ec1c8so2428321a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 01:39:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704015544; x=1704620344;
+        d=1e100.net; s=20230601; t=1704015555; x=1704620355;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HdM5Vkomds4h/QuK6n7mA0GCkNM9rwKnYx1KoPXzk3M=;
-        b=APcic8i5T10XTayWi1w3xcnHXTsNyNMcKjlVJ++CfYD3uNlNG9qqrRNnrTgLw6tK+j
-         1Ldi9Eq+ON6Xz/fk/lTUcKocVXEslis35o2ZfYJN0cAIgQwjcFhowD7pteJt60j0PnY7
-         QRUGPc6wwG1NX+j+QDcaY0ycahp0wi9+uIhSOlrg/+RzKyhTeUVj72ibkkqqzbh3RQ47
-         BHoMwZH6o29QXTYD3yRVbpdBGZp+fyHBOvVJegbLEL4XmPftfuOZdHsz2Ug7yK/pTrYW
-         fO0nB5bBjKvbbK29QP9TBrJHWrkVHQGwxVpKxuQljzBana3BZNc6bcEvMDlJIQWFQwlF
-         GjEQ==
-X-Gm-Message-State: AOJu0YzaH1ClpaS8oMnNmbZSHo2h6c3deVlEKQoMVaO5JyAmB5olM6X5
-	PnD8oOg8+Hf+Zc0yxqyaQ1V5xxhc8ROMYnza8v8pk2LcNP1SDQJ2z1ZvK5+hyTpC/D2gnbE0nlS
-	pYC7ruKBWT2838i9XxzAlLROYFgD71BEEyU9s5/dSRjd2IFh4bNtVwa5b
-X-Received: by 2002:a50:c10a:0:b0:555:226:764d with SMTP id l10-20020a50c10a000000b005550226764dmr5011592edf.70.1704015544344;
-        Sun, 31 Dec 2023 01:39:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFKA4bIPmpXp944hcEIeAaNCeCPsFiUapyDLV3C65+FtIjZ6pKJ+8TZ+8J3pxtFD0ToWuT4Sw==
-X-Received: by 2002:a50:c10a:0:b0:555:226:764d with SMTP id l10-20020a50c10a000000b005550226764dmr5011587edf.70.1704015544056;
-        Sun, 31 Dec 2023 01:39:04 -0800 (PST)
+        bh=MSsXgXAWfLN2ei8onO/BaPZdF6p5wfeK/YpnlP6sL2w=;
+        b=v1SjmRO8JAAkj/3zltZpG+QEdOnf1quowQFFRCYgYLaTszobjizSiZq+J5MYh2ZG14
+         VjhdA4hQVLXMlLwBYrXE1U0CqurMqPcWRmM6eGXOxf0a21AgeVDTmMPLzSbI53eqAhU+
+         BNe0eANi7bcqoVOGdqb/bTya5MN4GlFp8cUgNwrhjiQt0jyPngxKTZwT2KCSNvE2neJj
+         j4br+z7APLd7idRRbyw6z70FhGLxhA3Jg85dPlxcT7ZdJhNCn4SAk3+F/F8hTg4vO+Oj
+         rbMl1GqEcqBAOsF81yzOiD9x2WvhZ9z9gPA+o50hblWZE1STJks8xMKFZpU/tX+diP6O
+         /nVg==
+X-Gm-Message-State: AOJu0Yw+Jg6bDQnJCee7T5DgErbbOtmuNVA++3SmgOxxkbM50rgTJ+5a
+	S9uznDV1QyOZ+HSU6jBRqrJrf2aQaAHYOaa1v/o9llhPjIFRcYwPMiQ2MQayup/7bpJtVEzeiGT
+	jYVSSZeVF3x/SVK0S+fVx9njx0R5bm+ZUBv4GjrbV9yGuztivfjlevl4A
+X-Received: by 2002:a05:6402:148f:b0:555:b7b8:6d58 with SMTP id e15-20020a056402148f00b00555b7b86d58mr2236137edv.68.1704015554869;
+        Sun, 31 Dec 2023 01:39:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG7gkqwiv08UWlPI2wSdTw3bR46a7OJotvXDUCIQsB1EFFE5OYNb2PjBotp4aybJT+sJK7bXQ==
+X-Received: by 2002:a05:6402:148f:b0:555:b7b8:6d58 with SMTP id e15-20020a056402148f00b00555b7b86d58mr2236127edv.68.1704015554550;
+        Sun, 31 Dec 2023 01:39:14 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id ew10-20020a056402538a00b005546ba152f4sm10900308edb.71.2023.12.31.01.39.03
+        by smtp.gmail.com with ESMTPSA id ew10-20020a056402538a00b005546ba152f4sm10900308edb.71.2023.12.31.01.39.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 01:39:03 -0800 (PST)
-Message-ID: <32c5d324-c768-40d0-9c67-5038a24a89b6@redhat.com>
-Date: Sun, 31 Dec 2023 10:39:03 +0100
+        Sun, 31 Dec 2023 01:39:13 -0800 (PST)
+Message-ID: <b78d7f1d-ced8-42d2-8523-7b26f917d3e9@redhat.com>
+Date: Sun, 31 Dec 2023 10:39:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,15 +74,15 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drivers: staging: media: atomisp: pci: Fixes spelling
- mistakes in ia_css_irq.h
+Subject: Re: [PATCH] drivers: staging: media: atomisp: pci: Fixes a spelling
+ mistake in sh_css_defs.h
 To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231218151704.449883-1-kdipendra88@gmail.com>
+References: <20231218153200.450148-1-kdipendra88@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231218151704.449883-1-kdipendra88@gmail.com>
+In-Reply-To: <20231218153200.450148-1-kdipendra88@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -91,23 +91,18 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12/18/23 16:17, Dipendra Khadka wrote:
-> The script checkpatch.pl reported spelling errors
-> in ia_css_irq.h as below:
+On 12/18/23 16:32, Dipendra Khadka wrote:
+> The script checkpatch.pl reported a spelling error
+> in sh_css_defs.h as below:
 > 
 > '''
-> WARNING: Possible repeated word: 'in'
->         /** the input system in in error */
-> 
-> WARNING: Possible repeated word: 'in'
->         /** the input formatter in in error */
-> 
-> WARNING: Possible repeated word: 'in'
->         /** the dma in in error */
+> WARNING: 'upto' may be misspelled - perhaps 'up to'?
+> /* The FPGA system (vec_nelems == 16) only supports upto 5MP */
+>                                                     ^^^^
 > '''
 > 
-> This patch corrects spelling errors,
-> changing "in" to "is" in all three comments.
+> This patch corrects a spelling error,
+> changing "upto" to "up to".
 > 
 > Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
@@ -125,26 +120,20 @@ Hans
 
 
 > ---
->  drivers/staging/media/atomisp/pci/ia_css_irq.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/staging/media/atomisp/pci/sh_css_defs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_irq.h b/drivers/staging/media/atomisp/pci/ia_css_irq.h
-> index 26b1b3c8ba62..00e2fd1f9647 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_irq.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_irq.h
-> @@ -84,11 +84,11 @@ enum ia_css_irq_info {
->  	IA_CSS_IRQ_INFO_ISP_BINARY_STATISTICS_READY   = BIT(17),
->  	/** ISP binary statistics are ready */
->  	IA_CSS_IRQ_INFO_INPUT_SYSTEM_ERROR            = BIT(18),
-> -	/** the input system in in error */
-> +	/** the input system is in error */
->  	IA_CSS_IRQ_INFO_IF_ERROR                      = BIT(19),
-> -	/** the input formatter in in error */
-> +	/** the input formatter is in error */
->  	IA_CSS_IRQ_INFO_DMA_ERROR                     = BIT(20),
-> -	/** the dma in in error */
-> +	/** the dma is in error */
->  	IA_CSS_IRQ_INFO_ISYS_EVENTS_READY             = BIT(21),
->  	/** end-of-frame events are ready in the isys_event queue */
->  };
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_defs.h b/drivers/staging/media/atomisp/pci/sh_css_defs.h
+> index 7eb10b226f0a..2afde974e75d 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_defs.h
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_defs.h
+> @@ -131,7 +131,7 @@ RGB[0,8191],coef[-8192,8191] -> RGB[0,8191]
+>   * invalid rows/columns that result from filter initialization are skipped. */
+>  #define SH_CSS_MIN_DVS_ENVELOPE           12U
+>  
+> -/* The FPGA system (vec_nelems == 16) only supports upto 5MP */
+> +/* The FPGA system (vec_nelems == 16) only supports up to 5MP */
+>  #define SH_CSS_MAX_SENSOR_WIDTH           4608
+>  #define SH_CSS_MAX_SENSOR_HEIGHT          3450
+>  
 
