@@ -1,72 +1,72 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5A6322B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2BF20FB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NMpcWZdq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dt64JhWT"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 5F2CB403E7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:44:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5F2CB403E7
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NMpcWZdq
+	by smtp4.osuosl.org (Postfix) with ESMTP id D7A8840868
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:49:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D7A8840868
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Dt64JhWT
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
-	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oTNIy31eJPua
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id qj5uNBYmVX0I
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Sun, 31 Dec 2023 09:44:26 +0000 (UTC)
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E6CA5400FE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:44:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E6CA5400FE
+	Sun, 31 Dec 2023 09:49:40 +0000 (UTC)
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8734740321
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 09:49:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8734740321
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1704015864;
+	s=mimecast20190719; t=1704016179;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EuKW/WiYTJxSI9VLFVMNPYnkyJG0fGJhGRmQq6BzIUI=;
-	b=NMpcWZdqIN05g3gmtr6KD8jz5fzD3TD7h3JS0MA6iDGjMxJdg3ZSfx9B4+htZpXnKcCajJ
-	EKsndKZyDcw1kggrEDwRsudQDxqqBav+E6ynHtfzw4NYCE6JhRcZlDIW1L7gFaMlmMg6I5
-	Io3lYsm0Xa2ONu+xzlDSyAH5mgb1KOo=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=06P+yxJB7L9syooh76lIMfJszoozMlJlWrSMKYy7B0o=;
+	b=Dt64JhWTXxXJ215ZNW24UdCo4U1/HH/SbPitULkTqlDUwanKppApFvcWCMs85ldG9JUGmD
+	TBd3uKj+rgpXWY6zPchp+9YpinHlhtgwl9jUpuhEFNO0apihE0/HxfbweCbgPnZwyia0LE
+	u3aHB2gXWJQYdT25OFYWA9D2M+JkYrc=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-448-c69lbNHZP52hE0bDxnCuGA-1; Sun, 31 Dec 2023 04:44:22 -0500
-X-MC-Unique: c69lbNHZP52hE0bDxnCuGA-1
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-9fd0a58549bso845663166b.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 01:44:22 -0800 (PST)
+ us-mta-661-xyDvfwWiNz-EWLvCA3sJaQ-1; Sun, 31 Dec 2023 04:49:37 -0500
+X-MC-Unique: xyDvfwWiNz-EWLvCA3sJaQ-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2ccab4b1353so42688131fa.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Dec 2023 01:49:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704015861; x=1704620661;
+        d=1e100.net; s=20230601; t=1704016176; x=1704620976;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EuKW/WiYTJxSI9VLFVMNPYnkyJG0fGJhGRmQq6BzIUI=;
-        b=FdkaN3WSoiA+33CsgeQBfPQgU7TdDktnXsFQemkeoE4194HJFEbhsU04MuPOE2Zqbd
-         +AefrCACa9+e0pn7i4IUVrZmKRhhu1gLIygo7rqT30GzPUqTWuGnflN0bkDNawzXq2vI
-         +LrT7t4K0ges4mhK4cwIJSizV+PP3ZVa236/9xxeks4w8G6fjyLs2+lDQHk7059nKkZG
-         aQIzxFCjr+Q5vUY7FmhkfVvbGi+01ODUTWymXEv2R2IKEgROIxO6SUVb71fzADp3DK1q
-         PMwNtJzdxwR0W2siYV8rGwjBGp166ywFHdesRSB6TIAGCr5xWoHDa0C2rao8Xn5s0sKw
-         xu4g==
-X-Gm-Message-State: AOJu0YwsvpHvx6+dcJZd27vjyXTiK6lvwZJkiRj4Cg7c7UUJ5zZkPEHP
-	kdUY9QietPZKlx1DAQUUibCCdSeMzseERuiKXd/ZAWC9uoPpdBGhwxr2BX4J9OEANc+gf6dZosX
-	Z4E/SXy5LaArTiHY5Fg7jYfm5b7NkJcgBx9QiaukuA70MFpUjWM1zePep
-X-Received: by 2002:a17:907:3ac2:b0:a23:5893:1ac8 with SMTP id fi2-20020a1709073ac200b00a2358931ac8mr12276790ejc.27.1704015861779;
-        Sun, 31 Dec 2023 01:44:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF/zizKMwsqQrr7Yg28UomwhUJDmAq2ZJO9CDn6qhcdAiFIo1fEqPPVWqvKf+f4ihpRARn9xA==
-X-Received: by 2002:a17:907:3ac2:b0:a23:5893:1ac8 with SMTP id fi2-20020a1709073ac200b00a2358931ac8mr12276778ejc.27.1704015861469;
-        Sun, 31 Dec 2023 01:44:21 -0800 (PST)
+        bh=06P+yxJB7L9syooh76lIMfJszoozMlJlWrSMKYy7B0o=;
+        b=exWrQnmAsV4XmZlp1tlF+0xonI2N/rCWbUtynSBfU+mJnVUeg7WZtmVmuLARcnTn6S
+         illolsQrgn69WqAC0Z5LsIcZxiDYOEliA0ZLwly6JD40KYqSvM6xShU814u+ASQtGbPA
+         F4B2rM9yX5C2n6uqjllm3N/3cnHdgmf3QcU64ioge5FSJY+zURLHJ8gSFvvN9dOluvZF
+         VtDCjriEMIrlYE5VPj6I48Si2MvsXQF1gvsWFzeDS16PtmxzcUDlK14GP+n4hM2tbCsq
+         JTw7K3NLQLN5qi95SPv3+v8dyL3qWrpMrm0+ZG+u0Uv5IImBnrtWWsLMzFFidGs6VlJt
+         w/7Q==
+X-Gm-Message-State: AOJu0Yw28Xfjcg1U8RE6/FfZ737yZXtgetcS/n86A5QMAVboUgmaYn2P
+	ACeSdV4YEsfSAAUi1MBm2zoLhakHbtlylPar7M0wBZeTtr9m/F3KlvVVXTp3AMLoWUZdHE3ijig
+	hmDb0OCa67sPivX5jUv7A0qrtxEsQ4gBwhgL8zkVFNMXlpzrVCeUZqZPg
+X-Received: by 2002:a05:6512:2829:b0:50e:80db:e39f with SMTP id cf41-20020a056512282900b0050e80dbe39fmr4774745lfb.92.1704016176151;
+        Sun, 31 Dec 2023 01:49:36 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG52VEr9QrD/BgWs6/s2qz/PU2Mi2WBqZxTlZbBoK18i20Z61V9yGvs4iactVekVpgx/gx4kA==
+X-Received: by 2002:a05:6512:2829:b0:50e:80db:e39f with SMTP id cf41-20020a056512282900b0050e80dbe39fmr4774738lfb.92.1704016175758;
+        Sun, 31 Dec 2023 01:49:35 -0800 (PST)
 Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id z17-20020a170906715100b00a26966683e3sm10072345ejj.144.2023.12.31.01.44.20
+        by smtp.gmail.com with ESMTPSA id p12-20020a05640243cc00b0055493aa8905sm9894390edc.63.2023.12.31.01.49.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 31 Dec 2023 01:44:21 -0800 (PST)
-Message-ID: <91b0ae65-eefc-44f7-a801-fbe3ee6073a5@redhat.com>
-Date: Sun, 31 Dec 2023 10:44:20 +0100
+        Sun, 31 Dec 2023 01:49:35 -0800 (PST)
+Message-ID: <da90dec8-b0f3-4ebd-92fc-a33ec96b4905@redhat.com>
+Date: Sun, 31 Dec 2023 10:49:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -74,15 +74,15 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media/atomisp/pci/base/circbuf/interface: Fix
- spelling mistake in ia_css_circbuf.h
+Subject: Re: [PATCH] staging: media/atomisp/pci: Fix spelling mistakes in
+ sh_css_mipi.c
 To: Dipendra Khadka <kdipendra88@gmail.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, hpa@redhat.com
 Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20231223061647.78669-1-kdipendra88@gmail.com>
+References: <20231223064152.79712-1-kdipendra88@gmail.com>
 From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231223061647.78669-1-kdipendra88@gmail.com>
+In-Reply-To: <20231223064152.79712-1-kdipendra88@gmail.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, nl
@@ -91,14 +91,16 @@ Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 12/23/23 07:16, Dipendra Khadka wrote:
+On 12/23/23 07:41, Dipendra Khadka wrote:
 > codespell reported following spelling mistake
-> in ia_css_circbuf.h as below:
+> in sh_css_mipi.c as below:
 > 
 > '''
-> ./base/circbuf/interface/ia_css_circbuf.h:76: poistion ==> position
+> ./sh_css_mipi.c:177: separatelly ==> separately
+> ./sh_css_mipi.c:540: ofset ==> offset, of set
 > '''
-> This patch fixes this spelling mistake.
+> This patch fixes these spelling mistakes by changing
+> "separatelly" to "separately" and "ofset" to "offset".
 > 
 > Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
 
@@ -116,20 +118,29 @@ Hans
 
 
 > ---
->  .../media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/media/atomisp/pci/sh_css_mipi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> index 0579deac5535..e9846951f4ed 100644
-> --- a/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> +++ b/drivers/staging/media/atomisp/pci/base/circbuf/interface/ia_css_circbuf.h
-> @@ -73,7 +73,7 @@ uint32_t ia_css_circbuf_pop(
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css_mipi.c b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> index b7c1e164ee24..6e11fd771938 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css_mipi.c
+> @@ -174,7 +174,7 @@ ia_css_mipi_frame_calculate_size(const unsigned int width,
+>  	mem_words = ((embedded_data_size_words + 7) >> 3) +
+>  	mem_words_for_first_line +
+>  	(((height + 1) >> 1) - 1) * mem_words_per_odd_line +
+> -	/* ceil (height/2) - 1 (first line is calculated separatelly) */
+> +	/* ceil (height/2) - 1 (first line is calculated separately) */
+>  	(height      >> 1) * mem_words_per_even_line + /* floor(height/2) */
+>  	mem_words_for_EOF;
 >  
->  /**
->   * @brief Extract a value out of the circular buffer.
-> - * Get a value at an arbitrary poistion in the circular
-> + * Get a value at an arbitrary position in the circular
->   * buffer. The user should call "ia_css_circbuf_is_empty()"
->   * to avoid accessing to an empty buffer.
->   *
+> @@ -537,7 +537,7 @@ send_mipi_frames(struct ia_css_pipe *pipe)
+>  
+>  	/* Hand-over the SP-internal mipi buffers */
+>  	for (i = 0; i < my_css.num_mipi_frames[port]; i++) {
+> -		/* Need to include the ofset for port. */
+> +		/* Need to include the offset for port. */
+>  		sh_css_update_host2sp_mipi_frame(port * NUM_MIPI_FRAMES_PER_STREAM + i,
+>  						 my_css.mipi_frames[port][i]);
+>  		sh_css_update_host2sp_mipi_metadata(port * NUM_MIPI_FRAMES_PER_STREAM + i,
 
