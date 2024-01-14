@@ -1,108 +1,82 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DCEEBC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jan 2024 01:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCw8WCRB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD051FC8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 14 Jan 2024 07:18:07 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7734D83D1C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jan 2024 01:21:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7734D83D1C
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=aCw8WCRB
+	by smtp4.osuosl.org (Postfix) with ESMTP id A1ECB4151F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 14 Jan 2024 07:18:07 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A1ECB4151F
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: 0.853
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id wh7sGR6aVoLT
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id WytARJT4N9mC
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 11 Jan 2024 01:21:02 +0000 (UTC)
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A2A1083B58
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jan 2024 01:21:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A2A1083B58
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-5ce74ea4bf2so3123677a12.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Jan 2024 17:21:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704936062; x=1705540862; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JHpvuaXHtdCaSG+65uNqu4N8NK53ELdVOys3xfjWvOM=;
-        b=aCw8WCRB49u3dsal4LAvvyoX4XoYrdUTTBW5pDyF2RhTFGPsSPOF4tY1X/ixZgL/d1
-         9Lxrk/vOAQSbwInUTt+sofoDgwzaurRpgLVosf3aPsiTbgyQXQazY4ZImZE2V9BM6xMf
-         hyEUoWA+vqMCZimCKaC8hIf/SQEIFWWXM4vMOPxHFyMzgkMHQVeI1/Z4UpU6eberxmoM
-         ZIu4XLMYoTWTZYQPd6sKa+XNKeBr4SM3dr90bPt8pa1r93z39MZbR3ilmHsTv0QCCfqj
-         WhwmRilFtpIIbErujpqHTrbeO4P95F08bMTlHEZr2FWtEupQhU+PnY0voN7Nmv7J6EKH
-         NTDw==
+	Sun, 14 Jan 2024 07:18:06 +0000 (UTC)
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id EB4ED4086F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 14 Jan 2024 07:18:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org EB4ED4086F
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-35ff23275b8so73086155ab.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 13 Jan 2024 23:18:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704936062; x=1705540862;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JHpvuaXHtdCaSG+65uNqu4N8NK53ELdVOys3xfjWvOM=;
-        b=MOXFqRxfj6EP5YWUbZMLe/+xiQWP9i6aVeyJnZI0WUQ0bpCL3CmFKnGc69gRTSU/zd
-         INMNcDPTUGdUYzDLCCm3FgaHOEZ9n75lZahuts+UpjwA9S/13/zR68s6wrmkHcAmlzTi
-         uJPaKpH2mUeVOx0j8B5YZJYzzVG0tnxFQCGHtiNtgJRalOvmke4S/PpQJ/PCSFSUZU1A
-         0OXXmY5LjeWhw38TgUg4cTzlkswR2MuVKyIlOjUOu3qkP5t9y3+IISUvP4M5GKNrsQuT
-         VQJl3Vx6oJapM+OMEVdVn4WtWnMxHyuzyXObLornV8lyNvcLoH9pxEpVrAr8Fqi1kgnD
-         iK7A==
-X-Gm-Message-State: AOJu0YysysWFYO77AREdSUGKrbuNP0ppQjudM147ouZAKx/nuNg2OJAZ
-	pPkamQLglB3RuH5V3yt/q4Y=
-X-Google-Smtp-Source: AGHT+IE14qvrP/2cLWY/HBlCo+wLDJ14aOuepE1K27DJXRzvWLp87IZxeCygH+1D7lZKavhdCWqoGQ==
-X-Received: by 2002:a05:6a20:9706:b0:199:fffd:a3e3 with SMTP id hr6-20020a056a20970600b00199fffda3e3mr405012pzc.52.1704936061575;
-        Wed, 10 Jan 2024 17:21:01 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:70e2:a0a5:5166:fbbf])
-        by smtp.gmail.com with ESMTPSA id v6-20020a626106000000b006d98f584ad5sm4262356pfb.199.2024.01.10.17.21.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 17:21:01 -0800 (PST)
-Date: Wed, 10 Jan 2024 17:20:58 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Anshul Dalal <anshulusr@gmail.com>
-Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jeff LaBundy <jeff@labundy.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v12 1/2] dt-bindings: input: bindings for Adafruit Seesaw
- Gamepad
-Message-ID: <ZZ9CetbTOHuVzR1A@google.com>
-References: <20240106015111.882325-1-anshulusr@gmail.com>
+        d=1e100.net; s=20230601; t=1705216685; x=1705821485;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rFuCfXt+BxUWXTPpDFo62pMwYcUozTAUPCD33bbohME=;
+        b=coYllFO9yixF+q4UQmULe86lHoUGLUi2EtryeQOK89VQuZ5wa+88UJEFyVwmStU3//
+         i6f9we9pifA9X47yvGVkRh/ZZop73oerc2lh5FeDqSF6QqA8Ft2aouAXPsJimjS02n4i
+         zQycaI1LDPOkSxlEJrffFcB3tNSPBVTQkL5NhL/0Q5XMrN2L1Yar/ulqPMFF8gcxgxSh
+         0ULsNohRns1ISAJJyU9ZoEO8VKUezfsHsZkdzdJDO+9Bg3RW6USTUzwRSmUriiWJngEH
+         zkdC8QK8ogfTWHbayYQIXaDxFFzeWEL+UXc92PP2nN61m6FR+cPd1YmKRn1bm0efeGNr
+         Z/7w==
+X-Gm-Message-State: AOJu0YwW5GKfy+QEoyWTD5qJWGhVjLRYr6O+tZXHbIc6scWBtBO8i5Oc
+	1kD+9M2qxmgAMiXFAa3nRbeWXwjNHAPD6OBf5WMOt78pkVtb
+X-Google-Smtp-Source: AGHT+IGimRhoUIZge/Cefcap1amRLfI0F1bGWHGp+s1g1C+s2YzJZW/J5H80QFOHyQ2sc6MsZ6q2WFU0y1Lb49i7Bwlgo47qNbkD
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240106015111.882325-1-anshulusr@gmail.com>
+X-Received: by 2002:a05:6e02:12ce:b0:360:7c34:ffa7 with SMTP id
+ i14-20020a056e0212ce00b003607c34ffa7mr516080ilm.1.1705216685063; Sat, 13 Jan
+ 2024 23:18:05 -0800 (PST)
+Date: Sat, 13 Jan 2024 23:18:05 -0800
+In-Reply-To: <00000000000027993305eb841df8@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c746f0060ee2b23a@google.com>
+Subject: Re: [syzbot] [jfs?] UBSAN: array-index-out-of-bounds in diWrite
+From: syzbot <syzbot+c1056fdfe414463fdb33@syzkaller.appspotmail.com>
+To: axboe@kernel.dk, brauner@kernel.org, dave.kleikamp@oracle.com, 
+	ghandatmanas@gmail.com, jack@suse.cz, jfs-discussion@lists.sourceforge.net, 
+	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, shaggy@kernel.org, 
+	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jan 06, 2024 at 07:20:59AM +0530, Anshul Dalal wrote:
-> Adds bindings for the Adafruit Seesaw Gamepad.
-> 
-> The gamepad functions as an i2c device with the default address of 0x50
-> and has an IRQ pin that can be enabled in the driver to allow for a rising
-> edge trigger on each button press or joystick movement.
-> 
-> Product page:
->   https://www.adafruit.com/product/5743
-> Arduino driver:
->   https://github.com/adafruit/Adafruit_Seesaw
-> 
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Anshul Dalal <anshulusr@gmail.com>
-> 
+syzbot suspects this issue was fixed by commit:
 
-Applied, thank you.
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
 
--- 
-Dmitry
+    fs: Block writes to mounted block devices
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17ec162be80000
+start commit:   493ffd6605b2 Merge tag 'ucount-rlimits-cleanups-for-v5.19'..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d19f5d16783f901
+dashboard link: https://syzkaller.appspot.com/bug?extid=c1056fdfe414463fdb33
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f431d2880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1208894a880000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
