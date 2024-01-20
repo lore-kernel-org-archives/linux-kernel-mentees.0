@@ -1,158 +1,181 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517C54F1F6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Jan 2024 13:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E598B210B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Jan 2024 17:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705669243; cv=none; b=lbe3hi8FIVy/KHz68cTiVuBuBEpUJVHC5OEgGDzVPtnp3RBRO72Sen47009SDFsoIMVu2r+EARrBa25d0DbgZknQMatew4+Gas4it485ZcTSgnQ8I22nWKGOSMEmHtVe9N8k1wDp/+WDRVTuppqvuw4/czUqGqdoTdlVnXbS9VY=
+	t=1705773024; cv=none; b=cpoYLzTSbyTyiLpkvB8zCYh0GLfrkgqF+L83xKsKBpHM1YalmTc307QpcSnLNarXNUpcONzI+byxdYAXcRYg1LuxRi/G6dZN0cNf8OgQwlZ8KYdyX4cLCzPOHOM2QfJvWO8iGlsJmh3GcBNR4aLDuF3U1vysKKcTXHosgcsErDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705669243; c=relaxed/simple;
-	bh=mdBmJE5htP6mGHoqmVAD72lO+X8fEp+UZKSDLsltcRo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NQEtB/c9xkG4VYj9dGDsYqs18OeDT7fMhC6jNjvXF77hsWcBAWaw784m0ZHDlnDDwGOWjKQEA52zU2v6njLTuhw4i8ZTWTwF/KDf2Oef4yhypU34uWWdKzG6nf3KAjGWUX9vXuZMxz49J3YRJJKXsjTx2SlkNgSPjIelYvmDMAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bZ6QTJjm; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1705773024; c=relaxed/simple;
+	bh=ZH2cgyhXMAapdXDyYPTI26w4PVx1Wkx8CaqXEecxrq8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=txQllfoe58ze24L+X6s0YSiPIVXeOybV6auvH+RXK6wsVnubRFSb9OdhhQDVBs2BUlGuFWXhEr7E5MGwvVFom+JZFmmq2RI+mitsIqTJ19oqSx1ub/1H2osij2G9WXE/wcMdiN/9Rst2ZT72PazwSk5qUXqFmH0itlNfS5u/nVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rmr/Mujw; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bZ6QTJjm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rmr/Mujw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id AB55C42D43
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Jan 2024 13:00:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AB55C42D43
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=bZ6QTJjm
+	by smtp2.osuosl.org (Postfix) with ESMTP id 68F3E40A53
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Jan 2024 17:50:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 68F3E40A53
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Rmr/Mujw
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xlSf5PgVUVNF
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id aqX2BumNGHrs
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 19 Jan 2024 13:00:40 +0000 (UTC)
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 8CE0642D42
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Jan 2024 13:00:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8CE0642D42
-Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-a2cea0563cbso110405966b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 19 Jan 2024 05:00:40 -0800 (PST)
+	Sat, 20 Jan 2024 17:50:21 +0000 (UTC)
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 393A740253
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Jan 2024 17:50:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 393A740253
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3bd562d17dcso1538442b6e.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 20 Jan 2024 09:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705669238; x=1706274038; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=siajBaaFqK44x1k/dWoEneNkoHYdap1//tkVoA2vxzc=;
-        b=bZ6QTJjmBvVgcr+8jM4rK32bk4RD93FD1anvFxVwGwdFsx3rgmE2nvD6cR6RHMGChx
-         o8b6Glw101e7p/hvMjaFOUUk1sO7xI8JOuUpO2sKwL6qO/FZ+NmYGpziSj0K7NOondfw
-         m5WbCJV5EKrjNMooeJhGy2F4SoGapTjwjFDXn6R+CNaBgUSTzXItfB2GXTXqiJxGIrh4
-         CbhjATUffKGN5NHoOwznylHo+zD4gI30gZdQ2bOPKPtNqR8Ui7HKs98i1W382foCa57k
-         rwECWQhtGIjwK/sZ0zKs7gBObaWWui3Fi2cJHwhTf7fQOlv872QNVA24lSjHB+01xb1e
-         JuhQ==
+        d=gmail.com; s=20230601; t=1705773020; x=1706377820; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RdTcSw6dCRqmz3LKAL0ooCIVlHU/JbvVbB0EYBrgpLY=;
+        b=Rmr/MujwROpUsvzVbJTFtdUgioVE3QElfMQ7s21H3TFX61qCLCJ/bRiYBlMMGwnXWV
+         pCdQGgNdixq/55XUo+UfglIN1ulbglkz8oGtuRueMeUIOuCNqDvuQjR4a2BpIvdsb9nV
+         frPCz8rlm72rOl+oN7XT02QwozSfq9l9bMq0eskrWwYtwO6NP7aP3D4gBHEgl96WD9m5
+         CyKw6HKEeshG9QF4Sb15/FkI4jp16wuLs5flU9MyPPHgoDYMrnxZdRLau2nywcq9e2Yj
+         UN/xUraAKyvrJaqBhWb+cG757AcTIRD6gr4r9N0ohyrL9L2i0+swoL9nbQH9xyqoTmLy
+         xkzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705669238; x=1706274038;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=siajBaaFqK44x1k/dWoEneNkoHYdap1//tkVoA2vxzc=;
-        b=B+zjmRlwDFXEeOVqQQeY64t45sqCCSeZuL2knYwmtnHJqrt/zp08IinmT5fltZhqXB
-         cVrgWewVaDesjVYN2uWyW99DQfY7gruvPLi/dvEm6y6VuujUWZQ/azkV0EgZuChiaSdi
-         Di2sTNcHMdUW8iMlRWf5/ON98vH6oDxZb/vVKHo3ujKCyfIr3jTZCuqn9DyUEK4pZwp9
-         XFbEoFQKB1iJVIPDRt0CXWB3gJAU6gd5nV7q4JGEonOwcldqVuCrtL9UYY2s3AuCAtS6
-         gtfiu83ArdNiKh1Ug03sZCVPBfKxAgl93Fq5vlWLh8cBuGGDtC9xi0xLBUbyOzVayNn8
-         SwdA==
-X-Gm-Message-State: AOJu0YxLNir9S1NfxLfswS0Q0gJqOwsDCw7pAwEzsWir+C9vlkqXExqK
-	O7jEmZQugmozH1q6d4JTFpZoDoQCbBAHWRyOnXsKXkDAiMjzpy6Mf7c2r69mVqbxF9BWefBRgcM
-	eJifjtitQ1/KXZA8Z/lTc+bPXUTg=
-X-Google-Smtp-Source: AGHT+IEQ1BqWJ+lTrBmjsBDQf4pc86I2Zj/8lsICSt1zZdDCtTmggLXlX5TemcpbuMaFraoNhuIS+PQqLeRnofyL8eE=
-X-Received: by 2002:a17:906:84f:b0:a28:fa55:3597 with SMTP id
- f15-20020a170906084f00b00a28fa553597mr1237981ejd.98.1705669238281; Fri, 19
- Jan 2024 05:00:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705773020; x=1706377820;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RdTcSw6dCRqmz3LKAL0ooCIVlHU/JbvVbB0EYBrgpLY=;
+        b=H9vfJHpvubuDW0xtaKhF/1rB1D4NDC6IGFmQg1t/8aAkpNR8QiRSS6o8OlEWAgmSAE
+         hcN8KvpxEr8w/DQe28SYGdw1NO3dzcQ4/vpOG1Ku1QYz24f4FmkbzrYSCdU4Hzd9AmBO
+         kt3XhnIrOmQBe6PmUT1PuSL7oiISKobQ0Gf2GlVVsLbxUiu0L+0X6zF2E7z1x87okyaz
+         TOHX/MYzG4FD2L9FrZgsnbnzJsKl3iwt/4U2sc4CaRBbHxoBlg17w8t3zRPVVpiQ3F8w
+         1zdFm5CzMUyh701IfBK1UREYY7VFZhspu3KcG+xB4ZRZ6n9uMmTF40HBBkQvy+CwOsqz
+         CXhw==
+X-Gm-Message-State: AOJu0Yww0fU1G90q2B6oJd3uCCnCYdp39b1KLO95+ZgaR47yWRcV8L/Z
+	0CdFOTxnUpyllLizZiWRejym/t5qmc9R9f6vAxWwDzNyLf9lIToz
+X-Google-Smtp-Source: AGHT+IFFx20b7c10FL1Kkd5Q0zw6xXP25Pp6cveZf56kL0phBTkqyz/Ecud5J6QeaQ4gnuBoXqBbcg==
+X-Received: by 2002:a05:6808:2e94:b0:3bd:58c5:8ca2 with SMTP id gt20-20020a0568082e9400b003bd58c58ca2mr2722590oib.41.1705773020138;
+        Sat, 20 Jan 2024 09:50:20 -0800 (PST)
+Received: from vivek-host.. ([2405:201:d003:7018:e1d4:ba58:9c54:9742])
+        by smtp.gmail.com with ESMTPSA id qa10-20020a17090b4fca00b002908558b3d6sm205073pjb.57.2024.01.20.09.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jan 2024 09:50:19 -0800 (PST)
+From: Vivek Yadav <vivekyadav1207731111@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Vivek <vivekyadav1207731111@gmail.com>
+Subject: [PATCH 2/2] Test: Driver: Hello World module
+Date: Sat, 20 Jan 2024 23:20:14 +0530
+Message-Id: <20240120175014.4270-1-vivekyadav1207731111@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230803052238.12147-1-rauji.raut@gmail.com> <20230803052238.12147-2-rauji.raut@gmail.com>
- <f739cc15-dade-4f69-a17a-30242026c099@broadcom.com> <202401181217.1D75C32E@keescook>
-In-Reply-To: <202401181217.1D75C32E@keescook>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Fri, 19 Jan 2024 14:00:26 +0100
-Message-ID: <CAKXUXMzjGbO0U0pko1rg9=q3j6xS5rbzmLnMPeT3g9fMhBr0hw@mail.gmail.com>
-Subject: Re: [PATCH v2] brcmfmac: replace one-element array with
- flexible-array member
-To: Kees Cook <keescook@chromium.org>
-Cc: Arend van Spriel <arend.vanspriel@broadcom.com>, Atul Raut <rauji.raut@gmail.com>, 
-	aspriel@gmail.com, franky.lin@broadcom.com, kvalo@kernel.org, 
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 18, 2024 at 9:20=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
-rote:
->
-> On Thu, Jan 18, 2024 at 02:53:28PM +0100, Arend van Spriel wrote:
-> > + Kees
-> >
-> > On 8/3/2023 7:22 AM, Atul Raut wrote:
-> > > One-element arrays are obsolete, and flexible
-> > > array members have taken their place. So, in
-> > > struct cca_stats_n_flags, replace the one-element
-> > > array with a flexible-array member.
-> > >
-> > > This fixes warnings such as:
-> > > ./drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:119:6-9=
-: WARNING use flexible-array member instead (https://www.kernel.org/doc/htm=
-l/latest/process/deprecated.html#zero-length-and-one-element-arrays)
-> >
-> > I think this correct, but maybe Kees can give definitive answer here.
-> >
-> > > Signed-off-by: Atul Raut <rauji.raut@gmail.com>
-> > > ---
-> > >   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg8021=
-1.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-> > > index de8a2e27f49c..fff32e54833d 100644
-> > > --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-> > > +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-> > > @@ -116,7 +116,7 @@ struct brcmf_dump_survey {
-> > >   struct cca_stats_n_flags {
-> > >     u32 msrmnt_time; /* Time for Measurement (msec) */
-> > >     u32 msrmnt_done; /* flag set when measurement complete */
-> > > -   char buf[1];
-> > > +   char buf[];
-> > >   };
-> > >   struct cca_msrmnt_query {
->
-> Normally a [1] -> [] conversion needs some details in the commit log
-> about why this is safe (since it runs the risk of changing sizeof(struct
-> cca_stats_n_flags). In this case, there's only a single user of the
-> struct, and nothing about its use depends on its size:
->
-> #define BRCMF_DCMD_MEDLEN       1536
-> ...
->         struct cca_stats_n_flags *results;
->         char *buf;
->         ...
->         buf =3D kzalloc(sizeof(char) * BRCMF_DCMD_MEDLEN, GFP_KERNEL);
->         ...
->         results =3D (struct cca_stats_n_flags *)(buf);
->         ...
->                 brcmf_parse_dump_obss(results->buf, survey);
->
-> So, the allocation size is big enough for the struct, and nothing
-> depends on the struct size.
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
->
+From: Vivek <vivekyadav1207731111@gmail.com>
 
-As the linux-kernel-mentees mailing list is in CC, I assume that Atul
-is a linux-kernel mentee. In that case, it is certainly reasonable and
-at least of educational value for Atul to take Kees' explanation and
-add this to the patch's commit message in his own words. Then, with
-that, submit a PATCH v3.
+- Hello World module added with Kconfig and Makefile
+Also check with `make menuconfig`.
 
+Signed-off-by: Vivek <vivekyadav1207731111@gmail.com>
+---
+ drivers/HelloWorld/HelloWorld-1.c | 27 +++++++++++++++++++++++++++
+ drivers/HelloWorld/Kconfig        |  9 +++++++++
+ drivers/HelloWorld/Makefile       |  1 +
+ drivers/Kconfig                   |  2 ++
+ drivers/Makefile                  |  2 ++
+ 5 files changed, 41 insertions(+)
+ create mode 100644 drivers/HelloWorld/HelloWorld-1.c
+ create mode 100644 drivers/HelloWorld/Kconfig
+ create mode 100644 drivers/HelloWorld/Makefile
 
-Lukas
+diff --git a/drivers/HelloWorld/HelloWorld-1.c b/drivers/HelloWorld/HelloWorld-1.c
+new file mode 100644
+index 000000000000..3dd1c32c9ec6
+--- /dev/null
++++ b/drivers/HelloWorld/HelloWorld-1.c
+@@ -0,0 +1,27 @@
++// SPDX-License-Identifier: GPL-2.0
++/* This is test file for Linux kernel module
++ * Here I have written a simple Hello World module
++ *
++ * author : Vivek Yadav
++ */
++
++#include <linux/module.h>
++#include <linux/kernel.h>
++
++static int __init hello_init_module(void)
++{
++	pr_info("Hello World 1.\n");
++	return 0;
++}
++
++static void __exit hello_cleanup_module(void)
++{
++	pr_info("Goodbye World 1.\n");
++}
++
++module_init(hello_init_module);
++module_exit(hello_cleanup_module);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Vivek Yadav");
++MODULE_DESCRIPTION("Simple Hello World Kernel Module");
+diff --git a/drivers/HelloWorld/Kconfig b/drivers/HelloWorld/Kconfig
+new file mode 100644
+index 000000000000..27606645f577
+--- /dev/null
++++ b/drivers/HelloWorld/Kconfig
+@@ -0,0 +1,9 @@
++menu "Hello Module Kernel Support"
++​
++config HELLO_WORLD
++        tristate "Hello Module Driver"
++        depends on X86
++        help
++		Select this option to run a Hello World Module!
++		It is just simple driver for testing.
++endmenu
+diff --git a/drivers/HelloWorld/Makefile b/drivers/HelloWorld/Makefile
+new file mode 100644
+index 000000000000..03c1da296446
+--- /dev/null
++++ b/drivers/HelloWorld/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_HELLO_WORLD)	+= HelloWorld-1.o
+diff --git a/drivers/Kconfig b/drivers/Kconfig
+index 7bdad836fc62..509ecadffa26 100644
+--- a/drivers/Kconfig
++++ b/drivers/Kconfig
+@@ -245,4 +245,6 @@ source "drivers/cdx/Kconfig"
+ 
+ source "drivers/dpll/Kconfig"
+ 
++source "drivers/HelloWorld/Kconfig"
++
+ endmenu
+diff --git a/drivers/Makefile b/drivers/Makefile
+index 37fd6ce3bd7f..13f26fa34fc7 100644
+--- a/drivers/Makefile
++++ b/drivers/Makefile
+@@ -198,3 +198,5 @@ obj-$(CONFIG_CDX_BUS)		+= cdx/
+ obj-$(CONFIG_DPLL)		+= dpll/
+ 
+ obj-$(CONFIG_S390)		+= s390/
++
++obj-$(CONFIG_HELLO_WORLD)	+= HelloWorld/
+-- 
+2.34.1
+
