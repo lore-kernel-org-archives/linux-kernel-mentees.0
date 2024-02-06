@@ -1,124 +1,96 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76D5159574
-	for <Linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jan 2024 22:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C292132470
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Feb 2024 14:49:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706566409; cv=none; b=nKByP42nsZ2NLvJPne8CvkhTEzvP3zPfl4Cu+YN/kFZgsCgj26U6RWz8p+BqBq2MvaCsXBxtUhJp3bT59SKE8aG3DQAdusY/hfa8iy1fi2Kw8lwwXvqorz6oW5SHwUfLDxx4t6VgylnfkdIigHygXzjvLVWe9ZhXjJHV74PYKsI=
+	t=1707230949; cv=none; b=OAUNU2MoQvxx+pse0pPA2W7435aSTI7OyqmLmu2fej2H2vhIQAq0qro5K84nFjLV65qTZUshUVRuXP2W/5xS59p6ZPPw8b6hfw5gjQXH1MPFsqd2TidxQr8VWkxO2CgrZ/qNUk06gzyuCZpSlxqbNipbLHxlMplnoZZXNpXAJik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706566409; c=relaxed/simple;
-	bh=+UBZjeypPym8/ohCgDx7XPk3dKBYj0DKy9qt8tmB0c8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mgFPWhzejKNtxjTxTVybskbRLMULPHqvSPdJQ5cuSLG9g4xXgPrEEP2NHOjVRHjXx9dwaSy6Peano3YbLmIuLiAcZxWQQFH5dbCT2elsbe4817pCH7CCXOL4XZAZjruTanW/DKg1exakKjvlhiwXxHBU8GQj0hp+fGFCmS993Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mFuXXzit; arc=none smtp.client-ip=140.211.166.138
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mFuXXzit"
+	s=arc-20240116; t=1707230949; c=relaxed/simple;
+	bh=ZYhM25AzuOO8uiA+4AJts7dxWvnoP0sziHlbTBDdgdU=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=TduoKnNXyDzl5niK9rhsZFoi64QuSR93hSd+RSg8sJvPFVXDhQkSGk9mlvL3U1p1nZjwkv5g9+s4APVCPKFY/9zzgGA1GCWCVXNPc/W2KbkPXimwYjRX2zjZWEUAzvwxyjsgqzjiqhcRgXU2CWi9w1Y03ZeQaQ5w7prC2BdnSM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 6C2DB80ECA
-	for <Linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jan 2024 22:13:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6C2DB80ECA
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=mFuXXzit
+	by smtp1.osuosl.org (Postfix) with ESMTP id C48578187F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Feb 2024 14:49:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.398
+X-Spam-Score: 0.853
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d1u6_dqoiz0z
-	for <Linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 29 Jan 2024 22:13:24 +0000 (UTC)
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 7DB2580E3E
-	for <Linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jan 2024 22:13:24 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 7DB2580E3E
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=JCXBqSej7X9xmvzctrfkV79cun5I2fkyVI7US30JjdE=; b=mFuXXzitjEl/D4S9MwNvPSNvyP
-	4Zh9bQ56Tivc6zdM3tycSmZ40z9HLNru8T8m8ZVEDTGHaJiA9wgXMvBl0c9B/SVlY+zCehUbpIH+n
-	GgiIAVCSy5ViY3Qez4hJx2+cZB3bPhngceltE5+kzpWf8EpnXvfTu4uih72uTFCcKqkLOHM+FWY4e
-	bQSzjnjiiXu0xmKfhzDFZ+hUALCv9fKZ696W1uj8eZQW/QgQmv9SdBGUtT2Ex7nmh2D6u3NDcUvvD
-	9pDr27IRWQlHXdaSRd9HUyvHK8THCcXGvImArL4HtmDtlJgsbyZ1jfIijH4rkNA3KKOHpOSbtpXNd
-	4y41i2Fg==;
-Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rUZsW-000000080xV-08D6;
-	Mon, 29 Jan 2024 22:13:20 +0000
-Date: Mon, 29 Jan 2024 22:13:19 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Dave Kleikamp <dave.kleikamp@oracle.com>
-Cc: Manas Ghandat <ghandatmanas@gmail.com>,
-	Linux-kernel-mentees@lists.linuxfoundation.org,
-	jfs-discussion@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-	syzbot+411debe54d318eaed386@syzkaller.appspotmail.com,
-	Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH] jfs: fix shift-out-of-bounds in dbJoin
-Message-ID: <Zbgi_3MyT0rL7oZs@casper.infradead.org>
-References: <20231011143937.31996-1-ghandatmanas@gmail.com>
- <Zba9zRWq6rZhWn-p@casper.infradead.org>
- <a25c75af-c961-4ca6-9810-dbcfe64753d5@oracle.com>
- <Zbe8c_CPNP8IdphB@casper.infradead.org>
- <551e1e86-f990-487a-ad88-53799df0882a@oracle.com>
- <ZbfumG4uLUwZkzlf@casper.infradead.org>
- <37af8f84-98bc-4733-bd9c-102b62fdd028@oracle.com>
+	with ESMTP id 41RsAf1jbtgn
+	for <linux-kernel-mentees@lists.linuxfoundation.org>;
+	Tue,  6 Feb 2024 14:49:07 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.72; helo=mail-io1-f72.google.com; envelope-from=34ubczqkbakweklwmxxqdmbbup.saasxqgeqdoazfqzf.oay@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E79C4823E0
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E79C4823E0
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E79C4823E0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Feb 2024 14:49:06 +0000 (UTC)
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7baa6cc3af2so619694639f.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 06 Feb 2024 06:49:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707230946; x=1707835746;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kSrsdZ/RuKV0gEG27LOO5dIr8YmZtFDZ3FYa41rVAQo=;
+        b=SJqLPsgWlOKWMFADUYK5Pdz37sO+yhCo9CEO8FfJhcJtO3JHAL3BjztNvhR/c0qIwU
+         mon58hc+o19NG6UBBpwz7Zzvyj3j+GI8x9w6srwigkOTQNEf6a7SMen2egekSkinuURk
+         VAlZfZKOJbIY8mh3en3Mb71zSpnYuA+XzIMPV5kqEj57C2/JlMj571Xr3DQQP4j1JIdj
+         62WTbK5Kw8vrmnJ92T5gPCmjwk8pYHFN+ep/u7mKTe26mO3KCbaGMP71vKaWjg3s7ZFC
+         4COYqyGodHZWOFCte5szjIsQ3dglLmJOJ4wd+fthU9qHBHsRymYpaLdsxDymfL/Tho3H
+         XFPQ==
+X-Gm-Message-State: AOJu0Yx6l/TvlXhJYS+3RuZsttX4FzG6cf/tujoNbCwGaDs9zX1RbScy
+	V5G2Cyw+D8ono6LDls3nbECI9iHnyxgiSScV7No1ghj1cqn+IMbsWcfqg1mQIDb+TOxmv7C6SXu
+	mUpwAxPGWZlUwU0+yokEsZcoR+En+jEwzD3INjL/ZZn2ThR6bST8uBZg=
+X-Google-Smtp-Source: AGHT+IGyJ27bMyWH8/GynoFXTjuNU5g+uu1OXbn98nBQ0bYYkpj0BC/KPVZdYE7KwK+zDcXtX/Ot0QVWkk9m9WuMvI7pjKLzBruq
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37af8f84-98bc-4733-bd9c-102b62fdd028@oracle.com>
+X-Received: by 2002:a05:6e02:154d:b0:363:a059:670b with SMTP id
+ j13-20020a056e02154d00b00363a059670bmr186965ilu.4.1707230945919; Tue, 06 Feb
+ 2024 06:49:05 -0800 (PST)
+Date: Tue, 06 Feb 2024 06:49:05 -0800
+In-Reply-To: <000000000000332a2505e981f474@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000014c9ca0610b7aec6@google.com>
+Subject: Re: [syzbot] [jfs?] KASAN: slab-out-of-bounds Read in dtSearch
+From: syzbot <syzbot+9924e2a08d9ba0fd4ce2@syzkaller.appspotmail.com>
+To: axboe@kernel.dk, brauner@kernel.org, dan.carpenter@linaro.org, 
+	dave.kleikamp@oracle.com, ghandatmanas@gmail.com, jack@suse.cz, 
+	jfs-discussion@lists.sourceforge.net, linux-fsdevel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	lkp@intel.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	oe-kbuild@lists.linux.dev, shaggy@kernel.org, syzkaller-bugs@googlegroups.com, 
+	syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 29, 2024 at 03:17:27PM -0600, Dave Kleikamp wrote:
-> On 1/29/24 12:29PM, Matthew Wilcox wrote:
-> > On Mon, Jan 29, 2024 at 09:00:56AM -0600, Dave Kleikamp wrote:
-> > > On 1/29/24 8:55AM, Matthew Wilcox wrote:
-> > > > On Mon, Jan 29, 2024 at 08:39:18AM -0600, Dave Kleikamp wrote:
-> > > > > On 1/28/24 2:49PM, Matthew Wilcox wrote:
-> > > > > > On Wed, Oct 11, 2023 at 08:09:37PM +0530, Manas Ghandat wrote:
-> > > > > > > Currently while joining the leaf in a buddy system there is shift out
-> > > > > > > of bound error in calculation of BUDSIZE. Added the required check
-> > > > > > > to the BUDSIZE and fixed the documentation as well.
-> > > > > > 
-> > > > > > This patch causes xfstests to fail frequently.  The one this trace is
-> > > > > > from was generic/074.
-> > > > > 
-> > > > > Thanks for catching this. The sanity test is not right, so we need to revert
-> > > > > that one.
-> > > > 
-> > > > Unfortunately, my overnight test run with this patch reverted crashed
-> > > > again with the same signature.  I also reverted the parent commit,
-> > > > and when that crashed I also reverted the parent of that.  Which also
-> > > > crashed.
-> > > > 
-> > > > So maybe there's something else that makes this unstable.  Or maybe my
-> > > > bisect went wrong.  Or _something_.  Anyway, I'm going to spend much of
-> > > > today hammering on generic/074 with various kernel versions and see what
-> > > > I can deduce.
-> > > > 
-> > > > So far I see no evidence that v6.7 crashes with g/074.  And I know that
-> > > > next-20240125 does crash with g/074.  I'm pretty sure that v6.8-rc1 also
-> > > > crashes with g/074, but will confirm that.
-> > > 
-> > > I'll try to beat on it too and see what I find.
-> > > 
-> > > Sasha, maybe hold up on to all the jfs patches for the time being.
-> > 
-> > I have it reproducing easily on cca974daeb6c.  I ran it a lot on
-> > e0e1958f4c36 and have not reproduced it.  So I'm going back to my
-> > earlier assertion that cca974daeb6c is bad.  Now, maybe other commits
-> > are also bad?
-> 
-> I was able to reproduce it too, but not after reverting that one. I believe
-> it is the only one causing problems.
-> 
-> I only asked Sasha to hold the other ones as a precaution until we were more
-> confident that this one was the problem.
+syzbot suspects this issue was fixed by commit:
 
-I can't reproduce any problem with v6.8-rc1 + this one reverted.
-So I'm not sure what my overnight soak test found.  I'll try a few other
-things ...
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
+
+    fs: Block writes to mounted block devices
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=13767e8fe80000
+start commit:   bee0e7762ad2 Merge tag 'for-linus-iommufd' of git://git.ke..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b45dfd882e46ec91
+dashboard link: https://syzkaller.appspot.com/bug?extid=9924e2a08d9ba0fd4ce2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152bfc22e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1608f4a2e80000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
