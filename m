@@ -1,156 +1,146 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B79612E2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Feb 2024 20:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6486A4690
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Feb 2024 00:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707857137; cv=none; b=qzdJjUuSTVzYP1LbZJzuSzdK5wb2gZQww9hz1TvrZdrfa5YyS22WisvwnBA4KJcaWvq7z6Wjtw+n0KhASb2B2WZklBBIMQIqEq4wJQgRjKdL6wv5EnIhSn7+EcAg2ErqBPddTWZellwE30tT5aLWdHhPQd45dcccdlPHAhrHfOk=
+	t=1707870720; cv=none; b=scyPPU3yek6dJkJ/BD9Phz3l8H/j5xTlkqx+vafnK5THhupQJ6CWmKyxijVK6OMyoivsurxbKiUsQ8l0orz7/+q2Y0eAVh54a9+utMYacRcGAYia+VrtdfxFYCZNzE9al3+xiIiqlvDRbU2u20cdqIpK+UMOfMvsia3o4+8B6HE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707857137; c=relaxed/simple;
-	bh=o+UtUBoWIBnLq7hS5tRy94VdJqWGzZdtZhxoTJc/hNY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lh0dpx4+UfB1jl1mOVK/9irMw7odO0mF+ceMlaoZWhdyMVImH1oadSfEzkvXkhkKo3ram1OElA89StmgGK8o0DcmNTYQFhsFr68C65rvF6plCkFELYdE+Xy7vASDjvn+YX9GESRuRT/6ndu1koqXYVx7N93HxsuWqMmqQDXA6X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=a/I+3k8N; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1707870720; c=relaxed/simple;
+	bh=QOITHjTga42hAflI40Ipbts+6T7yutOW1a81G6BTQgE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D/4Gp9gDNrnRmpYWw/L5NPvOH+jgM84G6vh7gtjpnzKrqnue7Cxf4yhBxdplAbcP5Opa2FidjFapD5Me0WODCa8a5Hl8qwXs5yxsHkOZY1mgX/n8kcMNKiu/ilooIQ9hc4DJu5BCaJ1EAyrzxO8NlFm3p7JNOxZUA3qOwZhu03U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Od8LPD4X; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="a/I+3k8N"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Od8LPD4X"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 0572460BE0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Feb 2024 20:45:29 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id EFE51414E4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Feb 2024 00:31:58 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.102
+X-Spam-Score: -17.601
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 7RLebMwu_5Wo
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RLmnwR60x-F5
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue, 13 Feb 2024 20:45:27 +0000 (UTC)
-X-Greylist: delayed 2707 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 13 Feb 2024 20:45:23 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 9527360B8B
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9527360B8B
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fjasle.eu header.i=@fjasle.eu header.a=rsa-sha256 header.s=ds202307 header.b=a/I+3k8N
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a01:5b40:0:3006::1; helo=smtp.domeneshop.no; envelope-from=nicolas@fjasle.eu; receiver=<UNKNOWN> 
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [IPv6:2a01:5b40:0:3006::1])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9527360B8B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Feb 2024 20:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=fjasle.eu;
-	s=ds202307; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=ud9kP134wBy3ssKtmURanYc0oXG48zbkDyfGvOLR8gw=; b=a/I+3k8NEdqqDpeonjGZJj82yW
-	5oS3rePXR9zZccQV6iiBFON5q9h+sazljs400x3igksipq5KCdVPTw8us9MH3TjlGczKzWFt2511S
-	VSmvmEtZTzAvakf8Vu+TWADcwq6ABP+tAdCdW9s+czq2wUrOVYc6CB8tbAkf1YJuSnWyfqP57uteK
-	lcEleXlYSx0GVhmMFf5rwbth+FPVLI76D5gL19Ohuljnw3S1RKGblvWAC2arACs5wVZRqYALvScLO
-	V0vCrwtCIlAUqeIgiVqRBYcYse6rTm1rHQ2+DQI5S0csqBOT7a1eEM3SXTL64COOpTzQEc8x1HgTu
-	eOt60Ggw==;
-Received: from [2001:9e8:9d1:8401:6f0:21ff:fe91:394] (port=48586 helo=bergen.fjasle.eu)
-	by smtp.domeneshop.no with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <nicolas@fjasle.eu>)
-	id 1rZyws-00HFHx-9G;
-	Tue, 13 Feb 2024 21:00:11 +0100
-Date: Tue, 13 Feb 2024 21:00:03 +0100
-From: Nicolas Schier <nicolas@fjasle.eu>
-To: Andrew Ballance <andrewjballance@gmail.com>
-Cc: masahiroy@kernel.org, justinstitt@google.com,
-	linux-kbuild@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	morbo@google.com, nathan@kernel.org, ndesaulniers@google.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v2] gen_compile_commands: fix invalid escape sequence
- warning
-Message-ID: <ZcvKQ3SpLNR9RfIe@bergen.fjasle.eu>
-References: <CAK7LNARaW1V5X79BFW5_YTKY+n+OSp+_ACpRxpiw+VOJ+2hf=g@mail.gmail.com>
- <20240213022552.754830-1-andrewjballance@gmail.com>
+	Wed, 14 Feb 2024 00:31:58 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::52d; helo=mail-ed1-x52d.google.com; envelope-from=justinstitt@google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org DEDB5414CC
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DEDB5414CC
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=Od8LPD4X
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DEDB5414CC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Feb 2024 00:31:57 +0000 (UTC)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-55f279dca99so7849728a12.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Feb 2024 16:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1707870715; x=1708475515; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BTLJH4nKUhzssrfYYFDWlc0Q3VkrPFVldyClGOqfMTE=;
+        b=Od8LPD4XlAk+kUrRXfaaR9xQpntaP7JWKiJRGkCrcQO9+JiWlOlug8TCLIO8JrX6fQ
+         7SgQAAKEBN/tCyGfMWxtS4PZP7Ko5eVg3PDTlHbbc5puYiTOOlzw5Las3oWq9nfAQmlz
+         AIMDHY8OT+C5UY/RLQH5CQc96P6jN3+WcZTdBqKfGkpqqSsSWY82Z9kAoWkiYLZjUC8J
+         3+uvjN6tMnEgo3nWdNFeLId7kQVyn4q4Xrkd5lYWWAb+pa8b08KkM6SWKmJO+r+aXpPt
+         bVsRrlCqbkBQqURH1SWxsnnvQNdtoerNBps56FLZx9Tbx3hO/tenl/kSqbEuW/NerRe/
+         DuEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707870715; x=1708475515;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BTLJH4nKUhzssrfYYFDWlc0Q3VkrPFVldyClGOqfMTE=;
+        b=FG4W4MCihRpMZ/3iJeg0l/XfVU57hEwrAvyY7y2Cg9z9IX89iqw9kxdj6tPmhUJnPi
+         UUMiC8vlhpX5LjA+EnXBYAV3QryBhpgLz7mrhj+tSg9h6GfqqQATgseBe2fKTLasVhQE
+         bL38N2vvfhkvGdoVb2qkjulD5d0/U8UBGuhnD1w95bFseSjt5Y0uhb0rNaba1KzLwhKY
+         oQIWfDPS1/mOL/1QKnAqCuZr03GACzBfffHnIhi06ckl637cCCw3SGSgjhs1O0IX9+9f
+         NjF9eeEdMMU6kAfop39aoXMqqjTCFgNggnVbWoWyscjPoT6Aazs72WyON0uRsTznUPQZ
+         kQCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXTVDpd/e1sVSSyOhdZXQO8v/q+0WH77nn8AgXN0CPWg/fonSfBYVGSkp2GvqioonaqvZ94+dM6tvf/LyuzpqsODyOqe/62jhLitYjUD6o3JUIGZrIOf1EKVQM0c9Q/
+X-Gm-Message-State: AOJu0YwhpHESxyWgj+Peh9xdZHCeyGOwUGgyoZprAFa6ZGp3H5NW9+xd
+	tDepsVxSQa/oGrvW6SYZfLADZ1NRBols5cX80kPWXtpkAHAa5U/EGBkkjuUF+6IwnWdA4kIp2EA
+	my/BkLAs3pbIPiZNPMcYnwJWYXlX30ont528n
+X-Google-Smtp-Source: AGHT+IEtxrlAsAa9Q4ABaPzKYYZ7PeY703iUnusW6WDgntH1FFpPpJ1MY7i6BNKNdf7i4Duf3v/vA4f6NUFZRLDsZTM=
+X-Received: by 2002:aa7:d3c9:0:b0:561:123f:a98f with SMTP id
+ o9-20020aa7d3c9000000b00561123fa98fmr694626edr.24.1707870715624; Tue, 13 Feb
+ 2024 16:31:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4fCuJxvhdgZQ0EhT"
-Content-Disposition: inline
-In-Reply-To: <20240213022552.754830-1-andrewjballance@gmail.com>
-X-Operating-System: Debian GNU/Linux trixie/sid
-Jabber-ID: nicolas@jabber.no
-
-
---4fCuJxvhdgZQ0EhT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <CAK7LNARaW1V5X79BFW5_YTKY+n+OSp+_ACpRxpiw+VOJ+2hf=g@mail.gmail.com>
+ <20240213022552.754830-1-andrewjballance@gmail.com> <ZcvKQ3SpLNR9RfIe@bergen.fjasle.eu>
+In-Reply-To: <ZcvKQ3SpLNR9RfIe@bergen.fjasle.eu>
+From: Justin Stitt <justinstitt@google.com>
+Date: Tue, 13 Feb 2024 16:31:42 -0800
+Message-ID: <CAFhGd8pvhzehMGh1XEHBct7CGEQuF0CZeneMH3D6cKSRj5UdHQ@mail.gmail.com>
+Subject: Re: [PATCH v2] gen_compile_commands: fix invalid escape sequence warning
+To: Nicolas Schier <nicolas@fjasle.eu>
+Cc: Andrew Ballance <andrewjballance@gmail.com>, masahiroy@kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, morbo@google.com, 
+	nathan@kernel.org, ndesaulniers@google.com, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 12 Feb 2024 20:25:52 GMT, Andrew Ballance wrote:
-> with python 12.1 '\#' results in this warning
+On Tue, Feb 13, 2024 at 12:00=E2=80=AFPM Nicolas Schier <nicolas@fjasle.eu>=
+ wrote:
+>
+> On Mon 12 Feb 2024 20:25:52 GMT, Andrew Ballance wrote:
+> > with python 12.1 '\#' results in this warning
+>
+> funny typo: it's Python 3.12 :)
 
-funny typo: it's Python 3.12 :)
+They probably meant Python 3.12.1 and forgot the "3." (or had a vim
+moment resulting in its unfortunate removal)
 
-Kind regards,
-Nicolas
-
-
->     SyntaxWarning: invalid escape sequence '\#'
->=20
-> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
-> ---
->  scripts/clang-tools/gen_compile_commands.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clang-=
-tools/gen_compile_commands.py
-> index 5dea4479240b..93f64095fda9 100755
-> --- a/scripts/clang-tools/gen_compile_commands.py
-> +++ b/scripts/clang-tools/gen_compile_commands.py
-> @@ -170,7 +170,7 @@ def process_line(root_directory, command_prefix, file=
-_path):
->      # escape the pound sign '#', either as '\#' or '$(pound)' (depending=
- on the
->      # kernel version). The compile_commands.json file is not interepreted
->      # by Make, so this code replaces the escaped version with '#'.
-> -    prefix =3D command_prefix.replace('\#', '#').replace('$(pound)', '#')
-> +    prefix =3D command_prefix.replace('\\#', '#').replace('$(pound)', '#=
-')
-> =20
->      # Return the canonical path, eliminating any symbolic links encounte=
-red in the path.
->      abs_path =3D os.path.realpath(os.path.join(root_directory, file_path=
-))
-> --=20
-> 2.43.0
->=20
-
---=20
-Nicolas Schier
-=20
-epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
-=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
-     -- frykten for herren er opphav til kunnskap --
-
---4fCuJxvhdgZQ0EhT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmXLykMACgkQB1IKcBYm
-Emn2WhAAr/uP7ONWF6OazqnaFTX1stVYRqCALkxE77ELcU/9Fwa7+SRBbZHsHoi9
-Qxt5pjUssHWVnEtPDfWbr6lrcFlharkhAXkyBr2AN7Se6qrnRIQGVKn9QR8L6q7k
-nZprjuStF7beixYrlKtFasfnj9u6XQlwiJ87zF5Cl9usJfDHIf3KOEMrZQHKTUzQ
-thAyzIwXXM+q/nSCUk0ot/evURyVjvHqlXS+qeNmUO2qYB8GTKTqXU2QyT/eS6bm
-7kXvuMXHeaCoDNPfYWI7qvKvSzs//bjJVvmhCLbRaoF9kaA6e8ppSuPIEDbmYO7A
-BPlC6wQAMFCqFLJu8O6miyf6YYXDLth4PTzV+LbI2fTcdowyjgPGMXah3EanDrp/
-lnhBx+gUoGKO4pvUHIe6O+KVzSPF2QUjsL716pbeHc+yFF/kJmpP+8aTRmdZb5Vq
-OWSNEmzN79/RsnaaAhk2wZQnT9/62han7+N8DZZ2KYOezeSRzcrrAd+UNKlfPLE8
-HB+PJ+T4C0EcK2YIhcHVgRiKw3wWcdfVYj6P67rF7TK620hSvomo+mvAQVXUSiDy
-2z1mHlz71LEJyyCKwQY15AXRZJF7q01m8Zy8NJcR3aPZAZ3nK35YCElXxpPOrvYh
-iWylrp89sQAZ+om9VxwLX4bxbDp1l5Ce5zRI34uLGhWXpuWEF6k=
-=EmZL
------END PGP SIGNATURE-----
-
---4fCuJxvhdgZQ0EhT--
+>
+> Kind regards,
+> Nicolas
+>
+>
+> >     SyntaxWarning: invalid escape sequence '\#'
+> >
+> > Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+> > ---
+> >  scripts/clang-tools/gen_compile_commands.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/clang-tools/gen_compile_commands.py b/scripts/clan=
+g-tools/gen_compile_commands.py
+> > index 5dea4479240b..93f64095fda9 100755
+> > --- a/scripts/clang-tools/gen_compile_commands.py
+> > +++ b/scripts/clang-tools/gen_compile_commands.py
+> > @@ -170,7 +170,7 @@ def process_line(root_directory, command_prefix, fi=
+le_path):
+> >      # escape the pound sign '#', either as '\#' or '$(pound)' (dependi=
+ng on the
+> >      # kernel version). The compile_commands.json file is not interepre=
+ted
+> >      # by Make, so this code replaces the escaped version with '#'.
+> > -    prefix =3D command_prefix.replace('\#', '#').replace('$(pound)', '=
+#')
+> > +    prefix =3D command_prefix.replace('\\#', '#').replace('$(pound)', =
+'#')
+> >
+> >      # Return the canonical path, eliminating any symbolic links encoun=
+tered in the path.
+> >      abs_path =3D os.path.realpath(os.path.join(root_directory, file_pa=
+th))
+> > --
+> > 2.43.0
+> >
+>
+> --
+> Nicolas Schier
+>
+> epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+> =E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+>      -- frykten for herren er opphav til kunnskap --
