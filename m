@@ -1,94 +1,139 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC338BF0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Feb 2024 05:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FDA13ADC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Feb 2024 06:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708061337; cv=none; b=FWkkcif9H0SH47utLgBMjtUl1UK7ysMx7yjUod8H8GBTpii5iXejgHSmGVf29joHL22fHdyL4fRc2x5tHtX8X/imPlImd2+QEP0pD3+uJg2nWRCH9r1/wcoi20Vz3dYPZWZaxFtmetn4xhDjuTvK6nQ7JgUF8Ih9dAQ+6O5KjRE=
+	t=1708064380; cv=none; b=BcDJstEWmd4RktQTKbd1N79i9Uxqam9ZSjaogluT12hwrb2eXvcrurQaiwfxAPLAT/voC09oXBIt3LHMLIEahjfKslQM5ttjIXjFrD0vnoidSnkrIaHSUOu3vo1GArR0idWnDIFFNDH6hVfDT/QzOj3bR+7f1uD1waibgFiY2Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708061337; c=relaxed/simple;
-	bh=pvjLrBptRgZtu6rGXWEV4j3B7BGqqXBHy2HA9pkezu0=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=aJfPsh8tWONIsSgi4SzXECAJyzxBAgRm2WW3mQ/azJY39xX+vJLadly7ZvPBPZj+gkaysGaS1ncVBkYKd0MwHgWWfkuhv5jbFegSiAwf4GM2q/zFlljwNHELxsVXFy/RukbN4hyXmdJrziBXSDU5Fo6c9PO4jCUT/nqwaYmaWkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=GhrbqK1s; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1708064380; c=relaxed/simple;
+	bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lfH6XWVdzUbOpBC2XwGSMEoFMgFNzOB5ny4/xGgPVwyHMtm3he6eorpuOp+eJwJJuV+RdJsT9/wZQoJo93HO222lGFJ6ynsELWU5zoJL24EnzaakZeDM1v3xbScWM+atjuDK2f5MNOLAaMY/CC7hvCiKL6FaYi70NUZmIGyEN4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mI2Rxwzi; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="GhrbqK1s"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mI2Rxwzi"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with UTF8SMTP id D7C6783C5B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Feb 2024 05:28:55 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 8988181756
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Feb 2024 06:19:38 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 2.733
-X-Spam-Level: **
+X-Spam-Score: -2.099
+X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
 	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with UTF8SMTP id FyfuWjBRzFlP
+	with ESMTP id O2LZp95F1duS
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Fri, 16 Feb 2024 05:28:55 +0000 (UTC)
-X-Greylist: delayed 150490 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 16 Feb 2024 05:28:53 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org B6C7683C59
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org B6C7683C59
+	Fri, 16 Feb 2024 06:19:38 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::533; helo=mail-ed1-x533.google.com; envelope-from=lukas.bulwahn@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9C5448174C
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9C5448174C
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=foxmail.com header.i=@foxmail.com header.a=rsa-sha256 header.s=s201512 header.b=GhrbqK1s
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=203.205.221.231; helo=out203-205-221-231.mail.qq.com; envelope-from=ranpark@foxmail.com; receiver=<UNKNOWN> 
-Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
-	by smtp1.osuosl.org (Postfix) with UTF8SMTPS id B6C7683C59
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Feb 2024 05:28:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1708061321;
-	bh=Rvc2fug7Uaq7xVmmRaQlwuGeSMbuRAplnzQ8RFybO+A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GhrbqK1szJ8VTbvxdbksi6G5w4tOXHzbaxynO5HidrB5byIYbRnXphr8UzZK/dKeJ
-	 SJ4z2SVwph2a5FZ/8DbcoiXI5ueR9KNsi6hFzOoj6I/ME+zRsDVDQL6qU396ifXeBK
-	 /YUEiaNwKxUwqoXY6OEwiWNzS2AN0796Crd+o+sA=
-Received: from localhost.localdomain ([139.211.125.72])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id 7260DA6F; Fri, 16 Feb 2024 13:28:38 +0800
-X-QQ-mid: xmsmtpt1708061318tu8npfz2r
-Message-ID: <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
-X-QQ-XMAILINFO: MhK4DKsBP06iqGy2wE/u1l4Yh6I8YTHfADpjwLTLTNdtTagXHK9S1CpiaKQGqV
-	 X2ka1d/1xV3NuSj0A7Axu/50vllF0N5IHM1Pk9JnpQSGxQQ/uBwtFPdMFpqqEfpRAAMFw+29eJuC
-	 iHd0xfFb/2QJRpDKM612Rau0c2tB3Zq0LYs8m5fJMwSOF6IWnIrdw8AX5Hwni9E3Gd8UJ+pQrdQW
-	 Dou4rV7GIGF28LJTNl1lptFlE+J1r+XJWKAZPrBAwjUW3vX67Jy/ciZO1GE6ncm7GzQk4iaRmjCV
-	 cAaWaYu0hf0tYVCadC+UfGxQ31dqz4YhYPPMJzbwq1E91ikMGh5CZybWrRURg5YIiMrV9rEhYUmM
-	 eajCSWX9PTqsSXZZRBrHPefFN/HTC2RtusYSrga7EYMZk7Kp+ArbY+5/IZm1H73IvFmCir4Y6m/S
-	 wz94oo6vXMoEzXgemay/04Gfrw0wMDL0WLDzPP4xJvAhC8iRBRNPUqa0zhz17s8b2E/lDmfkV6OR
-	 OZ21xG/m/KsOCBJMHlBfLdIBK933YlJzvR6bte5c4qg6yunNnxJnIeUgdfHivmpSduU5Fd5fYoSG
-	 2eo5QE4RACBClImnGxDlSanZTKMigPpJlT6UmfKCfwYk9/n+0L81ONfsHMKeRtUhMGnkAbmQ03AN
-	 ZAkUqLf93aj7uALxuH3HFaJ1V+4y81kCosf2cxVHs48Iawlf6NKd/3zdUne/oPYE7H2XnJAutZIi
-	 FUKghMfWwS/dUo/cKcEGUFtPwI2N6NGLC4UeurV7wJg4w/5nrLaYlxp3uZ/p/rVtGmouUHQ4fvZO
-	 ambAsVaAW2flHz+mLUqvzrX1H5ec4kWkUeMoWKrLa6mxgrsWaj4LQT3kgsvgD+H6w76ypgg+bSln
-	 r6Q/r+E9iJ9NpavZGUZdnELssjAHlKbcOxonFnqnXkeJghGf/VackIeIK047+XinQ+MrxmWdKryi
-	 S+LMf9w9hWI0DZ4R07cXTb8SEuK61UJIJoewGHG5nL/TvYWt9gVyt8hM2J1kR/u54ZsXBxNt1Q86
-	 e5dOSO/5JIt3y1oBnPOJ6ImuZymuw=
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-From: "Ran.Park" <ranpark@foxmail.com>
-To: ricardo@marliere.net
-Cc: akinobu.mita@gmail.com,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	ranpark@foxmail.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] Fixed case issue with 'fault-injection' in documentation
-Date: Fri, 16 Feb 2024 13:28:38 +0800
-X-OQ-MSGID: <20240216052838.4547-1-ranpark@foxmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6>
-References: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mI2Rxwzi
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9C5448174C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Feb 2024 06:19:37 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-562178003a1so397385a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Feb 2024 22:19:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708064375; x=1708669175; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
+        b=mI2RxwziDdGvrvRwwlQEUO733zQ/9xHTfVZD9D61c0Y7gdgqfaH606ZMFMAEmwGhmH
+         +R66xMiQJnT16Oetcdqt/vTLQ8w7GDPHLW813dt3kNabfCxUP8mpxSA6KDtahoFQP/Xl
+         6BzQa7mdg7Xi5ywI2F5a6VqXAcxUcQfWzYsx+z1xybcelbnx/mxEXEa9U26aag8ynJok
+         0BO5uRfI4QNbT0rIxQvfWWqvwrzx1S3r3+hTFgNK+F4kVtIbQBJGHdcFh2HfgzVwNS2W
+         MoRvqtvZtdCAIaJKZWbVEKDu7jrIe0+LiERdVrTJK4+PKwxG9mlumKn4EMgorOH4fI6n
+         gTjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708064375; x=1708669175;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=twDT7pQukCriu5b7GZvI8MsCbZs40QK0iZ/i8KWlgCI=;
+        b=uiAmSdIyc6bfF7Z9TF3LARGZ6FTXC5CG9NB1/MNjHfr+zzQ6KohS/8G50CN9Y8Anm8
+         QKbzEIGHeH8kxyS9d/IsB8TKgEnnd3COpPqH7exE+csVNynHVQOmiTMkTuXRESnyVRUz
+         iDGTV3C1uF8DedYc+1XB5GzhUSqK94eONPo1jB5ufAbPcxVFVNZXS8A6sSc8388HL7Hr
+         eHHdePzi/45BSsIhxtQ4S8XmEZ5vw88BIcD/UBbtCDE8Gq5KRnVSD9bdBpWL4Owsc6xF
+         g2UbRAf0njkkjoBV6iQM85PlEq6bFlArfaK/Emxkx4RtQb8fSAw3RAPxJGn95tnZzOCG
+         s2Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCXwfQXtFrz392eDkb+Cmmq2nr9pwwpct5kpL9OuCf9RlmxYXf9Tbn/cXF//dJTfJSfdeRad2U1CqenFZ0l2fUOjPTre3uctjtcIwObdjjG4rP5WY9Ai1cJD8jpI/9B+
+X-Gm-Message-State: AOJu0YwfQex2DYXJ7FBXkhHN8jf8abNi9R7RNR0L6OjPoUe21qOgEk18
+	yzbnGh1IQBImBLkcMe9Ra/d/EqvoS39Flx5uv4G/ragSJWddYELPwfk4NPf5P78sSg9m8dX2DIB
+	ZtBCjHX8qDPUFS0OBpROttzZQiq8=
+X-Google-Smtp-Source: AGHT+IG3UH321Wj+62YjK+x82KH4WpkZBya/9VqrCbb8iOi2xWuIQnhYdvT8EKc9ZPnqf6YyWJaQstUaRwJ/OfHfStI=
+X-Received: by 2002:a17:906:8404:b0:a3c:f7c9:5ba with SMTP id
+ n4-20020a170906840400b00a3cf7c905bamr2441015ejx.10.1708064375165; Thu, 15 Feb
+ 2024 22:19:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6> <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
+In-Reply-To: <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Fri, 16 Feb 2024 07:19:23 +0100
+Message-ID: <CAKXUXMy8WZwAqrARe-6nNhtvjSiosDD3X5aPZPfn7GXtkG8B8w@mail.gmail.com>
+Subject: Re: [PATCH] Fixed case issue with 'fault-injection' in documentation
+To: "Ran.Park" <ranpark@foxmail.com>
+Cc: ricardo@marliere.net, akinobu.mita@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your reply. I'm sorry that I noticed this problem 
-while browsing the document. I have not seen any report about this problem 
-on lore.kernel.org or other places. Should I mention the situation elsewhere 
-and then resend the patch to mention and fix the problem.
+On Fri, Feb 16, 2024 at 6:29=E2=80=AFAM Ran.Park <ranpark@foxmail.com> wrot=
+e:
+>
+> Thank you for your reply. I'm sorry that I noticed this problem
+> while browsing the document. I have not seen any report about this proble=
+m
+> on lore.kernel.org or other places. Should I mention the situation elsewh=
+ere
+> and then resend the patch to mention and fix the problem.
+>
 
+Ran, in the future: please do not remove the context when you reply to
+somebody's email.
+
+In this case, I wanted to help you to understand what Ricardo was
+asking, but his original response was not in your email. So, I copy
+and pasted it now---but that is not how it is supposed to be for
+someone replying to your email.
+
+On Wed, Feb 14, 2024 at 2:21=E2=80=AFPM Ricardo B. Marliere
+<ricardo@marliere.net> wrote:
+>
+> Hi Ran,
+>
+> On 14 Feb 19:40, Ran.Park wrote:
+> > In the 'fault-injection' subdirectory, the first letter F
+> > is capitalized, whereas in index.rst f is lowercase, but in
+> > index.rst all other elements in the same column are capitalized.
+>
+> Does this fix any error or build warning? If so, it should be mentioned.
+>
+
+Ricardo suggests that:
+
+- you run 'make htmldocs' before applying the patch and check for the
+existing warnings.
+
+- you run 'make cleandocs' and 'make htmldocs' after applying the
+patch and check for the existing warnings.
+
+Did any warning disappear or appear due to your patch? Were you
+motivated by a specific warning you observed during the build and you
+addressing that?
+
+So, for starters: did you already try 'make htmldocs' with your patch
+applied? What did you observe?
+
+
+Lukas
