@@ -1,199 +1,97 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75440374C6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Feb 2024 14:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C6B55C33
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Feb 2024 21:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708352720; cv=none; b=MvB2oFjDhoyffC2hUNJP1NTgVHEzT9wLLckX/KVKTUQJAl8smJpXZ5xY0ou7AcZymfDRqPS/uWhjSUibYwgaEBRvqtTBIk9N6sNpbUG/n6pgeUEWNMyVYistD4VVd01UfCyH1dssfO690GE5imfyggBNvP0Zoc3sC2l1+bXeK1I=
+	t=1708378625; cv=none; b=l6kcn+Fz7ZeNaTgy6ChpsDgfpsjl2bUtchXiDRPdVyGYlLOr2FdA2j/QHVLIISaSdlWAU/OtGX6KE5cDDHz9A8UsmW0Y8vowfZjs/VIxCUKMsIFeQF7zTL9LuAqYA36FBKoFicJ/45F2OfXiQ2p5WfpGABx2pYiwwF5/P4eNCaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708352720; c=relaxed/simple;
-	bh=9/YVrENp5xo6smDoABPBOIy/2FWLNBFj5gykPLh6BAo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YgR1JDQO+iIQ7+u/cJDDGIRzVYaCe2prRHmUD33nZf0UjKjGh4+InZADCBi+PtMGz4Hi71oDX8HsWn/rVf1e0KWyF7p3ZErvZnV0r14XMGYjlbzCljuHenfTt97IYPlCXNKsmdFutEkxf8/+REQFWZ2HGV3Ec8tuLndPUKXgUv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=omZdShmf; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=omZdShmf; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1708378625; c=relaxed/simple;
+	bh=ahsEsL7xHvY6JXEf8G+tqpCCQDD6851+Q0sh4rCn0ys=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ggDUyLsSj0g33z+orFB9bsQdrG7lHr8ljDYQrIbIlCma8DtgrDv/KmxlbPlNFKQmYH12853wCr/x1AENGOMav/G3NDKqarPAr0mNr8A2X8epv92P/Jb8wATBPTB699eQTEHqaodHfIjZzO9aCxkFS1C0rEUGoeMGoZVFSGtbAew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XmyZzi7k; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="omZdShmf";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="omZdShmf"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XmyZzi7k"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 06862605C7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Feb 2024 14:25:19 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 90CCD4088A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Feb 2024 21:37:03 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.4
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CN4_UVazWzmk
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id pr9katRyHRKM
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon, 19 Feb 2024 14:25:18 +0000 (UTC)
-X-Greylist: delayed 545 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 19 Feb 2024 14:25:17 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org E4192605AD
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org E4192605AD
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=omZdShmf;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=susede1 header.b=omZdShmf
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.131; helo=smtp-out2.suse.de; envelope-from=mpdesouza@suse.com; receiver=<UNKNOWN> 
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id E4192605AD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Feb 2024 14:25:17 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
+	Mon, 19 Feb 2024 21:37:03 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.79.88.28; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org DCF6040800
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org DCF6040800
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=XmyZzi7k
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id DCF6040800
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Feb 2024 21:37:02 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 815005A270
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1708378616; bh=tnu9wEn1IsHkV2rTmIJegZNLUksL15hxtWNasU0E/Iw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XmyZzi7kg2wIqtIdQhpf4g6cHpb1jXsEqxtxPG4zcbM1Ff4PsE4ryDahnMh+eG+73
+	 Kd9x1K0UXFFzXQg4c2WVDwqNAebLvmQ10VNnGP43rlfOlevRg1a83wcB6YhoOXJ7+4
+	 R6zKTMdETIJiP3RdlfmA6HSmtLv3TMAvx2FOW99o6jGL+/JiPX2Imtmg0Vu4SQhmnd
+	 QCL/GOiu/epy6DDJFzw/5Pw6HkrHHgERCDt5foocv31jWz8HzJI7CcMHcwdfRK3+CO
+	 QV13L0uzK2q9vRJBCjKVoM78v4mlBf0ls9pT3fsFQrXZNyWLiE0rwLq9xdCvMOJqlI
+	 +itUmEOb5QQ9Q==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::646])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3A66B1F800;
-	Mon, 19 Feb 2024 14:16:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708352170; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RGi2qxr4MOWI0h/oxoHKd3Sk73dK3PGq7ebzjeQ1VJk=;
-	b=omZdShmfA+3Rc+7JR/eARuSL3Qn6Se6zyJIvOgveHB8j+Dt5Qbgw+MaYSAROjzCe9Zekwy
-	5jxK6ORrFOPk6CihITapc4gUKHY2re4OijPGDnqb3zghEJqbjvf8qfXrGKn78qD9SB5U26
-	WzXs0UQeNK0Qtbbg5/xAP05Q476XqLI=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1708352170; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RGi2qxr4MOWI0h/oxoHKd3Sk73dK3PGq7ebzjeQ1VJk=;
-	b=omZdShmfA+3Rc+7JR/eARuSL3Qn6Se6zyJIvOgveHB8j+Dt5Qbgw+MaYSAROjzCe9Zekwy
-	5jxK6ORrFOPk6CihITapc4gUKHY2re4OijPGDnqb3zghEJqbjvf8qfXrGKn78qD9SB5U26
-	WzXs0UQeNK0Qtbbg5/xAP05Q476XqLI=
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 7DAA613585;
-	Mon, 19 Feb 2024 14:16:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id 1hEUEali02X9EAAAn2gu4w
-	(envelope-from <mpdesouza@suse.com>); Mon, 19 Feb 2024 14:16:09 +0000
-From: Marcos Paulo de Souza <mpdesouza@suse.com>
-To: Shresth Prasad <shresthprasad7@gmail.com>
-Cc: jpoimboe@kernel.org,
-	jikos@kernel.org,
-	mbenes@suse.cz,
-	pmladek@suse.com,
-	joe.lawrence@redhat.com,
-	shuah@kernel.org,
-	live-patching@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH]     Fix implicit cast warning in test_klp_state.c
-Date: Mon, 19 Feb 2024 11:16:03 -0300
-Message-ID: <20240219141606.6711-1-mpdesouza@suse.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <20240216225126.454999-1-shresthprasad7@gmail.com>
-References: 
+	by ms.lwn.net (Postfix) with ESMTPSA id 815005A270;
+	Mon, 19 Feb 2024 21:36:56 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Lukas Bulwahn <lukas.bulwahn@gmail.com>, "Ran.Park" <ranpark@foxmail.com>
+Cc: ricardo@marliere.net, akinobu.mita@gmail.com, linux-doc@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH] Fixed case issue with 'fault-injection' in documentation
+In-Reply-To: <CAKXUXMy8WZwAqrARe-6nNhtvjSiosDD3X5aPZPfn7GXtkG8B8w@mail.gmail.com>
+References: <piosq44nxwlfeutperrk6d23bx564qlbfirc5xlbouyrunf24r@u6qsgqp47fz6>
+ <tencent_B08771190400813E0CC41E36A3F540AACA07@qq.com>
+ <CAKXUXMy8WZwAqrARe-6nNhtvjSiosDD3X5aPZPfn7GXtkG8B8w@mail.gmail.com>
+Date: Mon, 19 Feb 2024 14:36:55 -0700
+Message-ID: <87zfvwm8zs.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=omZdShmf
-X-Spamd-Result: default: False [4.66 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 R_MISSING_CHARSET(2.50)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	 DKIM_TRACE(0.00)[suse.com:+];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.03)[56.20%]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 3A66B1F800
-X-Spamd-Bar: ++++
+Content-Type: text/plain
 
-On Sat, 17 Feb 2024 04:21:26 +0530 Shresth Prasad <shresthprasad7@gmail.com> wrote:
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
->     The function `klp_get_state` returns an `int` value, but the variable
->     `loglevel_state` is of type `struct klp_state *` and thus does an
->     implicit cast. Explicitly casting these values fixes:
-> 
->             - warning: assignment to \u2018struct klp_state *\u2019 from \u2018int\u2019
-> 	    makes pointer from integer without a cast [-Wint-conversion]
-> 
->     on lines 38, 55, 68 and 80 of test_klp_state.c
+> Ricardo suggests that:
+>
+> - you run 'make htmldocs' before applying the patch and check for the
+> existing warnings.
+>
+> - you run 'make cleandocs' and 'make htmldocs' after applying the
+> patch and check for the existing warnings.
+>
+> Did any warning disappear or appear due to your patch? Were you
+> motivated by a specific warning you observed during the build and you
+> addressing that?
+>
+> So, for starters: did you already try 'make htmldocs' with your patch
+> applied? What did you observe?
 
-I was unable to find where you saw the klp_get_state returning int. I tried
-searching at the current master of live-patching repo[1], on linux-next. Can
-you point where do you saw it? For me, klp_get_state return a pointer to klp_state.
+This all seems like a bit much for what is essentially a typo fix.  I
+would be amazed if it changed the build in any way other than making the
+case more consistent; there's no need to do all that stuff.
 
-Thanks,
-  Marcos
+I've applied it, thanks.
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/livepatching/livepatching.git/tree/kernel/livepatch/state.c
-
-> 
-> Signed-off-by: Shresth Prasad <shresthprasad7@gmail.com>
-> ---
->  .../selftests/livepatch/test_modules/test_klp_state.c     | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/livepatch/test_modules/test_klp_state.c b/tools/testing/selftests/livepatch/test_modules/test_klp_state.c
-> index 57a4253acb01..ae6b1ca15fc0 100644
-> --- a/tools/testing/selftests/livepatch/test_modules/test_klp_state.c
-> +++ b/tools/testing/selftests/livepatch/test_modules/test_klp_state.c
-> @@ -35,7 +35,7 @@ static int allocate_loglevel_state(void)
->  {
->  	struct klp_state *loglevel_state;
->  
-> -	loglevel_state = klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
-> +	loglevel_state = (struct klp_state *)klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
->  	if (!loglevel_state)
->  		return -EINVAL;
->  
-> @@ -52,7 +52,7 @@ static void fix_console_loglevel(void)
->  {
->  	struct klp_state *loglevel_state;
->  
-> -	loglevel_state = klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
-> +	loglevel_state = (struct klp_state *)klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
->  	if (!loglevel_state)
->  		return;
->  
-> @@ -65,7 +65,7 @@ static void restore_console_loglevel(void)
->  {
->  	struct klp_state *loglevel_state;
->  
-> -	loglevel_state = klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
-> +	loglevel_state = (struct klp_state *)klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
->  	if (!loglevel_state)
->  		return;
->  
-> @@ -77,7 +77,7 @@ static void free_loglevel_state(void)
->  {
->  	struct klp_state *loglevel_state;
->  
-> -	loglevel_state = klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
-> +	loglevel_state = (struct klp_state *)klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
->  	if (!loglevel_state)
->  		return;
->  
-> -- 
-> 2.43.1
+jon
