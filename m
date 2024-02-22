@@ -1,151 +1,104 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF4D85C5E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Feb 2024 18:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF6A168BD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 08:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708540025; cv=none; b=aHpcrq3dhCduTQC/XMFEipS6ShH07W8hxP0eOLc+9Eo37vqKFr6diwPxEwCS41pjY6bkkN0B5p3Qta5S6P4Pi+rX5Vg6yJAmPoQEcbMO1JzeXzzE0jyytbxfJvZCsvdIu4NcBAD6s9FwKQnQrB29YtxOv8JXCkiksik6z3F/gGE=
+	t=1708589594; cv=none; b=asZLfxGEsgj0Smy4dRSjSKlf939u68MA88kYy4KanlEonx9K+fEooSOlAerh1YQkyNurOrLunvQV09nbh7YJmBf9p2Bwh2QU0BkhK1Pe58z1OSdQVhSgLRYqzDXDPhbxjsX9J0708IdDNdmjd9Wdxx7LZ1/ya7fpqBrXpaE55+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708540025; c=relaxed/simple;
-	bh=6VC1qcHGtWcfwYOSabJJ8ZSmJ/99a6jDL4crh0KLPVk=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
-	 In-Reply-To:Content-Type; b=asjZHMGlXtS5Y/hDgOiBLR3kScLLmlS7qorQwCCJTfgHcesGA+fWbHsOuqMIWn/qMki46UD/nWa1vVJDQc5+hsp8TtephhgZot/6p/OEqiJ+qpOKVivB9C/VVHopYyQq23fWC4kl1IOQ3RgjsoI8RnzR6BvTvGKp4TjK3dQCuKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Im7AT0YG; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1708589594; c=relaxed/simple;
+	bh=KnY6kaip9BM7FrJjonxxh3mpPi8qcS0JyCecKgQh/gU=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=pqwuGc+F33n5bWRDqi3GqHlyz+S8FmDagmsPAEGi89cRPJ3rystzEwHd1NAj82nMyzqHD3QyCXEqT8h5BOManov4ir8QwBt0ki29CcUgo2qktFto+hk5sG7+SaNosTY5f8ax9PrSx+9su4B+XvhOLebHD1oCb2yIYm2xMQtFZEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQOeytiv; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Im7AT0YG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQOeytiv"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 860FC41570
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Feb 2024 18:27:03 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 97916415A9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 08:13:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
-	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 9bxTkjJdUGZr
+Received: from smtp2.osuosl.org ([127.0.0.1])
+	by localhost (smtp2.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id nF0JzH8-5QhN
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 21 Feb 2024 18:27:03 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.133.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=joe.lawrence@redhat.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org CBEFE40679
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org CBEFE40679
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Im7AT0YG
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id CBEFE40679
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Feb 2024 18:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1708540021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oEojIl750TYVuyYtzldN9G7sEW6mfeIF1z8MGEw+SFo=;
-	b=Im7AT0YGBHxZk5o0w/ZWYkxkljVOjgwyidwxR2FydygDfFekdGJ9/BpSDp2VQCU2w8gzvq
-	ZeEVno5f2583h1KTUrGKBzjI/cYLyiNvV83mCeX2sUgTYDdPwX2BafBmNm9eeUWDrF33hd
-	n8mGUCysHq+HyXxQhZXUL3vAaaMviiw=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-414-nR4LvpTyOpi8JR3WI2H5fA-1; Wed, 21 Feb 2024 13:26:59 -0500
-X-MC-Unique: nR4LvpTyOpi8JR3WI2H5fA-1
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-7d8e7631457so4081760241.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Feb 2024 10:26:59 -0800 (PST)
+	Thu, 22 Feb 2024 08:12:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::436; helo=mail-pf1-x436.google.com; envelope-from=shresthprasad7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B5D6640332
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B5D6640332
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LQOeytiv
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B5D6640332
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 08:12:59 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6e22e63abf1so3595448b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 00:12:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1708589579; x=1709194379; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:subject:in-reply-to
+         :message-id:cc:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KnY6kaip9BM7FrJjonxxh3mpPi8qcS0JyCecKgQh/gU=;
+        b=LQOeytiv1DDdSVUUO37yoPgRVzxFQpC1TWlC5EzSucNJhlNQPWq7fef3Tnv1Yn+hwI
+         b03OAqzujuOIRaJhiuBCr39391EE7QfD1NhWcj2Pfm1HhCiI5LW11DX6bvfqYj8vI6Pb
+         8XDgGCmUdJ5OvUifA2Il2dsBoOw4dPqjulRBKgJQZA6ac8BMQ4UlyTay5desNeiblS0Q
+         YM7M4TMSU0w2z2Ib/k3EcWWst2xT8k+KvSy14UrmWhLiQCA20+iHKoJMCZnt5gb7NhV+
+         gDf5hDvoi7fga5qQpA8kc+hDfEV/vVsGcluDgQztu9fqCpJ9IwsWggVegLKejS1wiQqQ
+         Wvgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708540019; x=1709144819;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oEojIl750TYVuyYtzldN9G7sEW6mfeIF1z8MGEw+SFo=;
-        b=av0BOCH7T5oV66ffrE6C3TSJsrhtDI3ZhtgWc2zV0RMxhwYCN+tQMSnwOaIp/1qZXL
-         gYCV0ctT5tAMz0lb857jwmeiMmrgKfFcAULG2oCawY+rwv7cXoiBvfDivNEHaFNuwM9u
-         U+I4PZPKazDHSjwZMsi49QqiIISqD5Wqm6Z9R+1qQZ8KyxoQ5fin2M0EwEKr50jB9YIk
-         cNUOTRAFKccQ+D8uh39sgGhQeu/A3PDt9GvhP3o8TF58UQXOdpsqOnqJL6XmsPBqxMYc
-         McWLfkk1u/Q0F5/yV4yTAHDJIeqhpdGU7CR8HltpQOzpJsqQ7uZL3NlPgWuvVe0SAtKl
-         mc3w==
-X-Forwarded-Encrypted: i=1; AJvYcCUv1dxylBP6ZDQjBxoYTbbqfZSe3hsSg6t3N3iFaxucFizU+QEMN+7OCznfPEGsZoVMH9vceMpGZtuij+WXB+WpNDASm/ZlhP9VOQnaaCAu/fx/ybRqVLhK6a5QdoQd
-X-Gm-Message-State: AOJu0Yx3Hlgf2ffJrW4jeyDEJeHSrJaGUr0VccxSqzd9zNUHp1DWjTq7
-	XN4tECXrLW00N8/3FuLmNYegTI6o/HKX4Jzdcgr9JjtMgsxZm645aVjvIOLKzDEXh5aHvnhWLax
-	w86KjqwBesjfuxpUAdBDeFuVkIHPSjjlLloHRgJKe3Sh9AMOVlJvwJHUHXlUbxXZ3RJCZXgtaNF
-	ACqpW45rox5w==
-X-Received: by 2002:a05:6122:4f05:b0:4d1:34a1:c887 with SMTP id gh5-20020a0561224f0500b004d134a1c887mr3318942vkb.9.1708540019324;
-        Wed, 21 Feb 2024 10:26:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFVeAkg3MpsRAS/vobA8hq7pIispK+lnPkq/9Wp7nPrxR6fPAfqKmvjqwfiX/cWcrVq6/8GSQ==
-X-Received: by 2002:a05:6122:4f05:b0:4d1:34a1:c887 with SMTP id gh5-20020a0561224f0500b004d134a1c887mr3318929vkb.9.1708540018987;
-        Wed, 21 Feb 2024 10:26:58 -0800 (PST)
-Received: from [192.168.1.35] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
-        by smtp.gmail.com with ESMTPSA id ny13-20020a056214398d00b006862b537412sm5803551qvb.123.2024.02.21.10.26.57
+        d=1e100.net; s=20230601; t=1708589579; x=1709194379;
+        h=content-transfer-encoding:mime-version:subject:in-reply-to
+         :message-id:cc:to:from:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KnY6kaip9BM7FrJjonxxh3mpPi8qcS0JyCecKgQh/gU=;
+        b=CTPcclyve0YvbN/aPxftnu3txBgb+YE06glbeUSVQ1+ItAPdJ8HS9Ftf1NuoVjlAtU
+         thGTcj1O+OAQ3balbFb2tGEtIJUqvWhQBHivJXQt56wM8RuFYeTvgPd+JOad97MuK9ap
+         sJGX93qemTWCgSU7VjvwpYdpnP/h1kTCHvB2jLNLUAK6XBANu7DKSaVd3BjkdO+6gyAa
+         P5BTWzOqsO/j50wefKHpbsxKw1rTK20jjX/qvLhwJDXfOej2zcxjbbVPp/HWuKphheXA
+         OMo6o8S/yLQRY8vero6VQze1lPdVjZPMFqIjx0n5VN01RIqpN8+C3+bgYFY1KqFH7OoO
+         tccw==
+X-Forwarded-Encrypted: i=1; AJvYcCUpTzhmzqiRmbfdn12ofZjluWIx3gRmjwucnTcSfIOI/sNDkwtDJIW3i0uHdCt0zww2iLHn5c2vlN750qENCtt1SoQV0HQdGmOlD44uSYXKH4xuJ06KRvmvA+h8n+YR
+X-Gm-Message-State: AOJu0YyOfd2X839Ac6G2q+ESVzt/BUP4MPB7nOVhwY9vuYqZFxKJekG0
+	BA7LoJuE3Pcb9Rb2jtf8f558cfI/jyINpq1NvnkYIKeB36f6CxFW
+X-Google-Smtp-Source: AGHT+IGgPrGvMG2ZkFBWVBhR0i51muQpwt/Ba+RuSmY+zYMXUKvg0MxHxIJRPZq8F9TAPfuvNzctaA==
+X-Received: by 2002:a05:6a00:6815:b0:6e3:cc8e:bb40 with SMTP id hq21-20020a056a00681500b006e3cc8ebb40mr10231403pfb.5.1708589578839;
+        Thu, 22 Feb 2024 00:12:58 -0800 (PST)
+Received: from [127.0.0.1] ([106.221.232.11])
+        by smtp.gmail.com with ESMTPSA id w20-20020a056a0014d400b006e471c54861sm6161032pfu.210.2024.02.22.00.12.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 10:26:58 -0800 (PST)
-Message-ID: <88672d5a-1b12-a6f2-bf7b-8670eeddc711@redhat.com>
-Date: Wed, 21 Feb 2024 13:26:57 -0500
+        Thu, 22 Feb 2024 00:12:58 -0800 (PST)
+Date: Thu, 22 Feb 2024 13:42:44 +0530 (GMT+05:30)
+From: Shresth Prasad <shresthprasad7@gmail.com>
+To: nstange@suse.de
+Cc: jikos@kernel.org, joe.lawrence@redhat.com, jpoimboe@kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	live-patching@vger.kernel.org, mbenes@suse.cz, mpdesouza@suse.com,
+	pmladek@suse.com, shresthprasad7@gmail.com, shuah@kernel.org,
+	skhan@linuxfoundation.org, zhangwarden@gmail.com
+Message-ID: <1da6e25f-3f1e-4acc-8256-53fbbdc29e78@gmail.com>
+In-Reply-To: <878r3eyoku.fsf@>
+Subject: Re: [PATCH]     Fix implicit cast warning in test_klp_state.c
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-To: Nicolai Stange <nstange@suse.de>,
- Shresth Prasad <shresthprasad7@gmail.com>
-Cc: zhangwarden@gmail.com, jikos@kernel.org, jpoimboe@kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- live-patching@vger.kernel.org, mbenes@suse.cz, mpdesouza@suse.com,
- pmladek@suse.com, shuah@kernel.org, skhan@linuxfoundation.org
-References: <ff1078b2-447d-4ae7-8287-d0affd23588d@gmail.com>
- <22981.124022107441100115@us-mta-655.us.mimecast.lan>
-From: Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Re: [PATCH] Fix implicit cast warning in test_klp_state.c
-In-Reply-To: <22981.124022107441100115@us-mta-655.us.mimecast.lan>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Correlation-ID: <1da6e25f-3f1e-4acc-8256-53fbbdc29e78@gmail.com>
 
-On 2/21/24 07:44, Nicolai Stange wrote:
-> Shresth Prasad <shresthprasad7@gmail.com> writes:
-> 
->> I checked the source code and yes I am on the latest Linux next repo.
->>
->> Here's the warning:
->> /home/shresthp/dev/linux_work/linux_next/tools/testing/selftests/livepatch/test_modules/test_klp_state.c:38:24: warning: assignment to ‘struct klp_state *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
->>    38 |         loglevel_state = klp_get_state(&patch, CONSOLE_LOGLEVEL_STATE);
->>       |                        ^
-> 
-> 
-> Is the declaration of klp_get_state() visible at that point, i.e. is
-> there perhaps any warning about missing declarations above that?
-> 
-> Otherwise C rules would default to assume an 'int' return type.
-> 
+>Is the declaration of klp_get_state() visible at that >point, i.e. is
+>there perhaps any warning about missing >declarations above that?
+>
+>Otherwise C rules would default to assume an 'int' >return type.
 
-This is an interesting clue.  I thought I might be able to reproduce the
-build error by modifying include/livepatch.h and running `make -j15 -C
-tools/testing/selftests/livepatch` ... but that seemed to work fine on
-my system.  I even removed the entire include/ subdir from my tree and
-it still built the test module.  Huh?
+I wasn't aware it works like that. You're right I do see some warnings about implicit function declarations of klp_get_state.
 
-Then I moved /lib/modules/$(uname -r)/build out of the way and saw that
-the compilation failed.  Ah hah -- that's right, it's using the system
-build tree.  That version of livepatch.h may have a missing or
-completely different definition of klp_get_state().
-
-How does this sequence work for you, Shresth:
-
-  # Verify that kernel livepatching is turned on
-  $ grep LIVEPATCH .config
-  CONFIG_HAVE_LIVEPATCH=y
-  CONFIG_LIVEPATCH=y
-
-  # Build linux-next kernel tree and then the livepatch selftests,
-  # pointing KDIR to this tree
-  $ make -j$(nproc) vmlinux && \
-    make -j$(nproc) KDIR=$(pwd) -C tools/testing/selftests/livepatch
-
--- 
-Joe
-
+Regards,
+Shresth
