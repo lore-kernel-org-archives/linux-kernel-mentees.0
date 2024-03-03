@@ -1,99 +1,97 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F8924215
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 08:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507DF63A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  3 Mar 2024 08:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708590951; cv=none; b=TF0fO47OwLGZWRZAcBGpGR7tWgqePkSYkr0JFeO9BFcnbzJlrqH3NUvkJwuUe6hZ1/mjc2VVf0cMF2PEEBEicDNCGDTN2b0E+c2Ef3nmuRvSoi+ImWAAv7NcpYwWZZXdTvYzHY+srhU3d7j4UJ/BiXROQAHHTlnbMlPO77qZtpU=
+	t=1709454609; cv=none; b=eRJh+MeR58ioVRKucGiakOjcP98FLijSVmHZALHC5cE5BEQU1vxYGNs8KuPw5U8TwGoFG1s9iE6fP2u9Gwo5wA0nnkbjsGYGl/7By6Fay5JNVQvZ9LZlNQhIKpSh5M/Ny3GVl41582CtnPrTd0yyMdpwON9ZYQ7Z59URO1NJIcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708590951; c=relaxed/simple;
-	bh=xHwbdjmZSqPrdWn6XHlNXr764e/on4qsQLoM4hWOqrE=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=A7WBZ2BgCa7ychrOAV7c+dHt7PeodE63uJ4I6crYJJhC2ovLbW+Vn2X7WCkAYo3kZxh3/AgI4oh/YeVCEmT6PkmqTVjjrmTzJpDbicQiuBoA0AgyyOaK3UO47hu9yi7AyjaT+GCwD5h2usY25AKyQgOzon7tzznmP+dKgwTGiq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TadSTvZA; arc=none smtp.client-ip=140.211.166.136
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TadSTvZA"
+	s=arc-20240116; t=1709454609; c=relaxed/simple;
+	bh=ZN6/uX4Tx0/Y6hxHxujw+cQxS8rTAmYY0DHz938FZb0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Qeyp4RSuyQA3QOUHSsmgf6BgFccB5yq/0qq0TMRj9uASTUK6PnwNyhMxDcyu0GG4w0GlXTKfGa+zyGhaKqMWBA+xXVx5A8V+3BdQyU9Mi7KTyzTD9rthMTMbpDqr6AkoPam1wHmlJ0TLhpYOdKHWzV5Xe+Qw4usmR0iDaDkTiDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id F2D6460B72
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 08:35:49 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id D960440852
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  3 Mar 2024 08:30:07 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: 0.853
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id oKk2o8QJ5UKM
+Received: from smtp4.osuosl.org ([127.0.0.1])
+	by localhost (smtp4.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id t-71DQ7yrebC
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Thu, 22 Feb 2024 08:35:49 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=shresthprasad7@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 45B116086F
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 45B116086F
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TadSTvZA
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 45B116086F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 08:35:48 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1d731314e67so55190215ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 22 Feb 2024 00:35:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708590948; x=1709195748; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:subject:in-reply-to
-         :message-id:cc:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xHwbdjmZSqPrdWn6XHlNXr764e/on4qsQLoM4hWOqrE=;
-        b=TadSTvZApKZ1wFSyiT8Vy2OFL44uQqJp7hnbTmuOkYR5cPlO4Ybxf3kD78OVLky6kf
-         c85Hn9z8s5Y18zi8p36umnw/tmShqwHQeKHv+zhhjHthfqXTCNzTAAqPbwK76aOJul5Y
-         tW9V+kDfmzB3qqdHn4H7rQ4XWaKugc3roSTGMzh3anL6ysqSqqwFdX9wQLxVRLzPNHy3
-         R6F/0M3Xc7v7YuQrqraRRhEp96PbRGefjDF99xV67rePXdJpEKrOuxVToG1lRN5dtekf
-         avmsPgVfzVyEf0p9FsAk3B4Trksujt9HGSsAklaFij+F8j9/lkWxBvinXQpug7lSD82P
-         F4fQ==
+	Sun,  3 Mar 2024 08:30:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.198; helo=mail-il1-f198.google.com; envelope-from=3dtxkzqkbad4x34pfqqjwfuuni.lttlqjzxjwhtsyjsy.htr@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 92695407E8
+Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 92695407E8
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 92695407E8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  3 Mar 2024 08:30:06 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-36512fcf643so42994105ab.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 03 Mar 2024 00:30:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708590948; x=1709195748;
-        h=content-transfer-encoding:mime-version:subject:in-reply-to
-         :message-id:cc:to:from:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xHwbdjmZSqPrdWn6XHlNXr764e/on4qsQLoM4hWOqrE=;
-        b=ayjdp/466kGV188Qnas/SDgo/DoZXSv02FA81c8mytY+O7ydjCUhNeFvQtADiqdS+1
-         RiIWGx6aqQUNOmvDA3aUHa6At53CUJWD4SEvhUX2AI7N7krH32a51p8mY8IFB0CC6IfM
-         GY1mzxToxcIO1iKTWYHWsw5/lOGVnJIzUUyB/tytkkeBCLk+cl77YmKHNY6cCxiwwy8W
-         SsW4YF0G9vIroxUhXALEsWph1eW3YSA6V6/m5wyzbqfD53rhkAuEWvNusITcEh2yDBor
-         r0KjjkoVwBJLjBjbLWqebZ1vsC3KGDzY8e1JyrJbJvKzvfLkEAwKWYi6zUvStX7dqyp0
-         Nn2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUyGO8+UMd6RYCDw2dwihuNbHNWealevZJ6IPR5E1gS93TAoyDK1DkABpRd5fnGIgO93R63ow1ZyJu8/a5pSNBkoX+XplpDYraYvlFFYILz6PzMdvZYmzphvvPDKXqk
-X-Gm-Message-State: AOJu0YwlfPhTrUdiTqrsfrbMS3Ag7yDVoR8Fh97ofrWYdtHA+MN5GyRN
-	RTH+488HE6q/0WdqnRd5xF9kEMplgcUrzOBtsYYtgoY8/uZtbZVQ
-X-Google-Smtp-Source: AGHT+IHm40srSL4/lTs5Lqg+0oCFJuyeZcIBshsR0LQDg4eLG87gdBMW8WlA9ifb0M6JsjcbO1sPRA==
-X-Received: by 2002:a17:903:124b:b0:1d7:691e:2704 with SMTP id u11-20020a170903124b00b001d7691e2704mr24868491plh.35.1708590948183;
-        Thu, 22 Feb 2024 00:35:48 -0800 (PST)
-Received: from [127.0.0.1] ([106.221.232.11])
-        by smtp.gmail.com with ESMTPSA id jc13-20020a17090325cd00b001db6de983d3sm9421904plb.85.2024.02.22.00.35.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Feb 2024 00:35:47 -0800 (PST)
-Date: Thu, 22 Feb 2024 14:05:41 +0530 (GMT+05:30)
-From: Shresth Prasad <shresthprasad7@gmail.com>
-To: joe.lawrence@redhat.com
-Cc: jikos@kernel.org, jpoimboe@kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	live-patching@vger.kernel.org, mbenes@suse.cz, mpdesouza@suse.com,
-	nstange@suse.de, pmladek@suse.com, shresthprasad7@gmail.com,
-	shuah@kernel.org, skhan@linuxfoundation.org, zhangwarden@gmail.com
-Message-ID: <10876e08-a747-4ce7-bdc9-d80b61b3ba54@gmail.com>
-In-Reply-To: <88672d5a-1b12-a6f2-bf7b-8670eeddc711@redhat.com>
-Subject: Re: [PATCH] Fix implicit cast warning in test_klp_state.c
+        d=1e100.net; s=20230601; t=1709454605; x=1710059405;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cw6wOjMgK4MwRpjPkZeZa5isVmvzXm/3D1T3RvcQvyU=;
+        b=ZV7GUD0imPFUcGp72jos82MV+G9Yd04E27miErZo3yN6LFvUmiU2HeD5+gZiMExHq6
+         ErhtcdEYuGsXinqLYZ+jZ386WCNqW9oVos7axvSmF3y/0cn6PoF+EofsdtBn5HV/X0/e
+         DTGENzg6IZfrBTb2nZC6b1PDPrZAM3Haym/vJQzox01h9MtaTwvZvhWcuwNabQf4mZrO
+         EKz0zE0XbC9G9bqGkGWg/X9BEB1ebBPd5DWTgb+en2qZurgeVDb0oQGl+kp0Nq5CsAwQ
+         Ix0rg7sez6S2K0GucPjyg8BvFTulpb+EvF4DdH79ToY4uPTXoUNo1A0Zwf7dsx0+IGFx
+         q4Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCVlaPVLM7wVKTuBs3TMRQ/+eX1QywL8d5Gm7O7LNQ7erRKG2PGqo08EvvqT+oXs7M6EqbfJPIa9mBETIJqqVR8zh4+UFAP2wVb+v/zVekGaNwevbaM4eG42pD2CnRAe
+X-Gm-Message-State: AOJu0Yz3Ph7ESWXFkJh1GWbzYoVBKM5LDD7qfgnwV3qR8/nZ8BhYtglQ
+	J0OA4EY6njQFVT+c/DWa7zEC1NPV6RS4xcKFehfK5BLOy1+p4p+oYyR0aDZbZRAGTBHtWUxb/2x
+	Zq7p0CP1V7vgXlUshFFaJm0eoDCXK0W6GO8gmk64N/obDZBhcYCmzA70=
+X-Google-Smtp-Source: AGHT+IHR9m9OWQf2a5daMm1kcCiAq5nUoCcInX4EAJ7d/KyuNCP7k69rkgu5tuf8PQMAEmm1FSHLXoo6Fad5z6jCDdAWcrsKdxpo
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Correlation-ID: <10876e08-a747-4ce7-bdc9-d80b61b3ba54@gmail.com>
+X-Received: by 2002:a05:6e02:1a48:b0:365:2f9d:5f04 with SMTP id
+ u8-20020a056e021a4800b003652f9d5f04mr488751ilv.5.1709454605217; Sun, 03 Mar
+ 2024 00:30:05 -0800 (PST)
+Date: Sun, 03 Mar 2024 00:30:05 -0800
+In-Reply-To: <000000000000c29dab06004a752b@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000080f93d0612bd6a5e@google.com>
+Subject: Re: [syzbot] [fs?] UBSAN: shift-out-of-bounds in befs_check_sb
+From: syzbot <syzbot+fc26c366038b54261e53@syzkaller.appspotmail.com>
+To: 20230801155823.206985-1-ghandatmanas@gmail.com, 
+	88c258bd-3d0c-de79-b411-6552841eb8d0@gmail.com, axboe@kernel.dk, 
+	brauner@kernel.org, ghandatmanas@gmail.com, gregkh@linuxfoundation.org, 
+	jack@suse.cz, linux-fsdevel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	luisbg@kernel.org, salah.triki@gmail.com, syzkaller-bugs@googlegroups.com, 
+	syzkaller@googlegroups.com, w@1wt.eu
+Content-Type: text/plain; charset="UTF-8"
 
-That sequence of steps fixed the warnings. Thank you so much!
+syzbot suspects this issue was fixed by commit:
 
-Regards,
-Shresth
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
+
+    fs: Block writes to mounted block devices
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14b5e754180000
+start commit:   8689f4f2ea56 Merge tag 'mmc-v6.5-2' of git://git.kernel.or..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=15873d91ff37a949
+dashboard link: https://syzkaller.appspot.com/bug?extid=fc26c366038b54261e53
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14237dc2a80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13e34d22a80000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
