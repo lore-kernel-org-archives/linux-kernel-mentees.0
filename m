@@ -1,119 +1,98 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26544416
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Mar 2024 01:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFAA128807
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  5 Mar 2024 20:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709515563; cv=none; b=OOXOufkRTmF+UXuebxMn/Ga3TLGEl32zKzOCnL/SbZE0gAUgSGrk8xA9kp+qwM9Tc30hBjM7kjKIRQ6/nQ9lbDWZU6yFcMnpZfY8bVgOCHlIVVt9e5RYyI0pl3pv3P7aUimCFN9dKQgc3+IujGns7mB4S/twIH9eNSXapz303SM=
+	t=1709670069; cv=none; b=c3M2ZJxN36XJZaDaH6rolyA/TAFxwqpHgNEdvdJP6uVgtzoT3oPOEgrG5tYmAfJOyeAjt1HZFrjk1sE3MFoFzuB4VH1lu3tBHhLou/iBFlvaeqri1upWyUMe9hkulfcQq1Oq1YpQW73KxSnwkFlRwtr98z3CNh7JCb5/9smMIOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709515563; c=relaxed/simple;
-	bh=PKFdH2Ew/2KszJ2KLQdX6BpPURrzDiGAHTBUa4+sX2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UHPwEfOYa5vLpex3Nl2YAdZzx9ItvXZCHfB6syLNuH7TA0cWQ8/btegAFl2SLZo4b4pxAQYiFWxC+9/r9ibQBqeHZV7Z6EvlfvfYhFAB6oBqoYrPBAOqckUhcEygCqk7Yt5y2bnOw/LQ7XvM3M10oD8QmPg4YsCGrW3Kl+30Eec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q9smQnHo; arc=none smtp.client-ip=140.211.166.136
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q9smQnHo"
+	s=arc-20240116; t=1709670069; c=relaxed/simple;
+	bh=6/AYUfzDqzkrxKkZjplJh9OD3V2IdKBUYScD8zp5YJg=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=j1BgUoEzh54wJklNzsIj3zP+IKK94X0VP1XfBiJndXl4ocK4STB34WVZGatJqWIl49o44sbhoS3GQEko+3YJHtYD497yjjMPm/euktlhx2jDhQlz5iuToaceHv2Vq0u9BK1o22K5lyXZ8eYiHJSA66zAhaSPCaAfFOg+7jH+/EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2E0EC60837
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Mar 2024 01:26:02 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2E27782219
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  5 Mar 2024 20:21:08 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: 0.853
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id K3kSS3d52b8h
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id SoOiN5Zxd6WV
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Mon,  4 Mar 2024 01:26:01 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::32f; helo=mail-ot1-x32f.google.com; envelope-from=andrewjballance@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 8DF0D6069C
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 8DF0D6069C
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q9smQnHo
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 8DF0D6069C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  4 Mar 2024 01:26:01 +0000 (UTC)
-Received: by mail-ot1-x32f.google.com with SMTP id 46e09a7af769-6dc8b280155so2890194a34.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 03 Mar 2024 17:26:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709515560; x=1710120360; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5CrDoOfeKlQa5JlMUiuCz6fCgu6xAbvGI8jkfEQdCl4=;
-        b=Q9smQnHoPEYge7b7fXbNRjM9yODliMzDTKNFJjKtWYrpa+4lbIqCjYkW6OuDxGQI3B
-         tjO7FRmPSRfazRQuiRH7xN118Ynld9E+uCQSa6V+r1r6/2Evx9HytV7cga7aYCa7cKc5
-         ln8wpAHbCBRIubnRAE1ilPJ6Mj+4ChMi7yLZDETQ/PVVBIfWRxyvkceAZ0br/8w9vyf4
-         3ZJp6kWOAJAs47diM8cI7TM6Bf/5ds7CETn4+IIKygpsReYVLqMS2RnrEswKJ7+adN8e
-         TxtlJT5NkVOWm+03oM/ylOULckJHeiTBJenOT1qli78Jz6ggvsI1CciTUXa6ism/kkEl
-         5xcg==
+	Tue,  5 Mar 2024 20:21:04 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.198; helo=mail-il1-f198.google.com; envelope-from=3rn7nzqkbah8v12ndoohudsslg.jrrjohxvhufrqwhqw.frp@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AC02F81EDF
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AC02F81EDF
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id AC02F81EDF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  5 Mar 2024 20:21:03 +0000 (UTC)
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-365bde344ebso69511195ab.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 05 Mar 2024 12:21:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709515560; x=1710120360;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5CrDoOfeKlQa5JlMUiuCz6fCgu6xAbvGI8jkfEQdCl4=;
-        b=Zpl64EcQDh1WwnexTqs4SKJaLfum0NUgHd5NwRdvKNhqMEr7xJGzCCBMkWDQDh+Gw1
-         jdJ9xP4iCPYSTYAHVXd1GNCl0XyDvVBpJdr0IvmXK95k5tQz2IQghNyJ3zxbnqBfmTOU
-         o4unkGRte7mtSVr6azORWmpEyzuyCMxTGlvWhoFlq2+cd0uBHM0Sl6M/yItHgOzvLE40
-         xMpsrB2rZu7v7k+oHTOcdESCL6ILdXSDKDpVoahMkcSM+rhobNEegCRMWOtLdqyjJhBc
-         ojjFpLs4hAfu5V7LDbFNmkyNPhMt63GZNMUFeX8SLcmfKJcb1zG8akFza5jwh7CEGb0+
-         B1Rg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2RF8MX7RTwDCW7rybc0sRKcnszu6E39rpsc0FH2dD0qexVzuN4H2zU+c/37RVw2qE6EqVMAfzZ3w0YvEYWF/o/h7lLJ+zsu9+JYrJHGNtg1S95bIIhoQAvEQZZXa8
-X-Gm-Message-State: AOJu0YyU5mFZpmJqCWaKCJXglSHLeJlrRUZiDSgy2Ao3kAbl9wkOAEvC
-	IR+TL9xKwdHbJotOrUQo2Auj58Nj6uuONHz9KWvX2ajmXYxlgsDI
-X-Google-Smtp-Source: AGHT+IFZAhY+aHDoE4UmJ4YAzthSlrYX3qSCpjstZvsoP2lK4CgQ4aPMAZyXOMranELQKmYY9IwDFA==
-X-Received: by 2002:a4a:2b42:0:b0:5a1:2947:c4bd with SMTP id y2-20020a4a2b42000000b005a12947c4bdmr1367268ooe.0.1709515560427;
-        Sun, 03 Mar 2024 17:26:00 -0800 (PST)
-Received: from my-computer.uh.edu ([129.7.0.68])
-        by smtp.googlemail.com with ESMTPSA id c18-20020a4a9c52000000b005a056b5e37asm1815345ook.48.2024.03.03.17.25.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Mar 2024 17:26:00 -0800 (PST)
-From: Andrew Ballance <andrewjballance@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: mcgrof@kernel.org,
-	Kuan-Ying.Lee@mediatek.com,
-	koudai@google.com,
-	p.raghav@samsung.com,
-	akpm@linux-foundation.org,
-	kbingham@kernel.org,
-	jan.kiszka@siemens.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Andrew Ballance <andrewjballance@gmail.com>
-Subject: [PATCH] scripts/gdb/symbols: fix invalid escape sequence warning
-Date: Sun,  3 Mar 2024 19:25:07 -0600
-Message-ID: <20240304012507.240380-1-andrewjballance@gmail.com>
-X-Mailer: git-send-email 2.44.0
+        d=1e100.net; s=20230601; t=1709670062; x=1710274862;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yUtUYHZsCEOa7X6Z+H+o0TaVUl7jsvxTuXTfFKtx4Og=;
+        b=pzh1iZDTB8LLsolOvso6aDDN0hHldV1yIJ/aplH5gDND8kx9uT4uz+rRPxV6X0KNyh
+         B8fUeYbtQULryCcpF2f7w6vTN5Y+5lmJmitDNdueUYqIlk+yusqgioS5RNGNfarp7cb9
+         uUsyYvwWz9Vc5DL0WWzWoW+3EXIv8iEAjaAxc9DDcyiu3yIpD7VIeggZOy7CHE/aWqzK
+         BGSSgxmPu1mSlOzG32XXDqBWC/QtaHhCO3l983YAt9H4gUgpdXIHyy5AtUzgCllIj/9L
+         TBKYuefyH2wCZt9Ku+5hSFthOBu9bYN3fw9eqLE0pCi6UGOhohtZqSoZR19hkKqcEx4U
+         4mWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmwF3fJmOUD/JxNETdPnVGHVbhvWGqc1SD6m3ZKdMNrsQE7+gWgcTGTiqLsThUpEfFsbVfEthT/POWD/VvAstYbMW84rLb5i7K+SQNJ+D3HyVI9/2TqJGAgw6ODdqX
+X-Gm-Message-State: AOJu0YxBGiVAuotoSfndkIOBjDBMJWcszwrqUHjfnUi0BQS7H0Y2Wssc
+	s3DfZtdHmQ4ok2ol+k19098T7pfa9Il2w4EhLCH+gsmq4u/9/15gchL5KCK5BOzD9O0BDaWh3vd
+	pNGO5GTGz2fK3SBWfrl3Sz9tlnZJvCQ8JHs1dy1Ij/kiFF531Wrk+RpQ=
+X-Google-Smtp-Source: AGHT+IG0HrTjf9tSzpW5mhEYahI6I+CdKvynp0WSCF6pQbzs6aTIrDo95uQZixM6D1ufLCf+gnTifAlBvx8apq0D07TCgFJ6wpLj
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a92:6f0b:0:b0:365:fe09:6450 with SMTP id
+ k11-20020a926f0b000000b00365fe096450mr104480ilc.4.1709670062725; Tue, 05 Mar
+ 2024 12:21:02 -0800 (PST)
+Date: Tue, 05 Mar 2024 12:21:02 -0800
+In-Reply-To: <0000000000000424f205fcf9a132@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c5b2ae0612ef94a9@google.com>
+Subject: Re: [syzbot] [ntfs3?] UBSAN: shift-out-of-bounds in ntfs_iget
+From: syzbot <syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
+	axboe@kernel.dk, brauner@kernel.org, ghandatmanas@gmail.com, 
+	gregkh@linuxfoundation.org, jack@suse.cz, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
+	lkp@intel.com, llvm@lists.linux.dev, ntfs3@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
+	syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-With python 3.12, '\.' results in this warning
-    SyntaxWarning: invalid escape sequence '\.'
+syzbot suspects this issue was fixed by commit:
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
----
- scripts/gdb/linux/symbols.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+commit 6f861765464f43a71462d52026fbddfc858239a5
+Author: Jan Kara <jack@suse.cz>
+Date:   Wed Nov 1 17:43:10 2023 +0000
 
-diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
-index c8047f4441e6..e8316beb17a7 100644
---- a/scripts/gdb/linux/symbols.py
-+++ b/scripts/gdb/linux/symbols.py
-@@ -82,7 +82,7 @@ lx-symbols command."""
-         self.module_files_updated = True
- 
-     def _get_module_file(self, module_name):
--        module_pattern = ".*/{0}\.ko(?:.debug)?$".format(
-+        module_pattern = r".*/{0}\.ko(?:.debug)?$".format(
-             module_name.replace("_", r"[_\-]"))
-         for name in self.module_files:
-             if re.match(module_pattern, name) and os.path.exists(name):
--- 
-2.44.0
+    fs: Block writes to mounted block devices
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12be09f2180000
+start commit:   afead42fdfca Merge tag 'perf-tools-fixes-for-v6.4-2-2023-0..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=162cf2103e4a7453
+dashboard link: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12da9bbd280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174e8115280000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Block writes to mounted block devices
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
