@@ -1,98 +1,175 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFAA128807
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  5 Mar 2024 20:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A2F80055
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Mar 2024 12:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709670069; cv=none; b=c3M2ZJxN36XJZaDaH6rolyA/TAFxwqpHgNEdvdJP6uVgtzoT3oPOEgrG5tYmAfJOyeAjt1HZFrjk1sE3MFoFzuB4VH1lu3tBHhLou/iBFlvaeqri1upWyUMe9hkulfcQq1Oq1YpQW73KxSnwkFlRwtr98z3CNh7JCb5/9smMIOo=
+	t=1709727721; cv=none; b=RO7CiL3ngUyIagFuvYai5JDPAFOlT3g2VgTURvHNL0/0Q8jSEBA/H2LL2Nt/7a1uQV6CwhP6iFJ8eilIuuSfVIWW0WCkZgLYmb1ZHVMj2SHmQmvOdI7qDleXQy1RYTzuoj51j+mcPDQiyDRwBj4xiO3+ueJJoPk47TFqNOTOenE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709670069; c=relaxed/simple;
-	bh=6/AYUfzDqzkrxKkZjplJh9OD3V2IdKBUYScD8zp5YJg=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=j1BgUoEzh54wJklNzsIj3zP+IKK94X0VP1XfBiJndXl4ocK4STB34WVZGatJqWIl49o44sbhoS3GQEko+3YJHtYD497yjjMPm/euktlhx2jDhQlz5iuToaceHv2Vq0u9BK1o22K5lyXZ8eYiHJSA66zAhaSPCaAfFOg+7jH+/EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1709727721; c=relaxed/simple;
+	bh=TJC1FWTDVH1fS+pEMIatbsyV4hbiOT6t4ESjbRmuabk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttHoTmqZE5wNrFK03VNZrHmz198sQtdK5rxDpb+TSCZplKWmk2oDHmcV4/2ARxFjwo62JceZ9yEjFaA5eIG/rHGO7yIxH/HSeOyLK242O0ZknMOJDAp+Nmbz/Fo0rlPx7nYNX9Az6kw2Sbe1hHt+e04u9g2n5n8ZGqV0/KbDV08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z5+YjsTm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CKWaYYgO; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z5+YjsTm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CKWaYYgO; arc=none smtp.client-ip=140.211.166.136
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z5+YjsTm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CKWaYYgO";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z5+YjsTm";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CKWaYYgO"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2E27782219
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  5 Mar 2024 20:21:08 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 19B046077E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Mar 2024 12:22:00 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 0.853
+X-Spam-Score: -1.901
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id SoOiN5Zxd6WV
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id uP_SnqgB3uO7
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Tue,  5 Mar 2024 20:21:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.198; helo=mail-il1-f198.google.com; envelope-from=3rn7nzqkbah8v12ndoohudsslg.jrrjohxvhufrqwhqw.frp@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AC02F81EDF
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AC02F81EDF
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AC02F81EDF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  5 Mar 2024 20:21:03 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-365bde344ebso69511195ab.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 05 Mar 2024 12:21:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709670062; x=1710274862;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yUtUYHZsCEOa7X6Z+H+o0TaVUl7jsvxTuXTfFKtx4Og=;
-        b=pzh1iZDTB8LLsolOvso6aDDN0hHldV1yIJ/aplH5gDND8kx9uT4uz+rRPxV6X0KNyh
-         B8fUeYbtQULryCcpF2f7w6vTN5Y+5lmJmitDNdueUYqIlk+yusqgioS5RNGNfarp7cb9
-         uUsyYvwWz9Vc5DL0WWzWoW+3EXIv8iEAjaAxc9DDcyiu3yIpD7VIeggZOy7CHE/aWqzK
-         BGSSgxmPu1mSlOzG32XXDqBWC/QtaHhCO3l983YAt9H4gUgpdXIHyy5AtUzgCllIj/9L
-         TBKYuefyH2wCZt9Ku+5hSFthOBu9bYN3fw9eqLE0pCi6UGOhohtZqSoZR19hkKqcEx4U
-         4mWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmwF3fJmOUD/JxNETdPnVGHVbhvWGqc1SD6m3ZKdMNrsQE7+gWgcTGTiqLsThUpEfFsbVfEthT/POWD/VvAstYbMW84rLb5i7K+SQNJ+D3HyVI9/2TqJGAgw6ODdqX
-X-Gm-Message-State: AOJu0YxBGiVAuotoSfndkIOBjDBMJWcszwrqUHjfnUi0BQS7H0Y2Wssc
-	s3DfZtdHmQ4ok2ol+k19098T7pfa9Il2w4EhLCH+gsmq4u/9/15gchL5KCK5BOzD9O0BDaWh3vd
-	pNGO5GTGz2fK3SBWfrl3Sz9tlnZJvCQ8JHs1dy1Ij/kiFF531Wrk+RpQ=
-X-Google-Smtp-Source: AGHT+IG0HrTjf9tSzpW5mhEYahI6I+CdKvynp0WSCF6pQbzs6aTIrDo95uQZixM6D1ufLCf+gnTifAlBvx8apq0D07TCgFJ6wpLj
+	Wed,  6 Mar 2024 12:21:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=jack@suse.cz; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org B29F36077D
+Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=suse.cz
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org B29F36077D
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Z5+YjsTm;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CKWaYYgO;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Z5+YjsTm;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CKWaYYgO
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id B29F36077D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  6 Mar 2024 12:21:58 +0000 (UTC)
+Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B95173F5D7;
+	Wed,  6 Mar 2024 12:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1709727715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUdrt2veIdLubgIpffUH6xTNcOrVJbvGxnIjN06WxzU=;
+	b=Z5+YjsTmzsb1ka+SE5O92dqDnc+F66QMOHQAuPrGOvMQdehmIabEu/YwkU7p3Rj4xZWNAS
+	eqmsUhPanbbBLK4yuG7NFTtVVCLZB03SFlDYCncyU6qvv+qJXsiSGaXCOnDlp9Ko/dTUU2
+	Q2dgikpgklNbEzQb/uKntUd0C9abgkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1709727715;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUdrt2veIdLubgIpffUH6xTNcOrVJbvGxnIjN06WxzU=;
+	b=CKWaYYgO3W/0+VGFyG+OoCAMvSVEk8lwaVO/zi4eGa6+YA6MZPowMXJs3dVDlcGZAGwfqw
+	lt2PS4gDzaQMHqBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1709727715; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUdrt2veIdLubgIpffUH6xTNcOrVJbvGxnIjN06WxzU=;
+	b=Z5+YjsTmzsb1ka+SE5O92dqDnc+F66QMOHQAuPrGOvMQdehmIabEu/YwkU7p3Rj4xZWNAS
+	eqmsUhPanbbBLK4yuG7NFTtVVCLZB03SFlDYCncyU6qvv+qJXsiSGaXCOnDlp9Ko/dTUU2
+	Q2dgikpgklNbEzQb/uKntUd0C9abgkY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1709727715;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUdrt2veIdLubgIpffUH6xTNcOrVJbvGxnIjN06WxzU=;
+	b=CKWaYYgO3W/0+VGFyG+OoCAMvSVEk8lwaVO/zi4eGa6+YA6MZPowMXJs3dVDlcGZAGwfqw
+	lt2PS4gDzaQMHqBQ==
+Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id ABD231377D;
+	Wed,  6 Mar 2024 12:21:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap2.dmz-prg2.suse.org with ESMTPSA
+	id 243uKeNf6GXWTAAAn2gu4w
+	(envelope-from <jack@suse.cz>); Wed, 06 Mar 2024 12:21:55 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 574E3A0803; Wed,  6 Mar 2024 13:21:55 +0100 (CET)
+Date: Wed, 6 Mar 2024 13:21:55 +0100
+From: Jan Kara <jack@suse.cz>
+To: syzbot <syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com>
+Cc: almaz.alexandrovich@paragon-software.com, anton@tuxera.com,
+	axboe@kernel.dk, brauner@kernel.org, ghandatmanas@gmail.com,
+	gregkh@linuxfoundation.org, jack@suse.cz, linkinjeon@kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+	lkp@intel.com, llvm@lists.linux.dev, ntfs3@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, syzkaller-bugs@googlegroups.com,
+	syzkaller@googlegroups.com
+Subject: Re: [syzbot] [ntfs3?] UBSAN: shift-out-of-bounds in ntfs_iget
+Message-ID: <20240306122155.yr6lse3yyaduo2db@quack3>
+References: <0000000000000424f205fcf9a132@google.com>
+ <000000000000c5b2ae0612ef94a9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a92:6f0b:0:b0:365:fe09:6450 with SMTP id
- k11-20020a926f0b000000b00365fe096450mr104480ilc.4.1709670062725; Tue, 05 Mar
- 2024 12:21:02 -0800 (PST)
-Date: Tue, 05 Mar 2024 12:21:02 -0800
-In-Reply-To: <0000000000000424f205fcf9a132@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c5b2ae0612ef94a9@google.com>
-Subject: Re: [syzbot] [ntfs3?] UBSAN: shift-out-of-bounds in ntfs_iget
-From: syzbot <syzbot+4768a8f039aa677897d0@syzkaller.appspotmail.com>
-To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
-	axboe@kernel.dk, brauner@kernel.org, ghandatmanas@gmail.com, 
-	gregkh@linuxfoundation.org, jack@suse.cz, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net, 
-	lkp@intel.com, llvm@lists.linux.dev, ntfs3@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, syzkaller-bugs@googlegroups.com, 
-	syzkaller@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000000000000c5b2ae0612ef94a9@google.com>
+Authentication-Results: smtp-out1.suse.de;
+	none
+X-Spamd-Result: default: False [1.58 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.12)[66.97%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=162cf2103e4a7453];
+	 TAGGED_RCPT(0.00)[4768a8f039aa677897d0];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 R_RATELIMIT(0.00)[to_ip_from(RLz5osb6fwsyu4f48yakq7oq33)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 RCPT_COUNT_TWELVE(0.00)[19];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[paragon-software.com,tuxera.com,kernel.dk,kernel.org,gmail.com,linuxfoundation.org,suse.cz,vger.kernel.org,lists.linuxfoundation.org,lists.sourceforge.net,intel.com,lists.linux.dev,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 SUBJECT_HAS_QUESTION(0.00)[]
 
-syzbot suspects this issue was fixed by commit:
-
-commit 6f861765464f43a71462d52026fbddfc858239a5
-Author: Jan Kara <jack@suse.cz>
-Date:   Wed Nov 1 17:43:10 2023 +0000
-
-    fs: Block writes to mounted block devices
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12be09f2180000
-start commit:   afead42fdfca Merge tag 'perf-tools-fixes-for-v6.4-2-2023-0..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=162cf2103e4a7453
-dashboard link: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12da9bbd280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174e8115280000
-
-If the result looks correct, please mark the issue as fixed by replying with:
+On Tue 05-03-24 12:21:02, syzbot wrote:
+> syzbot suspects this issue was fixed by commit:
+> 
+> commit 6f861765464f43a71462d52026fbddfc858239a5
+> Author: Jan Kara <jack@suse.cz>
+> Date:   Wed Nov 1 17:43:10 2023 +0000
+> 
+>     fs: Block writes to mounted block devices
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12be09f2180000
+> start commit:   afead42fdfca Merge tag 'perf-tools-fixes-for-v6.4-2-2023-0..
+> git tree:       upstream
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=162cf2103e4a7453
+> dashboard link: https://syzkaller.appspot.com/bug?extid=4768a8f039aa677897d0
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12da9bbd280000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174e8115280000
+> 
+> If the result looks correct, please mark the issue as fixed by replying with:
+ 
+The reproducer is just mounting the fs so I'm not sure what's happening
+there. But since there's no working repro and this is ntfs3:
 
 #syz fix: fs: Block writes to mounted block devices
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
