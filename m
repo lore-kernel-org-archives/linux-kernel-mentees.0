@@ -1,94 +1,101 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BC113AD9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 07:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36AB171A6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 08:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710313634; cv=none; b=prkahuGe61Nb+EpAcDS30iJ29uapZ0xIawtec6N/DLsFBTRmN6dYbGwKD9sLw0ZOIp7SUd6dmdv93WaHydmOqfWRaeIl1bdiKKNG69ZmY8Rxd8slSMHpvY3l+dy6R7LmGAGdYl8+kjQrnYw5AizFxc1FSjtamja3qqBnS0cOJzQ=
+	t=1710316872; cv=none; b=gv3MEOgNjK6u5ZKOghzBlXw8I2Fmav0FwtIWi3OMRT5PCyY71Vy8Zn9wJqMTHxLkIvPQyELQjbGSMO1u+yQwdGcz6Qe3WHYPK1gImg3cS4KEBoSS4fBDvAL5PGnS6dnfiLcobakpyGCknZNYZdt9KBE2ofzBjtyxss0BFlCVJdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710313634; c=relaxed/simple;
-	bh=JQJilIKYn5hksiLBV3Gi0KoS0fQs+2OijTyw0AP/xcU=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=oVGSY8yRJj6cxcKp8MGx4cb24VY3s7d4SZ1YOmP1lklJz2Nv1NJRX8goo7tB9YYzJ4VBNbd0LEBa+uecVJZKYIv3AfFzrWyFHxQrrngT7OUNTccuIBE5lcEdyhvjz6A+iSu6ZeBf0OCUyppW1RqAkK3yNYP2a5DX0YjrfVeTMHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G7qOw8Bb; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1710316872; c=relaxed/simple;
+	bh=/mgBL5lE5rChksbNFZVodfppzbCHZV51oEQM0UW/yG0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XvUCar66Xoe91EAJmn2j6flOaLKx9431flcbX77MiT6ViVduDn0zzMzFwZyXITsPs9BUmBF++Y5dvKn6ijDGwAJqUJ27qfd0AizX0MtC3L1Vj/5U5bWK0aZfxPyL6VX+enTnt4NAE/ZWbtP6hxifybONdwIxlDsVFsSPDOTpZR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YqQv6hZl; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7qOw8Bb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YqQv6hZl"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7B14681587
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 07:07:13 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8873F60772
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 08:01:11 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.098
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
-	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id HlzioXtqYfKE
+Received: from smtp3.osuosl.org ([127.0.0.1])
+	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id akM4oORYOdLf
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 13 Mar 2024 07:07:13 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=kohshi54.yam@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E250E814AB
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E250E814AB
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=G7qOw8Bb
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id E250E814AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 07:07:12 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6e6afb754fcso980203b3a.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 00:07:12 -0700 (PDT)
+	Wed, 13 Mar 2024 08:01:05 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::630; helo=mail-ej1-x630.google.com; envelope-from=lukas.bulwahn@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 12A4F60767
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 12A4F60767
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YqQv6hZl
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 12A4F60767
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 08:01:04 +0000 (UTC)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a44ad785a44so632014666b.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 01:01:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710313632; x=1710918432; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1710316862; x=1710921662; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JQJilIKYn5hksiLBV3Gi0KoS0fQs+2OijTyw0AP/xcU=;
-        b=G7qOw8Bb6motrv7SXN0SIHJxJGO8q+zq9jg6TgBp5XHlT7d1/5rH+Jjp2A7L1Enqbo
-         oDRfAYLntrG0JlH36pN240YGeguJqoiPe5oAGDUa5muE/r1Iy6lrkIjh06StSaAZvGCa
-         cP/BU8gUnh7t+z1PWxm2OkZsoFthmAYtWJBg9A8pekr1wmrDX5PIBmnZ0NaEuB2Fbbp7
-         BD6Jq23X5WA+p3jR7TuM2EhFbpmgjj888b/yFucDKzHXpJ/rcd3AHDKqUqMwFjwl3XwJ
-         OSRreMFk2ODPHHdVnCZo2AqgWQevLyJzPglnBSiFMlAzHxlEVpRAAxo5k7NnIOZfMNOs
-         AFOQ==
+        bh=/mgBL5lE5rChksbNFZVodfppzbCHZV51oEQM0UW/yG0=;
+        b=YqQv6hZly6tb1a1QF9UBIEtrFI/2GCA6ZdH1L7uqPj0kjIRK/hE95pESIdkYAe2Erj
+         nLBmX7b+5lX28W8JxMb4+Ek81wZ81/QBRilnxV0yvqbx+vKVh/YIgU5T6mUpo2aOpeT8
+         3MrTwwicW8Kv2SFIUTjVK8jfa46bdTvgApxaaD4GGBbzLFAPKShPa0uqNrwbojMrIIRS
+         XZxFV9VvdfbZk9vO3gXKu/QRDi1C+XWseKAFTuUAb0Q0b9ry1N09fNxR/ZhRw5YFn1wu
+         H3bBFLOkSODvqd0BM7Hi3TQiHAhxud4Iqv69r1X1ZIFgZIGeibUBcYu3dIxK9aMm/okI
+         SuBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710313632; x=1710918432;
-        h=content-transfer-encoding:subject:from:content-language:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JQJilIKYn5hksiLBV3Gi0KoS0fQs+2OijTyw0AP/xcU=;
-        b=RylNO9zi5JyrlGE5G6b8lCzAIrCOYmUCc79lJG9sRbNLQ3C6+eELfEEVGbEBFxmkrq
-         VVwvIJ2YhMBG6krnm2ev1w7WjAX6gOCWketq7zzON2stR4rfHVIYvv/Dnhyr2Pn1klAc
-         RxrjV8R/ytY+J1OgEZ13THGJVDHG6K1FB0ygF6dHuhCIgqhcKOZPUw+jiC+Xx01WMPAl
-         v3ejjT+B8Bl3tIN91IFx6lZuwRCBiU+zCg3fnVVsWruOOPtlM53u4n1GItit60t8ecNZ
-         JpqznKxEksJGOjVLegoRSCxDv6DxZUJu/rCMOfdEtdBNa5XIBf95L3EL87ZFVueqFUuq
-         6hRQ==
-X-Gm-Message-State: AOJu0YzyzQxI2+FdgXsyDvaaz2LbYnakVfB+kFjiuVJ78l/on2yzl29o
-	ruj6B8faUZzUN3kRdxIF52c5o3Hlx2COy7H5FbifcIutwR9ZU+BOXvPqWDR2
-X-Google-Smtp-Source: AGHT+IFxMH8UDTuMCPQ7R1EbnafVJ0m8J9w0WhSdyTmqMMGoI9XbudZcl++RwtsWlGMK27cmBE5rLw==
-X-Received: by 2002:a05:6a00:8b86:b0:6e6:bfd3:fbd8 with SMTP id ig6-20020a056a008b8600b006e6bfd3fbd8mr137968pfb.3.1710313631717;
-        Wed, 13 Mar 2024 00:07:11 -0700 (PDT)
-Received: from [192.168.1.21] (220-158-101-48.bkipp.fdn.vectant.ne.jp. [220.158.101.48])
-        by smtp.gmail.com with ESMTPSA id i13-20020a056a00004d00b006e50c083b90sm7168975pfk.212.2024.03.13.00.07.10
-        for <linux-kernel-mentees@lists.linuxfoundation.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Mar 2024 00:07:11 -0700 (PDT)
-Message-ID: <abe5d265-e26a-4c13-b54f-429f3b845dbd@gmail.com>
-Date: Wed, 13 Mar 2024 16:07:09 +0900
+        d=1e100.net; s=20230601; t=1710316862; x=1710921662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/mgBL5lE5rChksbNFZVodfppzbCHZV51oEQM0UW/yG0=;
+        b=Ff+8S2iyj6N/OFNZa6PA67z1LihAMSRU4q3vGDf7efOYIxI/18w8cKhChHLs2t21d6
+         XjOWkHTzNnrGUhAqjDJNW2zaLupDnmWKs7WKvHN1S0S8u+rZeYuQdIr5LrDr9oksoa8b
+         f5VIDwGnStUHzGNgTTwt4+ZV2BfjRSpOMOXhUCJVhL2DfzAFj696TWXGM5hvGw7LGDxg
+         oArmTHAvT85MvQBlUZL1uJbs11Vxy7Rc6JioS/gSvQzwBkWz7Sz+0pfCvIfAsGgdGoFX
+         1EnitX7WckrxTREN/tS3SaJ0sULuB1i1dpeWQtt9Em3Ea3dxR0ER7yKqfX/g+VVumTnL
+         vqgQ==
+X-Gm-Message-State: AOJu0Yw6lJZWPTesFTZ44cbp7YHRXDLEa2w41c/uUgxifu/Kf+6z37eo
+	qRNoeYd7i1VmqECCoc8kES60v+u+gbFFpi/r/gDwtjhNi7pkzWVcEwkwrwNED7VHydpJ0U5vIam
+	GgS6ODjlUyLN1qvb1j3niWB2f7Jo=
+X-Google-Smtp-Source: AGHT+IHdEv8h02XcyCQVWuP/2lRL64G9FUBmkjKT+obT19Cg6XjCs6dWeJlziVpo0NyUwW9CGXJB8ln0txbGZhZQVNs=
+X-Received: by 2002:a17:906:6708:b0:a40:a615:a9c4 with SMTP id
+ a8-20020a170906670800b00a40a615a9c4mr6803507ejp.65.1710316862437; Wed, 13 Mar
+ 2024 01:01:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-kernel-mentees@lists.linuxfoundation.org
-Content-Language: en-US
-From: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-Subject: subscribe request to linux-kernel-mentees
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <abe5d265-e26a-4c13-b54f-429f3b845dbd@gmail.com>
+In-Reply-To: <abe5d265-e26a-4c13-b54f-429f3b845dbd@gmail.com>
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date: Wed, 13 Mar 2024 09:00:51 +0100
+Message-ID: <CAKXUXMzkSsskNqdCDc-q0vn0C4jy_nHaB36TT-WhxYq-eThWnw@mail.gmail.com>
+Subject: Re: subscribe request to linux-kernel-mentees
+To: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-subscribe request to linux-kernel-mentees
+On Wed, Mar 13, 2024 at 8:07=E2=80=AFAM Kohshi Yamaguchi <kohshi54.yam@gmai=
+l.com> wrote:
+>
+> subscribe request to linux-kernel-mentees
+>
+> Thanks,
+>
 
-Thanks,
+Dear Kohshi-san, this email above is NOT how to subscribe to this mailing l=
+ist.
 
-Kohshi Yamaguchi
+Good luck with your next attempt,
 
+Lukas
