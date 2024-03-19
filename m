@@ -1,101 +1,97 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36AB171A6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 08:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6997E586
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Mar 2024 11:03:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710316872; cv=none; b=gv3MEOgNjK6u5ZKOghzBlXw8I2Fmav0FwtIWi3OMRT5PCyY71Vy8Zn9wJqMTHxLkIvPQyELQjbGSMO1u+yQwdGcz6Qe3WHYPK1gImg3cS4KEBoSS4fBDvAL5PGnS6dnfiLcobakpyGCknZNYZdt9KBE2ofzBjtyxss0BFlCVJdk=
+	t=1710846187; cv=none; b=fMVram3CsQHGeB2moNr9DGfXXSrjX41yHFLBrog01Zx2/L31d1sQCNkGJIGAsMn0n5EA09ci70UDzuZeEDvbhz0xuZBBOcteS1vNkO2LOxTnlHUlDDiOy4e1pUiQ3YNEQnmfwo9iDsc0Sr/lrezKEr5sXiT9VfptIU27jLWDplQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710316872; c=relaxed/simple;
-	bh=/mgBL5lE5rChksbNFZVodfppzbCHZV51oEQM0UW/yG0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XvUCar66Xoe91EAJmn2j6flOaLKx9431flcbX77MiT6ViVduDn0zzMzFwZyXITsPs9BUmBF++Y5dvKn6ijDGwAJqUJ27qfd0AizX0MtC3L1Vj/5U5bWK0aZfxPyL6VX+enTnt4NAE/ZWbtP6hxifybONdwIxlDsVFsSPDOTpZR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YqQv6hZl; arc=none smtp.client-ip=140.211.166.136
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YqQv6hZl"
+	s=arc-20240116; t=1710846187; c=relaxed/simple;
+	bh=slKjRaMkRRkHh/39qn7hwcXp2X2erWHCbqhQGdEu/ow=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=d8OeGW9EU2FNyZpOG03lyWBJvutNOiOMnbctVg7dXW5oTHbXrBidOxkPWJpbr7tg5xP2S7Es/hQTR94ldySRvD1+xEGCAfp/X9oRKqV82Vb6zRnP8R3A4ujcNsOmOQxEScWm22n/d/d+/qGIFGf0OFz2aQUw9qeOlEMOzzvHO7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8873F60772
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 08:01:11 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E52A681E01
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Mar 2024 11:03:05 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: 0.853
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
-	by localhost (smtp3.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id akM4oORYOdLf
+Received: from smtp1.osuosl.org ([127.0.0.1])
+	by localhost (smtp1.osuosl.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id FhmRDx5N_RNO
 	for <linux-kernel-mentees@lists.linuxfoundation.org>;
-	Wed, 13 Mar 2024 08:01:05 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::630; helo=mail-ej1-x630.google.com; envelope-from=lukas.bulwahn@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 12A4F60767
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 12A4F60767
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YqQv6hZl
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 12A4F60767
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 08:01:04 +0000 (UTC)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a44ad785a44so632014666b.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 13 Mar 2024 01:01:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710316862; x=1710921662; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/mgBL5lE5rChksbNFZVodfppzbCHZV51oEQM0UW/yG0=;
-        b=YqQv6hZly6tb1a1QF9UBIEtrFI/2GCA6ZdH1L7uqPj0kjIRK/hE95pESIdkYAe2Erj
-         nLBmX7b+5lX28W8JxMb4+Ek81wZ81/QBRilnxV0yvqbx+vKVh/YIgU5T6mUpo2aOpeT8
-         3MrTwwicW8Kv2SFIUTjVK8jfa46bdTvgApxaaD4GGBbzLFAPKShPa0uqNrwbojMrIIRS
-         XZxFV9VvdfbZk9vO3gXKu/QRDi1C+XWseKAFTuUAb0Q0b9ry1N09fNxR/ZhRw5YFn1wu
-         H3bBFLOkSODvqd0BM7Hi3TQiHAhxud4Iqv69r1X1ZIFgZIGeibUBcYu3dIxK9aMm/okI
-         SuBA==
+	Tue, 19 Mar 2024 11:03:05 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.199; helo=mail-il1-f199.google.com; envelope-from=353d5zqkbaoqyefqgrrkxgvvoj.muumrkaykxiutzktz.ius@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org F374F81E02
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F374F81E02
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id F374F81E02
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Mar 2024 11:03:04 +0000 (UTC)
+Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3684e301749so2777485ab.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 19 Mar 2024 04:03:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710316862; x=1710921662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/mgBL5lE5rChksbNFZVodfppzbCHZV51oEQM0UW/yG0=;
-        b=Ff+8S2iyj6N/OFNZa6PA67z1LihAMSRU4q3vGDf7efOYIxI/18w8cKhChHLs2t21d6
-         XjOWkHTzNnrGUhAqjDJNW2zaLupDnmWKs7WKvHN1S0S8u+rZeYuQdIr5LrDr9oksoa8b
-         f5VIDwGnStUHzGNgTTwt4+ZV2BfjRSpOMOXhUCJVhL2DfzAFj696TWXGM5hvGw7LGDxg
-         oArmTHAvT85MvQBlUZL1uJbs11Vxy7Rc6JioS/gSvQzwBkWz7Sz+0pfCvIfAsGgdGoFX
-         1EnitX7WckrxTREN/tS3SaJ0sULuB1i1dpeWQtt9Em3Ea3dxR0ER7yKqfX/g+VVumTnL
-         vqgQ==
-X-Gm-Message-State: AOJu0Yw6lJZWPTesFTZ44cbp7YHRXDLEa2w41c/uUgxifu/Kf+6z37eo
-	qRNoeYd7i1VmqECCoc8kES60v+u+gbFFpi/r/gDwtjhNi7pkzWVcEwkwrwNED7VHydpJ0U5vIam
-	GgS6ODjlUyLN1qvb1j3niWB2f7Jo=
-X-Google-Smtp-Source: AGHT+IHdEv8h02XcyCQVWuP/2lRL64G9FUBmkjKT+obT19Cg6XjCs6dWeJlziVpo0NyUwW9CGXJB8ln0txbGZhZQVNs=
-X-Received: by 2002:a17:906:6708:b0:a40:a615:a9c4 with SMTP id
- a8-20020a170906670800b00a40a615a9c4mr6803507ejp.65.1710316862437; Wed, 13 Mar
- 2024 01:01:02 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710846183; x=1711450983;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NS31IZUVISj+9f5GH0XsvKxqqRb+tl8wJ9ZGlJagits=;
+        b=r6J+xK5hxgdpuLEBPuaBbXr6EUsFgA8CcwagEboR50ji3Zk2VW71F9JxVDWYO5Z3hR
+         U4Z6sWVPIOA65ijtIYIqLPq21+UhqtT90K1Q6FFRo94rriothl6aNHxPF4y3/c6Y/5Wi
+         m3B+17sheCNCEO5hWKq0KP+tcACRCXJeuge95FZZ5XjhkQeDsjTmhVp6BLr3j4CFPYH3
+         n8npyfXfybGYklCwFjaHOctonhzBBCG6v1E5+rSbdEklXEhnvvp54gxS2J10cn/ww8YU
+         yU4WSHowKtWsXIZ76CyKxUPmyTRW29OL/9UnIYFdao92wNScrpYVpWymS9wijiuNWdp6
+         QMFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXE6FuoIi3u0jDF90NHCgIQ0gw6Hs94k4/6JizT90o0MPXD0pxPm8Br69/H7EYZYwwzrha4RR+UiHSl5MMxEfB6pMKYCPgDqSssPayUZ0dt69riaYf6ZAHjGqWVJ1Ay
+X-Gm-Message-State: AOJu0Yx2II64uaiT/dfOjdlxESh7oiowgX1I5GiMEdoKc9uk+J/J+/wv
+	H2W/hMx26pxI/0TGOYohUIQblOHYxA8bTSgXAkP0BeDQEgLdj1La2W+HvCUWoHImgiPOP9rzeLp
+	IJOmtN/EigsflDLkBhbX9Y8eINBo9dFN2nAnyF7TOjDSFkLSEAbxwo0Q=
+X-Google-Smtp-Source: AGHT+IFiDK1WT/n8TCOKAH5CGiH/AJ5QTidJfxOX7D2n/lTfWZAch3GSOQ51Bj+zC4HRoLqpgpszLLuCibMY38T8UfSWzD9bvdOO
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <abe5d265-e26a-4c13-b54f-429f3b845dbd@gmail.com>
-In-Reply-To: <abe5d265-e26a-4c13-b54f-429f3b845dbd@gmail.com>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Wed, 13 Mar 2024 09:00:51 +0100
-Message-ID: <CAKXUXMzkSsskNqdCDc-q0vn0C4jy_nHaB36TT-WhxYq-eThWnw@mail.gmail.com>
-Subject: Re: subscribe request to linux-kernel-mentees
-To: Kohshi Yamaguchi <kohshi54.yam@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
+X-Received: by 2002:a05:6e02:1c02:b0:366:c200:a9fa with SMTP id
+ l2-20020a056e021c0200b00366c200a9famr121313ilh.1.1710846183604; Tue, 19 Mar
+ 2024 04:03:03 -0700 (PDT)
+Date: Tue, 19 Mar 2024 04:03:03 -0700
+In-Reply-To: <000000000000aefc5005f5df169b@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000000a1c180614016bc9@google.com>
+Subject: Re: [syzbot] [ntfs3?] KASAN: use-after-free Read in ntfs_attr_find (2)
+From: syzbot <syzbot+ef50f8eb00b54feb7ba2@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, anton@tuxera.com, 
+	brauner@kernel.org, david@fromorbit.com, ghandatmanas@gmail.com, 
+	linkinjeon@kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev, 
+	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com, 
+	willy@infradead.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 13, 2024 at 8:07=E2=80=AFAM Kohshi Yamaguchi <kohshi54.yam@gmai=
-l.com> wrote:
->
-> subscribe request to linux-kernel-mentees
->
-> Thanks,
->
+syzbot suspects this issue was fixed by commit:
 
-Dear Kohshi-san, this email above is NOT how to subscribe to this mailing l=
-ist.
+commit 7ffa8f3d30236e0ab897c30bdb01224ff1fe1c89
+Author: Matthew Wilcox (Oracle) <willy@infradead.org>
+Date:   Mon Jan 15 07:20:25 2024 +0000
 
-Good luck with your next attempt,
+    fs: Remove NTFS classic
 
-Lukas
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11fafac9180000
+start commit:   9d64bf433c53 Merge tag 'perf-tools-for-v6.8-1-2024-01-09' ..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7a6ff9d9d5d2dc4a
+dashboard link: https://syzkaller.appspot.com/bug?extid=ef50f8eb00b54feb7ba2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d79fbde80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14be4a73e80000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: fs: Remove NTFS classic
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
