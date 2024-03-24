@@ -1,123 +1,141 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED72C16415
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 09:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1224A17BB7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 12:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711272568; cv=none; b=eto67f6JIKUqkMrV1dBvqXteVFnzGDqSRx6ng7TkJ/cMlnHMQ+jYXGh8EPmM/MLQkHIsdy0garg5V484dpIDudaxvTVJmuBTvTIB2pN/Rp2Lu5GgO1QNAEL8tKEY/JCh17m2o5lJve6hzPCFCBQDiZKH+GboG+RL1VFaFB9W3fU=
+	t=1711281973; cv=none; b=VtCrEvgMNIJ6fVXXn7I595OZu9kmydQY/vw3m3QZNWb3ns1nGWcIjRg12QH4PN9MI89ZYVJTas6eWCQHLbzUvczAMfuj+7JGKY1N6qLsTaXPenFBB2kdxNlbGrpnrKmV0akGAGQBN3YJfygvvqnRJeUtGmr3hyS4FmiT/LU/Hec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711272568; c=relaxed/simple;
-	bh=kJA1ENfcVIOkNw3avk4+tDK8aEfaH/g6voWzg9aHL18=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nwDc1MEgj+Qaydl078IQt/2fy1gWF2NwaYzmX/Q6R17uFgwkgniMnx5f5q13tPm3W3w2lIwR7T/QEZniVogmNrPdtiBcUDdCZOmgBTLvy3RplfpjZhWFtJCn5D+KkT/ruoQS8n42EgEssaM17UzjE1nhcpOf5hS9g/jmLidnc0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VskwaR1B; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1711281973; c=relaxed/simple;
+	bh=mtf1RDgfBz1CQuj0fSdA/b+qA44E+AI5WneOq3D0Xb4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dCjkspl2P0wO37X9BH8zlZosfByLlqtK0zS1qjPUe42J/veRMMOs0L3COY/MHFrrIf7kr1dyX9nKtcSwZ9GEpYZiiyVfqtbqTcYHn3UrVj6I/8uT2D5WX2JvVa9J3O56cwF5IgKRrFcm1+WbMLz+xU1o+FpIxq2hdsoagYSgPj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkjsszDy; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VskwaR1B"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkjsszDy"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 691254057C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 09:29:26 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 8B90340339
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 12:06:11 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id aHq0QuRadW6U for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 24 Mar 2024 09:29:25 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=coolrrsh@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 94D4D4057A
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 94D4D4057A
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=VskwaR1B
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 94D4D4057A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 09:29:25 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1dddbeac9f9so21548485ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 02:29:25 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DrQqVHtbqMtS for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 24 Mar 2024 12:06:10 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42b; helo=mail-wr1-x42b.google.com; envelope-from=philipp.g.hortmann@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org F36C74032B
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F36C74032B
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=AkjsszDy
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id F36C74032B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 12:06:09 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-33ecdffd9e7so586791f8f.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 24 Mar 2024 05:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711272565; x=1711877365; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o611cLqDFm70Z0Jt+IMAjJ8j+5plaV1gN+jC5Ar2By4=;
-        b=VskwaR1BV//wkdhRsb+GkY8EQgPmQ0ofefdpIiwLiXepYEnrzQU8lX6n2G4rbdcMnt
-         KgxZLRBPLXRU4Woit2CP0et5XuST8Vds4rri3XffOMi3h9F8tTRbJfSG182xzGn5K6Gj
-         4FWc/7OqOh96+W6/jOsUPBCnqpqGyATLmLFVrQeT6k2qd6hDpNcswFcoiW1/goJP4iYs
-         wQfNSK01tnXFye4WkvxRq69VXHBiySN1I7TFP5zZ5RddRq+wMEPVCVpLajLKMo5+KuzG
-         DUzug6cPQsoOTunqIwAP/tbrsQBbpyrya5/p3JJKVU3KRjiVGI9XxaczUWbeg1lKNZk8
-         PBmw==
+        d=gmail.com; s=20230601; t=1711281968; x=1711886768; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CtYyUSACFde+IBYskgVCX0Wr+Na6g8D8ZvFebNcAS00=;
+        b=AkjsszDyVhN0xoUibiQmNp6iymSRXnljbtE4OpihyV5bQlVGWf/TMBR2DVndc7rmqj
+         lZuVyxgXbAoN02c9d6foFFTkVslqyeaD5S5Df0I1Q54Eb3zYjbRPrMkQYID2GMha97Im
+         MoqMgJN/XOzzOFdvT9849NMoMAAkUdpyu9wGg9fQDFAVXDP7LU1XPMK/nLUSJJtGFxz4
+         0mKb/O0xfVSQH78c8om4AZg/DJk/q3D/D+4jsmN1/fB+ztefe/QVzSt+yQ+ZQUCL68TC
+         pKD85eBSUWtPxzv1FZlrzwqe1zO5w6ChBiMtGT/NYzhlJ6O9jCtvooVXhDRLz6D07f+a
+         9bgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711272565; x=1711877365;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=o611cLqDFm70Z0Jt+IMAjJ8j+5plaV1gN+jC5Ar2By4=;
-        b=iGUWDfqteL0C7nVuizXHrvvI/QSqQKMqcIvZZYIdUjAWLEZlalI+bGwBWghSAonyJ+
-         IAud+XUkkJkrzYQxVPqLcbZO6JkwKxO78s+I5y0n7zy4JFuQJrNYzo5HCL0WtEsvg1Kf
-         vIdQvFXonhp8VHKmcBvC2GOq+3S05nP5jQ/+7Dq0o2A+vxgC+hwiI7dA2O0Z48KYF2qd
-         kTRlAe8OKVfkt6IVU52z+h6ANWB/5XFK7ai7qWWNassmIiSoiPosXMbRrA5hDZ43RMgn
-         +2YiL+c9w37m5ixVjCZDkBFeJ6u4eIR4E3viCzafvybR8pbS4OoEQGeHsuQOfBrMYLxj
-         IbYw==
-X-Gm-Message-State: AOJu0Yz4GjboOcuDzAN+umPB0CLBYVEgjy8TrJcttaWjDVpoRFKs4b+y
-	1PgwnumH6HbnCP05skOWVmw9dqvwbV+piaPhVanOK5GVkXMr+bxG
-X-Google-Smtp-Source: AGHT+IFvawNc97ardr5RtDisvgJA38GFboOggdtFCS3O754mL/vF+2DKsMyOKtUSOxQENHyFOa9F6Q==
-X-Received: by 2002:a17:902:e542:b0:1e0:b5d4:9fcb with SMTP id n2-20020a170902e54200b001e0b5d49fcbmr1110472plf.34.1711272564702;
-        Sun, 24 Mar 2024 02:29:24 -0700 (PDT)
-Received: from localhost.localdomain ([2409:40c2:1004:e7c1:d108:f4f6:f7c6:2fde])
-        by smtp.gmail.com with ESMTPSA id y12-20020a170902ed4c00b001e0a28f61d0sm2717347plb.70.2024.03.24.02.29.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Mar 2024 02:29:24 -0700 (PDT)
-From: coolrrsh@gmail.com
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	Rajeshwar R Shinde <coolrrsh@gmail.com>
-Subject: [PATCH v1] staging: media: remove duplicates
-Date: Sun, 24 Mar 2024 14:59:17 +0530
-Message-Id: <20240324092917.19177-1-coolrrsh@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1711281968; x=1711886768;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CtYyUSACFde+IBYskgVCX0Wr+Na6g8D8ZvFebNcAS00=;
+        b=YLdzxAA2QR4l3y6rEUFxLiUISPI45cpN8BkcN50I+6j54mccRRYVXKonxieupcPhGh
+         7ldjlhQYz7pQLZh7sidqbdkXuEJ/GRU8IpnE9prngpW0rkqFPYrYcK8i535lkTpP3mVW
+         cuVYx8VFwOAqSr/3LJxE4HGHQx6mLNUllWw96O9LAm4zpwD3fPN1+qQxltYji4bAxEVS
+         1EHzc+4rHoJTAaKJWPYy8IBaYM5op2iCx5ekcvyZCLHH8KORL1UZ/xhgYIayPf9Is6zg
+         eukihouWw1TgfmfkaPA2gG4Ft8se097w/L35NF7CVAGFJBbTFVX4njqsiIOp5PTpWLmu
+         ZywQ==
+X-Gm-Message-State: AOJu0Yx9jgkmiT5XNxiPS3FU+nQX+jxd6VAxUArjUu4bItyCggejS3mt
+	D3xX5s4YCwvfDCnJ0+mUyN7Q/GpokBB8I9wzqaO8VKVSdHFiPfP7
+X-Google-Smtp-Source: AGHT+IHlXOirsRDZKiAzC3seE+GNVUGaePkht437g4QV4Vul6/RMlMk9xDwrGSXhYmPu2WGx30Ns+w==
+X-Received: by 2002:a5d:6708:0:b0:33b:48ed:be63 with SMTP id o8-20020a5d6708000000b0033b48edbe63mr2536678wru.7.1711281967667;
+        Sun, 24 Mar 2024 05:06:07 -0700 (PDT)
+Received: from [192.168.0.104] (p54a07fa0.dip0.t-ipconnect.de. [84.160.127.160])
+        by smtp.gmail.com with ESMTPSA id a1-20020a5d5081000000b0033e91509224sm6666868wrt.22.2024.03.24.05.06.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 24 Mar 2024 05:06:07 -0700 (PDT)
+Message-ID: <11e6d108-e5d9-4c50-8404-766403eb5a5a@gmail.com>
+Date: Sun, 24 Mar 2024 13:06:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] staging: media: remove duplicates
+Content-Language: en-US
+To: coolrrsh@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
+ mchehab@kernel.org, gregkh@linuxfoundation.org, shawnguo@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240324092917.19177-1-coolrrsh@gmail.com>
+From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+In-Reply-To: <20240324092917.19177-1-coolrrsh@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+On 3/24/24 10:29, coolrrsh@gmail.com wrote:
+Hi Rajeshwar,
 
-In Kconfig, the kernel configuration VIDEO_DEV is defined twice.
-To prevent doing repeated checks, the redundant code was replaced.
+Please make your "Subject" line more unique. Consider that we may end up
+with having dozen of commits like yours, all of them referring to
+different removals and all without the necessary information to tell 
+what they differ in (except the driver/subsystem). So it would help if 
+you add the changed file to make it more unique.
 
-Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+Typically we omit the v1 on the first patch in the subject
 
----
- drivers/staging/media/imx/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+> From: Rajeshwar R Shinde <coolrrsh@gmail.com>
+This line does not belong here. Please remove it.
 
-diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
-index 21fd79515042..772f49b1fe52 100644
---- a/drivers/staging/media/imx/Kconfig
-+++ b/drivers/staging/media/imx/Kconfig
-@@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
- 	depends on ARCH_MXC || COMPILE_TEST
- 	depends on HAS_DMA
- 	depends on VIDEO_DEV
--	depends on VIDEO_DEV
- 	select MEDIA_CONTROLLER
- 	select V4L2_FWNODE
- 	select V4L2_MEM2MEM_DEV
--- 
-2.25.1
+> 
+> In Kconfig, the kernel configuration VIDEO_DEV is defined twice.
+> To prevent doing repeated checks, the redundant code was replaced.
+replaced?
+
+If you send in a second version of this patch please use a change 
+history. Description from Dan under:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+Thanks for your support.
+
+Bye Philipp
+
+> Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+> 
+> ---
+>   drivers/staging/media/imx/Kconfig | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+> index 21fd79515042..772f49b1fe52 100644
+> --- a/drivers/staging/media/imx/Kconfig
+> +++ b/drivers/staging/media/imx/Kconfig
+> @@ -4,7 +4,6 @@ config VIDEO_IMX_MEDIA
+>   	depends on ARCH_MXC || COMPILE_TEST
+>   	depends on HAS_DMA
+>   	depends on VIDEO_DEV
+> -	depends on VIDEO_DEV
+>   	select MEDIA_CONTROLLER
+>   	select V4L2_FWNODE
+>   	select V4L2_MEM2MEM_DEV
 
