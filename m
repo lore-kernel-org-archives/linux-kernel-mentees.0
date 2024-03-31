@@ -1,137 +1,100 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782F39FD6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Mar 2024 20:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54133138E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Mar 2024 02:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711744403; cv=none; b=DGKMOb4N2/5xvzpF0O83i6ivxxdMkEudH6AlwglKPveMnyWAO5h+qkzIRNQqLWCV0Q+OVEFZ36RAMPaveUn3nE4fPZe/czKGpeVjuiSJPhgHKlwYXxJPfWhx7nppk0KCbd9a/Jozv2KOevZ0/BZLe+fLeRgkLrLTYzshsjCpqkI=
+	t=1711851589; cv=none; b=QzTSkEleBLN4Cp6NFLhqZpLm0SqcpcciNlKpaX1LaLMvApwibYpUvFCVT9YaddyHg9vplxG6YBI8v4jOCT/pvLToPM5iR9qawyw2YOtQ+SBwWyo2kbBB2mqbdjnEmnmtLMXgYHR0X0AAFNkoUgv0TZM/QP+6ZkdpiDtWtGUkog8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711744403; c=relaxed/simple;
-	bh=MmKPUNxZ+susb4kr/ZOyBooFet2Ni9V6EkAgfthmPGg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UjJYSUGccg58jG3BGhPxsRX9xJaw7mWSUcVsZDjjaD5tvHKaeQpqNK5tsZMURzKtqNU8/UVOHA0svSYULwhMpCBQZhtBmxCWPIHKE+4hW0s/Iw5Bwd/JDEqKl4R74sc7bnA/uW+BAGYYcPR/8K45i9aKup1r/nqcPM7BqTvi6bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3XC0VTo; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1711851589; c=relaxed/simple;
+	bh=kHilbW50FabGa+skKea/KFAapFv6c2SdbOWrBStcelU=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=IzQJZ8v9f+OzOYqktHwliQzE6zqY2g5B6lBDI5hnx6nWayexNP9JWrFz23xZcOAXR2uBObWJuk/m5NKhUMIHJsHfqBp6ND/uHmWmcRTDZshPfxxZNxPrVyvcgulgLXAz+eldcU7Pkrd7ZbO9shAMWr9aAnlBM2oH/2lI5aDYbQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dd9utMl3; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3XC0VTo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dd9utMl3"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 2A6B24000E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Mar 2024 20:33:21 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id CFE6D60626
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Mar 2024 02:19:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: 1.486
 X-Spam-Level: *
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id QOhMnRqBDn5G for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 29 Mar 2024 20:33:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::529; helo=mail-pg1-x529.google.com; envelope-from=shresthprasad7@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 43E52409BC
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 43E52409BC
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=A3XC0VTo
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 43E52409BC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Mar 2024 20:33:19 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id 41be03b00d2f7-5e42b4bbfa4so1393660a12.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 29 Mar 2024 13:33:19 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id fDt5vmwVHSQw for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 31 Mar 2024 02:19:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::234; helo=mail-oi1-x234.google.com; envelope-from=shresthprasad7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 08468605C7
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 08468605C7
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dd9utMl3
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 08468605C7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 31 Mar 2024 02:19:46 +0000 (UTC)
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3c4e05a1adaso124113b6e.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 30 Mar 2024 19:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711744399; x=1712349199; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9y/dxoUHYnuLJXM/FbNFKWazEIf0YDN2gZikUVSS61Y=;
-        b=A3XC0VToYcPO3rItKR8Q/w5Gc0gGi+ESA+YYQE+rXX0od4xD7Ez9YThHeRKDQmK7oD
-         WW4QZfp4eROB0t0MkVdqAKajHXuhaARglzFuWaRPXYy0+F+ItuHHSsBQgf63LEwstUhu
-         PkiGCFG7DQNEpTm2js3vwgZyJ/wOexgcZLYx1CXecLiu8JFpWmWSILvxg23H9rVx0fLt
-         IEEKWGF02BKfTo3taa0rkqIxzqpwpUG3gHfviBljIWn+isPH9luzB4n/zFq5YxYPZiEF
-         ACKjbjyH4KQyv1jJeVlQVlPwOXQeptFoKOYY2G7FfMsPhhZEW0GuxZaunxJqEDIXgxt+
-         pdFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711744399; x=1712349199;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1711851585; x=1712456385; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:subject:in-reply-to
+         :message-id:cc:to:from:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9y/dxoUHYnuLJXM/FbNFKWazEIf0YDN2gZikUVSS61Y=;
-        b=gU1h0WGF1GVDbQJ7YSM4ue+hVRoPCTYE1DOldNCsMa41fGI3ITGxOYOGbEuj2NaQHl
-         uPTG9KVdQ8V471ayFdIQlS8MTjQW7+OWSrxy4l0I48N3FCCnUQdiZiRrbS7SMm+rYm17
-         p0ykLuPbXhkXl+3jtossaG/eSC3uilPhsnQUzsQhzfF6N4OWwPdyr5htQ9d1WAYj9Tw2
-         q7K4cy84O6MAaVKJlrAC3WiRmQ4OIud1PjGPdmpwsp5qDEsYgc4BuYk3mJyprFXV07Ew
-         AlGGbyik6iX9r2ZX481J7mZ5CoTcQnxPtFHZYJ6C9hOvNf4DAj453UMGV0H9itQyhnoN
-         jc8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVVo5kexBjKcKqCXNOZyR4K96lePg7EL5Vx1VAWTZFnA5vEvS41fsgdFjrumEEUAW5D09e/4H99Xf7mD+m6YnLEGWa56PmlmXlCBlRIN+QMyrYXHc9/F2tIrpO9b09j
-X-Gm-Message-State: AOJu0Yzk005mha03IVxFq0CpUo3ZDSjsiaaTn+NoSoLCaVzL9YzyU5ax
-	k2WESK8r40woIk8EWS0P5ZW4bNNPZ2IBLpKzGbw6GdDKzTO4KUu3
-X-Google-Smtp-Source: AGHT+IENv1wF/FlhJUBdDw7gbHcuc9C7OqOL6VgCxshez/VMiYYzHneKoAE1DtcwhSriDloEUjcrhg==
-X-Received: by 2002:a05:6a20:3d07:b0:1a7:1c5:4746 with SMTP id y7-20020a056a203d0700b001a701c54746mr1717945pzi.1.1711744398901;
-        Fri, 29 Mar 2024 13:33:18 -0700 (PDT)
-Received: from localhost.localdomain ([122.161.51.128])
-        by smtp.gmail.com with ESMTPSA id w26-20020a62c71a000000b006e635740126sm3524177pfg.112.2024.03.29.13.33.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Mar 2024 13:33:18 -0700 (PDT)
+        bh=kHilbW50FabGa+skKea/KFAapFv6c2SdbOWrBStcelU=;
+        b=dd9utMl3TLEpeyuHaZwc61+s6+oQuG6QDseWn0DCuPUXfv13LXb0k8CbL88Vw8qNlV
+         /jazo7nVWJBgsaGNod+l4A8ZTXDg3ypVKF6o4qfPBjxXpTxHD67psc+lsZleeg/wkMwO
+         QNNc04k4SrROJRqTs1X0j2EQkSTd1N5J43gSConQokLIW74hxNieXyUhSNKkoaMVF4xu
+         ljV+ISy2rVzbQ/dNcfVcEKNzALHh9ym6wopdXdve7FMD/xEcc6Wdz1D//VwZd9/p1OUX
+         hJtBd89pA4n4cQrgZMW8jKwh04bWoNVcrP+Fg1UeHAXi5t9Tum04mJ/LHE6s6I989RWq
+         Sc2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711851585; x=1712456385;
+        h=content-transfer-encoding:mime-version:subject:in-reply-to
+         :message-id:cc:to:from:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kHilbW50FabGa+skKea/KFAapFv6c2SdbOWrBStcelU=;
+        b=Atky3OZ+v2WfCGZuEAJHSrLTG1FZDvYx5ctx/1OUDJCRgFsGFcVJfx/4GuXuTqd5Az
+         ARd2hYRa5uUCdgVDRgsWT4U/+kO/aTJIdNmt923GfGyTV1NNHOJtjP6SI4iSEUj3ZTxl
+         +oqDquoOjnLO5KEqf4+aIqxm/nLFroMwgoOO+QfC5NR3sTD/OzwqHWsZZrUYe9O/18Bz
+         lGDh69fGckVPHhJyTW2Dl7BV5AJIXYH3Wv6jcmOsZ/rHC4hGePelr3PBAU5m4nv6MQUG
+         tuT5VW3XqAjf0qcqjh+40SjMMPoZOTsD8d4ncriU60nfZ1XPAJp5dzUX9oVM8WvUsfwn
+         0zsg==
+X-Forwarded-Encrypted: i=1; AJvYcCVF86ARCaFfbeGvQQN00ehzKhYtu0rourxphIEPG/y42JzP+Pvj90GabH90VQ44ruGIp+Ev296jOEQAy9e7ysFdiFxEfrIl/fXQaFM1JsvDY7uFRq8UaQmuIeILImSU
+X-Gm-Message-State: AOJu0YxeR6mzUBexLudEO6YgiUqX1qgVC3ljGSRl/z2/SK+bMWRZKvYy
+	+WSQ2h9h9BBJauFSwTZVtl4G7ORIc6hhfvJFM0ty7MN2X/UcV68d
+X-Google-Smtp-Source: AGHT+IGUkdXyXnx9MegUXfS8lCbdfE6rmSalJRLyGDV8JdTsSDNviU15kroqV/DfSsf9+rpBDX1OEw==
+X-Received: by 2002:a05:6808:2289:b0:3c3:b99c:7b5 with SMTP id bo9-20020a056808228900b003c3b99c07b5mr7622651oib.50.1711851585482;
+        Sat, 30 Mar 2024 19:19:45 -0700 (PDT)
+Received: from [127.0.0.1] ([122.161.52.153])
+        by smtp.gmail.com with ESMTPSA id bn2-20020a056a00324200b006eacefd8fabsm5278898pfb.64.2024.03.30.19.19.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 30 Mar 2024 19:19:44 -0700 (PDT)
+Date: Sun, 31 Mar 2024 07:49:37 +0530 (GMT+05:30)
 From: Shresth Prasad <shresthprasad7@gmail.com>
-To: gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	christophe.jaillet@wanadoo.fr,
-	prathubaronia2011@gmail.com,
-	luca.ceresoli@bootlin.com,
-	robh@kernel.org,
-	u.kleine-koenig@pengutronix.de,
-	frank.li@vivo.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+To: me@wantyapps.xyz
+Cc: christophe.jaillet@wanadoo.fr, frank.li@vivo.com,
+	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	Shresth Prasad <shresthprasad7@gmail.com>
-Subject: [PATCH] staging: axis-fifo: align arguments to open parenthesis in axis-fifo.c
-Date: Sat, 30 Mar 2024 02:02:24 +0530
-Message-ID: <20240329203222.12889-3-shresthprasad7@gmail.com>
-X-Mailer: git-send-email 2.44.0
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	luca.ceresoli@bootlin.com, prathubaronia2011@gmail.com,
+	robh@kernel.org, shresthprasad7@gmail.com, skhan@linuxfoundation.org,
+	u.kleine-koenig@pengutronix.de
+Message-ID: <72dc90fb-79ef-4dd4-b30e-97b1e7058156@gmail.com>
+In-Reply-To: <z2ewk44rjutv24i6lqau3adrmlprj524ulqtqbncvfaj44dwcg@2dnnbm75abbp>
+Subject: Re: [PATCH] staging: axis-fifo: align arguments to open parenthesis
+ in axis-fifo.c
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Correlation-ID: <72dc90fb-79ef-4dd4-b30e-97b1e7058156@gmail.com>
 
-Align some function arguments to the opening parenthesis of the
-function as reported by checkpatch:
+Oh, that's too bad. Thanks for the heads up!
 
-CHECK: Alignment should match open parenthesis
-
-Signed-off-by: Shresth Prasad <shresthprasad7@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index c51818c56dd2..a70af76be7fb 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -376,8 +376,8 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
- 		 */
- 		mutex_lock(&fifo->read_lock);
- 		ret = wait_event_interruptible_timeout(fifo->read_queue,
--			ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
--			read_timeout);
-+						       ioread32(fifo->base_addr + XLLF_RDFO_OFFSET),
-+						       read_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
-@@ -517,9 +517,9 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		 */
- 		mutex_lock(&fifo->write_lock);
- 		ret = wait_event_interruptible_timeout(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
--				 >= words_to_write,
--			write_timeout);
-+						       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
-+						       >= words_to_write,
-+						       write_timeout);
- 
- 		if (ret <= 0) {
- 			if (ret == 0) {
--- 
-2.44.0
-
+Regards,
+Shresth Prasad
