@@ -1,65 +1,54 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655FE13D277
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Apr 2024 12:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EAB1758D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 May 2024 11:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714479646; cv=none; b=qbprWxpNIk5UzhaiOmPHGf+al+LZ9twBE0Rzg3pLp8KSskYq68tIG95h1qNAZLLQT8c1hpVOmBcPAWntL9Dli28l2UBb/9/LbvMoekHQe7yKKUpIGSPeipfSlyWpj2svX+3EckEgPVwdurvPBw97FDAFvVXTyITxBR0yVH7G6a4=
+	t=1714563749; cv=none; b=tMWNW0bsPlprvntxtWRxlQ4Gx53hiOT84Zd+JcynXgc1uEBpYQty4D7R1O97wVDs1s9ZzsnpNALZKjAsA/wa7k/VP/Y8Fk9KOUwGHCCdq0OLNCggdphp7C+GMhiD5iyH0i8T2Wu5LSGF6GcSjlApXTB9PJyCGzvPpOPfMqLFX1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714479646; c=relaxed/simple;
-	bh=gkvysAfCfPH18qay0BvNJ5BN+KvihLOCCXlEpo/dq9A=;
+	s=arc-20240116; t=1714563749; c=relaxed/simple;
+	bh=wJy87bfpS7s04Gzynz66njZDUrj0KmFwHecK8KcHmF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gj3pwbpIvJ3NA3MBvhPALAu98nJJT+rd+I2WbK72DnRIh91xRw9PJYZYDyv8AO/3B3636UcFEnG4uAZomnV5wkTVwgnPA7vESs88AStzUNCnTY8704SZ6gEGUGq2fwGjOlghlIuumXCcDKkACO17lzqh0ffoNdlMZo/yEMvm7aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UIjnRN8X; arc=none smtp.client-ip=140.211.166.133
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UIjnRN8X"
+	 Content-Type:Content-Disposition:In-Reply-To; b=uPYK3gx5BzCrefulhy31noufmVSytLFacPf1PIaIZkeUra2N3NZK+DxIuuvEG4u0+5+3rLQX2r7pfLKuz6KO3Unvui8Qz6QIe+uZF0pOzXcA3XPUUxPONiZ6Im7TotoYy/OnesI8x0ZBTnGxZPSuz01jQVlcqhEfPArIwK+/HX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id EADD341467
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Apr 2024 12:20:44 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DD6824037A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 May 2024 11:42:27 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -4.2
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id j34xHk1nDFsa for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Apr 2024 12:20:43 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=will@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 303B14027F
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 303B14027F
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=UIjnRN8X
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 303B14027F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Apr 2024 12:20:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id CF4A1CE0FF0;
-	Tue, 30 Apr 2024 12:20:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB43C2BBFC;
-	Tue, 30 Apr 2024 12:20:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714479638;
-	bh=gkvysAfCfPH18qay0BvNJ5BN+KvihLOCCXlEpo/dq9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UIjnRN8X/xe5vUtE6o2nd9rsg8KZM0T7FDvMnFtAonzS0TY00JyKKnGNFshCo3C1w
-	 IagPyl82EAAOALf3ij4DeeZZ0HQRz72aU4Aa9QVniiLIpCrb53M+BqwtDm6rnN/65C
-	 bQdfGt9LoG++A3UPBurT5vANHdeFJoWmZqmFX8VfwVmnQKFUKV6cfyjXIXq7P9LpZX
-	 cTqb6IVIQFaZN/XW1eyJZtRBsrOQoogB0xTcMA7n3cCpekptuNt/4PuSsfCsiT6rN4
-	 3V6JLhQ8b+VAt+YYSgTnrZCdXrEV6aMGjVDjHGSwB4SctVOg5ghXFuK84QXsAtFtQD
-	 oM1LwzViIFj8w==
-Date: Tue, 30 Apr 2024 13:20:32 +0100
-From: Will Deacon <will@kernel.org>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id UvE7HYMpewn0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  1 May 2024 11:42:26 +0000 (UTC)
+X-Greylist: delayed 430 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 01 May 2024 11:42:26 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 249444024A
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=arm.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 249444024A
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=217.140.110.172; helo=foss.arm.com; envelope-from=dave.martin@arm.com; receiver=<UNKNOWN> 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp4.osuosl.org (Postfix) with ESMTP id 249444024A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 May 2024 11:42:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82CB42F4;
+	Wed,  1 May 2024 04:35:41 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 347083F793;
+	Wed,  1 May 2024 04:35:14 -0700 (PDT)
+Date: Wed, 1 May 2024 12:35:08 +0100
+From: Dave Martin <Dave.Martin@arm.com>
 To: Dorine Tipo <dorine.a.tipo@gmail.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	Will Deacon <will@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Javier Carrasco <javier.carrasco.cruz@gmail.com>
 Subject: Re: [PATCH] selftests:arm64: Test PR_SVE_VL_INHERIT after a double
  fork
-Message-ID: <20240430122032.GA13690@willie-the-truck>
+Message-ID: <ZjIo7E/IBYlNvO8H@e133380.arm.com>
 References: <20240429044012.5018-1-dorine.a.tipo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -70,9 +59,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20240429044012.5018-1-dorine.a.tipo@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
 On Mon, Apr 29, 2024 at 04:40:12AM +0000, Dorine Tipo wrote:
+> [PATCH] selftests:arm64: Test PR_SVE_VL_INHERIT after a double fork
+
+Nit: Please follow the same commit message prefix convention as in the
+existing code (e.g., try git log tools/testing/selftests/arm64/fp/ ).
+
+[...]
+
 > Add a new test, double_fork_test() to check the inheritance of the SVE
 > vector length after a double fork.
 > The `EXPECTED_TESTS` macro has been updated to account for this additional
@@ -83,9 +78,7 @@ On Mon, Apr 29, 2024 at 04:40:12AM +0000, Dorine Tipo wrote:
 > ---
 >  tools/testing/selftests/arm64/fp/za-fork.c | 95 +++++++++++++++++++++-
 >  1 file changed, 94 insertions(+), 1 deletion(-)
-
-I haven't tried compiling this, but some of the code looks a little off:
-
+> 
 > diff --git a/tools/testing/selftests/arm64/fp/za-fork.c b/tools/testing/selftests/arm64/fp/za-fork.c
 > index 587b94648222..35229e570dcf 100644
 > --- a/tools/testing/selftests/arm64/fp/za-fork.c
@@ -101,6 +94,12 @@ I haven't tried compiling this, but some of the code looks a little off:
 >  int verify_fork(void);
 > @@ -69,6 +69,97 @@ int fork_test_c(void)
 > 	}
+
+"git am" or "patch" report the patch as corrupted here, any idea why?
+
+Fixing the whitespace here allows the patch to be applied, but it still
+doesn't seem to build, so I think there are bigger problems here.
+
 >  }
 > 
 > +int double_fork_test(void)
@@ -111,6 +110,35 @@ I haven't tried compiling this, but some of the code looks a little off:
 > +	ret = prctl(PR_SVE_SET_VL, vl | PR_SVE_VL_INHERIT);
 > +	if (ret < 0)
 > +		ksft_exit_fail_msg("Failed to set SVE VL %d\n", vl);
+
+Thanks for the attempt, but this file doesn't look like the correct
+place to add these tests.  This file is specific to testing SME (the
+"ZA" register array is specific to SME). Looking at the history of the
+TODO file, it looks like the entry you're looking at was related to the
+tests in vec-syscfg.c.  That looks like a better place to test the API
+behaviour of these prctl calls; most of the needed framework is already
+there.
+
+So, please consider adapting vec-syscfg.c to add the double-fork tests,
+rather than trying to write this from scratch.
+
+(See commit e96595c55d23 ("kselftest/arm64: Add a TODO list for floating
+point tests") for history.)
+
+
+If you haven't already done so, you should go and look at the following
+to get a better idea of how these prctl calls are supposed to work:
+
+Documentation/arch/arm64/sve.rst
+Documentation/arch/arm64/sme.rst
+
+The prctl(2) man page also documents the SVE prctls:
+
+https://man7.org/linux/man-pages/man2/prctl.2.html .
+
+
+[more comments below]
+
 > +
 > +	newpid = fork();
 > +	if (newpid == 0) {
@@ -132,14 +160,8 @@ I haven't tried compiling this, but some of the code looks a little off:
 > +			if (ret & PR_SVE_VL_INHERIT) {
 > +				ksft_print_msg("prctl() reports _INHERIT\n");
 > +				return;
-
-Missing return value?
-
 > +			}
 > +			 ksft_print_msg("prctl() does not report _INHERIT\n");
-
-Indentation.
-
 > +
 > +		} else if (grandchild_pid < 0) {
 > +			ksft_print_msg("fork() failed in first child: %d\n", grandchild_pid);
@@ -151,9 +173,6 @@ Indentation.
 > +		if (waiting < 0) {
 > +			if (errno == EINTR)
 > +				continue;
-
-'continue' outside of a loop?
-
 > +			ksft_print_msg("waitpid() failed: %d\n", errno);
 > +			return 0;
 > +		}
@@ -169,7 +188,70 @@ Indentation.
 > +
 > +		exit(1);
 > +		}
+> +	}
+> +	if (newpid < 0) {
+> +		ksft_print_msg("fork() failed: %d\n", newpid);
+> +
+> +		return 0;
+> +	}
+> +
+> +	parent_result = verify_fork();
+> +	if (!parent_result)
+> +		ksft_print_msg("ZA state invalid in parent\n");
+> +
+> +	for (;;) {
+> +		waiting = waitpid(newpid, &child_status, 0);
+> +
+> +		if (waiting < 0) {
+> +			if (errno == EINTR)
+> +				continue;
+> +			ksft_print_msg("waitpid() failed: %d\n", errno);
+> +			return 0;
+> +		}
+> +		if (waiting != newpid) {
+> +			ksft_print_msg("waitpid() returned wrong PID\n");
+> +			return 0;
+> +		}
+> +
+> +		if (!WIFEXITED(child_status)) {
+> +			ksft_print_msg("child did not exit\n");
+> +			return 0;
+> +		}
+> +
+> +		return WEXITSTATUS(child_status) && parent_result;
+> +	}
+> +}
+> +
+>  int main(int argc, char **argv)
+>  {
+>  	int ret, i;
+> @@ -86,11 +177,13 @@ int main(int argc, char **argv)
+>  	ret = open("/proc/sys/abi/sme_default_vector_length", O_RDONLY, 0);
+>  	if (ret >= 0) {
+>  		ksft_test_result(fork_test(), "fork_test\n");
+> +		ksft_test_result(double_fork_test(), "double_fork_test\n");
+> 
+>  	} else {
+>  		ksft_print_msg("SME not supported\n");
+>  		for (i = 0; i < EXPECTED_TESTS; i++) {
+>  			ksft_test_result_skip("fork_test\n");
+> +			ksft_test_result_skip("double_fork_test\n");
 
-Stray '}' ?
+I'm not very familiar with the kselftest framework, but this looks
+weird to me.
 
-Will
+Why should we skip both tests twice when there are two tests?
+
+(Looking at the history, I think this loop may have been left behind
+from an old edit and perhaps shouldn't be there any more.  Comparing
+with the way ksft_test_result_skip() is used in other tests may provide
+a clue.  Maybe Mark Brown remembers...)
+
+
+>  		}
+>  	}
+
+And finally... how are you running these tests?
+
+Cheers
+---Dave
