@@ -1,257 +1,209 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EAB1758D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 May 2024 11:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034CB12FB2D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:24:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714563749; cv=none; b=tMWNW0bsPlprvntxtWRxlQ4Gx53hiOT84Zd+JcynXgc1uEBpYQty4D7R1O97wVDs1s9ZzsnpNALZKjAsA/wa7k/VP/Y8Fk9KOUwGHCCdq0OLNCggdphp7C+GMhiD5iyH0i8T2Wu5LSGF6GcSjlApXTB9PJyCGzvPpOPfMqLFX1E=
+	t=1715567085; cv=none; b=sm1ujO423rI8cGvaXQe/+Q203gkrmWSCmQPh3E8pCgrBTaDoA1CDYK90Y8JvtRXQth/ixDEs6VDXpLumRe3eZ3SNUHo4TnzfwjrYBgEUf31UZK82o0HlFaSZIlbB6xDBK9+jPVJa3Li/LoXoXK47LhJIr0GugIfrcl46rreXYzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714563749; c=relaxed/simple;
-	bh=wJy87bfpS7s04Gzynz66njZDUrj0KmFwHecK8KcHmF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uPYK3gx5BzCrefulhy31noufmVSytLFacPf1PIaIZkeUra2N3NZK+DxIuuvEG4u0+5+3rLQX2r7pfLKuz6KO3Unvui8Qz6QIe+uZF0pOzXcA3XPUUxPONiZ6Im7TotoYy/OnesI8x0ZBTnGxZPSuz01jQVlcqhEfPArIwK+/HX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1715567085; c=relaxed/simple;
+	bh=k7y4LA9NwgfR3UusDwBwp4Yc4j/2B54YlpDjOAsXinU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wtp0bKeuIp8BqBn80F6lKMnhIe/UDLWvFBOEaLrXrtMaCJt7Io/TwgJxa+K54aemDD/kYdq8pV77IDR66zue3onbRjzedT2XecV0K3rbYNR9fvmAipdRCo9ImfoDHaDuw9+U2BdfLEC1Y+qnJ7wG7RojPGNXLYIEsIYHpi90mGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ia8kzp7u; arc=none smtp.client-ip=140.211.166.137
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ia8kzp7u"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DD6824037A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 May 2024 11:42:27 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 93BAF40763
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:24:43 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.2
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id UvE7HYMpewn0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  1 May 2024 11:42:26 +0000 (UTC)
-X-Greylist: delayed 430 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 01 May 2024 11:42:26 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 249444024A
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=arm.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 249444024A
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=217.140.110.172; helo=foss.arm.com; envelope-from=dave.martin@arm.com; receiver=<UNKNOWN> 
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 249444024A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  1 May 2024 11:42:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82CB42F4;
-	Wed,  1 May 2024 04:35:41 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 347083F793;
-	Wed,  1 May 2024 04:35:14 -0700 (PDT)
-Date: Wed, 1 May 2024 12:35:08 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Dorine Tipo <dorine.a.tipo@gmail.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+ id pd9FE8YGQzcb for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 May 2024 02:24:42 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org D1F3B40754
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D1F3B40754
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ia8kzp7u
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id D1F3B40754
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:24:41 +0000 (UTC)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6f457853950so3231733b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 May 2024 19:24:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715567081; x=1716171881; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OnDDpIl73+VXVfz3/GJWrQTsKTk4hFyYoNOmEVSGsMA=;
+        b=Ia8kzp7uE8i/gqXjdffWEztujKJ6lYd5fwLuDfP6UKTxiTWix8o2PLWHBdeJhybFrT
+         bAouLO1MzxpYqhcKPm0Qiz146wqWVof7w+7/gTWflIOkVWLFizZyQEz+sWsVqcDURKjR
+         Ld79fGTnOQXn0XB3oP5YudLT9U3SvC3rPCug9D7SHPv8HmDG5sAYDPj8+ZM0vkiExRz9
+         waWthEBiUylSY13Av0bCJXF5+pcUef3bCofi7FKb+WOel/sle6/wXsGThLdrPscYXcVO
+         kZK7z+yFOWmRDqBELz2Jnu+Lh5w8A0NAvvsU0d1pyZtp4WqTwZXxcIMQpCl6dwM4e7xj
+         igWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715567081; x=1716171881;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OnDDpIl73+VXVfz3/GJWrQTsKTk4hFyYoNOmEVSGsMA=;
+        b=MB9V8vTHWk5jW0MMlK08923uSh4LwZgK4ElXnunapWotVPUPEn5dIOeZCsfA/Bnsq1
+         cYRDiep8+F3LCCm/6dLaz+/ysVmzTRhul0t1eZFqZiD+N0HhxC3qXp30npSFNt5qPMuF
+         84OHeSkC2wt4X+cIguiyuRr6nfAYdKOQyAPP11h4nZtGsnmjKg2Pfzp6y5eNPRelzPSR
+         oRPxOW88fcBRA6G3h6E3TSxFnVEOgiXO74lS4Kql5KxRFQYk8tyVfCoCE2fkKX0OyvKa
+         eVUg0t4hD2RVF2TJpBXR3negem66PdyoosxZqUFeYpn3fx5LyBu+6oLvendcRPf2yxwu
+         tpug==
+X-Forwarded-Encrypted: i=1; AJvYcCUn815SWoCqVBwIVSiTQFfEP3AX3RH5fkBKwBCV9nJiNQjZYYrpAkCcmnMaKtqN2PplEHDaoSawrT9x0KqBwQo3iX+CgwxPljv0enpJzclKZTyBhL2n99gt+pZFP5DG
+X-Gm-Message-State: AOJu0YyGShfqQj2QMQsn9jTj/wXxseTNJibsCFSgMoLheIR19/obe/NF
+	WW6O3EZRCH/oxlOMiM/h1amPLu9ROVLuLZO6IyH2eFlwW7UbqY8q
+X-Google-Smtp-Source: AGHT+IEQeErWPw8e6CNL90XgcM8c9kdJ2h1+HcN871wAwmIZ2GKuwNzXIaoc70FY6sXk7l938/oj1A==
+X-Received: by 2002:a05:6a20:9f99:b0:1ac:de57:b1e3 with SMTP id adf61e73a8af0-1afddeea5c9mr13259451637.0.1715567080965;
+        Sun, 12 May 2024 19:24:40 -0700 (PDT)
+Received: from localhost.members.linode.com ([2a01:7e04::f03c:94ff:fe95:abac])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2ae0b8bsm6289933b3a.131.2024.05.12.19.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 May 2024 19:24:40 -0700 (PDT)
+From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>,
+	corbet@lwn.net
+Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Subject: Re: [PATCH] selftests:arm64: Test PR_SVE_VL_INHERIT after a double
- fork
-Message-ID: <ZjIo7E/IBYlNvO8H@e133380.arm.com>
-References: <20240429044012.5018-1-dorine.a.tipo@gmail.com>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Refactor phrasing for clarity
+Date: Mon, 13 May 2024 02:24:02 +0000
+Message-ID: <20240513022430.17626-1-luis.hernandez093@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240429044012.5018-1-dorine.a.tipo@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 29, 2024 at 04:40:12AM +0000, Dorine Tipo wrote:
-> [PATCH] selftests:arm64: Test PR_SVE_VL_INHERIT after a double fork
+* Updated title capitalization for consistency
+* Fixed acronym capitalization (e.g. CPU, vCPU)
+* Added usage of hypenated compoud adjective
+(e.g. host-side polling, where host-side is modifying polling)
+* Added missing verb "as" in "basic logic is as follows"
+* Added missing articl "an" in "guest_halt_poll_ns when an event occurs"
+* Fixed parameter definition in 4, all previous examples started with
+  descibing the parameter in the first sentence followed by additional
+notes
+* Replaced C-terminology Bool in favor of formal form Boolean
+* Cleaned up phrasing in "Further Notes" section for clarity
 
-Nit: Please follow the same commit message prefix convention as in the
-existing code (e.g., try git log tools/testing/selftests/arm64/fp/ ).
+Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+---
+ Documentation/virt/guest-halt-polling.rst | 47 +++++++++++------------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
 
-[...]
+diff --git a/Documentation/virt/guest-halt-polling.rst b/Documentation/virt/guest-halt-polling.rst
+index 922291ddc40c..3e4e9d4099c5 100644
+--- a/Documentation/virt/guest-halt-polling.rst
++++ b/Documentation/virt/guest-halt-polling.rst
+@@ -1,12 +1,12 @@
+ ==================
+-Guest halt polling
++Guest Halt Polling
+ ==================
+ 
+-The cpuidle_haltpoll driver, with the haltpoll governor, allows
+-the guest vcpus to poll for a specified amount of time before
++The cpuidle_haltpoll driver, along with the haltpoll governor, allows
++the guest vCPUs to poll for a specified amount of time before
+ halting.
+ 
+-This provides the following benefits to host side polling:
++This provides the following benefits to host-side polling:
+ 
+ 	1) The POLL flag is set while polling is performed, which allows
+ 	   a remote vCPU to avoid sending an IPI (and the associated
+@@ -14,15 +14,15 @@ This provides the following benefits to host side polling:
+ 
+ 	2) The VM-exit cost can be avoided.
+ 
+-The downside of guest side polling is that polling is performed
+-even with other runnable tasks in the host.
++The downside of guest-side polling is that polling is performed
++even when other tasks are runnable on the host.
+ 
+-The basic logic as follows: A global value, guest_halt_poll_ns,
++The basic logic is as follows: A global value, guest_halt_poll_ns,
+ is configured by the user, indicating the maximum amount of
+ time polling is allowed. This value is fixed.
+ 
+-Each vcpu has an adjustable guest_halt_poll_ns
+-("per-cpu guest_halt_poll_ns"), which is adjusted by the algorithm
++Each vCPU has an adjustable guest_halt_poll_ns
++("per-CPU guest_halt_poll_ns"), which is adjusted by the algorithm
+ in response to events (explained below).
+ 
+ Module Parameters
+@@ -39,26 +39,25 @@ Default: 200000
+ 
+ 2) guest_halt_poll_shrink:
+ 
+-Division factor used to shrink per-cpu guest_halt_poll_ns when
+-wakeup event occurs after the global guest_halt_poll_ns.
++Division factor used to shrink per-CPU guest_halt_poll_ns when
++a wakeup event occurs after the global guest_halt_poll_ns.
+ 
+ Default: 2
+ 
+ 3) guest_halt_poll_grow:
+ 
+-Multiplication factor used to grow per-cpu guest_halt_poll_ns
+-when event occurs after per-cpu guest_halt_poll_ns
++Multiplication factor used to grow per-CPU guest_halt_poll_ns
++when an event occurs after per-CPU guest_halt_poll_ns
+ but before global guest_halt_poll_ns.
+ 
+ Default: 2
+ 
+ 4) guest_halt_poll_grow_start:
+ 
+-The per-cpu guest_halt_poll_ns eventually reaches zero
+-in case of an idle system. This value sets the initial
+-per-cpu guest_halt_poll_ns when growing. This can
+-be increased from 10000, to avoid misses during the initial
+-growth stage:
++The initial per-CPU guest_halt_poll_ns when growing. The per-CPU
++guest_halt_poll_ns eventually reaches zero in case of an idle
++system. This can be increased from 10000, to avoid misses
++during the initial growth stage:
+ 
+ 10k, 20k, 40k, ... (example assumes guest_halt_poll_grow=2).
+ 
+@@ -66,9 +65,9 @@ Default: 50000
+ 
+ 5) guest_halt_poll_allow_shrink:
+ 
+-Bool parameter which allows shrinking. Set to N
+-to avoid it (per-cpu guest_halt_poll_ns will remain
+-high once achieves global guest_halt_poll_ns value).
++Boolean parameter which allows shrinking. Set to N
++to avoid it (per-CPU guest_halt_poll_ns will remain
++high once it achieves global guest_halt_poll_ns value).
+ 
+ Default: Y
+ 
+@@ -79,6 +78,6 @@ The module parameters can be set from the sysfs files in::
+ Further Notes
+ =============
+ 
+-- Care should be taken when setting the guest_halt_poll_ns parameter as a
+-  large value has the potential to drive the cpu usage to 100% on a machine
+-  which would be almost entirely idle otherwise.
++- Care should be taken when setting the guest_halt_poll_ns parameter to a
++  large value, as this can potentially drive the CPU usage to 100% on an
++  otherwise mostly idle machine.
+-- 
+2.43.0
 
-> Add a new test, double_fork_test() to check the inheritance of the SVE
-> vector length after a double fork.
-> The `EXPECTED_TESTS` macro has been updated to account for this additional
-> test.
-> This patch addresses task 7 on the TODO list.
-> 
-> Signed-off-by: Dorine Tipo <dorine.a.tipo@gmail.com>
-> ---
->  tools/testing/selftests/arm64/fp/za-fork.c | 95 +++++++++++++++++++++-
->  1 file changed, 94 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/testing/selftests/arm64/fp/za-fork.c b/tools/testing/selftests/arm64/fp/za-fork.c
-> index 587b94648222..35229e570dcf 100644
-> --- a/tools/testing/selftests/arm64/fp/za-fork.c
-> +++ b/tools/testing/selftests/arm64/fp/za-fork.c
-> @@ -11,7 +11,7 @@
-> 
->  #include "kselftest.h"
-> 
-> -#define EXPECTED_TESTS 1
-> +#define EXPECTED_TESTS 2
-> 
->  int fork_test(void);
->  int verify_fork(void);
-> @@ -69,6 +69,97 @@ int fork_test_c(void)
-> 	}
-
-"git am" or "patch" report the patch as corrupted here, any idea why?
-
-Fixing the whitespace here allows the patch to be applied, but it still
-doesn't seem to build, so I think there are bigger problems here.
-
->  }
-> 
-> +int double_fork_test(void)
-> +{
-> +	pid_t newpid, grandchild_pid, waiting;
-> +	int ret, child_status, parent_result;
-> +
-> +	ret = prctl(PR_SVE_SET_VL, vl | PR_SVE_VL_INHERIT);
-> +	if (ret < 0)
-> +		ksft_exit_fail_msg("Failed to set SVE VL %d\n", vl);
-
-Thanks for the attempt, but this file doesn't look like the correct
-place to add these tests.  This file is specific to testing SME (the
-"ZA" register array is specific to SME). Looking at the history of the
-TODO file, it looks like the entry you're looking at was related to the
-tests in vec-syscfg.c.  That looks like a better place to test the API
-behaviour of these prctl calls; most of the needed framework is already
-there.
-
-So, please consider adapting vec-syscfg.c to add the double-fork tests,
-rather than trying to write this from scratch.
-
-(See commit e96595c55d23 ("kselftest/arm64: Add a TODO list for floating
-point tests") for history.)
-
-
-If you haven't already done so, you should go and look at the following
-to get a better idea of how these prctl calls are supposed to work:
-
-Documentation/arch/arm64/sve.rst
-Documentation/arch/arm64/sme.rst
-
-The prctl(2) man page also documents the SVE prctls:
-
-https://man7.org/linux/man-pages/man2/prctl.2.html .
-
-
-[more comments below]
-
-> +
-> +	newpid = fork();
-> +	if (newpid == 0) {
-> +		/* In child */
-> +		if (!verify_fork()) {
-> +			ksft_print_msg("ZA state invalid in child\n");
-> +			exit(0);
-> +		}
-> +
-> +		grandchild_pid = fork();
-> +		if (grandchild_pid == 0) {
-> +			/* in grandchild */
-> +			if (!verfy_fork()) {
-> +				ksft_print_msg("ZA state invalid in grandchild\n");
-> +				exit(0);
-> +			}
-> +
-> +			ret = prctl(PR_SVE_GET_VL);
-> +			if (ret & PR_SVE_VL_INHERIT) {
-> +				ksft_print_msg("prctl() reports _INHERIT\n");
-> +				return;
-> +			}
-> +			 ksft_print_msg("prctl() does not report _INHERIT\n");
-> +
-> +		} else if (grandchild_pid < 0) {
-> +			ksft_print_msg("fork() failed in first child: %d\n", grandchild_pid);
-> +			return 0;
-> +		}
-> +
-> +		/*  Wait for the grandchild process to exit */
-> +		waiting = waitpid(grandchild_pid, &child_status, 0);
-> +		if (waiting < 0) {
-> +			if (errno == EINTR)
-> +				continue;
-> +			ksft_print_msg("waitpid() failed: %d\n", errno);
-> +			return 0;
-> +		}
-> +		if (waiting != grandchild_pid) {
-> +			ksft_print_msg("waitpid() returned wrong PID\n");
-> +			return 0;
-> +		}
-> +
-> +		if (!WIFEXITED(child_status)) {
-> +			ksft_print_msg("grandchild did not exit\n");
-> +			return 0;
-> +		}
-> +
-> +		exit(1);
-> +		}
-> +	}
-> +	if (newpid < 0) {
-> +		ksft_print_msg("fork() failed: %d\n", newpid);
-> +
-> +		return 0;
-> +	}
-> +
-> +	parent_result = verify_fork();
-> +	if (!parent_result)
-> +		ksft_print_msg("ZA state invalid in parent\n");
-> +
-> +	for (;;) {
-> +		waiting = waitpid(newpid, &child_status, 0);
-> +
-> +		if (waiting < 0) {
-> +			if (errno == EINTR)
-> +				continue;
-> +			ksft_print_msg("waitpid() failed: %d\n", errno);
-> +			return 0;
-> +		}
-> +		if (waiting != newpid) {
-> +			ksft_print_msg("waitpid() returned wrong PID\n");
-> +			return 0;
-> +		}
-> +
-> +		if (!WIFEXITED(child_status)) {
-> +			ksft_print_msg("child did not exit\n");
-> +			return 0;
-> +		}
-> +
-> +		return WEXITSTATUS(child_status) && parent_result;
-> +	}
-> +}
-> +
->  int main(int argc, char **argv)
->  {
->  	int ret, i;
-> @@ -86,11 +177,13 @@ int main(int argc, char **argv)
->  	ret = open("/proc/sys/abi/sme_default_vector_length", O_RDONLY, 0);
->  	if (ret >= 0) {
->  		ksft_test_result(fork_test(), "fork_test\n");
-> +		ksft_test_result(double_fork_test(), "double_fork_test\n");
-> 
->  	} else {
->  		ksft_print_msg("SME not supported\n");
->  		for (i = 0; i < EXPECTED_TESTS; i++) {
->  			ksft_test_result_skip("fork_test\n");
-> +			ksft_test_result_skip("double_fork_test\n");
-
-I'm not very familiar with the kselftest framework, but this looks
-weird to me.
-
-Why should we skip both tests twice when there are two tests?
-
-(Looking at the history, I think this loop may have been left behind
-from an old edit and perhaps shouldn't be there any more.  Comparing
-with the way ksft_test_result_skip() is used in other tests may provide
-a clue.  Maybe Mark Brown remembers...)
-
-
->  		}
->  	}
-
-And finally... how are you running these tests?
-
-Cheers
----Dave
