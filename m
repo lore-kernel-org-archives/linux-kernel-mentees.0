@@ -1,209 +1,137 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034CB12FB2D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:24:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7A714882C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 09:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715567085; cv=none; b=sm1ujO423rI8cGvaXQe/+Q203gkrmWSCmQPh3E8pCgrBTaDoA1CDYK90Y8JvtRXQth/ixDEs6VDXpLumRe3eZ3SNUHo4TnzfwjrYBgEUf31UZK82o0HlFaSZIlbB6xDBK9+jPVJa3Li/LoXoXK47LhJIr0GugIfrcl46rreXYzY=
+	t=1715591394; cv=none; b=A0Ld1FMMJwdkrqFrZ7xXLp6Vys0GFYu7IrKIm2HUE8TEFUlIfkFpaarqON7lID3ZiLv+HGyZkupKg2Zex6lNBFT2SAJxpS67aI7LpLtDbeS/2kgYHTV2DQJhUUJXagwKM++jMUNSt+TWz/bCLwGpsLCWZriJ5CGO9S2jQwVrHvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715567085; c=relaxed/simple;
-	bh=k7y4LA9NwgfR3UusDwBwp4Yc4j/2B54YlpDjOAsXinU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wtp0bKeuIp8BqBn80F6lKMnhIe/UDLWvFBOEaLrXrtMaCJt7Io/TwgJxa+K54aemDD/kYdq8pV77IDR66zue3onbRjzedT2XecV0K3rbYNR9fvmAipdRCo9ImfoDHaDuw9+U2BdfLEC1Y+qnJ7wG7RojPGNXLYIEsIYHpi90mGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ia8kzp7u; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1715591394; c=relaxed/simple;
+	bh=35parTJp+jKZKjJtoHwW7Fi8fa+9bQDeP0JhKWVJeKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sv18J6vbRkIjcC7DlVR8iZ6AozJ1OU/vUmpKK8/0UWEDMqHs8cgMEmvGfoFsNUMnMuHRA6NGrCJEstP3O4rwG9iuLw1Om0CrwkUVhVK602VGZ3XNaasynhaWk7MQWV5EMnDFGMI0+G4gaaU2uCAAC4qzzaFOC+rHeH7eU62QqHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbvYTe+l; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ia8kzp7u"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbvYTe+l"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 93BAF40763
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:24:43 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 082C740722
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 09:09:53 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
+X-Spam-Score: 1.236
+X-Spam-Level: *
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id pd9FE8YGQzcb for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 13 May 2024 02:24:42 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::435; helo=mail-pf1-x435.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org D1F3B40754
+ id XGgZaEOlfcge for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 13 May 2024 09:09:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::634; helo=mail-pl1-x634.google.com; envelope-from=bagasdotme@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 8A7424057A
 Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D1F3B40754
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 8A7424057A
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ia8kzp7u
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D1F3B40754
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:24:41 +0000 (UTC)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6f457853950so3231733b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 12 May 2024 19:24:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=RbvYTe+l
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 8A7424057A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 09:09:50 +0000 (UTC)
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1ec486198b6so29841945ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 13 May 2024 02:09:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715567081; x=1716171881; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OnDDpIl73+VXVfz3/GJWrQTsKTk4hFyYoNOmEVSGsMA=;
-        b=Ia8kzp7uE8i/gqXjdffWEztujKJ6lYd5fwLuDfP6UKTxiTWix8o2PLWHBdeJhybFrT
-         bAouLO1MzxpYqhcKPm0Qiz146wqWVof7w+7/gTWflIOkVWLFizZyQEz+sWsVqcDURKjR
-         Ld79fGTnOQXn0XB3oP5YudLT9U3SvC3rPCug9D7SHPv8HmDG5sAYDPj8+ZM0vkiExRz9
-         waWthEBiUylSY13Av0bCJXF5+pcUef3bCofi7FKb+WOel/sle6/wXsGThLdrPscYXcVO
-         kZK7z+yFOWmRDqBELz2Jnu+Lh5w8A0NAvvsU0d1pyZtp4WqTwZXxcIMQpCl6dwM4e7xj
-         igWA==
+        d=gmail.com; s=20230601; t=1715591390; x=1716196190; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zqXFTG/UsEGp/a5otOk5W3+y5hWj2D7lzRkWmSN8zUQ=;
+        b=RbvYTe+lXVVQ+Mn8dvvXTT++EdjMO+ptL9DmZBNAU+cQZpCAE/w+NiMWVrmiXNjVs3
+         onDn31XCX8cUCzP9Mu4tVgA4fJMHb8tvjIdjrhgFJ7ME21y7lnBv/94utRm0FIN3xXVt
+         JF4vibXlUFCVgB0Lb+7dq5gtrsa4nxlqJT7rARm/lau3SHnJ5BTdniWKLywW2m4u9QNq
+         fNb69N3y8j4+25CCMYRdEwOJOT+0ksqYNErlQ7SKpvpGoNrn8vS2VsgrlYjLkvxXcmlP
+         2qDjrTjxPh83TAJMTLAWKtam+znB641LwPXt0+V6zM1EGyID1iU1EraSRBAm9vxRR7UJ
+         Kvpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715567081; x=1716171881;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OnDDpIl73+VXVfz3/GJWrQTsKTk4hFyYoNOmEVSGsMA=;
-        b=MB9V8vTHWk5jW0MMlK08923uSh4LwZgK4ElXnunapWotVPUPEn5dIOeZCsfA/Bnsq1
-         cYRDiep8+F3LCCm/6dLaz+/ysVmzTRhul0t1eZFqZiD+N0HhxC3qXp30npSFNt5qPMuF
-         84OHeSkC2wt4X+cIguiyuRr6nfAYdKOQyAPP11h4nZtGsnmjKg2Pfzp6y5eNPRelzPSR
-         oRPxOW88fcBRA6G3h6E3TSxFnVEOgiXO74lS4Kql5KxRFQYk8tyVfCoCE2fkKX0OyvKa
-         eVUg0t4hD2RVF2TJpBXR3negem66PdyoosxZqUFeYpn3fx5LyBu+6oLvendcRPf2yxwu
-         tpug==
-X-Forwarded-Encrypted: i=1; AJvYcCUn815SWoCqVBwIVSiTQFfEP3AX3RH5fkBKwBCV9nJiNQjZYYrpAkCcmnMaKtqN2PplEHDaoSawrT9x0KqBwQo3iX+CgwxPljv0enpJzclKZTyBhL2n99gt+pZFP5DG
-X-Gm-Message-State: AOJu0YyGShfqQj2QMQsn9jTj/wXxseTNJibsCFSgMoLheIR19/obe/NF
-	WW6O3EZRCH/oxlOMiM/h1amPLu9ROVLuLZO6IyH2eFlwW7UbqY8q
-X-Google-Smtp-Source: AGHT+IEQeErWPw8e6CNL90XgcM8c9kdJ2h1+HcN871wAwmIZ2GKuwNzXIaoc70FY6sXk7l938/oj1A==
-X-Received: by 2002:a05:6a20:9f99:b0:1ac:de57:b1e3 with SMTP id adf61e73a8af0-1afddeea5c9mr13259451637.0.1715567080965;
-        Sun, 12 May 2024 19:24:40 -0700 (PDT)
-Received: from localhost.members.linode.com ([2a01:7e04::f03c:94ff:fe95:abac])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2ae0b8bsm6289933b3a.131.2024.05.12.19.24.39
+        d=1e100.net; s=20230601; t=1715591390; x=1716196190;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zqXFTG/UsEGp/a5otOk5W3+y5hWj2D7lzRkWmSN8zUQ=;
+        b=YKGz/jXyHVzEGu2UvyOLeBN/+bEIkBE071NvSTHda7ceOxOQ+4dHZNSkj2wLyq4vV5
+         /zYVpximSXyv5bc+EGXXkf65FSNuJKHi6KZ2XvgoVCae3Hc1ze0qPIan1onDb/gXQRog
+         Ru7nXo6H3hGgLfY8CFD+XgSEXBPdDXnm42Xtk6zRmribPmIrYhpBcO+8EkvtvbITGzJh
+         wIaORvrQxcKRvxIKf0h9WBdzuXaWj69jClfBuOEZ5V++ItlDjn0oIxig735LKiwzqfmP
+         zDe0tf5UG41rUMEOP9x1Gu3LYjkvYpWoJAFbAKY6HIiEqOEaEChoI2sbFoITDPDrIwTI
+         YwVg==
+X-Gm-Message-State: AOJu0YzRrlX3AByAJsghqOVWzQuoZlWKTf1aEi60zvvniuYBFDYYp+xF
+	2DVU7me0R1y98EWpKrX2N6EmXIszW9K2qqaoEwAQxKAMWUw7pXb5
+X-Google-Smtp-Source: AGHT+IHjhm3ct3fZIyK9rW9/JPt7Mo9iUNvdzbhCzIEAmlhLG4cF8py8h5nFpQJD6eYBcsw+ILQhaw==
+X-Received: by 2002:a17:902:f605:b0:1df:f681:3cd8 with SMTP id d9443c01a7336-1ef43d2e288mr117782885ad.12.1715591389652;
+        Mon, 13 May 2024 02:09:49 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c13908bsm74600455ad.265.2024.05.13.02.09.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 May 2024 19:24:40 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>,
-	corbet@lwn.net
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Refactor phrasing for clarity
-Date: Mon, 13 May 2024 02:24:02 +0000
-Message-ID: <20240513022430.17626-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Mon, 13 May 2024 02:09:49 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 88AE8180716E1; Mon, 13 May 2024 16:09:46 +0700 (WIB)
+Date: Mon, 13 May 2024 16:09:46 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Mao Zhu <zhumao001@208suo.com>, Ran Sun <sunran001@208suo.com>,
+	Xiang wangx <wangxiang@cdjrlc.com>,
+	Shaomin Deng <dengshaomin@cdjrlc.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Attreyee M <tintinm2017@gmail.com>, LihaSika <lihasika@gmail.com>
+Subject: Re: [PATCH] Refactor phrasing for clarity
+Message-ID: <ZkHY2sYUOXVSWDMO@archie.me>
+References: <20240513022430.17626-1-luis.hernandez093@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="G+nCITxMkLxwGcUH"
+Content-Disposition: inline
+In-Reply-To: <20240513022430.17626-1-luis.hernandez093@gmail.com>
 
-* Updated title capitalization for consistency
-* Fixed acronym capitalization (e.g. CPU, vCPU)
-* Added usage of hypenated compoud adjective
-(e.g. host-side polling, where host-side is modifying polling)
-* Added missing verb "as" in "basic logic is as follows"
-* Added missing articl "an" in "guest_halt_poll_ns when an event occurs"
-* Fixed parameter definition in 4, all previous examples started with
-  descibing the parameter in the first sentence followed by additional
-notes
-* Replaced C-terminology Bool in favor of formal form Boolean
-* Cleaned up phrasing in "Further Notes" section for clarity
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
----
- Documentation/virt/guest-halt-polling.rst | 47 +++++++++++------------
- 1 file changed, 23 insertions(+), 24 deletions(-)
+--G+nCITxMkLxwGcUH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/virt/guest-halt-polling.rst b/Documentation/virt/guest-halt-polling.rst
-index 922291ddc40c..3e4e9d4099c5 100644
---- a/Documentation/virt/guest-halt-polling.rst
-+++ b/Documentation/virt/guest-halt-polling.rst
-@@ -1,12 +1,12 @@
- ==================
--Guest halt polling
-+Guest Halt Polling
- ==================
- 
--The cpuidle_haltpoll driver, with the haltpoll governor, allows
--the guest vcpus to poll for a specified amount of time before
-+The cpuidle_haltpoll driver, along with the haltpoll governor, allows
-+the guest vCPUs to poll for a specified amount of time before
- halting.
- 
--This provides the following benefits to host side polling:
-+This provides the following benefits to host-side polling:
- 
- 	1) The POLL flag is set while polling is performed, which allows
- 	   a remote vCPU to avoid sending an IPI (and the associated
-@@ -14,15 +14,15 @@ This provides the following benefits to host side polling:
- 
- 	2) The VM-exit cost can be avoided.
- 
--The downside of guest side polling is that polling is performed
--even with other runnable tasks in the host.
-+The downside of guest-side polling is that polling is performed
-+even when other tasks are runnable on the host.
- 
--The basic logic as follows: A global value, guest_halt_poll_ns,
-+The basic logic is as follows: A global value, guest_halt_poll_ns,
- is configured by the user, indicating the maximum amount of
- time polling is allowed. This value is fixed.
- 
--Each vcpu has an adjustable guest_halt_poll_ns
--("per-cpu guest_halt_poll_ns"), which is adjusted by the algorithm
-+Each vCPU has an adjustable guest_halt_poll_ns
-+("per-CPU guest_halt_poll_ns"), which is adjusted by the algorithm
- in response to events (explained below).
- 
- Module Parameters
-@@ -39,26 +39,25 @@ Default: 200000
- 
- 2) guest_halt_poll_shrink:
- 
--Division factor used to shrink per-cpu guest_halt_poll_ns when
--wakeup event occurs after the global guest_halt_poll_ns.
-+Division factor used to shrink per-CPU guest_halt_poll_ns when
-+a wakeup event occurs after the global guest_halt_poll_ns.
- 
- Default: 2
- 
- 3) guest_halt_poll_grow:
- 
--Multiplication factor used to grow per-cpu guest_halt_poll_ns
--when event occurs after per-cpu guest_halt_poll_ns
-+Multiplication factor used to grow per-CPU guest_halt_poll_ns
-+when an event occurs after per-CPU guest_halt_poll_ns
- but before global guest_halt_poll_ns.
- 
- Default: 2
- 
- 4) guest_halt_poll_grow_start:
- 
--The per-cpu guest_halt_poll_ns eventually reaches zero
--in case of an idle system. This value sets the initial
--per-cpu guest_halt_poll_ns when growing. This can
--be increased from 10000, to avoid misses during the initial
--growth stage:
-+The initial per-CPU guest_halt_poll_ns when growing. The per-CPU
-+guest_halt_poll_ns eventually reaches zero in case of an idle
-+system. This can be increased from 10000, to avoid misses
-+during the initial growth stage:
- 
- 10k, 20k, 40k, ... (example assumes guest_halt_poll_grow=2).
- 
-@@ -66,9 +65,9 @@ Default: 50000
- 
- 5) guest_halt_poll_allow_shrink:
- 
--Bool parameter which allows shrinking. Set to N
--to avoid it (per-cpu guest_halt_poll_ns will remain
--high once achieves global guest_halt_poll_ns value).
-+Boolean parameter which allows shrinking. Set to N
-+to avoid it (per-CPU guest_halt_poll_ns will remain
-+high once it achieves global guest_halt_poll_ns value).
- 
- Default: Y
- 
-@@ -79,6 +78,6 @@ The module parameters can be set from the sysfs files in::
- Further Notes
- =============
- 
--- Care should be taken when setting the guest_halt_poll_ns parameter as a
--  large value has the potential to drive the cpu usage to 100% on a machine
--  which would be almost entirely idle otherwise.
-+- Care should be taken when setting the guest_halt_poll_ns parameter to a
-+  large value, as this can potentially drive the CPU usage to 100% on an
-+  otherwise mostly idle machine.
--- 
-2.43.0
+On Mon, May 13, 2024 at 02:24:02AM +0000, Luis Felipe Hernandez wrote:
+> * Updated title capitalization for consistency
+> * Fixed acronym capitalization (e.g. CPU, vCPU)
+> * Added usage of hypenated compoud adjective
+> (e.g. host-side polling, where host-side is modifying polling)
+> * Added missing verb "as" in "basic logic is as follows"
+> * Added missing articl "an" in "guest_halt_poll_ns when an event occurs"
+> * Fixed parameter definition in 4, all previous examples started with
+>   descibing the parameter in the first sentence followed by additional
+> notes
+> * Replaced C-terminology Bool in favor of formal form Boolean
+> * Cleaned up phrasing in "Further Notes" section for clarity
+>=20
 
+LGTM, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--G+nCITxMkLxwGcUH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZkHY1gAKCRD2uYlJVVFO
+ox4xAQDSJzIXK/ubTuy+ucT6toBdOYC5pnOD3av5A5Mhf3oCyQEAhL9yg69u0SDc
+Hr75AvMHVpqR8mxhp9UJoPs1SpfQbQY=
+=I0Lo
+-----END PGP SIGNATURE-----
+
+--G+nCITxMkLxwGcUH--
