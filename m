@@ -1,123 +1,89 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE5A5A79B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 12:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0937885C65
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 12:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715776838; cv=none; b=fSm9bGHBlKAgHXAHJr5hSgOnclBx0HBFJRyi5Asr4ctbS4FG/yTbnf5QSqZ/KZ1Kf4rObisgI3pkXXgh2hwReDHl3e0y97E/kk9XbjuzE5JYDbv1f258b43vBhZH3DEIWNxC/HKTUmHahFyPcVOmeM4/Y5+Y+9BYnMp4fxhm6T4=
+	t=1715777948; cv=none; b=odg214+zh22JJu8+b92qoVXwy6srHvQpBAwIZYL++meI8u6lU/nPFwfR0N5XiskaPtetUNS8kRW9ZMUgV7zxqj3iHUa8gMTFkNEQqFHxqb+LwT8P8AZm7HABSOhJR6xsqsCEBpF8JJ2v0qt7wcme0PdwTvrNVWL1Ztdaah3iKrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715776838; c=relaxed/simple;
-	bh=CBeVeudKaMa64Hk0EQo8xz/HGk7N1bFC2eJIinxtmbg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UNdHdAbhClG+9ulB9FOEOVWb7PVz7r/nDo3VB5vGYq1XBkXzCJmHGnZUjPVBYtuYBRJhRF4o/OUfD0gYDjzggljt/efW3dhZ7AHhnurBV8pv6z6ATbpt40dwq1PXy5DMJ45N4C+CIh6KhJcAxwR9J1Qof3kJsK7X8tJh/7/8Qi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcDE7s8P; arc=none smtp.client-ip=140.211.166.137
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcDE7s8P"
+	s=arc-20240116; t=1715777948; c=relaxed/simple;
+	bh=pU0KDP8PaOrGc7nhuKl9eruKdWFqqXHiWy9Dth7iatU=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=Ocb7t1jSZ0wkywwFdJSTrerq89uCMn+qP3fXmj9KufVvaTHRKaz5RgZPJuNWzB5C4TSbKuFFrN+ughouTYXTYlbldBrl4QgjRnLGEu3zwIcdRgNRwrJsoubzHwb7gCxvD6krDoTNm0c73ujhH1XvlcO8gtMIykXfCZ1q5rdLkKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 3D577402AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 12:40:37 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id AC16241A43
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 12:59:06 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: 0.853
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id DUooMlMMZwnw for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 15 May 2024 12:40:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::22f; helo=mail-oi1-x22f.google.com; envelope-from=andrewjballance@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org A342140102
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org A342140102
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=kcDE7s8P
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id A342140102
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 12:40:35 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id 5614622812f47-3c9b94951cfso686692b6e.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 05:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715776834; x=1716381634; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WRzWc3KEc5QqTvXb/3YsxeGC6cz6347lvqioXf2gZ70=;
-        b=kcDE7s8Pymy9eE+R7rFlOZPxe6Hwt3pwQ0AC0xlSvi5/wcOwRKfRwDk6AcFVuxmh4J
-         B9BExhPxxmktFFswEKjgSq07C4LQHFQWbKIC4O0Fm2K3Af6DMDY6J+txH687PcF0nXsJ
-         b1XL70IcOkIs5UF7rSI+AegfmgtxmF+jdRwa1ahLKed1nbWpAW1g54awkrrzW1nBT9Sn
-         t5ZB+wpK1SyfPl84+UiLNVa9yNF2fW4dyGcTjSy+KZuGDKrGZpvxPIMzhd1/ucEIlnL3
-         h3pzak9o7PBUUAVUR+Yia9XVCnxFCqpxPsg92O8p/8GKlqXQBDqxg9kN9i52G67yvDid
-         rvbA==
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id R4RLeG0xQUAf for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 15 May 2024 12:59:05 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.69; helo=mail-io1-f69.google.com; envelope-from=3l7fezgkbaey067sittmzixxql.owwotm20mzkwv1mv1.kwu@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 51DD440105
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 51DD440105
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 51DD440105
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 12:59:04 +0000 (UTC)
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7e1bcad7693so643773239f.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 15 May 2024 05:59:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715776834; x=1716381634;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WRzWc3KEc5QqTvXb/3YsxeGC6cz6347lvqioXf2gZ70=;
-        b=M5ts5YhuSmpCjdQizB635S7RHFa+vLUFBvxyqEA1vGz3S+bLV2GffpAlwUnLFZPYxX
-         dIhFHAVbXb2OzfPHJYzVOde3w8kSPcrisrkpwSSmdSvtDR5hnhWHU7yzDYj8+nmKXtKn
-         myO4kLsrGks367pdp12DCC5O39hKYq+MFMLaJWnbTWrp4y/cwZU1LneCGLuA7eqVqbm6
-         e+6mCmMa16iAs3Xwcnb6OI0Ct2DSzpdkmJDCmue7qvtiHdNbXM3rkNMIJ+7GG+yp+aHf
-         GtgoKfjKZSH8JBA8FAtFSdJRRLEg40qQqoZiy4qjrb9JKTgdGpGjQjLMFtn9r+c5Q380
-         ++DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXNkBdFhYnHNY7DnLveJ0ImRxWQG/K+i8S8hkVyYpUez2SZ80h5krBkco86A/OQkhkdDkq6tYApIoWDwVrW81PCrRvWhb1qJ2MB7bfwByWIYqNHKdDQScyFBld/XTa
-X-Gm-Message-State: AOJu0YzMUUWp+Ui/qLf5Z+ahUgK1CbgLaofWDCPBvQ72g7vrA05OSGVG
-	+KofCGGzKnesRDUfJpSwJjo+yNH4nbB12qbbwjOxGQchqFDlrXWP
-X-Google-Smtp-Source: AGHT+IHCjGtL6PmYiYtUJfANxegVmFHGwjkB08YLirqldBcqADqviq7g4qu1BpAhmj2E7DyUT5ltJw==
-X-Received: by 2002:a05:6870:364e:b0:22a:b358:268 with SMTP id 586e51a60fabf-24172aa925fmr19183260fac.25.1715776834525;
-        Wed, 15 May 2024 05:40:34 -0700 (PDT)
-Received: from my-computer.lan (c-98-39-64-40.hsd1.tx.comcast.net. [98.39.64.40])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-2412a3d1fa7sm3014855fac.8.2024.05.15.05.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 05:40:34 -0700 (PDT)
-From: Andrew Ballance <andrewjballance@gmail.com>
-To: syzbot+39b2fb0f2638669008ec@syzkaller.appspotmail.com
-Cc: almaz.alexandrovich@paragon-software.com,
-	linux-kernel@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	syzkaller-bugs@googlegroups.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Andrew Ballance <andrewjballance@gmail.com>
-Subject: [PATCH] ntfs3: check if more than chunk-size bytes are written
-Date: Wed, 15 May 2024 07:38:33 -0500
-Message-ID: <20240515123946.874688-1-andrewjballance@gmail.com>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <00000000000077d29606186c5e99@google.com>
-References: <00000000000077d29606186c5e99@google.com>
+        d=1e100.net; s=20230601; t=1715777943; x=1716382743;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3PdFyk99KlLZYyjH5ckDM9d4Mbdv6L9rZe9o8cYGsMQ=;
+        b=qUA1m9v7tNn13hafhvK/7hhOEGnka1ptPoTIaDexTgQ5OFVF9prB8SFRTe6mdQYRcu
+         hoTS7AiTFQvaOHAYC1t3LODqwKmBAb87tUXYK8y8YR+tT2a2Lv9My5vQs+O00H1+SL5i
+         q5Qze+dF7IadGwT3LEJxCaPYESP81Rfk91gqKeLnm5D6sodjwhnvzYoUA+FSyma6g64R
+         QIx9pqYY0mPfNyhEf60OyJ2gOflWPLvh0pUTs7pik9VvP73h2CqYzeWov9c5vKI4n5Ud
+         Fi7TZURcyb7aWY63kuYTQdql9GcvsKB1gotLjORe2JRIW7/I1LHm/1X905Lr6is4Mx5i
+         5RJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWhO4KktknO+jMAf/kS4bAhQd5p4poZ6qsIajdQjZV6Kc+Pi0ROeKUOu+rqWZS/G6tOCTOdT5q+Sz6x0HwSPBNyNZV12w/SmHdG9MUyP6LIhLj9glw7R5gByKgia9at
+X-Gm-Message-State: AOJu0YzgxiOZ72cNx5TKMXrtUV6zthY1cmXfrAbN4n3cMRDhxaVgMgFp
+	tJDMAZ7gPaTVLm6lHKI0SV+z78w5pj/kKC/r/7MCYvgM1mie1HtTL0lhDOVzgO5R3w0Cbpgw3yE
+	3R3bHQPX9x/drJzKWNyzFFJlM99ZFiJazVOcL47iM6sZ4YPwn3SBKnRk=
+X-Google-Smtp-Source: AGHT+IGZaAUobKyp/kGTV7THt978f/NL99WtCI80kanlZYj9xf9fMiK/SHuTneYWfG0Bcc4mFoW2xRU0e7OFh7WGF+spPvbLpaY9
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6638:8305:b0:488:e34a:5f76 with SMTP id
+ 8926c6da1cb9f-4895955b89cmr1154319173.1.1715777943434; Wed, 15 May 2024
+ 05:59:03 -0700 (PDT)
+Date: Wed, 15 May 2024 05:59:03 -0700
+In-Reply-To: <20240515123946.874688-1-andrewjballance@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d50ab606187dae67@google.com>
+Subject: Re: [syzbot] [ntfs3?] UBSAN: array-index-out-of-bounds in decompress_lznt
+From: syzbot <syzbot+39b2fb0f2638669008ec@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, andrewjballance@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	ntfs3@lists.linux.dev, skhan@linuxfoundation.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-#syz test
+Hello,
 
-a incorrectly formatted chunk may decompress into
-more than LZNT_CHUNK_SIZE bytes and a index out of bounds
-will occur in s_max_off.
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
----
- fs/ntfs3/lznt.c | 3 +++
- 1 file changed, 3 insertions(+)
+Reported-and-tested-by: syzbot+39b2fb0f2638669008ec@syzkaller.appspotmail.com
 
-diff --git a/fs/ntfs3/lznt.c b/fs/ntfs3/lznt.c
-index 4aae598d6d88..fdc9b2ebf341 100644
---- a/fs/ntfs3/lznt.c
-+++ b/fs/ntfs3/lznt.c
-@@ -236,6 +236,9 @@ static inline ssize_t decompress_chunk(u8 *unc, u8 *unc_end, const u8 *cmpr,
- 
- 	/* Do decompression until pointers are inside range. */
- 	while (up < unc_end && cmpr < cmpr_end) {
-+		// return err if more than LZNT_CHUNK_SIZE bytes are written
-+		if (up - unc > LZNT_CHUNK_SIZE)
-+			return -EINVAL;
- 		/* Correct index */
- 		while (unc + s_max_off[index] < up)
- 			index += 1;
--- 
-2.45.0
+Tested on:
 
+commit:         1b294a1f Merge tag 'net-next-6.10' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15998648980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c0cd0c5dbf8ea592
+dashboard link: https://syzkaller.appspot.com/bug?extid=39b2fb0f2638669008ec
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=115b78f0980000
+
+Note: testing is done by a robot and is best-effort only.
