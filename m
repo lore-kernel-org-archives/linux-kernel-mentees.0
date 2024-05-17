@@ -1,207 +1,159 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5E27462
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 08:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BD313D8BA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 17:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715934725; cv=none; b=torJ7u4garDukdhjexJPiT8LKIjfiCPd7V56hYyPkVlb1IdV/m6DOYLEFSX019wTB7mIH/AfRz88IBikpJb/LTMuUGm4cq383Xo/SXvXK7ZgAvS/ws1pxA1/AjeQIYJwcQTaLbVq668EZn2IpxVXMC5c7/o/VEicSRUQDEZIh3Q=
+	t=1715965851; cv=none; b=E+CCvexN5c2qwLoYdnOOJzG/DOf3qiuccfI2KCkwzEuxBzNWfjdgCmrRaUt6DJwGSS3KNq53+FyMEHLU8h9HgkyjtB5iKH96Tn6gMaWLTniWx1fYomnmF6GpIlzHgDG4P4xv5XL6UJVz3BjVEbzR77XEobahkIEAe1u9jaTY+ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715934725; c=relaxed/simple;
-	bh=kjvazuQuqETl/IXyrw87rOgS4pHUVyCZxapnDbsW/Yw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mpV8vWZzKB4l9dAfqSukWVsTpEgBtypidEA16tb1lJNkVYhffzhHJ//P9MfbwwU77ZAwMlvBEu1RrDbUQ74r8JzMpsd3YRAmjFuSOuPwBybZrsGOGR5VHuoCjZWjyr1ejIVjt2esHM95XW8NU0xOcm2bhU5nSXl9nWL5TxRnfc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B+eXxu2V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nkn5CX03; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XBQquzRY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QiDVTAnD; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1715965851; c=relaxed/simple;
+	bh=OkDC481zFr3zxzpw+em2PUv7vlhq7LknWjI47ro8VnY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dWgm4OYhysTunRrWfRLa7RZl9ntXKJOlhinBS0igMnpiU0LBfegeEnWGFq/NH/QB1CjDt62y3NnftNmHqG9yg6/d152eDx57TBVZBS0prEXhwlij0VMUWLjSZcic/mwS8sZmOMQxiyxCPZfRDNaMzkmHmHjNfSiUEi0yzHtVMFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFoV8i/k; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B+eXxu2V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nkn5CX03";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XBQquzRY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QiDVTAnD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFoV8i/k"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id C4C44404D8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 08:32:03 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id D7BDA6067D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 17:10:49 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.4
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lMRbBZ7xrcLe for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 17 May 2024 08:32:02 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a07:de40:b251:101:10:150:64:2; helo=smtp-out2.suse.de; envelope-from=tiwai@suse.de; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 46255400C4
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 46255400C4
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=B+eXxu2V;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nkn5CX03;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=XBQquzRY;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QiDVTAnD
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 46255400C4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 08:32:02 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E8495D166;
-	Fri, 17 May 2024 08:31:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715934717; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zqz0OaANQmSJJHh0zh/GpJL6XmrML7vZiZlKMlamf3k=;
-	b=B+eXxu2VTlg7CqGvQY19Zexizks2tPlSY6gls8GISwnxnKlxwlzEamWzpc6XVOY99AR8Tk
-	7aGdO2XZ1Tjylx1L921rlOJc/Nh6v1nDIDb2bZ5Qxq/53EizgQEbiO+AmPJY/VBge6WXt+
-	jbFSQy9TefYfVfiNhkYJacpRpbV38TM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715934717;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zqz0OaANQmSJJHh0zh/GpJL6XmrML7vZiZlKMlamf3k=;
-	b=nkn5CX03oz6G+afVGgEKkBfX+gIvRJZ6zLHVmsr/ggkleYVJuIgKG5lV/+CHi0i5Xb5ZHr
-	QdTaN+9lh1BAgMBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XBQquzRY;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QiDVTAnD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1715934716; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zqz0OaANQmSJJHh0zh/GpJL6XmrML7vZiZlKMlamf3k=;
-	b=XBQquzRYQyjLj+ddYw4Z1m5dwFCvHbyagvrFkvF51vJXxVcbuqpBh1zqCNN5t+bi8TFV0k
-	0O8/cGa+nUbYnDPYEDco/uNWlxU67y196ROiQM5fF60WynQUUxX4931g96uNCbKAECjFL8
-	8a/eDwPnVCz7EdGIMd6y01EXM1GPuzw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1715934716;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Zqz0OaANQmSJJHh0zh/GpJL6XmrML7vZiZlKMlamf3k=;
-	b=QiDVTAnDR0vH0cfCdqYWAh1jsVTXyLOCsIGsLiO5n5agLaiH0oa+hA9aWcXJHkyw+jD0B8
-	UfeOSS/uRkLv41BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FCA113942;
-	Fri, 17 May 2024 08:31:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X80zEvwVR2bLNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 17 May 2024 08:31:56 +0000
-Date: Fri, 17 May 2024 10:32:13 +0200
-Message-ID: <8734qg260i.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: yskelg@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Austin Kim <austindh.kim@gmail.com>,
-	shjy180909@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] line6: add midibuf init failure handling in line6_init_midi()
-In-Reply-To: <20240516174737.415912-1-yskelg@gmail.com>
-References: <20240516174737.415912-1-yskelg@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id yEsZVYV8QR-b for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 17 May 2024 17:10:49 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 2F3C36067A
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 2F3C36067A
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nFoV8i/k
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 2F3C36067A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 17:10:49 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1ed012c1afbso6925075ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 10:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715965848; x=1716570648; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dDj4uFMrmhKzYSh39UgL2iN+N33zW/zRmcdvFGlj4ic=;
+        b=nFoV8i/k9xNRQZ0akNyQ82KC4wGfuoauLXD+ey0x/Zkb/NL6/OrqbbDAA6W34Phw02
+         yK475gauQ1R07XNN7lDo1IAMKLWD5gfwrbHNJeUzqfK7WFcFDWzHpCAsgHcPueLq/17o
+         ZtnYAa96YRINEz+DW2HVdhg7/AKcNixe56pxt74Xhaij23WQpQosuk73qx1/ESEQCkL4
+         QmjDj2YfSZOiYWblKNWtoZt2VDQuunIETrt8UAEKVbHUjt5dcpISNt0r7brRKfqCLENc
+         BDB4v6T7SlKwhJd859nGmiZhyWP5T83mUZRsCEziPf3MKWQRv7oDvEIwORsOFjwM2b8M
+         Tafw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715965848; x=1716570648;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dDj4uFMrmhKzYSh39UgL2iN+N33zW/zRmcdvFGlj4ic=;
+        b=Xsbq76xF0RqBqVkAQnrtyF0Ului4j1AgfFzVQ9OvIQt9bR2sgDdL/1g5m8VNB7B23Q
+         ZwX2GdqoFpe58B+LhBvBmxaJPfdjza/JMOPeBOOdbuayGUNVw2GTUsP56iXPbn/ZvBjP
+         pEePz6Z7mib0IEFS3RKo1yndxGItzKlgFiMAXxNZaQGegcRC2WEessj17N6ntE56af1t
+         UxDUNgu6yhbdcl3MphtKvTXL8cityGYhGT7eB6PLxjcqavp69jdZ64dFuLNQGMT90WpD
+         AA5BomM9mq2i4HnIdkMQds/r6zbQdIbVRpq2zl0xU+Te0qOyrF2FkIVbUWJmN/KfV5+I
+         p1Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCXt+0KFqeMu/cflCY/YBLFCmOIQ0QNjF2IWJXIoNQ7BJroPqqYG6Aqtb0xYiWcqmzWV9t3Ls0TYIyuDW6VCl22+tunLr2kcZCHgM1mIB8ZWOD0NnntkYcbaUfUCQ/0l
+X-Gm-Message-State: AOJu0YxS3OHDMYbZ8J1nbPlZB6y/d0gzr+o5J6Syk72Tq7skb3SG6931
+	ek1Qz+mA75gHMtPh67QoI/xWC9K9UpPuwiytG0GlKZvJAWygW/V9
+X-Google-Smtp-Source: AGHT+IHf7EzDobBuG28rhBGM/jrbz7z2TmfK7/0FLrxUx9ilsRJHlu782DHm4IF+5lQiJWvjS7MVjA==
+X-Received: by 2002:a17:902:d4d0:b0:1ea:691b:3692 with SMTP id d9443c01a7336-1eefa139e6fmr376856575ad.17.1715965848337;
+        Fri, 17 May 2024 10:10:48 -0700 (PDT)
+Received: from [192.168.50.95] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf31000sm159213325ad.145.2024.05.17.10.10.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 May 2024 10:10:47 -0700 (PDT)
+Message-ID: <a258b613-3697-4f21-a8fd-20b276f63132@gmail.com>
+Date: Sat, 18 May 2024 02:10:44 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.62 / 50.00];
-	BAYES_HAM(-2.61)[98.29%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,linuxfoundation.org,lists.linuxfoundation.org,gmail.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 9E8495D166
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] line6: add midibuf init failure handling in
+ line6_init_midi()
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, skhan@linuxfoundation.org,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240516174737.415912-1-yskelg@gmail.com>
+ <8734qg260i.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Yunseong Kim <yskelg@gmail.com>
+In-Reply-To: <8734qg260i.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 16 May 2024 19:47:38 +0200,
-yskelg@gmail.com wrote:
+On 5/17/24 5:32 오후, Takashi Iwai wrote:
+> The allocated object is already freed by snd_line6_midi_free() that is
+> called via rawmidi private_free at its destruction.  So your change
+> would lead to a double-free.
 > 
-> From: Yunseong Kim <yskelg@gmail.com>
 > 
-> This patch fixes potential memory allocation failures in the
-> line6_midibuf_init(). If either midibuf_in, midibuf_out allocation
-> line6_midibuf_init call failed, the allocated memory for line6midi
-> might have been leaked.
+> thanks,
 > 
-> This patch introduces an error handling label and uses goto to jump there
-> in case of allocation failures. A kfree call is added to release any
-> partially allocated memory before returning the error code.
-> 
-> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+> Takashi
 
-The allocated object is already freed by snd_line6_midi_free() that is
-called via rawmidi private_free at its destruction.  So your change
-would lead to a double-free.
+Thanks for the review Takashi.
 
+I have one question:
 
-thanks,
+line6_midibuf_destroy() have no NULL check for the memory to free.
 
-Takashi
+If line6midi->midibuf_in is in this->buf = NULL from
+line6_midibuf_init() with memory allocation failed,
+won't the free(NULL) when accessed by snd_line6_midi_free() to
+line6_midibuf_destroy()?
 
-> ---
->  sound/usb/line6/midi.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
-> index 0838632c788e..abcf58f46673 100644
-> --- a/sound/usb/line6/midi.c
-> +++ b/sound/usb/line6/midi.c
-> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
->  
->  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
->  	if (err < 0)
-> -		return err;
-> +		goto error;
->  
->  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
->  	if (err < 0)
-> -		return err;
-> +		goto error;
->  
->  	line6->line6midi = line6midi;
->  	return 0;
-> +
-> +error:
-> +	kfree(line6midi);
-> +	return err;
-> +
->  }
->  EXPORT_SYMBOL_GPL(line6_init_midi);
-> -- 
-> 2.34.1
-> 
+In the first patch, I was making a misunderstanding
+Now that you mention it, I can see where it's freeing!
+It helped me a lot in analyzing the driver code.
+
+Please let me know if I've misunderstood anything.
+
+Warm Regards,
+Yunseong Kim
+
+>> ---
+>>  sound/usb/line6/midi.c | 9 +++++++--
+>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
+>> index 0838632c788e..abcf58f46673 100644
+>> --- a/sound/usb/line6/midi.c
+>> +++ b/sound/usb/line6/midi.c
+>> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
+>>  
+>>  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
+>>  	if (err < 0)
+>> -		return err;
+>> +		goto error;
+>>  
+>>  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
+>>  	if (err < 0)
+>> -		return err;
+>> +		goto error;
+>>  
+>>  	line6->line6midi = line6midi;
+>>  	return 0;
+>> +
+>> +error:
+>> +	kfree(line6midi);
+>> +	return err;
+>> +
+>>  }
+>>  EXPORT_SYMBOL_GPL(line6_init_midi);
+>> -- 
+>> 2.34.1
+>>
