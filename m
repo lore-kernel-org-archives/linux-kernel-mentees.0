@@ -1,77 +1,77 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB11BA33
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 May 2024 06:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4C71369A5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 May 2024 14:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716012049; cv=none; b=qv7b3J8pHANzNxYCbc1UToTSmah3HcsQza4xv1SjrDbLZZ5HVdUGXvcQdYKJjhZggOR3S/cexSp/vTRRASbqLyCsnpDt5w0VhYE4UaJcRPdMMY+QmLo+f8AP1p5sk3tV3Ogsm7gAtDrbyMGY0tI7Vqsoe4qWMMOIoWL2etkVsUk=
+	t=1716214973; cv=none; b=Yv6sTu6LLV24uO0E6aGUp1R8WDQvJfJ5ON/aAdIF1yI3CrWff2HS81yf8KyNxqbEt7wZ93SO7dADE0ygFIFtF1U7aD0JEWZ6SFwI21FlPHgpYmf91Wfv7+CaA1wvpPWmgZSyqHfBOVHDU5TB8Nd97FWfH0pMQvOlrLWTNtgWhl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716012049; c=relaxed/simple;
-	bh=iPVwY+FLQJN/2C/In5skBXJrWKGZ7CLLiR6TcZqpUcs=;
+	s=arc-20240116; t=1716214973; c=relaxed/simple;
+	bh=lfTjsNqw5TQqBRgjrksLNUzWi4N2HBhLrqBEDXvv2SM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G6iecz5nI6XPgukNxCT6PEz3HMKqi3cEmyfpF/slIR0q5ttUx5+QCtW6RuyefaZ48kFLY7GmZHsSsfZbGcm39c/OTp1y40wZybI9PRbk3yHU2XPPpUdRN+tt3jZus15DVJSBq7QwX4jaM00rkDYTF9c27WsrhQ8wtyj/fnaPfjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mWipOTG2; arc=none smtp.client-ip=140.211.166.133
+	 In-Reply-To:Content-Type; b=ZFOeyX32pgysgdcwg+OgixUneXHnf+dznU5wy+JFz8BomJuz/YOD0TSG4qJ3kRU0+Mtwb23bYnK3IXliD9nREKNhgks/m+QA8DdWRTBXcFLQOvmKPomb2UKzPncA7zt3R2QFJyvAvo07cZ3LBybvpfQzeqUinje8zaOxau64VCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R8PPs29W; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mWipOTG2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R8PPs29W"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4104A401FB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 May 2024 06:00:47 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E8ED44050B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 May 2024 14:22:50 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id o9opp7yxj72y for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 18 May 2024 06:00:46 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B89F5400AB
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B89F5400AB
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mWipOTG2
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id B89F5400AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 18 May 2024 06:00:45 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1ee42b97b32so29663835ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 17 May 2024 23:00:45 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id rUdq5sLvxzDc for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 20 May 2024 14:22:48 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::433; helo=mail-pf1-x433.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9DB1040422
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9DB1040422
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=R8PPs29W
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9DB1040422
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 May 2024 14:22:48 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6f44dd41a5cso143651b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 20 May 2024 07:22:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716012045; x=1716616845; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1716214968; x=1716819768; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=S2UEI9fgxAaUwQb09cLy2ONzt7BSkEaSUgAIAN/09lw=;
-        b=mWipOTG2OHn7UUetrFomxP57BCI+4SlwoMz9L/N6pzJXBYh/zUuB7lokMs0El5rPKk
-         aXNtR+v7VVa1rxhZIsqxMkFm/knPYXu3tfk5+XbO7OrJRdeJLqvqZ+pf7y6+m4zySOan
-         Qv/mSDIzFsAlHNVSKoDNo1OAqByaUp7Q1GWsAnxN7+1HxStrlC08pl32KWFqPKi8qHmS
-         vUlhG2z7D3GThdX+49ZguDSb4Sa5HM2Alx5bA+S3GjhN6W44fWhEYkyZxo6NPTg15qEh
-         1nyUs5RrfqwEUS/GNOv9sftSRKsgnPfzQSXtqrV44rPIRhhnycl4IiHEjIc/qBI5Hx2m
-         jmPg==
+        bh=KnyB+QuDgcekYCP38DxOveF/NkYkcxkyK9rpYTfrpow=;
+        b=R8PPs29WMqk+HGenan57YACNBcKJbf07Arr/r7SJM2hlM6sSfOEJk+am3GyKaJeqvX
+         wrjkvw8XiEMB515/mc3N/TrYifQgzHIEaJNn8Qzyf8eGkYwB2eBfSLSW18i+YQM862MZ
+         kzBxWIlN2IV1rOyOtLgaBPItC9OTOwhsIq9bQCJpjPn7nTL3br0mnhRK+pOSg7iT8jaf
+         r01VOcRhNayciLGezH4722LtRsqvkBRxBuwIgOugv5txQ1v1PyF6GuGKAJAFiorcUjhy
+         6yMaS3ceyt3COlqzYRtOxdFqrJc1SzIcYd0UVUv6cWm43Cj503ufmKOSkfHupQr7pbhg
+         0cWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716012045; x=1716616845;
+        d=1e100.net; s=20230601; t=1716214968; x=1716819768;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S2UEI9fgxAaUwQb09cLy2ONzt7BSkEaSUgAIAN/09lw=;
-        b=IdjzeqYZQb/p1Z/jJYHUyNwWJlH9tMgQomqvhNHgpCwQyTLdQAnN6N8q7A4AqQpt8c
-         YFwr7JMtfj8i8jRO5FIfLheIP61aImJhpMDSKAKQRWjkaYDPG1n0YQXcZ86bSASdxIWQ
-         IrgclvkPyNLuUyuLWVZwfYCkRMBODv9trkC+xyEma2fX2o2erlmlX2GvTuNzmDl+VgYL
-         cf6JjPgXLwnhkd0JVMUWCn4bO44YC/1yNXA37qJWfUvI9HmpGz3Z6jyxTUrKKNfGxHBx
-         L7Ptrc0xmCZ9KMq2c61fEm6sb78TZZ5AuYp89Ofq6kGZtS9tqbhdO5t6UVJYu3ne0AvQ
-         3Kjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXAeJCSQZWOI1jwCQ+ZxJOneZrGQatjXa6a7GuigvWp9FsPTypPn+yj05qBWS6Yup5LwhiPYPFNMx+6LcqBzr8y04VPpqmMZuNec5fgeOzwGzRGP4gg/ph77zIhf5L7
-X-Gm-Message-State: AOJu0YzHIaOM4VT9DOnQm06tXxuezlF8W8Pp3hmL+WeJpe61EYZCNnt7
-	lKViqjRaf1WvZWncQvRjsU8/BSDgdIdk2GKAxHWMO2bwxvPgEf/1
-X-Google-Smtp-Source: AGHT+IHGQXL2vAX8CQ2cBc+7aBoKlt4Ku42AcF7oUx9sqTlVMsGFxj6YPilu4ncfGFmuHtEizpkYvQ==
-X-Received: by 2002:a17:903:24d:b0:1de:f91:3cf3 with SMTP id d9443c01a7336-1ef43f4d284mr244213975ad.55.1716012044866;
-        Fri, 17 May 2024 23:00:44 -0700 (PDT)
+        bh=KnyB+QuDgcekYCP38DxOveF/NkYkcxkyK9rpYTfrpow=;
+        b=pC8stmWKGHS4uQ1oueovwGOWkEEjaSOs4JMzak7ug2nfZPjh2fXRMcKsfoHcDkpWVg
+         4pM/E3POoFBc4ODM6oGHVm59dWrUR9Sgb6DjxVJ+D7iDHhgF1a0eY7r7sPFyX5s+1MHA
+         LStldFVKTXe/WG+8UCxXo0H3Gj2mai3MxyZlMbcqWam3G/a9wY3H91gEt43WBlvFFUgO
+         WkBLUsEiNYgJY0qdV6lxJrhFH3peY90j39AOkpMijHQ1GtDyAOxIEXDoOsKxE4Y1eEY7
+         HdISG0UElozYl/iQBYOfV6Z6yuWHGe3oi4Zqo/OM86vv8gfE/wCLZq9ud8DmNjq+hKQf
+         LrfA==
+X-Forwarded-Encrypted: i=1; AJvYcCX7Tt2LvpWZFP0Ytv74YL7+uqk7r9kRiIe7hXTBiRbHKASeI1ctq0x5hl4jczNeGvcM/DvrdrhIkpwgRHBNaembJnuEFic6PgWRp1pCw++t6zM5bl//S6PsTJzHujii
+X-Gm-Message-State: AOJu0YyGz89pMBybehIm60vbMJcHxlHSUTsM7Uw5zcCwr9o1S52F93xA
+	WJF3K86ZP6skRt2hC64RIKtbtJZqCSC6NXy+EvH3EGy/M75yrqDxelvanP7bQdk=
+X-Google-Smtp-Source: AGHT+IF/6gZqu432H7xbcxsFk472HWtVgsljgcWheAUkPuK+Yse85VI0EYlsMN3s13qmJ4Zs0eRW/A==
+X-Received: by 2002:a05:6a00:1941:b0:6ed:def7:6ae2 with SMTP id d2e1a72fcca58-6f4e02981e9mr32320689b3a.6.1716214967619;
+        Mon, 20 May 2024 07:22:47 -0700 (PDT)
 Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c136838sm167030095ad.232.2024.05.17.23.00.42
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66585sm19755579b3a.10.2024.05.20.07.22.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 23:00:44 -0700 (PDT)
-Message-ID: <b2537aa6-4c00-4c47-862a-0e706ebbf305@gmail.com>
-Date: Sat, 18 May 2024 15:00:41 +0900
+        Mon, 20 May 2024 07:22:46 -0700 (PDT)
+Message-ID: <57f0d90c-4cc6-4418-ab79-6ae026d8ae09@gmail.com>
+Date: Mon, 20 May 2024 23:22:42 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,96 +79,183 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] line6: add midibuf init failure handling in
- line6_init_midi()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, skhan@linuxfoundation.org,
- Bjorn Helgaas <helgaas@kernel.org>,
+Subject: Re: [PATCH] Documentation: cve Korean translation
+To: Jinwoo Park <pmnxis@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: skhan@linuxfoundation.org,
  linux-kernel-mentees@lists.linuxfoundation.org,
  Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240516174737.415912-1-yskelg@gmail.com>
- <8734qg260i.wl-tiwai@suse.de>
- <a258b613-3697-4f21-a8fd-20b276f63132@gmail.com>
- <871q608gz7.wl-tiwai@suse.de>
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240511195942.30857-1-yskelg@gmail.com>
+ <fcbaeb18-41ce-47c2-8914-96345449a280@gmail.com>
 Content-Language: en-US
 From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <871q608gz7.wl-tiwai@suse.de>
+In-Reply-To: <fcbaeb18-41ce-47c2-8914-96345449a280@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 5/18/24 2:51 오전, Takashi Iwai wrote:
-> On Fri, 17 May 2024 19:10:44 +0200,
-> Yunseong Kim wrote:
+On 5/20/24 10:58 오후, Jinwoo Park wrote:
+> On 2024. 5. 12. 오전 4:59, yskelg@gmail.com wrote:
+>> From: Yunseong Kim <yskelg@gmail.com>
 >>
->> On 5/17/24 5:32 오후, Takashi Iwai wrote:
->>> The allocated object is already freed by snd_line6_midi_free() that is
->>> called via rawmidi private_free at its destruction.  So your change
->>> would lead to a double-free.
->>>
->>>
->>> thanks,
->>>
->>> Takashi
+>> This is a Documentation/process/cve korean version.
 >>
->> Thanks for the review Takashi.
->>
->> I have one question:
->>
->> line6_midibuf_destroy() have no NULL check for the memory to free.
->>
->> If line6midi->midibuf_in is in this->buf = NULL from
->> line6_midibuf_init() with memory allocation failed,
->> won't the free(NULL) when accessed by snd_line6_midi_free() to
->> line6_midibuf_destroy()?
+>> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
 > 
-> free(NULL) is fine, it's defined to be noop.
-> Many codes just call free() unconditionally for that, as it reduces
-> the code size.
-> 
-> 
-> thanks,
-> 
-> Takashi
+> Thanks for translating new Documentation/process/cve document to Korean
+> Language. Most of the Korean sentences are looks good to me. But only
+> one sentence seemed unnatural.
 
-Thak you Takashi, I've been studying the kfree behavior in detail since
-you mentioned it, so thanks for advicing the details.
+Thank you for the review Jinwoo.
+
+>> 잘못된 CVE 항목들
+>> =================
+>>
+>> -해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
+>> kernel.org
+>> +특정 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
+>> kernel.org
+>> 지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만 지원되는
+>> Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할
+>> 수 없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
+> 
+> When the first modifier "해당" is first used in a Korean sentence, like
+> "the", there needs to be an explanation of what it is targeting.
+
+
+You're right, that phrase was awkward in the direct translation. Thanks
+for catching that.
+
+> However, in the process of literal translation, it seems that "the"
+> became "해당" due to the difference in word order between Korean and
+> English, And since the translated sentence did not describe which "Linux
+> distributor" is being described, it would be very difficult if
+> "특정(specific)" were used instead. It seems natural.
+
+I will send version 2 patch. Thank you!
 
 Warm Regards,
+
 Yunseong Kim
 
+
+>> ---
+>>  .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
+>>  1 file changed, 107 insertions(+)
+>>  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
 >>
->>>> ---
->>>>  sound/usb/line6/midi.c | 9 +++++++--
->>>>  1 file changed, 7 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/sound/usb/line6/midi.c b/sound/usb/line6/midi.c
->>>> index 0838632c788e..abcf58f46673 100644
->>>> --- a/sound/usb/line6/midi.c
->>>> +++ b/sound/usb/line6/midi.c
->>>> @@ -283,13 +283,18 @@ int line6_init_midi(struct usb_line6 *line6)
->>>>  
->>>>  	err = line6_midibuf_init(&line6midi->midibuf_in, MIDI_BUFFER_SIZE, 0);
->>>>  	if (err < 0)
->>>> -		return err;
->>>> +		goto error;
->>>>  
->>>>  	err = line6_midibuf_init(&line6midi->midibuf_out, MIDI_BUFFER_SIZE, 1);
->>>>  	if (err < 0)
->>>> -		return err;
->>>> +		goto error;
->>>>  
->>>>  	line6->line6midi = line6midi;
->>>>  	return 0;
->>>> +
->>>> +error:
->>>> +	kfree(line6midi);
->>>> +	return err;
->>>> +
->>>>  }
->>>>  EXPORT_SYMBOL_GPL(line6_init_midi);
->>>> -- 
->>>> 2.34.1
->>>>
+>> diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
+>> new file mode 100644
+>> index 000000000000..26682969b2b7
+>> --- /dev/null
+>> +++ b/Documentation/translations/ko_KR/process/cve.rst
+>> @@ -0,0 +1,107 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +:Original: Documentation/process/cve.rst
+>> +:Translator: Yunseong Kim <yskelg@gmail.com>
+>> +
+>> +==========
+>> +CVE 항목들
+>> +==========
+>> +
+>> +공통 취약점 및 노출(CVE®) 번호는 공개적으로 발표된 보안 취약점을 식별, 정의 및
+>> +목록화하기 위한 명확한 방법으로 개발되었습니다. 시간이 지남에 따라 커널
+>> +프로젝트와 관련하여서는 그 유용성이 감소했으며, CVE 번호는 부적절한 방식과
+>> +부적절한 이유로 할당되는 경우가 매우 많았습니다. 이로 인하여 커널 개발
+>> +커뮤니티에서는 이를 기피하는 경향이 있었습니다. 그러나 커널 커뮤니티 외부의
+>> +개인과 회사가 CVE 및 기타 형태의 보안 식별자를 할당하라는 지속적인 압박과
+>> +지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
+>> +한다는 것이 분명해졌습니다.
+>> +
+>> +Linux 커널 개발자 팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
+>> +있는 권한이 있습니다. 여기서 할당은 :doc:`일반 Linux 커널 보안 버그 보고
+>> +절차<../process/security-bugs>`와는 별개입니다.
+>> +
+>> +Linux 커널에 할당된 모든 CVE 목록은
+>> +https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
+>> +아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 해당
+>> +메일링 리스트에 `구독
+>> +<https://subspace.kernel.org/subscribing.html>`_ 하세요.
+>> +
+>> +절차
+>> +====
+>> +
+>> +일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
+>> +변경 사항은 CVE 번호 할당을 담당하는 개발자가 식별하여 CVE 번호를 자동으로
+>> +할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
+>> +수시로 게시됩니다.
+>> +
+>> +리눅스 커널이 시스템에 있는 계층으로 인해 거의 모든 버그가 커널의 보안을
+>> +손상시키는 데 악용될 수 있지만 버그가 수정되면 악용 가능성이 명확하게 드러나지
+>> +않는 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게 조심스럽게 버그 수정이
+>> +확인되는 모든 버그에 CVE 번호를 할당합니다.
+>> +이것이 리눅스 커널 팀에서 발행하는 겉으로 보기에 많은 수의 CVE를 설명합니다.
+>> +
+>> +사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
+>> +경우 <cve@kernel.org>로 이메일을 보내 주시면 해당 팀에서 함께 작업할 것입니다.
+>> +이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한 CVE 할당 전용이므로
+>> +잠재적인 보안 문제는 이 별칭으로 보내서는 안 됩니다.
+>> +수정되지 않은 보안 문제를 발견했다고 생각되면 :doc:`일반 Linux 커널 보안
+>> +버그 보고 절차<../process/security-bugs>`를 따르세요.
+>> +
+>> +Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
+>> +않으며, 수정이 제공되고 안정적인 커널 트리에 적용된 후에만 자동으로 할당되며,
+>> +기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
+>> +CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
+>> +예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
+>> +
+>> +현재 Stable/LTS 커널 팀에서 적극적으로 지원하지 않는 커널 버전에서 발견된
+>> +문제에 대해서는 CVE가 할당되지 않습니다.
+>> +현재 지원되는 커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할
+>> +수 있습니다.
+>> +
+>> +할당된 CVE 항목들의 분쟁
+>> +=========================
+>> +
+>> +특정 커널 변경에 대해 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은
+>> +전적으로 영향을 받는 관련 하위 시스템의 유지 관리자에게 있습니다.
+>> +이 원칙은 취약점 보고에 있어 높은 수준의 정확성과 책임성을 보장합니다.
+>> +하위 시스템에 대한 깊은 전문 지식과 친밀한 지식을 갖춘 사람만이 보고된
+>> +취약점의 유효성과 범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수
+>> +있습니다. 이 지정된 기관 외부에서 CVE를 수정하거나 이의를 제기하려는 시도는
+>> +혼란, 부정확한 보고, 궁극적으로 시스템 손상으로 이어질 수 있습니다.
+>> +
+>> +잘못된 CVE 항목들
+>> +=================
+>> +
+>> +해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상 kernel.org
+>> +지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만 지원되는
+>> +Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수
+>> +없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
+>> +
+>> +커널 할당 CVE 팀이 아닌 다른 그룹에서 적극적으로 지원되는 커널 버전에 대해
+>> +Linux 커널에 대해 할당된 CVE는 유효한 CVE로 취급해서는 안 됩니다.
+>> +CNA 수정 절차를 통해 해당 항목을 무효화할 수 있도록 커널 CVE 할당 팀에
+>> +<cve@kernel.org>로 알려주시기 바랍니다.
+>> +
+>> +특정 CVE의 적용 가능성
+>> +======================
+>> +
+>> +Linux 커널은 외부 사용자가 다양한 방법으로 접근하거나 전혀 접근하지 않는
+>> +등 다양한 방식으로 사용될 수 있으므로 특정 CVE의 적용 여부는 Linux 사용자가
+>> +결정할 사항이며 CVE 할당 팀의 권한이 아닙니다. 특정 CVE의 적용 가능성을
+>> +판단하기 위해 우리에게 문의하지 마시기 바랍니다.
+>> +
+>> +또한 소스 트리가 매우 방대하고 어떤 시스템도 소스 트리의 작은 하위 집합만
+>> +사용하므로 Linux 사용자는 할당된 많은 수의 CVE가 자신의 시스템과 관련이 없다는
+>> +사실을 알고 인지해야 합니다.
+>> +
+>> +즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
+>> +사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
+>> +있는 방법이 없습니다.
+>> +
+>> +항상 그렇듯이 커널 변경 사항은 개별적으로 선별된 변경 사항이 아니라 많은
+>> +커뮤니티 구성원이 통합된 전체에서 함께 테스트하는 것이므로 릴리스된 모든 커널
+>> +변경 사항을 적용하는 것이 가장 좋습니다. 또한 많은 버그의 경우 전체 문제에
+>> +대한 해결책은 단일 변경 사항이 아니라 여러 수정 사항을 모아놓고 보아야 찾을 수
+>> +있다는 점에 유의하세요. 이상적으로는 모든 문제에 대한 모든 수정 사항에 CVE가
+>> +할당되지만, 때로는 수정 사항을 발견하지 못하는 경우가 있으므로 CVE가 할당되지
+>> +않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
