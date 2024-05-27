@@ -1,73 +1,73 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692AE13AD3E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AFB13B2B3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716805464; cv=none; b=m7mM/iyOOuxDSD5FazsSehVHLIdJZ9u+RYACZP6rXue2uzZl4fEG8gI0fv8NExZnTpIY0IDGKCDboDLnFyR7OMAydJrKmcBIxTgfoE4M41BRQBQXXBGQigseaQVVI8dDMJWMK+9r2QznFarEGpLTnWhH3ix4RCizQwO6TbgJ5MM=
+	t=1716805830; cv=none; b=bFRZZWAKCh68vIdLDlf9IKKSlYpWIN+7OLpstkfW4GieuFf2IxUCl0ky+h+Kfp8dhGH8iEcKBptcojotQvlhSlk0HDttEWM6bcfiJfPssueBYIQ3mwtlrHcIzMuauJjeVRZUDi7p1g0DO2oJomQ5e0KLyhWRA/ReM8qNSvvYjww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716805464; c=relaxed/simple;
-	bh=DByw9+shEMrvZf9a7DrK7TFMRwOXIhmrErgMfKW8rQE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=UposzSjguPLoR+dlPZ8+RBp8ErTt6U/zbwZGNs4YbN2DIGVRDua3gigIVBr6iuGTeLJtTaKC5SIoBXq/M864i7y06ueU45GHgKQdo0aERoVwWI85/MkhuzCya7O+oT37C3GSVm+8bVKRPOItsVUHt0A31MrfwdBi1rza1PefvZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DmG4S4lc; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1716805830; c=relaxed/simple;
+	bh=Wq8c0gvjGwwSH+T9v3NISONmcgDc06858d/bCXTl+OI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kdR2ZIKQBchz4sLzDjGWE53j73Yl2PofRggw562n0UH6jv0mgDkErxEIepGtXt/gsghIiyMHvPeZfDVkqnZxaD4NWi2/FI0BKBggyS6Hozvxp2bs0Wa55W6Fhe0Qjx4xKBAMt9eWxr6M/s72qm4qta/l3H13wUIYpvITBY6L2nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sw5X4WW8; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DmG4S4lc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sw5X4WW8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 08A90812EE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:24:23 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 11F90404B6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:30:29 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id nbqZkjzU6OpU for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 May 2024 10:24:21 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::635; helo=mail-pl1-x635.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org AC5D7812D4
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org AC5D7812D4
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DmG4S4lc
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id AC5D7812D4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:24:21 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1f44b5b9de6so21829255ad.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 03:24:21 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id BRxG0hMB1Sox for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 27 May 2024 10:30:28 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::2f; helo=mail-oa1-x2f.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D07C7400AB
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D07C7400AB
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Sw5X4WW8
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D07C7400AB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:30:27 +0000 (UTC)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-24cbb2b71b4so1253250fac.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 03:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716805461; x=1717410261; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1716805826; x=1717410626; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3W8zCxpzcO90/CvE19s6K96qB6nm+isYULfxb3bCJUg=;
-        b=DmG4S4lccHA10TMnmwWX/YKZmAtTz0yGiEQefh17E5rzEAaD9dv7mtZ2wb+lXCiLU6
-         YCNThLHspNW5t4NiNETRBHuYaaDLUenHTqL6PUlA5OLhX9vd5HinOTvA4vhaSjOoBBph
-         3PBjtVehD/GJKPXCo7lgcQOCdFxm2Qwg8pUBf9eHZ4CaBH8Sl4PSXNBA8clH3Ynu/feJ
-         5IcCX7nf3iP2xnlXRu0LIfcAPpbjIwBgjL8Q7g7td80kOGEpX48LGf7oXPHOhG7VoQqc
-         nJPcrEBEiZcZpxnS7YxIxwDSr8vGzNvZfTmRQxldOkpHmjPKwVN5o1JF+ZoYEIYxL+Gh
-         tfsA==
+        bh=ZNrP81aLFZY/yKeyxhffe6d/lACVAXrZvHzkDRJWq/M=;
+        b=Sw5X4WW85gx2hS+qmx71M42n1VaApFz8s1QOnaPUNClAZY01TA2XVKE7DZL8lH1ff7
+         EivehB3WCkGJTTwa//FnK7yiAR5A8JRAFgUE5ne/1fPtj3jkitz80Kaf1mGvhiifHTOl
+         2qXVB72Y9NKZshocM9zOGq33EeUEsZedc0m2vX+TZLkAjC0gdoXEtwaZ/R6gdHUKLDt+
+         bPA/4ITcmvybW3VbHmxGC/SL2oVyQSLcynZJl3LC96weqCggY5oHyk18Jk8z4f+CSqHM
+         6rIOLTrnN+lTj7vrQJCPU8iveTB9Q5ldTq6dUOtouxGotG5tyF8FmfGEgJ1PZk3oivgM
+         E5fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716805461; x=1717410261;
+        d=1e100.net; s=20230601; t=1716805826; x=1717410626;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3W8zCxpzcO90/CvE19s6K96qB6nm+isYULfxb3bCJUg=;
-        b=eFX70A4sf/KdJkEdkY73iII3btxZKKMkakMGDnnzceyfW+DjojoYpTNBFQJ2rprqj6
-         /P6+AdY0m/Je+JeWZgYnz3EcX1hMCN2c8m7/8W2c15bG5zaNv0xLcRO7Px0P5Q2goUHv
-         sNMut2bRjxsMMO9y9U7BuBTfwoaDkM0NrzxWhacVkbvS8Yk3BH1EPWjLYCH6cRkY9+QF
-         R22KhOdIYpiJAb27arM0BlBKZrXhkFYyz1mG0KO6pzZpPgYR36ajjbX3KqHMzBWDEOLb
-         d50zZFQj74t82wIeiM/D45fKQG36dwhEzl5Aq1tUapxiXlN/J41OcMOCrFNSm3lsaeXh
-         kRJA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/Tdr/wrDwIMcqW+zX7z6e3iar3Je9vbEi05yLr+eJxRiAhIclFVVu7IX8ZELMG6v/ilpI6ZCSyVq9/bNp72MOexMTseZ50APtyvtdUa6aSVKDfDy8E0/BAqEBPcwX
-X-Gm-Message-State: AOJu0Yy+xm7YC1RoBWNyy5vcuH1JRHkiAB27hkaTGOQbdEe0VdC69Zht
-	xq+yFTD/3YtLp1fJgHHy2+MbZ8o2vWq9e5C8GOxAlTEXy9eYU58F
-X-Google-Smtp-Source: AGHT+IFN5Fc8RquCxRRLx+dNWEVdMNy0o4jV2nO5Ne9ItO8lziHyCsbgLy28GpTIYNrfLOq+GgIq7g==
-X-Received: by 2002:a17:902:ea04:b0:1f4:5d87:ffb3 with SMTP id d9443c01a7336-1f45d8807d6mr77298605ad.17.1716805460425;
-        Mon, 27 May 2024 03:24:20 -0700 (PDT)
+        bh=ZNrP81aLFZY/yKeyxhffe6d/lACVAXrZvHzkDRJWq/M=;
+        b=Rl/DHJijxv/EMGGRgWb70Gg1UeH8zrPUQWwQwh5gRwYko8YV49HdXHb/a2ztX1/1kH
+         PsSfOmFQDAaiMll6lC6XlfsMpuvxp5AdHyL6EZavf2LIYibTxKvgfecA4nMGxy5WtGUf
+         xeDx+vQXVdBSF8ugNV5L3nbNPEylQ4HJcpzQ5rWH85AsfnqLoKEXWBqurzxsFVCxWOXm
+         lmQJhtze8gBx1mU/5fH5I291KF5pS4EWxFRpGKWN9AEv617jw7yWIu2/hz1YUrZEwOoH
+         /WdFzll4gWmCLMkDk5I6STABAV50wUaxhPpGLU1llJ2g0q1wLwY5W0CxN+u2AE51ZbbM
+         Dh9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUPgVj4JC1PqbXUX/foEvVWVkiHeBNqy9Ute264hqsZk/GSxU1AZ93TwrYdaRVYAayBR95Tl98HLc9ZEwstfPz+TOPflT8xopHZ5GhI4rlJthKNd7yck/9AVs0OE6q0
+X-Gm-Message-State: AOJu0YygsVrJ6Aso5WKi6PPtA338EVs714uZwZ5pnu8kdyvgqDHHWVtj
+	53QQPcLaS98At8VbjlMVJo59c2CcFD1dBWuGeV2i82wU95XFhYVkERK75TlAdNA=
+X-Google-Smtp-Source: AGHT+IES0E2ywnPldmjeCTxfJ7NVU+l9hbdvDhAfceWO0tztB1xokVuOqYjcZto73JekUsR/4tOuQg==
+X-Received: by 2002:a05:6870:55c6:b0:24f:cf39:9684 with SMTP id 586e51a60fabf-24fcf39bc56mr5814339fac.3.1716805825462;
+        Mon, 27 May 2024 03:30:25 -0700 (PDT)
 Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c79b9f1sm57687045ad.76.2024.05.27.03.24.17
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fd4da8f6sm4640815b3a.210.2024.05.27.03.30.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 03:24:20 -0700 (PDT)
+        Mon, 27 May 2024 03:30:25 -0700 (PDT)
 From: yskelg@gmail.com
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: skhan@linuxfoundation.org,
@@ -79,9 +79,9 @@ Cc: skhan@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	Yunseong Kim <yskelg@gmail.com>
-Subject: [PATCH v2] Documentation: cve Korean translation
-Date: Mon, 27 May 2024 19:23:14 +0900
-Message-Id: <20240527102313.27966-1-yskelg@gmail.com>
+Subject: [PATCH v3] Documentation: cve Korean translation
+Date: Mon, 27 May 2024 19:30:04 +0900
+Message-Id: <20240527103003.29318-1-yskelg@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -96,22 +96,24 @@ From: Yunseong Kim <yskelg@gmail.com>
 
 This is a Documentation/process/cve korean version.
 
+Reviewed-by: Jinwoo Park <pmnxis@gmail.com>
 Signed-off-by: Yunseong Kim <yskelg@gmail.com>
 ---
- .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
- 1 file changed, 107 insertions(+)
+ .../translations/ko_KR/process/cve.rst        | 108 ++++++++++++++++++
+ 1 file changed, 108 insertions(+)
  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
 
 diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
 new file mode 100644
-index 000000000000..94610c177f17
+index 000000000000..9daacba8d445
 --- /dev/null
 +++ b/Documentation/translations/ko_KR/process/cve.rst
-@@ -0,0 +1,107 @@
+@@ -0,0 +1,108 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+:Original: Documentation/process/cve.rst
-+:Translator: Yunseong Kim <yskelg@gmail.com>
++:원문: Documentation/process/cve.rst
++:역자: 김윤성 <yskelg@gmail.com>
++:감수: 박진우 <pmnxis@gmail.com>
 +
 +==========
 +CVE 항목들
