@@ -1,112 +1,128 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E68161FEE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 17:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18EBE3F9CC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 05:07:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716829236; cv=none; b=Z7RJA7Bu7AJnW/STi2qV3JAcQrYMmGIZFIbNJVyf+JDFUtQNvvq4US6/CoHGohhjSlVCOPgfTU2RyfUml1WxnA065XKpdXtXjctZWw/Fsl7sEUKsNG0oYU1jY3l8HINrwufPWUIIY2p6JZ3cYQxPmWOYyRthSoQPca/Bd+x76DM=
+	t=1716872835; cv=none; b=aZfc2YQANNZ8OVBICQLihPuNkFcF5uVgU9pmd3Z8+AzNYlVBED16U+qeZ/ERhfmdNsk6yfZiBUtkucsHqhIi6f0l4vaOiI+e4tFSEO4pu/GdZTJTdS8mBHEpymu+wcsNaZoZkk5FMb3Sfye5Vjl17uatdWQibV+yU9BrBUxZnSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716829236; c=relaxed/simple;
-	bh=8MLNb2bRcbp/oLUAripV2zX69ZK7bOk3ntrl8bKbv7k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tDWl9/tNEgkzswm8WkEbtYlzYP92l1kRyGATAmm0H1bU2SKuzc4ACX+JVJMX16G73uxOnvyMcPABvc4eazsaQlgT3zIfgRaUuV5dZJilomuCVtH1Ltd1uco+wOs4KOuG6kK80xAtIFRxi/6v2QNB8mgWqWLLPLmZMpFzMukyJhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q2VNyN7j; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1716872835; c=relaxed/simple;
+	bh=yUShdSmJr46Mgx4i2jipsfc4D+xqm4VZ+NXk6NsJYA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OJxt27WXzlMPcogz6tkpo9Uk7Mey7nB4tnmjbdv4uLnngtIprZP/J65bJWFh6PuY6cP0AUvy1TX/ghUOK5dc6LGqOhfoksAcOUMVu8LXapaQfIXAMAH46Q5RF/7XKU/IWDuq9z7FhFBH6nqI2abnRQzDJRD+mJ+hVdmMRfloq88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UeVBNhWM; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q2VNyN7j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UeVBNhWM"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 181FA6070D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 17:00:35 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A8DE36080F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 05:07:13 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id seVaDGD6SGPR for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 27 May 2024 17:00:34 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=pmnxis@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6B6D860708
+ id WO5Wof2QNAKo for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 28 May 2024 05:07:13 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::230; helo=mail-oi1-x230.google.com; envelope-from=andrewjballance@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org DE2A66070E
 Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6B6D860708
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org DE2A66070E
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Q2VNyN7j
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6B6D860708
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 17:00:34 +0000 (UTC)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1f45d6500b4so3375ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 10:00:34 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=UeVBNhWM
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id DE2A66070E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 05:07:12 +0000 (UTC)
+Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3d1c077b9baso215234b6e.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 27 May 2024 22:07:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716829234; x=1717434034; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
-        b=Q2VNyN7j+cjIGVbQK5EaHPAa7dGQsmfyzZWZJiMOIFN+hCT9Nn+ZJlc8nIBZx2uOWx
-         5DEIGMkLHBfx5uUARltqlqILVEALGh9JE0GvzMTpr+9yY3jxFWAqnECH1QM5deohlUeF
-         kjW6z2HsRv6PRItmS7jiM/k9665ba8O5IQ4Y42n8Stn3mpEBZEWQQ9/+K3a5THOQ4dxO
-         iQWQxL5/Sqwu8MHJuSyEK+7Thhh9A87lxT9Sen7joIlXCSzNnoWF/S3V2RE/O9R2yFSM
-         cH8qUVJUA0cV9506KYXda1xDPjhCxqsvD3gh5edxEkHv0FnA6dSip1RHw1Zjj6M+N3bs
-         fuJg==
+        d=gmail.com; s=20230601; t=1716872832; x=1717477632; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9LGkX5CvYSeRWcO/OUCi81i8F2CpNF/Yknz+iuEPMic=;
+        b=UeVBNhWM/y1EgkktaI2fOJKFNlj3na9sTUuOho1A6I8KrtlgHMtWEKsAueHx/oYnmC
+         KLHO4iY+USA8tbT6ZVstdef5xqZGgJ3akt95ztaoX0FbwFyzdQdTAlfCCS4zvojKzUjx
+         ry6F2C1CWjbXJ8pGH0SFyIji2ykN9sPoT8wX6UXjzIbCJGfm4nHUP72zWwOvuKKF/H3m
+         ReME3mPgszU7yOOAna5l+tGhNYSmRxIQPUTkY2FQjTAV6P87jQ250R5hd08+xyLOWvD9
+         N2/zsgFPfrH2AGc0kK/dvWSdeet6ozvGKJCP6wLpZFT3Lgd98WcyI/XgmrbknB/grn0+
+         cPeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716829234; x=1717434034;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
-        b=n7Trvy6sh815+jBOIiOunTnvm/ZzsHwZFGTOdXpx626f9NOAYsMtmU8MR/4qIhvKiU
-         tIEe+3XgFIG+xNbqlYnNzZ55nPQKM7xYSi3UgOWj/rUdt6raSVPplD15J32b1lY0VFcP
-         5zvv6tzGPMCSRATucdibVdyaTG7YAEZLHzdhAQF5wzQeFSJhblJhU3ESDiztrbGdBGw7
-         /Ize/bcjIowA2QZRVqZoRP3NcH7hZuYXMRyRAWkYG+6dC2vYe5nxqRrBao5hSzlzz7N1
-         BVDlEe8dM/2w+Y1yHMUhTnZ+dADIGa02aEPdAB7vfh5Lg187CEbLjmiHYh4fV8HxhxSQ
-         EryA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzJShsk9shJRAdb8eRo8Y+vdGA6HBqZtRoZu4HUV7ZyasIGilH82Ka6jg1IlBJq0zeugSKlS3IxPFPdMIlezSWMXJX+IbAbhluK578MgxT7xsG9cSlfAyh1fteioqQ
-X-Gm-Message-State: AOJu0YyWJZ+qVp2oK1EUVc15fLy7+vLEqzDpphoPfVDM1XjWVRSNE9yK
-	Fs7ZzngCnJ68eDGPWxC5oh4Hf4cLmj7bcFlhqv7+McOB36hH5Dlq
-X-Google-Smtp-Source: AGHT+IGmgWeyiRNe9+u2BnAS1T0LPl+16VQSq5K+KtGP+MlwlyWvOvoH3Tc4mPXyjH2k8Qjrfmh4Hg==
-X-Received: by 2002:a17:902:c94d:b0:1f4:98f4:4763 with SMTP id d9443c01a7336-1f498f449a0mr38374615ad.53.1716829233424;
-        Mon, 27 May 2024 10:00:33 -0700 (PDT)
-Received: from [10.59.0.127] ([210.178.66.119])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c99d23asm65061795ad.208.2024.05.27.10.00.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 10:00:33 -0700 (PDT)
-Message-ID: <f8a8c06a-9dcd-437f-ab75-d0ddb608662f@gmail.com>
-Date: Tue, 28 May 2024 02:00:28 +0900
+        d=1e100.net; s=20230601; t=1716872832; x=1717477632;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9LGkX5CvYSeRWcO/OUCi81i8F2CpNF/Yknz+iuEPMic=;
+        b=HJNfaWrg7bxboyOCyI/IW26DhhqW2x77+sc3VzBzI4axZLDWStZ/lCl/29xxyJtfuX
+         G0wQDbgMJnEL0x9x4LPhfDSg1OBYg9YUUNL2QrRt4P7zUitZi6b5iT46Ni2nrwdhm7ad
+         KstqsS0eyoDwCm9oqZLSIJVcp3YmBVDj3Pp/8KQ5Nw+8vAjsxKQlZNi0p0AwVYWU1sbW
+         jTr63cz+jX3SGTi/zAvX0jOVJsGZXuximPw1eZhE69FVcYR3ln2Np3CWgrCOFVNZFejJ
+         I2neSdfIpdgnV81BfUpe6OYlrPQuaxsJTcgpQavEBE/CKH2GKigDu7resj0ituR+7VmK
+         b9YQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdkIF6tyUNUAVjlrwL+tdmH7/SoT4kgqdipUBET0KIApigULeCiyuHDTuN17r8GhXDBj00PBNwKE2O7bSK34OESwj3h3KGkyWpVEFc50vfqKsBA9UZVhgfuLyM//xm
+X-Gm-Message-State: AOJu0YzZMzQQB3le/UecLxpWwG3/2PkmWox8CNUkqEUsRQTGzNgVM/5c
+	GOZlNBHty+FklTyUrfQQsslI3yx3YZFdsoGHyFwehJCKTeXQcu1r
+X-Google-Smtp-Source: AGHT+IHchZ0MIxn31HdZq/DwBO+sPMGJpEVor0E0NH3BvSt24bhvXtHBVs63rTMcyUTh91G4ODpUSw==
+X-Received: by 2002:a05:6808:15a9:b0:3c8:6468:73f6 with SMTP id 5614622812f47-3d1a85ec475mr14137814b6e.43.1716872831642;
+        Mon, 27 May 2024 22:07:11 -0700 (PDT)
+Received: from my-computer.lan (c-98-39-68-68.hsd1.tx.comcast.net. [98.39.68.68])
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-3d1b36825d4sm1238633b6e.6.2024.05.27.22.07.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 May 2024 22:07:11 -0700 (PDT)
+From: Andrew Ballance <andrewjballance@gmail.com>
+To: syzbot+07762f019fd03d01f04c@syzkaller.appspotmail.com
+Cc: benjamin.tissoires@redhat.com,
+	bentiss@kernel.org,
+	jikos@kernel.org,
+	jkosina@suse.com,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	luke@ljones.dev,
+	syzkaller-bugs@googlegroups.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Andrew Ballance <andrewjballance@gmail.com>
+Subject: [PATCH] hid: asus: asus_report_fixup: fix potential read out of bounds
+Date: Tue, 28 May 2024 00:05:39 -0500
+Message-ID: <20240528050555.1150628-1-andrewjballance@gmail.com>
+X-Mailer: git-send-email 2.45.1
+In-Reply-To: <000000000000915d550619389e8a@google.com>
+References: <000000000000915d550619389e8a@google.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: cve Korean translation
-Content-Language: ko
-To: Jonathan Corbet <corbet@lwn.net>, Yunseong Kim <yskelg@gmail.com>
-Cc: skhan@linuxfoundation.org, Austin Kim <austindh.kim@gmail.com>,
- shjy180909@gmail.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20240527103003.29318-1-yskelg@gmail.com>
- <87ikyzpgqz.fsf@meer.lwn.net>
- <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
- <87o78rnz3a.fsf@meer.lwn.net>
- <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
- <877cffnw2i.fsf@meer.lwn.net>
-From: Jinwoo Park <pmnxis@gmail.com>
-In-Reply-To: <877cffnw2i.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+#syz test
 
+there may be a read out of the bounds of rdesc.
+this adds bounds checks
 
-On 2024. 5. 27. 오후 11:55, Jonathan Corbet wrote:
-> It does look like the patch was reviewed, but no Reviewed-by tag was
-> offered.  *Never* apply a Reviewed-by tag that has not been explicitly
-> given to you.
-> 
-> Jinwoo, would you like to offer that tag for this patch?
+Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+---
+ drivers/hid/hid-asus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thank you for taking a close look at the content and flow of the patch.
-Jon, yes I want to offer and apply Reviewd-by tag for the patch.
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 02de2bf4f790..37e6d25593c2 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -1204,8 +1204,8 @@ static __u8 *asus_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 	}
+ 
+ 	/* match many more n-key devices */
+-	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+-		for (int i = 0; i < *rsize + 1; i++) {
++	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD && *rsize > 15) {
++		for (int i = 0; i < *rsize - 15; i++) {
+ 			/* offset to the count from 0x5a report part always 14 */
+ 			if (rdesc[i] == 0x85 && rdesc[i + 1] == 0x5a &&
+ 			    rdesc[i + 14] == 0x95 && rdesc[i + 15] == 0x05) {
+-- 
+2.45.1
 
-Thanks Regards,
-Jinwoo Park
