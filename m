@@ -1,142 +1,119 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBA416F291
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 18:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE90180A81
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 May 2024 12:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716922606; cv=none; b=RWC173s0pvly2pPuft3cUg5dr/0aVG70qMxXQvEtsx9g+LlaEPG2PXwK+Ss8VAa9WDhLx5CpDP+qG3iy/MMupPoicgUCaSw4G6tssIZrNxu/XHISpQEIL5bZQFRWleDjCutyfY9ux/de124dtgoCqIMBJ096Ih5SE3xjRTKGD5E=
+	t=1716985414; cv=none; b=ZxZ0bO7BFFWCTqFpfHjVk1FFjO1XcAIFPQ+m6bzZPHJR0asppQMtDLd99hPDnDnUZ8Awktb2CnnR5u/S7AkEPJh0YJWiMWc/d/ImnWRVUNiuOPFUKo062D513R5hTZWHhKH7ES8MWbMsVJzpy07/pMfaUMiGGJcKsBGjNxDwYk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716922606; c=relaxed/simple;
-	bh=1GkxxU7eiisDXTv7dlI9z9uvQ2yOMGG0iM5hZFEjUKs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BdBBLww4DUHXtajWF+XOnowE62C3aogZxLfQuKsrajylUBfLoJ7BxQd13uUrSdyXkqJAcgMEeePErYY5GqFGqgcMyse8/MbRuGhv3Yd6QtWhSMKCQc9TglMK0PPjKqc4NrS+AAR45Ja8l7Gved74EJd/EUkUOce1UNxtvmJWbEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1716985414; c=relaxed/simple;
+	bh=SFsdFGM1tKYQjt5FyT4kYb2Qr9hSQyKl3hmka6u3AM4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mFB649uH8v4YK7gxyJwS+T1IudsznGNoojvYdShLq9LlPpi9/u86nyCbb5d7cs7SS91wFOs2/vOGzqoVxH7gM12ZLtBUjcqeQYU1HqsvObxHkNZhzL4Ypcle0c79xDobDpYAWxYJqN63cBgS1NVNK7VHWdGNMK3GusrUyGWeKqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nSNiU8eB; arc=none smtp.client-ip=140.211.166.136
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nSNiU8eB"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 776C8820E4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 18:56:45 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E906A60642
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 May 2024 12:23:32 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.401
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id cVvfYIyEwA21 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 28 May 2024 18:56:45 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.215.175; helo=mail-pg1-f175.google.com; envelope-from=namhyung@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C038A820E2
-Authentication-Results: smtp1.osuosl.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C038A820E2
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C038A820E2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 18:56:44 +0000 (UTC)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-656d8b346d2so841032a12.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 28 May 2024 11:56:44 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tILJN3P5SQM0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 29 May 2024 12:23:32 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1034; helo=mail-pj1-x1034.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3DA19605BB
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3DA19605BB
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=nSNiU8eB
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3DA19605BB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 May 2024 12:23:31 +0000 (UTC)
+Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2bd816ecaf5so1494342a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 29 May 2024 05:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716985411; x=1717590211; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bu8X2LCUalqzu3Ya3NkSgnwgrwDIZEosx1eIzHQjc28=;
+        b=nSNiU8eBAcVFNXmV7NThR8GO2YDRjl1wObvCdLlY/meWib2MOLx76vKdQpmQ1i1V/A
+         Tw63CuS4t1F/cYEuVR6Eth6kDyGB5n408hPiXxBODgN0jf2bDpW/td20MFu/e3Vfq41L
+         2jClY+4UQqIU7HO9KWyuOky2a1KzPl6b5/bW6BIHa1kPKZvVZqibp0MY5db4bobFGRHX
+         6mHIPZyxKhT888PSSbSk4N/ueZfDHXwFKrnBWjdcflo6veD4BzZVT85T7SMt1GMyqQFE
+         diW43s/kMIo5MnSRRkDJaq73bJn3y9e8ilu3RIxHVAgmbJS8/1XzwyQFfSEAGwMPXh2+
+         clig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716922604; x=1717527404;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tV2y+zzHtC8fi/GAxZbta7nCZzttI/+j3Qu6+XzqVmY=;
-        b=mvmy8KuTuIztI/sLe3p3cTH57vh24mkYIKZwjLVew7Z4AVEatA8AAafi8tt2XE4/5B
-         bk2FPR4mFqAhviF4wwMVtfIyevES3eKiQofgTykEHJtJtcyofnBhfNsOjTRF5qGNfapV
-         6xOkVzYjxK/lv5QeBKLLtcINO2Nkm4WI7lm+XfDaG3YbC8TQ2bc1MYbx08Dij480ZeHb
-         UMfk+TMuRLaLM4VE/lAVVCI+GW764dBpUhYpnyVYxpQhayMCcgelFBMHzjj+BbNPAhx/
-         RmSb635CwJRjnbuWcwj15ugr3BusuQFtalIpYlwPMVg2bmUOu9onlpheUoqdDgcmqUWX
-         sqXg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdg+z2vemLPQ03NetimjjTBB4M5G5cX06TAriwRY1kNo/Bei0Y7BrcZ033Q62mErlfUYPlA2Ug6/fSzuA8xbpbN8H6E9CbFCkfc4Y9w5uN4XEs19gXaHtqOVZ8PwYH
-X-Gm-Message-State: AOJu0Yw6yqtCP/FxXm7O5RrGBV5iNHDUnHc8ljMob0DemAyc+ZfdizgD
-	Vh7WwOi2L/m/6co2L97M00rmfuB6wylBba/U3UuGL5XBZV63/el1t2dtlQZ+1//34ygThzMavNB
-	NCpFx0jBMPGjtYYuXwvLou90JrZw=
-X-Google-Smtp-Source: AGHT+IE8tv8M6ZLQILAkH0C67BI/2TkBWI9laCMPaHlE1MnRq9lKpGEUlZAVuwUkhx6Wgc/7o+9AwiyHmCrCamGILZQ=
-X-Received: by 2002:a17:90b:30d6:b0:2c0:bc7:63c3 with SMTP id
- 98e67ed59e1d1-2c00bc76514mr2606961a91.42.1716922603850; Tue, 28 May 2024
- 11:56:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716985411; x=1717590211;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Bu8X2LCUalqzu3Ya3NkSgnwgrwDIZEosx1eIzHQjc28=;
+        b=dbMD8f4TDUYon2KcI/TbIEzlKZVwu5JH/fdZhzrWi7ojfuWYY9J0Sv76F29Q8UDN2o
+         ynH9//9M8b5gq4z7LlyqQRUVinlabdqFi8ks6UHQAA1cIgTLuvULT1augpRLS5MX9uyM
+         XMdLq59WSWLp0lfqBOPmtrQlNZuGXKpnyEi1oX52uvhxk6Qk4nxa0Jo6Z6Pr/yXS9w+B
+         n1TVfdHVidQh6Rnlsq82u4XBEXFY6OygutmVkH3uIaMoNagxVc+wLF9vGIZVb07DC/5k
+         sLAoy2P0/fxqrR16cMm+ABvnzxrkrYni2GJrx7AI2+fyhdwrtO9RTWbNW5YwGadL+w2j
+         f9xg==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ4AmGxLdbMqIONoXgIlykYaAUyn1DuOHs8bkmVxl32/8s+shl52k/9Zdl8yUpknk+kKhpfPUSsZfcxOUvRlx1O2oOJItDmLdhBJFgFWDla+Op0nyOCHCTCLldU1qs
+X-Gm-Message-State: AOJu0YxVKjrLfFZVHaLuF7QnaI34i0Z7Rm9GO/7W/Pp8hAoezT9zQjOJ
+	fKPAvsfiMi7QQJJzyI21ofLQrmFdt9yjdmnFf6QCJf7SS6TdBCz3
+X-Google-Smtp-Source: AGHT+IGpop5Rh0Gl6NPGn+yzSeNeXcyhhaZwMs48bAu4Ha451DIdYSt4ISyatz1BTqz9iqNA8XPlsg==
+X-Received: by 2002:a17:90b:46d3:b0:2ae:7f27:82cd with SMTP id 98e67ed59e1d1-2bf5e171f8amr12877376a91.7.1716985411004;
+        Wed, 29 May 2024 05:23:31 -0700 (PDT)
+Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bf5f987248sm9399359a91.44.2024.05.29.05.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 May 2024 05:23:30 -0700 (PDT)
+From: yskelg@gmail.com
+To: Stefano Stabellini <sstabellini@kernel.org>,
+	Juergen Gross <jgross@suse.com>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Cc: skhan@linuxfoundation.org,
+	sj@kernel.org,
+	Austin Kim <austindh.kim@gmail.com>,
+	shjy180909@gmail.com,
+	linux-kernel@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Yunseong Kim <yskelg@gmail.com>
+Subject: [PATCH] xen/xenbus: handle potential dangling pointer issue in xen_pcibk_xenbus_probe
+Date: Wed, 29 May 2024 21:22:33 +0900
+Message-Id: <20240529122232.25360-1-yskelg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240527090300.17864-1-yskelg@gmail.com>
-In-Reply-To: <20240527090300.17864-1-yskelg@gmail.com>
-From: Namhyung Kim <namhyung@kernel.org>
-Date: Tue, 28 May 2024 11:56:32 -0700
-Message-ID: <CAM9d7cjhwO99e0GLKf54V+1g7cdppL3hwjpgB3cdid7YzytkMA@mail.gmail.com>
-Subject: Re: [PATCH] perf stat: allocation check when calculating cache
- instance ID
-To: yskelg@gmail.com
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	"Liang, Kan" <kan.liang@linux.intel.com>, Gautham Shenoy <gautham.shenoy@amd.com>, 
-	K Prateek Nayak <kprateek.nayak@amd.com>, skhan@linuxfoundation.org, 
-	Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com, 
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello Yunseong,
+From: Yunseong Kim <yskelg@gmail.com>
 
-On Mon, May 27, 2024 at 2:06=E2=80=AFAM <yskelg@gmail.com> wrote:
->
-> From: Yunseong Kim <yskelg@gmail.com>
->
-> Adds an allocation check for cpu_map before perf_cpu_map__min() accessing
+If 'xen_pcibk_init_devices()' fails. This ensures that 'pdev->xdev' does
+not point to 'xdev' when 'pdev' is freed.
 
-I think perf_cpu_map__min() works well with NULL.
+Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+---
+ drivers/xen/xen-pciback/xenbus.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Namhyung
+diff --git a/drivers/xen/xen-pciback/xenbus.c b/drivers/xen/xen-pciback/xenbus.c
+index b11e401f1b1e..348d6803b8c0 100644
+--- a/drivers/xen/xen-pciback/xenbus.c
++++ b/drivers/xen/xen-pciback/xenbus.c
+@@ -54,6 +54,7 @@ static struct xen_pcibk_device *alloc_pdev(struct xenbus_device *xdev)
+ 	INIT_WORK(&pdev->op_work, xen_pcibk_do_op);
+ 
+ 	if (xen_pcibk_init_devices(pdev)) {
++		pdev->xdev = NULL;
+ 		kfree(pdev);
+ 		pdev = NULL;
+ 	}
+-- 
+2.34.1
 
->
-> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
-> ---
->  tools/perf/builtin-stat.c | 24 +++++++++++++-----------
->  1 file changed, 13 insertions(+), 11 deletions(-)
->
-> diff --git a/tools/perf/builtin-stat.c b/tools/perf/builtin-stat.c
-> index 35f79b48e8dc..1f238824abb2 100644
-> --- a/tools/perf/builtin-stat.c
-> +++ b/tools/perf/builtin-stat.c
-> @@ -1291,20 +1291,22 @@ static struct option stat_options[] =3D {
->   */
->  static int cpu__get_cache_id_from_map(struct perf_cpu cpu, char *map)
->  {
-> -       int id;
-> +       int id =3D cpu.cpu;
->         struct perf_cpu_map *cpu_map =3D perf_cpu_map__new(map);
->
-> -       /*
-> -        * If the map contains no CPU, consider the current CPU to
-> -        * be the first online CPU in the cache domain else use the
-> -        * first online CPU of the cache domain as the ID.
-> -        */
-> -       id =3D perf_cpu_map__min(cpu_map).cpu;
-> -       if (id =3D=3D -1)
-> -               id =3D cpu.cpu;
-> +       if (cpu_map) {
-> +               /*
-> +                * If the map contains no CPU, consider the current CPU t=
-o
-> +                * be the first online CPU in the cache domain else use t=
-he
-> +                * first online CPU of the cache domain as the ID.
-> +                */
-> +               id =3D perf_cpu_map__min(cpu_map).cpu;
-> +               if (id =3D=3D -1)
-> +                       id =3D cpu.cpu;
->
-> -       /* Free the perf_cpu_map used to find the cache ID */
-> -       perf_cpu_map__put(cpu_map);
-> +               /* Free the perf_cpu_map used to find the cache ID */
-> +               perf_cpu_map__put(cpu_map);
-> +       }
->
->         return id;
->  }
-> --
-> 2.34.1
->
