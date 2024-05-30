@@ -1,77 +1,77 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9101183989
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 11:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785E1174EC3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 11:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717069422; cv=none; b=HJgqJjJZ+3+QbGGIv3cpE9ufIXcihKqR/MR7VdYqhOmhKvc+x1YKemRkr/qyEXghUJOmRlsGTXrpZEL69QMPgeV3Z886mDly/dDGqAXyVhr8i1UM21CdFdJnzmrczSqIFHg2kqsSN9wj03FYeksp+YNc5B5VeppFvLJpmD1p4y4=
+	t=1717069553; cv=none; b=mGDR7UqmZnQWWdn6wvx6KUtdwXCq8g6EkQi7elHh4o8WnmK4b7sgX7bvQvhklPgXTVsuGVYIP8oCJ+mLUtPCraltXu8f2BNkSQllXpHYWlCXNlMSUWzzv8m9KLEpWst/XxyyjEfVyCsQU47aaDCdNm1jRdoB2UOKeORNZ2fzFWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717069422; c=relaxed/simple;
-	bh=xyRAuFLJMYV4lSiV7364TDKTJTDHcBSIxtrsUYekpP8=;
+	s=arc-20240116; t=1717069553; c=relaxed/simple;
+	bh=sX4RJy4YoFPq1EwjTgAPQQ0l9jpIrZkiHp4K0YDIK7M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qwIw4v5nuHYkv3iSHdBn2jfPOJ6AXJOBQJqPcNyHwcKhtltyTH8PceTrF5si8/3TNdMiKRzwZuc7g7tuLBBtjulWEMWHMlvoniVZUQigU+WQkor/+SaymNWcaYyf3A4kgc2vx0isGcuiVHREEwOLUTcy8A1gHQarFMZ0K0+8sI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HTZFb//W; arc=none smtp.client-ip=140.211.166.136
+	 In-Reply-To:Content-Type; b=TmUDcWRc8cClbJmAfUpyoF92f4f4IiZwRDF5XKoDrATsnBFI54emIodaVB+dWFztvNPOMKM/YG4+VY+uOMPy0dq3EfBmEBndbL7P8NIsjOmrVKgWCTnnX/OMnbYMmHglGYe7CeFDq3i2IbfIP7y+BTIoDvdYy4RfGNq21dIVgUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FI6a55tu; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HTZFb//W"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FI6a55tu"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 72ECB60605
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 11:43:41 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 12B7D40822
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 11:45:52 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id LNTVqfsaZWii for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 30 May 2024 11:43:40 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2e; helo=mail-oo1-xc2e.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org AFE08605EF
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AFE08605EF
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=HTZFb//W
-Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com [IPv6:2607:f8b0:4864:20::c2e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AFE08605EF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 11:43:40 +0000 (UTC)
-Received: by mail-oo1-xc2e.google.com with SMTP id 006d021491bc7-5b970e90ab8so427598eaf.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 04:43:40 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id LqdMkfBlPiP0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 30 May 2024 11:45:51 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=yskelg@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 21FDB4072F
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 21FDB4072F
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FI6a55tu
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 21FDB4072F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 11:45:50 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2bdd8968dabso562394a91.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 30 May 2024 04:45:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717069419; x=1717674219; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1717069550; x=1717674350; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XR6MPgWfqApseUbYRUcsMgK3z0xu+JQbLHd6cyyF66w=;
-        b=HTZFb//Wz1KReUC9u3dD5aOc/oX5w6nnGizLMMu/a1b/r1IznSeyxie4uZqGzmqpo6
-         Bv8bt8QqprW876KztwanGAOqJFJSAK45wgONjKf/3RRI/1QAMhqEk/khMSvvuphJNXwV
-         FgSvXuYbQ6uabPiA2kuI/xeEb24KMLW9B8GSa1jH3Ltz6LbW+9I+UgHP2y+6EAa43gP7
-         hR9rPJcrcvLE9FjPD03R5fJlfvmn6wklk7PniJJsl6j8cVijc9q7QJIkY1hVBFxPH6Ou
-         C4oP+273DskBcP0wuRtXrfGdTweOtbXMEvSNjzoOTdLKmj0HlmiWca8/l+DT2LS3pl2+
-         aBHA==
+        bh=Dt6lbse5R4B5MkccKBRXCeSKahpc61vxjuJbAqOgTYY=;
+        b=FI6a55tuX+sKju7s+/jB8AR4/hidEf93M6XaOx66PpIGSE8CT82bm42/+qrm+9E2zH
+         5beYuxHogvYgSjSkBP7geQVtyz/la9/pDcT3N92Y9AOqiQ98tseQ2CHe1PEZ329eUw5J
+         xPoLqz+rcvBcwBpCbBiHPCGiHMs5D5q/xuvrnL7IsA29VTIAFXyDaxLKtloAvw637PmN
+         LI0CjbLplOia3m9B3L3we6RM+K3iyWrHupvSfh35DuAETus8V4KJBTrigmDVp0UX5wi+
+         6juG4zKxtSGPshiMx0+oGbGWrCENS/+kfVsjdlQ/e8aznaJju249oIFgcBhzLGceq3BW
+         /Bmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717069419; x=1717674219;
+        d=1e100.net; s=20230601; t=1717069550; x=1717674350;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XR6MPgWfqApseUbYRUcsMgK3z0xu+JQbLHd6cyyF66w=;
-        b=Lr54611xM6NFEp2HfRL+qMTwfopfpg3RF2fkCAuTmh2y1k1uCkWlQ7PNLB/P7MMPd6
-         dM1FgEMQYU4Q+2LP0p5mN5iB3el9z+oyDXTeH7YFB56I1nuLHm0n1VdXR/gHHrAfjUZZ
-         0FzIgl8fV0M/zayEU10zgNdcQ+vgvwq0mJvY4LgU2MXmYHRD2v8rayw8SxLi1y8mlK5v
-         jSwV50ZEiVK9Ok6KBqsVx3IMj1yXVPJh2ytCYFtLpjRUTSWpkRejHyYL0N1TxATxKzoB
-         fni907Z1jwSNPM8vmeElPrx1XgStNje/Y/vd7wlVLhxOxuqdJPXtQBkhfCGk6hhpgpm6
-         u7Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCVd0GPBa3bR1x/o9+0HxoLgakiROaTD/FEan4qBUkzfqsY2+9EkN4O9yyMAAol4hhwY+eSe48Pic2+iGajFTLA5S15Tg5tlnmXH/bn8LzxNNZWdcq00TFgGw2aBwVjs
-X-Gm-Message-State: AOJu0YziffmCzE0Cxoe02hweqOMbcKudwhXo/BV13YMJG2gSHuiQOrbw
-	FdON/kV38zxLfKkL3bhiTBaWoQ8BvvzuT3F1CfCGXCYjBl0tnf6S
-X-Google-Smtp-Source: AGHT+IF0XWfa5jz7pE/dROU1THvnaVC3uyDp9wVakipTtEPtQp0+PpqFCbrbpSWZ2EVeOqBDiXCnbA==
-X-Received: by 2002:a05:6358:787:b0:18f:81e1:dc33 with SMTP id e5c5f4694b2df-199b93900e5mr262855255d.2.1717069419194;
-        Thu, 30 May 2024 04:43:39 -0700 (PDT)
+        bh=Dt6lbse5R4B5MkccKBRXCeSKahpc61vxjuJbAqOgTYY=;
+        b=ckqZmKwPPHH4c/5gDWR/M06B7UAQKILcoKtx+f9D5Toc7hJRmBCe+32Ad8z+fWVqSv
+         nZkhQG6c1UQ9N3vPtmJLmiEDWG5c01bryhrnkCYexFCUBa3qLnoM2NsefjJo1IMOcgu6
+         lHlHWWM9xcHD6k2iD8oBojDwFYzr5DwDcrcO+nm9SozE1Jxnuz64NLYkcc2cqXVJyO4k
+         xH+3o1m+bRIqNmwgUFeMp22lHDyy+xJBg7cvEDmXOsyMvi7vH7cYrtXIslSYq1DhDdI2
+         eYUKzU7WV9hBvNvQ6acwv9gioOTWdqRVXbjzKkmnqe9OFhHNV0Xg8nz2mb7J3tieC7K0
+         o2kw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKDDbNmn1PzwUtMkAhV4rm1Ew6W6DQnsZk7SEjFisaNm2czfP0WIqVCjjIQRonWNel5OIjlRzByV4tzqPGkXQ+nGIijUH0hl6wGzS0rIOx47KC91q7FLVqcbqEKyhw
+X-Gm-Message-State: AOJu0YwXFgNgcTU6IzDfOqr0WM7sb9QprLE1KFq2CBQ20c2FdUYjn/kO
+	MXx1zwG45aNkrUgRWeBPFsyJ5cJ5Li+lDhChiwyuZGCN1dPDQ7kI
+X-Google-Smtp-Source: AGHT+IFprFj2EtA/cGtVlylQzuJQE1K6E83+32v7QgNJ6Q6uC7jejf6yvmpaSuKNZMUBiSgUm93iDg==
+X-Received: by 2002:a17:90a:4586:b0:2c1:961c:790 with SMTP id 98e67ed59e1d1-2c1abc42ffamr1732303a91.30.1717069550185;
+        Thu, 30 May 2024 04:45:50 -0700 (PDT)
 Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-682227f1d6esm9120839a12.49.2024.05.30.04.43.34
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1a777f7cdsm1372393a91.25.2024.05.30.04.45.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 04:43:38 -0700 (PDT)
-Message-ID: <53c7cbf0-ebf9-455b-bcec-d61830c7999b@gmail.com>
-Date: Thu, 30 May 2024 20:43:32 +0900
+        Thu, 30 May 2024 04:45:49 -0700 (PDT)
+Message-ID: <00b9c76f-0beb-46e9-9a0a-5b8e304b2759@gmail.com>
+Date: Thu, 30 May 2024 20:45:45 +0900
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,96 +79,90 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] perf stat: allocation check when calculating cache
- instance ID
-To: Namhyung Kim <namhyung@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>,
- "Liang, Kan" <kan.liang@linux.intel.com>,
- Gautham Shenoy <gautham.shenoy@amd.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>, skhan@linuxfoundation.org,
- Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
- linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-References: <20240527090300.17864-1-yskelg@gmail.com>
- <CAM9d7cjhwO99e0GLKf54V+1g7cdppL3hwjpgB3cdid7YzytkMA@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: cve Korean translation
+To: Austin Kim <austindh.kim@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+ Jinwoo Park <pmnxis@gmail.com>, shjy180909@gmail.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240527102313.27966-1-yskelg@gmail.com>
+ <CADLLry53yZ6PZ7X8DwdS=GGp6+6L0tbAkb+hiL-Eth4FZ+ZTNw@mail.gmail.com>
 Content-Language: en-US
 From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <CAM9d7cjhwO99e0GLKf54V+1g7cdppL3hwjpgB3cdid7YzytkMA@mail.gmail.com>
+In-Reply-To: <CADLLry53yZ6PZ7X8DwdS=GGp6+6L0tbAkb+hiL-Eth4FZ+ZTNw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 5/29/24 3:56 오전, Namhyung Kim wrote:
-> Hello Yunseong,
+On 5/30/24 12:46 오후, Austin Kim wrote:
+> Hello,
 > 
-> On Mon, May 27, 2024 at 2:06 AM <yskelg@gmail.com> wrote:
+> 2024년 5월 27일 (월) 오후 7:24, <yskelg@gmail.com>님이 작성:
 >>
 >> From: Yunseong Kim <yskelg@gmail.com>
 >>
->> Adds an allocation check for cpu_map before perf_cpu_map__min() accessing
+>> This is a Documentation/process/cve korean version.
+>>
+>> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+>> ---
+>>  .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
+>>  1 file changed, 107 insertions(+)
+>>  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+>>
+>> diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
+>> new file mode 100644
+>> index 000000000000..94610c177f17
+>> --- /dev/null
+>> +++ b/Documentation/translations/ko_KR/process/cve.rst
+>> @@ -0,0 +1,107 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +:Original: Documentation/process/cve.rst
+>> +:Translator: Yunseong Kim <yskelg@gmail.com>
+>> +
+>> +==========
+>> +CVE 항목들
+>> +==========
+>> +
+> [...]
+>> +
+>> +잘못된 CVE 항목들
+>> +=================
+>> +
+>> +특정 배포판에서 변경된 사항 적용한 배포판은 더 이상 kernel.org 지원 릴리스가
+>> +아닌 커널 버전을 지원합니다. 때문에 Linux 배포판에서만 지원되는 Linux 커널에서
+>> +보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수 없습니다.
+>> +변경된 사항을 적용한 특정 Linux 배포판 자체에 요청해야 합니다.
 > 
-> I think perf_cpu_map__min() works well with NULL.
-> 
-> Thanks,
-> Namhyung
+> It is a little bit hard to understand the above section describing
+> 'Invalid CVEs'.
+> Please refer to the following sentences if you consider revision of this page.
 
-Thank you for your code review Namhyung.
+Thank you for your document review Austin!
 
-I'll try to find a more useful improvement and patch it next time!
+I'll take your suggestions and incorporate them into the next patch.
 
 Warm Regards,
 Yunseong Kim
 
->>
->> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
->> ---
->>  tools/perf/builtin-stat.c | 24 +++++++++++++-----------
->>  1 file changed, 13 insertions(+), 11 deletions(-)
->>
->> diff --git a/tools/perf/builtin-stat.c b/tools/perf/builtin-stat.c
->> index 35f79b48e8dc..1f238824abb2 100644
->> --- a/tools/perf/builtin-stat.c
->> +++ b/tools/perf/builtin-stat.c
->> @@ -1291,20 +1291,22 @@ static struct option stat_options[] = {
->>   */
->>  static int cpu__get_cache_id_from_map(struct perf_cpu cpu, char *map)
->>  {
->> -       int id;
->> +       int id = cpu.cpu;
->>         struct perf_cpu_map *cpu_map = perf_cpu_map__new(map);
->>
->> -       /*
->> -        * If the map contains no CPU, consider the current CPU to
->> -        * be the first online CPU in the cache domain else use the
->> -        * first online CPU of the cache domain as the ID.
->> -        */
->> -       id = perf_cpu_map__min(cpu_map).cpu;
->> -       if (id == -1)
->> -               id = cpu.cpu;
->> +       if (cpu_map) {
->> +               /*
->> +                * If the map contains no CPU, consider the current CPU to
->> +                * be the first online CPU in the cache domain else use the
->> +                * first online CPU of the cache domain as the ID.
->> +                */
->> +               id = perf_cpu_map__min(cpu_map).cpu;
->> +               if (id == -1)
->> +                       id = cpu.cpu;
->>
->> -       /* Free the perf_cpu_map used to find the cache ID */
->> -       perf_cpu_map__put(cpu_map);
->> +               /* Free the perf_cpu_map used to find the cache ID */
->> +               perf_cpu_map__put(cpu_map);
->> +       }
->>
->>         return id;
->>  }
+> ---
+> 유효하지 않은 CVE 항목들
+> 
+> 보안 이슈가 특정 배포판에서 확인되면 특정 배포판에 변경 사항이 적용됩니다.
+> 이 변경 사항이 kernel.org에 적용되지 않으면, Linux 커널 CVE 팀에서 CVE를 할당할 수 없습니다.
+> 대신 변경된 사항이 적용된 특정 Linux 배포판 자체에 요청해야 합니다.
+> ---
+> 
+> Thanks for dedication, everybody knows that it is challenging
+> to carry out translation work.
+> 
+> BR,
+> Austin Kim
+> 
+>> +
+> [...]
+>> +않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
 >> --
 >> 2.34.1
 >>
