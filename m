@@ -1,120 +1,118 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61ECD2BAE2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Jun 2024 07:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5430D200C7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Jun 2024 08:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718006016; cv=none; b=YJMK7P0I0iNdUIhdTq1L3FfOSi1n3ipLsQJU7WeF6UzN897IZhHqHyFRwOs+ovdzCnnP2qPYSvaz2PLYmZA029MqmOQq4HjsxWQ0RcaxUOm5Mgc3RGHH/rIoa5Av2/Y3huyr1DYa9HIyRXb91sAu1g24a6HICj2W9xmmo7HJp/4=
+	t=1718006429; cv=none; b=ajAwXLEC+LWMoosJdIS2rX/cTH6NihMnRVYyXfIFm50huiQqiSf35SGuL4W+CJg5bX+obi1UAT32nkKrPGiipPLqp5XKAv5A4811PNR2Z2RPlUmOxnO1hm4qlUylFQPGMOe+vWBHnxsomIYEvTmICBY2agHLPTgpWXdVBpwV/AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718006016; c=relaxed/simple;
-	bh=yIFJhJlqUEmhDJ796KYs+GXtVDOefUkAE15z5R9Yo5Q=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=S6riFtGHfJsbud6LxDbyYUj3+uxx/gYd1tGAZAxP929p3m1PeVE1rzenUirNdCBid7Vs5fWmY7bhC7SpQDrvH9Z5VcvPGCfDl1pxW6Bhi7k4jV3oIJB+W5i96Ix9WjQQ23hG16W9LZ3zmIj0sCAaPhRx9mqL9xXRXtLmir4ZxBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tIiZzymN; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1718006429; c=relaxed/simple;
+	bh=8wxMSYoRONwrF9RsGHTh53kHDh3LzFcEbYhcNxkNjwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X7wsySNKSAKKa8lL4+c9OYhmdyZ8X6wLW/DOP12JJ4Aj8YvkYQnGBKxevJP+aXP0Kmycnm8s+joBfBDuuRy0HOtDKqi54G/NbcAcwxw3iFVTmVdNJpU21j6nwJR9xMrV8t7uI8gXGrdALFR/yHn9v3bEEXhh1K3OkuuBdUtn1sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BC+ZXPTL; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tIiZzymN"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BC+ZXPTL"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 71C0C40142
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Jun 2024 07:53:34 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id E8BF082153
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Jun 2024 08:00:27 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 1.238
-X-Spam-Level: *
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id OF5l9eIrOFPZ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 10 Jun 2024 07:53:32 +0000 (UTC)
-X-Greylist: delayed 310 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 10 Jun 2024 07:53:30 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org AE490400D6
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org AE490400D6
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=tIiZzymN
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.12; helo=mout.web.de; envelope-from=markus.elfring@web.de; receiver=<UNKNOWN> 
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id AE490400D6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Jun 2024 07:53:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718006009; x=1718610809; i=markus.elfring@web.de;
-	bh=9dz+LpUwqzpAR1PcrgVqI/vrt3YGcppl4SfjD+L/sbQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=tIiZzymNTwZObazyz2sa2ESgNYx2cOBadG2PTIM4cKKu54rmXxJ//FHSmd+B8TJf
-	 CFNGuf0yPq9PNPZZPfVSxSTaReCLY7FlLuw8eXaMkkfErD6Kxoacg47lKci0RQJIx
-	 r0CB94qsg8E3Fe3suGIrXTYF7K12IjaTVnxJYt4AXuyTQXZuZox4gTdwN29eZ+OxC
-	 Uvh3g0JFBSsTAPzFzgPhEV5ApefzQveO6OnHGqUDyyPlAtJP1j3yUBny/6afvazZG
-	 gtHT4KmBvfM0qbZlnTATPay5gg3MyAsoV7u51RMjFhyW7IWLt4BXgwQufmJPzcHPS
-	 A3vSOuCBW9WPFtmGlg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N8Vop-1sTxjW20fJ-00xUce; Mon, 10
- Jun 2024 09:48:11 +0200
-Message-ID: <0485dd2d-488a-40e9-b0f7-24236b9c00ab@web.de>
-Date: Mon, 10 Jun 2024 09:48:09 +0200
+X-Spam-Score: -4.401
+X-Spam-Level:
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id uNtZbVY9MajV for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 10 Jun 2024 08:00:27 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C42F881BA8
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C42F881BA8
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=BC+ZXPTL
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id C42F881BA8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 10 Jun 2024 08:00:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 944D6CE10C9;
+	Mon, 10 Jun 2024 08:00:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83604C2BBFC;
+	Mon, 10 Jun 2024 08:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718006421;
+	bh=8wxMSYoRONwrF9RsGHTh53kHDh3LzFcEbYhcNxkNjwg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BC+ZXPTL+jwX4mfe92NOxrgQvbL+EdnWkjljsQog0TJyWKhZXb9lai3UkJ/Q2nPHO
+	 xmE+466/LRVFUHawik9RphG7uFt8WhUP9R3Q75m81o+TBs9VIPedcJRs90CdpahcNL
+	 uVksCmlxY7jOlnlo4KtrmN62Y2ioB+rSUDMeB/8c=
+Date: Mon, 10 Jun 2024 10:00:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Evgeniy Dushistov <dushistov@mail.ru>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] fs/ufs: Use LUT for dir entry types
+Message-ID: <2024061008-granddad-aspirin-4208@gregkh>
+References: <20240610034219.14711-1-luis.hernandez093@gmail.com>
+ <0485dd2d-488a-40e9-b0f7-24236b9c00ab@web.de>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Evgeniy Dushistov <dushistov@mail.ru>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20240610034219.14711-1-luis.hernandez093@gmail.com>
-Subject: Re: [PATCH] fs/ufs: Use LUT for dir entry types
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240610034219.14711-1-luis.hernandez093@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:9EpwbBoA8M65Cv2LAnjdv99MJe5RQMoHiyf5Cqk6SK1M0h53dTL
- kcz45yHLWYfYKEm9ANT+hiM2WAgSse68YAJ2iHvAR/GFB8SOQRkGcmDk3D0xrhF5O+qQXeU
- 7QfJ2MloBtVDrzUt+vhifRWk8PQbpdVyGaPXipgCloKBlPgozRB6R0IAdeLDrnrRSPIrsBl
- 2u1ExIp/WpLDZD/wgADyw==
-UI-OutboundReport: notjunk:1;M01:P0:v0x0YX05mOQ=;aKm0+JcioTvlEPSKoM+icuoG5Ea
- opR3WwubciQpNGDkCYIpAuiw+Gqe8T0QCZUamcNDaobCXUr3Klf+cLKe9WduxIqM+bvJgHvk5
- jbaduqbx83ew0c/vgoFkWAvW748RKBseR2Igb7AazV0SzVfyhewdk54NG3St0D3B6RdONs9Kh
- +h7yZfPR1o/Akt8d3d6oiTBSM2zurhcDBwtybhzv7aRwJscg9YB+iosWSEHvoP7g2Ii3zrRxk
- CumMVaKMO9fGt9DdpQcPWwgdcICcl4pdXWoSFZFQZdFZj3Kqbygpxtbp9aP97l60XFTYrcrmK
- FjImR4oqhdr21vfVnvvoV0MhoghW5km2R1h9tQmJxqs7+xNETF9b/gCVIupgY5QZPvYMlveSz
- rpgIwz3dfh7yBUETA7XW8jPwwN/9FJXdyU6n/tNjqM3W/9AvNpSLG992D+WmqfbBJi73iq34k
- r22PPiPVxVIPlU/R06eVs4WiHE/DYY5YBeioZPzJxBMv9FY3y7qoiBgIp/GJIQIf3/jdo0j64
- lS5H4gnVvBxUnFbiHhvSqmwNWasH98CkMlMNs7s6uHIkEztuWD1fMKy2n9DK2OC+5arpbhhC4
- 01IdMo6FkpeORzYjSb3T6GEfyoZKlOX2sNOZbdoXHIwqPeZY1z/GWZB/7OP/yMikiXOKIYdG/
- 00PH5ikYcpgCo73sT2yfVeAoqMUp52pe8PYN1yDUf+5rtwBVNBrFQaan0r5siUwLSZdtCPhI6
- nxNYPntDQHNGuQ0QrPyywR+sidexGz5y4Q9kR8C9ElRPTSim5UkAM4JJDtMCYWriFiNcQasI9
- Y8Im2eq9I0vvcQHM6dtEBeF8VybBUBYORcrKA0xQWRYDE=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0485dd2d-488a-40e9-b0f7-24236b9c00ab@web.de>
 
-> As per the original TODO, replacing the switch statement with a lookup
-> table results in more concise mapping logic and improved performance.
-=E2=80=A6
+On Mon, Jun 10, 2024 at 09:48:09AM +0200, Markus Elfring wrote:
+> > As per the original TODO, replacing the switch statement with a lookup
+> > table results in more concise mapping logic and improved performance.
+> …
+> 
+> Can imperative wordings be relevant for another improved change description?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.10-rc2#n94
+> 
+> 
+> …
+> > +++ b/fs/ufs/util.h
+> …
+> >  static inline void
+> >  ufs_set_de_type(struct super_block *sb, struct ufs_dir_entry *de, int mode)
+> …
+> > +	if (mode_index < ARRAY_SIZE(ufs_mode_to_dt))
+> > +		de->d_u.d_44.d_type = ufs_mode_to_dt[mode_index];
+> > +	else
+> >  		de->d_u.d_44.d_type = DT_UNKNOWN;
+> …
+> 
+> May a conditional operator expression be applied at this source code place?
+> 
+> Regards,
+> Markus
+> 
 
-Can imperative wordings be relevant for another improved change descriptio=
-n?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.10-rc2#n94
+Hi,
 
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
-=E2=80=A6
-> +++ b/fs/ufs/util.h
-=E2=80=A6
->  static inline void
->  ufs_set_de_type(struct super_block *sb, struct ufs_dir_entry *de, int m=
-ode)
-=E2=80=A6
-> +	if (mode_index < ARRAY_SIZE(ufs_mode_to_dt))
-> +		de->d_u.d_44.d_type =3D ufs_mode_to_dt[mode_index];
-> +	else
->  		de->d_u.d_44.d_type =3D DT_UNKNOWN;
-=E2=80=A6
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
 
-May a conditional operator expression be applied at this source code place=
-?
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
 
-Regards,
-Markus
+thanks,
+
+greg k-h's patch email bot
