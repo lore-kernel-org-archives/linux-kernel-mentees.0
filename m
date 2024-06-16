@@ -1,145 +1,138 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617D649651
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 19:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463543D3AC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 20:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718564919; cv=none; b=TeMtqPqtVzXlngDNeMhjsvED84xRrRlY5ng9z7ldqEdEdLUOLirJqABwlmdIQqxYgkZ4DnEnpDu7t0Vu6lf32AIQNll9Dzf/w/GR6X4Qo8ypE9AiiuNyohAtNWvFZ6ez6f6y5hF+4gUPczd8WMrWDWhI4jffe+CTvyIiL/fXbDE=
+	t=1718569970; cv=none; b=Fue97VOu7+WN4FV0znvI9bnVM5fYd3yptbygLDwvFF4DFyz8ZzleNayl5a8m6/N8FykRSO3tEEv2pgrDFtEOXBfuo5j97CfcMf4EgSnL2fRaFcntx8TF8gy3VEgp2qVfsZmHXFIiU68b7IDJzL3zOy1EFv3spmtqaKMACAUlkRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718564919; c=relaxed/simple;
-	bh=jAUV2fkaJUOuqukFImg27JopNhskZOQjkb5WpZ7dnXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=phs6som6Mn5MjWKxTjH7umFk1eOOKX8OjVIGOeWp4xyylrzgkBgjV+wMdCdKN1JajCAyJhqLSxZFqY6d0fWyL/p4bcZBrysiDmTohdilysk2k54/u+4a07LJhn+JMy+uvShFftMqVeR2RqzqwKM7GSLONCMxCSI+ASfFIyXsNS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIW6ANTJ; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1718569970; c=relaxed/simple;
+	bh=ia4edk8RmfbVzS93m+pKUdA00RtrRqwyHnd3U5dDO60=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EpX4HEUQpfb7+v/EnQdNsi/tleL8vHAKHq4tqm0bs1EEWFmGD5CCu0q3P0PBPonIrSMQLeWwpvVLac7OLWm/dOlD4PQPenCJi3qOh8bkxiNreSA/CXomwgugPFb8oLQbgOhKYzpXXFQrCtQiBMpceitSxrN0gjIR3NBMwUxhBjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WXH9LbDk; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIW6ANTJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WXH9LbDk"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EA9C781F73
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 19:08:37 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id C5873607F8
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 20:32:48 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id gHHOtZ-z9GXg for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 16 Jun 2024 19:08:37 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.10; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org A633F81F61
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org A633F81F61
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UIW6ANTJ
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id A633F81F61
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 19:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718564917; x=1750100917;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jAUV2fkaJUOuqukFImg27JopNhskZOQjkb5WpZ7dnXI=;
-  b=UIW6ANTJ4Svvketo8WVNwWk2g1RwXoBjmhytImSdgL1BQlQPWOX2dJIQ
-   JxRMWIQDL0zNg2HlEaQuUrPgQ7sgwA+nDsJKZpLdLsjXC5Xvtk5Q5yO8c
-   FKTeT8H6s4+UtGpydtAH7SANKt2L9FO1ccK38zPW6rjRqYvjI1y/dugbM
-   m+RQD5Pe+sUwGHvsBLctHNkRPzemByxgGAvYzKXqIinppI9Ox46CXbWrU
-   6PDe6p3nd1n/CvvweQXcKy0AsBBUva2d8y7Hh7wMYaxo9szwSTVGkTVKt
-   UYMOMZQY7orl4BCBZFohnVa9jaekIKonpsu6vIIWpg/R06xog0+PQjZ6s
-   Q==;
-X-CSE-ConnectionGUID: u6o9F+e+RKeHiGhytkM2eQ==
-X-CSE-MsgGUID: ZqkJIS/XRne5QsiIwMnlNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11105"; a="32866480"
-X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="32866480"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2024 12:08:35 -0700
-X-CSE-ConnectionGUID: s69HtPn/S02F75KT9lBZwA==
-X-CSE-MsgGUID: 3wULYVdJRtiEZ2VnXSxS8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,243,1712646000"; 
-   d="scan'208";a="40937455"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Jun 2024 12:08:33 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sIvEs-0003Ay-1n;
-	Sun, 16 Jun 2024 19:08:30 +0000
-Date: Mon, 17 Jun 2024 03:07:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amit Vadhavana <av2082000@gmail.com>, srinivas.kandagatla@linaro.org,
-	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
-	rbmarliere@gmail.com, skhan@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel-mentees@lists.linuxfoundation.org, av2082000@gmail.com
-Subject: Re: [PATCH] slimbus: Fix struct and documentation alignment in
- stream.c
-Message-ID: <202406170201.Zh53W56G-lkp@intel.com>
-References: <20240616154531.38232-1-av2082000@gmail.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id LuQbIAkod0Yw for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 16 Jun 2024 20:32:48 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=av2082000@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 08551606BE
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 08551606BE
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=WXH9LbDk
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 08551606BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 20:32:47 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1f44b5b9de6so29618255ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 16 Jun 2024 13:32:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718569967; x=1719174767; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ruQzJtdDUUq/rH+dZqwFNhNxz0nTDbK3w5CfEy2fEI=;
+        b=WXH9LbDkhNqnsN7qkxyl6ViSFrqxGNudQeAbVXQ3FYepbKzqOulvdgrIvuwIDqx6JC
+         J9AoLXhcs50M3CDTURQ6SsUq0LDnCITqRXeoBPvjjq+r762Dwl2e44RbzOC19tbgkZqo
+         kp9ZW2WTKVFWg/vr55Np5a9UmUjemq5EdY9YkcD+fX95XPttXg9PdVL4zbHtwp1OhDVO
+         +gC34F3g2KqiFkNW/yV1F5YE65h2h0nCUnt5CPxxmDh8IAKc5TjBV1i/AjiapLtP8HY2
+         u3vn4KnpO+4VxFeVCjLZlzL//XOKjSdvl3XHO7Ebt5ZL97ZL3hqEuYEZR4fwr7nKMkOZ
+         T8dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718569967; x=1719174767;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7ruQzJtdDUUq/rH+dZqwFNhNxz0nTDbK3w5CfEy2fEI=;
+        b=faAE6RSVi98CEfj8XOuojpWxuxoPyn7Xbjc1sj2esqhCF/yE7GhKHPa+RPiKvWvFyp
+         WDL4EIrbua2awEDnyR4D9D/BbgE3f6xGtaPdiyww4zxq+AmVoNuhHzWhRfe8qh0NQaj9
+         gD4xdK/mZDqv96msQjZVYB5z0ysmv7rX5ADJttaYdb/Q70TopERtKYHcCCuh6GgT0Q9Q
+         rLzJuHQQ7QIacbV3jXpeniN3lrdy9uVTm5FCJWX0C4B0YnT2UBfeAXMRLaKK3irNUun9
+         WIjGJ2yG+ww3SVCV+pdK5GzuzB5C5TfI7KDAjMLD4LCSm0U6kmfmLzr5uXBylt49MFm9
+         y/4A==
+X-Gm-Message-State: AOJu0YzEYctWimZX0GI794ceP5KgjiqwvUxR/BPEf2LeqV62WFiWSLHl
+	YOVBeBi0w4c0OWwieofgyBtJsBf7nVAIP6sALQPzyvk42fA6Wi2t
+X-Google-Smtp-Source: AGHT+IHttRPT+l3u7KhI0+XnNjSbaauE24Xxu5vcXgX8eJpy16mVVB7TSc2rxGcJwba3DyjXRzPUMQ==
+X-Received: by 2002:a17:902:d4c4:b0:1f8:44f8:a364 with SMTP id d9443c01a7336-1f862a167a1mr94641395ad.48.1718569966812;
+        Sun, 16 Jun 2024 13:32:46 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c1:10da:1462:6c5b:68d6:dcd3:7aed])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855ee807fsm67611455ad.155.2024.06.16.13.32.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jun 2024 13:32:46 -0700 (PDT)
+From: Amit Vadhavana <av2082000@gmail.com>
+To: srinivas.kandagatla@linaro.org,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	rbmarliere@gmail.com,
+	skhan@linuxfoundation.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	av2082000@gmail.com
+Subject: [PATCH v2] slimbus: Fix struct and documentation alignment in stream.c
+Date: Mon, 17 Jun 2024 02:02:31 +0530
+Message-Id: <20240616203231.43724-1-av2082000@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240616154531.38232-1-av2082000@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Amit,
+The placement of the `segdist_codes` array documentation was corrected
+to conform with kernel documentation guidelines. The `@segdist_codes`
+was placed incorrectly within the struct `segdist_code` documentation
+block, which led to a potential misinterpretation of the code structure.
 
-kernel test robot noticed the following build warnings:
+The `segdist_codes` array documentation was moved outside the struct
+block, and a separate comment block was provided for it. This change
+ensures that clarity and proper alignment with kernel documentation
+standards are maintained.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.10-rc3 next-20240612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+A kernel-doc warning was addressed:
+    ./drivers/slimbus/stream.c:49: warning: Excess struct member 'segdist_codes' description in 'segdist_code'
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Vadhavana/slimbus-Fix-struct-and-documentation-alignment-in-stream-c/20240616-234811
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240616154531.38232-1-av2082000%40gmail.com
-patch subject: [PATCH] slimbus: Fix struct and documentation alignment in stream.c
-config: arm-randconfig-002-20240617 (https://download.01.org/0day-ci/archive/20240617/202406170201.Zh53W56G-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240617/202406170201.Zh53W56G-lkp@intel.com/reproduce)
+Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+---
+Changes in v2:
+    - Removed `static const` keyword from `segdist_code` structure declaration.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406170201.Zh53W56G-lkp@intel.com/
+ drivers/slimbus/stream.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-All warnings (new ones prefixed by >>):
-
->> drivers/slimbus/stream.c:22:1: warning: 'static' ignored on this declaration [-Wmissing-declarations]
-      22 | static const struct segdist_code {
-         | ^
->> drivers/slimbus/stream.c:22:8: warning: 'const' ignored on this declaration [-Wmissing-declarations]
-      22 | static const struct segdist_code {
-         |        ^
-   2 warnings generated.
-
-
-vim +/static +22 drivers/slimbus/stream.c
-
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  11  
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  12  /**
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  13   * struct segdist_code - Segment Distributions code from
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  14   *	Table 20 of SLIMbus Specs Version 2.0
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  15   *
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  16   * @ratem: Channel Rate Multipler(Segments per Superframe)
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  17   * @seg_interval: Number of slots between the first Slot of Segment
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  18   *		and the first slot of the next  consecutive Segment.
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  19   * @segdist_code: Segment Distribution Code SD[11:0]
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  20   * @seg_offset_mask: Segment offset mask in SD[11:0]
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  21   */
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05 @22  static const struct segdist_code {
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  23  	int ratem;
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  24  	int seg_interval;
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  25  	int segdist_code;
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  26  	u32 seg_offset_mask;
-abb9c9b8b51ba5 Srinivas Kandagatla 2018-07-05  27  
-
+diff --git a/drivers/slimbus/stream.c b/drivers/slimbus/stream.c
+index 1d6b38657917..863ab3075d7e 100644
+--- a/drivers/slimbus/stream.c
++++ b/drivers/slimbus/stream.c
+@@ -18,15 +18,17 @@
+  *		and the first slot of the next  consecutive Segment.
+  * @segdist_code: Segment Distribution Code SD[11:0]
+  * @seg_offset_mask: Segment offset mask in SD[11:0]
+- * @segdist_codes: List of all possible Segmet Distribution codes.
+  */
+-static const struct segdist_code {
++struct segdist_code {
+ 	int ratem;
+ 	int seg_interval;
+ 	int segdist_code;
+ 	u32 seg_offset_mask;
+ 
+-} segdist_codes[] = {
++};
++
++/* segdist_codes - List of all possible Segment Distribution codes. */
++static const struct segdist_code segdist_codes[] = {
+ 	{1,	1536,	0x200,	 0xdff},
+ 	{2,	768,	0x100,	 0xcff},
+ 	{4,	384,	0x080,	 0xc7f},
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
