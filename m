@@ -1,151 +1,259 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E851BF334
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 14:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC771C8FBD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 15:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719584723; cv=none; b=NvVzjN7ThbcglJnMJDHz3n6aNqYmrmnYmghJnMhK108Oiskdo/YRFF7FIybSAQK8Hz7fx2L6G6bl0ckTdzP1iZ8RUaH7OjsT2o0J6Wtut7iGg7mNJwZJcGRP9BY6X/60EpxsRTWVZfC8+Ib0+La7cyRRUOazQuEWvHZNyAQ0xDI=
+	t=1719586852; cv=none; b=BTxD4b+k7CopBYdwC4KkCokRUtHRieaGLnlCYohCY+YiTOm0Hmvu/yBpVOhRkgo41mmlByWFBHhO7ZjP7VSYawkr2l3cSX4yQ0c+UvCh32luSfTBuN0EoCcX2yisEHTFvIMNCJ+mNkmSSQTfWZxGvGgSYAq38Q8OZnx0qIkJQ9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719584723; c=relaxed/simple;
-	bh=Zo4QNEftC90ngAD8RC20T2f2OvX59Lz7ga6iZJ6sNfw=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qGYQojFZmCz+5CUX2Hy49qA/1aVyGmJsHH+SyPK+U+WkismEWI2cURoQii7oow58vQ+RzVd3l+ROLaUuNCsMIgtu6xWANE/i3UPiRtV+sT3/26JZ/lT3JGzgzNjUJPiuxKZ9PJdk2ykHaBOwpiRW435A+FBL/Q6s2Ul+r0e+xIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ynsb2Jjc; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1719586852; c=relaxed/simple;
+	bh=2Hlz8LE4kbwT2LiDChvzYkIbZQFo/ro6nZ6xc6tL6u4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YtkbnYQDJa/ldnD4OHGzN7dRXoqHxh2iWZe1oYheCYfR1c/1A2XgGynJNPaQ1/yGe4izbmTF2XaRXsc+fsTL6wIzq7FxX9shiIhQvVoCdOeEbJFVGJH/1lLzn7pVr+MlTlg2P1Keyk0gCX3+d6D3lwQrPd7QA3i+pdRccUb2L9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=s7XUOXi0; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ynsb2Jjc"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="s7XUOXi0"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A3EDB6100B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 14:25:21 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 599166067B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 15:00:50 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -4.398
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id fbIy4fzjpJYT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 28 Jun 2024 14:25:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::336; helo=mail-wm1-x336.google.com; envelope-from=xadimgnik@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 7DFFC60D91
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 7DFFC60D91
+ id Me4zFUNeIxrH for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 28 Jun 2024 15:00:49 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2001:8b0:10b:1236::1; helo=casper.infradead.org; envelope-from=batv+a64162c8254fa91154f9+7614+infradead.org+dwmw2@casper.srs.infradead.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org F096560674
+Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org F096560674
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ynsb2Jjc
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 7DFFC60D91
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 14:25:20 +0000 (UTC)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-424aa70fbc4so4725995e9.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 07:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719584718; x=1720189518; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VeAwXuF7+pmymrZyPiqRkGCZGiMSVwcLFpTO8NXP0nk=;
-        b=Ynsb2JjcCqZuHgaIYQk3WDX9E0Td2+EbaW6jkH7YkoOV8bPeKxwBfKtuspU763ZeVG
-         NheSN9RGRNT9ToXBAD/VfecSUC6hcDLXYe14fReyTzrJXRP5/Ax6eJYscdgC7ymomjyP
-         BIYRCNHBo67AisvicIE3jIuRTc369ydXdDT25LvmhSX2axWO0NIBUi6CCSAbfTfh7BfO
-         nEwAAdD6UFgK07SHTYVvfrywOevW/EJ4KpleGpvZ1lBPCVfVlWuF3Zhzf1kWM5tUxmLf
-         M+agQOaZ+B8rMRY7o8OWSTtlDUN+akH6T9j5QGqGt3Zl34u6CfonlxOUJWHoKcZGtUhg
-         puAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719584718; x=1720189518;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VeAwXuF7+pmymrZyPiqRkGCZGiMSVwcLFpTO8NXP0nk=;
-        b=n9gp3rxyUsiPbws+nRH9nNukaS1tUnzDQgEDrdR2wzu8VfPwRRk5LePnThijJL+fsQ
-         TmRX70LxMTV/O3FVSjjuTcIrst8prWwj4MBA7EicZ5Yj59oRjLMSZIaXu0pNCeDoMS7D
-         YbxqR1pS/aL+0GeZJPOdX9eNJrAx7+S0ckcSvVO1XH7xQlSmAIRVsq4jtcvUnYxFm0CO
-         wbWfQDRozxSF+j49Ce7PH5H3oE1PKdHOLi0ymGEptoMooXGmNsqGC0ccKVUVO3dY04WZ
-         35Ad/gdZj6XNizprtloN0Jhhf3+x1R0O0OjtMKtKYu20XUHHVkt3/4FAKeTpl1JeRgmN
-         YscA==
-X-Forwarded-Encrypted: i=1; AJvYcCVth1Lotcb2F1PuzH8SOFuvt+i7Y9RPnSJnor5KG0/RQsCpDitxa4TtLEkxeZlUMeqKEjmnr3WBbMg95r3UZ+M70hIaN1BaUL/Z8Os4U1/dBbfl06or7pBNs0in7j0L
-X-Gm-Message-State: AOJu0YzOKx/2Upf16xoqPtsoFi4MkTG6Lrun7evDINEYtAL4Kl+z16Ws
-	nOZdqabTnpT2YC5xqfmdOHg/hpHYlIs8JSx5zeeE0cSuV824LGqX
-X-Google-Smtp-Source: AGHT+IFTYNRmuabn1FZnyKG4Uik1w/ofEuzazYAzcKR3V8UFSfbfjagdPNoyM0oNWquKxkwJrJckjg==
-X-Received: by 2002:adf:f782:0:b0:35f:2725:7ae2 with SMTP id ffacd0b85a97d-366e9628e80mr11865862f8f.57.1719584718199;
-        Fri, 28 Jun 2024 07:25:18 -0700 (PDT)
-Received: from [10.95.168.202] (54-240-197-235.amazon.com. [54.240.197.235])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3675a0d8d9fsm2458985f8f.26.2024.06.28.07.25.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Jun 2024 07:25:17 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <4e25df0e-000c-4af7-a34f-ba831623aab8@xen.org>
-Date: Fri, 28 Jun 2024 15:25:15 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=s7XUOXi0
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id F096560674
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 28 Jun 2024 15:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=2Hlz8LE4kbwT2LiDChvzYkIbZQFo/ro6nZ6xc6tL6u4=; b=s7XUOXi00sLn4RWr74p151Wss7
+	k7VtBw48K94H9rxiAOAwWtAc5jjI9ht+hHbrrfhxqWaNNfWBWW6eDvFyUynLT8A1sucrDU6GU51C7
+	inFEiwRRDRpwGra2qScFM17/BLbx/bCHF5gnFqcxkX9HCSnf0K41rQgghzBqTSDeKFn0A0cydeiq5
+	UANaQikR81jjhXdF766Rl3Pq90hOY1e98N8lNFs5lQ2KsgkWfjc8zbfeYVfwaMbHXhBM8akja9Vta
+	up6rm2Jngn5wZs0+i6U3hHjtZOqOAQz7bHvQKzrLa+/pE9KL7vcyWhKzXW6sGIHEuF0EH2E8M62ca
+	1Ht0f1GQ==;
+Received: from [2001:8b0:10b:5:2b2d:df20:7441:40a4] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sND5O-0000000Eml2-49Ww;
+	Fri, 28 Jun 2024 15:00:27 +0000
+Message-ID: <a78f803e7c253b981c94f30a5322003af86ee5b4.camel@infradead.org>
+Subject: Re: [PATCH v2] kvm: Fix warning in__kvm_gpc_refresh
+From: David Woodhouse <dwmw2@infradead.org>
+To: paul@xen.org, Pei Li <peili.dev@gmail.com>, Sean Christopherson
+ <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org, 
+	syzkaller-bugs@googlegroups.com, llvm@lists.linux.dev, 
+	syzbot+fd555292a1da3180fc82@syzkaller.appspotmail.com
+Date: Fri, 28 Jun 2024 16:00:22 +0100
+In-Reply-To: <4e25df0e-000c-4af7-a34f-ba831623aab8@xen.org>
+References: <20240627-bug5-v2-1-2c63f7ee6739@gmail.com>
+	 <4e25df0e-000c-4af7-a34f-ba831623aab8@xen.org>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-yJTJCQBOZFH98vQQiONa"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH v2] kvm: Fix warning in__kvm_gpc_refresh
-To: Pei Li <peili.dev@gmail.com>, David Woodhouse <dwmw2@infradead.org>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org,
- syzkaller-bugs@googlegroups.com, llvm@lists.linux.dev,
- syzbot+fd555292a1da3180fc82@syzkaller.appspotmail.com
-References: <20240627-bug5-v2-1-2c63f7ee6739@gmail.com>
-Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <20240627-bug5-v2-1-2c63f7ee6739@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On 27/06/2024 16:03, Pei Li wrote:
-> Check for invalid hva address stored in data and return -EINVAL before
-> calling into __kvm_gpc_activate().
-> 
-> Reported-by: syzbot+fd555292a1da3180fc82@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=fd555292a1da3180fc82
-> Tested-by: syzbot+fd555292a1da3180fc82@syzkaller.appspotmail.com
-> Signed-off-by: Pei Li <peili.dev@gmail.com>
-> ---
-> Syzbot reports a warning message in __kvm_gpc_refresh(). This warning
-> requires at least one of gpa and uhva to be valid.
-> WARNING: CPU: 0 PID: 5090 at arch/x86/kvm/../../../virt/kvm/pfncache.c:259 __kvm_gpc_refresh+0xf17/0x1090 arch/x86/kvm/../../../virt/kvm/pfncache.c:259
-> 
-> We are calling it from kvm_gpc_activate_hva(). This function always calls
-> __kvm_gpc_activate() with INVALID_GPA. Thus, uhva must be valid to
-> disable this warning.
-> 
-> This patch checks for invalid hva address and return -EINVAL before
-> calling __kvm_gpc_activate().
-> 
-> syzbot has tested the proposed patch and the reproducer did not trigger
-> any issue.
-> 
-> Tested on:
-> 
-> commit:         afcd4813 Merge tag 'mm-hotfixes-stable-2024-06-26-17-2..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1427e301980000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=e40800950091403a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=fd555292a1da3180fc82
-> compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=13838f3e980000
-> 
-> Note: testing is done by a robot and is best-effort only.
-> ---
-> Changes in v2:
-> - Adapted Sean's suggestion to check for valid address before calling
->    into __kvm_gpc_activate().
-> - Link to v1: https://lore.kernel.org/r/20240625-bug5-v1-1-e072ed5fce85@gmail.com
-> ---
->   arch/x86/kvm/xen.c  | 2 +-
->   virt/kvm/pfncache.c | 3 +++
->   2 files changed, 4 insertions(+), 1 deletion(-)
-> 
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+--=-yJTJCQBOZFH98vQQiONa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, 2024-06-28 at 15:25 +0100, Paul Durrant wrote:
+> On 27/06/2024 16:03, Pei Li wrote:
+> > Check for invalid hva address stored in data and return -EINVAL before
+> > calling into __kvm_gpc_activate().
+> >=20
+> > Reported-by: syzbot+fd555292a1da3180fc82@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Dfd555292a1da3180fc82
+> > Tested-by: syzbot+fd555292a1da3180fc82@syzkaller.appspotmail.com
+> > Signed-off-by: Pei Li <peili.dev@gmail.com>
+> > ---
+> > Syzbot reports a warning message in __kvm_gpc_refresh(). This warning
+> > requires at least one of gpa and uhva to be valid.
+> > WARNING: CPU: 0 PID: 5090 at arch/x86/kvm/../../../virt/kvm/pfncache.c:=
+259 __kvm_gpc_refresh+0xf17/0x1090 arch/x86/kvm/../../../virt/kvm/pfncache.=
+c:259
+> >=20
+> > We are calling it from kvm_gpc_activate_hva(). This function always cal=
+ls
+> > __kvm_gpc_activate() with INVALID_GPA. Thus, uhva must be valid to
+> > disable this warning.
+> >=20
+> > This patch checks for invalid hva address and return -EINVAL before
+> > calling __kvm_gpc_activate().
+> >=20
+> > syzbot has tested the proposed patch and the reproducer did not trigger
+> > any issue.
+> >=20
+> > Tested on:
+> >=20
+> > commit:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 afcd4813 Merge =
+tag 'mm-hotfixes-stable-2024-06-26-17-2..
+> > git tree:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=3D1427e301980=
+000
+> > kernel config:=C2=A0 https://syzkaller.appspot.com/x/.config?x=3De40800=
+950091403a
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=3Dfd555292a1da3=
+180fc82
+> > compiler:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Debian clang version 15.0=
+.6, GNU ld (GNU Binutils for Debian) 2.40
+> > patch:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 https://sy=
+zkaller.appspot.com/x/patch.diff?x=3D13838f3e980000
+> >=20
+> > Note: testing is done by a robot and is best-effort only.
+> > ---
+> > Changes in v2:
+> > - Adapted Sean's suggestion to check for valid address before calling
+> > =C2=A0=C2=A0 into __kvm_gpc_activate().
+> > - Link to v1: https://lore.kernel.org/r/20240625-bug5-v1-1-e072ed5fce85=
+@gmail.com
+> > ---
+> > =C2=A0 arch/x86/kvm/xen.c=C2=A0 | 2 +-
+> > =C2=A0 virt/kvm/pfncache.c | 3 +++
+> > =C2=A0 2 files changed, 4 insertions(+), 1 deletion(-)
+> >=20
+>=20
+> Reviewed-by: Paul Durrant <paul@xen.org>
+
+Reviewed-by: David Woodhouse <dwmw@amazon.co.uk>
+
+Thanks.
+
+--=-yJTJCQBOZFH98vQQiONa
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwNjI4MTUwMDIyWjAvBgkqhkiG9w0BCQQxIgQgBsVWvQQO
+sllGs+MKphVMxrVdFzkD3TkL0TX5c7AVlZEwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAPVqb2rp+iy2cE03485HI2WgwJcOoB8y5V
+yBayB6jF9IO+9wXRDkbAj7mK/4ScmALN+8BY7ISOkyZuZW/+DqVIcwZVhE1E5JadoKNxZIQQtXgY
+gnhhBGMZyQVQ1ndVgP6anklhGeSYPVAwPTx4NPhA/yZZGXcBqi4Rhb6Qj//cBTvCiCQbTDbax6Ma
+jANaCowg7TE3wSClO1qOHZz9CU4kxZcBY+AU8K/JwRay14ROpzKZ7iVtrrRVjhUztks/zZBsTqgz
+o3jBeQ/EMkPKmUVLIVzjUXhf+KIuhrI1RkpLwCFG7xUWJkI8r6AI8m3YEs6s+EQ6hr54SaQw4e2q
+PHBqoieSY72+kN3fyM8vScd//MSvhXlmev/hbYqoRMyskYiVIQhW5qP0CvyVwBgal2VRBIqndUtx
+FlowJRrwhooeR7qk5i08SoCTG/g4LuVq7Lq0nsldS2FDOjehgm0EtnbyVPXcIUmEIQrRKHkdBsVp
+LBBONd+i82GhmtRk29jI8og4Kd3nphBX5W/yGpIaF8YoeILXjIt6gKRkHZ7vt0OCeDCFpZ1k1skD
+d+0dYNDnQE8d8nRKoJR9dOW3HQkGDVcISlcWw8h1g54ufR4ZFIyBrVaVFc1Hjnl5KRtMA7525d5a
+eZFMbujUQ8rNl1GzXwDEIL9Jr+wsYRwtu8qOYfRTMgAAAAAAAA==
+
+
+--=-yJTJCQBOZFH98vQQiONa--
