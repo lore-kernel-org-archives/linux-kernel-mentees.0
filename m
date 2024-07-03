@@ -1,123 +1,112 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EB353BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 01:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4263B173345
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 12:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719969892; cv=none; b=mTcSmQwR+XaskHriuX1TonrFmU1RWMaux7kGzYD/pYK/N6bwNvxS2Y0FSqhKu03+5QFi1mBSB1Z/nmdjnYFdWMQ0xMHUd4nzC1Zj/jSsMiKsgd6n2CTm+9Mc5ltb/L+Uj+YAMfEMmcngx0JcfeadCpftFuN+lqFhpGfkWzOImps=
+	t=1720008459; cv=none; b=Z7dkuLDRJBfKMpcsTn3hi5jcyzHYCiu0J+13vJnksSRnsszbuevDmj4CkEMEZ++eRAdJ9JmHKXUgzCyPO0PH0FGyTitQUVKvQPiQy1+HSUwZuVgnchrsAJPQGFp4oQlDxZRyWtVPLX0LsETfSnW4HjOrVWXhFbwuH+MDhJU+F9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719969892; c=relaxed/simple;
-	bh=hVJFtsQLStwaNgFureVv0oR1O+Ev1bYFBNSi90GSxpI=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=n5ir3el0Ez6pUku9Oi3vbaIRaNppbQg4BWMpU9h/Tv4pBJ9mB+MDr9Lr4pfWOMG+gvoa6DoylFz8BKRi+fwUWGw/eqAERo5V/pOL8uDBi0YRKgJG76R1sXwDPDigchqvzmNVn3l5alNzleAZeyrFixat7Rbt92aopgONrPZq1PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1720008459; c=relaxed/simple;
+	bh=UzhSJLrAAaVzhix69nz6ze4N4/Ma1caSC2pokEUAa84=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dnz10QYwA+Ur/wqvKPjlkif/018XZvWAka85vLDLlGfPy4Ur7aqji5YJpHRRKz6Q/S6Izgmb4zVNJDgqwJznUSdR4WkNL3OU5k6lUfIEH3PjVUJ3eL3SGHv/MUCcyduIFVynfUn0mxkoYStxIGKs0g0zfzpJI9Af6a9ZBRjKMiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ku99cTR0; arc=none smtp.client-ip=140.211.166.133
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ku99cTR0"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id B7B3360C24
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 01:24:50 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id DA948402F6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 12:07:37 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.199
+X-Spam-Score: -1.9
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id mH6qIq1qEE-e for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jul 2024 01:24:49 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=yi.zhang@huawei.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 1AC8F60BD4
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1AC8F60BD4
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 1AC8F60BD4
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 01:24:47 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WDMQm2k5xzxTbX;
-	Wed,  3 Jul 2024 09:20:16 +0800 (CST)
-Received: from kwepemf100017.china.huawei.com (unknown [7.202.181.16])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6FD191402CE;
-	Wed,  3 Jul 2024 09:24:43 +0800 (CST)
-Received: from [10.174.179.80] (10.174.179.80) by
- kwepemf100017.china.huawei.com (7.202.181.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 3 Jul 2024 09:24:42 +0800
-Subject: Re: [PATCH v2] Fix WARNING in __ext4_ioctl
-To: Pei Li <peili.dev@gmail.com>
-CC: <linux-ext4@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<skhan@linuxfoundation.org>, <syzkaller-bugs@googlegroups.com>,
-	<linux-kernel-mentees@lists.linuxfoundation.org>,
-	<syzbot+2cab87506a0e7885f4b9@syzkaller.appspotmail.com>, Theodore Ts'o
-	<tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>
-References: <20240702-bug8-v2-1-be675f490db1@gmail.com>
-From: Zhang Yi <yi.zhang@huawei.com>
-Message-ID: <154c52ab-2452-df90-a8d8-5b786f46041b@huawei.com>
-Date: Wed, 3 Jul 2024 09:24:41 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id IwL2jyQLE-3I for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Jul 2024 12:07:36 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52f; helo=mail-pg1-x52f.google.com; envelope-from=axboe@kernel.dk; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6527740385
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6527740385
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=ku99cTR0
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6527740385
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 12:07:34 +0000 (UTC)
+Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-72703dd2b86so577390a12.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Jul 2024 05:07:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1720008453; x=1720613253; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6TNvOhfIc2yfdvb4PHPTjUfHyhfdjos3tRQlobticP4=;
+        b=ku99cTR01KHtvgnw4uHHX5NCcLWTgY93ak7FJKLW6LLLi+oREBQm80eLTbqTacBtB6
+         zUpl7zN7LY75hbp8CIqDgzk3jTNV6jmxd383fnwezworg/7/WSSXoUPZRLZPITKx3gTl
+         HN+5w0HI+EZbk6yt54cVAQi9X+1Dt5VDXm0/y9TZt+P17gFukYkbxwUG6OY18Fi2cJGy
+         2OXC6ZQsKW0w83gdo07dX1Iphi64adftzxHt9YUtSXPXGvQpqoWXJX1uFj52/M7JdhaT
+         /nDce3557q8g+OVGYqEAHCt2ilWmvO6g12tOJFHJIQQ2VtSRfOGh60QvZgNyfRYNhxi6
+         +91Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720008453; x=1720613253;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6TNvOhfIc2yfdvb4PHPTjUfHyhfdjos3tRQlobticP4=;
+        b=VLzcYzEYzgZKDg2UHiMhSSIQKsDsR/+K2NHAc9SnAArvSCGiUmBwA3zEhRvq1UM15S
+         0a/dj/SUKtggHOoh7eDsjbaMEQ/9HHGGBUDVWSIgMT1o0JkwwLlSysen5Oc7Jq9FJQ5e
+         LU5wGg4Zczr19qJzRwOUy80AubXfqhDrkwslPPJLzQfaoj0liThNimMcVWR2d6Vwj38l
+         Re6vpRhVQoCxOlF2i4LIfxQG455iZqAHrfRihoCxVtAq2fQOwmKRJ8y5gtE1fuyOqRgE
+         Y9V5yrS4NM+BHiDNK7wTVyLw2dfY8EW2dn9jC7uwMrxLdwVREAUMLURtbMUxKbU6fZJh
+         vidg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwu33VAn0DloRSlvN23YeJ0+oelCx9SQ1uSPxg0S09qDaHP5Wq2ShZdXAV60Ash6Kp3cihaIAuGZJXCzAPSZynHaHMo+1px4E+I/6uTstt0NPqPbLS7v3nM74e+DjY
+X-Gm-Message-State: AOJu0YzPfd8sqtn/ipoNgTaS6twF/SM5K73i+MwLr5BK9N9u+hQBSGfB
+	U7DrZP8GV+zjhbvyFRYHU3w/WfQS4x1dZsHRz0S+JApmszl40ZtVLN1qaK/+gT8=
+X-Google-Smtp-Source: AGHT+IEonQEEjHC/MKtuahfaFi24H6Y994t8PTFisf88hKWdWgp+qN0nMVSFEoJhiJZ9MIiZbihGfg==
+X-Received: by 2002:a05:6a20:da92:b0:1bd:a048:7fd4 with SMTP id adf61e73a8af0-1bef6296969mr14833140637.6.1720008453437;
+        Wed, 03 Jul 2024 05:07:33 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70838a9a188sm10069043b3a.131.2024.07.03.05.07.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jul 2024 05:07:32 -0700 (PDT)
+Message-ID: <25b3b412-5b9c-4b53-b084-4b4cc8b60f90@kernel.dk>
+Date: Wed, 3 Jul 2024 06:07:31 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240702-bug8-v2-1-be675f490db1@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] io_uring: Fix WARNING in io_cqring_event_overflow
+To: Pei Li <peili.dev@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>
+Cc: io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+f7f9c893345c5c615d34@syzkaller.appspotmail.com
+References: <20240702-bug9-v1-1-475cb52d3ee6@gmail.com>
 Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20240702-bug9-v1-1-475cb52d3ee6@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemf100017.china.huawei.com (7.202.181.16)
 
-On 2024/7/3 8:07, Pei Li wrote:
-> Specify the size of s_volume_name in strscpy_pad() to avoid buffer
-> overflow.
+On 7/2/24 6:48 PM, Pei Li wrote:
+> Acquire ctx->completion_lock in io_add_aux_cqe().
 > 
-> strscpy_pad() by default takes the size of destination string as the
-> size to be read from source string. However, as s_volume_name is only
-> declared as an array of size EXT4_LABEL_MAX, we are reading 1 byte more
-> than expected.
+> syzbot reports a warning message in io_cqring_event_overflow(). We were
+> supposed to hold ctx->completion_lock before entering this function, but
+> instead we did not.
 > 
-> Reported-by: syzbot+2cab87506a0e7885f4b9@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=2cab87506a0e7885f4b9
-> Fixes: 744a56389f73 ("ext4: replace deprecated strncpy with alternatives")
-> Signed-off-by: Pei Li <peili.dev@gmail.com>
+> This patch acquires and releases ctx->completion_lock when entering and
+> exiting io_add_aux_cqe().
 
-Thanks for the fix, it looks good to me.
+Thanks for sending a patch, but Pavel already fixed it:
 
-Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
+https://git.kernel.dk/cgit/linux/commit/?h=for-6.11/io_uring&id=3b7c16be30e35ec035b2efcc0f7d7b368789c443
 
-> ---
-> strscpy_pad() by default takes the size of destination string as the
-> size to be read from source string. However, as s_volume_name is only
-> declared as an array of size EXT4_LABEL_MAX, we are reading 1 byte more
-> than expected.
-> 
-> Specify the size of s_volume_name in strscpy_pad() to avoid buffer
-> overflow.
-> ---
-> Changes in v2:
-> - Add fixes label
-> - Move workaround into commit log
-> - Link to v1: https://lore.kernel.org/r/20240628-bug8-v1-1-417ef53cca33@gmail.com
-> ---
->  fs/ext4/ioctl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
-> index dab7acd49709..0c4fb579757a 100644
-> --- a/fs/ext4/ioctl.c
-> +++ b/fs/ext4/ioctl.c
-> @@ -1151,7 +1151,7 @@ static int ext4_ioctl_getlabel(struct ext4_sb_info *sbi, char __user *user_label
->  	BUILD_BUG_ON(EXT4_LABEL_MAX >= FSLABEL_MAX);
->  
->  	lock_buffer(sbi->s_sbh);
-> -	strscpy_pad(label, sbi->s_es->s_volume_name);
-> +	strscpy_pad(label, sbi->s_es->s_volume_name, EXT4_LABEL_MAX);
->  	unlock_buffer(sbi->s_sbh);
->  
->  	if (copy_to_user(user_label, label, sizeof(label)))
-> 
-> ---
-> base-commit: 55027e689933ba2e64f3d245fb1ff185b3e7fc81
-> change-id: 20240628-bug8-7f700a228c4a
-> 
-> Best regards,
-> 
+-- 
+Jens Axboe
+
+
