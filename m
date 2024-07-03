@@ -1,166 +1,123 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE7E1FBA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 00:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EB353BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 01:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719967713; cv=none; b=Eok4IdqzrKHeQ4eu6r/J/xiPWEzmWZK5/EeAgsP5w88vr/OGEHx3ct+Nba09NH5fVQkyWfPCP0lZHGMJ1P9urhkdCxUiYY+x9OaX+JeJ0fmfFGG18WtO9fqeg/T7ye6+bIeMuVjLwu8z5SaplazeuMFBL6TqHM0no6YSVdDlNUw=
+	t=1719969892; cv=none; b=mTcSmQwR+XaskHriuX1TonrFmU1RWMaux7kGzYD/pYK/N6bwNvxS2Y0FSqhKu03+5QFi1mBSB1Z/nmdjnYFdWMQ0xMHUd4nzC1Zj/jSsMiKsgd6n2CTm+9Mc5ltb/L+Uj+YAMfEMmcngx0JcfeadCpftFuN+lqFhpGfkWzOImps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719967713; c=relaxed/simple;
-	bh=oWYSMtuZp1pdNBxCN7ttoYHwMtat4dDaIgcJ9Igj9CU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nO/a5xBpR73nfjeSyMVqLsXBVCthBPjB0VgI5ZidIYopSQJ4KnbSXl+2HFMedzDPwXy/hHfF1a+ah9wNZ46nlzunPBEKS5u8k7tjT1Dmql3S76B8lq7+25WemR7YvnWNq0i30WJuzUV17PKDjNgQm0Z2MjO2dfSknRxMZJiuUW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljDmOQFl; arc=none smtp.client-ip=140.211.166.138
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljDmOQFl"
+	s=arc-20240116; t=1719969892; c=relaxed/simple;
+	bh=hVJFtsQLStwaNgFureVv0oR1O+Ev1bYFBNSi90GSxpI=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=n5ir3el0Ez6pUku9Oi3vbaIRaNppbQg4BWMpU9h/Tv4pBJ9mB+MDr9Lr4pfWOMG+gvoa6DoylFz8BKRi+fwUWGw/eqAERo5V/pOL8uDBi0YRKgJG76R1sXwDPDigchqvzmNVn3l5alNzleAZeyrFixat7Rbt92aopgONrPZq1PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DE984819CC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 00:48:31 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id B7B3360C24
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 01:24:50 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -4.199
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id jV8j4w4MjY6u for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jul 2024 00:48:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::335; helo=mail-ot1-x335.google.com; envelope-from=peili.dev@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org C072E81AD1
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org C072E81AD1
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ljDmOQFl
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id C072E81AD1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 00:48:30 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id 46e09a7af769-700cd57a9fbso1858086a34.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 02 Jul 2024 17:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1719967709; x=1720572509; darn=lists.linuxfoundation.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5Li3K3Uue/qNEmAx8woj0qwPhTqO5rT3fVLroOQjerg=;
-        b=ljDmOQFlTyMRIGnQY7sr7y0FaEjXWvZlWitnIpj3ac9+9SdSjTY4T7aaHo5X2G2EKz
-         5yG1Iah4GTxAnNYCETQs6PhXsamKhxaEzbCXFNoj/KeSP4ffuhsabJQ+pEBUiGNhWUoL
-         4QVbEBqEE82Lii2N9wdfyRPttzrlLDGCpFZGZyagvJ++zCJhDA/m8vFBc8Xqntu70Cg8
-         LAtiKb6Zc3Bns6rOyrpzuI8/kaI+nI/uWkAttywc836puaH9YoWK5GyZP1L9myjO3+oQ
-         TOVELTiczo2RkLjcwL3fFHhluiLFXZysEyL0vo4jXBnXOKFp+gSQqLsPh0VdummzAQO2
-         pjfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719967709; x=1720572509;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5Li3K3Uue/qNEmAx8woj0qwPhTqO5rT3fVLroOQjerg=;
-        b=jbHvHamNje0POmVVVnr8V9+vu1/ERDgPIH09/n7cengybJH6O3r8P4HW13tiWZaoeQ
-         /JLPZNYK4k1HUPu2+e+xgsBhj5/21+8pcPI0V3xZtAqFrNRIui5lst1ZIgmn4QwUv7/p
-         fl5+qVzKc6+ANlSIM0m2c6h4mhnw1XFNFLw5hxFxBV4ylETiKVQLSHxgLEw8ANc/eAlx
-         QMF9Lt7XXRM1irWUlCUx3UA8XHTj+pZ/5SLwvhSgO+/tZUpuB2HBbQS8nlBrdhePbvAT
-         G+k8s9BSixgm4M8VR5Ra2Egfx+SkZJv5456ym3iX5Zy2MAnVRVe2RwCrD7qUsqStk7+R
-         pxuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5lBYqkJ7GHOHyKxxsVrr/hApBGcbi3S3n9C3engMlZ2FAv2kfDpzPnrKEm+0xcwvG5holYHTdTkX9kZwiEPxKhg4R8xoPcNwxlRKcjShlBMierXerm3gAHRCJRzl0
-X-Gm-Message-State: AOJu0Yy2lVgNDN1EvOaudOG/5IyHLx7s723DO91+Gr10iPC2qdwJfLLX
-	TAGV5RTdLWTq2k8bptDZgpUvpXRtciXAyTbg9o0LlzhDbuZTQ1B90/jo0Q==
-X-Google-Smtp-Source: AGHT+IGE37cgZq3LE0NZaCz+m7LS6PUY2cEAveg7UCUE4CXD/YmIbu7cgbbVm4lju8pbSA4JGkdBDA==
-X-Received: by 2002:a05:6830:2056:b0:702:1de0:9a4a with SMTP id 46e09a7af769-7021de0a7f6mr5366692a34.29.1719967708719;
-        Tue, 02 Jul 2024 17:48:28 -0700 (PDT)
-Received: from [127.0.1.1] (107-197-105-120.lightspeed.sntcca.sbcglobal.net. [107.197.105.120])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70208090725sm1273321a34.39.2024.07.02.17.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jul 2024 17:48:28 -0700 (PDT)
-From: Pei Li <peili.dev@gmail.com>
-Date: Tue, 02 Jul 2024 17:48:27 -0700
-Subject: [PATCH] io_uring: Fix WARNING in io_cqring_event_overflow
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id mH6qIq1qEE-e for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Jul 2024 01:24:49 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.249.212.187; helo=szxga01-in.huawei.com; envelope-from=yi.zhang@huawei.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 1AC8F60BD4
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 1AC8F60BD4
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 1AC8F60BD4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 01:24:47 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4WDMQm2k5xzxTbX;
+	Wed,  3 Jul 2024 09:20:16 +0800 (CST)
+Received: from kwepemf100017.china.huawei.com (unknown [7.202.181.16])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6FD191402CE;
+	Wed,  3 Jul 2024 09:24:43 +0800 (CST)
+Received: from [10.174.179.80] (10.174.179.80) by
+ kwepemf100017.china.huawei.com (7.202.181.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 3 Jul 2024 09:24:42 +0800
+Subject: Re: [PATCH v2] Fix WARNING in __ext4_ioctl
+To: Pei Li <peili.dev@gmail.com>
+CC: <linux-ext4@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<skhan@linuxfoundation.org>, <syzkaller-bugs@googlegroups.com>,
+	<linux-kernel-mentees@lists.linuxfoundation.org>,
+	<syzbot+2cab87506a0e7885f4b9@syzkaller.appspotmail.com>, Theodore Ts'o
+	<tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>
+References: <20240702-bug8-v2-1-be675f490db1@gmail.com>
+From: Zhang Yi <yi.zhang@huawei.com>
+Message-ID: <154c52ab-2452-df90-a8d8-5b786f46041b@huawei.com>
+Date: Wed, 3 Jul 2024 09:24:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20240702-bug8-v2-1-be675f490db1@gmail.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240702-bug9-v1-1-475cb52d3ee6@gmail.com>
-X-B4-Tracking: v=1; b=H4sIANqfhGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDcwMj3aTSdEvdxBSLRGMzMwvDVKMUJaDSgqLUtMwKsDHRsbW1AN+eV1p
- WAAAA
-To: Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>
-Cc: io-uring@vger.kernel.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- syzbot+f7f9c893345c5c615d34@syzkaller.appspotmail.com, 
- Pei Li <peili.dev@gmail.com>
-X-Mailer: b4 0.15-dev-13183
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1719967707; l=2240;
- i=peili.dev@gmail.com; s=20240625; h=from:subject:message-id;
- bh=oWYSMtuZp1pdNBxCN7ttoYHwMtat4dDaIgcJ9Igj9CU=;
- b=2CTRcQ59Jslvl+23lIw2OKiISOO9WIwUSDXNtWtmPaj+xHfnXlASeBeCMeVeuBYShg9TeHBp2
- jWp00+/6ZKGBVpFs/19fR+hino0mbkb7//PSP31OjHtZ5912tcbwIQR
-X-Developer-Key: i=peili.dev@gmail.com; a=ed25519;
- pk=I6GWb2uGzELGH5iqJTSK9VwaErhEZ2z2abryRD6a+4Q=
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemf100017.china.huawei.com (7.202.181.16)
 
-Acquire ctx->completion_lock in io_add_aux_cqe().
+On 2024/7/3 8:07, Pei Li wrote:
+> Specify the size of s_volume_name in strscpy_pad() to avoid buffer
+> overflow.
+> 
+> strscpy_pad() by default takes the size of destination string as the
+> size to be read from source string. However, as s_volume_name is only
+> declared as an array of size EXT4_LABEL_MAX, we are reading 1 byte more
+> than expected.
+> 
+> Reported-by: syzbot+2cab87506a0e7885f4b9@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=2cab87506a0e7885f4b9
+> Fixes: 744a56389f73 ("ext4: replace deprecated strncpy with alternatives")
+> Signed-off-by: Pei Li <peili.dev@gmail.com>
 
-syzbot reports a warning message in io_cqring_event_overflow(). We were
-supposed to hold ctx->completion_lock before entering this function, but
-instead we did not.
+Thanks for the fix, it looks good to me.
 
-This patch acquires and releases ctx->completion_lock when entering and
-exiting io_add_aux_cqe().
+Reviewed-by: Zhang Yi <yi.zhang@huawei.com>
 
-Fixes: f33096a3c99c ("io_uring: add io_add_aux_cqe() helper")
-Reported-by: syzbot+f7f9c893345c5c615d34@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f7f9c893345c5c615d34
-Signed-off-by: Pei Li <peili.dev@gmail.com>
----
-syzbot reports a warning message in io_cqring_event_overflow(). We were
-supposed to hold ctx->completion_lock before entering this function, but
-instead we did not.
-
-The call stack is as follows:
-
-Call Trace:
- <TASK>
- __io_post_aux_cqe io_uring/io_uring.c:816 [inline]
- io_add_aux_cqe+0x27c/0x320 io_uring/io_uring.c:837
- io_msg_tw_complete+0x9d/0x4d0 io_uring/msg_ring.c:78
- io_fallback_req_func+0xce/0x1c0 io_uring/io_uring.c:256
- process_one_work kernel/workqueue.c:3224 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3305
- worker_thread+0x86d/0xd40 kernel/workqueue.c:3383
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:144
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
-
-In io_add_aux_cqe(), we should acquire this lock beforehead.
-
-This patch acquires and releases ctx->completion_lock when entering and
-exiting io_add_aux_cqe().
----
- io_uring/io_uring.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
-index 4e2836c9b7bf..0f62332e95ff 100644
---- a/io_uring/io_uring.c
-+++ b/io_uring/io_uring.c
-@@ -834,8 +834,10 @@ bool io_post_aux_cqe(struct io_ring_ctx *ctx, u64 user_data, s32 res, u32 cflags
-  */
- void io_add_aux_cqe(struct io_ring_ctx *ctx, u64 user_data, s32 res, u32 cflags)
- {
-+	io_cq_lock(ctx);
- 	__io_post_aux_cqe(ctx, user_data, res, cflags);
- 	ctx->submit_state.cq_flush = true;
-+	io_cq_unlock_post(ctx);
- }
- 
- /*
-
----
-base-commit: 74564adfd3521d9e322cfc345fdc132df80f3c79
-change-id: 20240702-bug9-ad8a36681e2d
-
-Best regards,
--- 
-Pei Li <peili.dev@gmail.com>
-
+> ---
+> strscpy_pad() by default takes the size of destination string as the
+> size to be read from source string. However, as s_volume_name is only
+> declared as an array of size EXT4_LABEL_MAX, we are reading 1 byte more
+> than expected.
+> 
+> Specify the size of s_volume_name in strscpy_pad() to avoid buffer
+> overflow.
+> ---
+> Changes in v2:
+> - Add fixes label
+> - Move workaround into commit log
+> - Link to v1: https://lore.kernel.org/r/20240628-bug8-v1-1-417ef53cca33@gmail.com
+> ---
+>  fs/ext4/ioctl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/ext4/ioctl.c b/fs/ext4/ioctl.c
+> index dab7acd49709..0c4fb579757a 100644
+> --- a/fs/ext4/ioctl.c
+> +++ b/fs/ext4/ioctl.c
+> @@ -1151,7 +1151,7 @@ static int ext4_ioctl_getlabel(struct ext4_sb_info *sbi, char __user *user_label
+>  	BUILD_BUG_ON(EXT4_LABEL_MAX >= FSLABEL_MAX);
+>  
+>  	lock_buffer(sbi->s_sbh);
+> -	strscpy_pad(label, sbi->s_es->s_volume_name);
+> +	strscpy_pad(label, sbi->s_es->s_volume_name, EXT4_LABEL_MAX);
+>  	unlock_buffer(sbi->s_sbh);
+>  
+>  	if (copy_to_user(user_label, label, sizeof(label)))
+> 
+> ---
+> base-commit: 55027e689933ba2e64f3d245fb1ff185b3e7fc81
+> change-id: 20240628-bug8-7f700a228c4a
+> 
+> Best regards,
+> 
