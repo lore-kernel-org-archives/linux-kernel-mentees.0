@@ -1,129 +1,115 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD59185095
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1FF17B4FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720027413; cv=none; b=AZMEb5AFqRBV8n07Vgse5U/yFWFOdrevO4/pyRWblVeCpOIi8Ui/cxVtpFswZEC3vkfqc3qlmhZ2D7QBaMSoyMjB5H7bYE+kqUNBvj4xKMb1Pueitg24tZ7ox/jtmMZ2QdzJCc7t5bX1ivWzP8TGeh1doS5IK/wI+a7XWBKVKgQ=
+	t=1720027959; cv=none; b=eEz1y0tw/gdDdjij8sAVe8qiMOx18Z7s77zasWG66pEftjEv+oObK23YMwQfO0PVI9yEROjHIFULB4sm7xf5N6uVcSH4QLOQDlzabnZ75D8EeiaSkgh/2rL4SixzrqmyjtRU+x8mLl1DvCKshF3XwFaymTtBf5s8BlpQSibwpV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720027413; c=relaxed/simple;
-	bh=9Qs5ol2ze5oiR2DbW9m/2gue58457PaRyAxDKiR93+w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iJr9RjHXnmPO7LvpvaxOLk2jZ79kIfHYTBkizK3ivKNMnwrmQoRF+weMG2LDw8+1cw/9Toaka43cGyWeSDEGD1Sb/OM/re+GZG7ZyqiAC0h43sCUSVGYK7BoBJiWZsQ8kIG6zJpbiKpbtK3Cv8Keg8IiYpJ3YmLE6YaurMl9rcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgWD7K2S; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1720027959; c=relaxed/simple;
+	bh=yiZwVs34KAsMmVpnWF6wgCRNg80IMF2DlKj/9xcYU0M=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EATgACqWM565bZDynTBRXTWlnNPB4G2wkXgeC2WhtmNb48+mYMj+DQyJlL9xuys7PRTpozfOHqY1TQ52A99ICB7pkmPeKzdBu06XYFiJguGGQO9yYde1WAMG2QhEUayivLZPaSrXSnkqjQ0axxvHwtzPNHklAg2TDP5y564cRDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cbIXBQNx; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgWD7K2S"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cbIXBQNx"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DA04F40070
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:23:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5524260EFF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:32:38 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ETMdzu6TbUcu for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jul 2024 17:23:29 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::112d; helo=mail-yw1-x112d.google.com; envelope-from=av2082000@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9A06841793
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9A06841793
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=bgWD7K2S
-Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 9A06841793
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:23:29 +0000 (UTC)
-Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-63036fa87dbso6554407b3.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Jul 2024 10:23:29 -0700 (PDT)
+X-Spam-Score: 1.235
+X-Spam-Level: *
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id l_HHbNa3RaZj for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Jul 2024 17:32:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32f; helo=mail-wm1-x32f.google.com; envelope-from=srinivas.kandagatla@linaro.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3722060EE7
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3722060EE7
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cbIXBQNx
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3722060EE7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:32:36 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-4257d5fc9b7so34320255e9.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Jul 2024 10:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720027408; x=1720632208; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ti6v24oTe1MEKhNZLLn/dVPsQr2JQWNo5ls87iglapk=;
-        b=bgWD7K2S1ZzJT1hVB/RRD5ueJ/o0/p1fStOaENTfnmkRO6k6VQkPxj0MypLn5PtefI
-         nL9ZRE6a+sEmn3hj30gZzVllE8T+Q/ArMs4Qm1uK3o0FofrHcG2BCze13RgZpihCFz6C
-         pOy6ohOOQAfnaLbOmnBklfzBOj8mztrs3w8KuMtFC4qFyf/cnYvrDjGnt2UIkDxvBWiL
-         jbx+EpKvk53rIiN7Yx50O0ATD8ypRWkYn7PlOlauGZ9zS+7NCxcEmprmDx6tYgxT+01J
-         UxBYIcSWuaQaVadxrl7hU5TZebtIsDVlnZf7tNNmEYddQguDIXpGILyhC+qXkHAh/fq6
-         4xQA==
+        d=linaro.org; s=google; t=1720027955; x=1720632755; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oskWmBG9bN19QP7asfXU5sdItpYr22CgLvmAviCVAVc=;
+        b=cbIXBQNxVpWMUm97wCwQaIjmcnLn0gHIFnXV7Xcg4R0l9G0GdKDFjo4+YYeJRjctZv
+         PmDjRwfrI9pEFvg3dPlpX9iA6J5KXfNYooOP1jxQcfwhgTop+RpauFiFrZE8nuX/EFkK
+         9Uz43kO8+KPTrH8p5geUmlWY0s7odTU7gUlWULt7CdAglTNbrfXoIAl2+XPzghtX/QjN
+         dpAwh0BuerrSfFUIZyTYlD8cGYqidAk2+4f0VCY7LIUJ8yM1NvH66kVL9wzcX1+pXl9g
+         JmkJkaYhpxM2V7t3Mxz1UsJ+mLxUk+8EpMT/YEVTH2wbfv6FuTR8vd5tPquIPnGlroAf
+         7zLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720027408; x=1720632208;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ti6v24oTe1MEKhNZLLn/dVPsQr2JQWNo5ls87iglapk=;
-        b=qFex+4OcUNf12Zq5EG85qLjiEdibzY6ieCpUVzC3wn+9Yh0yrdRQ+OdDoQhCoMyZff
-         84OcFjVH5HfAYIeImYGkvmbuJVFyxzmfEtxDSl7u9L1EPW/rhOcJDtrQTLWPGKspNZl1
-         zEKTQANOYSpt2z53oT1fRrr+RoFqP2yJDIFxvzdDClZnnkwa7mg3VhZGkJ1yX/P1fSuz
-         ENhZ0GhHcaXelwc0jwR3QPX8tiDQx9Aa4TVP4kSnQdVM1n8j23te64kekyOWFay5HMrp
-         68EykSKIW/I00q7GC+J3nGgNogRJGcPxCgtiap+caaR4cmOLYvm9ZmmwxBwcKtVdHiB6
-         Kh8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVp7KfzkktZixMAHx25NhJQ/wBlg2zimrmnUfgurg5v4TwKjjGlUnwpWfA6cgde7MZF81uswvQjAUJWz2oeAHvNwcgxx/ifng+9bwu6gVtESLdUCDBFr92lFA8E5J+f
-X-Gm-Message-State: AOJu0YyRUEQAl/0mPMbz8yqolqZg78r2TL/lScB9o8Vr7XVYYW3cAzC9
-	j2Ozom2FYe1iSZrnfdS2hEo4LI4p8nZFxcsfKk6VjMCNicni2k5VxVmAE/fam9qgWrivos412NR
-	e742R0QXm5Y5uMveb+qqWER4FRK8=
-X-Google-Smtp-Source: AGHT+IFWOydMbN6BlWi7lFEJsFqVYPn/wQrhz+LemE/ooLfbb7YSNlm3inzv1ZHEE/FXcdtbKBxpbSiueYfE+CJjO98=
-X-Received: by 2002:a0d:ebcb:0:b0:61a:e557:6ce1 with SMTP id
- 00721157ae682-651800ecdddmr15155807b3.1.1720027408329; Wed, 03 Jul 2024
- 10:23:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720027955; x=1720632755;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oskWmBG9bN19QP7asfXU5sdItpYr22CgLvmAviCVAVc=;
+        b=DetL7LrE0VJMjTVN478pOma2zN0o5tQw//XdU9+6eDqMNZ6qhvNCWttSgEw/MFzl+D
+         O1JsY8fslcokKSRTTfunLREbswSX/UH0tuUxO3hHVdrBl/cnEmCsh175iD4DhN6Q75Cx
+         tuIONreL9Efrk59vUMry09LzptqZN18mY+KL5aMEc5QTwlHzfG6IZJz5ZJys6RQdEDdu
+         w0UzoCUpE16GvCBJx8AnScM8RD2Y7BBBYxXYpGT9+Dcc+Lvwkhs4uDxmJsLWEBmpDL7R
+         AiVTbEGP5CN6xmlLVEi+RakcpY48RycYJ4gMi7/ztf/25g+FYw7jqIfzneaUvdRna2Af
+         7uMA==
+X-Gm-Message-State: AOJu0Yxe21IsMNbXPr0P78mHMwc8uYwkJ31lgAPWMpS/eHWcm11f4d6W
+	dZeNebR76TWG32kOsbO9vrH/YLIkyHUiSRAgEDORGEIO+SOE9szMeVGIqgNXW6o=
+X-Google-Smtp-Source: AGHT+IFyHHiiFlnwelv6JSIST8hjX2FhMJ9p/4P+xzny04uXYYyA9EwNzHKULeV4HsPzKoQ5t0WQLg==
+X-Received: by 2002:a05:600c:181b:b0:424:c837:f54b with SMTP id 5b1f17b1804b1-4257a0270f4mr102800275e9.38.1720027954898;
+        Wed, 03 Jul 2024 10:32:34 -0700 (PDT)
+Received: from srini-hackbase.lan ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b0c0f99sm252728595e9.41.2024.07.03.10.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jul 2024 10:32:34 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+To: alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, 
+ rbmarliere@gmail.com, skhan@linuxfoundation.org, 
+ Amit Vadhavana <av2082000@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org
+In-Reply-To: <20240616203231.43724-1-av2082000@gmail.com>
+References: <20240616203231.43724-1-av2082000@gmail.com>
+Subject: Re: [PATCH v2] slimbus: Fix struct and documentation alignment in
+ stream.c
+Message-Id: <172002795407.299941.2477625564170300581.b4-ty@linaro.org>
+Date: Wed, 03 Jul 2024 18:32:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240616203231.43724-1-av2082000@gmail.com> <d6cd7441-53f2-4c88-a361-729e3abe81c1@marliere.net>
- <CAPMW_r+sPGF5=+=edLY81X+Cd4bMWKFJw3sDd0mzaZEM9b75BQ@mail.gmail.com> <f64523f0-db39-4e3a-85a6-1a3cb07e2d08@marliere.net>
-In-Reply-To: <f64523f0-db39-4e3a-85a6-1a3cb07e2d08@marliere.net>
-From: Amit Vadhavana <av2082000@gmail.com>
-Date: Wed, 3 Jul 2024 22:53:17 +0530
-Message-ID: <CAPMW_rKV1BkBbrhcKNkMvhSatoHRNk58O8m8m8GHCN1Jb2V-8Q@mail.gmail.com>
-Subject: Re: [PATCH v2] slimbus: Fix struct and documentation alignment in stream.c
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: srinivas.kandagatla@linaro.org, alsa-devel@alsa-project.org, 
-	linux-kernel@vger.kernel.org, rbmarliere@gmail.com, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 
-On Thu, 20 Jun 2024 at 18:00, Ricardo B. Marliere <ricardo@marliere.net> wrote:
->
-> Hi Amit,
->
-> On 19 Jun 24 23:28, Amit Vadhavana wrote:
-> > Hi Ricardo,
-> >
-> > I have rebuilt it again, and there are no any warnings or errors.
->
-> Thanks for checking, FWIW:
->
-> Reviewed-by: Ricardo B. Marliere <ricardo@marliere.net>
->
-> BTW, I received this message plus another two empty ones. Please check
-> your settings. Also, make sure not to top-post [1].
->
-> Best regards,
-> -       Ricardo.
->
->
-> [1] https://en.wikipedia.org/wiki/Posting_style#Top-posting
->
->
->
-> >
-> > Thanks
-> > Amit v
 
-Hi Srinivas,
+On Mon, 17 Jun 2024 02:02:31 +0530, Amit Vadhavana wrote:
+> The placement of the `segdist_codes` array documentation was corrected
+> to conform with kernel documentation guidelines. The `@segdist_codes`
+> was placed incorrectly within the struct `segdist_code` documentation
+> block, which led to a potential misinterpretation of the code structure.
+> 
+> The `segdist_codes` array documentation was moved outside the struct
+> block, and a separate comment block was provided for it. This change
+> ensures that clarity and proper alignment with kernel documentation
+> standards are maintained.
+> 
+> [...]
 
-I hope you are well. I am following up on a patch I submitted on 19
-Jun regarding a kernel document and Ricardo reviewed the patch.
-I understand you have a busy schedule, but if you could find some time
-to review the patch, I would greatly appreciate it.
-Your feedback would be invaluable in helping to improve the quality of
-this contribution.
-If there are any changes needed or additional steps I should take,
-please let me know.
+Applied, thanks!
 
-Thanks
-Amit V
+[1/1] slimbus: Fix struct and documentation alignment in stream.c
+      commit: cea500f1ad5f6e93e67ab6f9a317d713524732cd
+
+Best regards,
+-- 
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+
