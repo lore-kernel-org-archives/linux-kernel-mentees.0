@@ -1,112 +1,129 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4263B173345
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 12:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD59185095
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720008459; cv=none; b=Z7dkuLDRJBfKMpcsTn3hi5jcyzHYCiu0J+13vJnksSRnsszbuevDmj4CkEMEZ++eRAdJ9JmHKXUgzCyPO0PH0FGyTitQUVKvQPiQy1+HSUwZuVgnchrsAJPQGFp4oQlDxZRyWtVPLX0LsETfSnW4HjOrVWXhFbwuH+MDhJU+F9U=
+	t=1720027413; cv=none; b=AZMEb5AFqRBV8n07Vgse5U/yFWFOdrevO4/pyRWblVeCpOIi8Ui/cxVtpFswZEC3vkfqc3qlmhZ2D7QBaMSoyMjB5H7bYE+kqUNBvj4xKMb1Pueitg24tZ7ox/jtmMZ2QdzJCc7t5bX1ivWzP8TGeh1doS5IK/wI+a7XWBKVKgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720008459; c=relaxed/simple;
-	bh=UzhSJLrAAaVzhix69nz6ze4N4/Ma1caSC2pokEUAa84=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dnz10QYwA+Ur/wqvKPjlkif/018XZvWAka85vLDLlGfPy4Ur7aqji5YJpHRRKz6Q/S6Izgmb4zVNJDgqwJznUSdR4WkNL3OU5k6lUfIEH3PjVUJ3eL3SGHv/MUCcyduIFVynfUn0mxkoYStxIGKs0g0zfzpJI9Af6a9ZBRjKMiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=ku99cTR0; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1720027413; c=relaxed/simple;
+	bh=9Qs5ol2ze5oiR2DbW9m/2gue58457PaRyAxDKiR93+w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iJr9RjHXnmPO7LvpvaxOLk2jZ79kIfHYTBkizK3ivKNMnwrmQoRF+weMG2LDw8+1cw/9Toaka43cGyWeSDEGD1Sb/OM/re+GZG7ZyqiAC0h43sCUSVGYK7BoBJiWZsQ8kIG6zJpbiKpbtK3Cv8Keg8IiYpJ3YmLE6YaurMl9rcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgWD7K2S; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="ku99cTR0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgWD7K2S"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DA948402F6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 12:07:37 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id DA04F40070
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:23:30 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.9
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id IwL2jyQLE-3I for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jul 2024 12:07:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52f; helo=mail-pg1-x52f.google.com; envelope-from=axboe@kernel.dk; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6527740385
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6527740385
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=ku99cTR0
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6527740385
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 12:07:34 +0000 (UTC)
-Received: by mail-pg1-x52f.google.com with SMTP id 41be03b00d2f7-72703dd2b86so577390a12.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Jul 2024 05:07:34 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ETMdzu6TbUcu for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  3 Jul 2024 17:23:29 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::112d; helo=mail-yw1-x112d.google.com; envelope-from=av2082000@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9A06841793
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9A06841793
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=bgWD7K2S
+Received: from mail-yw1-x112d.google.com (mail-yw1-x112d.google.com [IPv6:2607:f8b0:4864:20::112d])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9A06841793
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:23:29 +0000 (UTC)
+Received: by mail-yw1-x112d.google.com with SMTP id 00721157ae682-63036fa87dbso6554407b3.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Jul 2024 10:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1720008453; x=1720613253; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6TNvOhfIc2yfdvb4PHPTjUfHyhfdjos3tRQlobticP4=;
-        b=ku99cTR01KHtvgnw4uHHX5NCcLWTgY93ak7FJKLW6LLLi+oREBQm80eLTbqTacBtB6
-         zUpl7zN7LY75hbp8CIqDgzk3jTNV6jmxd383fnwezworg/7/WSSXoUPZRLZPITKx3gTl
-         HN+5w0HI+EZbk6yt54cVAQi9X+1Dt5VDXm0/y9TZt+P17gFukYkbxwUG6OY18Fi2cJGy
-         2OXC6ZQsKW0w83gdo07dX1Iphi64adftzxHt9YUtSXPXGvQpqoWXJX1uFj52/M7JdhaT
-         /nDce3557q8g+OVGYqEAHCt2ilWmvO6g12tOJFHJIQQ2VtSRfOGh60QvZgNyfRYNhxi6
-         +91Q==
+        d=gmail.com; s=20230601; t=1720027408; x=1720632208; darn=lists.linuxfoundation.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ti6v24oTe1MEKhNZLLn/dVPsQr2JQWNo5ls87iglapk=;
+        b=bgWD7K2S1ZzJT1hVB/RRD5ueJ/o0/p1fStOaENTfnmkRO6k6VQkPxj0MypLn5PtefI
+         nL9ZRE6a+sEmn3hj30gZzVllE8T+Q/ArMs4Qm1uK3o0FofrHcG2BCze13RgZpihCFz6C
+         pOy6ohOOQAfnaLbOmnBklfzBOj8mztrs3w8KuMtFC4qFyf/cnYvrDjGnt2UIkDxvBWiL
+         jbx+EpKvk53rIiN7Yx50O0ATD8ypRWkYn7PlOlauGZ9zS+7NCxcEmprmDx6tYgxT+01J
+         UxBYIcSWuaQaVadxrl7hU5TZebtIsDVlnZf7tNNmEYddQguDIXpGILyhC+qXkHAh/fq6
+         4xQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720008453; x=1720613253;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6TNvOhfIc2yfdvb4PHPTjUfHyhfdjos3tRQlobticP4=;
-        b=VLzcYzEYzgZKDg2UHiMhSSIQKsDsR/+K2NHAc9SnAArvSCGiUmBwA3zEhRvq1UM15S
-         0a/dj/SUKtggHOoh7eDsjbaMEQ/9HHGGBUDVWSIgMT1o0JkwwLlSysen5Oc7Jq9FJQ5e
-         LU5wGg4Zczr19qJzRwOUy80AubXfqhDrkwslPPJLzQfaoj0liThNimMcVWR2d6Vwj38l
-         Re6vpRhVQoCxOlF2i4LIfxQG455iZqAHrfRihoCxVtAq2fQOwmKRJ8y5gtE1fuyOqRgE
-         Y9V5yrS4NM+BHiDNK7wTVyLw2dfY8EW2dn9jC7uwMrxLdwVREAUMLURtbMUxKbU6fZJh
-         vidg==
-X-Forwarded-Encrypted: i=1; AJvYcCVwu33VAn0DloRSlvN23YeJ0+oelCx9SQ1uSPxg0S09qDaHP5Wq2ShZdXAV60Ash6Kp3cihaIAuGZJXCzAPSZynHaHMo+1px4E+I/6uTstt0NPqPbLS7v3nM74e+DjY
-X-Gm-Message-State: AOJu0YzPfd8sqtn/ipoNgTaS6twF/SM5K73i+MwLr5BK9N9u+hQBSGfB
-	U7DrZP8GV+zjhbvyFRYHU3w/WfQS4x1dZsHRz0S+JApmszl40ZtVLN1qaK/+gT8=
-X-Google-Smtp-Source: AGHT+IEonQEEjHC/MKtuahfaFi24H6Y994t8PTFisf88hKWdWgp+qN0nMVSFEoJhiJZ9MIiZbihGfg==
-X-Received: by 2002:a05:6a20:da92:b0:1bd:a048:7fd4 with SMTP id adf61e73a8af0-1bef6296969mr14833140637.6.1720008453437;
-        Wed, 03 Jul 2024 05:07:33 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70838a9a188sm10069043b3a.131.2024.07.03.05.07.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jul 2024 05:07:32 -0700 (PDT)
-Message-ID: <25b3b412-5b9c-4b53-b084-4b4cc8b60f90@kernel.dk>
-Date: Wed, 3 Jul 2024 06:07:31 -0600
+        d=1e100.net; s=20230601; t=1720027408; x=1720632208;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ti6v24oTe1MEKhNZLLn/dVPsQr2JQWNo5ls87iglapk=;
+        b=qFex+4OcUNf12Zq5EG85qLjiEdibzY6ieCpUVzC3wn+9Yh0yrdRQ+OdDoQhCoMyZff
+         84OcFjVH5HfAYIeImYGkvmbuJVFyxzmfEtxDSl7u9L1EPW/rhOcJDtrQTLWPGKspNZl1
+         zEKTQANOYSpt2z53oT1fRrr+RoFqP2yJDIFxvzdDClZnnkwa7mg3VhZGkJ1yX/P1fSuz
+         ENhZ0GhHcaXelwc0jwR3QPX8tiDQx9Aa4TVP4kSnQdVM1n8j23te64kekyOWFay5HMrp
+         68EykSKIW/I00q7GC+J3nGgNogRJGcPxCgtiap+caaR4cmOLYvm9ZmmwxBwcKtVdHiB6
+         Kh8A==
+X-Forwarded-Encrypted: i=1; AJvYcCVp7KfzkktZixMAHx25NhJQ/wBlg2zimrmnUfgurg5v4TwKjjGlUnwpWfA6cgde7MZF81uswvQjAUJWz2oeAHvNwcgxx/ifng+9bwu6gVtESLdUCDBFr92lFA8E5J+f
+X-Gm-Message-State: AOJu0YyRUEQAl/0mPMbz8yqolqZg78r2TL/lScB9o8Vr7XVYYW3cAzC9
+	j2Ozom2FYe1iSZrnfdS2hEo4LI4p8nZFxcsfKk6VjMCNicni2k5VxVmAE/fam9qgWrivos412NR
+	e742R0QXm5Y5uMveb+qqWER4FRK8=
+X-Google-Smtp-Source: AGHT+IFWOydMbN6BlWi7lFEJsFqVYPn/wQrhz+LemE/ooLfbb7YSNlm3inzv1ZHEE/FXcdtbKBxpbSiueYfE+CJjO98=
+X-Received: by 2002:a0d:ebcb:0:b0:61a:e557:6ce1 with SMTP id
+ 00721157ae682-651800ecdddmr15155807b3.1.1720027408329; Wed, 03 Jul 2024
+ 10:23:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] io_uring: Fix WARNING in io_cqring_event_overflow
-To: Pei Li <peili.dev@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>
-Cc: io-uring@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+f7f9c893345c5c615d34@syzkaller.appspotmail.com
-References: <20240702-bug9-v1-1-475cb52d3ee6@gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20240702-bug9-v1-1-475cb52d3ee6@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240616203231.43724-1-av2082000@gmail.com> <d6cd7441-53f2-4c88-a361-729e3abe81c1@marliere.net>
+ <CAPMW_r+sPGF5=+=edLY81X+Cd4bMWKFJw3sDd0mzaZEM9b75BQ@mail.gmail.com> <f64523f0-db39-4e3a-85a6-1a3cb07e2d08@marliere.net>
+In-Reply-To: <f64523f0-db39-4e3a-85a6-1a3cb07e2d08@marliere.net>
+From: Amit Vadhavana <av2082000@gmail.com>
+Date: Wed, 3 Jul 2024 22:53:17 +0530
+Message-ID: <CAPMW_rKV1BkBbrhcKNkMvhSatoHRNk58O8m8m8GHCN1Jb2V-8Q@mail.gmail.com>
+Subject: Re: [PATCH v2] slimbus: Fix struct and documentation alignment in stream.c
+To: "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: srinivas.kandagatla@linaro.org, alsa-devel@alsa-project.org, 
+	linux-kernel@vger.kernel.org, rbmarliere@gmail.com, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/2/24 6:48 PM, Pei Li wrote:
-> Acquire ctx->completion_lock in io_add_aux_cqe().
-> 
-> syzbot reports a warning message in io_cqring_event_overflow(). We were
-> supposed to hold ctx->completion_lock before entering this function, but
-> instead we did not.
-> 
-> This patch acquires and releases ctx->completion_lock when entering and
-> exiting io_add_aux_cqe().
+On Thu, 20 Jun 2024 at 18:00, Ricardo B. Marliere <ricardo@marliere.net> wrote:
+>
+> Hi Amit,
+>
+> On 19 Jun 24 23:28, Amit Vadhavana wrote:
+> > Hi Ricardo,
+> >
+> > I have rebuilt it again, and there are no any warnings or errors.
+>
+> Thanks for checking, FWIW:
+>
+> Reviewed-by: Ricardo B. Marliere <ricardo@marliere.net>
+>
+> BTW, I received this message plus another two empty ones. Please check
+> your settings. Also, make sure not to top-post [1].
+>
+> Best regards,
+> -       Ricardo.
+>
+>
+> [1] https://en.wikipedia.org/wiki/Posting_style#Top-posting
+>
+>
+>
+> >
+> > Thanks
+> > Amit v
 
-Thanks for sending a patch, but Pavel already fixed it:
+Hi Srinivas,
 
-https://git.kernel.dk/cgit/linux/commit/?h=for-6.11/io_uring&id=3b7c16be30e35ec035b2efcc0f7d7b368789c443
+I hope you are well. I am following up on a patch I submitted on 19
+Jun regarding a kernel document and Ricardo reviewed the patch.
+I understand you have a busy schedule, but if you could find some time
+to review the patch, I would greatly appreciate it.
+Your feedback would be invaluable in helping to improve the quality of
+this contribution.
+If there are any changes needed or additional steps I should take,
+please let me know.
 
--- 
-Jens Axboe
-
-
+Thanks
+Amit V
