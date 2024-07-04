@@ -1,115 +1,98 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1FF17B4FE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FDF1822E2
+	for <Linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Jul 2024 13:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720027959; cv=none; b=eEz1y0tw/gdDdjij8sAVe8qiMOx18Z7s77zasWG66pEftjEv+oObK23YMwQfO0PVI9yEROjHIFULB4sm7xf5N6uVcSH4QLOQDlzabnZ75D8EeiaSkgh/2rL4SixzrqmyjtRU+x8mLl1DvCKshF3XwFaymTtBf5s8BlpQSibwpV8=
+	t=1720101072; cv=none; b=r0vvZ7CNvO0fbDtT2GfpPemeUxIg1i0iP/AHPmFC8Cq9um7XIdwhdM0xzjpvGJL/IeBh0SWpQG/3RZNJ6359Tf9xZXDLn7g0TjKgKD2F0R7lHk/SJyXW4Hujn/pN6BzUFlUJi3Y2uA+8iTqgZr1g/XCSsAbYv6J9XYdfla8JhWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720027959; c=relaxed/simple;
-	bh=yiZwVs34KAsMmVpnWF6wgCRNg80IMF2DlKj/9xcYU0M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EATgACqWM565bZDynTBRXTWlnNPB4G2wkXgeC2WhtmNb48+mYMj+DQyJlL9xuys7PRTpozfOHqY1TQ52A99ICB7pkmPeKzdBu06XYFiJguGGQO9yYde1WAMG2QhEUayivLZPaSrXSnkqjQ0axxvHwtzPNHklAg2TDP5y564cRDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cbIXBQNx; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1720101072; c=relaxed/simple;
+	bh=Mk2zjU0OD/BqtSdx1Y/wNXDDAcjEI73Cmr4nJ0Iw0TU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ePR5BKGt592hYKQZFyBmSXJexmM7sXyC3Kb9yveat6iy2rHzQzaTLeVIG3q5RyFQsr2lw3mKvpO2qkJ2tFJ8yNOnvl7Wc2bXi0pFN9DSmbEInjxDU9J+vOe45z0qa8BP+HzTLJUOURoynFkxh6uIEW/BreKNE1n4JK2Qv7Ett04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BCqcDNPj; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cbIXBQNx"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BCqcDNPj"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 5524260EFF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:32:38 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 8F6C360820
+	for <Linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Jul 2024 13:51:10 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: 1.235
-X-Spam-Level: *
+X-Spam-Score: -9.6
+X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id l_HHbNa3RaZj for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  3 Jul 2024 17:32:37 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32f; helo=mail-wm1-x32f.google.com; envelope-from=srinivas.kandagatla@linaro.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3722060EE7
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3722060EE7
+ id jrrWphkUyaJz for <Linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  4 Jul 2024 13:51:04 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::649; helo=mail-ej1-x649.google.com; envelope-from=3xaigzgckagwnfieuyfqyyqvo.myw@flex--dvyukov.bounces.google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 450C960830
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 450C960830
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=cbIXBQNx
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 3722060EE7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  3 Jul 2024 17:32:36 +0000 (UTC)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-4257d5fc9b7so34320255e9.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 03 Jul 2024 10:32:36 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=BCqcDNPj
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com [IPv6:2a00:1450:4864:20::649])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 450C960830
+	for <Linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  4 Jul 2024 13:51:04 +0000 (UTC)
+Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-a77b2edfe06so50044366b.0
+        for <Linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 04 Jul 2024 06:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1720027955; x=1720632755; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oskWmBG9bN19QP7asfXU5sdItpYr22CgLvmAviCVAVc=;
-        b=cbIXBQNxVpWMUm97wCwQaIjmcnLn0gHIFnXV7Xcg4R0l9G0GdKDFjo4+YYeJRjctZv
-         PmDjRwfrI9pEFvg3dPlpX9iA6J5KXfNYooOP1jxQcfwhgTop+RpauFiFrZE8nuX/EFkK
-         9Uz43kO8+KPTrH8p5geUmlWY0s7odTU7gUlWULt7CdAglTNbrfXoIAl2+XPzghtX/QjN
-         dpAwh0BuerrSfFUIZyTYlD8cGYqidAk2+4f0VCY7LIUJ8yM1NvH66kVL9wzcX1+pXl9g
-         JmkJkaYhpxM2V7t3Mxz1UsJ+mLxUk+8EpMT/YEVTH2wbfv6FuTR8vd5tPquIPnGlroAf
-         7zLg==
+        d=google.com; s=20230601; t=1720101062; x=1720705862; darn=lists.linuxfoundation.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mk2zjU0OD/BqtSdx1Y/wNXDDAcjEI73Cmr4nJ0Iw0TU=;
+        b=BCqcDNPjXw5OoCy5M0MarbVJgo+uKPRUVgqDq0O+OScWkesRbzbHJrsTPbwweVEame
+         ybaqt1E/uef2bGxDegJ4WMIFrsu4fc6BbBImHe+oNzxse7QN+Bvn/sSxWxf2yton6/KE
+         GSIIx3SeZAktFAQ1GJOWWYGEdAqpfXwH2BHFMgGu8/roq+XmwzaR3Daez8AooYpN56go
+         Mou2WWcgxY5C43u4yZz9O+SsHoXj3L/+7L3p2pKYgbUZQDA7yhtIGNbLKMB/baeBKf88
+         9954nkyuKlfSl/NACnO0sY+rCZPRcqI/y7Mlsa24s4FcivBJDnE7MawFHDLlxL1M8Jgp
+         MOgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720027955; x=1720632755;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oskWmBG9bN19QP7asfXU5sdItpYr22CgLvmAviCVAVc=;
-        b=DetL7LrE0VJMjTVN478pOma2zN0o5tQw//XdU9+6eDqMNZ6qhvNCWttSgEw/MFzl+D
-         O1JsY8fslcokKSRTTfunLREbswSX/UH0tuUxO3hHVdrBl/cnEmCsh175iD4DhN6Q75Cx
-         tuIONreL9Efrk59vUMry09LzptqZN18mY+KL5aMEc5QTwlHzfG6IZJz5ZJys6RQdEDdu
-         w0UzoCUpE16GvCBJx8AnScM8RD2Y7BBBYxXYpGT9+Dcc+Lvwkhs4uDxmJsLWEBmpDL7R
-         AiVTbEGP5CN6xmlLVEi+RakcpY48RycYJ4gMi7/ztf/25g+FYw7jqIfzneaUvdRna2Af
-         7uMA==
-X-Gm-Message-State: AOJu0Yxe21IsMNbXPr0P78mHMwc8uYwkJ31lgAPWMpS/eHWcm11f4d6W
-	dZeNebR76TWG32kOsbO9vrH/YLIkyHUiSRAgEDORGEIO+SOE9szMeVGIqgNXW6o=
-X-Google-Smtp-Source: AGHT+IFyHHiiFlnwelv6JSIST8hjX2FhMJ9p/4P+xzny04uXYYyA9EwNzHKULeV4HsPzKoQ5t0WQLg==
-X-Received: by 2002:a05:600c:181b:b0:424:c837:f54b with SMTP id 5b1f17b1804b1-4257a0270f4mr102800275e9.38.1720027954898;
-        Wed, 03 Jul 2024 10:32:34 -0700 (PDT)
-Received: from srini-hackbase.lan ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4256b0c0f99sm252728595e9.41.2024.07.03.10.32.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jul 2024 10:32:34 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To: alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, 
- rbmarliere@gmail.com, skhan@linuxfoundation.org, 
- Amit Vadhavana <av2082000@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org
-In-Reply-To: <20240616203231.43724-1-av2082000@gmail.com>
-References: <20240616203231.43724-1-av2082000@gmail.com>
-Subject: Re: [PATCH v2] slimbus: Fix struct and documentation alignment in
- stream.c
-Message-Id: <172002795407.299941.2477625564170300581.b4-ty@linaro.org>
-Date: Wed, 03 Jul 2024 18:32:34 +0100
+        d=1e100.net; s=20230601; t=1720101062; x=1720705862;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mk2zjU0OD/BqtSdx1Y/wNXDDAcjEI73Cmr4nJ0Iw0TU=;
+        b=LjFdnyXEqr9EgzHG+Sb5mdTCJ1m4qtOKTo6HYah2Bp5bnzuKxLU8uKyI7E++DTQXb5
+         lSYJaGwbNoDmj2gpUUxouyxncM8ypYP37O+2gD7/zLFa0d/mP2nKlFJv+rQ7CVogYiun
+         DisjiXgSYoVwr22t19c3fVXqdg+3QDgEoy3SLiFn63oQi6TSW3IXQmP9uj9pUuh0Zp/7
+         nuLsl2TGkkjQo866o674ikqkfEdx2GEJsxPyqB/bUIetAJhM3VJsPJ0xCZrOQWOQrJip
+         xBmqgSqTNfqkEEuYH7s8Sp0GqXRckw0PbFYp6G9Hz4S3mwB9tBvcDZ5RuPoz4UgCvV4n
+         dIig==
+X-Forwarded-Encrypted: i=1; AJvYcCWjidGuDjVK+5WlfdOW4yb36b2jw72ZKCiKOc1Q8BFabKDn7tfwi7j04cC+7a54pmBzChEcEWxpoX/IGrRTu/QqwzyEu3dEcsqrcZzoY6js7n3lC+fp2B5dbK1MR7cM
+X-Gm-Message-State: AOJu0YzgNV+O30R9XlEhvcM7eCHXJqeMnpgVXXYVGrg05MBLQs9GfLHf
+	cqDUubSlFlonJQNF523vvnXuPHl8NfFF22nk2KJ6zCjrPhEt9mf5lSEb1KHAN/oPhOrTtJfU2jQ
+	9MolsUQ==
+X-Google-Smtp-Source: AGHT+IFrFc15nopfz9rvRJbJq682fsp+q2IZ5nbvfQreeYJuORUbZwDxqyh1wfijUhGGgU291E1rUbV7ygFF
+X-Received: from dvyukov-desk.muc.corp.google.com ([2a00:79e0:9c:201:ef38:74e6:67b5:dcc0])
+ (user=dvyukov job=sendgmr) by 2002:a17:906:99c8:b0:a72:8fe5:9c60 with SMTP id
+ a640c23a62f3a-a77ba727e6emr125366b.14.1720101061941; Thu, 04 Jul 2024
+ 06:51:01 -0700 (PDT)
+Date: Thu,  4 Jul 2024 15:50:57 +0200
+In-Reply-To: <2023082746-antelope-drop-down-5562@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+Mime-Version: 1.0
+References: <2023082746-antelope-drop-down-5562@gregkh>
+X-Mailer: git-send-email 2.45.2.803.g4e1b14247a-goog
+Message-ID: <20240704135057.1174408-1-dvyukov@google.com>
+Subject: Re: [PATCH] fs/befs: fix shift-out-of-bounds in befs_check_sb
+From: Dmitry Vyukov <dvyukov@google.com>
+To: gregkh@linuxfoundation.org
+Cc: 88c258bd-3d0c-de79-b411-6552841eb8d0@gmail.com, 
+	Linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	luisbg@kernel.org, salah.triki@gmail.com, 
+	syzbot+fc26c366038b54261e53@syzkaller.appspotmail.com, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
-On Mon, 17 Jun 2024 02:02:31 +0530, Amit Vadhavana wrote:
-> The placement of the `segdist_codes` array documentation was corrected
-> to conform with kernel documentation guidelines. The `@segdist_codes`
-> was placed incorrectly within the struct `segdist_code` documentation
-> block, which led to a potential misinterpretation of the code structure.
-> 
-> The `segdist_codes` array documentation was moved outside the struct
-> block, and a separate comment block was provided for it. This change
-> ensures that clarity and proper alignment with kernel documentation
-> standards are maintained.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] slimbus: Fix struct and documentation alignment in stream.c
-      commit: cea500f1ad5f6e93e67ab6f9a317d713524732cd
-
-Best regards,
--- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+What's the kernel policy for such cases?
+Should this be merged via some fallback fs/mm tree,
+or taken directly by Linus?
+The filesystem is still enabled in all major distros.
+Or should we delete the filesystem from the kernel?
 
