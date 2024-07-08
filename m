@@ -1,111 +1,123 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7A77E782
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jul 2024 11:57:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3270146A98
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jul 2024 17:23:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720439826; cv=none; b=DglsASt1mWTbvwgjzKWbEmbimmoGd5Vae0xf6rJ+lxmxQf11qz42ag4yxZR1XjSkWd2PM/p5XwlLUIue5HaLdlczfvoPW83N2lRaJ8lMZvAknJEDiF6+LrVd9a2jVCh4WeHBmaYMoG3XtcjCGYU84x8WWzLcokHV09YbxHgVi5M=
+	t=1720459384; cv=none; b=it/Ntv1WoYzssk5olhNlvaPLiKYlgx137HgvQgOvSDA7ENN61uAMtyvJXt/fUt6mnwXqc0UstDgEXa/P4bqo9d5PxfkvnRx3UYRWC0s/6oJ2dewzfGB4JzSQccUi3byoJD5NozybF68CAYy1Wbz4gES6h9+V7e1Oy2qEmslhi2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720439826; c=relaxed/simple;
-	bh=SUIMCgaacRO0cSlQoird0ishcpaQlxLRaKsUM24BmkA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YjXGCaLxfK/NW0Fo0zEHDVjeVnZ//xsvm1WKPvD/PFOY4cZ7EAdBpEavYDmsG05ymhDLZ/b6zjbfQlovOVgkP1YUB8MexqPBfkLiFrp1FsSkRFqxnu7tB3V6z95YDUQQmNCROpYR2+M/Yn2IzzNhj6eyu3j6CoQhBJ4j+igUJMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3LxKIVF; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1720459384; c=relaxed/simple;
+	bh=qYq6s4bNLi2kzyWMR518+ntELHhG9kRHTZCMd61DDxk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IacCHSWDumEMYD2o+uB1BuLiqV9JJ5StZSaVoH2kpcDP2uEZiyg7dIoM9wKEN1WR/pp9s2Lk7WotY8qIhPYMeVA9YHc6YbXJEP02M955oq3S5eDZQ3r8TxTYSXL5jl576l1TyAitSwJRnkHpSOHJsat9K8NF0bPa60zafItMRLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b3zLCH/4; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3LxKIVF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b3zLCH/4"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D8B2D81021
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jul 2024 11:57:04 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 55987811ED
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jul 2024 17:23:03 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id F4Tf9QAF2-b6 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon,  8 Jul 2024 11:57:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52e; helo=mail-pg1-x52e.google.com; envelope-from=miguel.ojeda.sandonis@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 41C1480FB7
+ id eVJNnBmc6H4s for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  8 Jul 2024 17:23:02 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::641; helo=mail-pl1-x641.google.com; envelope-from=abhishektamboli24@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 8785B81148
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 41C1480FB7
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8785B81148
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=V3LxKIVF
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 41C1480FB7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jul 2024 11:57:04 +0000 (UTC)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-7276c331f78so3141572a12.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 08 Jul 2024 04:57:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=b3zLCH/4
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 8785B81148
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  8 Jul 2024 17:23:02 +0000 (UTC)
+Received: by mail-pl1-x641.google.com with SMTP id d9443c01a7336-1fb3cf78fcaso25370815ad.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 08 Jul 2024 10:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720439823; x=1721044623; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SUIMCgaacRO0cSlQoird0ishcpaQlxLRaKsUM24BmkA=;
-        b=V3LxKIVFRbeQeP0mFHRVF3bO1FbNPaFTicRQ5Ney3ibDeIKUOgNN/cQvX43iVMcZGD
-         GONJXr4Wjoc+7eWB7sAKuTPwQQs+QkabU6UkCObiBsZLi6Iwvwx89+yX40tdCfJWI6AN
-         G64QLIKHFNEHPnlc54NnDKJuXUpDw/GbilmcvJl/99OYfgLh+UK8F+cbltKU9lsmuxgz
-         S6Ys4HU2eQgs2DuYiVTZXosAsUyTyDWcyYFUlHgtxQMURkGNWfozywr/KAMqw4PcDrcq
-         JT6B5d3XsDHNCNHd6wjr0gJ/mzzvD+agr9cBq7YHrs/ciYb44KvFk3uFcjhmJGN34jCx
-         jFvw==
+        d=gmail.com; s=20230601; t=1720459382; x=1721064182; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l8dssTOE5YtjaCpjIjX/bht9CAwJzQ5jf+TiBoCd/rc=;
+        b=b3zLCH/4fVv5upy3pko/DJdi28NBadbY8gg5Mlt4BjsNyGdSqOzxanwnunRM315Heg
+         qCxUDTrtnksGQC3s1TnyysbjYpqy/Ll3Z9ixs+ZIT3NnFYZUzqtbHwGRDtpmQYWZsj6U
+         Jz6ERMTYqi+LDdvtWJK9Oasj6ZRR7jzJ+cqbAogFd3r1+lmAv7IM/fKaHb0itsDrVq3S
+         FjT/4WMUiM5P4/HWFS7qHtG2SdGmeRRG/kD25v1XCnkrmPC4D6sEee5FzWIAyyko4pJw
+         Lz0HCeIa0v1/tPwHnfNKVZQ4ovEQ7VaH5HHojjjhtjh1cmanf+SspOjsqDBnh7EBBWNy
+         vEEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720439823; x=1721044623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SUIMCgaacRO0cSlQoird0ishcpaQlxLRaKsUM24BmkA=;
-        b=oOAy1SXFD0xsT0sr7n7IDvdwEPWjKkaYTBrIa12UjPznL1gb5Pm1hYIMOx6f/rs5JQ
-         ZDASbF7E4tordtIvl94izik6GNPvC1ESIMldx0PndqjWdN4dVG+tS5E2PZ+NFXZ3BTsF
-         tYJq4uQgmb9oYAkE1vlRPG+Le1OQVMvAIjFVWFDmIMWEQRu/TtBAwo+rluP1AJyu1BNe
-         It9nZ+WJ4sdazC0T7Ow+hdz3lR0CaA7knZyuHFTdL5CL7XXdk3wKEM3EiAj5CXhMjVMT
-         17+Rh5vFQ2hB/m/PFQGCDvRotpN8YOUZwEWhdYW71j7f2iQY4Rp+mKUb098sYZFWiK52
-         8pkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXe69iKQd+WgGu5xnEdjiff7A6UTdLcN8SAB0VwsTfEf169lVpoOWJvJIKRV6L7fWskNvxZSoPPSWxHm/oxxD3iZhHeVy1QFgBFboVW8figLDE868d59pQ8SQxEYj5R
-X-Gm-Message-State: AOJu0YwrLTT3aHdkjFT00J7TTLTMHb3F+qnHiQzrcXVNHQqQlSxhRltF
-	gID4Wd5VtytModtNEeSZv2l+coEvNT3qOaETEw3qNc/NqYbo/bBAM5HULPL71mYF0YqMsGqhSUa
-	WWnaCaqZkCHqApZFR8Gw0xgMOgio=
-X-Google-Smtp-Source: AGHT+IEcG2yYYSggHwDRwPEuj3eNKhu048mkWdz+/GOOQznG2lh2nwbizm5Pru/c0We9zgHyuv2NeWm2UWwzGuBpyYg=
-X-Received: by 2002:a17:90a:d190:b0:2ab:8324:1b47 with SMTP id
- 98e67ed59e1d1-2c99f381a14mr17271344a91.15.1720439823359; Mon, 08 Jul 2024
- 04:57:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720459382; x=1721064182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l8dssTOE5YtjaCpjIjX/bht9CAwJzQ5jf+TiBoCd/rc=;
+        b=p+9g+5NR0JvCP9MsAYTN+ah5/OxDJ7OUkHI2P8b0fB+d2Y3G/KugL2hAG7sLm1Dybp
+         2mW/VGjpJ4EXyHxWIjSe4IC90cRh3HspZ9hlXc9RtV6Brh7szwe6Ie/inopJva0HBgJ6
+         bAqw41YJ0M+APVZAoZlG4nRK5zb5tRlux4PvbQX1RhQFCWzfM8J+e9iPfBAi8MnakkjD
+         Toee890XoUYXCv3EekzO3RVx0ddOLBKQYd1FEdjRMhkdkqhzeeAmVgmDYcn6qWmNE/9l
+         tkQymSfyNs43bgyT2jTXUUDFz72xCElPym4U2QAhWtr40fdimQnlPboWSRTN4lQTxjFJ
+         c/FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMuJnen6kFzGUDqax38ADSFBlF0YlsFr7ZrElYg/9ABGZj8V9ZKKA4M1MSYbdR/90Kt53vMuO1USFB6mpHS/LlcFUfMBt757vujazg3+f7iYvlfDMAiYh1C+Tbzva1
+X-Gm-Message-State: AOJu0YxKEgMCs+UQKGmcpnl6o7mfgXKKOr0N2Tq6cM72K6X3aeUaqUvP
+	zqyV1pZs+1qM7NvAq10RJL5LMJoWTxgLISfelb+OrUF8lQNiYxXr
+X-Google-Smtp-Source: AGHT+IEnHd1r/rT95kPOKGYZBxgklx50F/DDhELRb5rGAwZPK7BNWUon2xTWMeDCG3gWIbiM3Cj76A==
+X-Received: by 2002:a17:902:e84f:b0:1fb:3b30:8ce0 with SMTP id d9443c01a7336-1fbb6ed5798mr1508735ad.44.1720459381664;
+        Mon, 08 Jul 2024 10:23:01 -0700 (PDT)
+Received: from embed-PC.. ([122.173.216.255])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6a10852sm1190705ad.27.2024.07.08.10.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 10:23:00 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli24@gmail.com>
+To: airlied@gmail.com,
+	daniel@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Abhishek Tamboli <abhishektamboli24@gmail.com>
+Subject: [PATCH] drm: Add documentation for struct drm_plane_size_hint members
+Date: Mon,  8 Jul 2024 22:52:24 +0530
+Message-Id: <20240708172224.46073-1-abhishektamboli24@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240708090615.2267476-1-andrewjballance@gmail.com>
- <CANiq72mB3hA6GeN2XSqRpV4m+rCbr2+NLHgmfpphjm1Wo1wBBw@mail.gmail.com> <ZovMt7AHJdiGEobg@pollux>
-In-Reply-To: <ZovMt7AHJdiGEobg@pollux>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 8 Jul 2024 13:56:49 +0200
-Message-ID: <CANiq72=6LSGwRsc+deE+U8H=mdgFisrKEPOYgVkZfHhGm8hwog@mail.gmail.com>
-Subject: Re: [PATCH] rust: firmware: fix invalid rustdoc link
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: Andrew Ballance <andrewjballance@gmail.com>, linux-kernel@vger.kernel.org, 
-	gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	skhan@linuxfoundation.org, mcgrof@kernel.org, russ.weight@linux.dev, 
-	ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com, 
-	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 8, 2024 at 1:25=E2=80=AFPM Danilo Krummrich <dakr@redhat.com> w=
-rote:
->
-> Firmware and device abstractions were merged in driver-core-next.
+Add descriptions for 'width' and 'height' members in struct
+drm_plane_size_hint to improve clarity and documentation coverage.
 
-Indeed, you are right -- then:
+Signed-off-by: Abhishek Tamboli <abhishektamboli24@gmail.com>
+---
+ include/uapi/drm/drm_mode.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Fixes: de6582833db0 ("rust: add firmware abstractions")
+diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
+index 1ca5c7e418fd..25891a636e4f 100644
+--- a/include/uapi/drm/drm_mode.h
++++ b/include/uapi/drm/drm_mode.h
+@@ -872,7 +872,13 @@ struct drm_color_lut {
+  * array of struct drm_plane_size_hint.
+  */
+ struct drm_plane_size_hint {
++	/**
++	 * @width: Width of the plane size hint.
++	 */
+ 	__u16 width;
++	/**
++	 * @height: Height of the plane size hint.
++	 */
+ 	__u16 height;
+ };
+ 
+-- 
+2.34.1
 
-And with the commit message fixed:
-
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-
-Thanks!
-
-Cheers,
-Miguel
