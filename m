@@ -1,85 +1,85 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524E71A00EB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 21:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED780152179
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 21:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720733638; cv=none; b=CY9rEf03JAK2xYZfxKcHs05UzxTQkVqidnAlDljO6oj/CqoZtIJN0m6ePrGdsCRTCuw4ScZ3j7Ct4vM8NKfso8uIL9/htcWHNjflEDq7Nr28N0gx06pDNR4kXGiZ9QbEeTQ7pELc+yZ4FteWLE4NSeha6FmRj9mGmjxbyd3WqME=
+	t=1720734364; cv=none; b=W7iYCpvw4R0/Cc0+8zXk9TuR0yFr0QoM1OxR3mCF28q7F2Gxn48pFlYartm8ItOet7IxQNP0SZ6aMQSo97dNd9Z4hGtjhOy6UNNxRjyCxu2xNFCl+6p8e3clRHRkV7r+bS7XefWW9PuH44gQu69FWQY6fptxGmF3F9mgCD71CjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720733638; c=relaxed/simple;
-	bh=TrvfVsxFxkfG3CbvoFQgedFk5JHpPhXLX37ab8sPnlY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QGRvpfjOrij+rdLpJsS0cvC7PQFgsbn0fgL6wM7TnMddHDJLH63SLkUD2XerkI1UAUxv9CyTkioqnfHSit02O/fdeidXx+lZbyCDX64v9eI8Q7jREy9/yxnhI8VSUxV3L0MJ9Gc/G2g2kEMWO/ZsuC0IN1+Ok/eoDRodPR+wCVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RNzKOSyj; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1720734364; c=relaxed/simple;
+	bh=wPcUrNi3aOArgO3Vea6YLGbDQzt1pVu+EqACAbsGL3Y=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=A3ZtLW9INqfIly1NN2xg4S3Jfc4HZpmXVNUcjAgv15YZaF7YAYb0xla7VVQHjNLyxn3aB6a6iXqHEV+1x/Yag1TjNS4eTntWtL6hEhi3PAbLgHpj3yjXkyyKJDlrOJRVvKDbtawH1bOb3YziuDcRdbXEZJzuzYueKYQya2TWFR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V1T1SKJf; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RNzKOSyj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V1T1SKJf"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EC17040398
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 21:33:55 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 97CAA6073E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 21:46:02 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id XOjMYJ0LDKPz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Jul 2024 21:33:54 +0000 (UTC)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XBWB-CUH-_oS for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 11 Jul 2024 21:46:01 +0000 (UTC)
 Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=david@redhat.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 862024037A
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 862024037A
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RNzKOSyj
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 771C36071F
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 771C36071F
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=V1T1SKJf
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 862024037A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 21:33:54 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 771C36071F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 21:46:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720733633;
+	s=mimecast20190719; t=1720734360;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=219lIAcvA7w+sSpZLZf099JtfoSJ9jRz/h7DHoP3yqk=;
-	b=RNzKOSyjTriSz+2DIunQtMJRz2tbxU2BKPul0AnZVYPMpWRXv2a29vfaYs/lETGdGwIEmT
-	yyBJUhxskHHQql1zR4JCFXfyZWBTB/3Remegv/2hWn7HW8lfmfpUOkXXd2FbENgKfOtbmG
-	lk2OV+Uxjyr5ZlyZat6Ajqk46B9KjR0=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=gCU5PfJVuXsumXQqQsSYiImalskACx2N8PUmZR26Bp8=;
+	b=V1T1SKJfLOqv2RnW+RieQzDe41k7lhNvCz0q6MCxvp5Q6WhRvBqxMFByceaLuoCOjTNkvy
+	eR6f8vzamYvVFXxjbtVPIsS7p7xVAhcn7Hm3EtBVRpng46xB/9Fn2MrQuzlZKlw27g1kqb
+	tYl9nN0xYeGhleUGax+zZxW0fbH3+fI=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-403-5357vq9RP_Coxwc-kddKNQ-1; Thu, 11 Jul 2024 17:33:51 -0400
-X-MC-Unique: 5357vq9RP_Coxwc-kddKNQ-1
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-70af58f79d1so1300990b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 14:33:51 -0700 (PDT)
+ us-mta-453-vmtDBuWfM6yrurfAHPavWg-1; Thu, 11 Jul 2024 17:45:58 -0400
+X-MC-Unique: vmtDBuWfM6yrurfAHPavWg-1
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-25e16962811so1431335fac.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 14:45:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720733631; x=1721338431;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=219lIAcvA7w+sSpZLZf099JtfoSJ9jRz/h7DHoP3yqk=;
-        b=jgmefj2cZyewb/uUfAtV+YAh6w5jsS54MurCyWK+gias+FZQMyT5m8XDWEeB8f6Oka
-         Si6M/QRbg1/5SbznM6oW3Ckphn6NCfSPkEknFvaYNF5v3ZFjE0CKdRzUUFFf3j7g19Ot
-         uLcExDEEdPxpBWcIhmJiA4G3Y8HB24rZ7GC9taFhTdVs1u5d6tn+3ChhI7XidYAJo3Ov
-         4WGMxmqu098EhdFMscJ5z44e8fvBbdy7mhwGKoJF4b6FC4mKaFDFRk9MZ0Im6arhwTn3
-         7/pYBilvwFbilqP9+NJKELWQic3pXTZ2p6AmAx7MhFtyPHYk494T6EJW9vUDwgBSvTIN
-         H1HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2+q7Jng2+pC0MOCx2xqCrrEkMFFibbbGFihAaZIp5q9mwh48ve+Bzno3GkYbLX1gZkvfljWL5dP0n0WYOHgWcJmZ52ZCiUxrrbJQT9/LWst8hT3+WqLAJaaqthio9
-X-Gm-Message-State: AOJu0YzDCs2nxexdbbxxNmKcXUtOfsRQ7bfa4vO+O1XQzaArpeL14uVK
-	dUuLctmgeG1ZmH4k943HkyJCW1wTVnL0VsgxQkweNraY239r2He0JUlvLLrlLFxiXX1dW++0ILR
-	ehuSs4Y5aW9J+peSz+uwyKyOTz3x64YFk65sg94TjkDEdpgj1k7LexqF7iXyIf5uBcMF8/dSM+i
-	UK/36mIbxe0Q==
-X-Received: by 2002:a05:6a00:23d5:b0:706:6c38:31f3 with SMTP id d2e1a72fcca58-70b43538665mr10390212b3a.8.1720733630508;
-        Thu, 11 Jul 2024 14:33:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGtilW6Oy1FkkMUoO1+Zz+4/UURSKtlBsEUQhFqOcBShJGklujlaJCWSbde9Mrk6SD1Lebztw==
-X-Received: by 2002:a05:6a00:23d5:b0:706:6c38:31f3 with SMTP id d2e1a72fcca58-70b43538665mr10390186b3a.8.1720733630017;
-        Thu, 11 Jul 2024 14:33:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1720734358; x=1721339158;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:from:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gCU5PfJVuXsumXQqQsSYiImalskACx2N8PUmZR26Bp8=;
+        b=AIGEQliT65Hk/33ObHE1nT0fKIng3MSHk1uB97ctmjSP0H8OCt/SCvKM3I4IPJ+T/3
+         e8MD34eWUkknjFjx3i2TIr6gd67qcjMdCR8+BDqzr4UeHDucFLXDQkoG68KCoMxnxHRb
+         7I6t6R787spNfOkRuUujWkpLiDkNCcpaseVMJljkR+6Mgs7tDeooCWt/gSujd/3jODir
+         4pOhQ0YDsYQEvwg1aK6r4Yr1DydD/btpjvWDssNu2qcRNc3F86hzxMlr+09GuBMg0x0V
+         kXpmH9XGZ0y6VBNijsSIyKLt1XCnozkJoYmzekAj2PjVI9ERVti5N8kuzIduxgG2m+SL
+         92Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCXk0ZqvWZx586/Qmg4CxnhUgbzcORDXU9ij0pHAPvO4AvKa3zMXz98aAsGkhW9qShMxOTZXLqWea9VNhWcNZFlTcq5deg+GAw5aUodmaYgKqBOgGY8tCoP7XR9nrlGz
+X-Gm-Message-State: AOJu0YwjJq3Hagr72NqCeh3fi2H7WeYNIjuL1Ndtyuh6Wvs1QR1jmbEC
+	t3sdETvrxRDcGdxkuNDGa7pfjc0f1nhmBqwTMzoK4CWU4iWThsmSyJkwFrHoPnAJMcMJouC69bU
+	Gj22Vxucn9o8AghqGO/HEcLEzFt7nq8SmjMIMZ+KmIxqHZrtwRglwmBp8v5p6YzflA+w4iZZtjK
+	RWAZOLEtwRqQ==
+X-Received: by 2002:a05:6870:658b:b0:25e:b632:b772 with SMTP id 586e51a60fabf-25eb632be86mr7164651fac.28.1720734357929;
+        Thu, 11 Jul 2024 14:45:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEubFxCgvrZDPOFpFZQK5gCCgWQI106zGO+hT124SVL29oD3W9Qhix1o6henrG81wBRkI8VRg==
+X-Received: by 2002:a05:6870:658b:b0:25e:b632:b772 with SMTP id 586e51a60fabf-25eb632be86mr7164604fac.28.1720734356197;
+        Thu, 11 Jul 2024 14:45:56 -0700 (PDT)
 Received: from [172.20.2.228] ([4.28.11.157])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b54edbc49sm3641353b3a.22.2024.07.11.14.33.49
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70b439b338esm6367080b3a.177.2024.07.11.14.45.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jul 2024 14:33:49 -0700 (PDT)
-Message-ID: <92a2dc30-6e48-44ea-9cde-693b911f200d@redhat.com>
-Date: Thu, 11 Jul 2024 23:33:48 +0200
+        Thu, 11 Jul 2024 14:45:55 -0700 (PDT)
+Message-ID: <3879ee72-84de-4d2a-93a8-c0b3dc3f0a4c@redhat.com>
+Date: Thu, 11 Jul 2024 23:45:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -88,13 +88,15 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] mm: Fix mmap_assert_locked() in follow_pte()
+From: David Hildenbrand <david@redhat.com>
 To: Pei Li <peili.dev@gmail.com>, Andrew Morton <akpm@linux-foundation.org>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com,
  linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
+ syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com,
+ Peter Xu <peterx@redhat.com>
 References: <20240710-bug12-v1-1-0e5440f9b8d3@gmail.com>
-From: David Hildenbrand <david@redhat.com>
+ <92a2dc30-6e48-44ea-9cde-693b911f200d@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
  dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
@@ -140,100 +142,76 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240710-bug12-v1-1-0e5440f9b8d3@gmail.com>
-X-Mimecast-Spam-Score: 1
+In-Reply-To: <92a2dc30-6e48-44ea-9cde-693b911f200d@redhat.com>
+X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11.07.24 07:13, Pei Li wrote:
-> This patch fixes this warning by acquiring read lock before entering
-> untrack_pfn() while write lock is not held.
+On 11.07.24 23:33, David Hildenbrand wrote:
+> On 11.07.24 07:13, Pei Li wrote:
+>> This patch fixes this warning by acquiring read lock before entering
+>> untrack_pfn() while write lock is not held.
+>>
+>> syzbot has tested the proposed patch and the reproducer did not
+>> trigger any issue.
+>>
+>> Reported-by: syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=35a4414f6e247f515443
+>> Tested-by: syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
+>> Signed-off-by: Pei Li <peili.dev@gmail.com>
+>> ---
+>> Syzbot reported the following warning in follow_pte():
+>>
+>> WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 rwsem_assert_held include/linux/rwsem.h:195 [inline]
+>> WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 mmap_assert_locked include/linux/mmap_lock.h:65 [inline]
+>> WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 follow_pte+0x414/0x4c0 mm/memory.c:5980
+>>
+>> This is because we are assuming that mm->mmap_lock should be held when
+>> entering follow_pte(). This is added in commit c5541ba378e3 (mm:
+>> follow_pte() improvements).
+>>
+>> However, in the following call stack, we are not acquring the lock:
+>>    follow_phys arch/x86/mm/pat/memtype.c:957 [inline]
+>>    get_pat_info+0xf2/0x510 arch/x86/mm/pat/memtype.c:991
+>>    untrack_pfn+0xf7/0x4d0 arch/x86/mm/pat/memtype.c:1104
+>>    unmap_single_vma+0x1bd/0x2b0 mm/memory.c:1819
+>>    zap_page_range_single+0x326/0x560 mm/memory.c:1920
 > 
-> syzbot has tested the proposed patch and the reproducer did not
-> trigger any issue.
+> That implies that unmap_vmas() is called without the mmap lock in read
+> mode, correct?
 > 
-> Reported-by: syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=35a4414f6e247f515443
-> Tested-by: syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
-> Signed-off-by: Pei Li <peili.dev@gmail.com>
-> ---
-> Syzbot reported the following warning in follow_pte():
+> Do we know how this happens?
 > 
-> WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 rwsem_assert_held include/linux/rwsem.h:195 [inline]
-> WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 mmap_assert_locked include/linux/mmap_lock.h:65 [inline]
-> WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 follow_pte+0x414/0x4c0 mm/memory.c:5980
-> 
-> This is because we are assuming that mm->mmap_lock should be held when
-> entering follow_pte(). This is added in commit c5541ba378e3 (mm:
-> follow_pte() improvements).
-> 
-> However, in the following call stack, we are not acquring the lock:
->   follow_phys arch/x86/mm/pat/memtype.c:957 [inline]
->   get_pat_info+0xf2/0x510 arch/x86/mm/pat/memtype.c:991
->   untrack_pfn+0xf7/0x4d0 arch/x86/mm/pat/memtype.c:1104
->   unmap_single_vma+0x1bd/0x2b0 mm/memory.c:1819
->   zap_page_range_single+0x326/0x560 mm/memory.c:1920
+> * exit_mmap() holds the mmap lock in read mode
+> * unmap_region is documented to hold the mmap lock in read mode
 
-That implies that unmap_vmas() is called without the mmap lock in read 
-mode, correct?
+I think this is it (missed the call from zap_page_range_single()):
 
-Do we know how this happens?
+  follow_phys arch/x86/mm/pat/memtype.c:957 [inline]
+  get_pat_info+0xf2/0x510 arch/x86/mm/pat/memtype.c:991
+  untrack_pfn+0xf7/0x4d0 arch/x86/mm/pat/memtype.c:1104
+  unmap_single_vma+0x1bd/0x2b0 mm/memory.c:1819
+  zap_page_range_single+0x326/0x560 mm/memory.c:1920
+  unmap_mapping_range_vma mm/memory.c:3684 [inline]
+  unmap_mapping_range_tree mm/memory.c:3701 [inline]
+  unmap_mapping_pages mm/memory.c:3767 [inline]
+  unmap_mapping_range+0x1ee/0x280 mm/memory.c:3804
+  truncate_pagecache+0x53/0x90 mm/truncate.c:731
+  simple_setattr+0xf2/0x120 fs/libfs.c:886
+  notify_change+0xec6/0x11f0 fs/attr.c:499
+  do_truncate+0x15c/0x220 fs/open.c:65
+  handle_truncate fs/namei.c:3308 [inline]
 
-* exit_mmap() holds the mmap lock in read mode
-* unmap_region is documented to hold the mmap lock in read mode
+I think Peter recently questioned whether untrack_pfn() should be even 
+called from the place, but I might misremember things.
 
-> 
-> In zap_page_range_single(), we passed mm_wr_locked as false, as we do
-> not expect write lock to be held.
-> In the special case where vma->vm_flags is set as VM_PFNMAP, we are
-> hitting untrack_pfn() which eventually calls into follow_phys.
-> 
-> This patch fixes this warning by acquiring read lock before entering
-> untrack_pfn() while write lock is not held.
-> 
-> syzbot has tested the proposed patch and the reproducer did not trigger any issue:
-> 
-> Tested on:
-> 
-> commit:         9d9a2f29 Merge tag 'mm-hotfixes-stable-2024-07-10-13-1..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=13be8021980000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3456bae478301dc8
-> dashboard link: https://syzkaller.appspot.com/bug?extid=35a4414f6e247f515443
-> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=145e3441980000
-> 
-> Note: testing is done by a robot and is best-effort only.
-> ---
->   mm/memory.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index d10e616d7389..75d7959b835b 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -1815,9 +1815,16 @@ static void unmap_single_vma(struct mmu_gather *tlb,
->   	if (vma->vm_file)
->   		uprobe_munmap(vma, start, end);
->   
-> -	if (unlikely(vma->vm_flags & VM_PFNMAP))
-> +	if (unlikely(vma->vm_flags & VM_PFNMAP)) {
-> +		if (!mm_wr_locked)
-> +			mmap_read_lock(vma->vm_mm);
-> +
->   		untrack_pfn(vma, 0, 0, mm_wr_locked);
->   
-> +		if (!mm_wr_locked)
-> +			mmap_read_unlock(vma->vm_mm);
-> +	}
-> +
->   	if (start != end) {
->   		if (unlikely(is_vm_hugetlb_page(vma))) {
+Fix should work (I suspect we are not violating some locking rules?), 
+PFNMAP should not happen there too often that we really care.
 
-I'm not sure if this is the right fix. I like to understand how we end 
-up without the mmap lock at least in read mode in that path?
+If everything fails, we could drop the assert, but I'm hoping we can 
+avoid that. We really want most users of follow_pte() to do the right thing.
 
 -- 
 Cheers,
