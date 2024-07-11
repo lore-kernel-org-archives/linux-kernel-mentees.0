@@ -1,184 +1,205 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8AC5473E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A055012C52E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720674803; cv=none; b=gGHZJF9FUZqCIHqYB+poLDt0aoPqcuzh8ctxCjcJbd/1VmFqPZ4Q12hvmtsqiAS1ZJC1nEn8Fxl2y8TW25YiHQ7MfSCTTrAD0fKIMsFh0VR9Fh690Z+9IMdOFrSyuiIHvrEMhhjpYVvGSdFLdV7WnDGVln9zGAFEiQi2nSJ1Bw4=
+	t=1720675804; cv=none; b=FZwhIKiHAwns6oHsgbZcY9QBsvNB+g5E1iuCbHy8SrirHZY+ejB16NvEIzZMTWPI9aQsLo+QBmzTHJKPZReTUi0Lor8tUcsdhE3Mx/i1EfDhYnZIL+7iapblPs0S0kJumyEcvZw8AT6AaXAEiFjyZWSMNHegMpiOjYLfxe5JDgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720674803; c=relaxed/simple;
-	bh=3ICe51SaAt5djViV4CNOeZvsuOCXxxCiY5DHVoQXx74=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=oqpNXLXduF26QX5GBBKPg5+46mSgsFVxecIsm0b9fgTdHvhJu30z0Q5gjhWBbM7tgeei87SHlDCbM41A9HUIonMfI6O44/2X0wwImfUmJFjNm+cJ9PxgSTIAkgV/V65kXUBmJ9Mm3qfxjwXLnbAkMFm4HmOeSpNNaIEeE70HcUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d1Ht63rf; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1720675804; c=relaxed/simple;
+	bh=tVi+AdVtLCoo0xLNKhOl4i2hgIaH2Q3fdb81B0+VlsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GM6Qe6JbjC9fgauje05ZadRRn5lUoEBCBx4uopheibt07S+u5Y22yA8I6m4GQtoZ6df3cRw/JzLWc5ILdJzAzRxZ74WrgHXH3eu1vP0DK4S8yErreSY08SghqXy5VH5ziIcgKQ71Giq0ScqDfZ5AidyQ7MpcxK/rdkowgkOgo/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=OprD4Ovo; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1Ht63rf"
+	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="OprD4Ovo"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 52CDF83F2A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:13:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 4B383405A5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:30:02 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.797
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id wMqYP02qjN_y for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Jul 2024 05:13:21 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::112c; helo=mail-yw1-x112c.google.com; envelope-from=peili.dev@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 2AC5E83F28
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 2AC5E83F28
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=d1Ht63rf
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 2AC5E83F28
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:13:20 +0000 (UTC)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-6519528f44fso4497577b3.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Jul 2024 22:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720674799; x=1721279599; darn=lists.linuxfoundation.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iQXtYB9XCir9GCdKuowEuKTyQp208kpzJxxFmEuVXk4=;
-        b=d1Ht63rflmbxuetw6fPyERdlXeToFatCxeaRJbn6NDDjc2UF9xbIoox2FHaVbBQ1uy
-         gUMALA4qJZs1cEn4WiFIh6oUxFDl69uGbQGqE1lIHJs+2C+v5lVLE8fx1D++cFaOF9mA
-         ysLtLvJPJZUi+V+Y2ybrGmgzHmp6nOKL4stGmiXi5tVfk+EaKBvvCOCi6Osu/fxXH6FU
-         Dh8oq7KcTWEnY0ohMPN6V0qdKra+0E5uAPFqiERtgJb4NifEzWwS2rE6I6SHtADSmp+w
-         7GBr70XOz8xyyxP7N9hxTCitTxpkn+uwz64mHAu6lItu2Ia+WY267KMyEmM/jyl6tw6i
-         451g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720674799; x=1721279599;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iQXtYB9XCir9GCdKuowEuKTyQp208kpzJxxFmEuVXk4=;
-        b=fnycyeY9BS78Dai96jSXht95RKDVseVN1uCbVqcov9PN8//fnt9x14LBYVvqTmSovJ
-         IBv0oDcNo39PD+XF2n21fF0DyfmnwtOJzLsFiW0/fDeVX1Tqqt+X2B7+J+V9pcIdsnZ1
-         SWUgIA73H6Jc61ff2d/RAhOPf0ELTmgGkB459eL35edbPeUjPTdyb6h2iXaUPno37Sc8
-         cu0ntmo82VQ7bN9fon7sjR9+QcU/0FB5Y16mG4WhFcBNGztDbZqovU/2UK8Agh1YkHpr
-         0gYl8qmjleYtxT+z50n6KwL00wMWhIDSjrnhb40Mfwa1q2eU4pp0gGpM11ysknmOvDSj
-         F09g==
-X-Forwarded-Encrypted: i=1; AJvYcCWmLZWefYkNZkEOChlsykrqx4mXIrjtAbsgWM+AE5gIL2cMHdEfwwEWitZsdiA7EBGIi7rrmNJrzxq1dkWc1zIXwsCmxbRmRZ5B/PBcbbQLtLf3xrplLEiGky9IKxH/
-X-Gm-Message-State: AOJu0YzHFdGVQ4RP/y+YUQkkEpLJN8GJNi6qJfCq0erFhTqipzmDviYl
-	EUqD0rOnLW2q2JOEEC57XdgVKyiWIp3cJ4on6r5XZIUkoq8MjKHWOZSKNg==
-X-Google-Smtp-Source: AGHT+IEyAVKw5Vd18ENIlHU5gmCTPX/H+yQcQCMZso6vu9YM82xH6jarDD3R68xOoUe+H2XjSgqjhA==
-X-Received: by 2002:a81:b101:0:b0:62c:fcba:cfeb with SMTP id 00721157ae682-65c0703a2d2mr34072307b3.34.1720674798840;
-        Wed, 10 Jul 2024 22:13:18 -0700 (PDT)
-Received: from [127.0.1.1] (107-197-105-120.lightspeed.sntcca.sbcglobal.net. [107.197.105.120])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-658e4f18ac1sm9812667b3.47.2024.07.10.22.13.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jul 2024 22:13:18 -0700 (PDT)
-From: Pei Li <peili.dev@gmail.com>
-Date: Wed, 10 Jul 2024 22:13:17 -0700
-Subject: [PATCH] mm: Fix mmap_assert_locked() in follow_pte()
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NhehsxcIAbT3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 11 Jul 2024 05:30:01 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.15.15; helo=mout.gmx.net; envelope-from=quwenruo.btrfs@gmx.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7164F4004A
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7164F4004A
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.a=rsa-sha256 header.s=s31663417 header.b=OprD4Ovo
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7164F4004A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:29:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
+	s=s31663417; t=1720675785; x=1721280585; i=quwenruo.btrfs@gmx.com;
+	bh=+RR1hUYr3X9lDdEoYTmfRGxXIBBbKKDuAWup2kRpIkA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=OprD4OvohLpOFHYrjUCh7WLJmnMy4OInb2IgqUpSl+SzJdnc/48jWuw3LIdLInjI
+	 eFnE7M6/k0ddA39b8Pbwxe2YypuGG7kbvSLGKwY0Z2PyTsiuTwuL5t3UrqsH2Lqig
+	 CXeGZBiNauyKH6YOBsUmgfv6autPgnm1vPDtrPfA5zhWnJiKF2HlKydFHEdqI7zq0
+	 eWf3j+vahV0rWLZgl+gbyM2pPTT2Iq28pET3oFlj4ePGulHxt3Wa39ROd7PulfbB3
+	 YtTISwg0K6fADcZEscG18mavkqcBR+hM2wjygkcWoi3lZDNZXzcdVA1zubMnl9jtD
+	 kZJ3uldjVNnPhbUd5A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.0.191] ([159.196.52.54]) by mail.gmx.net (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MhlGk-1rx8SP0Ft2-00mlSF; Thu, 11
+ Jul 2024 07:29:45 +0200
+Message-ID: <edcd0036-5782-4c29-9f5e-b7610ea9eb4e@gmx.com>
+Date: Thu, 11 Jul 2024 14:59:39 +0930
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240710-bug12-v1-1-0e5440f9b8d3@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAOxpj2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDc0MD3aTSdEMj3bTU5LRUk6Qkg5TkJCWg2oKi1LTMCrA50bG1tQDwdHD
- 9VwAAAA==
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
- linux-kernel-mentees@lists.linuxfoundation.org, 
- syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com, 
- Pei Li <peili.dev@gmail.com>
-X-Mailer: b4 0.15-dev-13183
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1720674797; l=3183;
- i=peili.dev@gmail.com; s=20240625; h=from:subject:message-id;
- bh=3ICe51SaAt5djViV4CNOeZvsuOCXxxCiY5DHVoQXx74=;
- b=7v20EAV87UFY21GDUltDd4EeyRABLCZfR+Cx3h6CHtW1mZm9ikaQaBEWHqW7Ox4T5/FK+bSVJ
- xDafQfayV5QC0fjJZNKTyya6vp2sAYnNbj6lBbTTsxareJMGLm1ZNUA
-X-Developer-Key: i=peili.dev@gmail.com; a=ed25519;
- pk=I6GWb2uGzELGH5iqJTSK9VwaErhEZ2z2abryRD6a+4Q=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] btrfs: Fix slab-use-after-free Read in
+ add_ra_bio_pages
+To: Pei Li <peili.dev@gmail.com>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+ Qu Wenruo <wqu@suse.com>
+Cc: linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, skhan@linuxfoundation.org,
+ syzkaller-bugs@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ syzbot+853d80cba98ce1157ae6@syzkaller.appspotmail.com
+References: <20240710-bug11-v2-1-e7bc61f32e5d@gmail.com>
+Content-Language: en-US
+From: Qu Wenruo <quwenruo.btrfs@gmx.com>
+Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
+ xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
+ 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
+ 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
+ 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
+ gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
+ AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
+ BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00iVQUJDToH
+ pgAKCRDCPZHzoSX+qNKACACkjDLzCvcFuDlgqCiS4ajHAo6twGra3uGgY2klo3S4JespWifr
+ BLPPak74oOShqNZ8yWzB1Bkz1u93Ifx3c3H0r2vLWrImoP5eQdymVqMWmDAq+sV1Koyt8gXQ
+ XPD2jQCrfR9nUuV1F3Z4Lgo+6I5LjuXBVEayFdz/VYK63+YLEAlSowCF72Lkz06TmaI0XMyj
+ jgRNGM2MRgfxbprCcsgUypaDfmhY2nrhIzPUICURfp9t/65+/PLlV4nYs+DtSwPyNjkPX72+
+ LdyIdY+BqS8cZbPG5spCyJIlZonADojLDYQq4QnufARU51zyVjzTXMg5gAttDZwTH+8LbNI4
+ mm2YzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
+ CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
+ /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
+ GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
+ q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
+ ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00ibgUJDToHvwAK
+ CRDCPZHzoSX+qK6vB/9yyZlsS+ijtsvwYDjGA2WhVhN07Xa5SBBvGCAycyGGzSMkOJcOtUUf
+ tD+ADyrLbLuVSfRN1ke738UojphwkSFj4t9scG5A+U8GgOZtrlYOsY2+cG3R5vjoXUgXMP37
+ INfWh0KbJodf0G48xouesn08cbfUdlphSMXujCA8y5TcNyRuNv2q5Nizl8sKhUZzh4BascoK
+ DChBuznBsucCTAGrwPgG4/ul6HnWE8DipMKvkV9ob1xJS2W4WJRPp6QdVrBWJ9cCdtpR6GbL
+ iQi22uZXoSPv/0oUrGU+U5X4IvdnvT+8viPzszL5wXswJZfqfy8tmHM85yjObVdIG6AlnrrD
+In-Reply-To: <20240710-bug11-v2-1-e7bc61f32e5d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Ox+U2OEvYY4rVIdz47iUwojWUYdvqQIDD2B1PU937XY42mwDTyW
+ Q9tiqbtT3EfE9DKOvcKxzDZDhxJ9UXuVjvMIleGlbQIqPkqXoZZ5FRh1OBV+NY5x+qwuV0h
+ SGQS7J9kUYi34AwRL+zWloCk+ivUIvou8dFNrQnzirKJWxxPnokEw5BVF70ZvyEmExPP2Xg
+ 9QccyLEAk44uZdt7YUEzQ==
+UI-OutboundReport: notjunk:1;M01:P0:w4iUgBVpG5M=;o49mxWNPbOyzJaXhBCeFaWdsVcG
+ o4R84zsczPUv/aWyMPoOlJsAmCQJsithZ4XVUasgVUGLm7kCZthtaofSYjqripn4YGG6Jqq5/
+ 1zRTdxxvihkbufcXLY37DyrXEF4LaN7o/Jav9LdsIyHewSHNqUNFzXNhGSgpBJDucvgydxErl
+ uTwTIl17lDqfBce1yH8CPF3Mxvbc/u0RBlY7BXYD5f+spCUEk46tgRudzBH6siEe9qWeMp7ik
+ eod+5l/HkiuVPiIS0H2zEcpgcr6nrR5dAxHSiW5uUJNvi9A3+ETyk+UqvuhnSzrmvEOm07XWw
+ yIVOlvc+wMZ3xYoVRxJBylpzaYCb23hl0rrKB05vNMbiOV9/AfrrrHIT8MrsKnHeF3YOsR71S
+ gIrOZsiNA0AJi0Ef+zlJZB6X62OAGAHTsPfCquaAaF31OVbjtR/irsa+yXehrKcjlFoHBwQOh
+ skRDiTP0t63jicAOcfHdewVcXvMI9OPqyzmY3yF+uJBnpdEwZxHKxDYy1oqN81hHQFe8tKGOw
+ i+f4Q8+DnUlpl/5IvxbtACNxlALWAgtahBegSxAped73hdOuilw7bEX3C6YnNd+inK6rQYdXK
+ ecc63czZyPIx+QPzG7XikyA6URatxrTh75QLfApASgGivj35QjByw3PWGLmJyNRGOWcOtJrSP
+ QGbYH/J4BuH6I1iywHVajjC8G9l+HXl1pO83tyJUtGVCnAK9sAeekuBzSqLPWbLo38ezX2diI
+ yTUeaFtIGfJ459hyVUqZQhpvYVEtM6g4YprFdWe/9rcQsXsTdBqMkaDe4WypSu/ypiRTwjCul
+ 8Tak27/d2aHvjj25uMfo7u7mNa6ZjyPoT7WwnsolUU654=
 
-This patch fixes this warning by acquiring read lock before entering
-untrack_pfn() while write lock is not held.
 
-syzbot has tested the proposed patch and the reproducer did not
-trigger any issue.
 
-Reported-by: syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=35a4414f6e247f515443
-Tested-by: syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com
-Signed-off-by: Pei Li <peili.dev@gmail.com>
----
-Syzbot reported the following warning in follow_pte():
+=E5=9C=A8 2024/7/11 13:59, Pei Li =E5=86=99=E9=81=93:
+> We are accessing the start and len field in em after it is free'd.
+>
+> This patch moves the line accessing the free'd values in em before
+> they were free'd so we won't access free'd memory.
+>
+> Reported-by: syzbot+853d80cba98ce1157ae6@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D853d80cba98ce1157ae6
+> Signed-off-by: Pei Li <peili.dev@gmail.com>
+> ---
+> Syzbot reported the following error:
+> BUG: KASAN: slab-use-after-free in add_ra_bio_pages.constprop.0.isra.0+0=
+xf03/0xfb0 fs/btrfs/compression.c:529
+>
+> This is because we are reading the values from em right after freeing it
+> before through free_extent_map(em).
+>
+> This patch moves the line accessing the free'd values in em before
+> they were free'd so we won't access free'd memory.
+>
+> Fixes: 6a4049102055 ("btrfs: subpage: make add_ra_bio_pages() compatible=
+")
 
-WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 rwsem_assert_held include/linux/rwsem.h:195 [inline]
-WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 mmap_assert_locked include/linux/mmap_lock.h:65 [inline]
-WARNING: CPU: 3 PID: 5192 at include/linux/rwsem.h:195 follow_pte+0x414/0x4c0 mm/memory.c:5980
+This fixes tag, along with the syzbot report, should be in the main
+commit message, not after the "---" line, which would be discarded when
+applying.
 
-This is because we are assuming that mm->mmap_lock should be held when
-entering follow_pte(). This is added in commit c5541ba378e3 (mm:
-follow_pte() improvements).
+> ---
+> Changes in v2:
+> - Adapt Qu's suggestion to move the read-after-free line before freeing
+> - Cc stable kernel
 
-However, in the following call stack, we are not acquring the lock:
- follow_phys arch/x86/mm/pat/memtype.c:957 [inline]
- get_pat_info+0xf2/0x510 arch/x86/mm/pat/memtype.c:991
- untrack_pfn+0xf7/0x4d0 arch/x86/mm/pat/memtype.c:1104
- unmap_single_vma+0x1bd/0x2b0 mm/memory.c:1819
- zap_page_range_single+0x326/0x560 mm/memory.c:1920
+It's not just Ccing to the stable list, but with a version tag.
 
-In zap_page_range_single(), we passed mm_wr_locked as false, as we do
-not expect write lock to be held.
-In the special case where vma->vm_flags is set as VM_PFNMAP, we are
-hitting untrack_pfn() which eventually calls into follow_phys.
+For all the proper tags usage, you can check this commit, it has all the
+correct tags.
 
-This patch fixes this warning by acquiring read lock before entering
-untrack_pfn() while write lock is not held. 
+b2a616676839 ("btrfs: fix rw device counting in __btrfs_free_extra_devids"=
+)
 
-syzbot has tested the proposed patch and the reproducer did not trigger any issue:
+Otherwise the code looks good to me.
 
-Tested on:
+Reviewed-by: Qu Wenruo <wqu@suse.com>
 
-commit:         9d9a2f29 Merge tag 'mm-hotfixes-stable-2024-07-10-13-1..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13be8021980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3456bae478301dc8
-dashboard link: https://syzkaller.appspot.com/bug?extid=35a4414f6e247f515443
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=145e3441980000
+Thanks,
+Qu
 
-Note: testing is done by a robot and is best-effort only.
----
- mm/memory.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/mm/memory.c b/mm/memory.c
-index d10e616d7389..75d7959b835b 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -1815,9 +1815,16 @@ static void unmap_single_vma(struct mmu_gather *tlb,
- 	if (vma->vm_file)
- 		uprobe_munmap(vma, start, end);
- 
--	if (unlikely(vma->vm_flags & VM_PFNMAP))
-+	if (unlikely(vma->vm_flags & VM_PFNMAP)) {
-+		if (!mm_wr_locked)
-+			mmap_read_lock(vma->vm_mm);
-+
- 		untrack_pfn(vma, 0, 0, mm_wr_locked);
- 
-+		if (!mm_wr_locked)
-+			mmap_read_unlock(vma->vm_mm);
-+	}
-+
- 	if (start != end) {
- 		if (unlikely(is_vm_hugetlb_page(vma))) {
- 			/*
-
----
-base-commit: 734610514cb0234763cc97ddbd235b7981889445
-change-id: 20240710-bug12-fecfe4bb0dcb
-
-Best regards,
--- 
-Pei Li <peili.dev@gmail.com>
-
+> - Link to v1: https://lore.kernel.org/r/20240710-bug11-v1-1-aa02297fbbc9=
+@gmail.com
+> ---
+>   fs/btrfs/compression.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/btrfs/compression.c b/fs/btrfs/compression.c
+> index 6441e47d8a5e..f271df10ef1c 100644
+> --- a/fs/btrfs/compression.c
+> +++ b/fs/btrfs/compression.c
+> @@ -514,6 +514,8 @@ static noinline int add_ra_bio_pages(struct inode *i=
+node,
+>   			put_page(page);
+>   			break;
+>   		}
+> +		add_size =3D min(em->start + em->len, page_end + 1) - cur;
+> +
+>   		free_extent_map(em);
+>
+>   		if (page->index =3D=3D end_index) {
+> @@ -526,7 +528,6 @@ static noinline int add_ra_bio_pages(struct inode *i=
+node,
+>   			}
+>   		}
+>
+> -		add_size =3D min(em->start + em->len, page_end + 1) - cur;
+>   		ret =3D bio_add_page(orig_bio, page, add_size, offset_in_page(cur));
+>   		if (ret !=3D add_size) {
+>   			unlock_extent(tree, cur, page_end, NULL);
+>
+> ---
+> base-commit: 563a50672d8a86ec4b114a4a2f44d6e7ff855f5b
+> change-id: 20240710-bug11-a8ac18afb724
+>
+> Best regards,
