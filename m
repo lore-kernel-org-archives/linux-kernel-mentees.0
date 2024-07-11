@@ -1,127 +1,89 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A055012C52E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B478084DE9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 06:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720675804; cv=none; b=FZwhIKiHAwns6oHsgbZcY9QBsvNB+g5E1iuCbHy8SrirHZY+ejB16NvEIzZMTWPI9aQsLo+QBmzTHJKPZReTUi0Lor8tUcsdhE3Mx/i1EfDhYnZIL+7iapblPs0S0kJumyEcvZw8AT6AaXAEiFjyZWSMNHegMpiOjYLfxe5JDgo=
+	t=1720679967; cv=none; b=mJ1RnhGRrgTwh+qwtejvE/Z92s+k69B4ig7KOYwk2cWFRIpleWneWCt34Hd8fr1TvHWDfk1EXKT9KhE56HJ3qoclt+BwVwxh9W2A+I5BX+t1I8WgQXp3eS9SmaZ3ThkG8F1w5YTLHz62KmGm0PQ6GOxDRVpdSPjg2rj9pGH5Pps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720675804; c=relaxed/simple;
-	bh=tVi+AdVtLCoo0xLNKhOl4i2hgIaH2Q3fdb81B0+VlsQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GM6Qe6JbjC9fgauje05ZadRRn5lUoEBCBx4uopheibt07S+u5Y22yA8I6m4GQtoZ6df3cRw/JzLWc5ILdJzAzRxZ74WrgHXH3eu1vP0DK4S8yErreSY08SghqXy5VH5ziIcgKQ71Giq0ScqDfZ5AidyQ7MpcxK/rdkowgkOgo/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b=OprD4Ovo; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1720679967; c=relaxed/simple;
+	bh=YYuzY+tLhiCKB0JfC01of+ILfufjHR1RA3FDo//2JiY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RJWll9ulDtItwwJJCYHJJog6uhXUS8KZ3KIvjwyT2UJmmD7KfDzt4Em5R6KG1NaPrUmyXkSO83Tn7UbHw60CLTl3KSzE1Zo+gC6HiWWO7EEEHJk0jwQdcTM0s/cMcBuFDlTMKydeDfshnskf7TUxNbFYKJUSU4NpeQ7spP8C+Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=czn1ovPu; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.b="OprD4Ovo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="czn1ovPu"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 4B383405A5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:30:02 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 4593B8115F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 06:39:26 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.797
+X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id NhehsxcIAbT3 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 11 Jul 2024 05:30:01 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.15.15; helo=mout.gmx.net; envelope-from=quwenruo.btrfs@gmx.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7164F4004A
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7164F4004A
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmx.com header.i=quwenruo.btrfs@gmx.com header.a=rsa-sha256 header.s=s31663417 header.b=OprD4Ovo
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7164F4004A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 05:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.com;
-	s=s31663417; t=1720675785; x=1721280585; i=quwenruo.btrfs@gmx.com;
-	bh=+RR1hUYr3X9lDdEoYTmfRGxXIBBbKKDuAWup2kRpIkA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=OprD4OvohLpOFHYrjUCh7WLJmnMy4OInb2IgqUpSl+SzJdnc/48jWuw3LIdLInjI
-	 eFnE7M6/k0ddA39b8Pbwxe2YypuGG7kbvSLGKwY0Z2PyTsiuTwuL5t3UrqsH2Lqig
-	 CXeGZBiNauyKH6YOBsUmgfv6autPgnm1vPDtrPfA5zhWnJiKF2HlKydFHEdqI7zq0
-	 eWf3j+vahV0rWLZgl+gbyM2pPTT2Iq28pET3oFlj4ePGulHxt3Wa39ROd7PulfbB3
-	 YtTISwg0K6fADcZEscG18mavkqcBR+hM2wjygkcWoi3lZDNZXzcdVA1zubMnl9jtD
-	 kZJ3uldjVNnPhbUd5A==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [172.16.0.191] ([159.196.52.54]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MhlGk-1rx8SP0Ft2-00mlSF; Thu, 11
- Jul 2024 07:29:45 +0200
-Message-ID: <edcd0036-5782-4c29-9f5e-b7610ea9eb4e@gmx.com>
-Date: Thu, 11 Jul 2024 14:59:39 +0930
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DaxwGpjRn8u5 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 11 Jul 2024 06:39:25 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=fdmanana@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org F2D95810E3
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F2D95810E3
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=czn1ovPu
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id F2D95810E3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 06:39:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 50CC0CE180B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 06:39:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FD4DC4AF0C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 11 Jul 2024 06:39:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720679958;
+	bh=YYuzY+tLhiCKB0JfC01of+ILfufjHR1RA3FDo//2JiY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=czn1ovPuwZRPwkEMEGJNLqZvmdEJkCTC8Q03rhl6F5FW2JhUQHz63FjvRcr0ezkOr
+	 bqISEZUFVnEVqmqnzxptnWxsXZyHc9JWJwMwnC+H12l41zNckcvZ5kDjCacyL8ovPs
+	 s0E4oDvTj/5aRzMR2WwGI/DTrWNTh8tpeLvPUXEG7REvEZv6hyX27xhDhSz1kFoTmt
+	 exJ1UpnnHMgR25/a+abQ4AOiijAjOmldne29PLalhniHo0rLQLtlzvlqyeOXhF+s7f
+	 Srg9BVyAUxsaXdcfzeVDnE0age9uTF1q2tfzRl/5MlOoBy8Gvs7ql+kT1hK4tTDlOJ
+	 1htJA36xFjXAw==
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a77e2f51496so77643366b.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 10 Jul 2024 23:39:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWMD9oK2eR7GRiG7awf3feD9CZs6VKOApYzrs6hfC50yhN8IuyHak2il1qxJKWcXgZuu1defqqkkm6ylBSxgjlT73C6pwHKNOG3zqY994cd5VdbIGz9IVQigQNX/SOz
+X-Gm-Message-State: AOJu0YzXuw/ErIq9PBfoj7g3otos2mzrJjJ657b1kWbegrNWX2I/zlQY
+	L3w/9umfTSB/p9ECWZc5UF2ckiHrFxQaO4uwWihl2ovr/51V+JLth6IDmVvNk/eWYejmLFhHIvW
+	1+Ts2ZEGB3JXYCIWtCgsgiEJ5hoM=
+X-Google-Smtp-Source: AGHT+IEdES9ra8lhHWoM6RznNhYmve7qzUYd0yRVQr+T7mh+ANEEX2mvwgKpXCmmQQzLCaxjyKbu0vIgnqH3wKUV+64=
+X-Received: by 2002:a17:907:da7:b0:a77:eb34:3b4b with SMTP id
+ a640c23a62f3a-a780b68a989mr646569166b.11.1720679957126; Wed, 10 Jul 2024
+ 23:39:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] btrfs: Fix slab-use-after-free Read in
- add_ra_bio_pages
-To: Pei Li <peili.dev@gmail.com>, Chris Mason <clm@fb.com>,
- Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
- Qu Wenruo <wqu@suse.com>
-Cc: linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, skhan@linuxfoundation.org,
- syzkaller-bugs@googlegroups.com,
- linux-kernel-mentees@lists.linuxfoundation.org,
- syzbot+853d80cba98ce1157ae6@syzkaller.appspotmail.com
 References: <20240710-bug11-v2-1-e7bc61f32e5d@gmail.com>
-Content-Language: en-US
-From: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Autocrypt: addr=quwenruo.btrfs@gmx.com; keydata=
- xsBNBFnVga8BCACyhFP3ExcTIuB73jDIBA/vSoYcTyysFQzPvez64TUSCv1SgXEByR7fju3o
- 8RfaWuHCnkkea5luuTZMqfgTXrun2dqNVYDNOV6RIVrc4YuG20yhC1epnV55fJCThqij0MRL
- 1NxPKXIlEdHvN0Kov3CtWA+R1iNN0RCeVun7rmOrrjBK573aWC5sgP7YsBOLK79H3tmUtz6b
- 9Imuj0ZyEsa76Xg9PX9Hn2myKj1hfWGS+5og9Va4hrwQC8ipjXik6NKR5GDV+hOZkktU81G5
- gkQtGB9jOAYRs86QG/b7PtIlbd3+pppT0gaS+wvwMs8cuNG+Pu6KO1oC4jgdseFLu7NpABEB
- AAHNIlF1IFdlbnJ1byA8cXV3ZW5ydW8uYnRyZnNAZ214LmNvbT7CwJQEEwEIAD4CGwMFCwkI
- BwIGFQgJCgsCBBYCAwECHgECF4AWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00iVQUJDToH
- pgAKCRDCPZHzoSX+qNKACACkjDLzCvcFuDlgqCiS4ajHAo6twGra3uGgY2klo3S4JespWifr
- BLPPak74oOShqNZ8yWzB1Bkz1u93Ifx3c3H0r2vLWrImoP5eQdymVqMWmDAq+sV1Koyt8gXQ
- XPD2jQCrfR9nUuV1F3Z4Lgo+6I5LjuXBVEayFdz/VYK63+YLEAlSowCF72Lkz06TmaI0XMyj
- jgRNGM2MRgfxbprCcsgUypaDfmhY2nrhIzPUICURfp9t/65+/PLlV4nYs+DtSwPyNjkPX72+
- LdyIdY+BqS8cZbPG5spCyJIlZonADojLDYQq4QnufARU51zyVjzTXMg5gAttDZwTH+8LbNI4
- mm2YzsBNBFnVga8BCACqU+th4Esy/c8BnvliFAjAfpzhI1wH76FD1MJPmAhA3DnX5JDORcga
- CbPEwhLj1xlwTgpeT+QfDmGJ5B5BlrrQFZVE1fChEjiJvyiSAO4yQPkrPVYTI7Xj34FnscPj
- /IrRUUka68MlHxPtFnAHr25VIuOS41lmYKYNwPNLRz9Ik6DmeTG3WJO2BQRNvXA0pXrJH1fN
- GSsRb+pKEKHKtL1803x71zQxCwLh+zLP1iXHVM5j8gX9zqupigQR/Cel2XPS44zWcDW8r7B0
- q1eW4Jrv0x19p4P923voqn+joIAostyNTUjCeSrUdKth9jcdlam9X2DziA/DHDFfS5eq4fEv
- ABEBAAHCwHwEGAEIACYCGwwWIQQt33LlpaVbqJ2qQuHCPZHzoSX+qAUCY00ibgUJDToHvwAK
- CRDCPZHzoSX+qK6vB/9yyZlsS+ijtsvwYDjGA2WhVhN07Xa5SBBvGCAycyGGzSMkOJcOtUUf
- tD+ADyrLbLuVSfRN1ke738UojphwkSFj4t9scG5A+U8GgOZtrlYOsY2+cG3R5vjoXUgXMP37
- INfWh0KbJodf0G48xouesn08cbfUdlphSMXujCA8y5TcNyRuNv2q5Nizl8sKhUZzh4BascoK
- DChBuznBsucCTAGrwPgG4/ul6HnWE8DipMKvkV9ob1xJS2W4WJRPp6QdVrBWJ9cCdtpR6GbL
- iQi22uZXoSPv/0oUrGU+U5X4IvdnvT+8viPzszL5wXswJZfqfy8tmHM85yjObVdIG6AlnrrD
 In-Reply-To: <20240710-bug11-v2-1-e7bc61f32e5d@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Filipe Manana <fdmanana@kernel.org>
+Date: Thu, 11 Jul 2024 07:38:40 +0100
+X-Gmail-Original-Message-ID: <CAL3q7H6NisGBRqccRv3CiTDMJS0M7ZnvSrEDDHSOUn2TaWBBDw@mail.gmail.com>
+Message-ID: <CAL3q7H6NisGBRqccRv3CiTDMJS0M7ZnvSrEDDHSOUn2TaWBBDw@mail.gmail.com>
+Subject: Re: [PATCH v2] btrfs: Fix slab-use-after-free Read in add_ra_bio_pages
+To: Pei Li <peili.dev@gmail.com>
+Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
+	Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, skhan@linuxfoundation.org, 
+	syzkaller-bugs@googlegroups.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, 
+	syzbot+853d80cba98ce1157ae6@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Ox+U2OEvYY4rVIdz47iUwojWUYdvqQIDD2B1PU937XY42mwDTyW
- Q9tiqbtT3EfE9DKOvcKxzDZDhxJ9UXuVjvMIleGlbQIqPkqXoZZ5FRh1OBV+NY5x+qwuV0h
- SGQS7J9kUYi34AwRL+zWloCk+ivUIvou8dFNrQnzirKJWxxPnokEw5BVF70ZvyEmExPP2Xg
- 9QccyLEAk44uZdt7YUEzQ==
-UI-OutboundReport: notjunk:1;M01:P0:w4iUgBVpG5M=;o49mxWNPbOyzJaXhBCeFaWdsVcG
- o4R84zsczPUv/aWyMPoOlJsAmCQJsithZ4XVUasgVUGLm7kCZthtaofSYjqripn4YGG6Jqq5/
- 1zRTdxxvihkbufcXLY37DyrXEF4LaN7o/Jav9LdsIyHewSHNqUNFzXNhGSgpBJDucvgydxErl
- uTwTIl17lDqfBce1yH8CPF3Mxvbc/u0RBlY7BXYD5f+spCUEk46tgRudzBH6siEe9qWeMp7ik
- eod+5l/HkiuVPiIS0H2zEcpgcr6nrR5dAxHSiW5uUJNvi9A3+ETyk+UqvuhnSzrmvEOm07XWw
- yIVOlvc+wMZ3xYoVRxJBylpzaYCb23hl0rrKB05vNMbiOV9/AfrrrHIT8MrsKnHeF3YOsR71S
- gIrOZsiNA0AJi0Ef+zlJZB6X62OAGAHTsPfCquaAaF31OVbjtR/irsa+yXehrKcjlFoHBwQOh
- skRDiTP0t63jicAOcfHdewVcXvMI9OPqyzmY3yF+uJBnpdEwZxHKxDYy1oqN81hHQFe8tKGOw
- i+f4Q8+DnUlpl/5IvxbtACNxlALWAgtahBegSxAped73hdOuilw7bEX3C6YnNd+inK6rQYdXK
- ecc63czZyPIx+QPzG7XikyA6URatxrTh75QLfApASgGivj35QjByw3PWGLmJyNRGOWcOtJrSP
- QGbYH/J4BuH6I1iywHVajjC8G9l+HXl1pO83tyJUtGVCnAK9sAeekuBzSqLPWbLo38ezX2diI
- yTUeaFtIGfJ459hyVUqZQhpvYVEtM6g4YprFdWe/9rcQsXsTdBqMkaDe4WypSu/ypiRTwjCul
- 8Tak27/d2aHvjj25uMfo7u7mNa6ZjyPoT7WwnsolUU654=
 
-
-
-=E5=9C=A8 2024/7/11 13:59, Pei Li =E5=86=99=E9=81=93:
+On Thu, Jul 11, 2024 at 5:29=E2=80=AFAM Pei Li <peili.dev@gmail.com> wrote:
+>
 > We are accessing the start and len field in em after it is free'd.
 >
 > This patch moves the line accessing the free'd values in em before
@@ -132,8 +94,8 @@ UI-OutboundReport: notjunk:1;M01:P0:w4iUgBVpG5M=;o49mxWNPbOyzJaXhBCeFaWdsVcG
 > Signed-off-by: Pei Li <peili.dev@gmail.com>
 > ---
 > Syzbot reported the following error:
-> BUG: KASAN: slab-use-after-free in add_ra_bio_pages.constprop.0.isra.0+0=
-xf03/0xfb0 fs/btrfs/compression.c:529
+> BUG: KASAN: slab-use-after-free in add_ra_bio_pages.constprop.0.isra.0+0x=
+f03/0xfb0 fs/btrfs/compression.c:529
 >
 > This is because we are reading the values from em right after freeing it
 > before through free_extent_map(em).
@@ -141,65 +103,64 @@ xf03/0xfb0 fs/btrfs/compression.c:529
 > This patch moves the line accessing the free'd values in em before
 > they were free'd so we won't access free'd memory.
 >
-> Fixes: 6a4049102055 ("btrfs: subpage: make add_ra_bio_pages() compatible=
-")
+> Fixes: 6a4049102055 ("btrfs: subpage: make add_ra_bio_pages() compatible"=
+)
 
-This fixes tag, along with the syzbot report, should be in the main
-commit message, not after the "---" line, which would be discarded when
-applying.
+This type of useful information should be in the changelog, not after the -=
+--
+
+And btw, this was already fixed last week and it's in for-next:
+
+https://github.com/btrfs/linux/commit/aaa2c8b3f54e7b4f31616fd03bb302cc17ccc=
+f39
+https://lore.kernel.org/linux-btrfs/20240704171031.GX21023@twin.jikos.cz/T/=
+#m9a92a5d980230323ec351a24adf9a3738cfbbc40
+
+Thanks.
 
 > ---
 > Changes in v2:
 > - Adapt Qu's suggestion to move the read-after-free line before freeing
 > - Cc stable kernel
-
-It's not just Ccing to the stable list, but with a version tag.
-
-For all the proper tags usage, you can check this commit, it has all the
-correct tags.
-
-b2a616676839 ("btrfs: fix rw device counting in __btrfs_free_extra_devids"=
-)
-
-Otherwise the code looks good to me.
-
-Reviewed-by: Qu Wenruo <wqu@suse.com>
-
-Thanks,
-Qu
-
-> - Link to v1: https://lore.kernel.org/r/20240710-bug11-v1-1-aa02297fbbc9=
-@gmail.com
+> - Link to v1: https://lore.kernel.org/r/20240710-bug11-v1-1-aa02297fbbc9@=
+gmail.com
 > ---
->   fs/btrfs/compression.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>  fs/btrfs/compression.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/fs/btrfs/compression.c b/fs/btrfs/compression.c
 > index 6441e47d8a5e..f271df10ef1c 100644
 > --- a/fs/btrfs/compression.c
 > +++ b/fs/btrfs/compression.c
-> @@ -514,6 +514,8 @@ static noinline int add_ra_bio_pages(struct inode *i=
-node,
->   			put_page(page);
->   			break;
->   		}
-> +		add_size =3D min(em->start + em->len, page_end + 1) - cur;
+> @@ -514,6 +514,8 @@ static noinline int add_ra_bio_pages(struct inode *in=
+ode,
+>                         put_page(page);
+>                         break;
+>                 }
+> +               add_size =3D min(em->start + em->len, page_end + 1) - cur=
+;
 > +
->   		free_extent_map(em);
+>                 free_extent_map(em);
 >
->   		if (page->index =3D=3D end_index) {
-> @@ -526,7 +528,6 @@ static noinline int add_ra_bio_pages(struct inode *i=
-node,
->   			}
->   		}
+>                 if (page->index =3D=3D end_index) {
+> @@ -526,7 +528,6 @@ static noinline int add_ra_bio_pages(struct inode *in=
+ode,
+>                         }
+>                 }
 >
-> -		add_size =3D min(em->start + em->len, page_end + 1) - cur;
->   		ret =3D bio_add_page(orig_bio, page, add_size, offset_in_page(cur));
->   		if (ret !=3D add_size) {
->   			unlock_extent(tree, cur, page_end, NULL);
+> -               add_size =3D min(em->start + em->len, page_end + 1) - cur=
+;
+>                 ret =3D bio_add_page(orig_bio, page, add_size, offset_in_=
+page(cur));
+>                 if (ret !=3D add_size) {
+>                         unlock_extent(tree, cur, page_end, NULL);
 >
 > ---
 > base-commit: 563a50672d8a86ec4b114a4a2f44d6e7ff855f5b
 > change-id: 20240710-bug11-a8ac18afb724
 >
 > Best regards,
+> --
+> Pei Li <peili.dev@gmail.com>
+>
+>
