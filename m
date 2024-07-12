@@ -1,129 +1,149 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558E416F273
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 12:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D68EAC7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 13:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720788260; cv=none; b=lklfOqCFzzb8qyIMfajtvK7KgyaJyKrDTEpbhofNgqNWCiC0tlb61kndwsXy10e119tcao2J3AtiNSzijTWtJjKZGwgawqtJlH2L1ztOgTouFwHXAvO/5JkNt9yFLIQqeDl6Odsj9z9uWktQ2H3/lM9MbasOjcVZXqu3Zhm/PhA=
+	t=1720791400; cv=none; b=cuE/+2cEAsxSQcn2JI9oZs0I5A5RiXGiloLiBFVTM4DCf+9OqakCb/toxQBeRCVpOx/trsCHER0n+WZhol0sAbWiFdFnaUF5lOlEjR9wOduY8UL7csBuZGvWuediNfCi4nP8V1meSny7PvpwfIUUn9cr4um4Ovh9BHaHclPpE5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720788260; c=relaxed/simple;
-	bh=6ufvLZh6JA1HntVTiuUbcXQAn3diVx42qGV3EGVvscE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f+C6ZdOIoVU9rshTXwqPFxyyUq1ywA2BeVdnJ0oDfa5eNoSyHepR8l5AxfFUYkVOzC9/rTFb7L4RIy1/HYjlKnNldwtVMDd5xmN6tdEtwLbc0RsgsziAnkxmayLiffuJvXnC1qaARbe+mTiqXEN0w9/g0Lotq71aY10SnOk6JS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=qbN6Sm+w; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1720791400; c=relaxed/simple;
+	bh=b9Hiyb9V12OK0cWf/wcBNEcB+j8b6dfOtprF3E37KfU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=oUeR9Vbbfy+axKuBuEGMS23lGgjPWqdAYAElkERmItA41aJIHzr0qACXhqu75atIb1mIDTsX5Ys4/EFtpf3IZ1h5jjrzimLY9ti3IQNH29OnqLF17XbkI6jWJ5QSNk7qVKyIlxWn5DhlK8Ksj+uIfFUrduTAwHBJcNbKDp4M8Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=neGe+Nnt; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="qbN6Sm+w"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="neGe+Nnt"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id EDDC9412F9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 12:44:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 50F8B40275
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 13:36:38 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.097
+X-Spam-Score: -1.85
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 6aOfSfFH_jZy for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jul 2024 12:44:18 +0000 (UTC)
-X-Greylist: delayed 1550 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 12 Jul 2024 12:44:16 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 916D8410E9
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 916D8410E9
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=spasswolf@web.de header.a=rsa-sha256 header.s=s29768273 header.b=qbN6Sm+w
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.11; helo=mout.web.de; envelope-from=spasswolf@web.de; receiver=<UNKNOWN> 
-Received: from mout.web.de (mout.web.de [212.227.17.11])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 916D8410E9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 12:44:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1720788241; x=1721393041; i=spasswolf@web.de;
-	bh=o1bGVqOFBjkQcYKjdJ9UbZexqkUKxlvj8kOA0HhkZuw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=qbN6Sm+wGDGXmrhm3m2cr6WcH5HCyzHvb3YOz5Ez9kD4iDD6747ubTldJUBC5GAF
-	 DfUSXzQhINInGrkwa4oIjwJvwnuCluocR5Ew2JOdC1IQUwXREecypRvQ229GS1LaK
-	 M9FOhxI4l57bNKZev9YKgFI7eLXG7GNbakdUMIePIEPT9nWvz3zC+IVFGFuuVZYV8
-	 ji65d/1kRRpnsjqta0Y11vC3GsMssLNuaBtxedQNxwXGLfAPiEPAQIO1nw3+CCVlF
-	 lZdZUHrsm7VeiMLO7YlGIInmCCqxDRSoWaVTdUQM63RB5yzZWBDmgSPjOgwpNVfvX
-	 /EGBQuri780/fuiz8A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from localhost.localdomain ([84.119.92.193]) by smtp.web.de
- (mrweb106 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1MNOV6-1siITT2P8M-00N6UL; Fri, 12 Jul 2024 14:44:01 +0200
-From: Bert Karwatzki <spasswolf@web.de>
-To: Pei Li <peili.dev@gmail.com>
-Cc: Bert Karwatzki <spasswolf@web.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-next@vger.kernel.org,
-	syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id kJmTwvP01Ciw for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 Jul 2024 13:36:37 +0000 (UTC)
+X-Greylist: delayed 948 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 12 Jul 2024 13:36:36 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 43B3440273
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=163.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 43B3440273
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=neGe+Nnt
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=45.254.50.219; helo=m15.mail.163.com; envelope-from=00107082@163.com; receiver=<UNKNOWN> 
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+	by smtp2.osuosl.org (Postfix) with ESMTP id 43B3440273
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 13:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=HxMoF
+	pqBNOKvW9AuKefuACYfanWfnrRyWhtwQoiUxdE=; b=neGe+NntTW2M2mqZ0hBbU
+	btskUR43l5vvfl1dejrIUsA6WPXIMeHjdNYb+11lRUu4+Q8UQ1faapn9gpS7IVmF
+	JVxG1Kw7I0PTuTQIo2P3CJWn4YFmcFWRfZ2/FbLx8E67GDmZgAeDi//gT8OH32qs
+	ZSLTLjpoFcXWL7KvwPqb6E=
+Received: from localhost.localdomain (unknown [111.35.186.71])
+	by gzga-smtp-mta-g0-0 (Coremail) with SMTP id _____wDnr2xjLZFmMD3DCg--.271S4;
+	Fri, 12 Jul 2024 21:19:35 +0800 (CST)
+From: David Wang <00107082@163.com>
+To: peterx@redhat.com
+Cc: akpm@linux-foundation.org,
+	david@redhat.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	senozhatsky@chromium.org
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	peili.dev@gmail.com,
+	skhan@linuxfoundation.org,
+	syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com
 Subject: Re: [PATCH] mm: Fix mmap_assert_locked() in follow_pte()
-Date: Fri, 12 Jul 2024 14:43:57 +0200
-Message-ID: <20240712124359.3199-1-spasswolf@web.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: 20240712121800.3049-1-spasswolf@web.de
-References: 
+Date: Fri, 12 Jul 2024 21:19:31 +0800
+Message-Id: <20240712131931.20207-1-00107082@163.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZpBhCHsG39wIVnQN@x1n>
+References: <ZpBhCHsG39wIVnQN@x1n>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:QrKMnFDuH2I9+4nVwL03BNGAfmYfTc2RgqzO22r8ATYSy6lJLtr
- /0WOeyc6NgNxvxO7SoaRYkiolL6QIMXXibAu2RoQg/94Yii+EU8BeFuXe6JTwd5B3hPSWtC
- plztMw+RINRDzvUUtww3kykFalrpoPVuCQVo8gGNmQCZgeMV0J2ptIjpY2NkAQAlGXjp8mQ
- suKhrzTp8+id6M8DIUt+A==
-UI-OutboundReport: notjunk:1;M01:P0:X9mWF1c9VR4=;6V7S6xu/wfZbMJ9yJpqO5GpEcyn
- 4/gYb00mhpDcIkodseQ0JL8fOPSwJ9Yh7O8yTuGgzoj+EQCGcdGljEEQ4PG4nSOsHZWabsY6A
- n/wjxOQJyX0a4ugluabwJXDaHVEhxj1TWM/PdVIEfuP3cSlMFenxNtWKCDfx9hgZFKF7SoYgt
- R0rD0baGO5j6090cN3p0NBjkofdCT60gFO13ZKpa7wg3F79AUuFF5NN/HEs+n32dt5L1mYOxw
- tJYlzmRhvT2uNNWd75w9Bl99v3vTmCPQCRfzdPFhZiIOYr0gfedqStXr/p8bibXjmFzL9ebtQ
- 1sYiZigGnj3oGL1/y+jgwIccqu3kgCfSxlM0dNH9ph69U4vO6O795GR2jBp3RY9fQ/jBhn+sg
- hKwvA2ZalXFW7O69ygdG3wZBPRxkfxOc5gE4d6I7U01KEkf+cJef2GxL+oGu7dBp80LLNX8Ny
- IO2eBhraPn6+MWTidoS6UWtqIU5WehuxTkeRExInmXYyiQB9U8OaBdRB/5iStMKJaw3bhXm4z
- SnIQAqo2l46YwI65cn2PTgHex9oX4uzMPp7l9VH4+BOWz5xz91whiZSoXOZQXov5uI4QgMozP
- NMRQdg1WCCSjNCxNojkoayyuhOZt/LEMnxCNHhp5QfuwNWQL3fLNg6Sjul06hX/tqTrEXXBoK
- q8uj0gbz5l+VxINsBS/YaD0c7n0X3hGdDXz6ciZd2rQX7SGXO6xR0elJt6r/5OKDB9LKt44HZ
- CagqBUkgIAtp64gHC/P82wujssLBzx5FOqO7sIPgSNydezgqE2D5IztbOglP2JvIOFAirHigq
- qlfdUqvgVjmiHDAhj67ckv0Q==
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnr2xjLZFmMD3DCg--.271S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXr43Wr1fKryruF48uFykZrb_yoW5Xr47pF
+	1Yqr4UCrWxGr1DJr4xta13tr10y3yjy3W8urs3Gr18Z3W5J3W3JF48Jr4jvr98Krs09rW7
+	tFWDXa1UtrWUtaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRrsqAUUUUU=
+X-CM-SenderInfo: qqqrilqqysqiywtou0bp/xtbB0g0aqmWXy9z-AAAAs1
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 282203363177..2f4b4322ec0e 100644
-=2D-- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -1817,6 +1817,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
- {
- 	unsigned long start =3D max(vma->vm_start, start_addr);
- 	unsigned long end;
-+	bool mm_read_locked;
+Hi,
 
- 	if (start >=3D vma->vm_end)
- 		return;
-@@ -1829,11 +1830,11 @@ static void unmap_single_vma(struct mmu_gather *tl=
-b,
+> Ah yes, I had one rfc patch for that, I temporarily put that aside as it
+> seemed nobody cared except myself.. it's here:
+> 
+> https://lore.kernel.org/all/20240523223745.395337-2-peterx@redhat.com
+> 
+> I didn't know it can already cause real trouble.  It looks like that patch
+> should fix this.
+> 
+> Thanks,
+> 
+> -- 
+> Peter Xu
 
- 	if (unlikely(vma->vm_flags & VM_PFNMAP)) {
- 		if (!mm_wr_locked)
--			mmap_read_lock(vma->vm_mm);
-+			mm_read_locked =3D !mmap_read_trylock(vma->vm_mm);
+Just add another user scenario concering this kernel warning.
+Ever since 6.10-rc1, when I suspend my system via `systemctl suspend`, nvidia gpu driver would trigger a warning:
 
- 		untrack_pfn(vma, 0, 0, mm_wr_locked);
+             	 Call Trace:
+             	  <TASK>
+             	  ? __warn+0x7c/0x120
+             	  ? follow_pte+0x15b/0x170
+             	  ? report_bug+0x18d/0x1c0
+             	  ? handle_bug+0x3c/0x80
+             	  ? exc_invalid_op+0x13/0x60
+             	  ? asm_exc_invalid_op+0x16/0x20
+             	  ? follow_pte+0x15b/0x170
+             	  follow_phys+0x3a/0xf0
+             	  untrack_pfn+0x53/0x120
+             	  unmap_single_vma+0xa6/0xe0
+             	  zap_page_range_single+0xe4/0x190
+             	  ? _nv002569kms+0x17b/0x210 [nvidia_modeset]
+             	  ? srso_return_thunk+0x5/0x5f
+             	  ? kfree+0x257/0x290
+             	  unmap_mapping_range+0x10d/0x130
+             	  nv_revoke_gpu_mappings_locked+0x43/0x70 [nvidia]
+             	  nv_set_system_power_state+0x1c9/0x470 [nvidia]
+             	  nv_procfs_write_suspend+0xd3/0x140 [nvidia]
+             	  proc_reg_write+0x58/0xa0
+             	  ? srso_return_thunk+0x5/0x5f
+             	  vfs_write+0xf6/0x440
+             	  ? __count_memcg_events+0x73/0x110
+             	  ? srso_return_thunk+0x5/0x5f
+             	  ? count_memcg_events.constprop.0+0x1a/0x30
+             	  ? srso_return_thunk+0x5/0x5f
+             	  ? handle_mm_fault+0xa9/0x2d0
+             	  ? srso_return_thunk+0x5/0x5f
+             	  ? preempt_count_add+0x47/0xa0
+             	  ksys_write+0x63/0xe0
+             	  do_syscall_64+0x4b/0x110
+             	  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+             	 RIP: 0033:0x7f34a3914240
+             	 Code: 40 00 48 8b 15 c1 9b 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 80 3d a1 23 0e 00 00 74 17 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 48 83 ec 28 48 89
+             	 RSP: 002b:00007ffca2aa2688 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+             	 RAX: ffffffffffffffda RBX: 0000000000000008 RCX: 00007f34a3914240
+             	 RDX: 0000000000000008 RSI: 000055a02968ed80 RDI: 0000000000000001
+             	 RBP: 000055a02968ed80 R08: 00007f34a39eecd0 R09: 00007f34a39eecd0
+             	 R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000008
+             	 R13: 00007f34a39ef760 R14: 0000000000000008 R15: 00007f34a39ea9e0
+             	  </TASK>
+             	 ---[ end trace 0000000000000000 ]---
+             	 PM: suspend entry (deep)
 
--		if (!mm_wr_locked)
-+		if (!mm_wr_locked && !mm_read_locked)
- 			mmap_read_unlock(vma->vm_mm);
- 	}
+Considering out-of-tree nature of nvidia gpu driver, and nobody reported this kernel warning before with in-trees,
+ I had almost convinced myself that nvidia driver may need "big" rework to live with those "PTE" changes.
+So glad to see this thread of discussion/issue/fix now, I have been patching my system manually ever since 6.10-rc1,
+hope things got fixed soon...
 
 
-This seems to fix the issue without completely removing the locking.
+FYI
+David
 
-Bert Karwatzki
