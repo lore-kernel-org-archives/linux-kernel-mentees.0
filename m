@@ -1,180 +1,140 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8C172763
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 14:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A3176231
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 17:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720794849; cv=none; b=oUYoEHSvrkvChq3i/OhdB6nqejlPqqoa74AR9Ozmmd2ldxOfijsYhU+2xLG20wYaww6lS4YJaEu/SCnaYooQip/tCfPXYwaVe0X3Jfh1Jlut/pN57pY+XjlJtbe8YfVIUyaX+7hp0L6cIF1e/q6q8fjX2E8HLAQm6m4eIQt4dEg=
+	t=1720806343; cv=none; b=RTDeG/ObnjaFuJQKeOCComhjh5bC3J71TiBVbtI+vVKqk8TLR/dAR/tmTYh4HQaVWiXknilKQ1xhsS4R1S0F3S1nWBINAz6oLBHs2twxFhDIqDksQPjCOZ8X9jSGn5O4DNy/B6QnnwLC6vV7x/Hr7tySUlRK9e999z3uiWbH0sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720794849; c=relaxed/simple;
-	bh=A8JyB70BTgHceWvqnOatyR97YW19SBU/k6G+VoPrhuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=a6bem/D+dIKEImxYaEDG/G4JcTyD5Srkpraf4MNPxPQqAYImySoym/bTwcI0K/+M4sZVWe1m7VyuyoFv+inACDTN9hXJaw8NnQtpg7nvRZY2ecqQmAXY+EA0DUkI00q8bOl0o/aPMszqOtTHrVAekFaDfBLS8HA6a5tzEc+Tleo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E1hCnlgG; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1720806343; c=relaxed/simple;
+	bh=X13h60Czwbm2ujyxIP806a+AW/lW7IB0AqcSBAamTB4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MZJgyw444tGgPg6Evr/teJrKBOJG7LLY9flhpfLQToNe5a86I3kl9lNHLLaSJY5nnTPCKTazcfdU5eQnr+nL1D2PHlMU9g/BcMkmmhzon32nHARcntYdjHddajF21gdcSi5TmYvTltYw4GjNcptpXluRLpQpYAgWBcuBGUb54sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZDunnfRn; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E1hCnlgG"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZDunnfRn"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 48CD340BE7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 14:34:08 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 7B4CE4022E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 17:45:42 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Nzal2D9w2bxG for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jul 2024 14:34:07 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=peterx@redhat.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E4FD74031F
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E4FD74031F
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E1hCnlgG
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E4FD74031F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 14:34:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1720794845;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0DLwaSRoDde6WZrgZ+yrZtXJoG5Gh87TSS23CjKmFiE=;
-	b=E1hCnlgGNzB4/knfgnP95nRPxlm2P5HoDo3acDkSF2leaJzY6HfKXNOs4VnSAoX5H7PAun
-	wjKpfUH3LMLnYFnaXVbNfua1V25edQQJZnHKiMUv7Y9UiSkqyxrBDRNNIvqClxG4S6Aa0P
-	h8BzPxXxneT0bS4rswRevFeseX8Torc=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-553-fd7HOkpPPKm4k4r7kJ5Hyw-1; Fri, 12 Jul 2024 10:34:02 -0400
-X-MC-Unique: fd7HOkpPPKm4k4r7kJ5Hyw-1
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-448335bb53aso1880321cf.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 07:34:02 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Nh9z2FjrMn-Y for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 Jul 2024 17:45:41 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2b; helo=mail-oo1-xc2b.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7FE9F40108
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7FE9F40108
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZDunnfRn
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 7FE9F40108
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 17:45:41 +0000 (UTC)
+Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5c669a0b5d1so1176554eaf.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 10:45:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1720806340; x=1721411140; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tNXQMXtVVY9UI6zu3BBCUXELAve7Ltcp0DjuWc3krBw=;
+        b=ZDunnfRnww3OXCx1y+SLY1Y9FxcVGg9pqXs2ulKfvo2esDEpjsYMT1BLBkjwK5/h0c
+         R8rM/3lmJ2a+A1dS18evaqDyeVp4nh9eBOWFtANziNAIGk+F/dsxmposGCPkCEIw8YCH
+         niIJCujwJtrcMjvtUz4yGl9eEmkHlWz/EEhiYAusrYZvH0p33WDybvnet8Wy80XPOQkj
+         d4DV+CHtlKnEgyK606VR5mXcuFnyCaF/UGPlUleb4U2axuraKqSFvu6ePGZNgp+SgukC
+         Si8Qcd9lWNHf0n8Pd8mYsTWgDrdE4+AQwHuUFydnXnKSjSJ8oIbrChc6QL7heaG9tUWs
+         jVtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720794842; x=1721399642;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0DLwaSRoDde6WZrgZ+yrZtXJoG5Gh87TSS23CjKmFiE=;
-        b=DN/wUMjzEOo2XcvZYS6rsT6S6r33x6WJUr2UBwjlXdQJ8D3hGZTEoWqgGBcaFwPkHX
-         OWfF8HkMXHNtXJCTZgdNX4gANlnakcFMHXezXBgEylhTWvtax9v02FtvASDv7muF6Hbu
-         uQfjCL5IDBH6JTNjB0Xh9rTYKc1vFuvNurGd/g1xneoqEcEftp7613440wq9CnJn0Ag/
-         Gbu7CSknENjBqMuG/q8m5//qftkQtTTszxuYr2JkaCIOL/T+n/AqIyobufBDp56PAFYX
-         2xiWMhMy4hNR2LX3wgCcnSVOt5CD9ecMm7jVWsF4jB7PFSBjGbQ+UP+8nR3HkLJsN9Hj
-         N6Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3zOQsO9ybP5L27f1u86tj//wt3M2fAwEr2RHqp4o6LHw5b9SgnmvJDCrdsDAqvYJh/kngXKMz8YKyRizCYWktwxwozzjrYJtz+K+Z8vgwHrX1Pg/vKGaDFhlXcKby
-X-Gm-Message-State: AOJu0YwAGr5h6SnuNZ5zHYZjECjx+0oZfCLRlMmaY9wo/PMHX6TYHVes
-	zXvGxp/ZlX1qHwVLfxzJDhxDsRGQ84RCGeS0E6aQQ6i7z7PYbPc3kqOdMFBew3tyFOACgFVA8Vb
-	G5YLID/GaPg83dn2kpgP2KVlTj0DTvFAic9j6+2J6cdSHIAETbbgPZyWx8BtNZjst7ADw8EeEpt
-	5+5KzpuZZI7g==
-X-Received: by 2002:ac8:4a10:0:b0:44e:cff7:6261 with SMTP id d75a77b69052e-44ecff7639emr12121741cf.9.1720794841878;
-        Fri, 12 Jul 2024 07:34:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEld3Uv1U8nPh3+YCPklOwBx/ZeFSFfiIed8XQn011EvrY+rsoTGjsfqfObI0oTFmuVGQkJUw==
-X-Received: by 2002:ac8:4a10:0:b0:44e:cff7:6261 with SMTP id d75a77b69052e-44ecff7639emr12121541cf.9.1720794841546;
-        Fri, 12 Jul 2024 07:34:01 -0700 (PDT)
-Received: from x1n (pool-99-254-121-117.cpe.net.cable.rogers.com. [99.254.121.117])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-447f9b2818esm41025581cf.10.2024.07.12.07.34.00
+        d=1e100.net; s=20230601; t=1720806340; x=1721411140;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tNXQMXtVVY9UI6zu3BBCUXELAve7Ltcp0DjuWc3krBw=;
+        b=OIQ75tV1t5s2OMgDbHJ750FLUXl/U7RiLu2qmgr3IOIkNA+AJNniEx4bkeFS4Sd/a3
+         8P96Snd1DHnTIxorjlLROxeIPTtpTbjP+LwPQiSylGsw+uTl359fRBt82f+pXl5HL1KU
+         Izmi/Lkoh7gL7j+W9zZjOdnvGDawPOasCFLIKypR+/9q0Q2bG1JVsaoJ00CovTi7z/u0
+         53uIqF67Jdal8xfiRCJGOzOTLDsctBZ03BMXeD2EcZ0gt4iIM9fHn7UPFxBY/DyTg+P0
+         RJ0JDQ0ys6N873K0RYMaK3fiXkhkjwNaOxP7CItQDNo9Zj2H+FDJM6Vg/x6ra++igynl
+         1RZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVYeVwKhusbQHan93cZf7dl/H5GHLVVifC00TSRvx7cIGwpCeTMSvFX0ao8l6tkV04Qr3ka5k2A7Dw7xlv0bStIDnXebFW2w2tyinO7HQ1/ystHtRgSZZ0Ky/+kKuWG
+X-Gm-Message-State: AOJu0YzuIQA6lke8TJpocr97vIYVJLlUt6wrzYWZ/mv5KYodtmxIzh1S
+	5VFeax9bhK0EMJ7qiehExk5iJo09bdWRcBypHmYwtJDg+qBpqdVH
+X-Google-Smtp-Source: AGHT+IF9PKjomOSMUJmoLDlemBt+PLgMux6m5VCf86phTvzU1z2v2Giz3TyPGWhJB2bd25AAHSvm3Q==
+X-Received: by 2002:a05:6359:5d25:b0:1aa:c73d:5a83 with SMTP id e5c5f4694b2df-1aade04191amr928556155d.1.1720806340226;
+        Fri, 12 Jul 2024 10:45:40 -0700 (PDT)
+Received: from embed-PC.. ([122.183.46.111])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d669d5282sm5097810a12.67.2024.07.12.10.45.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 07:34:01 -0700 (PDT)
-Date: Fri, 12 Jul 2024 10:33:58 -0400
-From: Peter Xu <peterx@redhat.com>
-To: David Wang <00107082@163.com>
-Cc: akpm@linux-foundation.org, david@redhat.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	peili.dev@gmail.com, skhan@linuxfoundation.org,
-	syzbot+35a4414f6e247f515443@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [PATCH] mm: Fix mmap_assert_locked() in follow_pte()
-Message-ID: <ZpE-1nBtaxuSAiqD@x1n>
-References: <ZpBhCHsG39wIVnQN@x1n>
- <20240712131931.20207-1-00107082@163.com>
+        Fri, 12 Jul 2024 10:45:39 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: airlied@gmail.com,
+	daniel@ffwll.ch,
+	harry.wentland@amd.com,
+	sunpeng.li@amd.com,
+	Rodrigo.Siqueira@amd.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com
+Cc: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH] drm: Fix documentation warning for read_mpcc_state in mpc.h
+Date: Fri, 12 Jul 2024 23:15:10 +0530
+Message-Id: <20240712174510.70467-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20240712131931.20207-1-00107082@163.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 12, 2024 at 09:19:31PM +0800, David Wang wrote:
-> Hi,
-> 
-> > Ah yes, I had one rfc patch for that, I temporarily put that aside as it
-> > seemed nobody cared except myself.. it's here:
-> > 
-> > https://lore.kernel.org/all/20240523223745.395337-2-peterx@redhat.com
-> > 
-> > I didn't know it can already cause real trouble.  It looks like that patch
-> > should fix this.
-> > 
-> > Thanks,
-> > 
-> > -- 
-> > Peter Xu
-> 
-> Just add another user scenario concering this kernel warning.
-> Ever since 6.10-rc1, when I suspend my system via `systemctl suspend`, nvidia gpu driver would trigger a warning:
-> 
->              	 Call Trace:
->              	  <TASK>
->              	  ? __warn+0x7c/0x120
->              	  ? follow_pte+0x15b/0x170
->              	  ? report_bug+0x18d/0x1c0
->              	  ? handle_bug+0x3c/0x80
->              	  ? exc_invalid_op+0x13/0x60
->              	  ? asm_exc_invalid_op+0x16/0x20
->              	  ? follow_pte+0x15b/0x170
->              	  follow_phys+0x3a/0xf0
->              	  untrack_pfn+0x53/0x120
->              	  unmap_single_vma+0xa6/0xe0
->              	  zap_page_range_single+0xe4/0x190
->              	  ? _nv002569kms+0x17b/0x210 [nvidia_modeset]
->              	  ? srso_return_thunk+0x5/0x5f
->              	  ? kfree+0x257/0x290
->              	  unmap_mapping_range+0x10d/0x130
->              	  nv_revoke_gpu_mappings_locked+0x43/0x70 [nvidia]
->              	  nv_set_system_power_state+0x1c9/0x470 [nvidia]
->              	  nv_procfs_write_suspend+0xd3/0x140 [nvidia]
->              	  proc_reg_write+0x58/0xa0
->              	  ? srso_return_thunk+0x5/0x5f
->              	  vfs_write+0xf6/0x440
->              	  ? __count_memcg_events+0x73/0x110
->              	  ? srso_return_thunk+0x5/0x5f
->              	  ? count_memcg_events.constprop.0+0x1a/0x30
->              	  ? srso_return_thunk+0x5/0x5f
->              	  ? handle_mm_fault+0xa9/0x2d0
->              	  ? srso_return_thunk+0x5/0x5f
->              	  ? preempt_count_add+0x47/0xa0
->              	  ksys_write+0x63/0xe0
->              	  do_syscall_64+0x4b/0x110
->              	  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->              	 RIP: 0033:0x7f34a3914240
->              	 Code: 40 00 48 8b 15 c1 9b 0d 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 80 3d a1 23 0e 00 00 74 17 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 58 c3 0f 1f 80 00 00 00 00 48 83 ec 28 48 89
->              	 RSP: 002b:00007ffca2aa2688 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
->              	 RAX: ffffffffffffffda RBX: 0000000000000008 RCX: 00007f34a3914240
->              	 RDX: 0000000000000008 RSI: 000055a02968ed80 RDI: 0000000000000001
->              	 RBP: 000055a02968ed80 R08: 00007f34a39eecd0 R09: 00007f34a39eecd0
->              	 R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000008
->              	 R13: 00007f34a39ef760 R14: 0000000000000008 R15: 00007f34a39ea9e0
->              	  </TASK>
->              	 ---[ end trace 0000000000000000 ]---
->              	 PM: suspend entry (deep)
-> 
-> Considering out-of-tree nature of nvidia gpu driver, and nobody reported this kernel warning before with in-trees,
->  I had almost convinced myself that nvidia driver may need "big" rework to live with those "PTE" changes.
-> So glad to see this thread of discussion/issue/fix now, I have been patching my system manually ever since 6.10-rc1,
-> hope things got fixed soon...
+Add detail description for the read_mpcc_state function in the
+mpc_funcs struct to resolve the documentation warning.
 
-Yep this is a similar file truncation path.  I'll repost my previous rfc
-patch separately soon.
+A kernel-doc warning was addressed:
+./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning:
+Function parameter or struct member 'read_mpcc_state' not
+described in 'mpc_funcs'.
 
-Thanks,
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+ drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
+diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+index 34a398f23fc6..9e65ecf1d3b0 100644
+--- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
++++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
+@@ -282,6 +282,22 @@ struct mpcc_state {
+  * struct mpc_funcs - funcs
+  */
+ struct mpc_funcs {
++	/**
++	 * @read_mpcc_state:
++	 *
++	 * Reads the state of a given MPCC instance.
++	 *
++	 * Parameters:
++	 *
++	 * - [in/out] mpc - MPC context.
++	 * - [in] mpcc_inst - MPCC Instance whose state is to be read.
++	 * - [out] mpcc_state - MPCC state structure where the state
++	 *                    of the MPCC instance will be stored.
++	 *
++	 * Return:
++	 *
++	 * void
++	 */
+ 	void (*read_mpcc_state)(
+ 			struct mpc *mpc,
+ 			int mpcc_inst,
 -- 
-Peter Xu
+2.34.1
 
