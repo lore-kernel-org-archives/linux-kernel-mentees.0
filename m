@@ -1,91 +1,85 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11A3176231
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 17:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E3C13048F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 23:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720806343; cv=none; b=RTDeG/ObnjaFuJQKeOCComhjh5bC3J71TiBVbtI+vVKqk8TLR/dAR/tmTYh4HQaVWiXknilKQ1xhsS4R1S0F3S1nWBINAz6oLBHs2twxFhDIqDksQPjCOZ8X9jSGn5O4DNy/B6QnnwLC6vV7x/Hr7tySUlRK9e999z3uiWbH0sY=
+	t=1720826265; cv=none; b=Yo27t/XGekmzqzhagarBJdgrM5M6JtsI3+GQkZS06rc9JZsKoyRfH71qvw5T6szbBT+w09KoqI1VNHQorXPGijhkIxc3tDoy27lyH/yGbGQ7vx3SLx+NSHRD8XCCCW3EPS4kEapELpj8PoyQIGVy0PXGqnepm2AIgVvOdYriK78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720806343; c=relaxed/simple;
-	bh=X13h60Czwbm2ujyxIP806a+AW/lW7IB0AqcSBAamTB4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MZJgyw444tGgPg6Evr/teJrKBOJG7LLY9flhpfLQToNe5a86I3kl9lNHLLaSJY5nnTPCKTazcfdU5eQnr+nL1D2PHlMU9g/BcMkmmhzon32nHARcntYdjHddajF21gdcSi5TmYvTltYw4GjNcptpXluRLpQpYAgWBcuBGUb54sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZDunnfRn; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1720826265; c=relaxed/simple;
+	bh=QYgVRyzH8PcMNACMLIrauxK296Rh5jioM9J1lSlVUyk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BvlranByWeHY07JqDSAIIpp0L90SgYF8RdxTX7LGYg6l2sXDA7EIUvCvQKbJYUmKYbyevuP0xuChko9c9UM2vOFgGZ6UwP0AN6wD2NQGxVsuvR3uuRH1ZKfymGEMlpQr0XpMa8pzYZeiE/o5m8fB6tCRGpwF8wUAWLoZntZJmbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b=NR41Oikv; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZDunnfRn"
+	dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b="NR41Oikv"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 7B4CE4022E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 17:45:42 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id D150A84762
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 23:17:43 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Nh9z2FjrMn-Y for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jul 2024 17:45:41 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c2b; helo=mail-oo1-xc2b.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 7FE9F40108
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 7FE9F40108
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZDunnfRn
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 7FE9F40108
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 17:45:41 +0000 (UTC)
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5c669a0b5d1so1176554eaf.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 10:45:41 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id rZn9xYa0D3dv for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri, 12 Jul 2024 23:17:43 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=rbrasga@uci.edu; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0CEBB8475B
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=uci.edu
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0CEBB8475B
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=uci.edu header.i=@uci.edu header.a=rsa-sha256 header.s=google header.b=NR41Oikv
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0CEBB8475B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 23:17:42 +0000 (UTC)
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-70b0bc1ef81so1905194b3a.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 16:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1720806340; x=1721411140; darn=lists.linuxfoundation.org;
+        d=uci.edu; s=google; t=1720826262; x=1721431062; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tNXQMXtVVY9UI6zu3BBCUXELAve7Ltcp0DjuWc3krBw=;
-        b=ZDunnfRnww3OXCx1y+SLY1Y9FxcVGg9pqXs2ulKfvo2esDEpjsYMT1BLBkjwK5/h0c
-         R8rM/3lmJ2a+A1dS18evaqDyeVp4nh9eBOWFtANziNAIGk+F/dsxmposGCPkCEIw8YCH
-         niIJCujwJtrcMjvtUz4yGl9eEmkHlWz/EEhiYAusrYZvH0p33WDybvnet8Wy80XPOQkj
-         d4DV+CHtlKnEgyK606VR5mXcuFnyCaF/UGPlUleb4U2axuraKqSFvu6ePGZNgp+SgukC
-         Si8Qcd9lWNHf0n8Pd8mYsTWgDrdE4+AQwHuUFydnXnKSjSJ8oIbrChc6QL7heaG9tUWs
-         jVtg==
+        bh=UZ/x0PvWt6cH5OnfaR+19VuRmz9ObiIe9IQ/Uhq9F24=;
+        b=NR41OikvI9M1sQwV+18z+cTSpztz1es6WKJUp5R/hu6bgr7WdE8DktexlnbVsvvzee
+         e7wZIavLcpmZeyW3wwZGg9b+GDyRaraoCHkGZyUhcq5E5f4Ky7FdpsZ/eQ6kmW1z1arK
+         kquyLBX1yVwe/jXu8a989qy2ZMm7/boPkNh0yOGKN9EocAKmT3cniY4MlYvDcUuM7XDt
+         M+xCR6kFwcJXPBogZpW7HAQbeks3dt55b9g6EdICUMrMridbelcXnXwfvwsCf4oIM2Mt
+         ZSD6BtyNuPnRm7sXNMO5nYEMVXEqj3A6IYcA0UUMVXamH+UxfEimzAhJ2jXE+fzmtQan
+         sF+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720806340; x=1721411140;
+        d=1e100.net; s=20230601; t=1720826262; x=1721431062;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tNXQMXtVVY9UI6zu3BBCUXELAve7Ltcp0DjuWc3krBw=;
-        b=OIQ75tV1t5s2OMgDbHJ750FLUXl/U7RiLu2qmgr3IOIkNA+AJNniEx4bkeFS4Sd/a3
-         8P96Snd1DHnTIxorjlLROxeIPTtpTbjP+LwPQiSylGsw+uTl359fRBt82f+pXl5HL1KU
-         Izmi/Lkoh7gL7j+W9zZjOdnvGDawPOasCFLIKypR+/9q0Q2bG1JVsaoJ00CovTi7z/u0
-         53uIqF67Jdal8xfiRCJGOzOTLDsctBZ03BMXeD2EcZ0gt4iIM9fHn7UPFxBY/DyTg+P0
-         RJ0JDQ0ys6N873K0RYMaK3fiXkhkjwNaOxP7CItQDNo9Zj2H+FDJM6Vg/x6ra++igynl
-         1RZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYeVwKhusbQHan93cZf7dl/H5GHLVVifC00TSRvx7cIGwpCeTMSvFX0ao8l6tkV04Qr3ka5k2A7Dw7xlv0bStIDnXebFW2w2tyinO7HQ1/ystHtRgSZZ0Ky/+kKuWG
-X-Gm-Message-State: AOJu0YzuIQA6lke8TJpocr97vIYVJLlUt6wrzYWZ/mv5KYodtmxIzh1S
-	5VFeax9bhK0EMJ7qiehExk5iJo09bdWRcBypHmYwtJDg+qBpqdVH
-X-Google-Smtp-Source: AGHT+IF9PKjomOSMUJmoLDlemBt+PLgMux6m5VCf86phTvzU1z2v2Giz3TyPGWhJB2bd25AAHSvm3Q==
-X-Received: by 2002:a05:6359:5d25:b0:1aa:c73d:5a83 with SMTP id e5c5f4694b2df-1aade04191amr928556155d.1.1720806340226;
-        Fri, 12 Jul 2024 10:45:40 -0700 (PDT)
-Received: from embed-PC.. ([122.183.46.111])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d669d5282sm5097810a12.67.2024.07.12.10.45.36
+        bh=UZ/x0PvWt6cH5OnfaR+19VuRmz9ObiIe9IQ/Uhq9F24=;
+        b=QyHPCiGJrHA2TbiFsLqKW0XHwGI21MH+8nrixhfNG9Ma/uSFQMr+3RJY+S8I9oWTpk
+         BDc50QbAmA3xIsvERm+4FPUXG+TumFsrel4Q0OYqPaUD+Qbh+OqPv8ucALq77wyF6EIM
+         Wt+B6NZ2kVgoGaIz3ttGEh1fXUv2HJ+QI7NmtV1XlIKPs5TUcY4rnBA5/tQQ+QKcJSLj
+         M8u4MZVvo05S7128bUP9c4x6wuzVqqpsgXD3t0fgLpXog8l0pSToEjDKQq1pwDodjRgD
+         2DUDZmVDwElCrC+WNjXoJRq0Ucs503YEPLe4KJsi7BSWoRlMJP9P4LFpG3s6zLjivaim
+         qggw==
+X-Forwarded-Encrypted: i=1; AJvYcCVWFtFq3RhZy6D9/OzCgAj4HAI40XXztT7UbLTvXe9MeGYWJEkFzfrNS5MPYjRtIdcR6+YOVRp/y4a6zXNpLpMvy54JAJBXffJ30xKpiK5ZesCdMHF5z9vvoR7H8h/l
+X-Gm-Message-State: AOJu0Yz9JDNVGhZBnSNrkGu+Rq0+Ij9tpZGi8OAleNwzaxe5puuqe0Wl
+	ikxX0cn8BLe5SIUW0OoF7QNR/CGvEFgA2ivZ8gxMWL4ASQM2Pi6/Fh4vkaVvdyU=
+X-Google-Smtp-Source: AGHT+IHLHwjE5E7P2KMkGKIVL/NKhjh2eaHWxkdiky4ouJUHcC8YM7Sv7rhWy/oTO/b5bjM+LvWERQ==
+X-Received: by 2002:a05:6a00:3d08:b0:706:5dab:83c4 with SMTP id d2e1a72fcca58-70b43576a80mr13644912b3a.14.1720826262020;
+        Fri, 12 Jul 2024 16:17:42 -0700 (PDT)
+Received: from alpha.mshome.net (ip68-4-168-191.oc.oc.cox.net. [68.4.168.191])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d5f0ab0d8sm6292960a12.19.2024.07.12.16.17.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 10:45:39 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: airlied@gmail.com,
-	daniel@ffwll.ch,
-	harry.wentland@amd.com,
-	sunpeng.li@amd.com,
-	Rodrigo.Siqueira@amd.com,
-	alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	Xinhui.Pan@amd.com
-Cc: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
+        Fri, 12 Jul 2024 16:17:41 -0700 (PDT)
+From: Remington Brasga <rbrasga@uci.edu>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] drm: Fix documentation warning for read_mpcc_state in mpc.h
-Date: Fri, 12 Jul 2024 23:15:10 +0530
-Message-Id: <20240712174510.70467-1-abhishektamboli9@gmail.com>
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Remington Brasga <rbrasga@uci.edu>
+Subject: [PATCH] kselftest: missing arg in ptrace.c
+Date: Fri, 12 Jul 2024 23:17:30 +0000
+Message-Id: <20240712231730.2794-1-rbrasga@uci.edu>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -95,46 +89,29 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add detail description for the read_mpcc_state function in the
-mpc_funcs struct to resolve the documentation warning.
+The string passed to ksft_test_result_skip is missing the `type_name`
 
-A kernel-doc warning was addressed:
-./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:547: warning:
-Function parameter or struct member 'read_mpcc_state' not
-described in 'mpc_funcs'.
-
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Signed-off-by: Remington Brasga <rbrasga@uci.edu>
 ---
- drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+clang-tidy reported clang-diagnostic-format-insufficient-args warning
+on this line, so I am fixing it.
 
-diff --git a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-index 34a398f23fc6..9e65ecf1d3b0 100644
---- a/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-+++ b/drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h
-@@ -282,6 +282,22 @@ struct mpcc_state {
-  * struct mpc_funcs - funcs
-  */
- struct mpc_funcs {
-+	/**
-+	 * @read_mpcc_state:
-+	 *
-+	 * Reads the state of a given MPCC instance.
-+	 *
-+	 * Parameters:
-+	 *
-+	 * - [in/out] mpc - MPC context.
-+	 * - [in] mpcc_inst - MPCC Instance whose state is to be read.
-+	 * - [out] mpcc_state - MPCC state structure where the state
-+	 *                    of the MPCC instance will be stored.
-+	 *
-+	 * Return:
-+	 *
-+	 * void
-+	 */
- 	void (*read_mpcc_state)(
- 			struct mpc *mpc,
- 			int mpcc_inst,
+ tools/testing/selftests/arm64/abi/ptrace.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/testing/selftests/arm64/abi/ptrace.c b/tools/testing/selftests/arm64/abi/ptrace.c
+index abe4d58d731d..6144f83f8ab4 100644
+--- a/tools/testing/selftests/arm64/abi/ptrace.c
++++ b/tools/testing/selftests/arm64/abi/ptrace.c
+@@ -156,7 +156,7 @@ static void test_hw_debug(pid_t child, int type, const char *type_name)
+ 		/* Zero is not currently architecturally valid */
+ 		ksft_test_result(arch, "%s_arch_set\n", type_name);
+ 	} else {
+-		ksft_test_result_skip("%s_arch_set\n");
++		ksft_test_result_skip("%s_arch_set\n", type_name);
+ 	}
+ }
+ 
 -- 
 2.34.1
 
