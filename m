@@ -1,117 +1,143 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E3C13048F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 23:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFC913B586
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 13 Jul 2024 14:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720826265; cv=none; b=Yo27t/XGekmzqzhagarBJdgrM5M6JtsI3+GQkZS06rc9JZsKoyRfH71qvw5T6szbBT+w09KoqI1VNHQorXPGijhkIxc3tDoy27lyH/yGbGQ7vx3SLx+NSHRD8XCCCW3EPS4kEapELpj8PoyQIGVy0PXGqnepm2AIgVvOdYriK78=
+	t=1720882205; cv=none; b=IbakJAjIrzL5/p2vSKMWb2BIyO9jC97I3oAXLfsBKLrQ3Y0LrZ/Ub2FoHhLda6Rhq62HPCaW4wDk2wA0WWp8EIRFZAQ1Kmg7F2++ac6ufLdJCMGyPqK/BHE7yQGCiogRxPU+07KVNKISKNBB29F70j2dyFeuaa+Do44p1asIEQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720826265; c=relaxed/simple;
-	bh=QYgVRyzH8PcMNACMLIrauxK296Rh5jioM9J1lSlVUyk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BvlranByWeHY07JqDSAIIpp0L90SgYF8RdxTX7LGYg6l2sXDA7EIUvCvQKbJYUmKYbyevuP0xuChko9c9UM2vOFgGZ6UwP0AN6wD2NQGxVsuvR3uuRH1ZKfymGEMlpQr0XpMa8pzYZeiE/o5m8fB6tCRGpwF8wUAWLoZntZJmbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b=NR41Oikv; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1720882205; c=relaxed/simple;
+	bh=lvDrQV56tBUXKpSUYxbx5CkTdDccFytAphDjQRZAsLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=NVCrq3IQkTv70/hL2R+a4GO1nFR1J2wnNV/fBfa+5B/effZoOlRiIGdXTQPxopuorg3TLlFGNem6ibNY02ZdRrPwJ2UY1fIX71FfcgdUoHYzhDpj8lFkDQlEGOr6RWAx0IJQzIOLTlReqhcxq6sh3BNlvFBZPHHRPkwDu++G7yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ip3tOvD8; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b="NR41Oikv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ip3tOvD8"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id D150A84762
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 23:17:43 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 434E640226
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 13 Jul 2024 14:50:03 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id rZn9xYa0D3dv for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 12 Jul 2024 23:17:43 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::429; helo=mail-pf1-x429.google.com; envelope-from=rbrasga@uci.edu; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0CEBB8475B
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=uci.edu
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0CEBB8475B
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=uci.edu header.i=@uci.edu header.a=rsa-sha256 header.s=google header.b=NR41Oikv
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 0CEBB8475B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 23:17:42 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-70b0bc1ef81so1905194b3a.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 12 Jul 2024 16:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=uci.edu; s=google; t=1720826262; x=1721431062; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UZ/x0PvWt6cH5OnfaR+19VuRmz9ObiIe9IQ/Uhq9F24=;
-        b=NR41OikvI9M1sQwV+18z+cTSpztz1es6WKJUp5R/hu6bgr7WdE8DktexlnbVsvvzee
-         e7wZIavLcpmZeyW3wwZGg9b+GDyRaraoCHkGZyUhcq5E5f4Ky7FdpsZ/eQ6kmW1z1arK
-         kquyLBX1yVwe/jXu8a989qy2ZMm7/boPkNh0yOGKN9EocAKmT3cniY4MlYvDcUuM7XDt
-         M+xCR6kFwcJXPBogZpW7HAQbeks3dt55b9g6EdICUMrMridbelcXnXwfvwsCf4oIM2Mt
-         ZSD6BtyNuPnRm7sXNMO5nYEMVXEqj3A6IYcA0UUMVXamH+UxfEimzAhJ2jXE+fzmtQan
-         sF+A==
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id l-vlWLB8ybbE for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 13 Jul 2024 14:50:02 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=170.10.129.124; helo=us-smtp-delivery-124.mimecast.com; envelope-from=dakr@redhat.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 2CBBE4018D
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 2CBBE4018D
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Ip3tOvD8
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 2CBBE4018D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 13 Jul 2024 14:50:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1720882200;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a4AbNjpp4hqCHzZOlyISRcLeMmOnjyeu6DKbsQlyQtA=;
+	b=Ip3tOvD8pDIRJ9pmtPtv68IIMIA/8wxIaI24IWGL2cuNtq/WPxvvtxWztV55i6wsSNuAVw
+	Y8FVV4x7z3qtkuenlG0k4GxonlqqFqgvFDG3RaerYsB1Rx7otF3WgA7plpIOxnPDOAOqYG
+	PhJRPIdewwsrsyn91DcKSLMqqXAVifw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-479-uG_Zm74aOeSDDS9Py8Nlcg-1; Sat, 13 Jul 2024 10:49:56 -0400
+X-MC-Unique: uG_Zm74aOeSDDS9Py8Nlcg-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-426703ac88dso19076705e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 13 Jul 2024 07:49:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720826262; x=1721431062;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UZ/x0PvWt6cH5OnfaR+19VuRmz9ObiIe9IQ/Uhq9F24=;
-        b=QyHPCiGJrHA2TbiFsLqKW0XHwGI21MH+8nrixhfNG9Ma/uSFQMr+3RJY+S8I9oWTpk
-         BDc50QbAmA3xIsvERm+4FPUXG+TumFsrel4Q0OYqPaUD+Qbh+OqPv8ucALq77wyF6EIM
-         Wt+B6NZ2kVgoGaIz3ttGEh1fXUv2HJ+QI7NmtV1XlIKPs5TUcY4rnBA5/tQQ+QKcJSLj
-         M8u4MZVvo05S7128bUP9c4x6wuzVqqpsgXD3t0fgLpXog8l0pSToEjDKQq1pwDodjRgD
-         2DUDZmVDwElCrC+WNjXoJRq0Ucs503YEPLe4KJsi7BSWoRlMJP9P4LFpG3s6zLjivaim
-         qggw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWFtFq3RhZy6D9/OzCgAj4HAI40XXztT7UbLTvXe9MeGYWJEkFzfrNS5MPYjRtIdcR6+YOVRp/y4a6zXNpLpMvy54JAJBXffJ30xKpiK5ZesCdMHF5z9vvoR7H8h/l
-X-Gm-Message-State: AOJu0Yz9JDNVGhZBnSNrkGu+Rq0+Ij9tpZGi8OAleNwzaxe5puuqe0Wl
-	ikxX0cn8BLe5SIUW0OoF7QNR/CGvEFgA2ivZ8gxMWL4ASQM2Pi6/Fh4vkaVvdyU=
-X-Google-Smtp-Source: AGHT+IHLHwjE5E7P2KMkGKIVL/NKhjh2eaHWxkdiky4ouJUHcC8YM7Sv7rhWy/oTO/b5bjM+LvWERQ==
-X-Received: by 2002:a05:6a00:3d08:b0:706:5dab:83c4 with SMTP id d2e1a72fcca58-70b43576a80mr13644912b3a.14.1720826262020;
-        Fri, 12 Jul 2024 16:17:42 -0700 (PDT)
-Received: from alpha.mshome.net (ip68-4-168-191.oc.oc.cox.net. [68.4.168.191])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-77d5f0ab0d8sm6292960a12.19.2024.07.12.16.17.40
+        d=1e100.net; s=20230601; t=1720882195; x=1721486995;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a4AbNjpp4hqCHzZOlyISRcLeMmOnjyeu6DKbsQlyQtA=;
+        b=KJ3XptMw+y4MhPQ6vjoYZk9nLG0tQQWz5hyDg1wom82AQq3pMq+U6hjsUelxEyhLir
+         siv4JnLuqYg/pe8RzTCmMjpZ9suWPLjFyqTVkJnnEjNISlT0920gKtYwFn1xH4ab6S2a
+         Wx6NQD4OupINsB3BGf6cgvj/BF5p8xxeR9Hn5NYzCv2DbaH5qUb8TsIJnrS6KF9OQiew
+         DIT9X7e5yWY2H0od3vn5RXnxcoIODjWFhQPfi6Df1zayq6d+q9h+mRP2CL5VXZNZYzud
+         FXfJhLF5Pt6zam1YcrAdyyR5WVzbQWlcm85+6t21BQPpaGbZ0W4PUn8HtcWSixh6ueVt
+         ttOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJMsPdF9ubnx4jz7plap8L0k8RuqdfIDa7Ox1DzzuLznGDPzXDXK06a7kPElcCsAvf6VqD/+sibjHn/AebsdH5dtgtBSdmicP3VNSvVXXuMQoBTiw9Czf7xTxJIs0R
+X-Gm-Message-State: AOJu0Yxm5mioWcXQlzhJi/vX8/CJmieTtXpDuJhdWvXp7SgNCqrCpM1Y
+	x3Tx9PSaESdvgxlpsewgs+/UM/eW/OCKP8B0dKgvV1OtWPhAsdSMpFnAeRg22GeSvGKCCUl2tPp
+	QzrS8R2tegTy2C81xGaLmtzMJDOZe0QT05J/d01uSrVgeaILO2/aFAzu+0x8mtma6cPhMciWEQh
+	kCmyE3FJovIg==
+X-Received: by 2002:a05:600c:6d8f:b0:426:6f0e:a60 with SMTP id 5b1f17b1804b1-426707e2ffdmr97349185e9.17.1720882195395;
+        Sat, 13 Jul 2024 07:49:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHYybzB01yKZQiOWZSW/pi8k9FrEkZ863yhN5Xt/4doo+hsXQoxYA/zL09HPsKtMFVmYmKhRQ==
+X-Received: by 2002:a05:600c:6d8f:b0:426:6f0e:a60 with SMTP id 5b1f17b1804b1-426707e2ffdmr97348925e9.17.1720882194772;
+        Sat, 13 Jul 2024 07:49:54 -0700 (PDT)
+Received: from pollux.localdomain ([2a02:810d:4b3f:ee94:2522:59b5:3360:91e1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-427a63449fcsm21716525e9.29.2024.07.13.07.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jul 2024 16:17:41 -0700 (PDT)
-From: Remington Brasga <rbrasga@uci.edu>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+        Sat, 13 Jul 2024 07:49:54 -0700 (PDT)
+Date: Sat, 13 Jul 2024 16:49:52 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: gregkh@linuxfoundation.org
+Cc: miguel.ojeda.sandonis@gmail.com, a.hindborg@samsung.com,
+	alex.gaynor@gmail.com, aliceryhl@google.com, benno.lossin@proton.me,
+	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+	andrewjballance@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Remington Brasga <rbrasga@uci.edu>
-Subject: [PATCH] kselftest: missing arg in ptrace.c
-Date: Fri, 12 Jul 2024 23:17:30 +0000
-Message-Id: <20240712231730.2794-1-rbrasga@uci.edu>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org, mcgrof@kernel.org, ojeda@kernel.org,
+	russ.weight@linux.dev, rust-for-linux@vger.kernel.org,
+	skhan@linuxfoundation.org, wedsonaf@gmail.com
+Subject: Re: [PATCH v2] rust: firmware: fix invalid rustdoc link
+Message-ID: <ZpKUEKHh6gK7SODR@pollux.localdomain>
+References: <CANiq72=6LSGwRsc+deE+U8H=mdgFisrKEPOYgVkZfHhGm8hwog@mail.gmail.com>
+ <20240709004426.44854-1-andrewjballance@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240709004426.44854-1-andrewjballance@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The string passed to ksft_test_result_skip is missing the `type_name`
+Hi Greg,
 
-Signed-off-by: Remington Brasga <rbrasga@uci.edu>
----
-clang-tidy reported clang-diagnostic-format-insufficient-args warning
-on this line, so I am fixing it.
+On Mon, Jul 08, 2024 at 07:44:26PM -0500, Andrew Ballance wrote:
+> remove an extra quote from the doc comment so that rustdoc
+> no longer genertes a link to a nonexistent file.
+> 
+> Signed-off-by: Andrew Ballance <andrewjballance@gmail.com>
+> Reviewed-by: Danilo Krummrich <dakr@redhat.com>
+> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+> Fixes: de6582833db0 ("rust: add firmware abstractions")
 
- tools/testing/selftests/arm64/abi/ptrace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can you please pick this one up?
 
-diff --git a/tools/testing/selftests/arm64/abi/ptrace.c b/tools/testing/selftests/arm64/abi/ptrace.c
-index abe4d58d731d..6144f83f8ab4 100644
---- a/tools/testing/selftests/arm64/abi/ptrace.c
-+++ b/tools/testing/selftests/arm64/abi/ptrace.c
-@@ -156,7 +156,7 @@ static void test_hw_debug(pid_t child, int type, const char *type_name)
- 		/* Zero is not currently architecturally valid */
- 		ksft_test_result(arch, "%s_arch_set\n", type_name);
- 	} else {
--		ksft_test_result_skip("%s_arch_set\n");
-+		ksft_test_result_skip("%s_arch_set\n", type_name);
- 	}
- }
- 
--- 
-2.34.1
+- Danilo
+
+> ---
+> v1 -> v2: updated commit message
+> 
+>  rust/kernel/firmware.rs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+> index 386c8fb44785..763d7cbefab5 100644
+> --- a/rust/kernel/firmware.rs
+> +++ b/rust/kernel/firmware.rs
+> @@ -2,7 +2,7 @@
+>  
+>  //! Firmware abstraction
+>  //!
+> -//! C header: [`include/linux/firmware.h`](srctree/include/linux/firmware.h")
+> +//! C header: [`include/linux/firmware.h`](srctree/include/linux/firmware.h)
+>  
+>  use crate::{bindings, device::Device, error::Error, error::Result, str::CStr};
+>  use core::ptr::NonNull;
+> -- 
+> 2.45.2
+> 
 
