@@ -1,120 +1,115 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A41187336
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 18:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B963187844
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 18:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722278095; cv=none; b=fKUFV+lirHqFti2YliuwI2z/ZyLA5a0xompm5fiMLnHSIsCRSsNsue7/UI4DAxrucZTV8CDHQJry/r68JDS8DF1dhHcbuAogeof6MH6vT6wLoqR2k5GPi6Ytvx5g69uCcpmvc2JntX8XBDrstT/0rEGFmjAZhxA3dCPSom13XDU=
+	t=1722278456; cv=none; b=uD6LNrQN0UiiEmlj8g9lH2VZb4wLfjeJhyDaU61hAvzbfNris0nqbMeoSfSRx8joN4EezFhj7v/xbzJIF54asia7EqMwinAiLgzqcttd8eHyFmxrI6FQcad8nAWi7Yc3iDzEZRoaf2jLGkSGseP3HdCRJdTGXgon/RSoGRs5RGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722278095; c=relaxed/simple;
-	bh=c/mwNpz4IjBPv3QCDjMFypfQNm0qufjOWYAErXQm1sg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=moci7c8l3CbiVmp60m1D+kiimUV0oty3j6/Z7uDnx0nzHMEd0FuvjmBMjr/R+gTbIwRm63RnYAZ/c5v9JEyHrcspfUO9g1tZXbEVzvxqpkNfKX8Bfmj5CanSUalezXEZQ+rI3HKhFTIZURqWyzZEslTsBmpiDzj5oKD7tgqBFeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=JbUvLXkC; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1722278456; c=relaxed/simple;
+	bh=m0WyG/aso8uzUymjHwhe7HmgW/CUfB5c/IBX9t6QXdI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oo316qVFJdZW7p18VqSDx+fuYc8pnuI/J0jf6cbCytktUISVWjidY9xlbXEPl1DyllVWeDdbFmgwluTOIY+6s8wwlhVMGgzsyIRJq0lQ2zGAuAJLqswAe7KUNKEfo3DSA3fnXPmRzh9t8B0t3E+K9hR3SQPD69sqD4xIzC7Sz5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mhbgef0T; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="JbUvLXkC"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mhbgef0T"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 4BAAE4017C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 18:34:53 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id C74A180C94
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 18:40:54 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2
+X-Spam-Score: -4.398
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id gwBX2phdIY1P for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 29 Jul 2024 18:34:52 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::c33; helo=mail-oo1-xc33.google.com; envelope-from=stern@g.harvard.edu; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 09ADE4015D
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 09ADE4015D
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=JbUvLXkC
-Received: from mail-oo1-xc33.google.com (mail-oo1-xc33.google.com [IPv6:2607:f8b0:4864:20::c33])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 09ADE4015D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 18:34:51 +0000 (UTC)
-Received: by mail-oo1-xc33.google.com with SMTP id 006d021491bc7-5d5f398a955so667904eaf.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 11:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1722278091; x=1722882891; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=imNjbcelp3B6lXsHYN7XqqAWMw2+xVAXpWIJw514jNs=;
-        b=JbUvLXkCxp/cNkoZr6Mo1vMwCfygIs46vVgcYvILILPAu1zBNlUH3phA0vcwiuwSVx
-         5YEjOuIPFSxzJ4kZD3uHjmvie/1Kho8ydL/aia5DT5dyCZdva/VLjFuFxqjDzrrhaojG
-         cVLHuYfjDqVLqSlLAduf8/sZpPSkZDspGacdvllJDC/sUL5nTwnQ7FG5prbbyKWcOS8n
-         dfSIAvJVRMEzvD3rwXmCgk6KyLDzZtxn5065unpM/3H566EiwbqzrOt9ba+VFXCo5S19
-         IBKWYcQG2AIWU2NNQHHMT3+HQItn5/5N9PsfKAOjhf764Ks7+bI185mpb1RbEKxprfBA
-         8XFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722278091; x=1722882891;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=imNjbcelp3B6lXsHYN7XqqAWMw2+xVAXpWIJw514jNs=;
-        b=NZc0tYLvFlI8VjVOC9a4+8ZqCG2lXbrzVLaiVVD2iCzdlHYImVySWdo8vXSht2G+XO
-         S1NHpRXnnk6qo5SRfMcwhzdFxvDpXYJs9Sjg5TcJSDXR0JFWs4sWKJ6iYwQHnR6ZtLK2
-         K/hs8CtR8ZJzkb6d0QZBClF5k/FEVfgw8KqWx+pdl411vRXJjYenDUGJrlxuLe9lzzRu
-         BEVYnrK+usYaxKVJhhLI/oDAA8grJP74+8x0I45oY6EGGL8bN1qNHKG4PdPE734eFGir
-         koNBZa+wHqAaBKUs4a1xQV9sis4d8cXOTcCYl+eL/vcPR5IrOTHKBHtjPai9RKbOstgw
-         VWNg==
-X-Forwarded-Encrypted: i=1; AJvYcCXK+yf9e1198xZV1qYaTk8GnQPdkYLLalt8Q1TqIWANzhxYW6VqOgak8RF9Pd1l9F6Ojzru3c6eCAmvzBNIhSFfS10ArZrt7zDN0Hx22g6n8HxfYxg5F3r8dI2yNpbk
-X-Gm-Message-State: AOJu0YwmTE1gQDFlahow2K8U/7qqqdSR3avURb93x8EcS7sxskrikww6
-	KDbFMeKCOz3Plx/E8deiCiOl1yz7CKYmdtQAYcKMWqsOoE8wH/v0E89eJCgdig==
-X-Google-Smtp-Source: AGHT+IHDvNtdaAkP2OQ2xtY4UQLx6a1DPFIKYg0qRReFTzv6WHCfzOj611JnSF7iRNyfCz8VicFWDQ==
-X-Received: by 2002:a05:6358:e924:b0:19e:fa9c:5ec9 with SMTP id e5c5f4694b2df-1adc0665bfdmr914934655d.9.1722278090607;
-        Mon, 29 Jul 2024 11:34:50 -0700 (PDT)
-Received: from rowland.harvard.edu (iolanthe.rowland.org. [192.131.102.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6bb3f8fb75esm55530016d6.37.2024.07.29.11.34.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 11:34:50 -0700 (PDT)
-Date: Mon, 29 Jul 2024 14:34:47 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: gregkh@linuxfoundation.org, usb-storage@lists.one-eyed-alien.net,
-	linux-usb@vger.kernel.org, skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org, rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: storage: ene_ub6250: Fix right shift warnings
-Message-ID: <040f84a0-f299-4165-b261-636f8c9c2060@rowland.harvard.edu>
-References: <20240729182348.451436-1-abhishektamboli9@gmail.com>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 8GoM-wX47prT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 29 Jul 2024 18:40:53 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=2607:7c80:54:3::133; helo=bombadil.infradead.org; envelope-from=rdunlap@infradead.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 9AC4580C8B
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=infradead.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 9AC4580C8B
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mhbgef0T
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 9AC4580C8B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 18:40:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=iUdrC/iM7m90SNhQ6UKmv8NB4lWo9OrmVGgOw6RdPKs=; b=mhbgef0TN6TLf/9onqtaW7nHdw
+	jamuHxwi2zUrkF8iXfgdQjO+MfqaT2UUU+qwbp56/vg3rzb6SDnPiKuC4NlX3ATmrG1KLgsE+NnIU
+	9kIXX1FQPnUtQtuzSHfwBryIUngWVMrudp4egAjPKb1Qqq4NaAjYztn4+RomvS4hhoJgz7/zyrL72
+	CadDb9cr+UfkSUBoBNwyc5Zl4OBAQ06rHTcRYTxWH7Z/gmntTdTSKW4wfdaqtqNoCcirtNGWNy3u2
+	DmP5FDyikhxWMWv/4R1PSgD2JzEYTCW/SfObRaLRHOlN2hiThAmpc83rGwmyD5pMgaidpXSTAG9GV
+	cxJuCHzA==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sYVId-0000000CNOa-40oV;
+	Mon, 29 Jul 2024 18:40:49 +0000
+Message-ID: <b1e2d43f-93df-420c-a831-5ff8e33c294d@infradead.org>
+Date: Mon, 29 Jul 2024 11:40:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240729182348.451436-1-abhishektamboli9@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] wmi: Fix spelling
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>, W_Armin@gmx.de,
+ corbet@lwn.net
+Cc: platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240729164721.125708-1-luis.hernandez093@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240729164721.125708-1-luis.hernandez093@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 29, 2024 at 11:53:48PM +0530, Abhishek Tamboli wrote:
-> Change bl_len from u16 to u32 to accommodate the necessary bit shifts.
-> 
-> Fix the following smatch warnings:
-> 
-> drivers/usb/storage/ene_ub6250.c:1509 ms_scsi_read_capacity() warn: right shifting more than type allows 16 vs 24
-> drivers/usb/storage/ene_ub6250.c:1510 ms_scsi_read_capacity() warn: right shifting more than type allows 16 vs 16
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+
+
+On 7/29/24 9:47 AM, Luis Felipe Hernandez wrote:
+> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
 > ---
->  drivers/usb/storage/ene_ub6250.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-> index 97c66c0d91f4..ab6718dc874f 100644
-> --- a/drivers/usb/storage/ene_ub6250.c
-> +++ b/drivers/usb/storage/ene_ub6250.c
-> @@ -1484,7 +1484,7 @@ static int ms_scsi_mode_sense(struct us_data *us, struct scsi_cmnd *srb)
->  static int ms_scsi_read_capacity(struct us_data *us, struct scsi_cmnd *srb)
->  {
->  	u32   bl_num;
-> -	u16    bl_len;
-> +	u32    bl_len;
->  	unsigned int offset = 0;
->  	unsigned char    buf[8];
->  	struct scatterlist *sg = NULL;
+> diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentation/wmi/devices/msi-wmi-platform.rst
+> index 29b1b2e6d42c..31a136942892 100644
+> --- a/Documentation/wmi/devices/msi-wmi-platform.rst
+> +++ b/Documentation/wmi/devices/msi-wmi-platform.rst
+> @@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+>  
+>  Due to a peculiarity in how Windows handles the ``CreateByteField()`` ACPI operator (errors only
+>  happen when a invalid byte field is ultimately accessed), all methods require a 32 byte input
+> -buffer, even if the Binay MOF says otherwise.
+> +buffer, even if the Binary MOF says otherwise.
+>  
+>  The input buffer contains a single byte to select the subfeature to be accessed and 31 bytes of
+>  input data, the meaning of which depends on the subfeature being accessed.
+>  
+> -The output buffer contains a singe byte which signals success or failure (``0x00`` on failure)
+> +The output buffer contains a single byte which signals success or failure (``0x00`` on failure)
+>  and 31 bytes of output data, the meaning if which depends on the subfeature being accessed.
+>  
+>  WMI method Get_EC()
+> @@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller firmware version string.
+>  The first 4 bits of the flag byte contain the minor version of the embedded controller interface,
+>  with the next 2 bits containing the major version of the embedded controller interface.
+>  
+> -The 7th bit signals if the embedded controller page chaged (exact meaning is unknown), and the
+> +The 7th bit signals if the embedded controller page changed (exact meaning is unknown), and the
+>  last bit signals if the platform is a Tigerlake platform.
+>  
+>  The MSI software seems to only use this interface when the last bit is set.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+after you add a commit message.
+
+-- 
+~Randy
