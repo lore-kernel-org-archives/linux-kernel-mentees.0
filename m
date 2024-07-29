@@ -1,121 +1,115 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E0725622
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 28 Jul 2024 17:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1A81E892
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 14:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722187824; cv=none; b=ajqMFAeHLZWcUWSoyvNtAm7WawLKm/6De7r7IJEh0bp9i2dz6jL24t7UnuZwggydiLX/un91B8tizZz3cUqTD+J4qQYFNITMvf6bvsPXxlw5oNNKqGi212AfB0NsugmpD/Ug0sydGNirgemDW5ILly71W3wul5EBFu+Z5E0jjVs=
+	t=1722264011; cv=none; b=EY7E/kZZxjlgriO/SBiXM7rScZqIc+I+HUzZZbUjEdnfmx6orzkoHGyWRzXOZdBANtGYXCGd2azkQhVDbUktVd695tyVCGrc37VIuF9I//SJjtk1eQApPo7OKloeYVFHIB10/Z6qHHmpgtiSKSfAevfBUuvxYQ/QfgHC6LDKykg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722187824; c=relaxed/simple;
-	bh=2AD3MMNZqnt70MEWY//mRnCq/uSFCw9XkUjYoZqo9bk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mSptRV5/qoEsQ0NYVfFI9lGDl9+Y9vAcEWjXz0EGrvtKwcX4VJBP8kEIR6Tdaw6Pz2kVxVHuZ2GmV1NJ/YEur+iu5eD+5dpqbmf5u/SdmoHGrlw2QYryeBGpq0b+DTPdgo8TFWnDbTppieQ+/O2ER/BhDrYDm8jiDW1dQrmYoN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Do1Kt7TH; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1722264011; c=relaxed/simple;
+	bh=nVwixBhGg7g0/0/fZ7WiemdMyNzqYt6miLlpFgejPh4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iPR4VMXZMEMAyCvY1vGrYsojGDSMd2JMH7z4c+TadPAR/7b+L/Z1cKQVCiUMoaW13FUWLm7ooANKoSpE7UJpruheLbkaVCeoapfX9Bw+DqrhShieI16dD9UMSjiep06uRwFoo+0jlIhJcevdvXNlnSemkNezDWN3l4Hj16QTxfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=EA8+2MMc; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Do1Kt7TH"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="EA8+2MMc"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 8D06C60611
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 28 Jul 2024 17:30:22 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2F7C381133
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 14:40:05 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id yZvm28H0Sm4l for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 28 Jul 2024 17:30:21 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::530; helo=mail-pg1-x530.google.com; envelope-from=simeddon@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org AC8DE605CA
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org AC8DE605CA
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Do1Kt7TH
-Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id AC8DE605CA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 28 Jul 2024 17:30:21 +0000 (UTC)
-Received: by mail-pg1-x530.google.com with SMTP id 41be03b00d2f7-7a1be7b5d70so1675681a12.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 28 Jul 2024 10:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722187821; x=1722792621; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:commitdate:commit:authordate:author
-         :mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6wiv0nloWjoHcpjHzBuCqTkOOAP2x8qTq7AZF6uuHjQ=;
-        b=Do1Kt7THaJYKStYhYV/iIoHsMznm41kGXaDlRZd+tVvlrLZyHSev8AGAB5DLT6nyZR
-         I+++DVMrFCWwCmqxQw0z/8ZgqB6LMWKke0dGBhs6xPgC0yZ9LeRifUPhdJzn0PPKD8F/
-         VYj5SKlHu6arZxzaeGEc2gFV30TuN0zaBXXfdVJ/cVV3QxzKtTIsqeM1epr8pVTIC5EU
-         iZpWhmldLR2qX602tc8bFDNV3FcYfgdndeYBuXFRuxmFQ23fV25fTkzr2MNZNrvwQqWH
-         Le6Fg/bDWIdwqHW+QvxgcOBl7Uwd7Z+4kGvE9QgrMilTa8uA3AMA+B3JA4ZP9v4FgI2k
-         kVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722187821; x=1722792621;
-        h=content-transfer-encoding:commitdate:commit:authordate:author
-         :mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6wiv0nloWjoHcpjHzBuCqTkOOAP2x8qTq7AZF6uuHjQ=;
-        b=eQbJk6hGiCnhuebzq1UpMADWqUKCnQqJgtrwoU1F9QQE6MW+7w6OCU7jPeiViB+iPt
-         YwSI0SU7R2ysBF3cJd/Ed9+K62yT2exV/IdkLBLay6b4AZR6s75SBPkqRDVDFQRryZ26
-         m2P1CylOuLcXTwFacr3dLkDLyuNSAki+saDRxGAU1l9et7QuiOTJ/e2dtdDc0gwCYucT
-         3NYXjVHIgMAA0zKJA2KjU4HudzbxQVexwOaCDiGLv49ZbjdZvAdyqdkXT4UnyZKNDi+Y
-         Bnh/BmOQxZkv31jB/YumN8duS5wKUXtGlfY29a/OfXfzJ23QdYXkLzVDAqxrCHcFZVuR
-         0Fhw==
-X-Gm-Message-State: AOJu0YyH8WvNfJQHTd8WKDAuZAkO+pdfjQDpkErieblp9JcT1+gsVYo3
-	dUwUhFDJC7j4kqgOVCy0Md9L5WyWlwL8QPbVXTVJTPz8Qa1skQxm
-X-Google-Smtp-Source: AGHT+IEfMq8QoH5lOT2NRgNitnLWzz70aYsDLkP3r7fNq48j/yoIHV/k94tN1APtPUzLmahR4gqBRw==
-X-Received: by 2002:a05:6a20:918e:b0:1be:c41d:b6b7 with SMTP id adf61e73a8af0-1c4a0f4b3aamr8625612637.19.1722187820740;
-        Sun, 28 Jul 2024 10:30:20 -0700 (PDT)
-Received: from BiscuitBobby.am.students.amrita.edu ([175.184.253.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70eca8af213sm3169860b3a.180.2024.07.28.10.30.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jul 2024 10:30:20 -0700 (PDT)
-From: Siddharth Menon <simeddon@gmail.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel-mentees@lists.linuxfoundation.org,
-	syzbot+fdedff847a0e5e84c39f@syzkaller.appspotmail.com,
-	Siddharth Menon <simeddon@gmail.com>
-Subject: [PATCH v3] hfsplus: Initialize subfolders value in hfsplus_init_once
-Date: Sun, 28 Jul 2024 22:59:13 +0530
-Message-Id: <20240728172910.483823-1-simeddon@gmail.com>
-X-Mailer: git-send-email 2.39.2
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 2USOZirOjxf0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 29 Jul 2024 14:40:03 +0000 (UTC)
+X-Greylist: delayed 345 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 29 Jul 2024 14:40:03 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 6D21F81138
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 6D21F81138
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=EA8+2MMc
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2600:3c01:e000:3a1::42; helo=ms.lwn.net; envelope-from=corbet@lwn.net; receiver=<UNKNOWN> 
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 6D21F81138
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 29 Jul 2024 14:40:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 083BF41AB8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1722263657; bh=aV2fBeVeraJinAztP6WxXGZNMfp4HMUWMSPRB+UMKhw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=EA8+2MMc+a6E/i1z5jVasg8IO83480Hzaw4ULOPIXdL90CXfkwRlmMCPNdQdSJ7Hn
+	 dZ+oWUhAiIjxIAXIXKE0dJ5//iIvIwInLaq01+fzOdSJcUIAc53aVVrV41K3uVyrO9
+	 4bgI6oJTzBonh/eLumJN8SvAntauWfR9AhGIjZNIwyR6bvjHBOMSCwAo+jluUjKzxF
+	 Iz3IHfzYrRDJewhvAAqTMh5tBoB9282Ahx7WTXzTtT2KuMM/mTPuF7r6Ou70ctZbxq
+	 mpuZqfJhrV7IkMZHVj27sXTUc4vzPVRcWkzTwsp3ggGuw0ijIW/tbhWsqeRZ65RMcK
+	 XD0JXuPFvW5sw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 083BF41AB8;
+	Mon, 29 Jul 2024 14:34:16 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Siddharth Menon <simeddon@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, Siddharth Menon
+ <simeddon@gmail.com>
+Subject: Re: [PATCH] Docs: Update LSM/apparmor.rst
+In-Reply-To: <20240727043315.36554-1-simeddon@gmail.com>
+References: <20240727043315.36554-1-simeddon@gmail.com>
+Date: Mon, 29 Jul 2024 08:34:16 -0600
+Message-ID: <87zfq0b72v.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Author:     Siddharth Menon <simeddon@gmail.com>
-AuthorDate: Sun Jul 28 17:05:40 2024 +0530
-Commit:     41b1c7e0a2b4907dd7f1af4bb319fe9d33dd76cf
-CommitDate: Sun Jul 28 17:05:40 2024 +0530
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Addresses KMSAN uninit-value error in hfsplus_delete_cat
-discovered by syzbot while fuzzing. It is triggered by 
-`hfsplus_subfolders_dec` due to uninitialized value of the subfolders 
-attribute of the hfsplus_inode_info struct created by 
-`hfsplus_init_once`.
+Hi, Siddharth, thanks for working to make our documentation better!
 
-Fixes: https://syzkaller.appspot.com/bug?extid=fdedff847a0e5e84c39f
-Reported-by: syzbot+fdedff847a0e5e84c39f@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/x/report.txt?x=16efda06680000
-Signed-off-by: Siddharth Menon <simeddon@gmail.com>
----
-Updated commit to be more descriptive of the issue being fixed and 
-initialize subfolders value at a hfsplus_init_once
- fs/hfsplus/super.c | 1 +
- 1 file changed, 1 insertion(+)
+I do have a few comments, needless to say...:)
 
-diffhfsplus_init_onceus/super.c b/fs/hfsplus/super c
-index 97920202790f..24e58de21 a hfsplus_init_oncehfsplus/super.c
-+++ b/fs/hfsplus/super.c
-@@ -661,6 +661,7 @@ static void hfsplus_init_once(void *p)
- 	struct hfsplus_inode_info *i = p;
- 
- 	inode_init_once(&i->vfs_inode);
-+	i->subfolders = 0;
- }
- 
- static int __init init_hfsplus_fs(void)
--- 
-2.39.2
+First is that you always need to send a patch to the appropriate
+maintainers; scripts/get_maintainer.pl will help you there.
 
+Siddharth Menon <simeddon@gmail.com> writes:
+
+>     Docs: Update LSM/apparmor.rst
+>     
+>     Update AppArmor documentation after deprication of CONFIG_DEFAULT_SECURITY to enable and configuring AppArmor.
+
+Please try to stick to the 80-column limit whenever you can.  Also,
+"deprecation".
+
+>     Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+>
+> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+> ---
+>  Documentation/admin-guide/LSM/apparmor.rst | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
+> index 6cf81bbd7ce8..f324d750468a 100644
+> --- a/Documentation/admin-guide/LSM/apparmor.rst
+> +++ b/Documentation/admin-guide/LSM/apparmor.rst
+> @@ -18,8 +18,10 @@ set ``CONFIG_SECURITY_APPARMOR=y``
+>  
+>  If AppArmor should be selected as the default security module then set::
+>  
+> -   CONFIG_DEFAULT_SECURITY="apparmor"
+> -   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
+> +   CONFIG_DEFAULT_SECURITY_APPARMOR=y
+> +
+> +Since kernel 5.0, `CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is no longer used. 
+> +Instead, the `CONFIG_LSM` parameter manages the order and selection of LSMs.
+
+The documentation covers the current state of the kernel, so we do not
+normally put historical information like that.  Best to just describe
+how things work now.
+
+Thanks,
+
+jon
