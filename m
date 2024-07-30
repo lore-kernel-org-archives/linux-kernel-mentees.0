@@ -1,77 +1,59 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694EE181B87
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 07:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58371991DB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 12:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722323352; cv=none; b=qjIyQy9o90KCYhOiKHF9yQDynn/MFDRk3E81zs8LBNTOdCp8NLu1/P4Bd80hoj/U+67GpGeFybu53+8EDKUkLfepz0usPaHjSggNVURUlBj+SPiCLTSeqVh/N9sMIz9MFLj8A5ougtm7HgnF+5nw3WlSIgK6Dmg1fyZfzzYEsk4=
+	t=1722342346; cv=none; b=opN2S12s/2sNGJ4ouJtr63E0Dm6IHcO5tT61RTD0e4VQndQrzORvFDjJZQ6ygv8sU0swMcjM7Hg6IgEUBQgzvxbWpqjm93SXW05wHhLTia3rLfYVVxcLjJBEo7n3YvBO1YPNHAOYhFNEM5Lw1ISiqs7wHcBEgQQsJG6AWmkGFaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722323352; c=relaxed/simple;
-	bh=aUXBVwEuXvr8ZvqtozeYi9Lu0ovEhgcBBeJw/0xKvnE=;
+	s=arc-20240116; t=1722342346; c=relaxed/simple;
+	bh=qdDMP7323l8v6fO21UUWMEocD4966D9stt8FVHJsOUI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aazTixN+zL9CgLjP6LLMo1Vp1Vl4HwfIe1wBnP8pFtB5I3V7fVzcDXsWQPC1/ZbxW8Aym+8+IRQ1rk4kU4itOM6PoyT2yDojvhM6OrnO8J7UaXCOsQurx9c1aoImoHK56LfEOUTgePE6E9RmVjtPhKPhmgzdhI+IfHuOCjtjZ60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bNk6KjzU; arc=none smtp.client-ip=140.211.166.138
+	 In-Reply-To:Content-Type; b=TNuFbl6XYOMC85J3dZ8Cr9baNhwUfmmjk7WxWvLGwEx252d1CMa+T+PgbkpNZ0m6TLCxPMxp5bpd2+XgDY04n+takOe54Uadvhfaqjqby7qpXXgg++4Bc7MW/kHWrfj03nEyZ6yQs6pfIe3JLp6WVcj9kV4f7Ud83DbHjDkOLbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=qNLrnyDz; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bNk6KjzU"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="qNLrnyDz"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id EBDAD80B37
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 07:09:10 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 5CCE9608FD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 12:25:44 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -2.797
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id Kqhq4IzlyqYE for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jul 2024 07:09:10 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::22f; helo=mail-lj1-x22f.google.com; envelope-from=oneukum@suse.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D5DA48128F
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D5DA48128F
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=bNk6KjzU
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D5DA48128F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 07:09:09 +0000 (UTC)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2ef32fea28dso50333881fa.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 00:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1722323347; x=1722928147; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lVMhYxj4qNnzwO4iqD+18Ai3QfZ1Axvw0kbd5FN9fVs=;
-        b=bNk6KjzU7iDMTRbWBuaUdm99zGFav9j1R1OLvVC89C66fxXWyQ5f/jpZGhZgtvnTyC
-         s1wLBOKKEXoxeCb+BgRlGTPJkjjwZS9EaZNJPZ5BdJiQynAeN2ofSz8FDu5Jvlb35GhM
-         Ef5QMLiUHDXeXB4zgLPKGr+fQWUzQOc32HnYfneXHEEutZVXAAbZPwJzockZavXdWX6h
-         lZAZqRUe+e8vN2734wmwgWygRke+d29PwbeFq5zPT8zilojenF31c9B9pe9SO8Kq4Vrd
-         EwVF777CAy3iKigPhll1dIEhdhT1PC2y4Rdcl0pGgpjFKkKW8vsiCkOf3B+g8BEMzQMQ
-         KDvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722323347; x=1722928147;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lVMhYxj4qNnzwO4iqD+18Ai3QfZ1Axvw0kbd5FN9fVs=;
-        b=VYkThm9kw+5oTgmpZou1VZ04fWmBple8juFuN1br+0WJ7uk+zePpEP1Dtaxao+Nb0m
-         YaMBwNtzflHqfjje1EscQqjfc1oR4jdbimH3Z6CiGVfiXvo+Dng75eWCWdfLuWHU28ni
-         WusUQi8DubAQuVcKm6I3M2aN7sA/llLwbRrZdtHo1sYKqhumhgoS/eVHKu7YZyemkGx/
-         6nMC5Gjk/YeDgU0xueGKrI6ViQZGhA9BxF1bqouBa8kTP1cSMTXWWlYA/7XEJ2ECQMuF
-         77nFrVz2Jihjv31s4DKfDoTH1EdChov3fwb2pMcudPGCXm4f5s7f+ptqg1mkWHJ6Blsg
-         ORFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCXInYaZwVORzUX0uhZy/7Y5MaW6k0F9fyGBDqgY4zfMA217U2JiAQOIuIFv+MaxN3HLA5ZWsvNAbUrmrv7udtkltSaW1l6j4chu1eF64AtYQq/TEwm142GvMnD9Mb
-X-Gm-Message-State: AOJu0YyM+S49lm46s7AK3tLOc0EIe8GtymESTv7X5jw1Oppf78rnX6p0
-	FopfGY4OSeSHOzTeK4ar9SdCd0rLb31QhVGMaKMkfPvMtN57a1N0FahdLXPjYVs=
-X-Google-Smtp-Source: AGHT+IFeNNsOEIsAWFdV4yWL2SghnTx8Z1eLwgdOiT5AgajQW3bsdyzMbPjzTwMNqrHkz03C42ZeVg==
-X-Received: by 2002:a2e:7c02:0:b0:2ef:2e8f:73e9 with SMTP id 38308e7fff4ca-2f12ee1bd2dmr64461041fa.37.1722323346904;
-        Tue, 30 Jul 2024 00:09:06 -0700 (PDT)
-Received: from ?IPV6:2001:a61:137b:5001:be5a:c750:b487:ff1b? ([2001:a61:137b:5001:be5a:c750:b487:ff1b])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5afb9422c41sm5153828a12.82.2024.07.30.00.09.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jul 2024 00:09:06 -0700 (PDT)
-Message-ID: <e72cc56a-3066-4cb8-848d-bfe27a48c095@suse.com>
-Date: Tue, 30 Jul 2024 09:09:05 +0200
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id D8YKe61Tfa3T for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Jul 2024 12:25:43 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=212.227.17.20; helo=mout.gmx.net; envelope-from=w_armin@gmx.de; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org A9314608FB
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org A9314608FB
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmx.de header.i=w_armin@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=qNLrnyDz
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id A9314608FB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 12:25:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1722342331; x=1722947131; i=w_armin@gmx.de;
+	bh=bussN/ItGE7hyQ7qjLYxNnxcmLOLpXWhjXARu85qVog=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=qNLrnyDzulH4CN/hF55v0aev87OBUJlDIB4Mq0TtdVEikhUwFJZCNDKezANHEN5h
+	 yocU7fNnNpgT+O/qSEV772TTfV9rEPEr/Mc0fr6W2V2BqiZ85gJ83SERuX7aaiHL9
+	 3wqquhMbxMIYF45hu2295RCfkhmjVqu1IB9Cd75g+3PDR/D6TUch/yVobIZLCktEZ
+	 n0JJh9yI22zZVkJIRopZ3pN5SRrUHiACedgmXrTEscqPoyjBxuF5Y6e7e1uZ0L+P1
+	 FWzP/yT0Ed+wBHvs8z/Z1zrH0p6Xwr2ocidAgq84PO7sWiNoNkhgmc4YsufkKCohm
+	 CCWBu34iQc/qa6esag==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [141.30.226.129] ([141.30.226.129]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MG9g4-1sTHj51A4a-008mNj; Tue, 30
+ Jul 2024 14:25:31 +0200
+Message-ID: <87bfdaa2-5b94-46b1-bbf7-d81245c7d658@gmx.de>
+Date: Tue, 30 Jul 2024 14:25:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -79,32 +61,95 @@ List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: storage: ene_ub6250: Fix right shift warnings
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>, stern@rowland.harvard.edu
-Cc: gregkh@linuxfoundation.org, usb-storage@lists.one-eyed-alien.net,
- linux-usb@vger.kernel.org, skhan@linuxfoundation.org,
- dan.carpenter@linaro.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20240729182348.451436-1-abhishektamboli9@gmail.com>
+Subject: Re: [PATCH] [PATCH v2] wmi: Fix spelling mistakes
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>, corbet@lwn.net
+Cc: platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240729223649.135639-1-luis.hernandez093@gmail.com>
 Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20240729182348.451436-1-abhishektamboli9@gmail.com>
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20240729223649.135639-1-luis.hernandez093@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IzHrU+9R1FGoUahWzPtYbZQXRyIJcVLmyBbTiP1Yaq7sqhyYw8H
+ mjRD+L06aLbz1IS5TkiNQrAMULuXVxHdNjh325hYz2S1f6TXQxQ8dSrdmh7to+DdfhyJ8p0
+ pPj1Q+Ou+zhWoA+JJaWq6cnbBPgUranxWiUiSd+N+55ch27wSSR4EmgESjw2JYSm3o8dP+A
+ FhJ1LwnjH3COSlRDHHVgg==
+UI-OutboundReport: notjunk:1;M01:P0:9fq1H++DdOI=;MB0Yui693RYl/p+ccc3bWftwDLn
+ V/x7jTl+n4AUDQMUlvWauiJfOduFRrtN4av8a8FI38fbnHV46IDfUXGhR00gXkuXqOkDTnhFR
+ r0pzwr5FPpO8vWbsQgPHUnplHCMgNBb4Bxn8NAlsJ2LeNpDOdydazcd3plcu7Xmid+EMcuUaP
+ /3XPE8SvlOskKJj8kC5JK2FzyRXTXm+TSmfnxrEY3xXDEPw3IHtZZa4mTkLg+eb7GF5LmvDAq
+ 3/o7sUY8nKHkl4Pszsmgjsfhe1Ofn0Ohth61xgRcaHDUJmjTAsNMLfrXMLRfmQhHyf6PozVK9
+ U1RXBGszSjkNAtCPBlfqJD2FF9q+8msBPhNNKfe/sD6EELGTWq0mu8ASXPrMUq1NXSEJK5zNQ
+ a2ElU27+Nk9dw+s+K2zn/O6QPT3cj0UduHGNRdW8JZLsH6/EnGSlVtMqyT7SNBN5R/O0ybia9
+ wH/B0PwhQM+zRAVOmm0mjA44It0qK9UxPZLr5wrl7mefii3U91P05qRS4BZJIe3P5irQbXhYm
+ pU35/5EK+TnltquPD8/9tle3+IjdJE/ez/zOp61Pe3q8tcYCLuwotvVbwB9786t5KXTzycGjh
+ ChWBTGehNfHi79KZ9DX/L6SHyYTxUB/kDaptcQd1JrQ/Rn03hqbp52chTdnYzchaq8Uz+JVbK
+ Y7ExgW0y4uphd+1SCiBVeYV7oUoMg6ghsJR9z9PrtNWKI1GH4XSKvDSouMRE8kFKqZTxxVFA5
+ J+WvkXWAROt3y8dlpnPpTXaQvTLEOi3ufSo/LXgUOQGSdpFCClziflMc6mC/CDYhF5jIt/G65
+ SjfvpV7ctWz5RN591bb/M2jg==
 
+Am 30.07.24 um 00:36 schrieb Luis Felipe Hernandez:
 
-
-On 29.07.24 20:23, Abhishek Tamboli wrote:
-> Change bl_len from u16 to u32 to accommodate the necessary bit shifts.
+> There were a few instances of typos that could lead to confusion
+> when reading. The following words have been corrected:
+> Binay -> Binary
+> singe -> single
+> chaged -> changed
 
 Hi,
 
-while this patch is technically correct, it papers over the issue.
-Could you please
+please change the title to "platform/x86: msi-wmi-platform: Fix spelling m=
+istakes".
+With that being addressed:
 
-1. use a constant, where a constant is used
-2. use the macros for converting endianness
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
 
-	Regards
-		Oliver
-
+> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+> ---
+>   Documentation/wmi/devices/msi-wmi-platform.rst | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/wmi/devices/msi-wmi-platform.rst b/Documentat=
+ion/wmi/devices/msi-wmi-platform.rst
+> index 29b1b2e6d42c..31a136942892 100644
+> --- a/Documentation/wmi/devices/msi-wmi-platform.rst
+> +++ b/Documentation/wmi/devices/msi-wmi-platform.rst
+> @@ -130,12 +130,12 @@ data using the `bmfdec <https://github.com/pali/bm=
+fdec>`_ utility:
+>
+>   Due to a peculiarity in how Windows handles the ``CreateByteField()`` =
+ACPI operator (errors only
+>   happen when a invalid byte field is ultimately accessed), all methods =
+require a 32 byte input
+> -buffer, even if the Binay MOF says otherwise.
+> +buffer, even if the Binary MOF says otherwise.
+>
+>   The input buffer contains a single byte to select the subfeature to be=
+ accessed and 31 bytes of
+>   input data, the meaning of which depends on the subfeature being acces=
+sed.
+>
+> -The output buffer contains a singe byte which signals success or failur=
+e (``0x00`` on failure)
+> +The output buffer contains a single byte which signals success or failu=
+re (``0x00`` on failure)
+>   and 31 bytes of output data, the meaning if which depends on the subfe=
+ature being accessed.
+>
+>   WMI method Get_EC()
+> @@ -147,7 +147,7 @@ data contains a flag byte and a 28 byte controller f=
+irmware version string.
+>   The first 4 bits of the flag byte contain the minor version of the emb=
+edded controller interface,
+>   with the next 2 bits containing the major version of the embedded cont=
+roller interface.
+>
+> -The 7th bit signals if the embedded controller page chaged (exact meani=
+ng is unknown), and the
+> +The 7th bit signals if the embedded controller page changed (exact mean=
+ing is unknown), and the
+>   last bit signals if the platform is a Tigerlake platform.
+>
+>   The MSI software seems to only use this interface when the last bit is=
+ set.
