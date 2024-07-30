@@ -1,134 +1,266 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A957016A949
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 17:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A66818CC17
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 20:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722362178; cv=none; b=R+W6YF7/vNmpYQZeA6X9EFjAMb+I3lmsAqqiBJMMSKvmsiYsK2q7QfBcsTmv/dXfDKYXGufI0c2cPTWy8DypdORj5g0YezHFonTg02dwFHuNb7/PRKlP6rXR8SRWqjMgPVhZXwQTo6klaN1PA3mf/vHzfGtL4p5imeJl3hP0dos=
+	t=1722370428; cv=none; b=AVK6x6sNKPpX2qNLmEjDNJR0sGVnb521cxRd1+o40D84watvsYl+6WuGjUzXLhwedeCuTUDhxraRhRCLTX3y9TfHbgZseoDLoo0H7768iB40om05YEW1eAJvUJv8RQcIiuhUo6oi/xGWB4fDp+XE33gyARU4btMRhHg0pOlFVWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722362178; c=relaxed/simple;
-	bh=6vAOKdphjzKdVk57ZBLwcpv4/xeXmTtrgguL3dS7fiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K7ZGLmQnI7UChEew/8rA8WGaxsGrZQo8iVANJphNQnS9RaBAXMf/jkXs72Gr/DFv7DZECozz3m34Ay2RO8DXoWDiwi4sy9qTpy/qd6YywlWk8gRw3pYJygasWrO0WxPzqBgXGcbj8vFqXHs1+C7cL3dKVPO1K9Hs5NxeGm0rj5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aLdPAzvJ; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1722370428; c=relaxed/simple;
+	bh=qT00zwkYKJgoOxVY+BeA/YOxYgQaa4TKzMRCAlXSilM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=U0G3Z1oEUFf4xEWSV0BKXDNHJ+Nd3nqoZf9z7WCgb4P6bvQTVZdkHchTxN2ffELbdTWOl5yjmU/wd0TzPGeeN67venR1aANXlm4jYrnY5Vatd5tQECfkgu+QTlVCmoNnJc2WLPcmt73Qf6rNUM0YVyb6kSDpBCOpcj2vpDuMdpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2aL66lH; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aLdPAzvJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2aL66lH"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 49F7460767
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 17:56:17 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 178614064B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 20:13:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id YJVkXDBhVQ-5 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 30 Jul 2024 17:56:16 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::633; helo=mail-pl1-x633.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 711A660718
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 711A660718
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=aLdPAzvJ
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 711A660718
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 17:56:16 +0000 (UTC)
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1ff1cd07f56so28231135ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 10:56:16 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id HwJLizlYE_QQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 30 Jul 2024 20:13:46 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32b; helo=mail-wm1-x32b.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org AD580405FA
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org AD580405FA
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Z2aL66lH
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id AD580405FA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 20:13:45 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-428119da952so29955095e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 30 Jul 2024 13:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722362175; x=1722966975; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=No6rY78M5KIj3DpjY3N15+J63kX9R0sT/Ncp0Ijs1fo=;
-        b=aLdPAzvJyXRtx+VNwB5TvfvzQrQRLXo+g680NErntwd/iNasUDKOVOaiBkPU/86qUA
-         ycK+GGcj1AP5PCbuzbMGIzKaM5KWzKH040N4VFp86xeGJADliOBGX2sA98Yt3kCgTkpT
-         76ggeO1UXQ8BUwFTJRkyPcd+h3pBOBj3SdOoi+LISFHY7CuvpucZ/L+MnfQKmSaQ82j8
-         uYKOFNzY8goNSsRHKkA9vp5iXzpyhRbn1k0R4lpi6m8P/9UvYlYvJodScT/3YUOlDi9E
-         uomHfQUonTvpcezwyzQVsKG4tIb+tehNF8Id2hbWfLpKm1H9476WWIeUXahCFYr1jRWj
-         ENWw==
+        d=gmail.com; s=20230601; t=1722370424; x=1722975224; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xXBOk6u7M6ky2TJSBluwduZrSddYhgFxG2c5cgfXD8k=;
+        b=Z2aL66lHzPUMGw13AagofH7agoPgagJB6Nr1Uo31TnDMrNzNEY0yP5RBo+UC8B+aAJ
+         83lFzV4vpdAzVB3zZ8FdB/WJrh0SQyPlohZg9PM+jZ9W8YETR/Oa14jJ/C2vooeEdGad
+         bqH96VAolonh2p2wuFRaYWfGXJLLTzHjzbdpCMUx0Q/AKSaB5bUpvSjaP3g+i7Yq3WPr
+         fszJO2St1fmSK3Ef+eK8xfegKjRAFmiGHc1gCRRipI3QK1VTdruCIxxouNCABmJR00HO
+         hnhokvkzIAPCcVx2ArRMXfBeaxt/YVnIj/FQMYrgPf2Y8PnTPr9nulLJW6ZXEYDwTaxb
+         yJDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722362175; x=1722966975;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=No6rY78M5KIj3DpjY3N15+J63kX9R0sT/Ncp0Ijs1fo=;
-        b=iiiscHG1+Uq3e2Onf4drDgcmVBjaStQ96TTMSvUYpM2l2ELq9zwn3Ef1uYcG2qgEI/
-         1iq2y/wJwTLqS1bICzCLDdX40AuuZuXRC2ShdBc2/LjLFMEY7Bij0UNr8tzFhlVCrlQ8
-         vPs3GVfZjWG2EjjZGTRp5G8boDPnCgMioRNNVFyRhqpkiHyFRlZx0S0f1xYkjstZYAX+
-         9dAiDi87Cu6rKs2lG8mAKztPqZi3+c4LrIx7M83yAfU3PWtzAziEFnYTUVf9VQWC7MoR
-         ZruGJUehU86uWTqpuKKsjHyT6akJhe+kyOaD7dLdgl33BV0eSP/2O5Zt6UDad+sZ35KM
-         MZ9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVHjZvuuO4wB9T1nK4S6RhQoXoOLC1Uq37wQ+kBYCotn7fJ3mk9N3RHrxw6KMFc4f2DtYyrnhZLVTwe/q6bJWDlRPslvg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yx/LP6zkW+R48bPrz87EkZUlxP6INvcEEtMdNINGbSuTsuzRiIH
-	276GSgS549O+7uAxWNmEke9+ytws1/wVt9+Nm9UfVoWOvRoOvx5x
-X-Google-Smtp-Source: AGHT+IGeSA5Ardyq54qcy8JsPanVQiscsfFe2/iPX0z4l1px61+9+Ma6z8Z0QjCES1xy2qE3CX/ZOQ==
-X-Received: by 2002:a17:902:fc48:b0:1fb:1cc3:646d with SMTP id d9443c01a7336-1ff048521b8mr155538275ad.29.1722362175400;
-        Tue, 30 Jul 2024 10:56:15 -0700 (PDT)
-Received: from embed-PC.myguest.virtualbox.org ([49.37.130.209])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed7f1b6c3sm104848285ad.192.2024.07.30.10.56.12
+        d=1e100.net; s=20230601; t=1722370424; x=1722975224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xXBOk6u7M6ky2TJSBluwduZrSddYhgFxG2c5cgfXD8k=;
+        b=NmE4HhivJ1SAtfes2L9nlPoajSG7OqdKD2NXa9/n1uOam+OyCtNxyI9NJcTIBT/Mzd
+         L29JU1eTO2llX9E+guY+N6bBL04rNfFWUU/Gl8HK0xIISlC9vUoENXAzWa8FcNKBVs7+
+         vCzjjqVeHZi3XMj0ggr3DUzfpz5W7x+kGPEqx+Flh7ChFPPoyU2mMtbZn1E6oa23w/9u
+         L1TVBQXHDDUcrscBvk6CVkBjv/QV+JiTzGwoGts9SAAVdv65ImxFk5eG+etxi9+6GgcJ
+         r4SAncdnxnVj3qdOmYV2nDZeOuyBxDrstTaUC3NXbRz73BlfbhttHuyP2VvpH2CxMg33
+         Jpyw==
+X-Gm-Message-State: AOJu0YwIlB3SvsGXkmU0SQoPz58tCx3tx7kmXcwo0MOXxZ22RRcUrSiQ
+	ADSI49rJZ/2uYsW0xIrGiRBA0RHYmIK6ncOmdNn5guMxhssPDzp8
+X-Google-Smtp-Source: AGHT+IG6RnNUmcE8SRkRazzvViDEzBmKx/cfzBb40ZZKy4IHiHDgrlpiJoWjnfE/K5nhecrF4Gc99w==
+X-Received: by 2002:a05:600c:4f4b:b0:426:64a2:5375 with SMTP id 5b1f17b1804b1-42811d80105mr83466395e9.1.1722370423392;
+        Tue, 30 Jul 2024 13:13:43 -0700 (PDT)
+Received: from laptop.. (52.red-83-52-244.dynamicip.rima-tde.net. [83.52.244.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4280573fd83sm227148385e9.19.2024.07.30.13.13.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 10:56:14 -0700 (PDT)
-Date: Tue, 30 Jul 2024 23:26:09 +0530
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-	usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
-	skhan@linuxfoundation.org, dan.carpenter@linaro.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: storage: ene_ub6250: Fix right shift warnings
-Message-ID: <ZqkpOQIjcBSAg8rC@embed-PC.myguest.virtualbox.org>
-References: <20240729182348.451436-1-abhishektamboli9@gmail.com>
- <e72cc56a-3066-4cb8-848d-bfe27a48c095@suse.com>
+        Tue, 30 Jul 2024 13:13:43 -0700 (PDT)
+From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+To: stable@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	Dave Kleikamp <dave.kleikamp@oracle.com>,
+	Manas Ghandat <ghandatmanas@gmail.com>,
+	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>,
+	syzbot+6b1d79dad6cc6b3eef41@syzkaller.appspotmail.com
+Subject: [PATCH 6.1.y] jfs: define xtree root and page independently
+Date: Tue, 30 Jul 2024 22:13:15 +0200
+Message-Id: <20240730201315.19917-1-sergio.collado@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e72cc56a-3066-4cb8-848d-bfe27a48c095@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 30, 2024 at 09:09:05AM +0200, Oliver Neukum wrote:
-> 
-> 
-> On 29.07.24 20:23, Abhishek Tamboli wrote:
-> > Change bl_len from u16 to u32 to accommodate the necessary bit shifts.
-> 
-> Hi,
-> 
-> while this patch is technically correct, it papers over the issue.
-> Could you please
-Thank you for your feedback on my patch. I have a few questions to ensure 
-I make the appropriate changes.
-> 
-> 1. use a constant, where a constant is used
-I think you are suggesting that I should replace hard-coded values like the 
-buffer size with named constants. For example:
+From: Dave Kleikamp <dave.kleikamp@oracle.com>
 
-#define BUF_SIZE 8
-unsigned char buf[BUF_SIZE];
+[ Upstream commit a779ed754e52d582b8c0e17959df063108bd0656 ]
 
-> 2. use the macros for converting endianness
-Can I use macros like cpu_to_le32 for converting the bl_num and bl_len values.
-Should I replace all instances of manual bitwise shifts with these macros?
-For example:
+In order to make array bounds checking sane, provide a separate
+definition of the in-inode xtree root and the external xtree page.
 
-    u32 bl_len = 0x200;
-    buf[0] = cpu_to_le32(bl_num) >> 24;
-    buf[4] = cpu_to_le32(bl_len) >> 24;
+Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+Tested-by: Manas Ghandat <ghandatmanas@gmail.com>
+(cherry picked from commit a779ed754e52d582b8c0e17959df063108bd0656)
+Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
+Reported-by: syzbot+6b1d79dad6cc6b3eef41@syzkaller.appspotmail.com
+---
+ fs/jfs/jfs_dinode.h |  2 +-
+ fs/jfs/jfs_imap.c   |  6 +++---
+ fs/jfs/jfs_incore.h |  2 +-
+ fs/jfs/jfs_txnmgr.c |  4 ++--
+ fs/jfs/jfs_xtree.c  |  4 ++--
+ fs/jfs/jfs_xtree.h  | 37 +++++++++++++++++++++++--------------
+ 6 files changed, 32 insertions(+), 23 deletions(-)
 
-Is using cpu_to_le32 appropriate for the data format required by this
-device?
+diff --git a/fs/jfs/jfs_dinode.h b/fs/jfs/jfs_dinode.h
+index 6b231d0d0071..603aae17a693 100644
+--- a/fs/jfs/jfs_dinode.h
++++ b/fs/jfs/jfs_dinode.h
+@@ -96,7 +96,7 @@ struct dinode {
+ #define di_gengen	u._file._u1._imap._gengen
+ 
+ 			union {
+-				xtpage_t _xtroot;
++				xtroot_t _xtroot;
+ 				struct {
+ 					u8 unused[16];	/* 16: */
+ 					dxd_t _dxd;	/* 16: */
+diff --git a/fs/jfs/jfs_imap.c b/fs/jfs/jfs_imap.c
+index ac42f8ee553f..794072cdf192 100644
+--- a/fs/jfs/jfs_imap.c
++++ b/fs/jfs/jfs_imap.c
+@@ -670,7 +670,7 @@ int diWrite(tid_t tid, struct inode *ip)
+ 		 * This is the special xtree inside the directory for storing
+ 		 * the directory table
+ 		 */
+-		xtpage_t *p, *xp;
++		xtroot_t *p, *xp;
+ 		xad_t *xad;
+ 
+ 		jfs_ip->xtlid = 0;
+@@ -684,7 +684,7 @@ int diWrite(tid_t tid, struct inode *ip)
+ 		 * copy xtree root from inode to dinode:
+ 		 */
+ 		p = &jfs_ip->i_xtroot;
+-		xp = (xtpage_t *) &dp->di_dirtable;
++		xp = (xtroot_t *) &dp->di_dirtable;
+ 		lv = ilinelock->lv;
+ 		for (n = 0; n < ilinelock->index; n++, lv++) {
+ 			memcpy(&xp->xad[lv->offset], &p->xad[lv->offset],
+@@ -713,7 +713,7 @@ int diWrite(tid_t tid, struct inode *ip)
+ 	 *	regular file: 16 byte (XAD slot) granularity
+ 	 */
+ 	if (type & tlckXTREE) {
+-		xtpage_t *p, *xp;
++		xtroot_t *p, *xp;
+ 		xad_t *xad;
+ 
+ 		/*
+diff --git a/fs/jfs/jfs_incore.h b/fs/jfs/jfs_incore.h
+index 721def69e732..dd4264aa9bed 100644
+--- a/fs/jfs/jfs_incore.h
++++ b/fs/jfs/jfs_incore.h
+@@ -66,7 +66,7 @@ struct jfs_inode_info {
+ 	lid_t	xtlid;		/* lid of xtree lock on directory */
+ 	union {
+ 		struct {
+-			xtpage_t _xtroot;	/* 288: xtree root */
++			xtroot_t _xtroot;	/* 288: xtree root */
+ 			struct inomap *_imap;	/* 4: inode map header	*/
+ 		} file;
+ 		struct {
+diff --git a/fs/jfs/jfs_txnmgr.c b/fs/jfs/jfs_txnmgr.c
+index ce4b4760fcb1..dccc8b3f1045 100644
+--- a/fs/jfs/jfs_txnmgr.c
++++ b/fs/jfs/jfs_txnmgr.c
+@@ -783,7 +783,7 @@ struct tlock *txLock(tid_t tid, struct inode *ip, struct metapage * mp,
+ 			if (mp->xflag & COMMIT_PAGE)
+ 				p = (xtpage_t *) mp->data;
+ 			else
+-				p = &jfs_ip->i_xtroot;
++				p = (xtpage_t *) &jfs_ip->i_xtroot;
+ 			xtlck->lwm.offset =
+ 			    le16_to_cpu(p->header.nextindex);
+ 		}
+@@ -1676,7 +1676,7 @@ static void xtLog(struct jfs_log * log, struct tblock * tblk, struct lrd * lrd,
+ 
+ 	if (tlck->type & tlckBTROOT) {
+ 		lrd->log.redopage.type |= cpu_to_le16(LOG_BTROOT);
+-		p = &JFS_IP(ip)->i_xtroot;
++		p = (xtpage_t *) &JFS_IP(ip)->i_xtroot;
+ 		if (S_ISDIR(ip->i_mode))
+ 			lrd->log.redopage.type |=
+ 			    cpu_to_le16(LOG_DIR_XTREE);
+diff --git a/fs/jfs/jfs_xtree.c b/fs/jfs/jfs_xtree.c
+index 2d304cee884c..5ee618d17e77 100644
+--- a/fs/jfs/jfs_xtree.c
++++ b/fs/jfs/jfs_xtree.c
+@@ -1213,7 +1213,7 @@ xtSplitRoot(tid_t tid,
+ 	struct xtlock *xtlck;
+ 	int rc;
+ 
+-	sp = &JFS_IP(ip)->i_xtroot;
++	sp = (xtpage_t *) &JFS_IP(ip)->i_xtroot;
+ 
+ 	INCREMENT(xtStat.split);
+ 
+@@ -2098,7 +2098,7 @@ int xtAppend(tid_t tid,		/* transaction id */
+  */
+ void xtInitRoot(tid_t tid, struct inode *ip)
+ {
+-	xtpage_t *p;
++	xtroot_t *p;
+ 
+ 	/*
+ 	 * acquire a transaction lock on the root
+diff --git a/fs/jfs/jfs_xtree.h b/fs/jfs/jfs_xtree.h
+index 142caafc73b1..15da4e16d8b2 100644
+--- a/fs/jfs/jfs_xtree.h
++++ b/fs/jfs/jfs_xtree.h
+@@ -65,24 +65,33 @@ struct xadlist {
+ #define XTPAGEMAXSLOT	256
+ #define XTENTRYSTART	2
+ 
+-/*
+- *	xtree page:
+- */
+-typedef union {
+-	struct xtheader {
+-		__le64 next;	/* 8: */
+-		__le64 prev;	/* 8: */
++struct xtheader {
++	__le64 next;	/* 8: */
++	__le64 prev;	/* 8: */
+ 
+-		u8 flag;	/* 1: */
+-		u8 rsrvd1;	/* 1: */
+-		__le16 nextindex;	/* 2: next index = number of entries */
+-		__le16 maxentry;	/* 2: max number of entries */
+-		__le16 rsrvd2;	/* 2: */
++	u8 flag;	/* 1: */
++	u8 rsrvd1;	/* 1: */
++	__le16 nextindex;	/* 2: next index = number of entries */
++	__le16 maxentry;	/* 2: max number of entries */
++	__le16 rsrvd2;	/* 2: */
+ 
+-		pxd_t self;	/* 8: self */
+-	} header;		/* (32) */
++	pxd_t self;	/* 8: self */
++};
+ 
++/*
++ *	xtree root (in inode):
++ */
++typedef union {
++	struct xtheader header;
+ 	xad_t xad[XTROOTMAXSLOT];	/* 16 * maxentry: xad array */
++} xtroot_t;
++
++/*
++ *	xtree page:
++ */
++typedef union {
++	struct xtheader header;
++	xad_t xad[XTPAGEMAXSLOT];	/* 16 * maxentry: xad array */
+ } xtpage_t;
+ 
+ /*
+-- 
+2.39.2
 
-I will make the necessary updates once I have your confirmation.
-
-Best Regards,
-Abhishek Tamboli
-> 
-> 	Regards
-> 		Oliver
-> 
