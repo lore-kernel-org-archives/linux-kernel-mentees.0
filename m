@@ -1,114 +1,132 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558C91A8BF6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 08:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1AB1AAE3F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 09:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722414864; cv=none; b=O2Mr1VBMmqhOhzJazECQawnU6/YlNJx7toPYyeGVmsbKq8ajhzCIdBN1EPehAJTZMOK/d82/2/qb7IlWtIfTkHu6QDUzkx7MF2WOdpIFQzx7/pV8U8TX0Of1TWNAZ+4HScyuLXIpYcuucV55ncuT+HCCG0qo+ZWFDkAQM4xcS3U=
+	t=1722417336; cv=none; b=cNTOpUZcIKNWbVN9nPyYiF7W7xF37cKitmGpTNmjiz0Tbvr0CM0eGdvrmya3HFfIEUu3izgiy/KVgldAiwG9bIHled6X/AnTZx0NEfFqMysl4gOqGV6qZ7hHUyihG1hdzd6fFoOgm0F3v0RFY7Y7cyahXuVOvHKL7GnBGZlIizg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722414864; c=relaxed/simple;
-	bh=8+E4Mx6nsvQdhnv7jB7tqDc4lCt4yb/9UOa+s297XNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CEDTQXLuUoz68MOtFBAVsAjjszRq65M/lFZPxkYoVtnecuwuW2X77cM2JXeGZ0Qu99PB6S8lTGUoP1onrnJCN6K1l2DqV9Agnre/1rKmBYmVaoxPR92Olh/lgk+kngfYnJ3Do+8MT4k1ms95so1y0DGw+VXIg6dHRNGxKRrQBfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cBiaV14n; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1722417336; c=relaxed/simple;
+	bh=83W9xNyEhrhj9qUBBB3tEuegHbX2AuriMDdh+0vXiuQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LxBcmIn3NspsCLX1AqNbvFy3zuvpDnBcDeFMKJfUlE0wyGWz2LNkBYqCPPimY0FzIHLdmXA54cYG+H5Ljjx4CpMicVU4VRlbctl1kWzXZ2XQXhnac54dEvQXc4uFB9hXJBIPkktDmcGeLLM/MdQ16rwyFAAeguKD9dgZSyxug4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=am4QhbJc; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cBiaV14n"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="am4QhbJc"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id DC2E040224
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 08:34:22 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 47F9240720
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 09:15:35 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id J5TmlbLDm7UW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed, 31 Jul 2024 08:34:22 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org A48C040150
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org A48C040150
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=cBiaV14n
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id A48C040150
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 08:34:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 99079CE12D0;
-	Wed, 31 Jul 2024 08:34:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74327C4AF09;
-	Wed, 31 Jul 2024 08:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722414857;
-	bh=8+E4Mx6nsvQdhnv7jB7tqDc4lCt4yb/9UOa+s297XNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cBiaV14nHYc6s6VsYITJu5KaTaND7A+yUt2pxHnlCgrctD+bEyovKK9gh54uvDbM1
-	 4FMo5eAGQaRxD7vm1F7ydwm47jxYymyheech1ZO1L3JW00kI0cGBWMA0xTkjQ9Eq2h
-	 BF/QLpsFT1TB/AT86cO551Ppvn2JpU5fd/+E3bEs=
-Date: Wed, 31 Jul 2024 10:34:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: skhan@linuxfoundation.org, dan.carpenter@linaro.org,
-	rbmarliere@gmail.com, christophe.jaillet@wanadoo.fr,
-	Chris.Wulff@biamp.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: u_audio: Use C99 syntax for array
- initializers
-Message-ID: <2024073102-calculate-disabled-8700@gregkh>
-References: <20240729174639.446105-1-abhishektamboli9@gmail.com>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 1KUgJzG3MKic for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 31 Jul 2024 09:15:34 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::22a; helo=mail-lj1-x22a.google.com; envelope-from=oneukum@suse.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 09F7840710
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 09F7840710
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=am4QhbJc
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 09F7840710
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 09:15:32 +0000 (UTC)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2f01e9f53e3so82272911fa.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 02:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1722417330; x=1723022130; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GSGg8nbzE43rNqdiDkmvX9VXw5/3C+7aRCNi7MLm7Wg=;
+        b=am4QhbJc8vhXedtP1B01BLwUQoYYB7KdDzCJlY4eI/Roe7L+zq053+QkUQ6sdLLerg
+         TAYvlaa3h+Xuw+mSDtyby7anrQZeDK98zXYq11hvBVPXxHkoQIQGYm2wL6WSuS97C82D
+         pKx7+TOkTd7eCdlCJ1DTdlLeYIQGCI42ux2dHRTWsUxEStv+bFiZNbd/1KhiZdlQ2G5O
+         6nTekFSnh2XHLtpaXvtVW+53y8Znvi6oKP9F+F88lpfN143jrq4HZzfJYh/GCICmnei3
+         AypB54ixDrTXWOEF3u8YAe07tq6DnyyFa3OSKjkG1LN6DyRFjEYYisksukmvv56CB3uM
+         wj/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722417330; x=1723022130;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GSGg8nbzE43rNqdiDkmvX9VXw5/3C+7aRCNi7MLm7Wg=;
+        b=wn6z/wqfR9p/jorYjCdgXHEINOPihqB/1QzzcfheIjyCP96j5qFLV9BXkZ5q9WoYbw
+         9EufLxLDMwjP8VHIlknlOC90gInvRNCRs2VW4fcWUFIczfpNKATzDO3cgDSYnoXRNFYs
+         t2FFYJ62wQmV7QnvNsjbag135YHhxuzU0pPejdII89ADOXZdTRfYlBHKWAEXoQU9dvF1
+         EbEgPTmJUeHnYqB9neQ1xydmaAJIPIQyIP6eNY845WD9k5TbY1RW3aSJNBoKUMrzs3Pq
+         TXM2MlYqe5Azn3BuMWaCFaN95T0hcVh9SWWpciqzpzeF5pm5QSI6rVukvMYDHgXx9ySY
+         kgPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnYkhcheKcF1ZPBgO5KahWKsi9/0zc0Stz+8qa0Z7IHlokMvFZWW8fn0oumdwc/BV4AzJS2ESipdGkeVRL2slGbIcadz8KHHvpOijiK25D52nFB1RU1h/+jqnajCrP
+X-Gm-Message-State: AOJu0Yyz+gzXNDbHNhbLPK9s+vbgHueW7Y/4yTOkrsJYCUsxsA+04vYr
+	X5LH39aRLpsYc0RX7cw3dm/LjRUW5f41da4BrkXavFHtRHcnJp9cPL8L0W9ulq8=
+X-Google-Smtp-Source: AGHT+IEQ44GksC7yt9tVPJqo9jRk2fLB26LDnjNmJ4RZUywVQidrbsVIjFt6auqVfRzB22Hd0YCyhQ==
+X-Received: by 2002:a2e:880c:0:b0:2ef:c8a1:ff4 with SMTP id 38308e7fff4ca-2f12edfef3amr117885781fa.7.1722417329932;
+        Wed, 31 Jul 2024 02:15:29 -0700 (PDT)
+Received: from ?IPV6:2001:a61:137b:5001:be5a:c750:b487:ff1b? ([2001:a61:137b:5001:be5a:c750:b487:ff1b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acad4aaa3sm748177766b.138.2024.07.31.02.15.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jul 2024 02:15:29 -0700 (PDT)
+Message-ID: <5d7870b0-6b63-430b-8885-2509b33dc78a@suse.com>
+Date: Wed, 31 Jul 2024 11:15:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240729174639.446105-1-abhishektamboli9@gmail.com>
-
-On Mon, Jul 29, 2024 at 11:16:39PM +0530, Abhishek Tamboli wrote:
-> Convert array initializers to C99 syntax by adding the '=' after each
-> designated initializer. This change resolves warnings from smatch
-> about obsolete array initializers.
-> 
-> drivers/usb/gadget/function/u_audio.c:1117:20:warning: obsolete array initializer, use C99 syntax
-> drivers/usb/gadget/function/u_audio.c:1124:28:warning: obsolete array initializer, use C99 syntax
-> drivers/usb/gadget/function/u_audio.c:1131:19:warning: obsolete array initializer, use C99 syntax
-> drivers/usb/gadget/function/u_audio.c:1138:27:warning: obsolete array initializer, use C99 syntax
-> drivers/usb/gadget/function/u_audio.c:1145:25:warning: obsolete array initializer, use C99 syntax
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
->  drivers/usb/gadget/function/u_audio.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: storage: ene_ub6250: Fix right shift warnings
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
+ Oliver Neukum <oneukum@suse.com>
+Cc: stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+ usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
+ skhan@linuxfoundation.org, dan.carpenter@linaro.org, rbmarliere@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <20240729182348.451436-1-abhishektamboli9@gmail.com>
+ <e72cc56a-3066-4cb8-848d-bfe27a48c095@suse.com>
+ <ZqkpOQIjcBSAg8rC@embed-PC.myguest.virtualbox.org>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <ZqkpOQIjcBSAg8rC@embed-PC.myguest.virtualbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+On 30.07.24 19:56, Abhishek Tamboli wrote:
+> On Tue, Jul 30, 2024 at 09:09:05AM +0200, Oliver Neukum wrote:
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+>> 1. use a constant, where a constant is used
+> I think you are suggesting that I should replace hard-coded values like the
+> buffer size with named constants. For example:
+> 
+> #define BUF_SIZE 8
+> unsigned char buf[BUF_SIZE];
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+Yes, but the constant we need to look at here is bl_len.
+This is a variable needlessly.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+>> 2. use the macros for converting endianness
+> Can I use macros like cpu_to_le32 for converting the bl_num and bl_len values.
+> Should I replace all instances of manual bitwise shifts with these macros?
 
-thanks,
+Yes.
 
-greg k-h's patch email bot
+> For example:
+> 
+>      u32 bl_len = 0x200;
+>      buf[0] = cpu_to_le32(bl_num) >> 24;
+>      buf[4] = cpu_to_le32(bl_len) >> 24;
+> 
+> Is using cpu_to_le32 appropriate for the data format required by this
+> device?
+
+Well, the format is big endian. So, cpu_to_be32() will be required.
+
+	Regards
+		Oliver
+
