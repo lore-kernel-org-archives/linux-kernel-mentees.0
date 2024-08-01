@@ -1,127 +1,128 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B724315855B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 Aug 2024 06:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0328B183CA7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 Aug 2024 10:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722495265; cv=none; b=hBJ7AL/D6uEaIdlUjv8OSTKSDq4mI5VD79nyjoekIQGXborTRfH7rFK4sa8uI8N8dHh3sAhBCwIiFS3GWk2HIS8hexNK5zy/89b5DiUJvLCg4ripEXYO1a4n4Fwuue1lk+qgLhYj3hLS7mfZMvoBcPuDdr1cO9myfTXCtvDO2cQ=
+	t=1722508698; cv=none; b=pOnRICOnAPY2bTldzjnx4EVkNqoh+kFp54IYLdLDtNxvJ+AGJ/Ap/3E7/LRWl+AbUiFsS17uZyAKn9VgaajhLaoF8t3+qs07cqO6ECBRrEuIGtAxKDmu7C3UxjvBfgW+TnLR6Y4yMGsD0/fjE9XDgFRDXgcQuAyXUOyGuuJ0LbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722495265; c=relaxed/simple;
-	bh=B2aduLbyl2w0DOqap6opE0ZMrWyZxDEAiEjEX4uiR5w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KxX+A5IdMDGPK0/foiWIvrT9ffKHdHPGjfasUDaU6m2l8by5ah21UADFYBcNmlL7E3srpJNm7SLXtrL9T8gi+5onkBznqNJkbRlfZc0X3XF/6He7m+EajeZ8CslbzxhVFW7aj1M1l0meI6HgaMr4R7w2W1P+XBpHTN8YVkfEe44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=g7kYYXh0; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1722508698; c=relaxed/simple;
+	bh=Pcdd2OAiIWyuZMXeVvKxTdGurZRxlZ0vBhhCXkjzbhE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BRvpQw88J5XfCqtDObL6/2D2gI84cdZE+xn2lD2XKuHoRAGz9i0ow54l8gJ0NA623PexhPEfDzxIi1UPmQjDiEEfaqKh9czTEwEqpX6U+5HANHUlrY1EtQK+M/MUhyGZqVtwlxg6+ekzmQfHn2pA7cVCZdIj823oBjaxqvPw6dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DVm3kXju; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="g7kYYXh0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DVm3kXju"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3830F4070B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 Aug 2024 06:54:24 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 9F9AB81EE0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 Aug 2024 10:38:16 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id dIxpyzg5zEg4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  1 Aug 2024 06:54:23 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::533; helo=mail-ed1-x533.google.com; envelope-from=oneukum@suse.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0C75540120
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0C75540120
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=g7kYYXh0
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0C75540120
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 Aug 2024 06:54:22 +0000 (UTC)
-Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-59589a9be92so9728628a12.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 31 Jul 2024 23:54:22 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tB2YH8KMzMnx for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  1 Aug 2024 10:38:16 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=simeddon@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 0DA1081EE5
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 0DA1081EE5
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=DVm3kXju
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 0DA1081EE5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  1 Aug 2024 10:38:15 +0000 (UTC)
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2cf213128a1so4430060a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 01 Aug 2024 03:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1722495260; x=1723100060; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=REx9tnLqztn/PqERh1PtnQ3iEqlwlxeIi55PMWMtu0k=;
-        b=g7kYYXh0j5v+9o10OKoZMBdHt+gXVQydAhCjx1bId+So8pL15Xi4ALDqaHYtDn8lFh
-         gMVMvzo2hEVJhKMzlERRF5Sd8ejZrexzWxiaCY+ZjmVCSrkRlt6eF1B0xmM9CT2HNtvx
-         drnJg9yX5bh302pNOiUWU5bnZJKDns0ypONF+74UFc9UTZDr92MUppZL9C96ub8Z4PoV
-         SBrxu2REtFRvdY+ut+5YmX68owli1Ri3EnlvM/uFacvUWwMVSgtrrE1P28xgMRs2+2u7
-         6ZWg7qbyWA/ci47hQJGBpyTbsNlEr21GkEfHeAIIp0GH7snZRIljzG/A1Pfs0iLQ08KR
-         eYjw==
+        d=gmail.com; s=20230601; t=1722508695; x=1723113495; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:commitdate:authordate:author:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8OddAGnogMzwyUywxt75MAgs7i5xQVWsmf4N9UvPIx4=;
+        b=DVm3kXjuK7ZRBqRNilGDVwSW159vK9ooUqfYgyfyq/h3XCL/9jUObAI4h2LlJBTnvJ
+         RZ1cqcFmzcieqdxNsDL0GkM/ikbfXqOesSQVYYisfU0FabRfjjfKgXcJJlHn07EguIH8
+         CHCCSez9rT90xvA5oZQYwej+fBxo59gHFWBOv9y17ZJgTHqRApctX2eYp8gQGsX0TcMA
+         qmzKFUq47vyTojrwsxxJCm+99qIQROh2Vau11b3Jynb6HwCUrdAe/uG2S9il/YcYvR1S
+         MshxOD2EdPN7ktrvzxDZ8PBay4f75rU851a/1hAY3w5zb/OfivOnKlYzljWwnytzS2mz
+         BZjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722495261; x=1723100061;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=REx9tnLqztn/PqERh1PtnQ3iEqlwlxeIi55PMWMtu0k=;
-        b=PbRNuK8YhXeUVPahsU6N1sb6qLbZlHBbJNXmCeb0GLfqCGj1xBSh2w74NtZKQyuTbs
-         +jNpOpZ28sGLhoPuKI8CMzuN3+TaM+1MDcZtcCxqAVEvU0mg0N5B8pStgWLTKrRv2lHF
-         /k5GsHbffFO2peszSFtvO7n2LmGmBn2p5LSdOkGts14/FgGtgV861XgMGBA+UYzyegyU
-         BevQ3KNVN5rrjTaaBnG2Ym4QPE3IHFt/Q6/GyUqF+GcJ4vjvxrqGDhaZ+ntqxwDywX9Q
-         hqovCSSK3RF4KI8uVwhHolLuEqOiLokSBEN6NHl9kSN68UtmtMXyUXa9aKWh6FM2WmW2
-         BhPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWHxlFMu4XXlSocTLBiBHbUDuuTj8H6/6Cea+Hja0BQ4m+P2icOXXRFHRcznkZcM7gyrwLyivYhHbKxDjBgmdqhdA0YW4X1JpT7Hiyqt5+s/i2q0O6+EQORTEDFiyy8
-X-Gm-Message-State: AOJu0Yw8llV+S68R5Gg/ttm2T/ZA2hLGQEYAfgjJRbJ63Nz2DTBde1M2
-	zkXycU1Gp+iZUfIj0gdUx1RkaBztPw/IWErP9s1FBGRtnk0tr8ta+PDJiKymdck=
-X-Google-Smtp-Source: AGHT+IEx3GWmyFwZ41U1O+u9nI48xayCAcAUdP+Lr6251MaZzgfsFNonuaQsevOfxfxqTi9mkXxhsw==
-X-Received: by 2002:a17:907:724e:b0:a7a:a2e3:3734 with SMTP id a640c23a62f3a-a7daf2d5ca8mr93384466b.28.1722495260167;
-        Wed, 31 Jul 2024 23:54:20 -0700 (PDT)
-Received: from ?IPV6:2001:a61:137b:5001:be5a:c750:b487:ff1b? ([2001:a61:137b:5001:be5a:c750:b487:ff1b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a7acab53704sm856031766b.86.2024.07.31.23.54.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jul 2024 23:54:19 -0700 (PDT)
-Message-ID: <f5d4711f-9b4a-457c-b68c-c2e9aefbe4a8@suse.com>
-Date: Thu, 1 Aug 2024 08:54:18 +0200
+        d=1e100.net; s=20230601; t=1722508695; x=1723113495;
+        h=content-transfer-encoding:commitdate:authordate:author:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8OddAGnogMzwyUywxt75MAgs7i5xQVWsmf4N9UvPIx4=;
+        b=keJbTICoxGYcDoMUjDoVxPh7+cnp9HMzxajEtLgbAhS2Fgs96aHsRznK8f7xAmVrJp
+         MbAI2nzPCrVWkSu8os5vWD047FoRaW1MiOSHsfMCjHFv1v51+5wa5d3hdtomFbSIxtBy
+         xDWxFMTCTv4G7LvBHPnRBMMwDmmnHGap/20cwIthD9tru0lHew6e7EVt+k8WQN5bsOC9
+         2DMpUwAho9VkD0H3scY7CL5+QgqXnOlSpFaxZgR3G2gPnNjDX1kT1kCG6bkGsMIKGSCH
+         tWaUjuhhgyVd/cSQrUmjKiRHbnJRbfP+HYp6+c2A7LRzdz7ehMayUQrJOdr4ovEPxxTC
+         rQyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSE4SeQRnB+NAOR6w4ibbtvCIY5a18970hfK/zr5SoEjEQ0DeyxZwJSu33HrGqJJSt8qyau0vwXOIrU5cqNkWQbc3D7F+9IEBW3qt4E8b1euQdbLD711Fwp2pILiIW
+X-Gm-Message-State: AOJu0YynfQBVEwKz8N+cjP00Cgs5PYX2Jk/G54cEXvP0Jkev/G7mEGMy
+	0H8++1yWzT2IxaKXLRuu+ktKz+/xzavSEjpYKPDwydetyoAnr+YT
+X-Google-Smtp-Source: AGHT+IFBI0DHScbC6amgBlVxn2J2zKkK3OutMUhQqP09Suo5Mh50hQluUVwU+3AmXk5ocswYWrT2SA==
+X-Received: by 2002:a17:90b:380d:b0:2cd:27be:8218 with SMTP id 98e67ed59e1d1-2cfe774a1e7mr2420917a91.8.1722508695210;
+        Thu, 01 Aug 2024 03:38:15 -0700 (PDT)
+Received: from BiscuitBobby.am.students.amrita.edu ([175.184.253.10])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2cfdc4add69sm2895495a91.47.2024.08.01.03.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Aug 2024 03:38:14 -0700 (PDT)
+From: Siddharth Menon <simeddon@gmail.com>
+To: =corbet@lwn.net
+Cc: =linux-doc@vger.kernel.org,
+	apparmor@lists.ubuntu.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Siddharth Menon <simeddon@gmail.com>
+Subject: [PATCH v2 1/1] Docs: Update LSM/apparmor.rst
+Date: Thu,  1 Aug 2024 15:53:57 +0530
+Message-Id: <20240801102356.93591-1-simeddon@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: storage: ene_ub6250: Fix right shift warnings
-To: Alan Stern <stern@rowland.harvard.edu>,
- Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: gregkh@linuxfoundation.org, oneukum@suse.com,
- usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
- skhan@linuxfoundation.org, dan.carpenter@linaro.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20240729182348.451436-1-abhishektamboli9@gmail.com>
- <e72cc56a-3066-4cb8-848d-bfe27a48c095@suse.com>
- <ZqkpOQIjcBSAg8rC@embed-PC.myguest.virtualbox.org>
- <5d7870b0-6b63-430b-8885-2509b33dc78a@suse.com>
- <804a6d40-73a4-4af6-944b-95e9324d7429@rowland.harvard.edu>
- <Zqp8vbbIC8E/XrQY@embed-PC.myguest.virtualbox.org>
- <b35a344a-018b-44ae-975a-7767a3d5b6ec@rowland.harvard.edu>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <b35a344a-018b-44ae-975a-7767a3d5b6ec@rowland.harvard.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Author:     Siddharth Menon <simeddon@gmail.com>
+AuthorDate: Fri Jul 26 23:43:49 2024 +0530
+CommitDate: Thu Aug 1 15:35:52 2024 +0530
+Content-Transfer-Encoding: 8bit
 
+Docs: Update LSM/apparmor.rst
 
+After the deprecation of CONFIG_DEFAULT_SECURITY, it is no longer used
+to enable and configuring AppArmor.
+Since kernel 5.0, `CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE` is not
+used either. Instead, the CONFIG_LSM parameter manages the order and
+selection of LSMs.
 
-On 31.07.24 20:19, Alan Stern wrote:
-> On Wed, Jul 31, 2024 at 11:34:45PM +0530, Abhishek Tamboli wrote:
->> On Wed, Jul 31, 2024 at 10:04:33AM -0400, Alan Stern wrote:
+Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+---
+V1 -> V2: Removed historical information and addressed review comments
+ 
+ Documentation/admin-guide/LSM/apparmor.rst | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Hi,
-
-I should make my reasoning clearer.
-
->>> Replacing the variable with a constant won't make much difference.  The
->>> compiler will realize that bl_len has a constant value and will generate
->>> appropriate code anyway.  I think just changing the type is a fine fix.
-
-While that is absolutely true, it kind of removes the reason for the patch
-in the first place. The code gcc generates is unlikely to be changed.
-
-We are reacting to a warning an automatic tool generates. That is a good thing.
-We should have clean code. The question is how we react to such a report.
-It just seems to me that if we fix such a warning, the code should really be clean
-after that. Just doing the minimum that will make the checker shut up is
-no good.
-
-	Regards
-		Oliver
+diff --git a/Documentation/admin-guide/LSM/apparmor.rst b/Documentation/admin-guide/LSM/apparmor.rst
+index 6cf81bbd7ce8..47939ee89d74 100644
+--- a/Documentation/admin-guide/LSM/apparmor.rst
++++ b/Documentation/admin-guide/LSM/apparmor.rst
+@@ -18,8 +18,11 @@ set ``CONFIG_SECURITY_APPARMOR=y``
+ 
+ If AppArmor should be selected as the default security module then set::
+ 
+-   CONFIG_DEFAULT_SECURITY="apparmor"
+-   CONFIG_SECURITY_APPARMOR_BOOTPARAM_VALUE=1
++   CONFIG_DEFAULT_SECURITY_APPARMOR=y
++
++The CONFIG_LSM parameter manages the order and selection of LSMs.
++Specify apparmor as the first "major" module (e.g. AppArmor, SELinux, Smack)
++in the list.
+ 
+ Build the kernel
+ 
+-- 
+2.39.2
 
