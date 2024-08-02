@@ -1,134 +1,123 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C7515C122
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  2 Aug 2024 18:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065D51ABEC6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  2 Aug 2024 18:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722621780; cv=none; b=OrRqrvWrb6/afGf0IRADjLk7OK/tCA0rOI0YBYnxcuiDBq6kA9SvP4EKOIFBq3ePBDnaAAFj26HRZFoL9IHeRvxqBvDk/+W5jrw1qLLJkFysGrzLlckKOH9rCXQgYohqNGiNMSe/dtAdSNVqWRu9C/bSyLs0IUtUKKwPoor4IN0=
+	t=1722623893; cv=none; b=BEhCF5NrKSPas9PWT2eSomEFCnHNPuzmJJcFmg8zGg9nV7hrY+X47yZv11NNNVMzxeYyvIg4bjmBq+lnENMluhSDk/c2tiFqTH66IekEI9IaSVsosa5bcgqGikA80T4ONfxdKF9n6bfvpSJP1WSDu5LBRbQWKHJONgx2pWQxY1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722621780; c=relaxed/simple;
-	bh=6hvbMe9SheGBFUFKV6yIecTRBlDtV2orfIV7/7UFeio=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Swo2v9g0FUZlk99Gc2U7u0updnlJTeXSMc9mdBbSjXUBL2Xzyi3Wt/hovS76UOUButdSPVZQT+DnzmQHiCDU+G9nnC/n9+WiSwizIYTMb2IYvYouxFS6ZK8P5Vl+h1Yi67OqCNThi+FMEV/K1dG5sj2iPGuN3HMzrSnuwhOoI00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/QxCIk7; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1722623893; c=relaxed/simple;
+	bh=zON6RjPTf5MmxXUFZfGeVjEEpkp2eWNiZ+51r8kW1qU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZC5t0YrTaP7JeoLrziyYUVcP4xFidNnSE67QsSjrxBGOwRNFK2MrnpNunt4RVuM3vJxP/hi/6PZRabbXM3MtCzH1wKklFd6WAb8NgqPbulWxj5KXF7JPxwMfoEunprCzqWDV0f/IzVAUYy6IoSB42JscjRjqFeM63X37jJk56A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=r4Nfx163; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/QxCIk7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r4Nfx163"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 9A21C81E25
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  2 Aug 2024 18:02:58 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 9D7E740979
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  2 Aug 2024 18:38:11 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.102
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id pGT9z89gdNSf for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  2 Aug 2024 18:02:57 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::636; helo=mail-pl1-x636.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 8868E81E0C
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 8868E81E0C
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=G/QxCIk7
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 8868E81E0C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  2 Aug 2024 18:02:57 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1fc5296e214so67824535ad.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 02 Aug 2024 11:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722621777; x=1723226577; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TPYuykDQTpLV0QVmWDRVRbfOLAntW1izmGLDn5w1M+Y=;
-        b=G/QxCIk7b/cHBK2Kc02dil34eb0ovhqYbW6XhJ8hEfseTGWG10Ds3wjUxPagVxIXaw
-         B8F4c3fpMUxr0I7LAjbj79f1qM9GJV49/CrkKBPW/t+ck5JDx/hotYEReQQ8bPz3iLfx
-         prIaDW6quFVcHARwG8Gkm/0THLxQcdCavKYg7z+nSCgu68Yzk9LPuPbwKkhCYpCsr6hE
-         xtqj5qbOzjOftmoXkG9ed8/s0UO9G0B9l+7S/Z8InqLxIl3SWQ7cSYgPwZ8Dg74hc4gw
-         d1LXLpv1la4WqeOPEOdl8DHDds+FwhV1Zpd97LWdbzyX8ibVizE2mGjZtzuv31rHDvhb
-         0ThA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722621777; x=1723226577;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TPYuykDQTpLV0QVmWDRVRbfOLAntW1izmGLDn5w1M+Y=;
-        b=AwGYTuV09AnHxRBnj/o2MWMnHZIIf1v5751vu9T9qPln1F81WgEIfTw1LnzZrg3tBc
-         +hteMjewte3xsTwtRq4bVxB+nRqcUw7f2tGeo7fLPLWXFwqUrSmPy9DdpZ3XkKNOG+L1
-         F+YPnhW/yVW2efH0KvSuTHqMYLHPhomSX1qBeO478yioPWK/vU075jt9TagvUwXl/4Ih
-         LL7AJFGupBhz8e+YLxbpqYym//WJ8vNxRJEAKfNoBzvyT8koaThTpdvJ98ud1fG7QK10
-         gUZWRuPDf4xFqh007MqZRvkeR7C9gfQvn+V6kuJQ4bM+8MPsgcjNb/gJiCBiwK2Cn7uf
-         wJsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5Gq2mg+ZNMmpsWcycXRjNVD2sAnu4KIsdqOyEByO9E4y0mjVA3R6yhDxgCAuWyEndp2BALHCD4FHc5jhvOxtxDqfBLxtmGaEPOqxI/Zo5dG0tpNQQP1idYUhCvj4S
-X-Gm-Message-State: AOJu0YzavHTDighYjyvNzK/f21ejqbyLGH0Z6f48H54S9GYGKUnBZ858
-	00GS1xcSVyfcdH56yjTf9w0ZLGuD1hjppn0z0JvFlv1OkrlPEDr5
-X-Google-Smtp-Source: AGHT+IEmbXzRbqA4Dm+Dxp5Q8sQ1FoKhxrnpwm3+tkLRLaaAjRfENRwciTj6Hpe7OoQfEyQiMj3I0g==
-X-Received: by 2002:a17:903:1245:b0:1fb:3ce5:122d with SMTP id d9443c01a7336-1ff573bfe4amr59659145ad.41.1722621776519;
-        Fri, 02 Aug 2024 11:02:56 -0700 (PDT)
-Received: from embed-PC.. ([106.205.109.112])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff592979d7sm20082015ad.259.2024.08.02.11.02.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Aug 2024 11:02:56 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: laurent.pinchart@ideasonboard.com,
-	dan.scally@ideasonboard.com
-Cc: gregkh@linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id fyCZ9aCHSg5N for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  2 Aug 2024 18:38:10 +0000 (UTC)
+X-Greylist: delayed 600 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 02 Aug 2024 18:38:10 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 9591C40978
+Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 9591C40978
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=r4Nfx163
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4b98:dc2:55:216:3eff:fef7:d647; helo=perceval.ideasonboard.com; envelope-from=laurent.pinchart@ideasonboard.com; receiver=<UNKNOWN> 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 9591C40978
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  2 Aug 2024 18:38:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B9142496;
+	Fri,  2 Aug 2024 20:18:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1722622694;
+	bh=zON6RjPTf5MmxXUFZfGeVjEEpkp2eWNiZ+51r8kW1qU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r4Nfx163YkaYMr/xLWiOvqsD+iE0uj/YrfS2NTL5ebnKMOkghmTQst3xVmpGhbPqK
+	 roZHoSE1wdrpl8WdxdGCM4DOU04S2AKyUcWmADG52fPDHNkSEhcdXaPYCpGNMiEHRz
+	 briRU5UGeuKkwFyIkzvnzZGXY+3LxY8ihUYQEEB4=
+Date: Fri, 2 Aug 2024 21:18:41 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: dan.scally@ideasonboard.com, gregkh@linuxfoundation.org,
+	skhan@linuxfoundation.org, dan.carpenter@linaro.org,
 	rbmarliere@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: uvc: Fix ERR_PTR dereference in uvc_v4l2.c
-Date: Fri,  2 Aug 2024 23:32:47 +0530
-Message-Id: <20240802180247.519273-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>
+Subject: Re: [PATCH] usb: gadget: uvc: Fix ERR_PTR dereference in uvc_v4l2.c
+Message-ID: <20240802181841.GA21917@pendragon.ideasonboard.com>
+References: <20240802180247.519273-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240802180247.519273-1-abhishektamboli9@gmail.com>
 
-Fix potential dereferencing of ERR_PTR() in find_format_by_pix()
-and uvc_v4l2_enum_format().
+Hi Abhishek,
 
-Fix the following smatch errors:
+(CC'ing Michael Grzeschik)
 
-drivers/usb/gadget/function/uvc_v4l2.c:124 find_format_by_pix()
-error: 'fmtdesc' dereferencing possible ERR_PTR()
-drivers/usb/gadget/function/uvc_v4l2.c:392 uvc_v4l2_enum_format()
-error: 'fmtdesc' dereferencing possible ERR_PTR()
+Thank you for the patch.
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- drivers/usb/gadget/function/uvc_v4l2.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Fri, Aug 02, 2024 at 11:32:47PM +0530, Abhishek Tamboli wrote:
+> Fix potential dereferencing of ERR_PTR() in find_format_by_pix()
+> and uvc_v4l2_enum_format().
+> 
+> Fix the following smatch errors:
+> 
+> drivers/usb/gadget/function/uvc_v4l2.c:124 find_format_by_pix()
+> error: 'fmtdesc' dereferencing possible ERR_PTR()
+> drivers/usb/gadget/function/uvc_v4l2.c:392 uvc_v4l2_enum_format()
+> error: 'fmtdesc' dereferencing possible ERR_PTR()
+> 
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+>  drivers/usb/gadget/function/uvc_v4l2.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index a024aecb76dc..9dd602a742c4 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -121,6 +121,9 @@ static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
+>  	list_for_each_entry(format, &uvc->header->formats, entry) {
+>  		const struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+> 
+> +		if (IS_ERR(fmtdesc))
+> +			continue;
+> +
+>  		if (fmtdesc->fcc == pixelformat) {
+>  			uformat = format->fmt;
+>  			break;
+> @@ -389,6 +392,9 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+>  		return -EINVAL;
+> 
+>  	fmtdesc = to_uvc_format(uformat);
+> +	if (IS_ERR(fmtdesc))
+> +		return -EINVAL;
+> +
+>  	f->pixelformat = fmtdesc->fcc;
+> 
+>  	return 0;
 
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index a024aecb76dc..9dd602a742c4 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -121,6 +121,9 @@ static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
- 	list_for_each_entry(format, &uvc->header->formats, entry) {
- 		const struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+Michael, you authored this, I'll let you review the patch and decide if
+this is a false positive.
 
-+		if (IS_ERR(fmtdesc))
-+			continue;
-+
- 		if (fmtdesc->fcc == pixelformat) {
- 			uformat = format->fmt;
- 			break;
-@@ -389,6 +392,9 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 		return -EINVAL;
+-- 
+Regards,
 
- 	fmtdesc = to_uvc_format(uformat);
-+	if (IS_ERR(fmtdesc))
-+		return -EINVAL;
-+
- 	f->pixelformat = fmtdesc->fcc;
-
- 	return 0;
---
-2.34.1
-
+Laurent Pinchart
