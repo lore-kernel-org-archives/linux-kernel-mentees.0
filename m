@@ -1,61 +1,88 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE01BBBE0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 07:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680AD2AF04
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722927794; cv=none; b=ixkJHaMADGrs1Elri3FcXEAMS2Xi0zyNi+FRtir/6U7tp04BPvojJNOtI0P2rfjPHC/RR0yT8Qj9TTfp0jGl80FFlEjRIj9jTALFHKJh/Saj1P2D+O8PSxZdf0UiM8J3+VdWIlGhprsRTbdj0UJVDfT/34uQZUDypAf4e+dfEaU=
+	t=1722960017; cv=none; b=T8GoHw4ktPfq2emW1baOr8Hw1fU1oH5KlbPrnp+Ohe3geDrvQQ2avHhbKQkIt8mHdkYEnnQEZ1Chu2yMipJgFU/ADtAa/cLgIffWdPGZZwLWTa8OUJKSQzh+k67GvKLmTCgGQn1Tv1bL1MfHIdkj05AXwZgWLn0Q+V8iJFFYiD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722927794; c=relaxed/simple;
-	bh=Uch8dFf6MlEHa9ZVycbyHeaQ1QrxHu+yrpId+jbyF00=;
+	s=arc-20240116; t=1722960017; c=relaxed/simple;
+	bh=7m1kJYqwjzDiGQPS1m6Vhs707zond0cQ9zpkA25mX5E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UZlP4/b/p/VVNHDCiItn6g1IWsUbLM3CO5zcsY7HG2plBQIGNuy6IOIQ+uejt7It81cKUHk24BRy7umXQHUu1UGz2x7YGuxwp1CfRkN38UEap+P78eub/VhkFHlAa2sjNF5vwI458Joexm1hDwMSa7/m8YWb/tAop2zyRnetC/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oZ4JKev7; arc=none smtp.client-ip=140.211.166.137
+	 Content-Type:Content-Disposition:In-Reply-To; b=mBv8VxURb7dhPKYEjXjH7tAF03bbvnCwHUanM9vtuAV2k1b6943kXm2CSDBlT5afErKWCN9W1eUXXpXpcHdKx9M9qS8lFwvyxBfpKI8y60f5WZJLZRE8Rho/W4zOaTI4eCLwdt1jGtlk1MeqsmSjxtJ67uOm2uR9iVbn2Zqm9qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhyROn8J; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oZ4JKev7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FhyROn8J"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 8F60240303
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 07:03:12 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 19413607A3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:00:15 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -1.25
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id AriM8XRfXMlJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  6 Aug 2024 07:03:11 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0E1B6401A6
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0E1B6401A6
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=oZ4JKev7
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0E1B6401A6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 07:03:10 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B88FF60F37;
-	Tue,  6 Aug 2024 07:03:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AD7C32786;
-	Tue,  6 Aug 2024 07:03:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1722927789;
-	bh=Uch8dFf6MlEHa9ZVycbyHeaQ1QrxHu+yrpId+jbyF00=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oZ4JKev7dUOJ6zBEXP13UMzLvPu4wgPJecdSp9fosTTLCWHhkYWbp5wLmGyovI89J
-	 izJQ9FZr6x2n1kiE9eX6PR77hR2k6/QGCMS/ZhSLc7tH9lSraB+NFATz1/vRyZywPX
-	 AjoGE68NmWmnl8+NKezpe/sUGpdQ5DcrdtV93DNM=
-Date: Tue, 6 Aug 2024 09:03:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: perex@perex.cz, tiwai@suse.com, oswald.buddenhagen@gmx.de,
-	skhan@linuxfoundation.org, rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: emu10k1: Fix coding style issues and warnings
-Message-ID: <2024080611-rants-thee-d23a@gregkh>
-References: <20240805155206.463035-1-abhishektamboli9@gmail.com>
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tmGb7RnmNeBU for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  6 Aug 2024 16:00:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62e; helo=mail-pl1-x62e.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org EB92D60740
+Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EB92D60740
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FhyROn8J
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id EB92D60740
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:00:13 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1fc587361b6so6506435ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 06 Aug 2024 09:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722960013; x=1723564813; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tcZTGo4WDJKahC7sStyieFVJaeditstXTGXe/9Cf6Eg=;
+        b=FhyROn8JtP9oDnnZl2zFfP+k04UjttYR5tlx4/REG80Oc7237uroLKvByA5oM6cPrV
+         S5R3Y83qilFmXTSsaU8BgaYGPg+cDtI8kxks2DIYy0PFlaU68cGzznOygAk0CW3q/OC/
+         USpK7nML5fVG3N4lmH6dZr1anxzdgiMxJJNXvrGoy++MZR1Z1rFEFKxaxbU5qo01Z5Tk
+         9D0rvjRAJt5E/V0zWBeDPLTjAsP229aQfIFUhXIwJYxL4e2EqPv97IU99jWj//QjHSLu
+         vSkdUiZwp5mG/QJhKH/8qhFsgOQAVveBlnOkuWzOEaP9jaNbHl1fS4fLKGEmFyhy1xNm
+         iICg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722960013; x=1723564813;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tcZTGo4WDJKahC7sStyieFVJaeditstXTGXe/9Cf6Eg=;
+        b=nNN3zRUVx+z86nymjbMIP4jn02lWTJQ+clQd7OI6pBVXRcn2VAUDrK5QFonhtXWODr
+         eoK841Zxzc5X4oVL3K6ZNJFUB67cKXCF8MCvn1JSvB1JMWc7/++c2mPkqEXQmbst7pks
+         DX8t59Y96AEDuDCsUTdLTIQE39EnVLLrxsGJZ3CKH6cXP/CqoofaWmNDLlY9X3+t7sYL
+         tnMWOCshBCcQnKAMv5sDUcPQEtO7Di/KdktPE40UJfloEkKLQfW4n5YKHKWT3MhNagWJ
+         PFyEvGWdO8qFURGAi4YZbAVzuTarY2U1UwsmjWY4wQkjxkH5pZxpLmo49JC45m37mMWG
+         Ensg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHhH9j9Q1+zsPHPj35izn+x5C3NAsKlX9VUrsmNldcIRM1poArOkN50iPTnatbgVjcmWGsLvB8JLjMVAcpQ540BMxDzwqoeneWPMb3eZvAtt0cEm5XuBw6unNsXtl6
+X-Gm-Message-State: AOJu0YzD3c5vBDMJnA5nMiagr2ZiBnHJ1UlVhRHQF+0/aQ6jY3bCO+z0
+	Out/twAy0aFWkaYuBu/PubyRH8rS9LQaK2b/zyousUQVe0nGJf85
+X-Google-Smtp-Source: AGHT+IEWA4lzv3Sqhv6t4lZGNR7IrS/eu5RygzRns1wFMCMaEsgtc43KtDBeRyw29npxDLxTfUIojg==
+X-Received: by 2002:a17:902:da85:b0:1fb:a077:a846 with SMTP id d9443c01a7336-1ff57257ce7mr181440415ad.3.1722960013022;
+        Tue, 06 Aug 2024 09:00:13 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff5929ac42sm89712845ad.267.2024.08.06.09.00.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Aug 2024 09:00:12 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 6 Aug 2024 09:00:11 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Vitor Massaru Iha <vitor@massaru.org>
+Cc: kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org, brendanhiggins@google.com,
+	keescook@chromium.org, davidgow@google.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v3] lib: Convert test_user_copy to KUnit test
+Message-ID: <5332e40f-ffb6-48d6-9f29-29671e5b6393@roeck-us.net>
+References: <20200721174654.72132-1-vitor@massaru.org>
+ <a41ab091-42d3-4e03-b0e8-89af354faadc@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -64,155 +91,240 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240805155206.463035-1-abhishektamboli9@gmail.com>
+In-Reply-To: <a41ab091-42d3-4e03-b0e8-89af354faadc@roeck-us.net>
 
-On Mon, Aug 05, 2024 at 09:22:06PM +0530, Abhishek Tamboli wrote:
-> Fix coding style errors and warnings in sound/pci/emu10k1/memory.c
-> reported by checkpatch.pl. Changes includes:
+On Tue, Aug 06, 2024 at 08:48:45AM -0700, Guenter Roeck wrote:
+> Hi,
 > 
-> - Add spaces after commas in macro definitions.
-> - Insert blank lines after variable declarations.
-> - Consistent spacing around operators.
-> - Remove trailing whitespace.
-> - Move EXPORT_SYMBOL declarations to immediately follow their
->   respective functions.
-> - Correct spacing in conditional statements and type casts.
+> On Tue, Jul 21, 2020 at 02:46:54PM -0300, Vitor Massaru Iha wrote:
+> > This adds the conversion of the runtime tests of test_user_copy fuctions,
+> > from `lib/test_user_copy.c`to KUnit tests.
+> > 
+> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
 > 
-> Fix the following errors and warnings:
+> These tests are failing (at least) for arm-v7, loongarch, and mips
+> qemu emulations; see below for failure logs.
 > 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define __set_ptb_entry(emu,page,addr) \
+> Any idea if those might be architecture problems, problems with qemu,
+> or problems with the test ?
 > 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define __set_ptb_entry(emu,page,addr) \
+> Thanks,
+> Guenter
 > 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_ptb_entry(emu,page,addr)	__set_ptb_entry(emu,page,addr)
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_silent_ptb(emu,page)
-> 	__set_ptb_entry(emu,page,emu->silent_page.addr)
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_silent_ptb(emu,page)
-> 	__set_ptb_entry(emu,page,emu->silent_page.addr)
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define set_silent_ptb(emu,page)
-> 	__set_ptb_entry(emu,page,emu->silent_page.addr)
-> 
-> WARNING: Missing a blank line after declarations
-> +	int i;
-> +	page *= UNIT_PAGES;
-> 
-> WARNING: Missing a blank line after declarations
-> +	int i;
-> +	page *= UNIT_PAGES;
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> +#define get_emu10k1_memblk(l,member)
-> 	list_entry(l, struct snd_emu10k1_memblk, member)
-> 
-> WARNING: space prohibited between function name and open parenthesis '('
-> +	list_for_each (pos, &emu->mapped_link_head) {
-> 
-> WARNING: Missing a blank line after declarations
-> +	struct snd_emu10k1_memblk *blk =
-> 		get_emu10k1_memblk(pos, mapped_link);
-> +	if (blk->mapped_page < 0)
-> 
-> ERROR: else should follow close brace '}'
-> +		}
-> +		else if (size > max_size) {
-> 
-> ERROR: need consistent spacing around '-' (ctx:WxV)
-> +	psize = get_aligned_page(size + PAGE_SIZE -1);
->  	                                          ^
-> 
-> WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> +EXPORT_SYMBOL(snd_emu10k1_memblk_map);
-> 
-> WARNING: Missing a blank line after declarations
-> +		dma_addr_t addr;
-> +		if (ofs >= runtime->dma_bytes)
-> 
-> ERROR: space prohibited after that '!' (ctx:BxW)
-> +		if (! is_valid_page(emu, addr)) {
->  		    ^
-> 
-> ERROR: trailing whitespace
-> +^Istruct snd_util_memhdr *hdr = hw->memhdr; $
-> 
-> WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> +EXPORT_SYMBOL(snd_emu10k1_synth_alloc);
-> 
-> ERROR: trailing whitespace
-> +^Istruct snd_util_memhdr *hdr = emu->memhdr; $
-> 
-> WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> +EXPORT_SYMBOL(snd_emu10k1_synth_free);
-> 
-> WARNING: Missing a blank line after declarations
-> +	int first_page, last_page;
-> +	first_page = blk->first_page;
-> 
-> WARNING: Missing a blank line after declarations
-> +	char *ptr;
-> +	if (snd_BUG_ON(page < 0 || page >= emu->max_cache_pages))
-> 
-> ERROR: space prohibited after that '!' (ctx:BxW)
-> +	if (! ptr) {
->  	    ^
-> 
-> ERROR: "(foo*)" should be "(foo *)"
-> +	return (void*)ptr;
-> 
-> WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> +EXPORT_SYMBOL(snd_emu10k1_synth_memset);
-> 
-> WARNING: EXPORT_SYMBOL(foo); should immediately follow its function/variable
-> +EXPORT_SYMBOL(snd_emu10k1_synth_copy_from_user);
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
 > ---
->  sound/pci/emu10k1/memory.c | 36 ++++++++++++++++++------------------
->  1 file changed, 18 insertions(+), 18 deletions(-)
 
-Hi,
+Several more failures. I missed those earlier because they don't result
+in backtraces.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+sparc32:
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+    # usercopy_test_valid: EXPECTATION FAILED at lib/usercopy_kunit.c:209
+    Expected val_u64 == 0x5a5b5c5d6a6b6c6d, but
+        val_u64 == 1515936861 (0x5a5b5c5d)
+        0x5a5b5c5d6a6b6c6d == 6510899242581322861 (0x5a5b5c5d6a6b6c6d)
+legitimate get_user (u64) failed to do copy
+    # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
+    not ok 1 usercopy_test_valid
+    # usercopy_test_invalid: pass:1 fail:0 skip:0 total:1
+    ok 2 usercopy_test_invalid
+    # usercopy_test_check_nonzero_user: pass:1 fail:0 skip:0 total:1
+    ok 3 usercopy_test_check_nonzero_user
+    # usercopy_test_copy_struct_from_user: pass:1 fail:0 skip:0 total:1
+    ok 4 usercopy_test_copy_struct_from_user
+# usercopy: pass:3 fail:1 skip:0 total:4
+# Totals: pass:3 fail:1 skip:0 total:4
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+nios2:
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+    # module: usercopy_kunit
+    1..4
+    # usercopy_test_valid: pass:1 fail:0 skip:0 total:1
+    ok 1 usercopy_test_valid
+    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:279
+    Expected val_u8 == 0, but
+        val_u8 == 90 (0x5a)
+zeroing failure for illegal get_user (u8)
+    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:280
+    Expected val_u16 == 0, but
+        val_u16 == 23131 (0x5a5b)
+zeroing failure for illegal get_user (u16)
+    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:281
+    Expected val_u32 == 0, but
+        val_u32 == 1515936861 (0x5a5b5c5d)
+zeroing failure for illegal get_user (u32)
+    # usercopy_test_invalid: pass:0 fail:1 skip:0 total:1
+    not ok 2 usercopy_test_invalid
+    # usercopy_test_check_nonzero_user: pass:1 fail:0 skip:0 total:1
+    ok 3 usercopy_test_check_nonzero_user
+    # usercopy_test_copy_struct_from_user: pass:1 fail:0 skip:0 total:1
+    ok 4 usercopy_test_copy_struct_from_user
+# usercopy: pass:3 fail:1 skip:0 total:4
+# Totals: pass:3 fail:1 skip:0 total:4
+not ok 37 usercopy
 
-thanks,
+microblaze:
 
-greg k-h's patch email bot
+    # usercopy_test_valid: pass:1 fail:0 skip:0 total:1
+    ok 1 usercopy_test_valid
+    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:279
+    Expected val_u8 == 0, but
+        val_u8 == 90 (0x5a)
+zeroing failure for illegal get_user (u8)
+    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:280
+    Expected val_u16 == 0, but
+        val_u16 == 23131 (0x5a5b)
+zeroing failure for illegal get_user (u16)
+    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:281
+    Expected val_u32 == 0, but
+        val_u32 == 1515936861 (0x5a5b5c5d)
+zeroing failure for illegal get_user (u32)
+    # usercopy_test_invalid: pass:0 fail:1 skip:0 total:1
+    not ok 2 usercopy_test_invalid
+    # usercopy_test_check_nonzero_user: pass:1 fail:0 skip:0 total:1
+    ok 3 usercopy_test_check_nonzero_user
+    # usercopy_test_copy_struct_from_user: pass:1 fail:0 skip:0 total:1
+    ok 4 usercopy_test_copy_struct_from_user
+# usercopy: pass:3 fail:1 skip:0 total:4
+# Totals: pass:3 fail:1 skip:0 total:4
+not ok 39 usercopy
+
+> On arm:
+> 
+> [   13.097105]     # usercopy_test_valid: ASSERTION FAILED at lib/usercopy_kunit.c:311
+> [   13.097105]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
+> [   13.097105]         user_addr == 4294967284 (0xfffffff4)
+> [   13.097105]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
+> [   13.097105] Failed to allocate user memory
+> [   13.098876]     # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
+> [   13.099378]     not ok 1 usercopy_test_valid
+> [   13.101143]     # usercopy_test_invalid: ASSERTION FAILED at lib/usercopy_kunit.c:311
+> [   13.101143]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
+> [   13.101143]         user_addr == 4294967284 (0xfffffff4)
+> [   13.101143]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
+> [   13.101143] Failed to allocate user memory
+> [   13.102726]     # usercopy_test_invalid: pass:0 fail:1 skip:0 total:1
+> [   13.103167]     not ok 2 usercopy_test_invalid
+> [   13.104744]     # usercopy_test_check_nonzero_user: ASSERTION FAILED at lib/usercopy_kunit.c:311
+> [   13.104744]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
+> [   13.104744]         user_addr == 4294967284 (0xfffffff4)
+> [   13.104744]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
+> [   13.104744] Failed to allocate user memory
+> [   13.106485]     # usercopy_test_check_nonzero_user: pass:0 fail:1 skip:0 total:1
+> [   13.106935]     not ok 3 usercopy_test_check_nonzero_user
+> [   13.108812]     # usercopy_test_copy_struct_from_user: ASSERTION FAILED at lib/usercopy_kunit.c:311
+> [   13.108812]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
+> [   13.108812]         user_addr == 4294967284 (0xfffffff4)
+> [   13.108812]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
+> [   13.108812] Failed to allocate user memory
+> [   13.110643]     # usercopy_test_copy_struct_from_user: pass:0 fail:1 skip:0 total:1
+> [   13.111096]     not ok 4 usercopy_test_copy_struct_from_user
+> [   13.111260] # usercopy: pass:0 fail:4 skip:0 total:4
+> [   13.111401] # Totals: pass:0 fail:4 skip:0 total:4
+> [   13.111533] not ok 40 usercopy
+> 
+> On loongarch:
+> 
+> [    5.202648] CPU 0 Unable to handle kernel paging request at virtual address 0000000000000008, era == 90000000040f4b60, ra == 900000000436e558
+> [    5.203061] Oops[#1]:
+> [    5.203288] CPU: 0 UID: 0 PID: 877 Comm: kunit_try_catch Tainted: G                 N 6.11.0-rc2+ #1
+> [    5.203469] Tainted: [N]=TEST
+> [    5.203523] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.0.0 02/06/2015
+> [    5.203686] pc 90000000040f4b60 ra 900000000436e558 tp 9000000107dec000 sp 9000000107defc90
+> [    5.203801] a0 ffffffffffff4000 a1 90000001063554f8 a2 0000000000000000 a3 9000000107defb84
+> [    5.203913] a4 0000000000000001 a5 0000000000000000 a6 900000000696e030 a7 9000000004b617c0
+> [    5.204025] t0 9000000104ab8840 t1 0000800000000000 t2 0000000000208040 t3 9000000107dec000
+> [    5.204134] t4 0000000000000000 t5 9000000006f39f10 t6 0000000000000001 t7 0000000000006000
+> [    5.204245] t8 0000000045eeca10 u0 9000000004b61818 s9 90000001002e7e40 s0 0000000008000000
+> [    5.204355] s1 9000000104b58040 s2 0000000000000000 s3 fffffffffffff000 s4 9000000005f62d00
+> [    5.204465] s5 9000000104ab8840 s6 90000000061752e8 s7 0000000000000000 s8 9000000004144df8
+> [    5.204580]    ra: 900000000436e558 arch_pick_mmap_layout+0xa0/0x1fc
+> [    5.204928]   ERA: 90000000040f4b60 stack_top+0x58/0xa8
+> [    5.205009]  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
+> [    5.205189]  PRMD: 00000004 (PPLV0 +PIE -PWE)
+> [    5.205286]  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
+> [    5.205398]  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
+> [    5.205629] ESTAT: 00010000 [PIL] (IS= ECode=1 EsubCode=0)
+> [    5.205732]  BADV: 0000000000000008
+> [    5.205802]  PRID: 0014c010 (Loongson-64bit, Loongson-3A5000)
+> [    5.205897] Modules linked in:
+> [    5.205982] Process kunit_try_catch (pid: 877, threadinfo=9000000107dec000, task=9000000104ab8840)
+> [    5.206120] Stack : 9000000005f62d00 fffffffffffff000 900000000616f000 9000000107da5b40
+> [    5.206323]         9000000107defd58 9000000004a6cce4 0000000000000dc0 9000000104b58040
+> [    5.206444]         9000000100004ac0 0000000000000000 0000000000000000 0e03af9ea058218b
+> [    5.206562]         900000000616f000 90000001002d7b00 9000000107da5b40 9000000004a6c2c4
+> [    5.206681]         90000000061752e8 9000000104ab8840 9000000005f62d00 fffffffffffff000
+> [    5.206799]         900000000616f000 90000001002d7b00 9000000107da5b40 9000000004a6cb9c
+> [    5.206918]         9000000107cc8000 0000000000000000 0000000000000000 0000000000008000
+> [    5.207035]         0000000000000007 0000000000000022 0000000000000000 0e03af9ea058218b
+> [    5.207153]         900000000616f000 90000001079d2f00 90000001002d7b00 9000000004ba6a60
+> [    5.207271]         9000000104ab9170 90000000056c0788 00000000000000b0 0e03af9ea058218b
+> [    5.207389]         ...
+> [    5.207450] Call Trace:
+> [    5.207467] [<90000000040f4b60>] stack_top+0x58/0xa8
+> [    5.207588] [<900000000436e554>] arch_pick_mmap_layout+0x9c/0x1fc
+> [    5.207675] [<9000000004a6cce0>] kunit_vm_mmap_init+0x104/0x12c
+> [    5.207758] [<9000000004a6c2c0>] __kunit_add_resource+0x48/0xd0
+> [    5.207839] [<9000000004a6cb98>] kunit_vm_mmap+0x84/0xc8
+> [    5.207913] [<9000000004ba6a5c>] usercopy_test_init+0xb8/0x25c
+> [    5.207993] [<9000000004a6c064>] kunit_try_run_case+0x58/0x184
+> [    5.208073] [<9000000004a6e260>] kunit_generic_run_threadfn_adapter+0x20/0x48
+> [    5.208168] [<9000000004144914>] kthread+0x130/0x140
+> [    5.208238] [<90000000040f1c04>] ret_from_kernel_thread+0x8/0xa4
+> [    5.208323]
+> [    5.208370] Code: 15fffe84  26165190  2400158e <28c0220c> 14000070  03bffe10  0010c18c  15ffff90  0014c18c
+> [    5.208583]
+> [    5.208822] ---[ end trace 0000000000000000 ]---
+> [    5.209975]     # usercopy_test_valid: try faulted: last line seen lib/usercopy_kunit.c:304
+> [    5.210227]     # usercopy_test_valid: internal error occurred preventing test case from running: -4
+> [    5.210890]     # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
+> [    5.210942]     not ok 1 usercopy_test_valid
+> 
+> On mips:
+> 
+> CPU 0 Unable to handle kernel paging request at virtual address 00000018, epc == 80105f14, ra == 80299028
+> Oops[#1]:
+> CPU: 0 UID: 0 PID: 783 Comm: kunit_try_catch Tainted: G                 N 6.11.0-rc2-00102-g8857973f206d #1
+> Tainted: [N]=TEST
+> Hardware name: mti,malta
+> $ 0   : 00000000 00000001 00000000 00000000
+> $ 4   : 00000000 854ccec0 ffffffff 00000002
+> $ 8   : 82c6c340 8155ba9c 42314149 00000001
+> $12   : ffffffff 00000012 00000000 00000012
+> $16   : 00000000 08000000 82c6c040 82c6c040
+> $20   : 821c7c28 854ccec0 82205c68 80164c7c
+> $24   : 00000000 00000000
+> $28   : 85b14000 85b17d20 00000001 80299028
+> Hi    : 00000000
+> Lo    : 00000004
+> epc   : 80105f14 mips_stack_top+0x20/0x78
+> ra    : 80299028 arch_pick_mmap_layout+0xa4/0x1a4
+> Status: 1000a403	KERNEL EXL IE
+> Cause : 00800008 (ExcCode 02)
+> BadVA : 00000018
+> PrId  : 00019300 (MIPS 24Kc)
+> Modules linked in:
+> Process kunit_try_catch (pid: 783, threadinfo=85b14000, task=854ccec0, tls=00000000)
+> Stack : 82205c68 80164c7c 00400cc0 00000004 813d989c 85b17dd4 85b2ac00 81250000
+>         82c6c040 8070f984 00000001 802f1560 00000400 00000dc0 ffffffff 8070fa14
+>         81b43a80 00000000 00000000 657ad470 00000001 85b2ac00 821c7c1c 821c7c1c
+>         81250000 8070efb8 81b43bc0 657ad470 821c7c1c 81250000 85b2ac00 81250000
+>         821c7c1c 81250000 821c7c28 854ccec0 82205c68 8070fa48 821c7c1c 821c7c1c
+>         ...
+> Call Trace:
+> [<80105f14>] mips_stack_top+0x20/0x78
+> [<80299028>] arch_pick_mmap_layout+0xa4/0x1a4
+> [<8070f984>] kunit_vm_mmap_init+0xe8/0x114
+> [<8070efb8>] __kunit_add_resource+0x4c/0xdc
+> [<8070fa48>] kunit_vm_mmap+0x98/0xf0
+> [<808181a4>] usercopy_test_init+0xc4/0x254
+> [<8070eca8>] kunit_try_run_case+0x74/0x234
+> [<807110f8>] kunit_generic_run_threadfn_adapter+0x28/0x50
+> [<801647fc>] kthread+0x12c/0x154
+> [<80103078>] ret_from_kernel_thread+0x14/0x1c
+> Code: 9084635d  0003182b  00031b80 <8c460018> 3402ffff  30840004  000213c0  00431023  8cc30004
+> ---[ end trace 0000000000000000 ]---
+>     # usercopy_test_valid: try faulted: last line seen lib/usercopy_kunit.c:304
+>     # usercopy_test_valid: internal error occurred preventing test case from running: -4
+>     # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
+>     not ok 1 usercopy_test_valid
+> 
