@@ -1,330 +1,148 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680AD2AF04
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC46447A66
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722960017; cv=none; b=T8GoHw4ktPfq2emW1baOr8Hw1fU1oH5KlbPrnp+Ohe3geDrvQQ2avHhbKQkIt8mHdkYEnnQEZ1Chu2yMipJgFU/ADtAa/cLgIffWdPGZZwLWTa8OUJKSQzh+k67GvKLmTCgGQn1Tv1bL1MfHIdkj05AXwZgWLn0Q+V8iJFFYiD0=
+	t=1722961960; cv=none; b=oHNDMVi5tRQHAuqtUoo3SE26/n2+c74xjf6njmgD+a2CLNKPzObhGgVYgFh6qd+gXlm/EUjN7Rsxup83dusEN+kqbkStuvfdmWkWuQg6NQH9rZ+3kJw0862p6Rx5TKL5PJCm6qApZRDWqkLwf6WqoACecQgnpcIUO9TrEzqO9LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722960017; c=relaxed/simple;
-	bh=7m1kJYqwjzDiGQPS1m6Vhs707zond0cQ9zpkA25mX5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mBv8VxURb7dhPKYEjXjH7tAF03bbvnCwHUanM9vtuAV2k1b6943kXm2CSDBlT5afErKWCN9W1eUXXpXpcHdKx9M9qS8lFwvyxBfpKI8y60f5WZJLZRE8Rho/W4zOaTI4eCLwdt1jGtlk1MeqsmSjxtJ67uOm2uR9iVbn2Zqm9qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhyROn8J; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1722961960; c=relaxed/simple;
+	bh=0eny/Vsu4sJKj0EvuFo6PYlBjSKdQR/M070SUXqqkUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=e05x/lUW9cJJLOQc0KeydzXH6nw/hsF/WuXULyN+ZdnR6rTLqYPsCDQ+DwBnwhiN+IidNUamHZfTryL28MGhtidJY0SaMseiEKlk9jQOZuna47jhwif34gBaquT+xpojixMKa8AXWujJ8Vu+AkBggkB2gqkBPtZVdCzxQx69mFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u5hBe0HM; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FhyROn8J"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u5hBe0HM"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 19413607A3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:00:15 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7752B401F3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:32:38 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.25
+X-Spam-Score: -10.792
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id tmGb7RnmNeBU for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  6 Aug 2024 16:00:14 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62e; helo=mail-pl1-x62e.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org EB92D60740
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org EB92D60740
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=FhyROn8J
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id EB92D60740
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:00:13 +0000 (UTC)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1fc587361b6so6506435ad.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 06 Aug 2024 09:00:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722960013; x=1723564813; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tcZTGo4WDJKahC7sStyieFVJaeditstXTGXe/9Cf6Eg=;
-        b=FhyROn8JtP9oDnnZl2zFfP+k04UjttYR5tlx4/REG80Oc7237uroLKvByA5oM6cPrV
-         S5R3Y83qilFmXTSsaU8BgaYGPg+cDtI8kxks2DIYy0PFlaU68cGzznOygAk0CW3q/OC/
-         USpK7nML5fVG3N4lmH6dZr1anxzdgiMxJJNXvrGoy++MZR1Z1rFEFKxaxbU5qo01Z5Tk
-         9D0rvjRAJt5E/V0zWBeDPLTjAsP229aQfIFUhXIwJYxL4e2EqPv97IU99jWj//QjHSLu
-         vSkdUiZwp5mG/QJhKH/8qhFsgOQAVveBlnOkuWzOEaP9jaNbHl1fS4fLKGEmFyhy1xNm
-         iICg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722960013; x=1723564813;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tcZTGo4WDJKahC7sStyieFVJaeditstXTGXe/9Cf6Eg=;
-        b=nNN3zRUVx+z86nymjbMIP4jn02lWTJQ+clQd7OI6pBVXRcn2VAUDrK5QFonhtXWODr
-         eoK841Zxzc5X4oVL3K6ZNJFUB67cKXCF8MCvn1JSvB1JMWc7/++c2mPkqEXQmbst7pks
-         DX8t59Y96AEDuDCsUTdLTIQE39EnVLLrxsGJZ3CKH6cXP/CqoofaWmNDLlY9X3+t7sYL
-         tnMWOCshBCcQnKAMv5sDUcPQEtO7Di/KdktPE40UJfloEkKLQfW4n5YKHKWT3MhNagWJ
-         PFyEvGWdO8qFURGAi4YZbAVzuTarY2U1UwsmjWY4wQkjxkH5pZxpLmo49JC45m37mMWG
-         Ensg==
-X-Forwarded-Encrypted: i=1; AJvYcCUHhH9j9Q1+zsPHPj35izn+x5C3NAsKlX9VUrsmNldcIRM1poArOkN50iPTnatbgVjcmWGsLvB8JLjMVAcpQ540BMxDzwqoeneWPMb3eZvAtt0cEm5XuBw6unNsXtl6
-X-Gm-Message-State: AOJu0YzD3c5vBDMJnA5nMiagr2ZiBnHJ1UlVhRHQF+0/aQ6jY3bCO+z0
-	Out/twAy0aFWkaYuBu/PubyRH8rS9LQaK2b/zyousUQVe0nGJf85
-X-Google-Smtp-Source: AGHT+IEWA4lzv3Sqhv6t4lZGNR7IrS/eu5RygzRns1wFMCMaEsgtc43KtDBeRyw29npxDLxTfUIojg==
-X-Received: by 2002:a17:902:da85:b0:1fb:a077:a846 with SMTP id d9443c01a7336-1ff57257ce7mr181440415ad.3.1722960013022;
-        Tue, 06 Aug 2024 09:00:13 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff5929ac42sm89712845ad.267.2024.08.06.09.00.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Aug 2024 09:00:12 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 6 Aug 2024 09:00:11 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Vitor Massaru Iha <vitor@massaru.org>
-Cc: kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, brendanhiggins@google.com,
-	keescook@chromium.org, davidgow@google.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] lib: Convert test_user_copy to KUnit test
-Message-ID: <5332e40f-ffb6-48d6-9f29-29671e5b6393@roeck-us.net>
-References: <20200721174654.72132-1-vitor@massaru.org>
- <a41ab091-42d3-4e03-b0e8-89af354faadc@roeck-us.net>
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id CW3UZIB5sN-y for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue,  6 Aug 2024 16:32:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7520D401F0
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7520D401F0
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=u5hBe0HM
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 7520D401F0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 16:32:37 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2F85E61040;
+	Tue,  6 Aug 2024 16:32:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60DDAC32786;
+	Tue,  6 Aug 2024 16:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1722961955;
+	bh=0eny/Vsu4sJKj0EvuFo6PYlBjSKdQR/M070SUXqqkUI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=u5hBe0HMGJ70cTJe0Kb9gvemtKIOvTzhhhfVqXHtIERGgx11A0mqoiKngH5XldSMH
+	 pjInfnfJpGzOM297JCj3woAk9TIB0CaZ93DeSFKad7Npf197+jEC8Dph4Euxc0DnSg
+	 snM4uyOrl8YVIZQ6HsXgOEHVJr+yLBpu4E8WFaAiTFxsx4MQpAX8IWtSkuvOWX4NfD
+	 ixR1Buo/b4eL3ydZabUI84gBoIuCfraD8izt3iUpfjHAovLhIl1u8gk3dtE7rxysbU
+	 bq0GtbWhsi5vuZitU0WbjitxERelrwJaZZiolnUIp6aFcoYo+vxhYmlMkhECJcCkyV
+	 LEyKDMl3qDYXQ==
+Date: Tue, 6 Aug 2024 17:32:28 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: lars@metafoo.de, andriy.shevchenko@linux.intel.com,
+ biju.das.jz@bp.renesas.com, nuno.sa@analog.com, skhan@linuxfoundation.org,
+ rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: accel: bma180: Fix dataready interrupt to use INT2
+ pin
+Message-ID: <20240806173228.264f0114@jic23-huawei>
+In-Reply-To: <20240805173237.475797-1-abhishektamboli9@gmail.com>
+References: <20240805173237.475797-1-abhishektamboli9@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a41ab091-42d3-4e03-b0e8-89af354faadc@roeck-us.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 06, 2024 at 08:48:45AM -0700, Guenter Roeck wrote:
-> Hi,
+On Mon,  5 Aug 2024 23:02:37 +0530
+Abhishek Tamboli <abhishektamboli9@gmail.com> wrote:
+
+> Update the interrupt configuration to use the INT2 pin for
+> the dataready interrupt.
 > 
-> On Tue, Jul 21, 2020 at 02:46:54PM -0300, Vitor Massaru Iha wrote:
-> > This adds the conversion of the runtime tests of test_user_copy fuctions,
-> > from `lib/test_user_copy.c`to KUnit tests.
-> > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> Address the FIXME: support using the INT2 pin.
 > 
-> These tests are failing (at least) for arm-v7, loongarch, and mips
-> qemu emulations; see below for failure logs.
-> 
-> Any idea if those might be architecture problems, problems with qemu,
-> or problems with the test ?
-> 
-> Thanks,
-> Guenter
-> 
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Hi Abhishek,
+
+That's not the intent of that FIXME.  It's pointing out that the driver
+does not currently support the wiring configuration where only INT2 is
+connected.  The change you have here breaks the configuration where
+only INT1 is wired or both are wired (as it will register the
+interrupt handler on the int1 pin, not int2).
+
+I'm guessing that is the situation you have is int2 only?
+
+To handle this you need to add the firmware queries to identify the
+interrupt by name. See for example driver/iio/imu/bmi323_core.c
+bmi323_trigger_probe()
+
+	fwnode = dev_fwnode(data->dev);
+	if (!fwnode)
+		return -ENODEV;
+
+	irq = fwnode_irq_get_byname(fwnode, "INT1");
+	if (irq > 0) {
+		irq_pin = BMI323_IRQ_INT1;
+	} else {
+		irq = fwnode_irq_get_byname(fwnode, "INT2");
+		if (irq < 0)
+			return 0;
+
+		irq_pin = BMI323_IRQ_INT2;
+	}
+
+This defaults to INT1 if available, but will find INT2
+if interrupt-names is provided in DT and specifies that only INT2
+is present.
+
+Jonathan
+
 > ---
-
-Several more failures. I missed those earlier because they don't result
-in backtraces.
-
-sparc32:
-
-    # usercopy_test_valid: EXPECTATION FAILED at lib/usercopy_kunit.c:209
-    Expected val_u64 == 0x5a5b5c5d6a6b6c6d, but
-        val_u64 == 1515936861 (0x5a5b5c5d)
-        0x5a5b5c5d6a6b6c6d == 6510899242581322861 (0x5a5b5c5d6a6b6c6d)
-legitimate get_user (u64) failed to do copy
-    # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
-    not ok 1 usercopy_test_valid
-    # usercopy_test_invalid: pass:1 fail:0 skip:0 total:1
-    ok 2 usercopy_test_invalid
-    # usercopy_test_check_nonzero_user: pass:1 fail:0 skip:0 total:1
-    ok 3 usercopy_test_check_nonzero_user
-    # usercopy_test_copy_struct_from_user: pass:1 fail:0 skip:0 total:1
-    ok 4 usercopy_test_copy_struct_from_user
-# usercopy: pass:3 fail:1 skip:0 total:4
-# Totals: pass:3 fail:1 skip:0 total:4
-
-nios2:
-
-    # module: usercopy_kunit
-    1..4
-    # usercopy_test_valid: pass:1 fail:0 skip:0 total:1
-    ok 1 usercopy_test_valid
-    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:279
-    Expected val_u8 == 0, but
-        val_u8 == 90 (0x5a)
-zeroing failure for illegal get_user (u8)
-    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:280
-    Expected val_u16 == 0, but
-        val_u16 == 23131 (0x5a5b)
-zeroing failure for illegal get_user (u16)
-    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:281
-    Expected val_u32 == 0, but
-        val_u32 == 1515936861 (0x5a5b5c5d)
-zeroing failure for illegal get_user (u32)
-    # usercopy_test_invalid: pass:0 fail:1 skip:0 total:1
-    not ok 2 usercopy_test_invalid
-    # usercopy_test_check_nonzero_user: pass:1 fail:0 skip:0 total:1
-    ok 3 usercopy_test_check_nonzero_user
-    # usercopy_test_copy_struct_from_user: pass:1 fail:0 skip:0 total:1
-    ok 4 usercopy_test_copy_struct_from_user
-# usercopy: pass:3 fail:1 skip:0 total:4
-# Totals: pass:3 fail:1 skip:0 total:4
-not ok 37 usercopy
-
-microblaze:
-
-    # usercopy_test_valid: pass:1 fail:0 skip:0 total:1
-    ok 1 usercopy_test_valid
-    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:279
-    Expected val_u8 == 0, but
-        val_u8 == 90 (0x5a)
-zeroing failure for illegal get_user (u8)
-    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:280
-    Expected val_u16 == 0, but
-        val_u16 == 23131 (0x5a5b)
-zeroing failure for illegal get_user (u16)
-    # usercopy_test_invalid: EXPECTATION FAILED at lib/usercopy_kunit.c:281
-    Expected val_u32 == 0, but
-        val_u32 == 1515936861 (0x5a5b5c5d)
-zeroing failure for illegal get_user (u32)
-    # usercopy_test_invalid: pass:0 fail:1 skip:0 total:1
-    not ok 2 usercopy_test_invalid
-    # usercopy_test_check_nonzero_user: pass:1 fail:0 skip:0 total:1
-    ok 3 usercopy_test_check_nonzero_user
-    # usercopy_test_copy_struct_from_user: pass:1 fail:0 skip:0 total:1
-    ok 4 usercopy_test_copy_struct_from_user
-# usercopy: pass:3 fail:1 skip:0 total:4
-# Totals: pass:3 fail:1 skip:0 total:4
-not ok 39 usercopy
-
-> On arm:
+>  drivers/iio/accel/bma180.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 > 
-> [   13.097105]     # usercopy_test_valid: ASSERTION FAILED at lib/usercopy_kunit.c:311
-> [   13.097105]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
-> [   13.097105]         user_addr == 4294967284 (0xfffffff4)
-> [   13.097105]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
-> [   13.097105] Failed to allocate user memory
-> [   13.098876]     # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
-> [   13.099378]     not ok 1 usercopy_test_valid
-> [   13.101143]     # usercopy_test_invalid: ASSERTION FAILED at lib/usercopy_kunit.c:311
-> [   13.101143]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
-> [   13.101143]         user_addr == 4294967284 (0xfffffff4)
-> [   13.101143]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
-> [   13.101143] Failed to allocate user memory
-> [   13.102726]     # usercopy_test_invalid: pass:0 fail:1 skip:0 total:1
-> [   13.103167]     not ok 2 usercopy_test_invalid
-> [   13.104744]     # usercopy_test_check_nonzero_user: ASSERTION FAILED at lib/usercopy_kunit.c:311
-> [   13.104744]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
-> [   13.104744]         user_addr == 4294967284 (0xfffffff4)
-> [   13.104744]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
-> [   13.104744] Failed to allocate user memory
-> [   13.106485]     # usercopy_test_check_nonzero_user: pass:0 fail:1 skip:0 total:1
-> [   13.106935]     not ok 3 usercopy_test_check_nonzero_user
-> [   13.108812]     # usercopy_test_copy_struct_from_user: ASSERTION FAILED at lib/usercopy_kunit.c:311
-> [   13.108812]     Expected user_addr < (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))), but
-> [   13.108812]         user_addr == 4294967284 (0xfffffff4)
-> [   13.108812]         (unsigned long)((((0xC0000000UL))) - (((0x01000000UL)))) == 3204448256 (0xbf000000)
-> [   13.108812] Failed to allocate user memory
-> [   13.110643]     # usercopy_test_copy_struct_from_user: pass:0 fail:1 skip:0 total:1
-> [   13.111096]     not ok 4 usercopy_test_copy_struct_from_user
-> [   13.111260] # usercopy: pass:0 fail:4 skip:0 total:4
-> [   13.111401] # Totals: pass:0 fail:4 skip:0 total:4
-> [   13.111533] not ok 40 usercopy
-> 
-> On loongarch:
-> 
-> [    5.202648] CPU 0 Unable to handle kernel paging request at virtual address 0000000000000008, era == 90000000040f4b60, ra == 900000000436e558
-> [    5.203061] Oops[#1]:
-> [    5.203288] CPU: 0 UID: 0 PID: 877 Comm: kunit_try_catch Tainted: G                 N 6.11.0-rc2+ #1
-> [    5.203469] Tainted: [N]=TEST
-> [    5.203523] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.0.0 02/06/2015
-> [    5.203686] pc 90000000040f4b60 ra 900000000436e558 tp 9000000107dec000 sp 9000000107defc90
-> [    5.203801] a0 ffffffffffff4000 a1 90000001063554f8 a2 0000000000000000 a3 9000000107defb84
-> [    5.203913] a4 0000000000000001 a5 0000000000000000 a6 900000000696e030 a7 9000000004b617c0
-> [    5.204025] t0 9000000104ab8840 t1 0000800000000000 t2 0000000000208040 t3 9000000107dec000
-> [    5.204134] t4 0000000000000000 t5 9000000006f39f10 t6 0000000000000001 t7 0000000000006000
-> [    5.204245] t8 0000000045eeca10 u0 9000000004b61818 s9 90000001002e7e40 s0 0000000008000000
-> [    5.204355] s1 9000000104b58040 s2 0000000000000000 s3 fffffffffffff000 s4 9000000005f62d00
-> [    5.204465] s5 9000000104ab8840 s6 90000000061752e8 s7 0000000000000000 s8 9000000004144df8
-> [    5.204580]    ra: 900000000436e558 arch_pick_mmap_layout+0xa0/0x1fc
-> [    5.204928]   ERA: 90000000040f4b60 stack_top+0x58/0xa8
-> [    5.205009]  CRMD: 000000b0 (PLV0 -IE -DA +PG DACF=CC DACM=CC -WE)
-> [    5.205189]  PRMD: 00000004 (PPLV0 +PIE -PWE)
-> [    5.205286]  EUEN: 00000000 (-FPE -SXE -ASXE -BTE)
-> [    5.205398]  ECFG: 00071c1d (LIE=0,2-4,10-12 VS=7)
-> [    5.205629] ESTAT: 00010000 [PIL] (IS= ECode=1 EsubCode=0)
-> [    5.205732]  BADV: 0000000000000008
-> [    5.205802]  PRID: 0014c010 (Loongson-64bit, Loongson-3A5000)
-> [    5.205897] Modules linked in:
-> [    5.205982] Process kunit_try_catch (pid: 877, threadinfo=9000000107dec000, task=9000000104ab8840)
-> [    5.206120] Stack : 9000000005f62d00 fffffffffffff000 900000000616f000 9000000107da5b40
-> [    5.206323]         9000000107defd58 9000000004a6cce4 0000000000000dc0 9000000104b58040
-> [    5.206444]         9000000100004ac0 0000000000000000 0000000000000000 0e03af9ea058218b
-> [    5.206562]         900000000616f000 90000001002d7b00 9000000107da5b40 9000000004a6c2c4
-> [    5.206681]         90000000061752e8 9000000104ab8840 9000000005f62d00 fffffffffffff000
-> [    5.206799]         900000000616f000 90000001002d7b00 9000000107da5b40 9000000004a6cb9c
-> [    5.206918]         9000000107cc8000 0000000000000000 0000000000000000 0000000000008000
-> [    5.207035]         0000000000000007 0000000000000022 0000000000000000 0e03af9ea058218b
-> [    5.207153]         900000000616f000 90000001079d2f00 90000001002d7b00 9000000004ba6a60
-> [    5.207271]         9000000104ab9170 90000000056c0788 00000000000000b0 0e03af9ea058218b
-> [    5.207389]         ...
-> [    5.207450] Call Trace:
-> [    5.207467] [<90000000040f4b60>] stack_top+0x58/0xa8
-> [    5.207588] [<900000000436e554>] arch_pick_mmap_layout+0x9c/0x1fc
-> [    5.207675] [<9000000004a6cce0>] kunit_vm_mmap_init+0x104/0x12c
-> [    5.207758] [<9000000004a6c2c0>] __kunit_add_resource+0x48/0xd0
-> [    5.207839] [<9000000004a6cb98>] kunit_vm_mmap+0x84/0xc8
-> [    5.207913] [<9000000004ba6a5c>] usercopy_test_init+0xb8/0x25c
-> [    5.207993] [<9000000004a6c064>] kunit_try_run_case+0x58/0x184
-> [    5.208073] [<9000000004a6e260>] kunit_generic_run_threadfn_adapter+0x20/0x48
-> [    5.208168] [<9000000004144914>] kthread+0x130/0x140
-> [    5.208238] [<90000000040f1c04>] ret_from_kernel_thread+0x8/0xa4
-> [    5.208323]
-> [    5.208370] Code: 15fffe84  26165190  2400158e <28c0220c> 14000070  03bffe10  0010c18c  15ffff90  0014c18c
-> [    5.208583]
-> [    5.208822] ---[ end trace 0000000000000000 ]---
-> [    5.209975]     # usercopy_test_valid: try faulted: last line seen lib/usercopy_kunit.c:304
-> [    5.210227]     # usercopy_test_valid: internal error occurred preventing test case from running: -4
-> [    5.210890]     # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
-> [    5.210942]     not ok 1 usercopy_test_valid
-> 
-> On mips:
-> 
-> CPU 0 Unable to handle kernel paging request at virtual address 00000018, epc == 80105f14, ra == 80299028
-> Oops[#1]:
-> CPU: 0 UID: 0 PID: 783 Comm: kunit_try_catch Tainted: G                 N 6.11.0-rc2-00102-g8857973f206d #1
-> Tainted: [N]=TEST
-> Hardware name: mti,malta
-> $ 0   : 00000000 00000001 00000000 00000000
-> $ 4   : 00000000 854ccec0 ffffffff 00000002
-> $ 8   : 82c6c340 8155ba9c 42314149 00000001
-> $12   : ffffffff 00000012 00000000 00000012
-> $16   : 00000000 08000000 82c6c040 82c6c040
-> $20   : 821c7c28 854ccec0 82205c68 80164c7c
-> $24   : 00000000 00000000
-> $28   : 85b14000 85b17d20 00000001 80299028
-> Hi    : 00000000
-> Lo    : 00000004
-> epc   : 80105f14 mips_stack_top+0x20/0x78
-> ra    : 80299028 arch_pick_mmap_layout+0xa4/0x1a4
-> Status: 1000a403	KERNEL EXL IE
-> Cause : 00800008 (ExcCode 02)
-> BadVA : 00000018
-> PrId  : 00019300 (MIPS 24Kc)
-> Modules linked in:
-> Process kunit_try_catch (pid: 783, threadinfo=85b14000, task=854ccec0, tls=00000000)
-> Stack : 82205c68 80164c7c 00400cc0 00000004 813d989c 85b17dd4 85b2ac00 81250000
->         82c6c040 8070f984 00000001 802f1560 00000400 00000dc0 ffffffff 8070fa14
->         81b43a80 00000000 00000000 657ad470 00000001 85b2ac00 821c7c1c 821c7c1c
->         81250000 8070efb8 81b43bc0 657ad470 821c7c1c 81250000 85b2ac00 81250000
->         821c7c1c 81250000 821c7c28 854ccec0 82205c68 8070fa48 821c7c1c 821c7c1c
->         ...
-> Call Trace:
-> [<80105f14>] mips_stack_top+0x20/0x78
-> [<80299028>] arch_pick_mmap_layout+0xa4/0x1a4
-> [<8070f984>] kunit_vm_mmap_init+0xe8/0x114
-> [<8070efb8>] __kunit_add_resource+0x4c/0xdc
-> [<8070fa48>] kunit_vm_mmap+0x98/0xf0
-> [<808181a4>] usercopy_test_init+0xc4/0x254
-> [<8070eca8>] kunit_try_run_case+0x74/0x234
-> [<807110f8>] kunit_generic_run_threadfn_adapter+0x28/0x50
-> [<801647fc>] kthread+0x12c/0x154
-> [<80103078>] ret_from_kernel_thread+0x14/0x1c
-> Code: 9084635d  0003182b  00031b80 <8c460018> 3402ffff  30840004  000213c0  00431023  8cc30004
-> ---[ end trace 0000000000000000 ]---
->     # usercopy_test_valid: try faulted: last line seen lib/usercopy_kunit.c:304
->     # usercopy_test_valid: internal error occurred preventing test case from running: -4
->     # usercopy_test_valid: pass:0 fail:1 skip:0 total:1
->     not ok 1 usercopy_test_valid
-> 
+> diff --git a/drivers/iio/accel/bma180.c b/drivers/iio/accel/bma180.c
+> index 6581772cb0c4..d44409afffbf 100644
+> --- a/drivers/iio/accel/bma180.c
+> +++ b/drivers/iio/accel/bma180.c
+> @@ -126,7 +126,7 @@ struct bma180_part_info {
+>  #define BMA250_SUSPEND_MASK	BIT(7) /* chip will sleep */
+>  #define BMA250_LOWPOWER_MASK	BIT(6)
+>  #define BMA250_DATA_INTEN_MASK	BIT(4)
+> -#define BMA250_INT1_DATA_MASK	BIT(0)
+> +#define BMA250_INT2_DATA_MASK	BIT(7)
+>  #define BMA250_INT_RESET_MASK	BIT(7) /* Reset pending interrupts */
+>  
+>  struct bma180_data {
+> @@ -425,10 +425,9 @@ static int bma250_chip_config(struct bma180_data *data)
+>  	if (ret)
+>  		goto err;
+>  	/*
+> -	 * This enables dataready interrupt on the INT1 pin
+> -	 * FIXME: support using the INT2 pin
+> +	 * This enables dataready interrupt on the INT2 pin
+>  	 */
+> -	ret = bma180_set_bits(data, BMA250_INT_MAP_REG, BMA250_INT1_DATA_MASK, 1);
+> +	ret = bma180_set_bits(data, BMA250_INT_MAP_REG, BMA250_INT2_DATA_MASK, 1);
+>  	if (ret)
+>  		goto err;
+>  
+
