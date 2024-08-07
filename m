@@ -1,97 +1,157 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB1014901A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 19:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E5F79945
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722972871; cv=none; b=t5xpJ+wTT5lkdvPY/k7/U+iJrbyNL4goZnl3sD9ZZ+kDsapuvhulIhVsya24IJOSpnc1O108NqVR4/N3tWNQGMKGIX9+hsu143bTORwoyPQ1M2DjqV1JYiwAu+ePxMfUT4YUxExbR8znzYQpsdfRQl5UhqVZAJbdVIetiEadHLs=
+	t=1723054779; cv=none; b=e9TjPB9Hbs08BEnkbHWQn88BctX77Gf4o0CyuDJnftW+D7Sj8AbyFII5kFvaM1QCtEcqPI3addqoTfmr7AZHFfKsVb3BDD8Yalo9VztPOFBSh+bpQe+uP7Hgd/0Rpphg9IAKhI5hTaVE+d+v+nLUQLVVt2vKq4IETHyk15E8L4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722972871; c=relaxed/simple;
-	bh=eTj0TWL2vBtXKJLs5erh4BI8TewdvBdBvOodO4DPvdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P2GTxMUsG23SXdOTtS1RAm1QHRpu99rf3Nzm7QwtUwT8EzFTHLSuLG4R+pFqm5EnF8K3A3C1P5c0381eoSL4yDmjx1of+FhMVsHMdoDUBto4kjbTjWlt41XUB79YtSuIC/vbubAo/TYTkcnX1oCLvhd2f89Y5tiT/3lXUrI+zLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cdZFIVKK; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723054779; c=relaxed/simple;
+	bh=P+T4BKP1YW+rpCuUoCu3NP8xYBTKn2cfdYb5TO1WseY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GTg42a6U/Y6IijhKvhS6vbHnVigQ/HOCfURNC/0g6Sf5Ne3S14XK3FX0en/XIehLXn+Xzes9E/WlDNbsdzsD924jZpkBbMAdiyuuPXfXwjvLXZLNUPg3AyZRB1Vyk+KN40y3PWtSXtQAxZEwdsm5n4qOGUZkgJ2w8OD+qykA3yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K26JLgIX; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cdZFIVKK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K26JLgIX"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0646540313
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 19:34:30 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 223BE80893
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:19:38 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.401
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id A4V3Xa06F1QW for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue,  6 Aug 2024 19:34:29 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:40e1:4800::1; helo=sin.source.kernel.org; envelope-from=kees@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0FB6840304
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0FB6840304
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=cdZFIVKK
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 0FB6840304
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue,  6 Aug 2024 19:34:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id DCE10CE0CF3;
-	Tue,  6 Aug 2024 19:34:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31499C32786;
-	Tue,  6 Aug 2024 19:34:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722972864;
-	bh=eTj0TWL2vBtXKJLs5erh4BI8TewdvBdBvOodO4DPvdM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cdZFIVKKbK2oBPjIqsyRyOAMv+cG0btdr+BjgXqKHSZemwNZ8j6GsVHIw8HYxG1Zn
-	 ieC81gIMp/VhRc0zHOBi5kUEQC79JTqcTPn29u/lZg71DZpqMThcq3MjvoTIniB6Pj
-	 GlSd+L7UL84JgZYDBNs2PUHhpWbC4P9pfLYboUCanJi3Gnl9GgBeNmILPi3xlU0v6i
-	 XrWaSy4I79FSiLzsxXwZ9WjJRP2T7QVkcVhAGYavMZhkn+IvsenJGzSV5ydA9nE0JL
-	 0bzet8VAJgw+D6XtIGPnciACfAxzWhthRG2xmrOs4lLKSEuwpAE+Y/pNh4ThVH5zbE
-	 qmAvQ9pduI+2g==
-Date: Tue, 6 Aug 2024 12:34:23 -0700
-From: Kees Cook <kees@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Vitor Massaru Iha <vitor@massaru.org>, kunit-dev@googlegroups.com,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	brendanhiggins@google.com, davidgow@google.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] lib: Convert test_user_copy to KUnit test
-Message-ID: <202408061232.B6382B6DA0@keescook>
-References: <20200721174654.72132-1-vitor@massaru.org>
- <a41ab091-42d3-4e03-b0e8-89af354faadc@roeck-us.net>
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 5EpRPsJcnyLS for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  7 Aug 2024 18:19:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 780CA8087C
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 780CA8087C
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=K26JLgIX
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 780CA8087C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:19:37 +0000 (UTC)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-2cb55ff1007so183015a91.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 07 Aug 2024 11:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723054776; x=1723659576; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HLh/tGSnf4KVpltLnZCFCEYBN1Sy0qgXLUyy8qKyWvY=;
+        b=K26JLgIX9eApjaiNtiGQYl1/5iHndTHMJieo4cabjcsMUf+m+0Y952LkcInM2GH/aF
+         CY2Hcb3YlHmkC3Cw2/USq29j8yv9kyJ+5NyCeI66zOOCEApIobn7lk1OLGXa/LBVgGBi
+         tO8mdaQ9NTCRSKLdiX+tv3csYWBtG/E/km/5/e8chNP1MdqsKk4mnHwk521OhzQ8Aosy
+         LCGsz5rs35dX75MP+Drn73rjSiH7wq3PXjOwmJMHEJeVGiDj/XoBcd8u93uRO3mWNlif
+         0oEb60gmSyTuRxdcH6w4WetXMhXXb1gxvVIlQpF2HKNO35nVReT50cwSjifGfsZtwaMd
+         Lqzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723054776; x=1723659576;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HLh/tGSnf4KVpltLnZCFCEYBN1Sy0qgXLUyy8qKyWvY=;
+        b=O3DFXoND/zOVxlC/fA+z9PcgkLGzr/wj67jc7BM/M49lgcFIhC0pq/7OfHKNdHuKo6
+         iZcNSjgCdP9qYc61RwmYofj34V08zw537DQE/hOEgDEm+/M0IIF56r7eNLcyQrkgOaoU
+         7U1m4JbTMWIyLiO3DEnnF27lQ2vxPWAri1hgAj+DdNhkzJSw4Rx3KWDHGP3FYOFVVn55
+         B8IAVvAxWdDjOi2BLN5aVt9aAcMZt3Wr7YNxQ1NR2wv2jDugJm0ki3jYpqLKHt0X9TgY
+         pVUHX6zFyE0KMMINI1ueVRqGnb5a9ax1w3+o/o2EJVg/kfIPee5/nEDFhE1zn9BGcJTN
+         k5AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfqczjNJpGG/F2Hji3+xyIwgcQNxpJyt5y20Mv7vjRJw2pXtMPtWcyocETr+zHhPr9kjPizIjwh6jwvUpRDwIodhW2wdlMb088rq6e6YKGXob04lnoE5hjO4sx/xFX
+X-Gm-Message-State: AOJu0YwPPpjUQJ+/L0dmvGy7eu7kiLGioEnKSeM4CIpr7xDLDSd9e1wH
+	opEdMGWHCmc4Pr26RC+7HloSEJ/hGHM8UIC2rwviakgqVywDYU0G
+X-Google-Smtp-Source: AGHT+IEa6XbSxxD+9mFxIUaBupGjgBWy+l5Fv4hGRQwAlhZkls51VFy+7Rfm128EkQxaLmeVuiW+VQ==
+X-Received: by 2002:a17:90b:d94:b0:2c9:5f1e:1a62 with SMTP id 98e67ed59e1d1-2cff95401f4mr18063745a91.36.1723054776380;
+        Wed, 07 Aug 2024 11:19:36 -0700 (PDT)
+Received: from embed-PC.. ([110.225.178.109])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1b374b3cesm1913041a91.48.2024.08.07.11.19.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Aug 2024 11:19:36 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net
+Cc: skhan@linuxfoundation.org,
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (lm93) Return error values on read failure
+Date: Wed,  7 Aug 2024 23:47:46 +0530
+Message-Id: <20240807181746.508972-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a41ab091-42d3-4e03-b0e8-89af354faadc@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 06, 2024 at 08:48:43AM -0700, Guenter Roeck wrote:
-> Hi,
-> 
-> On Tue, Jul 21, 2020 at 02:46:54PM -0300, Vitor Massaru Iha wrote:
-> > This adds the conversion of the runtime tests of test_user_copy fuctions,
-> > from `lib/test_user_copy.c`to KUnit tests.
-> > 
-> > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> 
-> These tests are failing (at least) for arm-v7, loongarch, and mips
-> qemu emulations; see below for failure logs.
+Fix the issue of lm93_read_byte() and lm93_read_word() return 0 on
+read failure after retries, which could be confused with valid data.
 
-Oh my. Good thing this got added to KUnit, then -- the core of the tests
-haven't actually changed. I will see what I can uncover.
+Address the TODO: what to return in case of error?
 
-> Any idea if those might be architecture problems, problems with qemu,
-> or problems with the test ?
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+ drivers/hwmon/lm93.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-The last two look like NULL derefs (??) and the first seems like maybe a
-test problem (the failure looks kind of like the CONFIG_MMU=n cases that
-were fixed earlier).
-
+diff --git a/drivers/hwmon/lm93.c b/drivers/hwmon/lm93.c
+index be4853fad80f..b76f3c1c6297 100644
+--- a/drivers/hwmon/lm93.c
++++ b/drivers/hwmon/lm93.c
+@@ -798,6 +798,7 @@ static unsigned LM93_ALARMS_FROM_REG(struct block1_t b1)
+ static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
+ {
+ 	int value, i;
++	int ret;
+ 
+ 	/* retry in case of read errors */
+ 	for (i = 1; i <= MAX_RETRIES; i++) {
+@@ -808,14 +809,14 @@ static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
+ 			dev_warn(&client->dev,
+ 				 "lm93: read byte data failed, address 0x%02x.\n",
+ 				 reg);
++			ret = value;
+ 			mdelay(i + 3);
+ 		}
+ 
+ 	}
+ 
+-	/* <TODO> what to return in case of error? */
+ 	dev_err(&client->dev, "lm93: All read byte retries failed!!\n");
+-	return 0;
++	return ret;
+ }
+ 
+ static int lm93_write_byte(struct i2c_client *client, u8 reg, u8 value)
+@@ -836,6 +837,7 @@ static int lm93_write_byte(struct i2c_client *client, u8 reg, u8 value)
+ static u16 lm93_read_word(struct i2c_client *client, u8 reg)
+ {
+ 	int value, i;
++	int ret;
+ 
+ 	/* retry in case of read errors */
+ 	for (i = 1; i <= MAX_RETRIES; i++) {
+@@ -846,14 +848,14 @@ static u16 lm93_read_word(struct i2c_client *client, u8 reg)
+ 			dev_warn(&client->dev,
+ 				 "lm93: read word data failed, address 0x%02x.\n",
+ 				 reg);
++			ret = value;
+ 			mdelay(i + 3);
+ 		}
+ 
+ 	}
+ 
+-	/* <TODO> what to return in case of error? */
+ 	dev_err(&client->dev, "lm93: All read word retries failed!!\n");
+-	return 0;
++	return ret;
+ }
+ 
+ static int lm93_write_word(struct i2c_client *client, u8 reg, u16 value)
 -- 
-Kees Cook
+2.34.1
+
