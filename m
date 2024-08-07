@@ -1,157 +1,228 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E5F79945
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:19:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64F21386C6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723054779; cv=none; b=e9TjPB9Hbs08BEnkbHWQn88BctX77Gf4o0CyuDJnftW+D7Sj8AbyFII5kFvaM1QCtEcqPI3addqoTfmr7AZHFfKsVb3BDD8Yalo9VztPOFBSh+bpQe+uP7Hgd/0Rpphg9IAKhI5hTaVE+d+v+nLUQLVVt2vKq4IETHyk15E8L4A=
+	t=1723055921; cv=none; b=k7ojOeDp3vrlbThx97q9Nea7kCctYwfPz+BfDurn78XG1fhh1YvXGRU+2xupRmWuR/dLP+l9PMTiDzOWJQtHTJSoJjJeofOxh9eaF889BN4OBuy/AVRd1+FoWvL3cPFuSpXbJeE9V7llYToHk9X9GwnJoO6LurGTtomFZa4GsL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723054779; c=relaxed/simple;
-	bh=P+T4BKP1YW+rpCuUoCu3NP8xYBTKn2cfdYb5TO1WseY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GTg42a6U/Y6IijhKvhS6vbHnVigQ/HOCfURNC/0g6Sf5Ne3S14XK3FX0en/XIehLXn+Xzes9E/WlDNbsdzsD924jZpkBbMAdiyuuPXfXwjvLXZLNUPg3AyZRB1Vyk+KN40y3PWtSXtQAxZEwdsm5n4qOGUZkgJ2w8OD+qykA3yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K26JLgIX; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1723055921; c=relaxed/simple;
+	bh=Ma5knbmN34MSI03mkT7FloKBYCg2Csz7tEsOg/INh4M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T5zvE9J9piy2l/zNjkBgv5CTgwBmclOFJ9pwuVkgzBHBl3I/fLHF5MjosLJTrQ6EkGSX6FT6QSvDtPwWycTUUKf6OlPZMeY3A8uCFZpmL2PhVt6P2tFcgy/6TmTWK9fO8FXz631UE5lLocLCoVvQF1WLIqPNcP2D1UOHAMKzrFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hiT2aeGu; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K26JLgIX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hiT2aeGu"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 223BE80893
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:19:38 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 6841D403FF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:38:39 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -1.25
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5EpRPsJcnyLS for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  7 Aug 2024 18:19:37 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102c; helo=mail-pj1-x102c.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 780CA8087C
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 780CA8087C
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=K26JLgIX
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 780CA8087C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:19:37 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-2cb55ff1007so183015a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 07 Aug 2024 11:19:37 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id MvDI7WVlPkCU for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  7 Aug 2024 18:38:38 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 4723B4018D
+Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 4723B4018D
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=hiT2aeGu
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 4723B4018D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  7 Aug 2024 18:38:38 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-70d199fb3dfso143358b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 07 Aug 2024 11:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723054776; x=1723659576; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HLh/tGSnf4KVpltLnZCFCEYBN1Sy0qgXLUyy8qKyWvY=;
-        b=K26JLgIX9eApjaiNtiGQYl1/5iHndTHMJieo4cabjcsMUf+m+0Y952LkcInM2GH/aF
-         CY2Hcb3YlHmkC3Cw2/USq29j8yv9kyJ+5NyCeI66zOOCEApIobn7lk1OLGXa/LBVgGBi
-         tO8mdaQ9NTCRSKLdiX+tv3csYWBtG/E/km/5/e8chNP1MdqsKk4mnHwk521OhzQ8Aosy
-         LCGsz5rs35dX75MP+Drn73rjSiH7wq3PXjOwmJMHEJeVGiDj/XoBcd8u93uRO3mWNlif
-         0oEb60gmSyTuRxdcH6w4WetXMhXXb1gxvVIlQpF2HKNO35nVReT50cwSjifGfsZtwaMd
-         Lqzw==
+        d=gmail.com; s=20230601; t=1723055917; x=1723660717; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MHZu6Ag/9qKzgb4ZqxJhiR7NIGjVSmJ1XSyPMQ5cI10=;
+        b=hiT2aeGuhNRYDnKDjYLKwkxgq5HkP4iNXk+gAQ2bmw122i3bYqQCCnJKUHu2gxH+ve
+         vQBgp7VlZ+zEbkm/g+s54IiEGyAVVQvuL9sd0PqlQhWU+nkmDVuWTOOHHyg6dEEWBFRw
+         CUU/ES4UBVDDdoOjfNB85OsleCNEEZzcdiMfZoOT7k8ystBBxN2kwHN+TGTydws6dFxY
+         /kCHl14Xm1EP92Ujjh0OJCSIUMz403MPJAtx6Mge92dv15BOOuDUchQpDZBKmhr3OZX2
+         aW2ryabzzpmc1cUqMF6/qTCuIA/WmDM//ehzwSwJ6FxhVezqHd9rPDclinYG2smxa1Zc
+         LZ2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723054776; x=1723659576;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HLh/tGSnf4KVpltLnZCFCEYBN1Sy0qgXLUyy8qKyWvY=;
-        b=O3DFXoND/zOVxlC/fA+z9PcgkLGzr/wj67jc7BM/M49lgcFIhC0pq/7OfHKNdHuKo6
-         iZcNSjgCdP9qYc61RwmYofj34V08zw537DQE/hOEgDEm+/M0IIF56r7eNLcyQrkgOaoU
-         7U1m4JbTMWIyLiO3DEnnF27lQ2vxPWAri1hgAj+DdNhkzJSw4Rx3KWDHGP3FYOFVVn55
-         B8IAVvAxWdDjOi2BLN5aVt9aAcMZt3Wr7YNxQ1NR2wv2jDugJm0ki3jYpqLKHt0X9TgY
-         pVUHX6zFyE0KMMINI1ueVRqGnb5a9ax1w3+o/o2EJVg/kfIPee5/nEDFhE1zn9BGcJTN
-         k5AQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfqczjNJpGG/F2Hji3+xyIwgcQNxpJyt5y20Mv7vjRJw2pXtMPtWcyocETr+zHhPr9kjPizIjwh6jwvUpRDwIodhW2wdlMb088rq6e6YKGXob04lnoE5hjO4sx/xFX
-X-Gm-Message-State: AOJu0YwPPpjUQJ+/L0dmvGy7eu7kiLGioEnKSeM4CIpr7xDLDSd9e1wH
-	opEdMGWHCmc4Pr26RC+7HloSEJ/hGHM8UIC2rwviakgqVywDYU0G
-X-Google-Smtp-Source: AGHT+IEa6XbSxxD+9mFxIUaBupGjgBWy+l5Fv4hGRQwAlhZkls51VFy+7Rfm128EkQxaLmeVuiW+VQ==
-X-Received: by 2002:a17:90b:d94:b0:2c9:5f1e:1a62 with SMTP id 98e67ed59e1d1-2cff95401f4mr18063745a91.36.1723054776380;
-        Wed, 07 Aug 2024 11:19:36 -0700 (PDT)
-Received: from embed-PC.. ([110.225.178.109])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1b374b3cesm1913041a91.48.2024.08.07.11.19.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 11:19:36 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: jdelvare@suse.com,
-	linux@roeck-us.net
-Cc: skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (lm93) Return error values on read failure
-Date: Wed,  7 Aug 2024 23:47:46 +0530
-Message-Id: <20240807181746.508972-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1723055917; x=1723660717;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MHZu6Ag/9qKzgb4ZqxJhiR7NIGjVSmJ1XSyPMQ5cI10=;
+        b=IVEdqgAOHX77HxdbG9M0ke280BhlrsbRQv+mvm0JrxAnO0RCx4ZjSBdpQEo8JwvGdz
+         aMIqWRye44fl3E04R8xAXKWgdVisUXU0/rEDir/YZznmfOpQD0ttuTe0QfwDjNS5JRf6
+         iP4ZBGJEshdRN+sz3Tb98KkRxXIVBynsfM2Cn5gdnEnOWeAwnEP3Ce5cn6SxW9/2qDFF
+         nkMr6Ai7rAfovYxK2k+WuzNt2rTv36K0PFfQZIlGnriJCrumj1HmvXk+WaMHOwOFBWEN
+         KaZ0dxIloQhOKbGFbMr6YMoSU09tfMrPSfs3TAowY4JBU5y5RdHQmq7PmM1ZrzuBJr7y
+         VmNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUYhLNueOq/NUH9hDAkTQ2QkCDLOzEo0lEd0X8LelBLaC4/vimzoJHeI2ZHTDUKcJOhhiYbSax/pfoi0KiQu2Jd5C1eA3sCqcu0BAW7DMtXuSwXd8jdXegpOc7Qfbl
+X-Gm-Message-State: AOJu0YxCkVj5o3Yhf/eRVyL1X1RyAJiUQBz91rcH57zEbx/zI5Kv5MLy
+	q+Cu5CQ/A3KprxT4tXeAnZSjKE3H/+fpsNXsoGg8X9qiXQRcAU2Z
+X-Google-Smtp-Source: AGHT+IE29lXDJY0DJgZzjwEH7h/3o7kLHX3laqmrwpTO+ckQzdByOSlQCUSu2Nellw3JaiKg102baA==
+X-Received: by 2002:a05:6a20:d510:b0:1c0:bce5:c19c with SMTP id adf61e73a8af0-1c699579612mr23682342637.12.1723055917340;
+        Wed, 07 Aug 2024 11:38:37 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7106ec4292fsm8695485b3a.73.2024.08.07.11.38.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Aug 2024 11:38:36 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <bdca4f35-ec3e-4fac-bbcf-ed5326feb6f4@roeck-us.net>
+Date: Wed, 7 Aug 2024 11:38:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: (lm93) Return error values on read failure
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>, jdelvare@suse.com
+Cc: skhan@linuxfoundation.org, rbmarliere@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-hwmon@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240807181746.508972-1-abhishektamboli9@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240807181746.508972-1-abhishektamboli9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix the issue of lm93_read_byte() and lm93_read_word() return 0 on
-read failure after retries, which could be confused with valid data.
+On 8/7/24 11:17, Abhishek Tamboli wrote:
+> Fix the issue of lm93_read_byte() and lm93_read_word() return 0 on
+> read failure after retries, which could be confused with valid data.
+> 
+> Address the TODO: what to return in case of error?
+> 
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+>   drivers/hwmon/lm93.c | 10 ++++++----
+>   1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hwmon/lm93.c b/drivers/hwmon/lm93.c
+> index be4853fad80f..b76f3c1c6297 100644
+> --- a/drivers/hwmon/lm93.c
+> +++ b/drivers/hwmon/lm93.c
+> @@ -798,6 +798,7 @@ static unsigned LM93_ALARMS_FROM_REG(struct block1_t b1)
+>   static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
 
-Address the TODO: what to return in case of error?
+This is still returning an u8.
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- drivers/hwmon/lm93.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+>   {
+>   	int value, i;
+> +	int ret;
+>   
+>   	/* retry in case of read errors */
+>   	for (i = 1; i <= MAX_RETRIES; i++) {
+> @@ -808,14 +809,14 @@ static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
+>   			dev_warn(&client->dev,
+>   				 "lm93: read byte data failed, address 0x%02x.\n",
+>   				 reg);
+> +			ret = value;
+>   			mdelay(i + 3);
+>   		}
+>   
+>   	}
+>   
+> -	/* <TODO> what to return in case of error? */
+>   	dev_err(&client->dev, "lm93: All read byte retries failed!!\n");
 
-diff --git a/drivers/hwmon/lm93.c b/drivers/hwmon/lm93.c
-index be4853fad80f..b76f3c1c6297 100644
---- a/drivers/hwmon/lm93.c
-+++ b/drivers/hwmon/lm93.c
-@@ -798,6 +798,7 @@ static unsigned LM93_ALARMS_FROM_REG(struct block1_t b1)
- static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
- {
- 	int value, i;
-+	int ret;
- 
- 	/* retry in case of read errors */
- 	for (i = 1; i <= MAX_RETRIES; i++) {
-@@ -808,14 +809,14 @@ static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
- 			dev_warn(&client->dev,
- 				 "lm93: read byte data failed, address 0x%02x.\n",
- 				 reg);
-+			ret = value;
- 			mdelay(i + 3);
- 		}
- 
- 	}
- 
--	/* <TODO> what to return in case of error? */
- 	dev_err(&client->dev, "lm93: All read byte retries failed!!\n");
--	return 0;
-+	return ret;
- }
- 
- static int lm93_write_byte(struct i2c_client *client, u8 reg, u8 value)
-@@ -836,6 +837,7 @@ static int lm93_write_byte(struct i2c_client *client, u8 reg, u8 value)
- static u16 lm93_read_word(struct i2c_client *client, u8 reg)
- {
- 	int value, i;
-+	int ret;
- 
- 	/* retry in case of read errors */
- 	for (i = 1; i <= MAX_RETRIES; i++) {
-@@ -846,14 +848,14 @@ static u16 lm93_read_word(struct i2c_client *client, u8 reg)
- 			dev_warn(&client->dev,
- 				 "lm93: read word data failed, address 0x%02x.\n",
- 				 reg);
-+			ret = value;
- 			mdelay(i + 3);
- 		}
- 
- 	}
- 
--	/* <TODO> what to return in case of error? */
- 	dev_err(&client->dev, "lm93: All read word retries failed!!\n");
--	return 0;
-+	return ret;
- }
- 
- static int lm93_write_word(struct i2c_client *client, u8 reg, u16 value)
--- 
-2.34.1
+Those messages only make sense if there is no error return.
+
+> -	return 0;
+> +	return ret;
+
+This is pointless and actually dangerous unless the calling code actually checks
+the return value and aborts on error.
+
+
+
+>   }
+>   
+>   static int lm93_write_byte(struct i2c_client *client, u8 reg, u8 value)
+> @@ -836,6 +837,7 @@ static int lm93_write_byte(struct i2c_client *client, u8 reg, u8 value)
+>   static u16 lm93_read_word(struct i2c_client *client, u8 reg)
+>   {
+>   	int value, i;
+> +	int ret;
+>   
+>   	/* retry in case of read errors */
+>   	for (i = 1; i <= MAX_RETRIES; i++) {
+> @@ -846,14 +848,14 @@ static u16 lm93_read_word(struct i2c_client *client, u8 reg)
+>   			dev_warn(&client->dev,
+>   				 "lm93: read word data failed, address 0x%02x.\n",
+>   				 reg);
+> +			ret = value;
+>   			mdelay(i + 3);
+>   		}
+>   
+>   	}
+>   
+> -	/* <TODO> what to return in case of error? */
+>   	dev_err(&client->dev, "lm93: All read word retries failed!!\n");
+> -	return 0;
+> +	return ret;
+
+Same as above.
+
+Actually, your patch makes the problem worse because the errors are still ignored
+and at the same time report more or less random values to the user (the error code
+truncated to an unsigned 8 or 16 bit value).
+
+Is this just a blind patch, submitted as kind of an exercise, or do you have an
+actual use case for this driver ? The driver is in such bad shape that it should
+be left alone unless someone actually needs it and is able to test any changes.
+Otherwise changes like this just increase risk (or, rather, make it even worse)
+without real benefit.
+
+Thanks,
+Guenter
 
