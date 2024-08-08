@@ -1,87 +1,83 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C39A6BB46
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  8 Aug 2024 16:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6174B137776
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  8 Aug 2024 17:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723136085; cv=none; b=UdZ/0CmEBlWIkvApcqpDOLqTKC7Y5lW2iME1Xvb8COwbUhMAXWraJkX2KxY7e0WMp1OKZ727oSrXf5/28b4f4M9wKXRFWKvFWA5Mlo17SQ5oV0si4pUZPBqsQDqpmwtRmknhwUwfMOStEZWQ6Hadl0rBYiauxVCmlDHYSP9UxzA=
+	t=1723137372; cv=none; b=SGraucOXg6qzsVqqCVKxib+TNI4p+Z8cdB0zA9/CsAALDeDfOfX4JmOLm7Egj+OyIzrB3ASlrlSbmD+X88oVCWNRhDcsMf3IfAlSxuUXA43aYqHWQU6ejnLv2BceI/stYUBlQOPwJ5CVomIY1+Nw32QyGObqRyEbfyDrI425fQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723136085; c=relaxed/simple;
-	bh=F51NZMZKlIVOUokpqmJ++TqU6OeEn9SIj5K+CmrXoAU=;
+	s=arc-20240116; t=1723137372; c=relaxed/simple;
+	bh=AmfAKhd7JZNmHVCMtwv1yOYawxwb64qdiiGQS1yGea4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Upg3mhZFtl9lfCsAHx/32PTYMbG4eF1L+pF8EW+yh7UDtQjwL5tm3vQiFvC86/na11eJRGKpLMYrjEfHLO/FVlEQoBJEQAElgRJ64pyPKHx0JAYD6afw7B+VyTfaRVgVoLmMhSsvUjplRTg9Y6Bm7wa9xme2tPV1xQxBsCn+4Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ayvr9Gnq; arc=none smtp.client-ip=140.211.166.138
+	 Content-Type:Content-Disposition:In-Reply-To; b=cf3iEOHRsAyRG7Kp1/WLZLd4EjLZPKbubyLEEWcQp/SHNojp2tBilBe8gU5jmmBguPp5oapali6k7cjLHDpkziTpeFofIGdcPocjOQ1YbueSKFUvnXgK78z7R0bVK3XDXYARJDsKZGM0PFDpZIkBiZhz816XjRG1mrdc7VkH9W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dN8X+Mnw; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ayvr9Gnq"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dN8X+Mnw"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id C4A3580B6E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  8 Aug 2024 16:54:43 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 9834460B16
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  8 Aug 2024 17:16:10 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.25
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id UudVSCLPA52M for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu,  8 Aug 2024 16:54:43 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1036; helo=mail-pj1-x1036.google.com; envelope-from=groeck7@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org EB4CC80B3C
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org EB4CC80B3C
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Ayvr9Gnq
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id EB4CC80B3C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  8 Aug 2024 16:54:42 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2cb5243766dso1007000a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 08 Aug 2024 09:54:42 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id anAeuozCKy9O for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu,  8 Aug 2024 17:16:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::136; helo=mail-lf1-x136.google.com; envelope-from=ricardo.marliere@suse.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 123E860AF2
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 123E860AF2
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=dN8X+Mnw
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 123E860AF2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu,  8 Aug 2024 17:16:07 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-52f024f468bso1378563e87.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 08 Aug 2024 10:16:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723136082; x=1723740882; darn=lists.linuxfoundation.org;
+        d=suse.com; s=google; t=1723137365; x=1723742165; darn=lists.linuxfoundation.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Aicxt+UzDt3qNgwZqQLVh/meDWsH0wnhB4ZpKgCLbeA=;
-        b=Ayvr9Gnq6IEU+E2FUWC1lYK+O7dmUqO4h7JSwUl/FEuTkxv6zehaQCPICxhKVLl5lp
-         7UADEHdBi/I4JQK3cX5yQKPAkZFTy/KlcZFlK5odQWrAwRvlBfEhYISxpP2D3cFz51zB
-         C2La8MoPnFvbAwnG44OFCS/wwJZ/xdrdJ5/ZYPHT7VDTxyRk0cJFaXtHeb3Qpcd4OVAj
-         9RgtjrUJm9v93majVCPbhJ0luRdcatlv335J2WNm7fVCvE3GCxLUKsMp+4r1NOM/IKGO
-         ufLX/VpjFZ+FUGHUOUBS5MY6N3+6+i/w4PcH/mXeNYosG3Qq7nw9YlzQw4t6yTuw7EEx
-         1mZA==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=st0s5Z9mi2hAD2ReYlxZIR+JXV8s4jkhXBC0CZCPwXg=;
+        b=dN8X+MnwhL5DDkEsSjhuYJoKoSAm3XpQyhprzznf+ZcQ/L6vHiAHC9YEVpd6HaG3UQ
+         osh4cDEA0SAhJh8A33xASbOkhdiMxcXw5gWMVp5UY6JVCxpuYmkecmepWPLUw0vRzvTa
+         L0DilAzeAFFVNSz611ki7/1ZlXBJGgAZ+AwVj5tCA0wURKNslPwiuYybBkY1OwPM7CV3
+         Ko7Z/67ezswnhMW+dxVlD0GFYmMhGwyu2BTCfVnPhtHwZmjLqz4RkxzN+VpuU5IaGE8l
+         XTcQFSG3GJRhrRkIj9qPO+UpGFll1SQHQD4xj2UaYfSmZGqrhpyagCnHmMjpnACLIekS
+         QVdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723136082; x=1723740882;
+        d=1e100.net; s=20230601; t=1723137365; x=1723742165;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Aicxt+UzDt3qNgwZqQLVh/meDWsH0wnhB4ZpKgCLbeA=;
-        b=BSQH4/moSvr5OVhP7Uu4LX+SQYSiCA5nRmIPn2/b6l3fAixdgoYTuXKA0ashcSUaHR
-         oYOsXJhyaVTmqOrvnS0hSWmTg9rx8mQPF9NVtGMP+XnBJDcblYd+PwOPEcdBEoJjGJQN
-         PQZMWDx95J2CTdl3si4MZlMKhultME/Iw3evJhUIasmAbc1hxT7Vd9KlwdaGLMTNvSCd
-         83IVqGKA8D6vRUI6bb6CzJJoFh3A86cWlMm0qnSmcalI3qY+jMnR8swOevKoxt8L3pEp
-         H5JwIUTrSX2s5NZTZIEtWCKpDlNZLr0EBu95Hdg40BRqY5KLg8YDvcr7Mke72KeM5fJs
-         OiMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWr2I2pYDa287WfiWU3Cphi91oeqQn9CgpGhnTfTTkI+rufWIMM2mkNSLz1ZD35zQRhk334qUAMVOtcce+Rek2Gk+7XkMEtYvoksRBIHsaAkWQ3pi3R6CZGAbbQeF9H
-X-Gm-Message-State: AOJu0YwYEGhEJbCmZccTbSeFN0m7AuHWrDrf7ufRP96/w/wAvMKpyphu
-	BUyUZ1AuWibFk4KkANm4/7EAHD3quapyBkMBQxbiahN9Qn+g7Nfg
-X-Google-Smtp-Source: AGHT+IGRw2qYNrFvhEiozPxxhI7XfYAGB814LeAhXp+mawE9FFa/1kAyTkxl7kjoMIOgHIAGJaz/Ng==
-X-Received: by 2002:a17:90a:898e:b0:2d0:680:48c9 with SMTP id 98e67ed59e1d1-2d1c339e70bmr3176521a91.13.1723136082069;
-        Thu, 08 Aug 2024 09:54:42 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d1c9c5e48asm1387316a91.8.2024.08.08.09.54.41
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=st0s5Z9mi2hAD2ReYlxZIR+JXV8s4jkhXBC0CZCPwXg=;
+        b=WK/CnG5iB7jC1/FZpY/Cy5t+T3801T8OmiLBWl+Ne7NSErLLuNvm6bc0EDchQTBXUR
+         g0t5NHYQaI1unZJh0J+7T98lMax+ioHxy2ckVb9+erAU4zV+4WxQY7heYFmuIjfJU1nR
+         jIwQrpcridyeVajDlahuQnUYvq7qBa7GK7VN9zwnSCtXYJVLQYCWsw44ryCA3rc3SGM1
+         o30M4nFTT2zYQT4ORd8C/PiN9sbPKtTKx+M7dMJV6em96hg3ZtFTA073iOI/0C2n5y9G
+         ckPncKvhT0nXCDfFgCxjTqetYIIPxJQxHLKq9F+dMGHhdpTBDaFkAPXKP/UWVevCZlix
+         ZJyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVerKQxzUV/OenuszY0lUy7zCv1eQlFQePf3HSjfIiraxnFZtCRC9Td4Hjeqw8npk+hgNpNU1ep5V47fn+qQy+dKLRh75BYr62DGb5/s1R0NseLY9bTUGLHtKgYLehK
+X-Gm-Message-State: AOJu0YyvVqtUyd8vriQcn2653DxCnpHNodLW3ix3yNwlnSx8e2zQVPD4
+	vsL1cceW5zKIU+JZiohryTT37pFao/Jf9qdVZ5+sKqbTec5I+QPiwHgjKa7+Kyg=
+X-Google-Smtp-Source: AGHT+IHsgX30qz3orEWU6+1Q6Da+D4eKSRWcSdtLZ1meVBwhaimtR7PA766jQg4sICJhnA+RF55TsA==
+X-Received: by 2002:a05:6512:398a:b0:52e:f2a6:8e1a with SMTP id 2adb3069b0e04-530e5843ed7mr1796625e87.29.1723137365170;
+        Thu, 08 Aug 2024 10:16:05 -0700 (PDT)
+Received: from localhost ([2804:2484:804e:2e16:dcc2:6ad2:464:9a29])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ff5917829esm126911615ad.215.2024.08.08.10.16.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Aug 2024 09:54:41 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 8 Aug 2024 09:54:40 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: jdelvare@suse.com, skhan@linuxfoundation.org, rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (lm93) Return error values on read failure
-Message-ID: <e03f91c4-c25a-4c9f-a0f4-2774f4019f54@roeck-us.net>
-References: <20240807181746.508972-1-abhishektamboli9@gmail.com>
- <bdca4f35-ec3e-4fac-bbcf-ed5326feb6f4@roeck-us.net>
- <ZrQqhOvt3zCHNh38@embed-PC.myguest.virtualbox.org>
+        Thu, 08 Aug 2024 10:16:04 -0700 (PDT)
+Date: Thu, 8 Aug 2024 14:15:58 -0300
+From: "Ricardo B. Marliere" <ricardo.marliere@suse.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Pranav P <pranavsdreams@gmail.com>, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] Added extra word to Extra Version
+Message-ID: <5cehhbme7e5jvwqv2aolqbmwrm6m6ttaxjifxew23wbhahombz@uupdjxrtu7ec>
+References: <20240808154824.13390-1-pranavsdreams@gmail.com>
+ <2024080800-reply-fineness-f5b8@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -90,52 +86,34 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZrQqhOvt3zCHNh38@embed-PC.myguest.virtualbox.org>
+In-Reply-To: <2024080800-reply-fineness-f5b8@gregkh>
 
-On Thu, Aug 08, 2024 at 07:46:36AM +0530, Abhishek Tamboli wrote:
-> On Wed, Aug 07, 2024 at 11:38:34AM -0700, Guenter Roeck wrote:
-> Hi Guenter,
-> Thank you for your feedback.
-> > On 8/7/24 11:17, Abhishek Tamboli wrote:
-> > > Fix the issue of lm93_read_byte() and lm93_read_word() return 0 on
-> > > read failure after retries, which could be confused with valid data.
-> > > 
-> > > Address the TODO: what to return in case of error?
-> > > 
-> > > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> > > ---
-> > >   drivers/hwmon/lm93.c | 10 ++++++----
-> > >   1 file changed, 6 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/hwmon/lm93.c b/drivers/hwmon/lm93.c
-> > > index be4853fad80f..b76f3c1c6297 100644
-> > > --- a/drivers/hwmon/lm93.c
-> > > +++ b/drivers/hwmon/lm93.c
-> > > @@ -798,6 +798,7 @@ static unsigned LM93_ALARMS_FROM_REG(struct block1_t b1)
-> > >   static u8 lm93_read_byte(struct i2c_client *client, u8 reg)
+On  8 Aug 24 18:21, Greg KH wrote:
+> On Thu, Aug 08, 2024 at 09:18:24PM +0530, Pranav P wrote:
+> > Signed-off-by: Pranav P <pranavsdreams@gmail.com>
+> > ---
+> >  Makefile | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > > 
-> > This is still returning an u8.
-> My interpretation of the TODO was to address the error condition while keeping the 
-> existing logic of the driver intact. I understand that this driver is 
-> old and that changes should be approached with caution.
+> > diff --git a/Makefile b/Makefile
+> > index 8ad55d6e7b60..9a4012a08c0f 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -2,7 +2,7 @@
+> >  VERSION = 6
+> >  PATCHLEVEL = 11
+> >  SUBLEVEL = 0
+> > -EXTRAVERSION = -rc1
+> > +EXTRAVERSION = -rc1-karuvally
+> >  NAME = Baby Opossum Posse
+> >  
+> >  # *DOCUMENTATION*
+> > -- 
+> > 2.34.1
+> 
+> I don't think you meant to send this to me...
+> 
 
-Those TODOs are, at this point, pretty much pointless. If you want to help
-with improving kernel code, it might be better to pick something from the
-drivers/staging/ directory and help improve it.
-
-The only thing that would really help for the lm93 driver would be a
-complete overhaul, and that would only make sense if someone has real
-hardware to test the resulting code; the driver is too complex to just
-rely on unit tests. For example, the excessive retries might be because
-the chip is really bad with its communication, or it may have been
-observed on a system with a bad i2c controller, making it completely
-unnecesssary today. Either case, if those retries are really necessary
-due to chip issues, they should be hiddden behind regmap (which should
-also be used to replace in-driver caching). And so on.
-
-Really, if you want to get into kenrel development, it would be much
-better to help improving code which is actually being used, as mentioned
-above.
-
-Thanks,
-Guenter
+I'm assuming he sent as part of the application process for the Fall
+term of the bug fixing mentorship, but forgot to strip the public
+mailing lists :)
