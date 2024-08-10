@@ -1,73 +1,73 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAD5155756
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 10:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F664154420
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 10:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723284617; cv=none; b=ABry71ahC8Xza+eSkXsBcDpljTOG+/Yw5aacjw+29NNo950v6sDGTWnQKPtd0P+F/PNYHRdvl3gVXG7ZXzjdJ0PPXj2ErIoac9tUlDnLx/WouixKw3kbjRmWF6Jz4oplFdojGCoBmOvrM6N+ToJ/dUoZAqDx4ywSFDtKbB2kQ38=
+	t=1723284946; cv=none; b=MNduFjWh1RXqAreSAadPT2wSqmOQ/zah3n3HMU5Tz4SNCzvZ/gTXRe5NqYIeEKfhJ9t+gbPsd8Iz5J0xT+9M/+SMP2toNguxIQMXP1rkE2P9vFGlCLyBcvfq7aMxgsAIpag1lLVxLIx8hkkwi05d+PP2oPY82A6NUhFHvHzdQG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723284617; c=relaxed/simple;
-	bh=FozgqAqsV9AfGatMUbFMh3AeCsad4eoVWnIQ29u1RLs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TVTqaXEy/sa8feBWGZwffzWmbuPtzvhG6a8fHg6nbjWtvRCQKj+R5GcSjGE21C0yVZmrtQ6MptNYTtgVpd1xVtEsVI9ff/c43a8nrSqmaiJ5SZ+ej3IAX6jIq2Gh5QAqm72WajQPE9ncP2TwfS0GibsiBJrvW8k/hdw8A1BWs5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E8yrfSuV; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723284946; c=relaxed/simple;
+	bh=0GgeJAjV0gQMUS7xoQJKeK4/4fRBaf7/9vUfHdpslSY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=arOJSGB6jwaHef/Mr2F8wTKzM0RWSMZFG5HnsexeGRtllxbhs0sVu8GTO6wEqhRBhmDoulbaHcI46M9wwdsu03XRrion4K+ZRJgEPLTTFXJrOTugSixLp7shKBjG56gkL3wx7WoEDtcHbXt5+OAT8cKsjyvX71zvEt72UquLjqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dTExciGK; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8yrfSuV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dTExciGK"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id DC1D9413AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 10:10:14 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id D38A840464
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 10:15:44 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id XxB_Vhx5PPPr for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 10 Aug 2024 10:10:12 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::329; helo=mail-wm1-x329.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 468F5413A5
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 468F5413A5
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=E8yrfSuV
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 468F5413A5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 10:10:12 +0000 (UTC)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-426526d30aaso18986495e9.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 03:10:12 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id mAmKsuJLYRIk for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 10 Aug 2024 10:15:42 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::432; helo=mail-wr1-x432.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 5AB4D40141
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 5AB4D40141
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=dTExciGK
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 5AB4D40141
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 10:15:42 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3685a564bafso1268122f8f.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 03:15:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723284610; x=1723889410; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1723284940; x=1723889740; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uzm1ViTlvvMr3QTzeVkc2Asr4wTxPuKRSgPRgd0aNNc=;
-        b=E8yrfSuVBH9g7AGBCR2+nU9bQa9DItjSCw5VqzB8DGNOfOewDUqbFChVgOUcbSDQm4
-         NlNqjiHZNy69qR63ZYOkQz+oL2wqkkgJ7pZa4VUWhu6/g2ZO/eSQgNDwIGFPXiPp7lPI
-         Qmq/1buvEQxMlA9Ot4zj0xN9N/kzbsu4d5Ny/RhcLtZT1AvwUfPFBVG/fIqUuuoD6h0f
-         5PaqJkLlWBBOxC7jq8OlTCJUGi/pBdJ7AnbwdnoPuLyAtUXW3vs448ROq1RzMudrGoBa
-         PMQzmrqrPR5CQ9F9hqUcKgAdHiaErHH9F3h/WWOXAWocfXban/pvXCVQR32ryOoF9JSY
-         dUkQ==
+        bh=3JdHa3p631wFmGh5Fy5+ZcRKvN82h7bdynK6mL8llGc=;
+        b=dTExciGKopbDDej4Wx8AkSht3PpTpXLgV//VS9/ZcHb/gIQ95QwRYn3i9KGJ7kvtbH
+         Rtd9Aa0rvJfdsk4aRMIxVFSeKzqRdKRQE75sRCRDW7SbchWEeFvxrO2EU+q8Z/RFmYrU
+         TQ4wgeCMrd2lOq71WRPLf3luS3l64Ubb2HOOih0YMgK1ROPdoGp1ptswMekhRdUrB8Px
+         4qe+SpjzDwwPIYgNwcNRvEACLT2V5vbHAXL22CKh3sG+hXZiTa2WvUUtPO+9wsw5tlJH
+         axQ0ePBVPpFu4a4il+vsXIEV4tuMFUicOsaEB8pDfNa9Hd+pUlP/NpI1NU0gYLK3PMnT
+         S+9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723284610; x=1723889410;
+        d=1e100.net; s=20230601; t=1723284940; x=1723889740;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uzm1ViTlvvMr3QTzeVkc2Asr4wTxPuKRSgPRgd0aNNc=;
-        b=eGH/9uYYXcYnywgMw/oE/R7XD/pnCJ49ZH91QhqB6JVUs9SV8ErtBjqEyyigdplOof
-         6/N8AOp/3IId7Hx2V/iBnM8szw0o1I+ztZHsCA2sMwF0W/QHLavUdJt/W8NEId9LjaWY
-         HbasAVmtZN8D90CcUX12YxGkAVp1Xi4EJSc0GxRqktjK8Sy+diuWzb5sz2zBg0GEusPg
-         9kYSr9RbEE0ZiTLNPjZ0cO/fCWDzBxLg+RWMOIwNN0qcWAKh9J3WFhiaT50JBI1RUJFO
-         KBjnt0UF8EB3ScvHWbTRL0B9Y+sNGw/rGH7Ll7ejuedmmwAa1CSKf2/CJ27Vf04j+uk+
-         z/zA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBtmgaiJRW4muWamzP0I5bnk3Qw6Y5sMsD8ahEuRKILcQROlUOGYF7W9jqf3V2IilAfjVPc/C7gGbuKBFTAhvc8GjAaeYCoZVJDZMbIROEqPqOTLjGActE3WF0myOC
-X-Gm-Message-State: AOJu0YzHJDRozwmh3JzRsZfioJGCn3wOj1equUFHy+k9VpCe1vjqZDOj
-	rIxSafxo4vrQwhsIsxFj5WvMnaPyQv6nHVpnd7sQBW/NiOWiEmCo
-X-Google-Smtp-Source: AGHT+IGqBNT6WWYMMvj58QdRoIEZrYFHwdqZ1ETY5ytkXFpwlf8B5rQsEt2F4rXmimwckxr8p79Y2g==
-X-Received: by 2002:a05:600c:310d:b0:427:d8f7:b718 with SMTP id 5b1f17b1804b1-429c3a51e0bmr28732775e9.24.1723284609478;
-        Sat, 10 Aug 2024 03:10:09 -0700 (PDT)
+        bh=3JdHa3p631wFmGh5Fy5+ZcRKvN82h7bdynK6mL8llGc=;
+        b=aHsRyCMcS+eF9G5ypf4+LOZ31xLGNYb6EYbGCKBqo1e1FcfkCbzzB7gx550u46pxwI
+         7N39n34IPk99xEmVfv6YRNeCHRSsJW2G0dwmApxDWXVNk8toRJSHK/uxh4+47rUdHOS3
+         M2hK43nCCepXbev0Wva7kYzB1kS8ijgl/pRase5GnAg81QaQnIbj30igMJwRC0QlKwh0
+         coqy3L29BM6EOzqzp4r2jiDv9zjNDaCzOZqsCbBgAz/JIoVZBo50dffgZg5DOzeMaimk
+         d2gsU6k9Bl1sXHN7FW5TuelNeyhTydWgMj2kgo74kQ+yS6IbRGnSu56Ktl2wC4lqDtxr
+         WZsw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1zaDkLh1vAdhOoBopROWfRNQeDy1aMPPHLiT3HY0GiGwuptfF6HYOQRelnhgx8buZD6kvAP3jta4irXr6lap9jPKwTw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YwREXmkGU6a7kay4H4maoToucuAgykKCDPZCzP1afJhpd5LtHBn
+	et4fccpUrqfy2G6iXMthOq7gNYThdGuKqrLwPsBoSfnJw0Cp6DDI
+X-Google-Smtp-Source: AGHT+IFoEnXnGioMpe8JeLbXDuAdpO8xbuaEpuik291F9hovZxlaCGh0UZ4H6n6iAMNNp8XccJ6Xbg==
+X-Received: by 2002:adf:f412:0:b0:368:5d2:9e58 with SMTP id ffacd0b85a97d-36d5afac168mr3007894f8f.0.1723284939807;
+        Sat, 10 Aug 2024 03:15:39 -0700 (PDT)
 Received: from laptop.. (117.red-83-52-251.dynamicip.rima-tde.net. [83.52.251.117])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c775c509sm23990445e9.44.2024.08.10.03.10.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-36e4ebd3631sm1799227f8f.110.2024.08.10.03.15.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Aug 2024 03:10:08 -0700 (PDT)
+        Sat, 10 Aug 2024 03:15:38 -0700 (PDT)
 From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -77,8 +77,8 @@ Cc: linux-doc@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
 Subject: [PATCH v3] docs/sp_SP: Add translation for scheduler/sched-bwc.rst
-Date: Sat, 10 Aug 2024 12:09:55 +0200
-Message-Id: <20240810100955.14901-1-sergio.collado@gmail.com>
+Date: Sat, 10 Aug 2024 12:15:22 +0200
+Message-Id: <20240810101522.15299-1-sergio.collado@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -98,8 +98,8 @@ v1 -> v2 typos corrected
 v2 -> v3 typos corrected
 ---
  .../translations/sp_SP/scheduler/index.rst    |   1 +
- .../sp_SP/scheduler/sched-bwc.rst             | 288 ++++++++++++++++++
- 2 files changed, 289 insertions(+)
+ .../sp_SP/scheduler/sched-bwc.rst             | 287 ++++++++++++++++++
+ 2 files changed, 288 insertions(+)
  create mode 100644 Documentation/translations/sp_SP/scheduler/sched-bwc.rst
 
 diff --git a/Documentation/translations/sp_SP/scheduler/index.rst b/Documentation/translations/sp_SP/scheduler/index.rst
@@ -113,10 +113,10 @@ index 768488d6f001..3aef47ca87e0 100644
 +    sched-bwc
 diff --git a/Documentation/translations/sp_SP/scheduler/sched-bwc.rst b/Documentation/translations/sp_SP/scheduler/sched-bwc.rst
 new file mode 100644
-index 000000000000..ee9b34673560
+index 000000000000..52b372f8a502
 --- /dev/null
 +++ b/Documentation/translations/sp_SP/scheduler/sched-bwc.rst
-@@ -0,0 +1,288 @@
+@@ -0,0 +1,287 @@
 +.. include:: ../disclaimer-sp.rst
 +
 +:Original: :ref:`Documentation/scheduler/sched-design-CFS.rst <sched_design_CFS>`
@@ -142,7 +142,7 @@ index 000000000000..ee9b34673560
 +en porciones de tiempo de ejecución en la CPU según los hilos de ejecución
 +del grupo de tareas van siendo candidatos a ejecutarse. Una vez toda la cuota
 +ha sido asignada cualquier petición adicional de cuota resultará en esos hilos
-+de ejecución siendo limitados/estrangulados. Los hilos de ejecución limitados,
++de ejecución siendo limitados/estrangulados. Los hilos de ejecución limitados
 +no serán capaces de ejecutarse de nuevo hasta el siguiente periodo cuando
 +la cuota sea restablecida.
 +
@@ -167,13 +167,12 @@ index 000000000000..ee9b34673560
 +Esto garantiza dos cosas: que cada tiempo límite de ejecución es cumplido
 +y que el sistema es estable. De todas formas, si U fuese > 1, entonces
 +por cada segundo de tiempo de reloj de una tarea, tendríamos que
-+ejecutar más de un segundo de tiempo de ejecución de programa, y
-+obviamente no se cumpliría con el tiempo límite de ejecución de la
-+tarea, pero en el siguiente periodo de ejecución el tiempo límite de
-+la tarea estaría todavía más lejos, y nunca se tendría tiempo de alcanzar
-+la ejecución, cayendo así en un fallo no acotado.
++ejecutar más de un segundo, y obviamente no se cumpliría con el tiempo
++límite de ejecución de la tarea, pero en el siguiente periodo de ejecución
++el tiempo límite de la tarea estaría todavía más lejos, y nunca se tendría
++tiempo de alcanzar la ejecución, cayendo así en un fallo no acotado.
 +
-+La característica de ráfaga implica el trabajo de una tarea no siempre
++La característica de ráfaga implica que el trabajo de una tarea no siempre
 +consuma totalmente la cuota; esto permite que se pueda describir u_i
 +como una distribución estadística.
 +
@@ -214,7 +213,7 @@ index 000000000000..ee9b34673560
 +de cgroupfs.
 +
 +.. note::
-+   Los archivos cgroupfs descritos en esta sección solo se aplican a el
++   Los archivos cgroupfs descritos en esta sección solo se aplican al
 +   cgroup v1. Para cgroup v2, ver :ref:`Documentation/admin-guide/cgroup-v2.rst <cgroup-v2-cpu>`.
 +
 +- cpu.cfs_quota_us: tiempo de ejecución que se refresca cada periodo (en microsegundos)
@@ -288,7 +287,7 @@ index 000000000000..ee9b34673560
 +Consideraciones jerárquicas
 +---------------------------
 +
-+El interfaz refuerza que el ancho de banda de una entidad individual
++La interfaz refuerza que el ancho de banda de una entidad individual
 +sea siempre factible, esto es: max(c_i) <= C. De todas maneras,
 +la sobre-suscripción en el caso agregado está explícitamente permitida
 +para hacer posible semánticas de conservación de trabajo dentro de una
