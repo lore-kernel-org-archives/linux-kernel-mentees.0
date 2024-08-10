@@ -1,118 +1,194 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3AC1198E6D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  9 Aug 2024 15:57:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CAC155A32
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 09:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723219059; cv=none; b=H6mA8wt/r+dEuR+dzIOPtOSsrYz1T1Jk+QNHYgcsvUzsrlWx2Z9wfyU0gx8OlUW790DM4TxcY9yJd1IeayIgputG8lfbnX+EU8Z0DjikZsNkmI6O2ZYlvSiG6oXTKqGWM3cXXU1nyUjc68rVsMnbmZOyvVHKtWTw/bcAofV0arA=
+	t=1723283044; cv=none; b=uwIjrYG5GrRTZAuXdT87AvA04VqLOAzmlcn372FEUuOeFy7t67pjSnaPoF8ASiAK4hFRcXvMuWfiXiv1eCtYVqMIPTrY4V24fAId+99s/CHPKwO01XU4H3KFSZDadTxTfenCVdCwH7TAtIHgwUfBwBroI+N3iFAn0eJ3JccvlxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723219059; c=relaxed/simple;
-	bh=aupWW4PudjT0riYrRXYHfSbERNtSjKDoPxOKPQ4Jz3U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JAHxl+qsVYR9LH9CZnRTnwPWEN7X641eoOhouppZCUixVjgmVuvErpHE6jvv1qH98O/nW5StrR9Jf0jneVE5MagWcTgXeZUz+f5u2tT22Ef4jY6Sm0FMlC/hxCAPAFDUEdZXPUorF9UH+1t+mV1DOlLTmDOG9h5ICGBfECuFNO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BE6fewfc; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723283044; c=relaxed/simple;
+	bh=qqi7ZOwKwDTZ9Llrm0dom3gS+Cs5uBd+VaD8C+rprgA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=DYkS0svRgE+pwgft+Rxq9GBwCz11H5A/bgvYkJ5jIEHBjWqbMO6Q9rQUcT1b8f1skA1MkGbr8pwhoT+mhcap/b8yi4FYNIuhSK6gb22m1DC9omvHCXcnVqis/uurQ0Rx5YHXGveWm1uvFnxe7AYWq1SHpc5J08DeTDQHWqTR7II=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0Zzqqdo; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE6fewfc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0Zzqqdo"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6E5CA413CD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  9 Aug 2024 15:57:37 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 1D2234042A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 09:44:02 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ipJH6dQn6pxB for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  9 Aug 2024 15:57:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::42f; helo=mail-pf1-x42f.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 88771413A1
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 88771413A1
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=BE6fewfc
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 88771413A1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  9 Aug 2024 15:57:36 +0000 (UTC)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-710ced3642dso1388427b3a.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 09 Aug 2024 08:57:36 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ArmgKUUgFL9Q for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 10 Aug 2024 09:43:58 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::32c; helo=mail-wm1-x32c.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org D08E140141
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org D08E140141
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Z0Zzqqdo
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id D08E140141
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 09:43:57 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-42816ca782dso20717595e9.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 02:43:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723219055; x=1723823855; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1723283036; x=1723887836; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AQbheJKaZzimqi2nM1cZ0ksDOovJ28S86O+Xj2+eZ34=;
-        b=BE6fewfckqE2JMERv/ip0bilNkqnJqn8UeRQaGAdw3qpGdyy3sE//VjdiUP6UVvGK6
-         FXpMTdFj8dDZ/pNmm1AgAPDl0KDT/ZNI2j/bwZTPDJ026PUDDj0wsyQOVHHcM4GqoN2T
-         DnZXFcA4eQFKJsc0eG1SH8YOEv+wflXcDf3jhv5Jn/HROEFNdJVVZ0J0BIoOL8nABiWU
-         V51fjV8DwHrWO/BGTJncTjMHlXHH4ITNj7kH81S/Ih4zhntDG/DXxV6KICXtt7V0jpc3
-         1Aok8/3GrSmcp+QI1wsJRje3QXdoBkNfSGrcPm8niSs/0CPEM/Im6/HpLNNyh3h31dCJ
-         zs7Q==
+        bh=9lK3KNADF1A/NIXMtd/ommJFQkgG7/HTW72cQ/zXCQo=;
+        b=Z0ZzqqdoYT8dNaSpHjNo9gtzJEjL/r0AX3LiwXVrLJVoBBOS1AiBiksHaTrEmf1TCF
+         u0o4N/qTJLhSzmLUYH2iJIcLmKF5jfRrFBnjAsTYxTRZJPlsLTuENyAOjhhPTBaZ7hx9
+         O+AbkpDE6DBaoNmxwojgRBAiJDUCpeyPfWs9kJVG++2gnhQk4ahcGyKyIMon7EXOWaS0
+         SVQQDpMezOcDx/hZstjIOjWj8TOsyueWCeJR/VVsm004R7bI6nay3Rz5Wh0L6C7vmOp1
+         Ny0o661Qg48hlRBJUWnSNsuC3CXPRJJ/fcSoUAd8em22fJ3f0wwT5lGQCSD85xaJJyKw
+         r5nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723219055; x=1723823855;
+        d=1e100.net; s=20230601; t=1723283036; x=1723887836;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AQbheJKaZzimqi2nM1cZ0ksDOovJ28S86O+Xj2+eZ34=;
-        b=GcjtubDh51ht2akU7KG0SKNf+wIPw0deTQ1IEzzSb5qUtv2VH7EHQ6L/bUjVVVK268
-         g9xrz5gcVztXYy9TiN7spgQQv/m+HAfIGyzLVTOrwH7kusAXmYcaDaGYX6WWrFkCTW8L
-         vX3yKhRK1osfjdNl5R3RHM3A+QYR/0j9fg25i0nAP3qL1Wq/mivy8qYN4GiyVv/RO37/
-         iuXIEB3h9ZnOd49aOH+5xRrLjCJJzuCC2g+vMSO/nEfdJGyRNjFVBDvDZ6VwMTOPwj8G
-         UG2n+eaQyS6V/hjiqG5L/I3lt/6wd5GYqtAbBt4+qU2ETdHK2zWzgCTcLjEoJet7sLO/
-         kn8A==
-X-Forwarded-Encrypted: i=1; AJvYcCV4FOkcMWgnyk6N/IM8xfbmBvOKro/Dtfh1GF7L2vWn520J8k9uaOzWQwXNc7OoLSv99134pAgyLdH+36M+UU1ah7fKee4eMTLe1Rs4Ri/BoCeheWqrY7tO7EY2c6UQ
-X-Gm-Message-State: AOJu0YwiqKiNeqgdVbh5MZSDzwHbJxteFsCoSH3fQQzNTvX3DwQfF/BE
-	LFu74EESzqhtMnpwW2hA06rKA5ZVUXirlAn8DXTG5rkTC7Ak2KAp
-X-Google-Smtp-Source: AGHT+IG8JAzFFhDJpXp5iBbOS/4CTp1mY7URlH5eSwuMsh8ncTmLK8FtAeFexWHo5ZBxFFWnFAvk0w==
-X-Received: by 2002:a05:6a00:14c4:b0:70d:2b1b:a37f with SMTP id d2e1a72fcca58-710dcaec5cdmr2119906b3a.24.1723219055254;
-        Fri, 09 Aug 2024 08:57:35 -0700 (PDT)
-Received: from embed-PC.. ([110.225.178.109])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-710cb2e7490sm2774842b3a.164.2024.08.09.08.57.33
+        bh=9lK3KNADF1A/NIXMtd/ommJFQkgG7/HTW72cQ/zXCQo=;
+        b=oJUtTNrifsjjd/V2Z7UvvUHfL+/PvHQhr3dW1cIduYAhS9jiTiHSbJ2+JgbNZRLMlV
+         70a2vnvqOWtwdP7RCyEKReo0H8dREil5zVlZxpfgQ7bBwBKxHb3Gk7fbTuHELIiR8ri9
+         Domk+Zcg2poMUBYeBBbidgz3CfvntiChTN6Qbj8J/hUyDREc0s2BJd5uHg/xDm8OCUrm
+         g4cwiNvUeVplAA/DNfx7pmDjFBsCRDRDuACurqVD/vJUovIJ6uE5Rns5r4E/50NQYXLr
+         2nIUz0GXKD0r2/3nkErler/gcT7qud3uLjgRljAV3rMoG0QYR6Jd0qvXwPjYNEmt16pA
+         zieg==
+X-Forwarded-Encrypted: i=1; AJvYcCVSCizj04NXrYgCpZUdU9gLGBWJizsfLul/58216e0HmV0CPPIIYgtN2lal/xn4BODP/URLtBijy76LwWovjZmPzzfCK8jODQmAsVWFHcfhwGMOaH7ESWy2f6dDJQKp
+X-Gm-Message-State: AOJu0YzUOdoICaP7hqG5gfDe/R4oEc+oEk0JrfT5F7RiN3xWsS0q8Ioh
+	K0M52cBm9l8GyhhGTTjNC2MON4vP+yL8d1R5BAjBk/dpdB0iLeqg
+X-Google-Smtp-Source: AGHT+IE06kbupzMLYw8kuT9Ee/44ffgb7AjxSqU1c58oKTHHBOjsu555g5BH3E9BJI2LdYC/3oF1fQ==
+X-Received: by 2002:a05:600c:568f:b0:428:2e9:65a9 with SMTP id 5b1f17b1804b1-429c3a52c4cmr29731335e9.28.1723283035422;
+        Sat, 10 Aug 2024 02:43:55 -0700 (PDT)
+Received: from laptop.. (117.red-83-52-251.dynamicip.rima-tde.net. [83.52.251.117])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429c9ca1067sm8749065e9.1.2024.08.10.02.43.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Aug 2024 08:57:34 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: alexandre.belloni@bootlin.com
-Cc: linux-rtc@vger.kernel.org,
+        Sat, 10 Aug 2024 02:43:55 -0700 (PDT)
+From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] rtc: m48t59: Remove division condition with direct comparison
-Date: Fri,  9 Aug 2024 21:26:31 +0530
-Message-Id: <20240809155631.548044-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+Subject: [PATCH] Translation to spanish of the documentation related to EEVDF
+Date: Sat, 10 Aug 2024 11:43:47 +0200
+Message-Id: <20240810094348.13745-1-sergio.collado@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace 'year / 100' with a direct comparison 'year >= 100'
-in m48t59_rtc_set_time() function. Improve the code clarity
-and eliminate division overhead.
-
-Fix the following smatch warning:
-drivers/rtc/rtc-m48t59.c:135 m48t59_rtc_set_time() warn:
-replace divide condition 'year / 100' with 'year >= 100'
-
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
 ---
- drivers/rtc/rtc-m48t59.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../translations/sp_SP/scheduler/index.rst    |  1 +
+ .../sp_SP/scheduler/sched-design-CFS.rst      |  8 +--
+ .../sp_SP/scheduler/sched-eevdf.rst           | 59 +++++++++++++++++++
+ 3 files changed, 64 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/sp_SP/scheduler/sched-eevdf.rst
 
-diff --git a/drivers/rtc/rtc-m48t59.c b/drivers/rtc/rtc-m48t59.c
-index f0f6b9b6daec..cd2ca49805d8 100644
---- a/drivers/rtc/rtc-m48t59.c
-+++ b/drivers/rtc/rtc-m48t59.c
-@@ -132,7 +132,7 @@ static int m48t59_rtc_set_time(struct device *dev, struct rtc_time *tm)
- 	M48T59_WRITE((bin2bcd(tm->tm_mon + 1) & 0x1F), M48T59_MONTH);
- 	M48T59_WRITE(bin2bcd(year % 100), M48T59_YEAR);
-
--	if (pdata->type == M48T59RTC_TYPE_M48T59 && (year / 100))
-+	if (pdata->type == M48T59RTC_TYPE_M48T59 && (year >= 100))
- 		val = (M48T59_WDAY_CEB | M48T59_WDAY_CB);
- 	val |= (bin2bcd(tm->tm_wday) & 0x07);
- 	M48T59_WRITE(val, M48T59_WDAY);
---
-2.34.1
+diff --git a/Documentation/translations/sp_SP/scheduler/index.rst b/Documentation/translations/sp_SP/scheduler/index.rst
+index 768488d6f001..32f9fd7517b2 100644
+--- a/Documentation/translations/sp_SP/scheduler/index.rst
++++ b/Documentation/translations/sp_SP/scheduler/index.rst
+@@ -6,3 +6,4 @@
+     :maxdepth: 1
+ 
+     sched-design-CFS
++    sched-eevdf
+diff --git a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
+index 90a153cad4e8..8b8eb581c7be 100644
+--- a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
++++ b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
+@@ -14,10 +14,10 @@ Gestor de tareas CFS
+ 
+ CFS viene de las siglas en inglés de "Gestor de tareas totalmente justo"
+ ("Completely Fair Scheduler"), y es el nuevo gestor de tareas de escritorio
+-implementado por Ingo Molnar e integrado en Linux 2.6.23. Es el sustituto de
+-el previo gestor de tareas SCHED_OTHER.
+-
+-Nota: El planificador EEVDF fue incorporado más recientemente al kernel.
++implementado por Ingo Molnar e integrado en Linux 2.6.23. Es el sustituto
++del previo gestor de tareas SCHED_OTHER. Hoy en día se está abriendo camino
++para el gestor de tareas EEVDF cuya documentación se puede ver en
++Documentation/scheduler/sched-eevdf.rst
+ 
+ El 80% del diseño de CFS puede ser resumido en una única frase: CFS
+ básicamente modela una "CPU ideal, precisa y multi-tarea" sobre hardware
+diff --git a/Documentation/translations/sp_SP/scheduler/sched-eevdf.rst b/Documentation/translations/sp_SP/scheduler/sched-eevdf.rst
+new file mode 100644
+index 000000000000..b49e202bf79a
+--- /dev/null
++++ b/Documentation/translations/sp_SP/scheduler/sched-eevdf.rst
+@@ -0,0 +1,59 @@
++
++.. include:: ../disclaimer-sp.rst
++
++:Original: :ref:`Documentation/scheduler/sched-eevdf.rst <sched_eevdf>`
++:Translator: Sergio González Collado <sergio.collado@gmail.com>
++
++======================
++Gestor de tareas EEVDF
++======================
++
++El gestor de tareas EEVDF,del inglés: "Earliest Eligible Virtual Deadline
++First", fue presentado por primera vez en una publicación científica en
++1995 [1]. El kernel de Linux comenzó a transicionar hacia EEVPF en la
++versión 6.6 (y como una nueva opción en 2024), alejándose del gestor
++de tareas CFS, en favor de una versión de EEVDF propuesta por Peter
++Zijlstra en 2023 [2-4]. Más información relativa a CFS puede encontrarse
++en Documentation/scheduler/sched-design-CFS.rst.
++
++De forma parecida a CFS, EEVDF intenta distribuir el tiempo de ejecución
++de la CPU de forma equitativa entre todas las tareas que tengan la misma
++prioridad y puedan ser ejecutables. Para eso, asigna un tiempo de
++ejecución virtual a cada tarea, creando un "retraso" que puede ser usado
++para determinar si una tarea ha recibido su cantidad justa de tiempo
++de ejecución en la CPU. De esta manera, una tarea con un "retraso"
++positivo, es porque se le debe tiempo de ejecución, mientras que una
++con "retraso" negativo implica que la tarea ha excedido su cuota de
++tiempo. EEVDF elige las tareas con un "retraso" mayor igual a cero y
++calcula un tiempo límite de ejecución virtual (VD, del inglés: virtual
++deadline) para cada una, eligiendo la tarea con la VD más próxima para
++ser ejecutada a continuación. Es importante darse cuenta que esto permite
++que la tareas que sean sensibles a la latencia que tengan porciones de
++tiempos de ejecución de CPU más cortos ser priorizadas, lo cual ayuda con
++su menor tiempo de respuesta.
++
++Ahora mismo se está discutiendo cómo gestionar esos "retrasos", especialmente
++en tareas que estén en un estado durmiente; pero en el momento en el que
++se escribe este texto EEVDF usa un mecanismo de "decaimiento" basado en el
++tiempo virtual de ejecución (VRT, del inglés: virtual run time). Esto previene
++a las tareas de abusar del sistema simplemente durmiendo brevemente para
++reajustar su retraso negativo: cuando una tarea duerme, esta permanece en
++la cola de ejecución pero marcada para "desencolado diferido", permitiendo
++a su retraso decaer a lo largo de VRT. Por tanto, las tareas que duerman
++por más tiempo eventualmente eliminarán su retraso. Finalmente, las tareas
++pueden adelantarse a otras si su VD es más próximo el tiempo, y las
++tareas podrán pedir porciones de tiempo específicas con la nueva llamada
++del sistema sched_setattr(), todo esto facilitara el trabajo en las aplicaciones
++que sean sensibles a las latencias.
++
++REFERENCIAS
++===========
++
++[1] https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=805acf7726282721504c8f00575d91ebfd750564
++
++[2] https://lore.kernel.org/lkml/a79014e6-ea83-b316-1e12-2ae056bda6fa@linux.vnet.ibm.com/
++
++[3] https://lwn.net/Articles/969062/
++
++[4] https://lwn.net/Articles/925371/
++
+-- 
+2.39.2
 
