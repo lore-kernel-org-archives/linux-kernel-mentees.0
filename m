@@ -1,137 +1,126 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE3DEAE7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 02:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57731537A7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 16:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723342586; cv=none; b=ffgnUZuZ3GDztStzxdQQCf6TbLalmJD7eQVCbWUHnQx9Wa+LT86zirhvZ+P6RvmFDLzWi8z4ta+RooWWFRJHhoKcNJ8/3zBqz4oSDVO0J+FlFNNxJQBdile94JfEFhOkhXM3GutaM8CvjFZV7+az4GFJGEaq5IJZr3EwAjvBQvw=
+	t=1723394296; cv=none; b=sSLI9XwRUWdkcoDMHs0fFUuxK2c4ZHPVR+jyJpv9N42XT5jam3yR0RQzZIMDoIoCdp/dgf9s1z4zLHIEpBfiaFHr7KxNOC03+ZWwPvlpeJwdWC0N+Ob0eCfcn/oO8vuo+rdbdNoTX1yenbSW9bvECNzIcJSomxhXYdzWcGQsLMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723342586; c=relaxed/simple;
-	bh=jLHclSGFHdYmaYVg1qTSRRtdACzAngEvV0TI+fQS98U=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=tMrSqy+ba72TyapXgkOTFHW06Lq+lcOPtuQUX9rmb3zSIXxXCEHHgEnTn2cGWSMCfy/q7VKD68wql6AiaHnI/c1besSM6yQ8AolXzfywtOg4tDvvOzLAb2XQuRStdyrpUiTzFuYpQlBDkgVC8GCxiv7ekVvl+Z+y/9yF75lde5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723394296; c=relaxed/simple;
+	bh=Y+NTnHleEkqfILvvk4qSrCw+HTpzEe30ogMxm29uIlE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s3/BJ5n8aSU5dnQFT1ILkZ+T3oQo3W3PLZMVHs3LbTSmpD7zWC5NwnxCvWMNv4TIlElH/ceErE3FhVksICCP/Sc3xp9yI0BJg+jE8+W0idjpYFrUIsZKAcWRyQDI6iV1D3y08KFyYvYzvuv+EFUWZqs46tQBHuUoLqxiwVeY1bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iOGnf4eL; arc=none smtp.client-ip=140.211.166.136
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iOGnf4eL"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id B6DAA409DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 02:16:23 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6F002605A7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 16:38:15 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.838
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id WcQu0VuTiT9E for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 11 Aug 2024 02:16:22 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.72; helo=mail-io1-f72.google.com; envelope-from=39b64zgkbae89fg1r22v8r66zu.x55x2vb9v8t54av4a.t53@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 30BE3409DB
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 30BE3409DB
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 30BE3409DB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 02:16:22 +0000 (UTC)
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-81fb21a0e41so403274039f.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 10 Aug 2024 19:16:22 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id eFQm8g8qc7z1 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 11 Aug 2024 16:38:14 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::2a; helo=mail-oa1-x2a.google.com; envelope-from=carlos.bilbao.osdev@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 86B0F600CA
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 86B0F600CA
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iOGnf4eL
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 86B0F600CA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 16:38:14 +0000 (UTC)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-26927819823so2637765fac.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 11 Aug 2024 09:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723394293; x=1723999093; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y+NTnHleEkqfILvvk4qSrCw+HTpzEe30ogMxm29uIlE=;
+        b=iOGnf4eLF34TZX6hEJhqqWrwhyLFS+7hUlMvDIwPyhjFuEUGHq/8xh8h+Gs0nJbw6C
+         d4z+F69/ho6QbPjDDdV7Q18mn07HsL0Wa9QdoLbjIG3VsHG/7hEV+pnzUlFcsqE6K7V3
+         YCNmsgTYCyoKVLqVKvT0Yya8+/gEAFmEt2nCjQq4ifYpxfbTJDJbK1pIVNBUz4c9K+VO
+         XFMBxAt1j6QmMkb5IQZT9PT1TCZK10wVS/1dPuWcsFNmEer7m7fhcWl/8PaFEJlZvmps
+         QrADdHjCvq4uoRhWO5TTbzpHREgLP/i7sxdd5Onm1MDJtTUIquuP2CrCjT44bgyxjAlD
+         XASQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723342581; x=1723947381;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1723394293; x=1723999093;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HsKAC2w8OIj8E2V22o2IjRuSBUakLf2Sx3QWeN5iaxE=;
-        b=eoOuou+fvdjlCJ++OchXmpOd/gmIhpdTqJDw+YjRXmE2AqmgyEzgI3JweMBo7lsQAN
-         nOiX64C8bECNWOfOkOCiBXE3ZVpQKj/ChC+D6mDUdfePYy0M6tZtH9gyTtOGk2W0+nGq
-         zuIcUYw+juBxh2gz4KzpMpS//F9klDTulnIdo3Sk33HrIG/KbVNjBn8I/9gHoQWmkvSp
-         a8ur1OiyUGaTuQDCGOSh15A5wYPdXEha7qOsld1y1ec+2Na6KfrrdXAAwK9j2ReaW14j
-         ieXxUephOGJcPi50sJz6bHTgYFhloSe1XGIaXCevA6XnDH+T3DuqnHrtC7XOO1CszJE7
-         ZmRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWuXlMA+P+k5VGhBsoXJA4OGiRmxl7bm4iBJ/4+gVoYbNcboHhjcHA44cIl3D3+LG66c9flWqRYNq8KdAQ7HQIpdfrR0NOCSJt/nwXI30UekeaTpK2mVcvosrJ5Drok
-X-Gm-Message-State: AOJu0YyS3g7Z328EHAfAtudHhTjEv9ehnLpXrstM1shEx8okRUanO5EL
-	EMakgjohlbKAS4EqMxDELq8hqiYI+P1poFpp1p1OGYB0CEScjtg588cjdJTGRYdMLQ6a0bJcLkR
-	GEZdPGhUvibFyaP1xyezSeEz4UV6KpwpGWmoQZxSwUdFrOotgsxZ4FQc=
-X-Google-Smtp-Source: AGHT+IGpR5OwATLInzqEwF5W5qNe9mvZBRGoTkNxRNNJqDDfxDORIbmTqQL2eKomEF4w7lml2Wa3LrJmR+KLE35arAnW0IfHzjUD
+        bh=Y+NTnHleEkqfILvvk4qSrCw+HTpzEe30ogMxm29uIlE=;
+        b=nqYM+TRfiDzBBoP+JhpqigukfXhHiavOYj7QZpoJf+z70I7+94dJIOReoWxe/ru93q
+         AF9tJ7a0ioiweJUrt8z8cFycHr7Wqr1Fu+0Qw9whGRTxNJrLqEJJ8SqvJnQZJs8YWipS
+         oRR8Th6fs/XYz7I3ctYfvbu7H4IUZ/yv3M3SR3kNzTgPbyDvnEwmPjnb+lay7OP9MAWW
+         3O0OxyyPniVAXbKUtfvTwMKUMuWl9qMvluEzg6l+7WgPIXfPZxIXYFapoMeb00Op1sOt
+         88ZhQOrD/7iNggImWRDZvBsWYrjR73hm6t1zmdoeggbIffM9mX6gHXqRWfcEmx3CECsB
+         r3BQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9Om/z1kbg3aYCvOHxjPABj7XKlfLRI0KaMkaFoDY5th3WP6Y6TNxG17pRrsibmb1DYn+lrtt5Wsdjb/WEIdPXrMIulYTH+pajAdZY1yLquKzbiicS8MwSIBSjpUdi
+X-Gm-Message-State: AOJu0YyoyfmU6YQX4m7W0CAkBbk2ZiXoLyLHiEg+wHc/ctxfSwbPSxi3
+	+gRbGCysF3v05MUVe2ZoCTvL4svfw2qTNTt/cA2dVehXE36nCZIh
+X-Google-Smtp-Source: AGHT+IFt4OWbki80dHWLXSe8zfKBrJruDBoPMUW3zsS4VoHmKLWspr7mqFgIFh8+tZFFnEYjguPmZA==
+X-Received: by 2002:a05:6871:b25:b0:25e:1f67:b3bb with SMTP id 586e51a60fabf-26c62c426e3mr9228165fac.10.1723394293340;
+        Sun, 11 Aug 2024 09:38:13 -0700 (PDT)
+Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-26c72045928sm1327064fac.4.2024.08.11.09.38.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Aug 2024 09:38:13 -0700 (PDT)
+Message-ID: <17afa9c2-29f9-43e8-8dfe-398eed312cea@gmail.com>
+Date: Sun, 11 Aug 2024 11:38:12 -0500
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1d0b:b0:398:d1fe:9868 with SMTP id
- e9e14a558f8ab-39b7a75252dmr4874335ab.4.1723342580929; Sat, 10 Aug 2024
- 19:16:20 -0700 (PDT)
-Date: Sat, 10 Aug 2024 19:16:20 -0700
-In-Reply-To: <0000000000006fc563061cbc7f9c@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005cea8e061f5ef6da@google.com>
-Subject: Re: [syzbot] [jfs?] UBSAN: shift-out-of-bounds in dbFindBits
-From: syzbot <syzbot+e38d703eeb410b17b473@syzkaller.appspotmail.com>
-To: andrew.kanner@gmail.com, ghandatmanas@gmail.com, 
-	jfs-discussion@lists.sourceforge.net, juntong.deng@outlook.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	osmtendev@gmail.com, rbrasga@uci.edu, shaggy@kernel.org, 
-	skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs/sp_SP: Add translation for
+ scheduler/sched-bwc.rst
+To: Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240810100955.14901-1-sergio.collado@gmail.com>
+ <87le14bfm7.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <87le14bfm7.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-syzbot has found a reproducer for the following issue on:
+On 8/10/24 09:46, Jonathan Corbet wrote:
 
-HEAD commit:    34ac1e82e5a7 Merge tag '6.11-rc2-smb3-client-fixes' of git..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=15f035d9980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9358cc4a2e37fd30
-dashboard link: https://syzkaller.appspot.com/bug?extid=e38d703eeb410b17b473
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=161cc96d980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15f899d9980000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2c13802fbda4/disk-34ac1e82.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/74423353023b/vmlinux-34ac1e82.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/61da8b25f42a/bzImage-34ac1e82.xz
-mounted in repro #1: https://storage.googleapis.com/syzbot-assets/4d2d380a51d6/mount_0.gz
-mounted in repro #2: https://storage.googleapis.com/syzbot-assets/53f5a740bbef/mount_2.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e38d703eeb410b17b473@syzkaller.appspotmail.com
-
-ERROR: (device loop0): remounting filesystem as read-only
-jfs_rename: dtInsert returned -EIO
-ERROR: (device loop0): dbAllocBits: leaf page corrupt
-------------[ cut here ]------------
-UBSAN: shift-out-of-bounds in fs/jfs/jfs_dmap.c:3025:47
-shift exponent 32 is too large for 32-bit type 'u32' (aka 'unsigned int')
-CPU: 0 UID: 0 PID: 5213 Comm: syz-executor267 Not tainted 6.11.0-rc2-syzkaller-00239-g34ac1e82e5a7 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/27/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:93 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:119
- ubsan_epilogue lib/ubsan.c:231 [inline]
- __ubsan_handle_shift_out_of_bounds+0x3c8/0x420 lib/ubsan.c:468
- dbFindBits+0x11a/0x1d0 fs/jfs/jfs_dmap.c:3025
- dbAllocDmapLev+0x1e9/0x4a0 fs/jfs/jfs_dmap.c:1985
- dbAllocCtl+0x113/0x920 fs/jfs/jfs_dmap.c:1825
- dbAllocAG+0x28f/0x10b0 fs/jfs/jfs_dmap.c:1364
- dbDiscardAG+0x352/0xa20 fs/jfs/jfs_dmap.c:1613
- jfs_ioc_trim+0x433/0x670 fs/jfs/jfs_discard.c:100
- jfs_ioctl+0x2d0/0x3e0 fs/jfs/ioctl.c:131
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:907 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:893
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fbb2632d059
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe933950b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fbb26376095 RCX: 00007fbb2632d059
-RDX: 0000000020000080 RSI: 00000000c0185879 RDI: 0000000000000006
-RBP: 00007fbb263a85f0 R08: 000055555ee264c0 R09: 000055555ee264c0
-R10: 000055555ee264c0 R11: 0000000000000246 R12: 00007ffe933950e0
-R13: 00007ffe93395308 R14: 431bde82d7b634db R15: 00007fbb2637603b
- </TASK>
----[ end trace ]---
+> Sergio González Collado <sergio.collado@gmail.com> writes:
+>
+>> Translate Documentation/scheduler/sched-bwc.rst into Spanish.
+>>
+>> Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
+>> ---
+>> v1 -> v2 typos corrected
+>> ---
+>> v2 -> v3 typos corrected
+> Thanks for working to improve our docs but ... if you find yourself
+> sending three versions in less than 30 minutes, that is perhaps a sign
+> that it would be good to slow down just a bit and be a little more
+> careful.
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+This v3 does not have the changes I asked you for v2, Sergio. You'll need
+to send v4.
+
+
+> Thanks,
+>
+> jon
+
+
+Thanks,
+
+Carlos
+
