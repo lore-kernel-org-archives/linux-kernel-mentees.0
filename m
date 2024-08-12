@@ -1,80 +1,90 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7281412B73
-	for <linux-kernel-mentees@lists.linux.dev>; Sun, 11 Aug 2024 20:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B9F17E44F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 14:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723407128; cv=none; b=BxQWAqCYc4154WOJ1ct8GKT7V+pCvvc6BHgTlLOPbmLNW7YJhnioMctEzwJPS0wU/+biOFz5U1+/D5iGmEPJqlIwCNNQKm/Atjrts2F/JOpegItItwdTH9gyCktYM2l1bpURBMuxJHvTM0PtuopEDWyYGaWttSNnbgc0r137ABw=
+	t=1723473482; cv=none; b=lwiPnby9bkTafRuN8KTaGh4hnZhLsFSjZ8AKCkIkuUBI4iL2in9H4tKlywMkFC2VqBJi5G1gpiyLeI10/lSZer80luhXKnPBj1QMGvDEDAxge339kK2DO2NDiV9/PS7kOMRwhfC1kBtuekw3cSMJvYY1CzuxKNhIWlo6k7ZHOd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723407128; c=relaxed/simple;
-	bh=NSWqP3Udnns/jrhPGY/EYd+/d8+QMBPbqEOC4nz/GC8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NXYV+4XLkoNfvo5sqeKLcdEXLigDMoBlPxfwUqysqesbduvHmtb2c4U7Tmyuou9U0kGXuDHMlzviucHUkmtYSHF1NbzzxMYjmePwajqeRhqJu4j1NfexlW5lbK1vm6RD/7Kouz/F9ypnzqnAy0R/hdNDC+2Q1t8RYnJpKVaghGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=PrUz/95s; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1723473482; c=relaxed/simple;
+	bh=J33ODb0jdMvjGXfb18N7gUExMr1Pv8FO7J+BGOW5v+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dC4lYCd1VKxHaSddhlTdQjzGlq7D8+z2VvvFaE9vAV6nSx66w5zJ5G0FJlpA3x49S12f/nUPUnRa5l7nI5hUJRgEDcnacan0c+pf0WUOH3g/NsfzfO5JjmWS2grBEgJ9PU5HfgCJGNPOQsF9XiIOZmMT/6vBhoQGW6oMRw1sQCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kXkm0NEp; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="PrUz/95s"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 46E80418A0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1723407120; bh=9Rm/lSrsRJ+DyBRDGWfjb0Jlly6yythN96aq7WE+WOE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PrUz/95sju0GqBBXkSIwIq8KblLp7jGXmkz+1xDO3ez2nb1EJw69K4lFKHKp6Ujbn
-	 pEEGjlycg7cOOZOfBfPV0RkuaGj65mOdzSKDCQx7F50Tidfguo2NarxNkzlffgm29o
-	 xcteuCJvxzXPc/sX8kJfLvTYloM0Se95fM6I2A7xkCsjsoTmIb/bam/07RxaLS4oNh
-	 ZYiOMfTcQQKINwDXVhyFlgdwjcWLMU5pGFy2d5jrQdimzLd/ciWnrd59f30px1wdNd
-	 Frf5RRHTp0obZKIRTKscK0H3GSf8B4EK0992REApc9DbFC28vGWlD/pSxZGxJHxcMM
-	 XSaAOkrr5HaVQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 46E80418A0;
-	Sun, 11 Aug 2024 20:12:00 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>, Amit Vadhavana
- <av2082000@gmail.com>, linux-doc@vger.kernel.org, ricardo@marliere.net
-Cc: linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
- amelie.delaunay@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, catalin.marinas@arm.com, will@kernel.org,
- mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
- naveen@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- bhelgaas@google.com, conor.dooley@microchip.com, costa.shul@redhat.com,
- dmaengine@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Fix spelling mistakes
-In-Reply-To: <13beb34b-3ff7-4b88-876f-0a7f65254970@gmail.com>
-References: <20240810183238.34481-1-av2082000@gmail.com>
- <13beb34b-3ff7-4b88-876f-0a7f65254970@gmail.com>
-Date: Sun, 11 Aug 2024 14:11:59 -0600
-Message-ID: <87h6bqbz00.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kXkm0NEp"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id F2FF8607E1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 14:38:00 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -4.401
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id FqjC0WHY2E-B for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 12 Aug 2024 14:38:00 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 451BA607DC
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 451BA607DC
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=kXkm0NEp
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 451BA607DC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 14:37:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 376CD60921;
+	Mon, 12 Aug 2024 14:37:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86056C4AF0D;
+	Mon, 12 Aug 2024 14:37:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1723473478;
+	bh=J33ODb0jdMvjGXfb18N7gUExMr1Pv8FO7J+BGOW5v+A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kXkm0NEpf4kQbZnomlRPANxhd/3X5UuUXyWhN5Wb3jnnmxZ297yJCV1i/1vxAsyjN
+	 hEpL1wcHOynepItstH2X9yY/Wi4r5XY1TcOoT78AOubpxIh7FJJAIk/67IO/pk2YYH
+	 z/UDBLSF9fGkBzyFr+sKELedS5teZE9JzJ5JPvYc=
+Date: Mon, 12 Aug 2024 16:37:55 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sergio =?iso-8859-1?Q?Gonz=E1lez?= Collado <sergio.collado@gmail.com>
+Cc: stable@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org,
+	Dave Kleikamp <dave.kleikamp@oracle.com>,
+	Manas Ghandat <ghandatmanas@gmail.com>,
+	syzbot+6b1d79dad6cc6b3eef41@syzkaller.appspotmail.com
+Subject: Re: [PATCH 6.1.y] jfs: define xtree root and page independently
+Message-ID: <2024081227-habitat-cough-dfb0@gregkh>
+References: <20240730201315.19917-1-sergio.collado@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240730201315.19917-1-sergio.collado@gmail.com>
 
-Ivan Orlov <ivan.orlov0322@gmail.com> writes:
+On Tue, Jul 30, 2024 at 10:13:15PM +0200, Sergio González Collado wrote:
+> From: Dave Kleikamp <dave.kleikamp@oracle.com>
+> 
+> [ Upstream commit a779ed754e52d582b8c0e17959df063108bd0656 ]
+> 
+> In order to make array bounds checking sane, provide a separate
+> definition of the in-inode xtree root and the external xtree page.
+> 
+> Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
+> Tested-by: Manas Ghandat <ghandatmanas@gmail.com>
+> (cherry picked from commit a779ed754e52d582b8c0e17959df063108bd0656)
+> Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
+> Reported-by: syzbot+6b1d79dad6cc6b3eef41@syzkaller.appspotmail.com
+> ---
 
-> On 8/10/24 19:32, Amit Vadhavana wrote:
->> Corrected spelling mistakes in the documentation to improve readability.
->> 
->
-> Hi Amit,
->
-> Since this patch contains changes for multiple files from different 
-> subsystems, it should be divided into file-specific changes (so you have 
-> one patch per updated file).
+What about 6.6.y?  We can't take commits only to older kernels, that
+would mean you would have a regression.
 
-Often that is the best thing to do but, honestly, in this case I think I
-should just take the set through the docs tree.  I don't see much point
-in making things harder.
+Please resubmit for all relevant branches.
 
-Thanks,
-
-jon
+greg k-h
