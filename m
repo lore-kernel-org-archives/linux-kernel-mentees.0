@@ -1,116 +1,116 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3283F1802AB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 20:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A14613AD09
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 08:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723496030; cv=none; b=FpMWoy7Byuyde6c64wUvDU0xWN3CfhvEA959hOy6MZIV18Lp1MLv9dDtpGbZXeYJ+i/IJ+1kO73v8twevJJKs/UR2xBT9qgbMUWikPd6/2Hm4AumDnlhCAT4ZWyGGiEmP5BSyKVVcbX7MqnCpYRQfwv2s+a1AaCP8eT6s7x1+rQ=
+	t=1723536716; cv=none; b=GKg5CFaPhn/JPxOZ3Y/pYsbWi0aWh1mMVY7l8FmEL+zcKcK00fEp6ME95o53O5m0IIY0z7QdQppPVh1FxAfxyti7/QQRJCNY/Hca3f8hFmikoVe7PBvbp3R2GvT5oNx55c9r5WaazIcwQgu2zB9dX6CBpQP9Usf7MDiOUdPgdho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723496030; c=relaxed/simple;
-	bh=popiTOAvrARqgESpFaajOWe+yLPWMHUcOMxzZp1+JYk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mMRcF40PMCcC2MVLSRYyLb8voZ/11x/K9mQzwrQkm1TpW0CNfU7ggevB614/nXregyBqVlsE0mEt1fwop5XBI+H+2MDg8wZSbprtZO06icbTEYtmdcDwC1zbNv96ZP5N/vEoRAUNSRb0cuUGP8K0iaHsSO+bcZsPKidqoH9b31s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIXD11qO; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1723536716; c=relaxed/simple;
+	bh=OjJdzkn31p13CLDE9/RYDv7S79m7A/l963A3TrU4zQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h9M3sfNSKZyEQYwXDCJF2az2+Bwbi3aXEToreT4b3hcuw4MQI+q7PBV5it7OBfHxwpblZSFhDH2D0e3QBzF/J1BBbhmTePsj8Ix5o+hSapD+mzQW8jsCUNejOg6PK6q7uxvVqAIh4tanfEY6nvl6IgP7FGS+I/phZYasLGLwiH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Dz+TdzqN; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIXD11qO"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Dz+TdzqN"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B5B60400B8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 20:53:48 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 91CB760769
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 08:11:54 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -10.792
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id sXBz7_iMnJYg for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 12 Aug 2024 20:53:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::52f; helo=mail-ed1-x52f.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 60A6B400B5
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 60A6B400B5
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=NIXD11qO
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 60A6B400B5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 20:53:46 +0000 (UTC)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5a10bb7bcd0so5941709a12.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 12 Aug 2024 13:53:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723496024; x=1724100824; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xc20NfdFlq6bqhOz2Wh8VDZxca5ONeyHpZNq0C9p95A=;
-        b=NIXD11qO0YmdmL8hlk64NR8vUGgWxNlaYJ/kIOmUm2iSZeCi5ch1EI1I3IgsjTrOS3
-         lPS3mjBbAZ1WTJGysjuWF5R7ssxnw4vXtwxJNCZU30fHogPsJXjSZjOfgT0Mw2uNk/rD
-         MaMmrUPmBxO82fODNbVrNp+yWSn8TX9wOTSC6QUXHibK1r/wBqU4DbXXcIg0c+pxlXQx
-         qoe4MASxuipKPQkhSY4iOrISh4y4fnygCmDrNEKmfqOAPjhkkKp7xAlDNQbs6+wUFIJT
-         PNe8rmS3G3Z52xnaOHTiUFFXFdBF3C7hMXcQ1jgR/ypLud6NoIpdyHpcT6KR7+yhvPmc
-         hKJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723496024; x=1724100824;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xc20NfdFlq6bqhOz2Wh8VDZxca5ONeyHpZNq0C9p95A=;
-        b=atnHNnpstAAAMX8cvSCrElpbCBMqV+utuu52mD1tRGwyZNw4S10C5SZRN9lIzVLm5+
-         UZhqQ0RURN2lKksmOlSc2+vQyyeKwCi5O1MJdTEjWPyy1Y1W9BcLvbL42LbBUtZ0TeNf
-         Dz33+6/5pLisOaRJHFwqIIZ7czO3IxJLnsvuC4+tj9q7bau4fj4xGSsW/gN9NQf8U7m5
-         GyK+IBEshW37Tvx6l00YI6WcN2ZKWwKIpBS+EncUIItB3Tfk1gph72SlBX0RQotwLCVx
-         QwRPoDu4FLfFgeZL6yZxregO2y9boN3DeogndhE4v0RZ9ha4hDkIb2yHR4w1F+GNpQP9
-         1a9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVTXqRqRjB4Zdk22LuHoS74aODPGLeuyaw5dSydAbytUwwOikxyYrNhMHD47HuefzoQuZ4/xAUKpNWZZD0U2aTsD2BEpB+4UKDdawMTWIf1hPXW1NLPOOC9izt9Tru5
-X-Gm-Message-State: AOJu0YyDgtzSZXleQDurZGPyu1k+EbwvaEbfABsOgRxz6R5iBXMjyjOm
-	qZW8cUtB0ncHK/LGMr66THwXZjiFP10BRP3aRCSbmSmaclkDttI6Ud62RmWuvK2Is5OkRN9xGDt
-	5vL6shwG/08gizan7Y267YTN35/Q=
-X-Google-Smtp-Source: AGHT+IGIzVpRORph76EGbVMuKVT3HaVuo7vUHWBdMMlldf1tL015EPPE36beOXTCXagdLphR4SjlQr2OGTksELNAmuw=
-X-Received: by 2002:a05:6402:3552:b0:578:60a6:7c69 with SMTP id
- 4fb4d7f45d1cf-5bd44c69222mr1030039a12.30.1723496024291; Mon, 12 Aug 2024
- 13:53:44 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id fdom4yeKuX6M for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 13 Aug 2024 08:11:54 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org D4FE3606CC
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org D4FE3606CC
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Dz+TdzqN
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id D4FE3606CC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 08:11:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 19A3661575;
+	Tue, 13 Aug 2024 08:11:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69700C4AF09;
+	Tue, 13 Aug 2024 08:11:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1723536711;
+	bh=OjJdzkn31p13CLDE9/RYDv7S79m7A/l963A3TrU4zQY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dz+TdzqNPfLKm22RYAZNSe90opF1FUV4DiUPnZ3xbrkaJCWRdMnJfadOFvvan+a2/
+	 20nGDftoxI9XAHLVb6DQ2+b9s1mvJoungAWGZWzlHrx3rAo5pdgohnCHrp1TSH1PwD
+	 uJINdlU+P0+pojeZn4iZbVHC8U34UvKpdXNbypMQ=
+Date: Tue, 13 Aug 2024 10:11:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com,
+	skhan@linuxfoundation.org, dan.carpenter@linaro.org,
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: uvc: Fix ERR_PTR dereference in uvc_v4l2.c
+Message-ID: <2024081321-kiwi-gibberish-d065@gregkh>
+References: <20240802180247.519273-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240730201315.19917-1-sergio.collado@gmail.com> <2024081227-habitat-cough-dfb0@gregkh>
-In-Reply-To: <2024081227-habitat-cough-dfb0@gregkh>
-From: =?UTF-8?Q?Sergio_Gonz=C3=A1lez_Collado?= <sergio.collado@gmail.com>
-Date: Mon, 12 Aug 2024 22:53:08 +0200
-Message-ID: <CAA76j92rfaj56SGii5Gd+MX1jScjgRPDTz7+NmobcWifE_fONA@mail.gmail.com>
-Subject: Re: [PATCH 6.1.y] jfs: define xtree root and page independently
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: stable@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org, 
-	Dave Kleikamp <dave.kleikamp@oracle.com>, Manas Ghandat <ghandatmanas@gmail.com>, 
-	syzbot+6b1d79dad6cc6b3eef41@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240802180247.519273-1-abhishektamboli9@gmail.com>
 
-Thanks for pointing that out.
-I will review this, and send it to all relevant branches.
+On Fri, Aug 02, 2024 at 11:32:47PM +0530, Abhishek Tamboli wrote:
+> Fix potential dereferencing of ERR_PTR() in find_format_by_pix()
+> and uvc_v4l2_enum_format().
+> 
+> Fix the following smatch errors:
+> 
+> drivers/usb/gadget/function/uvc_v4l2.c:124 find_format_by_pix()
+> error: 'fmtdesc' dereferencing possible ERR_PTR()
+> drivers/usb/gadget/function/uvc_v4l2.c:392 uvc_v4l2_enum_format()
+> error: 'fmtdesc' dereferencing possible ERR_PTR()
+> 
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+>  drivers/usb/gadget/function/uvc_v4l2.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index a024aecb76dc..9dd602a742c4 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -121,6 +121,9 @@ static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
+>  	list_for_each_entry(format, &uvc->header->formats, entry) {
+>  		const struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+> 
+> +		if (IS_ERR(fmtdesc))
+> +			continue;
+> +
+>  		if (fmtdesc->fcc == pixelformat) {
+>  			uformat = format->fmt;
+>  			break;
+> @@ -389,6 +392,9 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+>  		return -EINVAL;
+> 
+>  	fmtdesc = to_uvc_format(uformat);
+> +	if (IS_ERR(fmtdesc))
+> +		return -EINVAL;
+> +
+>  	f->pixelformat = fmtdesc->fcc;
 
-On Mon, 12 Aug 2024 at 16:37, Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jul 30, 2024 at 10:13:15PM +0200, Sergio Gonz=C3=A1lez Collado wr=
-ote:
-> > From: Dave Kleikamp <dave.kleikamp@oracle.com>
-> >
-> > [ Upstream commit a779ed754e52d582b8c0e17959df063108bd0656 ]
-> >
-> > In order to make array bounds checking sane, provide a separate
-> > definition of the in-inode xtree root and the external xtree page.
-> >
-> > Signed-off-by: Dave Kleikamp <dave.kleikamp@oracle.com>
-> > Tested-by: Manas Ghandat <ghandatmanas@gmail.com>
-> > (cherry picked from commit a779ed754e52d582b8c0e17959df063108bd0656)
-> > Signed-off-by: Sergio Gonz=C3=A1lez Collado <sergio.collado@gmail.com>
-> > Reported-by: syzbot+6b1d79dad6cc6b3eef41@syzkaller.appspotmail.com
-> > ---
->
-> What about 6.6.y?  We can't take commits only to older kernels, that
-> would mean you would have a regression.
->
-> Please resubmit for all relevant branches.
->
-> greg k-h
+You are now only checking 2 of the responses here, not all of them,
+which feels odd.
+
+Either fix all calls to this function, or none of them :)
+
+thanks,
+
+greg k-h
