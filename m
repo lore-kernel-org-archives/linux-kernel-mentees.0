@@ -1,147 +1,140 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD63161FCF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 16:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6561C822C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Aug 2024 21:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723565859; cv=none; b=oINodbprRYzrI/ZggXpJPA2Uhet/H+N76oszK35w0VFTUJjohDk3ejisvhMSBgVJUpJOPZKcpnYElY8F+dtpxBYJphlTvM5Oc7C4CFCjZahNC5PuZNWkgMnMMsRU6aO9f1KZgr4QqtdYIqaTzOmKxV46bS7Wcba0Yq3XI35sIsc=
+	t=1723670216; cv=none; b=DEyVhQMWLWCCfu+VCFlmdIknlA+Uh+Iy7JZUaHiEP3hSijHhjPbYcTTdlcc5oFwHXfrYkxWqC5YgIcJRHNmsEayrq2yWroPZBw5buxaQAVwET2KHkBLHhpshcq9mDuk2xn7GVOBjBdSId5agNAQ2ACsSssKXeP1WYNLg5S4Wt14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723565859; c=relaxed/simple;
-	bh=LsSMG6vRHJ7kQTpLpA/9FQUL3qXJ2zt8pyl227W6k7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H80J7qi9vzHnhsAtdSY6kC5MnTl33Eg/yb7cishYaNvAeZ8UIL9gXTREedXATkjrMqUnUGyvbxWbfX9KgfaLnxX7fqRsbuE/OPCxvBNuPEUCfjg9Jsdx0HKEvQDkqhyj5JL/Tsvg4dkDGVSU+flqa5zmVc4l03T/wDz7ux/lSsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQNQjkvO; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723670216; c=relaxed/simple;
+	bh=JJu10rUqvhoONT4FMW2wGNtKYWRXEinTec4MxVTqdmk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M+hXFME2D1se9hRw2Rjt4inc865uRrgj5PG13UcRX9gClSiHl/MG2Y8Im/1NDhmObtrrdPPDpvB3kSbJfzROCLZSDx7MNpo2tJbkmJU9y1obvOCOlK9M7aExx/AYLrODMauhFqQc2dp0jhEJAnwK67RnOWaplX2isynTHbvr1BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkpEduYc; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQNQjkvO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkpEduYc"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7018C404C6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 16:17:37 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6E2F7608EA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Aug 2024 21:16:53 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id oov1OKfkIhfS for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 13 Aug 2024 16:17:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::432; helo=mail-pf1-x432.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 70F11403DB
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 70F11403DB
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=fQNQjkvO
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 70F11403DB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 16:17:35 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-710d1de6ee5so4516605b3a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 13 Aug 2024 09:17:35 -0700 (PDT)
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id YzjS6i1D_2-l for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 14 Aug 2024 21:16:49 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=djahchankoike@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 33AC8608E9
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 33AC8608E9
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jkpEduYc
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 33AC8608E9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Aug 2024 21:16:49 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-7126c9cb6deso197470b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Aug 2024 14:16:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723565855; x=1724170655; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kj45Nw4+kE50bs1SyxLZHW9uaBTA/6n4EMAtKboeG4s=;
-        b=fQNQjkvOftF1Ytvs1TZs8m36Md1HNaAQ6UDJXJSYZO9Hzd9Qy68BvKhGqqcMvuoOoG
-         9ZUddPxbQHcntzfw5BDRLNGTYUWU7k4JrDLHGKmbPsD2esGoj31ZSZPL1gABMhZb8CGd
-         mMsLZ+ZO2NfsPE2XEzHYT3C6nUkyDeu5c0SnSVyQ0w8qK4KDJjLwi/VlqD0fZNfSQHc4
-         EeQCq7wY6eMWjp4eKLKLMAPM/WWIBlm9qE2N5W1/gw1qdNeakBVR2iarM2In4/8HdrE+
-         vyp5RA116FRUZsQY69HTw0841BYP15hGx+RfWWUXEvPGGP3CBqnJcxAQKBpWuFK7+pOt
-         Lk8w==
+        d=gmail.com; s=20230601; t=1723670208; x=1724275008; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Hw8lz23tqDzKkzkY8nXMHYNLEk2gqVka2W0RkG9/44=;
+        b=jkpEduYcs+Io3FLZyrzoZvwlAJg7XgT0mTZbRb8PFiY3JNFKt3WMDT1ktS4fFksesX
+         4OC5sBUvB74HLYctzNqOPGYNhl6Ce0habDTESTitvv1Qf10NTPIgqhADR1/+675Q07mt
+         tyFaTWu752O4cU6ejlOBMze420N+miAtw2O+mw6i42UHVCaajk34w6NLB1QsU2NohpNR
+         57+ZZO3fs28uMYUAjvku+oJh7nt4QWpPZ4GDQlgKQWAVTrcWE+4e8tObBmtrv/cl29OM
+         EuUZ2U9Iwn6ggg5oJJWueh+hyu8LrZgR9FIcdgRhZwwhOnKy7ATumEV0b4d/XE+MsM9o
+         556A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723565855; x=1724170655;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kj45Nw4+kE50bs1SyxLZHW9uaBTA/6n4EMAtKboeG4s=;
-        b=vFZdPVrIkyo6bwgYjTIczMmUp2OcsAGQHNb7UgCY0nNl79II10TxD7UiIccLF8Gd/h
-         y2EyEPo8wpwueIsrXDblrdqm96wmL+LXgm9fzimUkcx37DzgouqRmHOQH/z9JzoNHe00
-         +93MabO2Twbtq2uODM7O98MgXiiw2vEUjlM7IMpqcKpGE68wpV6RByDol/8Vw5DACWvY
-         h6YjyhxX+82y+gjwWwDo5JT1LWCyAniGEF9n61v1RPQUbT5KuXPfeBXb6LSADfRt6hUZ
-         krwfn/+oR9jdKoSAXZKgV1tAT97L6HRl/wO0DORfZ8zpMSJbTluH2w+Jl/hylLrlIwRi
-         bQeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWLUytQwTdL2SAhcEeJgte0RoBbVYVIfpA6dYsi+6tbNA7wxNm67bZBDhN66h5yBUF0NNbNBmMmNYISey4iamXUl3LG0coFk+2hR041s5h/jKKce+8Y9rp8BVqfAWvS
-X-Gm-Message-State: AOJu0Yxh5r59oRKW5k7zA+8roainfpIXvV15BvRwn/TS/85vfW6B8TCP
-	by1yIkWkZaA6QHwbuQTa0A64S5tyxKYfrE9HOkxFvrKV0si4/3OW
-X-Google-Smtp-Source: AGHT+IEZ+myyPTgXTATkJ3lHygNW+WYSv2xP/Oost0Ndgo/r1rgYIYpFhHgNxK0mz+1xlo77nDnAeQ==
-X-Received: by 2002:a05:6a20:c68e:b0:1c3:a760:9757 with SMTP id adf61e73a8af0-1c8eaf8c296mr274837637.49.1723565850455;
-        Tue, 13 Aug 2024 09:17:30 -0700 (PDT)
-Received: from embed-PC.myguest.virtualbox.org ([122.177.118.36])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c697a003efsm1683331a12.40.2024.08.13.09.17.24
+        d=1e100.net; s=20230601; t=1723670208; x=1724275008;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Hw8lz23tqDzKkzkY8nXMHYNLEk2gqVka2W0RkG9/44=;
+        b=U87og6vP+JTIMdxJ1uz/xlhUodlwc2meBddKYXXQ1yJHqz1AmvvcVmDMSCjvgW1wgb
+         eS7Y8uoMo1PcP4LQCItH3rqy+oUMkcEROyyd/GNEFBFgeQmn+AdRRs/j1cxpz86tbY5v
+         kOaynQAAwXpYbLFErdS7zx6FVhWWP0q6tNfYX8Z88MtkkcacLcP7CSKOrO5TVy+kPM4d
+         3o/0RasY7LbA/YdOZST5Tvy0BxPGhz5bynEGumfEtrrF+Jyq/VNr4bTjOp6mWbK/XTh8
+         eXJqtCe5kgxroe5WqrDGyE2mDW0Y6v5bXW3kjz/y9m4v2eZ3kMUSiZvl43VTJFO0Zg+W
+         tzCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVK7+rj0lBqayhs03/lUX0bWCu4T7Nf4sfVNqAYvUibfTd/zEspDzy2VripUOYvQ8q6024RbxrniDQDz/WTZ0LYon0QLf5jJuBNTIluxwlxR1NXe9Zu9dHQcz+OmLW+
+X-Gm-Message-State: AOJu0Yw6/hBuHplrqn5wYVlziafKk9O/d60zbm0o735gFTsywtDz8Wwz
+	DrnpgninsPrJKKleLMXTKBiXgXtNcvqHp0WV7dMdDbOrmlLUcrHV
+X-Google-Smtp-Source: AGHT+IF40yt88J2Butglx46sQdOzBwoONfypAPbzL+xZUb9dsPF3jvjvcdDQmIzPIc31FfLEnidnqA==
+X-Received: by 2002:aa7:88cc:0:b0:710:5825:5ba0 with SMTP id d2e1a72fcca58-712670ec998mr5006066b3a.3.1723670208263;
+        Wed, 14 Aug 2024 14:16:48 -0700 (PDT)
+Received: from ddebjk.ddebjk.net ([200.4.98.5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7127aef5457sm14738b3a.127.2024.08.14.14.16.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Aug 2024 09:17:29 -0700 (PDT)
-Date: Tue, 13 Aug 2024 21:45:56 +0530
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com,
-	skhan@linuxfoundation.org, dan.carpenter@linaro.org,
-	rbmarliere@gmail.com,
+        Wed, 14 Aug 2024 14:16:47 -0700 (PDT)
+From: Diogo Jahchan Koike <djahchankoike@gmail.com>
+To: jaegeuk@kernel.org
+Cc: chao@kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: uvc: Fix ERR_PTR dereference in uvc_v4l2.c
-Message-ID: <ZruGvIf5+UVEcajd@embed-PC.myguest.virtualbox.org>
-References: <20240802180247.519273-1-abhishektamboli9@gmail.com>
- <2024081321-kiwi-gibberish-d065@gregkh>
+	syzbot+733300ca0a9baca7e245@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	Diogo Jahchan Koike <djahchankoike@gmail.com>
+Subject: [PATCH] f2fs: fix unreleased reader lock on return
+Date: Wed, 14 Aug 2024 18:16:40 -0300
+Message-Id: <20240814211640.167728-1-djahchankoike@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2024081321-kiwi-gibberish-d065@gregkh>
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
-Thank you for the feedback.
+fix reader lock unreleased in error path.
 
-On Tue, Aug 13, 2024 at 10:11:48AM +0200, Greg KH wrote:
-> On Fri, Aug 02, 2024 at 11:32:47PM +0530, Abhishek Tamboli wrote:
-> > Fix potential dereferencing of ERR_PTR() in find_format_by_pix()
-> > and uvc_v4l2_enum_format().
-> > 
-> > Fix the following smatch errors:
-> > 
-> > drivers/usb/gadget/function/uvc_v4l2.c:124 find_format_by_pix()
-> > error: 'fmtdesc' dereferencing possible ERR_PTR()
-> > drivers/usb/gadget/function/uvc_v4l2.c:392 uvc_v4l2_enum_format()
-> > error: 'fmtdesc' dereferencing possible ERR_PTR()
-> > 
-> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> > ---
-> >  drivers/usb/gadget/function/uvc_v4l2.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> > index a024aecb76dc..9dd602a742c4 100644
-> > --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> > +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> > @@ -121,6 +121,9 @@ static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
-> >  	list_for_each_entry(format, &uvc->header->formats, entry) {
-> >  		const struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
-> > 
-> > +		if (IS_ERR(fmtdesc))
-> > +			continue;
-> > +
-> >  		if (fmtdesc->fcc == pixelformat) {
-> >  			uformat = format->fmt;
-> >  			break;
-> > @@ -389,6 +392,9 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
-> >  		return -EINVAL;
-> > 
-> >  	fmtdesc = to_uvc_format(uformat);
-> > +	if (IS_ERR(fmtdesc))
-> > +		return -EINVAL;
-> > +
-> >  	f->pixelformat = fmtdesc->fcc;
-> 
->You are now only checking 2 of the responses here, not all of them,
-I addressed only the errors reported by Smatch.
-> which feels odd.
-> 
-> Either fix all calls to this function, or none of them :)
-As you suggested, I'll review the remaining calls to this function 
-and submit an updated patch that covers all cases.
+Fixes: 374a8881ce4c ("f2fs: atomic: fix to forbid dio in atomic_file")
+Reported-by: syzbot+733300ca0a9baca7e245@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=733300ca0a9baca7e245
+Signed-off-by: Diogo Jahchan Koike <djahchankoike@gmail.com>
+---
+ fs/f2fs/file.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Regards,
-Abhishek
+diff --git a/fs/f2fs/file.c b/fs/f2fs/file.c
+index 51f6ffd5f4e2..c9eda5dbd11f 100644
+--- a/fs/f2fs/file.c
++++ b/fs/f2fs/file.c
+@@ -2172,6 +2172,7 @@ static int f2fs_ioc_start_atomic_write(struct file *filp, bool truncate)
+ 	ret = filemap_write_and_wait_range(inode->i_mapping, 0, LLONG_MAX);
+ 	if (ret) {
+ 		f2fs_up_write(&fi->i_gc_rwsem[WRITE]);
++		f2fs_up_write(&fi->i_gc_rwsem[READ]);
+ 		goto out;
+ 	}
+ 
+@@ -2181,6 +2182,7 @@ static int f2fs_ioc_start_atomic_write(struct file *filp, bool truncate)
+ 		pinode = f2fs_iget(inode->i_sb, fi->i_pino);
+ 		if (IS_ERR(pinode)) {
+ 			f2fs_up_write(&fi->i_gc_rwsem[WRITE]);
++			f2fs_up_write(&fi->i_gc_rwsem[READ]);
+ 			ret = PTR_ERR(pinode);
+ 			goto out;
+ 		}
+@@ -2189,6 +2191,7 @@ static int f2fs_ioc_start_atomic_write(struct file *filp, bool truncate)
+ 		iput(pinode);
+ 		if (ret) {
+ 			f2fs_up_write(&fi->i_gc_rwsem[WRITE]);
++			f2fs_up_write(&fi->i_gc_rwsem[READ]);
+ 			goto out;
+ 		}
+ 
+@@ -2202,6 +2205,7 @@ static int f2fs_ioc_start_atomic_write(struct file *filp, bool truncate)
+ 		ret = f2fs_do_truncate_blocks(fi->cow_inode, 0, true);
+ 		if (ret) {
+ 			f2fs_up_write(&fi->i_gc_rwsem[WRITE]);
++			f2fs_up_write(&fi->i_gc_rwsem[READ]);
+ 			goto out;
+ 		}
+ 	}
+-- 
+2.39.2
 
