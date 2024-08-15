@@ -1,86 +1,86 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7517263B9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 02:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C260217920A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 07:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723687640; cv=none; b=GYExrM5NDY5nZ8hvI+0lGL6+4ckEFj3dQVUvG8ZHjaEjaO9eW9csoDA9ahRdIimIa7CbvZPGiM/GQ6vCILD+gCpdmANAO/y/HKqt/cscqk7oF4nCn7DHWiB61b4KJkI2LsWia1mIaqqGdBGsXq2UG1UzHFPPhDUpo34hYsV8c+0=
+	t=1723706005; cv=none; b=gdlRmfW6xG2nrky1kyMFFe+LAJZVb4bur7pnj/CXP8EGx3x/0PYLWCK//EqpUmeuK6QSkbMFDYnNKgCq7kozXVRtDjotWemU1rxf2zEwqY+0a3+2tU8pbTNqsgRcWD7Z+ubKUgEzwPFRMnFrGYmDEWUK8LhNVUUHlhvWx8SsogE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723687640; c=relaxed/simple;
-	bh=dIZzHXiKMw27T75+DwnZyDKbGiZ/QhDiyGNMnFwk7tc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jya5RpOqbFLmMdJ7jDbiz9X7LL43+OZkSJADKgeNKSsb6mMO8WdlxqE3n4HZnP62EFDb4NcYxhzIBUQDLEiQUTxf5I7Bn7qI+MziVCnqXgpBQw+JG0eo3i7ouXlgaZD/piS2jJjqH5nHL4CLmlKeGb3bUyhBcIYkd1OS0L8Ji9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KkSdzjyg; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1723706005; c=relaxed/simple;
+	bh=aaFDd5ISb84lhCJFQsTbHtxY5uuIzKwhP/XKSewykcU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FPIyKcqZk2bjCtq1RDrwNAtyIzDfLrbtcFJkCeI2n0vJ/rfyc6UhwD8deVp/mAt4fQSb8V/1KdMHMqWEWeyeTwss8zl5mbliwZA/zdK7G/v4U7mp0Kj/qIcN7hwBmip2AxJuNJxqiKaSrI33OOQKfD2+kYEUF139yZXvquVf9R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WoiHbiBo; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KkSdzjyg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WoiHbiBo"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 1CB4181CA3
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 02:07:19 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 516CF40570
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 07:13:24 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id amtAXdpB5NsJ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Aug 2024 02:07:18 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1134; helo=mail-yw1-x1134.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1B1C081C38
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1B1C081C38
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=KkSdzjyg
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 1B1C081C38
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 02:07:17 +0000 (UTC)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-64b417e1511so5578307b3.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 14 Aug 2024 19:07:17 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id sxgu8IAnt7xP for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 15 Aug 2024 07:13:23 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::431; helo=mail-pf1-x431.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 580E740386
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 580E740386
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=WoiHbiBo
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 580E740386
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 07:13:23 +0000 (UTC)
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-70d23caf8ddso523260b3a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 00:13:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723687636; x=1724292436; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1723706002; x=1724310802; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q2/ASuLUtGxDS0GSssOdh4ZdX64NP+jCqG7TJlf5fYQ=;
-        b=KkSdzjyguaK0ilIqVUZCJtaIoR95tI1m1ep8YOXaFt1po0yYGANupo7pK8N5AvKeCo
-         WokjXRFLSkURJfiMAySAysxMOfgfUpMaHAOlYBpdU5Uqt33tV6FNqGU/tDUQAYweddWK
-         tG/Ci5D4ZuhZIZievkNw7v6kLKflnaW9TiDgf++SCsk5MvoAR/hQdX3p+wypjuTuII7i
-         sGlaIRFgj+QCUi2gWbh5dmHGhlrPIp+7dS3FU0J/oJxtNrLN+PwIZdBu1obHO5da6Cww
-         0liOZ+ezOP/Wbw3+NTmnJVq+ljGPxCGoZZcwbMFU7NErHwQHeDk3jcOgpM4lmSfkqCuf
-         TJNw==
+        bh=jvruj7SsdqsHY133idfzMsgdOO/tE81N6D79Gm7sQSA=;
+        b=WoiHbiBo4hFyUUPLLeCzYlwtinIPV6NNtRdwc5H6+s6pPQWCbHPNBniA4piz04oADc
+         tR8SprQz1zIMQicyvBB4ggUATq1j2zRyiDJWI18Gx3PdL1+flH1iOOuBQPszTu9RT9J0
+         5Xk2ylriRGkqYIULWbkdXDhKRFnKc9Ui7/+YXBnFwEJzf4IfVd0MAoCuIiav6W7Kv6KF
+         JNoGZZI1fMmt6D/y0LehkLetSvAEJKyxLsiFrbC9z1pP2dtS6tBBqI4QUncyK/YWxRjV
+         PrCbrz1AH6cdDzlppewAzrQbVS8UpuJ6oA8wdnH5p2ATbcnxJpvP7mT/qWaORwj6iz7G
+         9kcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723687636; x=1724292436;
+        d=1e100.net; s=20230601; t=1723706002; x=1724310802;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q2/ASuLUtGxDS0GSssOdh4ZdX64NP+jCqG7TJlf5fYQ=;
-        b=Ycnpz4mZsO74XC9sCFYj6XfnQ5wL9faFKdU09iDY3CFz73GLAFWKw1YKF5HxubjPce
-         E5IwVmJv00ae2HOsq+oLPNBTHFxEbXSl8ZG9PJwXX0coF5x1LOV/VCbY/d816mhKIMdM
-         CWbgBui8dD5L98cFASNuYt+oHNNsX3KI8G/QnhtyfBgfy3+AiQ4UyLk7/s9GEv1ScBRm
-         fCeqyiYMOttdi+NaafHcwbV+iJkx9sczsw68wyfpQ9lALj9sXaoFEEcomhKCgIeIlmkD
-         3xlxlEd4WwRbYzn9Fn1J7Wf8pxLA4nK7wD8l7Nl1nv6h9w/5ErXFd/6x79sFJSskBbod
-         VyNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwqYz8tBcbAWdkYVPyfY8qrVEG3VghaK3FoGDVe0V9K+ZMw9u1ZhyFPmMljCkM/pecudE85y4xiNchHEWvlOKixfA/18kgywV2grrBFdNQi+75445O+pT7q+MjogI1
-X-Gm-Message-State: AOJu0YyplXJOqixewmk11qIOrYboD7wgqWqLOteWjjBFzuNxozm9mO83
-	fGZq39MU+iJOw61Z0F1JeuTITgBzaFzlNhRU4tgxNpVRmCLV1nnt
-X-Google-Smtp-Source: AGHT+IFc8pS8AFMDIoNr3RFZTXNr37gKkVG+aNLf25NfQwUsMxlcO+HSVbpsO7aNLmQnnGjIfAgIwA==
-X-Received: by 2002:a05:690c:398:b0:63b:d711:e722 with SMTP id 00721157ae682-6ac954ac75bmr50353787b3.1.1723687635999;
-        Wed, 14 Aug 2024 19:07:15 -0700 (PDT)
-Received: from x13.lan (2603-9001-2ff0-a230-0000-0000-0000-1896.inf6.spectrum.com. [2603:9001:2ff0:a230::1896])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6af9d8273fesm1059417b3.116.2024.08.14.19.07.14
+        bh=jvruj7SsdqsHY133idfzMsgdOO/tE81N6D79Gm7sQSA=;
+        b=cyxIfBOlHewhhAkrvPtaPlWV2fZvg0nxKqkqxeGR0beZcO3qjiJtQ64qLI8TtoMP/l
+         Fow+1OmmuTuWfi8uoEn8+mgIwzNKLKml2k2ljlFPyyN7f8OThg6kZ6xfzpnKNUH9ghDi
+         8CuwxGqrk/L07tUOqs2LDXERLps1ps813DW0Rqv1VQ9Vikdpu2U5Q5J5yLiv5m3yrUdM
+         M9yYl9vPntyaqOL7ByPJFlCvFNxxBXHO7oFFrAhAInSCZEBXBeBk9Bb7+KQp6yu6SP59
+         OQEbw8CrYS3rJT89KHLTZDHaAJGl/6d+zqvAmMKlcsmt9FqkjHBMm9Hwco/n7TTvyVrY
+         IuyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUobmGvHq3xvxfeOVJ9nL+eGVkGK8gm6z63bT0x59k+a2D9LLbVzruOLrrusP+kYvxiBXjeyuoePZKYldqNOu1uMb6d6vOJI2e5toiZZx6PCxt9ns8woAknPQPXi/3m
+X-Gm-Message-State: AOJu0YwNoEtx7Uotm+lBeDkKNqbMBUrjcmvXsSPLNJS4KnUzhXdjjZIw
+	Y1/gjlZPFjTW75FJIRgZbA3Lw7Yj6vq7VDdE4+uznoScoizjQLHp
+X-Google-Smtp-Source: AGHT+IH+IvT/Oj9VfFCVJHaRTlcxTgxmWb/kFvuImwpkR1wygBW0AcrPrsKQKoyntPTmuxV9TaWaJg==
+X-Received: by 2002:a05:6a00:1996:b0:705:b6d3:4f15 with SMTP id d2e1a72fcca58-712673ea24fmr7223501b3a.25.1723706002330;
+        Thu, 15 Aug 2024 00:13:22 -0700 (PDT)
+Received: from embed-PC.. ([117.99.192.19])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b60a1122sm612431a12.0.2024.08.15.00.13.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2024 19:07:15 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
+        Thu, 15 Aug 2024 00:13:21 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: dan.scally@ideasonboard.com
+Cc: gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	linux-usb@vger.kernel.org,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] lib/math: Add int_pow test suite
-Date: Wed, 14 Aug 2024 22:07:09 -0400
-Message-ID: <20240815020711.110640-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.46.0
+	rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: uvc: Fix ERR_PTR dereference in uvc_v4l2.c
+Date: Thu, 15 Aug 2024 12:41:51 +0530
+Message-Id: <20240815071151.585297-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -89,101 +89,74 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds test suite for integer based power function.
+Fix potential dereferencing of ERR_PTR() in find_format_by_pix()
+and uvc_v4l2_enum_format().
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+Fix the following smatch errors:
+
+drivers/usb/gadget/function/uvc_v4l2.c:124 find_format_by_pix()
+error: 'fmtdesc' dereferencing possible ERR_PTR()
+
+drivers/usb/gadget/function/uvc_v4l2.c:392 uvc_v4l2_enum_format()
+error: 'fmtdesc' dereferencing possible ERR_PTR()
+
+Also, fix similar issue in uvc_v4l2_try_format() for potential
+dereferencing of ERR_PTR().
+
+Fixes: 588b9e85609b ("usb: gadget: uvc: add v4l2 enumeration api calls")
+Fixes: e219a712bc06 ("usb: gadget: uvc: add v4l2 try_format api call")
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
 ---
- lib/math/Makefile       |  1 +
- lib/math/test_int_pow.c | 70 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 lib/math/test_int_pow.c
+Changes in v2:
+- Add check for dereferencing of ERR_PTR() in uvc_v4l2_try_format()
 
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 91fcdb0c9efe..ba564bf4fb00 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -6,4 +6,5 @@ obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
- obj-$(CONFIG_RATIONAL)		+= rational.o
- 
- obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
-+obj-$(CONFIG_TEST_INT_POW)	+= test_int_pow.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-diff --git a/lib/math/test_int_pow.c b/lib/math/test_int_pow.c
-new file mode 100644
-index 000000000000..ecabe71d01cc
---- /dev/null
-+++ b/lib/math/test_int_pow.c
-@@ -0,0 +1,70 @@
-+// SPDX-License-Identifier: GPL-2.0
+ drivers/usb/gadget/function/uvc_v4l2.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index a024aecb76dc..8bb88c864b60 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -121,6 +121,9 @@ static struct uvcg_format *find_format_by_pix(struct uvc_device *uvc,
+ 	list_for_each_entry(format, &uvc->header->formats, entry) {
+ 		const struct uvc_format_desc *fmtdesc = to_uvc_format(format->fmt);
+
++		if (IS_ERR(fmtdesc))
++			continue;
 +
-+#include <kunit/test.h>
-+#include <kunit/static_stub.h>
+ 		if (fmtdesc->fcc == pixelformat) {
+ 			uformat = format->fmt;
+ 			break;
+@@ -240,6 +243,7 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 	struct uvc_video *video = &uvc->video;
+ 	struct uvcg_format *uformat;
+ 	struct uvcg_frame *uframe;
++	const struct uvc_format_desc *fmtdesc;
+ 	u8 *fcc;
+
+ 	if (fmt->type != video->queue.queue.type)
+@@ -277,7 +281,10 @@ uvc_v4l2_try_format(struct file *file, void *fh, struct v4l2_format *fmt)
+ 		fmt->fmt.pix.height = uframe->frame.w_height;
+ 		fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(uformat, uframe);
+ 		fmt->fmt.pix.sizeimage = uvc_get_frame_size(uformat, uframe);
+-		fmt->fmt.pix.pixelformat = to_uvc_format(uformat)->fcc;
++		fmtdesc = to_uvc_format(uformat);
++		if (IS_ERR(fmtdesc))
++			return -EINVAL;
++		fmt->fmt.pix.pixelformat = fmtdesc->fcc;
+ 	}
+ 	fmt->fmt.pix.field = V4L2_FIELD_NONE;
+ 	fmt->fmt.pix.colorspace = V4L2_COLORSPACE_SRGB;
+@@ -389,6 +396,9 @@ uvc_v4l2_enum_format(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+ 		return -EINVAL;
+
+ 	fmtdesc = to_uvc_format(uformat);
++	if (IS_ERR(fmtdesc))
++		return -EINVAL;
 +
-+#include <linux/math.h>
-+
-+
-+static void test_pow_0(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, 1, int_pow(64, 0));
-+}
-+
-+static void test_pow_1(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, 64, int_pow(64, 1));
-+}
-+
-+static void test_base_0(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, 0, int_pow(0, 5));
-+}
-+
-+static void test_base_1(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, 1, int_pow(1, 100));
-+	KUNIT_EXPECT_EQ(test, 1, int_pow(1, 0));
-+}
-+
-+static void test_base_0_pow_0(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, 1, int_pow(0, 0));
-+}
-+
-+static void test_base_2_pow_2(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, 4, int_pow(2, 2));
-+}
-+
-+static void test_max_base(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, U64_MAX, int_pow(U64_MAX, 1));
-+}
-+
-+static void test_large_result(struct kunit *test)
-+{
-+	UNIT_EXPECT_EQ(test, 1152921504606846976, int_pow(2, 60));
-+}
-+
-+static struct kunit_case math_int_pow_test_cases[] = {
-+	KUNIT_CASE(test_pow_0),
-+	KUNIT_CASE(test_pow_1),
-+	KUNIT_CASE(test_base_0),
-+	KUNIT_CASE(test_base_1),
-+	KUNIT_CASE(test_base_0_pow_0),
-+	KUNIT_CASE(test_base_2_pow_2),
-+	KUNIT_CASE(test_max_base),
-+	KUNIT_CASE(test_large_result),
-+	{}
-+};
-+
-+static struct kunit_suite int_pow_test_suite = {
-+	.name = "lib-math-int_pow",
-+	.test_cases = math_int_pow_test_cases,
-+};
-+
-+kunit_test_suites(&int_pow_test_suite);
-+
-+MODULE_DESCRIPTION("math.int_pow KUnit test suite");
-+MODULE_LICENSE("GPL v2");
--- 
-2.46.0
+ 	f->pixelformat = fmtdesc->fcc;
+
+ 	return 0;
+--
+2.34.1
 
