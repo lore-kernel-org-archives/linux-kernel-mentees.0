@@ -1,81 +1,81 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBF154645
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 19:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7D756B72
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 19:11:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723748526; cv=none; b=ERniDiRrFXCIZqDeh5RIGUOPxkPrwGgOmP+HqRwyFDVkMkDAh3L0g7bGRD0idQIHbrrF/mDATTcfTCJfi9AbyiijTWGtfaMkmkQahgcYzwq7S+TuU3Zd5QRwtNxZe4hfuZjWaCPuVgx33dqDtmq+/kYHJ7dmor9HDLd8/UOSKls=
+	t=1723749063; cv=none; b=GbQ32POK0vT207toCnmB3XAO2jfzP4B7IpvIolwTxAvCj7SuUMjEiu63Mxef+az8wFhLbYAPmOy/dQ4fM5oKsT3I2cvLyytttjpyCRuyk7/JxaNVB9qwvfNffg/vrYqs/kgaWRayNmE13/YOg/+owp4K7R3i/YJEdC5oJtv3daU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723748526; c=relaxed/simple;
-	bh=t3XtTvV0ap02WYG0Q21Olr6DvlD/yIW7LQ4zenDt2eE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=keRusAvze46rJCU9X9ZL0sfe2FCJjf0qzhrm0Un8z5aWPmvBZViq3XSTV+KTzagQyE+g+GO8h8RsAgRyB2FLKvznatmC4PMB1uicxstO2xLuPFDH09ylf4/Ty24NA9sH4fQuAbx7BhwXyPlz6/47XrTv9cM2KXWLtWkytvabn9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S3T0WSKH; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1723749063; c=relaxed/simple;
+	bh=IvqiAKfSVYJv0+vHHR6tnTLJ+5hBsObUakXHw8ISKdw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Sfoh5WKmacQrL8urMBwbsXjCBW9hH9zQ1O8wNl97EICOzfCwKPGIOWujtFmPmVhbQRbZCqMpuFa+IeDGavIEuJCXSq9Hn3yxcXRNu3GENwjFW595kqpkyySb8ewWgMryjayka7E4fBDGG4NMrQ4cJgCiXrLEyZM2I4lBPkphtjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KDwSCEgA; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S3T0WSKH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KDwSCEgA"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 81C178409B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 19:02:04 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 43D6440426
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 19:11:02 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 8w6QFzqN_bVi for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 15 Aug 2024 19:02:03 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::334; helo=mail-wm1-x334.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 646AC84098
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 646AC84098
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=S3T0WSKH
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 646AC84098
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 19:02:02 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-42817f1eb1fso8644115e9.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 12:02:02 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id v2aqA9gVnc7B for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 15 Aug 2024 19:11:01 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::431; helo=mail-wr1-x431.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org CE598400B5
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CE598400B5
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=KDwSCEgA
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CE598400B5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 19:11:00 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3718e416297so312494f8f.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 15 Aug 2024 12:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1723748521; x=1724353321; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1723749058; x=1724353858; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JgKMJ1HeT+Y5L/2mSS+GUzuavnitivMNbk+dGKKKO/U=;
-        b=S3T0WSKHcqnkWyD5IU7+Iz+n0djLdjbQHy9TLEeHfHuf+uox7JmWBp8edirTT37V1i
-         f2lj0CH/GDy3gIkBAsTMAgPjwDxst4X7xKyiwUS71q5fgwQl2b4cpDSg0wIKmT3J+F8Z
-         A3FLY/4C32DJ5ar43kn3MxMNkt8r0d42py+U++rT8kOTLRZaE+TKFgKBI0of2kMvHlQ3
-         mZDTM0M6iOdh5XyLGiposxSUaycuGiXzEmVSOc+XC0KT2tGkV7isMKAKJeKqrQFHF8by
-         dX1abI1hOqzVwlgyKDvrKTK5BUrerlioJDSPVCdZCj75XlMHnifRhE9+ZbKq6jX82CMv
-         SUOA==
+        bh=wzku6EqezrhV/Q1Jipsbt19i41hvIhfl+s6YKEhDhTI=;
+        b=KDwSCEgAZ0EMsPhzV/4TA5OVUOfhp9+18Z9r5OixVHFvb3Iy5IYxrOsqYBCjd0Lz8Y
+         kv4S4JEUTy29u98/ard/APnM0s17fU3xxI+w46j0ZF+6xZTjER0w9xmgcCm/uk54laVC
+         mGHg/PQLARzj86CZDSkF/atDVWtqJ0FSrUlJDJgBi0yhDAoY21yImbFaVjKwz4Me8QRN
+         AujsEvpNaRZCZTqPHBhf/ZuVAKNgzEsIQroqphY9oTpLc0qfnktY34szhvCno/xzgqao
+         6CoSnhQ4b+waMvPDQjgD/iebyiU4QllvnljMJX44v93fTJe1s2UBariNUNx1Z7QLYwEW
+         kiLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723748521; x=1724353321;
+        d=1e100.net; s=20230601; t=1723749058; x=1724353858;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JgKMJ1HeT+Y5L/2mSS+GUzuavnitivMNbk+dGKKKO/U=;
-        b=oGndS/p/gL/igSyGeic+IN0K11O4jZjq4NZx0Lh4XKxto7zp+/zxvxGerbiM8u14zG
-         L0l3E36gN565I7qJPkN/iEQ2DTzcYoWFQB9HPvZaCLbF0mTBqb+AnbLG9JEOTMyMam9F
-         w0y1uzFVeYcyLpjE+rjqb6QqkZD0iMdUaSkMx87+jKXjFTBmGFgdiSTxWwSCklNWU5tl
-         7jzz0FGvGLZf/dF9feLlBt86GMkiKvsTu6ttlpw+V0X2nF0fyuJ8txk/UNML3Nfqo3z4
-         Er24TKvFgrkOUFSE3AKwo04az6Lz/bZmHNGls9MFYlVE15finN8abF0+ICi4R2ILrcnC
-         VULA==
-X-Gm-Message-State: AOJu0YyU9GMcN6sOWBliph/6gVGdE7x0Jn4p7Wqn5Y6xHRwMqwatO9zH
-	JzyeWB8MbA50vgZoYVItW2DM17o6rXzNFHWU1IUOkpNEn/YjQIkC
-X-Google-Smtp-Source: AGHT+IFFbMUXxKsVhLl9G5Hms3sI553zSJDjdFk2GPezFIPom2a76XbCmOaOCCfAoWLHxAtTpb2UZQ==
-X-Received: by 2002:a05:600c:458b:b0:427:d8f2:550 with SMTP id 5b1f17b1804b1-429ed789223mr2041415e9.14.1723748520617;
-        Thu, 15 Aug 2024 12:02:00 -0700 (PDT)
+        bh=wzku6EqezrhV/Q1Jipsbt19i41hvIhfl+s6YKEhDhTI=;
+        b=HTnS96FPNiphSOIAbrgtfN6BUtQ26G9kLbVg6RqMULsgaKIVJsXt9r0eEdgnkGfyb3
+         vkOk2kvmES2snvbbiXcwaivEF92RnYivwh6l0LBUezR5DSljuEt8zdTAOzK+Ea6EjTFz
+         iuWPT8XuBvzRr2wxGu+7O3rbPh5lQK3OHnIt3JgciTVwdIPkAsuT2c0S+Gmj8t0bAtER
+         6uihUYyWzyJJMWaL3/1l1feqGk1Oyz7wAxBe9xg/wXiJKmYeSgEa8/s7GCUhcAjySzRE
+         ilbN6t9ifufXO+i+TNPFUbO+BHD/CJZCe+Oz9d/b690V33Yeab5C7zcxc4/VRfXxLQpj
+         +1SQ==
+X-Gm-Message-State: AOJu0Yxk7SHWFgkH4Cp4jpkhIm5roQg1F/gB7D9umDufvLJyrwU4mnr/
+	wmAoIGkAXRhKVRXzSbdSBjEaSX2TmVNRfGcXxLu2H3HatvnWeGIS
+X-Google-Smtp-Source: AGHT+IHiVgV0zFMQ13way+COh1ffrR+TuDlypF9+LtJeEGw2clSGESWqowQb3iQYb3Itp2FfMw43Ew==
+X-Received: by 2002:adf:e841:0:b0:368:420e:b790 with SMTP id ffacd0b85a97d-371943289e7mr217621f8f.14.1723749058112;
+        Thu, 15 Aug 2024 12:10:58 -0700 (PDT)
 Received: from laptop.. (117.red-83-52-251.dynamicip.rima-tde.net. [83.52.251.117])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded80241sm55840305e9.48.2024.08.15.12.01.59
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded180dcsm56393475e9.4.2024.08.15.12.10.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2024 12:02:00 -0700 (PDT)
+        Thu, 15 Aug 2024 12:10:57 -0700 (PDT)
 From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
 To: stable@vger.kernel.org
 Cc: linux-kernel-mentees@lists.linuxfoundation.org,
 	Dave Kleikamp <dave.kleikamp@oracle.com>,
 	Manas Ghandat <ghandatmanas@gmail.com>,
 	=?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
-Subject: [PATCH 6.5.y] jfs: define xtree root and page independently
-Date: Thu, 15 Aug 2024 21:01:46 +0200
-Message-Id: <20240815190146.9213-1-sergio.collado@gmail.com>
+Subject: [PATCH 6.6.y] jfs: define xtree root and page independently
+Date: Thu, 15 Aug 2024 21:10:47 +0200
+Message-Id: <20240815191047.9737-1-sergio.collado@gmail.com>
 X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
@@ -120,10 +120,10 @@ index 6b231d0d0071..603aae17a693 100644
  					u8 unused[16];	/* 16: */
  					dxd_t _dxd;	/* 16: */
 diff --git a/fs/jfs/jfs_imap.c b/fs/jfs/jfs_imap.c
-index 34f1358264e2..8984f9548e24 100644
+index 4bc589c4dcca..82d88dcf0ea6 100644
 --- a/fs/jfs/jfs_imap.c
 +++ b/fs/jfs/jfs_imap.c
-@@ -670,7 +670,7 @@ int diWrite(tid_t tid, struct inode *ip)
+@@ -673,7 +673,7 @@ int diWrite(tid_t tid, struct inode *ip)
  		 * This is the special xtree inside the directory for storing
  		 * the directory table
  		 */
@@ -132,7 +132,7 @@ index 34f1358264e2..8984f9548e24 100644
  		xad_t *xad;
  
  		jfs_ip->xtlid = 0;
-@@ -684,7 +684,7 @@ int diWrite(tid_t tid, struct inode *ip)
+@@ -687,7 +687,7 @@ int diWrite(tid_t tid, struct inode *ip)
  		 * copy xtree root from inode to dinode:
  		 */
  		p = &jfs_ip->i_xtroot;
@@ -141,7 +141,7 @@ index 34f1358264e2..8984f9548e24 100644
  		lv = ilinelock->lv;
  		for (n = 0; n < ilinelock->index; n++, lv++) {
  			memcpy(&xp->xad[lv->offset], &p->xad[lv->offset],
-@@ -713,7 +713,7 @@ int diWrite(tid_t tid, struct inode *ip)
+@@ -716,7 +716,7 @@ int diWrite(tid_t tid, struct inode *ip)
  	 *	regular file: 16 byte (XAD slot) granularity
  	 */
  	if (type & tlckXTREE) {
@@ -151,7 +151,7 @@ index 34f1358264e2..8984f9548e24 100644
  
  		/*
 diff --git a/fs/jfs/jfs_incore.h b/fs/jfs/jfs_incore.h
-index 721def69e732..dd4264aa9bed 100644
+index d3c35068cb76..10934f9a11be 100644
 --- a/fs/jfs/jfs_incore.h
 +++ b/fs/jfs/jfs_incore.h
 @@ -66,7 +66,7 @@ struct jfs_inode_info {
@@ -260,7 +260,7 @@ index ad7592191d76..0f6cf5a1ce75 100644
  
  /*
 
-base-commit: 4631960b4700dd53f5cebb4f7055fd00ccd556ce
+base-commit: 99fd042016c7489192d05ff21a10620c2142301d
 -- 
 2.39.2
 
