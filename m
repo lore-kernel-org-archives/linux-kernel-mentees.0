@@ -1,169 +1,151 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA5F1C3F16
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Aug 2024 19:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E758F13F441
+	for <linux-kernel-mentees@lists.linux.dev>; Fri, 16 Aug 2024 22:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723836491; cv=none; b=qmzFULVhTzJWDwVLFRC6+uQLCHESiTUe0a/ec8z7WGqTVD1bk/loF7WfMOXYhJb7gSrQZrytiPo57lpPPWBLfTkRDE8HLHLrmJV7GPxbTSjZ74CgIQlfGxa41GaEgoFYn2jJCvA/0BCWzkBZLcOHqCj4dcLhPvAkVt8C7rwImew=
+	t=1723846880; cv=none; b=n1QGLECTYQ1noNVx/79saDj6XBUf1bpAqdWiqaS2/qT1xKUlbrLkRCICIRrgN3vp7EOacsKodN2ypDr7yqNotuMgpu2huCgc84J7RKTdHVbRT+rZb7MvIu8tRxOrkd8hONP8scDkxbUqqu+BKrDXib3oMpnJJ+C+SH7Vd2II3TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723836491; c=relaxed/simple;
-	bh=O6mzyL7xKu1MY9cqmZeVStxQtxMoAMbvocNe+lKzux0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FIwIHXBpHamzMYu74tuOgemVLrtbe55WceYTun5qoCCUgqQnhynTLS+93sYWFJ4u1Qt+HBYolKZizDFpYsYDhFtu4v9L8wI7lWFJftGXTi7VmkSNZxp10G9ER9qxiM6XwjNdppnmIPKZHXBfYGMgFw8SiK6Y0RuP90HssIRBdUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=vtimothy.com header.i=@vtimothy.com header.b=jb917UCN; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723846880; c=relaxed/simple;
+	bh=dwQBZTO//U58E3kwzyvZ1HNQknjkE/A/sZ1qbVlA38c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Mm8swYKteBRa61UiaA8R3mzMUhtDcxkrVEyuZJiM+L+ScZkZgFb1sN8jeEw9rsO01JuBRjexZk5BaJfiOmr5igauG6wMZvy8lc943wH2GPfL8Y0EIKBSvhYkvUV3wKz/wzcpsGGnAr8UcuoyK6qaf9ugeSMSGTcZO2OF9jpFwZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=G5jYwPPe; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vtimothy.com header.i=@vtimothy.com header.b="jb917UCN"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0622E412FF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Aug 2024 19:28:08 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -6.491
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 80LvqSGP-yce for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 16 Aug 2024 19:28:06 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=188.165.51.139; helo=mail-0301.mail-europe.com; envelope-from=victor@vtimothy.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 68AD3401FF
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=vtimothy.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 68AD3401FF
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=vtimothy.com header.i=@vtimothy.com header.a=rsa-sha256 header.s=protonmail header.b=jb917UCN
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 68AD3401FF
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Aug 2024 19:28:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtimothy.com;
-	s=protonmail; t=1723836476; x=1724095676;
-	bh=tTkOD+tbanlBDXETUZCRAs2rYgp1pBquWtd/axPjhUo=;
-	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=jb917UCNFzje5oThUt77wlPGq9iHVDNzeHKjINZy31HhBrHVEq8Sh2TCdMJ2EmPro
-	 77u+xVjkKKQjUkE2jXqVSk7RqNXKiCCq/hsjBdlaycHzPnlCtEP9ReWD2wV171gaZA
-	 eURz45Jt8HsfiPwdxHgS3elXlVGgWN8yHF5TqtcurvdDAjq5gZjHoQYEIhkXDSRPzl
-	 Dg6U5j3uFo+eNJ3/c4rc/JM1PrYiXuqTKNwa5pVsQFFmC/DXVweCrjSyjHOWNoD9sg
-	 mF1UXSeY060RHXETS/W0AOZnQ9kxggWXPGH3SbxVE7MFK/hNa2Z3yZP7j6SAn9eS1k
-	 RjnCbuMxbQLpw==
-X-Pm-Submission-Id: 4WlsTH3R6Lz4wwdW
-From: Victor Timofei <victor@vtimothy.com>
-To: linkinjeon@kernel.org,
-	sfrench@samba.org,
-	corbet@lwn.net
-Cc: linux-cifs@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	Victor Timofei <victor@vtimothy.com>
-Subject: [PATCH] ksmdb: fix spelling mistakes in documentation
-Date: Fri, 16 Aug 2024 22:24:52 +0300
-Message-ID: <20240816192452.38211-1-victor@vtimothy.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="G5jYwPPe"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 03142418AB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1723846872; bh=DDlzN91pqXetBWEzbxhP44nWK82/0rSseDZiI/Y4Umc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=G5jYwPPeNcNFIy3YNcuiJ4LAI0kkXtuup5gU3UeKBjoTDqzOcvYZr6a1FwxSwa3CQ
+	 4ZD4O2m3jKu1hmB9ZAUe3RUNAI7JiuczHk7KoxgLrpG1E6+sdiYYQwx/AweUhCAM4l
+	 BWRd/+eh+8XR60LcHuSDyYbSJNCo7e359kfLkGsCMDOyHQYsyrWZsL0I3I4UNOZ9en
+	 NwGhKdHedKCwPuztjKUhSnk8YqNOD7KkujA0hRhv5mJ7C2OiO36I7mignBfWY3Dl+I
+	 CtKwZEp4OMfEotN/irzGcvmRZcPVuKpgKtT6rnX4GVAwmEzHi2Jz5gIWEiPJTa21Q1
+	 f1hCwg9+4X7xg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 03142418AB;
+	Fri, 16 Aug 2024 22:21:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Amit Vadhavana <av2082000@gmail.com>, linux-doc@vger.kernel.org,
+ ricardo@marliere.net
+Cc: av2082000@gmail.com, linux-kernel-mentees@lists.linux.dev,
+ skhan@linuxfoundation.org, amelie.delaunay@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+ npiggin@gmail.com, christophe.leroy@csgroup.eu, naveen@kernel.org,
+ paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ bhelgaas@google.com, conor.dooley@microchip.com, costa.shul@redhat.com,
+ dmaengine@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, workflows@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Fix spelling mistakes
+In-Reply-To: <20240810183238.34481-1-av2082000@gmail.com>
+References: <20240810183238.34481-1-av2082000@gmail.com>
+Date: Fri, 16 Aug 2024 16:21:11 -0600
+Message-ID: <87y14whzxk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-There are a couple of spelling mistakes in the documentation. This patch
-fixes them.
+Now that I have looked at these, I have a couple of comments...
 
-Signed-off-by: Victor Timofei <victor@vtimothy.com>
----
- Documentation/filesystems/smb/ksmbd.rst | 26 ++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+Amit Vadhavana <av2082000@gmail.com> writes:
 
-diff --git a/Documentation/filesystems/smb/ksmbd.rst b/Documentation/filesystems/smb/ksmbd.rst
-index 6b30e43a0d11..8f00b2f3da31 100644
---- a/Documentation/filesystems/smb/ksmbd.rst
-+++ b/Documentation/filesystems/smb/ksmbd.rst
-@@ -13,7 +13,7 @@ KSMBD architecture
- The subset of performance related operations belong in kernelspace and
- the other subset which belong to operations which are not really related with
- performance in userspace. So, DCE/RPC management that has historically resulted
--into number of buffer overflow issues and dangerous security bugs and user
-+into a number of buffer overflow issues and dangerous security bugs and user
- account management are implemented in user space as ksmbd.mountd.
- File operations that are related with performance (open/read/write/close etc.)
- in kernel space (ksmbd). This also allows for easier integration with VFS
-@@ -24,8 +24,8 @@ ksmbd (kernel daemon)
- 
- When the server daemon is started, It starts up a forker thread
- (ksmbd/interface name) at initialization time and open a dedicated port 445
--for listening to SMB requests. Whenever new clients make request, Forker
--thread will accept the client connection and fork a new thread for dedicated
-+for listening to SMB requests. Whenever new clients make a request, the Forker
-+thread will accept the client connection and fork a new thread for a dedicated
- communication channel between the client and the server. It allows for parallel
- processing of SMB requests(commands) from clients as well as allowing for new
- clients to make new connections. Each instance is named ksmbd/1~n(port number)
-@@ -34,12 +34,12 @@ thread can decide to pass through the commands to the user space (ksmbd.mountd),
- currently DCE/RPC commands are identified to be handled through the user space.
- To further utilize the linux kernel, it has been chosen to process the commands
- as workitems and to be executed in the handlers of the ksmbd-io kworker threads.
--It allows for multiplexing of the handlers as the kernel take care of initiating
-+It allows for multiplexing of the handlers as the kernel takes care of initiating
- extra worker threads if the load is increased and vice versa, if the load is
--decreased it destroys the extra worker threads. So, after connection is
--established with client. Dedicated ksmbd/1..n(port number) takes complete
-+decreased it destroys the extra worker threads. So, after the connection is
-+established with the client. Dedicated ksmbd/1..n(port number) takes complete
- ownership of receiving/parsing of SMB commands. Each received command is worked
--in parallel i.e., There can be multiple clients commands which are worked in
-+in parallel i.e., There can be multiple client commands which are worked in
- parallel. After receiving each command a separated kernel workitem is prepared
- for each command which is further queued to be handled by ksmbd-io kworkers.
- So, each SMB workitem is queued to the kworkers. This allows the benefit of load
-@@ -49,9 +49,9 @@ performance by handling client commands in parallel.
- ksmbd.mountd (user space daemon)
- --------------------------------
- 
--ksmbd.mountd is userspace process to, transfer user account and password that
-+ksmbd.mountd is a userspace process to, transfer the user account and password that
- are registered using ksmbd.adduser (part of utils for user space). Further it
--allows sharing information parameters that parsed from smb.conf to ksmbd in
-+allows sharing information parameters that are parsed from smb.conf to ksmbd in
- kernel. For the execution part it has a daemon which is continuously running
- and connected to the kernel interface using netlink socket, it waits for the
- requests (dcerpc and share/user info). It handles RPC calls (at a minimum few
-@@ -124,7 +124,7 @@ How to run
- 1. Download ksmbd-tools(https://github.com/cifsd-team/ksmbd-tools/releases) and
-    compile them.
- 
--   - Refer README(https://github.com/cifsd-team/ksmbd-tools/blob/master/README.md)
-+   - Refer to README(https://github.com/cifsd-team/ksmbd-tools/blob/master/README.md)
-      to know how to use ksmbd.mountd/adduser/addshare/control utils
- 
-      $ ./autogen.sh
-@@ -133,7 +133,7 @@ How to run
- 
- 2. Create /usr/local/etc/ksmbd/ksmbd.conf file, add SMB share in ksmbd.conf file.
- 
--   - Refer ksmbd.conf.example in ksmbd-utils, See ksmbd.conf manpage
-+   - Refer to ksmbd.conf.example in ksmbd-utils, See ksmbd.conf manpage
-      for details to configure shares.
- 
-         $ man ksmbd.conf
-@@ -145,7 +145,7 @@ How to run
-      $ man ksmbd.adduser
-      $ sudo ksmbd.adduser -a <Enter USERNAME for SMB share access>
- 
--4. Insert ksmbd.ko module after build your kernel. No need to load module
-+4. Insert the ksmbd.ko module after you build your kernel. No need to load the module
-    if ksmbd is built into the kernel.
- 
-    - Set ksmbd in menuconfig(e.g. $ make menuconfig)
-@@ -175,7 +175,7 @@ Each layer
- 1. Enable all component prints
- 	# sudo ksmbd.control -d "all"
- 
--2. Enable one of components (smb, auth, vfs, oplock, ipc, conn, rdma)
-+2. Enable one of the components (smb, auth, vfs, oplock, ipc, conn, rdma)
- 	# sudo ksmbd.control -d "smb"
- 
- 3. Show what prints are enabled.
--- 
-2.46.0
+> Corrected spelling mistakes in the documentation to improve readability.
 
+Normal form for a changelog is to use the imperative mode; some
+maintainers are insistent about that.  So "Correct spelling ... "
+
+> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+> ---
+>  Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
+>  Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
+>  Documentation/arch/powerpc/ultravisor.rst                | 2 +-
+>  Documentation/arch/riscv/vector.rst                      | 2 +-
+>  Documentation/arch/sparc/oradax/oracle-dax.rst           | 2 +-
+>  Documentation/arch/x86/mds.rst                           | 2 +-
+>  Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
+>  Documentation/process/backporting.rst                    | 6 +++---
+>  8 files changed, 12 insertions(+), 12 deletions(-)
+
+[...]
+
+> diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
+> index 75dd88a62e1d..e4a28def318a 100644
+> --- a/Documentation/arch/riscv/vector.rst
+> +++ b/Documentation/arch/riscv/vector.rst
+> @@ -15,7 +15,7 @@ status for the use of Vector in userspace. The intended usage guideline for
+>  these interfaces is to give init systems a way to modify the availability of V
+>  for processes running under its domain. Calling these interfaces is not
+>  recommended in libraries routines because libraries should not override policies
+> -configured from the parant process. Also, users must noted that these interfaces
+> +configured from the parent process. Also, users must noted that these interfaces
+
+As long as you are fixing this line, s/noted/note/
+
+>  are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
+>  to use in a portable code. To get the availability of V in an ELF program,
+>  please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
+> diff --git a/Documentation/arch/sparc/oradax/oracle-dax.rst b/Documentation/arch/sparc/oradax/oracle-dax.rst
+> index d1e14d572918..54ccb35ed51d 100644
+> --- a/Documentation/arch/sparc/oradax/oracle-dax.rst
+> +++ b/Documentation/arch/sparc/oradax/oracle-dax.rst
+> @@ -197,7 +197,7 @@ Memory Constraints
+>  ==================
+>  
+>  The DAX hardware operates only on physical addresses. Therefore, it is
+> -not aware of virtual memory mappings and the discontiguities that may
+> +not aware of virtual memory mappings and the discontinuities that may
+
+Whether "discontiguities" is recognized by a spelling checker or not, I
+expect that is the word that was intended by the author of this
+document.  I would not change it.
+
+>  exist in the physical memory that a virtual buffer maps to. There is
+>  no I/O TLB or any scatter/gather mechanism. All buffers, whether input
+>  or output, must reside in a physically contiguous region of memory.
+> diff --git a/Documentation/arch/x86/mds.rst b/Documentation/arch/x86/mds.rst
+> index c58c72362911..5a2e6c0ef04a 100644
+> --- a/Documentation/arch/x86/mds.rst
+> +++ b/Documentation/arch/x86/mds.rst
+> @@ -162,7 +162,7 @@ Mitigation points
+>     3. It would take a large number of these precisely-timed NMIs to mount
+>        an actual attack.  There's presumably not enough bandwidth.
+>     4. The NMI in question occurs after a VERW, i.e. when user state is
+> -      restored and most interesting data is already scrubbed. Whats left
+> +      restored and most interesting data is already scrubbed. What's left
+>        is only the data that NMI touches, and that may or may not be of
+>        any interest.
+>  
+> diff --git a/Documentation/arch/x86/x86_64/fsgs.rst b/Documentation/arch/x86/x86_64/fsgs.rst
+> index 50960e09e1f6..d07e445dac5c 100644
+> --- a/Documentation/arch/x86/x86_64/fsgs.rst
+> +++ b/Documentation/arch/x86/x86_64/fsgs.rst
+> @@ -125,7 +125,7 @@ FSGSBASE instructions enablement
+>  FSGSBASE instructions compiler support
+>  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  
+> -GCC version 4.6.4 and newer provide instrinsics for the FSGSBASE
+> +GCC version 4.6.4 and newer provide intrinsics for the FSGSBASE
+>  instructions. Clang 5 supports them as well.
+
+Note that current kernels require rather newer versions of both
+compilers than this, so this information does not need to be here at
+all.  If you do not want to edit at that level, though, the change is an
+improvement.
+
+Thanks,
+
+jon
