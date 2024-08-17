@@ -1,108 +1,108 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C7A1422B8
-	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Aug 2024 08:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440121422BC
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Aug 2024 08:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723883144; cv=none; b=kbBlw3v6g7OzdUXSXh1QnyBYEEbsRBNXrLqNJ6vuB0YdCU7O0zb7kiWW/bgi5UmsySDaQS6plVLFS+TSk9BqWq/tNMgjStwHRoDdOR4WRwQLNL61av/N80Qp6opkReOXHyWB3knsLORfOdV9PWIvLnbfgcBxAFpixO+pOJvCTmE=
+	t=1723884130; cv=none; b=c5f3eO/LGakuMkwW3lnT9QGY8G+FpSmfa+bEvUX8loBPcxPj3LL09GZssd0UG7v9lL9ItMONPtn25TnDqletQ3iEFAOsHvbGP4hUL0ebpjIL+Ca4pnm1Cwclna9n0Fi+xc9+SU9SOsj8R4xgVx5FfqqkCh933OH+2sfKQ/ZeKiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723883144; c=relaxed/simple;
-	bh=7QYh5fWsYcBy4BjPUODYKtBT58CJYBQAeJg9WYheKL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dK3b2ACBsJh+O95JYZJIDCeRKH5UPc7/zrzG6v4n5WOLhYljilgMbz9Up7Y7vYZ2mtHD2vopcwQPYUTK1ekg0lFE4GhDEU/xeJRYRWUYghwXBAtSNGWpRxBIzwC6ZrA/PHhej+5nGDLQbBgT0bWhltA6aBPa1LgfxAR0osP5Tug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AXI0MvZN; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1723884130; c=relaxed/simple;
+	bh=4I1mupdmsAw4lOp3B/yUB4W64cuBTcGjFf3fQ5QUA/U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aob4eNJZ8yXVntQZBt0c6DHU048kOwBCVkcySlAhVm/4OqCgE4jEUgq6zcyw+XsDIV8fkDOb4ZA743ZTyXUABKjn8aRVywJyw3Zo8iiggn2K2X5Kq41kaH1OnDM1qRg3NLSfSMz+U+352F2JCksBJqSlA9nWIKTQLKiDm1B+se0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Al1My9PF; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AXI0MvZN"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-428163f7635so21680455e9.2
-        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Aug 2024 01:25:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Al1My9PF"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-690e9001e01so26716547b3.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Aug 2024 01:42:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1723883141; x=1724487941; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pJ0y+Bx0FfYzJuV9mHkWycb1W7eNsjmgnYDcCobrBgQ=;
-        b=AXI0MvZN3K8J1zzQcGGyDz+TnCsprGQi1LHkhUz1hI5sT0LGf8yPotllTxm2lZ17EQ
-         JRnUxWQBA+D0G+n3qC6UCSUAO5nZ8lh6AZ0Myb/cNo6uSgCv/ztm8NFISA4kmcKsxl7s
-         bi9KTbB0K8JNyPT+3DaEz/Wup1lmQr+WPlR3COT/2AFcalUIrRjN0xvjAcR7Z83zT6s9
-         JX/pt1x0iMRS9yORZwYt97M7vq0pulGnRmOg16LUFmKnnDe6IwAZemSkokmOrR96QDHk
-         xM995sKc58lLtjYZqxD6fXJAaJpTbPGcksPv+lXMlubXWDTeCY59KbsblXimnF86ILIK
-         DOtw==
+        d=gmail.com; s=20230601; t=1723884128; x=1724488928; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9eMsJxTM2zOmRS6+tqFj/KXfj/XkuR+C/+5c8VgCc3Y=;
+        b=Al1My9PFo6/k5srny1qHwxXnwQ2W5NO8iXLK9NMX7TnWu4vEK43EhKmcxCld+1QQoY
+         CeJeGvUZlqpkvjqN2gIyzaWXoj1ZtjtOAkLtuN2r4Syo1JRVsuF+7DtLad1lkWHfyJVT
+         Te8K9FwVJ+8r6gw+6k+YtTGwwr/YAMxEBwEYw7WLJtRryP6boTn0Z318gLigT+PhgWRI
+         HX1/wncMaqb0Pd3QLl0r4/MrETkdUvbz0katVlOb/M9EraMAz6TXNAd/vvGU/ppfWNMU
+         +Wi8dGavPg0vEill5zRghnQLXskaKz12zZzPb3guJJ7Dq3ctEI+7LeEdxkaTA13bpL6V
+         tF7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723883141; x=1724487941;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pJ0y+Bx0FfYzJuV9mHkWycb1W7eNsjmgnYDcCobrBgQ=;
-        b=rUKJIRg/T3Mv0RDl7zuDrsyduhKYULUkMpEl6yDZi5ecg8bBJA3LtnwW1tTPjVbhMg
-         wmCYhyEI7s9/coZTJnehaSQqHgUqDkWm8Vkg2k7pUhPG30J2W4vbYYtin3yua6H2saEJ
-         OnoVkQqZHDu3Lw+GSH1phe4SG9a85S86XJBmdxenk8sC144V+bG4hIHCNpfZbjF8F/Y1
-         auuy395n2lj3lTtptQG/5u2FQ+FGSkDWATYO+DY3lSKxByLjgYBBHj0Ot/nkbEf5t7zU
-         0Td14upD10ocxVa6c3UspHIwIzIviaXD6bdD2A+ZrMgIe8vJl9K0MSUIyrNNxLRhJ1J0
-         RTKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUh1uUyxOxBz+tEMKexvSguXikdYDG05T2GaGmGzwOEdf3H2gafN9+IhujsBBqicDNGkv7F4FVp/P7HbEcM7WzG+D82Jw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/rKYCy6u26REhBWtS3EuKKnp+7cwF3DgRqMzb+g1f4cZrxXQl
-	qqbyP9wVeXy0qCWaUnWS4YqhW1FC/nlgiPL8/j7gJKh0jIau+nuQmFqx7cDsf/k=
-X-Google-Smtp-Source: AGHT+IFJ12nDtVRGYsYXFLwDyDsgUaCOjGBYJyBY4Zbk3GuRikGwJdu2MeEqx46imh4mG3NDHfzGgw==
-X-Received: by 2002:a05:600c:3ba5:b0:426:6667:5c42 with SMTP id 5b1f17b1804b1-429ed7856camr34069445e9.4.1723883140978;
-        Sat, 17 Aug 2024 01:25:40 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ded364fesm96109695e9.27.2024.08.17.01.25.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Aug 2024 01:25:40 -0700 (PDT)
-Date: Sat, 17 Aug 2024 11:25:36 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Amit Vadhavana <av2082000@gmail.com>
-Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ricardo@marliere.net, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org, vkoul@kernel.org,
-	olivierdautricourt@gmail.com, sr@denx.de,
-	ludovic.desroches@microchip.com, florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com, rjui@broadcom.com,
-	sbranden@broadcom.com, wangzhou1@hisilicon.com, haijie1@huawei.com,
-	fenghua.yu@intel.com, dave.jiang@intel.com, zhoubinbin@loongson.cn,
-	sean.wang@mediatek.com, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, afaerber@suse.de,
-	manivannan.sadhasivam@linaro.org, Basavaraj.Natikar@amd.com,
-	linus.walleij@linaro.org, ldewangan@nvidia.com,
-	jonathanh@nvidia.com, thierry.reding@gmail.com,
-	laurent.pinchart@ideasonboard.com, michal.simek@amd.com,
-	Frank.Li@nxp.com, n.shubin@yadro.com, yajun.deng@linux.dev,
-	quic_jjohnson@quicinc.com, lizetao1@huawei.com, pliem@maxlinear.com,
-	konrad.dybcio@linaro.org, kees@kernel.org, gustavoars@kernel.org,
-	bryan.odonoghue@linaro.org, linux@treblig.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH V2] dmaengine: Fix spelling mistakes
-Message-ID: <b155a6e9-9fe1-4990-8ba7-e1ff24cca041@stanley.mountain>
-References: <20240817080408.8010-1-av2082000@gmail.com>
+        d=1e100.net; s=20230601; t=1723884128; x=1724488928;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9eMsJxTM2zOmRS6+tqFj/KXfj/XkuR+C/+5c8VgCc3Y=;
+        b=r71ti/tMHfLJMxlLgdfLx5Q8cClGPs9qyTnPyHWFOEdEQ0utoCKj/SRQjAJTUOUHPX
+         cVdgB+rbgQ8lnh1Vdf6Rd7N707zqu8uRwQ8qs/UdPpSHskc/ut5yIvDnpGpXKe5IYVj5
+         dkPsJaoOcvyVWIWJB0C3W4fcA5bjVYC87u+GJKD3dEXDg1rCzFNVYP0I/Lj37LIJtkHj
+         Z2sGutECS+oqCrUdcFgn+OjNWDE4YHksLXTBjV0OOpVDy+5dwXJyS8ZQZh4zdeAZwG1P
+         B5uQTbj7T8EoSwcxx0/OadhzQPap7F6tliIAkjZuR3IWywiLMYng/dtjj+w5Eosef89k
+         NiUg==
+X-Forwarded-Encrypted: i=1; AJvYcCUf4o5pSiW3mrNP7lYwAsgNR+nXlBpFFwpr8cb00E0QMOafGy6OUUgDCNQl621QOC+UbisgCqA5DmioWDo0LjqGJTX5PNv9zoSI6AqdyxOdVjsYalo=
+X-Gm-Message-State: AOJu0YxlYyJDCDfo4naNdf988u1W2zUh0FhZWXDVVucSNjXeq4SHCD9M
+	RtSiwOVULw2lKfcuqXTYEpmC8n3tN4IWxlbwuDV5rppwPtdk7BrAmeqqltmefgBaRMuPLqddb16
+	5ak5EhQYrC3kuxIvC14a+2HtfGvI=
+X-Google-Smtp-Source: AGHT+IH/bN7m+GREt6zV/O8rtGprxJFVfkBD2hfqkVRmLL3zNnCApsctC6ZVhzVCMOnM1LN6O5ppOC8r090pASW/sGE=
+X-Received: by 2002:a05:690c:4:b0:646:5f0b:e54 with SMTP id
+ 00721157ae682-6b1b9b5ae86mr67136927b3.8.1723884128092; Sat, 17 Aug 2024
+ 01:42:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240817080408.8010-1-av2082000@gmail.com>
+References: <20240817080408.8010-1-av2082000@gmail.com> <b155a6e9-9fe1-4990-8ba7-e1ff24cca041@stanley.mountain>
+In-Reply-To: <b155a6e9-9fe1-4990-8ba7-e1ff24cca041@stanley.mountain>
+From: Amit Vadhavana <av2082000@gmail.com>
+Date: Sat, 17 Aug 2024 14:11:57 +0530
+Message-ID: <CAPMW_rLPN1uLNR=j+A7U03AHX5m_LSpd1EnQoCpXixX+0e4ApQ@mail.gmail.com>
+Subject: Re: [PATCH V2] dmaengine: Fix spelling mistakes
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ricardo@marliere.net, linux-kernel-mentees@lists.linux.dev, 
+	skhan@linuxfoundation.org, vkoul@kernel.org, olivierdautricourt@gmail.com, 
+	sr@denx.de, ludovic.desroches@microchip.com, florian.fainelli@broadcom.com, 
+	bcm-kernel-feedback-list@broadcom.com, rjui@broadcom.com, 
+	sbranden@broadcom.com, wangzhou1@hisilicon.com, haijie1@huawei.com, 
+	fenghua.yu@intel.com, dave.jiang@intel.com, zhoubinbin@loongson.cn, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	manivannan.sadhasivam@linaro.org, Basavaraj.Natikar@amd.com, 
+	linus.walleij@linaro.org, ldewangan@nvidia.com, jonathanh@nvidia.com, 
+	thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com, 
+	michal.simek@amd.com, Frank.Li@nxp.com, n.shubin@yadro.com, 
+	yajun.deng@linux.dev, quic_jjohnson@quicinc.com, lizetao1@huawei.com, 
+	pliem@maxlinear.com, konrad.dybcio@linaro.org, kees@kernel.org, 
+	gustavoars@kernel.org, bryan.odonoghue@linaro.org, linux@treblig.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Aug 17, 2024 at 01:34:08PM +0530, Amit Vadhavana wrote:
-> Correct spelling mistakes in the DMA engine to improve readability
-> and clarity without altering functionality.
-> 
-> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
-> Reviewed-by: Kees Cook <kees@kernel.org>
-> ---
-> V1: https://lore.kernel.org/all/20240810184333.34859-1-av2082000@gmail.com 
-> V1 -> V2:
-> - Write the commit description in imperative mode.
+On Sat, 17 Aug 2024 at 13:55, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> On Sat, Aug 17, 2024 at 01:34:08PM +0530, Amit Vadhavana wrote:
+> > Correct spelling mistakes in the DMA engine to improve readability
+> > and clarity without altering functionality.
+> >
+> > Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+> > Reviewed-by: Kees Cook <kees@kernel.org>
+> > ---
+> > V1: https://lore.kernel.org/all/20240810184333.34859-1-av2082000@gmail.com
+> > V1 -> V2:
+> > - Write the commit description in imperative mode.
+>
+> Why?  Did someone ask for that?
+No, I received a review comment on my other document patch.
+So, make similar changes in response.
+>
+> regards,
+> dan carpenter
 
-Why?  Did someone ask for that?
-
-regards,
-dan carpenter
-
+Thanks,
+Amit v
+>
