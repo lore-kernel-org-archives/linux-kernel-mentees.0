@@ -1,87 +1,244 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBE346BA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 Aug 2024 00:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C82F83A06
+	for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Aug 2024 07:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723854659; cv=none; b=QR9rOMJHT8T/hi6zRMe2WTUykKd+gvQXw4BMzE7HouPiZebPZzCIbsCzBP20BUm1fe0+fxQuAAtvDkXI+lYHfhEVjKH+QjDIuLn6bykxqzS3bdd2krhxVofXfubwgS+eJyVR2jIPvrKB/yN9PvxcCBtgfwtUmllgJllnW42LmjE=
+	t=1723879666; cv=none; b=cfezYbzzd7ZqWAEIUnT4uRWd5Hv4QpWycs1DnThx/mMDDHd3jt3xqPbcg1fVRPUtCrR8pfkM1QfmnQEqpZFvw8X8YMng69VGI9kL5xpqPJVXp99D18wEoG7jHFRr2BjN2L7NHBlEvZ2iAArwMOtlrzLgpS/n3vYgWvQOXmPKyxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723854659; c=relaxed/simple;
-	bh=F5aspppFrEtEePh9CnIr/vLJ3B5tE+uRZgfVD9WFVBM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W0RG1WTIlXvZO0Ju7EQPvBfo5HaXOq+uMmrVa2xwrOyc6/BW0TlWdZQ7ZkALVjyzCUYrCmxEhjgh8CbUEgtusqvkgpPNxxNJ+W7Kjwa/WJ7Vj9xBSk0tPWyu9u9AgwNKyiWLRholNbQ00+MTRujhEiBBID5mwggw3lgbBJFgQY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYPiW8Nq; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1723879666; c=relaxed/simple;
+	bh=YmjnadZprPl5LhU0GawUbqbFaPXJOac0OebQ4z6+rOw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GfKDNc8+VenwQU8EYXRucZP+5iqu5yonBaZOQ/3H5E+qA8W943pULS4UG7G/tYCL9Fp0RNf35MbRzey57OVB654x4aQ11NNihyfAwZ2JgjhKbFwuQp+r64Z48Osx7cIqiuSN6mqXKs4oNX1bgGLmM4HSbJ25Fd/CGdHhxoQraOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OCwSwpWf; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYPiW8Nq"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 7387C40B3E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 Aug 2024 00:30:57 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -10.792
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id AC9ooR4Stf-q for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 17 Aug 2024 00:30:56 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=linkinjeon@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 983EA409F1
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 983EA409F1
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=jYPiW8Nq
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 983EA409F1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 Aug 2024 00:30:56 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 4EB6F6232F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 Aug 2024 00:30:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 039F9C4AF10
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 17 Aug 2024 00:30:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723854655;
-	bh=F5aspppFrEtEePh9CnIr/vLJ3B5tE+uRZgfVD9WFVBM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jYPiW8Nq+BRitUI9AkFnkpClYFna480NX7wsxlmcEjcHWNrr1aB8VMHIFKSL2zXwx
-	 Uo8BN78lpbCzJrYpuHg46IjUW9HtqO0VAezh3MzL06uwt5/g8JJCY2WOjhD91v8qxS
-	 MK93PaCGE9diRFK4ci+FC+jkvz1Xi0czvztZvUc8ldikKeuorcGhQzp0NLx9iVl3lT
-	 WSz7kLj6AVBNTYdNO2RDhp6b5iUIH40dYH4hdHqdV2UMxBQWxCwM0GadtZPkkrZCau
-	 3nb3YJpNrVvQ9UwoGCeRJfCGYzxFT3ig++rhbA2QKGyn3oXqHlneQQDw8zZJzRKWgy
-	 QveOjai0o8FWA==
-Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3db18102406so1432828b6e.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 16 Aug 2024 17:30:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU9RCGdLLIb08Qgv4NpPdjiXJWvq/IbQXU/xJrIKL7wumyzPVUW5LFLxeeKCjvG6Q/vE14sfITZWxZWt8YY71XjSZD+f2aW+89NTIXiCah6J8PDCAMkgTekJyXDdAWF
-X-Gm-Message-State: AOJu0Yxcj3rDOh6OvwULDvAiILqC8GTnGO49di3jHyYTzAOWv6dcYGDf
-	GO9M6gGiThZYbNrEeP/8GJ0qzA8ZfWPTpSmuC+Z7LyoOKl50Ofm6NJZWvFaHszcY3+7JIMTYzY9
-	iU7UEJfnd3o6tBMzR1iIVrvNcY2E=
-X-Google-Smtp-Source: AGHT+IHHRnHezftEcv3s3ZnckNZuMCCVxWJhwhlH67g9+rkY/1D5CiBCtMsyGUTzWWm7MOGnfq7OZTFosvxHhZwoIOM=
-X-Received: by 2002:a05:6870:2183:b0:260:f9e4:1fc with SMTP id
- 586e51a60fabf-2701c3a1c26mr5056307fac.20.1723854654316; Fri, 16 Aug 2024
- 17:30:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OCwSwpWf"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2cd5e3c27c5so2001287a91.3
+        for <linux-kernel-mentees@lists.linux.dev>; Sat, 17 Aug 2024 00:27:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723879664; x=1724484464; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fjk2EI8ZiEP4zfYt0Qe13udGW0VGF08C7NmtxZPQvvA=;
+        b=OCwSwpWfGMkKkJ/aUghWg5Jkpr2xFpGyC9yhViznispi+qeeLMGtX5J9LSho2YDtaL
+         mAh6QJu17nulJBWQNiweBc4HplER/NXdN3FisCB1mbjmytijhX5ze6PCE/h0Qlixz3I+
+         uWAEcZpLjzwk1+mwPLFP3K+DYZsI1mv+4t5aJR7vHv8Pvnknk0RNpSLNpnSjD2W2ntVA
+         NYCuGSX2KtkJqDniNjVFQW9MwybpY24e17XUSrntG7Mv3q2kdo9M0vhlbWgLx7tUJT3r
+         9gibGZygPAJ8eMpJd0sljf5cuEhIppaWk4vurNU1DUqXs0GMSe6NBaIc4c8ZmVWsw/ig
+         MiRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723879664; x=1724484464;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fjk2EI8ZiEP4zfYt0Qe13udGW0VGF08C7NmtxZPQvvA=;
+        b=wU+wO35CaSqeqIiPhMpFRKVrfxXp8Wx0uE7ZLfY90iPZyUYY+JEaFouxwAsLb1Ptuu
+         NlhdeRGiBiXst4QpkWbqhhstgijujieLJs82zlC/18RA99vA8ffN0uIrRah5KZJVH8OE
+         /6DZqyTI+7EfTxPNp247bP2S2cgf8wJRilKhPYD4IeY5/hD9qvwSG+tg+GzfjkOyjgGS
+         L0q3pqsZ6HFBOXReJp9nerXBwp6frW/mrIznDa8ctfBR4XBxtHWKWBjtWegYOM9zr+GO
+         rMIYFrfyQo4r/zQ5EVh6dqRviPLFIidHN3sESRojsxPL9F42gbmNwYIWIT+ZwyEPw+hh
+         gDIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVC6Lpsdj/UMzJQq+L/VPB0NfxkyIdsQqoSocfokXd2kZDstG474MvY6+8uM9RV8qSr8SKdf3auSpOsdT8QLCDZQnTjgoOJ6rhtyAQbXB+1zFxMlG4=
+X-Gm-Message-State: AOJu0YznrfkJwBm+FyzueHTbkEW6ayToUDlZxMDun3mTHfOZzeIktCsN
+	ONxmBr7pl4pWtne+d4EUm7n8jozUGc+t+m0S4zhUCcCG/VI+IrpM
+X-Google-Smtp-Source: AGHT+IE6X6NdUFqH5STro3RyFQKnmXLcd7Q/tjaJtzJodMhcakvq4bBfNlQl3NZjm0J23S7MY4VzKw==
+X-Received: by 2002:a17:90b:1286:b0:2d0:86a:fbd with SMTP id 98e67ed59e1d1-2d3e00f08fcmr5267786a91.32.1723879664083;
+        Sat, 17 Aug 2024 00:27:44 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40c1:1031:6067:f4e3:ef39:b58b:607e])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3e2e6b228sm3179929a91.14.2024.08.17.00.27.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Aug 2024 00:27:43 -0700 (PDT)
+From: Amit Vadhavana <av2082000@gmail.com>
+To: linux-doc@vger.kernel.org,
+	ricardo@marliere.net
+Cc: av2082000@gmail.com,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	amelie.delaunay@foss.st.com,
+	corbet@lwn.net,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	mpe@ellerman.id.au,
+	npiggin@gmail.com,
+	christophe.leroy@csgroup.eu,
+	naveen@kernel.org,
+	paul.walmsley@sifive.com,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	hpa@zytor.com,
+	bhelgaas@google.com,
+	conor.dooley@microchip.com,
+	costa.shul@redhat.com,
+	dmaengine@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	workflows@vger.kernel.org
+Subject: [PATCH V2] Documentation: Fix spelling mistakes
+Date: Sat, 17 Aug 2024 12:57:24 +0530
+Message-Id: <20240817072724.6861-1-av2082000@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240816192452.38211-1-victor@vtimothy.com>
-In-Reply-To: <20240816192452.38211-1-victor@vtimothy.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Sat, 17 Aug 2024 09:30:43 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-W=3kgGgWccAOUNS9nwuJ5PErp9jPudJSZzDu83=B9=g@mail.gmail.com>
-Message-ID: <CAKYAXd-W=3kgGgWccAOUNS9nwuJ5PErp9jPudJSZzDu83=B9=g@mail.gmail.com>
-Subject: Re: [PATCH] ksmdb: fix spelling mistakes in documentation
-To: Victor Timofei <victor@vtimothy.com>
-Cc: sfrench@samba.org, corbet@lwn.net, linux-cifs@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
->
-> There are a couple of spelling mistakes in the documentation. This patch
-> fixes them.
->
-> Signed-off-by: Victor Timofei <victor@vtimothy.com>
-Applied it to #ksmbd-for-next-next.
-Thanks!
+Correct spelling mistakes in the documentation to improve readability.
+
+Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+---
+V1: https://lore.kernel.org/all/20240810183238.34481-1-av2082000@gmail.com
+V1 -> V2:
+- Write the commit description in imperative mode.
+- Fix grammer mistakes in the sentence.
+---
+ Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst | 4 ++--
+ Documentation/arch/arm64/cpu-hotplug.rst                 | 2 +-
+ Documentation/arch/powerpc/ultravisor.rst                | 2 +-
+ Documentation/arch/riscv/vector.rst                      | 2 +-
+ Documentation/arch/x86/mds.rst                           | 2 +-
+ Documentation/arch/x86/x86_64/fsgs.rst                   | 4 ++--
+ Documentation/process/backporting.rst                    | 6 +++---
+ 7 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst b/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
+index 2945e0e33104..301aa30890ae 100644
+--- a/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
++++ b/Documentation/arch/arm/stm32/stm32-dma-mdma-chaining.rst
+@@ -359,7 +359,7 @@ Driver updates for STM32 DMA-MDMA chaining support in foo driver
+     descriptor you want a callback to be called at the end of the transfer
+     (dmaengine_prep_slave_sg()) or the period (dmaengine_prep_dma_cyclic()).
+     Depending on the direction, set the callback on the descriptor that finishes
+-    the overal transfer:
++    the overall transfer:
+ 
+     * DMA_DEV_TO_MEM: set the callback on the "MDMA" descriptor
+     * DMA_MEM_TO_DEV: set the callback on the "DMA" descriptor
+@@ -371,7 +371,7 @@ Driver updates for STM32 DMA-MDMA chaining support in foo driver
+   As STM32 MDMA channel transfer is triggered by STM32 DMA, you must issue
+   STM32 MDMA channel before STM32 DMA channel.
+ 
+-  If any, your callback will be called to warn you about the end of the overal
++  If any, your callback will be called to warn you about the end of the overall
+   transfer or the period completion.
+ 
+   Don't forget to terminate both channels. STM32 DMA channel is configured in
+diff --git a/Documentation/arch/arm64/cpu-hotplug.rst b/Documentation/arch/arm64/cpu-hotplug.rst
+index 76ba8d932c72..8fb438bf7781 100644
+--- a/Documentation/arch/arm64/cpu-hotplug.rst
++++ b/Documentation/arch/arm64/cpu-hotplug.rst
+@@ -26,7 +26,7 @@ There are no systems that support the physical addition (or removal) of CPUs
+ while the system is running, and ACPI is not able to sufficiently describe
+ them.
+ 
+-e.g. New CPUs come with new caches, but the platform's cache toplogy is
++e.g. New CPUs come with new caches, but the platform's cache topology is
+ described in a static table, the PPTT. How caches are shared between CPUs is
+ not discoverable, and must be described by firmware.
+ 
+diff --git a/Documentation/arch/powerpc/ultravisor.rst b/Documentation/arch/powerpc/ultravisor.rst
+index ba6b1bf1cc44..6d0407b2f5a1 100644
+--- a/Documentation/arch/powerpc/ultravisor.rst
++++ b/Documentation/arch/powerpc/ultravisor.rst
+@@ -134,7 +134,7 @@ Hardware
+ 
+       * PTCR and partition table entries (partition table is in secure
+         memory). An attempt to write to PTCR will cause a Hypervisor
+-        Emulation Assitance interrupt.
++        Emulation Assistance interrupt.
+ 
+       * LDBAR (LD Base Address Register) and IMC (In-Memory Collection)
+         non-architected registers. An attempt to write to them will cause a
+diff --git a/Documentation/arch/riscv/vector.rst b/Documentation/arch/riscv/vector.rst
+index 75dd88a62e1d..3987f5f76a9d 100644
+--- a/Documentation/arch/riscv/vector.rst
++++ b/Documentation/arch/riscv/vector.rst
+@@ -15,7 +15,7 @@ status for the use of Vector in userspace. The intended usage guideline for
+ these interfaces is to give init systems a way to modify the availability of V
+ for processes running under its domain. Calling these interfaces is not
+ recommended in libraries routines because libraries should not override policies
+-configured from the parant process. Also, users must noted that these interfaces
++configured from the parent process. Also, users must note that these interfaces
+ are not portable to non-Linux, nor non-RISC-V environments, so it is discourage
+ to use in a portable code. To get the availability of V in an ELF program,
+ please read :c:macro:`COMPAT_HWCAP_ISA_V` bit of :c:macro:`ELF_HWCAP` in the
+diff --git a/Documentation/arch/x86/mds.rst b/Documentation/arch/x86/mds.rst
+index c58c72362911..5a2e6c0ef04a 100644
+--- a/Documentation/arch/x86/mds.rst
++++ b/Documentation/arch/x86/mds.rst
+@@ -162,7 +162,7 @@ Mitigation points
+    3. It would take a large number of these precisely-timed NMIs to mount
+       an actual attack.  There's presumably not enough bandwidth.
+    4. The NMI in question occurs after a VERW, i.e. when user state is
+-      restored and most interesting data is already scrubbed. Whats left
++      restored and most interesting data is already scrubbed. What's left
+       is only the data that NMI touches, and that may or may not be of
+       any interest.
+ 
+diff --git a/Documentation/arch/x86/x86_64/fsgs.rst b/Documentation/arch/x86/x86_64/fsgs.rst
+index 50960e09e1f6..d07e445dac5c 100644
+--- a/Documentation/arch/x86/x86_64/fsgs.rst
++++ b/Documentation/arch/x86/x86_64/fsgs.rst
+@@ -125,7 +125,7 @@ FSGSBASE instructions enablement
+ FSGSBASE instructions compiler support
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+-GCC version 4.6.4 and newer provide instrinsics for the FSGSBASE
++GCC version 4.6.4 and newer provide intrinsics for the FSGSBASE
+ instructions. Clang 5 supports them as well.
+ 
+   =================== ===========================
+@@ -135,7 +135,7 @@ instructions. Clang 5 supports them as well.
+   _writegsbase_u64()  Write the GS base register
+   =================== ===========================
+ 
+-To utilize these instrinsics <immintrin.h> must be included in the source
++To utilize these intrinsics <immintrin.h> must be included in the source
+ code and the compiler option -mfsgsbase has to be added.
+ 
+ Compiler support for FS/GS based addressing
+diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+index e1a6ea0a1e8a..a71480fcf3b4 100644
+--- a/Documentation/process/backporting.rst
++++ b/Documentation/process/backporting.rst
+@@ -73,7 +73,7 @@ Once you have the patch in git, you can go ahead and cherry-pick it into
+ your source tree. Don't forget to cherry-pick with ``-x`` if you want a
+ written record of where the patch came from!
+ 
+-Note that if you are submiting a patch for stable, the format is
++Note that if you are submitting a patch for stable, the format is
+ slightly different; the first line after the subject line needs tobe
+ either::
+ 
+@@ -147,7 +147,7 @@ divergence.
+ It's important to always identify the commit or commits that caused the
+ conflict, as otherwise you cannot be confident in the correctness of
+ your resolution. As an added bonus, especially if the patch is in an
+-area you're not that famliar with, the changelogs of these commits will
++area you're not that familiar with, the changelogs of these commits will
+ often give you the context to understand the code and potential problems
+ or pitfalls with your conflict resolution.
+ 
+@@ -197,7 +197,7 @@ git blame
+ Another way to find prerequisite commits (albeit only the most recent
+ one for a given conflict) is to run ``git blame``. In this case, you
+ need to run it against the parent commit of the patch you are
+-cherry-picking and the file where the conflict appared, i.e.::
++cherry-picking and the file where the conflict appeared, i.e.::
+ 
+     git blame <commit>^ -- <path>
+ 
+-- 
+2.25.1
+
