@@ -1,103 +1,155 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969F0171E5F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 16:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350F1186E2A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 17:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724084755; cv=none; b=PMHM/tr+8ZSSxn1wEgSlTMsbEidmNV2gQi6+11FNcUhkTsQAs9lwd77tPdiaqFyWL7hNHju6FaEGSjYYVXXaAta3dMbsdE/j9JWfUKLuiXacPWamWlItPtNCjG4abRRg+Z1WZ+Kh7P5cyvGEcLvj7Oqie2ml7Mk+dSv2v3DYQxk=
+	t=1724089839; cv=none; b=XsElW9PFaRUYEOzzddsBNznVdhYnBmLeicAmumYCyHm2rukf2SQHKWAvdIrPeeCp5EN/N2go1yW75OczUDun4af3W0GqlJe6QSxpNbs4H5ozj8DE0LJJXU3vAsFVhgMxNdIbjf2kPKqS2nL0WZwFmH9uLkJrgat8qI+tPN4rATw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724084755; c=relaxed/simple;
-	bh=7NqWr36HuVT4OotxGSUjFuV5V7CFfE5R2Y8n4XuSnJs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hWbOHUuOaKUb8wpZVfqVp/S0D7WbcvlSElGH8UNAl8D7L3HIYyKFFaLTRDOMfBkGH+gksvbXW1Asu+vp3uHHmViNQZalhAF0EakEMrmBNsIz3iu6ZZ4WxVux8ZkSptvofve2XHlXVlFW6jNLIAIlSVTak/RN7zWpVYuz4Abp9JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1724089839; c=relaxed/simple;
+	bh=w/Fwcmt6wzBhQKj8NSEi6L2yI3ryj/IbNsRhMAgKF98=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Scqzw12WAf8ixaJxfsbdOvM8VrnH/3PaCwwyM6rmo0zlBmEPDvCosiI4hEUnN8JbLsd7GDqAy320ZmEW5/4wtNVwcGG+DRd/pKQuBCMDW1Ev3pc54cnOLWplgdWqA5GgyuoKOpBVKILeb/ilPkdTcoE6GPu4u3Q9Zn7x8R92epg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTAWSZCQ; arc=none smtp.client-ip=140.211.166.138
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTAWSZCQ"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2636480D97
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 16:25:54 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B1AC980CBC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 17:50:37 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -4.842
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id XQV9mzaE4pWf for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 19 Aug 2024 16:25:53 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.167.48; helo=mail-lf1-f48.google.com; envelope-from=wens213@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 44D6C80D90
-Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=csie.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 44D6C80D90
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 44D6C80D90
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 16:25:52 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5320d8155b4so5993181e87.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 09:25:51 -0700 (PDT)
+ id o36biAXps7Tb for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 19 Aug 2024 17:50:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::629; helo=mail-pl1-x629.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 1169980C7D
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 1169980C7D
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XTAWSZCQ
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 1169980C7D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 17:50:36 +0000 (UTC)
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-202146e93f6so29972505ad.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 10:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724089836; x=1724694636; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mOf43rLdvXlX2YVrcERQm/M+ITZnbYWg68aFZLl8QSU=;
+        b=XTAWSZCQllHrg0KL5f/69STg8msgNqwhmbETO+0lJ4YT/1KhSlmxBNKqmKoyB/XU0B
+         9jWuHEQcxzjGM1ShK5Zr+5UM06QDDx9C79fhnurjaDSeC4Ecj1pfLCUyIvNLDvM7kgtJ
+         fXdxwtfg/658n6iFqTP1H3fx/KmtOootKUaCkGycAKwpzmdHq/j0AO/wEyPM1J7QcyhJ
+         yP8OKD3yY9QVA58D8D3QP5OcVyMqrjnSp6iEKYjeuHpyJmeC4iVmVRzpYyBUwKLNcT21
+         A+fRmJ6+GhtavfEDit+Yd46lJ0y6eO6oR9s/trFxZSP6xxOq6RODOviSAlduwCoOGSYJ
+         CPLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724084749; x=1724689549;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9tHGsPt2XMV+DbbdXwYM1UeT8GX8eWUBRSysGoQM7AE=;
-        b=AOBARy2fwAvvArkhyEjxmOJPK+0qdh8bVLd6e1wwop7s++m1FZxrRM3THPcz5UQUhv
-         VKsY77kCRhOa+cTbhSKJqJtluTlFLvvqd8B1EpDQLHDS8s2De9L0/DVbLEs4dct5K86k
-         +ebnr6xBRw2ZfIQQ/VY7C4AaQrTAIaBe8Y3rIbYNPvVClf72YMhm/dR3GDZCWpCwQ+z/
-         +mMbCtCW5FPGoQuKE3o+o1m6ODwBX4jR4gYqrSedGYiTGUPrSWT6bI32VVqJL5sl3E4Y
-         ePF1JIbxypJIIWnFQOCI7WLk5iZGncsmTwLV13Fb+qlLos/rGjDjLg69DnB5i89bDY/y
-         P95w==
-X-Forwarded-Encrypted: i=1; AJvYcCU0kq5C/LjcFYbPXH680hqqM61LNy0vVXLmwerckNhU+6G+KHB02Yq2KFl5fYXqHg625wlaxike6uUK3rppjvjhLrrmKfa4BqnOHwvYYdSIwhMfjPz32Sw1fpkivCNh
-X-Gm-Message-State: AOJu0YxmiwjRC1X2NfeB7+2x9ys2ztEBkc56/iVW5i0eIMNrhJ4pRWaF
-	U7OEAPvnZU3lSlw50m3UWyU8yU2oDCGt1E2gr4uFAvtCchBEu92D1ECNqPJy
-X-Google-Smtp-Source: AGHT+IGYKqYUzIdMuZODNqc9kNAgpXJ3fWdOMp76KzwkG2p7MBIn/rtz9/OxRushZ6M0N2wsCSAX0A==
-X-Received: by 2002:a05:6512:6d6:b0:532:fdba:e7c9 with SMTP id 2adb3069b0e04-5331c6e3e9bmr6610456e87.56.1724084748476;
-        Mon, 19 Aug 2024 09:25:48 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5330d424fb0sm1553203e87.281.2024.08.19.09.25.47
-        for <linux-kernel-mentees@lists.linuxfoundation.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Aug 2024 09:25:47 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-52efc60a6e6so6546504e87.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 09:25:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWWd3YUOapGsUwxEC98A3SUugzoxZDFRANvoeGxXi0e1B4iQJKsBMvuJuDR0h74IdptdClbQ3qF3FgfsFLsVdOd/0g+75yY0W7OyQulOM9URKfr8Rl5g5aPxSO7LzQP
-X-Received: by 2002:a05:651c:504:b0:2f1:56a6:6057 with SMTP id
- 38308e7fff4ca-2f3be57849emr72731681fa.7.1724084747357; Mon, 19 Aug 2024
- 09:25:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724089836; x=1724694636;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mOf43rLdvXlX2YVrcERQm/M+ITZnbYWg68aFZLl8QSU=;
+        b=Vk9SlF3e9l9/zji9KrqcHzfS49hQo5+8v3FiBcSF0vAtDyu1DrnMMBBu/wIr5xKN0x
+         vB7wXemZ0D5OiENsEQVGagmW6JooucOUm6fW5HkW2ANoX4f8Zbjt5k7/L64vcr4C+0UX
+         uinpH3XsT94aiu0V+fZUrjU8EEJGQjRaeEUs6cus9sxfEP54AP8fmMVdQIBD40brLscP
+         md3T1ZGwDuHd2VwGu8y6GNPbKawl5xUCwJUjtLHZGPEtaB4ZKnO8qelffx+9loGVguYW
+         WpEXcrJjPHLltrMblmjFrxHmjShK/YN8XTYJ0ghgF8VeWVBl1t2nikWPzY3Lrn4qvUZ3
+         7ZwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWX3TEAaAb6eEf8kDakXd/mQO3Hrs3R21hjYHMsFjkVYTZ1oYdEASfV+XTmqCrq12BIJ2KTyGJsF63qscON1WwqUStitpEDneFZXS0qOt6ZehEgdQVRNBx2ywdj5jOi
+X-Gm-Message-State: AOJu0YxQYFMvhzrX5CtTbgOJUTWV9+/LGqdQ2AZTWzK1TkSvsRThhicV
+	QHvvHzMUSi7bkzhTKSgoMK/VzFg59NqHuhx1obVu02qGnWK2eqSt
+X-Google-Smtp-Source: AGHT+IHthh45koxlcqVb51AsdJSIiP+ADIZPw47JXoa3D6QFq1yXv+bLoH3499/vUQxg94w0/AWJPw==
+X-Received: by 2002:a17:902:d2c2:b0:202:5ac:fa49 with SMTP id d9443c01a7336-20205acfb5fmr141255095ad.51.1724089836004;
+        Mon, 19 Aug 2024 10:50:36 -0700 (PDT)
+Received: from embed-PC.myguest.virtualbox.org ([106.222.231.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-201f02fa4e0sm65064025ad.7.2024.08.19.10.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2024 10:50:34 -0700 (PDT)
+Date: Mon, 19 Aug 2024 23:19:20 +0530
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+	quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
+	skhan@linuxfoundation.org, rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: ili9341: Add comments for ILI9341 register
+Message-ID: <ZsOFoP+NR/pGNC5M@embed-PC.myguest.virtualbox.org>
+References: <20240812171019.561321-1-abhishektamboli9@gmail.com>
+ <b783f932-851f-4ea5-a2cc-d39061c60652@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-In-Reply-To: <20240816171129.6411-1-abhishektamboli9@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Tue, 20 Aug 2024 00:25:34 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66J7ceyPikD8atnybMD-UsVwAJZ4TRo16LroyVkAOc1Yw@mail.gmail.com>
-Message-ID: <CAGb2v66J7ceyPikD8atnybMD-UsVwAJZ4TRo16LroyVkAOc1Yw@mail.gmail.com>
-Subject: Re: [PATCH] leds: sun50i-a100: Replace msleep() with usleep_range()
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: pavel@ucw.cz, lee@kernel.org, jernej.skrabec@gmail.com, 
-	samuel@sholland.org, linux-leds@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	skhan@linuxfoundation.org, rbmarliere@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b783f932-851f-4ea5-a2cc-d39061c60652@linaro.org>
 
-On Sat, Aug 17, 2024 at 1:12=E2=80=AFAM Abhishek Tamboli
-<abhishektamboli9@gmail.com> wrote:
->
-> Replace msleep() with usleep_range() in sun50i_a100_ledc_suspend()
-> to address the checkpatch.pl warning. msleep() for such short delay
-> can lead to inaccurate sleep times. Switch to usleep_range()
-> provide more precise delay.
->
-> Fix the following warning from checkpatch.pl:
->
-> WARNING: msleep < 20ms can sleep for up to 20ms;
-> see Documentation/timers/timers-howto.rst
-> +               msleep(1);
->
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Hi, Neil
+Thanks for the feedback.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+On Mon, Aug 19, 2024 at 05:41:07PM +0200, neil.armstrong@linaro.org wrote:
+> On 12/08/2024 19:10, Abhishek Tamboli wrote:
+> > TODO : Add missing comments for ILI9341 register definition.
+> 
+> Please rephrase the commit message, and explain why in a proper english sentence.
+Sure
+> Neil
+> 
+> > 
+> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> > ---
+> >   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 14 +++++++-------
+> >   1 file changed, 7 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > index 775d5d5e828c..cba6a6952568 100644
+> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> > @@ -121,19 +121,19 @@ struct ili9341_config {
+> >   	const struct drm_display_mode mode;
+> >   	/* ca: TODO: need comments for this register */
+> >   	u8 ca[ILI9341_CA_LEN];
+> > -	/* power_b: TODO: need comments for this register */
+> > +	/* power_b: Power control B (CFh) */
+> >   	u8 power_b[ILI9341_POWER_B_LEN];
+> > -	/* power_seq: TODO: need comments for this register */
+> > +	/* pdtcaower_seq: Power on sequence control (EDh) */
+> >   	u8 power_seq[ILI9341_POWER_SEQ_LEN];
+> > -	/* dtca: TODO: need comments for this register */
+> > +	/* dtca: Driver timing control A (E8h) */
+> >   	u8 dtca[ILI9341_DTCA_LEN];
+> > -	/* dtcb: TODO: need comments for this register */
+> > +	/* dtcb: Driver timing control B (EAh) */
+> >   	u8 dtcb[ILI9341_DTCB_LEN];
+> > -	/* power_a: TODO: need comments for this register */
+> > +	/* power_a: Power control A (CBh) */
+> >   	u8 power_a[ILI9341_POWER_A_LEN];
+> >   	/* frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
+> >   	u8 frc[ILI9341_FRC_LEN];
+> > -	/* prc: TODO: need comments for this register */
+> > +	/* prc: Pump ratio control (F7h) */
+> >   	u8 prc;
+> >   	/* dfc_1: B6h DISCTRL (Display Function Control) */
+> >   	u8 dfc_1[ILI9341_DFC_1_LEN];
+> > @@ -147,7 +147,7 @@ struct ili9341_config {
+> >   	u8 vcom_2;
+> >   	/* address_mode: Memory Access Control (36h) */
+> >   	u8 address_mode;
+> > -	/* g3amma_en: TODO: need comments for this register */
+> > +	/* g3amma_en: Enable 3G (F2h) */
+> >   	u8 g3amma_en;
+> >   	/* rgb_interface: RGB Interface Signal Control (B0h) */
+> >   	u8 rgb_interface;
+> > --
+> > 2.34.1
+> > 
+Regards,
+Abhishek
