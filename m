@@ -1,180 +1,112 @@
 Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2026118A6C2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 08:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBCF18C01B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 09:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724142215; cv=none; b=VNbF5LNyhnqRN3YUg5QPsAKiuIS7v0ta0sBGipjngOMmrWYuxq+TSQv0BEufczovC7dCXZRAC0aR0emhALZvhHSHAdOTXJPyuqc9ypy6a4g39r0aFFQlY2YPS4kfXx+GR2Hzggm2+HTK3129+I7dw++bZeSIliYGPm6dWCuGipg=
+	t=1724146299; cv=none; b=khtBYxOIpql/4dXD/ON6dy9W3J44JwWbF56dpAa8xv2wJzSBkUz6W/zi9sBO4S9Gp6bPG+c3eB8cwqSi/50NGZ8NJd2PJSSKiFpeGoTMq1CfL6mICNmn5SdACUQeMHqV6+IDmxOxYI7MU6fqWqyZT306poeRZCFqDn3vXZXLzqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724142215; c=relaxed/simple;
-	bh=B19sqoBycUry/vO0YXIA83O5KOHUsudpw3pBkwmo2TM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rNS7HPwoOcPmsZjqsSMJwthrF2T/nEbmsa451g4xQFS+iREDQA+5mJmtTypqKYD5RojARxnBL1XKJ3IGslw9c7LR4Fo+QlNYPRGcfJaV5Fz8ReQASsFUYnssJ6zjR/sGAsdOzSZbgePePaQCzWj43dVed/T1iSFovksm2cC+BL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VSHTrIey; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1724146299; c=relaxed/simple;
+	bh=eFTi7zeLLmMAQd57ugmudMTtpCqN7XW5pg8v+Im63kE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Yc0NeCvSWYgUA17FkVWLOPAN/o8ORoq9KpnGrq8AC2zhMNJ7Y8flArGFbua0bGMXMrFytCGhlZom4q9I08+ycV5h4ehA4Mx99r7qMeC4a14pxOqIDC6yfHiurVjSWp7jttZzbea6dYp5/yBV+/EZJHZKyqCx2pI63QzvoHXAwoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nDei9Fdt; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VSHTrIey"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nDei9Fdt"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A698360637
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 08:23:31 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E117C608AA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 09:31:37 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.1
 X-Spam-Level:
 Received: from smtp3.osuosl.org ([127.0.0.1])
  by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id p1B7chjXkTPk for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Aug 2024 08:23:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::433; helo=mail-wr1-x433.google.com; envelope-from=neil.armstrong@linaro.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 9498760626
+ id QNjKjv6z_P1z for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 20 Aug 2024 09:31:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::335; helo=mail-wm1-x335.google.com; envelope-from=neil.armstrong@linaro.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org C3E18608A4
 Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9498760626
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org C3E18608A4
 Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=VSHTrIey
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 9498760626
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 08:23:30 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-371c5187198so448991f8f.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 01:23:30 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=nDei9Fdt
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id C3E18608A4
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 09:31:36 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-4280ee5f1e3so42372475e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 02:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1724142208; x=1724747008; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g06wDPeU9MjglcJ+z2m0ltRmTby8o0NBa3/IUMX4o7g=;
-        b=VSHTrIeyafEOac9kAhX4vQP1qs1AOfJ5IXsHJ/H/I+NztR+LcbNMMemv6vSdH/bv5h
-         PF2A0uDL5YUVvdp21J8Gu+YQ1rVzsIF4n8mbf+UKPnTlxAv6akDYTxDPMboqqGvcPkuW
-         AEFuxvHol6IuP2EG0x9fh29JIMCqrfsk1f5Xa/mMr5hA+dHC1q1GjVznswbimddeT4bV
-         rqUphboxhOgOerkxoMgtX/iXm5socuoWgv3lLVtDXAVLEdjwvxjnT8wlCaKjnaidxl0M
-         tRBWGBab+DspLalsx2zICLWjLGwASA+RQKideDGRZVy3Ot7FUeWBkQSk2RRdBkbqzVGq
-         Yv+A==
+        d=linaro.org; s=google; t=1724146294; x=1724751094; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dR0CreoU8vpVj47jDOdAp+cTu5413/pQZmWvPzZH2KA=;
+        b=nDei9FdtV9SB1nBgTXBEQwr6MifNYh2ntFTrOY5TpQ/SiWejvrDThI45OvPC7+rUoC
+         UqJxYeSfs6+kfSgsn4T59zZWC4aDD0xIQA4lC2hct+3JjEhbBWkt8b7f1r1lJQMBEyxG
+         uOMcLY4VImITCDvwTdQKbPUSpArM/SL9oaGRxnDG/FA0TWW8EAz3A6jfG8pxrf1s3Wha
+         5+cgcZNuM99cm/6Ewn6H4cyEkXpIm4MBxwgk6ckqtQq28BeaWG+Gq9LA+gKHRr3wZF4l
+         CS5uZLc0MCNVcT6RRgf/dZb5Mxoa33g4UurlVFkX7H1yKhNLW9ew9JCn6mrwZ66wa534
+         LhpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724142208; x=1724747008;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=g06wDPeU9MjglcJ+z2m0ltRmTby8o0NBa3/IUMX4o7g=;
-        b=AsB2QsuBV2kOltGq2KYUrFEl+dbG3ltSjTNnffZocD7+W0Wj4+9LVdNNsSAyGMVO2r
-         LmBzzopqbaV5tXsReow0ncQwclmDi+gpI72gMMslJNlcBj3nYd8jViL+aaMJ8oAqKfWz
-         O0UxL2p2CNWc0/A8TuNDMp4VSWVWrLoEYG27YEeNhmIVqgWY4Upl6/9UGWhS0rVBVbQ/
-         SeYjNmARnyozUBKpXaqfAXAu7htrKTIJ3f5R6NOxrdDMOULNY70ZiIxFz4ScMV6g3ljL
-         ayH5d39GydmlAMmZyXza1DSxx7lBGGSH0def/GerjJixX+lMzbZ+iPYhJ5yacEH5XgML
-         KrqA==
-X-Forwarded-Encrypted: i=1; AJvYcCWknecFdyP9rKbdDw9cLpBLwjq3mvIT1L/fUlD9uNq4sE5SXiEbYhJWPUXSX36sTmFLqlhv48tumdeIpsDK8+C00Gdhp1zN+CMGs0KbWO8I89coklUk8nB/i+/m36ha
-X-Gm-Message-State: AOJu0YxMjIbz2jZ3J0u++FBxXcqbkYrqrWDrHC5epFznU63t8LZ2Cuol
-	0TEHwD6NCQWHBxcJv80/9vCb6gp1kCWgi31iU5giz5ar2boE0MBByaaBdSOZ970=
-X-Google-Smtp-Source: AGHT+IFakWknGdMxRWi3g0r4IjYM0bu/R3OkJs3pCdC6FIiuXXQwaNsN80cLj+C8v1Pj3hYfWLpd7g==
-X-Received: by 2002:adf:9bd9:0:b0:368:4b61:7197 with SMTP id ffacd0b85a97d-37194453122mr7643625f8f.24.1724142207730;
-        Tue, 20 Aug 2024 01:23:27 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:ebdf:8de4:37af:6aad? ([2a01:e0a:982:cbb0:ebdf:8de4:37af:6aad])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898497ffsm12435438f8f.27.2024.08.20.01.23.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 01:23:27 -0700 (PDT)
-Message-ID: <5dc32819-a794-40b4-95bd-ee05c0c395e9@linaro.org>
-Date: Tue, 20 Aug 2024 10:23:26 +0200
+        d=1e100.net; s=20230601; t=1724146294; x=1724751094;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dR0CreoU8vpVj47jDOdAp+cTu5413/pQZmWvPzZH2KA=;
+        b=P24Y05tazDxeKVBFYHHWQ8/Hr4Q2OoIFHoXJv1OCpYpnw9kh5r50Yz6YpnzE3EjtPF
+         NSt9UDY9Usr3fJwT9WtxNW2+2ZaQlrpnQZGlRPAJoKALDCwsbrkRvppoci9fgjO/ipqm
+         MCa7uUfsCmFTWpr9GOHTbMAOw38u4+CGFqdt2Ry6E2A0Xfwrp0PpJshPBLmyxC8OvcqQ
+         pZExyZQi4N5UA8rhNekGOeLBGBUMP7zUfTuFghrnFPBsHVtwYsjlXdoYIUtNVsUH5413
+         uR0M9geC9jVSQoBmd2YAZpXinX1lLoJlzoRMeozUg2acAvC4q0mxJuFtcj/Z+GMnj3y7
+         Ud8w==
+X-Forwarded-Encrypted: i=1; AJvYcCU9f6/+JPLKVwRWbYKKJ51LwtUb+9eVbul+2f24rNJXnx48vdeyhaEk0eg3Bdm/wB9NDsBJMfpq3RP5l5tGwXThtpd5nA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzIKryAIdCW2S2MsZ+rSG8ot6OMpEQZKYnBYZjiEfiH1zkDHk9D
+	qCIXgzPCfIDMWH2sJ/1Q93T5Wj4LZhWUeOCiGit/OOPaGNUlTOg+HQRCW7TUons=
+X-Google-Smtp-Source: AGHT+IHX+zBO3kMosl5V3wdA7ekb2kmacB5cUU/l4MDgeLTQn+W+q0tXM80DVANeQt+/R4mbjOcPgQ==
+X-Received: by 2002:a05:600c:4f8d:b0:427:d713:a5d3 with SMTP id 5b1f17b1804b1-429ed79daa4mr89507445e9.11.1724146293900;
+        Tue, 20 Aug 2024 02:31:33 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-429ed648f00sm136597505e9.7.2024.08.20.02.31.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2024 02:31:33 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+ Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org, 
+ skhan@linuxfoundation.org, rbmarliere@gmail.com, 
+ linux-kernel-mentees@lists.linuxfoundation.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240819175122.33176-1-abhishektamboli9@gmail.com>
+References: <20240819175122.33176-1-abhishektamboli9@gmail.com>
+Subject: Re: [PATCH v2] drm/panel: ili9341: Add comments for registers in
+ ili9341_config()
+Message-Id: <172414629306.2571141.1078174341276677864.b4-ty@linaro.org>
+Date: Tue, 20 Aug 2024 11:31:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2] drm/panel: ili9341: Add comments for registers in
- ili9341_config()
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
- skhan@linuxfoundation.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20240819175122.33176-1-abhishektamboli9@gmail.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20240819175122.33176-1-abhishektamboli9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.0
 
-On 19/08/2024 19:51, Abhishek Tamboli wrote:
+Hi,
+
+On Mon, 19 Aug 2024 23:21:22 +0530, Abhishek Tamboli wrote:
 > Add detail comments for registers definitions in struct ili9341_config().
 > Replace TODO with comment for each registers.
 > 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
-> Changes in v2:
-> - Rephrased the commit message.
-> 
->   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-> index 775d5d5e828c..1fbc5d433d75 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
-> @@ -121,19 +121,19 @@ struct ili9341_config {
->   	const struct drm_display_mode mode;
->   	/* ca: TODO: need comments for this register */
->   	u8 ca[ILI9341_CA_LEN];
-> -	/* power_b: TODO: need comments for this register */
-> +	/* power_b: Power control B (CFh) */
->   	u8 power_b[ILI9341_POWER_B_LEN];
-> -	/* power_seq: TODO: need comments for this register */
-> +	/* power_seq: Power on sequence control (EDh) */
->   	u8 power_seq[ILI9341_POWER_SEQ_LEN];
-> -	/* dtca: TODO: need comments for this register */
-> +	/* dtca: Driver timing control A (E8h) */
->   	u8 dtca[ILI9341_DTCA_LEN];
-> -	/* dtcb: TODO: need comments for this register */
-> +	/* dtcb: Driver timing control B (EAh) */
->   	u8 dtcb[ILI9341_DTCB_LEN];
-> -	/* power_a: TODO: need comments for this register */
-> +	/* power_a: Power control A (CBh) */
->   	u8 power_a[ILI9341_POWER_A_LEN];
->   	/* frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
->   	u8 frc[ILI9341_FRC_LEN];
-> -	/* prc: TODO: need comments for this register */
-> +	/* prc: Pump ratio control (F7h) */
->   	u8 prc;
->   	/* dfc_1: B6h DISCTRL (Display Function Control) */
->   	u8 dfc_1[ILI9341_DFC_1_LEN];
-> @@ -147,7 +147,7 @@ struct ili9341_config {
->   	u8 vcom_2;
->   	/* address_mode: Memory Access Control (36h) */
->   	u8 address_mode;
-> -	/* g3amma_en: TODO: need comments for this register */
-> +	/* g3amma_en: Enable 3G (F2h) */
->   	u8 g3amma_en;
->   	/* rgb_interface: RGB Interface Signal Control (B0h) */
->   	u8 rgb_interface;
-> --
-> 2.34.1
 > 
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/1] drm/panel: ili9341: Add comments for registers in ili9341_config()
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1453323eac4f13817a07f40e78e76dfc635aab34
+
+-- 
+Neil
+
