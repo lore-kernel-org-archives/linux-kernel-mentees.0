@@ -1,215 +1,180 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C751EC8E9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 01:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2026118A6C2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 08:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724115846; cv=none; b=Z9jPXB5meaeUjy6ONuXDtYmcbTR3XfhGFgwdG09sbjNyBj31yKqOqoewok6UXGKwIKEkv7y2A2xLh53c31sRprQP1I+1I4n5FLvWghaL+H1jPwjmP7fCfVjnXlMkGB5hwjc5xq3Z9CvYEkYao0njAZ6BMrRwCwqEv4krXsDGcZc=
+	t=1724142215; cv=none; b=VNbF5LNyhnqRN3YUg5QPsAKiuIS7v0ta0sBGipjngOMmrWYuxq+TSQv0BEufczovC7dCXZRAC0aR0emhALZvhHSHAdOTXJPyuqc9ypy6a4g39r0aFFQlY2YPS4kfXx+GR2Hzggm2+HTK3129+I7dw++bZeSIliYGPm6dWCuGipg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724115846; c=relaxed/simple;
-	bh=IZLXBA7ZZL9JQUfezOi9Myz8vJBxrzmGTbhPuknJdBQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZX/gXoCe3/J2yyvFhJGK5PM8V8etmKvmt1VeYmjyvYHAcmSRYqypA5ADKoJTbmzUG267I7ICPhREm5wahgEgOO6mkH1T5TwDGAMychMDJYAENr3Mbc7wZohoXnT8KtvugQrPE72Ac9m/vTT0Ul7Yc9bvU7M2Kj09dk9U7TRCZFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PN4ozB1d; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1724142215; c=relaxed/simple;
+	bh=B19sqoBycUry/vO0YXIA83O5KOHUsudpw3pBkwmo2TM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=rNS7HPwoOcPmsZjqsSMJwthrF2T/nEbmsa451g4xQFS+iREDQA+5mJmtTypqKYD5RojARxnBL1XKJ3IGslw9c7LR4Fo+QlNYPRGcfJaV5Fz8ReQASsFUYnssJ6zjR/sGAsdOzSZbgePePaQCzWj43dVed/T1iSFovksm2cC+BL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VSHTrIey; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PN4ozB1d"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VSHTrIey"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 6598A404D0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 01:04:05 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id A698360637
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 08:23:31 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.1
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 2hMjtTm5A8Pj for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Aug 2024 01:04:04 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::935; helo=mail-ua1-x935.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 4E131404CA
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 4E131404CA
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=PN4ozB1d
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com [IPv6:2607:f8b0:4864:20::935])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 4E131404CA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 01:04:03 +0000 (UTC)
-Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-843046a99e3so937559241.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 19 Aug 2024 18:04:03 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id p1B7chjXkTPk for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 20 Aug 2024 08:23:31 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::433; helo=mail-wr1-x433.google.com; envelope-from=neil.armstrong@linaro.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 9498760626
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 9498760626
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=VSHTrIey
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 9498760626
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 08:23:30 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-371c5187198so448991f8f.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 01:23:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724115842; x=1724720642; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S9cBkJC0RP1zERiTMVgnYdt05/xaN8L9Ga6Qql299sY=;
-        b=PN4ozB1d5rxnV9IFim92hDhKayi3MDzlq06SmEDfBLdxR0ndKVViaLJm4l9RZtfTDV
-         1AkYNRc5KZSP2+v6VIn3lOw0NA9/g1fHLd7avAmXJgYE4rnWWV2lwc49jmdlHBjNkDqE
-         C4tEAHCwIVyO66rQdiL9Kv8dmuHSV8q4S49or2pRfNTizDA3c0llpSQUBfqLD6qJbKgz
-         T7NxgXftfRpEf8omBgHRMnDtC24uaIE4N/xL148L07U2V80S0lA3XSoMP+8QLfgIh8Iu
-         vcnjdXRe8J3I4yeeGhHGwTom9f2wBapyX65VRm1vPUfuqa5e9seytH42p4OIE/TU02un
-         G9wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724115842; x=1724720642;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1724142208; x=1724747008; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=S9cBkJC0RP1zERiTMVgnYdt05/xaN8L9Ga6Qql299sY=;
-        b=FHq9f8+fTYf7//IcRsJOuJYtyhrPvDq/IQnn8PVdPfKJZm2OErrrjdOnAjTnv50vQl
-         F8PFHda6cQZGifkwjB7k5vVtmSzq5PKkeP/X4of4M6Kkma3Rehh3KPa3y3dQWqiBLEMe
-         Zw85l2UXF+zqNWS5OPgS2cudt/UXqqeGcAa3gYflNvF/UV5Ul2t+/g89QmBEOJOOJiNL
-         bom/bhqA8DolgpbRlmTD7LFQtWuy0nLsn6gneiN17fkBjBrvIojq8h6KOGmigUorvACJ
-         qEYbwNdbavc+LjOaBYCo2MMX/lbJdmfS/bOwmIqnNCUux6+VfeTOTueWFeL+RWV7xw0N
-         gX0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVEb7lHUT9KhTfoPZMkyB5Ycnhip06H1Yl9SPJmHtQ8jBfOXvQqhoxVwWHE9Cf06duoPII2at7S428u2mKeymtZvUmR9A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Ywp8eGsDqDt1c5PbJiiOvjCm+YEJtGtr0eyq9iY8bvM4qWV0/NF
-	+RS+1SOV0LUJp0fh28iAeltalRoy8joo24Y6/r3/WtuFMgzPO1qO
-X-Google-Smtp-Source: AGHT+IHmsFq3kmTL7RHWh4Pv3B7eZi49R5V1M7QDJNDVqWUuTMcARCMHA9u1QlKEKlwjTcX3UmcuZQ==
-X-Received: by 2002:a05:6102:85:b0:498:9aff:a193 with SMTP id ada2fe7eead31-4989affa27amr5093189137.24.1724115842236;
-        Mon, 19 Aug 2024 18:04:02 -0700 (PDT)
-Received: from x13.localdomain (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-842fb9c6170sm1395040241.27.2024.08.19.18.03.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2024 18:04:00 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v3] lib/math: Add int_pow test suite
-Date: Mon, 19 Aug 2024 21:03:52 -0400
-Message-ID: <20240820010353.7533-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        bh=g06wDPeU9MjglcJ+z2m0ltRmTby8o0NBa3/IUMX4o7g=;
+        b=VSHTrIeyafEOac9kAhX4vQP1qs1AOfJ5IXsHJ/H/I+NztR+LcbNMMemv6vSdH/bv5h
+         PF2A0uDL5YUVvdp21J8Gu+YQ1rVzsIF4n8mbf+UKPnTlxAv6akDYTxDPMboqqGvcPkuW
+         AEFuxvHol6IuP2EG0x9fh29JIMCqrfsk1f5Xa/mMr5hA+dHC1q1GjVznswbimddeT4bV
+         rqUphboxhOgOerkxoMgtX/iXm5socuoWgv3lLVtDXAVLEdjwvxjnT8wlCaKjnaidxl0M
+         tRBWGBab+DspLalsx2zICLWjLGwASA+RQKideDGRZVy3Ot7FUeWBkQSk2RRdBkbqzVGq
+         Yv+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724142208; x=1724747008;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=g06wDPeU9MjglcJ+z2m0ltRmTby8o0NBa3/IUMX4o7g=;
+        b=AsB2QsuBV2kOltGq2KYUrFEl+dbG3ltSjTNnffZocD7+W0Wj4+9LVdNNsSAyGMVO2r
+         LmBzzopqbaV5tXsReow0ncQwclmDi+gpI72gMMslJNlcBj3nYd8jViL+aaMJ8oAqKfWz
+         O0UxL2p2CNWc0/A8TuNDMp4VSWVWrLoEYG27YEeNhmIVqgWY4Upl6/9UGWhS0rVBVbQ/
+         SeYjNmARnyozUBKpXaqfAXAu7htrKTIJ3f5R6NOxrdDMOULNY70ZiIxFz4ScMV6g3ljL
+         ayH5d39GydmlAMmZyXza1DSxx7lBGGSH0def/GerjJixX+lMzbZ+iPYhJ5yacEH5XgML
+         KrqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWknecFdyP9rKbdDw9cLpBLwjq3mvIT1L/fUlD9uNq4sE5SXiEbYhJWPUXSX36sTmFLqlhv48tumdeIpsDK8+C00Gdhp1zN+CMGs0KbWO8I89coklUk8nB/i+/m36ha
+X-Gm-Message-State: AOJu0YxMjIbz2jZ3J0u++FBxXcqbkYrqrWDrHC5epFznU63t8LZ2Cuol
+	0TEHwD6NCQWHBxcJv80/9vCb6gp1kCWgi31iU5giz5ar2boE0MBByaaBdSOZ970=
+X-Google-Smtp-Source: AGHT+IFakWknGdMxRWi3g0r4IjYM0bu/R3OkJs3pCdC6FIiuXXQwaNsN80cLj+C8v1Pj3hYfWLpd7g==
+X-Received: by 2002:adf:9bd9:0:b0:368:4b61:7197 with SMTP id ffacd0b85a97d-37194453122mr7643625f8f.24.1724142207730;
+        Tue, 20 Aug 2024 01:23:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:ebdf:8de4:37af:6aad? ([2a01:e0a:982:cbb0:ebdf:8de4:37af:6aad])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-371898497ffsm12435438f8f.27.2024.08.20.01.23.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 01:23:27 -0700 (PDT)
+Message-ID: <5dc32819-a794-40b4-95bd-ee05c0c395e9@linaro.org>
+Date: Tue, 20 Aug 2024 10:23:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2] drm/panel: ili9341: Add comments for registers in
+ ili9341_config()
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch
+Cc: quic_jesszhan@quicinc.com, dri-devel@lists.freedesktop.org,
+ skhan@linuxfoundation.org, rbmarliere@gmail.com,
+ linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <20240819175122.33176-1-abhishektamboli9@gmail.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240819175122.33176-1-abhishektamboli9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Adds test suite for integer based power function.
+On 19/08/2024 19:51, Abhishek Tamboli wrote:
+> Add detail comments for registers definitions in struct ili9341_config().
+> Replace TODO with comment for each registers.
+> 
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+> Changes in v2:
+> - Rephrased the commit message.
+> 
+>   drivers/gpu/drm/panel/panel-ilitek-ili9341.c | 14 +++++++-------
+>   1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> index 775d5d5e828c..1fbc5d433d75 100644
+> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9341.c
+> @@ -121,19 +121,19 @@ struct ili9341_config {
+>   	const struct drm_display_mode mode;
+>   	/* ca: TODO: need comments for this register */
+>   	u8 ca[ILI9341_CA_LEN];
+> -	/* power_b: TODO: need comments for this register */
+> +	/* power_b: Power control B (CFh) */
+>   	u8 power_b[ILI9341_POWER_B_LEN];
+> -	/* power_seq: TODO: need comments for this register */
+> +	/* power_seq: Power on sequence control (EDh) */
+>   	u8 power_seq[ILI9341_POWER_SEQ_LEN];
+> -	/* dtca: TODO: need comments for this register */
+> +	/* dtca: Driver timing control A (E8h) */
+>   	u8 dtca[ILI9341_DTCA_LEN];
+> -	/* dtcb: TODO: need comments for this register */
+> +	/* dtcb: Driver timing control B (EAh) */
+>   	u8 dtcb[ILI9341_DTCB_LEN];
+> -	/* power_a: TODO: need comments for this register */
+> +	/* power_a: Power control A (CBh) */
+>   	u8 power_a[ILI9341_POWER_A_LEN];
+>   	/* frc: Frame Rate Control (In Normal Mode/Full Colors) (B1h) */
+>   	u8 frc[ILI9341_FRC_LEN];
+> -	/* prc: TODO: need comments for this register */
+> +	/* prc: Pump ratio control (F7h) */
+>   	u8 prc;
+>   	/* dfc_1: B6h DISCTRL (Display Function Control) */
+>   	u8 dfc_1[ILI9341_DFC_1_LEN];
+> @@ -147,7 +147,7 @@ struct ili9341_config {
+>   	u8 vcom_2;
+>   	/* address_mode: Memory Access Control (36h) */
+>   	u8 address_mode;
+> -	/* g3amma_en: TODO: need comments for this register */
+> +	/* g3amma_en: Enable 3G (F2h) */
+>   	u8 g3amma_en;
+>   	/* rgb_interface: RGB Interface Signal Control (B0h) */
+>   	u8 rgb_interface;
+> --
+> 2.34.1
+> 
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
----
-Changes in v3:
-- Fix compiler warning: explicitly define constant as unsigned int
-- Add changes in patch revisions
-Changes in v2:
-- Address review feedback
-  - Add kconfig entry
-  - Use correct dir and file convention for KUnit
-  - Fix typo
-  - Remove unused static_stub header
-  - Refactor test suite to use paramerterized test cases
-  - Add close to max allowable value to in large_result test case
-  - Add test case with non-power of two exponent
-  - Fix module license 
----
- lib/Kconfig.debug              |  9 ++++++
- lib/math/Makefile              |  1 +
- lib/math/tests/Makefile        |  3 ++
- lib/math/tests/int_pow_kunit.c | 52 ++++++++++++++++++++++++++++++++++
- 4 files changed, 65 insertions(+)
- create mode 100644 lib/math/tests/Makefile
- create mode 100644 lib/math/tests/int_pow_kunit.c
-
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index a30c03a66172..b0bbd30d4cba 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3051,3 +3051,12 @@ config RUST_KERNEL_DOCTESTS
- endmenu # "Rust"
- 
- endmenu # Kernel hacking
-+
-+config INT_POW_TEST
-+       tristate "Integer exponentiation (int_pow) test" if !KUNIT_ALL_TESTS
-+       depends on KUNIT
-+       default KUNIT_ALL_TESTS
-+       help
-+         Enable this to test the int_pow maths function KUnit test.
-+
-+         If unsure, say N
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 91fcdb0c9efe..3c1f92a7459d 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -5,5 +5,6 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
- obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
- obj-$(CONFIG_RATIONAL)		+= rational.o
- 
-+obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
- obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-new file mode 100644
-index 000000000000..6a169123320a
---- /dev/null
-+++ b/lib/math/tests/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
-diff --git a/lib/math/tests/int_pow_kunit.c b/lib/math/tests/int_pow_kunit.c
-new file mode 100644
-index 000000000000..e04dd73dabd1
---- /dev/null
-+++ b/lib/math/tests/int_pow_kunit.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <kunit/test.h>
-+#include <linux/math.h>
-+
-+struct test_case_params {
-+	u64 base;
-+	unsigned int exponent;
-+	u64 expected_result;
-+	const char *name;
-+};
-+
-+static const struct test_case_params params[] = {
-+	{ 64, 0, 1, "Power of zero" },
-+	{ 64, 1, 64, "Power of one"},
-+	{ 0, 5, 0, "Base zero" },
-+	{ 1, 64, 1, "Base one" },
-+	{ 2, 2, 4, "Two squared"},
-+	{ 2, 3, 8, "Two cubed"},
-+	{ 5, 5, 3125, "Five raised to the fith power" },
-+	{ U64_MAX, 1, U64_MAX, "Max base" },
-+	{ 2, 63, 9223372036854775808ULL, "Large result"},
-+};
-+
-+static void get_desc(const struct test_case_params *tc, char *desc)
-+{
-+	strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(int_pow, params, get_desc);
-+
-+static void int_pow_test(struct kunit *test)
-+{
-+	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
-+
-+	KUNIT_EXPECT_EQ(test, tc->expected_result, int_pow(tc->base, tc->exponent));
-+}
-+
-+static struct kunit_case math_int_pow_test_cases[] = {
-+	KUNIT_CASE_PARAM(int_pow_test, int_pow_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite int_pow_test_suite = {
-+	.name = "math-int_pow",
-+	.test_cases = math_int_pow_test_cases,
-+};
-+
-+kunit_test_suites(&int_pow_test_suite);
-+
-+MODULE_DESCRIPTION("math.int_pow KUnit test suite");
-+MODULE_LICENSE("GPL");
--- 
-2.46.0
-
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
