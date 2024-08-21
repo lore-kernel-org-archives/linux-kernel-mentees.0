@@ -1,128 +1,282 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8247F125D5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 19:47:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE6F20098F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Aug 2024 09:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724183261; cv=none; b=HgDDu0NR87Q8Jg6mamZQzGavmOh/UnmoLNA9fwmoRWBPWmo2z1WOkH5eqRVrSognyg/1bmghTwFCLLPyCpTiGRfMk2OspDlSIGLclZAxYaCnLAblhRmyhboS79/aplw2IF7H6gP2ii82J3paXHEwCn375n2zlFNRzh2N0Kwt8+4=
+	t=1724233412; cv=none; b=UqQpRCh/s3Z5d7hjf/hZTGmAbNXs8+2tTtW2DI9qoiNBce5g39rTokNm508gTtvWDI86hWgZa+SGgXSxcs7H928m7ZwP+jh26HWtxBkm/4jXdMQcUS/t6pA0hnUFTKpcBgn+XJMWlpYo3NFjC8mUkgD3ntIiOGTJW0mGRfEE80Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724183261; c=relaxed/simple;
-	bh=i0CsVAVNg6mFCh0+dev4hO4WQyvGoe/wPJjjY5VtOk4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=iSpQT+Ybvupgm/0C3JsNIqBp2SJX5MyLKjR63gBJA0z1vWHfmGdTuUlvr9IK7uV/xn5tGqF0V8TVLSn9nIrICaeUs8cjW+tkJb8jG5H5qtOURp41ZrjUjAMneIScIvRIlj11KTFYtghW6YhzKF8lBlfpN0qxX4+ZivZ3VM1R2MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=bI+NW17y; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1724233412; c=relaxed/simple;
+	bh=VtLhwjfdoBt6Izefq6nC7rSkdwaapeADWgGxeh/MnKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BOAsZpd0MK5uv27C/jQlfEhlqfZz3zur9vlUo4obpc0kgcE7a6UmZR7YcDgch2AZx8kWez4wBvWMmiYXuDJA6VZNvrQhTLhEhyaiwYk9p2kUEKD4xAJVHNOHXr4T7DUPv+S5sFKOIZjbYaY3A90aLAkiHC2WJz/yo6gKWufVydk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPZlSJkC; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="bI+NW17y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPZlSJkC"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 25AE360765
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 19:47:39 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0680C406D2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Aug 2024 09:43:30 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.794
+X-Spam-Score: -8.092
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id AJvZJiWNJs4L for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 20 Aug 2024 19:47:38 +0000 (UTC)
-X-Greylist: delayed 551 seconds by postgrey-1.37 at util1.osuosl.org; Tue, 20 Aug 2024 19:47:37 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 03AD86072D
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 03AD86072D
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wanadoo.fr header.i=@wanadoo.fr header.a=rsa-sha256 header.s=t20230301 header.b=bI+NW17y
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=80.12.242.74; helo=msa.smtpout.orange.fr; envelope-from=christophe.jaillet@wanadoo.fr; receiver=<UNKNOWN> 
-Received: from msa.smtpout.orange.fr (smtp-74.smtpout.orange.fr [80.12.242.74])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 03AD86072D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 20 Aug 2024 19:47:37 +0000 (UTC)
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id gUgQsMRgMyTq2gUgQs5xkP; Tue, 20 Aug 2024 21:38:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1724182704;
-	bh=NlO7mLF+NT33sRpCRl6DO3FkKqiceX8jbHbbMHO1dVk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To;
-	b=bI+NW17yUjQTIlOmVgdhuGiGsxyDADnPI4CkQaxmJlPyZPijVpOBcR2wtR1BYKO6x
-	 GkYgvcYhwowQ4XgPlw+x/pZME81XyOU+LBy6ai7kqsIO/+OuhmhW5rSNf/6kkj1EiX
-	 hOoaeIrZ6sR7r5NVnFyb+xMzvsCE3DvPpn3itzieZxoINMARcuBJD5Htb4HJOJfPJf
-	 TNg3cGhsTemICqAkkbAqSg54e7UoRJ2Gr2imPebcfR3vKRpnPNm/mWi9J651rRWxpt
-	 oY+GBk6JJRqbKnx2p/0AbvfLyKvdo46OJJ3GqsyX3frXsv59ULQRyDBPujQt8bQtiT
-	 hUa0obIJ8UmEw==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 20 Aug 2024 21:38:24 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <2348e646-e1da-4deb-ab55-c438a42e25b3@wanadoo.fr>
-Date: Tue, 20 Aug 2024 21:38:22 +0200
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id wz1Gieg_7iLQ for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 21 Aug 2024 09:43:28 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=192.198.163.19; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 2B446404F7
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 2B446404F7
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nPZlSJkC
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 2B446404F7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 21 Aug 2024 09:43:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1724233408; x=1755769408;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VtLhwjfdoBt6Izefq6nC7rSkdwaapeADWgGxeh/MnKE=;
+  b=nPZlSJkC7MjygC0NohVUcMxOypN5nEhof+J8VhQjVQU5jsw1LjqN+ZEb
+   hyW1x7ZKJ6VxyM1l5D2xNrgK5OouNkOeJizITFIzhwXOf6JcY8wdLMZnc
+   w2qvnA2iYi3rl9/D+2e2FZ2LSxT+KgG4epWMw3opsiKncuXX6Y779fPrM
+   5HMlOoZUNocIdXoZV4osdyPW0Ma2sLn6WWJcThzOOHkO+CFm3OGDLG3eC
+   0OOnJVmvcqqzUwK3JJntL/UTqZrylyQlBQWcfEIToch/w3SucCDOq941D
+   okNPa3vg+dpMUXAoxd4ZFy2USxAQdptuQ0U5bV1XrISAgovI5+340xUMY
+   Q==;
+X-CSE-ConnectionGUID: jXbkaC0SR6mq4DHQjBDvpA==
+X-CSE-MsgGUID: ja0kAOkgSoGkKGnvXGckwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11170"; a="22195866"
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
+   d="scan'208";a="22195866"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2024 02:43:26 -0700
+X-CSE-ConnectionGUID: SCQfpT+4ReKeYb+B1BYMYg==
+X-CSE-MsgGUID: kCUYSb9tRkipB9Te8HIPQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,164,1719903600"; 
+   d="scan'208";a="65388153"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Aug 2024 02:43:23 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sghs9-000BAc-0x;
+	Wed, 21 Aug 2024 09:43:21 +0000
+Date: Wed, 21 Aug 2024 17:43:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tdavies@darkphysics.net, philipp.g.hortmann@gmail.com,
+	garyrookard@fastmail.org, linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org, rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in
+ rtl819x_translate_scan
+Message-ID: <202408211709.E9iGxQa8-lkp@intel.com>
+References: <20240820184216.45390-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in
- rtl819x_translate_scan
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>, gregkh@linuxfoundation.org
-Cc: tdavies@darkphysics.net, philipp.g.hortmann@gmail.com,
- garyrookard@fastmail.org, linux-staging@lists.linux.dev,
- skhan@linuxfoundation.org, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20240820184216.45390-1-abhishektamboli9@gmail.com>
-Content-Language: en-US, fr-FR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240820184216.45390-1-abhishektamboli9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-Le 20/08/2024 à 20:42, Abhishek Tamboli a écrit :
-> Replace strcpy() with strscpy() in rtl819x_translate_scan()
-> function to ensure buffer safety.
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
->   drivers/staging/rtl8192e/rtllib_wx.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8192e/rtllib_wx.c b/drivers/staging/rtl8192e/rtllib_wx.c
-> index fbd4ec824084..970b7fcb3f7e 100644
-> --- a/drivers/staging/rtl8192e/rtllib_wx.c
-> +++ b/drivers/staging/rtl8192e/rtllib_wx.c
-> @@ -61,7 +61,7 @@ static inline char *rtl819x_translate_scan(struct rtllib_device *ieee,
->   	iwe.cmd = SIOCGIWNAME;
->   	for (i = 0; i < ARRAY_SIZE(rtllib_modes); i++) {
->   		if (network->mode & BIT(i)) {
-> -			strcpy(pname, rtllib_modes[i]);
-> +			strscpy(pname, rtllib_modes[i], sizeof(pname));
+Hi Abhishek,
 
-This not correct.
+kernel test robot noticed the following build errors:
 
-sizeof(pname) is 4 here, but the buffer that is really used is "char 
-proto_name[6];"
+[auto build test ERROR on staging/staging-testing]
 
-6 chars are needed for storing "N-24G" (see rtllib_modes), so 5 chars + 
-ending \0.
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Tamboli/staging-rtl8192e-Replace-strcpy-with-strscpy-in-rtl819x_translate_scan/20240821-024358
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20240820184216.45390-1-abhishektamboli9%40gmail.com
+patch subject: [PATCH] staging: rtl8192e: Replace strcpy with strscpy in rtl819x_translate_scan
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20240821/202408211709.E9iGxQa8-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 26670e7fa4f032a019d23d56c6a02926e854e8af)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240821/202408211709.E9iGxQa8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408211709.E9iGxQa8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/um/include/asm/cacheflush.h:4:
+   In file included from arch/um/include/asm/tlbflush.h:9:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:18:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:18:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:18:
+   In file included from include/linux/etherdevice.h:20:
+   In file included from include/linux/if_ether.h:19:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from drivers/staging/rtl8192e/rtllib_wx.c:15:
+   In file included from include/linux/wireless.h:13:
+   In file included from include/uapi/linux/wireless.h:74:
+   In file included from include/linux/socket.h:8:
+   In file included from include/linux/uio.h:10:
+   In file included from include/linux/mm_types.h:8:
+   In file included from include/linux/kref.h:16:
+   In file included from include/linux/spinlock.h:63:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:13:
+   In file included from include/linux/cpumask.h:12:
+   In file included from include/linux/bitmap.h:13:
+   In file included from include/linux/string.h:374:
+>> include/linux/fortify-string.h:293:3: error: call to '__write_overflow' declared with 'error' attribute: detected write beyond size of object (1st parameter)
+     293 |                 __write_overflow();
+         |                 ^
+   13 warnings and 1 error generated.
 
 
+vim +293 include/linux/fortify-string.h
 
-When you will send a v2, here are a few others things you could give a 
-look at:
-    - is 'pname' really needed or is 'proto_name' enough?
-    - what about the "*pname = '\0';" after the loop?
-    - if a "mode" matches, do we need to iterate the whole rtllib_modes 
-array? (have a look at wireless_mode)
+a28a6e860c6cf23 Francis Laniel 2021-02-25  274  
+03699f271de1f4d Kees Cook      2022-09-02  275  /* Defined after fortified strnlen() to reuse it. */
+e6584c3964f2ff7 Kees Cook      2023-09-20  276  extern ssize_t __real_strscpy(char *, const char *, size_t) __RENAME(sized_strscpy);
+e6584c3964f2ff7 Kees Cook      2023-09-20  277  __FORTIFY_INLINE ssize_t sized_strscpy(char * const POS p, const char * const POS q, size_t size)
+a28a6e860c6cf23 Francis Laniel 2021-02-25  278  {
+a28a6e860c6cf23 Francis Laniel 2021-02-25  279  	/* Use string size rather than possible enclosing struct size. */
+21a2c74b0a2a784 Kees Cook      2023-04-07  280  	const size_t p_size = __member_size(p);
+21a2c74b0a2a784 Kees Cook      2023-04-07  281  	const size_t q_size = __member_size(q);
+21a2c74b0a2a784 Kees Cook      2023-04-07  282  	size_t len;
+a28a6e860c6cf23 Francis Laniel 2021-02-25  283  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  284  	/* If we cannot get size of p and q default to call strscpy. */
+311fb40aa0569ab Kees Cook      2022-09-02  285  	if (p_size == SIZE_MAX && q_size == SIZE_MAX)
+a28a6e860c6cf23 Francis Laniel 2021-02-25  286  		return __real_strscpy(p, q, size);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  287  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  288  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  289  	 * If size can be known at compile time and is greater than
+a28a6e860c6cf23 Francis Laniel 2021-02-25  290  	 * p_size, generate a compile time write overflow error.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  291  	 */
+fa35198f39571bb Kees Cook      2022-09-19  292  	if (__compiletime_lessthan(p_size, size))
+a28a6e860c6cf23 Francis Laniel 2021-02-25 @293  		__write_overflow();
+a28a6e860c6cf23 Francis Laniel 2021-02-25  294  
+62e1cbfc5d79538 Kees Cook      2022-10-02  295  	/* Short-circuit for compile-time known-safe lengths. */
+62e1cbfc5d79538 Kees Cook      2022-10-02  296  	if (__compiletime_lessthan(p_size, SIZE_MAX)) {
+62e1cbfc5d79538 Kees Cook      2022-10-02  297  		len = __compiletime_strlen(q);
+62e1cbfc5d79538 Kees Cook      2022-10-02  298  
+62e1cbfc5d79538 Kees Cook      2022-10-02  299  		if (len < SIZE_MAX && __compiletime_lessthan(len, size)) {
+62e1cbfc5d79538 Kees Cook      2022-10-02  300  			__underlying_memcpy(p, q, len + 1);
+62e1cbfc5d79538 Kees Cook      2022-10-02  301  			return len;
+62e1cbfc5d79538 Kees Cook      2022-10-02  302  		}
+62e1cbfc5d79538 Kees Cook      2022-10-02  303  	}
+62e1cbfc5d79538 Kees Cook      2022-10-02  304  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  305  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  306  	 * This call protects from read overflow, because len will default to q
+a28a6e860c6cf23 Francis Laniel 2021-02-25  307  	 * length if it smaller than size.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  308  	 */
+a28a6e860c6cf23 Francis Laniel 2021-02-25  309  	len = strnlen(q, size);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  310  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  311  	 * If len equals size, we will copy only size bytes which leads to
+a28a6e860c6cf23 Francis Laniel 2021-02-25  312  	 * -E2BIG being returned.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  313  	 * Otherwise we will copy len + 1 because of the final '\O'.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  314  	 */
+a28a6e860c6cf23 Francis Laniel 2021-02-25  315  	len = len == size ? size : len + 1;
+a28a6e860c6cf23 Francis Laniel 2021-02-25  316  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  317  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  318  	 * Generate a runtime write overflow error if len is greater than
+a28a6e860c6cf23 Francis Laniel 2021-02-25  319  	 * p_size.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  320  	 */
+3d965b33e40d973 Kees Cook      2023-04-07  321  	if (p_size < len)
+3d965b33e40d973 Kees Cook      2023-04-07  322  		fortify_panic(FORTIFY_FUNC_strscpy, FORTIFY_WRITE, p_size, len, -E2BIG);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  323  
+a28a6e860c6cf23 Francis Laniel 2021-02-25  324  	/*
+a28a6e860c6cf23 Francis Laniel 2021-02-25  325  	 * We can now safely call vanilla strscpy because we are protected from:
+a28a6e860c6cf23 Francis Laniel 2021-02-25  326  	 * 1. Read overflow thanks to call to strnlen().
+a28a6e860c6cf23 Francis Laniel 2021-02-25  327  	 * 2. Write overflow thanks to above ifs.
+a28a6e860c6cf23 Francis Laniel 2021-02-25  328  	 */
+a28a6e860c6cf23 Francis Laniel 2021-02-25  329  	return __real_strscpy(p, q, len);
+a28a6e860c6cf23 Francis Laniel 2021-02-25  330  }
+a28a6e860c6cf23 Francis Laniel 2021-02-25  331  
 
-CJ
-
-
-
-
->   			pname += strlen(rtllib_modes[i]);
->   		}
->   	}
-> --
-> 2.34.1
-> 
-> 
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
