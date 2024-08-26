@@ -1,147 +1,151 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C89195805
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 16:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C36C198851
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 18:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724689267; cv=none; b=qhYH0HDNOvMslPIlMni5RhnHW56dO7Fyw7pMxX91iakk58VOZsQZPL3VehdHUXpOKNt/wAmUY0lF0U6GrL1Em3BQC6X7FjgeI2FQ7BdsiBXVoZ2WLHv3werMyEFY+bGEJBv/PCIoUwT7Yjb7Gx11qolGXWLI5HliE7p17oH6eZ4=
+	t=1724695944; cv=none; b=FW+5OXJgUtOIxI3zBiGqFiSbnZUYcnDgccB8k+SSjx+9tpouGb6/NQ198InqTRXKMiAi1moZfV10vLBCnC9Nl+6+avfHooZPwvgB3wfh/y4khGqgsS8QjQskYVe73KS1eTTdGYUctcp5A0XGfxT+PhgM/Nf9GYNH4eejtvVGY5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724689267; c=relaxed/simple;
-	bh=65mwwAzTqveSbIVeRdWT+IRD9chpaIVji0wmTNJwTs4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GK+cn1snYHeCr4r7VrZkTz1Q5vcvXmQqXlCWHdoDimyZ7R5lWpcc6B5iKgJqJo5ECDqYCmLs1G01moGkCBbgt1Fy2OvWTS7Ma8OtsitjT6NNfL++6QhpP36Y3qVyKiZ+e+FLmVXZOV9vF5sG2ZVTmKnTfQcSP2LZAMTUoyKPybA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYiV3drH; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1724695944; c=relaxed/simple;
+	bh=w2NohdGsHE7UuVvNyUIet5xboNMEuVw8vNSv42GIyco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EAeI3DZI3LTYSscUD49ixp1a41qYOnzqyfPMJAoco3sZcAJYia4LeCQln1YiqGPUXcVXSxjf5X5/b9+LZo6BV73IPy2aMq1CwQ3hBtidP2hLPXAGdA6atHlz+h3/QOgVVOAGC7nMU0s+IS0FEcSVfaPYRKvb1icuFv4H2LRpgds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=X8EC1OnI; dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b=NSIOLCp7; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYiV3drH"
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="X8EC1OnI";
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="NSIOLCp7"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DCBD280DB2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 16:21:05 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id E92B260632
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 18:12:22 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -5.791
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 71FUWOmzv-xs for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Aug 2024 16:21:01 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2001:4860:4864:20::2c; helo=mail-oa1-x2c.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4889A80D94
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4889A80D94
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=iYiV3drH
-Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4889A80D94
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 16:21:01 +0000 (UTC)
-Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-2703967b10cso3242143fac.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 09:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724689260; x=1725294060; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0AslJABVo00gPblnVR8gYUn7zUqkgg9WhvvpyeH5H28=;
-        b=iYiV3drHLeIY59b/l+6B4kR5r1V7KWp0dB+K0E0Q+TIFHhXtOPQZKxeW2d734M8b8v
-         H0CzSViLgMxA81RD8bV0cAU34FZkNI84N25zFIsqf8Z9b87c8vq7XhbOOBZTbJkkYUX5
-         38NIB1bucUdd+Fs+7FaZBgIFL2hcdtYZVtY1QTa/bKUbNXPJBf69sS7luyUiAWb1J8nx
-         S0JWTAFlKIAxek257oC5Bh3AJ5tc1TO/tVL2qsceJu7pOPHoZURN38rUMZOw5rreUREW
-         eZtUzqMIvp5TUnCxQrbDAivpElfvOifIG1ARmXjB4p1pvBbOasVv+0sYSppDdbhgEhMD
-         Ft3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724689260; x=1725294060;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0AslJABVo00gPblnVR8gYUn7zUqkgg9WhvvpyeH5H28=;
-        b=Vzo0yDeUtep6z8msqfA3CFr/KgNTav2mghoLDsa5/hLFIp845ld6GJQtuAagbEp9Fa
-         7tG3AVFAjMfKTxKMCR2rvYwW1ec3IhQSwPrMuVavPzUeZ57AxtxcZXbVJ4XV/lBp7PKr
-         xB26g5fd7Wwp2txwK24Y0JyWsfUOTeJtQKDj9PRxoT1Dx1iqUBoZxRhRm1y6P/sJ2f/l
-         eA+jl1XHgDwLonff12KjoagAlmlf3USDCudTugDB3da3mvaRrE6WXlD50iYCv9kF00H5
-         K9rDfE1KMNnK7Y3FIYHgFhkNyVh5RsOjgY3/hHtpRMiPAh8f86pELdG243fmarSzMP6s
-         Wj0w==
-X-Forwarded-Encrypted: i=1; AJvYcCUR4oLSp9L613/l06nZwactum37iofRDrgFZJibDTNOlH4AkZXbU/IAiCdBO08gyNROEfw0nLde/ui2uADZGF3ZyvoDcA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxSvkc4R9AZk7JAb1Ha3RzB5cee1iZRDm9Smmz6El5J5Wa5RCYs
-	c847CUyS8FvNLlZrp8Zo9xr17of+dkNyl9VmqKju4v0CeHbJsf4N
-X-Google-Smtp-Source: AGHT+IHmikhzl0qq17V3DT9TnvIBp3tik8f35GSxDiprCSyIs8GKTKsExxUf5g1DWQ+fSIxEePrWcg==
-X-Received: by 2002:a05:6870:2250:b0:261:142:7b95 with SMTP id 586e51a60fabf-273e654b961mr11669552fac.25.1724689260094;
-        Mon, 26 Aug 2024 09:21:00 -0700 (PDT)
-Received: from embed-PC.. ([106.222.235.177])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7cd9acdb54asm7830742a12.42.2024.08.26.09.20.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 09:20:59 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: agx@sigxcpu.org,
-	kernel@puri.sm,
-	neil.armstrong@linaro.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	daniel@ffwll.ch
-Cc: quic_jesszhan@quicinc.com,
-	skhan@linuxfoundation.org,
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id U8cgpuHySDtY for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Aug 2024 18:12:22 +0000 (UTC)
+X-Greylist: delayed 500 seconds by postgrey-1.37 at util1.osuosl.org; Mon, 26 Aug 2024 18:12:21 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 3C51760067
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=sigxcpu.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 3C51760067
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=sigxcpu.org header.i=@sigxcpu.org header.a=rsa-sha256 header.s=2024 header.b=X8EC1OnI;
+	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.a=rsa-sha256 header.s=2024 header.b=NSIOLCp7
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=24.134.29.49; helo=honk.sigxcpu.org; envelope-from=agx@sigxcpu.org; receiver=<UNKNOWN> 
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 3C51760067
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 18:12:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1724695437; bh=w2NohdGsHE7UuVvNyUIet5xboNMEuVw8vNSv42GIyco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X8EC1OnIgXRJWvQug5TUsDcfsPT7RGt37xENs5hsudAbQyMn9tomEzbYz4nqOEpGJ
+	 Hl6Odo0Lw7OaDXb5hkesdJP8o1SDto8XXqnUMiI1utcVee3pegwPfyka5ZVGO4XUD0
+	 vTgeH2reDxV7JRtP6V3W0EfKApTjwfBl8PmqqwmHj2g6IE4D0SOTyE3+eG0ly+EWuL
+	 bRywGSLU1dgKyNBjsVqxOc8fBixlSeKB3+HoW/Lwwa7jj3lGkVS7psxJRhEEeD2ecq
+	 1h0AKrg7lcr37vbJiI7y8APqQr33K3+qXr/d8Tes7w2Br1ZMg2VGhd9hRnAo3Yx4IT
+	 DcgrSnTbS3RGw==
+Received: from localhost (localhost [127.0.0.1])
+	by honk.sigxcpu.org (Postfix) with ESMTP id D657CFB03;
+	Mon, 26 Aug 2024 20:03:57 +0200 (CEST)
+Received: from honk.sigxcpu.org ([127.0.0.1])
+	by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 4KBdoFnrlicg; Mon, 26 Aug 2024 20:03:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
+	t=1724695436; bh=w2NohdGsHE7UuVvNyUIet5xboNMEuVw8vNSv42GIyco=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NSIOLCp7MTG8rtp/EBWKcFDUcrlyU2tAz/6NdG0kXbdW9OcbF2UUKq0Wai9Tk2U4t
+	 k80gjOigWjyqzm1e+joRpaTiF46SC7CCBOs4N7NpgJwtFXBV6s/yAs1AbsZsN8CCbe
+	 2kYK2KANqOTDhfmG2pkKG3vH5fkG0GE8TeTd70O6UV//aBujCCzHo4KSgjSFPqoOJn
+	 BlwP7tsjpev1WOkIDo5TtmfRJ+XAji+2mjJkUsTqKJBMCC1qi7sc8wDW8GTWEYbiSY
+	 CFsjzNNUYgWVnUWTvBFEz60M048C6A8bpGVtUTNqqeon4jXMyjQLr1HLSIcYZnhNWl
+	 OLwRA7GB9Ybuw==
+Date: Mon, 26 Aug 2024 20:03:54 +0200
+From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: kernel@puri.sm, neil.armstrong@linaro.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+	quic_jesszhan@quicinc.com, skhan@linuxfoundation.org,
 	rbmarliere@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: mantix: Transition to multi-context write sequence
-Date: Mon, 26 Aug 2024 21:33:28 +0530
-Message-Id: <20240826160328.12685-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel: mantix: Transition to multi-context write
+ sequence
+Message-ID: <ZszDipyk1Ey8M0JZ@qwark.sigxcpu.org>
+References: <20240826160328.12685-1-abhishektamboli9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240826160328.12685-1-abhishektamboli9@gmail.com>
 
-Replace deprecated 'mipi_dsi_generic_write_seq()' macro
-to 'mipi_dsi_generic_write_seq_multi()' macro in mantix_init_sequence
-function.
+Hi Abhishektamboli,
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- .../gpu/drm/panel/panel-mantix-mlaf057we51.c  | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+I think this was already handled in
 
-diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-index ea4a6bf6d35b..f276c65cc9bb 100644
---- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-+++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
-@@ -49,22 +49,25 @@ static int mantix_init_sequence(struct mantix *ctx)
- {
- 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
- 	struct device *dev = ctx->dev;
-+	struct mipi_dsi_multi_context dsi_ctx = {
-+		.dsi = dsi
-+	};
+https://lore.kernel.org/dri-devel/20240820091556.1032726-2-tejasvipin76@gmail.com/
 
- 	/*
- 	 * Init sequence was supplied by the panel vendor.
- 	 */
--	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
+and applied
 
--	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_INT_CANCEL, 0x03);
--	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
--	mipi_dsi_generic_write_seq(dsi, 0x80, 0xA9, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x80, 0xA9, 0x00);
+https://lore.kernel.org/dri-devel/172414629205.2571141.13215409630895562248.b4-ty@linaro.org/#t
 
--	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
--	mipi_dsi_generic_write_seq(dsi, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
- 	msleep(20);
+Cheers,
+ -- Guido
 
--	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_SPI_FINISH, 0xA5);
--	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xA5);
-+	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
- 	msleep(20);
-
- 	dev_dbg(dev, "Panel init sequence done\n");
---
-2.34.1
-
+On Mon, Aug 26, 2024 at 09:33:28PM +0530, Abhishek Tamboli wrote:
+> Replace deprecated 'mipi_dsi_generic_write_seq()' macro
+> to 'mipi_dsi_generic_write_seq_multi()' macro in mantix_init_sequence
+> function.
+> 
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+>  .../gpu/drm/panel/panel-mantix-mlaf057we51.c  | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> index ea4a6bf6d35b..f276c65cc9bb 100644
+> --- a/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> +++ b/drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c
+> @@ -49,22 +49,25 @@ static int mantix_init_sequence(struct mantix *ctx)
+>  {
+>  	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+>  	struct device *dev = ctx->dev;
+> +	struct mipi_dsi_multi_context dsi_ctx = {
+> +		.dsi = dsi
+> +	};
+> 
+>  	/*
+>  	 * Init sequence was supplied by the panel vendor.
+>  	 */
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A);
+> 
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_INT_CANCEL, 0x03);
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
+> -	mipi_dsi_generic_write_seq(dsi, 0x80, 0xA9, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_INT_CANCEL, 0x03);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x03);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x80, 0xA9, 0x00);
+> 
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
+> -	mipi_dsi_generic_write_seq(dsi, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x5A, 0x09);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, 0x80, 0x64, 0x00, 0x64, 0x00, 0x00);
+>  	msleep(20);
+> 
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_SPI_FINISH, 0xA5);
+> -	mipi_dsi_generic_write_seq(dsi, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_SPI_FINISH, 0xA5);
+> +	mipi_dsi_generic_write_seq_multi(&dsi_ctx, MANTIX_CMD_OTP_STOP_RELOAD_MIPI, 0x00, 0x2F);
+>  	msleep(20);
+> 
+>  	dev_dbg(dev, "Panel init sequence done\n");
+> --
+> 2.34.1
+> 
