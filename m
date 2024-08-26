@@ -1,104 +1,147 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786156F2F0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 25 Aug 2024 22:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5815D18757A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 12:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724625562; cv=none; b=ovIIGdwc4fNThej2buo91rKbZiWXWDALn2nMlVi9dKa4MfT4JtgEsCLVWrLeUbI9+E14o8wW989cKyv5n4kyjLJjoTlCLp09ryidqIRFj3WAqe5Lk7ofzlf3TNiESZc2GnOLn+FA4CDk2b0hGD4KifCIHRfLxOIbtTPbIViV5aA=
+	t=1724674492; cv=none; b=RfFTuJRDVqHRCFi/Lto8sBMytQ+rhgb+oqvv+BebiwBvH2LNN0Zwj8W4YlnXwAUrr072dV6ES9qRWQ5+oEASnvdYeKclMl7XCzrH89ntLEmygGznD3ftejw9+6Di0byeKdUZuQZ6XlzBeXWmlDyiWEWNYKgejP56jhknfGMkuhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724625562; c=relaxed/simple;
-	bh=A8yKiAJiZ9+dK8Dac3BbyPZjFgAcyrIfwBNuirmo8W0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RjucZe4R+BFD1NNO0l9S4l+6EAC78evnJEnFRmO300axW155Pv8CKOzbogOfLwVQoA8jAUaNwdoTwrKHBa6c0uG1ckljcfKJy21uOULUsbP6mLJEDZhkto8O3cF2M5G0Btuk+TpPKHvMka9abBK6ADzf6gNoL16i7+5xZL8jRkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmGgbt5R; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1724674492; c=relaxed/simple;
+	bh=PMAG5/gig7pArsoHvKL9Qukbrnz+b5ucBC4N3vJCw+0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bpDDJBif53bUTM7fNnjcDB/IW7UgjTLVVVoeQUGolc0dNIe1rYR9wADEoyCqJdd64Zit+yOiZWYMwFbc/PKrJIIYcQzXT13hXNMk8IyM9PvttQnxMlK6utAjdB1mMbah77cfbL2e6ur/VUfLjG0pOriZGiuLMqtz6e/TVPi2hO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=il0JuLog; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmGgbt5R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="il0JuLog"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id E181A4027E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 25 Aug 2024 22:39:20 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 084504010D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 12:14:51 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id oE2VXFh6tcn4 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 25 Aug 2024 22:39:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::430; helo=mail-pf1-x430.google.com; envelope-from=simeddon@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org E9A9240257
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org E9A9240257
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=jmGgbt5R
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id E9A9240257
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 25 Aug 2024 22:39:19 +0000 (UTC)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-714287e4083so3312767b3a.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 25 Aug 2024 15:39:19 -0700 (PDT)
+X-Spam-Score: 1.236
+X-Spam-Level: *
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id NvGaI7xHiWQ7 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Aug 2024 12:14:50 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::436; helo=mail-pf1-x436.google.com; envelope-from=djahchankoike@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org F1E0A40065
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F1E0A40065
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=il0JuLog
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id F1E0A40065
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 12:14:49 +0000 (UTC)
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-715abede256so575795b3a.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 05:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724625559; x=1725230359; darn=lists.linuxfoundation.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=A8yKiAJiZ9+dK8Dac3BbyPZjFgAcyrIfwBNuirmo8W0=;
-        b=jmGgbt5RrIkT9wD2QfZaLhaBWOq5259Y2ZCWwQ1QPAS0AlkHHo7K3O6+5fsUcfWfpC
-         2BzLhZv6hLQg8EJ2v8CzN/xZY5ZYMuqx2XBwNkb5Mu51hsdAknU4KhlBSRj9eobADVHe
-         434Wf/6RdjZuJ6wjE+yVxTc9eyeYmfgTVZIvPe9SXelZHmMnDLc2g5VmfiSDWdmZG9TS
-         osfCTdLALKLV5PlKSwMX07eZOQJjYVYUPCYCq0NGsdrxD53y0EuC0RGk/N7zldj4uzwG
-         miFQEQkNb2aIPVd8m1WTxZRA69JtwYOkJDvWsB1at2hc2LgDE1Jajy57tv2tTXv8B6Np
-         NPAg==
+        d=gmail.com; s=20230601; t=1724674489; x=1725279289; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N+LVdNryLjaGNN9ifDLmqexf/yv699MnrXI0tyPkCAA=;
+        b=il0JuLog31OEqvif2O3mPbTMZ4z1eklwx2SdMvgHlpmDum2jHW4be4fIJsU6++kNJ/
+         KN5MnzE9ZlWavb+zvTxFJAwF+RaoDLBp3QFf2i2d+DUg75Q3bB2jkNV3lpwqsUGRdZJJ
+         UgBKwExoFrNVKc+sjSG2y/gqVvwxjqy+wnYOxGuBy/7GtrqvHeZJYdfDdUrmiqxGyknV
+         0OfLYcHICcdJP/eakbWC7/9oYjjCj9fjsjlSVaSSfjp2af1pfA8zzZydfa5fli0WuZRZ
+         8C30DULDr6iU2drucupL4tuftM8rvNSLbF9MBQUjSUORQk6aHCZMCSUdr8XcRunhZE7L
+         jHbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724625559; x=1725230359;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A8yKiAJiZ9+dK8Dac3BbyPZjFgAcyrIfwBNuirmo8W0=;
-        b=OeF/GSNB6A/aitSIj192Bdkc9i0SULCTLpZAxajqAISgBxjr4+gs9p5b4X+Qf/CY1v
-         Xbhq6buDANSwKGxWjptLrwpgJW77ufzkGWkQ6ZTqK45zpun4zBH8EPLfr3O9pUsKswDz
-         6I5srOglHCOWc/p4Hzu8oVNupmG7CgUMxv328o+ASwsGGF1tqpjfUlMxL+6zGYgYvuXL
-         zFrFHDEDT5RPcS1ghNtUUcq2uwr8cI/PlxT6POj32/Q0QLiIBTfEmpj2qnLOEe4pae3I
-         3/v1cIe3HXxe3mTbc44jZOZjsiYvhlVw9BZK3BUdy/+5NHCGxXNHqHJV5y/B0xMW6HKL
-         PXfw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiQOfXse6Wi4wL2jtaMnbthdNmcMVFrd/aV/zOE21sPvZOke/HPW03t7Ry/9R7laK7sdDdPpOujMMWMdpfEX9hK6P75Q==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yz7x/mt2lUowULw5UfpwE8ofqcRY/H2vftsI1/5BcuypiTdx6k8
-	eM8GNJHqmGCxsgq1TPJCCaVekq63uOI1mihgjL8HxBHGH4OecHuZ
-X-Google-Smtp-Source: AGHT+IGTR0K3SMhIGJvKAdRaKXp+kAHK75mt1qIKKM9G1s0y55MvSX5N3pASe3f8SLFYYgEOoJzmxA==
-X-Received: by 2002:a05:6a00:1805:b0:714:3325:d8e9 with SMTP id d2e1a72fcca58-71445e1153fmr10855368b3a.22.1724625559079;
-        Sun, 25 Aug 2024 15:39:19 -0700 (PDT)
-Received: from ?IPv6:2405:201:f022:f804:2fa2:fde0:4987:3a52? ([2405:201:f022:f804:2fa2:fde0:4987:3a52])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7143430a260sm6016675b3a.157.2024.08.25.15.39.16
+        d=1e100.net; s=20230601; t=1724674489; x=1725279289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N+LVdNryLjaGNN9ifDLmqexf/yv699MnrXI0tyPkCAA=;
+        b=Ck4tuUuGUDmeQxjryKXE/lZLGFis4WSajruEqk5JfsrybNV0YjsMh1TePnJLB+p++H
+         tl470U5sTr2qSw53w2yLZHeqYXJr8qz+amgFCTF9HkMEhRt6vGqOtl66hSWj3Zot9a9W
+         i6pgfuE/0Dk/sc0sDuG/rmVWJo/b8ludM9ZyY0UfYzCfe0ItjlbF+KYcxgcrmDZ6LCoU
+         ZJOfRi/r8yO43B+zKgvLlOGmL1OHXqOfznxXawMaKsGuBWvIYeSNqPAHPG1p5PgSJuKM
+         Qutqrxdu/WC7DnYKu0y7WaGL2o3ha/Gu5/jqvaYdnyxHeJi32eg7TZJ9/O2UjsQ1nt8J
+         m89g==
+X-Forwarded-Encrypted: i=1; AJvYcCWBqt4OWkLtvByGcY/l7R/iteCqHrsTxCZQq99FMxYkFbaTKYFecWOUCDuiCgL6vPN/u4E85IZ/5qFlii2RVTFJm8acJA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxVxQp6cWZyB/2zRClpHtTizEH/La1oVm8IfBXHiSOZa0dyA2/P
+	dhKxQ08pYhZBgZ7WBED50GinQV6XtCLBsUahlsVz31CE2at1e1GM
+X-Google-Smtp-Source: AGHT+IGc4PtoBRWIabtZHT9NxlK06f5B+sPItVc6GiqKe1Pfr2RkH2u11V87N7o4qEv3ihUMf95H1A==
+X-Received: by 2002:a05:6a00:2342:b0:706:284f:6a68 with SMTP id d2e1a72fcca58-71445e0e3a7mr9382632b3a.23.1724674488984;
+        Mon, 26 Aug 2024 05:14:48 -0700 (PDT)
+Received: from diogo-jahchan-ASUS-TUF-Gaming-A15-FA507RM-FA507RM.. ([200.4.98.43])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-714342e10bfsm6862652b3a.121.2024.08.26.05.14.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Aug 2024 15:39:18 -0700 (PDT)
-Message-ID: <2ff61088a046d49d8afa708f2a5da024604b823a.camel@gmail.com>
-Subject: Re: [PATCH] scripts/checkpatch.pl: check for non-permalinks to Zulip
-From: BiscuitBobby <simeddon@gmail.com>
-To: Joe Perches <joe@perches.com>
-Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, apw@canonical.com, 
-	ojeda@kernel.org
-Date: Mon, 26 Aug 2024 04:09:13 +0530
-In-Reply-To: <f53fa069b9cc24a9552d54c7a004fe6d@perches.com>
-References: <20240825221806.253575-1-simeddon@gmail.com>
-	 <f53fa069b9cc24a9552d54c7a004fe6d@perches.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+        Mon, 26 Aug 2024 05:14:48 -0700 (PDT)
+From: Diogo Jahchan Koike <djahchankoike@gmail.com>
+To: davem@davemloft.net
+Cc: edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	maxime.chevallier@bootlin.com,
+	andrew@lunn.ch,
+	christophe.leroy@csgroup.eu,
+	linux@treblig.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	syzkaller-bugs@googlegroups.com,
+	Diogo Jahchan Koike <djahchankoike@gmail.com>,
+	syzbot+c641161e97237326ea74@syzkaller.appspotmail.com
+Subject: [PATCH] net: fix unreleased lock in ethnl_act_cable_test
+Date: Mon, 26 Aug 2024 09:14:15 -0300
+Message-ID: <20240826121435.88756-1-djahchankoike@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2024-08-25 at 15:23 -0700, Joe Perches wrote:
-> On 2024-08-25 15:18, Siddharth Menon wrote:
-> > Zulip links to https://rust-for-linux.zulipchat.com=C2=A0can break in
-> > case of renaming the topic or channel if they are not a message
-> > links (which are permalinks).
->=20
-> Why should these links be used in the kernel at all?
+fix an unreleased lock in out_dev_put path and substitute
+both labels (out_rtnl and out_dev_put) for a simpler out.
 
-To my understanding, most of the discussion around the=C2=A0
-development of the Rust subsystem takes place here, and is
-frequently referenced in the mailing list.
+Reported-by: syzbot+c641161e97237326ea74@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c641161e97237326ea74
+Fixes: 3688ff3077d3 ("net: ethtool: cable-test: Target the command to the requested PHY")
+Signed-off-by: Diogo Jahchan Koike <djahchankoike@gmail.com>
+---
+ net/ethtool/cabletest.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/net/ethtool/cabletest.c b/net/ethtool/cabletest.c
+index 01db8f394869..c1f0510eb465 100644
+--- a/net/ethtool/cabletest.c
++++ b/net/ethtool/cabletest.c
+@@ -77,18 +77,18 @@ int ethnl_act_cable_test(struct sk_buff *skb, struct genl_info *info)
+ 				      info->extack);
+ 	if (IS_ERR_OR_NULL(phydev)) {
+ 		ret = -EOPNOTSUPP;
+-		goto out_dev_put;
++		goto out;
+ 	}
+ 
+ 	ops = ethtool_phy_ops;
+ 	if (!ops || !ops->start_cable_test) {
+ 		ret = -EOPNOTSUPP;
+-		goto out_rtnl;
++		goto out;
+ 	}
+ 
+ 	ret = ethnl_ops_begin(dev);
+ 	if (ret < 0)
+-		goto out_rtnl;
++		goto out;
+ 
+ 	ret = ops->start_cable_test(phydev, info->extack);
+ 
+@@ -97,9 +97,8 @@ int ethnl_act_cable_test(struct sk_buff *skb, struct genl_info *info)
+ 	if (!ret)
+ 		ethnl_cable_test_started(phydev, ETHTOOL_MSG_CABLE_TEST_NTF);
+ 
+-out_rtnl:
++out:
+ 	rtnl_unlock();
+-out_dev_put:
+ 	ethnl_parse_header_dev_put(&req_info);
+ 	return ret;
+ }
+-- 
+2.43.0
+
