@@ -1,112 +1,208 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2704229408
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC0F19ADAC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724704270; cv=none; b=IEXjFeSCRZofBSEDnegGCAbyfXmHNh6mQnnnwVOmMespMEPP0aLOyRtGLQqDeEdSHgNpFVGnonJ3xqmJgFy/J1xGVXWGjgHahFVC1sZ1NHiXdUovHE0sMpMkzHy2zSmmMj60OKmZf+Ghe7QcZF6EO4rIARr6NqJuqCD5ZuB733A=
+	t=1724704416; cv=none; b=D3cfMUHDrI1+nNHMvOtHWPgdRrWFu5k+J10NR4s1afgPKaM//wvy5CjAlolp4jZUuBnYH7Je1n2+shmsKtd9aV2UnuLzF60mEFTRQPNJCe6bCSWZG8Wo7lIDY57yoC4JudendP/14Nmtk89FPJrCmBbVUr/qsOj/ayoj01jpNZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724704270; c=relaxed/simple;
-	bh=gtpUXosV9nTewaoVXIBB26T8v/macdxzA2gCDaiEvlM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KTETGdgCFUHcRSU6ITyJlM3uwpGisEVzZo4wGzFkspWez9ZDbVRbYv3qYeMqGpz58RiXKgcxTgIF/OVVIHUlvnKmIYSqc/hZ2quAEIMTf4Ea+dvUEm9BjO5puvX9MjETQDVhOonVp7f9vMlyBpEd89R792cX5oov0b5anyT5dBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezJ0bpos; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1724704416; c=relaxed/simple;
+	bh=2++G5TFlPGtMjuHigKRpDGrLbf2Eqc9lo5+EAg8NCAM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L6jEBaPAysgmZNyedr4Sp68v9Hh16Nfk+EvIcCu7BVnd68CtZBzoNOeitQJyEo+ADjmsgAjPdCKDXLuDyo4VYA33ObMs9Gv+/rRokAjRhb3kl/OcFVBX76Lh4MhZzC9lN5018uzZRMwxahm25nCoTqPvhQ/EV/R6Hr/cpHuUyho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlpgbJJv; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezJ0bpos"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlpgbJJv"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A92D64024E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:31:07 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0C93E401FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:33:35 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -7.989
+X-Spam-Score: -8.092
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ls5vl_czjhoy for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Aug 2024 20:31:02 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=198.175.65.11; helo=mgamail.intel.com; envelope-from=todd.e.brandt@linux.intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 832F6400DA
-Authentication-Results: smtp2.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 832F6400DA
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ezJ0bpos
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id j685CKm4lfTB for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 26 Aug 2024 20:33:33 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.11; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 77AC8401FB
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 77AC8401FB
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VlpgbJJv
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 832F6400DA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:31:01 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 77AC8401FB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:33:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724704263; x=1756240263;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=gtpUXosV9nTewaoVXIBB26T8v/macdxzA2gCDaiEvlM=;
-  b=ezJ0bpostYTbBHRVHz9J31oYSFiXAAl8Jlht342mJamlr05wyKAAk7Yh
-   GxUbk0ZHGxivtDBNIlRrWKSupebm8h7xpR171HJ68ab+YPzCQ7YQZNHbV
-   0IB4USZi3CYQ9S76lZr75eTDjJFaf9fTIntNFJ3/AD0/mRobUQI14DgeR
-   8APcDGJQyIFo9P5Tp0TQ7xJUvIyIKDPd1JDQHgXskBAVB0EnogZTXC1qt
-   FiaNbT/NHItXGeAUF2w2Bu68H4iSznpfILWl49b201kBIcPYy5aTjHaXF
-   vCBDj33cUqtYR6YEr5HGvoTz2qB0IQzAmrehO/hGV6TyWrCW8CdXxoP6K
+  t=1724704414; x=1756240414;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2++G5TFlPGtMjuHigKRpDGrLbf2Eqc9lo5+EAg8NCAM=;
+  b=VlpgbJJv5xTdyvEFy360eUN8ZW6zjUSPxzWLzSB5tmljvIpRnXDwjKGo
+   GvQGxxsoXn9DVCqNn2n/zjZe5Q5AWUC0KsI0UfO3yPGRWGj4dTZbSvucf
+   ajXHuUVVx1hoSw9UTcxtJEutmY3dSkc3N74jeH4w0tuf1+fIe/6oEruqT
+   LJLWJtTXUZQ5oDDJuPIoBO2fYYlF+u3dYYBWCtCluSYJomi7HxbHsVyIU
+   w6d4EJz7r97vWamMxchi9hd/I+A+zkR4WngsLG5y1l9gKrk8oJO8fDg6N
+   DBwQUzTdjAyN1gswZelxjkOK577Jmz2b+if8Tfx5A/CHnjgIyfHiL4I6c
    A==;
-X-CSE-ConnectionGUID: /7UYQWwoTluZN1Pocl1OkQ==
-X-CSE-MsgGUID: jInPqwvpQ3yRGZRT6EU6AA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33718259"
+X-CSE-ConnectionGUID: cgRmAopMRVWuUyylREIoOQ==
+X-CSE-MsgGUID: /93JpATiQ+qAJj3j6bqYtg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33718534"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="33718259"
+   d="scan'208";a="33718534"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 13:31:00 -0700
-X-CSE-ConnectionGUID: dWFGDeYxRDWN4Oa61Cd7vQ==
-X-CSE-MsgGUID: Y46xu62dRjiebJe/ze2JPw==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 13:33:33 -0700
+X-CSE-ConnectionGUID: k/7FiudcQo2ky1jVVuMYnA==
+X-CSE-MsgGUID: BRSQLwrQTSyMrd5Hh7M/zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="66780154"
-Received: from dgramcko-desk.amr.corp.intel.com ([10.124.223.43])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 13:30:58 -0700
-Message-ID: <36376e1cb02b3ef44b849fc28e6b3f38e18a50ef.camel@linux.intel.com>
-Subject: Re: [PATCH] pm-graph: ignore sleepgraph.py artifacts
-From: Todd Brandt <todd.e.brandt@linux.intel.com>
-Reply-To: todd.e.brandt@linux.intel.com
-To: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net, 
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org
-Date: Mon, 26 Aug 2024 13:30:42 -0700
-In-Reply-To: <20240825095353.7578-1-0xff07@gmail.com>
-References: <20240825095353.7578-1-0xff07@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+   d="scan'208";a="66780976"
+Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Aug 2024 13:33:29 -0700
+Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sigP0-000HZi-1U;
+	Mon, 26 Aug 2024 20:33:26 +0000
+Date: Tue, 27 Aug 2024 04:32:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ahmed Ehab <bottaawesome633@gmail.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] Refactor switch_mm_cid() to avoid unnecessary checks
+Message-ID: <202408270455.R85TrPfw-lkp@intel.com>
+References: <20240824223132.11925-1-bottaawesome633@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240824223132.11925-1-bottaawesome633@gmail.com>
 
-On Sun, 2024-08-25 at 17:53 +0800, Yo-Jung (Leo) Lin wrote:
-> By default, sleepgraph.py creates suspend-{date}-{time} directories
-> to store artifacts, or suspend-{date}-{time}-xN if the --multi option
-> is used. Ignore those directories by adding a .gitignore file.
->=20
-> Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
-> ---
-> =C2=A0tools/power/pm-graph/.gitignore | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
-> =C2=A0create mode 100644 tools/power/pm-graph/.gitignore
->=20
-> diff --git a/tools/power/pm-graph/.gitignore b/tools/power/pm-
-> graph/.gitignore
-> new file mode 100644
-> index 000000000000..37762a8a06d6
-> --- /dev/null
-> +++ b/tools/power/pm-graph/.gitignore
-> @@ -0,0 +1,3 @@
-> +# sleepgraph.py artifacts
-> +suspend-[0-9]*-[0-9]*
-> +suspend-[0-9]*-[0-9]*-x[0-9]*
-This seems fine. If you run the tool inside the tools/power/pm-graph
-folder I can see how it would be annoying to have all those output
-directories show up in git status.
+Hi Ahmed,
 
-Signed-off-by: Todd Brandt <todd.e.brandt@linux.intel.com>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on linus/master v6.11-rc5 next-20240826]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Ehab/Refactor-switch_mm_cid-to-avoid-unnecessary-checks/20240826-153216
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20240824223132.11925-1-bottaawesome633%40gmail.com
+patch subject: [PATCH] Refactor switch_mm_cid() to avoid unnecessary checks
+config: arm-ep93xx_defconfig (https://download.01.org/0day-ci/archive/20240827/202408270455.R85TrPfw-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270455.R85TrPfw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202408270455.R85TrPfw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/sched/core.c:5232:4: error: implicit declaration of function 'switch_mm_cid_from_user_to_kernel' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           switch_mm_cid_from_user_to_kernel(rq, prev, next);
+                           ^
+>> kernel/sched/core.c:5257:4: error: implicit declaration of function 'switch_mm_cid_from_kernel_to_user' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           switch_mm_cid_from_kernel_to_user(rq, prev, next);
+                           ^
+>> kernel/sched/core.c:5259:4: error: implicit declaration of function 'switch_mm_cid_from_user_to_user' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           switch_mm_cid_from_user_to_user(rq, prev, next);
+                           ^
+   3 errors generated.
 
 
+vim +/switch_mm_cid_from_user_to_kernel +5232 kernel/sched/core.c
+
+  5199	
+  5200	/*
+  5201	 * context_switch - switch to the new MM and the new thread's register state.
+  5202	 */
+  5203	static __always_inline struct rq *
+  5204	context_switch(struct rq *rq, struct task_struct *prev,
+  5205		       struct task_struct *next, struct rq_flags *rf)
+  5206	{
+  5207		prepare_task_switch(rq, prev, next);
+  5208	
+  5209		/*
+  5210		 * For paravirt, this is coupled with an exit in switch_to to
+  5211		 * combine the page table reload and the switch backend into
+  5212		 * one hypercall.
+  5213		 */
+  5214		arch_start_context_switch(prev);
+  5215	
+  5216		/*
+  5217		 * kernel -> kernel   lazy + transfer active
+  5218		 *   user -> kernel   lazy + mmgrab_lazy_tlb() active
+  5219		 *
+  5220		 * kernel ->   user   switch + mmdrop_lazy_tlb() active
+  5221		 *   user ->   user   switch
+  5222		 *
+  5223		 * switch_mm_cid() needs to be updated if the barriers provided
+  5224		 * by context_switch() are modified.
+  5225		 */
+  5226		if (!next->mm) {                                // to kernel
+  5227			enter_lazy_tlb(prev->active_mm, next);
+  5228	
+  5229			next->active_mm = prev->active_mm;
+  5230			if (prev->mm) {                           // from user
+  5231				mmgrab_lazy_tlb(prev->active_mm);
+> 5232				switch_mm_cid_from_user_to_kernel(rq, prev, next);
+  5233			}
+  5234			else
+  5235				/*
+  5236				 * kernel -> kernel transition does not change rq->curr->mm
+  5237				 * state. It stays NULL.
+  5238				 */
+  5239				prev->active_mm = NULL;
+  5240		} else {                                        // to user
+  5241			membarrier_switch_mm(rq, prev->active_mm, next->mm);
+  5242			/*
+  5243			 * sys_membarrier() requires an smp_mb() between setting
+  5244			 * rq->curr / membarrier_switch_mm() and returning to userspace.
+  5245			 *
+  5246			 * The below provides this either through switch_mm(), or in
+  5247			 * case 'prev->active_mm == next->mm' through
+  5248			 * finish_task_switch()'s mmdrop().
+  5249			 */
+  5250			switch_mm_irqs_off(prev->active_mm, next->mm, next);
+  5251			lru_gen_use_mm(next->mm);
+  5252	
+  5253			if (!prev->mm) {                        // from kernel
+  5254				/* will mmdrop_lazy_tlb() in finish_task_switch(). */
+  5255				rq->prev_mm = prev->active_mm;
+  5256				prev->active_mm = NULL;
+> 5257				switch_mm_cid_from_kernel_to_user(rq, prev, next);
+  5258			} else
+> 5259				switch_mm_cid_from_user_to_user(rq, prev, next);
+  5260		}
+  5261	
+  5262		prepare_lock_switch(rq, next, rf);
+  5263	
+  5264		/* Here we just switch the register state and the stack. */
+  5265		switch_to(prev, next, prev);
+  5266		barrier();
+  5267	
+  5268		return finish_task_switch(prev);
+  5269	}
+  5270	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
