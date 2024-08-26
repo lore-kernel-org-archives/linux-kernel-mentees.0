@@ -1,208 +1,327 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC0F19ADAC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77449198A35
+	for <linux-kernel-mentees@lists.linux.dev>; Mon, 26 Aug 2024 20:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724704416; cv=none; b=D3cfMUHDrI1+nNHMvOtHWPgdRrWFu5k+J10NR4s1afgPKaM//wvy5CjAlolp4jZUuBnYH7Je1n2+shmsKtd9aV2UnuLzF60mEFTRQPNJCe6bCSWZG8Wo7lIDY57yoC4JudendP/14Nmtk89FPJrCmBbVUr/qsOj/ayoj01jpNZc=
+	t=1724704795; cv=none; b=tz+54S+k2RrOO7LMYeXdrMDtOaXg8EJRUchdSh88lC8vsvD7F0+PpXb+uddCJFDJ4ewidgf/Y8kO9w+eMeov2M1BRTpVSEVRTWCsAzR6RRFlAntn1fgjfqqhr7wc/8hXdMDX6ZgAM21kIN7Esb7cCA5Bjov8MFQV4grXpvcrLTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724704416; c=relaxed/simple;
-	bh=2++G5TFlPGtMjuHigKRpDGrLbf2Eqc9lo5+EAg8NCAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L6jEBaPAysgmZNyedr4Sp68v9Hh16Nfk+EvIcCu7BVnd68CtZBzoNOeitQJyEo+ADjmsgAjPdCKDXLuDyo4VYA33ObMs9Gv+/rRokAjRhb3kl/OcFVBX76Lh4MhZzC9lN5018uzZRMwxahm25nCoTqPvhQ/EV/R6Hr/cpHuUyho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VlpgbJJv; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1724704795; c=relaxed/simple;
+	bh=ueVOO8RbZQY2FSZBOZSaceKGAJ1QJCEei8KAE0hphNU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qMomDLX1md8mS5+qHvcH7WdSlL+khsJBWGEkqOzRjuCZ9TWdVZVuelR6QTlt9ndaxDP510AFsq6WrGIl4tgrjtth1R8klr50AXa4sy6uyEnyFRHVF+42yOq/9VhlIs5zjmMVHFpg37IanSfufZjUr/lqrnCZf9DnHsjsTHYWJhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFN7TNmr; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VlpgbJJv"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 0C93E401FE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:33:35 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -8.092
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id j685CKm4lfTB for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 26 Aug 2024 20:33:33 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.11; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 77AC8401FB
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 77AC8401FB
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VlpgbJJv
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 77AC8401FB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 26 Aug 2024 20:33:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFN7TNmr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1724704414; x=1756240414;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2++G5TFlPGtMjuHigKRpDGrLbf2Eqc9lo5+EAg8NCAM=;
-  b=VlpgbJJv5xTdyvEFy360eUN8ZW6zjUSPxzWLzSB5tmljvIpRnXDwjKGo
-   GvQGxxsoXn9DVCqNn2n/zjZe5Q5AWUC0KsI0UfO3yPGRWGj4dTZbSvucf
-   ajXHuUVVx1hoSw9UTcxtJEutmY3dSkc3N74jeH4w0tuf1+fIe/6oEruqT
-   LJLWJtTXUZQ5oDDJuPIoBO2fYYlF+u3dYYBWCtCluSYJomi7HxbHsVyIU
-   w6d4EJz7r97vWamMxchi9hd/I+A+zkR4WngsLG5y1l9gKrk8oJO8fDg6N
-   DBwQUzTdjAyN1gswZelxjkOK577Jmz2b+if8Tfx5A/CHnjgIyfHiL4I6c
-   A==;
-X-CSE-ConnectionGUID: cgRmAopMRVWuUyylREIoOQ==
-X-CSE-MsgGUID: /93JpATiQ+qAJj3j6bqYtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="33718534"
+  t=1724704793; x=1756240793;
+  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=ueVOO8RbZQY2FSZBOZSaceKGAJ1QJCEei8KAE0hphNU=;
+  b=eFN7TNmrcY3RHOdnsy60u6OurafdnEU3NqMPStP3Yjfgw6J1PHS7NyaF
+   MDLz41Vi2xvpgLSMNGk6i82RSAHUxk1Ldd3qudPtacKQ3Q05dmN2j6Jq1
+   w+k6SjgM1j4hbIj/KlJ+gl3c80ypFrMpD6vGs+mTRx/Tr2xjZxy0fGeHo
+   yFxQRgYL2R9JM+GwiIiyrOLP93jwsEAfjvDzA52DdY9pJ53UUEvv4SC7w
+   ziwBlo93Vwxk3WaAHgdtThq02m6P9e4D2Bbvy+80VHalmwKBFNHRm0vm3
+   aASkPvAUt7IkvOpLkmexuGY+RwqzuMIN9cLC2qZogL197CIyrPij1zaZP
+   g==;
+X-CSE-ConnectionGUID: 4w8QnqBpSFqrdJDTvL9GBA==
+X-CSE-MsgGUID: ZIy4NkDtTEu9TKu9Q918iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11176"; a="45669913"
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="33718534"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 13:33:33 -0700
-X-CSE-ConnectionGUID: k/7FiudcQo2ky1jVVuMYnA==
-X-CSE-MsgGUID: BRSQLwrQTSyMrd5Hh7M/zg==
+   d="scan'208";a="45669913"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 13:39:53 -0700
+X-CSE-ConnectionGUID: YNsmcnObTtCBhboG+EMVaQ==
+X-CSE-MsgGUID: L/3qT+tkTs2PL2iM1ZSm1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,178,1719903600"; 
-   d="scan'208";a="66780976"
-Received: from lkp-server01.sh.intel.com (HELO 9a732dc145d3) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Aug 2024 13:33:29 -0700
-Received: from kbuild by 9a732dc145d3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sigP0-000HZi-1U;
-	Mon, 26 Aug 2024 20:33:26 +0000
-Date: Tue, 27 Aug 2024 04:32:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ahmed Ehab <bottaawesome633@gmail.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] Refactor switch_mm_cid() to avoid unnecessary checks
-Message-ID: <202408270455.R85TrPfw-lkp@intel.com>
-References: <20240824223132.11925-1-bottaawesome633@gmail.com>
+   d="scan'208";a="67529886"
+Received: from dgramcko-desk.amr.corp.intel.com ([10.124.223.43])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2024 13:39:53 -0700
+Message-ID: <b327d0eababdde3224c6c466ce1819888389a9e3.camel@linux.intel.com>
+Subject: Re: [PATCH] pm-graph: Update directory handling and installation
+ process in Makefile
+From: Todd Brandt <todd.e.brandt@linux.intel.com>
+Reply-To: todd.e.brandt@linux.intel.com
+To: Amit Vadhavana <av2082000@gmail.com>, skhan@linuxfoundation.org, 
+	ricardo@marliere.net
+Cc: linux-kernel-mentees@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 26 Aug 2024 13:39:52 -0700
+In-Reply-To: <20240825110620.30109-1-av2082000@gmail.com>
+References: <20240825110620.30109-1-av2082000@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240824223132.11925-1-bottaawesome633@gmail.com>
 
-Hi Ahmed,
+On Sun, 2024-08-25 at 16:36 +0530, Amit Vadhavana wrote:
+> - Standardize directory variables to support more flexible
+> installations.
+> - Add copyright and licensing information to the Makefile.
+> - Introduce ".PHONY" declarations to ensure that specific targets are
+> always
+> =C2=A0 executed, regardless of the presence of files with matching names.
+> - Add a help target to provide usage instructions.
+>=20
+> Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
+> ---
+> =C2=A0tools/power/pm-graph/Makefile | 111 ++++++++++++++++++++++---------=
+-
+> --
+> =C2=A01 file changed, 73 insertions(+), 38 deletions(-)
+>=20
+> diff --git a/tools/power/pm-graph/Makefile b/tools/power/pm-
+> graph/Makefile
+> index b5310832c19c..aeddbaf2d4c4 100644
+> --- a/tools/power/pm-graph/Makefile
+> +++ b/tools/power/pm-graph/Makefile
+> @@ -1,51 +1,86 @@
+> =C2=A0# SPDX-License-Identifier: GPL-2.0
+> -PREFIX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0?=3D /usr
+> -DESTDIR=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0?=3D
+> +#
+> +# Copyright (c) 2013, Intel Corporation.
+> +#
+> +# This program is free software; you can redistribute it and/or
+> modify it
+> +# under the terms and conditions of the GNU General Public License,
+> +# version 2, as published by the Free Software Foundation.
+> +#
+> +# This program is distributed in the hope it will be useful, but
+> WITHOUT
+> +# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+> or
+> +# FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU General Public
+> License for
+> +# more details.
+> +#
+> +# Authors:
+> +#=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Todd Brandt <todd.e.brandt@linux.i=
+ntel.com>
+> +
+> +# Prefix to the directories we're installing to
+> +DESTDIR ?=3D
+> +
+> +# Directory definitions. These are default and most probably
+> +# do not need to be changed. Please note that DESTDIR is
+> +# added in front of any of them
+> +
+> +BINDIR ?=3D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/usr/bin
+> +MANDIR ?=3D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/usr/share/man
+> +LIBDIR ?=3D=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/usr/lib
+> +
+> +# Toolchain: what tools do we use, and what options do they need:
+> +INSTALL =3D /usr/bin/install
+> +INSTALL_DATA=C2=A0 =3D ${INSTALL} -m 644
+> =C2=A0
+> =C2=A0all:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0@echo "Nothing to build"
+> =C2=A0
+> =C2=A0install : uninstall
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -d=C2=A0 $(DESTDIR)$(P=
+REFIX)/lib/pm-graph
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install sleepgraph.py $(DESTDI=
+R)$(PREFIX)/lib/pm-graph
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install bootgraph.py $(DESTDIR=
+)$(PREFIX)/lib/pm-graph
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -d=C2=A0 $(DESTDIR)$(P=
+REFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/cgskip.t=
+xt $(DESTDIR)$(PREFIX)/lib/pm-
+> graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/freeze-c=
+allgraph.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/freeze.c=
+fg $(DESTDIR)$(PREFIX)/lib/pm-
+> graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/freeze-d=
+ev.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/standby-=
+callgraph.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/standby.=
+cfg $(DESTDIR)$(PREFIX)/lib/pm-
+> graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/standby-=
+dev.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/suspend-=
+callgraph.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/suspend.=
+cfg $(DESTDIR)$(PREFIX)/lib/pm-
+> graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/suspend-=
+dev.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -m 644 config/suspend-=
+x2-proc.cfg
+> $(DESTDIR)$(PREFIX)/lib/pm-graph/config
+> -
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -d=C2=A0 $(DESTDIR)$(P=
+REFIX)/bin
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ln -s ../lib/pm-graph/bootgrap=
+h.py
+> $(DESTDIR)$(PREFIX)/bin/bootgraph
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ln -s ../lib/pm-graph/sleepgra=
+ph.py
+> $(DESTDIR)$(PREFIX)/bin/sleepgraph
+> -
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install -d=C2=A0 $(DESTDIR)$(P=
+REFIX)/share/man/man8
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install bootgraph.8 $(DESTDIR)=
+$(PREFIX)/share/man/man8
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0install sleepgraph.8 $(DESTDIR=
+)$(PREFIX)/share/man/man8
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) -d=C2=A0 $(DESTDIR)=
+$(LIBDIR)/pm-graph
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) sleepgraph.py $(DES=
+TDIR)$(LIBDIR)/pm-graph
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) bootgraph.py $(DEST=
+DIR)$(LIBDIR)/pm-graph
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) -d=C2=A0 $(DESTDIR)=
+$(LIBDIR)/pm-graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/cgskip.=
+txt $(DESTDIR)$(LIBDIR)/pm-
+> graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/freeze-=
+callgraph.cfg
+> $(DESTDIR)$(LIBDIR)/pm-graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/freeze.=
+cfg $(DESTDIR)$(LIBDIR)/pm-
+> graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/freeze-=
+dev.cfg $(DESTDIR)$(LIBDIR)/pm-
+> graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/standby=
+-callgraph.cfg
+> $(DESTDIR)$(LIBDIR)/pm-graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/standby=
+.cfg $(DESTDIR)$(LIBDIR)/pm-
+> graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/standby=
+-dev.cfg
+> $(DESTDIR)$(LIBDIR)/pm-graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/suspend=
+-callgraph.cfg
+> $(DESTDIR)$(LIBDIR)/pm-graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/suspend=
+.cfg $(DESTDIR)$(LIBDIR)/pm-
+> graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/suspend=
+-dev.cfg
+> $(DESTDIR)$(LIBDIR)/pm-graph/config
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL_DATA) config/suspend=
+-x2-proc.cfg
+> $(DESTDIR)$(LIBDIR)/pm-graph/config
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) -d=C2=A0 $(DESTDIR)=
+$(BINDIR)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ln -s ../lib/pm-graph/bootgrap=
+h.py
+> $(DESTDIR)$(BINDIR)/bootgraph
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ln -s ../lib/pm-graph/sleepgra=
+ph.py
+> $(DESTDIR)$(BINDIR)/sleepgraph
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) -d=C2=A0 $(DESTDIR)=
+$(MANDIR)/man8
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) bootgraph.8 $(DESTD=
+IR)$(MANDIR)/man8
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$(INSTALL) sleepgraph.8 $(DEST=
+DIR)$(MANDIR)/man8
+> =C2=A0
+> =C2=A0uninstall :
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/shar=
+e/man/man8/bootgraph.8
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/shar=
+e/man/man8/sleepgraph.8
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(MANDIR)/man8=
+/bootgraph.8
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(MANDIR)/man8=
+/sleepgraph.8
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/bin/=
+bootgraph
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/bin/=
+sleepgraph
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(BINDIR)/boot=
+graph
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(BINDIR)/slee=
+pgraph
+> =C2=A0
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/lib/=
+pm-graph/config/*
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ -d $(DESTDIR)$(PREFIX)/li=
+b/pm-graph/config ] ; then \
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0rmdir $(DESTDIR)$(PREFIX)/lib/pm-graph/config; \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(LIBDIR)/pm-g=
+raph/config/*
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ -d $(DESTDIR)$(LIBDIR)/pm=
+-graph/config ] ; then \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0rmdir $(DESTDIR)$(LIBDIR)/pm-graph/config; \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fi;
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/lib/=
+pm-graph/__pycache__/*
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ -d $(DESTDIR)$(PREFIX)/li=
+b/pm-graph/__pycache__ ] ; then
+> \
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0rmdir $(DESTDIR)$(PREFIX)/lib/pm-graph/__pycache__; \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(LIBDIR)/pm-g=
+raph/__pycache__/*
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ -d $(DESTDIR)$(LIBDIR)/pm=
+-graph/__pycache__ ] ; then \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0rmdir $(DESTDIR)$(LIBDIR)/pm-graph/__pycache__; \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fi;
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(PREFIX)/lib/=
+pm-graph/*
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ -d $(DESTDIR)$(PREFIX)/li=
+b/pm-graph ] ; then \
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0rmdir $(DESTDIR)$(PREFIX)/lib/pm-graph; \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm -f $(DESTDIR)$(LIBDIR)/pm-g=
+raph/*
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if [ -d $(DESTDIR)$(LIBDIR)/pm=
+-graph ] ; then \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0rmdir $(DESTDIR)$(LIBDIR)/pm-graph; \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0fi;
+> +
+> +help:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0@echo=C2=A0 'Building targets:=
+'
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0@echo=C2=A0 '=C2=A0 all=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Nothin=
+g to build'
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0@echo=C2=A0 '=C2=A0 install=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Install the program and cre=
+ate
+> necessary directories'
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0@echo=C2=A0 '=C2=A0 uninstall=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Remove installed files and
+> directories'
+> +
+> +.PHONY: all install uninstall help
+This does look much nicer, and it's good to use the absolute path of
+install in case the system doesn't have the PATH setup. Thank you for
+cleaning this up!
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on linus/master v6.11-rc5 next-20240826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Ehab/Refactor-switch_mm_cid-to-avoid-unnecessary-checks/20240826-153216
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20240824223132.11925-1-bottaawesome633%40gmail.com
-patch subject: [PATCH] Refactor switch_mm_cid() to avoid unnecessary checks
-config: arm-ep93xx_defconfig (https://download.01.org/0day-ci/archive/20240827/202408270455.R85TrPfw-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240827/202408270455.R85TrPfw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202408270455.R85TrPfw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/sched/core.c:5232:4: error: implicit declaration of function 'switch_mm_cid_from_user_to_kernel' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           switch_mm_cid_from_user_to_kernel(rq, prev, next);
-                           ^
->> kernel/sched/core.c:5257:4: error: implicit declaration of function 'switch_mm_cid_from_kernel_to_user' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           switch_mm_cid_from_kernel_to_user(rq, prev, next);
-                           ^
->> kernel/sched/core.c:5259:4: error: implicit declaration of function 'switch_mm_cid_from_user_to_user' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                           switch_mm_cid_from_user_to_user(rq, prev, next);
-                           ^
-   3 errors generated.
-
-
-vim +/switch_mm_cid_from_user_to_kernel +5232 kernel/sched/core.c
-
-  5199	
-  5200	/*
-  5201	 * context_switch - switch to the new MM and the new thread's register state.
-  5202	 */
-  5203	static __always_inline struct rq *
-  5204	context_switch(struct rq *rq, struct task_struct *prev,
-  5205		       struct task_struct *next, struct rq_flags *rf)
-  5206	{
-  5207		prepare_task_switch(rq, prev, next);
-  5208	
-  5209		/*
-  5210		 * For paravirt, this is coupled with an exit in switch_to to
-  5211		 * combine the page table reload and the switch backend into
-  5212		 * one hypercall.
-  5213		 */
-  5214		arch_start_context_switch(prev);
-  5215	
-  5216		/*
-  5217		 * kernel -> kernel   lazy + transfer active
-  5218		 *   user -> kernel   lazy + mmgrab_lazy_tlb() active
-  5219		 *
-  5220		 * kernel ->   user   switch + mmdrop_lazy_tlb() active
-  5221		 *   user ->   user   switch
-  5222		 *
-  5223		 * switch_mm_cid() needs to be updated if the barriers provided
-  5224		 * by context_switch() are modified.
-  5225		 */
-  5226		if (!next->mm) {                                // to kernel
-  5227			enter_lazy_tlb(prev->active_mm, next);
-  5228	
-  5229			next->active_mm = prev->active_mm;
-  5230			if (prev->mm) {                           // from user
-  5231				mmgrab_lazy_tlb(prev->active_mm);
-> 5232				switch_mm_cid_from_user_to_kernel(rq, prev, next);
-  5233			}
-  5234			else
-  5235				/*
-  5236				 * kernel -> kernel transition does not change rq->curr->mm
-  5237				 * state. It stays NULL.
-  5238				 */
-  5239				prev->active_mm = NULL;
-  5240		} else {                                        // to user
-  5241			membarrier_switch_mm(rq, prev->active_mm, next->mm);
-  5242			/*
-  5243			 * sys_membarrier() requires an smp_mb() between setting
-  5244			 * rq->curr / membarrier_switch_mm() and returning to userspace.
-  5245			 *
-  5246			 * The below provides this either through switch_mm(), or in
-  5247			 * case 'prev->active_mm == next->mm' through
-  5248			 * finish_task_switch()'s mmdrop().
-  5249			 */
-  5250			switch_mm_irqs_off(prev->active_mm, next->mm, next);
-  5251			lru_gen_use_mm(next->mm);
-  5252	
-  5253			if (!prev->mm) {                        // from kernel
-  5254				/* will mmdrop_lazy_tlb() in finish_task_switch(). */
-  5255				rq->prev_mm = prev->active_mm;
-  5256				prev->active_mm = NULL;
-> 5257				switch_mm_cid_from_kernel_to_user(rq, prev, next);
-  5258			} else
-> 5259				switch_mm_cid_from_user_to_user(rq, prev, next);
-  5260		}
-  5261	
-  5262		prepare_lock_switch(rq, next, rf);
-  5263	
-  5264		/* Here we just switch the register state and the stack. */
-  5265		switch_to(prev, next, prev);
-  5266		barrier();
-  5267	
-  5268		return finish_task_switch(prev);
-  5269	}
-  5270	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Signed-off-by: Todd Brandt <todd.e.brandt@linux.intel.com>
