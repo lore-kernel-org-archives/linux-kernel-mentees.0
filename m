@@ -1,247 +1,254 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9EA1D9327
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  4 Sep 2024 12:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4AE1E6329
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  4 Sep 2024 19:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725453379; cv=none; b=IiSFGQ8QhQXpQ+JqG9QvrIx2YPc+OBOgEa7+W1rSEyb/vYHGZyUXn8lnfMnRVjPgu36KkDTgeuoA+cYRWlrREGmHnBYQYyqmBACq5uxk9qJKrQ8kqlVkueKynj8BD7rLLg7aTD7l38oN41WNUILX6vi8aAIn5LpruYHpbWix96U=
+	t=1725477682; cv=none; b=LGVSJ7UxRWL72QQEpCP62Nk3G99pUsvyS2gPadnGKmRyW/8RzpwI2+pfqb2NeD2rt6YL8rr9rycm3GjCfGhUnRbiG41JeIT0XA6/WVyN3eNGRTSK9sU5c2iFF2uFWBWBES0CZvk54eAeY7f2XFzCQ5bH9oKeN0Sw2YioGs3Nm0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725453379; c=relaxed/simple;
-	bh=JjA2/JsNXGExkeE2K/FQZhVSrIrSq/U99uy6B88D6YY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZEM1cTIx8ren6t7uKl7MWqFDUG939CUU2cB/toRwdKHD3K6GkAgjUAE+dMQ1OdZ26sxSJkvq7tANWcJgzm8OWV85K9P1z8FPRNHhmVJ4ihw7tEkpcPu3v8kQRQ5VUFqhQygY5Ru1wqlj/AH1/zbfSyHLKpGuntLnouTg8Z6g1jY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkeHXF8L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725477682; c=relaxed/simple;
+	bh=pGa7u7ieb4EUdWX9xTK0+u0ZbSur2prvixiWQUtZWCo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=envwawy2koowORLzOvl+0AmOdC7sFvoIDCdZZArwl+m4+0m6tR5SCiknmeNVC4qaUnUJ2W0izFzcFAsQV6De+P16SblGVQrCWoxC64wf5NTK+hwOeQtV+qTMC9AVArLuJGTgM9iydtHc8DpOINEwdmc4jxIJOA6zYAMrUeK4zzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAimvNpi; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkeHXF8L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08EF6C4CEC2
-	for <linux-kernel-mentees@lists.linux.dev>; Wed,  4 Sep 2024 12:36:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725453379;
-	bh=JjA2/JsNXGExkeE2K/FQZhVSrIrSq/U99uy6B88D6YY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=nkeHXF8L2lNOc60N7//9fxgBgJtS6EEGvC3WgGFxLVKe8op3GKltWb/m2W9tOXd7a
-	 +Q2s36NAVfYyDq60G9yzMjvJYKlLjKsaT18cqDypW0w2NVeI4jZ9KiUIOtHC1TUrbz
-	 5+5DuZF4MNuswDoLF2VEFGSdXi7tZZh/AnDGUr904xXwHyXMCbvl5YluCDin54f+hq
-	 vltxV/WDrpSiGw/gMEw45UL0T/G8oCrHTemmq5EMLX9dQQv1Xwkt3YJCSP0eFtcTd+
-	 6ZEksCjnTRSZrYjzYcFecdXWsipgn1mIe9w5i7iT1mABdY5UbR4bbBoSRPx1GaE840
-	 x2YDJa2uHutiQ==
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-27045e54272so2937606fac.0
-        for <linux-kernel-mentees@lists.linux.dev>; Wed, 04 Sep 2024 05:36:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUd9rTTRaZQZxiDjeaSY0q5qsSsN2Nj2pMD0Hoz0JqiQ+edkngNnpnArD+M50FzQ7NPhJOMA3RwPNrhqgvhRLuHkJa+wg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2pfVJaCOCSrlJLLHOiqEpTsbaAWh9qR7odYSPOOnU9eXZMw7N
-	s4bUmZZ9oehvycj52B7LBQYwH9tsE+z1ivZSq9WZh3GJQT8UkmkIDcdVMECc3sT21jQ46g+h1Ep
-	3O6Kakk0IKk21mvbvDEiigMDjbqg=
-X-Google-Smtp-Source: AGHT+IEYd6wVrgfuqGaHEwztbvHD7RfPKDJ5M427MVlwc3gD1WA6CqJ4z9GYwZy84CTPZzdP0I3E7s7Uzt0me2R21cU=
-X-Received: by 2002:a05:6870:3909:b0:278:2d12:9f13 with SMTP id
- 586e51a60fabf-2782d12b186mr4130715fac.44.1725453378349; Wed, 04 Sep 2024
- 05:36:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAimvNpi"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp3.osuosl.org (Postfix) with ESMTP id 6F5F6606E0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  4 Sep 2024 19:21:20 +0000 (UTC)
+X-Virus-Scanned: amavis at osuosl.org
+X-Spam-Flag: NO
+X-Spam-Score: -1.849
+X-Spam-Level:
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 0H-8QK-GtMdR for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  4 Sep 2024 19:21:19 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::330; helo=mail-wm1-x330.google.com; envelope-from=bottaawesome633@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 17B06606D5
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 17B06606D5
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lAimvNpi
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 17B06606D5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  4 Sep 2024 19:21:18 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-42c94eb9822so10055525e9.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 04 Sep 2024 12:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725477677; x=1726082477; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wdqAsVpkuRSY1jXdBBvUbDMsUymqTBzc3tB6AHQ0SKk=;
+        b=lAimvNpiQmSvDdXWdWEtz2I4JfT3qF2sJELvOw1Kb16cTsuTrhrerXqTxLqPAsJ0B6
+         m2NIxnUR8GSa3pyoyfsxDX6SypTSybMmOm4gWtzbuaS9xtzu/iATVLmZXsHkjD7IDFDP
+         UzJIe4KDA1TWlkQ7dnARLCNdcl8TpE0zL0BBkIVHID6oP/GtiJClxB1qegNICllyhJtm
+         AsOhcJPprWSWcNLMCEYAdNLSjWsCY63SPttoxXjspa5t5JTH6JcOLzHs+7wuqvDwSQeU
+         B62IQeuK9bYIUWUzNb7pbqcKHfy2LnUZPjAVhtN9VhGPkCpGW+is4tUPvRq2UPmgQxPm
+         JAfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725477677; x=1726082477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wdqAsVpkuRSY1jXdBBvUbDMsUymqTBzc3tB6AHQ0SKk=;
+        b=PhjWfOIQUDXbtBXqRsRIs/yulT0Dpb8wE/W9fTRZZR/4DDgECrj71LbzlJPYvehtfC
+         XXidxzX71sNc5uSRH5FXfSC63MdG9CiZ1OPgXXNDhvfIrj9401YSkj6b4tV+/jA94iCD
+         J/3qZ+oswJLnnXnRkrt9S5wx+eSCHgiQtI/d6DDzH5vsSSOwrY87HKG0BghZUeWZvZCo
+         nrWXLvrqZUhnrywNlqI8ZluMdRIpyWv9BhiYp1bnzrZlAuSgvr1TY2Et6rq7Ti2FaE02
+         tjSwV/l78NLxwGxX/Fu02I6khAfzOZJVTIsY9u0IINdVVUUaq+BKT3g4VmIf+zdS8DGR
+         ztyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKYR/lcAeNZi7IXTKVVlL0x9F/w5XdMT2aEX5pq5BwMGWsf+PKcP5YCuJjpqAV6QOvra1qyEW1M0Rgk7Q0RZQCyXDBQg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy7d4yvxIAxiSYW57fmc37ogPApGi10pYhVQW5dveb9ulcmFZlm
+	hxM1LfvQ5HazBjs3AZVBF7bd1DULKwheJGTvJDmh1Pbr03ne82F2
+X-Google-Smtp-Source: AGHT+IHTb1whdWr/g0jbtW7if8TSwPVnmMfUSQZRg5D6dFL9c+je/dwYxXcBhENiIMVvHQn3ZgS46A==
+X-Received: by 2002:a05:600c:3582:b0:42b:9260:235f with SMTP id 5b1f17b1804b1-42c7b5b4b72mr92303965e9.19.1725477676576;
+        Wed, 04 Sep 2024 12:21:16 -0700 (PDT)
+Received: from localhost.localdomain ([156.197.26.140])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42bba57bb20sm189366175e9.4.2024.09.04.12.21.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 12:21:16 -0700 (PDT)
+From: Ahmed Ehab <bottaawesome633@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v2] Refactor switch_mm_cid() to avoid unnecessary checks
+Date: Thu,  5 Sep 2024 01:18:17 +0300
+Message-ID: <20240904221817.56664-1-bottaawesome633@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240825110620.30109-1-av2082000@gmail.com> <dd30094d963ec559d444aee6d0c26a5cd4c1e432.camel@linux.intel.com>
-In-Reply-To: <dd30094d963ec559d444aee6d0c26a5cd4c1e432.camel@linux.intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 4 Sep 2024 14:36:07 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iftq5S_=zcna1zwSSYk7d_4XWaAh1q9WVTy98gxDtR0A@mail.gmail.com>
-Message-ID: <CAJZ5v0iftq5S_=zcna1zwSSYk7d_4XWaAh1q9WVTy98gxDtR0A@mail.gmail.com>
-Subject: Re: [PATCH] pm-graph: Update directory handling and installation
- process in Makefile
-To: todd.e.brandt@linux.intel.com, Amit Vadhavana <av2082000@gmail.com>
-Cc: skhan@linuxfoundation.org, ricardo@marliere.net, 
-	linux-kernel-mentees@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 26, 2024 at 10:51=E2=80=AFPM Todd Brandt
-<todd.e.brandt@linux.intel.com> wrote:
->
-> On Sun, 2024-08-25 at 16:36 +0530, Amit Vadhavana wrote:
-> > - Standardize directory variables to support more flexible
-> > installations.
-> > - Add copyright and licensing information to the Makefile.
-> > - Introduce ".PHONY" declarations to ensure that specific targets are
-> > always
-> >   executed, regardless of the presence of files with matching names.
-> > - Add a help target to provide usage instructions.
-> >
-> > Signed-off-by: Amit Vadhavana <av2082000@gmail.com>
-> > ---
-> >  tools/power/pm-graph/Makefile | 111 ++++++++++++++++++++++----------
-> > --
-> >  1 file changed, 73 insertions(+), 38 deletions(-)
-> >
-> > diff --git a/tools/power/pm-graph/Makefile b/tools/power/pm-
-> > graph/Makefile
-> > index b5310832c19c..aeddbaf2d4c4 100644
-> > --- a/tools/power/pm-graph/Makefile
-> > +++ b/tools/power/pm-graph/Makefile
-> > @@ -1,51 +1,86 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> > -PREFIX         ?=3D /usr
-> > -DESTDIR                ?=3D
-> > +#
-> > +# Copyright (c) 2013, Intel Corporation.
-> > +#
-> > +# This program is free software; you can redistribute it and/or
-> > modify it
-> > +# under the terms and conditions of the GNU General Public License,
-> > +# version 2, as published by the Free Software Foundation.
-> > +#
-> > +# This program is distributed in the hope it will be useful, but
-> > WITHOUT
-> > +# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-> > or
-> > +# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-> > License for
-> > +# more details.
-> > +#
-> > +# Authors:
-> > +#       Todd Brandt <todd.e.brandt@linux.intel.com>
-> > +
-> > +# Prefix to the directories we're installing to
-> > +DESTDIR ?=3D
-> > +
-> > +# Directory definitions. These are default and most probably
-> > +# do not need to be changed. Please note that DESTDIR is
-> > +# added in front of any of them
-> > +
-> > +BINDIR ?=3D      /usr/bin
-> > +MANDIR ?=3D      /usr/share/man
-> > +LIBDIR ?=3D      /usr/lib
-> > +
-> > +# Toolchain: what tools do we use, and what options do they need:
-> > +INSTALL =3D /usr/bin/install
-> > +INSTALL_DATA  =3D ${INSTALL} -m 644
-> >
-> >  all:
-> >         @echo "Nothing to build"
-> >
-> >  install : uninstall
-> > -       install -d  $(DESTDIR)$(PREFIX)/lib/pm-graph
-> > -       install sleepgraph.py $(DESTDIR)$(PREFIX)/lib/pm-graph
-> > -       install bootgraph.py $(DESTDIR)$(PREFIX)/lib/pm-graph
-> > -       install -d  $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/cgskip.txt $(DESTDIR)$(PREFIX)/lib/pm-
-> > graph/config
-> > -       install -m 644 config/freeze-callgraph.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/freeze.cfg $(DESTDIR)$(PREFIX)/lib/pm-
-> > graph/config
-> > -       install -m 644 config/freeze-dev.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/standby-callgraph.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/standby.cfg $(DESTDIR)$(PREFIX)/lib/pm-
-> > graph/config
-> > -       install -m 644 config/standby-dev.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/suspend-callgraph.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/suspend.cfg $(DESTDIR)$(PREFIX)/lib/pm-
-> > graph/config
-> > -       install -m 644 config/suspend-dev.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -       install -m 644 config/suspend-x2-proc.cfg
-> > $(DESTDIR)$(PREFIX)/lib/pm-graph/config
-> > -
-> > -       install -d  $(DESTDIR)$(PREFIX)/bin
-> > -       ln -s ../lib/pm-graph/bootgraph.py
-> > $(DESTDIR)$(PREFIX)/bin/bootgraph
-> > -       ln -s ../lib/pm-graph/sleepgraph.py
-> > $(DESTDIR)$(PREFIX)/bin/sleepgraph
-> > -
-> > -       install -d  $(DESTDIR)$(PREFIX)/share/man/man8
-> > -       install bootgraph.8 $(DESTDIR)$(PREFIX)/share/man/man8
-> > -       install sleepgraph.8 $(DESTDIR)$(PREFIX)/share/man/man8
-> > +       $(INSTALL) -d  $(DESTDIR)$(LIBDIR)/pm-graph
-> > +       $(INSTALL) sleepgraph.py $(DESTDIR)$(LIBDIR)/pm-graph
-> > +       $(INSTALL) bootgraph.py $(DESTDIR)$(LIBDIR)/pm-graph
-> > +       $(INSTALL) -d  $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +       $(INSTALL_DATA) config/cgskip.txt $(DESTDIR)$(LIBDIR)/pm-
-> > graph/config
-> > +       $(INSTALL_DATA) config/freeze-callgraph.cfg
-> > $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +       $(INSTALL_DATA) config/freeze.cfg $(DESTDIR)$(LIBDIR)/pm-
-> > graph/config
-> > +       $(INSTALL_DATA) config/freeze-dev.cfg $(DESTDIR)$(LIBDIR)/pm-
-> > graph/config
-> > +       $(INSTALL_DATA) config/standby-callgraph.cfg
-> > $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +       $(INSTALL_DATA) config/standby.cfg $(DESTDIR)$(LIBDIR)/pm-
-> > graph/config
-> > +       $(INSTALL_DATA) config/standby-dev.cfg
-> > $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +       $(INSTALL_DATA) config/suspend-callgraph.cfg
-> > $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +       $(INSTALL_DATA) config/suspend.cfg $(DESTDIR)$(LIBDIR)/pm-
-> > graph/config
-> > +       $(INSTALL_DATA) config/suspend-dev.cfg
-> > $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +       $(INSTALL_DATA) config/suspend-x2-proc.cfg
-> > $(DESTDIR)$(LIBDIR)/pm-graph/config
-> > +
-> > +       $(INSTALL) -d  $(DESTDIR)$(BINDIR)
-> > +       ln -s ../lib/pm-graph/bootgraph.py
-> > $(DESTDIR)$(BINDIR)/bootgraph
-> > +       ln -s ../lib/pm-graph/sleepgraph.py
-> > $(DESTDIR)$(BINDIR)/sleepgraph
-> > +
-> > +       $(INSTALL) -d  $(DESTDIR)$(MANDIR)/man8
-> > +       $(INSTALL) bootgraph.8 $(DESTDIR)$(MANDIR)/man8
-> > +       $(INSTALL) sleepgraph.8 $(DESTDIR)$(MANDIR)/man8
-> >
-> >  uninstall :
-> > -       rm -f $(DESTDIR)$(PREFIX)/share/man/man8/bootgraph.8
-> > -       rm -f $(DESTDIR)$(PREFIX)/share/man/man8/sleepgraph.8
-> > +       rm -f $(DESTDIR)$(MANDIR)/man8/bootgraph.8
-> > +       rm -f $(DESTDIR)$(MANDIR)/man8/sleepgraph.8
-> >
-> > -       rm -f $(DESTDIR)$(PREFIX)/bin/bootgraph
-> > -       rm -f $(DESTDIR)$(PREFIX)/bin/sleepgraph
-> > +       rm -f $(DESTDIR)$(BINDIR)/bootgraph
-> > +       rm -f $(DESTDIR)$(BINDIR)/sleepgraph
-> >
-> > -       rm -f $(DESTDIR)$(PREFIX)/lib/pm-graph/config/*
-> > -       if [ -d $(DESTDIR)$(PREFIX)/lib/pm-graph/config ] ; then \
-> > -               rmdir $(DESTDIR)$(PREFIX)/lib/pm-graph/config; \
-> > +       rm -f $(DESTDIR)$(LIBDIR)/pm-graph/config/*
-> > +       if [ -d $(DESTDIR)$(LIBDIR)/pm-graph/config ] ; then \
-> > +               rmdir $(DESTDIR)$(LIBDIR)/pm-graph/config; \
-> >         fi;
-> > -       rm -f $(DESTDIR)$(PREFIX)/lib/pm-graph/__pycache__/*
-> > -       if [ -d $(DESTDIR)$(PREFIX)/lib/pm-graph/__pycache__ ] ; then
-> > \
-> > -               rmdir $(DESTDIR)$(PREFIX)/lib/pm-graph/__pycache__; \
-> > +       rm -f $(DESTDIR)$(LIBDIR)/pm-graph/__pycache__/*
-> > +       if [ -d $(DESTDIR)$(LIBDIR)/pm-graph/__pycache__ ] ; then \
-> > +               rmdir $(DESTDIR)$(LIBDIR)/pm-graph/__pycache__; \
-> >         fi;
-> > -       rm -f $(DESTDIR)$(PREFIX)/lib/pm-graph/*
-> > -       if [ -d $(DESTDIR)$(PREFIX)/lib/pm-graph ] ; then \
-> > -               rmdir $(DESTDIR)$(PREFIX)/lib/pm-graph; \
-> > +       rm -f $(DESTDIR)$(LIBDIR)/pm-graph/*
-> > +       if [ -d $(DESTDIR)$(LIBDIR)/pm-graph ] ; then \
-> > +               rmdir $(DESTDIR)$(LIBDIR)/pm-graph; \
-> >         fi;
-> > +
-> > +help:
-> > +       @echo  'Building targets:'
-> > +       @echo  '  all             - Nothing to build'
-> > +       @echo  '  install         - Install the program and create
-> > necessary directories'
-> > +       @echo  '  uninstall       - Remove installed files and
-> > directories'
-> > +
-> > +.PHONY: all install uninstall help
-> This does look much nicer, and it's good to use the absolute path of
-> install in case the system doesn't have the PATH setup. Thank you for
-> cleaning this up! (re-send with Acked-by)
->
-> Acked-by: Todd Brandt <todd.e.brandt@linux.intel.com>
+The issue is that we check if we are switching from {kernel,user} to
+{kernel, user} multiple times unnecessarily.
 
-Applied as 6.12 material, thanks!
+To fix this, refactor switch_mm_cid() and break it into multiple methods
+to handle the cases of switching from {kernel,user} to {kernel, user}.
+Hence, we avoid any redundant checks.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202408270455.R85TrPfw-lkp@intel.com/
+Signed-off-by: Ahmed Ehab <bottaawesome633@gmail.com>
+---
+ kernel/sched/core.c  | 15 +++++---
+ kernel/sched/sched.h | 84 +++++++++++++++++++++++++++-----------------
+ 2 files changed, 62 insertions(+), 37 deletions(-)
+
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index f3951e4a55e5..900c5a763e0a 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -5155,9 +5155,15 @@ context_switch(struct rq *rq, struct task_struct *prev,
+ 		enter_lazy_tlb(prev->active_mm, next);
+ 
+ 		next->active_mm = prev->active_mm;
+-		if (prev->mm)                           // from user
++		if (prev->mm) {                           // from user
+ 			mmgrab_lazy_tlb(prev->active_mm);
++			switch_mm_cid_from_user_to_kernel(rq, prev, next);
++		}
+ 		else
++			/*
++			 * kernel -> kernel transition does not change rq->curr->mm
++			 * state. It stays NULL.
++			 */
+ 			prev->active_mm = NULL;
+ 	} else {                                        // to user
+ 		membarrier_switch_mm(rq, prev->active_mm, next->mm);
+@@ -5176,12 +5182,11 @@ context_switch(struct rq *rq, struct task_struct *prev,
+ 			/* will mmdrop_lazy_tlb() in finish_task_switch(). */
+ 			rq->prev_mm = prev->active_mm;
+ 			prev->active_mm = NULL;
+-		}
++			switch_mm_cid_from_kernel_to_user(rq, prev, next);
++		} else
++			switch_mm_cid_from_user_to_user(rq, prev, next);
+ 	}
+ 
+-	/* switch_mm_cid() requires the memory barriers above. */
+-	switch_mm_cid(rq, prev, next);
+-
+ 	prepare_lock_switch(rq, next, rf);
+ 
+ 	/* Here we just switch the register state and the stack. */
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 4c36cc680361..c01ca8962518 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -3524,38 +3524,6 @@ static inline void switch_mm_cid(struct rq *rq,
+ 	 *
+ 	 * Should be adapted if context_switch() is modified.
+ 	 */
+-	if (!next->mm) {                                // to kernel
+-		/*
+-		 * user -> kernel transition does not guarantee a barrier, but
+-		 * we can use the fact that it performs an atomic operation in
+-		 * mmgrab().
+-		 */
+-		if (prev->mm)                           // from user
+-			smp_mb__after_mmgrab();
+-		/*
+-		 * kernel -> kernel transition does not change rq->curr->mm
+-		 * state. It stays NULL.
+-		 */
+-	} else {                                        // to user
+-		/*
+-		 * kernel -> user transition does not provide a barrier
+-		 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
+-		 * Provide it here.
+-		 */
+-		if (!prev->mm) {                        // from kernel
+-			smp_mb();
+-		} else {				// from user
+-			/*
+-			 * user->user transition relies on an implicit
+-			 * memory barrier in switch_mm() when
+-			 * current->mm changes. If the architecture
+-			 * switch_mm() does not have an implicit memory
+-			 * barrier, it is emitted here.  If current->mm
+-			 * is unchanged, no barrier is needed.
+-			 */
+-			smp_mb__after_switch_mm();
+-		}
+-	}
+ 	if (prev->mm_cid_active) {
+ 		mm_cid_snapshot_time(rq, prev->mm);
+ 		mm_cid_put_lazy(prev);
+@@ -3565,8 +3533,60 @@ static inline void switch_mm_cid(struct rq *rq,
+ 		next->last_mm_cid = next->mm_cid = mm_cid_get(rq, next->mm);
+ }
+ 
++static inline void switch_mm_cid_from_user_to_kernel(struct rq *rq,
++						     struct task_struct *prev,
++						     struct task_struct *next)
++
++{
++	/**
++	 * user -> kernel transition does not guarantee a barrier, but
++	 * we can use the fact that it performs an atomic operation in
++	 * mmgrab().
++	 */
++	smp_mb__after_mmgrab();
++	switch_mm_cid(rq, prev, next);
++
++}
++
++static inline void switch_mm_cid_from_kernel_to_user(struct rq *rq,
++						     struct task_struct *prev,
++						     struct task_struct *next)
++
++{
++	/*
++	 * kernel -> user transition does not provide a barrier
++	 * between rq->curr store and load of {prev,next}->mm->pcpu_cid[cpu].
++	 * Provide it here.
++	 */
++	smp_mb();
++	switch_mm_cid(rq, prev, next);
++
++}
++
++
++static inline void switch_mm_cid_from_user_to_user(struct rq *rq,
++						   struct task_struct *prev,
++						   struct task_struct *next)
++
++{
++	/*
++	 * user->user transition relies on an implicit
++	 * memory barrier in switch_mm() when
++	 * current->mm changes. If the architecture
++	 * switch_mm() does not have an implicit memory
++	 * barrier, it is emitted here.  If current->mm
++	 * is unchanged, no barrier is needed.
++	 */
++	smp_mb__after_switch_mm();
++	switch_mm_cid(rq, prev, next);
++
++}
++
+ #else /* !CONFIG_SCHED_MM_CID: */
+ static inline void switch_mm_cid(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
++static inline void switch_mm_cid_from_user_to_user(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
++static inline void switch_mm_cid_from_user_to_kernel(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
++static inline void switch_mm_cid_from_kernel_to_user(struct rq *rq, struct task_struct *prev, struct task_struct *next) { }
+ static inline void sched_mm_cid_migrate_from(struct task_struct *t) { }
+ static inline void sched_mm_cid_migrate_to(struct rq *dst_rq, struct task_struct *t) { }
+ static inline void task_tick_mm_cid(struct rq *rq, struct task_struct *curr) { }
+-- 
+2.46.0
+
