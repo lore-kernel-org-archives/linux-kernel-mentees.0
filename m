@@ -1,343 +1,363 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B7D17C9B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 07:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8292C15A873
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 23:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725607317; cv=none; b=OTWF8tkP+z8dqQBVvaXaFclE0pq/kOW1+GlTkgbQc1OTNBkdOn09sBSVjNrGknlE38CG3pcbJhH+X+K2DyYNuiWy4LC4xNfMnuEeK/WSXXIeWcEFvbFUZBeljdvTHOHrM1JMQbGlRfrVyTrAE2MG0WjKfnsDI1ezBtBiYARtVLw=
+	t=1725663937; cv=none; b=kiv8s50YzYVB4xJ4Zs/APSLFuZUvoyTel+Jp+xGCRChJjdOTzlO3XkPAarq4kg1R38k7WJTpcnml7PM96KOWMW9kdFjn4sVJHa64Tdj7ao85sjkg8SpiraUr0VX4QqVcTEckDWvgRStwcTp/N7q4smIlVLZUXb1kELqfWizr/2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725607317; c=relaxed/simple;
-	bh=wsFnXjBtxHD+SsVEmo1xrmImCcP7vZv5fdLTsvvCni4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gl1ryNDF26WSlMKvYoFW0wOZVJGGeTvTfe3sPBLkJSZTK8zQyUc0bGD+jmZvJTx770qZQZU9lQB/YNmj5Vj5bifBfuhTHse3rMtdaWQlDXqG4pmzgKdz/InXFJxpYnh+9dolXlpg/Pm8pLO+ocLjnq3aWrfQl2KGZ8xtz/vHFKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Za0ZJ+NQ; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1725663937; c=relaxed/simple;
+	bh=xMbiC5j+8AjO1g8ki7LQyKbZcljytu1mX5JUivYmbIA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bav95aqmHrzTlsL9CZoBQGZykiexHoOE54N7gD19aIFn0F9uzTXMxO/wjys2rJppE6YESsy6FpTRoguReKoVNmrVk4OI9uzWp0r/kaTN9pdvq9LWGT7DiqFO0Xd+UPItZ4Vs0cUKaOd1qflN3NFd8ArgQFbTcVlYesjWlXbWNVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UiyYPaW2; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Za0ZJ+NQ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UiyYPaW2"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 7AEE781206
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 07:21:55 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 01F8D4054A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 23:05:35 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -17.601
+X-Spam-Score: -5.791
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id KF0jgF9nR5rT for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Sep 2024 07:21:54 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::834; helo=mail-qt1-x834.google.com; envelope-from=davidgow@google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 4B3AA811E7
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 4B3AA811E7
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=Za0ZJ+NQ
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id 4B3AA811E7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 07:21:54 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-45681098bbdso15933011cf.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 06 Sep 2024 00:21:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725607313; x=1726212113; darn=lists.linuxfoundation.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+xtoDz50EVKT4FAfGDArm9+xvG9AsB+i2LJxd5cCXA=;
-        b=Za0ZJ+NQTMmH20JUKf9Q2XWFlIJSp2g4MrnNxJlMH/og0uA83Th6hVYzksqetbJ6Hs
-         KDzrxO7wQZOQtNTY6+ZxRFxd/9TvluIhNWfRWhhYeJDci7KX2oL7FoIrwnJTPYG9RFBm
-         9CXhRvWciKP+1QWf+PSxPyMtKAZ6C4eKKczPekV4ezuUExOei0otiGo6fT+U2LbtPhux
-         hQ6jQ1xW7YN1cDey+/TvrZENyTC53e0WeVR+K3wd3KHnQewMQxs8u3jaUuyhHOXrxhov
-         iXifDmMcUIoZ2DEyYxd3l+OU+B3dXB3Fp0o1wzqqekV7pQP1lL63KoT2SeNsmEqMrluo
-         j1rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725607313; x=1726212113;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=v+xtoDz50EVKT4FAfGDArm9+xvG9AsB+i2LJxd5cCXA=;
-        b=AvA+WEIrgPbZRTuzidZWJezEfiuP93765IsW8ptFzH5qTbFPWKDC3Z4z/m5JyQfual
-         MXvRi/ryE2IsRLpwdr3d0QGZJ//JoKX4nkZSi5HlssZxgPHSOQ3L3j66TDcBawc7TyhP
-         av42zKNCTdEGj/F90JbsOqgrAyVQyB+jI9plnH2UOSkvBqbxZNlw+55bGGoUV8kIvux5
-         KnOdryY7vNSvcBIgR+NGnQecjk9v9sWAADT4ntUyH7kNPHDusr77n+ffGE1XnEqeI8F9
-         lM7bW+9oPd7M2lxsXWqxv5nf/Fb0ldK1BI0bC7K2FYa5OL8uLAl18NyIRqG0jftXdUO3
-         dsXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVQOSi2HgThr44wKa/wfp6NJTpWfC5lf4ivCYZZO3nPyGPoaae6c1BYx7gdKlCNjCfSU5MrHrBLhXxqlSMKBl9MwIcwUw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwsJTMR1tVmJqSCjBi5eJVzfjmbIt77+GXwBYy7PezhgM+Nvo25
-	K18wpZtmxpp/5GipQGID7QZDL8yoweR7WsCfnzYNEPLteCWPxGKaNit91lgRLOiyKIgJrBXbo47
-	9LJkYZiIvFh0Q1jwxWwVeTpQdgyjt29oz/7MT
-X-Google-Smtp-Source: AGHT+IFBV8Yd2nT2AulbkO08HT/QnTTbmT0TS7vdBab/jbxAz/kQc+/8UUhhPkOdHofIV0oqnC52EL3cU+282BCHg2Y=
-X-Received: by 2002:a05:622a:1496:b0:447:f6c7:65ee with SMTP id
- d75a77b69052e-457f8b96f9emr160689031cf.10.1725607312354; Fri, 06 Sep 2024
- 00:21:52 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id nT1d-LR3nDON for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Fri,  6 Sep 2024 23:05:33 +0000 (UTC)
+X-Greylist: delayed 2308 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 06 Sep 2024 23:05:32 UTC
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org CF410404B5
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CF410404B5
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=UiyYPaW2
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=quic_jesszhan@quicinc.com; receiver=<UNKNOWN> 
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id CF410404B5
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 23:05:32 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4869JEH1013737;
+	Fri, 6 Sep 2024 22:26:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DVRyQIqwVWANWjqFBWJEurI2bEK456iogcWfFqLN0EY=; b=UiyYPaW2pcGAH74O
+	RTMv4OVZMqDn8DAMSXfawmdbxYaJOJJOLEmUmGupzI84hItBH4jClTo80stdb2Ad
+	zLsMLrUj3UP5Qj2k96KRGB+MTUSYqw0T44s+gFEpLkjkvyH9lEVkGrwz0ZnyvPHo
+	eFaioOuk0vxdfoYepFkdUqKBA1wC5PfeShGnyeV8GvudtN4vUoSrdBKnyJMhavHE
+	Iyh6Ya93RDprY1+tZqP4fzC/1VNCD2w250zlUTChNN9h/b8gCABevky7Evvx6c88
+	o8252bfiQl7PFYq5swpGfE+whuQPltWd0r8/Em5qNqfDo1+i8i3Lyofu8Yk/nm6C
+	Gc5DQg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41fj03bem3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Sep 2024 22:26:54 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 486MQrG9017708
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Sep 2024 22:26:53 GMT
+Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Sep 2024
+ 15:26:53 -0700
+Message-ID: <a563280b-1ce6-4bfc-92e5-57546eb1a544@quicinc.com>
+Date: Fri, 6 Sep 2024 15:26:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240820010353.7533-1-luis.hernandez093@gmail.com>
-In-Reply-To: <20240820010353.7533-1-luis.hernandez093@gmail.com>
-From: David Gow <davidgow@google.com>
-Date: Fri, 6 Sep 2024 15:21:39 +0800
-Message-ID: <CABVgOSnkTchMaJunwKO_BYutYVHYbFSUOCdVQQrYLrzu4sOjUQ@mail.gmail.com>
-Subject: Re: [PATCH v3] lib/math: Add int_pow test suite
-To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-Cc: brendan.higgins@linux.dev, rmoar@google.com, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000ece14f06216e42ec"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/panel: hx83112a: Transition to wrapped mipi_dsi
+ functions
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>, <neil.armstrong@linaro.org>,
+        <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+        <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>
+CC: <skhan@linuxfoundation.org>, <rbmarliere@gmail.com>,
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+        kernel
+ test robot <lkp@intel.com>
+References: <20240903173130.41784-1-abhishektamboli9@gmail.com>
+Content-Language: en-US
+From: Jessica Zhang <quic_jesszhan@quicinc.com>
+In-Reply-To: <20240903173130.41784-1-abhishektamboli9@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: -W2x0Gw-Ac1FyXmu58Gucw53a38FJnbJ
+X-Proofpoint-ORIG-GUID: -W2x0Gw-Ac1FyXmu58Gucw53a38FJnbJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_07,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 priorityscore=1501 bulkscore=0 clxscore=1011 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
+ definitions=main-2409060167
 
---000000000000ece14f06216e42ec
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 20 Aug 2024 at 09:04, Luis Felipe Hernandez
-<luis.hernandez093@gmail.com> wrote:
->
-> Adds test suite for integer based power function.
->
-> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+
+On 9/3/2024 10:31 AM, Abhishek Tamboli wrote:
+> Transition to mipi_dsi_dcs_write_seq_multi() macros for initialization
+> sequences. The previous mipi_dsi_dcs_write_seq() macros were
+> non-intuitive and use other wrapped MIPI DSI functions in the
+> driver code to simplify the code pattern.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202409040049.2hf8jrZG-lkp@intel.com/
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+
+Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
+
 > ---
-> Changes in v3:
-> - Fix compiler warning: explicitly define constant as unsigned int
-> - Add changes in patch revisions
 > Changes in v2:
-> - Address review feedback
->   - Add kconfig entry
->   - Use correct dir and file convention for KUnit
->   - Fix typo
->   - Remove unused static_stub header
->   - Refactor test suite to use paramerterized test cases
->   - Add close to max allowable value to in large_result test case
->   - Add test case with non-power of two exponent
->   - Fix module license
-> ---
-
-This looks pretty good to me, thanks!
-
-A few very minor nitpicks below, but nothing serious.
-
-With those fixed, this is:
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
--- David
-
->  lib/Kconfig.debug              |  9 ++++++
->  lib/math/Makefile              |  1 +
->  lib/math/tests/Makefile        |  3 ++
->  lib/math/tests/int_pow_kunit.c | 52 ++++++++++++++++++++++++++++++++++
->  4 files changed, 65 insertions(+)
->  create mode 100644 lib/math/tests/Makefile
->  create mode 100644 lib/math/tests/int_pow_kunit.c
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index a30c03a66172..b0bbd30d4cba 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -3051,3 +3051,12 @@ config RUST_KERNEL_DOCTESTS
->  endmenu # "Rust"
->
->  endmenu # Kernel hacking
+> - Update the commit message to explain the reason for the change.
+> - Correct the code by changing 'dsi->mode_flags' to 'dsi_ctx.dsi->mode_flags'
+> This change addresses a build error in v1 reported by kernel test robot
+> caused by using an undeclared variable 'dsi'.
+> [v1] : https://lore.kernel.org/all/20240902170153.34512-1-abhishektamboli9@gmail.com/
+> 
+>   drivers/gpu/drm/panel/panel-himax-hx83112a.c | 140 ++++++++-----------
+>   1 file changed, 60 insertions(+), 80 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-himax-hx83112a.c b/drivers/gpu/drm/panel/panel-himax-hx83112a.c
+> index 466c27012abf..6c457d17fd11 100644
+> --- a/drivers/gpu/drm/panel/panel-himax-hx83112a.c
+> +++ b/drivers/gpu/drm/panel/panel-himax-hx83112a.c
+> @@ -58,30 +58,28 @@ static void hx83112a_reset(struct hx83112a_panel *ctx)
+> 
+>   static int hx83112a_on(struct hx83112a_panel *ctx)
+>   {
+> -	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> -
+> -	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> +	struct mipi_dsi_multi_context dsi_ctx = {.dsi = ctx->dsi};
 > +
-> +config INT_POW_TEST
-> +       tristate "Integer exponentiation (int_pow) test" if !KUNIT_ALL_TESTS
-> +       depends on KUNIT
-> +       default KUNIT_ALL_TESTS
-> +       help
-> +         Enable this to test the int_pow maths function KUnit test.
+> +	dsi_ctx.dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+> 
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPOWER1,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER1,
+>   			       0x08, 0x28, 0x28, 0x83, 0x83, 0x4c, 0x4f, 0x33);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDISP,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDISP,
+>   			       0x00, 0x02, 0x00, 0x90, 0x24, 0x00, 0x08, 0x19,
+>   			       0xea, 0x11, 0x11, 0x00, 0x11, 0xa3);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDRV,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
+>   			       0x58, 0x68, 0x58, 0x68, 0x0f, 0xef, 0x0b, 0xc0,
+>   			       0x0b, 0xc0, 0x0b, 0xc0, 0x00, 0xff, 0x00, 0xff,
+>   			       0x00, 0x00, 0x14, 0x15, 0x00, 0x29, 0x11, 0x07,
+>   			       0x12, 0x00, 0x29);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDRV,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
+>   			       0x00, 0x12, 0x12, 0x11, 0x88, 0x12, 0x12, 0x00,
+>   			       0x53);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x03);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
+>   			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
+>   			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
+>   			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
+> @@ -90,8 +88,8 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
+>   			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
+>   			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
+>   			       0x40);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
+>   			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
+>   			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
+>   			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
+> @@ -100,8 +98,8 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
+>   			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
+>   			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
+>   			       0x40);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
+>   			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
+>   			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
+>   			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
+> @@ -110,13 +108,13 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
+>   			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
+>   			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
+>   			       0x40);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTCON,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTCON,
+>   			       0x70, 0x00, 0x04, 0xe0, 0x33, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPANEL, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPOWER2, 0x2b, 0x2b);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP0,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPANEL, 0x08);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER2, 0x2b, 0x2b);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
+>   			       0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x08,
+>   			       0x08, 0x03, 0x03, 0x22, 0x18, 0x07, 0x07, 0x07,
+>   			       0x07, 0x32, 0x10, 0x06, 0x00, 0x06, 0x32, 0x10,
+> @@ -124,105 +122,87 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
+>   			       0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08,
+>   			       0x09, 0x30, 0x00, 0x00, 0x00, 0x06, 0x0d, 0x00,
+>   			       0x0f);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP0,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
+>   			       0x00, 0x00, 0x19, 0x10, 0x00, 0x0a, 0x00, 0x81);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP1,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP1,
+>   			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+>   			       0xc0, 0xc0, 0x18, 0x18, 0x19, 0x19, 0x18, 0x18,
+>   			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
+>   			       0x28, 0x28, 0x24, 0x24, 0x02, 0x03, 0x02, 0x03,
+>   			       0x00, 0x01, 0x00, 0x01, 0x31, 0x31, 0x31, 0x31,
+>   			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP2,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP2,
+>   			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
+>   			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x19, 0x19,
+>   			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
+>   			       0x24, 0x24, 0x28, 0x28, 0x01, 0x00, 0x01, 0x00,
+>   			       0x03, 0x02, 0x03, 0x02, 0x31, 0x31, 0x31, 0x31,
+>   			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
+>   			       0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea,
+>   			       0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa,
+>   			       0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa, 0xaa, 0xaa);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
+>   			       0xaa, 0x2e, 0x28, 0x00, 0x00, 0x00, 0xaa, 0x2e,
+>   			       0x28, 0x00, 0x00, 0x00, 0xaa, 0xee, 0xaa, 0xaa,
+>   			       0xaa, 0xaa, 0xaa, 0xee, 0xaa, 0xaa, 0xaa, 0xaa);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
+>   			       0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0xff,
+>   			       0xff, 0xff, 0xff, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x03);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
+>   			       0xaa, 0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
+>   			       0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xff, 0xff, 0xff,
+>   			       0xff, 0xff, 0xaa, 0xff, 0xff, 0xff, 0xff, 0xff);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
+>   			       0x0e, 0x0e, 0x1e, 0x65, 0x1c, 0x65, 0x00, 0x50,
+>   			       0x20, 0x20, 0x00, 0x00, 0x02, 0x02, 0x02, 0x05,
+>   			       0x14, 0x14, 0x32, 0xb9, 0x23, 0xb9, 0x08);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
+>   			       0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
+>   			       0x00, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00,
+>   			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00,
+>   			       0x00, 0x00, 0x00, 0x02, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0xc3);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETCLOCK, 0xd1, 0xd6);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0x3f);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0xc6);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPTBA, 0x37);
+> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0x3f);
+> -
+> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(150);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc3);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETCLOCK, 0xd1, 0xd6);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc6);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPTBA, 0x37);
+> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
+> 
+> -	ret = mipi_dsi_dcs_set_display_on(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display on: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(50);
+> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 150);
+> 
+> -	return 0;
+> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 50);
 > +
-> +         If unsure, say N
-
-Hmm... checkpatch is still warning that this is too short a
-description. Maybe we could add a sentence about what int_pow actually
-does (integer exponentiation?)
-
-> diff --git a/lib/math/Makefile b/lib/math/Makefile
-> index 91fcdb0c9efe..3c1f92a7459d 100644
-> --- a/lib/math/Makefile
-> +++ b/lib/math/Makefile
-> @@ -5,5 +5,6 @@ obj-$(CONFIG_CORDIC)            += cordic.o
->  obj-$(CONFIG_PRIME_NUMBERS)    += prime_numbers.o
->  obj-$(CONFIG_RATIONAL)         += rational.o
->
-> +obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
->  obj-$(CONFIG_TEST_DIV64)       += test_div64.o
->  obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-> diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-> new file mode 100644
-> index 000000000000..6a169123320a
-> --- /dev/null
-> +++ b/lib/math/tests/Makefile
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
-> diff --git a/lib/math/tests/int_pow_kunit.c b/lib/math/tests/int_pow_kunit.c
-> new file mode 100644
-> index 000000000000..e04dd73dabd1
-> --- /dev/null
-> +++ b/lib/math/tests/int_pow_kunit.c
-> @@ -0,0 +1,52 @@
-> +// SPDX-License-Identifier: GPL-2.0
-
-Maybe use GPL-2.0-only for consistency with the above? GPL-2.0 is
-deprecated, so either GPL-2.0-only or GPL-2.0-or-later should be used
-where possible.
-
-> +
-> +#include <kunit/test.h>
-> +#include <linux/math.h>
-> +
-> +struct test_case_params {
-> +       u64 base;
-> +       unsigned int exponent;
-> +       u64 expected_result;
-> +       const char *name;
-> +};
-> +
-> +static const struct test_case_params params[] = {
-> +       { 64, 0, 1, "Power of zero" },
-> +       { 64, 1, 64, "Power of one"},
-> +       { 0, 5, 0, "Base zero" },
-> +       { 1, 64, 1, "Base one" },
-> +       { 2, 2, 4, "Two squared"},
-> +       { 2, 3, 8, "Two cubed"},
-> +       { 5, 5, 3125, "Five raised to the fith power" },
-
-Nit: _fiftth_ power
-
-> +       { U64_MAX, 1, U64_MAX, "Max base" },
-> +       { 2, 63, 9223372036854775808ULL, "Large result"},
-> +};
-> +
-> +static void get_desc(const struct test_case_params *tc, char *desc)
-> +{
-> +       strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE);
-> +}
-> +
-> +KUNIT_ARRAY_PARAM(int_pow, params, get_desc);
-> +
-> +static void int_pow_test(struct kunit *test)
-> +{
-> +       const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
-> +
-> +       KUNIT_EXPECT_EQ(test, tc->expected_result, int_pow(tc->base, tc->exponent));
-> +}
-> +
-> +static struct kunit_case math_int_pow_test_cases[] = {
-> +       KUNIT_CASE_PARAM(int_pow_test, int_pow_gen_params),
-> +       {}
-> +};
-> +
-> +static struct kunit_suite int_pow_test_suite = {
-> +       .name = "math-int_pow",
-> +       .test_cases = math_int_pow_test_cases,
-> +};
-> +
-> +kunit_test_suites(&int_pow_test_suite);
-> +
-> +MODULE_DESCRIPTION("math.int_pow KUnit test suite");
-> +MODULE_LICENSE("GPL");
+> +	return dsi_ctx.accum_err;
+>   }
+> 
+>   static int hx83112a_disable(struct drm_panel *panel)
+>   {
+>   	struct hx83112a_panel *ctx = to_hx83112a_panel(panel);
+> -	struct mipi_dsi_device *dsi = ctx->dsi;
+> -	struct device *dev = &dsi->dev;
+> -	int ret;
+> +	struct mipi_dsi_multi_context dsi_ctx = {.dsi = ctx->dsi};
+> 
+> -	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> +	dsi_ctx.dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
+> 
+> -	ret = mipi_dsi_dcs_set_display_off(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to set display off: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(20);
+> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 20);
+> 
+> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+> -	if (ret < 0) {
+> -		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
+> -		return ret;
+> -	}
+> -	msleep(120);
+> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
+> +	mipi_dsi_msleep(&dsi_ctx, 120);
+> 
+> -	return 0;
+> +	return dsi_ctx.accum_err;
+>   }
+> 
+>   static int hx83112a_prepare(struct drm_panel *panel)
 > --
-> 2.46.0
->
-
---000000000000ece14f06216e42ec
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIUqgYJKoZIhvcNAQcCoIIUmzCCFJcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
-4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
-mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
-KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
-VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
-ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
-vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
-BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
-OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
-1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
-ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
-BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
-18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
-bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
-AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
-BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
-A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
-MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
-jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
-0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
-jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
-jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
-C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
-NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
-zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
-A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
-hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
-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
-erg7AgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
-/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFKFQnbTpSq0q
-cOYnlrbegXJIIvA6MFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
-BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
-MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
-LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
-bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
-FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBR
-nRJBmUP+IpudtmSQ/R55Sv0qv8TO9zHTlIdsIf2Gc/zeCi0SamUQkFWb01d7Q+20kcpxNzwV6M7y
-hDRk5uuVFvtVxOrmbhflCo0uBpD9vz/symtfJYZLNyvSDi1PIVrwGNpyRrD0W6VQJxzzsBTwsO+S
-XWN3+x70+QDf7+zovW7KF0/y8QYD6PIN7Y9LRUXct0HKhatkHmO3w6MSJatnqSvsjffIwpNecUMo
-h10c6Etz17b7tbGdxdxLw8njN+UnfoFp3v4irrafB6jkArRfsR5TscZUUKej0ihl7mXEKUBmClkP
-ndcbXHFxS6WTkpjvl7Jjja8DdWJSJmdEWUnFjnQnDrqLqvYjeVMS/8IBF57eyT6yEPrMzA+Zd+f5
-hnM7HuBSGvVHv+c/rlHVp0S364DBGXj11obl7nKgL9D59QwC5/kNJ1whoKwsATUSepanzALdOTn3
-BavXUVE38e4c90il44T1bphqtLfmHZ1T5ZwxjtjzNMKy0Mb9j/jcFxfibCISYbnk661FBe38bhYj
-0DhqINx2fw0bwhpfFGADOZDe5DVhI7AIW/kEMHuIgAJ/HPgyn1+tldOPWiFLQbTNNBnfGv9sDPz0
-hWV2vSAXq35i+JS06BCkbGfE5ci6zFy4pt8fmqMGKFH/t3ELCTYo116lqUTDcVC8DAWN8E55aDGC
-AmowggJmAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
-BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAZ6Vqszmp/3gGFW0sCFu
-eDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgi6VayIvwo54jZYkfM0W9flqkgO66
-J98xi0/5vuMGPJMwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQw
-OTA2MDcyMTUzWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
-YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcwCwYJYIZIAWUD
-BAIBMA0GCSqGSIb3DQEBAQUABIIBACDatE9D326XxBfhHnZkLzCoadSue4o1uRxFw4D76KlikbkK
-kK0SUcdC8+UC/LwkYebMd72nuPUSjE87AKMcQgS8zlGL0vHKSSOkDoZBhfNzXCbXj6icYk1GMh/X
-/ghgOkFiOVITKzUhfuVYXpKpg66fYPtmNxexoLCQ+vTJWgA1477WpuuK8XQjIFYPUCxYDz+ZWW56
-8qInEgK/dKwMRG0q3Rhi8Z3m2OgyOgWkgBIDrBLKRkIaSduZg5NzGj9SHHehEHjiug2qT9BWdQxX
-4DoKIiIF/znCy9loHjHmXGrAoQA26rdAXUb5n+lsbRNohxPmqZM/XVpwQ7p/977/tAs=
---000000000000ece14f06216e42ec--
+> 2.34.1
+> 
