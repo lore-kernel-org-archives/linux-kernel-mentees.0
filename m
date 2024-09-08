@@ -1,363 +1,126 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8292C15A873
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 23:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986851494AF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  8 Sep 2024 09:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725663937; cv=none; b=kiv8s50YzYVB4xJ4Zs/APSLFuZUvoyTel+Jp+xGCRChJjdOTzlO3XkPAarq4kg1R38k7WJTpcnml7PM96KOWMW9kdFjn4sVJHa64Tdj7ao85sjkg8SpiraUr0VX4QqVcTEckDWvgRStwcTp/N7q4smIlVLZUXb1kELqfWizr/2I=
+	t=1725789503; cv=none; b=C0CwITmnc+SFP7F71EEIJxEmv9FQOk3okG4ZoI6fNaRhxgnIBia7Jmjdqu8pBwgx7aAXlFhYToMuPrX5UfBc12lXSxryBIJRJlFpKzB3IF3aGdNK9dJ59FM/wyik5cY3DgHBUY1cuodSk1ZGeclJYpbC8UcUIWWL4gw9BFDNSvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725663937; c=relaxed/simple;
-	bh=xMbiC5j+8AjO1g8ki7LQyKbZcljytu1mX5JUivYmbIA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=bav95aqmHrzTlsL9CZoBQGZykiexHoOE54N7gD19aIFn0F9uzTXMxO/wjys2rJppE6YESsy6FpTRoguReKoVNmrVk4OI9uzWp0r/kaTN9pdvq9LWGT7DiqFO0Xd+UPItZ4Vs0cUKaOd1qflN3NFd8ArgQFbTcVlYesjWlXbWNVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UiyYPaW2; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1725789503; c=relaxed/simple;
+	bh=6oeTg6vHh7q0eLQZzCzj1O22cAhEkmZLp59KU1ULDws=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PvILokd5oDZOTZ/+S4mX3g1x9RdhPbGfcmlrTdxc4z8gFACg7E0a8ua87WXtbJIR3fP8WzP1j0srv2SnfpCPitHanRYM8nY0vcJQJxjX0FDcaBdRHv0xLRI0iyh9ChLxaRGehYvUrxgX/D84JeC6XvJUZEx39xbSvIG8eh9IWa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIYXchgz; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UiyYPaW2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIYXchgz"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 01F8D4054A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 23:05:35 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 0AFDF40535
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  8 Sep 2024 09:58:22 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -5.791
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id nT1d-LR3nDON for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri,  6 Sep 2024 23:05:33 +0000 (UTC)
-X-Greylist: delayed 2308 seconds by postgrey-1.37 at util1.osuosl.org; Fri, 06 Sep 2024 23:05:32 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org CF410404B5
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org CF410404B5
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=quicinc.com header.i=@quicinc.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=UiyYPaW2
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=205.220.168.131; helo=mx0a-0031df01.pphosted.com; envelope-from=quic_jesszhan@quicinc.com; receiver=<UNKNOWN> 
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id CF410404B5
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri,  6 Sep 2024 23:05:32 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4869JEH1013737;
-	Fri, 6 Sep 2024 22:26:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	DVRyQIqwVWANWjqFBWJEurI2bEK456iogcWfFqLN0EY=; b=UiyYPaW2pcGAH74O
-	RTMv4OVZMqDn8DAMSXfawmdbxYaJOJJOLEmUmGupzI84hItBH4jClTo80stdb2Ad
-	zLsMLrUj3UP5Qj2k96KRGB+MTUSYqw0T44s+gFEpLkjkvyH9lEVkGrwz0ZnyvPHo
-	eFaioOuk0vxdfoYepFkdUqKBA1wC5PfeShGnyeV8GvudtN4vUoSrdBKnyJMhavHE
-	Iyh6Ya93RDprY1+tZqP4fzC/1VNCD2w250zlUTChNN9h/b8gCABevky7Evvx6c88
-	o8252bfiQl7PFYq5swpGfE+whuQPltWd0r8/Em5qNqfDo1+i8i3Lyofu8Yk/nm6C
-	Gc5DQg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41fj03bem3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Sep 2024 22:26:54 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 486MQrG9017708
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 6 Sep 2024 22:26:53 GMT
-Received: from [10.134.70.212] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Sep 2024
- 15:26:53 -0700
-Message-ID: <a563280b-1ce6-4bfc-92e5-57546eb1a544@quicinc.com>
-Date: Fri, 6 Sep 2024 15:26:52 -0700
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id u3wI3fDbOH_D for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun,  8 Sep 2024 09:58:21 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::534; helo=mail-pg1-x534.google.com; envelope-from=0xff07@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org B13C1404F7
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org B13C1404F7
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=XIYXchgz
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id B13C1404F7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  8 Sep 2024 09:58:20 +0000 (UTC)
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-7d50e865b7aso2313363a12.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 08 Sep 2024 02:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725789499; x=1726394299; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qAoQB1omJiKRCiW0edWQiKKiWvbNbr1j8v5Ydh1uH18=;
+        b=XIYXchgz62FxfFZvdwUcMjvUaMjwMB2O6iL5Za1Q3eVLPSFIXlZP1jITUYrERiXMCv
+         FYbLu7P+cUxJXC7VNeJpyLBulEoyPDR/Q5R+cVVzuvNZq+hYFjUlx1jf/zAuHKUGo6N2
+         8mbVzg+D4mno7X1sZbIIDwdlCLXgd894NQVG/tQMcrDOX7tFStrhZh+EYcpYZxbnTCW/
+         Ua+x7bcYoYkGiXPTyYy1EPnfzBkpwA4r/L5B80rL7T1HZ6FYwNWhea3gWaoSI5/xq16f
+         pUAQAoD8AucHvD88DAFRfG33iV5B5+EUwOCPy7C7d+F4/4jSIfZBY8omK05xUpYmMWcS
+         PdgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725789499; x=1726394299;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qAoQB1omJiKRCiW0edWQiKKiWvbNbr1j8v5Ydh1uH18=;
+        b=g2xiWzX3O/zCA547kk3hJm7nfrM25lgiblhC4Bq505CxclQhj41Znrf73jO10vmO+S
+         x09JnxrMyjrXIsy6STaj1Q/gs713au0owMoBXlondsDsfnJtxkDt/L77SdHOoAMNlyn2
+         YW4wDuZWJG3s+hURtwiOoN/M5OWKSWq9YaeYfpxpdPkZ9LLQBcOg/W4kWjt48cxiwELy
+         gcW3IZZRf+5gYQj5Bukv4cmEsqPxSNb+HaSA/7nH0NYeCnvLHIDFW1YZb8PXuBt6d7KM
+         exX5Mqvrqb8cH2YBL+x8AlmgvIqu+F2YHw/bQwUNO31kdgXj4tXFqU+bCjRmoo6dGIyg
+         z+7Q==
+X-Gm-Message-State: AOJu0YzghM/0lqj8eThZO3Xt50p2T4sXizn6iYuyAvTzIuNtN59NGb3K
+	+cEJy9ujoFFX5+nFPxg1AzNEvtrHaOq1bDhxVEivLrqipKxEzcmKPSGsLFRl
+X-Google-Smtp-Source: AGHT+IG1tyh7FXGcc/FL8xmuPR+sjo30QSf0cdeWnoaQkMp3eMQ9w+mZ7rHcN2lXnKFolhURN/1b1A==
+X-Received: by 2002:a17:90a:e150:b0:2d4:bf3:428e with SMTP id 98e67ed59e1d1-2dad50f3f3cmr10585204a91.37.1725789498451;
+        Sun, 08 Sep 2024 02:58:18 -0700 (PDT)
+Received: from 0x7f800001.. (2001-b400-e253-9c9c-a6a8-ede2-a4e3-a1ed.emome-ip6.hinet.net. [2001:b400:e253:9c9c:a6a8:ede2:a4e3:a1ed])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2dadc07617csm4563931a91.32.2024.09.08.02.58.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Sep 2024 02:58:17 -0700 (PDT)
+From: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
+To: 
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	ricardo@marliere.net,
+	skhan@linuxfoundation.org,
+	0xff07@gmail.com,
+	Todd E Brandt <todd.e.brandt@linux.intel.com>,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] PM: tools: sleepgraph: Correct the home link
+Date: Sun,  8 Sep 2024 17:57:22 +0800
+Message-Id: <20240908095722.7683-1-0xff07@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/panel: hx83112a: Transition to wrapped mipi_dsi
- functions
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>, <neil.armstrong@linaro.org>,
-        <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-        <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>
-CC: <skhan@linuxfoundation.org>, <rbmarliere@gmail.com>,
-        <linux-kernel-mentees@lists.linuxfoundation.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        kernel
- test robot <lkp@intel.com>
-References: <20240903173130.41784-1-abhishektamboli9@gmail.com>
-Content-Language: en-US
-From: Jessica Zhang <quic_jesszhan@quicinc.com>
-In-Reply-To: <20240903173130.41784-1-abhishektamboli9@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -W2x0Gw-Ac1FyXmu58Gucw53a38FJnbJ
-X-Proofpoint-ORIG-GUID: -W2x0Gw-Ac1FyXmu58Gucw53a38FJnbJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_07,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 mlxscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 clxscore=1011 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
- definitions=main-2409060167
+Content-Transfer-Encoding: 8bit
 
+The 01.org/pm-graph link in the sleepgraph.py no longer point to the
+pm-graph home page. Replace it with the home page link in the README.
 
+Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
+---
+ tools/power/pm-graph/sleepgraph.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-On 9/3/2024 10:31 AM, Abhishek Tamboli wrote:
-> Transition to mipi_dsi_dcs_write_seq_multi() macros for initialization
-> sequences. The previous mipi_dsi_dcs_write_seq() macros were
-> non-intuitive and use other wrapped MIPI DSI functions in the
-> driver code to simplify the code pattern.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202409040049.2hf8jrZG-lkp@intel.com/
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+diff --git a/tools/power/pm-graph/sleepgraph.py b/tools/power/pm-graph/sleepgraph.py
+index ef87e63c05c7..f95061d6069f 100755
+--- a/tools/power/pm-graph/sleepgraph.py
++++ b/tools/power/pm-graph/sleepgraph.py
+@@ -18,7 +18,7 @@
+ #
+ # Links:
+ #	 Home Page
+-#	   https://01.org/pm-graph
++#	   https://www.intel.com/content/www/us/en/developer/topic-technology/open/pm-graph/overview.html
+ #	 Source repo
+ #	   git@github.com:intel/pm-graph
+ #
+@@ -2753,8 +2753,9 @@ class Timeline:
+ 	def createHeader(self, sv, stamp):
+ 		if(not stamp['time']):
+ 			return
+-		self.html += '<div class="version"><a href="https://01.org/pm-graph">%s v%s</a></div>' \
+-			% (sv.title, sv.version)
++		self.html += '<div class="version"><a href="https://www.intel.com/content'+\
++                '/www/us/en/developer/topic-technology/open/pm-graph/overview.html">%s v%s</a></div>' \
++                % (sv.title, sv.version)
+ 		if sv.logmsg and sv.testlog:
+ 			self.html += '<button id="showtest" class="logbtn btnfmt">log</button>'
+ 		if sv.dmesglog:
+-- 
+2.34.1
 
-Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-
-> ---
-> Changes in v2:
-> - Update the commit message to explain the reason for the change.
-> - Correct the code by changing 'dsi->mode_flags' to 'dsi_ctx.dsi->mode_flags'
-> This change addresses a build error in v1 reported by kernel test robot
-> caused by using an undeclared variable 'dsi'.
-> [v1] : https://lore.kernel.org/all/20240902170153.34512-1-abhishektamboli9@gmail.com/
-> 
->   drivers/gpu/drm/panel/panel-himax-hx83112a.c | 140 ++++++++-----------
->   1 file changed, 60 insertions(+), 80 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-himax-hx83112a.c b/drivers/gpu/drm/panel/panel-himax-hx83112a.c
-> index 466c27012abf..6c457d17fd11 100644
-> --- a/drivers/gpu/drm/panel/panel-himax-hx83112a.c
-> +++ b/drivers/gpu/drm/panel/panel-himax-hx83112a.c
-> @@ -58,30 +58,28 @@ static void hx83112a_reset(struct hx83112a_panel *ctx)
-> 
->   static int hx83112a_on(struct hx83112a_panel *ctx)
->   {
-> -	struct mipi_dsi_device *dsi = ctx->dsi;
-> -	struct device *dev = &dsi->dev;
-> -	int ret;
-> -
-> -	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> +	struct mipi_dsi_multi_context dsi_ctx = {.dsi = ctx->dsi};
-> +
-> +	dsi_ctx.dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-> 
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPOWER1,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETEXTC, 0x83, 0x11, 0x2a);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER1,
->   			       0x08, 0x28, 0x28, 0x83, 0x83, 0x4c, 0x4f, 0x33);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDISP,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDISP,
->   			       0x00, 0x02, 0x00, 0x90, 0x24, 0x00, 0x08, 0x19,
->   			       0xea, 0x11, 0x11, 0x00, 0x11, 0xa3);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDRV,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
->   			       0x58, 0x68, 0x58, 0x68, 0x0f, 0xef, 0x0b, 0xc0,
->   			       0x0b, 0xc0, 0x0b, 0xc0, 0x00, 0xff, 0x00, 0xff,
->   			       0x00, 0x00, 0x14, 0x15, 0x00, 0x29, 0x11, 0x07,
->   			       0x12, 0x00, 0x29);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDRV,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDRV,
->   			       0x00, 0x12, 0x12, 0x11, 0x88, 0x12, 0x12, 0x00,
->   			       0x53);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x03);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
->   			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
->   			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
->   			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-> @@ -90,8 +88,8 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
->   			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
->   			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
->   			       0x40);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
->   			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
->   			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
->   			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-> @@ -100,8 +98,8 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
->   			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
->   			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
->   			       0x40);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT,
->   			       0xff, 0xfe, 0xfb, 0xf8, 0xf4, 0xf1, 0xed, 0xe6,
->   			       0xe2, 0xde, 0xdb, 0xd6, 0xd3, 0xcf, 0xca, 0xc6,
->   			       0xc2, 0xbe, 0xb9, 0xb0, 0xa7, 0x9e, 0x96, 0x8d,
-> @@ -110,13 +108,13 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
->   			       0x06, 0x05, 0x02, 0x01, 0x00, 0x00, 0xc9, 0xb3,
->   			       0x08, 0x0e, 0xf2, 0xe1, 0x59, 0xf4, 0x22, 0xad,
->   			       0x40);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETDGCLUT, 0x01);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTCON,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETDGCLUT, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTCON,
->   			       0x70, 0x00, 0x04, 0xe0, 0x33, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPANEL, 0x08);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPOWER2, 0x2b, 0x2b);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP0,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPANEL, 0x08);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPOWER2, 0x2b, 0x2b);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
->   			       0x80, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x08,
->   			       0x08, 0x03, 0x03, 0x22, 0x18, 0x07, 0x07, 0x07,
->   			       0x07, 0x32, 0x10, 0x06, 0x00, 0x06, 0x32, 0x10,
-> @@ -124,105 +122,87 @@ static int hx83112a_on(struct hx83112a_panel *ctx)
->   			       0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x08,
->   			       0x09, 0x30, 0x00, 0x00, 0x00, 0x06, 0x0d, 0x00,
->   			       0x0f);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP0,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP0,
->   			       0x00, 0x00, 0x19, 0x10, 0x00, 0x0a, 0x00, 0x81);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP1,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP1,
->   			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
->   			       0xc0, 0xc0, 0x18, 0x18, 0x19, 0x19, 0x18, 0x18,
->   			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
->   			       0x28, 0x28, 0x24, 0x24, 0x02, 0x03, 0x02, 0x03,
->   			       0x00, 0x01, 0x00, 0x01, 0x31, 0x31, 0x31, 0x31,
->   			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP2,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP2,
->   			       0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
->   			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x19, 0x19,
->   			       0x40, 0x40, 0x18, 0x18, 0x18, 0x18, 0x3f, 0x3f,
->   			       0x24, 0x24, 0x28, 0x28, 0x01, 0x00, 0x01, 0x00,
->   			       0x03, 0x02, 0x03, 0x02, 0x31, 0x31, 0x31, 0x31,
->   			       0x30, 0x30, 0x30, 0x30, 0x2f, 0x2f, 0x2f, 0x2f);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
->   			       0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea,
->   			       0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa,
->   			       0xaa, 0xaa, 0xaa, 0xea, 0xab, 0xaa, 0xaa, 0xaa);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
->   			       0xaa, 0x2e, 0x28, 0x00, 0x00, 0x00, 0xaa, 0x2e,
->   			       0x28, 0x00, 0x00, 0x00, 0xaa, 0xee, 0xaa, 0xaa,
->   			       0xaa, 0xaa, 0xaa, 0xee, 0xaa, 0xaa, 0xaa, 0xaa);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
->   			       0xaa, 0xff, 0xff, 0xff, 0xff, 0xff, 0xaa, 0xff,
->   			       0xff, 0xff, 0xff, 0xff);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x03);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETGIP3,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x03);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETGIP3,
->   			       0xaa, 0xaa, 0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa,
->   			       0xea, 0xaa, 0xaa, 0xaa, 0xaa, 0xff, 0xff, 0xff,
->   			       0xff, 0xff, 0xaa, 0xff, 0xff, 0xff, 0xff, 0xff);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
->   			       0x0e, 0x0e, 0x1e, 0x65, 0x1c, 0x65, 0x00, 0x50,
->   			       0x20, 0x20, 0x00, 0x00, 0x02, 0x02, 0x02, 0x05,
->   			       0x14, 0x14, 0x32, 0xb9, 0x23, 0xb9, 0x08);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x01);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
->   			       0x02, 0x00, 0xa8, 0x01, 0xa8, 0x0d, 0xa4, 0x0e);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x02);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETTP1,
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x02);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETTP1,
->   			       0x00, 0x00, 0x08, 0x00, 0x01, 0x00, 0x00, 0x00,
->   			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   			       0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00,
->   			       0x00, 0x00, 0x00, 0x02, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETBANK, 0x00);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0xc3);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETCLOCK, 0xd1, 0xd6);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0x3f);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0xc6);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_SETPTBA, 0x37);
-> -	mipi_dsi_dcs_write_seq(dsi, HX83112A_UNKNOWN1, 0x3f);
-> -
-> -	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(150);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETBANK, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc3);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETCLOCK, 0xd1, 0xd6);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0xc6);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_SETPTBA, 0x37);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi_ctx, HX83112A_UNKNOWN1, 0x3f);
-> 
-> -	ret = mipi_dsi_dcs_set_display_on(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to set display on: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(50);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 150);
-> 
-> -	return 0;
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 50);
-> +
-> +	return dsi_ctx.accum_err;
->   }
-> 
->   static int hx83112a_disable(struct drm_panel *panel)
->   {
->   	struct hx83112a_panel *ctx = to_hx83112a_panel(panel);
-> -	struct mipi_dsi_device *dsi = ctx->dsi;
-> -	struct device *dev = &dsi->dev;
-> -	int ret;
-> +	struct mipi_dsi_multi_context dsi_ctx = {.dsi = ctx->dsi};
-> 
-> -	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> +	dsi_ctx.dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-> 
-> -	ret = mipi_dsi_dcs_set_display_off(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to set display off: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(20);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 20);
-> 
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-> -	if (ret < 0) {
-> -		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-> -		return ret;
-> -	}
-> -	msleep(120);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
-> +	mipi_dsi_msleep(&dsi_ctx, 120);
-> 
-> -	return 0;
-> +	return dsi_ctx.accum_err;
->   }
-> 
->   static int hx83112a_prepare(struct drm_panel *panel)
-> --
-> 2.34.1
-> 
