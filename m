@@ -1,226 +1,139 @@
-Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5C71779BD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  8 Sep 2024 22:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65ED11B3B35
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  9 Sep 2024 09:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725835760; cv=none; b=fWD1XjU3ROMjTOicxvttPYaZVTgIjotY8YYwEB7sCO+k0kxpXq11I3/Y01oJWVJK7WfBlepilD/vpF2vUEPT0XAED34p8X5TQzNVeyWTfL0CJI4Fx049UBXuc6VtEONdOyo03tZRXm+DSzO7Mgo2Ml3d1fuA8hB0kqEvy4ZWF2s=
+	t=1725875462; cv=none; b=XHVjXASioilqyXXz20IpmKsBncntrPFne94mNLT3RB24XtGKqM6NMsV4MhCxPG0is/5EDilGaMw7ebS3430Zbi8OwkHRcgx5BhSFMvonIGUfSB9ApYQwF+Qj7/7jIDrfRQAYytv+oNQfSUaZFQMEC0qURErQt0c+dTzS9tsC8Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725835760; c=relaxed/simple;
-	bh=XobwUWOh56A2ORGRWy81jc+sC2IYkaIf/WVd7sEd5IU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uxIovdwDzBcA5iCrRAiULLy9UDblCDM6eQrCrH3m1fcPwR4c456tIYtlbr7hIohOmLHS28+VcaEpHXsDZiR9U8Dv7izFt3f76cSflTpmkAMKYpfE2mwNJ1S2Kx+i3r0CGcsAxCjldqO153SRcp7yVPCTJI1azlrTPLgZEBkQzEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rns1P7H+; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1725875462; c=relaxed/simple;
+	bh=cpN4c04fp/ArFHGa6SsgZy4awJOaoPGXwyrkhJbDvIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z2u86De8z0t/rfdEa9lmNcd1YWe4aEkuS4zNwX5m8IulEt9AbfI+cikTOHIep8Si0tAt4qeuTAKvkSWxEQWT83aLMc70U5JrFpah1vmFeqtTvNBhmQcSXLwiflSbYezT3fxppQdOKP5GgLGo6XL2Z8yLvH/6cL2X39g8ZiHhiB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Alt0utDr; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rns1P7H+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Alt0utDr"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id DAA9B80FAB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  8 Sep 2024 22:49:18 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 0E475401FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  9 Sep 2024 09:51:00 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -8.092
 X-Spam-Level:
-Received: from smtp1.osuosl.org ([127.0.0.1])
- by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 4NaIXqBIi5Xj for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun,  8 Sep 2024 22:49:18 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::a34; helo=mail-vk1-xa34.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org F3BE780FA8
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org F3BE780FA8
-Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Rns1P7H+
-Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com [IPv6:2607:f8b0:4864:20::a34])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id F3BE780FA8
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun,  8 Sep 2024 22:49:17 +0000 (UTC)
-Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-502aeeb791eso1399919e0c.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 08 Sep 2024 15:49:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725835756; x=1726440556; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZG8fE7MnIIWkTK02T0n0emfeqd4RC7NYBpEVwjqHdI=;
-        b=Rns1P7H+bP1T34m5OoGpklO2PP9uUZmePIhh+1Lge3qRdeRdKpAmcDG/39jQ+mP5Mx
-         x2aPEdplLeWcIWO5o+zqhvtgV07GCBmZJ9cWt1HBExwDoWKu28pavi+TVitvq6kefoLh
-         HjyVz1bCxdBLQfJ/xOuS82fHtoAodFaMvWJxexTus+gDP+xef4J1C0rBQIFtnpgzcg+F
-         cPPWVhFvF2dPZ62DZOavwk7Art4w05XU5qOLmdkw7PAS8DEWodNOMIsLitoij+Y+Q3NO
-         Y952hO8Fwl2OviMRQjLyRYecpjVwQjKOt6FAyXh/Fcx8wIlCqZ9L3OczLkQuOWrv3N+8
-         yZ6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725835756; x=1726440556;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MZG8fE7MnIIWkTK02T0n0emfeqd4RC7NYBpEVwjqHdI=;
-        b=LxiesioARqtaBN7bzBR1kxMoUZUELP54oUWpX8Rc46hhYk6O7TpW1vYA3POIah87WQ
-         iO15RTqNO0m5b+Q4pxLIQSeF+AXToKiBl5N8JOIR72KUs2/hdYVY9OXGmZViTARPlrUS
-         VRYWx24cV/9iB5Xucaho6ZPWCfSjhaK3R0DHJ4vCGr9nyV0gLIfVkwyWXFKz7YUd5UeV
-         RCbeVs9cIV2c83o+hC/P+2DhtfseUWyXtTFptE6V9GLzVfQ9mw6xkflXEtXgc5qPlTQA
-         vZgBw+Sc2A05P08HByEqoAsvI2HYCJSyC2nMF2kX3xXUgTOhHMzabva/c9MkMmwrEEvj
-         IX1g==
-X-Forwarded-Encrypted: i=1; AJvYcCX5SH7OaSLjk678FLtnmdqd/UAxA5s29SNwQ6KiO/ySZjFzraeu+xwpcuPX94rLEfWmqX1EaYINEthx84VXQIsxj5CnEg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxyCmLP8inDR4PmAikFnEV9UXDAWJHlSOz/CLI4626qj1HRI/w1
-	PvQF0/bRuLDdRnqPRsE9toVxs15wU43x4r84SHS5xFqnCSS3Ez9R
-X-Google-Smtp-Source: AGHT+IHK1MHSN0mrxVtNABHivQ+TMISsFu0SsBlaZrouldvmIKbkDlpJl51j9FRBYFVQCovYvlMGxA==
-X-Received: by 2002:a05:6122:904:b0:4ef:58c8:4777 with SMTP id 71dfb90a1353d-5019d455718mr6869788e0c.4.1725835756314;
-        Sun, 08 Sep 2024 15:49:16 -0700 (PDT)
-Received: from x13.localdomain (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-502c2419fb3sm262914e0c.37.2024.09.08.15.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Sep 2024 15:49:15 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id FYkUBODTowCo for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon,  9 Sep 2024 09:50:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org B8BE9400FE
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org B8BE9400FE
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Alt0utDr
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id B8BE9400FE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon,  9 Sep 2024 09:50:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1725875459; x=1757411459;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cpN4c04fp/ArFHGa6SsgZy4awJOaoPGXwyrkhJbDvIg=;
+  b=Alt0utDrYfuUeJTYDD7qcAZI/nudWEMW+lHYtO3mDCvtH/E998nSrXtE
+   apEtZDkw6x24S43GxCH2M0h4m6+QtaK8YiyPMVPhSBlm7RiEFPA8pSl4f
+   02NejdmCg5lSOBLAsmbgat3NVi7FKJQA1A4PL7q+HU+9nZuQAUo80d5H4
+   1wbC5lATO2yH6EbtDpjBpJCok6pJo66tkhe5llsPNFUaGWO3Jwnh41FVT
+   NTJk8k1flZ8QWSHzBHgSEw41zYFdTv4H0iDeYZmVIN7HVf7hN0nw+S/O/
+   cxbuC+wLqtQVSyHhLyOugmeuzMdTCkxDTox1eiZzgHXPXhseaokV69qDk
+   Q==;
+X-CSE-ConnectionGUID: xTP6b9OpQ6+BFoT3CI65IQ==
+X-CSE-MsgGUID: 9sQGnKfFTviCFUqYFg5oqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="24361723"
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="24361723"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 02:50:58 -0700
+X-CSE-ConnectionGUID: PwWFr16YRiyxWamW3eHXtQ==
+X-CSE-MsgGUID: gv9Tf7MVT4CfRlIE0eicUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
+   d="scan'208";a="67357831"
+Received: from lkp-server01.sh.intel.com (HELO 9c6b1c7d3b50) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 09 Sep 2024 02:50:56 -0700
+Received: from kbuild by 9c6b1c7d3b50 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1snb2r-000EaU-0x;
+	Mon, 09 Sep 2024 09:50:53 +0000
+Date: Mon, 9 Sep 2024 17:50:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	brendan.higgins@linux.dev, davidgow@google.com, rmoar@google.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
 	skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v4] lib/math: Add int_pow test suite
-Date: Sun,  8 Sep 2024 18:49:00 -0400
-Message-ID: <20240908224901.78595-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.46.0
+Subject: Re: [PATCH v4] lib/math: Add int_pow test suite
+Message-ID: <202409091732.x5CGQKBV-lkp@intel.com>
+References: <20240908224901.78595-1-luis.hernandez093@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240908224901.78595-1-luis.hernandez093@gmail.com>
 
-Adds test suite for integer based power function.
+Hi Luis,
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
----
-Changes in v4:
-  - Address checkpatch warning and make kconfig description longer
-  - Use GPL-2.0-only for consistency
-  - Spelling fix fith -> fifth
-Changes in v3:
-  - Fix compiler warning: explicitly define constant as unsigned int
-  - Add changes in patch revisions
-Changes in v2:
-  - Address review feedback
-  - Add kconfig entry
-  - Use correct dir and file convention for KUnit
-  - Fix typo
-  - Remove unused static_stub header
-  - Refactor test suite to use paramerterized test cases
-  - Add close to max allowable value to in large_result test case
-  - Add test case with non-power of two exponent
-  - Fix module license 
----
- lib/Kconfig.debug              |  9 ++++++
- lib/math/Makefile              |  1 +
- lib/math/tests/Makefile        |  3 ++
- lib/math/tests/int_pow_kunit.c | 52 ++++++++++++++++++++++++++++++++++
- 4 files changed, 65 insertions(+)
- create mode 100644 lib/math/tests/Makefile
- create mode 100644 lib/math/tests/int_pow_kunit.c
+kernel test robot noticed the following build warnings:
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index a30c03a66172..0f98f73d4322 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3051,3 +3051,12 @@ config RUST_KERNEL_DOCTESTS
- endmenu # "Rust"
- 
- endmenu # Kernel hacking
-+
-+config INT_POW_TEST
-+       tristate "Integer exponentiation (int_pow) test" if !KUNIT_ALL_TESTS
-+       depends on KUNIT
-+       default KUNIT_ALL_TESTS
-+       help
-+         This option enables the KUnit test suite for the int_pow function,
-+         which performs integer exponentiation. The test suite is designed to
-+         verify that the implementation of int_pow correctly computes the power
-+         of a given base raised to a given exponent.
-+
-+         Enabling this option will include tests that check various scenarios
-+         and edge cases to ensure the accuracy and reliability of the exponentiation
-+         function.
-+
-+         If unsure, say N
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 91fcdb0c9efe..3c1f92a7459d 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -5,5 +5,6 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
- obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
- obj-$(CONFIG_RATIONAL)		+= rational.o
- 
-+obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
- obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-new file mode 100644
-index 000000000000..6a169123320a
---- /dev/null
-+++ b/lib/math/tests/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
-diff --git a/lib/math/tests/int_pow_kunit.c b/lib/math/tests/int_pow_kunit.c
-new file mode 100644
-index 000000000000..7b6a5ae70eb4
---- /dev/null
-+++ b/lib/math/tests/int_pow_kunit.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <kunit/test.h>
-+#include <linux/math.h>
-+
-+struct test_case_params {
-+	u64 base;
-+	unsigned int exponent;
-+	u64 expected_result;
-+	const char *name;
-+};
-+
-+static const struct test_case_params params[] = {
-+	{ 64, 0, 1, "Power of zero" },
-+	{ 64, 1, 64, "Power of one"},
-+	{ 0, 5, 0, "Base zero" },
-+	{ 1, 64, 1, "Base one" },
-+	{ 2, 2, 4, "Two squared"},
-+	{ 2, 3, 8, "Two cubed"},
-+	{ 5, 5, 3125, "Five raised to the fifth power" },
-+	{ U64_MAX, 1, U64_MAX, "Max base" },
-+	{ 2, 63, 9223372036854775808, "Large result"},
-+};
-+
-+static void get_desc(const struct test_case_params *tc, char *desc)
-+{
-+	strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(int_pow, params, get_desc);
-+
-+static void int_pow_test(struct kunit *test)
-+{
-+	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
-+
-+	KUNIT_EXPECT_EQ(test, tc->expected_result, int_pow(tc->base, tc->exponent));
-+}
-+
-+static struct kunit_case math_int_pow_test_cases[] = {
-+	KUNIT_CASE_PARAM(int_pow_test, int_pow_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite int_pow_test_suite = {
-+	.name = "math-int_pow",
-+	.test_cases = math_int_pow_test_cases,
-+};
-+
-+kunit_test_suites(&int_pow_test_suite);
-+
-+MODULE_DESCRIPTION("math.int_pow KUnit test suite");
-+MODULE_LICENSE("GPL");
+[auto build test WARNING on v6.11-rc6]
+[also build test WARNING on linus/master next-20240906]
+[cannot apply to akpm-mm/mm-nonmm-unstable]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_pow-test-suite/20240909-065058
+base:   v6.11-rc6
+patch link:    https://lore.kernel.org/r/20240908224901.78595-1-luis.hernandez093%40gmail.com
+patch subject: [PATCH v4] lib/math: Add int_pow test suite
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20240909/202409091732.x5CGQKBV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240909/202409091732.x5CGQKBV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409091732.x5CGQKBV-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> lib/math/tests/int_pow_kunit.c:22:18: warning: integer constant is so large that it is unsigned
+      22 |         { 2, 63, 9223372036854775808, "Large result"},
+         |                  ^~~~~~~~~~~~~~~~~~~
+
+
+vim +22 lib/math/tests/int_pow_kunit.c
+
+    12	
+    13	static const struct test_case_params params[] = {
+    14		{ 64, 0, 1, "Power of zero" },
+    15		{ 64, 1, 64, "Power of one"},
+    16		{ 0, 5, 0, "Base zero" },
+    17		{ 1, 64, 1, "Base one" },
+    18		{ 2, 2, 4, "Two squared"},
+    19		{ 2, 3, 8, "Two cubed"},
+    20		{ 5, 5, 3125, "Five raised to the fifth power" },
+    21		{ U64_MAX, 1, U64_MAX, "Max base" },
+  > 22		{ 2, 63, 9223372036854775808, "Large result"},
+    23	};
+    24	
+
 -- 
-2.46.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
