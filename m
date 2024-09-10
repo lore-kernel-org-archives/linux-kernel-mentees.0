@@ -1,138 +1,123 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C22B1A7AF1
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2751A76BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 22:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726003380; cv=none; b=B+JOqfp+oSVPpFjticwD5zCKmlRNiIwR+mpx1a5sNCc5vx9rXR5HZSwn7+m3braSCoBBKmXswUEv7bn/vWjXCM4zKtbtYLqD1BBAOkoWyXXTIMk7q8nsJF7Y4TfJwk59H7ovdTgLS1R/oUduKVgZp96ZKDogE7YmOXcPRgVTbyI=
+	t=1726008118; cv=none; b=im6BbRLXOPMq6QAC9hrqQXzquNkcJW9V2s99GxavQMwpk9Sfna7O5Xyx+M6/BBmMHearYSlVmheInms+9rV+OxyN2AZbKmF+Y+RQ+375n+VuDItfo4IpCktbS4sXYN6PYOWdvieLHSa9+ffr76xPbAsQ1WB3Y7HWJRHV/oNzOvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726003380; c=relaxed/simple;
-	bh=J9E4Pbp83r9l9JyhG1IiSk1/8H53dwAA+eo6UPCOQyY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BQVgXUPPMw1HYtdkdfSBfrQzBoz45HRutzk3nIEUFw8Gn2Jsry2YX6+ikDTO89qIBbfMrlzMRHQE9oZbgpsnBcn8nKOb/H7wqZXtNF4m6jIrW0EdDYSHM7lyC1EZ1PHt1IQOguol/AlzCDq4KYpxPvQEbs90KrpErbSBBB350Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HQ1jpWiY; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1726008118; c=relaxed/simple;
+	bh=B1Kb/1rBdk2gLp8tm/lvvMzs9HyFUXE3S9g6+iuVpc4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=g8o8bu20ISCi1fiu0nSeOr4NSJbMcS0SQVsyMC4pb6HRXn8LDbdxXOKy8Vs9R+0rbXJ81IuUl6FVL9MW/TAOlgXtMUuRROK+eBcz0CrpwWquCM/mLCvk4V2ka1wDccHIJtStjLzZw/LJWbZ0U8TSNcndYGX/OajvUzyZNIzJXnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Upi1Q7Nj; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HQ1jpWiY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Upi1Q7Nj"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id BE06840247
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:22:58 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 2BBD7608B6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 22:41:57 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.101
+X-Spam-Score: -7.99
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id W_Yg0Rj5Lwzb for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Sep 2024 21:22:57 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f2c; helo=mail-qv1-xf2c.google.com; envelope-from=dianders@chromium.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6B52D40231
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6B52D40231
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=HQ1jpWiY
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 6B52D40231
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:22:57 +0000 (UTC)
-Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-6c353f2f954so43323556d6.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 14:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1726003375; x=1726608175; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UzSu/kXOj+AyNMyap+JZaf4+i0lOR352iz38kAetQog=;
-        b=HQ1jpWiY7L0MOGBgo7ajfT2yIxoP5Xu6y1esXpuXu3I9CNZxMRzDv8w+sznk9K0gH+
-         ftGbpfvbzDHF64Tm1/f5KHjL7K/4Bgs74cXF6e5e/7w6FxOV9MB9oRlPfm3KcH30PVKf
-         cooX4gtC5+hemv/w2HoYfz+LIB48pGv4MX6EA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726003375; x=1726608175;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UzSu/kXOj+AyNMyap+JZaf4+i0lOR352iz38kAetQog=;
-        b=Xnn4bc32lcZu+N5eZwmMThG6kZv1A+G9YtMm4ei7U508RHvnJGRi+DpvgJGoeRzH7d
-         pEErjcyeNZb2JAqVxm108n5Vw28Y1iMOvTLYk+RZQ4i6jjbpIXqTDfKUBBldriLVT+I7
-         R7FExYghoHKbCkAZcm+23nRFKRTbHL9A/pqKLgEU8CWg/Zbzt6aIvczZ308zTT599OYH
-         6aKFIy7E4Lk+RafYWaOS18g+L57j+fi8U7WMlS/IaSvn833yw55n1BZVKmKgsLl1aggN
-         oRabOXPI+k4yAK1HS2Y6Gz4XiLQKddWYLj4rjNrZZxQz0wv0jD4XY47ctz7/eWQt2Omp
-         cXLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUucCR8W2yIO5Ceud8X83h5pCVv7L+c6IZjndPAdAyCrRGsh3jZ2yhZJ+jdANa3SaGxTlbd8h9AvtMMMxBu3I1YYHLYKQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxvUXIWJxxu+ctzyuisV3urajQDyVpQutLOJnyE4JcbP3l1jFAb
-	RcE1+eRHF1A/hfOizCzJl+rmO2aV8YHSZPwaeDQsrRRihfRVcghMNAhwU1UyWvdjI2tOjFZHFyM
-	=
-X-Google-Smtp-Source: AGHT+IHMWQ5VIz26BWb8vZcxqCYPGJoDZuffNp7mZkskf3CZmYUh8ryeyibsJZQe2g8n0mTQi1LX7w==
-X-Received: by 2002:a0c:c692:0:b0:6c5:52cc:6070 with SMTP id 6a1803df08f44-6c552cc61a5mr68892106d6.39.1726003375204;
-        Tue, 10 Sep 2024 14:22:55 -0700 (PDT)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com. [209.85.219.48])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c5343471b8sm33738786d6.66.2024.09.10.14.22.54
-        for <linux-kernel-mentees@lists.linuxfoundation.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Sep 2024 14:22:54 -0700 (PDT)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6c35357cdacso37590576d6.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 14:22:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUUsSO1mbsIX+y2FYBn5WFUggtn7epk/zk9BzRWcTfdBa6AelKQngo4/jHItEV1/6Z7JVfMTmGsYRdURRPfFkZrcdgFpQ==@lists.linuxfoundation.org
-X-Received: by 2002:a05:6214:390e:b0:6c5:1f05:dcec with SMTP id
- 6a1803df08f44-6c52851dadamr250755766d6.49.1726003373788; Tue, 10 Sep 2024
- 14:22:53 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 5CrskaUFfhyh for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Sep 2024 22:41:52 +0000 (UTC)
+Received-SPF: None (mailfrom) identity=mailfrom; client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=todd.e.brandt@linux.intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6BF1D60720
+Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6BF1D60720
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Upi1Q7Nj
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id 6BF1D60720
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 22:41:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1726008112; x=1757544112;
+  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=B1Kb/1rBdk2gLp8tm/lvvMzs9HyFUXE3S9g6+iuVpc4=;
+  b=Upi1Q7NjAvcDvZDEwXoequTnuZTv86PhsGoMHZFVf3oU27jNpkhHIzv7
+   XpRHkh6phlOMAJ2P3GPJVpO9aXtyeti82gHEEmPoRf3GI0is9ixoPdKPv
+   J3S2JvYN0VMOAlowWQyfBkGex76e0MayNeajw5v1uYlf/UjRWQdJcjHrb
+   o/sqZDI+a6oLhnpkVQ179Woowm5hdG6lI2mD6F3dcsv0AOMJvg81mAP8e
+   R6iKTgj5YgPpg4Kibkyq/RcJVcciyeEocBnflUdnZoXLMEJTHuoIc0Ag2
+   t0MRY612/Fs6vE/e053XPgXSSA76uw3TjOF0gyx+3l4FuBj8mVf1/4Lzu
+   g==;
+X-CSE-ConnectionGUID: QLbpT3J/QaajUsQbAzzLkg==
+X-CSE-MsgGUID: Zqzzr3vKQ5KDMhJ65a6RLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24605088"
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208,217";a="24605088"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:41:48 -0700
+X-CSE-ConnectionGUID: ZrEyXTNUSMer2wLf5e1QYg==
+X-CSE-MsgGUID: 8JhJUdHuTuKEJwaXVZ+bWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
+   d="scan'208,217";a="67409985"
+Received: from ehanks-mobl1.amr.corp.intel.com ([10.124.223.166])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:41:47 -0700
+Message-ID: <031a8e46189d4f32812ada587cf7432c80fdf664.camel@linux.intel.com>
+Subject: Re: [PATCH] PM: tools: sleepgraph: Correct the home link
+From: Todd Brandt <todd.e.brandt@linux.intel.com>
+Reply-To: todd.e.brandt@linux.intel.com
+To: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net, 
+	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 10 Sep 2024 15:41:46 -0700
+In-Reply-To: <20240908095722.7683-1-0xff07@gmail.com>
+References: <20240908095722.7683-1-0xff07@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240903173130.41784-1-abhishektamboli9@gmail.com>
-In-Reply-To: <20240903173130.41784-1-abhishektamboli9@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 10 Sep 2024 14:22:37 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VVxWBv2oqL39j8eoRdJf42byoiUJ+XvY0kwL-OXoe0fg@mail.gmail.com>
-Message-ID: <CAD=FV=VVxWBv2oqL39j8eoRdJf42byoiUJ+XvY0kwL-OXoe0fg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/panel: hx83112a: Transition to wrapped mipi_dsi functions
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
-	quic_jesszhan@quicinc.com, skhan@linuxfoundation.org, rbmarliere@gmail.com, 
-	linux-kernel-mentees@lists.linuxfoundation.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+T24gU3VuLCAyMDI0LTA5LTA4IGF0IDE3OjU3ICswODAwLCBZby1KdW5nIChMZW8pIExpbiB3cm90
+ZToKPiBUaGUgMDEub3JnL3BtLWdyYXBoIGxpbmsgaW4gdGhlIHNsZWVwZ3JhcGgucHkgbm8gbG9u
+Z2VyIHBvaW50IHRvIHRoZQo+IHBtLWdyYXBoIGhvbWUgcGFnZS4gUmVwbGFjZSBpdCB3aXRoIHRo
+ZSBob21lIHBhZ2UgbGluayBpbiB0aGUgUkVBRE1FLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFlvLUp1
+bmcgKExlbykgTGluIDwweGZmMDdAZ21haWwuY29tPgo+IC0tLQo+IMKgdG9vbHMvcG93ZXIvcG0t
+Z3JhcGgvc2xlZXBncmFwaC5weSB8IDcgKysrKy0tLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDQgaW5z
+ZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvdG9vbHMvcG93ZXIv
+cG0tZ3JhcGgvc2xlZXBncmFwaC5weSBiL3Rvb2xzL3Bvd2VyL3BtLQo+IGdyYXBoL3NsZWVwZ3Jh
+cGgucHkKPiBpbmRleCBlZjg3ZTYzYzA1YzcuLmY5NTA2MWQ2MDY5ZiAxMDA3NTUKPiAtLS0gYS90
+b29scy9wb3dlci9wbS1ncmFwaC9zbGVlcGdyYXBoLnB5Cj4gKysrIGIvdG9vbHMvcG93ZXIvcG0t
+Z3JhcGgvc2xlZXBncmFwaC5weQo+IEBAIC0xOCw3ICsxOCw3IEBACj4gwqAjCj4gwqAjIExpbmtz
+Ogo+IMKgI8KgwqDCoMKgwqDCoCBIb21lIFBhZ2UKPiAtI8KgwqDCoMKgwqDCoMKgwqAgaHR0cHM6
+Ly8wMS5vcmcvcG0tZ3JhcGgKPiArI8KgwqDCoMKgwqDCoMKgwqAKPiBodHRwczovL3d3dy5pbnRl
+bC5jb20vY29udGVudC93d3cvdXMvZW4vZGV2ZWxvcGVyL3RvcGljLXRlY2hub2xvZ3kvb3Blbi9w
+bS1ncmFwaC9vdmVydmlldy5odG1sCj4gwqAjwqDCoMKgwqDCoMKgIFNvdXJjZSByZXBvCj4gwqAj
+wqDCoMKgwqDCoMKgwqDCoCBnaXRAZ2l0aHViLmNvbTppbnRlbC9wbS1ncmFwaAo+IMKgIwo+IEBA
+IC0yNzUzLDggKzI3NTMsOSBAQCBjbGFzcyBUaW1lbGluZToKPiDCoMKgwqDCoMKgwqDCoMKgZGVm
+IGNyZWF0ZUhlYWRlcihzZWxmLCBzdiwgc3RhbXApOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgaWYobm90IHN0YW1wWyd0aW1lJ10pOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybgo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqBzZWxmLmh0bWwgKz0gJzxkaXYgY2xhc3M9InZlcnNpb24iPjxhCj4gaHJlZj0iaHR0
+cHM6Ly8wMS5vcmcvcG0tZ3JhcGgiPiVzIHYlczwvYT48L2Rpdj4nIFwKPiAtwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCUgKHN2LnRpdGxlLCBzdi52ZXJzaW9u
+KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZWxmLmh0bWwgKz0gJzxkaXYgY2xh
+c3M9InZlcnNpb24iPjxhCj4gaHJlZj0iaHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQnK1wK
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICcvd3d3L3VzL2VuL2RldmVsb3Blci90
+b3BpYy10ZWNobm9sb2d5L29wZW4vcG0tCj4gZ3JhcGgvb3ZlcnZpZXcuaHRtbCI+JXMgdiVzPC9h
+PjwvZGl2PicgXAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJSAoc3YudGl0bGUs
+IHN2LnZlcnNpb24pCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiBzdi5sb2dt
+c2cgYW5kIHN2LnRlc3Rsb2c6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgc2VsZi5odG1sICs9ICc8YnV0dG9uIGlkPSJzaG93dGVzdCIKPiBjbGFzcz0i
+bG9nYnRuIGJ0bmZtdCI+bG9nPC9idXR0b24+Jwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgaWYgc3YuZG1lc2dsb2c6CkhpLCB5ZWEgSSBtYWRlIHRoaXMgY2hhbmdlIGluIHRoZSBn
+aXRodWIgc291cmNlIGFmdGVyIHRoZSByZWxlYXNlIG9mCnZlcnNpb24gNS4xMiBhbmQgaGF2ZW4n
+dCBwdXNoZWQgaXQgb3ZlciB0byB0aGUga2VybmVsIHNvdXJjZQp5ZXQuwqBUaGFua3MgZm9yIHRo
+ZSBoZWFkcyB1cC4KCkdpdmUgbWUgYSBkYXkgb3IgdHdvIGFuZCBJJ2xsIHN1Ym1pdCBhbiB1cGRh
+dGVkIHZlcnNpb24gb2YgdGhpcyBwYXRjaAp3aGljaCBpbmNsdWRlcyBhbGwgdGhlIG90aGVyIGNo
+YW5nZXMgc2luY2UgNS4xMiBzbyB0aGV5IGNhbiBiZSBmdWxseSBpbgpzeW5jLgoK
 
-On Tue, Sep 3, 2024 at 10:32=E2=80=AFAM Abhishek Tamboli
-<abhishektamboli9@gmail.com> wrote:
->
-> Transition to mipi_dsi_dcs_write_seq_multi() macros for initialization
-> sequences. The previous mipi_dsi_dcs_write_seq() macros were
-> non-intuitive and use other wrapped MIPI DSI functions in the
-> driver code to simplify the code pattern.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202409040049.2hf8jrZG-lkp@i=
-ntel.com/
-
-You'd only include the above two tags if the original problematic
-commit had actually landed. Since it didn't you leave them off and the
-Robot gets no credit (even though it is awesome).
-
-
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
-> Changes in v2:
-> - Update the commit message to explain the reason for the change.
-> - Correct the code by changing 'dsi->mode_flags' to 'dsi_ctx.dsi->mode_fl=
-ags'
-> This change addresses a build error in v1 reported by kernel test robot
-> caused by using an undeclared variable 'dsi'.
-> [v1] : https://lore.kernel.org/all/20240902170153.34512-1-abhishektamboli=
-9@gmail.com/
->
->  drivers/gpu/drm/panel/panel-himax-hx83112a.c | 140 ++++++++-----------
->  1 file changed, 60 insertions(+), 80 deletions(-)
-
-Just adding a note that there's nearly the same patch in
-https://lore.kernel.org/r/20240904141521.554451-1-tejasvipin76@gmail.com
-and we're discussing what to do about it there.
-
--Doug
