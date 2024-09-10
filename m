@@ -1,229 +1,138 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9922F86E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 01:10:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C22B1A7AF1
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725930650; cv=none; b=aaFP7khYIVoFnrGLz9a04hWTTcGGOZoAoDYR4dg7/JsOPzT8wC+8mt+aYKLtGTUFWd984kM7I7KoHuw9WnGKtG/qSFYySw0xxHjnvwcGXtovkKMVu+m9crM8f1fWZ4OSV8N6YLAZbsDI7apDIytyv93OSa44D8y/uYKicKs6yI4=
+	t=1726003380; cv=none; b=B+JOqfp+oSVPpFjticwD5zCKmlRNiIwR+mpx1a5sNCc5vx9rXR5HZSwn7+m3braSCoBBKmXswUEv7bn/vWjXCM4zKtbtYLqD1BBAOkoWyXXTIMk7q8nsJF7Y4TfJwk59H7ovdTgLS1R/oUduKVgZp96ZKDogE7YmOXcPRgVTbyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725930650; c=relaxed/simple;
-	bh=oc9n6anzUCCgh/9mdVpHlXQsIkcCodF2xEspvvmhuHQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XjGV5sgsm0gui93GxgXfO2lVxVsBmSYtPU5QOn9Hiuo+h+Fn160IqJc2z0oLar9GoFT7bmdhje27oAsj7Yv2O5cslADo6wMzqmYLooFUt/eqAd2vtOf6P0U38axZDJksdz6dumV6eCWlCL2SOSV2AFEO7MH4yWl/5Lr9TUg193c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAixUiQd; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1726003380; c=relaxed/simple;
+	bh=J9E4Pbp83r9l9JyhG1IiSk1/8H53dwAA+eo6UPCOQyY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BQVgXUPPMw1HYtdkdfSBfrQzBoz45HRutzk3nIEUFw8Gn2Jsry2YX6+ikDTO89qIBbfMrlzMRHQE9oZbgpsnBcn8nKOb/H7wqZXtNF4m6jIrW0EdDYSHM7lyC1EZ1PHt1IQOguol/AlzCDq4KYpxPvQEbs90KrpErbSBBB350Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HQ1jpWiY; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAixUiQd"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HQ1jpWiY"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 57CF660834
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 01:10:48 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id BE06840247
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:22:58 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id uMu-W0ygw7Vo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Sep 2024 01:10:47 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e32; helo=mail-vs1-xe32.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6BA37607F7
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6BA37607F7
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=lAixUiQd
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6BA37607F7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 01:10:47 +0000 (UTC)
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-49bd27b3507so1389275137.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 09 Sep 2024 18:10:47 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id W_Yg0Rj5Lwzb for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 10 Sep 2024 21:22:57 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f2c; helo=mail-qv1-xf2c.google.com; envelope-from=dianders@chromium.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 6B52D40231
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 6B52D40231
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=HQ1jpWiY
+Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com [IPv6:2607:f8b0:4864:20::f2c])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 6B52D40231
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:22:57 +0000 (UTC)
+Received: by mail-qv1-xf2c.google.com with SMTP id 6a1803df08f44-6c353f2f954so43323556d6.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 14:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725930646; x=1726535446; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZo3dHoUlvsPvtWs9uI1nqTcMjUn5Xqg5a9hNWOoQ0U=;
-        b=lAixUiQddDluN09MRAO5OO6ETA/vQTMsQS03jyrUbs+7LyRHVh+o3qBuvt7wQgNB7k
-         Jz/jRQaQxJP7SghU9PFKxh6vfBKS8DlU7W6y6wdY37tnVBafVLsEzvECgGD6BetjaB6N
-         EZM8badKmv2gR9eWSFDvzV38HIb4fxorzwBcZrIFDb+zavBJU/gFzNISdFFXZVV61BPC
-         U0LjOqCpoG/wP4u2qX3pKNAquhlaOByMWAf7IHNmBN0J0cPwgDpwI+OxIm25vw2Dredq
-         po2wgsi6jhwon09Y0FV79rNAnbj3HmM+kvf5kdzVP7CV/Ls/ms22H5bX6Wr78dEwT0LC
-         QWog==
+        d=chromium.org; s=google; t=1726003375; x=1726608175; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UzSu/kXOj+AyNMyap+JZaf4+i0lOR352iz38kAetQog=;
+        b=HQ1jpWiY7L0MOGBgo7ajfT2yIxoP5Xu6y1esXpuXu3I9CNZxMRzDv8w+sznk9K0gH+
+         ftGbpfvbzDHF64Tm1/f5KHjL7K/4Bgs74cXF6e5e/7w6FxOV9MB9oRlPfm3KcH30PVKf
+         cooX4gtC5+hemv/w2HoYfz+LIB48pGv4MX6EA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725930646; x=1726535446;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZZo3dHoUlvsPvtWs9uI1nqTcMjUn5Xqg5a9hNWOoQ0U=;
-        b=QWZdVOyqDXGq5nUhmFGodRq2L4IaxOrWbavj1fFhODQidrOsJT5j62S5QvYRiH/d9Q
-         H6cDGwXnCFUFwwMpgEf57NjpInFUekI0mFcZaKyJ5nX/Qa8Zm8P3cQGiFzHdNMKE/XnG
-         Y47i8mbXj/dupOCfIBmfjNEggjIJeqrcmzgsV2ehU5DMqbzzi6AM5LqaiIbGc5DwTbhf
-         sc6iMdSgQVIyHqMxnVp71f49/hRYrjxIh0yOEd/PlPuU7s9z4FzXwZIyHFE0h1DV55aQ
-         jQiDJ0teE0vSU8KFdv0IJA5x7aM6I3Cpr0MiJ1f6e2UWnGxL/8W/7/nst0p5rT0YMl3d
-         eelw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlSbE8ypG3cVCN2wg2EnAO1P/ATZzId5vtQtbafhDGpMkctt9pGgvpCc3pb5KpT8O+2B97CJGrH6VnAjKBJHZ5xRFNTA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yxv2QDhJd3dpOSGQcWrWc2Q9SF7HouwlkDLM+VlgfhBnCBI+V3l
-	4JWGA4EU/clE2k6BFUiAP5IkJ5ZKfcWJOohwsYkb4EZJmUxd0l/K
-X-Google-Smtp-Source: AGHT+IGoJhK2So7eKTIKvEIwazC1BO+otrVme7YefkOZVBJ+ajYsgVH4p6E9Dk+sVmDa9vuxcpJDrQ==
-X-Received: by 2002:a05:6102:c0e:b0:48f:cb62:231a with SMTP id ada2fe7eead31-49bde25de59mr9391558137.23.1725930646035;
-        Mon, 09 Sep 2024 18:10:46 -0700 (PDT)
-Received: from x13.localdomain (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8489ad449acsm622584241.31.2024.09.09.18.10.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 18:10:42 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v5] lib/math: Add int_pow test suite
-Date: Mon,  9 Sep 2024 21:10:34 -0400
-Message-ID: <20240910011036.15117-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20230601; t=1726003375; x=1726608175;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UzSu/kXOj+AyNMyap+JZaf4+i0lOR352iz38kAetQog=;
+        b=Xnn4bc32lcZu+N5eZwmMThG6kZv1A+G9YtMm4ei7U508RHvnJGRi+DpvgJGoeRzH7d
+         pEErjcyeNZb2JAqVxm108n5Vw28Y1iMOvTLYk+RZQ4i6jjbpIXqTDfKUBBldriLVT+I7
+         R7FExYghoHKbCkAZcm+23nRFKRTbHL9A/pqKLgEU8CWg/Zbzt6aIvczZ308zTT599OYH
+         6aKFIy7E4Lk+RafYWaOS18g+L57j+fi8U7WMlS/IaSvn833yw55n1BZVKmKgsLl1aggN
+         oRabOXPI+k4yAK1HS2Y6Gz4XiLQKddWYLj4rjNrZZxQz0wv0jD4XY47ctz7/eWQt2Omp
+         cXLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUucCR8W2yIO5Ceud8X83h5pCVv7L+c6IZjndPAdAyCrRGsh3jZ2yhZJ+jdANa3SaGxTlbd8h9AvtMMMxBu3I1YYHLYKQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxvUXIWJxxu+ctzyuisV3urajQDyVpQutLOJnyE4JcbP3l1jFAb
+	RcE1+eRHF1A/hfOizCzJl+rmO2aV8YHSZPwaeDQsrRRihfRVcghMNAhwU1UyWvdjI2tOjFZHFyM
+	=
+X-Google-Smtp-Source: AGHT+IHMWQ5VIz26BWb8vZcxqCYPGJoDZuffNp7mZkskf3CZmYUh8ryeyibsJZQe2g8n0mTQi1LX7w==
+X-Received: by 2002:a0c:c692:0:b0:6c5:52cc:6070 with SMTP id 6a1803df08f44-6c552cc61a5mr68892106d6.39.1726003375204;
+        Tue, 10 Sep 2024 14:22:55 -0700 (PDT)
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com. [209.85.219.48])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c5343471b8sm33738786d6.66.2024.09.10.14.22.54
+        for <linux-kernel-mentees@lists.linuxfoundation.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Sep 2024 14:22:54 -0700 (PDT)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6c35357cdacso37590576d6.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 14:22:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUUsSO1mbsIX+y2FYBn5WFUggtn7epk/zk9BzRWcTfdBa6AelKQngo4/jHItEV1/6Z7JVfMTmGsYRdURRPfFkZrcdgFpQ==@lists.linuxfoundation.org
+X-Received: by 2002:a05:6214:390e:b0:6c5:1f05:dcec with SMTP id
+ 6a1803df08f44-6c52851dadamr250755766d6.49.1726003373788; Tue, 10 Sep 2024
+ 14:22:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240903173130.41784-1-abhishektamboli9@gmail.com>
+In-Reply-To: <20240903173130.41784-1-abhishektamboli9@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 10 Sep 2024 14:22:37 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VVxWBv2oqL39j8eoRdJf42byoiUJ+XvY0kwL-OXoe0fg@mail.gmail.com>
+Message-ID: <CAD=FV=VVxWBv2oqL39j8eoRdJf42byoiUJ+XvY0kwL-OXoe0fg@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/panel: hx83112a: Transition to wrapped mipi_dsi functions
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: neil.armstrong@linaro.org, maarten.lankhorst@linux.intel.com, 
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
+	quic_jesszhan@quicinc.com, skhan@linuxfoundation.org, rbmarliere@gmail.com, 
+	linux-kernel-mentees@lists.linuxfoundation.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adds test suite for integer based power function.
+Hi,
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
----
-Changes in v5:
-  - Fix kernel test bot warning
-  - Rebase with latest
-Changes in v4:
-  - Address checkpatch warning and make kconfig description longer
-  - Use GPL-2.0-only for consistency
-  - Spelling fix fith -> fifth
-Changes in v3:
-  - Fix compiler warning: explicitly define constant as unsigned int
-  - Add changes in patch revisions
-Changes in v2:
-  - Address review feedback
-  - Add kconfig entry
-  - Use correct dir and file convention for KUnit
-  - Fix typo
-  - Remove unused static_stub header
-  - Refactor test suite to use paramerterized test cases
-  - Add close to max allowable value to in large_result test case
-  - Add test case with non-power of two exponent
-  - Fix module license 
----
- lib/Kconfig.debug              | 16 +++++++++++
- lib/math/Makefile              |  1 +
- lib/math/tests/Makefile        |  3 ++
- lib/math/tests/int_pow_kunit.c | 52 ++++++++++++++++++++++++++++++++++
- 4 files changed, 72 insertions(+)
- create mode 100644 lib/math/tests/Makefile
- create mode 100644 lib/math/tests/int_pow_kunit.c
+On Tue, Sep 3, 2024 at 10:32=E2=80=AFAM Abhishek Tamboli
+<abhishektamboli9@gmail.com> wrote:
+>
+> Transition to mipi_dsi_dcs_write_seq_multi() macros for initialization
+> sequences. The previous mipi_dsi_dcs_write_seq() macros were
+> non-intuitive and use other wrapped MIPI DSI functions in the
+> driver code to simplify the code pattern.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202409040049.2hf8jrZG-lkp@i=
+ntel.com/
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index a30c03a66172..c415f8ca43a7 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3051,3 +3051,19 @@ config RUST_KERNEL_DOCTESTS
- endmenu # "Rust"
- 
- endmenu # Kernel hacking
-+
-+config INT_POW_TEST
-+	tristate "Integer exponentiation (int_pow) test" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This option enables the KUnit test suite for the int_pow function,
-+	  which performs integer exponentiation. The test suite is designed to
-+	  verify that the implementation of int_pow correctly computes the power
-+	  of a given base raised to a given exponent.
-+
-+	  Enabling this option will include tests that check various scenarios
-+	  and edge cases to ensure the accuracy and reliability of the exponentiation
-+	  function.
-+	  
-+	  If unsure, say N
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 91fcdb0c9efe..3c1f92a7459d 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -5,5 +5,6 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
- obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
- obj-$(CONFIG_RATIONAL)		+= rational.o
- 
-+obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
- obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-new file mode 100644
-index 000000000000..6a169123320a
---- /dev/null
-+++ b/lib/math/tests/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
-diff --git a/lib/math/tests/int_pow_kunit.c b/lib/math/tests/int_pow_kunit.c
-new file mode 100644
-index 000000000000..34b33677d458
---- /dev/null
-+++ b/lib/math/tests/int_pow_kunit.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <kunit/test.h>
-+#include <linux/math.h>
-+
-+struct test_case_params {
-+	u64 base;
-+	unsigned int exponent;
-+	u64 expected_result;
-+	const char *name;
-+};
-+
-+static const struct test_case_params params[] = {
-+	{ 64, 0, 1, "Power of zero" },
-+	{ 64, 1, 64, "Power of one"},
-+	{ 0, 5, 0, "Base zero" },
-+	{ 1, 64, 1, "Base one" },
-+	{ 2, 2, 4, "Two squared"},
-+	{ 2, 3, 8, "Two cubed"},
-+	{ 5, 5, 3125, "Five raised to the fifth power" },
-+	{ U64_MAX, 1, U64_MAX, "Max base" },
-+	{ 2, 63, 9223372036854775808ULL, "Large result"},
-+};
-+
-+static void get_desc(const struct test_case_params *tc, char *desc)
-+{
-+	strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(int_pow, params, get_desc);
-+
-+static void int_pow_test(struct kunit *test)
-+{
-+	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
-+
-+	KUNIT_EXPECT_EQ(test, tc->expected_result, int_pow(tc->base, tc->exponent));
-+}
-+
-+static struct kunit_case math_int_pow_test_cases[] = {
-+	KUNIT_CASE_PARAM(int_pow_test, int_pow_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite int_pow_test_suite = {
-+	.name = "math-int_pow",
-+	.test_cases = math_int_pow_test_cases,
-+};
-+
-+kunit_test_suites(&int_pow_test_suite);
-+
-+MODULE_DESCRIPTION("math.int_pow KUnit test suite");
-+MODULE_LICENSE("GPL");
--- 
-2.46.0
+You'd only include the above two tags if the original problematic
+commit had actually landed. Since it didn't you leave them off and the
+Robot gets no credit (even though it is awesome).
 
+
+> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> ---
+> Changes in v2:
+> - Update the commit message to explain the reason for the change.
+> - Correct the code by changing 'dsi->mode_flags' to 'dsi_ctx.dsi->mode_fl=
+ags'
+> This change addresses a build error in v1 reported by kernel test robot
+> caused by using an undeclared variable 'dsi'.
+> [v1] : https://lore.kernel.org/all/20240902170153.34512-1-abhishektamboli=
+9@gmail.com/
+>
+>  drivers/gpu/drm/panel/panel-himax-hx83112a.c | 140 ++++++++-----------
+>  1 file changed, 60 insertions(+), 80 deletions(-)
+
+Just adding a note that there's nearly the same patch in
+https://lore.kernel.org/r/20240904141521.554451-1-tejasvipin76@gmail.com
+and we're discussing what to do about it there.
+
+-Doug
