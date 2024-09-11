@@ -1,123 +1,227 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2751A76BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 22:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6CD54F8C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Sep 2024 04:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726008118; cv=none; b=im6BbRLXOPMq6QAC9hrqQXzquNkcJW9V2s99GxavQMwpk9Sfna7O5Xyx+M6/BBmMHearYSlVmheInms+9rV+OxyN2AZbKmF+Y+RQ+375n+VuDItfo4IpCktbS4sXYN6PYOWdvieLHSa9+ffr76xPbAsQ1WB3Y7HWJRHV/oNzOvU=
+	t=1726029199; cv=none; b=LGHPgHBiXXV5geCkTYJG3a1ZLIGtcG+TEhQLprMGvmvggNjxdrc3KLABIQpsaSiGmzIO4iTaCbm/wxdhMKObYnI3c4F5uqzp+0cQmgm3zZtq+giSmW+2nxK9UhAkvY+3r3qhg3uNkTYcn+8LfCvthfCmfZ4SGiB+wi0DM6Pw4TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726008118; c=relaxed/simple;
-	bh=B1Kb/1rBdk2gLp8tm/lvvMzs9HyFUXE3S9g6+iuVpc4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=g8o8bu20ISCi1fiu0nSeOr4NSJbMcS0SQVsyMC4pb6HRXn8LDbdxXOKy8Vs9R+0rbXJ81IuUl6FVL9MW/TAOlgXtMUuRROK+eBcz0CrpwWquCM/mLCvk4V2ka1wDccHIJtStjLzZw/LJWbZ0U8TSNcndYGX/OajvUzyZNIzJXnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Upi1Q7Nj; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1726029199; c=relaxed/simple;
+	bh=lqm4i0gPMtsouyD3GZJx+QoYibgLgpUeNW9Fsc9vve8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OsPL35ximhPFS8ivuv2hyRSwEnhBp781mY2qx/IzVFgi2ENEfnymWdPg98ny2U6N1TrBdj/V5o3P59eFm+19IwImab8lJ+ua0L5cm0O0BwjFk7uq6tedp82xPHjuDdaVs89LeBfc1r2a54WgON5b2M0309Ij9ByEdA7msQ/K6q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tTK9N9n7; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Upi1Q7Nj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tTK9N9n7"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id 2BBD7608B6
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 22:41:57 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 3FAD381177
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Sep 2024 04:33:18 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -7.99
+X-Spam-Score: -17.601
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5CrskaUFfhyh for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 10 Sep 2024 22:41:52 +0000 (UTC)
-Received-SPF: None (mailfrom) identity=mailfrom; client-ip=198.175.65.20; helo=mgamail.intel.com; envelope-from=todd.e.brandt@linux.intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6BF1D60720
-Authentication-Results: smtp3.osuosl.org; dmarc=none (p=none dis=none) header.from=linux.intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6BF1D60720
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Upi1Q7Nj
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6BF1D60720
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 22:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1726008112; x=1757544112;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=B1Kb/1rBdk2gLp8tm/lvvMzs9HyFUXE3S9g6+iuVpc4=;
-  b=Upi1Q7NjAvcDvZDEwXoequTnuZTv86PhsGoMHZFVf3oU27jNpkhHIzv7
-   XpRHkh6phlOMAJ2P3GPJVpO9aXtyeti82gHEEmPoRf3GI0is9ixoPdKPv
-   J3S2JvYN0VMOAlowWQyfBkGex76e0MayNeajw5v1uYlf/UjRWQdJcjHrb
-   o/sqZDI+a6oLhnpkVQ179Woowm5hdG6lI2mD6F3dcsv0AOMJvg81mAP8e
-   R6iKTgj5YgPpg4Kibkyq/RcJVcciyeEocBnflUdnZoXLMEJTHuoIc0Ag2
-   t0MRY612/Fs6vE/e053XPgXSSA76uw3TjOF0gyx+3l4FuBj8mVf1/4Lzu
-   g==;
-X-CSE-ConnectionGUID: QLbpT3J/QaajUsQbAzzLkg==
-X-CSE-MsgGUID: Zqzzr3vKQ5KDMhJ65a6RLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24605088"
-X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208,217";a="24605088"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:41:48 -0700
-X-CSE-ConnectionGUID: ZrEyXTNUSMer2wLf5e1QYg==
-X-CSE-MsgGUID: 8JhJUdHuTuKEJwaXVZ+bWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,218,1719903600"; 
-   d="scan'208,217";a="67409985"
-Received: from ehanks-mobl1.amr.corp.intel.com ([10.124.223.166])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 15:41:47 -0700
-Message-ID: <031a8e46189d4f32812ada587cf7432c80fdf664.camel@linux.intel.com>
-Subject: Re: [PATCH] PM: tools: sleepgraph: Correct the home link
-From: Todd Brandt <todd.e.brandt@linux.intel.com>
-Reply-To: todd.e.brandt@linux.intel.com
-To: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
-Cc: linux-kernel-mentees@lists.linuxfoundation.org, ricardo@marliere.net, 
-	skhan@linuxfoundation.org, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 10 Sep 2024 15:41:46 -0700
-In-Reply-To: <20240908095722.7683-1-0xff07@gmail.com>
-References: <20240908095722.7683-1-0xff07@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4-0ubuntu2 
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Sbi1XHEMUzF0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 11 Sep 2024 04:33:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::72a; helo=mail-qk1-x72a.google.com; envelope-from=davidgow@google.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 3B2488114A
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=reject dis=none) header.from=google.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 3B2488114A
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20230601 header.b=tTK9N9n7
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 3B2488114A
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Sep 2024 04:33:17 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id af79cd13be357-7a9aec89347so207512085a.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 10 Sep 2024 21:33:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1726029196; x=1726633996; darn=lists.linuxfoundation.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OkOliVBNCCA9bqo0hRXhDkbizLGeGpbp6qwl3yH47gk=;
+        b=tTK9N9n7KjlRzp9kc1VCtmLglUBMhauQrz56MXnlb3O+pSn+JS5bXOmiodWm+APrv5
+         RjrQu/RXklKRIV90wJJFIz5hGfFFOqcKn8WMdyuXsgjs/yWPzhEmFm9vHYNigHcK/krx
+         1C09xP5rVKWA4SmNZ8OboXXxuQGniipzvKp1d2jDnUfoWssFy9ryFM6axAb+c0taXh6J
+         r/sji0O7Zd6k3MQRcYsPnH58KUmYWTYIFxPMy47vgkZPVEzk8QK/EymkrMKhChImcpmj
+         XPo2+z1YxvWJAAdSAzjabvojaCzYzpuW00wh2m61iGxxC0r0EA7dm+t6NeWJbcK3a/Y4
+         +PUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726029196; x=1726633996;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OkOliVBNCCA9bqo0hRXhDkbizLGeGpbp6qwl3yH47gk=;
+        b=SU374/d+8W6/BAZLlbq0SH6fuCf8S6MzPxqJDH2JHgI+aa+rSvnLQzFuyGq+kIWgan
+         +x1tkF4iozad7oQt7lcY+qlOO06KabAI5zMt4oCRLXRYUlJbrbIM06+mEVnKrwP2uesl
+         Pu7Iy4XvegFpAkgCfkiYwWW83j1AR5sI5FYNEN5mlR3n7995ZgUoufP5Xhtd4ob/RT15
+         ky31JYhll2UF5lZTwlhuTavw3kH2UmQ3q2T0gizRzD2U9zbsoBlmnXpXcpi76kULLR5e
+         t8Nge3q/cu47YSkepb/RcukSpk7AJlNyKUxr5EPITw4D9JTUYN+B5Z1tHa7T/0T8+DLy
+         iBfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUoO26+oD1HZkEUOQLiyplwzqaY/aeHyFFrr5AqyXkyAbse/kz9vNpBN414YN589CErFL+EzwKryZ4TU+WFUE9S+9vgGw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Ywd1GW28HxHTEvEQ7uz0eM48j5rqE65+2BYF2+egBUc01iTI6an
+	WiaRqSrZBe2r00/3b7s3irGo3JE7wgX7LrGN8enT4MBNNRaGLSABIi2ckXzn3ZOd8SiXIxQolaC
+	Tdqb8Vih7JWhEF8IlERQ1hhEmeEcJwGs1AUvU
+X-Google-Smtp-Source: AGHT+IGQLZqVvI9iWuePgdisS782hCypvycomCv32GVwY0DEhYPG/o2yfL5hCKbv+dP9VX+NOiFnVOjIThSOQYr2vjY=
+X-Received: by 2002:a05:620a:4406:b0:7a9:b8dd:eb96 with SMTP id
+ af79cd13be357-7a9b8ddef9amr1410642185a.30.1726029195402; Tue, 10 Sep 2024
+ 21:33:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20240910011036.15117-1-luis.hernandez093@gmail.com>
+In-Reply-To: <20240910011036.15117-1-luis.hernandez093@gmail.com>
+From: David Gow <davidgow@google.com>
+Date: Wed, 11 Sep 2024 12:33:03 +0800
+Message-ID: <CABVgOSmpS4GN-iskm2DzebkxF-vcA3iJuba3YnicdNYwy+8mbQ@mail.gmail.com>
+Subject: Re: [PATCH v5] lib/math: Add int_pow test suite
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+Cc: brendan.higgins@linux.dev, rmoar@google.com, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000001c0ec20621d07dee"
 
-T24gU3VuLCAyMDI0LTA5LTA4IGF0IDE3OjU3ICswODAwLCBZby1KdW5nIChMZW8pIExpbiB3cm90
-ZToKPiBUaGUgMDEub3JnL3BtLWdyYXBoIGxpbmsgaW4gdGhlIHNsZWVwZ3JhcGgucHkgbm8gbG9u
-Z2VyIHBvaW50IHRvIHRoZQo+IHBtLWdyYXBoIGhvbWUgcGFnZS4gUmVwbGFjZSBpdCB3aXRoIHRo
-ZSBob21lIHBhZ2UgbGluayBpbiB0aGUgUkVBRE1FLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFlvLUp1
-bmcgKExlbykgTGluIDwweGZmMDdAZ21haWwuY29tPgo+IC0tLQo+IMKgdG9vbHMvcG93ZXIvcG0t
-Z3JhcGgvc2xlZXBncmFwaC5weSB8IDcgKysrKy0tLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDQgaW5z
-ZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvdG9vbHMvcG93ZXIv
-cG0tZ3JhcGgvc2xlZXBncmFwaC5weSBiL3Rvb2xzL3Bvd2VyL3BtLQo+IGdyYXBoL3NsZWVwZ3Jh
-cGgucHkKPiBpbmRleCBlZjg3ZTYzYzA1YzcuLmY5NTA2MWQ2MDY5ZiAxMDA3NTUKPiAtLS0gYS90
-b29scy9wb3dlci9wbS1ncmFwaC9zbGVlcGdyYXBoLnB5Cj4gKysrIGIvdG9vbHMvcG93ZXIvcG0t
-Z3JhcGgvc2xlZXBncmFwaC5weQo+IEBAIC0xOCw3ICsxOCw3IEBACj4gwqAjCj4gwqAjIExpbmtz
-Ogo+IMKgI8KgwqDCoMKgwqDCoCBIb21lIFBhZ2UKPiAtI8KgwqDCoMKgwqDCoMKgwqAgaHR0cHM6
-Ly8wMS5vcmcvcG0tZ3JhcGgKPiArI8KgwqDCoMKgwqDCoMKgwqAKPiBodHRwczovL3d3dy5pbnRl
-bC5jb20vY29udGVudC93d3cvdXMvZW4vZGV2ZWxvcGVyL3RvcGljLXRlY2hub2xvZ3kvb3Blbi9w
-bS1ncmFwaC9vdmVydmlldy5odG1sCj4gwqAjwqDCoMKgwqDCoMKgIFNvdXJjZSByZXBvCj4gwqAj
-wqDCoMKgwqDCoMKgwqDCoCBnaXRAZ2l0aHViLmNvbTppbnRlbC9wbS1ncmFwaAo+IMKgIwo+IEBA
-IC0yNzUzLDggKzI3NTMsOSBAQCBjbGFzcyBUaW1lbGluZToKPiDCoMKgwqDCoMKgwqDCoMKgZGVm
-IGNyZWF0ZUhlYWRlcihzZWxmLCBzdiwgc3RhbXApOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgaWYobm90IHN0YW1wWyd0aW1lJ10pOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybgo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqBzZWxmLmh0bWwgKz0gJzxkaXYgY2xhc3M9InZlcnNpb24iPjxhCj4gaHJlZj0iaHR0
-cHM6Ly8wMS5vcmcvcG0tZ3JhcGgiPiVzIHYlczwvYT48L2Rpdj4nIFwKPiAtwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCUgKHN2LnRpdGxlLCBzdi52ZXJzaW9u
-KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBzZWxmLmh0bWwgKz0gJzxkaXYgY2xh
-c3M9InZlcnNpb24iPjxhCj4gaHJlZj0iaHR0cHM6Ly93d3cuaW50ZWwuY29tL2NvbnRlbnQnK1wK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICcvd3d3L3VzL2VuL2RldmVsb3Blci90
-b3BpYy10ZWNobm9sb2d5L29wZW4vcG0tCj4gZ3JhcGgvb3ZlcnZpZXcuaHRtbCI+JXMgdiVzPC9h
-PjwvZGl2PicgXAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgJSAoc3YudGl0bGUs
-IHN2LnZlcnNpb24pCj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiBzdi5sb2dt
-c2cgYW5kIHN2LnRlc3Rsb2c6Cj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgc2VsZi5odG1sICs9ICc8YnV0dG9uIGlkPSJzaG93dGVzdCIKPiBjbGFzcz0i
-bG9nYnRuIGJ0bmZtdCI+bG9nPC9idXR0b24+Jwo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgaWYgc3YuZG1lc2dsb2c6CkhpLCB5ZWEgSSBtYWRlIHRoaXMgY2hhbmdlIGluIHRoZSBn
-aXRodWIgc291cmNlIGFmdGVyIHRoZSByZWxlYXNlIG9mCnZlcnNpb24gNS4xMiBhbmQgaGF2ZW4n
-dCBwdXNoZWQgaXQgb3ZlciB0byB0aGUga2VybmVsIHNvdXJjZQp5ZXQuwqBUaGFua3MgZm9yIHRo
-ZSBoZWFkcyB1cC4KCkdpdmUgbWUgYSBkYXkgb3IgdHdvIGFuZCBJJ2xsIHN1Ym1pdCBhbiB1cGRh
-dGVkIHZlcnNpb24gb2YgdGhpcyBwYXRjaAp3aGljaCBpbmNsdWRlcyBhbGwgdGhlIG90aGVyIGNo
-YW5nZXMgc2luY2UgNS4xMiBzbyB0aGV5IGNhbiBiZSBmdWxseSBpbgpzeW5jLgoK
+--0000000000001c0ec20621d07dee
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 10 Sept 2024 at 09:10, Luis Felipe Hernandez
+<luis.hernandez093@gmail.com> wrote:
+>
+> Adds test suite for integer based power function.
+>
+> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+> ---
+> Changes in v5:
+>   - Fix kernel test bot warning
+>   - Rebase with latest
+> Changes in v4:
+>   - Address checkpatch warning and make kconfig description longer
+>   - Use GPL-2.0-only for consistency
+>   - Spelling fix fith -> fifth
+> Changes in v3:
+>   - Fix compiler warning: explicitly define constant as unsigned int
+>   - Add changes in patch revisions
+> Changes in v2:
+>   - Address review feedback
+>   - Add kconfig entry
+>   - Use correct dir and file convention for KUnit
+>   - Fix typo
+>   - Remove unused static_stub header
+>   - Refactor test suite to use paramerterized test cases
+>   - Add close to max allowable value to in large_result test case
+>   - Add test case with non-power of two exponent
+>   - Fix module license
+> ---
+
+Looks good to me, thanks!
+
+Reviewed-by: David Gow <davidgow@google.com>
+
+Cheers,
+-- David
+
+--0000000000001c0ec20621d07dee
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIUqgYJKoZIhvcNAQcCoIIUmzCCFJcCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ghIEMIIGkTCCBHmgAwIBAgIQfofDAVIq0iZG5Ok+mZCT2TANBgkqhkiG9w0BAQwFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSNjETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMzA0MTkwMzUzNDdaFw0zMjA0MTkwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFI2IFNNSU1FIENBIDIwMjMwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDYydcdmKyg
+4IBqVjT4XMf6SR2Ix+1ChW2efX6LpapgGIl63csmTdJQw8EcbwU9C691spkltzTASK2Ayi4aeosB
+mk63SPrdVjJNNTkSbTowej3xVVGnYwAjZ6/qcrIgRUNtd/mbtG7j9W80JoP6o2Szu6/mdjb/yxRM
+KaCDlloE9vID2jSNB5qOGkKKvN0x6I5e/B1Y6tidYDHemkW4Qv9mfE3xtDAoe5ygUvKA4KHQTOIy
+VQEFpd/ZAu1yvrEeA/egkcmdJs6o47sxfo9p/fGNsLm/TOOZg5aj5RHJbZlc0zQ3yZt1wh+NEe3x
+ewU5ZoFnETCjjTKz16eJ5RE21EmnCtLb3kU1s+t/L0RUU3XUAzMeBVYBEsEmNnbo1UiiuwUZBWiJ
+vMBxd9LeIodDzz3ULIN5Q84oYBOeWGI2ILvplRe9Fx/WBjHhl9rJgAXs2h9dAMVeEYIYkvW+9mpt
+BIU9cXUiO0bky1lumSRRg11fOgRzIJQsphStaOq5OPTb3pBiNpwWvYpvv5kCG2X58GfdR8SWA+fm
+OLXHcb5lRljrS4rT9MROG/QkZgNtoFLBo/r7qANrtlyAwPx5zPsQSwG9r8SFdgMTHnA2eWCZPOmN
+1Tt4xU4v9mQIHNqQBuNJLjlxvalUOdTRgw21OJAFt6Ncx5j/20Qw9FECnP+B3EPVmQIDAQABo4IB
+ZTCCAWEwDgYDVR0PAQH/BAQDAgGGMDMGA1UdJQQsMCoGCCsGAQUFBwMCBggrBgEFBQcDBAYJKwYB
+BAGCNxUGBgkrBgEEAYI3FQUwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUM7q+o9Q5TSoZ
+18hmkmiB/cHGycYwHwYDVR0jBBgwFoAUrmwFo5MT4qLn4tcc1sfwf8hnU6AwewYIKwYBBQUHAQEE
+bzBtMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vcm9vdHI2MDsGCCsG
+AQUFBzAChi9odHRwOi8vc2VjdXJlLmdsb2JhbHNpZ24uY29tL2NhY2VydC9yb290LXI2LmNydDA2
+BgNVHR8ELzAtMCugKaAnhiVodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL3Jvb3QtcjYuY3JsMBEG
+A1UdIAQKMAgwBgYEVR0gADANBgkqhkiG9w0BAQwFAAOCAgEAVc4mpSLg9A6QpSq1JNO6tURZ4rBI
+MkwhqdLrEsKs8z40RyxMURo+B2ZljZmFLcEVxyNt7zwpZ2IDfk4URESmfDTiy95jf856Hcwzdxfy
+jdwx0k7n4/0WK9ElybN4J95sgeGRcqd4pji6171bREVt0UlHrIRkftIMFK1bzU0dgpgLMu+ykJSE
+0Bog41D9T6Swl2RTuKYYO4UAl9nSjWN6CVP8rZQotJv8Kl2llpe83n6ULzNfe2QT67IB5sJdsrNk
+jIxSwaWjOUNddWvCk/b5qsVUROOuctPyYnAFTU5KY5qhyuiFTvvVlOMArFkStNlVKIufop5EQh6p
+jqDGT6rp4ANDoEWbHKd4mwrMtvrh51/8UzaJrLzj3GjdkJ/sPWkDbn+AIt6lrO8hbYSD8L7RQDqK
+C28FheVr4ynpkrWkT7Rl6npWhyumaCbjR+8bo9gs7rto9SPDhWhgPSR9R1//WF3mdHt8SKERhvtd
+NFkE3zf36V9Vnu0EO1ay2n5imrOfLkOVF3vtAjleJnesM/R7v5tMS0tWoIr39KaQNURwI//WVuR+
+zjqIQVx5s7Ta1GgEL56z0C5GJoNE1LvGXnQDyvDO6QeJVThFNgwkossyvmMAaPOJYnYCrYXiXXle
+A6TpL63Gu8foNftUO0T83JbV/e6J8iCOnGZwZDrubOtYn1QwggWDMIIDa6ADAgECAg5F5rsDgzPD
+hWVI5v9FUTANBgkqhkiG9w0BAQwFADBMMSAwHgYDVQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBS
+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
+erg7AgMBAAGjggHgMIIB3DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1UdDwEB
+/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFKFQnbTpSq0q
+cOYnlrbegXJIIvA6MFgGA1UdIARRME8wCQYHZ4EMAQUBAjBCBgorBgEEAaAyCgMDMDQwMgYIKwYB
+BQUHAgEWJmh0dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQC
+MAAwgZoGCCsGAQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWdu
+LmNvbS9jYS9nc2F0bGFzcjZzbWltZWNhMjAyMzBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5n
+bG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3J0MB8GA1UdIwQYMBaA
+FDO6vqPUOU0qGdfIZpJogf3BxsnGMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFs
+c2lnbi5jb20vY2EvZ3NhdGxhc3I2c21pbWVjYTIwMjMuY3JsMA0GCSqGSIb3DQEBCwUAA4ICAQBR
+nRJBmUP+IpudtmSQ/R55Sv0qv8TO9zHTlIdsIf2Gc/zeCi0SamUQkFWb01d7Q+20kcpxNzwV6M7y
+hDRk5uuVFvtVxOrmbhflCo0uBpD9vz/symtfJYZLNyvSDi1PIVrwGNpyRrD0W6VQJxzzsBTwsO+S
+XWN3+x70+QDf7+zovW7KF0/y8QYD6PIN7Y9LRUXct0HKhatkHmO3w6MSJatnqSvsjffIwpNecUMo
+h10c6Etz17b7tbGdxdxLw8njN+UnfoFp3v4irrafB6jkArRfsR5TscZUUKej0ihl7mXEKUBmClkP
+ndcbXHFxS6WTkpjvl7Jjja8DdWJSJmdEWUnFjnQnDrqLqvYjeVMS/8IBF57eyT6yEPrMzA+Zd+f5
+hnM7HuBSGvVHv+c/rlHVp0S364DBGXj11obl7nKgL9D59QwC5/kNJ1whoKwsATUSepanzALdOTn3
+BavXUVE38e4c90il44T1bphqtLfmHZ1T5ZwxjtjzNMKy0Mb9j/jcFxfibCISYbnk661FBe38bhYj
+0DhqINx2fw0bwhpfFGADOZDe5DVhI7AIW/kEMHuIgAJ/HPgyn1+tldOPWiFLQbTNNBnfGv9sDPz0
+hWV2vSAXq35i+JS06BCkbGfE5ci6zFy4pt8fmqMGKFH/t3ELCTYo116lqUTDcVC8DAWN8E55aDGC
+AmowggJmAgEBMGgwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKjAo
+BgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjYgU01JTUUgQ0EgMjAyMwIQAZ6Vqszmp/3gGFW0sCFu
+eDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgahYSnm/7XCklCXTHWdViW6kae3ZW
+viTU2e++BJaSGZcwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQw
+OTExMDQzMzE2WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJ
+YIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG9w0BAQcwCwYJYIZIAWUD
+BAIBMA0GCSqGSIb3DQEBAQUABIIBAFGRWlfStfRLmSD2mHOGLJBlTttYBcppDsuvM0vl9bDaOOkz
+/dlGI5yt4LLlkweUO2VzAtcCQrIYL6wLjXGy92q5+KygROUxoVOH8S417/GLpYU3PyalrDVQ4Kll
+gw42zFkBoF/hzZhRRqPAjkl5AKH3bmrLOA3JkQxHBB/tw8tVIa6uuPglcnwMujB38XNWap6bkp+3
+SMMcU8Bopn7kpHxnOyGzypp/PGMJedKGDYiay/iXoNCMCJ9aQOz86kt6pF4zUjYfZ6tI+ckt19fN
++cqWFUzJDEydT/QOAKwkw77GFMNzZjf/+YdV3k0gSPwDF+UY5GtX1dTzL4Pr0YlU4BU=
+--0000000000001c0ec20621d07dee--
