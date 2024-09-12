@@ -1,160 +1,145 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFDB1C0DC2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 20:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4ED1C2333
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 21:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726171998; cv=none; b=YSqwngXTltWzN2Xhz/ymqNdGSAT0uZoRNmqJD4fY90Yubqc4jWHODHFUhC4zpJOWO6lKic51/iZqSUOKISHM8FTP13pWurjRz8YvDXBbzMoH/WrYpBP0th5hsCW6JRxunTwTbNU6+pRBCe1e5JZcbi2HC6VgAF/5jgtGwQ7HjL8=
+	t=1726175285; cv=none; b=aLc7BGBSiagyWriZ88sjbVjYktvLDMJkmTW4RiF6/7XoJUquvx0g3GP2WONMoTTEw7QMes3WVI4BGRGMmW42EDbODRoiQxrhhoxspph2a7BEiJz4L1HK4WLUfgdwypooR6loylsiliPhH8gXOn3tA4iYg2v3njpUQ6Vd+uKPMZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726171998; c=relaxed/simple;
-	bh=6okTQsa8rgzwLl9EMROLD96VdwwjEKOOEENsTmnsbU4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pe0wzkCFNWbX0GrW9luf1iT+CTmu47622XQq3df2m8RWkkSA9gNJ+HduUdb/zgNAnE1WhdCOTZEpZjk7vODZ1uFjfIZI6k61/hr6xSeiAuG1jL2AhNyCrtqJ2RS95zlMCZvc/8KjfKomUIiVNzte/Wm0wSREXJqKjI0MR69BqhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=bNQzKKXp; arc=none smtp.client-ip=140.211.166.136
+	s=arc-20240116; t=1726175285; c=relaxed/simple;
+	bh=DOe095VgAmtmG/Rr+qKsLs+VDn98WoUUMfuTo90VSAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hZJ/tfExrdgS2av2qyO2IZe12yUkVe/OI1VU2XOZLdaOXHOeNiDe81+wI5B18exquW+T0+IDVbW8nt/RJ0V2l9p/QuU9T4LI5QYNH4rhM6IuOxK46lJafJ/+cEzVD1yV5szYEnOl8TGSa29G6mwJ3l76YkkAd7V6QNXnifYXNwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDfjWBZ4; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="bNQzKKXp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDfjWBZ4"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id A5C4E6119E
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 20:13:16 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id E9E3A4098E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 21:08:02 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id U_Ip3NonOYMe for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Sep 2024 20:13:16 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42c; helo=mail-wr1-x42c.google.com; envelope-from=ricardo.marliere@suse.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 94F546066D
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 94F546066D
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=bNQzKKXp
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 94F546066D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 20:13:15 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-374c326c638so127346f8f.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 13:13:15 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 0geUeoss3TLl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 12 Sep 2024 21:08:01 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::834; helo=mail-qt1-x834.google.com; envelope-from=lanzano.alex@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 83421408D6
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 83421408D6
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=LDfjWBZ4
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 83421408D6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 21:08:01 +0000 (UTC)
+Received: by mail-qt1-x834.google.com with SMTP id d75a77b69052e-4581d2b0fbaso1604791cf.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 14:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1726171993; x=1726776793; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6/HJTiMeQZOHmvpm6Ii84I2SgNaOByjP7wc4AbEy0aE=;
-        b=bNQzKKXpjtY2u4SQ2uCZY9timyAFJfl+AqaZ/MTAJgC2zo3piet/RU+ICtMmwz6lYv
-         iZMwicyttgD/hms4gCAqs5N8vXNk3lNkUlPOhWxjitHeTaxp99jdKRGrQx0eDXYA9ccn
-         dacXYQFDOthWgZTgrVOqNzmR0X2FvDuT4GfEjG2T/N1bAfRoUJR1ulcT1dx9+c22Ia2s
-         smBmnlWF2Wr9Z57Q/qG1RYeA2fwTXsvLDJtgamMGRKT8cSU4UOzuDlYNGgqwF8WNEhpX
-         O3rpWagVWKGRgdXglMr5pC5trl8RAodxd25HNb0zkuR2SjGjhaj25oHL9yUJ1D4V1aaj
-         VzcA==
+        d=gmail.com; s=20230601; t=1726175280; x=1726780080; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/aq36KinHoVqKCX4QGWHIhVOHyI731EkwzmAhEoQDUo=;
+        b=LDfjWBZ4o2INRGm/h5qGkjyQaHSrYWSBnVnGX5k8FuH8mYxE2B0aPR6uBvrtru9wqD
+         b1Yt+UIZkNJalRa1clfCcGyqPkzVgLbolBwPCA6lKirCFg6xDJQFyKPgC2ti1p/rqYcr
+         qWIesVzZdRp0/ofpCcndWXbqaYrkPU20h2a1d/v8efP/XRKPv1XQcIlEzJrJqb4sX3Ex
+         zj9NUCcjl4WjZEk3LIHxai/oHdVMaDFz40aJVQ//5x8HY3xKaKpNnaINiqrEWk1fcg9H
+         B2iKacP3OYnfd5felV0QSSaf2BzXz78s9ggwVs8mXJkXIaHEeMtle5MKNr4lX7/Qz24X
+         78oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726171993; x=1726776793;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6/HJTiMeQZOHmvpm6Ii84I2SgNaOByjP7wc4AbEy0aE=;
-        b=lpN8VHE9hMzTVZKoFg6Jll3ebNyQtqBqC5lCsfHk4HusBVLM2F+BBBpBl9XjLdDkCB
-         p8QEWTHRcQuzquITjb3dr20Y7shKae5wGSHkbA3GwRv5J/BmGyy7LHh/MbUVHRAuvhln
-         6ynUEelKkBt6iPkCvMpdcJMe2QBiBq+cxQy4IZLXG9L76q4HZk2yi2MboEG7QTbb9t8Y
-         7lvHvVoC4TVtarWatt89MxUIjUs15WQX8jkYMp7y6MY2upGMUtomUQlXB3b9yn2lNAEw
-         Mqs6WnGTb2/tXjNMWk4EIsEJXb+n2Dwce2I1xt0QNMMwV9fL8ZKXiU9pGC/LRfKNV8NP
-         3GVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVgXxOoxFtawlGHKiWq/o+jZfrnVBYKldKCbxN8j7N7bpQVXALFkWTbq6ty6iEAsUq6M/9Vk34gJAkzN8NIWorsfr4aPA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxNf4X+qUsaW0dkLN+Tb9DyeJvPzZl2jZbxvOhamsdDE39X/q4D
-	rddBq7TFoSwraTGHQxw3DbohA02QMUSwbRQA3Af52xOCgEFSeZmWbpHUCV6JzLY=
-X-Google-Smtp-Source: AGHT+IFuESW6u6fBWF/+LEDQ2JIBb+AK4uD5H903pPBCcN1b1sjbV/Ut3OwzKvhomN0NC4gqB+byJA==
-X-Received: by 2002:adf:e80d:0:b0:368:3751:de3 with SMTP id ffacd0b85a97d-378d61f1f9emr189043f8f.31.1726171992398;
-        Thu, 12 Sep 2024 13:13:12 -0700 (PDT)
-Received: from localhost (200-158-197-118.dsl.telesp.net.br. [200.158.197.118])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076af44f91sm17798075ad.63.2024.09.12.13.13.11
+        d=1e100.net; s=20230601; t=1726175280; x=1726780080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/aq36KinHoVqKCX4QGWHIhVOHyI731EkwzmAhEoQDUo=;
+        b=dQrunl7099VHdmPbtpXZXurESWjrJgHLo+XxPkjHGZ5L1khL60ZOdvTvKG8DOfsR6u
+         K/Pp3fuaDmUDuK1eKJCubQ3K3u93Qf2VJujRkM1UW4vkZPJz962+DVDhe9pGeOQdbLsa
+         +HPEHw97c/t/3b+inPZIvMKk7c2ywyjKSHKkQP+600yaIaIVwqWJKVyjvdcb6kGxuEY9
+         HjtAcYgFDcU5diE6oq/I9J18Tyb4q/OcCAaVNqEHFeOq5jiVgyDCKoL69mHj7lgDQ6aj
+         bfX8OTO+Fu6j6GKTz2ZIS8OoEUu10revuC+4+raOFoK+JqHPSnQloSiBGLUDzoYzZ3bz
+         KW9A==
+X-Gm-Message-State: AOJu0YxwipUzFb3kJbQwic3ZoYLsoYP8ASTmAP3ZpYDpaBJxRLtZ/4PN
+	w7XTfc3oysPfot4s8hPgvP2/cN+/RRV6WTaO/pe2eNOH6BaQE+uq
+X-Google-Smtp-Source: AGHT+IFZJqS29OHudrWu8tsBBiSakxrEbp4C5mHl0PcTRt3nDXqY7x4EsdbZMNKRtrMATP4mSrzk8g==
+X-Received: by 2002:ac8:5a46:0:b0:458:216f:96ef with SMTP id d75a77b69052e-4599d2bbbc2mr7607371cf.57.1726175280033;
+        Thu, 12 Sep 2024 14:08:00 -0700 (PDT)
+Received: from localhost.localdomain (117.sub-174-193-5.myvzw.com. [174.193.5.117])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45822e613eesm56959721cf.12.2024.09.12.14.07.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 13:13:11 -0700 (PDT)
-Date: Thu, 12 Sep 2024 17:13:08 -0300
-From: "Ricardo B. Marliere" <ricardo.marliere@suse.com>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: gregkh@linuxfoundation.org, skhan@linuxfoundation.org, 
-	rbmarliere@gmail.com, linux-kernel-mentees@lists.linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: octeon: Use new initialization api for tasklet
-Message-ID: <wpmjgqvxzzowc36wtwxlht23pvvuzdpijhtkiojlayr66cktxp@dnj2ss4fu6x7>
-References: <20240912172231.369566-1-abhishektamboli9@gmail.com>
+        Thu, 12 Sep 2024 14:07:59 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: Alex Lanzano <lanzano.alex@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jagath Jog J <jagathjog1996@gmail.com>,
+	Nuno Sa <nuno.sa@analog.com>,
+	Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+Cc: linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] Add I2C driver for Bosch BMI270 IMU
+Date: Thu, 12 Sep 2024 17:07:17 -0400
+Message-ID: <20240912210749.3080157-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240912172231.369566-1-abhishektamboli9@gmail.com>
 
-Hi Abhishek,
+Add basic I2C support for the Bosch BMI270 IMU.
 
-On 12 Sep 24 22:52, Abhishek Tamboli wrote:
-> Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
-> introduced in commit 12cc923f1ccc ("tasklet: Introduce new
-> initialization API").
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
->  drivers/staging/octeon/ethernet-tx.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-> index bbf33b88bb7c..ae1bac99b461 100644
-> --- a/drivers/staging/octeon/ethernet-tx.c
-> +++ b/drivers/staging/octeon/ethernet-tx.c
-> @@ -40,8 +40,8 @@
->  #define GET_SKBUFF_QOS(skb) 0
->  #endif
->  
-> -static void cvm_oct_tx_do_cleanup(unsigned long arg);
-> -static DECLARE_TASKLET_OLD(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-> +static void cvm_oct_tx_do_cleanup(struct tasklet_struct clean);
-> +static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
+References:
+https://www.bosch-sensortec.com/products/motion-sensors/imus/bmi270/
 
-This fails to compile for me:
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+---
+Changes in v4:
+- Include linux/bitfield.h to bmi270_core.c
+- Add comments documenting sleep functions
+- Increase configuration delay to be inline with datasheet
 
-In file included from ./include/linux/kernel_stat.h:8,
-                 from ./include/linux/cgroup.h:25,
-                 from ./include/net/netprio_cgroup.h:11,
-                 from ./include/linux/netdevice.h:42,
-                 from drivers/staging/octeon/ethernet-tx.c:10:
-drivers/staging/octeon/ethernet-tx.c:44:52: error: initialization of ‘void (*)(struct tasklet_struct *)’ from incompatible pointer type ‘void (*)(struct tasklet_struct)’ [-Wincompatible-pointer-types]
-   44 | static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-      |                                                    ^~~~~~~~~~~~~~~~~~~~~
-./include/linux/interrupt.h:665:21: note: in definition of macro ‘DECLARE_TASKLET’
-  665 |         .callback = _callback,                          \
-      |                     ^~~~~~~~~
-drivers/staging/octeon/ethernet-tx.c:44:52: note: (near initialization for ‘cvm_oct_tx_cleanup_tasklet.<anonymous>.callback’)
-   44 | static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
-      |                                                    ^~~~~~~~~~~~~~~~~~~~~
-./include/linux/interrupt.h:665:21: note: in definition of macro ‘DECLARE_TASKLET’
-  665 |         .callback = _callback,                          \
-      |                     ^~~~~~~~~
-  CC      mm/memfd.o
-  CC      fs/proc/fd.o
-  CC      fs/jbd2/transaction.o
-  CC      drivers/firmware/efi/libstub/gop.o
-make[5]: *** [scripts/Makefile.build:244: drivers/staging/octeon/ethernet-tx.o] Error 1
-make[4]: *** [scripts/Makefile.build:485: drivers/staging/octeon] Error 2
-make[3]: *** [scripts/Makefile.build:485: drivers/staging] Error 2
+Changes in v3:
+- Remove code pertaining to buffer / triggered buffer
+- Move register definitions from struct to defines
+- Add bit mask defines for registers and replace hardcoded values
+- Create macros for accel and gryo channels
+- Code style cleanup
 
+Changes in v2:
+- Remove spi example in binding documentation
+- Add more properties to i2c example in binding documentation
+---
 
->  
->  /* Maximum number of SKBs to try to free per xmit packet. */
->  #define MAX_SKB_TO_FREE (MAX_OUT_QUEUE_DEPTH * 2)
-> @@ -670,7 +670,7 @@ void cvm_oct_tx_shutdown_dev(struct net_device *dev)
->  	}
->  }
->  
-> -static void cvm_oct_tx_do_cleanup(unsigned long arg)
-> +static void cvm_oct_tx_do_cleanup(struct tasklet_struct clean)
->  {
->  	int port;
->  
-> -- 
-> 2.34.1
-> 
+Alex Lanzano (2):
+  dt-bindings: iio: imu: add bmi270 bindings
+  iio: imu: Add i2c driver for bmi270 imu
+
+ .../bindings/iio/imu/bosch,bmi270.yaml        |  77 ++++++
+ MAINTAINERS                                   |   7 +
+ drivers/iio/imu/Kconfig                       |   1 +
+ drivers/iio/imu/Makefile                      |   1 +
+ drivers/iio/imu/bmi270/Kconfig                |  21 ++
+ drivers/iio/imu/bmi270/Makefile               |   6 +
+ drivers/iio/imu/bmi270/bmi270.h               |  62 +++++
+ drivers/iio/imu/bmi270/bmi270_core.c          | 258 ++++++++++++++++++
+ drivers/iio/imu/bmi270/bmi270_i2c.c           |  48 ++++
+ 9 files changed, 481 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iio/imu/bosch,bmi270.yaml
+ create mode 100644 drivers/iio/imu/bmi270/Kconfig
+ create mode 100644 drivers/iio/imu/bmi270/Makefile
+ create mode 100644 drivers/iio/imu/bmi270/bmi270.h
+ create mode 100644 drivers/iio/imu/bmi270/bmi270_core.c
+ create mode 100644 drivers/iio/imu/bmi270/bmi270_i2c.c
+
+-- 
+2.46.0
+
