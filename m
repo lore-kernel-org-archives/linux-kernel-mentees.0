@@ -1,122 +1,142 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019531B982F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 14:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD7613D245
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 16:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726152784; cv=none; b=V4yrKKuKttbEVTY+labmvARva0HCFTbtZPj4fAlnTnpHCreS7d1pP0RsyeiQ3HruQOcnzBggGVNc6Vs+a9JpwDAgjDJog+X43GbzpmCxGch+5U49j1tckG2ddiM0a3jBWJyXhGLan+zzNrCtYNtjrECRkr7adxuOmNhVMbRBVCk=
+	t=1726157291; cv=none; b=nuBXVsBZbdS69qC5BPMZn801nEOCXeiZgKakT41MX3APh0IELNj6QOIT5c0c/T8iauFwhC6ZlzDnYdhmbESyfRjsq8mfi5s+sala7ufghCWHym4S3iO2jOdfIkC1HyP1FfvzHx3R+vgCpYdxzh7gEBUkMrfMLh+7210jg9zUNM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726152784; c=relaxed/simple;
-	bh=OWL4mlcwtG9tysqDuntuby0lkx3kp3yrJUTlD+NSAk4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MujvL+bp60PZUJRz+Rci7tk2+w8nuSNf8e5kvTbjMdrYro5pBcLBtRDE1VqZMPpm3JuC89U67RidbnkL7JujUVMaH5WYojuFw1DKeFJt0rSskr+Ai6lq5flfrxZ6zxJNT/fmHuiqQP90uR67VPBVbXEx8G1of0vfXCTjMN+80I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mQf6zqjQ; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1726157291; c=relaxed/simple;
+	bh=jlDv07f0uJH2tvHJ8Q3I14k6ePq27Cv6MvyBrLPvYKo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BH2/loXxaeCo01ucI/VnDgjc7UadedYUf3c8xprKY2KkGHKsf+EPSeZpIY/96Ua7Wi4JsSlWoi3ldBcru5FroEcBkc+PNw7V6eMOWFAaUB9haiCo746vUx9CUhUdHQQlTMc/CpbH4Ska4iMFHtPXCCOQ1NkP66bLJmyv2hOFpHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HGG1djDt; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQf6zqjQ"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HGG1djDt"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 8515041047
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 14:53:02 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 7A183406FC
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 16:08:09 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.101
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id lF-UuOAp9WN9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Sep 2024 14:53:01 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1034; helo=mail-pj1-x1034.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 8235B4105D
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 8235B4105D
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=mQf6zqjQ
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 8235B4105D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 14:53:01 +0000 (UTC)
-Received: by mail-pj1-x1034.google.com with SMTP id 98e67ed59e1d1-2d8a54f1250so742316a91.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 07:53:01 -0700 (PDT)
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Kldxjfx1Rs89 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 12 Sep 2024 16:08:08 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::229; helo=mail-oi1-x229.google.com; envelope-from=skhan@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 734B3406FB
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 734B3406FB
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=HGG1djDt
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 734B3406FB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 16:08:07 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id 5614622812f47-3e049185cfeso456045b6e.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 09:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726152781; x=1726757581; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+5IKbYoDJEP2KO85oswQmEdobyY+Md1ZqhM7AUuMvg0=;
-        b=mQf6zqjQbhPCZNyK1gRggeg8It5KL5sua+lBVxpOiBc/VaOpMz5HVd2xomKuCg5TXx
-         9w4naKQFzA2I2Zkqkz+LCSCeizXjDht9zvkPbNrGhFPH6jDwHt+xSQOAlbeiSuB/6dyG
-         oTzJ8e0uijH9FS7ncRhxG7OV0187rAGgOw09FUeKwxm6+WbQsx5vBv5DugmKN0F370O9
-         uyL45+K8fk1lPud3vWAQwflLmqdosrf9ylSxEYquNRHtjyYupDM0GSvxz1NgKnFW/h2I
-         dFOx8uKxjsUt3bdmAJmYkO8Sf1/RdWkImYbvPu5xUXVrSAx6Wa7/Fbw+wKtV6XqpssHO
-         RvLg==
+        d=linuxfoundation.org; s=google; t=1726157286; x=1726762086; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NI7OEbpTh45hhxXq/OOmTMo70izGjSuZNxMT6AI6//o=;
+        b=HGG1djDtAKeeNK0taFJBW4dgpR1Nu9TrKTDRMGSd/8QojRbMWBgf3YGm350q3JoLzn
+         03GC4tN2YTmQtqBVcULG+P2hUO7+zp6M9XsLrbLIwwdTsYEFau2wvHTyuf5xjpyL/Bz+
+         QyfmCZfBbzzq557tyPoiu4VUbx8Xje+UIjlWM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726152781; x=1726757581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+5IKbYoDJEP2KO85oswQmEdobyY+Md1ZqhM7AUuMvg0=;
-        b=fr1Cx/nIsYYF/XqlAMFvc5OhYA6UI2JnU4us0XicChj+oNinxH8FgyNEsk/jut1X6B
-         G5bh3rcDrGVNdlQklGb7I2QVHf1NNslHHeaYZeWbaGEAH6x2jw2qgtr/mdENaHtthXyu
-         yeg30+vWEis6yup7G6puhYIgIa3rifOx4wBqBvTJK+FFg6tX+exhFZpIVDgNfK4xlkVE
-         6clKB5KhIs+kIH5A4awB+5th1f/p/Kjwzcy13G7OcaOlELmPrQOcv/whdBU9U9o2x69V
-         YSC6bbZb7jJ/Bn496hjWWgeDW46mG9w+NcoxeXQ4kLK59iGS1TZSTdqdVaP8bqrtt3Tg
-         hjFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhqvHTTATzCsrNCm16XNBAa4ElnGkFE+v9fkj4XahDjPO/e2BuUwNz87opfbmLiVEePjFeHK1E10+RoCq9k+7VkAudYQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxgBfp6qd5ePY290oLZhnyCdShZSc0QFj6aHd0qWkw8WEYWeYU6
-	RdwZIZwOcF+L6zwvvktpTALxcU+3u6ntJc5yZJ4PCZzbddiO3qLe
-X-Google-Smtp-Source: AGHT+IGnHgXzCoYLfVO4IAmPffp9UdTT8UdZ3TotNadEvQeLFNoK2/xvDlu0w5z7lWOj456UG/fd0A==
-X-Received: by 2002:a17:90a:3ec4:b0:2d8:8509:85d1 with SMTP id 98e67ed59e1d1-2dba00826d9mr3133023a91.38.1726152780589;
-        Thu, 12 Sep 2024 07:53:00 -0700 (PDT)
-Received: from embed-PC.. ([106.222.232.184])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dadbfe4b41sm12760161a91.8.2024.09.12.07.52.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2024 07:52:59 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org
-Cc: skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND] usb: storage: ene_ub6250: Fix right shift warnings
-Date: Thu, 12 Sep 2024 20:22:47 +0530
-Message-Id: <20240912145247.15544-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1726157286; x=1726762086;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NI7OEbpTh45hhxXq/OOmTMo70izGjSuZNxMT6AI6//o=;
+        b=SvQKYLpbb7v903lFywHvcg9odgwkZxa3hz9drTUroRt+qd4t4TIh2n52HkIYFmLoES
+         ODTrQ/QXHg1dIE1A73XEIEHkID8PZPtH35kYl1PZz38NvZEEH/hh58//LNupnA7rD6rE
+         yt4+fsATGK8RLQCadCF3O6FhN5UXc+WGtq17hu0ziar1SrDcRP946aNSadcjRGZUp2DG
+         xfZx6nZ6xueDdUMl+XG/nkQ7Gpk/X+o1yNGurEwADoIEb6Z3GTVSTkYdC9UcwHTGbnrj
+         DA85PrqUk5Mya0reWolbvru1AR1l5sF16q7cnN3zK+XuXOhStdjMzpeqUrSctwd8wM9N
+         UhZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWjEuWCsxu3sitZNT/hPQrEwk5yJOtTls8oHEdIAlFEsZGx6hHNLogfl4LiqNhHUyMPOJGXPCGOcVib3DU1ttv0yzSxYw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxnxKSVpvpF5pEctMrXzHBCRDULJp7QnWNmvNod3vOfGLfyKHRK
+	4RmRVznYad7fU3Pn0ZxQ9MEOwzSOElPsI9D0nMYJ5+Gxa3QQThQe/NTh1f317nwflg==
+X-Google-Smtp-Source: AGHT+IEeDlnxBgeSMcMWoxZbKQaLPEEou9RlVyGheJGyi3fFx2gRYmz9PmkXaDTlKl5PVSGqX4pVSg==
+X-Received: by 2002:a05:6808:2021:b0:3e0:6fd2:b7d with SMTP id 5614622812f47-3e071aab5bamr1978744b6e.22.1726157286408;
+        Thu, 12 Sep 2024 09:08:06 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4d35f948ecdsm658153173.163.2024.09.12.09.08.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Sep 2024 09:08:05 -0700 (PDT)
+Message-ID: <b207948f-c8e8-4291-bb27-de3b6fa10e04@linuxfoundation.org>
+Date: Thu, 12 Sep 2024 10:08:05 -0600
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] lib/math: Add int_pow test suite
+To: David Gow <davidgow@google.com>,
+ Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+Cc: brendan.higgins@linux.dev, rmoar@google.com,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-kernel-mentees@lists.linuxfoundation.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240910011036.15117-1-luis.hernandez093@gmail.com>
+ <CABVgOSmpS4GN-iskm2DzebkxF-vcA3iJuba3YnicdNYwy+8mbQ@mail.gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <CABVgOSmpS4GN-iskm2DzebkxF-vcA3iJuba3YnicdNYwy+8mbQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Change bl_len from u16 to u32 to accommodate the necessary bit shifts.
+On 9/10/24 22:33, David Gow wrote:
+> On Tue, 10 Sept 2024 at 09:10, Luis Felipe Hernandez
+> <luis.hernandez093@gmail.com> wrote:
+>>
+>> Adds test suite for integer based power function.
 
-Fix the following smatch warnings:
+It would be nice to see more details on what this test does>
+What's the output look like?
 
-drivers/usb/storage/ene_ub6250.c:1509 ms_scsi_read_capacity() warn:
-right shifting more than type allows 16 vs 24
-drivers/usb/storage/ene_ub6250.c:1510 ms_scsi_read_capacity() warn:
-right shifting more than type allows 16 vs 16
+I fixed it up with the details from the Kconfig. Please do make sure
+to add test details in the commit long in the future.
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
- drivers/usb/storage/ene_ub6250.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There was a trailing whitespace I had to fix. Run checkpatch to verify
+that there are no issues with the patch in future.
 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 97c66c0d91f4..ab6718dc874f 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -1484,7 +1484,7 @@ static int ms_scsi_mode_sense(struct us_data *us, struct scsi_cmnd *srb)
- static int ms_scsi_read_capacity(struct us_data *us, struct scsi_cmnd *srb)
- {
- 	u32   bl_num;
--	u16    bl_len;
-+	u32    bl_len;
- 	unsigned int offset = 0;
- 	unsigned char    buf[8];
- 	struct scatterlist *sg = NULL;
--- 
-2.34.1
+>>
+>> Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+>> ---
+>> Changes in v5:
+>>    - Fix kernel test bot warning
+>>    - Rebase with latest
+>> Changes in v4:
+>>    - Address checkpatch warning and make kconfig description longer
+>>    - Use GPL-2.0-only for consistency
+>>    - Spelling fix fith -> fifth
+>> Changes in v3:
+>>    - Fix compiler warning: explicitly define constant as unsigned int
+>>    - Add changes in patch revisions
+>> Changes in v2:
+>>    - Address review feedback
+>>    - Add kconfig entry
+>>    - Use correct dir and file convention for KUnit
+>>    - Fix typo
+>>    - Remove unused static_stub header
+>>    - Refactor test suite to use paramerterized test cases
+>>    - Add close to max allowable value to in large_result test case
+>>    - Add test case with non-power of two exponent
+>>    - Fix module license
+>> ---
+> 
+> Looks good to me, thanks!
+> 
+> Reviewed-by: David Gow <davidgow@google.com>
+> 
+> Cheers,
+> -- David
 
+thanks,
+-- Shuah
