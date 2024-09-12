@@ -1,85 +1,62 @@
-Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F402AF16
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 01:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB03188CA7
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 05:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726104263; cv=none; b=WF28cYUl3xkIwm0UJaKU5N7lA/GHsLAvQVjsEE/Z9LNffPV4TcwJ90Pik4crajb0TeIwZFH/8ueQh6BqAvYHB6pH8cblz0W51MvO1yjuz8NZLA9Tz8QIoGWtg5bTZff6Vp+riznTsgjLI6KblULG6MskWnwCy4KTMz4OYUPhBgA=
+	t=1726117613; cv=none; b=V0qPbRDEIQcYmULwTNTVXkpmKSVI00o/PV3SQS7DDOxejtqQOVFKMflWdZMCMPn3GkVttiGJiZKUWzdBX0JQjJP/XL9z+Myk/d9siVP4QDtf9iua69TQJ7mqZuKynrDqOkwGNE8tZ0Em0Mk7iK/haGLzEG08aYXF+OQ9x7eE7XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726104263; c=relaxed/simple;
-	bh=WCkz1wA2fycZBda5JGyZBgMJFp+mm9qFOsBC82gpG+0=;
+	s=arc-20240116; t=1726117613; c=relaxed/simple;
+	bh=PSBPRfpXCTFazNXYG5W2cn6TzhVgjMf+nyJ5Kwf2BV0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c1VO9/K0+FcdHdGmmOYtiTUGmNOTG4TZ6Kyf7XbXPajO+AvzrF3gftlXmab8GgOf/2ACErpAix2EBrWqUDsbbAUv3fJktPrrzI3vMBS6kMyV/xttBm9F2CIK9Pgei7/YLLt61/35V5qnH00t4JZQ4qxMgTLJL5gU13TouVop/jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=A+/gTCba; arc=none smtp.client-ip=140.211.166.136
+	 Content-Type:Content-Disposition:In-Reply-To; b=Joz2GYF0OKxeeFZEV81RDyesW8To6C6QHBGePEWeEvd560V6xN1XdXown/OFcYM8KudXtvfpdQiFia4MWB6vfvzeo+FU7SEhgYAuQ/5HiZZZQexem5U2ivDmZHOPFvLGDMX7RUzCe6u2l0oNdLYCKO8UxjqcJbrUmh6671q1h9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a7opEU62; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="A+/gTCba"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a7opEU62"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp3.osuosl.org (Postfix) with ESMTP id BED666065D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 01:24:21 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id BBC9780AB6
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 05:06:51 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2
+X-Spam-Score: -4.401
 X-Spam-Level:
-Received: from smtp3.osuosl.org ([127.0.0.1])
- by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vAqqwuUOyVLZ for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 12 Sep 2024 01:24:20 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f2a; helo=mail-qv1-xf2a.google.com; envelope-from=stern@g.harvard.edu; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org 6A6C260646
-Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org 6A6C260646
-Authentication-Results: smtp3.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=A+/gTCba
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-	by smtp3.osuosl.org (Postfix) with ESMTPS id 6A6C260646
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 01:24:19 +0000 (UTC)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-6c354091616so3397446d6.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 11 Sep 2024 18:24:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1726104258; x=1726709058; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UOBcbGANHO6y2IqBbxXHcJn4a/lLLiljFUakrQAD5yA=;
-        b=A+/gTCbaadcxIfGjPhJ0qrtZ7TbjOZZJW9yFSUM2jnWOpkIuW0L3ODA5JCvTO71dNj
-         kKeaU0/IwXYjHyqKJTy1gwzYCbL0SXQQGUO5Ot9UMGrrjKUqgtfVsAvDql5HpB2lhm5j
-         Yyu2gCxTDbhZIYwDTgJ6xqumffIz+zV6emd7/iWZT5s1F16jUf9b+Mrl4VzK3oBUy2Oc
-         uMtXOfUiExpVKUCfJheOBYodSYCWz5KuAC8hOOaJ8/2s6fpxxGk1Defp2HyqUA9RGSGq
-         +ORBQ+D3Pz9uICkMWVysv5bRqXM5I4PlIRuMqSteOrZsCH8Q3XPyfdA0FJKiAud2VjCV
-         4zmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726104258; x=1726709058;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UOBcbGANHO6y2IqBbxXHcJn4a/lLLiljFUakrQAD5yA=;
-        b=mGKvPyfvTaM29NG4roM9+GLRtCgbpQOBo5DOrWKkFArdY32buSV8HexQF4vCiXD/X7
-         OeLlcV3dV8aI1EEUtjvnSbKhCx4Q/6mcZTbD1s9Vpux/nENoV0eKJVLjYa2Gkjh3N1Zw
-         UrWHwpmUnQ6rlLbX6OZnu0IvmCte0p4AaWXiH7x6DzPGi/Er1eBG6a701CB4O3prmc7d
-         qDrNZbJF+U5/mXpHZxbHUHotqoYmNHV64E3WVd0KwajiwCtphnO0jrQm9Pyj5yxgTpAT
-         E+/FTplElaiguDERh+BiCZdEBUlT6CELnouqsUFT5dy/78eDcKemVP9JCpuSN1USFv4t
-         SZ7g==
-X-Forwarded-Encrypted: i=1; AJvYcCWGP9lr4+eL34L2RKnWTD9O7MgjA0TP+uHpkqcrxNrZeQUR//cGlYGAafE2CPhCOs9lp0CYLPX3fCio7Hi1gSdqpu93zg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwXRVieVGDrydJhHeOD/klr625Lo+4mQgF7sRglLbFdBz46jrbQ
-	cbf+hhsHmzW2XD/TG8OFICd3PVXEK5O/9AGhkTkBa2exsHzjjAj+CShArNxX7Q==
-X-Google-Smtp-Source: AGHT+IHWQKUeoPplqrp5x/XBdOkpDoc8ofhwXw7/GlSPZnBvRMV8tbR7gftUmg6tL5QhMLHyJVJdfQ==
-X-Received: by 2002:a05:6214:33c2:b0:6c5:64b2:71c3 with SMTP id 6a1803df08f44-6c57352e2a7mr24620406d6.25.1726104258431;
-        Wed, 11 Sep 2024 18:24:18 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::ff03])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c534786129sm48099016d6.135.2024.09.11.18.24.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 18:24:18 -0700 (PDT)
-Date: Wed, 11 Sep 2024 21:24:14 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>,
-	gregkh@linuxfoundation.org
-Cc: usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id kwrLYHc_P9Np for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Thu, 12 Sep 2024 05:06:51 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2604:1380:4641:c500::1; helo=dfw.source.kernel.org; envelope-from=gregkh@linuxfoundation.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org E57B380AB3
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org E57B380AB3
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=a7opEU62
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id E57B380AB3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 12 Sep 2024 05:06:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 24CCA5C53FA;
+	Thu, 12 Sep 2024 05:06:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E54B9C4CEC3;
+	Thu, 12 Sep 2024 05:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1726117609;
+	bh=PSBPRfpXCTFazNXYG5W2cn6TzhVgjMf+nyJ5Kwf2BV0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a7opEU627fSf6p/Dp4wCT3UqZKD4Oqa97nQxj+sRqTmijf2HMv2X5fTBy7Hqh0tiX
+	 XF5+cEV34zubsNMI2Z7JyQwhUOZu0kz18YlT9t4oKhARbP+otA6ZoPXmk868EwFxST
+	 vjnYXbvwGawdYUgDuxDr/WXOhliIvzu4ow8GQHEM=
+Date: Thu, 12 Sep 2024 07:06:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Abhishek Tamboli <abhishektamboli9@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	usb-storage@lists.one-eyed-alien.net, linux-usb@vger.kernel.org,
 	skhan@linuxfoundation.org, dan.carpenter@linaro.org,
 	rbmarliere@gmail.com,
 	linux-kernel-mentees@lists.linuxfoundation.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] usb: storage: ene_ub6250: Fix right shift warnings
-Message-ID: <46a5f308-5d0a-4e41-82aa-5bd9cf81d35a@rowland.harvard.edu>
+Message-ID: <2024091228-bootie-name-4867@gregkh>
 References: <20240729182348.451436-1-abhishektamboli9@gmail.com>
  <e72cc56a-3066-4cb8-848d-bfe27a48c095@suse.com>
  <ZqkpOQIjcBSAg8rC@embed-PC.myguest.virtualbox.org>
@@ -102,11 +79,40 @@ In-Reply-To: <ZuI5nptdk+BcXh+R@embed-PC.myguest.virtualbox.org>
 
 On Thu, Sep 12, 2024 at 06:15:18AM +0530, Abhishek Tamboli wrote:
 > Hi Alan,
-
+> On Thu, Aug 01, 2024 at 10:51:35AM -0400, Alan Stern wrote:
+> > On Thu, Aug 01, 2024 at 08:54:18AM +0200, 'Oliver Neukum' via USB Mass Storage on Linux wrote:
+> > > 
+> > > 
+> > > On 31.07.24 20:19, Alan Stern wrote:
+> > > > On Wed, Jul 31, 2024 at 11:34:45PM +0530, Abhishek Tamboli wrote:
+> > > > > On Wed, Jul 31, 2024 at 10:04:33AM -0400, Alan Stern wrote:
+> > > 
+> > > Hi,
+> > > 
+> > > I should make my reasoning clearer.
+> > > 
+> > > > > > Replacing the variable with a constant won't make much difference.  The
+> > > > > > compiler will realize that bl_len has a constant value and will generate
+> > > > > > appropriate code anyway.  I think just changing the type is a fine fix.
+> > > 
+> > > While that is absolutely true, it kind of removes the reason for the patch
+> > > in the first place. The code gcc generates is unlikely to be changed.
+> > > 
+> > > We are reacting to a warning an automatic tool generates. That is a good thing.
+> > > We should have clean code. The question is how we react to such a report.
+> > > It just seems to me that if we fix such a warning, the code should really be clean
+> > > after that. Just doing the minimum that will make the checker shut up is
+> > > no good.
+> > 
+> > With this fix, the code seems clean to me.  It may not be as short as 
+> > possible, but it's clean.
+> 
 > I noticed that the patch has not yet been pulled into linux-next, 
 > even though it has been acked-by you for over a month. Is there 
 > anything else I need to do on my end?
 
-I don't know what the story is.  Greg?
+Yes, please resend it, it is long gone from my review queue, sorry.
 
-Alan Stern
+thanks,
+
+greg k-h
