@@ -1,608 +1,110 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD1D1CFEA0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 13:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E6F1D12EB
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 16:45:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726320467; cv=none; b=XIwbIzTSkcZKL/d/DIDj5oHhMUMeSPhJPZa5EtLNqDZdP/PftE986hxVHb+YSeyHHbX1IDnCyaWFEczsXCIQ0tHUlWMJBWEVE61ZiUH4izmXe51j9f9cc285/euPOjmfG6jp3ghsYXGURxNtsIaKYRCftIogGFi1mr3+O/zJ97k=
+	t=1726332305; cv=none; b=hT5DGRhkWJAhzh1ZkpWWPex7KFHiPOp+PpZT4dJ5NSM10HB7Dctk8t72S1t2fqpuLjcowe+HEb6a12YFszOZG3N8ClXcdt4hCkWjytDYd/zDT3Dn0wmY4vLo5Jng7D9zW/T2BnhAsZijkStAkpK5p/Qw/g0TxSv147tyP2c4KkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726320467; c=relaxed/simple;
-	bh=CltfCIwmJ9gTdLOuKsqwCDhjQQ668Etn27WjWdq8nFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QR76pM1iXawVbgXOjF1GJydlzXpXvF3IShT3d2TSR6dT45U0rO6Yk/htgtWBDrJUZRdzXan7UOXcZzBiwYhHFUgyc6d4wmuwFMhN2kaucUO1UyhNV9pVcSmdJNXbBKtOG01aIY/lYE3xssJh+eFHanIl6Tp+2pn4lviZbVhTmbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PWCGzEoK; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1726332305; c=relaxed/simple;
+	bh=VMBG2Dh3Zw7faqlpcqUYMWLfsHTm5HJFrtJVUFbwLYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eA9R+yzpHnuu0/Hsgq49yjIf2tljYkOQT9+AWBkpFHuqaMYVjLrGmDCwjivGPWqePcfB3eRWBa3CZgZ2kNHJ9Om8J4Hvsnd9PWjzSxxLqmLpXVt2Pe4tRvcAEjqFkwiwRcIaly50/G+1OoQKMwhW2PLIAh1D/suWSue16nXdbpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m8P7sF+u; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PWCGzEoK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8P7sF+u"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 275A581604
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 13:27:45 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id B1FAE840C3
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 16:45:03 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -10.792
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id xVPExYtxQBM9 for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Sep 2024 13:27:44 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org D220D815E7
-Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org D220D815E7
+ id 0GIYrqoH9xZl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 14 Sep 2024 16:45:03 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::1030; helo=mail-pj1-x1030.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 07E9E840C2
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 07E9E840C2
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=PWCGzEoK
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id D220D815E7
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 13:27:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id BE7945C10BD;
-	Sat, 14 Sep 2024 13:27:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 780BAC4CEC0;
-	Sat, 14 Sep 2024 13:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726320462;
-	bh=CltfCIwmJ9gTdLOuKsqwCDhjQQ668Etn27WjWdq8nFc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PWCGzEoK249129i3r4OdmbnkEy5kcpSAySANxTBO/f/A21ZlvI58rgtyBahLKRPkf
-	 ydncry8qwIX9vuziAO4OFiyS7WYSgBi76ecgXDbQ6T5B8BXPERB5ojRN+U4lS0FWdP
-	 HGyOMCgDUiJzNiMzKIPSqbQQttiEjJCbYK6ShDO3pDei2nXWVZ9ZHemxzw4otkxuLw
-	 UrLdVQiVIfQ60i/hgRcSWZ7rmSZCfgYoShygo+KaiBONEFt1rHXWLRqyoC8P+7tJG0
-	 0Bldn8qAns+Ao9sFFNLozrMLuHpopOuIBbz8UL89KMu/VBYGJlild7uEv5k9U0AFcw
-	 SAlChWDs0DTpw==
-Date: Sat, 14 Sep 2024 14:27:34 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Alex Lanzano <lanzano.alex@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jagath Jog J <jagathjog1996@gmail.com>, Ramona
- Gradinariu <ramona.bolboaca13@gmail.com>, Nuno Sa <nuno.sa@analog.com>,
- linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] iio: imu: Add i2c driver for bmi270 imu
-Message-ID: <20240914142734.4bcf14bc@jic23-huawei>
-In-Reply-To: <20240912210749.3080157-3-lanzano.alex@gmail.com>
-References: <20240912210749.3080157-1-lanzano.alex@gmail.com>
-	<20240912210749.3080157-3-lanzano.alex@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=m8P7sF+u
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 07E9E840C2
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 16:45:02 +0000 (UTC)
+Received: by mail-pj1-x1030.google.com with SMTP id 98e67ed59e1d1-2d87a0bfaa7so1695437a91.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 09:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726332302; x=1726937102; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jho1JF+P59lkbzGdVgYwLqxMLIAumaTqEKGdD7HjJX0=;
+        b=m8P7sF+urCrYyK17wpQqtCPcW60tSTlTLAd3cVGYkhDl0PdVp2RMH0CpBYyaG0A5im
+         reo4gGUijGXLBfNbf9N3/OHqOwP2BJbxZqzk9UQu/n5ZPqejqb6jRjyHwCAdjBAlZ9V/
+         EBVfk+5abPASCY76tk6woFG3lYemY3v7WaKLKrdakdWT/CRhMGyOmfytItMdU5JyFzlQ
+         WHdB/e9pigVjm7IKyU9kF4K0mXE8G430xSinlL2eE/Gvg79hoejVjmActYsLZgsgbRPk
+         bDedb4DutN6coscbq0JtgNc2FOmHmUdqWrfMHsZfDle3vLOK3X2Twh8nnos6702h9UJU
+         Dsmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726332302; x=1726937102;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jho1JF+P59lkbzGdVgYwLqxMLIAumaTqEKGdD7HjJX0=;
+        b=uEWA9hmrjKmkpmccENPOpLz4GPtWQUAjat7oK2yH2to1fgG+6qly+NqkQGJS4/XmzL
+         GqmByohwQMUo6oKPM1UkKwJbsQTKiCsZPlqYlW7epxVzGLdWeZgzljy+ocv/8Mvs8irE
+         i1WlHMzceL+EK2tHbg+KuPQPkLfI2CZ9UrTHX8skEaoNGlhtcEPZvaH9v55Dk3BKjiGZ
+         bL6v9UokLBfWRLuuM+DNP+PEoRos+r+BIAikqNL+Opiqe5ZPAmk2a7cIzQ2+p+M8g/pY
+         G0XwAmA+dG4wUs+LTiHOZ0i9uI7l12CD0zQFk+8qHG/ebIsSv7F63tt0CkOV6Cia78aA
+         rHzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUR+R797P2B3+Tkdz7S2v5318TgPUCzELNxNnIX1HIe/JdL6596ygdRwcSK7ziSX0iCg6d6Wv97FFk5UmV9KYLbOberkQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyT/rtnUkqiJsITYEomTk+8widU3LdSflndkx12/znShYm9X192
+	pGRp2iSgqpRtaQGuWAHxYDC0gop5sHD6HyTQD4wm+PkWNxwHu6k/
+X-Google-Smtp-Source: AGHT+IGlu9u+g3BPmkH/baJXqXWvTrZtLsscYZ70k87KumegUKrIqkB8liTQ2W23TEeaRKBwr286pA==
+X-Received: by 2002:a17:90b:1c92:b0:2d3:bc5f:715f with SMTP id 98e67ed59e1d1-2dbb9df9afbmr8375713a91.10.1726332301803;
+        Sat, 14 Sep 2024 09:45:01 -0700 (PDT)
+Received: from embed-PC.myguest.virtualbox.org ([106.222.229.152])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dbcfdc0ac3sm1737304a91.53.2024.09.14.09.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Sep 2024 09:45:01 -0700 (PDT)
+Date: Sat, 14 Sep 2024 22:14:56 +0530
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: skhan@linuxfoundation.org, rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: octeon: Use new initialization api for
+ tasklet
+Message-ID: <ZuW9iInzizGypLRt@embed-PC.myguest.virtualbox.org>
+References: <20240913191734.805815-1-abhishektamboli9@gmail.com>
+ <2024091424-glisten-unmanned-bb8f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2024091424-glisten-unmanned-bb8f@gregkh>
 
-On Thu, 12 Sep 2024 17:07:19 -0400
-Alex Lanzano <lanzano.alex@gmail.com> wrote:
+Hi Greg,
 
-> Add initial i2c support for the Bosch BMI270 6-axis IMU.
-> Provides raw read access to acceleration and angle velocity measurements
-> via iio channels. Device configuration requires firmware provided by
-> Bosch and is requested and load from userspace.
+On Sat, Sep 14, 2024 at 10:20:02AM +0200, Greg KH wrote:
+> On Sat, Sep 14, 2024 at 12:47:34AM +0530, Abhishek Tamboli wrote:
+> > Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
+> > introduced in commit 12cc923f1ccc ("tasklet: Introduce new
+> > initialization API").
 > 
-> Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+> This says what you are doing, but not why you are doing this.
+> 
+> Why is this needed?  What bug does this fix?  The code is the exact same
+> afterward so why should this be accepted?
+> 
+ While this patch doesn't fix any functional bug, it ensures that the 
+ code is kept up to date with the new Initialization API for tasklets.
 
-Hi Alex,
-
-A bunch of fairly minor stuff so I've just tweaked it whilst applying rather
-than wasting time on going around again.
-
-I also changed a few line wraps to keep lines a bit shorter.
-Where it doesn't hurt readability 80 chars is still my preference for IIO.
-
-The diff of the tweaks I made is as follows. Shout if I messed anything up!
-
-Thanks,
-
-Jonathan
-
-diff --git a/drivers/iio/imu/bmi270/bmi270.h b/drivers/iio/imu/bmi270/bmi270.h
-index 4af4098d8e82..608b29ea58a3 100644
---- a/drivers/iio/imu/bmi270/bmi270.h
-+++ b/drivers/iio/imu/bmi270/bmi270.h
-@@ -3,53 +3,9 @@
- #ifndef BMI270_H_
- #define BMI270_H_
- 
--#include <linux/iio/iio.h>
--
--#define BMI270_CHIP_ID_REG                             0x00
--#define BMI270_CHIP_ID_VAL                             0x24
--#define BMI270_CHIP_ID_MSK                             GENMASK(7, 0)
--
--#define BMI270_ACCEL_X_REG                             0x0c
--#define BMI270_ANG_VEL_X_REG                           0x12
--
--#define BMI270_INTERNAL_STATUS_REG                     0x21
--#define BMI270_INTERNAL_STATUS_MSG_MSK                 GENMASK(3, 0)
--#define BMI270_INTERNAL_STATUS_MSG_INIT_OK             0x01
--
--#define BMI270_INTERNAL_STATUS_AXES_REMAP_ERR_MSK      BIT(5)
--#define BMI270_INTERNAL_STATUS_ODR_50HZ_ERR_MSK                BIT(6)
--
--#define BMI270_ACC_CONF_REG                            0x40
--#define BMI270_ACC_CONF_ODR_MSK                                GENMASK(3, 0)
--#define BMI270_ACC_CONF_ODR_100HZ                      0x08
--#define BMI270_ACC_CONF_BWP_MSK                                GENMASK(6, 4)
--#define BMI270_ACC_CONF_BWP_NORMAL_MODE                        0x02
--#define BMI270_ACC_CONF_FILTER_PERF_MSK                        BIT(7)
--
--#define BMI270_GYR_CONF_REG                            0x42
--#define BMI270_GYR_CONF_ODR_MSK                                GENMASK(3, 0)
--#define BMI270_GYR_CONF_ODR_200HZ                      0x09
--#define BMI270_GYR_CONF_BWP_MSK                                GENMASK(5, 4)
--#define BMI270_GYR_CONF_BWP_NORMAL_MODE                        0x02
--#define BMI270_GYR_CONF_NOISE_PERF_MSK                 BIT(6)
--#define BMI270_GYR_CONF_FILTER_PERF_MSK                        BIT(7)
--
--#define BMI270_INIT_CTRL_REG                           0x59
--#define BMI270_INIT_CTRL_LOAD_DONE_MSK                 BIT(0)
--
--#define BMI270_INIT_DATA_REG                           0x5e
--
--#define BMI270_PWR_CONF_REG                            0x7c
--#define BMI270_PWR_CONF_ADV_PWR_SAVE_MSK               BIT(0)
--#define BMI270_PWR_CONF_FIFO_WKUP_MSK                  BIT(1)
--#define BMI270_PWR_CONF_FUP_EN_MSK                     BIT(2)
--
--#define BMI270_PWR_CTRL_REG                            0x7d
--#define BMI270_PWR_CTRL_AUX_EN_MSK                     BIT(0)
--#define BMI270_PWR_CTRL_GYR_EN_MSK                     BIT(1)
--#define BMI270_PWR_CTRL_ACCEL_EN_MSK                   BIT(2)
--#define BMI270_PWR_CTRL_TEMP_EN_MSK                    BIT(3)
-+#include <linux/regmap.h>
- 
-+struct device;
- struct bmi270_data {
-        struct device *dev;
-        struct regmap *regmap;
-iff --git a/drivers/iio/imu/bmi270/bmi270_core.c b/drivers/iio/imu/bmi270/bmi270_core.c
-index 319e5601d9e7..8e45343d6472 100644
---- a/drivers/iio/imu/bmi270/bmi270_core.c
-+++ b/drivers/iio/imu/bmi270/bmi270_core.c
-@@ -1,14 +1,60 @@
- // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- 
-+#include <linux/bitfield.h>
- #include <linux/firmware.h>
- #include <linux/i2c.h>
--#include <linux/iio/iio.h>
- #include <linux/module.h>
- #include <linux/regmap.h>
--#include <linux/bitfield.h>
-+
-+#include <linux/iio/iio.h>
- 
- #include "bmi270.h"
- 
-+#define BMI270_CHIP_ID_REG                             0x00
-+#define BMI270_CHIP_ID_VAL                             0x24
-+#define BMI270_CHIP_ID_MSK                             GENMASK(7, 0)
-+
-+#define BMI270_ACCEL_X_REG                             0x0c
-+#define BMI270_ANG_VEL_X_REG                           0x12
-+
-+#define BMI270_INTERNAL_STATUS_REG                     0x21
-+#define BMI270_INTERNAL_STATUS_MSG_MSK                 GENMASK(3, 0)
-+#define BMI270_INTERNAL_STATUS_MSG_INIT_OK             0x01
-+
-+#define BMI270_INTERNAL_STATUS_AXES_REMAP_ERR_MSK      BIT(5)
-+#define BMI270_INTERNAL_STATUS_ODR_50HZ_ERR_MSK                BIT(6)
-+
-+#define BMI270_ACC_CONF_REG                            0x40
-+#define BMI270_ACC_CONF_ODR_MSK                                GENMASK(3, 0)
-+#define BMI270_ACC_CONF_ODR_100HZ                      0x08
-+#define BMI270_ACC_CONF_BWP_MSK                                GENMASK(6, 4)
-+#define BMI270_ACC_CONF_BWP_NORMAL_MODE                        0x02
-+#define BMI270_ACC_CONF_FILTER_PERF_MSK                        BIT(7)
-+
-+#define BMI270_GYR_CONF_REG                            0x42
-+#define BMI270_GYR_CONF_ODR_MSK                                GENMASK(3, 0)
-+#define BMI270_GYR_CONF_ODR_200HZ                      0x09
-+#define BMI270_GYR_CONF_BWP_MSK                                GENMASK(5, 4)
-+#define BMI270_GYR_CONF_BWP_NORMAL_MODE                        0x02
-+#define BMI270_GYR_CONF_NOISE_PERF_MSK                 BIT(6)
-+#define BMI270_GYR_CONF_FILTER_PERF_MSK                        BIT(7)
-+
-+#define BMI270_INIT_CTRL_REG                           0x59
-+#define BMI270_INIT_CTRL_LOAD_DONE_MSK                 BIT(0)
-+
-+#define BMI270_INIT_DATA_REG                           0x5e
-+
-+#define BMI270_PWR_CONF_REG                            0x7c
-+#define BMI270_PWR_CONF_ADV_PWR_SAVE_MSK               BIT(0)
-+#define BMI270_PWR_CONF_FIFO_WKUP_MSK                  BIT(1)
-+#define BMI270_PWR_CONF_FUP_EN_MSK                     BIT(2)
-+
-+#define BMI270_PWR_CTRL_REG                            0x7d
-+#define BMI270_PWR_CTRL_AUX_EN_MSK                     BIT(0)
-+#define BMI270_PWR_CTRL_GYR_EN_MSK                     BIT(1)
-+#define BMI270_PWR_CTRL_ACCEL_EN_MSK                   BIT(2)
-+#define BMI270_PWR_CTRL_TEMP_EN_MSK                    BIT(3)
-+
- #define BMI270_INIT_DATA_FILE "bmi270-init-data.fw"
-
- enum bmi270_scan {
-@@ -35,10 +81,10 @@ static int bmi270_get_data(struct bmi270_data *bmi270_device,
- 
-        switch (chan_type) {
-        case IIO_ACCEL:
--               reg = BMI270_ACCEL_X_REG + (axis - IIO_MOD_X) * sizeof(sample);
-+               reg = BMI270_ACCEL_X_REG + (axis - IIO_MOD_X) * 2;
-                break;
-        case IIO_ANGL_VEL:
--               reg = BMI270_ANG_VEL_X_REG + (axis - IIO_MOD_X) * sizeof(sample);
-+               reg = BMI270_ANG_VEL_X_REG + (axis - IIO_MOD_X) * 2;
-                break;
-        default:
-                return -EINVAL;
-@@ -82,7 +128,7 @@ static const struct iio_info bmi270_info = {
-        .channel2 = IIO_MOD_##_axis,                            \
-        .info_mask_separate = BIT(IIO_CHAN_INFO_RAW),           \
-        .info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |  \
--       BIT(IIO_CHAN_INFO_FREQUENCY),                           \
-+               BIT(IIO_CHAN_INFO_FREQUENCY),                   \
- }
- 
- #define BMI270_ANG_VEL_CHANNEL(_axis) {                                \
-@@ -91,7 +137,7 @@ static const struct iio_info bmi270_info = {
-        .channel2 = IIO_MOD_##_axis,                            \
-        .info_mask_separate = BIT(IIO_CHAN_INFO_RAW),           \
-        .info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |  \
--       BIT(IIO_CHAN_INFO_FREQUENCY),                           \
-+               BIT(IIO_CHAN_INFO_FREQUENCY),                   \
- }
- 
- static const struct iio_chan_spec bmi270_channels[] = {
-@@ -100,7 +146,7 @@ static const struct iio_chan_spec bmi270_channels[] = {
-        BMI270_ACCEL_CHANNEL(Z),
-        BMI270_ANG_VEL_CHANNEL(X),
-        BMI270_ANG_VEL_CHANNEL(Y),
--       BMI270_ANG_VEL_CHANNEL(Z)
-+       BMI270_ANG_VEL_CHANNEL(Z),
- };
- 
- static int bmi270_validate_chip_id(struct bmi270_data *bmi270_device)
-@@ -115,7 +161,7 @@ static int bmi270_validate_chip_id(struct bmi270_data *bmi270_device)
-                return dev_err_probe(dev, ret, "Failed to read chip id");
- 
-        if (chip_id != BMI270_CHIP_ID_VAL)
--               return dev_err_probe(dev, -ENODEV, "Invalid chip id 0x%x", chip_id);
-+               dev_info(dev, "Unknown chip id 0x%x", chip_id);
- 
-        return 0;
- }
-@@ -128,18 +174,24 @@ static int bmi270_write_calibration_data(struct bmi270_data *bmi270_device)
-        struct device *dev = bmi270_device->dev;
-        struct regmap *regmap = bmi270_device->regmap;
- 
--       ret = regmap_clear_bits(regmap, BMI270_PWR_CONF_REG, BMI270_PWR_CONF_ADV_PWR_SAVE_MSK);
-+       ret = regmap_clear_bits(regmap, BMI270_PWR_CONF_REG,
-+                               BMI270_PWR_CONF_ADV_PWR_SAVE_MSK);
-        if (ret)
--               return dev_err_probe(dev, ret, "Failed to write power configuration");
-+               return dev_err_probe(dev, ret,
-+                                    "Failed to write power configuration");
- 
--       /* After disabling advanced power save, all registers are accessible after a 450us delay
--        * This delay is specified in table A of the datasheet.
-+       /*
-+        * After disabling advanced power save, all registers are accessible
-+        * after a 450us delay. This delay is specified in table A of the
-+        * datasheet.
-         */
-        usleep_range(450, 1000);
- 
--       ret = regmap_clear_bits(regmap, BMI270_INIT_CTRL_REG, BMI270_INIT_CTRL_LOAD_DONE_MSK);
-+       ret = regmap_clear_bits(regmap, BMI270_INIT_CTRL_REG,
-+                               BMI270_INIT_CTRL_LOAD_DONE_MSK);
-        if (ret)
--               return dev_err_probe(dev, ret, "Failed to prepare device to load init data");
-+               return dev_err_probe(dev, ret,
-+                                    "Failed to prepare device to load init data");
- 
-        ret = request_firmware(&init_data, BMI270_INIT_DATA_FILE, dev);
-        if (ret)
-@@ -151,11 +203,14 @@ static int bmi270_write_calibration_data(struct bmi270_data *bmi270_device)
-        if (ret)
-                return dev_err_probe(dev, ret, "Failed to write init data");
- 
--       ret = regmap_set_bits(regmap, BMI270_INIT_CTRL_REG, BMI270_INIT_CTRL_LOAD_DONE_MSK);
-+       ret = regmap_set_bits(regmap, BMI270_INIT_CTRL_REG,
-+                             BMI270_INIT_CTRL_LOAD_DONE_MSK);
-        if (ret)
--               return dev_err_probe(dev, ret, "Failed to stop device initialization");
-+               return dev_err_probe(dev, ret,
-+                                    "Failed to stop device initialization");
- 
--       /* Wait at least 140ms for the device to complete configuration.
-+       /*
-+        * Wait at least 140ms for the device to complete configuration.
-         * This delay is specified in table C of the datasheet.
-         */
-        usleep_range(140000, 160000);
-@@ -231,7 +286,7 @@ int bmi270_core_probe(struct device *dev, struct regmap *regmap)
-        struct bmi270_data *bmi270_device;
-        struct iio_dev *indio_dev;
- 
--       indio_dev = devm_iio_device_alloc(dev, sizeof(struct bmi270_data *));
-+       indio_dev = devm_iio_device_alloc(dev, sizeof(*bmi270_device));
-        if (!indio_dev)
-                return -ENOMEM;
-
-> diff --git a/drivers/iio/imu/bmi270/Makefile b/drivers/iio/imu/bmi270/Makefile
-> new file mode 100644
-> index 000000000000..ab4acaaee6d2
-> --- /dev/null
-> +++ b/drivers/iio/imu/bmi270/Makefile
-> @@ -0,0 +1,6 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for Bosch BMI270 IMU
-> +#
-> +obj-$(CONFIG_BMI270) += bmi270_core.o
-> +obj-$(CONFIG_BMI270_I2C) += bmi270_i2c.o
-> diff --git a/drivers/iio/imu/bmi270/bmi270.h b/drivers/iio/imu/bmi270/bmi270.h
-> new file mode 100644
-> index 000000000000..4af4098d8e82
-> --- /dev/null
-> +++ b/drivers/iio/imu/bmi270/bmi270.h
-> @@ -0,0 +1,62 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-> +
-> +#ifndef BMI270_H_
-> +#define BMI270_H_
-> +
-> +#include <linux/iio/iio.h>
-no obvious reason for this.  Headers should only include things
-they need.
-
-However you do need some forward definitions for
-struct device;
-and an include of regmap.h for the regmap_config.
-
-> +
-> +#define BMI270_CHIP_ID_REG				0x00
-> +#define BMI270_CHIP_ID_VAL				0x24
-> +#define BMI270_CHIP_ID_MSK				GENMASK(7, 0)
-> +
-> +#define BMI270_ACCEL_X_REG				0x0c
-> +#define BMI270_ANG_VEL_X_REG				0x12
-> +
-> +#define BMI270_INTERNAL_STATUS_REG			0x21
-> +#define BMI270_INTERNAL_STATUS_MSG_MSK			GENMASK(3, 0)
-> +#define BMI270_INTERNAL_STATUS_MSG_INIT_OK		0x01
-> +
-> +#define BMI270_INTERNAL_STATUS_AXES_REMAP_ERR_MSK	BIT(5)
-> +#define BMI270_INTERNAL_STATUS_ODR_50HZ_ERR_MSK		BIT(6)
-> +
-> +#define BMI270_ACC_CONF_REG				0x40
-> +#define BMI270_ACC_CONF_ODR_MSK				GENMASK(3, 0)
-> +#define BMI270_ACC_CONF_ODR_100HZ			0x08
-> +#define BMI270_ACC_CONF_BWP_MSK				GENMASK(6, 4)
-> +#define BMI270_ACC_CONF_BWP_NORMAL_MODE			0x02
-> +#define BMI270_ACC_CONF_FILTER_PERF_MSK			BIT(7)
-> +
-> +#define BMI270_GYR_CONF_REG				0x42
-> +#define BMI270_GYR_CONF_ODR_MSK				GENMASK(3, 0)
-> +#define BMI270_GYR_CONF_ODR_200HZ			0x09
-> +#define BMI270_GYR_CONF_BWP_MSK				GENMASK(5, 4)
-> +#define BMI270_GYR_CONF_BWP_NORMAL_MODE			0x02
-> +#define BMI270_GYR_CONF_NOISE_PERF_MSK			BIT(6)
-> +#define BMI270_GYR_CONF_FILTER_PERF_MSK			BIT(7)
-> +
-> +#define BMI270_INIT_CTRL_REG				0x59
-> +#define BMI270_INIT_CTRL_LOAD_DONE_MSK			BIT(0)
-> +
-> +#define BMI270_INIT_DATA_REG				0x5e
-> +
-> +#define BMI270_PWR_CONF_REG				0x7c
-> +#define BMI270_PWR_CONF_ADV_PWR_SAVE_MSK		BIT(0)
-> +#define BMI270_PWR_CONF_FIFO_WKUP_MSK			BIT(1)
-> +#define BMI270_PWR_CONF_FUP_EN_MSK			BIT(2)
-> +
-> +#define BMI270_PWR_CTRL_REG				0x7d
-> +#define BMI270_PWR_CTRL_AUX_EN_MSK			BIT(0)
-> +#define BMI270_PWR_CTRL_GYR_EN_MSK			BIT(1)
-> +#define BMI270_PWR_CTRL_ACCEL_EN_MSK			BIT(2)
-> +#define BMI270_PWR_CTRL_TEMP_EN_MSK			BIT(3)
-Currently all these defines are just used in the core c file.
-So I'd move them there for now. We can drag them back into the header
-if the spi bus driver needs them.
-
-> +
-> +struct bmi270_data {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +};
-> +
-> +extern const struct regmap_config bmi270_regmap_config;
-> +
-> +int bmi270_core_probe(struct device *dev, struct regmap *regmap);
-> +
-> +#endif  /* BMI270_H_ */
-> diff --git a/drivers/iio/imu/bmi270/bmi270_core.c b/drivers/iio/imu/bmi270/bmi270_core.c
-> new file mode 100644
-> index 000000000000..319e5601d9e7
-> --- /dev/null
-> +++ b/drivers/iio/imu/bmi270/bmi270_core.c
-> @@ -0,0 +1,258 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +
-> +#include <linux/firmware.h>
-> +#include <linux/i2c.h>
-> +#include <linux/iio/iio.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/bitfield.h>
-> +
-> +#include "bmi270.h"
-> +
-> +#define BMI270_INIT_DATA_FILE "bmi270-init-data.fw"
-> +
-> +enum bmi270_scan {
-> +	BMI270_SCAN_ACCEL_X,
-> +	BMI270_SCAN_ACCEL_Y,
-> +	BMI270_SCAN_ACCEL_Z,
-> +	BMI270_SCAN_GYRO_X,
-> +	BMI270_SCAN_GYRO_Y,
-> +	BMI270_SCAN_GYRO_Z,
-> +};
-> +
-> +const struct regmap_config bmi270_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +};
-> +EXPORT_SYMBOL_NS_GPL(bmi270_regmap_config, IIO_BMI270);
-> +
-> +static int bmi270_get_data(struct bmi270_data *bmi270_device,
-> +			   int chan_type, int axis, int *val)
-> +{
-> +	__le16 sample;
-> +	int reg;
-> +	int ret;
-> +
-> +	switch (chan_type) {
-> +	case IIO_ACCEL:
-> +		reg = BMI270_ACCEL_X_REG + (axis - IIO_MOD_X) * sizeof(sample);
-> +		break;
-> +	case IIO_ANGL_VEL:
-> +		reg = BMI270_ANG_VEL_X_REG + (axis - IIO_MOD_X) * sizeof(sample);
-
-This only works because they are 1 byte registers which isn't obvious here
-So I don't think sizeof(sample) is very useful vs 2.
-
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = regmap_bulk_read(bmi270_device->regmap, reg, &sample, sizeof(sample));
-> +	if (ret)
-> +		return ret;
-> +
-> +	*val = sign_extend32(le16_to_cpu(sample), 15);
-> +
-> +	return 0;
-> +}
-> +
-
-> +
-> +#define BMI270_ACCEL_CHANNEL(_axis) {				\
-> +	.type = IIO_ACCEL,					\
-> +	.modified = 1,						\
-> +	.channel2 = IIO_MOD_##_axis,				\
-> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
-> +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |	\
-> +	BIT(IIO_CHAN_INFO_FREQUENCY),				\
-
-Probably good to indent this last item by one more tab to help
-with reability.
-
-> +}
-> +
-> +#define BMI270_ANG_VEL_CHANNEL(_axis) {				\
-> +	.type = IIO_ANGL_VEL,					\
-> +	.modified = 1,						\
-> +	.channel2 = IIO_MOD_##_axis,				\
-> +	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW),		\
-> +	.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SCALE) |	\
-> +	BIT(IIO_CHAN_INFO_FREQUENCY),				\
-> +}
-> +./v4_20240912_lanzano_alex_add_i2c_driver_for_bosch_bmi270_imu.mbx
-> +static const struct iio_chan_spec bmi270_channels[] = {
-> +	BMI270_ACCEL_CHANNEL(X),
-> +	BMI270_ACCEL_CHANNEL(Y),
-> +	BMI270_ACCEL_CHANNEL(Z),
-> +	BMI270_ANG_VEL_CHANNEL(X),
-> +	BMI270_ANG_VEL_CHANNEL(Y),
-> +	BMI270_ANG_VEL_CHANNEL(Z)
-Add a trailing comma as we may well have additional channels in future
-that come after this.
-
-> +};
-> +
-> +static int bmi270_validate_chip_id(struct bmi270_data *bmi270_device)
-> +{
-> +	int chip_id;
-> +	int ret;
-> +	struct device *dev = bmi270_device->dev;
-> +	struct regmap *regmap = bmi270_device->regmap;
-> +
-> +	ret = regmap_read(regmap, BMI270_CHIP_ID_REG, &chip_id);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to read chip id");
-> +
-> +	if (chip_id != BMI270_CHIP_ID_VAL)
-> +		return dev_err_probe(dev, -ENODEV, "Invalid chip id 0x%x", chip_id);
-A failure to match on a ID register should not result in a failure to probe.
-The reason for this is Device tree fallback compatibles.
-Those allow for a future device that is compatible (it may have a superset of
-features) with this part to use a dt-binding that includes the compatible
-for this one despite having a different ID register value.
-
-As such this should print an information message to say it's an unknown
-device ID but return success.
-	
-> +
-> +	return 0;
-> +}
-> +
-> +static int bmi270_write_calibration_data(struct bmi270_data *bmi270_device)
-> +{
-> +	int ret;
-> +	int status = 0;
-> +	const struct firmware *init_data;
-> +	struct device *dev = bmi270_device->dev;
-> +	struct regmap *regmap = bmi270_device->regmap;
-> +
-> +	ret = regmap_clear_bits(regmap, BMI270_PWR_CONF_REG, BMI270_PWR_CONF_ADV_PWR_SAVE_MSK);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to write power configuration");
-> +
-> +	/* After disabling advanced power save, all registers are accessible after a 450us delay
-All IIO multiline comments are
-
-	/* 
-	 * After...
-
-
-> +	 * This delay is specified in table A of the datasheet.
-> +	 */
-> +	usleep_range(450, 1000);
-> +
-> +	ret = regmap_clear_bits(regmap, BMI270_INIT_CTRL_REG, BMI270_INIT_CTRL_LOAD_DONE_MSK);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to prepare device to load init data");
-> +
-> +	ret = request_firmware(&init_data, BMI270_INIT_DATA_FILE, dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to load init data file");
-> +
-> +	ret = regmap_bulk_write(regmap, BMI270_INIT_DATA_REG,
-> +				init_data->data, init_data->size);
-> +	release_firmware(init_data);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to write init data");
-> +
-> +	ret = regmap_set_bits(regmap, BMI270_INIT_CTRL_REG, BMI270_INIT_CTRL_LOAD_DONE_MSK);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to stop device initialization");
-> +
-> +	/* Wait at least 140ms for the device to complete configuration.
-> +	 * This delay is specified in table C of the datasheet.
-> +	 */
-> +	usleep_range(140000, 160000);
-> +
-> +	ret = regmap_read(regmap, BMI270_INTERNAL_STATUS_REG, &status);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to read internal status");
-> +
-> +	if (status != BMI270_INTERNAL_STATUS_MSG_INIT_OK)
-> +		return dev_err_probe(dev, -ENODEV, "Device failed to initialize");
-> +
-> +	return 0;
-> +}
-
+ Regards,
+ Abhishek
