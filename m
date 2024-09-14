@@ -1,117 +1,138 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4681D12EA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 16:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3251D1315
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 18:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726332693; cv=none; b=oM5O2DO4lDGfUDAleUBr82/gOpsA1EscpWNHGKb2dcH5TloW3qU4ITr72SqqlKlC/TW77SaaKrQUqEhnASBPrpGlhM/TfH9huSQx+h0864EEz/gfW4rQVoJHNebItGIvanj3DzKpfRIPFyfsaSfyd7Jendwp6gC4wS5cBWMADSY=
+	t=1726339789; cv=none; b=jmYvJGW9fhLbIDqtbahTvvi5J6qppWqBzrtgiURlY740tfM5Xjh5XMeIMnlwz4LLyzL3k3cTtmzWWTX1iKnYa75lTw88rt6yiTkN7SxuljWY9IYn4hars1Hm+Utk/jUCmkKXPtPcMIockX7I0VbtFZ7qdK+5Y0eJK0Sr1Ev8UCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726332693; c=relaxed/simple;
-	bh=4YIUED8NTvL+pJU9x1zOi1xxGpnRcuZT+fTCARpcsEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucLpaSugo8IL1ygzsfg+ToxIK/V6G1dgenBFUSPNlOG3hWrp1a3VfbbZg7f0NdWs0KFiAfaYQ4dzw8MnBuDnv/JTJnp0uKN2Ju//EQOUauM1RDlhtZ4Zeq3WSG2MR+8gYqJQqxoVoV9sGaeuIX7g46BSdNzRUdGbb32Vhk4046I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vbSMaXAF; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1726339789; c=relaxed/simple;
+	bh=e70E5Y91Jsny0whAyhew+r/g5VGp2qLMl59bQCj571w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZRZYeum2ZFjsrhkBxiUobuUfRMKtGb/ciH0eUuqTdsFPkAgHCVCqt+a+w9vNndJwvygGhmqUS9zeRtpGUpQZ9vVa1ZzuNUKCo6EVdWnM0B4rNwlPsyZqJazrttjaxFj2OlMfdRdr+3hp+E0WT1jwpBfmYBrJFcnrC8hE53jRfPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O3CyuIbs; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vbSMaXAF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O3CyuIbs"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 592584196F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 16:51:32 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 1CE6B40600
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 18:49:48 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.1
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id sziCuR87XT1V for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Sep 2024 16:51:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62d; helo=mail-ej1-x62d.google.com; envelope-from=dan.carpenter@linaro.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 41FA5412FB
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 41FA5412FB
+ id K6KSbWd4m8Dl for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 14 Sep 2024 18:49:47 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::102e; helo=mail-pj1-x102e.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 0947C405FD
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 0947C405FD
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=vbSMaXAF
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 41FA5412FB
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 16:51:30 +0000 (UTC)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-a8d3cde1103so418449666b.2
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 09:51:30 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=O3CyuIbs
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 0947C405FD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 18:49:46 +0000 (UTC)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2d8b68bddeaso1748561a91.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 11:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1726332689; x=1726937489; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=260L8wObmIZ37leKXxRsSt6Vzwvxj0E4EQRxHhUduKk=;
-        b=vbSMaXAFFnXyPQE+GD/BCHR9UXAg4iLPYeP3+G0Lds9EGySF84DkNOHuBocWeGjQ1K
-         izdA6TtvgGWZqjW3BiGfoo1KDEC8Rdb+ljp2u3WLBctbPUXVoobk2nQcyFaqKqMyg++m
-         AggHV6obAv9slMbdyZmb8jBRbWCLDhP4N984aGuuyuOchyhv9tW/EHKbps84OkbkdxIc
-         YXxnJLWgnXO7OJRwGFUqTXR1YLPP9v94E3+3CUD/6zZyK99aTcMKxYHbTUqGmPRrzVsn
-         nt4Sdh3umJgG8z2WMfJRrdGluyOt29D/5SwjBsYwSQpZDA/ht45A5NHzNk0jkYizcP/4
-         DW3w==
+        d=gmail.com; s=20230601; t=1726339786; x=1726944586; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TRV/D2yysUbqRudO1eZM7UervZe3Msap6RU661L548E=;
+        b=O3CyuIbsWE3PDl3QgzCuyRsvdEKfFME+ZssTwSSaXVNYf8nQEoEk3DXusvPkE8KG4s
+         WO20J+CEVm8MStbU561byKOxzh+UsAT22WKaflV/9gJorNGl7mWtNC0Bb8AEzcHJrUhs
+         vQvFXCvwTqbqPyV39iuZLEdONOWU0R2EmYIAPWhkyn+vHeHAcix1rSJlTHxII+DBYzrg
+         D5KGjS2nOUkh2n/91YGO3P7uVU6j498BjjNM7wmrsfdZfwLfPFR8Nc9RlW/yzFebTSXv
+         D04OU8WDp3WTZMFWIuS7p9TsAlg2DpYHFoHbtxKZDQ2cOldaXDIC0yQy8efCcWit9/Ll
+         0CsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726332689; x=1726937489;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=260L8wObmIZ37leKXxRsSt6Vzwvxj0E4EQRxHhUduKk=;
-        b=AXaEQ6QW0bruptnRipziGHVtrlpYjX8ia64SaeEiPGZ060KBB/TwIqPKeVuaia6FfI
-         TJUa4Vrnr+f7pHcELiZNGiq6dU/O0M4Go03xHM5nE4CEGzKq+J8MQBV2BfYz3rsOqdiw
-         HWdQrJ38w7POncdzPcVFjZ/A6YYuW6zjlT9aXQ1395KyCFhUACoGIUFU80y1FrSWuZ+1
-         CWSYf16pqhlVd39HfAMac61m9G6e+aPp5whRDxxLAWcIz4ac2hMs/S34DzQUOagB6M/1
-         707Kf3GK2VnLXdZsENwsFG7l6qHcxxZTioNDXkUTATr2PSpXwINaVwWVrCotMtwPMrTP
-         SU4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU0A1+g25LV+EmGq4gQEdGgBQf93u0NJhzyjpR1Qgx7NY5SxyLyyrBr/db0ErRK5Iojm2T6PGAWcG75IXTVKUGtjvZsmw==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwEzrpidLLgIdPk9SMj8PcQ0xcAmHhfW6VGHr+qq4gZBf/4cIF5
-	Ap5GTr9jQXMWNSqBq2awYe9AXRzl0taJnuz37BHt6OYT7gRawQ6wH219i8UBm7g=
-X-Google-Smtp-Source: AGHT+IEg9Ep2YCZ/L0TFudDfeLg21XrwMV52bqJ4ziTDK6kTpQLQzJiKRJFmO88/YXaT2/T/CXXbOw==
-X-Received: by 2002:a17:907:6d28:b0:a8d:1655:a423 with SMTP id a640c23a62f3a-a9029678c66mr1159702366b.56.1726332688539;
-        Sat, 14 Sep 2024 09:51:28 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a90612b3997sm98312866b.104.2024.09.14.09.51.27
+        d=1e100.net; s=20230601; t=1726339786; x=1726944586;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TRV/D2yysUbqRudO1eZM7UervZe3Msap6RU661L548E=;
+        b=QaGChIeU7dCWaYkSgjyH7rIocZkRjyaGRWh6AKhlAukKiPPmYQbouUu8Pl9br48pP3
+         HZNkJLQIuvilsMDq7RRVUTor6jKfggdm+UFubf7FoNK+SAj1b02p1REAHM3PmbsyQKua
+         GKSuKJ9qdF6AzR6QNfPVbfOc9R68zdFiRRm3JYxNLEgeqOrPu4LfhbyeMKUETnZSURpC
+         +Qj01L0WwhtOPKoCzTKeTVbYlME3UECSlcjE32c9Rgg75CdPXqTNWBYrsa1eb0M6LFCS
+         Z+ess8Fg4Nne48/vr2FCfcypBYHdZj925NGn7kktw0h4nwtOtuRvjDjxEbeibGN5hjpy
+         ANhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWa1qNiFoNkVNOGvBSsrdJir/KwXKLbyMvhkKe1qoCI6z+f6OahgEv6+1s7LN5hnRN59Y51INzOU92cThYRJqt44i9fkQ==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy4Go3efjWiQaVFMTsRem7ZzZHAOm8XiDfxStyZ5CLUFr29ce9T
+	Pm1hQnmKxK287buwTsMlMM6YW0IN6Y77FR0xv06X5jnxhSXnQUtg
+X-Google-Smtp-Source: AGHT+IGG089sKirYuMOIPyg9jQWpJLf2jAJ1DKymjs53A5OLIf65r9pHbmzVbYI/wDkgKwg6PEo74A==
+X-Received: by 2002:a17:90b:1c06:b0:2c9:1012:b323 with SMTP id 98e67ed59e1d1-2dbb9f3c96amr8589484a91.27.1726339786061;
+        Sat, 14 Sep 2024 11:49:46 -0700 (PDT)
+Received: from embed-PC.. ([106.222.229.152])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2dbb9d5c9dcsm3998170a91.43.2024.09.14.11.49.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Sep 2024 09:51:28 -0700 (PDT)
-Date: Sat, 14 Sep 2024 19:51:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, skhan@linuxfoundation.org,
+        Sat, 14 Sep 2024 11:49:45 -0700 (PDT)
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
 	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: octeon: Use new initialization api for
- tasklet
-Message-ID: <3d9ff743-01bb-4b40-9551-fb220bf3c7f3@stanley.mountain>
-References: <20240913191734.805815-1-abhishektamboli9@gmail.com>
- <2024091424-glisten-unmanned-bb8f@gregkh>
- <ZuW9iInzizGypLRt@embed-PC.myguest.virtualbox.org>
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v3] staging: octeon: Use new initialization api for tasklet
+Date: Sun, 15 Sep 2024 00:19:35 +0530
+Message-Id: <20240914184935.848999-1-abhishektamboli9@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZuW9iInzizGypLRt@embed-PC.myguest.virtualbox.org>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 14, 2024 at 10:14:56PM +0530, Abhishek Tamboli wrote:
-> Hi Greg,
-> 
-> On Sat, Sep 14, 2024 at 10:20:02AM +0200, Greg KH wrote:
-> > On Sat, Sep 14, 2024 at 12:47:34AM +0530, Abhishek Tamboli wrote:
-> > > Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
-> > > introduced in commit 12cc923f1ccc ("tasklet: Introduce new
-> > > initialization API").
-> > 
-> > This says what you are doing, but not why you are doing this.
-> > 
-> > Why is this needed?  What bug does this fix?  The code is the exact same
-> > afterward so why should this be accepted?
-> > 
->  While this patch doesn't fix any functional bug, it ensures that the 
->  code is kept up to date with the new Initialization API for tasklets.
+Use the new api DECLARE_TASKLET instead of DECLARE_TASKLET_OLD
+introduced in commit 12cc923f1ccc ("tasklet: Introduce new
+initialization API").
 
-You need to resend the patch with this information included in the commit
-message.
+This change updates the tasklet initialization
+process without introducing any functional changes,
+ensuring the code aligns with the new API.
 
-regards,
-dan carpenter
+Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+---
+Changes in v3:
+- Rephrased the commit message with the reason for the change.
+Changes in v2:
+- Fix build errors caused by initial[v1] patch submission.
+- Update the cvm_oct_tx_do_cleanup function to accept a
+  struct tasklet_struct * argument, required by the new API.
+[v1]: https://lore.kernel.org/all/20240912172231.369566-1-abhishektamboli9@gmail.com/
+[v2]: https://lore.kernel.org/all/20240913191734.805815-1-abhishektamboli9@gmail.com/
+
+ drivers/staging/octeon/ethernet-tx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index bbf33b88bb7c..261f8dbdc382 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -40,8 +40,8 @@
+ #define GET_SKBUFF_QOS(skb) 0
+ #endif
+
+-static void cvm_oct_tx_do_cleanup(unsigned long arg);
+-static DECLARE_TASKLET_OLD(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
++static void cvm_oct_tx_do_cleanup(struct tasklet_struct *clean);
++static DECLARE_TASKLET(cvm_oct_tx_cleanup_tasklet, cvm_oct_tx_do_cleanup);
+
+ /* Maximum number of SKBs to try to free per xmit packet. */
+ #define MAX_SKB_TO_FREE (MAX_OUT_QUEUE_DEPTH * 2)
+@@ -670,7 +670,7 @@ void cvm_oct_tx_shutdown_dev(struct net_device *dev)
+ 	}
+ }
+
+-static void cvm_oct_tx_do_cleanup(unsigned long arg)
++static void cvm_oct_tx_do_cleanup(struct tasklet_struct *clean)
+ {
+ 	int port;
+
+--
+2.34.1
 
