@@ -1,119 +1,119 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F166713AD03
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 19:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC277DA83
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 21 Sep 2024 19:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726342592; cv=none; b=ENMygteax76VI4UOqsAhA5yBL2L3jYxp/1sWfEw/aUL8CrdbFciqqvwDkfK23cGiOlB9L1JyHWF6VYPKNwjC6kRuKzezfoHcoSUuR+nIkWQ+vrzIhfStqAf1Ip3xvmbSSuBg1Gk9VyZimhECficWHA37XnnZO3xnwshgo7EC+KU=
+	t=1726948631; cv=none; b=OvY/NDIuh5QBMjCzu7vzN/hl5BxIlIet1ybkclXbnSivnDrauJG7jVWx0D1gWD/x/1SrxbgIAfUOtm2dUud8KeFdxl2XtbAhS0c/EIcQLxu2zyUUdkpLy1jcnKhJVFD9uqwOtxVSEEUrHMNRtr2OcnhB+IEzgWm+bNe17nJWoWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726342592; c=relaxed/simple;
-	bh=Aq0VPqO1An/naqvNFvCAB0TD+IiNrLVn9QDEvjABgao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l38H/ZjFwsi0ctjI0tR7DnEOIpnDiLc0Upcl2w7J5A3FsyUKu4yfa+t3gAjhIaBwjtrKxJL91y+lLqeBP8Lss0Ne9e32VIZn4D+OsM/Zx2lFne8Fmt9ThbPXU7Y71hNLS3KzHpWtgEt7tBqSxLDEUssrn5MpFlNqkg+q962RkR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TEBTfvaH; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1726948631; c=relaxed/simple;
+	bh=P0yvwIw4/C32i1K3Ca/Q+dUMGKZrikS92mEUTx5/M/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ugvwg5hM08zslc+GejbDhPFFpEsJjG8hGqjLQ9HZF5Hjw8cLrc939YYBGPZCYZcwXLRlTC72/BIex4h+BAPm6ADdBK9d1hRo3B8V8LKKpM6X8IgG6iSjTMxcoIhn83EN2/RVOBopWKi6WyQRnorNzk4+FNSpL1zfNqbApbpMEQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Br1zEbQq; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TEBTfvaH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Br1zEbQq"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 1599E4072F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 19:36:30 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id 7117360607
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 21 Sep 2024 19:57:10 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SbNFbJpob06j for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sat, 14 Sep 2024 19:36:29 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::72a; helo=mail-qk1-x72a.google.com; envelope-from=lanzano.alex@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 07C544072D
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 07C544072D
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=TEBTfvaH
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 07C544072D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 19:36:28 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id af79cd13be357-7a9a3e731f9so282797085a.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 14 Sep 2024 12:36:28 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id q7_XbsKIfudI for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 21 Sep 2024 19:57:10 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::630; helo=mail-pl1-x630.google.com; envelope-from=leocstone@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org BA64860606
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BA64860606
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=Br1zEbQq
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BA64860606
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 21 Sep 2024 19:57:09 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-205909afad3so37666395ad.2
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 21 Sep 2024 12:57:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726342587; x=1726947387; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ALsTYKzgGgZbnVn1tjPr9vM2XSHNkmqY0xXK29XlQso=;
-        b=TEBTfvaHk3z14ibIQbKdouXfxwpx9kVZyu/3QL5z1e88xd8P46bOmlrddJrsM+e6FQ
-         4MmB5gnHtir3V/d9VhZSkpg4OovwGlpn+057WbM+DQLi5LcORdbIk3L+GmgArrsNpJHk
-         zM0TzxNkkl0GtSArFjZrvEQ6ilBNBrA5+ymJ6bqPLpOEkgc4u6LsGR0Hl+ghIeO3ehv6
-         4YH7AQ3hO5/9s23Pt+cCuLIdevJ1z12shq/etDbfxi8Tw6WfVp6ct4E32RdQ/0hjhays
-         YTSjFlk0OUhSssgW6wchWKZpvdGIQ7vMpkMjV82DhzoHGfUMTWxNZsmtRSgPZ5EKOupp
-         qTfA==
+        d=gmail.com; s=20230601; t=1726948629; x=1727553429; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tL6Q4yRMI5cAA833hyiACaaa+MFKJlXA+BVwOAtvywo=;
+        b=Br1zEbQqV2/2Ec6lSfKZDqLfaqcgt7+KCM9c3FFjh24aR+l+fqBwH9jfJ+jOlnME9+
+         7jayqDv0CvwJ0OKa+G8Xp8ffc4v4bulTFBSp1VWT0iZDVsqPlbgVRSF1qpP9S2Q2VCRa
+         XKWykZRTdHJ49hCA3yTJCBh3tBow7YUas+AqV1PHq1KTw/nDwqSYwYm4Kfas1XjNWZAS
+         aPrChDmIxzmjkSUMHZM53mNKH5y0lTl+41wq8osCnN53A3jDjq1JW3Utc0aGTVxV15y7
+         I7hF0AmRAxs81fQdtNSFJ8J5SaE2OJH6uHFAARI07NpAQaoqIB8gAaLHwovQ6+Xl1/bT
+         KHzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726342587; x=1726947387;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ALsTYKzgGgZbnVn1tjPr9vM2XSHNkmqY0xXK29XlQso=;
-        b=PMHg0nkzxsWewP8eivJrm6xP+aCfnYy/Blhhv9d89mnMJBHtVI0DXyCRbF0KJ1wRyW
-         oaXSZKbHcGk0NuR9K+M/9sDnnAOag9NuhTVPq/VxT7t+1rSx/7ERlCgg98EBrM5Q+/ls
-         yCFln0yTQgsXzyWXY9zW3c88OWTLlnJrAzOkPqRjVcyFuP7ocHnby7tlkrMEGtmHx1iL
-         +a5a1vv4t1bOlxzUA/WerX+BB+88d0FWkVjUODk7tbYkNehhYQxCHUGi74wlmNnNtMxT
-         Jk14/VmyTOzTfugruGP/jm29G9GmbP9To6pfxua4hRoWSjez5fHMwruhkOHuuYc3QaS6
-         nTOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXZrWV8S7M+XtnTGvqU5kkzaRESq/AYjUwHUQxOmtKb+nm2s7seSd4TgY4Tzv/B+fkNlmm0BdD/r0MPkXVwRnGCV5S3A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyHKqm9lycnOhPxP1QsIkCym3InL3aNp/kjEy/eeB6BQc2XnIrj
-	tQGkgH8soXH6kkqs6kXrVoRhS+ZH6jt64Ik/9gpOYab2yloKfMJv
-X-Google-Smtp-Source: AGHT+IFffaBty4kRKQuk9Dn8zTFyDBdZTKGT3Uez2+/aIcCrGmmqe2/FTKUXkL+bPOeDtJ3eut5MWg==
-X-Received: by 2002:a05:620a:460c:b0:7a1:e0dc:ef99 with SMTP id af79cd13be357-7a9e5eff4eemr1715813685a.15.1726342587187;
-        Sat, 14 Sep 2024 12:36:27 -0700 (PDT)
-Received: from VM-Arch (ool-1826d901.dyn.optonline.net. [24.38.217.1])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6c58c628f61sm9750286d6.15.2024.09.14.12.36.25
+        d=1e100.net; s=20230601; t=1726948629; x=1727553429;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tL6Q4yRMI5cAA833hyiACaaa+MFKJlXA+BVwOAtvywo=;
+        b=UKqCVpQ64I7Ymkd2UYhTkJdQLHAUdTNchPsFjpH4xL9/q0lrVsJ8ILkW7cIg9acvJf
+         E0zOPmnn6i0ncVzb1CxY6+AO6Z2MhbzXArtdzAdS9M77MZZWVHCOYWKMxSMD2683hpBK
+         8WU97g5joaYckCIihj2s+76dTa+pSjOTk5/CHa4U9gOxRiT7KDdrfVGGX4DI5Tn4wR40
+         tMZcszdz3CHnv7Lzu5aMaOLpisGRHieq8JbN94Ks0qt2uHrem5zdcs9P8Y6wy8r+5ixK
+         d+20HD0RZzOtueb2ptDu7Gk4I8K1RX8vbrKPV4Ej9kWRbWchsRYZkVrfE5WpG52yZbs8
+         BM0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUO3LKo5xv/G5/p3wjzWaE7LsdpUGomheUaJT/gnA+Y7wOS20himw+nEwPqROzAt5q3njx6zCq2jRTQRgHKBR/cpW8k8Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyKFqolRrzl1WenVtvqkQsadohteZriZu+yTYzmOPA7V9A0Pi6j
+	vPFAAgZrESEyhxnnVpOycNU0BICcJoeEhuCZLYyOMoy96YyZbbPb
+X-Google-Smtp-Source: AGHT+IHOVPLtF44VuR8xtKWdO1Sdnkq7LicaBWc92K+g37O0VEZI4c3J/dixnkEOEekfoeeN1wANdA==
+X-Received: by 2002:a17:903:181:b0:206:9640:e751 with SMTP id d9443c01a7336-208d830ed11mr115040245ad.3.1726948628817;
+        Sat, 21 Sep 2024 12:57:08 -0700 (PDT)
+Received: from tc.. (c-67-171-216-181.hsd1.or.comcast.net. [67.171.216.181])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2079472fb94sm112006355ad.253.2024.09.21.12.57.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Sep 2024 12:36:26 -0700 (PDT)
-Date: Sat, 14 Sep 2024 15:36:24 -0400
-From: Alex Lanzano <lanzano.alex@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jagath Jog J <jagathjog1996@gmail.com>, Ramona Gradinariu <ramona.bolboaca13@gmail.com>, 
-	Nuno Sa <nuno.sa@analog.com>, linux-kernel-mentees@lists.linuxfoundation.org, 
-	skhan@linuxfoundation.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] iio: imu: Add i2c driver for bmi270 imu
-Message-ID: <bppfwgxbc54jm6cmajgsqrmi25lxmfbsrrqrdvt3tispwl7erw@bb23iymteiry>
-References: <20240912210749.3080157-1-lanzano.alex@gmail.com>
- <20240912210749.3080157-3-lanzano.alex@gmail.com>
- <20240914142734.4bcf14bc@jic23-huawei>
+        Sat, 21 Sep 2024 12:57:08 -0700 (PDT)
+From: Leo Stone <leocstone@gmail.com>
+To: sj@kernel.org,
+	akpm@linux-foundation.org,
+	ruanjinjie@huawei.com
+Cc: Leo Stone <leocstone@gmail.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org
+Subject: [PATCH] mm/damon: fix sparse warning for zero initializer
+Date: Sat, 21 Sep 2024 12:54:45 -0700
+Message-ID: <20240921195511.364023-1-leocstone@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240914142734.4bcf14bc@jic23-huawei>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 14, 2024 at 02:27:34PM GMT, Jonathan Cameron wrote:
-> On Thu, 12 Sep 2024 17:07:19 -0400
-> Alex Lanzano <lanzano.alex@gmail.com> wrote:
-> 
-> > Add initial i2c support for the Bosch BMI270 6-axis IMU.
-> > Provides raw read access to acceleration and angle velocity measurements
-> > via iio channels. Device configuration requires firmware provided by
-> > Bosch and is requested and load from userspace.
-> > 
-> > Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
-> 
-> Hi Alex,
-> 
-> A bunch of fairly minor stuff so I've just tweaked it whilst applying rather
-> than wasting time on going around again.
-> 
-> I also changed a few line wraps to keep lines a bit shorter.
-> Where it doesn't hurt readability 80 chars is still my preference for IIO.
-> 
-> The diff of the tweaks I made is as follows. Shout if I messed anything up!
-> 
+sparse warns about zero initializing an array with {0,}, change it to
+the equivalent {0}.
 
-Looks good! I agree with all the changes. Thanks again for the review
-and cleaning it up for me.
+Fixes the sparse warning:
+mm/damon/tests/vaddr-kunit.h:69:47: warning: missing braces around initializer
+
+Signed-off-by: Leo Stone <leocstone@gmail.com>
+---
+ mm/damon/tests/vaddr-kunit.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mm/damon/tests/vaddr-kunit.h b/mm/damon/tests/vaddr-kunit.h
+index a339d117150f..3dad8dfd9005 100644
+--- a/mm/damon/tests/vaddr-kunit.h
++++ b/mm/damon/tests/vaddr-kunit.h
+@@ -66,7 +66,7 @@ static int __link_vmas(struct maple_tree *mt, struct vm_area_struct *vmas,
+ static void damon_test_three_regions_in_vmas(struct kunit *test)
+ {
+ 	static struct mm_struct mm;
+-	struct damon_addr_range regions[3] = {0,};
++	struct damon_addr_range regions[3] = {0};
+ 	/* 10-20-25, 200-210-220, 300-305, 307-330 */
+ 	struct vm_area_struct vmas[] = {
+ 		(struct vm_area_struct) {.vm_start = 10, .vm_end = 20},
+-- 
+2.43.0
+
