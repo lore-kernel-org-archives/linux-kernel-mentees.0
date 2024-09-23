@@ -1,85 +1,82 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DA12FB2
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 02:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D2819E972
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 15:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727058324; cv=none; b=h6zyjVB94DVQ3kSk3pgnMjh54MD5tulothRCqyCcufJSTMaQ390QdNQ2f7kuHVeoiUY/lpxyQqbht7e26LvL4Ot45N5xr45iY8MI2VyB83I/BlZWMBDiZZ3WJpcW/8UlOwi2fGqzkWzu0BFtDj/E2EV3ErDR6xwFQ5O5AdX+SmQ=
+	t=1727107119; cv=none; b=mBvR7QqnnN6+nL7z0HCceSg0CkZUE8mylTWD/6zimijbs80fLEixNmfm/D2lOOfwHyDjaP0uAPMmdsRT/lQaLE5cPCEabJMqTJAUiIMOIBfe/9pdSUAPiEAdTyvWz3kaPCagb89GdeQF80kUyfDMlrE/F42FalZx1/eGKgGKDrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727058324; c=relaxed/simple;
-	bh=xhXbNvM++7qKbgPSVqhFDU2ZhXaHlORv7ZNSLZePNZI=;
+	s=arc-20240116; t=1727107119; c=relaxed/simple;
+	bh=dB/s03J1ijWZEItzL1EbaJOmrjSCtJOL2i697tdgEgA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KD1077MmIxA1afzan5Xu2n9meNzeTm4baHJvakjCruRlWOukjCpBK7CHplb1TnsS60eHemzEeRpff2RzhgbzTnoiuz7TCJFEmhQpvc0XgJtpmn4qlEKBsVZ+LK6SXowpwXKU25p680ZBssaEqkMMj+ax1romSaiM3Ep0jzE+g8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eeCD5INo; arc=none smtp.client-ip=140.211.166.137
+	 Content-Type:Content-Disposition:In-Reply-To; b=kL/F89ULgFoFasdNgCzyS0N+S4AplM0z39nK72D0cNn5VCeeMa+47pfDI1kbfuEgU3sY5uzvxoK66/Iq66mnDoLEgkez+fmD6YgjpJxeC0D95Hss5kuHMEpJvjpV9okcDufC7/8tVcuMIl1WuROP0bAVYlgVLT5QQwJgZGkiAG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nauOwXG6; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eeCD5INo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nauOwXG6"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A1E83405F0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 02:25:22 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id A5FB440356
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 15:58:37 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -8.092
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id QXxt7qPPhA2Z for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Sep 2024 02:25:22 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::62b; helo=mail-pl1-x62b.google.com; envelope-from=leocstone@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org D41C0405E9
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org D41C0405E9
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=eeCD5INo
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id D41C0405E9
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 02:25:21 +0000 (UTC)
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-20543fdb7acso30026875ad.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 22 Sep 2024 19:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727058321; x=1727663121; darn=lists.linuxfoundation.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t7aLKOb5llbH39oSD2wqFg2ImH5K/xs1d/3DhTSvBAM=;
-        b=eeCD5INo9pZefVspl4eSq3vv9Od8md9M2OCyqdZ5FCskeInK0ymE15Dkn32lH5Ujat
-         dRjSfBPmAPP+jOKeFVHvIsLQLW0tPfsr6ImECMxIoV49Rsb72UtysDT18YM+iTe1JSp2
-         aJSIlMfudNCc0GTMPnqZkRaAEq0ygPs/LjvakL5npiTKw/0FB0Vi/7pkLtgbN6w0VdC4
-         lJ1LJM7d50heBEgrpaiHKF5akFQK88Pqmo+3Ufxvz7vcNgM/1yfIR6dg5gyBfgdftmK0
-         MZK27vUCjtT5mq4JSX7Trll0/DG3f+aG6VBiA3bu9g2ViGglJ3K2G7d717HciFx0QKsN
-         ypSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727058321; x=1727663121;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t7aLKOb5llbH39oSD2wqFg2ImH5K/xs1d/3DhTSvBAM=;
-        b=HTrRBmZ2fJBDOhCKFk7N/idC3E1s/UJtKu8koPgy8xQvV+wbXor2nK3Og8pNVc2pVo
-         6kk3RXhhQ7mHPdlZaPke0S5EoD0mEKIzVNlT2ThdihUaTSh2A43CwqpkWagk9er7/jIW
-         g2VSC6YKhM6ZYK9QXu58tFNWMGPUXehVm+LcZlhSNAFOm6gkWE3YccltAF85jKsbKO/R
-         eff+WT/4h9XT+44Zjm/sDHHc1iim8SaLRDTdjKtF1V66Trh1pY7wDucN387PV1vqqSIB
-         YSbItj+fbvlt4SJ901CSt34+6S/4sfl0UyjXfaEhBkMOkaK0vjbo4N05FYCtYcO9v5Nc
-         Q1Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCXgTzGX/dQmUgW8tEYJJ1Ym3hQXMNnI4BS5O0X4YbOTm8H2n+6jHzo9PkBarWwnSBSNVSKpDI+eVFRdkjmM8Vs+FzYznQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0Yxn1tbsIhlWZU4cTSGZlzxlOddyPW0Po+pTLQWLkalIM+saL7ye
-	6b/rEN00UkoHa991fNuPM08k0dqQObj5P+WLUcT0o/3pRsg3JyJk
-X-Google-Smtp-Source: AGHT+IHMe8B9R9yeowkpYMpdwCkp3LhabZm8IJy9oinfaIcj2oqUQXGLPn9cSkJoTdRgN+hp5ZNI4g==
-X-Received: by 2002:a17:902:d503:b0:202:3324:68bd with SMTP id d9443c01a7336-208d84421afmr140151485ad.43.1727058320760;
-        Sun, 22 Sep 2024 19:25:20 -0700 (PDT)
-Received: from tc (c-67-171-216-181.hsd1.or.comcast.net. [67.171.216.181])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2079473e8a2sm124613895ad.251.2024.09.22.19.25.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Sep 2024 19:25:20 -0700 (PDT)
-Date: Sun, 22 Sep 2024 19:25:18 -0700
-From: Leo Stone <leocstone@gmail.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: Leo Stone <leocstone@gmail.com>, damon@lists.linux.dev, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org, akpm@linux-foundation.org, 
-	ruanjinjie@huawei.com
-Subject: [PATCH v2] mm/damon: fix sparse warning for zero initializer
-Message-ID: <xriwklcwjpwcz7eiavo6f7envdar4jychhsk6sfkj5klaznb6b@j6vrvr2sxjht>
-References: <20240921195511.364023-1-leocstone@gmail.com>
- <20240922151121.469051-1-sj@kernel.org>
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 52WhYbSB2DHo for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 23 Sep 2024 15:58:36 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E416B402E0
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E416B402E0
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nauOwXG6
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E416B402E0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 15:58:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727107116; x=1758643116;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dB/s03J1ijWZEItzL1EbaJOmrjSCtJOL2i697tdgEgA=;
+  b=nauOwXG6rkT9NJcfv+mbepiv9img9HS3y4Ki9kcgM77PJ8qTpZsTn3C+
+   33zogAlv3ct4/+A9mhMfwAg4ZCcZCC5YEnmHwp2a0Da8AUGmDLuaEr0pd
+   VgIPaV9x40Cghu1gMzs6sWiPehov4erwIzauPCwAqYbdzr74bhtjJQA3g
+   ypzhx2aRC9nUNuZlP1fJoGtJRWqHVAsaegVkg3tKRAs1wPTY98tLzPYPa
+   zjrkXBrmL31SWl70cvpXkaGVjDo35VsWhJpep0JOsG2Zx+iGFIkpnyDQY
+   uAX1vU/G7kebJ+QhuQknG1fAeXXgjn++9rihEvdp0YEMRBc8Zpr12luif
+   g==;
+X-CSE-ConnectionGUID: 4QIQYzGQTHKUQ7nA9TPMZA==
+X-CSE-MsgGUID: 6rStsVFiTSqsqNGNKxh8tg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29785881"
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="29785881"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 08:58:33 -0700
+X-CSE-ConnectionGUID: pxoA7IRaQyuYaeZfnDCn0Q==
+X-CSE-MsgGUID: 9SFeaq//T+eJh+7O7ro38w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
+   d="scan'208";a="75870740"
+Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 08:58:31 -0700
+Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sslSG-000HLQ-37;
+	Mon, 23 Sep 2024 15:58:28 +0000
+Date: Mon, 23 Sep 2024 23:57:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bruno Sobreira =?iso-8859-1?Q?Fran=E7a?= <brunofrancadevsec@gmail.com>,
+	akpm@linux-foundation.org, davidgow@google.com,
+	linux-kernel@vger.kernel.org, rmoar@google.com
+Cc: oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	Bruno Sobreira =?iso-8859-1?Q?Fran=E7a?= <brunofrancadevsec@gmail.com>
+Subject: Re: [PATCH] lib/math: Add int_log test suite
+Message-ID: <202409232338.5jngSmX9-lkp@intel.com>
+References: <20240922172549.159928-1-brunofrancadevsec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -88,34 +85,80 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240922151121.469051-1-sj@kernel.org>
+In-Reply-To: <20240922172549.159928-1-brunofrancadevsec@gmail.com>
 
-sparse warns about zero initializing an array with {0,}, change it to
-the equivalent {0}.
+Hi Bruno,
 
-Fixes the sparse warning:
-mm/damon/tests/vaddr-kunit.h:69:47: warning: missing braces around initializer
+kernel test robot noticed the following build warnings:
 
-Fixes: 17ccae8bb5c9 ("mm/damon: add kunit tests")
-Signed-off-by: Leo Stone <leocstone@gmail.com>
----
-v2: Added fixes tag. Thank you! 
----
- mm/damon/tests/vaddr-kunit.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[auto build test WARNING on next-20240920]
+[also build test WARNING on linus/master]
+[cannot apply to akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything v6.11 v6.11-rc7 v6.11-rc6 v6.11]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/mm/damon/tests/vaddr-kunit.h b/mm/damon/tests/vaddr-kunit.h
-index a339d117150f..3dad8dfd9005 100644
---- a/mm/damon/tests/vaddr-kunit.h
-+++ b/mm/damon/tests/vaddr-kunit.h
-@@ -66,7 +66,7 @@ static int __link_vmas(struct maple_tree *mt, struct vm_area_struct *vmas,
- static void damon_test_three_regions_in_vmas(struct kunit *test)
- {
-        static struct mm_struct mm;
--       struct damon_addr_range regions[3] = {0,};
-+       struct damon_addr_range regions[3] = {0};
-        /* 10-20-25, 200-210-220, 300-305, 307-330 */
-        struct vm_area_struct vmas[] = {
-                (struct vm_area_struct) {.vm_start = 10, .vm_end = 20},
---
-2.43.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bruno-Sobreira-Fran-a/lib-math-Add-int_log-test-suite/20240923-012721
+base:   next-20240920
+patch link:    https://lore.kernel.org/r/20240922172549.159928-1-brunofrancadevsec%40gmail.com
+patch subject: [PATCH] lib/math: Add int_log test suite
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240923/202409232338.5jngSmX9-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232338.5jngSmX9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202409232338.5jngSmX9-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/thread_info.h:12,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/alpha/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/kref.h:16,
+                    from include/kunit/test.h:22,
+                    from lib/math/tests/int_log_kunit.c:2:
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^
+   lib/math/tests/int_log_kunit.c:22:10: note: in expansion of macro 'U64_MAX'
+      22 |         {U64_MAX, 536870911, "Log base 2 of MAX"},
+         |          ^~~~~~~
+>> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      25 | #define U64_MAX         ((u64)~0ULL)
+         |                         ^
+   lib/math/tests/int_log_kunit.c:33:10: note: in expansion of macro 'U64_MAX'
+      33 |         {U64_MAX, 161614247, "Log base 10 of MAX"}
+         |          ^~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+   Selected by [y]:
+   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+
+
+vim +25 include/linux/limits.h
+
+3c9d017cc283df Andy Shevchenko 2023-08-04  14  
+54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
+54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
+3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
+54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07 @25  #define U64_MAX		((u64)~0ULL)
+54d50897d544c8 Masahiro Yamada 2019-03-07  26  #define S64_MAX		((s64)(U64_MAX >> 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
+54d50897d544c8 Masahiro Yamada 2019-03-07  28  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
