@@ -1,164 +1,160 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D2819E972
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 15:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C069319F104
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 16:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727107119; cv=none; b=mBvR7QqnnN6+nL7z0HCceSg0CkZUE8mylTWD/6zimijbs80fLEixNmfm/D2lOOfwHyDjaP0uAPMmdsRT/lQaLE5cPCEabJMqTJAUiIMOIBfe/9pdSUAPiEAdTyvWz3kaPCagb89GdeQF80kUyfDMlrE/F42FalZx1/eGKgGKDrM=
+	t=1727108559; cv=none; b=TC5EWQ+7mEubCerZQbSOfrPZSF0We6jqPH8xVleIq0NfvZuFS5QyAAsR6QZpdxiWHETYPtf7Kul0Te+1Fd2w8BdNzzl6BTroe743gASlNuvXKidYDyonMw+XUSyl3t7K7UeQwIe2+krKnLr1elrunYz8LNvBLWAYEqRTNc6TQ90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727107119; c=relaxed/simple;
-	bh=dB/s03J1ijWZEItzL1EbaJOmrjSCtJOL2i697tdgEgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kL/F89ULgFoFasdNgCzyS0N+S4AplM0z39nK72D0cNn5VCeeMa+47pfDI1kbfuEgU3sY5uzvxoK66/Iq66mnDoLEgkez+fmD6YgjpJxeC0D95Hss5kuHMEpJvjpV9okcDufC7/8tVcuMIl1WuROP0bAVYlgVLT5QQwJgZGkiAG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nauOwXG6; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1727108559; c=relaxed/simple;
+	bh=VdkM75IQkxU7Lpd/F13lYAcYe/ObislY5V39DVe3lPo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rm3PCZ7P/DmpXvq9e1U0N2z9x0OIgU7pGFSJ6/0PfFX8RfkcXyIY6VvU+I3pLOCtyXjyqF4ZQ+RNi0VatkJkgdF47iWr6qTeplrCbFUSw5G+YuNvS4mQT82zNQC80rkHmRZj4SNw4+z3Tmmm245RaUMQWW7CrIhUpAyHzQYVHgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRUbxd9a; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nauOwXG6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRUbxd9a"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id A5FB440356
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 15:58:37 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id 5C88E40228
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 16:22:38 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.092
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 52WhYbSB2DHo for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Sep 2024 15:58:36 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=198.175.65.15; helo=mgamail.intel.com; envelope-from=lkp@intel.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E416B402E0
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=intel.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E416B402E0
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nauOwXG6
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E416B402E0
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 15:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727107116; x=1758643116;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dB/s03J1ijWZEItzL1EbaJOmrjSCtJOL2i697tdgEgA=;
-  b=nauOwXG6rkT9NJcfv+mbepiv9img9HS3y4Ki9kcgM77PJ8qTpZsTn3C+
-   33zogAlv3ct4/+A9mhMfwAg4ZCcZCC5YEnmHwp2a0Da8AUGmDLuaEr0pd
-   VgIPaV9x40Cghu1gMzs6sWiPehov4erwIzauPCwAqYbdzr74bhtjJQA3g
-   ypzhx2aRC9nUNuZlP1fJoGtJRWqHVAsaegVkg3tKRAs1wPTY98tLzPYPa
-   zjrkXBrmL31SWl70cvpXkaGVjDo35VsWhJpep0JOsG2Zx+iGFIkpnyDQY
-   uAX1vU/G7kebJ+QhuQknG1fAeXXgjn++9rihEvdp0YEMRBc8Zpr12luif
-   g==;
-X-CSE-ConnectionGUID: 4QIQYzGQTHKUQ7nA9TPMZA==
-X-CSE-MsgGUID: 6rStsVFiTSqsqNGNKxh8tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11204"; a="29785881"
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="29785881"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2024 08:58:33 -0700
-X-CSE-ConnectionGUID: pxoA7IRaQyuYaeZfnDCn0Q==
-X-CSE-MsgGUID: 9SFeaq//T+eJh+7O7ro38w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,251,1719903600"; 
-   d="scan'208";a="75870740"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 23 Sep 2024 08:58:31 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sslSG-000HLQ-37;
-	Mon, 23 Sep 2024 15:58:28 +0000
-Date: Mon, 23 Sep 2024 23:57:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bruno Sobreira =?iso-8859-1?Q?Fran=E7a?= <brunofrancadevsec@gmail.com>,
-	akpm@linux-foundation.org, davidgow@google.com,
-	linux-kernel@vger.kernel.org, rmoar@google.com
-Cc: oe-kbuild-all@lists.linux.dev, kunit-dev@googlegroups.com,
-	skhan@linuxfoundation.org,
+Received: from smtp4.osuosl.org ([127.0.0.1])
+ by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id EPqGJYNvmGUa for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Mon, 23 Sep 2024 16:22:37 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::82f; helo=mail-qt1-x82f.google.com; envelope-from=lanzano.alex@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 1EE6F40214
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 1EE6F40214
+Authentication-Results: smtp4.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=YRUbxd9a
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 1EE6F40214
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 16:22:36 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id d75a77b69052e-4583083d05eso35663151cf.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 09:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727108556; x=1727713356; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xMAjUDxOyknWcICNvHoeRR5xLaaisNjKFQiCg/h7w/8=;
+        b=YRUbxd9a4SP3pqKD3gL20kW0S9s14nwAuroxFkfKKpV6bps/CJjfOZlR47jyagw9um
+         RxVoVCEXWscQG9p8Z+oqfgEJN3X7aoZzzDS48MvH++FzjDwoteIt8bKVHGRuFzIzTdUa
+         djfmyOwg88/cONF16XD3rEI1P4dPEYUnRPhkz/iKoXZF/vYSz9VUqw5/lhQ/Y5t5SMJE
+         /Pb+CqRGjeX0D6TSgxBqjZUEYJw7R9HMF6Od6e3L7CkkKvw5exssYIFUgL9DsNfUFHP6
+         wThQNvrp+pVfe/eMqaFDByyfaAN/qESg04iOUlA24/gQKYexwjPc4RxnmXrD1uKoPmQg
+         x+FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727108556; x=1727713356;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xMAjUDxOyknWcICNvHoeRR5xLaaisNjKFQiCg/h7w/8=;
+        b=otS3RK4q3+9RvfaGux/Ebb/vdlVTtPnpPabk8iYXVaqy9kzhu8RH3rpfRPYwCqKZ0L
+         8qcGtQz7BHtJgLZBcU+hrHk/bfLKayqV5iPF9CT37ONkxIdvAgLZ9iaA20qZWAehvby9
+         PRYXJtFasHehkYzFQUsspEflTNWDBq1CUmQ8hMHqNZ+M7TsrRp0DaC+3Gd3OBzzlfYvR
+         fyBnIzOMzht5FaEIniAJrTSOnoZmDykbY3IFdoT0CgIv3TjagoMimYwJkxqspR7kP4PI
+         3W2cJvopIu83C4hdTQoVWr0TLjvw8C3lTTafFKTzN+8gQjIFAz+DlDjO7IhHj5Kqre4R
+         s+KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0B2dyDV2GCt5OpjR6H83Qd35JpqCLk32q0/gCBwqHDnJGehfJSu4vWFRRq5nf/GlDYeqgjazaxDaOqTvXATmJeCaloA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yy0YRiQqaO/oiW2etA5PgdX1ic0DTSx8YrBRToOt+a2TftRGCKP
+	VZOc0xum+G4rY2ltiYH1+gkkXi6lmT0wJvy3a4NTwrLqC1LokQMT
+X-Google-Smtp-Source: AGHT+IFCJxsI00ZrQnDdvugyIqeqvv9DQpGecgLpiot6gq0UD9k6CQSR8jxNdqQlbuJjiZbrcWW3uQ==
+X-Received: by 2002:ac8:5d4a:0:b0:456:61f0:810d with SMTP id d75a77b69052e-45b226d1230mr220772381cf.10.1727108555440;
+        Mon, 23 Sep 2024 09:22:35 -0700 (PDT)
+Received: from VM-Arch.gst.l3harris.com ([208.127.73.102])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45b17867fb0sm48587901cf.1.2024.09.23.09.22.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Sep 2024 09:22:34 -0700 (PDT)
+From: Alex Lanzano <lanzano.alex@gmail.com>
+To: dmitry.baryshkov@linaro.org,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
-	Bruno Sobreira =?iso-8859-1?Q?Fran=E7a?= <brunofrancadevsec@gmail.com>
-Subject: Re: [PATCH] lib/math: Add int_log test suite
-Message-ID: <202409232338.5jngSmX9-lkp@intel.com>
-References: <20240922172549.159928-1-brunofrancadevsec@gmail.com>
+	christophe.jaillet@wanadoo.fr,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: [PATCH v7 0/2] Add driver for Sharp Memory LCD
+Date: Mon, 23 Sep 2024 12:21:33 -0400
+Message-ID: <20240923162205.55658-1-lanzano.alex@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240922172549.159928-1-brunofrancadevsec@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Bruno,
+This patch series add support for the monochrome Sharp Memory LCD
+panels. This series is based off of the work done by Mehdi Djait.
 
-kernel test robot noticed the following build warnings:
+References:
+https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
+https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
 
-[auto build test WARNING on next-20240920]
-[also build test WARNING on linus/master]
-[cannot apply to akpm-mm/mm-nonmm-unstable akpm-mm/mm-everything v6.11 v6.11-rc7 v6.11-rc6 v6.11]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+---
+Changes in v7:
+- Add Reviewed-by tag back to dt-binding patch
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bruno-Sobreira-Fran-a/lib-math-Add-int_log-test-suite/20240923-012721
-base:   next-20240920
-patch link:    https://lore.kernel.org/r/20240922172549.159928-1-brunofrancadevsec%40gmail.com
-patch subject: [PATCH] lib/math: Add int_log test suite
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240923/202409232338.5jngSmX9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240923/202409232338.5jngSmX9-lkp@intel.com/reproduce)
+Changes in v6:
+- Rebase off latest drm-misc-next
+- Replace pwm_apply_state with pwm_apply_might_sleep
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409232338.5jngSmX9-lkp@intel.com/
+Changes in v5:
+- Address minor style issues in sharp-memory.c
 
-All warnings (new ones prefixed by >>):
+Changes in v4:
+- Remove redundant dev_err
 
-   In file included from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/kunit/test.h:22,
-                    from lib/math/tests/int_log_kunit.c:2:
->> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      25 | #define U64_MAX         ((u64)~0ULL)
-         |                         ^
-   lib/math/tests/int_log_kunit.c:22:10: note: in expansion of macro 'U64_MAX'
-      22 |         {U64_MAX, 536870911, "Log base 2 of MAX"},
-         |          ^~~~~~~
->> include/linux/limits.h:25:25: warning: conversion from 'long long unsigned int' to 'unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-      25 | #define U64_MAX         ((u64)~0ULL)
-         |                         ^
-   lib/math/tests/int_log_kunit.c:33:10: note: in expansion of macro 'U64_MAX'
-      33 |         {U64_MAX, 161614247, "Log base 10 of MAX"}
-         |          ^~~~~~~
+Changes in v3:
+- Fix file path in MAINTAINERS file
+- Address review comments
+- Simplify mode selection based on match data instead of model
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [y]:
-   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+Changes in v2:
+- Credited Mehdi Djait in commit messages
+- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
+- Using strings instead of int for vcom-mode in dt-binding
+- Fixed indentation of binding example
+- Removed binding header
+- Removed extra whitespace in sharp-memory.c
+- Fixed error handling in sharp-memory.c
+- Added match data to of_device_id table to be in-sync with spi_device_id table
+- Replaced redundant function with spi_get_device_match_data
+- Sorted header files in sharp-memory.c
+---
 
+Alex Lanzano (2):
+  dt-bindings: display: Add Sharp Memory LCD bindings
+  drm/tiny: Add driver for Sharp Memory LCD
 
-vim +25 include/linux/limits.h
-
-3c9d017cc283df Andy Shevchenko 2023-08-04  14  
-54d50897d544c8 Masahiro Yamada 2019-03-07  15  #define U8_MAX		((u8)~0U)
-54d50897d544c8 Masahiro Yamada 2019-03-07  16  #define S8_MAX		((s8)(U8_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  17  #define S8_MIN		((s8)(-S8_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  18  #define U16_MAX		((u16)~0U)
-54d50897d544c8 Masahiro Yamada 2019-03-07  19  #define S16_MAX		((s16)(U16_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  20  #define S16_MIN		((s16)(-S16_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  21  #define U32_MAX		((u32)~0U)
-3f50f132d8400e John Fastabend  2020-03-30  22  #define U32_MIN		((u32)0)
-54d50897d544c8 Masahiro Yamada 2019-03-07  23  #define S32_MAX		((s32)(U32_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  24  #define S32_MIN		((s32)(-S32_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07 @25  #define U64_MAX		((u64)~0ULL)
-54d50897d544c8 Masahiro Yamada 2019-03-07  26  #define S64_MAX		((s64)(U64_MAX >> 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  27  #define S64_MIN		((s64)(-S64_MAX - 1))
-54d50897d544c8 Masahiro Yamada 2019-03-07  28  
+ .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/tiny/Kconfig                  |  20 +
+ drivers/gpu/drm/tiny/Makefile                 |   1 +
+ drivers/gpu/drm/tiny/sharp-memory.c           | 682 ++++++++++++++++++
+ 5 files changed, 801 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+ create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0
+
