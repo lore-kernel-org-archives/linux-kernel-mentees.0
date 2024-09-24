@@ -1,375 +1,325 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4D31B85FA
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 03:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBA11ABEDD
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 17:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727148129; cv=none; b=peK74gspVX8i+8X82ayEXBwrrTBf0vwNT4NFy18s1oY2eDSV+aoyz0QqMf7x42JbqMWAXNBzAp3lLjNkM86393o1t7DRCRf/RKpvc0s1SkQpKlmT+aOlLX1x1mgRmzFH+gHDhQCy1AVTMI+6LnEBDsA3yiX0StqVW2fzaH5eX3o=
+	t=1727198655; cv=none; b=Hbgm2IMpVtQyWZ95D+vqLkOpcK1/YgCH1X8jbkRVVvmAloJzidMB3SVDbP9fbvu4omaNMxrNg4SL2c9PSFDpincfWS+/xDDiGDNdojluHPK1dYq+gHrZpKriSGFg4mRb4ZrdBF2Xn7mA3qUKoI+rrqTWH5RLJVuheudfnJ7yw2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727148129; c=relaxed/simple;
-	bh=d0srb6qooPcK3ydCgaThYnMDntE6sDvjZATQ2/nemPI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=maeeEMLv6WLPbcyyJ++WOBzSLPigrujIPftWq8gNw3VzwRkjyuWR58Q3Oap6bzEsQvibt+HT1l/5PR1NzcDhL6n4ZIhEcpJh2+r3xpZPlE9Y97/+XUc8L1LUsEz+oKJVmjhHKtvR0i0wPQBRBKGhy7nu5JH1k9jqbDIBVxqtBik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZSpWYiiV; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1727198655; c=relaxed/simple;
+	bh=i2prbdZtMoWVyDoI4r/p//WUM6FxFMImdthGTI/8140=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ASbkYEJ+WQcifr6fXqPjwtJFM14nBu6Rv6oHJKK7lMil2nR0CQz/L6sNTPObqqNeNddymMBvxDRTUhVY2Jdb5BmZ2kpniQpDPp0N9O1pKfWveETS7Mlt/ElgtR0QbbmaeqSkt/feG2caG9PsiD9WGC3QQWp0eDGEqjEY+uzTXHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvZEdl7N; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZSpWYiiV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvZEdl7N"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id B816A4031C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 03:22:07 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 2369184193
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 17:24:14 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -1.849
+X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SdqCp-ice5OV for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Sep 2024 03:22:06 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::92f; helo=mail-ua1-x92f.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E634540021
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E634540021
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZSpWYiiV
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id E634540021
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 03:22:05 +0000 (UTC)
-Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-846d536254fso1533138241.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 20:22:05 -0700 (PDT)
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 0MDuzbgjexdm for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 24 Sep 2024 17:24:13 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org BE3F381E59
+Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BE3F381E59
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=UvZEdl7N
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id BE3F381E59
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 17:24:12 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-374b5f27cf2so3430438f8f.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 10:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727148124; x=1727752924; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1727198651; x=1727803451; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=b5fYTW7PQqJuRwVQ75GCsGgjYwop/2g2bLhFQ9jayNU=;
-        b=ZSpWYiiVI2Py8DCoIOmMoYlnK0RY2yjoi3ADO9EevO7Pkdmpf2R7ez0IO9n4ihGH4p
-         59NIIJVE3qJ1ieiRRqOnltHBD18JDLKcBHmdC09hsgnFWJVPO5MnKBb13SlGzfRZWKC6
-         sUtB3SJBPbNnM30Y8rGWfm64xWdD1OpGukKQAMuprH5rOALlnDvHZ1+ogRtyW4BSYoZV
-         wMclleiqf9CPhcNKSYSTdZNeIGE+EF+uI2kUdpVA/RZGq4i6NoaYXFaVM6d56jSkDTZD
-         Cu25yTKO7PSPthZsLd7SPOV7d0fDyPGckPSNhickhpPswvbsq8jK6rT5X/rnN6kMWQtr
-         ky+w==
+        bh=1Xa6ya8wdG3acprFrPFVxBRwnaLHUBcbgW6iKZmyPgA=;
+        b=UvZEdl7NmROKFRC+N4skGR7i9FYFQvuvhQhtc/KYEIjvGIDc5R74EN7bdRQHpDuJqF
+         8K4lVcwUMjRMp7hQqassBiDItFNDRzT0y3/Tjls8N/Mlbh9cBrn+bMcvhBgOi+lypNrM
+         ObZvh66RBcLt1Xzztu/md1cCQoMFJHuYRVEcO88uTx3NcMliaH1DnWXeMG/ahqpSMR02
+         DR7h0O+7pagahJBTuhaKdcbko1y8SaM3SQsZ79iRwgimDPWghftnKdTH4JUv3B63YJGo
+         /cJ5pbWPLrWZ0V1BYs0oAhXCRiUiebVwaEKOIsKLq0LZH072+/SIvhOp2y6miNouvqpU
+         ripw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727148124; x=1727752924;
+        d=1e100.net; s=20230601; t=1727198651; x=1727803451;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b5fYTW7PQqJuRwVQ75GCsGgjYwop/2g2bLhFQ9jayNU=;
-        b=ctVeHuo226stYhPJjMz3mx2eQHx/M9YP4ir29Lr5+hD9rNMgBh8BNR4SJ6GB1epCAG
-         kf8DxJJkDfAvprOw0B2lXNu5YFGwan1yLkFeS8teNkDu3cDJWEy28pz65Vp4jeB02HiT
-         EgOLzCxuN0fMDhQgIoJd5F7jxjVCJmD38gwI2ls2xNddj9DCKYE3c3IklaTY5U2zAbh/
-         IZFT5ffcvt1bzKgEuB59TsiR1UwyP7FirtQWL5NrZxpcrXK4IIrq/HyadvOflqbmdbSa
-         dfMvZmJ/ZHI4lxW/bDQpyXq6YbpBOASJTzSORFXF8EQV61CT/cbUxucGrYyfNBjBCLiY
-         DQ0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWdex3x5xtcVh8XM1QaUjJy3E0mFH9mgnUYrrFtT7srNAxmTEG8qYlfG3MAnx4m9+3oYzphfXCE3LQFPSFgDsjleZfgxg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzECs1g4YgLu6gUTl88fCHXhyPDH9m2qNuaF2YWNgTRZ4cQe+WO
-	ucDzyZomDkmLeFf6aH5+bXfSuO6QD17xPj1bpLfZGvIt/OlJ18OP
-X-Google-Smtp-Source: AGHT+IHJ2RcJksyYQ1KtEStYbVQU0xOEaxnq2SRS9FiWuTJZ77s/QoPgF2fy46pMDf+wBF0CNYFQaw==
-X-Received: by 2002:a05:6102:3749:b0:49c:8d2:8ec with SMTP id ada2fe7eead31-49fc951fd03mr9588289137.3.1727148124325;
-        Mon, 23 Sep 2024 20:22:04 -0700 (PDT)
-Received: from x13.. (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4a15187d1besm377460137.28.2024.09.23.20.22.02
+        bh=1Xa6ya8wdG3acprFrPFVxBRwnaLHUBcbgW6iKZmyPgA=;
+        b=aMHPHviidiNxyLYvjPSHb9mBzwdQo96XBUE/TL9kr9GuFpk8/aDPxKyMBat5hXA7eW
+         ulDOviSVS5P+VKHFtJuThVcMDyUhV3f/iZda5D3fD7ZW+5loy1SJsCXMytMjS3vTxI9g
+         nrrF+UjvtoMoomTKzBEfAmuRdErlXadvFc64RfA8rmh9xG+uyWGYIIcT3EyGldpEPq22
+         3jiYUTweMyYYKqQ/XOR1ZUykOpzyXgHymjRqT3wuHFcVKnKUu1swMYtMTdwLg2TEKw+L
+         +THqMSeFXov8a3+Y6iViKBDwNWlacRJB42sodJ5BV4bC/Y9aO0JhPVPUncjVBDExyChk
+         ejQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVcQbwmkkrrX3bR8cob+krVx1PjWLDGdBFNJ0T6uJP7cXt51TVd2lShihaWlDArTasXnLmCMSVNADpGupkmgXFFlPSgnA==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YxJJaa3Ny5KeUfuiwfBFpT8XNqB6CwAheOBya7KKTSmgTz1QYeO
+	iqjsp9woUjyxDcUExtt9ITBIWKVnQnOXz329aP6k7nhBiU1QVYew
+X-Google-Smtp-Source: AGHT+IGTKSfyy9/yRkrIFuC7cBO7/BvzSRmazQjP6DBcmTpxOZ4uat6YRdZE94fpH202GnM/mUk8dA==
+X-Received: by 2002:a05:6000:8f:b0:374:c79b:ca5f with SMTP id ffacd0b85a97d-37cc24c26e2mr80226f8f.46.1727198650417;
+        Tue, 24 Sep 2024 10:24:10 -0700 (PDT)
+Received: from laptop.home (188.75.217.87.dynamic.jazztel.es. [87.217.75.188])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc31f6e1sm2109535f8f.111.2024.09.24.10.24.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 20:22:03 -0700 (PDT)
-From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
-To: brendan.higgins@linux.dev,
-	davidgow@google.com,
-	rmoar@google.com,
-	quic_jjohnson@quicinc.com,
-	macro@orcam.me.uk,
-	npitre@baylibre.com,
-	tpiepho@gmail.com
-Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+        Tue, 24 Sep 2024 10:24:09 -0700 (PDT)
+From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
+To: Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
 	linux-kselftest@vger.kernel.org,
 	kunit-dev@googlegroups.com,
+	sergio.collado@gmail.com,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	David Rheinsberg <david@readahead.eu>,
+	rust-for-linux@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
 	skhan@linuxfoundation.org,
-	ricardo@marliere.net,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2] lib: math: Move kunit tests into tests/ subdir
-Date: Mon, 23 Sep 2024 23:21:47 -0400
-Message-ID: <20240924032200.167622-1-luis.hernandez093@gmail.com>
-X-Mailer: git-send-email 2.46.1
+	ricardo.marliere@suse.com,
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Subject: [PATCH v4] Kunit to check the longest symbol length
+Date: Tue, 24 Sep 2024 19:23:51 +0200
+Message-Id: <20240924172351.23225-1-sergio.collado@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch is a follow-up task from a discussion stemming from point 3
-in a recent patch introducing the int_pow kunit test [1] and
-documentation regarding kunit test style and nomenclature [2].
+The longest length of a symbol (KSYM_NAME_LEN) was increased to 512
+in the reference [1]. This patch adds a kunit test to check the longest
+symbol length.
 
-Colocate all kunit test suites in lib/math/tests/ and
-follow recommended naming convention for files <suite>_kunit.c
-and kconfig entries CONFIG_<name>_KUNIT_TEST.
+This test can also help other efforts for longer symbol lenght,
+like [2].
 
-Link: https://lore.kernel.org/all/CABVgOS=-vh5TqHFCq_jo=ffq8v_nGgr6JsPnOZag3e6+19ysxQ@mail.gmail.com/ [1]
-Link: https://docs.kernel.org/dev-tools/kunit/style.html [2]
+[1] https://lore.kernel.org/lkml/20220802015052.10452-6-ojeda@kernel.org/
+[2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org/
 
-Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+Tested-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
 ---
-Changes in v2: Fix cc recipient list inclusion in cover letter
----
- arch/m68k/configs/amiga_defconfig                           | 2 +-
- arch/m68k/configs/apollo_defconfig                          | 2 +-
- arch/m68k/configs/atari_defconfig                           | 2 +-
- arch/m68k/configs/bvme6000_defconfig                        | 2 +-
- arch/m68k/configs/hp300_defconfig                           | 2 +-
- arch/m68k/configs/mac_defconfig                             | 2 +-
- arch/m68k/configs/multi_defconfig                           | 2 +-
- arch/m68k/configs/mvme147_defconfig                         | 2 +-
- arch/m68k/configs/mvme16x_defconfig                         | 2 +-
- arch/m68k/configs/q40_defconfig                             | 2 +-
- arch/m68k/configs/sun3_defconfig                            | 2 +-
- arch/m68k/configs/sun3x_defconfig                           | 2 +-
- arch/powerpc/configs/ppc64_defconfig                        | 2 +-
- lib/Kconfig.debug                                           | 6 +++---
- lib/math/Makefile                                           | 5 +----
- lib/math/tests/Makefile                                     | 5 ++++-
- lib/math/{test_div64.c => tests/div64_kunit.c}              | 0
- .../mul_u64_u64_div_u64_kunit.c}                            | 0
- lib/math/{rational-test.c => tests/rational_kunit.c}        | 0
- 19 files changed, 21 insertions(+), 21 deletions(-)
- rename lib/math/{test_div64.c => tests/div64_kunit.c} (100%)
- rename lib/math/{test_mul_u64_u64_div_u64.c => tests/mul_u64_u64_div_u64_kunit.c} (100%)
- rename lib/math/{rational-test.c => tests/rational_kunit.c} (100%)
+V1 -> V2: corrected CI tests. Added fix proposed at [3]
 
-diff --git a/arch/m68k/configs/amiga_defconfig b/arch/m68k/configs/amiga_defconfig
-index d01dc47d52ea..7ba9311c084c 100644
---- a/arch/m68k/configs/amiga_defconfig
-+++ b/arch/m68k/configs/amiga_defconfig
-@@ -619,7 +619,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/apollo_defconfig b/arch/m68k/configs/apollo_defconfig
-index 46808e581d7b..273fe4032b85 100644
---- a/arch/m68k/configs/apollo_defconfig
-+++ b/arch/m68k/configs/apollo_defconfig
-@@ -576,7 +576,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/atari_defconfig b/arch/m68k/configs/atari_defconfig
-index 4469a7839c9d..9976cda99fc1 100644
---- a/arch/m68k/configs/atari_defconfig
-+++ b/arch/m68k/configs/atari_defconfig
-@@ -596,7 +596,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/bvme6000_defconfig b/arch/m68k/configs/bvme6000_defconfig
-index c0719322c028..f59082c8fe06 100644
---- a/arch/m68k/configs/bvme6000_defconfig
-+++ b/arch/m68k/configs/bvme6000_defconfig
-@@ -568,7 +568,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/hp300_defconfig b/arch/m68k/configs/hp300_defconfig
-index 8d429e63f8f2..6db3556da9ac 100644
---- a/arch/m68k/configs/hp300_defconfig
-+++ b/arch/m68k/configs/hp300_defconfig
-@@ -578,7 +578,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/mac_defconfig b/arch/m68k/configs/mac_defconfig
-index bafd33da27c1..25c06b5c83ee 100644
---- a/arch/m68k/configs/mac_defconfig
-+++ b/arch/m68k/configs/mac_defconfig
-@@ -595,7 +595,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/multi_defconfig b/arch/m68k/configs/multi_defconfig
-index 6f5ca3f85ea1..35e57e0ee139 100644
---- a/arch/m68k/configs/multi_defconfig
-+++ b/arch/m68k/configs/multi_defconfig
-@@ -681,7 +681,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/mvme147_defconfig b/arch/m68k/configs/mvme147_defconfig
-index d16b328c7136..d253b686119a 100644
---- a/arch/m68k/configs/mvme147_defconfig
-+++ b/arch/m68k/configs/mvme147_defconfig
-@@ -567,7 +567,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/mvme16x_defconfig b/arch/m68k/configs/mvme16x_defconfig
-index 80f6c15a5ed5..62bc6ad63783 100644
---- a/arch/m68k/configs/mvme16x_defconfig
-+++ b/arch/m68k/configs/mvme16x_defconfig
-@@ -568,7 +568,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/q40_defconfig b/arch/m68k/configs/q40_defconfig
-index 0e81589f0ee2..caba39c61bac 100644
---- a/arch/m68k/configs/q40_defconfig
-+++ b/arch/m68k/configs/q40_defconfig
-@@ -585,7 +585,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/sun3_defconfig b/arch/m68k/configs/sun3_defconfig
-index 8cd785290339..a348f645ed55 100644
---- a/arch/m68k/configs/sun3_defconfig
-+++ b/arch/m68k/configs/sun3_defconfig
-@@ -565,7 +565,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/m68k/configs/sun3x_defconfig b/arch/m68k/configs/sun3x_defconfig
-index 78035369f60f..f8b3cfc3275b 100644
---- a/arch/m68k/configs/sun3x_defconfig
-+++ b/arch/m68k/configs/sun3x_defconfig
-@@ -566,7 +566,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_TEST_DHRY=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_REED_SOLOMON_TEST=m
- CONFIG_ATOMIC64_SELFTEST=m
- CONFIG_ASYNC_RAID6_TEST=m
-diff --git a/arch/powerpc/configs/ppc64_defconfig b/arch/powerpc/configs/ppc64_defconfig
-index a5e3e7f97f4d..f1f21765c0c1 100644
---- a/arch/powerpc/configs/ppc64_defconfig
-+++ b/arch/powerpc/configs/ppc64_defconfig
-@@ -435,7 +435,7 @@ CONFIG_KUNIT=m
- CONFIG_KUNIT_ALL_TESTS=m
- CONFIG_LKDTM=m
- CONFIG_TEST_MIN_HEAP=m
--CONFIG_TEST_DIV64=m
-+CONFIG_DIV64_KUNIT_TEST=m
- CONFIG_BACKTRACE_SELF_TEST=m
- CONFIG_TEST_REF_TRACKER=m
- CONFIG_RBTREE_TEST=m
+[3] https://lore.kernel.org/lkml/Y9ES4UKl%2F+DtvAVS@gmail.com/T/#m3ef0e12bb834d01ed1ebdcae12ef5f2add342077
+---
+V2 -> V3: updated base and added MODULE_DESCRIPTION() and MODULE_AUTHOR()
+---
+V3 -> V4: add x86 mantainers, add new reference.
+---
+ arch/x86/tools/insn_decoder_test.c |   3 +-
+ lib/Kconfig.debug                  |   9 +++
+ lib/Makefile                       |   2 +
+ lib/longest_symbol_kunit.c         | 124 +++++++++++++++++++++++++++++
+ 4 files changed, 137 insertions(+), 1 deletion(-)
+ create mode 100644 lib/longest_symbol_kunit.c
+
+diff --git a/arch/x86/tools/insn_decoder_test.c b/arch/x86/tools/insn_decoder_test.c
+index 472540aeabc2..3bde35ea4188 100644
+--- a/arch/x86/tools/insn_decoder_test.c
++++ b/arch/x86/tools/insn_decoder_test.c
+@@ -10,6 +10,7 @@
+ #include <assert.h>
+ #include <unistd.h>
+ #include <stdarg.h>
++#include <linux/kallsysms.h>
+ 
+ #define unlikely(cond) (cond)
+ 
+@@ -106,7 +107,7 @@ static void parse_args(int argc, char **argv)
+ 	}
+ }
+ 
+-#define BUFSIZE 256
++#define BUFSIZE (256 + KSYM_NAME_LEN)
+ 
+ int main(int argc, char **argv)
+ {
 diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index bc8faa4509e1..49807e18b0fc 100644
+index bc8faa4509e1..09015e7e07f3 100644
 --- a/lib/Kconfig.debug
 +++ b/lib/Kconfig.debug
-@@ -2281,7 +2281,7 @@ config TEST_SORT
+@@ -2805,6 +2805,15 @@ config FORTIFY_KUNIT_TEST
+ 	  by the str*() and mem*() family of functions. For testing runtime
+ 	  traps of FORTIFY_SOURCE, see LKDTM's "FORTIFY_*" tests.
  
- 	  If unsure, say N.
++config LONGEST_SYM_KUNIT_TEST
++	tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
++	depends on KUNIT && KPROBES
++	default KUNIT_ALL_TESTS
++	help
++	  Tests the longest symbol possible
++
++	  If unsure, say N.
++
+ config HW_BREAKPOINT_KUNIT_TEST
+ 	bool "Test hw_breakpoint constraints accounting" if !KUNIT_ALL_TESTS
+ 	depends on HAVE_HW_BREAKPOINT
+diff --git a/lib/Makefile b/lib/Makefile
+index 773adf88af41..fc878e716825 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -389,6 +389,8 @@ CFLAGS_fortify_kunit.o += $(DISABLE_STRUCTLEAK_PLUGIN)
+ obj-$(CONFIG_FORTIFY_KUNIT_TEST) += fortify_kunit.o
+ obj-$(CONFIG_SIPHASH_KUNIT_TEST) += siphash_kunit.o
+ obj-$(CONFIG_USERCOPY_KUNIT_TEST) += usercopy_kunit.o
++obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
++CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
  
--config TEST_DIV64
-+config DIV64_KUNIT_TEST
- 	tristate "64bit/32bit division and modulo test"
- 	depends on DEBUG_KERNEL || m
- 	help
-@@ -2291,7 +2291,7 @@ config TEST_DIV64
+ obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) += devmem_is_allowed.o
  
- 	  If unsure, say N.
- 
--config TEST_MULDIV64
-+config MULDIV64_KUNIT_TEST
- 	tristate "mul_u64_u64_div_u64() test"
- 	depends on DEBUG_KERNEL || m
- 	help
-@@ -3074,7 +3074,7 @@ endmenu # "Rust"
- 
- endmenu # Kernel hacking
- 
--config INT_POW_TEST
-+config INT_POW_KUNIT_TEST
- 	tristate "Integer exponentiation (int_pow) test" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
- 	default KUNIT_ALL_TESTS
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 3ef11305f8d2..1c489501ff57 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -5,7 +5,4 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
- obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
- obj-$(CONFIG_RATIONAL)		+= rational.o
- 
--obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
--obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
--obj-$(CONFIG_TEST_MULDIV64)	+= test_mul_u64_u64_div_u64.o
--obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
-+obj-y  += tests/
-diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-index 6a169123320a..f9a0a0e6b73a 100644
---- a/lib/math/tests/Makefile
-+++ b/lib/math/tests/Makefile
-@@ -1,3 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
--obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
-+obj-$(CONFIG_DIV64_KUNIT_TEST)    += div64_kunit.o
-+obj-$(CONFIG_INT_POW_KUNIT_TEST)  += int_pow_kunit.o
-+obj-$(CONFIG_MULDIV64_KUNIT_TEST) += mul_u64_u64_div_u64_kunit.o
-+obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational_kunit.o
-diff --git a/lib/math/test_div64.c b/lib/math/tests/div64_kunit.c
-similarity index 100%
-rename from lib/math/test_div64.c
-rename to lib/math/tests/div64_kunit.c
-diff --git a/lib/math/test_mul_u64_u64_div_u64.c b/lib/math/tests/mul_u64_u64_div_u64_kunit.c
-similarity index 100%
-rename from lib/math/test_mul_u64_u64_div_u64.c
-rename to lib/math/tests/mul_u64_u64_div_u64_kunit.c
-diff --git a/lib/math/rational-test.c b/lib/math/tests/rational_kunit.c
-similarity index 100%
-rename from lib/math/rational-test.c
-rename to lib/math/tests/rational_kunit.c
+diff --git a/lib/longest_symbol_kunit.c b/lib/longest_symbol_kunit.c
+new file mode 100644
+index 000000000000..557ad6eae56c
+--- /dev/null
++++ b/lib/longest_symbol_kunit.c
+@@ -0,0 +1,124 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Test the longest symbol length. Execute with:
++ *  ./tools/testing/kunit/kunit.py run longest-symbol
++ *  --arch=x86_64 --kconfig_add CONFIG_KPROBES=y --kconfig_add CONFIG_MODULES=y
++ *  --kconfig_add CONFIG_RETPOLINE=n
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <kunit/test.h>
++#include <linux/stringify.h>
++#include <linux/kprobes.h>
++#include <linux/kallsyms.h>
++
++#define DI(name) s##name##name
++#define DDI(name) DI(n##name##name)
++#define DDDI(name) DDI(n##name##name)
++#define DDDDI(name) DDDI(n##name##name)
++#define DDDDDI(name) DDDDI(n##name##name)
++
++#define PLUS1(name) __PASTE(name, e)
++
++/*Generate a symbol whose name length is 511 */
++#define LONGEST_SYM_NAME  DDDDDI(g1h2i3j4k5l6m7n)
++
++/*Generate a symbol whose name length is 512 */
++#define LONGEST_SYM_NAME_PLUS1 PLUS1(LONGEST_SYM_NAME)
++
++#define RETURN_LONGEST_SYM 0xAAAAA
++#define RETURN_LONGEST_SYM_PLUS1 0x55555
++
++noinline int LONGEST_SYM_NAME(void);
++noinline int LONGEST_SYM_NAME(void)
++{
++	return RETURN_LONGEST_SYM;
++}
++
++noinline int LONGEST_SYM_NAME_PLUS1(void);
++noinline int LONGEST_SYM_NAME_PLUS1(void)
++{
++	return RETURN_LONGEST_SYM_PLUS1;
++}
++
++_Static_assert(sizeof(__stringify(LONGEST_SYM_NAME)) == KSYM_NAME_LEN,
++"Incorrect symbol length found. Expected KSYM_NAME_LEN: "
++__stringify(KSYM_NAME) ", but found: "
++__stringify(sizeof(LONGEST_SYM_NAME)));
++
++static void test_longest_symbol(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, RETURN_LONGEST_SYM, LONGEST_SYM_NAME());
++};
++
++static void test_longest_symbol_kallsyms(struct kunit *test)
++{
++	unsigned long (*kallsyms_lookup_name)(const char *name);
++	static int (*longest_sym)(void);
++
++	struct kprobe kp = {
++		.symbol_name = "kallsyms_lookup_name",
++	};
++
++	if (register_kprobe(&kp) < 0) {
++		pr_info("%s: kprobe not registered\n", __func__);
++		KUNIT_FAIL(test, "test_longest_symbol kallsysms: kprobe not registered\n");
++		return;
++	}
++
++	kunit_warn(test, "test_longest_symbol kallsyms: kprobe registered\n");
++	kallsyms_lookup_name = (unsigned long (*)(const char *name))kp.addr;
++	unregister_kprobe(&kp);
++
++	longest_sym =
++		(void *) kallsyms_lookup_name(__stringify(LONGEST_SYM_NAME));
++	KUNIT_EXPECT_EQ(test, RETURN_LONGEST_SYM, longest_sym());
++};
++
++static void test_longest_symbol_plus1(struct kunit *test)
++{
++	KUNIT_EXPECT_EQ(test, RETURN_LONGEST_SYM_PLUS1, LONGEST_SYM_NAME_PLUS1());
++};
++
++static void test_longest_symbol_plus1_kallsyms(struct kunit *test)
++{
++	unsigned long (*kallsyms_lookup_name)(const char *name);
++	static int (*longest_sym_plus1)(void);
++
++	struct kprobe kp = {
++		.symbol_name = "kallsyms_lookup_name",
++	};
++
++	if (register_kprobe(&kp) < 0) {
++		pr_info("%s: kprobe not registered\n", __func__);
++		KUNIT_FAIL(test, "test_longest_symbol kallsysms: kprobe not registered\n");
++		return;
++	}
++
++	kunit_warn(test, "test_longest_symbol_plus1 kallsyms: kprobe registered\n");
++	kallsyms_lookup_name = (unsigned long (*)(const char *name))kp.addr;
++	unregister_kprobe(&kp);
++
++	longest_sym_plus1 =
++		(void *) kallsyms_lookup_name(__stringify(LONGEST_SYM_NAME_PLUS1));
++	KUNIT_EXPECT_NULL(test, longest_sym_plus1);
++};
++
++static struct kunit_case longest_symbol_test_cases[] = {
++	KUNIT_CASE(test_longest_symbol),
++	KUNIT_CASE(test_longest_symbol_kallsyms),
++	KUNIT_CASE(test_longest_symbol_plus1),
++	KUNIT_CASE(test_longest_symbol_plus1_kallsyms),
++	{}
++};
++
++static struct kunit_suite longest_symbol_test_suite = {
++	.name = "longest-symbol",
++	.test_cases = longest_symbol_test_cases,
++};
++kunit_test_suite(longest_symbol_test_suite);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Test the longest symbol length");
++MODULE_AUTHOR("Sergio González Collado");
+
+base-commit: abf2050f51fdca0fd146388f83cddd95a57a008d
 -- 
-2.46.1
+2.39.2
 
