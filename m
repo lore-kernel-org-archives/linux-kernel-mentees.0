@@ -1,235 +1,375 @@
 Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B320E19F13C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 18:28:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4D31B85FA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 03:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727116093; cv=none; b=OHCPZmShvJtyQtar3ea93FfIAk8L/I+W9AB7285z+1WpRvpjECVJuXVPdPOyYp5i2YSdQXRbtXY40NM3IXlZRH+M9+JHOddBITo6kLpJVCUnZ7E6jiwYniyPJYbgz6wfuDgKT01tnm0Tuf52Zcx/HJSnwSPyXAjAFGPR/c3kpWo=
+	t=1727148129; cv=none; b=peK74gspVX8i+8X82ayEXBwrrTBf0vwNT4NFy18s1oY2eDSV+aoyz0QqMf7x42JbqMWAXNBzAp3lLjNkM86393o1t7DRCRf/RKpvc0s1SkQpKlmT+aOlLX1x1mgRmzFH+gHDhQCy1AVTMI+6LnEBDsA3yiX0StqVW2fzaH5eX3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727116093; c=relaxed/simple;
-	bh=QbRqjtxOB3MHaRJ1QgYEDpdPYgM7DU/nYJWS2/l99G4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ca8vhefK8yYFQ8rEhd8cQJ8W7Q7rJpQZH4pwYKv/hL0dtp6vDXGLTOqNerY1h0gswOg7QEzeAXzdF0gAi4Z+VB6ND8N+I17vJ1ihfuRq4dTPNN6/PlmCCdFGI4Na2+U0ZIflHQjmKj1XiaqaYDe2VdB5kQ9cCagMuKuObVud2CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsDx3ivd; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1727148129; c=relaxed/simple;
+	bh=d0srb6qooPcK3ydCgaThYnMDntE6sDvjZATQ2/nemPI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=maeeEMLv6WLPbcyyJ++WOBzSLPigrujIPftWq8gNw3VzwRkjyuWR58Q3Oap6bzEsQvibt+HT1l/5PR1NzcDhL6n4ZIhEcpJh2+r3xpZPlE9Y97/+XUc8L1LUsEz+oKJVmjhHKtvR0i0wPQBRBKGhy7nu5JH1k9jqbDIBVxqtBik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZSpWYiiV; arc=none smtp.client-ip=140.211.166.133
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsDx3ivd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZSpWYiiV"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3FC1240A9B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 18:28:12 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id B816A4031C
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 03:22:07 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
+X-Spam-Score: -1.849
 X-Spam-Level:
 Received: from smtp2.osuosl.org ([127.0.0.1])
  by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id s-VuM-w8twmB for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Mon, 23 Sep 2024 18:28:11 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::e36; helo=mail-vs1-xe36.google.com; envelope-from=brunofrancadevsec@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 0820940021
+ id SdqCp-ice5OV for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Tue, 24 Sep 2024 03:22:06 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::92f; helo=mail-ua1-x92f.google.com; envelope-from=luis.hernandez093@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org E634540021
 Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 0820940021
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org E634540021
 Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gsDx3ivd
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id 0820940021
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 18:28:10 +0000 (UTC)
-Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-49bd45cfe38so1645782137.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 11:28:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=ZSpWYiiV
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id E634540021
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 03:22:05 +0000 (UTC)
+Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-846d536254fso1533138241.1
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Mon, 23 Sep 2024 20:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727116089; x=1727720889; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1727148124; x=1727752924; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VvC8OpRVu7RcWevPpe6zlyuw6fQztO2vgcY7rQ0WA6E=;
-        b=gsDx3ivdz0EgAkY5kUK26s0CFjmovbPuHyteyazsc/QsQeggCbTTjE4kJ1UdoxREjV
-         aW7MIvuOy8ZvpHsib27WvuM3aqOgDglUDLK+xGz64Y+ymI7N7KluV1eC0SA00r7B3T0W
-         +wbrezcLbp1Z/6dYiUbWF7eLX+XV4phef0w9YH5EWSsBZugRte6gq+5jBf24T1W+27oU
-         UqbnJtfxBzo7U2mooGyBbWFCkPD/GvX6oObyMQs6yqZf92tB0NB4n/DIzmPDfxxn8jBO
-         zaTujlTBXaW4AB2WBXkvF64MCTsI2HMCTQv85RDtSc0yfArSFvnDI2X8QnhTmK2KT7xv
-         DSPQ==
+        bh=b5fYTW7PQqJuRwVQ75GCsGgjYwop/2g2bLhFQ9jayNU=;
+        b=ZSpWYiiVI2Py8DCoIOmMoYlnK0RY2yjoi3ADO9EevO7Pkdmpf2R7ez0IO9n4ihGH4p
+         59NIIJVE3qJ1ieiRRqOnltHBD18JDLKcBHmdC09hsgnFWJVPO5MnKBb13SlGzfRZWKC6
+         sUtB3SJBPbNnM30Y8rGWfm64xWdD1OpGukKQAMuprH5rOALlnDvHZ1+ogRtyW4BSYoZV
+         wMclleiqf9CPhcNKSYSTdZNeIGE+EF+uI2kUdpVA/RZGq4i6NoaYXFaVM6d56jSkDTZD
+         Cu25yTKO7PSPthZsLd7SPOV7d0fDyPGckPSNhickhpPswvbsq8jK6rT5X/rnN6kMWQtr
+         ky+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727116089; x=1727720889;
+        d=1e100.net; s=20230601; t=1727148124; x=1727752924;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VvC8OpRVu7RcWevPpe6zlyuw6fQztO2vgcY7rQ0WA6E=;
-        b=xE47g4XMVxpoLY4rw47MZf03Euu2dBsTMgEjTNE/Hcip8M+Uz4aqUN+DHEjlSLVESD
-         4itYxZsMVx/nDN/CG5NObZ8lplxAPvQYOJZGPhdDI0k/CQ07/V8IM5S752hS/5/rN/Tl
-         2aJuZ89Zgs79Ov+Dd8v8+9+Mz3ECs0VTd4G27sLM9H+BPEMhMEEq0avW7sbf8uuhHiTc
-         gHcO0bJJ1C8SPkimjGUtVShMO3WvXSvvNXBOBAnyVU9x4F6XaAGBgB1Wm6i+DqXoyxY1
-         W+ItE6u3ynIw7J5hpmhNiHQ4fTMXSn0tI5IP1B9F1C/qxKHE1Mz5vkuU14WH/IIdKLp9
-         jUAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUU8Ihc30flli2S4e7WEWa3weljUpfP6dCV4hT2UJKYqAcbz67QGJgzONei4qbz2Gr/P7vAG/M/TudKYvfUmyMczWr+GQ==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YzIlJsYNSIeTjK1Ecvj22gRkkNSMZCMyoHoPk0/KJoK0i3kmExr
-	oGUCibpMI3h6L8lhKAaj5ARvV7GCvMG6K+icifJz4h4tzdQCA8w7
-X-Google-Smtp-Source: AGHT+IExJyb740zkCQVp6XC9+Z56SOW92gmYPETjHCLM9ypiku8Mb1zqeKoMl+NsUrB4+WyBJ+yNyQ==
-X-Received: by 2002:a05:6102:94c:b0:493:b719:efaf with SMTP id ada2fe7eead31-49fc7678485mr8621012137.20.1727116089541;
-        Mon, 23 Sep 2024 11:28:09 -0700 (PDT)
-Received: from hilb.unicamp.br ([143.106.58.82])
-        by smtp.googlemail.com with ESMTPSA id a1e0cc1a2514c-8493999717esm3354397241.31.2024.09.23.11.28.06
+        bh=b5fYTW7PQqJuRwVQ75GCsGgjYwop/2g2bLhFQ9jayNU=;
+        b=ctVeHuo226stYhPJjMz3mx2eQHx/M9YP4ir29Lr5+hD9rNMgBh8BNR4SJ6GB1epCAG
+         kf8DxJJkDfAvprOw0B2lXNu5YFGwan1yLkFeS8teNkDu3cDJWEy28pz65Vp4jeB02HiT
+         EgOLzCxuN0fMDhQgIoJd5F7jxjVCJmD38gwI2ls2xNddj9DCKYE3c3IklaTY5U2zAbh/
+         IZFT5ffcvt1bzKgEuB59TsiR1UwyP7FirtQWL5NrZxpcrXK4IIrq/HyadvOflqbmdbSa
+         dfMvZmJ/ZHI4lxW/bDQpyXq6YbpBOASJTzSORFXF8EQV61CT/cbUxucGrYyfNBjBCLiY
+         DQ0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWdex3x5xtcVh8XM1QaUjJy3E0mFH9mgnUYrrFtT7srNAxmTEG8qYlfG3MAnx4m9+3oYzphfXCE3LQFPSFgDsjleZfgxg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzECs1g4YgLu6gUTl88fCHXhyPDH9m2qNuaF2YWNgTRZ4cQe+WO
+	ucDzyZomDkmLeFf6aH5+bXfSuO6QD17xPj1bpLfZGvIt/OlJ18OP
+X-Google-Smtp-Source: AGHT+IHJ2RcJksyYQ1KtEStYbVQU0xOEaxnq2SRS9FiWuTJZ77s/QoPgF2fy46pMDf+wBF0CNYFQaw==
+X-Received: by 2002:a05:6102:3749:b0:49c:8d2:8ec with SMTP id ada2fe7eead31-49fc951fd03mr9588289137.3.1727148124325;
+        Mon, 23 Sep 2024 20:22:04 -0700 (PDT)
+Received: from x13.. (syn-142-197-128-048.res.spectrum.com. [142.197.128.48])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4a15187d1besm377460137.28.2024.09.23.20.22.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2024 11:28:09 -0700 (PDT)
-From: =?UTF-8?q?Bruno=20Sobreira=20Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
-To: akpm@linux-foundation.org,
+        Mon, 23 Sep 2024 20:22:03 -0700 (PDT)
+From: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+To: brendan.higgins@linux.dev,
 	davidgow@google.com,
-	linux-kernel@vger.kernel.org,
-	rmoar@google.com
-Cc: kunit-dev@googlegroups.com,
+	rmoar@google.com,
+	quic_jjohnson@quicinc.com,
+	macro@orcam.me.uk,
+	npitre@baylibre.com,
+	tpiepho@gmail.com
+Cc: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	=?UTF-8?q?Bruno=20Sobreira=20Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
-Subject: [PATCH v2] lib/math: Add int_log test suite
-Date: Mon, 23 Sep 2024 18:28:01 +0000
-Message-ID: <20240923182801.37747-1-brunofrancadevsec@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	ricardo@marliere.net,
+	linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [PATCH v2] lib: math: Move kunit tests into tests/ subdir
+Date: Mon, 23 Sep 2024 23:21:47 -0400
+Message-ID: <20240924032200.167622-1-luis.hernandez093@gmail.com>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This commit introduces KUnit tests for the intlog2 and intlog10
-functions, which compute logarithms in base 2 and base 10, respectively.
-The tests cover a range of inputs to ensure the correctness of these
-functions across common and edge cases.
+This patch is a follow-up task from a discussion stemming from point 3
+in a recent patch introducing the int_pow kunit test [1] and
+documentation regarding kunit test style and nomenclature [2].
 
-Signed-off-by: Bruno Sobreira França <brunofrancadevsec@gmail.com>
----
-Changes in v2:
-  - Fix the overflow warning reported by the kernel test robot
----
- lib/Kconfig.debug              | 11 +++++
- lib/math/Makefile              |  3 +-
- lib/math/tests/Makefile        |  1 +
- lib/math/tests/int_log_kunit.c | 75 ++++++++++++++++++++++++++++++++++
- 4 files changed, 89 insertions(+), 1 deletion(-)
- create mode 100644 lib/math/tests/int_log_kunit.c
+Colocate all kunit test suites in lib/math/tests/ and
+follow recommended naming convention for files <suite>_kunit.c
+and kconfig entries CONFIG_<name>_KUNIT_TEST.
 
+Link: https://lore.kernel.org/all/CABVgOS=-vh5TqHFCq_jo=ffq8v_nGgr6JsPnOZag3e6+19ysxQ@mail.gmail.com/ [1]
+Link: https://docs.kernel.org/dev-tools/kunit/style.html [2]
+
+Signed-off-by: Luis Felipe Hernandez <luis.hernandez093@gmail.com>
+---
+Changes in v2: Fix cc recipient list inclusion in cover letter
+---
+ arch/m68k/configs/amiga_defconfig                           | 2 +-
+ arch/m68k/configs/apollo_defconfig                          | 2 +-
+ arch/m68k/configs/atari_defconfig                           | 2 +-
+ arch/m68k/configs/bvme6000_defconfig                        | 2 +-
+ arch/m68k/configs/hp300_defconfig                           | 2 +-
+ arch/m68k/configs/mac_defconfig                             | 2 +-
+ arch/m68k/configs/multi_defconfig                           | 2 +-
+ arch/m68k/configs/mvme147_defconfig                         | 2 +-
+ arch/m68k/configs/mvme16x_defconfig                         | 2 +-
+ arch/m68k/configs/q40_defconfig                             | 2 +-
+ arch/m68k/configs/sun3_defconfig                            | 2 +-
+ arch/m68k/configs/sun3x_defconfig                           | 2 +-
+ arch/powerpc/configs/ppc64_defconfig                        | 2 +-
+ lib/Kconfig.debug                                           | 6 +++---
+ lib/math/Makefile                                           | 5 +----
+ lib/math/tests/Makefile                                     | 5 ++++-
+ lib/math/{test_div64.c => tests/div64_kunit.c}              | 0
+ .../mul_u64_u64_div_u64_kunit.c}                            | 0
+ lib/math/{rational-test.c => tests/rational_kunit.c}        | 0
+ 19 files changed, 21 insertions(+), 21 deletions(-)
+ rename lib/math/{test_div64.c => tests/div64_kunit.c} (100%)
+ rename lib/math/{test_mul_u64_u64_div_u64.c => tests/mul_u64_u64_div_u64_kunit.c} (100%)
+ rename lib/math/{rational-test.c => tests/rational_kunit.c} (100%)
+
+diff --git a/arch/m68k/configs/amiga_defconfig b/arch/m68k/configs/amiga_defconfig
+index d01dc47d52ea..7ba9311c084c 100644
+--- a/arch/m68k/configs/amiga_defconfig
++++ b/arch/m68k/configs/amiga_defconfig
+@@ -619,7 +619,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/apollo_defconfig b/arch/m68k/configs/apollo_defconfig
+index 46808e581d7b..273fe4032b85 100644
+--- a/arch/m68k/configs/apollo_defconfig
++++ b/arch/m68k/configs/apollo_defconfig
+@@ -576,7 +576,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/atari_defconfig b/arch/m68k/configs/atari_defconfig
+index 4469a7839c9d..9976cda99fc1 100644
+--- a/arch/m68k/configs/atari_defconfig
++++ b/arch/m68k/configs/atari_defconfig
+@@ -596,7 +596,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/bvme6000_defconfig b/arch/m68k/configs/bvme6000_defconfig
+index c0719322c028..f59082c8fe06 100644
+--- a/arch/m68k/configs/bvme6000_defconfig
++++ b/arch/m68k/configs/bvme6000_defconfig
+@@ -568,7 +568,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/hp300_defconfig b/arch/m68k/configs/hp300_defconfig
+index 8d429e63f8f2..6db3556da9ac 100644
+--- a/arch/m68k/configs/hp300_defconfig
++++ b/arch/m68k/configs/hp300_defconfig
+@@ -578,7 +578,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/mac_defconfig b/arch/m68k/configs/mac_defconfig
+index bafd33da27c1..25c06b5c83ee 100644
+--- a/arch/m68k/configs/mac_defconfig
++++ b/arch/m68k/configs/mac_defconfig
+@@ -595,7 +595,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/multi_defconfig b/arch/m68k/configs/multi_defconfig
+index 6f5ca3f85ea1..35e57e0ee139 100644
+--- a/arch/m68k/configs/multi_defconfig
++++ b/arch/m68k/configs/multi_defconfig
+@@ -681,7 +681,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/mvme147_defconfig b/arch/m68k/configs/mvme147_defconfig
+index d16b328c7136..d253b686119a 100644
+--- a/arch/m68k/configs/mvme147_defconfig
++++ b/arch/m68k/configs/mvme147_defconfig
+@@ -567,7 +567,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/mvme16x_defconfig b/arch/m68k/configs/mvme16x_defconfig
+index 80f6c15a5ed5..62bc6ad63783 100644
+--- a/arch/m68k/configs/mvme16x_defconfig
++++ b/arch/m68k/configs/mvme16x_defconfig
+@@ -568,7 +568,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/q40_defconfig b/arch/m68k/configs/q40_defconfig
+index 0e81589f0ee2..caba39c61bac 100644
+--- a/arch/m68k/configs/q40_defconfig
++++ b/arch/m68k/configs/q40_defconfig
+@@ -585,7 +585,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/sun3_defconfig b/arch/m68k/configs/sun3_defconfig
+index 8cd785290339..a348f645ed55 100644
+--- a/arch/m68k/configs/sun3_defconfig
++++ b/arch/m68k/configs/sun3_defconfig
+@@ -565,7 +565,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/m68k/configs/sun3x_defconfig b/arch/m68k/configs/sun3x_defconfig
+index 78035369f60f..f8b3cfc3275b 100644
+--- a/arch/m68k/configs/sun3x_defconfig
++++ b/arch/m68k/configs/sun3x_defconfig
+@@ -566,7 +566,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_TEST_DHRY=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_REED_SOLOMON_TEST=m
+ CONFIG_ATOMIC64_SELFTEST=m
+ CONFIG_ASYNC_RAID6_TEST=m
+diff --git a/arch/powerpc/configs/ppc64_defconfig b/arch/powerpc/configs/ppc64_defconfig
+index a5e3e7f97f4d..f1f21765c0c1 100644
+--- a/arch/powerpc/configs/ppc64_defconfig
++++ b/arch/powerpc/configs/ppc64_defconfig
+@@ -435,7 +435,7 @@ CONFIG_KUNIT=m
+ CONFIG_KUNIT_ALL_TESTS=m
+ CONFIG_LKDTM=m
+ CONFIG_TEST_MIN_HEAP=m
+-CONFIG_TEST_DIV64=m
++CONFIG_DIV64_KUNIT_TEST=m
+ CONFIG_BACKTRACE_SELF_TEST=m
+ CONFIG_TEST_REF_TRACKER=m
+ CONFIG_RBTREE_TEST=m
 diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index bc8faa4509e1..b0f658b0f29f 100644
+index bc8faa4509e1..49807e18b0fc 100644
 --- a/lib/Kconfig.debug
 +++ b/lib/Kconfig.debug
-@@ -3089,3 +3089,14 @@ config INT_POW_TEST
- 	  function.
+@@ -2281,7 +2281,7 @@ config TEST_SORT
  
- 	  If unsure, say N
-+
-+config INT_LOG_TEST
-+	tristate "Integer log (int_log) test" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  This option enables the KUnit test suite for the int_log library, which 
-+	  provides two functions to compute the integer logarithm in base 2 and 
-+	  base 10, called respectively as intlog2 and intlog10.
-+
-+	  If unsure, say N
+ 	  If unsure, say N.
+ 
+-config TEST_DIV64
++config DIV64_KUNIT_TEST
+ 	tristate "64bit/32bit division and modulo test"
+ 	depends on DEBUG_KERNEL || m
+ 	help
+@@ -2291,7 +2291,7 @@ config TEST_DIV64
+ 
+ 	  If unsure, say N.
+ 
+-config TEST_MULDIV64
++config MULDIV64_KUNIT_TEST
+ 	tristate "mul_u64_u64_div_u64() test"
+ 	depends on DEBUG_KERNEL || m
+ 	help
+@@ -3074,7 +3074,7 @@ endmenu # "Rust"
+ 
+ endmenu # Kernel hacking
+ 
+-config INT_POW_TEST
++config INT_POW_KUNIT_TEST
+ 	tristate "Integer exponentiation (int_pow) test" if !KUNIT_ALL_TESTS
+ 	depends on KUNIT
+ 	default KUNIT_ALL_TESTS
 diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 3ef11305f8d2..c3fd967bc49b 100644
+index 3ef11305f8d2..1c489501ff57 100644
 --- a/lib/math/Makefile
 +++ b/lib/math/Makefile
-@@ -5,7 +5,8 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
+@@ -5,7 +5,4 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
  obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
  obj-$(CONFIG_RATIONAL)		+= rational.o
  
 -obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
-+obj-$(CONFIG_INT_POW_TEST)  	+= tests/int_pow_kunit.o
-+obj-$(CONFIG_INT_LOG_TEST) 	+= tests/int_log_kunit.o
- obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
- obj-$(CONFIG_TEST_MULDIV64)	+= test_mul_u64_u64_div_u64.o
- obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
+-obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
+-obj-$(CONFIG_TEST_MULDIV64)	+= test_mul_u64_u64_div_u64.o
+-obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
++obj-y  += tests/
 diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
-index 6a169123320a..83bbf1e47940 100644
+index 6a169123320a..f9a0a0e6b73a 100644
 --- a/lib/math/tests/Makefile
 +++ b/lib/math/tests/Makefile
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0-only
  
- obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
-+obj-$(CONFIG_INT_LOG_TEST) += int_log_kunit.o
-diff --git a/lib/math/tests/int_log_kunit.c b/lib/math/tests/int_log_kunit.c
-new file mode 100644
-index 000000000000..025748cd0bbe
---- /dev/null
-+++ b/lib/math/tests/int_log_kunit.c
-@@ -0,0 +1,75 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+#include <kunit/test.h>
-+#include <linux/int_log.h>
-+
-+struct test_case_params {
-+	u32 value;
-+	unsigned int expected_result;
-+	const char *name;
-+};
-+
-+
-+/* The expected result takes into account the log error */
-+static const struct test_case_params intlog2_params[] = {
-+	{0, 0, "Log base 2 of 0"},
-+	{1, 0, "Log base 2 of 1"},
-+	{2, 16777216, "Log base 2 of 2"},
-+	{3, 26591232, "Log base 2 of 3"},
-+	{4, 33554432, "Log base 2 of 4"},
-+	{8, 50331648, "Log base 2 of 8"},
-+       	{16, 67108864, "Log base 2 of 16"},
-+	{32, 83886080, "Log base 2 of 32"},	
-+	{U32_MAX, 536870911, "Log base 2 of MAX"},
-+};
-+
-+static const struct test_case_params intlog10_params[] = {
-+	{0, 0, "Log base 10 of 0"},
-+	{1, 0, "Log bsae 10 of 1"},
-+	{6, 13055203, "Log base 10 of 6"},
-+	{10, 16777225, "Log base 10 of 10"},
-+	{100, 33554450, "Log base 10 of 100"},
-+	{1000, 50331675, "Log base 10 of 1000"},
-+	{10000, 67108862, "Log base 10 of 10000"},
-+	{U32_MAX, 161614247, "Log base 10 of MAX"}
-+};
-+
-+static void get_desc(const struct test_case_params *tc, char *desc)
-+{
-+	strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE); 
-+}
-+
-+
-+KUNIT_ARRAY_PARAM(intlog2, intlog2_params, get_desc); 
-+
-+static void intlog2_test(struct kunit *test)
-+{
-+	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;		
-+	
-+	KUNIT_EXPECT_EQ(test, tc->expected_result, intlog2(tc->value));
-+}
-+
-+KUNIT_ARRAY_PARAM(intlog10, intlog10_params, get_desc);
-+
-+static void intlog10_test(struct kunit *test)
-+{
-+	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
-+
-+	KUNIT_EXPECT_EQ(test, tc->expected_result, intlog10(tc->value));
-+}
-+
-+static struct kunit_case math_int_log_test_cases[] = {
-+	KUNIT_CASE_PARAM(intlog2_test, intlog2_gen_params),
-+	KUNIT_CASE_PARAM(intlog10_test, intlog10_gen_params),
-+	{}
-+};
-+
-+static struct kunit_suite int_log_test_suite = {
-+	.name = "math-int_log",
-+	.test_cases =  math_int_log_test_cases,
-+};
-+
-+kunit_test_suites(&int_log_test_suite);
-+
-+MODULE_DESCRIPTION("math.int_log KUnit test suite");
-+MODULE_LICENSE("GPL");
-+
+-obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
++obj-$(CONFIG_DIV64_KUNIT_TEST)    += div64_kunit.o
++obj-$(CONFIG_INT_POW_KUNIT_TEST)  += int_pow_kunit.o
++obj-$(CONFIG_MULDIV64_KUNIT_TEST) += mul_u64_u64_div_u64_kunit.o
++obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational_kunit.o
+diff --git a/lib/math/test_div64.c b/lib/math/tests/div64_kunit.c
+similarity index 100%
+rename from lib/math/test_div64.c
+rename to lib/math/tests/div64_kunit.c
+diff --git a/lib/math/test_mul_u64_u64_div_u64.c b/lib/math/tests/mul_u64_u64_div_u64_kunit.c
+similarity index 100%
+rename from lib/math/test_mul_u64_u64_div_u64.c
+rename to lib/math/tests/mul_u64_u64_div_u64_kunit.c
+diff --git a/lib/math/rational-test.c b/lib/math/tests/rational_kunit.c
+similarity index 100%
+rename from lib/math/rational-test.c
+rename to lib/math/tests/rational_kunit.c
 -- 
-2.43.0
+2.46.1
 
