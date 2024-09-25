@@ -1,102 +1,86 @@
 Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBA11ABEDD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 17:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8169114831E
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 25 Sep 2024 02:56:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727198655; cv=none; b=Hbgm2IMpVtQyWZ95D+vqLkOpcK1/YgCH1X8jbkRVVvmAloJzidMB3SVDbP9fbvu4omaNMxrNg4SL2c9PSFDpincfWS+/xDDiGDNdojluHPK1dYq+gHrZpKriSGFg4mRb4ZrdBF2Xn7mA3qUKoI+rrqTWH5RLJVuheudfnJ7yw2s=
+	t=1727232979; cv=none; b=pAY3+nauj875PmM04ET4v44E7NTSAhev7jUHtfqEscdsvOO5zbFkBG8quQr6DEaF/eMYq+FwUscnbmnXE0mxmxGqnLRn3KOJe6DUl2/LzZwzPDa8tn/FlU2JYYRD7T0QKG9Qfb0djlKFGjt5/Xv4mLOp6Cxkb8SybRj3XESbrEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727198655; c=relaxed/simple;
-	bh=i2prbdZtMoWVyDoI4r/p//WUM6FxFMImdthGTI/8140=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ASbkYEJ+WQcifr6fXqPjwtJFM14nBu6Rv6oHJKK7lMil2nR0CQz/L6sNTPObqqNeNddymMBvxDRTUhVY2Jdb5BmZ2kpniQpDPp0N9O1pKfWveETS7Mlt/ElgtR0QbbmaeqSkt/feG2caG9PsiD9WGC3QQWp0eDGEqjEY+uzTXHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvZEdl7N; arc=none smtp.client-ip=140.211.166.138
+	s=arc-20240116; t=1727232979; c=relaxed/simple;
+	bh=4vfi5x6jlpdB8GyEDWYR0w8HiOGTIIh2/6DFiSsr4aM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XcPGXTqleD+GmXOZx+m/ruT98izbyGqjLedBrj4zSqpCfhNmFhjzq93K2nN9bXG74r8cf+IMuhwgkGexC0GnqvCjcv+1Cz4wwJ9BmYaLZpl0aA8q2Oseab3P5YBE0jxEGEHx0qjW8c2IIFmIfgk2B60bbkqlHwpKxNTw5Hank4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i6zEFMna; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvZEdl7N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i6zEFMna"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp1.osuosl.org (Postfix) with ESMTP id 2369184193
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 17:24:14 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id 20507848DA
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 25 Sep 2024 02:56:18 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level:
+X-Spam-Score: 1.236
+X-Spam-Level: *
 Received: from smtp1.osuosl.org ([127.0.0.1])
  by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 0MDuzbgjexdm for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Tue, 24 Sep 2024 17:24:13 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::42d; helo=mail-wr1-x42d.google.com; envelope-from=sergio.collado@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org BE3F381E59
+ id A8xV0ACviDxT for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed, 25 Sep 2024 02:56:17 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::a2a; helo=mail-vk1-xa2a.google.com; envelope-from=brunofrancadevsec@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 37477848D9
 Authentication-Results: smtp1.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org BE3F381E59
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 37477848D9
 Authentication-Results: smtp1.osuosl.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=UvZEdl7N
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-	by smtp1.osuosl.org (Postfix) with ESMTPS id BE3F381E59
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 17:24:12 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-374b5f27cf2so3430438f8f.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 10:24:12 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=i6zEFMna
+Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 37477848D9
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 25 Sep 2024 02:56:16 +0000 (UTC)
+Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-503f944f174so1277063e0c.3
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 24 Sep 2024 19:56:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727198651; x=1727803451; darn=lists.linuxfoundation.org;
+        d=gmail.com; s=20230601; t=1727232976; x=1727837776; darn=lists.linuxfoundation.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Xa6ya8wdG3acprFrPFVxBRwnaLHUBcbgW6iKZmyPgA=;
-        b=UvZEdl7NmROKFRC+N4skGR7i9FYFQvuvhQhtc/KYEIjvGIDc5R74EN7bdRQHpDuJqF
-         8K4lVcwUMjRMp7hQqassBiDItFNDRzT0y3/Tjls8N/Mlbh9cBrn+bMcvhBgOi+lypNrM
-         ObZvh66RBcLt1Xzztu/md1cCQoMFJHuYRVEcO88uTx3NcMliaH1DnWXeMG/ahqpSMR02
-         DR7h0O+7pagahJBTuhaKdcbko1y8SaM3SQsZ79iRwgimDPWghftnKdTH4JUv3B63YJGo
-         /cJ5pbWPLrWZ0V1BYs0oAhXCRiUiebVwaEKOIsKLq0LZH072+/SIvhOp2y6miNouvqpU
-         ripw==
+        bh=Q0pgJW2Tr2MUvWqYnkmAdG88VwBWaC6dIXhvLCOKUEQ=;
+        b=i6zEFMnawibStZcvms3hs5vUP2El7rMzF8iGS5kIuSdMpmGHr9Mo4EyAvqJ6KzVu6A
+         X520DOcjADils5gy6L3QDgLNnWAhdNfZ6bIswk9dOA48ZJ3a+6FovQ7zTVvWR4Kr9pRv
+         mmwcXhNOQP7L/UNyGv8cCpQyl6NBxr6vwbEOLYnfECKYeo1Wd1AmddWaJfqbxEtmIZPL
+         7Y4UVQCyUyte6GkBSGaWbhpmTVd1ysyQmq79h8W+rsrKYlmyZajQETK14ZWQEPXBCpLI
+         Md+MBar3webmRn8IEhLjggWn9lxvdDyAyioEKzbGScdRzFvsmVV4EtpXK5HnYd6Jetk8
+         KKGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727198651; x=1727803451;
+        d=1e100.net; s=20230601; t=1727232976; x=1727837776;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1Xa6ya8wdG3acprFrPFVxBRwnaLHUBcbgW6iKZmyPgA=;
-        b=aMHPHviidiNxyLYvjPSHb9mBzwdQo96XBUE/TL9kr9GuFpk8/aDPxKyMBat5hXA7eW
-         ulDOviSVS5P+VKHFtJuThVcMDyUhV3f/iZda5D3fD7ZW+5loy1SJsCXMytMjS3vTxI9g
-         nrrF+UjvtoMoomTKzBEfAmuRdErlXadvFc64RfA8rmh9xG+uyWGYIIcT3EyGldpEPq22
-         3jiYUTweMyYYKqQ/XOR1ZUykOpzyXgHymjRqT3wuHFcVKnKUu1swMYtMTdwLg2TEKw+L
-         +THqMSeFXov8a3+Y6iViKBDwNWlacRJB42sodJ5BV4bC/Y9aO0JhPVPUncjVBDExyChk
-         ejQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVcQbwmkkrrX3bR8cob+krVx1PjWLDGdBFNJ0T6uJP7cXt51TVd2lShihaWlDArTasXnLmCMSVNADpGupkmgXFFlPSgnA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YxJJaa3Ny5KeUfuiwfBFpT8XNqB6CwAheOBya7KKTSmgTz1QYeO
-	iqjsp9woUjyxDcUExtt9ITBIWKVnQnOXz329aP6k7nhBiU1QVYew
-X-Google-Smtp-Source: AGHT+IGTKSfyy9/yRkrIFuC7cBO7/BvzSRmazQjP6DBcmTpxOZ4uat6YRdZE94fpH202GnM/mUk8dA==
-X-Received: by 2002:a05:6000:8f:b0:374:c79b:ca5f with SMTP id ffacd0b85a97d-37cc24c26e2mr80226f8f.46.1727198650417;
-        Tue, 24 Sep 2024 10:24:10 -0700 (PDT)
-Received: from laptop.home (188.75.217.87.dynamic.jazztel.es. [87.217.75.188])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cbc31f6e1sm2109535f8f.111.2024.09.24.10.24.08
+        bh=Q0pgJW2Tr2MUvWqYnkmAdG88VwBWaC6dIXhvLCOKUEQ=;
+        b=fWT29K+DWTBqLtaP9/dMqO0MffaGFyV1FqP1HJ5NvBg+vMncIHY0ptWbo/i17uLjfi
+         o26zgJyijCVvkvk6Obpsk9pD1i++/Q0s9oGCiWRsnxNk0vjFE13EmbU2E2ZbDTJFjLBq
+         zfAYlYngqWPlUdZMdXXIiTNb8w+/dXjw2yR95F1JLDkE7vZIR37brhr3aPG2ZSzgQtMv
+         RJSH0xFaBy/dY0AdH54uT2HCJyNSfAaUywVcPjkGODsfcAT0TCcmlS7/7vEDxByx37bM
+         ayvvluogkvKkFHvYWIiaIn/5fsH+2qQ8LQXGuFw8W8Vx7Twk1yoIF8063fIeMK1JqEC/
+         lzTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYzkYr3LRUDeTtW2bld4Aglo+QPWM43ocFYPGllWBrIvkb25lbUhUL3Od5hC/8nEOoIFNKCR1NG9X45xcODNZVbGs8Jg==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0Yw9sNe5iGleprxNcNei3CbKDKxXOI/nENuYmktbgXrWw5l1SX1P
+	xIUfnqVbXlU36s8cUD1UxrGdyd6D2/rFVo5KDkrx5/XC0JlxcWUe
+X-Google-Smtp-Source: AGHT+IEKu6zQlFpimo9I1REY17XJCoQxB016Upip39ZNZXMHZyu1t8M5hGkNkEJxP//4dx6M9dg84Q==
+X-Received: by 2002:a05:6122:4681:b0:4ef:5e6b:98c0 with SMTP id 71dfb90a1353d-505c20a2609mr1933410e0c.9.1727232975617;
+        Tue, 24 Sep 2024 19:56:15 -0700 (PDT)
+Received: from hilb.. ([187.11.199.58])
+        by smtp.googlemail.com with ESMTPSA id 71dfb90a1353d-505a9efb0a2sm1633103e0c.2.2024.09.24.19.56.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 10:24:09 -0700 (PDT)
-From: =?UTF-8?q?Sergio=20Gonz=C3=A1lez=20Collado?= <sergio.collado@gmail.com>
-To: Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	sergio.collado@gmail.com,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	David Rheinsberg <david@readahead.eu>,
-	rust-for-linux@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
+        Tue, 24 Sep 2024 19:56:15 -0700 (PDT)
+From: =?UTF-8?q?Bruno=20Sobreira=20Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
+To: akpm@linux-foundation.org,
+	davidgow@google.com,
+	linux-kernel@vger.kernel.org,
+	rmoar@google.com
+Cc: kunit-dev@googlegroups.com,
 	skhan@linuxfoundation.org,
-	ricardo.marliere@suse.com,
-	Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Subject: [PATCH v4] Kunit to check the longest symbol length
-Date: Tue, 24 Sep 2024 19:23:51 +0200
-Message-Id: <20240924172351.23225-1-sergio.collado@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	=?UTF-8?q?Bruno=20Sobreira=20Fran=C3=A7a?= <brunofrancadevsec@gmail.com>
+Subject: [PATCH v3] lib/math: Add int_log test suite
+Date: Wed, 25 Sep 2024 02:56:06 +0000
+Message-ID: <20240925025606.1714-1-brunofrancadevsec@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -106,220 +90,148 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The longest length of a symbol (KSYM_NAME_LEN) was increased to 512
-in the reference [1]. This patch adds a kunit test to check the longest
-symbol length.
+This commit introduces KUnit tests for the intlog2 and intlog10
+functions, which compute logarithms in base 2 and base 10, respectively.
+The tests cover a range of inputs to ensure the correctness of these
+functions across common and edge cases.
 
-This test can also help other efforts for longer symbol lenght,
-like [2].
-
-[1] https://lore.kernel.org/lkml/20220802015052.10452-6-ojeda@kernel.org/
-[2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org/
-
-Tested-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Signed-off-by: Sergio González Collado <sergio.collado@gmail.com>
+Signed-off-by: Bruno Sobreira França <brunofrancadevsec@gmail.com>
 ---
-V1 -> V2: corrected CI tests. Added fix proposed at [3]
+Changes in v3:
+  - Fix checkpatch issues reintroduced in v2
+Changes in v2:
+  - Fix the overflow warning reported by the kernel test robot
+---
+ lib/Kconfig.debug              | 11 +++++
+ lib/math/Makefile              |  3 +-
+ lib/math/tests/Makefile        |  1 +
+ lib/math/tests/int_log_kunit.c | 75 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 89 insertions(+), 1 deletion(-)
+ create mode 100644 lib/math/tests/int_log_kunit.c
 
-[3] https://lore.kernel.org/lkml/Y9ES4UKl%2F+DtvAVS@gmail.com/T/#m3ef0e12bb834d01ed1ebdcae12ef5f2add342077
----
-V2 -> V3: updated base and added MODULE_DESCRIPTION() and MODULE_AUTHOR()
----
-V3 -> V4: add x86 mantainers, add new reference.
----
- arch/x86/tools/insn_decoder_test.c |   3 +-
- lib/Kconfig.debug                  |   9 +++
- lib/Makefile                       |   2 +
- lib/longest_symbol_kunit.c         | 124 +++++++++++++++++++++++++++++
- 4 files changed, 137 insertions(+), 1 deletion(-)
- create mode 100644 lib/longest_symbol_kunit.c
-
-diff --git a/arch/x86/tools/insn_decoder_test.c b/arch/x86/tools/insn_decoder_test.c
-index 472540aeabc2..3bde35ea4188 100644
---- a/arch/x86/tools/insn_decoder_test.c
-+++ b/arch/x86/tools/insn_decoder_test.c
-@@ -10,6 +10,7 @@
- #include <assert.h>
- #include <unistd.h>
- #include <stdarg.h>
-+#include <linux/kallsysms.h>
- 
- #define unlikely(cond) (cond)
- 
-@@ -106,7 +107,7 @@ static void parse_args(int argc, char **argv)
- 	}
- }
- 
--#define BUFSIZE 256
-+#define BUFSIZE (256 + KSYM_NAME_LEN)
- 
- int main(int argc, char **argv)
- {
 diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index bc8faa4509e1..09015e7e07f3 100644
+index bc8faa4509e1..b0f658b0f29f 100644
 --- a/lib/Kconfig.debug
 +++ b/lib/Kconfig.debug
-@@ -2805,6 +2805,15 @@ config FORTIFY_KUNIT_TEST
- 	  by the str*() and mem*() family of functions. For testing runtime
- 	  traps of FORTIFY_SOURCE, see LKDTM's "FORTIFY_*" tests.
+@@ -3089,3 +3089,14 @@ config INT_POW_TEST
+ 	  function.
  
-+config LONGEST_SYM_KUNIT_TEST
-+	tristate "Test the longest symbol possible" if !KUNIT_ALL_TESTS
-+	depends on KUNIT && KPROBES
+ 	  If unsure, say N
++
++config INT_LOG_TEST
++	tristate "Integer log (int_log) test" if !KUNIT_ALL_TESTS
++	depends on KUNIT
 +	default KUNIT_ALL_TESTS
 +	help
-+	  Tests the longest symbol possible
++	  This option enables the KUnit test suite for the int_log library, which
++	  provides two functions to compute the integer logarithm in base 2 and
++	  base 10, called respectively as intlog2 and intlog10.
 +
-+	  If unsure, say N.
-+
- config HW_BREAKPOINT_KUNIT_TEST
- 	bool "Test hw_breakpoint constraints accounting" if !KUNIT_ALL_TESTS
- 	depends on HAVE_HW_BREAKPOINT
-diff --git a/lib/Makefile b/lib/Makefile
-index 773adf88af41..fc878e716825 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -389,6 +389,8 @@ CFLAGS_fortify_kunit.o += $(DISABLE_STRUCTLEAK_PLUGIN)
- obj-$(CONFIG_FORTIFY_KUNIT_TEST) += fortify_kunit.o
- obj-$(CONFIG_SIPHASH_KUNIT_TEST) += siphash_kunit.o
- obj-$(CONFIG_USERCOPY_KUNIT_TEST) += usercopy_kunit.o
-+obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
-+CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
++	  If unsure, say N
+diff --git a/lib/math/Makefile b/lib/math/Makefile
+index 3ef11305f8d2..c3fd967bc49b 100644
+--- a/lib/math/Makefile
++++ b/lib/math/Makefile
+@@ -5,7 +5,8 @@ obj-$(CONFIG_CORDIC)		+= cordic.o
+ obj-$(CONFIG_PRIME_NUMBERS)	+= prime_numbers.o
+ obj-$(CONFIG_RATIONAL)		+= rational.o
  
- obj-$(CONFIG_GENERIC_LIB_DEVMEM_IS_ALLOWED) += devmem_is_allowed.o
+-obj-$(CONFIG_INT_POW_TEST)  += tests/int_pow_kunit.o
++obj-$(CONFIG_INT_POW_TEST)  	+= tests/int_pow_kunit.o
++obj-$(CONFIG_INT_LOG_TEST) 	+= tests/int_log_kunit.o
+ obj-$(CONFIG_TEST_DIV64)	+= test_div64.o
+ obj-$(CONFIG_TEST_MULDIV64)	+= test_mul_u64_u64_div_u64.o
+ obj-$(CONFIG_RATIONAL_KUNIT_TEST) += rational-test.o
+diff --git a/lib/math/tests/Makefile b/lib/math/tests/Makefile
+index 6a169123320a..83bbf1e47940 100644
+--- a/lib/math/tests/Makefile
++++ b/lib/math/tests/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
  
-diff --git a/lib/longest_symbol_kunit.c b/lib/longest_symbol_kunit.c
+ obj-$(CONFIG_INT_POW_TEST) += int_pow_kunit.o
++obj-$(CONFIG_INT_LOG_TEST) += int_log_kunit.o
+diff --git a/lib/math/tests/int_log_kunit.c b/lib/math/tests/int_log_kunit.c
 new file mode 100644
-index 000000000000..557ad6eae56c
+index 000000000000..025748cd0bbe
 --- /dev/null
-+++ b/lib/longest_symbol_kunit.c
-@@ -0,0 +1,124 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test the longest symbol length. Execute with:
-+ *  ./tools/testing/kunit/kunit.py run longest-symbol
-+ *  --arch=x86_64 --kconfig_add CONFIG_KPROBES=y --kconfig_add CONFIG_MODULES=y
-+ *  --kconfig_add CONFIG_RETPOLINE=n
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
++++ b/lib/math/tests/int_log_kunit.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +#include <kunit/test.h>
-+#include <linux/stringify.h>
-+#include <linux/kprobes.h>
-+#include <linux/kallsyms.h>
++#include <linux/int_log.h>
 +
-+#define DI(name) s##name##name
-+#define DDI(name) DI(n##name##name)
-+#define DDDI(name) DDI(n##name##name)
-+#define DDDDI(name) DDDI(n##name##name)
-+#define DDDDDI(name) DDDDI(n##name##name)
++struct test_case_params {
++	u32 value;
++	unsigned int expected_result;
++	const char *name;
++};
 +
-+#define PLUS1(name) __PASTE(name, e)
 +
-+/*Generate a symbol whose name length is 511 */
-+#define LONGEST_SYM_NAME  DDDDDI(g1h2i3j4k5l6m7n)
++/* The expected result takes into account the log error */
++static const struct test_case_params intlog2_params[] = {
++	{0, 0, "Log base 2 of 0"},
++	{1, 0, "Log base 2 of 1"},
++	{2, 16777216, "Log base 2 of 2"},
++	{3, 26591232, "Log base 2 of 3"},
++	{4, 33554432, "Log base 2 of 4"},
++	{8, 50331648, "Log base 2 of 8"},
++	{16, 67108864, "Log base 2 of 16"},
++	{32, 83886080, "Log base 2 of 32"},
++	{U32_MAX, 536870911, "Log base 2 of MAX"},
++};
 +
-+/*Generate a symbol whose name length is 512 */
-+#define LONGEST_SYM_NAME_PLUS1 PLUS1(LONGEST_SYM_NAME)
++static const struct test_case_params intlog10_params[] = {
++	{0, 0, "Log base 10 of 0"},
++	{1, 0, "Log bsae 10 of 1"},
++	{6, 13055203, "Log base 10 of 6"},
++	{10, 16777225, "Log base 10 of 10"},
++	{100, 33554450, "Log base 10 of 100"},
++	{1000, 50331675, "Log base 10 of 1000"},
++	{10000, 67108862, "Log base 10 of 10000"},
++	{U32_MAX, 161614247, "Log base 10 of MAX"}
++};
 +
-+#define RETURN_LONGEST_SYM 0xAAAAA
-+#define RETURN_LONGEST_SYM_PLUS1 0x55555
-+
-+noinline int LONGEST_SYM_NAME(void);
-+noinline int LONGEST_SYM_NAME(void)
++static void get_desc(const struct test_case_params *tc, char *desc)
 +{
-+	return RETURN_LONGEST_SYM;
++	strscpy(desc, tc->name, KUNIT_PARAM_DESC_SIZE);
 +}
 +
-+noinline int LONGEST_SYM_NAME_PLUS1(void);
-+noinline int LONGEST_SYM_NAME_PLUS1(void)
++
++KUNIT_ARRAY_PARAM(intlog2, intlog2_params, get_desc);
++
++static void intlog2_test(struct kunit *test)
 +{
-+	return RETURN_LONGEST_SYM_PLUS1;
++	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
++
++	KUNIT_EXPECT_EQ(test, tc->expected_result, intlog2(tc->value));
 +}
 +
-+_Static_assert(sizeof(__stringify(LONGEST_SYM_NAME)) == KSYM_NAME_LEN,
-+"Incorrect symbol length found. Expected KSYM_NAME_LEN: "
-+__stringify(KSYM_NAME) ", but found: "
-+__stringify(sizeof(LONGEST_SYM_NAME)));
++KUNIT_ARRAY_PARAM(intlog10, intlog10_params, get_desc);
 +
-+static void test_longest_symbol(struct kunit *test)
++static void intlog10_test(struct kunit *test)
 +{
-+	KUNIT_EXPECT_EQ(test, RETURN_LONGEST_SYM, LONGEST_SYM_NAME());
-+};
++	const struct test_case_params *tc = (const struct test_case_params *)test->param_value;
 +
-+static void test_longest_symbol_kallsyms(struct kunit *test)
-+{
-+	unsigned long (*kallsyms_lookup_name)(const char *name);
-+	static int (*longest_sym)(void);
++	KUNIT_EXPECT_EQ(test, tc->expected_result, intlog10(tc->value));
++}
 +
-+	struct kprobe kp = {
-+		.symbol_name = "kallsyms_lookup_name",
-+	};
-+
-+	if (register_kprobe(&kp) < 0) {
-+		pr_info("%s: kprobe not registered\n", __func__);
-+		KUNIT_FAIL(test, "test_longest_symbol kallsysms: kprobe not registered\n");
-+		return;
-+	}
-+
-+	kunit_warn(test, "test_longest_symbol kallsyms: kprobe registered\n");
-+	kallsyms_lookup_name = (unsigned long (*)(const char *name))kp.addr;
-+	unregister_kprobe(&kp);
-+
-+	longest_sym =
-+		(void *) kallsyms_lookup_name(__stringify(LONGEST_SYM_NAME));
-+	KUNIT_EXPECT_EQ(test, RETURN_LONGEST_SYM, longest_sym());
-+};
-+
-+static void test_longest_symbol_plus1(struct kunit *test)
-+{
-+	KUNIT_EXPECT_EQ(test, RETURN_LONGEST_SYM_PLUS1, LONGEST_SYM_NAME_PLUS1());
-+};
-+
-+static void test_longest_symbol_plus1_kallsyms(struct kunit *test)
-+{
-+	unsigned long (*kallsyms_lookup_name)(const char *name);
-+	static int (*longest_sym_plus1)(void);
-+
-+	struct kprobe kp = {
-+		.symbol_name = "kallsyms_lookup_name",
-+	};
-+
-+	if (register_kprobe(&kp) < 0) {
-+		pr_info("%s: kprobe not registered\n", __func__);
-+		KUNIT_FAIL(test, "test_longest_symbol kallsysms: kprobe not registered\n");
-+		return;
-+	}
-+
-+	kunit_warn(test, "test_longest_symbol_plus1 kallsyms: kprobe registered\n");
-+	kallsyms_lookup_name = (unsigned long (*)(const char *name))kp.addr;
-+	unregister_kprobe(&kp);
-+
-+	longest_sym_plus1 =
-+		(void *) kallsyms_lookup_name(__stringify(LONGEST_SYM_NAME_PLUS1));
-+	KUNIT_EXPECT_NULL(test, longest_sym_plus1);
-+};
-+
-+static struct kunit_case longest_symbol_test_cases[] = {
-+	KUNIT_CASE(test_longest_symbol),
-+	KUNIT_CASE(test_longest_symbol_kallsyms),
-+	KUNIT_CASE(test_longest_symbol_plus1),
-+	KUNIT_CASE(test_longest_symbol_plus1_kallsyms),
++static struct kunit_case math_int_log_test_cases[] = {
++	KUNIT_CASE_PARAM(intlog2_test, intlog2_gen_params),
++	KUNIT_CASE_PARAM(intlog10_test, intlog10_gen_params),
 +	{}
 +};
 +
-+static struct kunit_suite longest_symbol_test_suite = {
-+	.name = "longest-symbol",
-+	.test_cases = longest_symbol_test_cases,
++static struct kunit_suite int_log_test_suite = {
++	.name = "math-int_log",
++	.test_cases =  math_int_log_test_cases,
 +};
-+kunit_test_suite(longest_symbol_test_suite);
 +
++kunit_test_suites(&int_log_test_suite);
++
++MODULE_DESCRIPTION("math.int_log KUnit test suite");
 +MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Test the longest symbol length");
-+MODULE_AUTHOR("Sergio González Collado");
-
-base-commit: abf2050f51fdca0fd146388f83cddd95a57a008d
++
 -- 
-2.39.2
+2.43.0
 
