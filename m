@@ -1,127 +1,132 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C7C15854D
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Sep 2024 16:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D5B18953E
+	for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Sep 2024 22:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727367129; cv=none; b=rTYx8gPMoSFv1dwctGgte6t770cFxvFge4qmxARJiIQ9ZwfpfzAoil//0iVOZzKG2d25pE/WYJAfS8hWbixoLtFYXf9hwLqgIqzJ5j2kZ+j/QWqRjfjLD62NDT4R5WfvAp6ehxKMjigommPmDHt1azZ4Sbai+rDDVbE4QAH2MGA=
+	t=1727389501; cv=none; b=YcmCcHP1gB5pc5zIHOcDDwWpZw0hdrbshwALvvAD7i8KG9NNEjIwHln619XE7qfTlLkyqoHy1hhr7pRR3te29ODGfSNFJGCJ5aWVXlCdNVdRjKMXaPqPIAnOoeF6XVNfXgw/SWqybelNUVQ6IXEcFNN0fu+YeAESShC1KSOIJ8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727367129; c=relaxed/simple;
-	bh=nkkwDyXoxEAKcaBvqfwuPFrD/PqXfR9ogYM2RBVmcOs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lAQNeelKJXbwV/dWvD0AwT3V2lnt+/j+tiSkgEZ33CRB9RHqn7JFFlJ/cZJnYEvzBdYOT9t4llcJcJi4uyLMMBIwbtY3dVnU+L0cGBMIodSMAAcxuoxZsY/IzU4/at3jBrtcjA+H2qvlgSBm8CcqOhcs6vwlEkgNiG0kfwl7veo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RqO5bvud; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1727389501; c=relaxed/simple;
+	bh=9LWxw0GkDNKQzpLWJEw8INCGvjdnC+s0GVdlJVVvbaI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=clTd2Bq8cvMYMH6Y2t67t6BpYuJ+AgWIXrvllYI6eHFXHBkt0n0GKoLgXfyCcnjHr/VobBhfPwjTC10x/LTf0s5GARGyEFVSBZrYLXqfVNhFZUFFOPn92gAjk4kGBJCQXRkKCTwBpuc5Us/ytpRBS4paBBQIsfs/Cu8vrxf7U/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np; spf=none smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=Fz3YXNds; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RqO5bvud"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id 931F241E49
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Sep 2024 16:12:07 +0000 (UTC)
-X-Virus-Scanned: amavis at osuosl.org
-X-Spam-Flag: NO
-X-Spam-Score: -2.101
-X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vLlpWRRlshOl for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Thu, 26 Sep 2024 16:12:06 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::130; helo=mail-il1-x130.google.com; envelope-from=skhan@linuxfoundation.org; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 5D17841E56
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 5D17841E56
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=RqO5bvud
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 5D17841E56
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Sep 2024 16:12:05 +0000 (UTC)
-Received: by mail-il1-x130.google.com with SMTP id e9e14a558f8ab-3a098a478c4so3939455ab.1
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Thu, 26 Sep 2024 09:12:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="Fz3YXNds"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-208ccde82e6so12475785ad.0
+        for <linux-kernel-mentees@lists.linux.dev>; Thu, 26 Sep 2024 15:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727367125; x=1727971925; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OXe4I9fA3wiOsNFl3/de9Hw6T1XdMoOh/1M8Lx+MHF0=;
-        b=RqO5bvudY/LBZb7PkQyS69SkFgj9WANELyed7A7cFkm7TB9kIXXGZa/Ao7hStN/o9q
-         drZkqrn2Xatrubk7UlkW8lJDM9cYNnLG1O15IeeGXNTuoBSWqkQKyYHhIRoIWSrk89ra
-         85chSB5nqhEkomphGuz0hHYJbiKzMuTsz1Ers=
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1727389499; x=1727994299; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwvdoFGxm3KhCqcwA7uNn+nsr1FJVT8Rrylkxk+BHzY=;
+        b=Fz3YXNdsI/h4ga7OvoZ8qsXfB8fLsn+7mMohwE0NDQlGSuTr/qXj2SziczhZG1sF/b
+         vXG2mnSVfVos3UzUXzfItVi7OKSnrTkEvBnkWOskxRyQgVLTUlJPqk874n1K0mQuiqMQ
+         5MTaIdqYMp8zK5VZ6b4/QMw7OCIzpnXQrixf3exaP9rnL/p0BhqD2ywWZxD3zJMgNJTm
+         I6wJNpRMrnNpPq3gKubploX8PEGKSe62XPEuffnOtr+XMq/H2XK3JEYAUbswZ45whUDS
+         PjidPOfjlVsBedY4g62KNTCQ0Y7SUacN8bl02RJjT3pnsKKuActYNuogUnSBxEE/F+QE
+         EZ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727367125; x=1727971925;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OXe4I9fA3wiOsNFl3/de9Hw6T1XdMoOh/1M8Lx+MHF0=;
-        b=jTSrUO7s+DyMz5Ffw70wnWkrVepoeP6pVQwGOQ/3jxnT1aCS3ZMIip/Hp85CiMljsE
-         r9RryrdiugmTepRqdDU9R6jYaQvqhLJ1dktXaby5pERZffwr7Fff0zi3RoHa92U+wkN8
-         ZXw28kpMRCUtM709UKZSsGhWU4ihYmIUhli0OZHREaQXm3s+bzVE/a3Hyfd6qIIlJbBz
-         RPzYTCYjgWIBVoPe/QioeHbFdm55gpIKxWmbu7D2H2OasNQiLmPRiyOQBYlge17w9M7Z
-         hPQGGFQ1I2WAYyQ11lOyXg9e+gFIiFAgdrTTxYdzPqUFFcvQYPSHo7iC84MKWOehd76n
-         apbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXHW9ip/Bewtkj5zTPjxwqNdzohU5edzT/6LjQE9lrH2comXbo7IvsgzZrenaP9+ezmVudT+CMrUF+JGGQc7kYK6EpG9A==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyNuUYr0aKy7Lrt2IjC6+v3ypj2r1RYV1GP/amNdOkl4LyvCyHp
-	FHJorN3EOKWXyLhhmMHG5l3HUNfJaelTfWwoKTnNECffQrWBJ3zU3cR3zWz/JyRYFw==
-X-Google-Smtp-Source: AGHT+IEvE6107yExovZjcFsUxizIxC4rtlHj+wopr6Fb1m++dX51+cu1X/5Rl1UB0wF4yNFN/S/dGQ==
-X-Received: by 2002:a05:6e02:1c47:b0:3a0:bc39:2d8c with SMTP id e9e14a558f8ab-3a26d7d0a87mr70629835ab.25.1727367125014;
-        Thu, 26 Sep 2024 09:12:05 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a344df422dsm101335ab.81.2024.09.26.09.12.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Sep 2024 09:12:04 -0700 (PDT)
-Message-ID: <ad6b7073-4fcf-41f9-b6ff-e01bf7089017@linuxfoundation.org>
-Date: Thu, 26 Sep 2024 10:12:03 -0600
+        d=1e100.net; s=20230601; t=1727389499; x=1727994299;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nwvdoFGxm3KhCqcwA7uNn+nsr1FJVT8Rrylkxk+BHzY=;
+        b=wcyArUuFDJgEyy/KsrKkhyhMdefHEPEmUX0i7jT5q0QCp3yXSXTixTpDk7j3Z2Oe7H
+         JqrpogxoCXtYUIzVISQxJh4r5TOEpWrmXmpvb7qhEpFz3kQINc2XGfi4yzj3A5vQ2g10
+         eCb5aM+0NhDfyOwP2OJhGCKyGakHRuZBSvib67lwB1vZIcPBxItmCX/oFRmpNUejJRF9
+         A8wrKNWhIjEBVgDCX34SmMNoRv4SyhcY021AAP4vX0rF842EDJeC49EmBjSLJrvlVPHa
+         u8soePxha1/6zAQ0OCz/YPDLBUVAYYGJpzHo5fI7aAo2FQRijX6DR1pJg02KYjtlErs2
+         7Big==
+X-Forwarded-Encrypted: i=1; AJvYcCWmOiONsvYK5NFis/9CaA9/fJTPu+zI4lR6q2EoRBZOxhBeZhlkql03Z8hWrC13IoWSxwGBy/bDFu/6tlx1btRnJzSnIQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrmNg9rmGC7dMNGPbboZ7rAwJwzM5JvLdvMmXTPGNfUEdqGUK3
+	fNd/l/1w6+0aVOzWH7/l7K3SIkUzLqKeBJRpmtrsTW5hVq/xD3UlJ3nvqipVdNE=
+X-Google-Smtp-Source: AGHT+IFm/tktsslJFScr7N0Z8rSDXeabptEUKFyK1ckvN8vsNqDXTzaPkw22+7tUHK36g8LVTD4Xmg==
+X-Received: by 2002:a17:903:2287:b0:205:43b8:1aa4 with SMTP id d9443c01a7336-20b36ad3bcemr12377615ad.19.1727389499047;
+        Thu, 26 Sep 2024 15:24:59 -0700 (PDT)
+Received: from localhost.localdomain ([132.178.238.27])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20b37da334asm3064755ad.105.2024.09.26.15.24.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2024 15:24:58 -0700 (PDT)
+From: "Everest K.C." <everestkc@everestkc.com.np>
+To: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	andy@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	kieran.bingham+renesas@ideasonboard.com,
+	benjamin.gaignard@collabora.com
+Cc: "Everest K.C." <everestkc@everestkc.com.np>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH] media: atomisp: Fix spelling errors reported by codespell
+Date: Thu, 26 Sep 2024 16:23:37 -0600
+Message-ID: <20240926222351.7116-1-everestkc@everestkc.com.np>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: Add a quirk for HP Pavilion 15z-ec200
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>, perex@perex.cz,
- tiwai@suse.com
-Cc: kailang@realtek.com, sbinding@opensource.cirrus.com,
- simont@opensource.cirrus.com, josh@joshuagrisham.com, foss@athaariq.my.id,
- rf@opensource.cirrus.com, rbmarliere@gmail.com,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20240926155112.8079-1-abhishektamboli9@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240926155112.8079-1-abhishektamboli9@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/26/24 09:51, Abhishek Tamboli wrote:
-> Add the quirk for HP Pavilion Gaming laptop 15z-ec200 for
-> enabling the mute led. The fix apply the ALC285_FIXUP_HP_MUTE_LED
-> quirk for this model.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219303
+Fixed spelling errors as follows:
+	unkonwn ==> unknown
+	Stablization ==> Stabilization
+	previouly ==> previously
+	acknowlede ==> acknowledge
 
-Were you able to test  this on HP Pavilion Gaming laptop? If so
-please add that to the change log.
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-> ---
->   sound/pci/hda/patch_realtek.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 4ca66234e561..94125a977f08 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10315,6 +10315,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->   	SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
->   	SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
->   	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x88DD, "HP Pavilion 15z-ec200", ALC285_FIXUP_HP_MUTE_LED),
->   	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->   	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
->   	SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Looks like this has been fixed:
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index d7e8a9871522..1e42a8ca68f5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -43,7 +43,7 @@ static const char *CARD = "ATOM ISP";	/* max size 31 */
+ 
+ /*
+  * FIXME: ISP should not know beforehand all CIDs supported by sensor.
+- * Instead, it needs to propagate to sensor unkonwn CIDs.
++ * Instead, it needs to propagate to sensor unknown CIDs.
+  */
+ static struct v4l2_queryctrl ci_v4l2_controls[] = {
+ 	{
+@@ -112,7 +112,7 @@ static struct v4l2_queryctrl ci_v4l2_controls[] = {
+ 	{
+ 		.id = V4L2_CID_ATOMISP_VIDEO_STABLIZATION,
+ 		.type = V4L2_CTRL_TYPE_INTEGER,
+-		.name = "Video Stablization",
++		.name = "Video Stabilization",
+ 		.minimum = 0,
+ 		.maximum = 1,
+ 		.step = 1,
+@@ -678,7 +678,7 @@ static int atomisp_g_fmt_cap(struct file *file, void *fh,
+ 
+ 	f->fmt.pix = pipe->pix;
+ 
+-	/* If s_fmt was issued, just return whatever is was previouly set */
++	/* If s_fmt was issued, just return whatever is was previously set */
+ 	if (f->fmt.pix.sizeimage)
+ 		return 0;
+ 
+@@ -1028,7 +1028,7 @@ void atomisp_stop_streaming(struct vb2_queue *vq)
+ 	/*
+ 	 * ISP work around, need to reset ISP to allow next stream on to work.
+ 	 * Streams have already been destroyed by atomisp_css_stop().
+-	 * Disable PUNIT/ISP acknowlede/handshake - SRSE=3 and then reset.
++	 * Disable PUNIT/ISP acknowledge/handshake - SRSE=3 and then reset.
+ 	 */
+ 	pci_write_config_dword(pdev, PCI_I_CONTROL,
+ 			       isp->saved_regs.i_control | MRFLD_PCI_I_CONTROL_SRSE_RESET_MASK);
+-- 
+2.43.0
 
-https://lore.kernel.org/lkml/20220918171300.24693-1-dhould3@gmail.com/t/#m0c6aeebe5cc89c9a4228d49f56f4a0a4c516e012
-
-thanks,
--- Shuah
