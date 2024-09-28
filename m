@@ -1,134 +1,134 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519681C2317
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 27 Sep 2024 18:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA65E1B299
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 28 Sep 2024 02:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727463548; cv=none; b=DE1T2UHYahDktUJ60mrke4GGEZl2TJm6zYc3OQ2cwWFj1HsmcHuNZDmbb9ue7jOSXy3q23Oh47TOWrmmAWuKpACLxnnVsKYv/SuRpeoj6Ku7/2+dKbDnYXT9gGDrigZW3j5Hs/Th1G+RIIRwWWIiXQew0NUQBK4oC5PmCf0J1/o=
+	t=1727489702; cv=none; b=r1ktynGYyWSI9TraoyVFr6vP6eHtoapnQaSBXcxXYSUhk3YgZ9JlshpCPBAizwhovyXgjJqCqfefrxdJ/L3EHFv+T1MlwPkm84qQmlOSv1pV8PdgD7PrjiDFH1OaJAGFwd++WWlygTkS31leox38trbegYkVuPy62vmux0qa/XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727463548; c=relaxed/simple;
-	bh=ky0Qt5OUyJliJOveB+7uwkeqJHQ34/da2gDj0EVdVh8=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=aY2d1dFTk9acB6wF/pAqoPhHMeWvVA8qR2eOF9tzE5RvFN7/CdVGrhrk7ZVGHHBKhFgK+jJ2+6/L/q8Ao1qNCUm+Z7Yk+E1RSypLXlDdBE9LjY13kRMut0WsHGZq6EVzIqSh7a/yVB+cWufNJRbaIVF1UwRrvdBZ9IOYNbAqhpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1727489702; c=relaxed/simple;
+	bh=0N9z9QkdKLDNcbh5vPuhtWxnbaagBATs4qiwqABmrFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=elBaes4jo3TwhGiaEgbFO5hDvzrrl7db0wUY5VPmThnXYPCtcNm0X3FrQZadWDyz2Mf+KUlDULRrYqTWf/5oi9Co+mr9ctmexOtjIfudCLBmfKcpHTc8xvI8DhDV4lJY58xDXACnyskUeqZySeI0oath6H3oR1RoFEdjRElOs9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=crEMlpco; arc=none smtp.client-ip=140.211.166.133
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="crEMlpco"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id C0D3F424BE
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 27 Sep 2024 18:59:06 +0000 (UTC)
+	by smtp2.osuosl.org (Postfix) with ESMTP id 974884012F
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 28 Sep 2024 02:15:00 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.838
+X-Spam-Score: -1.849
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id YwzAndecR4xz for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Fri, 27 Sep 2024 18:59:05 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.198; helo=mail-il1-f198.google.com; envelope-from=3ead3zgkbajmflm7x881excc50.3bb381hf1ezbag1ag.zb9@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 6F99441E2C
-Authentication-Results: smtp4.osuosl.org; dmarc=none (p=none dis=none) header.from=syzkaller.appspotmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 6F99441E2C
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 6F99441E2C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 27 Sep 2024 18:59:05 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-3a1a6d8bb03so31563275ab.0
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 27 Sep 2024 11:59:05 -0700 (PDT)
+Received: from smtp2.osuosl.org ([127.0.0.1])
+ by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id E-VvQorx-Z79 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sat, 28 Sep 2024 02:14:59 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::52b; helo=mail-pg1-x52b.google.com; envelope-from=abhishektamboli9@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org 505B0400EF
+Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org 505B0400EF
+Authentication-Results: smtp2.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=crEMlpco
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+	by smtp2.osuosl.org (Postfix) with ESMTPS id 505B0400EF
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sat, 28 Sep 2024 02:14:58 +0000 (UTC)
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-7e6ed072cdaso144832a12.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Fri, 27 Sep 2024 19:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727489698; x=1728094498; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wqrgAdB0rZN+RLFsmGURscFhnQ+qvKVFVUuv62yRYuE=;
+        b=crEMlpcoChDWiWCi2jbVXd32M6NGV4xO3ZTA7VPjA8ZGplTw8C2zY89gH++BdbF9Tf
+         YdRvQo0w0LTCb7MclVs6CLnnc9a9nM02SyV5Xy6KeIw77ELqFZtgG9tZfxbfXZOJES6O
+         cjC/sWd0EjxWcZlTcOV/FKhHA4d52ABvmS7fG2D/29sUCsSmUMDbmWkyd/CMwWD1C88I
+         dBdU/KX8STxKz0yNThlGjgMOqm/88vVZ8IL1nzhM18sp3QcAOsZKjTueh3k0nxuvlH+V
+         16g4baoxc3GTYeHZdgdNgAdxWfXrF/vv/Sjtl0a0zfRUGRIDyr1HiJyjstJ+Yi5I0XaR
+         n6ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727463544; x=1728068344;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3dTrhEW4JbtxGsv9/ziMsjoJhu8gsQrCpGygXIu/nBQ=;
-        b=tSkGwMhQBnmulq5QI125atB6Ln0t8lfAtBtuZEmUCMn/FV8AcVPQXTctGwEXAqgWA1
-         Y8EjaaprpiOIoWKkh3SMQ9HbYNgoO3rYwXodtWFD7Rtu0wGVkYb5egRX0h2IkB9tsI6N
-         eC5+ij9PI4acicss9+nbtJ5VcK/+38R+T5pAJTo72heq+ZzV2Jt21U8ldvFCdLqp+Y2T
-         O2JWZdxXOejyY/PCFA54bCcfOaAbDkqw0I7D+EOK0BR4VxFk4wwwLotzCL6Rv9gVoCZ6
-         IRdrnywU4VB5iQz3RQ3Xis9iwRZw6b/9ep2OAupNYCRwEhqHuoR0iuIJYtgiGo5ge71W
-         vrzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhuVr7vmI6c4+EGuSakAH2RqGvK9f1UMLdTv9o9O/EH4YYn46gpF4HUx8PCJrn8bkODtaP2EgQ7uxSkXtYURUpTp6ptg==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YyA7kDwEOhgocN4jLedy5XHSCkFjHqgEHOli4kiSWiX73BTOTHU
-	cMQBRf84tSkPB/9g2Pmh477F2zmaFjCplI6cv11bwjbAtsZAVd846YvyAHVYb6sw3iNmdlIUgJS
-	/k6l1GQLbAOXedCOJIDzQVRqy3cAc0mfLAtX/4Azl6yXGIV3APb0cY+o=
-X-Google-Smtp-Source: AGHT+IFqa7yF6ECvwnlAxi3NdjJ+CnDzIfbmLXO7BSnSZm+8+qYvYSHemIaLjKJV7fVtke5qcGUD3IsXyAqMg5c4+lgltsFxaoGO
+        d=1e100.net; s=20230601; t=1727489698; x=1728094498;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wqrgAdB0rZN+RLFsmGURscFhnQ+qvKVFVUuv62yRYuE=;
+        b=DFD5kWGpE/68IBzVzO2qUydZsqKSCMsQqD8bgFosydTRCcBmBimpv060SBV7fHq2/L
+         B4OP+FRXJq8W5yXkkUmQMQUi7MWYVLLb0CJ9M3nKW+OUIa5tYRkEX4HsaIelsbDT8nAm
+         DsAFqrikRlguXODvVQs6zxywD9e3+ZqXa46Nq1my1S0ow67xiUkWsYkgLyQF8Ctlv/c0
+         wimN5/h3khRbDCVQCp0E3WqdItzToYZHSd+Od4Xw6dxEnfCWuTOfLuHlAAzlwEA6vUTK
+         UhIjfmjMHYnughyBxcRkA5EbhSJ3HGHQPCW5VXpxBV1SU8OsMLjtLPjh0mk1HGmPco7O
+         vOOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVxeaoejy44UMHkd+l/NJu3qn98X8LlDTSUdN1Xqt9DfhvwRFwDmiy4nFAUS5m8iQN9JxuEwz01lYzoCvcuht02OwuG+A==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyEOjIiktr0G5y1c8zQOJouG6RvASV/6U2GKqEjaXAlhQIXp7wP
+	XFnHosSpKTHMZMUaeJ9z6z0xCbHrh4Y548Jv3YwwB/aIGPh4f8HZ
+X-Google-Smtp-Source: AGHT+IHuTV7WYUUPQwB5pjr/BMdyWBPHJHV6WFyqQ8PRIEao1mkbuWDVSHjGDHU6SDAviEAnNHG2Cw==
+X-Received: by 2002:a05:6a20:4393:b0:1cf:edad:3bc7 with SMTP id adf61e73a8af0-1d4fa639f28mr7601337637.7.1727489698047;
+        Fri, 27 Sep 2024 19:14:58 -0700 (PDT)
+Received: from embed-PC ([2401:4900:889d:8638:3e48:c969:47ab:86b2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7e6db2928f7sm2312087a12.5.2024.09.27.19.14.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 19:14:57 -0700 (PDT)
+Date: Sat, 28 Sep 2024 07:44:48 +0530
+From: Abhishek Tamboli <abhishektamboli9@gmail.com>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: perex@perex.cz, tiwai@suse.com, kailang@realtek.com,
+	sbinding@opensource.cirrus.com, simont@opensource.cirrus.com,
+	josh@joshuagrisham.com, foss@athaariq.my.id,
+	rf@opensource.cirrus.com, rbmarliere@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add a quirk for HP Pavilion 15z-ec200
+Message-ID: <ZvdmmIHsUjWq4bp/@embed-PC>
+References: <20240926155112.8079-1-abhishektamboli9@gmail.com>
+ <ad6b7073-4fcf-41f9-b6ff-e01bf7089017@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:164b:b0:3a0:9ea3:8d79 with SMTP id
- e9e14a558f8ab-3a3451bbd54mr45858575ab.16.1727463544448; Fri, 27 Sep 2024
- 11:59:04 -0700 (PDT)
-Date: Fri, 27 Sep 2024 11:59:04 -0700
-In-Reply-To: <20240927165132.17289-1-rbrasga@uci.edu>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <66f70078.050a0220.46d20.0024.GAE@google.com>
-Subject: Re: [syzbot] [ext4?] WARNING: locking bug in ext4_ioctl
-From: syzbot <syzbot+a3c8e9ac9f9d77240afd@syzkaller.appspotmail.com>
-To: adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	rbrasga@uci.edu, skhan@linuxfoundation.org, syzkaller-bugs@googlegroups.com, 
-	tytso@mit.edu
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ad6b7073-4fcf-41f9-b6ff-e01bf7089017@linuxfoundation.org>
 
-Hello,
+Hi Shuah,
+Thanks for the feedback.
 
-syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-WARNING: locking bug in ext4_ioctl
+On Thu, Sep 26, 2024 at 10:12:03AM -0600, Shuah Khan wrote:
+> On 9/26/24 09:51, Abhishek Tamboli wrote:
+> > Add the quirk for HP Pavilion Gaming laptop 15z-ec200 for
+> > enabling the mute led. The fix apply the ALC285_FIXUP_HP_MUTE_LED
+> > quirk for this model.
+> 
+> Were you able to test  this on HP Pavilion Gaming laptop? If so
+> please add that to the change log.
+The person who reported the bug confirmed that the patch resolved 
+the issue on his device. 
+For your reference: https://bugzilla.kernel.org/show_bug.cgi?id=219303
 
-loop0: detected capacity change from 0 to 512
-ext4 filesystem being mounted at /root/syzkaller-testdir500386566/syzkaller.6PgxEV/36/bus supports timestamps until 2038-01-19 (0x7fffffff)
-------------[ cut here ]------------
-Looking for class "&ei->i_data_sem" with key init_once.__key.799, but found a different class "&ei->i_data_sem" with the same key
-WARNING: CPU: 1 PID: 5815 at kernel/locking/lockdep.c:939 look_up_lock_class+0xdc/0x170 kernel/locking/lockdep.c:936
-Modules linked in:
-CPU: 1 UID: 0 PID: 5815 Comm: syz-executor.0 Not tainted 6.11.0-syzkaller-11673-geee280841e1c-dirty #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-RIP: 0010:look_up_lock_class+0xdc/0x170 kernel/locking/lockdep.c:936
-Code: 01 0f 85 8a 00 00 00 c6 05 b3 f8 46 04 01 90 49 8b 16 49 8b 76 18 48 8b 8b b8 00 00 00 48 c7 c7 60 ea ea 8b e8 75 2c bf f5 90 <0f> 0b 90 90 eb 61 90 e8 08 44 18 f9 e8 53 5e de f5 48 c7 c7 a0 e9
-RSP: 0018:ffffc900049ef4f0 EFLAGS: 00010046
-RAX: 3592bb3d4927ad00 RBX: ffffffff931c0730 RCX: ffff888027c18000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc900049ef600 R08: ffffffff8155a9c2 R09: 1ffff1101722519a
-R10: dffffc0000000000 R11: ffffed101722519b R12: ffff888077aadbb0
-R13: ffff888077aadbb0 R14: ffff888077aadbb0 R15: ffffffff94d9f1c1
-FS:  00007f214c1256c0(0000) GS:ffff8880b9100000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000002000e000 CR3: 0000000027aec000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- register_lock_class+0x102/0x980 kernel/locking/lockdep.c:1290
- __lock_acquire+0xf0/0x2050 kernel/locking/lockdep.c:5074
- lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5822
- down_write_nested+0xa2/0x220 kernel/locking/rwsem.c:1695
- swap_inode_boot_loader fs/ext4/ioctl.c:432 [inline]
- __ext4_ioctl fs/ext4/ioctl.c:1436 [inline]
- ext4_ioctl+0x4124/0x5590 fs/ext4/ioctl.c:1626
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:907 [inline]
- __se_sys_ioctl+0xf9/0x170 fs/ioctl.c:893
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f214b47dea9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 e1 20 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f214c1250c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f214b5abf80 RCX: 00007f214b47dea9
-RDX: 0000000000000000 RSI: 0000000000006611 RDI: 0000000000000004
-RBP: 00007f214b4ca4a4 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 000000000000000b R14: 00007f214b5abf80 R15: 00007fff61b66448
- </TASK>
+> > Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
+> > ---
+> >   sound/pci/hda/patch_realtek.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> > index 4ca66234e561..94125a977f08 100644
+> > --- a/sound/pci/hda/patch_realtek.c
+> > +++ b/sound/pci/hda/patch_realtek.c
+> > @@ -10315,6 +10315,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+> >   	SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+> >   	SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+> >   	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
+> > +	SND_PCI_QUIRK(0x103c, 0x88DD, "HP Pavilion 15z-ec200", ALC285_FIXUP_HP_MUTE_LED),
+> >   	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+> >   	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
+> >   	SND_PCI_QUIRK(0x103c, 0x87d3, "HP Laptop 15-gw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+> 
+> Looks like this has been fixed:
+> 
+> https://lore.kernel.org/lkml/20220918171300.24693-1-dhould3@gmail.com/t/#m0c6aeebe5cc89c9a4228d49f56f4a0a4c516e012
+No, this patch seems to be for the HP OMEN 16. 
 
-
-Tested on:
-
-commit:         eee28084 Merge tag 'mm-hotfixes-stable-2024-09-27-09-4..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=161cde27980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6e73c530afb43e82
-dashboard link: https://syzkaller.appspot.com/bug?extid=a3c8e9ac9f9d77240afd
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=17082507980000
-
+Thanks,
+Abhishek
