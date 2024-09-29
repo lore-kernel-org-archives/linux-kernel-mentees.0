@@ -1,114 +1,228 @@
 Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DBE4A0F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Sep 2024 11:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A42517C7BE
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Sep 2024 14:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727607624; cv=none; b=UjZ/hrIAHvuOTxMEa0wdJJA4phURW9XjRle+KbvqNYyo/JNRHgPvdY8E8BFR99m/U/PsgaViKp5AUQf+kKpoV+TOAkOPusHiuIUBvZN4t1vcl8pLfvWkwvRI03RRkxivKuWwM5rGB9rxxLf/TRGWqldINAADsBTm7O+ZqRfkp0c=
+	t=1727621689; cv=none; b=gXDLg/WRKSOs2JiIwzyXhcth77sKxKuhG8CxPsWUgTS7eGeHPdtvN9tlxh12wAIvZAwdkeBdeeWZErhMev2pVRV8/iye/tqV05vEi8Ag/mOw6cA0ShWrM5PNDe7PqHwh7BWqk2gwCHNAbGfYj4J4Ek9Ve1ajS8ChiXqxteHowNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727607624; c=relaxed/simple;
-	bh=Iq77x4MLEGgojJ8AajHtBHQUxibrdfvijC+nEkxrpyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=PNd6vrEDFMkE/H2ZabL16KJOTb3ThsESTiNK1rg5zlBscptGdZOLodbGbvr/KzDVMkEcnv8QJtkN9HTW/HcBpwdCZwuwGGkmh7EzBK+B0MCjOuH9J555mXfNfXi2DzUOd5248+yS2aATElsBkeS3wdb+shLL02gsX8GtSStZxBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fL9p5kzu; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7Av+XuoK; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1727621689; c=relaxed/simple;
+	bh=h1wCOEWNwmeVwY+5OCdLYnqmKx4uvrqO3C2WhNd2TVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rrpToXyPTROYTpYwijtb6UvknBG82q57nFL4Esclh71w88y4RtmyoSgZDUeCVMmI9QEv8Fi8hVawUbmJCxict0TiZMCHlp+eEd5q0egAjjv3inM0wnHdTtZ6rSEiC/RNleArRmkyMzKWmif1xRpDmwqczbE59fLLBOJ6v7mehrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WrsSu4ay; arc=none smtp.client-ip=140.211.166.137
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fL9p5kzu";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7Av+XuoK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WrsSu4ay"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id A0B0E403DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Sep 2024 11:00:22 +0000 (UTC)
+	by smtp4.osuosl.org (Postfix) with ESMTP id C643940322
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Sep 2024 14:54:47 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.8
+X-Spam-Score: -10.792
 X-Spam-Level:
 Received: from smtp4.osuosl.org ([127.0.0.1])
  by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ejgj16Okum0e for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Sun, 29 Sep 2024 11:00:22 +0000 (UTC)
-X-Greylist: delayed 466 seconds by postgrey-1.37 at util1.osuosl.org; Sun, 29 Sep 2024 11:00:21 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 95B8E4027A
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 95B8E4027A
+ id nyAGsLTUKjTW for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Sun, 29 Sep 2024 14:54:46 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=139.178.84.217; helo=dfw.source.kernel.org; envelope-from=jic23@kernel.org; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 99A04402F0
+Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 99A04402F0
 Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=fL9p5kzu;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=7Av+XuoK
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a0a:51c0:0:12e:550::1; helo=galois.linutronix.de; envelope-from=tglx@linutronix.de; receiver=<UNKNOWN> 
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 95B8E4027A
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Sep 2024 11:00:21 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1727607151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=neHGIRG6ObTmuPNtZ+HaQ6fkZuReAPwqce8LCfhesuk=;
-	b=fL9p5kzuRIt6VGDA4RqBBmjkjWurYlThgac0kd3CKMhoj/UAzRy8EfTLixAGXmF/yelOQJ
-	/eiOL+6S3laniMoL/L4Wc1EQ+hMLivw54S+rklsqNSdDTcv9sT8RpQyK+4Fb8bO86y4Ihb
-	MJvurKXcoy9Y0+pFVJAUvDImGKATgC5iBwE/KsCaRTT9sPU1Zk9LWuY29I1YX/iEHVbEQY
-	SmOkoMNB5MfFxEyyeag4g5fj7exXam+/DuSpkX194RRFhPk8+8b8eg3u6dWl+WB9xo+1FF
-	iJleTPP7WDPjcvJnEoLYb742dyUtMVUHAOUSbUJtsS9fF+GlBPNu7c8EEMCHfg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1727607151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=neHGIRG6ObTmuPNtZ+HaQ6fkZuReAPwqce8LCfhesuk=;
-	b=7Av+XuoK9qEYV+knfSqJxYR6azNXDFlqEPeW7nwvoZqQ3MsruyCQ8xtluUgrJvW5lpZYLP
-	u9fNoXOowK3D1ZCw==
-To: Remington Brasga <rbrasga@uci.edu>, Christian Heusel
- <christian@heusel.eu>, Shuah Khan <skhan@linuxfoundation.org>, "Ahmed S .
- Darwish" <darwi@linutronix.de>
-Cc: linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org, Remington Brasga
- <rbrasga@uci.edu>
-Subject: Re: [PATCH] kcpuid: Fix potential dereferencing of null pointers
-In-Reply-To: <20240926223557.2048-1-rbrasga@uci.edu>
-References: <20240926223557.2048-1-rbrasga@uci.edu>
-Date: Sun, 29 Sep 2024 12:52:30 +0200
-Message-ID: <87v7ye20lt.ffs@tglx>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=WrsSu4ay
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+	by smtp4.osuosl.org (Postfix) with ESMTPS id 99A04402F0
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Sun, 29 Sep 2024 14:54:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 471BB5C01B5;
+	Sun, 29 Sep 2024 14:54:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50DC4C4CEC5;
+	Sun, 29 Sep 2024 14:54:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727621684;
+	bh=h1wCOEWNwmeVwY+5OCdLYnqmKx4uvrqO3C2WhNd2TVA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WrsSu4ays+rLIoiR15IIuNJ7HVySCanwwOV6j788lTnWRximAWD4nrrdbaahtTzgS
+	 bixZQDpjR5XYhidmGXABHqFKV5B56HBNMEGQ1a+60FKFyYXFcFo1BMi+wpxGwQq9N0
+	 OrRYfTRQlyyS+bPc79truqaBIfXBd+BKrNw/qHM3QElCRF+j891sE/GyHtdD890cpX
+	 8KOY0XBLB8+e2ot7IzBjZYOihDe7pvhSF7lP8nMLo/Dqk1FHidmuT6MYScethQQEwN
+	 uKmIBvaAzs/BY2CEgYWT4kO0T3VoGOdv3ZlfVzljsgjFxw6N7/oM9GWQ0jBEGbuRhk
+	 qNpv2TZzEIOeg==
+Date: Sun, 29 Sep 2024 15:54:37 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ linux-kernel-mentees@lists.linuxfoundation.org, skhan@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH] iio: imu: bmi270: Add spi driver for bmi270 imu
+Message-ID: <20240929155437.60115014@jic23-huawei>
+In-Reply-To: <20240927183717.3613601-1-lanzano.alex@gmail.com>
+References: <20240927183717.3613601-1-lanzano.alex@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 26 2024 at 22:35, Remington Brasga wrote:
->  	if (!func->leafs) {
->  		func->leafs = malloc(sizeof(struct subleaf));
-> -		if (!func->leafs)
-> +		if (!func->leafs) {
->  			perror("malloc func leaf");
-> +			return false; // On malloc failure
+On Fri, 27 Sep 2024 14:37:10 -0400
+Alex Lanzano <lanzano.alex@gmail.com> wrote:
 
-Please get rid of these horrible and pointless tail comments.
+> Implement SPI driver for the Bosch BMI270 6-axis IMU. Provide raw read
+> write access to acceleration and angle velocity measurements via the SPI
+> interface on the device.
+> 
+> Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
 
-Returning false here does not make sense. This simply should terminate
-the program.
+A few minor things inline but looks good in general.
 
-> +		}
+Jonathan
+
+> diff --git a/drivers/iio/imu/bmi270/bmi270.h b/drivers/iio/imu/bmi270/bmi270.h
+> index 608b29ea58a3..8950e6234203 100644
+> --- a/drivers/iio/imu/bmi270/bmi270.h
+> +++ b/drivers/iio/imu/bmi270/bmi270.h
+> @@ -4,11 +4,13 @@
+>  #define BMI270_H_
 >  
->  		func->nr = 1;
->  	} else {
->  		s = func->nr;
->  		func->leafs = realloc(func->leafs, (s + 1) * sizeof(*leaf));
-> -		if (!func->leafs)
-> +		if (!func->leafs) {
->  			perror("realloc f->leafs");
-> +			return false; // On realloc failure
-> +		}
+>  #include <linux/regmap.h>
+> +#include <linux/iio/iio.h>
 >  
->  		func->nr++;
+>  struct device;
+>  struct bmi270_data {
+>  	struct device *dev;
+>  	struct regmap *regmap;
+> +	__le16 sample __aligned(IIO_DMA_MINALIGN);
+
+For the read path you are bouncing anyway, so the DMA_MINALIGN is only needed
+for anything the write direction.  Make the suggested change below and that
+will bounce as well so that you don't need this.
+
+>  };
+>  
+>  extern const struct regmap_config bmi270_regmap_config;
+> diff --git a/drivers/iio/imu/bmi270/bmi270_core.c b/drivers/iio/imu/bmi270/bmi270_core.c
+> index 8e45343d6472..4decdad791d9 100644
+> --- a/drivers/iio/imu/bmi270/bmi270_core.c
+> +++ b/drivers/iio/imu/bmi270/bmi270_core.c
+> @@ -66,16 +66,9 @@ enum bmi270_scan {
+>  	BMI270_SCAN_GYRO_Z,
+>  };
+>  
+> -const struct regmap_config bmi270_regmap_config = {
+> -	.reg_bits = 8,
+> -	.val_bits = 8,
+> -};
+> -EXPORT_SYMBOL_NS_GPL(bmi270_regmap_config, IIO_BMI270);
+> -
+>  static int bmi270_get_data(struct bmi270_data *bmi270_device,
+>  			   int chan_type, int axis, int *val)
+>  {
+> -	__le16 sample;
+>  	int reg;
+>  	int ret;
+>  
+> @@ -90,11 +83,13 @@ static int bmi270_get_data(struct bmi270_data *bmi270_device,
+>  		return -EINVAL;
 >  	}
 >  
-> +	// Check for valid index
-> +	if (s >= func->nr) {
+> -	ret = regmap_bulk_read(bmi270_device->regmap, reg, &sample, sizeof(sample));
+> +	ret = regmap_bulk_read(bmi270_device->regmap, reg,
+> +			       &bmi270_device->sample,
+> +			       sizeof(bmi270_device->sample));
+>  	if (ret)
+>  		return ret;
+>  
+> -	*val = sign_extend32(le16_to_cpu(sample), 15);
+> +	*val = sign_extend32(le16_to_cpu(bmi270_device->sample), 15);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/iio/imu/bmi270/bmi270_i2c.c b/drivers/iio/imu/bmi270/bmi270_i2c.c
+> index f70dee2d8a64..ce8279ae90cd 100644
+> --- a/drivers/iio/imu/bmi270/bmi270_i2c.c
+> +++ b/drivers/iio/imu/bmi270/bmi270_i2c.c
+> @@ -9,12 +9,17 @@
+>  
+>  #include "bmi270.h"
+>  
+> +const struct regmap_config bmi270_i2c_regmap_config = {
+static const
 
-What's the point of this? s is guaranteed to be < func->nr, no?
+(same for spi one)
 
-Thanks,
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +};
+> +
+>  static int bmi270_i2c_probe(struct i2c_client *client)
+>  {
+>  	struct regmap *regmap;
+>  	struct device *dev = &client->dev;
+>  
+> -	regmap = devm_regmap_init_i2c(client, &bmi270_regmap_config);
+> +	regmap = devm_regmap_init_i2c(client, &bmi270_i2c_regmap_config);
+>  	if (IS_ERR(regmap))
+>  		return dev_err_probe(dev, PTR_ERR(regmap),
+>  				     "Failed to init i2c regmap");
+> diff --git a/drivers/iio/imu/bmi270/bmi270_spi.c b/drivers/iio/imu/bmi270/bmi270_spi.c
+> new file mode 100644
+> index 000000000000..906b9b852a09
+> --- /dev/null
+> +++ b/drivers/iio/imu/bmi270/bmi270_spi.c
+> @@ -0,0 +1,89 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +
+> +#include <linux/module.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/regmap.h>
+Alphabetical order preferred.
 
-        tglx
+> +
+> +#include "bmi270.h"
+> +
+> +/*
+> + * The following two functions are taken from the BMI323 spi driver code.
+> + * In section 6.4 of the BMI270 data it specifies that after a read
+> + * operation the first data byte from the device is a dummy byte
+> + */
+> +static int bmi270_regmap_spi_read(void *context, const void *reg_buf,
+> +				  size_t reg_size, void *val_buf,
+> +				  size_t val_size)
+> +{
+> +	struct spi_device *spi = context;
+
+I'd be tempted to rename the input parameter context to spi and then
+parse it directly to the spi_write_then_read()
+
+> +
+> +	return spi_write_then_read(spi, reg_buf, reg_size, val_buf, val_size);
+> +}
+> +
+> +static int bmi270_regmap_spi_write(void *context, const void *data,
+> +				   size_t count)
+> +{
+> +	struct spi_device *spi = context;
+> +	u8 *data_buff = (u8 *)data;
+> +
+> +	/*
+> +	 * Remove the extra pad byte since its only needed for the read
+> +	 * operation
+> +	 */
+> +	data_buff[1] = data_buff[0];
+> +	return spi_write(spi, data_buff + 1, count - 1);
+That needs a DMA safe buffer (unlike write_then_read which always
+bounces).  I'd avoid that complexity by using spi_write_then_read
+here as well but set the read to 0 length and pass NULL for the buffer.
+That function is intended to be used like this as it special cases 0
+length for either write or read buffers.
+
+> +}
+
