@@ -1,81 +1,83 @@
-Received: from smtp4.osuosl.org (smtp4.osuosl.org [140.211.166.137])
+Received: from smtp3.osuosl.org (smtp3.osuosl.org [140.211.166.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB641642B
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 03:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE2E16426
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 03:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727840314; cv=none; b=mSasEvkTOFLfps0Y8TpW/YoFhbDhC2SWUtXHRhj8djuKvIJTR14LklXrkDevEZWq/A6gGZXhIETVLjEqVp21AKMxcMb58PDAIOA9WNhgbDn+nzmjUU4kB3xXN5tRFK/qdPBfWYh7O/terJJKrdjIrG4+ENjD+t6RmbbsGboAtbc=
+	t=1727840327; cv=none; b=Vsjv9A2H+8rCB8xIY3Lw/Nc546NIW8WmSNSNK8KqCSeXFU5yL7OkO6Ll11k67p7LVSuZ+RVejs0/NaJmWLepf4vK3FRZ49m+saAR/BxwwdYb7RoBExhWFqzWphEoIfOy5uBz5cehebIL7r9RojmDkmlvZUL+w0gLOh1YGJl07ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727840314; c=relaxed/simple;
-	bh=ubntFyn+U170UHY/EMBXcg7nDyc7ap8EztnP7A+f/oI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YCxowBHypxiZTPsQUYnwc72tNq++8oR/H5blkHkPk7wqkCfArA3Sd6ayfmHRKCyQ3cARaRLQWaMke498LfdTXsOJulX6EVZEM3w2X3SdWhfkMVgYUGu2e+DcnAqK3jvxA7BAoj4W6WSHaYZiEgByi456RWaEnG47KyhGFAl1JiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QYOSzB6E; arc=none smtp.client-ip=140.211.166.137
+	s=arc-20240116; t=1727840327; c=relaxed/simple;
+	bh=7v8EkhMDv+Jx4uOPQGK7HMrlgEz0giZggGqCi8QC6H0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MimdAq2oVXeir+zOjLpM6pyL3cB6IQ06kM6NNtAEZxwWUCmDCPs/mCt4SdggyfT7Jo4KrQ+Sek7N9L0ncC2iNPUOp8C3AI1bGMxYKgroQH0qyxMMOm2/5OJmc7GkX1ZKuCSL8CowN9EvKp0f80Lxi/4M+LHn/bCnmjCPUjurpjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZGy/Jr9; arc=none smtp.client-ip=140.211.166.136
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QYOSzB6E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZGy/Jr9"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp4.osuosl.org (Postfix) with ESMTP id D2A82405DD
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 03:38:32 +0000 (UTC)
+	by smtp3.osuosl.org (Postfix) with ESMTP id DE7FF60881
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 03:38:45 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
 X-Spam-Score: -2.099
 X-Spam-Level:
-Received: from smtp4.osuosl.org ([127.0.0.1])
- by localhost (smtp4.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id mLdVO0o9HK_l for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Oct 2024 03:38:31 +0000 (UTC)
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f2a; helo=mail-qv1-xf2a.google.com; envelope-from=lanzano.alex@gmail.com; receiver=<UNKNOWN> 
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp4.osuosl.org 7F866405DC
-Authentication-Results: smtp4.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp4.osuosl.org 7F866405DC
-Authentication-Results: smtp4.osuosl.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=QYOSzB6E
-Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
-	by smtp4.osuosl.org (Postfix) with ESMTPS id 7F866405DC
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 03:38:30 +0000 (UTC)
-Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-6cb3cbc28deso53824106d6.3
-        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 01 Oct 2024 20:38:30 -0700 (PDT)
+Received: from smtp3.osuosl.org ([127.0.0.1])
+ by localhost (smtp3.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id BQtbKG-YzXOu for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  2 Oct 2024 03:38:45 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2607:f8b0:4864:20::f2f; helo=mail-qv1-xf2f.google.com; envelope-from=lanzano.alex@gmail.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp3.osuosl.org BA9766086B
+Authentication-Results: smtp3.osuosl.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp3.osuosl.org BA9766086B
+Authentication-Results: smtp3.osuosl.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20230601 header.b=gZGy/Jr9
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+	by smtp3.osuosl.org (Postfix) with ESMTPS id BA9766086B
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 03:38:44 +0000 (UTC)
+Received: by mail-qv1-xf2f.google.com with SMTP id 6a1803df08f44-6c5ab2de184so43814156d6.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Tue, 01 Oct 2024 20:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727840310; x=1728445110; darn=lists.linuxfoundation.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iUOKiBUXnpsFTZ5jMqyjR0K9mCXZ+ssrPBDzZNi8o+w=;
-        b=QYOSzB6EXuyeKq+aKg+F3fxAvgr69Vv8XTVacQEkzT7fvz9Z2LFy7LeFkfET0WwI8r
-         /E2GqNptgt4H0ozXmxhWwMXd1Eu7sQTpYQQ5hfLI8XT7K67KO4cYFeDpXBfLDCmkiLqZ
-         xcyUtPZqd46372wmDLvEQvy+0nGREL5hGdblcyASP2W5NiyUpXvSgN8k0/uV/0T3UjjF
-         yAmjtUVA0/ZlzrwT1jGiuBUJujWGUoOKCAANttX59T5iZJuXqbqNXz9uhJISyf7BEteb
-         b/CWt3/05anpLkb0YI0a3Jzdh9qxrlhTT7Izh39H59b/3HX+nxdQxezh0hdEUA/YQPFL
-         UE2Q==
+        d=gmail.com; s=20230601; t=1727840323; x=1728445123; darn=lists.linuxfoundation.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j3ksh4XUKkffbY/duSvAxp7lxaY240eNih1Cc+96aTE=;
+        b=gZGy/Jr9Lsa9Zkl9++nQWUh728AwCRkARpFk+Z0OIbA05dkwu2nNPIg1q7vn1ms4cF
+         bBkszgaSLTyyBd4zslvtWqU9ILdRD3j2XelB7ITtUaVevrJahwLhfJ6RaItEz/hbRtio
+         gPiZZrG7v1g4EBF+y+zF2+cPywVL4x3njK1a5SF7S/P5svIja2YgOX+EDi4kCLvAlMjL
+         M6S9vCrz148Y6NMg4jo6KIQWcBTmwjqRhDfW/dYC6HHBF/Ef4ajIuFZ+4B1dfXQJZYAS
+         A65BBriwQWgw+bmQWmmsrAU8QlwfeRaRPdznaW07P83+ohet3CIv7x9loXx+f7OTFWmv
+         L/Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727840310; x=1728445110;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iUOKiBUXnpsFTZ5jMqyjR0K9mCXZ+ssrPBDzZNi8o+w=;
-        b=oldXyK/YT6zyrePpaJqSVXPLrl62mrgS1X5TO1ZW1lfnfQ6uxStgdAM5ty0VrDQ3Pl
-         QBILCk8YiW2iEIUUJzmiD6T6YxIAqmfZaTEaoqhMvUFIzGtxrR4iq/EVg4WgXFlGe5Bk
-         pXeGqb/Yeli9YJyhvYzqz4+nzibG0gBdF63jqJoIxQCVZ0EnEm83v83bYgIecqAajgun
-         ESB/GpijUZXQ5hInAMijOhUOr2+U5oBSR2yNpyXJLBmjvDxzAJWsudYb6bCJnlmmBHoX
-         gfXYrVk9o/mycbbAj92hMCufBAZs6I6hz+TfX65uQNDuuAboBE2VkbRy6QIuWedRh66K
-         jJbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWitzDk+nYm/CBq81NOq79M8KTl3T38zoYQDSuAp6UdFaWO2xbHatQf3AMmaj4zZ/MxVVa3h3WVoD6I+Z5adw06K7PLtA==@lists.linuxfoundation.org
-X-Gm-Message-State: AOJu0YwA3pnsxjuGmbyPP6Ii3/6wSi2s64LVP3oHxANKKZV6ai/5y1CN
-	KiHjBBtZdYclEZtX03fA32uIvS9+oCUkyZTPTABjuYCWcLzfssyZitNozTIS
-X-Google-Smtp-Source: AGHT+IFB3Rfsz3+Lfr4kTvzv/Vj1epWm/jyj0EIrItSKQRLruClkbfn6m+DM4X6WPN4Ew4cmQ35Y1A==
-X-Received: by 2002:a05:6214:41a0:b0:6cb:3a7b:96b9 with SMTP id 6a1803df08f44-6cb81a05676mr22602866d6.15.1727840309742;
-        Tue, 01 Oct 2024 20:38:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727840323; x=1728445123;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j3ksh4XUKkffbY/duSvAxp7lxaY240eNih1Cc+96aTE=;
+        b=MNJRALm92Pby7ggFXUnbgsrYlc37kRsEERMsWShf63lLOQ9LICoTg/o48eUyklqmJJ
+         Vfz1GkjxNdXjTm89/uuCthD3Z2E8gwA6fGh/eiuUMyzXqG3GqZ73WRKkFiBYeQ0bP++A
+         uw4iTBRWx837Pm8b4rCOrlvgZBovHk1ICEpWXc9134+6dArLuZWWJM71TwGLJl4Ji0lZ
+         HpSmZcEuM8JIrrGA4Y+Dje4z5vTksKS2vpTipNf5oAmdYrR8muknP0HA9OfEJ8YtFKAO
+         pGdsR2QmuxIW/38Ucay8nE96YEqbyx6Av8jOnKRFg16/FfhCPyzHX9UWIK012sd8hEkj
+         RuHg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8lu5RaijJJ2XEQeZySfCmEw/JBk2CAg2eOjVLYRLDQ9HmPD4JYJhu1P3LzAm5qcBclcHBU5CHLxjXU/hiCg5J+1rlpw==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YzbhesnMFY50aX+JHEKFCY6htVt7kA55LJl386a7hvevjGKS2ZV
+	/wSrCbXAw4nqi7+okH9doTj5uC10WrMfZP+hvksRsa3P9o7e0rR0
+X-Google-Smtp-Source: AGHT+IF9Jfkt6rq+pRhtFzL8UUBhqRdqj7GBTlabdTV3sqq4yIKtW2BH05YRhH+pw0+XjCs4mPcgDw==
+X-Received: by 2002:a05:6214:5547:b0:6cb:2a26:af89 with SMTP id 6a1803df08f44-6cb81a64ffemr26531116d6.34.1727840323315;
+        Tue, 01 Oct 2024 20:38:43 -0700 (PDT)
 Received: from localhost.localdomain (ool-1826d901.dyn.optonline.net. [24.38.217.1])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b62d9e6sm55640446d6.69.2024.10.01.20.38.27
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b62d9e6sm55640446d6.69.2024.10.01.20.38.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 20:38:28 -0700 (PDT)
+        Tue, 01 Oct 2024 20:38:42 -0700 (PDT)
 From: Alex Lanzano <lanzano.alex@gmail.com>
 To: u.kleine-koenig@baylibre.com,
 	Alex Lanzano <lanzano.alex@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -84,14 +86,17 @@ To: u.kleine-koenig@baylibre.com,
 	Mehdi Djait <mehdi.djait@bootlin.com>
 Cc: skhan@linuxfoundation.org,
 	linux-kernel-mentees@lists.linuxfoundation.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	dri-devel@lists.freedesktop.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-pwm@vger.kernel.org
-Subject: [PATCH v8 0/2] Add driver for Sharp Memory LCD
-Date: Tue,  1 Oct 2024 23:37:35 -0400
-Message-ID: <20241002033807.682177-1-lanzano.alex@gmail.com>
+Subject: [PATCH v8 1/2] dt-bindings: display: Add Sharp Memory LCD bindings
+Date: Tue,  1 Oct 2024 23:37:36 -0400
+Message-ID: <20241002033807.682177-2-lanzano.alex@gmail.com>
 X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20241002033807.682177-1-lanzano.alex@gmail.com>
+References: <20241002033807.682177-1-lanzano.alex@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
@@ -100,66 +105,115 @@ List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series add support for the monochrome Sharp Memory LCD
-panels. This series is based off of the work done by Mehdi Djait.
-
-References:
-https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b99.1701267411.git.mehdi.djait@bootlin.com/
-https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_for_Memory_LCD_programming_V1.3.pdf
+Add device tree bindings for the monochrome Sharp Memory LCD
 
 Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
 Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
 Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Changes in v8:
-- Addressed review comments from Uwe
-    - Replace pwm_get_state with pwm_init_state
-    - Use pwm_set_relative_duty_cycle instead of manually setting period and duty cycle
-
-Changes in v7:
-- Add Reviewed-by tag back to dt-binding patch
-
-Changes in v6:
-- Rebase off latest drm-misc-next
-- Replace pwm_apply_state with pwm_apply_might_sleep
-
-Changes in v5:
-- Address minor style issues in sharp-memory.c
-
-Changes in v4:
-- Remove redundant dev_err
-
-Changes in v3:
-- Fix file path in MAINTAINERS file
-- Address review comments
-- Simplify mode selection based on match data instead of model
-
-Changes in v2:
-- Credited Mehdi Djait in commit messages
-- Renamed sharp,sharp-memory.yaml to sharp,ls010b7dh04.yaml
-- Using strings instead of int for vcom-mode in dt-binding
-- Fixed indentation of binding example
-- Removed binding header
-- Removed extra whitespace in sharp-memory.c
-- Fixed error handling in sharp-memory.c
-- Added match data to of_device_id table to be in-sync with spi_device_id table
-- Replaced redundant function with spi_get_device_match_data
-- Sorted header files in sharp-memory.c
----
-
-Alex Lanzano (2):
-  dt-bindings: display: Add Sharp Memory LCD bindings
-  drm/tiny: Add driver for Sharp Memory LCD
-
- .../bindings/display/sharp,ls010b7dh04.yaml   |  92 +++
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/tiny/Kconfig                  |  20 +
- drivers/gpu/drm/tiny/Makefile                 |   1 +
- drivers/gpu/drm/tiny/sharp-memory.c           | 681 ++++++++++++++++++
- 5 files changed, 800 insertions(+)
+ .../bindings/display/sharp,ls010b7dh04.yaml   | 92 +++++++++++++++++++
+ 1 file changed, 92 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
- create mode 100644 drivers/gpu/drm/tiny/sharp-memory.c
 
+diff --git a/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml b/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+new file mode 100644
+index 000000000000..8097f091c2a5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/sharp,ls010b7dh04.yaml
+@@ -0,0 +1,92 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/sharp,ls010b7dh04.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sharp Memory LCD panels
++
++maintainers:
++  - Alex Lanzano <lanzano.alex@gmail.com>
++
++description:
++  Sharp Memory LCDs are a series of monochrome displays that operate over
++  a SPI bus. The displays require a signal (VCOM) to be generated to prevent
++  DC bias build up resulting in pixels being unable to change. Three modes
++  can be used to provide the VCOM signal ("software", "external", "pwm").
++
++properties:
++  compatible:
++    enum:
++      - sharp,ls010b7dh04
++      - sharp,ls011b7dh03
++      - sharp,ls012b7dd01
++      - sharp,ls013b7dh03
++      - sharp,ls013b7dh05
++      - sharp,ls018b7dh02
++      - sharp,ls027b7dh01
++      - sharp,ls027b7dh01a
++      - sharp,ls032b7dd02
++      - sharp,ls044q7dh01
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 2000000
++
++  sharp,vcom-mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      software - This mode relies on a software operation to send a
++      "maintain display" message to the display, toggling the vcom
++      bit on and off with each message
++
++      external - This mode relies on an external clock to generate
++      the signal on the EXTCOMM pin
++
++      pwm - This mode relies on a pwm device to generate the signal
++      on the EXTCOMM pin
++
++    enum: [software, external, pwm]
++
++  enable-gpios: true
++
++  pwms:
++    maxItems: 1
++    description: External VCOM signal
++
++required:
++  - compatible
++  - reg
++  - sharp,vcom-mode
++
++allOf:
++  - $ref: panel/panel-common.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++  - if:
++      properties:
++        sharp,vcom-mode:
++          const: pwm
++    then:
++      required:
++        - pwms
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        display@0 {
++            compatible = "sharp,ls013b7dh03";
++            reg = <0>;
++            spi-cs-high;
++            spi-max-frequency = <1000000>;
++            sharp,vcom-mode = "software";
++        };
++    };
++...
 -- 
 2.46.2
 
