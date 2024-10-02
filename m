@@ -1,159 +1,151 @@
-Received: from smtp2.osuosl.org (smtp2.osuosl.org [140.211.166.133])
+Received: from smtp1.osuosl.org (smtp1.osuosl.org [140.211.166.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F9780C0C
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 06:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB99194A52
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 07:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727849644; cv=none; b=eDfp2rxzSqXAdc4ZfTnNhe64RVcEnJ6mUU/wZMaphZzwNKLXgOoFD/bfMnnDIZ6gQ8Pav41wCCFL3+2dREOR/Jmnx6LDuqJxAC8ETgubbWd/QaLwItde+OIIMazUZbEzpkH1udTNSkEmKJndgRGFGe3fcLUlmPGvls9nb/LSA7o=
+	t=1727855806; cv=none; b=nju7uY+d0qfw+PyCgCFsh9mSVX138ckh/YPDjfRcVTO3q04iyIRijDE0Zk7J4Cp2iz5Sb16U1p0ya69/bOlTTiqiKQ8V+P5w7tBIFczWPl/pgn1JPhQEhLD6a2ssl8UzuqRfaFHBJxIguy+ofV9X/yC7enJI/hDp+XTNohPTiJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727849644; c=relaxed/simple;
-	bh=+NVwRKtiLvrc04KvJbGiJgOdO+R3E0k1g7vbnYFWwss=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DnXXdxl6bknYpshls1plKV18Jw91X6UNC+NwmnE36xa5WS85Yq0DeH0bIgXmn/oX3dAhardyr5sv4novqewGmjExoezJQn4Qwi+fG7YKxR0EBQeRPgW9T981PkiOawYna0mD2fk5uOxsbkUi4wq2sGpz8Tw0x1/dDq37iYMeTFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MunWeazZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y5myFH1P; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MunWeazZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y5myFH1P; arc=none smtp.client-ip=140.211.166.133
+	s=arc-20240116; t=1727855806; c=relaxed/simple;
+	bh=zNB5aPvFtGX3xHkTauxG+Rfp5nBAXBexbnbIbTYxA9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gz8R45aPG2RJICSc01p2LpGAdocJxZ8zOKf8IC0xF07+DFQHV29NqdvAn43LGIYd+QRprQOYX018rIk46h/qSG0ia0HgvW4Drt/1qDY5VIi0lKQtfKoDHCZ/icFhktJi4FNBtCv4ve+rhXsBbpEfVG2Y2OmSyifX2QHblqdua/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=eugGmfQ7; arc=none smtp.client-ip=140.211.166.138
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MunWeazZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y5myFH1P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MunWeazZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y5myFH1P"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="eugGmfQ7"
 Received: from localhost (localhost [127.0.0.1])
-	by smtp2.osuosl.org (Postfix) with ESMTP id 3C88240A41
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 06:14:03 +0000 (UTC)
+	by smtp1.osuosl.org (Postfix) with ESMTP id CE61380C9D
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 07:56:44 +0000 (UTC)
 X-Virus-Scanned: amavis at osuosl.org
 X-Spam-Flag: NO
-X-Spam-Score: -8.091
+X-Spam-Score: -1.9
 X-Spam-Level:
-Received: from smtp2.osuosl.org ([127.0.0.1])
- by localhost (smtp2.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id n6eAoXEHRa3A for <linux-kernel-mentees@lists.linuxfoundation.org>;
- Wed,  2 Oct 2024 06:14:02 +0000 (UTC)
-X-Greylist: delayed 165949 seconds by postgrey-1.37 at util1.osuosl.org; Wed, 02 Oct 2024 06:14:01 UTC
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp2.osuosl.org F23B640A3F
-Authentication-Results: smtp2.osuosl.org; dmarc=pass (p=none dis=none) header.from=suse.de
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp2.osuosl.org F23B640A3F
-Authentication-Results: smtp2.osuosl.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MunWeazZ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y5myFH1P;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MunWeazZ;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y5myFH1P
-Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=195.135.223.130; helo=smtp-out1.suse.de; envelope-from=tiwai@suse.de; receiver=<UNKNOWN> 
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	by smtp2.osuosl.org (Postfix) with ESMTPS id F23B640A3F
-	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 06:14:01 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 29E0221B67;
-	Wed,  2 Oct 2024 06:13:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727849639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MerGsnCoxXExT44McdzyHQ7nut4uy9hwav+k4GQZkIE=;
-	b=MunWeazZiRDRyLhGFFXmKKexzeWlUMiH0U+RpJXMA0QMHVZn1Q0LZQyv4gLEGXv9uS+dKw
-	cJbjH34L11BdNXneWEHdw3qjjRutzXFRgPgtGDUEXNIFyB7NIESMc9tk6Dwd2snlG8qDg3
-	KUrmKqdJLtTZosbj7j4ni3KiWaP/f9w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727849639;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MerGsnCoxXExT44McdzyHQ7nut4uy9hwav+k4GQZkIE=;
-	b=Y5myFH1PQMxSX9hqHW8OuDon0Uy96bNkGxIi2hUC9QPw8Ki1fN6HM/fO2H45IXM4GS1N4T
-	vu3K64NQWQrMQVCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727849639; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MerGsnCoxXExT44McdzyHQ7nut4uy9hwav+k4GQZkIE=;
-	b=MunWeazZiRDRyLhGFFXmKKexzeWlUMiH0U+RpJXMA0QMHVZn1Q0LZQyv4gLEGXv9uS+dKw
-	cJbjH34L11BdNXneWEHdw3qjjRutzXFRgPgtGDUEXNIFyB7NIESMc9tk6Dwd2snlG8qDg3
-	KUrmKqdJLtTZosbj7j4ni3KiWaP/f9w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727849639;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MerGsnCoxXExT44McdzyHQ7nut4uy9hwav+k4GQZkIE=;
-	b=Y5myFH1PQMxSX9hqHW8OuDon0Uy96bNkGxIi2hUC9QPw8Ki1fN6HM/fO2H45IXM4GS1N4T
-	vu3K64NQWQrMQVCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BE3B613974;
-	Wed,  2 Oct 2024 06:13:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /zGuLKbk/GYOFAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 02 Oct 2024 06:13:58 +0000
-Date: Wed, 02 Oct 2024 08:14:52 +0200
-Message-ID: <87msjnm3oj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Abhishek Tamboli <abhishektamboli9@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Add a quirk for HP Pavilion 15z-ec200
-In-Reply-To: <20240930145300.4604-1-abhishektamboli9@gmail.com>
-References: <20240930145300.4604-1-abhishektamboli9@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+Received: from smtp1.osuosl.org ([127.0.0.1])
+ by localhost (smtp1.osuosl.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id g1Kp3BS8dUF0 for <linux-kernel-mentees@lists.linuxfoundation.org>;
+ Wed,  2 Oct 2024 07:56:43 +0000 (UTC)
+Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=2a00:1450:4864:20::62b; helo=mail-ej1-x62b.google.com; envelope-from=ukleinek@baylibre.com; receiver=<UNKNOWN> 
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp1.osuosl.org 86C5780B64
+Authentication-Results: smtp1.osuosl.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.osuosl.org 86C5780B64
+Authentication-Results: smtp1.osuosl.org;
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.a=rsa-sha256 header.s=20230601 header.b=eugGmfQ7
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+	by smtp1.osuosl.org (Postfix) with ESMTPS id 86C5780B64
+	for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed,  2 Oct 2024 07:56:41 +0000 (UTC)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a8a7b1c2f2bso1029905566b.0
+        for <linux-kernel-mentees@lists.linuxfoundation.org>; Wed, 02 Oct 2024 00:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727855800; x=1728460600; darn=lists.linuxfoundation.org;
+        h=in-reply-to:content-disposition:mime-version:references:fnrom
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O08lDxgSZwC02/Y7RyccoCps9zhNy47cXCSDgPSj+Pg=;
+        b=eugGmfQ7YUxLDr1++mYi7acIzPmCC2ru3qKGSWu/jPEgdefVQ2JSmtOvPqPgCb80Qf
+         mjEmiVh15ikPb4vKQuMWumyHKH1tXKDwo0vQ2TdkGcn/kzKk3/YGfZfJuXJDObyOQGdy
+         UkiA5kUPMeHtfjYgzCNRt7erlVCttX79ADjNC1MlieVFFfMXrbTtHCE0FF50FwQsYHHY
+         cEAkAzQnFw0wVp82UY3gRwg4QC5KvPU5EdrBDNXfddCmHBQucpptrIQrMmfnA1hvb5MJ
+         VXDD8GF8+BRC0W2yJNDgw/5AE8F+birQ2UpSSMYy246ku4BHkWSjd0DOGNnRZ7HMDzt1
+         Lotw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727855800; x=1728460600;
+        h=in-reply-to:content-disposition:mime-version:references:fnrom
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O08lDxgSZwC02/Y7RyccoCps9zhNy47cXCSDgPSj+Pg=;
+        b=kBTLWv34sKARM33vqpDI20LHTRTZKHJ63FIPZPMhWAx0yRn9nd1IdhIbEGhme1BTzP
+         6kkpvuWRghUF3k5aSMTwBfHRaCXDlmKGYQSsW+ujTtmECEGO6lmypichbuxTgBJmPoR4
+         kLt6aytLjHO/H8vux/L8k2DT/2zv7R2PO55I/Ur8aiBc5d3VF42LPukqJjoNoIxUd2+n
+         go+lRrdFYUDPtW4o5uqK/UWt9eEBH78lD37XGdwSSNu9h/rO9jF33Dl2Tna/1gpoN2nn
+         tU1DMSBBTfXoa8W/1U+1oM7YKkSnzyrNUJxrJRgKzYgY6qh65nQ7P6wUC5lghPjkel+t
+         hgAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfgtj/xRAUuKtpCczN98Fg+jydxiU4SKVwKKuQfcjRnqAmWtWTg9c0cZ7NCl+OnxAnft8cYx3WfpBdd62tpeoIKObB6Q==@lists.linuxfoundation.org
+X-Gm-Message-State: AOJu0YyAar8rvvN9Qc0QNVAwGPjh0Wj799m723Mjrd2buX4eTtm8JisP
+	EH2XrvD8FhwDnO035Q8VXBPJ8FMxRid26d77OZKD/ZmNj8gM9mpuBOEPcvBUR38=
+X-Google-Smtp-Source: AGHT+IE8u200qXGBAzQDFEPwMdjrSXJqDUZiLWhBJFDgwgHtqmfq6vo4KW4QvXEdgdad+14r6A7rSA==
+X-Received: by 2002:a17:907:9281:b0:a8d:555f:eeda with SMTP id a640c23a62f3a-a98f81f652amr223080166b.8.1727855799769;
+        Wed, 02 Oct 2024 00:56:39 -0700 (PDT)
+Received: from localhost (p5dc68d3d.dip0.t-ipconnect.de. [93.198.141.61])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c27d47a2sm820676066b.89.2024.10.02.00.56.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2024 00:56:39 -0700 (PDT)
+Date: Wed, 2 Oct 2024 09:56:38 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Alex Lanzano <lanzano.alex@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Mehdi Djait <mehdi.djait@bootlin.com>, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] Add driver for Sharp Memory LCD
+Message-ID: <t4lefcykpoe5i36wb4x5u23sseh6drnphtivuqc3mjviat2vvc@7hg4jyhxvpye>
+Fnrom: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+References: <20241002033807.682177-1-lanzano.alex@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-kernel-mentees@lists.linux.dev
 List-Id: <linux-kernel-mentees.lists.linux.dev>
 List-Subscribe: <mailto:linux-kernel-mentees+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-kernel-mentees+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,realtek.com,opensource.cirrus.com,joshuagrisham.com,athaariq.my.id,linuxfoundation.org,gmail.com,lists.linuxfoundation.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-
-On Mon, 30 Sep 2024 16:53:00 +0200,
-Abhishek Tamboli wrote:
-> 
-> Add the quirk for HP Pavilion Gaming laptop 15z-ec200 for
-> enabling the mute led. The fix apply the ALC285_FIXUP_HP_MUTE_LED
-> quirk for this model.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219303
-> 
-> Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
-
-Thanks, applied now.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6erctmsjfjme4qbh"
+Content-Disposition: inline
+In-Reply-To: <20241002033807.682177-1-lanzano.alex@gmail.com>
 
 
-Takashi
+--6erctmsjfjme4qbh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello,
+
+On Tue, Oct 01, 2024 at 11:37:35PM -0400, Alex Lanzano wrote:
+> This patch series add support for the monochrome Sharp Memory LCD
+> panels. This series is based off of the work done by Mehdi Djait.
+>=20
+> References:
+> https://lore.kernel.org/dri-devel/71a9dbf4609dbba46026a31f60261830163a0b9=
+9.1701267411.git.mehdi.djait@bootlin.com/
+> https://www.sharpsde.com/fileadmin/products/Displays/2016_SDE_App_Note_fo=
+r_Memory_LCD_programming_V1.3.pdf
+>=20
+> Co-developed-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> Signed-off-by: Alex Lanzano <lanzano.alex@gmail.com>
+> ---
+> Changes in v8:
+> - Addressed review comments from Uwe
+>     - Replace pwm_get_state with pwm_init_state
+>     - Use pwm_set_relative_duty_cycle instead of manually setting period =
+and duty cycle
+
+You didn't explicitly mention that it's fine if the PWM doesn't emit the
+inactive state when you call pwm_disable(). You're code should continue
+to work if you drop all calls to pwm_disable().
+
+Ideally you mention that in a code comment to make others reading your
+code understand that.
+
+Best regards
+Uwe
+
+--6erctmsjfjme4qbh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmb8/LMACgkQj4D7WH0S
+/k7EZwf+M/ShRYq1YgwqZPW4U30npE1K82FqykS7bQJxJQkQVyLkiSYOjmtVqVp2
+Gax20mtgp0qxXz7EfAfKkNxJVTUbrK/O261lnSwfGMaXOf4HIriBDcER+MuSFzRZ
+MJT6PmB0L+Ariyvbj/cKAUKwvGo8Mtfjbng0Mn3eHFNLIBPsfPT5PYFd7ru11pie
+xQhZnUJJxusruq9VUnWFu/9Dqkh+EhSoZYH+sjtH6U62926QbxygpTSu9sjuU/NO
+5nkEDUktwwDI01FdtksIo5RtwE1Dme5xYhA/KT3TX8HNjzYQSIEmkiZzu2vG60A+
+hV/vo+Rw+hGNL4whuTeh0PDGqUedag==
+=7JKD
+-----END PGP SIGNATURE-----
+
+--6erctmsjfjme4qbh--
